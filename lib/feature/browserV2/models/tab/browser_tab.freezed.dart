@@ -169,7 +169,7 @@ class __$$BrowserTabImplCopyWithImpl<$Res>
 /// @nodoc
 @JsonSerializable()
 class _$BrowserTabImpl extends _BrowserTab {
-  const _$BrowserTabImpl(
+  _$BrowserTabImpl(
       {required this.id,
       @uriJsonConverter required this.url,
       required this.imageId,
@@ -241,13 +241,13 @@ class _$BrowserTabImpl extends _BrowserTab {
 }
 
 abstract class _BrowserTab extends BrowserTab {
-  const factory _BrowserTab(
+  factory _BrowserTab(
       {required final String id,
       @uriJsonConverter required final Uri url,
       required final String? imageId,
       required final String? title,
       required final double sortingOrder}) = _$BrowserTabImpl;
-  const _BrowserTab._() : super._();
+  _BrowserTab._() : super._();
 
   factory _BrowserTab.fromJson(Map<String, dynamic> json) =
       _$BrowserTabImpl.fromJson;
