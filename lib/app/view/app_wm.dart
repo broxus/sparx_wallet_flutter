@@ -20,6 +20,7 @@ AppWidgetModel defaultAppWidgetModelFactory(
       inject(),
       inject(),
       inject(),
+      inject(),
     ),
   );
 }

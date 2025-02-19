@@ -4,6 +4,8 @@ import 'package:app/app/service/biometry_service.dart';
 import 'package:app/app/service/bootstrap/bootstrap_service.dart';
 import 'package:app/app/service/localization/service/localization_service.dart';
 import 'package:app/app/service/navigation/service/navigation_service.dart';
+import 'package:app/app/service/ton_connect/models/models.dart';
+import 'package:app/app/service/ton_connect/ton_connect_service.dart';
 import 'package:app/app/view/app.dart';
 import 'package:app/bootstrap/bootstrap.dart';
 import 'package:app/generated/generated.dart';
@@ -21,6 +23,7 @@ class AppModel extends ElementaryModel with WidgetsBindingObserver {
     this._appLifecycleService,
     this._localizationService,
     this._biometryService,
+    this._tonConnectService,
   ) : super(errorHandler: errorHandler);
 
   final BootstrapService _bootstrapService;
@@ -29,6 +32,8 @@ class AppModel extends ElementaryModel with WidgetsBindingObserver {
   final AppLifecycleService _appLifecycleService;
   final LocalizationService _localizationService;
   final BiometryService _biometryService;
+
+  final TonConnectService _tonConnectService;
 
   late final appRouter = AppRouter(
     _bootstrapService,
@@ -40,6 +45,12 @@ class AppModel extends ElementaryModel with WidgetsBindingObserver {
 
   @override
   void init() {
+    _tonConnectService.connect(
+      ConnectQuery.fromQuery(
+        'v=2&id=707587b1f47cdeb62b6b8fea1e0fd4e109739cd4e5b6147c3e86a105d89d1322&r=%7B%22manifestUrl%22%3A%22https%3A%2F%2Fton-connect.github.io%2Fdemo-dapp-with-wallet%2Ftonconnect-manifest.json%22%2C%22items%22%3A%5B%7B%22name%22%3A%22ton_addr%22%7D%5D%7D&ret=none',
+      ),
+    );
+
     Future.delayed(const Duration(milliseconds: 100), () {
       _listener = AppLifecycleListener(
         onStateChange: _onStateChanged,

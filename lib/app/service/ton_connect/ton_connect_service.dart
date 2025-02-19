@@ -1,26 +1,70 @@
 import 'dart:async';
 import 'dart:convert';
 
+import 'package:app/app/service/ton_connect/models/models.dart';
+import 'package:app/app/service/ton_connect/session_crypto.dart';
 import 'package:http/http.dart' as http;
 import 'package:injectable/injectable.dart';
 
 @singleton
 class TonConnectService {
+  final _client = http.Client();
   final _bridgeUrl = 'https://bridge.tonapi.io/bridge';
+  final _sessionCrypto = SessionCrypto();
 
-  void connect(List<String> clientIds) {
-    final client = http.Client();
-    final request = http.Request(
-      'GET',
-      Uri.parse('$_bridgeUrl/events?client_id=${clientIds.join(',')}'),
-    )..headers['Accept'] = 'text/event-stream';
+  var _eventId = 1;
+  num get eventId => _eventId++;
 
-    client.send(request).then((response) {
-      response.stream.listen((event) {
-        response.stream.transform(EventSourceTransformer()).listen((event) {
-          print(event);
-        });
+  void connect(ConnectQuery query) {
+    final uri = Uri.parse(
+      '$_bridgeUrl/events?client_id=${query.id}',
+    );
+    final request = http.Request('GET', uri)
+      ..headers['Accept'] = 'text/event-stream';
+
+    _client
+        .send(request)
+        .then((response) => response.stream.transform(EventSourceTransformer()))
+        .then((stream) {
+      stream.listen((event) {
+        if (event.event == 'heartbeat') return;
+        print(event);
       });
+    });
+
+    // final response = {
+    //   'id': eventId,
+    //   'event': 'connect',
+    //   'payload':
+    // };
+    http.post(
+      Uri.parse(
+        '$_bridgeUrl/message?client_id=${_sessionCrypto.sessionId}&to=${query.id}&ttl=300',
+      ),
+      // body:
+    );
+  }
+
+  void send({
+    required String clientId,
+    required String method,
+    required Map<String, dynamic> params,
+    num? ttl = 300,
+  }) {
+    final uri = Uri.parse(
+      '$_bridgeUrl/message?client_id=${_sessionCrypto.sessionId}&to=$clientId&ttl=$ttl',
+    );
+    final request = http.Request('POST', uri)
+      ..headers['Content-Type'] = 'application/json'
+      ..body = jsonEncode({
+        'method': method,
+        'params': params,
+      });
+
+    _client.send(request).then((response) {
+      if (response.statusCode != 200) {
+        throw Exception('Failed to send request');
+      }
     });
   }
 
@@ -29,14 +73,15 @@ class TonConnectService {
   String _saveLastEventId() => throw UnimplementedError();
 }
 
-class EventSourceTransformer implements StreamTransformer<List<int>, SseEvent> {
+class EventSourceTransformer
+    implements StreamTransformer<List<int>, SseMessage> {
   @override
-  Stream<SseEvent> bind(Stream<List<int>> stream) {
-    late StreamController<SseEvent> controller;
+  Stream<SseMessage> bind(Stream<List<int>> stream) {
+    late StreamController<SseMessage> controller;
     controller = StreamController(
       onListen: () {
         // the event we are currently building
-        var currentEvent = SseEvent();
+        var currentEvent = SseMessage();
         // the regexes we will use later
         final lineRegex = RegExp(r'^([^:]*)(?::)?(?: )?(.*)?$');
         final removeEndingNewlineRegex = RegExp(r'^((?:.|\n)*)\n$');
@@ -56,7 +101,7 @@ class EventSourceTransformer implements StreamTransformer<List<int>, SseEvent> {
               currentEvent.data = match.group(1);
             }
             controller.add(currentEvent);
-            currentEvent = SseEvent();
+            currentEvent = SseMessage();
             return;
           }
           // match the line prefix and the value using the regex
@@ -88,29 +133,5 @@ class EventSourceTransformer implements StreamTransformer<List<int>, SseEvent> {
 
   @override
   StreamTransformer<RS, RT> cast<RS, RT>() =>
-      StreamTransformer.castFrom<List<int>, SseEvent, RS, RT>(this);
-}
-
-class SseEvent implements Comparable<SseEvent> {
-  SseEvent({
-    this.id,
-    this.event,
-    this.data,
-  });
-
-  SseEvent.message({this.id, this.data}) : event = 'message';
-
-  /// An identifier that can be used to allow a client to replay
-  /// missed Events by returning the Last-Event-Id header.
-  /// Return empty string if not required.
-  String? id;
-
-  /// The name of the event. Return empty string if not required.
-  String? event;
-
-  /// The payload of the event.
-  String? data;
-
-  @override
-  int compareTo(SseEvent other) => id!.compareTo(other.id!);
+      StreamTransformer.castFrom<List<int>, SseMessage, RS, RT>(this);
 }
