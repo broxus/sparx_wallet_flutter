@@ -1,6 +1,7 @@
 // ignore_for_file: use_build_context_synchronously
 
 import 'dart:async';
+import 'dart:math';
 
 import 'package:app/app/router/app_route.dart';
 import 'package:app/app/router/routs/wallet/wallet.dart';
@@ -155,7 +156,7 @@ class WalletPrepareTransferPageWidgetModel extends CustomWidgetModel<
     _goNext(addr, amnt);
   }
 
-  void setMaxBalance() {
+  Future<void> setMaxBalance() async {
     final asset = _selectedAsset;
     var available = asset?.balance;
 
@@ -165,8 +166,10 @@ class WalletPrepareTransferPageWidgetModel extends CustomWidgetModel<
 
     if (asset.isNative) {
       // subtract approximate comission
+      final gas = await model.getFeeFactor();
+      final valueComission = gas == null ? 0.01 : gas / pow(2, 16) * 0.01;
       final comission = Money.fromFixedWithCurrency(
-        Fixed.fromNum(0.1),
+        Fixed.fromNum(valueComission),
         available.currency,
       );
       final amountMinusComission = available - comission;
