@@ -1,6 +1,8 @@
+import 'dart:async';
 import 'dart:convert';
 
 import 'package:app/app/service/connection/connection_factory.dart';
+import 'package:app/app/service/presets_connection/presets_connection_service.dart';
 import 'package:app/app/service/service.dart';
 import 'package:app/data/models/models.dart';
 import 'package:app/http/repository/ton_repository.dart';
@@ -17,6 +19,9 @@ import 'package:rxdart/rxdart.dart';
 class AssetsService {
   AssetsService(
     this.nekotonRepository,
+    this.connectionsStorageService,
+    this.currentAccountsService,
+    this.presetsConnectionService,
     this.httpService,
     this.storage,
     this.connectionFactory,
@@ -26,25 +31,53 @@ class AssetsService {
   static final _logger = Logger('AssetsService');
 
   final NekotonRepository nekotonRepository;
+  final ConnectionsStorageService connectionsStorageService;
+  final CurrentAccountsService currentAccountsService;
+  final PresetsConnectionService presetsConnectionService;
   final HttpService httpService;
   final GeneralStorageService storage;
   final ConnectionFactory connectionFactory;
   final TonRepository tonRepository;
 
+  StreamSubscription<TransportStrategy>? _currentTransportSubscription;
+  StreamSubscription<KeyAccount?>? _accountsSubscription;
+  StreamSubscription<String>? _connectionsSubscription;
+  StreamSubscription<void>? _combineSubscription;
+
   /// Start listening for transport changes and update contracts from manifest
   void init() {
-    nekotonRepository.currentTransportStream.listen(_updateSystemContracts);
+    _currentTransportSubscription =
+        nekotonRepository.currentTransportStream.listen(_updateSystemContracts);
 
-    nekotonRepository.currentTransportStream.flatMap((transport) {
+    _combineSubscription =
+        nekotonRepository.currentTransportStream.flatMap((transport) {
       return Rx.combineLatest2<List<TokenContractAsset>,
           List<TokenContractAsset>, void>(
-        storage.systemTokenContractAssetsStream(transport.networkType),
-        storage.customTokenContractAssetsStream(transport.networkType),
+        storage.systemTokenContractAssetsStream(transport.transport.group),
+        storage.customTokenContractAssetsStream(transport.transport.group),
         _contractsUpdateListener,
       );
       // listen needs to enable stream api
       // ignore: no-empty-block
     }).listen((_) {});
+
+    _connectionsSubscription =
+        connectionsStorageService.currentConnectionIdStream.listen(
+      (_) => updateDefaultAssets(),
+    );
+
+    _accountsSubscription =
+        currentAccountsService.currentActiveAccountStream.listen(
+      (_) => updateDefaultAssets(),
+    );
+  }
+
+  @disposeMethod
+  void dispose() {
+    _currentTransportSubscription?.cancel();
+    _accountsSubscription?.cancel();
+    _connectionsSubscription?.cancel();
+    _combineSubscription?.cancel();
   }
 
   /// Get list of contracts (custom and system) that is available for current
@@ -57,8 +90,8 @@ class AssetsService {
         (transport) {
           return Rx.combineLatest2<List<TokenContractAsset>,
               List<TokenContractAsset>, List<TokenContractAsset>>(
-            storage.customTokenContractAssetsStream(transport.networkType),
-            storage.systemTokenContractAssetsStream(transport.networkType),
+            storage.customTokenContractAssetsStream(transport.transport.group),
+            storage.systemTokenContractAssetsStream(transport.transport.group),
             (a, b) => <TokenContractAsset>{...a, ...b}.toList(),
           );
         },
@@ -140,7 +173,7 @@ class AssetsService {
                         getTokenContractAsset(e.rootTokenContract, transport),
                   ),
                 ))
-                    .whereNotNull()
+                    .nonNulls
                     .toList(),
               );
             }(),
@@ -172,7 +205,7 @@ class AssetsService {
             wallets.map(
               (e) => getTokenContractAsset(e.rootTokenContract, transport),
             ),
-          ).then((e) => e.whereNotNull().toList()),
+          ).then((e) => e.nonNulls.toList()),
         );
       });
     });
@@ -185,10 +218,10 @@ class AssetsService {
     TransportStrategy transport,
   ) async {
     var asset = storage
-            .getCustomTokenContractAssets(transport.networkType)
+            .getCustomTokenContractAssets(transport.transport.group)
             .firstWhereOrNull((c) => c.address == rootTokenContract) ??
         storage
-            .getSystemTokenContractAssets(transport.networkType)
+            .getSystemTokenContractAssets(transport.transport.group)
             .firstWhereOrNull((c) => c.address == rootTokenContract);
 
     if (asset != null) return asset;
@@ -199,7 +232,7 @@ class AssetsService {
       if (transport.networkType == 'ton') {
         final details = await JettonWallet.getJettonRootDetails(
           transport: transport.transport,
-          gqlConnection: await connectionFactory.getTonGqlConnection(),
+          gqlConnection: connectionFactory.getTonGqlConnection(),
           tokenRoot: rootTokenContract,
         );
         final info = await tonRepository.getTokenInfo(
@@ -213,6 +246,7 @@ class AssetsService {
           address: rootTokenContract,
           ownerAddress: details.adminAddress,
           networkType: transport.networkType,
+          networkGroup: transport.transport.group,
           logoURI: details.content.uri ?? info.imageUrl,
           isCustom: true,
         );
@@ -231,6 +265,7 @@ class AssetsService {
           totalSupply: tokenRootDetails.totalSupply,
           version: tokenRootDetails.version,
           networkType: transport.networkType,
+          networkGroup: transport.transport.group,
           isCustom: true,
         );
       }
@@ -245,6 +280,17 @@ class AssetsService {
     }
   }
 
+  Future<void> updateDefaultActiveAssets(
+    String accountAddress,
+    List<String> address,
+  ) async {
+    return storage.updateDefaultActiveAssets(accountAddress, address);
+  }
+
+  List<String> getDefaultActiveAssets(String accountAddress) {
+    return storage.getDefaultActiveAssets(accountAddress);
+  }
+
   /// Try getting contract of existed token contract from storage.
   /// This can be helpful when you know, that token exists, but you do not have
   /// direct access to TokenWallet.
@@ -253,18 +299,72 @@ class AssetsService {
     TransportStrategy transport,
   ) {
     return storage
-            .getCustomTokenContractAssets(transport.networkType)
+            .getCustomTokenContractAssets(transport.transport.group)
             .firstWhereOrNull((c) => c.address == rootTokenContract) ??
         storage
-            .getSystemTokenContractAssets(transport.networkType)
+            .getSystemTokenContractAssets(transport.transport.group)
             .firstWhereOrNull((c) => c.address == rootTokenContract);
   }
 
   /// Get list of current possible system contracts for transport
   List<TokenContractAsset> get currentSystemTokenContractAssets =>
       storage.getSystemTokenContractAssets(
-        nekotonRepository.currentTransport.networkType,
+        nekotonRepository.currentTransport.transport.group,
       );
+
+  Future<void> updateDefaultAssets() async {
+    await Future.delayed(const Duration(seconds: 1), () async {
+      final presetsDefaultAssets =
+          presetsConnectionService.getDefaultActiveAsset(
+        connectionsStorageService.currentConnection.group,
+      );
+
+      if (presetsDefaultAssets.isEmpty) {
+        return;
+      }
+
+      final accountAddress =
+          currentAccountsService.currentActiveAccount?.address;
+
+      if (accountAddress == null) {
+        return;
+      }
+
+      final cachedAccount = nekotonRepository.seedList.findAccountByAddress(
+        accountAddress,
+      );
+
+      if (cachedAccount == null) {
+        return;
+      }
+
+      final cachedDefaultAssets =
+          getDefaultActiveAssets(accountAddress.address);
+
+      final result = <Address>[];
+      final skipped = <String>[];
+
+      for (final preset in presetsDefaultAssets) {
+        if (cachedDefaultAssets.contains(preset.address.address)) {
+          continue;
+        }
+        result.add(preset.address);
+        skipped.add(preset.address.address);
+      }
+
+      if (result.isNotEmpty) {
+        await cachedAccount.addTokenWallets(result);
+      }
+      if (skipped.isNotEmpty) {
+        unawaited(
+          updateDefaultActiveAssets(
+            accountAddress.address,
+            skipped,
+          ),
+        );
+      }
+    });
+  }
 
   /// Load manifest specified for transport and update system contracts that
   /// user can add to list of its contracts.
@@ -278,6 +378,7 @@ class AssetsService {
       for (final token in (decoded['tokens'] as List<dynamic>)
           .cast<Map<String, dynamic>>()) {
         token['networkType'] = transport.networkType;
+        token['networkGroup'] = transport.transport.group;
         token['version'] =
             intToWalletContractConvert(token['version'] as int).toString();
         token['isCustom'] = false;
