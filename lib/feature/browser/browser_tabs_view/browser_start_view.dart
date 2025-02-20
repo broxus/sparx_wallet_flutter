@@ -1,19 +1,12 @@
-import 'dart:io';
-import 'dart:ui' as ui;
-
 import 'package:app/app/router/router.dart';
 import 'package:app/data/models/models.dart';
 import 'package:app/di/di.dart';
-import 'package:app/feature/browser/browser.dart';
 import 'package:app/feature/browser/browser_tabs_view/predefined_items.dart';
 import 'package:app/feature/browserV2/service/browser_service.dart';
 import 'package:app/feature/browserV2/widgets/bottomsheets/bookmark/browser_bookmark_bottom_sheet.dart';
 import 'package:app/feature/browserV2/widgets/browser_resource_item/browser_resource_item.dart';
 import 'package:app/generated/generated.dart';
-import 'package:app/utils/utils.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/rendering.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:ui_components_lib/ui_components_lib.dart';
 
@@ -27,7 +20,7 @@ const _cardHeight = 116.0;
 const _cardViewportFraction = 0.85;
 
 /// How often we can take screenshot
-const Duration _screenShotPeriodDuration = Duration(seconds: 5);
+// const Duration _screenShotPeriodDuration = Duration(seconds: 5);
 
 class BrowserStartView extends StatefulWidget {
   const BrowserStartView({super.key});
@@ -44,7 +37,7 @@ class _BrowserStartViewState extends State<BrowserStartView> {
     viewportFraction: _cardViewportFraction,
   );
   final _globalKey = GlobalKey();
-  DateTime? _lastScreenshotTime;
+  // DateTime? _lastScreenshotTime;
 
   ThemeStyleV2 get _themeStyleV2 => context.themeStyleV2;
 
@@ -58,7 +51,10 @@ class _BrowserStartViewState extends State<BrowserStartView> {
   Widget build(BuildContext context) {
     final colors = _themeStyleV2.colors;
     final bookmarkItems = _browserService.bM.sortedBookmarks;
-    final searchText = context.watch<BrowserTabsBloc>().state.searchText;
+    // final searchText = context.watch<BrowserTabsBloc>().state.searchText;
+    // TODO(knightforce) refactor on Elementary
+    // And handle text on only this screen
+    final searchText = '';
 
     if (searchText.isEmpty) {
       _saveScreenshot();
@@ -123,34 +119,38 @@ class _BrowserStartViewState extends State<BrowserStartView> {
     );
   }
 
+  // TODO(knightforce) use BrowserService.
+  //  Take a screenshot only after crearte screen in initWidgetModel
+  // This screen is Tab as other?
   Future<void> _saveScreenshot() async {
-    final now = NtpTime.now();
-    if (_lastScreenshotTime != null &&
-        now.difference(_lastScreenshotTime!) < _screenShotPeriodDuration) {
-      return;
-    }
-
-    _lastScreenshotTime = now;
-
-    WidgetsBinding.instance.addPostFrameCallback((_) async {
-      try {
-        final boundary = _globalKey.currentContext?.findRenderObject()
-            as RenderRepaintBoundary?;
-
-        final image = await boundary!.toImage(pixelRatio: 2);
-
-        final byteData = await image.toByteData(format: ui.ImageByteFormat.png);
-        final pngBytes = byteData?.buffer.asUint8List().toList();
-        if (pngBytes == null) {
-          throw Exception("Can't convert image to bytes");
-        }
-
-        final file = File(BrowserTab.defaultImagePath!);
-        await file.writeAsBytes(pngBytes);
-
-        await FileImage(File(BrowserTab.defaultImagePath!)).evict();
-      } catch (_) {}
-    });
+    // _browserService.tabs;
+    // final now = NtpTime.now();
+    // if (_lastScreenshotTime != null &&
+    //     now.difference(_lastScreenshotTime!) < _screenShotPeriodDuration) {
+    //   return;
+    // }
+    //
+    // _lastScreenshotTime = now;
+    //
+    // WidgetsBinding.instance.addPostFrameCallback((_) async {
+    //   try {
+    //     final boundary = _globalKey.currentContext?.findRenderObject()
+    //         as RenderRepaintBoundary?;
+    //
+    //     final image = await boundary!.toImage(pixelRatio: 2);
+    //
+    //     final byteData = await image.toByteData(format: ui.ImageByteFormat.png);
+    //     final pngBytes = byteData?.buffer.asUint8List().toList();
+    //     if (pngBytes == null) {
+    //       throw Exception("Can't convert image to bytes");
+    //     }
+    //
+    //     final file = File(BrowserTab.defaultImagePath!);
+    //     await file.writeAsBytes(pngBytes);
+    //
+    //     await FileImage(File(BrowserTab.defaultImagePath!)).evict();
+    //   } catch (_) {}
+    // });
   }
 
   List<Widget> _searchResultBuilder({
@@ -417,17 +417,15 @@ class _BrowserStartViewState extends State<BrowserStartView> {
   }
 
   void _openUrl(Uri url) {
-    final currentTabId = context.read<BrowserTabsBloc>().activeTab?.id;
+    // todo ?
+    final currentTabId = _browserService.tM.activeTabId;
     if (currentTabId == null) {
-      context.read<BrowserTabsBloc>().add(
-            BrowserTabsEvent.add(uri: url),
-          );
+      _browserService.tM.createBrowserTab(url);
 
       return;
     }
-    context.read<BrowserTabsBloc>().add(
-          BrowserTabsEvent.setUrl(id: currentTabId, uri: url),
-        );
+
+    _browserService.tM.openUrl(url);
   }
 }
 

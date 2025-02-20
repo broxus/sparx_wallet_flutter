@@ -1,11 +1,15 @@
 import 'package:app/app/router/app_route.dart';
+import 'package:app/di/di.dart';
 import 'package:app/feature/browser/browser.dart';
 import 'package:app/feature/browser/primary/primary_view.dart';
+import 'package:app/feature/browserV2/service/browser_service.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+// TODO(knightforce): refactor
 class PrimaryPage extends StatefulWidget {
   const PrimaryPage({this.url, this.tabId, super.key});
+
   final String? url;
   final String? tabId;
 
@@ -14,6 +18,8 @@ class PrimaryPage extends StatefulWidget {
 }
 
 class _PrimaryPageState extends State<PrimaryPage> {
+  final _browserService = inject<BrowserService>();
+
   @override
   void didUpdateWidget(covariant PrimaryPage oldWidget) {
     super.didUpdateWidget(oldWidget);
@@ -37,15 +43,9 @@ class _PrimaryPageState extends State<PrimaryPage> {
     // bloc handle the rest. It is perfectly fine until we don't need to build
     // web version of the app.
 
-    final browserTabsBloc = context.read<BrowserTabsBloc>();
-
     // Change url of the active tab.
     if (widget.tabId != null && widget.url != null) {
-      browserTabsBloc.add(
-        BrowserTabsEvent.setActive(
-          id: widget.tabId!,
-        ),
-      );
+      _browserService.tM.setActiveTab(widget.tabId);
       _clearQueryParams();
 
       return;
@@ -53,11 +53,7 @@ class _PrimaryPageState extends State<PrimaryPage> {
 
     // Change active tab id.
     if (widget.tabId != oldWidget.tabId && widget.tabId != null) {
-      browserTabsBloc.add(
-        BrowserTabsEvent.setActive(
-          id: widget.tabId!,
-        ),
-      );
+      _browserService.tM.setActiveTab(widget.tabId);
       _clearQueryParams();
 
       return;
@@ -67,11 +63,7 @@ class _PrimaryPageState extends State<PrimaryPage> {
     if (widget.url != null &&
         widget.url != oldWidget.url &&
         widget.tabId == null) {
-      browserTabsBloc.add(
-        BrowserTabsEvent.add(
-          uri: Uri.parse(widget.url!),
-        ),
-      );
+      _browserService.tM.createBrowserTab(Uri.parse(widget.url!));
       _clearQueryParams();
 
       return;

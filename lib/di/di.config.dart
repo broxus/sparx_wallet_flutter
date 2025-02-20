@@ -260,14 +260,18 @@ extension GetItInjectableX on _i174.GetIt {
           gh<_i771.NekotonRepository>(),
           gh<_i116.PresetsConnectionService>(),
         ));
-    gh.singleton<_i741.BrowserService>(() => _i741.BrowserService(
-          gh<_i542.BrowserBookmarksStorageService>(),
-          gh<_i109.BrowserFaviconURLStorageService>(),
-          gh<_i695.BrowserHistoryStorageService>(),
-          gh<_i209.BrowserTabsStorageService>(),
-          gh<_i462.BrowserPermissionsStorageService>(),
-          gh<_i980.MessengerService>(),
-        ));
+    gh.singleton<_i741.BrowserService>(
+      () => _i741.BrowserService(
+        gh<_i542.BrowserBookmarksStorageService>(),
+        gh<_i109.BrowserFaviconURLStorageService>(),
+        gh<_i695.BrowserHistoryStorageService>(),
+        gh<_i209.BrowserTabsStorageService>(),
+        gh<_i462.BrowserPermissionsStorageService>(),
+        gh<_i980.MessengerService>(),
+        gh<_i747.GeneralStorageService>(),
+      ),
+      dispose: (i) => i.dispose(),
+    );
     gh.singleton<_i637.BalanceService>(() => _i637.BalanceService(
           gh<_i771.NekotonRepository>(),
           gh<_i128.CurrenciesService>(),

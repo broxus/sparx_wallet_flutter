@@ -1,11 +1,9 @@
 import 'dart:io';
 
 import 'package:app/app/service/service.dart';
-import 'package:app/data/models/models.dart';
-import 'package:collection/collection.dart';
+import 'package:app/feature/browserV2/models/tab/browser_tab.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:injectable/injectable.dart';
-import 'package:rxdart/rxdart.dart';
 
 const _browserTabsDomain = 'browser_tabs';
 const _browserTabsKey = 'browser_tabs_key';
@@ -55,21 +53,6 @@ class BrowserTabsStorageService extends AbstractStorageService {
   /// Clear all browser tabs
   Future<void> clearBrowserTabs() async {
     await _storage.remove(_browserTabsKey);
-
-    try {
-      await Directory(BrowserTab.tabsDirectoryPath!).delete(recursive: true);
-    } catch (_) {}
-    try {
-      await File(BrowserTab.defaultImagePath!).delete();
-    } catch (_) {}
-  }
-
-  /// Remove browser tab by id
-  Future<void> removeBrowserTab(String id) async {
-    try {
-      await Directory(BrowserTab.getTabDirectoryPath(id))
-          .delete(recursive: true);
-    } catch (_) {}
   }
 
   @override

@@ -49,6 +49,15 @@ class BookmarksManager {
     _browserBookmarksSubject.add(bookmarks);
   }
 
+  void createBrowserBookmark(Uri uri, String? title) {
+    setBrowserBookmarkItem(
+      BrowserBookmarkItem.create(
+        url: uri,
+        title: title ?? '',
+      ),
+    );
+  }
+
   void setBrowserBookmarkItem(
     BrowserBookmarkItem item, {
     bool needUndo = true,
@@ -56,14 +65,15 @@ class BookmarksManager {
     final bookmarks = [...browserBookmarks];
 
     final index = bookmarks.indexWhere((i) => i.id == item.id);
-    final isAdding = index < 0;
+    final isExist = index > 0;
 
-    if (!isAdding) {
-      bookmarks.removeAt(index);
+    if (isExist) {
+      return;
     }
+
     saveBrowserBookmarks(bookmarks..add(item));
 
-    if (isAdding && needUndo) {
+    if (needUndo) {
       _messengerService.show(
         Message.info(
           message: LocaleKeys.browserBookmarkAdded.tr(),

@@ -1,34 +1,43 @@
-import 'package:app/feature/browser/browser.dart';
+import 'package:app/di/di.dart';
+import 'package:app/feature/browserV2/data/tabs_data.dart';
+import 'package:app/feature/browserV2/service/browser_service.dart';
 import 'package:app/generated/generated.dart';
+import 'package:elementary_helper/elementary_helper.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:share_plus/share_plus.dart';
 import 'package:ui_components_lib/ui_components_lib.dart';
 
-class BrowserSearchBar extends StatelessWidget {
+class BrowserSearchBar extends StatefulWidget {
   const BrowserSearchBar({
     this.onSubmitted,
     this.onChanged,
     super.key,
   });
+
   final ValueChanged<String?>? onSubmitted;
   final ValueChanged<String?>? onChanged;
 
   static const height = DimensSize.d64;
 
   @override
-  Widget build(BuildContext context) {
-    return BlocBuilder<BrowserTabsBloc, BrowserTabsState>(
-      builder: (context, state) {
-        final currentTab = context.read<BrowserTabsBloc>().activeTab;
+  State<BrowserSearchBar> createState() => _BrowserSearchBarState();
+}
 
+class _BrowserSearchBarState extends State<BrowserSearchBar> {
+  late final _browserService = inject<BrowserService>();
+
+  @override
+  Widget build(BuildContext context) {
+    return StateNotifierBuilder<BrowserTabsData>(
+      listenableState: _browserService.tM.tabsState,
+      builder: (_, BrowserTabsData? data) {
         return BrowserSearchBarInput(
-          uri: currentTab?.url,
+          uri: data?.activeTab?.url,
           hintText: LocaleKeys.browserSearchURL.tr(),
           cancelText: LocaleKeys.browserSearchURLCancel.tr(),
-          onSubmitted: onSubmitted,
-          onChanged: onChanged,
+          onSubmitted: widget.onSubmitted,
+          onChanged: widget.onChanged,
           onShared: _onShared,
           searchSvg: Assets.images.search.path,
           secureSvg: Assets.images.lock.path,

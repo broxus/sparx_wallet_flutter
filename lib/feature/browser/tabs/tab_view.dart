@@ -1,10 +1,9 @@
-import 'dart:io';
-
-import 'package:app/data/models/models.dart';
+import 'package:app/feature/browserV2/models/tab/browser_tab.dart';
 import 'package:app/generated/generated.dart';
 import 'package:flutter/material.dart';
 import 'package:ui_components_lib/ui_components_lib.dart';
 
+// TODO(refactor): Elementarty
 class TabView extends StatelessWidget {
   const TabView({
     required this.tab,
@@ -34,19 +33,20 @@ class TabView extends StatelessWidget {
               urlPath: tab.url.toString(),
               onPressedClose: onClosePressed,
             ),
-            if (tab.imageOrDefaultPath != null)
-              Expanded(
-                child: OverflowBox(
-                  alignment: Alignment.topCenter,
-                  // ignore: no-magic-number
-                  maxHeight: 1000,
-                  child: Image.file(
-                    File(tab.imageOrDefaultPath!),
-                    fit: BoxFit.scaleDown,
-                    errorBuilder: (_, __, ___) => const SizedBox(),
-                  ),
-                ),
-              ),
+            // TODO here
+            // if (tab.imageOrDefaultPath != null)
+            //   Expanded(
+            //     child: OverflowBox(
+            //       alignment: Alignment.topCenter,
+            //       // ignore: no-magic-number
+            //       maxHeight: 1000,
+            //       child: Image.file(
+            //         File(tab.imageOrDefaultPath!),
+            //         fit: BoxFit.scaleDown,
+            //         errorBuilder: (_, __, ___) => const SizedBox(),
+            //       ),
+            //     ),
+            //   ),
           ],
         ),
       ),

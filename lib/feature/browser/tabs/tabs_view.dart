@@ -1,8 +1,11 @@
 import 'package:app/app/router/router.dart';
+import 'package:app/di/di.dart';
 import 'package:app/feature/browser/browser.dart';
 import 'package:app/feature/browser/tabs/tab_view.dart';
+import 'package:app/feature/browserV2/data/tabs_data.dart';
+import 'package:app/feature/browserV2/service/browser_service.dart';
+import 'package:elementary_helper/elementary_helper.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:ui_components_lib/v2/ui_components_lib_v2.dart';
 
@@ -17,55 +20,61 @@ class TabsView extends StatefulWidget {
 }
 
 class _TabsViewState extends State<TabsView> {
+  late final _browserService = inject<BrowserService>();
+
   @override
   Widget build(BuildContext context) {
-    final tabs = [...context.watch<BrowserTabsBloc>().state.tabs]..sort(
-        (a, b) => a.sortingOrder.compareTo(b.sortingOrder),
-      );
+    return StateNotifierBuilder<BrowserTabsData>(
+      listenableState: _browserService.tM.tabsState,
+      builder: (_, BrowserTabsData? data) {
+        if (data == null) {
+          return const SizedBox.shrink();
+        }
 
-    return Column(
-      children: [
-        Expanded(
-          child: GridView.count(
-            // ignore: no-magic-number
-            padding: const EdgeInsets.only(
-              top: DimensSizeV2.d24,
-              bottom: DimensSizeV2.d16,
-              left: DimensSizeV2.d16,
-              right: DimensSizeV2.d16,
-            ),
-            crossAxisCount: 2,
-            crossAxisSpacing: DimensSizeV2.d8,
-            mainAxisSpacing: DimensSizeV2.d12,
-            childAspectRatio: _cardAspectRatio,
-            children: [
-              for (final tab in tabs)
-                TabView(
-                  tab: tab,
-                  key: ValueKey(tab.id),
-                  onPressed: () => _onChangeTab(tab.id),
-                  onClosePressed: () => _onCloseTab(tab.id, tabs.length == 1),
+        return Column(
+          children: [
+            Expanded(
+              child: GridView.count(
+                // ignore: no-magic-number
+                padding: const EdgeInsets.only(
+                  top: DimensSizeV2.d24,
+                  bottom: DimensSizeV2.d16,
+                  left: DimensSizeV2.d16,
+                  right: DimensSizeV2.d16,
                 ),
-            ],
-          ),
-        ),
-        const BrowserBottomMenuTabs(),
-      ],
+                crossAxisCount: 2,
+                crossAxisSpacing: DimensSizeV2.d8,
+                mainAxisSpacing: DimensSizeV2.d12,
+                childAspectRatio: _cardAspectRatio,
+                children: [
+                  for (final tab in data.sortedTabs)
+                    TabView(
+                      tab: tab,
+                      key: ValueKey(tab.id),
+                      onPressed: () => _onChangeTab(tab.id),
+                      onClosePressed: () =>
+                          _onCloseTab(tab.id, data.count == 1),
+                    ),
+                ],
+              ),
+            ),
+            const BrowserBottomMenuTabs(),
+          ],
+        );
+      },
     );
   }
 
   void _onChangeTab(String id) {
-    context.read<BrowserTabsBloc>().add(
-          BrowserTabsEvent.setActive(id: id),
-        );
+    _browserService.tM.setActiveTab(id);
+    // TODO(knightforce): need?
     context.goNamed(AppRoute.browser.name);
   }
 
   void _onCloseTab(String id, bool wasLast) {
-    context.read<BrowserTabsBloc>().add(
-          BrowserTabsEvent.remove(id: id),
-        );
+    _browserService.tM.removeBrowserTab(id);
     if (wasLast) {
+      // TODO(knightforce): need?
       context.goNamed(AppRoute.browser.name);
     }
   }

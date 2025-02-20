@@ -5,12 +5,14 @@ import 'package:app/app/service/app_links/app_links_service.dart';
 import 'package:app/app/service/service.dart';
 import 'package:app/di/di.dart';
 import 'package:app/feature/browser/browser.dart';
+import 'package:app/feature/browserV2/service/browser_service.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:ui_components_lib/ui_components_lib.dart';
 
 const _searchEngineUri = 'https://duckduckgo.com/?q=';
 
+// TODO(knightforce): refactor
 class PrimaryView extends StatefulWidget {
   const PrimaryView({super.key});
 
@@ -20,6 +22,7 @@ class PrimaryView extends StatefulWidget {
 
 class _PrimaryViewState extends State<PrimaryView>
     with SingleTickerProviderStateMixin {
+  final _browserService = inject<BrowserService>();
   final _appLinksService = inject<AppLinksService>();
 
   // Main animation controller of the HUD.
@@ -170,7 +173,7 @@ class _PrimaryViewState extends State<PrimaryView>
                           : 0,
                       child: child!,
                     ),
-                    const BrowserProgressBar(),
+                    // const BrowserProgressBar(),
                   ],
                 ),
               ),
@@ -207,8 +210,6 @@ class _PrimaryViewState extends State<PrimaryView>
       return;
     }
 
-    final browserTabsBloc = context.read<BrowserTabsBloc>();
-
     var (uri, isSchemeFound) = _getUri(text);
 
     if (uri == null) {
@@ -222,13 +223,7 @@ class _PrimaryViewState extends State<PrimaryView>
       }
     }
 
-    final activeTab = browserTabsBloc.activeTab;
-
-    browserTabsBloc.add(
-      activeTab != null
-          ? BrowserTabsEvent.setUrl(id: activeTab.id, uri: uri)
-          : BrowserTabsEvent.add(uri: uri),
-    );
+    _browserService.tM.openUrl(uri);
   }
 
   Future<void> _onSearchChanged(String? text) async {
@@ -245,9 +240,9 @@ class _PrimaryViewState extends State<PrimaryView>
     // Just try to resolve host and cache the result
     unawaited(inject<DnsResolveService>().isResolvable(uri));
 
-    context
-        .read<BrowserTabsBloc>()
-        .add(BrowserTabsEvent.setSearchText(text: text));
+    // context
+    //     .read<BrowserTabsBloc>()
+    //     .add(BrowserTabsEvent.setSearchText(text: text));
   }
 
   (Uri?, bool) _getUri(String text) {
@@ -264,8 +259,6 @@ class _PrimaryViewState extends State<PrimaryView>
   }
 
   void _listenAppLinks(BrowserAppLinksData event) {
-    context.read<BrowserTabsBloc>().add(
-          BrowserTabsEvent.add(uri: event.url),
-        );
+    _browserService.tM.createBrowserTab(event.url);
   }
 }
