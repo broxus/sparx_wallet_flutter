@@ -232,7 +232,6 @@ class AssetsService {
       if (transport.networkType == 'ton') {
         final details = await JettonWallet.getJettonRootDetails(
           transport: transport.transport,
-          gqlConnection: connectionFactory.getTonGqlConnection(),
           tokenRoot: rootTokenContract,
         );
         final info = await tonRepository.getTokenInfo(
