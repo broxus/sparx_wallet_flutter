@@ -1,5 +1,5 @@
-import 'package:app/feature/browserV2/service/storages/browser_history_storage_service.dart';
 import 'package:app/data/models/browser_history_item.dart';
+import 'package:app/feature/browserV2/service/storages/browser_history_storage_service.dart';
 import 'package:rxdart/rxdart.dart';
 
 class HistoryManager {

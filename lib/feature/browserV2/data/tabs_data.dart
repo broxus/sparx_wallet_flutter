@@ -10,11 +10,9 @@ class BrowserTabsData {
   final List<BrowserTab> tabs;
   final String? activeTabId;
 
-  List<BrowserTab> get sortedTabs {
-    return [...tabs]..sort(
-        (a, b) => a.sortingOrder.compareTo(b.sortingOrder),
-      );
-  }
+  late final sortedTabs = [...tabs]..sort(
+      (a, b) => a.sortingOrder.compareTo(b.sortingOrder),
+    );
 
   late final activeTab = tabs.firstWhereOrNull((t) => t.id == activeTabId);
 
