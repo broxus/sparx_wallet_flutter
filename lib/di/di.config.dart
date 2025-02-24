@@ -71,7 +71,6 @@ import '../app/service/storage_service/nekoton_repository_service.dart'
     as _i386;
 import '../app/service/storage_service/secure_storage_service.dart' as _i679;
 import '../app/service/storage_service/storage_manager_service.dart' as _i725;
-import '../app/service/storage_service/storage_service.dart' as _i966;
 import '../app/service/storage_service/token_wallet_storage_service/token_wallet_storage_service.dart'
     as _i738;
 import '../app/service/storage_service/ton_connect_storage_service.dart'
@@ -136,6 +135,11 @@ extension GetItInjectableX on _i174.GetIt {
             gh<_i792.GetStorage>(instanceName: 'ton_connect_storage_service')));
     gh.factory<_i162.TonApi>(() => _i162.TonApi(gh<_i361.Dio>()));
     gh.factory<_i249.PresetsApi>(() => _i249.PresetsApi(gh<_i361.Dio>()));
+    gh.singleton<_i175.TonConnectService>(() => _i175.TonConnectService(
+          gh<_i128.TonConnectStorageService>(),
+          gh<_i771.NekotonRepository>(),
+          gh<_i128.MessengerService>(),
+        ));
     gh.lazySingleton<_i184.AppStorageService>(() => _i184.AppStorageService(
         gh<_i792.GetStorage>(instanceName: 'app_storage_service')));
     gh.singleton<_i473.PermissionsService>(() => _i473.PermissionsService(
@@ -212,8 +216,6 @@ extension GetItInjectableX on _i174.GetIt {
     gh.singleton<_i721.BrowserFaviconURLStorageService>(() =>
         _i721.BrowserFaviconURLStorageService(
             gh<_i792.GetStorage>(instanceName: 'browser_favicon_urls')));
-    gh.singleton<_i175.TonConnectService>(
-        () => _i175.TonConnectService(gh<_i966.TonConnectStorageService>()));
     gh.singleton<_i244.CurrentSeedService>(() => _i244.CurrentSeedService(
           gh<_i771.NekotonRepository>(),
           gh<_i403.CurrentKeyService>(),

@@ -642,5 +642,6 @@
   "errorMessageMaxUnconfirmedTransactions": "Unconfirmed transactions is limited by 5",
   "noRpcConnection": "No RPC connection",
   "tryAgainOrContact": "Please try again or contact technical support",
-  "contactUs": "Contact us"
+  "contactUs": "Contact us",
+  "invalidNetworkError": "Invalid network. Change current network to {}"
 }

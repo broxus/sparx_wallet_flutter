@@ -17,7 +17,11 @@ sealed class RpcRequest with _$RpcRequest {
     required List<String> params,
   }) = SendTransactionRpcRequest;
 
-  // TODO: sign data
+  @FreezedUnionValue('signData')
+  const factory RpcRequest.signData({
+    required String id,
+    required List<String> params,
+  }) = SignDataRpcRequest;
 
   factory RpcRequest.fromJson(Map<String, dynamic> json) =>
       _$RpcRequestFromJson(json);

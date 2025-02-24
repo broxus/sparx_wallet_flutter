@@ -33,14 +33,13 @@ class TonConnectWidgetModel
   late final _step = createValueNotifier(TonConnectStep.account);
   late final _selected = createNotifier(_initialSelectedAccount);
   late final _accounts = createNotifier(model.accounts);
-  late final _origin = createNotifier<Uri>();
+  late final _manifest = createNotifier<DappManifest>();
   late final _zeroBalance = Money.fromBigIntWithCurrency(
     BigInt.zero,
     Currencies()[model.symbol] ??
         Currency.create(model.symbol, 0, pattern: moneyPattern(0)),
   );
   final _balances = <Address, ListenableState<Money>>{};
-  DappManifest? _manifest;
 
   ValueListenable<TonConnectStep> get step => _step;
 
@@ -48,7 +47,7 @@ class TonConnectWidgetModel
 
   ListenableState<KeyAccount?> get selected => _selected;
 
-  ListenableState<Uri> get origin => _origin;
+  ListenableState<DappManifest> get manifest => _manifest;
 
   KeyAccount? get _initialSelectedAccount =>
       model.currentAccount ?? model.accounts.firstOrNull;
@@ -94,11 +93,11 @@ class TonConnectWidgetModel
       password: password,
       account: account,
       request: widget.request,
-      manifest: _manifest!,
+      manifest: _manifest.value!,
     );
 
     if (contextSafe != null) {
-      Navigator.of(contextSafe!).pop(replyItems);
+      Navigator.of(contextSafe!).pop((account, replyItems));
     }
   }
 
@@ -120,8 +119,6 @@ class TonConnectWidgetModel
 
   Future<void> _getManifest() async {
     final manifest = await model.getManifest(widget.request.manifestUrl);
-    _manifest = manifest;
-
-    _origin.accept(Uri.parse(manifest.url));
+    _manifest.accept(manifest);
   }
 }

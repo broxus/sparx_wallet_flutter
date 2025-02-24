@@ -51,10 +51,13 @@ class _SelectAccountWidget extends StatelessWidget {
             separatorSize: DimensSizeV2.d12,
             children: [
               StateNotifierBuilder(
-                listenableState: wm.origin,
+                listenableState: wm.manifest,
                 builder: (_, origin) =>
                     origin?.let(
-                      (value) => WebsiteInfoWidget(uri: value),
+                      (value) => WebsiteInfoWidget(
+                        uri: Uri.parse(value.url),
+                        iconUrl: Uri.tryParse(value.iconUrl),
+                      ),
                     ) ??
                     const SizedBox.shrink(),
               ),
@@ -165,29 +168,15 @@ class _ConfirmPermissionsWidget extends StatelessWidget {
                   color: theme.colors.background2,
                 ),
                 StateNotifierBuilder(
-                  listenableState: wm.origin,
+                  listenableState: wm.manifest,
                   builder: (_, origin) =>
                       origin?.let(
-                        (value) => WebsiteInfoWidget(uri: value),
+                        (value) => WebsiteInfoWidget(
+                          uri: Uri.parse(value.url),
+                          iconUrl: Uri.tryParse(value.iconUrl),
+                        ),
                       ) ??
                       const SizedBox.shrink(),
-                ),
-                PrimaryCard(
-                  color: theme.colors.background2,
-                  borderRadius: BorderRadius.circular(DimensRadiusV2.radius12),
-                  padding: const EdgeInsets.all(DimensSizeV2.d16),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        LocaleKeys.requestedPermissions.tr(),
-                        style: theme.textStyles.labelSmall.copyWith(
-                          color: theme.colors.content3,
-                        ),
-                      ),
-                      const SizedBox(height: DimensSizeV2.d16),
-                    ],
-                  ),
                 ),
               ],
             ),

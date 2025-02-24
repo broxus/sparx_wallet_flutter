@@ -38,3 +38,20 @@ Map<String, dynamic> _$$SendTransactionRpcRequestImplToJson(
       'params': instance.params,
       'method': instance.$type,
     };
+
+_$SignDataRpcRequestImpl _$$SignDataRpcRequestImplFromJson(
+        Map<String, dynamic> json) =>
+    _$SignDataRpcRequestImpl(
+      id: json['id'] as String,
+      params:
+          (json['params'] as List<dynamic>).map((e) => e as String).toList(),
+      $type: json['method'] as String?,
+    );
+
+Map<String, dynamic> _$$SignDataRpcRequestImplToJson(
+        _$SignDataRpcRequestImpl instance) =>
+    <String, dynamic>{
+      'id': instance.id,
+      'params': instance.params,
+      'method': instance.$type,
+    };

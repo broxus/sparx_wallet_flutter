@@ -4,12 +4,14 @@ import 'package:app/app/router/router.dart';
 import 'package:app/app/service/app_links/app_links_data.dart';
 import 'package:app/app/service/app_links/app_links_service.dart';
 import 'package:app/app/service/service.dart';
+import 'package:app/app/service/ton_connect/ton_connect.dart';
 import 'package:app/di/di.dart';
 import 'package:app/event_bus/events/navigation/bottom_navigation_events.dart';
 import 'package:app/event_bus/primary_bus.dart';
 import 'package:app/feature/root/view/root_tab.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:logging/logging.dart';
 import 'package:ui_components_lib/ui_components_lib.dart';
 
 class RootView extends StatefulWidget {
@@ -22,15 +24,18 @@ class RootView extends StatefulWidget {
 }
 
 class _RootViewState extends State<RootView> {
-  final _appLinksService = inject<AppLinksService>();
+  static final _logger = Logger('RootView');
 
+  late final _appLinksService = inject<AppLinksService>();
   late final _navigationService = inject<NavigationService>();
+  late final _tonConnectService = inject<TonConnectService>();
 
   int get _tabIndex => RootTab.getByPath(
         getRootPath(fullPath: _navigationService.state.fullPath),
       ).index;
 
   StreamSubscription<BrowserAppLinksData>? _appLinksNavSubs;
+  StreamSubscription<Uri>? _uriLinksNavSubs;
 
   @override
   void initState() {
@@ -39,12 +44,14 @@ class _RootViewState extends State<RootView> {
     WidgetsBinding.instance.addPostFrameCallback((_) {
       _appLinksNavSubs =
           _appLinksService.browserLinksStream.listen(_listenAppLinks);
+      _uriLinksNavSubs = _appLinksService.uriLinkStream.listen(_onUriLink);
     });
   }
 
   @override
   void dispose() {
     _appLinksNavSubs?.cancel();
+    _uriLinksNavSubs?.cancel();
     super.dispose();
   }
 
@@ -148,5 +155,17 @@ class _RootViewState extends State<RootView> {
 
   void _listenAppLinks(BrowserAppLinksData data) {
     _changeValue(RootTab.browser);
+  }
+
+  void _onUriLink(Uri uri) {
+    if (!uri.isScheme('tc')) return;
+
+    try {
+      final query = ConnectQuery.fromQuery(uri.query);
+      _tonConnectService.connect(query: query, context: context);
+    } catch (e, s) {
+      _logger.warning('Failed to parse connect query: $uri', e, s);
+      return;
+    }
   }
 }

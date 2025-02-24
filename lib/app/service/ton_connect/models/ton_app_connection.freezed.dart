@@ -30,28 +30,33 @@ TonAppConnection _$TonAppConnectionFromJson(Map<String, dynamic> json) {
 /// @nodoc
 mixin _$TonAppConnection {
   Object get replyItems => throw _privateConstructorUsedError;
+  Address get walletAddress => throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function(String clientId, SessionCrypto sessionCrypto,
-            List<ConnectItemReply> replyItems)
+            List<ConnectItemReply> replyItems, Address walletAddress)
         remote,
-    required TResult Function(ConnectItemReply replyItems) injected,
+    required TResult Function(
+            ConnectItemReply replyItems, Address walletAddress)
+        injected,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function(String clientId, SessionCrypto sessionCrypto,
-            List<ConnectItemReply> replyItems)?
+            List<ConnectItemReply> replyItems, Address walletAddress)?
         remote,
-    TResult? Function(ConnectItemReply replyItems)? injected,
+    TResult? Function(ConnectItemReply replyItems, Address walletAddress)?
+        injected,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function(String clientId, SessionCrypto sessionCrypto,
-            List<ConnectItemReply> replyItems)?
+            List<ConnectItemReply> replyItems, Address walletAddress)?
         remote,
-    TResult Function(ConnectItemReply replyItems)? injected,
+    TResult Function(ConnectItemReply replyItems, Address walletAddress)?
+        injected,
     required TResult orElse(),
   }) =>
       throw _privateConstructorUsedError;
@@ -77,6 +82,12 @@ mixin _$TonAppConnection {
 
   /// Serializes this TonAppConnection to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
+
+  /// Create a copy of TonAppConnection
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  $TonAppConnectionCopyWith<TonAppConnection> get copyWith =>
+      throw _privateConstructorUsedError;
 }
 
 /// @nodoc
@@ -84,6 +95,10 @@ abstract class $TonAppConnectionCopyWith<$Res> {
   factory $TonAppConnectionCopyWith(
           TonAppConnection value, $Res Function(TonAppConnection) then) =
       _$TonAppConnectionCopyWithImpl<$Res, TonAppConnection>;
+  @useResult
+  $Res call({Address walletAddress});
+
+  $AddressCopyWith<$Res> get walletAddress;
 }
 
 /// @nodoc
@@ -98,19 +113,47 @@ class _$TonAppConnectionCopyWithImpl<$Res, $Val extends TonAppConnection>
 
   /// Create a copy of TonAppConnection
   /// with the given fields replaced by the non-null parameter values.
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? walletAddress = null,
+  }) {
+    return _then(_value.copyWith(
+      walletAddress: null == walletAddress
+          ? _value.walletAddress
+          : walletAddress // ignore: cast_nullable_to_non_nullable
+              as Address,
+    ) as $Val);
+  }
+
+  /// Create a copy of TonAppConnection
+  /// with the given fields replaced by the non-null parameter values.
+  @override
+  @pragma('vm:prefer-inline')
+  $AddressCopyWith<$Res> get walletAddress {
+    return $AddressCopyWith<$Res>(_value.walletAddress, (value) {
+      return _then(_value.copyWith(walletAddress: value) as $Val);
+    });
+  }
 }
 
 /// @nodoc
-abstract class _$$TonAppConnectionRemoteImplCopyWith<$Res> {
+abstract class _$$TonAppConnectionRemoteImplCopyWith<$Res>
+    implements $TonAppConnectionCopyWith<$Res> {
   factory _$$TonAppConnectionRemoteImplCopyWith(
           _$TonAppConnectionRemoteImpl value,
           $Res Function(_$TonAppConnectionRemoteImpl) then) =
       __$$TonAppConnectionRemoteImplCopyWithImpl<$Res>;
+  @override
   @useResult
   $Res call(
       {String clientId,
       SessionCrypto sessionCrypto,
-      List<ConnectItemReply> replyItems});
+      List<ConnectItemReply> replyItems,
+      Address walletAddress});
+
+  @override
+  $AddressCopyWith<$Res> get walletAddress;
 }
 
 /// @nodoc
@@ -130,6 +173,7 @@ class __$$TonAppConnectionRemoteImplCopyWithImpl<$Res>
     Object? clientId = null,
     Object? sessionCrypto = null,
     Object? replyItems = null,
+    Object? walletAddress = null,
   }) {
     return _then(_$TonAppConnectionRemoteImpl(
       clientId: null == clientId
@@ -144,6 +188,10 @@ class __$$TonAppConnectionRemoteImplCopyWithImpl<$Res>
           ? _value._replyItems
           : replyItems // ignore: cast_nullable_to_non_nullable
               as List<ConnectItemReply>,
+      walletAddress: null == walletAddress
+          ? _value.walletAddress
+          : walletAddress // ignore: cast_nullable_to_non_nullable
+              as Address,
     ));
   }
 }
@@ -155,6 +203,7 @@ class _$TonAppConnectionRemoteImpl extends TonAppConnectionRemote {
       {required this.clientId,
       required this.sessionCrypto,
       required final List<ConnectItemReply> replyItems,
+      required this.walletAddress,
       final String? $type})
       : _replyItems = replyItems,
         $type = $type ?? 'remote',
@@ -175,12 +224,15 @@ class _$TonAppConnectionRemoteImpl extends TonAppConnectionRemote {
     return EqualUnmodifiableListView(_replyItems);
   }
 
+  @override
+  final Address walletAddress;
+
   @JsonKey(name: 'runtimeType')
   final String $type;
 
   @override
   String toString() {
-    return 'TonAppConnection.remote(clientId: $clientId, sessionCrypto: $sessionCrypto, replyItems: $replyItems)';
+    return 'TonAppConnection.remote(clientId: $clientId, sessionCrypto: $sessionCrypto, replyItems: $replyItems, walletAddress: $walletAddress)';
   }
 
   /// Create a copy of TonAppConnection
@@ -196,35 +248,39 @@ class _$TonAppConnectionRemoteImpl extends TonAppConnectionRemote {
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function(String clientId, SessionCrypto sessionCrypto,
-            List<ConnectItemReply> replyItems)
+            List<ConnectItemReply> replyItems, Address walletAddress)
         remote,
-    required TResult Function(ConnectItemReply replyItems) injected,
+    required TResult Function(
+            ConnectItemReply replyItems, Address walletAddress)
+        injected,
   }) {
-    return remote(clientId, sessionCrypto, replyItems);
+    return remote(clientId, sessionCrypto, replyItems, walletAddress);
   }
 
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function(String clientId, SessionCrypto sessionCrypto,
-            List<ConnectItemReply> replyItems)?
+            List<ConnectItemReply> replyItems, Address walletAddress)?
         remote,
-    TResult? Function(ConnectItemReply replyItems)? injected,
+    TResult? Function(ConnectItemReply replyItems, Address walletAddress)?
+        injected,
   }) {
-    return remote?.call(clientId, sessionCrypto, replyItems);
+    return remote?.call(clientId, sessionCrypto, replyItems, walletAddress);
   }
 
   @override
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function(String clientId, SessionCrypto sessionCrypto,
-            List<ConnectItemReply> replyItems)?
+            List<ConnectItemReply> replyItems, Address walletAddress)?
         remote,
-    TResult Function(ConnectItemReply replyItems)? injected,
+    TResult Function(ConnectItemReply replyItems, Address walletAddress)?
+        injected,
     required TResult orElse(),
   }) {
     if (remote != null) {
-      return remote(clientId, sessionCrypto, replyItems);
+      return remote(clientId, sessionCrypto, replyItems, walletAddress);
     }
     return orElse();
   }
@@ -270,10 +326,10 @@ class _$TonAppConnectionRemoteImpl extends TonAppConnectionRemote {
 
 abstract class TonAppConnectionRemote extends TonAppConnection {
   const factory TonAppConnectionRemote(
-          {required final String clientId,
-          required final SessionCrypto sessionCrypto,
-          required final List<ConnectItemReply> replyItems}) =
-      _$TonAppConnectionRemoteImpl;
+      {required final String clientId,
+      required final SessionCrypto sessionCrypto,
+      required final List<ConnectItemReply> replyItems,
+      required final Address walletAddress}) = _$TonAppConnectionRemoteImpl;
   const TonAppConnectionRemote._() : super._();
 
   factory TonAppConnectionRemote.fromJson(Map<String, dynamic> json) =
@@ -283,24 +339,31 @@ abstract class TonAppConnectionRemote extends TonAppConnection {
   SessionCrypto get sessionCrypto;
   @override
   List<ConnectItemReply> get replyItems;
+  @override
+  Address get walletAddress;
 
   /// Create a copy of TonAppConnection
   /// with the given fields replaced by the non-null parameter values.
+  @override
   @JsonKey(includeFromJson: false, includeToJson: false)
   _$$TonAppConnectionRemoteImplCopyWith<_$TonAppConnectionRemoteImpl>
       get copyWith => throw _privateConstructorUsedError;
 }
 
 /// @nodoc
-abstract class _$$TonAppConnectionInjectedImplCopyWith<$Res> {
+abstract class _$$TonAppConnectionInjectedImplCopyWith<$Res>
+    implements $TonAppConnectionCopyWith<$Res> {
   factory _$$TonAppConnectionInjectedImplCopyWith(
           _$TonAppConnectionInjectedImpl value,
           $Res Function(_$TonAppConnectionInjectedImpl) then) =
       __$$TonAppConnectionInjectedImplCopyWithImpl<$Res>;
+  @override
   @useResult
-  $Res call({ConnectItemReply replyItems});
+  $Res call({ConnectItemReply replyItems, Address walletAddress});
 
   $ConnectItemReplyCopyWith<$Res> get replyItems;
+  @override
+  $AddressCopyWith<$Res> get walletAddress;
 }
 
 /// @nodoc
@@ -318,12 +381,17 @@ class __$$TonAppConnectionInjectedImplCopyWithImpl<$Res>
   @override
   $Res call({
     Object? replyItems = null,
+    Object? walletAddress = null,
   }) {
     return _then(_$TonAppConnectionInjectedImpl(
       replyItems: null == replyItems
           ? _value.replyItems
           : replyItems // ignore: cast_nullable_to_non_nullable
               as ConnectItemReply,
+      walletAddress: null == walletAddress
+          ? _value.walletAddress
+          : walletAddress // ignore: cast_nullable_to_non_nullable
+              as Address,
     ));
   }
 
@@ -342,7 +410,9 @@ class __$$TonAppConnectionInjectedImplCopyWithImpl<$Res>
 @JsonSerializable()
 class _$TonAppConnectionInjectedImpl extends TonAppConnectionInjected {
   const _$TonAppConnectionInjectedImpl(
-      {required this.replyItems, final String? $type})
+      {required this.replyItems,
+      required this.walletAddress,
+      final String? $type})
       : $type = $type ?? 'injected',
         super._();
 
@@ -351,13 +421,15 @@ class _$TonAppConnectionInjectedImpl extends TonAppConnectionInjected {
 
   @override
   final ConnectItemReply replyItems;
+  @override
+  final Address walletAddress;
 
   @JsonKey(name: 'runtimeType')
   final String $type;
 
   @override
   String toString() {
-    return 'TonAppConnection.injected(replyItems: $replyItems)';
+    return 'TonAppConnection.injected(replyItems: $replyItems, walletAddress: $walletAddress)';
   }
 
   /// Create a copy of TonAppConnection
@@ -373,35 +445,39 @@ class _$TonAppConnectionInjectedImpl extends TonAppConnectionInjected {
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function(String clientId, SessionCrypto sessionCrypto,
-            List<ConnectItemReply> replyItems)
+            List<ConnectItemReply> replyItems, Address walletAddress)
         remote,
-    required TResult Function(ConnectItemReply replyItems) injected,
+    required TResult Function(
+            ConnectItemReply replyItems, Address walletAddress)
+        injected,
   }) {
-    return injected(replyItems);
+    return injected(replyItems, walletAddress);
   }
 
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function(String clientId, SessionCrypto sessionCrypto,
-            List<ConnectItemReply> replyItems)?
+            List<ConnectItemReply> replyItems, Address walletAddress)?
         remote,
-    TResult? Function(ConnectItemReply replyItems)? injected,
+    TResult? Function(ConnectItemReply replyItems, Address walletAddress)?
+        injected,
   }) {
-    return injected?.call(replyItems);
+    return injected?.call(replyItems, walletAddress);
   }
 
   @override
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function(String clientId, SessionCrypto sessionCrypto,
-            List<ConnectItemReply> replyItems)?
+            List<ConnectItemReply> replyItems, Address walletAddress)?
         remote,
-    TResult Function(ConnectItemReply replyItems)? injected,
+    TResult Function(ConnectItemReply replyItems, Address walletAddress)?
+        injected,
     required TResult orElse(),
   }) {
     if (injected != null) {
-      return injected(replyItems);
+      return injected(replyItems, walletAddress);
     }
     return orElse();
   }
@@ -447,8 +523,8 @@ class _$TonAppConnectionInjectedImpl extends TonAppConnectionInjected {
 
 abstract class TonAppConnectionInjected extends TonAppConnection {
   const factory TonAppConnectionInjected(
-          {required final ConnectItemReply replyItems}) =
-      _$TonAppConnectionInjectedImpl;
+      {required final ConnectItemReply replyItems,
+      required final Address walletAddress}) = _$TonAppConnectionInjectedImpl;
   const TonAppConnectionInjected._() : super._();
 
   factory TonAppConnectionInjected.fromJson(Map<String, dynamic> json) =
@@ -456,9 +532,12 @@ abstract class TonAppConnectionInjected extends TonAppConnection {
 
   @override
   ConnectItemReply get replyItems;
+  @override
+  Address get walletAddress;
 
   /// Create a copy of TonAppConnection
   /// with the given fields replaced by the non-null parameter values.
+  @override
   @JsonKey(includeFromJson: false, includeToJson: false)
   _$$TonAppConnectionInjectedImplCopyWith<_$TonAppConnectionInjectedImpl>
       get copyWith => throw _privateConstructorUsedError;

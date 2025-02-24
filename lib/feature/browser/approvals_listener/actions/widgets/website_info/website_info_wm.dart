@@ -21,9 +21,9 @@ class WebsiteInfoWidgetModel
     extends CustomWidgetModel<WebsiteInfoWidget, WebsiteInfoModel> {
   WebsiteInfoWidgetModel(super.model);
 
-  late final _faviconUrl = createNotifier<String?>();
+  late final _faviconUrl = createNotifier<String>(widget.iconUrl?.toString());
 
-  ListenableState<String?> get faviconUrl => _faviconUrl;
+  ListenableState<String> get faviconUrl => _faviconUrl;
 
   ThemeStyleV2 get theme => context.themeStyleV2;
 
@@ -31,7 +31,9 @@ class WebsiteInfoWidgetModel
   void initWidgetModel() {
     super.initWidgetModel();
 
-    _getFaviconUrl();
+    if (widget.iconUrl == null) {
+      _getFaviconUrl();
+    }
   }
 
   Future<void> _getFaviconUrl() async {
