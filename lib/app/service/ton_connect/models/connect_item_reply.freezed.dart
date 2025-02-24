@@ -17,9 +17,9 @@ final _privateConstructorUsedError = UnsupportedError(
 ConnectItemReply _$ConnectItemReplyFromJson(Map<String, dynamic> json) {
   switch (json['name']) {
     case 'ton_addr':
-      return _TonAddress.fromJson(json);
+      return TonAddressItemReply.fromJson(json);
     case 'ton_proof':
-      return _TonProofSuccess.fromJson(json);
+      return TonProofItemReplySuccess.fromJson(json);
 
     default:
       throw CheckedFromJsonException(json, 'name', 'ConnectItemReply',
@@ -31,45 +31,45 @@ ConnectItemReply _$ConnectItemReplyFromJson(Map<String, dynamic> json) {
 mixin _$ConnectItemReply {
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
-    required TResult Function(Address address, String network, String publicKey,
-            String walletStateInit)
+    required TResult Function(Address address, TonNetwork network,
+            PublicKey publicKey, String walletStateInit)
         tonAddress,
-    required TResult Function() tonProofSuccess,
+    required TResult Function(TonProof proof) tonProofSuccess,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
-    TResult? Function(Address address, String network, String publicKey,
+    TResult? Function(Address address, TonNetwork network, PublicKey publicKey,
             String walletStateInit)?
         tonAddress,
-    TResult? Function()? tonProofSuccess,
+    TResult? Function(TonProof proof)? tonProofSuccess,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
-    TResult Function(Address address, String network, String publicKey,
+    TResult Function(Address address, TonNetwork network, PublicKey publicKey,
             String walletStateInit)?
         tonAddress,
-    TResult Function()? tonProofSuccess,
+    TResult Function(TonProof proof)? tonProofSuccess,
     required TResult orElse(),
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
-    required TResult Function(_TonAddress value) tonAddress,
-    required TResult Function(_TonProofSuccess value) tonProofSuccess,
+    required TResult Function(TonAddressItemReply value) tonAddress,
+    required TResult Function(TonProofItemReplySuccess value) tonProofSuccess,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
-    TResult? Function(_TonAddress value)? tonAddress,
-    TResult? Function(_TonProofSuccess value)? tonProofSuccess,
+    TResult? Function(TonAddressItemReply value)? tonAddress,
+    TResult? Function(TonProofItemReplySuccess value)? tonProofSuccess,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
-    TResult Function(_TonAddress value)? tonAddress,
-    TResult Function(_TonProofSuccess value)? tonProofSuccess,
+    TResult Function(TonAddressItemReply value)? tonAddress,
+    TResult Function(TonProofItemReplySuccess value)? tonProofSuccess,
     required TResult orElse(),
   }) =>
       throw _privateConstructorUsedError;
@@ -100,26 +100,27 @@ class _$ConnectItemReplyCopyWithImpl<$Res, $Val extends ConnectItemReply>
 }
 
 /// @nodoc
-abstract class _$$TonAddressImplCopyWith<$Res> {
-  factory _$$TonAddressImplCopyWith(
-          _$TonAddressImpl value, $Res Function(_$TonAddressImpl) then) =
-      __$$TonAddressImplCopyWithImpl<$Res>;
+abstract class _$$TonAddressItemReplyImplCopyWith<$Res> {
+  factory _$$TonAddressItemReplyImplCopyWith(_$TonAddressItemReplyImpl value,
+          $Res Function(_$TonAddressItemReplyImpl) then) =
+      __$$TonAddressItemReplyImplCopyWithImpl<$Res>;
   @useResult
   $Res call(
       {Address address,
-      String network,
-      String publicKey,
+      TonNetwork network,
+      PublicKey publicKey,
       String walletStateInit});
 
   $AddressCopyWith<$Res> get address;
+  $PublicKeyCopyWith<$Res> get publicKey;
 }
 
 /// @nodoc
-class __$$TonAddressImplCopyWithImpl<$Res>
-    extends _$ConnectItemReplyCopyWithImpl<$Res, _$TonAddressImpl>
-    implements _$$TonAddressImplCopyWith<$Res> {
-  __$$TonAddressImplCopyWithImpl(
-      _$TonAddressImpl _value, $Res Function(_$TonAddressImpl) _then)
+class __$$TonAddressItemReplyImplCopyWithImpl<$Res>
+    extends _$ConnectItemReplyCopyWithImpl<$Res, _$TonAddressItemReplyImpl>
+    implements _$$TonAddressItemReplyImplCopyWith<$Res> {
+  __$$TonAddressItemReplyImplCopyWithImpl(_$TonAddressItemReplyImpl _value,
+      $Res Function(_$TonAddressItemReplyImpl) _then)
       : super(_value, _then);
 
   /// Create a copy of ConnectItemReply
@@ -132,7 +133,7 @@ class __$$TonAddressImplCopyWithImpl<$Res>
     Object? publicKey = null,
     Object? walletStateInit = null,
   }) {
-    return _then(_$TonAddressImpl(
+    return _then(_$TonAddressItemReplyImpl(
       address: null == address
           ? _value.address
           : address // ignore: cast_nullable_to_non_nullable
@@ -140,11 +141,11 @@ class __$$TonAddressImplCopyWithImpl<$Res>
       network: null == network
           ? _value.network
           : network // ignore: cast_nullable_to_non_nullable
-              as String,
+              as TonNetwork,
       publicKey: null == publicKey
           ? _value.publicKey
           : publicKey // ignore: cast_nullable_to_non_nullable
-              as String,
+              as PublicKey,
       walletStateInit: null == walletStateInit
           ? _value.walletStateInit
           : walletStateInit // ignore: cast_nullable_to_non_nullable
@@ -161,12 +162,22 @@ class __$$TonAddressImplCopyWithImpl<$Res>
       return _then(_value.copyWith(address: value));
     });
   }
+
+  /// Create a copy of ConnectItemReply
+  /// with the given fields replaced by the non-null parameter values.
+  @override
+  @pragma('vm:prefer-inline')
+  $PublicKeyCopyWith<$Res> get publicKey {
+    return $PublicKeyCopyWith<$Res>(_value.publicKey, (value) {
+      return _then(_value.copyWith(publicKey: value));
+    });
+  }
 }
 
 /// @nodoc
 @JsonSerializable()
-class _$TonAddressImpl implements _TonAddress {
-  const _$TonAddressImpl(
+class _$TonAddressItemReplyImpl implements TonAddressItemReply {
+  const _$TonAddressItemReplyImpl(
       {required this.address,
       required this.network,
       required this.publicKey,
@@ -174,15 +185,15 @@ class _$TonAddressImpl implements _TonAddress {
       final String? $type})
       : $type = $type ?? 'ton_addr';
 
-  factory _$TonAddressImpl.fromJson(Map<String, dynamic> json) =>
-      _$$TonAddressImplFromJson(json);
+  factory _$TonAddressItemReplyImpl.fromJson(Map<String, dynamic> json) =>
+      _$$TonAddressItemReplyImplFromJson(json);
 
   @override
   final Address address;
   @override
-  final String network;
+  final TonNetwork network;
   @override
-  final String publicKey;
+  final PublicKey publicKey;
   @override
   final String walletStateInit;
 
@@ -198,7 +209,7 @@ class _$TonAddressImpl implements _TonAddress {
   bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$TonAddressImpl &&
+            other is _$TonAddressItemReplyImpl &&
             (identical(other.address, address) || other.address == address) &&
             (identical(other.network, network) || other.network == network) &&
             (identical(other.publicKey, publicKey) ||
@@ -217,16 +228,17 @@ class _$TonAddressImpl implements _TonAddress {
   @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
-  _$$TonAddressImplCopyWith<_$TonAddressImpl> get copyWith =>
-      __$$TonAddressImplCopyWithImpl<_$TonAddressImpl>(this, _$identity);
+  _$$TonAddressItemReplyImplCopyWith<_$TonAddressItemReplyImpl> get copyWith =>
+      __$$TonAddressItemReplyImplCopyWithImpl<_$TonAddressItemReplyImpl>(
+          this, _$identity);
 
   @override
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
-    required TResult Function(Address address, String network, String publicKey,
-            String walletStateInit)
+    required TResult Function(Address address, TonNetwork network,
+            PublicKey publicKey, String walletStateInit)
         tonAddress,
-    required TResult Function() tonProofSuccess,
+    required TResult Function(TonProof proof) tonProofSuccess,
   }) {
     return tonAddress(address, network, publicKey, walletStateInit);
   }
@@ -234,10 +246,10 @@ class _$TonAddressImpl implements _TonAddress {
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
-    TResult? Function(Address address, String network, String publicKey,
+    TResult? Function(Address address, TonNetwork network, PublicKey publicKey,
             String walletStateInit)?
         tonAddress,
-    TResult? Function()? tonProofSuccess,
+    TResult? Function(TonProof proof)? tonProofSuccess,
   }) {
     return tonAddress?.call(address, network, publicKey, walletStateInit);
   }
@@ -245,10 +257,10 @@ class _$TonAddressImpl implements _TonAddress {
   @override
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
-    TResult Function(Address address, String network, String publicKey,
+    TResult Function(Address address, TonNetwork network, PublicKey publicKey,
             String walletStateInit)?
         tonAddress,
-    TResult Function()? tonProofSuccess,
+    TResult Function(TonProof proof)? tonProofSuccess,
     required TResult orElse(),
   }) {
     if (tonAddress != null) {
@@ -260,8 +272,8 @@ class _$TonAddressImpl implements _TonAddress {
   @override
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
-    required TResult Function(_TonAddress value) tonAddress,
-    required TResult Function(_TonProofSuccess value) tonProofSuccess,
+    required TResult Function(TonAddressItemReply value) tonAddress,
+    required TResult Function(TonProofItemReplySuccess value) tonProofSuccess,
   }) {
     return tonAddress(this);
   }
@@ -269,8 +281,8 @@ class _$TonAddressImpl implements _TonAddress {
   @override
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
-    TResult? Function(_TonAddress value)? tonAddress,
-    TResult? Function(_TonProofSuccess value)? tonProofSuccess,
+    TResult? Function(TonAddressItemReply value)? tonAddress,
+    TResult? Function(TonProofItemReplySuccess value)? tonProofSuccess,
   }) {
     return tonAddress?.call(this);
   }
@@ -278,8 +290,8 @@ class _$TonAddressImpl implements _TonAddress {
   @override
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
-    TResult Function(_TonAddress value)? tonAddress,
-    TResult Function(_TonProofSuccess value)? tonProofSuccess,
+    TResult Function(TonAddressItemReply value)? tonAddress,
+    TResult Function(TonProofItemReplySuccess value)? tonProofSuccess,
     required TResult orElse(),
   }) {
     if (tonAddress != null) {
@@ -290,113 +302,156 @@ class _$TonAddressImpl implements _TonAddress {
 
   @override
   Map<String, dynamic> toJson() {
-    return _$$TonAddressImplToJson(
+    return _$$TonAddressItemReplyImplToJson(
       this,
     );
   }
 }
 
-abstract class _TonAddress implements ConnectItemReply {
-  const factory _TonAddress(
+abstract class TonAddressItemReply implements ConnectItemReply {
+  const factory TonAddressItemReply(
       {required final Address address,
-      required final String network,
-      required final String publicKey,
-      required final String walletStateInit}) = _$TonAddressImpl;
+      required final TonNetwork network,
+      required final PublicKey publicKey,
+      required final String walletStateInit}) = _$TonAddressItemReplyImpl;
 
-  factory _TonAddress.fromJson(Map<String, dynamic> json) =
-      _$TonAddressImpl.fromJson;
+  factory TonAddressItemReply.fromJson(Map<String, dynamic> json) =
+      _$TonAddressItemReplyImpl.fromJson;
 
   Address get address;
-  String get network;
-  String get publicKey;
+  TonNetwork get network;
+  PublicKey get publicKey;
   String get walletStateInit;
 
   /// Create a copy of ConnectItemReply
   /// with the given fields replaced by the non-null parameter values.
   @JsonKey(includeFromJson: false, includeToJson: false)
-  _$$TonAddressImplCopyWith<_$TonAddressImpl> get copyWith =>
+  _$$TonAddressItemReplyImplCopyWith<_$TonAddressItemReplyImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }
 
 /// @nodoc
-abstract class _$$TonProofSuccessImplCopyWith<$Res> {
-  factory _$$TonProofSuccessImplCopyWith(_$TonProofSuccessImpl value,
-          $Res Function(_$TonProofSuccessImpl) then) =
-      __$$TonProofSuccessImplCopyWithImpl<$Res>;
+abstract class _$$TonProofItemReplySuccessImplCopyWith<$Res> {
+  factory _$$TonProofItemReplySuccessImplCopyWith(
+          _$TonProofItemReplySuccessImpl value,
+          $Res Function(_$TonProofItemReplySuccessImpl) then) =
+      __$$TonProofItemReplySuccessImplCopyWithImpl<$Res>;
+  @useResult
+  $Res call({TonProof proof});
+
+  $TonProofCopyWith<$Res> get proof;
 }
 
 /// @nodoc
-class __$$TonProofSuccessImplCopyWithImpl<$Res>
-    extends _$ConnectItemReplyCopyWithImpl<$Res, _$TonProofSuccessImpl>
-    implements _$$TonProofSuccessImplCopyWith<$Res> {
-  __$$TonProofSuccessImplCopyWithImpl(
-      _$TonProofSuccessImpl _value, $Res Function(_$TonProofSuccessImpl) _then)
+class __$$TonProofItemReplySuccessImplCopyWithImpl<$Res>
+    extends _$ConnectItemReplyCopyWithImpl<$Res, _$TonProofItemReplySuccessImpl>
+    implements _$$TonProofItemReplySuccessImplCopyWith<$Res> {
+  __$$TonProofItemReplySuccessImplCopyWithImpl(
+      _$TonProofItemReplySuccessImpl _value,
+      $Res Function(_$TonProofItemReplySuccessImpl) _then)
       : super(_value, _then);
 
   /// Create a copy of ConnectItemReply
   /// with the given fields replaced by the non-null parameter values.
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? proof = null,
+  }) {
+    return _then(_$TonProofItemReplySuccessImpl(
+      proof: null == proof
+          ? _value.proof
+          : proof // ignore: cast_nullable_to_non_nullable
+              as TonProof,
+    ));
+  }
+
+  /// Create a copy of ConnectItemReply
+  /// with the given fields replaced by the non-null parameter values.
+  @override
+  @pragma('vm:prefer-inline')
+  $TonProofCopyWith<$Res> get proof {
+    return $TonProofCopyWith<$Res>(_value.proof, (value) {
+      return _then(_value.copyWith(proof: value));
+    });
+  }
 }
 
 /// @nodoc
 @JsonSerializable()
-class _$TonProofSuccessImpl implements _TonProofSuccess {
-  const _$TonProofSuccessImpl({final String? $type})
+class _$TonProofItemReplySuccessImpl implements TonProofItemReplySuccess {
+  const _$TonProofItemReplySuccessImpl(
+      {required this.proof, final String? $type})
       : $type = $type ?? 'ton_proof';
 
-  factory _$TonProofSuccessImpl.fromJson(Map<String, dynamic> json) =>
-      _$$TonProofSuccessImplFromJson(json);
+  factory _$TonProofItemReplySuccessImpl.fromJson(Map<String, dynamic> json) =>
+      _$$TonProofItemReplySuccessImplFromJson(json);
+
+  @override
+  final TonProof proof;
 
   @JsonKey(name: 'name')
   final String $type;
 
   @override
   String toString() {
-    return 'ConnectItemReply.tonProofSuccess()';
+    return 'ConnectItemReply.tonProofSuccess(proof: $proof)';
   }
 
   @override
   bool operator ==(Object other) {
     return identical(this, other) ||
-        (other.runtimeType == runtimeType && other is _$TonProofSuccessImpl);
+        (other.runtimeType == runtimeType &&
+            other is _$TonProofItemReplySuccessImpl &&
+            (identical(other.proof, proof) || other.proof == proof));
   }
 
   @JsonKey(includeFromJson: false, includeToJson: false)
   @override
-  int get hashCode => runtimeType.hashCode;
+  int get hashCode => Object.hash(runtimeType, proof);
+
+  /// Create a copy of ConnectItemReply
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$TonProofItemReplySuccessImplCopyWith<_$TonProofItemReplySuccessImpl>
+      get copyWith => __$$TonProofItemReplySuccessImplCopyWithImpl<
+          _$TonProofItemReplySuccessImpl>(this, _$identity);
 
   @override
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
-    required TResult Function(Address address, String network, String publicKey,
-            String walletStateInit)
+    required TResult Function(Address address, TonNetwork network,
+            PublicKey publicKey, String walletStateInit)
         tonAddress,
-    required TResult Function() tonProofSuccess,
+    required TResult Function(TonProof proof) tonProofSuccess,
   }) {
-    return tonProofSuccess();
+    return tonProofSuccess(proof);
   }
 
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
-    TResult? Function(Address address, String network, String publicKey,
+    TResult? Function(Address address, TonNetwork network, PublicKey publicKey,
             String walletStateInit)?
         tonAddress,
-    TResult? Function()? tonProofSuccess,
+    TResult? Function(TonProof proof)? tonProofSuccess,
   }) {
-    return tonProofSuccess?.call();
+    return tonProofSuccess?.call(proof);
   }
 
   @override
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
-    TResult Function(Address address, String network, String publicKey,
+    TResult Function(Address address, TonNetwork network, PublicKey publicKey,
             String walletStateInit)?
         tonAddress,
-    TResult Function()? tonProofSuccess,
+    TResult Function(TonProof proof)? tonProofSuccess,
     required TResult orElse(),
   }) {
     if (tonProofSuccess != null) {
-      return tonProofSuccess();
+      return tonProofSuccess(proof);
     }
     return orElse();
   }
@@ -404,8 +459,8 @@ class _$TonProofSuccessImpl implements _TonProofSuccess {
   @override
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
-    required TResult Function(_TonAddress value) tonAddress,
-    required TResult Function(_TonProofSuccess value) tonProofSuccess,
+    required TResult Function(TonAddressItemReply value) tonAddress,
+    required TResult Function(TonProofItemReplySuccess value) tonProofSuccess,
   }) {
     return tonProofSuccess(this);
   }
@@ -413,8 +468,8 @@ class _$TonProofSuccessImpl implements _TonProofSuccess {
   @override
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
-    TResult? Function(_TonAddress value)? tonAddress,
-    TResult? Function(_TonProofSuccess value)? tonProofSuccess,
+    TResult? Function(TonAddressItemReply value)? tonAddress,
+    TResult? Function(TonProofItemReplySuccess value)? tonProofSuccess,
   }) {
     return tonProofSuccess?.call(this);
   }
@@ -422,8 +477,8 @@ class _$TonProofSuccessImpl implements _TonProofSuccess {
   @override
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
-    TResult Function(_TonAddress value)? tonAddress,
-    TResult Function(_TonProofSuccess value)? tonProofSuccess,
+    TResult Function(TonAddressItemReply value)? tonAddress,
+    TResult Function(TonProofItemReplySuccess value)? tonProofSuccess,
     required TResult orElse(),
   }) {
     if (tonProofSuccess != null) {
@@ -434,15 +489,24 @@ class _$TonProofSuccessImpl implements _TonProofSuccess {
 
   @override
   Map<String, dynamic> toJson() {
-    return _$$TonProofSuccessImplToJson(
+    return _$$TonProofItemReplySuccessImplToJson(
       this,
     );
   }
 }
 
-abstract class _TonProofSuccess implements ConnectItemReply {
-  const factory _TonProofSuccess() = _$TonProofSuccessImpl;
+abstract class TonProofItemReplySuccess implements ConnectItemReply {
+  const factory TonProofItemReplySuccess({required final TonProof proof}) =
+      _$TonProofItemReplySuccessImpl;
 
-  factory _TonProofSuccess.fromJson(Map<String, dynamic> json) =
-      _$TonProofSuccessImpl.fromJson;
+  factory TonProofItemReplySuccess.fromJson(Map<String, dynamic> json) =
+      _$TonProofItemReplySuccessImpl.fromJson;
+
+  TonProof get proof;
+
+  /// Create a copy of ConnectItemReply
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  _$$TonProofItemReplySuccessImplCopyWith<_$TonProofItemReplySuccessImpl>
+      get copyWith => throw _privateConstructorUsedError;
 }

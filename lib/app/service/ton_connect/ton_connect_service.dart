@@ -1,137 +1,190 @@
 import 'dart:async';
 import 'dart:convert';
+import 'dart:io';
 
+import 'package:app/app/service/storage_service/storage_service.dart';
+import 'package:app/app/service/ton_connect/event_source_transformer.dart';
 import 'package:app/app/service/ton_connect/models/models.dart';
 import 'package:app/app/service/ton_connect/session_crypto.dart';
+import 'package:app/feature/ton_connect/ton_connect.dart';
+import 'package:app/utils/app_version_utils.dart';
+import 'package:collection/collection.dart';
+import 'package:flutter/widgets.dart';
 import 'package:http/http.dart' as http;
 import 'package:injectable/injectable.dart';
+import 'package:logging/logging.dart';
 
 @singleton
 class TonConnectService {
-  final _client = http.Client();
+  TonConnectService(this._storageService);
+
+  static final _logger = Logger('TonConnectService');
+
+  final TonConnectStorageService _storageService;
   final _bridgeUrl = 'https://bridge.tonapi.io/bridge';
-  final _sessionCrypto = SessionCrypto();
 
-  var _eventId = 1;
-  num get eventId => _eventId++;
+  late var _eventId = _storageService.readEventId();
+  StreamSubscription<SseMessage>? _subscription;
+  http.Client? _client;
 
-  void connect(ConnectQuery query) {
-    final uri = Uri.parse(
-      '$_bridgeUrl/events?client_id=${query.id}',
-    );
-    final request = http.Request('GET', uri)
+  Future<void> open() async {
+    await close();
+
+    final connections =
+        _storageService.readConnections().whereType<TonAppConnectionRemote>();
+
+    if (connections.isEmpty) return;
+
+    final ids = connections.map((e) => e.sessionCrypto.sessionId).join(',');
+    final lastEventId = _storageService.readLastEventId();
+    var uri = '$_bridgeUrl/events?client_id=$ids';
+
+    if (lastEventId != null) {
+      uri += '&last_event_id=$lastEventId';
+    }
+
+    final request = http.Request('GET', Uri.parse(uri))
       ..headers['Accept'] = 'text/event-stream';
 
-    _client
+    _client = http.Client();
+    _subscription = await _client!
         .send(request)
         .then((response) => response.stream.transform(EventSourceTransformer()))
-        .then((stream) {
-      stream.listen((event) {
-        if (event.event == 'heartbeat') return;
-        print(event);
-      });
-    });
+        .then((stream) => stream.listen(_handleMessage));
+  }
 
-    // final response = {
-    //   'id': eventId,
-    //   'event': 'connect',
-    //   'payload':
-    // };
-    http.post(
-      Uri.parse(
-        '$_bridgeUrl/message?client_id=${_sessionCrypto.sessionId}&to=${query.id}&ttl=300',
+  Future<void> close() async {
+    await _subscription?.cancel();
+    _client?.close();
+    _subscription = null;
+    _client = null;
+  }
+
+  Future<void> connect({
+    required ConnectQuery query,
+    required BuildContext context,
+  }) async {
+    final sessionCrypto = SessionCrypto();
+    final request = ConnectRequest.fromJson(
+      jsonDecode(Uri.decodeComponent(query.r)) as Map<String, dynamic>,
+    );
+
+    final replyItems = await showTonConnectSheet(
+      context: context,
+      request: request,
+    );
+
+    if (replyItems == null) return;
+
+    final connection = TonAppConnection.remote(
+      clientId: query.id,
+      sessionCrypto: sessionCrypto,
+      replyItems: replyItems,
+    );
+    _storageService.addConnection(connection);
+
+    final response = WalletEvent.connectSuccess(
+      id: _getEventId(),
+      payload: ConnectEventSuccessPayload(
+        device: await _getDeviceInfo(),
+        items: replyItems,
       ),
-      // body:
+    );
+    await _send(
+      clientId: query.id,
+      sessionCrypto: sessionCrypto,
+      data: jsonEncode(response.toJson()),
+    );
+
+    await open(); // reconnect to http bridge
+  }
+
+  Future<void> disconnect(TonAppConnection connection) async {
+    _storageService.removeConnection(connection);
+
+    final remote = switch (connection) {
+      TonAppConnectionRemote() => connection,
+      TonAppConnectionInjected() => null,
+    };
+
+    if (remote == null) return;
+
+    await _send(
+      clientId: remote.clientId,
+      sessionCrypto: remote.sessionCrypto,
+      data: jsonEncode(
+        WalletEvent.disconnect(id: _getEventId()).toJson(),
+      ),
     );
   }
 
-  void send({
+  Future<void> _send({
     required String clientId,
-    required String method,
-    required Map<String, dynamic> params,
+    required SessionCrypto sessionCrypto,
+    required String data,
     num? ttl = 300,
-  }) {
-    final uri = Uri.parse(
-      '$_bridgeUrl/message?client_id=${_sessionCrypto.sessionId}&to=$clientId&ttl=$ttl',
-    );
-    final request = http.Request('POST', uri)
-      ..headers['Content-Type'] = 'application/json'
-      ..body = jsonEncode({
-        'method': method,
-        'params': params,
-      });
-
-    _client.send(request).then((response) {
-      if (response.statusCode != 200) {
-        throw Exception('Failed to send request');
-      }
-    });
+  }) async {
+    try {
+      await http.post(
+        Uri.parse(
+          '$_bridgeUrl/message?client_id=${sessionCrypto.sessionId}&to=$clientId&ttl=$ttl',
+        ),
+        body: sessionCrypto.encrypt(data, clientId),
+      );
+    } catch (e, s) {
+      _logger.severe('Send message failed', e, s);
+    }
   }
 
-  String _getLastEventId() => throw UnimplementedError();
-
-  String _saveLastEventId() => throw UnimplementedError();
-}
-
-class EventSourceTransformer
-    implements StreamTransformer<List<int>, SseMessage> {
-  @override
-  Stream<SseMessage> bind(Stream<List<int>> stream) {
-    late StreamController<SseMessage> controller;
-    controller = StreamController(
-      onListen: () {
-        // the event we are currently building
-        var currentEvent = SseMessage();
-        // the regexes we will use later
-        final lineRegex = RegExp(r'^([^:]*)(?::)?(?: )?(.*)?$');
-        final removeEndingNewlineRegex = RegExp(r'^((?:.|\n)*)\n$');
-        // This stream will receive chunks of data that is not necessarily a
-        // single event. So we build events on the fly and broadcast the event as
-        // soon as we encounter a double newline, then we start a new one.
-        stream
-            .transform(const Utf8Decoder())
-            .transform(const LineSplitter())
-            .listen((String line) {
-          if (line.isEmpty) {
-            // event is done
-            // strip ending newline from data
-            if (currentEvent.data != null) {
-              final match =
-                  removeEndingNewlineRegex.firstMatch(currentEvent.data!)!;
-              currentEvent.data = match.group(1);
-            }
-            controller.add(currentEvent);
-            currentEvent = SseMessage();
-            return;
-          }
-          // match the line prefix and the value using the regex
-          final match = lineRegex.firstMatch(line)!;
-          final field = match.group(1)!;
-          final value = match.group(2) ?? '';
-
-          if (field.isEmpty) {
-            // lines starting with a colon are to be ignored
-            return;
-          }
-
-          switch (field) {
-            case 'event':
-              currentEvent.event = value;
-              break;
-            case 'data':
-              currentEvent.data = '${currentEvent.data ?? ''}$value\n';
-              break;
-            case 'id':
-              currentEvent.id = value;
-              break;
-          }
-        });
-      },
-    );
-    return controller.stream;
+  num _getEventId() {
+    _storageService.saveEventId(++_eventId);
+    return _eventId;
   }
 
-  @override
-  StreamTransformer<RS, RT> cast<RS, RT>() =>
-      StreamTransformer.castFrom<List<int>, SseMessage, RS, RT>(this);
+  Future<void> _handleMessage(SseMessage message) async {
+    if (message.event == 'heartbeat') return;
+
+    if (message.id != null) {
+      _storageService.saveLastEventId(message.id!);
+    }
+
+    final json = jsonDecode(message.data ?? '{}') as Map<String, dynamic>;
+    final from = json['from'] as String?;
+    final msg = json['message'] as String?;
+
+    if (from == null || msg == null) return;
+
+    final connection = _storageService
+        .readConnections()
+        .whereType<TonAppConnectionRemote>()
+        .firstWhereOrNull((e) => e.clientId == from);
+
+    if (connection == null) return;
+
+    try {
+      // "{"method":"disconnect","params":[],"id":"0"}"
+      final json = connection.sessionCrypto.decrypt(msg, from);
+      final rpcRequest = RpcRequest.fromJson(
+        jsonDecode(json) as Map<String, dynamic>,
+      );
+
+      await rpcRequest.when<Future<void>>(
+        disconnect: (id, params) => disconnect(connection),
+        sendTransaction: (id, params) async {},
+      );
+    } catch (e, s) {
+      _logger.severe('Handle message failed', e, s);
+    }
+  }
+
+  Future<DeviceInfo> _getDeviceInfo() async => DeviceInfo(
+        platform: Platform.operatingSystem,
+        appName: 'SparX Wallet',
+        appVersion: await AppVersion.appVersion,
+        maxProtocolVersion: 2,
+        features: const [
+          Feature.sendTransaction(maxMessages: 4),
+          Feature.signData(),
+        ],
+      );
 }

@@ -11,6 +11,8 @@ class SessionCrypto {
     sessionId = HEX.encode(privateKey.publicKey);
   }
 
+  factory SessionCrypto.fromJson(String json) => SessionCrypto(pk: json);
+
   late final PrivateKey privateKey;
   late final String sessionId;
 
@@ -37,4 +39,6 @@ class SessionCrypto {
 
     return utf8.decode(decrypted);
   }
+
+  String toJson() => privateKey.encode();
 }

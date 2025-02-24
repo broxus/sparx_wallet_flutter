@@ -29,6 +29,7 @@ Future<void> configureDi() async {
     BrowserHistoryStorageService.container,
     BrowserPermissionsStorageService.container,
     BrowserTabsStorageService.container,
+    TonConnectStorageService.container,
   ];
   for (final container in containers) {
     getIt.registerSingleton(GetStorage(container), instanceName: container);

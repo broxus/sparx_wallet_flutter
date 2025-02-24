@@ -1,6 +1,6 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'connect_event.dart';
+part of 'wallet_event.dart';
 
 // **************************************************************************
 // JsonSerializableGenerator
@@ -26,11 +26,29 @@ Map<String, dynamic> _$$ConnectEventSuccessImplToJson(
 _$ConnectEventErrorImpl _$$ConnectEventErrorImplFromJson(
         Map<String, dynamic> json) =>
     _$ConnectEventErrorImpl(
+      id: json['id'] as num,
       $type: json['event'] as String?,
     );
 
 Map<String, dynamic> _$$ConnectEventErrorImplToJson(
         _$ConnectEventErrorImpl instance) =>
     <String, dynamic>{
+      'id': instance.id,
+      'event': instance.$type,
+    };
+
+_$DisconnectEventImpl _$$DisconnectEventImplFromJson(
+        Map<String, dynamic> json) =>
+    _$DisconnectEventImpl(
+      id: json['id'] as num,
+      payload: json['payload'] as Map<String, dynamic>? ?? const {},
+      $type: json['event'] as String?,
+    );
+
+Map<String, dynamic> _$$DisconnectEventImplToJson(
+        _$DisconnectEventImpl instance) =>
+    <String, dynamic>{
+      'id': instance.id,
+      'payload': instance.payload,
       'event': instance.$type,
     };

@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:app/app/service/app_links/app_links_data.dart';
 import 'package:broxus_app_links/broxus_app_links.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:injectable/injectable.dart';
 import 'package:rxdart/rxdart.dart';
 
@@ -32,6 +33,9 @@ class AppLinksService {
 
   void _handleAppLink(Uri uri) {
     final queryParameters = uri.queryParameters;
+    debugPrint('::DEBUG::');
+    debugPrint(queryParameters.toString());
+    debugPrint('::DEBUG::');
 
     final link = queryParameters[_linkKey];
 

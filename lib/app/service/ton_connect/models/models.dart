@@ -1,8 +1,15 @@
-export 'connect_event.dart';
 export 'connect_event_success_payload.dart';
+export 'connect_item.dart';
 export 'connect_item_reply.dart';
 export 'connect_query.dart';
+export 'connect_request.dart';
 export 'dapp_manifest.dart';
 export 'device_info.dart';
 export 'feature.dart';
+export 'rpc_request.dart';
 export 'sse_message.dart';
+export 'ton_app_connection.dart';
+export 'ton_network.dart';
+export 'ton_proof.dart';
+export 'ton_proof_domain.dart';
+export 'wallet_event.dart';
