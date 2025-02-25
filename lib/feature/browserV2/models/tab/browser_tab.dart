@@ -1,4 +1,5 @@
 import 'package:app/utils/utils.dart';
+import 'package:flutter_inappwebview/flutter_inappwebview.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:nekoton_repository/nekoton_repository.dart';
 import 'package:uuid/uuid.dart';
@@ -7,11 +8,11 @@ part 'browser_tab.freezed.dart';
 
 part 'browser_tab.g.dart';
 
-@freezed
+@unfreezed
 class BrowserTab with _$BrowserTab {
   factory BrowserTab({
     /// The id of the tab.
-    required String id,
+    required final String id,
 
     /// Initial url of the tab.
     @uriJsonConverter required Uri url,
@@ -24,6 +25,8 @@ class BrowserTab with _$BrowserTab {
 
     /// The sorting position of the tab.
     required double sortingOrder,
+    @JsonKey(includeFromJson: false, includeToJson: false)
+    InAppWebViewController? controller,
   }) = _BrowserTab;
 
   factory BrowserTab.create({

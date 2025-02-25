@@ -32,11 +32,11 @@ StatefulShellBranch get primaryBranch {
       GoRoute(
         name: AppRoute.browser.name,
         path: AppRoute.browser.path,
-        builder: (context, state) => PrimaryPage(
-          url: state.uri.queryParameters[browserUrlQueryParam],
-          tabId: state.uri.queryParameters[browserTabIdQueryParam],
-        ),
-        // builder: (context, state) => const BrowserTabViewScreen(),
+        // builder: (context, state) => PrimaryPage(
+        //   url: state.uri.queryParameters[browserUrlQueryParam],
+        //   tabId: state.uri.queryParameters[browserTabIdQueryParam],
+        // ),
+        builder: (context, state) => const BrowserTabsViewScreen(),
         routes: [
           historyRoute,
           bookmarksRoute,

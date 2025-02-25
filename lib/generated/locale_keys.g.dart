@@ -252,6 +252,8 @@ abstract class LocaleKeys {
   static const browserEnterBasicAuthUsername = 'browserEnterBasicAuthUsername';
   static const browserEnterBasicAuthPassword = 'browserEnterBasicAuthPassword';
   static const browserEnterBasicSignIn = 'browserEnterBasicSignIn';
+  static const browserStartTitle = 'browserStartTitle';
+  static const browserStartDescription = 'browserStartDescription';
   static const walletWord = 'walletWord';
   static const browserWord = 'browserWord';
   static const profileWord = 'profileWord';

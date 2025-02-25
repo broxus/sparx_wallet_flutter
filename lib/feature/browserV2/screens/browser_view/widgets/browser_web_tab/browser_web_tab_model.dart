@@ -107,12 +107,12 @@ class BrowserWebTabModel extends ElementaryModel {
     _browserService.tabs.setController(_tabId, controller);
   }
 
-  void removeController(){
-    _browserService.tabs.removeController(_tabId);
-  }
-
   void updateUrl(Uri uri) {
     _inpageProvider.url = uri;
-    _browserService.tabs.updateUrl(_tabId, uri);
+    _browserService.tM.updateUrl(_tabId, uri);
+  }
+
+  void updateTitle(String title) {
+    _browserService.tM.updateTitle(_tabId, title);
   }
 }

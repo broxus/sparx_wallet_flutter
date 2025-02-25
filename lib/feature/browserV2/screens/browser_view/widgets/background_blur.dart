@@ -12,11 +12,13 @@ class BackgroundBlur extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BackdropFilter(
-      filter: ImageFilter.blur(sigmaX: 20, sigmaY: 20),
-      child: ColoredBox(
-        color: Color.fromRGBO(30, 32, 58, 0.9),
-        child: child,
+    return ClipRRect(
+      child: BackdropFilter(
+        filter: ImageFilter.blur(sigmaX: 20, sigmaY: 20),
+        child: ColoredBox(
+          color: Color.fromRGBO(30, 32, 58, 0.9),
+          child: child,
+        ),
       ),
     );
   }

@@ -181,7 +181,7 @@ class BrowserWebTabWidgetModel
     if (title?.trim().isEmpty ?? true) {
       return;
     }
-    // _setState(title: title);
+    model.updateTitle(title!);
   }
 
   void onOverScrolled(

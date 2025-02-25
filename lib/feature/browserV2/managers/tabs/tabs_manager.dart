@@ -28,7 +28,7 @@ class BrowserTabsManager {
   final BrowserTabsStorageService _browserTabsStorageService;
   final GeneralStorageService _generalStorageService;
 
-  final _controllers = <String, InAppWebViewController>{};
+  // final _controllers = <String, InAppWebViewController>{};
 
   late final _screenshotHelper =
       BrowserManagerScreenshotHelper(_generalStorageService);
@@ -56,7 +56,8 @@ class BrowserTabsManager {
 
   BrowserTabsData get _tabsData => _tabsState.value ?? BrowserTabsData();
 
-  InAppWebViewController? get _currentController => _controllers[activeTabId];
+  // InAppWebViewController? get _currentController => _controllers[activeTabId];
+  InAppWebViewController? get _currentController => activeTab?.controller;
 
   void init() {
     _fetchTabsDataFromCache();
@@ -72,14 +73,16 @@ class BrowserTabsManager {
   }
 
   void setController(String tabId, InAppWebViewController controller) {
-    _controllers[tabId] = controller;
+    // _controllers[tabId] = controller;
+    browserTabs.firstWhereOrNull((tab) => tab.id == tabId)?.controller =
+        controller;
     _updateControlPanel();
   }
 
-  void removeController(String tabId) {
-    _controllers.remove(tabId);
-    _updateControlPanel();
-  }
+  // void removeController(String tabId) {
+  //   _controllers.remove(tabId);
+  //   _updateControlPanel();
+  // }
 
   void openUrl(Uri uri) {
     final id = activeTabId;
@@ -91,16 +94,26 @@ class BrowserTabsManager {
   }
 
   void updateUrl(String tabId, Uri uri) {
-    final tabs = [...browserTabs];
-    final index = tabs.indexWhere((t) => t.id == tabId);
+    final tab = browserTabs.firstWhereOrNull((t) => t.id == tabId);
 
-    if (index == -1) {
+    if (tab == null) {
       return;
     }
 
-    tabs[index] = tabs[index].copyWith(url: uri);
+    tab.url = uri;
+    _setTabs(tabs: browserTabs);
+  }
 
-    _setTabs(tabs: tabs);
+  void updateTitle(String tabId, String title) {
+    final tab = browserTabs.firstWhereOrNull((t) => t.id == tabId);
+
+    if (tab == null) {
+      return;
+    }
+
+    tab.title = title;
+
+    _setTabs(tabs: browserTabs);
   }
 
   /// Clear all browser tabs
@@ -204,16 +217,25 @@ class BrowserTabsManager {
   /// Put browser tabs to stream
   void _fetchTabsDataFromCache() {
     final tabs = _browserTabsStorageService.getTabs();
-    final savedId = _browserTabsStorageService.getActiveTabId();
 
-    final id = savedId == null
-        ? tabs.firstOrNull?.id
-        : tabs.firstWhereOrNull((tab) => tab.id == savedId)?.id ??
-            tabs.firstOrNull?.id;
+    String? id;
+
+    if (tabs.isEmpty) {
+      final newTab = BrowserTab.create(url: _emptyUri);
+      id = newTab.id;
+      tabs.add(newTab);
+    } else {
+      final savedId = _browserTabsStorageService.getActiveTabId();
+
+      id = savedId == null
+          ? tabs.firstOrNull?.id
+          : tabs.firstWhereOrNull((tab) => tab.id == savedId)?.id ??
+              tabs.firstOrNull?.id;
+    }
 
     _tabsState.accept(
       BrowserTabsData(
-        tabs: _browserTabsStorageService.getTabs(),
+        tabs: tabs,
         activeTabId: id,
       ),
     );

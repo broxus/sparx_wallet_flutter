@@ -248,6 +248,8 @@
   "browserEnterBasicAuthUsername": "username",
   "browserEnterBasicAuthPassword": "password",
   "browserEnterBasicSignIn": "Sign in",
+  "browserStartTitle": "Explore\nthe Decentralized\nWeb",
+  "browserStartDescription": "Seamless access to DeFi, NFTs,\nand beyond. Your journey starts here",
   "walletWord": "Wallet",
   "browserWord": "Browser",
   "profileWord": "Profile",
