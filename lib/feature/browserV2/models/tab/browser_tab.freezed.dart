@@ -23,7 +23,7 @@ mixin _$BrowserTab {
   /// The id of the tab.
   String get id => throw _privateConstructorUsedError;
 
-  /// The url of the tab.
+  /// Initial url of the tab.
   @uriJsonConverter
   Uri get url => throw _privateConstructorUsedError;
 
@@ -184,7 +184,7 @@ class _$BrowserTabImpl extends _BrowserTab {
   @override
   final String id;
 
-  /// The url of the tab.
+  /// Initial url of the tab.
   @override
   @uriJsonConverter
   final Uri url;
@@ -256,7 +256,7 @@ abstract class _BrowserTab extends BrowserTab {
   @override
   String get id;
 
-  /// The url of the tab.
+  /// Initial url of the tab.
   @override
   @uriJsonConverter
   Uri get url;

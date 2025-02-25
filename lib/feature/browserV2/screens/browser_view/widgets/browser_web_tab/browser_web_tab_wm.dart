@@ -95,6 +95,8 @@ class BrowserWebTabWidgetModel
 
   EntityValueListenable<String?> get nekotonJsState => model.nekotonJsState;
 
+  ListenableState<bool> get webViewVisibleState => _webViewVisibleState;
+
   ThemeStyle get _theme => context.themeStyle;
 
   String get _url => widget.tab.url.toString();
@@ -103,14 +105,6 @@ class BrowserWebTabWidgetModel
   void initWidgetModel() {
     _webViewVisibleState.accept(_url.isNotEmpty);
     super.initWidgetModel();
-  }
-
-  @protected
-  void didUpdateWidget(BrowserWebTab oldWidget) {
-    // if() {
-    //   _webViewVisibleState.accept(_url.isNotEmpty);
-    // }
-    super.didUpdateWidget(oldWidget);
   }
 
   Future<void> onWebViewCreated(
@@ -319,9 +313,10 @@ class BrowserWebTabWidgetModel
 
   void _updateUrl(Uri? uri) {
     if (uri?.toString().trim().isEmpty ?? true) {
+      _webViewVisibleState.accept(false);
       return;
     }
-
+    _webViewVisibleState.accept(true);
     model.updateUrl(uri!);
   }
 }

@@ -13,7 +13,7 @@ class BrowserTab with _$BrowserTab {
     /// The id of the tab.
     required String id,
 
-    /// The url of the tab.
+    /// Initial url of the tab.
     @uriJsonConverter required Uri url,
 
     /// The screenshot id of the tab.
