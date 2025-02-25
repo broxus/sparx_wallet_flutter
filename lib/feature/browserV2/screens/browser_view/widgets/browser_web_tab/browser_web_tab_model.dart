@@ -7,9 +7,8 @@ import 'package:app/app/service/permissions_service.dart';
 import 'package:app/app/service/storage_service/connections_storage_service.dart';
 import 'package:app/feature/browser/inpage_provider/inpage_provider.dart';
 import 'package:app/feature/browserV2/models/browser_basic_auth_creds.dart';
-import 'package:app/feature/browserV2/screens/tabs/widgets/browser_tab_view/browser_tab_view.dart';
-import 'package:app/feature/browserV2/screens/tabs/widgets/browser_tab_view/helpers/events_helper.dart';
-import 'package:app/feature/browserV2/screens/tabs/widgets/browser_tab_view/helpers/screenshot_helper.dart';
+import 'package:app/feature/browserV2/screens/browser_view/widgets/browser_web_tab/helpers/events_helper.dart';
+import 'package:app/feature/browserV2/screens/browser_view/widgets/browser_web_tab/helpers/screenshot_helper.dart';
 import 'package:app/feature/browserV2/service/browser_service.dart';
 import 'package:elementary/elementary.dart';
 import 'package:elementary_helper/elementary_helper.dart';
@@ -17,9 +16,9 @@ import 'package:flutter_inappwebview/flutter_inappwebview.dart';
 import 'package:nekoton_repository/nekoton_repository.dart';
 import 'package:nekoton_webview/nekoton_webview.dart';
 
-/// [ElementaryModel] for [BrowserTabView]
-class BrowserTabViewModel extends ElementaryModel {
-  BrowserTabViewModel(
+/// [ElementaryModel] for [BrowserWebTab]
+class BrowserWebTabModel extends ElementaryModel {
+  BrowserWebTabModel(
     ErrorHandler errorHandler,
     this._tabId,
     this._browserService,

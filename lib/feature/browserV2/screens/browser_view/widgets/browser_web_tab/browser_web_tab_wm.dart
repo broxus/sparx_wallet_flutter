@@ -5,8 +5,8 @@ import 'package:app/core/wm/custom_wm.dart';
 import 'package:app/di/di.dart';
 import 'package:app/feature/browser/bottom_sheets/browser_enter_basic_auth_creds_sheet.dart';
 import 'package:app/feature/browserV2/models/browser_basic_auth_creds.dart';
-import 'package:app/feature/browserV2/screens/tabs/widgets/browser_tab_view/browser_tab_view.dart';
-import 'package:app/feature/browserV2/screens/tabs/widgets/browser_tab_view/browser_tab_view_model.dart';
+import 'package:app/feature/browserV2/screens/browser_view/widgets/browser_web_tab/browser_web_tab.dart';
+import 'package:app/feature/browserV2/screens/browser_view/widgets/browser_web_tab/browser_web_tab_model.dart';
 import 'package:elementary/elementary.dart';
 import 'package:elementary_helper/elementary_helper.dart';
 import 'package:flutter/foundation.dart';
@@ -16,13 +16,13 @@ import 'package:logging/logging.dart';
 import 'package:ui_components_lib/ui_components_lib.dart';
 import 'package:url_launcher/url_launcher.dart';
 
-/// Factory method for creating [BrowserTabViewWidgetModel]
-BrowserTabViewWidgetModel defaultBrowserTabViewWidgetModelFactory(
+/// Factory method for creating [BrowserWebTabWidgetModel]
+BrowserWebTabWidgetModel defaultBrowserWebTabWidgetModelFactory(
   BuildContext context, {
   required String tabId,
 }) {
-  return BrowserTabViewWidgetModel(
-    BrowserTabViewModel(
+  return BrowserWebTabWidgetModel(
+    BrowserWebTabModel(
       createPrimaryErrorHandler(context),
       tabId,
       inject(),
@@ -38,10 +38,10 @@ BrowserTabViewWidgetModel defaultBrowserTabViewWidgetModelFactory(
   );
 }
 
-/// [WidgetModel] для [BrowserTabView]
-class BrowserTabViewWidgetModel
-    extends CustomWidgetModel<BrowserTabView, BrowserTabViewModel> {
-  BrowserTabViewWidgetModel(
+/// [WidgetModel] для [BrowserWebTab]
+class BrowserWebTabWidgetModel
+    extends CustomWidgetModel<BrowserWebTab, BrowserWebTabModel> {
+  BrowserWebTabWidgetModel(
     super.model,
   );
 
@@ -89,11 +89,29 @@ class BrowserTabViewWidgetModel
 
   InAppWebViewController? _webViewController;
 
+  late final _webViewVisibleState = createNotifier<bool>(false);
+
   ColorsPalette get colors => _theme.colors;
 
   EntityValueListenable<String?> get nekotonJsState => model.nekotonJsState;
 
   ThemeStyle get _theme => context.themeStyle;
+
+  String get _url => widget.tab.url.toString();
+
+  @override
+  void initWidgetModel() {
+    _webViewVisibleState.accept(_url.isNotEmpty);
+    super.initWidgetModel();
+  }
+
+  @protected
+  void didUpdateWidget(BrowserWebTab oldWidget) {
+    // if() {
+    //   _webViewVisibleState.accept(_url.isNotEmpty);
+    // }
+    super.didUpdateWidget(oldWidget);
+  }
 
   Future<void> onWebViewCreated(
     InAppWebViewController controller,

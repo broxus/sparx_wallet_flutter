@@ -4,8 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:ui_components_lib/ui_components_lib.dart';
 
 // TODO(refactor): Elementarty
-class TabView extends StatelessWidget {
-  const TabView({
+class BrowserTabItemView extends StatelessWidget {
+  const BrowserTabItemView({
     required this.tab,
     super.key,
     this.onPressed,

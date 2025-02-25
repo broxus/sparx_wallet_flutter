@@ -77,16 +77,6 @@ class _ReadOnlyStoryState extends State<ReadOnlyStory> {
                   );
                 },
               ),
-              const BrowserBottomBarPrimary(
-                tabCount: 0,
-              ),
-              const BrowserBottomBarPrimary(
-                tabCount: 1,
-              ),
-              const BrowserBottomBarTabs(
-                closeAllText: 'Close All',
-                doneText: 'Done',
-              ),
             ],
           ),
         ),

@@ -1,20 +1,20 @@
 import 'dart:collection';
 
 import 'package:app/feature/browserV2/models/tab/browser_tab.dart';
-import 'package:app/feature/browserV2/screens/tabs/widgets/browser_tab_view/browser_tab_view_wm.dart';
+import 'package:app/feature/browserV2/screens/browser_view/widgets/browser_web_tab/browser_web_tab_wm.dart';
 import 'package:elementary/elementary.dart';
 import 'package:elementary_helper/elementary_helper.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_inappwebview/flutter_inappwebview.dart';
 
-class BrowserTabView extends ElementaryWidget<BrowserTabViewWidgetModel> {
-  BrowserTabView({
+class BrowserWebTab extends ElementaryWidget<BrowserWebTabWidgetModel> {
+  BrowserWebTab({
     required this.tab,
     Key? key,
-    WidgetModelFactory<BrowserTabViewWidgetModel>? wmFactory,
+    WidgetModelFactory<BrowserWebTabWidgetModel>? wmFactory,
   }) : super(
           wmFactory ??
-              (ctx) => defaultBrowserTabViewWidgetModelFactory(
+              (ctx) => defaultBrowserWebTabWidgetModelFactory(
                     ctx,
                     tabId: tab.id,
                   ),
@@ -24,7 +24,7 @@ class BrowserTabView extends ElementaryWidget<BrowserTabViewWidgetModel> {
   final BrowserTab tab;
 
   @override
-  Widget build(BrowserTabViewWidgetModel wm) {
+  Widget build(BrowserWebTabWidgetModel wm) {
     return EntityStateNotifierBuilder<String?>(
       listenableEntityState: wm.nekotonJsState,
       loadingBuilder: (_, __) => const SizedBox.shrink(),

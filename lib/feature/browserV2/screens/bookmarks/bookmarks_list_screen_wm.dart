@@ -3,8 +3,8 @@ import 'package:app/core/error_handler_factory.dart';
 import 'package:app/core/wm/custom_wm.dart';
 import 'package:app/data/models/browser_bookmark_item.dart';
 import 'package:app/di/di.dart';
-import 'package:app/feature/browserV2/screens/bookmarks/bookmarks_screen.dart';
-import 'package:app/feature/browserV2/screens/bookmarks/bookmarks_screen_model.dart';
+import 'package:app/feature/browserV2/screens/bookmarks/bookmarks_list_screen.dart';
+import 'package:app/feature/browserV2/screens/bookmarks/bookmarks_list_screen_model.dart';
 import 'package:app/feature/browserV2/widgets/bottomsheets/bookmarks_clear_bottom_sheet.dart';
 import 'package:elementary/elementary.dart';
 import 'package:elementary_helper/elementary_helper.dart';
@@ -12,22 +12,23 @@ import 'package:flutter/widgets.dart';
 import 'package:go_router/go_router.dart';
 import 'package:ui_components_lib/ui_components_lib.dart';
 
-/// Factory method for creating [BookmarksScreenWidgetModel]
-BookmarksScreenWidgetModel defaultBookmarksScreenWidgetModelFactory(
+/// Factory method for creating [BrowserBookmarksListScreenWidgetModel]
+BrowserBookmarksListScreenWidgetModel
+    defaultBrowserBookmarksListScreenWidgetModelFactory(
   BuildContext context,
 ) {
-  return BookmarksScreenWidgetModel(
-    BookmarksScreenModel(
+  return BrowserBookmarksListScreenWidgetModel(
+    BrowserBookmarksListScreenModel(
       createPrimaryErrorHandler(context),
       inject(),
     ),
   );
 }
 
-/// [WidgetModel] для [BookmarksScreen]
-class BookmarksScreenWidgetModel
-    extends CustomWidgetModel<BookmarksScreen, BookmarksScreenModel> {
-  BookmarksScreenWidgetModel(
+/// [WidgetModel] для [BrowserBookmarksListScreen]
+class BrowserBookmarksListScreenWidgetModel extends CustomWidgetModel<
+    BrowserBookmarksListScreen, BrowserBookmarksListScreenModel> {
+  BrowserBookmarksListScreenWidgetModel(
     super.model,
   );
 

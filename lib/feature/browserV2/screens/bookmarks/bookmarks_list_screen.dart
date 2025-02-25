@@ -1,7 +1,7 @@
 import 'package:app/data/models/browser_bookmark_item.dart';
 import 'package:app/feature/browser/widgets/browser_resource_section.dart';
 import 'package:app/feature/browser/widgets/buttons_edit_section.dart';
-import 'package:app/feature/browserV2/screens/bookmarks/bookmarks_screen_wm.dart';
+import 'package:app/feature/browserV2/screens/bookmarks/bookmarks_list_screen_wm.dart';
 import 'package:app/generated/generated.dart';
 import 'package:app/utils/focus_utils.dart';
 import 'package:elementary/elementary.dart';
@@ -11,18 +11,18 @@ import 'package:lucide_icons_flutter/lucide_icons.dart';
 import 'package:ui_components_lib/ui_components_lib.dart';
 import 'package:ui_components_lib/v2/ui_components_lib_v2.dart';
 
-class BookmarksScreen extends ElementaryWidget<BookmarksScreenWidgetModel> {
-  const BookmarksScreen({
+class BrowserBookmarksListScreen extends ElementaryWidget<BrowserBookmarksListScreenWidgetModel> {
+  const BrowserBookmarksListScreen({
     Key? key,
-    WidgetModelFactory<BookmarksScreenWidgetModel> wmFactory =
-        defaultBookmarksScreenWidgetModelFactory,
+    WidgetModelFactory<BrowserBookmarksListScreenWidgetModel> wmFactory =
+        defaultBrowserBookmarksListScreenWidgetModelFactory,
   }) : super(
           wmFactory,
           key: key,
         );
 
   @override
-  Widget build(BookmarksScreenWidgetModel wm) {
+  Widget build(BrowserBookmarksListScreenWidgetModel wm) {
     return Scaffold(
       appBar: DefaultAppBar(
         titleText: LocaleKeys.browserBookmarks.tr(),

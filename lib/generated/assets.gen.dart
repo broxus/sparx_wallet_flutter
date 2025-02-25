@@ -120,6 +120,9 @@ class $AssetsImagesGen {
   AssetGenImage get blurBackground =>
       const AssetGenImage('assets/images/blur_background.png');
 
+  /// File path: assets/images/book-open.svg
+  SvgGenImage get bookOpen => const SvgGenImage('assets/images/book-open.svg');
+
   /// File path: assets/images/browser_card_01.svg
   SvgGenImage get browserCard01 =>
       const SvgGenImage('assets/images/browser_card_01.svg');
@@ -286,6 +289,9 @@ class $AssetsImagesGen {
   /// Directory path: assets/images/lang_icons
   $AssetsImagesLangIconsGen get langIcons => const $AssetsImagesLangIconsGen();
 
+  /// File path: assets/images/layers.svg
+  SvgGenImage get layers => const SvgGenImage('assets/images/layers.svg');
+
   /// File path: assets/images/lightning.svg
   SvgGenImage get lightning => const SvgGenImage('assets/images/lightning.svg');
 
@@ -422,6 +428,10 @@ class $AssetsImagesGen {
   $AssetsImagesUserAvatarGen get userAvatar =>
       const $AssetsImagesUserAvatarGen();
 
+  /// File path: assets/images/vertical_dots.svg
+  SvgGenImage get verticalDots =>
+      const SvgGenImage('assets/images/vertical_dots.svg');
+
   /// File path: assets/images/wallet.svg
   SvgGenImage get wallet => const SvgGenImage('assets/images/wallet.svg');
 
@@ -449,6 +459,7 @@ class $AssetsImagesGen {
         bgInternet,
         bgMain,
         blurBackground,
+        bookOpen,
         browserCard01,
         browserCard02,
         burger,
@@ -494,6 +505,7 @@ class $AssetsImagesGen {
         import,
         importFill,
         key,
+        layers,
         lightning,
         lock,
         lockBackup,
@@ -530,6 +542,7 @@ class $AssetsImagesGen {
         tokenDefaultIcon,
         transactionProgress,
         trash,
+        verticalDots,
         wallet,
         web
       ];

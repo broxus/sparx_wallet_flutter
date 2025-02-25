@@ -1,31 +1,29 @@
-import 'package:app/app/router/router.dart';
-import 'package:app/di/di.dart';
-import 'package:app/feature/browser/browser.dart';
-import 'package:app/feature/browser/tabs/tab_view.dart';
 import 'package:app/feature/browserV2/data/tabs_data.dart';
-import 'package:app/feature/browserV2/service/browser_service.dart';
+import 'package:app/feature/browserV2/screens/tabs/browser_tabs_list_wm.dart';
+import 'package:app/feature/browserV2/screens/tabs/widgets/menu/browser_tabs_menu.dart';
+import 'package:app/feature/browserV2/screens/tabs/widgets/tab.dart';
+import 'package:elementary/elementary.dart';
 import 'package:elementary_helper/elementary_helper.dart';
 import 'package:flutter/material.dart';
-import 'package:go_router/go_router.dart';
 import 'package:ui_components_lib/v2/ui_components_lib_v2.dart';
 
 // TODO(nesquikm): We should calculate this value based on the screen size
 const _cardAspectRatio = 0.8;
 
-class TabsView extends StatefulWidget {
-  const TabsView({super.key});
+class BrowserTabsList extends ElementaryWidget<BrowserTabsListWidgetModel> {
+  const BrowserTabsList({
+    Key? key,
+    WidgetModelFactory<BrowserTabsListWidgetModel> wmFactory =
+        defaultBrowserTabsListWidgetModelFactory,
+  }) : super(
+          wmFactory,
+          key: key,
+        );
 
   @override
-  State<TabsView> createState() => _TabsViewState();
-}
-
-class _TabsViewState extends State<TabsView> {
-  late final _browserService = inject<BrowserService>();
-
-  @override
-  Widget build(BuildContext context) {
+  Widget build(BrowserTabsListWidgetModel wm) {
     return StateNotifierBuilder<BrowserTabsData>(
-      listenableState: _browserService.tM.tabsState,
+      listenableState: wm.tabsState,
       builder: (_, BrowserTabsData? data) {
         if (data == null) {
           return const SizedBox.shrink();
@@ -48,34 +46,20 @@ class _TabsViewState extends State<TabsView> {
                 childAspectRatio: _cardAspectRatio,
                 children: [
                   for (final tab in data.sortedTabs)
-                    TabView(
+                    BrowserTabItemView(
                       tab: tab,
                       key: ValueKey(tab.id),
-                      onPressed: () => _onChangeTab(tab.id),
+                      onPressed: () => wm.onChangeTab(tab.id),
                       onClosePressed: () =>
-                          _onCloseTab(tab.id, data.count == 1),
+                          wm.onCloseTab(tab.id, data.count == 1),
                     ),
                 ],
               ),
             ),
-            const BrowserBottomMenuTabs(),
+            const BrowserTabsMenu(),
           ],
         );
       },
     );
-  }
-
-  void _onChangeTab(String id) {
-    _browserService.tM.setActiveTab(id);
-    // TODO(knightforce): need?
-    context.goNamed(AppRoute.browser.name);
-  }
-
-  void _onCloseTab(String id, bool wasLast) {
-    _browserService.tM.removeBrowserTab(id);
-    if (wasLast) {
-      // TODO(knightforce): need?
-      context.goNamed(AppRoute.browser.name);
-    }
   }
 }

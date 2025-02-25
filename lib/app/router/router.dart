@@ -1,8 +1,13 @@
 import 'dart:async';
 
+import 'package:app/app/router/app_route.dart';
 import 'package:app/app/router/page_transitions.dart';
-import 'package:app/app/router/router.dart';
+import 'package:app/app/router/routs/add_seed/add_seed.dart';
+import 'package:app/app/router/routs/bootstrap_failed/bootstrap_failed.dart';
+import 'package:app/app/router/routs/browser/browser.dart';
 import 'package:app/app/router/routs/network/network.dart';
+import 'package:app/app/router/routs/profile/profile.dart';
+import 'package:app/app/router/routs/wallet/wallet.dart';
 import 'package:app/app/service/service.dart';
 import 'package:app/di/di.dart';
 import 'package:app/event_bus/events/bootstrap/bootstrap_event.dart';
