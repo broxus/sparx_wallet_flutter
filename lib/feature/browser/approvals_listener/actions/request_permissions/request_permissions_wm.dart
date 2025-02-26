@@ -36,7 +36,7 @@ class RequestPermissionsWidgetModel extends CustomWidgetModel<
   late final searchController = createTextEditingController();
   late final _step = createValueNotifier(RequestPermissionsStep.account);
   late final _selected = createNotifierFromStream(model.currentAccount);
-  late final _accounts = createNotifierFromStream(model.seedWithAccounts);
+  late final _accounts = createNotifier(model.seedWithAccountsFromValue);
   late final _permissions = createNotifier(widget.permissions.toSet());
   late final _zeroBalance = Money.fromBigIntWithCurrency(
     BigInt.zero,
@@ -62,11 +62,11 @@ class RequestPermissionsWidgetModel extends CustomWidgetModel<
     final value = searchController.value.text.trim().toLowerCase();
 
     if (value.isEmpty) {
-      _accounts.accept(_accounts.value);
+      _accounts.accept(model.seedWithAccountsFromValue);
     } else {
       _accounts.accept(
-        _accounts.value
-            ?.map((selectAccountData) {
+        model.seedWithAccountsFromValue
+            .map((selectAccountData) {
               final filteredPrivateKeys = selectAccountData.privateKeys
                   .map((keyInfo) {
                     final filteredAccounts = keyInfo.accounts.where(

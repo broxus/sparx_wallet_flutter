@@ -21,29 +21,28 @@ class RequestPermissionsModel extends ElementaryModel {
   Stream<KeyAccount?> get currentAccount =>
       _currentAccountsService.currentActiveAccountStream;
 
-  Stream<List<SelectAccountData>> get seedWithAccounts =>
-      _nekotonRepository.seedListStream.map(
-        (seedList) {
-          final seeds = seedList.seeds
-            ..sort((a, b) => a.name.compareTo(b.name));
-          return seeds.map((seed) {
-            final privateKeys = seed.allKeys.map((key) {
-              final accounts = key.accountList.allAccounts
-                  .where((account) => !account.isHidden)
-                  .toList();
-              return SeedWithInfo(
-                keyName: key.name,
-                key: key.publicKey.toEllipseString(),
-                accounts: accounts,
-              );
-            }).toList();
-            return SelectAccountData(
-              name: seed.name,
-              privateKeys: privateKeys,
-            );
-          }).toList();
-        },
+  List<SelectAccountData> get seedWithAccountsFromValue {
+    final seedList = _nekotonRepository.seedList;
+    final seeds = seedList.seeds..sort((a, b) => a.name.compareTo(b.name));
+
+    return seeds.map((seed) {
+      final privateKeys = seed.allKeys.map((key) {
+        final accounts = key.accountList.allAccounts
+            .where((account) => !account.isHidden)
+            .toList();
+        return SeedWithInfo(
+          keyName: key.name,
+          key: key.publicKey.toEllipseString(),
+          accounts: accounts,
+        );
+      }).toList();
+
+      return SelectAccountData(
+        name: seed.name,
+        privateKeys: privateKeys,
       );
+    }).toList();
+  }
 
   TransportStrategy get currentTransport => _nekotonRepository.currentTransport;
 
