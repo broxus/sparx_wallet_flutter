@@ -3,16 +3,17 @@ import 'package:app/generated/generated.dart';
 import 'package:flutter/material.dart';
 import 'package:ui_components_lib/ui_components_lib.dart';
 
-// TODO(refactor): Elementarty
-class BrowserTabItemView extends StatelessWidget {
-  const BrowserTabItemView({
+class BrowserTabsListItem extends StatelessWidget {
+  const BrowserTabsListItem({
     required this.tab,
+    required this.isActive,
     super.key,
     this.onPressed,
     this.onClosePressed,
   });
 
   final BrowserTab tab;
+  final bool isActive;
   final VoidCallback? onPressed;
   final VoidCallback? onClosePressed;
 
@@ -20,7 +21,7 @@ class BrowserTabItemView extends StatelessWidget {
   Widget build(BuildContext context) {
     final colors = context.themeStyleV2.colors;
 
-    // Can't use CommonCard because it has fixed wigth
+    // TODO(knightforce): isActive
     return Material(
       shape: const SquircleShapeBorder(cornerRadius: DimensRadius.medium),
       clipBehavior: Clip.antiAlias,

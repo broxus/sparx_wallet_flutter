@@ -2,8 +2,8 @@ import 'dart:ui';
 
 import 'package:flutter/material.dart';
 
-class BackgroundBlur extends StatelessWidget {
-  const BackgroundBlur({
+class BrowserMenuBackgroundBlur extends StatelessWidget {
+  const BrowserMenuBackgroundBlur({
     super.key,
     this.child,
   });

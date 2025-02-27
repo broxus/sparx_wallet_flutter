@@ -1,8 +1,8 @@
 import 'dart:collection';
 
 import 'package:app/feature/browserV2/models/tab/browser_tab.dart';
-import 'package:app/feature/browserV2/screens/browser_view/widgets/browser_web_tab/browser_web_tab_wm.dart';
-import 'package:app/feature/browserV2/screens/browser_view/widgets/start/browser_start_view.dart';
+import 'package:app/feature/browserV2/screens/main/widgets/browser_start_view.dart';
+import 'package:app/feature/browserV2/screens/main/widgets/browser_web_tab/browser_web_tab_wm.dart';
 import 'package:elementary/elementary.dart';
 import 'package:elementary_helper/elementary_helper.dart';
 import 'package:flutter/material.dart';
@@ -11,6 +11,8 @@ import 'package:flutter_inappwebview/flutter_inappwebview.dart';
 class BrowserWebTab extends ElementaryWidget<BrowserWebTabWidgetModel> {
   BrowserWebTab({
     required this.tab,
+    required this.onCreate,
+    required this.onDispose,
     Key? key,
     WidgetModelFactory<BrowserWebTabWidgetModel>? wmFactory,
   }) : super(
@@ -23,6 +25,9 @@ class BrowserWebTab extends ElementaryWidget<BrowserWebTabWidgetModel> {
         );
 
   final BrowserTab tab;
+
+  final ValueChanged<InAppWebViewController> onCreate;
+  final VoidCallback onDispose;
 
   @override
   Widget build(BrowserWebTabWidgetModel wm) {

@@ -25,8 +25,6 @@ class BrowserTab with _$BrowserTab {
 
     /// The sorting position of the tab.
     required double sortingOrder,
-    @JsonKey(includeFromJson: false, includeToJson: false)
-    InAppWebViewController? controller,
   }) = _BrowserTab;
 
   factory BrowserTab.create({

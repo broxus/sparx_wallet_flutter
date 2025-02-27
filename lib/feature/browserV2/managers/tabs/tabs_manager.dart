@@ -1,21 +1,12 @@
 import 'dart:math';
 
 import 'package:app/app/service/storage_service/general_storage_service.dart';
-import 'package:app/feature/browserV2/data/control_panels_data.dart';
 import 'package:app/feature/browserV2/data/tabs_data.dart';
 import 'package:app/feature/browserV2/managers/tabs/helpers/browser_screenshot_helper.dart';
 import 'package:app/feature/browserV2/models/tab/browser_tab.dart';
 import 'package:app/feature/browserV2/service/storages/browser_tabs_storage_service.dart';
 import 'package:collection/collection.dart';
 import 'package:elementary_helper/elementary_helper.dart';
-import 'package:flutter_inappwebview/flutter_inappwebview.dart';
-
-// enum BrowserTabStateType {
-//   initial,
-//   loading,
-//   loaded,
-//   error,
-// }
 
 class BrowserTabsManager {
   BrowserTabsManager(
@@ -28,40 +19,31 @@ class BrowserTabsManager {
   final BrowserTabsStorageService _browserTabsStorageService;
   final GeneralStorageService _generalStorageService;
 
-  // final _controllers = <String, InAppWebViewController>{};
-
   late final _screenshotHelper =
       BrowserManagerScreenshotHelper(_generalStorageService);
 
   /// Subject of browser tabs
   final _tabsState =
-      StateNotifier<BrowserTabsData>(initValue: BrowserTabsData());
+      StateNotifier<BrowserTabsCollection>(initValue: BrowserTabsCollection());
 
-  final _controlPanelState = StateNotifier<BrowserControlPanelData>(
-    initValue: BrowserControlPanelData(),
-  );
+  final _activeTabState = StateNotifier<BrowserTab?>();
 
-  ListenableState<BrowserTabsData> get tabsState => _tabsState;
+  ListenableState<BrowserTabsCollection> get tabsState => _tabsState;
 
-  ListenableState<BrowserControlPanelData> get controlPanelState =>
-      _controlPanelState;
+  ListenableState<BrowserTab?> get activeTabState => _activeTabState;
 
   /// Get last cached browser tabs
-  List<BrowserTab> get browserTabs => _tabsData.tabs;
+  List<BrowserTab> get browserTabs => _tabsCollection.list;
 
-  /// Get last cached of active browser tab id
-  String? get activeTabId => _tabsData.activeTabId;
+  BrowserTab? get activeTab => _activeTabState.value;
 
-  BrowserTab? get activeTab => _tabsData.activeTab;
+  String? get activeTabId => activeTab?.id;
 
-  BrowserTabsData get _tabsData => _tabsState.value ?? BrowserTabsData();
-
-  // InAppWebViewController? get _currentController => _controllers[activeTabId];
-  InAppWebViewController? get _currentController => activeTab?.controller;
+  BrowserTabsCollection get _tabsCollection =>
+      _tabsState.value ?? BrowserTabsCollection();
 
   void init() {
     _fetchTabsDataFromCache();
-    _tabsState.addListener(_handleTabs);
   }
 
   void dispose() {
@@ -71,18 +53,6 @@ class BrowserTabsManager {
   Future<void> clear() {
     return clearTabs();
   }
-
-  void setController(String tabId, InAppWebViewController controller) {
-    // _controllers[tabId] = controller;
-    browserTabs.firstWhereOrNull((tab) => tab.id == tabId)?.controller =
-        controller;
-    _updateControlPanel();
-  }
-
-  // void removeController(String tabId) {
-  //   _controllers.remove(tabId);
-  //   _updateControlPanel();
-  // }
 
   void openUrl(Uri uri) {
     final id = activeTabId;
@@ -120,7 +90,8 @@ class BrowserTabsManager {
   Future<void> clearTabs() async {
     await _browserTabsStorageService.clearBrowserTabs();
     await _screenshotHelper.clear();
-    _tabsState.accept(BrowserTabsData());
+    _tabsState.accept(BrowserTabsCollection());
+    _activeTabState.accept(null);
   }
 
   void setActiveTab(String? id) {
@@ -129,18 +100,6 @@ class BrowserTabsManager {
     }
 
     _setTabs(activeTabId: id);
-  }
-
-  void goBack() {
-    _currentController?.goBack();
-  }
-
-  void goForward() {
-    _currentController?.goForward();
-  }
-
-  void refresh() {
-    _currentController?.reload();
   }
 
   /// TODO(Knightforce): check need?
@@ -182,12 +141,12 @@ class BrowserTabsManager {
 
     final nextIndex = min(removedIndex, browserTabs.length - 1);
 
+    await _screenshotHelper.removeScreenshot(id);
+
     _setTabs(
       tabs: tabs,
       activeTabId: tabs[nextIndex].id,
     );
-
-    await _screenshotHelper.removeScreenshot(id);
   }
 
   void createEmptyTab() => createBrowserTab(_emptyUri);
@@ -218,27 +177,24 @@ class BrowserTabsManager {
   void _fetchTabsDataFromCache() {
     final tabs = _browserTabsStorageService.getTabs();
 
-    String? id;
+    BrowserTab? activeTab;
 
     if (tabs.isEmpty) {
       final newTab = BrowserTab.create(url: _emptyUri);
-      id = newTab.id;
+      activeTab = newTab;
       tabs.add(newTab);
     } else {
       final savedId = _browserTabsStorageService.getActiveTabId();
 
-      id = savedId == null
-          ? tabs.firstOrNull?.id
-          : tabs.firstWhereOrNull((tab) => tab.id == savedId)?.id ??
-              tabs.firstOrNull?.id;
+      activeTab = savedId == null
+          ? tabs.firstOrNull
+          : tabs.firstWhereOrNull((tab) => tab.id == savedId) ??
+              tabs.firstOrNull;
     }
 
-    _tabsState.accept(
-      BrowserTabsData(
-        tabs: tabs,
-        activeTabId: id,
-      ),
-    );
+    _tabsState.accept(BrowserTabsCollection(tabs));
+
+    _activeTabState.accept(activeTab);
   }
 
   void _setTabs({
@@ -247,32 +203,14 @@ class BrowserTabsManager {
   }) {
     if (tabs != null) {
       _browserTabsStorageService.saveBrowserTabs(tabs);
+      _tabsState.accept(BrowserTabsCollection(tabs));
     }
 
     if (activeTabId != null) {
       _browserTabsStorageService.saveBrowserActiveTabId(activeTabId);
+      _activeTabState.accept(
+        tabs?.firstWhereOrNull((t) => t.id == activeTabId),
+      );
     }
-
-    _tabsState.accept(
-      _tabsData.copyWith(
-        tabs: tabs,
-        activeTabId: activeTabId,
-      ),
-    );
-  }
-
-  void _handleTabs() {
-    _updateControlPanel();
-  }
-
-  Future<void> _updateControlPanel() async {
-    final controller = _currentController;
-
-    _controlPanelState.accept(
-      BrowserControlPanelData(
-        isCanGoBack: await controller?.canGoBack(),
-        isCanGoForward: await controller?.canGoForward(),
-      ),
-    );
   }
 }

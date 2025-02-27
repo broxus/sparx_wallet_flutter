@@ -5,8 +5,8 @@ import 'package:app/core/wm/custom_wm.dart';
 import 'package:app/di/di.dart';
 import 'package:app/feature/browser/bottom_sheets/browser_enter_basic_auth_creds_sheet.dart';
 import 'package:app/feature/browserV2/models/browser_basic_auth_creds.dart';
-import 'package:app/feature/browserV2/screens/browser_view/widgets/browser_web_tab/browser_web_tab.dart';
-import 'package:app/feature/browserV2/screens/browser_view/widgets/browser_web_tab/browser_web_tab_model.dart';
+import 'package:app/feature/browserV2/screens/main/widgets/browser_web_tab/browser_web_tab.dart';
+import 'package:app/feature/browserV2/screens/main/widgets/browser_web_tab/browser_web_tab_model.dart';
 import 'package:elementary/elementary.dart';
 import 'package:elementary_helper/elementary_helper.dart';
 import 'package:flutter/foundation.dart';
@@ -74,7 +74,6 @@ class BrowserWebTabWidgetModel
   static final _log = Logger('BrowserTabView');
 
   final initialSettings = InAppWebViewSettings(
-    // clearCache: clearCache,
     applicationNameForUserAgent: 'SparXWalletBrowser',
     useShouldOverrideUrlLoading: true,
     isInspectable: kDebugMode,
@@ -107,12 +106,19 @@ class BrowserWebTabWidgetModel
     super.initWidgetModel();
   }
 
+  @override
+  void dispose() {
+    _webViewController?.dispose();
+    widget.onDispose();
+    super.dispose();
+  }
+
   Future<void> onWebViewCreated(
     InAppWebViewController controller,
   ) async {
+    widget.onCreate(controller);
     _webViewController = controller;
     await model.initEvents(controller);
-    model.setController(controller);
 
     if (widget.tab.url.toString().isNotEmpty) {
       await controller.loadUrl(

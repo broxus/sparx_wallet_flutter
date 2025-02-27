@@ -1,0 +1,4 @@
+enum BrowserMainScreenType {
+  list,
+  view,
+}

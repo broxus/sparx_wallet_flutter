@@ -7,8 +7,8 @@ import 'package:app/app/service/permissions_service.dart';
 import 'package:app/app/service/storage_service/connections_storage_service.dart';
 import 'package:app/feature/browser/inpage_provider/inpage_provider.dart';
 import 'package:app/feature/browserV2/models/browser_basic_auth_creds.dart';
-import 'package:app/feature/browserV2/screens/browser_view/widgets/browser_web_tab/helpers/events_helper.dart';
-import 'package:app/feature/browserV2/screens/browser_view/widgets/browser_web_tab/helpers/screenshot_helper.dart';
+import 'package:app/feature/browserV2/screens/main/widgets/browser_web_tab/helpers/events_helper.dart';
+import 'package:app/feature/browserV2/screens/main/widgets/browser_web_tab/helpers/screenshot_helper.dart';
 import 'package:app/feature/browserV2/service/browser_service.dart';
 import 'package:elementary/elementary.dart';
 import 'package:elementary_helper/elementary_helper.dart';
@@ -102,10 +102,6 @@ class BrowserWebTabModel extends ElementaryModel {
         webViewController: webViewController,
         tabId: _tabId,
       );
-
-  void setController(InAppWebViewController controller) {
-    _browserService.tabs.setController(_tabId, controller);
-  }
 
   void updateUrl(Uri uri) {
     _inpageProvider.url = uri;
