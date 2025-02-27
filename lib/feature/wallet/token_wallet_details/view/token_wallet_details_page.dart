@@ -110,6 +110,7 @@ class _Body extends StatelessWidget {
     final theme = context.themeStyleV2;
 
     return CustomScrollView(
+      controller: controller,
       slivers: [
         SliverToBoxAdapter(
           child: Stack(
