@@ -85,7 +85,7 @@ class WalletTransactionDetailsDefaultBody extends StatelessWidget {
         ),
         WalletTransactionDetailsItem(
           title: LocaleKeys.token.tr(),
-          value: value.currency.symbol,
+          value: value.currency.symbolFixed,
         ),
         WalletTransactionDetailsItem(
           title: LocaleKeys.amountWord.tr(),
