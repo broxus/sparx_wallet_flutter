@@ -1,7 +1,6 @@
 import 'dart:async';
 import 'dart:convert';
 
-import 'package:app/app/service/connection/connection_factory.dart';
 import 'package:app/app/service/presets_connection/presets_connection_service.dart';
 import 'package:app/app/service/service.dart';
 import 'package:app/data/models/models.dart';
@@ -24,7 +23,6 @@ class AssetsService {
     this.presetsConnectionService,
     this.httpService,
     this.storage,
-    this.connectionFactory,
     this.tonRepository,
   );
 
@@ -36,7 +34,6 @@ class AssetsService {
   final PresetsConnectionService presetsConnectionService;
   final HttpService httpService;
   final GeneralStorageService storage;
-  final ConnectionFactory connectionFactory;
   final TonRepository tonRepository;
 
   StreamSubscription<TransportStrategy>? _currentTransportSubscription;
