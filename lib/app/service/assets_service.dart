@@ -10,6 +10,7 @@ import 'package:injectable/injectable.dart';
 import 'package:logging/logging.dart';
 import 'package:nekoton_repository/nekoton_repository.dart';
 import 'package:rxdart/rxdart.dart';
+import 'package:ui_components_lib/ui_components_lib.dart';
 
 /// Service that allows loading and updating list of contracts for transport.
 /// This service also provides ability to load information about custom
@@ -89,7 +90,14 @@ class AssetsService {
               List<TokenContractAsset>, List<TokenContractAsset>>(
             storage.customTokenContractAssetsStream(transport.transport.group),
             storage.systemTokenContractAssetsStream(transport.transport.group),
-            (a, b) => <TokenContractAsset>{...a, ...b}.toList(),
+            (a, b) => <TokenContractAsset>{
+              ...a,
+              ...b,
+            }.map((e) {
+              final symbol = currencySymbolConfig[e.symbol];
+              if (symbol == null) return e;
+              return e.copyWith(symbol: symbol);
+            }).toList(),
           );
         },
       );

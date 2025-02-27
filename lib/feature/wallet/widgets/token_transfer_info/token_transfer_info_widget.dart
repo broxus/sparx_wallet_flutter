@@ -59,7 +59,7 @@ class TokenTransferInfoWidget
             _InfoRow(
               label: LocaleKeys.token.tr(),
               child: Text(
-                amount!.currency.symbol,
+                amount!.currency.symbolFixed,
                 style: theme.textStyles.labelSmall,
               ),
             ),

@@ -102,3 +102,11 @@ extension DoubleExt on double {
     return (255.0 * this).round();
   }
 }
+
+const currencySymbolConfig = <String, String>{
+  'ccWTON': 'TON',
+};
+
+extension CurrencyExt on Currency {
+  String get symbolFixed => currencySymbolConfig[isoCode] ?? symbol;
+}
