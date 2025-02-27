@@ -1,4 +1,3 @@
-import 'package:app/app/service/connection/connection_factory.dart';
 import 'package:app/http/repository/ton_repository.dart';
 import 'package:nekoton_repository/nekoton_repository.dart';
 
@@ -27,11 +26,9 @@ class Tip3TokenWalletSubscriber extends GenericTokenSubscriber {
 class JettonTokenWalletSubscriber extends GenericTokenSubscriber {
   JettonTokenWalletSubscriber(
     this._tonRepository,
-    this._connectionFactory,
   );
 
   final TonRepository _tonRepository;
-  final ConnectionFactory _connectionFactory;
   final Map<Address, Symbol> _symbolCache = {};
 
   @override
@@ -42,7 +39,6 @@ class JettonTokenWalletSubscriber extends GenericTokenSubscriber {
   }) async =>
       JettonTokenWallet.subscribe(
         transport: transport,
-        gqlConnection: _connectionFactory.getTonGqlConnection(),
         owner: owner,
         rootTokenContract: rootTokenContract,
         symbol: await _getSymbol(rootTokenContract),

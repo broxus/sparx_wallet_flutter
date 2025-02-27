@@ -61,11 +61,15 @@ class SendMessageModel extends ElementaryModel {
     return _nekotonRepository.prepareTransfer(
       address: address,
       publicKey: publicKey,
-      destination: destination,
-      amount: amount,
-      body: body,
-      bounce: bounce,
       expiration: defaultSendTimeout,
+      params: [
+        TonWalletTransferParams(
+          destination: destination,
+          amount: amount,
+          body: body,
+          bounce: defaultMessageBounce,
+        ),
+      ],
     );
   }
 
