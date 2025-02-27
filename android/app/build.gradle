@@ -49,7 +49,7 @@ android {
 
     defaultConfig {
         applicationId "com.broxus.sparx.app"
-        minSdkVersion 21
+        minSdkVersion 23
         targetSdkVersion flutter.targetSdkVersion
         versionCode flutterVersionCode.toInteger()
         versionName flutterVersionName
