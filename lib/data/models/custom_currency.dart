@@ -11,7 +11,6 @@ part 'custom_currency.g.dart';
 class CustomCurrency with _$CustomCurrency {
   // TODO(nesquikm): refactor to use Currency and Money
   const factory CustomCurrency({
-    required String currency,
     required Address address,
 
     /// Price in USD
