@@ -81,6 +81,12 @@ class WalletPrepareTransferPageModel extends ElementaryModel {
     super.dispose();
   }
 
+  Future<int?> getFeeFactor() async {
+    final feeFactors = await _nekotonRepository.currentTransport.transport
+        .getFeeFactors(isMasterchain: true);
+    return feeFactors.gasFeeFactor;
+  }
+
   KeyAccount? findAccountByAddress(Address address) {
     return _nekotonRepository.seedList.findAccountByAddress(address);
   }
