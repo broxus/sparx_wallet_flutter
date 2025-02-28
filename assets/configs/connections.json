@@ -166,7 +166,8 @@
       "defaultNativeCurrencyDecimal": 9,
       "genericTokenType": "jetton",
       "accountExplorerLinkType": "packAddress",
-      "transactionExplorerLinkType": "transaction"
+      "transactionExplorerLinkType": "transaction",
+      "currencyApiBaseUrl": "https://tonapi.io/v2"
     },
     {
       "networkName": "Hamster Network",
