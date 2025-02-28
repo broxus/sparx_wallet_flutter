@@ -25,7 +25,6 @@ import '../app/service/assets_service.dart' as _i964;
 import '../app/service/balance_service.dart' as _i637;
 import '../app/service/biometry_service.dart' as _i575;
 import '../app/service/bootstrap/bootstrap_service.dart' as _i468;
-import '../app/service/connection/connection_factory.dart' as _i252;
 import '../app/service/connection/connection_service.dart' as _i754;
 import '../app/service/currencies_service.dart' as _i308;
 import '../app/service/currency_convert_service.dart' as _i27;
@@ -165,10 +164,6 @@ extension GetItInjectableX on _i174.GetIt {
           gh<_i361.Dio>(),
           baseUrl: gh<String>(),
         ));
-    gh.singleton<_i252.ConnectionFactory>(
-      () => _i252.ConnectionFactory(gh<_i128.AppStorageService>()),
-      dispose: (i) => i.dispose(),
-    );
     gh.singleton<_i122.BrowserBookmarksStorageService>(() =>
         _i122.BrowserBookmarksStorageService(
             gh<_i792.GetStorage>(instanceName: 'browser_bookmarks')));
@@ -215,6 +210,18 @@ extension GetItInjectableX on _i174.GetIt {
               gh<_i116.PresetsConnectionService>(),
               gh<_i128.MessengerService>(),
             ));
+    gh.singleton<_i964.AssetsService>(
+      () => _i964.AssetsService(
+        gh<_i771.NekotonRepository>(),
+        gh<_i128.ConnectionsStorageService>(),
+        gh<_i128.CurrentAccountsService>(),
+        gh<_i116.PresetsConnectionService>(),
+        gh<_i128.HttpService>(),
+        gh<_i128.GeneralStorageService>(),
+        gh<_i495.TonRepository>(),
+      ),
+      dispose: (i) => i.dispose(),
+    );
     gh.singleton<_i468.BootstrapService>(
         () => _i468.BootstrapService(gh<_i116.PresetsConnectionService>()));
     gh.singleton<_i575.BiometryService>(() => _i575.BiometryService(
@@ -255,19 +262,6 @@ extension GetItInjectableX on _i174.GetIt {
           gh<_i128.CurrenciesService>(),
           gh<_i128.BalanceStorageService>(),
         ));
-    gh.singleton<_i964.AssetsService>(
-      () => _i964.AssetsService(
-        gh<_i771.NekotonRepository>(),
-        gh<_i128.ConnectionsStorageService>(),
-        gh<_i128.CurrentAccountsService>(),
-        gh<_i116.PresetsConnectionService>(),
-        gh<_i128.HttpService>(),
-        gh<_i128.GeneralStorageService>(),
-        gh<_i252.ConnectionFactory>(),
-        gh<_i495.TonRepository>(),
-      ),
-      dispose: (i) => i.dispose(),
-    );
     gh.singleton<_i877.TokenWalletsService>(() => _i877.TokenWalletsService(
           gh<_i771.NekotonRepository>(),
           gh<_i128.HttpService>(),
