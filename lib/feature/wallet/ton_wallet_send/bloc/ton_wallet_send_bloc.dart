@@ -198,10 +198,14 @@ class TonWalletSendBloc extends Bloc<TonWalletSendEvent, TonWalletSendState>
       nekotonRepository.prepareTransfer(
         address: address,
         publicKey: publicKey,
-        destination: repackAddress(destination),
-        amount: amount,
-        body: comment,
-        bounce: defaultMessageBounce,
         expiration: defaultSendTimeout,
+        params: [
+          TonWalletTransferParams(
+            destination: repackAddress(destination),
+            amount: amount,
+            body: comment,
+            bounce: defaultMessageBounce,
+          ),
+        ],
       );
 }

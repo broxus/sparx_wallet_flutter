@@ -1,4 +1,3 @@
-export 'connection_factory.dart';
 export 'connection_service.dart';
 export 'data/data.dart';
 export 'default_network.dart';
