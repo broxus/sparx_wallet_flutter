@@ -217,6 +217,27 @@ class CurrenciesService {
     required List<String> currencyAddresses,
     required NetworkType networkType,
     required NetworkGroup networkGroup,
+  }) =>
+      switch (networkGroup) {
+        'ton' => _fetchCurrenciesTon(
+            endpoint: endpoint,
+            currencyAddresses: currencyAddresses,
+            networkType: networkType,
+            networkGroup: networkGroup,
+          ),
+        _ => _fetchCurrenciesDefault(
+            endpoint: endpoint,
+            currencyAddresses: currencyAddresses,
+            networkType: networkType,
+            networkGroup: networkGroup,
+          ),
+      };
+
+  Future<List<CustomCurrency>> _fetchCurrenciesDefault({
+    required String endpoint,
+    required List<String> currencyAddresses,
+    required NetworkType networkType,
+    required NetworkGroup networkGroup,
   }) async {
     final data = jsonEncode({
       'currencyAddresses': currencyAddresses,
@@ -248,6 +269,39 @@ class CurrenciesService {
           ),
         )
         .toList();
+  }
+
+  Future<List<CustomCurrency>> _fetchCurrenciesTon({
+    required String endpoint,
+    required List<String> currencyAddresses,
+    required NetworkType networkType,
+    required NetworkGroup networkGroup,
+  }) async {
+    final nativeTokenAddress =
+        nekotonRepository.currentTransport.nativeTokenAddress;
+    final addresses = [...currencyAddresses, 'TON'];
+    final encoded = await httpService.getRequest(
+      '$endpoint/rates?tokens=${addresses.join(',')}&currencies=USD',
+    );
+    final decoded = jsonDecode(encoded) as Map<String, dynamic>;
+    final rates = decoded['rates'] as Map<String, dynamic>;
+
+    rates[nativeTokenAddress.toRaw()] = rates['TON'];
+    rates.remove('TON');
+
+    return rates.entries.map((element) {
+      final address = element.key;
+      final prices = (element.value as Map<String, dynamic>)['prices'];
+      final price =
+          (prices as Map<String, dynamic>?)?['USD']?.toString() ?? '0';
+
+      return CustomCurrency(
+        address: Address(address: address),
+        price: price,
+        networkGroup: networkGroup,
+        networkType: networkType,
+      );
+    }).toList();
   }
 
   Future<CustomCurrency> _fetchCurrency({
