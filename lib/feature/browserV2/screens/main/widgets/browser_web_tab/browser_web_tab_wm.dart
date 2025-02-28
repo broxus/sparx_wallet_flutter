@@ -108,8 +108,8 @@ class BrowserWebTabWidgetModel
 
   @override
   void dispose() {
-    _webViewController?.dispose();
     widget.onDispose();
+    _webViewController?.dispose();
     super.dispose();
   }
 

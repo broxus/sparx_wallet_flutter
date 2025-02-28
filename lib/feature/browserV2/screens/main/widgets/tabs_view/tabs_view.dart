@@ -6,37 +6,50 @@ import 'package:flutter_inappwebview/flutter_inappwebview.dart';
 
 class BrowserTabsView extends StatelessWidget {
   const BrowserTabsView({
+    required this.viewVisibleState,
     required this.tabsState,
     required this.onCreate,
     required this.onDispose,
     super.key,
   });
 
+  final ListenableState<bool> viewVisibleState;
   final ListenableState<BrowserTabsCollection> tabsState;
   final void Function(String tabId, InAppWebViewController controller) onCreate;
   final ValueChanged<String> onDispose;
 
   @override
   Widget build(BuildContext context) {
-    return StateNotifierBuilder<BrowserTabsCollection?>(
-      listenableState: tabsState,
-      builder: (_, BrowserTabsCollection? data) {
-        if (data == null) {
-          return const SizedBox.shrink();
-        }
-        return PageView.builder(
-          itemCount: data.count,
-          itemBuilder: (_, int index) {
-            return BrowserWebTab(
-              key: ValueKey(data.list[index].id),
-              tab: data.list[index],
-              onCreate: (controller) => onCreate(
-                data.list[index].id,
-                controller,
-              ),
-              onDispose: () => onDispose(data.list[index].id),
-            );
-          },
+    return StateNotifierBuilder<bool>(
+      listenableState: viewVisibleState,
+      builder: (_, bool? isVisible) {
+        return Visibility(
+          visible: isVisible ?? false,
+          maintainState: true,
+          maintainSize: true,
+          maintainAnimation: true,
+          child: StateNotifierBuilder<BrowserTabsCollection?>(
+            listenableState: tabsState,
+            builder: (_, BrowserTabsCollection? data) {
+              if (data == null) {
+                return const SizedBox.shrink();
+              }
+              return PageView.builder(
+                itemCount: data.count,
+                itemBuilder: (_, int index) {
+                  return BrowserWebTab(
+                    key: ValueKey(data.list[index].id),
+                    tab: data.list[index],
+                    onCreate: (controller) => onCreate(
+                      data.list[index].id,
+                      controller,
+                    ),
+                    onDispose: () => onDispose(data.list[index].id),
+                  );
+                },
+              );
+            },
+          ),
         );
       },
     );

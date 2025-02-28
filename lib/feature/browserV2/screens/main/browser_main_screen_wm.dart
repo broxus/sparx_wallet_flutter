@@ -8,8 +8,6 @@ import 'package:app/feature/browserV2/models/tab/browser_tab.dart';
 import 'package:app/feature/browserV2/screens/main/browser_main_screen.dart';
 import 'package:app/feature/browserV2/screens/main/browser_main_screen_model.dart';
 import 'package:app/feature/browserV2/screens/main/data/control_panels_data.dart';
-import 'package:app/feature/browserV2/screens/main/screen_type.dart';
-import 'package:elementary/elementary.dart';
 import 'package:elementary_helper/elementary_helper.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_inappwebview/flutter_inappwebview.dart';
@@ -43,7 +41,7 @@ class BrowserMainScreenWidgetModel
 
   ListenableState<BrowserTab?> get activeTabState => model.activeTabState;
 
-  ListenableState<BrowserMainScreenType> get typeState => _typeState;
+  ListenableState<bool> get viewVisibleState => _viewVisibleState;
 
   ListenableState<BrowserControlPanelData> get controlPanelState =>
       _controlPanelState;
@@ -52,7 +50,7 @@ class BrowserMainScreenWidgetModel
 
   // TODO(knightforce): depending on what opens first - a list or a page
   // TODO(knightforce): if a page - need to skip animations - set the desired view
-  late final _typeState = createNotifier(BrowserMainScreenType.list);
+  late final _viewVisibleState = createNotifier(false);
 
   late final _controlPanelState = createNotifier<BrowserControlPanelData>(
     BrowserControlPanelData(),

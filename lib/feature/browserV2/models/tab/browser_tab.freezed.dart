@@ -48,11 +48,6 @@ mixin _$BrowserTab {
 
   /// The sorting position of the tab.
   set sortingOrder(double value) => throw _privateConstructorUsedError;
-  @JsonKey(includeFromJson: false, includeToJson: false)
-  InAppWebViewController? get controller => throw _privateConstructorUsedError;
-  @JsonKey(includeFromJson: false, includeToJson: false)
-  set controller(InAppWebViewController? value) =>
-      throw _privateConstructorUsedError;
 
   /// Serializes this BrowserTab to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
@@ -75,9 +70,7 @@ abstract class $BrowserTabCopyWith<$Res> {
       @uriJsonConverter Uri url,
       String? imageId,
       String? title,
-      double sortingOrder,
-      @JsonKey(includeFromJson: false, includeToJson: false)
-      InAppWebViewController? controller});
+      double sortingOrder});
 }
 
 /// @nodoc
@@ -100,7 +93,6 @@ class _$BrowserTabCopyWithImpl<$Res, $Val extends BrowserTab>
     Object? imageId = freezed,
     Object? title = freezed,
     Object? sortingOrder = null,
-    Object? controller = freezed,
   }) {
     return _then(_value.copyWith(
       id: null == id
@@ -123,10 +115,6 @@ class _$BrowserTabCopyWithImpl<$Res, $Val extends BrowserTab>
           ? _value.sortingOrder
           : sortingOrder // ignore: cast_nullable_to_non_nullable
               as double,
-      controller: freezed == controller
-          ? _value.controller
-          : controller // ignore: cast_nullable_to_non_nullable
-              as InAppWebViewController?,
     ) as $Val);
   }
 }
@@ -144,9 +132,7 @@ abstract class _$$BrowserTabImplCopyWith<$Res>
       @uriJsonConverter Uri url,
       String? imageId,
       String? title,
-      double sortingOrder,
-      @JsonKey(includeFromJson: false, includeToJson: false)
-      InAppWebViewController? controller});
+      double sortingOrder});
 }
 
 /// @nodoc
@@ -167,7 +153,6 @@ class __$$BrowserTabImplCopyWithImpl<$Res>
     Object? imageId = freezed,
     Object? title = freezed,
     Object? sortingOrder = null,
-    Object? controller = freezed,
   }) {
     return _then(_$BrowserTabImpl(
       id: null == id
@@ -190,10 +175,6 @@ class __$$BrowserTabImplCopyWithImpl<$Res>
           ? _value.sortingOrder
           : sortingOrder // ignore: cast_nullable_to_non_nullable
               as double,
-      controller: freezed == controller
-          ? _value.controller
-          : controller // ignore: cast_nullable_to_non_nullable
-              as InAppWebViewController?,
     ));
   }
 }
@@ -206,8 +187,7 @@ class _$BrowserTabImpl extends _BrowserTab {
       @uriJsonConverter required this.url,
       required this.imageId,
       required this.title,
-      required this.sortingOrder,
-      @JsonKey(includeFromJson: false, includeToJson: false) this.controller})
+      required this.sortingOrder})
       : super._();
 
   factory _$BrowserTabImpl.fromJson(Map<String, dynamic> json) =>
@@ -233,13 +213,10 @@ class _$BrowserTabImpl extends _BrowserTab {
   /// The sorting position of the tab.
   @override
   double sortingOrder;
-  @override
-  @JsonKey(includeFromJson: false, includeToJson: false)
-  InAppWebViewController? controller;
 
   @override
   String toString() {
-    return 'BrowserTab(id: $id, url: $url, imageId: $imageId, title: $title, sortingOrder: $sortingOrder, controller: $controller)';
+    return 'BrowserTab(id: $id, url: $url, imageId: $imageId, title: $title, sortingOrder: $sortingOrder)';
   }
 
   /// Create a copy of BrowserTab
@@ -264,9 +241,7 @@ abstract class _BrowserTab extends BrowserTab {
       @uriJsonConverter required Uri url,
       required String? imageId,
       required String? title,
-      required double sortingOrder,
-      @JsonKey(includeFromJson: false, includeToJson: false)
-      InAppWebViewController? controller}) = _$BrowserTabImpl;
+      required double sortingOrder}) = _$BrowserTabImpl;
   _BrowserTab._() : super._();
 
   factory _BrowserTab.fromJson(Map<String, dynamic> json) =
@@ -305,11 +280,6 @@ abstract class _BrowserTab extends BrowserTab {
 
   /// The sorting position of the tab.
   set sortingOrder(double value);
-  @override
-  @JsonKey(includeFromJson: false, includeToJson: false)
-  InAppWebViewController? get controller;
-  @JsonKey(includeFromJson: false, includeToJson: false)
-  set controller(InAppWebViewController? value);
 
   /// Create a copy of BrowserTab
   /// with the given fields replaced by the non-null parameter values.
