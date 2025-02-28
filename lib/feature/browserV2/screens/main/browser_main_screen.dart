@@ -17,39 +17,41 @@ class BrowserMainScreen extends ElementaryWidget<BrowserMainScreenWidgetModel> {
 
   @override
   Widget build(BrowserMainScreenWidgetModel wm) {
-    return Stack(
-      children: [
-        BrowserTabsList(
-          key: wm.tabListKey,
-          tabsState: wm.tabsState,
-          activeTabState: wm.activeTabState,
-          onChangeTab: wm.onChangeTab,
-          onCloseTab: wm.onCloseTab,
-        ),
-        BrowserTabsView(
-          viewVisibleState: wm.viewVisibleState,
-          tabsState: wm.tabsState,
-          onCreate: wm.onCreateController,
-          onDispose: wm.onDisposeController,
-        ),
-        Positioned(
-          bottom: 0,
-          left: 0,
-          right: 0,
-          child: BrowserBottomMenu(
+    return SafeArea(
+      child: Stack(
+        children: [
+          BrowserTabsList(
+            key: wm.tabListKey,
+            tabsState: wm.tabsState,
+            activeTabState: wm.activeTabState,
+            onChangeTab: wm.onChangeTab,
+            onCloseTab: wm.onCloseTab,
+          ),
+          BrowserTabsView(
             viewVisibleState: wm.viewVisibleState,
             tabsState: wm.tabsState,
-            onCloseAllPressed: wm.onCloseAllPressed,
-            onPlusPressed: wm.onPlusPressed,
-            onDonePressed: wm.onDonePressed,
-            onPressedBackPressed: wm.onPressedBackPressed,
-            onPressedForwardPressed: wm.onPressedForwardPressed,
-            onPressedDotsPressed: wm.onPressedDotsPressed,
-            onPressedBook: wm.onPressedBook,
-            onPressedTabs: wm.onPressedTabs,
+            onCreate: wm.onCreateController,
+            onDispose: wm.onDisposeController,
           ),
-        ),
-      ],
+          Positioned(
+            bottom: 0,
+            left: 0,
+            right: 0,
+            child: BrowserBottomMenu(
+              viewVisibleState: wm.viewVisibleState,
+              tabsState: wm.tabsState,
+              onCloseAllPressed: wm.onCloseAllPressed,
+              onPlusPressed: wm.onPlusPressed,
+              onDonePressed: wm.onDonePressed,
+              onPressedBackPressed: wm.onPressedBackPressed,
+              onPressedForwardPressed: wm.onPressedForwardPressed,
+              onPressedDotsPressed: wm.onPressedDotsPressed,
+              onPressedBook: wm.onPressedBook,
+              onPressedTabs: wm.onPressedTabs,
+            ),
+          ),
+        ],
+      ),
     );
   }
 }
