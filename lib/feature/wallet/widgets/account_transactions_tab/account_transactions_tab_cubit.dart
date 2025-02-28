@@ -66,9 +66,11 @@ class AccountTransactionsTabCubit extends Cubit<AccountTransactionsTabState>
   /// List of multisig transactions and flag that sign that multisig
   /// transactions was loaded and mapped.
   bool _multisigLoaded = false;
+  bool _isPreloading = false;
   List<TonWalletMultisigOrdinaryTransaction> _multisigOrdinary = [];
   List<TonWalletMultisigPendingTransaction> _multisigPending = [];
   List<TonWalletMultisigExpiredTransaction> _multisigExpired = [];
+  List<TransactionWithData<TransactionAdditionalInfo?>> _transactions = [];
 
   bool _ordinaryLoaded = false;
   List<TonWalletOrdinaryTransaction> _ordinary = [];
@@ -89,7 +91,7 @@ class AccountTransactionsTabCubit extends Cubit<AccountTransactionsTabState>
   /// NOTE: this method may be called multiple times
   void tryPreloadTransactions() {
     final lastPrevLt = state.whenOrNull(
-      transactions: (transactions, _, __, ___) => _lastLt(transactions),
+      transactions: (transactions, _, __, ___) => _lastLt(_transactions),
     );
     final (isLoading, canLoadMore) = state.maybeWhen(
       transactions: (_, isLoading, canLoadMore, ___) =>
@@ -141,6 +143,7 @@ class AccountTransactionsTabCubit extends Cubit<AccountTransactionsTabState>
     ).listen(
       (transactions) async {
         final multisigTransactions = wallet.unconfirmedTransactions;
+        _transactions = transactions;
 
         try {
           _multisigExpired =
@@ -308,7 +311,7 @@ class AccountTransactionsTabCubit extends Cubit<AccountTransactionsTabState>
         transactions: (_, __, canLoadMore, ___) => canLoadMore,
         orElse: () => true,
       );
-      final lastLt = _lastLt(transactions);
+      final lastLt = _lastLt(_transactions);
 
       if (_lastLtWhenPreloaded != null && !isLoading && fromStream) {
         // we must check this state every time, because we have multiple
@@ -330,13 +333,18 @@ class AccountTransactionsTabCubit extends Cubit<AccountTransactionsTabState>
 
   /// Get last available prevTransactionLt
   String? _lastLt(
-    List<AccountTransactionItem<dynamic>> transactions,
+    List<TransactionWithData<TransactionAdditionalInfo?>> transactions,
   ) =>
       transactions
-          .lastWhereOrNull((t) => t.prevTransactionLt != null)
-          ?.prevTransactionLt;
+          .lastWhereOrNull((t) => t.transaction.prevTransactionId != null)
+          ?.transaction
+          .prevTransactionId
+          ?.lt;
 
   Future<void> _preloadTransactions(String lastPrevLt) async {
+    if (_isPreloading) return;
+    _isPreloading = true;
+
     _transactionsState(isLoading: true);
     _lastLtWhenPreloaded = lastPrevLt;
 
@@ -348,6 +356,7 @@ class AccountTransactionsTabCubit extends Cubit<AccountTransactionsTabState>
     } catch (e, t) {
       _logger.severe('_preloadTransactions', e, t);
     } finally {
+      _isPreloading = false;
       _transactionsState();
     }
   }
