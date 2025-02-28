@@ -79,7 +79,7 @@ class TokenWalletTransactionsCubit extends Cubit<TokenWalletTransactionsState>
         ___,
         ____,
       ) =>
-          _lastLt(transactions),
+          _lastLt(_transactions),
     );
     final (isLoading, canLoadMore) = state.maybeWhen(
       transactions: (_, __, isLoading, canLoadMore, ___) =>
@@ -100,7 +100,9 @@ class TokenWalletTransactionsCubit extends Cubit<TokenWalletTransactionsState>
   /// List of ordinary transactions and flag that sign that transactions was
   /// loaded and mapped.
   bool _ordinaryLoaded = false;
+  bool _isPreloading = false;
   List<TokenWalletOrdinaryTransaction> _ordinary = [];
+  List<TransactionWithData<TokenWalletTransaction?>> _transactions = [];
 
   StreamSubscription<dynamic>? _ordinaryTransactionsSub;
   late StreamSubscription<dynamic> _walletSubscription;
@@ -141,6 +143,7 @@ class TokenWalletTransactionsCubit extends Cubit<TokenWalletTransactionsState>
       (_, b) => b ?? [],
     ).listen(
       (transactions) {
+        _transactions = transactions;
         _ordinary = nekotonRepository.mapOrdinaryTokenTransactions(
           rootTokenContract: rootTokenContract,
           transactions: transactions,
@@ -169,14 +172,13 @@ class TokenWalletTransactionsCubit extends Cubit<TokenWalletTransactionsState>
     if (_ordinary.isEmpty) {
       emitSafe(const TokenWalletTransactionsState.empty());
     } else {
-      final transactions = [..._ordinary]
-        ..sort((a, b) => b.date.compareTo(a.date));
+      final transactions = _ordinary;
 
       var canLoadMore = state.maybeWhen(
         transactions: (_, __, ___, canLoadMore, ____) => canLoadMore,
         orElse: () => true,
       );
-      final lastLt = _lastLt(transactions);
+      final lastLt = _lastLt(_transactions);
       if (_lastLtWhenPreloaded != null && !isLoading && fromStream) {
         // we must check this state every time, because we may have multiple
         // inputs for this method (different transactions streams, but not now,
@@ -199,13 +201,18 @@ class TokenWalletTransactionsCubit extends Cubit<TokenWalletTransactionsState>
 
   /// Get last available prevTransactionLt
   String? _lastLt(
-    List<TokenWalletOrdinaryTransaction> transactions,
+    List<TransactionWithData<TokenWalletTransaction?>> transactions,
   ) =>
       transactions
-          .lastWhereOrNull((t) => t.prevTransactionLt != null)
-          ?.prevTransactionLt;
+          .lastWhereOrNull((t) => t.transaction.prevTransactionId != null)
+          ?.transaction
+          .prevTransactionId
+          ?.lt;
 
   Future<void> _preloadTransactions(String lastPrevLt) async {
+    if (_isPreloading) return;
+    _isPreloading = true;
+
     _transactionsState(isLoading: true);
     _lastLtWhenPreloaded = lastPrevLt;
 
@@ -218,6 +225,7 @@ class TokenWalletTransactionsCubit extends Cubit<TokenWalletTransactionsState>
     } catch (e, t) {
       _logger.severe('_preloadTransactions', e, t);
     } finally {
+      _isPreloading = false;
       _transactionsState();
     }
   }

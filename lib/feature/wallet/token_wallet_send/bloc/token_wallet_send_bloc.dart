@@ -246,11 +246,15 @@ class TokenWalletSendBloc
     final unsignedMessage = await nekotonRepository.prepareTransfer(
       address: owner,
       publicKey: publicKey,
-      destination: internalMessage.destination,
-      amount: internalMessage.amount,
-      body: internalMessage.body,
-      bounce: defaultMessageBounce,
       expiration: defaultSendTimeout,
+      params: [
+        TonWalletTransferParams(
+          destination: internalMessage.destination,
+          amount: internalMessage.amount,
+          body: internalMessage.body,
+          bounce: defaultMessageBounce,
+        ),
+      ],
     );
 
     return (internalMessage, unsignedMessage);
