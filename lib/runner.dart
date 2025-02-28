@@ -65,7 +65,6 @@ Future<void> run(
       await SystemChrome.setPreferredOrientations([
         DeviceOrientation.portraitUp,
       ]);
-      await SystemChrome.setEnabledSystemUIMode(SystemUiMode.edgeToEdge);
 
       runApp(const App());
     },
