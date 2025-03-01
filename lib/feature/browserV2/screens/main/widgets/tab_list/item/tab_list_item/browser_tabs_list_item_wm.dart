@@ -49,15 +49,20 @@ class BrowserTabsListItemWidgetModel
   void initWidgetModel() {
     model.activeTabState.addListener(_handleActiveTab);
     model.screenshotsState.addListener(_handleScreenShots);
+    _updateTitle();
     super.initWidgetModel();
   }
 
   @override
   void didUpdateWidget(BrowserTabsListItem oldWidget) {
-    if (oldWidget.tab.url != widget.tab.url) {
-      _titleState.accept(widget.tab.url.toString());
+    if (oldWidget.tab.title != widget.tab.title) {
+      _updateTitle();
     }
     super.didUpdateWidget(oldWidget);
+  }
+
+  void _updateTitle() {
+    _titleState.accept(widget.tab.title ?? widget.tab.url.toString());
   }
 
   @override

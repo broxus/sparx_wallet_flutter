@@ -272,6 +272,7 @@ abstract class LocaleKeys {
   static const feesWord = 'feesWord';
   static const feesWithData = 'feesWithData';
   static const startExploring = 'startExploring';
+  static const startPage = 'startPage';
   static const statusWord = 'statusWord';
   static const leftForConfirmation = 'leftForConfirmation';
   static const transactionStatusWaitingConfirmation =

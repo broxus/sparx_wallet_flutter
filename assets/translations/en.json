@@ -268,6 +268,7 @@
   "feesWord": "Fees",
   "feesWithData": "Fees ~{}",
   "startExploring": "Start exploring",
+  "startPage": "Start page",
   "statusWord": "Status",
   "leftForConfirmation": "Left for confirmation {} • Signed {} of {}",
   "transactionStatusWaitingConfirmation": "Waiting for confirmation",

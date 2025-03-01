@@ -7,6 +7,7 @@ import 'package:app/feature/browser/bottom_sheets/browser_enter_basic_auth_creds
 import 'package:app/feature/browserV2/models/browser_basic_auth_creds.dart';
 import 'package:app/feature/browserV2/screens/main/widgets/browser_web_tab/browser_web_tab.dart';
 import 'package:app/feature/browserV2/screens/main/widgets/browser_web_tab/browser_web_tab_model.dart';
+import 'package:app/generated/generated.dart';
 import 'package:elementary/elementary.dart';
 import 'package:elementary_helper/elementary_helper.dart';
 import 'package:flutter/foundation.dart';
@@ -102,7 +103,9 @@ class BrowserWebTabWidgetModel
 
   @override
   void initWidgetModel() {
-    _webViewVisibleState.accept(_url.isNotEmpty);
+    _webViewVisibleState
+      ..addListener(_handleVisible)
+      ..accept(_url.isNotEmpty);
     super.initWidgetModel();
   }
 
@@ -327,6 +330,14 @@ class BrowserWebTabWidgetModel
     }
     _webViewVisibleState.accept(true);
     model.updateUrl(uri!);
+  }
+
+  void _handleVisible() {
+    if (_webViewVisibleState.value ?? false) {
+      return;
+    }
+
+    model.updateTitle(LocaleKeys.startPage.tr());
   }
 }
 //
