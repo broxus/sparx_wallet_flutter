@@ -1,3 +1,4 @@
+import 'package:app/feature/browserV2/screens/main/widgets/menu/menu_view_tab.dart';
 import 'package:app/generated/generated.dart';
 import 'package:flutter/material.dart';
 import 'package:lucide_icons_flutter/lucide_icons.dart';
@@ -21,7 +22,7 @@ class BrowserStartView extends StatelessWidget {
           children: [
             Assets.images.bgNetwork.image(width: double.infinity),
             Positioned(
-              bottom: 0,
+              bottom: BrowserTabViewMenu.height + DimensSizeV2.d12,
               left: 0,
               right: 0,
               child: Column(
@@ -45,7 +46,6 @@ class BrowserStartView extends StatelessWidget {
                     LucideIcons.arrowDown,
                     size: DimensSizeV2.d40,
                   ),
-                  const SizedBox(height: DimensSizeV2.d58),
                 ],
               ),
             ),

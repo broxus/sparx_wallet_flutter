@@ -209,7 +209,7 @@ class BrowserTabsManager {
     if (activeTabId != null) {
       _browserTabsStorageService.saveBrowserActiveTabId(activeTabId);
       _activeTabState.accept(
-        tabs?.firstWhereOrNull((t) => t.id == activeTabId),
+        (tabs ?? browserTabs).firstWhereOrNull((t) => t.id == activeTabId),
       );
     }
   }

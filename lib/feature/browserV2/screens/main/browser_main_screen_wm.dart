@@ -89,6 +89,7 @@ class BrowserMainScreenWidgetModel
   }
 
   void onChangeTab(String id) {
+    _viewVisibleState.accept(true);
     model.setActiveTab(id);
   }
 
@@ -104,7 +105,9 @@ class BrowserMainScreenWidgetModel
     model.createEmptyTab();
   }
 
-  void onDonePressed() {}
+  void onDonePressed() {
+    _viewVisibleState.accept(true);
+  }
 
   void onPressedBackPressed() {
     // TODO
@@ -123,7 +126,7 @@ class BrowserMainScreenWidgetModel
   }
 
   void onPressedTabs() {
-    // TODO
+    _viewVisibleState.accept(false);
   }
 
   void goBack() {
