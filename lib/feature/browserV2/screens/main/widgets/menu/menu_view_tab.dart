@@ -34,36 +34,45 @@ class BrowserTabViewMenu extends StatelessWidget {
             padding: const EdgeInsets.symmetric(
               horizontal: DimensSizeV2.d24,
             ),
-            child: Row(
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
               children: [
-                Expanded(
-                  child: _IconButton(
-                    svg: Assets.images.navigateBack.path,
-                    onPressed: onPressedBackPressed,
-                  ),
-                ),
-                Expanded(
-                  child: _IconButton(
-                    svg: Assets.images.navigateForward.path,
-                    onPressed: onPressedForwardPressed,
-                  ),
-                ),
-                Expanded(
-                  child: _IconButton(
-                    svg: Assets.images.verticalDots.path,
-                    onPressed: onPressedDotsPressed,
-                  ),
-                ),
-                Expanded(
-                  child: _IconButton(
-                    svg: Assets.images.bookOpen.path,
-                    onPressed: onPressedBook,
-                  ),
-                ),
-                Expanded(
-                  child: _IconButton(
-                    svg: Assets.images.layers.path,
-                    onPressed: onPressedTabs,
+                const SizedBox(height: _urlMenuHeight),
+                SizedBox(
+                  height: _controlMenuHeight,
+                  child: Row(
+                    children: [
+                      Expanded(
+                        child: _IconButton(
+                          svg: Assets.images.navigateBack.path,
+                          onPressed: onPressedBackPressed,
+                        ),
+                      ),
+                      Expanded(
+                        child: _IconButton(
+                          svg: Assets.images.navigateForward.path,
+                          onPressed: onPressedForwardPressed,
+                        ),
+                      ),
+                      Expanded(
+                        child: _IconButton(
+                          svg: Assets.images.verticalDots.path,
+                          onPressed: onPressedDotsPressed,
+                        ),
+                      ),
+                      Expanded(
+                        child: _IconButton(
+                          svg: Assets.images.bookOpen.path,
+                          onPressed: onPressedBook,
+                        ),
+                      ),
+                      Expanded(
+                        child: _IconButton(
+                          svg: Assets.images.layers.path,
+                          onPressed: onPressedTabs,
+                        ),
+                      ),
+                    ],
                   ),
                 ),
               ],
