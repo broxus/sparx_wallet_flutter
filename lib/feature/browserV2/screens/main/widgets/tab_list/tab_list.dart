@@ -1,6 +1,5 @@
 import 'package:app/feature/browserV2/data/tabs_data.dart';
-import 'package:app/feature/browserV2/models/tab/browser_tab.dart';
-import 'package:app/feature/browserV2/screens/main/widgets/tab_list/tab_list_item.dart';
+import 'package:app/feature/browserV2/screens/main/widgets/tab_list/item/tab_list_item/browser_tabs_list_item.dart';
 import 'package:elementary_helper/elementary_helper.dart';
 import 'package:flutter/material.dart';
 import 'package:ui_components_lib/v2/ui_components_lib_v2.dart';
@@ -8,14 +7,12 @@ import 'package:ui_components_lib/v2/ui_components_lib_v2.dart';
 class BrowserTabsList extends StatelessWidget {
   const BrowserTabsList({
     required this.tabsState,
-    required this.activeTabState,
     required this.onChangeTab,
     required this.onCloseTab,
     super.key,
   });
 
   final ListenableState<BrowserTabsCollection> tabsState;
-  final ListenableState<BrowserTab?> activeTabState;
   final ValueChanged<String> onChangeTab;
   final ValueChanged<String> onCloseTab;
 
@@ -24,10 +21,9 @@ class BrowserTabsList extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return DoubleSourceBuilder<BrowserTabsCollection, BrowserTab?>(
-      firstSource: tabsState,
-      secondSource: activeTabState,
-      builder: (_, BrowserTabsCollection? tabs, BrowserTab? activeTab) {
+    return StateNotifierBuilder(
+      listenableState: tabsState,
+      builder: (_, BrowserTabsCollection? tabs) {
         if (tabs == null) {
           return const SizedBox.shrink();
         }
@@ -49,7 +45,6 @@ class BrowserTabsList extends StatelessWidget {
               BrowserTabsListItem(
                 key: ValueKey(tab.id),
                 tab: tab,
-                isActive:  tab.id == activeTab?.id,
                 onPressed: () => onChangeTab(tab.id),
                 onClosePressed: () => onCloseTab(tab.id),
               ),

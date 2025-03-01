@@ -148,6 +148,9 @@ class BrowserMainScreenWidgetModel
 
   void _handleActiveTab() {
     _updateControlPanel();
+    // todo перелистнуть пейджер на индекс
+    // todo не создавать еще ни разу не показанные WebView
+    //
   }
 
   Future<void> _updateControlPanel() async {

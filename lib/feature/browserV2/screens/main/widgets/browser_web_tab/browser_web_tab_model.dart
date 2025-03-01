@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:app/app/service/approvals_service.dart';
 import 'package:app/app/service/assets_service.dart';
 import 'package:app/app/service/connection/connection_service.dart';
@@ -8,13 +10,13 @@ import 'package:app/app/service/storage_service/connections_storage_service.dart
 import 'package:app/feature/browser/inpage_provider/inpage_provider.dart';
 import 'package:app/feature/browserV2/models/browser_basic_auth_creds.dart';
 import 'package:app/feature/browserV2/screens/main/widgets/browser_web_tab/helpers/events_helper.dart';
-import 'package:app/feature/browserV2/screens/main/widgets/browser_web_tab/helpers/screenshot_helper.dart';
 import 'package:app/feature/browserV2/service/browser_service.dart';
 import 'package:elementary/elementary.dart';
 import 'package:elementary_helper/elementary_helper.dart';
 import 'package:flutter_inappwebview/flutter_inappwebview.dart';
 import 'package:nekoton_repository/nekoton_repository.dart';
 import 'package:nekoton_webview/nekoton_webview.dart';
+import 'package:uuid/uuid.dart';
 
 /// [ElementaryModel] for [BrowserWebTab]
 class BrowserWebTabModel extends ElementaryModel {
@@ -62,7 +64,12 @@ class BrowserWebTabModel extends ElementaryModel {
     _tabId,
   );
 
-  late final _screenshotHelper = ScreenshotHelper(_browserService.tabs);
+  final ScreenshotConfiguration _screenshotConfiguration =
+      ScreenshotConfiguration(
+    compressFormat: CompressFormat.JPEG,
+    quality: 70,
+    snapshotWidth: 160,
+  );
 
   EntityValueListenable<String?> get nekotonJsState =>
       _jsService.nekotonJsState;
@@ -95,14 +102,6 @@ class BrowserWebTabModel extends ElementaryModel {
     _browserService.auth.setBasicAuthCreds(challenge, credits);
   }
 
-  Future<void> createScreenshot(
-    InAppWebViewController webViewController,
-  ) =>
-      _screenshotHelper.createScreenshot(
-        webViewController: webViewController,
-        tabId: _tabId,
-      );
-
   void updateUrl(Uri uri) {
     _inpageProvider.url = uri;
     _browserService.tM.updateUrl(_tabId, uri);
@@ -110,5 +109,20 @@ class BrowserWebTabModel extends ElementaryModel {
 
   void updateTitle(String title) {
     _browserService.tM.updateTitle(_tabId, title);
+  }
+
+  Future<void> createScreenshot({
+    InAppWebViewController? webViewController,
+    bool force = false,
+  }) async {
+    if (webViewController == null) {
+      return;
+    }
+    return _browserService.tabs.createScreenshot(
+      tabId: _tabId,
+      takePictureCallback: () async => webViewController.takeScreenshot(
+        screenshotConfiguration: _screenshotConfiguration,
+      ),
+    );
   }
 }

@@ -1,12 +1,22 @@
 import 'dart:io';
 
 import 'package:app/app/service/storage_service/general_storage_service.dart';
+import 'package:app/feature/browserV2/data/tabs_data.dart';
+import 'package:elementary_helper/elementary_helper.dart';
+import 'package:flutter/services.dart';
 import 'package:uuid/uuid.dart';
 
 class BrowserManagerScreenshotHelper {
   BrowserManagerScreenshotHelper(
     this._generalStorageService,
   );
+
+  /// Subject of browser tabs
+  final _screenshotsState = StateNotifier<ImageCache>(initValue: ImageCache());
+
+  ListenableState<ImageCache?> get screenshotsState => _screenshotsState;
+
+  ImageCache get _screenshotsCache => _screenshotsState.value ?? ImageCache();
 
   final GeneralStorageService _generalStorageService;
 
@@ -29,14 +39,48 @@ class BrowserManagerScreenshotHelper {
     }
   }();
 
-  String createImageId() => const Uuid().v4();
+  void dispose() {
+    _screenshotsState.dispose();
+  }
 
-  String? getImagePath({
+  Future<void> createScreenshot({
     required String tabId,
-    String? imageId,
-  }) {
-    final path = getTabDirectoryPath(tabId);
-    return path == null || imageId == null ? null : '$path/$imageId';
+    required Future<Uint8List?> Function() takePictureCallback,
+  }) async {
+    try {
+      final imageDirectoryPath = _getTabDirectoryPath(tabId);
+
+      if (imageDirectoryPath == null) {
+        return;
+      }
+
+      final image = await takePictureCallback();
+      if (image == null) {
+        return;
+      }
+      try {
+        await Directory(imageDirectoryPath).delete(recursive: true);
+      } catch (_) {}
+
+      try {
+        await Directory(imageDirectoryPath).create(recursive: true);
+      } catch (_) {}
+
+      final imagePath = _getImagePath(
+        tabId: tabId,
+        imageId: const Uuid().v4(),
+      );
+
+      if (imagePath == null) {
+        return;
+      }
+
+      _screenshotsCache.add(tabId, imagePath);
+      _screenshotsState.accept(_screenshotsCache.copy());
+
+      final file = File(imagePath);
+      await file.writeAsBytes(image);
+    } catch (_) {}
   }
 
   Future<void> clear() async {
@@ -48,16 +92,24 @@ class BrowserManagerScreenshotHelper {
     } catch (_) {}
   }
 
-  String? getTabDirectoryPath(String tabId) =>
-      _tabsDirectoryPath == null ? null : '$_tabsDirectoryPath/$tabId';
-
   Future<void> removeScreenshot(String id) async {
     try {
-      final dir = getTabDirectoryPath(id);
+      final dir = _getTabDirectoryPath(id);
       if (dir == null) {
         return;
       }
       await Directory(dir).delete(recursive: true);
     } catch (_) {}
   }
+
+  String? _getImagePath({
+    required String tabId,
+    String? imageId,
+  }) {
+    final path = _getTabDirectoryPath(tabId);
+    return path == null || imageId == null ? null : '$path/$imageId';
+  }
+
+  String? _getTabDirectoryPath(String tabId) =>
+      _tabsDirectoryPath == null ? null : '$_tabsDirectoryPath/$tabId';
 }

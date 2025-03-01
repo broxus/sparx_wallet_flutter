@@ -133,6 +133,7 @@ class BrowserWebTabWidgetModel
     _,
     Uri? url,
   ) {
+    model.createScreenshot(webViewController: _webViewController);
     _updateUrl(url);
   }
 
@@ -141,6 +142,7 @@ class BrowserWebTabWidgetModel
     Uri? url,
   ) {
     // _pullToRefreshController?.endRefreshing();
+    model.createScreenshot(webViewController: _webViewController);
     _updateUrl(url);
   }
 
@@ -164,6 +166,7 @@ class BrowserWebTabWidgetModel
     WebResourceRequest request,
     WebResourceError error,
   ) {
+    model.createScreenshot(webViewController: _webViewController);
     // _pullToRefreshController?.endRefreshing();
     _log.warning(
       'Failed to load ${request.url}: ${error.type} ${error.description}',

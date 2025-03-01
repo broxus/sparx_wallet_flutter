@@ -17,7 +17,7 @@ final _privateConstructorUsedError = UnsupportedError(
 /// @nodoc
 mixin _$ApprovalRequest {
   Uri get origin => throw _privateConstructorUsedError;
-  Completer<dynamic> get completer => throw _privateConstructorUsedError;
+  Completer<void> get completer => throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function(Uri origin, List<Permission> permissions,
@@ -3743,7 +3743,7 @@ class __$$AddNetworkImplCopyWithImpl<$Res>
   @override
   $Res call({
     Object? origin = null,
-    Object? network = freezed,
+    Object? network = null,
     Object? switchNetwork = null,
     Object? completer = null,
   }) {
@@ -3752,7 +3752,7 @@ class __$$AddNetworkImplCopyWithImpl<$Res>
           ? _value.origin
           : origin // ignore: cast_nullable_to_non_nullable
               as Uri,
-      network: freezed == network
+      network: null == network
           ? _value.network
           : network // ignore: cast_nullable_to_non_nullable
               as AddNetwork,
@@ -3797,7 +3797,7 @@ class _$AddNetworkImpl implements _AddNetwork {
         (other.runtimeType == runtimeType &&
             other is _$AddNetworkImpl &&
             (identical(other.origin, origin) || other.origin == origin) &&
-            const DeepCollectionEquality().equals(other.network, network) &&
+            (identical(other.network, network) || other.network == network) &&
             (identical(other.switchNetwork, switchNetwork) ||
                 other.switchNetwork == switchNetwork) &&
             (identical(other.completer, completer) ||
@@ -3805,8 +3805,8 @@ class _$AddNetworkImpl implements _AddNetwork {
   }
 
   @override
-  int get hashCode => Object.hash(runtimeType, origin,
-      const DeepCollectionEquality().hash(network), switchNetwork, completer);
+  int get hashCode =>
+      Object.hash(runtimeType, origin, network, switchNetwork, completer);
 
   /// Create a copy of ApprovalRequest
   /// with the given fields replaced by the non-null parameter values.

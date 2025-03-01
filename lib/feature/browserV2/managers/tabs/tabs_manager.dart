@@ -7,6 +7,7 @@ import 'package:app/feature/browserV2/models/tab/browser_tab.dart';
 import 'package:app/feature/browserV2/service/storages/browser_tabs_storage_service.dart';
 import 'package:collection/collection.dart';
 import 'package:elementary_helper/elementary_helper.dart';
+import 'package:flutter/services.dart';
 
 class BrowserTabsManager {
   BrowserTabsManager(
@@ -32,6 +33,9 @@ class BrowserTabsManager {
 
   ListenableState<BrowserTab?> get activeTabState => _activeTabState;
 
+  ListenableState<ImageCache?> get screenshotsState =>
+      _screenshotHelper.screenshotsState;
+
   /// Get last cached browser tabs
   List<BrowserTab> get browserTabs => _tabsCollection.list;
 
@@ -48,6 +52,7 @@ class BrowserTabsManager {
 
   void dispose() {
     _tabsState.dispose();
+    _screenshotHelper.dispose();
   }
 
   Future<void> clear() {
@@ -159,19 +164,14 @@ class BrowserTabsManager {
     );
   }
 
-  String createImageId() => _screenshotHelper.createImageId();
-
-  String? getImagePath({
+  Future<void> createScreenshot({
     required String tabId,
-    String? imageId,
+    required Future<Uint8List?> Function() takePictureCallback,
   }) =>
-      _screenshotHelper.getImagePath(
+      _screenshotHelper.createScreenshot(
         tabId: tabId,
-        imageId: imageId,
+        takePictureCallback: takePictureCallback,
       );
-
-  String? getTabDirectoryPath(String tabId) =>
-      _screenshotHelper.getTabDirectoryPath(tabId);
 
   /// Put browser tabs to stream
   void _fetchTabsDataFromCache() {
