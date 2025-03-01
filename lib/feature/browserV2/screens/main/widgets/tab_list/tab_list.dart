@@ -17,7 +17,7 @@ class BrowserTabsList extends StatelessWidget {
   final ValueChanged<String> onCloseTab;
 
   // TODO(nesquikm): We should calculate this value based on the screen size
-  static const _cardAspectRatio = 0.8;
+  static const _cardAspectRatio = 0.9;
 
   @override
   Widget build(BuildContext context) {

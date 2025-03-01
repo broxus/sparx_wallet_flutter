@@ -25,38 +25,33 @@ class BrowserTabsListItem
 
   @override
   Widget build(BrowserTabsListItemWidgetModel wm) {
-    return Material(
-      shape: const SquircleShapeBorder(cornerRadius: DimensRadius.medium),
-      clipBehavior: Clip.antiAlias,
-      color: wm.colors.background1,
-      child: InkWell(
-        onTap: onPressed,
-        child: StateNotifierBuilder<bool?>(
-          listenableState: wm.activeState,
-          builder: (_, bool? isActive) {
-            return DecoratedBox(
-              decoration: BoxDecoration(
-                border: Border.all(
-                  // todo color
-                  color: isActive ?? false ? Colors.red : Colors.transparent,
-                ),
-              ),
-              child: Column(
-                children: [
-                  _Header(
-                    titleState: wm.titleState,
-                    onPressedClose: onClosePressed,
+    return SizedBox(
+      child: Material(
+        shape: const SquircleShapeBorder(cornerRadius: DimensRadius.medium),
+        clipBehavior: Clip.antiAlias,
+        color: wm.colors.background1,
+        child: InkWell(
+          onTap: onPressed,
+          child: StateNotifierBuilder<bool?>(
+            listenableState: wm.activeState,
+            builder: (_, bool? isActive) {
+              return DecoratedBox(
+                decoration: BoxDecoration(
+                  border: Border.all(
+                    // todo color
+                    color: isActive ?? false ? Colors.red : Colors.transparent,
                   ),
-                  Expanded(
-                    child: OverflowBox(
+                ),
+                child: Stack(
+                  children: [
+                    OverflowBox(
                       alignment: Alignment.topCenter,
-                      // ignore: no-magic-number
                       maxHeight: 1000,
                       child: StateNotifierBuilder<File?>(
                         listenableState: wm.screenShotState,
                         builder: (_, File? file) {
                           return file == null
-                              ? const SizedBox.shrink()
+                              ? const _EmptyContent()
                               : Image.file(
                                   file,
                                   fit: BoxFit.scaleDown,
@@ -66,11 +61,15 @@ class BrowserTabsListItem
                         },
                       ),
                     ),
-                  ),
-                ],
-              ),
-            );
-          },
+                    _Header(
+                      titleState: wm.titleState,
+                      onPressedClose: onClosePressed,
+                    ),
+                  ],
+                ),
+              );
+            },
+          ),
         ),
       ),
     );
@@ -93,53 +92,65 @@ class _Header extends StatelessWidget {
     final textStyles = themeStyle.textStyles;
     final colors = context.themeStyleV2.colors;
 
-    return DecoratedBox(
-      decoration: BoxDecoration(
-        border: Border(
-          top: BorderSide(color: colors.borderAlpha),
-          left: BorderSide(color: colors.borderAlpha),
-          right: BorderSide(color: colors.borderAlpha),
+    return SizedBox(
+      height: DimensSizeV2.d36,
+      child: DecoratedBox(
+        decoration: BoxDecoration(
+          border: Border(
+            top: BorderSide(color: colors.borderAlpha),
+            left: BorderSide(color: colors.borderAlpha),
+            right: BorderSide(color: colors.borderAlpha),
+          ),
+          borderRadius: const BorderRadius.only(
+            topLeft: Radius.circular(DimensRadiusV2.radius16),
+            topRight: Radius.circular(DimensRadiusV2.radius16),
+          ),
         ),
-        borderRadius: const BorderRadius.only(
-          topLeft: Radius.circular(DimensRadiusV2.radius16),
-          topRight: Radius.circular(DimensRadiusV2.radius16),
-        ),
-      ),
-      child: Row(
-        children: [
-          Expanded(
-            child: Padding(
-              padding: const EdgeInsets.only(left: DimensSizeV2.d12),
-              child: StateNotifierBuilder<String?>(
-                listenableState: titleState,
-                builder: (_, String? title) {
-                  return Text(
-                    title ?? '',
-                    style: textStyles.labelXSmall,
-                    maxLines: 1,
-                    overflow: TextOverflow.ellipsis,
-                    softWrap: false,
-                  );
-                },
+        child: Row(
+          children: [
+            Expanded(
+              child: Padding(
+                padding: const EdgeInsets.only(left: DimensSizeV2.d12),
+                child: StateNotifierBuilder<String?>(
+                  listenableState: titleState,
+                  builder: (_, String? title) {
+                    return Text(
+                      title ?? '',
+                      style: textStyles.labelXSmall,
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
+                      softWrap: false,
+                    );
+                  },
+                ),
               ),
             ),
-          ),
-          GestureDetector(
-            onTap: onPressedClose,
-            child: Padding(
-              padding: const EdgeInsets.symmetric(
-                vertical: DimensSizeV2.d11,
-                horizontal: DimensSizeV2.d15,
-              ),
-              child: CommonIconWidget.svg(
-                svg: Assets.images.closeAnother.path,
-                size: DimensSizeV2.d20,
-                color: colors.content3,
+            GestureDetector(
+              onTap: onPressedClose,
+              child: Padding(
+                padding: const EdgeInsets.symmetric(
+                  vertical: DimensSizeV2.d11,
+                  horizontal: DimensSizeV2.d15,
+                ),
+                child: CommonIconWidget.svg(
+                  svg: Assets.images.closeAnother.path,
+                  size: DimensSizeV2.d20,
+                  color: colors.content3,
+                ),
               ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
+  }
+}
+
+class _EmptyContent extends StatelessWidget {
+  const _EmptyContent({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Assets.images.bgNetwork.image(width: double.infinity);
   }
 }
