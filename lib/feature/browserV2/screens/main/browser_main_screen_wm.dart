@@ -8,6 +8,7 @@ import 'package:app/feature/browserV2/models/tab/browser_tab.dart';
 import 'package:app/feature/browserV2/screens/main/browser_main_screen.dart';
 import 'package:app/feature/browserV2/screens/main/browser_main_screen_model.dart';
 import 'package:app/feature/browserV2/screens/main/data/control_panels_data.dart';
+import 'package:carousel_slider/carousel_slider.dart';
 import 'package:elementary_helper/elementary_helper.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_inappwebview/flutter_inappwebview.dart';
@@ -34,6 +35,8 @@ class BrowserMainScreenWidgetModel
 
   final tabListKey = UniqueKey();
   final tabViewKey = UniqueKey();
+
+  final urlSliderController = CarouselSliderController();
 
   final _controllers = HashMap<String, InAppWebViewController>();
 
@@ -127,6 +130,10 @@ class BrowserMainScreenWidgetModel
 
   void onPressedTabs() {
     _viewVisibleState.accept(false);
+  }
+
+  void onEditingCompleteUrl(String tabId, String text) {
+    // TODO
   }
 
   void goBack() {

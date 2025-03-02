@@ -16,6 +16,7 @@ ThemeData getPredefinedLightTheme() {
     background1: ColorsResV2.n20,
     background2: ColorsResV2.n30,
     background3: ColorsResV2.n35,
+    backgroundInput: ColorsResV2.n95,
     backgroundAccent: ColorsResV2.p60,
     backgroundAlpha: ColorsResV2.n100.withAlpha(OpacV2.opac10.toByteInt()),
     backgroundNegativeAlpha:
@@ -86,6 +87,7 @@ ThemeData getPredefinedDarkTheme() {
     background1: ColorsResV2.n20,
     background2: ColorsResV2.n30,
     background3: ColorsResV2.n35,
+    backgroundInput: ColorsResV2.n95,
     backgroundAccent: ColorsResV2.p60,
     backgroundAlpha: ColorsResV2.n100.withAlpha(OpacV2.opac10.toByteInt()),
     backgroundNegativeAlpha:
@@ -155,6 +157,7 @@ ThemeStyleV2 getDefaultTheme() {
     background1: ColorsResV2.n20,
     background2: ColorsResV2.n30,
     background3: ColorsResV2.n35,
+    backgroundInput: ColorsResV2.n95,
     backgroundAccent: ColorsResV2.p60,
     backgroundAlpha: ColorsResV2.n100.withAlpha(OpacV2.opac10.toByteInt()),
     backgroundNegativeAlpha:

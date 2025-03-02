@@ -47,6 +47,8 @@ class BrowserMainScreen extends ElementaryWidget<BrowserMainScreenWidgetModel> {
               onPressedDotsPressed: wm.onPressedDotsPressed,
               onPressedBook: wm.onPressedBook,
               onPressedTabs: wm.onPressedTabs,
+              onEditingCompleteUrl: wm.onEditingCompleteUrl,
+              urlSliderController: wm.urlSliderController,
             ),
           ),
         ],

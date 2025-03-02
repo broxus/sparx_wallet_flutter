@@ -1,6 +1,8 @@
 import 'package:app/feature/browserV2/data/tabs_data.dart';
 import 'package:app/feature/browserV2/screens/main/widgets/menu/menu_tab_list.dart';
-import 'package:app/feature/browserV2/screens/main/widgets/menu/menu_view_tab.dart';
+import 'package:app/feature/browserV2/screens/main/widgets/menu/menu_view_tab/menu_view_tab.dart';
+import 'package:app/utils/types/fuction_types.dart';
+import 'package:carousel_slider/carousel_slider.dart';
 import 'package:elementary_helper/elementary_helper.dart';
 import 'package:flutter/material.dart';
 
@@ -16,6 +18,8 @@ class BrowserBottomMenu extends StatefulWidget {
     required this.onPressedDotsPressed,
     required this.onPressedBook,
     required this.onPressedTabs,
+    required this.onEditingCompleteUrl,
+    required this.urlSliderController,
     super.key,
   });
 
@@ -28,6 +32,8 @@ class BrowserBottomMenu extends StatefulWidget {
   final VoidCallback onPressedDotsPressed;
   final VoidCallback onPressedBook;
   final VoidCallback onPressedTabs;
+  final DoubleValueCallback<String, String> onEditingCompleteUrl;
+  final CarouselSliderController urlSliderController;
 
   final ListenableState<bool> viewVisibleState;
 
@@ -84,6 +90,9 @@ class _BrowserBottomMenuState extends State<BrowserBottomMenu> {
                     onPressedDotsPressed: widget.onPressedDotsPressed,
                     onPressedBook: widget.onPressedBook,
                     onPressedTabs: widget.onPressedTabs,
+                    onEditingCompleteUrl: widget.onEditingCompleteUrl,
+                    urlSliderController: widget.urlSliderController,
+                    tabsState: widget.tabsState,
                   ),
                   crossFadeState: isVisible ?? false
                       ? CrossFadeState.showSecond
