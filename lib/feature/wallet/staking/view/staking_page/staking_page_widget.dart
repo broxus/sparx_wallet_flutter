@@ -223,6 +223,7 @@ class _ButtonWidget extends StatelessWidget {
                       LocaleKeys.withdrawHoursProgress.tr(
                     args: [wm.currency.symbol, withdrawHours.toString()],
                   ),
+                  tokenWalletSendNotifyReceiverQueryParam: 'true',
                 },
               ),
             );
