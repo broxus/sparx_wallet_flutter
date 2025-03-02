@@ -27,8 +27,10 @@ class BrowserMainScreen extends ElementaryWidget<BrowserMainScreenWidgetModel> {
             onCloseTab: wm.onCloseTab,
           ),
           BrowserTabsView(
+            width: wm.tabViewWidth,
             viewVisibleState: wm.viewVisibleState,
             tabsState: wm.tabsState,
+            scrollController: wm.viewTabScrollController,
             onCreate: wm.onCreateController,
             onDispose: wm.onDisposeController,
           ),

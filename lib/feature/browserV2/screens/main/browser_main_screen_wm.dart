@@ -8,7 +8,7 @@ import 'package:app/feature/browserV2/models/tab/browser_tab.dart';
 import 'package:app/feature/browserV2/screens/main/browser_main_screen.dart';
 import 'package:app/feature/browserV2/screens/main/browser_main_screen_model.dart';
 import 'package:app/feature/browserV2/screens/main/data/control_panels_data.dart';
-import 'package:carousel_slider/carousel_slider.dart';
+import 'package:elementary/elementary.dart';
 import 'package:elementary_helper/elementary_helper.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_inappwebview/flutter_inappwebview.dart';
@@ -36,7 +36,10 @@ class BrowserMainScreenWidgetModel
   final tabListKey = UniqueKey();
   final tabViewKey = UniqueKey();
 
-  final urlSliderController = CarouselSliderController();
+  late final viewTabScrollController = createScrollController();
+  late final urlSliderController = createScrollController();
+
+  late final tabViewWidth = MediaQuery.of(context).size.width;
 
   final _controllers = HashMap<String, InAppWebViewController>();
 
@@ -70,6 +73,7 @@ class BrowserMainScreenWidgetModel
   void initWidgetModel() {
     tabsState.addListener(_handleTabsCollection);
     activeTabState.addListener(_handleActiveTab);
+    urlSliderController.addListener(_handleUrlPanelScroll);
     super.initWidgetModel();
   }
 
@@ -171,6 +175,13 @@ class BrowserMainScreenWidgetModel
         isCanGoBack: await controller?.canGoBack(),
         isCanGoForward: await controller?.canGoForward(),
       ),
+    );
+  }
+
+  void _handleUrlPanelScroll() {
+    // TODO complete calculate
+    viewTabScrollController.jumpTo(
+      urlSliderController.position.pixels,
     );
   }
 }

@@ -18,7 +18,6 @@ dependencies:
       ref: v1.0.0
   cached_network_image: 3.4.1
   cached_network_svg_image: 1.2.0
-  carousel_slider: ^5.0.0
   clock: 1.1.1
   collection: 1.18.0
   crypto: 3.0.6

@@ -3,7 +3,6 @@ import 'package:app/feature/browserV2/screens/main/widgets/menu/background_blur.
 import 'package:app/feature/browserV2/screens/main/widgets/menu/menu_view_tab/nav_panel.dart';
 import 'package:app/feature/browserV2/screens/main/widgets/menu/menu_view_tab/url_panel.dart';
 import 'package:app/utils/types/fuction_types.dart';
-import 'package:carousel_slider/carousel_slider.dart';
 import 'package:elementary_helper/elementary_helper.dart';
 import 'package:flutter/material.dart';
 import 'package:ui_components_lib/v2/ui_components_lib_v2.dart';
@@ -27,7 +26,7 @@ class BrowserTabViewMenu extends StatelessWidget {
   final VoidCallback onPressedBook;
   final VoidCallback onPressedTabs;
   final DoubleValueCallback<String, String> onEditingCompleteUrl;
-  final CarouselSliderController urlSliderController;
+  final ScrollController urlSliderController;
   final ListenableState<BrowserTabsCollection> tabsState;
 
   static const _urlMenuHeight = DimensSizeV2.d48;

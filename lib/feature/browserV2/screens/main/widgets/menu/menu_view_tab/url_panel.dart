@@ -1,7 +1,6 @@
 import 'package:app/feature/browserV2/data/tabs_data.dart';
 import 'package:app/feature/browserV2/models/tab/browser_tab.dart';
 import 'package:app/utils/types/fuction_types.dart';
-import 'package:carousel_slider/carousel_slider.dart';
 import 'package:elementary_helper/elementary_helper.dart';
 import 'package:flutter/material.dart';
 import 'package:ui_components_lib/ui_components_lib.dart';
@@ -16,7 +15,7 @@ class BrowserTabViewMenuUrlPanel extends StatefulWidget {
   });
 
   final double height;
-  final CarouselSliderController controller;
+  final ScrollController controller;
   final ListenableState<BrowserTabsCollection> tabsState;
   final DoubleValueCallback<String, String> onEditingCompleteUrl;
 
@@ -27,11 +26,12 @@ class BrowserTabViewMenuUrlPanel extends StatefulWidget {
 
 class _BrowserTabViewMenuUrlPanelState
     extends State<BrowserTabViewMenuUrlPanel> {
-  final _options = CarouselOptions();
+  final _physics = const PageScrollPhysics();
 
   @override
   Widget build(BuildContext context) {
     return SizedBox(
+      width: double.infinity,
       height: widget.height,
       child: StateNotifierBuilder<BrowserTabsCollection>(
         listenableState: widget.tabsState,
@@ -39,15 +39,20 @@ class _BrowserTabViewMenuUrlPanelState
           if (data == null) {
             return const SizedBox.shrink();
           }
-          return CarouselSlider.builder(
-            options: _options,
-            carouselController: widget.controller,
+
+          return ListView.builder(
+            physics: _physics,
+            scrollDirection: Axis.horizontal,
+            controller: widget.controller,
             itemCount: data.count,
-            itemBuilder: (_, int index, __) {
-              return _UrlAddressPanel(
-                key: ValueKey(data.list[index].id),
-                tab: data.list[index],
-                onEditingComplete: widget.onEditingCompleteUrl,
+            itemBuilder: (_, int index) {
+              return Padding(
+                padding: EdgeInsets.symmetric(horizontal: 8),
+                child: _UrlAddressPanel(
+                  key: ValueKey(data.list[index].id),
+                  tab: data.list[index],
+                  onEditingComplete: widget.onEditingCompleteUrl,
+                ),
               );
             },
           );
@@ -93,6 +98,7 @@ class _UrlAddressPanelState extends State<_UrlAddressPanel> {
   @override
   Widget build(BuildContext context) {
     return SizedBox(
+      width: 343,
       height: DimensSizeV2.d40,
       child: DecoratedBox(
         decoration: BoxDecoration(
