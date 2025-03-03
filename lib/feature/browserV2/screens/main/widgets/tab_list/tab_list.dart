@@ -24,11 +24,9 @@ class BrowserTabsList extends StatelessWidget {
   Widget build(BuildContext context) {
     return Column(
       children: [
-        const Flexible(
-          child: TabListHeader(),
-        ),
+        const TabListHeader(),
         const _Separator(),
-        Flexible(
+        Expanded(
           child: StateNotifierBuilder(
             listenableState: tabsState,
             builder: (_, BrowserTabsCollection? tabs) {
