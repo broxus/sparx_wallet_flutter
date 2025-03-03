@@ -13,7 +13,6 @@ import 'package:app/widgets/bottom_navigation_bar/custom_bottom_navigation_bar_m
 import 'package:elementary/elementary.dart';
 import 'package:elementary_helper/elementary_helper.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:go_router/go_router.dart';
 import 'package:ui_components_lib/v2/ui_components_lib_v2.dart';
 
@@ -38,13 +37,13 @@ class CustomBottomNavigationBarWidgetModel extends CustomWidgetModel<
     super.model,
   );
 
-  late final _tabIndexState = createNotifier<int>(model.tabIndex);
+  late final _tabState = createNotifier<RootTab>(model.currentNavTab);
 
   late final _routerState = GoRouterState.of(context);
 
   StreamSubscription<BrowserAppLinksData>? _appLinksNavSubs;
 
-  ListenableState<int> get tabIndexState => _tabIndexState;
+  ListenableState<RootTab> get tabState => _tabState;
 
   ColorsPaletteV2 get colors => _theme.colors;
 
@@ -83,9 +82,9 @@ class CustomBottomNavigationBarWidgetModel extends CustomWidgetModel<
   }
 
   void _changeValue(RootTab tab) {
-    final prevTab = RootTab.values[model.tabIndex];
+    final prevTab = model.currentNavTab;
 
-    _tabIndexState.accept(tab.index);
+    _tabState.accept(tab);
 
     context.goNamed(tab.name);
 

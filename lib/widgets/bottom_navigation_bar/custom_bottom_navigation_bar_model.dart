@@ -18,9 +18,9 @@ class CustomBottomNavigationBarModel extends ElementaryModel {
 
   final NavigationService _navigationService;
 
-  int get tabIndex => RootTab.getByPath(
+  RootTab get currentNavTab => RootTab.getByPath(
         getRootPath(fullPath: _navigationService.state.fullPath),
-      ).index;
+      );
 
   Stream<BrowserAppLinksData> get browserLinksStream =>
       _appLinksService.browserLinksStream;
