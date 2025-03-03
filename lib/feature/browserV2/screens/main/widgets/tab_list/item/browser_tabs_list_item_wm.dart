@@ -5,6 +5,7 @@ import 'package:app/core/wm/custom_wm.dart';
 import 'package:app/di/di.dart';
 import 'package:app/feature/browserV2/screens/main/widgets/tab_list/item/browser_tabs_list_item.dart';
 import 'package:app/feature/browserV2/screens/main/widgets/tab_list/item/browser_tabs_list_item_model.dart';
+import 'package:app/generated/generated.dart';
 import 'package:elementary/elementary.dart';
 import 'package:elementary_helper/elementary_helper.dart';
 import 'package:flutter/widgets.dart';
@@ -62,7 +63,18 @@ class BrowserTabsListItemWidgetModel
   }
 
   void _updateTitle() {
-    _titleState.accept(widget.tab.title ?? widget.tab.url.toString());
+    final tab = widget.tab;
+
+    String? title;
+
+    if (tab.title != null) {
+      title = tab.title;
+    } else {
+      final url = tab.url.toString();
+      title = url.isEmpty ? LocaleKeys.startPage.tr() : url;
+    }
+
+    _titleState.accept(title);
   }
 
   @override
@@ -70,6 +82,10 @@ class BrowserTabsListItemWidgetModel
     model.activeTabState.removeListener(_handleActiveTab);
     model.screenshotsState.removeListener(_handleScreenShots);
     super.dispose();
+  }
+
+  void onPressedMenu() {
+    // TODO
   }
 
   void _handleActiveTab() {

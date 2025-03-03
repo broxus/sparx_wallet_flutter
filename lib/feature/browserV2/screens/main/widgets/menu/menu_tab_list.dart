@@ -34,26 +34,33 @@ class BrowserTabListMenu extends StatelessWidget {
             child: SizedBox(
               height: DimensSizeV2.d48,
               child: Row(
-                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
                   Expanded(
-                    child: _TextButton(
-                      title: LocaleKeys.browserCloseAll.tr(),
-                      onPressed:
-                          data?.list.isEmpty ?? true ? null : onCloseAllPressed,
-                      color: colors.contentNegative,
-                    ),
+                    child: data?.list.isEmpty ?? true
+                        ? const SizedBox.shrink()
+                        : _TextButton(
+                            title: LocaleKeys.browserCloseAll.tr(),
+                            alignment: Alignment.centerLeft,
+                            onPressed: onCloseAllPressed,
+                          ),
                   ),
                   GestureDetector(
                     behavior: HitTestBehavior.opaque,
                     onTap: onPlusPressed,
-                    child: SvgPicture.asset(
-                      Assets.images.plusCircled.path,
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: DimensSizeV2.d32,
+                      ),
+                      child: SvgPicture.asset(
+                        Assets.images.plusCircled.path,
+                      ),
                     ),
                   ),
                   Expanded(
                     child: _TextButton(
                       title: LocaleKeys.browserDone.tr(),
+                      alignment: Alignment.centerRight,
                       onPressed: onDonePressed,
                     ),
                   ),
@@ -70,13 +77,13 @@ class BrowserTabListMenu extends StatelessWidget {
 class _TextButton extends StatelessWidget {
   const _TextButton({
     required this.title,
+    required this.alignment,
     this.onPressed,
-    this.color,
   });
 
   final String title;
+  final Alignment alignment;
   final VoidCallback? onPressed;
-  final Color? color;
 
   @override
   Widget build(BuildContext context) {
@@ -85,14 +92,22 @@ class _TextButton extends StatelessWidget {
     return GestureDetector(
       onTap: onPressed,
       behavior: HitTestBehavior.opaque,
-      child: Center(
-        child: Text(
-          title,
-          // TODO(knightforce): check style from designer
-          style: themeStyle.textStyles.labelSmall.copyWith(
-            fontWeight: FontWeight.w600,
-            color: color,
-            height: 1,
+      child: Align(
+        alignment: alignment,
+        child: GestureDetector(
+          child: Padding(
+            padding: const EdgeInsets.symmetric(
+              horizontal: DimensSizeV2.d32,
+            ),
+            child: Text(
+              title,
+              // TODO(knightforce): check style from designer
+              style: themeStyle.textStyles.labelSmall.copyWith(
+                fontWeight: FontWeight.w600,
+                color: themeStyle.colors.content2,
+                height: 1,
+              ),
+            ),
           ),
         ),
       ),

@@ -6,6 +6,7 @@ import 'package:app/generated/generated.dart';
 import 'package:elementary/elementary.dart';
 import 'package:elementary_helper/elementary_helper.dart';
 import 'package:flutter/material.dart';
+import 'package:lucide_icons_flutter/lucide_icons.dart';
 import 'package:ui_components_lib/ui_components_lib.dart';
 
 class BrowserTabsListItem
@@ -25,23 +26,24 @@ class BrowserTabsListItem
 
   @override
   Widget build(BrowserTabsListItemWidgetModel wm) {
-    return SizedBox(
-      child: Material(
-        shape: const SquircleShapeBorder(cornerRadius: DimensRadius.medium),
-        clipBehavior: Clip.antiAlias,
-        color: wm.colors.background1,
-        child: InkWell(
-          onTap: onPressed,
-          child: StateNotifierBuilder<bool?>(
-            listenableState: wm.activeState,
-            builder: (_, bool? isActive) {
-              return DecoratedBox(
-                decoration: BoxDecoration(
-                  border: Border.all(
-                    // todo color
-                    color: isActive ?? false ? Colors.red : Colors.transparent,
-                  ),
-                ),
+    return Stack(
+      children: [
+        StateNotifierBuilder<bool?>(
+          listenableState: wm.activeState,
+          builder: (_, bool? isActive) {
+            isActive ??= false;
+
+            return Material(
+              shape: SquircleShapeBorder(
+                borderWidth: isActive ? DimensSizeV2.d4 : DimensSizeV2.d2,
+                cornerRadius: DimensRadiusV2.radius16,
+                borderColor:
+                    isActive ? ColorsResV2.p75 : wm.colors.primaryA.withAlpha(25),
+              ),
+              clipBehavior: Clip.antiAlias,
+              color: wm.colors.background1,
+              child: InkWell(
+                onTap: onPressed,
                 child: Stack(
                   children: [
                     OverflowBox(
@@ -55,8 +57,7 @@ class BrowserTabsListItem
                               : Image.file(
                                   file,
                                   fit: BoxFit.scaleDown,
-                                  errorBuilder: (_, __, ___) =>
-                                      const SizedBox(),
+                                  errorBuilder: (_, __, ___) => const SizedBox(),
                                 );
                         },
                       ),
@@ -67,11 +68,18 @@ class BrowserTabsListItem
                     ),
                   ],
                 ),
-              );
-            },
+              ),
+            );
+          },
+        ),
+        Positioned(
+          bottom: 0,
+          right: 0,
+          child: _Menu(
+            onPressed: wm.onPressedMenu,
           ),
         ),
-      ),
+      ],
     );
   }
 }
@@ -96,15 +104,7 @@ class _Header extends StatelessWidget {
       height: DimensSizeV2.d36,
       child: DecoratedBox(
         decoration: BoxDecoration(
-          border: Border(
-            top: BorderSide(color: colors.borderAlpha),
-            left: BorderSide(color: colors.borderAlpha),
-            right: BorderSide(color: colors.borderAlpha),
-          ),
-          borderRadius: const BorderRadius.only(
-            topLeft: Radius.circular(DimensRadiusV2.radius16),
-            topRight: Radius.circular(DimensRadiusV2.radius16),
-          ),
+          color: colors.background2,
         ),
         child: Row(
           children: [
@@ -116,7 +116,9 @@ class _Header extends StatelessWidget {
                   builder: (_, String? title) {
                     return Text(
                       title ?? '',
-                      style: textStyles.labelXSmall,
+                      style: textStyles.labelXSmall.copyWith(
+                        color: colors.content2,
+                      ),
                       maxLines: 1,
                       overflow: TextOverflow.ellipsis,
                       softWrap: false,
@@ -126,14 +128,13 @@ class _Header extends StatelessWidget {
               ),
             ),
             GestureDetector(
+              behavior: HitTestBehavior.opaque,
               onTap: onPressedClose,
-              child: Padding(
-                padding: const EdgeInsets.symmetric(
-                  vertical: DimensSizeV2.d11,
-                  horizontal: DimensSizeV2.d15,
-                ),
-                child: CommonIconWidget.svg(
-                  svg: Assets.images.closeAnother.path,
+              child: SizedBox(
+                width: DimensSizeV2.d36,
+                height: double.infinity,
+                child: Icon(
+                  LucideIcons.circleX,
                   size: DimensSizeV2.d20,
                   color: colors.content3,
                 ),
@@ -147,10 +148,47 @@ class _Header extends StatelessWidget {
 }
 
 class _EmptyContent extends StatelessWidget {
-  const _EmptyContent({super.key});
+  const _EmptyContent();
 
   @override
   Widget build(BuildContext context) {
     return Assets.images.bgNetwork.image(width: double.infinity);
+  }
+}
+
+class _Menu extends StatelessWidget {
+  const _Menu({
+    required this.onPressed,
+  });
+
+  final VoidCallback onPressed;
+
+  @override
+  Widget build(BuildContext context) {
+    final colors = context.themeStyleV2.colors;
+
+    return GestureDetector(
+      behavior: HitTestBehavior.opaque,
+      onTap: onPressed,
+      child: Padding(
+        padding: const EdgeInsets.all(DimensSizeV2.d8),
+        child: DecoratedBox(
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(DimensRadiusV2.radius8),
+            // TODO(knightforce): add to color palette
+            color: const Color(0xff353960),
+          ),
+          child: Padding(
+            padding: const EdgeInsets.all(DimensSizeV2.d4),
+            child: Center(
+              child: Icon(
+                LucideIcons.ellipsis,
+                color: colors.primaryA,
+              ),
+            ),
+          ),
+        ),
+      ),
+    );
   }
 }

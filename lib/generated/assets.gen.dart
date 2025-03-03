@@ -197,10 +197,6 @@ class $AssetsImagesGen {
   /// File path: assets/images/close.svg
   SvgGenImage get close => const SvgGenImage('assets/images/close.svg');
 
-  /// File path: assets/images/close_another.svg
-  SvgGenImage get closeAnother =>
-      const SvgGenImage('assets/images/close_another.svg');
-
   /// File path: assets/images/closed_eye.svg
   SvgGenImage get closedEye =>
       const SvgGenImage('assets/images/closed_eye.svg');
@@ -483,7 +479,6 @@ class $AssetsImagesGen {
         choose,
         circleCheck,
         close,
-        closeAnother,
         closedEye,
         copy,
         copyOutlined,
