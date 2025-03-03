@@ -46,7 +46,7 @@ class BrowserTabsList extends StatelessWidget {
                 ),
                 crossAxisCount: 2,
                 crossAxisSpacing: DimensSizeV2.d8,
-                mainAxisSpacing: DimensSizeV2.d12,
+                mainAxisSpacing: DimensSizeV2.d8,
                 childAspectRatio: _cardAspectRatio,
                 children: [
                   for (final tab in tabs.sortedList)
