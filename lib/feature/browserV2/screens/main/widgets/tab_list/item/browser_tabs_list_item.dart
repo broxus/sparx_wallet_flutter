@@ -1,7 +1,7 @@
 import 'dart:io';
 
 import 'package:app/feature/browserV2/models/tab/browser_tab.dart';
-import 'package:app/feature/browserV2/screens/main/widgets/tab_list/item/tab_list_item/browser_tabs_list_item_wm.dart';
+import 'package:app/feature/browserV2/screens/main/widgets/tab_list/item/browser_tabs_list_item_wm.dart';
 import 'package:app/generated/generated.dart';
 import 'package:elementary/elementary.dart';
 import 'package:elementary_helper/elementary_helper.dart';

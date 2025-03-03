@@ -12,6 +12,8 @@ class BrowserTabsCollection {
     );
 
   int get count => list.length;
+
+  String get countText => count.toString();
 }
 
 class ImageCache {
