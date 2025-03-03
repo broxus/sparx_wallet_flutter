@@ -56,7 +56,9 @@ class BrowserMainScreenWidgetModel
 
   // TODO(knightforce): depending on what opens first - a list or a page
   // TODO(knightforce): if a page - need to skip animations - set the desired view
-  late final _viewVisibleState = createNotifier(false);
+  late final _viewVisibleState = createNotifier<bool>(
+    activeTabState.value != null,
+  );
 
   late final _controlPanelState = createNotifier<BrowserControlPanelData>(
     BrowserControlPanelData(),
@@ -157,7 +159,7 @@ class BrowserMainScreenWidgetModel
       return;
     }
 
-    model.createTab();
+    model.createEmptyTab();
   }
 
   void _handleActiveTab() {
