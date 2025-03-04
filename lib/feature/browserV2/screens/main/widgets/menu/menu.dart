@@ -58,46 +58,32 @@ class _BrowserBottomMenuState extends State<BrowserBottomMenu> {
     return StateNotifierBuilder(
       listenableState: widget.viewVisibleState,
       builder: (_, bool? isVisible) {
-        return Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            AnimatedCrossFade(
-              firstChild: BrowserTabListMenu(
-                key: _listKey,
-                tabsState: widget.tabsState,
-                onCloseAllPressed: widget.onCloseAllPressed,
-                onPlusPressed: widget.onPlusPressed,
-                onDonePressed: widget.onDonePressed,
-              ),
-              secondChild: BrowserTabViewMenu(
-                key: _viewKey,
-                menuUrlPanelWidth: widget.menuUrlPanelWidth,
-                urlWidth: widget.urlWidth,
-                onPressedBackPressed: widget.onPressedBackPressed,
-                onPressedForwardPressed: widget.onPressedForwardPressed,
-                onPressedDotsPressed: widget.onPressedDotsPressed,
-                onPressedBook: widget.onPressedBook,
-                onPressedTabs: widget.onPressedTabs,
-                onPressedUrlMenu: widget.onPressedUrlMenu,
-                onEditingCompleteUrl: widget.onEditingCompleteUrl,
-                urlSliderController: widget.urlSliderController,
-                tabsState: widget.tabsState,
-              ),
-              crossFadeState: isVisible ?? false
-                  ? CrossFadeState.showSecond
-                  : CrossFadeState.showFirst,
-              duration: const Duration(milliseconds: 250),
-            ),
-            BrowserMenuBackgroundBlur(
-              child: AnimatedSize(
-                duration: const Duration(milliseconds: 250),
-                child: SizedBox(
-                  width: double.infinity,
-                  height: MediaQuery.of(context).viewInsets.bottom,
-                ),
-              ),
-            ),
-          ],
+        return AnimatedCrossFade(
+          firstChild: BrowserTabListMenu(
+            key: _listKey,
+            tabsState: widget.tabsState,
+            onCloseAllPressed: widget.onCloseAllPressed,
+            onPlusPressed: widget.onPlusPressed,
+            onDonePressed: widget.onDonePressed,
+          ),
+          secondChild: BrowserTabViewMenu(
+            key: _viewKey,
+            menuUrlPanelWidth: widget.menuUrlPanelWidth,
+            urlWidth: widget.urlWidth,
+            onPressedBackPressed: widget.onPressedBackPressed,
+            onPressedForwardPressed: widget.onPressedForwardPressed,
+            onPressedDotsPressed: widget.onPressedDotsPressed,
+            onPressedBook: widget.onPressedBook,
+            onPressedTabs: widget.onPressedTabs,
+            onPressedUrlMenu: widget.onPressedUrlMenu,
+            onEditingCompleteUrl: widget.onEditingCompleteUrl,
+            urlSliderController: widget.urlSliderController,
+            tabsState: widget.tabsState,
+          ),
+          crossFadeState: isVisible ?? false
+              ? CrossFadeState.showSecond
+              : CrossFadeState.showFirst,
+          duration: const Duration(milliseconds: 250),
         );
       },
     );

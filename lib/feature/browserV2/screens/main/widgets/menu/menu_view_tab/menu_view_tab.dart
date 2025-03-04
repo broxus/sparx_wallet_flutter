@@ -35,54 +35,54 @@ class BrowserTabViewMenu extends StatelessWidget {
   final ScrollController urlSliderController;
   final ListenableState<BrowserTabsCollection> tabsState;
 
-  static const _urlMenuHeight = DimensSizeV2.d48;
-  static const _controlMenuHeight = DimensSizeV2.d48;
-  static const _topPadding = DimensSizeV2.d8;
-  static const height = _urlMenuHeight + _controlMenuHeight + _topPadding;
-
   @override
   Widget build(BuildContext context) {
-    return SizedBox(
-      height: height,
-      child: BrowserMenuBackgroundBlur(
-        child: Padding(
-          padding: const EdgeInsets.only(top: _topPadding),
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              BrowserTabViewMenuUrlPanel(
-                panelWidth: menuUrlPanelWidth,
-                urlWidth: urlWidth,
-                height: _urlMenuHeight,
-                controller: urlSliderController,
-                tabsState: tabsState,
-                onPressedUrlMenu: onPressedUrlMenu,
-                onEditingCompleteUrl: onEditingCompleteUrl,
-              ),
-              BrowserTabViewMenuNavPanel(
-                height: _controlMenuHeight,
-                onPressedBackPressed: onPressedBackPressed,
-                onPressedForwardPressed: onPressedForwardPressed,
-                onPressedDotsPressed: onPressedDotsPressed,
-                onPressedBook: onPressedBook,
-                onPressedTabs: onPressedTabs,
-              ),
-            ],
-          ),
+    return BrowserMenuBackgroundBlur(
+      child: Padding(
+        padding: const EdgeInsets.only(top: DimensSizeV2.d8),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            BrowserTabViewMenuUrlPanel(
+              panelWidth: menuUrlPanelWidth,
+              urlWidth: urlWidth,
+              controller: urlSliderController,
+              tabsState: tabsState,
+              onPressedUrlMenu: onPressedUrlMenu,
+              onEditingCompleteUrl: onEditingCompleteUrl,
+            ),
+            const _Space(),
+            BrowserTabViewMenuNavPanel(
+              onPressedBackPressed: onPressedBackPressed,
+              onPressedForwardPressed: onPressedForwardPressed,
+              onPressedDotsPressed: onPressedDotsPressed,
+              onPressedBook: onPressedBook,
+              onPressedTabs: onPressedTabs,
+            ),
+          ],
         ),
       ),
     );
   }
 }
 
-class _Spacer extends StatelessWidget {
-  const _Spacer();
+class _Space extends StatelessWidget {
+  const _Space();
+
+  static const _menuHeight = BrowserTabViewMenuUrlPanel.height +
+      BrowserTabViewMenuNavPanel.height -
+      DimensSizeV2.d8;
 
   @override
   Widget build(BuildContext context) {
-    return AnimatedPadding(
-      padding: MediaQuery.of(context).viewInsets,
+    final bottom = MediaQuery.of(context).viewInsets.bottom - _menuHeight;
+
+    return AnimatedSize(
       duration: const Duration(milliseconds: 250),
+      child: SizedBox(
+        width: double.infinity,
+        height: bottom > 0 ? bottom : 0,
+      ),
     );
   }
 }

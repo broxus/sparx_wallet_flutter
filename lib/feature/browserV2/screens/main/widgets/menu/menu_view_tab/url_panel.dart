@@ -5,12 +5,12 @@ import 'package:app/feature/browserV2/screens/main/widgets/menu/menu_view_tab/ur
 import 'package:app/utils/types/fuction_types.dart';
 import 'package:elementary_helper/elementary_helper.dart';
 import 'package:flutter/material.dart';
+import 'package:ui_components_lib/v2/ui_components_lib_v2.dart';
 
 class BrowserTabViewMenuUrlPanel extends StatefulWidget {
   const BrowserTabViewMenuUrlPanel({
     required this.panelWidth,
     required this.urlWidth,
-    required this.height,
     required this.controller,
     required this.tabsState,
     required this.onPressedUrlMenu,
@@ -18,9 +18,10 @@ class BrowserTabViewMenuUrlPanel extends StatefulWidget {
     super.key,
   });
 
+  static const height = DimensSizeV2.d48;
+
   final double panelWidth;
   final double urlWidth;
-  final double height;
   final ScrollController controller;
   final ListenableState<BrowserTabsCollection> tabsState;
   final ValueChanged<String> onPressedUrlMenu;
@@ -42,7 +43,7 @@ class _BrowserTabViewMenuUrlPanelState
   Widget build(BuildContext context) {
     return SizedBox(
       width: widget.panelWidth,
-      height: widget.height,
+      height: BrowserTabViewMenuUrlPanel.height,
       child: StateNotifierBuilder<BrowserTabsCollection>(
         listenableState: widget.tabsState,
         builder: (_, BrowserTabsCollection? data) {

@@ -22,7 +22,8 @@ class BrowserStartView extends StatelessWidget {
           children: [
             Assets.images.bgNetwork.image(width: double.infinity),
             Positioned(
-              bottom: BrowserTabViewMenu.height + DimensSizeV2.d12,
+              // TODO(knightforce): check
+              bottom: 200 + DimensSizeV2.d12,
               left: 0,
               right: 0,
               child: Column(

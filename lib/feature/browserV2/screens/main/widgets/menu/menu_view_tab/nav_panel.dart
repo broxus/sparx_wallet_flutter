@@ -2,10 +2,8 @@ import 'package:app/generated/generated.dart';
 import 'package:flutter/material.dart';
 import 'package:ui_components_lib/v2/ui_components_lib_v2.dart';
 
-
 class BrowserTabViewMenuNavPanel extends StatelessWidget {
   const BrowserTabViewMenuNavPanel({
-    required this.height,
     required this.onPressedBackPressed,
     required this.onPressedForwardPressed,
     required this.onPressedDotsPressed,
@@ -14,7 +12,8 @@ class BrowserTabViewMenuNavPanel extends StatelessWidget {
     super.key,
   });
 
-  final double height;
+  static const height = DimensSizeV2.d48;
+
   final VoidCallback onPressedBackPressed;
   final VoidCallback onPressedForwardPressed;
   final VoidCallback onPressedDotsPressed;
