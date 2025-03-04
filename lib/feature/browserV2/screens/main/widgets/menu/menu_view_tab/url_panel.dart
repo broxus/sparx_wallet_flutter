@@ -5,7 +5,6 @@ import 'package:app/feature/browserV2/screens/main/widgets/menu/menu_view_tab/ur
 import 'package:app/utils/types/fuction_types.dart';
 import 'package:elementary_helper/elementary_helper.dart';
 import 'package:flutter/material.dart';
-import 'package:ui_components_lib/ui_components_lib.dart';
 
 class BrowserTabViewMenuUrlPanel extends StatefulWidget {
   const BrowserTabViewMenuUrlPanel({

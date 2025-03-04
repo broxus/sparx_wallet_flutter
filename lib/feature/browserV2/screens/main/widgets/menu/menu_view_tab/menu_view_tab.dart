@@ -37,15 +37,16 @@ class BrowserTabViewMenu extends StatelessWidget {
 
   static const _urlMenuHeight = DimensSizeV2.d48;
   static const _controlMenuHeight = DimensSizeV2.d48;
-  static const height = _urlMenuHeight + _controlMenuHeight;
+  static const _topPadding = DimensSizeV2.d8;
+  static const height = _urlMenuHeight + _controlMenuHeight + _topPadding;
 
   @override
   Widget build(BuildContext context) {
     return SizedBox(
       height: height,
       child: BrowserMenuBackgroundBlur(
-        child: SizedBox(
-          height: DimensSizeV2.d48,
+        child: Padding(
+          padding: const EdgeInsets.only(top: _topPadding),
           child: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
