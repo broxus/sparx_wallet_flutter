@@ -1,7 +1,7 @@
 import 'dart:math';
 
 import 'package:app/feature/browserV2/data/tabs_data.dart';
-import 'package:app/feature/browserV2/models/tab/browser_tab.dart';
+import 'package:app/feature/browserV2/screens/main/widgets/menu/menu_view_tab/url_field.dart';
 import 'package:app/utils/types/fuction_types.dart';
 import 'package:elementary_helper/elementary_helper.dart';
 import 'package:flutter/material.dart';
@@ -12,6 +12,7 @@ class BrowserTabViewMenuUrlPanel extends StatefulWidget {
     required this.height,
     required this.controller,
     required this.tabsState,
+    required this.onPressedUrlMenu,
     required this.onEditingCompleteUrl,
     super.key,
   });
@@ -19,6 +20,7 @@ class BrowserTabViewMenuUrlPanel extends StatefulWidget {
   final double height;
   final ScrollController controller;
   final ListenableState<BrowserTabsCollection> tabsState;
+  final ValueChanged<String> onPressedUrlMenu;
   final DoubleValueCallback<String, String> onEditingCompleteUrl;
 
   @override
@@ -57,10 +59,11 @@ class _BrowserTabViewMenuUrlPanelState
             controller: widget.controller,
             itemCount: data.count,
             itemBuilder: (_, int index) {
-              return _UrlAddressPanel(
+              return UrlField(
                 key: ValueKey(data.list[index].id),
                 width: _urlSize,
                 tab: data.list[index],
+                onPressedUrlMenu: widget.onPressedUrlMenu,
                 onEditingComplete: widget.onEditingCompleteUrl,
               );
             },
@@ -72,64 +75,6 @@ class _BrowserTabViewMenuUrlPanelState
 
   Widget _buildSeparator(context, index) => const SizedBox(
         width: DimensSizeV2.d8,
-      );
-}
-
-class _UrlAddressPanel extends StatefulWidget {
-  const _UrlAddressPanel({
-    required this.tab,
-    required this.width,
-    required this.onEditingComplete,
-    super.key,
-  });
-
-  final BrowserTab tab;
-  final double width;
-  final DoubleValueCallback<String, String> onEditingComplete;
-
-  @override
-  State<_UrlAddressPanel> createState() => _UrlAddressPanelState();
-}
-
-class _UrlAddressPanelState extends State<_UrlAddressPanel> {
-  late final _controller = TextEditingController(
-    text: widget.tab.url.toString(),
-  );
-
-  @override
-  void didUpdateWidget(covariant _UrlAddressPanel oldWidget) {
-    if (oldWidget.tab.url != widget.tab.url) {
-      _controller.text = widget.tab.url.toString();
-    }
-    super.didUpdateWidget(oldWidget);
-  }
-
-  @override
-  void dispose() {
-    _controller.dispose();
-    super.dispose();
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return SizedBox(
-      width: widget.width,
-      height: DimensSizeV2.d40,
-      child: DecoratedBox(
-        decoration: BoxDecoration(
-          color: context.themeStyleV2.colors.backgroundInput,
-        ),
-        child: TextField(
-          controller: _controller,
-          onEditingComplete: _onEditingComplete,
-        ),
-      ),
-    );
-  }
-
-  void _onEditingComplete() => widget.onEditingComplete(
-        widget.tab.id,
-        _controller.text,
       );
 }
 

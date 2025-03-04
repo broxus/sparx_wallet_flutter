@@ -17,6 +17,7 @@ class BrowserBottomMenu extends StatefulWidget {
     required this.onPressedDotsPressed,
     required this.onPressedBook,
     required this.onPressedTabs,
+    required this.onPressedUrlMenu,
     required this.onEditingCompleteUrl,
     required this.urlSliderController,
     super.key,
@@ -31,6 +32,7 @@ class BrowserBottomMenu extends StatefulWidget {
   final VoidCallback onPressedDotsPressed;
   final VoidCallback onPressedBook;
   final VoidCallback onPressedTabs;
+  final ValueChanged<String> onPressedUrlMenu;
   final DoubleValueCallback<String, String> onEditingCompleteUrl;
   final ScrollController urlSliderController;
 
@@ -89,6 +91,7 @@ class _BrowserBottomMenuState extends State<BrowserBottomMenu> {
                     onPressedDotsPressed: widget.onPressedDotsPressed,
                     onPressedBook: widget.onPressedBook,
                     onPressedTabs: widget.onPressedTabs,
+                    onPressedUrlMenu: widget.onPressedUrlMenu,
                     onEditingCompleteUrl: widget.onEditingCompleteUrl,
                     urlSliderController: widget.urlSliderController,
                     tabsState: widget.tabsState,

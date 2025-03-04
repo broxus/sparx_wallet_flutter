@@ -138,6 +138,10 @@ class BrowserMainScreenWidgetModel
     _viewVisibleState.accept(false);
   }
 
+  void onPressedUrlMenu(String tabId) {
+    // TODO
+  }
+
   void onEditingCompleteUrl(String tabId, String text) {
     // TODO
   }
