@@ -40,29 +40,24 @@ class BrowserTabViewMenu extends StatelessWidget {
       child: BrowserMenuBackgroundBlur(
         child: SizedBox(
           height: DimensSizeV2.d48,
-          child: Padding(
-            padding: const EdgeInsets.symmetric(
-              horizontal: DimensSizeV2.d24,
-            ),
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                BrowserTabViewMenuUrlPanel(
-                  height: _urlMenuHeight,
-                  controller: urlSliderController,
-                  tabsState: tabsState,
-                  onEditingCompleteUrl: onEditingCompleteUrl,
-                ),
-                BrowserTabViewMenuNavPanel(
-                  height: _controlMenuHeight,
-                  onPressedBackPressed: onPressedBackPressed,
-                  onPressedForwardPressed: onPressedForwardPressed,
-                  onPressedDotsPressed: onPressedDotsPressed,
-                  onPressedBook: onPressedBook,
-                  onPressedTabs: onPressedTabs,
-                ),
-              ],
-            ),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              BrowserTabViewMenuUrlPanel(
+                height: _urlMenuHeight,
+                controller: urlSliderController,
+                tabsState: tabsState,
+                onEditingCompleteUrl: onEditingCompleteUrl,
+              ),
+              BrowserTabViewMenuNavPanel(
+                height: _controlMenuHeight,
+                onPressedBackPressed: onPressedBackPressed,
+                onPressedForwardPressed: onPressedForwardPressed,
+                onPressedDotsPressed: onPressedDotsPressed,
+                onPressedBook: onPressedBook,
+                onPressedTabs: onPressedTabs,
+              ),
+            ],
           ),
         ),
       ),
