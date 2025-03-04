@@ -9,6 +9,8 @@ import 'package:ui_components_lib/v2/ui_components_lib_v2.dart';
 
 class BrowserTabViewMenu extends StatelessWidget {
   const BrowserTabViewMenu({
+    required this.menuUrlPanelWidth,
+    required this.urlWidth,
     required this.onPressedBackPressed,
     required this.onPressedForwardPressed,
     required this.onPressedDotsPressed,
@@ -21,6 +23,8 @@ class BrowserTabViewMenu extends StatelessWidget {
     super.key,
   });
 
+  final double menuUrlPanelWidth;
+  final double urlWidth;
   final VoidCallback onPressedBackPressed;
   final VoidCallback onPressedForwardPressed;
   final VoidCallback onPressedDotsPressed;
@@ -46,6 +50,8 @@ class BrowserTabViewMenu extends StatelessWidget {
             mainAxisSize: MainAxisSize.min,
             children: [
               BrowserTabViewMenuUrlPanel(
+                panelWidth: menuUrlPanelWidth,
+                urlWidth: urlWidth,
                 height: _urlMenuHeight,
                 controller: urlSliderController,
                 tabsState: tabsState,

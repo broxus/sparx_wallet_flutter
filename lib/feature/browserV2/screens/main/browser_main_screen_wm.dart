@@ -39,8 +39,6 @@ class BrowserMainScreenWidgetModel
   late final viewTabScrollController = createScrollController();
   late final urlSliderController = createScrollController();
 
-  late final tabViewWidth = MediaQuery.of(context).size.width;
-
   final _controllers = HashMap<String, InAppWebViewController>();
 
   ListenableState<BrowserTabsCollection> get tabsState => model.tabsState;
@@ -63,6 +61,10 @@ class BrowserMainScreenWidgetModel
   late final _controlPanelState = createNotifier<BrowserControlPanelData>(
     BrowserControlPanelData(),
   );
+
+  late final urlWidth = screenWidth * .915 + DimensSizeV2.d16;
+
+  late final screenWidth = MediaQuery.of(context).size.width;
 
   ColorsPaletteV2 get colors => _theme.colors;
 
@@ -185,9 +187,12 @@ class BrowserMainScreenWidgetModel
   }
 
   void _handleUrlPanelScroll() {
-    // TODO complete calculate
+    final urlOffset = urlSliderController.offset;
+    final urlMax = urlSliderController.position.maxScrollExtent;
+    final viewMax = viewTabScrollController.position.maxScrollExtent;
+
     viewTabScrollController.jumpTo(
-      urlSliderController.position.pixels,
+      viewMax * urlOffset / urlMax,
     );
   }
 }

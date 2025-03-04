@@ -46,37 +46,42 @@ class _UrlFieldState extends State<UrlField> {
     return SizedBox(
       width: widget.width,
       height: DimensSizeV2.d40,
-      child: DecoratedBox(
-        decoration: BoxDecoration(
-          color: context.themeStyleV2.colors.backgroundInput,
-          border: null,
+      child: Padding(
+        padding: const EdgeInsets.symmetric(
+          horizontal: DimensSizeV2.d4,
         ),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: [
-            _Button(
-              onPressed: _onPressedMenu,
-              icon: LucideIcons.menu,
-            ),
-            Flexible(
-              child: TextField(
-                controller: _controller,
-                decoration: InputDecoration(
-                  border: InputBorder.none,
-                  focusedBorder: InputBorder.none,
-                  enabledBorder: InputBorder.none,
-                  errorBorder: InputBorder.none,
-                  disabledBorder: InputBorder.none,
-                ),
-                onEditingComplete: _onEditingComplete,
+        child: DecoratedBox(
+          decoration: BoxDecoration(
+            color: context.themeStyleV2.colors.backgroundInput,
+            border: null,
+          ),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: [
+              _Button(
+                onPressed: _onPressedMenu,
+                icon: LucideIcons.menu,
               ),
-            ),
-            _Button(
-              onPressed: _onPressedMenu,
-              icon: LucideIcons.rotateCcw,
-            ),
-          ],
+              Flexible(
+                child: TextField(
+                  controller: _controller,
+                  decoration: InputDecoration(
+                    border: InputBorder.none,
+                    focusedBorder: InputBorder.none,
+                    enabledBorder: InputBorder.none,
+                    errorBorder: InputBorder.none,
+                    disabledBorder: InputBorder.none,
+                  ),
+                  onEditingComplete: _onEditingComplete,
+                ),
+              ),
+              _Button(
+                onPressed: _onPressedMenu,
+                icon: LucideIcons.rotateCcw,
+              ),
+            ],
+          ),
         ),
       ),
     );

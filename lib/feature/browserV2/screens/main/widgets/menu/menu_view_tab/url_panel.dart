@@ -9,6 +9,8 @@ import 'package:ui_components_lib/ui_components_lib.dart';
 
 class BrowserTabViewMenuUrlPanel extends StatefulWidget {
   const BrowserTabViewMenuUrlPanel({
+    required this.panelWidth,
+    required this.urlWidth,
     required this.height,
     required this.controller,
     required this.tabsState,
@@ -17,6 +19,8 @@ class BrowserTabViewMenuUrlPanel extends StatefulWidget {
     super.key,
   });
 
+  final double panelWidth;
+  final double urlWidth;
   final double height;
   final ScrollController controller;
   final ListenableState<BrowserTabsCollection> tabsState;
@@ -30,17 +34,15 @@ class BrowserTabViewMenuUrlPanel extends StatefulWidget {
 
 class _BrowserTabViewMenuUrlPanelState
     extends State<BrowserTabViewMenuUrlPanel> {
-  late final _screenSize = MediaQuery.of(context).size.width;
-  late final _urlSize = _screenSize * .915;
+
   late final _physics = _SnapPageScrollPhysics(
-    elementPadding: DimensSizeV2.d8,
-    elementWidth: _urlSize,
+    elementWidth: widget.urlWidth,
   );
 
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      width: _screenSize,
+      width: widget.panelWidth,
       height: widget.height,
       child: StateNotifierBuilder<BrowserTabsCollection>(
         listenableState: widget.tabsState,
@@ -49,19 +51,15 @@ class _BrowserTabViewMenuUrlPanelState
             return const SizedBox.shrink();
           }
 
-          return ListView.separated(
+          return ListView.builder(
             physics: _physics,
-            padding: const EdgeInsets.symmetric(
-              horizontal: DimensSizeV2.d8,
-            ),
-            separatorBuilder: _buildSeparator,
             scrollDirection: Axis.horizontal,
             controller: widget.controller,
             itemCount: data.count,
             itemBuilder: (_, int index) {
               return UrlField(
                 key: ValueKey(data.list[index].id),
-                width: _urlSize,
+                width: widget.urlWidth,
                 tab: data.list[index],
                 onPressedUrlMenu: widget.onPressedUrlMenu,
                 onEditingComplete: widget.onEditingCompleteUrl,
@@ -72,28 +70,21 @@ class _BrowserTabViewMenuUrlPanelState
       ),
     );
   }
-
-  Widget _buildSeparator(context, index) => const SizedBox(
-        width: DimensSizeV2.d8,
-      );
 }
 
 class _SnapPageScrollPhysics extends ScrollPhysics {
   const _SnapPageScrollPhysics({
     required this.elementWidth,
-    required this.elementPadding,
     super.parent,
   });
 
   final double elementWidth;
-  final double elementPadding;
 
   @override
   _SnapPageScrollPhysics applyTo(ScrollPhysics? ancestor) {
     return _SnapPageScrollPhysics(
       parent: buildParent(ancestor),
       elementWidth: elementWidth,
-      elementPadding: elementPadding,
     );
   }
 
@@ -102,10 +93,10 @@ class _SnapPageScrollPhysics extends ScrollPhysics {
     Tolerance tolerance,
     double velocity,
   ) {
-    final pageWidth = elementWidth + elementPadding;
+    final pageWidth = elementWidth;
     final page = position.pixels / pageWidth + velocity / 3000;
     final offset = (position.viewportDimension - elementWidth) / 2;
-    final target = page.roundToDouble() * pageWidth - offset + elementPadding;
+    final target = page.roundToDouble() * pageWidth - offset;
     return max(0, min(target, position.maxScrollExtent));
   }
 

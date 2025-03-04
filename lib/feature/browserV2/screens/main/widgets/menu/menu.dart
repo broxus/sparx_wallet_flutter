@@ -9,6 +9,8 @@ class BrowserBottomMenu extends StatefulWidget {
   const BrowserBottomMenu({
     required this.viewVisibleState,
     required this.tabsState,
+    required this.menuUrlPanelWidth,
+    required this.urlWidth,
     required this.onCloseAllPressed,
     required this.onPlusPressed,
     required this.onDonePressed,
@@ -24,6 +26,8 @@ class BrowserBottomMenu extends StatefulWidget {
   });
 
   final ListenableState<BrowserTabsCollection> tabsState;
+  final double menuUrlPanelWidth;
+  final double urlWidth;
   final VoidCallback onCloseAllPressed;
   final VoidCallback onPlusPressed;
   final VoidCallback onDonePressed;
@@ -86,6 +90,8 @@ class _BrowserBottomMenuState extends State<BrowserBottomMenu> {
                   ),
                   secondChild: BrowserTabViewMenu(
                     key: _viewKey,
+                    menuUrlPanelWidth: widget.menuUrlPanelWidth,
+                    urlWidth: widget.urlWidth,
                     onPressedBackPressed: widget.onPressedBackPressed,
                     onPressedForwardPressed: widget.onPressedForwardPressed,
                     onPressedDotsPressed: widget.onPressedDotsPressed,

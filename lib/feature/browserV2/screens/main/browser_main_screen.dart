@@ -27,7 +27,7 @@ class BrowserMainScreen extends ElementaryWidget<BrowserMainScreenWidgetModel> {
             onCloseTab: wm.onCloseTab,
           ),
           BrowserTabsView(
-            width: wm.tabViewWidth,
+            width: wm.screenWidth,
             viewVisibleState: wm.viewVisibleState,
             tabsState: wm.tabsState,
             scrollController: wm.viewTabScrollController,
@@ -41,6 +41,8 @@ class BrowserMainScreen extends ElementaryWidget<BrowserMainScreenWidgetModel> {
             child: BrowserBottomMenu(
               viewVisibleState: wm.viewVisibleState,
               tabsState: wm.tabsState,
+              menuUrlPanelWidth: wm.screenWidth,
+              urlWidth: wm.urlWidth,
               onCloseAllPressed: wm.onCloseAllPressed,
               onPlusPressed: wm.onPlusPressed,
               onDonePressed: wm.onDonePressed,
