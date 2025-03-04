@@ -83,6 +83,7 @@ dependencies:
 
 dependency_overrides:
   flutter_plugin_android_lifecycle: 2.0.24
+  flutter_nekoton_bridge: 2.5.0-dev.1
 
 dev_dependencies:
   bloc_test: 9.1.7
