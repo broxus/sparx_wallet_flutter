@@ -64,7 +64,10 @@ class BrowserMainScreenWidgetModel
 
   late final urlWidth = screenWidth * .915 + DimensSizeV2.d16;
 
-  late final screenWidth = MediaQuery.of(context).size.width;
+  late final screenHeight = _screenSize.height;
+  late final screenWidth = _screenSize.width;
+
+  late final _screenSize = MediaQuery.of(context).size;
 
   ColorsPaletteV2 get colors => _theme.colors;
 

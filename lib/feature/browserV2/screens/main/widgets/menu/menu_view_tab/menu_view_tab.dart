@@ -74,3 +74,15 @@ class BrowserTabViewMenu extends StatelessWidget {
     );
   }
 }
+
+class _Spacer extends StatelessWidget {
+  const _Spacer();
+
+  @override
+  Widget build(BuildContext context) {
+    return AnimatedPadding(
+      padding: MediaQuery.of(context).viewInsets,
+      duration: const Duration(milliseconds: 250),
+    );
+  }
+}

@@ -9,6 +9,7 @@ class BrowserBottomMenu extends StatefulWidget {
   const BrowserBottomMenu({
     required this.viewVisibleState,
     required this.tabsState,
+    required this.screenHeight,
     required this.menuUrlPanelWidth,
     required this.urlWidth,
     required this.onCloseAllPressed,
@@ -26,6 +27,7 @@ class BrowserBottomMenu extends StatefulWidget {
   });
 
   final ListenableState<BrowserTabsCollection> tabsState;
+  final double screenHeight;
   final double menuUrlPanelWidth;
   final double urlWidth;
   final VoidCallback onCloseAllPressed;
@@ -52,10 +54,6 @@ class _BrowserBottomMenuState extends State<BrowserBottomMenu> {
   final _viewKey = UniqueKey();
 
   final _fullHeight = BrowserTabViewMenu.height;
-  final _listMenuHeight = BrowserTabListMenu.height;
-
-  late final double _listMenuBottomPosition = -_fullHeight + _listMenuHeight;
-  final double _viewMenuBottomPosition = 0;
 
   @override
   void initState() {
@@ -72,10 +70,10 @@ class _BrowserBottomMenuState extends State<BrowserBottomMenu> {
           listenableState: widget.viewVisibleState,
           builder: (_, bool? isVisible) {
             return AnimatedPositioned(
-              duration: const Duration(milliseconds: 250),
-              bottom: isVisible ?? false
-                  ? _viewMenuBottomPosition
-                  : _listMenuBottomPosition,
+              duration: const Duration(milliseconds: 50),
+              top: _getPosition(
+                isVisible: isVisible,
+              ),
               left: 0,
               right: 0,
               child: SizedBox(
@@ -113,5 +111,17 @@ class _BrowserBottomMenuState extends State<BrowserBottomMenu> {
         );
       },
     );
+  }
+
+  double _getPosition({
+    bool? isVisible,
+  }) {
+    isVisible ??= false;
+
+    final bottom = MediaQuery.of(context).viewInsets.bottom;
+
+    return widget.screenHeight -
+        (isVisible ? BrowserTabViewMenu.height : BrowserTabListMenu.height) -
+        bottom;
   }
 }

@@ -41,6 +41,7 @@ class BrowserMainScreen extends ElementaryWidget<BrowserMainScreenWidgetModel> {
             child: BrowserBottomMenu(
               viewVisibleState: wm.viewVisibleState,
               tabsState: wm.tabsState,
+              screenHeight: wm.screenHeight,
               menuUrlPanelWidth: wm.screenWidth,
               urlWidth: wm.urlWidth,
               onCloseAllPressed: wm.onCloseAllPressed,
