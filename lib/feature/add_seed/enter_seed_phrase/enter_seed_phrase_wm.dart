@@ -1,7 +1,10 @@
+import 'dart:convert';
+
 import 'package:app/app/router/app_route.dart';
 import 'package:app/app/router/routs/add_seed/add_seed.dart';
 import 'package:app/core/error_handler_factory.dart';
 import 'package:app/core/wm/custom_wm.dart';
+import 'package:app/data/models/models.dart';
 import 'package:app/di/di.dart';
 import 'package:app/feature/add_seed/enter_seed_phrase/data/input_data.dart';
 import 'package:app/feature/add_seed/enter_seed_phrase/data/tab_data.dart';
@@ -9,8 +12,7 @@ import 'package:app/feature/add_seed/enter_seed_phrase/enter_seed_phrase.dart';
 import 'package:app/feature/add_seed/enter_seed_phrase/enter_seed_phrase_model.dart';
 import 'package:app/feature/constants.dart';
 import 'package:app/generated/generated.dart';
-import 'package:app/utils/focus_utils.dart';
-import 'package:app/utils/seed_utils.dart';
+import 'package:app/utils/utils.dart';
 import 'package:collection/collection.dart';
 import 'package:elementary/elementary.dart';
 import 'package:elementary_helper/elementary_helper.dart';
@@ -85,6 +87,7 @@ class EnterSeedPhraseWidgetModel
       );
     }(),
   );
+  late final _seedPhraseFormat = createNotifier(SeedPhraseFormat.standart);
 
   ColorsPalette get colors => context.themeStyle.colors;
 
@@ -98,10 +101,20 @@ class EnterSeedPhraseWidgetModel
 
   ListenableState<EnterSeedPhraseTabData> get tabState => _tabState;
 
+  EnterSeedPhraseTabData? get _tabData => _tabState.value;
+
+  String get networkGroup => model.networkGroup;
+
+  ListenableState<SeedPhraseFormat> get seedPhraseFormat => _seedPhraseFormat;
+
   int get _currentValue =>
       _tabState.value?.currentValue ?? model.seedPhraseWordsCount.first;
 
-  EnterSeedPhraseTabData? get _tabData => _tabState.value;
+  MnemonicType get _mnemonicType => _currentValue == actualSeedPhraseLength
+      ? defaultMnemonicType
+      : _seedPhraseFormat.value == SeedPhraseFormat.standart
+          ? const MnemonicType.legacy()
+          : tonBip39MnemonicType;
 
   @override
   void dispose() {
@@ -170,13 +183,9 @@ class EnterSeedPhraseWidgetModel
 
         final phrase = buffer.toString().trimRight();
 
-        final mnemonicType = _currentValue == model.legacySeedPhraseLength
-            ? const MnemonicType.legacy()
-            : defaultMnemonicType;
-
         deriveFromPhrase(
           phrase: phrase,
-          mnemonicType: mnemonicType,
+          mnemonicType: _mnemonicType,
         );
         _next(phrase);
       } on AnyhowException catch (e, s) {
@@ -226,8 +235,7 @@ class EnterSeedPhraseWidgetModel
     final words = await getSeedListFromClipboard();
 
     final count = words.length;
-    if (count == model.actualSeedPhraseLength ||
-        count == model.legacySeedPhraseLength) {
+    if (count == actualSeedPhraseLength || count == legacySeedPhraseLength) {
       changeTab(count);
     }
 
@@ -270,14 +278,16 @@ class EnterSeedPhraseWidgetModel
     });
   }
 
+  void onSeedPhraseFormatChanged(SeedPhraseFormat format) =>
+      _seedPhraseFormat.accept(format);
+
   /// Check if debug phrase is entered in any text field
   void _checkDebugPhraseGenerating() {
     if (!_inputDataList.any((data) => data.text == 'speakfriendandenter')) {
       return;
     }
 
-    final key = model.getKey(_currentValue);
-
+    final key = model.getKey(_mnemonicType);
     final count = _inputDataList.take(_currentValue).length;
 
     for (var i = 0; i < count; i++) {
@@ -313,6 +323,7 @@ class EnterSeedPhraseWidgetModel
         AppRoute.createSeedPassword.pathWithData(
           queryParameters: {
             addSeedPhraseQueryParam: phrase,
+            mnemonicTypeQueryParam: jsonEncode(_mnemonicType.toJson()),
           },
         ),
         preserveQueryParams: true,

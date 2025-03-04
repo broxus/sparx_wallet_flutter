@@ -1,6 +1,8 @@
+import 'package:app/data/models/seed/seed_phrase_format.dart';
 import 'package:app/feature/add_seed/enter_seed_phrase/data/tab_data.dart';
 import 'package:app/feature/add_seed/enter_seed_phrase/enter_seed_phrase_wm.dart';
 import 'package:app/feature/add_seed/enter_seed_phrase/widgets/words.dart';
+import 'package:app/feature/constants.dart';
 import 'package:app/generated/generated.dart';
 import 'package:elementary/elementary.dart';
 import 'package:elementary_helper/elementary_helper.dart';
@@ -11,12 +13,8 @@ import 'package:ui_components_lib/v2/widgets/widgets.dart';
 class EnterSeedPhrase extends ElementaryWidget<EnterSeedPhraseWidgetModel> {
   const EnterSeedPhrase({
     Key? key,
-    WidgetModelFactory<EnterSeedPhraseWidgetModel> wmFactory =
-        defaultEnterSeedPhraseWidgetModelFactory,
-  }) : super(
-          wmFactory,
-          key: key,
-        );
+    WidgetModelFactory wmFactory = defaultEnterSeedPhraseWidgetModelFactory,
+  }) : super(wmFactory, key: key);
 
   @override
   Widget build(EnterSeedPhraseWidgetModel wm) {
@@ -92,6 +90,16 @@ class EnterSeedPhrase extends ElementaryWidget<EnterSeedPhraseWidgetModel> {
                       ? wm.bottomPadding - commonButtonHeight
                       : 0,
                 ),
+                DoubleSourceBuilder(
+                  firstSource: wm.tabState,
+                  secondSource: wm.seedPhraseFormat,
+                  builder: (_, tabData, seedPhraseFormat) => _SeedPhraseFormat(
+                    networkGroup: wm.networkGroup,
+                    wordsCount: tabData?.currentValue,
+                    value: seedPhraseFormat,
+                    onChanged: wm.onSeedPhraseFormatChanged,
+                  ),
+                ),
                 AccentButton(
                   buttonShape: ButtonShape.pill,
                   title: LocaleKeys.confirm.tr(),
@@ -100,6 +108,80 @@ class EnterSeedPhrase extends ElementaryWidget<EnterSeedPhraseWidgetModel> {
               ],
             ),
           ),
+        ),
+      ),
+    );
+  }
+}
+
+class _SeedPhraseFormat extends StatelessWidget {
+  const _SeedPhraseFormat({
+    required this.networkGroup,
+    required this.wordsCount,
+    required this.value,
+    required this.onChanged,
+  });
+
+  final String networkGroup;
+  final int? wordsCount;
+  final SeedPhraseFormat? value;
+  final ValueChanged<SeedPhraseFormat>? onChanged;
+
+  @override
+  Widget build(BuildContext context) {
+    final theme = context.themeStyleV2;
+
+    // Seed phrase format selector is available only for
+    // TON and HMSTR network and when seed phrase length is 24
+    if (wordsCount != legacySeedPhraseLength ||
+        (networkGroup != 'ton' && networkGroup != 'hmstr_mainnet')) {
+      return const SizedBox.shrink();
+    }
+
+    return Padding(
+      padding: const EdgeInsets.only(
+        bottom: DimensSizeV2.d16,
+      ),
+      child: Container(
+        padding: const EdgeInsets.all(DimensSizeV2.d16),
+        decoration: BoxDecoration(
+          border: SquircleBoxBorder(
+            squircleRadius: DimensRadiusV2.radius12,
+            borderSide: BorderSide(color: theme.colors.border0),
+          ),
+        ),
+        child: SeparatedColumn(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          separatorSize: DimensSizeV2.d12,
+          children: [
+            Text(
+              LocaleKeys.seedPhraseFormatLabel.tr(),
+              style: theme.textStyles.labelSmall,
+            ),
+            SeparatedRow(
+              separatorSize: DimensSizeV2.d16,
+              children: [
+                CommonRadioInput(
+                  value: SeedPhraseFormat.standart,
+                  groupValue: value,
+                  onChanged: onChanged,
+                  child: Text(
+                    LocaleKeys.seedPhraseFormatStandart.tr(),
+                    style: theme.textStyles.labelSmall,
+                  ),
+                ),
+                CommonRadioInput(
+                  value: SeedPhraseFormat.bip39,
+                  groupValue: value,
+                  onChanged: onChanged,
+                  child: Text(
+                    LocaleKeys.seedPhraseFormatBIP39.tr(),
+                    style: theme.textStyles.labelSmall,
+                  ),
+                ),
+              ],
+            ),
+          ],
         ),
       ),
     );

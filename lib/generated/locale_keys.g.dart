@@ -668,4 +668,7 @@ abstract class LocaleKeys {
   static const noRpcConnection = 'noRpcConnection';
   static const tryAgainOrContact = 'tryAgainOrContact';
   static const contactUs = 'contactUs';
+  static const seedPhraseFormatLabel = 'seedPhraseFormatLabel';
+  static const seedPhraseFormatStandart = 'seedPhraseFormatStandart';
+  static const seedPhraseFormatBIP39 = 'seedPhraseFormatBIP39';
 }

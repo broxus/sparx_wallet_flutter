@@ -1,35 +1,35 @@
 // ignore_for_file: use_build_context_synchronously
 
+import 'dart:convert';
+
 import 'package:app/app/router/app_route.dart';
 import 'package:app/app/router/routs/add_seed/add_seed.dart';
 import 'package:app/core/wm/custom_wm.dart';
-import 'package:app/data/models/seed/seed_phrase_model.dart';
+import 'package:app/data/models/models.dart';
 import 'package:app/di/di.dart';
 import 'package:app/feature/add_seed/import_wallet/data/import_wallet_data.dart';
 import 'package:app/feature/add_seed/import_wallet/import_wallet_screen.dart';
 import 'package:app/feature/add_seed/import_wallet/import_wallet_screen_model.dart';
 import 'package:app/feature/constants.dart';
 import 'package:app/generated/generated.dart';
-import 'package:app/utils/seed_utils.dart';
+import 'package:app/utils/utils.dart';
+import 'package:elementary_helper/elementary_helper.dart';
 import 'package:flutter/material.dart';
 import 'package:logging/logging.dart';
 import 'package:nekoton_repository/nekoton_repository.dart' hide Message;
 
 final seedSplitRegExp = RegExp(r'[ |;,:\n.]');
-const _actualSeedPhraseLength = 12;
-const _legacySeedPhraseLength = 24;
 
 ImportWalletScreenWidgetModel defaultImportWalletWidgetModelFactory(
   BuildContext context,
-) {
-  return ImportWalletScreenWidgetModel(
-    ImportWalletScreenModel(
-      inject(),
-      inject(),
-      inject(),
-    ),
-  );
-}
+) =>
+    ImportWalletScreenWidgetModel(
+      ImportWalletScreenModel(
+        inject(),
+        inject(),
+        inject(),
+      ),
+    );
 
 class ImportWalletScreenWidgetModel
     extends CustomWidgetModel<ImportWalletScreen, ImportWalletScreenModel> {
@@ -39,11 +39,23 @@ class ImportWalletScreenWidgetModel
 
   late final screenState = createEntityNotifier<ImportWalletData?>()
     ..loading(ImportWalletData());
+  late final _seedPhraseFormat = createNotifier(SeedPhraseFormat.standart);
 
-  ImportWalletData? get _data => screenState.value.data;
   final _log = Logger('ImportWalletWidgetModel');
   int? _currentValue;
   Set<String>? _hints;
+
+  String get networkGroup => model.networkGroup;
+
+  ListenableState<SeedPhraseFormat> get seedPhraseFormat => _seedPhraseFormat;
+
+  ImportWalletData? get _data => screenState.value.data;
+
+  MnemonicType get _mnemonicType => _currentValue == actualSeedPhraseLength
+      ? defaultMnemonicType
+      : _seedPhraseFormat.value == SeedPhraseFormat.standart
+          ? const MnemonicType.legacy()
+          : tonBip39MnemonicType;
 
   Future<void> onPressedImport() async {
     if (!await model.checkConnection(context)) {
@@ -59,19 +71,18 @@ class ImportWalletScreenWidgetModel
       if (seed != null && seed.isNotEmpty) {
         final phrase = seed.phrase;
 
-        final mnemonicType = _currentValue == _legacySeedPhraseLength
-            ? const MnemonicType.legacy()
-            : defaultMnemonicType;
-
         deriveFromPhrase(
           phrase: phrase,
-          mnemonicType: mnemonicType,
+          mnemonicType: _mnemonicType,
         );
+
         if (!context.mounted) return;
+
         context.goFurther(
           AppRoute.createSeedPassword.pathWithData(
             queryParameters: {
               addSeedPhraseQueryParam: phrase,
+              mnemonicTypeQueryParam: jsonEncode(_mnemonicType.toJson()),
             },
           ),
           preserveQueryParams: true,
@@ -113,10 +124,10 @@ class ImportWalletScreenWidgetModel
     }
 
     switch (seed.wordsCount) {
-      case _actualSeedPhraseLength:
-        onChangeTab(_actualSeedPhraseLength);
-      case _legacySeedPhraseLength:
-        onChangeTab(_legacySeedPhraseLength);
+      case actualSeedPhraseLength:
+        onChangeTab(actualSeedPhraseLength);
+      case legacySeedPhraseLength:
+        onChangeTab(legacySeedPhraseLength);
       default:
         model.showValidateError(context, LocaleKeys.incorrectWordsFormat.tr());
         return;
@@ -144,6 +155,9 @@ class ImportWalletScreenWidgetModel
       preserveQueryParams: true,
     );
   }
+
+  void onSeedPhraseFormatChanged(SeedPhraseFormat format) =>
+      _seedPhraseFormat.accept(format);
 
   void _init() {
     final allowedValues = model.allowedValues;

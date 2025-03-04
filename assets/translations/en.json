@@ -642,5 +642,8 @@
   "errorMessageMaxUnconfirmedTransactions": "Unconfirmed transactions is limited by 5",
   "noRpcConnection": "No RPC connection",
   "tryAgainOrContact": "Please try again or contact technical support",
-  "contactUs": "Contact us"
+  "contactUs": "Contact us",
+  "seedPhraseFormatLabel": "Seed phrase format:",
+  "seedPhraseFormatStandart": "TON Standart",
+  "seedPhraseFormatBIP39": "TON BIP39"
 }

@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:app/app/router/router.dart';
 import 'package:app/data/models/seed/seed_phrase_model.dart';
 import 'package:app/feature/add_seed/add_existing_wallet/view/add_existing_wallet_page.dart';
@@ -14,6 +16,8 @@ import 'package:nekoton_repository/nekoton_repository.dart';
 
 /// Name for phrase from queryParams to create or import seed.
 const addSeedPhraseQueryParam = 'addSeedPhrase';
+
+const mnemonicTypeQueryParam = 'mnemonicType';
 
 /// Name of path field for navigation
 const enterSeedNameCommandPathParam = 'command';
@@ -97,6 +101,10 @@ GoRoute get createOnboardingSeedPasswordRoute {
         phrase: SeedPhraseModel(
           state.uri.queryParameters[addSeedPhraseQueryParam],
         ),
+        mnemonicType: const MnemonicTypeJsonConverter().fromJson(
+          jsonDecode(state.uri.queryParameters[mnemonicTypeQueryParam]!)
+              as Map<String, dynamic>,
+        ),
       );
     },
     routes: [
@@ -124,6 +132,7 @@ GoRoute get createSeedNoNamedProfileRoute {
         ),
         name: state.pathParameters[enterSeedNameNamePathParam],
         type: SeedAddType.create,
+        mnemonicType: null,
       ),
     ),
   );
@@ -140,6 +149,10 @@ GoRoute get enterSeedNoNamedProfileRoute {
         ),
         name: state.pathParameters[enterSeedNameNamePathParam],
         type: SeedAddType.import,
+        mnemonicType: const MnemonicTypeJsonConverter().fromJson(
+          jsonDecode(state.uri.queryParameters[mnemonicTypeQueryParam]!)
+              as Map<String, dynamic>,
+        ),
       ),
     ),
   );
@@ -157,6 +170,7 @@ GoRoute get createSeedNamedProfileRoute {
       ),
       name: state.pathParameters[enterSeedNameNamePathParam],
       type: SeedAddType.create,
+      mnemonicType: null,
     ),
   );
 
@@ -197,6 +211,10 @@ GoRoute get enterSeedNamedProfileRoute {
             ),
             name: state.pathParameters[enterSeedNameNamePathParam],
             type: SeedAddType.import,
+            mnemonicType: const MnemonicTypeJsonConverter().fromJson(
+              jsonDecode(state.uri.queryParameters[mnemonicTypeQueryParam]!)
+                  as Map<String, dynamic>,
+            ),
           );
         },
       ),
