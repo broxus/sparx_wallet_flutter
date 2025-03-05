@@ -8,6 +8,7 @@ import 'package:app/feature/add_seed/create_password/screens/create_seed_passwor
 import 'package:app/feature/add_seed/create_password/view/create_seed_password_page.dart';
 import 'package:app/feature/add_seed/enter_seed_phrase/enter_seed_phrase_widget.dart';
 import 'package:app/feature/add_seed/import_wallet/import_wallet_screen.dart';
+import 'package:app/utils/utils.dart';
 import 'package:app/v1/feature/add_seed/check_seed_phrase/check_seed_phrase.dart';
 import 'package:app/v1/feature/add_seed/create_seed/create_seed.dart';
 import 'package:app/v1/feature/add_seed/enter_seed_name/view/enter_seed_name_page.dart';
@@ -101,9 +102,10 @@ GoRoute get createOnboardingSeedPasswordRoute {
         phrase: SeedPhraseModel(
           state.uri.queryParameters[addSeedPhraseQueryParam],
         ),
-        mnemonicType: const MnemonicTypeJsonConverter().fromJson(
-          jsonDecode(state.uri.queryParameters[mnemonicTypeQueryParam]!)
-              as Map<String, dynamic>,
+        mnemonicType: state.uri.queryParameters[mnemonicTypeQueryParam]?.let(
+          (it) => const MnemonicTypeJsonConverter().fromJson(
+            jsonDecode(it) as Map<String, dynamic>,
+          ),
         ),
       );
     },
@@ -132,7 +134,11 @@ GoRoute get createSeedNoNamedProfileRoute {
         ),
         name: state.pathParameters[enterSeedNameNamePathParam],
         type: SeedAddType.create,
-        mnemonicType: null,
+        mnemonicType: state.uri.queryParameters[mnemonicTypeQueryParam]?.let(
+          (it) => const MnemonicTypeJsonConverter().fromJson(
+            jsonDecode(it) as Map<String, dynamic>,
+          ),
+        ),
       ),
     ),
   );
@@ -149,9 +155,10 @@ GoRoute get enterSeedNoNamedProfileRoute {
         ),
         name: state.pathParameters[enterSeedNameNamePathParam],
         type: SeedAddType.import,
-        mnemonicType: const MnemonicTypeJsonConverter().fromJson(
-          jsonDecode(state.uri.queryParameters[mnemonicTypeQueryParam]!)
-              as Map<String, dynamic>,
+        mnemonicType: state.uri.queryParameters[mnemonicTypeQueryParam]?.let(
+          (it) => const MnemonicTypeJsonConverter().fromJson(
+            jsonDecode(it) as Map<String, dynamic>,
+          ),
         ),
       ),
     ),
@@ -170,7 +177,11 @@ GoRoute get createSeedNamedProfileRoute {
       ),
       name: state.pathParameters[enterSeedNameNamePathParam],
       type: SeedAddType.create,
-      mnemonicType: null,
+      mnemonicType: state.uri.queryParameters[mnemonicTypeQueryParam]?.let(
+        (it) => const MnemonicTypeJsonConverter().fromJson(
+          jsonDecode(it) as Map<String, dynamic>,
+        ),
+      ),
     ),
   );
 
@@ -211,9 +222,11 @@ GoRoute get enterSeedNamedProfileRoute {
             ),
             name: state.pathParameters[enterSeedNameNamePathParam],
             type: SeedAddType.import,
-            mnemonicType: const MnemonicTypeJsonConverter().fromJson(
-              jsonDecode(state.uri.queryParameters[mnemonicTypeQueryParam]!)
-                  as Map<String, dynamic>,
+            mnemonicType:
+                state.uri.queryParameters[mnemonicTypeQueryParam]?.let(
+              (it) => const MnemonicTypeJsonConverter().fromJson(
+                jsonDecode(it) as Map<String, dynamic>,
+              ),
             ),
           );
         },
