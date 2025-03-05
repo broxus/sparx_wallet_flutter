@@ -44,6 +44,12 @@ class _UrlFieldState extends State<UrlField> {
   bool get _isVisibleText => _urlTextState.value != null;
 
   @override
+  void initState() {
+    _focusNode.addListener(_onFocusChange);
+    super.initState();
+  }
+
+  @override
   void didUpdateWidget(covariant UrlField oldWidget) {
     if (oldWidget.tab.url != _url) {
       if (_isVisibleText) {
@@ -80,23 +86,37 @@ class _UrlFieldState extends State<UrlField> {
             decoration: BoxDecoration(
                 color: context.themeStyleV2.colors.backgroundInput,
                 borderRadius: BorderRadius.circular(DimensRadiusV2.radius12)),
-            child: StateNotifierBuilder<String?>(
-              listenableState: _urlTextState,
-              builder: (_, String? host) {
-                return host != null
-                    ? _UrlText(
+            child: Stack(
+              children: [
+                StateNotifierBuilder<String?>(
+                  listenableState: _urlTextState,
+                  builder: (_, String? host) {
+                    return Visibility(
+                      visible: host != null,
+                      child: _UrlText(
                         text: _host,
                         onPressedMenu: _onPressedMenu,
                         onPressedText: _onPressedText,
                         onPressedRefresh: _onPressedRefresh,
-                      )
-                    : _UrlTextField(
+                      ),
+                    );
+                  },
+                ),
+                StateNotifierBuilder<String?>(
+                  listenableState: _urlTextState,
+                  builder: (_, String? host) {
+                    return Visibility(
+                      visible: host == null,
+                      child: _UrlTextField(
                         controller: _controller,
                         focusNode: _focusNode,
                         onPressedClear: _onPressedClear,
                         onEditingComplete: _onEditingComplete,
-                      );
-              },
+                      ),
+                    );
+                  },
+                ),
+              ],
             ),
           ),
         ),
@@ -126,9 +146,16 @@ class _UrlFieldState extends State<UrlField> {
     Future(_focusNode.requestFocus);
   }
 
-  void _onPop() {
-    resetFocus(context);
+  void _onFocusChange() {
+    if (_focusNode.hasFocus) {
+      _controller.text = _urlText;
+      return;
+    }
     _urlTextState.accept(_host);
+  }
+
+  void _onPop() {
+    _focusNode.requestFocus();
   }
 }
 

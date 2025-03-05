@@ -8,6 +8,7 @@ import 'package:app/feature/browserV2/models/tab/browser_tab.dart';
 import 'package:app/feature/browserV2/screens/main/browser_main_screen.dart';
 import 'package:app/feature/browserV2/screens/main/browser_main_screen_model.dart';
 import 'package:app/feature/browserV2/screens/main/data/control_panels_data.dart';
+import 'package:app/utils/focus_utils.dart';
 import 'package:elementary/elementary.dart';
 import 'package:elementary_helper/elementary_helper.dart';
 import 'package:flutter/widgets.dart';
@@ -121,6 +122,27 @@ class BrowserMainScreenWidgetModel
 
   void onDonePressed() {
     _viewVisibleState.accept(true);
+  }
+
+  Offset? _downPosition;
+
+  void onPointerDown(PointerDownEvent event) {
+    _downPosition = event.position;
+  }
+
+  void onPointerUp(PointerUpEvent event) {
+    if (_downPosition == null) {
+      return;
+    }
+
+    if (event.position.dx > _downPosition!.dx + 10 ||
+        event.position.dx < _downPosition!.dx - 10 ||
+        event.position.dy > _downPosition!.dy + 10 ||
+        event.position.dy < _downPosition!.dy - 10) {
+      return;
+    }
+
+    resetFocus(context);
   }
 
   void onPressedBackPressed() {
