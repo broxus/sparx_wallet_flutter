@@ -643,7 +643,10 @@
   "noRpcConnection": "No RPC connection",
   "tryAgainOrContact": "Please try again or contact technical support",
   "contactUs": "Contact us",
-  "seedPhraseFormatLabel": "Seed phrase format:",
-  "seedPhraseFormatStandart": "TON Standart",
-  "seedPhraseFormatBIP39": "TON BIP39"
+  "seedPhraseFormatLabel12": "Your seed pharse from:",
+  "seedPhraseFormatLabel24": "Seed phrase format:",
+  "seedPhrase12FormatStandart": "SparX wallet",
+  "seedPhrase12FormatTON": "TON types wallet",
+  "seedPhrase24FormatStandart": "TON Standart",
+  "seedPhrase24FormatTON": "TON BIP39"
 }

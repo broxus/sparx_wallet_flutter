@@ -1,11 +1,11 @@
 import 'package:app/app/service/network_connection/network_connection_service.dart';
 import 'package:app/app/service/service.dart';
-import 'package:app/feature/add_seed/enter_seed_phrase/enter_seed_phrase.dart';
+import 'package:app/feature/add_seed/enter_seed_phrase/enter_seed_phrase_widget.dart';
 import 'package:app/utils/mixins/connection_mixin.dart';
 import 'package:elementary/elementary.dart';
 import 'package:nekoton_repository/nekoton_repository.dart' as nt;
 
-/// [ElementaryModel] for [EnterSeedPhrase]
+/// [ElementaryModel] for [EnterSeedPhraseWidget]
 class EnterSeedPhraseModel extends ElementaryModel with ConnectionMixin {
   EnterSeedPhraseModel(
     ErrorHandler errorHandler,

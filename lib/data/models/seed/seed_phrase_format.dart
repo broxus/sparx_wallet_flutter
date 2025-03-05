@@ -1,1 +1,7 @@
-enum SeedPhraseFormat { standart, bip39 }
+enum SeedPhraseFormat {
+  /// Used by Sparx Wallet & Ever Wallet
+  standart,
+
+  /// Used by some TON wallets
+  ton,
+}

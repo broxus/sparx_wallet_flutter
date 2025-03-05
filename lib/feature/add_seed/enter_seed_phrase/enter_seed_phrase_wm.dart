@@ -6,10 +6,7 @@ import 'package:app/core/error_handler_factory.dart';
 import 'package:app/core/wm/custom_wm.dart';
 import 'package:app/data/models/models.dart';
 import 'package:app/di/di.dart';
-import 'package:app/feature/add_seed/enter_seed_phrase/data/input_data.dart';
-import 'package:app/feature/add_seed/enter_seed_phrase/data/tab_data.dart';
-import 'package:app/feature/add_seed/enter_seed_phrase/enter_seed_phrase.dart';
-import 'package:app/feature/add_seed/enter_seed_phrase/enter_seed_phrase_model.dart';
+import 'package:app/feature/add_seed/add_seed.dart';
 import 'package:app/feature/constants.dart';
 import 'package:app/generated/generated.dart';
 import 'package:app/utils/utils.dart';
@@ -41,9 +38,9 @@ EnterSeedPhraseWidgetModel defaultEnterSeedPhraseWidgetModelFactory(
   );
 }
 
-/// [WidgetModel] для [EnterSeedPhrase]
+/// [WidgetModel] для [EnterSeedPhraseWidget]
 class EnterSeedPhraseWidgetModel
-    extends CustomWidgetModel<EnterSeedPhrase, EnterSeedPhraseModel> {
+    extends CustomWidgetModel<EnterSeedPhraseWidget, EnterSeedPhraseModel> {
   EnterSeedPhraseWidgetModel(
     super.model,
   );
@@ -110,11 +107,10 @@ class EnterSeedPhraseWidgetModel
   int get _currentValue =>
       _tabState.value?.currentValue ?? model.seedPhraseWordsCount.first;
 
-  MnemonicType get _mnemonicType => _currentValue == actualSeedPhraseLength
-      ? defaultMnemonicType
-      : _seedPhraseFormat.value == SeedPhraseFormat.standart
-          ? const MnemonicType.legacy()
-          : tonBip39MnemonicType;
+  MnemonicType get _mnemonicType => getMnemonicType(
+        format: _seedPhraseFormat.value,
+        wordsCount: _currentValue,
+      );
 
   @override
   void dispose() {

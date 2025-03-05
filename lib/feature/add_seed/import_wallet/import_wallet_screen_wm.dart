@@ -42,7 +42,6 @@ class ImportWalletScreenWidgetModel
   late final _seedPhraseFormat = createNotifier(SeedPhraseFormat.standart);
 
   final _log = Logger('ImportWalletWidgetModel');
-  int? _currentValue;
   Set<String>? _hints;
 
   String get networkGroup => model.networkGroup;
@@ -51,11 +50,13 @@ class ImportWalletScreenWidgetModel
 
   ImportWalletData? get _data => screenState.value.data;
 
-  MnemonicType get _mnemonicType => _currentValue == actualSeedPhraseLength
-      ? defaultMnemonicType
-      : _seedPhraseFormat.value == SeedPhraseFormat.standart
-          ? const MnemonicType.legacy()
-          : tonBip39MnemonicType;
+  int get _currentValue =>
+      screenState.value.data?.selectedValue ?? model.allowedValues.first;
+
+  MnemonicType get _mnemonicType => getMnemonicType(
+        format: _seedPhraseFormat.value,
+        wordsCount: _currentValue,
+      );
 
   Future<void> onPressedImport() async {
     if (!await model.checkConnection(context)) {
@@ -103,7 +104,6 @@ class ImportWalletScreenWidgetModel
   }
 
   void onChangeTab(int value) {
-    _currentValue = value;
     _updateState(
       isPasted: false,
       selectedValue: _currentValue,
@@ -162,7 +162,6 @@ class ImportWalletScreenWidgetModel
   void _init() {
     final allowedValues = model.allowedValues;
     if (model.allowedValues.isNotEmpty) {
-      _currentValue = allowedValues.first;
       _updateState(
         allowedValues: allowedValues,
         selectedValue: _currentValue,
