@@ -212,9 +212,10 @@ class _UrlTextField extends StatelessWidget {
           child: TextField(
             controller: controller,
             focusNode: focusNode,
-            style: TextStyle(
-              color: theme.colors.content3,
+            style: theme.textStyles.paragraphXMedium.copyWith(
+              color: ColorsResV2.black,
             ),
+            cursorColor: ColorsResV2.black,
             decoration: const InputDecoration(
               border: InputBorder.none,
               focusedBorder: InputBorder.none,

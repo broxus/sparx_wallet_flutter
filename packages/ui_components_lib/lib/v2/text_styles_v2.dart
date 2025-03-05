@@ -20,6 +20,7 @@ class TextStylesV2 {
     required this.labelSmall,
     required this.labelXSmall,
     required this.paragraphLarge,
+    required this.paragraphXMedium,
     required this.paragraphMedium,
     required this.paragraphSmall,
     required this.paragraphXSmall,
@@ -43,6 +44,7 @@ class TextStylesV2 {
   final TextStyle labelSmall;
   final TextStyle labelXSmall;
   final TextStyle paragraphLarge;
+  final TextStyle paragraphXMedium;
   final TextStyle paragraphMedium;
   final TextStyle paragraphSmall;
   final TextStyle paragraphXSmall;
@@ -160,6 +162,13 @@ TextStylesV2 _defaultTextStyles(ColorsPaletteV2 colors) => TextStylesV2(
         fontWeight: FontWeight.w400,
         height: 24 / 18,
         letterSpacing: -0.9,
+      ),
+      paragraphXMedium: TextStyle(
+        color: colors.content0,
+        fontSize: 17.spp,
+        fontFamily: _interFamily,
+        fontWeight: FontWeight.w400,
+        height: 22 / 17,
       ),
       paragraphMedium: TextStyle(
         color: colors.content1,
