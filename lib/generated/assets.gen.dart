@@ -302,6 +302,9 @@ class $AssetsImagesGen {
   AssetGenImage get lockBackup =>
       const AssetGenImage('assets/images/lock_backup.png');
 
+  /// File path: assets/images/lock_fill.svg
+  SvgGenImage get lockFill => const SvgGenImage('assets/images/lock_fill.svg');
+
   /// File path: assets/images/logo.svg
   SvgGenImage get logo => const SvgGenImage('assets/images/logo.svg');
 
@@ -509,6 +512,7 @@ class $AssetsImagesGen {
         lightning,
         lock,
         lockBackup,
+        lockFill,
         logo,
         minus,
         moon,

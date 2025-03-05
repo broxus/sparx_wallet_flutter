@@ -80,22 +80,22 @@ class _UrlFieldState extends State<UrlField> {
                   onPressed: _onPressedMenu,
                   icon: LucideIcons.menu,
                 ),
-                Flexible(
-                  child: Listener(
-                    behavior: HitTestBehavior.translucent,
-                    onPointerDown: _onPointerDown,
-                    child: StateNotifierBuilder<String?>(
-                      listenableState: _urlTextState,
-                      builder: (_, String? text) {
-                        return text == null
-                            ? _UrlTextField(
-                                controller: _controller,
-                                focusNode: _focusNode,
-                                onEditingComplete: _onEditingComplete,
-                              )
-                            : _UrlText(_host);
-                      },
-                    ),
+                Expanded(
+                  child: StateNotifierBuilder<String?>(
+                    listenableState: _urlTextState,
+                    builder: (_, String? text) {
+                      return text == null
+                          ? _UrlTextField(
+                              controller: _controller,
+                              focusNode: _focusNode,
+                              onEditingComplete: _onEditingComplete,
+                            )
+                          : GestureDetector(
+                              behavior: HitTestBehavior.opaque,
+                              onTap: _onPressedText,
+                              child: _UrlText(_host),
+                            );
+                    },
                   ),
                 ),
                 _Button(
@@ -121,7 +121,7 @@ class _UrlFieldState extends State<UrlField> {
     );
   }
 
-  void _onPointerDown(_) {
+  void _onPressedText() {
     _urlTextState.accept(null);
     Future(_focusNode.requestFocus);
   }
@@ -208,14 +208,21 @@ class _UrlText extends StatelessWidget {
     final theme = context.themeStyleV2;
     return Row(
       mainAxisSize: MainAxisSize.min,
+      mainAxisAlignment: MainAxisAlignment.center,
       children: [
         Padding(
           padding: const EdgeInsets.only(right: DimensSizeV2.d4),
-          child: Icon(
-            text.isEmpty ? LucideIcons.search : LucideIcons.lock,
-            size: DimensSizeV2.d16,
-            color: theme.colors.content3,
-          ),
+          child: text.isEmpty
+              ? Icon(
+                  LucideIcons.search,
+                  size: DimensSizeV2.d16,
+                  color: theme.colors.content3,
+                )
+              : Assets.images.lockFill.svg(
+                  width: DimensSizeV2.d16,
+                  height: DimensSizeV2.d16,
+                  colorFilter: context.themeStyleV2.colors.content3.colorFilter,
+                ),
         ),
         Text(
           text.isEmpty ? LocaleKeys.browserSearchURL.tr() : text,
