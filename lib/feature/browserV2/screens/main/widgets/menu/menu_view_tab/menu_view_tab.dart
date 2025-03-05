@@ -17,6 +17,7 @@ class BrowserTabViewMenu extends StatelessWidget {
     required this.onPressedBook,
     required this.onPressedTabs,
     required this.onPressedUrlMenu,
+    required this.onPressedRefresh,
     required this.onEditingCompleteUrl,
     required this.urlSliderController,
     required this.tabsState,
@@ -31,6 +32,7 @@ class BrowserTabViewMenu extends StatelessWidget {
   final VoidCallback onPressedBook;
   final VoidCallback onPressedTabs;
   final ValueChanged<String> onPressedUrlMenu;
+  final ValueChanged<String> onPressedRefresh;
   final DoubleValueCallback<String, String> onEditingCompleteUrl;
   final ScrollController urlSliderController;
   final ListenableState<BrowserTabsCollection> tabsState;
@@ -49,6 +51,7 @@ class BrowserTabViewMenu extends StatelessWidget {
               controller: urlSliderController,
               tabsState: tabsState,
               onPressedUrlMenu: onPressedUrlMenu,
+              onPressedRefresh: onPressedRefresh,
               onEditingCompleteUrl: onEditingCompleteUrl,
             ),
             const _Space(),

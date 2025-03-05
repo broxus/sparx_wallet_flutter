@@ -147,6 +147,10 @@ class BrowserMainScreenWidgetModel
     // TODO
   }
 
+  void onPressedRefresh(String tabId) {
+    // TODO
+  }
+
   void onEditingCompleteUrl(String tabId, String text) {
     // TODO
   }

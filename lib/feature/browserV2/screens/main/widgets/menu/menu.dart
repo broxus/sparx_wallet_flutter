@@ -1,5 +1,4 @@
 import 'package:app/feature/browserV2/data/tabs_data.dart';
-import 'package:app/feature/browserV2/screens/main/widgets/menu/background_blur.dart';
 import 'package:app/feature/browserV2/screens/main/widgets/menu/menu_tab_list.dart';
 import 'package:app/feature/browserV2/screens/main/widgets/menu/menu_view_tab/menu_view_tab.dart';
 import 'package:app/utils/types/fuction_types.dart';
@@ -22,6 +21,7 @@ class BrowserBottomMenu extends StatefulWidget {
     required this.onPressedBook,
     required this.onPressedTabs,
     required this.onPressedUrlMenu,
+    required this.onPressedRefresh,
     required this.onEditingCompleteUrl,
     required this.urlSliderController,
     super.key,
@@ -40,6 +40,7 @@ class BrowserBottomMenu extends StatefulWidget {
   final VoidCallback onPressedBook;
   final VoidCallback onPressedTabs;
   final ValueChanged<String> onPressedUrlMenu;
+  final ValueChanged<String> onPressedRefresh;
   final DoubleValueCallback<String, String> onEditingCompleteUrl;
   final ScrollController urlSliderController;
 
@@ -76,6 +77,7 @@ class _BrowserBottomMenuState extends State<BrowserBottomMenu> {
             onPressedBook: widget.onPressedBook,
             onPressedTabs: widget.onPressedTabs,
             onPressedUrlMenu: widget.onPressedUrlMenu,
+            onPressedRefresh: widget.onPressedRefresh,
             onEditingCompleteUrl: widget.onEditingCompleteUrl,
             urlSliderController: widget.urlSliderController,
             tabsState: widget.tabsState,
