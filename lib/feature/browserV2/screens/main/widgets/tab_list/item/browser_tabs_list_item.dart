@@ -26,6 +26,7 @@ class BrowserTabsListItem
 
   @override
   Widget build(BrowserTabsListItemWidgetModel wm) {
+    final GlobalKey _elementKey = GlobalKey();
     return Stack(
       children: [
         StateNotifierBuilder<bool?>(
@@ -34,6 +35,7 @@ class BrowserTabsListItem
             isActive ??= false;
 
             return Material(
+              key: _elementKey,
               shape: SquircleShapeBorder(
                 borderWidth: isActive ? DimensSizeV2.d4 : DimensSizeV2.d2,
                 cornerRadius: DimensRadiusV2.radius16,
@@ -76,7 +78,7 @@ class BrowserTabsListItem
           bottom: 0,
           right: 0,
           child: _Menu(
-            onPressed: wm.onPressedMenu,
+            onPressed: () => wm.onPressedMenu(_elementKey),
           ),
         ),
       ],
