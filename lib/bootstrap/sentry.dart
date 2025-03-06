@@ -1,5 +1,9 @@
+import 'dart:async';
+
 import 'package:app/app/service/service.dart';
 import 'package:app/core/app_build_type.dart';
+import 'package:app/event_bus/events/bootstrap/bootstrap_event.dart';
+import 'package:app/event_bus/primary_bus.dart';
 import 'package:app/utils/utils.dart';
 import 'package:collection/collection.dart';
 import 'package:logging/logging.dart';
@@ -22,6 +26,8 @@ class SentryWorker {
   final _logger = Logger('Sentry');
 
   AppBuildType? _appBuildType;
+  NekotonRepository? _nekotonRepository;
+  GeneralStorageService? _generalStorageService;
 
   /// If dev build type - don't use sentry
   bool get _isUseSentry => _appBuildType != AppBuildType.development;
@@ -32,6 +38,8 @@ class SentryWorker {
     required GeneralStorageService generalStorageService,
   }) async {
     _appBuildType = appBuildType;
+    _nekotonRepository = nekotonRepository;
+    _generalStorageService = generalStorageService;
 
     if (!_isUseSentry) {
       _logger.info(
@@ -40,30 +48,11 @@ class SentryWorker {
       return;
     }
 
-    Rx.combineLatest3(
-      nekotonRepository.currentTransportStream,
-      nekotonRepository.accountsStorage.accountsStream,
-      generalStorageService.currentAddressStream,
-      (transport, accounts, address) => (transport, accounts, address),
-    ).map((event) {
-      final (transport, accounts, address) = event;
-      final account = accounts.firstWhereOrNull((it) => it.address == address);
-      return (transport, account);
-    }).listen((event) {
-      final (transport, account) = event;
-      Sentry.configureScope((scope) {
-        scope
-          ..setUser(
-            account?.let(
-              (it) => SentryUser(
-                id: it.address.toString(),
-                data: it.toJson(),
-              ),
-            ),
-          )
-          ..setContexts('network', transport.networkName);
-      });
-    });
+    unawaited(
+      primaryBus.on<BootstrapCompleteEvent>().first.then(
+            (_) => _configureScope(),
+          ),
+    );
 
     return SentryFlutter.init(
       (options) {
@@ -86,5 +75,34 @@ class SentryWorker {
       return;
     }
     Sentry.captureException(exception, stackTrace: stackTrace);
+  }
+
+  void _configureScope() {
+    if (_nekotonRepository == null || _generalStorageService == null) return;
+
+    Rx.combineLatest3(
+      _nekotonRepository!.currentTransportStream,
+      _nekotonRepository!.accountsStorage.accountsStream,
+      _generalStorageService!.currentAddressStream,
+      (transport, accounts, address) => (transport, accounts, address),
+    ).map((event) {
+      final (transport, accounts, address) = event;
+      final account = accounts.firstWhereOrNull((it) => it.address == address);
+      return (transport, account);
+    }).listen((event) {
+      final (transport, account) = event;
+      Sentry.configureScope((scope) {
+        scope
+          ..setUser(
+            account?.let(
+              (it) => SentryUser(
+                id: it.address.toString(),
+                data: it.toJson(),
+              ),
+            ),
+          )
+          ..setContexts('network', transport.networkName);
+      });
+    });
   }
 }
