@@ -239,6 +239,10 @@ class BrowserMainScreenWidgetModel
     }
 
     model.createEmptyTab();
+    _prevYScroll = 0;
+    urlSliderController.jumpTo(0);
+    _viewVisibleState.accept(true);
+    _menuState.accept(MenuType.view);
   }
 
   void _handleActiveTab() {
