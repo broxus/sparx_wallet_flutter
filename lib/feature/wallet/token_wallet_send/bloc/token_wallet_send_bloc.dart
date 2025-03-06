@@ -88,7 +88,7 @@ class TokenWalletSendBloc
     on<_Send>((event, emit) => _handleSend(emit, event.password));
     on<_CompleteSend>(
       (event, emit) => emitSafe(
-        TokenWalletSendState.sent(fees!, event.transaction),
+        TokenWalletSendState.sent(fees ?? BigInt.zero, event.transaction),
       ),
     );
     on<_AllowCloseSend>(

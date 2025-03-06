@@ -1,11 +1,14 @@
+import 'dart:convert';
+
 import 'package:app/app/router/router.dart';
 import 'package:app/data/models/seed/seed_phrase_model.dart';
 import 'package:app/feature/add_seed/add_existing_wallet/view/add_existing_wallet_page.dart';
 import 'package:app/feature/add_seed/add_seed_enable_biometry/add_seed_enable_biometry_page.dart';
 import 'package:app/feature/add_seed/create_password/screens/create_seed_password/create_seed_password_screen.dart';
 import 'package:app/feature/add_seed/create_password/view/create_seed_password_page.dart';
-import 'package:app/feature/add_seed/enter_seed_phrase/enter_seed_phrase.dart';
+import 'package:app/feature/add_seed/enter_seed_phrase/enter_seed_phrase_widget.dart';
 import 'package:app/feature/add_seed/import_wallet/import_wallet_screen.dart';
+import 'package:app/utils/utils.dart';
 import 'package:app/v1/feature/add_seed/check_seed_phrase/check_seed_phrase.dart';
 import 'package:app/v1/feature/add_seed/create_seed/create_seed.dart';
 import 'package:app/v1/feature/add_seed/enter_seed_name/view/enter_seed_name_page.dart';
@@ -14,6 +17,8 @@ import 'package:nekoton_repository/nekoton_repository.dart';
 
 /// Name for phrase from queryParams to create or import seed.
 const addSeedPhraseQueryParam = 'addSeedPhrase';
+
+const mnemonicTypeQueryParam = 'mnemonicType';
 
 /// Name of path field for navigation
 const enterSeedNameCommandPathParam = 'command';
@@ -54,7 +59,7 @@ GoRoute createSeedNoNamedRoute(GoRoute passwordRoute) {
 GoRoute enterSeedNoNamedRoute(GoRoute passwordRoute) {
   return GoRoute(
     path: AppRoute.enterSeed.path,
-    builder: (_, __) => const EnterSeedPhrase(),
+    builder: (_, __) => const EnterSeedPhraseWidget(),
     routes: [
       passwordRoute,
     ],
@@ -97,6 +102,11 @@ GoRoute get createOnboardingSeedPasswordRoute {
         phrase: SeedPhraseModel(
           state.uri.queryParameters[addSeedPhraseQueryParam],
         ),
+        mnemonicType: state.uri.queryParameters[mnemonicTypeQueryParam]?.let(
+          (it) => const MnemonicTypeJsonConverter().fromJson(
+            jsonDecode(it) as Map<String, dynamic>,
+          ),
+        ),
       );
     },
     routes: [
@@ -124,6 +134,11 @@ GoRoute get createSeedNoNamedProfileRoute {
         ),
         name: state.pathParameters[enterSeedNameNamePathParam],
         type: SeedAddType.create,
+        mnemonicType: state.uri.queryParameters[mnemonicTypeQueryParam]?.let(
+          (it) => const MnemonicTypeJsonConverter().fromJson(
+            jsonDecode(it) as Map<String, dynamic>,
+          ),
+        ),
       ),
     ),
   );
@@ -140,6 +155,11 @@ GoRoute get enterSeedNoNamedProfileRoute {
         ),
         name: state.pathParameters[enterSeedNameNamePathParam],
         type: SeedAddType.import,
+        mnemonicType: state.uri.queryParameters[mnemonicTypeQueryParam]?.let(
+          (it) => const MnemonicTypeJsonConverter().fromJson(
+            jsonDecode(it) as Map<String, dynamic>,
+          ),
+        ),
       ),
     ),
   );
@@ -157,6 +177,11 @@ GoRoute get createSeedNamedProfileRoute {
       ),
       name: state.pathParameters[enterSeedNameNamePathParam],
       type: SeedAddType.create,
+      mnemonicType: state.uri.queryParameters[mnemonicTypeQueryParam]?.let(
+        (it) => const MnemonicTypeJsonConverter().fromJson(
+          jsonDecode(it) as Map<String, dynamic>,
+        ),
+      ),
     ),
   );
 
@@ -186,7 +211,7 @@ GoRoute get createSeedNamedProfileRoute {
 GoRoute get enterSeedNamedProfileRoute {
   return GoRoute(
     path: AppRoute.enterSeedNamed.path,
-    builder: (_, state) => const EnterSeedPhrase(),
+    builder: (_, state) => const EnterSeedPhraseWidget(),
     routes: [
       GoRoute(
         path: AppRoute.createSeedPassword.path,
@@ -197,6 +222,12 @@ GoRoute get enterSeedNamedProfileRoute {
             ),
             name: state.pathParameters[enterSeedNameNamePathParam],
             type: SeedAddType.import,
+            mnemonicType:
+                state.uri.queryParameters[mnemonicTypeQueryParam]?.let(
+              (it) => const MnemonicTypeJsonConverter().fromJson(
+                jsonDecode(it) as Map<String, dynamic>,
+              ),
+            ),
           );
         },
       ),
