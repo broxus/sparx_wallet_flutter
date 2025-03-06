@@ -36,7 +36,11 @@ class SentryWorker {
       (options) {
         options
           ..dsn = dsnDefineEnv
-          ..tracesSampleRate = 1;
+          ..tracesSampleRate = 1
+          ..ignoreErrors = [
+            'AnyhowException(Account not exists)',
+            'AnyhowException(Network error)',
+          ];
       },
     );
   }
