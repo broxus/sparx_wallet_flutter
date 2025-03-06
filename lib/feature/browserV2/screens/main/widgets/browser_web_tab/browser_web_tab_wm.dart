@@ -201,10 +201,9 @@ class BrowserWebTabWidgetModel
     __,
     int y,
     ___,
-    bool clampedY,
+    ____,
   ) {
     widget.onScrollChanged(y);
-    print('!!! ${y}');
   }
 
   void onScrollChanged(_, __, int y) {

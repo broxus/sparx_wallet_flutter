@@ -96,46 +96,13 @@ class _BrowserBottomMenuState extends State<BrowserBottomMenu> {
             crossFadeState: type == MenuType.view
                 ? CrossFadeState.showFirst
                 : CrossFadeState.showSecond,
-            duration: const Duration(milliseconds: 250),
+            duration: const Duration(milliseconds: 150),
           ),
           crossFadeState: type == MenuType.list
               ? CrossFadeState.showFirst
               : CrossFadeState.showSecond,
-          duration: const Duration(milliseconds: 250),
+          duration: const Duration(milliseconds: 150),
         );
-
-        // return AnimatedSwitcher(
-        //   duration: const Duration(milliseconds: 250),
-        //   child: switch (type) {
-        //     MenuType.list => BrowserTabListMenu(
-        //         key: _listKey,
-        //         tabsState: widget.tabsState,
-        //         onCloseAllPressed: widget.onCloseAllPressed,
-        //         onPlusPressed: widget.onPlusPressed,
-        //         onDonePressed: widget.onDonePressed,
-        //       ),
-        //     MenuType.view => BrowserTabViewMenu(
-        //         key: _viewKey,
-        //         menuUrlPanelWidth: widget.menuUrlPanelWidth,
-        //         urlWidth: widget.urlWidth,
-        //         onPressedBackPressed: widget.onPressedBackPressed,
-        //         onPressedForwardPressed: widget.onPressedForwardPressed,
-        //         onPressedDotsPressed: widget.onPressedDotsPressed,
-        //         onPressedBook: widget.onPressedBook,
-        //         onPressedTabs: widget.onPressedTabs,
-        //         onPressedUrlMenu: widget.onPressedUrlMenu,
-        //         onPressedRefresh: widget.onPressedRefresh,
-        //         onEditingCompleteUrl: widget.onEditingCompleteUrl,
-        //         urlSliderController: widget.urlSliderController,
-        //         tabsState: widget.tabsState,
-        //       ),
-        //     MenuType.url => MenuUrl(
-        //         widget.activeTabState,
-        //         key: _urlKey,
-        //       ),
-        //     _ => const SizedBox.shrink(),
-        //   },
-        // );
       },
     );
   }

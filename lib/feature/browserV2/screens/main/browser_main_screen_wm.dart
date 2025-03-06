@@ -115,12 +115,19 @@ class BrowserMainScreenWidgetModel
     _controllers.remove(tabId);
   }
 
+  int _prevYScroll = 0;
+
   void onScrollChanged(int y) {
-    _menuState.accept(y > 100 ? MenuType.url : MenuType.view);
-    _visibleNavigationBarState.accept(y < 100);
+    final isVisibleMenu = _prevYScroll - y >= 0;
+
+    _menuState.accept(isVisibleMenu ? MenuType.view : MenuType.url);
+    _visibleNavigationBarState.accept(isVisibleMenu);
+
+    _prevYScroll = y;
   }
 
   void onChangeTab(String id) {
+    _prevYScroll = 0;
     _viewVisibleState.accept(true);
     _menuState.accept(MenuType.view);
     model.setActiveTab(id);
@@ -219,9 +226,6 @@ class BrowserMainScreenWidgetModel
 
   void _handleActiveTab() {
     _updateControlPanel();
-    // todo перелистнуть пейджер на индекс
-    // todo не создавать еще ни разу не показанные WebView
-    //
   }
 
   Future<void> _updateControlPanel() async {
@@ -245,9 +249,11 @@ class BrowserMainScreenWidgetModel
     );
   }
 
-  void _handleVisibleNavigationBar() => primaryBus.fire(
-        _visibleNavigationBarState.value ?? true
-            ? RevertNavigationEvent()
-            : HideNavigationEvent(),
-      );
+  void _handleVisibleNavigationBar() {
+    primaryBus.fire(
+      _visibleNavigationBarState.value ?? true
+          ? RevertNavigationEvent()
+          : HideNavigationEvent(),
+    );
+  }
 }

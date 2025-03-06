@@ -23,14 +23,13 @@ class CustomBottomNavigationBar
       builder: (_, bool? isVisible) {
         isVisible ??= false;
 
-        return AnimatedSlide(
-          duration: defaultAnimationDuration,
-          offset: Offset(0, isVisible ? 0 : 1.0),
-          child: Theme(
-            data: wm.themeData,
-            child: SafeArea(
-              child: SizedBox(
-                height: DimensSizeV2.d48,
+        return AnimatedSize(
+          duration: const Duration(milliseconds: 150),
+          child: SizedBox(
+            height: isVisible ? DimensSizeV2.d48 : 0,
+            child: Theme(
+              data: wm.themeData,
+              child: SafeArea(
                 child: OverflowBox(
                   maxHeight: double.infinity,
                   alignment: Alignment.topCenter,
