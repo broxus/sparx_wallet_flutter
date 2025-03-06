@@ -11,6 +11,7 @@ class BrowserTabsView extends StatelessWidget {
     required this.scrollController,
     required this.tabsState,
     required this.onCreate,
+    required this.onScrollChanged,
     required this.onDispose,
     super.key,
   });
@@ -20,6 +21,7 @@ class BrowserTabsView extends StatelessWidget {
   final ListenableState<BrowserTabsCollection> tabsState;
   final ScrollController scrollController;
   final void Function(String tabId, InAppWebViewController controller) onCreate;
+  final ValueChanged<int> onScrollChanged;
   final ValueChanged<String> onDispose;
 
   @override
@@ -53,6 +55,7 @@ class BrowserTabsView extends StatelessWidget {
                         data.list[index].id,
                         controller,
                       ),
+                      onScrollChanged: onScrollChanged,
                       onDispose: () => onDispose(data.list[index].id),
                     ),
                   );

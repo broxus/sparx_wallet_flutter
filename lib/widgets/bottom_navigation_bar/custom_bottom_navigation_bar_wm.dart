@@ -38,10 +38,17 @@ class CustomBottomNavigationBarWidgetModel extends CustomWidgetModel<
   );
 
   late final _tabState = createNotifier<RootTab>(model.currentNavTab);
+  late final _visibleState = createNotifier<bool>(true);
 
-  late final _routerState = GoRouterState.of(context);
+  StreamSubscription<VisibleNavigationEvent>? _navigationVisibleSub;
+
+  bool _isForceHide = false;
+
+  GoRouterState get _routerState => GoRouterState.of(context);
 
   StreamSubscription<BrowserAppLinksData>? _appLinksNavSubs;
+
+  ListenableState<bool> get visibleState => _visibleState;
 
   ListenableState<RootTab> get tabState => _tabState;
 
@@ -52,11 +59,7 @@ class CustomBottomNavigationBarWidgetModel extends CustomWidgetModel<
         highlightColor: Colors.transparent,
       );
 
-  bool get isBottomNavigationBarVisible => _route.isBottomNavigationBarVisible;
-
   ThemeStyleV2 get _theme => context.themeStyleV2;
-
-  AppRoute get _route => getCurrentAppRoute(fullPath: _routerState.fullPath);
 
   late final List<BottomNavigationBarItem> items = [
     for (final tab in RootTab.values) tab.item(),
@@ -65,15 +68,31 @@ class CustomBottomNavigationBarWidgetModel extends CustomWidgetModel<
   @override
   void initWidgetModel() {
     super.initWidgetModel();
-
+    _updateVisible();
+    _navigationVisibleSub =
+        primaryBus.on<VisibleNavigationEvent>().listen(_onNavigationVisible);
     WidgetsBinding.instance.addPostFrameCallback((_) {
       _appLinksNavSubs = model.browserLinksStream.listen(_listenAppLinks);
     });
   }
 
+
+
+  void _onNavigationVisible(VisibleNavigationEvent event) {
+    _isForceHide = event is HideNavigationEvent;
+    _updateVisible();
+  }
+
+  @override
+  void didChangeDependencies() {
+    _updateVisible();
+    super.didChangeDependencies();
+  }
+
   @override
   void dispose() {
     _appLinksNavSubs?.cancel();
+    _navigationVisibleSub?.cancel();
     super.dispose();
   }
 
@@ -98,5 +117,17 @@ class CustomBottomNavigationBarWidgetModel extends CustomWidgetModel<
 
   void _listenAppLinks(BrowserAppLinksData data) {
     _changeValue(RootTab.browser);
+  }
+
+  void _updateVisible() {
+    if (_isForceHide) {
+      _visibleState.accept(false);
+      return;
+    }
+
+    final route = getCurrentAppRoute(fullPath: _routerState.fullPath);
+    final isBottomNavigationBarVisible = route.isBottomNavigationBarVisible;
+
+    _visibleState.accept(isBottomNavigationBarVisible);
   }
 }

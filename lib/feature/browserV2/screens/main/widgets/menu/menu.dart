@@ -1,5 +1,8 @@
 import 'package:app/feature/browserV2/data/tabs_data.dart';
+import 'package:app/feature/browserV2/models/tab/browser_tab.dart';
+import 'package:app/feature/browserV2/screens/main/data/menu_data.dart';
 import 'package:app/feature/browserV2/screens/main/widgets/menu/menu_tab_list.dart';
+import 'package:app/feature/browserV2/screens/main/widgets/menu/menu_url.dart';
 import 'package:app/feature/browserV2/screens/main/widgets/menu/menu_view_tab/menu_view_tab.dart';
 import 'package:app/utils/types/fuction_types.dart';
 import 'package:elementary_helper/elementary_helper.dart';
@@ -7,8 +10,9 @@ import 'package:flutter/material.dart';
 
 class BrowserBottomMenu extends StatefulWidget {
   const BrowserBottomMenu({
-    required this.viewVisibleState,
+    required this.menuState,
     required this.tabsState,
+    required this.activeTabState,
     required this.screenHeight,
     required this.menuUrlPanelWidth,
     required this.urlWidth,
@@ -28,6 +32,7 @@ class BrowserBottomMenu extends StatefulWidget {
   });
 
   final ListenableState<BrowserTabsCollection> tabsState;
+  final ListenableState<BrowserTab?> activeTabState;
   final double screenHeight;
   final double menuUrlPanelWidth;
   final double urlWidth;
@@ -44,7 +49,7 @@ class BrowserBottomMenu extends StatefulWidget {
   final DoubleValueCallback<String, String> onEditingCompleteUrl;
   final ScrollController urlSliderController;
 
-  final ListenableState<bool> viewVisibleState;
+  final ListenableState<MenuType> menuState;
 
   @override
   State<BrowserBottomMenu> createState() => _BrowserBottomMenuState();
@@ -53,12 +58,13 @@ class BrowserBottomMenu extends StatefulWidget {
 class _BrowserBottomMenuState extends State<BrowserBottomMenu> {
   final _listKey = UniqueKey();
   final _viewKey = UniqueKey();
+  final _urlKey = UniqueKey();
 
   @override
   Widget build(BuildContext context) {
     return StateNotifierBuilder(
-      listenableState: widget.viewVisibleState,
-      builder: (_, bool? isVisible) {
+      listenableState: widget.menuState,
+      builder: (_, MenuType? type) {
         return AnimatedCrossFade(
           firstChild: BrowserTabListMenu(
             key: _listKey,
@@ -67,26 +73,69 @@ class _BrowserBottomMenuState extends State<BrowserBottomMenu> {
             onPlusPressed: widget.onPlusPressed,
             onDonePressed: widget.onDonePressed,
           ),
-          secondChild: BrowserTabViewMenu(
-            key: _viewKey,
-            menuUrlPanelWidth: widget.menuUrlPanelWidth,
-            urlWidth: widget.urlWidth,
-            onPressedBackPressed: widget.onPressedBackPressed,
-            onPressedForwardPressed: widget.onPressedForwardPressed,
-            onPressedDotsPressed: widget.onPressedDotsPressed,
-            onPressedBook: widget.onPressedBook,
-            onPressedTabs: widget.onPressedTabs,
-            onPressedUrlMenu: widget.onPressedUrlMenu,
-            onPressedRefresh: widget.onPressedRefresh,
-            onEditingCompleteUrl: widget.onEditingCompleteUrl,
-            urlSliderController: widget.urlSliderController,
-            tabsState: widget.tabsState,
+          secondChild: AnimatedCrossFade(
+            firstChild: BrowserTabViewMenu(
+              key: _viewKey,
+              menuUrlPanelWidth: widget.menuUrlPanelWidth,
+              urlWidth: widget.urlWidth,
+              onPressedBackPressed: widget.onPressedBackPressed,
+              onPressedForwardPressed: widget.onPressedForwardPressed,
+              onPressedDotsPressed: widget.onPressedDotsPressed,
+              onPressedBook: widget.onPressedBook,
+              onPressedTabs: widget.onPressedTabs,
+              onPressedUrlMenu: widget.onPressedUrlMenu,
+              onPressedRefresh: widget.onPressedRefresh,
+              onEditingCompleteUrl: widget.onEditingCompleteUrl,
+              urlSliderController: widget.urlSliderController,
+              tabsState: widget.tabsState,
+            ),
+            secondChild: MenuUrl(
+              widget.activeTabState,
+              key: _urlKey,
+            ),
+            crossFadeState: type == MenuType.view
+                ? CrossFadeState.showFirst
+                : CrossFadeState.showSecond,
+            duration: const Duration(milliseconds: 250),
           ),
-          crossFadeState: isVisible ?? false
-              ? CrossFadeState.showSecond
-              : CrossFadeState.showFirst,
+          crossFadeState: type == MenuType.list
+              ? CrossFadeState.showFirst
+              : CrossFadeState.showSecond,
           duration: const Duration(milliseconds: 250),
         );
+
+        // return AnimatedSwitcher(
+        //   duration: const Duration(milliseconds: 250),
+        //   child: switch (type) {
+        //     MenuType.list => BrowserTabListMenu(
+        //         key: _listKey,
+        //         tabsState: widget.tabsState,
+        //         onCloseAllPressed: widget.onCloseAllPressed,
+        //         onPlusPressed: widget.onPlusPressed,
+        //         onDonePressed: widget.onDonePressed,
+        //       ),
+        //     MenuType.view => BrowserTabViewMenu(
+        //         key: _viewKey,
+        //         menuUrlPanelWidth: widget.menuUrlPanelWidth,
+        //         urlWidth: widget.urlWidth,
+        //         onPressedBackPressed: widget.onPressedBackPressed,
+        //         onPressedForwardPressed: widget.onPressedForwardPressed,
+        //         onPressedDotsPressed: widget.onPressedDotsPressed,
+        //         onPressedBook: widget.onPressedBook,
+        //         onPressedTabs: widget.onPressedTabs,
+        //         onPressedUrlMenu: widget.onPressedUrlMenu,
+        //         onPressedRefresh: widget.onPressedRefresh,
+        //         onEditingCompleteUrl: widget.onEditingCompleteUrl,
+        //         urlSliderController: widget.urlSliderController,
+        //         tabsState: widget.tabsState,
+        //       ),
+        //     MenuType.url => MenuUrl(
+        //         widget.activeTabState,
+        //         key: _urlKey,
+        //       ),
+        //     _ => const SizedBox.shrink(),
+        //   },
+        // );
       },
     );
   }

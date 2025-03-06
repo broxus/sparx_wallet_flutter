@@ -12,6 +12,7 @@ class BrowserWebTab extends ElementaryWidget<BrowserWebTabWidgetModel> {
   BrowserWebTab({
     required this.tab,
     required this.onCreate,
+    required this.onScrollChanged,
     required this.onDispose,
     Key? key,
     WidgetModelFactory<BrowserWebTabWidgetModel>? wmFactory,
@@ -27,6 +28,7 @@ class BrowserWebTab extends ElementaryWidget<BrowserWebTabWidgetModel> {
   final BrowserTab tab;
 
   final ValueChanged<InAppWebViewController> onCreate;
+  final ValueChanged<int> onScrollChanged;
   final VoidCallback onDispose;
 
   @override

@@ -35,6 +35,7 @@ class BrowserMainScreen extends ElementaryWidget<BrowserMainScreenWidgetModel> {
               tabsState: wm.tabsState,
               scrollController: wm.viewTabScrollController,
               onCreate: wm.onCreateController,
+              onScrollChanged: wm.onScrollChanged,
               onDispose: wm.onDisposeController,
             ),
           ),
@@ -43,8 +44,9 @@ class BrowserMainScreen extends ElementaryWidget<BrowserMainScreenWidgetModel> {
             left: 0,
             right: 0,
             child: BrowserBottomMenu(
-              viewVisibleState: wm.viewVisibleState,
+              menuState: wm.menuState,
               tabsState: wm.tabsState,
+              activeTabState: wm.activeTabState,
               screenHeight: wm.screenHeight,
               menuUrlPanelWidth: wm.screenWidth,
               urlWidth: wm.urlWidth,

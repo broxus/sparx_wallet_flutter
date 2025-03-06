@@ -203,51 +203,12 @@ class BrowserWebTabWidgetModel
     ___,
     bool clampedY,
   ) {
-    /*
-    if (clampedY) {
-      // If we are overscrolled down hide HUD
-      if (y > 0) {
-        context.read<HudBloc>().add(const HudEvent.hide());
-      }
-
-      // Hey, we are overscrolled!
-      // Remove all that contains overscrolled y position
-      // Hopefully it will be before any of timers will fire
-      _delayedScrollEvents.removeWhere((event) {
-        // Is this event overscrolled?
-        if (event.y < y) return false;
-        // Cancel timer
-        event.timer.cancel();
-
-        // Remove event from the list
-        return true;
-      });
-    }
-    */
+    widget.onScrollChanged(y);
+    print('!!! ${y}');
   }
 
   void onScrollChanged(_, __, int y) {
-    /*
-    // Remove all events that are not active anymore (cancelled, executed)
-    _delayedScrollEvents.removeWhere((event) => !event.timer.isActive);
-
-    // New delayed scroll event, at this point we don't know if it's overscroll
-    final event = DelayedScrollEvent(
-      timer: Timer(
-        _scrollTimerDelay,
-            () => _onScrollSane(y),
-      ),
-      y: y,
-    );
-    // Add it to the list of delayed events
-    _delayedScrollEvents.add(
-      event,
-    );
-
-    if (y == 0) {
-      context.read<HudBloc>().add(const HudEvent.show());
-    }
-    */
+    widget.onScrollChanged(y);
   }
 
   void _onRefresh() {
