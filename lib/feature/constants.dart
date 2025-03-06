@@ -44,14 +44,14 @@ MnemonicType getMnemonicType({
     'Invalid words count',
   );
 
-  format ??= SeedPhraseFormat.standart;
+  format ??= SeedPhraseFormat.standard;
   return wordsCount == actualSeedPhraseLength
       ? switch (format) {
-          SeedPhraseFormat.standart => defaultMnemonicType,
+          SeedPhraseFormat.standard => defaultMnemonicType,
           SeedPhraseFormat.ton => tonBip39MnemonicType12,
         }
       : switch (format) {
-          SeedPhraseFormat.standart => const MnemonicType.legacy(),
+          SeedPhraseFormat.standard => const MnemonicType.legacy(),
           SeedPhraseFormat.ton => tonBip39MnemonicType24,
         };
 }

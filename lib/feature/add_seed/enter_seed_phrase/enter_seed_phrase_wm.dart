@@ -84,7 +84,11 @@ class EnterSeedPhraseWidgetModel
       );
     }(),
   );
-  late final _seedPhraseFormat = createNotifier(SeedPhraseFormat.standart);
+  late final _seedPhraseFormat = createNotifier(
+    networkGroup == 'ton' || networkGroup == 'hmstr_mainnet'
+        ? SeedPhraseFormat.ton
+        : SeedPhraseFormat.standard,
+  );
 
   ColorsPalette get colors => context.themeStyle.colors;
 

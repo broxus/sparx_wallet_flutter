@@ -48,11 +48,11 @@ class SeedPhraseFormatView extends StatelessWidget {
               separatorSize: DimensSizeV2.d16,
               children: [
                 CommonRadioInput(
-                  value: SeedPhraseFormat.standart,
+                  value: SeedPhraseFormat.standard,
                   groupValue: value,
                   onChanged: onChanged,
                   child: Text(
-                    _getRadioLabel(SeedPhraseFormat.standart),
+                    _getRadioLabel(SeedPhraseFormat.standard),
                     style: theme.textStyles.labelSmall,
                   ),
                 ),
@@ -75,7 +75,7 @@ class SeedPhraseFormatView extends StatelessWidget {
 
   String _getRadioLabel(SeedPhraseFormat format) {
     return switch (format) {
-      SeedPhraseFormat.standart => switch (wordsCount) {
+      SeedPhraseFormat.standard => switch (wordsCount) {
           actualSeedPhraseLength => LocaleKeys.seedPhrase12FormatStandart.tr(),
           legacySeedPhraseLength => LocaleKeys.seedPhrase24FormatStandart.tr(),
           _ => '',

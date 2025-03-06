@@ -1,6 +1,6 @@
 enum SeedPhraseFormat {
   /// Used by Sparx Wallet & Ever Wallet
-  standart,
+  standard,
 
   /// Used by some TON wallets
   ton,

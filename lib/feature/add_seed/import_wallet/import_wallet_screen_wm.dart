@@ -39,7 +39,11 @@ class ImportWalletScreenWidgetModel
 
   late final screenState = createEntityNotifier<ImportWalletData?>()
     ..loading(ImportWalletData());
-  late final _seedPhraseFormat = createNotifier(SeedPhraseFormat.standart);
+  late final _seedPhraseFormat = createNotifier(
+    networkGroup == 'ton' || networkGroup == 'hmstr_mainnet'
+        ? SeedPhraseFormat.ton
+        : SeedPhraseFormat.standard,
+  );
 
   final _log = Logger('ImportWalletWidgetModel');
   Set<String>? _hints;
