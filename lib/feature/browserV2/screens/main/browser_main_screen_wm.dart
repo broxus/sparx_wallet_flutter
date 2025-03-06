@@ -66,6 +66,7 @@ class BrowserMainScreenWidgetModel
 
   late int _lastTabsCount = _tabsCollection?.count ?? 0;
 
+  Offset? _downPosition;
   int _prevYScroll = 0;
 
   ListenableState<BrowserTabsCollection> get tabsState => model.tabsState;
@@ -141,8 +142,6 @@ class BrowserMainScreenWidgetModel
     _viewVisibleState.accept(true);
     _menuState.accept(MenuType.view);
   }
-
-  Offset? _downPosition;
 
   void onPointerDown(PointerDownEvent event) {
     _downPosition = event.position;

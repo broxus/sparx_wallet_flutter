@@ -63,51 +63,48 @@ class _UrlFieldState extends State<UrlField> {
 
   @override
   Widget build(BuildContext context) {
-    return PopCapture(
-      onPop: _onPop,
-      child: SizedBox(
-        width: widget.width,
-        height: DimensSizeV2.d40,
-        child: Padding(
-          padding: const EdgeInsets.symmetric(
-            horizontal: DimensSizeV2.d4,
-          ),
-          child: DecoratedBox(
-            decoration: BoxDecoration(
-                color: context.themeStyleV2.colors.backgroundInput,
-                borderRadius: BorderRadius.circular(DimensRadiusV2.radius12)),
-            child: Stack(
-              children: [
-                StateNotifierBuilder<bool>(
-                  listenableState: _urlVisibleTextState,
-                  builder: (_, bool? isVisibleText) {
-                    return Visibility(
-                      visible: isVisibleText ?? false,
-                      child: _UrlText(
-                        text: widget.tab.url.host,
-                        onPressedMenu: _onPressedMenu,
-                        onPressedText: _onPressedText,
-                        onPressedRefresh: _onPressedRefresh,
-                      ),
-                    );
-                  },
-                ),
-                StateNotifierBuilder<bool>(
-                  listenableState: _urlVisibleTextState,
-                  builder: (_, bool? isVisibleText) {
-                    return Visibility(
-                      visible: !(isVisibleText ?? false),
-                      child: _UrlTextField(
-                        controller: _controller,
-                        focusNode: _focusNode,
-                        onPressedClear: _onPressedClear,
-                        onEditingComplete: _onEditingComplete,
-                      ),
-                    );
-                  },
-                ),
-              ],
-            ),
+    return SizedBox(
+      width: widget.width,
+      height: DimensSizeV2.d40,
+      child: Padding(
+        padding: const EdgeInsets.symmetric(
+          horizontal: DimensSizeV2.d4,
+        ),
+        child: DecoratedBox(
+          decoration: BoxDecoration(
+              color: context.themeStyleV2.colors.backgroundInput,
+              borderRadius: BorderRadius.circular(DimensRadiusV2.radius12)),
+          child: Stack(
+            children: [
+              StateNotifierBuilder<bool>(
+                listenableState: _urlVisibleTextState,
+                builder: (_, bool? isVisibleText) {
+                  return Visibility(
+                    visible: isVisibleText ?? false,
+                    child: _UrlText(
+                      text: widget.tab.url.host,
+                      onPressedMenu: _onPressedMenu,
+                      onPressedText: _onPressedText,
+                      onPressedRefresh: _onPressedRefresh,
+                    ),
+                  );
+                },
+              ),
+              StateNotifierBuilder<bool>(
+                listenableState: _urlVisibleTextState,
+                builder: (_, bool? isVisibleText) {
+                  return Visibility(
+                    visible: !(isVisibleText ?? false),
+                    child: _UrlTextField(
+                      controller: _controller,
+                      focusNode: _focusNode,
+                      onPressedClear: _onPressedClear,
+                      onEditingComplete: _onEditingComplete,
+                    ),
+                  );
+                },
+              ),
+            ],
           ),
         ),
       ),
@@ -140,10 +137,6 @@ class _UrlFieldState extends State<UrlField> {
       return;
     }
     _urlVisibleTextState.accept(true);
-  }
-
-  void _onPop() {
-    resetFocus();
   }
 }
 
