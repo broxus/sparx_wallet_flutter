@@ -62,6 +62,8 @@ class BrowserMainScreenWidgetModel
 
   late final _screenSize = MediaQuery.of(context).size;
 
+  late final _urlOffset = (screenWidth - urlWidth) / 2;
+
   late int _lastTabsCount = _tabsCollection?.count ?? 0;
 
   int _prevYScroll = 0;
@@ -258,7 +260,7 @@ class BrowserMainScreenWidgetModel
     }
 
     viewTabScrollController.jumpTo(
-      viewMax * urlOffset / urlMax + (screenWidth - urlWidth) / 2,
+      viewMax * urlOffset / urlMax + _urlOffset,
     );
   }
 
