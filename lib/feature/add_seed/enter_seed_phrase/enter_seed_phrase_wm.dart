@@ -173,15 +173,7 @@ class EnterSeedPhraseWidgetModel
       try {
         FocusManager.instance.primaryFocus?.unfocus();
 
-        final buffer = StringBuffer();
-
-        for (var i = 0; i < _currentValue; i++) {
-          buffer
-            ..write(_inputDataList[i].text.trim())
-            ..write(' ');
-        }
-
-        final phrase = buffer.toString().trimRight();
+        final phrase = _getPhrase();
 
         deriveFromPhrase(
           phrase: phrase,
@@ -274,6 +266,7 @@ class EnterSeedPhraseWidgetModel
         });
       } catch (_) {}
 
+      _tryCheckMnemonicType();
       _validateFormWithError();
     });
   }
@@ -403,6 +396,42 @@ class EnterSeedPhraseWidgetModel
   void _clearAllInputs() {
     for (final data in _inputDataList) {
       data.controller.clear();
+    }
+  }
+
+  String _getPhrase() {
+    final buffer = StringBuffer();
+
+    for (var i = 0; i < _currentValue; i++) {
+      buffer
+        ..write(_inputDataList[i].text.trim())
+        ..write(' ');
+    }
+
+    return buffer.toString().trimRight();
+  }
+
+  void _tryCheckMnemonicType() {
+    // don't check if 12 words or MnemonicType.legacy()
+    if (_currentValue == actualSeedPhraseLength ||
+        _seedPhraseFormat.value == SeedPhraseFormat.standard) return;
+
+    final phrase = _getPhrase();
+
+    try {
+      deriveFromPhrase(
+        phrase: phrase,
+        mnemonicType: _mnemonicType,
+      );
+    } catch (_) {
+      try {
+        deriveFromPhrase(
+          phrase: phrase,
+          mnemonicType: const MnemonicType.legacy(),
+        );
+        // if no exception, then it's legacy
+        _seedPhraseFormat.accept(SeedPhraseFormat.standard);
+      } catch (_) {}
     }
   }
 }

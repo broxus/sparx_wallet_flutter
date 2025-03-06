@@ -141,6 +141,8 @@ class ImportWalletScreenWidgetModel
 
     final firstColumnWords = seed.words.sublist(0, halfLength);
     final secondColumnWords = seed.words.sublist(halfLength);
+
+    _tryCheckMnemonicType(seed);
     _updateState(
       isPasted: true,
       seed: seed,
@@ -196,5 +198,27 @@ class ImportWalletScreenWidgetModel
   bool _isWordValid(String word) {
     final hints = _hints ??= getHints(input: '').toSet();
     return hints.contains(word);
+  }
+
+  void _tryCheckMnemonicType(SeedPhraseModel seed) {
+    // don't check if 12 words or MnemonicType.legacy()
+    if (seed.wordsCount == actualSeedPhraseLength ||
+        _seedPhraseFormat.value == SeedPhraseFormat.standard) return;
+
+    try {
+      deriveFromPhrase(
+        phrase: seed.phrase,
+        mnemonicType: _mnemonicType,
+      );
+    } catch (_) {
+      try {
+        deriveFromPhrase(
+          phrase: seed.phrase,
+          mnemonicType: const MnemonicType.legacy(),
+        );
+        // if no exception, then it's legacy
+        _seedPhraseFormat.accept(SeedPhraseFormat.standard);
+      } catch (_) {}
+    }
   }
 }

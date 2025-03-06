@@ -200,7 +200,7 @@ class SendMessageWidgetModel
       );
 
       _fee.accept(fee);
-    } on Exception catch (e) {
+    } catch (e) {
       _feeError.accept(e.toString());
     }
   }
