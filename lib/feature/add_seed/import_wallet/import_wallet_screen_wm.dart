@@ -110,7 +110,7 @@ class ImportWalletScreenWidgetModel
   void onChangeTab(int value) {
     _updateState(
       isPasted: false,
-      selectedValue: _currentValue,
+      selectedValue: value,
       seed: SeedPhraseModel.empty(),
     );
   }
