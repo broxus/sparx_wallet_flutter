@@ -1,6 +1,7 @@
 import 'package:app/app/service/service.dart';
 import 'package:app/core/app_build_type.dart';
 import 'package:app/utils/utils.dart';
+import 'package:collection/collection.dart';
 import 'package:logging/logging.dart';
 import 'package:nekoton_repository/nekoton_repository.dart';
 import 'package:rxdart/rxdart.dart';
@@ -39,15 +40,27 @@ class SentryWorker {
       return;
     }
 
-    Rx.combineLatest2(
+    Rx.combineLatest3(
       nekotonRepository.currentTransportStream,
+      nekotonRepository.accountsStorage.accountsStream,
       generalStorageService.currentAddressStream,
-      (transport, address) => (transport, address),
-    ).listen((event) {
-      final (transport, address) = event;
+      (transport, accounts, address) => (transport, accounts, address),
+    ).map((event) {
+      final (transport, accounts, address) = event;
+      final account = accounts.firstWhereOrNull((it) => it.address == address);
+      return (transport, account);
+    }).listen((event) {
+      final (transport, account) = event;
       Sentry.configureScope((scope) {
         scope
-          ..setUser(address?.let((it) => SentryUser(id: it.toString())))
+          ..setUser(
+            account?.let(
+              (it) => SentryUser(
+                id: it.address.toString(),
+                data: it.toJson(),
+              ),
+            ),
+          )
           ..setContexts('network', transport.networkName);
       });
     });
