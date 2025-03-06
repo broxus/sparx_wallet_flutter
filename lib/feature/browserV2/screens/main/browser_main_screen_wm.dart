@@ -45,21 +45,6 @@ class BrowserMainScreenWidgetModel
 
   final _controllers = HashMap<String, InAppWebViewController>();
 
-  ListenableState<BrowserTabsCollection> get tabsState => model.tabsState;
-
-  ListenableState<BrowserTab?> get activeTabState => model.activeTabState;
-
-  ListenableState<bool> get viewVisibleState => _viewVisibleState;
-
-  ListenableState<MenuType> get menuState => _menuState;
-
-  ListenableState<BrowserControlPanelData> get controlPanelState =>
-      _controlPanelState;
-
-  BrowserTab? get _activeTab => activeTabState.value;
-
-  // TODO(knightforce): depending on what opens first - a list or a page
-  // TODO(knightforce): if a page - need to skip animations - set the desired view
   late final _viewVisibleState = createNotifier<bool>(
     activeTabState.value != null,
   );
@@ -80,6 +65,21 @@ class BrowserMainScreenWidgetModel
   late final screenWidth = _screenSize.width;
 
   late final _screenSize = MediaQuery.of(context).size;
+
+  ListenableState<BrowserTabsCollection> get tabsState => model.tabsState;
+
+  ListenableState<BrowserTab?> get activeTabState => model.activeTabState;
+
+  ListenableState<bool> get viewVisibleState => _viewVisibleState;
+
+  ListenableState<MenuType> get menuState => _menuState;
+
+  ListenableState<BrowserControlPanelData> get controlPanelState =>
+      _controlPanelState;
+
+  BrowserTab? get _activeTab => activeTabState.value;
+
+  BrowserTabsCollection? get _tabsCollection => tabsState.value;
 
   ColorsPaletteV2 get colors => _theme.colors;
 
@@ -127,10 +127,26 @@ class BrowserMainScreenWidgetModel
   }
 
   void onChangeTab(String id) {
-    _prevYScroll = 0;
+    if (_tabsCollection == null) {
+      return;
+    }
+
+    if (id != _activeTab?.id) {
+      final count = _tabsCollection!.count;
+
+      final index = _tabsCollection!.getIndexById(id);
+
+      if (index > -1) {
+        final urlMax = urlSliderController.position.maxScrollExtent;
+
+        urlSliderController.jumpTo(urlMax / count * index + 100);
+        model.setActiveTab(id);
+        _prevYScroll = 0;
+      }
+    }
+
     _viewVisibleState.accept(true);
     _menuState.accept(MenuType.view);
-    model.setActiveTab(id);
   }
 
   void onCloseTab(String id) {

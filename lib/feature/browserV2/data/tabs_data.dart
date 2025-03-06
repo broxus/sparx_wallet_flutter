@@ -7,13 +7,11 @@ class BrowserTabsCollection {
 
   final List<BrowserTab> list;
 
-  late final sortedList = [...list]..sort(
-      (a, b) => a.sortingOrder.compareTo(b.sortingOrder),
-    );
-
   int get count => list.length;
 
   String get countText => count.toString();
+
+  int getIndexById(String id) => list.indexWhere((item) => item.id == id);
 }
 
 class ImageCache {

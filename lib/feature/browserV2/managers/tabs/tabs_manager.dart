@@ -175,7 +175,10 @@ class BrowserTabsManager {
 
   /// Put browser tabs to stream
   void _fetchTabsDataFromCache() {
-    final tabs = _browserTabsStorageService.getTabs();
+    final tabs = _browserTabsStorageService.getTabs()
+      ..sort(
+        (a, b) => a.sortingOrder.compareTo(b.sortingOrder),
+      );
 
     BrowserTab? activeTab;
 
