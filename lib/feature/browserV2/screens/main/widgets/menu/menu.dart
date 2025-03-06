@@ -95,7 +95,7 @@ class _BrowserBottomMenuState extends State<BrowserBottomMenu> {
                 urlSliderController: widget.urlSliderController,
                 tabsState: widget.tabsState,
               ),
-              secondChild: MenuUrl(
+              secondChild: MenuRawUrl(
                 widget.activeTabState,
                 key: _urlKey,
                 onPressed: widget.onPressedMenuUrl,

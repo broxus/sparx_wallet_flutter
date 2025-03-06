@@ -46,18 +46,16 @@ class BrowserTabsView extends StatelessWidget {
                 physics: const NeverScrollableScrollPhysics(),
                 itemCount: data.count,
                 itemBuilder: (_, int index) {
-                  return SizedBox(
+                  return BrowserWebTab(
+                    key: ValueKey(data.list[index].id),
                     width: width,
-                    child: BrowserWebTab(
-                      key: ValueKey(data.list[index].id),
-                      tab: data.list[index],
-                      onCreate: (controller) => onCreate(
-                        data.list[index].id,
-                        controller,
-                      ),
-                      onScrollChanged: onScrollChanged,
-                      onDispose: () => onDispose(data.list[index].id),
+                    tab: data.list[index],
+                    onCreate: (controller) => onCreate(
+                      data.list[index].id,
+                      controller,
                     ),
+                    onScrollChanged: onScrollChanged,
+                    onDispose: () => onDispose(data.list[index].id),
                   );
                 },
               );
