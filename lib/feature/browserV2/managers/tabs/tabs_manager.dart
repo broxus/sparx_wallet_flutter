@@ -1,3 +1,4 @@
+import 'dart:collection';
 import 'dart:math';
 
 import 'package:app/app/service/storage_service/general_storage_service.dart';
@@ -8,6 +9,7 @@ import 'package:app/feature/browserV2/service/storages/browser_tabs_storage_serv
 import 'package:collection/collection.dart';
 import 'package:elementary_helper/elementary_helper.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_inappwebview/flutter_inappwebview.dart';
 
 class BrowserTabsManager {
   BrowserTabsManager(
@@ -29,6 +31,8 @@ class BrowserTabsManager {
 
   final _activeTabState = StateNotifier<BrowserTab?>();
 
+  final _controllers = HashMap<String, InAppWebViewController>();
+
   ListenableState<BrowserTabsCollection> get tabsState => _tabsState;
 
   ListenableState<BrowserTab?> get activeTabState => _activeTabState;
@@ -46,6 +50,8 @@ class BrowserTabsManager {
   BrowserTabsCollection get _tabsCollection =>
       _tabsState.value ?? BrowserTabsCollection();
 
+  InAppWebViewController? get currentController => _controllers[activeTabId];
+
   void init() {
     _fetchTabsDataFromCache();
   }
@@ -55,40 +61,56 @@ class BrowserTabsManager {
     _screenshotHelper.dispose();
   }
 
+  void setController(String tabId, InAppWebViewController controller) {
+    _controllers[tabId] = controller;
+  }
+
+  void removeController(String tabId) {
+    _controllers.remove(tabId);
+  }
+
+  void closeAllControllers() {
+    _controllers
+      ..forEach((k, c) => c.dispose())
+      ..clear();
+  }
+
   Future<void> clear() {
     return clearTabs();
   }
 
   void openUrl(Uri uri) {
-    final id = activeTabId;
-    if (id == null) {
-      createBrowserTab(uri);
-      return;
-    }
-    updateUrl(id, uri);
+    createBrowserTab(uri);
   }
 
-  void updateUrl(String tabId, Uri uri) {
-    final tab = browserTabs.firstWhereOrNull((t) => t.id == tabId);
+  void requestUrl(String tabId, Uri uri) {
+    final tabs = [...browserTabs];
 
-    if (tab == null) {
+    final index = tabs.indexWhere((t) => t.id == tabId);
+
+    if (index == -1) {
       return;
     }
 
-    tab.url = uri;
-    _setTabs(tabs: browserTabs);
+    tabs[index] = tabs[index].copyWith(url: uri);
+    _setTabs(tabs: tabs);
+    _controllers[tabId]?.loadUrl(
+      urlRequest: URLRequest(url: WebUri.uri(uri)),
+    );
   }
 
   void updateTitle(String tabId, String title) {
-    final tab = browserTabs.firstWhereOrNull((t) => t.id == tabId);
+    final tabs = [...browserTabs];
 
-    if (tab == null) {
+    final index = tabs.indexWhere((t) => t.id == tabId);
+
+    if (index == -1) {
       return;
     }
 
-    tab.title = title;
+    tabs[index] = tabs[index].copyWith(title: title);
 
-    _setTabs(tabs: browserTabs);
+    _setTabs(tabs: tabs);
   }
 
   /// Clear all browser tabs

@@ -1,5 +1,3 @@
-import 'dart:io';
-
 import 'package:app/app/service/approvals_service.dart';
 import 'package:app/app/service/assets_service.dart';
 import 'package:app/app/service/connection/connection_service.dart';
@@ -9,6 +7,7 @@ import 'package:app/app/service/permissions_service.dart';
 import 'package:app/app/service/storage_service/connections_storage_service.dart';
 import 'package:app/feature/browser/inpage_provider/inpage_provider.dart';
 import 'package:app/feature/browserV2/models/browser_basic_auth_creds.dart';
+import 'package:app/feature/browserV2/screens/main/widgets/browser_web_tab/browser_web_tab.dart';
 import 'package:app/feature/browserV2/screens/main/widgets/browser_web_tab/helpers/events_helper.dart';
 import 'package:app/feature/browserV2/service/browser_service.dart';
 import 'package:elementary/elementary.dart';
@@ -16,7 +15,6 @@ import 'package:elementary_helper/elementary_helper.dart';
 import 'package:flutter_inappwebview/flutter_inappwebview.dart';
 import 'package:nekoton_repository/nekoton_repository.dart';
 import 'package:nekoton_webview/nekoton_webview.dart';
-import 'package:uuid/uuid.dart';
 
 /// [ElementaryModel] for [BrowserWebTab]
 class BrowserWebTabModel extends ElementaryModel {
@@ -102,9 +100,11 @@ class BrowserWebTabModel extends ElementaryModel {
     _browserService.auth.setBasicAuthCreds(challenge, credits);
   }
 
-  void updateUrl(Uri uri) {
+  void updateUrl(Uri? uri) {
+    if(uri == null) {
+      return;
+    }
     _inpageProvider.url = uri;
-    _browserService.tM.updateUrl(_tabId, uri);
   }
 
   void updateTitle(String title) {

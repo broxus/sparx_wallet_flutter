@@ -7,7 +7,6 @@ import 'package:app/feature/browser/bottom_sheets/browser_enter_basic_auth_creds
 import 'package:app/feature/browserV2/models/browser_basic_auth_creds.dart';
 import 'package:app/feature/browserV2/screens/main/widgets/browser_web_tab/browser_web_tab.dart';
 import 'package:app/feature/browserV2/screens/main/widgets/browser_web_tab/browser_web_tab_model.dart';
-import 'package:app/generated/generated.dart';
 import 'package:elementary/elementary.dart';
 import 'package:elementary_helper/elementary_helper.dart';
 import 'package:flutter/foundation.dart';
@@ -89,25 +88,17 @@ class BrowserWebTabWidgetModel
 
   InAppWebViewController? _webViewController;
 
-  late final _webViewVisibleState = createNotifier<bool>(false);
+  late final _progressState = createNotifier<double?>();
 
   ColorsPalette get colors => _theme.colors;
 
   EntityValueListenable<String?> get nekotonJsState => model.nekotonJsState;
 
-  ListenableState<bool> get webViewVisibleState => _webViewVisibleState;
+  ListenableState<double?> get progressState => _progressState;
 
   ThemeStyle get _theme => context.themeStyle;
 
   String get _url => widget.tab.url.toString();
-
-  @override
-  void initWidgetModel() {
-    _webViewVisibleState
-      ..addListener(_handleVisible)
-      ..accept(_url.isNotEmpty);
-    super.initWidgetModel();
-  }
 
   @override
   void dispose() {
@@ -123,7 +114,7 @@ class BrowserWebTabWidgetModel
     _webViewController = controller;
     await model.initEvents(controller);
 
-    if (widget.tab.url.toString().isNotEmpty) {
+    if (_url.isNotEmpty) {
       await controller.loadUrl(
         urlRequest: URLRequest(
           url: WebUri.uri(widget.tab.url),
@@ -134,34 +125,33 @@ class BrowserWebTabWidgetModel
 
   void onLoadStart(
     _,
-    Uri? url,
+    Uri? uri,
   ) {
-    model.createScreenshot(webViewController: _webViewController);
-    _updateUrl(url);
+    model
+      ..createScreenshot(webViewController: _webViewController)
+      ..updateUrl(uri);
   }
 
   void onLoadStop(
     _,
-    Uri? url,
+    Uri? uri,
   ) {
     // _pullToRefreshController?.endRefreshing();
-    model.createScreenshot(webViewController: _webViewController);
-    _updateUrl(url);
+    model
+      ..createScreenshot(webViewController: _webViewController)
+      ..updateUrl(uri);
   }
 
   Future<void> onLoadResource(
     InAppWebViewController controller,
     _,
   ) async {
-    // Seems very strange, but they do it in example ¯\_(ツ)_/¯
-    // ignore: no-magic-number
+    final progress = await controller.getProgress();
 
-    // final progress = await controller.getProgress();
+    _progressState.accept(progress == null ? null : progress / 100);
     // if (progress == 100) {
     //   unawaited(_pullToRefreshController?.endRefreshing());
     // }
-    // unawaited(_setState(progress: progress));
-    // unawaited(_saveScreenshot());
   }
 
   void onReceivedError(
@@ -281,23 +271,6 @@ class BrowserWebTabWidgetModel
     }
 
     return false;
-  }
-
-  void _updateUrl(Uri? uri) {
-    if (uri?.toString().trim().isEmpty ?? true) {
-      _webViewVisibleState.accept(false);
-      return;
-    }
-    _webViewVisibleState.accept(true);
-    model.updateUrl(uri!);
-  }
-
-  void _handleVisible() {
-    if (_webViewVisibleState.value ?? false) {
-      return;
-    }
-
-    model.updateTitle(LocaleKeys.startPage.tr());
   }
 }
 //

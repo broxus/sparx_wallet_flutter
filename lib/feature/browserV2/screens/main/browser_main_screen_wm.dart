@@ -1,5 +1,3 @@
-import 'dart:collection';
-
 import 'package:app/core/error_handler_factory.dart';
 import 'package:app/core/wm/custom_wm.dart';
 import 'package:app/di/di.dart';
@@ -43,8 +41,6 @@ class BrowserMainScreenWidgetModel
   late final viewTabScrollController = createScrollController();
   late final urlSliderController = createScrollController();
 
-  final _controllers = HashMap<String, InAppWebViewController>();
-
   late final _viewVisibleState = createNotifier<bool>(
     activeTabState.value != null,
   );
@@ -68,6 +64,8 @@ class BrowserMainScreenWidgetModel
 
   late int _lastTabsCount = _tabsCollection?.count ?? 0;
 
+  int _prevYScroll = 0;
+
   ListenableState<BrowserTabsCollection> get tabsState => model.tabsState;
 
   ListenableState<BrowserTab?> get activeTabState => model.activeTabState;
@@ -87,8 +85,7 @@ class BrowserMainScreenWidgetModel
 
   ThemeStyleV2 get _theme => context.themeStyleV2;
 
-  InAppWebViewController? get _currentController =>
-      _controllers[_activeTab?.id];
+  InAppWebViewController? get _currentController => model.currentController;
 
   @override
   void initWidgetModel() {
@@ -103,21 +100,17 @@ class BrowserMainScreenWidgetModel
   void dispose() {
     tabsState.removeListener(_handleTabsCollection);
     activeTabState.removeListener(_handleActiveTab);
-    _controllers
-      ..forEach((k, c) => c.dispose())
-      ..clear();
+    model.closeAllControllers();
     super.dispose();
   }
 
   void onCreateController(String tabId, InAppWebViewController controller) {
-    _controllers[tabId] = controller;
+    model.setController(tabId, controller);
   }
 
   void onDisposeController(String tabId) {
-    _controllers.remove(tabId);
+    model.removeController(tabId);
   }
-
-  int _prevYScroll = 0;
 
   void onScrollChanged(int y) {
     final isVisibleMenu = _prevYScroll - y >= 0;
@@ -203,7 +196,7 @@ class BrowserMainScreenWidgetModel
   }
 
   void onEditingCompleteUrl(String tabId, String text) {
-    // TODO
+    model.requestUrl(tabId, text);
   }
 
   void goBack() {
