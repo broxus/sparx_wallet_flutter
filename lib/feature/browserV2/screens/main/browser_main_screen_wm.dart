@@ -220,9 +220,9 @@ class BrowserMainScreenWidgetModel
 
   void _handleTabsCollection() {
     final count = _tabsCollection?.count ?? 0;
-    if (tabsState.value?.list.isNotEmpty ?? true) {
-      final id = _tabsCollection?.lastTab?.id;
-      if (count > _lastTabsCount && id != null) {
+    if (_tabsCollection?.isNotEmpty ?? true) {
+      final id = _tabsCollection!.lastTab!.id;
+      if (count > _lastTabsCount) {
         _changeTab(id);
       }
     } else {
@@ -255,6 +255,14 @@ class BrowserMainScreenWidgetModel
     final urlOffset = urlSliderController.offset;
     final urlMax = urlSliderController.position.maxScrollExtent;
     final viewMax = viewTabScrollController.position.maxScrollExtent;
+
+    final tabIndex = ((viewMax - (viewMax - urlOffset)) / urlWidth).round();
+
+    final id = _tabsCollection?.getIdByIndex(tabIndex);
+
+    if (id != null) {
+      model.setActiveTab(id);
+    }
 
     viewTabScrollController.jumpTo(
       viewMax * urlOffset / urlMax + (screenWidth - urlWidth) / 2,
