@@ -165,6 +165,7 @@ class TokenTransferInfoWidget
               customCurrency,
             ) {
               return SeparatedColumn(
+                crossAxisAlignment: CrossAxisAlignment.end,
                 separatorSize: DimensSizeV2.d4,
                 children: [
                   WalletTransactionDetailsItem(
