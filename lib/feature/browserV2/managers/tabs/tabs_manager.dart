@@ -83,17 +83,27 @@ class BrowserTabsManager {
     createBrowserTab(uri);
   }
 
-  void requestUrl(String tabId, Uri uri) {
+  bool updateUrl(String tabId, Uri uri) {
     final tabs = [...browserTabs];
 
     final index = tabs.indexWhere((t) => t.id == tabId);
 
     if (index == -1) {
-      return;
+      return false;
     }
 
     tabs[index] = tabs[index].copyWith(url: uri);
     _setTabs(tabs: tabs);
+
+    return true;
+  }
+
+  void requestUrl(String tabId, Uri uri) {
+    final isSuccess = updateUrl(tabId, uri);
+
+    if (!isSuccess) {
+      return;
+    }
     _controllers[tabId]?.loadUrl(
       urlRequest: URLRequest(url: WebUri.uri(uri)),
     );

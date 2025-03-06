@@ -105,6 +105,7 @@ class BrowserWebTabModel extends ElementaryModel {
       return;
     }
     _inpageProvider.url = uri;
+    _browserService.tM.updateUrl(_tabId, uri);
   }
 
   void updateTitle(String title) {

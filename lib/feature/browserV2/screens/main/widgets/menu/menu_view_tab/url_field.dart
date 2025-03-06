@@ -31,17 +31,13 @@ class _UrlFieldState extends State<UrlField> {
   late final _controller = TextEditingController(text: _urlText);
   final _focusNode = FocusNode();
 
-  late final _urlTextState = StateNotifier<String?>(initValue: _host);
+  late final _urlVisibleTextState = StateNotifier<bool>(initValue: true);
 
   BrowserTab get _tab => widget.tab;
 
   Uri get _url => _tab.url;
 
   String get _urlText => _url.toString();
-
-  String get _host => _tab.url.host;
-
-  bool get _isVisibleText => _urlTextState.value != null;
 
   @override
   void initState() {
@@ -51,14 +47,8 @@ class _UrlFieldState extends State<UrlField> {
 
   @override
   void didUpdateWidget(covariant UrlField oldWidget) {
-    if (oldWidget.tab.url != _url) {
-      if (_isVisibleText) {
-        _urlTextState.accept(_host);
-      }
-      final str = _urlText;
-      if (_controller.text != str) {
-        _controller.text = str;
-      }
+    if (oldWidget.tab.url != widget.tab.url) {
+      _controller.text = _urlText;
     }
     super.didUpdateWidget(oldWidget);
   }
@@ -67,7 +57,7 @@ class _UrlFieldState extends State<UrlField> {
   void dispose() {
     _controller.dispose();
     _focusNode.dispose();
-    _urlTextState.dispose();
+    _urlVisibleTextState.dispose();
     super.dispose();
   }
 
@@ -88,13 +78,13 @@ class _UrlFieldState extends State<UrlField> {
                 borderRadius: BorderRadius.circular(DimensRadiusV2.radius12)),
             child: Stack(
               children: [
-                StateNotifierBuilder<String?>(
-                  listenableState: _urlTextState,
-                  builder: (_, String? host) {
+                StateNotifierBuilder<bool>(
+                  listenableState: _urlVisibleTextState,
+                  builder: (_, bool? isVisibleText) {
                     return Visibility(
-                      visible: host != null,
+                      visible: isVisibleText ?? false,
                       child: _UrlText(
-                        text: _host,
+                        text: widget.tab.url.host,
                         onPressedMenu: _onPressedMenu,
                         onPressedText: _onPressedText,
                         onPressedRefresh: _onPressedRefresh,
@@ -102,11 +92,11 @@ class _UrlFieldState extends State<UrlField> {
                     );
                   },
                 ),
-                StateNotifierBuilder<String?>(
-                  listenableState: _urlTextState,
-                  builder: (_, String? host) {
+                StateNotifierBuilder<bool>(
+                  listenableState: _urlVisibleTextState,
+                  builder: (_, bool? isVisibleText) {
                     return Visibility(
-                      visible: host == null,
+                      visible: !(isVisibleText ?? false),
                       child: _UrlTextField(
                         controller: _controller,
                         focusNode: _focusNode,
@@ -130,7 +120,6 @@ class _UrlFieldState extends State<UrlField> {
 
   void _onEditingComplete() {
     resetFocus(context);
-    _urlTextState.accept(_host);
     widget.onEditingComplete(
       widget.tab.id,
       _controller.text,
@@ -142,20 +131,19 @@ class _UrlFieldState extends State<UrlField> {
   }
 
   void _onPressedText() {
-    _urlTextState.accept(null);
+    _urlVisibleTextState.accept(false);
     Future(_focusNode.requestFocus);
   }
 
   void _onFocusChange() {
     if (_focusNode.hasFocus) {
-      _controller.text = _urlText;
       return;
     }
-    _urlTextState.accept(_host);
+    _urlVisibleTextState.accept(true);
   }
 
   void _onPop() {
-    _focusNode.requestFocus();
+    resetFocus();
   }
 }
 
