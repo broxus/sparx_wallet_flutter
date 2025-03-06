@@ -112,7 +112,6 @@ class BrowserTabsListItemWidgetModel
 
   void onPressedMenu(GlobalKey key) {
     showPopupMenuWithOverlay(context, key, items);
-    //CustomOverlay.showOverlay(context, key, colors.background0);
   }
 
   void _handleActiveTab() {
