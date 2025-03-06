@@ -66,6 +66,8 @@ class BrowserMainScreenWidgetModel
 
   late final _screenSize = MediaQuery.of(context).size;
 
+  late int _lastTabsCount = _tabsCollection?.count ?? 0;
+
   ListenableState<BrowserTabsCollection> get tabsState => model.tabsState;
 
   ListenableState<BrowserTab?> get activeTabState => model.activeTabState;
@@ -126,24 +128,7 @@ class BrowserMainScreenWidgetModel
     _prevYScroll = y;
   }
 
-  void onChangeTab(String id) {
-    if (_tabsCollection == null) {
-      return;
-    }
-
-    if (id != _activeTab?.id) {
-      final index = _tabsCollection!.getIndexById(id);
-
-      if (index > -1) {
-        urlSliderController.jumpTo(urlWidth * index + 50);
-        model.setActiveTab(id);
-        _prevYScroll = 0;
-      }
-    }
-
-    _viewVisibleState.accept(true);
-    _menuState.accept(MenuType.view);
-  }
+  void onChangeTab(String id) => _changeTab(id);
 
   void onCloseTab(String id) {
     model.removeBrowserTab(id);
@@ -234,15 +219,21 @@ class BrowserMainScreenWidgetModel
   }
 
   void _handleTabsCollection() {
+    final count = _tabsCollection?.count ?? 0;
     if (tabsState.value?.list.isNotEmpty ?? true) {
-      return;
+      final id = _tabsCollection?.lastTab?.id;
+      if (count > _lastTabsCount && id != null) {
+        _changeTab(id);
+      }
+    } else {
+      model.createEmptyTab();
+      _prevYScroll = 0;
+      urlSliderController.jumpTo(0);
+      _viewVisibleState.accept(true);
+      _menuState.accept(MenuType.view);
     }
 
-    model.createEmptyTab();
-    _prevYScroll = 0;
-    urlSliderController.jumpTo(0);
-    _viewVisibleState.accept(true);
-    _menuState.accept(MenuType.view);
+    _lastTabsCount = count;
   }
 
   void _handleActiveTab() {
@@ -276,5 +267,24 @@ class BrowserMainScreenWidgetModel
           ? RevertNavigationEvent()
           : HideNavigationEvent(),
     );
+  }
+
+  void _changeTab(String id) {
+    if (_tabsCollection == null) {
+      return;
+    }
+
+    if (id != _activeTab?.id) {
+      final index = _tabsCollection!.getIndexById(id);
+
+      if (index > -1) {
+        urlSliderController.jumpTo(urlWidth * index + 50);
+        model.setActiveTab(id);
+        _prevYScroll = 0;
+      }
+    }
+
+    _viewVisibleState.accept(true);
+    _menuState.accept(MenuType.view);
   }
 }

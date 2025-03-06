@@ -11,6 +11,8 @@ class BrowserTabsCollection {
 
   String get countText => count.toString();
 
+  BrowserTab? get lastTab => list.lastOrNull;
+
   int getIndexById(String id) => list.indexWhere((item) => item.id == id);
 }
 
