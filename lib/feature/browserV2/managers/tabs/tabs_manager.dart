@@ -126,31 +126,34 @@ class BrowserTabsManager {
   Future<void> removeBrowserTab(String id) async {
     final tabs = [...browserTabs];
 
-    final count = browserTabs.length;
+    final count = tabs.length;
 
     int? removedIndex;
 
     for (var i = 0; i < count; i++) {
-      if (browserTabs[i].id != id) {
+      if (tabs[i].id != id) {
         continue;
       }
 
       removedIndex = i;
+      break;
     }
 
     if (removedIndex == null) {
       return;
     }
 
-    tabs.removeAt(removedIndex);
+    final removedId = tabs.removeAt(removedIndex).id;
 
-    final nextIndex = min(removedIndex, browserTabs.length - 1);
+    final newActiveTabId = removedId == activeTabId
+        ? tabs[min(removedIndex + 1, tabs.length - 1)].id
+        : null;
 
     await _screenshotHelper.removeScreenshot(id);
 
     _setTabs(
       tabs: tabs,
-      activeTabId: tabs[nextIndex].id,
+      activeTabId: newActiveTabId,
     );
   }
 
