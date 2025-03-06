@@ -7,6 +7,8 @@ import 'package:app/feature/browserV2/screens/main/widgets/menu/menu_view_tab/me
 import 'package:app/utils/types/fuction_types.dart';
 import 'package:elementary_helper/elementary_helper.dart';
 import 'package:flutter/material.dart';
+import 'package:ui_components_lib/components/button/mini_button.dart';
+import 'package:ui_components_lib/v2/ui_components_lib_v2.dart';
 
 class BrowserBottomMenu extends StatefulWidget {
   const BrowserBottomMenu({
@@ -26,6 +28,7 @@ class BrowserBottomMenu extends StatefulWidget {
     required this.onPressedTabs,
     required this.onPressedUrlMenu,
     required this.onPressedRefresh,
+    required this.onPressedMenuUrl,
     required this.onEditingCompleteUrl,
     required this.urlSliderController,
     super.key,
@@ -46,6 +49,7 @@ class BrowserBottomMenu extends StatefulWidget {
   final VoidCallback onPressedTabs;
   final ValueChanged<String> onPressedUrlMenu;
   final ValueChanged<String> onPressedRefresh;
+  final VoidCallback onPressedMenuUrl;
   final DoubleValueCallback<String, String> onEditingCompleteUrl;
   final ScrollController urlSliderController;
 
@@ -62,48 +66,52 @@ class _BrowserBottomMenuState extends State<BrowserBottomMenu> {
 
   @override
   Widget build(BuildContext context) {
-    return StateNotifierBuilder(
-      listenableState: widget.menuState,
-      builder: (_, MenuType? type) {
-        return AnimatedCrossFade(
-          firstChild: BrowserTabListMenu(
-            key: _listKey,
-            tabsState: widget.tabsState,
-            onCloseAllPressed: widget.onCloseAllPressed,
-            onPlusPressed: widget.onPlusPressed,
-            onDonePressed: widget.onDonePressed,
-          ),
-          secondChild: AnimatedCrossFade(
-            firstChild: BrowserTabViewMenu(
-              key: _viewKey,
-              menuUrlPanelWidth: widget.menuUrlPanelWidth,
-              urlWidth: widget.urlWidth,
-              onPressedBackPressed: widget.onPressedBackPressed,
-              onPressedForwardPressed: widget.onPressedForwardPressed,
-              onPressedDotsPressed: widget.onPressedDotsPressed,
-              onPressedBook: widget.onPressedBook,
-              onPressedTabs: widget.onPressedTabs,
-              onPressedUrlMenu: widget.onPressedUrlMenu,
-              onPressedRefresh: widget.onPressedRefresh,
-              onEditingCompleteUrl: widget.onEditingCompleteUrl,
-              urlSliderController: widget.urlSliderController,
+    return ColoredBox(
+      color: context.themeStyleV2.colors.background1,
+      child: StateNotifierBuilder(
+        listenableState: widget.menuState,
+        builder: (_, MenuType? type) {
+          return AnimatedCrossFade(
+            firstChild: BrowserTabListMenu(
+              key: _listKey,
               tabsState: widget.tabsState,
+              onCloseAllPressed: widget.onCloseAllPressed,
+              onPlusPressed: widget.onPlusPressed,
+              onDonePressed: widget.onDonePressed,
             ),
-            secondChild: MenuUrl(
-              widget.activeTabState,
-              key: _urlKey,
+            secondChild: AnimatedCrossFade(
+              firstChild: BrowserTabViewMenu(
+                key: _viewKey,
+                menuUrlPanelWidth: widget.menuUrlPanelWidth,
+                urlWidth: widget.urlWidth,
+                onPressedBackPressed: widget.onPressedBackPressed,
+                onPressedForwardPressed: widget.onPressedForwardPressed,
+                onPressedDotsPressed: widget.onPressedDotsPressed,
+                onPressedBook: widget.onPressedBook,
+                onPressedTabs: widget.onPressedTabs,
+                onPressedUrlMenu: widget.onPressedUrlMenu,
+                onPressedRefresh: widget.onPressedRefresh,
+                onEditingCompleteUrl: widget.onEditingCompleteUrl,
+                urlSliderController: widget.urlSliderController,
+                tabsState: widget.tabsState,
+              ),
+              secondChild: MenuUrl(
+                widget.activeTabState,
+                key: _urlKey,
+                onPressed: widget.onPressedMenuUrl,
+              ),
+              crossFadeState: type == MenuType.view
+                  ? CrossFadeState.showFirst
+                  : CrossFadeState.showSecond,
+              duration: const Duration(milliseconds: 150),
             ),
-            crossFadeState: type == MenuType.view
+            crossFadeState: type == MenuType.list
                 ? CrossFadeState.showFirst
                 : CrossFadeState.showSecond,
             duration: const Duration(milliseconds: 150),
-          ),
-          crossFadeState: type == MenuType.list
-              ? CrossFadeState.showFirst
-              : CrossFadeState.showSecond,
-          duration: const Duration(milliseconds: 150),
-        );
-      },
+          );
+        },
+      ),
     );
   }
 }

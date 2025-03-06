@@ -200,6 +200,11 @@ class BrowserMainScreenWidgetModel
     // TODO
   }
 
+  void onPressedMenuUrl() {
+    _menuState.accept(MenuType.view);
+    _visibleNavigationBarState.accept(true);
+  }
+
   void onEditingCompleteUrl(String tabId, String text) {
     // TODO
   }
