@@ -40,7 +40,8 @@ BrowserWebTabWidgetModel defaultBrowserWebTabWidgetModelFactory(
 
 /// [WidgetModel] для [BrowserWebTab]
 class BrowserWebTabWidgetModel
-    extends CustomWidgetModel<BrowserWebTab, BrowserWebTabModel> {
+    extends CustomWidgetModel<BrowserWebTab, BrowserWebTabModel>
+    with AutomaticKeepAliveWidgetModelMixin {
   BrowserWebTabWidgetModel(
     super.model,
   );
@@ -59,17 +60,6 @@ class BrowserWebTabWidgetModel
     'metamask.app.link',
     'app.tonkeeper.com',
   ];
-
-  // static const Duration _scrollTimerDelay = Duration(milliseconds: 100);
-
-  // Scroll position of the webview, used to hide the HUD when the user scrolls
-// further than a certain threshold.
-//   static const int _hudScrollMinYThreshold = 4;
-
-// Scroll dY of the webview, used to hide and show the HUD when the user
-// scrolls up and down.
-//   static const int _hudScrollDYThresholdDown = 64;
-//   static const int _hudScrollDYThresholdUp = 128;
 
   static final _log = Logger('BrowserTabView');
 

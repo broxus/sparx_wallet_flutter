@@ -1,7 +1,6 @@
 import 'dart:collection';
 
 import 'package:app/feature/browserV2/models/tab/browser_tab.dart';
-import 'package:app/feature/browserV2/screens/main/widgets/browser_progress_indicator.dart';
 import 'package:app/feature/browserV2/screens/main/widgets/browser_start_view.dart';
 import 'package:app/feature/browserV2/screens/main/widgets/browser_web_tab/browser_web_tab_wm.dart';
 import 'package:elementary/elementary.dart';
