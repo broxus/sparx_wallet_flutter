@@ -8,7 +8,7 @@ part 'browser_tab.freezed.dart';
 
 part 'browser_tab.g.dart';
 
-@unfreezed
+@freezed
 class BrowserTab with _$BrowserTab {
   factory BrowserTab({
     /// The id of the tab.

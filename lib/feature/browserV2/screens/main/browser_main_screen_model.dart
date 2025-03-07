@@ -4,6 +4,9 @@ import 'package:app/feature/browserV2/screens/main/browser_main_screen.dart';
 import 'package:app/feature/browserV2/service/browser_service.dart';
 import 'package:elementary/elementary.dart';
 import 'package:elementary_helper/elementary_helper.dart';
+import 'package:flutter_inappwebview/flutter_inappwebview.dart';
+
+const _searchEngineUri = 'https://duckduckgo.com/?q=';
 
 /// [ElementaryModel] for [BrowserMainScreen]
 class BrowserMainScreenModel extends ElementaryModel {
@@ -30,4 +33,32 @@ class BrowserMainScreenModel extends ElementaryModel {
   void clearTabs() => _browserService.tM.clearTabs();
 
   void createEmptyTab() => _browserService.tM.createEmptyTab();
+
+  void requestUrl(String tabId, String text) {
+    final (isUrl, url) = _handleUrl(text);
+
+    _browserService.tM.requestUrl(
+      tabId,
+      isUrl ? url! : Uri.parse('$_searchEngineUri$text'),
+    );
+  }
+
+  void setController(String tabId, InAppWebViewController controller) {
+    _browserService.tM.setController(tabId, controller);
+  }
+
+  void removeController(String tabId) {
+    _browserService.tM.removeController(tabId);
+  }
+
+  void closeAllControllers() => _browserService.tM.closeAllControllers();
+
+  (bool, Uri?) _handleUrl(String text) {
+    try {
+      final uri = Uri.parse(text);
+      return (uri.hasScheme, uri);
+    } catch (_) {
+      return (false, null);
+    }
+  }
 }

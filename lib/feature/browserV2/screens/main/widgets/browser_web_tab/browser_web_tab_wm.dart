@@ -7,7 +7,6 @@ import 'package:app/feature/browser/bottom_sheets/browser_enter_basic_auth_creds
 import 'package:app/feature/browserV2/models/browser_basic_auth_creds.dart';
 import 'package:app/feature/browserV2/screens/main/widgets/browser_web_tab/browser_web_tab.dart';
 import 'package:app/feature/browserV2/screens/main/widgets/browser_web_tab/browser_web_tab_model.dart';
-import 'package:app/generated/generated.dart';
 import 'package:elementary/elementary.dart';
 import 'package:elementary_helper/elementary_helper.dart';
 import 'package:flutter/foundation.dart';
@@ -41,7 +40,8 @@ BrowserWebTabWidgetModel defaultBrowserWebTabWidgetModelFactory(
 
 /// [WidgetModel] для [BrowserWebTab]
 class BrowserWebTabWidgetModel
-    extends CustomWidgetModel<BrowserWebTab, BrowserWebTabModel> {
+    extends CustomWidgetModel<BrowserWebTab, BrowserWebTabModel>
+    with AutomaticKeepAliveWidgetModelMixin {
   BrowserWebTabWidgetModel(
     super.model,
   );
@@ -61,17 +61,6 @@ class BrowserWebTabWidgetModel
     'app.tonkeeper.com',
   ];
 
-  // static const Duration _scrollTimerDelay = Duration(milliseconds: 100);
-
-  // Scroll position of the webview, used to hide the HUD when the user scrolls
-// further than a certain threshold.
-//   static const int _hudScrollMinYThreshold = 4;
-
-// Scroll dY of the webview, used to hide and show the HUD when the user
-// scrolls up and down.
-//   static const int _hudScrollDYThresholdDown = 64;
-//   static const int _hudScrollDYThresholdUp = 128;
-
   static final _log = Logger('BrowserTabView');
 
   final initialSettings = InAppWebViewSettings(
@@ -87,25 +76,25 @@ class BrowserWebTabWidgetModel
     onRefresh: _onRefresh,
   );
 
-  InAppWebViewController? _webViewController;
+  late final _createState = createNotifier<bool>(false);
 
-  late final _webViewVisibleState = createNotifier<bool>(false);
+  InAppWebViewController? _webViewController;
 
   ColorsPalette get colors => _theme.colors;
 
-  EntityValueListenable<String?> get nekotonJsState => model.nekotonJsState;
+  ListenableState<bool> get createState => _createState;
 
-  ListenableState<bool> get webViewVisibleState => _webViewVisibleState;
+  EntityValueListenable<String?> get nekotonJsState => model.nekotonJsState;
 
   ThemeStyle get _theme => context.themeStyle;
 
   String get _url => widget.tab.url.toString();
 
+  bool get _isCreate => _createState.value ?? false;
+
   @override
   void initWidgetModel() {
-    _webViewVisibleState
-      ..addListener(_handleVisible)
-      ..accept(_url.isNotEmpty);
+    model.activeTabState.addListener(_handleActiveTab);
     super.initWidgetModel();
   }
 
@@ -113,6 +102,7 @@ class BrowserWebTabWidgetModel
   void dispose() {
     widget.onDispose();
     _webViewController?.dispose();
+    model.activeTabState.removeListener(_handleActiveTab);
     super.dispose();
   }
 
@@ -123,7 +113,7 @@ class BrowserWebTabWidgetModel
     _webViewController = controller;
     await model.initEvents(controller);
 
-    if (widget.tab.url.toString().isNotEmpty) {
+    if (_url.isNotEmpty) {
       await controller.loadUrl(
         urlRequest: URLRequest(
           url: WebUri.uri(widget.tab.url),
@@ -134,34 +124,32 @@ class BrowserWebTabWidgetModel
 
   void onLoadStart(
     _,
-    Uri? url,
+    Uri? uri,
   ) {
-    model.createScreenshot(webViewController: _webViewController);
-    _updateUrl(url);
+    model
+      ..createScreenshot(webViewController: _webViewController)
+      ..updateUrl(uri);
   }
 
   void onLoadStop(
     _,
-    Uri? url,
+    Uri? uri,
   ) {
     // _pullToRefreshController?.endRefreshing();
-    model.createScreenshot(webViewController: _webViewController);
-    _updateUrl(url);
+    model
+      ..createScreenshot(webViewController: _webViewController)
+      ..updateUrl(uri);
   }
 
   Future<void> onLoadResource(
     InAppWebViewController controller,
     _,
   ) async {
-    // Seems very strange, but they do it in example ¯\_(ツ)_/¯
-    // ignore: no-magic-number
+    final progress = await controller.getProgress();
 
-    // final progress = await controller.getProgress();
-    // if (progress == 100) {
-    //   unawaited(_pullToRefreshController?.endRefreshing());
-    // }
-    // unawaited(_setState(progress: progress));
-    // unawaited(_saveScreenshot());
+    if (progress != null && model.checkIsActiveTab(widget.tab.id)) {
+      unawaited(widget.progressController.animateTo(progress / 100));
+    }
   }
 
   void onReceivedError(
@@ -201,57 +189,13 @@ class BrowserWebTabWidgetModel
     __,
     int y,
     ___,
-    bool clampedY,
+    ____,
   ) {
-    /*
-    if (clampedY) {
-      // If we are overscrolled down hide HUD
-      if (y > 0) {
-        context.read<HudBloc>().add(const HudEvent.hide());
-      }
-
-      // Hey, we are overscrolled!
-      // Remove all that contains overscrolled y position
-      // Hopefully it will be before any of timers will fire
-      _delayedScrollEvents.removeWhere((event) {
-        // Is this event overscrolled?
-        if (event.y < y) return false;
-        // Cancel timer
-        event.timer.cancel();
-
-        // Remove event from the list
-        return true;
-      });
-    }
-    */
+    widget.onScrollChanged(y);
   }
 
   void onScrollChanged(_, __, int y) {
-    /*
-    // Remove all events that are not active anymore (cancelled, executed)
-    _delayedScrollEvents.removeWhere((event) => !event.timer.isActive);
-
-    // New delayed scroll event, at this point we don't know if it's overscroll
-    final event = DelayedScrollEvent(
-      timer: Timer(
-        _scrollTimerDelay,
-            () => _onScrollSane(y),
-      ),
-      y: y,
-    );
-    // Add it to the list of delayed events
-    _delayedScrollEvents.add(
-      event,
-    );
-
-    if (y == 0) {
-      context.read<HudBloc>().add(const HudEvent.show());
-    }
-    */
-  }
-
-  void _onRefresh() {
-    _webViewController?.reload();
+    widget.onScrollChanged(y);
   }
 
   Future<HttpAuthResponse?> onReceivedHttpAuthRequest(
@@ -311,6 +255,10 @@ class BrowserWebTabWidgetModel
     return NavigationActionPolicy.ALLOW;
   }
 
+  void _onRefresh() {
+    _webViewController?.reload();
+  }
+
   bool _checkIsCustomAppLink(Uri url) {
     final path = url.toString();
 
@@ -323,34 +271,15 @@ class BrowserWebTabWidgetModel
     return false;
   }
 
-  void _updateUrl(Uri? uri) {
-    if (uri?.toString().trim().isEmpty ?? true) {
-      _webViewVisibleState.accept(false);
-      return;
-    }
-    _webViewVisibleState.accept(true);
-    model.updateUrl(uri!);
+  void _handleActiveTab() {
+    _createWebView();
   }
 
-  void _handleVisible() {
-    if (_webViewVisibleState.value ?? false) {
+  void _createWebView() {
+    if (_isCreate || !model.checkIsActiveTab(widget.tab.id)) {
       return;
     }
 
-    model.updateTitle(LocaleKeys.startPage.tr());
+    _createState.accept(true);
   }
 }
-//
-// // Delayed scroll event dataclass
-// class DelayedScrollEvent {
-//   const DelayedScrollEvent({
-//     required this.timer,
-//     required this.y,
-//   });
-//
-//   // Timer that will fire when scroll event is not overscrolled
-//   final Timer timer;
-//
-//   // Scroll position
-//   final int y;
-// }

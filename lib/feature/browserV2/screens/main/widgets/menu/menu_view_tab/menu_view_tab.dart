@@ -1,7 +1,7 @@
 import 'package:app/feature/browserV2/data/tabs_data.dart';
 import 'package:app/feature/browserV2/screens/main/widgets/menu/background_blur.dart';
-import 'package:app/feature/browserV2/screens/main/widgets/menu/menu_view_tab/nav_panel.dart';
 import 'package:app/feature/browserV2/screens/main/widgets/menu/menu_view_tab/url_panel.dart';
+import 'package:app/feature/browserV2/screens/main/widgets/menu/nav_panel/nav_panel.dart';
 import 'package:app/utils/types/fuction_types.dart';
 import 'package:elementary_helper/elementary_helper.dart';
 import 'package:flutter/material.dart';
@@ -11,12 +11,9 @@ class BrowserTabViewMenu extends StatelessWidget {
   const BrowserTabViewMenu({
     required this.menuUrlPanelWidth,
     required this.urlWidth,
-    required this.onPressedBackPressed,
-    required this.onPressedForwardPressed,
-    required this.onPressedDotsPressed,
-    required this.onPressedBook,
     required this.onPressedTabs,
     required this.onPressedUrlMenu,
+    required this.onPressedRefresh,
     required this.onEditingCompleteUrl,
     required this.urlSliderController,
     required this.tabsState,
@@ -25,12 +22,9 @@ class BrowserTabViewMenu extends StatelessWidget {
 
   final double menuUrlPanelWidth;
   final double urlWidth;
-  final VoidCallback onPressedBackPressed;
-  final VoidCallback onPressedForwardPressed;
-  final VoidCallback onPressedDotsPressed;
-  final VoidCallback onPressedBook;
   final VoidCallback onPressedTabs;
   final ValueChanged<String> onPressedUrlMenu;
+  final ValueChanged<String> onPressedRefresh;
   final DoubleValueCallback<String, String> onEditingCompleteUrl;
   final ScrollController urlSliderController;
   final ListenableState<BrowserTabsCollection> tabsState;
@@ -49,14 +43,11 @@ class BrowserTabViewMenu extends StatelessWidget {
               controller: urlSliderController,
               tabsState: tabsState,
               onPressedUrlMenu: onPressedUrlMenu,
+              onPressedRefresh: onPressedRefresh,
               onEditingCompleteUrl: onEditingCompleteUrl,
             ),
             const _Space(),
             BrowserTabViewMenuNavPanel(
-              onPressedBackPressed: onPressedBackPressed,
-              onPressedForwardPressed: onPressedForwardPressed,
-              onPressedDotsPressed: onPressedDotsPressed,
-              onPressedBook: onPressedBook,
               onPressedTabs: onPressedTabs,
             ),
           ],

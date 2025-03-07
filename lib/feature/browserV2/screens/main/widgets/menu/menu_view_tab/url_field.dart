@@ -12,6 +12,7 @@ class UrlField extends StatefulWidget {
     required this.tab,
     required this.width,
     required this.onPressedUrlMenu,
+    required this.onPressedRefresh,
     required this.onEditingComplete,
     super.key,
   });
@@ -19,6 +20,7 @@ class UrlField extends StatefulWidget {
   final BrowserTab tab;
   final double width;
   final ValueChanged<String> onPressedUrlMenu;
+  final ValueChanged<String> onPressedRefresh;
   final DoubleValueCallback<String, String> onEditingComplete;
 
   @override
@@ -26,25 +28,27 @@ class UrlField extends StatefulWidget {
 }
 
 class _UrlFieldState extends State<UrlField> {
-  final _controller = TextEditingController();
+  late final _controller = TextEditingController(text: _urlText);
   final _focusNode = FocusNode();
 
-  late final _urlTextState = StateNotifier<String?>(initValue: _host);
+  late final _urlVisibleTextState = StateNotifier<bool>(initValue: true);
 
-  String get _host => widget.tab.url.host;
+  BrowserTab get _tab => widget.tab;
 
-  bool get _isVisibleText => _urlTextState.value != null;
+  Uri get _url => _tab.url;
+
+  String get _urlText => _url.toString();
+
+  @override
+  void initState() {
+    _focusNode.addListener(_onFocusChange);
+    super.initState();
+  }
 
   @override
   void didUpdateWidget(covariant UrlField oldWidget) {
     if (oldWidget.tab.url != widget.tab.url) {
-      if (_isVisibleText) {
-        _urlTextState.accept(widget.tab.url.host);
-      }
-      final str = widget.tab.url.toString();
-      if (_controller.text != str) {
-        _controller.text = str;
-      }
+      _controller.text = _urlText;
     }
     super.didUpdateWidget(oldWidget);
   }
@@ -53,57 +57,54 @@ class _UrlFieldState extends State<UrlField> {
   void dispose() {
     _controller.dispose();
     _focusNode.dispose();
-    _urlTextState.dispose();
+    _urlVisibleTextState.dispose();
     super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
-    return PopCapture(
-      onPop: _onPop,
-      child: SizedBox(
-        width: widget.width,
-        height: DimensSizeV2.d40,
-        child: Padding(
-          padding: const EdgeInsets.symmetric(
-            horizontal: DimensSizeV2.d4,
-          ),
-          child: DecoratedBox(
-            decoration: BoxDecoration(
-                color: context.themeStyleV2.colors.backgroundInput,
-                borderRadius: BorderRadius.circular(DimensRadiusV2.radius12)),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              crossAxisAlignment: CrossAxisAlignment.stretch,
-              children: [
-                _Button(
-                  onPressed: _onPressedMenu,
-                  icon: LucideIcons.menu,
-                ),
-                Flexible(
-                  child: Listener(
-                    behavior: HitTestBehavior.translucent,
-                    onPointerDown: _onPointerDown,
-                    child: StateNotifierBuilder<String?>(
-                      listenableState: _urlTextState,
-                      builder: (_, String? text) {
-                        return text == null
-                            ? _UrlTextField(
-                                controller: _controller,
-                                focusNode: _focusNode,
-                                onEditingComplete: _onEditingComplete,
-                              )
-                            : _UrlText(_host);
-                      },
+    return SizedBox(
+      width: widget.width,
+      height: DimensSizeV2.d40,
+      child: Padding(
+        padding: const EdgeInsets.symmetric(
+          horizontal: DimensSizeV2.d4,
+        ),
+        child: DecoratedBox(
+          decoration: BoxDecoration(
+              color: context.themeStyleV2.colors.backgroundInput,
+              borderRadius: BorderRadius.circular(DimensRadiusV2.radius12)),
+          child: Stack(
+            children: [
+              StateNotifierBuilder<bool>(
+                listenableState: _urlVisibleTextState,
+                builder: (_, bool? isVisibleText) {
+                  return Visibility(
+                    visible: isVisibleText ?? false,
+                    child: _UrlText(
+                      text: widget.tab.url.host,
+                      onPressedMenu: _onPressedMenu,
+                      onPressedText: _onPressedText,
+                      onPressedRefresh: _onPressedRefresh,
                     ),
-                  ),
-                ),
-                _Button(
-                  onPressed: _onPressedMenu,
-                  icon: LucideIcons.rotateCcw,
-                ),
-              ],
-            ),
+                  );
+                },
+              ),
+              StateNotifierBuilder<bool>(
+                listenableState: _urlVisibleTextState,
+                builder: (_, bool? isVisibleText) {
+                  return Visibility(
+                    visible: !(isVisibleText ?? false),
+                    child: _UrlTextField(
+                      controller: _controller,
+                      focusNode: _focusNode,
+                      onPressedClear: _onPressedClear,
+                      onEditingComplete: _onEditingComplete,
+                    ),
+                  );
+                },
+              ),
+            ],
           ),
         ),
       ),
@@ -112,23 +113,30 @@ class _UrlFieldState extends State<UrlField> {
 
   void _onPressedMenu() => widget.onPressedUrlMenu(widget.tab.id);
 
+  void _onPressedRefresh() => widget.onPressedRefresh(widget.tab.id);
+
   void _onEditingComplete() {
     resetFocus(context);
-    _urlTextState.accept(_host);
     widget.onEditingComplete(
       widget.tab.id,
       _controller.text,
     );
   }
 
-  void _onPointerDown(_) {
-    _urlTextState.accept(null);
+  void _onPressedClear() {
+    _controller.clear();
+  }
+
+  void _onPressedText() {
+    _urlVisibleTextState.accept(false);
     Future(_focusNode.requestFocus);
   }
 
-  void _onPop() {
-    resetFocus(context);
-    _urlTextState.accept(_host);
+  void _onFocusChange() {
+    if (_focusNode.hasFocus) {
+      return;
+    }
+    _urlVisibleTextState.accept(true);
   }
 }
 
@@ -166,62 +174,119 @@ class _UrlTextField extends StatelessWidget {
   const _UrlTextField({
     required this.controller,
     required this.focusNode,
+    required this.onPressedClear,
     required this.onEditingComplete,
   });
 
   final TextEditingController controller;
   final FocusNode focusNode;
+  final VoidCallback onPressedClear;
   final VoidCallback onEditingComplete;
 
   @override
   Widget build(BuildContext context) {
     final theme = context.themeStyleV2;
 
-    return TextField(
-      controller: controller,
-      focusNode: focusNode,
-      style: TextStyle(
-        color: theme.colors.content3,
-      ),
-      textAlign: TextAlign.center,
-      decoration: InputDecoration(
-        border: InputBorder.none,
-        focusedBorder: InputBorder.none,
-        enabledBorder: InputBorder.none,
-        errorBorder: InputBorder.none,
-        disabledBorder: InputBorder.none,
-      ),
-      onEditingComplete: onEditingComplete,
+    return Row(
+      children: [
+        Expanded(
+          child: TextField(
+            controller: controller,
+            focusNode: focusNode,
+            style: theme.textStyles.paragraphXMedium.copyWith(
+              color: ColorsResV2.black,
+            ),
+            cursorColor: ColorsResV2.black,
+            decoration: const InputDecoration(
+              border: InputBorder.none,
+              focusedBorder: InputBorder.none,
+              enabledBorder: InputBorder.none,
+              errorBorder: InputBorder.none,
+              disabledBorder: InputBorder.none,
+              contentPadding: EdgeInsets.symmetric(
+                horizontal: DimensSizeV2.d14,
+              ),
+            ),
+            onEditingComplete: onEditingComplete,
+          ),
+        ),
+        GestureDetector(
+          behavior: HitTestBehavior.opaque,
+          onTap: onPressedClear,
+          child: Padding(
+            padding: const EdgeInsets.only(right: DimensSizeV2.d12),
+            child: Assets.images.clear.svg(
+              width: DimensSizeV2.d20,
+              height: DimensSizeV2.d20,
+              colorFilter: context.themeStyleV2.colors.content3.colorFilter,
+            ),
+          ),
+        ),
+      ],
     );
   }
 }
 
 class _UrlText extends StatelessWidget {
-  const _UrlText(
-    this.text,
-  );
+  const _UrlText({
+    required this.text,
+    required this.onPressedMenu,
+    required this.onPressedText,
+    required this.onPressedRefresh,
+  });
 
   final String text;
+  final VoidCallback onPressedMenu;
+  final VoidCallback onPressedText;
+  final VoidCallback onPressedRefresh;
 
   @override
   Widget build(BuildContext context) {
     final theme = context.themeStyleV2;
     return Row(
-      mainAxisSize: MainAxisSize.min,
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
-        Padding(
-          padding: const EdgeInsets.only(right: DimensSizeV2.d4),
-          child: Icon(
-            text.isEmpty ? LucideIcons.search : LucideIcons.lock,
-            size: DimensSizeV2.d16,
-            color: theme.colors.content3,
+        _Button(
+          onPressed: onPressedMenu,
+          icon: LucideIcons.menu,
+        ),
+        Expanded(
+          child: GestureDetector(
+            behavior: HitTestBehavior.opaque,
+            onTap: onPressedText,
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Padding(
+                  padding: const EdgeInsets.only(right: DimensSizeV2.d4),
+                  child: text.isEmpty
+                      ? Icon(
+                          LucideIcons.search,
+                          size: DimensSizeV2.d16,
+                          color: theme.colors.content3,
+                        )
+                      : Assets.images.lockFill.svg(
+                          width: DimensSizeV2.d16,
+                          height: DimensSizeV2.d16,
+                          colorFilter:
+                              context.themeStyleV2.colors.content3.colorFilter,
+                        ),
+                ),
+                Text(
+                  text.isEmpty ? LocaleKeys.browserSearchURL.tr() : text,
+                  style: theme.textStyles.labelMedium.copyWith(
+                    color: theme.colors.content3,
+                  ),
+                  overflow: TextOverflow.ellipsis,
+                ),
+              ],
+            ),
           ),
         ),
-        Text(
-          text.isEmpty ? LocaleKeys.browserSearchURL.tr() : text,
-          style: theme.textStyles.labelMedium.copyWith(
-            color: theme.colors.content3,
-          ),
+        _Button(
+          onPressed: onPressedRefresh,
+          icon: LucideIcons.rotateCcw,
         ),
       ],
     );

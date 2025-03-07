@@ -27,27 +27,14 @@ mixin _$BrowserTab {
   @uriJsonConverter
   Uri get url => throw _privateConstructorUsedError;
 
-  /// Initial url of the tab.
-  @uriJsonConverter
-  set url(Uri value) => throw _privateConstructorUsedError;
-
   /// The screenshot id of the tab.
   String? get imageId => throw _privateConstructorUsedError;
-
-  /// The screenshot id of the tab.
-  set imageId(String? value) => throw _privateConstructorUsedError;
 
   /// The title of the tab.
   String? get title => throw _privateConstructorUsedError;
 
-  /// The title of the tab.
-  set title(String? value) => throw _privateConstructorUsedError;
-
   /// The sorting position of the tab.
   double get sortingOrder => throw _privateConstructorUsedError;
-
-  /// The sorting position of the tab.
-  set sortingOrder(double value) => throw _privateConstructorUsedError;
 
   /// Serializes this BrowserTab to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
@@ -200,24 +187,42 @@ class _$BrowserTabImpl extends _BrowserTab {
   /// Initial url of the tab.
   @override
   @uriJsonConverter
-  Uri url;
+  final Uri url;
 
   /// The screenshot id of the tab.
   @override
-  String? imageId;
+  final String? imageId;
 
   /// The title of the tab.
   @override
-  String? title;
+  final String? title;
 
   /// The sorting position of the tab.
   @override
-  double sortingOrder;
+  final double sortingOrder;
 
   @override
   String toString() {
     return 'BrowserTab(id: $id, url: $url, imageId: $imageId, title: $title, sortingOrder: $sortingOrder)';
   }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$BrowserTabImpl &&
+            (identical(other.id, id) || other.id == id) &&
+            (identical(other.url, url) || other.url == url) &&
+            (identical(other.imageId, imageId) || other.imageId == imageId) &&
+            (identical(other.title, title) || other.title == title) &&
+            (identical(other.sortingOrder, sortingOrder) ||
+                other.sortingOrder == sortingOrder));
+  }
+
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @override
+  int get hashCode =>
+      Object.hash(runtimeType, id, url, imageId, title, sortingOrder);
 
   /// Create a copy of BrowserTab
   /// with the given fields replaced by the non-null parameter values.
@@ -238,10 +243,10 @@ class _$BrowserTabImpl extends _BrowserTab {
 abstract class _BrowserTab extends BrowserTab {
   factory _BrowserTab(
       {required final String id,
-      @uriJsonConverter required Uri url,
-      required String? imageId,
-      required String? title,
-      required double sortingOrder}) = _$BrowserTabImpl;
+      @uriJsonConverter required final Uri url,
+      required final String? imageId,
+      required final String? title,
+      required final double sortingOrder}) = _$BrowserTabImpl;
   _BrowserTab._() : super._();
 
   factory _BrowserTab.fromJson(Map<String, dynamic> json) =
@@ -256,30 +261,17 @@ abstract class _BrowserTab extends BrowserTab {
   @uriJsonConverter
   Uri get url;
 
-  /// Initial url of the tab.
-  @uriJsonConverter
-  set url(Uri value);
-
   /// The screenshot id of the tab.
   @override
   String? get imageId;
-
-  /// The screenshot id of the tab.
-  set imageId(String? value);
 
   /// The title of the tab.
   @override
   String? get title;
 
-  /// The title of the tab.
-  set title(String? value);
-
   /// The sorting position of the tab.
   @override
   double get sortingOrder;
-
-  /// The sorting position of the tab.
-  set sortingOrder(double value);
 
   /// Create a copy of BrowserTab
   /// with the given fields replaced by the non-null parameter values.

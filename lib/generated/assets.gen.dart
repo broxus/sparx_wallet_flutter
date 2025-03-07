@@ -194,6 +194,9 @@ class $AssetsImagesGen {
   AssetGenImage get circleCheck =>
       const AssetGenImage('assets/images/circle_check.png');
 
+  /// File path: assets/images/clear.svg
+  SvgGenImage get clear => const SvgGenImage('assets/images/clear.svg');
+
   /// File path: assets/images/close.svg
   SvgGenImage get close => const SvgGenImage('assets/images/close.svg');
 
@@ -301,6 +304,9 @@ class $AssetsImagesGen {
   /// File path: assets/images/lock_backup.png
   AssetGenImage get lockBackup =>
       const AssetGenImage('assets/images/lock_backup.png');
+
+  /// File path: assets/images/lock_fill.svg
+  SvgGenImage get lockFill => const SvgGenImage('assets/images/lock_fill.svg');
 
   /// File path: assets/images/logo.svg
   SvgGenImage get logo => const SvgGenImage('assets/images/logo.svg');
@@ -478,6 +484,7 @@ class $AssetsImagesGen {
         checkSquare,
         choose,
         circleCheck,
+        clear,
         close,
         closedEye,
         copy,
@@ -509,6 +516,7 @@ class $AssetsImagesGen {
         lightning,
         lock,
         lockBackup,
+        lockFill,
         logo,
         minus,
         moon,

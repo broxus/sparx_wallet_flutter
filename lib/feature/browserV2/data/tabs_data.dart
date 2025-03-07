@@ -1,5 +1,6 @@
 import 'dart:collection';
 
+import 'package:app/app/router/app_route.dart';
 import 'package:app/feature/browserV2/models/tab/browser_tab.dart';
 
 class BrowserTabsCollection {
@@ -7,13 +8,23 @@ class BrowserTabsCollection {
 
   final List<BrowserTab> list;
 
-  late final sortedList = [...list]..sort(
-      (a, b) => a.sortingOrder.compareTo(b.sortingOrder),
-    );
-
   int get count => list.length;
 
   String get countText => count.toString();
+
+  bool get isNotEmpty => list.isNotEmpty;
+
+  BrowserTab? get lastTab => list.lastOrNull;
+
+  int getIndexById(String id) => list.indexWhere((item) => item.id == id);
+
+  String? getIdByIndex(int index) {
+    try {
+      return list[index].id;
+    } catch (_) {
+      return null;
+    }
+  }
 }
 
 class ImageCache {

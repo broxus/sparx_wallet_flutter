@@ -4,13 +4,10 @@ import 'temp_wm.dart';
 
 class $Temp$ extends ElementaryWidget<$Temp$WidgetModel> {
   const $Temp$({
-    Key? key,
+    super.key,
     WidgetModelFactory<$Temp$WidgetModel> wmFactory =
         default$Temp$WidgetModelFactory,
-  }) : super(
-          wmFactory,
-          key: key,
-        );
+  }) : super(wmFactory);
 
   @override
   Widget build($Temp$WidgetModel wm) {
