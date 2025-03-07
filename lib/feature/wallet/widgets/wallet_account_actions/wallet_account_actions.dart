@@ -263,7 +263,6 @@ class _ActionList extends StatelessWidget {
               );
             }
           },
-        // ignore: no-empty-block
         WalletAccountActionBehavior.deploy => () {
             if ((balance ?? BigInt.zero) >= (minBalance ?? BigInt.zero)) {
               context.goFurther(

@@ -1,16 +1,15 @@
+import 'dart:convert';
+
 import 'package:app/app/router/app_route.dart';
 import 'package:app/app/router/routs/add_seed/add_seed.dart';
 import 'package:app/core/error_handler_factory.dart';
 import 'package:app/core/wm/custom_wm.dart';
+import 'package:app/data/models/models.dart';
 import 'package:app/di/di.dart';
-import 'package:app/feature/add_seed/enter_seed_phrase/data/input_data.dart';
-import 'package:app/feature/add_seed/enter_seed_phrase/data/tab_data.dart';
-import 'package:app/feature/add_seed/enter_seed_phrase/enter_seed_phrase.dart';
-import 'package:app/feature/add_seed/enter_seed_phrase/enter_seed_phrase_model.dart';
+import 'package:app/feature/add_seed/add_seed.dart';
 import 'package:app/feature/constants.dart';
 import 'package:app/generated/generated.dart';
-import 'package:app/utils/focus_utils.dart';
-import 'package:app/utils/seed_utils.dart';
+import 'package:app/utils/utils.dart';
 import 'package:collection/collection.dart';
 import 'package:elementary/elementary.dart';
 import 'package:elementary_helper/elementary_helper.dart';
@@ -39,9 +38,9 @@ EnterSeedPhraseWidgetModel defaultEnterSeedPhraseWidgetModelFactory(
   );
 }
 
-/// [WidgetModel] для [EnterSeedPhrase]
+/// [WidgetModel] для [EnterSeedPhraseWidget]
 class EnterSeedPhraseWidgetModel
-    extends CustomWidgetModel<EnterSeedPhrase, EnterSeedPhraseModel> {
+    extends CustomWidgetModel<EnterSeedPhraseWidget, EnterSeedPhraseModel> {
   EnterSeedPhraseWidgetModel(
     super.model,
   );
@@ -85,6 +84,11 @@ class EnterSeedPhraseWidgetModel
       );
     }(),
   );
+  late final _seedPhraseFormat = createNotifier(
+    networkGroup == 'ton' || networkGroup == 'hmstr_mainnet'
+        ? SeedPhraseFormat.ton
+        : SeedPhraseFormat.standard,
+  );
 
   ColorsPalette get colors => context.themeStyle.colors;
 
@@ -98,10 +102,19 @@ class EnterSeedPhraseWidgetModel
 
   ListenableState<EnterSeedPhraseTabData> get tabState => _tabState;
 
+  EnterSeedPhraseTabData? get _tabData => _tabState.value;
+
+  String get networkGroup => model.networkGroup;
+
+  ListenableState<SeedPhraseFormat> get seedPhraseFormat => _seedPhraseFormat;
+
   int get _currentValue =>
       _tabState.value?.currentValue ?? model.seedPhraseWordsCount.first;
 
-  EnterSeedPhraseTabData? get _tabData => _tabState.value;
+  MnemonicType get _mnemonicType => getMnemonicType(
+        format: _seedPhraseFormat.value,
+        wordsCount: _currentValue,
+      );
 
   @override
   void dispose() {
@@ -160,23 +173,11 @@ class EnterSeedPhraseWidgetModel
       try {
         FocusManager.instance.primaryFocus?.unfocus();
 
-        final buffer = StringBuffer();
-
-        for (var i = 0; i < _currentValue; i++) {
-          buffer
-            ..write(_inputDataList[i].text.trim())
-            ..write(' ');
-        }
-
-        final phrase = buffer.toString().trimRight();
-
-        final mnemonicType = _currentValue == model.legacySeedPhraseLength
-            ? const MnemonicType.legacy()
-            : defaultMnemonicType;
+        final phrase = _getPhrase();
 
         deriveFromPhrase(
           phrase: phrase,
-          mnemonicType: mnemonicType,
+          mnemonicType: _mnemonicType,
         );
         _next(phrase);
       } on AnyhowException catch (e, s) {
@@ -226,8 +227,7 @@ class EnterSeedPhraseWidgetModel
     final words = await getSeedListFromClipboard();
 
     final count = words.length;
-    if (count == model.actualSeedPhraseLength ||
-        count == model.legacySeedPhraseLength) {
+    if (count == actualSeedPhraseLength || count == legacySeedPhraseLength) {
       changeTab(count);
     }
 
@@ -266,9 +266,13 @@ class EnterSeedPhraseWidgetModel
         });
       } catch (_) {}
 
+      _tryCheckMnemonicType();
       _validateFormWithError();
     });
   }
+
+  void onSeedPhraseFormatChanged(SeedPhraseFormat format) =>
+      _seedPhraseFormat.accept(format);
 
   /// Check if debug phrase is entered in any text field
   void _checkDebugPhraseGenerating() {
@@ -276,8 +280,7 @@ class EnterSeedPhraseWidgetModel
       return;
     }
 
-    final key = model.getKey(_currentValue);
-
+    final key = model.getKey(_mnemonicType);
     final count = _inputDataList.take(_currentValue).length;
 
     for (var i = 0; i < count; i++) {
@@ -313,6 +316,7 @@ class EnterSeedPhraseWidgetModel
         AppRoute.createSeedPassword.pathWithData(
           queryParameters: {
             addSeedPhraseQueryParam: phrase,
+            mnemonicTypeQueryParam: jsonEncode(_mnemonicType.toJson()),
           },
         ),
         preserveQueryParams: true,
@@ -392,6 +396,42 @@ class EnterSeedPhraseWidgetModel
   void _clearAllInputs() {
     for (final data in _inputDataList) {
       data.controller.clear();
+    }
+  }
+
+  String _getPhrase() {
+    final buffer = StringBuffer();
+
+    for (var i = 0; i < _currentValue; i++) {
+      buffer
+        ..write(_inputDataList[i].text.trim())
+        ..write(' ');
+    }
+
+    return buffer.toString().trimRight();
+  }
+
+  void _tryCheckMnemonicType() {
+    // don't check if 12 words or MnemonicType.legacy()
+    if (_currentValue == actualSeedPhraseLength ||
+        _seedPhraseFormat.value == SeedPhraseFormat.standard) return;
+
+    final phrase = _getPhrase();
+
+    try {
+      deriveFromPhrase(
+        phrase: phrase,
+        mnemonicType: _mnemonicType,
+      );
+    } catch (_) {
+      try {
+        deriveFromPhrase(
+          phrase: phrase,
+          mnemonicType: const MnemonicType.legacy(),
+        );
+        // if no exception, then it's legacy
+        _seedPhraseFormat.accept(SeedPhraseFormat.standard);
+      } catch (_) {}
     }
   }
 }
