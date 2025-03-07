@@ -29,9 +29,6 @@ class CreateSeedPasswordScreenModel extends ElementaryModel {
   bool get isNeedBiometry =>
       _biometryService.isAvailable && !_biometryService.isEnabled;
 
-  bool get isNeedBiometry =>
-      _biometryService.isAvailable && !_biometryService.isEnabled;
-
   Future<void> next({
     required BuildContext context,
     required String password,
