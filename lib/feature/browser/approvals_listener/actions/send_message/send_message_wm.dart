@@ -6,6 +6,7 @@ import 'package:app/core/wm/custom_wm.dart';
 import 'package:app/di/di.dart';
 import 'package:app/feature/browser/approvals_listener/actions/send_message/send_message_model.dart';
 import 'package:app/feature/browser/approvals_listener/actions/send_message/send_message_widget.dart';
+import 'package:app/generated/generated.dart';
 import 'package:app/utils/utils.dart';
 import 'package:elementary_helper/elementary_helper.dart';
 import 'package:flutter/material.dart';
@@ -49,10 +50,11 @@ class SendMessageWidgetModel
   late final _txErrors = createNotifier<List<TxTreeSimulationErrorItem>>();
   late final _publicKey = createNotifier(account?.publicKey);
   late final _custodians = createNotifier<List<PublicKey>>();
-  late final _balance = createNotifier<Money>();
-  late final _isLoading = createNotifier(false);
+  late final _balance = createNotifierFromStream(
+    model.getBalanceStream(widget.sender),
+  );
+  late final _isLoading = createNotifier(true);
   late final _isConfirmed = createNotifier(false);
-  StreamSubscription<Money>? _subscription;
   int? numberUnconfirmedTransactions;
 
   ListenableState<TransferData> get data => _data;
@@ -83,14 +85,27 @@ class SendMessageWidgetModel
   @override
   void initWidgetModel() {
     super.initWidgetModel();
+    _init();
+  }
 
+  String? getSeedName(PublicKey custodian) => model.getSeedName(custodian);
+
+  void onChangedCustodian(PublicKey custodian) => _publicKey.accept(custodian);
+
+  void onSubmit(String password) =>
+      Navigator.of(context).pop((publicKey.value, password));
+
+  // ignore: avoid_positional_boolean_parameters
+  void onConfirmed(bool value) => _isConfirmed.accept(value);
+
+  Future<void> _init() async {
     final tokens = widget.knownPayload?.whenOrNull(
       tokenOutgoingTransfer: (data) => data.tokens,
       tokenSwapBack: (data) => data.tokens,
     );
 
     if (tokens == null) {
-      _initWalletTon(tokens);
+      await _initWalletTon(tokens);
 
       if (nativeCurrency != null) {
         _data.accept(
@@ -104,31 +119,14 @@ class SendMessageWidgetModel
         );
       }
     } else {
-      _getTokenTransferData(tokens);
+      await _getTokenTransferData(tokens);
     }
 
-    _subscription =
-        model.getBalanceStream(widget.sender).listen(_balance.accept);
-
-    _getCustodians();
-    _prepareTransfer();
+    await Future.wait([
+      _getCustodians(),
+      _prepareTransfer(),
+    ]);
   }
-
-  @override
-  void dispose() {
-    _subscription?.cancel();
-    super.dispose();
-  }
-
-  String? getSeedName(PublicKey custodian) => model.getSeedName(custodian);
-
-  void onChangedCustodian(PublicKey custodian) => _publicKey.accept(custodian);
-
-  void onSubmit(String password) =>
-      Navigator.of(context).pop((publicKey.value, password));
-
-  // ignore: avoid_positional_boolean_parameters
-  void onConfirmed(bool value) => _isConfirmed.accept(value);
 
   Future<void> _getTokenTransferData(BigInt tokens) async {
     final (rootTokenContract, details) =
@@ -176,6 +174,18 @@ class SendMessageWidgetModel
 
       await _estimateFees(message);
       await _simulateTransactionTree(message);
+
+      final data = _data.value;
+      if (data != null) {
+        final balance =
+            _balance.value ?? await model.getBalanceStream(widget.sender).first;
+        final fee = _fee.value ?? BigInt.zero;
+        final amount = data.attachedAmount ?? data.amount.amount.minorUnits;
+
+        if (balance.amount.minorUnits < (fee + amount)) {
+          _feeError.accept(LocaleKeys.insufficientFunds.tr());
+        }
+      }
     } finally {
       message?.dispose();
       _isLoading.accept(false);
@@ -190,7 +200,7 @@ class SendMessageWidgetModel
       );
 
       _fee.accept(fee);
-    } on Exception catch (e) {
+    } catch (e) {
       _feeError.accept(e.toString());
     }
   }

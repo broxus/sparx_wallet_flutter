@@ -6,6 +6,7 @@ import 'package:app/utils/focus_utils.dart';
 import 'package:elementary/elementary.dart';
 import 'package:elementary_helper/elementary_helper.dart';
 import 'package:flutter/material.dart';
+import 'package:nekoton_repository/nekoton_repository.dart';
 import 'package:ui_components_lib/ui_components_lib.dart';
 
 /// {@template create_seed_password_onboarding_page}
@@ -13,18 +14,16 @@ import 'package:ui_components_lib/ui_components_lib.dart';
 /// {@endtemplate}
 class CreateSeedPasswordScreen
     extends ElementaryWidget<CreateSeedPasswordScreenWidgetModel> {
-  CreateSeedPasswordScreen({
+  const CreateSeedPasswordScreen({
+    required this.phrase,
+    required this.mnemonicType,
     Key? key,
-    WidgetModelFactory<CreateSeedPasswordScreenWidgetModel>? wmFactory,
-    SeedPhraseModel? phrase,
-  }) : super(
-          wmFactory ??
-              (context) => defaultCreateSeedPasswordScreenWidgetModelFactory(
-                    context,
-                    phrase: phrase,
-                  ),
-          key: key,
-        );
+    WidgetModelFactory wmFactory =
+        defaultCreateSeedPasswordScreenWidgetModelFactory,
+  }) : super(wmFactory, key: key);
+
+  final SeedPhraseModel? phrase;
+  final MnemonicType? mnemonicType;
 
   @override
   Widget build(CreateSeedPasswordScreenWidgetModel wm) {

@@ -18,8 +18,8 @@ dependencies:
   form_builder_validators: ^11.0.0
   lucide_icons_flutter: ^1.1.2
   modal_bottom_sheet: ^3.0.0
-  money2: 5.3.0
-  money2_fixer: 2.0.0
+  money2: 5.4.6
+  money2_fixer: 3.0.0
   sliding_up_panel2: ^3.3.0+1
 
 

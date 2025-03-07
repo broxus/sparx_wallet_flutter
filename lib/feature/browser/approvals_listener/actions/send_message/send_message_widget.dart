@@ -139,10 +139,10 @@ class SendMessageWidget extends ElementaryWidget<SendMessageWidgetModel> {
         ),
         if (wm.account != null)
           TripleSourceBuilder(
-            firstSource: wm.isLoading,
+            firstSource: wm.feeError,
             secondSource: wm.txErrors,
             thirdSource: wm.isConfirmed,
-            builder: (_, isLoading, txErrors, isConfirmed) {
+            builder: (_, feeError, txErrors, isConfirmed) {
               final hasTxError = txErrors?.isNotEmpty ?? false;
 
               return SeparatedColumn(
@@ -155,14 +155,18 @@ class SendMessageWidget extends ElementaryWidget<SendMessageWidgetModel> {
                       isConfirmed: isConfirmed ?? false,
                       onConfirm: wm.onConfirmed,
                     ),
-                  EnterPasswordWidgetV2(
-                    isLoading: isLoading,
-                    publicKey: wm.account!.publicKey,
-                    title: LocaleKeys.sendWord.tr(),
-                    isDisabled: wm.numberUnconfirmedTransactions == null ||
-                        wm.numberUnconfirmedTransactions! >= 5 ||
-                        (hasTxError && isConfirmed != true),
-                    onPasswordEntered: wm.onSubmit,
+                  StateNotifierBuilder(
+                    listenableState: wm.isLoading,
+                    builder: (_, isLoading) => EnterPasswordWidgetV2(
+                      isLoading: isLoading,
+                      publicKey: wm.account!.publicKey,
+                      title: LocaleKeys.sendWord.tr(),
+                      isDisabled: wm.numberUnconfirmedTransactions == null ||
+                          wm.numberUnconfirmedTransactions! >= 5 ||
+                          feeError != null ||
+                          (hasTxError && isConfirmed != true),
+                      onPasswordEntered: wm.onSubmit,
+                    ),
                   ),
                 ],
               );

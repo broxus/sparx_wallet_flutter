@@ -31,6 +31,7 @@ class TokenWalletSendBloc
     required this.attachedAmount,
     required this.comment,
     required this.resultMessage,
+    required this.notifyReceiver,
   }) : super(const TokenWalletSendState.init()) {
     _registerHandlers();
   }
@@ -67,6 +68,8 @@ class TokenWalletSendBloc
   /// Message that will be shown when transaction completed
   final String resultMessage;
 
+  final bool? notifyReceiver;
+
   /// Fee for transaction after calculating it in [_handlePrepare]
   BigInt? fees;
 
@@ -85,7 +88,7 @@ class TokenWalletSendBloc
     on<_Send>((event, emit) => _handleSend(emit, event.password));
     on<_CompleteSend>(
       (event, emit) => emitSafe(
-        TokenWalletSendState.sent(fees!, event.transaction),
+        TokenWalletSendState.sent(fees ?? BigInt.zero, event.transaction),
       ),
     );
     on<_AllowCloseSend>(
@@ -240,7 +243,7 @@ class TokenWalletSendBloc
       amount: tokenAmount,
       payload: comment,
       attachedAmount: attachedAmount,
-      notifyReceiver: false,
+      notifyReceiver: notifyReceiver ?? false,
     );
 
     final unsignedMessage = await nekotonRepository.prepareTransfer(

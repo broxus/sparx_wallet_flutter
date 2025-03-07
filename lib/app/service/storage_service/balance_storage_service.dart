@@ -76,7 +76,7 @@ class BalanceStorageService extends AbstractStorageService {
         .map(
           (entry) => (
             _Key.fromString(entry.key),
-            FixedFixer.fromJson(entry.value as Map<String, dynamic>),
+            FixedFixer.fromJsonImproved(entry.value as Map<String, dynamic>),
           ),
         )
         .groupFoldBy<NetworkGroup, Map<Address, Fixed>>(
@@ -94,7 +94,7 @@ class BalanceStorageService extends AbstractStorageService {
     try {
       _overallBalancesStorage.write(
         _Key(group: group, address: accountAddress).toString(),
-        balance.toJson(),
+        balance.toJsonImproved(),
       );
       _streamedOverallBalance();
     } catch (e, t) {

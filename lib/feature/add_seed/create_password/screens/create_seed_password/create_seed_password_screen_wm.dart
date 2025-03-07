@@ -2,7 +2,6 @@ import 'package:app/app/router/router.dart';
 import 'package:app/core/error_handler_factory.dart';
 import 'package:app/core/wm/custom_wm.dart';
 import 'package:app/core/wm/navigation_wm_mixin.dart';
-import 'package:app/data/models/seed/seed_phrase_model.dart';
 import 'package:app/di/di.dart';
 import 'package:app/feature/add_seed/create_password/model/password_status.dart';
 import 'package:app/feature/add_seed/create_password/screens/create_seed_password/create_seed_password_screen.dart';
@@ -16,21 +15,18 @@ import 'package:ui_components_lib/v2/ui_components_lib_v2.dart';
 /// Factory method for creating [CreateSeedPasswordScreenWidgetModel]
 CreateSeedPasswordScreenWidgetModel
     defaultCreateSeedPasswordScreenWidgetModelFactory(
-  BuildContext context, {
-  SeedPhraseModel? phrase,
-}) {
-  return CreateSeedPasswordScreenWidgetModel(
-    CreateSeedPasswordScreenModel(
-      createPrimaryErrorHandler(context),
-      inject(),
-      inject(),
-      inject(),
-      inject(),
-      inject(),
-      phrase,
-    ),
-  );
-}
+  BuildContext context,
+) =>
+        CreateSeedPasswordScreenWidgetModel(
+          CreateSeedPasswordScreenModel(
+            createPrimaryErrorHandler(context),
+            inject(),
+            inject(),
+            inject(),
+            inject(),
+            inject(),
+          ),
+        );
 
 /// [WidgetModel] для [CreateSeedPasswordScreen]
 class CreateSeedPasswordScreenWidgetModel extends CustomWidgetModel<
@@ -82,6 +78,8 @@ class CreateSeedPasswordScreenWidgetModel extends CustomWidgetModel<
     await model.next(
       context: context,
       password: passwordController.text,
+      phrase: widget.phrase,
+      mnemonicType: widget.mnemonicType,
     );
 
     if (model.isNeedBiometry) {

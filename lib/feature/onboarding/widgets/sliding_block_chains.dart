@@ -104,14 +104,11 @@ class _SlidingBlockChainsState extends State<SlidingBlockChains> {
           child: LayoutBuilder(
             builder: (context, constraints) {
               final lineCount =
-                  // ignore: no-magic-number
                   constraints.maxHeight < _twoLinesMinHeight ? 2 : 3;
               _paddingBetweenRows =
-                  // ignore: no-magic-number
                   lineCount == 3 ? _tripleRowsPadding : _doubleRowsPadding;
 
               final partSize = (constraints.maxHeight -
-                      // ignore: no-magic-number
                       _paddingBetweenRows * (lineCount - 1)) /
                   lineCount;
               if (controllers.isEmpty) {

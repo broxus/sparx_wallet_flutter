@@ -40,7 +40,7 @@ class NewAccountTypeWidgetModel
     (item) => item == const WalletType.multisig(MultisigType.multisig2_1),
   );
   late final deprecatedTypes = availableTypes.where(
-    (item) => !_standartTypes.contains(item),
+    (item) => !_standardTypes.contains(item),
   );
 
   late final _loading = createNotifier(false);
@@ -48,7 +48,7 @@ class NewAccountTypeWidgetModel
   late final _showDeprecated = createNotifier(false);
 
   // Hamster network workaround
-  late final Set<WalletType> _standartTypes = isHmstr
+  late final Set<WalletType> _standardTypes = isHmstr
       ? {
           const WalletType.walletV5R1(),
           defaultType,

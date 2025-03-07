@@ -47,6 +47,7 @@ const tokenWalletSendDestinationQueryParam = 'tokenWalletSendDestination';
 const tokenWalletSendAmountQueryParam = 'tokenWalletSendAmount';
 const tokenWalletSendAttachedAmountQueryParam = 'tokenWalletSendAttachedAmount';
 const tokenWalletSendResultMessageQueryParam = 'tokenWalletSendResultMessage';
+const tokenWalletSendNotifyReceiverQueryParam = 'tokenWalletSendNotifyReceiver';
 
 const walletDeployAddressPathParam = 'walletDeployAddress';
 const walletDeployPublicKeyPathParam = 'walletDeployPublicKey';
@@ -314,6 +315,10 @@ GoRoute get tokenWalletSendRoute {
         comment: state.uri.queryParameters[tokenWalletSendCommentQueryParam],
         resultMessage:
             state.uri.queryParameters[tokenWalletSendResultMessageQueryParam],
+        notifyReceiver: bool.tryParse(
+          state.uri.queryParameters[tokenWalletSendNotifyReceiverQueryParam] ??
+              '',
+        ),
       );
     },
   );

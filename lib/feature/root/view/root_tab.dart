@@ -33,7 +33,6 @@ enum RootTab {
       );
 
   static RootTab getByPath(String path) {
-    // ignore: prefer-enums-by-name
     return RootTab.values.firstWhere(
       (e) => e.route.path == path,
       orElse: () {

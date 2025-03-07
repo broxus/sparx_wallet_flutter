@@ -2,8 +2,7 @@
 // ignore_for_file: invalid_use_of_protected_member
 
 import 'package:app/app/router/router.dart';
-import 'package:app/feature/add_seed/import_wallet/data/import_wallet_data.dart';
-import 'package:app/feature/add_seed/import_wallet/import_wallet_widget_model.dart';
+import 'package:app/feature/add_seed/add_seed.dart';
 import 'package:app/generated/generated.dart';
 import 'package:elementary/elementary.dart';
 import 'package:elementary_helper/elementary_helper.dart';
@@ -15,11 +14,9 @@ import 'package:ui_components_lib/v2/ui_components_lib_v2.dart';
 class ImportWalletScreen
     extends ElementaryWidget<ImportWalletScreenWidgetModel> {
   const ImportWalletScreen({
-    super.key,
-    WidgetModelFactory<ImportWalletScreenWidgetModel>? wmFactory,
-  }) : super(
-          wmFactory ?? defaultImportWalletWidgetModelFactory,
-        );
+    Key? key,
+    WidgetModelFactory wmFactory = defaultImportWalletWidgetModelFactory,
+  }) : super(wmFactory, key: key);
 
   @override
   Widget build(ImportWalletScreenWidgetModel wm) {
@@ -141,11 +138,25 @@ class ImportWalletScreen
                   padding: const EdgeInsets.symmetric(
                     horizontal: DimensSizeV2.d16,
                   ),
-                  child: AccentButton(
-                    buttonShape: ButtonShape.pill,
-                    title: LocaleKeys.importWalletButtonText.tr(),
-                    onPressed: isPasted ? wm.onPressedImport : null,
-                    icon: LucideIcons.textCursorInput,
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      StateNotifierBuilder(
+                        listenableState: wm.seedPhraseFormat,
+                        builder: (_, seedPhraseFormat) => SeedPhraseFormatView(
+                          networkGroup: wm.networkGroup,
+                          wordsCount: data?.selectedValue,
+                          value: seedPhraseFormat,
+                          onChanged: wm.onSeedPhraseFormatChanged,
+                        ),
+                      ),
+                      AccentButton(
+                        buttonShape: ButtonShape.pill,
+                        title: LocaleKeys.importWalletButtonText.tr(),
+                        onPressed: isPasted ? wm.onPressedImport : null,
+                        icon: LucideIcons.textCursorInput,
+                      ),
+                    ],
                   ),
                 ),
               ],

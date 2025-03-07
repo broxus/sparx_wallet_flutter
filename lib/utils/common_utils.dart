@@ -42,10 +42,20 @@ class _MoneyFromStringJsonConverter
   const _MoneyFromStringJsonConverter();
 
   @override
-  Money fromJson(Map<String, dynamic> json) => MoneyFixer.fromJson(json);
+  Money fromJson(Map<String, dynamic> json) {
+    final currency = json['currency'] as Map<String, dynamic>;
+    // fix old json format: 'code' -> 'isoCode', 'scale' -> 'decimalDigits'
+    currency
+      ..putIfAbsent('isoCode', () => currency['code'] ?? currency['symbol'])
+      ..putIfAbsent('decimalDigits', () => currency['scale'] ?? 0)
+      ..remove('code')
+      ..remove('scale');
+    return MoneyFixer.fromJsonImproved(json);
+  }
 
   @override
-  Map<String, dynamic> toJson(Money object) => MoneyFixer(object).toJson();
+  Map<String, dynamic> toJson(Money object) =>
+      MoneyFixer(object).toJsonImproved();
 }
 
 class NtpTime {
@@ -241,4 +251,10 @@ String getNetworkGroupByNetworkType(dynamic networkType) {
     'ton' => 'ton',
     _ => 'custom',
   };
+}
+
+extension MnemonicTypeJson on MnemonicType {
+  Map<String, dynamic> toJson() => const MnemonicTypeJsonConverter().toJson(
+        this,
+      );
 }
