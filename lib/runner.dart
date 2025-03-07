@@ -40,7 +40,11 @@ Future<void> run(
 
       await configureLocalization();
 
-      await SentryWorker.instance.init(appBuildType);
+      await SentryWorker.instance.init(
+        appBuildType: appBuildType,
+        nekotonRepository: inject(),
+        generalStorageService: inject(),
+      );
 
       FlutterError.onError = (details) {
         log?.severe(details.exceptionAsString(), details, details.stack);

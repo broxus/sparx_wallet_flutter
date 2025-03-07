@@ -647,5 +647,11 @@
   "errorMessageMaxUnconfirmedTransactions": "Unconfirmed transactions is limited by 5",
   "noRpcConnection": "No RPC connection",
   "tryAgainOrContact": "Please try again or contact technical support",
-  "contactUs": "Contact us"
+  "contactUs": "Contact us",
+  "seedPhraseFormatLabel12": "Your seed pharse from:",
+  "seedPhraseFormatLabel24": "Seed phrase format:",
+  "seedPhrase12FormatStandart": "SparX wallet",
+  "seedPhrase12FormatTON": "TON types wallet",
+  "seedPhrase24FormatStandart": "TON Standard",
+  "seedPhrase24FormatTON": "TON BIP39"
 }

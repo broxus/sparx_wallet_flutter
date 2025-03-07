@@ -21,12 +21,14 @@ class CreateSeedPasswordProfilePage extends StatelessWidget {
     required this.name,
     required this.seedPhrase,
     required this.type,
+    required this.mnemonicType,
     super.key,
   });
 
   final SeedPhraseModel seedPhrase;
   final String? name;
   final SeedAddType type;
+  final MnemonicType? mnemonicType;
 
   @override
   Widget build(BuildContext context) {
@@ -44,6 +46,7 @@ class CreateSeedPasswordProfilePage extends StatelessWidget {
           });
         },
         type: type,
+        mnemonicType: mnemonicType,
       ),
       child: GestureDetector(
         onTap: () => FocusScope.of(context).unfocus(),
