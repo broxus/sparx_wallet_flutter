@@ -1072,7 +1072,6 @@ class InpageProvider extends ProviderApi {
       );
 
       unawaited(
-        // ignore: prefer-async-await
         nekotonRepository
             .waitContractSending(pending: transaction, address: recipient)
             .then((trans) {
@@ -1313,7 +1312,6 @@ class InpageProvider extends ProviderApi {
       );
 
       unawaited(
-        // ignore: prefer-async-await
         nekotonRepository
             .waitSending(pending: transaction, address: sender)
             .then((trans) {
