@@ -610,8 +610,6 @@ abstract class _$$ChangeAccountImplCopyWith<$Res>
       List<Permission> permissions,
       Address? previousSelectedAccount,
       Completer<Permissions> completer});
-
-  $AddressCopyWith<$Res>? get previousSelectedAccount;
 }
 
 /// @nodoc
@@ -650,20 +648,6 @@ class __$$ChangeAccountImplCopyWithImpl<$Res>
           : completer // ignore: cast_nullable_to_non_nullable
               as Completer<Permissions>,
     ));
-  }
-
-  /// Create a copy of ApprovalRequest
-  /// with the given fields replaced by the non-null parameter values.
-  @override
-  @pragma('vm:prefer-inline')
-  $AddressCopyWith<$Res>? get previousSelectedAccount {
-    if (_value.previousSelectedAccount == null) {
-      return null;
-    }
-
-    return $AddressCopyWith<$Res>(_value.previousSelectedAccount!, (value) {
-      return _then(_value.copyWith(previousSelectedAccount: value));
-    });
   }
 }
 
@@ -705,9 +689,8 @@ class _$ChangeAccountImpl implements _ChangeAccount {
             (identical(other.origin, origin) || other.origin == origin) &&
             const DeepCollectionEquality()
                 .equals(other._permissions, _permissions) &&
-            (identical(
-                    other.previousSelectedAccount, previousSelectedAccount) ||
-                other.previousSelectedAccount == previousSelectedAccount) &&
+            const DeepCollectionEquality().equals(
+                other.previousSelectedAccount, previousSelectedAccount) &&
             (identical(other.completer, completer) ||
                 other.completer == completer));
   }
@@ -717,7 +700,7 @@ class _$ChangeAccountImpl implements _ChangeAccount {
       runtimeType,
       origin,
       const DeepCollectionEquality().hash(_permissions),
-      previousSelectedAccount,
+      const DeepCollectionEquality().hash(previousSelectedAccount),
       completer);
 
   /// Create a copy of ApprovalRequest
@@ -987,7 +970,6 @@ abstract class _$$AddTip3TokenImplCopyWith<$Res>
       TokenContractAsset details,
       Completer<void> completer});
 
-  $AddressCopyWith<$Res> get account;
   $TokenContractAssetCopyWith<$Res> get details;
 }
 
@@ -1005,7 +987,7 @@ class __$$AddTip3TokenImplCopyWithImpl<$Res>
   @override
   $Res call({
     Object? origin = null,
-    Object? account = null,
+    Object? account = freezed,
     Object? details = null,
     Object? completer = null,
   }) {
@@ -1014,7 +996,7 @@ class __$$AddTip3TokenImplCopyWithImpl<$Res>
           ? _value.origin
           : origin // ignore: cast_nullable_to_non_nullable
               as Uri,
-      account: null == account
+      account: freezed == account
           ? _value.account
           : account // ignore: cast_nullable_to_non_nullable
               as Address,
@@ -1027,16 +1009,6 @@ class __$$AddTip3TokenImplCopyWithImpl<$Res>
           : completer // ignore: cast_nullable_to_non_nullable
               as Completer<void>,
     ));
-  }
-
-  /// Create a copy of ApprovalRequest
-  /// with the given fields replaced by the non-null parameter values.
-  @override
-  @pragma('vm:prefer-inline')
-  $AddressCopyWith<$Res> get account {
-    return $AddressCopyWith<$Res>(_value.account, (value) {
-      return _then(_value.copyWith(account: value));
-    });
   }
 
   /// Create a copy of ApprovalRequest
@@ -1079,15 +1051,15 @@ class _$AddTip3TokenImpl implements _AddTip3Token {
         (other.runtimeType == runtimeType &&
             other is _$AddTip3TokenImpl &&
             (identical(other.origin, origin) || other.origin == origin) &&
-            (identical(other.account, account) || other.account == account) &&
+            const DeepCollectionEquality().equals(other.account, account) &&
             (identical(other.details, details) || other.details == details) &&
             (identical(other.completer, completer) ||
                 other.completer == completer));
   }
 
   @override
-  int get hashCode =>
-      Object.hash(runtimeType, origin, account, details, completer);
+  int get hashCode => Object.hash(runtimeType, origin,
+      const DeepCollectionEquality().hash(account), details, completer);
 
   /// Create a copy of ApprovalRequest
   /// with the given fields replaced by the non-null parameter values.
@@ -1353,9 +1325,6 @@ abstract class _$$SignDataImplCopyWith<$Res>
       PublicKey publicKey,
       String data,
       Completer<String> completer});
-
-  $AddressCopyWith<$Res> get account;
-  $PublicKeyCopyWith<$Res> get publicKey;
 }
 
 /// @nodoc
@@ -1372,8 +1341,8 @@ class __$$SignDataImplCopyWithImpl<$Res>
   @override
   $Res call({
     Object? origin = null,
-    Object? account = null,
-    Object? publicKey = null,
+    Object? account = freezed,
+    Object? publicKey = freezed,
     Object? data = null,
     Object? completer = null,
   }) {
@@ -1382,11 +1351,11 @@ class __$$SignDataImplCopyWithImpl<$Res>
           ? _value.origin
           : origin // ignore: cast_nullable_to_non_nullable
               as Uri,
-      account: null == account
+      account: freezed == account
           ? _value.account
           : account // ignore: cast_nullable_to_non_nullable
               as Address,
-      publicKey: null == publicKey
+      publicKey: freezed == publicKey
           ? _value.publicKey
           : publicKey // ignore: cast_nullable_to_non_nullable
               as PublicKey,
@@ -1399,26 +1368,6 @@ class __$$SignDataImplCopyWithImpl<$Res>
           : completer // ignore: cast_nullable_to_non_nullable
               as Completer<String>,
     ));
-  }
-
-  /// Create a copy of ApprovalRequest
-  /// with the given fields replaced by the non-null parameter values.
-  @override
-  @pragma('vm:prefer-inline')
-  $AddressCopyWith<$Res> get account {
-    return $AddressCopyWith<$Res>(_value.account, (value) {
-      return _then(_value.copyWith(account: value));
-    });
-  }
-
-  /// Create a copy of ApprovalRequest
-  /// with the given fields replaced by the non-null parameter values.
-  @override
-  @pragma('vm:prefer-inline')
-  $PublicKeyCopyWith<$Res> get publicKey {
-    return $PublicKeyCopyWith<$Res>(_value.publicKey, (value) {
-      return _then(_value.copyWith(publicKey: value));
-    });
   }
 }
 
@@ -1454,17 +1403,21 @@ class _$SignDataImpl implements _SignData {
         (other.runtimeType == runtimeType &&
             other is _$SignDataImpl &&
             (identical(other.origin, origin) || other.origin == origin) &&
-            (identical(other.account, account) || other.account == account) &&
-            (identical(other.publicKey, publicKey) ||
-                other.publicKey == publicKey) &&
+            const DeepCollectionEquality().equals(other.account, account) &&
+            const DeepCollectionEquality().equals(other.publicKey, publicKey) &&
             (identical(other.data, data) || other.data == data) &&
             (identical(other.completer, completer) ||
                 other.completer == completer));
   }
 
   @override
-  int get hashCode =>
-      Object.hash(runtimeType, origin, account, publicKey, data, completer);
+  int get hashCode => Object.hash(
+      runtimeType,
+      origin,
+      const DeepCollectionEquality().hash(account),
+      const DeepCollectionEquality().hash(publicKey),
+      data,
+      completer);
 
   /// Create a copy of ApprovalRequest
   /// with the given fields replaced by the non-null parameter values.
@@ -1732,9 +1685,6 @@ abstract class _$$EncryptDataImplCopyWith<$Res>
       PublicKey publicKey,
       String data,
       Completer<String> completer});
-
-  $AddressCopyWith<$Res> get account;
-  $PublicKeyCopyWith<$Res> get publicKey;
 }
 
 /// @nodoc
@@ -1751,8 +1701,8 @@ class __$$EncryptDataImplCopyWithImpl<$Res>
   @override
   $Res call({
     Object? origin = null,
-    Object? account = null,
-    Object? publicKey = null,
+    Object? account = freezed,
+    Object? publicKey = freezed,
     Object? data = null,
     Object? completer = null,
   }) {
@@ -1761,11 +1711,11 @@ class __$$EncryptDataImplCopyWithImpl<$Res>
           ? _value.origin
           : origin // ignore: cast_nullable_to_non_nullable
               as Uri,
-      account: null == account
+      account: freezed == account
           ? _value.account
           : account // ignore: cast_nullable_to_non_nullable
               as Address,
-      publicKey: null == publicKey
+      publicKey: freezed == publicKey
           ? _value.publicKey
           : publicKey // ignore: cast_nullable_to_non_nullable
               as PublicKey,
@@ -1778,26 +1728,6 @@ class __$$EncryptDataImplCopyWithImpl<$Res>
           : completer // ignore: cast_nullable_to_non_nullable
               as Completer<String>,
     ));
-  }
-
-  /// Create a copy of ApprovalRequest
-  /// with the given fields replaced by the non-null parameter values.
-  @override
-  @pragma('vm:prefer-inline')
-  $AddressCopyWith<$Res> get account {
-    return $AddressCopyWith<$Res>(_value.account, (value) {
-      return _then(_value.copyWith(account: value));
-    });
-  }
-
-  /// Create a copy of ApprovalRequest
-  /// with the given fields replaced by the non-null parameter values.
-  @override
-  @pragma('vm:prefer-inline')
-  $PublicKeyCopyWith<$Res> get publicKey {
-    return $PublicKeyCopyWith<$Res>(_value.publicKey, (value) {
-      return _then(_value.copyWith(publicKey: value));
-    });
   }
 }
 
@@ -1833,17 +1763,21 @@ class _$EncryptDataImpl implements _EncryptData {
         (other.runtimeType == runtimeType &&
             other is _$EncryptDataImpl &&
             (identical(other.origin, origin) || other.origin == origin) &&
-            (identical(other.account, account) || other.account == account) &&
-            (identical(other.publicKey, publicKey) ||
-                other.publicKey == publicKey) &&
+            const DeepCollectionEquality().equals(other.account, account) &&
+            const DeepCollectionEquality().equals(other.publicKey, publicKey) &&
             (identical(other.data, data) || other.data == data) &&
             (identical(other.completer, completer) ||
                 other.completer == completer));
   }
 
   @override
-  int get hashCode =>
-      Object.hash(runtimeType, origin, account, publicKey, data, completer);
+  int get hashCode => Object.hash(
+      runtimeType,
+      origin,
+      const DeepCollectionEquality().hash(account),
+      const DeepCollectionEquality().hash(publicKey),
+      data,
+      completer);
 
   /// Create a copy of ApprovalRequest
   /// with the given fields replaced by the non-null parameter values.
@@ -2111,10 +2045,6 @@ abstract class _$$DecryptDataImplCopyWith<$Res>
       PublicKey recipientPublicKey,
       PublicKey sourcePublicKey,
       Completer<String> completer});
-
-  $AddressCopyWith<$Res> get account;
-  $PublicKeyCopyWith<$Res> get recipientPublicKey;
-  $PublicKeyCopyWith<$Res> get sourcePublicKey;
 }
 
 /// @nodoc
@@ -2131,9 +2061,9 @@ class __$$DecryptDataImplCopyWithImpl<$Res>
   @override
   $Res call({
     Object? origin = null,
-    Object? account = null,
-    Object? recipientPublicKey = null,
-    Object? sourcePublicKey = null,
+    Object? account = freezed,
+    Object? recipientPublicKey = freezed,
+    Object? sourcePublicKey = freezed,
     Object? completer = null,
   }) {
     return _then(_$DecryptDataImpl(
@@ -2141,15 +2071,15 @@ class __$$DecryptDataImplCopyWithImpl<$Res>
           ? _value.origin
           : origin // ignore: cast_nullable_to_non_nullable
               as Uri,
-      account: null == account
+      account: freezed == account
           ? _value.account
           : account // ignore: cast_nullable_to_non_nullable
               as Address,
-      recipientPublicKey: null == recipientPublicKey
+      recipientPublicKey: freezed == recipientPublicKey
           ? _value.recipientPublicKey
           : recipientPublicKey // ignore: cast_nullable_to_non_nullable
               as PublicKey,
-      sourcePublicKey: null == sourcePublicKey
+      sourcePublicKey: freezed == sourcePublicKey
           ? _value.sourcePublicKey
           : sourcePublicKey // ignore: cast_nullable_to_non_nullable
               as PublicKey,
@@ -2158,36 +2088,6 @@ class __$$DecryptDataImplCopyWithImpl<$Res>
           : completer // ignore: cast_nullable_to_non_nullable
               as Completer<String>,
     ));
-  }
-
-  /// Create a copy of ApprovalRequest
-  /// with the given fields replaced by the non-null parameter values.
-  @override
-  @pragma('vm:prefer-inline')
-  $AddressCopyWith<$Res> get account {
-    return $AddressCopyWith<$Res>(_value.account, (value) {
-      return _then(_value.copyWith(account: value));
-    });
-  }
-
-  /// Create a copy of ApprovalRequest
-  /// with the given fields replaced by the non-null parameter values.
-  @override
-  @pragma('vm:prefer-inline')
-  $PublicKeyCopyWith<$Res> get recipientPublicKey {
-    return $PublicKeyCopyWith<$Res>(_value.recipientPublicKey, (value) {
-      return _then(_value.copyWith(recipientPublicKey: value));
-    });
-  }
-
-  /// Create a copy of ApprovalRequest
-  /// with the given fields replaced by the non-null parameter values.
-  @override
-  @pragma('vm:prefer-inline')
-  $PublicKeyCopyWith<$Res> get sourcePublicKey {
-    return $PublicKeyCopyWith<$Res>(_value.sourcePublicKey, (value) {
-      return _then(_value.copyWith(sourcePublicKey: value));
-    });
   }
 }
 
@@ -2223,18 +2123,23 @@ class _$DecryptDataImpl implements _DecryptData {
         (other.runtimeType == runtimeType &&
             other is _$DecryptDataImpl &&
             (identical(other.origin, origin) || other.origin == origin) &&
-            (identical(other.account, account) || other.account == account) &&
-            (identical(other.recipientPublicKey, recipientPublicKey) ||
-                other.recipientPublicKey == recipientPublicKey) &&
-            (identical(other.sourcePublicKey, sourcePublicKey) ||
-                other.sourcePublicKey == sourcePublicKey) &&
+            const DeepCollectionEquality().equals(other.account, account) &&
+            const DeepCollectionEquality()
+                .equals(other.recipientPublicKey, recipientPublicKey) &&
+            const DeepCollectionEquality()
+                .equals(other.sourcePublicKey, sourcePublicKey) &&
             (identical(other.completer, completer) ||
                 other.completer == completer));
   }
 
   @override
-  int get hashCode => Object.hash(runtimeType, origin, account,
-      recipientPublicKey, sourcePublicKey, completer);
+  int get hashCode => Object.hash(
+      runtimeType,
+      origin,
+      const DeepCollectionEquality().hash(account),
+      const DeepCollectionEquality().hash(recipientPublicKey),
+      const DeepCollectionEquality().hash(sourcePublicKey),
+      completer);
 
   /// Create a copy of ApprovalRequest
   /// with the given fields replaced by the non-null parameter values.
@@ -2507,9 +2412,6 @@ abstract class _$$CallContractMethodImplCopyWith<$Res>
       FunctionCall payload,
       Completer<String> completer});
 
-  $AddressCopyWith<$Res> get account;
-  $PublicKeyCopyWith<$Res> get publicKey;
-  $AddressCopyWith<$Res> get recipient;
   $FunctionCallCopyWith<$Res> get payload;
 }
 
@@ -2527,9 +2429,9 @@ class __$$CallContractMethodImplCopyWithImpl<$Res>
   @override
   $Res call({
     Object? origin = null,
-    Object? account = null,
-    Object? publicKey = null,
-    Object? recipient = null,
+    Object? account = freezed,
+    Object? publicKey = freezed,
+    Object? recipient = freezed,
     Object? payload = null,
     Object? completer = null,
   }) {
@@ -2538,15 +2440,15 @@ class __$$CallContractMethodImplCopyWithImpl<$Res>
           ? _value.origin
           : origin // ignore: cast_nullable_to_non_nullable
               as Uri,
-      account: null == account
+      account: freezed == account
           ? _value.account
           : account // ignore: cast_nullable_to_non_nullable
               as Address,
-      publicKey: null == publicKey
+      publicKey: freezed == publicKey
           ? _value.publicKey
           : publicKey // ignore: cast_nullable_to_non_nullable
               as PublicKey,
-      recipient: null == recipient
+      recipient: freezed == recipient
           ? _value.recipient
           : recipient // ignore: cast_nullable_to_non_nullable
               as Address,
@@ -2559,36 +2461,6 @@ class __$$CallContractMethodImplCopyWithImpl<$Res>
           : completer // ignore: cast_nullable_to_non_nullable
               as Completer<String>,
     ));
-  }
-
-  /// Create a copy of ApprovalRequest
-  /// with the given fields replaced by the non-null parameter values.
-  @override
-  @pragma('vm:prefer-inline')
-  $AddressCopyWith<$Res> get account {
-    return $AddressCopyWith<$Res>(_value.account, (value) {
-      return _then(_value.copyWith(account: value));
-    });
-  }
-
-  /// Create a copy of ApprovalRequest
-  /// with the given fields replaced by the non-null parameter values.
-  @override
-  @pragma('vm:prefer-inline')
-  $PublicKeyCopyWith<$Res> get publicKey {
-    return $PublicKeyCopyWith<$Res>(_value.publicKey, (value) {
-      return _then(_value.copyWith(publicKey: value));
-    });
-  }
-
-  /// Create a copy of ApprovalRequest
-  /// with the given fields replaced by the non-null parameter values.
-  @override
-  @pragma('vm:prefer-inline')
-  $AddressCopyWith<$Res> get recipient {
-    return $AddressCopyWith<$Res>(_value.recipient, (value) {
-      return _then(_value.copyWith(recipient: value));
-    });
   }
 
   /// Create a copy of ApprovalRequest
@@ -2637,11 +2509,9 @@ class _$CallContractMethodImpl implements _CallContractMethod {
         (other.runtimeType == runtimeType &&
             other is _$CallContractMethodImpl &&
             (identical(other.origin, origin) || other.origin == origin) &&
-            (identical(other.account, account) || other.account == account) &&
-            (identical(other.publicKey, publicKey) ||
-                other.publicKey == publicKey) &&
-            (identical(other.recipient, recipient) ||
-                other.recipient == recipient) &&
+            const DeepCollectionEquality().equals(other.account, account) &&
+            const DeepCollectionEquality().equals(other.publicKey, publicKey) &&
+            const DeepCollectionEquality().equals(other.recipient, recipient) &&
             (identical(other.payload, payload) || other.payload == payload) &&
             (identical(other.completer, completer) ||
                 other.completer == completer));
@@ -2649,7 +2519,13 @@ class _$CallContractMethodImpl implements _CallContractMethod {
 
   @override
   int get hashCode => Object.hash(
-      runtimeType, origin, account, publicKey, recipient, payload, completer);
+      runtimeType,
+      origin,
+      const DeepCollectionEquality().hash(account),
+      const DeepCollectionEquality().hash(publicKey),
+      const DeepCollectionEquality().hash(recipient),
+      payload,
+      completer);
 
   /// Create a copy of ApprovalRequest
   /// with the given fields replaced by the non-null parameter values.
@@ -2927,10 +2803,7 @@ abstract class _$$SendMessageImplCopyWith<$Res>
       KnownPayload? knownPayload,
       Completer<(PublicKey, String)> completer});
 
-  $AddressCopyWith<$Res> get sender;
-  $AddressCopyWith<$Res> get recipient;
   $FunctionCallCopyWith<$Res>? get payload;
-  $KnownPayloadCopyWith<$Res>? get knownPayload;
 }
 
 /// @nodoc
@@ -2947,8 +2820,8 @@ class __$$SendMessageImplCopyWithImpl<$Res>
   @override
   $Res call({
     Object? origin = null,
-    Object? sender = null,
-    Object? recipient = null,
+    Object? sender = freezed,
+    Object? recipient = freezed,
     Object? amount = null,
     Object? bounce = null,
     Object? payload = freezed,
@@ -2960,11 +2833,11 @@ class __$$SendMessageImplCopyWithImpl<$Res>
           ? _value.origin
           : origin // ignore: cast_nullable_to_non_nullable
               as Uri,
-      sender: null == sender
+      sender: freezed == sender
           ? _value.sender
           : sender // ignore: cast_nullable_to_non_nullable
               as Address,
-      recipient: null == recipient
+      recipient: freezed == recipient
           ? _value.recipient
           : recipient // ignore: cast_nullable_to_non_nullable
               as Address,
@@ -2995,26 +2868,6 @@ class __$$SendMessageImplCopyWithImpl<$Res>
   /// with the given fields replaced by the non-null parameter values.
   @override
   @pragma('vm:prefer-inline')
-  $AddressCopyWith<$Res> get sender {
-    return $AddressCopyWith<$Res>(_value.sender, (value) {
-      return _then(_value.copyWith(sender: value));
-    });
-  }
-
-  /// Create a copy of ApprovalRequest
-  /// with the given fields replaced by the non-null parameter values.
-  @override
-  @pragma('vm:prefer-inline')
-  $AddressCopyWith<$Res> get recipient {
-    return $AddressCopyWith<$Res>(_value.recipient, (value) {
-      return _then(_value.copyWith(recipient: value));
-    });
-  }
-
-  /// Create a copy of ApprovalRequest
-  /// with the given fields replaced by the non-null parameter values.
-  @override
-  @pragma('vm:prefer-inline')
   $FunctionCallCopyWith<$Res>? get payload {
     if (_value.payload == null) {
       return null;
@@ -3022,20 +2875,6 @@ class __$$SendMessageImplCopyWithImpl<$Res>
 
     return $FunctionCallCopyWith<$Res>(_value.payload!, (value) {
       return _then(_value.copyWith(payload: value));
-    });
-  }
-
-  /// Create a copy of ApprovalRequest
-  /// with the given fields replaced by the non-null parameter values.
-  @override
-  @pragma('vm:prefer-inline')
-  $KnownPayloadCopyWith<$Res>? get knownPayload {
-    if (_value.knownPayload == null) {
-      return null;
-    }
-
-    return $KnownPayloadCopyWith<$Res>(_value.knownPayload!, (value) {
-      return _then(_value.copyWith(knownPayload: value));
     });
   }
 }
@@ -3082,21 +2921,28 @@ class _$SendMessageImpl implements _SendMessage {
         (other.runtimeType == runtimeType &&
             other is _$SendMessageImpl &&
             (identical(other.origin, origin) || other.origin == origin) &&
-            (identical(other.sender, sender) || other.sender == sender) &&
-            (identical(other.recipient, recipient) ||
-                other.recipient == recipient) &&
+            const DeepCollectionEquality().equals(other.sender, sender) &&
+            const DeepCollectionEquality().equals(other.recipient, recipient) &&
             (identical(other.amount, amount) || other.amount == amount) &&
             (identical(other.bounce, bounce) || other.bounce == bounce) &&
             (identical(other.payload, payload) || other.payload == payload) &&
-            (identical(other.knownPayload, knownPayload) ||
-                other.knownPayload == knownPayload) &&
+            const DeepCollectionEquality()
+                .equals(other.knownPayload, knownPayload) &&
             (identical(other.completer, completer) ||
                 other.completer == completer));
   }
 
   @override
-  int get hashCode => Object.hash(runtimeType, origin, sender, recipient,
-      amount, bounce, payload, knownPayload, completer);
+  int get hashCode => Object.hash(
+      runtimeType,
+      origin,
+      const DeepCollectionEquality().hash(sender),
+      const DeepCollectionEquality().hash(recipient),
+      amount,
+      bounce,
+      payload,
+      const DeepCollectionEquality().hash(knownPayload),
+      completer);
 
   /// Create a copy of ApprovalRequest
   /// with the given fields replaced by the non-null parameter values.
