@@ -7,6 +7,7 @@ import 'package:app/app/service/permissions_service.dart';
 import 'package:app/app/service/storage_service/connections_storage_service.dart';
 import 'package:app/feature/browser/inpage_provider/inpage_provider.dart';
 import 'package:app/feature/browserV2/models/browser_basic_auth_creds.dart';
+import 'package:app/feature/browserV2/models/tab/browser_tab.dart';
 import 'package:app/feature/browserV2/screens/main/widgets/browser_web_tab/browser_web_tab.dart';
 import 'package:app/feature/browserV2/screens/main/widgets/browser_web_tab/helpers/events_helper.dart';
 import 'package:app/feature/browserV2/service/browser_service.dart';
@@ -72,6 +73,9 @@ class BrowserWebTabModel extends ElementaryModel {
   EntityValueListenable<String?> get nekotonJsState =>
       _jsService.nekotonJsState;
 
+  ListenableState<BrowserTab?> get activeTabState =>
+      _browserService.tM.activeTabState;
+
   String? get _activeTabId => _browserService.tM.activeTabId;
 
   @override
@@ -103,7 +107,7 @@ class BrowserWebTabModel extends ElementaryModel {
   }
 
   void updateUrl(Uri? uri) {
-    if(uri == null) {
+    if (uri == null) {
       return;
     }
     _inpageProvider.url = uri;

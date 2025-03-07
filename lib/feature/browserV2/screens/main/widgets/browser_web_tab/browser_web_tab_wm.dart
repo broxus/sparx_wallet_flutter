@@ -76,9 +76,13 @@ class BrowserWebTabWidgetModel
     onRefresh: _onRefresh,
   );
 
+  late final _createState = createNotifier<bool>(false);
+
   InAppWebViewController? _webViewController;
 
   ColorsPalette get colors => _theme.colors;
+
+  ListenableState<bool> get createState => _createState;
 
   EntityValueListenable<String?> get nekotonJsState => model.nekotonJsState;
 
@@ -86,10 +90,19 @@ class BrowserWebTabWidgetModel
 
   String get _url => widget.tab.url.toString();
 
+  bool get _isCreate => _createState.value ?? false;
+
+  @override
+  void initWidgetModel() {
+    model.activeTabState.addListener(_handleActiveTab);
+    super.initWidgetModel();
+  }
+
   @override
   void dispose() {
     widget.onDispose();
     _webViewController?.dispose();
+    model.activeTabState.removeListener(_handleActiveTab);
     super.dispose();
   }
 
@@ -185,10 +198,6 @@ class BrowserWebTabWidgetModel
     widget.onScrollChanged(y);
   }
 
-  void _onRefresh() {
-    _webViewController?.reload();
-  }
-
   Future<HttpAuthResponse?> onReceivedHttpAuthRequest(
     _,
     URLAuthenticationChallenge challenge,
@@ -246,6 +255,10 @@ class BrowserWebTabWidgetModel
     return NavigationActionPolicy.ALLOW;
   }
 
+  void _onRefresh() {
+    _webViewController?.reload();
+  }
+
   bool _checkIsCustomAppLink(Uri url) {
     final path = url.toString();
 
@@ -257,18 +270,16 @@ class BrowserWebTabWidgetModel
 
     return false;
   }
+
+  void _handleActiveTab() {
+    _createWebView();
+  }
+
+  void _createWebView() {
+    if (_isCreate || !model.checkIsActiveTab(widget.tab.id)) {
+      return;
+    }
+
+    _createState.accept(true);
+  }
 }
-//
-// // Delayed scroll event dataclass
-// class DelayedScrollEvent {
-//   const DelayedScrollEvent({
-//     required this.timer,
-//     required this.y,
-//   });
-//
-//   // Timer that will fire when scroll event is not overscrolled
-//   final Timer timer;
-//
-//   // Scroll position
-//   final int y;
-// }
