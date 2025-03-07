@@ -12,6 +12,7 @@ import 'package:nekoton_repository/nekoton_repository.dart';
 import 'package:rxdart/rxdart.dart';
 
 part 'account_transactions_tab_cubit.freezed.dart';
+
 part 'account_transactions_tab_state.dart';
 
 /// Cubit for <AccountTransactionsTab> that allows displaying list of
