@@ -8,7 +8,6 @@ import 'package:app/feature/browserV2/screens/main/widgets/menu/menu_view_tab/me
 import 'package:app/utils/types/fuction_types.dart';
 import 'package:elementary_helper/elementary_helper.dart';
 import 'package:flutter/material.dart';
-import 'package:ui_components_lib/v2/ui_components_lib_v2.dart';
 
 class BrowserBottomMenu extends StatefulWidget {
   const BrowserBottomMenu({
@@ -67,48 +66,45 @@ class _BrowserBottomMenuState extends State<BrowserBottomMenu> {
         BrowserProgressIndicator(
           animation: widget.progressAnimation,
         ),
-        ColoredBox(
-          color: context.themeStyleV2.colors.background1,
-          child: StateNotifierBuilder(
-            listenableState: widget.menuState,
-            builder: (_, MenuType? type) {
-              return AnimatedCrossFade(
-                firstChild: BrowserTabListMenu(
-                  key: _listKey,
+        StateNotifierBuilder(
+          listenableState: widget.menuState,
+          builder: (_, MenuType? type) {
+            return AnimatedCrossFade(
+              firstChild: BrowserTabListMenu(
+                key: _listKey,
+                tabsState: widget.tabsState,
+                onCloseAllPressed: widget.onCloseAllPressed,
+                onPlusPressed: widget.onPlusPressed,
+                onDonePressed: widget.onDonePressed,
+              ),
+              secondChild: AnimatedCrossFade(
+                firstChild: BrowserTabViewMenu(
+                  key: _viewKey,
+                  menuUrlPanelWidth: widget.menuUrlPanelWidth,
+                  urlWidth: widget.urlWidth,
+                  onPressedTabs: widget.onPressedTabs,
+                  onPressedUrlMenu: widget.onPressedUrlMenu,
+                  onPressedRefresh: widget.onPressedRefresh,
+                  onEditingCompleteUrl: widget.onEditingCompleteUrl,
+                  urlSliderController: widget.urlSliderController,
                   tabsState: widget.tabsState,
-                  onCloseAllPressed: widget.onCloseAllPressed,
-                  onPlusPressed: widget.onPlusPressed,
-                  onDonePressed: widget.onDonePressed,
                 ),
-                secondChild: AnimatedCrossFade(
-                  firstChild: BrowserTabViewMenu(
-                    key: _viewKey,
-                    menuUrlPanelWidth: widget.menuUrlPanelWidth,
-                    urlWidth: widget.urlWidth,
-                    onPressedTabs: widget.onPressedTabs,
-                    onPressedUrlMenu: widget.onPressedUrlMenu,
-                    onPressedRefresh: widget.onPressedRefresh,
-                    onEditingCompleteUrl: widget.onEditingCompleteUrl,
-                    urlSliderController: widget.urlSliderController,
-                    tabsState: widget.tabsState,
-                  ),
-                  secondChild: MenuRawUrl(
-                    widget.activeTabState,
-                    key: _urlKey,
-                    onPressed: widget.onPressedMenuUrl,
-                  ),
-                  crossFadeState: type == MenuType.view
-                      ? CrossFadeState.showFirst
-                      : CrossFadeState.showSecond,
-                  duration: const Duration(milliseconds: 150),
+                secondChild: MenuRawUrl(
+                  widget.activeTabState,
+                  key: _urlKey,
+                  onPressed: widget.onPressedMenuUrl,
                 ),
-                crossFadeState: type == MenuType.list
+                crossFadeState: type == MenuType.view
                     ? CrossFadeState.showFirst
                     : CrossFadeState.showSecond,
                 duration: const Duration(milliseconds: 150),
-              );
-            },
-          ),
+              ),
+              crossFadeState: type == MenuType.list
+                  ? CrossFadeState.showFirst
+                  : CrossFadeState.showSecond,
+              duration: const Duration(milliseconds: 150),
+            );
+          },
         ),
       ],
     );

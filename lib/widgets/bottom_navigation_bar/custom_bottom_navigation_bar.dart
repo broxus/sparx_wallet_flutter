@@ -48,16 +48,14 @@ class CustomBottomNavigationBar
                                 top: Radius.circular(DimensSizeV2.d16),
                               ),
                           },
-                        ),
-                        foregroundDecoration: BoxDecoration(
                           border: Border(
-                            top: switch (tab) {
-                              RootTab.browser => const BorderSide(
-                                  // TODO(knightforce): add to color palette
-                                  color: Color(0xff353960),
-                                ),
-                              _ => BorderSide.none,
-                            },
+                            top: BorderSide(
+                              color: switch (tab) {
+                                // TODO(knightforce): add to color palette
+                                RootTab.browser => const Color(0xff353960),
+                                _ => wm.colors.background1,
+                              },
+                            ),
                           ),
                         ),
                         child: BottomNavigationBar(
