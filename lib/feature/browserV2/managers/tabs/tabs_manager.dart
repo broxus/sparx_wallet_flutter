@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:collection';
 import 'dart:math';
 
@@ -5,6 +6,7 @@ import 'package:app/app/service/storage_service/general_storage_service.dart';
 import 'package:app/feature/browserV2/data/tabs_data.dart';
 import 'package:app/feature/browserV2/managers/tabs/helpers/browser_screenshot_helper.dart';
 import 'package:app/feature/browserV2/models/tab/browser_tab.dart';
+import 'package:app/feature/browserV2/screens/main/data/control_panels_data.dart';
 import 'package:app/feature/browserV2/service/storages/browser_tabs_storage_service.dart';
 import 'package:collection/collection.dart';
 import 'package:elementary_helper/elementary_helper.dart';
@@ -29,6 +31,10 @@ class BrowserTabsManager {
   final _tabsState =
       StateNotifier<BrowserTabsCollection>(initValue: BrowserTabsCollection());
 
+  late final _controlPanelState = StateNotifier<BrowserControlPanelData>(
+    initValue: BrowserControlPanelData(),
+  );
+
   final _activeTabState = StateNotifier<BrowserTab?>();
 
   final _controllers = HashMap<String, InAppWebViewController>();
@@ -40,6 +46,9 @@ class BrowserTabsManager {
   ListenableState<ImageCache?> get screenshotsState =>
       _screenshotHelper.screenshotsState;
 
+  ListenableState<BrowserControlPanelData> get controlPanelState =>
+      _controlPanelState;
+
   /// Get last cached browser tabs
   List<BrowserTab> get browserTabs => _tabsCollection.list;
 
@@ -50,13 +59,15 @@ class BrowserTabsManager {
   BrowserTabsCollection get _tabsCollection =>
       _tabsState.value ?? BrowserTabsCollection();
 
-  InAppWebViewController? get currentController => _controllers[activeTabId];
+  InAppWebViewController? get _currentController => _controllers[activeTabId];
 
   void init() {
+    activeTabState.addListener(_handleActiveTab);
     _fetchTabsDataFromCache();
   }
 
   void dispose() {
+    activeTabState.removeListener(_handleActiveTab);
     _tabsState.dispose();
     _screenshotHelper.dispose();
   }
@@ -94,19 +105,22 @@ class BrowserTabsManager {
 
     tabs[index] = tabs[index].copyWith(url: uri);
     _setTabs(tabs: tabs);
-
+    // Simple update - request on vew
+    unawaited(_updateControlPanel());
     return true;
   }
 
-  void requestUrl(String tabId, Uri uri) {
+  Future<void> requestUrl(String tabId, Uri uri) async {
     final isSuccess = updateUrl(tabId, uri);
 
     if (!isSuccess) {
       return;
     }
-    _controllers[tabId]?.loadUrl(
+    await _controllers[tabId]?.loadUrl(
       urlRequest: URLRequest(url: WebUri.uri(uri)),
     );
+    // After simple update - request by program
+    unawaited(_updateControlPanel());
   }
 
   void updateTitle(String tabId, String title) {
@@ -138,21 +152,6 @@ class BrowserTabsManager {
 
     _setTabs(activeTabId: id);
   }
-
-  /// TODO(Knightforce): check need?
-  // void setBrowserTab(BrowserTab tab) {
-  //   final id = tab.id;
-  //   final tabs = [...browserTabs];
-  //   final index = tabs.indexWhere((tab) => tab.id == id);
-  //
-  //   if (index == -1) {
-  //     tabs.add(tab);
-  //   } else {
-  //     tabs[index] = tab;
-  //   }
-  //
-  //   _saveTabs(tabs);
-  // }
 
   /// Remove browser tab by id
   Future<void> removeBrowserTab(String id) async {
@@ -208,6 +207,16 @@ class BrowserTabsManager {
         takePictureCallback: takePictureCallback,
       );
 
+  Future<void> backWeb() async {
+    await _currentController?.goBack();
+    unawaited(_updateControlPanel());
+  }
+
+  Future<void> forwardWeb() async {
+    await _currentController?.goForward();
+    unawaited(_updateControlPanel());
+  }
+
   /// Put browser tabs to stream
   void _fetchTabsDataFromCache() {
     final tabs = _browserTabsStorageService.getTabs()
@@ -250,5 +259,20 @@ class BrowserTabsManager {
         (tabs ?? browserTabs).firstWhereOrNull((t) => t.id == activeTabId),
       );
     }
+  }
+
+  void _handleActiveTab() {
+    _updateControlPanel();
+  }
+
+  Future<void> _updateControlPanel() async {
+    final controller = _currentController;
+
+    _controlPanelState.accept(
+      BrowserControlPanelData(
+        isCanGoBack: await controller?.canGoBack(),
+        isCanGoForward: await controller?.canGoForward(),
+      ),
+    );
   }
 }

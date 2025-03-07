@@ -7,7 +7,6 @@ import 'package:app/feature/browserV2/screens/main/widgets/menu/menu_view_tab/me
 import 'package:app/utils/types/fuction_types.dart';
 import 'package:elementary_helper/elementary_helper.dart';
 import 'package:flutter/material.dart';
-import 'package:ui_components_lib/components/button/mini_button.dart';
 import 'package:ui_components_lib/v2/ui_components_lib_v2.dart';
 
 class BrowserBottomMenu extends StatefulWidget {
@@ -21,10 +20,6 @@ class BrowserBottomMenu extends StatefulWidget {
     required this.onCloseAllPressed,
     required this.onPlusPressed,
     required this.onDonePressed,
-    required this.onPressedBackPressed,
-    required this.onPressedForwardPressed,
-    required this.onPressedDotsPressed,
-    required this.onPressedBook,
     required this.onPressedTabs,
     required this.onPressedUrlMenu,
     required this.onPressedRefresh,
@@ -42,10 +37,6 @@ class BrowserBottomMenu extends StatefulWidget {
   final VoidCallback onCloseAllPressed;
   final VoidCallback onPlusPressed;
   final VoidCallback onDonePressed;
-  final VoidCallback onPressedBackPressed;
-  final VoidCallback onPressedForwardPressed;
-  final VoidCallback onPressedDotsPressed;
-  final VoidCallback onPressedBook;
   final VoidCallback onPressedTabs;
   final ValueChanged<String> onPressedUrlMenu;
   final ValueChanged<String> onPressedRefresh;
@@ -84,10 +75,6 @@ class _BrowserBottomMenuState extends State<BrowserBottomMenu> {
                 key: _viewKey,
                 menuUrlPanelWidth: widget.menuUrlPanelWidth,
                 urlWidth: widget.urlWidth,
-                onPressedBackPressed: widget.onPressedBackPressed,
-                onPressedForwardPressed: widget.onPressedForwardPressed,
-                onPressedDotsPressed: widget.onPressedDotsPressed,
-                onPressedBook: widget.onPressedBook,
                 onPressedTabs: widget.onPressedTabs,
                 onPressedUrlMenu: widget.onPressedUrlMenu,
                 onPressedRefresh: widget.onPressedRefresh,

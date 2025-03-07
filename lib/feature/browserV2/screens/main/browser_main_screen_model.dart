@@ -22,9 +22,6 @@ class BrowserMainScreenModel extends ElementaryModel {
   ListenableState<BrowserTab?> get activeTabState =>
       _browserService.tM.activeTabState;
 
-  InAppWebViewController? get currentController =>
-      _browserService.tM.currentController;
-
   void setActiveTab(String id) {
     _browserService.tM.setActiveTab(id);
   }

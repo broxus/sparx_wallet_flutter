@@ -7,7 +7,6 @@ import 'package:app/feature/browserV2/data/tabs_data.dart';
 import 'package:app/feature/browserV2/models/tab/browser_tab.dart';
 import 'package:app/feature/browserV2/screens/main/browser_main_screen.dart';
 import 'package:app/feature/browserV2/screens/main/browser_main_screen_model.dart';
-import 'package:app/feature/browserV2/screens/main/data/control_panels_data.dart';
 import 'package:app/feature/browserV2/screens/main/data/menu_data.dart';
 import 'package:app/utils/focus_utils.dart';
 import 'package:elementary/elementary.dart';
@@ -49,10 +48,6 @@ class BrowserMainScreenWidgetModel
     activeTabState.value != null ? MenuType.view : MenuType.list,
   );
 
-  late final _controlPanelState = createNotifier<BrowserControlPanelData>(
-    BrowserControlPanelData(),
-  );
-
   late final _visibleNavigationBarState = createNotifier<bool>(true);
 
   late final urlWidth = screenWidth * .915 + DimensSizeV2.d16;
@@ -77,9 +72,6 @@ class BrowserMainScreenWidgetModel
 
   ListenableState<MenuType> get menuState => _menuState;
 
-  ListenableState<BrowserControlPanelData> get controlPanelState =>
-      _controlPanelState;
-
   BrowserTab? get _activeTab => activeTabState.value;
 
   BrowserTabsCollection? get _tabsCollection => tabsState.value;
@@ -88,12 +80,9 @@ class BrowserMainScreenWidgetModel
 
   ThemeStyleV2 get _theme => context.themeStyleV2;
 
-  InAppWebViewController? get _currentController => model.currentController;
-
   @override
   void initWidgetModel() {
     tabsState.addListener(_handleTabsCollection);
-    activeTabState.addListener(_handleActiveTab);
     urlSliderController.addListener(_handleUrlPanelScroll);
     _visibleNavigationBarState.addListener(_handleVisibleNavigationBar);
     super.initWidgetModel();
@@ -102,7 +91,6 @@ class BrowserMainScreenWidgetModel
   @override
   void dispose() {
     tabsState.removeListener(_handleTabsCollection);
-    activeTabState.removeListener(_handleActiveTab);
     model.closeAllControllers();
     super.dispose();
   }
@@ -162,22 +150,6 @@ class BrowserMainScreenWidgetModel
     resetFocus(context);
   }
 
-  void onPressedBackPressed() {
-    // TODO
-  }
-
-  void onPressedForwardPressed() {
-    // TODO
-  }
-
-  void onPressedDotsPressed() {
-    // TODO
-  }
-
-  void onPressedBook() {
-    // TODO
-  }
-
   void onPressedTabs() {
     _viewVisibleState.accept(false);
     _menuState.accept(MenuType.list);
@@ -200,16 +172,8 @@ class BrowserMainScreenWidgetModel
     model.requestUrl(tabId, text);
   }
 
-  void goBack() {
-    _currentController?.goBack();
-  }
-
-  void goForward() {
-    _currentController?.goForward();
-  }
-
   void refresh() {
-    _currentController?.reload();
+    // _currentController?.reload();
   }
 
   void _handleTabsCollection() {
@@ -228,21 +192,6 @@ class BrowserMainScreenWidgetModel
     }
 
     _lastTabsCount = count;
-  }
-
-  void _handleActiveTab() {
-    _updateControlPanel();
-  }
-
-  Future<void> _updateControlPanel() async {
-    final controller = _currentController;
-
-    _controlPanelState.accept(
-      BrowserControlPanelData(
-        isCanGoBack: await controller?.canGoBack(),
-        isCanGoForward: await controller?.canGoForward(),
-      ),
-    );
   }
 
   void _handleUrlPanelScroll() {
