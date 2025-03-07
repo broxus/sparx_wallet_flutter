@@ -648,5 +648,10 @@
   "seedPhrase12FormatStandart": "SparX wallet",
   "seedPhrase12FormatTON": "TON types wallet",
   "seedPhrase24FormatStandart": "TON Standard",
-  "seedPhrase24FormatTON": "TON BIP39"
+  "seedPhrase24FormatTON": "TON BIP39",
+  "nftWord": "NFT",
+  "nftEmptyListTitle": "You don't have any NFTs yet",
+  "nftEmptyListSubtitle": "Visit our marketplace for Everscale collections or import NFTs manually",
+  "visitMarketplace": "Visit marketplace",
+  "addNFT": "Add NFT"
 }
