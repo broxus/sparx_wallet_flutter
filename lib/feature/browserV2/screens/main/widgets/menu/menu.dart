@@ -1,6 +1,7 @@
 import 'package:app/feature/browserV2/data/tabs_data.dart';
 import 'package:app/feature/browserV2/models/tab/browser_tab.dart';
 import 'package:app/feature/browserV2/screens/main/data/menu_data.dart';
+import 'package:app/feature/browserV2/screens/main/widgets/browser_progress_indicator.dart';
 import 'package:app/feature/browserV2/screens/main/widgets/menu/menu_tab_list.dart';
 import 'package:app/feature/browserV2/screens/main/widgets/menu/menu_url.dart';
 import 'package:app/feature/browserV2/screens/main/widgets/menu/menu_view_tab/menu_view_tab.dart';
@@ -26,6 +27,7 @@ class BrowserBottomMenu extends StatefulWidget {
     required this.onPressedMenuUrl,
     required this.onEditingCompleteUrl,
     required this.urlSliderController,
+    required this.progressAnimation,
     super.key,
   });
 
@@ -43,6 +45,7 @@ class BrowserBottomMenu extends StatefulWidget {
   final VoidCallback onPressedMenuUrl;
   final DoubleValueCallback<String, String> onEditingCompleteUrl;
   final ScrollController urlSliderController;
+  final Animation<double> progressAnimation;
 
   final ListenableState<MenuType> menuState;
 
@@ -57,48 +60,57 @@ class _BrowserBottomMenuState extends State<BrowserBottomMenu> {
 
   @override
   Widget build(BuildContext context) {
-    return ColoredBox(
-      color: context.themeStyleV2.colors.background1,
-      child: StateNotifierBuilder(
-        listenableState: widget.menuState,
-        builder: (_, MenuType? type) {
-          return AnimatedCrossFade(
-            firstChild: BrowserTabListMenu(
-              key: _listKey,
-              tabsState: widget.tabsState,
-              onCloseAllPressed: widget.onCloseAllPressed,
-              onPlusPressed: widget.onPlusPressed,
-              onDonePressed: widget.onDonePressed,
-            ),
-            secondChild: AnimatedCrossFade(
-              firstChild: BrowserTabViewMenu(
-                key: _viewKey,
-                menuUrlPanelWidth: widget.menuUrlPanelWidth,
-                urlWidth: widget.urlWidth,
-                onPressedTabs: widget.onPressedTabs,
-                onPressedUrlMenu: widget.onPressedUrlMenu,
-                onPressedRefresh: widget.onPressedRefresh,
-                onEditingCompleteUrl: widget.onEditingCompleteUrl,
-                urlSliderController: widget.urlSliderController,
-                tabsState: widget.tabsState,
-              ),
-              secondChild: MenuRawUrl(
-                widget.activeTabState,
-                key: _urlKey,
-                onPressed: widget.onPressedMenuUrl,
-              ),
-              crossFadeState: type == MenuType.view
-                  ? CrossFadeState.showFirst
-                  : CrossFadeState.showSecond,
-              duration: const Duration(milliseconds: 150),
-            ),
-            crossFadeState: type == MenuType.list
-                ? CrossFadeState.showFirst
-                : CrossFadeState.showSecond,
-            duration: const Duration(milliseconds: 150),
-          );
-        },
-      ),
+    return Column(
+      mainAxisSize: MainAxisSize.min,
+      crossAxisAlignment: CrossAxisAlignment.stretch,
+      children: [
+        BrowserProgressIndicator(
+          animation: widget.progressAnimation,
+        ),
+        ColoredBox(
+          color: context.themeStyleV2.colors.background1,
+          child: StateNotifierBuilder(
+            listenableState: widget.menuState,
+            builder: (_, MenuType? type) {
+              return AnimatedCrossFade(
+                firstChild: BrowserTabListMenu(
+                  key: _listKey,
+                  tabsState: widget.tabsState,
+                  onCloseAllPressed: widget.onCloseAllPressed,
+                  onPlusPressed: widget.onPlusPressed,
+                  onDonePressed: widget.onDonePressed,
+                ),
+                secondChild: AnimatedCrossFade(
+                  firstChild: BrowserTabViewMenu(
+                    key: _viewKey,
+                    menuUrlPanelWidth: widget.menuUrlPanelWidth,
+                    urlWidth: widget.urlWidth,
+                    onPressedTabs: widget.onPressedTabs,
+                    onPressedUrlMenu: widget.onPressedUrlMenu,
+                    onPressedRefresh: widget.onPressedRefresh,
+                    onEditingCompleteUrl: widget.onEditingCompleteUrl,
+                    urlSliderController: widget.urlSliderController,
+                    tabsState: widget.tabsState,
+                  ),
+                  secondChild: MenuRawUrl(
+                    widget.activeTabState,
+                    key: _urlKey,
+                    onPressed: widget.onPressedMenuUrl,
+                  ),
+                  crossFadeState: type == MenuType.view
+                      ? CrossFadeState.showFirst
+                      : CrossFadeState.showSecond,
+                  duration: const Duration(milliseconds: 150),
+                ),
+                crossFadeState: type == MenuType.list
+                    ? CrossFadeState.showFirst
+                    : CrossFadeState.showSecond,
+                duration: const Duration(milliseconds: 150),
+              );
+            },
+          ),
+        ),
+      ],
     );
   }
 }

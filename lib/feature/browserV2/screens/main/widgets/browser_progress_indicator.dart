@@ -1,14 +1,13 @@
-import 'package:elementary_helper/elementary_helper.dart';
 import 'package:flutter/material.dart';
 import 'package:ui_components_lib/v2/ui_components_lib_v2.dart';
 
 class BrowserProgressIndicator extends StatefulWidget {
   const BrowserProgressIndicator({
-    required this.indicatorState,
+    required this.animation,
     super.key,
   });
 
-  final ListenableState<double?> indicatorState;
+  final Animation<double> animation;
 
   @override
   State<BrowserProgressIndicator> createState() =>
@@ -17,45 +16,46 @@ class BrowserProgressIndicator extends StatefulWidget {
 
 class _BrowserProgressIndicatorState extends State<BrowserProgressIndicator> {
   late final _painter = CoderPainter(
-    widget.indicatorState,
-    context.themeStyleV2.colors.content3,
+    widget.animation,
+    ColorsResV2.p75,
   );
 
   @override
   Widget build(BuildContext context) {
-    return CustomPaint(
-      painter: _painter,
+    return RepaintBoundary(
+      child: CustomPaint(
+        painter: _painter,
+      ),
     );
   }
 }
 
 class CoderPainter extends CustomPainter {
   CoderPainter(
-    this._progressState,
-    this._color,
-  ) : super(repaint: _progressState);
+    this.animation,
+    Color _color,
+  )   : _paint = Paint()
+          ..color = _color
+          ..strokeWidth = 3,
+        super(repaint: animation);
 
-  final ListenableState<double?> _progressState;
-  final Color _color;
+  final Animation<double> animation;
+  final Paint _paint;
 
   @override
   void paint(Canvas canvas, Size size) {
-    final paint = Paint()
-      ..color = _color
-      ..strokeWidth = 1;
-
     canvas.drawLine(
       Offset.zero,
       Offset(
-        size.width * (_progressState.value ?? 0),
+        animation.value == 1 ? 0 : size.width * animation.value,
         0,
       ),
-      paint,
+      _paint,
     );
   }
 
   @override
-  bool shouldRepaint(covariant CustomPainter oldDelegate) {
-    return _progressState.value != null;
+  bool shouldRepaint(covariant CoderPainter oldDelegate) {
+    return oldDelegate.animation.value != animation.value;
   }
 }

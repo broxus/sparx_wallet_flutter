@@ -7,13 +7,10 @@ import 'package:flutter/material.dart';
 
 class BrowserMainScreen extends ElementaryWidget<BrowserMainScreenWidgetModel> {
   const BrowserMainScreen({
-    Key? key,
+    super.key,
     WidgetModelFactory<BrowserMainScreenWidgetModel> wmFactory =
         defaultBrowserMainScreenWidgetModelFactory,
-  }) : super(
-          wmFactory,
-          key: key,
-        );
+  }) : super(wmFactory);
 
   @override
   Widget build(BrowserMainScreenWidgetModel wm) {
@@ -34,6 +31,7 @@ class BrowserMainScreen extends ElementaryWidget<BrowserMainScreenWidgetModel> {
               viewVisibleState: wm.viewVisibleState,
               tabsState: wm.tabsState,
               scrollController: wm.viewTabScrollController,
+              progressController: wm.progressController,
               onCreate: wm.onCreateController,
               onScrollChanged: wm.onScrollChanged,
               onDispose: wm.onDisposeController,
@@ -59,6 +57,7 @@ class BrowserMainScreen extends ElementaryWidget<BrowserMainScreenWidgetModel> {
               onPressedMenuUrl: wm.onPressedMenuUrl,
               onEditingCompleteUrl: wm.onEditingCompleteUrl,
               urlSliderController: wm.urlSliderController,
+              progressAnimation: wm.progressController,
             ),
           ),
         ],

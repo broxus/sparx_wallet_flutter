@@ -29,7 +29,8 @@ BrowserMainScreenWidgetModel defaultBrowserMainScreenWidgetModelFactory(
 
 /// [WidgetModel] для [BrowserMainScreen]
 class BrowserMainScreenWidgetModel
-    extends CustomWidgetModel<BrowserMainScreen, BrowserMainScreenModel> {
+    extends CustomWidgetModel<BrowserMainScreen, BrowserMainScreenModel>
+    with SingleTickerProviderWidgetModelMixin {
   BrowserMainScreenWidgetModel(
     super.model,
   );
@@ -39,6 +40,11 @@ class BrowserMainScreenWidgetModel
 
   late final viewTabScrollController = createScrollController();
   late final urlSliderController = createScrollController();
+
+  late final _progressController = AnimationController(
+    vsync: this,
+    duration: const Duration(milliseconds: 100),
+  );
 
   late final _viewVisibleState = createNotifier<bool>(
     activeTabState.value != null,
@@ -64,6 +70,8 @@ class BrowserMainScreenWidgetModel
   Offset? _downPosition;
   int _prevYScroll = 0;
 
+  AnimationController get progressController => _progressController;
+
   ListenableState<BrowserTabsCollection> get tabsState => model.tabsState;
 
   ListenableState<BrowserTab?> get activeTabState => model.activeTabState;
@@ -83,6 +91,7 @@ class BrowserMainScreenWidgetModel
   @override
   void initWidgetModel() {
     tabsState.addListener(_handleTabsCollection);
+    activeTabState.addListener(_handleActiveTab);
     urlSliderController.addListener(_handleUrlPanelScroll);
     _visibleNavigationBarState.addListener(_handleVisibleNavigationBar);
     super.initWidgetModel();
@@ -91,7 +100,9 @@ class BrowserMainScreenWidgetModel
   @override
   void dispose() {
     tabsState.removeListener(_handleTabsCollection);
+    activeTabState.removeListener(_handleActiveTab);
     model.closeAllControllers();
+    _progressController.dispose();
     super.dispose();
   }
 
@@ -192,6 +203,10 @@ class BrowserMainScreenWidgetModel
     }
 
     _lastTabsCount = count;
+  }
+
+  void _handleActiveTab() {
+    _progressController.reset();
   }
 
   void _handleUrlPanelScroll() {

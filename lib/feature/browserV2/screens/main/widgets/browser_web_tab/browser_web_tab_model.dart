@@ -72,6 +72,8 @@ class BrowserWebTabModel extends ElementaryModel {
   EntityValueListenable<String?> get nekotonJsState =>
       _jsService.nekotonJsState;
 
+  String? get _activeTabId => _browserService.tM.activeTabId;
+
   @override
   void dispose() {
     _eventsHelper.dispose();
@@ -125,5 +127,9 @@ class BrowserWebTabModel extends ElementaryModel {
         screenshotConfiguration: _screenshotConfiguration,
       ),
     );
+  }
+
+  bool checkIsActiveTab(String id) {
+    return _activeTabId == null || id == _activeTabId;
   }
 }

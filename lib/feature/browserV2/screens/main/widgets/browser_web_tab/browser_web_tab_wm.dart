@@ -88,13 +88,9 @@ class BrowserWebTabWidgetModel
 
   InAppWebViewController? _webViewController;
 
-  late final _progressState = createNotifier<double?>();
-
   ColorsPalette get colors => _theme.colors;
 
   EntityValueListenable<String?> get nekotonJsState => model.nekotonJsState;
-
-  ListenableState<double?> get progressState => _progressState;
 
   ThemeStyle get _theme => context.themeStyle;
 
@@ -148,10 +144,9 @@ class BrowserWebTabWidgetModel
   ) async {
     final progress = await controller.getProgress();
 
-    _progressState.accept(progress == null ? null : progress / 100);
-    // if (progress == 100) {
-    //   unawaited(_pullToRefreshController?.endRefreshing());
-    // }
+    if (progress != null && model.checkIsActiveTab(widget.tab.id)) {
+      unawaited(widget.progressController.animateTo(progress / 100));
+    }
   }
 
   void onReceivedError(

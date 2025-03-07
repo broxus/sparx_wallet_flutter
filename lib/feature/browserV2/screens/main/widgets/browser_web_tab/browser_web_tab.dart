@@ -16,6 +16,7 @@ class BrowserWebTab extends ElementaryWidget<BrowserWebTabWidgetModel> {
     required this.onCreate,
     required this.onScrollChanged,
     required this.onDispose,
+    required this.progressController,
     Key? key,
     WidgetModelFactory<BrowserWebTabWidgetModel>? wmFactory,
   }) : super(
@@ -32,6 +33,7 @@ class BrowserWebTab extends ElementaryWidget<BrowserWebTabWidgetModel> {
   final ValueChanged<InAppWebViewController> onCreate;
   final ValueChanged<int> onScrollChanged;
   final VoidCallback onDispose;
+  final AnimationController progressController;
 
   @override
   Widget build(BrowserWebTabWidgetModel wm) {
@@ -54,7 +56,7 @@ class BrowserWebTab extends ElementaryWidget<BrowserWebTabWidgetModel> {
                       UserScript(
                         source: jsStr,
                         injectionTime:
-                        UserScriptInjectionTime.AT_DOCUMENT_START,
+                            UserScriptInjectionTime.AT_DOCUMENT_START,
                       ),
                   ]),
                   onOverScrolled: wm.onOverScrolled,
@@ -73,9 +75,6 @@ class BrowserWebTab extends ElementaryWidget<BrowserWebTabWidgetModel> {
             ),
           ),
           if (tab.url.host.isEmpty) const BrowserStartView(),
-          BrowserProgressIndicator(
-            indicatorState: wm.progressState,
-          ),
         ],
       ),
     );
