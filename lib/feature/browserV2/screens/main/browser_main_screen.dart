@@ -40,9 +40,6 @@ class BrowserMainScreen extends ElementaryWidget<BrowserMainScreenWidgetModel> {
               onDispose: wm.onDisposeController,
             ),
           ),
-          // BrowserProgressIndicator(
-          //   animation: wm.progressController,
-          // ),
           _ItemPosition(
             child: _MenuAnimation(
               controller: wm.animation.listMenuAnimation,
@@ -85,6 +82,13 @@ class BrowserMainScreen extends ElementaryWidget<BrowserMainScreenWidgetModel> {
                 key: wm.urlKey,
                 onPressed: wm.onPressedMenuUrl,
               ),
+            ),
+          ),
+          /// TODO(knightforce): optimize render
+          _ItemPosition(
+            child: BrowserProgressIndicator(
+              animation: wm.progressController,
+              menuState: wm.menuState,
             ),
           ),
         ],

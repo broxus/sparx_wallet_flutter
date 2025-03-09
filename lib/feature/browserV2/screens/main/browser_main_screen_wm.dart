@@ -8,7 +8,7 @@ import 'package:app/feature/browserV2/models/tab/browser_tab.dart';
 import 'package:app/feature/browserV2/screens/main/browser_main_screen.dart';
 import 'package:app/feature/browserV2/screens/main/browser_main_screen_model.dart';
 import 'package:app/feature/browserV2/screens/main/data/menu_data.dart';
-import 'package:app/feature/browserV2/screens/main/widgets/helpers/menu_animation_helper.dart';
+import 'package:app/feature/browserV2/screens/main/helpers/menu_animation_helper.dart';
 import 'package:app/utils/focus_utils.dart';
 import 'package:elementary/elementary.dart';
 import 'package:elementary_helper/elementary_helper.dart';
@@ -76,6 +76,8 @@ class BrowserMainScreenWidgetModel
   Offset? _downPosition;
   int _prevYScroll = 0;
 
+  ListenableState<MenuType> get menuState => _menuState;
+
   MenuAnimationHelper get animation => _animation;
 
   AnimationController get progressController => _progressController;
@@ -126,7 +128,7 @@ class BrowserMainScreenWidgetModel
   void onScrollChanged(int y) {
     final diff = _prevYScroll - y;
 
-    if(diff > -100 && diff < 100) {
+    if (diff > -100 && diff < 100) {
       return;
     }
 
