@@ -10,6 +10,8 @@ class MenuRawUrl extends StatelessWidget {
     super.key,
   });
 
+  static const height = DimensSizeV2.d62;
+
   final ListenableState<BrowserTab?> activeTabState;
   final VoidCallback onPressed;
 
@@ -17,15 +19,17 @@ class MenuRawUrl extends StatelessWidget {
   Widget build(BuildContext context) {
     final theme = context.themeStyleV2;
 
-    return GestureDetector(
-      behavior: HitTestBehavior.opaque,
-      onTap: onPressed,
-      child: DecoratedBox(
-        decoration: BoxDecoration(
-          color: theme.colors.background1,
-        ),
-        child: SafeArea(
-          child: Center(
+    return SizedBox(
+      height: height,
+      child: GestureDetector(
+        behavior: HitTestBehavior.opaque,
+        onTap: onPressed,
+        child: DecoratedBox(
+          decoration: BoxDecoration(
+            color: theme.colors.background1,
+          ),
+          child: Align(
+            alignment: Alignment.topCenter,
             child: Padding(
               padding: const EdgeInsets.all(DimensSizeV2.d10),
               child: StateNotifierBuilder<BrowserTab?>(
