@@ -76,13 +76,18 @@ class BrowserWebTabWidgetModel
     onRefresh: _onRefresh,
   );
 
-  late final _createState = createNotifier<bool>(false);
+  late final _isNeedCreateWebViewState = createNotifier<bool>(false);
+  late final _isShowStartViewState =
+      createNotifier<bool>(widget.tab.url.host.isEmpty);
 
   InAppWebViewController? _webViewController;
 
   ColorsPalette get colors => _theme.colors;
 
-  ListenableState<bool> get createState => _createState;
+  ListenableState<bool> get isNeedCreateWebViewState =>
+      _isNeedCreateWebViewState;
+
+  ListenableState<bool> get isShowStartViewState => _isShowStartViewState;
 
   EntityValueListenable<String?> get nekotonJsState => model.nekotonJsState;
 
@@ -90,12 +95,20 @@ class BrowserWebTabWidgetModel
 
   String get _url => widget.tab.url.toString();
 
-  bool get _isCreate => _createState.value ?? false;
+  bool get _isCreate => _isNeedCreateWebViewState.value ?? false;
 
   @override
   void initWidgetModel() {
     model.activeTabState.addListener(_handleActiveTab);
     super.initWidgetModel();
+  }
+
+  @override
+  void didUpdateWidget(BrowserWebTab oldWidget) {
+    if (oldWidget.tab.url != widget.tab.url) {
+      _isShowStartViewState.accept(widget.tab.url.host.isEmpty);
+    }
+    super.didUpdateWidget(oldWidget);
   }
 
   @override
@@ -280,6 +293,6 @@ class BrowserWebTabWidgetModel
       return;
     }
 
-    _createState.accept(true);
+    _isNeedCreateWebViewState.accept(true);
   }
 }

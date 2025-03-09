@@ -42,49 +42,53 @@ class BrowserWebTab extends ElementaryWidget<BrowserWebTabWidgetModel> {
       child: Stack(
         children: [
           StateNotifierBuilder(
-            listenableState: wm.createState,
+            listenableState: wm.isNeedCreateWebViewState,
             builder: (_, bool? isNeedCreate) {
               isNeedCreate ??= false;
 
               if (!isNeedCreate) {
                 return const SizedBox.shrink();
               }
-              return Opacity(
-                opacity: tab.url.host.isNotEmpty ? 1 : 0,
-                child: EntityStateNotifierBuilder<String?>(
-                  listenableEntityState: wm.nekotonJsState,
-                  loadingBuilder: (_, __) => const SizedBox.shrink(),
-                  errorBuilder: (_, __, ___) => const SizedBox.shrink(),
-                  builder: (_, String? jsStr) {
-                    return InAppWebView(
-                      pullToRefreshController: wm.pullToRefreshController,
-                      initialSettings: wm.initialSettings,
-                      initialUserScripts: UnmodifiableListView<UserScript>([
-                        if (jsStr != null)
-                          UserScript(
-                            source: jsStr,
-                            injectionTime:
-                                UserScriptInjectionTime.AT_DOCUMENT_START,
-                          ),
-                      ]),
-                      onOverScrolled: wm.onOverScrolled,
-                      onScrollChanged: wm.onScrollChanged,
-                      onWebViewCreated: wm.onWebViewCreated,
-                      onLoadStart: wm.onLoadStart,
-                      onLoadStop: wm.onLoadStop,
-                      onLoadResource: wm.onLoadResource,
-                      onReceivedError: wm.onReceivedError,
-                      onReceivedHttpError: wm.onReceivedHttpError,
-                      onTitleChanged: wm.onTitleChanged,
-                      onReceivedHttpAuthRequest: wm.onReceivedHttpAuthRequest,
-                      shouldOverrideUrlLoading: wm.shouldOverrideUrlLoading,
-                    );
-                  },
-                ),
+              return EntityStateNotifierBuilder<String?>(
+                listenableEntityState: wm.nekotonJsState,
+                loadingBuilder: (_, __) => const SizedBox.shrink(),
+                errorBuilder: (_, __, ___) => const SizedBox.shrink(),
+                builder: (_, String? jsStr) {
+                  return InAppWebView(
+                    pullToRefreshController: wm.pullToRefreshController,
+                    initialSettings: wm.initialSettings,
+                    initialUserScripts: UnmodifiableListView<UserScript>([
+                      if (jsStr != null)
+                        UserScript(
+                          source: jsStr,
+                          injectionTime:
+                              UserScriptInjectionTime.AT_DOCUMENT_START,
+                        ),
+                    ]),
+                    onOverScrolled: wm.onOverScrolled,
+                    onScrollChanged: wm.onScrollChanged,
+                    onWebViewCreated: wm.onWebViewCreated,
+                    onLoadStart: wm.onLoadStart,
+                    onLoadStop: wm.onLoadStop,
+                    onLoadResource: wm.onLoadResource,
+                    onReceivedError: wm.onReceivedError,
+                    onReceivedHttpError: wm.onReceivedHttpError,
+                    onTitleChanged: wm.onTitleChanged,
+                    onReceivedHttpAuthRequest: wm.onReceivedHttpAuthRequest,
+                    shouldOverrideUrlLoading: wm.shouldOverrideUrlLoading,
+                  );
+                },
               );
             },
           ),
-          if (tab.url.host.isEmpty) const BrowserStartView(),
+          StateNotifierBuilder(
+            listenableState: wm.isShowStartViewState,
+            builder: (_, bool? isNeedShow) {
+              return isNeedShow ?? false
+                  ? const BrowserStartView()
+                  : const SizedBox.shrink();
+            },
+          ),
         ],
       ),
     );

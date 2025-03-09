@@ -176,9 +176,11 @@ class BrowserTabsManager {
 
     final removedId = tabs.removeAt(removedIndex).id;
 
-    final newActiveTabId = removedId == activeTabId
-        ? tabs[min(removedIndex + 1, tabs.length - 1)].id
-        : null;
+    final newActiveTabId = tabs.isEmpty
+        ? null
+        : removedId == activeTabId
+            ? tabs[min(removedIndex + 1, tabs.length - 1)].id
+            : null;
 
     await _screenshotHelper.removeScreenshot(id);
 
