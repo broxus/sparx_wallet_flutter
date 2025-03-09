@@ -124,7 +124,13 @@ class BrowserMainScreenWidgetModel
   }
 
   void onScrollChanged(int y) {
-    final isVisibleMenu = _prevYScroll - y >= 0;
+    final diff = _prevYScroll - y;
+
+    if(diff > -100 && diff < 100) {
+      return;
+    }
+
+    final isVisibleMenu = diff >= 0;
 
     _menuState.accept(isVisibleMenu ? MenuType.view : MenuType.url);
     _visibleNavigationBarState.accept(isVisibleMenu);
