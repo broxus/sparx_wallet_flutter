@@ -8,6 +8,7 @@ import 'package:app/feature/browserV2/models/tab/browser_tab.dart';
 import 'package:app/feature/browserV2/screens/main/browser_main_screen.dart';
 import 'package:app/feature/browserV2/screens/main/browser_main_screen_model.dart';
 import 'package:app/feature/browserV2/screens/main/data/menu_data.dart';
+import 'package:app/feature/browserV2/screens/main/helpers/menu_animation_helper.dart';
 import 'package:app/utils/focus_utils.dart';
 import 'package:elementary/elementary.dart';
 import 'package:elementary_helper/elementary_helper.dart';
@@ -30,16 +31,26 @@ BrowserMainScreenWidgetModel defaultBrowserMainScreenWidgetModelFactory(
 /// [WidgetModel] для [BrowserMainScreen]
 class BrowserMainScreenWidgetModel
     extends CustomWidgetModel<BrowserMainScreen, BrowserMainScreenModel>
-    with SingleTickerProviderWidgetModelMixin {
+    with TickerProviderWidgetModelMixin {
   BrowserMainScreenWidgetModel(
     super.model,
   );
 
   final tabListKey = UniqueKey();
   final tabViewKey = UniqueKey();
+  final listKey = UniqueKey();
+  final viewKey = UniqueKey();
+  final urlKey = UniqueKey();
 
   late final viewTabScrollController = createScrollController();
   late final urlSliderController = createScrollController();
+
+  late final urlWidth = screenWidth * .915 + DimensSizeV2.d16;
+
+  late final screenHeight = _screenSize.height;
+  late final screenWidth = _screenSize.width;
+
+  late final _animation = MenuAnimationHelperImpl(this);
 
   late final _progressController = AnimationController(
     vsync: this,
@@ -56,11 +67,6 @@ class BrowserMainScreenWidgetModel
 
   late final _visibleNavigationBarState = createNotifier<bool>(true);
 
-  late final urlWidth = screenWidth * .915 + DimensSizeV2.d16;
-
-  late final screenHeight = _screenSize.height;
-  late final screenWidth = _screenSize.width;
-
   late final _screenSize = MediaQuery.of(context).size;
 
   late final _urlOffset = (screenWidth - urlWidth) / 2;
@@ -70,6 +76,10 @@ class BrowserMainScreenWidgetModel
   Offset? _downPosition;
   int _prevYScroll = 0;
 
+  ListenableState<MenuType> get menuState => _menuState;
+
+  MenuAnimationHelper get animation => _animation;
+
   AnimationController get progressController => _progressController;
 
   ListenableState<BrowserTabsCollection> get tabsState => model.tabsState;
@@ -77,8 +87,6 @@ class BrowserMainScreenWidgetModel
   ListenableState<BrowserTab?> get activeTabState => model.activeTabState;
 
   ListenableState<bool> get viewVisibleState => _viewVisibleState;
-
-  ListenableState<MenuType> get menuState => _menuState;
 
   BrowserTab? get _activeTab => activeTabState.value;
 
@@ -93,6 +101,7 @@ class BrowserMainScreenWidgetModel
     tabsState.addListener(_handleTabsCollection);
     activeTabState.addListener(_handleActiveTab);
     urlSliderController.addListener(_handleUrlPanelScroll);
+    _menuState.addListener(_handleMenuState);
     _visibleNavigationBarState.addListener(_handleVisibleNavigationBar);
     super.initWidgetModel();
   }
@@ -102,7 +111,9 @@ class BrowserMainScreenWidgetModel
     tabsState.removeListener(_handleTabsCollection);
     activeTabState.removeListener(_handleActiveTab);
     model.closeAllControllers();
+    _menuState.removeListener(_handleMenuState);
     _progressController.dispose();
+    _animation.dispose();
     super.dispose();
   }
 
@@ -115,7 +126,13 @@ class BrowserMainScreenWidgetModel
   }
 
   void onScrollChanged(int y) {
-    final isVisibleMenu = _prevYScroll - y >= 0;
+    final diff = _prevYScroll - y;
+
+    if (diff > -100 && diff < 100) {
+      return;
+    }
+
+    final isVisibleMenu = diff >= 0;
 
     _menuState.accept(isVisibleMenu ? MenuType.view : MenuType.url);
     _visibleNavigationBarState.accept(isVisibleMenu);
@@ -167,11 +184,11 @@ class BrowserMainScreenWidgetModel
   }
 
   void onPressedUrlMenu(String tabId) {
-    // TODO
+    // TODO(knightforce): create logic
   }
 
   void onPressedRefresh(String tabId) {
-    // TODO
+    // TODO(knightforce): create logic
   }
 
   void onPressedMenuUrl() {
@@ -252,5 +269,9 @@ class BrowserMainScreenWidgetModel
 
     _viewVisibleState.accept(true);
     _menuState.accept(MenuType.view);
+  }
+
+  void _handleMenuState() {
+    _animation.handleMenuType(_menuState.value);
   }
 }

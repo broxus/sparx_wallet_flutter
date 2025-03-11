@@ -82,10 +82,6 @@ class BrowserService {
     tabs.dispose();
   }
 
-  void openNewTab() {
-    // TODO
-  }
-
   void createCurrentTabBookMark() {
     final activeTab = tM.activeTab;
     if (activeTab == null || activeTab.url.host.isEmpty) {

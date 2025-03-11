@@ -86,14 +86,7 @@ class BrowserBookmarksListScreenWidgetModel extends CustomWidgetModel<
   }
 
   void onBookmarkPressed(BrowserBookmarkItem item) {
-    // final uri = item.url;
-
-    // TODO open tab
-    // context.read<BrowserTabsBloc>().add(
-    //       BrowserTabsEvent.add(uri: uri),
-    //     );
-
-    context.goNamed(AppRoute.browser.name);
+    // TODO(knightforce): Open tab
   }
 
   void onPressedEdit() => _editState.accept(true);

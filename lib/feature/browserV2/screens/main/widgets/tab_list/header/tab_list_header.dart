@@ -19,36 +19,27 @@ class TabListHeader extends ElementaryWidget<TabListHeaderWidgetModel> {
 
   @override
   Widget build(TabListHeaderWidgetModel wm) {
-    return DecoratedBox(
-      decoration: BoxDecoration(),
-      // TODO(knightforce): create custom layout
-      child: StateNotifierBuilder(
-        listenableState: wm.tabsState,
-        builder: (_, BrowserTabsCollection? data) {
-          return Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              _TextButton(
-                onPressed: () {
-                  // TODO
-                },
-                text: LocaleKeys.browserBookmarks.tr(),
-              ),
-              _GroupItem(
-                // TODO(kngihtforce): use key by id
-                name: LocaleKeys.allTabs.tr(),
-                count: data?.countText,
-              ),
-              _TextButton(
-                onPressed: () {
-                  // TODO
-                },
-                text: LocaleKeys.newGroup.tr(),
-              ),
-            ],
-          );
-        },
-      ),
+    return StateNotifierBuilder(
+      listenableState: wm.tabsState,
+      builder: (_, BrowserTabsCollection? data) {
+        return Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            _TextButton(
+              onPressed: wm.onPressedBookmarks,
+              text: LocaleKeys.browserBookmarks.tr(),
+            ),
+            _GroupItem(
+              name: LocaleKeys.allTabs.tr(),
+              count: data?.countText,
+            ),
+            _TextButton(
+              onPressed: wm.onPressedCreateNewGroup,
+              text: LocaleKeys.newGroup.tr(),
+            ),
+          ],
+        );
+      },
     );
   }
 }

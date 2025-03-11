@@ -28,6 +28,14 @@ class TabListHeaderWidgetModel
     super.model,
   );
 
-  /// TODO(knightforce): temp. Refacrtor in groub task
+  // TODO(knightforce): temp. Refacrtor in group task
   ListenableState<BrowserTabsCollection> get tabsState => model.tabsState;
+
+  void onPressedBookmarks() {
+    // TODO(knightforce): create logic
+  }
+
+  void onPressedCreateNewGroup() {
+    // TODO(knightforce): create logic
+  }
 }

@@ -27,7 +27,8 @@
 //
 //   @override
 //   Widget build(BuildContext context) {
-//     return DoubleSourceBuilder<BrowserTabsCollection, BrowserControlPanelData>(
+//     return DoubleSourceBuilder<BrowserTabsCollection,
+//     BrowserControlPanelData>(
 //       firstSource: _browserService.tabs.tabsState,
 //       secondSource: _browserService.tabs.controlPanelState,
 //       builder: (

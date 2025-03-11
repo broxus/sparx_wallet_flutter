@@ -195,7 +195,6 @@ class DeriveKeysSheet extends StatelessWidget {
 
                     return Row(
                       mainAxisAlignment: MainAxisAlignment.center,
-                      // ignore: prefer-extracting-callbacks
                       children: List.generate(maxCount, (i) {
                         final index = i + startIndexOffset;
 

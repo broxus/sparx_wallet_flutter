@@ -55,11 +55,11 @@ class BrowserTabViewMenuNavPanelWidgetModel extends CustomWidgetModel<
   }
 
   void onPressedDotsPressed() {
-    // TODO
+    // TODO(knightforce): create logic
   }
 
   void onPressedBook() {
-    // TODO
+    // TODO(knightforce): create logic
   }
 
   void _handleControlData() {

@@ -11,7 +11,8 @@ import 'package:lucide_icons_flutter/lucide_icons.dart';
 import 'package:ui_components_lib/ui_components_lib.dart';
 import 'package:ui_components_lib/v2/ui_components_lib_v2.dart';
 
-class BrowserBookmarksListScreen extends ElementaryWidget<BrowserBookmarksListScreenWidgetModel> {
+class BrowserBookmarksListScreen
+    extends ElementaryWidget<BrowserBookmarksListScreenWidgetModel> {
   const BrowserBookmarksListScreen({
     Key? key,
     WidgetModelFactory<BrowserBookmarksListScreenWidgetModel> wmFactory =

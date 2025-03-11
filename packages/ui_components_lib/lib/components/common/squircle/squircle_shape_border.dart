@@ -258,6 +258,10 @@ class SquircleShapeBorder extends ShapeBorder {
 
   @override
   String toString() {
-    return 'SquircleShapeBorder(cornerRadius: $cornerRadius, borderWidth: $borderWidth, borderColor: $borderColor)';
+    return 'SquircleShapeBorder('
+        'cornerRadius: $cornerRadius, '
+        'borderWidth: $borderWidth, '
+        'borderColor: $borderColor'
+        ')';
   }
 }

@@ -1,13 +1,20 @@
+import 'package:app/feature/browserV2/screens/main/data/menu_data.dart';
+import 'package:app/feature/browserV2/screens/main/widgets/menu/menu_tab_list.dart';
+import 'package:app/feature/browserV2/screens/main/widgets/menu/menu_view_tab/menu_url.dart';
+import 'package:app/feature/browserV2/screens/main/widgets/menu/menu_view_tab/menu_view_tab.dart';
+import 'package:elementary_helper/elementary_helper.dart';
 import 'package:flutter/material.dart';
 import 'package:ui_components_lib/v2/ui_components_lib_v2.dart';
 
 class BrowserProgressIndicator extends StatefulWidget {
   const BrowserProgressIndicator({
     required this.animation,
+    required this.menuState,
     super.key,
   });
 
   final Animation<double> animation;
+  final ListenableState<MenuType> menuState;
 
   @override
   State<BrowserProgressIndicator> createState() =>
@@ -22,10 +29,29 @@ class _BrowserProgressIndicatorState extends State<BrowserProgressIndicator> {
 
   @override
   Widget build(BuildContext context) {
-    return RepaintBoundary(
-      child: CustomPaint(
-        painter: _painter,
-      ),
+    return StateNotifierBuilder(
+      listenableState: widget.menuState,
+      builder: (_, MenuType? type) {
+        // BrowserTabListMenu
+        // BrowserTabViewMenu
+        // MenuRawUrl
+        return Transform.translate(
+          offset: Offset(
+            0,
+            switch (type) {
+              MenuType.list => -BrowserTabListMenu.height,
+              MenuType.view => -BrowserTabViewMenu.minHeight,
+              MenuType.url => -MenuRawUrl.height,
+              _ => 300,
+            },
+          ),
+          child: RepaintBoundary(
+            child: CustomPaint(
+              painter: _painter,
+            ),
+          ),
+        );
+      },
     );
   }
 }

@@ -29,6 +29,10 @@ class BrowserTabViewMenu extends StatelessWidget {
   final ScrollController urlSliderController;
   final ListenableState<BrowserTabsCollection> tabsState;
 
+  static const minHeight = BrowserTabViewMenuUrlPanel.height +
+      BrowserTabViewMenuNavPanel.height +
+      DimensSizeV2.d8;
+
   @override
   Widget build(BuildContext context) {
     return BrowserMenuBackgroundBlur(

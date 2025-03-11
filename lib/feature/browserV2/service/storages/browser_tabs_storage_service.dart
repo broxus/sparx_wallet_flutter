@@ -1,5 +1,3 @@
-import 'dart:io';
-
 import 'package:app/app/service/service.dart';
 import 'package:app/feature/browserV2/models/tab/browser_tab.dart';
 import 'package:get_storage/get_storage.dart';
@@ -33,7 +31,7 @@ class BrowserTabsStorageService extends AbstractStorageService {
 
     return [
       for (final entry in list)
-        BrowserTab.fromJson(entry as Map<String, dynamic>)
+        BrowserTab.fromJson(entry as Map<String, dynamic>),
     ];
   }
 

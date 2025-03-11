@@ -217,7 +217,8 @@
 //     }
 //
 //     if (!isSchemeFound) {
-//       final isResolvable = await inject<DnsResolveService>().isResolvable(uri);
+//       final isResolvable = await inject<DnsResolveService>()
+//       .isResolvable(uri);
 //       if (!isResolvable) {
 //         uri = Uri.parse('$_searchEngineUri$text');
 //       }
