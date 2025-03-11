@@ -248,8 +248,12 @@
   "browserEnterBasicAuthUsername": "username",
   "browserEnterBasicAuthPassword": "password",
   "browserEnterBasicSignIn": "Sign in",
+  "browserStartTitle": "Explore\nthe Decentralized\nWeb",
+  "browserStartDescription": "Seamless access to DeFi, NFTs,\nand beyond. Your journey starts here",
   "walletWord": "Wallet",
   "browserWord": "Browser",
+  "newGroup": "New Group",
+  "allTabs": "All Tabs",
   "profileWord": "Profile",
   "manageAssets": "Manage manually",
   "orWord": "or",
@@ -266,6 +270,7 @@
   "feesWord": "Fees",
   "feesWithData": "Fees ~{}",
   "startExploring": "Start exploring",
+  "startPage": "Start page",
   "statusWord": "Status",
   "leftForConfirmation": "Left for confirmation {} • Signed {} of {}",
   "transactionStatusWaitingConfirmation": "Waiting for confirmation",
@@ -642,5 +647,11 @@
   "errorMessageMaxUnconfirmedTransactions": "Unconfirmed transactions is limited by 5",
   "noRpcConnection": "No RPC connection",
   "tryAgainOrContact": "Please try again or contact technical support",
-  "contactUs": "Contact us"
+  "contactUs": "Contact us",
+  "seedPhraseFormatLabel12": "Your seed pharse from:",
+  "seedPhraseFormatLabel24": "Seed phrase format:",
+  "seedPhrase12FormatStandart": "SparX wallet",
+  "seedPhrase12FormatTON": "TON types wallet",
+  "seedPhrase24FormatStandart": "TON Standard",
+  "seedPhrase24FormatTON": "TON BIP39"
 }

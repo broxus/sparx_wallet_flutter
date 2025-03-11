@@ -37,6 +37,7 @@ class _BrowserStartViewState extends State<BrowserStartView> {
     viewportFraction: _cardViewportFraction,
   );
   final _globalKey = GlobalKey();
+
   // DateTime? _lastScreenshotTime;
 
   ThemeStyleV2 get _themeStyleV2 => context.themeStyleV2;
@@ -52,9 +53,9 @@ class _BrowserStartViewState extends State<BrowserStartView> {
     final colors = _themeStyleV2.colors;
     final bookmarkItems = _browserService.bM.sortedBookmarks;
     // final searchText = context.watch<BrowserTabsBloc>().state.searchText;
-    // TODO(knightforce) refactor on Elementary
+    // TODO(knightforce): refactor on Elementary
     // And handle text on only this screen
-    final searchText = '';
+    const searchText = '';
 
     if (searchText.isEmpty) {
       _saveScreenshot();
@@ -119,7 +120,7 @@ class _BrowserStartViewState extends State<BrowserStartView> {
     );
   }
 
-  // TODO(knightforce) use BrowserService.
+  // TODO(knightforce): use BrowserService.
   //  Take a screenshot only after crearte screen in initWidgetModel
   // This screen is Tab as other?
   Future<void> _saveScreenshot() async {
@@ -139,7 +140,9 @@ class _BrowserStartViewState extends State<BrowserStartView> {
     //
     //     final image = await boundary!.toImage(pixelRatio: 2);
     //
-    //     final byteData = await image.toByteData(format: ui.ImageByteFormat.png);
+    //     final byteData = await image.toByteData(
+    //          format: ui.ImageByteFormat.png,
+    //     );
     //     final pngBytes = byteData?.buffer.asUint8List().toList();
     //     if (pngBytes == null) {
     //       throw Exception("Can't convert image to bytes");
@@ -417,7 +420,6 @@ class _BrowserStartViewState extends State<BrowserStartView> {
   }
 
   void _openUrl(Uri url) {
-    // todo ?
     final currentTabId = _browserService.tM.activeTabId;
     if (currentTabId == null) {
       _browserService.tM.createBrowserTab(url);

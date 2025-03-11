@@ -1,6 +1,5 @@
-import 'package:app/app/service/messenger/message.dart';
-import 'package:app/app/service/messenger/service/messenger_service.dart';
 import 'package:app/app/service/network_connection/network_connection_service.dart';
+import 'package:app/app/service/service.dart';
 import 'package:app/utils/mixins/connection_mixin.dart';
 import 'package:elementary/elementary.dart';
 import 'package:flutter/material.dart';
@@ -23,6 +22,8 @@ class ImportWalletScreenModel extends ElementaryModel with ConnectionMixin {
   final NetworkConnectionService networkConnectionService;
 
   final NekotonRepository nekotonRepository;
+
+  String get networkGroup => nekotonRepository.currentTransport.networkGroup;
 
   void showValidateError(BuildContext context, String message) {
     messengerService.show(

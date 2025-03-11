@@ -252,8 +252,12 @@ abstract class LocaleKeys {
   static const browserEnterBasicAuthUsername = 'browserEnterBasicAuthUsername';
   static const browserEnterBasicAuthPassword = 'browserEnterBasicAuthPassword';
   static const browserEnterBasicSignIn = 'browserEnterBasicSignIn';
+  static const browserStartTitle = 'browserStartTitle';
+  static const browserStartDescription = 'browserStartDescription';
   static const walletWord = 'walletWord';
   static const browserWord = 'browserWord';
+  static const newGroup = 'newGroup';
+  static const allTabs = 'allTabs';
   static const profileWord = 'profileWord';
   static const manageAssets = 'manageAssets';
   static const orWord = 'orWord';
@@ -270,6 +274,7 @@ abstract class LocaleKeys {
   static const feesWord = 'feesWord';
   static const feesWithData = 'feesWithData';
   static const startExploring = 'startExploring';
+  static const startPage = 'startPage';
   static const statusWord = 'statusWord';
   static const leftForConfirmation = 'leftForConfirmation';
   static const transactionStatusWaitingConfirmation =
@@ -668,4 +673,10 @@ abstract class LocaleKeys {
   static const noRpcConnection = 'noRpcConnection';
   static const tryAgainOrContact = 'tryAgainOrContact';
   static const contactUs = 'contactUs';
+  static const seedPhraseFormatLabel12 = 'seedPhraseFormatLabel12';
+  static const seedPhraseFormatLabel24 = 'seedPhraseFormatLabel24';
+  static const seedPhrase12FormatStandart = 'seedPhrase12FormatStandart';
+  static const seedPhrase12FormatTON = 'seedPhrase12FormatTON';
+  static const seedPhrase24FormatStandart = 'seedPhrase24FormatStandart';
+  static const seedPhrase24FormatTON = 'seedPhrase24FormatTON';
 }

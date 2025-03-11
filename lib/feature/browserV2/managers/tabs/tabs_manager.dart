@@ -1,21 +1,17 @@
+import 'dart:async';
+import 'dart:collection';
 import 'dart:math';
 
 import 'package:app/app/service/storage_service/general_storage_service.dart';
-import 'package:app/feature/browserV2/data/control_panels_data.dart';
 import 'package:app/feature/browserV2/data/tabs_data.dart';
 import 'package:app/feature/browserV2/managers/tabs/helpers/browser_screenshot_helper.dart';
 import 'package:app/feature/browserV2/models/tab/browser_tab.dart';
+import 'package:app/feature/browserV2/screens/main/data/control_panels_data.dart';
 import 'package:app/feature/browserV2/service/storages/browser_tabs_storage_service.dart';
 import 'package:collection/collection.dart';
 import 'package:elementary_helper/elementary_helper.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_inappwebview/flutter_inappwebview.dart';
-
-// enum BrowserTabStateType {
-//   initial,
-//   loading,
-//   loaded,
-//   error,
-// }
 
 class BrowserTabsManager {
   BrowserTabsManager(
@@ -28,77 +24,115 @@ class BrowserTabsManager {
   final BrowserTabsStorageService _browserTabsStorageService;
   final GeneralStorageService _generalStorageService;
 
-  final _controllers = <String, InAppWebViewController>{};
-
   late final _screenshotHelper =
       BrowserManagerScreenshotHelper(_generalStorageService);
 
   /// Subject of browser tabs
   final _tabsState =
-      StateNotifier<BrowserTabsData>(initValue: BrowserTabsData());
+      StateNotifier<BrowserTabsCollection>(initValue: BrowserTabsCollection());
 
-  final _controlPanelState = StateNotifier<BrowserControlPanelData>(
+  late final _controlPanelState = StateNotifier<BrowserControlPanelData>(
     initValue: BrowserControlPanelData(),
   );
 
-  ListenableState<BrowserTabsData> get tabsState => _tabsState;
+  final _activeTabState = StateNotifier<BrowserTab?>();
+
+  final _controllers = HashMap<String, InAppWebViewController>();
+
+  ListenableState<BrowserTabsCollection> get tabsState => _tabsState;
+
+  ListenableState<BrowserTab?> get activeTabState => _activeTabState;
+
+  ListenableState<ImageCache?> get screenshotsState =>
+      _screenshotHelper.screenshotsState;
 
   ListenableState<BrowserControlPanelData> get controlPanelState =>
       _controlPanelState;
 
   /// Get last cached browser tabs
-  List<BrowserTab> get browserTabs => _tabsData.tabs;
+  List<BrowserTab> get browserTabs => _tabsCollection.list;
 
-  /// Get last cached of active browser tab id
-  String? get activeTabId => _tabsData.activeTabId;
+  BrowserTab? get activeTab => _activeTabState.value;
 
-  BrowserTab? get activeTab => _tabsData.activeTab;
+  String? get activeTabId => activeTab?.id;
 
-  BrowserTabsData get _tabsData => _tabsState.value ?? BrowserTabsData();
+  BrowserTabsCollection get _tabsCollection =>
+      _tabsState.value ?? BrowserTabsCollection();
 
   InAppWebViewController? get _currentController => _controllers[activeTabId];
 
   void init() {
+    activeTabState.addListener(_handleActiveTab);
     _fetchTabsDataFromCache();
-    _tabsState.addListener(_handleTabs);
   }
 
   void dispose() {
+    activeTabState.removeListener(_handleActiveTab);
     _tabsState.dispose();
+    _screenshotHelper.dispose();
+  }
+
+  void setController(String tabId, InAppWebViewController controller) {
+    _controllers[tabId] = controller;
+  }
+
+  void removeController(String tabId) {
+    _controllers.remove(tabId);
+  }
+
+  void closeAllControllers() {
+    _controllers
+      ..forEach((k, c) => c.dispose())
+      ..clear();
   }
 
   Future<void> clear() {
     return clearTabs();
   }
 
-  void setController(String tabId, InAppWebViewController controller) {
-    _controllers[tabId] = controller;
-    _updateControlPanel();
-  }
-
-  void removeController(String tabId) {
-    _controllers.remove(tabId);
-    _updateControlPanel();
-  }
-
   void openUrl(Uri uri) {
-    final id = activeTabId;
-    if (id == null) {
-      createBrowserTab(uri);
+    createBrowserTab(uri);
+  }
+
+  bool updateUrl(String tabId, Uri uri) {
+    final tabs = [...browserTabs];
+
+    final index = tabs.indexWhere((t) => t.id == tabId);
+
+    if (index == -1) {
+      return false;
+    }
+
+    tabs[index] = tabs[index].copyWith(url: uri);
+    _setTabs(tabs: tabs);
+    // Simple update - request on vew
+    unawaited(_updateControlPanel());
+    return true;
+  }
+
+  Future<void> requestUrl(String tabId, Uri uri) async {
+    final isSuccess = updateUrl(tabId, uri);
+
+    if (!isSuccess) {
       return;
     }
-    updateUrl(id, uri);
+    await _controllers[tabId]?.loadUrl(
+      urlRequest: URLRequest(url: WebUri.uri(uri)),
+    );
+    // After simple update - request by program
+    unawaited(_updateControlPanel());
   }
 
-  void updateUrl(String tabId, Uri uri) {
+  void updateTitle(String tabId, String title) {
     final tabs = [...browserTabs];
+
     final index = tabs.indexWhere((t) => t.id == tabId);
 
     if (index == -1) {
       return;
     }
 
-    tabs[index] = tabs[index].copyWith(url: uri);
+    tabs[index] = tabs[index].copyWith(title: title);
 
     _setTabs(tabs: tabs);
   }
@@ -107,7 +141,8 @@ class BrowserTabsManager {
   Future<void> clearTabs() async {
     await _browserTabsStorageService.clearBrowserTabs();
     await _screenshotHelper.clear();
-    _tabsState.accept(BrowserTabsData());
+    _tabsState.accept(BrowserTabsCollection());
+    _activeTabState.accept(null);
   }
 
   void setActiveTab(String? id) {
@@ -118,63 +153,41 @@ class BrowserTabsManager {
     _setTabs(activeTabId: id);
   }
 
-  void goBack() {
-    _currentController?.goBack();
-  }
-
-  void goForward() {
-    _currentController?.goForward();
-  }
-
-  void refresh() {
-    _currentController?.reload();
-  }
-
-  /// TODO(Knightforce): check need?
-  // void setBrowserTab(BrowserTab tab) {
-  //   final id = tab.id;
-  //   final tabs = [...browserTabs];
-  //   final index = tabs.indexWhere((tab) => tab.id == id);
-  //
-  //   if (index == -1) {
-  //     tabs.add(tab);
-  //   } else {
-  //     tabs[index] = tab;
-  //   }
-  //
-  //   _saveTabs(tabs);
-  // }
-
   /// Remove browser tab by id
   Future<void> removeBrowserTab(String id) async {
     final tabs = [...browserTabs];
 
-    final count = browserTabs.length;
+    final count = tabs.length;
 
     int? removedIndex;
 
     for (var i = 0; i < count; i++) {
-      if (browserTabs[i].id != id) {
+      if (tabs[i].id != id) {
         continue;
       }
 
       removedIndex = i;
+      break;
     }
 
     if (removedIndex == null) {
       return;
     }
 
-    tabs.removeAt(removedIndex);
+    final removedId = tabs.removeAt(removedIndex).id;
 
-    final nextIndex = min(removedIndex, browserTabs.length - 1);
+    final newActiveTabId = tabs.isEmpty
+        ? null
+        : removedId == activeTabId
+            ? tabs[min(removedIndex + 1, tabs.length - 1)].id
+            : null;
+
+    await _screenshotHelper.removeScreenshot(id);
 
     _setTabs(
       tabs: tabs,
-      activeTabId: tabs[nextIndex].id,
+      activeTabId: newActiveTabId,
     );
-
-    await _screenshotHelper.removeScreenshot(id);
   }
 
   void createEmptyTab() => createBrowserTab(_emptyUri);
@@ -187,36 +200,50 @@ class BrowserTabsManager {
     );
   }
 
-  String createImageId() => _screenshotHelper.createImageId();
-
-  String? getImagePath({
+  Future<void> createScreenshot({
     required String tabId,
-    String? imageId,
+    required Future<Uint8List?> Function() takePictureCallback,
   }) =>
-      _screenshotHelper.getImagePath(
+      _screenshotHelper.createScreenshot(
         tabId: tabId,
-        imageId: imageId,
+        takePictureCallback: takePictureCallback,
       );
 
-  String? getTabDirectoryPath(String tabId) =>
-      _screenshotHelper.getTabDirectoryPath(tabId);
+  Future<void> backWeb() async {
+    await _currentController?.goBack();
+    unawaited(_updateControlPanel());
+  }
+
+  Future<void> forwardWeb() async {
+    await _currentController?.goForward();
+    unawaited(_updateControlPanel());
+  }
 
   /// Put browser tabs to stream
   void _fetchTabsDataFromCache() {
-    final tabs = _browserTabsStorageService.getTabs();
-    final savedId = _browserTabsStorageService.getActiveTabId();
+    final tabs = _browserTabsStorageService.getTabs()
+      ..sort(
+        (a, b) => a.sortingOrder.compareTo(b.sortingOrder),
+      );
 
-    final id = savedId == null
-        ? tabs.firstOrNull?.id
-        : tabs.firstWhereOrNull((tab) => tab.id == savedId)?.id ??
-            tabs.firstOrNull?.id;
+    BrowserTab? activeTab;
 
-    _tabsState.accept(
-      BrowserTabsData(
-        tabs: _browserTabsStorageService.getTabs(),
-        activeTabId: id,
-      ),
-    );
+    if (tabs.isEmpty) {
+      final newTab = BrowserTab.create(url: _emptyUri);
+      activeTab = newTab;
+      tabs.add(newTab);
+    } else {
+      final savedId = _browserTabsStorageService.getActiveTabId();
+
+      activeTab = savedId == null
+          ? tabs.firstOrNull
+          : tabs.firstWhereOrNull((tab) => tab.id == savedId) ??
+              tabs.firstOrNull;
+    }
+
+    _tabsState.accept(BrowserTabsCollection(tabs));
+
+    _activeTabState.accept(activeTab);
   }
 
   void _setTabs({
@@ -225,21 +252,18 @@ class BrowserTabsManager {
   }) {
     if (tabs != null) {
       _browserTabsStorageService.saveBrowserTabs(tabs);
+      _tabsState.accept(BrowserTabsCollection(tabs));
     }
 
     if (activeTabId != null) {
       _browserTabsStorageService.saveBrowserActiveTabId(activeTabId);
+      _activeTabState.accept(
+        (tabs ?? browserTabs).firstWhereOrNull((t) => t.id == activeTabId),
+      );
     }
-
-    _tabsState.accept(
-      _tabsData.copyWith(
-        tabs: tabs,
-        activeTabId: activeTabId,
-      ),
-    );
   }
 
-  void _handleTabs() {
+  void _handleActiveTab() {
     _updateControlPanel();
   }
 

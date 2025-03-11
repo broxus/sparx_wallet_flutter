@@ -15,6 +15,7 @@ class CommonRadioInput<T> extends StatefulWidget {
     this.onChanged,
     this.validateMode,
     this.validator,
+    this.child,
     super.key,
   });
 
@@ -32,6 +33,8 @@ class CommonRadioInput<T> extends StatefulWidget {
 
   /// If not null, then input will be validated by form
   final FormFieldValidator<T>? validator;
+
+  final Widget? child;
 
   @override
   State<CommonRadioInput<T>> createState() => _CommonRadioInputState();
@@ -55,12 +58,25 @@ class _CommonRadioInputState<T> extends State<CommonRadioInput<T>> {
               _handleDidChange(widget.value);
               widget.onChanged!(widget.value);
             },
-      child: CommonRadio<T>(
-        value: widget.value,
-        groupValue: widget.groupValue,
-        enabled: widget.onChanged != null,
-        hasError: field?.hasError ?? false,
-      ),
+      child: widget.child == null
+          ? CommonRadio<T>(
+              value: widget.value,
+              groupValue: widget.groupValue,
+              enabled: widget.onChanged != null,
+              hasError: state.hasError,
+            )
+          : Row(
+              children: [
+                CommonRadio<T>(
+                  value: widget.value,
+                  groupValue: widget.groupValue,
+                  enabled: widget.onChanged != null,
+                  hasError: state.hasError,
+                ),
+                const SizedBox(width: DimensSizeV2.d8),
+                widget.child!,
+              ],
+            ),
     );
   }
 

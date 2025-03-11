@@ -1,30 +1,41 @@
+import 'dart:collection';
 import 'package:app/feature/browserV2/models/tab/browser_tab.dart';
-import 'package:collection/collection.dart';
 
-class BrowserTabsData {
-  BrowserTabsData({
-    List<BrowserTab>? tabs,
-    this.activeTabId,
-  }) : tabs = tabs ?? [];
+class BrowserTabsCollection {
+  BrowserTabsCollection([List<BrowserTab>? list]) : list = list ?? [];
 
-  final List<BrowserTab> tabs;
-  final String? activeTabId;
+  final List<BrowserTab> list;
 
-  late final sortedTabs = [...tabs]..sort(
-      (a, b) => a.sortingOrder.compareTo(b.sortingOrder),
-    );
+  int get count => list.length;
 
-  late final activeTab = tabs.firstWhereOrNull((t) => t.id == activeTabId);
+  String get countText => count.toString();
 
-  late final count = tabs.length;
+  bool get isNotEmpty => list.isNotEmpty;
 
-  BrowserTabsData copyWith({
-    List<BrowserTab>? tabs,
-    String? activeTabId,
-  }) {
-    return BrowserTabsData(
-      tabs: tabs ?? this.tabs,
-      activeTabId: activeTabId ?? this.activeTabId,
-    );
+  BrowserTab? get lastTab => list.lastOrNull;
+
+  int getIndexById(String id) => list.indexWhere((item) => item.id == id);
+
+  String? getIdByIndex(int index) {
+    try {
+      return list[index].id;
+    } catch (_) {
+      return null;
+    }
   }
+}
+
+class ImageCache {
+  ImageCache([
+    HashMap<String, String>? cache,
+  ]) : _cache = cache ?? HashMap<String, String>();
+  final HashMap<String, String> _cache;
+
+  void add(String key, String value) {
+    _cache[key] = value;
+  }
+
+  String? get(String key) => _cache[key];
+
+  ImageCache copy() => ImageCache(_cache);
 }

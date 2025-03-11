@@ -215,14 +215,6 @@ enum AppRoute {
     isSaveLocation: true,
   ),
 
-  /// Tabs browser page
-  browserTabs(
-    'browserTabs',
-    '/browser/browserTabs',
-    isSaveLocation: true,
-    isBottomNavigationBarVisible: true,
-  ),
-
   /// Configure networks page
   configureNetworks(
     'configureNetworks',

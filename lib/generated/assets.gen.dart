@@ -116,9 +116,16 @@ class $AssetsImagesGen {
   /// File path: assets/images/bg_main.svg
   SvgGenImage get bgMain => const SvgGenImage('assets/images/bg_main.svg');
 
+  /// File path: assets/images/bg_network.png
+  AssetGenImage get bgNetwork =>
+      const AssetGenImage('assets/images/bg_network.png');
+
   /// File path: assets/images/blur_background.png
   AssetGenImage get blurBackground =>
       const AssetGenImage('assets/images/blur_background.png');
+
+  /// File path: assets/images/book-open.svg
+  SvgGenImage get bookOpen => const SvgGenImage('assets/images/book-open.svg');
 
   /// File path: assets/images/browser_card_01.svg
   SvgGenImage get browserCard01 =>
@@ -187,12 +194,11 @@ class $AssetsImagesGen {
   AssetGenImage get circleCheck =>
       const AssetGenImage('assets/images/circle_check.png');
 
+  /// File path: assets/images/clear.svg
+  SvgGenImage get clear => const SvgGenImage('assets/images/clear.svg');
+
   /// File path: assets/images/close.svg
   SvgGenImage get close => const SvgGenImage('assets/images/close.svg');
-
-  /// File path: assets/images/close_another.svg
-  SvgGenImage get closeAnother =>
-      const SvgGenImage('assets/images/close_another.svg');
 
   /// File path: assets/images/closed_eye.svg
   SvgGenImage get closedEye =>
@@ -286,6 +292,9 @@ class $AssetsImagesGen {
   /// Directory path: assets/images/lang_icons
   $AssetsImagesLangIconsGen get langIcons => const $AssetsImagesLangIconsGen();
 
+  /// File path: assets/images/layers.svg
+  SvgGenImage get layers => const SvgGenImage('assets/images/layers.svg');
+
   /// File path: assets/images/lightning.svg
   SvgGenImage get lightning => const SvgGenImage('assets/images/lightning.svg');
 
@@ -295,6 +304,9 @@ class $AssetsImagesGen {
   /// File path: assets/images/lock_backup.png
   AssetGenImage get lockBackup =>
       const AssetGenImage('assets/images/lock_backup.png');
+
+  /// File path: assets/images/lock_fill.svg
+  SvgGenImage get lockFill => const SvgGenImage('assets/images/lock_fill.svg');
 
   /// File path: assets/images/logo.svg
   SvgGenImage get logo => const SvgGenImage('assets/images/logo.svg');
@@ -422,6 +434,10 @@ class $AssetsImagesGen {
   $AssetsImagesUserAvatarGen get userAvatar =>
       const $AssetsImagesUserAvatarGen();
 
+  /// File path: assets/images/vertical_dots.svg
+  SvgGenImage get verticalDots =>
+      const SvgGenImage('assets/images/vertical_dots.svg');
+
   /// File path: assets/images/wallet.svg
   SvgGenImage get wallet => const SvgGenImage('assets/images/wallet.svg');
 
@@ -448,7 +464,9 @@ class $AssetsImagesGen {
         bgConnection,
         bgInternet,
         bgMain,
+        bgNetwork,
         blurBackground,
+        bookOpen,
         browserCard01,
         browserCard02,
         burger,
@@ -466,8 +484,8 @@ class $AssetsImagesGen {
         checkSquare,
         choose,
         circleCheck,
+        clear,
         close,
-        closeAnother,
         closedEye,
         copy,
         copyOutlined,
@@ -494,9 +512,11 @@ class $AssetsImagesGen {
         import,
         importFill,
         key,
+        layers,
         lightning,
         lock,
         lockBackup,
+        lockFill,
         logo,
         minus,
         moon,
@@ -530,6 +550,7 @@ class $AssetsImagesGen {
         tokenDefaultIcon,
         transactionProgress,
         trash,
+        verticalDots,
         wallet,
         web
       ];

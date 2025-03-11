@@ -11,9 +11,9 @@ part 'browser_tab.g.dart';
 class BrowserTab with _$BrowserTab {
   factory BrowserTab({
     /// The id of the tab.
-    required String id,
+    required final String id,
 
-    /// The url of the tab.
+    /// Initial url of the tab.
     @uriJsonConverter required Uri url,
 
     /// The screenshot id of the tab.

@@ -428,12 +428,16 @@ class InpageProvider extends ProviderApi {
       }
 
       final unsignedMessage = await nekotonRepository.prepareTransfer(
-        destination: repackedRecipient,
-        amount: amount,
-        body: body,
-        bounce: defaultMessageBounce,
         address: sender,
         expiration: defaultSendTimeout,
+        params: [
+          nr.TonWalletTransferParams(
+            destination: repackedRecipient,
+            amount: amount,
+            body: body,
+            bounce: defaultMessageBounce,
+          ),
+        ],
       );
 
       final fees = await nekotonRepository.estimateFees(
@@ -1068,7 +1072,6 @@ class InpageProvider extends ProviderApi {
       );
 
       unawaited(
-        // ignore: prefer-async-await
         nekotonRepository
             .waitContractSending(pending: transaction, address: recipient)
             .then((trans) {
@@ -1168,12 +1171,16 @@ class InpageProvider extends ProviderApi {
 
       final unsignedMessage = await nekotonRepository.prepareTransfer(
         address: sender,
-        destination: repackedRecipient,
-        amount: amount,
-        body: body,
-        bounce: defaultMessageBounce,
         expiration: defaultSendTimeout,
         publicKey: key,
+        params: [
+          nr.TonWalletTransferParams(
+            destination: repackedRecipient,
+            amount: amount,
+            body: body,
+            bounce: defaultMessageBounce,
+          ),
+        ],
       );
 
       await unsignedMessage.message.refreshTimeout();
@@ -1270,12 +1277,16 @@ class InpageProvider extends ProviderApi {
 
       final unsignedMessage = await nekotonRepository.prepareTransfer(
         address: sender,
-        destination: repackedRecipient,
-        amount: amount,
-        body: body,
-        bounce: defaultMessageBounce,
         expiration: defaultSendTimeout,
         publicKey: key,
+        params: [
+          nr.TonWalletTransferParams(
+            destination: repackedRecipient,
+            amount: amount,
+            body: body,
+            bounce: defaultMessageBounce,
+          ),
+        ],
       );
 
       await unsignedMessage.message.refreshTimeout();
@@ -1301,7 +1312,6 @@ class InpageProvider extends ProviderApi {
       );
 
       unawaited(
-        // ignore: prefer-async-await
         nekotonRepository
             .waitSending(pending: transaction, address: sender)
             .then((trans) {

@@ -12,6 +12,7 @@ class ColorsPaletteV2 {
     required this.background1,
     required this.background2,
     required this.background3,
+    required this.backgroundInput,
     required this.backgroundAccent,
     required this.backgroundAlpha,
     required this.backgroundNegativeAlpha,
@@ -21,6 +22,7 @@ class ColorsPaletteV2 {
     required this.content1,
     required this.content2,
     required this.content3,
+    required this.content4,
     required this.border0,
     required this.border1,
     required this.border2,
@@ -55,6 +57,7 @@ class ColorsPaletteV2 {
   final Color background1;
   final Color background2;
   final Color background3;
+  final Color backgroundInput;
   final Color backgroundAccent;
 
   ///Content-semantic
@@ -62,6 +65,7 @@ class ColorsPaletteV2 {
   final Color content1;
   final Color content2;
   final Color content3;
+  final Color content4;
 
   ///Border-semantic
   final Color border0;
@@ -98,6 +102,7 @@ class ColorsPaletteV2 {
 class ColorsResV2 {
   const ColorsResV2._();
 
+  static const black = Color(0x0FF00000);
   static const transparent = Color(0x00000000);
 
   ///primary

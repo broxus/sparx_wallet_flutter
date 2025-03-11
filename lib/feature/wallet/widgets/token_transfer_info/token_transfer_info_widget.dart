@@ -59,7 +59,7 @@ class TokenTransferInfoWidget
             _InfoRow(
               label: LocaleKeys.token.tr(),
               child: Text(
-                amount!.currency.symbol,
+                amount!.currency.symbolFixed,
                 style: theme.textStyles.labelSmall,
               ),
             ),
@@ -96,13 +96,13 @@ class TokenTransferInfoWidget
                     },
                   ),
                   StateNotifierBuilder(
-                    listenableState: wm.amountPrice,
-                    builder: (_, value) => value != null
+                    listenableState: wm.amountUSDPrice,
+                    builder: (_, price) => price != null
                         ? Padding(
                             padding:
                                 const EdgeInsets.only(top: DimensSizeV2.d4),
                             child: AmountWidget.dollars(
-                              amount: value,
+                              amount: amount!.exchangeToUSD(price),
                               style: theme.textStyles.labelXSmall.copyWith(
                                 color: theme.colors.content3,
                               ),
@@ -115,8 +115,8 @@ class TokenTransferInfoWidget
             ),
           DoubleSourceBuilder(
             firstSource: wm.attachedAmount,
-            secondSource: wm.attachedAmountPrice,
-            builder: (_, attachedAmount, attachedAmountPrice) {
+            secondSource: wm.nativeUSDPrice,
+            builder: (_, attachedAmount, nativeUSDPrice) {
               if (attachedAmount == null) return const SizedBox.shrink();
 
               final child = _InfoRow(
@@ -126,19 +126,16 @@ class TokenTransferInfoWidget
                   crossAxisAlignment: CrossAxisAlignment.end,
                   children: [
                     AmountWidget.fromMoney(
-                      amount: Money.fromBigIntWithCurrency(
-                        attachedAmount,
-                        wm.nativeCurrency,
-                      ),
+                      amount: attachedAmount,
                       icon: TonWalletIconWidget(
                         path: wm.nativeTokenIcon,
                         size: DimensSizeV2.d20,
                       ),
                       includeSymbol: false,
                     ),
-                    if (attachedAmountPrice != null)
+                    if (nativeUSDPrice != null)
                       AmountWidget.dollars(
-                        amount: attachedAmountPrice,
+                        amount: attachedAmount.exchangeToUSD(nativeUSDPrice),
                         style: theme.textStyles.labelXSmall.copyWith(
                           color: theme.colors.content3,
                         ),
@@ -157,37 +154,28 @@ class TokenTransferInfoWidget
           TripleSourceBuilder(
             firstSource: wm.fee,
             secondSource: wm.feeError,
-            thirdSource: wm.customCurrency,
-            builder: (
-              _,
-              fee,
-              feeError,
-              customCurrency,
-            ) {
+            thirdSource: wm.nativeUSDPrice,
+            builder: (_, fee, feeError, nativeUSDPrice) {
+              if (fee == null) return const SizedBox.shrink();
+
               return SeparatedColumn(
+                crossAxisAlignment: CrossAxisAlignment.end,
                 separatorSize: DimensSizeV2.d4,
                 children: [
                   WalletTransactionDetailsItem(
                     title: LocaleKeys.networkFee.tr(),
                     valueWidget: AmountWidget.fromMoney(
-                      amount: Money.fromBigIntWithCurrency(
-                        fee ?? BigInt.zero,
-                        wm.nativeCurrency,
-                      ),
+                      amount: fee,
                       sign: '~ ',
                       includeSymbol: false,
                     ),
                     iconPath: wm.nativeTokenIcon,
-                    convertedValueWidget: AmountWidget.dollars(
-                      amount: Money.fromBigIntWithCurrency(
-                        fee ?? BigInt.zero,
-                        wm.nativeCurrency,
-                      ).exchangeToUSD(
-                        Fixed.parse(customCurrency?.price ?? '0'),
-                        5,
-                      ),
-                      style: theme.textStyles.labelXSmall.copyWith(
-                        color: theme.colors.content3,
+                    convertedValueWidget: nativeUSDPrice?.let(
+                      (price) => AmountWidget.dollars(
+                        amount: fee.exchangeToUSD(price, 5),
+                        style: theme.textStyles.labelXSmall.copyWith(
+                          color: theme.colors.content3,
+                        ),
                       ),
                     ),
                   ),
