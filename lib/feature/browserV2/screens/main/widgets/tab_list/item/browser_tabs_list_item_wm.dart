@@ -110,8 +110,8 @@ class BrowserTabsListItemWidgetModel
     super.dispose();
   }
 
-  void onPressedMenu(GlobalKey key) {
-    showPopupMenuWithOverlay(context, key, items);
+  void onPressedMenu() {
+    showPopupMenuWithOverlay(context, items);
   }
 
   void _handleActiveTab() {

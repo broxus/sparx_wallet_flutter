@@ -1,7 +1,6 @@
 import 'package:app/feature/browserV2/data/tabs_data.dart';
 import 'package:app/feature/browserV2/models/tab/browser_tab.dart';
 import 'package:app/feature/browserV2/screens/main/data/menu_data.dart';
-import 'package:app/feature/browserV2/screens/main/widgets/browser_progress_indicator.dart';
 import 'package:app/feature/browserV2/screens/main/widgets/menu/menu_tab_list.dart';
 import 'package:app/feature/browserV2/screens/main/widgets/menu/menu_url.dart';
 import 'package:app/feature/browserV2/screens/main/widgets/menu/menu_view_tab/menu_view_tab.dart';
@@ -63,9 +62,6 @@ class _BrowserBottomMenuState extends State<BrowserBottomMenu> {
       mainAxisSize: MainAxisSize.min,
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
-        BrowserProgressIndicator(
-          animation: widget.progressAnimation,
-        ),
         StateNotifierBuilder(
           listenableState: widget.menuState,
           builder: (_, MenuType? type) {
