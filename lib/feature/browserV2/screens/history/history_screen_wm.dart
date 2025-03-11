@@ -85,7 +85,7 @@ class HistoryScreenWidgetModel
   }
 
   void onPressedItem(Uri uri) {
-    // TODO handle tabs
+    // TODO(knightforce): handle tabs
     // context.read<BrowserTabsBloc>().add(
     //   BrowserTabsEvent.add(uri: uri),
     // );
@@ -198,7 +198,7 @@ class HistoryScreenWidgetModel
   }
 
   void _clearCache() {
-    // todo tabs
+    // TODO(knightforce): tabs
     // context.read<BrowserTabsBloc>().add(const BrowserTabsEvent.clearCache());
   }
 

@@ -37,8 +37,9 @@ class BrowserTabsListItem
               shape: SquircleShapeBorder(
                 borderWidth: isActive ? DimensSizeV2.d4 : DimensSizeV2.d2,
                 cornerRadius: DimensRadiusV2.radius16,
-                borderColor:
-                    isActive ? ColorsResV2.p75 : wm.colors.primaryA.withAlpha(25),
+                borderColor: isActive
+                    ? ColorsResV2.p75
+                    : wm.colors.primaryA.withAlpha(25),
               ),
               clipBehavior: Clip.antiAlias,
               color: wm.colors.background1,
@@ -57,7 +58,8 @@ class BrowserTabsListItem
                               : Image.file(
                                   file,
                                   fit: BoxFit.scaleDown,
-                                  errorBuilder: (_, __, ___) => const SizedBox(),
+                                  errorBuilder: (_, __, ___) =>
+                                      const SizedBox(),
                                 );
                         },
                       ),

@@ -2,7 +2,6 @@ import 'package:app/app/service/service.dart';
 import 'package:app/data/models/models.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:injectable/injectable.dart';
-import 'package:rxdart/rxdart.dart';
 
 const _browserHistoryDomain = 'browser_history';
 const _browserHistoryKey = 'browser_history_key';

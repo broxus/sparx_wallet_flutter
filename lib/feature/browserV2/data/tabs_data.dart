@@ -1,6 +1,4 @@
 import 'dart:collection';
-
-import 'package:app/app/router/app_route.dart';
 import 'package:app/feature/browserV2/models/tab/browser_tab.dart';
 
 class BrowserTabsCollection {

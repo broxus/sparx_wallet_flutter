@@ -21,7 +21,7 @@ class EventsHelper {
   final JsService _jsService;
   final String _tabId;
 
- final _subs = <StreamSubscription<dynamic>>[];
+  final _subs = <StreamSubscription<dynamic>>[];
 
   void init(InAppWebViewController controller) {
     _subs.addAll(

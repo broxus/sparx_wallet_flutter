@@ -29,7 +29,7 @@ class BrowserBookmarksStorageService extends AbstractStorageService {
       for (final entry in list)
         BrowserBookmarkItem.fromJson(
           entry as Map<String, dynamic>,
-        )
+        ),
     ];
   }
 

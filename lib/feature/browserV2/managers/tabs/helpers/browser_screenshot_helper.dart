@@ -47,7 +47,6 @@ class BrowserManagerScreenshotHelper {
     required String tabId,
     required Future<Uint8List?> Function() takePictureCallback,
   }) async {
-
     try {
       final imageDirectoryPath = _getTabDirectoryPath(tabId);
 

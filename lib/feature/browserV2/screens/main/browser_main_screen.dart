@@ -84,7 +84,8 @@ class BrowserMainScreen extends ElementaryWidget<BrowserMainScreenWidgetModel> {
               ),
             ),
           ),
-          /// TODO(knightforce): optimize render
+
+          // TODO(knightforce): optimize render
           _ItemPosition(
             child: BrowserProgressIndicator(
               animation: wm.progressController,

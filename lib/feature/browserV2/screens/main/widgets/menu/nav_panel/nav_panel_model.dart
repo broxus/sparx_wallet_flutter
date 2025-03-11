@@ -19,6 +19,7 @@ class BrowserTabViewMenuNavPanelModel extends ElementaryModel {
   void back() {
     _browserService.tM.backWeb();
   }
+
   void forward() {
     _browserService.tM.forwardWeb();
   }

@@ -11,7 +11,7 @@ class TabListHeaderModel extends ElementaryModel {
     this._browserService,
   ) : super(errorHandler: errorHandler);
 
-  /// TODO(knightforce): temp. Refacrtor in groub task
+  // TODO(knightforce): temp. Refacrtor in groub task
   ListenableState<BrowserTabsCollection> get tabsState =>
       _browserService.tabs.tabsState;
 

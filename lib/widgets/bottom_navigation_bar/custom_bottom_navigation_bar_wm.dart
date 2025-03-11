@@ -76,8 +76,6 @@ class CustomBottomNavigationBarWidgetModel extends CustomWidgetModel<
     });
   }
 
-
-
   void _onNavigationVisible(VisibleNavigationEvent event) {
     _isForceHide = event is HideNavigationEvent;
     _updateVisible();

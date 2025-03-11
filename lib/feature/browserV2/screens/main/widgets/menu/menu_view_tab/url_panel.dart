@@ -36,7 +36,6 @@ class BrowserTabViewMenuUrlPanel extends StatefulWidget {
 
 class _BrowserTabViewMenuUrlPanelState
     extends State<BrowserTabViewMenuUrlPanel> {
-
   late final _physics = _SnapPageScrollPhysics(
     elementWidth: widget.urlWidth,
   );

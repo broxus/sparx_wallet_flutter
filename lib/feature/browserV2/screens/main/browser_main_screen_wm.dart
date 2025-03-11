@@ -184,11 +184,11 @@ class BrowserMainScreenWidgetModel
   }
 
   void onPressedUrlMenu(String tabId) {
-    // TODO
+    // TODO(knightforce): create logic
   }
 
   void onPressedRefresh(String tabId) {
-    // TODO
+    // TODO(knightforce): create logic
   }
 
   void onPressedMenuUrl() {

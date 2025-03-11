@@ -72,8 +72,9 @@ class _UrlFieldState extends State<UrlField> {
         ),
         child: DecoratedBox(
           decoration: BoxDecoration(
-              color: context.themeStyleV2.colors.backgroundInput,
-              borderRadius: BorderRadius.circular(DimensRadiusV2.radius12)),
+            color: context.themeStyleV2.colors.backgroundInput,
+            borderRadius: BorderRadius.circular(DimensRadiusV2.radius12),
+          ),
           child: Stack(
             children: [
               StateNotifierBuilder<bool>(

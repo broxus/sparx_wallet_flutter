@@ -7,7 +7,6 @@ import 'package:app/feature/browserV2/screens/main/widgets/tab_list/header/tab_l
 import 'package:elementary/elementary.dart';
 import 'package:elementary_helper/elementary_helper.dart';
 import 'package:flutter/widgets.dart';
-import 'package:ui_components_lib/v2/ui_components_lib_v2.dart';
 
 /// Factory method for creating [TabListHeaderWidgetModel]
 TabListHeaderWidgetModel defaultTabListHeaderWidgetModelFactory(
@@ -28,6 +27,14 @@ class TabListHeaderWidgetModel
     super.model,
   );
 
-  /// TODO(knightforce): temp. Refacrtor in groub task
+  // TODO(knightforce): temp. Refacrtor in group task
   ListenableState<BrowserTabsCollection> get tabsState => model.tabsState;
+
+  void onPressedBookmarks() {
+    // TODO(knightforce): create logic
+  }
+
+  void onPressedCreateNewGroup() {
+    // TODO(knightforce): create logic
+  }
 }

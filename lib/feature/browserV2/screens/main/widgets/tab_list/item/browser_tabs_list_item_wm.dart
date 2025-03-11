@@ -85,7 +85,7 @@ class BrowserTabsListItemWidgetModel
   }
 
   void onPressedMenu() {
-    // TODO
+    // TODO(knightforce): create logci
   }
 
   void _handleActiveTab() {
