@@ -1,8 +1,8 @@
 import 'package:app/feature/browserV2/screens/main/browser_main_screen_wm.dart';
 import 'package:app/feature/browserV2/screens/main/widgets/browser_progress_indicator.dart';
-import 'package:app/feature/browserV2/screens/main/widgets/menu/menu_tab_list.dart';
-import 'package:app/feature/browserV2/screens/main/widgets/menu/menu_view_tab/menu_url.dart';
-import 'package:app/feature/browserV2/screens/main/widgets/menu/menu_view_tab/menu_view_tab.dart';
+import 'package:app/feature/browserV2/screens/main/widgets/control_panel/menu_tab_list.dart';
+import 'package:app/feature/browserV2/screens/main/widgets/control_panel/menu_view_tab/menu_url.dart';
+import 'package:app/feature/browserV2/screens/main/widgets/control_panel/menu_view_tab/menu_view_tab.dart';
 import 'package:app/feature/browserV2/screens/main/widgets/pages_view/pages_view.dart';
 import 'package:app/feature/browserV2/screens/main/widgets/tab_list/tab_list.dart';
 import 'package:elementary/elementary.dart';

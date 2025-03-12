@@ -1,9 +1,9 @@
 import 'package:app/feature/browserV2/data/tabs_data.dart';
 import 'package:app/feature/browserV2/models/tab/browser_tab.dart';
 import 'package:app/feature/browserV2/screens/main/data/menu_data.dart';
-import 'package:app/feature/browserV2/screens/main/widgets/menu/menu_tab_list.dart';
-import 'package:app/feature/browserV2/screens/main/widgets/menu/menu_url.dart';
-import 'package:app/feature/browserV2/screens/main/widgets/menu/menu_view_tab/menu_view_tab.dart';
+import 'package:app/feature/browserV2/screens/main/widgets/control_panel/menu_tab_list.dart';
+import 'package:app/feature/browserV2/screens/main/widgets/control_panel/menu_url.dart';
+import 'package:app/feature/browserV2/screens/main/widgets/control_panel/menu_view_tab/menu_view_tab.dart';
 import 'package:app/utils/types/fuction_types.dart';
 import 'package:elementary_helper/elementary_helper.dart';
 import 'package:flutter/material.dart';

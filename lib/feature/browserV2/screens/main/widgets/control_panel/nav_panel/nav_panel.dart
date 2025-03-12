@@ -1,4 +1,4 @@
-import 'package:app/feature/browserV2/screens/main/widgets/menu/nav_panel/nav_panel_wm.dart';
+import 'package:app/feature/browserV2/screens/main/widgets/control_panel/nav_panel/nav_panel_wm.dart';
 import 'package:app/generated/generated.dart';
 import 'package:elementary/elementary.dart';
 import 'package:elementary_helper/elementary_helper.dart';

@@ -1,5 +1,5 @@
 import 'package:app/feature/browserV2/screens/main/data/menu_data.dart';
-import 'package:app/feature/browserV2/screens/main/widgets/menu/menu_view_tab/menu_view_tab.dart';
+import 'package:app/feature/browserV2/screens/main/widgets/control_panel/menu_view_tab/menu_view_tab.dart';
 import 'package:flutter/material.dart';
 
 abstract interface class MenuAnimationHelper {

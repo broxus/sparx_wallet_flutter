@@ -1,5 +1,5 @@
 import 'package:app/feature/browserV2/screens/main/data/control_panels_data.dart';
-import 'package:app/feature/browserV2/screens/main/widgets/menu/nav_panel/nav_panel.dart';
+import 'package:app/feature/browserV2/screens/main/widgets/control_panel/nav_panel/nav_panel.dart';
 import 'package:app/feature/browserV2/service/browser_service.dart';
 import 'package:elementary/elementary.dart';
 import 'package:elementary_helper/elementary_helper.dart';

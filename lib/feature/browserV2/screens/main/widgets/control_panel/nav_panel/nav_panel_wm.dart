@@ -1,8 +1,8 @@
 import 'package:app/core/error_handler_factory.dart';
 import 'package:app/core/wm/custom_wm.dart';
 import 'package:app/di/di.dart';
-import 'package:app/feature/browserV2/screens/main/widgets/menu/nav_panel/nav_panel.dart';
-import 'package:app/feature/browserV2/screens/main/widgets/menu/nav_panel/nav_panel_model.dart';
+import 'package:app/feature/browserV2/screens/main/widgets/control_panel/nav_panel/nav_panel.dart';
+import 'package:app/feature/browserV2/screens/main/widgets/control_panel/nav_panel/nav_panel_model.dart';
 import 'package:elementary/elementary.dart';
 import 'package:elementary_helper/elementary_helper.dart';
 import 'package:flutter/widgets.dart';

@@ -1,5 +1,5 @@
-import 'package:app/feature/browserV2/screens/main/widgets/menu/menu_view_tab/url_panel.dart';
-import 'package:app/feature/browserV2/screens/main/widgets/menu/nav_panel/nav_panel.dart';
+import 'package:app/feature/browserV2/screens/main/widgets/control_panel/menu_view_tab/url_panel.dart';
+import 'package:app/feature/browserV2/screens/main/widgets/control_panel/nav_panel/nav_panel.dart';
 import 'package:app/generated/generated.dart';
 import 'package:flutter/material.dart';
 import 'package:lucide_icons_flutter/lucide_icons.dart';
