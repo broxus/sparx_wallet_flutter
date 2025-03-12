@@ -1,5 +1,3 @@
-import 'dart:math';
-
 import 'package:app/feature/browserV2/screens/main/widgets/control_panel/tabs_list_control_panel.dart';
 import 'package:app/widgets/bottom_navigation_bar/custom_bottom_navigation_bar.dart';
 import 'package:flutter/material.dart';
@@ -12,10 +10,8 @@ class BrowserTabMenu extends StatefulWidget {
 
   static OverlayEntry? _entry;
 
-  static void show(
-    BuildContext context,
-    RenderData data,
-  ) {
+  static void show(BuildContext context,
+      RenderData data,) {
     hide();
     _entry = OverlayEntry(
       builder: (_) {
@@ -23,7 +19,17 @@ class BrowserTabMenu extends StatefulWidget {
           child: GestureDetector(
             behavior: HitTestBehavior.opaque,
             onTap: hide,
-            child: BrowserTabMenu._(data),
+            child: CustomPaint(
+              painter: _HolePainter(
+                holeRect: Rect.fromLTRB(
+                  data.xLeft,
+                  data.yTop,
+                  data.xRight,
+                  data.yBottom,
+                ),
+              ),
+              child: BrowserTabMenu._(data),
+            ),
           ),
         );
       },
@@ -47,7 +53,9 @@ class _BrowserTabMenuState extends State<BrowserTabMenu> {
   final _height = 176.0;
   final _margin = 8;
 
-  late final _screenSize = MediaQuery.of(context).size;
+  late final _screenSize = MediaQuery
+      .of(context)
+      .size;
 
   late final _xMax = _screenSize.width;
   late final _yMax = _screenSize.height -
@@ -93,5 +101,37 @@ class _BrowserTabMenuState extends State<BrowserTabMenu> {
         ),
       ],
     );
+  }
+}
+
+class _HolePainter extends CustomPainter {
+  _HolePainter({required this.holeRect});
+
+  final Rect holeRect;
+
+  @override
+  void paint(Canvas canvas, Size size) {
+    final path = Path()
+      ..addRect(
+        Rect.fromLTWH(0, 0, size.width, size.height),
+      )
+      ..addRRect(
+        RRect.fromRectAndRadius(
+          holeRect,
+          const Radius.circular(16),
+        ),
+      )
+      ..fillType = PathFillType.evenOdd;
+
+    canvas.drawPath(
+      path,
+      Paint()
+        ..color = Colors.black54,
+    );
+  }
+
+  @override
+  bool shouldRepaint(covariant _HolePainter oldDelegate) {
+    return false;
   }
 }

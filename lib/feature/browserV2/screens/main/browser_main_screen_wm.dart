@@ -18,7 +18,6 @@ import 'package:flutter/widgets.dart';
 import 'package:flutter_inappwebview/flutter_inappwebview.dart';
 import 'package:render_metrics/render_metrics.dart';
 import 'package:ui_components_lib/v2/ui_components_lib_v2.dart';
-import 'package:ui_components_lib/v2/widgets/popup_menu/popup_menu.dart';
 
 /// Factory method for creating [BrowserMainScreenWidgetModel]
 BrowserMainScreenWidgetModel defaultBrowserMainScreenWidgetModelFactory(
