@@ -1,6 +1,6 @@
 import 'package:app/feature/browserV2/screens/main/data/menu_data.dart';
-import 'package:app/feature/browserV2/screens/main/widgets/control_panel/menu_tab_list.dart';
 import 'package:app/feature/browserV2/screens/main/widgets/control_panel/page_control_panel/page_control_panel.dart';
+import 'package:app/feature/browserV2/screens/main/widgets/control_panel/tabs_list_control_panel.dart';
 import 'package:app/feature/browserV2/screens/main/widgets/url_text_panel.dart';
 import 'package:elementary_helper/elementary_helper.dart';
 import 'package:flutter/material.dart';
@@ -39,7 +39,7 @@ class _BrowserProgressIndicatorState extends State<BrowserProgressIndicator> {
           offset: Offset(
             0,
             switch (type) {
-              MenuType.list => -BrowserTabListMenu.height,
+              MenuType.list => -BrowserTabsListControlPanel.height,
               MenuType.view => -BrowserPageControlPanel.minHeight,
               MenuType.url => -UrlTextPanel.height,
               _ => 300,
