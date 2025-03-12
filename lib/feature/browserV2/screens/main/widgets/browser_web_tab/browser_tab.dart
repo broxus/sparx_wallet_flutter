@@ -2,15 +2,15 @@ import 'dart:collection';
 
 import 'package:app/feature/browserV2/models/tab/browser_tab.dart';
 import 'package:app/feature/browserV2/screens/main/widgets/browser_start_view.dart';
-import 'package:app/feature/browserV2/screens/main/widgets/browser_web_tab/browser_web_tab_wm.dart';
+import 'package:app/feature/browserV2/screens/main/widgets/browser_web_tab/browser_tab_wm.dart';
 import 'package:elementary/elementary.dart';
 import 'package:elementary_helper/elementary_helper.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_inappwebview/flutter_inappwebview.dart';
 import 'package:ui_components_lib/v2/ui_components_lib_v2.dart';
 
-class BrowserWebTab extends ElementaryWidget<BrowserWebTabWidgetModel> {
-  BrowserWebTab({
+class BrowserPage extends ElementaryWidget<BrowserPageWidgetModel> {
+  BrowserPage({
     required this.tab,
     required this.width,
     required this.onCreate,
@@ -18,10 +18,10 @@ class BrowserWebTab extends ElementaryWidget<BrowserWebTabWidgetModel> {
     required this.onDispose,
     required this.progressController,
     Key? key,
-    WidgetModelFactory<BrowserWebTabWidgetModel>? wmFactory,
+    WidgetModelFactory<BrowserPageWidgetModel>? wmFactory,
   }) : super(
           wmFactory ??
-              (ctx) => defaultBrowserWebTabWidgetModelFactory(
+              (ctx) => defaultBrowserPageWidgetModelFactory(
                     ctx,
                     tabId: tab.id,
                   ),
@@ -36,7 +36,7 @@ class BrowserWebTab extends ElementaryWidget<BrowserWebTabWidgetModel> {
   final AnimationController progressController;
 
   @override
-  Widget build(BrowserWebTabWidgetModel wm) {
+  Widget build(BrowserPageWidgetModel wm) {
     return _Container(
       width: width,
       child: Stack(

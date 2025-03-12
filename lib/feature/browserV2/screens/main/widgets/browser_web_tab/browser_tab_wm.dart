@@ -5,8 +5,8 @@ import 'package:app/core/wm/custom_wm.dart';
 import 'package:app/di/di.dart';
 import 'package:app/feature/browser/bottom_sheets/browser_enter_basic_auth_creds_sheet.dart';
 import 'package:app/feature/browserV2/models/browser_basic_auth_creds.dart';
-import 'package:app/feature/browserV2/screens/main/widgets/browser_web_tab/browser_web_tab.dart';
-import 'package:app/feature/browserV2/screens/main/widgets/browser_web_tab/browser_web_tab_model.dart';
+import 'package:app/feature/browserV2/screens/main/widgets/browser_web_tab/browser_tab.dart';
+import 'package:app/feature/browserV2/screens/main/widgets/browser_web_tab/browser_tab_model.dart';
 import 'package:elementary/elementary.dart';
 import 'package:elementary_helper/elementary_helper.dart';
 import 'package:flutter/foundation.dart';
@@ -16,13 +16,13 @@ import 'package:logging/logging.dart';
 import 'package:ui_components_lib/ui_components_lib.dart';
 import 'package:url_launcher/url_launcher.dart';
 
-/// Factory method for creating [BrowserWebTabWidgetModel]
-BrowserWebTabWidgetModel defaultBrowserWebTabWidgetModelFactory(
+/// Factory method for creating [BrowserPageWidgetModel]
+BrowserPageWidgetModel defaultBrowserPageWidgetModelFactory(
   BuildContext context, {
   required String tabId,
 }) {
-  return BrowserWebTabWidgetModel(
-    BrowserWebTabModel(
+  return BrowserPageWidgetModel(
+    BrowserPageModel(
       createPrimaryErrorHandler(context),
       tabId,
       inject(),
@@ -38,11 +38,11 @@ BrowserWebTabWidgetModel defaultBrowserWebTabWidgetModelFactory(
   );
 }
 
-/// [WidgetModel] для [BrowserWebTab]
-class BrowserWebTabWidgetModel
-    extends CustomWidgetModel<BrowserWebTab, BrowserWebTabModel>
+/// [WidgetModel] для [BrowserPage]
+class BrowserPageWidgetModel
+    extends CustomWidgetModel<BrowserPage, BrowserPageModel>
     with AutomaticKeepAliveWidgetModelMixin {
-  BrowserWebTabWidgetModel(
+  BrowserPageWidgetModel(
     super.model,
   );
 
@@ -104,7 +104,7 @@ class BrowserWebTabWidgetModel
   }
 
   @override
-  void didUpdateWidget(BrowserWebTab oldWidget) {
+  void didUpdateWidget(BrowserPage oldWidget) {
     if (oldWidget.tab.url != widget.tab.url) {
       _isShowStartViewState.accept(widget.tab.url.host.isEmpty);
     }
