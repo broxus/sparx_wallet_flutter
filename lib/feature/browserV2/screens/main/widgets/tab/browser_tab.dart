@@ -2,7 +2,7 @@ import 'dart:collection';
 
 import 'package:app/feature/browserV2/models/tab/browser_tab.dart';
 import 'package:app/feature/browserV2/screens/main/widgets/browser_start_view.dart';
-import 'package:app/feature/browserV2/screens/main/widgets/browser_web_tab/browser_tab_wm.dart';
+import 'package:app/feature/browserV2/screens/main/widgets/tab/browser_tab_wm.dart';
 import 'package:elementary/elementary.dart';
 import 'package:elementary_helper/elementary_helper.dart';
 import 'package:flutter/material.dart';
