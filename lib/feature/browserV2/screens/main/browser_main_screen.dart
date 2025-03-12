@@ -3,8 +3,8 @@ import 'package:app/feature/browserV2/screens/main/widgets/browser_progress_indi
 import 'package:app/feature/browserV2/screens/main/widgets/menu/menu_tab_list.dart';
 import 'package:app/feature/browserV2/screens/main/widgets/menu/menu_view_tab/menu_url.dart';
 import 'package:app/feature/browserV2/screens/main/widgets/menu/menu_view_tab/menu_view_tab.dart';
+import 'package:app/feature/browserV2/screens/main/widgets/pages_view/pages_view.dart';
 import 'package:app/feature/browserV2/screens/main/widgets/tab_list/tab_list.dart';
-import 'package:app/feature/browserV2/screens/main/widgets/tabs_view/tabs_view.dart';
 import 'package:elementary/elementary.dart';
 import 'package:flutter/material.dart';
 
@@ -29,7 +29,7 @@ class BrowserMainScreen extends ElementaryWidget<BrowserMainScreenWidgetModel> {
           Listener(
             onPointerDown: wm.onPointerDown,
             onPointerUp: wm.onPointerUp,
-            child: BrowserTabsView(
+            child: BrowserPagesView(
               width: wm.screenWidth,
               viewVisibleState: wm.viewVisibleState,
               tabsState: wm.tabsState,

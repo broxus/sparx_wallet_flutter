@@ -8,8 +8,8 @@ import 'package:app/app/service/storage_service/connections_storage_service.dart
 import 'package:app/feature/browser/inpage_provider/inpage_provider.dart';
 import 'package:app/feature/browserV2/models/browser_basic_auth_creds.dart';
 import 'package:app/feature/browserV2/models/tab/browser_tab.dart';
-import 'package:app/feature/browserV2/screens/main/widgets/tab/browser_tab.dart';
-import 'package:app/feature/browserV2/screens/main/widgets/tab/helpers/events_helper.dart';
+import 'package:app/feature/browserV2/screens/main/widgets/page/browser_page.dart';
+import 'package:app/feature/browserV2/screens/main/widgets/page/helpers/events_helper.dart';
 import 'package:app/feature/browserV2/service/browser_service.dart';
 import 'package:elementary/elementary.dart';
 import 'package:elementary_helper/elementary_helper.dart';

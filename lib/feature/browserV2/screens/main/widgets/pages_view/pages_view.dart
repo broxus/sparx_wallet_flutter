@@ -1,11 +1,11 @@
 import 'package:app/feature/browserV2/data/tabs_data.dart';
-import 'package:app/feature/browserV2/screens/main/widgets/tab/browser_tab.dart';
+import 'package:app/feature/browserV2/screens/main/widgets/page/browser_page.dart';
 import 'package:elementary_helper/elementary_helper.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_inappwebview/flutter_inappwebview.dart';
 
-class BrowserTabsView extends StatelessWidget {
-  const BrowserTabsView({
+class BrowserPagesView extends StatelessWidget {
+  const BrowserPagesView({
     required this.width,
     required this.viewVisibleState,
     required this.scrollController,
