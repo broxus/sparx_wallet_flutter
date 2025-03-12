@@ -1,5 +1,5 @@
-class BrowserControlPanelData {
-  BrowserControlPanelData({
+class BrowserMainControlPanelData {
+  BrowserMainControlPanelData({
     bool? isCanGoBack,
     bool? isCanGoForward,
   })  : isCanGoBack = isCanGoBack ?? false,

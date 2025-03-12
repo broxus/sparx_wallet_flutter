@@ -1,29 +1,29 @@
 import 'package:app/core/error_handler_factory.dart';
 import 'package:app/core/wm/custom_wm.dart';
 import 'package:app/di/di.dart';
-import 'package:app/feature/browserV2/screens/main/widgets/control_panel/nav_panel/nav_panel.dart';
-import 'package:app/feature/browserV2/screens/main/widgets/control_panel/nav_panel/nav_panel_model.dart';
+import 'package:app/feature/browserV2/screens/main/widgets/control_panel/main_control_panel/main_control_panel.dart';
+import 'package:app/feature/browserV2/screens/main/widgets/control_panel/main_control_panel/main_control_panel_model.dart';
 import 'package:elementary/elementary.dart';
 import 'package:elementary_helper/elementary_helper.dart';
 import 'package:flutter/widgets.dart';
 
-/// Factory method for creating [BrowserTabViewMenuNavPanelWidgetModel]
-BrowserTabViewMenuNavPanelWidgetModel
-    defaultBrowserTabViewMenuNavPanelWidgetModelFactory(
+/// Factory method for creating [BrowserMainControlPanelWidgetModel]
+BrowserMainControlPanelWidgetModel
+    defaultBrowserMainControlPanelWidgetModelFactory(
   BuildContext context,
 ) {
-  return BrowserTabViewMenuNavPanelWidgetModel(
-    BrowserTabViewMenuNavPanelModel(
+  return BrowserMainControlPanelWidgetModel(
+    BrowserMainControlPanelModel(
       createPrimaryErrorHandler(context),
       inject(),
     ),
   );
 }
 
-/// [WidgetModel] для [BrowserTabViewMenuNavPanel]
-class BrowserTabViewMenuNavPanelWidgetModel extends CustomWidgetModel<
-    BrowserTabViewMenuNavPanel, BrowserTabViewMenuNavPanelModel> {
-  BrowserTabViewMenuNavPanelWidgetModel(
+/// [WidgetModel] для [BrowserMainControlPanel]
+class BrowserMainControlPanelWidgetModel extends CustomWidgetModel<
+    BrowserMainControlPanel, BrowserMainControlPanelModel> {
+  BrowserMainControlPanelWidgetModel(
     super.model,
   );
 

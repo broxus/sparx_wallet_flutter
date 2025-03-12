@@ -31,8 +31,8 @@ class BrowserTabsManager {
   final _tabsState =
       StateNotifier<BrowserTabsCollection>(initValue: BrowserTabsCollection());
 
-  late final _controlPanelState = StateNotifier<BrowserControlPanelData>(
-    initValue: BrowserControlPanelData(),
+  late final _controlPanelState = StateNotifier<BrowserMainControlPanelData>(
+    initValue: BrowserMainControlPanelData(),
   );
 
   final _activeTabState = StateNotifier<BrowserTab?>();
@@ -46,7 +46,7 @@ class BrowserTabsManager {
   ListenableState<ImageCache?> get screenshotsState =>
       _screenshotHelper.screenshotsState;
 
-  ListenableState<BrowserControlPanelData> get controlPanelState =>
+  ListenableState<BrowserMainControlPanelData> get controlPanelState =>
       _controlPanelState;
 
   /// Get last cached browser tabs
@@ -271,7 +271,7 @@ class BrowserTabsManager {
     final controller = _currentController;
 
     _controlPanelState.accept(
-      BrowserControlPanelData(
+      BrowserMainControlPanelData(
         isCanGoBack: await controller?.canGoBack(),
         isCanGoForward: await controller?.canGoForward(),
       ),

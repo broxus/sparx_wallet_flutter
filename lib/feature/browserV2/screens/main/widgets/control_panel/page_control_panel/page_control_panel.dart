@@ -1,14 +1,14 @@
 import 'package:app/feature/browserV2/data/tabs_data.dart';
 import 'package:app/feature/browserV2/screens/main/widgets/control_panel/background_blur.dart';
-import 'package:app/feature/browserV2/screens/main/widgets/control_panel/menu_view_tab/url_panel.dart';
-import 'package:app/feature/browserV2/screens/main/widgets/control_panel/nav_panel/nav_panel.dart';
+import 'package:app/feature/browserV2/screens/main/widgets/control_panel/main_control_panel/main_control_panel.dart';
+import 'package:app/feature/browserV2/screens/main/widgets/control_panel/page_control_panel/url_panel.dart';
 import 'package:app/utils/types/fuction_types.dart';
 import 'package:elementary_helper/elementary_helper.dart';
 import 'package:flutter/material.dart';
 import 'package:ui_components_lib/v2/ui_components_lib_v2.dart';
 
-class BrowserTabViewMenu extends StatelessWidget {
-  const BrowserTabViewMenu({
+class BrowserPageControlPanel extends StatelessWidget {
+  const BrowserPageControlPanel({
     required this.menuUrlPanelWidth,
     required this.urlWidth,
     required this.onPressedTabs,
@@ -30,7 +30,7 @@ class BrowserTabViewMenu extends StatelessWidget {
   final ListenableState<BrowserTabsCollection> tabsState;
 
   static const minHeight = BrowserTabViewMenuUrlPanel.height +
-      BrowserTabViewMenuNavPanel.height +
+      BrowserMainControlPanel.height +
       DimensSizeV2.d8;
 
   @override
@@ -51,7 +51,7 @@ class BrowserTabViewMenu extends StatelessWidget {
               onEditingCompleteUrl: onEditingCompleteUrl,
             ),
             const _Space(),
-            BrowserTabViewMenuNavPanel(
+            BrowserMainControlPanel(
               onPressedTabs: onPressedTabs,
             ),
           ],
@@ -65,7 +65,7 @@ class _Space extends StatelessWidget {
   const _Space();
 
   static const _menuHeight = BrowserTabViewMenuUrlPanel.height +
-      BrowserTabViewMenuNavPanel.height -
+      BrowserMainControlPanel.height -
       DimensSizeV2.d8;
 
   @override

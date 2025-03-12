@@ -1,5 +1,5 @@
 import 'package:app/feature/browserV2/screens/main/data/menu_data.dart';
-import 'package:app/feature/browserV2/screens/main/widgets/control_panel/menu_view_tab/menu_view_tab.dart';
+import 'package:app/feature/browserV2/screens/main/widgets/control_panel/page_control_panel/page_control_panel.dart';
 import 'package:flutter/material.dart';
 
 abstract interface class MenuAnimationHelper {
@@ -54,7 +54,7 @@ class MenuAnimationHelperImpl implements MenuAnimationHelper {
 
   late final _offsetTween = Tween<Offset>(
     begin: Offset.zero,
-    end: const Offset(0, BrowserTabViewMenu.minHeight),
+    end: const Offset(0, BrowserPageControlPanel.minHeight),
   );
 
   late final _opacityTween = Tween<double>(

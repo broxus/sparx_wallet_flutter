@@ -1,5 +1,5 @@
-import 'package:app/feature/browserV2/screens/main/widgets/control_panel/menu_view_tab/url_panel.dart';
-import 'package:app/feature/browserV2/screens/main/widgets/control_panel/nav_panel/nav_panel.dart';
+import 'package:app/feature/browserV2/screens/main/widgets/control_panel/main_control_panel/main_control_panel.dart';
+import 'package:app/feature/browserV2/screens/main/widgets/control_panel/page_control_panel/url_panel.dart';
 import 'package:app/generated/generated.dart';
 import 'package:flutter/material.dart';
 import 'package:lucide_icons_flutter/lucide_icons.dart';
@@ -9,7 +9,7 @@ class BrowserStartView extends StatelessWidget {
   const BrowserStartView({super.key});
 
   static const _bottom = BrowserTabViewMenuUrlPanel.height +
-      BrowserTabViewMenuNavPanel.height +
+      BrowserMainControlPanel.height +
       DimensSizeV2.d12;
 
   @override

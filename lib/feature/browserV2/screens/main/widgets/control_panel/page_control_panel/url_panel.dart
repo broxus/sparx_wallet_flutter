@@ -1,7 +1,7 @@
 import 'dart:math';
 
 import 'package:app/feature/browserV2/data/tabs_data.dart';
-import 'package:app/feature/browserV2/screens/main/widgets/control_panel/menu_view_tab/url_field.dart';
+import 'package:app/feature/browserV2/screens/main/widgets/control_panel/page_control_panel/url_field.dart';
 import 'package:app/utils/types/fuction_types.dart';
 import 'package:elementary_helper/elementary_helper.dart';
 import 'package:flutter/material.dart';
