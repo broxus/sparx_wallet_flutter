@@ -7,12 +7,15 @@ import 'package:elementary/elementary.dart';
 import 'package:elementary_helper/elementary_helper.dart';
 import 'package:flutter/material.dart';
 import 'package:lucide_icons_flutter/lucide_icons.dart';
+import 'package:render_metrics/render_metrics.dart';
 import 'package:ui_components_lib/ui_components_lib.dart';
 
 class BrowserTabsListItem
     extends ElementaryWidget<BrowserTabsListItemWidgetModel> {
   const BrowserTabsListItem({
     required this.tab,
+    required this.renderManager,
+    required this.onPressedTabMenu,
     this.onPressed,
     this.onClosePressed,
     super.key,
@@ -21,67 +24,73 @@ class BrowserTabsListItem
   }) : super(wmFactory);
 
   final BrowserTab tab;
+  final RenderManager<String> renderManager;
+  final VoidCallback onPressedTabMenu;
   final VoidCallback? onPressed;
   final VoidCallback? onClosePressed;
 
   @override
   Widget build(BrowserTabsListItemWidgetModel wm) {
-    return Stack(
-      children: [
-        StateNotifierBuilder<bool?>(
-          listenableState: wm.activeState,
-          builder: (_, bool? isActive) {
-            isActive ??= false;
+    return RenderMetricsObject(
+      id: tab.id,
+      manager: renderManager,
+      child: Stack(
+        children: [
+          StateNotifierBuilder<bool?>(
+            listenableState: wm.activeState,
+            builder: (_, bool? isActive) {
+              isActive ??= false;
 
-            return Material(
-              shape: SquircleShapeBorder(
-                borderWidth: isActive ? DimensSizeV2.d4 : DimensSizeV2.d2,
-                cornerRadius: DimensRadiusV2.radius16,
-                borderColor: isActive
-                    ? ColorsResV2.p75
-                    : wm.colors.primaryA.withAlpha(25),
-              ),
-              clipBehavior: Clip.antiAlias,
-              color: wm.colors.background1,
-              child: InkWell(
-                onTap: onPressed,
-                child: Stack(
-                  children: [
-                    OverflowBox(
-                      alignment: Alignment.topCenter,
-                      maxHeight: 1000,
-                      child: StateNotifierBuilder<File?>(
-                        listenableState: wm.screenShotState,
-                        builder: (_, File? file) {
-                          return file == null
-                              ? const _EmptyContent()
-                              : Image.file(
-                                  file,
-                                  fit: BoxFit.scaleDown,
-                                  errorBuilder: (_, __, ___) =>
-                                      const SizedBox(),
-                                );
-                        },
-                      ),
-                    ),
-                    _Header(
-                      titleState: wm.titleState,
-                      onPressedClose: onClosePressed,
-                    ),
-                  ],
+              return Material(
+                shape: SquircleShapeBorder(
+                  borderWidth: isActive ? DimensSizeV2.d4 : DimensSizeV2.d2,
+                  cornerRadius: DimensRadiusV2.radius16,
+                  borderColor: isActive
+                      ? ColorsResV2.p75
+                      : wm.colors.primaryA.withAlpha(25),
                 ),
-              ),
-            );
-          },
-        ),
-        Positioned(
-          bottom: 0,
-          right: 0,
-          child: _Menu(
-            onPressed: wm.onPressedMenu,
+                clipBehavior: Clip.antiAlias,
+                color: wm.colors.background1,
+                child: InkWell(
+                  onTap: onPressed,
+                  child: Stack(
+                    children: [
+                      OverflowBox(
+                        alignment: Alignment.topCenter,
+                        maxHeight: 1000,
+                        child: StateNotifierBuilder<File?>(
+                          listenableState: wm.screenShotState,
+                          builder: (_, File? file) {
+                            return file == null
+                                ? const _EmptyContent()
+                                : Image.file(
+                                    file,
+                                    fit: BoxFit.scaleDown,
+                                    errorBuilder: (_, __, ___) =>
+                                        const SizedBox(),
+                                  );
+                          },
+                        ),
+                      ),
+                      _Header(
+                        titleState: wm.titleState,
+                        onPressedClose: onClosePressed,
+                      ),
+                    ],
+                  ),
+                ),
+              );
+            },
           ),
-        ),
-      ],
+          Positioned(
+            bottom: 0,
+            right: 0,
+            child: _Menu(
+              onPressed: onPressedTabMenu,
+            ),
+          ),
+        ],
+      ),
     );
   }
 }

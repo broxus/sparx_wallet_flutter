@@ -7,14 +7,18 @@ import 'package:app/feature/browserV2/data/tabs_data.dart';
 import 'package:app/feature/browserV2/models/tab/browser_tab.dart';
 import 'package:app/feature/browserV2/screens/main/browser_main_screen.dart';
 import 'package:app/feature/browserV2/screens/main/browser_main_screen_model.dart';
+import 'package:app/feature/browserV2/screens/main/data/browser_render_manager.dart';
 import 'package:app/feature/browserV2/screens/main/data/menu_data.dart';
 import 'package:app/feature/browserV2/screens/main/helpers/menu_animation_helper.dart';
+import 'package:app/feature/browserV2/screens/main/widgets/tab_menu/tab_menu.dart';
 import 'package:app/utils/focus_utils.dart';
 import 'package:elementary/elementary.dart';
 import 'package:elementary_helper/elementary_helper.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_inappwebview/flutter_inappwebview.dart';
+import 'package:render_metrics/render_metrics.dart';
 import 'package:ui_components_lib/v2/ui_components_lib_v2.dart';
+import 'package:ui_components_lib/v2/widgets/popup_menu/popup_menu.dart';
 
 /// Factory method for creating [BrowserMainScreenWidgetModel]
 BrowserMainScreenWidgetModel defaultBrowserMainScreenWidgetModelFactory(
@@ -50,6 +54,8 @@ class BrowserMainScreenWidgetModel
   late final screenHeight = _screenSize.height;
   late final screenWidth = _screenSize.width;
 
+  final _renderManager = BrowserRenderManager();
+
   late final _animation = MenuAnimationHelperImpl(this);
 
   late final _progressController = AnimationController(
@@ -75,6 +81,8 @@ class BrowserMainScreenWidgetModel
 
   Offset? _downPosition;
   int _prevYScroll = 0;
+
+  RenderManager<String> get renderManager => _renderManager;
 
   ListenableState<MenuType> get menuState => _menuState;
 
@@ -114,6 +122,7 @@ class BrowserMainScreenWidgetModel
     _menuState.removeListener(_handleMenuState);
     _progressController.dispose();
     _animation.dispose();
+    _renderManager.dispose();
     super.dispose();
   }
 
@@ -181,6 +190,16 @@ class BrowserMainScreenWidgetModel
   void onPressedTabs() {
     _viewVisibleState.accept(false);
     _menuState.accept(MenuType.list);
+  }
+
+  void onPressedTabMenu(String tabId) {
+    final data = _renderManager.getRenderData(tabId);
+
+    if (data == null) {
+      return;
+    }
+    // showPopupMenuWithOverlay();
+    BrowserTabMenu.show(context, data);
   }
 
   void onPressedUrlMenu(String tabId) {

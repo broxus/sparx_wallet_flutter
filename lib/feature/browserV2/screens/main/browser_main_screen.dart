@@ -23,6 +23,8 @@ class BrowserMainScreen extends ElementaryWidget<BrowserMainScreenWidgetModel> {
           BrowserTabsList(
             key: wm.tabListKey,
             tabsState: wm.tabsState,
+            renderManager: wm.renderManager,
+            onPressedTabMenu: wm.onPressedTabMenu,
             onChangeTab: wm.onChangeTab,
             onCloseTab: wm.onCloseTab,
           ),

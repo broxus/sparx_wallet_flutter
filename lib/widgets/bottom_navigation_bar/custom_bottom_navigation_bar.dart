@@ -16,6 +16,8 @@ class CustomBottomNavigationBar
           key: key,
         );
 
+  static const height = DimensSizeV2.d48;
+
   @override
   Widget build(CustomBottomNavigationBarWidgetModel wm) {
     return StateNotifierBuilder<bool>(
@@ -26,7 +28,7 @@ class CustomBottomNavigationBar
         return AnimatedSize(
           duration: const Duration(milliseconds: 150),
           child: SizedBox(
-            height: isVisible ? DimensSizeV2.d48 : 0,
+            height: isVisible ? height : 0,
             child: Theme(
               data: wm.themeData,
               child: SafeArea(

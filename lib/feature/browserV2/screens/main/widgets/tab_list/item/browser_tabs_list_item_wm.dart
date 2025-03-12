@@ -12,7 +12,6 @@ import 'package:flutter/widgets.dart';
 import 'package:lucide_icons_flutter/lucide_icons.dart';
 import 'package:ui_components_lib/v2/ui_components_lib_v2.dart';
 import 'package:ui_components_lib/v2/widgets/popup_menu/app_popup_menu_item.dart';
-import 'package:ui_components_lib/v2/widgets/popup_menu/popup_menu.dart';
 
 /// Factory method for creating [BrowserTabsListItemWidgetModel]
 BrowserTabsListItemWidgetModel defaultBrowserTabsListItemWidgetModelFactory(
@@ -108,10 +107,6 @@ class BrowserTabsListItemWidgetModel
     model.activeTabState.removeListener(_handleActiveTab);
     model.screenshotsState.removeListener(_handleScreenShots);
     super.dispose();
-  }
-
-  void onPressedMenu() {
-    showPopupMenuWithOverlay(context, items);
   }
 
   void _handleActiveTab() {
