@@ -1,45 +1,48 @@
+import 'dart:async';
+
 import 'package:app/feature/browserV2/screens/main/widgets/control_panel/tabs_list_control_panel.dart';
 import 'package:app/widgets/bottom_navigation_bar/custom_bottom_navigation_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:render_metrics/render_metrics.dart';
 
 class BrowserTabMenu extends StatefulWidget {
-  const BrowserTabMenu._(this._data);
+  const BrowserTabMenu._(
+    this._data, {
+    required this.onSelected,
+  });
 
   final RenderData _data;
+  final VoidCallback onSelected;
 
-  static OverlayEntry? _entry;
-
-  static void show(BuildContext context,
-      RenderData data,) {
-    hide();
-    _entry = OverlayEntry(
+  static Future<void> show(
+    BuildContext context,
+    RenderData data,
+  ) {
+    return showDialog(
+      context: context,
+      barrierColor: Colors.transparent,
+      useSafeArea: false,
       builder: (_) {
-        return Positioned.fill(
-          child: GestureDetector(
-            behavior: HitTestBehavior.opaque,
-            onTap: hide,
-            child: CustomPaint(
-              painter: _HolePainter(
-                holeRect: Rect.fromLTRB(
-                  data.xLeft,
-                  data.yTop,
-                  data.xRight,
-                  data.yBottom,
-                ),
+        return GestureDetector(
+          onTap: () => Navigator.of(context, rootNavigator: true).pop(),
+          child: CustomPaint(
+            painter: _HolePainter(
+              holeRect: Rect.fromLTRB(
+                data.xLeft,
+                data.yTop,
+                data.xRight,
+                data.yBottom,
               ),
-              child: BrowserTabMenu._(data),
+            ),
+            child: BrowserTabMenu._(
+              data,
+              onSelected: () =>
+                  Navigator.of(context, rootNavigator: true).pop(),
             ),
           ),
         );
       },
     );
-    Overlay.of(context).insert(_entry!);
-  }
-
-  static void hide() {
-    _entry?.remove();
-    _entry = null;
   }
 
   @override
@@ -53,9 +56,7 @@ class _BrowserTabMenuState extends State<BrowserTabMenu> {
   final _height = 176.0;
   final _margin = 8;
 
-  late final _screenSize = MediaQuery
-      .of(context)
-      .size;
+  late final _screenSize = MediaQuery.of(context).size;
 
   late final _xMax = _screenSize.width;
   late final _yMax = _screenSize.height -
@@ -125,8 +126,7 @@ class _HolePainter extends CustomPainter {
 
     canvas.drawPath(
       path,
-      Paint()
-        ..color = Colors.black54,
+      Paint()..color = Colors.black54,
     );
   }
 

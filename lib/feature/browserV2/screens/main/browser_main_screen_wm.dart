@@ -34,7 +34,9 @@ BrowserMainScreenWidgetModel defaultBrowserMainScreenWidgetModelFactory(
 /// [WidgetModel] для [BrowserMainScreen]
 class BrowserMainScreenWidgetModel
     extends CustomWidgetModel<BrowserMainScreen, BrowserMainScreenModel>
-    with TickerProviderWidgetModelMixin {
+    with
+        // SystemButtonWmMixin,
+        TickerProviderWidgetModelMixin {
   BrowserMainScreenWidgetModel(
     super.model,
   );
@@ -197,7 +199,7 @@ class BrowserMainScreenWidgetModel
     if (data == null) {
       return;
     }
-    // showPopupMenuWithOverlay();
+
     BrowserTabMenu.show(context, data);
   }
 
@@ -221,6 +223,19 @@ class BrowserMainScreenWidgetModel
   void refresh() {
     // _currentController?.reload();
   }
+
+  // @override
+  // @protected
+  // bool _onSystemBackPressed(
+  //   // ignore: avoid_positional_boolean_parameters
+  //   bool stopDefaultButtonEvent,
+  //   RouteInfo routeInfo,
+  // ) {
+  //   // print('!!! ${BrowserTabMenu.hide()}');
+  //   print('!!!');
+  //   return true;
+  //   // return BrowserTabMenu.hide();
+  // }
 
   void _handleTabsCollection() {
     final count = _tabsCollection?.count ?? 0;
