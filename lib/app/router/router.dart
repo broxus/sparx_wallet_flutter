@@ -252,7 +252,7 @@ class AppRouter {
     }
 
     if (_currentPath == AppRoute.splash.path) {
-      return _isExistSavedLocation ? _savedLocation : currentRoute.path;
+      return _isExistSavedLocation ? _savedLocation : '/';
     }
 
     // No need to redirect

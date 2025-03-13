@@ -361,7 +361,6 @@ String getRootPath({required String fullPath}) {
     final segments = AppRoute.pathSegments(fullPath: fullPath);
     if (segments.isEmpty) {
       AppRoute._log.severe('getRootPath: no root location found');
-
       return AppRoute.defaultRoute.path;
     }
     return segments.first;
