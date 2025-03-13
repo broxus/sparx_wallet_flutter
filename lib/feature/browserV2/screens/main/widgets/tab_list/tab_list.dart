@@ -1,4 +1,5 @@
 import 'package:app/feature/browserV2/data/tabs_data.dart';
+import 'package:app/feature/browserV2/models/tab/browser_tab.dart';
 import 'package:app/feature/browserV2/screens/main/widgets/control_panel/page_control_panel/page_control_panel.dart';
 import 'package:app/feature/browserV2/screens/main/widgets/control_panel/tabs_list_control_panel.dart';
 import 'package:app/feature/browserV2/screens/main/widgets/tab_list/header/tab_list_header.dart';
@@ -20,7 +21,7 @@ class BrowserTabsList extends StatelessWidget {
 
   final ListenableState<BrowserTabsCollection> tabsState;
   final RenderManager<String> renderManager;
-  final ValueChanged<String> onPressedTabMenu;
+  final ValueChanged<BrowserTab> onPressedTabMenu;
   final ValueChanged<String> onChangeTab;
   final ValueChanged<String> onCloseTab;
 
@@ -61,7 +62,7 @@ class BrowserTabsList extends StatelessWidget {
                       key: ValueKey(tab.id),
                       renderManager: renderManager,
                       tab: tab,
-                      onPressedTabMenu: () => onPressedTabMenu(tab.id),
+                      onPressedTabMenu: () => onPressedTabMenu(tab),
                       onPressed: () => onChangeTab(tab.id),
                       onClosePressed: () => onCloseTab(tab.id),
                     ),

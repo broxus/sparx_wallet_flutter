@@ -54,8 +54,17 @@ class BrowserTabMenu extends StatefulWidget {
 class _BrowserTabMenuState extends State<BrowserTabMenu> {
   late final _data = widget._data;
 
+  // TODO(knightforce): temp
+  // final _items = BrowserTabMenuItemData.values;
+  final _items = [
+    BrowserTabMenuItemData.copyLink,
+    BrowserTabMenuItemData.bookmark,
+  ];
+
   final _width = 207.0;
-  final _height = 176.0;
+  final _itemHeight = DimensSizeV2.d44;
+
+  late final _menuHeight = _items.length * _itemHeight;
   final _margin = 8;
 
   late final _screenSize = MediaQuery.of(context).size;
@@ -67,11 +76,11 @@ class _BrowserTabMenuState extends State<BrowserTabMenu> {
       _margin;
 
   double get _top {
-    if ((_yMax - _data.yBottom - _height) > 0) {
+    if ((_yMax - _data.yBottom - _menuHeight) > 0) {
       return _data.yBottom + _margin;
     }
 
-    return _data.yTop - _margin - _height;
+    return _data.yTop - _margin - _menuHeight;
   }
 
   double get _left {
@@ -94,7 +103,7 @@ class _BrowserTabMenuState extends State<BrowserTabMenu> {
             color: Colors.transparent,
             child: SizedBox(
               width: _width,
-              height: _height,
+              height: _menuHeight,
               child: DecoratedBox(
                 decoration: BoxDecoration(
                   color: theme.colors.background2,
@@ -106,7 +115,7 @@ class _BrowserTabMenuState extends State<BrowserTabMenu> {
                   mainAxisSize: MainAxisSize.min,
                   crossAxisAlignment: CrossAxisAlignment.stretch,
                   children: [
-                    for (final item in BrowserTabMenuItemData.values)
+                    for (final item in _items)
                       _Item(
                         key: ValueKey(item),
                         title: item.title,

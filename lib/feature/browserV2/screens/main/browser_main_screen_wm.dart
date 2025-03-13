@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:app/core/error_handler_factory.dart';
 import 'package:app/core/wm/custom_wm.dart';
 import 'package:app/di/di.dart';
@@ -10,10 +12,12 @@ import 'package:app/feature/browserV2/screens/main/browser_main_screen_model.dar
 import 'package:app/feature/browserV2/screens/main/data/browser_render_manager.dart';
 import 'package:app/feature/browserV2/screens/main/data/menu_data.dart';
 import 'package:app/feature/browserV2/screens/main/helpers/menu_animation_helper.dart';
+import 'package:app/feature/browserV2/screens/main/widgets/tab_menu/data.dart';
 import 'package:app/feature/browserV2/screens/main/widgets/tab_menu/tab_menu.dart';
 import 'package:app/utils/focus_utils.dart';
 import 'package:elementary/elementary.dart';
 import 'package:elementary_helper/elementary_helper.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_inappwebview/flutter_inappwebview.dart';
 import 'package:render_metrics/render_metrics.dart';
@@ -193,15 +197,30 @@ class BrowserMainScreenWidgetModel
     _menuState.accept(MenuType.list);
   }
 
-  Future<void> onPressedTabMenu(String tabId) async {
-    final data = _renderManager.getRenderData(tabId);
+  Future<void> onPressedTabMenu(BrowserTab tab) async {
+    final data = _renderManager.getRenderData(tab.id);
 
     if (data == null) {
       return;
     }
 
     final result = await BrowserTabMenu.show(context, data);
+
     // TODO(knightforce): handle menu
+    switch (result) {
+      case BrowserTabMenuItemData.copyLink:
+        unawaited(
+          Clipboard.setData(
+            ClipboardData(
+              text: tab.url.toString(),
+            ),
+          ),
+        );
+      case BrowserTabMenuItemData.pinTab:
+      case BrowserTabMenuItemData.bookmark:
+      case BrowserTabMenuItemData.newTabGroup:
+      case null:
+    }
   }
 
   void onPressedUrlMenu(String tabId) {
