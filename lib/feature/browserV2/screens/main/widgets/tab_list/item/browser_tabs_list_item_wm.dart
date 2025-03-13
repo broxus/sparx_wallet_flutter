@@ -9,9 +9,7 @@ import 'package:app/generated/generated.dart';
 import 'package:elementary/elementary.dart';
 import 'package:elementary_helper/elementary_helper.dart';
 import 'package:flutter/widgets.dart';
-import 'package:lucide_icons_flutter/lucide_icons.dart';
 import 'package:ui_components_lib/v2/ui_components_lib_v2.dart';
-import 'package:ui_components_lib/v2/widgets/popup_menu/app_popup_menu_item.dart';
 
 /// Factory method for creating [BrowserTabsListItemWidgetModel]
 BrowserTabsListItemWidgetModel defaultBrowserTabsListItemWidgetModelFactory(
@@ -47,29 +45,6 @@ class BrowserTabsListItemWidgetModel
   ListenableState<String?> get titleState => _titleState;
 
   ColorsPaletteV2 get colors => context.themeStyleV2.colors;
-
-  var items = [
-    AppPopupMenuItem(
-      title: 'Copy link',
-      icon: LucideIcons.copy,
-      onTap: () {},
-    ),
-    AppPopupMenuItem(
-      title: 'Pin tab',
-      icon: LucideIcons.pin,
-      onTap: () {},
-    ),
-    AppPopupMenuItem(
-      title: 'Bookmark',
-      icon: LucideIcons.bookmark,
-      onTap: () {},
-    ),
-    AppPopupMenuItem(
-      title: 'New tab group',
-      icon: LucideIcons.plus,
-      onTap: () {},
-    )
-  ];
 
   @override
   void initWidgetModel() {

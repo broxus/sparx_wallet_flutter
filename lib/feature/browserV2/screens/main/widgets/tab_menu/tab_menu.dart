@@ -1,24 +1,26 @@
 import 'dart:async';
 
 import 'package:app/feature/browserV2/screens/main/widgets/control_panel/tabs_list_control_panel.dart';
+import 'package:app/feature/browserV2/screens/main/widgets/tab_menu/data.dart';
 import 'package:app/widgets/bottom_navigation_bar/custom_bottom_navigation_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:render_metrics/render_metrics.dart';
+import 'package:ui_components_lib/v2/ui_components_lib_v2.dart';
 
 class BrowserTabMenu extends StatefulWidget {
   const BrowserTabMenu._(
     this._data, {
-    required this.onSelected,
+    required this.onItemPressed,
   });
 
   final RenderData _data;
-  final VoidCallback onSelected;
+  final ValueChanged<BrowserTabMenuItemData> onItemPressed;
 
-  static Future<void> show(
+  static Future<BrowserTabMenuItemData?> show(
     BuildContext context,
     RenderData data,
   ) {
-    return showDialog(
+    return showDialog<BrowserTabMenuItemData?>(
       context: context,
       barrierColor: Colors.transparent,
       useSafeArea: false,
@@ -36,8 +38,8 @@ class BrowserTabMenu extends StatefulWidget {
             ),
             child: BrowserTabMenu._(
               data,
-              onSelected: () =>
-                  Navigator.of(context, rootNavigator: true).pop(),
+              onItemPressed: (BrowserTabMenuItemData item) =>
+                  Navigator.of(context, rootNavigator: true).pop(item),
             ),
           ),
         );
@@ -82,6 +84,7 @@ class _BrowserTabMenuState extends State<BrowserTabMenu> {
 
   @override
   Widget build(BuildContext context) {
+    final theme = context.themeStyleV2;
     return Stack(
       children: [
         Positioned(
@@ -94,7 +97,24 @@ class _BrowserTabMenuState extends State<BrowserTabMenu> {
               height: _height,
               child: DecoratedBox(
                 decoration: BoxDecoration(
-                  color: Colors.red,
+                  color: theme.colors.background2,
+                  borderRadius: BorderRadius.circular(
+                    DimensRadiusV2.radius16,
+                  ),
+                ),
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
+                  children: [
+                    for (final item in BrowserTabMenuItemData.values)
+                      _Item(
+                        key: ValueKey(item),
+                        title: item.title,
+                        icon: item.icon,
+                        onTap: () => widget.onItemPressed(item),
+                        isShowBorder: !item.isLast,
+                      ),
+                  ],
                 ),
               ),
             ),
@@ -133,5 +153,63 @@ class _HolePainter extends CustomPainter {
   @override
   bool shouldRepaint(covariant _HolePainter oldDelegate) {
     return false;
+  }
+}
+
+class _Item extends StatelessWidget {
+  const _Item({
+    required this.title,
+    required this.icon,
+    required this.onTap,
+    required this.isShowBorder,
+    super.key,
+  });
+
+  final String title;
+  final IconData icon;
+  final VoidCallback onTap;
+  final bool isShowBorder;
+
+  @override
+  Widget build(BuildContext context) {
+    final theme = context.themeStyleV2;
+    return GestureDetector(
+      behavior: HitTestBehavior.opaque,
+      onTap: onTap,
+      child: SizedBox(
+        height: DimensSizeV2.d44,
+        child: DecoratedBox(
+          decoration: BoxDecoration(
+            border: isShowBorder
+                ? Border(
+                    bottom: BorderSide(
+                      color: Colors.white.withOpacity(.1),
+                    ),
+                  )
+                : null,
+          ),
+          child: Padding(
+            padding: const EdgeInsets.symmetric(
+              horizontal: DimensSizeV2.d16,
+            ),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Text(
+                  title,
+                  style: theme.textStyles.labelMedium
+                      .copyWith(color: theme.colors.content2),
+                ),
+                Icon(
+                  icon,
+                  size: DimensSizeV2.d16,
+                  color: theme.colors.content2,
+                )
+              ],
+            ),
+          ),
+        ),
+      ),
+    );
   }
 }

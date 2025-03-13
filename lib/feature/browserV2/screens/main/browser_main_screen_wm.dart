@@ -193,14 +193,15 @@ class BrowserMainScreenWidgetModel
     _menuState.accept(MenuType.list);
   }
 
-  void onPressedTabMenu(String tabId) {
+  Future<void> onPressedTabMenu(String tabId) async {
     final data = _renderManager.getRenderData(tabId);
 
     if (data == null) {
       return;
     }
 
-    BrowserTabMenu.show(context, data);
+    final result = await BrowserTabMenu.show(context, data);
+    // TODO(knightforce): handle menu
   }
 
   void onPressedUrlMenu(String tabId) {
@@ -223,19 +224,6 @@ class BrowserMainScreenWidgetModel
   void refresh() {
     // _currentController?.reload();
   }
-
-  // @override
-  // @protected
-  // bool _onSystemBackPressed(
-  //   // ignore: avoid_positional_boolean_parameters
-  //   bool stopDefaultButtonEvent,
-  //   RouteInfo routeInfo,
-  // ) {
-  //   // print('!!! ${BrowserTabMenu.hide()}');
-  //   print('!!!');
-  //   return true;
-  //   // return BrowserTabMenu.hide();
-  // }
 
   void _handleTabsCollection() {
     final count = _tabsCollection?.count ?? 0;

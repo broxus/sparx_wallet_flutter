@@ -256,6 +256,10 @@ abstract class LocaleKeys {
   static const browserStartDescription = 'browserStartDescription';
   static const walletWord = 'walletWord';
   static const browserWord = 'browserWord';
+  static const copyLink = 'copyLink';
+  static const pinTab = 'pinTab';
+  static const bookmark = 'bookmark';
+  static const newTabGroup = 'newTabGroup';
   static const newGroup = 'newGroup';
   static const allTabs = 'allTabs';
   static const profileWord = 'profileWord';
