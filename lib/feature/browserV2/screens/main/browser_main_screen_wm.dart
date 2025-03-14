@@ -204,9 +204,16 @@ class BrowserMainScreenWidgetModel
       return;
     }
 
+    final menuValue = _menuState.value;
+
+    _menuState.accept(null);
+    primaryBus.fire(HideNavigationEvent());
+
     final result = await BrowserTabMenu.show(context, data);
 
-    // TODO(knightforce): handle menu
+    _menuState.accept(menuValue);
+    primaryBus.fire(RevertNavigationEvent());
+
     switch (result) {
       case BrowserTabMenuItemData.copyLink:
         unawaited(
@@ -217,8 +224,10 @@ class BrowserMainScreenWidgetModel
           ),
         );
       case BrowserTabMenuItemData.pinTab:
+      // TODO(knightforce): handle
       case BrowserTabMenuItemData.bookmark:
       case BrowserTabMenuItemData.newTabGroup:
+      // TODO(knightforce): handle
       case null:
     }
   }

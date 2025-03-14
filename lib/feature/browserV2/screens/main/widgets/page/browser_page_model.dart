@@ -5,7 +5,7 @@ import 'package:app/app/service/js_servcie.dart';
 import 'package:app/app/service/messenger/service/messenger_service.dart';
 import 'package:app/app/service/permissions_service.dart';
 import 'package:app/app/service/storage_service/connections_storage_service.dart';
-import 'package:app/feature/browser/inpage_provider/inpage_provider.dart';
+import 'package:app/feature/browserV2/inpage_provider/inpage_provider.dart';
 import 'package:app/feature/browserV2/models/browser_basic_auth_creds.dart';
 import 'package:app/feature/browserV2/models/tab/browser_tab.dart';
 import 'package:app/feature/browserV2/screens/main/widgets/page/browser_page.dart';

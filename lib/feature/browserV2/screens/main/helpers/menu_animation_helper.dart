@@ -108,6 +108,9 @@ class MenuAnimationHelperImpl implements MenuAnimationHelper {
         _urlMenuController.animateTo(0);
         return;
       case null:
+        _listMenuController.animateTo(1);
+        _viewMenuController.animateTo(1);
+        _urlMenuController.animateTo(1);
         return;
     }
   }
