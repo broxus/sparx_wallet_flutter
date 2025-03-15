@@ -1,6 +1,7 @@
 import 'package:app/core/error_handler_factory.dart';
 import 'package:app/core/wm/custom_wm.dart';
 import 'package:app/di/di.dart';
+import 'package:app/feature/browserV2/screens/main/widgets/browser_main_menu/browser_main_menu.dart';
 import 'package:app/feature/browserV2/screens/main/widgets/control_panel/main_control_panel/main_control_panel.dart';
 import 'package:app/feature/browserV2/screens/main/widgets/control_panel/main_control_panel/main_control_panel_model.dart';
 import 'package:elementary/elementary.dart';
@@ -55,7 +56,7 @@ class BrowserMainControlPanelWidgetModel extends CustomWidgetModel<
   }
 
   void onPressedDotsPressed() {
-    // TODO(knightforce): create logic
+    BrowserMainMenu.show(context);
   }
 
   void onPressedBook() {

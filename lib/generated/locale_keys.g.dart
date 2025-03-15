@@ -217,7 +217,10 @@ abstract class LocaleKeys {
   static const browserHistoryEmpty = 'browserHistoryEmpty';
   static const browserHistoryEmptySearch = 'browserHistoryEmptySearch';
   static const browserHistoryEdit = 'browserHistoryEdit';
+  static const browserAddBookmark = 'browserAddBookmark';
   static const browserHistoryClear = 'browserHistoryClear';
+  static const deleteBrowsingData = 'deleteBrowsingData';
+  static const browserTranslatePage = 'browserTranslatePage';
   static const clearWord = 'clearWord';
   static const browserHistoryDone = 'browserHistoryDone';
   static const browserClearHistory = 'browserClearHistory';
@@ -259,6 +262,7 @@ abstract class LocaleKeys {
   static const copyLink = 'copyLink';
   static const pinTab = 'pinTab';
   static const bookmark = 'bookmark';
+  static const newTab = 'newTab';
   static const newTabGroup = 'newTabGroup';
   static const newGroup = 'newGroup';
   static const allTabs = 'allTabs';

@@ -7,6 +7,7 @@ import 'package:ui_components_lib/v2/ui_components_lib_v2.dart';
 Future<void> showPrimaryBottomSheet({
   required BuildContext context,
   String? assetsPath,
+  Color? barrierColor,
   String? title,
   String? subtitle,
   Widget? content,
@@ -20,6 +21,7 @@ Future<void> showPrimaryBottomSheet({
   bool showBackButton = false,
 }) {
   return showCustomModalBottomSheet(
+    barrierColor: barrierColor,
     expand: expand,
     context: context,
     isDismissible: dismissible,
@@ -80,13 +82,15 @@ class _ContentBottomSheet extends StatelessWidget {
                   child: Column(
                     mainAxisSize: MainAxisSize.min,
                     children: [
-                      const SizedBox(height: DimensSizeV2.d16),
+                      const SizedBox(height: DimensSizeV2.d32),
                       if (showBackButton)
                         Align(
                           alignment: Alignment.centerLeft,
                           child: Padding(
-                            padding:
-                                const EdgeInsets.only(top: DimensSizeV2.d12),
+                            padding: const EdgeInsets.only(
+                              top: DimensSizeV2.d12,
+                              bottom: DimensSizeV2.d40,
+                            ),
                             child: FloatButton(
                               buttonShape: ButtonShape.circle,
                               icon: LucideIcons.arrowLeft,
@@ -94,7 +98,6 @@ class _ContentBottomSheet extends StatelessWidget {
                             ),
                           ),
                         ),
-                      const SizedBox(height: DimensSizeV2.d40),
                       if (assetsPath != null)
                         Padding(
                           padding:
@@ -147,12 +150,12 @@ class _ContentBottomSheet extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Container(
-                    margin: const EdgeInsets.only(top: DimensSizeV2.d12),
-                    width: DimensSizeV2.d40,
-                    height: DimensSizeV2.d4,
+                    margin: const EdgeInsets.only(top: DimensSizeV2.d6),
+                    width: DimensSizeV2.d36,
+                    height: DimensSizeV2.d5,
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(DimensSizeV2.d2),
-                      color: theme.colors.backgroundAlpha,
+                      color: theme.colors.primaryA.withOpacity(.7),
                     ),
                   ),
                 ],
