@@ -81,9 +81,9 @@ class BrowserBookmarksListScreen
                 ),
                 ButtonsEditSection(
                   isEditing: isEditing ?? false,
-                  editText: LocaleKeys.browserBookmarksEdit.tr(),
+                  editText: LocaleKeys.edit.tr(),
                   clearText: LocaleKeys.browserBookmarksClear.tr(),
-                  doneText: LocaleKeys.browserBookmarksDone.tr(),
+                  doneText: LocaleKeys.done.tr(),
                   onPressedEdit: wm.onPressedEdit,
                   onPressedClear: wm.onPressedClear,
                   onPressedDone: wm.onPressedDone,

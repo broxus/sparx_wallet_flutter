@@ -7,6 +7,37 @@ import 'package:flutter/material.dart';
 import 'package:render_metrics/render_metrics.dart';
 import 'package:ui_components_lib/v2/ui_components_lib_v2.dart';
 
+Future<BrowserTabMenuItemData?> showBrowserTabMenu(
+  BuildContext context,
+  RenderData data,
+) {
+  return showDialog<BrowserTabMenuItemData?>(
+    context: context,
+    barrierColor: Colors.transparent,
+    useSafeArea: false,
+    builder: (_) {
+      return GestureDetector(
+        onTap: () => Navigator.of(context, rootNavigator: true).pop(),
+        child: CustomPaint(
+          painter: _HolePainter(
+            holeRect: Rect.fromLTRB(
+              data.xLeft,
+              data.yTop,
+              data.xRight,
+              data.yBottom,
+            ),
+          ),
+          child: BrowserTabMenu._(
+            data,
+            onItemPressed: (BrowserTabMenuItemData item) =>
+                Navigator.of(context, rootNavigator: true).pop(item),
+          ),
+        ),
+      );
+    },
+  );
+}
+
 class BrowserTabMenu extends StatefulWidget {
   const BrowserTabMenu._(
     this._data, {
@@ -15,37 +46,6 @@ class BrowserTabMenu extends StatefulWidget {
 
   final RenderData _data;
   final ValueChanged<BrowserTabMenuItemData> onItemPressed;
-
-  static Future<BrowserTabMenuItemData?> show(
-    BuildContext context,
-    RenderData data,
-  ) {
-    return showDialog<BrowserTabMenuItemData?>(
-      context: context,
-      barrierColor: Colors.transparent,
-      useSafeArea: false,
-      builder: (_) {
-        return GestureDetector(
-          onTap: () => Navigator.of(context, rootNavigator: true).pop(),
-          child: CustomPaint(
-            painter: _HolePainter(
-              holeRect: Rect.fromLTRB(
-                data.xLeft,
-                data.yTop,
-                data.xRight,
-                data.yBottom,
-              ),
-            ),
-            child: BrowserTabMenu._(
-              data,
-              onItemPressed: (BrowserTabMenuItemData item) =>
-                  Navigator.of(context, rootNavigator: true).pop(item),
-            ),
-          ),
-        );
-      },
-    );
-  }
 
   @override
   State<BrowserTabMenu> createState() => _BrowserTabMenuState();

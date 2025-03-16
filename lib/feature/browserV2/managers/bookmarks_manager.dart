@@ -20,7 +20,8 @@ class BookmarksManager {
   static final _log = Logger('BrowserBookmarksStorageService');
 
   /// Subject of browser bookmarks items
-  final _browserBookmarksSubject = BehaviorSubject<List<BrowserBookmarkItem>>();
+  final _browserBookmarksSubject =
+      BehaviorSubject<List<BrowserBookmarkItem>>.seeded([]);
 
   /// Stream of browser bookmarks items
   Stream<List<BrowserBookmarkItem>> get browserBookmarksStream =>
@@ -62,16 +63,21 @@ class BookmarksManager {
     BrowserBookmarkItem item, {
     bool needUndo = true,
   }) {
-    final bookmarks = [...browserBookmarks];
-
-    final index = bookmarks.indexWhere((i) => i.id == item.id);
-    final isExist = index > 0;
-
-    if (isExist) {
+    if (item.url.host.isEmpty) {
       return;
     }
 
-    saveBrowserBookmarks(bookmarks..add(item));
+    final bookmarks = [...browserBookmarks];
+
+    final index = bookmarks.indexWhere((i) => i.url == item.url);
+
+    if (index == -1) {
+      bookmarks.add(item);
+    } else {
+      bookmarks[index] = item;
+    }
+
+    saveBrowserBookmarks(bookmarks);
 
     if (needUndo) {
       _messengerService.show(

@@ -19,6 +19,7 @@ Future<void> showPrimaryBottomSheet({
   bool wrapIntoAnimatedSize = true,
   bool useRootNavigator = true,
   bool showBackButton = false,
+  double bottomSpaceSize = DimensSizeV2.d32,
 }) {
   return showCustomModalBottomSheet(
     barrierColor: barrierColor,
@@ -39,6 +40,7 @@ Future<void> showPrimaryBottomSheet({
       firstButton: firstButton,
       secondButton: secondButton,
       showBackButton: showBackButton,
+      bottomSpaceSize: bottomSpaceSize,
     ),
   );
 }
@@ -53,6 +55,7 @@ class _ContentBottomSheet extends StatelessWidget {
     this.content,
     this.firstButton,
     this.secondButton,
+    this.bottomSpaceSize = DimensSizeV2.d32,
   });
 
   final String? assetsPath;
@@ -63,6 +66,7 @@ class _ContentBottomSheet extends StatelessWidget {
   final Widget? firstButton;
   final Widget? secondButton;
   final bool showBackButton;
+  final double bottomSpaceSize;
 
   @override
   Widget build(BuildContext context) {
@@ -141,7 +145,7 @@ class _ContentBottomSheet extends StatelessWidget {
                               const EdgeInsets.only(bottom: DimensSize.d12),
                           child: secondButton,
                         ),
-                      const SizedBox(height: DimensSizeV2.d32),
+                      SizedBox(height: bottomSpaceSize),
                     ],
                   ),
                 ),

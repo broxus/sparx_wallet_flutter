@@ -59,7 +59,7 @@ class BrowserTabsListControlPanel extends StatelessWidget {
                   ),
                   Expanded(
                     child: _TextButton(
-                      title: LocaleKeys.browserDone.tr(),
+                      title: LocaleKeys.done.tr(),
                       alignment: Alignment.centerRight,
                       onPressed: onDonePressed,
                     ),

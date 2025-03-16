@@ -1,9 +1,18 @@
-import 'package:app/feature/browserV2/screens/main/widgets/browser_main_menu/browser_main_menu_wm.dart';
-import 'package:app/feature/browserV2/screens/main/widgets/browser_main_menu/data/browser_main_menu_data.dart';
+import 'package:app/feature/browserV2/widgets/bottomsheets/browser_main_menu/browser_main_menu_wm.dart';
+import 'package:app/feature/browserV2/widgets/bottomsheets/browser_main_menu/data/browser_main_menu_data.dart';
 import 'package:elementary/elementary.dart';
 import 'package:flutter/material.dart';
 import 'package:ui_components_lib/ui_components_lib.dart';
 import 'package:ui_components_lib/v2/widgets/modals/primary_bottom_sheet.dart';
+
+void showBrowserMainMenu(BuildContext context) {
+  showPrimaryBottomSheet(
+    context: context,
+    barrierColor: Colors.black.withOpacity(.8),
+    padding: const EdgeInsets.symmetric(horizontal: DimensSizeV2.d21),
+    content: const BrowserMainMenu(),
+  );
+}
 
 class BrowserMainMenu extends ElementaryWidget<BrowserMainMenuWidgetModel> {
   const BrowserMainMenu({
@@ -11,15 +20,6 @@ class BrowserMainMenu extends ElementaryWidget<BrowserMainMenuWidgetModel> {
     WidgetModelFactory<BrowserMainMenuWidgetModel> wmFactory =
         defaultBrowserMainMenuWidgetModelFactory,
   }) : super(wmFactory);
-
-  static void show(BuildContext context) {
-    showPrimaryBottomSheet(
-      context: context,
-      barrierColor: Colors.black.withOpacity(.8),
-      padding: const EdgeInsets.symmetric(horizontal: DimensSizeV2.d21),
-      content: const BrowserMainMenu(),
-    );
-  }
 
   @override
   Widget build(BrowserMainMenuWidgetModel wm) {

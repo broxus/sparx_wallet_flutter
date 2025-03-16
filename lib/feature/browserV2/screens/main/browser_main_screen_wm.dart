@@ -209,7 +209,7 @@ class BrowserMainScreenWidgetModel
     _menuState.accept(null);
     primaryBus.fire(HideNavigationEvent());
 
-    final result = await BrowserTabMenu.show(context, data);
+    final result = await showBrowserTabMenu(context, data);
 
     _menuState.accept(menuValue);
     primaryBus.fire(RevertNavigationEvent());

@@ -96,9 +96,9 @@ class HistoryScreen extends ElementaryWidget<HistoryScreenWidgetModel> {
                   ),
                 ButtonsEditSection(
                   isEditing: isEditing,
-                  editText: LocaleKeys.browserHistoryEdit.tr(),
+                  editText: LocaleKeys.edit.tr(),
                   clearText: LocaleKeys.browserHistoryClear.tr(),
-                  doneText: LocaleKeys.browserHistoryDone.tr(),
+                  doneText: LocaleKeys.done.tr(),
                   onPressedEdit: wm.onPressedEdit,
                   onPressedClear: wm.onPressedClear,
                   onPressedDone: wm.onPressedDone,

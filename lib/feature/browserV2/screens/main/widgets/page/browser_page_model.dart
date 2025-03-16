@@ -111,7 +111,8 @@ class BrowserPageModel extends ElementaryModel {
       return;
     }
     _inpageProvider.url = uri;
-    _browserService.tM.updateUrl(_tabId, uri);
+
+    _browserService.tM.updateCachedUrl(_tabId, uri);
   }
 
   void updateTitle(String title) {

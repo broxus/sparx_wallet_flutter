@@ -83,11 +83,11 @@ class BrowserService {
   }
 
   void createCurrentTabBookMark() {
-    final activeTab = tM.activeTab;
-    if (activeTab == null || activeTab.url.host.isEmpty) {
+    final tab = tM.activeTab;
+
+    if (tab == null) {
       return;
     }
-
-    bM.createBrowserBookmark(activeTab.url, activeTab.title);
+    bM.createBrowserBookmark(tab.url, tab.title);
   }
 }

@@ -94,7 +94,7 @@ class BrowserTabsManager {
     createBrowserTab(uri);
   }
 
-  bool updateUrl(String tabId, Uri uri) {
+  bool updateCachedUrl(String tabId, Uri uri) {
     final tabs = [...browserTabs];
 
     final index = tabs.indexWhere((t) => t.id == tabId);
@@ -104,14 +104,20 @@ class BrowserTabsManager {
     }
 
     tabs[index] = tabs[index].copyWith(url: uri);
+
     _setTabs(tabs: tabs);
+
+    if (tabs[index].id == activeTabId) {
+      _activeTabState.accept(tabs[index]);
+    }
+
     // Simple update - request on vew
     unawaited(_updateControlPanel());
     return true;
   }
 
   Future<void> requestUrl(String tabId, Uri uri) async {
-    final isSuccess = updateUrl(tabId, uri);
+    final isSuccess = updateCachedUrl(tabId, uri);
 
     if (!isSuccess) {
       return;
@@ -121,6 +127,16 @@ class BrowserTabsManager {
     );
     // After simple update - request by program
     unawaited(_updateControlPanel());
+  }
+
+  Future<void> requestUrlActiveTab(Uri uri) async {
+    final id = activeTabId;
+
+    if (id == null) {
+      return;
+    }
+
+    return requestUrl(id, uri);
   }
 
   void updateTitle(String tabId, String title) {
@@ -135,6 +151,10 @@ class BrowserTabsManager {
     tabs[index] = tabs[index].copyWith(title: title);
 
     _setTabs(tabs: tabs);
+
+    if (tabs[index].id == activeTabId) {
+      _activeTabState.accept(tabs[index]);
+    }
   }
 
   /// Clear all browser tabs
