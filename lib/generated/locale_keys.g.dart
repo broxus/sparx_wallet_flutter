@@ -145,6 +145,8 @@ abstract class LocaleKeys {
   static const networkEndpointLocal = 'networkEndpointLocal';
   static const networkCurrencySymbol = 'networkCurrencySymbol';
   static const networkCurrencySymbolHint = 'networkCurrencySymbolHint';
+  static const networkCurrencyDecimals = 'networkCurrencyDecimals';
+  static const networkCurrencyDecimalsHint = 'networkCurrencyDecimalsHint';
   static const networkBlockExplorer = 'networkBlockExplorer';
   static const networkBlockExplorerHint = 'networkBlockExplorerHint';
   static const networkTokenList = 'networkTokenList';

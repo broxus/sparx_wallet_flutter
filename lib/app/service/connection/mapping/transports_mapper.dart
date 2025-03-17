@@ -48,7 +48,7 @@ Map<NetworkGroup, ConnectionTransportData>? mapToTransports(
         transport['seedPhraseWordsCount'] as List<dynamic>,
       ),
       defaultNativeCurrencyDecimal:
-          parseToInt(transport['defaultNativeCurrencyDecimal']) ?? 9,
+          parseToInt(transport['defaultNativeCurrencyDecimal']),
       genericTokenType: GenericTokenType.values.byName(
         transport['genericTokenType'] as String,
       ),

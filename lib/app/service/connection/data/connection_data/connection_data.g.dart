@@ -23,6 +23,7 @@ _$ConnectionDataGqlImpl _$$ConnectionDataGqlImplFromJson(
       sortingOrder: (json['sortingOrder'] as num).toDouble(),
       isUsedOnStart: json['isUsedOnStart'] as bool? ?? true,
       manifestUrl: json['manifestUrl'] as String? ?? '',
+      nativeTokenDecimals: (json['nativeTokenDecimals'] as num?)?.toInt() ?? 9,
       latencyDetectionInterval:
           (json['latencyDetectionInterval'] as num?)?.toInt(),
       maxLatency: (json['maxLatency'] as num?)?.toInt(),
@@ -47,6 +48,7 @@ Map<String, dynamic> _$$ConnectionDataGqlImplToJson(
       'sortingOrder': instance.sortingOrder,
       'isUsedOnStart': instance.isUsedOnStart,
       'manifestUrl': instance.manifestUrl,
+      'nativeTokenDecimals': instance.nativeTokenDecimals,
       'latencyDetectionInterval': instance.latencyDetectionInterval,
       'maxLatency': instance.maxLatency,
       'endpointSelectionRetryCount': instance.endpointSelectionRetryCount,
@@ -68,6 +70,7 @@ _$ConnectionDataProtoImpl _$$ConnectionDataProtoImplFromJson(
       sortingOrder: (json['sortingOrder'] as num).toDouble(),
       isUsedOnStart: json['isUsedOnStart'] as bool? ?? true,
       manifestUrl: json['manifestUrl'] as String? ?? '',
+      nativeTokenDecimals: (json['nativeTokenDecimals'] as num?)?.toInt() ?? 9,
       $type: json['runtimeType'] as String?,
     );
 
@@ -86,6 +89,7 @@ Map<String, dynamic> _$$ConnectionDataProtoImplToJson(
       'sortingOrder': instance.sortingOrder,
       'isUsedOnStart': instance.isUsedOnStart,
       'manifestUrl': instance.manifestUrl,
+      'nativeTokenDecimals': instance.nativeTokenDecimals,
       'runtimeType': instance.$type,
     };
 
@@ -104,6 +108,7 @@ _$ConnectionDataJrpcImpl _$$ConnectionDataJrpcImplFromJson(
       sortingOrder: (json['sortingOrder'] as num).toDouble(),
       isUsedOnStart: json['isUsedOnStart'] as bool? ?? true,
       manifestUrl: json['manifestUrl'] as String? ?? '',
+      nativeTokenDecimals: (json['nativeTokenDecimals'] as num?)?.toInt() ?? 9,
       $type: json['runtimeType'] as String?,
     );
 
@@ -122,5 +127,6 @@ Map<String, dynamic> _$$ConnectionDataJrpcImplToJson(
       'sortingOrder': instance.sortingOrder,
       'isUsedOnStart': instance.isUsedOnStart,
       'manifestUrl': instance.manifestUrl,
+      'nativeTokenDecimals': instance.nativeTokenDecimals,
       'runtimeType': instance.$type,
     };
