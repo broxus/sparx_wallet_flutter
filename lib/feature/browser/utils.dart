@@ -74,6 +74,7 @@ extension TransportExtension on TransportStrategy {
       connectionObject,
       NetworkConfig(
         data.nativeTokenTicker,
+        data.nativeTokenDecimals,
         data.blockExplorerUrl,
         data.manifestUrl,
       ),
