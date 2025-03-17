@@ -12,16 +12,13 @@ import 'package:flutter/widgets.dart';
 /// Factory method for creating [AccountSettingsChangeColorButtonWidgetModel]
 AccountSettingsChangeColorButtonWidgetModel
     defaultAccountSettingsChangeColorButtonWidgetModelFactory(
-  BuildContext context, {
-  required String address,
-}) {
+  BuildContext context,
+) {
   return AccountSettingsChangeColorButtonWidgetModel(
     AccountSettingsChangeColorButtonModel(
       createPrimaryErrorHandler(context),
       inject(),
-      address,
     ),
-    address,
   );
 }
 
@@ -30,17 +27,20 @@ class AccountSettingsChangeColorButtonWidgetModel extends CustomWidgetModel<
     AccountSettingsChangeColorButton, AccountSettingsChangeColorButtonModel> {
   AccountSettingsChangeColorButtonWidgetModel(
     super.model,
-    this._address,
   );
 
   ListenableState<IdentifyIconData> get colorState => model.colorState;
 
-  final String _address;
+  @override
+  void initWidgetModel() {
+    super.initWidgetModel();
+    model.initListener(widget.address);
+  }
 
   void onPressed() {
     showChangeColorBottomSheet(
       context: context,
-      address: _address,
+      address: widget.address,
     );
   }
 }
