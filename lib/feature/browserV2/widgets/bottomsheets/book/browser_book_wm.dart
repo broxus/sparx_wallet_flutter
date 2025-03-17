@@ -28,7 +28,7 @@ class BrowserBookWidgetModel
   late final _tabBarState = createNotifier<BrowserBookTabBarValue>(
     BrowserBookTabBarValue.bookMarks,
   );
-  late final height = _screenHeight * .95;
+  late final height = _screenHeight * .84;
 
   late final _screenHeight = MediaQuery.of(context).size.height;
 

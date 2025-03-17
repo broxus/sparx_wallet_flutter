@@ -1,9 +1,8 @@
+import 'package:app/feature/browserV2/widgets/bottomsheets/book/widgets/bookmarks/bookmarks_list_wm.dart';
 import 'package:app/generated/generated.dart';
 import 'package:elementary_helper/elementary_helper.dart';
 import 'package:flutter/material.dart';
 import 'package:ui_components_lib/v2/ui_components_lib_v2.dart';
-
-import 'bookmarks/bookmarks_list_wm.dart';
 
 class BrowserBookmarksMenu extends StatelessWidget {
   const BrowserBookmarksMenu({
@@ -65,14 +64,17 @@ class _Container extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final colors = context.themeStyleV2.colors;
+
     return SizedBox(
       width: double.infinity,
       height: _height,
       child: DecoratedBox(
         decoration: BoxDecoration(
+          color: colors.background1,
           border: Border(
             top: BorderSide(
-              color: context.themeStyleV2.colors.primaryA.withOpacity(.1),
+              color: colors.primaryA.withOpacity(.1),
             ),
           ),
         ),
