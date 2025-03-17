@@ -6,10 +6,10 @@ import 'package:app/feature/wallet/token_wallet_details/widgets/detail/token_wal
 import 'package:app/feature/wallet/token_wallet_details/widgets/detail/token_wallet_ordinary_transaction_details_screen_model.dart';
 import 'package:elementary/elementary.dart';
 import 'package:flutter/widgets.dart';
-import 'package:nekoton_repository/nekoton_repository.dart';
 import 'package:ui_components_lib/ui_components_lib.dart';
 
-/// Factory method for creating [TokenWalletOrdinaryTransactionDetailsScreenWidgetModel]
+/// Factory method for creating
+/// [TokenWalletOrdinaryTransactionDetailsScreenWidgetModel]
 TokenWalletOrdinaryTransactionDetailsScreenWidgetModel
     defaultTokenWalletOrdinaryTransactionDetailsScreenWidgetModelFactory(
   BuildContext context,

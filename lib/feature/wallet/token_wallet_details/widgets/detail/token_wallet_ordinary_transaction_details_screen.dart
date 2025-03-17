@@ -15,10 +15,10 @@ class TokenWalletOrdinaryTransactionDetailsScreen extends ElementaryWidget<
     required this.tokenCurrency,
     required this.price,
     required this.rootTokenContract,
-    super.key,
-    WidgetModelFactory<TokenWalletOrdinaryTransactionDetailsScreenWidgetModel>
-        wmFactory = defaultTokenWalletOrdinaryTransactionDetailsScreenWidgetModelFactory,
-  }) : super(wmFactory);
+    Key? key,
+    WidgetModelFactory wmFactory =
+        defaultTokenWalletOrdinaryTransactionDetailsScreenWidgetModelFactory,
+  }) : super(wmFactory, key: key);
 
   final TokenWalletOrdinaryTransaction transaction;
   final Currency tokenCurrency;
