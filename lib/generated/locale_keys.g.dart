@@ -670,6 +670,8 @@ abstract class LocaleKeys {
   static const noRpcConnection = 'noRpcConnection';
   static const tryAgainOrContact = 'tryAgainOrContact';
   static const contactUs = 'contactUs';
+  static const publicKeyNull = 'publicKeyNull';
+  static const passwordNull = 'passwordNull';
   static const seedPhraseFormatLabel12 = 'seedPhraseFormatLabel12';
   static const seedPhraseFormatLabel24 = 'seedPhraseFormatLabel24';
   static const seedPhrase12FormatStandart = 'seedPhrase12FormatStandart';
