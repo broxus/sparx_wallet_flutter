@@ -14,6 +14,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:logging/logging.dart';
+import 'package:nekoton_repository/nekoton_repository.dart';
 import 'package:ui_components_lib/ui_components_lib.dart';
 
 late AppBuildType currentAppBuildType;
@@ -29,6 +30,8 @@ Future<void> run(
     () async {
       WidgetsFlutterBinding.ensureInitialized();
 
+      await NekotonBridge.init();
+
       await configureDi();
 
       await configureLogger(appBuildType);
@@ -37,7 +40,11 @@ Future<void> run(
 
       await configureLocalization();
 
-      await SentryWorker.instance.init(appBuildType);
+      await SentryWorker.instance.init(
+        appBuildType: appBuildType,
+        nekotonRepository: inject(),
+        generalStorageService: inject(),
+      );
 
       FlutterError.onError = (details) {
         log?.severe(details.exceptionAsString(), details, details.stack);
@@ -67,6 +74,10 @@ Future<void> run(
     },
     (error, stackTrace) async {
       log?.severe(error.toString(), error, stackTrace);
+      if (log == null) {
+        debugPrint('bootstrap error: $error');
+        debugPrintStack(stackTrace: stackTrace, label: 'bootstrap stackTrace:');
+      }
       SentryWorker.instance.captureException(error, stackTrace: stackTrace);
     },
   );
