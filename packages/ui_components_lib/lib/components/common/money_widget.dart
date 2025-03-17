@@ -76,7 +76,7 @@ class MoneyWidget extends StatelessWidget {
           Padding(
             padding: const EdgeInsets.only(left: DimensStroke.medium),
             child: Text(
-              money.currency.symbol,
+              money.currency.symbolFixed,
               style: symbolStyle,
             ),
           ),

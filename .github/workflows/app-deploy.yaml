@@ -2,9 +2,6 @@
 name: Deploy app
 
 on:
-  push:
-    branches:
-      - test
   workflow_dispatch:
     inputs:
       deploy_target:
@@ -38,7 +35,6 @@ jobs:
     env:
       SECRET_PASSPHRASE: ${{ secrets.SECRET_PASSPHRASE }}
       MATCH_PASSWORD: ${{ secrets.MATCH_PASSWORD }}
-
     steps:
       - uses: actions/checkout@v4
         with:

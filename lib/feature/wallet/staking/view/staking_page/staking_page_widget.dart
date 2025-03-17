@@ -37,7 +37,6 @@ class StakingPageWidget extends ElementaryWidget<StakingPageWidgetModel> {
             nekotonRepository: inject(),
             stakingService: inject(),
             storage: inject(),
-            gasPriceService: inject(),
           )..add(const ActionStakingBlocEvent.init()),
           child: Stack(
             children: [
@@ -224,6 +223,7 @@ class _ButtonWidget extends StatelessWidget {
                       LocaleKeys.withdrawHoursProgress.tr(
                     args: [wm.currency.symbol, withdrawHours.toString()],
                   ),
+                  tokenWalletSendNotifyReceiverQueryParam: 'true',
                 },
               ),
             );

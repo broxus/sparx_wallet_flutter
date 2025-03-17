@@ -390,8 +390,6 @@ class _BrowserTabViewState extends State<BrowserTabView> with ContextMixin {
     _,
   ) async {
     // Seems very strange, but they do it in example ¯\_(ツ)_/¯
-    // ignore: no-magic-number
-
     final progress = await controller.getProgress();
     if (progress == 100) {
       unawaited(_pullToRefreshController?.endRefreshing());
@@ -555,7 +553,6 @@ class _BrowserTabViewState extends State<BrowserTabView> with ContextMixin {
     _screenshotTimer?.cancel();
     _screenshotTimer = Timer(
       force ? Duration.zero : _screenShotTimerDuration,
-      // ignore: prefer-extracting-callbacks
       () async {
         final image = await _webViewController?.takeScreenshot(
           screenshotConfiguration: _screenshotConfiguration,

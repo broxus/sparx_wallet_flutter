@@ -1,4 +1,5 @@
 import 'package:app/app/service/connection/data/account_explorer/account_explorer_link_type.dart';
+import 'package:app/app/service/connection/data/default_active_asset.dart';
 import 'package:app/app/service/connection/data/transaction_explorer/transaction_explorer_link_type.dart';
 import 'package:app/app/service/connection/data/transport_icons.dart';
 import 'package:app/app/service/connection/data/transport_manifest_option/transport_manifest_option.dart';
@@ -19,7 +20,6 @@ class ConnectionTransportData {
     required this.networkName,
     required this.networkType,
     required this.seedPhraseWordsCount,
-    required this.defaultNativeCurrencyDecimal,
     required this.genericTokenType,
     required this.accountExplorerLinkType,
     required this.transactionExplorerLinkType,
@@ -27,7 +27,9 @@ class ConnectionTransportData {
     this.stakeInformation,
     this.tokenApiBaseUrl,
     this.currencyApiBaseUrl,
-  });
+    this.defaultNativeCurrencyDecimal,
+    List<DefaultActiveAsset>? defaultActiveAssets,
+  }) : defaultActiveAssets = defaultActiveAssets ?? [];
 
   factory ConnectionTransportData.custom({
     required String networkType,
@@ -69,12 +71,12 @@ class ConnectionTransportData {
         manifestOption: const TransportManifestOption.fromConnection(),
         nativeTokenAddress: const Address(address: ''),
         seedPhraseWordsCount: [12, 24],
-        defaultNativeCurrencyDecimal: 9,
         genericTokenType: GenericTokenType.tip3,
         accountExplorerLinkType: AccountExplorerLinkType.accounts,
         transactionExplorerLinkType: TransactionExplorerLinkType.transactions,
       );
 
+  final List<DefaultActiveAsset> defaultActiveAssets;
   final TransportIcons icons;
   final List<WalletType> availableWalletTypes;
   final WalletDefaultAccountNames walletDefaultAccountNames;
@@ -86,13 +88,13 @@ class ConnectionTransportData {
   final String networkName;
   final String networkType;
   final List<int> seedPhraseWordsCount;
-  final int defaultNativeCurrencyDecimal;
   final GenericTokenType genericTokenType;
   final AccountExplorerLinkType accountExplorerLinkType;
   final TransactionExplorerLinkType transactionExplorerLinkType;
   final StakingInformation? stakeInformation;
   final String? tokenApiBaseUrl;
   final String? currencyApiBaseUrl;
+  final int? defaultNativeCurrencyDecimal;
 }
 
 class WalletDefaultAccountNames {

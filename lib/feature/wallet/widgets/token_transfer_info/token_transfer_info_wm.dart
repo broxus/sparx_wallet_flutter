@@ -26,24 +26,42 @@ class TokenTransferInfoWidgetModel
     extends CustomWidgetModel<TokenTransferInfoWidget, TokenTransferInfoModel> {
   TokenTransferInfoWidgetModel(super.model);
 
-  late final _amountPrice = createNotifier<Money>();
-  late final _attachedAmountPrice = createNotifier<Money>();
+  late final _amountUSDPrice = createNotifier<Fixed>(
+    widget.rootTokenContract == null
+        ? model.getCurrencyForNativeToken()?.price.let(Fixed.tryParse)
+        : model
+            .getCurrencyForContract(widget.rootTokenContract!)
+            ?.price
+            .let(Fixed.tryParse),
+  );
+  late final _nativeUSDPrice = createNotifier<Fixed>(
+    model.getCurrencyForNativeToken()?.price.let(Fixed.tryParse),
+  );
   late final _tokenAsset = createNotifier<TokenContractAsset>();
-  late final _fee = createNotifier(widget.fee);
+  late final _fee = createNotifier(
+    Money.fromBigIntWithCurrency(
+      widget.fee ?? BigInt.zero,
+      nativeCurrency,
+    ),
+  );
   late final _feeError = createNotifier(widget.feeError);
-  late final _attachedAmount = createNotifier(widget.attachedAmount);
+  late final _attachedAmount = createNotifier(
+    widget.attachedAmount?.let(
+      (value) => Money.fromBigIntWithCurrency(value, nativeCurrency),
+    ),
+  );
 
-  ListenableState<Money> get amountPrice => _amountPrice;
+  ListenableState<Fixed> get amountUSDPrice => _amountUSDPrice;
 
-  ListenableState<Money> get attachedAmountPrice => _attachedAmountPrice;
+  ListenableState<Fixed> get nativeUSDPrice => _nativeUSDPrice;
 
   ListenableState<TokenContractAsset> get tokenAsset => _tokenAsset;
 
-  ListenableState<BigInt> get fee => _fee;
+  ListenableState<Money> get fee => _fee;
 
   ListenableState<String> get feeError => _feeError;
 
-  ListenableState<BigInt> get attachedAmount => _attachedAmount;
+  ListenableState<Money> get attachedAmount => _attachedAmount;
 
   Currency get nativeCurrency =>
       Currencies()[model.transport.nativeTokenTicker]!;
@@ -67,28 +85,29 @@ class TokenTransferInfoWidgetModel
   void didUpdateWidget(TokenTransferInfoWidget oldWidget) {
     super.didUpdateWidget(oldWidget);
 
-    if (widget.attachedAmount != oldWidget.attachedAmount) {
-      _getNativePrice();
-    }
-
-    _fee.accept(widget.fee);
+    _fee.accept(
+      Money.fromBigIntWithCurrency(
+        widget.fee ?? BigInt.zero,
+        nativeCurrency,
+      ),
+    );
     _feeError.accept(widget.feeError);
-    _attachedAmount.accept(widget.attachedAmount);
+    _attachedAmount.accept(
+      widget.attachedAmount?.let(
+        (value) => Money.fromBigIntWithCurrency(value, nativeCurrency),
+      ),
+    );
   }
 
   Future<void> _getNativePrice() async {
-    final currency = await model.getCurrencyForNativeToken();
+    final currency = await model.fetchCurrencyForNativeToken();
 
     if (currency != null) {
       final price = Fixed.parse(currency.price);
-      final value = Money.fromBigIntWithCurrency(
-        widget.fee ?? BigInt.zero,
-        nativeCurrency,
-      );
-      _attachedAmountPrice.accept(value.exchangeToUSD(price));
+      _nativeUSDPrice.accept(price);
 
       if (isNative && widget.amount != null) {
-        _amountPrice.accept(widget.amount!.exchangeToUSD(price));
+        _amountUSDPrice.accept(price);
       }
     }
   }
@@ -96,13 +115,13 @@ class TokenTransferInfoWidgetModel
   Future<void> _getTokenPrice() async {
     if (widget.rootTokenContract == null) return;
 
-    final currency = await model.getCurrencyForContract(
+    final currency = await model.fetchCurrencyForContract(
       widget.rootTokenContract!,
     );
 
     if (currency != null && widget.amount != null) {
       final price = Fixed.parse(currency.price);
-      _amountPrice.accept(widget.amount!.exchangeToUSD(price));
+      _amountUSDPrice.accept(price);
     }
   }
 

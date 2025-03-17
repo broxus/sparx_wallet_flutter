@@ -1,5 +1,4 @@
 import 'package:app/feature/network/edit_network/edit_network.dart';
-import 'package:app/feature/network/edit_network/widgets/network_type_field.dart';
 import 'package:app/generated/generated.dart';
 import 'package:elementary/elementary.dart';
 import 'package:flutter/material.dart';
@@ -67,6 +66,10 @@ class EditNetworkPageWidget extends ElementaryWidget<EditNetworkWidgetModel> {
                           editable: wm.isEditable,
                           controller: wm.currencySymbolController,
                           validator: wm.validators.currencySymbolValidator,
+                        ),
+                        DecimalsField(
+                          editable: wm.isEditable,
+                          controller: wm.currencyDecimalsController,
                         ),
                         BlockExplorerField(
                           validator: wm.validators.optionalUrlValidator,
