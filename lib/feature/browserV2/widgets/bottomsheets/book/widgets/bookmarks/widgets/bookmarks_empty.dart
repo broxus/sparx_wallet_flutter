@@ -1,0 +1,15 @@
+import 'package:app/feature/browserV2/widgets/bottomsheets/book/widgets/empty_content.dart';
+import 'package:app/generated/generated.dart';
+import 'package:flutter/material.dart';
+
+class BookmarksEmptyContent extends StatelessWidget {
+  const BookmarksEmptyContent({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return BookEmpty(
+      title: LocaleKeys.noHistoryYet.tr(),
+      description: LocaleKeys.historyEmptyDescription.tr(),
+    );
+  }
+}

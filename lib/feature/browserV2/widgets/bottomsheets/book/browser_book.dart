@@ -1,5 +1,6 @@
 import 'package:app/feature/browserV2/widgets/bottomsheets/book/browser_book_wm.dart';
 import 'package:app/feature/browserV2/widgets/bottomsheets/book/widgets/bookmarks/bookmarks_list.dart';
+import 'package:app/feature/browserV2/widgets/bottomsheets/book/widgets/history/history_list.dart';
 import 'package:app/feature/browserV2/widgets/bottomsheets/book/widgets/tab_bar.dart';
 import 'package:app/feature/browserV2/widgets/bottomsheets/book/widgets/tab_data.dart';
 import 'package:elementary/elementary.dart';
@@ -69,11 +70,7 @@ class BrowserBook extends ElementaryWidget<BrowserBookWidgetModel> {
                   child: AnimatedOpacity(
                     opacity: value == BrowserBookTabBarValue.history ? 1 : 0,
                     duration: _duration,
-                    child: Container(
-                      width: 100,
-                      height: 100,
-                      color: Colors.red,
-                    ),
+                    child: const HistoryList(),
                   ),
                 );
               },

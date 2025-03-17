@@ -1,7 +1,8 @@
 import 'package:app/feature/browserV2/widgets/bottomsheets/book/widgets/book_item/book_item.dart';
 import 'package:app/feature/browserV2/widgets/bottomsheets/book/widgets/book_menu.dart';
-import 'package:app/feature/browserV2/widgets/bottomsheets/book/widgets/bookmarks/book_mark_ui_model.dart';
 import 'package:app/feature/browserV2/widgets/bottomsheets/book/widgets/bookmarks/bookmarks_list_wm.dart';
+import 'package:app/feature/browserV2/widgets/bottomsheets/book/widgets/bookmarks/ui_models/book_mark_ui_model.dart';
+import 'package:app/feature/browserV2/widgets/bottomsheets/book/widgets/bookmarks/widgets/bookmarks_empty.dart';
 import 'package:app/generated/generated.dart';
 import 'package:elementary/elementary.dart';
 import 'package:elementary_helper/elementary_helper.dart';
@@ -21,6 +22,18 @@ class BookmarksList extends ElementaryWidget<BookmarksListWidgetModel> {
       data: wm.theme,
       child: Column(
         children: [
+          if (wm.isShowSearch)
+            Padding(
+              padding: const EdgeInsets.only(
+                bottom: DimensSizeV2.d16,
+                left: DimensSizeV2.d24,
+                right: DimensSizeV2.d24,
+              ),
+              child: PrimaryTextField(
+                hintText: LocaleKeys.browserSearch.tr(),
+                textEditingController: wm.searchController,
+              ),
+            ),
           Flexible(
             child: StateNotifierBuilder<List<BookMarkUiModel>>(
               listenableState: wm.bookmarksState,
@@ -28,7 +41,7 @@ class BookmarksList extends ElementaryWidget<BookmarksListWidgetModel> {
                 if (list == null) {
                   return const SizedBox.shrink();
                 } else if (list.isEmpty) {
-                  return const _EmptyContent();
+                  return const BookmarksEmptyContent();
                 }
                 return ReorderableListView.builder(
                   proxyDecorator: _proxyDecorator,
@@ -57,12 +70,12 @@ class BookmarksList extends ElementaryWidget<BookmarksListWidgetModel> {
               },
             ),
           ),
-          if (wm.isVisibleMenu)
-            BrowserBookmarksMenu(
-              editState: wm.editState,
-              onPressedEdit: wm.onPressedEdit,
-              onPressedDone: wm.onPressedDone,
-            ),
+          BrowserBookmarksMenu(
+            editState: wm.editState,
+            activeState: wm.activeMenuState,
+            onPressedEdit: wm.onPressedEdit,
+            onPressedDone: wm.onPressedDone,
+          ),
         ],
       ),
     );
@@ -72,39 +85,6 @@ class BookmarksList extends ElementaryWidget<BookmarksListWidgetModel> {
     return Material(
       color: Colors.transparent,
       child: child,
-    );
-  }
-}
-
-class _EmptyContent extends StatelessWidget {
-  const _EmptyContent();
-
-  @override
-  Widget build(BuildContext context) {
-    final theme = context.themeStyleV2;
-    return Padding(
-      padding: const EdgeInsets.only(
-        bottom: DimensSizeV2.d70,
-      ),
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Padding(
-            padding: const EdgeInsets.only(bottom: DimensSizeV2.d8),
-            child: Text(
-              LocaleKeys.noBookmarksYet.tr(),
-              style: theme.textStyles.headingLarge,
-            ),
-          ),
-          Text(
-            LocaleKeys.bookmarksEmptyDescription.tr(),
-            textAlign: TextAlign.center,
-            style: theme.textStyles.paragraphMedium.copyWith(
-              color: theme.colors.content4,
-            ),
-          ),
-        ],
-      ),
     );
   }
 }

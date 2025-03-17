@@ -1,3 +1,4 @@
+import 'package:app/feature/browserV2/widgets/bottomsheets/book/widgets/bookmarks/bookmarks_list_wm.dart';
 import 'package:app/generated/generated.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:elementary_helper/elementary_helper.dart';
@@ -21,7 +22,7 @@ class BookmarkListItem extends StatelessWidget {
   final String? title;
   final String? subTitle;
   final String? url;
-  final ListenableState<bool> editState;
+  final ListenableState<EditValue> editState;
   final VoidCallback onPressed;
   final VoidCallback onPressedRemove;
 
@@ -29,8 +30,7 @@ class BookmarkListItem extends StatelessWidget {
   Widget build(BuildContext context) {
     return StateNotifierBuilder(
       listenableState: editState,
-      builder: (_, bool? isEdit) {
-        isEdit ??= false;
+      builder: (_, EditValue? editValue) {
         return _Content(
           title: title,
           subTitle: subTitle,
@@ -42,7 +42,7 @@ class BookmarkListItem extends StatelessWidget {
                 onPressed: onPressedRemove,
               ),
               second: const SizedBox.shrink(),
-              isShowFirst: isEdit,
+              isShowFirst: editValue != EditValue.none,
             ),
           ),
           suffix: Padding(
@@ -53,10 +53,10 @@ class BookmarkListItem extends StatelessWidget {
                 child: const _DragLabel(),
               ),
               second: const SizedBox.shrink(),
-              isShowFirst: isEdit,
+              isShowFirst: editValue == EditValue.edit,
             ),
           ),
-          onPressed: isEdit ? null : onPressed,
+          onPressed: editValue == EditValue.none ? onPressed : null,
         );
       },
     );

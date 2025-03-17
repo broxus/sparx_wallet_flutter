@@ -255,6 +255,7 @@ abstract class LocaleKeys {
   static const browserStartTitle = 'browserStartTitle';
   static const browserStartDescription = 'browserStartDescription';
   static const bookmarksEmptyDescription = 'bookmarksEmptyDescription';
+  static const historyEmptyDescription = 'historyEmptyDescription';
   static const walletWord = 'walletWord';
   static const browserWord = 'browserWord';
   static const copyLink = 'copyLink';
@@ -274,6 +275,7 @@ abstract class LocaleKeys {
   static const selectNewAssets = 'selectNewAssets';
   static const sorryNoAssetsFound = 'sorryNoAssetsFound';
   static const noBookmarksYet = 'noBookmarksYet';
+  static const noHistoryYet = 'noHistoryYet';
   static const rootTokenContract = 'rootTokenContract';
   static const proceedWord = 'proceedWord';
   static const invalidRootTokenContract = 'invalidRootTokenContract';

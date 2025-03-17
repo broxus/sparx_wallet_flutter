@@ -18,7 +18,7 @@ class BookmarksListModel extends ElementaryModel {
   List<BrowserBookmarkItem> get browserBookmarks =>
       _browserService.bM.browserBookmarks;
 
-  bool get isEmptyBookmarks => _browserService.bM.browserBookmarks.isEmpty;
+  bool get isExistBookmarks => _browserService.bM.browserBookmarks.isNotEmpty;
 
   void requestUrl(Uri uri) {
     _browserService.tM.requestUrlActiveTab(uri);

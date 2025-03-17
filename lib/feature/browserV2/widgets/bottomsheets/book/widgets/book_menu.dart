@@ -3,15 +3,19 @@ import 'package:elementary_helper/elementary_helper.dart';
 import 'package:flutter/material.dart';
 import 'package:ui_components_lib/v2/ui_components_lib_v2.dart';
 
+import 'bookmarks/bookmarks_list_wm.dart';
+
 class BrowserBookmarksMenu extends StatelessWidget {
   const BrowserBookmarksMenu({
     required this.editState,
+    required this.activeState,
     required this.onPressedEdit,
     required this.onPressedDone,
     super.key,
   });
 
-  final ListenableState<bool> editState;
+  final ListenableState<EditValue> editState;
+  final ListenableState<bool> activeState;
 
   final VoidCallback onPressedEdit;
   final VoidCallback onPressedDone;
@@ -25,17 +29,20 @@ class BrowserBookmarksMenu extends StatelessWidget {
         alignment: Alignment.topRight,
         child: StateNotifierBuilder(
           listenableState: editState,
-          builder: (_, bool? isEdited) {
-            isEdited ??= false;
-
+          builder: (_, EditValue? editValue) {
             return AnimatedCrossFade(
               firstChild: _DoneButton(
                 onPressed: onPressedDone,
               ),
-              secondChild: _EditButton(
-                onPressed: onPressedEdit,
+              secondChild: StateNotifierBuilder(
+                listenableState: activeState,
+                builder: (_, bool? isActive) {
+                  return _EditButton(
+                    onPressed: isActive ?? false ? onPressedEdit : null,
+                  );
+                },
               ),
-              crossFadeState: isEdited
+              crossFadeState: editValue != EditValue.none
                   ? CrossFadeState.showFirst
                   : CrossFadeState.showSecond,
               duration: const Duration(milliseconds: 250),
@@ -77,10 +84,10 @@ class _Container extends StatelessWidget {
 
 class _EditButton extends StatelessWidget {
   const _EditButton({
-    required this.onPressed,
+    this.onPressed,
   });
 
-  final VoidCallback onPressed;
+  final VoidCallback? onPressed;
 
   @override
   Widget build(BuildContext context) {
@@ -108,7 +115,7 @@ class _DoneButton extends StatelessWidget {
     return _ActionButton(
       text: LocaleKeys.done.tr(),
       textStyle: theme.textStyles.labelSmall.copyWith(
-        color: ColorsResV2.p75,
+        color: theme.colors.content2,
       ),
       onPressed: onPressed,
     );
@@ -119,29 +126,32 @@ class _ActionButton extends StatelessWidget {
   const _ActionButton({
     required this.text,
     required this.textStyle,
-    required this.onPressed,
+    this.onPressed,
   });
 
   final String text;
   final TextStyle textStyle;
-  final VoidCallback onPressed;
+  final VoidCallback? onPressed;
 
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
       behavior: HitTestBehavior.opaque,
       onTap: onPressed,
-      child: SizedBox(
-        width: DimensSizeV2.d84,
-        child: Padding(
-          padding: const EdgeInsets.symmetric(
-            vertical: DimensSizeV2.d14,
-          ),
-          child: Align(
-            alignment: Alignment.topCenter,
-            child: Text(
-              text,
-              style: textStyle,
+      child: Opacity(
+        opacity: onPressed == null ? .4 : 1,
+        child: SizedBox(
+          width: DimensSizeV2.d84,
+          child: Padding(
+            padding: const EdgeInsets.symmetric(
+              vertical: DimensSizeV2.d14,
+            ),
+            child: Align(
+              alignment: Alignment.topCenter,
+              child: Text(
+                text,
+                style: textStyle,
+              ),
             ),
           ),
         ),
