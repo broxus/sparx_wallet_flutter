@@ -47,6 +47,7 @@ const tokenWalletSendDestinationQueryParam = 'tokenWalletSendDestination';
 const tokenWalletSendAmountQueryParam = 'tokenWalletSendAmount';
 const tokenWalletSendAttachedAmountQueryParam = 'tokenWalletSendAttachedAmount';
 const tokenWalletSendResultMessageQueryParam = 'tokenWalletSendResultMessage';
+const tokenWalletSendNotifyReceiverQueryParam = 'tokenWalletSendNotifyReceiver';
 
 const walletDeployAddressPathParam = 'walletDeployAddress';
 const walletDeployPublicKeyPathParam = 'walletDeployPublicKey';
@@ -146,6 +147,19 @@ StatefulShellBranch get walletBranch {
                     ),
                   ),
                 ],
+              ),
+              GoRoute(
+                path: AppRoute.walletNewAccount.path,
+                builder: (_, state) => NewAccountPage(
+                  publicKey: getQueryParams(
+                    state,
+                    walletCreatePublicKeyQueryParam,
+                  ),
+                  password: getQueryParams(
+                    state,
+                    walletCreatePasswordQueryParam,
+                  ),
+                ),
               ),
               GoRoute(
                 path: AppRoute.walletNewExternalAccount.path,
@@ -301,6 +315,10 @@ GoRoute get tokenWalletSendRoute {
         comment: state.uri.queryParameters[tokenWalletSendCommentQueryParam],
         resultMessage:
             state.uri.queryParameters[tokenWalletSendResultMessageQueryParam],
+        notifyReceiver: bool.tryParse(
+          state.uri.queryParameters[tokenWalletSendNotifyReceiverQueryParam] ??
+              '',
+        ),
       );
     },
   );
@@ -368,7 +386,7 @@ GoRoute get configureNetworksRoute {
     routes: [
       GoRoute(
         path: AppRoute.editNetwork.path,
-        builder: (_, state) => EditNetworkPage(
+        builder: (_, state) => EditNetworkPageWidget(
           connectionDataId:
               state.uri.queryParameters[networkConnectionDataIdQueryParam],
         ),
@@ -380,7 +398,7 @@ GoRoute get configureNetworksRoute {
 GoRoute get stakingRoute {
   return GoRoute(
     path: AppRoute.walletStake.path,
-    builder: (context, state) => StakingPage(
+    builder: (context, state) => StakingPageWidget(
       accountAddress: Address(
         address: state.pathParameters[walletStakeAddressPathParam]!,
       ),
@@ -396,7 +414,7 @@ GoRoute get stakingRoute {
 GoRoute get cancelUnstakingRoute {
   return GoRoute(
     path: AppRoute.walletCancelUnstaking.path,
-    builder: (context, state) => CancelUnstakingPage(
+    builder: (context, state) => CancelUnstakingPageWidget(
       request: StEverWithdrawRequest.fromJson(
         jsonDecode(
           state.uri.queryParameters[walletCancelUnstakingRequestQueryParam]!,

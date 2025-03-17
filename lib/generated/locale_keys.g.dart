@@ -135,6 +135,7 @@ abstract class LocaleKeys {
   static const networkTypeJRPC = 'networkTypeJRPC';
   static const networkTypeGraphQL = 'networkTypeGraphQL';
   static const networkTypeProto = 'networkTypeProto';
+  static const networkTypeWord = 'networkTypeWord';
   static const networkId = 'networkId';
   static const networkName = 'networkName';
   static const networkNameHint = 'networkNameHint';
@@ -442,14 +443,16 @@ abstract class LocaleKeys {
   static const withdrawHoursProgress = 'withdrawHoursProgress';
   static const withdrawHoursHint = 'withdrawHoursHint';
   static const cancelUnstaking = 'cancelUnstaking';
-  static const cancelUnstakingNote = 'cancelUnstakingNote';
   static const unstakingCancelled = 'unstakingCancelled';
   static const exchangeRate = 'exchangeRate';
   static const everscale = 'everscale';
   static const averageApy = 'averageApy';
   static const stakingInitError = 'stakingInitError';
+  static const stakingMaxSendableAmount = 'stakingMaxSendableAmount';
   static const stakingNotEnoughBalanceToStake =
       'stakingNotEnoughBalanceToStake';
+  static const stakingNotEnoughBalanceToUnstake =
+      'stakingNotEnoughBalanceToUnstake';
   static const sendingNotEnoughBalanceToSend = 'sendingNotEnoughBalanceToSend';
   static const cancelUnstakingCheckTitle = 'cancelUnstakingCheckTitle';
   static const cancelUnstakingCheckSubtitle = 'cancelUnstakingCheckSubtitle';
@@ -665,4 +668,10 @@ abstract class LocaleKeys {
   static const noRpcConnection = 'noRpcConnection';
   static const tryAgainOrContact = 'tryAgainOrContact';
   static const contactUs = 'contactUs';
+  static const seedPhraseFormatLabel12 = 'seedPhraseFormatLabel12';
+  static const seedPhraseFormatLabel24 = 'seedPhraseFormatLabel24';
+  static const seedPhrase12FormatStandart = 'seedPhrase12FormatStandart';
+  static const seedPhrase12FormatTON = 'seedPhrase12FormatTON';
+  static const seedPhrase24FormatStandart = 'seedPhrase24FormatStandart';
+  static const seedPhrase24FormatTON = 'seedPhrase24FormatTON';
 }
