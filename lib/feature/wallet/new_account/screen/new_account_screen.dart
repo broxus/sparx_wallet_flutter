@@ -10,12 +10,9 @@ class NewAccountScreen extends ElementaryWidget<NewAccountScreenWidgetModel> {
   const NewAccountScreen({
     this.publicKey,
     this.password,
-    super.key,
-    WidgetModelFactory<NewAccountScreenWidgetModel> wmFactory =
-        defaultNewAccountScreenWidgetModelFactory,
-  }) : super(
-          wmFactory,
-        );
+    Key? key,
+    WidgetModelFactory wmFactory = defaultNewAccountScreenWidgetModelFactory,
+  }) : super(wmFactory, key: key);
 
   final String? publicKey;
   final String? password;
@@ -32,7 +29,7 @@ class NewAccountScreen extends ElementaryWidget<NewAccountScreenWidgetModel> {
               padding: const EdgeInsets.all(DimensSizeV2.d16),
               child: NewAccountTypeWidget(
                 publicKey: PublicKey(publicKey: publicKey!),
-                password: password!,
+                password: password,
               ),
             ),
     );

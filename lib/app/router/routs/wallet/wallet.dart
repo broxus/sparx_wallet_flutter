@@ -151,7 +151,7 @@ StatefulShellBranch get walletBranch {
               ),
               GoRoute(
                 path: AppRoute.walletNewAccount.path,
-                builder: (_, state) => NewAccountPage(
+                builder: (_, state) => NewAccountScreen(
                   publicKey: getQueryParams(
                     state,
                     walletCreatePublicKeyQueryParam,
