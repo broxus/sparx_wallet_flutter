@@ -1,16 +1,17 @@
 import 'package:app/generated/generated.dart';
+import 'package:elementary_helper/elementary_helper.dart';
 import 'package:flutter/material.dart';
 import 'package:ui_components_lib/v2/ui_components_lib_v2.dart';
 
 class BrowserBookmarksMenu extends StatelessWidget {
   const BrowserBookmarksMenu({
+    required this.editState,
     required this.onPressedEdit,
     required this.onPressedDone,
-    this.isChanged = false,
     super.key,
   });
 
-  final bool isChanged;
+  final ListenableState<bool> editState;
 
   final VoidCallback onPressedEdit;
   final VoidCallback onPressedDone;
@@ -22,10 +23,24 @@ class BrowserBookmarksMenu extends StatelessWidget {
     return _Container(
       child: Align(
         alignment: Alignment.topRight,
-        child: _EditButton(
-          isChanged: isChanged,
-          onPressedEdit: onPressedEdit,
-          onPressedDone: onPressedDone,
+        child: StateNotifierBuilder(
+          listenableState: editState,
+          builder: (_, bool? isEdited) {
+            isEdited ??= false;
+
+            return AnimatedCrossFade(
+              firstChild: _DoneButton(
+                onPressed: onPressedDone,
+              ),
+              secondChild: _EditButton(
+                onPressed: onPressedEdit,
+              ),
+              crossFadeState: isEdited
+                  ? CrossFadeState.showFirst
+                  : CrossFadeState.showSecond,
+              duration: const Duration(milliseconds: 250),
+            );
+          },
         ),
       ),
     );
@@ -46,37 +61,89 @@ class _Container extends StatelessWidget {
     return SizedBox(
       width: double.infinity,
       height: _height,
-      child: child,
+      child: DecoratedBox(
+        decoration: BoxDecoration(
+          border: Border(
+            top: BorderSide(
+              color: context.themeStyleV2.colors.primaryA.withOpacity(.1),
+            ),
+          ),
+        ),
+        child: child,
+      ),
     );
   }
 }
 
 class _EditButton extends StatelessWidget {
   const _EditButton({
-    required this.onPressedEdit,
-    required this.onPressedDone,
-    this.isChanged = false,
+    required this.onPressed,
   });
 
-  final bool isChanged;
-
-  final VoidCallback onPressedEdit;
-  final VoidCallback onPressedDone;
+  final VoidCallback onPressed;
 
   @override
   Widget build(BuildContext context) {
     final theme = context.themeStyleV2;
-    final styles = theme.textStyles;
-    final colors = theme.colors;
+    return _ActionButton(
+      text: LocaleKeys.edit.tr(),
+      textStyle: theme.textStyles.labelSmall.copyWith(
+        color: theme.colors.content2,
+      ),
+      onPressed: onPressed,
+    );
+  }
+}
+
+class _DoneButton extends StatelessWidget {
+  const _DoneButton({
+    required this.onPressed,
+  });
+
+  final VoidCallback onPressed;
+
+  @override
+  Widget build(BuildContext context) {
+    final theme = context.themeStyleV2;
+    return _ActionButton(
+      text: LocaleKeys.done.tr(),
+      textStyle: theme.textStyles.labelSmall.copyWith(
+        color: ColorsResV2.p75,
+      ),
+      onPressed: onPressed,
+    );
+  }
+}
+
+class _ActionButton extends StatelessWidget {
+  const _ActionButton({
+    required this.text,
+    required this.textStyle,
+    required this.onPressed,
+  });
+
+  final String text;
+  final TextStyle textStyle;
+  final VoidCallback onPressed;
+
+  @override
+  Widget build(BuildContext context) {
     return GestureDetector(
-      child: Padding(
-        padding: const EdgeInsets.symmetric(
-          vertical: DimensSizeV2.d14,
-          horizontal: DimensSizeV2.d32,
-        ),
-        child: Text(
-          isChanged ? LocaleKeys.done.tr() : LocaleKeys.edit.tr(),
-          // style: styles,
+      behavior: HitTestBehavior.opaque,
+      onTap: onPressed,
+      child: SizedBox(
+        width: DimensSizeV2.d84,
+        child: Padding(
+          padding: const EdgeInsets.symmetric(
+            vertical: DimensSizeV2.d14,
+          ),
+          child: Align(
+            alignment: Alignment.topCenter,
+            child: Text(
+              text,
+              style: textStyle,
+            ),
+          ),
         ),
       ),
     );

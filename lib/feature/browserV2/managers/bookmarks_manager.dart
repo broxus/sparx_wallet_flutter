@@ -3,7 +3,6 @@ import 'package:app/app/service/messenger/service/messenger_service.dart';
 import 'package:app/data/models/browser_bookmark_item.dart';
 import 'package:app/feature/browserV2/service/storages/browser_bookmarks_storage_service.dart';
 import 'package:app/generated/generated.dart';
-import 'package:collection/collection.dart';
 import 'package:logging/logging.dart';
 import 'package:rxdart/rxdart.dart';
 import 'package:ui_components_lib/v2/ui_components_lib_v2.dart';
@@ -31,6 +30,7 @@ class BookmarksManager {
   List<BrowserBookmarkItem> get browserBookmarks =>
       _browserBookmarksSubject.valueOrNull ?? [];
 
+  // TODO(knightsforce): check need it?
   List<BrowserBookmarkItem> get sortedBookmarks {
     return [...browserBookmarks]..sort(
         (a, b) => (b.sortingOrder - a.sortingOrder).sign.toInt(),
@@ -46,8 +46,10 @@ class BookmarksManager {
   }
 
   void saveBrowserBookmarks(List<BrowserBookmarkItem> bookmarks) {
-    _bookmarksStorageService.saveBrowserBookmarks(bookmarks);
-    _browserBookmarksSubject.add(bookmarks);
+    final result = bookmarks.toSet().toList();
+
+    _bookmarksStorageService.saveBrowserBookmarks(result);
+    _browserBookmarksSubject.add(result);
   }
 
   void createBrowserBookmark(Uri uri, String? title) {
@@ -91,26 +93,53 @@ class BookmarksManager {
     }
   }
 
+  void reorder(int oldIndex, int newIndex) {
+    final bookmarks = [...browserBookmarks];
+
+    final item = bookmarks.removeAt(oldIndex);
+
+    var index = newIndex;
+
+    if (index > bookmarks.length) {
+      index = bookmarks.length;
+    }
+
+    // TODO(knightforce): hack for:
+    // https://github.com/flutter/flutter/issues/56821
+    if (oldIndex < index) {
+      index--;
+    }
+
+    bookmarks.insert(index, item);
+
+    saveBrowserBookmarks(bookmarks);
+  }
+
   void removeBrowserBookmarkItem(
     String id, {
     bool needUndo = true,
   }) {
-    final item = browserBookmarks.firstWhereOrNull((item) => item.id == id);
+    final index = browserBookmarks.indexWhere((item) => item.id == id);
 
-    if (item == null) {
+    if (index == -1) {
       _log.warning('Browser bookmark item with id $id not found');
 
       return;
     }
 
-    final bookmarks = [...browserBookmarks]..remove(item);
+    final bookmarks = [...browserBookmarks];
+
+    final item = bookmarks.removeAt(index);
 
     if (needUndo) {
       _messengerService.show(
         Message.info(
           message: LocaleKeys.browserBookmarkDeleted.tr(),
           actionText: LocaleKeys.browserBookmarkDeletedUndo.tr(),
-          onAction: () => setBrowserBookmarkItem(item),
+          onAction: () {
+            bookmarks.insert(index, item);
+            saveBrowserBookmarks(bookmarks);
+          },
           topMargin: DimensSizeV2.d72,
         ),
       );
@@ -161,7 +190,10 @@ class BookmarksManager {
     saveBrowserBookmarks(bookmarks);
   }
 
-  void _fetchBookmarksFromStorage() => _browserBookmarksSubject.add(
-        _bookmarksStorageService.getBrowserBookmarks(),
-      );
+  void _fetchBookmarksFromStorage() {
+    final result =
+        _bookmarksStorageService.getBrowserBookmarks().toSet().toList();
+
+    _browserBookmarksSubject.add(result);
+  }
 }

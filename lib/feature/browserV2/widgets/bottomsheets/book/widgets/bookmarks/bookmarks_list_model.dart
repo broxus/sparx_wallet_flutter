@@ -23,4 +23,12 @@ class BookmarksListModel extends ElementaryModel {
   void requestUrl(Uri uri) {
     _browserService.tM.requestUrlActiveTab(uri);
   }
+
+  void removeBookmark(String bookmarkId) {
+    _browserService.bM.removeBrowserBookmarkItem(bookmarkId);
+  }
+
+  void reorder(int oldIndex, int newIndex) {
+    _browserService.bM.reorder(oldIndex, newIndex);
+  }
 }

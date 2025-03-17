@@ -10,7 +10,7 @@ import 'package:app/feature/browserV2/widgets/bottomsheets/book/widgets/bookmark
 import 'package:collection/collection.dart';
 import 'package:elementary/elementary.dart';
 import 'package:elementary_helper/elementary_helper.dart';
-import 'package:flutter/widgets.dart';
+import 'package:flutter/material.dart';
 
 /// Factory method for creating [BookmarksListWidgetModel]
 BookmarksListWidgetModel defaultBookmarksListWidgetModelFactory(
@@ -35,9 +35,18 @@ class BookmarksListWidgetModel
 
   late final _bookmarksState = createNotifier<List<BookMarkUiModel>>([]);
 
+  late final _editState = createNotifier<bool>(false);
+
   StreamSubscription<List<BrowserBookmarkItem>>? _bookmarksSubs;
 
   ListenableState<List<BookMarkUiModel>> get bookmarksState => _bookmarksState;
+
+  ListenableState<bool> get editState => _editState;
+
+  late final theme = Theme.of(context).copyWith(
+    canvasColor: Colors.transparent,
+    shadowColor: Colors.transparent,
+  );
 
   @override
   void initWidgetModel() {
@@ -65,15 +74,22 @@ class BookmarksListWidgetModel
   }
 
   void onPressedEdit() {
-    // TODO
+    _editState.accept(true);
   }
 
   void onPressedDone() {
-    // TODO
+    _editState.accept(false);
+  }
+
+  void onPressedRemove(String bookmarkId) {
+    model.removeBookmark(bookmarkId);
   }
 
   void onReorder(int oldIndex, int newIndex) {
-    // TODO
+    model.reorder(
+      oldIndex,
+      newIndex,
+    );
   }
 
   void _close() {
