@@ -53,6 +53,69 @@ class BrowserBookmarksMenu extends StatelessWidget {
   }
 }
 
+class HistoryBookmarksMenu extends StatelessWidget {
+  const HistoryBookmarksMenu({
+    required this.editState,
+    required this.activeState,
+    required this.onPressedEdit,
+    required this.onPressedDone,
+    required this.onPressedClear,
+    super.key,
+  });
+
+  final ListenableState<bool> editState;
+  final ListenableState<bool> activeState;
+
+  final VoidCallback onPressedEdit;
+  final VoidCallback onPressedDone;
+  final VoidCallback onPressedClear;
+
+  static const height = _Container._height;
+
+  @override
+  Widget build(BuildContext context) {
+    return _Container(
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          StateNotifierBuilder(
+            listenableState: activeState,
+            builder: (_, bool? isActive) {
+              return _ClearButton(
+                onPressed: isActive ?? false ? onPressedClear : null,
+              );
+            },
+          ),
+          StateNotifierBuilder(
+            listenableState: editState,
+            builder: (_, bool? isEdited) {
+              isEdited ??= false;
+
+              return AnimatedCrossFade(
+                firstChild: _DoneButton(
+                  onPressed: onPressedDone,
+                ),
+                secondChild: StateNotifierBuilder(
+                  listenableState: activeState,
+                  builder: (_, bool? isActive) {
+                    return _EditButton(
+                      onPressed: isActive ?? false ? onPressedEdit : null,
+                    );
+                  },
+                ),
+                crossFadeState: isEdited
+                    ? CrossFadeState.showFirst
+                    : CrossFadeState.showSecond,
+                duration: const Duration(milliseconds: 250),
+              );
+            },
+          ),
+        ],
+      ),
+    );
+  }
+}
+
 class _Container extends StatelessWidget {
   const _Container({
     required this.child,
@@ -118,6 +181,27 @@ class _DoneButton extends StatelessWidget {
       text: LocaleKeys.done.tr(),
       textStyle: theme.textStyles.labelSmall.copyWith(
         color: theme.colors.content2,
+      ),
+      onPressed: onPressed,
+    );
+  }
+}
+
+class _ClearButton extends StatelessWidget {
+  const _ClearButton({
+    this.onPressed,
+  });
+
+  final VoidCallback? onPressed;
+
+  @override
+  Widget build(BuildContext context) {
+    final theme = context.themeStyleV2;
+    return _ActionButton(
+      text: LocaleKeys.clearWord.tr(),
+      textStyle: theme.textStyles.labelSmall.copyWith(
+        // TODO(knightforce): move to colors
+        color: const Color(0xFFFF395F),
       ),
       onPressed: onPressed,
     );

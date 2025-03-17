@@ -6,15 +6,14 @@ class DateUiModel extends HistoryUiModel {
   final String dateText;
 }
 
-class ItemUiModel extends HistoryUiModel {
-  ItemUiModel({
+class HistoryItemUiModel extends HistoryUiModel {
+  HistoryItemUiModel({
     required this.id,
-    required this.url,
     required this.title,
+    required this.url,
   });
 
   final String id;
-  final Uri url;
   final String title;
-  late final String subTitleText = url.toString();
+  final String url;
 }

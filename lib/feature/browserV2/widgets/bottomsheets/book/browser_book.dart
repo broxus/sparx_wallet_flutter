@@ -48,14 +48,13 @@ class BrowserBook extends ElementaryWidget<BrowserBookWidgetModel> {
                 onPressedTab: wm.onPressedTab,
               ),
             ),
-            //BrowserBookTabBar
             Positioned.fill(
               top: BrowserBookTabBar.height + DimensSizeV2.d16,
               child: StateNotifierBuilder(
                 listenableState: wm.tabBarState,
                 builder: (_, BrowserBookTabBarValue? value) {
-                  return Visibility(
-                    visible: value == BrowserBookTabBarValue.bookMarks,
+                  return Offstage(
+                    offstage: value != BrowserBookTabBarValue.bookMarks,
                     child: AnimatedOpacity(
                       opacity: value == BrowserBookTabBarValue.bookMarks ? 1 : 0,
                       duration: _duration,
@@ -70,8 +69,8 @@ class BrowserBook extends ElementaryWidget<BrowserBookWidgetModel> {
               child: StateNotifierBuilder(
                 listenableState: wm.tabBarState,
                 builder: (_, BrowserBookTabBarValue? value) {
-                  return Visibility(
-                    visible: value == BrowserBookTabBarValue.history,
+                  return Offstage(
+                    offstage: value != BrowserBookTabBarValue.history,
                     child: AnimatedOpacity(
                       opacity: value == BrowserBookTabBarValue.history ? 1 : 0,
                       duration: _duration,

@@ -141,7 +141,8 @@ class BrowserPageWidgetModel
   ) {
     model
       ..createScreenshot(webViewController: _webViewController)
-      ..updateUrl(uri);
+      ..updateUrl(uri)
+      ..addHistory(uri);
   }
 
   void onLoadStop(

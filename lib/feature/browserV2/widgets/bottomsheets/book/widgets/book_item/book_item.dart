@@ -63,6 +63,50 @@ class BookmarkListItem extends StatelessWidget {
   }
 }
 
+class HistoryListItem extends StatelessWidget {
+  const HistoryListItem({
+    required this.editState,
+    required this.onPressed,
+    required this.onPressedRemove,
+    this.title,
+    this.url,
+    super.key,
+  });
+
+  final String? title;
+  final String? url;
+  final ListenableState<bool> editState;
+  final VoidCallback onPressed;
+  final VoidCallback onPressedRemove;
+
+  @override
+  Widget build(BuildContext context) {
+    return StateNotifierBuilder(
+      listenableState: editState,
+      builder: (_, bool? isEdit) {
+        isEdit ??= false;
+
+        return _Content(
+          title: title,
+          subTitle: url,
+          url: url,
+          prefix: Padding(
+            padding: const EdgeInsets.only(right: DimensSizeV2.d20),
+            child: _CrossAnimation(
+              first: _RemoveLabel(
+                onPressed: onPressedRemove,
+              ),
+              second: const SizedBox.shrink(),
+              isShowFirst: isEdit,
+            ),
+          ),
+          onPressed: isEdit ? null : onPressed,
+        );
+      },
+    );
+  }
+}
+
 class _Content extends StatelessWidget {
   const _Content({
     this.title,

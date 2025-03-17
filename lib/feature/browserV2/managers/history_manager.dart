@@ -6,7 +6,7 @@ class HistoryManager {
   HistoryManager(this._browserHistoryStorageService);
 
   /// Limit of browser history items
-  static const _historyItemCountLimit = 50;
+  static const _historyItemCountLimit = 200;
 
   final BrowserHistoryStorageService _browserHistoryStorageService;
 
@@ -29,7 +29,37 @@ class HistoryManager {
     return clearHistory();
   }
 
-  void saveBrowserHistory(List<BrowserHistoryItem> history) {
+  void createHistoryItem(Uri url) {
+    if (url.host.isEmpty || browserHistoryItems.firstOrNull?.url == url) {
+      return;
+    }
+    _saveBrowserHistory(
+      [
+        BrowserHistoryItem.create(url: url),
+        ...browserHistoryItems,
+      ],
+    );
+  }
+
+  void removeHistoryItem(String id) {
+    _saveBrowserHistory(
+      [...browserHistoryItems]..removeWhere((item) => item.id == id),
+    );
+  }
+
+  Future<void> clearHistory() async {
+    await _browserHistoryStorageService.clearBrowserHistory();
+    _browserHistorySubject.add([]);
+  }
+
+  void _fetchHistoryFromStorage() => _browserHistorySubject.add(
+        _browserHistoryStorageService.getBrowserHistory()
+          ..sort(
+            (a, b) => b.visitTime.compareTo(a.visitTime),
+          ),
+      );
+
+  void _saveBrowserHistory(List<BrowserHistoryItem> history) {
     final sortedHistory = [...history]
       ..sort(
         (a, b) => b.visitTime.compareTo(a.visitTime),
@@ -39,30 +69,4 @@ class HistoryManager {
 
     _browserHistorySubject.add(sortedHistory);
   }
-
-  Future<void> clearHistory() async {
-    await _browserHistoryStorageService.clearBrowserHistory();
-    _browserHistorySubject.add([]);
-  }
-
-  void addHistoryItem(BrowserHistoryItem item) {
-    if (item.url.host.isEmpty) {
-      return;
-    }
-    saveBrowserHistory([...browserHistoryItems, item]);
-  }
-
-  void addHistoryItems(List<BrowserHistoryItem> items) {
-    saveBrowserHistory([...browserHistoryItems, ...items]);
-  }
-
-  void removeHistoryItem(String id) {
-    saveBrowserHistory(
-      [...browserHistoryItems]..removeWhere((item) => item.id == id),
-    );
-  }
-
-  void _fetchHistoryFromStorage() => _browserHistorySubject.add(
-        _browserHistoryStorageService.getBrowserHistory(),
-      );
 }

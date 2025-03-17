@@ -8,8 +8,8 @@ class BookmarksEmptyContent extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BookEmpty(
-      title: LocaleKeys.noHistoryYet.tr(),
-      description: LocaleKeys.historyEmptyDescription.tr(),
+      title: LocaleKeys.noBookmarksYet.tr(),
+      description: LocaleKeys.bookmarksEmptyDescription.tr(),
     );
   }
 }

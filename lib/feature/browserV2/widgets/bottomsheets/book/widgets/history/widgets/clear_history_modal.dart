@@ -1,7 +1,7 @@
-import 'package:app/feature/browserV2/screens/history/ui_models/time_period.dart';
-import 'package:app/feature/browserV2/screens/history/ui_models/type_history.dart';
-import 'package:app/feature/browserV2/screens/history/widgets/history_checkbox_item.dart';
-import 'package:app/feature/browserV2/screens/history/widgets/type_history_item.dart';
+import 'package:app/feature/browserV2/widgets/bottomsheets/book/widgets/history/ui_models/time_period.dart';
+import 'package:app/feature/browserV2/widgets/bottomsheets/book/widgets/history/ui_models/type_history.dart';
+import 'package:app/feature/browserV2/widgets/bottomsheets/book/widgets/history/widgets/history_checkbox_item.dart';
+import 'package:app/feature/browserV2/widgets/bottomsheets/book/widgets/history/widgets/type_history_item.dart';
 import 'package:flutter/material.dart';
 import 'package:ui_components_lib/ui_components_lib.dart';
 import 'package:ui_components_lib/v2/ui_components_lib_v2.dart';

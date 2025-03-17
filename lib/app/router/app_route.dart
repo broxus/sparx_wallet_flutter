@@ -201,20 +201,6 @@ enum AppRoute {
 
   /// Browser section
 
-  /// Bookmarks browser page
-  browserBookmarks(
-    'browserBookmarks',
-    'browserBookmarks',
-    isSaveLocation: true,
-  ),
-
-  /// History browser page
-  browserHistory(
-    'browserHistory',
-    'browserHistory',
-    isSaveLocation: true,
-  ),
-
   /// Configure networks page
   configureNetworks(
     'configureNetworks',

@@ -119,6 +119,13 @@ class BrowserPageModel extends ElementaryModel {
     _browserService.tM.updateTitle(_tabId, title);
   }
 
+  void addHistory(Uri? uri) {
+    if (uri == null) {
+      return;
+    }
+    _browserService.hM.createHistoryItem(uri);
+  }
+
   Future<void> createScreenshot({
     InAppWebViewController? webViewController,
     bool force = false,

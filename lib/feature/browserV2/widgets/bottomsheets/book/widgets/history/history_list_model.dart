@@ -1,12 +1,12 @@
 import 'package:app/app/service/localization/service/localization_service.dart';
 import 'package:app/data/models/browser_history_item.dart';
-import 'package:app/feature/browserV2/screens/history/history_screen.dart';
 import 'package:app/feature/browserV2/service/browser_service.dart';
+import 'package:app/feature/browserV2/widgets/bottomsheets/book/widgets/history/history_list.dart';
 import 'package:elementary/elementary.dart';
 
-/// [ElementaryModel] for [HistoryScreen]
-class HistoryScreenModel extends ElementaryModel {
-  HistoryScreenModel(
+/// [ElementaryModel] for [HistoryList]
+class HistoryListModel extends ElementaryModel {
+  HistoryListModel(
     ErrorHandler errorHandler,
     this._browserService,
     this._localizationService,
@@ -23,7 +23,13 @@ class HistoryScreenModel extends ElementaryModel {
   List<BrowserHistoryItem> get originalBrowserHistoryItems =>
       _browserService.hM.browserHistoryItems;
 
-  void removeHistoryItem(String id) => _browserService.hM.removeHistoryItem(id);
+  bool get isExistHistory => originalBrowserHistoryItems.isNotEmpty;
+
+  void requestUrl(Uri uri) {
+    _browserService.tM.requestUrlActiveTab(uri);
+  }
+
+  void removeHistory(String id) => _browserService.hM.removeHistoryItem(id);
 
   void clearHistory() => _browserService.hM.clearHistory();
 }
