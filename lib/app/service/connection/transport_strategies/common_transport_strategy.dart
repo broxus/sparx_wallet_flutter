@@ -55,7 +55,9 @@ class CommonTransportStrategy extends AppTransportStrategy {
       networkName: transportData.networkName,
       networkType: transportData.networkType,
       seedPhraseWordsCount: transportData.seedPhraseWordsCount,
-      defaultNativeCurrencyDecimal: transportData.defaultNativeCurrencyDecimal,
+      defaultNativeCurrencyDecimal:
+          transportData.defaultNativeCurrencyDecimal ??
+              connection.nativeTokenDecimals,
       genericTokenType: transportData.genericTokenType,
       accountExplorerLinkType: transportData.accountExplorerLinkType,
       transactionExplorerLinkType: transportData.transactionExplorerLinkType,

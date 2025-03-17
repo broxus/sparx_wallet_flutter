@@ -158,6 +158,8 @@
   "networkEndpointLocal": "Local",
   "networkCurrencySymbol": "Currency Symbol (Optional)",
   "networkCurrencySymbolHint": "Enter currency symbol",
+  "networkCurrencyDecimals": "Decimals (Optional)",
+  "networkCurrencyDecimalsHint": "Enter currency decimals",
   "networkBlockExplorer": "Block explorer URL (Optional)",
   "networkBlockExplorerHint": "Enter URL",
   "networkTokenList": "Token list (Optional)",

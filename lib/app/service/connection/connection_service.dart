@@ -61,78 +61,33 @@ class ConnectionService {
     );
   }
 
-  Future<Transport> createTransportByConnection(ConnectionData connection) {
-    return connection.when<Future<Transport>>(
-      gql: (
-        _,
-        name,
-        group,
-        endpoints,
-        __,
-        isLocal,
-        ___,
-        ____,
-        _____,
-        ______,
-        _______,
-        ________,
-        _________,
-        latencyDetectionInterval,
-        maxLatency,
-        endpointSelectionRetryCount,
-      ) =>
-          _nekotonRepository.createGqlTransport(
-        client: GqlHttpClient(),
-        name: name,
-        group: group,
-        endpoints: endpoints,
-        local: isLocal,
-        latencyDetectionInterval: latencyDetectionInterval,
-        maxLatency: maxLatency,
-        endpointSelectionRetryCount: endpointSelectionRetryCount,
-      ),
-      proto: (
-        _,
-        name,
-        group,
-        endpoint,
-        __,
-        ___,
-        ____,
-        _____,
-        ______,
-        _______,
-        ________,
-        _________,
-      ) =>
+  Future<Transport> createTransportByConnection(ConnectionData connection) =>
+      switch (connection) {
+        final ConnectionDataGql data => _nekotonRepository.createGqlTransport(
+            client: GqlHttpClient(),
+            name: data.name,
+            group: data.group,
+            endpoints: data.endpoints,
+            local: data.isLocal,
+            latencyDetectionInterval: data.latencyDetectionInterval,
+            maxLatency: data.maxLatency,
+            endpointSelectionRetryCount: data.endpointSelectionRetryCount,
+          ),
+        ConnectionDataProto(:final name, :final group, :final endpoint) =>
           _nekotonRepository.createProtoTransport(
-        client: ProtoHttpClient(),
-        name: name,
-        group: group,
-        endpoint: endpoint,
-      ),
-      jrpc: (
-        _,
-        name,
-        group,
-        endpoint,
-        __,
-        ___,
-        ____,
-        _____,
-        ______,
-        _______,
-        ________,
-        _________,
-      ) =>
+            client: ProtoHttpClient(),
+            name: name,
+            group: group,
+            endpoint: endpoint,
+          ),
+        ConnectionDataJrpc(:final name, :final group, :final endpoint) =>
           _nekotonRepository.createJrpcTransport(
-        client: JrpcHttpClient(),
-        name: name,
-        group: group,
-        endpoint: endpoint,
-      ),
-    );
-  }
+            client: JrpcHttpClient(),
+            name: name,
+            group: group,
+            endpoint: endpoint,
+          ),
+      };
 
   /// Create nekoton's transport by connection, create transport's strategy
   /// by its type and put it in nekoton.
