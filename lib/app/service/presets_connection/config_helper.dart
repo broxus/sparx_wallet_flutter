@@ -50,8 +50,8 @@ class PresetsConnectionConfigHelper {
       _sentry.captureException(
         FetchPresetsConnectionsExceptions(
           switch (e) {
-            DioException() => '${e.response?.data}',
-            _ => '',
+            DioException() => '$e; data: ${e.response?.data}',
+            _ => e.toString(),
           },
         ),
         stackTrace: s,
@@ -64,9 +64,7 @@ class PresetsConnectionConfigHelper {
   Future<ConnectionNetwork?> _getCacheConnections() async {
     try {
       final cache = await _secureStorage.getConnectionJson();
-      if (cache == null) {
-        throw CachePresetsConnectionsExceptions('Cache is null');
-      }
+      if (cache == null) return null;
 
       return mapToConnectionNetworkFromJson(
         await jsonDecode(cache) as Map<String, dynamic>,

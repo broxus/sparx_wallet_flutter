@@ -3,11 +3,10 @@ import 'dart:async';
 import 'package:app/app/service/service.dart';
 import 'package:encrypted_storage/encrypted_storage.dart';
 import 'package:injectable/injectable.dart';
-import 'package:nekoton_repository/nekoton_repository.dart' hide Currency;
+import 'package:nekoton_repository/nekoton_repository.dart';
 
 const _passwordsKey = 'passwords_key';
 const _connectionJsonDomain = 'connection_json_domain';
-
 const _connectionJsonKey = 'connection_json_key';
 const _connectionJsonHashKey = 'connection_json_hash_key';
 
