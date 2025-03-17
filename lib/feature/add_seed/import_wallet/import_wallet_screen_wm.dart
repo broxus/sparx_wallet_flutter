@@ -1,35 +1,35 @@
 // ignore_for_file: use_build_context_synchronously
 
+import 'dart:convert';
+
 import 'package:app/app/router/app_route.dart';
 import 'package:app/app/router/routs/add_seed/add_seed.dart';
 import 'package:app/core/wm/custom_wm.dart';
-import 'package:app/data/models/seed/seed_phrase_model.dart';
+import 'package:app/data/models/models.dart';
 import 'package:app/di/di.dart';
 import 'package:app/feature/add_seed/import_wallet/data/import_wallet_data.dart';
 import 'package:app/feature/add_seed/import_wallet/import_wallet_screen.dart';
 import 'package:app/feature/add_seed/import_wallet/import_wallet_screen_model.dart';
 import 'package:app/feature/constants.dart';
 import 'package:app/generated/generated.dart';
-import 'package:app/utils/seed_utils.dart';
+import 'package:app/utils/utils.dart';
+import 'package:elementary_helper/elementary_helper.dart';
 import 'package:flutter/material.dart';
 import 'package:logging/logging.dart';
 import 'package:nekoton_repository/nekoton_repository.dart' hide Message;
 
 final seedSplitRegExp = RegExp(r'[ |;,:\n.]');
-const _actualSeedPhraseLength = 12;
-const _legacySeedPhraseLength = 24;
 
 ImportWalletScreenWidgetModel defaultImportWalletWidgetModelFactory(
   BuildContext context,
-) {
-  return ImportWalletScreenWidgetModel(
-    ImportWalletScreenModel(
-      inject(),
-      inject(),
-      inject(),
-    ),
-  );
-}
+) =>
+    ImportWalletScreenWidgetModel(
+      ImportWalletScreenModel(
+        inject(),
+        inject(),
+        inject(),
+      ),
+    );
 
 class ImportWalletScreenWidgetModel
     extends CustomWidgetModel<ImportWalletScreen, ImportWalletScreenModel> {
@@ -39,10 +39,28 @@ class ImportWalletScreenWidgetModel
 
   late final screenState = createEntityNotifier<ImportWalletData?>()
     ..loading(ImportWalletData());
+  late final _seedPhraseFormat = createNotifier(
+    networkGroup == 'ton' || networkGroup == 'hmstr_mainnet'
+        ? SeedPhraseFormat.ton
+        : SeedPhraseFormat.standard,
+  );
+
+  final _log = Logger('ImportWalletWidgetModel');
+  Set<String>? _hints;
+
+  String get networkGroup => model.networkGroup;
+
+  ListenableState<SeedPhraseFormat> get seedPhraseFormat => _seedPhraseFormat;
 
   ImportWalletData? get _data => screenState.value.data;
-  final _log = Logger('ImportWalletWidgetModel');
-  int? _currentValue;
+
+  int get _currentValue =>
+      screenState.value.data?.selectedValue ?? model.allowedValues.first;
+
+  MnemonicType get _mnemonicType => getMnemonicType(
+        format: _seedPhraseFormat.value,
+        wordsCount: _currentValue,
+      );
 
   Future<void> onPressedImport() async {
     if (!await model.checkConnection(context)) {
@@ -58,19 +76,18 @@ class ImportWalletScreenWidgetModel
       if (seed != null && seed.isNotEmpty) {
         final phrase = seed.phrase;
 
-        final mnemonicType = _currentValue == _legacySeedPhraseLength
-            ? const MnemonicType.legacy()
-            : defaultMnemonicType;
-
-        await deriveFromPhrase(
+        deriveFromPhrase(
           phrase: phrase,
-          mnemonicType: mnemonicType,
+          mnemonicType: _mnemonicType,
         );
+
         if (!context.mounted) return;
+
         context.goFurther(
           AppRoute.createSeedPassword.pathWithData(
             queryParameters: {
               addSeedPhraseQueryParam: phrase,
+              mnemonicTypeQueryParam: jsonEncode(_mnemonicType.toJson()),
             },
           ),
           preserveQueryParams: true,
@@ -91,10 +108,9 @@ class ImportWalletScreenWidgetModel
   }
 
   void onChangeTab(int value) {
-    _currentValue = value;
     _updateState(
       isPasted: false,
-      selectedValue: _currentValue,
+      selectedValue: value,
       seed: SeedPhraseModel.empty(),
     );
   }
@@ -104,7 +120,7 @@ class ImportWalletScreenWidgetModel
 
     if (seed.isNotEmpty) {
       for (final word in seed.words) {
-        if (!await _isWordValid(word)) {
+        if (!_isWordValid(word)) {
           seed = SeedPhraseModel.empty();
           break;
         }
@@ -112,10 +128,10 @@ class ImportWalletScreenWidgetModel
     }
 
     switch (seed.wordsCount) {
-      case _actualSeedPhraseLength:
-        onChangeTab(_actualSeedPhraseLength);
-      case _legacySeedPhraseLength:
-        onChangeTab(_legacySeedPhraseLength);
+      case actualSeedPhraseLength:
+        onChangeTab(actualSeedPhraseLength);
+      case legacySeedPhraseLength:
+        onChangeTab(legacySeedPhraseLength);
       default:
         model.showValidateError(context, LocaleKeys.incorrectWordsFormat.tr());
         return;
@@ -125,6 +141,8 @@ class ImportWalletScreenWidgetModel
 
     final firstColumnWords = seed.words.sublist(0, halfLength);
     final secondColumnWords = seed.words.sublist(halfLength);
+
+    _tryCheckMnemonicType(seed);
     _updateState(
       isPasted: true,
       seed: seed,
@@ -144,10 +162,12 @@ class ImportWalletScreenWidgetModel
     );
   }
 
+  void onSeedPhraseFormatChanged(SeedPhraseFormat format) =>
+      _seedPhraseFormat.accept(format);
+
   void _init() {
     final allowedValues = model.allowedValues;
     if (model.allowedValues.isNotEmpty) {
-      _currentValue = allowedValues.first;
       _updateState(
         allowedValues: allowedValues,
         selectedValue: _currentValue,
@@ -175,12 +195,30 @@ class ImportWalletScreenWidgetModel
     );
   }
 
-  Future<bool> _isWordValid(String word) async {
-    final hints = await getHints(input: word);
-    if (hints.contains(word)) {
-      return true;
-    }
+  bool _isWordValid(String word) {
+    final hints = _hints ??= getHints(input: '').toSet();
+    return hints.contains(word);
+  }
 
-    return false;
+  void _tryCheckMnemonicType(SeedPhraseModel seed) {
+    // don't check if 12 words or MnemonicType.legacy()
+    if (seed.wordsCount == actualSeedPhraseLength ||
+        _seedPhraseFormat.value == SeedPhraseFormat.standard) return;
+
+    try {
+      deriveFromPhrase(
+        phrase: seed.phrase,
+        mnemonicType: _mnemonicType,
+      );
+    } catch (_) {
+      try {
+        deriveFromPhrase(
+          phrase: seed.phrase,
+          mnemonicType: const MnemonicType.legacy(),
+        );
+        // if no exception, then it's legacy
+        _seedPhraseFormat.accept(SeedPhraseFormat.standard);
+      } catch (_) {}
+    }
   }
 }

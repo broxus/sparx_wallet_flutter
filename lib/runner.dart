@@ -29,6 +29,7 @@ Future<void> run(
   await runZonedGuarded(
     () async {
       WidgetsFlutterBinding.ensureInitialized();
+
       await NekotonBridge.init();
 
       await configureDi();
@@ -39,7 +40,11 @@ Future<void> run(
 
       await configureLocalization();
 
-      await SentryWorker.instance.init(appBuildType);
+      await SentryWorker.instance.init(
+        appBuildType: appBuildType,
+        nekotonRepository: inject(),
+        generalStorageService: inject(),
+      );
 
       FlutterError.onError = (details) {
         log?.severe(details.exceptionAsString(), details, details.stack);
@@ -69,6 +74,10 @@ Future<void> run(
     },
     (error, stackTrace) async {
       log?.severe(error.toString(), error, stackTrace);
+      if (log == null) {
+        debugPrint('bootstrap error: $error');
+        debugPrintStack(stackTrace: stackTrace, label: 'bootstrap stackTrace:');
+      }
       SentryWorker.instance.captureException(error, stackTrace: stackTrace);
     },
   );

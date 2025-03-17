@@ -1,4 +1,5 @@
 import 'package:app/feature/wallet/wallet.dart';
+import 'package:app/feature/wallet/widgets/account_transactions_tab/detail/details_item.dart';
 import 'package:app/feature/wallet/widgets/token_transfer_info/token_transfer_info_wm.dart';
 import 'package:app/generated/generated.dart';
 import 'package:app/utils/utils.dart';
@@ -58,7 +59,7 @@ class TokenTransferInfoWidget
             _InfoRow(
               label: LocaleKeys.token.tr(),
               child: Text(
-                amount!.currency.symbol,
+                amount!.currency.symbolFixed,
                 style: theme.textStyles.labelSmall,
               ),
             ),
@@ -95,13 +96,13 @@ class TokenTransferInfoWidget
                     },
                   ),
                   StateNotifierBuilder(
-                    listenableState: wm.amountPrice,
-                    builder: (_, value) => value != null
+                    listenableState: wm.amountUSDPrice,
+                    builder: (_, price) => price != null
                         ? Padding(
                             padding:
                                 const EdgeInsets.only(top: DimensSizeV2.d4),
                             child: AmountWidget.dollars(
-                              amount: value,
+                              amount: amount!.exchangeToUSD(price),
                               style: theme.textStyles.labelXSmall.copyWith(
                                 color: theme.colors.content3,
                               ),
@@ -114,8 +115,8 @@ class TokenTransferInfoWidget
             ),
           DoubleSourceBuilder(
             firstSource: wm.attachedAmount,
-            secondSource: wm.attachedAmountPrice,
-            builder: (_, attachedAmount, attachedAmountPrice) {
+            secondSource: wm.nativeUSDPrice,
+            builder: (_, attachedAmount, nativeUSDPrice) {
               if (attachedAmount == null) return const SizedBox.shrink();
 
               final child = _InfoRow(
@@ -125,19 +126,16 @@ class TokenTransferInfoWidget
                   crossAxisAlignment: CrossAxisAlignment.end,
                   children: [
                     AmountWidget.fromMoney(
-                      amount: Money.fromBigIntWithCurrency(
-                        attachedAmount,
-                        wm.nativeCurrency,
-                      ),
+                      amount: attachedAmount,
                       icon: TonWalletIconWidget(
                         path: wm.nativeTokenIcon,
                         size: DimensSizeV2.d20,
                       ),
                       includeSymbol: false,
                     ),
-                    if (attachedAmountPrice != null)
+                    if (nativeUSDPrice != null)
                       AmountWidget.dollars(
-                        amount: attachedAmountPrice,
+                        amount: attachedAmount.exchangeToUSD(nativeUSDPrice),
                         style: theme.textStyles.labelXSmall.copyWith(
                           color: theme.colors.content3,
                         ),
@@ -153,27 +151,33 @@ class TokenTransferInfoWidget
             },
           ),
           const SizedBox(height: DimensSizeV2.d16),
-          DoubleSourceBuilder(
+          TripleSourceBuilder(
             firstSource: wm.fee,
             secondSource: wm.feeError,
-            builder: (_, fee, feeError) => _InfoRow(
-              label: LocaleKeys.networkFee.tr(),
-              child: SeparatedColumn(
-                separatorSize: DimensSize.d4,
+            thirdSource: wm.nativeUSDPrice,
+            builder: (_, fee, feeError, nativeUSDPrice) {
+              if (fee == null) return const SizedBox.shrink();
+
+              return SeparatedColumn(
                 crossAxisAlignment: CrossAxisAlignment.end,
+                separatorSize: DimensSizeV2.d4,
                 children: [
-                  AmountWidget.fromMoney(
-                    amount: Money.fromBigIntWithCurrency(
-                      fee ?? BigInt.zero,
-                      wm.nativeCurrency,
+                  WalletTransactionDetailsItem(
+                    title: LocaleKeys.networkFee.tr(),
+                    valueWidget: AmountWidget.fromMoney(
+                      amount: fee,
+                      sign: '~ ',
+                      includeSymbol: false,
                     ),
-                    icon: TonWalletIconWidget(
-                      path: wm.nativeTokenIcon,
-                      size: DimensSizeV2.d20,
+                    iconPath: wm.nativeTokenIcon,
+                    convertedValueWidget: nativeUSDPrice?.let(
+                      (price) => AmountWidget.dollars(
+                        amount: fee.exchangeToUSD(price, 5),
+                        style: theme.textStyles.labelXSmall.copyWith(
+                          color: theme.colors.content3,
+                        ),
+                      ),
                     ),
-                    sign: '~ ',
-                    useDefaultFormat: false,
-                    includeSymbol: false,
                   ),
                   if ((numberUnconfirmedTransactions ?? 0) >= 5)
                     Text(
@@ -190,8 +194,8 @@ class TokenTransferInfoWidget
                       ),
                     ),
                 ],
-              ),
-            ),
+              );
+            },
           ),
           const SizedBox(height: DimensSizeV2.d16),
           SeparatedColumn(

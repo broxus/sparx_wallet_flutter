@@ -42,10 +42,20 @@ class _MoneyFromStringJsonConverter
   const _MoneyFromStringJsonConverter();
 
   @override
-  Money fromJson(Map<String, dynamic> json) => MoneyFixer.fromJson(json);
+  Money fromJson(Map<String, dynamic> json) {
+    final currency = json['currency'] as Map<String, dynamic>;
+    // fix old json format: 'code' -> 'isoCode', 'scale' -> 'decimalDigits'
+    currency
+      ..putIfAbsent('isoCode', () => currency['code'] ?? currency['symbol'])
+      ..putIfAbsent('decimalDigits', () => currency['scale'] ?? 0)
+      ..remove('code')
+      ..remove('scale');
+    return MoneyFixer.fromJsonImproved(json);
+  }
 
   @override
-  Map<String, dynamic> toJson(Money object) => MoneyFixer(object).toJson();
+  Map<String, dynamic> toJson(Money object) =>
+      MoneyFixer(object).toJsonImproved();
 }
 
 class NtpTime {
@@ -91,12 +101,12 @@ extension FunctionalExt<T> on T {
 }
 
 extension MoneyExt on Money {
-  Money exchangeToUSD(Fixed price) => exchangeTo(
+  Money exchangeToUSD(Fixed price, [int toDecimalDigits = 7]) => exchangeTo(
         ExchangeRate.fromFixed(
           price,
           fromIsoCode: currency.isoCode,
           toIsoCode: 'USD',
-          toDecimalDigits: 2,
+          toDecimalDigits: toDecimalDigits,
         ),
       );
 
@@ -206,6 +216,17 @@ extension MapExt<K, V> on Map<K, V> {
   }
 }
 
+Future<void> tryWrapper(
+  Future<void> Function() f, {
+  Future<void> Function(Object e, StackTrace s)? onCatch,
+}) async {
+  try {
+    await f();
+  } catch (e, s) {
+    await onCatch?.call(e, s);
+  }
+}
+
 extension ValueListenableExt<T> on ValueListenable<T> {
   Stream<T> asStream() {
     final subject = BehaviorSubject<T>.seeded(value);
@@ -228,4 +249,23 @@ extension ListenableStateExt<T> on ListenableState<T> {
 
     return subject.stream;
   }
+}
+
+String getNetworkGroupByNetworkType(dynamic networkType) {
+  return switch (networkType) {
+    'ever' => 'mainnet',
+    'venom' => 'venom_mainnet',
+    'tycho' => 'tycho_testnet',
+    'mainnet' => 'mainnet',
+    'venom_mainnet' => 'venom_mainnet',
+    'tycho_testnet' => 'tycho_testnet',
+    'ton' => 'ton',
+    _ => 'custom',
+  };
+}
+
+extension MnemonicTypeJson on MnemonicType {
+  Map<String, dynamic> toJson() => const MnemonicTypeJsonConverter().toJson(
+        this,
+      );
 }

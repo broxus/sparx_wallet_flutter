@@ -145,6 +145,8 @@ abstract class LocaleKeys {
   static const networkEndpointLocal = 'networkEndpointLocal';
   static const networkCurrencySymbol = 'networkCurrencySymbol';
   static const networkCurrencySymbolHint = 'networkCurrencySymbolHint';
+  static const networkCurrencyDecimals = 'networkCurrencyDecimals';
+  static const networkCurrencyDecimalsHint = 'networkCurrencyDecimalsHint';
   static const networkBlockExplorer = 'networkBlockExplorer';
   static const networkBlockExplorerHint = 'networkBlockExplorerHint';
   static const networkTokenList = 'networkTokenList';
@@ -668,4 +670,10 @@ abstract class LocaleKeys {
   static const noRpcConnection = 'noRpcConnection';
   static const tryAgainOrContact = 'tryAgainOrContact';
   static const contactUs = 'contactUs';
+  static const seedPhraseFormatLabel12 = 'seedPhraseFormatLabel12';
+  static const seedPhraseFormatLabel24 = 'seedPhraseFormatLabel24';
+  static const seedPhrase12FormatStandart = 'seedPhrase12FormatStandart';
+  static const seedPhrase12FormatTON = 'seedPhrase12FormatTON';
+  static const seedPhrase24FormatStandart = 'seedPhrase24FormatStandart';
+  static const seedPhrase24FormatTON = 'seedPhrase24FormatTON';
 }

@@ -1,23 +1,26 @@
 import 'package:app/app/service/connection/data/account_explorer/account_explorer_link_type.dart';
 import 'package:app/app/service/connection/data/connection_transport/connection_transport_data.dart';
+import 'package:app/app/service/connection/data/default_active_asset.dart';
 import 'package:app/app/service/connection/data/transaction_explorer/transaction_explorer_link_type.dart';
 import 'package:app/app/service/connection/data/transport_icons.dart';
 import 'package:app/app/service/connection/data/transport_manifest_option/transport_manifest_option.dart';
 import 'package:app/app/service/connection/data/transport_native_token_option/transport_native_token_option.dart';
 import 'package:app/app/service/connection/generic_token_subscriber.dart';
+import 'package:app/app/service/connection/group.dart';
 import 'package:app/utils/json/json_utils.dart';
 import 'package:app/utils/parse_utils.dart';
 import 'package:nekoton_repository/nekoton_repository.dart';
 
-Map<String, ConnectionTransportData>? mapToTransports(
+Map<NetworkGroup, ConnectionTransportData>? mapToTransports(
   List<Map<String, dynamic>> list,
 ) {
-  final result = <String, ConnectionTransportData>{};
+  final result = <NetworkGroup, ConnectionTransportData>{};
 
   for (final transport in list) {
-    final networkType = transport['networkType'] as String;
-
-    result[networkType] = ConnectionTransportData(
+    result[transport['networkGroup'] as String] = ConnectionTransportData(
+      defaultActiveAssets: _mapToDefaultActiveAssets(
+        transport['defaultActiveAssets'],
+      ),
       icons: _mapToTransportIcons(
         transport['icons'] as Map<String, dynamic>,
       ),
@@ -40,12 +43,12 @@ Map<String, ConnectionTransportData>? mapToTransports(
         address: (transport['nativeTokenAddress'] as String?) ?? '',
       ),
       networkName: transport['networkName'] as String,
-      networkType: networkType,
+      networkType: transport['networkType'] as String,
       seedPhraseWordsCount: _mapToSeedPhraseWordsCount(
         transport['seedPhraseWordsCount'] as List<dynamic>,
       ),
       defaultNativeCurrencyDecimal:
-          parseToInt(transport['defaultNativeCurrencyDecimal']) ?? 9,
+          parseToInt(transport['defaultNativeCurrencyDecimal']),
       genericTokenType: GenericTokenType.values.byName(
         transport['genericTokenType'] as String,
       ),
@@ -187,4 +190,19 @@ WalletDefaultAccountNames _mapRoWalletDefaultAccountNames(
     walletV4R2: json['walletV4R2'] as String,
     walletV5R1: json['walletV5R1'] as String,
   );
+}
+
+List<DefaultActiveAsset> _mapToDefaultActiveAssets(dynamic json) {
+  try {
+    final list = castJsonList<Map<String, dynamic>>(json);
+
+    return [
+      for (final item in list)
+        DefaultActiveAsset(
+          address: Address(address: item['address'] as String),
+        ),
+    ];
+  } catch (_) {
+    return [];
+  }
 }

@@ -47,6 +47,7 @@ const tokenWalletSendDestinationQueryParam = 'tokenWalletSendDestination';
 const tokenWalletSendAmountQueryParam = 'tokenWalletSendAmount';
 const tokenWalletSendAttachedAmountQueryParam = 'tokenWalletSendAttachedAmount';
 const tokenWalletSendResultMessageQueryParam = 'tokenWalletSendResultMessage';
+const tokenWalletSendNotifyReceiverQueryParam = 'tokenWalletSendNotifyReceiver';
 
 const walletDeployAddressPathParam = 'walletDeployAddress';
 const walletDeployPublicKeyPathParam = 'walletDeployPublicKey';
@@ -146,6 +147,19 @@ StatefulShellBranch get walletBranch {
                     ),
                   ),
                 ],
+              ),
+              GoRoute(
+                path: AppRoute.walletNewAccount.path,
+                builder: (_, state) => NewAccountPage(
+                  publicKey: getQueryParams(
+                    state,
+                    walletCreatePublicKeyQueryParam,
+                  ),
+                  password: getQueryParams(
+                    state,
+                    walletCreatePasswordQueryParam,
+                  ),
+                ),
               ),
               GoRoute(
                 path: AppRoute.walletNewExternalAccount.path,
@@ -301,6 +315,10 @@ GoRoute get tokenWalletSendRoute {
         comment: state.uri.queryParameters[tokenWalletSendCommentQueryParam],
         resultMessage:
             state.uri.queryParameters[tokenWalletSendResultMessageQueryParam],
+        notifyReceiver: bool.tryParse(
+          state.uri.queryParameters[tokenWalletSendNotifyReceiverQueryParam] ??
+              '',
+        ),
       );
     },
   );
