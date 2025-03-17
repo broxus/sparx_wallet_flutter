@@ -239,6 +239,7 @@ class ConnectionsStorageService extends AbstractStorageService {
   }
 
   /// Clear [ConnectionData] list
+  @override
   Future<void> clear() async {
     await _storage.erase();
 
@@ -321,9 +322,4 @@ class ConnectionsStorageService extends AbstractStorageService {
     _streamedCurrentConnectionId();
     _streamedNetworksIds();
   }
-
-  @override
-  Future<void> clearSensitiveData() => Future.wait([
-        clear(),
-      ]);
 }

@@ -48,6 +48,7 @@ import '../app/service/presets_connection/presets_connection_service.dart'
 import '../app/service/remote/dns_resolve_service.dart' as _i391;
 import '../app/service/remote/http_service.dart' as _i126;
 import '../app/service/service.dart' as _i128;
+import '../app/service/session/session_service.dart' as _i299;
 import '../app/service/staking_service.dart' as _i209;
 import '../app/service/storage_service/account_seed_storage_service.dart'
     as _i747;
@@ -267,6 +268,12 @@ extension GetItInjectableX on _i174.GetIt {
           gh<_i128.HttpService>(),
           gh<_i128.AssetsService>(),
           gh<_i188.TokenRepository>(),
+        ));
+    gh.singleton<_i299.SessionService>(() => _i299.SessionService(
+          gh<_i771.NekotonRepository>(),
+          gh<_i725.StorageManagerService>(),
+          gh<_i679.SecureStorageService>(),
+          gh<_i958.IIdentifyIconsService>(),
         ));
     return this;
   }

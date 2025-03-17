@@ -216,6 +216,17 @@ extension MapExt<K, V> on Map<K, V> {
   }
 }
 
+Future<void> tryWrapper(
+  Future<void> Function() f, {
+  Future<void> Function(Object e, StackTrace s)? onCatch,
+}) async {
+  try {
+    await f();
+  } catch (e, s) {
+    await onCatch?.call(e, s);
+  }
+}
+
 extension ValueListenableExt<T> on ValueListenable<T> {
   Stream<T> asStream() {
     final subject = BehaviorSubject<T>.seeded(value);
