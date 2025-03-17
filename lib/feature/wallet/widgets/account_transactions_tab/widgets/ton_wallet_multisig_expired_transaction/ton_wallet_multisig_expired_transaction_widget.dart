@@ -16,12 +16,10 @@ class TonWalletMultisigExpiredTransactionWidget
     required this.isLast,
     required this.price,
     required this.account,
-    super.key,
-    WidgetModelFactory<TonWalletMultisigExpiredTransactionWidgetModel>
-        wmFactory = defaultTonWalletMultisigExpiredTransactionWidgetModelFactory,
-  }) : super(
-          wmFactory,
-        );
+    Key? key,
+    WidgetModelFactory wmFactory =
+        defaultTonWalletMultisigExpiredTransactionWidgetModelFactory,
+  }) : super(wmFactory, key: key);
 
   final TonWalletMultisigExpiredTransaction transaction;
   final Fixed price;
