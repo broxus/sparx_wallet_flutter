@@ -411,26 +411,29 @@ class GeneralStorageService extends AbstractStorageService {
     _streamedLastViewedSeeds();
   }
 
+  Future<void> clearSystemTokenContractAssets(String networkGroup) async {
+    await _systemContractAssetsStorage.remove(networkGroup);
+    _streamedSystemContractAssets();
+  }
+
   /// Clear previous system assets and set new ones
-  void updateSystemTokenContractAssets(
+  Future<void> updateSystemTokenContractAssets(
     List<TokenContractAsset> assets,
-  ) {
-    if (assets.isNotEmpty) {
-      assert(
-        assets
-            .every((asset) => asset.networkGroup == assets.first.networkGroup),
-        'All system assets must have the same type',
-      );
-      _systemContractAssetsStorage
-        ..remove(
-          assets.first.networkGroup,
-        )
-        ..write(
-          assets.first.networkGroup,
-          assets.map((e) => e.toJson()).toList(),
-        );
-      _streamedSystemContractAssets();
-    }
+  ) async {
+    // TODO(knightforce): refactor by multiple networktype
+    assert(
+      assets.every((asset) => asset.networkGroup == assets.first.networkGroup),
+      'All system assets must have the same type',
+    );
+    await _systemContractAssetsStorage.remove(
+      assets.first.networkGroup,
+    );
+
+    await _systemContractAssetsStorage.write(
+      assets.first.networkGroup,
+      assets.map((e) => e.toJson()).toList(),
+    );
+    _streamedSystemContractAssets();
   }
 
   void updateDefaultActiveAssets(
