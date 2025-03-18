@@ -32,17 +32,13 @@ class _BrowserProgressIndicatorState extends State<BrowserProgressIndicator> {
     return StateNotifierBuilder(
       listenableState: widget.menuState,
       builder: (_, MenuType? type) {
-        // BrowserTabListMenu
-        // BrowserTabViewMenu
-        // MenuRawUrl
         return Transform.translate(
           offset: Offset(
             0,
             switch (type) {
-              MenuType.list => -BrowserTabsListControlPanel.height,
               MenuType.view => -BrowserPageControlPanel.minHeight,
               MenuType.url => -UrlTextPanel.height,
-              _ => 300,
+              _ => 500,
             },
           ),
           child: RepaintBoundary(
