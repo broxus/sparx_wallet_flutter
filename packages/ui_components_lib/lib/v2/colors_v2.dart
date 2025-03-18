@@ -102,7 +102,7 @@ class ColorsPaletteV2 {
 class ColorsResV2 {
   const ColorsResV2._();
 
-  static const black = Color(0x0FF00000);
+  static const black = Color(0xFF000000);
   static const transparent = Color(0x00000000);
 
   ///primary
