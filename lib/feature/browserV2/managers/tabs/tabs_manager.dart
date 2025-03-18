@@ -239,6 +239,12 @@ class BrowserTabsManager {
     unawaited(_updateControlPanel());
   }
 
+  void clearCookie() {}
+
+  void clearCachedFiles() {
+    _screenshotHelper.clear();
+  }
+
   /// Put browser tabs to stream
   void _fetchTabsDataFromCache() {
     final tabs = _browserTabsStorageService.getTabs()

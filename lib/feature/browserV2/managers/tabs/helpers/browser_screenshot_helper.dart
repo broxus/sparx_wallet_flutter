@@ -75,8 +75,13 @@ class BrowserManagerScreenshotHelper {
         return;
       }
 
-      _screenshotsCache.add(tabId, imagePath);
-      _screenshotsState.accept(_screenshotsCache.copy());
+      _screenshotsState.accept(
+        _screenshotsCache.copy()
+          ..add(
+            tabId,
+            imagePath,
+          ),
+      );
 
       final file = File(imagePath);
       await file.writeAsBytes(image);
@@ -90,6 +95,8 @@ class BrowserManagerScreenshotHelper {
     try {
       await File(_defaultImagePath!).delete();
     } catch (_) {}
+
+    _screenshotsState.accept(ImageCache());
   }
 
   Future<void> removeScreenshot(String id) async {
@@ -100,6 +107,10 @@ class BrowserManagerScreenshotHelper {
       }
       await Directory(dir).delete(recursive: true);
     } catch (_) {}
+
+    _screenshotsState.accept(
+      _screenshotsCache.copy()..remove(id),
+    );
   }
 
   String? _getImagePath({

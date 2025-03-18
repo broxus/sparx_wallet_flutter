@@ -98,7 +98,9 @@ class BrowserService {
         case TypeHistory.browsingHistory:
           hM.clearHistory(period);
         case TypeHistory.cookie:
+          tM.clearCookie();
         case TypeHistory.cachedImages:
+          tM.clearCachedFiles();
       }
     }
   }

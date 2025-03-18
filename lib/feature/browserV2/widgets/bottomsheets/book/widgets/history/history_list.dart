@@ -17,7 +17,6 @@ class HistoryList extends ElementaryWidget<HistoryListWidgetModel> {
         defaultHistoryListWidgetModelFactory,
   }) : super(wmFactory);
 
-  // HistoryEmptyEmptyContent
   @override
   Widget build(HistoryListWidgetModel wm) {
     return Column(

@@ -35,6 +35,10 @@ class ImageCache {
     _cache[key] = value;
   }
 
+  void remove(String key) {
+    _cache.remove(key);
+  }
+
   String? get(String key) => _cache[key];
 
   ImageCache copy() => ImageCache(_cache);
