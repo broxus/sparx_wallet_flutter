@@ -78,13 +78,8 @@ class HistoryBookmarksMenu extends StatelessWidget {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          StateNotifierBuilder(
-            listenableState: activeState,
-            builder: (_, bool? isActive) {
-              return _ClearButton(
-                onPressed: isActive ?? false ? onPressedClear : null,
-              );
-            },
+          _ClearButton(
+            onPressed: onPressedClear,
           ),
           StateNotifierBuilder(
             listenableState: editState,

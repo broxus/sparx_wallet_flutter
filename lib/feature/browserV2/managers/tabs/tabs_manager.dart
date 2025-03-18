@@ -239,10 +239,13 @@ class BrowserTabsManager {
     unawaited(_updateControlPanel());
   }
 
-  void clearCookie() {}
+  void clearCookie() {
+    unawaited(CookieManager.instance().deleteAllCookies());
+  }
 
   void clearCachedFiles() {
     _screenshotHelper.clear();
+    InAppWebViewController.clearAllCache();
   }
 
   /// Put browser tabs to stream

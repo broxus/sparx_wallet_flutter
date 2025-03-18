@@ -11,13 +11,10 @@ import 'package:ui_components_lib/v2/widgets/modals/primary_bottom_sheet.dart';
 
 typedef ClearHistoryType = (TimePeriod, Set<TypeHistory>);
 
-Future<ClearHistoryType?> showClearHistoryModal(
-  BuildContext context, {
-  TimePeriod timePeriod = TimePeriod.lastHour,
-}) {
+Future<ClearHistoryType?> showClearHistoryModal(BuildContext context) {
   return showPrimaryBottomSheet(
     context: context,
-    content: ClearHistoryModalContent(timePeriod),
+    content: const ClearHistoryModalContent(TimePeriod.allHistory),
   );
 }
 
@@ -34,16 +31,8 @@ class ClearHistoryModalContent extends StatefulWidget {
 class _ClearHistoryModalContentState extends State<ClearHistoryModalContent> {
   final _periods = TimePeriod.values;
   final _typeHistory = TypeHistory.values;
-  late TimePeriod _timePeriod;
-  final Set<TypeHistory> _selectedTypes = {
-    TypeHistory.browsingHistory,
-  };
-
-  @override
-  void initState() {
-    super.initState();
-    _timePeriod = widget.timePeriod;
-  }
+  late var _timePeriod = widget.timePeriod;
+  late final Set<TypeHistory> _selectedTypes = _typeHistory.toSet();
 
   @override
   Widget build(BuildContext context) {
@@ -52,32 +41,33 @@ class _ClearHistoryModalContentState extends State<ClearHistoryModalContent> {
       padding: const EdgeInsets.symmetric(horizontal: DimensSizeV2.d8),
       child: Column(
         children: [
-          DecoratedBox(
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(DimensSizeV2.d16),
-              color: theme.colors.background2,
-            ),
-            child: ListView.separated(
-              shrinkWrap: true,
-              physics: const NeverScrollableScrollPhysics(),
-              separatorBuilder: (_, __) => const CommonDivider(),
-              itemCount: _periods.length,
-              itemBuilder: (context, index) {
-                return HistoryCheckboxItem(
-                  title: _periods[index].displayName,
-                  isSelected: _periods[index] == _timePeriod,
-                  onChanged: (bool? value) {
-                    if (value ?? false) {
-                      setState(() {
-                        _timePeriod = _periods[index];
-                      });
-                    }
-                  },
-                );
-              },
-            ),
-          ),
-          const SizedBox(height: DimensSizeV2.d16),
+          // TODO(knightforce): come back after refactor
+          // DecoratedBox(
+          //   decoration: BoxDecoration(
+          //     borderRadius: BorderRadius.circular(DimensSizeV2.d16),
+          //     color: theme.colors.background2,
+          //   ),
+          //   child: ListView.separated(
+          //     shrinkWrap: true,
+          //     physics: const NeverScrollableScrollPhysics(),
+          //     separatorBuilder: (_, __) => const CommonDivider(),
+          //     itemCount: _periods.length,
+          //     itemBuilder: (context, index) {
+          //       return HistoryCheckboxItem(
+          //         title: _periods[index].displayName,
+          //         isSelected: _periods[index] == _timePeriod,
+          //         onChanged: (bool? value) {
+          //           if (value ?? false) {
+          //             setState(() {
+          //               _timePeriod = _periods[index];
+          //             });
+          //           }
+          //         },
+          //       );
+          //     },
+          //   ),
+          // ),
+          // const SizedBox(height: DimensSizeV2.d16),
           DecoratedBox(
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(DimensSizeV2.d16),
@@ -112,7 +102,7 @@ class _ClearHistoryModalContentState extends State<ClearHistoryModalContent> {
           CustomButton(
             //D92346
             buttonShape: ButtonShape.rectangle,
-            title: LocaleKeys.browserHistoryClear.tr(),
+            title: LocaleKeys.clearWord.tr(),
             // TODO(knightforce): move to colors
             backgroundColor: const Color(0xFFD92346),
             onPressed: () {
