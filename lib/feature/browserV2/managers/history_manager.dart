@@ -49,6 +49,12 @@ class HistoryManager {
     );
   }
 
+  void removeHistoryItemByUri(Uri uri) {
+    _saveBrowserHistory(
+      [...browserHistoryItems]..removeWhere((item) => item.url == uri),
+    );
+  }
+
   Future<void> clearHistory([
     TimePeriod period = TimePeriod.allHistory,
   ]) async {

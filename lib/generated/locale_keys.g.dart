@@ -42,6 +42,7 @@ abstract class LocaleKeys {
   static const pasteSeedIntoFirstBox = 'pasteSeedIntoFirstBox';
   static const pasteAll = 'pasteAll';
   static const clearAll = 'clearAll';
+  static const clearFromHistory = 'clearFromHistory';
   static const wordsCount = 'wordsCount';
   static const fillMissingWords = 'fillMissingWords';
   static const incorrectWordsFormat = 'incorrectWordsFormat';
@@ -259,6 +260,7 @@ abstract class LocaleKeys {
   static const walletWord = 'walletWord';
   static const browserWord = 'browserWord';
   static const copyLink = 'copyLink';
+  static const copyUrl = 'copyUrl';
   static const pinTab = 'pinTab';
   static const bookmark = 'bookmark';
   static const newTab = 'newTab';

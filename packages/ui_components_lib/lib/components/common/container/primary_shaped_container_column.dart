@@ -29,3 +29,45 @@ class PrimaryShapedContainerColumn extends StatelessWidget {
     );
   }
 }
+
+class PrimaryShapedContainerItem extends StatelessWidget {
+  const PrimaryShapedContainerItem({
+    required this.title,
+    required this.icon,
+    required this.onPressed,
+    this.iconColor,
+  });
+
+  final String title;
+  final IconData icon;
+  final Color? iconColor;
+  final VoidCallback onPressed;
+
+  @override
+  Widget build(BuildContext context) {
+    return GestureDetector(
+      behavior: HitTestBehavior.opaque,
+      onTap: onPressed,
+      child: Padding(
+        padding: const EdgeInsets.symmetric(
+          vertical: DimensSizeV2.d12,
+          horizontal: DimensSizeV2.d16,
+        ),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Text(
+              title,
+              style: context.themeStyleV2.textStyles.labelMedium,
+            ),
+            Icon(
+              icon,
+              color: iconColor,
+              size: DimensSizeV2.d16,
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}

@@ -14,6 +14,7 @@ import 'package:app/feature/browserV2/screens/main/data/menu_data.dart';
 import 'package:app/feature/browserV2/screens/main/helpers/menu_animation_helper.dart';
 import 'package:app/feature/browserV2/screens/main/widgets/tab_menu/data.dart';
 import 'package:app/feature/browserV2/screens/main/widgets/tab_menu/tab_menu.dart';
+import 'package:app/feature/browserV2/screens/main/widgets/url_menu.dart';
 import 'package:app/utils/focus_utils.dart';
 import 'package:elementary/elementary.dart';
 import 'package:elementary_helper/elementary_helper.dart';
@@ -232,25 +233,34 @@ class BrowserMainScreenWidgetModel
     }
   }
 
-  void onPressedUrlMenu(String tabId) {
-    // TODO(knightforce): create logic
+  Future<void> onPressedCurrentUrlMenu(String tabId) async {
+    final result = await showUrlMenu(context);
+
+    if (result == null) {
+      return;
+    }
+
+    switch (result) {
+      case BrowserUrlMenuValue.copyUrl:
+        model.copyTabUrl(tabId);
+      case BrowserUrlMenuValue.addBookmark:
+        model.addUrlToBookmark(tabId);
+      case BrowserUrlMenuValue.clearFromHistory:
+        model.clearUrlFromHistory(tabId);
+    }
   }
 
   void onPressedRefresh(String tabId) {
     model.refresh(tabId);
   }
 
-  void onPressedMenuUrl() {
+  void onPressedViewUrlPanel() {
     _menuState.accept(MenuType.view);
     _visibleNavigationBarState.accept(true);
   }
 
   void onEditingCompleteUrl(String tabId, String text) {
     model.requestUrl(tabId, text);
-  }
-
-  void refresh() {
-    // _currentController?.reload();
   }
 
   void _handleTabsCollection() {

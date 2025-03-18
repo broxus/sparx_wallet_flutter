@@ -11,7 +11,7 @@ class UrlField extends StatefulWidget {
   const UrlField({
     required this.tab,
     required this.width,
-    required this.onPressedUrlMenu,
+    required this.onPressedCurrentUrlMenu,
     required this.onPressedRefresh,
     required this.onEditingComplete,
     super.key,
@@ -19,7 +19,7 @@ class UrlField extends StatefulWidget {
 
   final BrowserTab tab;
   final double width;
-  final ValueChanged<String> onPressedUrlMenu;
+  final ValueChanged<String> onPressedCurrentUrlMenu;
   final ValueChanged<String> onPressedRefresh;
   final DoubleValueCallback<String, String> onEditingComplete;
 
@@ -112,7 +112,7 @@ class _UrlFieldState extends State<UrlField> {
     );
   }
 
-  void _onPressedMenu() => widget.onPressedUrlMenu(widget.tab.id);
+  void _onPressedMenu() => widget.onPressedCurrentUrlMenu(widget.tab.id);
 
   void _onPressedRefresh() => widget.onPressedRefresh(widget.tab.id);
 

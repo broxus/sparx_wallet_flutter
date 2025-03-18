@@ -1,7 +1,5 @@
 import 'package:app/feature/browserV2/data/history_type.dart';
-import 'package:app/feature/browserV2/widgets/bottomsheets/book/widgets/history/ui_models/time_period_ui.dart';
 import 'package:app/feature/browserV2/widgets/bottomsheets/book/widgets/history/ui_models/type_history_ui.dart';
-import 'package:app/feature/browserV2/widgets/bottomsheets/book/widgets/history/widgets/history_checkbox_item.dart';
 import 'package:app/feature/browserV2/widgets/bottomsheets/book/widgets/history/widgets/type_history_item.dart';
 import 'package:app/generated/generated.dart';
 import 'package:flutter/material.dart';
@@ -29,9 +27,8 @@ class ClearHistoryModalContent extends StatefulWidget {
 }
 
 class _ClearHistoryModalContentState extends State<ClearHistoryModalContent> {
-  final _periods = TimePeriod.values;
   final _typeHistory = TypeHistory.values;
-  late var _timePeriod = widget.timePeriod;
+  late final _timePeriod = widget.timePeriod;
   late final Set<TypeHistory> _selectedTypes = _typeHistory.toSet();
 
   @override

@@ -37,6 +37,7 @@
   "pasteSeedIntoFirstBox": "You can paste all the words from the clipboard into the first box.",
   "pasteAll": "Paste all",
   "clearAll": "Clear all",
+  "clearFromHistory": "Clear from History",
   "wordsCount": {
     "zero": "{} words",
     "one": "{} word",
@@ -255,6 +256,7 @@
   "walletWord": "Wallet",
   "browserWord": "Browser",
   "copyLink": "Copy link",
+  "copyUrl": "Copy URL",
   "pinTab": "Pin tab",
   "bookmark": "Bookmark",
   "newTab":  "New tab",

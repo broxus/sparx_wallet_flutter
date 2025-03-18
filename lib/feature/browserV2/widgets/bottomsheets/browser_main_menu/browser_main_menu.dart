@@ -5,8 +5,8 @@ import 'package:flutter/material.dart';
 import 'package:ui_components_lib/ui_components_lib.dart';
 import 'package:ui_components_lib/v2/widgets/modals/primary_bottom_sheet.dart';
 
-void showBrowserMainMenu(BuildContext context) {
-  showPrimaryBottomSheet(
+Future<void> showBrowserMainMenu(BuildContext context) {
+  return showPrimaryBottomSheet(
     context: context,
     barrierColor: Colors.black.withOpacity(.8),
     padding: const EdgeInsets.symmetric(horizontal: DimensSizeV2.d21),
@@ -76,35 +76,17 @@ class _Item extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return GestureDetector(
-      behavior: HitTestBehavior.opaque,
-      onTap: () => onPressed(data),
-      child: Padding(
-        padding: const EdgeInsets.symmetric(
-          vertical: DimensSizeV2.d12,
-          horizontal: DimensSizeV2.d16,
-        ),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            Text(
-              data.title,
-              style: context.themeStyleV2.textStyles.labelMedium,
-            ),
-            Icon(
-              data.icon,
-              color: switch (data) {
-                BrowserMainMenuData.deleteBrowsingData ||
-                BrowserMainMenuData.clearHistory =>
-                  // TODO(knightforce): move to colors
-                  const Color(0xFFFF2D55),
-                _ => null
-              },
-              size: DimensSizeV2.d16,
-            ),
-          ],
-        ),
-      ),
+    return PrimaryShapedContainerItem(
+      title: data.title,
+      icon: data.icon,
+      iconColor: switch (data) {
+        BrowserMainMenuData.deleteBrowsingData ||
+        BrowserMainMenuData.clearHistory =>
+          // TODO(knightforce): move to colors
+          const Color(0xFFFF2D55),
+        _ => null
+      },
+      onPressed: () => onPressed(data),
     );
   }
 }

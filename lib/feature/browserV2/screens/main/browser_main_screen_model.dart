@@ -4,6 +4,7 @@ import 'package:app/feature/browserV2/screens/main/browser_main_screen.dart';
 import 'package:app/feature/browserV2/service/browser_service.dart';
 import 'package:elementary/elementary.dart';
 import 'package:elementary_helper/elementary_helper.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_inappwebview/flutter_inappwebview.dart';
 
 const _searchEngineUri = 'https://duckduckgo.com/?q=';
@@ -55,6 +56,34 @@ class BrowserMainScreenModel extends ElementaryModel {
 
   void refresh(String tabId) {
     _browserService.tM.refresh(tabId);
+  }
+
+  void copyTabUrl(String tabId) {
+    final url = _browserService.tM.activeTab?.url;
+
+    if (url == null) {
+      return;
+    }
+
+    Clipboard.setData(
+      ClipboardData(
+        text: url.toString(),
+      ),
+    );
+  }
+
+  void addUrlToBookmark(String tabId) {
+    _browserService.createCurrentTabBookMark();
+  }
+
+  void clearUrlFromHistory(String tabId) {
+    final url = _browserService.tM.activeTab?.url;
+
+    if (url == null) {
+      return;
+    }
+
+    _browserService.hM.removeHistoryItemByUri(url);
   }
 
   (bool, Uri?) _handleUrl(String text) {

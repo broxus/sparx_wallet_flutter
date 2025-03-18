@@ -12,7 +12,7 @@ class BrowserPageControlPanel extends StatelessWidget {
     required this.menuUrlPanelWidth,
     required this.urlWidth,
     required this.onPressedTabs,
-    required this.onPressedUrlMenu,
+    required this.onPressedCurrentUrlMenu,
     required this.onPressedRefresh,
     required this.onEditingCompleteUrl,
     required this.urlSliderController,
@@ -23,7 +23,7 @@ class BrowserPageControlPanel extends StatelessWidget {
   final double menuUrlPanelWidth;
   final double urlWidth;
   final VoidCallback onPressedTabs;
-  final ValueChanged<String> onPressedUrlMenu;
+  final ValueChanged<String> onPressedCurrentUrlMenu;
   final ValueChanged<String> onPressedRefresh;
   final DoubleValueCallback<String, String> onEditingCompleteUrl;
   final ScrollController urlSliderController;
@@ -46,7 +46,7 @@ class BrowserPageControlPanel extends StatelessWidget {
               urlWidth: urlWidth,
               controller: urlSliderController,
               tabsState: tabsState,
-              onPressedUrlMenu: onPressedUrlMenu,
+              onPressedCurrentUrlMenu: onPressedCurrentUrlMenu,
               onPressedRefresh: onPressedRefresh,
               onEditingCompleteUrl: onEditingCompleteUrl,
             ),

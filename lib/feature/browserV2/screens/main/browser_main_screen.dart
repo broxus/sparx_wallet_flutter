@@ -66,7 +66,7 @@ class BrowserMainScreen extends ElementaryWidget<BrowserMainScreenWidgetModel> {
                 menuUrlPanelWidth: wm.screenWidth,
                 urlWidth: wm.urlWidth,
                 onPressedTabs: wm.onPressedTabs,
-                onPressedUrlMenu: wm.onPressedUrlMenu,
+                onPressedCurrentUrlMenu: wm.onPressedCurrentUrlMenu,
                 onPressedRefresh: wm.onPressedRefresh,
                 onEditingCompleteUrl: wm.onEditingCompleteUrl,
                 urlSliderController: wm.urlSliderController,
@@ -82,7 +82,7 @@ class BrowserMainScreen extends ElementaryWidget<BrowserMainScreenWidgetModel> {
               child: UrlTextPanel(
                 wm.activeTabState,
                 key: wm.urlKey,
-                onPressed: wm.onPressedMenuUrl,
+                onPressed: wm.onPressedViewUrlPanel,
               ),
             ),
           ),

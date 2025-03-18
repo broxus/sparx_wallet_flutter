@@ -13,7 +13,7 @@ class BrowserTabViewMenuUrlPanel extends StatefulWidget {
     required this.urlWidth,
     required this.controller,
     required this.tabsState,
-    required this.onPressedUrlMenu,
+    required this.onPressedCurrentUrlMenu,
     required this.onPressedRefresh,
     required this.onEditingCompleteUrl,
     super.key,
@@ -25,7 +25,7 @@ class BrowserTabViewMenuUrlPanel extends StatefulWidget {
   final double urlWidth;
   final ScrollController controller;
   final ListenableState<BrowserTabsCollection> tabsState;
-  final ValueChanged<String> onPressedUrlMenu;
+  final ValueChanged<String> onPressedCurrentUrlMenu;
   final ValueChanged<String> onPressedRefresh;
   final DoubleValueCallback<String, String> onEditingCompleteUrl;
 
@@ -63,7 +63,7 @@ class _BrowserTabViewMenuUrlPanelState
                 key: ValueKey(data.list[index].id),
                 width: widget.urlWidth,
                 tab: data.list[index],
-                onPressedUrlMenu: widget.onPressedUrlMenu,
+                onPressedCurrentUrlMenu: widget.onPressedCurrentUrlMenu,
                 onPressedRefresh: widget.onPressedRefresh,
                 onEditingComplete: widget.onEditingCompleteUrl,
               );
