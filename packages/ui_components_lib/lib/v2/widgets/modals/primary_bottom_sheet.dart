@@ -4,7 +4,7 @@ import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 import 'package:ui_components_lib/ui_components_lib.dart';
 import 'package:ui_components_lib/v2/ui_components_lib_v2.dart';
 
-Future<void> showPrimaryBottomSheet({
+Future<T?> showPrimaryBottomSheet<T>({
   required BuildContext context,
   String? assetsPath,
   Color? barrierColor,
@@ -21,7 +21,7 @@ Future<void> showPrimaryBottomSheet({
   bool showBackButton = false,
   double bottomSpaceSize = DimensSizeV2.d32,
 }) {
-  return showCustomModalBottomSheet(
+  return showCustomModalBottomSheet<T>(
     barrierColor: barrierColor,
     expand: expand,
     context: context,

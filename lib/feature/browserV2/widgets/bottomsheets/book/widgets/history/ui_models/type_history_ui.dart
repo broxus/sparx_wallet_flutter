@@ -1,6 +1,5 @@
+import 'package:app/feature/browserV2/data/history_type.dart';
 import 'package:app/generated/generated.dart';
-
-enum TypeHistory { browsingHistory, cookie, cachedImages }
 
 extension TypeHistoryExtension on TypeHistory {
   String get displayName {

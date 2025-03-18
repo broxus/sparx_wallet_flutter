@@ -1,5 +1,6 @@
 import 'package:app/app/service/messenger/service/messenger_service.dart';
 import 'package:app/app/service/storage_service/general_storage_service.dart';
+import 'package:app/feature/browserV2/data/history_type.dart';
 import 'package:app/feature/browserV2/managers/bookmarks_manager.dart';
 import 'package:app/feature/browserV2/managers/browser_auth_manager.dart';
 import 'package:app/feature/browserV2/managers/favicon_manager.dart';
@@ -89,5 +90,16 @@ class BrowserService {
       return;
     }
     bM.createBrowserBookmark(tab.url, tab.title);
+  }
+
+  void clearData(TimePeriod period, Set<TypeHistory> targets) {
+    for (final target in targets) {
+      switch (target) {
+        case TypeHistory.browsingHistory:
+          hM.clearHistory(period);
+        case TypeHistory.cookie:
+        case TypeHistory.cachedImages:
+      }
+    }
   }
 }

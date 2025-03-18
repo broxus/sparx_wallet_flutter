@@ -8,7 +8,6 @@ import 'package:app/di/di.dart';
 import 'package:app/feature/browserV2/widgets/bottomsheets/book/widgets/history/history_list.dart';
 import 'package:app/feature/browserV2/widgets/bottomsheets/book/widgets/history/history_list_model.dart';
 import 'package:app/feature/browserV2/widgets/bottomsheets/book/widgets/history/ui_models/history_ui_model.dart';
-import 'package:app/feature/browserV2/widgets/bottomsheets/book/widgets/history/ui_models/time_period.dart';
 import 'package:app/feature/browserV2/widgets/bottomsheets/book/widgets/history/widgets/clear_history_modal.dart';
 import 'package:app/utils/common_utils.dart';
 import 'package:collection/collection.dart';
@@ -93,9 +92,23 @@ class HistoryListWidgetModel
     _editState.accept(false);
   }
 
-  void onPressedClear() {
+  Future<void> onPressedClear() async {
     _close();
-    showClearHistoryModal(context);
+    final result = await showClearHistoryModal(context);
+
+    if (result == null) {
+      return;
+    }
+
+    final period = result.$1;
+    final targets = result.$2;
+
+    if (targets.isEmpty) {
+      return;
+    }
+
+    model.clearData(period, targets);
+    _close();
   }
 
   void onPressedRemove(String bookmarkId) {

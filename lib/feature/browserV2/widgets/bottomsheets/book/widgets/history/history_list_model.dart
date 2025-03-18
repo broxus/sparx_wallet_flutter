@@ -1,5 +1,6 @@
 import 'package:app/app/service/localization/service/localization_service.dart';
 import 'package:app/data/models/browser_history_item.dart';
+import 'package:app/feature/browserV2/data/history_type.dart';
 import 'package:app/feature/browserV2/service/browser_service.dart';
 import 'package:app/feature/browserV2/widgets/bottomsheets/book/widgets/history/history_list.dart';
 import 'package:elementary/elementary.dart';
@@ -31,5 +32,7 @@ class HistoryListModel extends ElementaryModel {
 
   void removeHistory(String id) => _browserService.hM.removeHistoryItem(id);
 
-  void clearHistory() => _browserService.hM.clearHistory();
+  void clearData(TimePeriod period, Set<TypeHistory> targets) {
+    _browserService.clearData(period, targets);
+  }
 }
