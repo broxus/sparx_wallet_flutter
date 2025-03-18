@@ -252,6 +252,10 @@ class BrowserTabsManager {
     InAppWebViewController.clearAllCache();
   }
 
+  BrowserTab? getTabById(String id) {
+    return browserTabs.firstWhereOrNull((tab) => tab.id == id);
+  }
+
   /// Put browser tabs to stream
   void _fetchTabsDataFromCache() {
     final tabs = _browserTabsStorageService.getTabs()

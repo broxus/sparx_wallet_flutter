@@ -73,7 +73,7 @@ class BrowserMainScreenModel extends ElementaryModel {
   }
 
   void addUrlToBookmark(String tabId) {
-    _browserService.createCurrentTabBookMark();
+    _browserService.createTabBookMark(tabId);
   }
 
   void clearUrlFromHistory(String tabId) {

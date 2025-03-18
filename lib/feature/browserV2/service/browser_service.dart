@@ -83,12 +83,13 @@ class BrowserService {
     tabs.dispose();
   }
 
-  void createCurrentTabBookMark() {
-    final tab = tM.activeTab;
+  void createTabBookMark(String tabId) {
+    final tab = tM.getTabById(tabId);
 
-    if (tab == null) {
+    if (tab == null || tab.url.host.isEmpty) {
       return;
     }
+
     bM.createBrowserBookmark(tab.url, tab.title);
   }
 

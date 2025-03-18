@@ -12,6 +12,12 @@ class BrowserMainMenuModel extends ElementaryModel {
   final BrowserService _browserService;
 
   void addCurrentToBookmark() {
-    _browserService.createCurrentTabBookMark();
+    final id = _browserService.tM.activeTabId;
+
+    if (id == null) {
+      return;
+    }
+
+    _browserService.createTabBookMark(id);
   }
 }

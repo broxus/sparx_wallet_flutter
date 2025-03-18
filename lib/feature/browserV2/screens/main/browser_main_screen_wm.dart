@@ -39,9 +39,7 @@ BrowserMainScreenWidgetModel defaultBrowserMainScreenWidgetModelFactory(
 /// [WidgetModel] для [BrowserMainScreen]
 class BrowserMainScreenWidgetModel
     extends CustomWidgetModel<BrowserMainScreen, BrowserMainScreenModel>
-    with
-        // SystemButtonWmMixin,
-        TickerProviderWidgetModelMixin {
+    with TickerProviderWidgetModelMixin {
   BrowserMainScreenWidgetModel(
     super.model,
   );
@@ -227,6 +225,7 @@ class BrowserMainScreenWidgetModel
       case BrowserTabMenuItemData.pinTab:
       // TODO(knightforce): handle
       case BrowserTabMenuItemData.bookmark:
+        model.addUrlToBookmark(tab.id);
       case BrowserTabMenuItemData.newTabGroup:
       // TODO(knightforce): handle
       case null:
@@ -298,9 +297,17 @@ class BrowserMainScreenWidgetModel
       model.setActiveTab(id);
     }
 
-    viewTabScrollController.jumpTo(
-      viewMax * urlOffset / urlMax + _urlOffset,
-    );
+    final x = viewMax * urlOffset / urlMax;
+
+    if (x == 0) {
+      viewTabScrollController.animateTo(
+        0,
+        duration: const Duration(milliseconds: 250),
+        curve: Curves.linear,
+      );
+    } else {
+      viewTabScrollController.jumpTo(x + _urlOffset);
+    }
   }
 
   void _handleVisibleNavigationBar() {
