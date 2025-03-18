@@ -1,5 +1,3 @@
-import 'dart:ui';
-
 import 'package:app/feature/wallet/wallet.dart';
 import 'package:app/generated/assets.gen.dart';
 import 'package:flutter/material.dart';
@@ -35,7 +33,7 @@ class WalletView extends StatelessWidget {
     return SafeArea(
       child: Stack(
         children: [
-          _Background(scrollController: scrollController),
+          const _Background(),
           CustomScrollView(
             physics: const ClampingScrollPhysics(),
             controller: scrollController,
@@ -68,41 +66,22 @@ class WalletView extends StatelessWidget {
   }
 }
 
-class _Background extends StatefulWidget {
-  const _Background({
-    required this.scrollController,
-  });
+class _Background extends StatelessWidget {
+  const _Background();
 
-  final ScrollController scrollController;
-
-  @override
-  State<_Background> createState() => _BackgroundState();
-}
-
-class _BackgroundState extends State<_Background> {
   @override
   Widget build(BuildContext context) {
     return Positioned(
-      top: 1,
-      left: 1,
-      right: 1,
-      child: Stack(
-        alignment: Alignment.center,
-        children: [
-          Padding(
-            padding: const EdgeInsets.only(top: DimensSizeV2.d40),
-            child: SvgPicture.asset(Assets.images.bgMain.path),
-          ),
-          BackdropFilter(
-            filter: ImageFilter.blur(
-              sigmaX: 55,
-              sigmaY: 55,
-            ),
-            child: Container(
-              color: Colors.transparent,
-            ),
-          ),
-        ],
+      top: -DimensSizeV2.d16,
+      left: 0,
+      right: 0,
+      child: Padding(
+        padding: const EdgeInsets.all(DimensSizeV2.d8),
+        child: Image.asset(
+          Assets.images.bgMain.bgMain.path,
+          fit: BoxFit.contain,
+          alignment: Alignment.topCenter,
+        ),
       ),
     );
   }

@@ -79,7 +79,5 @@
 	<array>
 		<string>applinks:l.sparxwallet.com</string>
 	</array>
-	<key>FLTEnableImpeller</key>
-  	<false />
 </dict>
 </plist>

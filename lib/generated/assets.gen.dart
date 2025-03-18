@@ -113,8 +113,8 @@ class $AssetsImagesGen {
   AssetGenImage get bgInternet =>
       const AssetGenImage('assets/images/bg_internet.png');
 
-  /// File path: assets/images/bg_main.svg
-  SvgGenImage get bgMain => const SvgGenImage('assets/images/bg_main.svg');
+  /// Directory path: assets/images/bg_main
+  $AssetsImagesBgMainGen get bgMain => const $AssetsImagesBgMainGen();
 
   /// File path: assets/images/blur_background.png
   AssetGenImage get blurBackground =>
@@ -447,7 +447,6 @@ class $AssetsImagesGen {
         arrowsLeftRight,
         bgConnection,
         bgInternet,
-        bgMain,
         blurBackground,
         browserCard01,
         browserCard02,
@@ -590,6 +589,17 @@ class $AssetsImagesAlertOctagonFillGen {
 
   /// List of all assets
   List<AssetGenImage> get values => [alertOctagonFill];
+}
+
+class $AssetsImagesBgMainGen {
+  const $AssetsImagesBgMainGen();
+
+  /// File path: assets/images/bg_main/bg_main.png
+  AssetGenImage get bgMain =>
+      const AssetGenImage('assets/images/bg_main/bg_main.png');
+
+  /// List of all assets
+  List<AssetGenImage> get values => [bgMain];
 }
 
 class $AssetsImagesCheckCircleFillGen {
