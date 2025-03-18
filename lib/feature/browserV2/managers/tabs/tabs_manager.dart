@@ -80,6 +80,10 @@ class BrowserTabsManager {
     _controllers.remove(tabId);
   }
 
+  void refresh(String tabId) {
+    _controllers[tabId]?.reload();
+  }
+
   void closeAllControllers() {
     _controllers
       ..forEach((k, c) => c.dispose())

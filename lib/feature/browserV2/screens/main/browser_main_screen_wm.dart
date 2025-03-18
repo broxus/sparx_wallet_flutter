@@ -237,7 +237,7 @@ class BrowserMainScreenWidgetModel
   }
 
   void onPressedRefresh(String tabId) {
-    // TODO(knightforce): create logic
+    model.refresh(tabId);
   }
 
   void onPressedMenuUrl() {

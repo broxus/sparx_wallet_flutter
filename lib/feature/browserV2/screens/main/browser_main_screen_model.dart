@@ -53,6 +53,10 @@ class BrowserMainScreenModel extends ElementaryModel {
 
   void closeAllControllers() => _browserService.tM.closeAllControllers();
 
+  void refresh(String tabId) {
+    _browserService.tM.refresh(tabId);
+  }
+
   (bool, Uri?) _handleUrl(String text) {
     try {
       final uri = Uri.parse(text);
