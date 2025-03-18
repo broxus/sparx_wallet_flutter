@@ -7,7 +7,10 @@ import 'package:ui_components_lib/ui_components_lib.dart';
 import 'package:ui_components_lib/v2/ui_components_lib_v2.dart';
 import 'package:ui_components_lib/v2/widgets/modals/primary_bottom_sheet.dart';
 
-void showClearHistoryModal(BuildContext context, TimePeriod timePeriod) {
+void showClearHistoryModal(
+  BuildContext context, {
+  TimePeriod timePeriod = TimePeriod.lastHour,
+}) {
   showPrimaryBottomSheet(
     context: context,
     content: ClearHistoryModalContent(timePeriod),

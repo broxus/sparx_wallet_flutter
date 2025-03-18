@@ -1,5 +1,4 @@
-import 'package:flutter/material.dart';
-import 'package:lucide_icons_flutter/lucide_icons.dart';
+import 'package:app/generated/generated.dart';
 
 enum TypeHistory { browsingHistory, cookie, cachedImages }
 
@@ -26,14 +25,14 @@ extension TypeHistoryExtension on TypeHistory {
     }
   }
 
-  IconData get icon {
+  String get icon {
     switch (this) {
       case TypeHistory.browsingHistory:
-        return LucideIcons.clock;
+        return Assets.images.historyFill.path;
       case TypeHistory.cookie:
-        return LucideIcons.key;
+        return Assets.images.key.path;
       case TypeHistory.cachedImages:
-        return LucideIcons.camera;
+        return Assets.images.camera.path;
     }
   }
 }

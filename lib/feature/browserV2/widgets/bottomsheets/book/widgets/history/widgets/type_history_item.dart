@@ -1,6 +1,6 @@
+
 import 'package:flutter/material.dart';
-import 'package:ui_components_lib/components/input/common_checkbox.dart';
-import 'package:ui_components_lib/v2/ui_components_lib_v2.dart';
+import 'package:ui_components_lib/ui_components_lib.dart';
 
 class TypeHistoryItem extends StatelessWidget {
   const TypeHistoryItem({
@@ -14,7 +14,7 @@ class TypeHistoryItem extends StatelessWidget {
 
   final String title;
   final String description;
-  final IconData icon;
+  final String icon;
   final bool isSelected;
   final ValueChanged<bool?> onChanged;
 
@@ -35,10 +35,11 @@ class TypeHistoryItem extends StatelessWidget {
                 color: theme.colors.backgroundAlpha,
                 borderRadius: BorderRadius.circular(DimensRadiusV2.radius12)),
             child: Center(
-              child: Icon(
+              child: SvgPicture.asset(
                 icon,
-                color: theme.colors.content0,
-                size: DimensSizeV2.d20,
+                colorFilter: theme.colors.content0.colorFilter,
+                width: DimensSizeV2.d20,
+                height: DimensSizeV2.d20,
               ),
             ),
           ),

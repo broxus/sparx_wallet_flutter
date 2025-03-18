@@ -8,6 +8,8 @@ import 'package:app/di/di.dart';
 import 'package:app/feature/browserV2/widgets/bottomsheets/book/widgets/history/history_list.dart';
 import 'package:app/feature/browserV2/widgets/bottomsheets/book/widgets/history/history_list_model.dart';
 import 'package:app/feature/browserV2/widgets/bottomsheets/book/widgets/history/ui_models/history_ui_model.dart';
+import 'package:app/feature/browserV2/widgets/bottomsheets/book/widgets/history/ui_models/time_period.dart';
+import 'package:app/feature/browserV2/widgets/bottomsheets/book/widgets/history/widgets/clear_history_modal.dart';
 import 'package:app/utils/common_utils.dart';
 import 'package:collection/collection.dart';
 import 'package:easy_localization/easy_localization.dart';
@@ -92,7 +94,8 @@ class HistoryListWidgetModel
   }
 
   void onPressedClear() {
-    // todo
+    _close();
+    showClearHistoryModal(context);
   }
 
   void onPressedRemove(String bookmarkId) {
