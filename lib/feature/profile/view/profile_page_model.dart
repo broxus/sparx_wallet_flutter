@@ -1,5 +1,5 @@
 import 'package:app/app/service/service.dart';
-import 'package:app/feature/browserV2/service/browser_service.dart';
+import 'package:app/feature/browser_v2/service/browser_service.dart';
 import 'package:app/generated/generated.dart';
 import 'package:app/utils/app_version_utils.dart';
 import 'package:elementary/elementary.dart';

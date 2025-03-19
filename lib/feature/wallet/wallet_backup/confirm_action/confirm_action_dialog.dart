@@ -11,12 +11,12 @@ import 'package:nekoton_repository/nekoton_repository.dart';
 import 'package:ui_components_lib/v2/ui_components_lib_v2.dart';
 import 'package:ui_components_lib/v2/widgets/modals/primary_bottom_sheet.dart';
 
-void showConfirmActionDialog(
+Future<void> showConfirmActionDialog(
   BuildContext context,
   KeyAccount? currentAccount,
   VoidCallback finishedBackupCallback,
 ) {
-  showPrimaryBottomSheet(
+  return showPrimaryBottomSheet(
     context: context,
     content: ContentConfirmAction(
       finishedBackupCallback: finishedBackupCallback,

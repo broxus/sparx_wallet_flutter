@@ -16,6 +16,8 @@ class PressBottomNavigationEvent extends BottomNavigationEvent {
   late final bool isWalletTab = currentTab == RootTab.wallet;
 }
 
+class OpenBrowserTabEvent extends BottomNavigationEvent {}
+
 class VisibleNavigationEvent extends BottomNavigationEvent {}
 
 class HideNavigationEvent extends VisibleNavigationEvent {}

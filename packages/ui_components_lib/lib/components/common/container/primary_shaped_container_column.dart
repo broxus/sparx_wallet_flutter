@@ -36,6 +36,7 @@ class PrimaryShapedContainerItem extends StatelessWidget {
     required this.icon,
     required this.onPressed,
     this.iconColor,
+    super.key,
   });
 
   final String title;
