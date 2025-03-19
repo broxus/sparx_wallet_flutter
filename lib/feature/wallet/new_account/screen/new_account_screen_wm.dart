@@ -26,7 +26,7 @@ class NewAccountScreenWidgetModel
     super.model,
   );
 
-  bool get isError => widget.publicKey == null || widget.password == null;
+  bool get isError => widget.publicKey == null;
 
   @override
   void initWidgetModel() {
@@ -35,19 +35,8 @@ class NewAccountScreenWidgetModel
   }
 
   void _init() {
-    if (!isError) {
-      return;
+    if (widget.publicKey == null) {
+      model.showError(context, LocaleKeys.publicKeyNull.tr());
     }
-
-    final publicKeyText =
-        widget.publicKey == null ? LocaleKeys.publicKeyNull.tr() : '';
-
-    final passwordText =
-        widget.password == null ? ' ${LocaleKeys.passwordNull.tr()}' : '';
-
-    model.showError(
-      context,
-      '$publicKeyText$passwordText'.trim(),
-    );
   }
 }

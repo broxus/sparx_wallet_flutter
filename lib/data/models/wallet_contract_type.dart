@@ -15,6 +15,8 @@ enum WalletContractType {
   everWallet,
   multisig2,
   multisig2_1,
+  walletV3R1,
+  walletV3R2,
   walletV4R1,
   walletV4R2,
   walletV5R1;

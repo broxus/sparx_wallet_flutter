@@ -569,6 +569,8 @@
   "walletDescriptionMultisig2": "Multisig contract with upgradable code. Requires deployment.",
   "walletDescriptionMultisig2_1": "For experienced users",
   "walletDescriptionEverWallet": "Recommended",
+  "walletDescriptionWalletV3R1": "TON type of smart contract v3R1",
+  "walletDescriptionWalletV3R2": "TON type of smart contract v3R2",
   "walletDescriptionWalletV4R1": "TON type of smart contract v4R1",
   "walletDescriptionWalletV4R2": "TON type of smart contract v4R2",
   "walletDescriptionWalletV5R1": "TON type of smart contract w5",

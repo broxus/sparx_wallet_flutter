@@ -586,6 +586,8 @@ abstract class LocaleKeys {
   static const walletDescriptionMultisig2 = 'walletDescriptionMultisig2';
   static const walletDescriptionMultisig2_1 = 'walletDescriptionMultisig2_1';
   static const walletDescriptionEverWallet = 'walletDescriptionEverWallet';
+  static const walletDescriptionWalletV3R1 = 'walletDescriptionWalletV3R1';
+  static const walletDescriptionWalletV3R2 = 'walletDescriptionWalletV3R2';
   static const walletDescriptionWalletV4R1 = 'walletDescriptionWalletV4R1';
   static const walletDescriptionWalletV4R2 = 'walletDescriptionWalletV4R2';
   static const walletDescriptionWalletV5R1 = 'walletDescriptionWalletV5R1';

@@ -96,6 +96,10 @@ WalletType _mapToWalletType(Map<String, dynamic> data) {
       return const WalletType.highloadWalletV2();
     case 'everWallet':
       return const WalletType.everWallet();
+    case 'walletV3R1':
+      return const WalletType.walletV3R1();
+    case 'walletV3R2':
+      return const WalletType.walletV3R2();
     case 'walletV4R1':
       return const WalletType.walletV4R1();
     case 'walletV4R2':
@@ -186,6 +190,8 @@ WalletDefaultAccountNames _mapRoWalletDefaultAccountNames(
     walletV3: json['walletV3'] as String,
     highloadWalletV2: json['highloadWalletV2'] as String,
     everWallet: json['everWallet'] as String,
+    walletV3R1: json['walletV3R1'] as String? ?? 'WalletV3R1',
+    walletV3R2: json['walletV3R2'] as String? ?? 'WalletV3R2',
     walletV4R1: json['walletV4R1'] as String,
     walletV4R2: json['walletV4R2'] as String,
     walletV5R1: json['walletV5R1'] as String,

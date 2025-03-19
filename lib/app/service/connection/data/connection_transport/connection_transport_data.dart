@@ -61,6 +61,8 @@ class ConnectionTransportData {
           walletV3: 'Wallet V3',
           highloadWalletV2: 'Highload Wallet V2',
           everWallet: 'Ever Wallet',
+          walletV3R1: 'Wallet V3R1',
+          walletV3R2: 'Wallet V3R2',
           walletV4R1: 'Wallet V4R1',
           walletV4R2: 'Wallet V4R2',
           walletV5R1: 'Wallet V5R1',
@@ -103,6 +105,8 @@ class WalletDefaultAccountNames {
     required this.walletV3,
     required this.highloadWalletV2,
     required this.everWallet,
+    required this.walletV3R1,
+    required this.walletV3R2,
     required this.walletV4R1,
     required this.walletV4R2,
     required this.walletV5R1,
@@ -112,6 +116,8 @@ class WalletDefaultAccountNames {
   final String walletV3;
   final String highloadWalletV2;
   final String everWallet;
+  final String walletV3R1;
+  final String walletV3R2;
   final String walletV4R1;
   final String walletV4R2;
   final String walletV5R1;
