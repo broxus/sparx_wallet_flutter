@@ -16,9 +16,6 @@ class BrowserTab with _$BrowserTab {
     /// Initial url of the tab.
     @uriJsonConverter required Uri url,
 
-    /// The screenshot id of the tab.
-    required String? imageId,
-
     /// The title of the tab.
     required String? title,
 
@@ -32,7 +29,6 @@ class BrowserTab with _$BrowserTab {
       BrowserTab(
         id: const Uuid().v4(),
         url: url,
-        imageId: null,
         title: null,
         sortingOrder: NtpTime.now().millisecondsSinceEpoch.toDouble(),
       );

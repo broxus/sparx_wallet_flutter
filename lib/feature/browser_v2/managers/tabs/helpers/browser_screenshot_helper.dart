@@ -1,7 +1,10 @@
+import 'dart:collection';
 import 'dart:io';
 
 import 'package:app/app/service/storage_service/general_storage_service.dart';
 import 'package:app/feature/browser_v2/data/tabs_data.dart';
+import 'package:app/feature/browser_v2/models/tab/browser_tab.dart';
+import 'package:collection/collection.dart';
 import 'package:elementary_helper/elementary_helper.dart';
 import 'package:flutter/services.dart';
 import 'package:uuid/uuid.dart';
@@ -10,6 +13,8 @@ class BrowserManagerScreenshotHelper {
   BrowserManagerScreenshotHelper(
     this._generalStorageService,
   );
+
+  static const _screenshotPrefix = 'screenshot-';
 
   /// Subject of browser tabs
   final _screenshotsState = StateNotifier<ImageCache>(initValue: ImageCache());
@@ -39,6 +44,10 @@ class BrowserManagerScreenshotHelper {
     }
   }();
 
+  void init(List<BrowserTab> tabs) {
+    _fetchScreenshots(tabs);
+  }
+
   void dispose() {
     _screenshotsState.dispose();
   }
@@ -66,10 +75,7 @@ class BrowserManagerScreenshotHelper {
         await Directory(imageDirectoryPath).create(recursive: true);
       } catch (_) {}
 
-      final imagePath = _getImagePath(
-        tabId: tabId,
-        imageId: const Uuid().v4(),
-      );
+      final imagePath = _getImagePath(tabId);
 
       if (imagePath == null) {
         return;
@@ -113,12 +119,44 @@ class BrowserManagerScreenshotHelper {
     );
   }
 
-  String? _getImagePath({
-    required String tabId,
-    String? imageId,
-  }) {
+  Future<void> _fetchScreenshots(List<BrowserTab> tabs) async {
+    final result = HashMap<String, String>();
+
+    for (final tab in tabs) {
+      try {
+        final imageDirectoryPath = _getTabDirectoryPath(tab.id);
+        if (imageDirectoryPath == null) {
+          continue;
+        }
+
+        final path = _getTabDirectoryPath(tab.id);
+
+        if (path == null) {
+          continue;
+        }
+
+        final files = await Directory(path).list().toList();
+
+        final imagePath = files
+            .firstWhereOrNull(
+                (entity) => entity.path.contains('/$_screenshotPrefix'))
+            ?.path;
+
+        if (imagePath == null) {
+          continue;
+        }
+
+        result[tab.id] = imagePath;
+      } catch (_) {}
+    }
+    _screenshotsState.accept(ImageCache(result));
+  }
+
+  String? _getImagePath(
+    String tabId,
+  ) {
     final path = _getTabDirectoryPath(tabId);
-    return path == null || imageId == null ? null : '$path/$imageId';
+    return path == null ? null : '$path/$_screenshotPrefix${const Uuid().v4()}';
   }
 
   String? _getTabDirectoryPath(String tabId) =>

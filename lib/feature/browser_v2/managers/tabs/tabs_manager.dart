@@ -280,6 +280,8 @@ class BrowserTabsManager {
 
     _tabsState.accept(BrowserTabsCollection(tabs));
 
+    _screenshotHelper.init(tabs);
+
     _activeTabState.accept(activeTab);
   }
 

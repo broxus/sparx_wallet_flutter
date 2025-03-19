@@ -27,9 +27,6 @@ mixin _$BrowserTab {
   @uriJsonConverter
   Uri get url => throw _privateConstructorUsedError;
 
-  /// The screenshot id of the tab.
-  String? get imageId => throw _privateConstructorUsedError;
-
   /// The title of the tab.
   String? get title => throw _privateConstructorUsedError;
 
@@ -55,7 +52,6 @@ abstract class $BrowserTabCopyWith<$Res> {
   $Res call(
       {String id,
       @uriJsonConverter Uri url,
-      String? imageId,
       String? title,
       double sortingOrder});
 }
@@ -77,7 +73,6 @@ class _$BrowserTabCopyWithImpl<$Res, $Val extends BrowserTab>
   $Res call({
     Object? id = null,
     Object? url = null,
-    Object? imageId = freezed,
     Object? title = freezed,
     Object? sortingOrder = null,
   }) {
@@ -90,10 +85,6 @@ class _$BrowserTabCopyWithImpl<$Res, $Val extends BrowserTab>
           ? _value.url
           : url // ignore: cast_nullable_to_non_nullable
               as Uri,
-      imageId: freezed == imageId
-          ? _value.imageId
-          : imageId // ignore: cast_nullable_to_non_nullable
-              as String?,
       title: freezed == title
           ? _value.title
           : title // ignore: cast_nullable_to_non_nullable
@@ -117,7 +108,6 @@ abstract class _$$BrowserTabImplCopyWith<$Res>
   $Res call(
       {String id,
       @uriJsonConverter Uri url,
-      String? imageId,
       String? title,
       double sortingOrder});
 }
@@ -137,7 +127,6 @@ class __$$BrowserTabImplCopyWithImpl<$Res>
   $Res call({
     Object? id = null,
     Object? url = null,
-    Object? imageId = freezed,
     Object? title = freezed,
     Object? sortingOrder = null,
   }) {
@@ -150,10 +139,6 @@ class __$$BrowserTabImplCopyWithImpl<$Res>
           ? _value.url
           : url // ignore: cast_nullable_to_non_nullable
               as Uri,
-      imageId: freezed == imageId
-          ? _value.imageId
-          : imageId // ignore: cast_nullable_to_non_nullable
-              as String?,
       title: freezed == title
           ? _value.title
           : title // ignore: cast_nullable_to_non_nullable
@@ -172,7 +157,6 @@ class _$BrowserTabImpl extends _BrowserTab {
   _$BrowserTabImpl(
       {required this.id,
       @uriJsonConverter required this.url,
-      required this.imageId,
       required this.title,
       required this.sortingOrder})
       : super._();
@@ -189,10 +173,6 @@ class _$BrowserTabImpl extends _BrowserTab {
   @uriJsonConverter
   final Uri url;
 
-  /// The screenshot id of the tab.
-  @override
-  final String? imageId;
-
   /// The title of the tab.
   @override
   final String? title;
@@ -203,7 +183,7 @@ class _$BrowserTabImpl extends _BrowserTab {
 
   @override
   String toString() {
-    return 'BrowserTab(id: $id, url: $url, imageId: $imageId, title: $title, sortingOrder: $sortingOrder)';
+    return 'BrowserTab(id: $id, url: $url, title: $title, sortingOrder: $sortingOrder)';
   }
 
   @override
@@ -213,7 +193,6 @@ class _$BrowserTabImpl extends _BrowserTab {
             other is _$BrowserTabImpl &&
             (identical(other.id, id) || other.id == id) &&
             (identical(other.url, url) || other.url == url) &&
-            (identical(other.imageId, imageId) || other.imageId == imageId) &&
             (identical(other.title, title) || other.title == title) &&
             (identical(other.sortingOrder, sortingOrder) ||
                 other.sortingOrder == sortingOrder));
@@ -221,8 +200,7 @@ class _$BrowserTabImpl extends _BrowserTab {
 
   @JsonKey(includeFromJson: false, includeToJson: false)
   @override
-  int get hashCode =>
-      Object.hash(runtimeType, id, url, imageId, title, sortingOrder);
+  int get hashCode => Object.hash(runtimeType, id, url, title, sortingOrder);
 
   /// Create a copy of BrowserTab
   /// with the given fields replaced by the non-null parameter values.
@@ -244,7 +222,6 @@ abstract class _BrowserTab extends BrowserTab {
   factory _BrowserTab(
       {required final String id,
       @uriJsonConverter required final Uri url,
-      required final String? imageId,
       required final String? title,
       required final double sortingOrder}) = _$BrowserTabImpl;
   _BrowserTab._() : super._();
@@ -260,10 +237,6 @@ abstract class _BrowserTab extends BrowserTab {
   @override
   @uriJsonConverter
   Uri get url;
-
-  /// The screenshot id of the tab.
-  @override
-  String? get imageId;
 
   /// The title of the tab.
   @override
