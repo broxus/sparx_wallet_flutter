@@ -1,4 +1,5 @@
 import 'package:app/feature/root/view/root_tab.dart';
+import 'package:app/utils/system_utils.dart';
 import 'package:app/widgets/bottom_navigation_bar/custom_bottom_navigation_bar_wm.dart';
 import 'package:elementary/elementary.dart';
 import 'package:elementary_helper/elementary_helper.dart';
@@ -16,7 +17,7 @@ class CustomBottomNavigationBar
           key: key,
         );
 
-  static const height = DimensSizeV2.d48;
+  static final height = DimensSizeV2.d48 + getViewPadding().bottom;
 
   @override
   Widget build(CustomBottomNavigationBarWidgetModel wm) {
