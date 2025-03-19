@@ -393,6 +393,17 @@ class AssetsService {
 
       final manifest = TonAssetsManifest.fromJson(decoded);
 
+      Currencies().registerList(
+        manifest.tokens.map(
+          (e) => Currency.create(
+            e.symbol,
+            e.decimals,
+            symbol: e.symbol,
+            pattern: moneyPattern(e.decimals),
+          ),
+        ),
+      );
+
       await storage.updateSystemTokenContractAssets(manifest.tokens);
     } catch (e, st) {
       _logger.severe('_updateSystemContracts', e, st);

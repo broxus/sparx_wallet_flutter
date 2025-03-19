@@ -84,12 +84,12 @@ class InpageProvider extends ProviderApi {
         LocaleKeys.accountInteractionNotPermitted.tr(),
       );
     }
-    if (accountInteraction.address != account) {
+    if (account != null && accountInteraction.address != account) {
       throw s.ApprovalsHandleException(
         LocaleKeys.specifiedAccountInteractionNotPermitted.tr(),
       );
     }
-    if (accountInteraction.publicKey != publicKey) {
+    if (publicKey != null && accountInteraction.publicKey != publicKey) {
       throw s.ApprovalsHandleException(
         LocaleKeys.specifiedSignerIsNotPermitted.tr(),
       );

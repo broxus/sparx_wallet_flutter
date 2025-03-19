@@ -101,14 +101,20 @@ extension FunctionalExt<T> on T {
 }
 
 extension MoneyExt on Money {
-  Money exchangeToUSD(Fixed price, [int toDecimalDigits = 7]) => exchangeTo(
-        ExchangeRate.fromFixed(
-          price,
-          fromIsoCode: currency.isoCode,
-          toIsoCode: 'USD',
-          toDecimalDigits: toDecimalDigits,
-        ),
-      );
+  Money exchangeToUSD(Fixed price, [int toDecimalDigits = 7]) {
+    if (price == Fixed.zero || amount == Fixed.zero) {
+      return Money.fromBigInt(BigInt.zero, isoCode: 'USD');
+    }
+
+    return exchangeTo(
+      ExchangeRate.fromFixed(
+        price,
+        fromIsoCode: currency.isoCode,
+        toIsoCode: 'USD',
+        toDecimalDigits: toDecimalDigits,
+      ),
+    );
+  }
 
   /// Returns a `Money` object that is guaranteed to have a non-negative amount.
   ///

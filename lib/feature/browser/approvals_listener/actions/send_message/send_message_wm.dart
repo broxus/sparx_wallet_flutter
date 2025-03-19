@@ -135,13 +135,15 @@ class SendMessageWidgetModel
     numberUnconfirmedTransactions =
         (walletTonState.wallet?.unconfirmedTransactions.length ?? 0) +
             (walletTonState.wallet?.pendingTransactions.length ?? 0);
-    final pattern = details.decimals > 0 ? moneyPattern(details.decimals) : '0';
+
     final currency = Currency.create(
       details.symbol,
       details.decimals,
       symbol: details.symbol,
-      pattern: pattern,
+      pattern: moneyPattern(details.decimals),
     );
+
+    Currencies().register(currency);
 
     _data.accept(
       TransferData(
