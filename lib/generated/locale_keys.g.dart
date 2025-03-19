@@ -222,7 +222,8 @@ abstract class LocaleKeys {
   static const deleteBrowsingData = 'deleteBrowsingData';
   static const browserTranslatePage = 'browserTranslatePage';
   static const clearWord = 'clearWord';
-  static const browserClearHistory = 'browserClearHistory';
+  static const browsingHistory = 'browsingHistory';
+  static const clearAllBrowsingHistory = 'clearAllBrowsingHistory';
   static const browserClearCookies = 'browserClearCookies';
   static const browserClearCookiesDescription =
       'browserClearCookiesDescription';

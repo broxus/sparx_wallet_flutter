@@ -5,22 +5,22 @@ extension TypeHistoryExtension on TypeHistory {
   String get displayName {
     switch (this) {
       case TypeHistory.browsingHistory:
-        return 'Browsing history';
+        return LocaleKeys.browsingHistory.tr();
       case TypeHistory.cookie:
-        return 'Cookie, site data';
+        return LocaleKeys.browserClearCookies.tr();
       case TypeHistory.cachedImages:
-        return 'Cached images and files';
+        return LocaleKeys.browserClearCache.tr();
     }
   }
 
   String get description {
     switch (this) {
       case TypeHistory.browsingHistory:
-        return 'Clears all browsing history ';
+        return LocaleKeys.clearAllBrowsingHistory.tr();
       case TypeHistory.cookie:
-        return 'Most sites will log you out';
+        return LocaleKeys.browserClearCookiesDescription.tr();
       case TypeHistory.cachedImages:
-        return 'Less than 1 MB';
+        return '';
     }
   }
 

@@ -1,6 +1,7 @@
 import 'package:app/core/error_handler_factory.dart';
 import 'package:app/core/wm/custom_wm.dart';
 import 'package:app/di/di.dart';
+import 'package:app/feature/browserV2/widgets/bottomsheets/book/widgets/history/widgets/clear_history_modal.dart';
 import 'package:app/feature/browserV2/widgets/bottomsheets/browser_main_menu/browser_main_menu.dart';
 import 'package:app/feature/browserV2/widgets/bottomsheets/browser_main_menu/browser_main_menu_model.dart';
 import 'package:app/feature/browserV2/widgets/bottomsheets/browser_main_menu/data/browser_main_menu_data.dart';
@@ -34,14 +35,26 @@ class BrowserMainMenuWidgetModel
   void onPressedItem(BrowserMainMenuData value) {
     switch (value) {
       case BrowserMainMenuData.deleteBrowsingData:
+        model.deleteBrowsingData();
+        _close();
       case BrowserMainMenuData.clearHistory:
+        _close();
+        showClearHistoryModal(context);
       case BrowserMainMenuData.newTab:
+        _close();
+        model.createTab();
       case BrowserMainMenuData.reload:
+        model.reload();
+        _close();
       case BrowserMainMenuData.translatePage:
+        _close();
       case BrowserMainMenuData.addBookmark:
         model.addCurrentToBookmark();
+        _close();
     }
+  }
 
+  void _close() {
     Navigator.of(context).pop();
   }
 }

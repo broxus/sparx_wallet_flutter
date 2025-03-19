@@ -50,10 +50,11 @@ class BrowserMainMenu extends ElementaryWidget<BrowserMainMenuWidgetModel> {
               BrowserMainMenuData.reload,
               onPressed: wm.onPressedItem,
             ),
-            _Item(
-              BrowserMainMenuData.translatePage,
-              onPressed: wm.onPressedItem,
-            ),
+            // TODO(knightforce): not ready
+            // _Item(
+            //   BrowserMainMenuData.translatePage,
+            //   onPressed: wm.onPressedItem,
+            // ),
             _Item(
               BrowserMainMenuData.addBookmark,
               onPressed: wm.onPressedItem,

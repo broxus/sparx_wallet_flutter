@@ -84,6 +84,10 @@ class BrowserTabsManager {
     _controllers[tabId]?.reload();
   }
 
+  void refreshActiveTab() {
+    _controllers[activeTabId]?.reload();
+  }
+
   void closeAllControllers() {
     _controllers
       ..forEach((k, c) => c.dispose())
