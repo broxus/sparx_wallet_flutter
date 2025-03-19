@@ -2,6 +2,7 @@ import 'package:app/feature/browser_v2/data/tabs_data.dart';
 import 'package:app/feature/browser_v2/screens/main/widgets/page/browser_page.dart';
 import 'package:elementary_helper/elementary_helper.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
 import 'package:flutter_inappwebview/flutter_inappwebview.dart';
 
 class BrowserPagesView extends StatelessWidget {
@@ -42,6 +43,7 @@ class BrowserPagesView extends StatelessWidget {
               if (data == null) {
                 return const SizedBox.shrink();
               }
+
               return ListView.builder(
                 scrollDirection: Axis.horizontal,
                 controller: scrollController,
@@ -67,5 +69,24 @@ class BrowserPagesView extends StatelessWidget {
         );
       },
     );
+  }
+}
+
+class P extends NeverScrollableScrollPhysics {
+  @override
+  double adjustPositionForNewDimensions({
+    required ScrollMetrics oldPosition,
+    required ScrollMetrics newPosition,
+    required bool isScrolling,
+    required double velocity,
+  }) {
+    if (parent == null) {
+      return newPosition.pixels;
+    }
+    return parent!.adjustPositionForNewDimensions(
+        oldPosition: oldPosition,
+        newPosition: newPosition,
+        isScrolling: isScrolling,
+        velocity: velocity);
   }
 }

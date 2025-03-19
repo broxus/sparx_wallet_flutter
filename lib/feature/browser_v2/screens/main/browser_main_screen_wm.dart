@@ -269,6 +269,7 @@ class BrowserMainScreenWidgetModel
   }
 
   void _handleTabsCollection() {
+    print('!!! ${urlSliderController}');
     final count = _tabsCollection?.count ?? 0;
     if (_tabsCollection?.isNotEmpty ?? true) {
       final id = _tabsCollection!.lastTab!.id;
@@ -305,13 +306,15 @@ class BrowserMainScreenWidgetModel
 
     final x = viewMax * urlOffset / urlMax;
 
+    print('!!! x = $x $viewMax => $urlOffset => $urlMax');
+
     if (x == 0) {
       viewTabScrollController.animateTo(
         0,
         duration: const Duration(milliseconds: 250),
         curve: Curves.linear,
       );
-    } else {
+    } else if (!x.isNaN) {
       viewTabScrollController.jumpTo(x);
     }
   }

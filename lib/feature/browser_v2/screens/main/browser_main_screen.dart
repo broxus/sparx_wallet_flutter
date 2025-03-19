@@ -30,18 +30,20 @@ class BrowserMainScreen extends ElementaryWidget<BrowserMainScreenWidgetModel> {
               onChangeTab: wm.onChangeTab,
               onCloseTab: wm.onCloseTab,
             ),
-            Listener(
-              onPointerDown: wm.onPointerDown,
-              onPointerUp: wm.onPointerUp,
-              child: BrowserPagesView(
-                width: wm.screenWidth,
-                viewVisibleState: wm.viewVisibleState,
-                tabsState: wm.tabsState,
-                scrollController: wm.viewTabScrollController,
-                progressController: wm.progressController,
-                onCreate: wm.onCreateController,
-                onScrollChanged: wm.onScrollChanged,
-                onDispose: wm.onDisposeController,
+            Positioned.fill(
+              child: Listener(
+                onPointerDown: wm.onPointerDown,
+                onPointerUp: wm.onPointerUp,
+                child: BrowserPagesView(
+                  width: wm.screenWidth,
+                  viewVisibleState: wm.viewVisibleState,
+                  tabsState: wm.tabsState,
+                  scrollController: wm.viewTabScrollController,
+                  progressController: wm.progressController,
+                  onCreate: wm.onCreateController,
+                  onScrollChanged: wm.onScrollChanged,
+                  onDispose: wm.onDisposeController,
+                ),
               ),
             ),
             _ItemPosition(
