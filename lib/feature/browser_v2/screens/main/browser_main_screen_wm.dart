@@ -306,7 +306,7 @@ class BrowserMainScreenWidgetModel
         curve: Curves.linear,
       );
     } else {
-      viewTabScrollController.jumpTo(x + _urlOffset);
+      viewTabScrollController.jumpTo(x);
     }
   }
 
