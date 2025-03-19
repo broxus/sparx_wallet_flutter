@@ -6,6 +6,7 @@ class DimensSizeV2 {
   static const double d2 = 2;
   static const double d3 = 3;
   static const double d4 = 4;
+  static const double d5 = 5;
   static const double d6 = 6;
   static const double d7 = 7;
   static const double d8 = 8;
@@ -36,10 +37,12 @@ class DimensSizeV2 {
   static const double d62 = 62;
   static const double d64 = 64;
   static const double d68 = 68;
+  static const double d70 = 70;
   static const double d72 = 72;
   static const double d74 = 74;
   static const double d76 = 76;
   static const double d80 = 80;
+  static const double d84 = 84;
   static const double d90 = 90;
   static const double d100 = 100;
   static const double d128 = 128;

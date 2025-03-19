@@ -42,6 +42,7 @@ abstract class LocaleKeys {
   static const pasteSeedIntoFirstBox = 'pasteSeedIntoFirstBox';
   static const pasteAll = 'pasteAll';
   static const clearAll = 'clearAll';
+  static const clearFromHistory = 'clearFromHistory';
   static const wordsCount = 'wordsCount';
   static const fillMissingWords = 'fillMissingWords';
   static const incorrectWordsFormat = 'incorrectWordsFormat';
@@ -205,7 +206,7 @@ abstract class LocaleKeys {
   static const contactSupportCantFindEmailClientShare =
       'contactSupportCantFindEmailClientShare';
   static const browserCloseAll = 'browserCloseAll';
-  static const browserDone = 'browserDone';
+  static const done = 'done';
   static const browserSearchURL = 'browserSearchURL';
   static const browserSearchURLCancel = 'browserSearchURLCancel';
   static const browserErrorTitle = 'browserErrorTitle';
@@ -216,11 +217,13 @@ abstract class LocaleKeys {
   static const browserSearch = 'browserSearch';
   static const browserHistoryEmpty = 'browserHistoryEmpty';
   static const browserHistoryEmptySearch = 'browserHistoryEmptySearch';
-  static const browserHistoryEdit = 'browserHistoryEdit';
+  static const browserAddBookmark = 'browserAddBookmark';
   static const browserHistoryClear = 'browserHistoryClear';
+  static const deleteBrowsingData = 'deleteBrowsingData';
+  static const browserTranslatePage = 'browserTranslatePage';
   static const clearWord = 'clearWord';
-  static const browserHistoryDone = 'browserHistoryDone';
-  static const browserClearHistory = 'browserClearHistory';
+  static const browsingHistory = 'browsingHistory';
+  static const clearAllBrowsingHistory = 'clearAllBrowsingHistory';
   static const browserClearCookies = 'browserClearCookies';
   static const browserClearCookiesDescription =
       'browserClearCookiesDescription';
@@ -238,11 +241,10 @@ abstract class LocaleKeys {
       'browserBookmarkRenameEnterName';
   static const browserBookmarkRenameName = 'browserBookmarkRenameName';
   static const browserBookmarkRenameWord = 'browserBookmarkRenameWord';
-  static const browserBookmarksEdit = 'browserBookmarksEdit';
+  static const edit = 'edit';
   static const browserBookmarkAdded = 'browserBookmarkAdded';
   static const browserBookmarkAddedUndo = 'browserBookmarkAddedUndo';
   static const browserBookmarksClear = 'browserBookmarksClear';
-  static const browserBookmarksDone = 'browserBookmarksDone';
   static const browserBookmarksDeleted = 'browserBookmarksDeleted';
   static const browserBookmarksDeletedUndo = 'browserBookmarksDeletedUndo';
   static const browserStartEmptySearch = 'browserStartEmptySearch';
@@ -254,8 +256,16 @@ abstract class LocaleKeys {
   static const browserEnterBasicSignIn = 'browserEnterBasicSignIn';
   static const browserStartTitle = 'browserStartTitle';
   static const browserStartDescription = 'browserStartDescription';
+  static const bookmarksEmptyDescription = 'bookmarksEmptyDescription';
+  static const historyEmptyDescription = 'historyEmptyDescription';
   static const walletWord = 'walletWord';
   static const browserWord = 'browserWord';
+  static const copyLink = 'copyLink';
+  static const copyUrl = 'copyUrl';
+  static const pinTab = 'pinTab';
+  static const bookmark = 'bookmark';
+  static const newTab = 'newTab';
+  static const newTabGroup = 'newTabGroup';
   static const newGroup = 'newGroup';
   static const allTabs = 'allTabs';
   static const profileWord = 'profileWord';
@@ -267,6 +277,8 @@ abstract class LocaleKeys {
   static const saveChanges = 'saveChanges';
   static const selectNewAssets = 'selectNewAssets';
   static const sorryNoAssetsFound = 'sorryNoAssetsFound';
+  static const noBookmarksYet = 'noBookmarksYet';
+  static const noHistoryYet = 'noHistoryYet';
   static const rootTokenContract = 'rootTokenContract';
   static const proceedWord = 'proceedWord';
   static const invalidRootTokenContract = 'invalidRootTokenContract';

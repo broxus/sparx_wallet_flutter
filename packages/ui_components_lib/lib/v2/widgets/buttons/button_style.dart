@@ -29,8 +29,26 @@ class AppButtonStyle {
         buttonTextStyle = textStyles.labelMedium,
         borderColor = colors.borderFocus.withAlpha(OpacV2.opac50.toByteInt());
 
-  AppButtonStyle.destructive(ColorsPaletteV2 colors, TextStylesV2 textStyles)
-      : backgroundColor = colors.backgroundNegative,
+  AppButtonStyle.custom(
+    ColorsPaletteV2 colors,
+    TextStylesV2 textStyles, {
+    Color? backgroundColor,
+    Color? iconColor,
+    Color? borderColor,
+    TextStyle? textStyle,
+  })  : backgroundColor = backgroundColor ?? colors.background3,
+        iconColor = iconColor ?? colors.content0,
+        buttonTextStyle = textStyle ?? textStyles.labelMedium,
+        borderColor = borderColor ??
+            colors.borderFocus.withAlpha(
+              OpacV2.opac50.toByteInt(),
+            );
+
+  AppButtonStyle.destructive(
+    ColorsPaletteV2 colors,
+    TextStylesV2 textStyles, {
+    Color? backgroundColor,
+  })  : backgroundColor = backgroundColor ?? colors.backgroundNegative,
         iconColor = colors.content0,
         buttonTextStyle = textStyles.labelMedium,
         borderColor = colors.borderFocus.withAlpha(OpacV2.opac50.toByteInt());

@@ -5,8 +5,8 @@ import 'package:lucide_icons_flutter/lucide_icons.dart';
 import 'package:ui_components_lib/v2/ui_components_lib_v2.dart';
 import 'package:ui_components_lib/v2/widgets/modals/primary_bottom_sheet.dart';
 
-void showGoodJobDialog(BuildContext context) {
-  showPrimaryBottomSheet(
+Future<void> showGoodJobDialog(BuildContext context) {
+  return showPrimaryBottomSheet(
     context: context,
     title: LocaleKeys.goodJobTitleModal.tr(),
     subtitle: LocaleKeys.goodJobSubtitleModal.tr(),

@@ -1,5 +1,5 @@
 import 'package:app/di/di.dart';
-import 'package:app/feature/browser/browser.dart';
+import 'package:app/feature/browser_v1/browser.dart';
 import 'package:app/feature/wallet/widgets/account_transactions_tab/detail/details.dart';
 import 'package:app/feature/wallet/widgets/account_transactions_tab/widgets/ton_wallet_transaction_status_body.dart';
 import 'package:app/generated/generated.dart';
@@ -80,8 +80,7 @@ class TonWalletOrdinaryTransactionDetailsPage extends StatelessWidget {
               onPressed: () {
                 Navigator.of(context).pop();
                 // TODO(oldVersion): extract inject from widget
-                browserNewTab(
-                  context,
+                openBrowserUrl(
                   inject<NekotonRepository>()
                       .currentTransport
                       .transactionExplorerLink(transaction.hash),

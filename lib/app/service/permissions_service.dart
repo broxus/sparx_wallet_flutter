@@ -1,5 +1,5 @@
 import 'package:app/data/models/models.dart';
-import 'package:app/feature/browserV2/service/browser_service.dart';
+import 'package:app/feature/browser_v2/service/browser_service.dart';
 import 'package:injectable/injectable.dart';
 import 'package:nekoton_repository/nekoton_repository.dart';
 
