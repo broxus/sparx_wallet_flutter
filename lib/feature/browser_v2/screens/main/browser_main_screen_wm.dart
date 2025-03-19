@@ -79,8 +79,6 @@ class BrowserMainScreenWidgetModel
 
   late final _screenSize = MediaQuery.of(context).size;
 
-  late final _urlOffset = (screenWidth - urlWidth) / 2;
-
   late int _lastTabsCount = _tabsCollection?.count ?? 0;
 
   Offset? _downPosition;
@@ -115,6 +113,14 @@ class BrowserMainScreenWidgetModel
     urlSliderController.addListener(_handleUrlPanelScroll);
     _menuState.addListener(_handleMenuState);
     _visibleNavigationBarState.addListener(_handleVisibleNavigationBar);
+
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      final id = _activeTab?.id;
+      if (id != null) {
+        _scrollToTab(id);
+      }
+    });
+
     super.initWidgetModel();
   }
 
@@ -318,18 +324,26 @@ class BrowserMainScreenWidgetModel
     );
   }
 
+  bool _scrollToTab(String id) {
+    final index = _tabsCollection!.getIndexById(id);
+
+    if (index > -1) {
+      urlSliderController.jumpTo(urlWidth * index + 50);
+      _prevYScroll = 0;
+    }
+
+    return index > -1;
+  }
+
   void _changeTab(String id) {
     if (_tabsCollection == null) {
       return;
     }
 
     if (id != _activeTab?.id) {
-      final index = _tabsCollection!.getIndexById(id);
-
-      if (index > -1) {
-        urlSliderController.jumpTo(urlWidth * index + 50);
+      final isSuccess = _scrollToTab(id);
+      if (isSuccess) {
         model.setActiveTab(id);
-        _prevYScroll = 0;
       }
     }
 
