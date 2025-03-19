@@ -139,7 +139,8 @@ class BrowserManagerScreenshotHelper {
 
         final imagePath = files
             .firstWhereOrNull(
-                (entity) => entity.path.contains('/$_screenshotPrefix'))
+              (entity) => entity.path.contains('/$_screenshotPrefix'),
+            )
             ?.path;
 
         if (imagePath == null) {
