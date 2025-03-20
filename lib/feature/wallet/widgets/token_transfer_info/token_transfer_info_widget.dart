@@ -30,7 +30,10 @@ class TokenTransferInfoWidget
 
   final EdgeInsets margin;
   final Money? amount;
-  final Address recipient;
+
+  /// The recipient of the transfer.
+  /// Can be null if multiple recipients are involved.
+  final Address? recipient;
   final BigInt? fee;
   final BigInt? attachedAmount;
   final Address? rootTokenContract;
@@ -197,21 +200,24 @@ class TokenTransferInfoWidget
               );
             },
           ),
-          const SizedBox(height: DimensSizeV2.d16),
-          SeparatedColumn(
-            separatorSize: DimensSizeV2.d2,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(
-                LocaleKeys.recipientWord.tr(),
-                style: labelSmallContent3,
+          if (recipient != null)
+            Padding(
+              padding: const EdgeInsets.only(top: DimensSizeV2.d16),
+              child: SeparatedColumn(
+                separatorSize: DimensSizeV2.d2,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    LocaleKeys.recipientWord.tr(),
+                    style: labelSmallContent3,
+                  ),
+                  Text(
+                    recipient!.address,
+                    style: theme.textStyles.labelSmall,
+                  ),
+                ],
               ),
-              Text(
-                recipient.address,
-                style: theme.textStyles.labelSmall,
-              ),
-            ],
-          ),
+            ),
           if (transactionIdHash != null)
             Padding(
               padding: const EdgeInsets.only(top: DimensSizeV2.d16),

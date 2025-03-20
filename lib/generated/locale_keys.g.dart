@@ -680,4 +680,6 @@ abstract class LocaleKeys {
   static const seedPhrase12FormatTON = 'seedPhrase12FormatTON';
   static const seedPhrase24FormatStandart = 'seedPhrase24FormatStandart';
   static const seedPhrase24FormatTON = 'seedPhrase24FormatTON';
+  static const invalidNetworkError = 'invalidNetworkError';
+  static const invalidPublicKeyError = 'invalidPublicKeyError';
 }

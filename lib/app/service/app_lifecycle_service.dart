@@ -9,7 +9,7 @@ class AppLifecycleService {
 
   /// Stream of app lifecycle state
   Stream<AppLifecycleState> get appLifecycleStateStream =>
-      _appLifecycleStateSubject;
+      _appLifecycleStateSubject.stream;
 
   /// Current app lifecycle state
   AppLifecycleState get appLifecycleState => _appLifecycleStateSubject.value;
