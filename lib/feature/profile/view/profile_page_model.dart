@@ -1,5 +1,4 @@
 import 'package:app/app/service/service.dart';
-import 'package:app/app/service/session/session_service.dart';
 import 'package:app/generated/generated.dart';
 import 'package:app/utils/app_version_utils.dart';
 import 'package:elementary/elementary.dart';

@@ -1,6 +1,3 @@
-import 'package:app/app/service/connection/connection.dart';
-import 'package:app/app/service/http_clients.dart';
-import 'package:app/app/service/presets_connection/presets_connection_service.dart';
 import 'package:app/app/service/service.dart';
 import 'package:app/di/di.dart';
 import 'package:injectable/injectable.dart';
@@ -134,6 +131,14 @@ extension TransportTypeExtension on TransportStrategy {
   NetworkGroup get networkGroup {
     if (this is CommonTransportStrategy) {
       return (this as CommonTransportStrategy).networkGroup;
+    }
+
+    return '';
+  }
+
+  String get connectionId {
+    if (this is CommonTransportStrategy) {
+      return (this as CommonTransportStrategy).connection.id;
     }
 
     return '';
