@@ -71,22 +71,3 @@ class BrowserPagesView extends StatelessWidget {
     );
   }
 }
-
-class P extends NeverScrollableScrollPhysics {
-  @override
-  double adjustPositionForNewDimensions({
-    required ScrollMetrics oldPosition,
-    required ScrollMetrics newPosition,
-    required bool isScrolling,
-    required double velocity,
-  }) {
-    if (parent == null) {
-      return newPosition.pixels;
-    }
-    return parent!.adjustPositionForNewDimensions(
-        oldPosition: oldPosition,
-        newPosition: newPosition,
-        isScrolling: isScrolling,
-        velocity: velocity);
-  }
-}
