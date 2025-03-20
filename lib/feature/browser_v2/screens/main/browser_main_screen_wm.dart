@@ -15,6 +15,7 @@ import 'package:app/feature/browser_v2/screens/main/helpers/menu_animation_helpe
 import 'package:app/feature/browser_v2/screens/main/widgets/tab_menu/data.dart';
 import 'package:app/feature/browser_v2/screens/main/widgets/tab_menu/tab_menu.dart';
 import 'package:app/feature/browser_v2/screens/main/widgets/url_menu.dart';
+import 'package:app/utils/clipboard_utils.dart';
 import 'package:app/utils/focus_utils.dart';
 import 'package:elementary/elementary.dart';
 import 'package:elementary_helper/elementary_helper.dart';
@@ -222,10 +223,8 @@ class BrowserMainScreenWidgetModel
     switch (result) {
       case BrowserTabMenuItemData.copyLink:
         unawaited(
-          Clipboard.setData(
-            ClipboardData(
-              text: tab.url.toString(),
-            ),
+          setClipBoardData(
+            tab.url.toString(),
           ),
         );
       case BrowserTabMenuItemData.pinTab:
