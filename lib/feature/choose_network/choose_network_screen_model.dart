@@ -1,16 +1,13 @@
 // ignore_for_file: use_build_context_synchronously
 
-import 'package:app/app/service/messenger/message.dart';
-import 'package:app/app/service/messenger/service/messenger_service.dart';
-import 'package:app/app/service/network_connection/network_connection_service.dart';
-import 'package:app/app/service/presets_connection/presets_connection_service.dart';
-import 'package:app/app/service/storage_service/connections_storage_service.dart';
+import 'package:app/app/service/service.dart';
 import 'package:app/feature/choose_network/choose_network_screen.dart';
 import 'package:app/feature/choose_network/data/choose_network_item_data.dart';
 import 'package:app/utils/mixins/connection_mixin.dart';
 import 'package:elementary/elementary.dart';
 import 'package:elementary_helper/elementary_helper.dart';
 import 'package:flutter/material.dart';
+import 'package:nekoton_repository/nekoton_repository.dart' hide Message;
 
 /// [ElementaryModel] for [ChooseNetworkScreen]
 class ChooseNetworkScreenModel extends ElementaryModel with ConnectionMixin {
@@ -20,6 +17,7 @@ class ChooseNetworkScreenModel extends ElementaryModel with ConnectionMixin {
     this.networkConnectionService,
     this._presetsConnectionService,
     this._connectionsStorageService,
+    this._nekotonRepository,
   ) : super(errorHandler: errorHandler);
 
   @override
@@ -32,6 +30,7 @@ class ChooseNetworkScreenModel extends ElementaryModel with ConnectionMixin {
 
   final PresetsConnectionService _presetsConnectionService;
   final ConnectionsStorageService _connectionsStorageService;
+  final NekotonRepository _nekotonRepository;
 
   final connectionsState = StateNotifier<List<ChooseNetworkItemData>>(
     initValue: [],
@@ -52,7 +51,10 @@ class ChooseNetworkScreenModel extends ElementaryModel with ConnectionMixin {
   Future<bool> selectType(BuildContext context, String id) async {
     try {
       _connectionsStorageService.saveCurrentConnectionId(id);
-    } on Object catch (e) {
+      await _nekotonRepository.currentTransportStream.firstWhere(
+        (e) => e.connectionId == id,
+      );
+    } catch (e) {
       messengerService.show(
         Message.error(
           context: context,

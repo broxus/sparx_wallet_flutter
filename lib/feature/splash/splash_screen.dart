@@ -9,12 +9,8 @@ const _splashColor = Color(0xFF11142B);
 class SplashScreen extends ElementaryWidget<SplashScreenWidgetModel> {
   const SplashScreen({
     Key? key,
-    WidgetModelFactory<SplashScreenWidgetModel> wmFactory =
-        defaultSplashScreenWidgetModelFactory,
-  }) : super(
-          wmFactory,
-          key: key,
-        );
+    WidgetModelFactory wmFactory = defaultSplashScreenWidgetModelFactory,
+  }) : super(wmFactory, key: key);
 
   @override
   Widget build(SplashScreenWidgetModel wm) {

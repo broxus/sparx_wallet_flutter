@@ -27,12 +27,9 @@ class ChangeColorBottomSheet
   const ChangeColorBottomSheet({
     required this.address,
     Key? key,
-    WidgetModelFactory<ChangeColorBottomSheetWidgetModel> wmFactory =
+    WidgetModelFactory wmFactory =
         defaultChangeColorBottomSheetWidgetModelFactory,
-  }) : super(
-          wmFactory,
-          key: key,
-        );
+  }) : super(wmFactory, key: key);
 
   final String address;
 

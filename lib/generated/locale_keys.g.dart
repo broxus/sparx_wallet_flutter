@@ -42,7 +42,6 @@ abstract class LocaleKeys {
   static const pasteSeedIntoFirstBox = 'pasteSeedIntoFirstBox';
   static const pasteAll = 'pasteAll';
   static const clearAll = 'clearAll';
-  static const clearFromHistory = 'clearFromHistory';
   static const wordsCount = 'wordsCount';
   static const fillMissingWords = 'fillMissingWords';
   static const incorrectWordsFormat = 'incorrectWordsFormat';
@@ -146,6 +145,8 @@ abstract class LocaleKeys {
   static const networkEndpointLocal = 'networkEndpointLocal';
   static const networkCurrencySymbol = 'networkCurrencySymbol';
   static const networkCurrencySymbolHint = 'networkCurrencySymbolHint';
+  static const networkCurrencyDecimals = 'networkCurrencyDecimals';
+  static const networkCurrencyDecimalsHint = 'networkCurrencyDecimalsHint';
   static const networkBlockExplorer = 'networkBlockExplorer';
   static const networkBlockExplorerHint = 'networkBlockExplorerHint';
   static const networkTokenList = 'networkTokenList';
@@ -206,7 +207,7 @@ abstract class LocaleKeys {
   static const contactSupportCantFindEmailClientShare =
       'contactSupportCantFindEmailClientShare';
   static const browserCloseAll = 'browserCloseAll';
-  static const done = 'done';
+  static const browserDone = 'browserDone';
   static const browserSearchURL = 'browserSearchURL';
   static const browserSearchURLCancel = 'browserSearchURLCancel';
   static const browserErrorTitle = 'browserErrorTitle';
@@ -217,13 +218,11 @@ abstract class LocaleKeys {
   static const browserSearch = 'browserSearch';
   static const browserHistoryEmpty = 'browserHistoryEmpty';
   static const browserHistoryEmptySearch = 'browserHistoryEmptySearch';
-  static const browserAddBookmark = 'browserAddBookmark';
+  static const browserHistoryEdit = 'browserHistoryEdit';
   static const browserHistoryClear = 'browserHistoryClear';
-  static const deleteBrowsingData = 'deleteBrowsingData';
-  static const browserTranslatePage = 'browserTranslatePage';
   static const clearWord = 'clearWord';
-  static const browsingHistory = 'browsingHistory';
-  static const clearAllBrowsingHistory = 'clearAllBrowsingHistory';
+  static const browserHistoryDone = 'browserHistoryDone';
+  static const browserClearHistory = 'browserClearHistory';
   static const browserClearCookies = 'browserClearCookies';
   static const browserClearCookiesDescription =
       'browserClearCookiesDescription';
@@ -241,10 +240,11 @@ abstract class LocaleKeys {
       'browserBookmarkRenameEnterName';
   static const browserBookmarkRenameName = 'browserBookmarkRenameName';
   static const browserBookmarkRenameWord = 'browserBookmarkRenameWord';
-  static const edit = 'edit';
+  static const browserBookmarksEdit = 'browserBookmarksEdit';
   static const browserBookmarkAdded = 'browserBookmarkAdded';
   static const browserBookmarkAddedUndo = 'browserBookmarkAddedUndo';
   static const browserBookmarksClear = 'browserBookmarksClear';
+  static const browserBookmarksDone = 'browserBookmarksDone';
   static const browserBookmarksDeleted = 'browserBookmarksDeleted';
   static const browserBookmarksDeletedUndo = 'browserBookmarksDeletedUndo';
   static const browserStartEmptySearch = 'browserStartEmptySearch';
@@ -254,20 +254,8 @@ abstract class LocaleKeys {
   static const browserEnterBasicAuthUsername = 'browserEnterBasicAuthUsername';
   static const browserEnterBasicAuthPassword = 'browserEnterBasicAuthPassword';
   static const browserEnterBasicSignIn = 'browserEnterBasicSignIn';
-  static const browserStartTitle = 'browserStartTitle';
-  static const browserStartDescription = 'browserStartDescription';
-  static const bookmarksEmptyDescription = 'bookmarksEmptyDescription';
-  static const historyEmptyDescription = 'historyEmptyDescription';
   static const walletWord = 'walletWord';
   static const browserWord = 'browserWord';
-  static const copyLink = 'copyLink';
-  static const copyUrl = 'copyUrl';
-  static const pinTab = 'pinTab';
-  static const bookmark = 'bookmark';
-  static const newTab = 'newTab';
-  static const newTabGroup = 'newTabGroup';
-  static const newGroup = 'newGroup';
-  static const allTabs = 'allTabs';
   static const profileWord = 'profileWord';
   static const manageAssets = 'manageAssets';
   static const orWord = 'orWord';
@@ -277,8 +265,6 @@ abstract class LocaleKeys {
   static const saveChanges = 'saveChanges';
   static const selectNewAssets = 'selectNewAssets';
   static const sorryNoAssetsFound = 'sorryNoAssetsFound';
-  static const noBookmarksYet = 'noBookmarksYet';
-  static const noHistoryYet = 'noHistoryYet';
   static const rootTokenContract = 'rootTokenContract';
   static const proceedWord = 'proceedWord';
   static const invalidRootTokenContract = 'invalidRootTokenContract';
@@ -286,7 +272,6 @@ abstract class LocaleKeys {
   static const feesWord = 'feesWord';
   static const feesWithData = 'feesWithData';
   static const startExploring = 'startExploring';
-  static const startPage = 'startPage';
   static const statusWord = 'statusWord';
   static const leftForConfirmation = 'leftForConfirmation';
   static const transactionStatusWaitingConfirmation =
@@ -601,6 +586,8 @@ abstract class LocaleKeys {
   static const walletDescriptionMultisig2 = 'walletDescriptionMultisig2';
   static const walletDescriptionMultisig2_1 = 'walletDescriptionMultisig2_1';
   static const walletDescriptionEverWallet = 'walletDescriptionEverWallet';
+  static const walletDescriptionWalletV3R1 = 'walletDescriptionWalletV3R1';
+  static const walletDescriptionWalletV3R2 = 'walletDescriptionWalletV3R2';
   static const walletDescriptionWalletV4R1 = 'walletDescriptionWalletV4R1';
   static const walletDescriptionWalletV4R2 = 'walletDescriptionWalletV4R2';
   static const walletDescriptionWalletV5R1 = 'walletDescriptionWalletV5R1';
@@ -685,6 +672,8 @@ abstract class LocaleKeys {
   static const noRpcConnection = 'noRpcConnection';
   static const tryAgainOrContact = 'tryAgainOrContact';
   static const contactUs = 'contactUs';
+  static const publicKeyNull = 'publicKeyNull';
+  static const passwordNull = 'passwordNull';
   static const seedPhraseFormatLabel12 = 'seedPhraseFormatLabel12';
   static const seedPhraseFormatLabel24 = 'seedPhraseFormatLabel24';
   static const seedPhrase12FormatStandart = 'seedPhrase12FormatStandart';

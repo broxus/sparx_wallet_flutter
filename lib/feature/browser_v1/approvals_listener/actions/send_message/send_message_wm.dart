@@ -4,8 +4,8 @@ import 'package:app/app/service/service.dart';
 import 'package:app/core/error_handler_factory.dart';
 import 'package:app/core/wm/custom_wm.dart';
 import 'package:app/di/di.dart';
-import 'package:app/feature/browser_v1/approvals_listener/actions/send_message/send_message_model.dart';
-import 'package:app/feature/browser_v1/approvals_listener/actions/send_message/send_message_widget.dart';
+import 'package:app/feature/browser/approvals_listener/actions/send_message/send_message_model.dart';
+import 'package:app/feature/browser/approvals_listener/actions/send_message/send_message_widget.dart';
 import 'package:app/generated/generated.dart';
 import 'package:app/utils/utils.dart';
 import 'package:elementary_helper/elementary_helper.dart';
@@ -135,13 +135,15 @@ class SendMessageWidgetModel
     numberUnconfirmedTransactions =
         (walletTonState.wallet?.unconfirmedTransactions.length ?? 0) +
             (walletTonState.wallet?.pendingTransactions.length ?? 0);
-    final pattern = details.decimals > 0 ? moneyPattern(details.decimals) : '0';
+
     final currency = Currency.create(
       details.symbol,
       details.decimals,
       symbol: details.symbol,
-      pattern: pattern,
+      pattern: moneyPattern(details.decimals),
     );
+
+    Currencies().register(currency);
 
     _data.accept(
       TransferData(

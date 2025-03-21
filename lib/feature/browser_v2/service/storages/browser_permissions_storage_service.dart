@@ -50,9 +50,12 @@ class BrowserPermissionsStorageService extends AbstractStorageService {
   }
 
   @override
-  Future<void> clearSensitiveData() => Future.wait([
-        clearPermissions(),
-      ]);
+  Future<void> clear() async {
+    _permissionsSubject.add({});
+    try {
+      await _storage.erase();
+    } catch (_) {}
+  }
 
   @override
   Future<void> init() async {

@@ -29,16 +29,10 @@ import 'package:nekoton_repository/nekoton_repository.dart';
 WalletPrepareTransferPageWidgetModel
     defaultWalletPrepareTransferPageWidgetModelFactory(
   BuildContext context,
-  Address address,
-  Address? rootTokenContract,
-  String? tokenSymbol,
 ) {
   return WalletPrepareTransferPageWidgetModel(
     WalletPrepareTransferPageModel(
       createPrimaryErrorHandler(context),
-      address,
-      rootTokenContract,
-      tokenSymbol,
       inject(),
       inject(),
       inject(),
@@ -91,9 +85,6 @@ class WalletPrepareTransferPageWidgetModel extends CustomWidgetModel<
 
   ValueListenable<List<WalletPrepareTransferAsset>> get assets => _assetsList;
 
-  Address get address => model.address;
-
-  @protected
   @override
   void initWidgetModel() {
     super.initWidgetModel();
@@ -120,7 +111,10 @@ class WalletPrepareTransferPageWidgetModel extends CustomWidgetModel<
     _updateState(selectedAsset: asset);
     unawaited(_updateAsset(asset));
 
-    model.startListeningBalance(_assets[asset.key]);
+    model.startListeningBalance(
+      contract: _assets[asset.key],
+      address: widget.address,
+    );
   }
 
   void onChangedCustodian(PublicKey custodian) {
@@ -224,7 +218,7 @@ class WalletPrepareTransferPageWidgetModel extends CustomWidgetModel<
     if (value?.isEmpty ?? true) {
       return LocaleKeys.addressIsEmpty.tr();
     }
-    if (_selectedAsset?.isNative != true && model.address.address == value) {
+    if (_selectedAsset?.isNative != true && widget.address.address == value) {
       return LocaleKeys.invalidReceiverAddress.tr();
     }
     return null;
@@ -235,7 +229,7 @@ class WalletPrepareTransferPageWidgetModel extends CustomWidgetModel<
   }
 
   Future<void> _init() async {
-    final acc = model.findAccountByAddress(model.address);
+    final acc = model.findAccountByAddress(widget.address);
     if (acc == null) {
       screenState.content(null);
       return;
@@ -248,12 +242,15 @@ class WalletPrepareTransferPageWidgetModel extends CustomWidgetModel<
 
     // If default contract not specified, then native is default and load
     // all existed assets
-    final root = model.rootTokenContract;
+    final root = widget.rootTokenContract;
 
     _createNativeContract();
-    model.findExistedContracts(_onUpdateContractsForAccount);
+    model.findExistedContracts(
+      onUpdate: _onUpdateContractsForAccount,
+      address: widget.address,
+    );
 
-    if (root != null && model.tokenSymbol != _selectedAsset?.tokenSymbol) {
+    if (root != null && widget.tokenSymbol != _selectedAsset?.tokenSymbol) {
       unawaited(_findSpecifiedContract(root));
     }
 
@@ -261,7 +258,7 @@ class WalletPrepareTransferPageWidgetModel extends CustomWidgetModel<
       walletName: model.getWalletName(acc),
       account: acc,
       selectedCustodian: acc.publicKey,
-      localCustodians: await model.getLocalCustodiansAsync(model.address),
+      localCustodians: await model.getLocalCustodiansAsync(widget.address),
     );
   }
 
@@ -293,7 +290,7 @@ class WalletPrepareTransferPageWidgetModel extends CustomWidgetModel<
       return;
     }
 
-    final accountAddress = model.address.address;
+    final accountAddress = widget.address.address;
     final publicKey = _selectedCustodian?.publicKey;
 
     final comment = commentController.text.trim();
@@ -333,7 +330,8 @@ class WalletPrepareTransferPageWidgetModel extends CustomWidgetModel<
           asset.rootTokenContract,
         );
     final balance =
-        await model.getBalance(asset) ?? _zeroBalance(asset.tokenSymbol);
+        await model.getBalance(asset: asset, address: widget.address) ??
+            _zeroBalance(asset.tokenSymbol);
 
     final updatedAsset = asset.copyWith(
       currency: currency,
@@ -363,7 +361,10 @@ class WalletPrepareTransferPageWidgetModel extends CustomWidgetModel<
     _updateAssets((assets) => assets[selectedAsset.key] = selectedAsset);
     _updateState(selectedAsset: selectedAsset);
     unawaited(_updateAsset(selectedAsset));
-    model.startListeningBalance(selectedAsset);
+    model.startListeningBalance(
+      contract: selectedAsset,
+      address: widget.address,
+    );
   }
 
   Future<void> _findSpecifiedContract(Address root) async {
@@ -388,7 +389,10 @@ class WalletPrepareTransferPageWidgetModel extends CustomWidgetModel<
     _updateAssets((assets) => assets[selectedAsset.key] = selectedAsset);
     _updateState(selectedAsset: selectedAsset);
     unawaited(_updateAsset(selectedAsset));
-    model.startListeningBalance(selectedAsset);
+    model.startListeningBalance(
+      contract: selectedAsset,
+      address: widget.address,
+    );
   }
 
   void _updateState({

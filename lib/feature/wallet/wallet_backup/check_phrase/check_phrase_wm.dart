@@ -19,19 +19,13 @@ const defaultCheckAnswersAmount = 9;
 
 CheckPhraseWidgetModel defaultCheckPhraseWidgetModelFactory(
   BuildContext context,
-  List<String> words,
-  String address,
-  VoidCallback finishedBackupCallback,
 ) {
   return CheckPhraseWidgetModel(
-    finishedBackupCallback,
     CheckPhraseModel(
       createPrimaryErrorHandler(context),
       inject(),
       inject(),
       inject(),
-      words,
-      address,
     ),
   );
 }
@@ -39,18 +33,11 @@ CheckPhraseWidgetModel defaultCheckPhraseWidgetModelFactory(
 //logic in this class was moved from check_seed_phrase_cubit.dart
 class CheckPhraseWidgetModel
     extends CustomWidgetModel<ContentCheckPhrase, CheckPhraseModel> {
-  CheckPhraseWidgetModel(
-    this.finishedBackupCallback,
-    super.model,
-  ) {
-    _init();
-  }
-
-  final VoidCallback finishedBackupCallback;
+  CheckPhraseWidgetModel(super.model);
 
   ThemeStyleV2 get themeStyle => context.themeStyleV2;
 
-  late List<String> words = model.phrases;
+  late final List<String> words = widget.words;
   late final screenState = createEntityNotifier<CheckPhraseData>()
     ..loading(
       CheckPhraseData(
@@ -63,6 +50,12 @@ class CheckPhraseWidgetModel
   List<CheckSeedCorrectAnswer>? userAnswers;
   int currentCheckIndex = 0;
   late List<CheckSeedCorrectAnswer> _correctAnswers;
+
+  @override
+  void initWidgetModel() {
+    super.initWidgetModel();
+    _init();
+  }
 
   void checkPhrase() {
     _validate();
@@ -85,8 +78,8 @@ class CheckPhraseWidgetModel
   }
 
   void clickSkip() {
-    model.setShowingBackUpFlag();
-    finishedBackupCallback();
+    model.setShowingBackUpFlag(widget.address);
+    widget.finishedBackupCallback();
     context
       ..maybePop() //close manual backup dialog
       ..maybePop(); //close current dialog
@@ -135,8 +128,8 @@ class CheckPhraseWidgetModel
       model.showValidateError(LocaleKeys.seedIsMissing.tr());
     } else {
       // TODO(malochka): think about get rid of maybePop method
-      model.setShowingBackUpFlag();
-      finishedBackupCallback();
+      model.setShowingBackUpFlag(widget.address);
+      widget.finishedBackupCallback();
       context
         ..maybePop() //close manual backup
         ..maybePop(); //close check your seed phrase

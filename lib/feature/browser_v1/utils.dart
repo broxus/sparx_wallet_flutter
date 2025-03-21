@@ -1,5 +1,8 @@
 import 'package:app/app/service/connection/data/connection_data/connection_data.dart';
 import 'package:app/app/service/connection/transport_strategies/common_transport_strategy.dart';
+import 'package:app/utils/utils.dart';
+import 'package:flutter/widgets.dart';
+import 'package:go_router/go_router.dart';
 import 'package:app/di/di.dart';
 import 'package:app/event_bus/events/navigation/bottom_navigation_events.dart';
 import 'package:app/event_bus/primary_bus.dart';
@@ -29,6 +32,29 @@ extension TransportExtension on TransportStrategy {
       throw UnsupportedError('Unsupported type: $runtimeType');
     }
 
+    final connectionObject = switch (data) {
+      ConnectionDataGql(:final endpoints, :final isLocal) =>
+        (transport as GqlTransport).gqlConnection.settings.let(
+              (settings) => GqlConnection(
+                'graphql',
+                GqlSocketParams(
+                  endpoints,
+                  settings.latencyDetectionInterval,
+                  settings.maxLatency,
+                  isLocal,
+                ),
+              ),
+            ),
+      ConnectionDataProto(:final endpoint) => ProtoConnection(
+          'proto',
+          JrpcSocketParams(endpoint),
+        ),
+      ConnectionDataJrpc(:final endpoint) => JrpcConnection(
+          'jrpc',
+          JrpcSocketParams(endpoint),
+        ),
+    };
+
     return Network(
       data.name,
       NetworkDescription(
@@ -36,67 +62,7 @@ extension TransportExtension on TransportStrategy {
         '0x$capabilities',
         signatureId,
       ),
-      data.when(
-        gql: (
-          _,
-          __,
-          ___,
-          endpoints,
-          ____,
-          isLocal,
-          _____,
-          ______,
-          _______,
-          ________,
-          _________,
-          __________,
-          ___________,
-          ____________,
-          _____________,
-          ______________,
-        ) {
-          final settings = (transport as GqlTransport).gqlConnection.settings;
-          return GqlConnection(
-            'graphql',
-            GqlSocketParams(
-              endpoints,
-              settings.latencyDetectionInterval,
-              settings.maxLatency,
-              isLocal,
-            ),
-          );
-        },
-        proto: (
-          id,
-          name,
-          group,
-          endpoint,
-          networkType,
-          blockExplorerUrl,
-          manifestUrl,
-          nativeTokenTicker,
-          isPreset,
-          canBeEdited,
-          sortingOrder,
-          isUsedOnStart,
-        ) =>
-            ProtoConnection('proto', JrpcSocketParams(endpoint)),
-        jrpc: (
-          id,
-          name,
-          group,
-          endpoint,
-          networkType,
-          blockExplorerUrl,
-          manifestUrl,
-          nativeTokenTicker,
-          isPreset,
-          canBeEdited,
-          sortingOrder,
-          isUsedOnStart,
-        ) =>
-            JrpcConnection('jrpc', JrpcSocketParams(endpoint)),
-      ),
+      connectionObject,
       NetworkConfig(
         data.nativeTokenTicker,
         data.blockExplorerUrl,

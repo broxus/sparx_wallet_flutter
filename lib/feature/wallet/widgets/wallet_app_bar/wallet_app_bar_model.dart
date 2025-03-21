@@ -1,4 +1,3 @@
-import 'package:app/app/service/connection/data/connection_data/connection_data.dart';
 import 'package:app/app/service/service.dart';
 import 'package:collection/collection.dart';
 import 'package:elementary/elementary.dart';

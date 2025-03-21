@@ -27,22 +27,17 @@ Future<void> showManualBackupDialog(
 }
 
 class ContentManualBackup extends ElementaryWidget<ManualBackUpWidgetModel> {
-  ContentManualBackup({
-    required List<String> words,
-    required String address,
-    required VoidCallback finishedBackupCallback,
+  const ContentManualBackup({
+    required this.words,
+    required this.address,
+    required this.finishedBackupCallback,
     Key? key,
-    WidgetModelFactory<ManualBackUpWidgetModel>? wmFactory,
-  }) : super(
-          wmFactory ??
-              (context) => defaultManualBackUpWidgetModelFactory(
-                    context,
-                    words,
-                    address,
-                    finishedBackupCallback,
-                  ),
-          key: key,
-        );
+    WidgetModelFactory wmFactory = defaultManualBackUpWidgetModelFactory,
+  }) : super(wmFactory, key: key);
+
+  final List<String> words;
+  final String address;
+  final VoidCallback finishedBackupCallback;
 
   @override
   Widget build(ManualBackUpWidgetModel wm) {

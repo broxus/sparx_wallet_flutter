@@ -11,13 +11,10 @@ import 'package:ui_components_lib/v2/ui_components_lib_v2.dart';
 
 AddAccountResultWidgetModel defaultAddAccountResultWidgetModelFactory(
   BuildContext context,
-  // ignore: avoid_positional_boolean_parameters
-  bool isExternal,
 ) {
   return AddAccountResultWidgetModel(
     AddAccountResultModel(
       createPrimaryErrorHandler(context),
-      isExternal,
       inject(),
       inject(),
       inject(),
@@ -36,14 +33,14 @@ class AddAccountResultWidgetModel
     model.changeCurrentAccount(address);
     // ignore: use_build_context_synchronously
     Navigator.of(context).pop();
-    if (model.isExternal) {
+    if (widget.isExternal) {
       contextSafe?.goNamed(AppRoute.wallet.name);
     }
   }
 
   void onContinue() {
     Navigator.of(context).pop();
-    if (model.isExternal) {
+    if (widget.isExternal) {
       contextSafe?.goNamed(AppRoute.wallet.name);
     }
   }
