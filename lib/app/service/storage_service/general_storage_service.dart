@@ -1,6 +1,5 @@
 import 'dart:async';
 
-import 'package:app/app/service/connection/group.dart';
 import 'package:app/app/service/service.dart';
 import 'package:app/data/models/custom_currency.dart';
 import 'package:app/data/models/token_contract/token_contract_asset.dart';
@@ -145,14 +144,25 @@ class GeneralStorageService extends AbstractStorageService {
   }
 
   /// Clear all custom tokens
+  Future<void> clearAllContracts() async {
+    try {
+      await _systemContractAssetsStorage.erase();
+    } catch (_) {}
+  }
+
+  /// Clear all custom tokens
   Future<void> clearAllCustomTokens() async {
-    await _customContractAssetsStorage.erase();
+    try {
+      await _customContractAssetsStorage.erase();
+    } catch (_) {}
     _customTokenContractAssetsSubject.add({});
   }
 
   /// Clear information about all currencies.
   Future<void> clearCurrencies() async {
-    await _currenciesStorage.erase();
+    try {
+      await _currenciesStorage.erase();
+    } catch (_) {}
     _currencySubject.add({});
   }
 
@@ -163,14 +173,27 @@ class GeneralStorageService extends AbstractStorageService {
   }
 
   /// Clear all preferences data
-  Future<void> clearPreferences() => _prefStorage.erase();
+  Future<void> clearPreferences() async {
+    try {
+      return await _prefStorage.erase();
+    } catch (_) {}
+  }
 
   @override
-  Future<void> clearSensitiveData() => Future.wait([
-        clearCurrencies(),
-        clearPreferences(),
-        clearIsBiometryEnabled(),
-      ]);
+  Future<void> clear() async {
+    await Future.wait([
+      clearCurrencies(),
+      clearPreferences(),
+      clearIsBiometryEnabled(),
+      clearAllContracts(),
+      clearAllCustomTokens(),
+    ]);
+
+    _currentKeySubject.add(null);
+    _currentAddressSubject.add(null);
+    _lastViewedSeedsSubject.add([]);
+    _systemTokenContractAssetsSubject.add({});
+  }
 
   /// Set flag that storage was migrated from old hive to this one.
   /// This must happens only in the end of migration process.
@@ -387,26 +410,29 @@ class GeneralStorageService extends AbstractStorageService {
     _streamedLastViewedSeeds();
   }
 
+  Future<void> clearSystemTokenContractAssets(String networkGroup) async {
+    await _systemContractAssetsStorage.remove(networkGroup);
+    _streamedSystemContractAssets();
+  }
+
   /// Clear previous system assets and set new ones
-  void updateSystemTokenContractAssets(
+  Future<void> updateSystemTokenContractAssets(
     List<TokenContractAsset> assets,
-  ) {
-    if (assets.isNotEmpty) {
-      assert(
-        assets
-            .every((asset) => asset.networkGroup == assets.first.networkGroup),
-        'All system assets must have the same type',
-      );
-      _systemContractAssetsStorage
-        ..remove(
-          assets.first.networkGroup,
-        )
-        ..write(
-          assets.first.networkGroup,
-          assets.map((e) => e.toJson()).toList(),
-        );
-      _streamedSystemContractAssets();
-    }
+  ) async {
+    // TODO(knightforce): refactor by multiple networktype
+    assert(
+      assets.every((asset) => asset.networkGroup == assets.first.networkGroup),
+      'All system assets must have the same type',
+    );
+    await _systemContractAssetsStorage.remove(
+      assets.first.networkGroup,
+    );
+
+    await _systemContractAssetsStorage.write(
+      assets.first.networkGroup,
+      assets.map((e) => e.toJson()).toList(),
+    );
+    _streamedSystemContractAssets();
   }
 
   void updateDefaultActiveAssets(

@@ -11,30 +11,25 @@ import 'package:ui_components_lib/v2/widgets/modals/primary_bottom_sheet.dart';
 
 Future<void> showDeployConfirmModal(
   BuildContext context,
-  Function(String) password,
+  Function(String) passwordCallback,
 ) {
   return showPrimaryBottomSheet(
     context: context,
     content: DeployWalletConfirmModal(
-      password: password,
+      passwordCallback: passwordCallback,
     ),
   );
 }
 
 class DeployWalletConfirmModal
     extends ElementaryWidget<DeployWalletConfirmWidgetModel> {
-  DeployWalletConfirmModal({
-    required Function(String) password,
+  const DeployWalletConfirmModal({
+    required this.passwordCallback,
     Key? key,
-    WidgetModelFactory<DeployWalletConfirmWidgetModel>? wmFactory,
-  }) : super(
-          wmFactory ??
-              (context) => defaultDeployWalletConfirmWidgetModelFactory(
-                    context,
-                    password,
-                  ),
-          key: key,
-        );
+    WidgetModelFactory wmFactory = defaultDeployWalletConfirmWidgetModelFactory,
+  }) : super(wmFactory, key: key);
+
+  final Function(String) passwordCallback;
 
   @override
   Widget build(DeployWalletConfirmWidgetModel wm) {

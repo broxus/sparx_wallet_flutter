@@ -18,7 +18,7 @@ import 'package:nekoton_repository/nekoton_repository.dart';
 import 'package:rxdart/rxdart.dart';
 import 'package:ui_components_lib/ui_components_lib.dart';
 
-final _maxFixedComission = BigInt.parse('100000000'); // 0.1 EVER
+const _maxFixedComission = 0.1; // 0.1 EVER
 
 StakingPageWidgetModel defaultStakingPageWidgetModelFactory(
   BuildContext context,
@@ -94,12 +94,18 @@ class StakingPageWidgetModel
   Money get _comission => _tab.value == StakingTab.stake
       ? Money.fromBigIntWithCurrency(
           // around 2.1 EVER
-          model.staking.stakeDepositAttachedFee + _maxFixedComission,
+          model.staking.stakeDepositAttachedFee +
+              _maxFixedComission.toNativeToken(
+                model.transport.defaultNativeCurrencyDecimal,
+              ),
           currency,
         )
       : Money.fromBigIntWithCurrency(
           // around 3.1 EVER
-          model.staking.stakeWithdrawAttachedFee + _maxFixedComission,
+          model.staking.stakeWithdrawAttachedFee +
+              _maxFixedComission.toNativeToken(
+                model.transport.defaultNativeCurrencyDecimal,
+              ),
           currency,
         );
 

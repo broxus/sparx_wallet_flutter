@@ -59,7 +59,7 @@ class HistoryManager {
     TimePeriod period = TimePeriod.allHistory,
   ]) async {
     if (period == TimePeriod.allHistory) {
-      await _browserHistoryStorageService.clearBrowserHistory();
+      await _browserHistoryStorageService.clear();
       _browserHistorySubject.add([]);
       return;
     }

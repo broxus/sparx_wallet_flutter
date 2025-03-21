@@ -8,12 +8,8 @@ import 'package:ui_components_lib/v2/ui_components_lib_v2.dart';
 class NoInternetScreen extends ElementaryWidget<NoInternetScreenWidgetModel> {
   const NoInternetScreen({
     Key? key,
-    WidgetModelFactory<NoInternetScreenWidgetModel> wmFactory =
-        defaultNoInternetScreenWidgetModelFactory,
-  }) : super(
-          wmFactory,
-          key: key,
-        );
+    WidgetModelFactory wmFactory = defaultNoInternetScreenWidgetModelFactory,
+  }) : super(wmFactory, key: key);
 
   @override
   Widget build(NoInternetScreenWidgetModel wm) {

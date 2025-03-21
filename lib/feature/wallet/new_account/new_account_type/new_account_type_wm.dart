@@ -70,17 +70,15 @@ class NewAccountTypeWidgetModel
   // TODO(knightforce): how to get rid of explicit check?
   bool get isEverscale => model.transport.networkType == 'ever';
 
-  // Hamster network workaround
+  // Hamster & TON network workaround
   bool get isHmstr => model.transport.networkGroup.startsWith('hmstr');
+  bool get isTon => model.transport.networkGroup.startsWith('ton');
+
+  bool get isDeprecatedVisible => isEverscale || isHmstr || isTon;
 
   Set<WalletType> get disabledWalletTypes => widget.password == null
       ? model.getCreatedAccountTypes(widget.publicKey).toSet()
       : {};
-
-  @override
-  void initWidgetModel() {
-    super.initWidgetModel();
-  }
 
   String getWalletName(WalletType walletType) =>
       model.transport.defaultAccountName(walletType);

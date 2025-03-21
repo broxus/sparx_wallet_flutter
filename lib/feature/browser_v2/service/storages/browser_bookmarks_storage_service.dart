@@ -41,18 +41,15 @@ class BrowserBookmarksStorageService extends AbstractStorageService {
     );
   }
 
-  /// Clear browser bookmarks
-  Future<void> clearBrowserBookmarks() async {
-    await _storage.remove(_browserBookmarksKey);
-  }
-
   @override
   Future<void> init() async {
     await GetStorage.init(container);
   }
 
   @override
-  Future<void> clearSensitiveData() => Future.wait([
-        clearBrowserBookmarks(),
-      ]);
+  Future<void> clear() async {
+    try {
+      return await _storage.erase();
+    } catch (_) {}
+  }
 }

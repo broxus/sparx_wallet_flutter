@@ -26,20 +26,15 @@ Future<void> showConfirmActionDialog(
 }
 
 class ContentConfirmAction extends ElementaryWidget<ConfirmActionWidgetModel> {
-  ContentConfirmAction({
-    required VoidCallback finishedBackupCallback,
+  const ContentConfirmAction({
+    required this.finishedBackupCallback,
+    this.account,
     Key? key,
-    WidgetModelFactory<ConfirmActionWidgetModel>? wmFactory,
-    KeyAccount? account,
-  }) : super(
-          wmFactory ??
-              (context) => defaultConfirmActionWidgetModelFactory(
-                    context,
-                    account,
-                    finishedBackupCallback,
-                  ),
-          key: key,
-        );
+    WidgetModelFactory wmFactory = defaultConfirmActionWidgetModelFactory,
+  }) : super(wmFactory, key: key);
+
+  final VoidCallback finishedBackupCallback;
+  final KeyAccount? account;
 
   @override
   Widget build(ConfirmActionWidgetModel wm) {
@@ -54,9 +49,9 @@ class ContentConfirmAction extends ElementaryWidget<ConfirmActionWidgetModel> {
               style: theme.textStyles.headingMedium,
             ),
             const SizedBox(height: DimensSizeV2.d24),
-            if (wm.account != null)
+            if (account != null)
               AccountInfo(
-                account: wm.account!,
+                account: account!,
                 color: theme.colors.background2,
               ),
             const SizedBox(height: DimensSizeV2.d16),

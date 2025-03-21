@@ -15,11 +15,8 @@ import 'package:ui_components_lib/v2/ui_components_lib_v2.dart';
 class App extends ElementaryWidget<AppWidgetModel> {
   const App({
     Key? key,
-    WidgetModelFactory<AppWidgetModel> wmFactory = defaultAppWidgetModelFactory,
-  }) : super(
-          wmFactory,
-          key: key,
-        );
+    WidgetModelFactory wmFactory = defaultAppWidgetModelFactory,
+  }) : super(wmFactory, key: key);
 
   @override
   Widget build(AppWidgetModel wm) {

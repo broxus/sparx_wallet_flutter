@@ -35,6 +35,8 @@ const _$WalletContractTypeEnumMap = {
   WalletContractType.everWallet: 'EverWallet',
   WalletContractType.multisig2: 'Multisig2',
   WalletContractType.multisig2_1: 'Multisig2_1',
+  WalletContractType.walletV3R1: 'WalletV3R1',
+  WalletContractType.walletV3R2: 'WalletV3R2',
   WalletContractType.walletV4R1: 'WalletV4R1',
   WalletContractType.walletV4R2: 'WalletV4R2',
   WalletContractType.walletV5R1: 'WalletV5R1',

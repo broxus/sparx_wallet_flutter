@@ -1,3 +1,6 @@
+import 'dart:async';
+
+import 'package:app/app/service/app_links/app_links.dart';
 import 'package:app/app/service/messenger/service/messenger_service.dart';
 import 'package:app/app/service/storage_service/general_storage_service.dart';
 import 'package:app/feature/browser_v2/data/history_type.dart';
@@ -12,12 +15,14 @@ import 'package:app/feature/browser_v2/service/storages/browser_favicon_url_stor
 import 'package:app/feature/browser_v2/service/storages/browser_history_storage_service.dart';
 import 'package:app/feature/browser_v2/service/storages/browser_permissions_storage_service.dart';
 import 'package:app/feature/browser_v2/service/storages/browser_tabs_storage_service.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_inappwebview/flutter_inappwebview.dart';
 import 'package:injectable/injectable.dart';
 
 @singleton
 class BrowserService {
   BrowserService(
+    this._appLinksService,
     this._bookmarksStorageService,
     this._browserFaviconURLStorageService,
     this._browserHistoryStorageService,
@@ -27,6 +32,7 @@ class BrowserService {
     this._generalStorageService,
   );
 
+  final AppLinksService _appLinksService;
   final BrowserBookmarksStorageService _bookmarksStorageService;
   final BrowserFaviconURLStorageService _browserFaviconURLStorageService;
   final BrowserHistoryStorageService _browserHistoryStorageService;
@@ -52,6 +58,8 @@ class BrowserService {
 
   final auth = BrowserAuthManager();
 
+  StreamSubscription<BrowserAppLinksData>? _appLinksNavSubs;
+
   BookmarksManager get bM => bookmarks;
 
   FaviconManager get fM => favicon;
@@ -69,6 +77,10 @@ class BrowserService {
     history.init();
     tabs.init();
     permissions.init();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      _appLinksNavSubs =
+          _appLinksService.browserLinksStream.listen(_listenAppLinks);
+    });
   }
 
   Future<void> clear() async {
@@ -82,6 +94,7 @@ class BrowserService {
   void dispose() {
     favicon.dispose();
     tabs.dispose();
+    _appLinksNavSubs?.cancel();
   }
 
   void openUrl(Uri uri) {
@@ -113,5 +126,9 @@ class BrowserService {
           tM.clearCachedFiles();
       }
     }
+  }
+
+  void _listenAppLinks(BrowserAppLinksData event) {
+    openUrl(event.url);
   }
 }

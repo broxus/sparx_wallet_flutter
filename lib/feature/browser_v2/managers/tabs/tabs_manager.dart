@@ -169,7 +169,7 @@ class BrowserTabsManager {
 
   /// Clear all browser tabs
   Future<void> clearTabs() async {
-    await _browserTabsStorageService.clearBrowserTabs();
+    await _browserTabsStorageService.clear();
     await _screenshotHelper.clear();
     _tabsState.accept(BrowserTabsCollection());
     _activeTabState.accept(null);
