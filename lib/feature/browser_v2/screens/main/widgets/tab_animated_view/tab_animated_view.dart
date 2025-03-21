@@ -56,7 +56,10 @@ class TabAnimatedView extends ElementaryWidget<TabAnimatedViewWidgetModel> {
               builder: (_, File? file) {
                 return file == null
                     ? Container(color: Colors.blue)
-                    : Image.file(file);
+                    : Image.file(
+                        file,
+                        fit: BoxFit.fill,
+                      );
               },
             ),
           ),
