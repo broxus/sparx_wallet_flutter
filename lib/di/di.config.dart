@@ -18,6 +18,7 @@ import 'package:nekoton_repository/nekoton_repository.dart' as _i771;
 import 'package:nekoton_repository/nekoton_repository.module.dart' as _i1067;
 
 import '../app/service/app_lifecycle_service.dart' as _i830;
+import '../app/service/app_links/app_links.dart' as _i850;
 import '../app/service/app_links/app_links_service.dart' as _i746;
 import '../app/service/app_permissions_service.dart' as _i1070;
 import '../app/service/approvals_service.dart' as _i654;
@@ -215,6 +216,19 @@ extension GetItInjectableX on _i174.GetIt {
           gh<_i128.SecureStorageService>(),
           gh<_i128.AppLifecycleService>(),
         ));
+    gh.singleton<_i511.BrowserService>(
+      () => _i511.BrowserService(
+        gh<_i850.AppLinksService>(),
+        gh<_i394.BrowserBookmarksStorageService>(),
+        gh<_i778.BrowserFaviconURLStorageService>(),
+        gh<_i938.BrowserHistoryStorageService>(),
+        gh<_i1005.BrowserTabsStorageService>(),
+        gh<_i1017.BrowserPermissionsStorageService>(),
+        gh<_i980.MessengerService>(),
+        gh<_i747.GeneralStorageService>(),
+      ),
+      dispose: (i) => i.dispose(),
+    );
     gh.singleton<_i754.ConnectionService>(() => _i754.ConnectionService(
           gh<_i128.ConnectionsStorageService>(),
           gh<_i771.NekotonRepository>(),
@@ -227,18 +241,6 @@ extension GetItInjectableX on _i174.GetIt {
           storageService: gh<_i128.GeneralStorageService>(),
           appLifecycle: gh<_i128.AppLifecycleService>(),
         ));
-    gh.singleton<_i511.BrowserService>(
-      () => _i511.BrowserService(
-        gh<_i394.BrowserBookmarksStorageService>(),
-        gh<_i778.BrowserFaviconURLStorageService>(),
-        gh<_i938.BrowserHistoryStorageService>(),
-        gh<_i1005.BrowserTabsStorageService>(),
-        gh<_i1017.BrowserPermissionsStorageService>(),
-        gh<_i980.MessengerService>(),
-        gh<_i747.GeneralStorageService>(),
-      ),
-      dispose: (i) => i.dispose(),
-    );
     gh.singleton<_i964.AssetsService>(
       () => _i964.AssetsService(
         gh<_i771.NekotonRepository>(),
