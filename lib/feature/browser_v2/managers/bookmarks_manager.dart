@@ -152,7 +152,7 @@ class BookmarksManager {
   Future<void> clearBookmarks({
     bool needUndo = true,
   }) async {
-    await _bookmarksStorageService.clearBrowserBookmarks();
+    await _bookmarksStorageService.clear();
 
     final savedBrowserBookmarks =
         needUndo ? [...browserBookmarks] : <BrowserBookmarkItem>[];

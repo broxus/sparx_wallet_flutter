@@ -41,18 +41,15 @@ class BrowserHistoryStorageService extends AbstractStorageService {
     );
   }
 
-  /// Clear browser history
-  Future<void> clearBrowserHistory() async {
-    await _storage.remove(_browserHistoryKey);
-  }
-
   @override
   Future<void> init() async {
     await GetStorage.init(container);
   }
 
   @override
-  Future<void> clearSensitiveData() => Future.wait([
-        clearBrowserHistory(),
-      ]);
+  Future<void> clear() async {
+    try {
+      await _storage.erase();
+    } catch (_) {}
+  }
 }

@@ -2,7 +2,6 @@ import 'package:app/feature/browser_v2/data/tabs_data.dart';
 import 'package:app/feature/browser_v2/screens/main/widgets/page/browser_page.dart';
 import 'package:elementary_helper/elementary_helper.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/rendering.dart';
 import 'package:flutter_inappwebview/flutter_inappwebview.dart';
 
 class BrowserPagesView extends StatelessWidget {
