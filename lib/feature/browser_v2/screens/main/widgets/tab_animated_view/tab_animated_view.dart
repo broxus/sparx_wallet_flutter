@@ -1,6 +1,5 @@
 import 'dart:io';
 
-import 'package:app/feature/browser_v2/screens/main/widgets/browser_start_view.dart';
 import 'package:app/feature/browser_v2/screens/main/widgets/tab_animated_view/tab_animated_view_wm.dart';
 import 'package:app/feature/browser_v2/screens/main/widgets/tab_animated_view/tab_animation_type.dart';
 import 'package:app/generated/generated.dart';
@@ -78,14 +77,10 @@ class TabAnimatedView extends ElementaryWidget<TabAnimatedViewWidgetModel> {
 }
 
 class _StartPageAnimationView extends StatelessWidget {
-  const _StartPageAnimationView({super.key});
+  const _StartPageAnimationView();
 
   @override
   Widget build(BuildContext context) {
-    final theme = context.themeStyleV2;
-    final styles = theme.textStyles;
-    final colors = theme.colors;
-
     return SizedBox(
       height: double.infinity,
       child: DecoratedBox(
