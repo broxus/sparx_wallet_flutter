@@ -54,12 +54,17 @@ class TabAnimatedView extends ElementaryWidget<TabAnimatedViewWidgetModel> {
             child: StateNotifierBuilder<File?>(
               listenableState: wm.screenshotStateState,
               builder: (_, File? file) {
-                return file == null
-                    ? Container(color: Colors.blue)
-                    : Image.file(
-                        file,
-                        fit: BoxFit.fill,
-                      );
+                return ClipRRect(
+                  borderRadius: BorderRadius.circular(
+                    wm.borderRadiusAnimation.value,
+                  ),
+                  child: file == null
+                      ? Container(color: Colors.blue)
+                      : Image.file(
+                          file,
+                          fit: BoxFit.fill,
+                        ),
+                );
               },
             ),
           ),

@@ -9,6 +9,7 @@ import 'package:app/feature/browser_v2/screens/main/widgets/tab_animated_view/ta
 import 'package:elementary/elementary.dart';
 import 'package:elementary_helper/elementary_helper.dart';
 import 'package:flutter/widgets.dart';
+import 'package:ui_components_lib/ui_components_lib.dart';
 
 /// Factory method for creating [TabAnimatedViewWidgetModel]
 TabAnimatedViewWidgetModel defaultTabAnimatedViewWidgetModelFactory(
@@ -38,6 +39,11 @@ class TabAnimatedViewWidgetModel
   late final heightAnimation = Tween<double>(
     begin: 200,
     end: _screenSize.height,
+  ).animate(_animationController);
+
+  late final borderRadiusAnimation = Tween<double>(
+    begin: 0,
+    end: DimensRadiusV2.radius16,
   ).animate(_animationController);
 
   late final opacityAnimation = Tween<double>(
