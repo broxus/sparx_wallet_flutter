@@ -119,6 +119,8 @@ class BrowserManagerScreenshotHelper {
     );
   }
 
+  String? getScreenShotById(String id) => _screenshotsCache.get(id);
+
   Future<void> _fetchScreenshots(List<BrowserTab> tabs) async {
     final result = HashMap<String, String>();
 

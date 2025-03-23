@@ -61,6 +61,12 @@ class BrowserTabsManager {
 
   InAppWebViewController? get _currentController => _controllers[activeTabId];
 
+  String? get activeTabScreenshotPath {
+    return activeTabId == null
+        ? null
+        : _screenshotHelper.getScreenShotById(activeTabId!);
+  }
+
   void init() {
     activeTabState.addListener(_handleActiveTab);
     _fetchTabsDataFromCache();

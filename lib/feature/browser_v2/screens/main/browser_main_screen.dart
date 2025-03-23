@@ -4,6 +4,7 @@ import 'package:app/feature/browser_v2/screens/main/widgets/browser_progress_ind
 import 'package:app/feature/browser_v2/screens/main/widgets/control_panel/page_control_panel/page_control_panel.dart';
 import 'package:app/feature/browser_v2/screens/main/widgets/control_panel/tabs_list_control_panel.dart';
 import 'package:app/feature/browser_v2/screens/main/widgets/pages_view/pages_view.dart';
+import 'package:app/feature/browser_v2/screens/main/widgets/tab_animated_view/tab_animated_view.dart';
 import 'package:app/feature/browser_v2/screens/main/widgets/tab_list/tab_list.dart';
 import 'package:app/feature/browser_v2/screens/main/widgets/url_text_panel.dart';
 import 'package:elementary/elementary.dart';
@@ -45,6 +46,18 @@ class BrowserMainScreen extends ElementaryWidget<BrowserMainScreenWidgetModel> {
                   onDispose: wm.onDisposeController,
                 ),
               ),
+            ),
+            // TODO(knightforce): optimize render
+            _ItemPosition(
+              child: BrowserProgressIndicator(
+                animation: wm.progressController,
+                menuState: wm.menuState,
+              ),
+            ),
+            TabAnimatedView(
+              onAnimationStart: wm.onTabAnimationStart,
+              onAnimationEnd: wm.onTabAnimationEnd,
+              showAnimationState: wm.showAnimationState,
             ),
             _ItemPosition(
               child: _MenuAnimation(
@@ -88,14 +101,6 @@ class BrowserMainScreen extends ElementaryWidget<BrowserMainScreenWidgetModel> {
                   key: wm.urlKey,
                   onPressed: wm.onPressedViewUrlPanel,
                 ),
-              ),
-            ),
-
-            // TODO(knightforce): optimize render
-            _ItemPosition(
-              child: BrowserProgressIndicator(
-                animation: wm.progressController,
-                menuState: wm.menuState,
               ),
             ),
           ],
