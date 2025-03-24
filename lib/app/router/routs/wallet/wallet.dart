@@ -35,6 +35,7 @@ const walletPrepareTransferSymbolPathParam = 'walletPrepareSymbol';
 const tonWalletSendAddressQueryParam = 'tonWalletSendAddress';
 const tonWalletSendPublicKeyQueryParam = 'tonWalletSendPublicKey';
 const tonWalletSendCommentQueryParam = 'tonWalletSendComment';
+const tonWalletSendPayloadQueryParam = 'tonWalletSendPayload';
 const tonWalletSendDestinationQueryParam = 'tonWalletSendDestination';
 const tonWalletSendAmountQueryParam = 'tonWalletSendAmount';
 const tonWalletSendAttachedAmountQueryParam = 'tonWalletSendAttachedAmount';
@@ -278,6 +279,7 @@ GoRoute get tonWalletSendRoute {
         ),
         attachedAmount: attached == null ? null : BigInt.parse(attached),
         comment: state.uri.queryParameters[tonWalletSendCommentQueryParam],
+        payload: state.uri.queryParameters[tonWalletSendPayloadQueryParam],
         resultMessage:
             state.uri.queryParameters[tonWalletSendResultMessageQueryParam],
       );

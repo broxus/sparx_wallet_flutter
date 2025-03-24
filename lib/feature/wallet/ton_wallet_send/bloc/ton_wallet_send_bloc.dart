@@ -27,6 +27,7 @@ class TonWalletSendBloc extends Bloc<TonWalletSendEvent, TonWalletSendState>
     required this.destination,
     required this.amount,
     required this.comment,
+    required this.payload,
     required this.resultMessage,
   }) : super(const TonWalletSendState.loading()) {
     _registerHandlers();
@@ -52,6 +53,9 @@ class TonWalletSendBloc extends Bloc<TonWalletSendEvent, TonWalletSendState>
 
   /// Comment for transaction
   final String? comment;
+
+  /// Transaction payload
+  final String? payload;
 
   /// Message that will be shown when transaction sending completed
   final String resultMessage;
@@ -203,7 +207,8 @@ class TonWalletSendBloc extends Bloc<TonWalletSendEvent, TonWalletSendState>
           TonWalletTransferParams(
             destination: repackAddress(destination),
             amount: amount,
-            body: comment,
+            body: payload ??
+                comment?.let((it) => encodeComment(it, plain: transport.isTon)),
             bounce: defaultMessageBounce,
           ),
         ],

@@ -135,7 +135,7 @@ extension GetItInjectableX on _i174.GetIt {
           gh<_i128.BrowserPermissionsStorageService>(),
           gh<_i771.NekotonRepository>(),
         ));
-    gh.lazySingleton<_i958.IIdentifyIconsService>(
+    gh.lazySingleton<_i128.IIdentifyIconsService>(
         () => _i316.IdentifyIconsService(gh<_i128.AppStorageService>()));
     gh.singleton<_i1020.BalanceStorageService>(
         () => _i1020.BalanceStorageService(
@@ -160,7 +160,7 @@ extension GetItInjectableX on _i174.GetIt {
     gh.singleton<_i65.ConnectionsStorageService>(
         () => _i65.ConnectionsStorageService(
               gh<_i792.GetStorage>(instanceName: 'connections'),
-              gh<_i116.PresetsConnectionService>(),
+              gh<_i128.PresetsConnectionService>(),
               gh<_i128.MessengerService>(),
             ));
     gh.singleton<_i700.TokenRepository>(() => _i700.TokenRepository(
@@ -257,7 +257,7 @@ extension GetItInjectableX on _i174.GetIt {
         gh<_i771.NekotonRepository>(),
         gh<_i128.ConnectionsStorageService>(),
         gh<_i128.CurrentAccountsService>(),
-        gh<_i116.PresetsConnectionService>(),
+        gh<_i128.PresetsConnectionService>(),
         gh<_i128.HttpService>(),
         gh<_i128.GeneralStorageService>(),
         gh<_i495.TonRepository>(),
