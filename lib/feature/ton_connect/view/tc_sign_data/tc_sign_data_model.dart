@@ -3,7 +3,6 @@ import 'dart:convert';
 import 'dart:typed_data';
 
 import 'package:app/app/service/service.dart';
-import 'package:app/app/service/ton_connect/ton_connect.dart';
 import 'package:app/utils/utils.dart';
 import 'package:crypto/crypto.dart';
 import 'package:elementary/elementary.dart';

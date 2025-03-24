@@ -8,8 +8,8 @@ environment:
   flutter: ">=3.24.0"
 
 dependencies:
-  app_settings: 5.1.1
   app_links: 6.4.0
+  app_settings: 5.1.1
   auto_size_text_field: 2.2.4
   barcode_widget: 2.0.4
   bloc: 8.1.4
