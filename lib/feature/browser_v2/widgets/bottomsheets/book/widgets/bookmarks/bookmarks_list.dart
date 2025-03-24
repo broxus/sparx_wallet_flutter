@@ -58,8 +58,8 @@ class BookmarksList extends ElementaryWidget<BookmarksListWidgetModel> {
                       index: index,
                       editState: wm.editState,
                       title: list[index].title,
-                      subTitle: list[index].host,
-                      url: list[index].url,
+                      subTitle: list[index].subTitle,
+                      uri: list[index].uri,
                       onPressed: () => wm.onPressedItem(list[index].bookmarkId),
                       onPressedRemove: () => wm.onPressedRemove(
                         list[index].bookmarkId,

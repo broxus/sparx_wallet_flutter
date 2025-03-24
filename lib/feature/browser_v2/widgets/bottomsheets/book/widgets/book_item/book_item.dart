@@ -1,6 +1,5 @@
 import 'package:app/feature/browser_v2/widgets/bottomsheets/book/widgets/bookmarks/bookmarks_list_wm.dart';
-import 'package:app/generated/generated.dart';
-import 'package:cached_network_image/cached_network_image.dart';
+import 'package:app/feature/browser_v2/widgets/favicon_view/favicon_view.dart';
 import 'package:elementary_helper/elementary_helper.dart';
 import 'package:flutter/material.dart';
 import 'package:lucide_icons_flutter/lucide_icons.dart';
@@ -14,14 +13,14 @@ class BookmarkListItem extends StatelessWidget {
     required this.onPressedRemove,
     this.title,
     this.subTitle,
-    this.url,
+    this.uri,
     super.key,
   });
 
   final int index;
   final String? title;
   final String? subTitle;
-  final String? url;
+  final Uri? uri;
   final ListenableState<EditValue> editState;
   final VoidCallback onPressed;
   final VoidCallback onPressedRemove;
@@ -34,7 +33,7 @@ class BookmarkListItem extends StatelessWidget {
         return _Content(
           title: title,
           subTitle: subTitle,
-          url: url,
+          uri: uri,
           prefix: Padding(
             padding: const EdgeInsets.only(right: DimensSizeV2.d20),
             child: _CrossAnimation(
@@ -68,13 +67,15 @@ class HistoryListItem extends StatelessWidget {
     required this.editState,
     required this.onPressed,
     required this.onPressedRemove,
+    this.uri,
     this.title,
-    this.url,
+    this.subTitle,
     super.key,
   });
 
+  final Uri? uri;
   final String? title;
-  final String? url;
+  final String? subTitle;
   final ListenableState<bool> editState;
   final VoidCallback onPressed;
   final VoidCallback onPressedRemove;
@@ -88,8 +89,8 @@ class HistoryListItem extends StatelessWidget {
 
         return _Content(
           title: title,
-          subTitle: url,
-          url: url,
+          subTitle: subTitle,
+          uri: uri,
           prefix: Padding(
             padding: const EdgeInsets.only(right: DimensSizeV2.d20),
             child: _CrossAnimation(
@@ -111,7 +112,7 @@ class _Content extends StatelessWidget {
   const _Content({
     this.title,
     this.subTitle,
-    this.url,
+    this.uri,
     this.prefix,
     this.suffix,
     this.onPressed,
@@ -119,7 +120,7 @@ class _Content extends StatelessWidget {
 
   final String? title;
   final String? subTitle;
-  final String? url;
+  final Uri? uri;
   final Widget? prefix;
   final Widget? suffix;
   final VoidCallback? onPressed;
@@ -153,15 +154,10 @@ class _Content extends StatelessWidget {
                     children: [
                       Padding(
                         padding: const EdgeInsets.only(right: DimensSizeV2.d8),
-                        child: CachedNetworkImage(
+                        child: FaviconView(
+                          uri: uri,
                           height: DimensSize.d32,
                           width: DimensSize.d32,
-                          imageUrl: url ?? '',
-                          placeholder: (_, __) =>
-                              const CommonCircularProgressIndicator(),
-                          errorWidget: (_, __, ___) => CommonIconWidget.svg(
-                            svg: Assets.images.web.path,
-                          ),
                         ),
                       ),
                       Expanded(

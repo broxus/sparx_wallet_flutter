@@ -136,8 +136,7 @@ class BookmarksListWidgetModel
             BookMarkUiModel(
               bookmarkId: bookmark.id,
               title: bookmark.title,
-              url: bookmark.url.toString(),
-              host: bookmark.url.host,
+              uri: bookmark.url,
             ),
       ],
     );

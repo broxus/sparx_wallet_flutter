@@ -9,11 +9,13 @@ class DateUiModel extends HistoryUiModel {
 class HistoryItemUiModel extends HistoryUiModel {
   HistoryItemUiModel({
     required this.id,
+    required this.uri,
     required this.title,
-    required this.url,
+    required this.subTitle,
   });
 
   final String id;
+  final Uri uri;
   final String title;
-  final String url;
+  final String subTitle;
 }

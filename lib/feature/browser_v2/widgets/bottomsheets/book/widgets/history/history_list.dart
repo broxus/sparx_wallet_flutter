@@ -56,14 +56,16 @@ class HistoryList extends ElementaryWidget<HistoryListWidgetModel> {
                       ),
                     HistoryItemUiModel(
                       :final String id,
-                      :final String url,
+                      :final Uri uri,
                       :final String title,
+                      :final String subTitle,
                     ) =>
                       HistoryListItem(
                         key: ValueKey(id),
                         editState: wm.editState,
+                        uri: uri,
                         title: title,
-                        url: url,
+                        subTitle: subTitle,
                         onPressed: () => wm.onPressedItem(id),
                         onPressedRemove: () => wm.onPressedRemove(id),
                       ),

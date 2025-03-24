@@ -1,12 +1,12 @@
 import 'package:app/feature/browser_v2/managers/favicon_manager.dart';
 import 'package:app/feature/browser_v2/service/browser_service.dart';
-import 'package:app/feature/browser_v2/widgets/browser_resource_item/browser_resource_item.dart';
+import 'package:app/feature/browser_v2/widgets/favicon_view/favicon_view.dart';
 import 'package:elementary/elementary.dart';
 import 'package:elementary_helper/elementary_helper.dart';
 
-/// [ElementaryModel] for [BrowserResourceItem]
-class BrowserResourceItemModel extends ElementaryModel {
-  BrowserResourceItemModel(
+/// [ElementaryModel] for [FaviconView]
+class FaviconViewModel extends ElementaryModel {
+  FaviconViewModel(
     ErrorHandler errorHandler,
     this._browserService,
   ) : super(errorHandler: errorHandler);

@@ -1,13 +1,13 @@
 class BookMarkUiModel {
   BookMarkUiModel({
     required this.bookmarkId,
-    required this.url,
+    required this.uri,
     required this.title,
-    required this.host,
   });
 
   final String bookmarkId;
-  final String url;
+  final Uri uri;
+  // late final String url = uri.toString();
   final String title;
-  final String host;
+  late final String subTitle = uri.host;
 }

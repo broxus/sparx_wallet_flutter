@@ -168,8 +168,9 @@ class HistoryListWidgetModel
       result.add(
         HistoryItemUiModel(
           id: item.id,
+          uri: item.url,
           title: item.url.host,
-          url: item.url.toString(),
+          subTitle: item.url.toString(),
         ),
       );
 
