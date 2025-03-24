@@ -20,7 +20,8 @@ sealed class TonAppConnection with _$TonAppConnection {
   }) = TonAppConnectionRemote;
 
   const factory TonAppConnection.injected({
-    required ConnectItemReply replyItems,
+    required String origin,
+    required List<ConnectItemReply> replyItems,
     required Address walletAddress,
     required String manifestUrl,
   }) = TonAppConnectionInjected;

@@ -20,3 +20,4 @@ export 'ton_proof_domain.dart';
 export 'transaction_payload.dart';
 export 'transaction_payload_message.dart';
 export 'wallet_event.dart';
+export 'wallet_response.dart';

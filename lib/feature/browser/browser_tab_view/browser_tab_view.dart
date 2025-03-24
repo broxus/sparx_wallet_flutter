@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:collection';
 import 'dart:io';
 
+import 'package:app/app/service/service.dart';
 import 'package:app/core/wm/context_wm_mixin.dart';
 import 'package:app/data/models/models.dart';
 import 'package:app/di/di.dart';
@@ -99,6 +100,7 @@ class _BrowserTabViewState extends State<BrowserTabView> with ContextMixin {
     connectionsStorageService: inject(),
     connectionService: inject(),
   );
+  late final _tonConnectJsBridge = inject<TonConnectJsBridge>();
 
   Timer? _screenshotTimer;
 
@@ -358,6 +360,8 @@ class _BrowserTabViewState extends State<BrowserTabView> with ContextMixin {
       providerApi: _inpageProvider,
     );
 
+    await _tonConnectJsBridge.initJsBridge(controller);
+
     if (widget.tab.url.toString().isNotEmpty && widget.active) {
       await controller.loadUrl(
         urlRequest: URLRequest(
@@ -460,6 +464,7 @@ class _BrowserTabViewState extends State<BrowserTabView> with ContextMixin {
     }
 
     _inpageProvider.url = url;
+    _tonConnectJsBridge.url = url;
 
     if (url != null) {
       contextSafe

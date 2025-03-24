@@ -2,7 +2,6 @@ import 'dart:async';
 
 import 'package:app/app/router/router.dart';
 import 'package:app/app/service/service.dart';
-import 'package:app/app/service/ton_connect/ton_connect.dart';
 import 'package:app/di/di.dart';
 import 'package:app/event_bus/events/navigation/bottom_navigation_events.dart';
 import 'package:app/event_bus/primary_bus.dart';
@@ -26,7 +25,7 @@ class _RootViewState extends State<RootView> {
 
   late final _appLinksService = inject<AppLinksService>();
   late final _navigationService = inject<NavigationService>();
-  late final _tonConnectService = inject<TonConnectService>();
+  late final _tonConnectHttpBridge = inject<TonConnectHttpBridge>();
 
   int get _tabIndex => RootTab.getByPath(
         getRootPath(fullPath: _navigationService.state.fullPath),
@@ -160,7 +159,7 @@ class _RootViewState extends State<RootView> {
 
     try {
       final query = ConnectQuery.fromQuery(uri.query);
-      _tonConnectService.connect(query: query, context: context);
+      _tonConnectHttpBridge.connect(query: query, context: context);
     } catch (e, s) {
       _logger.warning('Failed to parse connect query: $uri', e, s);
       return;

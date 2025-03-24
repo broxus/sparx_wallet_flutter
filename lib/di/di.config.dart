@@ -78,6 +78,8 @@ import '../app/service/storage_service/ton_connect_storage_service.dart'
 import '../app/service/storage_service/ton_wallet_storage_service/ton_wallet_storage_service.dart'
     as _i139;
 import '../app/service/token_wallets_service.dart' as _i877;
+import '../app/service/ton_connect/ton_connect_http_bridge.dart' as _i770;
+import '../app/service/ton_connect/ton_connect_js_bridge.dart' as _i186;
 import '../app/service/ton_connect/ton_connect_service.dart' as _i175;
 import '../http/api/presets/presets_api.dart' as _i249;
 import '../http/api/token/token_api.dart' as _i639;
@@ -135,17 +137,16 @@ extension GetItInjectableX on _i174.GetIt {
             gh<_i792.GetStorage>(instanceName: 'ton_connect_storage_service')));
     gh.factory<_i162.TonApi>(() => _i162.TonApi(gh<_i361.Dio>()));
     gh.factory<_i249.PresetsApi>(() => _i249.PresetsApi(gh<_i361.Dio>()));
+    gh.lazySingleton<_i175.TonConnectService>(() => _i175.TonConnectService(
+          gh<_i128.TonConnectStorageService>(),
+          gh<_i771.NekotonRepository>(),
+          gh<_i128.MessengerService>(),
+        ));
     gh.lazySingleton<_i184.AppStorageService>(() => _i184.AppStorageService(
         gh<_i792.GetStorage>(instanceName: 'app_storage_service')));
     gh.singleton<_i473.PermissionsService>(() => _i473.PermissionsService(
           gh<_i128.BrowserPermissionsStorageService>(),
           gh<_i771.NekotonRepository>(),
-        ));
-    gh.singleton<_i175.TonConnectService>(() => _i175.TonConnectService(
-          gh<_i128.TonConnectStorageService>(),
-          gh<_i771.NekotonRepository>(),
-          gh<_i128.MessengerService>(),
-          gh<_i128.AppLifecycleService>(),
         ));
     gh.lazySingleton<_i128.IIdentifyIconsService>(
         () => _i316.IdentifyIconsService(gh<_i128.AppStorageService>()));
@@ -243,11 +244,21 @@ extension GetItInjectableX on _i174.GetIt {
           gh<_i128.AssetsService>(),
           gh<_i188.TokenRepository>(),
         ));
+    gh.factory<_i186.TonConnectJsBridge>(() => _i186.TonConnectJsBridge(
+          gh<_i128.TonConnectService>(),
+          gh<_i128.TonConnectStorageService>(),
+        ));
     gh.singleton<_i575.BiometryService>(() => _i575.BiometryService(
           gh<_i128.GeneralStorageService>(),
           gh<_i128.SecureStorageService>(),
           gh<_i128.AppLifecycleService>(),
         ));
+    gh.lazySingleton<_i770.TonConnectHttpBridge>(
+        () => _i770.TonConnectHttpBridge(
+              gh<_i128.TonConnectService>(),
+              gh<_i128.AppLifecycleService>(),
+              gh<_i128.TonConnectStorageService>(),
+            ));
     gh.singleton<_i754.ConnectionService>(() => _i754.ConnectionService(
           gh<_i128.ConnectionsStorageService>(),
           gh<_i771.NekotonRepository>(),

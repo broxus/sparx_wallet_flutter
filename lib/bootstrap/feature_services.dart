@@ -1,5 +1,4 @@
 import 'package:app/app/service/service.dart';
-import 'package:app/app/service/ton_connect/ton_connect.dart';
 import 'package:app/di/di.dart';
 import 'package:app/http/http.dart';
 import 'package:logging/logging.dart';
@@ -44,7 +43,7 @@ Future<void> configureFeatureServices() async {
     ..finest('TokenWalletsService initialized')
     ..finest('TonConnectService initializing...');
 
-  await inject<TonConnectService>().openSseConnection();
+  await inject<TonConnectHttpBridge>().openSseConnection();
   log.finest('TonConnectService initialized');
 
   inject<TokenRepository>().init();

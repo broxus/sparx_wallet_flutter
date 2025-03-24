@@ -1,5 +1,4 @@
 import 'package:app/app/service/service.dart';
-import 'package:app/app/service/ton_connect/models/models.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:injectable/injectable.dart';
 
@@ -17,17 +16,20 @@ class TonConnectStorageService extends AbstractStorageService {
 
   final GetStorage _storage;
 
+  late var _eventId = _readEventId();
+
   @override
   Future<void> init() => GetStorage.init(container);
 
   @override
   Future<void> clear() => _storage.erase();
 
-  num readEventId() => _storage.read(_eventIdKey) ?? 1;
-
-  void saveEventId(num eventId) => _storage.write(_eventIdKey, eventId);
-
   String? readLastEventId() => _storage.read(_lastEventIdKey);
+
+  String getEventId() {
+    _saveEventId(++_eventId);
+    return _eventId.toString();
+  }
 
   void saveLastEventId(String lastEventId) => _storage.write(
         _lastEventIdKey,
@@ -60,4 +62,8 @@ class TonConnectStorageService extends AbstractStorageService {
   }
 
   void clearConnections() => _storage.remove(_connectionsKey);
+
+  num _readEventId() => _storage.read(_eventIdKey) ?? 1;
+
+  void _saveEventId(num eventId) => _storage.write(_eventIdKey, eventId);
 }
