@@ -7,7 +7,9 @@ import 'package:app/feature/browser_v2/screens/main/widgets/pages_view/pages_vie
 import 'package:app/feature/browser_v2/screens/main/widgets/tab_animated_view/tab_animated_view.dart';
 import 'package:app/feature/browser_v2/screens/main/widgets/tab_list/tab_list.dart';
 import 'package:app/feature/browser_v2/screens/main/widgets/url_text_panel.dart';
+import 'package:app/feature/browser_v2/widgets/past_go.dart';
 import 'package:elementary/elementary.dart';
+import 'package:elementary_helper/elementary_helper.dart';
 import 'package:flutter/material.dart';
 
 class BrowserMainScreen extends ElementaryWidget<BrowserMainScreenWidgetModel> {
@@ -41,9 +43,9 @@ class BrowserMainScreen extends ElementaryWidget<BrowserMainScreenWidgetModel> {
                   tabsState: wm.tabsState,
                   scrollController: wm.viewTabScrollController,
                   progressController: wm.progressController,
-                  onCreate: wm.onCreateController,
+                  onCreateWebViewController: wm.onCreateWebViewController,
                   onScrollChanged: wm.onScrollChanged,
-                  onDispose: wm.onDisposeController,
+                  onDispose: wm.onDisposeWebController,
                 ),
               ),
             ),
@@ -103,6 +105,15 @@ class BrowserMainScreen extends ElementaryWidget<BrowserMainScreenWidgetModel> {
                 ),
               ),
             ),
+            Positioned(
+              bottom: BrowserTabsListControlPanel.height + 44,
+              left: 0,
+              right: 0,
+              child: _PastGoView(
+                showState: wm.showPastGoState,
+                onPressed: wm.onPastGoPressed,
+              ),
+            ),
           ],
         ),
       ),
@@ -148,6 +159,37 @@ class _MenuAnimation extends StatelessWidget {
         );
       },
       child: child,
+    );
+  }
+}
+
+class _PastGoView extends StatelessWidget {
+  const _PastGoView({
+    required this.showState,
+    required this.onPressed,
+  });
+
+  final ListenableState<bool> showState;
+  final VoidCallback onPressed;
+
+  @override
+  Widget build(BuildContext context) {
+    return StateNotifierBuilder(
+      listenableState: showState,
+      builder: (_, bool? isShow) {
+        isShow ??= false;
+
+        return Transform.translate(
+          offset: Offset(0, isShow ? 0 : 300),
+          child: AnimatedOpacity(
+            opacity: isShow ? 1 : 0,
+            duration: const Duration(milliseconds: 250),
+            child: PastGoButton(
+              onPressed: onPressed,
+            ),
+          ),
+        );
+      },
     );
   }
 }

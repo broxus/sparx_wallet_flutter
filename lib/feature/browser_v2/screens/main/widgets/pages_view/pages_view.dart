@@ -11,7 +11,7 @@ class BrowserPagesView extends StatelessWidget {
     required this.scrollController,
     required this.progressController,
     required this.tabsState,
-    required this.onCreate,
+    required this.onCreateWebViewController,
     required this.onScrollChanged,
     required this.onDispose,
     super.key,
@@ -22,7 +22,10 @@ class BrowserPagesView extends StatelessWidget {
   final ListenableState<BrowserTabsCollection> tabsState;
   final ScrollController scrollController;
   final AnimationController progressController;
-  final void Function(String tabId, InAppWebViewController controller) onCreate;
+  final void Function(
+    String tabId,
+    InAppWebViewController controller,
+  ) onCreateWebViewController;
   final ValueChanged<int> onScrollChanged;
   final ValueChanged<String> onDispose;
 
@@ -54,7 +57,7 @@ class BrowserPagesView extends StatelessWidget {
                     progressController: progressController,
                     width: width,
                     tab: data.list[index],
-                    onCreate: (controller) => onCreate(
+                    onCreate: (controller) => onCreateWebViewController(
                       data.list[index].id,
                       controller,
                     ),

@@ -17,7 +17,6 @@ class BrowserStartView extends StatelessWidget {
     final theme = context.themeStyleV2;
     final styles = theme.textStyles;
     final colors = theme.colors;
-
     return SizedBox(
       height: double.infinity,
       child: DecoratedBox(
@@ -28,7 +27,7 @@ class BrowserStartView extends StatelessWidget {
           children: [
             Assets.images.bgNetwork.image(width: double.infinity),
             Positioned(
-              bottom: _bottom,
+              bottom: BrowserStartView._bottom,
               left: 0,
               right: 0,
               child: Column(

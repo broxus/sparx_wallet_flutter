@@ -423,6 +423,9 @@ class $AssetsImagesGen {
   SvgGenImage get tokenDefaultIcon =>
       const SvgGenImage('assets/images/token_default_icon.svg');
 
+  /// File path: assets/images/tooltip.svg
+  SvgGenImage get tooltip => const SvgGenImage('assets/images/tooltip.svg');
+
   /// File path: assets/images/transaction_progress.png
   AssetGenImage get transactionProgress =>
       const AssetGenImage('assets/images/transaction_progress.png');
@@ -548,6 +551,7 @@ class $AssetsImagesGen {
         star,
         support,
         tokenDefaultIcon,
+        tooltip,
         transactionProgress,
         trash,
         verticalDots,

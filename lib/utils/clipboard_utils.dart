@@ -1,7 +1,14 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/services.dart';
 
 Future<ClipboardData?> getClipBoardData() async {
-  return Clipboard.getData(Clipboard.kTextPlain);
+  try {
+    return await Clipboard.getData(Clipboard.kTextPlain);
+  } catch (e, s) {
+    debugPrint(e.toString());
+    debugPrintStack(stackTrace: s);
+    return null;
+  }
 }
 
 Future<String?> getClipBoardText() async {
@@ -16,4 +23,14 @@ Future<void> setClipBoardData(String text) async {
       ),
     );
   } catch (_) {}
+}
+
+Future<bool> checkExistClipBoardData() async {
+  try {
+    return await Clipboard.hasStrings();
+  } catch (e, s) {
+    debugPrint(e.toString());
+    debugPrintStack(stackTrace: s);
+    return false;
+  }
 }

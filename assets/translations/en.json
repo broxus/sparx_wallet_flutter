@@ -36,6 +36,7 @@
   "enterSeedPhrase": "Enter seed phrase",
   "pasteSeedIntoFirstBox": "You can paste all the words from the clipboard into the first box.",
   "pasteAll": "Paste all",
+  "pasteAndGo": "Paste And Go",
   "clearAll": "Clear all",
   "clearFromHistory": "Clear from History",
   "wordsCount": {

@@ -41,6 +41,7 @@ abstract class LocaleKeys {
   static const enterSeedPhrase = 'enterSeedPhrase';
   static const pasteSeedIntoFirstBox = 'pasteSeedIntoFirstBox';
   static const pasteAll = 'pasteAll';
+  static const pasteAndGo = 'pasteAndGo';
   static const clearAll = 'clearAll';
   static const clearFromHistory = 'clearFromHistory';
   static const wordsCount = 'wordsCount';

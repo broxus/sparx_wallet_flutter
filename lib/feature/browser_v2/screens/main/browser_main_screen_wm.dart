@@ -80,6 +80,8 @@ class BrowserMainScreenWidgetModel
 
   late final _visibleNavigationBarState = createNotifier<bool>(true);
 
+  late final _showPastGoState = createNotifier<bool>(true);
+
   late final _screenSize = MediaQuery.of(context).size;
 
   late int _lastTabsCount = _tabsCollection?.count ?? 0;
@@ -104,6 +106,8 @@ class BrowserMainScreenWidgetModel
 
   ListenableState<bool> get viewVisibleState => _viewVisibleState;
 
+  ListenableState<bool> get showPastGoState => _showPastGoState;
+
   BrowserTab? get _activeTab => activeTabState.value;
 
   BrowserTabsCollection? get _tabsCollection => tabsState.value;
@@ -118,6 +122,7 @@ class BrowserMainScreenWidgetModel
     activeTabState.addListener(_handleActiveTab);
     urlSliderController.addListener(_handleUrlPanelScroll);
     _menuState.addListener(_handleMenuState);
+    _viewVisibleState.addListener(_handleViewVisibleState);
     _visibleNavigationBarState.addListener(_handleVisibleNavigationBar);
 
     WidgetsBinding.instance.addPostFrameCallback((_) {
@@ -142,11 +147,12 @@ class BrowserMainScreenWidgetModel
     super.dispose();
   }
 
-  void onCreateController(String tabId, InAppWebViewController controller) {
+  void onCreateWebViewController(
+      String tabId, InAppWebViewController controller) {
     model.setController(tabId, controller);
   }
 
-  void onDisposeController(String tabId) {
+  void onDisposeWebController(String tabId) {
     model.removeController(tabId);
   }
 
@@ -296,6 +302,19 @@ class BrowserMainScreenWidgetModel
     _visibleNavigationBarState.accept(true);
   }
 
+  Future<void> onPastGoPressed() async {
+    final text = await getClipBoardText();
+    if (text == null) {
+      return;
+    }
+
+    final id = _activeTab?.id;
+
+    if (id != null) {
+      model.requestUrl(id, text);
+    }
+  }
+
   void onEditingCompleteUrl(String tabId, String text) {
     model.requestUrl(tabId, text);
   }
@@ -334,6 +353,7 @@ class BrowserMainScreenWidgetModel
 
   void _handleActiveTab() {
     _progressController.reset();
+    _updatePastGo();
   }
 
   void _handleUrlPanelScroll() {
@@ -360,6 +380,10 @@ class BrowserMainScreenWidgetModel
     } else if (!x.isNaN) {
       viewTabScrollController.jumpTo(x);
     }
+  }
+
+  void _handleViewVisibleState() {
+    _updatePastGo();
   }
 
   void _handleVisibleNavigationBar() {
@@ -411,5 +435,13 @@ class BrowserMainScreenWidgetModel
 
   void _handleMenuState() {
     _animation.handleMenuType(_menuState.value);
+  }
+
+  Future<void> _updatePastGo() async {
+    _showPastGoState.accept(
+      (_viewVisibleState.value ?? false) &&
+          (_activeTab?.url.toString().isEmpty ?? false) &&
+          await checkExistClipBoardData(),
+    );
   }
 }
