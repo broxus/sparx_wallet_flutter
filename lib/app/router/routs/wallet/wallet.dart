@@ -12,6 +12,7 @@ import 'package:app/feature/wallet/custodians_settings/custodians_settings_page.
 import 'package:app/feature/wallet/new_account/add_account.dart';
 import 'package:app/feature/wallet/new_account/add_account_page.dart';
 import 'package:app/feature/wallet/new_account/add_external_account/add_external_account_page.dart';
+import 'package:app/feature/wallet/new_account/screen/new_account_screen.dart';
 import 'package:app/feature/wallet/new_account/select_seed/select_seed_page.dart';
 import 'package:app/feature/wallet/wallet.dart';
 import 'package:app/feature/wallet/widgets/account_asset_tab/select_new_asset/select_new_asset.dart';
@@ -34,6 +35,7 @@ const walletPrepareTransferSymbolPathParam = 'walletPrepareSymbol';
 const tonWalletSendAddressQueryParam = 'tonWalletSendAddress';
 const tonWalletSendPublicKeyQueryParam = 'tonWalletSendPublicKey';
 const tonWalletSendCommentQueryParam = 'tonWalletSendComment';
+const tonWalletSendPayloadQueryParam = 'tonWalletSendPayload';
 const tonWalletSendDestinationQueryParam = 'tonWalletSendDestination';
 const tonWalletSendAmountQueryParam = 'tonWalletSendAmount';
 const tonWalletSendAttachedAmountQueryParam = 'tonWalletSendAttachedAmount';
@@ -135,7 +137,7 @@ StatefulShellBranch get walletBranch {
                 routes: [
                   GoRoute(
                     path: AppRoute.walletNewAccount.path,
-                    builder: (_, state) => NewAccountPage(
+                    builder: (_, state) => NewAccountScreen(
                       publicKey: getQueryParams(
                         state,
                         walletCreatePublicKeyQueryParam,
@@ -150,7 +152,7 @@ StatefulShellBranch get walletBranch {
               ),
               GoRoute(
                 path: AppRoute.walletNewAccount.path,
-                builder: (_, state) => NewAccountPage(
+                builder: (_, state) => NewAccountScreen(
                   publicKey: getQueryParams(
                     state,
                     walletCreatePublicKeyQueryParam,
@@ -277,6 +279,7 @@ GoRoute get tonWalletSendRoute {
         ),
         attachedAmount: attached == null ? null : BigInt.parse(attached),
         comment: state.uri.queryParameters[tonWalletSendCommentQueryParam],
+        payload: state.uri.queryParameters[tonWalletSendPayloadQueryParam],
         resultMessage:
             state.uri.queryParameters[tonWalletSendResultMessageQueryParam],
       );

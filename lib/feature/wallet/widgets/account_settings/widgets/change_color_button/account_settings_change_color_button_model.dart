@@ -12,10 +12,7 @@ class AccountSettingsChangeColorButtonModel extends ElementaryModel {
   AccountSettingsChangeColorButtonModel(
     ErrorHandler errorHandler,
     this._identifyIconsService,
-    this.address,
   ) : super(errorHandler: errorHandler);
-
-  final String address;
 
   late final _colorState = StateNotifier<IdentifyIconData>(
     initValue: _identifyIconsService.initialColor,
@@ -28,18 +25,15 @@ class AccountSettingsChangeColorButtonModel extends ElementaryModel {
   ListenableState<IdentifyIconData> get colorState => _colorState;
 
   @override
-  void init() {
-    _sc = _identifyIconsService.accountsColorsStream.listen(_onUpdateColor);
-    super.init();
-  }
-
-  @override
   void dispose() {
     _sc?.cancel();
     super.dispose();
   }
 
-  Future<void> _onUpdateColor(AccountsColorsCollection collection) async {
-    _colorState.accept(await collection.getData(address));
+  void initListener(String address) {
+    _sc = _identifyIconsService.accountsColorsStream.listen(
+      (AccountsColorsCollection collection) async =>
+          _colorState.accept(await collection.getData(address)),
+    );
   }
 }

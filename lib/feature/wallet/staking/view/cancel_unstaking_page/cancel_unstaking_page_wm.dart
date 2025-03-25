@@ -66,7 +66,7 @@ class CancelUnstakingPageWidgetModel extends CustomWidgetModel<
         builder: (_) => TonWalletSendPage(
           address: widget.request.accountAddress,
           amount: model.staking.stakeRemovePendingWithdrawAttachedFee,
-          comment: payload,
+          payload: payload,
           destination: model.staking.stakingValutAddress,
           publicKey: widget.accountKey,
           resultMessage: LocaleKeys.stEverReturnInMinutes.tr(

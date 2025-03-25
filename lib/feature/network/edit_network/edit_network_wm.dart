@@ -35,6 +35,10 @@ class EditNetworkWidgetModel
     connection?.nativeTokenTicker ?? '',
   );
 
+  late final currencyDecimalsController = createTextEditingController(
+    connection?.nativeTokenDecimals.toString() ?? '',
+  );
+
   late final blockExplorerUrlController = createTextEditingController(
     connection?.blockExplorerUrl ?? '',
   );
@@ -177,59 +181,17 @@ class EditNetworkWidgetModel
       return [TextEditingController()];
     }
 
-    return connection!.when(
-      gql: (
-        _,
-        __,
-        ___,
-        endpoints,
-        _____,
-        ______,
-        _______,
-        ________,
-        _________,
-        __________,
-        ___________,
-        ____________,
-        _____________,
-        ______________,
-        _______________,
-        ________________,
-      ) =>
-          endpoints
-              .map((endpoint) => TextEditingController(text: endpoint))
-              .toList(),
-      proto: (
-        _,
-        __,
-        ___,
-        endpoint,
-        _____,
-        ______,
-        _______,
-        ________,
-        _________,
-        __________,
-        ___________,
-        ____________,
-      ) =>
-          [TextEditingController(text: endpoint)],
-      jrpc: (
-        _,
-        __,
-        ___,
-        endpoint,
-        _____,
-        ______,
-        _______,
-        ________,
-        _________,
-        __________,
-        ___________,
-        ____________,
-      ) =>
-          [TextEditingController(text: endpoint)],
-    );
+    return switch (connection!) {
+      ConnectionDataGql(:final endpoints) => endpoints
+          .map((endpoint) => TextEditingController(text: endpoint))
+          .toList(),
+      ConnectionDataProto(:final endpoint) => [
+          TextEditingController(text: endpoint),
+        ],
+      ConnectionDataJrpc(:final endpoint) => [
+          TextEditingController(text: endpoint),
+        ],
+    };
   }
 
   bool _getIsLocal() {
@@ -237,61 +199,18 @@ class EditNetworkWidgetModel
       return false;
     }
 
-    return connection!.when(
-      gql: (
-        _,
-        __,
-        ___,
-        ____,
-        ______,
-        isLocal,
-        ________,
-        _________,
-        __________,
-        ___________,
-        ____________,
-        _____________,
-        ______________,
-        _______________,
-        ________________,
-        _________________,
-      ) =>
-          isLocal,
-      proto: (
-        _,
-        __,
-        ___,
-        endpoint,
-        _____,
-        ______,
-        _______,
-        ________,
-        _________,
-        __________,
-        ___________,
-        ____________,
-      ) =>
-          false,
-      jrpc: (
-        _,
-        __,
-        ___,
-        endpoint,
-        _____,
-        ______,
-        _______,
-        ________,
-        _________,
-        __________,
-        ___________,
-        ____________,
-      ) =>
-          false,
-    );
+    return switch (connection!) {
+      ConnectionDataGql(:final isLocal) => isLocal,
+      _ => false,
+    };
   }
 
   ConnectionData? _getConnection() {
     final id = connection?.id;
+    final nativeTokenDecimals = int.tryParse(
+          currencyDecimalsController.text.trim(),
+        ) ??
+        9;
 
     return switch (_connectionType) {
       ConnectionType.jrpc => ConnectionData.jrpcCustom(
@@ -303,6 +222,7 @@ class EditNetworkWidgetModel
           blockExplorerUrl: blockExplorerUrlController.text,
           manifestUrl: manifestUrlController.text,
           nativeTokenTicker: currencySymbolController.text,
+          nativeTokenDecimals: nativeTokenDecimals,
         ),
       ConnectionType.gql => ConnectionData.gqlCustom(
           id: id,
@@ -316,6 +236,7 @@ class EditNetworkWidgetModel
           blockExplorerUrl: blockExplorerUrlController.text,
           manifestUrl: manifestUrlController.text,
           nativeTokenTicker: currencySymbolController.text,
+          nativeTokenDecimals: nativeTokenDecimals,
         ),
       ConnectionType.proto => ConnectionData.protoCustom(
           id: id,
@@ -326,6 +247,7 @@ class EditNetworkWidgetModel
           blockExplorerUrl: blockExplorerUrlController.text,
           manifestUrl: manifestUrlController.text,
           nativeTokenTicker: currencySymbolController.text,
+          nativeTokenDecimals: nativeTokenDecimals,
         ),
       _ => null,
     };

@@ -12,14 +12,12 @@ import 'package:jdenticon_dart/jdenticon_dart.dart';
 
 /// Factory method for creating [UserAvatarWidgetModel]
 UserAvatarWidgetModel defaultUserAvatarWidgetModelFactory(
-  BuildContext context, {
-  String? address,
-}) {
+  BuildContext context,
+) {
   return UserAvatarWidgetModel(
     UserAvatarModel(
       createPrimaryErrorHandler(context),
       inject(),
-      address,
     ),
   );
 }
@@ -27,9 +25,7 @@ UserAvatarWidgetModel defaultUserAvatarWidgetModelFactory(
 /// [WidgetModel] для [UserAvatar]
 class UserAvatarWidgetModel
     extends CustomWidgetModel<UserAvatar, UserAvatarModel> {
-  UserAvatarWidgetModel(
-    super.model,
-  );
+  UserAvatarWidgetModel(super.model);
 
   late final _avatarState = createNotifier<AvatarData?>();
 
@@ -42,6 +38,9 @@ class UserAvatarWidgetModel
   }
 
   Future<void> _init() async {
+    if (widget.address != null) {
+      model.initListener(widget.address!);
+    }
     model.identifyState.addListener(_onUpdateIdentify);
   }
 

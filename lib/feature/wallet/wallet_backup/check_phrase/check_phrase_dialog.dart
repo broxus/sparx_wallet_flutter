@@ -29,22 +29,17 @@ void showCheckPhraseDialog(
 }
 
 class ContentCheckPhrase extends ElementaryWidget<CheckPhraseWidgetModel> {
-  ContentCheckPhrase({
-    required List<String> words,
-    required String address,
-    required VoidCallback finishedBackupCallback,
+  const ContentCheckPhrase({
+    required this.words,
+    required this.address,
+    required this.finishedBackupCallback,
     Key? key,
-    WidgetModelFactory<CheckPhraseWidgetModel>? wmFactory,
-  }) : super(
-          wmFactory ??
-              (context) => defaultCheckPhraseWidgetModelFactory(
-                    context,
-                    words,
-                    address,
-                    finishedBackupCallback,
-                  ),
-          key: key,
-        );
+    WidgetModelFactory wmFactory = defaultCheckPhraseWidgetModelFactory,
+  }) : super(wmFactory, key: key);
+
+  final List<String> words;
+  final String address;
+  final VoidCallback finishedBackupCallback;
 
   @override
   Widget build(CheckPhraseWidgetModel wm) {

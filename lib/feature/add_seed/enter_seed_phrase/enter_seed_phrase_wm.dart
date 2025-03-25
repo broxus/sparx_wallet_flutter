@@ -414,7 +414,9 @@ class EnterSeedPhraseWidgetModel
   void _tryCheckMnemonicType() {
     // don't check if 12 words or MnemonicType.legacy()
     if (_currentValue == actualSeedPhraseLength ||
-        _seedPhraseFormat.value == SeedPhraseFormat.standard) return;
+        _seedPhraseFormat.value == SeedPhraseFormat.standard) {
+      return;
+    }
 
     final phrase = _getPhrase();
 

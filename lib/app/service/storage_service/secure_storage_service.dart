@@ -3,11 +3,10 @@ import 'dart:async';
 import 'package:app/app/service/service.dart';
 import 'package:encrypted_storage/encrypted_storage.dart';
 import 'package:injectable/injectable.dart';
-import 'package:nekoton_repository/nekoton_repository.dart' hide Currency;
+import 'package:nekoton_repository/nekoton_repository.dart';
 
 const _passwordsKey = 'passwords_key';
 const _connectionJsonDomain = 'connection_json_domain';
-
 const _connectionJsonKey = 'connection_json_key';
 const _connectionJsonHashKey = 'connection_json_hash_key';
 
@@ -23,11 +22,6 @@ class SecureStorageService extends AbstractStorageService {
 
   @override
   Future<void> init() => Future.value();
-
-  @override
-  Future<void> clearSensitiveData() => Future.wait([
-        clearKeyPasswords(),
-      ]);
 
   /// Get password of public key if it was cached with biometry
   Future<String?> getKeyPassword(PublicKey publicKey) => _storage.get(
@@ -78,4 +72,27 @@ class SecureStorageService extends AbstractStorageService {
         hash,
         domain: _connectionJsonDomain,
       );
+
+  @override
+  Future<void> clear({
+    bool isSaveConnectionJson = true,
+  }) async {
+    String? hash;
+    String? json;
+
+    if (isSaveConnectionJson) {
+      hash = await getConnectionJsonHash();
+      json = await getConnectionJson();
+    }
+
+    await _storage.clearAll();
+
+    if (hash != null) {
+      await setConnectionJsonHash(hash);
+    }
+
+    if (json != null) {
+      await setConnectionJson(json);
+    }
+  }
 }
