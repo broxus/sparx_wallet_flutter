@@ -26,30 +26,25 @@ class FaviconViewWidgetModel
     super.model,
   );
 
-  late final _faviconUrlState = createNotifier<String?>();
+  late final _faviconUrlState = createEntityNotifier<String?>()..loading();
 
-  ListenableState<String?> get faviconUrlState => _faviconUrlState;
+  EntityStateNotifier<String?> get faviconUrlState => _faviconUrlState;
 
   @override
   void initWidgetModel() {
-    model.allFaviconsState.addListener(_handleFavicons);
-    model.fetchFavicons(widget.uri);
+    _fetch();
     super.initWidgetModel();
   }
 
-  @override
-  void dispose() {
-    model.allFaviconsState.removeListener(_handleFavicons);
-    super.dispose();
-  }
 
-  void _handleFavicons() {
-    final data = model.allFaviconsState.value;
-    final faviconUri = widget.uri;
+  Future<void> _fetch() async {
+   final url = await model.getFavicon(widget.uri);
 
-    if (faviconUri == null || data == null) {
-      return;
-    }
-    _faviconUrlState.accept(model.allFaviconsState.value?.getSafe(faviconUri));
+   if(url == null) {
+     _faviconUrlState.error();
+     return;
+   }
+
+   _faviconUrlState.content(url);
   }
 }

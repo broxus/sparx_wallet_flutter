@@ -8,36 +8,25 @@ class FaviconManager {
     this._browserFaviconURLStorageService,
   );
 
-  final _faviconsState = StateNotifier<FaviconData>(initValue: FaviconData._());
-
   final BrowserFaviconURLStorageService _browserFaviconURLStorageService;
 
-  ListenableState<FaviconData> get faviconsState => _faviconsState;
+  final _cache = FaviconData._();
 
-  FaviconData get _cache => _faviconsState.value ?? FaviconData._();
-
-  void dispose() {
-    _faviconsState.dispose();
-  }
-
-  Future<void> fetchFavicon(
-    Uri uri, {
-    bool isReplace = false,
-  }) async {
-    if (isReplace && _cache.checkExist(uri)) {
-      return;
+  Future<String?> getFavicon(Uri uri) async {
+    if (_cache.checkExist(uri)) {
+      return _cache.getSafe(uri);
     }
 
     final faviconUrl =
         await _browserFaviconURLStorageService.getFaviconURL(uri);
 
     if (faviconUrl == null) {
-      return;
+      return null;
     }
 
-    _faviconsState.accept(
-      _cache.upgrade(uri, faviconUrl),
-    );
+    _cache.upgrade(uri, faviconUrl);
+
+    return faviconUrl;
   }
 }
 

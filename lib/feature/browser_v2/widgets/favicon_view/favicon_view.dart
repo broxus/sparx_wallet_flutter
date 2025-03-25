@@ -22,11 +22,13 @@ class FaviconView extends ElementaryWidget<FaviconViewWidgetModel> {
 
   @override
   Widget build(FaviconViewWidgetModel wm) {
-    return StateNotifierBuilder<String?>(
-      listenableState: wm.faviconUrlState,
+    return EntityStateNotifierBuilder<String?>(
+      listenableEntityState: wm.faviconUrlState,
+      loadingBuilder: (_, __) => const CommonCircularProgressIndicator(),
+      errorBuilder: (_, __, ___) => const _Stub(),
       builder: (_, String? url) {
         if (url == null) {
-          return const CommonCircularProgressIndicator();
+          return const _Stub();
         }
 
         return CachedNetworkImage(
@@ -34,11 +36,20 @@ class FaviconView extends ElementaryWidget<FaviconViewWidgetModel> {
           width: width,
           imageUrl: url,
           placeholder: (_, __) => const CommonCircularProgressIndicator(),
-          errorWidget: (_, __, ___) => CommonIconWidget.svg(
-            svg: Assets.images.web.path,
-          ),
+          errorWidget: (_, __, ___) => const _Stub(),
         );
       },
+    );
+  }
+}
+
+class _Stub extends StatelessWidget {
+  const _Stub();
+
+  @override
+  Widget build(BuildContext context) {
+    return CommonIconWidget.svg(
+      svg: Assets.images.web.path,
     );
   }
 }

@@ -13,13 +13,10 @@ class FaviconViewModel extends ElementaryModel {
 
   final BrowserService _browserService;
 
-  ListenableState<FaviconData> get allFaviconsState =>
-      _browserService.fM.faviconsState;
-
-  void fetchFavicons(Uri? uri) {
+  Future<String?> getFavicon(Uri? uri) async {
     if (uri == null) {
-      return;
+      return null;
     }
-    _browserService.fM.fetchFavicon(uri);
+    return _browserService.fM.getFavicon(uri);
   }
 }

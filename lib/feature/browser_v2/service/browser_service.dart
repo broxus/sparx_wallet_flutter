@@ -92,7 +92,6 @@ class BrowserService {
 
   @disposeMethod
   void dispose() {
-    favicon.dispose();
     tabs.dispose();
     _appLinksNavSubs?.cancel();
   }
