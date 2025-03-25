@@ -11,7 +11,6 @@ import 'package:ui_components_lib/ui_components_lib.dart';
 class ConfirmActionModel extends ElementaryModel {
   ConfirmActionModel(
     ErrorHandler errorHandler,
-    this.account,
     this.biometryService,
     this.nekotonRepository,
     this.currentSeedService,
@@ -22,7 +21,6 @@ class ConfirmActionModel extends ElementaryModel {
   final BiometryService biometryService;
   final CurrentSeedService currentSeedService;
   final MessengerService messengerService;
-  final KeyAccount? account;
 
   Seed? get currentSeed => currentSeedService.currentSeed;
 

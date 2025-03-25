@@ -1,4 +1,3 @@
-import 'package:app/app/service/identify/identy_icon_data.dart';
 import 'package:app/app/service/service.dart';
 
 class AccountsColorsCollection {
@@ -12,6 +11,16 @@ class AccountsColorsCollection {
   final AppStorageService _secureStorageService;
 
   final IdentifyIconData _initialData;
+
+  Future<void> clear() async {
+    _map
+      ..forEach((key, value) {
+        _secureStorageService.delete(
+          StorageKey.accountColor(key),
+        );
+      })
+      ..clear();
+  }
 
   Future<void> setData(String key, IdentifyIconData identifyColor) async {
     _map[key] = identifyColor;

@@ -20,7 +20,6 @@ class ConnectionTransportData {
     required this.networkName,
     required this.networkType,
     required this.seedPhraseWordsCount,
-    required this.defaultNativeCurrencyDecimal,
     required this.genericTokenType,
     required this.accountExplorerLinkType,
     required this.transactionExplorerLinkType,
@@ -28,6 +27,7 @@ class ConnectionTransportData {
     this.stakeInformation,
     this.tokenApiBaseUrl,
     this.currencyApiBaseUrl,
+    this.defaultNativeCurrencyDecimal,
     List<DefaultActiveAsset>? defaultActiveAssets,
   }) : defaultActiveAssets = defaultActiveAssets ?? [];
 
@@ -61,6 +61,8 @@ class ConnectionTransportData {
           walletV3: 'Wallet V3',
           highloadWalletV2: 'Highload Wallet V2',
           everWallet: 'Ever Wallet',
+          walletV3R1: 'Wallet V3R1',
+          walletV3R2: 'Wallet V3R2',
           walletV4R1: 'Wallet V4R1',
           walletV4R2: 'Wallet V4R2',
           walletV5R1: 'Wallet V5R1',
@@ -71,7 +73,6 @@ class ConnectionTransportData {
         manifestOption: const TransportManifestOption.fromConnection(),
         nativeTokenAddress: const Address(address: ''),
         seedPhraseWordsCount: [12, 24],
-        defaultNativeCurrencyDecimal: 9,
         genericTokenType: GenericTokenType.tip3,
         accountExplorerLinkType: AccountExplorerLinkType.accounts,
         transactionExplorerLinkType: TransactionExplorerLinkType.transactions,
@@ -89,13 +90,13 @@ class ConnectionTransportData {
   final String networkName;
   final String networkType;
   final List<int> seedPhraseWordsCount;
-  final int defaultNativeCurrencyDecimal;
   final GenericTokenType genericTokenType;
   final AccountExplorerLinkType accountExplorerLinkType;
   final TransactionExplorerLinkType transactionExplorerLinkType;
   final StakingInformation? stakeInformation;
   final String? tokenApiBaseUrl;
   final String? currencyApiBaseUrl;
+  final int? defaultNativeCurrencyDecimal;
 }
 
 class WalletDefaultAccountNames {
@@ -104,6 +105,8 @@ class WalletDefaultAccountNames {
     required this.walletV3,
     required this.highloadWalletV2,
     required this.everWallet,
+    required this.walletV3R1,
+    required this.walletV3R2,
     required this.walletV4R1,
     required this.walletV4R2,
     required this.walletV5R1,
@@ -113,6 +116,8 @@ class WalletDefaultAccountNames {
   final String walletV3;
   final String highloadWalletV2;
   final String everWallet;
+  final String walletV3R1;
+  final String walletV3R2;
   final String walletV4R1;
   final String walletV4R2;
   final String walletV5R1;

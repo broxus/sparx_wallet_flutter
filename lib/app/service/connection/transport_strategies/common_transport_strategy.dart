@@ -55,7 +55,9 @@ class CommonTransportStrategy extends AppTransportStrategy {
       networkName: transportData.networkName,
       networkType: transportData.networkType,
       seedPhraseWordsCount: transportData.seedPhraseWordsCount,
-      defaultNativeCurrencyDecimal: transportData.defaultNativeCurrencyDecimal,
+      defaultNativeCurrencyDecimal:
+          transportData.defaultNativeCurrencyDecimal ??
+              connection.nativeTokenDecimals,
       genericTokenType: transportData.genericTokenType,
       accountExplorerLinkType: transportData.accountExplorerLinkType,
       transactionExplorerLinkType: transportData.transactionExplorerLinkType,
@@ -164,6 +166,8 @@ class CommonTransportStrategy extends AppTransportStrategy {
         walletV3: () => walletDefaultAccountNames.walletV3,
         highloadWalletV2: () => walletDefaultAccountNames.highloadWalletV2,
         everWallet: () => walletDefaultAccountNames.everWallet,
+        walletV3R1: () => walletDefaultAccountNames.walletV3R1,
+        walletV3R2: () => walletDefaultAccountNames.walletV3R2,
         walletV4R1: () => walletDefaultAccountNames.walletV4R1,
         walletV4R2: () => walletDefaultAccountNames.walletV4R2,
         walletV5R1: () => walletDefaultAccountNames.walletV5R1,

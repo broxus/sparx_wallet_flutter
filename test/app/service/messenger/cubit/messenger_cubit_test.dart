@@ -1,6 +1,5 @@
 // ignore_for_file: inference_failure_on_function_invocation
 
-import 'package:app/app/service/messenger/cubit/messenger_cubit.dart';
 import 'package:app/app/service/service.dart';
 import 'package:bloc_test/bloc_test.dart';
 import 'package:clock/clock.dart';

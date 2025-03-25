@@ -12,28 +12,24 @@ import 'package:ui_components_lib/ui_components_lib.dart';
 
 class WalletPrepareTransferPage
     extends ElementaryWidget<WalletPrepareTransferPageWidgetModel> {
-  WalletPrepareTransferPage({
-    required Address address,
-    Address? rootTokenContract,
-    String? tokenSymbol,
+  const WalletPrepareTransferPage({
+    required this.address,
+    this.rootTokenContract,
+    this.tokenSymbol,
     Key? key,
-    WidgetModelFactory<WalletPrepareTransferPageWidgetModel>? wmFactory,
+    WidgetModelFactory wmFactory =
+        defaultWalletPrepareTransferPageWidgetModelFactory,
   })  : assert(
           rootTokenContract == null && tokenSymbol == null ||
               rootTokenContract != null && tokenSymbol != null,
           // ignore: lines_longer_than_80_chars
           'rootTokenContract and tokenSymbol must be provided or not provided together',
         ),
-        super(
-          wmFactory ??
-              (ctx) => defaultWalletPrepareTransferPageWidgetModelFactory(
-                    ctx,
-                    address,
-                    rootTokenContract,
-                    tokenSymbol,
-                  ),
-          key: key,
-        );
+        super(wmFactory, key: key);
+
+  final Address address;
+  final Address? rootTokenContract;
+  final String? tokenSymbol;
 
   @override
   Widget build(WalletPrepareTransferPageWidgetModel wm) {
@@ -48,7 +44,7 @@ class WalletPrepareTransferPage
       builder: (_, data) {
         if (data == null || data.isEmpty) {
           return _DefaultBody(
-            child: _EmptyText(address: wm.address),
+            child: _EmptyText(address: address),
           );
         }
 

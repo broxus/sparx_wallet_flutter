@@ -1,8 +1,6 @@
 import 'dart:async';
 
 import 'package:app/app/router/router.dart';
-import 'package:app/app/service/app_links/app_links_data.dart';
-import 'package:app/app/service/app_links/app_links_service.dart';
 import 'package:app/app/service/service.dart';
 import 'package:app/di/di.dart';
 import 'package:app/event_bus/events/navigation/bottom_navigation_events.dart';

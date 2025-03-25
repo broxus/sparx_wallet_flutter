@@ -27,57 +27,10 @@ enum ConnectionType {
     }
   }
 
-  static ConnectionType fromConnection(ConnectionData connection) {
-    return connection.when(
-      gql: (
-        _,
-        __,
-        ___,
-        ____,
-        _____,
-        ______,
-        _______,
-        ________,
-        _________,
-        __________,
-        ___________,
-        ____________,
-        _____________,
-        ______________,
-        _______________,
-        ________________,
-      ) =>
-          ConnectionType.gql,
-      proto: (
-        _,
-        __,
-        ___,
-        ____,
-        _____,
-        ______,
-        _______,
-        ________,
-        _________,
-        __________,
-        ___________,
-        ____________,
-      ) =>
-          ConnectionType.proto,
-      jrpc: (
-        _,
-        __,
-        ___,
-        ____,
-        _____,
-        ______,
-        _______,
-        ________,
-        _________,
-        __________,
-        ___________,
-        ____________,
-      ) =>
-          ConnectionType.jrpc,
-    );
-  }
+  static ConnectionType fromConnection(ConnectionData connection) =>
+      switch (connection) {
+        ConnectionDataGql() => ConnectionType.gql,
+        ConnectionDataProto() => ConnectionType.proto,
+        ConnectionDataJrpc() => ConnectionType.jrpc,
+      };
 }

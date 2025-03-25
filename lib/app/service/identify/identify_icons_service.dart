@@ -1,6 +1,3 @@
-import 'package:app/app/service/identify/accounts_colors_collection.dart';
-import 'package:app/app/service/identify/i_identify_icons_service.dart';
-import 'package:app/app/service/identify/identy_icon_data.dart';
 import 'package:app/app/service/service.dart';
 import 'package:injectable/injectable.dart';
 import 'package:rxdart/rxdart.dart';
@@ -42,5 +39,10 @@ class IdentifyIconsService implements IIdentifyIconsService {
   @override
   Future<IdentifyIconData> getData(String key) {
     return _accountsColors.getData(key);
+  }
+
+  @override
+  Future<void> clear() {
+    return _accountsColors.clear();
   }
 }
