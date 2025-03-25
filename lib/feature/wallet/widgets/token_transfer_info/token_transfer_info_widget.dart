@@ -21,6 +21,7 @@ class TokenTransferInfoWidget
     this.rootTokenContract,
     this.transactionIdHash,
     this.comment,
+    this.payload,
     this.feeError,
     this.color,
     this.numberUnconfirmedTransactions,
@@ -39,6 +40,7 @@ class TokenTransferInfoWidget
   final Address? rootTokenContract;
   final String? transactionIdHash;
   final String? comment;
+  final String? payload;
   final String? feeError;
   final Color? color;
   final int? numberUnconfirmedTransactions;
@@ -249,6 +251,24 @@ class TokenTransferInfoWidget
                   ),
                   Text(
                     comment!,
+                    style: theme.textStyles.labelSmall,
+                  ),
+                ],
+              ),
+            ),
+          if (payload != null)
+            Padding(
+              padding: const EdgeInsets.only(top: DimensSizeV2.d16),
+              child: SeparatedColumn(
+                separatorSize: DimensSizeV2.d2,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    LocaleKeys.payloadWord.tr(),
+                    style: labelSmallContent3,
+                  ),
+                  Text(
+                    payload!,
                     style: theme.textStyles.labelSmall,
                   ),
                 ],

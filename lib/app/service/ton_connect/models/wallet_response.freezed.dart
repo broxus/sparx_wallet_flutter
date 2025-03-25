@@ -157,7 +157,6 @@ class __$$WalletResponseSuccessImplCopyWithImpl<$Res>
 
 /// @nodoc
 @JsonSerializable()
-@Deprecated('Unused due to TonConnect API inconsistency')
 class _$WalletResponseSuccessImpl implements WalletResponseSuccess {
   const _$WalletResponseSuccessImpl(
       {required this.id, required this.result, final String? $type})

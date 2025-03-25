@@ -185,7 +185,7 @@ class _ButtonWidget extends StatelessWidget {
                 queryParameters: {
                   tonWalletSendAddressQueryParam: sender.address,
                   tonWalletSendPublicKeyQueryParam: accountKey.publicKey,
-                  tonWalletSendCommentQueryParam: payload,
+                  tonWalletSendPayloadQueryParam: payload,
                   tonWalletSendDestinationQueryParam: destination.address,
                   tonWalletSendAmountQueryParam: amount.toString(),
                   tonWalletSendAttachedAmountQueryParam: attachedFee.toString(),

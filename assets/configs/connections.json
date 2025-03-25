@@ -41,6 +41,20 @@
       "sortingOrder": 2
     },
     {
+      "id": "preset_humo_testnet_proto",
+      "name": "Humo",
+      "group": "humo_testnet",
+      "type": "proto",
+      "isUsedOnStart": true,
+      "endpoints": [
+        "https://rpc.humonetwork.com"
+      ],
+      "networkType": "tycho",
+      "blockExplorerUrl": "https://humoscan.com",
+      "manifestUrl": "https://raw.githubusercontent.com/broxus/ton-assets/refs/heads/humo/manifest.json",
+      "sortingOrder": 3
+    },
+    {
       "id": "preset_tycho_testnet_proto",
       "name": "Tycho Testnet",
       "group": "tycho_testnet",
@@ -52,7 +66,7 @@
       "networkType": "tycho",
       "blockExplorerUrl": "https://testnet.tychoprotocol.com",
       "manifestUrl": "https://raw.githubusercontent.com/broxus/ton-assets/refs/heads/tychotestnet/manifest.json",
-      "sortingOrder": 3
+      "sortingOrder": 4
     },
     {
       "id": "preset_ever_mainnet_proto",
@@ -66,7 +80,7 @@
       "networkType": "ever",
       "blockExplorerUrl": "https://everscan.io",
       "manifestUrl": "https://raw.githubusercontent.com/broxus/ton-assets/master/manifest.json",
-      "sortingOrder": 4
+      "sortingOrder": 5
     },
     {
       "id": "preset_ever_mainnet_gql",
@@ -80,7 +94,7 @@
       "networkType": "ever",
       "blockExplorerUrl": "https://everscan.io",
       "manifestUrl": "https://raw.githubusercontent.com/broxus/ton-assets/master/manifest.json",
-      "sortingOrder": 5
+      "sortingOrder": 6
     },
     {
       "id": "preset_venom_mainnet_proto",
@@ -94,7 +108,7 @@
       "networkType": "venom",
       "blockExplorerUrl": "https://venomscan.com",
       "manifestUrl": "https://cdn.venom.foundation/assets/mainnet/manifest.json",
-      "sortingOrder": 6
+      "sortingOrder": 7
     }
   ],
   "transports": [
@@ -114,6 +128,12 @@
         {
           "type": "multisig",
           "value": "multisig2_1"
+        },
+        {
+          "type": "walletV3R1"
+        },
+        {
+          "type": "walletV3R2"
         },
         {
           "type": "walletV4R1"
@@ -144,6 +164,8 @@
         "walletV3": "Legacy",
         "highloadWalletV2": "HighloadWallet",
         "everWallet": "Default",
+        "walletV3R1": "WalletV3R1",
+        "walletV3R2": "WalletV3R2",
         "walletV4R1": "WalletV4R1",
         "walletV4R2": "WalletV4R2",
         "walletV5R1": "WalletV5R1"
@@ -164,10 +186,10 @@
         24
       ],
       "defaultNativeCurrencyDecimal": 9,
+      "currencyApiBaseUrl": "https://tonapi.io/v2",
       "genericTokenType": "jetton",
       "accountExplorerLinkType": "packAddress",
-      "transactionExplorerLinkType": "transaction",
-      "currencyApiBaseUrl": "https://tonapi.io/v2"
+      "transactionExplorerLinkType": "transaction"
     },
     {
       "networkName": "Hamster Network",
@@ -185,6 +207,12 @@
         {
           "type": "multisig",
           "value": "multisig2_1"
+        },
+        {
+          "type": "walletV3R1"
+        },
+        {
+          "type": "walletV3R2"
         },
         {
           "type": "walletV4R1"
@@ -215,12 +243,14 @@
         "walletV3": "WalletV3",
         "highloadWalletV2": "HighloadWallet",
         "everWallet": "Default",
+        "walletV3R1": "WalletV3R1",
+        "walletV3R2": "WalletV3R2",
         "walletV4R1": "WalletV4R1",
         "walletV4R2": "WalletV4R2",
         "walletV5R1": "WalletV5R1"
       },
       "defaultWalletType": {
-        "type": "walletV5R1"
+        "type": "everWallet"
       },
       "nativeTokenTickerOption": {
         "type": "byName",
@@ -238,6 +268,66 @@
       "baseCurrencyUrl": "https://api.hamsterdex.io/v1/currencies",
       "tokenApiBaseUrl": "https://tokens.hamsterscan.io/v1",
       "currencyApiBaseUrl": "https://api.hamsterdex.io/v1/currencies",
+      "genericTokenType": "tip3",
+      "accountExplorerLinkType": "accounts",
+      "transactionExplorerLinkType": "transactions"
+    },
+    {
+      "networkName": "Humo",
+      "networkType": "tycho",
+      "networkGroup": "humo_testnet",
+      "icons": {
+        "nativeToken": "https://raw.githubusercontent.com/broxus/sparx-networks/master/icons/humo/native_token.svg",
+        "network": "https://raw.githubusercontent.com/broxus/sparx-networks/master/icons/humo/network.svg",
+        "vector": "https://raw.githubusercontent.com/broxus/sparx-networks/master/icons/humo/vector.svg"
+      },
+      "availableWalletTypes": [
+        {
+          "type": "everWallet"
+        },
+        {
+          "type": "multisig",
+          "value": "multisig2_1"
+        }
+      ],
+      "walletDefaultAccountNames": {
+        "multisig": {
+          "safeMultisigWallet": "SafeMultisig",
+          "safeMultisigWallet24h": "SafeMultisig24h",
+          "setcodeMultisigWallet": "SetcodeMultisig",
+          "setcodeMultisigWallet24h": "SetcodeMultisig24h",
+          "bridgeMultisigWallet": "BridgeMultisig",
+          "surfWallet": "Surf Wallet",
+          "multisig2": "Legacy Multi-sig",
+          "multisig2_1": "Multi-sig"
+        },
+        "walletV3": "WalletV3",
+        "highloadWalletV2": "HighloadWallet",
+        "everWallet": "Default",
+        "walletV3R1": "WalletV3R1",
+        "walletV3R2": "WalletV3R2",
+        "walletV4R1": "WalletV4R1",
+        "walletV4R2": "WalletV4R2",
+        "walletV5R1": "WalletV5R1"
+      },
+      "defaultWalletType": {
+        "type": "everWallet"
+      },
+      "nativeTokenTickerOption": {
+        "type": "byName",
+        "name": "HUMO"
+      },
+      "manifestOption": {
+        "type": "fromConnection"
+      },
+      "nativeTokenAddress": "0:ee49dd4c3a7754ace683612e5f9d06508ff13acb4055168fada912af25919271",
+      "seedPhraseWordsCount": [
+        12
+      ],
+      "defaultNativeCurrencyDecimal": 9,
+      "baseCurrencyUrl": "https://humo-dex-api.broxus.com/v1/currencies",
+      "tokenApiBaseUrl": "",
+      "currencyApiBaseUrl": "https://humo-dex-api.broxus.com/v1/currencies",
       "genericTokenType": "tip3",
       "accountExplorerLinkType": "accounts",
       "transactionExplorerLinkType": "transactions"
@@ -277,6 +367,8 @@
         "walletV3": "WalletV3",
         "highloadWalletV2": "HighloadWallet",
         "everWallet": "Default",
+        "walletV3R1": "WalletV3R1",
+        "walletV3R2": "WalletV3R2",
         "walletV4R1": "WalletV4R1",
         "walletV4R2": "WalletV4R2",
         "walletV5R1": "WalletV5R1"
@@ -367,6 +459,8 @@
         "walletV3": "WalletV3",
         "highloadWalletV2": "HighloadWallet",
         "everWallet": "EVER Wallet",
+        "walletV3R1": "WalletV3R1",
+        "walletV3R2": "WalletV3R2",
         "walletV4R1": "WalletV4R1",
         "walletV4R2": "WalletV4R2",
         "walletV5R1": "WalletV5R1"
@@ -434,6 +528,8 @@
         "walletV3": "Legacy",
         "highloadWalletV2": "HighloadWallet",
         "everWallet": "Default",
+        "walletV3R1": "WalletV3R1",
+        "walletV3R2": "WalletV3R2",
         "walletV4R1": "WalletV4R1",
         "walletV4R2": "WalletV4R2",
         "walletV5R1": "WalletV5R1"
@@ -455,7 +551,7 @@
       "defaultNativeCurrencyDecimal": 9,
       "baseCurrencyUrl": "https://api.web3.world/v1/currencies",
       "stakeInformation": {
-        "stakingAPYLink":  "https://api.venomstake.com/v1/strategies/main",
+        "stakingAPYLink": "https://api.venomstake.com/v1/strategies/main",
         "stakingValutAddress": "0:9df94dffc0ca1768647f819c04b2cf00c484b3b756ba6ecde68d5fb62de1dfc7",
         "stakingRootContractAddress": "0:74604c7a56419477d67329848d754d205f31870025a7135909e90e1726ad9a54",
         "stakeDepositAttachedFee": "3000000000",

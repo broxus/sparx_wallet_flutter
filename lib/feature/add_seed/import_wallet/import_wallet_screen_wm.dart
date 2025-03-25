@@ -203,7 +203,9 @@ class ImportWalletScreenWidgetModel
   void _tryCheckMnemonicType(SeedPhraseModel seed) {
     // don't check if 12 words or MnemonicType.legacy()
     if (seed.wordsCount == actualSeedPhraseLength ||
-        _seedPhraseFormat.value == SeedPhraseFormat.standard) return;
+        _seedPhraseFormat.value == SeedPhraseFormat.standard) {
+      return;
+    }
 
     try {
       deriveFromPhrase(
