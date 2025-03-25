@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:app/app/service/service.dart';
+import 'package:app/feature/presets_config/data/model/preset_config_type.dart';
 import 'package:encrypted_storage/encrypted_storage.dart';
 import 'package:injectable/injectable.dart';
 import 'package:nekoton_repository/nekoton_repository.dart';
@@ -71,6 +72,42 @@ class SecureStorageService extends AbstractStorageService {
         _connectionJsonHashKey,
         hash,
         domain: _connectionJsonDomain,
+      );
+
+  /// Generic methods for working with different config types
+
+  /// Get config JSON string for the specified config type
+  Future<String?> getConfigJson(PresetConfigType<dynamic> configType) {
+    return _storage.get(
+      configType.storageKey,
+      domain: configType.name,
+    );
+  }
+
+  /// Set config JSON string for the specified config type
+  Future<void> setConfigJson(
+          PresetConfigType<dynamic> configType, String data) =>
+      _storage.set(
+        configType.storageKey,
+        data,
+        domain: configType.name,
+      );
+
+  /// Get config JSON hash for the specified config type
+  Future<String?> getConfigJsonHash(PresetConfigType<dynamic> configType) {
+    return _storage.get(
+      '${configType.storageKey}_hash',
+      domain: configType.name,
+    );
+  }
+
+  /// Set config JSON hash for the specified config type
+  Future<void> setConfigJsonHash(
+          PresetConfigType<dynamic> configType, String hash) =>
+      _storage.set(
+        '${configType.storageKey}_hash',
+        hash,
+        domain: configType.name,
       );
 
   @override
