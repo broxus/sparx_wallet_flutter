@@ -39,20 +39,13 @@ scripts:
 
   analyze:
     description: Analyze all packages
-    run: melos run analyze_subpackages_custom_lint --no-select && melos run analyze_subpackages --no-select
+    run: melos run analyze_subpackages --no-select
     failFast: true
 
   analyze_subpackages:
     description: Analyze a specific package in this project.
     exec: flutter analyze .
     failFast: true
-
-  analyze_subpackages_custom_lint:
-    description: Analyze a specific package in this project.
-    exec: dart run custom_lint
-    failFast: true
-    packageFilters:
-      dependsOn: "custom_lint"
 
   check-format:
     description: Check the format of a specific package in this project.
