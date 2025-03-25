@@ -1,11 +1,11 @@
 import 'dart:async';
 import 'dart:convert';
 
+import 'package:app/app/service/resources_service.dart';
 import 'package:app/app/service/service.dart';
 import 'package:app/data/models/models.dart';
 import 'package:app/utils/utils.dart';
 import 'package:collection/collection.dart';
-import 'package:flutter/services.dart';
 import 'package:injectable/injectable.dart';
 import 'package:nekoton_repository/nekoton_repository.dart';
 import 'package:rxdart/rxdart.dart';
@@ -21,10 +21,12 @@ class StakingService {
   StakingService(
     this.nekotonRepository,
     this.httpService,
+    this._resourcesService,
   );
 
   final NekotonRepository nekotonRepository;
   final HttpService httpService;
+  final ResourcesService _resourcesService;
 
   FullContractState? _vaultStateCache;
 
@@ -285,5 +287,5 @@ class StakingService {
 
   void resetCache() => _vaultStateCache = null;
 
-  Future<String> _abiLoader(String path) => rootBundle.loadString(path);
+  Future<String> _abiLoader(String path) => _resourcesService.loadString(path);
 }
