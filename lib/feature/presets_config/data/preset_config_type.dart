@@ -1,8 +1,12 @@
 import 'package:app/core/app_build_type.dart';
-import 'package:app/feature/presets_config/data/model/connection_network_dto.dart';
-import 'package:app/feature/presets_config/data/model/release_notes.dart';
-import 'package:app/feature/presets_config/data/model/update_rules.dart';
+import 'package:app/feature/presets_config/data/connection_network_dto.dart';
+import 'package:app/feature/presets_config/data/release_notes.dart';
+import 'package:app/feature/presets_config/data/update_rules.dart';
 
+/// Configuration types supported by the application.
+///
+/// This enum represents the different configuration types that can be loaded
+/// from remote sources, cached storage, or bundled assets.
 enum PresetConfigType<T> {
   connections<ConnectionNetworkDto>(
     name: 'connections',
@@ -26,8 +30,14 @@ enum PresetConfigType<T> {
     required this.mapper,
   });
 
+  /// The name identifier for the configuration type.
+  /// Used in the filename when loading from assets or remote sources.
   final String name;
+
+  /// The key used for storing this configuration in secure storage.
   final String storageKey;
+
+  /// Function to convert a JSON to the specific configuration type instance.
   final T Function(Map<String, dynamic>) mapper;
 
   String getFileName(AppBuildType buildType) {

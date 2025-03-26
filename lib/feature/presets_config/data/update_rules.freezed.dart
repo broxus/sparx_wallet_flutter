@@ -20,9 +20,16 @@ UpdateRules _$UpdateRulesFromJson(Map<String, dynamic> json) {
 
 /// @nodoc
 mixin _$UpdateRules {
+  /// Minimum version required - users below this version cannot use the app.
   String get blockingVersion => throw _privateConstructorUsedError;
+
+  /// Version that triggers warning - users below this should update but can continue.
   String get warningVersion => throw _privateConstructorUsedError;
+
+  /// Maximum number of times to show the warning notification.
   int get warningShowTimes => throw _privateConstructorUsedError;
+
+  /// Delay in seconds between showing warning notifications.
   int get warningShowDelayS => throw _privateConstructorUsedError;
 
   /// Serializes this UpdateRules to a JSON map.
@@ -155,12 +162,19 @@ class _$UpdateRulesImpl implements _UpdateRules {
   factory _$UpdateRulesImpl.fromJson(Map<String, dynamic> json) =>
       _$$UpdateRulesImplFromJson(json);
 
+  /// Minimum version required - users below this version cannot use the app.
   @override
   final String blockingVersion;
+
+  /// Version that triggers warning - users below this should update but can continue.
   @override
   final String warningVersion;
+
+  /// Maximum number of times to show the warning notification.
   @override
   final int warningShowTimes;
+
+  /// Delay in seconds between showing warning notifications.
   @override
   final int warningShowDelayS;
 
@@ -215,12 +229,19 @@ abstract class _UpdateRules implements UpdateRules {
   factory _UpdateRules.fromJson(Map<String, dynamic> json) =
       _$UpdateRulesImpl.fromJson;
 
+  /// Minimum version required - users below this version cannot use the app.
   @override
   String get blockingVersion;
+
+  /// Version that triggers warning - users below this should update but can continue.
   @override
   String get warningVersion;
+
+  /// Maximum number of times to show the warning notification.
   @override
   int get warningShowTimes;
+
+  /// Delay in seconds between showing warning notifications.
   @override
   int get warningShowDelayS;
 

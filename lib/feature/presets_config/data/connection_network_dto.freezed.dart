@@ -20,10 +20,17 @@ ConnectionNetworkDto _$ConnectionNetworkDtoFromJson(Map<String, dynamic> json) {
 
 /// @nodoc
 mixin _$ConnectionNetworkDto {
+  /// Identifier for the default network connection to use.
   String get defaultConnectionId => throw _privateConstructorUsedError;
+
+  /// List of available networks with their configuration details.
   List<Map<String, dynamic>> get networks => throw _privateConstructorUsedError;
+
+  /// List of available transport methods for connections.
   List<Map<String, dynamic>> get transports =>
       throw _privateConstructorUsedError;
+
+  /// Optional custom network configuration options.
   List<Map<String, dynamic>>? get customNetworkOtions =>
       throw _privateConstructorUsedError;
 
@@ -161,9 +168,14 @@ class _$ConnectionNetworkDtoImpl implements _ConnectionNetworkDto {
   factory _$ConnectionNetworkDtoImpl.fromJson(Map<String, dynamic> json) =>
       _$$ConnectionNetworkDtoImplFromJson(json);
 
+  /// Identifier for the default network connection to use.
   @override
   final String defaultConnectionId;
+
+  /// List of available networks with their configuration details.
   final List<Map<String, dynamic>> _networks;
+
+  /// List of available networks with their configuration details.
   @override
   List<Map<String, dynamic>> get networks {
     if (_networks is EqualUnmodifiableListView) return _networks;
@@ -171,7 +183,10 @@ class _$ConnectionNetworkDtoImpl implements _ConnectionNetworkDto {
     return EqualUnmodifiableListView(_networks);
   }
 
+  /// List of available transport methods for connections.
   final List<Map<String, dynamic>> _transports;
+
+  /// List of available transport methods for connections.
   @override
   List<Map<String, dynamic>> get transports {
     if (_transports is EqualUnmodifiableListView) return _transports;
@@ -179,7 +194,10 @@ class _$ConnectionNetworkDtoImpl implements _ConnectionNetworkDto {
     return EqualUnmodifiableListView(_transports);
   }
 
+  /// Optional custom network configuration options.
   final List<Map<String, dynamic>>? _customNetworkOtions;
+
+  /// Optional custom network configuration options.
   @override
   List<Map<String, dynamic>>? get customNetworkOtions {
     final value = _customNetworkOtions;
@@ -247,12 +265,19 @@ abstract class _ConnectionNetworkDto implements ConnectionNetworkDto {
   factory _ConnectionNetworkDto.fromJson(Map<String, dynamic> json) =
       _$ConnectionNetworkDtoImpl.fromJson;
 
+  /// Identifier for the default network connection to use.
   @override
   String get defaultConnectionId;
+
+  /// List of available networks with their configuration details.
   @override
   List<Map<String, dynamic>> get networks;
+
+  /// List of available transport methods for connections.
   @override
   List<Map<String, dynamic>> get transports;
+
+  /// Optional custom network configuration options.
   @override
   List<Map<String, dynamic>>? get customNetworkOtions;
 
