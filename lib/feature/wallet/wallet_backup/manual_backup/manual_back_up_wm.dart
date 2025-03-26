@@ -15,38 +15,27 @@ import 'package:ui_components_lib/v2/ui_components_lib_v2.dart';
 
 ManualBackUpWidgetModel defaultManualBackUpWidgetModelFactory(
   BuildContext context,
-  List<String> words,
-  String address,
-  VoidCallback finishedBackupCallback,
 ) {
   return ManualBackUpWidgetModel(
-    finishedBackupCallback,
     ManualBackUpModel(
       createPrimaryErrorHandler(context),
       inject(),
       inject(),
       inject(),
-      words,
-      address,
     ),
   );
 }
 
 class ManualBackUpWidgetModel
     extends CustomWidgetModel<ContentManualBackup, ManualBackUpModel> {
-  ManualBackUpWidgetModel(
-    this.finishedBackupCallback,
-    super.model,
-  );
-
-  final VoidCallback finishedBackupCallback;
+  ManualBackUpWidgetModel(super.model);
 
   ThemeStyleV2 get themeStyle => context.themeStyleV2;
 
   late final screenState = createEntityNotifier<ManualBackUpData>()
     ..loading(ManualBackUpData(isCopied: false));
 
-  late List<String> words = model.phrases;
+  late final List<String> words = widget.words;
 
   Future<void> copySeed() async {
     await Clipboard.setData(
@@ -59,14 +48,14 @@ class ManualBackUpWidgetModel
     showCheckPhraseDialog(
       context,
       words,
-      model.address,
-      finishedBackupCallback,
+      widget.address,
+      widget.finishedBackupCallback,
     );
   }
 
   void clickSkip(BuildContext context) {
-    model.setShowingBackUpFlag();
-    finishedBackupCallback();
+    model.setShowingBackUpFlag(widget.address);
+    widget.finishedBackupCallback();
     context.maybePop(); //close current dialog
     showGoodJobDialog(context);
   }

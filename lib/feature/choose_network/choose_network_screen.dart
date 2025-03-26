@@ -14,14 +14,10 @@ const chooseNetworkScreenNextStepQuery = 'chooseNetworkNextStep';
 class ChooseNetworkScreen
     extends ElementaryWidget<ChooseNetworkScreenWidgetModel> {
   const ChooseNetworkScreen({
-    Key? key,
     this.nextStep,
-    WidgetModelFactory<ChooseNetworkScreenWidgetModel> wmFactory =
-        defaultChooseNetworkScreenWidgetModelFactory,
-  }) : super(
-          wmFactory,
-          key: key,
-        );
+    Key? key,
+    WidgetModelFactory wmFactory = defaultChooseNetworkScreenWidgetModelFactory,
+  }) : super(wmFactory, key: key);
 
   final String? nextStep;
 

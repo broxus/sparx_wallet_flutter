@@ -1,5 +1,3 @@
-import 'package:app/app/service/connection/data/connection_data/connection_data.dart';
-import 'package:app/app/service/presets_connection/presets_connection_service.dart';
 import 'package:app/app/service/service.dart';
 import 'package:app/generated/generated.dart';
 import 'package:collection/collection.dart';
@@ -239,6 +237,7 @@ class ConnectionsStorageService extends AbstractStorageService {
   }
 
   /// Clear [ConnectionData] list
+  @override
   Future<void> clear() async {
     await _storage.erase();
 
@@ -321,9 +320,4 @@ class ConnectionsStorageService extends AbstractStorageService {
     _streamedCurrentConnectionId();
     _streamedNetworksIds();
   }
-
-  @override
-  Future<void> clearSensitiveData() => Future.wait([
-        clear(),
-      ]);
 }

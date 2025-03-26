@@ -18,12 +18,8 @@ import 'package:ui_components_lib/v2/widgets/adaptive_footer_single_child_scroll
 class WelcomeScreen extends ElementaryWidget<WelcomeScreenWidgetModel> {
   const WelcomeScreen({
     Key? key,
-    WidgetModelFactory<WelcomeScreenWidgetModel> wmFactory =
-        defaultWelcomeScreenWidgetModelFactory,
-  }) : super(
-          wmFactory,
-          key: key,
-        );
+    WidgetModelFactory wmFactory = defaultWelcomeScreenWidgetModelFactory,
+  }) : super(wmFactory, key: key);
 
   @override
   Widget build(WelcomeScreenWidgetModel wm) {

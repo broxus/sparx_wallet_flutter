@@ -1,6 +1,5 @@
 import 'dart:async';
 
-import 'package:app/app/service/js_servcie.dart';
 import 'package:app/app/service/service.dart';
 import 'package:bloc/bloc.dart';
 import 'package:elementary_helper/elementary_helper.dart';

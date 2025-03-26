@@ -4,7 +4,7 @@ import 'package:app/app/service/service.dart';
 import 'package:app/core/bloc/bloc_mixin.dart';
 import 'package:app/di/di.dart';
 import 'package:app/generated/generated.dart';
-import 'package:app/utils/constants.dart';
+import 'package:app/utils/utils.dart';
 import 'package:bloc/bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
@@ -87,7 +87,13 @@ class TonConfirmTransactionBloc
   /// Fee for transaction after calculating it in [_handlePrepare]
   BigInt? fees;
 
+  List<TxTreeSimulationErrorItem>? txErrors;
+
   late PublicKey selectedCustodian;
+
+  TransportStrategy get transport => nekotonRepository.currentTransport;
+
+  Currency get currency => Currencies()[transport.nativeTokenTicker]!;
 
   void _registerHandlers() {
     on<_Prepare>((event, emit) => _handlePrepare(emit, event.custodian));
@@ -116,10 +122,13 @@ class TonConfirmTransactionBloc
     try {
       selectedCustodian = custodian;
       unsignedMessage = await _prepareConfirmTransaction();
-      fees = await nekotonRepository.estimateFees(
-        address: walletAddress,
-        message: unsignedMessage,
+
+      final (fees, txErrors) = await FutureExt.wait2(
+        _estimateFees(unsignedMessage),
+        _simulateTransactionTree(unsignedMessage),
       );
+      this.fees = fees;
+      this.txErrors = txErrors;
 
       final walletState = await nekotonRepository.walletsStream
           .expand((e) => e)
@@ -135,7 +144,7 @@ class TonConfirmTransactionBloc
 
       final balance = wallet.contractState.balance;
 
-      final isPossibleToSendMessage = balance > (fees! + amount);
+      final isPossibleToSendMessage = balance > (fees + amount);
 
       if (!isPossibleToSendMessage) {
         emitSafe(
@@ -151,8 +160,9 @@ class TonConfirmTransactionBloc
 
       emitSafe(
         TonConfirmTransactionState.readyToSend(
-          fees!,
+          fees,
           selectedCustodian,
+          txErrors,
         ),
       );
     } on Exception catch (e, t) {
@@ -218,12 +228,27 @@ class TonConfirmTransactionBloc
         TonConfirmTransactionState.readyToSend(
           fees!,
           selectedCustodian,
+          txErrors,
         ),
       );
     } finally {
       unsignedMessage?.dispose();
     }
   }
+
+  Future<BigInt> _estimateFees(UnsignedMessage message) =>
+      nekotonRepository.estimateFees(
+        address: walletAddress,
+        message: message,
+      );
+
+  Future<List<TxTreeSimulationErrorItem>> _simulateTransactionTree(
+    UnsignedMessage message,
+  ) =>
+      nekotonRepository.simulateTransactionTree(
+        address: walletAddress,
+        message: message,
+      );
 
   Future<UnsignedMessage> _prepareConfirmTransaction() =>
       nekotonRepository.prepareConfirmTransaction(

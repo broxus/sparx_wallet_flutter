@@ -33,8 +33,20 @@ class AccountSettingsWidgetModel
 
   ListenableState<List<KeyAccount>> get displayAccounts => _displayAccounts;
 
-  void onAdvancedSettings() {
-    // TODO(komarov): show advanced settings
+  void onCustodiansSettings(List<PublicKey> custodians) {
+    Navigator.of(context).pop();
+    final publicKeys = <String>[];
+    for (final custodian in custodians) {
+      publicKeys.add(custodian.publicKey);
+    }
+
+    context.goFurther(
+      AppRoute.custodiansSettings.pathWithData(
+        queryParameters: {
+          custodianSettingsCustodiansParam: jsonEncode(publicKeys),
+        },
+      ),
+    );
   }
 
   void onCustodiansSettings(List<PublicKey> custodians) {

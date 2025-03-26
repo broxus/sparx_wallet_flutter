@@ -8,12 +8,8 @@ import 'package:ui_components_lib/v2/ui_components_lib_v2.dart';
 class ConnectionFailScreen extends ElementaryWidget<ConnectionFailWidgetModel> {
   const ConnectionFailScreen({
     Key? key,
-    WidgetModelFactory<ConnectionFailWidgetModel> wmFactory =
-        defaultConnectionFailWidgetModelFactory,
-  }) : super(
-          wmFactory,
-          key: key,
-        );
+    WidgetModelFactory wmFactory = defaultConnectionFailWidgetModelFactory,
+  }) : super(wmFactory, key: key);
 
   @override
   Widget build(ConnectionFailWidgetModel wm) {

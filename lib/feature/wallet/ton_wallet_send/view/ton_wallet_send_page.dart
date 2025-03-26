@@ -16,7 +16,8 @@ class TonWalletSendPage extends StatelessWidget {
     required this.publicKey,
     required this.destination,
     required this.amount,
-    required this.comment,
+    this.comment,
+    this.payload,
     this.attachedAmount,
     this.resultMessage,
     this.completeCloseCallback,
@@ -43,6 +44,9 @@ class TonWalletSendPage extends StatelessWidget {
   /// Comment for transaction
   final String? comment;
 
+  /// Transaction payload
+  final String? payload;
+
   /// Message that will be shown when transaction sending completed
   final String? resultMessage;
 
@@ -60,6 +64,7 @@ class TonWalletSendPage extends StatelessWidget {
         amount: amount + (attachedAmount ?? BigInt.zero),
         address: address,
         comment: comment,
+        payload: payload,
         publicKey: publicKey,
         nekotonRepository: inject(),
         messengerService: inject(),
@@ -118,6 +123,7 @@ class TonWalletSendPage extends StatelessWidget {
             amount: amount,
             attachedAmount: attachedAmount,
             comment: comment,
+            payload: payload,
             publicKey: publicKey,
             fee: fee,
             feeError: error,

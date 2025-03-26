@@ -11,17 +11,13 @@ class ManualBackUpModel extends ElementaryModel {
     this.nekotonRepository,
     this.messengerService,
     this.storage,
-    this.phrases,
-    this.address,
   ) : super(errorHandler: errorHandler);
 
   final NekotonRepository nekotonRepository;
   final MessengerService messengerService;
   final AppStorageService storage;
-  final List<String> phrases;
-  final String address;
 
-  void setShowingBackUpFlag() {
+  void setShowingBackUpFlag(String address) {
     final account = nekotonRepository.accountsStorage.accounts
         .firstWhereOrNull((item) => item.address.address == address);
     final masterPublicKey = account?.let(

@@ -1,6 +1,3 @@
-import 'package:app/app/service/connection/connection.dart';
-import 'package:app/app/service/http_clients.dart';
-import 'package:app/app/service/presets_connection/presets_connection_service.dart';
 import 'package:app/app/service/service.dart';
 import 'package:app/di/di.dart';
 import 'package:injectable/injectable.dart';
@@ -61,78 +58,33 @@ class ConnectionService {
     );
   }
 
-  Future<Transport> createTransportByConnection(ConnectionData connection) {
-    return connection.when<Future<Transport>>(
-      gql: (
-        _,
-        name,
-        group,
-        endpoints,
-        __,
-        isLocal,
-        ___,
-        ____,
-        _____,
-        ______,
-        _______,
-        ________,
-        _________,
-        latencyDetectionInterval,
-        maxLatency,
-        endpointSelectionRetryCount,
-      ) =>
-          _nekotonRepository.createGqlTransport(
-        client: GqlHttpClient(),
-        name: name,
-        group: group,
-        endpoints: endpoints,
-        local: isLocal,
-        latencyDetectionInterval: latencyDetectionInterval,
-        maxLatency: maxLatency,
-        endpointSelectionRetryCount: endpointSelectionRetryCount,
-      ),
-      proto: (
-        _,
-        name,
-        group,
-        endpoint,
-        __,
-        ___,
-        ____,
-        _____,
-        ______,
-        _______,
-        ________,
-        _________,
-      ) =>
+  Future<Transport> createTransportByConnection(ConnectionData connection) =>
+      switch (connection) {
+        final ConnectionDataGql data => _nekotonRepository.createGqlTransport(
+            client: GqlHttpClient(),
+            name: data.name,
+            group: data.group,
+            endpoints: data.endpoints,
+            local: data.isLocal,
+            latencyDetectionInterval: data.latencyDetectionInterval,
+            maxLatency: data.maxLatency,
+            endpointSelectionRetryCount: data.endpointSelectionRetryCount,
+          ),
+        ConnectionDataProto(:final name, :final group, :final endpoint) =>
           _nekotonRepository.createProtoTransport(
-        client: ProtoHttpClient(),
-        name: name,
-        group: group,
-        endpoint: endpoint,
-      ),
-      jrpc: (
-        _,
-        name,
-        group,
-        endpoint,
-        __,
-        ___,
-        ____,
-        _____,
-        ______,
-        _______,
-        ________,
-        _________,
-      ) =>
+            client: ProtoHttpClient(),
+            name: name,
+            group: group,
+            endpoint: endpoint,
+          ),
+        ConnectionDataJrpc(:final name, :final group, :final endpoint) =>
           _nekotonRepository.createJrpcTransport(
-        client: JrpcHttpClient(),
-        name: name,
-        group: group,
-        endpoint: endpoint,
-      ),
-    );
-  }
+            client: JrpcHttpClient(),
+            name: name,
+            group: group,
+            endpoint: endpoint,
+          ),
+      };
 
   /// Create nekoton's transport by connection, create transport's strategy
   /// by its type and put it in nekoton.
@@ -183,4 +135,16 @@ extension TransportTypeExtension on TransportStrategy {
 
     return '';
   }
+
+  String get connectionId {
+    if (this is CommonTransportStrategy) {
+      return (this as CommonTransportStrategy).connection.id;
+    }
+
+    return '';
+  }
+
+  bool get isEverscale => networkType == 'ever';
+  bool get isTon => networkGroup.startsWith('ton');
+  bool get isHmstr => networkGroup.startsWith('hmstr');
 }

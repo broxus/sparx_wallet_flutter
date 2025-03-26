@@ -13,8 +13,9 @@ class TonWalletSendConfirmView extends StatefulWidget {
   const TonWalletSendConfirmView({
     required this.recipient,
     required this.amount,
-    required this.comment,
     required this.publicKey,
+    this.comment,
+    this.payload,
     this.fee,
     this.attachedAmount,
     this.feeError,
@@ -27,6 +28,7 @@ class TonWalletSendConfirmView extends StatefulWidget {
   final BigInt? attachedAmount;
   final BigInt? fee;
   final String? comment;
+  final String? payload;
   final String? feeError;
   final PublicKey publicKey;
   final List<TxTreeSimulationErrorItem>? txErrors;
@@ -63,6 +65,7 @@ class _TonWalletSendConfirmViewState extends State<TonWalletSendConfirmView> {
                   feeError: widget.feeError,
                   attachedAmount: widget.attachedAmount,
                   comment: widget.comment,
+                  payload: widget.payload,
                 ),
               ],
             ),

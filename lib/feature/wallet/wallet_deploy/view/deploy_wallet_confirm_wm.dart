@@ -17,10 +17,8 @@ import 'package:ui_components_lib/v2/ui_components_lib_v2.dart';
 
 DeployWalletConfirmWidgetModel defaultDeployWalletConfirmWidgetModelFactory(
   BuildContext context,
-  Function(String) passwordCallback,
 ) {
   return DeployWalletConfirmWidgetModel(
-    passwordCallback,
     DeployWalletConfirmModel(
       createPrimaryErrorHandler(context),
       inject(),
@@ -33,12 +31,7 @@ DeployWalletConfirmWidgetModel defaultDeployWalletConfirmWidgetModelFactory(
 
 class DeployWalletConfirmWidgetModel extends CustomWidgetModel<
     DeployWalletConfirmModal, DeployWalletConfirmModel> {
-  DeployWalletConfirmWidgetModel(
-    this.passwordCallback,
-    super.model,
-  );
-
-  final Function(String) passwordCallback;
+  DeployWalletConfirmWidgetModel(super.model);
 
   ThemeStyleV2 get themeStyle => context.themeStyleV2;
 
@@ -89,7 +82,7 @@ class DeployWalletConfirmWidgetModel extends CustomWidgetModel<
       try {
         await seed.export(password);
         context.maybePop();
-        passwordCallback(password);
+        widget.passwordCallback(password);
       } catch (_) {
         model.showValidateError(LocaleKeys.passwordIsWrong.tr());
       }
