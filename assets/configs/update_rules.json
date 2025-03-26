@@ -1,6 +1,6 @@
 {
-  "blocking_version": "0.0.0",
-  "warning_version": "0.0.0",
-  "warning_show_times": 3,
-  "warning_show_delay_s": 1800
+  "blockingVersion": "1.0.0",
+  "warningVersion": "1.5.0",
+  "warningShowTimes": 3,
+  "warningShowDelayS": 1800
 }
