@@ -62,6 +62,8 @@ class SentryWorker {
           ..ignoreErrors = [
             'AnyhowException(Account not exists)',
             'AnyhowException(Network error)',
+            'Account not exists',
+            'Network error',
           ];
       },
     );

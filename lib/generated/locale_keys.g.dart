@@ -1,5 +1,7 @@
 // DO NOT EDIT. This is code generated via package:easy_localization/generate.dart
 
+// ignore_for_file: constant_identifier_names
+
 abstract class LocaleKeys {
   static const createNewWallet = 'createNewWallet';
   static const signInWithPhrase = 'signInWithPhrase';
@@ -145,6 +147,8 @@ abstract class LocaleKeys {
   static const networkEndpointLocal = 'networkEndpointLocal';
   static const networkCurrencySymbol = 'networkCurrencySymbol';
   static const networkCurrencySymbolHint = 'networkCurrencySymbolHint';
+  static const networkCurrencyDecimals = 'networkCurrencyDecimals';
+  static const networkCurrencyDecimalsHint = 'networkCurrencyDecimalsHint';
   static const networkBlockExplorer = 'networkBlockExplorer';
   static const networkBlockExplorerHint = 'networkBlockExplorerHint';
   static const networkTokenList = 'networkTokenList';
@@ -584,6 +588,8 @@ abstract class LocaleKeys {
   static const walletDescriptionMultisig2 = 'walletDescriptionMultisig2';
   static const walletDescriptionMultisig2_1 = 'walletDescriptionMultisig2_1';
   static const walletDescriptionEverWallet = 'walletDescriptionEverWallet';
+  static const walletDescriptionWalletV3R1 = 'walletDescriptionWalletV3R1';
+  static const walletDescriptionWalletV3R2 = 'walletDescriptionWalletV3R2';
   static const walletDescriptionWalletV4R1 = 'walletDescriptionWalletV4R1';
   static const walletDescriptionWalletV4R2 = 'walletDescriptionWalletV4R2';
   static const walletDescriptionWalletV5R1 = 'walletDescriptionWalletV5R1';
@@ -668,6 +674,8 @@ abstract class LocaleKeys {
   static const noRpcConnection = 'noRpcConnection';
   static const tryAgainOrContact = 'tryAgainOrContact';
   static const contactUs = 'contactUs';
+  static const publicKeyNull = 'publicKeyNull';
+  static const passwordNull = 'passwordNull';
   static const seedPhraseFormatLabel12 = 'seedPhraseFormatLabel12';
   static const seedPhraseFormatLabel24 = 'seedPhraseFormatLabel24';
   static const seedPhrase12FormatStandart = 'seedPhrase12FormatStandart';

@@ -18,14 +18,10 @@ import 'package:ui_components_lib/v2/ui_components_lib_v2.dart';
 
 ConfirmActionWidgetModel defaultConfirmActionWidgetModelFactory(
   BuildContext context,
-  KeyAccount? account,
-  VoidCallback finishedBackupCallback,
 ) {
   return ConfirmActionWidgetModel(
-    finishedBackupCallback,
     ConfirmActionModel(
       createPrimaryErrorHandler(context),
-      account,
       inject(),
       inject(),
       inject(),
@@ -36,16 +32,9 @@ ConfirmActionWidgetModel defaultConfirmActionWidgetModelFactory(
 
 class ConfirmActionWidgetModel
     extends CustomWidgetModel<ContentConfirmAction, ConfirmActionModel> {
-  ConfirmActionWidgetModel(
-    this.finishedBackupCallback,
-    super.model,
-  );
-
-  final VoidCallback finishedBackupCallback;
+  ConfirmActionWidgetModel(super.model);
 
   ThemeStyleV2 get themeStyle => context.themeStyleV2;
-
-  KeyAccount? get account => model.account;
 
   ListenableState<List<BiometricType>> get availableBiometry =>
       _availableBiometry;
@@ -105,8 +94,8 @@ class ConfirmActionWidgetModel
         showManualBackupDialog(
           context,
           phrase,
-          account?.address.address ?? '',
-          finishedBackupCallback,
+          widget.account?.address.address ?? '',
+          widget.finishedBackupCallback,
         );
       } catch (_) {
         screenState

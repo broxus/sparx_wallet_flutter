@@ -12,17 +12,6 @@ import 'package:flutter/material.dart';
 import 'package:logging/logging.dart';
 import 'package:nekoton_repository/nekoton_repository.dart' hide Message;
 
-typedef NativeUpdateCallback = void Function(
-  Address root,
-  String symbol,
-  BigInt balance,
-);
-typedef TokenUpdateCallback = void Function(
-  Address root,
-  String symbol,
-  Money money,
-);
-
 typedef TokenContractsUpdateCallback = void Function(
   List<TokenContractAsset> contracts,
 );
@@ -31,20 +20,12 @@ typedef TokenContractsUpdateCallback = void Function(
 class WalletPrepareTransferPageModel extends ElementaryModel {
   WalletPrepareTransferPageModel(
     ErrorHandler errorHandler,
-    this.address,
-    this.rootTokenContract,
-    this.tokenSymbol,
     this._assetsService,
     this._nekotonRepository,
     this._messengerService,
     this._currenciesService,
   ) : super(errorHandler: errorHandler);
 
-  /// Address of account that will be used to send funds (owner for TokenWallet,
-  /// or address for TonWallet)
-  final Address address;
-  final Address? rootTokenContract;
-  final String? tokenSymbol;
   final AssetsService _assetsService;
   final NekotonRepository _nekotonRepository;
   final MessengerService _messengerService;
@@ -111,12 +92,14 @@ class WalletPrepareTransferPageModel extends ElementaryModel {
     return _nekotonRepository.seedList.findSeedKey(custodian)?.name;
   }
 
-  Future<TokenContractAsset?> getTokenContractAsset(Address root) async {
+  Future<TokenContractAsset?> getTokenContractAsset(
+    Address? rootTokenContract,
+  ) async {
     if (rootTokenContract == null) {
       return null;
     }
     return _assetsService.getTokenContractAsset(
-      rootTokenContract!,
+      rootTokenContract,
       currentTransport,
     );
   }
@@ -127,20 +110,26 @@ class WalletPrepareTransferPageModel extends ElementaryModel {
     );
   }
 
-  void startListeningBalance(WalletPrepareTransferAsset? contract) {
+  void startListeningBalance({
+    required WalletPrepareTransferAsset? contract,
+    required Address address,
+  }) {
     _closeBalanceSubs();
     if (contract == null) {
       return;
     }
 
     if (contract.isNative) {
-      _subscribeNativeBalance(contract);
+      _subscribeNativeBalance(contract: contract, address: address);
     } else {
-      _subscribeTokenBalance(contract);
+      _subscribeTokenBalance(contract: contract, address: address);
     }
   }
 
-  void findExistedContracts(TokenContractsUpdateCallback onUpdate) {
+  void findExistedContracts({
+    required Address address,
+    required TokenContractsUpdateCallback onUpdate,
+  }) {
     _contractSubscription =
         _assetsService.contractsForAccount(address).listen((contracts) {
       onUpdate(contracts);
@@ -163,7 +152,10 @@ class WalletPrepareTransferPageModel extends ElementaryModel {
     }
   }
 
-  Future<Money?> getBalance(WalletPrepareTransferAsset asset) async {
+  Future<Money?> getBalance({
+    required WalletPrepareTransferAsset asset,
+    required Address address,
+  }) async {
     Money? balance;
 
     if (asset.isNative) {
@@ -189,7 +181,10 @@ class WalletPrepareTransferPageModel extends ElementaryModel {
   }
 
   /// Subscription for native token to find balance
-  void _subscribeNativeBalance(WalletPrepareTransferAsset contract) {
+  void _subscribeNativeBalance({
+    required WalletPrepareTransferAsset contract,
+    required Address address,
+  }) {
     final root = contract.rootTokenContract;
     _walletsSubscription = _walletsStream.listen(
       (wallets) {
@@ -232,7 +227,10 @@ class WalletPrepareTransferPageModel extends ElementaryModel {
   }
 
   /// Subscription for token wallet to find balance
-  void _subscribeTokenBalance(WalletPrepareTransferAsset contract) {
+  void _subscribeTokenBalance({
+    required WalletPrepareTransferAsset contract,
+    required Address address,
+  }) {
     final root = contract.rootTokenContract;
     final symbol = contract.tokenSymbol;
     _walletsSubscription = _tokenWalletsStream.listen((wallets) {

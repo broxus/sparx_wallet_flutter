@@ -96,8 +96,12 @@ class TonConfirmTransactionPage extends StatelessWidget {
               error: error,
               custodian: custodian,
             ),
-            readyToSend: (fee, custodian) =>
-                _confirmPage(bloc, fee: fee, custodian: custodian),
+            readyToSend: (fee, custodian, txErrors) => _confirmPage(
+              bloc,
+              fee: fee,
+              custodian: custodian,
+              txErrors: txErrors,
+            ),
             sending: (canClose) => Scaffold(
               body: Padding(
                 padding: const EdgeInsets.all(DimensSize.d16),
@@ -120,6 +124,7 @@ class TonConfirmTransactionPage extends StatelessWidget {
     required PublicKey custodian,
     BigInt? fee,
     String? error,
+    List<TxTreeSimulationErrorItem>? txErrors,
   }) {
     return Scaffold(
       appBar: DefaultAppBar(titleText: LocaleKeys.confirmTransaction.tr()),
@@ -133,6 +138,7 @@ class TonConfirmTransactionPage extends StatelessWidget {
         publicKey: custodian,
         fee: fee,
         feeError: error,
+        txErrors: txErrors,
       ),
     );
   }

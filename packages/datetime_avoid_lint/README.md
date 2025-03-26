@@ -1,1 +1,0 @@
-A lint that prevents you to use DateTime.now() in your code.

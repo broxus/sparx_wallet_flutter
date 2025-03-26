@@ -1,7 +1,7 @@
 import 'package:injectable/injectable.dart';
 import 'package:nekoton_repository/nekoton_repository.dart';
 
-String moneyPattern(int decimal) => '0.${'#' * decimal}';
+String moneyPattern(int decimals) => decimals > 0 ? '0.${'#' * decimals}' : '0';
 
 String moneyPatternWithSymbol(int decimal) => '0.${'#' * decimal} S';
 

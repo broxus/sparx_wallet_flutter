@@ -9,19 +9,14 @@ import 'package:ui_components_lib/v2/dimens_v2.dart';
 
 class AccountSettingsChangeColorButton
     extends ElementaryWidget<AccountSettingsChangeColorButtonWidgetModel> {
-  AccountSettingsChangeColorButton({
-    required String address,
+  const AccountSettingsChangeColorButton({
+    required this.address,
     Key? key,
-    WidgetModelFactory<AccountSettingsChangeColorButtonWidgetModel>? wmFactory,
-  }) : super(
-          wmFactory ??
-              (ctx) =>
-                  defaultAccountSettingsChangeColorButtonWidgetModelFactory(
-                    ctx,
-                    address: address,
-                  ),
-          key: key,
-        );
+    WidgetModelFactory wmFactory =
+        defaultAccountSettingsChangeColorButtonWidgetModelFactory,
+  }) : super(wmFactory, key: key);
+
+  final String address;
 
   @override
   Widget build(AccountSettingsChangeColorButtonWidgetModel wm) {

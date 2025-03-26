@@ -22,6 +22,7 @@ class TonConfirmTransactionState with _$TonConfirmTransactionState {
   const factory TonConfirmTransactionState.readyToSend(
     BigInt fee,
     PublicKey custodian,
+    List<TxTreeSimulationErrorItem>? txErrors,
   ) = _Ready;
 
   /// Transaction is sending.

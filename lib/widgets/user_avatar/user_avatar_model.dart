@@ -12,10 +12,7 @@ class UserAvatarModel extends ElementaryModel {
   UserAvatarModel(
     ErrorHandler errorHandler,
     this._identifyIconsService,
-    this.address,
   ) : super(errorHandler: errorHandler);
-
-  final String? address;
 
   late final _identifyState = StateNotifier<IdentifyIconData>(
     initValue: _identifyIconsService.initialColor,
@@ -28,23 +25,16 @@ class UserAvatarModel extends ElementaryModel {
   ListenableState<IdentifyIconData> get identifyState => _identifyState;
 
   @override
-  void init() {
-    if (address != null) {
-      _sc = _identifyIconsService.accountsColorsStream.listen(_onUpdateColor);
-    }
-    super.init();
-  }
-
-  @override
   void dispose() {
     _sc?.cancel();
     _identifyState.dispose();
     super.dispose();
   }
 
-  Future<void> _onUpdateColor(AccountsColorsCollection collection) async {
-    if (address != null) {
-      _identifyState.accept(await collection.getData(address!));
-    }
+  void initListener(String address) {
+    _sc = _identifyIconsService.accountsColorsStream.listen(
+      (AccountsColorsCollection collection) async =>
+          _identifyState.accept(await collection.getData(address)),
+    );
   }
 }

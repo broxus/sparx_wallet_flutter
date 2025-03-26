@@ -2,10 +2,10 @@ import 'dart:async';
 import 'dart:io';
 
 import 'package:app/app/service/service.dart';
-import 'package:app_settings/app_settings.dart';
 import 'package:injectable/injectable.dart';
 import 'package:local_auth/local_auth.dart';
 import 'package:nekoton_repository/nekoton_repository.dart';
+import 'package:open_settings_plus/open_settings_plus.dart';
 import 'package:rxdart/rxdart.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -18,11 +18,7 @@ class BiometryPasswordNotStoredException implements Exception {}
 /// Service that helps reading/updating biometry settings.
 @singleton
 class BiometryService {
-  BiometryService(
-    this.storage,
-    this.secureStorage,
-    this.appLifecycleService,
-  );
+  BiometryService(this.storage, this.secureStorage, this.appLifecycleService);
 
   final GeneralStorageService storage;
   final SecureStorageService secureStorage;
@@ -85,7 +81,12 @@ class BiometryService {
 
     final prefs = await SharedPreferences.getInstance();
     await prefs.setBool(_biometrySettingsOpened, true);
-    await AppSettings.openAppSettings();
+
+    await switch (OpenSettingsPlus.shared) {
+      final OpenSettingsPlusAndroid settings => settings.appSettings(),
+      final OpenSettingsPlusIOS settings => settings.appSettings(),
+      _ => throw Exception('Platform not supported'),
+    };
 
     return false;
   }
@@ -178,10 +179,7 @@ class BiometryService {
     required String newPassword,
   }) async {
     if (isEnabled) {
-      return setKeyPassword(
-        publicKey: publicKey,
-        password: newPassword,
-      );
+      return setKeyPassword(publicKey: publicKey, password: newPassword);
     }
   }
 

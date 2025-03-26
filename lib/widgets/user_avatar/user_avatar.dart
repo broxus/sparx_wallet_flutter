@@ -5,20 +5,13 @@ import 'package:flutter/material.dart';
 import 'package:ui_components_lib/ui_components_lib.dart';
 
 class UserAvatar extends ElementaryWidget<UserAvatarWidgetModel> {
-  UserAvatar({
-    Key? key,
-    WidgetModelFactory<UserAvatarWidgetModel>? wmFactory,
+  const UserAvatar({
     this.address,
     this.size,
     this.borderRadius,
-  }) : super(
-          wmFactory ??
-              (ctx) => defaultUserAvatarWidgetModelFactory(
-                    ctx,
-                    address: address,
-                  ),
-          key: key,
-        );
+    Key? key,
+    WidgetModelFactory wmFactory = defaultUserAvatarWidgetModelFactory,
+  }) : super(wmFactory, key: key);
 
   final String? address;
   final double? size;
