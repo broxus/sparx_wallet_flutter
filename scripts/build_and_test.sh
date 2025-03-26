@@ -2,7 +2,7 @@
 
 set -e
 
-# melos decrypt-secrets
+melos decrypt-secrets
 melos run check-format --no-select
 melos run codegen --no-select
 melos run analyze --no-select
