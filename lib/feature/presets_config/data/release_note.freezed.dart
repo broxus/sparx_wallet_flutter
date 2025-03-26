@@ -20,7 +20,10 @@ ReleaseNote _$ReleaseNoteFromJson(Map<String, dynamic> json) {
 
 /// @nodoc
 mixin _$ReleaseNote {
+  /// Whether this release note information is available/active.
   bool get available => throw _privateConstructorUsedError;
+
+  /// Detailed information about the release shown to the user.
   String get info => throw _privateConstructorUsedError;
 
   /// Serializes this ReleaseNote to a JSON map.
@@ -121,8 +124,11 @@ class _$ReleaseNoteImpl implements _ReleaseNote {
   factory _$ReleaseNoteImpl.fromJson(Map<String, dynamic> json) =>
       _$$ReleaseNoteImplFromJson(json);
 
+  /// Whether this release note information is available/active.
   @override
   final bool available;
+
+  /// Detailed information about the release shown to the user.
   @override
   final String info;
 
@@ -169,8 +175,11 @@ abstract class _ReleaseNote implements ReleaseNote {
   factory _ReleaseNote.fromJson(Map<String, dynamic> json) =
       _$ReleaseNoteImpl.fromJson;
 
+  /// Whether this release note information is available/active.
   @override
   bool get available;
+
+  /// Detailed information about the release shown to the user.
   @override
   String get info;
 

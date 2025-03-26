@@ -20,6 +20,8 @@ ReleaseNotes _$ReleaseNotesFromJson(Map<String, dynamic> json) {
 
 /// @nodoc
 mixin _$ReleaseNotes {
+  /// Map of version identifiers to their corresponding release notes.
+  /// The key is typically a version string like "1.0.0".
   Map<String, ReleaseNote> get notes => throw _privateConstructorUsedError;
 
   /// Serializes this ReleaseNotes to a JSON map.
@@ -111,7 +113,12 @@ class _$ReleaseNotesImpl implements _ReleaseNotes {
   factory _$ReleaseNotesImpl.fromJson(Map<String, dynamic> json) =>
       _$$ReleaseNotesImplFromJson(json);
 
+  /// Map of version identifiers to their corresponding release notes.
+  /// The key is typically a version string like "1.0.0".
   final Map<String, ReleaseNote> _notes;
+
+  /// Map of version identifiers to their corresponding release notes.
+  /// The key is typically a version string like "1.0.0".
   @override
   Map<String, ReleaseNote> get notes {
     if (_notes is EqualUnmodifiableMapView) return _notes;
@@ -160,6 +167,8 @@ abstract class _ReleaseNotes implements ReleaseNotes {
   factory _ReleaseNotes.fromJson(Map<String, dynamic> json) =
       _$ReleaseNotesImpl.fromJson;
 
+  /// Map of version identifiers to their corresponding release notes.
+  /// The key is typically a version string like "1.0.0".
   @override
   Map<String, ReleaseNote> get notes;
 
