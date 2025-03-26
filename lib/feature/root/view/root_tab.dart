@@ -8,7 +8,8 @@ import 'package:ui_components_lib/v2/ui_components_lib_v2.dart';
 enum RootTab {
   wallet(AppRoute.wallet),
   browser(AppRoute.browser),
-  profile(AppRoute.profile);
+  profile(AppRoute.profile),
+  nft(AppRoute.nft);
 
   const RootTab(this.route);
 
@@ -18,12 +19,14 @@ enum RootTab {
         RootTab.wallet => LucideIcons.wallet,
         RootTab.browser => LucideIcons.compass,
         RootTab.profile => LucideIcons.circleUser,
+        RootTab.nft => LucideIcons.nfc,
       };
 
   String get title => switch (this) {
         RootTab.wallet => LocaleKeys.walletWord.tr(),
         RootTab.browser => LocaleKeys.browserWord.tr(),
         RootTab.profile => LocaleKeys.profileWord.tr(),
+        RootTab.nft => LocaleKeys.nftWord.tr(),
       };
 
   BottomNavigationBarItem item() => BottomNavigationBarItem(

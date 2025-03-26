@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:app/app/router/page_transitions.dart';
 import 'package:app/app/router/router.dart';
 import 'package:app/app/router/routs/network/network.dart';
+import 'package:app/app/router/routs/nft/nft.dart';
 import 'package:app/app/service/service.dart';
 import 'package:app/di/di.dart';
 import 'package:app/event_bus/events/bootstrap/bootstrap_event.dart';
@@ -154,6 +155,7 @@ class AppRouter {
             walletBranch,
             browserBranch,
             profileBranch,
+            nftBranch,
           ],
         ),
       ],
