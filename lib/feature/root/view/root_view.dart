@@ -155,7 +155,7 @@ class _RootViewState extends State<RootView> {
   }
 
   void _onUriLink(Uri uri) {
-    if (!uri.isScheme('tc')) return;
+    if (!uri.isScheme('tc') && uri.host != 'l.sparxwallet.com') return;
 
     try {
       final query = ConnectQuery.fromQuery(uri.query);
