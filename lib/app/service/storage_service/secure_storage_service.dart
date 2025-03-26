@@ -1,7 +1,7 @@
 import 'dart:async';
 
 import 'package:app/app/service/service.dart';
-import 'package:app/feature/presets_config/data/model/preset_config_type.dart';
+import 'package:app/feature/presets_config/data/preset_config_type.dart';
 import 'package:encrypted_storage/encrypted_storage.dart';
 import 'package:injectable/injectable.dart';
 import 'package:nekoton_repository/nekoton_repository.dart';
@@ -86,12 +86,15 @@ class SecureStorageService extends AbstractStorageService {
 
   /// Set config JSON string for the specified config type
   Future<void> setConfigJson(
-          PresetConfigType<dynamic> configType, String data) =>
-      _storage.set(
-        configType.storageKey,
-        data,
-        domain: configType.name,
-      );
+    PresetConfigType<dynamic> configType,
+    String data,
+  ) {
+    return _storage.set(
+      configType.storageKey,
+      data,
+      domain: configType.name,
+    );
+  }
 
   /// Get config JSON hash for the specified config type
   Future<String?> getConfigJsonHash(PresetConfigType<dynamic> configType) {
@@ -103,12 +106,15 @@ class SecureStorageService extends AbstractStorageService {
 
   /// Set config JSON hash for the specified config type
   Future<void> setConfigJsonHash(
-          PresetConfigType<dynamic> configType, String hash) =>
-      _storage.set(
-        '${configType.storageKey}_hash',
-        hash,
-        domain: configType.name,
-      );
+    PresetConfigType<dynamic> configType,
+    String hash,
+  ) {
+    return _storage.set(
+      '${configType.storageKey}_hash',
+      hash,
+      domain: configType.name,
+    );
+  }
 
   @override
   Future<void> clear({
