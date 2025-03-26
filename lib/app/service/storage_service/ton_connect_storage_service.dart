@@ -1,6 +1,7 @@
 import 'package:app/app/service/service.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:injectable/injectable.dart';
+import 'package:logging/logging.dart';
 
 const _eventIdKey = 'event_id';
 const _lastEventIdKey = 'last_event_id';
@@ -14,6 +15,8 @@ class TonConnectStorageService extends AbstractStorageService {
 
   static const String container = 'ton_connect_storage_service';
 
+  static final _logger = Logger('TonConnectStorageService');
+
   final GetStorage _storage;
 
   late var _eventId = _readEventId();
@@ -24,12 +27,12 @@ class TonConnectStorageService extends AbstractStorageService {
   @override
   Future<void> clear() => _storage.erase();
 
-  String? readLastEventId() => _storage.read(_lastEventIdKey);
-
   String getEventId() {
     _saveEventId(++_eventId);
     return _eventId.toString();
   }
+
+  String? readLastEventId() => _storage.read(_lastEventIdKey);
 
   void saveLastEventId(String lastEventId) => _storage.write(
         _lastEventIdKey,
@@ -37,11 +40,17 @@ class TonConnectStorageService extends AbstractStorageService {
       );
 
   List<TonAppConnection> readConnections() {
-    final connections = _storage.read<List<dynamic>>(_connectionsKey);
-    return connections
-            ?.map((e) => TonAppConnection.fromJson(e as Map<String, dynamic>))
-            .toList() ??
-        [];
+    try {
+      final json = _storage.read<List<dynamic>>(_connectionsKey);
+      return json
+              ?.map((e) => TonAppConnection.fromJson(e as Map<String, dynamic>))
+              .toList() ??
+          [];
+    } catch (e, s) {
+      _logger.warning('Failed to read connections', e, s);
+      clearConnections();
+      return [];
+    }
   }
 
   void addConnection(TonAppConnection connection) {

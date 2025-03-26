@@ -36,7 +36,8 @@ sealed class TonAppConnection with _$TonAppConnection {
 
     if (this is TonAppConnectionInjected && other is TonAppConnectionInjected) {
       final self = this as TonAppConnectionInjected;
-      return self.walletAddress == other.walletAddress;
+      return self.origin == other.origin &&
+          self.walletAddress == other.walletAddress;
     } else if (this is TonAppConnectionRemote &&
         other is TonAppConnectionRemote) {
       final self = this as TonAppConnectionRemote;
@@ -50,9 +51,11 @@ sealed class TonAppConnection with _$TonAppConnection {
   @override
   int get hashCode {
     if (this is TonAppConnectionInjected) {
+      final self = this as TonAppConnectionInjected;
       return Object.hash(
         runtimeType,
-        walletAddress,
+        self.origin,
+        self.walletAddress,
       );
     } else if (this is TonAppConnectionRemote) {
       final self = this as TonAppConnectionRemote;

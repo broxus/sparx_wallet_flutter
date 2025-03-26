@@ -64,8 +64,8 @@ dependencies:
   open_settings_plus: 0.4.0
   package_info_plus: 8.3.0
   path_provider: 2.1.5
-  pinenacl: 0.6.0
   permission_handler: 11.4.0
+  pinenacl: 0.6.0
   render_metrics:
     #    Temporarily. Before the adoption of the PR
     #    https://github:com/surfstudio/flutter-render-metrics/pull/27:
