@@ -39,6 +39,8 @@ class TonConnectJsBridge {
     controller.addJavaScriptHandler(
       handlerName: _handlerName,
       callback: (List<dynamic> arguments) async {
+        _logger.finest('Received message: $arguments');
+
         final method = arguments.elementAt(0) as String;
         final result = await switch (method) {
           'connect' => _connect(arguments.elementAt(1)),
@@ -87,6 +89,8 @@ class TonConnectJsBridge {
     );
     _storageService.addConnection(connection);
 
+    _logger.info('Connected: ${connection.toJson()}');
+
     return WalletEvent.connectSuccess(
       id: _storageService.getEventId(),
       payload: ConnectEventSuccessPayload(
@@ -99,6 +103,8 @@ class TonConnectJsBridge {
   Future<WalletEvent?> _restoreConnection() async {
     final connection = _getConnection();
     if (connection == null) return null;
+
+    _logger.info('Restoring connection: ${connection.toJson()}');
 
     return WalletEvent.connectSuccess(
       id: _storageService.getEventId(),

@@ -7,6 +7,7 @@ import 'package:collection/collection.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:flutter/widgets.dart';
 import 'package:http/http.dart' as http;
+import 'package:http/retry.dart';
 import 'package:injectable/injectable.dart';
 import 'package:logging/logging.dart';
 
@@ -72,9 +73,15 @@ class TonConnectHttpBridge {
     });
 
     _sseSubscription?.onDone(_retryOpen);
+
+    _logger.info('SSE connection opened');
   }
 
   Future<void> closeSseConnection() async {
+    if (_sseSubscription != null) {
+      _logger.info('SSE connection closed');
+    }
+
     await _sseSubscription?.cancel();
     _client?.close();
     _sseSubscription = null;
@@ -169,6 +176,8 @@ class TonConnectHttpBridge {
         jsonDecode(json) as Map<String, dynamic>,
       );
 
+      _logger.finest('Received message: ${rpcRequest.toJson()}');
+
       await switch (rpcRequest) {
         DisconnectRpcRequest() => _disconnect(connection: connection),
         final SendTransactionRpcRequest request => _sendTransaction(
@@ -251,8 +260,9 @@ class TonConnectHttpBridge {
     required String data,
     num? ttl = 300,
   }) async {
+    final client = RetryClient(http.Client(), retries: 2, when: (_) => true);
     try {
-      await http.post(
+      await client.post(
         Uri.parse(
           '$_bridgeUrl/message?client_id=${sessionCrypto.sessionId}&to=$clientId&ttl=$ttl',
         ),
@@ -260,6 +270,8 @@ class TonConnectHttpBridge {
       );
     } catch (e, s) {
       _logger.severe('Send message failed', e, s);
+    } finally {
+      client.close();
     }
   }
 
