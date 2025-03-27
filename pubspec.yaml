@@ -72,7 +72,7 @@ dependencies:
   rxdart: 0.27.7
   sentry_flutter: 8.14.1
   share_plus: 10.1.4
-  shared_preferences: 2.5.2
+  shared_preferences: 2.5.3
   string_extensions: 0.7.3
   the_logger: 0.0.18
   ui_components_lib:
