@@ -65,7 +65,8 @@ class TonConnectHttpBridge {
     _client = http.Client();
     _sseSubscription = await _client!
         .send(request)
-        .then((response) => response.stream.transform(EventSourceTransformer()))
+        .then((response) =>
+            response.stream.transform(ResponseBodyToSseMessageTransformer()))
         .then((stream) => stream.listen(_handleMessage));
 
     _sseSubscription?.onError((Object e, StackTrace st) {

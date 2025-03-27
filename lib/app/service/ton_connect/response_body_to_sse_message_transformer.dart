@@ -2,7 +2,7 @@ import 'dart:async';
 import 'dart:convert';
 import 'package:app/app/service/ton_connect/models/models.dart';
 
-class EventSourceTransformer
+class ResponseBodyToSseMessageTransformer
     implements StreamTransformer<List<int>, SseMessage> {
   @override
   Stream<SseMessage> bind(Stream<List<int>> stream) {
