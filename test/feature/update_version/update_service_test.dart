@@ -136,7 +136,7 @@ void main() {
         emulateStatus(UpdateStatus.blocking);
 
         // Act
-        await updateService.initialize();
+        await updateService.init();
 
         // Assert
         verify(
@@ -174,7 +174,7 @@ void main() {
         emulateStatus(UpdateStatus.none);
 
         // Act
-        await updateService.initialize();
+        await updateService.init();
 
         // Assert
         verifyNever(
@@ -197,7 +197,7 @@ void main() {
         emulateStatus(UpdateStatus.warning);
 
         // Act
-        await updateService.initialize();
+        await updateService.init();
 
         // Assert
         verify(
@@ -241,7 +241,7 @@ void main() {
         emulateStatus(UpdateStatus.warning);
 
         // Act
-        await updateService.initialize();
+        await updateService.init();
 
         // Assert
         verify(() => mockAppStorage.getValue<int>(warningCountKey)).called(1);
@@ -275,7 +275,7 @@ void main() {
         emulateStatus(UpdateStatus.warning);
 
         // Act
-        await updateService.initialize();
+        await updateService.init();
 
         // Assert
         verify(() => mockAppStorage.getValue<int>(warningCountKey)).called(1);
@@ -311,7 +311,7 @@ void main() {
         emulateStatus(UpdateStatus.warning);
 
         // Act
-        await updateService.initialize();
+        await updateService.init();
 
         // Assert
         verify(() => mockAppStorage.getValue<int>(warningCountKey)).called(1);
@@ -339,7 +339,7 @@ void main() {
         emulateStatus(UpdateStatus.warning);
 
         // Act
-        await updateService.initialize();
+        await updateService.init();
 
         // Verify that an update request was emitted
         expectUpdateRequest(UpdateStatus.warning);
