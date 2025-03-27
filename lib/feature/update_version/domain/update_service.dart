@@ -1,15 +1,14 @@
 import 'dart:async';
 
+import 'package:app/app/service/app_version_service.dart';
 import 'package:app/app/service/storage_service/app_storage_service.dart';
 import 'package:app/feature/presets_config/data/preset_config_type.dart';
-import 'package:app/feature/presets_config/data/release_notes.dart';
 import 'package:app/feature/presets_config/data/update_rules.dart';
 import 'package:app/feature/presets_config/domain/presets_config_reader.dart';
 import 'package:app/feature/update_version/data/update_request.dart';
 import 'package:app/feature/update_version/data/update_status.dart';
 import 'package:app/feature/update_version/domain/latest_version_finder.dart';
 import 'package:app/feature/update_version/domain/update_status_checker.dart';
-import 'package:app/utils/app_version_utils.dart';
 import 'package:app/utils/common_utils.dart';
 import 'package:injectable/injectable.dart';
 import 'package:logging/logging.dart';
@@ -24,12 +23,14 @@ class UpdateService {
     this._updateStatusChecker,
     this._latestVersionFinder,
     this._appStorage,
+    this._appVersionService,
   );
 
   final PresetsConfigReader _presetsConfigReader;
   final UpdateStatusChecker _updateStatusChecker;
   final LatestVersionFinder _latestVersionFinder;
   final AppStorageService _appStorage;
+  final AppVersionService _appVersionService;
 
   static final _logger = Logger('UpdateService');
 
@@ -51,7 +52,7 @@ class UpdateService {
       return;
     }
 
-    final currentVersion = await AppVersion.appVersion;
+    final currentVersion = await _appVersionService.appVersion();
     final status = _updateStatusChecker.checkUpdateStatus(
       currentVersion,
       rules,
@@ -136,18 +137,18 @@ class UpdateService {
   }
 }
 
-final _warningCountKey = StorageKey.updateStats('update_warning_count');
-final _warningLastTimeKey = StorageKey.updateStats('update_warning_last_time');
+final warningCountKey = StorageKey.updateStats('update_warning_count');
+final warningLastTimeKey = StorageKey.updateStats('update_warning_last_time');
 
 extension AppStorageServiceUpdateStatsEx on AppStorageService {
-  int? warningCount() => getValue<int>(_warningCountKey);
-  int? warningLastTime() => getValue<int>(_warningLastTimeKey);
+  int? warningCount() => getValue<int>(warningCountKey);
+  int? warningLastTime() => getValue<int>(warningLastTimeKey);
 
   void updateWarningCount(int newCount) {
-    addValue<int>(_warningCountKey, newCount);
+    addValue<int>(warningCountKey, newCount);
   }
 
   void updateWarningLastTime() {
-    addValue<int>(_warningCountKey, NtpTime.now().millisecondsSinceEpoch);
+    addValue<int>(warningLastTimeKey, NtpTime.now().millisecondsSinceEpoch);
   }
 }

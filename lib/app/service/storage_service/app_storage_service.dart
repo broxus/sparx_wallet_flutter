@@ -45,7 +45,7 @@ class StorageKey {
       StorageKey._('nameCustodian', publicKey);
 
   factory StorageKey.updateStats(String key) =>
-      StorageKey._('accountColor', key);
+      StorageKey._('updateStats', key);
 
   StorageKey._(this._baseKey, [this._entityKey]);
 
