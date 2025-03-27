@@ -1,6 +1,8 @@
 import 'dart:async';
 import 'dart:math';
 
+import 'package:flutter/foundation.dart' show visibleForTesting;
+
 /// A utility class for implementing exponential backoff retry logic with
 /// configurable behavior
 class ExponentialBackoff {
@@ -19,6 +21,7 @@ class ExponentialBackoff {
     required this.maxAttempts,
     this.maxDelay,
     this.jitter = 0.0,
+    Random? random,
   })  : assert(
           multiplier >= 1.0,
           'Multiplier must be greater than or equal to 1.0',
@@ -28,7 +31,7 @@ class ExponentialBackoff {
           jitter >= 0.0 && jitter <= 1.0,
           'Jitter must be between 0.0 and 1.0',
         ),
-        _random = jitter > 0 ? Random() : null;
+        _random = random ?? (jitter > 0 ? Random() : null);
 
   final Duration initialDuration;
   final double multiplier;
@@ -37,7 +40,8 @@ class ExponentialBackoff {
   final double jitter;
   final Random? _random;
 
-  Duration _calculateNextDelay(Duration currentDelay) {
+  @visibleForTesting
+  Duration calculateNextDelay(Duration currentDelay) {
     var nextDelay = currentDelay * multiplier;
 
     if (maxDelay != null && nextDelay > maxDelay!) {
@@ -90,7 +94,7 @@ class ExponentialBackoff {
 
         await Future<void>.delayed(delay);
 
-        delay = _calculateNextDelay(delay);
+        delay = calculateNextDelay(delay);
       }
     }
 
