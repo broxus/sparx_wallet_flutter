@@ -1,5 +1,6 @@
 import 'package:app/app/service/service.dart';
 import 'package:app/di/di.dart';
+import 'package:app/feature/update_version/update_version.dart';
 import 'package:app/http/http.dart';
 import 'package:logging/logging.dart';
 
@@ -47,4 +48,10 @@ Future<void> configureFeatureServices() async {
   log.finest('TonConnectService initialized');
 
   inject<TokenRepository>().init();
+  log
+    ..finest('TokenRepository initialized')
+    ..finest('UpdateService initializing...');
+
+  await inject<UpdateService>().init();
+  log.finest('UpdateService initialized');
 }

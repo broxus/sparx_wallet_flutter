@@ -42,7 +42,7 @@ class UpdateService {
   Stream<UpdateRequest?> get updateRequests => _updateRequestSubject.stream;
 
   /// Initialize service and check for updates
-  Future<void> initialize() async {
+  Future<void> init() async {
     final rules = await _presetsConfigReader.getConfig(
       PresetConfigType.updateRules,
     );
