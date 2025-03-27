@@ -150,9 +150,12 @@ void main() {
       when(() => mockSecureStorage.getConfigJson(_config))
           .thenAnswer((_) async => null);
 
-      when(() => mockResourcesService
-              .loadString('assets/configs/${_config.name}.json'))
-          .thenAnswer((_) async => testUpdateRulesJson);
+      when(
+        () {
+          return mockResourcesService
+              .loadString('assets/configs/${_config.name}.json');
+        },
+      ).thenAnswer((_) async => testUpdateRulesJson);
 
       // Act
       final result = await reader.getConfig(_config);
