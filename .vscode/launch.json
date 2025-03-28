@@ -17,6 +17,14 @@
       ]
     },
     {
+      "name": "Launch development profile",
+      "request": "launch",
+      "type": "dart",
+      "flutterMode": "profile",
+      "program": "lib/main_development.dart",
+      "args": ["--flavor", "development", "--target", "lib/main_development.dart"]
+    },
+    {
       "name": "Launch staging",
       "request": "launch",
       "type": "dart",
