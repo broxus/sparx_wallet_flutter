@@ -39,6 +39,7 @@ class BrowserMainScreen extends ElementaryWidget<BrowserMainScreenWidgetModel> {
                 child: Listener(
                   onPointerDown: wm.onPointerDown,
                   onPointerUp: wm.onPointerUp,
+                  onPointerCancel: wm.onPointerCancel,
                   child: BrowserPagesView(
                     width: wm.screenWidth,
                     viewVisibleState: wm.viewVisibleState,

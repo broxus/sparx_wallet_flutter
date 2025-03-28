@@ -149,7 +149,7 @@ class BrowserPageWidgetModel
     _,
     Uri? uri,
   ) {
-    // _pullToRefreshController?.endRefreshing();
+    pullToRefreshController.endRefreshing();
     model
       ..createScreenshot(webViewController: _webViewController)
       ..updateUrl(uri);
@@ -161,6 +161,9 @@ class BrowserPageWidgetModel
   ) async {
     final progress = await controller.getProgress();
 
+    if (progress == 100) {
+      unawaited(pullToRefreshController.endRefreshing());
+    }
     if (progress != null && model.checkIsActiveTab(widget.tab.id)) {
       unawaited(widget.progressController.animateTo(progress / 100));
     }
@@ -172,7 +175,7 @@ class BrowserPageWidgetModel
     WebResourceError error,
   ) {
     model.createScreenshot(webViewController: _webViewController);
-    // _pullToRefreshController?.endRefreshing();
+    pullToRefreshController.endRefreshing();
     _log.warning(
       'Failed to load ${request.url}: ${error.type} ${error.description}',
     );
@@ -183,7 +186,7 @@ class BrowserPageWidgetModel
     WebResourceRequest request,
     WebResourceResponse errorResponse,
   ) {
-    // _pullToRefreshController?.endRefreshing();
+    pullToRefreshController.endRefreshing();
     _log.warning(
       'Failed to load ${request.url}: '
       'HTTP ${errorResponse.statusCode} '

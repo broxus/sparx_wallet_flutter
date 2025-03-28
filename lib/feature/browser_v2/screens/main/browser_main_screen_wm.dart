@@ -88,6 +88,7 @@ class BrowserMainScreenWidgetModel
 
   Offset? _downPosition;
   int _prevYScroll = 0;
+  bool _isTouch = false;
 
   RenderManager<String> get renderManager => _renderManager;
 
@@ -157,6 +158,10 @@ class BrowserMainScreenWidgetModel
   }
 
   void onScrollChanged(int y) {
+    if (!_isTouch) {
+      return;
+    }
+
     final diff = _prevYScroll - y;
 
     if (diff > -100 && diff < 100) {
@@ -207,9 +212,11 @@ class BrowserMainScreenWidgetModel
 
   void onPointerDown(PointerDownEvent event) {
     _downPosition = event.position;
+    _isTouch = true;
   }
 
   void onPointerUp(PointerUpEvent event) {
+    _isTouch = false;
     if (_downPosition == null) {
       return;
     }
@@ -222,6 +229,10 @@ class BrowserMainScreenWidgetModel
     }
 
     resetFocus(context);
+  }
+
+  void onPointerCancel(_) {
+    _isTouch = false;
   }
 
   void onPressedTabs() {
