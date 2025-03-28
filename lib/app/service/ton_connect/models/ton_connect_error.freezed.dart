@@ -20,7 +20,7 @@ TonConnectError _$TonConnectErrorFromJson(Map<String, dynamic> json) {
 
 /// @nodoc
 mixin _$TonConnectError {
-  int get code => throw _privateConstructorUsedError;
+  TonConnectErrorCode get code => throw _privateConstructorUsedError;
   String get message => throw _privateConstructorUsedError;
 
   /// Serializes this TonConnectError to a JSON map.
@@ -39,7 +39,7 @@ abstract class $TonConnectErrorCopyWith<$Res> {
           TonConnectError value, $Res Function(TonConnectError) then) =
       _$TonConnectErrorCopyWithImpl<$Res, TonConnectError>;
   @useResult
-  $Res call({int code, String message});
+  $Res call({TonConnectErrorCode code, String message});
 }
 
 /// @nodoc
@@ -64,7 +64,7 @@ class _$TonConnectErrorCopyWithImpl<$Res, $Val extends TonConnectError>
       code: null == code
           ? _value.code
           : code // ignore: cast_nullable_to_non_nullable
-              as int,
+              as TonConnectErrorCode,
       message: null == message
           ? _value.message
           : message // ignore: cast_nullable_to_non_nullable
@@ -81,7 +81,7 @@ abstract class _$$TonConnectErrorImplCopyWith<$Res>
       __$$TonConnectErrorImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({int code, String message});
+  $Res call({TonConnectErrorCode code, String message});
 }
 
 /// @nodoc
@@ -104,7 +104,7 @@ class __$$TonConnectErrorImplCopyWithImpl<$Res>
       code: null == code
           ? _value.code
           : code // ignore: cast_nullable_to_non_nullable
-              as int,
+              as TonConnectErrorCode,
       message: null == message
           ? _value.message
           : message // ignore: cast_nullable_to_non_nullable
@@ -122,7 +122,7 @@ class _$TonConnectErrorImpl implements _TonConnectError {
       _$$TonConnectErrorImplFromJson(json);
 
   @override
-  final int code;
+  final TonConnectErrorCode code;
   @override
   final String message;
 
@@ -163,14 +163,14 @@ class _$TonConnectErrorImpl implements _TonConnectError {
 
 abstract class _TonConnectError implements TonConnectError {
   factory _TonConnectError(
-      {required final int code,
+      {required final TonConnectErrorCode code,
       required final String message}) = _$TonConnectErrorImpl;
 
   factory _TonConnectError.fromJson(Map<String, dynamic> json) =
       _$TonConnectErrorImpl.fromJson;
 
   @override
-  int get code;
+  TonConnectErrorCode get code;
   @override
   String get message;
 

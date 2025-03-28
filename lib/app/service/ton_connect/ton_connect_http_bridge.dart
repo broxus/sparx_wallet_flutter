@@ -11,9 +11,6 @@ import 'package:http/retry.dart';
 import 'package:injectable/injectable.dart';
 import 'package:logging/logging.dart';
 
-// https://bridge.tonapi.io/bridge
-const _bridgeUrl = 'https://ton-connect-bridge.sparxwallet.com/bridge';
-
 @lazySingleton
 class TonConnectHttpBridge {
   TonConnectHttpBridge(
@@ -33,9 +30,9 @@ class TonConnectHttpBridge {
   final http.Client _client;
 
   final _backoff = ExponentialBackoff(
-    initialDuration: const Duration(seconds: 2),
-    multiplier: 2,
-    maxAttempts: 6, // 2^6 = 64 seconds
+    initialDuration: tonConnectBackoffInitialDuration,
+    multiplier: tonConnectBackoffMultiplier,
+    maxAttempts: tonConnectBackoffMaxAttempts,
   );
 
   StreamSubscription<SseMessage>? _sseSubscription;
@@ -55,7 +52,7 @@ class TonConnectHttpBridge {
 
     final ids = connections.map((e) => e.sessionCrypto.sessionId).join(',');
     final lastEventId = _storageService.readLastEventId();
-    var uri = '$_bridgeUrl/events?client_id=$ids';
+    var uri = '$tonConnectHttpBridgeUrl/events?client_id=$ids';
 
     if (lastEventId != null) {
       uri += '&last_event_id=$lastEventId';
@@ -105,7 +102,7 @@ class TonConnectHttpBridge {
       final response = WalletEvent.connectError(
         id: _storageService.getEventId(),
         payload: TonConnectError(
-          code: 300,
+          code: TonConnectErrorCode.userDeclined,
           message: 'User declined the connection',
         ),
       );
@@ -258,13 +255,17 @@ class TonConnectHttpBridge {
     required String clientId,
     required SessionCrypto sessionCrypto,
     required String data,
-    num? ttl = 300,
+    num? ttl = tonConnectMessageDefaultTtl,
   }) async {
-    final client = RetryClient(_client, retries: 2, when: (_) => true);
+    final client = RetryClient(
+      _client,
+      retries: tonConnectHttpBridgeSendRetries,
+      when: (_) => true,
+    );
     try {
       await client.post(
         Uri.parse(
-          '$_bridgeUrl/message?client_id=${sessionCrypto.sessionId}&to=$clientId&ttl=$ttl',
+          '$tonConnectHttpBridgeUrl/message?client_id=${sessionCrypto.sessionId}&to=$clientId&ttl=$ttl',
         ),
         body: sessionCrypto.encrypt(data, clientId),
       );

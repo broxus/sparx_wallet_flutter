@@ -68,7 +68,7 @@ class TonConnectService {
       return SendTransactionResponse.error(
         id: requestId,
         error: TonConnectError(
-          code: 1, // bad request
+          code: TonConnectErrorCode.badRequest,
           message: 'Wrong "from" parameter',
         ),
       );
@@ -89,7 +89,7 @@ class TonConnectService {
       return SendTransactionResponse.error(
         id: requestId,
         error: TonConnectError(
-          code: 1, // bad request
+          code: TonConnectErrorCode.badRequest,
           message: 'Wrong network',
         ),
       );
@@ -111,7 +111,7 @@ class TonConnectService {
       return SendTransactionResponse.error(
         id: requestId,
         error: TonConnectError(
-          code: 1, // bad request
+          code: TonConnectErrorCode.badRequest,
           message: 'Wallet not found',
         ),
       );
@@ -128,7 +128,7 @@ class TonConnectService {
       return SendTransactionResponse.error(
         id: requestId,
         error: TonConnectError(
-          code: 1, // bad request
+          code: TonConnectErrorCode.badRequest,
           message: 'Request timed out',
         ),
       );
@@ -149,7 +149,7 @@ class TonConnectService {
       return SendTransactionResponse.error(
         id: requestId,
         error: TonConnectError(
-          code: 300,
+          code: TonConnectErrorCode.userDeclined,
           message: 'User declined the transaction',
         ),
       );
@@ -179,7 +179,7 @@ class TonConnectService {
       return SignDataResponse.error(
         id: requestId,
         error: TonConnectError(
-          code: 1, // bad request
+          code: TonConnectErrorCode.badRequest,
           message: 'Wrong network',
         ),
       );
@@ -201,7 +201,7 @@ class TonConnectService {
       return SignDataResponse.error(
         id: requestId,
         error: TonConnectError(
-          code: 1, // bad request
+          code: TonConnectErrorCode.badRequest,
           message: 'Wallet not found',
         ),
       );
@@ -217,7 +217,7 @@ class TonConnectService {
       return SignDataResponse.error(
         id: requestId,
         error: TonConnectError(
-          code: 1, // bad request
+          code: TonConnectErrorCode.badRequest,
           message: 'Invalid public key',
         ),
       );
@@ -238,7 +238,7 @@ class TonConnectService {
       return SignDataResponse.error(
         id: requestId,
         error: TonConnectError(
-          code: 300,
+          code: TonConnectErrorCode.userDeclined,
           message: 'User declined the transaction',
         ),
       );

@@ -7,9 +7,6 @@ import 'package:flutter_inappwebview/flutter_inappwebview.dart';
 import 'package:injectable/injectable.dart';
 import 'package:logging/logging.dart';
 
-const _handlerName = 'sparxTonConnectWebviewHandler';
-const _jsBridgeKey = 'sparx';
-
 @injectable
 class TonConnectJsBridge {
   TonConnectJsBridge(
@@ -37,7 +34,7 @@ class TonConnectJsBridge {
     );
 
     controller.addJavaScriptHandler(
-      handlerName: _handlerName,
+      handlerName: tonConnectJsHandlerName,
       callback: (List<dynamic> arguments) async {
         _logger.finest('Received message: $arguments');
 
@@ -60,7 +57,7 @@ class TonConnectJsBridge {
       return WalletEvent.connectError(
         id: _storageService.getEventId(),
         payload: TonConnectError(
-          code: 0,
+          code: TonConnectErrorCode.unknownError,
           message: 'Unknown error',
         ),
       );
@@ -74,7 +71,7 @@ class TonConnectJsBridge {
       return WalletEvent.connectError(
         id: _storageService.getEventId(),
         payload: TonConnectError(
-          code: 300,
+          code: TonConnectErrorCode.userDeclined,
           message: 'User declined the connection',
         ),
       );
@@ -188,28 +185,28 @@ class TonConnectJsBridge {
   Future<void> _triggerEvent(WalletEvent event) async {
     await _controller?.evaluateJavascript(
       source: '''
-        window.$_jsBridgeKey._listeners.forEach((listener) => listener(${jsonEncode(event.toJson())}));
+        window.$tonConnectJsBridgeKey._listeners.forEach((listener) => listener(${jsonEncode(event.toJson())}));
       ''',
     );
   }
 
   /// https://github.com/ton-blockchain/ton-connect/blob/main/bridge.md#js-bridge
   String _getJsSource(DeviceInfo deviceInfo) => '''
-    window.$_jsBridgeKey = window.$_jsBridgeKey || {};
-    window.$_jsBridgeKey._listeners = new Set();
-    window.$_jsBridgeKey.tonconnect = {
+    window.$tonConnectJsBridgeKey = window.$tonConnectJsBridgeKey || {};
+    window.$tonConnectJsBridgeKey._listeners = new Set();
+    window.$tonConnectJsBridgeKey.tonconnect = {
       deviceInfo: ${jsonEncode(deviceInfo.toJson())},
       protocolVersion: ${deviceInfo.maxProtocolVersion},
       isWalletBrowser: true,
       connect: (protocolVersion, message) => {
         if (protocolVersion !== 2) throw new Error('Unsupported protocol version');
-        return window.flutter_inappwebview.callHandler('$_handlerName', 'connect', message);
+        return window.flutter_inappwebview.callHandler('$tonConnectJsHandlerName', 'connect', message);
       },
-      restoreConnection: () => window.flutter_inappwebview.callHandler('$_handlerName', 'restoreConnection'),
-      send: (message) => window.flutter_inappwebview.callHandler('$_handlerName', 'send', message),
+      restoreConnection: () => window.flutter_inappwebview.callHandler('$tonConnectJsHandlerName', 'restoreConnection'),
+      send: (message) => window.flutter_inappwebview.callHandler('$tonConnectJsHandlerName', 'send', message),
       listen: (callback) => {
-        window.$_jsBridgeKey._listeners.add(callback);
-        return () => window.$_jsBridgeKey._listeners.delete(callback);
+        window.$tonConnectJsBridgeKey._listeners.add(callback);
+        return () => window.$tonConnectJsBridgeKey._listeners.delete(callback);
       },
     };
     ''';
