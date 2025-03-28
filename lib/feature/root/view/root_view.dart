@@ -6,6 +6,7 @@ import 'package:app/di/di.dart';
 import 'package:app/event_bus/events/navigation/bottom_navigation_events.dart';
 import 'package:app/event_bus/primary_bus.dart';
 import 'package:app/feature/root/view/root_tab.dart';
+import 'package:app/feature/ton_connect/ton_connect.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:logging/logging.dart';
@@ -26,6 +27,8 @@ class _RootViewState extends State<RootView> {
   late final _appLinksService = inject<AppLinksService>();
   late final _navigationService = inject<NavigationService>();
   late final _tonConnectHttpBridge = inject<TonConnectHttpBridge>();
+  late final _tonConnectService = inject<TonConnectService>();
+  late final _messengerService = inject<MessengerService>();
 
   int get _tabIndex => RootTab.getByPath(
         getRootPath(fullPath: _navigationService.state.fullPath),
@@ -33,6 +36,7 @@ class _RootViewState extends State<RootView> {
 
   StreamSubscription<BrowserAppLinksData>? _appLinksNavSubs;
   StreamSubscription<Uri>? _uriLinksNavSubs;
+  StreamSubscription<TonConnectUiEvent>? _uiEventsSubscription;
 
   @override
   void initState() {
@@ -43,12 +47,16 @@ class _RootViewState extends State<RootView> {
           _appLinksService.browserLinksStream.listen(_listenAppLinks);
       _uriLinksNavSubs = _appLinksService.uriLinkStream.listen(_onUriLink);
     });
+
+    _uiEventsSubscription =
+        _tonConnectService.uiEventsStream.listen(_onUiEvent);
   }
 
   @override
   void dispose() {
     _appLinksNavSubs?.cancel();
     _uriLinksNavSubs?.cancel();
+    _uiEventsSubscription?.cancel();
     super.dispose();
   }
 
@@ -164,5 +172,36 @@ class _RootViewState extends State<RootView> {
       _logger.warning('Failed to parse connect query: $uri', e, s);
       return;
     }
+  }
+
+  void _onUiEvent(TonConnectUiEvent event) {
+    event.when(
+      error: (message) => _messengerService.show(
+        Message.error(context: context, message: message),
+      ),
+      connect: (request, completer) async {
+        final result = await showTCConnectSheet(
+          context: context,
+          request: request,
+        );
+        completer.complete(result);
+      },
+      sendTransaction: (connection, payload, completer) async {
+        final result = await showTCSendMessageSheet(
+          context: context,
+          connection: connection,
+          payload: payload,
+        );
+        completer.complete(result);
+      },
+      signData: (connection, payload, completer) async {
+        final result = await showTCSignDataSheet(
+          context: context,
+          connection: connection,
+          payload: payload,
+        );
+        completer.complete(result);
+      },
+    );
   }
 }

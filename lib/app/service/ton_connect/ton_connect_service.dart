@@ -3,41 +3,36 @@ import 'dart:convert';
 import 'dart:io';
 
 import 'package:app/app/service/service.dart';
-import 'package:app/feature/ton_connect/ton_connect.dart';
 import 'package:app/generated/generated.dart';
 import 'package:app/utils/app_version_utils.dart';
 import 'package:app/utils/utils.dart';
-import 'package:flutter/widgets.dart';
 import 'package:http/http.dart' as http;
 import 'package:injectable/injectable.dart';
 import 'package:nekoton_repository/nekoton_repository.dart' hide Message;
+import 'package:rxdart/rxdart.dart';
 
 @lazySingleton
 class TonConnectService {
   TonConnectService(
     this._storageService,
     this._nekotonRepository,
-    this._messengerService,
   );
 
   final TonConnectStorageService _storageService;
   final NekotonRepository _nekotonRepository;
-  final MessengerService _messengerService;
+
+  final _uiEvents = BehaviorSubject<TonConnectUiEvent>();
+
+  Stream<TonConnectUiEvent> get uiEventsStream => _uiEvents.stream;
 
   Future<(KeyAccount, List<ConnectItemReply>)?> connect({
     required ConnectRequest request,
-    BuildContext? context,
   }) async {
-    context ??= NavigationService.navigatorKey.currentContext;
-
-    if (context == null) return null;
-
     // TonConnect is only available for TON network
     final transport = _nekotonRepository.currentTransport;
     if (transport.networkType != 'ton') {
-      _messengerService.show(
-        Message.error(
-          context: context,
+      _uiEvents.add(
+        TonConnectUiEvent.error(
           message: LocaleKeys.invalidNetworkError.tr(
             args: ['TON'],
           ),
@@ -46,10 +41,15 @@ class TonConnectService {
       return null;
     }
 
-    return showTCConnectSheet(
-      context: context,
-      request: request,
+    final completer = Completer<(KeyAccount, List<ConnectItemReply>)?>();
+    _uiEvents.add(
+      TonConnectUiEvent.connect(
+        request: request,
+        completer: completer,
+      ),
     );
+
+    return completer.future;
   }
 
   void disconnect({
@@ -61,10 +61,7 @@ class TonConnectService {
     required TonAppConnection connection,
     required TransactionPayload payload,
     required String requestId,
-    BuildContext? context,
   }) async {
-    context ??= NavigationService.navigatorKey.currentContext;
-
     if (payload.from != null && payload.from != connection.walletAddress) {
       return SendTransactionResponse.error(
         id: requestId,
@@ -79,16 +76,13 @@ class TonConnectService {
     final networkId = transport.transport.networkId;
     if (transport.networkType != 'ton' ||
         payload.network?.toInt() != networkId) {
-      if (context != null && context.mounted) {
-        _messengerService.show(
-          Message.error(
-            context: context,
-            message: LocaleKeys.invalidNetworkError.tr(
-              args: ['TON'],
-            ),
+      _uiEvents.add(
+        TonConnectUiEvent.error(
+          message: LocaleKeys.invalidNetworkError.tr(
+            args: ['TON'],
           ),
-        );
-      }
+        ),
+      );
 
       return SendTransactionResponse.error(
         id: requestId,
@@ -104,16 +98,13 @@ class TonConnectService {
     );
     final wallet = walletState.wallet;
     if (wallet == null) {
-      if (context != null && context.mounted) {
-        _messengerService.show(
-          Message.error(
-            context: context,
-            message: LocaleKeys.accountNotFound.tr(
-              args: [connection.walletAddress.address],
-            ),
+      _uiEvents.add(
+        TonConnectUiEvent.error(
+          message: LocaleKeys.accountNotFound.tr(
+            args: [connection.walletAddress.address],
           ),
-        );
-      }
+        ),
+      );
 
       return SendTransactionResponse.error(
         id: requestId,
@@ -126,14 +117,11 @@ class TonConnectService {
 
     final now = NtpTime.now().millisecondsSinceEpoch ~/ 1000;
     if (payload.validUntil != null && payload.validUntil! < now) {
-      if (context != null && context.mounted) {
-        _messengerService.show(
-          Message.error(
-            context: context,
-            message: LocaleKeys.operationTimeout.tr(),
-          ),
-        );
-      }
+      _uiEvents.add(
+        TonConnectUiEvent.error(
+          message: LocaleKeys.operationTimeout.tr(),
+        ),
+      );
 
       return SendTransactionResponse.error(
         id: requestId,
@@ -144,21 +132,16 @@ class TonConnectService {
       );
     }
 
-    if (context == null || !context.mounted) {
-      return SendTransactionResponse.error(
-        id: requestId,
-        error: TonConnectError(
-          code: 0,
-          message: 'Unknown error',
-        ),
-      );
-    }
-
-    final message = await showTCSendMessageSheet(
-      context: context,
-      connection: connection,
-      payload: payload,
+    final completer = Completer<SignedMessage?>();
+    _uiEvents.add(
+      TonConnectUiEvent.sendTransaction(
+        connection: connection,
+        payload: payload,
+        completer: completer,
+      ),
     );
+
+    final message = await completer.future;
 
     if (message == null) {
       return SendTransactionResponse.error(
@@ -180,22 +163,16 @@ class TonConnectService {
     required TonAppConnection connection,
     required SignDataPayload payload,
     required String requestId,
-    BuildContext? context,
   }) async {
-    context ??= NavigationService.navigatorKey.currentContext;
-
     final transport = _nekotonRepository.currentTransport;
     if (transport.networkType != 'ton') {
-      if (context != null && context.mounted) {
-        _messengerService.show(
-          Message.error(
-            context: context,
-            message: LocaleKeys.invalidNetworkError.tr(
-              args: ['TON'],
-            ),
+      _uiEvents.add(
+        TonConnectUiEvent.error(
+          message: LocaleKeys.invalidNetworkError.tr(
+            args: ['TON'],
           ),
-        );
-      }
+        ),
+      );
 
       return SignDataResponse.error(
         id: requestId,
@@ -211,16 +188,13 @@ class TonConnectService {
     );
     final wallet = walletState.wallet;
     if (wallet == null) {
-      if (context != null && context.mounted) {
-        _messengerService.show(
-          Message.error(
-            context: context,
-            message: LocaleKeys.accountNotFound.tr(
-              args: [connection.walletAddress.address],
-            ),
+      _uiEvents.add(
+        TonConnectUiEvent.error(
+          message: LocaleKeys.accountNotFound.tr(
+            args: [connection.walletAddress.address],
           ),
-        );
-      }
+        ),
+      );
 
       return SignDataResponse.error(
         id: requestId,
@@ -232,14 +206,11 @@ class TonConnectService {
     }
 
     if (payload.publicKey != null && wallet.publicKey != payload.publicKey) {
-      if (context != null && context.mounted) {
-        _messengerService.show(
-          Message.error(
-            context: context,
-            message: LocaleKeys.invalidPublicKeyError.tr(),
-          ),
-        );
-      }
+      _uiEvents.add(
+        TonConnectUiEvent.error(
+          message: LocaleKeys.invalidPublicKeyError.tr(),
+        ),
+      );
 
       return SignDataResponse.error(
         id: requestId,
@@ -250,21 +221,16 @@ class TonConnectService {
       );
     }
 
-    if (context == null || !context.mounted) {
-      return SignDataResponse.error(
-        id: requestId,
-        error: TonConnectError(
-          code: 0,
-          message: 'Unknown error',
-        ),
-      );
-    }
-
-    final result = await showTCSignDataSheet(
-      context: context,
-      connection: connection,
-      payload: payload,
+    final completer = Completer<SignDataResult?>();
+    _uiEvents.add(
+      TonConnectUiEvent.signData(
+        connection: connection,
+        payload: payload,
+        completer: completer,
+      ),
     );
+
+    final result = await completer.future;
 
     if (result == null) {
       return SignDataResponse.error(

@@ -100,10 +100,8 @@ class TonConnectHttpBridge {
       jsonDecode(Uri.decodeComponent(query.r)) as Map<String, dynamic>,
     );
 
-    final result = await _tonConnectService.connect(
-      request: request,
-      context: context,
-    );
+    final result = await _tonConnectService.connect(request: request);
+
     if (result == null) {
       final response = WalletEvent.connectError(
         id: _storageService.getEventId(),
