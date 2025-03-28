@@ -20,6 +20,7 @@ class TonConnectHttpBridge {
     this._tonConnectService,
     this._appLifecycleService,
     this._storageService,
+    this._client,
   ) {
     _appLifecycleService.appLifecycleStateStream.listen(_onStateChange);
   }
@@ -29,6 +30,7 @@ class TonConnectHttpBridge {
   final TonConnectService _tonConnectService;
   final AppLifecycleService _appLifecycleService;
   final TonConnectStorageService _storageService;
+  final http.Client _client;
 
   final _backoff = ExponentialBackoff(
     initialDuration: const Duration(seconds: 2),
@@ -37,7 +39,6 @@ class TonConnectHttpBridge {
   );
 
   StreamSubscription<SseMessage>? _sseSubscription;
-  http.Client? _client;
   bool isRetrying = false;
 
   Future<void> openSseConnection() async {
@@ -63,8 +64,7 @@ class TonConnectHttpBridge {
     final request = http.Request('GET', Uri.parse(uri))
       ..headers['Accept'] = 'text/event-stream';
 
-    _client = http.Client();
-    _sseSubscription = await _client!
+    _sseSubscription = await _client
         .send(request)
         .then(
           (response) =>
@@ -87,9 +87,7 @@ class TonConnectHttpBridge {
     }
 
     await _sseSubscription?.cancel();
-    _client?.close();
     _sseSubscription = null;
-    _client = null;
   }
 
   Future<void> connect({
@@ -262,7 +260,7 @@ class TonConnectHttpBridge {
     required String data,
     num? ttl = 300,
   }) async {
-    final client = RetryClient(http.Client(), retries: 2, when: (_) => true);
+    final client = RetryClient(_client, retries: 2, when: (_) => true);
     try {
       await client.post(
         Uri.parse(

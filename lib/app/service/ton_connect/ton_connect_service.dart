@@ -16,10 +16,12 @@ class TonConnectService {
   TonConnectService(
     this._storageService,
     this._nekotonRepository,
+    this._client,
   );
 
   final TonConnectStorageService _storageService;
   final NekotonRepository _nekotonRepository;
+  final http.Client _client;
 
   final _uiEvents = BehaviorSubject<TonConnectUiEvent>();
 
@@ -250,7 +252,7 @@ class TonConnectService {
 
   Future<DappManifest> getManifest(String manifestUrl) async {
     final uri = Uri.parse(manifestUrl);
-    final response = await http.get(uri);
+    final response = await _client.get(uri);
 
     if (response.statusCode == 200) {
       return DappManifest.fromJson(
