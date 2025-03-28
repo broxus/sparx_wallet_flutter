@@ -38,6 +38,7 @@ class TonConnectHttpBridge {
 
   StreamSubscription<SseMessage>? _sseSubscription;
   http.Client? _client;
+  bool isRetrying = false;
 
   Future<void> openSseConnection() async {
     await closeSseConnection();
@@ -277,6 +278,8 @@ class TonConnectHttpBridge {
   }
 
   void _retryOpen() {
+    if (isRetrying) return;
+
     _backoff.run(() async {
       if (SchedulerBinding.instance.lifecycleState !=
           AppLifecycleState.resumed) {
@@ -286,6 +289,8 @@ class TonConnectHttpBridge {
       await openSseConnection();
     }).catchError((Object e, StackTrace s) {
       _logger.severe('Failed to reconnect to http bridge', e, s);
+    }).whenComplete(() {
+      isRetrying = false;
     });
   }
 
