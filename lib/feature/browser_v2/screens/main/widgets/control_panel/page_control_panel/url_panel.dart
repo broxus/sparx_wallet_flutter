@@ -53,6 +53,9 @@ class _BrowserTabViewMenuUrlPanelState
           }
 
           return ListView.builder(
+            padding: data.count == 1
+                ? const EdgeInsets.only(left: DimensSizeV2.d8)
+                : EdgeInsets.zero,
             physics: _physics,
             scrollDirection: Axis.horizontal,
             controller: widget.controller,
