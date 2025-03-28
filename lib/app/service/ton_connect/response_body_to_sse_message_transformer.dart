@@ -7,13 +7,15 @@ class ResponseBodyToSseMessageTransformer
   @override
   Stream<SseMessage> bind(Stream<List<int>> stream) {
     late StreamController<SseMessage> controller;
+    StreamSubscription<String>? subscription;
+
     controller = StreamController(
       onListen: () {
         final listener = _MessageListener(controller);
         // This stream will receive chunks of data that is not necessarily a
         // single event. So we build events on the fly and broadcast the event
         // as soon as we encounter a double newline, then we start a new one.
-        stream
+        subscription = stream
             .transform(const Utf8Decoder())
             .transform(const LineSplitter())
             .listen(
@@ -22,7 +24,11 @@ class ResponseBodyToSseMessageTransformer
               onDone: () => controller.close(),
             );
       },
+      onCancel: () {
+        subscription?.cancel();
+      },
     );
+
     return controller.stream;
   }
 
