@@ -5,7 +5,6 @@ import 'package:app/app/service/service.dart';
 import 'package:app/utils/utils.dart';
 import 'package:collection/collection.dart';
 import 'package:flutter/scheduler.dart';
-import 'package:flutter/widgets.dart';
 import 'package:http/http.dart' as http;
 import 'package:http/retry.dart';
 import 'package:injectable/injectable.dart';
@@ -89,7 +88,6 @@ class TonConnectHttpBridge {
 
   Future<void> connect({
     required ConnectQuery query,
-    BuildContext? context,
   }) async {
     final sessionCrypto = SessionCrypto();
     final request = ConnectRequest.fromJson(

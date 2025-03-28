@@ -1,6 +1,6 @@
 import 'dart:async';
 
-import 'package:app/app/service/app_links/app_links_data.dart';
+import 'package:app/app/service/service.dart';
 import 'package:app_links/app_links.dart';
 import 'package:injectable/injectable.dart';
 import 'package:rxdart/rxdart.dart';
@@ -17,15 +17,13 @@ class AppLinksService {
 
   final _linksSubj = BehaviorSubject<AppLinksData>.seeded(EmptyAppLinksData());
 
-  final _uriLinkSubject = BehaviorSubject<Uri?>.seeded(null);
-
-  late final Stream<Uri> uriLinkStream = _uriLinkSubject.stream.whereNotNull();
-
   late final Stream<AppLinksData> appLinksStream = _linksSubj.stream;
 
-  Stream<BrowserAppLinksData> get browserLinksStream => appLinksStream
-      .where((data) => data is BrowserAppLinksData)
-      .cast<BrowserAppLinksData>();
+  Stream<BrowserAppLinksData> get browserLinksStream =>
+      appLinksStream.whereType<BrowserAppLinksData>();
+
+  Stream<TonConnectAppLinksData> get tonConnecLinksData =>
+      appLinksStream.whereType<TonConnectAppLinksData>();
 
   StreamSubscription<Uri>? _linkSubscription;
 
@@ -42,7 +40,9 @@ class AppLinksService {
       _handleQueryLink(link);
     }
 
-    _uriLinkSubject.add(uri);
+    if (uri.isScheme('tc') || uri.host == 'l.sparxwallet.com') {
+      _handleTonConnectLink(uri);
+    }
   }
 
   void _handleQueryLink(String link) {
@@ -56,6 +56,13 @@ class AppLinksService {
           Uri.parse(link),
         ),
       );
+    } catch (_) {}
+  }
+
+  void _handleTonConnectLink(Uri uri) {
+    try {
+      final query = ConnectQuery.fromQuery(uri.query);
+      _linksSubj.add(TonConnectAppLinksData(query));
     } catch (_) {}
   }
 }

@@ -35,7 +35,7 @@ class _RootViewState extends State<RootView> {
       ).index;
 
   StreamSubscription<BrowserAppLinksData>? _appLinksNavSubs;
-  StreamSubscription<Uri>? _uriLinksNavSubs;
+  StreamSubscription<TonConnectAppLinksData>? _tonConnectLinkSubs;
   StreamSubscription<TonConnectUiEvent>? _uiEventsSubscription;
 
   @override
@@ -45,7 +45,8 @@ class _RootViewState extends State<RootView> {
     WidgetsBinding.instance.addPostFrameCallback((_) {
       _appLinksNavSubs =
           _appLinksService.browserLinksStream.listen(_listenAppLinks);
-      _uriLinksNavSubs = _appLinksService.uriLinkStream.listen(_onUriLink);
+      _tonConnectLinkSubs =
+          _appLinksService.tonConnecLinksData.listen(_onTonConnectAppLink);
     });
 
     _uiEventsSubscription =
@@ -55,7 +56,7 @@ class _RootViewState extends State<RootView> {
   @override
   void dispose() {
     _appLinksNavSubs?.cancel();
-    _uriLinksNavSubs?.cancel();
+    _tonConnectLinkSubs?.cancel();
     _uiEventsSubscription?.cancel();
     super.dispose();
   }
@@ -162,15 +163,11 @@ class _RootViewState extends State<RootView> {
     _changeValue(RootTab.browser);
   }
 
-  void _onUriLink(Uri uri) {
-    if (!uri.isScheme('tc') && uri.host != 'l.sparxwallet.com') return;
-
+  void _onTonConnectAppLink(TonConnectAppLinksData data) {
     try {
-      final query = ConnectQuery.fromQuery(uri.query);
-      _tonConnectHttpBridge.connect(query: query, context: context);
+      _tonConnectHttpBridge.connect(query: data.query);
     } catch (e, s) {
-      _logger.warning('Failed to parse connect query: $uri', e, s);
-      return;
+      _logger.warning('Failed to connect', e, s);
     }
   }
 
