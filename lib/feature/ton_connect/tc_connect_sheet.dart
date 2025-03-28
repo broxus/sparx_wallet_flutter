@@ -8,6 +8,7 @@ import 'package:ui_components_lib/ui_components_lib.dart';
 Future<(KeyAccount, List<ConnectItemReply>)?> showTCConnectSheet({
   required BuildContext context,
   required ConnectRequest request,
+  required DappManifest manifest,
 }) {
   return showCommonBottomSheet(
     context: context,
@@ -15,6 +16,7 @@ Future<(KeyAccount, List<ConnectItemReply>)?> showTCConnectSheet({
     centerTitle: true,
     body: (_, scrollController) => TCConnectWidget(
       request: request,
+      manifest: manifest,
       scrollController: scrollController,
     ),
   );

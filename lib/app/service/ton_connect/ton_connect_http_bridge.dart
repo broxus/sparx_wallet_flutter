@@ -98,13 +98,10 @@ class TonConnectHttpBridge {
 
     final result = await _tonConnectService.connect(request: request);
 
-    if (result == null) {
+    if (result is ConnectResultError) {
       final response = WalletEvent.connectError(
         id: _storageService.getEventId(),
-        payload: TonConnectError(
-          code: TonConnectErrorCode.userDeclined,
-          message: 'User declined the connection',
-        ),
+        payload: result.error,
       );
       await _send(
         clientId: query.id,
@@ -114,13 +111,13 @@ class TonConnectHttpBridge {
       return;
     }
 
-    final (account, replyItems) = result;
+    final r = result as ConnectResultSuccess;
     final connection = TonAppConnection.remote(
       clientId: query.id,
       sessionCrypto: sessionCrypto,
-      replyItems: replyItems,
-      walletAddress: account.address,
-      manifestUrl: request.manifestUrl,
+      replyItems: r.replyItems,
+      walletAddress: r.account.address,
+      manifest: r.manifest,
     );
     _storageService.addConnection(connection);
 
@@ -128,7 +125,7 @@ class TonConnectHttpBridge {
       id: _storageService.getEventId(),
       payload: ConnectEventSuccessPayload(
         device: await _tonConnectService.getDeviceInfo(),
-        items: replyItems,
+        items: r.replyItems,
       ),
     );
     await _send(

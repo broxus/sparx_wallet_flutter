@@ -67,22 +67,20 @@ class TonConnectJsBridge {
     final request = ConnectRequest.fromJson(payload);
 
     final result = await _tonConnectService.connect(request: request);
-    if (result == null) {
+
+    if (result is ConnectResultError) {
       return WalletEvent.connectError(
         id: _storageService.getEventId(),
-        payload: TonConnectError(
-          code: TonConnectErrorCode.userDeclined,
-          message: 'User declined the connection',
-        ),
+        payload: result.error,
       );
     }
 
-    final (account, replyItems) = result;
+    final r = result as ConnectResultSuccess;
     final connection = TonAppConnection.injected(
       origin: origin,
-      replyItems: replyItems,
-      walletAddress: account.address,
-      manifestUrl: request.manifestUrl,
+      replyItems: r.replyItems,
+      walletAddress: r.account.address,
+      manifest: r.manifest,
     );
     _storageService.addConnection(connection);
 

@@ -13,17 +13,12 @@ class TCSignDataModel extends ElementaryModel {
     ErrorHandler errorHandler,
     this._nekotonRepository,
     this._messengerService,
-    this._tonConnectService,
   ) : super(errorHandler: errorHandler);
 
   final NekotonRepository _nekotonRepository;
   final MessengerService _messengerService;
-  final TonConnectService _tonConnectService;
 
   TransportStrategy get transport => _nekotonRepository.currentTransport;
-
-  Future<DappManifest> getManifest(String manifestUrl) =>
-      _tonConnectService.getManifest(manifestUrl);
 
   KeyAccount? getAccount(Address address) =>
       _nekotonRepository.seedList.findAccountByAddress(address);

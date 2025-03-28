@@ -57,16 +57,9 @@ class TCSendMessageWidget extends ElementaryWidget<TCSendMessageWidgetModel> {
                     ),
                   ),
                 const SizedBox(height: DimensSizeV2.d12),
-                StateNotifierBuilder(
-                  listenableState: wm.manifest,
-                  builder: (_, origin) =>
-                      origin?.let(
-                        (value) => WebsiteInfoWidget(
-                          uri: Uri.parse(value.url),
-                          iconUrl: Uri.tryParse(value.iconUrl),
-                        ),
-                      ) ??
-                      const SizedBox.shrink(),
+                WebsiteInfoWidget(
+                  uri: Uri.parse(connection.manifest.url),
+                  iconUrl: Uri.tryParse(connection.manifest.iconUrl),
                 ),
                 DoubleSourceBuilder(
                   firstSource: wm.publicKey,

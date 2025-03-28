@@ -179,10 +179,11 @@ class _RootViewState extends State<RootView> {
       error: (message) => _messengerService.show(
         Message.error(context: context, message: message),
       ),
-      connect: (request, completer) async {
+      connect: (request, manifest, completer) async {
         final result = await showTCConnectSheet(
           context: context,
           request: request,
+          manifest: manifest,
         );
         completer.complete(result);
       },

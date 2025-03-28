@@ -47,7 +47,6 @@ TCSendMessageWidgetModel defaultTCSendMessageWidgetModelFactory(
         createPrimaryErrorHandler(context),
         inject(),
         inject(),
-        inject(),
       ),
     );
 
@@ -68,7 +67,6 @@ class TCSendMessageWidgetModel
   );
   late final _isLoading = createNotifier(true);
   late final _isConfirmed = createNotifier(false);
-  late final _manifest = createNotifier<DappManifest>();
   int? numberUnconfirmedTransactions;
 
   ListenableState<TransferData> get data => _data;
@@ -88,8 +86,6 @@ class TCSendMessageWidgetModel
   ListenableState<bool> get isLoading => _isLoading;
 
   ListenableState<bool> get isConfirmed => _isConfirmed;
-
-  ListenableState<DappManifest> get manifest => _manifest;
 
   Currency? get nativeCurrency =>
       Currencies()[model.transport.nativeTokenTicker];
@@ -112,6 +108,7 @@ class TCSendMessageWidgetModel
     if (account == null) return;
 
     try {
+      _isLoading.accept(true);
       final message = await model.send(
         address: widget.connection.walletAddress,
         publicKey: account!.publicKey,
@@ -138,6 +135,8 @@ class TCSendMessageWidgetModel
           ),
         ),
       );
+    } finally {
+      _isLoading.accept(false);
     }
   }
 
@@ -145,23 +144,28 @@ class TCSendMessageWidgetModel
   void onConfirmed(bool value) => _isConfirmed.accept(value);
 
   Future<void> _init() async {
-    await _initWalletTon();
+    try {
+      _isLoading.accept(true);
 
-    if (nativeCurrency != null) {
-      _data.accept(
-        TransferData(
-          messages: widget.payload.messages,
-          currency: nativeCurrency!,
-          numberUnconfirmedTransactions: numberUnconfirmedTransactions,
-        ),
-      );
+      await _initWalletTon();
+
+      if (nativeCurrency != null) {
+        _data.accept(
+          TransferData(
+            messages: widget.payload.messages,
+            currency: nativeCurrency!,
+            numberUnconfirmedTransactions: numberUnconfirmedTransactions,
+          ),
+        );
+      }
+
+      await Future.wait([
+        _getCustodians(),
+        _prepareTransfer(),
+      ]);
+    } finally {
+      _isLoading.accept(false);
     }
-
-    await Future.wait([
-      _getCustodians(),
-      _prepareTransfer(),
-      _getManifest(),
-    ]);
   }
 
   Future<void> _getCustodians() async {
@@ -174,7 +178,6 @@ class TCSendMessageWidgetModel
     UnsignedMessage? message;
 
     try {
-      _isLoading.accept(true);
       message = await model.prepareTransfer(
         address: widget.connection.walletAddress,
         publicKey: account!.publicKey,
@@ -197,7 +200,6 @@ class TCSendMessageWidgetModel
       }
     } finally {
       message?.dispose();
-      _isLoading.accept(false);
     }
   }
 
@@ -250,10 +252,5 @@ class TCSendMessageWidgetModel
         ),
       );
     }
-  }
-
-  Future<void> _getManifest() async {
-    final manifest = await model.getManifest(widget.connection.manifestUrl);
-    _manifest.accept(manifest);
   }
 }

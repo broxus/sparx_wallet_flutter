@@ -3,6 +3,7 @@ export 'connect_item.dart';
 export 'connect_item_reply.dart';
 export 'connect_query.dart';
 export 'connect_request.dart';
+export 'connect_result.dart';
 export 'dapp_manifest.dart';
 export 'device_info.dart';
 export 'feature.dart';

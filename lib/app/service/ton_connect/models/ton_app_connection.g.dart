@@ -15,7 +15,7 @@ _$TonAppConnectionRemoteImpl _$$TonAppConnectionRemoteImplFromJson(
           .map((e) => ConnectItemReply.fromJson(e as Map<String, dynamic>))
           .toList(),
       walletAddress: Address.fromJson(json['walletAddress'] as String),
-      manifestUrl: json['manifestUrl'] as String,
+      manifest: DappManifest.fromJson(json['manifest'] as Map<String, dynamic>),
       $type: json['runtimeType'] as String?,
     );
 
@@ -26,7 +26,7 @@ Map<String, dynamic> _$$TonAppConnectionRemoteImplToJson(
       'sessionCrypto': instance.sessionCrypto.toJson(),
       'replyItems': instance.replyItems.map((e) => e.toJson()).toList(),
       'walletAddress': instance.walletAddress.toJson(),
-      'manifestUrl': instance.manifestUrl,
+      'manifest': instance.manifest.toJson(),
       'runtimeType': instance.$type,
     };
 
@@ -38,7 +38,7 @@ _$TonAppConnectionInjectedImpl _$$TonAppConnectionInjectedImplFromJson(
           .map((e) => ConnectItemReply.fromJson(e as Map<String, dynamic>))
           .toList(),
       walletAddress: Address.fromJson(json['walletAddress'] as String),
-      manifestUrl: json['manifestUrl'] as String,
+      manifest: DappManifest.fromJson(json['manifest'] as Map<String, dynamic>),
       $type: json['runtimeType'] as String?,
     );
 
@@ -48,6 +48,6 @@ Map<String, dynamic> _$$TonAppConnectionInjectedImplToJson(
       'origin': instance.origin,
       'replyItems': instance.replyItems.map((e) => e.toJson()).toList(),
       'walletAddress': instance.walletAddress.toJson(),
-      'manifestUrl': instance.manifestUrl,
+      'manifest': instance.manifest.toJson(),
       'runtimeType': instance.$type,
     };

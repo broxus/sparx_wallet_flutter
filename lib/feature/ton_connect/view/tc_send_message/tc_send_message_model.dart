@@ -12,17 +12,12 @@ class TCSendMessageModel extends ElementaryModel {
     ErrorHandler errorHandler,
     this._nekotonRepository,
     this._messengerService,
-    this._tonConnectService,
   ) : super(errorHandler: errorHandler);
 
   final NekotonRepository _nekotonRepository;
   final MessengerService _messengerService;
-  final TonConnectService _tonConnectService;
 
   TransportStrategy get transport => _nekotonRepository.currentTransport;
-
-  Future<DappManifest> getManifest(String manifestUrl) =>
-      _tonConnectService.getManifest(manifestUrl);
 
   Stream<Money> getBalanceStream(Address address) => _nekotonRepository
       .walletsStream

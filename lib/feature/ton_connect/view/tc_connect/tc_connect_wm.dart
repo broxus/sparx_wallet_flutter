@@ -19,7 +19,6 @@ TCConnectWidgetModel defaultTCConnectWidgetModelFactory(
         createPrimaryErrorHandler(context),
         inject(),
         inject(),
-        inject(),
       ),
     );
 
@@ -33,7 +32,6 @@ class TCConnectWidgetModel
   late final _step = createValueNotifier(TonConnectStep.account);
   late final _selected = createNotifier(_initialSelectedAccount);
   late final _accounts = createNotifier(model.accounts);
-  late final _manifest = createNotifier<DappManifest>();
   late final _zeroBalance = Money.fromBigIntWithCurrency(
     BigInt.zero,
     Currencies()[model.symbol] ??
@@ -47,16 +45,10 @@ class TCConnectWidgetModel
 
   ListenableState<KeyAccount?> get selected => _selected;
 
-  ListenableState<DappManifest> get manifest => _manifest;
-
   KeyAccount? get _initialSelectedAccount =>
       model.currentAccount ?? model.accounts.firstOrNull;
 
-  @override
-  void initWidgetModel() {
-    super.initWidgetModel();
-    _getManifest();
-  }
+  DappManifest get manifest => widget.manifest;
 
   void onNext() {
     if (_selected.value == null) return;
@@ -93,7 +85,7 @@ class TCConnectWidgetModel
       password: password,
       account: account,
       request: widget.request,
-      manifest: _manifest.value!,
+      manifest: manifest,
     );
 
     if (contextSafe != null) {
@@ -115,10 +107,5 @@ class TCConnectWidgetModel
     }
 
     return entity;
-  }
-
-  Future<void> _getManifest() async {
-    final manifest = await model.getManifest(widget.request.manifestUrl);
-    _manifest.accept(manifest);
   }
 }

@@ -4,7 +4,6 @@ import 'package:app/feature/profile/widgets/widgets.dart';
 import 'package:app/feature/ton_connect/ton_connect.dart';
 import 'package:app/feature/wallet/wallet.dart';
 import 'package:app/generated/generated.dart';
-import 'package:app/utils/utils.dart';
 import 'package:elementary/elementary.dart';
 import 'package:elementary_helper/elementary_helper.dart';
 import 'package:flutter/material.dart';
@@ -15,12 +14,14 @@ import 'package:ui_components_lib/v2/ui_components_lib_v2.dart';
 class TCConnectWidget extends ElementaryWidget<TCConnectWidgetModel> {
   const TCConnectWidget({
     required this.request,
+    required this.manifest,
     required this.scrollController,
     Key? key,
     WidgetModelFactory wmFactory = defaultTCConnectWidgetModelFactory,
   }) : super(wmFactory, key: key);
 
   final ConnectRequest request;
+  final DappManifest manifest;
   final ScrollController scrollController;
 
   @override
@@ -50,16 +51,9 @@ class _SelectAccountWidget extends StatelessWidget {
           child: SeparatedColumn(
             separatorSize: DimensSizeV2.d12,
             children: [
-              StateNotifierBuilder(
-                listenableState: wm.manifest,
-                builder: (_, origin) =>
-                    origin?.let(
-                      (value) => WebsiteInfoWidget(
-                        uri: Uri.parse(value.url),
-                        iconUrl: Uri.tryParse(value.iconUrl),
-                      ),
-                    ) ??
-                    const SizedBox.shrink(),
+              WebsiteInfoWidget(
+                uri: Uri.parse(wm.manifest.url),
+                iconUrl: Uri.tryParse(wm.manifest.iconUrl),
               ),
               PrimaryTextField(
                 textEditingController: wm.searchController,
@@ -167,16 +161,9 @@ class _ConfirmPermissionsWidget extends StatelessWidget {
                   account: account,
                   color: theme.colors.background2,
                 ),
-                StateNotifierBuilder(
-                  listenableState: wm.manifest,
-                  builder: (_, origin) =>
-                      origin?.let(
-                        (value) => WebsiteInfoWidget(
-                          uri: Uri.parse(value.url),
-                          iconUrl: Uri.tryParse(value.iconUrl),
-                        ),
-                      ) ??
-                      const SizedBox.shrink(),
+                WebsiteInfoWidget(
+                  uri: Uri.parse(wm.manifest.url),
+                  iconUrl: Uri.tryParse(wm.manifest.iconUrl),
                 ),
               ],
             ),

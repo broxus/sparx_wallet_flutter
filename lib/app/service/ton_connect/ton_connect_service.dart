@@ -8,6 +8,7 @@ import 'package:app/utils/app_version_utils.dart';
 import 'package:app/utils/utils.dart';
 import 'package:http/http.dart' as http;
 import 'package:injectable/injectable.dart';
+import 'package:logging/logging.dart';
 import 'package:nekoton_repository/nekoton_repository.dart' hide Message;
 import 'package:rxdart/rxdart.dart';
 
@@ -19,6 +20,8 @@ class TonConnectService {
     this._client,
   );
 
+  static final _logger = Logger('TonConnectService');
+
   final TonConnectStorageService _storageService;
   final NekotonRepository _nekotonRepository;
   final http.Client _client;
@@ -27,7 +30,7 @@ class TonConnectService {
 
   Stream<TonConnectUiEvent> get uiEventsStream => _uiEvents.stream;
 
-  Future<(KeyAccount, List<ConnectItemReply>)?> connect({
+  Future<ConnectResult> connect({
     required ConnectRequest request,
   }) async {
     // TonConnect is only available for TON network
@@ -40,18 +43,53 @@ class TonConnectService {
           ),
         ),
       );
-      return null;
+      return ConnectResult.error(
+        error: TonConnectError(
+          code: TonConnectErrorCode.userDeclined,
+          message: 'User declined the connection',
+        ),
+      );
+    }
+
+    final manifest = await _getManifest(request.manifestUrl);
+    if (manifest == null) {
+      _uiEvents.add(
+        TonConnectUiEvent.error(
+          message: LocaleKeys.dappManifestError.tr(),
+        ),
+      );
+      return ConnectResult.error(
+        error: TonConnectError(
+          code: TonConnectErrorCode.appManifestNotFound,
+          message: 'App manifest not found',
+        ),
+      );
     }
 
     final completer = Completer<(KeyAccount, List<ConnectItemReply>)?>();
     _uiEvents.add(
       TonConnectUiEvent.connect(
         request: request,
+        manifest: manifest,
         completer: completer,
       ),
     );
 
-    return completer.future;
+    final result = await completer.future;
+    if (result == null) {
+      return ConnectResult.error(
+        error: TonConnectError(
+          code: TonConnectErrorCode.userDeclined,
+          message: 'User declined the connection',
+        ),
+      );
+    }
+
+    return ConnectResult.success(
+      account: result.$1,
+      replyItems: result.$2,
+      manifest: manifest,
+    );
   }
 
   void disconnect({
@@ -250,19 +288,6 @@ class TonConnectService {
     );
   }
 
-  Future<DappManifest> getManifest(String manifestUrl) async {
-    final uri = Uri.parse(manifestUrl);
-    final response = await _client.get(uri);
-
-    if (response.statusCode == 200) {
-      return DappManifest.fromJson(
-        jsonDecode(response.body) as Map<String, dynamic>,
-      );
-    }
-
-    throw Exception('Failed to load DappManifest');
-  }
-
   Future<DeviceInfo> getDeviceInfo() async => DeviceInfo(
         platform: Platform.operatingSystem,
         appName: 'sparx',
@@ -273,4 +298,21 @@ class TonConnectService {
           Feature.signData(),
         ],
       );
+
+  Future<DappManifest?> _getManifest(String manifestUrl) async {
+    try {
+      final uri = Uri.parse(manifestUrl);
+      final response = await _client.get(uri);
+
+      if (response.statusCode == 200) {
+        return DappManifest.fromJson(
+          jsonDecode(response.body) as Map<String, dynamic>,
+        );
+      }
+    } catch (e, s) {
+      _logger.warning('Failed to get manifest', e, s);
+    }
+
+    return null;
+  }
 }

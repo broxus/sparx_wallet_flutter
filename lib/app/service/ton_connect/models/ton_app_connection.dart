@@ -16,14 +16,14 @@ sealed class TonAppConnection with _$TonAppConnection {
     required SessionCrypto sessionCrypto,
     required List<ConnectItemReply> replyItems,
     required Address walletAddress,
-    required String manifestUrl,
+    required DappManifest manifest,
   }) = TonAppConnectionRemote;
 
   const factory TonAppConnection.injected({
     required String origin,
     required List<ConnectItemReply> replyItems,
     required Address walletAddress,
-    required String manifestUrl,
+    required DappManifest manifest,
   }) = TonAppConnectionInjected;
 
   factory TonAppConnection.fromJson(Map<String, dynamic> json) =>

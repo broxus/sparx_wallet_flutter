@@ -19,7 +19,7 @@ mixin _$TonConnectUiEvent {
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function(String message) error,
-    required TResult Function(ConnectRequest request,
+    required TResult Function(ConnectRequest request, DappManifest manifest,
             Completer<(KeyAccount, List<ConnectItemReply>)?> completer)
         connect,
     required TResult Function(TonAppConnection connection,
@@ -33,7 +33,7 @@ mixin _$TonConnectUiEvent {
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function(String message)? error,
-    TResult? Function(ConnectRequest request,
+    TResult? Function(ConnectRequest request, DappManifest manifest,
             Completer<(KeyAccount, List<ConnectItemReply>)?> completer)?
         connect,
     TResult? Function(TonAppConnection connection, TransactionPayload payload,
@@ -47,7 +47,7 @@ mixin _$TonConnectUiEvent {
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function(String message)? error,
-    TResult Function(ConnectRequest request,
+    TResult Function(ConnectRequest request, DappManifest manifest,
             Completer<(KeyAccount, List<ConnectItemReply>)?> completer)?
         connect,
     TResult Function(TonAppConnection connection, TransactionPayload payload,
@@ -180,7 +180,7 @@ class _$TonConnectUiEventErrorImpl implements TonConnectUiEventError {
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function(String message) error,
-    required TResult Function(ConnectRequest request,
+    required TResult Function(ConnectRequest request, DappManifest manifest,
             Completer<(KeyAccount, List<ConnectItemReply>)?> completer)
         connect,
     required TResult Function(TonAppConnection connection,
@@ -197,7 +197,7 @@ class _$TonConnectUiEventErrorImpl implements TonConnectUiEventError {
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function(String message)? error,
-    TResult? Function(ConnectRequest request,
+    TResult? Function(ConnectRequest request, DappManifest manifest,
             Completer<(KeyAccount, List<ConnectItemReply>)?> completer)?
         connect,
     TResult? Function(TonAppConnection connection, TransactionPayload payload,
@@ -214,7 +214,7 @@ class _$TonConnectUiEventErrorImpl implements TonConnectUiEventError {
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function(String message)? error,
-    TResult Function(ConnectRequest request,
+    TResult Function(ConnectRequest request, DappManifest manifest,
             Completer<(KeyAccount, List<ConnectItemReply>)?> completer)?
         connect,
     TResult Function(TonAppConnection connection, TransactionPayload payload,
@@ -292,9 +292,11 @@ abstract class _$$TonConnectUiEventConnectImplCopyWith<$Res> {
   @useResult
   $Res call(
       {ConnectRequest request,
+      DappManifest manifest,
       Completer<(KeyAccount, List<ConnectItemReply>)?> completer});
 
   $ConnectRequestCopyWith<$Res> get request;
+  $DappManifestCopyWith<$Res> get manifest;
 }
 
 /// @nodoc
@@ -313,6 +315,7 @@ class __$$TonConnectUiEventConnectImplCopyWithImpl<$Res>
   @override
   $Res call({
     Object? request = null,
+    Object? manifest = null,
     Object? completer = null,
   }) {
     return _then(_$TonConnectUiEventConnectImpl(
@@ -320,6 +323,10 @@ class __$$TonConnectUiEventConnectImplCopyWithImpl<$Res>
           ? _value.request
           : request // ignore: cast_nullable_to_non_nullable
               as ConnectRequest,
+      manifest: null == manifest
+          ? _value.manifest
+          : manifest // ignore: cast_nullable_to_non_nullable
+              as DappManifest,
       completer: null == completer
           ? _value.completer
           : completer // ignore: cast_nullable_to_non_nullable
@@ -336,22 +343,34 @@ class __$$TonConnectUiEventConnectImplCopyWithImpl<$Res>
       return _then(_value.copyWith(request: value));
     });
   }
+
+  /// Create a copy of TonConnectUiEvent
+  /// with the given fields replaced by the non-null parameter values.
+  @override
+  @pragma('vm:prefer-inline')
+  $DappManifestCopyWith<$Res> get manifest {
+    return $DappManifestCopyWith<$Res>(_value.manifest, (value) {
+      return _then(_value.copyWith(manifest: value));
+    });
+  }
 }
 
 /// @nodoc
 
 class _$TonConnectUiEventConnectImpl implements TonConnectUiEventConnect {
   _$TonConnectUiEventConnectImpl(
-      {required this.request, required this.completer});
+      {required this.request, required this.manifest, required this.completer});
 
   @override
   final ConnectRequest request;
+  @override
+  final DappManifest manifest;
   @override
   final Completer<(KeyAccount, List<ConnectItemReply>)?> completer;
 
   @override
   String toString() {
-    return 'TonConnectUiEvent.connect(request: $request, completer: $completer)';
+    return 'TonConnectUiEvent.connect(request: $request, manifest: $manifest, completer: $completer)';
   }
 
   @override
@@ -360,12 +379,14 @@ class _$TonConnectUiEventConnectImpl implements TonConnectUiEventConnect {
         (other.runtimeType == runtimeType &&
             other is _$TonConnectUiEventConnectImpl &&
             (identical(other.request, request) || other.request == request) &&
+            (identical(other.manifest, manifest) ||
+                other.manifest == manifest) &&
             (identical(other.completer, completer) ||
                 other.completer == completer));
   }
 
   @override
-  int get hashCode => Object.hash(runtimeType, request, completer);
+  int get hashCode => Object.hash(runtimeType, request, manifest, completer);
 
   /// Create a copy of TonConnectUiEvent
   /// with the given fields replaced by the non-null parameter values.
@@ -380,7 +401,7 @@ class _$TonConnectUiEventConnectImpl implements TonConnectUiEventConnect {
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function(String message) error,
-    required TResult Function(ConnectRequest request,
+    required TResult Function(ConnectRequest request, DappManifest manifest,
             Completer<(KeyAccount, List<ConnectItemReply>)?> completer)
         connect,
     required TResult Function(TonAppConnection connection,
@@ -390,14 +411,14 @@ class _$TonConnectUiEventConnectImpl implements TonConnectUiEventConnect {
             SignDataPayload payload, Completer<SignDataResult?> completer)
         signData,
   }) {
-    return connect(request, completer);
+    return connect(request, manifest, completer);
   }
 
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function(String message)? error,
-    TResult? Function(ConnectRequest request,
+    TResult? Function(ConnectRequest request, DappManifest manifest,
             Completer<(KeyAccount, List<ConnectItemReply>)?> completer)?
         connect,
     TResult? Function(TonAppConnection connection, TransactionPayload payload,
@@ -407,14 +428,14 @@ class _$TonConnectUiEventConnectImpl implements TonConnectUiEventConnect {
             Completer<SignDataResult?> completer)?
         signData,
   }) {
-    return connect?.call(request, completer);
+    return connect?.call(request, manifest, completer);
   }
 
   @override
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function(String message)? error,
-    TResult Function(ConnectRequest request,
+    TResult Function(ConnectRequest request, DappManifest manifest,
             Completer<(KeyAccount, List<ConnectItemReply>)?> completer)?
         connect,
     TResult Function(TonAppConnection connection, TransactionPayload payload,
@@ -426,7 +447,7 @@ class _$TonConnectUiEventConnectImpl implements TonConnectUiEventConnect {
     required TResult orElse(),
   }) {
     if (connect != null) {
-      return connect(request, completer);
+      return connect(request, manifest, completer);
     }
     return orElse();
   }
@@ -473,10 +494,12 @@ class _$TonConnectUiEventConnectImpl implements TonConnectUiEventConnect {
 abstract class TonConnectUiEventConnect implements TonConnectUiEvent {
   factory TonConnectUiEventConnect(
       {required final ConnectRequest request,
+      required final DappManifest manifest,
       required final Completer<(KeyAccount, List<ConnectItemReply>)?>
           completer}) = _$TonConnectUiEventConnectImpl;
 
   ConnectRequest get request;
+  DappManifest get manifest;
   Completer<(KeyAccount, List<ConnectItemReply>)?> get completer;
 
   /// Create a copy of TonConnectUiEvent
@@ -608,7 +631,7 @@ class _$TonConnectUiEventSendTransactionImpl
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function(String message) error,
-    required TResult Function(ConnectRequest request,
+    required TResult Function(ConnectRequest request, DappManifest manifest,
             Completer<(KeyAccount, List<ConnectItemReply>)?> completer)
         connect,
     required TResult Function(TonAppConnection connection,
@@ -625,7 +648,7 @@ class _$TonConnectUiEventSendTransactionImpl
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function(String message)? error,
-    TResult? Function(ConnectRequest request,
+    TResult? Function(ConnectRequest request, DappManifest manifest,
             Completer<(KeyAccount, List<ConnectItemReply>)?> completer)?
         connect,
     TResult? Function(TonAppConnection connection, TransactionPayload payload,
@@ -642,7 +665,7 @@ class _$TonConnectUiEventSendTransactionImpl
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function(String message)? error,
-    TResult Function(ConnectRequest request,
+    TResult Function(ConnectRequest request, DappManifest manifest,
             Completer<(KeyAccount, List<ConnectItemReply>)?> completer)?
         connect,
     TResult Function(TonAppConnection connection, TransactionPayload payload,
@@ -837,7 +860,7 @@ class _$TonConnectUiEventSignDataImpl implements TonConnectUiEventSignData {
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function(String message) error,
-    required TResult Function(ConnectRequest request,
+    required TResult Function(ConnectRequest request, DappManifest manifest,
             Completer<(KeyAccount, List<ConnectItemReply>)?> completer)
         connect,
     required TResult Function(TonAppConnection connection,
@@ -854,7 +877,7 @@ class _$TonConnectUiEventSignDataImpl implements TonConnectUiEventSignData {
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function(String message)? error,
-    TResult? Function(ConnectRequest request,
+    TResult? Function(ConnectRequest request, DappManifest manifest,
             Completer<(KeyAccount, List<ConnectItemReply>)?> completer)?
         connect,
     TResult? Function(TonAppConnection connection, TransactionPayload payload,
@@ -871,7 +894,7 @@ class _$TonConnectUiEventSignDataImpl implements TonConnectUiEventSignData {
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function(String message)? error,
-    TResult Function(ConnectRequest request,
+    TResult Function(ConnectRequest request, DappManifest manifest,
             Completer<(KeyAccount, List<ConnectItemReply>)?> completer)?
         connect,
     TResult Function(TonAppConnection connection, TransactionPayload payload,

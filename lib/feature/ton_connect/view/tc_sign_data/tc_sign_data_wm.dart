@@ -17,7 +17,6 @@ TCSignDataWidgetModel defaultTCSignDataWidgetModelFactory(
         createPrimaryErrorHandler(context),
         inject(),
         inject(),
-        inject(),
       ),
     );
 
@@ -28,22 +27,15 @@ class TCSignDataWidgetModel
   late final account = model.getAccount(widget.connection.walletAddress);
 
   late final _isLoading = createNotifier(true);
-  late final _manifest = createNotifier<DappManifest>();
 
   ListenableState<bool> get isLoading => _isLoading;
-
-  ListenableState<DappManifest> get manifest => _manifest;
-
-  @override
-  void initWidgetModel() {
-    super.initWidgetModel();
-    _getManifest();
-  }
 
   Future<void> onSubmit(String password) async {
     if (account == null) return;
 
     try {
+      _isLoading.accept(true);
+
       final result = await model.signData(
         schema: widget.payload.schema,
         cell: widget.payload.cell,
@@ -63,11 +55,8 @@ class TCSignDataWidgetModel
           ),
         ),
       );
+    } finally {
+      _isLoading.accept(false);
     }
-  }
-
-  Future<void> _getManifest() async {
-    final manifest = await model.getManifest(widget.connection.manifestUrl);
-    _manifest.accept(manifest);
   }
 }

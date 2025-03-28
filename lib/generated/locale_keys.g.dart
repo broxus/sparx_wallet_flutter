@@ -684,4 +684,5 @@ abstract class LocaleKeys {
   static const seedPhrase24FormatTON = 'seedPhrase24FormatTON';
   static const invalidNetworkError = 'invalidNetworkError';
   static const invalidPublicKeyError = 'invalidPublicKeyError';
+  static const dappManifestError = 'dappManifestError';
 }

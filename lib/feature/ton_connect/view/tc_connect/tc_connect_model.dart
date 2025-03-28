@@ -13,12 +13,10 @@ class TCConnectModel extends ElementaryModel {
     ErrorHandler errorHandler,
     this._nekotonRepository,
     this._currentAccountsService,
-    this._tonConnectService,
   ) : super(errorHandler: errorHandler);
 
   final NekotonRepository _nekotonRepository;
   final CurrentAccountsService _currentAccountsService;
-  final TonConnectService _tonConnectService;
 
   String get symbol => currentTransport.nativeTokenTicker;
 
@@ -35,9 +33,6 @@ class TCConnectModel extends ElementaryModel {
       .toList();
 
   TransportStrategy get currentTransport => _nekotonRepository.currentTransport;
-
-  Future<DappManifest> getManifest(String manifestUrl) =>
-      _tonConnectService.getManifest(manifestUrl);
 
   Future<Money?> getBalance(KeyAccount account) async {
     final wallet = await _getWallet(account);

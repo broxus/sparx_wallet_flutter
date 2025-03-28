@@ -14,6 +14,7 @@ sealed class TonConnectUiEvent with _$TonConnectUiEvent {
 
   factory TonConnectUiEvent.connect({
     required ConnectRequest request,
+    required DappManifest manifest,
     required Completer<(KeyAccount, List<ConnectItemReply>)?> completer,
   }) = TonConnectUiEventConnect;
 
