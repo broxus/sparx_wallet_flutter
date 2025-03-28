@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:app/feature/browser_v2/data/tabs_data.dart';
 import 'package:app/feature/browser_v2/screens/main/widgets/control_panel/background_blur.dart';
 import 'package:app/feature/browser_v2/screens/main/widgets/control_panel/main_control_panel/main_control_panel.dart';
@@ -70,7 +72,9 @@ class _Space extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final bottom = MediaQuery.of(context).viewInsets.bottom - _menuHeight;
+    final bottom = MediaQuery.of(context).viewInsets.bottom -
+        _menuHeight -
+        (Platform.isIOS ? DimensSizeV2.d32 : 0);
 
     return AnimatedSize(
       duration: const Duration(milliseconds: 250),
