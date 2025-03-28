@@ -64,7 +64,7 @@ class BrowserViewEventsListenerCubit
         (transport) async => controller.networkChanged(
           nwv.NetworkChangedEvent(
             transport.transport.name,
-            await transport.transport.getNetworkId(),
+            transport.transport.networkId,
           ),
         ),
       ),

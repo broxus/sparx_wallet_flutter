@@ -3,6 +3,7 @@ import 'package:app/di/di.config.dart';
 import 'package:encrypted_storage/encrypted_storage.module.dart';
 import 'package:get_it/get_it.dart';
 import 'package:get_storage/get_storage.dart';
+import 'package:http/http.dart' as http;
 import 'package:injectable/injectable.dart';
 import 'package:nekoton_repository/nekoton_repository.module.dart';
 
@@ -17,6 +18,10 @@ final getIt = GetIt.instance;
     ExternalModule(EncryptedStoragePackageModule),
     ExternalModule(NekotonRepositoryPackageModule),
   ],
+  ignoreUnregisteredTypes: [
+    GetStorage,
+    http.Client,
+  ],
 )
 Future<void> configureDi() async {
   const containers = [
@@ -29,10 +34,16 @@ Future<void> configureDi() async {
     BrowserHistoryStorageService.container,
     BrowserPermissionsStorageService.container,
     BrowserTabsStorageService.container,
+    TonConnectStorageService.container,
   ];
   for (final container in containers) {
     getIt.registerSingleton(GetStorage(container), instanceName: container);
   }
+
+  getIt.registerLazySingleton<http.Client>(
+    http.Client.new,
+    dispose: (client) => client.close(),
+  );
 
   await getIt.init();
 }

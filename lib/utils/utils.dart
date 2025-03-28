@@ -3,6 +3,7 @@ export 'common_utils.dart';
 export 'constants.dart';
 export 'date_utils.dart';
 export 'define_env.dart';
+export 'exponential_backoff.dart';
 export 'focus_utils.dart';
 export 'input_formatters.dart';
 export 'json/json.dart';

@@ -71,7 +71,7 @@ class CurrenciesService {
         .listen((_) => startPolling());
     currentAccounts.currentAccountsStream.skip(1).listen((_) => startPolling());
 
-    appLifecycle.appLifecycleStateStream.skip(1).listen((cycle) {
+    appLifecycle.appLifecycleStateStream.listen((cycle) {
       switch (cycle) {
         case AppLifecycleState.resumed:
           startPolling(refreshImmediately: false);

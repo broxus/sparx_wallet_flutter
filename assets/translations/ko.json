@@ -654,5 +654,8 @@
   "seedPhrase12FormatStandart": "SparX wallet",
   "seedPhrase12FormatTON": "TON types wallet",
   "seedPhrase24FormatStandart": "TON Standard",
-  "seedPhrase24FormatTON": "TON BIP39"
+  "seedPhrase24FormatTON": "TON BIP39",
+  "invalidNetworkError": "Invalid network. Change current network to {}",
+  "invalidPublicKeyError": "Invalid public key",
+  "dappManifestError": "dApp manifest error"
 }
