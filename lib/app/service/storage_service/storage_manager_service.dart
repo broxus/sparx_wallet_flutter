@@ -19,6 +19,7 @@ class StorageManagerService {
     ConnectionsStorageService connectionStorageService,
     BalanceStorageService balanceStorageService,
     AppStorageService appStorageService,
+    TonConnectStorageService tonConnectStorageService,
   ) : _storages = [
           secure,
           general,
@@ -34,6 +35,7 @@ class StorageManagerService {
           connectionStorageService,
           balanceStorageService,
           appStorageService,
+          tonConnectStorageService,
         ];
 
   final List<AbstractStorageService> _storages;

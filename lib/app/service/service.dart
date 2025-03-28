@@ -28,3 +28,4 @@ export 'session/session.dart';
 export 'staking_service.dart';
 export 'storage_service/storage_service.dart';
 export 'token_wallets_service.dart';
+export 'ton_connect/ton_connect.dart';
