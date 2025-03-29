@@ -6,7 +6,12 @@ import 'package:logging/logging.dart';
 
 /// This is a method that allows configure some feature-related services
 Future<void> configureFeatureServices() async {
-  final log = Logger('bootstrap')
+  final log = Logger('bootstrap')..finest('UpdateService initializing...');
+
+  inject<UpdateService>().init();
+
+  log
+    ..finest('UpdateService initialized')
     ..finest('CurrentSeedService initializating...');
 
   await inject<CurrentSeedService>().init();
@@ -43,10 +48,5 @@ Future<void> configureFeatureServices() async {
   log.finest('TokenWalletsService initialized');
 
   inject<TokenRepository>().init();
-  log
-    ..finest('TokenRepository initialized')
-    ..finest('UpdateService initializing...');
-
-  await inject<UpdateService>().init();
-  log.finest('UpdateService initialized');
+  log.finest('TokenRepository initialized');
 }

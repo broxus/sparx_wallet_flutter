@@ -14,4 +14,9 @@ class AppVersionService {
     final info = await _info;
     return info.buildNumber;
   }
+
+  Future<String> packageName() async {
+    final info = await _info;
+    return info.packageName;
+  }
 }

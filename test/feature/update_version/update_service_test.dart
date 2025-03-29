@@ -136,7 +136,7 @@ void main() {
         emulateStatus(UpdateStatus.blocking);
 
         // Act
-        await updateService.init();
+        await updateService.initAndWait();
 
         // Assert
         verify(
@@ -174,7 +174,7 @@ void main() {
         emulateStatus(UpdateStatus.none);
 
         // Act
-        await updateService.init();
+        await updateService.initAndWait();
 
         // Assert
         verifyNever(
@@ -197,7 +197,7 @@ void main() {
         emulateStatus(UpdateStatus.warning);
 
         // Act
-        await updateService.init();
+        await updateService.initAndWait();
 
         // Assert
         verify(
@@ -206,18 +206,12 @@ void main() {
         verify(
           () => mockConfigReader.getConfig(PresetConfigType.releaseNotes),
         ).called(1);
-        verify(() => mockAppStorage.getValue<int>(warningCountKey)).called(1);
-        verify(() => mockAppStorage.getValue<int>(warningLastTimeKey))
-            .called(1);
-        verify(() => mockAppStorage.addValue(warningCountKey, 1)).called(1);
-        verify(
-          () {
-            mockAppStorage.addValue(
-              warningLastTimeKey,
-              testTime.millisecondsSinceEpoch,
-            );
-          },
-        ).called(1);
+        verifyNever(
+          () => mockAppStorage.addValue(warningCountKey, any<int>()),
+        );
+        verifyNever(
+          () => mockAppStorage.addValue(warningLastTimeKey, any<int>()),
+        );
 
         // Verify that an update request was emitted
         expectUpdateRequest(UpdateStatus.warning);
@@ -241,16 +235,16 @@ void main() {
         emulateStatus(UpdateStatus.warning);
 
         // Act
-        await updateService.init();
+        await updateService.initAndWait();
 
         // Assert
         verify(() => mockAppStorage.getValue<int>(warningCountKey)).called(1);
         verifyNever(() => mockAppStorage.getValue<int>(warningLastTimeKey));
         verifyNever(
-          () => mockAppStorage.addValue(warningCountKey, any<dynamic>()),
+          () => mockAppStorage.addValue(warningCountKey, any<int>()),
         );
         verifyNever(
-          () => mockAppStorage.addValue(warningLastTimeKey, any<dynamic>()),
+          () => mockAppStorage.addValue(warningLastTimeKey, any<int>()),
         );
 
         // Verify that an update request wasn't emitted
@@ -275,17 +269,17 @@ void main() {
         emulateStatus(UpdateStatus.warning);
 
         // Act
-        await updateService.init();
+        await updateService.initAndWait();
 
         // Assert
         verify(() => mockAppStorage.getValue<int>(warningCountKey)).called(1);
         verify(() => mockAppStorage.getValue<int>(warningLastTimeKey))
             .called(1);
         verifyNever(
-          () => mockAppStorage.addValue(warningCountKey, any<dynamic>()),
+          () => mockAppStorage.addValue(warningCountKey, any<int>()),
         );
         verifyNever(
-          () => mockAppStorage.addValue(warningLastTimeKey, any<dynamic>()),
+          () => mockAppStorage.addValue(warningLastTimeKey, any<int>()),
         );
 
         // Verify that an update request wasn't emitted
@@ -311,16 +305,16 @@ void main() {
         emulateStatus(UpdateStatus.warning);
 
         // Act
-        await updateService.init();
+        await updateService.initAndWait();
 
         // Assert
         verify(() => mockAppStorage.getValue<int>(warningCountKey)).called(1);
         verifyNever(() => mockAppStorage.getValue<int>(warningLastTimeKey));
         verifyNever(
-          () => mockAppStorage.addValue(warningCountKey, any<dynamic>()),
+          () => mockAppStorage.addValue(warningCountKey, any<int>()),
         );
         verifyNever(
-          () => mockAppStorage.addValue(warningLastTimeKey, any<dynamic>()),
+          () => mockAppStorage.addValue(warningLastTimeKey, any<int>()),
         );
 
         // Verify that an update request wasn't emitted
@@ -329,7 +323,8 @@ void main() {
     );
 
     test(
-      'dismissWarning should emit null',
+      'dismissWarning should emit null'
+      ' if warning updated emitted',
       () async {
         // Arrange
         when(() => mockAppStorage.getValue<int>(warningCountKey))
@@ -339,7 +334,7 @@ void main() {
         emulateStatus(UpdateStatus.warning);
 
         // Act
-        await updateService.init();
+        await updateService.initAndWait();
 
         // Verify that an update request was emitted
         expectUpdateRequest(UpdateStatus.warning);
@@ -349,6 +344,50 @@ void main() {
 
         // Verify that null was emitted
         expectUpdateRequest(UpdateStatus.none);
+
+        verify(() => mockAppStorage.getValue<int>(warningCountKey)).called(2);
+        verify(() => mockAppStorage.getValue<int>(warningLastTimeKey))
+            .called(1);
+        verify(
+          () => mockAppStorage.addValue(warningCountKey, any<int>()),
+        ).called(1);
+        verify(
+          () => mockAppStorage.addValue(warningLastTimeKey, any<int>()),
+        ).called(1);
+      },
+    );
+
+    test(
+      "dismissWarning shouldn't emit null"
+      ' if blocking updated emitted',
+      () async {
+        // Arrange
+        when(() => mockAppStorage.getValue<int>(warningCountKey))
+            .thenReturn(null);
+        when(() => mockAppStorage.getValue<int>(warningLastTimeKey))
+            .thenReturn(null);
+        emulateStatus(UpdateStatus.blocking);
+
+        // Act
+        await updateService.initAndWait();
+
+        // Verify that an update request was emitted
+        expectUpdateRequest(UpdateStatus.blocking);
+
+        // Now dismiss the warning
+        await updateService.dismissWarning();
+
+        // Verify that null was emitted
+        expectUpdateRequest(UpdateStatus.blocking);
+
+        verifyNever(() => mockAppStorage.getValue<int>(warningCountKey));
+        verifyNever(() => mockAppStorage.getValue<int>(warningLastTimeKey));
+        verifyNever(
+          () => mockAppStorage.addValue(warningCountKey, any<int>()),
+        );
+        verifyNever(
+          () => mockAppStorage.addValue(warningLastTimeKey, any<int>()),
+        );
       },
     );
   });

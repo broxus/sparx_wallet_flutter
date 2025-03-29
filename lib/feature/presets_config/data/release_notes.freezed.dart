@@ -14,18 +14,11 @@ T _$identity<T>(T value) => value;
 final _privateConstructorUsedError = UnsupportedError(
     'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models');
 
-ReleaseNotes _$ReleaseNotesFromJson(Map<String, dynamic> json) {
-  return _ReleaseNotes.fromJson(json);
-}
-
 /// @nodoc
 mixin _$ReleaseNotes {
   /// Map of version identifiers to their corresponding release notes.
   /// The key is typically a version string like "1.0.0".
   Map<String, ReleaseNote> get notes => throw _privateConstructorUsedError;
-
-  /// Serializes this ReleaseNotes to a JSON map.
-  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
 
   /// Create a copy of ReleaseNotes
   /// with the given fields replaced by the non-null parameter values.
@@ -105,13 +98,11 @@ class __$$ReleaseNotesImplCopyWithImpl<$Res>
 }
 
 /// @nodoc
-@JsonSerializable()
-class _$ReleaseNotesImpl implements _ReleaseNotes {
-  const _$ReleaseNotesImpl({required final Map<String, ReleaseNote> notes})
-      : _notes = notes;
 
-  factory _$ReleaseNotesImpl.fromJson(Map<String, dynamic> json) =>
-      _$$ReleaseNotesImplFromJson(json);
+class _$ReleaseNotesImpl extends _ReleaseNotes {
+  const _$ReleaseNotesImpl({required final Map<String, ReleaseNote> notes})
+      : _notes = notes,
+        super._();
 
   /// Map of version identifiers to their corresponding release notes.
   /// The key is typically a version string like "1.0.0".
@@ -139,7 +130,6 @@ class _$ReleaseNotesImpl implements _ReleaseNotes {
             const DeepCollectionEquality().equals(other._notes, _notes));
   }
 
-  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode =>
       Object.hash(runtimeType, const DeepCollectionEquality().hash(_notes));
@@ -151,21 +141,12 @@ class _$ReleaseNotesImpl implements _ReleaseNotes {
   @pragma('vm:prefer-inline')
   _$$ReleaseNotesImplCopyWith<_$ReleaseNotesImpl> get copyWith =>
       __$$ReleaseNotesImplCopyWithImpl<_$ReleaseNotesImpl>(this, _$identity);
-
-  @override
-  Map<String, dynamic> toJson() {
-    return _$$ReleaseNotesImplToJson(
-      this,
-    );
-  }
 }
 
-abstract class _ReleaseNotes implements ReleaseNotes {
+abstract class _ReleaseNotes extends ReleaseNotes {
   const factory _ReleaseNotes({required final Map<String, ReleaseNote> notes}) =
       _$ReleaseNotesImpl;
-
-  factory _ReleaseNotes.fromJson(Map<String, dynamic> json) =
-      _$ReleaseNotesImpl.fromJson;
+  const _ReleaseNotes._() : super._();
 
   /// Map of version identifiers to their corresponding release notes.
   /// The key is typically a version string like "1.0.0".

@@ -10,6 +10,7 @@ import 'package:app/feature/update_version/data/update_status.dart';
 import 'package:app/feature/update_version/domain/latest_version_finder.dart';
 import 'package:app/feature/update_version/domain/update_status_checker.dart';
 import 'package:app/utils/common_utils.dart';
+import 'package:flutter/foundation.dart';
 import 'package:injectable/injectable.dart';
 import 'package:logging/logging.dart';
 import 'package:rxdart/rxdart.dart';
@@ -32,6 +33,9 @@ class UpdateService {
   final AppStorageService _appStorage;
   final AppVersionService _appVersionService;
 
+  @visibleForTesting
+  Future<void>? initCall;
+
   static final _logger = Logger('UpdateService');
 
   // BehaviorSubject for update requests
@@ -39,10 +43,16 @@ class UpdateService {
       BehaviorSubject.seeded(null);
 
   /// Stream of update requests
-  Stream<UpdateRequest?> get updateRequests => _updateRequestSubject.stream;
+  ValueStream<UpdateRequest?> get updateRequests =>
+      _updateRequestSubject.stream;
+
+  void init() {
+    // Call initialization asynchronously and catch result through subject
+    initCall ??= _init();
+  }
 
   /// Initialize service and check for updates
-  Future<void> init() async {
+  Future<void> _init() async {
     final rules = await _presetsConfigReader.getConfig(
       PresetConfigType.updateRules,
     );
@@ -60,18 +70,13 @@ class UpdateService {
 
     if (status == UpdateStatus.none) {
       _logger.info('No update required');
+      _updateRequestSubject.add(null);
       return;
     }
 
-    if (status == UpdateStatus.warning) {
-      final warningCount = _appStorage.warningCount() ?? 0;
-
-      if (!_shouldShowWarning(warningCount, rules)) {
-        _logger.info('Warning update not shown due to frequency/delay rules');
-        return;
-      }
-
-      _updateWarningDisplayInfo(warningCount);
+    if (status == UpdateStatus.warning && !_shouldShowWarning(rules)) {
+      _logger.info('Warning update not shown due to frequency/delay rules');
+      return;
     }
 
     final releaseNotes = await _presetsConfigReader.getConfig(
@@ -94,10 +99,9 @@ class UpdateService {
     _updateRequestSubject.add(updateRequest);
   }
 
-  bool _shouldShowWarning(
-    int warningCount,
-    UpdateRules rules,
-  ) {
+  bool _shouldShowWarning(UpdateRules rules) {
+    final warningCount = _appStorage.warningCount() ?? 0;
+
     if (warningCount >= rules.warningShowTimes) {
       _logger.info(
         'Warning count exceeded: $warningCount >= ${rules.warningShowTimes}',
@@ -120,16 +124,16 @@ class UpdateService {
     return true;
   }
 
-  void _updateWarningDisplayInfo(
-    int warningCount,
-  ) {
-    _appStorage
-      ..updateWarningCount(warningCount + 1)
-      ..updateWarningLastTime();
-  }
-
   Future<void> dismissWarning() async {
-    _updateRequestSubject.add(null);
+    if (_updateRequestSubject.valueOrNull?.status == UpdateStatus.warning) {
+      _updateRequestSubject.add(null);
+
+      final warningCount = _appStorage.warningCount() ?? 0;
+
+      _appStorage
+        ..updateWarningCount(warningCount + 1)
+        ..updateWarningLastTime();
+    }
   }
 
   void dispose() {
@@ -150,5 +154,13 @@ extension AppStorageServiceUpdateStatsEx on AppStorageService {
 
   void updateWarningLastTime() {
     addValue<int>(warningLastTimeKey, NtpTime.now().millisecondsSinceEpoch);
+  }
+}
+
+extension UpdateServiceEx on UpdateService {
+  @visibleForTesting
+  Future<void> initAndWait() {
+    init();
+    return initCall!;
   }
 }
