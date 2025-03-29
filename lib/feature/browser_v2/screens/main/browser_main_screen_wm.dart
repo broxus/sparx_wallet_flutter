@@ -164,7 +164,7 @@ class BrowserMainScreenWidgetModel
 
     final diff = _prevYScroll - y;
 
-    if (diff > -100 && diff < 100) {
+    if (diff > -50 && diff < 50) {
       return;
     }
 
