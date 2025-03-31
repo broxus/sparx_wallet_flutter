@@ -32,6 +32,7 @@ class TCSendMessageWidget extends ElementaryWidget<TCSendMessageWidgetModel> {
 
     return SeparatedColumn(
       separatorSize: DimensSizeV2.d12,
+      mainAxisSize: MainAxisSize.min,
       children: [
         Expanded(
           child: SingleChildScrollView(
@@ -90,46 +91,32 @@ class TCSendMessageWidget extends ElementaryWidget<TCSendMessageWidgetModel> {
                   secondSource: wm.fee,
                   thirdSource: wm.feeError,
                   builder: (_, data, fee, feeError) {
-                    return data?.let(
-                          (data) => TokenTransferInfoWidget(
-                            key: UniqueKey(),
-                            color: theme.colors.background2,
-                            amount: data.amount,
-                            recipient: data.recipient,
-                            fee: fee,
-                            feeError: feeError,
-                            numberUnconfirmedTransactions:
-                                data.numberUnconfirmedTransactions,
-                          ),
-                        ) ??
-                        const SizedBox.shrink();
-                  },
-                ),
-                StateNotifierBuilder(
-                  listenableState: wm.data,
-                  builder: (_, data) {
-                    if (data == null ||
-                        (data.messages.length == 1 &&
-                            data.messages.first.payload == null)) {
-                      return const SizedBox.shrink();
+                    if (data == null) return const SizedBox.shrink();
+
+                    final single = data.singleOrNull;
+                    if (single != null) {
+                      return TokenTransferInfoWidget(
+                        key: UniqueKey(),
+                        color: theme.colors.background2,
+                        amount: single.amount,
+                        recipient: single.recipient,
+                        fee: fee,
+                        feeError: feeError,
+                        numberUnconfirmedTransactions:
+                            wm.numberUnconfirmedTransactions,
+                        attachedAmount: single.attachedAmount,
+                        rootTokenContract: single.rootTokenContract,
+                        payload: single.message.payload,
+                      );
                     }
 
-                    return Padding(
-                      padding: const EdgeInsets.only(top: DimensSizeV2.d12),
-                      child: ExpandableCard(
-                        collapsedHeight: DimensSizeV2.d256,
-                        child: SeparatedColumn(
-                          separatorSize: DimensSizeV2.d16,
-                          crossAxisAlignment: CrossAxisAlignment.stretch,
-                          children: [
-                            for (final message in data.messages)
-                              _MessageData(
-                                message: message,
-                                currency: data.currency,
-                              ),
-                          ],
-                        ),
-                      ),
+                    return _MultitransferInfo(
+                      data: data,
+                      totalAmount: wm.totalAmount,
+                      fee: fee,
+                      feeError: feeError,
+                      numberUnconfirmedTransactions:
+                          wm.numberUnconfirmedTransactions,
                     );
                   },
                 ),
@@ -138,11 +125,10 @@ class TCSendMessageWidget extends ElementaryWidget<TCSendMessageWidgetModel> {
           ),
         ),
         if (wm.account != null)
-          TripleSourceBuilder(
-            firstSource: wm.isLoading,
-            secondSource: wm.txErrors,
-            thirdSource: wm.isConfirmed,
-            builder: (_, isLoading, txErrors, isConfirmed) {
+          DoubleSourceBuilder(
+            firstSource: wm.txErrors,
+            secondSource: wm.isConfirmed,
+            builder: (_, txErrors, isConfirmed) {
               final hasTxError = txErrors?.isNotEmpty ?? false;
 
               return SeparatedColumn(
@@ -155,14 +141,17 @@ class TCSendMessageWidget extends ElementaryWidget<TCSendMessageWidgetModel> {
                       isConfirmed: isConfirmed ?? false,
                       onConfirm: wm.onConfirmed,
                     ),
-                  EnterPasswordWidgetV2(
-                    isLoading: isLoading,
-                    publicKey: wm.account!.publicKey,
-                    title: LocaleKeys.sendWord.tr(),
-                    isDisabled: wm.numberUnconfirmedTransactions == null ||
-                        wm.numberUnconfirmedTransactions! >= 5 ||
-                        (hasTxError && isConfirmed != true),
-                    onPasswordEntered: wm.onSubmit,
+                  StateNotifierBuilder(
+                    listenableState: wm.isLoading,
+                    builder: (_, isLoading) => EnterPasswordWidgetV2(
+                      isLoading: isLoading,
+                      publicKey: wm.account!.publicKey,
+                      title: LocaleKeys.sendWord.tr(),
+                      isDisabled: wm.numberUnconfirmedTransactions == null ||
+                          wm.numberUnconfirmedTransactions! >= 5 ||
+                          (hasTxError && isConfirmed != true),
+                      onPasswordEntered: wm.onSubmit,
+                    ),
                   ),
                 ],
               );
@@ -173,78 +162,46 @@ class TCSendMessageWidget extends ElementaryWidget<TCSendMessageWidgetModel> {
   }
 }
 
-class _MessageData extends StatelessWidget {
-  const _MessageData({
-    required this.message,
-    required this.currency,
+class _MultitransferInfo extends StatelessWidget {
+  const _MultitransferInfo({
+    required this.data,
+    required this.totalAmount,
+    required this.fee,
+    required this.feeError,
+    required this.numberUnconfirmedTransactions,
   });
 
-  final TransactionPayloadMessage message;
-  final Currency currency;
+  final List<TransferData> data;
+  final Money totalAmount;
+  final BigInt? fee;
+  final String? feeError;
+  final int? numberUnconfirmedTransactions;
 
   @override
   Widget build(BuildContext context) {
-    final theme = context.themeStyleV2;
-    return PrimaryCard(
-      color: theme.colors.background3,
-      borderRadius: BorderRadius.circular(DimensRadiusV2.radius8),
-      child: SeparatedColumn(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          SeparatedColumn(
-            separatorSize: DimensSizeV2.d2,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(
-                LocaleKeys.recipientWord.tr(),
-                style: theme.textStyles.labelSmall.copyWith(
-                  color: theme.colors.content3,
-                ),
-              ),
-              Text(
-                message.address.address,
-                style: theme.textStyles.labelSmall,
-              ),
-            ],
+    return SeparatedColumn(
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        TokenTransferInfoWidget(
+          key: UniqueKey(),
+          color: context.themeStyleV2.colors.background2,
+          amount: totalAmount,
+          fee: fee,
+          feeError: feeError,
+          numberUnconfirmedTransactions: numberUnconfirmedTransactions,
+        ),
+        for (final item in data)
+          TokenTransferInfoWidget(
+            key: UniqueKey(),
+            color: context.themeStyleV2.colors.background2,
+            amount: item.amount,
+            recipient: item.recipient,
+            attachedAmount: item.attachedAmount,
+            rootTokenContract: item.rootTokenContract,
+            payload: item.message.payload,
+            hasFee: false,
           ),
-          SeparatedColumn(
-            separatorSize: DimensSizeV2.d2,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(
-                LocaleKeys.amountWord.tr(),
-                style: theme.textStyles.labelSmall.copyWith(
-                  color: theme.colors.content3,
-                ),
-              ),
-              AmountWidget.fromMoney(
-                amount: Money.fromBigIntWithCurrency(
-                  BigInt.parse(message.amount),
-                  currency,
-                ),
-                style: theme.textStyles.labelSmall,
-              ),
-            ],
-          ),
-          if (message.payload != null)
-            SeparatedColumn(
-              separatorSize: DimensSizeV2.d2,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  LocaleKeys.payloadWord.tr(),
-                  style: theme.textStyles.labelSmall.copyWith(
-                    color: theme.colors.content3,
-                  ),
-                ),
-                Text(
-                  message.payload!,
-                  style: theme.textStyles.paragraphSmall,
-                ),
-              ],
-            ),
-        ],
-      ),
+      ],
     );
   }
 }

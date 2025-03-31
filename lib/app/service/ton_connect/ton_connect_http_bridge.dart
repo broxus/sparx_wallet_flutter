@@ -38,43 +38,12 @@ class TonConnectHttpBridge {
   bool isRetrying = false;
 
   Future<void> openSseConnection() async {
-    await closeSseConnection();
-
-    if (SchedulerBinding.instance.lifecycleState != AppLifecycleState.resumed) {
-      return;
+    try {
+      await _openSseConnection();
+    } catch (e, s) {
+      _logger.severe('Failed to open SSE connection', e, s);
+      _retryOpen();
     }
-
-    final connections =
-        _storageService.readConnections().whereType<TonAppConnectionRemote>();
-
-    if (connections.isEmpty) return;
-
-    final ids = connections.map((e) => e.sessionCrypto.sessionId).join(',');
-    final lastEventId = _storageService.readLastEventId();
-    var uri = '$tonConnectHttpBridgeUrl/events?client_id=$ids';
-
-    if (lastEventId != null) {
-      uri += '&last_event_id=$lastEventId';
-    }
-
-    final request = http.Request('GET', Uri.parse(uri))
-      ..headers['Accept'] = 'text/event-stream';
-
-    _sseSubscription = await _client
-        .send(request)
-        .then(
-          (response) =>
-              response.stream.transform(ResponseBodyToSseMessageTransformer()),
-        )
-        .then((stream) => stream.listen(_handleMessage));
-
-    _sseSubscription?.onError((Object e, StackTrace st) {
-      _logger.severe('SSE connection error', e, st);
-    });
-
-    _sseSubscription?.onDone(_retryOpen);
-
-    _logger.info('SSE connection opened');
   }
 
   Future<void> closeSseConnection() async {
@@ -271,16 +240,61 @@ class TonConnectHttpBridge {
     }
   }
 
+  Future<void> _openSseConnection() async {
+    await closeSseConnection();
+
+    if (SchedulerBinding.instance.lifecycleState != AppLifecycleState.resumed) {
+      return;
+    }
+
+    final connections =
+        _storageService.readConnections().whereType<TonAppConnectionRemote>();
+
+    if (connections.isEmpty) return;
+
+    final ids = connections.map((e) => e.sessionCrypto.sessionId).join(',');
+    final lastEventId = _storageService.readLastEventId();
+    var uri = '$tonConnectHttpBridgeUrl/events?client_id=$ids';
+
+    if (lastEventId != null) {
+      uri += '&last_event_id=$lastEventId';
+    }
+
+    final request = http.Request('GET', Uri.parse(uri))
+      ..headers['Accept'] = 'text/event-stream';
+
+    final stream = await _client.send(request).then(
+          (response) => response.stream.transform(
+            ResponseBodyToSseMessageTransformer(),
+          ),
+        );
+
+    _sseSubscription = stream.listen(
+      _handleMessage,
+      onError: (Object e, StackTrace st) {
+        _logger.severe('SSE connection error', e, st);
+      },
+      onDone: _retryOpen,
+    );
+
+    _logger.info('SSE connection opened');
+  }
+
   void _retryOpen() {
     if (isRetrying) return;
+    isRetrying = true;
+
+    _logger.finest('Retrying to open SSE connection');
 
     _backoff.run(() async {
+      _logger.finest('Reconnect attempt');
       if (SchedulerBinding.instance.lifecycleState !=
           AppLifecycleState.resumed) {
         return;
       }
 
-      await openSseConnection();
+      await _openSseConnection();
+      _logger.finest('Reconnect attempt success');
     }).catchError((Object e, StackTrace s) {
       _logger.severe('Failed to reconnect to http bridge', e, s);
     }).whenComplete(() {
