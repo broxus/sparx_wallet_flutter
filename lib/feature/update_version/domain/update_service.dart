@@ -126,13 +126,13 @@ class UpdateService {
 
   Future<void> dismissWarning() async {
     if (_updateRequestSubject.valueOrNull?.status == UpdateStatus.warning) {
-      _updateRequestSubject.add(null);
-
       final warningCount = _appStorage.warningCount() ?? 0;
 
       _appStorage
         ..updateWarningCount(warningCount + 1)
         ..updateWarningLastTime();
+
+      _updateRequestSubject.add(null);
     }
   }
 

@@ -8,6 +8,7 @@ import 'package:app/feature/update_version/view/update_version_screen.dart';
 import 'package:app/utils/common_utils.dart';
 import 'package:elementary_helper/elementary_helper.dart';
 import 'package:flutter/material.dart';
+import 'package:rxdart/rxdart.dart';
 import 'package:ui_components_lib/v2/ui_components_lib_v2.dart';
 
 /// Factory for [UpdateVersionWidgetModel]
@@ -29,7 +30,8 @@ class UpdateVersionWidgetModel
     extends CustomWidgetModel<UpdateVersionScreen, UpdateVersionModel> {
   UpdateVersionWidgetModel(super.model);
 
-  late final _updateRequests = createNotifierFromStream(model.updateRequests);
+  late final _updateRequests =
+      createNotifierFromStream(model.updateRequests.whereNotNull());
 
   ListenableState<UpdateRequest?> get updateRequests => _updateRequests;
 

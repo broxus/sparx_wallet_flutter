@@ -43,12 +43,14 @@ class AppRouter {
         primaryBus.on<BootstrapEvent>().listen(_listenBootstrapErrorStep);
 
     _updateVersionSubscription = Rx.combineLatest2(
-      _updateService.updateRequests.whereNotNull(),
-      router.routeInformationProvider
-          .asStream()
-          .where((route) => route.uri.path == AppRoute.wallet.path),
-      (request, _) => request,
-    ).listen(_listerUpdateRequests);
+      _updateService.updateRequests,
+      router.routeInformationProvider.asStream(),
+      (request, route) {
+        if (route.uri.path != AppRoute.wallet.path) return null;
+
+        return request;
+      },
+    ).whereNotNull().listen(_listerUpdateRequests);
   }
 
   // Create a new router
