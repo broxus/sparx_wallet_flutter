@@ -221,7 +221,11 @@ class AppRouter {
 
   void _listerUpdateRequests(UpdateRequest request) {
     _log.info('Open update version screen $request');
-    router.push(AppRoute.updateVersion.path);
+
+    final currentLocation = router.routeInformationProvider.value.uri.path;
+    if (currentLocation != AppRoute.updateVersion.path) {
+      router.push(AppRoute.updateVersion.path);
+    }
   }
 
   void _listenBootstrapErrorStep(BootstrapEvent event) {
