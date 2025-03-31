@@ -428,6 +428,10 @@ class $AssetsImagesGen {
   $AssetsImagesUserAvatarGen get userAvatar =>
       const $AssetsImagesUserAvatarGen();
 
+  /// File path: assets/images/version_update_icon.webp
+  AssetGenImage get versionUpdateIcon =>
+      const AssetGenImage('assets/images/version_update_icon.webp');
+
   /// File path: assets/images/wallet.svg
   SvgGenImage get wallet => const SvgGenImage('assets/images/wallet.svg');
 
@@ -535,6 +539,7 @@ class $AssetsImagesGen {
         tokenDefaultIcon,
         transactionProgress,
         trash,
+        versionUpdateIcon,
         wallet,
         web
       ];

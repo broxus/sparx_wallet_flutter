@@ -682,7 +682,13 @@ abstract class LocaleKeys {
   static const seedPhrase12FormatTON = 'seedPhrase12FormatTON';
   static const seedPhrase24FormatStandart = 'seedPhrase24FormatStandart';
   static const seedPhrase24FormatTON = 'seedPhrase24FormatTON';
+<<<<<<< HEAD
   static const invalidNetworkError = 'invalidNetworkError';
   static const invalidPublicKeyError = 'invalidPublicKeyError';
   static const dappManifestError = 'dappManifestError';
+=======
+  static const appNewVersionTitle = 'appNewVersionTitle';
+  static const importantUpdateReleaseNote = 'importantUpdateReleaseNote';
+  static const updateWord = 'updateWord';
+>>>>>>> 53c0d766 (feat(EWM-492): Implement app version update notification screen)
 }
