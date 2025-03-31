@@ -84,6 +84,7 @@ class _UrlFieldState extends State<UrlField> {
                     visible: isVisibleText ?? false,
                     child: _UrlText(
                       text: widget.tab.url.host,
+                      isVisibleButtons: widget.tab.url.host.isNotEmpty,
                       onPressedMenu: _onPressedMenu,
                       onPressedText: _onPressedText,
                       onPressedRefresh: _onPressedRefresh,
@@ -231,12 +232,14 @@ class _UrlTextField extends StatelessWidget {
 class _UrlText extends StatelessWidget {
   const _UrlText({
     required this.text,
+    required this.isVisibleButtons,
     required this.onPressedMenu,
     required this.onPressedText,
     required this.onPressedRefresh,
   });
 
   final String text;
+  final bool isVisibleButtons;
   final VoidCallback onPressedMenu;
   final VoidCallback onPressedText;
   final VoidCallback onPressedRefresh;
@@ -248,10 +251,11 @@ class _UrlText extends StatelessWidget {
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
-        _Button(
-          onPressed: onPressedMenu,
-          icon: LucideIcons.menu,
-        ),
+        if (isVisibleButtons)
+          _Button(
+            onPressed: onPressedMenu,
+            icon: LucideIcons.menu,
+          ),
         Expanded(
           child: GestureDetector(
             behavior: HitTestBehavior.opaque,
@@ -285,10 +289,11 @@ class _UrlText extends StatelessWidget {
             ),
           ),
         ),
-        _Button(
-          onPressed: onPressedRefresh,
-          icon: LucideIcons.rotateCcw,
-        ),
+        if (isVisibleButtons)
+          _Button(
+            onPressed: onPressedRefresh,
+            icon: LucideIcons.rotateCcw,
+          ),
       ],
     );
   }
