@@ -100,7 +100,7 @@ dev_dependencies:
   flutter_test:
     sdk: flutter
   freezed: 2.5.7
-  googleapis_auth: 1.6.0
+  googleapis_auth: 2.0.0
   injectable_generator: 2.6.2
   integration_test:
     sdk: flutter
