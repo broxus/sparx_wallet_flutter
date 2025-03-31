@@ -32,6 +32,9 @@ class _UrlFieldState extends State<UrlField> {
   final _focusNode = FocusNode();
 
   late final _urlVisibleTextState = StateNotifier<bool>(initValue: true);
+  late final _closeVisibleState = StateNotifier<bool>(
+    initValue: _controller.text.isNotEmpty,
+  );
 
   BrowserTab get _tab => widget.tab;
 
@@ -42,6 +45,7 @@ class _UrlFieldState extends State<UrlField> {
   @override
   void initState() {
     _focusNode.addListener(_onFocusChange);
+    _controller.addListener(_onChangeText);
     super.initState();
   }
 
@@ -58,6 +62,7 @@ class _UrlFieldState extends State<UrlField> {
     _controller.dispose();
     _focusNode.dispose();
     _urlVisibleTextState.dispose();
+    _closeVisibleState.dispose();
     super.dispose();
   }
 
@@ -100,6 +105,7 @@ class _UrlFieldState extends State<UrlField> {
                     child: _UrlTextField(
                       controller: _controller,
                       focusNode: _focusNode,
+                      closeVisibleState: _closeVisibleState,
                       onPressedClear: _onPressedClear,
                       onEditingComplete: _onEditingComplete,
                     ),
@@ -140,6 +146,10 @@ class _UrlFieldState extends State<UrlField> {
     }
     _urlVisibleTextState.accept(true);
   }
+
+  void _onChangeText() {
+    _closeVisibleState.accept(_controller.text.isNotEmpty);
+  }
 }
 
 class _Button extends StatelessWidget {
@@ -176,12 +186,14 @@ class _UrlTextField extends StatelessWidget {
   const _UrlTextField({
     required this.controller,
     required this.focusNode,
+    required this.closeVisibleState,
     required this.onPressedClear,
     required this.onEditingComplete,
   });
 
   final TextEditingController controller;
   final FocusNode focusNode;
+  final ListenableState<bool> closeVisibleState;
   final VoidCallback onPressedClear;
   final VoidCallback onEditingComplete;
 
@@ -212,17 +224,30 @@ class _UrlTextField extends StatelessWidget {
             onEditingComplete: onEditingComplete,
           ),
         ),
-        GestureDetector(
-          behavior: HitTestBehavior.opaque,
-          onTap: onPressedClear,
-          child: Padding(
-            padding: const EdgeInsets.only(right: DimensSizeV2.d12),
-            child: Assets.images.clear.svg(
-              width: DimensSizeV2.d20,
-              height: DimensSizeV2.d20,
-              colorFilter: context.themeStyleV2.colors.content3.colorFilter,
-            ),
-          ),
+        StateNotifierBuilder(
+          listenableState: closeVisibleState,
+          builder: (_, bool? isVisible) {
+            isVisible ??= true;
+            return AnimatedOpacity(
+              opacity: isVisible ? 1 : 0,
+              duration: const Duration(milliseconds: 250),
+              child: IgnorePointer(
+                ignoring: !isVisible,
+                child: GestureDetector(
+                  behavior: HitTestBehavior.opaque,
+                  onTap: onPressedClear,
+                  child: Padding(
+                    padding: const EdgeInsets.only(right: DimensSizeV2.d12),
+                    child: Assets.images.clear.svg(
+                      width: DimensSizeV2.d20,
+                      height: DimensSizeV2.d20,
+                      colorFilter: context.themeStyleV2.colors.content3.colorFilter,
+                    ),
+                  ),
+                ),
+              ),
+            );
+          },
         ),
       ],
     );
