@@ -30,10 +30,6 @@ class BrowserMainMenu extends ElementaryWidget<BrowserMainMenuWidgetModel> {
         PrimaryShapedContainerColumn(
           children: [
             _Item(
-              BrowserMainMenuData.deleteBrowsingData,
-              onPressed: wm.onPressedItem,
-            ),
-            _Item(
               BrowserMainMenuData.clearHistory,
               onPressed: wm.onPressedItem,
             ),
@@ -81,7 +77,6 @@ class _Item extends StatelessWidget {
       title: data.title,
       icon: data.icon,
       iconColor: switch (data) {
-        BrowserMainMenuData.deleteBrowsingData ||
         BrowserMainMenuData.clearHistory =>
           // TODO(knightforce): move to colors
           const Color(0xFFFF2D55),
