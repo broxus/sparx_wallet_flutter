@@ -1,14 +1,6 @@
 {
-  "1.0.0": {
+  "1.2.5": {
     "available": true,
-    "info": "Initial release with core wallet functionality."
-  },
-  "1.5.0": {
-    "available": true,
-    "info": "Added support for multiple networks and improved security features."
-  },
-  "2.0.0": {
-    "available": true,
-    "info": "Major update with new UI, improved performance, and additional features."
+    "info": "Important update with TonConnect support"
   }
 }

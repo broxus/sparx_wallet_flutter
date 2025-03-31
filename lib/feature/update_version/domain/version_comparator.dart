@@ -33,14 +33,23 @@ class VersionComparator {
     return 0; // Versions are equal
   }
 
+  /// Parses a version string into a list of integers.
+  /// Handles various version formats including:
+  /// - Standard semantic versions (1.2.3)
+  /// - Versions with build numbers (1.2.3+45)
+  /// - Versions with pre-release identifiers (1.2.3-beta.1)
   List<int> _parseVersion(String version) {
-    final String localVersion;
-    if (version.contains('+')) {
-      localVersion = version.split('+').first;
-    } else {
-      localVersion = version;
-    }
+    final withoutBuild =
+        version.contains('+') ? version.split('+').first : version;
 
-    return localVersion.split('.').map(int.tryParse).whereNotNull().toList();
+    final withoutPreRelease = withoutBuild.contains('-')
+        ? withoutBuild.split('-').first
+        : withoutBuild;
+
+    // Parse version components into integers, filter out non-numeric parts
+    return withoutPreRelease
+        .split('.')
+        .map((part) => int.tryParse(part.trim()) ?? 0)
+        .toList();
   }
 }
