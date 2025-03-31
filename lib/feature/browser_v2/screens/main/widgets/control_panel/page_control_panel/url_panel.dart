@@ -93,6 +93,28 @@ class _SnapPageScrollPhysics extends ScrollPhysics {
     );
   }
 
+  @override
+  Simulation? createBallisticSimulation(
+    ScrollMetrics position,
+    double velocity,
+  ) {
+    if ((velocity <= 0.0 && position.pixels <= position.minScrollExtent) ||
+        (velocity >= 0.0 && position.pixels >= position.maxScrollExtent)) {
+      return super.createBallisticSimulation(position, velocity);
+    }
+    final target = _getTargetPixels(position, velocity);
+    if (target != position.pixels) {
+      return ScrollSpringSimulation(
+        spring,
+        position.pixels,
+        target,
+        velocity,
+        tolerance: toleranceFor(position),
+      );
+    }
+    return null;
+  }
+
   double _getCurrentPage(ScrollMetrics position) {
     final offset = (position.viewportDimension - pageWidth) / 2;
     return (position.pixels + offset) / pageWidth;
@@ -120,28 +142,6 @@ class _SnapPageScrollPhysics extends ScrollPhysics {
         position.maxScrollExtent,
       ),
     );
-  }
-
-  @override
-  Simulation? createBallisticSimulation(
-    ScrollMetrics position,
-    double velocity,
-  ) {
-    if ((velocity <= 0.0 && position.pixels <= position.minScrollExtent) ||
-        (velocity >= 0.0 && position.pixels >= position.maxScrollExtent)) {
-      return super.createBallisticSimulation(position, velocity);
-    }
-    final target = _getTargetPixels(position, velocity);
-    if (target != position.pixels) {
-      return ScrollSpringSimulation(
-        spring,
-        position.pixels,
-        target,
-        velocity,
-        tolerance: toleranceFor(position),
-      );
-    }
-    return null;
   }
 
   @override

@@ -89,6 +89,7 @@ class BrowserMainScreenWidgetModel
   Offset? _downPosition;
   int _prevYScroll = 0;
   bool _isTouch = false;
+  bool _isUserScrolling = false;
 
   RenderManager<String> get renderManager => _renderManager;
 
@@ -121,7 +122,6 @@ class BrowserMainScreenWidgetModel
   void initWidgetModel() {
     tabsState.addListener(_handleTabsCollection);
     activeTabState.addListener(_handleActiveTab);
-    urlSliderController.addListener(_handleUrlPanelScroll);
     _menuState.addListener(_handleMenuState);
     _viewVisibleState.addListener(_handleViewVisibleState);
     _visibleNavigationBarState.addListener(_handleVisibleNavigationBar);
@@ -327,7 +327,7 @@ class BrowserMainScreenWidgetModel
   }
 
   void onEditingCompleteUrl(String tabId, String text) {
-    if(text.trim().isEmpty) {
+    if (text.trim().isEmpty) {
       return;
     }
 
@@ -371,29 +371,40 @@ class BrowserMainScreenWidgetModel
     _updatePastGo();
   }
 
-  void _handleUrlPanelScroll() {
-    final urlOffset = urlSliderController.offset;
-    final urlMax = urlSliderController.position.maxScrollExtent;
-    final viewMax = viewTabScrollController.position.maxScrollExtent;
+  bool onScrollNotification(ScrollNotification notification) {
+    if (notification is ScrollStartNotification) {
+      _isUserScrolling = true;
+    } else if (notification is ScrollUpdateNotification) {
+      _syncViewScroll();
+    } else if (notification is ScrollEndNotification) {
+      _isUserScrolling = false;
+      _snapViewScroll();
+    }
+    return false;
+  }
 
-    final tabIndex = ((viewMax - (viewMax - urlOffset)) / urlWidth).round();
+  void _syncViewScroll() {
+    if (_isUserScrolling) {
+      final urlOffset = urlSliderController.offset;
+      final tabIndexFraction = urlOffset / urlWidth;
+      final targetOffset = tabIndexFraction * screenWidth;
+      viewTabScrollController.jumpTo(targetOffset);
+    }
+  }
+
+  void _snapViewScroll() {
+    final urlOffset = urlSliderController.offset;
+    final tabIndex = (urlOffset / urlWidth).round();
+    final targetOffset = tabIndex * screenWidth;
+    viewTabScrollController.animateTo(
+      targetOffset,
+      duration: const Duration(milliseconds: 250),
+      curve: Curves.easeOut,
+    );
 
     final id = _tabsCollection?.getIdByIndex(tabIndex);
-
     if (id != null) {
       model.setActiveTab(id);
-    }
-
-    final x = viewMax * urlOffset / urlMax;
-
-    if (x == 0) {
-      viewTabScrollController.animateTo(
-        0,
-        duration: const Duration(milliseconds: 250),
-        curve: Curves.linear,
-      );
-    } else if (!x.isNaN) {
-      viewTabScrollController.jumpTo(x);
     }
   }
 
