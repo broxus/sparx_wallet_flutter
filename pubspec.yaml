@@ -46,6 +46,7 @@ dependencies:
   http: 1.2.2
   image_picker: 1.1.2
   in_app_notification: 1.1.2
+  in_app_update: ^4.2.3
   injectable: 2.5.0
   internet_connection_checker_plus: 2.7.0
   jdenticon_dart: 2.0.0
