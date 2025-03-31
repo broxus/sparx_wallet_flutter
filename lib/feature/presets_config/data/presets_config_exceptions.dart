@@ -1,5 +1,5 @@
 /// Base exception for presets configuration errors.
-/// 
+///
 /// Provides context about which configuration type encountered an issue.
 class PresetsConfigException implements Exception {
   PresetsConfigException(this.message, this.configType);

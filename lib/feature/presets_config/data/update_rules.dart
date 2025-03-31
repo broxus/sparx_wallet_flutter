@@ -13,7 +13,8 @@ class UpdateRules with _$UpdateRules {
     /// Minimum version required - users below this version cannot use the app.
     required String blockingVersion,
 
-    /// Version that triggers warning - users below this should update but can continue.
+    /// Version that triggers warning - users below this should update but can
+    /// continue.
     required String warningVersion,
 
     /// Maximum number of times to show the warning notification.

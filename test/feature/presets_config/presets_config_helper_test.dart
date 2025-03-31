@@ -282,14 +282,15 @@ void main() {
 
     test('handles empty response from remote', () async {
       // Arrange
-      when(() => mockPresetsApi.getPresetConfig(any()))
-          .thenAnswer((_) async => HttpResponse(
-                '',
-                Response(
-                  requestOptions: RequestOptions(),
-                  statusCode: 200,
-                ),
-              ));
+      when(() => mockPresetsApi.getPresetConfig(any())).thenAnswer(
+        (_) async => HttpResponse(
+          '',
+          Response(
+            requestOptions: RequestOptions(),
+            statusCode: 200,
+          ),
+        ),
+      );
 
       when(() => mockSecureStorage.getConfigJson(_config))
           .thenAnswer((_) async => testUpdateRulesJson);

@@ -76,7 +76,6 @@ class _UpdateVersionContent extends StatelessWidget {
     required this.isBlockingUpdate,
     required this.onUpdate,
     required this.onCancel,
-    super.key,
   });
 
   final String? targetVersion;
@@ -157,9 +156,7 @@ class _UpdateVersionContent extends StatelessWidget {
 }
 
 class _BlurredBackground extends StatelessWidget {
-  const _BlurredBackground({
-    super.key,
-  });
+  const _BlurredBackground();
 
   @override
   Widget build(BuildContext context) {
@@ -169,7 +166,8 @@ class _BlurredBackground extends StatelessWidget {
         sigmaY: 7,
       ),
       child: Container(
-        color: context.themeStyleV2.colors.backgroundOverlay.withOpacity(0.6),
+        color: context.themeStyleV2.colors.backgroundOverlay
+            .withValues(alpha: 0.6),
       ),
     );
   }

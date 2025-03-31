@@ -8,13 +8,13 @@ part 'release_notes.freezed.dart';
 /// Maps version identifiers to their corresponding release note information.
 @freezed
 abstract class ReleaseNotes with _$ReleaseNotes {
-  const ReleaseNotes._();
-
   const factory ReleaseNotes({
     /// Map of version identifiers to their corresponding release notes.
     /// The key is typically a version string like "1.0.0".
     required Map<String, ReleaseNote> notes,
   }) = _ReleaseNotes;
+
+  const ReleaseNotes._();
 
   factory ReleaseNotes.fromJson(Map<String, dynamic> json) {
     return ReleaseNotes(
