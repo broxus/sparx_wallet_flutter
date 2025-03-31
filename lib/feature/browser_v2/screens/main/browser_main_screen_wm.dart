@@ -327,6 +327,10 @@ class BrowserMainScreenWidgetModel
   }
 
   void onEditingCompleteUrl(String tabId, String text) {
+    if(text.trim().isEmpty) {
+      return;
+    }
+
     model.requestUrl(tabId, text);
   }
 
