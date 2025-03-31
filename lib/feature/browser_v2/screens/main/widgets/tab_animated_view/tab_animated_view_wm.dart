@@ -62,7 +62,7 @@ class TabAnimatedViewWidgetModel
 
   late final _animationController = AnimationController(
     vsync: this,
-    duration: const Duration(milliseconds: 350),
+    duration: const Duration(milliseconds: 250),
   )..value = 1;
 
   late final _screenSize = MediaQuery.of(context).size;
@@ -75,9 +75,6 @@ class TabAnimatedViewWidgetModel
 
   ListenableState<TabAnimationType?> get showAnimationState =>
       widget.showAnimationState;
-
-  // ListenableState<AnimationPosition?> get positionAnimationState =>
-  //     _positionAnimationState;
 
   ListenableState<File?> get screenshotStateState => _screenshotStateState;
 
