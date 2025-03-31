@@ -1,6 +1,5 @@
 import 'dart:math';
 
-import 'package:collection/collection.dart';
 import 'package:injectable/injectable.dart';
 
 /// Service for comparing version strings

@@ -13,6 +13,7 @@ import 'package:app/feature/root/root.dart';
 import 'package:app/feature/update_version/data/update_request.dart';
 import 'package:app/feature/update_version/domain/update_service.dart';
 import 'package:app/utils/common_utils.dart';
+import 'package:flutter/widgets.dart';
 import 'package:go_router/go_router.dart';
 import 'package:logging/logging.dart';
 import 'package:nekoton_repository/nekoton_repository.dart';
@@ -43,12 +44,10 @@ class AppRouter {
         primaryBus.on<BootstrapEvent>().listen(_listenBootstrapErrorStep);
 
     _updateVersionSubscription = Rx.combineLatest2(
-      _updateService.updateRequests.whereNotNull(),
-      router.routeInformationProvider
-          .asStream()
-          .where((route) => route.uri.path == AppRoute.wallet.path),
-      (request, _) => request,
-    ).listen(_listerUpdateRequests);
+      _updateService.updateRequests,
+      router.routeInformationProvider.asStream(),
+      (request, route) => (request, route),
+    ).listen(_onUpdateRequests);
   }
 
   // Create a new router
@@ -61,7 +60,8 @@ class AppRouter {
 
   StreamSubscription<BootstrapEvent>? _bootstrapErrorEventSubscription;
   StreamSubscription<bool>? _seedsSubscription;
-  StreamSubscription<UpdateRequest>? _updateVersionSubscription;
+  StreamSubscription<(UpdateRequest?, RouteInformation)>?
+      _updateVersionSubscription;
 
   final _log = Logger('RouterHelper');
 
@@ -219,13 +219,13 @@ class AppRouter {
     }
   }
 
-  void _listerUpdateRequests(UpdateRequest request) {
-    _log.info('Open update version screen $request');
+  void _onUpdateRequests((UpdateRequest?, RouteInformation) requestRoute) {
+    final (request, route) = requestRoute;
+    if (request == null) return;
+    if (route.uri.path != AppRoute.wallet.path) return;
 
-    final currentLocation = router.routeInformationProvider.value.uri.path;
-    if (currentLocation != AppRoute.updateVersion.path) {
-      router.push(AppRoute.updateVersion.path);
-    }
+    _log.info('Open update version screen $request');
+    router.push(AppRoute.updateVersion.path);
   }
 
   void _listenBootstrapErrorStep(BootstrapEvent event) {
