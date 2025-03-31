@@ -37,7 +37,7 @@ class BrowserTabViewMenuUrlPanel extends StatefulWidget {
 class _BrowserTabViewMenuUrlPanelState
     extends State<BrowserTabViewMenuUrlPanel> {
   late final _physics = _SnapPageScrollPhysics(
-    elementWidth: widget.urlWidth,
+    pageWidth: widget.urlWidth,
   );
 
   @override
@@ -79,30 +79,47 @@ class _BrowserTabViewMenuUrlPanelState
 
 class _SnapPageScrollPhysics extends ScrollPhysics {
   const _SnapPageScrollPhysics({
-    required this.elementWidth,
-    super.parent,
-  });
+    required this.pageWidth,
+    ScrollPhysics? parent,
+  }) : super(parent: parent ?? const ClampingScrollPhysics());
 
-  final double elementWidth;
+  final double pageWidth;
 
   @override
   _SnapPageScrollPhysics applyTo(ScrollPhysics? ancestor) {
     return _SnapPageScrollPhysics(
+      pageWidth: pageWidth,
       parent: buildParent(ancestor),
-      elementWidth: elementWidth,
     );
   }
 
-  double _getTargetPixels(
-    ScrollMetrics position,
-    Tolerance tolerance,
-    double velocity,
-  ) {
-    final pageWidth = elementWidth;
-    final page = position.pixels / pageWidth + velocity / 3000;
-    final offset = (position.viewportDimension - elementWidth) / 2;
-    final target = page.roundToDouble() * pageWidth - offset;
-    return max(0, min(target, position.maxScrollExtent));
+  double _getCurrentPage(ScrollMetrics position) {
+    final offset = (position.viewportDimension - pageWidth) / 2;
+    return (position.pixels + offset) / pageWidth;
+  }
+
+  double _getTargetPixels(ScrollMetrics position, double velocity) {
+    final currentPage = _getCurrentPage(position);
+    final tolerance = toleranceFor(position);
+    double targetPage;
+
+    if (velocity.abs() < tolerance.velocity) {
+      targetPage = currentPage.roundToDouble();
+    } else {
+      targetPage = velocity > 0
+          ? currentPage.ceilToDouble()
+          : currentPage.floorToDouble();
+    }
+
+    final offset = (position.viewportDimension - pageWidth) / 2;
+    final targetPixels = targetPage * pageWidth - offset;
+    return max(
+      position.minScrollExtent,
+      min(
+        targetPixels,
+        position.maxScrollExtent,
+      ),
+    );
   }
 
   @override
@@ -114,15 +131,14 @@ class _SnapPageScrollPhysics extends ScrollPhysics {
         (velocity >= 0.0 && position.pixels >= position.maxScrollExtent)) {
       return super.createBallisticSimulation(position, velocity);
     }
-    final tolerance = toleranceFor(position);
-    final target = _getTargetPixels(position, tolerance, velocity);
+    final target = _getTargetPixels(position, velocity);
     if (target != position.pixels) {
       return ScrollSpringSimulation(
         spring,
         position.pixels,
         target,
         velocity,
-        tolerance: tolerance,
+        tolerance: toleranceFor(position),
       );
     }
     return null;
