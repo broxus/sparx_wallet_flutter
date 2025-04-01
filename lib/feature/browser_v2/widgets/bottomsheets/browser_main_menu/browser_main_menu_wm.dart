@@ -34,9 +34,6 @@ class BrowserMainMenuWidgetModel
 
   void onPressedItem(BrowserMainMenuData value) {
     switch (value) {
-      case BrowserMainMenuData.deleteBrowsingData:
-        model.deleteBrowsingData();
-        _close();
       case BrowserMainMenuData.clearHistory:
         _close();
         showClearHistoryModal(context);

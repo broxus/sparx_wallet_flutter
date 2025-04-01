@@ -36,15 +36,14 @@ class FaviconViewWidgetModel
     super.initWidgetModel();
   }
 
-
   Future<void> _fetch() async {
-   final url = await model.getFavicon(widget.uri);
+    final url = await model.getFavicon(widget.uri);
 
-   if(url == null) {
-     _faviconUrlState.error();
-     return;
-   }
+    if (url == null) {
+      _faviconUrlState.error();
+      return;
+    }
 
-   _faviconUrlState.content(url);
+    _faviconUrlState.content(url);
   }
 }

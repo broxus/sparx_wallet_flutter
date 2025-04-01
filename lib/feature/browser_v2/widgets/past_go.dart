@@ -36,7 +36,7 @@ class PastGoButton extends StatelessWidget {
                     ),
                   ),
                 ),
-              )
+              ),
             ],
           ),
         ),

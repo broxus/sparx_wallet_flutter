@@ -9,6 +9,8 @@ import 'package:flutter_inappwebview/flutter_inappwebview.dart';
 
 const _searchEngineUri = 'https://duckduckgo.com/?q=';
 
+final _urlReg = RegExp(r'(?:(?:https?|ftp):\/\/)?[\w/\-?=%.]+\.[\w/\-?=%.]+');
+
 /// [ElementaryModel] for [BrowserMainScreen]
 class BrowserMainScreenModel extends ElementaryModel {
   BrowserMainScreenModel(
@@ -33,9 +35,15 @@ class BrowserMainScreenModel extends ElementaryModel {
 
   void clearTabs() => _browserService.tM.clearTabs();
 
-  void createEmptyTab() => _browserService.tM.createEmptyTab();
+  String createEmptyTab() => _browserService.tM.createEmptyTab();
 
-  void requestUrl(String tabId, String text) {
+  void requestUrl(String tabId, String enteredText) {
+    final text = enteredText.trim();
+
+    if (text.isEmpty) {
+      return;
+    }
+
     final (isUrl, url) = _handleUrl(text);
 
     _browserService.tM.requestUrl(
@@ -89,7 +97,7 @@ class BrowserMainScreenModel extends ElementaryModel {
   (bool, Uri?) _handleUrl(String text) {
     try {
       final uri = Uri.parse(text);
-      return (uri.hasScheme, uri);
+      return (_urlReg.hasMatch(text), uri);
     } catch (_) {
       return (false, null);
     }

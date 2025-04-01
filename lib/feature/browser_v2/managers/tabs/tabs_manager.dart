@@ -6,7 +6,7 @@ import 'package:app/app/service/storage_service/general_storage_service.dart';
 import 'package:app/feature/browser_v2/data/tabs_data.dart';
 import 'package:app/feature/browser_v2/managers/tabs/helpers/browser_screenshot_helper.dart';
 import 'package:app/feature/browser_v2/models/tab/browser_tab.dart';
-import 'package:app/feature/browser_v2/screens/main/data/control_panels_data.dart';
+import 'package:app/feature/browser_v2/screens/main/data/toolbar_data.dart';
 import 'package:app/feature/browser_v2/service/storages/browser_tabs_storage_service.dart';
 import 'package:collection/collection.dart';
 import 'package:elementary_helper/elementary_helper.dart';
@@ -31,8 +31,8 @@ class BrowserTabsManager {
   final _tabsState =
       StateNotifier<BrowserTabsCollection>(initValue: BrowserTabsCollection());
 
-  late final _controlPanelState = StateNotifier<BrowserMainControlPanelData>(
-    initValue: BrowserMainControlPanelData(),
+  late final _controlPanelState = StateNotifier<ToolbarData>(
+    initValue: ToolbarData(),
   );
 
   final _activeTabState = StateNotifier<BrowserTab?>();
@@ -46,8 +46,7 @@ class BrowserTabsManager {
   ListenableState<ImageCache?> get screenshotsState =>
       _screenshotHelper.screenshotsState;
 
-  ListenableState<BrowserMainControlPanelData> get controlPanelState =>
-      _controlPanelState;
+  ListenableState<ToolbarData> get controlPanelState => _controlPanelState;
 
   /// Get last cached browser tabs
   List<BrowserTab> get browserTabs => _tabsCollection.list;
@@ -220,14 +219,16 @@ class BrowserTabsManager {
     );
   }
 
-  void createEmptyTab() => createBrowserTab(_emptyUri);
+  String createEmptyTab() => createBrowserTab(_emptyUri);
 
-  void createBrowserTab(Uri url) {
+  String createBrowserTab(Uri url) {
     final tab = BrowserTab.create(url: url);
     _setTabs(
       tabs: [...browserTabs, tab],
       activeTabId: tab.id,
     );
+
+    return tab.id;
   }
 
   Future<void> createScreenshot({
@@ -316,7 +317,7 @@ class BrowserTabsManager {
     final controller = _currentController;
 
     _controlPanelState.accept(
-      BrowserMainControlPanelData(
+      ToolbarData(
         isCanGoBack: await controller?.canGoBack(),
         isCanGoForward: await controller?.canGoForward(),
       ),

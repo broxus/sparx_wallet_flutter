@@ -1,6 +1,6 @@
 import 'dart:async';
 
-import 'package:app/feature/browser_v2/screens/main/widgets/control_panel/tabs_list_control_panel.dart';
+import 'package:app/feature/browser_v2/screens/main/widgets/control_panels/toolbar/toolbar.dart';
 import 'package:app/feature/browser_v2/screens/main/widgets/tab_menu/data.dart';
 import 'package:app/widgets/bottom_navigation_bar/custom_bottom_navigation_bar.dart';
 import 'package:flutter/material.dart';
@@ -71,7 +71,7 @@ class _BrowserTabMenuState extends State<BrowserTabMenu> {
 
   late final _xMax = _screenSize.width;
   late final _yMax = _screenSize.height -
-      BrowserTabsListControlPanel.height -
+      Toolbar.height -
       CustomBottomNavigationBar.height -
       _margin;
 

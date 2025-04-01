@@ -29,10 +29,7 @@ class TabAnimatedView extends ElementaryWidget<TabAnimatedViewWidgetModel> {
       listenableState: showAnimationState,
       builder: (_, TabAnimationType? type) {
         return Visibility(
-          visible: switch (type) {
-            ShowViewAnimationType() || ShowTabsAnimationType() => true,
-            _ => false,
-          },
+          visible: type != null,
           child: AnimatedBuilder(
             animation: wm.animationListenable,
             builder: (_, Widget? child) {

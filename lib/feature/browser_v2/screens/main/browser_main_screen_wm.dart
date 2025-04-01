@@ -11,11 +11,11 @@ import 'package:app/feature/browser_v2/screens/main/browser_main_screen.dart';
 import 'package:app/feature/browser_v2/screens/main/browser_main_screen_model.dart';
 import 'package:app/feature/browser_v2/screens/main/data/browser_render_manager.dart';
 import 'package:app/feature/browser_v2/screens/main/data/menu_data.dart';
-import 'package:app/feature/browser_v2/screens/main/helpers/menu_animation_helper.dart';
+import 'package:app/feature/browser_v2/screens/main/menu_animation_helper.dart';
+import 'package:app/feature/browser_v2/screens/main/widgets/control_panels/navigation_panel/url_action_sheet.dart';
 import 'package:app/feature/browser_v2/screens/main/widgets/tab_animated_view/tab_animation_type.dart';
 import 'package:app/feature/browser_v2/screens/main/widgets/tab_menu/data.dart';
 import 'package:app/feature/browser_v2/screens/main/widgets/tab_menu/tab_menu.dart';
-import 'package:app/feature/browser_v2/screens/main/widgets/url_menu.dart';
 import 'package:app/utils/clipboard_utils.dart';
 import 'package:app/utils/focus_utils.dart';
 import 'package:elementary/elementary.dart';
@@ -88,6 +88,8 @@ class BrowserMainScreenWidgetModel
 
   Offset? _downPosition;
   int _prevYScroll = 0;
+  bool _isTouch = false;
+  bool _isUserScrolling = false;
 
   RenderManager<String> get renderManager => _renderManager;
 
@@ -120,7 +122,6 @@ class BrowserMainScreenWidgetModel
   void initWidgetModel() {
     tabsState.addListener(_handleTabsCollection);
     activeTabState.addListener(_handleActiveTab);
-    urlSliderController.addListener(_handleUrlPanelScroll);
     _menuState.addListener(_handleMenuState);
     _viewVisibleState.addListener(_handleViewVisibleState);
     _visibleNavigationBarState.addListener(_handleVisibleNavigationBar);
@@ -148,7 +149,9 @@ class BrowserMainScreenWidgetModel
   }
 
   void onCreateWebViewController(
-      String tabId, InAppWebViewController controller) {
+    String tabId,
+    InAppWebViewController controller,
+  ) {
     model.setController(tabId, controller);
   }
 
@@ -157,9 +160,13 @@ class BrowserMainScreenWidgetModel
   }
 
   void onScrollChanged(int y) {
+    if (!_isTouch) {
+      return;
+    }
+
     final diff = _prevYScroll - y;
 
-    if (diff > -100 && diff < 100) {
+    if (diff > -50 && diff < 50) {
       return;
     }
 
@@ -191,25 +198,23 @@ class BrowserMainScreenWidgetModel
     final id = _activeTab?.id;
     final data = id == null ? null : _renderManager.getRenderData(id);
 
-    if (data == null) {
-      _viewVisibleState.accept(true);
-    } else {
-      _showAnimationState.accept(
-        ShowViewAnimationType(
-          tabX: data.xLeft,
-          tabY: data.yTop,
-        ),
-      );
-    }
+    _showAnimationState.accept(
+      ShowViewAnimationType(
+        tabX: data?.xLeft,
+        tabY: data?.yTop,
+      ),
+    );
 
     _menuState.accept(MenuType.view);
   }
 
   void onPointerDown(PointerDownEvent event) {
     _downPosition = event.position;
+    _isTouch = true;
   }
 
   void onPointerUp(PointerUpEvent event) {
+    _isTouch = false;
     if (_downPosition == null) {
       return;
     }
@@ -224,20 +229,20 @@ class BrowserMainScreenWidgetModel
     resetFocus(context);
   }
 
+  void onPointerCancel(_) {
+    _isTouch = false;
+  }
+
   void onPressedTabs() {
     final id = _activeTab?.id;
     final data = id == null ? null : _renderManager.getRenderData(id);
 
-    if (data == null) {
-      _viewVisibleState.accept(false);
-    } else {
-      _showAnimationState.accept(
-        ShowTabsAnimationType(
-          tabX: data.xLeft,
-          tabY: data.yTop,
-        ),
-      );
-    }
+    _showAnimationState.accept(
+      ShowTabsAnimationType(
+        tabX: data?.xLeft,
+        tabY: data?.yTop,
+      ),
+    );
 
     _menuState.accept(MenuType.list);
   }
@@ -277,18 +282,18 @@ class BrowserMainScreenWidgetModel
   }
 
   Future<void> onPressedCurrentUrlMenu(String tabId) async {
-    final result = await showUrlMenu(context);
+    final result = await showUrlActionSheet(context);
 
     if (result == null) {
       return;
     }
 
     switch (result) {
-      case BrowserUrlMenuValue.copyUrl:
+      case BrowserUrlActionValue.copyUrl:
         model.copyTabUrl(tabId);
-      case BrowserUrlMenuValue.addBookmark:
+      case BrowserUrlActionValue.addBookmark:
         model.addUrlToBookmark(tabId);
-      case BrowserUrlMenuValue.clearFromHistory:
+      case BrowserUrlActionValue.clearFromHistory:
         model.clearUrlFromHistory(tabId);
     }
   }
@@ -316,16 +321,27 @@ class BrowserMainScreenWidgetModel
   }
 
   void onEditingCompleteUrl(String tabId, String text) {
+    if (text.trim().isEmpty) {
+      return;
+    }
+
     model.requestUrl(tabId, text);
   }
 
   void onTabAnimationStart() {
+    if (_showAnimationState.value == null) {
+      return;
+    }
     if (_showAnimationState.value is ShowTabsAnimationType) {
       _viewVisibleState.accept(false);
     }
   }
 
   void onTabAnimationEnd() {
+    if (_showAnimationState.value == null) {
+      return;
+    }
+
     if (_showAnimationState.value is ShowViewAnimationType) {
       _viewVisibleState.accept(true);
     }
@@ -356,29 +372,40 @@ class BrowserMainScreenWidgetModel
     _updatePastGo();
   }
 
-  void _handleUrlPanelScroll() {
-    final urlOffset = urlSliderController.offset;
-    final urlMax = urlSliderController.position.maxScrollExtent;
-    final viewMax = viewTabScrollController.position.maxScrollExtent;
+  bool onScrollNotification(ScrollNotification notification) {
+    if (notification is ScrollStartNotification) {
+      _isUserScrolling = true;
+    } else if (notification is ScrollUpdateNotification) {
+      _syncViewScroll();
+    } else if (notification is ScrollEndNotification) {
+      _isUserScrolling = false;
+      _snapViewScroll();
+    }
+    return false;
+  }
 
-    final tabIndex = ((viewMax - (viewMax - urlOffset)) / urlWidth).round();
+  void _syncViewScroll() {
+    if (_isUserScrolling) {
+      final urlOffset = urlSliderController.offset;
+      final tabIndexFraction = urlOffset / urlWidth;
+      final targetOffset = tabIndexFraction * screenWidth;
+      viewTabScrollController.jumpTo(targetOffset);
+    }
+  }
+
+  void _snapViewScroll() {
+    final urlOffset = urlSliderController.offset;
+    final tabIndex = (urlOffset / urlWidth).round();
+    final targetOffset = tabIndex * screenWidth;
+    viewTabScrollController.animateTo(
+      targetOffset,
+      duration: const Duration(milliseconds: 250),
+      curve: Curves.easeOut,
+    );
 
     final id = _tabsCollection?.getIdByIndex(tabIndex);
-
     if (id != null) {
       model.setActiveTab(id);
-    }
-
-    final x = viewMax * urlOffset / urlMax;
-
-    if (x == 0) {
-      viewTabScrollController.animateTo(
-        0,
-        duration: const Duration(milliseconds: 250),
-        curve: Curves.linear,
-      );
-    } else if (!x.isNaN) {
-      viewTabScrollController.jumpTo(x);
     }
   }
 
@@ -419,16 +446,12 @@ class BrowserMainScreenWidgetModel
 
     final data = _renderManager.getRenderData(id);
 
-    if (data == null) {
-      _viewVisibleState.accept(true);
-    } else {
-      _showAnimationState.accept(
-        ShowViewAnimationType(
-          tabX: data.xLeft,
-          tabY: data.yTop,
-        ),
-      );
-    }
+    _showAnimationState.accept(
+      ShowViewAnimationType(
+        tabX: data?.xLeft,
+        tabY: data?.yTop,
+      ),
+    );
 
     _menuState.accept(MenuType.view);
   }

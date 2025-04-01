@@ -21,10 +21,6 @@ class BrowserMainMenuModel extends ElementaryModel {
     _browserService.createTabBookMark(id);
   }
 
-  void deleteBrowsingData() {
-    _browserService.tM.clearCachedFiles();
-  }
-
   void createTab() {
     _browserService.tM.createEmptyTab();
   }
