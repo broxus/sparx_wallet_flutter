@@ -1,6 +1,6 @@
 import 'package:app/feature/browser_v2/screens/main/data/menu_data.dart';
-import 'package:app/feature/browser_v2/screens/main/widgets/control_panels/page_control_panel.dart';
 import 'package:app/feature/browser_v2/screens/main/widgets/control_panels/navigation_panel/host_panel.dart';
+import 'package:app/feature/browser_v2/screens/main/widgets/control_panels/page_control_panel.dart';
 import 'package:elementary_helper/elementary_helper.dart';
 import 'package:flutter/material.dart';
 import 'package:ui_components_lib/v2/ui_components_lib_v2.dart';

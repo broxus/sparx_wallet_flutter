@@ -241,7 +241,8 @@ class _UrlTextField extends StatelessWidget {
                     child: Assets.images.clear.svg(
                       width: DimensSizeV2.d20,
                       height: DimensSizeV2.d20,
-                      colorFilter: context.themeStyleV2.colors.content3.colorFilter,
+                      colorFilter:
+                          context.themeStyleV2.colors.content3.colorFilter,
                     ),
                   ),
                 ),

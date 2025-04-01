@@ -149,7 +149,9 @@ class BrowserMainScreenWidgetModel
   }
 
   void onCreateWebViewController(
-      String tabId, InAppWebViewController controller) {
+    String tabId,
+    InAppWebViewController controller,
+  ) {
     model.setController(tabId, controller);
   }
 
