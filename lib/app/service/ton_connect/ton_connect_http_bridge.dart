@@ -36,6 +36,7 @@ class TonConnectHttpBridge {
 
   StreamSubscription<SseMessage>? _sseSubscription;
   bool isRetrying = false;
+  bool isOpeningConnection = false;
 
   Future<void> openSseConnection() async {
     try {
@@ -221,12 +222,13 @@ class TonConnectHttpBridge {
     required String data,
     num? ttl = tonConnectMessageDefaultTtl,
   }) async {
-    final client = RetryClient(
-      _client,
-      retries: tonConnectHttpBridgeSendRetries,
-      when: (_) => true,
-    );
     try {
+      final client = RetryClient(
+        _client,
+        retries: tonConnectHttpBridgeSendRetries,
+        when: (_) => true,
+      );
+
       await client.post(
         Uri.parse(
           '$tonConnectHttpBridgeUrl/message?client_id=${sessionCrypto.sessionId}&to=$clientId&ttl=$ttl',
@@ -235,49 +237,56 @@ class TonConnectHttpBridge {
       );
     } catch (e, s) {
       _logger.severe('Send message failed', e, s);
-    } finally {
-      client.close();
     }
   }
 
   Future<void> _openSseConnection() async {
-    await closeSseConnection();
+    if (isOpeningConnection) return;
+    isOpeningConnection = true;
 
-    if (SchedulerBinding.instance.lifecycleState != AppLifecycleState.resumed) {
-      return;
+    try {
+      await closeSseConnection();
+
+      if (SchedulerBinding.instance.lifecycleState !=
+          AppLifecycleState.resumed) {
+        return;
+      }
+
+      final connections =
+          _storageService.readConnections().whereType<TonAppConnectionRemote>();
+
+      if (connections.isEmpty) return;
+
+      final ids = connections.map((e) => e.sessionCrypto.sessionId).join(',');
+      final lastEventId = _storageService.readLastEventId();
+      var uri = '$tonConnectHttpBridgeUrl/events?client_id=$ids';
+
+      if (lastEventId != null) {
+        uri += '&last_event_id=$lastEventId';
+      }
+
+      final request = http.Request('GET', Uri.parse(uri))
+        ..headers['Connection'] = 'Keep-Alive'
+        ..headers['Accept'] = 'text/event-stream';
+
+      final stream = await _client.send(request).then(
+            (response) => response.stream.transform(
+              ResponseBodyToSseMessageTransformer(),
+            ),
+          );
+
+      _sseSubscription = stream.listen(
+        _handleMessage,
+        onError: (Object e, StackTrace st) {
+          _logger.severe('SSE connection error', e, st);
+        },
+        onDone: _retryOpen,
+      );
+
+      _logger.info('SSE connection opened');
+    } finally {
+      isOpeningConnection = false;
     }
-
-    final connections =
-        _storageService.readConnections().whereType<TonAppConnectionRemote>();
-
-    if (connections.isEmpty) return;
-
-    final ids = connections.map((e) => e.sessionCrypto.sessionId).join(',');
-    final lastEventId = _storageService.readLastEventId();
-    var uri = '$tonConnectHttpBridgeUrl/events?client_id=$ids';
-
-    if (lastEventId != null) {
-      uri += '&last_event_id=$lastEventId';
-    }
-
-    final request = http.Request('GET', Uri.parse(uri))
-      ..headers['Accept'] = 'text/event-stream';
-
-    final stream = await _client.send(request).then(
-          (response) => response.stream.transform(
-            ResponseBodyToSseMessageTransformer(),
-          ),
-        );
-
-    _sseSubscription = stream.listen(
-      _handleMessage,
-      onError: (Object e, StackTrace st) {
-        _logger.severe('SSE connection error', e, st);
-      },
-      onDone: _retryOpen,
-    );
-
-    _logger.info('SSE connection opened');
   }
 
   void _retryOpen() {
