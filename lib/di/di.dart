@@ -1,5 +1,6 @@
 import 'package:app/app/service/service.dart';
 import 'package:app/di/di.config.dart';
+import 'package:app/http/http.dart';
 import 'package:encrypted_storage/encrypted_storage.module.dart';
 import 'package:get_it/get_it.dart';
 import 'package:get_storage/get_storage.dart';
@@ -41,7 +42,7 @@ Future<void> configureDi() async {
   }
 
   getIt.registerLazySingleton<http.Client>(
-    http.Client.new,
+    ClientFactory.create,
     dispose: (client) => client.close(),
   );
 
