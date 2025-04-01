@@ -1,12 +1,12 @@
 import 'package:app/feature/browser_v1/approvals_listener/view/approvals_listener_widget.dart';
 import 'package:app/feature/browser_v2/screens/main/browser_main_screen_wm.dart';
 import 'package:app/feature/browser_v2/screens/main/widgets/browser_progress_indicator.dart';
-import 'package:app/feature/browser_v2/screens/main/widgets/control_panel/page_control_panel/page_control_panel.dart';
-import 'package:app/feature/browser_v2/screens/main/widgets/control_panel/tabs_list_control_panel.dart';
-import 'package:app/feature/browser_v2/screens/main/widgets/pages_view/pages_view.dart';
+import 'package:app/feature/browser_v2/screens/main/widgets/control_panels/page_control_panel.dart';
+import 'package:app/feature/browser_v2/screens/main/widgets/control_panels/tabs_list_action_bar.dart';
+import 'package:app/feature/browser_v2/screens/main/widgets/control_panels/navigation_panel/host_panel.dart';
+import 'package:app/feature/browser_v2/screens/main/widgets/pages/pages_list.dart';
 import 'package:app/feature/browser_v2/screens/main/widgets/tab_animated_view/tab_animated_view.dart';
-import 'package:app/feature/browser_v2/screens/main/widgets/tab_list/tab_list.dart';
-import 'package:app/feature/browser_v2/screens/main/widgets/url_text_panel.dart';
+import 'package:app/feature/browser_v2/screens/main/widgets/tabs/tab_list/tab_list.dart';
 import 'package:app/feature/browser_v2/widgets/past_go.dart';
 import 'package:elementary/elementary.dart';
 import 'package:elementary_helper/elementary_helper.dart';
@@ -69,7 +69,7 @@ class BrowserMainScreen extends ElementaryWidget<BrowserMainScreenWidgetModel> {
                   controller: wm.animation.listMenuAnimation,
                   offsetAnimation: wm.animation.listMenuOffsetAnimation,
                   opacityAnimation: wm.animation.listMenuOpacityAnimation,
-                  child: BrowserTabsListControlPanel(
+                  child: BrowserTabsListActionBar(
                     key: wm.listKey,
                     tabsState: wm.tabsState,
                     onCloseAllPressed: wm.onCloseAllPressed,
@@ -104,7 +104,7 @@ class BrowserMainScreen extends ElementaryWidget<BrowserMainScreenWidgetModel> {
                   controller: wm.animation.urlMenuAnimation,
                   offsetAnimation: wm.animation.urlMenuOffsetAnimation,
                   opacityAnimation: wm.animation.urlMenuOpacityAnimation,
-                  child: UrlTextPanel(
+                  child: HostPanel(
                     wm.activeTabState,
                     key: wm.urlKey,
                     onPressed: wm.onPressedViewUrlPanel,
@@ -112,7 +112,7 @@ class BrowserMainScreen extends ElementaryWidget<BrowserMainScreenWidgetModel> {
                 ),
               ),
               Positioned(
-                bottom: BrowserTabsListControlPanel.height + 44,
+                bottom: BrowserTabsListActionBar.height + 44,
                 left: 0,
                 right: 0,
                 child: _PastGoView(
