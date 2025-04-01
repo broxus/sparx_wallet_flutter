@@ -1,21 +1,23 @@
-sealed class TabAnimationType {}
+sealed class TabAnimationType {
+  TabAnimationType({
+    this.tabX,
+    this.tabY,
+  });
+
+  final double? tabX;
+  final double? tabY;
+}
 
 class ShowViewAnimationType extends TabAnimationType {
   ShowViewAnimationType({
-    required this.tabX,
-    required this.tabY,
+    super.tabX,
+    super.tabY,
   });
-
-  final double tabX;
-  final double tabY;
 }
 
 class ShowTabsAnimationType extends TabAnimationType {
   ShowTabsAnimationType({
-    required this.tabX,
-    required this.tabY,
+    super.tabX,
+    super.tabY,
   });
-
-  final double tabX;
-  final double tabY;
 }

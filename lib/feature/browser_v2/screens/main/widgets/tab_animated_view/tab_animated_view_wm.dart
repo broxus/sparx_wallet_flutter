@@ -67,6 +67,8 @@ class TabAnimatedViewWidgetModel
 
   late final _screenSize = MediaQuery.of(context).size;
 
+  bool _isRunning = false;
+
   Animation<double>? get topPositionAnimation => _topPositionAnimation;
 
   Animation<double>? get leftPositionAnimation => _leftPositionAnimation;
@@ -93,25 +95,32 @@ class TabAnimatedViewWidgetModel
   }
 
   void _handleTabAnimationType() {
-    switch (showAnimationState.value) {
-      case ShowTabsAnimationType(
-          :final tabX,
-          :final tabY,
-        ):
+    final animationType = showAnimationState.value;
+
+    if (animationType == null) {
+      return;
+    }
+    final tabX = animationType.tabX;
+    final tabY = animationType.tabY;
+
+    if (tabX == null || tabY == null) {
+      _onStart();
+      _onEnd();
+
+      return;
+    }
+
+    switch (animationType) {
+      case ShowTabsAnimationType():
         _animationController.value = 1;
         _updateScreenshotFile();
         _updateAnimationPosition(tabX, tabY);
         _animationController.reverse();
-      case ShowViewAnimationType(
-          :final tabX,
-          :final tabY,
-        ):
+      case ShowViewAnimationType():
         _animationController.value = 0;
         _updateScreenshotFile();
         _updateAnimationPosition(tabX, tabY);
         _animationController.forward();
-      case null:
-        return;
     }
   }
 
@@ -119,10 +128,10 @@ class TabAnimatedViewWidgetModel
     switch (status) {
       case AnimationStatus.forward:
       case AnimationStatus.reverse:
-        widget.onAnimationStart();
+        _onStart();
       case AnimationStatus.dismissed:
       case AnimationStatus.completed:
-        widget.onAnimationEnd();
+        _onEnd();
     }
   }
 
@@ -139,5 +148,22 @@ class TabAnimatedViewWidgetModel
     _positionYTween.begin = tabY;
     _topPositionAnimation = _positionYTween.animate(_animationController);
     _leftPositionAnimation = _positionXTween.animate(_animationController);
+  }
+
+  void _onStart() {
+    _isRunning = true;
+    Future(() {
+      widget.onAnimationStart();
+    });
+  }
+
+  void _onEnd() {
+    if (!_isRunning) {
+      return;
+    }
+    _isRunning = false;
+    Future(() {
+      widget.onAnimationEnd();
+    });
   }
 }

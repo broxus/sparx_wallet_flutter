@@ -196,16 +196,12 @@ class BrowserMainScreenWidgetModel
     final id = _activeTab?.id;
     final data = id == null ? null : _renderManager.getRenderData(id);
 
-    if (data == null) {
-      _viewVisibleState.accept(true);
-    } else {
-      _showAnimationState.accept(
-        ShowViewAnimationType(
-          tabX: data.xLeft,
-          tabY: data.yTop,
-        ),
-      );
-    }
+    _showAnimationState.accept(
+      ShowViewAnimationType(
+        tabX: data?.xLeft,
+        tabY: data?.yTop,
+      ),
+    );
 
     _menuState.accept(MenuType.view);
   }
@@ -239,16 +235,12 @@ class BrowserMainScreenWidgetModel
     final id = _activeTab?.id;
     final data = id == null ? null : _renderManager.getRenderData(id);
 
-    if (data == null) {
-      _viewVisibleState.accept(false);
-    } else {
-      _showAnimationState.accept(
-        ShowTabsAnimationType(
-          tabX: data.xLeft,
-          tabY: data.yTop,
-        ),
-      );
-    }
+    _showAnimationState.accept(
+      ShowTabsAnimationType(
+        tabX: data?.xLeft,
+        tabY: data?.yTop,
+      ),
+    );
 
     _menuState.accept(MenuType.list);
   }
@@ -335,12 +327,19 @@ class BrowserMainScreenWidgetModel
   }
 
   void onTabAnimationStart() {
+    if (_showAnimationState.value == null) {
+      return;
+    }
     if (_showAnimationState.value is ShowTabsAnimationType) {
       _viewVisibleState.accept(false);
     }
   }
 
   void onTabAnimationEnd() {
+    if (_showAnimationState.value == null) {
+      return;
+    }
+
     if (_showAnimationState.value is ShowViewAnimationType) {
       _viewVisibleState.accept(true);
     }
@@ -445,16 +444,12 @@ class BrowserMainScreenWidgetModel
 
     final data = _renderManager.getRenderData(id);
 
-    if (data == null) {
-      _viewVisibleState.accept(true);
-    } else {
-      _showAnimationState.accept(
-        ShowViewAnimationType(
-          tabX: data.xLeft,
-          tabY: data.yTop,
-        ),
-      );
-    }
+    _showAnimationState.accept(
+      ShowViewAnimationType(
+        tabX: data?.xLeft,
+        tabY: data?.yTop,
+      ),
+    );
 
     _menuState.accept(MenuType.view);
   }

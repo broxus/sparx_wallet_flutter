@@ -220,14 +220,16 @@ class BrowserTabsManager {
     );
   }
 
-  void createEmptyTab() => createBrowserTab(_emptyUri);
+  String createEmptyTab() => createBrowserTab(_emptyUri);
 
-  void createBrowserTab(Uri url) {
+  String createBrowserTab(Uri url) {
     final tab = BrowserTab.create(url: url);
     _setTabs(
       tabs: [...browserTabs, tab],
       activeTabId: tab.id,
     );
+
+    return tab.id;
   }
 
   Future<void> createScreenshot({
