@@ -39,7 +39,12 @@ Future<void> configureFeatureServices() async {
     ..finest('TokenWalletsService initializing...');
 
   await inject<TokenWalletsService>().init();
-  log.finest('TokenWalletsService initialized');
+  log
+    ..finest('TokenWalletsService initialized')
+    ..finest('TonConnectService initializing...');
+
+  await inject<TonConnectHttpBridge>().openSseConnection();
+  log.finest('TonConnectService initialized');
 
   inject<TokenRepository>().init();
 }

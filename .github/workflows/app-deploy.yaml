@@ -114,7 +114,7 @@ jobs:
   # iOS deploy
   ios-deploy:
     needs: setup
-    runs-on: macos-latest
+    runs-on: macos-15
 
     if: ${{ inputs.deploy_target == '' || inputs.deploy_target == 'fad' || inputs.deploy_target == 'store' || inputs.deploy_target == 'ios_fad' || inputs.deploy_target == 'ios_store' }}
 

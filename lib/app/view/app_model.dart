@@ -40,11 +40,9 @@ class AppModel extends ElementaryModel with WidgetsBindingObserver {
 
   @override
   void init() {
-    Future.delayed(const Duration(milliseconds: 100), () {
-      _listener = AppLifecycleListener(
-        onStateChange: _onStateChanged,
-      );
-    });
+    _listener = AppLifecycleListener(
+      onStateChange: _onStateChanged,
+    );
     appStartSession(setCrashDetected: true);
     _checkBiometry();
     super.init();
