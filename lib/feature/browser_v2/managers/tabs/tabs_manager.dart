@@ -126,13 +126,16 @@ class BrowserTabsManager {
   }
 
   Future<void> requestUrl(String tabId, Uri uri) async {
-    final isSuccess = updateCachedUrl(tabId, uri);
+    final resultUri = uri.scheme.isEmpty ? Uri.parse('https://$uri') : uri;
+
+    final isSuccess = updateCachedUrl(tabId, resultUri);
 
     if (!isSuccess) {
       return;
     }
+
     await _controllers[tabId]?.loadUrl(
-      urlRequest: URLRequest(url: WebUri.uri(uri)),
+      urlRequest: URLRequest(url: WebUri.uri(resultUri)),
     );
     // After simple update - request by program
     unawaited(_updateControlPanel());
