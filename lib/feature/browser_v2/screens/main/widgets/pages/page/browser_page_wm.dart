@@ -208,7 +208,7 @@ class BrowserPageWidgetModel
     ___,
     ____,
   ) {
-    widget.onScrollChanged(y);
+    widget.onOverScrolled(y);
   }
 
   void onScrollChanged(_, __, int y) {

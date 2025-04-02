@@ -166,7 +166,7 @@ class BrowserMainScreenWidgetModel
 
     final diff = _prevYScroll - y;
 
-    if (diff > -50 && diff < 50) {
+    if (diff > -100 && diff < 100) {
       return;
     }
 
@@ -176,6 +176,14 @@ class BrowserMainScreenWidgetModel
     _visibleNavigationBarState.accept(isVisibleMenu);
 
     _prevYScroll = y;
+  }
+
+  void onOverScrolled(int y) {
+    if (y <= 0) {
+      return;
+    }
+
+    _menuState.accept(MenuType.none);
   }
 
   void onChangeTab(String id) {
