@@ -38,7 +38,7 @@ dependencies:
   flutter_bloc: 9.1.0
   flutter_email_sender: 7.0.0
   flutter_inappwebview: 6.1.5
-  flutter_nekoton_bridge: 2.8.0-dev.1 # TODO: remove
+  flutter_nekoton_bridge: 2.8.0 # TODO: remove
   flutter_screenutil: 5.9.3
   flutter_secure_storage: 9.2.4
   flutter_svg: 2.0.17
