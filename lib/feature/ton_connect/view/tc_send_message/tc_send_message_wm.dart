@@ -14,29 +14,18 @@ import 'package:ui_components_lib/v2/ui_components_lib_v2.dart';
 
 class TransferData {
   TransferData({
-    required this.messages,
-    required this.currency,
-    required this.numberUnconfirmedTransactions,
+    required this.message,
+    required this.recipient,
+    required this.amount,
+    this.attachedAmount,
+    this.rootTokenContract,
   });
 
-  // final Money amount;
-  final List<TransactionPayloadMessage> messages;
-  final Currency currency;
-  final int? numberUnconfirmedTransactions;
-
-  Address? get recipient =>
-      messages.singleOrNull?.address ??
-      (messages.every((e) => e.address == messages.first.address)
-          ? messages.first.address
-          : null);
-
-  Money get amount => Money.fromBigIntWithCurrency(
-        messages.fold<BigInt>(
-          BigInt.zero,
-          (prev, e) => prev + BigInt.parse(e.amount),
-        ),
-        currency,
-      );
+  final TransactionPayloadMessage message;
+  final Address recipient;
+  final Money amount;
+  final BigInt? attachedAmount;
+  final Address? rootTokenContract;
 }
 
 TCSendMessageWidgetModel defaultTCSendMessageWidgetModelFactory(
@@ -45,6 +34,7 @@ TCSendMessageWidgetModel defaultTCSendMessageWidgetModelFactory(
     TCSendMessageWidgetModel(
       TCSendMessageModel(
         createPrimaryErrorHandler(context),
+        inject(),
         inject(),
         inject(),
       ),
@@ -56,7 +46,7 @@ class TCSendMessageWidgetModel
 
   late final account = model.getAccount(widget.connection.walletAddress);
 
-  late final _data = createNotifier<TransferData>();
+  late final _data = createNotifier<List<TransferData>>();
   late final _fee = createNotifier<BigInt>();
   late final _feeError = createNotifier<String>();
   late final _txErrors = createNotifier<List<TxTreeSimulationErrorItem>>();
@@ -69,7 +59,7 @@ class TCSendMessageWidgetModel
   late final _isConfirmed = createNotifier(false);
   int? numberUnconfirmedTransactions;
 
-  ListenableState<TransferData> get data => _data;
+  ListenableState<List<TransferData>> get data => _data;
 
   ListenableState<BigInt> get fee => _fee;
 
@@ -87,12 +77,22 @@ class TCSendMessageWidgetModel
 
   ListenableState<bool> get isConfirmed => _isConfirmed;
 
-  Currency? get nativeCurrency =>
-      Currencies()[model.transport.nativeTokenTicker];
+  Currency get nativeCurrency =>
+      Currencies()[model.transport.nativeTokenTicker]!;
 
-  String? get symbol => nativeCurrency?.symbol;
+  String get symbol => nativeCurrency.symbol;
 
   ThemeStyleV2 get theme => context.themeStyleV2;
+
+  Address get sender => widget.connection.walletAddress;
+
+  Money get totalAmount => Money.fromBigIntWithCurrency(
+        (_data.value ?? []).fold(
+          BigInt.zero,
+          (prev, e) => prev + (e.attachedAmount ?? e.amount.amount.minorUnits),
+        ),
+        nativeCurrency,
+      );
 
   @override
   void initWidgetModel() {
@@ -110,7 +110,7 @@ class TCSendMessageWidgetModel
     try {
       _isLoading.accept(true);
       final message = await model.send(
-        address: widget.connection.walletAddress,
+        address: sender,
         publicKey: account!.publicKey,
         messages: widget.payload.messages,
         password: password,
@@ -149,15 +149,10 @@ class TCSendMessageWidgetModel
 
       await _initWalletTon();
 
-      if (nativeCurrency != null) {
-        _data.accept(
-          TransferData(
-            messages: widget.payload.messages,
-            currency: nativeCurrency!,
-            numberUnconfirmedTransactions: numberUnconfirmedTransactions,
-          ),
-        );
-      }
+      final data = await Future.wait(
+        widget.payload.messages.map(_initTransferData),
+      );
+      _data.accept(data);
 
       await Future.wait([
         _getCustodians(),
@@ -168,9 +163,54 @@ class TCSendMessageWidgetModel
     }
   }
 
+  Future<TransferData> _initTransferData(
+    TransactionPayloadMessage message,
+  ) async {
+    final payload = message.payload?.let(parseKnownPayload);
+    final transfer = payload?.whenOrNull(
+      jettonOutgoingTransfer: (data) => data,
+    );
+
+    if (transfer == null) {
+      // Native transfer
+      return TransferData(
+        message: message,
+        recipient: message.address,
+        amount: Money.fromBigIntWithCurrency(
+          BigInt.parse(message.amount),
+          nativeCurrency,
+        ),
+      );
+    }
+
+    // Jetton transfer
+    final (rootTokenContract, _) = await model.getJettonRootDetails(
+      message.address.copyWith(
+        address: message.address.toRaw(),
+      ),
+    );
+    final symbol = await model.getSymbol(rootTokenContract);
+
+    final currency = Currency.create(
+      symbol.name,
+      symbol.decimals,
+      symbol: symbol.name,
+      pattern: moneyPattern(symbol.decimals),
+    );
+
+    Currencies().register(currency);
+
+    return TransferData(
+      message: message,
+      recipient: transfer.to,
+      amount: Money.fromBigIntWithCurrency(transfer.tokens, currency),
+      attachedAmount: BigInt.parse(message.amount),
+      rootTokenContract: rootTokenContract,
+    );
+  }
+
   Future<void> _getCustodians() async {
-    final custodians =
-        await model.getLocalCustodiansAsync(widget.connection.walletAddress);
+    final custodians = await model.getLocalCustodiansAsync(sender);
     _custodians.accept(custodians);
   }
 
@@ -179,7 +219,7 @@ class TCSendMessageWidgetModel
 
     try {
       message = await model.prepareTransfer(
-        address: widget.connection.walletAddress,
+        address: sender,
         publicKey: account!.publicKey,
         messages: widget.payload.messages,
       );
@@ -189,10 +229,10 @@ class TCSendMessageWidgetModel
 
       final data = _data.value;
       if (data != null) {
-        final balance = _balance.value ??
-            await model.getBalanceStream(widget.connection.walletAddress).first;
+        final balance =
+            _balance.value ?? await model.getBalanceStream(sender).first;
         final fee = _fee.value ?? BigInt.zero;
-        final amount = data.amount.amount.minorUnits;
+        final amount = totalAmount.amount.minorUnits;
 
         if (balance.amount.minorUnits < (fee + amount)) {
           _feeError.accept(LocaleKeys.insufficientFunds.tr());
@@ -206,7 +246,7 @@ class TCSendMessageWidgetModel
   Future<void> _estimateFees(UnsignedMessage message) async {
     try {
       final fee = await model.estimateFees(
-        address: widget.connection.walletAddress,
+        address: sender,
         message: message,
       );
 
@@ -219,7 +259,7 @@ class TCSendMessageWidgetModel
   Future<void> _simulateTransactionTree(UnsignedMessage message) async {
     try {
       final errors = await model.simulateTransactionTree(
-        address: widget.connection.walletAddress,
+        address: sender,
         message: message,
       );
 
@@ -237,20 +277,9 @@ class TCSendMessageWidgetModel
   }
 
   Future<void> _initWalletTon() async {
-    final walletTonState =
-        await model.getTonWalletState(widget.connection.walletAddress);
+    final walletTonState = await model.getTonWalletState(sender);
     numberUnconfirmedTransactions =
         (walletTonState.wallet?.unconfirmedTransactions.length ?? 0) +
             (walletTonState.wallet?.pendingTransactions.length ?? 0);
-
-    if (nativeCurrency != null) {
-      _data.accept(
-        TransferData(
-          messages: widget.payload.messages,
-          currency: nativeCurrency!,
-          numberUnconfirmedTransactions: numberUnconfirmedTransactions,
-        ),
-      );
-    }
   }
 }

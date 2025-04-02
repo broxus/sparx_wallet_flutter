@@ -39,10 +39,12 @@ class TokenTransferInfoWidgetModel
   );
   late final _tokenAsset = createNotifier<TokenContractAsset>();
   late final _fee = createNotifier(
-    Money.fromBigIntWithCurrency(
-      widget.fee ?? BigInt.zero,
-      nativeCurrency,
-    ),
+    widget.hasFee
+        ? Money.fromBigIntWithCurrency(
+            widget.fee ?? BigInt.zero,
+            nativeCurrency,
+          )
+        : null,
   );
   late final _feeError = createNotifier(widget.feeError);
   late final _attachedAmount = createNotifier(
@@ -86,10 +88,12 @@ class TokenTransferInfoWidgetModel
     super.didUpdateWidget(oldWidget);
 
     _fee.accept(
-      Money.fromBigIntWithCurrency(
-        widget.fee ?? BigInt.zero,
-        nativeCurrency,
-      ),
+      widget.hasFee
+          ? Money.fromBigIntWithCurrency(
+              widget.fee ?? BigInt.zero,
+              nativeCurrency,
+            )
+          : null,
     );
     _feeError.accept(widget.feeError);
     _attachedAmount.accept(

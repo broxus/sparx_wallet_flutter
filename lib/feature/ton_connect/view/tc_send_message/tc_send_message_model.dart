@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:app/app/service/service.dart';
+import 'package:app/http/repository/repository.dart';
 import 'package:app/utils/utils.dart';
 import 'package:collection/collection.dart';
 import 'package:elementary/elementary.dart';
@@ -12,10 +13,12 @@ class TCSendMessageModel extends ElementaryModel {
     ErrorHandler errorHandler,
     this._nekotonRepository,
     this._messengerService,
+    this._tonRepository,
   ) : super(errorHandler: errorHandler);
 
   final NekotonRepository _nekotonRepository;
   final MessengerService _messengerService;
+  final TonRepository _tonRepository;
 
   TransportStrategy get transport => _nekotonRepository.currentTransport;
 
@@ -135,5 +138,28 @@ class TCSendMessageModel extends ElementaryModel {
     } finally {
       unsignedMessage?.dispose();
     }
+  }
+
+  Future<(Address, JettonRootData)> getJettonRootDetails(
+    Address address,
+  ) =>
+      JettonWallet.getJettonRootDetailsFromJettonWallet(
+        address: address,
+        transport: transport.transport,
+      );
+
+  Future<Symbol> getSymbol(Address rootTokenContract) async {
+    final info = await _tonRepository.getTokenInfo(
+      address: rootTokenContract,
+    );
+
+    final symbol = Symbol(
+      name: info.symbol ?? 'UNKNOWN',
+      fullName: info.name ?? 'Unknown token',
+      decimals: info.decimals ?? 0,
+      rootTokenContract: info.address,
+    );
+
+    return symbol;
   }
 }
