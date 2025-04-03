@@ -113,7 +113,7 @@ Data layer provides data structures and data flow of feature.
 ```
 /feature/feature_name/data/
 ├── entities/                   # for complex feature entities placed in separate directory
-├── dtos/                       # for complex feature dtos placed in separate directory
+├── dto/                       # for complex feature dto placed in separate directory
 ├── api/                        # for complex feature apis placed in separate directory
 ├── feature_api.dart            # interface reptresenting api-layer http/rpc of feature
 ├── feature_object.dart         # some business layer object

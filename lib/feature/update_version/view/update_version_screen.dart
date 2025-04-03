@@ -107,16 +107,17 @@ class _UpdateVersionContent extends StatelessWidget {
             textAlign: TextAlign.center,
           ),
           const SizedBox(height: DimensSizeV2.d4),
-          if (targetVersion != null) ...[
-            Text(
-              'v$targetVersion',
-              style: theme.textStyles.labelSmall.copyWith(
-                color: theme.colors.content3,
+          if (targetVersion != null)
+            Padding(
+              padding: const EdgeInsets.only(bottom: DimensSizeV2.d16),
+              child: Text(
+                'v$targetVersion',
+                style: theme.textStyles.labelSmall.copyWith(
+                  color: theme.colors.content3,
+                ),
+                textAlign: TextAlign.center,
               ),
-              textAlign: TextAlign.center,
             ),
-            const SizedBox(height: 16),
-          ],
           Text(
             noteText ?? LocaleKeys.importantUpdateReleaseNote.tr(),
             style: theme.textStyles.paragraphMedium.copyWith(
@@ -135,20 +136,21 @@ class _UpdateVersionContent extends StatelessWidget {
               textAlign: TextAlign.center,
             ),
           ),
-          if (!isBlockingUpdate) ...[
-            const SizedBox(height: DimensSizeV2.d12),
-            GhostButton(
-              buttonShape: ButtonShape.pill,
-              onPressed: onCancel,
-              buttonSize: ButtonSize.medium,
-              child: Text(
-                LocaleKeys.cancelWord.tr(),
-                style: theme.textStyles.labelLarge,
-                textAlign: TextAlign.center,
+          if (!isBlockingUpdate)
+            Padding(
+              padding: const EdgeInsets.only(bottom: DimensSizeV2.d16),
+              child: GhostButton(
+                buttonShape: ButtonShape.pill,
+                onPressed: onCancel,
+                buttonSize: ButtonSize.medium,
+                child: Text(
+                  LocaleKeys.cancelWord.tr(),
+                  style: theme.textStyles.labelLarge,
+                  textAlign: TextAlign.center,
+                ),
               ),
             ),
-          ],
-          const SizedBox(height: 16),
+          const SizedBox(height: DimensSizeV2.d16),
         ],
       ),
     );

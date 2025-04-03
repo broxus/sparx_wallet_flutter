@@ -23,7 +23,8 @@ mixin _$UpdateRules {
   /// Minimum version required - users below this version cannot use the app.
   String get blockingVersion => throw _privateConstructorUsedError;
 
-  /// Version that triggers warning - users below this should update but can continue.
+  /// Version that triggers warning - users below this should update but can
+  /// continue.
   String get warningVersion => throw _privateConstructorUsedError;
 
   /// Maximum number of times to show the warning notification.
@@ -166,7 +167,8 @@ class _$UpdateRulesImpl implements _UpdateRules {
   @override
   final String blockingVersion;
 
-  /// Version that triggers warning - users below this should update but can continue.
+  /// Version that triggers warning - users below this should update but can
+  /// continue.
   @override
   final String warningVersion;
 
@@ -233,7 +235,8 @@ abstract class _UpdateRules implements UpdateRules {
   @override
   String get blockingVersion;
 
-  /// Version that triggers warning - users below this should update but can continue.
+  /// Version that triggers warning - users below this should update but can
+  /// continue.
   @override
   String get warningVersion;
 

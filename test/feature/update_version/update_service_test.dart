@@ -1,6 +1,5 @@
 import 'package:app/app/service/app_version_service.dart';
 import 'package:app/app/service/ntp_service.dart';
-import 'package:app/app/service/storage_service/app_storage_service.dart';
 import 'package:app/feature/presets_config/data/preset_config_type.dart';
 import 'package:app/feature/presets_config/data/release_note.dart';
 import 'package:app/feature/presets_config/data/release_notes.dart';
@@ -9,6 +8,7 @@ import 'package:app/feature/presets_config/domain/presets_config_reader.dart';
 import 'package:app/feature/update_version/data/update_request.dart';
 import 'package:app/feature/update_version/data/update_status.dart';
 import 'package:app/feature/update_version/domain/latest_version_finder.dart';
+import 'package:app/feature/update_version/domain/storage/update_version_storage_service.dart';
 import 'package:app/feature/update_version/domain/update_service.dart';
 import 'package:app/feature/update_version/domain/update_status_checker.dart';
 import 'package:app/feature/update_version/domain/version_comparator.dart';
@@ -22,7 +22,8 @@ class MockVersionComparator extends Mock implements VersionComparator {}
 
 class MockUpdateStatusChecker extends Mock implements UpdateStatusChecker {}
 
-class MockAppStorageService extends Mock implements AppStorageService {}
+class MockUpdateVersionStorageService extends Mock
+    implements UpdateVersionStorageService {}
 
 class MockLatestVersionFinder extends Mock implements LatestVersionFinder {}
 
@@ -35,7 +36,7 @@ void main() {
   late MockPresetsConfigReader mockConfigReader;
   late MockUpdateStatusChecker mockUpdateStatusChecker;
   late MockLatestVersionFinder mockLatestVersionFinder;
-  late MockAppStorageService mockAppStorage;
+  late MockUpdateVersionStorageService mockStorageService;
   late MockAppVersionService mockAppVersionService;
 
   const testUpdateRules = UpdateRules(
@@ -91,7 +92,7 @@ void main() {
     mockConfigReader = MockPresetsConfigReader();
     mockUpdateStatusChecker = MockUpdateStatusChecker();
     mockLatestVersionFinder = MockLatestVersionFinder();
-    mockAppStorage = MockAppStorageService();
+    mockStorageService = MockUpdateVersionStorageService();
     mockAppVersionService = MockAppVersionService();
 
     // Create a mock NtpService
@@ -107,7 +108,7 @@ void main() {
       mockConfigReader,
       mockUpdateStatusChecker,
       mockLatestVersionFinder,
-      mockAppStorage,
+      mockStorageService,
       mockAppVersionService,
     );
 
@@ -190,10 +191,8 @@ void main() {
       'should check warning display rules for warning status',
       () async {
         // Arrange
-        when(() => mockAppStorage.getValue<int>(warningCountKey))
-            .thenReturn(null);
-        when(() => mockAppStorage.getValue<int>(warningLastTimeKey))
-            .thenReturn(null);
+        when(() => mockStorageService.warningCount()).thenReturn(null);
+        when(() => mockStorageService.warningLastTime()).thenReturn(null);
         emulateStatus(UpdateStatus.warning);
 
         // Act
@@ -206,12 +205,9 @@ void main() {
         verify(
           () => mockConfigReader.getConfig(PresetConfigType.releaseNotes),
         ).called(1);
-        verifyNever(
-          () => mockAppStorage.addValue(warningCountKey, any<int>()),
-        );
-        verifyNever(
-          () => mockAppStorage.addValue(warningLastTimeKey, any<int>()),
-        );
+
+        verifyNever(() => mockStorageService.updateWarningCount(any<int>()));
+        verifyNever(() => mockStorageService.updateWarningLastTime());
 
         // Verify that an update request was emitted
         expectUpdateRequest(UpdateStatus.warning);
@@ -222,14 +218,14 @@ void main() {
       'should not show warning if count exceeds limit',
       () async {
         // Arrange
-        when(() => mockAppStorage.getValue<int>(warningCountKey))
+        when(() => mockStorageService.warningCount())
             .thenReturn(testUpdateRules.warningShowTimes);
 
         final delayedTestMills = testTime
             .subtract(Duration(seconds: testUpdateRules.warningShowDelayS + 1))
             .millisecondsSinceEpoch;
 
-        when(() => mockAppStorage.getValue<int>(warningLastTimeKey))
+        when(() => mockStorageService.warningLastTime())
             .thenReturn(delayedTestMills);
 
         emulateStatus(UpdateStatus.warning);
@@ -238,14 +234,10 @@ void main() {
         await updateService.initAndWait();
 
         // Assert
-        verify(() => mockAppStorage.getValue<int>(warningCountKey)).called(1);
-        verifyNever(() => mockAppStorage.getValue<int>(warningLastTimeKey));
-        verifyNever(
-          () => mockAppStorage.addValue(warningCountKey, any<int>()),
-        );
-        verifyNever(
-          () => mockAppStorage.addValue(warningLastTimeKey, any<int>()),
-        );
+        verify(() => mockStorageService.warningCount()).called(1);
+        verifyNever(() => mockStorageService.warningLastTime());
+        verifyNever(() => mockStorageService.updateWarningCount(any<int>()));
+        verifyNever(() => mockStorageService.updateWarningLastTime());
 
         // Verify that an update request wasn't emitted
         expectUpdateRequest(UpdateStatus.none);
@@ -256,14 +248,14 @@ void main() {
       'should not show warning if not enough time has passed',
       () async {
         // Arrange
-        when(() => mockAppStorage.getValue<int>(warningCountKey))
+        when(() => mockStorageService.warningCount())
             .thenReturn(testUpdateRules.warningShowTimes - 1);
 
         final delayedTestMills = testTime
             .subtract(Duration(seconds: testUpdateRules.warningShowDelayS ~/ 2))
             .millisecondsSinceEpoch;
 
-        when(() => mockAppStorage.getValue<int>(warningLastTimeKey))
+        when(() => mockStorageService.warningLastTime())
             .thenReturn(delayedTestMills);
 
         emulateStatus(UpdateStatus.warning);
@@ -272,15 +264,10 @@ void main() {
         await updateService.initAndWait();
 
         // Assert
-        verify(() => mockAppStorage.getValue<int>(warningCountKey)).called(1);
-        verify(() => mockAppStorage.getValue<int>(warningLastTimeKey))
-            .called(1);
-        verifyNever(
-          () => mockAppStorage.addValue(warningCountKey, any<int>()),
-        );
-        verifyNever(
-          () => mockAppStorage.addValue(warningLastTimeKey, any<int>()),
-        );
+        verify(() => mockStorageService.warningCount()).called(1);
+        verify(() => mockStorageService.warningLastTime()).called(1);
+        verifyNever(() => mockStorageService.updateWarningCount(any<int>()));
+        verifyNever(() => mockStorageService.updateWarningLastTime());
 
         // Verify that an update request wasn't emitted
         expectUpdateRequest(UpdateStatus.none);
@@ -292,14 +279,14 @@ void main() {
       ' and count exceeds limit',
       () async {
         // Arrange
-        when(() => mockAppStorage.getValue<int>(warningCountKey))
+        when(() => mockStorageService.warningCount())
             .thenReturn(testUpdateRules.warningShowTimes);
 
         final delayedTestMills = testTime
             .subtract(Duration(seconds: testUpdateRules.warningShowDelayS + 1))
             .millisecondsSinceEpoch;
 
-        when(() => mockAppStorage.getValue<int>(warningLastTimeKey))
+        when(() => mockStorageService.warningLastTime())
             .thenReturn(delayedTestMills);
 
         emulateStatus(UpdateStatus.warning);
@@ -308,14 +295,10 @@ void main() {
         await updateService.initAndWait();
 
         // Assert
-        verify(() => mockAppStorage.getValue<int>(warningCountKey)).called(1);
-        verifyNever(() => mockAppStorage.getValue<int>(warningLastTimeKey));
-        verifyNever(
-          () => mockAppStorage.addValue(warningCountKey, any<int>()),
-        );
-        verifyNever(
-          () => mockAppStorage.addValue(warningLastTimeKey, any<int>()),
-        );
+        verify(() => mockStorageService.warningCount()).called(1);
+        verifyNever(() => mockStorageService.warningLastTime());
+        verifyNever(() => mockStorageService.updateWarningCount(any<int>()));
+        verifyNever(() => mockStorageService.updateWarningLastTime());
 
         // Verify that an update request wasn't emitted
         expectUpdateRequest(UpdateStatus.none);
@@ -327,10 +310,8 @@ void main() {
       ' if warning updated emitted',
       () async {
         // Arrange
-        when(() => mockAppStorage.getValue<int>(warningCountKey))
-            .thenReturn(null);
-        when(() => mockAppStorage.getValue<int>(warningLastTimeKey))
-            .thenReturn(null);
+        when(() => mockStorageService.warningCount()).thenReturn(null);
+        when(() => mockStorageService.warningLastTime()).thenReturn(null);
         emulateStatus(UpdateStatus.warning);
 
         // Act
@@ -345,15 +326,11 @@ void main() {
         // Verify that null was emitted
         expectUpdateRequest(UpdateStatus.none);
 
-        verify(() => mockAppStorage.getValue<int>(warningCountKey)).called(2);
-        verify(() => mockAppStorage.getValue<int>(warningLastTimeKey))
+        verify(() => mockStorageService.warningCount()).called(2);
+        verify(() => mockStorageService.warningLastTime()).called(1);
+        verify(() => mockStorageService.updateWarningCount(any<int>()))
             .called(1);
-        verify(
-          () => mockAppStorage.addValue(warningCountKey, any<int>()),
-        ).called(1);
-        verify(
-          () => mockAppStorage.addValue(warningLastTimeKey, any<int>()),
-        ).called(1);
+        verify(() => mockStorageService.updateWarningLastTime()).called(1);
       },
     );
 
@@ -362,10 +339,8 @@ void main() {
       ' if blocking updated emitted',
       () async {
         // Arrange
-        when(() => mockAppStorage.getValue<int>(warningCountKey))
-            .thenReturn(null);
-        when(() => mockAppStorage.getValue<int>(warningLastTimeKey))
-            .thenReturn(null);
+        when(() => mockStorageService.warningCount()).thenReturn(null);
+        when(() => mockStorageService.warningLastTime()).thenReturn(null);
         emulateStatus(UpdateStatus.blocking);
 
         // Act
@@ -380,14 +355,10 @@ void main() {
         // Verify that null was emitted
         expectUpdateRequest(UpdateStatus.blocking);
 
-        verifyNever(() => mockAppStorage.getValue<int>(warningCountKey));
-        verifyNever(() => mockAppStorage.getValue<int>(warningLastTimeKey));
-        verifyNever(
-          () => mockAppStorage.addValue(warningCountKey, any<int>()),
-        );
-        verifyNever(
-          () => mockAppStorage.addValue(warningLastTimeKey, any<int>()),
-        );
+        verifyNever(() => mockStorageService.warningCount());
+        verifyNever(() => mockStorageService.warningLastTime());
+        verifyNever(() => mockStorageService.updateWarningCount(any<int>()));
+        verifyNever(() => mockStorageService.updateWarningLastTime());
       },
     );
   });
@@ -396,4 +367,11 @@ void main() {
     // Reset GetIt instance after each test
     GetIt.I.reset();
   });
+}
+
+extension UpdateServiceEx on UpdateService {
+  Future<void> initAndWait() {
+    init();
+    return initCall!;
+  }
 }

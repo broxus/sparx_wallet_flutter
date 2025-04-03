@@ -1,13 +1,13 @@
 import 'dart:async';
 
 import 'package:app/app/service/app_version_service.dart';
-import 'package:app/app/service/storage_service/app_storage_service.dart';
 import 'package:app/feature/presets_config/data/preset_config_type.dart';
 import 'package:app/feature/presets_config/data/update_rules.dart';
 import 'package:app/feature/presets_config/domain/presets_config_reader.dart';
 import 'package:app/feature/update_version/data/update_request.dart';
 import 'package:app/feature/update_version/data/update_status.dart';
 import 'package:app/feature/update_version/domain/latest_version_finder.dart';
+import 'package:app/feature/update_version/domain/storage/update_version_storage_service.dart';
 import 'package:app/feature/update_version/domain/update_status_checker.dart';
 import 'package:app/utils/common_utils.dart';
 import 'package:flutter/foundation.dart';
@@ -23,14 +23,14 @@ class UpdateService {
     this._presetsConfigReader,
     this._updateStatusChecker,
     this._latestVersionFinder,
-    this._appStorage,
+    this._updateVersionStorageService,
     this._appVersionService,
   );
 
   final PresetsConfigReader _presetsConfigReader;
   final UpdateStatusChecker _updateStatusChecker;
   final LatestVersionFinder _latestVersionFinder;
-  final AppStorageService _appStorage;
+  final UpdateVersionStorageService _updateVersionStorageService;
   final AppVersionService _appVersionService;
 
   @visibleForTesting
@@ -100,7 +100,7 @@ class UpdateService {
   }
 
   bool _shouldShowWarning(UpdateRules rules) {
-    final warningCount = _appStorage.warningCount() ?? 0;
+    final warningCount = _updateVersionStorageService.warningCount() ?? 0;
 
     if (warningCount >= rules.warningShowTimes) {
       _logger.info(
@@ -109,7 +109,8 @@ class UpdateService {
       return false;
     }
 
-    final warningLastTimeSecs = (_appStorage.warningLastTime() ?? 0) ~/ 1000;
+    final warningLastTimeSecs =
+        (_updateVersionStorageService.warningLastTime() ?? 0) ~/ 1000;
 
     final nowSecs = NtpTime.now().millisecondsSinceEpoch ~/ 1000;
     final elapsedSecs = nowSecs - warningLastTimeSecs;
@@ -126,9 +127,9 @@ class UpdateService {
 
   Future<void> dismissWarning() async {
     if (_updateRequestSubject.valueOrNull?.status == UpdateStatus.warning) {
-      final warningCount = _appStorage.warningCount() ?? 0;
+      final warningCount = _updateVersionStorageService.warningCount() ?? 0;
 
-      _appStorage
+      _updateVersionStorageService
         ..updateWarningCount(warningCount + 1)
         ..updateWarningLastTime();
 
@@ -138,29 +139,5 @@ class UpdateService {
 
   void dispose() {
     _updateRequestSubject.close();
-  }
-}
-
-final warningCountKey = StorageKey.updateStats('update_warning_count');
-final warningLastTimeKey = StorageKey.updateStats('update_warning_last_time');
-
-extension AppStorageServiceUpdateStatsEx on AppStorageService {
-  int? warningCount() => getValue<int>(warningCountKey);
-  int? warningLastTime() => getValue<int>(warningLastTimeKey);
-
-  void updateWarningCount(int newCount) {
-    addValue<int>(warningCountKey, newCount);
-  }
-
-  void updateWarningLastTime() {
-    addValue<int>(warningLastTimeKey, NtpTime.now().millisecondsSinceEpoch);
-  }
-}
-
-extension UpdateServiceEx on UpdateService {
-  @visibleForTesting
-  Future<void> initAndWait() {
-    init();
-    return initCall!;
   }
 }

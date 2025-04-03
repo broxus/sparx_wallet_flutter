@@ -44,9 +44,6 @@ class StorageKey {
   factory StorageKey.nameCustodian(String publicKey) =>
       StorageKey._('nameCustodian', publicKey);
 
-  factory StorageKey.updateStats(String key) =>
-      StorageKey._('updateStats', key);
-
   StorageKey._(this._baseKey, [this._entityKey]);
 
   final String _baseKey;
