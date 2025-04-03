@@ -77,8 +77,7 @@ class BrowserPageWidgetModel
   );
 
   late final _isNeedCreateWebViewState = createNotifier<bool>(false);
-  late final _isShowStartViewState =
-      createNotifier<bool>(widget.tab.url.host.isEmpty);
+  late final _isShowStartViewState = createNotifier<bool>(_url.isEmpty);
 
   InAppWebViewController? _webViewController;
 
@@ -106,7 +105,7 @@ class BrowserPageWidgetModel
   @override
   void didUpdateWidget(BrowserPage oldWidget) {
     if (oldWidget.tab.url != widget.tab.url) {
-      _isShowStartViewState.accept(widget.tab.url.host.isEmpty);
+      _isShowStartViewState.accept(_url.isEmpty);
     }
     super.didUpdateWidget(oldWidget);
   }
@@ -208,7 +207,7 @@ class BrowserPageWidgetModel
     ___,
     ____,
   ) {
-    widget.onScrollChanged(y);
+    widget.onOverScrolled(y);
   }
 
   void onScrollChanged(_, __, int y) {

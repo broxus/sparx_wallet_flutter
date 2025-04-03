@@ -15,6 +15,7 @@ class BrowserPage extends ElementaryWidget<BrowserPageWidgetModel> {
     required this.width,
     required this.onCreate,
     required this.onScrollChanged,
+    required this.onOverScrolled,
     required this.onDispose,
     required this.progressController,
     Key? key,
@@ -32,6 +33,7 @@ class BrowserPage extends ElementaryWidget<BrowserPageWidgetModel> {
   final double width;
   final ValueChanged<InAppWebViewController> onCreate;
   final ValueChanged<int> onScrollChanged;
+  final ValueChanged<int> onOverScrolled;
   final VoidCallback onDispose;
   final AnimationController progressController;
 
