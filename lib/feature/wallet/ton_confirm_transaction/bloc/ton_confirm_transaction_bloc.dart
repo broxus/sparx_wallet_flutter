@@ -203,7 +203,6 @@ class TonConfirmTransactionBloc
 
       inject<MessengerService>().show(
         Message.successful(
-          context: context,
           message: LocaleKeys.transactionSentSuccessfully.tr(),
         ),
       );
@@ -213,8 +212,11 @@ class TonConfirmTransactionBloc
     } on OperationCanceledException catch (_) {
     } on Exception catch (e, t) {
       _logger.severe('_handleSend', e, t);
-      inject<MessengerService>()
-          .show(Message.error(context: context, message: e.toString()));
+      inject<MessengerService>().show(
+        Message.error(
+          message: e.toString(),
+        ),
+      );
       emitSafe(
         TonConfirmTransactionState.readyToSend(
           fees!,

@@ -29,7 +29,6 @@ class ImportWalletScreenModel extends ElementaryModel with ConnectionMixin {
   void showValidateError(BuildContext context, String message) {
     messengerService.show(
       Message.error(
-        context: context,
         message: message,
         debounceTime: defaultInfoMessageDebounceDuration,
       ),

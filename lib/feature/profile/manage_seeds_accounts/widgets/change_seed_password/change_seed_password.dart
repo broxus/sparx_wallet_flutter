@@ -61,13 +61,12 @@ class _ChangeSeedPasswordSheetState extends State<ChangeSeedPasswordSheet> {
       listener: (context, state) {
         state.whenOrNull(
           error: (errorCode) => inject<MessengerService>().show(
-            Message.error(context: context, message: errorCode.tr()),
+            Message.error(message: errorCode.tr()),
           ),
           completed: () {
             Navigator.of(context).pop();
             inject<MessengerService>().show(
               Message.successful(
-                context: context,
                 message: LocaleKeys.passwordChanged.tr(),
               ),
             );

@@ -4,7 +4,6 @@ import 'package:flutter/cupertino.dart';
 
 PrimaryErrorHandler createPrimaryErrorHandler(BuildContext context) {
   return PrimaryErrorHandler(
-    context,
     inject(),
   );
 }

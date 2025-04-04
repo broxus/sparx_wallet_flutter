@@ -65,7 +65,7 @@ class CreateSeedPasswordScreenModel extends ElementaryModel {
     } catch (e) {
       Logger('CreateSeedPasswordCubit').severe(e);
       _messengerService.show(
-        Message.error(context: context, message: e.toString()),
+        Message.error(message: e.toString()),
       );
     }
   }

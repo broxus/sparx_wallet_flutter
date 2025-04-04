@@ -89,7 +89,6 @@ class EnterPasswordCubit extends Cubit<EnterPasswordState> with BlocBaseMixin {
   void _showWrongPassword(BuildContext context) {
     inject<MessengerService>().show(
       Message.error(
-        context: context,
         message: LocaleKeys.passwordIsWrong.tr(),
       ),
     );

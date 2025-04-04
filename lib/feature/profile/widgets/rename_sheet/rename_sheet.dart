@@ -78,7 +78,6 @@ class _RenameSheetState extends State<RenameSheet> {
               completed: (isSeed) {
                 inject<MessengerService>().show(
                   Message.successful(
-                    context: context,
                     message: isSeed
                         ? LocaleKeys.valueRenamed.tr(
                             args: [LocaleKeys.seedPhrase.tr()],

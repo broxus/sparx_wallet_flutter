@@ -22,7 +22,6 @@ class BootstrapRerunCubit extends Cubit<bool> with BlocBaseMixin {
     } catch (e) {
       inject<MessengerService>().show(
         Message.error(
-          context: context,
           message: LocaleKeys.initializationRerunFailed.tr(),
         ),
       );

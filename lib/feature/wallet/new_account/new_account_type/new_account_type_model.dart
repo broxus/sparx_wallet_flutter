@@ -41,7 +41,7 @@ class NewAccountTypeModel extends ElementaryModel {
 
   void showError(BuildContext context, String message) {
     _messengerService.show(
-      Message.error(context: context, message: message),
+      Message.error(message: message),
     );
   }
 

@@ -77,7 +77,6 @@ class KeySettingsSheet extends StatelessWidget {
           onPressed: () {
             inject<MessengerService>().show(
               Message.successful(
-                context: context,
                 message: LocaleKeys.valueCopiedExclamation.tr(
                   args: [publicKey.toEllipseString()],
                 ),

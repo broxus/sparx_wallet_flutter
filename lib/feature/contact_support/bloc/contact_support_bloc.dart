@@ -33,7 +33,6 @@ class ContactSupportBloc extends Bloc<ContactSupportEvent, ContactSupportState>
             emitSafe(const ContactSupportState.initial());
             inject<MessengerService>().show(
               Message.error(
-                context: context,
                 message: LocaleKeys.contactSupportCantCreateFile.tr(),
               ),
             );
@@ -47,7 +46,6 @@ class ContactSupportBloc extends Bloc<ContactSupportEvent, ContactSupportState>
               emitSafe(const ContactSupportState.initial());
               inject<MessengerService>().show(
                 Message.error(
-                  context: context,
                   message: LocaleKeys.contactSupportCantFindEmailClient.tr(),
                   actionText:
                       LocaleKeys.contactSupportCantFindEmailClientShare.tr(),

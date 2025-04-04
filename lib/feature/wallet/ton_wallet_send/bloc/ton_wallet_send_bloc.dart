@@ -179,8 +179,11 @@ class TonWalletSendBloc extends Bloc<TonWalletSendEvent, TonWalletSendState>
         destination: repackAddress(destination),
       );
 
-      messengerService
-          .show(Message.successful(context: context, message: resultMessage));
+      messengerService.show(
+        Message.successful(
+          message: resultMessage,
+        ),
+      );
       if (!isClosed) {
         add(TonWalletSendEvent.completeSend(transaction));
       }
@@ -189,7 +192,6 @@ class TonWalletSendBloc extends Bloc<TonWalletSendEvent, TonWalletSendState>
       _logger.severe('_handleSend', e, t);
       messengerService.show(
         Message.error(
-          context: context,
           message: e.toString(),
         ),
       );

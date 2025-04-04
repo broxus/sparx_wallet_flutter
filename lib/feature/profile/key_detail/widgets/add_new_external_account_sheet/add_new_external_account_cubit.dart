@@ -64,7 +64,6 @@ class AddNewExternalAccountCubit extends Cubit<AddNewExternalAccountState>
   }
 
   void _showError(BuildContext context, String error) {
-    inject<MessengerService>()
-        .show(Message.error(context: context, message: error));
+    inject<MessengerService>().show(Message.error(message: error));
   }
 }

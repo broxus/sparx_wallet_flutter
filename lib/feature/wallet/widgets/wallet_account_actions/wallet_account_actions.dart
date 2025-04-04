@@ -174,7 +174,6 @@ class _ActionList extends StatelessWidget {
                     if ((numberUnconfirmedTransactions ?? 0) >= 5) {
                       inject<MessengerService>().show(
                         Message.error(
-                          context: context,
                           message: LocaleKeys
                               .errorMessageMaxUnconfirmedTransactions
                               .tr(),
@@ -234,7 +233,6 @@ class _ActionList extends StatelessWidget {
             if ((numberUnconfirmedTransactions ?? 0) >= 5) {
               inject<MessengerService>().show(
                 Message.error(
-                  context: context,
                   message:
                       LocaleKeys.errorMessageMaxUnconfirmedTransactions.tr(),
                 ),
@@ -289,7 +287,6 @@ class _ActionList extends StatelessWidget {
         WalletAccountActionBehavior.sendLocalCustodiansNeeded => () =>
             inject<MessengerService>().show(
               Message.error(
-                context: context,
                 message: LocaleKeys.toSendMultisigAddCustodian.tr(),
                 actionText: LocaleKeys.addWord.tr(),
                 onAction: () => _showAddSeedSheet(context),

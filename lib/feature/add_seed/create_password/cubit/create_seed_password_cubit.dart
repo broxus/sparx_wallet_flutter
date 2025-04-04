@@ -104,7 +104,6 @@ class CreateSeedPasswordCubit extends Cubit<CreateSeedPasswordState>
       emitSafe(state.copyWith(isLoading: false));
       messengerService.show(
         Message.error(
-          context: context,
           message: e.toString(),
         ),
       );

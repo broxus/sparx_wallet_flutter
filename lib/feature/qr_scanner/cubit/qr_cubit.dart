@@ -119,7 +119,6 @@ class QrCubit extends Cubit<QrCubitState> with BlocBaseMixin {
     } else {
       inject<MessengerService>().show(
         Message.error(
-          context: context,
           message: LocaleKeys.givePhotosPermission.tr(),
           actionText: LocaleKeys.giveWord.tr(),
           onAction: () => openSettings(SettingsOpenType.photos),
@@ -144,7 +143,6 @@ class QrCubit extends Cubit<QrCubitState> with BlocBaseMixin {
     } else {
       inject<MessengerService>().show(
         Message.error(
-          context: context,
           message: LocaleKeys.scannedDataIsNot.tr(
             args: [type.description.toLowerCase()],
           ),

@@ -108,7 +108,7 @@ class WalletPrepareTransferPageModel extends ElementaryModel {
 
   void showError(BuildContext context, String text) {
     _messengerService.show(
-      Message.error(context: context, message: text),
+      Message.error(message: text),
     );
   }
 

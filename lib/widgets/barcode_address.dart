@@ -79,7 +79,6 @@ class BarcodeAddress extends StatelessWidget {
     Clipboard.setData(ClipboardData(text: address.address));
     inject<MessengerService>().show(
       Message.successful(
-        context: context,
         message: LocaleKeys.valueCopiedExclamation.tr(
           args: [address.toEllipseString()],
         ),

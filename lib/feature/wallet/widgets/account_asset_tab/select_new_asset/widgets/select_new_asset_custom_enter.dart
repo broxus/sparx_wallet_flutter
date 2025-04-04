@@ -145,7 +145,6 @@ class _SelectNewAssetCustomEnterState extends State<SelectNewAssetCustomEnter> {
     } else {
       inject<MessengerService>().show(
         Message.error(
-          context: context,
           message: LocaleKeys.invalidRootTokenContract.tr(),
         ),
       );

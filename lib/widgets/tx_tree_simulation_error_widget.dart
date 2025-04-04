@@ -218,7 +218,6 @@ class _ErrorMessageState extends State<_ErrorMessage> {
     Clipboard.setData(ClipboardData(text: widget.item.address.address));
     inject<MessengerService>().show(
       Message.successful(
-        context: context,
         message: LocaleKeys.valueCopiedExclamation.tr(
           args: [widget.item.address.toEllipseString()],
         ),

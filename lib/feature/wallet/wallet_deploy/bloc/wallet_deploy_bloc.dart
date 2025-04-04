@@ -162,7 +162,7 @@ class WalletDeployBloc extends Bloc<WalletDeployEvent, WalletDeployState>
     } on Exception catch (e, t) {
       _logger.severe('_handlePrepareStandard', e, t);
       inject<MessengerService>().show(
-        Message.error(context: context, message: e.toString()),
+        Message.error(message: e.toString()),
       );
     }
   }
@@ -181,8 +181,7 @@ class WalletDeployBloc extends Bloc<WalletDeployEvent, WalletDeployState>
       await _handlePrepareDeploy(emit, custodians, requireConfirmations);
     } on Exception catch (e, t) {
       _logger.severe('_handlePrepareMultisig', e, t);
-      inject<MessengerService>()
-          .show(Message.error(context: context, message: e.toString()));
+      inject<MessengerService>().show(Message.error(message: e.toString()));
     }
   }
 
@@ -295,7 +294,6 @@ class WalletDeployBloc extends Bloc<WalletDeployEvent, WalletDeployState>
 
       inject<MessengerService>().show(
         Message.successful(
-          context: context,
           message: LocaleKeys.walletDeployedSuccessfully.tr(),
         ),
       );
@@ -305,8 +303,11 @@ class WalletDeployBloc extends Bloc<WalletDeployEvent, WalletDeployState>
     } on OperationCanceledException catch (_) {
     } on Exception catch (e, t) {
       _logger.severe('_handleSend', e, t);
-      inject<MessengerService>()
-          .show(Message.error(context: context, message: e.toString()));
+      inject<MessengerService>().show(
+        Message.error(
+          message: e.toString(),
+        ),
+      );
       emitSafe(
         WalletDeployState.readyToDeploy(
           fee: fees!,

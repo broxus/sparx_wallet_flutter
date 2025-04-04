@@ -81,7 +81,7 @@ class AddAccountConfirmModel extends ElementaryModel {
 
   void showWrongPassword(BuildContext context) {
     _messengerService.show(
-      Message.error(context: context, message: LocaleKeys.passwordIsWrong.tr()),
+      Message.error(message: LocaleKeys.passwordIsWrong.tr()),
     );
   }
 }

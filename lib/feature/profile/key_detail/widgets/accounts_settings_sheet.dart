@@ -110,7 +110,6 @@ class AccountSettingsSheet extends StatelessWidget {
                     );
                     inject<MessengerService>().show(
                       Message.successful(
-                        context: context,
                         message: LocaleKeys.valueCopiedExclamation.tr(
                           args: [account.address.toEllipseString()],
                         ),

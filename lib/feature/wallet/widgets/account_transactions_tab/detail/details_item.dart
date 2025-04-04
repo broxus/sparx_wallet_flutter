@@ -101,7 +101,7 @@ class TonWalletTransactionDetailsItem extends StatelessWidget {
   void _copy(BuildContext context, String value, String copyMessage) {
     Clipboard.setData(ClipboardData(text: value));
     inject<MessengerService>().show(
-      Message.successful(context: context, message: copyMessage),
+      Message.successful(message: copyMessage),
     );
   }
 }

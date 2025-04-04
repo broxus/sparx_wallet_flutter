@@ -59,7 +59,6 @@ class ChooseNetworkScreenModel extends ElementaryModel with ConnectionMixin {
     } catch (e) {
       messengerService.show(
         Message.error(
-          context: context,
           message: e.toString(),
         ),
       );

@@ -124,7 +124,6 @@ class SelectNewAssetCubit extends Cubit<SelectNewAssetState>
     } else {
       inject<MessengerService>().show(
         Message.error(
-          context: context,
           message: LocaleKeys.invalidRootTokenContract.tr(),
         ),
       );

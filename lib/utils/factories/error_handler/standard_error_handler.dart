@@ -1,17 +1,14 @@
 import 'package:app/feature/messenger/data/message.dart';
 import 'package:app/feature/messenger/service/messenger_service.dart';
 import 'package:elementary/elementary.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:ui_components_lib/ui_components_lib.dart';
 
 /// Customize if need
 class PrimaryErrorHandler extends DefaultDebugErrorHandler {
   PrimaryErrorHandler(
-    this._context,
     this._messengerService,
   );
 
-  final BuildContext _context;
   final MessengerService _messengerService;
 
   @override
@@ -26,7 +23,6 @@ class PrimaryErrorHandler extends DefaultDebugErrorHandler {
   }) {
     _messengerService.show(
       Message.error(
-        context: _context,
         message: message,
         debounceTime: debounceTime,
       ),

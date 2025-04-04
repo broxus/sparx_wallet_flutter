@@ -45,7 +45,7 @@ class ExportSeedSheet extends StatelessWidget {
       listener: (context, state) {
         state.whenOrNull(
           error: (error) => inject<MessengerService>().show(
-            Message.error(context: context, message: error),
+            Message.error(message: error),
           ),
           success: (phrase) {
             Navigator.of(context)

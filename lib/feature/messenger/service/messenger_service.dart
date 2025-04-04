@@ -29,7 +29,6 @@ class MessengerService {
   void showError(BuildContext context, String message) {
     return show(
       Message.error(
-        context: context,
         message: message,
       ),
     );
@@ -38,7 +37,6 @@ class MessengerService {
   void showConnectionError(BuildContext? context) {
     show(
       Message.error(
-        context: context,
         message: LocaleKeys.connectingNetworkFailed.tr(),
       ),
     );

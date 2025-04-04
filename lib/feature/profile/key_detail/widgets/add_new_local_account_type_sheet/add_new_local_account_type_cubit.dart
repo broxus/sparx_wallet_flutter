@@ -86,8 +86,7 @@ class AddNewLocalAccountTypeCubit extends Cubit<AddNewLocalAccountTypeState>
       );
       await showNewAccountResultSheet(context: context, address: address);
     } on Exception catch (e) {
-      inject<MessengerService>()
-          .show(Message.error(context: context, message: e.toString()));
+      inject<MessengerService>().show(Message.error(message: e.toString()));
     }
 
     _emitDataState(isCompleted: true);
