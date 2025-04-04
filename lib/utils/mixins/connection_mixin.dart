@@ -1,7 +1,7 @@
 // ignore_for_file: use_build_context_synchronously
 
-import 'package:app/app/service/messenger/service/messenger_service.dart';
 import 'package:app/app/service/network_connection/network_connection_service.dart';
+import 'package:app/feature/messenger/service/messenger_service.dart';
 import 'package:flutter/cupertino.dart';
 
 mixin ConnectionMixin {

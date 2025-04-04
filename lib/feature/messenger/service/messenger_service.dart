@@ -1,23 +1,29 @@
 import 'dart:async';
 
-import 'package:app/app/service/messenger/message.dart';
+import 'package:app/feature/messenger/data/message.dart';
 import 'package:app/generated/generated.dart';
 import 'package:flutter/material.dart';
 import 'package:injectable/injectable.dart';
+import 'package:rxdart/subjects.dart';
 
 /// Service that shows messages to the user. Keep it simple and stupid, use only
 /// as stream sources for blocs and cubits that actual provide messages to the
 /// user.
 @singleton
 class MessengerService {
-  final StreamController<Message> _messageStreamController =
-      StreamController<Message>.broadcast();
+  final _messagesSubject = BehaviorSubject<List<Message>>.seeded([]);
 
-  final StreamController<void> _clearQueueStreamController =
-      StreamController<void>.broadcast();
+  Stream<List<Message>> get messagesStream => _messagesSubject.stream;
+
+  List<Message> get _messages => _messagesSubject.value;
+
+  @disposeMethod
+  void dispose() {
+    _messagesSubject.close();
+  }
 
   void show(Message message) {
-    _messageStreamController.add(message);
+    _messagesSubject.add([..._messages, message]);
   }
 
   void showError(BuildContext context, String message) {
@@ -38,11 +44,10 @@ class MessengerService {
     );
   }
 
-  void clearQueue() {
-    _clearQueueStreamController.add(null);
+  void removeFirst() {
+    if (_messages.isEmpty) {
+      return;
+    }
+    _messagesSubject.add([..._messages]..removeAt(0));
   }
-
-  Stream<Message> get messageStream => _messageStreamController.stream;
-
-  Stream<void> get clearQueueStream => _clearQueueStreamController.stream;
 }

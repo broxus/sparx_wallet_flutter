@@ -2,6 +2,8 @@
 
 import 'package:app/app/service/service.dart';
 import 'package:app/core/bloc/bloc_mixin.dart';
+import 'package:app/feature/messenger/data/message.dart';
+import 'package:app/feature/messenger/service/messenger_service.dart';
 import 'package:app/generated/generated.dart';
 import 'package:app/utils/utils.dart';
 import 'package:bloc/bloc.dart';
@@ -11,7 +13,9 @@ import 'package:logging/logging.dart';
 import 'package:nekoton_repository/nekoton_repository.dart' hide Message;
 
 part 'ton_wallet_send_bloc.freezed.dart';
+
 part 'ton_wallet_send_event.dart';
+
 part 'ton_wallet_send_state.dart';
 
 /// Bloc that allows prepare transaction to send native funds from [TonWallet]
@@ -183,8 +187,12 @@ class TonWalletSendBloc extends Bloc<TonWalletSendEvent, TonWalletSendState>
     } on OperationCanceledException catch (_) {
     } on Exception catch (e, t) {
       _logger.severe('_handleSend', e, t);
-      messengerService
-          .show(Message.error(context: context, message: e.toString()));
+      messengerService.show(
+        Message.error(
+          context: context,
+          message: e.toString(),
+        ),
+      );
 
       if (fees != null) {
         emitSafe(TonWalletSendState.readyToSend(fees!, txErrors));

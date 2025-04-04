@@ -6,10 +6,12 @@ import 'package:app/app/service/localization/service/localization_service.dart';
 import 'package:app/app/service/navigation/service/navigation_service.dart';
 import 'package:app/app/view/app.dart';
 import 'package:app/bootstrap/bootstrap.dart';
+import 'package:app/feature/messenger/data/message.dart';
+import 'package:app/feature/messenger/service/messenger_service.dart';
 import 'package:app/generated/generated.dart';
 import 'package:elementary/elementary.dart';
 import 'package:flutter/widgets.dart';
-import 'package:nekoton_repository/nekoton_repository.dart';
+import 'package:nekoton_repository/nekoton_repository.dart' hide Message;
 
 /// [ElementaryModel] for [App]
 class AppModel extends ElementaryModel with WidgetsBindingObserver {
@@ -21,6 +23,7 @@ class AppModel extends ElementaryModel with WidgetsBindingObserver {
     this._appLifecycleService,
     this._localizationService,
     this._biometryService,
+    this._messengerService,
   ) : super(errorHandler: errorHandler);
 
   final BootstrapService _bootstrapService;
@@ -29,12 +32,18 @@ class AppModel extends ElementaryModel with WidgetsBindingObserver {
   final AppLifecycleService _appLifecycleService;
   final LocalizationService _localizationService;
   final BiometryService _biometryService;
+  final MessengerService _messengerService;
+
+  BuildContext? get navContext =>
+      NavigationService.navigatorKey.currentState?.context;
 
   late final appRouter = AppRouter(
     _bootstrapService,
     _navigationService,
     _nekotonRepository,
   );
+
+  Stream<List<Message>> get messagesStream => _messengerService.messagesStream;
 
   AppLifecycleListener? _listener;
 
@@ -62,6 +71,10 @@ class AppModel extends ElementaryModel with WidgetsBindingObserver {
     super.didChangeLocales(locales);
 
     _localizationService.refreshLocale();
+  }
+
+  void dismissMessage() {
+    _messengerService.removeFirst();
   }
 
   void _onStateChanged(AppLifecycleState state) {

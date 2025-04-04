@@ -4,13 +4,15 @@ import 'package:app/app/service/connection/data/connection_data/connection_data.
 import 'package:app/app/service/service.dart' as s;
 import 'package:app/data/models/models.dart';
 import 'package:app/feature/browser_v1/utils.dart';
+import 'package:app/feature/messenger/data/message.dart';
+import 'package:app/feature/messenger/service/messenger_service.dart';
 import 'package:app/generated/generated.dart';
 import 'package:app/utils/utils.dart';
 import 'package:collection/collection.dart';
 import 'package:flutter_inappwebview/flutter_inappwebview.dart';
 import 'package:logging/logging.dart';
 import 'package:nekoton_repository/nekoton_repository.dart' as nr;
-import 'package:nekoton_webview/nekoton_webview.dart';
+import 'package:nekoton_webview/nekoton_webview.dart' hide Message;
 
 const providerVersion = '0.3.36';
 const providerNumericVersion = 3036;
@@ -34,7 +36,7 @@ class InpageProvider extends ProviderApi {
   final s.BrowserApprovalsService approvalsService;
   final s.PermissionsService permissionsService;
   final nr.NekotonRepository nekotonRepository;
-  final s.MessengerService messengerService;
+  final MessengerService messengerService;
   final s.AssetsService assetsService;
   final s.ConnectionsStorageService connectionsStorageService;
   final s.ConnectionService connectionService;
@@ -1553,23 +1555,23 @@ class InpageProvider extends ProviderApi {
       return await super.call(method, params);
     } on s.ApprovalsHandleException catch (e, t) {
       _logger.severe(method, e.message, t);
-      messengerService.show(s.Message.error(message: e.message));
+      messengerService.show(Message.error(message: e.message));
       rethrow;
     } on nr.ExecuteLocalException catch (e) {
       messengerService.show(
-        s.Message.error(
+        Message.error(
           message: LocaleKeys.contractWithErrorCode.tr(args: [e.errorCode]),
         ),
       );
       rethrow;
     } on nr.FrbException catch (e, t) {
       _logger.severe(method, e, t);
-      messengerService.show(s.Message.error(message: e.toString()));
+      messengerService.show(Message.error(message: e.toString()));
       rethrow;
     } catch (e, t) {
       _logger.severe(method, e, t);
       messengerService.show(
-        s.Message.error(message: LocaleKeys.browserErrorTitle.tr()),
+        Message.error(message: LocaleKeys.browserErrorTitle.tr()),
       );
       rethrow;
     }

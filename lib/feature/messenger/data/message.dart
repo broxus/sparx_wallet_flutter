@@ -2,9 +2,8 @@ import 'dart:convert';
 
 import 'package:crypto/crypto.dart';
 import 'package:flutter/material.dart';
-import 'package:lucide_icons_flutter/lucide_icons.dart';
 import 'package:ui_components_lib/ui_components_lib.dart';
-import 'package:ui_components_lib/v2/ui_components_lib_v2.dart';
+import 'package:uuid/uuid.dart';
 
 enum MessageType {
   /// Just a regular message
@@ -32,7 +31,9 @@ class Message {
     this.actionText,
     this.onAction,
     this.topMargin,
-  }) : hashString = '${type.name}_${sha256.convert(utf8.encode('message'))}';
+    String? id,
+  })  : hashString = '${type.name}_${sha256.convert(utf8.encode('message'))}',
+        id = id ?? const Uuid().v4();
 
   factory Message.error({
     required String message,
@@ -100,46 +101,5 @@ class Message {
 
   final String hashString;
   final double? topMargin;
-
-  Toast toastByMessage(VoidCallback onTapClosed) {
-    return Toast(
-      type: _toastType,
-      onTapClosed: onTapClosed,
-      description: message,
-      icon: _icon,
-      actions: [
-        if (actionText != null)
-          FloatButton(
-            buttonShape: ButtonShape.rectangle,
-            buttonSize: ButtonSize.small,
-            title: actionText,
-            onPressed: onAction,
-            backgroundBlur: 0,
-          ),
-      ],
-      topMargin: topMargin,
-    );
-  }
-
-  ToastType get _toastType {
-    switch (type.snackbarType) {
-      case SnackbarType.info:
-        return ToastType.normal;
-      case SnackbarType.error:
-        return ToastType.error;
-      case SnackbarType.successful:
-        return ToastType.success;
-    }
-  }
-
-  IconData? get _icon {
-    switch (type.snackbarType) {
-      case SnackbarType.info:
-        return null;
-      case SnackbarType.error:
-        return LucideIcons.triangleAlert;
-      case SnackbarType.successful:
-        return LucideIcons.check;
-    }
-  }
+  final String id;
 }

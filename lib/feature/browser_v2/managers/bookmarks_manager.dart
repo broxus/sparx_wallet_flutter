@@ -1,7 +1,7 @@
-import 'package:app/app/service/messenger/message.dart';
-import 'package:app/app/service/messenger/service/messenger_service.dart';
 import 'package:app/data/models/browser_bookmark_item.dart';
 import 'package:app/feature/browser_v2/service/storages/browser_bookmarks_storage_service.dart';
+import 'package:app/feature/messenger/data/message.dart';
+import 'package:app/feature/messenger/service/messenger_service.dart';
 import 'package:app/generated/generated.dart';
 import 'package:logging/logging.dart';
 import 'package:rxdart/rxdart.dart';
@@ -85,7 +85,7 @@ class BookmarksManager {
       _messengerService.show(
         Message.info(
           message: LocaleKeys.browserBookmarkAdded.tr(),
-          actionText: LocaleKeys.browserBookmarkAddedUndo.tr(),
+          actionText: LocaleKeys.undo.tr(),
           onAction: () => removeBrowserBookmarkItem(item.id, needUndo: false),
           topMargin: DimensSizeV2.d72,
         ),
@@ -135,7 +135,7 @@ class BookmarksManager {
       _messengerService.show(
         Message.info(
           message: LocaleKeys.browserBookmarkDeleted.tr(),
-          actionText: LocaleKeys.browserBookmarkDeletedUndo.tr(),
+          actionText: LocaleKeys.undo.tr(),
           onAction: () {
             bookmarks.insert(index, item);
             saveBrowserBookmarks(bookmarks);
@@ -163,7 +163,7 @@ class BookmarksManager {
       _messengerService.show(
         Message.info(
           message: LocaleKeys.browserBookmarksDeleted.tr(),
-          actionText: LocaleKeys.browserBookmarksDeletedUndo.tr(),
+          actionText: LocaleKeys.undo.tr(),
           onAction: () => saveBrowserBookmarks(savedBrowserBookmarks),
           topMargin: DimensSizeV2.d72,
         ),

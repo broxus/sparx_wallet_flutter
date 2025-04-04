@@ -1,5 +1,6 @@
-import 'package:app/app/service/service.dart';
 import 'package:app/di/di.dart';
+import 'package:app/feature/messenger/data/message.dart';
+import 'package:app/feature/messenger/service/messenger_service.dart';
 import 'package:app/feature/profile/manage_seeds_accounts/widgets/export_seed_sheet/export_seed_cubit.dart';
 import 'package:app/feature/profile/manage_seeds_accounts/widgets/export_seed_sheet/export_seed_save_phrase.dart';
 import 'package:app/feature/profile/profile.dart';

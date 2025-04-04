@@ -1,7 +1,7 @@
 import 'package:app/app/service/biometry_service.dart';
 import 'package:app/app/service/current_seed_service.dart';
-import 'package:app/app/service/messenger/message.dart';
-import 'package:app/app/service/messenger/service/messenger_service.dart';
+import 'package:app/feature/messenger/data/message.dart';
+import 'package:app/feature/messenger/service/messenger_service.dart';
 import 'package:app/generated/generated.dart';
 import 'package:elementary/elementary.dart';
 import 'package:local_auth/local_auth.dart';
