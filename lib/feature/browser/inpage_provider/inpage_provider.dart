@@ -1090,7 +1090,7 @@ class InpageProvider extends ProviderApi {
         method: input.payload!.method,
         input: input.payload!.params,
       );
-      knownPayload = await nr.parseKnownPayload(body);
+      knownPayload = nr.parseKnownPayload(body);
     }
 
     var subscribedNew = false;
@@ -1192,7 +1192,7 @@ class InpageProvider extends ProviderApi {
         method: input.payload!.method,
         input: input.payload!.params,
       );
-      knownPayload = await nr.parseKnownPayload(body);
+      knownPayload = nr.parseKnownPayload(body);
     }
 
     var subscribedNew = false;

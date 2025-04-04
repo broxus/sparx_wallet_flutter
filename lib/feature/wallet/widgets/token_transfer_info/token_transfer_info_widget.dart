@@ -13,18 +13,19 @@ import 'package:ui_components_lib/v2/ui_components_lib_v2.dart';
 class TokenTransferInfoWidget
     extends ElementaryWidget<TokenTransferInfoWidgetModel> {
   const TokenTransferInfoWidget({
-    required this.recipient,
-    required this.fee,
-    this.margin = EdgeInsets.zero,
+    this.recipient,
     this.amount,
     this.attachedAmount,
     this.rootTokenContract,
     this.transactionIdHash,
     this.comment,
     this.payload,
+    this.fee,
     this.feeError,
     this.color,
     this.numberUnconfirmedTransactions,
+    this.hasFee = true,
+    this.margin = EdgeInsets.zero,
     Key? key,
     WidgetModelFactory wmFactory = defaultTokenTransferInfoWidgetModelFactory,
   }) : super(wmFactory, key: key);
@@ -44,6 +45,7 @@ class TokenTransferInfoWidget
   final String? feeError;
   final Color? color;
   final int? numberUnconfirmedTransactions;
+  final bool hasFee;
 
   @override
   Widget build(TokenTransferInfoWidgetModel wm) {
@@ -68,9 +70,9 @@ class TokenTransferInfoWidget
                 style: theme.textStyles.labelSmall,
               ),
             ),
-          const SizedBox(height: DimensSizeV2.d16),
           if (amount != null)
             _InfoRow(
+              margin: const EdgeInsets.only(top: DimensSizeV2.d16),
               label: LocaleKeys.amountWord.tr(),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.end,
@@ -124,7 +126,8 @@ class TokenTransferInfoWidget
             builder: (_, attachedAmount, nativeUSDPrice) {
               if (attachedAmount == null) return const SizedBox.shrink();
 
-              final child = _InfoRow(
+              return _InfoRow(
+                margin: const EdgeInsets.only(top: DimensSizeV2.d16),
                 label: LocaleKeys.attachedAmount.tr(),
                 child: SeparatedColumn(
                   separatorSize: DimensSize.d4,
@@ -148,14 +151,8 @@ class TokenTransferInfoWidget
                   ],
                 ),
               );
-
-              return Padding(
-                padding: const EdgeInsets.only(top: DimensSizeV2.d16),
-                child: child,
-              );
             },
           ),
-          const SizedBox(height: DimensSizeV2.d16),
           TripleSourceBuilder(
             firstSource: wm.fee,
             secondSource: wm.feeError,
@@ -163,7 +160,7 @@ class TokenTransferInfoWidget
             builder: (_, fee, feeError, nativeUSDPrice) {
               if (fee == null) return const SizedBox.shrink();
 
-              return SeparatedColumn(
+              final child = SeparatedColumn(
                 crossAxisAlignment: CrossAxisAlignment.end,
                 separatorSize: DimensSizeV2.d4,
                 children: [
@@ -199,6 +196,11 @@ class TokenTransferInfoWidget
                       ),
                     ),
                 ],
+              );
+
+              return Padding(
+                padding: const EdgeInsets.only(top: DimensSizeV2.d16),
+                child: child,
               );
             },
           ),
@@ -284,8 +286,10 @@ class _InfoRow extends StatelessWidget {
   const _InfoRow({
     required this.label,
     required this.child,
+    this.margin = EdgeInsets.zero,
   });
 
+  final EdgeInsetsGeometry margin;
   final String label;
   final Widget child;
 
@@ -293,18 +297,21 @@ class _InfoRow extends StatelessWidget {
   Widget build(BuildContext context) {
     final theme = context.themeStyleV2;
 
-    return SeparatedRow(
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Text(
-          label,
-          style: theme.textStyles.labelSmall.copyWith(
-            color: theme.colors.content3,
+    return Padding(
+      padding: margin,
+      child: SeparatedRow(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(
+            label,
+            style: theme.textStyles.labelSmall.copyWith(
+              color: theme.colors.content3,
+            ),
           ),
-        ),
-        Flexible(child: child),
-      ],
+          Flexible(child: child),
+        ],
+      ),
     );
   }
 }
