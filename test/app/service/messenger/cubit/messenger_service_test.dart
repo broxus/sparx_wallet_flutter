@@ -97,8 +97,8 @@ void main() {
     });
 
     test(
-        'emits [message0, message1, message0] when message0, message1, then message0 are added',
-        () async {
+        'emits [message0, message1, message0] when message0, message1, '
+        'then message0 are added', () async {
       final events = <List<Message>>[];
       final sub = messengerService.messagesStream.listen(events.add);
       await delay();
@@ -120,8 +120,8 @@ void main() {
     });
 
     test(
-        'emits [message0, message0, message1] when message0, message0, then message1 are added',
-        () async {
+        'emits [message0, message0, message1] when message0, message0, '
+        'then message1 are added', () async {
       final events = <List<Message>>[];
       final sub = messengerService.messagesStream.listen(events.add);
       await delay();

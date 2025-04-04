@@ -73,8 +73,8 @@ class AppModel extends ElementaryModel with WidgetsBindingObserver {
     _localizationService.refreshLocale();
   }
 
-  void dismissMessage() {
-    _messengerService.removeFirst();
+  void clearQueue() {
+    _messengerService.clearQueue();
   }
 
   void _onStateChanged(AppLifecycleState state) {

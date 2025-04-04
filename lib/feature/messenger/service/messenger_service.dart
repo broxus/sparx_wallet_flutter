@@ -42,10 +42,10 @@ class MessengerService {
     );
   }
 
-  void removeFirst() {
+  void clearQueue() {
     if (_messages.isEmpty) {
       return;
     }
-    _messagesSubject.add([..._messages]..removeAt(0));
+    _messagesSubject.add([]);
   }
 }

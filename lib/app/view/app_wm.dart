@@ -35,7 +35,7 @@ class AppWidgetModel extends CustomWidgetModel<App, AppModel> {
   late final _messageViewer = MessageViewer(
     messagesStream: model.messagesStream,
     getRootContext: () => model.navContext,
-    dismissMessage: model.dismissMessage,
+    clearQueue: model.clearQueue,
   );
 
   late final router = model.appRouter.router;

@@ -10,16 +10,18 @@ class MessageViewer {
   MessageViewer({
     required this.messagesStream,
     required this.getRootContext,
-    required this.dismissMessage,
+    required this.clearQueue,
   });
 
   Stream<List<Message>> messagesStream;
   BuildContext? Function() getRootContext;
-  VoidCallback dismissMessage;
+  VoidCallback clearQueue;
+  Timer? _messageTimer;
 
   StreamSubscription<List<Message>>? _messagesSubscription;
 
-  String? _activeMessageId;
+  var _messages = <Message>[];
+  bool _isRunShowMessages = false;
 
   void init() {
     _messagesSubscription = messagesStream.listen(_handleMessages);
@@ -30,30 +32,28 @@ class MessageViewer {
   }
 
   Future<void> _handleMessages(List<Message> messages) async {
-    if (messages.isEmpty) {
-      await _dismiss();
-      return;
+    _messages = messages;
+    if (_messages.isEmpty) {
+      _messageTimer?.cancel();
+      _isRunShowMessages = false;
+    } else if (_isRunShowMessages) {
+      _messages = messages;
+    } else {
+      _isRunShowMessages = true;
+      _show(0);
     }
-
-    final message = messages.firstOrNull;
-
-    if (message == null || _activeMessageId == message.id) {
-      return;
-    }
-
-    await _dismiss();
-    _show(message);
   }
 
-  void _show(Message message) {
+  void _show(int index) {
     final rootContext = getRootContext();
-    if (rootContext == null) {
+    if (rootContext == null || index >= _messages.length) {
+      _clearQueue();
       return;
     }
 
-    _activeMessageId = message.id;
+    final message = _messages[index];
 
-    Future.delayed(const Duration(milliseconds: 200), () {
+    Future.delayed(const Duration(milliseconds: 200), () async {
       InAppNotification.show(
         child: ToastMessage.fromMessage(
           message,
@@ -62,31 +62,39 @@ class MessageViewer {
           ),
           onPressedAction: () {
             message.onAction?.call();
-            _dismiss();
+            _dismiss(index);
           },
-          onTapClosed: _dismiss,
+          onTapClosed: () => _dismiss(index),
         ),
         // ignore: use_build_context_synchronously
         context: rootContext,
-        onTap: _dismiss,
+        onTap: () => _dismiss(index),
         duration: message.duration,
       );
+      _messageTimer = Timer(message.duration, () {
+        _show(index + 1);
+        _messageTimer?.cancel();
+      });
     });
   }
 
-  Future<void> _dismiss() async {
+  Future<void> _dismiss([int? index]) async {
+    _messageTimer?.cancel();
     final rootContext = getRootContext();
     if (rootContext == null) {
       return;
     }
 
-    _activeMessageId = null;
-
     try {
       await InAppNotification.dismiss(context: rootContext);
-      dismissMessage();
-    } catch (_) {
-      return;
+    } catch (_) {}
+    if (index != null) {
+      _show(index + 1);
     }
+  }
+
+  void _clearQueue() {
+    _isRunShowMessages = false;
+    clearQueue();
   }
 }
