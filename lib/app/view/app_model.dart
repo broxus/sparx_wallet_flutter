@@ -43,7 +43,7 @@ class AppModel extends ElementaryModel with WidgetsBindingObserver {
     _nekotonRepository,
   );
 
-  Stream<List<Message>> get messagesStream => _messengerService.messagesStream;
+  Stream<bool> get messagesExistStream => _messengerService.messagesExistStream;
 
   AppLifecycleListener? _listener;
 
@@ -73,9 +73,7 @@ class AppModel extends ElementaryModel with WidgetsBindingObserver {
     _localizationService.refreshLocale();
   }
 
-  void clearQueue() {
-    _messengerService.clearQueue();
-  }
+  Message? getMessage() => _messengerService.takeMessage();
 
   void _onStateChanged(AppLifecycleState state) {
     switch (state) {

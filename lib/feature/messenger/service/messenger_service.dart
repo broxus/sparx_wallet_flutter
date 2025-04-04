@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:collection';
 
 import 'package:app/feature/messenger/data/message.dart';
 import 'package:app/generated/generated.dart';
@@ -11,19 +12,20 @@ import 'package:rxdart/subjects.dart';
 /// user.
 @singleton
 class MessengerService {
-  final _messagesSubject = BehaviorSubject<List<Message>>.seeded([]);
+  final _messages = ListQueue<Message>();
 
-  Stream<List<Message>> get messagesStream => _messagesSubject.stream;
+  final _messagesExistSubject = BehaviorSubject<bool>.seeded(false);
 
-  List<Message> get _messages => _messagesSubject.value;
+  Stream<bool> get messagesExistStream => _messagesExistSubject.stream;
 
   @disposeMethod
   void dispose() {
-    _messagesSubject.close();
+    _messagesExistSubject.close();
   }
 
   void show(Message message) {
-    _messagesSubject.add([..._messages, message]);
+    _messages.add(message);
+    _messagesExistSubject.add(true);
   }
 
   void showError(BuildContext context, String message) {
@@ -42,10 +44,17 @@ class MessengerService {
     );
   }
 
-  void clearQueue() {
+  Message? takeMessage() {
+    final message = _removeFirstSafe();
+
     if (_messages.isEmpty) {
-      return;
+      _messagesExistSubject.add(false);
     }
-    _messagesSubject.add([]);
+
+    return message;
+  }
+
+  Message? _removeFirstSafe() {
+    return _messages.isEmpty ? null : _messages.removeFirst();
   }
 }
