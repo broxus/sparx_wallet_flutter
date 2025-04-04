@@ -74,11 +74,6 @@ class UpdateService {
       return;
     }
 
-    if (status == UpdateStatus.warning && !_shouldShowWarning(rules)) {
-      _logger.info('Warning update not shown due to frequency/delay rules');
-      return;
-    }
-
     final releaseNotes = await _presetsConfigReader.getConfig(
       PresetConfigType.releaseNotes,
     );
@@ -87,6 +82,13 @@ class UpdateService {
       releaseNotes,
       currentVersion,
     );
+
+    _syncVersionForUpdateWithStats(targetVersionNotes?.key);
+
+    if (status == UpdateStatus.warning && !_shouldShowWarning(rules)) {
+      _logger.info('Warning update not shown due to frequency/delay rules');
+      return;
+    }
 
     // Create and emit update request
     final updateRequest = UpdateRequest(
@@ -125,7 +127,18 @@ class UpdateService {
     return true;
   }
 
-  Future<void> dismissWarning() async {
+  void _syncVersionForUpdateWithStats(String? targetVersion) {
+    final versionForUpdate = _updateVersionStorageService.versionForUpdate();
+
+    if (versionForUpdate != targetVersion) {
+      _updateVersionStorageService
+        ..updateWarningCount(0)
+        ..clearWarningLastTime()
+        ..updateVersionForUpdate(targetVersion);
+    }
+  }
+
+  void dismissWarning() {
     if (_updateRequestSubject.valueOrNull?.status == UpdateStatus.warning) {
       final warningCount = _updateVersionStorageService.warningCount() ?? 0;
 

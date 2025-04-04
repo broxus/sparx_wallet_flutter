@@ -32,8 +32,8 @@ class UpdateVersionModel extends ElementaryModel {
   bool get isCloseAvailable =>
       updateRequests.value?.status != UpdateStatus.blocking;
 
-  Future<void> dismissWarning() async {
-    await _updateService.dismissWarning();
+  void dismissWarning() {
+    _updateService.dismissWarning();
   }
 
   /// Open the update URL in the app store
@@ -51,7 +51,7 @@ class UpdateVersionModel extends ElementaryModel {
       _sentry.captureException(e, stackTrace: s);
     }
 
-    await dismissWarning();
+    dismissWarning();
   }
 
   Future<bool> _inAppUpdateFlow() async {

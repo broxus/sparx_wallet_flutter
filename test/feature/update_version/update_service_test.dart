@@ -193,6 +193,8 @@ void main() {
         // Arrange
         when(() => mockStorageService.warningCount()).thenReturn(null);
         when(() => mockStorageService.warningLastTime()).thenReturn(null);
+        when(() => mockStorageService.versionForUpdate())
+            .thenReturn(testNewVersion.key);
         emulateStatus(UpdateStatus.warning);
 
         // Act
@@ -227,6 +229,8 @@ void main() {
 
         when(() => mockStorageService.warningLastTime())
             .thenReturn(delayedTestMills);
+        when(() => mockStorageService.versionForUpdate())
+            .thenReturn(testNewVersion.key);
 
         emulateStatus(UpdateStatus.warning);
 
@@ -257,6 +261,8 @@ void main() {
 
         when(() => mockStorageService.warningLastTime())
             .thenReturn(delayedTestMills);
+        when(() => mockStorageService.versionForUpdate())
+            .thenReturn(testNewVersion.key);
 
         emulateStatus(UpdateStatus.warning);
 
@@ -286,6 +292,8 @@ void main() {
             .subtract(Duration(seconds: testUpdateRules.warningShowDelayS + 1))
             .millisecondsSinceEpoch;
 
+        when(() => mockStorageService.versionForUpdate())
+            .thenReturn(testNewVersion.key);
         when(() => mockStorageService.warningLastTime())
             .thenReturn(delayedTestMills);
 
@@ -312,6 +320,8 @@ void main() {
         // Arrange
         when(() => mockStorageService.warningCount()).thenReturn(null);
         when(() => mockStorageService.warningLastTime()).thenReturn(null);
+        when(() => mockStorageService.versionForUpdate())
+            .thenReturn(testNewVersion.key);
         emulateStatus(UpdateStatus.warning);
 
         // Act
@@ -321,7 +331,7 @@ void main() {
         expectUpdateRequest(UpdateStatus.warning);
 
         // Now dismiss the warning
-        await updateService.dismissWarning();
+        updateService.dismissWarning();
 
         // Verify that null was emitted
         expectUpdateRequest(UpdateStatus.none);
@@ -341,6 +351,8 @@ void main() {
         // Arrange
         when(() => mockStorageService.warningCount()).thenReturn(null);
         when(() => mockStorageService.warningLastTime()).thenReturn(null);
+        when(() => mockStorageService.versionForUpdate())
+            .thenReturn(testNewVersion.key);
         emulateStatus(UpdateStatus.blocking);
 
         // Act
@@ -350,7 +362,7 @@ void main() {
         expectUpdateRequest(UpdateStatus.blocking);
 
         // Now dismiss the warning
-        await updateService.dismissWarning();
+        updateService.dismissWarning();
 
         // Verify that null was emitted
         expectUpdateRequest(UpdateStatus.blocking);
@@ -359,6 +371,72 @@ void main() {
         verifyNever(() => mockStorageService.warningLastTime());
         verifyNever(() => mockStorageService.updateWarningCount(any<int>()));
         verifyNever(() => mockStorageService.updateWarningLastTime());
+      },
+    );
+
+    // New test for _syncVersionForUpdateWithStats - when version is the same
+    test(
+      'should not reset counters when target version is the same',
+      () async {
+        // Arrange
+        when(() => mockStorageService.versionForUpdate())
+            .thenReturn(testNewVersion.key);
+        when(() => mockStorageService.warningCount()).thenReturn(2);
+        emulateStatus(UpdateStatus.warning);
+
+        // Act
+        await updateService.initAndWait();
+
+        // Assert
+        verify(() => mockStorageService.versionForUpdate()).called(1);
+        verifyNever(() => mockStorageService.updateWarningCount(0));
+        verifyNever(() => mockStorageService.clearWarningLastTime());
+        verifyNever(
+          () => mockStorageService.updateVersionForUpdate(any<String>()),
+        );
+      },
+    );
+
+    test(
+      'should reset counters when target version changes',
+      () async {
+        // Arrange
+        const previousVersion = '1.4.0';
+        when(() => mockStorageService.versionForUpdate())
+            .thenReturn(previousVersion);
+        when(() => mockStorageService.warningCount()).thenReturn(2);
+        emulateStatus(UpdateStatus.warning);
+
+        // Act
+        await updateService.initAndWait();
+
+        // Assert
+        verify(() => mockStorageService.versionForUpdate()).called(1);
+        verify(() => mockStorageService.updateWarningCount(0)).called(1);
+        verify(() => mockStorageService.clearWarningLastTime()).called(1);
+        verify(
+          () => mockStorageService.updateVersionForUpdate(testNewVersion.key),
+        ).called(1);
+      },
+    );
+
+    test(
+      'should initialize counters when version for update is null',
+      () async {
+        // Arrange
+        when(() => mockStorageService.versionForUpdate()).thenReturn(null);
+        emulateStatus(UpdateStatus.warning);
+
+        // Act
+        await updateService.initAndWait();
+
+        // Assert
+        verify(() => mockStorageService.versionForUpdate()).called(1);
+        verify(() => mockStorageService.updateWarningCount(0)).called(1);
+        verify(() => mockStorageService.clearWarningLastTime()).called(1);
+        verify(
+          () => mockStorageService.updateVersionForUpdate(testNewVersion.key),
+        ).called(1);
       },
     );
   });

@@ -12,6 +12,7 @@ class UpdateVersionStorageService extends AbstractStorageService {
   static const String container = 'update_version_storage_service';
   static const String _warningLastTimeKey = 'warningLastTime';
   static const String _warningCountKey = 'warningCount';
+  static const String _versionForUpdateKey = 'versionForUpdate';
 
   final GetStorage _storage;
 
@@ -33,11 +34,23 @@ class UpdateVersionStorageService extends AbstractStorageService {
     return _storage.read(_warningLastTimeKey);
   }
 
+  String? versionForUpdate() {
+    return _storage.read(_versionForUpdateKey);
+  }
+
   void updateWarningCount(int newCount) {
     _storage.write(_warningCountKey, newCount);
   }
 
+  void clearWarningLastTime() {
+    _storage.write(_warningLastTimeKey, null);
+  }
+
   void updateWarningLastTime() {
     _storage.write(_warningLastTimeKey, NtpTime.now().millisecondsSinceEpoch);
+  }
+
+  void updateVersionForUpdate(String? versionForUpdate) {
+    _storage.write(_versionForUpdateKey, versionForUpdate);
   }
 }
