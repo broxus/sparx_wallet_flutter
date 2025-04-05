@@ -18,8 +18,6 @@ import 'package:app/feature/browser_v2/screens/main/delegates/tab_menu_delegate.
 import 'package:app/feature/browser_v2/screens/main/menu_animation_helper.dart';
 import 'package:app/feature/browser_v2/screens/main/widgets/control_panels/navigation_panel/url_action_sheet.dart';
 import 'package:app/feature/browser_v2/screens/main/widgets/tab_animated_view/tab_animation_type.dart';
-import 'package:app/feature/browser_v2/screens/main/widgets/tab_menu/data.dart';
-import 'package:app/feature/browser_v2/screens/main/widgets/tab_menu/tab_menu.dart';
 import 'package:app/utils/clipboard_utils.dart';
 import 'package:app/utils/focus_utils.dart';
 import 'package:elementary/elementary.dart';
@@ -106,8 +104,6 @@ class BrowserMainScreenWidgetModel
 
   late final _visibleNavigationBarState = createNotifier<bool>(true);
 
-  late final _showPastGoState = createNotifier<bool>(true);
-
   late final _screenSize = MediaQuery.of(context).size;
 
   late int _lastTabsCount = _tabsCollection?.count ?? 0;
@@ -154,7 +150,7 @@ class BrowserMainScreenWidgetModel
 
   ListenableState<bool> get viewVisibleState => _viewVisibleState;
 
-  ListenableState<bool> get showPastGoState => _showPastGoState;
+  ListenableState<bool> get showPastGoState => _pastGoDelegate.showPastGoState;
 
   BrowserTab? get _activeTab => activeTabState.value;
 
@@ -191,6 +187,7 @@ class BrowserMainScreenWidgetModel
     _progressController.dispose();
     _animation.dispose();
     _renderManager.dispose();
+    _pastGoDelegate.dispose();
     _pageSlideDelegate.dispose();
     super.dispose();
   }
@@ -400,7 +397,7 @@ class BrowserMainScreenWidgetModel
   }
 
   Future<void> _updatePastGo() async {
-    _showPastGoState.accept(
+    _pastGoDelegate.updateVisible(
       (_viewVisibleState.value ?? false) &&
           (_activeTab?.url.toString().isEmpty ?? false) &&
           await checkExistClipBoardData(),
