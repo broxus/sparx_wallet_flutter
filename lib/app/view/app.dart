@@ -1,7 +1,6 @@
 import 'package:app/app/service/crash_detector/widget/crash_detector_service_widget.dart';
 import 'package:app/app/service/localization/service/supported_locale_codes.dart';
 import 'package:app/app/service/localization/widget/localization_service_widget.dart';
-import 'package:app/app/service/messenger/widget/messenger_service_widget.dart';
 import 'package:app/app/service/navigation/widget/navigation_service_widget.dart';
 import 'package:app/app/view/app_wm.dart';
 import 'package:easy_localization/easy_localization.dart';
@@ -60,10 +59,8 @@ class _AppContent extends StatelessWidget {
         child: InAppNotification(
           child: CrashDetectorServiceWidget(
             child: LocalizationServiceWidget(
-              child: MessengerServiceWidget(
-                child: NavigationServiceWidget(
-                  child: child ?? Container(),
-                ),
+              child: NavigationServiceWidget(
+                child: child ?? Container(),
               ),
             ),
           ),

@@ -1,4 +1,4 @@
-import 'package:app/app/service/messenger/service/messenger_service.dart';
+import 'package:app/feature/messenger/service/messenger_service.dart';
 import 'package:app/feature/wallet/new_account/screen/new_account_screen.dart';
 import 'package:elementary/elementary.dart';
 import 'package:flutter/cupertino.dart';

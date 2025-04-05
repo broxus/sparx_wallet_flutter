@@ -1,6 +1,6 @@
-import 'package:app/app/service/messenger/message.dart';
-import 'package:app/app/service/messenger/service/messenger_service.dart';
 import 'package:app/di/di.dart';
+import 'package:app/feature/messenger/data/message.dart';
+import 'package:app/feature/messenger/service/messenger_service.dart';
 import 'package:app/feature/wallet/widgets/account_transactions_tab/detail/details.dart';
 import 'package:app/feature/wallet/widgets/account_transactions_tab/widgets/ton_wallet_transaction_status_body.dart';
 import 'package:app/generated/generated.dart';
@@ -221,7 +221,7 @@ class WalletTransactionDetailsDefaultBody extends StatelessWidget {
   void _copy(BuildContext context, String value, String copyMessage) {
     Clipboard.setData(ClipboardData(text: value));
     inject<MessengerService>().show(
-      Message.successful(context: context, message: copyMessage),
+      Message.successful(message: copyMessage),
     );
   }
 }

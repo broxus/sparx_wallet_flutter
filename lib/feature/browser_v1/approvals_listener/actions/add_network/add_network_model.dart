@@ -1,5 +1,7 @@
 import 'package:app/app/service/service.dart';
 import 'package:app/feature/browser_v1/utils.dart';
+import 'package:app/feature/messenger/data/message.dart';
+import 'package:app/feature/messenger/service/messenger_service.dart';
 import 'package:elementary/elementary.dart';
 import 'package:flutter/material.dart';
 import 'package:nekoton_repository/nekoton_repository.dart' hide Message;
@@ -50,7 +52,7 @@ class AddNetworkModel extends ElementaryModel {
 
   void showError(BuildContext context, String message) {
     _messengerService.show(
-      Message.error(context: context, message: message),
+      Message.error(message: message),
     );
   }
 }

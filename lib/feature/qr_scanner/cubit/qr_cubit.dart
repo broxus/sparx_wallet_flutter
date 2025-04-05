@@ -6,6 +6,8 @@ import 'dart:io';
 import 'package:app/app/service/service.dart';
 import 'package:app/core/bloc/bloc_mixin.dart';
 import 'package:app/di/di.dart';
+import 'package:app/feature/messenger/data/message.dart';
+import 'package:app/feature/messenger/service/messenger_service.dart';
 import 'package:app/generated/generated.dart';
 import 'package:bloc/bloc.dart';
 import 'package:flutter/widgets.dart';
@@ -117,7 +119,6 @@ class QrCubit extends Cubit<QrCubitState> with BlocBaseMixin {
     } else {
       inject<MessengerService>().show(
         Message.error(
-          context: context,
           message: LocaleKeys.givePhotosPermission.tr(),
           actionText: LocaleKeys.giveWord.tr(),
           onAction: () => openSettings(SettingsOpenType.photos),
@@ -142,7 +143,6 @@ class QrCubit extends Cubit<QrCubitState> with BlocBaseMixin {
     } else {
       inject<MessengerService>().show(
         Message.error(
-          context: context,
           message: LocaleKeys.scannedDataIsNot.tr(
             args: [type.description.toLowerCase()],
           ),

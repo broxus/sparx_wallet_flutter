@@ -1,12 +1,14 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/services.dart';
+import 'package:logging/logging.dart';
+
+final _clipboardLogger = Logger('UtilsLogger');
 
 Future<ClipboardData?> getClipBoardData() async {
   try {
     return await Clipboard.getData(Clipboard.kTextPlain);
   } catch (e, s) {
-    debugPrint(e.toString());
-    debugPrintStack(stackTrace: s);
+    _clipboardLogger.finest('ClipboardUtils error', e, s);
     return null;
   }
 }

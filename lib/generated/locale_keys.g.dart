@@ -166,7 +166,7 @@ abstract class LocaleKeys {
   static const networkAddedSheetContinue = 'networkAddedSheetContinue';
   static const networkDeleteTitle = 'networkDeleteTitle';
   static const networkDeleted = 'networkDeleted';
-  static const networkDeletedUndo = 'networkDeletedUndo';
+  static const undo = 'undo';
   static const networkSaved = 'networkSaved';
   static const receiveWord = 'receiveWord';
   static const sendWord = 'sendWord';
@@ -239,17 +239,14 @@ abstract class LocaleKeys {
   static const browserBookmarkRename = 'browserBookmarkRename';
   static const browserBookmarkDelete = 'browserBookmarkDelete';
   static const browserBookmarkDeleted = 'browserBookmarkDeleted';
-  static const browserBookmarkDeletedUndo = 'browserBookmarkDeletedUndo';
   static const browserBookmarkRenameEnterName =
       'browserBookmarkRenameEnterName';
   static const browserBookmarkRenameName = 'browserBookmarkRenameName';
   static const browserBookmarkRenameWord = 'browserBookmarkRenameWord';
   static const edit = 'edit';
   static const browserBookmarkAdded = 'browserBookmarkAdded';
-  static const browserBookmarkAddedUndo = 'browserBookmarkAddedUndo';
   static const browserBookmarksClear = 'browserBookmarksClear';
   static const browserBookmarksDeleted = 'browserBookmarksDeleted';
-  static const browserBookmarksDeletedUndo = 'browserBookmarksDeletedUndo';
   static const browserStartEmptySearch = 'browserStartEmptySearch';
   static const browserEnterBasicAuthTitle = 'browserEnterBasicAuthTitle';
   static const browserEnterBasicAuthDescription =

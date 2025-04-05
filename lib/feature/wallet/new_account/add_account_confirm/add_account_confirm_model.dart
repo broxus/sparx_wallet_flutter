@@ -1,4 +1,6 @@
 import 'package:app/app/service/service.dart';
+import 'package:app/feature/messenger/data/message.dart';
+import 'package:app/feature/messenger/service/messenger_service.dart';
 import 'package:app/generated/generated.dart';
 import 'package:elementary/elementary.dart';
 import 'package:flutter/material.dart';
@@ -79,7 +81,7 @@ class AddAccountConfirmModel extends ElementaryModel {
 
   void showWrongPassword(BuildContext context) {
     _messengerService.show(
-      Message.error(context: context, message: LocaleKeys.passwordIsWrong.tr()),
+      Message.error(message: LocaleKeys.passwordIsWrong.tr()),
     );
   }
 }

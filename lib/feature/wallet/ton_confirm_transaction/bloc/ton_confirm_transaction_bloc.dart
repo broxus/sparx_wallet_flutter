@@ -1,8 +1,9 @@
 // ignore_for_file: use_build_context_synchronously
 
-import 'package:app/app/service/service.dart';
 import 'package:app/core/bloc/bloc_mixin.dart';
 import 'package:app/di/di.dart';
+import 'package:app/feature/messenger/data/message.dart';
+import 'package:app/feature/messenger/service/messenger_service.dart';
 import 'package:app/generated/generated.dart';
 import 'package:app/utils/constants.dart';
 import 'package:bloc/bloc.dart';
@@ -202,7 +203,6 @@ class TonConfirmTransactionBloc
 
       inject<MessengerService>().show(
         Message.successful(
-          context: context,
           message: LocaleKeys.transactionSentSuccessfully.tr(),
         ),
       );
@@ -212,8 +212,11 @@ class TonConfirmTransactionBloc
     } on OperationCanceledException catch (_) {
     } on Exception catch (e, t) {
       _logger.severe('_handleSend', e, t);
-      inject<MessengerService>()
-          .show(Message.error(context: context, message: e.toString()));
+      inject<MessengerService>().show(
+        Message.error(
+          message: e.toString(),
+        ),
+      );
       emitSafe(
         TonConfirmTransactionState.readyToSend(
           fees!,

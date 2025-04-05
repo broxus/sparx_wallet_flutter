@@ -1,5 +1,7 @@
 import 'package:app/app/service/service.dart';
 import 'package:app/di/di.dart';
+import 'package:app/feature/messenger/data/message.dart';
+import 'package:app/feature/messenger/service/messenger_service.dart';
 import 'package:app/feature/profile/manage_seeds_accounts/widgets/change_seed_password/change_seed_password_cubit.dart';
 import 'package:app/generated/generated.dart';
 import 'package:flutter/material.dart';
@@ -59,13 +61,12 @@ class _ChangeSeedPasswordSheetState extends State<ChangeSeedPasswordSheet> {
       listener: (context, state) {
         state.whenOrNull(
           error: (errorCode) => inject<MessengerService>().show(
-            Message.error(context: context, message: errorCode.tr()),
+            Message.error(message: errorCode.tr()),
           ),
           completed: () {
             Navigator.of(context).pop();
             inject<MessengerService>().show(
               Message.successful(
-                context: context,
                 message: LocaleKeys.passwordChanged.tr(),
               ),
             );

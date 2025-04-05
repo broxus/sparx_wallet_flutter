@@ -1,6 +1,6 @@
-import 'package:app/app/service/messenger/message.dart';
-import 'package:app/app/service/messenger/service/messenger_service.dart';
 import 'package:app/di/di.dart';
+import 'package:app/feature/messenger/data/message.dart';
+import 'package:app/feature/messenger/service/messenger_service.dart';
 import 'package:app/generated/generated.dart';
 import 'package:barcode_widget/barcode_widget.dart';
 import 'package:flutter/material.dart';
@@ -79,7 +79,6 @@ class BarcodeAddress extends StatelessWidget {
     Clipboard.setData(ClipboardData(text: address.address));
     inject<MessengerService>().show(
       Message.successful(
-        context: context,
         message: LocaleKeys.valueCopiedExclamation.tr(
           args: [address.toEllipseString()],
         ),

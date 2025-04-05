@@ -2,6 +2,8 @@
 
 import 'package:app/app/service/service.dart';
 import 'package:app/core/bloc/bloc_mixin.dart';
+import 'package:app/feature/messenger/data/message.dart';
+import 'package:app/feature/messenger/service/messenger_service.dart';
 import 'package:app/generated/generated.dart';
 import 'package:app/utils/utils.dart';
 import 'package:bloc/bloc.dart';
@@ -208,7 +210,6 @@ class TokenWalletSendBloc
 
       messengerService.show(
         Message.successful(
-          context: context,
           message: resultMessage,
         ),
       );
@@ -220,15 +221,13 @@ class TokenWalletSendBloc
       _logger.severe('_handleSend', e, t);
       messengerService.show(
         Message.error(
-          context: context,
           message: e.toString(),
         ),
       );
       emitSafe(TokenWalletSendState.readyToSend(fees!, sendAmount, txErrors));
     } on Exception catch (e, t) {
       _logger.severe('_handleSend', e, t);
-      messengerService
-          .show(Message.error(context: context, message: e.toString()));
+      messengerService.show(Message.error(message: e.toString()));
       emitSafe(TokenWalletSendState.readyToSend(fees!, sendAmount, txErrors));
     } finally {
       unsignedMessage?.dispose();
