@@ -11,6 +11,7 @@ import 'package:app/feature/browser_v2/screens/main/browser_main_screen.dart';
 import 'package:app/feature/browser_v2/screens/main/browser_main_screen_model.dart';
 import 'package:app/feature/browser_v2/screens/main/data/browser_render_manager.dart';
 import 'package:app/feature/browser_v2/screens/main/data/menu_data.dart';
+import 'package:app/feature/browser_v2/screens/main/delegates/past_go_delegate.dart';
 import 'package:app/feature/browser_v2/screens/main/delegates/scroll_page_delegate.dart';
 import 'package:app/feature/browser_v2/screens/main/delegates/tab_menu_delegate.dart';
 import 'package:app/feature/browser_v2/screens/main/menu_animation_helper.dart';
@@ -114,12 +115,15 @@ class BrowserMainScreenWidgetModel
   late int _lastTabsCount = _tabsCollection?.count ?? 0;
 
   final _pageDelegate = BrowserPageScrollDelegate();
-  late final _tabMenuDelegate = TabMenuDelegate(
+
+  late final _tabMenuDelegate = BrowserTabMenuDelegate(
     renderManager: _renderManager,
     onShowMenu: () => _menuState.accept(null),
     onHideMenu: () => _menuState.accept(MenuType.list),
     addUrlToBookmark: model.addUrlToBookmark,
   );
+
+  final _pastGoDelegate = BrowserPastGoDelegate();
 
   RenderManager<String> get renderManager => _renderManager;
 
@@ -239,7 +243,10 @@ class BrowserMainScreenWidgetModel
     _menuState.accept(MenuType.list);
   }
 
-  Future<void> onPressedTabMenu(BrowserTab tab) => _tabMenuDelegate.showTabMenu(
+  Future<void> onPressedTabMenu(
+    BrowserTab tab,
+  ) =>
+      _tabMenuDelegate.showTabMenu(
         context,
         tab,
       );
@@ -270,18 +277,9 @@ class BrowserMainScreenWidgetModel
     _visibleNavigationBarState.accept(true);
   }
 
-  Future<void> onPastGoPressed() async {
-    final text = await getClipBoardText();
-    if (text == null) {
-      return;
-    }
-
-    final id = _activeTab?.id;
-
-    if (id != null) {
-      model.requestUrl(id, text);
-    }
-  }
+  void onPastGoPressed() => _pastGoDelegate.onPastGoPressed(
+        onSuccess: (String text) => model.requestUrl(_activeTab?.id, text),
+      );
 
   void onEditingCompleteUrl(String tabId, String text) {
     if (text.trim().isEmpty) {

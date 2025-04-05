@@ -37,7 +37,11 @@ class BrowserMainScreenModel extends ElementaryModel {
 
   String createEmptyTab() => _browserService.tM.createEmptyTab();
 
-  void requestUrl(String tabId, String enteredText) {
+  void requestUrl(String? tabId, String enteredText) {
+    if (tabId == null) {
+      return;
+    }
+
     final text = enteredText.trim();
 
     if (text.isEmpty) {

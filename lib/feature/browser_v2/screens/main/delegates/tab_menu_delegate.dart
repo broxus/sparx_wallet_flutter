@@ -9,8 +9,8 @@ import 'package:app/feature/browser_v2/screens/main/widgets/tab_menu/tab_menu.da
 import 'package:app/utils/clipboard_utils.dart';
 import 'package:flutter/cupertino.dart';
 
-class TabMenuDelegate {
-  TabMenuDelegate({
+class BrowserTabMenuDelegate {
+  BrowserTabMenuDelegate({
     required this.renderManager,
     required this.onShowMenu,
     required this.onHideMenu,
