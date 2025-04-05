@@ -9,8 +9,8 @@ import 'package:elementary_helper/elementary_helper.dart';
 import 'package:flutter/services.dart';
 import 'package:uuid/uuid.dart';
 
-class BrowserManagerScreenshotHelper {
-  BrowserManagerScreenshotHelper(
+class BrowserManagerScreenShooter {
+  BrowserManagerScreenShooter(
     this._generalStorageService,
   );
 

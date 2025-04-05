@@ -4,7 +4,7 @@ import 'dart:math';
 
 import 'package:app/app/service/storage_service/general_storage_service.dart';
 import 'package:app/feature/browser_v2/data/tabs_data.dart';
-import 'package:app/feature/browser_v2/managers/tabs/helpers/browser_screenshot_helper.dart';
+import 'package:app/feature/browser_v2/managers/tabs/helpers/browser_screen_shooter.dart';
 import 'package:app/feature/browser_v2/models/tab/browser_tab.dart';
 import 'package:app/feature/browser_v2/screens/main/data/toolbar_data.dart';
 import 'package:app/feature/browser_v2/service/storages/browser_tabs_storage_service.dart';
@@ -24,8 +24,8 @@ class BrowserTabsManager {
   final BrowserTabsStorageService _browserTabsStorageService;
   final GeneralStorageService _generalStorageService;
 
-  late final _screenshotHelper =
-      BrowserManagerScreenshotHelper(_generalStorageService);
+  late final _screenShooter =
+      BrowserManagerScreenShooter(_generalStorageService);
 
   /// Subject of browser tabs
   final _tabsState =
@@ -44,7 +44,7 @@ class BrowserTabsManager {
   ListenableState<BrowserTab?> get activeTabState => _activeTabState;
 
   ListenableState<ImageCache?> get screenshotsState =>
-      _screenshotHelper.screenshotsState;
+      _screenShooter.screenshotsState;
 
   ListenableState<ToolbarData> get controlPanelState => _controlPanelState;
 
@@ -63,7 +63,7 @@ class BrowserTabsManager {
   String? get activeTabScreenshotPath {
     return activeTabId == null
         ? null
-        : _screenshotHelper.getScreenShotById(activeTabId!);
+        : _screenShooter.getScreenShotById(activeTabId!);
   }
 
   void init() {
@@ -74,7 +74,7 @@ class BrowserTabsManager {
   void dispose() {
     activeTabState.removeListener(_handleActiveTab);
     _tabsState.dispose();
-    _screenshotHelper.dispose();
+    _screenShooter.dispose();
   }
 
   void setController(String tabId, InAppWebViewController controller) {
@@ -172,7 +172,7 @@ class BrowserTabsManager {
   /// Clear all browser tabs
   Future<void> clearTabs() async {
     await _browserTabsStorageService.clear();
-    await _screenshotHelper.clear();
+    await _screenShooter.clear();
     _tabsState.accept(BrowserTabsCollection());
     _activeTabState.accept(null);
   }
@@ -214,7 +214,7 @@ class BrowserTabsManager {
             ? tabs[min(removedIndex + 1, tabs.length - 1)].id
             : null;
 
-    await _screenshotHelper.removeScreenshot(id);
+    await _screenShooter.removeScreenshot(id);
 
     _setTabs(
       tabs: tabs,
@@ -238,7 +238,7 @@ class BrowserTabsManager {
     required String tabId,
     required Future<Uint8List?> Function() takePictureCallback,
   }) =>
-      _screenshotHelper.createScreenshot(
+      _screenShooter.createScreenshot(
         tabId: tabId,
         takePictureCallback: takePictureCallback,
       );
@@ -258,7 +258,7 @@ class BrowserTabsManager {
   }
 
   void clearCachedFiles() {
-    _screenshotHelper.clear();
+    _screenShooter.clear();
     InAppWebViewController.clearAllCache();
   }
 
@@ -290,7 +290,7 @@ class BrowserTabsManager {
 
     _tabsState.accept(BrowserTabsCollection(tabs));
 
-    _screenshotHelper.init(tabs);
+    _screenShooter.init(tabs);
 
     _activeTabState.accept(activeTab);
   }
