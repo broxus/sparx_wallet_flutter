@@ -14,6 +14,7 @@ import 'package:app/feature/browser_v2/screens/main/data/menu_data.dart';
 import 'package:app/feature/browser_v2/screens/main/delegates/page_slide_delegate.dart';
 import 'package:app/feature/browser_v2/screens/main/delegates/past_go_delegate.dart';
 import 'package:app/feature/browser_v2/screens/main/delegates/scroll_page_delegate.dart';
+import 'package:app/feature/browser_v2/screens/main/delegates/size_delegate.dart';
 import 'package:app/feature/browser_v2/screens/main/delegates/tab_menu_delegate.dart';
 import 'package:app/feature/browser_v2/screens/main/menu_animation_helper.dart';
 import 'package:app/feature/browser_v2/screens/main/widgets/control_panels/navigation_panel/url_action_sheet.dart';
@@ -53,10 +54,6 @@ class BrowserMainScreenWidgetModel
   final viewKey = UniqueKey();
   final urlKey = UniqueKey();
 
-  late final urlWidth = screenWidth * .915 + DimensSizeV2.d16;
-
-  late final screenHeight = _screenSize.height;
-  late final screenWidth = _screenSize.width;
 
   late final onWebPageScrollChanged = () {
     void onSuccess(bool isToTop) {
@@ -104,9 +101,9 @@ class BrowserMainScreenWidgetModel
 
   late final _visibleNavigationBarState = createNotifier<bool>(true);
 
-  late final _screenSize = MediaQuery.of(context).size;
-
   late int _lastTabsCount = _tabsCollection?.count ?? 0;
+
+  late final sizes = BrowserSizesDelegate(context);
 
   final _pageDelegate = BrowserPageScrollDelegate();
 
@@ -120,8 +117,8 @@ class BrowserMainScreenWidgetModel
   final _pastGoDelegate = BrowserPastGoDelegate();
 
   late final _pageSlideDelegate = PageSlideDelegate(
-    screenWidth: screenWidth,
-    urlWidth: urlWidth,
+    screenWidth: sizes.screenWidth,
+    urlWidth: sizes.urlWidth,
     onChangeSlideIndex: (int tabIndex) {
       model.setActiveTab(_tabsCollection?.getIdByIndex(tabIndex));
     },
@@ -361,7 +358,7 @@ class BrowserMainScreenWidgetModel
     final index = _tabsCollection?.getIndexById(id);
 
     if (index != null && index > -1) {
-      _pageSlideDelegate.slideTo(urlWidth * index + 50);
+      _pageSlideDelegate.slideTo(sizes.urlWidth * index + 50);
       _pageDelegate.reset();
     }
 

@@ -41,7 +41,7 @@ class BrowserMainScreen extends ElementaryWidget<BrowserMainScreenWidgetModel> {
                   onPointerUp: wm.onPointerUp,
                   onPointerCancel: wm.onPointerCancel,
                   child: BrowserPagesView(
-                    width: wm.screenWidth,
+                    width: wm.sizes.screenWidth,
                     viewVisibleState: wm.viewVisibleState,
                     tabsState: wm.tabsState,
                     scrollController: wm.viewTabScrollController,
@@ -88,8 +88,8 @@ class BrowserMainScreen extends ElementaryWidget<BrowserMainScreenWidgetModel> {
                     onNotification: wm.onScrollNotification,
                     child: BrowserPageControlPanel(
                       key: wm.viewKey,
-                      menuUrlPanelWidth: wm.screenWidth,
-                      urlWidth: wm.urlWidth,
+                      menuUrlPanelWidth: wm.sizes.screenWidth,
+                      urlWidth: wm.sizes.urlWidth,
                       onPressedTabs: wm.onPressedTabs,
                       onPressedCurrentUrlMenu: wm.onPressedCurrentUrlMenu,
                       onPressedRefresh: wm.onPressedRefresh,
