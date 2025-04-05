@@ -12,12 +12,12 @@ import 'package:app/feature/browser_v2/screens/main/browser_main_screen_model.da
 import 'package:app/feature/browser_v2/screens/main/data/browser_render_manager.dart';
 import 'package:app/feature/browser_v2/screens/main/data/menu_data.dart';
 import 'package:app/feature/browser_v2/screens/main/delegates/browser_keys_delegate.dart';
+import 'package:app/feature/browser_v2/screens/main/delegates/menu_animation_delegate.dart';
 import 'package:app/feature/browser_v2/screens/main/delegates/page_slide_delegate.dart';
 import 'package:app/feature/browser_v2/screens/main/delegates/past_go_delegate.dart';
 import 'package:app/feature/browser_v2/screens/main/delegates/scroll_page_delegate.dart';
 import 'package:app/feature/browser_v2/screens/main/delegates/size_delegate.dart';
 import 'package:app/feature/browser_v2/screens/main/delegates/tab_menu_delegate.dart';
-import 'package:app/feature/browser_v2/screens/main/menu_animation_helper.dart';
 import 'package:app/feature/browser_v2/screens/main/widgets/control_panels/navigation_panel/url_action_sheet.dart';
 import 'package:app/feature/browser_v2/screens/main/widgets/tab_animated_view/tab_animation_type.dart';
 import 'package:app/utils/clipboard_utils.dart';
@@ -76,7 +76,7 @@ class BrowserMainScreenWidgetModel
 
   final _renderManager = BrowserRenderManager();
 
-  late final _animation = MenuAnimationHelperImpl(this);
+  late final _animation = MenuAnimationDelegate(this);
 
   late final _progressController = AnimationController(
     vsync: this,
@@ -133,7 +133,7 @@ class BrowserMainScreenWidgetModel
   ListenableState<TabAnimationType?> get showAnimationState =>
       _showAnimationState;
 
-  MenuAnimationHelper get animation => _animation;
+  MenuAnimationDelegate get animation => _animation;
 
   AnimationController get progressController => _progressController;
 
