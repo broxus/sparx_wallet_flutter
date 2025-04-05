@@ -76,7 +76,7 @@ class BrowserMainScreenWidgetModel
 
   final _renderManager = BrowserRenderManager();
 
-  late final _animation = MenuAnimationDelegate(this);
+  late final _animationDelegate = BrowserMenuAnimationDelegate(this);
 
   late final _progressController = AnimationController(
     vsync: this,
@@ -133,7 +133,7 @@ class BrowserMainScreenWidgetModel
   ListenableState<TabAnimationType?> get showAnimationState =>
       _showAnimationState;
 
-  MenuAnimationDelegate get animation => _animation;
+  BrowserMenuAnimationUi get animation => _animationDelegate;
 
   AnimationController get progressController => _progressController;
 
@@ -178,7 +178,7 @@ class BrowserMainScreenWidgetModel
     model.closeAllControllers();
     _menuState.removeListener(_handleMenuState);
     _progressController.dispose();
-    _animation.dispose();
+    _animationDelegate.dispose();
     _renderManager.dispose();
     _pastGoDelegate.dispose();
     _pageSlideDelegate.dispose();
@@ -386,7 +386,7 @@ class BrowserMainScreenWidgetModel
   }
 
   void _handleMenuState() {
-    _animation.handleMenuType(_menuState.value);
+    _animationDelegate.handleMenuType(_menuState.value);
   }
 
   Future<void> _updatePastGo() async {
