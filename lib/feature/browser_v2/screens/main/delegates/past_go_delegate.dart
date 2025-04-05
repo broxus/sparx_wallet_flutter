@@ -2,9 +2,14 @@ import 'package:app/utils/clipboard_utils.dart';
 import 'package:elementary_helper/elementary_helper.dart';
 import 'package:flutter/cupertino.dart';
 
-class BrowserPastGoDelegate {
+abstract interface class BrowserPastGoUi {
+  ListenableState<bool> get showPastGoState;
+}
+
+class BrowserPastGoDelegate implements BrowserPastGoUi {
   late final _showPastGoState = StateNotifier<bool>(initValue: true);
 
+  @override
   ListenableState<bool> get showPastGoState => _showPastGoState;
 
   void dispose() {

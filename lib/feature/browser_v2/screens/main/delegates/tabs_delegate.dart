@@ -6,7 +6,23 @@ import 'package:app/feature/browser_v2/screens/main/widgets/tab_animated_view/ta
 import 'package:elementary_helper/elementary_helper.dart';
 import 'package:flutter/foundation.dart';
 
-class BrowserTabsDelegate {
+abstract interface class BrowserTabsUi {
+  ListenableState<BrowserTabsCollection> get tabsState;
+
+  ListenableState<BrowserTab?> get activeTabState;
+
+  ListenableState<TabAnimationType?> get showAnimationState;
+
+  void changeTab(String id);
+
+  void onCloseTab(String id);
+
+  void onCloseAllPressed();
+
+  void addTab();
+}
+
+class BrowserTabsDelegate implements BrowserTabsUi {
   BrowserTabsDelegate(
     this.model, {
     required this.renderManager,
@@ -27,14 +43,17 @@ class BrowserTabsDelegate {
 
   late final _showAnimationState = StateNotifier<TabAnimationType?>();
 
-  ListenableState<TabAnimationType?> get showAnimationState =>
-      _showAnimationState;
-
   late int _lastTabsCount = _tabsCollection?.count ?? 0;
 
+  @override
   ListenableState<BrowserTabsCollection> get tabsState => model.tabsState;
 
+  @override
   ListenableState<BrowserTab?> get activeTabState => model.activeTabState;
+
+  @override
+  ListenableState<TabAnimationType?> get showAnimationState =>
+      _showAnimationState;
 
   BrowserTabsCollection? get _tabsCollection => tabsState.value;
 
@@ -77,6 +96,7 @@ class BrowserTabsDelegate {
 
   String? getIdByIndex(int index) => _tabsCollection?.getIdByIndex(index);
 
+  @override
   void changeTab(String id) {
     if (_tabsCollection == null) {
       return;
@@ -99,6 +119,21 @@ class BrowserTabsDelegate {
     );
 
     onChangeTab();
+  }
+
+  @override
+  void onCloseTab(String id) {
+    model.removeBrowserTab(id);
+  }
+
+  @override
+  void onCloseAllPressed() {
+    model.clearTabs();
+  }
+
+  @override
+  void addTab() {
+    model.createEmptyTab();
   }
 
   void animateShowView() {

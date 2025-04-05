@@ -10,27 +10,36 @@ import 'package:app/feature/browser_v2/screens/main/widgets/tab_menu/tab_menu.da
 import 'package:app/utils/clipboard_utils.dart';
 import 'package:flutter/cupertino.dart';
 
-class BrowserTabMenuDelegate {
+// ignore: one_member_abstracts
+abstract interface class BrowserTabMenuUi {
+  Future<void> showTabMenu(
+    BrowserTab tab,
+  );
+}
+
+class BrowserTabMenuDelegate implements BrowserTabMenuUi {
   BrowserTabMenuDelegate(
-    this.model, {
+    this.model,
+    this.context, {
     required this.renderManager,
     required this.onShowMenu,
     required this.onHideMenu,
   });
 
   final BrowserMainScreenModel model;
+  final BuildContext context;
   final BrowserRenderManager renderManager;
   final VoidCallback onShowMenu;
   final VoidCallback onHideMenu;
 
+  @override
   Future<void> showTabMenu(
-    BuildContext context,
     BrowserTab tab,
   ) async {
     final data = renderManager.getRenderData(tab.id);
 
     if (data == null) {
-      return null;
+      return;
     }
 
     onShowMenu();

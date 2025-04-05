@@ -29,11 +29,11 @@ class BrowserMainScreen extends ElementaryWidget<BrowserMainScreenWidgetModel> {
             children: [
               BrowserTabsList(
                 key: wm.keys.tabListKey,
-                tabsState: wm.tabsState,
+                tabsState: wm.tabs.tabsState,
                 renderManager: wm.renderManager,
-                onPressedTabMenu: wm.onPressedTabMenu,
-                onPressedTab: wm.onPressedTab,
-                onCloseTab: wm.onCloseTab,
+                onPressedTabMenu: wm.tabMenu.showTabMenu,
+                onPressedTab: wm.tabs.changeTab,
+                onCloseTab: wm.tabs.onCloseTab,
               ),
               Positioned.fill(
                 child: Listener(
@@ -43,9 +43,10 @@ class BrowserMainScreen extends ElementaryWidget<BrowserMainScreenWidgetModel> {
                   child: BrowserPagesView(
                     width: wm.sizes.screenWidth,
                     viewVisibleState: wm.viewVisibleState,
-                    tabsState: wm.tabsState,
-                    scrollController: wm.viewTabScrollController,
-                    onLoadingProgressChanged: wm.onLoadingProgressChanged,
+                    tabsState: wm.tabs.tabsState,
+                    scrollController: wm.pageSlider.viewTabScrollController,
+                    onLoadingProgressChanged:
+                        wm.progressIndicator.onProgressChanged,
                     onCreateWebViewController: wm.onCreateWebViewController,
                     onWebPageScrollChanged: wm.onWebPageScrollChanged,
                     onOverScrolled: wm.onOverScrolled,
@@ -56,14 +57,14 @@ class BrowserMainScreen extends ElementaryWidget<BrowserMainScreenWidgetModel> {
               // TODO(knightforce): optimize render
               _ItemPosition(
                 child: BrowserProgressIndicator(
-                  animation: wm.progressAnimation,
+                  animation: wm.progressIndicator.animation,
                   menuState: wm.menuState,
                 ),
               ),
               TabAnimatedView(
                 onAnimationStart: wm.onTabAnimationStart,
                 onAnimationEnd: wm.onTabAnimationEnd,
-                showAnimationState: wm.showAnimationState,
+                showAnimationState: wm.tabs.showAnimationState,
               ),
               _ItemPosition(
                 child: _MenuAnimation(
@@ -72,9 +73,9 @@ class BrowserMainScreen extends ElementaryWidget<BrowserMainScreenWidgetModel> {
                   opacityAnimation: wm.menuAnimations.listMenuOpacityAnimation,
                   child: BrowserTabsListActionBar(
                     key: wm.keys.listKey,
-                    tabsState: wm.tabsState,
-                    onCloseAllPressed: wm.onCloseAllPressed,
-                    onPlusPressed: wm.onPlusPressed,
+                    tabsState: wm.tabs.tabsState,
+                    onCloseAllPressed: wm.tabs.onCloseAllPressed,
+                    onPlusPressed: wm.tabs.addTab,
                     onDonePressed: wm.onDonePressed,
                   ),
                 ),
@@ -85,7 +86,7 @@ class BrowserMainScreen extends ElementaryWidget<BrowserMainScreenWidgetModel> {
                   offsetAnimation: wm.menuAnimations.viewMenuOffsetAnimation,
                   opacityAnimation: wm.menuAnimations.viewMenuOpacityAnimation,
                   child: NotificationListener<ScrollNotification>(
-                    onNotification: wm.onScrollNotification,
+                    onNotification: wm.pageSlider.onScrollNotification,
                     child: BrowserPageControlPanel(
                       key: wm.keys.viewKey,
                       menuUrlPanelWidth: wm.sizes.screenWidth,
@@ -94,8 +95,8 @@ class BrowserMainScreen extends ElementaryWidget<BrowserMainScreenWidgetModel> {
                       onPressedCurrentUrlMenu: wm.onPressedCurrentUrlMenu,
                       onPressedRefresh: wm.onPressedRefresh,
                       onEditingCompleteUrl: wm.onEditingCompleteUrl,
-                      urlSliderController: wm.urlSliderController,
-                      tabsState: wm.tabsState,
+                      urlSliderController: wm.pageSlider.urlSliderController,
+                      tabsState: wm.tabs.tabsState,
                     ),
                   ),
                 ),
@@ -106,7 +107,7 @@ class BrowserMainScreen extends ElementaryWidget<BrowserMainScreenWidgetModel> {
                   offsetAnimation: wm.menuAnimations.urlMenuOffsetAnimation,
                   opacityAnimation: wm.menuAnimations.urlMenuOpacityAnimation,
                   child: HostPanel(
-                    wm.activeTabState,
+                    wm.tabs.activeTabState,
                     key: wm.keys.urlKey,
                     onPressed: wm.onPressedViewUrlPanel,
                   ),
@@ -117,7 +118,7 @@ class BrowserMainScreen extends ElementaryWidget<BrowserMainScreenWidgetModel> {
                 left: 0,
                 right: 0,
                 child: _PastGoView(
-                  showState: wm.showPastGoState,
+                  showState: wm.pastGo.showPastGoState,
                   onPressed: wm.onPastGoPressed,
                 ),
               ),

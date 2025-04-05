@@ -5,8 +5,6 @@ import 'package:app/core/wm/custom_wm.dart';
 import 'package:app/di/di.dart';
 import 'package:app/event_bus/events/navigation/bottom_navigation_events.dart';
 import 'package:app/event_bus/primary_bus.dart';
-import 'package:app/feature/browser_v2/data/tabs_data.dart';
-import 'package:app/feature/browser_v2/models/tab/browser_tab.dart';
 import 'package:app/feature/browser_v2/screens/main/browser_main_screen.dart';
 import 'package:app/feature/browser_v2/screens/main/browser_main_screen_model.dart';
 import 'package:app/feature/browser_v2/screens/main/data/browser_render_manager.dart';
@@ -21,7 +19,6 @@ import 'package:app/feature/browser_v2/screens/main/delegates/size_delegate.dart
 import 'package:app/feature/browser_v2/screens/main/delegates/tab_menu_delegate.dart';
 import 'package:app/feature/browser_v2/screens/main/delegates/tabs_delegate.dart';
 import 'package:app/feature/browser_v2/screens/main/widgets/control_panels/navigation_panel/url_action_sheet.dart';
-import 'package:app/feature/browser_v2/screens/main/widgets/tab_animated_view/tab_animation_type.dart';
 import 'package:app/utils/clipboard_utils.dart';
 import 'package:app/utils/focus_utils.dart';
 import 'package:elementary/elementary.dart';
@@ -55,31 +52,6 @@ class BrowserMainScreenWidgetModel
 
   late final sizes = BrowserSizesDelegate(context);
 
-  late final onWebPageScrollChanged = () {
-    void onSuccess(bool isToTop) {
-      _menuState.accept(isToTop ? MenuType.view : MenuType.url);
-      _visibleNavigationBarState.accept(isToTop);
-    }
-
-    return (int y) => _pageDelegate.onWebPageScrollChanged(
-          y,
-          onSuccess: onSuccess,
-        );
-  }();
-
-  late final onPointerUp = (() {
-    void onSuccess() => resetFocus(context);
-    return (PointerUpEvent event) => _pageDelegate.onPointerUp(
-          event,
-          onSuccess: onSuccess,
-        );
-  })();
-
-  late final onOverScrolled = (() {
-    void onSuccess() => _menuState.accept(MenuType.none);
-    return (int y) => _pageDelegate.onOverScrolled(y, onSuccess: onSuccess);
-  })();
-
   final _renderManager = BrowserRenderManager();
 
   late final _animationDelegate = BrowserMenuAnimationDelegate(this);
@@ -91,6 +63,7 @@ class BrowserMainScreenWidgetModel
 
   late final _tabMenuDelegate = BrowserTabMenuDelegate(
     model,
+    context,
     renderManager: _renderManager,
     onShowMenu: () => _menuState.accept(null),
     onHideMenu: () => _menuState.accept(MenuType.list),
@@ -128,33 +101,24 @@ class BrowserMainScreenWidgetModel
 
   late final _visibleNavigationBarState = createNotifier<bool>(true);
 
-  ScrollController get viewTabScrollController =>
-      _pageSlideDelegate.viewTabScrollController;
+  BrowserPageSlideUi get pageSlider => _pageSlideDelegate;
 
-  ScrollController get urlSliderController =>
-      _pageSlideDelegate.urlSliderController;
+  BrowserTabsUi get tabs => _tabsDelegate;
 
-  RenderManager<String> get renderManager => _renderManager;
-
-  ListenableState<BrowserTabsCollection> get tabsState =>
-      _tabsDelegate.tabsState;
-
-  ListenableState<BrowserTab?> get activeTabState =>
-      _tabsDelegate.activeTabState;
-
-  ListenableState<MenuType> get menuState => _menuState;
-
-  ListenableState<TabAnimationType?> get showAnimationState =>
-      _tabsDelegate.showAnimationState;
+  BrowserPastGoUi get pastGo => _pastGoDelegate;
 
   BrowserMenuAnimationUi get menuAnimations => _animationDelegate;
 
-  Animation<double> get progressAnimation =>
-      _progressIndicatorDelegate.animation;
+  BrowserProgressIndicatorUi get progressIndicator =>
+      _progressIndicatorDelegate;
+
+  BrowserTabMenuUi get tabMenu => _tabMenuDelegate;
+
+  RenderManager<String> get renderManager => _renderManager;
+
+  ListenableState<MenuType> get menuState => _menuState;
 
   ListenableState<bool> get viewVisibleState => _viewVisibleState;
-
-  ListenableState<bool> get showPastGoState => _pastGoDelegate.showPastGoState;
 
   ColorsPaletteV2 get colors => _theme.colors;
 
@@ -200,22 +164,6 @@ class BrowserMainScreenWidgetModel
     model.removeController(tabId);
   }
 
-  void onPressedTab(String id) {
-    _tabsDelegate.changeTab(id);
-  }
-
-  void onCloseTab(String id) {
-    model.removeBrowserTab(id);
-  }
-
-  void onCloseAllPressed() {
-    model.clearTabs();
-  }
-
-  void onPlusPressed() {
-    model.createEmptyTab();
-  }
-
   void onDonePressed() {
     _tabsDelegate.animateShowView();
     _menuState.accept(MenuType.view);
@@ -226,18 +174,25 @@ class BrowserMainScreenWidgetModel
 
   void onPointerCancel(_) => _pageDelegate.onPointerCancel();
 
+  void onWebPageScrollChanged(int y) => _pageDelegate.onWebPageScrollChanged(
+        y,
+        onSuccess: _onWebPageScrollChangedSuccess,
+      );
+
+  void onPointerUp(PointerUpEvent event) => _pageDelegate.onPointerUp(
+        event,
+        onSuccess: resetFocus,
+      );
+
+  void onOverScrolled(int y) => _pageDelegate.onOverScrolled(
+        y,
+        onSuccess: _onOverScrolledSuccess,
+      );
+
   void onPressedTabs() {
     _tabsDelegate.animateShowTabs();
     _menuState.accept(MenuType.list);
   }
-
-  Future<void> onPressedTabMenu(
-    BrowserTab tab,
-  ) =>
-      _tabMenuDelegate.showTabMenu(
-        context,
-        tab,
-      );
 
   Future<void> onPressedCurrentUrlMenu(String tabId) async {
     final result = await showUrlActionSheet(context);
@@ -276,12 +231,6 @@ class BrowserMainScreenWidgetModel
     model.requestUrl(tabId, text);
   }
 
-  bool onScrollNotification(ScrollNotification notification) =>
-      _pageSlideDelegate.onScrollNotification(notification);
-
-  void onLoadingProgressChanged(double progressValue) =>
-      _progressIndicatorDelegate.onProgressChanged(progressValue);
-
   void onTabAnimationStart() => _tabsDelegate.onTabAnimationStart(
         _onTabAnimationComplete,
       );
@@ -289,6 +238,13 @@ class BrowserMainScreenWidgetModel
   void onTabAnimationEnd() => _tabsDelegate.onTabAnimationEnd(
         _onTabAnimationComplete,
       );
+
+  void _onWebPageScrollChangedSuccess(bool isToTop) {
+    _menuState.accept(isToTop ? MenuType.view : MenuType.url);
+    _visibleNavigationBarState.accept(isToTop);
+  }
+
+  void _onOverScrolledSuccess() => _menuState.accept(MenuType.none);
 
   void _onEmptyTabs() {
     model.createEmptyTab();

@@ -1,6 +1,14 @@
 import 'package:flutter/cupertino.dart';
 
-class BrowserPageSlideDelegate {
+abstract interface class BrowserPageSlideUi {
+  ScrollController get viewTabScrollController;
+
+  ScrollController get urlSliderController;
+
+  bool onScrollNotification(ScrollNotification notification);
+}
+
+class BrowserPageSlideDelegate implements BrowserPageSlideUi {
   BrowserPageSlideDelegate({
     required this.screenWidth,
     required this.urlWidth,
@@ -9,7 +17,9 @@ class BrowserPageSlideDelegate {
     _init();
   }
 
+  @override
   final viewTabScrollController = ScrollController();
+  @override
   final urlSliderController = ScrollController();
 
   final double screenWidth;
@@ -25,6 +35,15 @@ class BrowserPageSlideDelegate {
 
   void _init() {
     urlSliderController.addListener(_handleUrlPanelScroll);
+  }
+
+  @override
+  bool onScrollNotification(ScrollNotification notification) {
+    if (notification is ScrollEndNotification) {
+      _snapViewScroll();
+    }
+
+    return false;
   }
 
   void _handleUrlPanelScroll() {
@@ -46,14 +65,6 @@ class BrowserPageSlideDelegate {
     } else if (!x.isNaN) {
       viewTabScrollController.jumpTo(x);
     }
-  }
-
-  bool onScrollNotification(ScrollNotification notification) {
-    if (notification is ScrollEndNotification) {
-      _snapViewScroll();
-    }
-
-    return false;
   }
 
   void _snapViewScroll() {
