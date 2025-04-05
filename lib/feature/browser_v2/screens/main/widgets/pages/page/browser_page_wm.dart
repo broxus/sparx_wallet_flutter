@@ -118,6 +118,7 @@ class BrowserPageWidgetModel
     super.dispose();
   }
 
+  // Callback that is called when the WebView and its controller are created
   Future<void> onWebViewCreated(
     InAppWebViewController controller,
   ) async {
@@ -134,7 +135,8 @@ class BrowserPageWidgetModel
     }
   }
 
-  void onLoadStart(
+  // Start loading page
+  void onWebPageLoadStart(
     _,
     Uri? uri,
   ) {
@@ -144,7 +146,8 @@ class BrowserPageWidgetModel
       ..addHistory(uri);
   }
 
-  void onLoadStop(
+  // Stop loading page
+  void onWebPageLoadStop(
     _,
     Uri? uri,
   ) {
@@ -154,7 +157,8 @@ class BrowserPageWidgetModel
       ..updateUrl(uri);
   }
 
-  Future<void> onLoadResource(
+  // Load any resource on the page. JS, CSS, images, etc.
+  Future<void> onWebPageLoadResource(
     InAppWebViewController controller,
     _,
   ) async {
@@ -168,7 +172,8 @@ class BrowserPageWidgetModel
     }
   }
 
-  void onReceivedError(
+  // Network or WebView issues No internet, DNS, timeout
+  void onWebPageReceivedError(
     _,
     WebResourceRequest request,
     WebResourceError error,
@@ -180,7 +185,8 @@ class BrowserPageWidgetModel
     );
   }
 
-  void onReceivedHttpError(
+  // The server responded with an HTTP error (4xx/5xx)
+  void onWebPageReceivedHttpError(
     InAppWebViewController controller,
     WebResourceRequest request,
     WebResourceResponse errorResponse,
@@ -193,14 +199,16 @@ class BrowserPageWidgetModel
     );
   }
 
-  void onTitleChanged(_, String? title) {
+  // Called when the page title changes.
+  void onWebPageTitleChanged(_, String? title) {
     if (title?.trim().isEmpty ?? true) {
       return;
     }
     model.updateTitle(title!);
   }
 
-  void onOverScrolled(
+  // Called when the WebView is scrolled beyond its content (over-scroll).
+  void onWebPageOverScrolled(
     _,
     __,
     int y,
@@ -210,11 +218,13 @@ class BrowserPageWidgetModel
     widget.onOverScrolled(y);
   }
 
-  void onScrollChanged(_, __, int y) {
+  void onWebPageScrollChanged(_, __, int y) {
     widget.onScrollChanged(y);
   }
 
-  Future<HttpAuthResponse?> onReceivedHttpAuthRequest(
+  // Called during HTTP authorization if the site requires login/password
+  // (e.g. 401 Unauthorized with WWW-Authenticate header).
+  Future<HttpAuthResponse?> onWebPageReceivedHttpAuthRequest(
     _,
     URLAuthenticationChallenge challenge,
   ) async {
@@ -248,7 +258,9 @@ class BrowserPageWidgetModel
     );
   }
 
-  Future<NavigationActionPolicy> shouldOverrideUrlLoading(
+  // Called when trying to load a new URL (click/redirect).
+  // You can intercept and cancel or replace the load.
+  Future<NavigationActionPolicy> onWebPageShouldOverrideUrlLoading(
     InAppWebViewController controller,
     NavigationAction navigationAction,
   ) async {
