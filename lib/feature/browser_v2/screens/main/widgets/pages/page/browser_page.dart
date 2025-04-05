@@ -17,7 +17,7 @@ class BrowserPage extends ElementaryWidget<BrowserPageWidgetModel> {
     required this.onWebPageScrollChanged,
     required this.onOverScrolled,
     required this.onDispose,
-    required this.progressController,
+    required this.onLoadingProgressChanged,
     Key? key,
     WidgetModelFactory<BrowserPageWidgetModel>? wmFactory,
   }) : super(
@@ -35,7 +35,7 @@ class BrowserPage extends ElementaryWidget<BrowserPageWidgetModel> {
   final ValueChanged<int> onWebPageScrollChanged;
   final ValueChanged<int> onOverScrolled;
   final VoidCallback onDispose;
-  final AnimationController progressController;
+  final ValueChanged<double> onLoadingProgressChanged;
 
   @override
   Widget build(BrowserPageWidgetModel wm) {

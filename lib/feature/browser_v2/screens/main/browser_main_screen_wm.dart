@@ -15,6 +15,7 @@ import 'package:app/feature/browser_v2/screens/main/delegates/browser_keys_deleg
 import 'package:app/feature/browser_v2/screens/main/delegates/menu_animation_delegate.dart';
 import 'package:app/feature/browser_v2/screens/main/delegates/page_slide_delegate.dart';
 import 'package:app/feature/browser_v2/screens/main/delegates/past_go_delegate.dart';
+import 'package:app/feature/browser_v2/screens/main/delegates/progress_indicator_delegate.dart';
 import 'package:app/feature/browser_v2/screens/main/delegates/scroll_page_delegate.dart';
 import 'package:app/feature/browser_v2/screens/main/delegates/size_delegate.dart';
 import 'package:app/feature/browser_v2/screens/main/delegates/tab_menu_delegate.dart';
@@ -77,11 +78,8 @@ class BrowserMainScreenWidgetModel
   final _renderManager = BrowserRenderManager();
 
   late final _animationDelegate = BrowserMenuAnimationDelegate(this);
-
-  late final _progressController = AnimationController(
-    vsync: this,
-    duration: const Duration(milliseconds: 100),
-  );
+  late final _progressIndicatorDelegate =
+      BrowserProgressIndicatorDelegate(this);
 
   late final _viewVisibleState = createNotifier<bool>(
     activeTabState.value != null,
@@ -133,9 +131,10 @@ class BrowserMainScreenWidgetModel
   ListenableState<TabAnimationType?> get showAnimationState =>
       _showAnimationState;
 
-  BrowserMenuAnimationUi get animation => _animationDelegate;
+  BrowserMenuAnimationUi get menuAnimations => _animationDelegate;
 
-  AnimationController get progressController => _progressController;
+  Animation<double> get progressAnimation =>
+      _progressIndicatorDelegate.animation;
 
   ListenableState<BrowserTabsCollection> get tabsState => model.tabsState;
 
@@ -177,7 +176,7 @@ class BrowserMainScreenWidgetModel
     activeTabState.removeListener(_handleActiveTab);
     model.closeAllControllers();
     _menuState.removeListener(_handleMenuState);
-    _progressController.dispose();
+    _progressIndicatorDelegate.dispose();
     _animationDelegate.dispose();
     _renderManager.dispose();
     _pastGoDelegate.dispose();
@@ -315,6 +314,9 @@ class BrowserMainScreenWidgetModel
   bool onScrollNotification(ScrollNotification notification) =>
       _pageSlideDelegate.onScrollNotification(notification);
 
+  void onLoadingProgressChanged(double progressValue) =>
+      _progressIndicatorDelegate.onProgressChanged(progressValue);
+
   void _handleTabsCollection() {
     final count = _tabsCollection?.count ?? 0;
     if (_tabsCollection?.isNotEmpty ?? true) {
@@ -334,7 +336,7 @@ class BrowserMainScreenWidgetModel
   }
 
   void _handleActiveTab() {
-    _progressController.reset();
+    _progressIndicatorDelegate.reset();
     _updatePastGo();
   }
 
