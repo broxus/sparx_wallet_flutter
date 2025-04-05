@@ -219,7 +219,7 @@ class BrowserPageWidgetModel
   }
 
   void onWebPageScrollChanged(_, __, int y) {
-    widget.onScrollChanged(y);
+    widget.onWebPageScrollChanged(y);
   }
 
   // Called during HTTP authorization if the site requires login/password

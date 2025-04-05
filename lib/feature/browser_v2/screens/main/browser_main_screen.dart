@@ -47,7 +47,7 @@ class BrowserMainScreen extends ElementaryWidget<BrowserMainScreenWidgetModel> {
                     scrollController: wm.viewTabScrollController,
                     progressController: wm.progressController,
                     onCreateWebViewController: wm.onCreateWebViewController,
-                    onScrollChanged: wm.onScrollChanged,
+                    onWebPageScrollChanged: wm.onWebPageScrollChanged,
                     onOverScrolled: wm.onOverScrolled,
                     onDispose: wm.onDisposeWebController,
                   ),

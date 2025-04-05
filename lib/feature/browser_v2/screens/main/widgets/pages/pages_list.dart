@@ -13,7 +13,7 @@ class BrowserPagesView extends StatelessWidget {
     required this.progressController,
     required this.tabsState,
     required this.onCreateWebViewController,
-    required this.onScrollChanged,
+    required this.onWebPageScrollChanged,
     required this.onOverScrolled,
     required this.onDispose,
     super.key,
@@ -28,7 +28,7 @@ class BrowserPagesView extends StatelessWidget {
     String tabId,
     InAppWebViewController controller,
   ) onCreateWebViewController;
-  final ValueChanged<int> onScrollChanged;
+  final ValueChanged<int> onWebPageScrollChanged;
   final ValueChanged<int> onOverScrolled;
   final ValueChanged<String> onDispose;
 
@@ -66,7 +66,7 @@ class BrowserPagesView extends StatelessWidget {
                         data.list[index].id,
                         controller,
                       ),
-                      onScrollChanged: onScrollChanged,
+                      onWebPageScrollChanged: onWebPageScrollChanged,
                       onOverScrolled: onOverScrolled,
                       onDispose: () => onDispose(data.list[index].id),
                     );

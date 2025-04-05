@@ -11,6 +11,7 @@ import 'package:app/feature/browser_v2/screens/main/browser_main_screen.dart';
 import 'package:app/feature/browser_v2/screens/main/browser_main_screen_model.dart';
 import 'package:app/feature/browser_v2/screens/main/data/browser_render_manager.dart';
 import 'package:app/feature/browser_v2/screens/main/data/menu_data.dart';
+import 'package:app/feature/browser_v2/screens/main/delegates/scroll_page_delegate.dart';
 import 'package:app/feature/browser_v2/screens/main/menu_animation_helper.dart';
 import 'package:app/feature/browser_v2/screens/main/widgets/control_panels/navigation_panel/url_action_sheet.dart';
 import 'package:app/feature/browser_v2/screens/main/widgets/tab_animated_view/tab_animation_type.dart';
@@ -59,6 +60,31 @@ class BrowserMainScreenWidgetModel
   late final screenHeight = _screenSize.height;
   late final screenWidth = _screenSize.width;
 
+  late final onWebPageScrollChanged = () {
+    void onSuccess(bool isToTop) {
+      _menuState.accept(isToTop ? MenuType.view : MenuType.url);
+      _visibleNavigationBarState.accept(isToTop);
+    }
+
+    return (int y) => _pageDelegate.onWebPageScrollChanged(
+          y,
+          onSuccess: onSuccess,
+        );
+  }();
+
+  late final onPointerUp = (() {
+    void onSuccess() => resetFocus(context);
+    return (PointerUpEvent event) => _pageDelegate.onPointerUp(
+          event,
+          onSuccess: onSuccess,
+        );
+  })();
+
+  late final onOverScrolled = (() {
+    void onSuccess() => _menuState.accept(MenuType.none);
+    return (int y) => _pageDelegate.onOverScrolled(y, onSuccess: onSuccess);
+  })();
+
   final _renderManager = BrowserRenderManager();
 
   late final _animation = MenuAnimationHelperImpl(this);
@@ -86,9 +112,7 @@ class BrowserMainScreenWidgetModel
 
   late int _lastTabsCount = _tabsCollection?.count ?? 0;
 
-  Offset? _downPosition;
-  int _prevYScroll = 0;
-  bool _isTouch = false;
+  final _pageDelegate = BrowserPageScrollDelegate();
 
   RenderManager<String> get renderManager => _renderManager;
 
@@ -159,33 +183,6 @@ class BrowserMainScreenWidgetModel
     model.removeController(tabId);
   }
 
-  void onScrollChanged(int y) {
-    if (!_isTouch) {
-      return;
-    }
-
-    final diff = _prevYScroll - y;
-
-    if (diff > -100 && diff < 100) {
-      return;
-    }
-
-    final isVisibleMenu = diff >= 0;
-
-    _menuState.accept(isVisibleMenu ? MenuType.view : MenuType.url);
-    _visibleNavigationBarState.accept(isVisibleMenu);
-
-    _prevYScroll = y;
-  }
-
-  void onOverScrolled(int y) {
-    if (y <= 0) {
-      return;
-    }
-
-    _menuState.accept(MenuType.none);
-  }
-
   void onChangeTab(String id) {
     _changeTab(id);
   }
@@ -216,30 +213,10 @@ class BrowserMainScreenWidgetModel
     _menuState.accept(MenuType.view);
   }
 
-  void onPointerDown(PointerDownEvent event) {
-    _downPosition = event.position;
-    _isTouch = true;
-  }
+  void onPointerDown(PointerDownEvent event) =>
+      _pageDelegate.onPointerDown(event);
 
-  void onPointerUp(PointerUpEvent event) {
-    _isTouch = false;
-    if (_downPosition == null) {
-      return;
-    }
-
-    if (event.position.dx > _downPosition!.dx + 10 ||
-        event.position.dx < _downPosition!.dx - 10 ||
-        event.position.dy > _downPosition!.dy + 10 ||
-        event.position.dy < _downPosition!.dy - 10) {
-      return;
-    }
-
-    resetFocus(context);
-  }
-
-  void onPointerCancel(_) {
-    _isTouch = false;
-  }
+  void onPointerCancel(_) => _pageDelegate.onPointerCancel();
 
   void onPressedTabs() {
     final id = _activeTab?.id;
@@ -366,7 +343,7 @@ class BrowserMainScreenWidgetModel
       }
     } else {
       model.createEmptyTab();
-      _prevYScroll = 0;
+      _pageDelegate.reset();
       urlSliderController.jumpTo(0);
       _viewVisibleState.accept(true);
       _menuState.accept(MenuType.view);
@@ -444,7 +421,7 @@ class BrowserMainScreenWidgetModel
 
     if (index > -1) {
       urlSliderController.jumpTo(urlWidth * index + 50);
-      _prevYScroll = 0;
+      _pageDelegate.reset();
     }
 
     return index > -1;

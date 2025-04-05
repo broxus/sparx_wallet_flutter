@@ -14,7 +14,7 @@ class BrowserPage extends ElementaryWidget<BrowserPageWidgetModel> {
     required this.tab,
     required this.width,
     required this.onCreate,
-    required this.onScrollChanged,
+    required this.onWebPageScrollChanged,
     required this.onOverScrolled,
     required this.onDispose,
     required this.progressController,
@@ -32,7 +32,7 @@ class BrowserPage extends ElementaryWidget<BrowserPageWidgetModel> {
   final BrowserTab tab;
   final double width;
   final ValueChanged<InAppWebViewController> onCreate;
-  final ValueChanged<int> onScrollChanged;
+  final ValueChanged<int> onWebPageScrollChanged;
   final ValueChanged<int> onOverScrolled;
   final VoidCallback onDispose;
   final AnimationController progressController;
