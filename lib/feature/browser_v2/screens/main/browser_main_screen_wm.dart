@@ -12,6 +12,7 @@ import 'package:app/feature/browser_v2/screens/main/browser_main_screen_model.da
 import 'package:app/feature/browser_v2/screens/main/data/browser_render_manager.dart';
 import 'package:app/feature/browser_v2/screens/main/data/menu_data.dart';
 import 'package:app/feature/browser_v2/screens/main/delegates/scroll_page_delegate.dart';
+import 'package:app/feature/browser_v2/screens/main/delegates/tab_menu_delegate.dart';
 import 'package:app/feature/browser_v2/screens/main/menu_animation_helper.dart';
 import 'package:app/feature/browser_v2/screens/main/widgets/control_panels/navigation_panel/url_action_sheet.dart';
 import 'package:app/feature/browser_v2/screens/main/widgets/tab_animated_view/tab_animation_type.dart';
@@ -113,6 +114,12 @@ class BrowserMainScreenWidgetModel
   late int _lastTabsCount = _tabsCollection?.count ?? 0;
 
   final _pageDelegate = BrowserPageScrollDelegate();
+  late final _tabMenuDelegate = TabMenuDelegate(
+    renderManager: _renderManager,
+    onShowMenu: () => _menuState.accept(null),
+    onHideMenu: () => _menuState.accept(MenuType.list),
+    addUrlToBookmark: model.addUrlToBookmark,
+  );
 
   RenderManager<String> get renderManager => _renderManager;
 
@@ -232,39 +239,10 @@ class BrowserMainScreenWidgetModel
     _menuState.accept(MenuType.list);
   }
 
-  Future<void> onPressedTabMenu(BrowserTab tab) async {
-    final data = _renderManager.getRenderData(tab.id);
-
-    if (data == null) {
-      return;
-    }
-
-    final menuValue = _menuState.value;
-
-    _menuState.accept(null);
-    primaryBus.fire(HideNavigationEvent());
-
-    final result = await showBrowserTabMenu(context, data);
-
-    _menuState.accept(menuValue);
-    primaryBus.fire(RevertNavigationEvent());
-
-    switch (result) {
-      case BrowserTabMenuItemData.copyLink:
-        unawaited(
-          setClipBoardData(
-            tab.url.toString(),
-          ),
-        );
-      case BrowserTabMenuItemData.pinTab:
-      // TODO(knightforce): handle
-      case BrowserTabMenuItemData.bookmark:
-        model.addUrlToBookmark(tab.id);
-      case BrowserTabMenuItemData.newTabGroup:
-      // TODO(knightforce): handle
-      case null:
-    }
-  }
+  Future<void> onPressedTabMenu(BrowserTab tab) => _tabMenuDelegate.showTabMenu(
+        context,
+        tab,
+      );
 
   Future<void> onPressedCurrentUrlMenu(String tabId) async {
     final result = await showUrlActionSheet(context);
