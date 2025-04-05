@@ -19,6 +19,7 @@ import 'package:app/feature/browser_v2/screens/main/delegates/progress_indicator
 import 'package:app/feature/browser_v2/screens/main/delegates/scroll_page_delegate.dart';
 import 'package:app/feature/browser_v2/screens/main/delegates/size_delegate.dart';
 import 'package:app/feature/browser_v2/screens/main/delegates/tab_menu_delegate.dart';
+import 'package:app/feature/browser_v2/screens/main/delegates/tabs_delegate.dart';
 import 'package:app/feature/browser_v2/screens/main/widgets/control_panels/navigation_panel/url_action_sheet.dart';
 import 'package:app/feature/browser_v2/screens/main/widgets/tab_animated_view/tab_animation_type.dart';
 import 'package:app/utils/clipboard_utils.dart';
@@ -50,6 +51,10 @@ class BrowserMainScreenWidgetModel
     super.model,
   );
 
+  late final keys = BrowserKeysDelegate();
+
+  late final sizes = BrowserSizesDelegate(context);
+
   late final onWebPageScrollChanged = () {
     void onSuccess(bool isToTop) {
       _menuState.accept(isToTop ? MenuType.view : MenuType.url);
@@ -78,34 +83,17 @@ class BrowserMainScreenWidgetModel
   final _renderManager = BrowserRenderManager();
 
   late final _animationDelegate = BrowserMenuAnimationDelegate(this);
+
   late final _progressIndicatorDelegate =
       BrowserProgressIndicatorDelegate(this);
-
-  late final _viewVisibleState = createNotifier<bool>(
-    activeTabState.value != null,
-  );
-
-  late final _menuState = createNotifier<MenuType>(
-    activeTabState.value != null ? MenuType.view : MenuType.list,
-  );
-
-  late final _showAnimationState = createNotifier<TabAnimationType?>();
-
-  late final _visibleNavigationBarState = createNotifier<bool>(true);
-
-  late int _lastTabsCount = _tabsCollection?.count ?? 0;
-
-  late final keys = BrowserKeysDelegate();
-
-  late final sizes = BrowserSizesDelegate(context);
 
   final _pageDelegate = BrowserPageScrollDelegate();
 
   late final _tabMenuDelegate = BrowserTabMenuDelegate(
+    model,
     renderManager: _renderManager,
     onShowMenu: () => _menuState.accept(null),
     onHideMenu: () => _menuState.accept(MenuType.list),
-    addUrlToBookmark: model.addUrlToBookmark,
   );
 
   final _pastGoDelegate = BrowserPastGoDelegate();
@@ -114,9 +102,31 @@ class BrowserMainScreenWidgetModel
     screenWidth: sizes.screenWidth,
     urlWidth: sizes.urlWidth,
     onChangeSlideIndex: (int tabIndex) {
-      model.setActiveTab(_tabsCollection?.getIdByIndex(tabIndex));
+      model.setActiveTab(_tabsDelegate.getIdByIndex(tabIndex));
     },
   );
+
+  late final _tabsDelegate = BrowserTabsDelegate(
+    model,
+    renderManager: _renderManager,
+    onEmptyTabs: _onEmptyTabs,
+    scrollToTab: _scrollToTab,
+    onChangeTab: _onChangeTab,
+    onUpdateActiveTab: () {
+      _progressIndicatorDelegate.reset();
+      _updatePastGo();
+    },
+  );
+
+  late final _viewVisibleState = createNotifier<bool>(
+    _tabsDelegate.activeTabState.value != null,
+  );
+
+  late final _menuState = createNotifier<MenuType>(
+    _tabsDelegate.activeTabState.value != null ? MenuType.view : MenuType.list,
+  );
+
+  late final _visibleNavigationBarState = createNotifier<bool>(true);
 
   ScrollController get viewTabScrollController =>
       _pageSlideDelegate.viewTabScrollController;
@@ -126,27 +136,25 @@ class BrowserMainScreenWidgetModel
 
   RenderManager<String> get renderManager => _renderManager;
 
+  ListenableState<BrowserTabsCollection> get tabsState =>
+      _tabsDelegate.tabsState;
+
+  ListenableState<BrowserTab?> get activeTabState =>
+      _tabsDelegate.activeTabState;
+
   ListenableState<MenuType> get menuState => _menuState;
 
   ListenableState<TabAnimationType?> get showAnimationState =>
-      _showAnimationState;
+      _tabsDelegate.showAnimationState;
 
   BrowserMenuAnimationUi get menuAnimations => _animationDelegate;
 
   Animation<double> get progressAnimation =>
       _progressIndicatorDelegate.animation;
 
-  ListenableState<BrowserTabsCollection> get tabsState => model.tabsState;
-
-  ListenableState<BrowserTab?> get activeTabState => model.activeTabState;
-
   ListenableState<bool> get viewVisibleState => _viewVisibleState;
 
   ListenableState<bool> get showPastGoState => _pastGoDelegate.showPastGoState;
-
-  BrowserTab? get _activeTab => activeTabState.value;
-
-  BrowserTabsCollection? get _tabsCollection => tabsState.value;
 
   ColorsPaletteV2 get colors => _theme.colors;
 
@@ -154,14 +162,12 @@ class BrowserMainScreenWidgetModel
 
   @override
   void initWidgetModel() {
-    tabsState.addListener(_handleTabsCollection);
-    activeTabState.addListener(_handleActiveTab);
     _menuState.addListener(_handleMenuState);
     _viewVisibleState.addListener(_handleViewVisibleState);
     _visibleNavigationBarState.addListener(_handleVisibleNavigationBar);
 
     WidgetsBinding.instance.addPostFrameCallback((_) {
-      final id = _activeTab?.id;
+      final id = _tabsDelegate.activeTabId;
       if (id != null) {
         _scrollToTab(id);
       }
@@ -172,8 +178,7 @@ class BrowserMainScreenWidgetModel
 
   @override
   void dispose() {
-    tabsState.removeListener(_handleTabsCollection);
-    activeTabState.removeListener(_handleActiveTab);
+    _tabsDelegate.dispose();
     model.closeAllControllers();
     _menuState.removeListener(_handleMenuState);
     _progressIndicatorDelegate.dispose();
@@ -195,8 +200,8 @@ class BrowserMainScreenWidgetModel
     model.removeController(tabId);
   }
 
-  void onChangeTab(String id) {
-    _changeTab(id);
+  void onPressedTab(String id) {
+    _tabsDelegate.changeTab(id);
   }
 
   void onCloseTab(String id) {
@@ -212,16 +217,7 @@ class BrowserMainScreenWidgetModel
   }
 
   void onDonePressed() {
-    final id = _activeTab?.id;
-    final data = id == null ? null : _renderManager.getRenderData(id);
-
-    _showAnimationState.accept(
-      ShowViewAnimationType(
-        tabX: data?.xLeft,
-        tabY: data?.yTop,
-      ),
-    );
-
+    _tabsDelegate.animateShowView();
     _menuState.accept(MenuType.view);
   }
 
@@ -231,16 +227,7 @@ class BrowserMainScreenWidgetModel
   void onPointerCancel(_) => _pageDelegate.onPointerCancel();
 
   void onPressedTabs() {
-    final id = _activeTab?.id;
-    final data = id == null ? null : _renderManager.getRenderData(id);
-
-    _showAnimationState.accept(
-      ShowTabsAnimationType(
-        tabX: data?.xLeft,
-        tabY: data?.yTop,
-      ),
-    );
-
+    _tabsDelegate.animateShowTabs();
     _menuState.accept(MenuType.list);
   }
 
@@ -279,36 +266,14 @@ class BrowserMainScreenWidgetModel
   }
 
   void onPastGoPressed() => _pastGoDelegate.onPastGoPressed(
-        onSuccess: (String text) => model.requestUrl(_activeTab?.id, text),
+        onSuccess: (String text) => model.requestUrl(
+          _tabsDelegate.activeTabId,
+          text,
+        ),
       );
 
   void onEditingCompleteUrl(String tabId, String text) {
-    if (text.trim().isEmpty) {
-      return;
-    }
-
     model.requestUrl(tabId, text);
-  }
-
-  void onTabAnimationStart() {
-    if (_showAnimationState.value == null) {
-      return;
-    }
-    if (_showAnimationState.value is ShowTabsAnimationType) {
-      _viewVisibleState.accept(false);
-    }
-  }
-
-  void onTabAnimationEnd() {
-    if (_showAnimationState.value == null) {
-      return;
-    }
-
-    if (_showAnimationState.value is ShowViewAnimationType) {
-      _viewVisibleState.accept(true);
-    }
-
-    _showAnimationState.accept(null);
   }
 
   bool onScrollNotification(ScrollNotification notification) =>
@@ -317,27 +282,26 @@ class BrowserMainScreenWidgetModel
   void onLoadingProgressChanged(double progressValue) =>
       _progressIndicatorDelegate.onProgressChanged(progressValue);
 
-  void _handleTabsCollection() {
-    final count = _tabsCollection?.count ?? 0;
-    if (_tabsCollection?.isNotEmpty ?? true) {
-      final id = _tabsCollection!.lastTab!.id;
-      if (count > _lastTabsCount) {
-        _changeTab(id);
-      }
-    } else {
-      model.createEmptyTab();
-      _pageDelegate.reset();
-      _pageSlideDelegate.slideTo(0);
-      _viewVisibleState.accept(true);
-      _menuState.accept(MenuType.view);
-    }
+  void onTabAnimationStart() => _tabsDelegate.onTabAnimationStart(
+        _onTabAnimationComplete,
+      );
 
-    _lastTabsCount = count;
+  void onTabAnimationEnd() => _tabsDelegate.onTabAnimationEnd(
+        _onTabAnimationComplete,
+      );
+
+  void _onEmptyTabs() {
+    model.createEmptyTab();
+    _pageDelegate.reset();
+    _pageSlideDelegate.slideTo(0);
+    _viewVisibleState.accept(true);
+    _menuState.accept(MenuType.view);
   }
 
-  void _handleActiveTab() {
-    _progressIndicatorDelegate.reset();
-    _updatePastGo();
+  void _onChangeTab() => _menuState.accept(MenuType.view);
+
+  void _onTabAnimationComplete(bool isVisible) {
+    _viewVisibleState.accept(isVisible);
   }
 
   void _handleViewVisibleState() {
@@ -353,7 +317,7 @@ class BrowserMainScreenWidgetModel
   }
 
   bool _scrollToTab(String id) {
-    final index = _tabsCollection?.getIndexById(id);
+    final index = _tabsDelegate.getTabIndexById(id);
 
     if (index != null && index > -1) {
       _pageSlideDelegate.slideTo(sizes.urlWidth * index + 50);
@@ -363,30 +327,6 @@ class BrowserMainScreenWidgetModel
     return index != null && index > -1;
   }
 
-  void _changeTab(String id) {
-    if (_tabsCollection == null) {
-      return;
-    }
-
-    if (id != _activeTab?.id) {
-      final isSuccess = _scrollToTab(id);
-      if (isSuccess) {
-        model.setActiveTab(id);
-      }
-    }
-
-    final data = _renderManager.getRenderData(id);
-
-    _showAnimationState.accept(
-      ShowViewAnimationType(
-        tabX: data?.xLeft,
-        tabY: data?.yTop,
-      ),
-    );
-
-    _menuState.accept(MenuType.view);
-  }
-
   void _handleMenuState() {
     _animationDelegate.handleMenuType(_menuState.value);
   }
@@ -394,7 +334,7 @@ class BrowserMainScreenWidgetModel
   Future<void> _updatePastGo() async {
     _pastGoDelegate.updateVisible(
       (_viewVisibleState.value ?? false) &&
-          (_activeTab?.url.toString().isEmpty ?? false) &&
+          (_tabsDelegate.isEmptyActiveTabUrl) &&
           await checkExistClipBoardData(),
     );
   }

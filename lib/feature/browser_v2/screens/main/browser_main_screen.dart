@@ -32,7 +32,7 @@ class BrowserMainScreen extends ElementaryWidget<BrowserMainScreenWidgetModel> {
                 tabsState: wm.tabsState,
                 renderManager: wm.renderManager,
                 onPressedTabMenu: wm.onPressedTabMenu,
-                onChangeTab: wm.onChangeTab,
+                onPressedTab: wm.onPressedTab,
                 onCloseTab: wm.onCloseTab,
               ),
               Positioned.fill(

@@ -13,7 +13,7 @@ class BrowserTabsList extends StatelessWidget {
     required this.tabsState,
     required this.renderManager,
     required this.onPressedTabMenu,
-    required this.onChangeTab,
+    required this.onPressedTab,
     required this.onCloseTab,
     super.key,
   });
@@ -21,7 +21,7 @@ class BrowserTabsList extends StatelessWidget {
   final ListenableState<BrowserTabsCollection> tabsState;
   final RenderManager<String> renderManager;
   final ValueChanged<BrowserTab> onPressedTabMenu;
-  final ValueChanged<String> onChangeTab;
+  final ValueChanged<String> onPressedTab;
   final ValueChanged<String> onCloseTab;
 
   // TODO(nesquikm): We should calculate this value based on the screen size
@@ -62,7 +62,7 @@ class BrowserTabsList extends StatelessWidget {
                       renderManager: renderManager,
                       tab: tab,
                       onPressedTabMenu: () => onPressedTabMenu(tab),
-                      onPressed: () => onChangeTab(tab.id),
+                      onPressed: () => onPressedTab(tab.id),
                       onClosePressed: () => onCloseTab(tab.id),
                     ),
                 ],
