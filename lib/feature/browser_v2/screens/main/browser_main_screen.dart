@@ -28,7 +28,7 @@ class BrowserMainScreen extends ElementaryWidget<BrowserMainScreenWidgetModel> {
           child: Stack(
             children: [
               BrowserTabsList(
-                key: wm.tabListKey,
+                key: wm.keys.tabListKey,
                 tabsState: wm.tabsState,
                 renderManager: wm.renderManager,
                 onPressedTabMenu: wm.onPressedTabMenu,
@@ -71,7 +71,7 @@ class BrowserMainScreen extends ElementaryWidget<BrowserMainScreenWidgetModel> {
                   offsetAnimation: wm.animation.listMenuOffsetAnimation,
                   opacityAnimation: wm.animation.listMenuOpacityAnimation,
                   child: BrowserTabsListActionBar(
-                    key: wm.listKey,
+                    key: wm.keys.listKey,
                     tabsState: wm.tabsState,
                     onCloseAllPressed: wm.onCloseAllPressed,
                     onPlusPressed: wm.onPlusPressed,
@@ -87,7 +87,7 @@ class BrowserMainScreen extends ElementaryWidget<BrowserMainScreenWidgetModel> {
                   child: NotificationListener<ScrollNotification>(
                     onNotification: wm.onScrollNotification,
                     child: BrowserPageControlPanel(
-                      key: wm.viewKey,
+                      key: wm.keys.viewKey,
                       menuUrlPanelWidth: wm.sizes.screenWidth,
                       urlWidth: wm.sizes.urlWidth,
                       onPressedTabs: wm.onPressedTabs,
@@ -107,7 +107,7 @@ class BrowserMainScreen extends ElementaryWidget<BrowserMainScreenWidgetModel> {
                   opacityAnimation: wm.animation.urlMenuOpacityAnimation,
                   child: HostPanel(
                     wm.activeTabState,
-                    key: wm.urlKey,
+                    key: wm.keys.urlKey,
                     onPressed: wm.onPressedViewUrlPanel,
                   ),
                 ),

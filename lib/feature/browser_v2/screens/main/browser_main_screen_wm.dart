@@ -11,6 +11,7 @@ import 'package:app/feature/browser_v2/screens/main/browser_main_screen.dart';
 import 'package:app/feature/browser_v2/screens/main/browser_main_screen_model.dart';
 import 'package:app/feature/browser_v2/screens/main/data/browser_render_manager.dart';
 import 'package:app/feature/browser_v2/screens/main/data/menu_data.dart';
+import 'package:app/feature/browser_v2/screens/main/delegates/browser_keys_delegate.dart';
 import 'package:app/feature/browser_v2/screens/main/delegates/page_slide_delegate.dart';
 import 'package:app/feature/browser_v2/screens/main/delegates/past_go_delegate.dart';
 import 'package:app/feature/browser_v2/screens/main/delegates/scroll_page_delegate.dart';
@@ -47,13 +48,6 @@ class BrowserMainScreenWidgetModel
   BrowserMainScreenWidgetModel(
     super.model,
   );
-
-  final tabListKey = UniqueKey();
-  final tabViewKey = UniqueKey();
-  final listKey = UniqueKey();
-  final viewKey = UniqueKey();
-  final urlKey = UniqueKey();
-
 
   late final onWebPageScrollChanged = () {
     void onSuccess(bool isToTop) {
@@ -103,6 +97,8 @@ class BrowserMainScreenWidgetModel
 
   late int _lastTabsCount = _tabsCollection?.count ?? 0;
 
+  late final keys = BrowserKeysDelegate();
+
   late final sizes = BrowserSizesDelegate(context);
 
   final _pageDelegate = BrowserPageScrollDelegate();
@@ -116,7 +112,7 @@ class BrowserMainScreenWidgetModel
 
   final _pastGoDelegate = BrowserPastGoDelegate();
 
-  late final _pageSlideDelegate = PageSlideDelegate(
+  late final _pageSlideDelegate = BrowserPageSlideDelegate(
     screenWidth: sizes.screenWidth,
     urlWidth: sizes.urlWidth,
     onChangeSlideIndex: (int tabIndex) {

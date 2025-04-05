@@ -1,7 +1,7 @@
 import 'package:flutter/cupertino.dart';
 
-class PageSlideDelegate {
-  PageSlideDelegate({
+class BrowserPageSlideDelegate {
+  BrowserPageSlideDelegate({
     required this.screenWidth,
     required this.urlWidth,
     required this.onChangeSlideIndex,
