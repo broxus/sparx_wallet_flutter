@@ -25,7 +25,10 @@ class BrowserMainScreenModel extends ElementaryModel {
   ListenableState<BrowserTab?> get activeTabState =>
       _browserService.tM.activeTabState;
 
-  void setActiveTab(String id) {
+  void setActiveTab(String? id) {
+    if (id == null) {
+      return;
+    }
     _browserService.tM.setActiveTab(id);
   }
 

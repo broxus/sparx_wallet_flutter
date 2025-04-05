@@ -11,6 +11,7 @@ import 'package:app/feature/browser_v2/screens/main/browser_main_screen.dart';
 import 'package:app/feature/browser_v2/screens/main/browser_main_screen_model.dart';
 import 'package:app/feature/browser_v2/screens/main/data/browser_render_manager.dart';
 import 'package:app/feature/browser_v2/screens/main/data/menu_data.dart';
+import 'package:app/feature/browser_v2/screens/main/delegates/page_slide_delegate.dart';
 import 'package:app/feature/browser_v2/screens/main/delegates/past_go_delegate.dart';
 import 'package:app/feature/browser_v2/screens/main/delegates/scroll_page_delegate.dart';
 import 'package:app/feature/browser_v2/screens/main/delegates/tab_menu_delegate.dart';
@@ -53,9 +54,6 @@ class BrowserMainScreenWidgetModel
   final listKey = UniqueKey();
   final viewKey = UniqueKey();
   final urlKey = UniqueKey();
-
-  late final viewTabScrollController = createScrollController();
-  late final urlSliderController = createScrollController();
 
   late final urlWidth = screenWidth * .915 + DimensSizeV2.d16;
 
@@ -125,6 +123,20 @@ class BrowserMainScreenWidgetModel
 
   final _pastGoDelegate = BrowserPastGoDelegate();
 
+  late final _pageSlideDelegate = PageSlideDelegate(
+    screenWidth: screenWidth,
+    urlWidth: urlWidth,
+    onChangeSlideIndex: (int tabIndex) {
+      model.setActiveTab(_tabsCollection?.getIdByIndex(tabIndex));
+    },
+  );
+
+  ScrollController get viewTabScrollController =>
+      _pageSlideDelegate.viewTabScrollController;
+
+  ScrollController get urlSliderController =>
+      _pageSlideDelegate.urlSliderController;
+
   RenderManager<String> get renderManager => _renderManager;
 
   ListenableState<MenuType> get menuState => _menuState;
@@ -156,7 +168,6 @@ class BrowserMainScreenWidgetModel
   void initWidgetModel() {
     tabsState.addListener(_handleTabsCollection);
     activeTabState.addListener(_handleActiveTab);
-    urlSliderController.addListener(_handleUrlPanelScroll);
     _menuState.addListener(_handleMenuState);
     _viewVisibleState.addListener(_handleViewVisibleState);
     _visibleNavigationBarState.addListener(_handleVisibleNavigationBar);
@@ -180,6 +191,7 @@ class BrowserMainScreenWidgetModel
     _progressController.dispose();
     _animation.dispose();
     _renderManager.dispose();
+    _pageSlideDelegate.dispose();
     super.dispose();
   }
 
@@ -310,6 +322,9 @@ class BrowserMainScreenWidgetModel
     _showAnimationState.accept(null);
   }
 
+  bool onScrollNotification(ScrollNotification notification) =>
+      _pageSlideDelegate.onScrollNotification(notification);
+
   void _handleTabsCollection() {
     final count = _tabsCollection?.count ?? 0;
     if (_tabsCollection?.isNotEmpty ?? true) {
@@ -320,7 +335,7 @@ class BrowserMainScreenWidgetModel
     } else {
       model.createEmptyTab();
       _pageDelegate.reset();
-      urlSliderController.jumpTo(0);
+      _pageSlideDelegate.slideTo(0);
       _viewVisibleState.accept(true);
       _menuState.accept(MenuType.view);
     }
@@ -331,53 +346,6 @@ class BrowserMainScreenWidgetModel
   void _handleActiveTab() {
     _progressController.reset();
     _updatePastGo();
-  }
-
-  void _handleUrlPanelScroll() {
-    final urlOffset = urlSliderController.offset;
-    final urlMax = urlSliderController.position.maxScrollExtent;
-    final viewMax = viewTabScrollController.position.maxScrollExtent;
-    final tabIndex = ((viewMax - (viewMax - urlOffset)) / urlWidth).round();
-    final id = _tabsCollection?.getIdByIndex(tabIndex);
-
-    if (id != null) {
-      model.setActiveTab(id);
-    }
-
-    final x = viewMax * urlOffset / urlMax;
-
-    if (x == 0) {
-      viewTabScrollController.animateTo(
-        0,
-        duration: const Duration(milliseconds: 250),
-        curve: Curves.linear,
-      );
-    } else if (!x.isNaN) {
-      viewTabScrollController.jumpTo(x);
-    }
-  }
-
-  bool onScrollNotification(ScrollNotification notification) {
-    if (notification is ScrollEndNotification) {
-      _snapViewScroll();
-    }
-
-    return false;
-  }
-
-  void _snapViewScroll() {
-    final urlOffset = urlSliderController.offset;
-    final tabIndex = (urlOffset / urlWidth).round();
-    final targetOffset = tabIndex * screenWidth;
-
-    viewTabScrollController.jumpTo(
-      targetOffset,
-    );
-
-    final id = _tabsCollection?.getIdByIndex(tabIndex);
-    if (id != null) {
-      model.setActiveTab(id);
-    }
   }
 
   void _handleViewVisibleState() {
@@ -393,14 +361,14 @@ class BrowserMainScreenWidgetModel
   }
 
   bool _scrollToTab(String id) {
-    final index = _tabsCollection!.getIndexById(id);
+    final index = _tabsCollection?.getIndexById(id);
 
-    if (index > -1) {
-      urlSliderController.jumpTo(urlWidth * index + 50);
+    if (index != null && index > -1) {
+      _pageSlideDelegate.slideTo(urlWidth * index + 50);
       _pageDelegate.reset();
     }
 
-    return index > -1;
+    return index != null && index > -1;
   }
 
   void _changeTab(String id) {
