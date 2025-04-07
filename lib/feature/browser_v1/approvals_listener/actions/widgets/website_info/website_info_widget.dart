@@ -10,11 +10,13 @@ import 'package:ui_components_lib/v2/ui_components_lib_v2.dart';
 class WebsiteInfoWidget extends ElementaryWidget<WebsiteInfoWidgetModel> {
   const WebsiteInfoWidget({
     required this.uri,
+    this.iconUrl,
     Key? key,
     WidgetModelFactory wmFactory = defaultWebsiteInfoWidgetModelFactory,
   }) : super(wmFactory, key: key);
 
   final Uri uri;
+  final Uri? iconUrl;
 
   @override
   Widget build(WebsiteInfoWidgetModel wm) => PrimaryCard(

@@ -272,14 +272,14 @@ abstract class BaseButton extends StatelessWidget {
     //ignore: deprecated_member_use
     if (states.contains(MaterialState.pressed)) {
       return style.backgroundColor.withAlpha(
-        (style.backgroundColor.opacity * OpacV2.opac80).toByteInt(),
+        (style.backgroundColor.a * OpacV2.opac80).toByteInt(),
       );
     }
     // TODO(MolochkoAndrew): update
     //ignore: deprecated_member_use
     if (states.contains(MaterialState.disabled)) {
       return style.backgroundColor.withAlpha(
-        (style.backgroundColor.opacity * OpacV2.opac50).toByteInt(),
+        (style.backgroundColor.a * OpacV2.opac50).toByteInt(),
       );
     }
 
@@ -306,7 +306,7 @@ abstract class BaseButton extends StatelessWidget {
   //ignore: deprecated_member_use
   Color _getColorOverlay(Set<MaterialState> states, AppButtonStyle style) =>
       style.backgroundColor.withAlpha(
-        (style.backgroundColor.opacity * OpacV2.opac80).toByteInt(),
+        (style.backgroundColor.a * OpacV2.opac80).toByteInt(),
       );
 
   TextStyle _getTextStyleBySize(TextStylesV2 styles) {

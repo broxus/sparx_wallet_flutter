@@ -24,6 +24,10 @@ enum AppRoute {
     '/onboarding',
     isSaveLocation: true,
   ),
+  updateVersion(
+    'updateVersion',
+    '/updateVersion',
+  ),
 
   /// Network selection
   chooseNetwork(

@@ -7,7 +7,9 @@ class $Temp$ extends ElementaryWidget<$Temp$WidgetModel> {
     super.key,
     WidgetModelFactory<$Temp$WidgetModel> wmFactory =
         default$Temp$WidgetModelFactory,
-  }) : super(wmFactory);
+  }) : super(
+          wmFactory,
+        );
 
   @override
   Widget build($Temp$WidgetModel wm) {

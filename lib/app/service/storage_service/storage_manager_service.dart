@@ -1,4 +1,5 @@
 import 'package:app/app/service/service.dart';
+import 'package:app/feature/update_version/domain/storage/update_version_storage_service.dart';
 import 'package:app/feature/browser_v2/service/storages/browser_bookmarks_storage_service.dart';
 import 'package:app/feature/browser_v2/service/storages/browser_favicon_url_storage_service.dart';
 import 'package:app/feature/browser_v2/service/storages/browser_history_storage_service.dart';
@@ -24,6 +25,8 @@ class StorageManagerService {
     ConnectionsStorageService connectionStorageService,
     BalanceStorageService balanceStorageService,
     AppStorageService appStorageService,
+    TonConnectStorageService tonConnectStorageService,
+    UpdateVersionStorageService updateVersionStorageService,
   ) : _storages = [
           secure,
           general,
@@ -39,6 +42,8 @@ class StorageManagerService {
           connectionStorageService,
           balanceStorageService,
           appStorageService,
+          tonConnectStorageService,
+          updateVersionStorageService,
         ];
 
   final List<AbstractStorageService> _storages;

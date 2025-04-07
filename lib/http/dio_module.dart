@@ -1,5 +1,6 @@
 import 'package:dio/dio.dart';
 import 'package:injectable/injectable.dart';
+import 'package:native_dio_adapter/native_dio_adapter.dart';
 
 @module
 abstract class DioModule {
@@ -13,10 +14,12 @@ abstract class DioModule {
       ..options.receiveTimeout = const Duration(minutes: timeoutMinutes)
       ..interceptors.addAll([
         LogInterceptor(
-          requestBody: true,
-          responseBody: true,
+          requestHeader: false,
+          responseHeader: false,
         ),
-      ]);
+      ])
+      ..httpClientAdapter = NativeAdapter();
+
     return dio;
   }
 }

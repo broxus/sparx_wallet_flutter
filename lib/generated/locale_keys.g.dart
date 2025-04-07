@@ -1,5 +1,7 @@
 // DO NOT EDIT. This is code generated via package:easy_localization/generate.dart
 
+// ignore_for_file: constant_identifier_names
+
 abstract class LocaleKeys {
   static const createNewWallet = 'createNewWallet';
   static const signInWithPhrase = 'signInWithPhrase';
@@ -695,4 +697,10 @@ abstract class LocaleKeys {
   static const seedPhrase12FormatTON = 'seedPhrase12FormatTON';
   static const seedPhrase24FormatStandart = 'seedPhrase24FormatStandart';
   static const seedPhrase24FormatTON = 'seedPhrase24FormatTON';
+  static const invalidNetworkError = 'invalidNetworkError';
+  static const invalidPublicKeyError = 'invalidPublicKeyError';
+  static const dappManifestError = 'dappManifestError';
+  static const appNewVersionTitle = 'appNewVersionTitle';
+  static const importantUpdateReleaseNote = 'importantUpdateReleaseNote';
+  static const updateWord = 'updateWord';
 }

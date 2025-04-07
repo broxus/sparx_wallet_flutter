@@ -6,6 +6,7 @@ import 'package:app/app/service/localization/service/localization_service.dart';
 import 'package:app/app/service/navigation/service/navigation_service.dart';
 import 'package:app/app/view/app.dart';
 import 'package:app/bootstrap/bootstrap.dart';
+import 'package:app/feature/update_version/domain/update_service.dart';
 import 'package:app/feature/messenger/data/message.dart';
 import 'package:app/feature/messenger/service/messenger_service.dart';
 import 'package:app/generated/generated.dart';
@@ -20,6 +21,7 @@ class AppModel extends ElementaryModel with WidgetsBindingObserver {
     this._bootstrapService,
     this._navigationService,
     this._nekotonRepository,
+    this._updateService,
     this._appLifecycleService,
     this._localizationService,
     this._biometryService,
@@ -29,6 +31,7 @@ class AppModel extends ElementaryModel with WidgetsBindingObserver {
   final BootstrapService _bootstrapService;
   final NavigationService _navigationService;
   final NekotonRepository _nekotonRepository;
+  final UpdateService _updateService;
   final AppLifecycleService _appLifecycleService;
   final LocalizationService _localizationService;
   final BiometryService _biometryService;
@@ -41,6 +44,7 @@ class AppModel extends ElementaryModel with WidgetsBindingObserver {
     _bootstrapService,
     _navigationService,
     _nekotonRepository,
+    _updateService,
   );
 
   Stream<bool> get messagesExistStream => _messengerService.messagesExistStream;
@@ -49,11 +53,9 @@ class AppModel extends ElementaryModel with WidgetsBindingObserver {
 
   @override
   void init() {
-    Future.delayed(const Duration(milliseconds: 100), () {
-      _listener = AppLifecycleListener(
-        onStateChange: _onStateChanged,
-      );
-    });
+    _listener = AppLifecycleListener(
+      onStateChange: _onStateChanged,
+    );
     appStartSession(setCrashDetected: true);
     _checkBiometry();
     super.init();

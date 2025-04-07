@@ -107,4 +107,21 @@ mixin NotifierSubscriptionsMixin<W extends ElementaryWidget,
 
     return _subscriptionsCollection.add(notifier);
   }
+
+  void disposableListen<T>(
+    Stream<T> stream,
+    void Function(T event)? onData, {
+    Function? onError,
+    void Function()? onDone,
+    bool? cancelOnError,
+  }) {
+    _streamSubscriptionsCollection.add(
+      stream.listen(
+        onData,
+        onError: onError,
+        onDone: onDone,
+        cancelOnError: cancelOnError,
+      ),
+    );
+  }
 }

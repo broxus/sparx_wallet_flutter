@@ -50,8 +50,14 @@ class $AssetsConfigsGen {
   /// File path: assets/configs/connections.json
   String get connections => 'assets/configs/connections.json';
 
+  /// File path: assets/configs/release_notes.json
+  String get releaseNotes => 'assets/configs/release_notes.json';
+
+  /// File path: assets/configs/update_rules.json
+  String get updateRules => 'assets/configs/update_rules.json';
+
   /// List of all assets
-  List<String> get values => [connections];
+  List<String> get values => [connections, releaseNotes, updateRules];
 }
 
 class $AssetsImagesGen {
@@ -113,8 +119,8 @@ class $AssetsImagesGen {
   AssetGenImage get bgInternet =>
       const AssetGenImage('assets/images/bg_internet.png');
 
-  /// File path: assets/images/bg_main.svg
-  SvgGenImage get bgMain => const SvgGenImage('assets/images/bg_main.svg');
+  /// Directory path: assets/images/bg_main
+  $AssetsImagesBgMainGen get bgMain => const $AssetsImagesBgMainGen();
 
   /// File path: assets/images/bg_network.png
   AssetGenImage get bgNetwork =>
@@ -441,6 +447,10 @@ class $AssetsImagesGen {
   SvgGenImage get verticalDots =>
       const SvgGenImage('assets/images/vertical_dots.svg');
 
+  /// File path: assets/images/version_update_icon.webp
+  AssetGenImage get versionUpdateIcon =>
+      const AssetGenImage('assets/images/version_update_icon.webp');
+
   /// File path: assets/images/wallet.svg
   SvgGenImage get wallet => const SvgGenImage('assets/images/wallet.svg');
 
@@ -466,7 +476,6 @@ class $AssetsImagesGen {
         arrowsLeftRight,
         bgConnection,
         bgInternet,
-        bgMain,
         bgNetwork,
         blurBackground,
         bookOpen,
@@ -555,6 +564,7 @@ class $AssetsImagesGen {
         transactionProgress,
         trash,
         verticalDots,
+        versionUpdateIcon,
         wallet,
         web
       ];
@@ -615,6 +625,17 @@ class $AssetsImagesAlertOctagonFillGen {
 
   /// List of all assets
   List<AssetGenImage> get values => [alertOctagonFill];
+}
+
+class $AssetsImagesBgMainGen {
+  const $AssetsImagesBgMainGen();
+
+  /// File path: assets/images/bg_main/bg_main.png
+  AssetGenImage get bgMain =>
+      const AssetGenImage('assets/images/bg_main/bg_main.png');
+
+  /// List of all assets
+  List<AssetGenImage> get values => [bgMain];
 }
 
 class $AssetsImagesCheckCircleFillGen {
@@ -841,7 +862,7 @@ class $AssetsImagesOnboardingLayer3Gen {
 }
 
 class Assets {
-  Assets._();
+  const Assets._();
 
   static const $AssetsAbiGen abi = $AssetsAbiGen();
   static const $AssetsConfigsGen configs = $AssetsConfigsGen();
@@ -884,7 +905,7 @@ class AssetGenImage {
     bool gaplessPlayback = true,
     bool isAntiAlias = false,
     String? package,
-    FilterQuality filterQuality = FilterQuality.low,
+    FilterQuality filterQuality = FilterQuality.medium,
     int? cacheWidth,
     int? cacheHeight,
   }) {

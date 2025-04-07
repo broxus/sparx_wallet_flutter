@@ -144,4 +144,8 @@ extension TransportTypeExtension on TransportStrategy {
 
     return '';
   }
+
+  bool get isEverscale => networkType == 'ever';
+  bool get isTon => networkGroup.startsWith('ton');
+  bool get isHmstr => networkGroup.startsWith('hmstr');
 }

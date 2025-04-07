@@ -240,7 +240,7 @@ class TokenWalletSendBloc
       rootTokenContract: rootTokenContract,
       destination: repackAddress(destination),
       amount: tokenAmount,
-      payload: comment,
+      payload: comment?.let((it) => encodeComment(it, plain: transport.isTon)),
       attachedAmount: attachedAmount,
       notifyReceiver: notifyReceiver ?? false,
     );

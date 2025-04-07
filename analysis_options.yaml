@@ -3,5 +3,3 @@ analyzer:
   exclude:
     - lib/di/di.config.dart
     - "**.reflectable.dart"
-  plugins:
-    - custom_lint
