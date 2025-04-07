@@ -1,3 +1,4 @@
+---
 # Sample workflow for building and deploying a Jekyll site to GitHub Pages
 name: Deploy app
 
@@ -5,26 +6,29 @@ on:
   workflow_dispatch:
     inputs:
       deploy_target:
-        description: "Deploy to:"
+        description: 'Deploy to:'
         required: true
-        default: "fad"
+        default: fad
         type: choice
         options:
-          - "fad"
-          - "store"
-          - "ios_fad"
-          - "ios_store"
-          - "android_fad"
-          - "android_store"
+          - fad
+          - store
+          - ios_fad
+          - ios_store
+          - android_fad
+          - android_store
+      build_type:
+        description: 'Build type:'
+        required: true
+        default: release
+        type: choice
+        options: [release, debug]
       flavor:
-        description: "Target flavor:"
+        description: 'Target flavor:'
         required: true
-        default: "staging"
+        default: staging
         type: choice
-        options:
-          - "development"
-          - "staging"
-          - "production"
+        options: [development, staging, production]
 
 jobs:
   setup:
@@ -63,6 +67,16 @@ jobs:
             exit 1
           fi
 
+      - name: Check build type with store builds
+        run: |
+          if [[ "${{ inputs.build_type }}" != "release" &&
+                ( "${{ inputs.deploy_target }}" == "store" ||
+                  "${{ inputs.deploy_target }}" == "ios_store" ||
+                  "${{ inputs.deploy_target }}" == "android_store" ) ]]; then
+            echo "🚫 Error: Deployment to store, ios_store, or android_store is only allowed for 'release' build type."
+            exit 1
+          fi
+
       - name: Read Flutter version
         id: read_flutter
         run: echo "flutter_version=$(cat .github/configs/flutter_version)" >> $GITHUB_OUTPUT
@@ -71,7 +85,7 @@ jobs:
         uses: subosito/flutter-action@v2
         with:
           flutter-version: ${{ steps.read_flutter.outputs.flutter_version }}
-          channel: 'stable'
+          channel: stable
           cache: true
           cache-key: flutter-:os:-:channel:-:version:-:arch:-:hash:-${{ hashFiles('**/pubspec.lock') }}
 
@@ -136,14 +150,16 @@ jobs:
             echo "ios_target=ios_store" >> $GITHUB_ENV
           fi
 
-      - name: Display ios_target value
-        run: echo "ios_target is set to = ${{ env.ios_target }}"
+      - name: Display ios_target and build_type values
+        run: |
+          echo "ios_target is set to = ${{ env.ios_target }}"
+          echo "build_type is set to = ${{ inputs.build_type }}"
 
       - name: Setup Flutter
         uses: subosito/flutter-action@v2
         with:
           flutter-version: ${{ needs.setup.outputs.flutter_version }}
-          channel: 'stable'
+          channel: stable
           cache: true
           cache-key: flutter-:os:-:channel:-:version:-:arch:-:hash:-${{ hashFiles('**/pubspec.lock') }}
 
@@ -165,8 +181,7 @@ jobs:
         run: melos codegen --no-select
 
       - name: Display Build Number
-        run:
-          echo "Number is = ${{ needs.setup.outputs.build_number }}"
+        run: echo "Number is = ${{ needs.setup.outputs.build_number }}"
 
       - name: Display flavor target
         run: echo "Flavor target is = ${{ inputs.flavor }}"
@@ -177,6 +192,7 @@ jobs:
           --deploy-target ${{ env.ios_target }} \
           --build-number ${{ needs.setup.outputs.build_number }} \
           --flavor ${{ inputs.flavor }} \
+          --build-mode ${{ inputs.build_type }} \
           --upload true
 
       - name: Clean Xcode Derived Data
@@ -228,14 +244,16 @@ jobs:
             echo "android_target=android_store" >> $GITHUB_ENV
           fi
 
-      - name: Display android_target value
-        run: echo "android_target is set to = ${{ env.android_target }}"
+      - name: Display android_target and build_type values
+        run: |
+          echo "android_target is set to = ${{ env.android_target }}"
+          echo "build_type is set to = ${{ inputs.build_type }}"
 
       - name: Setup Flutter
         uses: subosito/flutter-action@v2
         with:
           flutter-version: ${{ needs.setup.outputs.flutter_version }}
-          channel: 'stable'
+          channel: stable
           cache: true
           cache-key: flutter-:os:-:channel:-:version:-:arch:-:hash:-${{ hashFiles('**/pubspec.lock') }}
 
@@ -247,7 +265,7 @@ jobs:
       - uses: actions/setup-java@v4
         with:
           distribution: zulu
-          java-version: "17.x"
+          java-version: 17.x
 
       # Secrets
       - name: Decrypt secrets
@@ -258,8 +276,7 @@ jobs:
         run: melos codegen --no-select
 
       - name: Display Build Number
-        run:
-          echo "Number is = ${{ needs.setup.outputs.build_number }}"
+        run: echo "Number is = ${{ needs.setup.outputs.build_number }}"
 
       - name: Display flavor target
         run: echo "Flavor target is = ${{ inputs.flavor }}"
@@ -270,6 +287,7 @@ jobs:
           --deploy-target ${{ env.android_target }} \
           --build-number ${{ needs.setup.outputs.build_number }} \
           --flavor ${{ inputs.flavor }} \
+          --build-mode ${{ inputs.build_type }} \
           --upload true
 
       - name: Remove Flutter
@@ -278,6 +296,6 @@ jobs:
           echo "Flutter removed to free up space"
 
       - name: Clean Dart dependencies
-        run: |
+        run: |-
           rm -rf .dart_tool/
           rm -rf $HOME/.pub-cache/

@@ -6,6 +6,7 @@ deploy_target=""
 build_number=""
 upload="false"
 flavor=""
+build_mode="release"  # Default to release mode
 
 while [[ "$#" -gt 0 ]]; do
     case $1 in
@@ -13,12 +14,16 @@ while [[ "$#" -gt 0 ]]; do
         --build-number) build_number="$2"; shift ;;
         --upload) upload="$2"; shift ;;
         --flavor) flavor="$2"; shift ;;
+        --build-mode) build_mode="$2"; shift ;;
         *) echo "Unknown parameter passed: $1"; exit 1 ;;
     esac
     shift
 done
 
 export FLAVOR="$flavor"
+export BUILD_MODE="$build_mode"
+
+echo "🔧 Build mode: $BUILD_MODE"
 
 function build() {
   source "scripts/build-binary/$1"
