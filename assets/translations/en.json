@@ -660,5 +660,8 @@
   "dappManifestError": "dApp manifest error",
   "appNewVersionTitle": "SparX new version",
   "importantUpdateReleaseNote": "Important update with performance improvements, security features and enhanced stability",
-  "updateWord": "Update"
+  "updateWord": "Update",
+  "photos": "Photos",
+  "flash": "Flash",
+  "qrScannerError": "Invalid QR code"
 }

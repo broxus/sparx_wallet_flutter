@@ -11,11 +11,11 @@ import 'package:app/core/wm/custom_wm.dart';
 import 'package:app/data/models/token_contract/token_contract_asset.dart';
 import 'package:app/di/di.dart';
 import 'package:app/feature/qr_scanner/qr_scanner.dart';
-import 'package:app/feature/wallet/wallet_prepare_transfer/wallet_prepare_transfer_page/data/wallet_prepare_balance_data.dart';
-import 'package:app/feature/wallet/wallet_prepare_transfer/wallet_prepare_transfer_page/data/wallet_prepare_transfer_asset.dart';
-import 'package:app/feature/wallet/wallet_prepare_transfer/wallet_prepare_transfer_page/data/wallet_prepare_transfer_data.dart';
-import 'package:app/feature/wallet/wallet_prepare_transfer/wallet_prepare_transfer_page/wallet_prepare_transfer_page.dart';
-import 'package:app/feature/wallet/wallet_prepare_transfer/wallet_prepare_transfer_page/wallet_prepare_transfer_page_model.dart';
+import 'package:app/feature/wallet/wallet_prepare_transfer/data/wallet_prepare_balance_data.dart';
+import 'package:app/feature/wallet/wallet_prepare_transfer/data/wallet_prepare_transfer_asset.dart';
+import 'package:app/feature/wallet/wallet_prepare_transfer/data/wallet_prepare_transfer_data.dart';
+import 'package:app/feature/wallet/wallet_prepare_transfer/wallet_prepare_transfer_page.dart';
+import 'package:app/feature/wallet/wallet_prepare_transfer/wallet_prepare_transfer_page_model.dart';
 import 'package:app/generated/generated.dart';
 import 'package:app/utils/clipboard_utils.dart';
 import 'package:app/widgets/amount_input/amount_input_asset.dart';
@@ -59,7 +59,8 @@ class WalletPrepareTransferPageWidgetModel extends CustomWidgetModel<
 
   final formKey = GlobalKey<FormState>();
 
-  late final receiverController = createTextEditingController();
+  late final receiverController =
+      createTextEditingController(widget.destination?.address);
   late final receiverFocus = createFocusNode();
 
   late final amountController = createTextEditingController();
@@ -188,7 +189,7 @@ class WalletPrepareTransferPageWidgetModel extends CustomWidgetModel<
 
   void onPressedReceiverClear() => receiverController.clear();
 
-  Future<void> onPressedPastAddress() async {
+  Future<void> onPressedPasteAddress() async {
     final text = await getClipBoardText();
     if (text?.isEmpty ?? true) {
       model.showError(context, LocaleKeys.addressIsWrong.tr());
@@ -204,10 +205,16 @@ class WalletPrepareTransferPageWidgetModel extends CustomWidgetModel<
   }
 
   Future<void> onPressedScan() async {
-    final address = await showQrScanner(context, QrScanType.address);
-    if (address != null) {
-      receiverController.text = address;
-    }
+    final result = await showQrScanner(context, types: [QrScanType.address]);
+
+    if (!context.mounted) return;
+
+    result?.whenOrNull(
+      address: (value) {
+        receiverController.text = value.address;
+        receiverFocus.unfocus();
+      },
+    );
   }
 
   void onSubmittedReceiverAddress(_) => amountFocus.requestFocus();

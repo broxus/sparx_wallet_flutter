@@ -113,7 +113,10 @@ class Message {
             buttonShape: ButtonShape.rectangle,
             buttonSize: ButtonSize.small,
             title: actionText,
-            onPressed: onAction,
+            onPressed: () {
+              onAction?.call();
+              onTapClosed();
+            },
             backgroundBlur: 0,
           ),
       ],

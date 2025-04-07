@@ -1,6 +1,3 @@
-// ignore_for_file: invalid_use_of_visible_for_testing_member
-// ignore_for_file: invalid_use_of_protected_member
-import 'package:app/feature/wallet/widgets/select_account/select_account_sheet.dart';
 import 'package:app/feature/wallet/widgets/wallet_app_bar/wallet_app_bar_wm.dart';
 import 'package:app/utils/utils.dart';
 import 'package:app/widgets/network_drop_item.dart';
@@ -45,15 +42,16 @@ class WalletAppBarWidget extends ElementaryWidget<WalletAppBarWidgetModel>
                         walletTypeName: wm.getWalletTypeName(
                           account.account.tonWallet.contract,
                         ),
-                        onTap: () => _showSelectAccountSheet(wm.context),
+                        onTap: wm.onSelectAccount,
                       ),
                     ) ??
                     const SizedBox.shrink(),
               ),
             ),
-            SeparatedRow(
-              separator: const SizedBox(width: DimensSizeV2.d12),
+            Row(
+              spacing: DimensSizeV2.d12,
               children: [
+                _QrButton(onTap: wm.onScanQr),
                 StateNotifierBuilder(
                   listenableState: wm.connection,
                   builder: (_, connection) =>
@@ -72,11 +70,31 @@ class WalletAppBarWidget extends ElementaryWidget<WalletAppBarWidgetModel>
       ),
     );
   }
+}
 
-  Future<void> _showSelectAccountSheet(BuildContext context) async {
-    if (!context.mounted) return;
+class _QrButton extends StatelessWidget {
+  const _QrButton({
+    required this.onTap,
+  });
 
-    await showSelectAccountSheet(context);
+  final VoidCallback onTap;
+
+  @override
+  Widget build(BuildContext context) {
+    return GestureDetector(
+      onTap: onTap,
+      child: Container(
+        padding: const EdgeInsets.all(DimensSizeV2.d8),
+        decoration: BoxDecoration(
+          color: const Color(0x10FFFFFF),
+          borderRadius: BorderRadius.circular(DimensRadiusV2.theBiggest),
+        ),
+        child: const Icon(
+          LucideIcons.scan,
+          size: DimensSizeV2.d20,
+        ),
+      ),
+    );
   }
 }
 

@@ -1,7 +1,7 @@
-import 'package:app/feature/wallet/wallet_prepare_transfer/wallet_prepare_transfer_page/data/wallet_prepare_transfer_asset.dart';
-import 'package:app/feature/wallet/wallet_prepare_transfer/wallet_prepare_transfer_page/data/wallet_prepare_transfer_data.dart';
-import 'package:app/feature/wallet/wallet_prepare_transfer/wallet_prepare_transfer_page/wallet_prepare_transfer_page_wm.dart';
-import 'package:app/feature/wallet/wallet_prepare_transfer/wallet_prepare_transfer_page/widgets/wallet_prepare_transfer_view.dart';
+import 'package:app/feature/wallet/wallet_prepare_transfer/data/wallet_prepare_transfer_asset.dart';
+import 'package:app/feature/wallet/wallet_prepare_transfer/data/wallet_prepare_transfer_data.dart';
+import 'package:app/feature/wallet/wallet_prepare_transfer/wallet_prepare_transfer_page_wm.dart';
+import 'package:app/feature/wallet/wallet_prepare_transfer/widgets/wallet_prepare_transfer_view.dart';
 import 'package:app/feature/wallet/widgets/wallet_subscribe_error_widget.dart';
 import 'package:app/generated/generated.dart';
 import 'package:elementary/elementary.dart';
@@ -14,6 +14,7 @@ class WalletPrepareTransferPage
     extends ElementaryWidget<WalletPrepareTransferPageWidgetModel> {
   const WalletPrepareTransferPage({
     required this.address,
+    this.destination,
     this.rootTokenContract,
     this.tokenSymbol,
     Key? key,
@@ -28,6 +29,7 @@ class WalletPrepareTransferPage
         super(wmFactory, key: key);
 
   final Address address;
+  final Address? destination;
   final Address? rootTokenContract;
   final String? tokenSymbol;
 

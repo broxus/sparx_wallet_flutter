@@ -1,4 +1,4 @@
-import 'package:app/feature/wallet/wallet_prepare_transfer/wallet_prepare_transfer_page/data/wallet_prepare_transfer_asset.dart';
+import 'package:app/feature/wallet/wallet_prepare_transfer/data/wallet_prepare_transfer_asset.dart';
 import 'package:nekoton_repository/nekoton_repository.dart';
 
 class WalletPrepareTransferData {
