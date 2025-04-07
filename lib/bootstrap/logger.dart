@@ -1,6 +1,6 @@
+import 'package:app/app/service/app_version_service.dart';
 import 'package:app/core/app_build_type.dart';
 import 'package:app/di/di.dart';
-import 'package:app/utils/app_version_utils.dart';
 import 'package:logging/logging.dart';
 import 'package:nekoton_repository/nekoton_repository.dart';
 import 'package:the_logger/the_logger.dart';
@@ -35,8 +35,12 @@ Future<void> configureLogger(
       };
   }
 
-  final packageInfoString =
-      '[${await AppVersion.appVersion}:${await AppVersion.buildNumber}]';
+  final appVersionService = inject<AppVersionService>();
+
+  final appVersion = await appVersionService.appVersion();
+  final buildNumber = await appVersionService.buildNumber();
+
+  final packageInfoString = '[$appVersion:$buildNumber]';
 
   final logger = TheLogger.i();
   await logger.init(

@@ -1,4 +1,5 @@
 import 'package:app/app/service/service.dart';
+import 'package:app/feature/update_version/domain/storage/update_version_storage_service.dart';
 import 'package:injectable/injectable.dart';
 
 /// Service that allows init or clear data of all storages from single point
@@ -20,6 +21,7 @@ class StorageManagerService {
     BalanceStorageService balanceStorageService,
     AppStorageService appStorageService,
     TonConnectStorageService tonConnectStorageService,
+    UpdateVersionStorageService updateVersionStorageService,
   ) : _storages = [
           secure,
           general,
@@ -36,6 +38,7 @@ class StorageManagerService {
           balanceStorageService,
           appStorageService,
           tonConnectStorageService,
+          updateVersionStorageService,
         ];
 
   final List<AbstractStorageService> _storages;
