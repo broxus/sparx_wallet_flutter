@@ -1,5 +1,6 @@
 import 'dart:collection';
-import 'package:app/feature/browser_v2/models/tab/browser_tab.dart';
+
+import 'package:app/feature/browser_v2/data/browser_tab.dart';
 
 class BrowserTabsCollection {
   BrowserTabsCollection([List<BrowserTab>? list]) : list = list ?? [];

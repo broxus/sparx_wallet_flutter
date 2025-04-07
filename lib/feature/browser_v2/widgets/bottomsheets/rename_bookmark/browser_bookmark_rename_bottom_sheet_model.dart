@@ -1,4 +1,4 @@
-import 'package:app/feature/browser_v2/service/browser_service.dart';
+import 'package:app/feature/browser_v2/domain/service/browser_service.dart';
 import 'package:app/feature/browser_v2/widgets/bottomsheets/rename_bookmark/browser_bookmark_rename_bottom_sheet.dart';
 import 'package:elementary/elementary.dart';
 

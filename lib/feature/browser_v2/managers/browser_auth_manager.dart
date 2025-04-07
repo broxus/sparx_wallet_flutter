@@ -1,4 +1,4 @@
-import 'package:app/feature/browser_v2/models/browser_basic_auth_creds.dart';
+import 'package:app/feature/browser_v2/data/browser_basic_auth_creds.dart';
 import 'package:flutter_inappwebview/flutter_inappwebview.dart';
 
 class BrowserAuthManager {

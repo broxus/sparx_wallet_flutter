@@ -7,6 +7,7 @@ import 'package:app/app/router/routs/bootstrap_failed/bootstrap_failed.dart';
 import 'package:app/app/router/routs/browser/browser.dart';
 import 'package:app/app/router/routs/network/network.dart';
 import 'package:app/app/router/routs/profile/profile.dart';
+import 'package:app/app/router/routs/update_version/update_version.dart';
 import 'package:app/app/router/routs/wallet/wallet.dart';
 import 'package:app/app/service/service.dart';
 import 'package:app/di/di.dart';

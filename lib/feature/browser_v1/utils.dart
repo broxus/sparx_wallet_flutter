@@ -1,12 +1,9 @@
 import 'package:app/app/service/connection/data/connection_data/connection_data.dart';
 import 'package:app/app/service/connection/transport_strategies/common_transport_strategy.dart';
-import 'package:app/utils/utils.dart';
-import 'package:flutter/widgets.dart';
-import 'package:go_router/go_router.dart';
 import 'package:app/di/di.dart';
 import 'package:app/event_bus/events/navigation/bottom_navigation_events.dart';
 import 'package:app/event_bus/primary_bus.dart';
-import 'package:app/feature/browser_v2/service/browser_service.dart';
+import 'package:app/feature/browser_v2/domain/service/browser_service.dart';
 import 'package:app/utils/utils.dart';
 import 'package:nekoton_repository/nekoton_repository.dart'
     show GqlTransport, TransportStrategy;

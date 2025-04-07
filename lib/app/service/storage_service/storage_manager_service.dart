@@ -1,10 +1,10 @@
 import 'package:app/app/service/service.dart';
+import 'package:app/feature/browser_v2/domain/service/storages/browser_bookmarks_storage_service.dart';
+import 'package:app/feature/browser_v2/domain/service/storages/browser_favicon_url_storage_service.dart';
+import 'package:app/feature/browser_v2/domain/service/storages/browser_history_storage_service.dart';
+import 'package:app/feature/browser_v2/domain/service/storages/browser_permissions_storage_service.dart';
+import 'package:app/feature/browser_v2/domain/service/storages/browser_tabs_storage_service.dart';
 import 'package:app/feature/update_version/domain/storage/update_version_storage_service.dart';
-import 'package:app/feature/browser_v2/service/storages/browser_bookmarks_storage_service.dart';
-import 'package:app/feature/browser_v2/service/storages/browser_favicon_url_storage_service.dart';
-import 'package:app/feature/browser_v2/service/storages/browser_history_storage_service.dart';
-import 'package:app/feature/browser_v2/service/storages/browser_permissions_storage_service.dart';
-import 'package:app/feature/browser_v2/service/storages/browser_tabs_storage_service.dart';
 import 'package:injectable/injectable.dart';
 
 /// Service that allows init or clear data of all storages from single point

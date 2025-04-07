@@ -1,7 +1,7 @@
 import 'package:app/app/service/localization/service/localization_service.dart';
 import 'package:app/data/models/browser_history_item.dart';
 import 'package:app/feature/browser_v2/data/history_type.dart';
-import 'package:app/feature/browser_v2/service/browser_service.dart';
+import 'package:app/feature/browser_v2/domain/service/browser_service.dart';
 import 'package:app/feature/browser_v2/widgets/bottomsheets/book/widgets/history/history_list.dart';
 import 'package:elementary/elementary.dart';
 

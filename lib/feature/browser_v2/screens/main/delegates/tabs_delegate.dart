@@ -1,5 +1,5 @@
 import 'package:app/feature/browser_v2/data/tabs_data.dart';
-import 'package:app/feature/browser_v2/models/tab/browser_tab.dart';
+import 'package:app/feature/browser_v2/data/browser_tab.dart';
 import 'package:app/feature/browser_v2/screens/main/browser_main_screen_model.dart';
 import 'package:app/feature/browser_v2/screens/main/data/browser_render_manager.dart';
 import 'package:app/feature/browser_v2/screens/main/widgets/tab_animated_view/tab_animation_type.dart';

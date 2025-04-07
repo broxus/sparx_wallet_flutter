@@ -1,5 +1,5 @@
+import 'package:app/feature/browser_v2/domain/service/browser_service.dart';
 import 'package:app/feature/browser_v2/screens/main/widgets/tab_animated_view/tab_animated_view.dart';
-import 'package:app/feature/browser_v2/service/browser_service.dart';
 import 'package:elementary/elementary.dart';
 
 /// [ElementaryModel] for [TabAnimatedView]

@@ -1,5 +1,5 @@
 import 'package:app/app/service/service.dart';
-import 'package:app/feature/browser_v2/models/tab/browser_tab.dart';
+import 'package:app/feature/browser_v2/data/browser_tab.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:injectable/injectable.dart';
 

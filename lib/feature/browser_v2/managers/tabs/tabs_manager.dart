@@ -4,10 +4,10 @@ import 'dart:math';
 
 import 'package:app/app/service/storage_service/general_storage_service.dart';
 import 'package:app/feature/browser_v2/data/tabs_data.dart';
+import 'package:app/feature/browser_v2/data/browser_tab.dart';
+import 'package:app/feature/browser_v2/domain/service/storages/browser_tabs_storage_service.dart';
 import 'package:app/feature/browser_v2/managers/tabs/helpers/browser_screen_shooter.dart';
-import 'package:app/feature/browser_v2/models/tab/browser_tab.dart';
 import 'package:app/feature/browser_v2/screens/main/data/toolbar_data.dart';
-import 'package:app/feature/browser_v2/service/storages/browser_tabs_storage_service.dart';
 import 'package:collection/collection.dart';
 import 'package:elementary_helper/elementary_helper.dart';
 import 'package:flutter/services.dart';

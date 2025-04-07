@@ -1,15 +1,21 @@
+import 'dart:async';
+
 import 'package:app/app/router/router.dart';
-import 'package:app/widgets/bottom_navigation_bar/custom_bottom_navigation_bar.dart';
-import 'package:app/app/service/service.dart';
+import 'package:app/app/service/app_links/app_links_data.dart';
+import 'package:app/app/service/app_links/app_links_service.dart';
+import 'package:app/app/service/ton_connect/models/ton_connect_ui_event.dart';
+import 'package:app/app/service/ton_connect/ton_connect_http_bridge.dart';
+import 'package:app/app/service/ton_connect/ton_connect_service.dart';
 import 'package:app/di/di.dart';
-import 'package:app/event_bus/events/navigation/bottom_navigation_events.dart';
-import 'package:app/event_bus/primary_bus.dart';
-import 'package:app/feature/root/view/root_tab.dart';
-import 'package:app/feature/ton_connect/ton_connect.dart';
+import 'package:app/feature/messenger/data/message.dart';
+import 'package:app/feature/messenger/service/messenger_service.dart';
+import 'package:app/feature/ton_connect/tc_connect_sheet.dart';
+import 'package:app/feature/ton_connect/tc_send_message_sheet.dart';
+import 'package:app/feature/ton_connect/tc_sign_data_sheet.dart';
+import 'package:app/widgets/bottom_navigation_bar/custom_bottom_navigation_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:logging/logging.dart';
-import 'package:ui_components_lib/ui_components_lib.dart';
 
 class RootView extends StatefulWidget {
   const RootView({required this.child, super.key});
@@ -24,16 +30,10 @@ class _RootViewState extends State<RootView> {
   static final _logger = Logger('RootView');
 
   late final _appLinksService = inject<AppLinksService>();
-  late final _navigationService = inject<NavigationService>();
   late final _tonConnectHttpBridge = inject<TonConnectHttpBridge>();
   late final _tonConnectService = inject<TonConnectService>();
   late final _messengerService = inject<MessengerService>();
 
-  int get _tabIndex => RootTab.getByPath(
-        getRootPath(fullPath: _navigationService.state.fullPath),
-      ).index;
-
-  StreamSubscription<BrowserAppLinksData>? _appLinksNavSubs;
   StreamSubscription<TonConnectAppLinksData>? _tonConnectLinkSubs;
   StreamSubscription<TonConnectUiEvent>? _uiEventsSubscription;
 
@@ -42,8 +42,6 @@ class _RootViewState extends State<RootView> {
     super.initState();
 
     WidgetsBinding.instance.addPostFrameCallback((_) {
-      _appLinksNavSubs =
-          _appLinksService.browserLinksStream.listen(_listenAppLinks);
       _tonConnectLinkSubs =
           _appLinksService.tonConnecLinksData.listen(_onTonConnectAppLink);
     });
@@ -54,7 +52,6 @@ class _RootViewState extends State<RootView> {
 
   @override
   void dispose() {
-    _appLinksNavSubs?.cancel();
     _tonConnectLinkSubs?.cancel();
     _uiEventsSubscription?.cancel();
     super.dispose();
@@ -92,23 +89,6 @@ class _RootViewState extends State<RootView> {
     );
   }
 
-  void _changeValue(RootTab tab) {
-    final prevTab = RootTab.values[_tabIndex];
-
-    context.goNamed(tab.name);
-
-    primaryBus.fire(
-      PressBottomNavigationEvent(
-        prevTab: prevTab,
-        currentTab: tab,
-      ),
-    );
-  }
-
-  void _listenAppLinks(BrowserAppLinksData data) {
-    _changeValue(RootTab.browser);
-  }
-
   void _onTonConnectAppLink(TonConnectAppLinksData data) {
     try {
       _tonConnectHttpBridge.connect(query: data.query);
@@ -120,7 +100,7 @@ class _RootViewState extends State<RootView> {
   void _onUiEvent(TonConnectUiEvent event) {
     event.when(
       error: (message) => _messengerService.show(
-        Message.error(context: context, message: message),
+        Message.error(message: message),
       ),
       connect: (request, manifest, completer) async {
         final result = await showTCConnectSheet(

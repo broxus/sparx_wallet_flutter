@@ -1,12 +1,12 @@
 import 'package:app/app/service/service.dart';
 import 'package:app/di/di.config.dart';
+import 'package:app/feature/browser_v2/domain/service/storages/browser_bookmarks_storage_service.dart';
+import 'package:app/feature/browser_v2/domain/service/storages/browser_favicon_url_storage_service.dart';
+import 'package:app/feature/browser_v2/domain/service/storages/browser_history_storage_service.dart';
+import 'package:app/feature/browser_v2/domain/service/storages/browser_permissions_storage_service.dart';
+import 'package:app/feature/browser_v2/domain/service/storages/browser_tabs_storage_service.dart';
 import 'package:app/feature/update_version/domain/storage/update_version_storage_service.dart';
 import 'package:app/http/http.dart';
-import 'package:app/feature/browser_v2/service/storages/browser_bookmarks_storage_service.dart';
-import 'package:app/feature/browser_v2/service/storages/browser_favicon_url_storage_service.dart';
-import 'package:app/feature/browser_v2/service/storages/browser_history_storage_service.dart';
-import 'package:app/feature/browser_v2/service/storages/browser_permissions_storage_service.dart';
-import 'package:app/feature/browser_v2/service/storages/browser_tabs_storage_service.dart';
 import 'package:encrypted_storage/encrypted_storage.module.dart';
 import 'package:get_it/get_it.dart';
 import 'package:get_storage/get_storage.dart';

@@ -1,5 +1,5 @@
 import 'package:app/data/models/permissions.dart';
-import 'package:app/feature/browser_v2/service/storages/browser_permissions_storage_service.dart';
+import 'package:app/feature/browser_v2/domain/service/storages/browser_permissions_storage_service.dart';
 import 'package:nekoton_repository/nekoton_repository.dart';
 import 'package:rxdart/rxdart.dart';
 

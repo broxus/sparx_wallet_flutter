@@ -1,6 +1,6 @@
 import 'dart:collection';
 
-import 'package:app/feature/browser_v2/service/storages/browser_favicon_url_storage_service.dart';
+import 'package:app/feature/browser_v2/domain/service/storages/browser_favicon_url_storage_service.dart';
 
 class FaviconManager {
   FaviconManager(

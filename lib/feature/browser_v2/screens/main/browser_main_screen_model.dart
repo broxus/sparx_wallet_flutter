@@ -1,7 +1,7 @@
 import 'package:app/feature/browser_v2/data/tabs_data.dart';
-import 'package:app/feature/browser_v2/models/tab/browser_tab.dart';
+import 'package:app/feature/browser_v2/data/browser_tab.dart';
+import 'package:app/feature/browser_v2/domain/service/browser_service.dart';
 import 'package:app/feature/browser_v2/screens/main/browser_main_screen.dart';
-import 'package:app/feature/browser_v2/service/browser_service.dart';
 import 'package:elementary/elementary.dart';
 import 'package:elementary_helper/elementary_helper.dart';
 import 'package:flutter/services.dart';

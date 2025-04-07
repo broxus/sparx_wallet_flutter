@@ -1,6 +1,6 @@
 import 'dart:collection';
 
-import 'package:app/feature/browser_v2/models/tab/browser_tab.dart';
+import 'package:app/feature/browser_v2/data/browser_tab.dart';
 import 'package:app/feature/browser_v2/screens/main/widgets/pages/browser_start_view.dart';
 import 'package:app/feature/browser_v2/screens/main/widgets/pages/page/browser_page_wm.dart';
 import 'package:elementary/elementary.dart';
