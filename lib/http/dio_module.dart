@@ -1,5 +1,6 @@
 import 'package:dio/dio.dart';
 import 'package:injectable/injectable.dart';
+import 'package:native_dio_adapter/native_dio_adapter.dart';
 
 @module
 abstract class DioModule {
@@ -16,7 +17,9 @@ abstract class DioModule {
           requestHeader: false,
           responseHeader: false,
         ),
-      ]);
+      ])
+      ..httpClientAdapter = NativeAdapter();
+
     return dio;
   }
 }

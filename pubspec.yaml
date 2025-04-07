@@ -60,6 +60,7 @@ dependencies:
   mobile_scanner: 5.2.3 # do not update due to ios compatability issues
   money2: 5.4.6
   money2_fixer: 3.0.0
+  native_dio_adapter: ^1.4.0
   nekoton_repository: 0.59.0-dev.1
   nekoton_webview: 0.1.9
   ntp: 2.0.0
