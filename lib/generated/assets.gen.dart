@@ -50,8 +50,14 @@ class $AssetsConfigsGen {
   /// File path: assets/configs/connections.json
   String get connections => 'assets/configs/connections.json';
 
+  /// File path: assets/configs/release_notes.json
+  String get releaseNotes => 'assets/configs/release_notes.json';
+
+  /// File path: assets/configs/update_rules.json
+  String get updateRules => 'assets/configs/update_rules.json';
+
   /// List of all assets
-  List<String> get values => [connections];
+  List<String> get values => [connections, releaseNotes, updateRules];
 }
 
 class $AssetsImagesGen {
@@ -422,6 +428,10 @@ class $AssetsImagesGen {
   $AssetsImagesUserAvatarGen get userAvatar =>
       const $AssetsImagesUserAvatarGen();
 
+  /// File path: assets/images/version_update_icon.webp
+  AssetGenImage get versionUpdateIcon =>
+      const AssetGenImage('assets/images/version_update_icon.webp');
+
   /// File path: assets/images/wallet.svg
   SvgGenImage get wallet => const SvgGenImage('assets/images/wallet.svg');
 
@@ -529,6 +539,7 @@ class $AssetsImagesGen {
         tokenDefaultIcon,
         transactionProgress,
         trash,
+        versionUpdateIcon,
         wallet,
         web
       ];

@@ -1,5 +1,6 @@
 import 'package:app/app/service/service.dart';
 import 'package:app/di/di.config.dart';
+import 'package:app/feature/update_version/domain/storage/update_version_storage_service.dart';
 import 'package:app/http/http.dart';
 import 'package:encrypted_storage/encrypted_storage.module.dart';
 import 'package:get_it/get_it.dart';
@@ -36,6 +37,7 @@ Future<void> configureDi() async {
     BrowserPermissionsStorageService.container,
     BrowserTabsStorageService.container,
     TonConnectStorageService.container,
+    UpdateVersionStorageService.container,
   ];
   for (final container in containers) {
     getIt.registerSingleton(GetStorage(container), instanceName: container);

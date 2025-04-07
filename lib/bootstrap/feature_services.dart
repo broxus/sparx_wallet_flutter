@@ -1,11 +1,17 @@
 import 'package:app/app/service/service.dart';
 import 'package:app/di/di.dart';
+import 'package:app/feature/update_version/update_version.dart';
 import 'package:app/http/http.dart';
 import 'package:logging/logging.dart';
 
 /// This is a method that allows configure some feature-related services
 Future<void> configureFeatureServices() async {
-  final log = Logger('bootstrap')
+  final log = Logger('bootstrap')..finest('UpdateService initializing...');
+
+  inject<UpdateService>().init();
+
+  log
+    ..finest('UpdateService initialized')
     ..finest('CurrentSeedService initializating...');
 
   await inject<CurrentSeedService>().init();
@@ -47,4 +53,5 @@ Future<void> configureFeatureServices() async {
   log.finest('TonConnectService initialized');
 
   inject<TokenRepository>().init();
+  log.finest('TokenRepository initialized');
 }

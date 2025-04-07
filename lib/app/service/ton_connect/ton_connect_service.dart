@@ -2,9 +2,9 @@ import 'dart:async';
 import 'dart:convert';
 import 'dart:io';
 
+import 'package:app/app/service/app_version_service.dart';
 import 'package:app/app/service/service.dart';
 import 'package:app/generated/generated.dart';
-import 'package:app/utils/app_version_utils.dart';
 import 'package:app/utils/utils.dart';
 import 'package:http/http.dart' as http;
 import 'package:injectable/injectable.dart';
@@ -17,6 +17,7 @@ class TonConnectService {
   TonConnectService(
     this._storageService,
     this._nekotonRepository,
+    this._appVersionService,
     this._client,
   );
 
@@ -24,6 +25,7 @@ class TonConnectService {
 
   final TonConnectStorageService _storageService;
   final NekotonRepository _nekotonRepository;
+  final AppVersionService _appVersionService;
   final http.Client _client;
 
   final _uiEvents = BehaviorSubject<TonConnectUiEvent>();
@@ -291,7 +293,7 @@ class TonConnectService {
   Future<DeviceInfo> getDeviceInfo() async => DeviceInfo(
         platform: Platform.operatingSystem,
         appName: 'sparx',
-        appVersion: await AppVersion.appVersion,
+        appVersion: await _appVersionService.appVersion(),
         maxProtocolVersion: 2,
         features: const [
           Feature.sendTransaction(maxMessages: 4),
