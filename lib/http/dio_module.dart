@@ -1,5 +1,8 @@
+import 'package:app/core/app_build_type.dart';
+import 'package:app/runner.dart';
 import 'package:dio/dio.dart';
 import 'package:injectable/injectable.dart';
+import 'package:native_dio_adapter/native_dio_adapter.dart';
 
 @module
 abstract class DioModule {
@@ -16,7 +19,17 @@ abstract class DioModule {
           requestHeader: false,
           responseHeader: false,
         ),
-      ]);
+      ])
+      ..httpClientAdapter = NativeAdapter(
+        createCronetEngine: () {
+          final isTestingBuild = currentAppBuildType != AppBuildType.production;
+
+          return CronetEngine.build(
+            enablePublicKeyPinningBypassForLocalTrustAnchors: isTestingBuild,
+          );
+        },
+      );
+
     return dio;
   }
 }

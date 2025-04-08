@@ -685,4 +685,7 @@ abstract class LocaleKeys {
   static const invalidNetworkError = 'invalidNetworkError';
   static const invalidPublicKeyError = 'invalidPublicKeyError';
   static const dappManifestError = 'dappManifestError';
+  static const appNewVersionTitle = 'appNewVersionTitle';
+  static const importantUpdateReleaseNote = 'importantUpdateReleaseNote';
+  static const updateWord = 'updateWord';
 }

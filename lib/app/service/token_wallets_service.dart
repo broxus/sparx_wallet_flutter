@@ -1,10 +1,10 @@
 import 'dart:async';
 
+import 'package:app/app/service/resources_service.dart';
 import 'package:app/app/service/service.dart';
 import 'package:app/data/models/models.dart';
 import 'package:app/http/http.dart';
 import 'package:collection/collection.dart';
-import 'package:flutter/services.dart';
 import 'package:injectable/injectable.dart';
 import 'package:logging/logging.dart';
 import 'package:nekoton_repository/nekoton_repository.dart';
@@ -23,6 +23,7 @@ class TokenWalletsService {
     this.httpService,
     this.assetsService,
     this.tokenRepository,
+    this._resourcesService,
   );
 
   static final _logger = Logger('TokenWalletService');
@@ -31,6 +32,7 @@ class TokenWalletsService {
   final HttpService httpService;
   final AssetsService assetsService;
   final TokenRepository tokenRepository;
+  final ResourcesService _resourcesService;
 
   late final String _tokenRootAbi;
   late final String _tokenWalletAbi;
@@ -45,8 +47,8 @@ class TokenWalletsService {
 
   Future<void> init() async {
     final abis = await Future.wait([
-      rootBundle.loadString(_tokenRootAbiPath),
-      rootBundle.loadString(_tokenWalletAbiPath),
+      _resourcesService.loadString(_tokenRootAbiPath),
+      _resourcesService.loadString(_tokenWalletAbiPath),
     ]);
     _tokenRootAbi = abis[0];
     _tokenWalletAbi = abis[1];

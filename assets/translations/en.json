@@ -657,5 +657,8 @@
   "seedPhrase24FormatTON": "TON BIP39",
   "invalidNetworkError": "Invalid network. Change current network to {}",
   "invalidPublicKeyError": "Invalid public key",
-  "dappManifestError": "dApp manifest error"
+  "dappManifestError": "dApp manifest error",
+  "appNewVersionTitle": "SparX new version",
+  "importantUpdateReleaseNote": "Important update with performance improvements, security features and enhanced stability",
+  "updateWord": "Update"
 }
