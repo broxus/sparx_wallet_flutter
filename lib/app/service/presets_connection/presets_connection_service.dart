@@ -1,41 +1,20 @@
 import 'dart:async';
 
-import 'package:app/app/service/connection/data/connection_data/connection_data.dart';
-import 'package:app/app/service/connection/data/connection_network/connection_network.dart';
-import 'package:app/app/service/connection/data/connection_transport/connection_transport_data.dart';
-import 'package:app/app/service/connection/data/default_active_asset.dart';
-import 'package:app/app/service/connection/data/transport_icons.dart';
-import 'package:app/app/service/connection/default_network.dart';
-import 'package:app/app/service/connection/group.dart';
-import 'package:app/app/service/presets_connection/config_helper.dart';
-import 'package:app/app/service/storage_service/secure_storage_service.dart';
-import 'package:app/http/api/presets/presets_api.dart';
+import 'package:app/app/service/service.dart';
+import 'package:app/feature/presets_config/presets_config.dart';
+import 'package:app/utils/utils.dart';
 import 'package:injectable/injectable.dart';
-import 'package:logging/logging.dart';
 import 'package:rxdart/rxdart.dart';
-
-const _presetsDomain = 'presets';
 
 @singleton
 class PresetsConnectionService {
   PresetsConnectionService(
-    this._presetsApi,
-    this._secureStorage,
+    this._presetsConfigReader,
   );
 
-  static const container = _presetsDomain;
-  static final _logger = Logger('PresetsConnectionService');
-
-  final PresetsApi _presetsApi;
-  final SecureStorageService _secureStorage;
+  final PresetsConfigReader _presetsConfigReader;
 
   final _presetsConnectionsSubj = BehaviorSubject<ConnectionNetwork?>();
-
-  late final _configHelper = PresetsConnectionConfigHelper(
-    _presetsApi,
-    _secureStorage,
-    _logger,
-  );
 
   ConnectionNetwork? get _connectionNetwork => _presetsConnectionsSubj.value;
 
@@ -65,6 +44,9 @@ class PresetsConnectionService {
   }
 
   Future<void> fetchConnectionsList() async {
-    _presetsConnectionsSubj.add(await _configHelper.connections);
+    _presetsConnectionsSubj.add(
+      (await _presetsConfigReader.getConfig(PresetConfigType.connections))
+          ?.let(mapToConnectionNetworkFromJson),
+    );
   }
 }

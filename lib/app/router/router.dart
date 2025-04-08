@@ -10,9 +10,14 @@ import 'package:app/event_bus/primary_bus.dart';
 import 'package:app/feature/error/error.dart';
 import 'package:app/feature/onboarding/screen/welcome/welcome_screen.dart';
 import 'package:app/feature/root/root.dart';
+import 'package:app/feature/update_version/data/update_request.dart';
+import 'package:app/feature/update_version/domain/update_service.dart';
+import 'package:app/utils/common_utils.dart';
+import 'package:flutter/widgets.dart';
 import 'package:go_router/go_router.dart';
 import 'package:logging/logging.dart';
 import 'package:nekoton_repository/nekoton_repository.dart';
+import 'package:rxdart/rxdart.dart';
 
 export 'app_route.dart';
 export 'routs/routs.dart';
@@ -22,11 +27,12 @@ class AppRouter {
     this._bootstrapService,
     this._navigationService,
     this._nekotonRepository,
+    this._updateService,
   ) {
     // Subscribe to hasSeeds to redirect if needed
     // This is a-la guard, it should redirect to onboarding or wallet depending
     // on the current location and if the user has any seeds.
-    _nekotonRepository.hasSeeds.listen(_listenSeed);
+    _seedsSubscription = _nekotonRepository.hasSeeds.listen(_listenSeed);
 
     // Subscribe to bootstrapStep to redirect if needed
     // This is a-la guard, it should redirect to onboarding or wallet depending
@@ -36,6 +42,12 @@ class AppRouter {
 
     _bootstrapErrorEventSubscription =
         primaryBus.on<BootstrapEvent>().listen(_listenBootstrapErrorStep);
+
+    _updateVersionSubscription = Rx.combineLatest2(
+      _updateService.updateRequests,
+      router.routeInformationProvider.asStream(),
+      (request, route) => (request, route),
+    ).listen(_onUpdateRequests);
   }
 
   // Create a new router
@@ -44,8 +56,12 @@ class AppRouter {
   final BootstrapService _bootstrapService;
   final NavigationService _navigationService;
   final NekotonRepository _nekotonRepository;
+  final UpdateService _updateService;
 
   StreamSubscription<BootstrapEvent>? _bootstrapErrorEventSubscription;
+  StreamSubscription<bool>? _seedsSubscription;
+  StreamSubscription<(UpdateRequest?, RouteInformation)>?
+      _updateVersionSubscription;
 
   final _log = Logger('RouterHelper');
 
@@ -70,6 +86,8 @@ class AppRouter {
 
   void dispose() {
     _bootstrapErrorEventSubscription?.cancel();
+    _seedsSubscription?.cancel();
+    _updateVersionSubscription?.cancel();
     router.dispose();
   }
 
@@ -129,6 +147,7 @@ class AppRouter {
         bootstrapFailedRoute,
         noInternetRoute,
         splashScreenRoute,
+        updateVersionRoute,
         GoRoute(
           name: AppRoute.onboarding.name,
           path: AppRoute.onboarding.path,
@@ -198,6 +217,15 @@ class AppRouter {
     if (redirectLocation != null) {
       router.go(redirectLocation);
     }
+  }
+
+  void _onUpdateRequests((UpdateRequest?, RouteInformation) requestRoute) {
+    final (request, route) = requestRoute;
+    if (request == null) return;
+    if (route.uri.path != AppRoute.wallet.path) return;
+
+    _log.info('Open update version screen $request');
+    router.push(AppRoute.updateVersion.path);
   }
 
   void _listenBootstrapErrorStep(BootstrapEvent event) {
