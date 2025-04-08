@@ -81,12 +81,14 @@ class _QrButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final theme = context.themeStyleV2;
+
     return GestureDetector(
       onTap: onTap,
       child: Container(
         padding: const EdgeInsets.all(DimensSizeV2.d8),
         decoration: BoxDecoration(
-          color: const Color(0x10FFFFFF),
+          color: theme.colors.backgroundAlpha,
           borderRadius: BorderRadius.circular(DimensRadiusV2.theBiggest),
         ),
         child: const Icon(
