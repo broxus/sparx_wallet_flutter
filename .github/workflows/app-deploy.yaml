@@ -17,8 +17,8 @@ on:
           - ios_store
           - android_fad
           - android_store
-      build_type:
-        description: 'Build type:'
+      build_mode:
+        description: 'Build mode:'
         required: true
         default: release
         type: choice
@@ -69,7 +69,7 @@ jobs:
 
       - name: Check build type with store builds
         run: |
-          if [[ "${{ inputs.build_type }}" != "release" &&
+          if [[ "${{ inputs.build_mode }}" != "release" &&
                 ( "${{ inputs.deploy_target }}" == "store" ||
                   "${{ inputs.deploy_target }}" == "ios_store" ||
                   "${{ inputs.deploy_target }}" == "android_store" ) ]]; then
@@ -150,10 +150,10 @@ jobs:
             echo "ios_target=ios_store" >> $GITHUB_ENV
           fi
 
-      - name: Display ios_target and build_type values
+      - name: Display ios_target and build_mode values
         run: |
           echo "ios_target is set to = ${{ env.ios_target }}"
-          echo "build_type is set to = ${{ inputs.build_type }}"
+          echo "build_mode is set to = ${{ inputs.build_mode }}"
 
       - name: Setup Flutter
         uses: subosito/flutter-action@v2
@@ -192,7 +192,7 @@ jobs:
           --deploy-target ${{ env.ios_target }} \
           --build-number ${{ needs.setup.outputs.build_number }} \
           --flavor ${{ inputs.flavor }} \
-          --build-mode ${{ inputs.build_type }} \
+          --build-mode ${{ inputs.build_mode }} \
           --upload true
 
       - name: Clean Xcode Derived Data
@@ -244,10 +244,10 @@ jobs:
             echo "android_target=android_store" >> $GITHUB_ENV
           fi
 
-      - name: Display android_target and build_type values
+      - name: Display android_target and build_mode values
         run: |
           echo "android_target is set to = ${{ env.android_target }}"
-          echo "build_type is set to = ${{ inputs.build_type }}"
+          echo "build_mode is set to = ${{ inputs.build_mode }}"
 
       - name: Setup Flutter
         uses: subosito/flutter-action@v2
@@ -287,7 +287,7 @@ jobs:
           --deploy-target ${{ env.android_target }} \
           --build-number ${{ needs.setup.outputs.build_number }} \
           --flavor ${{ inputs.flavor }} \
-          --build-mode ${{ inputs.build_type }} \
+          --build-mode ${{ inputs.build_mode }} \
           --upload true
 
       - name: Remove Flutter
