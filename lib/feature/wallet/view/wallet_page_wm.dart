@@ -119,12 +119,10 @@ class WalletPageWidgetModel
       return;
     }
 
-    if (isNewUser) {
-      _isShowingNewTokensNotifier.accept(true);
-      _isShowingBadgeNotifier.accept(true);
-    } else {
-      _isShowingNewTokensNotifier.accept(true);
-      _isShowingBadgeNotifier.accept(false);
+    _isShowingBadgeNotifier.accept(isNewUser);
+    _isShowingNewTokensNotifier.accept(true);
+
+    if (!isNewUser) {
       model.hideShowingBadge(account);
     }
 
