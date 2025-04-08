@@ -1,11 +1,12 @@
+---
 name: app
 description: SparX Wallet Flutter app
-version: 1.4.0
+version: 1.5.0
 publish_to: none
 
 environment:
   sdk: '>=3.5.0 <4.0.0'
-  flutter: ">=3.29.2"
+  flutter: '>=3.29.2'
 
 dependencies:
   app_links: 6.4.0
@@ -38,7 +39,7 @@ dependencies:
   flutter_bloc: 9.1.0
   flutter_email_sender: 7.0.0
   flutter_inappwebview: 6.1.5
-  flutter_nekoton_bridge: 2.8.0-dev.1 # TODO: remove
+  flutter_nekoton_bridge: 2.8.0-dev.1  # TODO: remove
   flutter_screenutil: 5.9.3
   flutter_secure_storage: 9.2.4
   flutter_svg: 2.0.17
@@ -58,7 +59,7 @@ dependencies:
   local_auth: 2.3.0
   logging: 1.3.0
   lucide_icons_flutter: 1.3.0
-  mobile_scanner: 5.2.3 # do not update due to ios compatability issues
+  mobile_scanner: 5.2.3  # do not update due to ios compatability issues
   money2: 5.4.6
   money2_fixer: 3.0.0
   native_dio_adapter: ^1.4.0
@@ -90,9 +91,9 @@ dependencies:
   visibility_detector: 0.4.0+2
 
 dependency_overrides:
-  flutter_nekoton_bridge: 2.8.0-dev.1 # TODO: remove
+  flutter_nekoton_bridge: 2.8.0-dev.1  # TODO: remove
   flutter_plugin_android_lifecycle: 2.0.24
-  nekoton_bridge: 2.8.0-dev.1 # TODO: remove
+  nekoton_bridge: 2.8.0-dev.1  # TODO: remove
 
 dev_dependencies:
   bloc_test: 10.0.0
