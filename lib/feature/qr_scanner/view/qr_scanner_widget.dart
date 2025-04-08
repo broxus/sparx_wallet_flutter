@@ -71,10 +71,17 @@ class QrScannerWidget extends ElementaryWidget<QrScannerWidgetModel>
                         mainAxisSize: MainAxisSize.min,
                         spacing: DimensSizeV2.d8,
                         children: [
-                          FloatButton(
-                            buttonShape: ButtonShape.circle,
-                            icon: LucideIcons.zap,
-                            onPressed: wm.toggleFlash,
+                          ValueListenableBuilder<MobileScannerState>(
+                            valueListenable: wm.controller,
+                            builder: (_, state, __) {
+                              return FloatButton(
+                                buttonShape: ButtonShape.circle,
+                                icon: state.torchState == TorchState.on
+                                    ? LucideIcons.zapOff
+                                    : LucideIcons.zap,
+                                onPressed: wm.toggleFlash,
+                              );
+                            },
                           ),
                           Text(
                             LocaleKeys.flash.tr(),
