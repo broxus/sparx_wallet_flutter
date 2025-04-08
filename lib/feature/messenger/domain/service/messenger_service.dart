@@ -10,7 +10,7 @@ import 'package:rxdart/subjects.dart';
 /// Service that shows messages to the user. Keep it simple and stupid, use only
 /// as stream sources for blocs and cubits that actual provide messages to the
 /// user.
-@singleton
+@lazySingleton
 class MessengerService {
   final _messages = ListQueue<Message>();
 

@@ -14,7 +14,7 @@ import 'package:app/feature/browser_v2/managers/favicon_manager.dart';
 import 'package:app/feature/browser_v2/managers/history_manager.dart';
 import 'package:app/feature/browser_v2/managers/permissions_manager.dart';
 import 'package:app/feature/browser_v2/managers/tabs/tabs_manager.dart';
-import 'package:app/feature/messenger/service/messenger_service.dart';
+import 'package:app/feature/messenger/domain/service/messenger_service.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_inappwebview/flutter_inappwebview.dart';
 import 'package:injectable/injectable.dart';

@@ -8,7 +8,7 @@ import 'package:app/app/service/ton_connect/ton_connect_http_bridge.dart';
 import 'package:app/app/service/ton_connect/ton_connect_service.dart';
 import 'package:app/di/di.dart';
 import 'package:app/feature/messenger/data/message.dart';
-import 'package:app/feature/messenger/service/messenger_service.dart';
+import 'package:app/feature/messenger/domain/service/messenger_service.dart';
 import 'package:app/feature/ton_connect/tc_connect_sheet.dart';
 import 'package:app/feature/ton_connect/tc_send_message_sheet.dart';
 import 'package:app/feature/ton_connect/tc_sign_data_sheet.dart';

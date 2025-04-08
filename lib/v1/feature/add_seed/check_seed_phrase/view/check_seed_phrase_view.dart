@@ -1,6 +1,6 @@
 import 'package:app/di/di.dart';
 import 'package:app/feature/messenger/data/message.dart';
-import 'package:app/feature/messenger/service/messenger_service.dart';
+import 'package:app/feature/messenger/domain/service/messenger_service.dart';
 import 'package:app/generated/generated.dart';
 import 'package:app/v1/feature/add_seed/check_seed_phrase/check_seed_phrase.dart';
 import 'package:flutter/material.dart';

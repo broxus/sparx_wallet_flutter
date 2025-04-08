@@ -3,7 +3,7 @@ import 'dart:async';
 import 'package:app/app/service/service.dart';
 import 'package:app/data/models/models.dart';
 import 'package:app/feature/messenger/data/message.dart';
-import 'package:app/feature/messenger/service/messenger_service.dart';
+import 'package:app/feature/messenger/domain/service/messenger_service.dart';
 import 'package:app/feature/wallet/wallet_prepare_transfer/wallet_prepare_transfer_page/data/wallet_prepare_balance_data.dart';
 import 'package:app/feature/wallet/wallet_prepare_transfer/wallet_prepare_transfer_page/data/wallet_prepare_transfer_asset.dart';
 import 'package:app/feature/wallet/wallet_prepare_transfer/wallet_prepare_transfer_page/wallet_prepare_transfer_page.dart';

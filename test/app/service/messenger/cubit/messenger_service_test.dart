@@ -1,7 +1,7 @@
 import 'dart:async';
 
 import 'package:app/feature/messenger/data/message.dart';
-import 'package:app/feature/messenger/service/messenger_service.dart';
+import 'package:app/feature/messenger/domain/service/messenger_service.dart';
 import 'package:test/test.dart';
 
 void main() {

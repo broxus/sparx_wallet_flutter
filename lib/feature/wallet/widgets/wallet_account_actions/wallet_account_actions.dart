@@ -3,7 +3,7 @@
 import 'package:app/app/router/router.dart';
 import 'package:app/di/di.dart';
 import 'package:app/feature/messenger/data/message.dart';
-import 'package:app/feature/messenger/service/messenger_service.dart';
+import 'package:app/feature/messenger/domain/service/messenger_service.dart';
 import 'package:app/feature/profile/profile.dart';
 import 'package:app/feature/wallet/wallet.dart';
 import 'package:app/feature/wallet/wallet_deploy/widgets/deploy_wallet_min_ever_modal.dart';

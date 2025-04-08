@@ -6,7 +6,7 @@ import 'package:app/data/models/seed/seed_phrase_model.dart';
 import 'package:app/di/di.dart';
 import 'package:app/feature/add_seed/create_password/model/password_status.dart';
 import 'package:app/feature/messenger/data/message.dart';
-import 'package:app/feature/messenger/service/messenger_service.dart';
+import 'package:app/feature/messenger/domain/service/messenger_service.dart';
 import 'package:app/utils/mixins/connection_mixin.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';

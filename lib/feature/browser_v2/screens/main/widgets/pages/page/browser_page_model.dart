@@ -10,7 +10,7 @@ import 'package:app/feature/browser_v2/domain/service/browser_service.dart';
 import 'package:app/feature/browser_v2/inpage_provider/inpage_provider.dart';
 import 'package:app/feature/browser_v2/screens/main/widgets/pages/page/browser_page.dart';
 import 'package:app/feature/browser_v2/screens/main/widgets/pages/page/helpers/events_helper.dart';
-import 'package:app/feature/messenger/service/messenger_service.dart';
+import 'package:app/feature/messenger/domain/service/messenger_service.dart';
 import 'package:elementary/elementary.dart';
 import 'package:elementary_helper/elementary_helper.dart';
 import 'package:flutter_inappwebview/flutter_inappwebview.dart';

@@ -1,6 +1,6 @@
 import 'package:app/app/service/service.dart';
 import 'package:app/feature/add_seed/enter_seed_phrase/enter_seed_phrase_widget.dart';
-import 'package:app/feature/messenger/service/messenger_service.dart';
+import 'package:app/feature/messenger/domain/service/messenger_service.dart';
 import 'package:app/utils/mixins/connection_mixin.dart';
 import 'package:elementary/elementary.dart';
 import 'package:nekoton_repository/nekoton_repository.dart' as nt;

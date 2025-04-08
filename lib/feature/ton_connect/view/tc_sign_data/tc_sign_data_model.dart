@@ -4,7 +4,7 @@ import 'dart:typed_data';
 
 import 'package:app/app/service/service.dart';
 import 'package:app/feature/messenger/data/message.dart';
-import 'package:app/feature/messenger/service/messenger_service.dart';
+import 'package:app/feature/messenger/domain/service/messenger_service.dart';
 import 'package:app/utils/utils.dart';
 import 'package:crypto/crypto.dart';
 import 'package:elementary/elementary.dart';

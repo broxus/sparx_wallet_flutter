@@ -3,7 +3,7 @@
 import 'package:app/app/service/service.dart';
 import 'package:app/core/bloc/bloc_mixin.dart';
 import 'package:app/feature/messenger/data/message.dart';
-import 'package:app/feature/messenger/service/messenger_service.dart';
+import 'package:app/feature/messenger/domain/service/messenger_service.dart';
 import 'package:app/generated/generated.dart';
 import 'package:app/utils/utils.dart';
 import 'package:bloc/bloc.dart';
