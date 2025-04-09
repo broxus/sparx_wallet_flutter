@@ -1,6 +1,10 @@
+import 'dart:async';
+import 'dart:ui';
+
 import 'package:app/app/service/service.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:injectable/injectable.dart';
+import 'package:rxdart/rxdart.dart';
 
 @lazySingleton
 class AppStorageService extends AbstractStorageService {
@@ -27,6 +31,28 @@ class AppStorageService extends AbstractStorageService {
   T? getValue<T>(StorageKey key) => _storage.read<T>(key.value);
 
   void delete(StorageKey key) => _storage.remove(key.value);
+
+  Stream<T?> getValueStream<T>(StorageKey key) {
+    VoidCallback? cancel;
+    final subject = BehaviorSubject.seeded(_storage.read<T>(key.value));
+
+    subject
+      ..onListen = () {
+        cancel = _storage.listen(
+          () {
+            if (_storage.changes.containsKey(key.value)) {
+              subject.add(_storage.changes[key.value] as T?);
+            }
+          },
+        );
+      }
+      ..onCancel = () {
+        cancel?.call();
+        cancel = null;
+      };
+
+    return subject.stream;
+  }
 }
 
 class StorageKey {

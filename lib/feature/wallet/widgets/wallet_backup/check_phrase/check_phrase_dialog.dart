@@ -1,5 +1,4 @@
-import 'package:app/feature/wallet/wallet_backup/check_phrase/check_phrase_data.dart';
-import 'package:app/feature/wallet/wallet_backup/check_phrase/check_phrase_wm.dart';
+import 'package:app/feature/wallet/widgets/wallet_backup/wallet_backup.dart';
 import 'package:app/generated/generated.dart';
 import 'package:app/v1/feature/add_seed/check_seed_phrase/widgets/check_seed_answers_widget.dart';
 import 'package:app/v1/feature/add_seed/check_seed_phrase/widgets/check_seed_available_answers_widget.dart';

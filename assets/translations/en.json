@@ -660,5 +660,8 @@
   "dappManifestError": "dApp manifest error",
   "appNewVersionTitle": "SparX new version",
   "importantUpdateReleaseNote": "Important update with performance improvements, security features and enhanced stability",
-  "updateWord": "Update"
+  "updateWord": "Update",
+  "unsupportedWalletTypeAlertTitle": "V5R1 wallet not supported",
+  "unsupportedWalletTypeAlertDescription": "Unavailable in Ever/Venom networks.",
+  "unsupportedWalletTypeAlertButtonLabel": "Switch Account"
 }

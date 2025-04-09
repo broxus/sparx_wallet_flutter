@@ -8,21 +8,17 @@ class WalletView extends StatelessWidget {
   const WalletView({
     required this.currentAccount,
     required this.scrollController,
-    required this.isShowingBadge,
     required this.isShowingNewTokens,
     required this.hasUnconfirmedTransactions,
-    required this.finishedBackupCallback,
     required this.confirmImportCallback,
     required this.manifestUrl,
     super.key,
   });
 
-  final KeyAccount? currentAccount;
+  final KeyAccount currentAccount;
   final ScrollController scrollController;
-  final bool isShowingBadge;
   final bool isShowingNewTokens;
   final bool hasUnconfirmedTransactions;
-  final VoidCallback finishedBackupCallback;
   final VoidCallback confirmImportCallback;
   final String manifestUrl;
 
@@ -41,13 +37,12 @@ class WalletView extends StatelessWidget {
               const SliverToBoxAdapter(
                 child: WalletAppBarWidget(),
               ),
-              WalletAccountsBody(
+              WalletAccountBodyWidget(
+                key: ValueKey(currentAccount),
                 account: currentAccount,
-                isShowingBadge: isShowingBadge,
-                finishedBackupCallback: finishedBackupCallback,
               ),
               WalletBottomPanel(
-                currentAccount: currentAccount!,
+                currentAccount: currentAccount,
                 scrollController: scrollController,
                 isShowingNewTokens: isShowingNewTokens,
                 confirmImportCallback: confirmImportCallback,

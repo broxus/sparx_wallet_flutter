@@ -56,6 +56,7 @@ mixin NotifierSubscriptionsMixin<W extends ElementaryWidget,
   }
 
   /// Create [StateNotifier] and add to the notifier collection
+  @protected
   StateNotifier<T> createNotifier<T>([T? initValue]) {
     return _subscriptionsCollection.add(
       StateNotifier<T>(initValue: initValue),
@@ -63,6 +64,7 @@ mixin NotifierSubscriptionsMixin<W extends ElementaryWidget,
   }
 
   /// Create [ValueNotifier] and add to the notifier collection
+  @protected
   ValueNotifier<T> createValueNotifier<T>(T initValue) {
     return _subscriptionsCollection.add(
       ValueNotifier<T>(initValue),
@@ -70,6 +72,7 @@ mixin NotifierSubscriptionsMixin<W extends ElementaryWidget,
   }
 
   /// Create [Entity StateNotifier] and add to the notifier collection
+  @protected
   EntityStateNotifier<T> createEntityNotifier<T>([
     EntityState<T>? initialData,
   ]) {
@@ -79,6 +82,7 @@ mixin NotifierSubscriptionsMixin<W extends ElementaryWidget,
   }
 
   /// Create [TextEditingController] and add to the informant collection
+  @protected
   TextEditingController createTextEditingController([
     String? initialText,
   ]) {
@@ -88,16 +92,19 @@ mixin NotifierSubscriptionsMixin<W extends ElementaryWidget,
   }
 
   /// Create [FocusNode] and add to the informant collection
+  @protected
   FocusNode createFocusNode() {
     return _subscriptionsCollection.add(FocusNode());
   }
 
   /// Create [ScrollController] and add to the informants collectionx
+  @protected
   ScrollController createScrollController() {
     return _subscriptionsCollection.add(ScrollController());
   }
 
   /// Create [StateNotifier] from [Stream] and add to the notifier collection
+  @protected
   StateNotifier<T> createNotifierFromStream<T>(Stream<T> stream) {
     final notifier = StateNotifier<T>();
 
@@ -108,6 +115,7 @@ mixin NotifierSubscriptionsMixin<W extends ElementaryWidget,
     return _subscriptionsCollection.add(notifier);
   }
 
+  @protected
   void disposableListen<T>(
     Stream<T> stream,
     void Function(T event)? onData, {

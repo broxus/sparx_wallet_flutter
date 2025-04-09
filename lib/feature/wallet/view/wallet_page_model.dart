@@ -36,18 +36,6 @@ class WalletPageModel extends ElementaryModel {
     _storageService.delete(StorageKey.userWithNewWallet());
   }
 
-  bool? isShowingBadge(KeyAccount account) {
-    final masterPublicKey = _nekotonRepository.seedList
-        .findSeedByAnyPublicKey(account.publicKey)
-        ?.masterPublicKey;
-
-    if (masterPublicKey == null) return null;
-
-    return _storageService.getValue(
-      StorageKey.showingManualBackupBadge(masterPublicKey.publicKey),
-    );
-  }
-
   bool? isShowingNewTokens(KeyAccount account) {
     final address = account.address;
 
