@@ -21,12 +21,7 @@ class ChooseNetworkItem extends StatelessWidget {
     return GestureDetector(
       onTap: () => onPressed(data.id),
       child: PrimaryCard(
-        borderRadius: BorderRadius.circular(DimensSizeV2.d24),
-        margin: const EdgeInsets.only(
-          left: DimensSizeV2.d16,
-          right: DimensSizeV2.d16,
-          bottom: DimensSizeV2.d12,
-        ),
+        borderRadius: BorderRadius.circular(DimensSizeV2.d12),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [

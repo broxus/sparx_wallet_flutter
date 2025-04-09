@@ -7,6 +7,7 @@ import 'package:app/feature/browser/widgets/browser_resource_section.dart';
 import 'package:app/feature/browser/widgets/buttons_edit_section.dart';
 import 'package:app/generated/generated.dart';
 import 'package:app/utils/utils.dart';
+import 'package:app/widgets/search/search_bar_header_delegate.dart';
 import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
