@@ -105,6 +105,7 @@ class _Carousel extends StatelessWidget {
       options: CarouselOptions(
         height: DimensSizeV2.d124,
         viewportFraction: 1,
+        enableInfiniteScroll: items.length > 1,
         onPageChanged: onPageChanged,
       ),
       itemCount: items.length,

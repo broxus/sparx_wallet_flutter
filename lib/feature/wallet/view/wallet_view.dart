@@ -67,16 +67,13 @@ class _Background extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Positioned(
-      top: -DimensSizeV2.d16,
+      top: -DimensSizeV2.d36,
       left: 0,
       right: 0,
-      child: Padding(
-        padding: const EdgeInsets.all(DimensSizeV2.d8),
-        child: Image.asset(
-          Assets.images.bgMain.bgMain.path,
-          fit: BoxFit.contain,
-          alignment: Alignment.topCenter,
-        ),
+      child: Image.asset(
+        Assets.images.bgMain.bgMain.path,
+        fit: BoxFit.contain,
+        alignment: Alignment.topCenter,
       ),
     );
   }
