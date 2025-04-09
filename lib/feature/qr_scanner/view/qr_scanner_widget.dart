@@ -21,6 +21,8 @@ class QrScannerWidget extends ElementaryWidget<QrScannerWidgetModel>
 
   @override
   Widget build(QrScannerWidgetModel wm) {
+    final scanWindow = wm.scanWindow;
+
     return Scaffold(
       backgroundColor: wm.theme.colors.background0,
       appBar: DefaultAppBar(
@@ -30,22 +32,22 @@ class QrScannerWidget extends ElementaryWidget<QrScannerWidgetModel>
       extendBodyBehindAppBar: true,
       body: MobileScanner(
         controller: wm.controller,
-        scanWindow: wm.scanWindow,
+        scanWindow: scanWindow,
         overlayBuilder: (_, constraints) => ConstrainedBox(
           constraints: constraints,
           child: Stack(
             children: [
               Positioned.fromRect(
-                rect: wm.scanWindow,
+                rect: scanWindow,
                 child: CustomPaint(
-                  size: wm.scanWindow.size,
+                  size: scanWindow.size,
                   painter: const _FramePainter(),
                 ),
               ),
               Positioned(
-                top: wm.scanWindow.top + wm.scanWindow.height,
-                left: wm.scanWindow.left,
-                width: wm.scanWindow.width,
+                top: scanWindow.top + scanWindow.height,
+                left: scanWindow.left,
+                width: scanWindow.width,
                 child: Padding(
                   padding: const EdgeInsets.only(top: DimensSizeV2.d64),
                   child: Row(

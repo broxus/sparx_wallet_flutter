@@ -35,18 +35,19 @@ class QrScannerWidgetModel
   final MobileScannerController controller = MobileScannerController(
     formats: [BarcodeFormat.qrCode],
   );
-  late final scanWindow = MediaQuery.sizeOf(context).let(
-    (size) => Rect.fromCenter(
-      center: size.center(const Offset(0, -DimensSizeV2.d64)),
-      width: (size.width * 0.65).roundToDouble(),
-      height: (size.width * 0.65).roundToDouble(),
-    ),
-  );
 
   StreamSubscription<BarcodeCapture>? _barcodeSubscription;
   StreamSubscription<AppLifecycleState>? _appStateSubscription;
 
   ThemeStyleV2 get theme => context.themeStyleV2;
+
+  Rect get scanWindow => MediaQuery.sizeOf(context).let(
+        (size) => Rect.fromCenter(
+          center: size.center(const Offset(0, -DimensSizeV2.d64)),
+          width: (size.width * 0.65).roundToDouble(),
+          height: (size.width * 0.65).roundToDouble(),
+        ),
+      );
 
   @override
   void initWidgetModel() {
