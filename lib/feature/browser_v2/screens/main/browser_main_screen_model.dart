@@ -9,7 +9,8 @@ import 'package:flutter_inappwebview/flutter_inappwebview.dart';
 
 const _searchEngineUri = 'https://duckduckgo.com/?q=';
 
-final _urlReg = RegExp(r'(?:(?:https?|ftp):\/\/)?[\w/\-?=%.]+\.[\w/\-?=%.]+');
+final _urlReg = RegExp(
+    r'(^(https?|ftp):\/\/).*|^(www\.)([\w\/\-#=@:+~%\.]+)(\.\w{2,})|^(?!www\.)([\w\/\-#=@:+~%\.]+)(\.\w{2,})');
 
 /// [ElementaryModel] for [BrowserMainScreen]
 class BrowserMainScreenModel extends ElementaryModel {

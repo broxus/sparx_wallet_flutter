@@ -37,6 +37,7 @@ class BrowserPageControlPanel extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BrowserMenuBackgroundBlur(
+      blurHeight: minHeight,
       child: Padding(
         padding: const EdgeInsets.only(top: DimensSizeV2.d8),
         child: Column(

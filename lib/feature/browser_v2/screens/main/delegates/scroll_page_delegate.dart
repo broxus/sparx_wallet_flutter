@@ -2,8 +2,6 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/gestures.dart';
 
 class BrowserPageScrollDelegate {
-  BrowserPageScrollDelegate();
-
   int _prevYScroll = 0;
   bool _isTouch = false;
   Offset? _downPosition;
