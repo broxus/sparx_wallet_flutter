@@ -66,7 +66,7 @@ class BrowserPageScrollDelegate {
     onSuccess();
   }
 
-  void reset() {
+  void resetVerticalScroll() {
     _prevYScroll = 0;
   }
 }
