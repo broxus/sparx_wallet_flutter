@@ -18,18 +18,16 @@ class WalletPageWidget extends ElementaryWidget<WalletPageWidgetModel> {
         secondSource: wm.hasUnconfirmedTransactions,
         builder: (_, account, hasUnconfirmed) {
           if (account == null) return const SizedBox.shrink();
-          return TripleSourceBuilder(
-            firstSource: wm.isShowingBadge,
-            secondSource: wm.isShowingNewTokens,
-            thirdSource: wm.transportStrategy,
-            builder: (_, isShowingBadge, isShowingNewTokens, transport) {
+
+          return DoubleSourceBuilder(
+            firstSource: wm.isShowingNewTokens,
+            secondSource: wm.transportStrategy,
+            builder: (_, isShowingNewTokens, transport) {
               return WalletView(
                 key: ValueKey(account),
                 currentAccount: account,
                 scrollController: wm.scrollController,
-                isShowingBadge: isShowingBadge ?? false,
                 isShowingNewTokens: isShowingNewTokens ?? false,
-                finishedBackupCallback: wm.hideShowingBadge,
                 confirmImportCallback: wm.hideNewTokensLabel,
                 manifestUrl: transport?.manifestUrl ?? '',
                 hasUnconfirmedTransactions: hasUnconfirmed ?? false,

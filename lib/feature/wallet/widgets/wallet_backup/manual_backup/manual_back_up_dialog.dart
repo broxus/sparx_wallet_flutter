@@ -1,5 +1,4 @@
-import 'package:app/feature/wallet/wallet_backup/manual_backup/manual_back_up_data.dart';
-import 'package:app/feature/wallet/wallet_backup/manual_backup/manual_back_up_wm.dart';
+import 'package:app/feature/wallet/widgets/wallet_backup/wallet_backup.dart';
 import 'package:app/generated/generated.dart';
 import 'package:elementary/elementary.dart';
 import 'package:elementary_helper/elementary_helper.dart';

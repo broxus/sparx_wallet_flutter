@@ -1,4 +1,4 @@
-import 'package:app/feature/wallet/wallet_backup/confirm_action/confirm_action_dialog.dart';
+import 'package:app/feature/wallet/widgets/wallet_backup/confirm_action/confirm_action_dialog.dart';
 import 'package:app/generated/generated.dart';
 import 'package:flutter/material.dart';
 import 'package:lucide_icons_flutter/lucide_icons.dart';
@@ -6,13 +6,13 @@ import 'package:nekoton_repository/nekoton_repository.dart';
 import 'package:ui_components_lib/v2/ui_components_lib_v2.dart';
 
 class BackUpBadge extends StatelessWidget {
-  const BackUpBadge(
-    this.currentAccount,
-    this.finishedBackupCallback, {
+  const BackUpBadge({
+    required this.currentAccount,
+    required this.finishedBackupCallback,
     super.key,
   });
 
-  final KeyAccount? currentAccount;
+  final KeyAccount currentAccount;
   final VoidCallback finishedBackupCallback;
 
   @override

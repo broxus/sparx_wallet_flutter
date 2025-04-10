@@ -18,6 +18,7 @@ dependencies:
       ref: v1.0.0
   cached_network_image: 3.4.1
   cached_network_svg_image: 1.2.0
+  carousel_slider: ^5.0.0
   clock: 1.1.2
   collection: 1.19.1
   convert: 3.1.2
@@ -38,7 +39,6 @@ dependencies:
   flutter_bloc: 9.1.0
   flutter_email_sender: 7.0.0
   flutter_inappwebview: 6.1.5
-  flutter_nekoton_bridge: 2.8.0-dev.1 # TODO: remove
   flutter_screenutil: 5.9.3
   flutter_secure_storage: 9.2.4
   flutter_svg: 2.0.17
@@ -62,7 +62,7 @@ dependencies:
   money2: 5.4.6
   money2_fixer: 3.0.0
   native_dio_adapter: ^1.4.0
-  nekoton_repository: 0.59.0-dev.1
+  nekoton_repository: 0.59.0
   nekoton_webview: 0.1.9
   ntp: 2.0.0
   open_settings_plus: 0.4.0
@@ -90,9 +90,7 @@ dependencies:
   visibility_detector: 0.4.0+2
 
 dependency_overrides:
-  flutter_nekoton_bridge: 2.8.0-dev.1 # TODO: remove
   flutter_plugin_android_lifecycle: 2.0.24
-  nekoton_bridge: 2.8.0-dev.1 # TODO: remove
 
 dev_dependencies:
   bloc_test: 10.0.0

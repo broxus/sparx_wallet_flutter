@@ -691,4 +691,10 @@ abstract class LocaleKeys {
   static const photos = 'photos';
   static const flash = 'flash';
   static const qrScannerError = 'qrScannerError';
+  static const unsupportedWalletTypeAlertTitle =
+      'unsupportedWalletTypeAlertTitle';
+  static const unsupportedWalletTypeAlertDescription =
+      'unsupportedWalletTypeAlertDescription';
+  static const unsupportedWalletTypeAlertButtonLabel =
+      'unsupportedWalletTypeAlertButtonLabel';
 }
