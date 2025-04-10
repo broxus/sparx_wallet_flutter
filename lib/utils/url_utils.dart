@@ -6,7 +6,8 @@ String? getQueryParams(GoRouterState state, String key) {
 
 abstract class UrlValidator {
   static final _urlReg = RegExp(
-      r'(^(https?|ftp):\/\/).*|^(www\.)([\w\/\-#=@:+~%\.]+)(\.\w{2,})|^(?!www\.)([\w\/\-#=@:+~%\.]+)(\.\w{2,})');
+    r'^(https?|ftp):\/\/[^\s\/$.?#].[^\s]*$|^(www\.)?[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}([\/\w .-]*)*\/?$',
+  );
 
   static bool checkUri(Uri uri) {
     return checkString(uri.toString());
