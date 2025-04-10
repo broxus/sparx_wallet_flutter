@@ -1,3 +1,5 @@
+import 'dart:typed_data';
+
 import 'package:app/app/service/approvals_service.dart';
 import 'package:app/app/service/assets_service.dart';
 import 'package:app/app/service/connection/connection_service.dart';
@@ -63,13 +65,6 @@ class BrowserPageModel extends ElementaryModel {
     _tabId,
   );
 
-  final ScreenshotConfiguration _screenshotConfiguration =
-      ScreenshotConfiguration(
-    compressFormat: CompressFormat.JPEG,
-    quality: 70,
-    snapshotWidth: 160,
-  );
-
   EntityValueListenable<String?> get nekotonJsState =>
       _jsService.nekotonJsState;
 
@@ -127,17 +122,12 @@ class BrowserPageModel extends ElementaryModel {
   }
 
   Future<void> createScreenshot({
-    InAppWebViewController? webViewController,
+    required Future<Uint8List?> Function() takePictureCallback,
     bool force = false,
   }) async {
-    if (webViewController == null) {
-      return;
-    }
     return _browserService.tabs.createScreenshot(
       tabId: _tabId,
-      takePictureCallback: () async => webViewController.takeScreenshot(
-        screenshotConfiguration: _screenshotConfiguration,
-      ),
+      takePictureCallback: takePictureCallback,
     );
   }
 

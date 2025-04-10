@@ -76,6 +76,12 @@ class BrowserPageWidgetModel
     onRefresh: _onRefresh,
   );
 
+  final _screenshotConfiguration = ScreenshotConfiguration(
+    compressFormat: CompressFormat.JPEG,
+    quality: 70,
+    snapshotWidth: 160,
+  );
+
   late final _isNeedCreateWebViewState = createNotifier<bool>(false);
   late final _isShowStartViewState = createNotifier<bool>(_url.isEmpty);
 
@@ -140,8 +146,8 @@ class BrowserPageWidgetModel
     _,
     Uri? uri,
   ) {
+    _createScreenshot();
     model
-      ..createScreenshot(webViewController: _webViewController)
       ..updateUrl(uri)
       ..addHistory(uri);
   }
@@ -152,9 +158,8 @@ class BrowserPageWidgetModel
     Uri? uri,
   ) {
     pullToRefreshController.endRefreshing();
-    model
-      ..createScreenshot(webViewController: _webViewController)
-      ..updateUrl(uri);
+    _createScreenshot();
+    model.updateUrl(uri);
   }
 
   // Load any resource on the page. JS, CSS, images, etc.
@@ -178,7 +183,7 @@ class BrowserPageWidgetModel
     WebResourceRequest request,
     WebResourceError error,
   ) {
-    model.createScreenshot(webViewController: _webViewController);
+    _createScreenshot();
     pullToRefreshController.endRefreshing();
     _log.warning(
       'Failed to load ${request.url}: ${error.type} ${error.description}',
@@ -309,5 +314,16 @@ class BrowserPageWidgetModel
     }
 
     _isNeedCreateWebViewState.accept(true);
+  }
+
+  void _createScreenshot() {
+    if (_webViewController == null) {
+      return;
+    }
+    model.createScreenshot(
+      takePictureCallback: () async => _webViewController!.takeScreenshot(
+        screenshotConfiguration: _screenshotConfiguration,
+      ),
+    );
   }
 }
