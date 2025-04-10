@@ -2,15 +2,13 @@ import 'package:app/feature/browser_v2/data/tabs_data.dart';
 import 'package:app/feature/browser_v2/data/browser_tab.dart';
 import 'package:app/feature/browser_v2/domain/service/browser_service.dart';
 import 'package:app/feature/browser_v2/screens/main/browser_main_screen.dart';
+import 'package:app/utils/url_utils.dart';
 import 'package:elementary/elementary.dart';
 import 'package:elementary_helper/elementary_helper.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_inappwebview/flutter_inappwebview.dart';
 
 const _searchEngineUri = 'https://duckduckgo.com/?q=';
-
-final _urlReg = RegExp(
-    r'(^(https?|ftp):\/\/).*|^(www\.)([\w\/\-#=@:+~%\.]+)(\.\w{2,})|^(?!www\.)([\w\/\-#=@:+~%\.]+)(\.\w{2,})');
 
 /// [ElementaryModel] for [BrowserMainScreen]
 class BrowserMainScreenModel extends ElementaryModel {
@@ -105,7 +103,7 @@ class BrowserMainScreenModel extends ElementaryModel {
   (bool, Uri?) _handleUrl(String text) {
     try {
       final uri = Uri.parse(text);
-      return (_urlReg.hasMatch(text), uri);
+      return (UrlValidator.checkString(text), uri);
     } catch (_) {
       return (false, null);
     }
