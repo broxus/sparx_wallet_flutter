@@ -1,5 +1,4 @@
 import 'package:app/app/service/service.dart';
-import 'package:collection/collection.dart';
 import 'package:elementary/elementary.dart';
 import 'package:nekoton_repository/nekoton_repository.dart';
 import 'package:rxdart/rxdart.dart';
@@ -16,15 +15,13 @@ class WalletAppBarModel extends ElementaryModel {
   final CurrentAccountsService _currentAccountsService;
   final ConnectionsStorageService _storageService;
 
-  Stream<KeyAccount?> get currentAccount =>
-      _currentAccountsService.currentActiveAccountStream;
+  Stream<KeyAccount> get currentAccount =>
+      _currentAccountsService.currentActiveAccountStream.whereNotNull();
 
   Stream<TonWalletState?> get walletState => CombineLatestStream.combine2(
-        _nekotonRepository.walletsStream,
+        _nekotonRepository.walletsMapStream,
         currentAccount,
-        (wallets, account) => wallets.firstWhereOrNull(
-          (w) => w.address == account?.address,
-        ),
+        (wallets, account) => wallets[account.address],
       );
 
   Stream<ConnectionData?> get connectionStream =>

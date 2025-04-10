@@ -27,9 +27,8 @@ class AccountTransactionsTabCubit extends Cubit<AccountTransactionsTabState>
   }) : super(const AccountTransactionsTabState.loading()) {
     _walletSubscription = Rx.combineLatest2<TonWalletState?, TransportStrategy,
         (TonWalletState?, TransportStrategy)>(
-      nekotonRepository.walletsStream.map(
-        (wallets) =>
-            wallets.firstWhereOrNull((w) => w.address == account.address),
+      nekotonRepository.walletsMapStream.map(
+        (wallets) => wallets[account.address],
       ),
       nekotonRepository.currentTransportStream,
       (a, b) => (a, b),

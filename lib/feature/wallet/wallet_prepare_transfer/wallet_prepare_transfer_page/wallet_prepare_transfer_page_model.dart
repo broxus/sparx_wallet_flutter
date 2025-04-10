@@ -46,8 +46,8 @@ class WalletPrepareTransferPageModel extends ElementaryModel {
 
   TransportStrategy get currentTransport => _nekotonRepository.currentTransport;
 
-  Stream<List<TonWalletState>> get _walletsStream =>
-      _nekotonRepository.walletsStream;
+  Stream<Map<Address, TonWalletState>> get _walletsStream =>
+      _nekotonRepository.walletsMapStream;
 
   Stream<List<TokenWalletState>> get _tokenWalletsStream =>
       _nekotonRepository.tokenWalletsStream;
@@ -188,8 +188,7 @@ class WalletPrepareTransferPageModel extends ElementaryModel {
     final root = contract.rootTokenContract;
     _walletsSubscription = _walletsStream.listen(
       (wallets) {
-        final walletState =
-            wallets.firstWhereOrNull((w) => w.address == address);
+        final walletState = wallets[address];
 
         if (walletState == null) {
           return;
