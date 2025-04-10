@@ -61,7 +61,7 @@ class _BrowserTabMenuState extends State<BrowserTabMenu> {
     BrowserTabMenuItemData.bookmark,
   ];
 
-  final _width = 207.0;
+  final _width = DimensSizeV2.d207;
   final _itemHeight = DimensSizeV2.d44;
 
   late final _menuHeight = _items.length * _itemHeight;
