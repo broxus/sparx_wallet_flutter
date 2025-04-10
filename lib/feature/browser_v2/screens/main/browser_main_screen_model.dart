@@ -50,11 +50,11 @@ class BrowserMainScreenModel extends ElementaryModel {
       return;
     }
 
-    final (isUrl, url) = _handleUrl(text);
+    final isUrl = UrlValidator.checkString(text);
 
     _browserService.tM.requestUrl(
       tabId,
-      isUrl ? url! : Uri.parse('$_searchEngineUri$text'),
+      isUrl ? Uri.parse(text) : Uri.parse('$_searchEngineUri$text'),
     );
   }
 
@@ -98,14 +98,5 @@ class BrowserMainScreenModel extends ElementaryModel {
     }
 
     _browserService.hM.removeHistoryItemByUri(url);
-  }
-
-  (bool, Uri?) _handleUrl(String text) {
-    try {
-      final uri = Uri.parse(text);
-      return (UrlValidator.checkString(text), uri);
-    } catch (_) {
-      return (false, null);
-    }
   }
 }
