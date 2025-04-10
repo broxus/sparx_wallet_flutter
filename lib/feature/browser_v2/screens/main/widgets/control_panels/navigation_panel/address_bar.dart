@@ -304,12 +304,14 @@ class _UrlText extends StatelessWidget {
                               context.themeStyleV2.colors.content3.colorFilter,
                         ),
                 ),
-                Text(
-                  text.isEmpty ? LocaleKeys.browserSearchURL.tr() : text,
-                  style: theme.textStyles.labelMedium.copyWith(
-                    color: theme.colors.content3,
+                Flexible(
+                  child: Text(
+                    text.isEmpty ? LocaleKeys.browserSearchURL.tr() : text,
+                    style: theme.textStyles.labelMedium.copyWith(
+                      color: theme.colors.content3,
+                    ),
+                    overflow: TextOverflow.ellipsis,
                   ),
-                  overflow: TextOverflow.ellipsis,
                 ),
               ],
             ),
