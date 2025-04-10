@@ -34,7 +34,6 @@ class WalletPageWidgetModel
   late final _currentAccount = createNotifierFromStream(model.currentAccount);
   late final _transportStrategy =
       createNotifierFromStream(model.transportStrategy);
-  late final _isShowingBadgeNotifier = createNotifier<bool>();
   late final _isShowingNewTokensNotifier = createNotifier<bool>();
   late final _hasUnconfirmedTransactionsNotifier = createNotifier<bool>();
 
@@ -51,8 +50,6 @@ class WalletPageWidgetModel
 
   ListenableState<TransportStrategy> get transportStrategy =>
       _transportStrategy;
-
-  ListenableState<bool> get isShowingBadge => _isShowingBadgeNotifier;
 
   ListenableState<bool> get isShowingNewTokens => _isShowingNewTokensNotifier;
   int? _numberUnconfirmedTransactions;
@@ -73,14 +70,6 @@ class WalletPageWidgetModel
     _changeTransactions?.cancel();
     _currentAccountSubscribtion?.cancel();
     super.dispose();
-  }
-
-  void hideShowingBadge() {
-    final account = currentAccount.value;
-    _isShowingBadgeNotifier.accept(false);
-    if (account != null) {
-      model.hideShowingBadge(account);
-    }
   }
 
   void hideNewTokensLabel() {
@@ -109,17 +98,16 @@ class WalletPageWidgetModel
   }
 
   void _checkBadge(KeyAccount account) {
+    // TODO(komarov): move to service layer
     final isNewUser = model.isNewUser();
 
     if (isNewUser == null) {
-      _isShowingBadgeNotifier.accept(model.isShowingBadge(account) ?? true);
       _isShowingNewTokensNotifier.accept(
         model.isShowingNewTokens(account) ?? true,
       );
       return;
     }
 
-    _isShowingBadgeNotifier.accept(isNewUser);
     _isShowingNewTokensNotifier.accept(true);
 
     if (!isNewUser) {

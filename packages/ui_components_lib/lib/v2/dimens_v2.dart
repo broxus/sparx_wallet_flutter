@@ -39,7 +39,9 @@ class DimensSizeV2 {
   static const double d76 = 76;
   static const double d80 = 80;
   static const double d90 = 90;
+  static const double d92 = 92;
   static const double d100 = 100;
+  static const double d124 = 124;
   static const double d128 = 128;
   static const double d132 = 132;
   static const double d148 = 148;

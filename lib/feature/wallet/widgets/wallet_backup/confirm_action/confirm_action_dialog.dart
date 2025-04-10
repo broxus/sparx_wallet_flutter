@@ -1,6 +1,5 @@
-import 'package:app/feature/wallet/wallet_backup/confirm_action/confirm_action_data.dart';
-import 'package:app/feature/wallet/wallet_backup/confirm_action/confirm_action_wm.dart';
 import 'package:app/feature/wallet/widgets/account_info.dart';
+import 'package:app/feature/wallet/widgets/wallet_backup/wallet_backup.dart';
 import 'package:app/generated/generated.dart';
 import 'package:elementary/elementary.dart';
 import 'package:elementary_helper/elementary_helper.dart';
