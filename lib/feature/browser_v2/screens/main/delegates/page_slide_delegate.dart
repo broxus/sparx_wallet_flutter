@@ -31,7 +31,7 @@ class BrowserPageSlideDelegate implements BrowserPageSlideUi {
     urlSliderController.dispose();
   }
 
-  void slideTo(double value) => urlSliderController.jumpTo(0);
+  void slideTo(double value) => urlSliderController.jumpTo(value);
 
   void _init() {
     urlSliderController.addListener(_handleUrlPanelScroll);
