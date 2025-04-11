@@ -249,7 +249,9 @@ class BrowserMainScreenWidgetModel
     _visibleNavigationBarState.accept(isToTop);
   }
 
-  void _onOverScrolledSuccess() => _menuState.accept(MenuType.none);
+  void _onOverScrolledSuccess() {
+    _menuState.accept(MenuType.none);
+  }
 
   void _onEmptyTabs() {
     model.createEmptyTab();

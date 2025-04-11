@@ -1,4 +1,5 @@
 import 'package:app/feature/browser_v2/screens/main/data/menu_data.dart';
+import 'package:app/feature/browser_v2/screens/main/widgets/control_panels/navigation_panel/host_panel.dart';
 import 'package:app/feature/browser_v2/screens/main/widgets/control_panels/page_control_panel.dart';
 import 'package:flutter/material.dart';
 
@@ -20,6 +21,8 @@ abstract interface class BrowserMenuAnimationUi {
   Animation<double> get viewMenuOpacityAnimation;
 
   Animation<double> get urlMenuOpacityAnimation;
+
+  Animation<double> get paddingPageAnimation;
 }
 
 class BrowserMenuAnimationDelegate implements BrowserMenuAnimationUi {
@@ -48,6 +51,10 @@ class BrowserMenuAnimationDelegate implements BrowserMenuAnimationUi {
   late final urlMenuOpacityAnimation =
       _opacityTween.animate(_urlMenuController);
 
+  @override
+  late final paddingPageAnimation =
+      _paddingPageTween.animate(_paddingPageController);
+
   final TickerProvider _vsync;
 
   static const _duration = Duration(milliseconds: 250);
@@ -62,6 +69,11 @@ class BrowserMenuAnimationDelegate implements BrowserMenuAnimationUi {
     end: 0,
   );
 
+  late final _paddingPageTween = Tween<double>(
+    begin: 0,
+    end: HostPanel.height,
+  );
+
   late final _listMenuController = AnimationController(
     vsync: _vsync,
     duration: _duration,
@@ -71,6 +83,10 @@ class BrowserMenuAnimationDelegate implements BrowserMenuAnimationUi {
     duration: _duration,
   );
   late final _urlMenuController = AnimationController(
+    vsync: _vsync,
+    duration: _duration,
+  );
+  late final _paddingPageController = AnimationController(
     vsync: _vsync,
     duration: _duration,
   );
@@ -88,6 +104,7 @@ class BrowserMenuAnimationDelegate implements BrowserMenuAnimationUi {
     _listMenuController.dispose();
     _viewMenuController.dispose();
     _urlMenuController.dispose();
+    _paddingPageController.dispose();
   }
 
   void handleMenuType(MenuType? type) {
@@ -101,17 +118,19 @@ class BrowserMenuAnimationDelegate implements BrowserMenuAnimationUi {
         _listMenuController.animateTo(1);
         _viewMenuController.animateTo(0);
         _urlMenuController.animateTo(1);
+        _paddingPageController.animateTo(0);
         return;
       case MenuType.url:
         _listMenuController.animateTo(1);
         _viewMenuController.animateTo(1);
         _urlMenuController.animateTo(0);
+        _paddingPageController.animateTo(1);
         return;
       case MenuType.none:
       case null:
         _listMenuController.animateTo(1);
         _viewMenuController.animateTo(1);
-        _urlMenuController.animateTo(1);
+        _paddingPageController.animateTo(1);
         return;
     }
   }

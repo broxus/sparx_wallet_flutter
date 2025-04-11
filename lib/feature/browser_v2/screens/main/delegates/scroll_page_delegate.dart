@@ -44,7 +44,7 @@ class BrowserPageScrollDelegate {
 
     final diff = _prevYScroll - y;
 
-    if (diff > -100 && diff < 100) {
+    if (diff > -10 && diff < 10) {
       return;
     }
 

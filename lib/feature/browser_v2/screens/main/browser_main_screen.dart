@@ -45,6 +45,8 @@ class BrowserMainScreen extends ElementaryWidget<BrowserMainScreenWidgetModel> {
                     viewVisibleState: wm.viewVisibleState,
                     tabsState: wm.tabs.tabsState,
                     scrollController: wm.pageSlider.viewTabScrollController,
+                    paddingPageAnimation:
+                        wm.menuAnimations.paddingPageAnimation,
                     onLoadingProgressChanged:
                         wm.progressIndicator.onProgressChanged,
                     onCreateWebViewController: wm.onCreateWebViewController,
