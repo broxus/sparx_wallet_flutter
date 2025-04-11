@@ -70,7 +70,7 @@ class BrowserAnimationDelegate implements BrowserAnimationUi {
   );
 
   late final _paddingPageTween = Tween<double>(
-    begin: 0,
+    begin: BrowserPageControlPanel.minHeight,
     end: HostPanel.height,
   );
 
@@ -126,7 +126,6 @@ class BrowserAnimationDelegate implements BrowserAnimationUi {
         _urlMenuController.animateTo(0);
         _paddingPageController.animateTo(1);
         return;
-      case MenuType.none:
       case null:
         _listMenuController.animateTo(1);
         _viewMenuController.animateTo(1);

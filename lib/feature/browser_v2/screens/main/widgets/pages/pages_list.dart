@@ -15,7 +15,6 @@ class BrowserPagesView extends StatelessWidget {
     required this.tabsState,
     required this.onCreateWebViewController,
     required this.onWebPageScrollChanged,
-    required this.onOverScrolled,
     required this.onDispose,
     super.key,
   });
@@ -31,7 +30,6 @@ class BrowserPagesView extends StatelessWidget {
     InAppWebViewController controller,
   ) onCreateWebViewController;
   final ValueChanged<int> onWebPageScrollChanged;
-  final ValueChanged<int> onOverScrolled;
   final ValueChanged<String> onDispose;
 
   @override
@@ -72,7 +70,6 @@ class BrowserPagesView extends StatelessWidget {
                               controller,
                             ),
                             onWebPageScrollChanged: onWebPageScrollChanged,
-                            onOverScrolled: onOverScrolled,
                             onDispose: () => onDispose(data.list[index].id),
                           );
                         },

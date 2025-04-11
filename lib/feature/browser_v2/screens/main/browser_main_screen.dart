@@ -50,7 +50,6 @@ class BrowserMainScreen extends ElementaryWidget<BrowserMainScreenWidgetModel> {
                         wm.progressIndicator.onProgressChanged,
                     onCreateWebViewController: wm.onCreateWebViewController,
                     onWebPageScrollChanged: wm.onWebPageScrollChanged,
-                    onOverScrolled: wm.onOverScrolled,
                     onDispose: wm.onDisposeWebController,
                   ),
                 ),

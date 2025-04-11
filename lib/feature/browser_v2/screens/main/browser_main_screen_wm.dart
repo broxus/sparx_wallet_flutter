@@ -189,11 +189,6 @@ class BrowserMainScreenWidgetModel
         onSuccess: resetFocus,
       );
 
-  void onOverScrolled(int y) => _pageDelegate.onOverScrolled(
-        y,
-        onSuccess: _onOverScrolledSuccess,
-      );
-
   void onPressedTabs() {
     _tabsDelegate.animateShowTabs();
     _menuState.accept(MenuType.list);
@@ -247,10 +242,6 @@ class BrowserMainScreenWidgetModel
   void _onWebPageScrollChangedSuccess(bool isToTop) {
     _menuState.accept(isToTop ? MenuType.view : MenuType.url);
     _visibleNavigationBarState.accept(isToTop);
-  }
-
-  void _onOverScrolledSuccess() {
-    _menuState.accept(MenuType.none);
   }
 
   void _onEmptyTabs() {

@@ -53,17 +53,6 @@ class BrowserPageScrollDelegate {
     _prevYScroll = y;
   }
 
-  void onOverScrolled(
-    int y, {
-    required VoidCallback onSuccess,
-  }) {
-    if (y <= 0) {
-      return;
-    }
-
-    onSuccess();
-  }
-
   void resetVerticalScroll() {
     _prevYScroll = 0;
   }

@@ -213,17 +213,6 @@ class BrowserPageWidgetModel
     model.updateTitle(title!);
   }
 
-  // Called when the WebView is scrolled beyond its content (over-scroll).
-  void onWebPageOverScrolled(
-    _,
-    __,
-    int y,
-    ___,
-    ____,
-  ) {
-    widget.onOverScrolled(y);
-  }
-
   void onWebPageScrollChanged(_, __, int y) {
     widget.onWebPageScrollChanged(y);
   }
