@@ -10,18 +10,20 @@ class WalletAppBarModel extends ElementaryModel {
     this._nekotonRepository,
     this._currentAccountsService,
     this._storageService,
+    this._appLinksService,
   ) : super(errorHandler: errorHandler);
 
   final NekotonRepository _nekotonRepository;
   final CurrentAccountsService _currentAccountsService;
   final ConnectionsStorageService _storageService;
+  final AppLinksService _appLinksService;
 
-  Stream<KeyAccount?> get currentAccount =>
+  Stream<KeyAccount?> get currentActiveAccount =>
       _currentAccountsService.currentActiveAccountStream;
 
   Stream<TonWalletState?> get walletState => CombineLatestStream.combine2(
         _nekotonRepository.walletsStream,
-        currentAccount,
+        currentActiveAccount,
         (wallets, account) => wallets.firstWhereOrNull(
           (w) => w.address == account?.address,
         ),
@@ -31,4 +33,6 @@ class WalletAppBarModel extends ElementaryModel {
       _storageService.currentConnectionStream;
 
   TransportStrategy get transport => _nekotonRepository.currentTransport;
+
+  void handleUri(Uri uri) => _appLinksService.handleAppLink(uri);
 }

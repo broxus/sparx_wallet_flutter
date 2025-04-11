@@ -10,6 +10,7 @@ import 'package:app/feature/wallet/view/wallet_page_widget.dart';
 import 'package:elementary_helper/elementary_helper.dart';
 import 'package:flutter/material.dart';
 import 'package:nekoton_repository/nekoton_repository.dart';
+import 'package:rxdart/rxdart.dart';
 
 WalletPageWidgetModel defaultWalletPageWidgetModelFactory(
   BuildContext context,
@@ -26,22 +27,21 @@ WalletPageWidgetModel defaultWalletPageWidgetModelFactory(
 
 class WalletPageWidgetModel
     extends CustomWidgetModel<WalletPageWidget, WalletPageModel> {
-  WalletPageWidgetModel(super.model) {
-    _currentAccount.addListener(_onAccountChanged);
-  }
+  WalletPageWidgetModel(super.model);
 
   late final scrollController = createScrollController();
 
   late final _currentAccount = createNotifierFromStream(model.currentAccount);
   late final _transportStrategy =
       createNotifierFromStream(model.transportStrategy);
-  late final _isShowingBadgeNotifier = createNotifier<bool>();
   late final _isShowingNewTokensNotifier = createNotifier<bool>();
   late final _hasUnconfirmedTransactionsNotifier = createNotifier<bool>();
 
   StreamSubscription<PressBottomNavigationEvent>? _pressWalletSubscribtion;
 
   StreamSubscription<void>? _changeTransactions;
+
+  StreamSubscription<KeyAccount>? _currentAccountSubscribtion;
 
   ListenableState<KeyAccount?> get currentAccount => _currentAccount;
 
@@ -50,8 +50,6 @@ class WalletPageWidgetModel
 
   ListenableState<TransportStrategy> get transportStrategy =>
       _transportStrategy;
-
-  ListenableState<bool> get isShowingBadge => _isShowingBadgeNotifier;
 
   ListenableState<bool> get isShowingNewTokens => _isShowingNewTokensNotifier;
   int? _numberUnconfirmedTransactions;
@@ -62,21 +60,16 @@ class WalletPageWidgetModel
     _pressWalletSubscribtion = primaryBus
         .on<PressBottomNavigationEvent>()
         .listen(_onPressWalletBottomNavigation);
+    _currentAccountSubscribtion =
+        model.currentAccount.whereNotNull().listen(_onAccountChanged);
   }
 
   @override
   void dispose() {
     _pressWalletSubscribtion?.cancel();
     _changeTransactions?.cancel();
+    _currentAccountSubscribtion?.cancel();
     super.dispose();
-  }
-
-  void hideShowingBadge() {
-    final account = currentAccount.value;
-    _isShowingBadgeNotifier.accept(false);
-    if (account != null) {
-      model.hideShowingBadge(account);
-    }
   }
 
   void hideNewTokensLabel() {
@@ -99,40 +92,33 @@ class WalletPageWidgetModel
     );
   }
 
-  void _onAccountChanged() {
-    _checkBadge();
-    _checkUnconfirmedTransactions();
+  void _onAccountChanged(KeyAccount account) {
+    _checkBadge(account);
+    _checkUnconfirmedTransactions(account);
   }
 
-  void _checkBadge() {
-    //check user create new wallet or login
-    final account = _currentAccount.value;
+  void _checkBadge(KeyAccount account) {
+    // TODO(komarov): move to service layer
     final isNewUser = model.isNewUser();
 
-    if (account == null) return;
-
-    if (isNewUser != null) {
-      if (isNewUser) {
-        _isShowingNewTokensNotifier.accept(true);
-        _isShowingBadgeNotifier.accept(true);
-      } else {
-        _isShowingBadgeNotifier.accept(false);
-        model.hideShowingBadge(account);
-      }
-
-      model.resetValueNewUser();
+    if (isNewUser == null) {
+      _isShowingNewTokensNotifier.accept(
+        model.isShowingNewTokens(account) ?? true,
+      );
       return;
     }
 
-    _isShowingBadgeNotifier.accept(model.isShowingBadge(account) ?? true);
-    _isShowingNewTokensNotifier.accept(
-      model.isShowingNewTokens(account) ?? true,
-    );
+    _isShowingNewTokensNotifier.accept(true);
+
+    if (!isNewUser) {
+      model.hideShowingBadge(account);
+    }
+
+    model.resetValueNewUser();
   }
 
-  Future<void> _checkUnconfirmedTransactions() async {
-    final walletTonState =
-        await model.getTonWalletState(_currentAccount.value?.address);
+  Future<void> _checkUnconfirmedTransactions(KeyAccount account) async {
+    final walletTonState = await model.getTonWalletState(account.address);
     _numberUnconfirmedTransactions =
         walletTonState.wallet?.unconfirmedTransactions.length ?? 0;
     _hasUnconfirmedTransactionsNotifier.accept(

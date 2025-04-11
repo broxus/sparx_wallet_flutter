@@ -688,4 +688,13 @@ abstract class LocaleKeys {
   static const appNewVersionTitle = 'appNewVersionTitle';
   static const importantUpdateReleaseNote = 'importantUpdateReleaseNote';
   static const updateWord = 'updateWord';
+  static const photos = 'photos';
+  static const flash = 'flash';
+  static const qrScannerError = 'qrScannerError';
+  static const unsupportedWalletTypeAlertTitle =
+      'unsupportedWalletTypeAlertTitle';
+  static const unsupportedWalletTypeAlertDescription =
+      'unsupportedWalletTypeAlertDescription';
+  static const unsupportedWalletTypeAlertButtonLabel =
+      'unsupportedWalletTypeAlertButtonLabel';
 }
