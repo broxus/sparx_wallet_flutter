@@ -3,7 +3,7 @@ import 'package:app/feature/browser_v2/screens/main/widgets/control_panels/navig
 import 'package:app/feature/browser_v2/screens/main/widgets/control_panels/page_control_panel.dart';
 import 'package:flutter/material.dart';
 
-abstract interface class BrowserMenuAnimationUi {
+abstract interface class BrowserAnimationUi {
   Animation<double> get listMenuAnimation;
 
   Animation<double> get viewMenuAnimation;
@@ -25,8 +25,8 @@ abstract interface class BrowserMenuAnimationUi {
   Animation<double> get paddingPageAnimation;
 }
 
-class BrowserMenuAnimationDelegate implements BrowserMenuAnimationUi {
-  BrowserMenuAnimationDelegate(this._vsync);
+class BrowserAnimationDelegate implements BrowserAnimationUi {
+  BrowserAnimationDelegate(this._vsync);
 
   @override
   late final listMenuOffsetAnimation =

@@ -9,8 +9,8 @@ import 'package:app/feature/browser_v2/screens/main/browser_main_screen.dart';
 import 'package:app/feature/browser_v2/screens/main/browser_main_screen_model.dart';
 import 'package:app/feature/browser_v2/screens/main/data/browser_render_manager.dart';
 import 'package:app/feature/browser_v2/screens/main/data/menu_data.dart';
+import 'package:app/feature/browser_v2/screens/main/delegates/animation_delegate.dart';
 import 'package:app/feature/browser_v2/screens/main/delegates/browser_keys_delegate.dart';
-import 'package:app/feature/browser_v2/screens/main/delegates/menu_animation_delegate.dart';
 import 'package:app/feature/browser_v2/screens/main/delegates/page_slide_delegate.dart';
 import 'package:app/feature/browser_v2/screens/main/delegates/past_go_delegate.dart';
 import 'package:app/feature/browser_v2/screens/main/delegates/progress_indicator_delegate.dart';
@@ -54,7 +54,7 @@ class BrowserMainScreenWidgetModel
 
   final _renderManager = BrowserRenderManager();
 
-  late final _animationDelegate = BrowserMenuAnimationDelegate(this);
+  late final _animationDelegate = BrowserAnimationDelegate(this);
 
   late final _progressIndicatorDelegate =
       BrowserProgressIndicatorDelegate(this);
@@ -112,7 +112,7 @@ class BrowserMainScreenWidgetModel
 
   BrowserPastGoUi get pastGo => _pastGoDelegate;
 
-  BrowserMenuAnimationUi get menuAnimations => _animationDelegate;
+  BrowserAnimationUi get animations => _animationDelegate;
 
   BrowserProgressIndicatorUi get progressIndicator =>
       _progressIndicatorDelegate;

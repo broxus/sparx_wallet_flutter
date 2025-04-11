@@ -45,8 +45,7 @@ class BrowserMainScreen extends ElementaryWidget<BrowserMainScreenWidgetModel> {
                     viewVisibleState: wm.viewVisibleState,
                     tabsState: wm.tabs.tabsState,
                     scrollController: wm.pageSlider.viewTabScrollController,
-                    paddingPageAnimation:
-                        wm.menuAnimations.paddingPageAnimation,
+                    paddingPageAnimation: wm.animations.paddingPageAnimation,
                     onLoadingProgressChanged:
                         wm.progressIndicator.onProgressChanged,
                     onCreateWebViewController: wm.onCreateWebViewController,
@@ -70,9 +69,9 @@ class BrowserMainScreen extends ElementaryWidget<BrowserMainScreenWidgetModel> {
               ),
               _ItemPosition(
                 child: _MenuAnimation(
-                  controller: wm.menuAnimations.listMenuAnimation,
-                  offsetAnimation: wm.menuAnimations.listMenuOffsetAnimation,
-                  opacityAnimation: wm.menuAnimations.listMenuOpacityAnimation,
+                  controller: wm.animations.listMenuAnimation,
+                  offsetAnimation: wm.animations.listMenuOffsetAnimation,
+                  opacityAnimation: wm.animations.listMenuOpacityAnimation,
                   child: BrowserTabsListActionBar(
                     key: wm.keys.listKey,
                     tabsState: wm.tabs.tabsState,
@@ -84,9 +83,9 @@ class BrowserMainScreen extends ElementaryWidget<BrowserMainScreenWidgetModel> {
               ),
               _ItemPosition(
                 child: _MenuAnimation(
-                  controller: wm.menuAnimations.viewMenuAnimation,
-                  offsetAnimation: wm.menuAnimations.viewMenuOffsetAnimation,
-                  opacityAnimation: wm.menuAnimations.viewMenuOpacityAnimation,
+                  controller: wm.animations.viewMenuAnimation,
+                  offsetAnimation: wm.animations.viewMenuOffsetAnimation,
+                  opacityAnimation: wm.animations.viewMenuOpacityAnimation,
                   child: NotificationListener<ScrollNotification>(
                     onNotification: wm.pageSlider.onScrollNotification,
                     child: BrowserPageControlPanel(
@@ -105,9 +104,9 @@ class BrowserMainScreen extends ElementaryWidget<BrowserMainScreenWidgetModel> {
               ),
               _ItemPosition(
                 child: _MenuAnimation(
-                  controller: wm.menuAnimations.urlMenuAnimation,
-                  offsetAnimation: wm.menuAnimations.urlMenuOffsetAnimation,
-                  opacityAnimation: wm.menuAnimations.urlMenuOpacityAnimation,
+                  controller: wm.animations.urlMenuAnimation,
+                  offsetAnimation: wm.animations.urlMenuOffsetAnimation,
+                  opacityAnimation: wm.animations.urlMenuOpacityAnimation,
                   child: HostPanel(
                     wm.tabs.activeTabState,
                     key: wm.keys.urlKey,
