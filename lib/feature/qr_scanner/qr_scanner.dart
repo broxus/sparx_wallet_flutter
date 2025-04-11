@@ -1,2 +1,3 @@
-export 'cubit/cubit.dart';
-export 'view/qr_scanner_page.dart';
+export 'data/data.dart';
+export 'show_qr_scanner.dart';
+export 'view/view.dart';

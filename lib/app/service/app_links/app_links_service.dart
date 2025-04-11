@@ -8,7 +8,7 @@ import 'package:rxdart/rxdart.dart';
 @singleton
 class AppLinksService {
   AppLinksService() {
-    _linkSubscription = _appLinks.uriLinkStream.listen(_handleAppLink);
+    _linkSubscription = _appLinks.uriLinkStream.listen(handleAppLink);
   }
 
   static const _linkKey = 'link';
@@ -32,7 +32,7 @@ class AppLinksService {
     _linkSubscription?.cancel();
   }
 
-  void _handleAppLink(Uri uri) {
+  void handleAppLink(Uri uri) {
     final queryParameters = uri.queryParameters;
     final link = queryParameters[_linkKey];
 

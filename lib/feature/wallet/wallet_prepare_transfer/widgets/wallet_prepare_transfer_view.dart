@@ -1,6 +1,5 @@
 import 'package:app/feature/wallet/wallet.dart';
-import 'package:app/feature/wallet/wallet_prepare_transfer/wallet_prepare_transfer_page/data/wallet_prepare_transfer_asset.dart';
-import 'package:app/feature/wallet/wallet_prepare_transfer/wallet_prepare_transfer_page/wallet_prepare_transfer_page_wm.dart';
+import 'package:app/feature/wallet/wallet_prepare_transfer/wallet_prepare_transfer_page_wm.dart';
 import 'package:app/generated/generated.dart';
 import 'package:app/widgets/amount_input/amount_input.dart';
 import 'package:elementary_helper/elementary_helper.dart';
@@ -62,7 +61,17 @@ class WalletPrepareTransferView extends StatelessWidget {
                     onSubmit: _wm.onSubmittedReceiverAddress,
                     inputFormatters: [_wm.addressFilterFormatter],
                     validator: _wm.validateAddressField,
-                    suffixes: [_buildReceiverSuffix()],
+                    suffixes: [
+                      _ScanQRButton(
+                        receiver: _wm.receiverState,
+                        onPressed: _wm.onPressedScan,
+                      ),
+                      _PasteButton(
+                        receiver: _wm.receiverState,
+                        onPaste: _wm.onPressedPasteAddress,
+                        onClear: _wm.onPressedReceiverClear,
+                      ),
+                    ],
                   ),
                   AmountInput(
                     controller: _wm.amountController,
@@ -88,35 +97,6 @@ class WalletPrepareTransferView extends StatelessWidget {
       ),
     );
   }
-
-  Widget _buildReceiverSuffix() => StateNotifierBuilder(
-        listenableState: _wm.receiverState,
-        builder: (_, value) {
-          if (value?.isEmpty ?? true) {
-            return Padding(
-              padding: const EdgeInsets.only(
-                right: DimensSizeV2.d8,
-              ),
-              child: FloatButton(
-                buttonShape: ButtonShape.square,
-                buttonSize: ButtonSize.small,
-                icon: LucideIcons.arrowDownToDot,
-                onPressed: _wm.onPressedPastAddress,
-              ),
-            );
-          } else {
-            return Padding(
-              padding: const EdgeInsets.only(right: DimensSize.d8),
-              child: PrimaryButton(
-                buttonShape: ButtonShape.square,
-                icon: LucideIcons.x,
-                onPressed: _wm.onPressedReceiverClear,
-                buttonSize: ButtonSize.small,
-              ),
-            );
-          }
-        },
-      );
 
   Widget _buildCommentWidget() => StateNotifierBuilder(
         listenableState: _wm.commentState,
@@ -171,4 +151,71 @@ class WalletPrepareTransferView extends StatelessWidget {
           }
         },
       );
+}
+
+class _ScanQRButton extends StatelessWidget {
+  const _ScanQRButton({
+    required this.receiver,
+    required this.onPressed,
+  });
+
+  final StateNotifier<String?> receiver;
+  final VoidCallback onPressed;
+
+  @override
+  Widget build(BuildContext context) {
+    return StateNotifierBuilder(
+      listenableState: receiver,
+      builder: (_, value) => value?.isEmpty ?? true
+          ? Padding(
+              padding: const EdgeInsets.only(right: DimensSize.d4),
+              child: PrimaryButton(
+                buttonShape: ButtonShape.square,
+                buttonSize: ButtonSize.small,
+                icon: LucideIcons.scan,
+                onPressed: onPressed,
+              ),
+            )
+          : const SizedBox.shrink(),
+    );
+  }
+}
+
+class _PasteButton extends StatelessWidget {
+  const _PasteButton({
+    required this.receiver,
+    required this.onPaste,
+    required this.onClear,
+  });
+
+  final StateNotifier<String?> receiver;
+  final VoidCallback onPaste;
+  final VoidCallback onClear;
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.only(right: DimensSize.d8),
+      child: StateNotifierBuilder(
+        listenableState: receiver,
+        builder: (_, value) {
+          if (value?.isEmpty ?? true) {
+            return PrimaryButton(
+              buttonShape: ButtonShape.square,
+              buttonSize: ButtonSize.small,
+              icon: LucideIcons.arrowDownToDot,
+              onPressed: onPaste,
+            );
+          }
+
+          return PrimaryButton(
+            buttonShape: ButtonShape.square,
+            icon: LucideIcons.x,
+            onPressed: onClear,
+            buttonSize: ButtonSize.small,
+          );
+        },
+      ),
+    );
+  }
 }
