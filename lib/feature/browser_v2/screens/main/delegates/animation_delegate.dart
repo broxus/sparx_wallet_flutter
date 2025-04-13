@@ -16,11 +16,11 @@ abstract interface class BrowserAnimationUi {
 
   Animation<Offset> get urlMenuOffsetAnimation;
 
-  // Animation<double> get listMenuOpacityAnimation;
-  //
-  // Animation<double> get viewMenuOpacityAnimation;
-  //
-  // Animation<double> get urlMenuOpacityAnimation;
+  Animation<double> get listMenuOpacityAnimation;
+
+  Animation<double> get viewMenuOpacityAnimation;
+
+  Animation<double> get urlMenuOpacityAnimation;
 
   Animation<double> get paddingPageAnimation;
 }
@@ -39,17 +39,17 @@ class BrowserAnimationDelegate implements BrowserAnimationUi {
   @override
   late final urlMenuOffsetAnimation = _offsetTween.animate(_urlMenuController);
 
-  // @override
-  // late final listMenuOpacityAnimation =
-  //     _opacityTween.animate(_listMenuController);
-  //
-  // @override
-  // late final viewMenuOpacityAnimation =
-  //     _opacityTween.animate(_viewMenuController);
-  //
-  // @override
-  // late final urlMenuOpacityAnimation =
-  //     _opacityTween.animate(_urlMenuController);
+  @override
+  late final listMenuOpacityAnimation =
+      _opacityTween.animate(_listMenuController);
+
+  @override
+  late final viewMenuOpacityAnimation =
+      _opacityTween.animate(_viewMenuController);
+
+  @override
+  late final urlMenuOpacityAnimation =
+      _opacityTween.animate(_urlMenuController);
 
   @override
   late final paddingPageAnimation =
@@ -64,10 +64,10 @@ class BrowserAnimationDelegate implements BrowserAnimationUi {
     end: const Offset(0, BrowserPageControlPanel.minHeight),
   );
 
-  // late final _opacityTween = Tween<double>(
-  //   begin: 1,
-  //   end: 0,
-  // );
+  late final _opacityTween = Tween<double>(
+    begin: 1,
+    end: 0,
+  );
 
   late final _paddingPageTween = Tween<double>(
     begin: BrowserPageControlPanel.minHeight,

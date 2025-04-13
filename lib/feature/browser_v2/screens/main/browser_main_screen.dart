@@ -70,7 +70,7 @@ class BrowserMainScreen extends ElementaryWidget<BrowserMainScreenWidgetModel> {
                 child: _MenuAnimation(
                   controller: wm.animations.listMenuAnimation,
                   offsetAnimation: wm.animations.listMenuOffsetAnimation,
-                  // opacityAnimation: wm.animations.listMenuOpacityAnimation,
+                  opacityAnimation: wm.animations.listMenuOpacityAnimation,
                   child: BrowserTabsListActionBar(
                     key: wm.keys.listKey,
                     tabsState: wm.tabs.tabsState,
@@ -84,7 +84,7 @@ class BrowserMainScreen extends ElementaryWidget<BrowserMainScreenWidgetModel> {
                 child: _MenuAnimation(
                   controller: wm.animations.viewMenuAnimation,
                   offsetAnimation: wm.animations.viewMenuOffsetAnimation,
-                  // opacityAnimation: wm.animations.viewMenuOpacityAnimation,
+                  opacityAnimation: wm.animations.viewMenuOpacityAnimation,
                   child: NotificationListener<ScrollNotification>(
                     onNotification: wm.pageSlider.onScrollNotification,
                     child: BrowserPageControlPanel(
@@ -105,7 +105,7 @@ class BrowserMainScreen extends ElementaryWidget<BrowserMainScreenWidgetModel> {
                 child: _MenuAnimation(
                   controller: wm.animations.urlMenuAnimation,
                   offsetAnimation: wm.animations.urlMenuOffsetAnimation,
-                  // opacityAnimation: wm.animations.urlMenuOpacityAnimation,
+                  opacityAnimation: wm.animations.urlMenuOpacityAnimation,
                   child: HostPanel(
                     wm.tabs.activeTabState,
                     key: wm.keys.urlKey,
@@ -145,13 +145,13 @@ class _MenuAnimation extends StatelessWidget {
     required this.child,
     required this.controller,
     required this.offsetAnimation,
-    // required this.opacityAnimation,
+    required this.opacityAnimation,
   });
 
   final Animation<double> controller;
   final Animation<Offset> offsetAnimation;
 
-  // final Animation<double> opacityAnimation;
+  final Animation<double> opacityAnimation;
 
   final Widget child;
 
@@ -162,11 +162,10 @@ class _MenuAnimation extends StatelessWidget {
       builder: (context, child) {
         return Transform.translate(
           offset: offsetAnimation.value,
-          child: child,
-          // child: Opacity(
-          //   opacity: opacityAnimation.value,
-          //   child: child,
-          // ),
+          child: Opacity(
+            opacity: opacityAnimation.value,
+            child: child,
+          ),
         );
       },
       child: child,
