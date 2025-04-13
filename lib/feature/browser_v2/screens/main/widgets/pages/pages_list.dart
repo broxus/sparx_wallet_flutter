@@ -34,19 +34,19 @@ class BrowserPagesView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: [
-        Flexible(
-          child: StateNotifierBuilder<bool>(
-            listenableState: viewVisibleState,
-            builder: (_, bool? isVisible) {
-              return Visibility(
-                visible: isVisible ?? false,
-                maintainState: true,
-                maintainSize: true,
-                maintainAnimation: true,
-                child: ColoredBox(
-                  color: context.themeStyleV2.colors.background1,
+    return StateNotifierBuilder<bool>(
+      listenableState: viewVisibleState,
+      builder: (_, bool? isVisible) {
+        return Visibility(
+          visible: isVisible ?? false,
+          maintainState: true,
+          maintainSize: true,
+          maintainAnimation: true,
+          child: ColoredBox(
+            color: context.themeStyleV2.colors.background1,
+            child: Column(
+              children: [
+                Flexible(
                   child: StateNotifierBuilder<BrowserTabsCollection?>(
                     listenableState: tabsState,
                     builder: (_, BrowserTabsCollection? data) {
@@ -77,19 +77,19 @@ class BrowserPagesView extends StatelessWidget {
                     },
                   ),
                 ),
-              );
-            },
+                AnimatedBuilder(
+                  animation: paddingPageAnimation,
+                  builder: (BuildContext context, Widget? child) {
+                    return SizedBox(
+                      height: paddingPageAnimation.value,
+                    );
+                  },
+                ),
+              ],
+            ),
           ),
-        ),
-        AnimatedBuilder(
-          animation: paddingPageAnimation,
-          builder: (BuildContext context, Widget? child) {
-            return SizedBox(
-              height: paddingPageAnimation.value,
-            );
-          },
-        ),
-      ],
+        );
+      },
     );
   }
 }
