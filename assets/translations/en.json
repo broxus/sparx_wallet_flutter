@@ -205,6 +205,7 @@
   "contactSupportCantCreateFile": "Can't create log file",
   "contactSupportCantFindEmailClient": "Can't find email client",
   "contactSupportCantFindEmailClientShare": "Share log file",
+  "contactSupportOpenQa": "Open QA",
   "browserCloseAll": "Close All",
   "browserDone": "Done",
   "browserSearchURL": "Search or enter URL",
