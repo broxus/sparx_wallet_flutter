@@ -33,7 +33,7 @@ class BrowserPage extends ElementaryWidget<BrowserPageWidgetModel> {
   final ValueChanged<InAppWebViewController> onCreate;
   final ValueChanged<int> onWebPageScrollChanged;
   final VoidCallback onDispose;
-  final ValueChanged<double> onLoadingProgressChanged;
+  final ValueChanged<int> onLoadingProgressChanged;
 
   @override
   Widget build(BrowserPageWidgetModel wm) {

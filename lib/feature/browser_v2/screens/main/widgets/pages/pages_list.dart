@@ -24,7 +24,7 @@ class BrowserPagesView extends StatelessWidget {
   final ListenableState<BrowserTabsCollection> tabsState;
   final ScrollController scrollController;
   final Animation<double> paddingPageAnimation;
-  final ValueChanged<double> onLoadingProgressChanged;
+  final ValueChanged<int> onLoadingProgressChanged;
   final void Function(
     String tabId,
     InAppWebViewController controller,

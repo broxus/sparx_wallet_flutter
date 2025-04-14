@@ -174,7 +174,7 @@ class BrowserPageWidgetModel
       unawaited(pullToRefreshController.endRefreshing());
     }
     if (progress != null && model.checkIsActiveTab(widget.tab.id)) {
-      widget.onLoadingProgressChanged(progress / 100);
+      widget.onLoadingProgressChanged(progress);
     }
   }
 

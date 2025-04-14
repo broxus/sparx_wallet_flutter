@@ -65,6 +65,7 @@ class CoderPainter extends CustomPainter {
 
   @override
   void paint(Canvas canvas, Size size) {
+    print('!!! ${animation.value}');
     canvas.drawLine(
       Offset.zero,
       Offset(
