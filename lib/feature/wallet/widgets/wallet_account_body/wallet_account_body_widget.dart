@@ -44,7 +44,7 @@ class WalletAccountBodyWidget
                       horizontal: DimensSizeV2.d16,
                     ),
                     child: WalletAccountActions(
-                      currentAccount: account,
+                      account: account,
                       disableSensetiveActions: items.contains(
                         NotificationType.unsupportedWalletType,
                       ),
