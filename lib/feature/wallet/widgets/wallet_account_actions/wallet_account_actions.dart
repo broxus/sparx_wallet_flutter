@@ -3,6 +3,7 @@
 import 'package:app/app/router/router.dart';
 import 'package:app/app/service/service.dart';
 import 'package:app/di/di.dart';
+import 'package:app/feature/loader_screen/loader_screen.dart';
 import 'package:app/feature/profile/profile.dart';
 import 'package:app/feature/wallet/wallet.dart';
 import 'package:app/feature/wallet/wallet_deploy/widgets/deploy_wallet_min_ever_modal.dart';
@@ -153,13 +154,21 @@ class _ActionList extends StatelessWidget {
             WalletActionButton(
               label: LocaleKeys.receiveWord.tr(),
               icon: LucideIcons.arrowDown,
-              onPressed: disableSensetiveActions == false
-                  ? account?.let(
-                      (value) =>
-                          () => showReceiveFundsSheet(context, value.address),
-                    )
-                  : null,
+              onPressed: () => showLoaderScreen(
+                context,
+                title: LocaleKeys.scanSeedLoaderTitle.tr(),
+              ),
             ),
+            // WalletActionButton(
+            //   label: LocaleKeys.receiveWord.tr(),
+            //   icon: LucideIcons.arrowDown,
+            //   onPressed: disableSensetiveActions == false
+            //       ? account?.let(
+            //           (value) =>
+            //               () => showReceiveFundsSheet(context, value.address),
+            //         )
+            //       : null,
+            // ),
             WalletActionButton(
               label: _actionTitle(action),
               icon: _actionIcon(action),
