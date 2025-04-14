@@ -1,6 +1,5 @@
-// ignore_for_file: use_build_context_synchronously
+//iignore_for_file: use_build_context_synchronously
 
-import 'package:app/app/router/app_route.dart';
 import 'package:app/app/service/messenger/messenger.dart';
 import 'package:app/core/app_build_type.dart';
 import 'package:app/core/bloc/bloc_mixin.dart';
@@ -12,7 +11,6 @@ import 'package:app/runner.dart';
 import 'package:bloc/bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
-import 'package:go_router/go_router.dart';
 import 'package:logging/logging.dart';
 
 part 'contact_support_bloc.freezed.dart';
@@ -42,7 +40,6 @@ class ContactSupportBloc extends Bloc<ContactSupportEvent, ContactSupportState>
             emitSafe(state.copyWith(isBusy: false));
             inject<MessengerService>().show(
               Message.error(
-                context: context,
                 message: LocaleKeys.contactSupportCantCreateFile.tr(),
               ),
             );
@@ -56,7 +53,6 @@ class ContactSupportBloc extends Bloc<ContactSupportEvent, ContactSupportState>
               emitSafe(state.copyWith(isBusy: false));
               inject<MessengerService>().show(
                 Message.error(
-                  context: context,
                   message: LocaleKeys.contactSupportCantFindEmailClient.tr(),
                   actionText:
                       LocaleKeys.contactSupportCantFindEmailClientShare.tr(),
