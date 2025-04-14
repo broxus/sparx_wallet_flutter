@@ -21,8 +21,8 @@ class BrowserPageScrollDelegate implements BrowserPageScrollUi {
 
   final ValueChanged<bool> onPageScrollChange;
 
-  int _prevYScroll = 0;
   double _prevYMove = 0;
+  double _moveDiff = 0;
   bool _isTouch = false;
   Offset? _downPosition;
 
@@ -49,13 +49,8 @@ class BrowserPageScrollDelegate implements BrowserPageScrollUi {
 
   @override
   void onPointerMove(PointerMoveEvent event) {
-    if (!_isTouch) {
-      return;
-    }
     final dy = event.position.dy;
-
-    _handleScrollChange(dy - _prevYMove);
-
+    _moveDiff = dy - _prevYMove;
     _prevYMove = dy;
   }
 
@@ -66,22 +61,15 @@ class BrowserPageScrollDelegate implements BrowserPageScrollUi {
 
   @override
   void onWebPageScrollChanged(int y) {
-    if (_isTouch) {
-      return;
-    }
-    _handleScrollChange(_prevYScroll - y);
-    _prevYScroll = y;
-  }
-
-  void resetVerticalScroll() {
-    _prevYScroll = 0;
-  }
-
-  void _handleScrollChange(num diff) {
-    if (diff == 0) {
+    if (!_isTouch) {
       return;
     }
 
-    onPageScrollChange(diff >= 0);
+    onPageScrollChange(_moveDiff >= 0);
+  }
+
+  void reset() {
+    _moveDiff = 0;
+    _prevYMove = 0;
   }
 }

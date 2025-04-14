@@ -67,6 +67,7 @@ class BrowserPageWidgetModel
     applicationNameForUserAgent: 'SparXWalletBrowser',
     useShouldOverrideUrlLoading: true,
     disallowOverScroll: true,
+
     isInspectable: kDebugMode,
   );
 

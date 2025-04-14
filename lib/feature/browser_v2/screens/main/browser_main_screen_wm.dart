@@ -232,7 +232,7 @@ class BrowserMainScreenWidgetModel
 
   void _onEmptyTabs() {
     model.createEmptyTab();
-    _pageDelegate.resetVerticalScroll();
+    _pageDelegate.reset();
     _pageSlideDelegate.slideTo(0);
     _viewVisibleState.accept(true);
     _menuState.accept(MenuType.view);
@@ -261,7 +261,7 @@ class BrowserMainScreenWidgetModel
 
     if (index != null && index > -1) {
       _pageSlideDelegate.slideTo(sizes.urlWidth * index + 50);
-      _pageDelegate.resetVerticalScroll();
+      _pageDelegate.reset();
     }
 
     return index != null && index > -1;
