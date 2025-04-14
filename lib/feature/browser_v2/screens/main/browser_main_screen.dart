@@ -37,9 +37,10 @@ class BrowserMainScreen extends ElementaryWidget<BrowserMainScreenWidgetModel> {
               ),
               Positioned.fill(
                 child: Listener(
-                  onPointerDown: wm.onPointerDown,
-                  onPointerUp: wm.onPointerUp,
-                  onPointerCancel: wm.onPointerCancel,
+                  onPointerDown: wm.page.onPointerDown,
+                  onPointerUp: wm.page.onPointerUp,
+                  onPointerMove: wm.page.onPointerMove,
+                  onPointerCancel: wm.page.onPointerCancel,
                   child: BrowserPagesView(
                     width: wm.sizes.screenWidth,
                     viewVisibleState: wm.viewVisibleState,
@@ -49,7 +50,7 @@ class BrowserMainScreen extends ElementaryWidget<BrowserMainScreenWidgetModel> {
                     onLoadingProgressChanged:
                         wm.progressIndicator.onProgressChanged,
                     onCreateWebViewController: wm.onCreateWebViewController,
-                    onWebPageScrollChanged: wm.onWebPageScrollChanged,
+                    onWebPageScrollChanged: wm.page.onWebPageScrollChanged,
                     onDispose: wm.onDisposeWebController,
                   ),
                 ),

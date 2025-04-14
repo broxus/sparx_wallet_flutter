@@ -20,7 +20,6 @@ import 'package:app/feature/browser_v2/screens/main/delegates/tab_menu_delegate.
 import 'package:app/feature/browser_v2/screens/main/delegates/tabs_delegate.dart';
 import 'package:app/feature/browser_v2/screens/main/widgets/control_panels/navigation_panel/url_action_sheet.dart';
 import 'package:app/utils/clipboard_utils.dart';
-import 'package:app/utils/focus_utils.dart';
 import 'package:elementary/elementary.dart';
 import 'package:elementary_helper/elementary_helper.dart';
 import 'package:flutter/widgets.dart';
@@ -56,10 +55,15 @@ class BrowserMainScreenWidgetModel
 
   late final _animationDelegate = BrowserAnimationDelegate(this);
 
+  late final _pageDelegate = BrowserPageScrollDelegate(
+    onPageScrollChange: (bool isToTop) {
+      _menuState.accept(isToTop ? MenuType.view : MenuType.url);
+      _visibleNavigationBarState.accept(isToTop);
+    },
+  );
+
   late final _progressIndicatorDelegate =
       BrowserProgressIndicatorDelegate(this);
-
-  final _pageDelegate = BrowserPageScrollDelegate();
 
   late final _tabMenuDelegate = BrowserTabMenuDelegate(
     model,
@@ -119,6 +123,8 @@ class BrowserMainScreenWidgetModel
 
   BrowserTabMenuUi get tabMenu => _tabMenuDelegate;
 
+  BrowserPageScrollDelegate get page => _pageDelegate;
+
   RenderManager<String> get renderManager => _renderManager;
 
   ListenableState<MenuType> get menuState => _menuState;
@@ -174,21 +180,6 @@ class BrowserMainScreenWidgetModel
     _menuState.accept(MenuType.view);
   }
 
-  void onPointerDown(PointerDownEvent event) =>
-      _pageDelegate.onPointerDown(event);
-
-  void onPointerCancel(_) => _pageDelegate.onPointerCancel();
-
-  void onWebPageScrollChanged(int y) => _pageDelegate.onWebPageScrollChanged(
-        y,
-        onSuccess: _onWebPageScrollChangedSuccess,
-      );
-
-  void onPointerUp(PointerUpEvent event) => _pageDelegate.onPointerUp(
-        event,
-        onSuccess: resetFocus,
-      );
-
   void onPressedTabs() {
     _tabsDelegate.animateShowTabs();
     _menuState.accept(MenuType.list);
@@ -238,11 +229,6 @@ class BrowserMainScreenWidgetModel
   void onTabAnimationEnd() => _tabsDelegate.onTabAnimationEnd(
         _onTabAnimationComplete,
       );
-
-  void _onWebPageScrollChangedSuccess(bool isToTop) {
-    _menuState.accept(isToTop ? MenuType.view : MenuType.url);
-    _visibleNavigationBarState.accept(isToTop);
-  }
 
   void _onEmptyTabs() {
     model.createEmptyTab();
