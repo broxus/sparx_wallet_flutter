@@ -10,11 +10,11 @@ class BrowserPagesView extends StatelessWidget {
     required this.width,
     required this.viewVisibleState,
     required this.scrollController,
+    required this.paddingPageAnimation,
     required this.onLoadingProgressChanged,
     required this.tabsState,
     required this.onCreateWebViewController,
     required this.onWebPageScrollChanged,
-    required this.onOverScrolled,
     required this.onDispose,
     super.key,
   });
@@ -23,13 +23,13 @@ class BrowserPagesView extends StatelessWidget {
   final ListenableState<bool> viewVisibleState;
   final ListenableState<BrowserTabsCollection> tabsState;
   final ScrollController scrollController;
-  final ValueChanged<double> onLoadingProgressChanged;
+  final Animation<double> paddingPageAnimation;
+  final ValueChanged<int> onLoadingProgressChanged;
   final void Function(
     String tabId,
     InAppWebViewController controller,
   ) onCreateWebViewController;
   final ValueChanged<int> onWebPageScrollChanged;
-  final ValueChanged<int> onOverScrolled;
   final ValueChanged<String> onDispose;
 
   @override
@@ -44,35 +44,48 @@ class BrowserPagesView extends StatelessWidget {
           maintainAnimation: true,
           child: ColoredBox(
             color: context.themeStyleV2.colors.background1,
-            child: StateNotifierBuilder<BrowserTabsCollection?>(
-              listenableState: tabsState,
-              builder: (_, BrowserTabsCollection? data) {
-                if (data == null) {
-                  return const SizedBox.shrink();
-                }
+            child: Column(
+              children: [
+                Flexible(
+                  child: StateNotifierBuilder<BrowserTabsCollection?>(
+                    listenableState: tabsState,
+                    builder: (_, BrowserTabsCollection? data) {
+                      if (data == null) {
+                        return const SizedBox.shrink();
+                      }
 
-                return ListView.builder(
-                  scrollDirection: Axis.horizontal,
-                  controller: scrollController,
-                  physics: const NeverScrollableScrollPhysics(),
-                  itemCount: data.count,
-                  itemBuilder: (_, int index) {
-                    return BrowserPage(
-                      key: ValueKey(data.list[index].id),
-                      onLoadingProgressChanged: onLoadingProgressChanged,
-                      width: width,
-                      tab: data.list[index],
-                      onCreate: (controller) => onCreateWebViewController(
-                        data.list[index].id,
-                        controller,
-                      ),
-                      onWebPageScrollChanged: onWebPageScrollChanged,
-                      onOverScrolled: onOverScrolled,
-                      onDispose: () => onDispose(data.list[index].id),
+                      return ListView.builder(
+                        scrollDirection: Axis.horizontal,
+                        controller: scrollController,
+                        physics: const NeverScrollableScrollPhysics(),
+                        itemCount: data.count,
+                        itemBuilder: (_, int index) {
+                          return BrowserPage(
+                            key: ValueKey(data.list[index].id),
+                            onLoadingProgressChanged: onLoadingProgressChanged,
+                            width: width,
+                            tab: data.list[index],
+                            onCreate: (controller) => onCreateWebViewController(
+                              data.list[index].id,
+                              controller,
+                            ),
+                            onWebPageScrollChanged: onWebPageScrollChanged,
+                            onDispose: () => onDispose(data.list[index].id),
+                          );
+                        },
+                      );
+                    },
+                  ),
+                ),
+                AnimatedBuilder(
+                  animation: paddingPageAnimation,
+                  builder: (BuildContext context, Widget? child) {
+                    return SizedBox(
+                      height: paddingPageAnimation.value,
                     );
                   },
-                );
-              },
+                ),
+              ],
             ),
           ),
         );

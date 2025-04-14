@@ -15,7 +15,6 @@ class BrowserPage extends ElementaryWidget<BrowserPageWidgetModel> {
     required this.width,
     required this.onCreate,
     required this.onWebPageScrollChanged,
-    required this.onOverScrolled,
     required this.onDispose,
     required this.onLoadingProgressChanged,
     Key? key,
@@ -33,9 +32,8 @@ class BrowserPage extends ElementaryWidget<BrowserPageWidgetModel> {
   final double width;
   final ValueChanged<InAppWebViewController> onCreate;
   final ValueChanged<int> onWebPageScrollChanged;
-  final ValueChanged<int> onOverScrolled;
   final VoidCallback onDispose;
-  final ValueChanged<double> onLoadingProgressChanged;
+  final ValueChanged<int> onLoadingProgressChanged;
 
   @override
   Widget build(BrowserPageWidgetModel wm) {
@@ -67,7 +65,6 @@ class BrowserPage extends ElementaryWidget<BrowserPageWidgetModel> {
                               UserScriptInjectionTime.AT_DOCUMENT_START,
                         ),
                     ]),
-                    onOverScrolled: wm.onWebPageOverScrolled,
                     onScrollChanged: wm.onWebPageScrollChanged,
                     onWebViewCreated: wm.onWebViewCreated,
                     onLoadStart: wm.onWebPageLoadStart,
@@ -76,8 +73,10 @@ class BrowserPage extends ElementaryWidget<BrowserPageWidgetModel> {
                     onReceivedError: wm.onWebPageReceivedError,
                     onReceivedHttpError: wm.onWebPageReceivedHttpError,
                     onTitleChanged: wm.onWebPageTitleChanged,
-                    onReceivedHttpAuthRequest: wm.onWebPageReceivedHttpAuthRequest,
-                    shouldOverrideUrlLoading: wm.onWebPageShouldOverrideUrlLoading,
+                    onReceivedHttpAuthRequest:
+                        wm.onWebPageReceivedHttpAuthRequest,
+                    shouldOverrideUrlLoading:
+                        wm.onWebPageShouldOverrideUrlLoading,
                   );
                 },
               );

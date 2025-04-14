@@ -3,7 +3,7 @@ import 'package:flutter/cupertino.dart';
 abstract interface class BrowserProgressIndicatorUi {
   Animation<double> get animation;
 
-  void onProgressChanged(double progressValue);
+  void onProgressChanged(int progressValue);
 }
 
 class BrowserProgressIndicatorDelegate implements BrowserProgressIndicatorUi {
@@ -24,7 +24,7 @@ class BrowserProgressIndicatorDelegate implements BrowserProgressIndicatorUi {
   }
 
   @override
-  void onProgressChanged(double progressValue) {
+  void onProgressChanged(int progressValue) {
     _progressController.animateTo(progressValue / 100);
   }
 
