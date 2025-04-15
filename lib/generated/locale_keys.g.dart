@@ -698,4 +698,6 @@ abstract class LocaleKeys {
   static const unsupportedWalletTypeAlertButtonLabel =
       'unsupportedWalletTypeAlertButtonLabel';
   static const scanSeedLoaderTitle = 'scanSeedLoaderTitle';
+  static const scanningCompleted = 'scanningCompleted';
+  static const scanSeed = 'scanSeed';
 }

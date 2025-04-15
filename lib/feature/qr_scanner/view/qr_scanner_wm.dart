@@ -28,10 +28,6 @@ class QrScannerWidgetModel
     extends CustomWidgetModel<QrScannerWidget, QrScannerModel> {
   QrScannerWidgetModel(super.model);
 
-  // late final _selected = createNotifier(_initialSelectedAccount);
-
-  // ListenableState<KeyAccount?> get selected => _selected;
-
   final MobileScannerController controller = MobileScannerController(
     formats: [BarcodeFormat.qrCode],
   );
