@@ -14,12 +14,9 @@ class PermissionsManager {
   final _permissionsSubject =
       BehaviorSubject<Map<String, Permissions>>.seeded({});
 
-  //// Get cached permissions from storage
-  /// key - url address, value - permissions
-  Map<String, Permissions> get permissions => _permissionsSubject.value;
-
   /// Stream that allows tracking permissions changing
-  Stream<Map<String, Permissions>> get permissionsStream => _permissionsSubject;
+  ValueStream<Map<String, Permissions>> get permissionsStream =>
+      _permissionsSubject;
 
   void init() {
     _fetchPermissions();
@@ -49,7 +46,7 @@ class PermissionsManager {
 
   /// Delete permissions for specified account
   void deletePermissionsForAccount(Address address) {
-    final perms = permissions;
+    final perms = permissionsStream.value;
     final origins = perms.entries
         .where((e) => e.value.accountInteraction?.address == address)
         .map((e) => e.key);

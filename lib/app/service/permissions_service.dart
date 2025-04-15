@@ -30,7 +30,8 @@ class PermissionsService {
   /// key - origin of url, value - permissions
   ///
   /// If you are not sure, that your key is true origin, use [getPermissions].
-  Map<Uri, Permissions> get permissions => _browserService.pM.permissions.map(
+  Map<Uri, Permissions> get permissions =>
+      _browserService.pM.permissionsStream.value.map(
         (key, value) => MapEntry(Uri.parse(key), value),
       );
 
