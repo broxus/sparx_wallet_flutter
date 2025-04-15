@@ -4,13 +4,11 @@ import 'package:app/app/service/service.dart';
 import 'package:app/core/bloc/bloc_mixin.dart';
 import 'package:app/data/models/models.dart';
 import 'package:bloc/bloc.dart';
-import 'package:collection/collection.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:nekoton_repository/nekoton_repository.dart';
 import 'package:rxdart/rxdart.dart';
 
 part 'ton_wallet_asset_cubit.freezed.dart';
-
 part 'ton_wallet_asset_state.dart';
 
 class TonWalletAssetCubit extends Cubit<TonWalletAssetState>
@@ -38,11 +36,10 @@ class TonWalletAssetCubit extends Cubit<TonWalletAssetState>
         _cachedTokenBalance = balances?.tokenBalance;
         _updateState();
 
-        return nekotonRepository.walletsStream;
+        return nekotonRepository.walletsMapStream;
       },
     ).listen((wallets) {
-      final walletState =
-          wallets.firstWhereOrNull((w) => w.address == tonWallet.address);
+      final walletState = wallets[tonWallet.address];
 
       final oldWallet = _wallet?.wallet;
       final wallet = walletState?.wallet;

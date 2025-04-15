@@ -5,13 +5,11 @@ import 'package:app/core/bloc/bloc_mixin.dart';
 import 'package:app/data/models/models.dart';
 import 'package:app/utils/utils.dart';
 import 'package:bloc/bloc.dart';
-import 'package:collection/collection.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:logging/logging.dart';
 import 'package:nekoton_repository/nekoton_repository.dart';
 
 part 'wallet_account_actions_cubit.freezed.dart';
-
 part 'wallet_account_actions_state.dart';
 
 /// Action that describes behavior for account.
@@ -37,8 +35,8 @@ class WalletAccountActionsCubit extends Cubit<WalletAccountActionsState>
                 nekotonRepository.currentTransport.nativeTokenTicker,
           ),
         ) {
-    _walletsSubscription = nekotonRepository.walletsStream.listen((wallets) {
-      final wl = wallets.firstWhereOrNull((w) => w.address == address)?.wallet;
+    _walletsSubscription = nekotonRepository.walletsMapStream.listen((wallets) {
+      final wl = wallets[address]?.wallet;
       if (wl != null) _initWallet(wl);
     });
   }
@@ -51,7 +49,7 @@ class WalletAccountActionsCubit extends Cubit<WalletAccountActionsState>
 
   TonWallet? wallet;
 
-  late StreamSubscription<List<TonWalletState>> _walletsSubscription;
+  late StreamSubscription<Map<Address, TonWalletState>> _walletsSubscription;
   StreamSubscription<void>? _thisWalletSubscription;
   StreamSubscription<dynamic>? _withdrawsSubscription;
 

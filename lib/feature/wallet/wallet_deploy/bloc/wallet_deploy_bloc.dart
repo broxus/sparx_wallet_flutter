@@ -11,6 +11,7 @@ import 'package:flutter/material.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:logging/logging.dart';
 import 'package:nekoton_repository/nekoton_repository.dart' hide Message;
+import 'package:rxdart/rxdart.dart';
 
 part 'wallet_deploy_bloc.freezed.dart';
 
@@ -192,9 +193,9 @@ class WalletDeployBloc extends Bloc<WalletDeployEvent, WalletDeployState>
     UnsignedMessage? unsignedMessage;
     try {
       final account = nekotonRepository.seedList.findAccountByAddress(address);
-      final wallet = await nekotonRepository.walletsStream
-          .expand((e) => e)
-          .firstWhere((wallets) => wallets.address == address);
+      final wallet = await nekotonRepository.walletsMapStream
+          .mapNotNull((wallets) => wallets[address])
+          .first;
 
       if (wallet.hasError) {
         emitSafe(WalletDeployState.subscribeError(wallet.error!));
