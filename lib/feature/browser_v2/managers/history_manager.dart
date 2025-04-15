@@ -82,18 +82,11 @@ class HistoryManager {
   }
 
   void _fetchHistoryFromStorage() => _browserHistorySubject.add(
-        _browserHistoryStorageService.getBrowserHistory()
-          ..sort(
-            (a, b) => b.visitTime.compareTo(a.visitTime),
-          ),
+        _browserHistoryStorageService.getBrowserHistory(),
       );
 
   void _saveBrowserHistory(List<BrowserHistoryItem> history) {
-    final sortedHistory = [...history]
-      ..sort(
-        (a, b) => b.visitTime.compareTo(a.visitTime),
-      )
-      ..take(_historyItemCountLimit);
+    final sortedHistory = [...history]..take(_historyItemCountLimit);
     _browserHistoryStorageService.saveBrowserHistory(sortedHistory);
 
     _browserHistorySubject.add(sortedHistory);
