@@ -1,6 +1,10 @@
+import 'dart:async';
 import 'dart:collection';
 
 import 'package:app/feature/browser_v2/domain/service/storages/browser_favicon_url_storage_service.dart';
+import 'package:favicon/favicon.dart';
+
+const _suffixes = ['png', 'ico'];
 
 class FaviconManager {
   FaviconManager(
@@ -11,18 +15,29 @@ class FaviconManager {
 
   final _cache = HashMap<Uri, String>();
 
-  Future<String?> getFavicon(Uri uri) async {
+  Future<String?> getFaviconURL(Uri uri) async {
     if (_cache[uri] != null) {
       return _cache[uri];
     }
 
-    final faviconUrl =
-        await _browserFaviconURLStorageService.getFaviconURL(uri);
+    final url = uri.toString();
 
-    if (faviconUrl == null) {
-      return null;
+    var iconUrl = await _browserFaviconURLStorageService.getFaviconURL(url);
+
+    if (iconUrl == null) {
+      final loadedUrl =
+          (await FaviconFinder.getBest(url, suffixes: _suffixes))?.url;
+
+      if (loadedUrl != null) {
+        unawaited(
+            _browserFaviconURLStorageService.saveFaviconUrl(url, loadedUrl));
+      }
+      iconUrl = loadedUrl;
     }
 
-    return _cache[uri] = faviconUrl;
+    if (iconUrl == null) {
+      return null;
+    }
+    return _cache[uri] = iconUrl;
   }
 }

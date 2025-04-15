@@ -9,8 +9,6 @@ import 'package:logging/logging.dart';
 
 const _browserFaviconURLDomain = 'browser_favicon_urls';
 
-final _suffixes = ['png', 'ico'];
-
 @singleton
 class BrowserFaviconURLStorageService extends AbstractStorageService {
   BrowserFaviconURLStorageService(
@@ -23,29 +21,22 @@ class BrowserFaviconURLStorageService extends AbstractStorageService {
 
   final GetStorage _storage;
 
-  Future<String?> getFaviconURL(Uri uri) async {
+  Future<String?> getFaviconURL(String url) async {
     try {
-      final url = uri.toString();
-      final cached = _storage.read<String>(url);
-      if (cached != null) {
-        return cached;
-      }
-
-      final iconUrl =
-          (await FaviconFinder.getBest(url, suffixes: _suffixes))?.url;
-      if (iconUrl == null) {
-        _log.info('No favicon found for $url');
-
-        return null;
-      }
-
-      unawaited(_storage.write(url, iconUrl));
-
-      return iconUrl;
+      return _storage.read<String>(url);
     } catch (e, s) {
-      _log.severe('Favicon exception $e');
+      _log.severe('Favicon get exception $e\n$s');
       debugPrintStack(stackTrace: s);
       return null;
+    }
+  }
+
+  Future<void> saveFaviconUrl(String url, String iconUrl) async {
+    try {
+      await _storage.write(url, iconUrl);
+    } catch (e, s) {
+      _log.severe('Favicon save exception $e');
+      debugPrintStack(stackTrace: s);
     }
   }
 
