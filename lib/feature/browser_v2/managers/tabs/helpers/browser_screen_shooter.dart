@@ -152,7 +152,7 @@ class BrowserManagerScreenShooter {
         result[tab.id] = imagePath;
       } catch (_) {}
     }
-    _screenshotsState.accept(ImageCache(result));
+    _screenshotsState.accept(result);
   }
 
   String? _getImagePath(

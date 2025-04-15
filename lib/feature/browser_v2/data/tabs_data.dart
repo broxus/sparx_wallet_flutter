@@ -2,6 +2,8 @@ import 'dart:collection';
 
 import 'package:app/feature/browser_v2/data/browser_tab.dart';
 
+typedef ImageCache = HashMap<String, String>;
+
 class BrowserTabsCollection {
   BrowserTabsCollection([List<BrowserTab>? list]) : list = list ?? [];
 
@@ -26,21 +28,12 @@ class BrowserTabsCollection {
   }
 }
 
-class ImageCache {
-  ImageCache([
-    HashMap<String, String>? cache,
-  ]) : _cache = cache ?? HashMap<String, String>();
-  final HashMap<String, String> _cache;
-
+extension ImageCacheHashMap on HashMap<String, String> {
   void add(String key, String value) {
-    _cache[key] = value;
+    this[key] = value;
   }
 
-  void remove(String key) {
-    _cache.remove(key);
-  }
+  String? get(String key) => this[key];
 
-  String? get(String key) => _cache[key];
-
-  ImageCache copy() => ImageCache(_cache);
+  HashMap<String, String> copy() => HashMap<String, String>.of(this);
 }
