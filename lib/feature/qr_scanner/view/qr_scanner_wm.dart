@@ -109,7 +109,11 @@ class QrScannerWidgetModel
     // double event workaround
     _barcodeSubscription?.cancel();
 
-    Navigator.of(context).pop(result);
+    final navigator = Navigator.of(context);
+
+    if (navigator.canPop()) {
+      navigator.pop(result);
+    }
   }
 
   void _onBarcode(BarcodeCapture value) {
