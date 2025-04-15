@@ -19,7 +19,7 @@ class WalletSubscribeErrorWidget extends StatelessWidget {
   final Object error;
 
   /// Action that will be called when user pressed retry button.
-  final ValueChanged<BuildContext>? onRetryPressed;
+  final VoidCallback? onRetryPressed;
 
   /// Wether retry in progress.
   final bool isLoadingError;
@@ -40,7 +40,7 @@ class WalletSubscribeErrorWidget extends StatelessWidget {
             buttonShape: ButtonShape.pill,
             title: LocaleKeys.tryAgain.tr(),
             isLoading: isLoadingError,
-            onPressed: () => onRetryPressed!(context),
+            onPressed: onRetryPressed,
           ),
       ],
     );
