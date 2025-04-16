@@ -16,44 +16,43 @@ final _privateConstructorUsedError = UnsupportedError(
 
 /// @nodoc
 mixin _$ContactSupportEvent {
-  ContactSupportMode get mode => throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function(ContactSupportMode mode) sendEmail,
+    required TResult Function() openQaScreen,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function(ContactSupportMode mode)? sendEmail,
+    TResult? Function()? openQaScreen,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function(ContactSupportMode mode)? sendEmail,
+    TResult Function()? openQaScreen,
     required TResult orElse(),
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
     required TResult Function(_SendEmail value) sendEmail,
+    required TResult Function(_OpenQaScreen value) openQaScreen,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
     TResult? Function(_SendEmail value)? sendEmail,
+    TResult? Function(_OpenQaScreen value)? openQaScreen,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
     TResult Function(_SendEmail value)? sendEmail,
+    TResult Function(_OpenQaScreen value)? openQaScreen,
     required TResult orElse(),
   }) =>
-      throw _privateConstructorUsedError;
-
-  /// Create a copy of ContactSupportEvent
-  /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
-  $ContactSupportEventCopyWith<ContactSupportEvent> get copyWith =>
       throw _privateConstructorUsedError;
 }
 
@@ -62,8 +61,6 @@ abstract class $ContactSupportEventCopyWith<$Res> {
   factory $ContactSupportEventCopyWith(
           ContactSupportEvent value, $Res Function(ContactSupportEvent) then) =
       _$ContactSupportEventCopyWithImpl<$Res, ContactSupportEvent>;
-  @useResult
-  $Res call({ContactSupportMode mode});
 }
 
 /// @nodoc
@@ -78,27 +75,13 @@ class _$ContactSupportEventCopyWithImpl<$Res, $Val extends ContactSupportEvent>
 
   /// Create a copy of ContactSupportEvent
   /// with the given fields replaced by the non-null parameter values.
-  @pragma('vm:prefer-inline')
-  @override
-  $Res call({
-    Object? mode = null,
-  }) {
-    return _then(_value.copyWith(
-      mode: null == mode
-          ? _value.mode
-          : mode // ignore: cast_nullable_to_non_nullable
-              as ContactSupportMode,
-    ) as $Val);
-  }
 }
 
 /// @nodoc
-abstract class _$$SendEmailImplCopyWith<$Res>
-    implements $ContactSupportEventCopyWith<$Res> {
+abstract class _$$SendEmailImplCopyWith<$Res> {
   factory _$$SendEmailImplCopyWith(
           _$SendEmailImpl value, $Res Function(_$SendEmailImpl) then) =
       __$$SendEmailImplCopyWithImpl<$Res>;
-  @override
   @useResult
   $Res call({ContactSupportMode mode});
 }
@@ -163,6 +146,7 @@ class _$SendEmailImpl implements _SendEmail {
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function(ContactSupportMode mode) sendEmail,
+    required TResult Function() openQaScreen,
   }) {
     return sendEmail(mode);
   }
@@ -171,6 +155,7 @@ class _$SendEmailImpl implements _SendEmail {
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function(ContactSupportMode mode)? sendEmail,
+    TResult? Function()? openQaScreen,
   }) {
     return sendEmail?.call(mode);
   }
@@ -179,6 +164,7 @@ class _$SendEmailImpl implements _SendEmail {
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function(ContactSupportMode mode)? sendEmail,
+    TResult Function()? openQaScreen,
     required TResult orElse(),
   }) {
     if (sendEmail != null) {
@@ -191,6 +177,7 @@ class _$SendEmailImpl implements _SendEmail {
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
     required TResult Function(_SendEmail value) sendEmail,
+    required TResult Function(_OpenQaScreen value) openQaScreen,
   }) {
     return sendEmail(this);
   }
@@ -199,6 +186,7 @@ class _$SendEmailImpl implements _SendEmail {
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
     TResult? Function(_SendEmail value)? sendEmail,
+    TResult? Function(_OpenQaScreen value)? openQaScreen,
   }) {
     return sendEmail?.call(this);
   }
@@ -207,6 +195,7 @@ class _$SendEmailImpl implements _SendEmail {
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
     TResult Function(_SendEmail value)? sendEmail,
+    TResult Function(_OpenQaScreen value)? openQaScreen,
     required TResult orElse(),
   }) {
     if (sendEmail != null) {
@@ -219,56 +208,129 @@ class _$SendEmailImpl implements _SendEmail {
 abstract class _SendEmail implements ContactSupportEvent {
   const factory _SendEmail(final ContactSupportMode mode) = _$SendEmailImpl;
 
-  @override
   ContactSupportMode get mode;
 
   /// Create a copy of ContactSupportEvent
   /// with the given fields replaced by the non-null parameter values.
-  @override
   @JsonKey(includeFromJson: false, includeToJson: false)
   _$$SendEmailImplCopyWith<_$SendEmailImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }
 
 /// @nodoc
-mixin _$ContactSupportState {
+abstract class _$$OpenQaScreenImplCopyWith<$Res> {
+  factory _$$OpenQaScreenImplCopyWith(
+          _$OpenQaScreenImpl value, $Res Function(_$OpenQaScreenImpl) then) =
+      __$$OpenQaScreenImplCopyWithImpl<$Res>;
+}
+
+/// @nodoc
+class __$$OpenQaScreenImplCopyWithImpl<$Res>
+    extends _$ContactSupportEventCopyWithImpl<$Res, _$OpenQaScreenImpl>
+    implements _$$OpenQaScreenImplCopyWith<$Res> {
+  __$$OpenQaScreenImplCopyWithImpl(
+      _$OpenQaScreenImpl _value, $Res Function(_$OpenQaScreenImpl) _then)
+      : super(_value, _then);
+
+  /// Create a copy of ContactSupportEvent
+  /// with the given fields replaced by the non-null parameter values.
+}
+
+/// @nodoc
+
+class _$OpenQaScreenImpl implements _OpenQaScreen {
+  const _$OpenQaScreenImpl();
+
+  @override
+  String toString() {
+    return 'ContactSupportEvent.openQaScreen()';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType && other is _$OpenQaScreenImpl);
+  }
+
+  @override
+  int get hashCode => runtimeType.hashCode;
+
+  @override
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
-    required TResult Function() initial,
-    required TResult Function() busy,
-  }) =>
-      throw _privateConstructorUsedError;
+    required TResult Function(ContactSupportMode mode) sendEmail,
+    required TResult Function() openQaScreen,
+  }) {
+    return openQaScreen();
+  }
+
+  @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
-    TResult? Function()? initial,
-    TResult? Function()? busy,
-  }) =>
-      throw _privateConstructorUsedError;
+    TResult? Function(ContactSupportMode mode)? sendEmail,
+    TResult? Function()? openQaScreen,
+  }) {
+    return openQaScreen?.call();
+  }
+
+  @override
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
-    TResult Function()? initial,
-    TResult Function()? busy,
+    TResult Function(ContactSupportMode mode)? sendEmail,
+    TResult Function()? openQaScreen,
     required TResult orElse(),
-  }) =>
-      throw _privateConstructorUsedError;
+  }) {
+    if (openQaScreen != null) {
+      return openQaScreen();
+    }
+    return orElse();
+  }
+
+  @override
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
-    required TResult Function(_Initial value) initial,
-    required TResult Function(_Busy value) busy,
-  }) =>
-      throw _privateConstructorUsedError;
+    required TResult Function(_SendEmail value) sendEmail,
+    required TResult Function(_OpenQaScreen value) openQaScreen,
+  }) {
+    return openQaScreen(this);
+  }
+
+  @override
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
-    TResult? Function(_Initial value)? initial,
-    TResult? Function(_Busy value)? busy,
-  }) =>
-      throw _privateConstructorUsedError;
+    TResult? Function(_SendEmail value)? sendEmail,
+    TResult? Function(_OpenQaScreen value)? openQaScreen,
+  }) {
+    return openQaScreen?.call(this);
+  }
+
+  @override
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
-    TResult Function(_Initial value)? initial,
-    TResult Function(_Busy value)? busy,
+    TResult Function(_SendEmail value)? sendEmail,
+    TResult Function(_OpenQaScreen value)? openQaScreen,
     required TResult orElse(),
-  }) =>
+  }) {
+    if (openQaScreen != null) {
+      return openQaScreen(this);
+    }
+    return orElse();
+  }
+}
+
+abstract class _OpenQaScreen implements ContactSupportEvent {
+  const factory _OpenQaScreen() = _$OpenQaScreenImpl;
+}
+
+/// @nodoc
+mixin _$ContactSupportState {
+  bool get isBusy => throw _privateConstructorUsedError;
+  bool get isQaEnabled => throw _privateConstructorUsedError;
+
+  /// Create a copy of ContactSupportState
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  $ContactSupportStateCopyWith<ContactSupportState> get copyWith =>
       throw _privateConstructorUsedError;
 }
 
@@ -277,6 +339,8 @@ abstract class $ContactSupportStateCopyWith<$Res> {
   factory $ContactSupportStateCopyWith(
           ContactSupportState value, $Res Function(ContactSupportState) then) =
       _$ContactSupportStateCopyWithImpl<$Res, ContactSupportState>;
+  @useResult
+  $Res call({bool isBusy, bool isQaEnabled});
 }
 
 /// @nodoc
@@ -291,213 +355,118 @@ class _$ContactSupportStateCopyWithImpl<$Res, $Val extends ContactSupportState>
 
   /// Create a copy of ContactSupportState
   /// with the given fields replaced by the non-null parameter values.
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? isBusy = null,
+    Object? isQaEnabled = null,
+  }) {
+    return _then(_value.copyWith(
+      isBusy: null == isBusy
+          ? _value.isBusy
+          : isBusy // ignore: cast_nullable_to_non_nullable
+              as bool,
+      isQaEnabled: null == isQaEnabled
+          ? _value.isQaEnabled
+          : isQaEnabled // ignore: cast_nullable_to_non_nullable
+              as bool,
+    ) as $Val);
+  }
 }
 
 /// @nodoc
-abstract class _$$InitialImplCopyWith<$Res> {
-  factory _$$InitialImplCopyWith(
-          _$InitialImpl value, $Res Function(_$InitialImpl) then) =
-      __$$InitialImplCopyWithImpl<$Res>;
+abstract class _$$ContactSupportStateImplCopyWith<$Res>
+    implements $ContactSupportStateCopyWith<$Res> {
+  factory _$$ContactSupportStateImplCopyWith(_$ContactSupportStateImpl value,
+          $Res Function(_$ContactSupportStateImpl) then) =
+      __$$ContactSupportStateImplCopyWithImpl<$Res>;
+  @override
+  @useResult
+  $Res call({bool isBusy, bool isQaEnabled});
 }
 
 /// @nodoc
-class __$$InitialImplCopyWithImpl<$Res>
-    extends _$ContactSupportStateCopyWithImpl<$Res, _$InitialImpl>
-    implements _$$InitialImplCopyWith<$Res> {
-  __$$InitialImplCopyWithImpl(
-      _$InitialImpl _value, $Res Function(_$InitialImpl) _then)
+class __$$ContactSupportStateImplCopyWithImpl<$Res>
+    extends _$ContactSupportStateCopyWithImpl<$Res, _$ContactSupportStateImpl>
+    implements _$$ContactSupportStateImplCopyWith<$Res> {
+  __$$ContactSupportStateImplCopyWithImpl(_$ContactSupportStateImpl _value,
+      $Res Function(_$ContactSupportStateImpl) _then)
       : super(_value, _then);
 
   /// Create a copy of ContactSupportState
   /// with the given fields replaced by the non-null parameter values.
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? isBusy = null,
+    Object? isQaEnabled = null,
+  }) {
+    return _then(_$ContactSupportStateImpl(
+      isBusy: null == isBusy
+          ? _value.isBusy
+          : isBusy // ignore: cast_nullable_to_non_nullable
+              as bool,
+      isQaEnabled: null == isQaEnabled
+          ? _value.isQaEnabled
+          : isQaEnabled // ignore: cast_nullable_to_non_nullable
+              as bool,
+    ));
+  }
 }
 
 /// @nodoc
 
-class _$InitialImpl implements _Initial {
-  const _$InitialImpl();
+class _$ContactSupportStateImpl implements _ContactSupportState {
+  const _$ContactSupportStateImpl(
+      {required this.isBusy, required this.isQaEnabled});
+
+  @override
+  final bool isBusy;
+  @override
+  final bool isQaEnabled;
 
   @override
   String toString() {
-    return 'ContactSupportState.initial()';
+    return 'ContactSupportState(isBusy: $isBusy, isQaEnabled: $isQaEnabled)';
   }
 
   @override
   bool operator ==(Object other) {
     return identical(this, other) ||
-        (other.runtimeType == runtimeType && other is _$InitialImpl);
+        (other.runtimeType == runtimeType &&
+            other is _$ContactSupportStateImpl &&
+            (identical(other.isBusy, isBusy) || other.isBusy == isBusy) &&
+            (identical(other.isQaEnabled, isQaEnabled) ||
+                other.isQaEnabled == isQaEnabled));
   }
 
   @override
-  int get hashCode => runtimeType.hashCode;
-
-  @override
-  @optionalTypeArgs
-  TResult when<TResult extends Object?>({
-    required TResult Function() initial,
-    required TResult Function() busy,
-  }) {
-    return initial();
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult? whenOrNull<TResult extends Object?>({
-    TResult? Function()? initial,
-    TResult? Function()? busy,
-  }) {
-    return initial?.call();
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult maybeWhen<TResult extends Object?>({
-    TResult Function()? initial,
-    TResult Function()? busy,
-    required TResult orElse(),
-  }) {
-    if (initial != null) {
-      return initial();
-    }
-    return orElse();
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult map<TResult extends Object?>({
-    required TResult Function(_Initial value) initial,
-    required TResult Function(_Busy value) busy,
-  }) {
-    return initial(this);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult? mapOrNull<TResult extends Object?>({
-    TResult? Function(_Initial value)? initial,
-    TResult? Function(_Busy value)? busy,
-  }) {
-    return initial?.call(this);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult maybeMap<TResult extends Object?>({
-    TResult Function(_Initial value)? initial,
-    TResult Function(_Busy value)? busy,
-    required TResult orElse(),
-  }) {
-    if (initial != null) {
-      return initial(this);
-    }
-    return orElse();
-  }
-}
-
-abstract class _Initial implements ContactSupportState {
-  const factory _Initial() = _$InitialImpl;
-}
-
-/// @nodoc
-abstract class _$$BusyImplCopyWith<$Res> {
-  factory _$$BusyImplCopyWith(
-          _$BusyImpl value, $Res Function(_$BusyImpl) then) =
-      __$$BusyImplCopyWithImpl<$Res>;
-}
-
-/// @nodoc
-class __$$BusyImplCopyWithImpl<$Res>
-    extends _$ContactSupportStateCopyWithImpl<$Res, _$BusyImpl>
-    implements _$$BusyImplCopyWith<$Res> {
-  __$$BusyImplCopyWithImpl(_$BusyImpl _value, $Res Function(_$BusyImpl) _then)
-      : super(_value, _then);
+  int get hashCode => Object.hash(runtimeType, isBusy, isQaEnabled);
 
   /// Create a copy of ContactSupportState
   /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$ContactSupportStateImplCopyWith<_$ContactSupportStateImpl> get copyWith =>
+      __$$ContactSupportStateImplCopyWithImpl<_$ContactSupportStateImpl>(
+          this, _$identity);
 }
 
-/// @nodoc
-
-class _$BusyImpl implements _Busy {
-  const _$BusyImpl();
-
-  @override
-  String toString() {
-    return 'ContactSupportState.busy()';
-  }
+abstract class _ContactSupportState implements ContactSupportState {
+  const factory _ContactSupportState(
+      {required final bool isBusy,
+      required final bool isQaEnabled}) = _$ContactSupportStateImpl;
 
   @override
-  bool operator ==(Object other) {
-    return identical(this, other) ||
-        (other.runtimeType == runtimeType && other is _$BusyImpl);
-  }
-
+  bool get isBusy;
   @override
-  int get hashCode => runtimeType.hashCode;
+  bool get isQaEnabled;
 
+  /// Create a copy of ContactSupportState
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  @optionalTypeArgs
-  TResult when<TResult extends Object?>({
-    required TResult Function() initial,
-    required TResult Function() busy,
-  }) {
-    return busy();
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult? whenOrNull<TResult extends Object?>({
-    TResult? Function()? initial,
-    TResult? Function()? busy,
-  }) {
-    return busy?.call();
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult maybeWhen<TResult extends Object?>({
-    TResult Function()? initial,
-    TResult Function()? busy,
-    required TResult orElse(),
-  }) {
-    if (busy != null) {
-      return busy();
-    }
-    return orElse();
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult map<TResult extends Object?>({
-    required TResult Function(_Initial value) initial,
-    required TResult Function(_Busy value) busy,
-  }) {
-    return busy(this);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult? mapOrNull<TResult extends Object?>({
-    TResult? Function(_Initial value)? initial,
-    TResult? Function(_Busy value)? busy,
-  }) {
-    return busy?.call(this);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult maybeMap<TResult extends Object?>({
-    TResult Function(_Initial value)? initial,
-    TResult Function(_Busy value)? busy,
-    required TResult orElse(),
-  }) {
-    if (busy != null) {
-      return busy(this);
-    }
-    return orElse();
-  }
-}
-
-abstract class _Busy implements ContactSupportState {
-  const factory _Busy() = _$BusyImpl;
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  _$$ContactSupportStateImplCopyWith<_$ContactSupportStateImpl> get copyWith =>
+      throw _privateConstructorUsedError;
 }

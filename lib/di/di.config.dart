@@ -231,8 +231,8 @@ extension GetItInjectableX on _i174.GetIt {
         () => _i1008.UpdateStatusChecker(gh<_i728.VersionComparator>()));
     gh.singleton<_i116.PresetsConnectionService>(
         () => _i116.PresetsConnectionService(gh<_i418.PresetsConfigReader>()));
-    gh.singleton<_i747.NekotonStorageService>(
-        () => _i747.NekotonStorageService(gh<_i426.EncryptedStorage>()));
+    gh.singleton<_i747.NekotonStorageService>(() =>
+        _i747.NekotonStorageService(storage: gh<_i426.EncryptedStorage>()));
     gh.singleton<_i721.BrowserFaviconURLStorageService>(() =>
         _i721.BrowserFaviconURLStorageService(
             gh<_i792.GetStorage>(instanceName: 'browser_favicon_urls')));
