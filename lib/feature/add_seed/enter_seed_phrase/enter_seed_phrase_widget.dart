@@ -67,7 +67,7 @@ class EnterSeedPhraseWidget
                       }
                       return EnterSeedPhraseWords(
                         formKey: wm.formKey,
-                        allowedValues: tabData.allowedValues,
+                        allowedValues: wm.seedPhraseWordsCount,
                         currentValue: tabData.currentValue,
                         displayPasteButtonState: wm.displayPasteButtonState,
                         tabState: wm.tabState,
