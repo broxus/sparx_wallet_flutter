@@ -27,6 +27,7 @@ class EnterPasswordWidgetV2 extends StatefulWidget {
     this.title,
     this.isLoading,
     this.isDisabled = false,
+    this.isAutofocus = true,
     super.key,
   });
 
@@ -42,6 +43,8 @@ class EnterPasswordWidgetV2 extends StatefulWidget {
   final bool? isLoading;
 
   final bool isDisabled;
+
+  final bool isAutofocus;
 
   @override
   State<EnterPasswordWidgetV2> createState() => _EnterPasswordWidgetV2State();
@@ -109,6 +112,7 @@ class _EnterPasswordWidgetV2State extends State<EnterPasswordWidgetV2> {
             SecureTextField(
               hintText: LocaleKeys.password.tr(),
               textEditingController: _passwordController,
+              isAutofocus: widget.isAutofocus && !widget.isDisabled,
               onSubmit: widget.isDisabled
                   ? null
                   : (_) => context

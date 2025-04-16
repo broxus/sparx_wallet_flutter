@@ -28,10 +28,6 @@ class QrScannerWidgetModel
     extends CustomWidgetModel<QrScannerWidget, QrScannerModel> {
   QrScannerWidgetModel(super.model);
 
-  // late final _selected = createNotifier(_initialSelectedAccount);
-
-  // ListenableState<KeyAccount?> get selected => _selected;
-
   final MobileScannerController controller = MobileScannerController(
     formats: [BarcodeFormat.qrCode],
   );
@@ -109,7 +105,11 @@ class QrScannerWidgetModel
     // double event workaround
     _barcodeSubscription?.cancel();
 
-    Navigator.of(context).pop(result);
+    final navigator = Navigator.of(context);
+
+    if (navigator.canPop()) {
+      navigator.pop(result);
+    }
   }
 
   void _onBarcode(BarcodeCapture value) {

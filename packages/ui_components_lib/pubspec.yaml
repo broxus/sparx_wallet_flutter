@@ -16,7 +16,7 @@ dependencies:
   flutter_svg: ^2.0.10+1
   flutter_typeahead: ^5.2.0
   form_builder_validators: ^11.0.0
-  lucide_icons_flutter: ^1.1.2
+  lucide_icons_flutter: ^2.0.5
   modal_bottom_sheet: ^3.0.0
   money2: 5.4.6
   money2_fixer: 3.0.0

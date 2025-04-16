@@ -666,5 +666,8 @@
   "qrScannerError": "Invalid QR code",
   "unsupportedWalletTypeAlertTitle": "V5R1 wallet not supported",
   "unsupportedWalletTypeAlertDescription": "Unavailable in Ever/Venom networks.",
-  "unsupportedWalletTypeAlertButtonLabel": "Switch Account"
+  "unsupportedWalletTypeAlertButtonLabel": "Switch Account",
+  "scanSeedLoaderTitle": "Scanning and importing,\nplease wait…",
+  "scanningCompleted": "Scanning completed",
+  "scanSeed": "Scan seed"
 }
