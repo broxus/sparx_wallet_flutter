@@ -106,7 +106,7 @@ class CreateSeedPasswordCubit extends Cubit<CreateSeedPasswordState>
         );
 
         // wait for seed to be scanned for existing wallets and derived keys
-        await nekoton.getSeedScanFuture(publicKey);
+        await nekoton.seedScanCompleter(publicKey);
 
         if (setCurrentKey) {
           currentKeyService.changeCurrentKey(publicKey);

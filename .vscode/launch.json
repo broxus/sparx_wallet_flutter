@@ -13,8 +13,7 @@
         "--flavor",
         "development",
         "--target",
-        "lib/main_development.dart",
-        "--no-enable-impeller"
+        "lib/main_development.dart"
       ]
     },
     {
