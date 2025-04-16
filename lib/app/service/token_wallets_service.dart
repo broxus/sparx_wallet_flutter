@@ -20,7 +20,6 @@ typedef SearchStreamValue = List<(TokenContractAsset, Money)>;
 class TokenWalletsService {
   TokenWalletsService(
     this.nekotonRepository,
-    this.httpService,
     this.assetsService,
     this.tokenRepository,
     this._resourcesService,
@@ -29,7 +28,6 @@ class TokenWalletsService {
   static final _logger = Logger('TokenWalletService');
 
   final NekotonRepository nekotonRepository;
-  final HttpService httpService;
   final AssetsService assetsService;
   final TokenRepository tokenRepository;
   final ResourcesService _resourcesService;

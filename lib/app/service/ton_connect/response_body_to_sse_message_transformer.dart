@@ -1,11 +1,17 @@
 import 'dart:async';
 import 'dart:convert';
+import 'dart:typed_data';
 import 'package:app/app/service/ton_connect/models/models.dart';
 
+StreamTransformer<Uint8List, List<int>> _unit8Transformer =
+    StreamTransformer.fromHandlers(
+  handleData: (data, sink) => sink.add(List<int>.from(data)),
+);
+
 class ResponseBodyToSseMessageTransformer
-    implements StreamTransformer<List<int>, SseMessage> {
+    implements StreamTransformer<Uint8List, SseMessage> {
   @override
-  Stream<SseMessage> bind(Stream<List<int>> stream) {
+  Stream<SseMessage> bind(Stream<Uint8List> stream) {
     late StreamController<SseMessage> controller;
     StreamSubscription<String>? subscription;
 
@@ -16,6 +22,7 @@ class ResponseBodyToSseMessageTransformer
         // single event. So we build events on the fly and broadcast the event
         // as soon as we encounter a double newline, then we start a new one.
         subscription = stream
+            .transform(_unit8Transformer)
             .transform(const Utf8Decoder())
             .transform(const LineSplitter())
             .listen(
@@ -34,7 +41,7 @@ class ResponseBodyToSseMessageTransformer
 
   @override
   StreamTransformer<RS, RT> cast<RS, RT>() =>
-      StreamTransformer.castFrom<List<int>, SseMessage, RS, RT>(this);
+      StreamTransformer.castFrom<Uint8List, SseMessage, RS, RT>(this);
 }
 
 class _MessageListener {

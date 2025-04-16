@@ -1,12 +1,11 @@
 import 'dart:async';
-import 'dart:convert';
 import 'dart:io';
 
 import 'package:app/app/service/app_version_service.dart';
 import 'package:app/app/service/service.dart';
 import 'package:app/generated/generated.dart';
 import 'package:app/utils/utils.dart';
-import 'package:http/http.dart' as http;
+import 'package:dio/dio.dart';
 import 'package:injectable/injectable.dart';
 import 'package:logging/logging.dart';
 import 'package:nekoton_repository/nekoton_repository.dart' hide Message;
@@ -18,7 +17,7 @@ class TonConnectService {
     this._storageService,
     this._nekotonRepository,
     this._appVersionService,
-    this._client,
+    this._dio,
   );
 
   static final _logger = Logger('TonConnectService');
@@ -26,7 +25,7 @@ class TonConnectService {
   final TonConnectStorageService _storageService;
   final NekotonRepository _nekotonRepository;
   final AppVersionService _appVersionService;
-  final http.Client _client;
+  final Dio _dio;
 
   final _uiEvents = BehaviorSubject<TonConnectUiEvent>();
 
@@ -304,12 +303,11 @@ class TonConnectService {
   Future<DappManifest?> _getManifest(String manifestUrl) async {
     try {
       final uri = Uri.parse(manifestUrl);
-      final response = await _client.get(uri);
+      final response = await _dio.getUri<Map<String, dynamic>>(uri);
+      final data = response.data;
 
-      if (response.statusCode == 200) {
-        return DappManifest.fromJson(
-          jsonDecode(response.body) as Map<String, dynamic>,
-        );
+      if (response.statusCode == 200 && data != null) {
+        return DappManifest.fromJson(data);
       }
     } catch (e, s) {
       _logger.warning('Failed to get manifest', e, s);

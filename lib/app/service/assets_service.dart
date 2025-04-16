@@ -5,6 +5,7 @@ import 'package:app/app/service/service.dart';
 import 'package:app/data/models/models.dart';
 import 'package:app/http/repository/ton_repository.dart';
 import 'package:collection/collection.dart';
+import 'package:dio/dio.dart';
 import 'package:injectable/injectable.dart';
 import 'package:logging/logging.dart';
 import 'package:nekoton_repository/nekoton_repository.dart';
@@ -21,7 +22,7 @@ class AssetsService {
     this.connectionsStorageService,
     this.currentAccountsService,
     this.presetsConnectionService,
-    this.httpService,
+    this.dio,
     this.storage,
     this.tonRepository,
   );
@@ -32,7 +33,7 @@ class AssetsService {
   final ConnectionsStorageService connectionsStorageService;
   final CurrentAccountsService currentAccountsService;
   final PresetsConnectionService presetsConnectionService;
-  final HttpService httpService;
+  final Dio dio;
   final GeneralStorageService storage;
   final TonRepository tonRepository;
 
@@ -378,11 +379,16 @@ class AssetsService {
         return;
       }
 
-      final encoded = await httpService.getRequest(transport.manifestUrl);
-      final decoded = jsonDecode(encoded) as Map<String, dynamic>;
+      final response = await dio.get<String>(
+        transport.manifestUrl,
+        options: Options(
+          responseType: ResponseType.plain,
+        ),
+      );
+      final data = jsonDecode(response.data ?? '') as Map<String, dynamic>;
 
-      for (final token in (decoded['tokens'] as List<dynamic>)
-          .cast<Map<String, dynamic>>()) {
+      for (final token
+          in (data['tokens'] as List<dynamic>).cast<Map<String, dynamic>>()) {
         token['networkType'] = transport.networkType;
         token['networkGroup'] = transport.networkGroup;
         token['version'] =
@@ -390,7 +396,7 @@ class AssetsService {
         token['isCustom'] = false;
       }
 
-      final manifest = TonAssetsManifest.fromJson(decoded);
+      final manifest = TonAssetsManifest.fromJson(data);
 
       Currencies().registerList(
         manifest.tokens.map(

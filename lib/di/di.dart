@@ -1,11 +1,9 @@
 import 'package:app/app/service/service.dart';
 import 'package:app/di/di.config.dart';
 import 'package:app/feature/update_version/domain/storage/update_version_storage_service.dart';
-import 'package:app/http/http.dart';
 import 'package:encrypted_storage/encrypted_storage.module.dart';
 import 'package:get_it/get_it.dart';
 import 'package:get_storage/get_storage.dart';
-import 'package:http/http.dart' as http;
 import 'package:injectable/injectable.dart';
 import 'package:nekoton_repository/nekoton_repository.module.dart';
 
@@ -22,7 +20,6 @@ final getIt = GetIt.instance;
   ],
   ignoreUnregisteredTypes: [
     GetStorage,
-    http.Client,
   ],
 )
 Future<void> configureDi() async {
@@ -42,11 +39,6 @@ Future<void> configureDi() async {
   for (final container in containers) {
     getIt.registerSingleton(GetStorage(container), instanceName: container);
   }
-
-  getIt.registerLazySingleton<http.Client>(
-    ClientFactory.create,
-    dispose: (client) => client.close(),
-  );
 
   await getIt.init();
 }

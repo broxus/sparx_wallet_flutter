@@ -1,8 +1,7 @@
-import 'dart:convert';
-
 import 'package:app/app/service/service.dart';
 import 'package:app/data/models/models.dart';
 import 'package:collection/collection.dart';
+import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:injectable/injectable.dart';
 import 'package:logging/logging.dart';
@@ -38,7 +37,7 @@ class CurrencyRefresher implements RefreshingInterface {
 @singleton
 class CurrenciesService {
   CurrenciesService({
-    required this.httpService,
+    required this.dio,
     required this.nekotonRepository,
     required this.currentAccounts,
     required this.storageService,
@@ -47,7 +46,7 @@ class CurrenciesService {
 
   static final _logger = Logger('CurrenciesService');
 
-  final HttpService httpService;
+  final Dio dio;
   final NekotonRepository nekotonRepository;
   final CurrentAccountsService currentAccounts;
   final GeneralStorageService storageService;
@@ -237,20 +236,21 @@ class CurrenciesService {
     required NetworkType networkType,
     required NetworkGroup networkGroup,
   }) async {
-    final data = jsonEncode({
-      'currencyAddresses': currencyAddresses,
-      'limit': currencyAddresses.length,
-      'offset': 0,
-    });
-    final encoded = await httpService.postRequest(
-      endpoint: endpoint,
-      data: data,
-      headers: {
-        'Content-Type': 'application/json',
+    final response = await dio.post<Map<String, dynamic>>(
+      endpoint,
+      data: {
+        'currencyAddresses': currencyAddresses,
+        'limit': currencyAddresses.length,
+        'offset': 0,
       },
+      options: Options(
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      ),
     );
-    final decoded = jsonDecode(encoded) as Map<String, dynamic>;
-    final currencies = decoded['currencies'] as List<dynamic>;
+    final data = response.data ?? {};
+    final currencies = data['currencies'] as List<dynamic>;
 
     return currencies
         .map(
@@ -278,11 +278,11 @@ class CurrenciesService {
     final nativeTokenAddress =
         nekotonRepository.currentTransport.nativeTokenAddress;
     final addresses = [...currencyAddresses, 'TON'];
-    final encoded = await httpService.getRequest(
+    final response = await dio.get<Map<String, dynamic>>(
       '$endpoint/rates?tokens=${addresses.join(',')}&currencies=USD',
     );
-    final decoded = jsonDecode(encoded) as Map<String, dynamic>;
-    final rates = decoded['rates'] as Map<String, dynamic>;
+    final data = response.data ?? {};
+    final rates = data['rates'] as Map<String, dynamic>;
 
     rates[nativeTokenAddress.toRaw()] = rates['TON'];
     rates.remove('TON');
@@ -307,11 +307,11 @@ class CurrenciesService {
     required NetworkType networkType,
     required NetworkGroup networkGroup,
   }) async {
-    final encoded = await httpService.postRequest(endpoint: endpoint);
-    final decoded = jsonDecode(encoded) as Map<String, dynamic>;
+    final response = await dio.post<Map<String, dynamic>>(endpoint);
+    final data = response.data ?? {};
 
     return CustomCurrency.fromJson(
-      decoded
+      data
         ..putIfAbsent(
           'networkType',
           () => networkType,
