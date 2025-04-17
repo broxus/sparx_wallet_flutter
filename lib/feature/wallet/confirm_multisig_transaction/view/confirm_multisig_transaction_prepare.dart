@@ -1,8 +1,5 @@
-import 'package:app/di/di.dart';
-import 'package:app/feature/wallet/ton_confirm_transaction/ton_confirm_transaction.dart';
 import 'package:app/generated/generated.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:nekoton_repository/nekoton_repository.dart';
 import 'package:ui_components_lib/ui_components_lib.dart';
 import 'package:ui_components_lib/v2/widgets/buttons/accent_button.dart';
@@ -12,10 +9,14 @@ import 'package:ui_components_lib/v2/widgets/buttons/button_shape.dart';
 class TonWalletConfirmTransactionPrepare extends StatefulWidget {
   const TonWalletConfirmTransactionPrepare({
     required this.localCustodians,
+    required this.custodianNames,
+    required this.onCustodianSelected,
     super.key,
   });
 
   final List<PublicKey> localCustodians;
+  final Map<PublicKey, String?> custodianNames;
+  final void Function(PublicKey) onCustodianSelected;
 
   @override
   State<TonWalletConfirmTransactionPrepare> createState() =>
@@ -47,11 +48,7 @@ class _TonWalletConfirmTransactionPrepareState
                     .map(
                       (c) => CommonSheetDropdownItem<PublicKey>(
                         value: c,
-                        title: inject<NekotonRepository>()
-                                .seedList
-                                .findSeedKey(c)
-                                ?.name ??
-                            c.toEllipseString(),
+                        title: widget.custodianNames[c] ?? c.toEllipseString(),
                       ),
                     )
                     .toList(),
@@ -65,12 +62,12 @@ class _TonWalletConfirmTransactionPrepareState
           AccentButton(
             buttonShape: ButtonShape.pill,
             title: LocaleKeys.nextWord.tr(),
-            onPressed: () => context.read<TonConfirmTransactionBloc>().add(
-                  TonConfirmTransactionEvent.prepare(custodianNotifier.value),
-                ),
+            onPressed: _onPressed,
           ),
         ],
       ),
     );
   }
+
+  void _onPressed() => widget.onCustodianSelected(custodianNotifier.value);
 }
