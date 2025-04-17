@@ -63,7 +63,7 @@ class CancelUnstakingPageWidgetModel extends CustomWidgetModel<
 
     final result = await Navigator.of(context, rootNavigator: true).push<bool>(
       MaterialPageRoute(
-        builder: (_) => TonWalletSendPage(
+        builder: (_) => TonWalletSendWidget(
           address: widget.request.accountAddress,
           amount: model.staking.stakeRemovePendingWithdrawAttachedFee,
           payload: payload,

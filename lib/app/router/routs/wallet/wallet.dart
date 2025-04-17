@@ -267,7 +267,7 @@ GoRoute get tonWalletSendRoute {
       final attached =
           state.uri.queryParameters[tonWalletSendAttachedAmountQueryParam];
 
-      return TonWalletSendPage(
+      return TonWalletSendWidget(
         address: Address(
           address: state.uri.queryParameters[tonWalletSendAddressQueryParam]!,
         ),

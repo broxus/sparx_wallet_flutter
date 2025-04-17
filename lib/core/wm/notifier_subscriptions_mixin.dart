@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:app/core/wm/safe_state_notifier.dart';
 import 'package:elementary/elementary.dart';
 import 'package:elementary_helper/elementary_helper.dart';
 import 'package:flutter/widgets.dart';
@@ -59,7 +60,7 @@ mixin NotifierSubscriptionsMixin<W extends ElementaryWidget,
   @protected
   StateNotifier<T> createNotifier<T>([T? initValue]) {
     return _subscriptionsCollection.add(
-      StateNotifier<T>(initValue: initValue),
+      SafeStateNotifier<T>(initValue: initValue),
     );
   }
 
@@ -106,7 +107,7 @@ mixin NotifierSubscriptionsMixin<W extends ElementaryWidget,
   /// Create [StateNotifier] from [Stream] and add to the notifier collection
   @protected
   StateNotifier<T> createNotifierFromStream<T>(Stream<T> stream) {
-    final notifier = StateNotifier<T>();
+    final notifier = SafeStateNotifier<T>();
 
     _streamSubscriptionsCollection.add(
       stream.listen(notifier.accept),

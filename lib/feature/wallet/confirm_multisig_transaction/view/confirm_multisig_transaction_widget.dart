@@ -50,11 +50,17 @@ class ConfirmMultisigTransactionWidget
 
   @override
   Widget build(ConfirmMultisigTransactionWidgetModel wm) {
-    return Scaffold(
-      appBar: DefaultAppBar(titleText: LocaleKeys.confirmTransaction.tr()),
-      body: StateNotifierBuilder(
-        listenableState: wm.state,
-        builder: (_, state) => switch (state) {
+    return StateNotifierBuilder(
+      listenableState: wm.state,
+      builder: (_, state) {
+        if (state == null) return const SizedBox.shrink();
+
+        final appBar = switch (state) {
+          ConfirmMultisigTransactionStateSending() => null,
+          _ => DefaultAppBar(titleText: LocaleKeys.confirmTransaction.tr()),
+        };
+
+        final body = switch (state) {
           ConfirmMultisigTransactionStatePrepare() =>
             TonWalletConfirmTransactionPrepare(
               localCustodians: localCustodians,
@@ -82,9 +88,10 @@ class ConfirmMultisigTransactionWidget
               isLoading: wm.isLoading,
               onPasswordEntered: wm.onPasswordEntered,
             ),
-          _ => const SizedBox.shrink(),
-        },
-      ),
+        };
+
+        return Scaffold(appBar: appBar, body: body);
+      },
     );
   }
 }

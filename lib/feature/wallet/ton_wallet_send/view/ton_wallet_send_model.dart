@@ -4,8 +4,8 @@ import 'package:elementary/elementary.dart';
 import 'package:nekoton_repository/nekoton_repository.dart' hide Message;
 import 'package:rxdart/rxdart.dart';
 
-class ConfirmMultisigTransactionModel extends ElementaryModel {
-  ConfirmMultisigTransactionModel(
+class TonWalletSendModel extends ElementaryModel {
+  TonWalletSendModel(
     ErrorHandler errorHandler,
     this._nekotonRepository,
     this._messengerService,
@@ -16,16 +16,38 @@ class ConfirmMultisigTransactionModel extends ElementaryModel {
 
   TransportStrategy get transport => _nekotonRepository.currentTransport;
 
+  Currency get currency => Currencies()[transport.nativeTokenTicker]!;
+
   KeyAccount? getAccount(Address address) =>
       _nekotonRepository.seedList.findAccountByAddress(address);
-
-  SeedKey? getSeedKey(PublicKey publicKey) =>
-      _nekotonRepository.seedList.findSeedKey(publicKey);
 
   Future<TonWalletState> getWalletState(Address address) =>
       _nekotonRepository.walletsMapStream
           .mapNotNull((wallets) => wallets[address])
           .first;
+
+  Future<UnsignedMessage> prepareTransfer({
+    required Address address,
+    required PublicKey publicKey,
+    required Address destination,
+    required BigInt amount,
+    String? comment,
+    String? payload,
+  }) =>
+      _nekotonRepository.prepareTransfer(
+        address: address,
+        publicKey: publicKey,
+        expiration: defaultSendTimeout,
+        params: [
+          TonWalletTransferParams(
+            destination: repackAddress(destination),
+            amount: amount,
+            body: payload ??
+                comment?.let((it) => encodeComment(it, plain: transport.isTon)),
+            bounce: defaultMessageBounce,
+          ),
+        ],
+      );
 
   Future<BigInt> estimateFees({
     required Address address,
@@ -40,35 +62,23 @@ class ConfirmMultisigTransactionModel extends ElementaryModel {
     required Address address,
     required UnsignedMessage message,
   }) =>
-      _nekotonRepository.simulateTransactionTree(
-        address: address,
-        message: message,
-      );
-
-  Future<UnsignedMessage> prepareConfirmTransaction({
-    required Address address,
-    required PublicKey publicKey,
-    required String transactionId,
-  }) =>
-      _nekotonRepository.prepareConfirmTransaction(
-        address: address,
-        publicKey: publicKey,
-        transactionId: transactionId,
-        expiration: defaultSendTimeout,
-      );
+      transport.networkType == 'ton'
+          ? Future<List<TxTreeSimulationErrorItem>>.value([])
+          : _nekotonRepository.simulateTransactionTree(
+              address: address,
+              message: message,
+            );
 
   Future<Future<Transaction>> sendMessage({
     required Address address,
-    required Address destination,
     required PublicKey publicKey,
     required UnsignedMessage message,
-    required BigInt amount,
     required String password,
+    required Address destination,
+    required BigInt amount,
   }) async {
-    final hash = message.hash;
-
     final signature = await _nekotonRepository.seedList.sign(
-      data: hash,
+      data: message.hash,
       publicKey: publicKey,
       password: password,
       signatureId: await transport.transport.getSignatureId(),
