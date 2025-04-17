@@ -97,27 +97,27 @@ class TonWalletMultisigPendingTransactionDetailsPage extends StatelessWidget {
                   onPressed: () {
                     Navigator.of(context).pop();
                     context.goFurther(
-                      AppRoute.tonConfirmTransaction.pathWithData(
+                      AppRoute.confirmMultisigTransaction.pathWithData(
                         queryParameters: {
-                          tonWalletConfirmTransactionWalletAddressQueryParam:
+                          confirmMultisigTransactionWalletAddressQueryParam:
                               transaction.walletAddress.address,
-                          tonWalletConfirmTransactionLocalCustodiansQueryParam:
+                          confirmMultisigTransactionLocalCustodiansQueryParam:
                               jsonEncode(
                             transaction.nonConfirmedLocalCustodians
                                 .map((e) => e.publicKey)
                                 .toList(),
                           ),
-                          tonWalletConfirmTransactionTransactionIdQueryParam:
+                          confirmMultisigTransactionTransactionIdQueryParam:
                               transaction.transactionId,
                           if (safeHexString != null)
-                            tonWalletConfirmTransactionIdHashQueryParam:
+                            confirmMultisigTransactionIdHashQueryParam:
                                 safeHexString,
-                          tonWalletConfirmTransactionDestinationQueryParam:
+                          confirmMultisigTransactionDestinationQueryParam:
                               transaction.address.address,
-                          tonWalletConfirmTransactionAmountQueryParam:
+                          confirmMultisigTransactionAmountQueryParam:
                               transaction.value.toString(),
                           if (transaction.comment != null)
-                            tonWalletConfirmTransactionCommentQueryParam:
+                            confirmMultisigTransactionCommentQueryParam:
                                 transaction.comment!,
                         },
                       ),
