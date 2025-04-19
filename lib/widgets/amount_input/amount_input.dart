@@ -196,7 +196,9 @@ class _AmountInputState extends State<AmountInput> {
   }
 
   void _updateFormatterValidator() {
-    if (widget.selectedAsset == null) {
+    final selectedAsset = widget.selectedAsset;
+
+    if (selectedAsset == null) {
       _formatter = null;
       _validator = null;
     } else {
@@ -204,7 +206,8 @@ class _AmountInputState extends State<AmountInput> {
         widget.selectedAsset!.balance.currency,
         emptyError: LocaleKeys.amountIsEmpty.tr(),
         error: LocaleKeys.amountIsWrong.tr(),
-        max: widget.selectedAsset!.balance.amount,
+        max: selectedAsset.balance.amount.takeIf((it) => it > Fixed.zero) ??
+            Fixed.fromNum(-1, scale: 0),
         maxError: LocaleKeys.insufficientFunds.tr(),
         decimalSeparators: ['.', ','],
       );

@@ -4,8 +4,10 @@ import 'dart:async';
 import 'dart:math';
 
 import 'package:app/app/router/app_route.dart';
+import 'package:app/app/router/routs/wallet/ton_wallet_send_route_data.dart';
 import 'package:app/app/router/routs/wallet/wallet.dart';
 import 'package:app/app/service/currency_convert_service.dart';
+import 'package:app/bootstrap/sentry.dart';
 import 'package:app/core/error_handler_factory.dart';
 import 'package:app/core/wm/custom_wm.dart';
 import 'package:app/data/models/token_contract/token_contract_asset.dart';
@@ -20,6 +22,7 @@ import 'package:app/generated/generated.dart';
 import 'package:app/utils/clipboard_utils.dart';
 import 'package:app/widgets/amount_input/amount_input_asset.dart';
 import 'package:elementary/elementary.dart';
+import 'package:elementary_helper/elementary_helper.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
@@ -56,11 +59,12 @@ class WalletPrepareTransferPageWidgetModel extends CustomWidgetModel<
   late final receiverState = createNotifier<String?>();
   late final commentTextState = createNotifier<String?>();
   late final commentState = createNotifier(false);
+  late final _isInitialDataLoaded = createNotifier(false);
 
   final formKey = GlobalKey<FormState>();
 
   late final receiverController =
-      createTextEditingController(widget.destination?.address);
+      createTextEditingController(destination.value?.address);
   late final receiverFocus = createFocusNode();
 
   late final amountController = createTextEditingController();
@@ -76,6 +80,21 @@ class WalletPrepareTransferPageWidgetModel extends CustomWidgetModel<
   final _assets = <(Address, String), WalletPrepareTransferAsset>{};
   late final _assetsList = createValueNotifier(_assets.values.toList());
 
+  late final _sentry = SentryWorker.instance;
+
+  late final ListenableState<Address> address = createWidgetProperty(
+    (w) => w.address,
+  );
+  late final ListenableState<Address?> destination = createWidgetProperty(
+    (w) => w.destination,
+  );
+  late final ListenableState<Address?> rootTokenContract = createWidgetProperty(
+    (w) => w.rootTokenContract,
+  );
+  late final ListenableState<String?> tokenSymbol = createWidgetProperty(
+    (w) => w.tokenSymbol,
+  );
+
   StreamSubscription<dynamic>? _currencySubscription;
 
   WalletPrepareTransferData? get _data => screenState.value.data;
@@ -85,6 +104,8 @@ class WalletPrepareTransferPageWidgetModel extends CustomWidgetModel<
   PublicKey? get _selectedCustodian => _data?.selectedCustodian;
 
   ValueListenable<List<WalletPrepareTransferAsset>> get assets => _assetsList;
+
+  ListenableState<bool> get isInitialDataLoaded => _isInitialDataLoaded;
 
   @override
   void initWidgetModel() {
@@ -112,9 +133,12 @@ class WalletPrepareTransferPageWidgetModel extends CustomWidgetModel<
     _updateState(selectedAsset: asset);
     unawaited(_updateAsset(asset));
 
+    final address = this.address.value;
+    if (address == null) return;
+
     model.startListeningBalance(
       contract: _assets[asset.key],
-      address: widget.address,
+      address: address,
     );
   }
 
@@ -138,7 +162,7 @@ class WalletPrepareTransferPageWidgetModel extends CustomWidgetModel<
     );
 
     if (!validateAddress(addr)) {
-      model.showError(context, LocaleKeys.addressIsWrong.tr());
+      model.showError(LocaleKeys.addressIsWrong.tr());
 
       return;
     }
@@ -170,7 +194,6 @@ class WalletPrepareTransferPageWidgetModel extends CustomWidgetModel<
       final amountMinusComission = available - comission;
       if (amountMinusComission.amount < Fixed.zero) {
         model.showError(
-          context,
           LocaleKeys.sendingNotEnoughBalanceToSend.tr(
             args: [
               comission.formatImproved(),
@@ -192,7 +215,7 @@ class WalletPrepareTransferPageWidgetModel extends CustomWidgetModel<
   Future<void> onPressedPasteAddress() async {
     final text = await getClipBoardText();
     if (text?.isEmpty ?? true) {
-      model.showError(context, LocaleKeys.addressIsWrong.tr());
+      model.showError(LocaleKeys.addressIsWrong.tr());
       return;
     }
 
@@ -200,7 +223,7 @@ class WalletPrepareTransferPageWidgetModel extends CustomWidgetModel<
       receiverController.text = text;
       receiverFocus.unfocus();
     } else {
-      model.showError(context, LocaleKeys.addressIsWrong.tr());
+      model.showError(LocaleKeys.addressIsWrong.tr());
     }
   }
 
@@ -225,7 +248,11 @@ class WalletPrepareTransferPageWidgetModel extends CustomWidgetModel<
     if (value?.isEmpty ?? true) {
       return LocaleKeys.addressIsEmpty.tr();
     }
-    if (_selectedAsset?.isNative != true && widget.address.address == value) {
+
+    final address = this.address.value;
+    if (address == null) return LocaleKeys.addressIsEmpty.tr();
+
+    if (_selectedAsset?.isNative != true && address.address == value) {
       return LocaleKeys.invalidReceiverAddress.tr();
     }
     return null;
@@ -236,9 +263,17 @@ class WalletPrepareTransferPageWidgetModel extends CustomWidgetModel<
   }
 
   Future<void> _init() async {
-    final acc = model.findAccountByAddress(widget.address);
+    final address = this.address.value;
+    if (address == null) return;
+
+    final acc = model.findAccountByAddress(address);
     if (acc == null) {
       screenState.content(null);
+      _sentry.captureException(
+        StateError(
+          'Transfer prepreate initialization failed, address not found',
+        ),
+      );
       return;
     }
 
@@ -249,15 +284,15 @@ class WalletPrepareTransferPageWidgetModel extends CustomWidgetModel<
 
     // If default contract not specified, then native is default and load
     // all existed assets
-    final root = widget.rootTokenContract;
+    final root = rootTokenContract.value;
 
     _createNativeContract();
     model.findExistedContracts(
       onUpdate: _onUpdateContractsForAccount,
-      address: widget.address,
+      address: address,
     );
 
-    if (root != null && widget.tokenSymbol != _selectedAsset?.tokenSymbol) {
+    if (root != null && tokenSymbol.value != _selectedAsset?.tokenSymbol) {
       unawaited(_findSpecifiedContract(root));
     }
 
@@ -265,8 +300,10 @@ class WalletPrepareTransferPageWidgetModel extends CustomWidgetModel<
       walletName: model.getWalletName(acc),
       account: acc,
       selectedCustodian: acc.publicKey,
-      localCustodians: await model.getLocalCustodiansAsync(widget.address),
+      localCustodians: await model.getLocalCustodiansAsync(address),
     );
+
+    _isInitialDataLoaded.accept(true);
   }
 
   void _initListeners() {
@@ -297,30 +334,41 @@ class WalletPrepareTransferPageWidgetModel extends CustomWidgetModel<
       return;
     }
 
-    final accountAddress = widget.address.address;
+    final address = this.address.value;
+    if (address == null) return;
+
+    final accountAddress = address.address;
     final publicKey = _selectedCustodian?.publicKey;
+
+    if (publicKey == null) {
+      _sentry.captureException(
+        StateError(
+          "Failed navigate to wallet send, publicKey doesn't exists",
+        ),
+      );
+      return;
+    }
 
     final comment = commentController.text.trim();
 
     String? path;
 
     if (selectedAsset.isNative) {
-      path = AppRoute.tonWalletSend.pathWithData(
-        queryParameters: {
-          tonWalletSendAddressQueryParam: accountAddress,
-          if (publicKey != null) tonWalletSendPublicKeyQueryParam: publicKey,
-          if (comment.isNotEmpty) tonWalletSendCommentQueryParam: comment,
-          tonWalletSendDestinationQueryParam: receiveAddress.address,
-          tonWalletSendAmountQueryParam: amount.minorUnits.toString(),
-        },
-      );
+      path = TonWalletSendRouteData(
+        address: Address(address: accountAddress),
+        publicKey: PublicKey(publicKey: publicKey),
+        comment: comment,
+        destination: receiveAddress,
+        amount: amount.minorUnits,
+        popOnComplete: false,
+      ).toLocation();
     } else {
       path = AppRoute.tokenWalletSend.pathWithData(
         queryParameters: {
           tokenWalletSendOwnerQueryParam: accountAddress,
           tokenWalletSendContractQueryParam:
               selectedAsset.rootTokenContract.address,
-          if (publicKey != null) tokenWalletSendPublicKeyQueryParam: publicKey,
+          tokenWalletSendPublicKeyQueryParam: publicKey,
           if (comment.isNotEmpty) tokenWalletSendCommentQueryParam: comment,
           tokenWalletSendDestinationQueryParam: receiveAddress.address,
           tokenWalletSendAmountQueryParam: amount.minorUnits.toString(),
@@ -336,9 +384,12 @@ class WalletPrepareTransferPageWidgetModel extends CustomWidgetModel<
         await model.getCurrencyForContract(
           asset.rootTokenContract,
         );
-    final balance =
-        await model.getBalance(asset: asset, address: widget.address) ??
-            _zeroBalance(asset.tokenSymbol);
+
+    final address = this.address.value;
+    if (address == null) return;
+
+    final balance = await model.getBalance(asset: asset, address: address) ??
+        _zeroBalance(asset.tokenSymbol);
 
     final updatedAsset = asset.copyWith(
       currency: currency,
@@ -368,9 +419,13 @@ class WalletPrepareTransferPageWidgetModel extends CustomWidgetModel<
     _updateAssets((assets) => assets[selectedAsset.key] = selectedAsset);
     _updateState(selectedAsset: selectedAsset);
     unawaited(_updateAsset(selectedAsset));
+
+    final address = this.address.value;
+    if (address == null) return;
+
     model.startListeningBalance(
       contract: selectedAsset,
-      address: widget.address,
+      address: address,
     );
   }
 
@@ -396,9 +451,13 @@ class WalletPrepareTransferPageWidgetModel extends CustomWidgetModel<
     _updateAssets((assets) => assets[selectedAsset.key] = selectedAsset);
     _updateState(selectedAsset: selectedAsset);
     unawaited(_updateAsset(selectedAsset));
+
+    final address = this.address.value;
+    if (address == null) return;
+
     model.startListeningBalance(
       contract: selectedAsset,
-      address: widget.address,
+      address: address,
     );
   }
 

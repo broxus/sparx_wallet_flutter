@@ -56,23 +56,26 @@ class ChooseNetworkScreenWidgetModel
     try {
       _loadingItemId.accept(id);
 
+      final context = contextSafe;
+      if (context == null) return;
+
       if (!await model.checkConnection(context)) {
         return;
       }
 
-      final isSuccess = await model.selectType(context, id);
+      final isSuccess = await model.selectType(id);
 
-      final isCanPop = contextSafe?.canPop() ?? false;
+      final isCanPop = context.canPop();
 
       final nextPath = widget.nextStep;
 
       if (nextPath != null) {
-        contextSafe?.goFurther(
+        context.goFurther(
           nextPath,
           preserveQueryParams: true,
         );
       } else if (isCanPop) {
-        contextSafe?.pop(isSuccess);
+        context.pop(isSuccess);
       }
     } finally {
       _loadingItemId.accept(null);
