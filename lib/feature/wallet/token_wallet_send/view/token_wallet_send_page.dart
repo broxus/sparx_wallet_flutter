@@ -111,33 +111,39 @@ class TokenWalletSendPage extends StatelessWidget {
     String? error,
     BigInt? attachedAmount,
     List<TxTreeSimulationErrorItem>? txErrors,
-  }) =>
-      Scaffold(
-        appBar: DefaultAppBar(
-          onClosePressed: (context) => context.pop(),
-          titleText: LocaleKeys.confirmTransaction.tr(),
+  }) {
+    return Scaffold(
+      appBar: DefaultAppBar(
+        onClosePressed: (context) => context.pop(),
+        titleText: LocaleKeys.confirmTransaction.tr(),
+      ),
+      body: Padding(
+        padding: const EdgeInsets.symmetric(
+          horizontal: DimensSizeV2.d16,
         ),
-        body: Padding(
-          padding: const EdgeInsets.symmetric(
-            horizontal: DimensSizeV2.d16,
-          ),
-          child: TokenWalletSendConfirmView(
-            recipient: destination,
-            amount: amount,
-            comment: comment,
-            publicKey: publicKey,
-            fee: fee,
-            feeError: error,
-            attachedAmount: attachedAmount ?? this.attachedAmount,
-            txErrors: txErrors,
-          ),
+        child: TokenWalletSendConfirmView(
+          recipient: destination,
+          amount: amount,
+          comment: comment,
+          publicKey: publicKey,
+          fee: fee,
+          feeError: error,
+          attachedAmount: attachedAmount ?? this.attachedAmount,
+          txErrors: txErrors,
         ),
-      );
+      ),
+    );
+  }
 
-  Widget _sendingPage(bool canClose) => Scaffold(
-        body: Padding(
-          padding: const EdgeInsets.all(DimensSizeV2.d16),
-          child: TransactionSendingWidget(canClose: canClose),
+  Widget _sendingPage(bool canClose) {
+    return Scaffold(
+      body: Padding(
+        padding: const EdgeInsets.all(DimensSizeV2.d16),
+        child: TransactionSendingWidget(
+          canClose: canClose,
+          popOnComplete: false,
         ),
-      );
+      ),
+    );
+  }
 }

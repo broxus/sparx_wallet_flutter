@@ -1,4 +1,5 @@
 import 'package:app/app/router/router.dart';
+import 'package:app/app/router/routs/wallet/ton_wallet_send_route_data.dart';
 import 'package:app/di/di.dart';
 import 'package:app/feature/wallet/staking/models/models.dart';
 import 'package:app/feature/wallet/staking/staking.dart';
@@ -181,20 +182,18 @@ class _ButtonWidget extends StatelessWidget {
             attachedFee,
           ) {
             context.goFurther(
-              AppRoute.tonWalletSend.pathWithData(
-                queryParameters: {
-                  tonWalletSendAddressQueryParam: sender.address,
-                  tonWalletSendPublicKeyQueryParam: accountKey.publicKey,
-                  tonWalletSendPayloadQueryParam: payload,
-                  tonWalletSendDestinationQueryParam: destination.address,
-                  tonWalletSendAmountQueryParam: amount.toString(),
-                  tonWalletSendAttachedAmountQueryParam: attachedFee.toString(),
-                  tonWalletSendResultMessageQueryParam:
-                      LocaleKeys.stEverAppearInMinutes.tr(
-                    args: [wm.tokenCurrency?.symbol ?? ''],
-                  ),
-                },
-              ),
+              TonWalletSendRouteData(
+                address: sender,
+                publicKey: accountKey,
+                payload: payload,
+                destination: destination,
+                amount: amount,
+                attachedAmount: attachedFee,
+                popOnComplete: false,
+                resultMessage: LocaleKeys.stEverAppearInMinutes.tr(
+                  args: [wm.tokenCurrency?.symbol ?? ''],
+                ),
+              ).toLocation(),
             );
           },
           goUnstake: (

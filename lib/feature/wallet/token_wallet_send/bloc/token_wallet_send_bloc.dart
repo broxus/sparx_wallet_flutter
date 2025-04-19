@@ -74,6 +74,11 @@ class TokenWalletSendBloc
   /// Fee for transaction after calculating it in [_handlePrepare]
   BigInt? fees;
 
+  BigInt get _safeFees {
+    _logger.warning('Fees not set');
+    return fees ?? BigInt.zero;
+  }
+
   late Currency tokenCurrency;
 
   KeyAccount? account;
@@ -89,7 +94,7 @@ class TokenWalletSendBloc
     on<_Send>((event, emit) => _handleSend(emit, event.password));
     on<_CompleteSend>(
       (event, emit) => emitSafe(
-        TokenWalletSendState.sent(fees ?? BigInt.zero, event.transaction),
+        TokenWalletSendState.sent(_safeFees, event.transaction),
       ),
     );
     on<_AllowCloseSend>(
@@ -152,19 +157,20 @@ class TokenWalletSendBloc
 
       final balance = wallet.contractState.balance;
       final isPossibleToSendMessage =
-          balance > (fees! + internalMessage.amount);
+          balance > (_safeFees + internalMessage.amount);
 
       if (!isPossibleToSendMessage) {
         emitSafe(
           TokenWalletSendState.calculatingError(
             LocaleKeys.insufficientFunds.tr(),
-            fees,
+            _safeFees,
           ),
         );
         return;
       }
 
-      emitSafe(TokenWalletSendState.readyToSend(fees!, sendAmount, txErrors));
+      emitSafe(
+          TokenWalletSendState.readyToSend(_safeFees, sendAmount, txErrors));
     } on Exception catch (e, t) {
       _logger.severe('_handleSend', e, t);
       emitSafe(TokenWalletSendState.calculatingError(e.toString()));
@@ -225,12 +231,14 @@ class TokenWalletSendBloc
           message: e.toString(),
         ),
       );
-      emitSafe(TokenWalletSendState.readyToSend(fees!, sendAmount, txErrors));
+      emitSafe(
+          TokenWalletSendState.readyToSend(_safeFees, sendAmount, txErrors));
     } on Exception catch (e, t) {
       _logger.severe('_handleSend', e, t);
       messengerService
           .show(Message.error(context: context, message: e.toString()));
-      emitSafe(TokenWalletSendState.readyToSend(fees!, sendAmount, txErrors));
+      emitSafe(
+          TokenWalletSendState.readyToSend(_safeFees, sendAmount, txErrors));
     } finally {
       unsignedMessage?.dispose();
     }

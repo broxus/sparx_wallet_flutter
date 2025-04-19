@@ -30,11 +30,21 @@ class WalletAccountBodyWidget
               left: DimensSizeV2.d16,
               right: DimensSizeV2.d16,
             ),
-            child: AccountCard(account: account),
+            child: StateNotifierBuilder(
+              listenableState: wm.keyAccount,
+              builder: (context, keyAccount) {
+                if (keyAccount == null) return const SizedBox.shrink();
+
+                return AccountCard(account: keyAccount);
+              },
+            ),
           ),
-          StateNotifierBuilder(
-            listenableState: wm.notifications,
-            builder: (_, notifications) {
+          DoubleSourceBuilder(
+            firstSource: wm.notifications,
+            secondSource: wm.keyAccount,
+            builder: (_, notifications, keyAccount) {
+              if (keyAccount == null) return const SizedBox.shrink();
+
               final items = notifications ?? [];
 
               return Column(
@@ -44,7 +54,7 @@ class WalletAccountBodyWidget
                       horizontal: DimensSizeV2.d16,
                     ),
                     child: WalletAccountActions(
-                      currentAccount: account,
+                      currentAccount: keyAccount,
                       disableSensetiveActions: items.contains(
                         NotificationType.unsupportedWalletType,
                       ),
@@ -56,7 +66,7 @@ class WalletAccountBodyWidget
                       children: [
                         _Carousel(
                           items: items,
-                          account: account,
+                          account: keyAccount,
                           onFinishedBackup: wm.onFinishedBackup,
                           onSwitchAccount: wm.onSwitchAccount,
                           onPageChanged: wm.onPageChanged,
