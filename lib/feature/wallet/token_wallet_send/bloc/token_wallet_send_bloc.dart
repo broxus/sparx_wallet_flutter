@@ -170,7 +170,8 @@ class TokenWalletSendBloc
       }
 
       emitSafe(
-          TokenWalletSendState.readyToSend(_safeFees, sendAmount, txErrors));
+        TokenWalletSendState.readyToSend(_safeFees, sendAmount, txErrors),
+      );
     } on Exception catch (e, t) {
       _logger.severe('_handleSend', e, t);
       emitSafe(TokenWalletSendState.calculatingError(e.toString()));
@@ -232,13 +233,15 @@ class TokenWalletSendBloc
         ),
       );
       emitSafe(
-          TokenWalletSendState.readyToSend(_safeFees, sendAmount, txErrors));
+        TokenWalletSendState.readyToSend(_safeFees, sendAmount, txErrors),
+      );
     } on Exception catch (e, t) {
       _logger.severe('_handleSend', e, t);
       messengerService
           .show(Message.error(context: context, message: e.toString()));
       emitSafe(
-          TokenWalletSendState.readyToSend(_safeFees, sendAmount, txErrors));
+        TokenWalletSendState.readyToSend(_safeFees, sendAmount, txErrors),
+      );
     } finally {
       unsignedMessage?.dispose();
     }
