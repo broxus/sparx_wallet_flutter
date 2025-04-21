@@ -1,5 +1,3 @@
-import 'package:app/app/service/messenger/message.dart';
-import 'package:app/app/service/messenger/service/messenger_service.dart';
 import 'package:app/core/wm/custom_wm.dart';
 import 'package:app/di/di.dart';
 import 'package:app/feature/qa/view/qa_model.dart';
@@ -12,17 +10,13 @@ import 'package:ui_components_lib/v2/theme_style_v2.dart';
 QaWidgetModel defaultQaWidgetModelFactory(BuildContext context) {
   final model = QaModel(
     storage: inject<EncryptedStorage>(),
+    messengerService: inject(),
   );
-  return QaWidgetModel(model, messengerService: inject());
+  return QaWidgetModel(model);
 }
 
 class QaWidgetModel extends CustomWidgetModel<QaSheet, QaModel> {
-  QaWidgetModel(
-    super.model, {
-    required MessengerService messengerService,
-  }) : _messengerService = messengerService;
-
-  final MessengerService _messengerService;
+  QaWidgetModel(super.model);
 
   late final _key = createNotifier('');
   late final _iv = createNotifier('');
@@ -42,15 +36,11 @@ class QaWidgetModel extends CustomWidgetModel<QaSheet, QaModel> {
 
   Future<void> clearEncryptedDb() async {
     await model.clearEncryptedDb();
-    _messengerService.show(
-      Message.successful(message: 'Db dropped'),
-    );
+    model.showSuccessMessage('Db dropped');
   }
 
   Future<void> clearEncryptedKeys() async {
     await model.clearEncryptedKeys();
-    _messengerService.show(
-      Message.successful(message: 'Keys dropped'),
-    );
+    model.showSuccessMessage('Keys dropped');
   }
 }
