@@ -208,6 +208,7 @@
   "contactSupportCantFindEmailClient": "Can't find email client",
   "contactSupportCantFindEmailClientShare": "Share log file",
   "browserCloseAll": "Close All",
+  "browserCloseAllTabsDescription": "Are you sure you want\nto clear all tabs?",
   "done": "Done",
   "browserSearchURL": "Search or enter URL",
   "browserSearchURLCancel": "Cancel",

@@ -240,6 +240,10 @@ class $AssetsImagesGen {
   AssetGenImage get exclamationMark =>
       const AssetGenImage('assets/images/exclamation_mark.png');
 
+  /// File path: assets/images/exclamation_mark_alert.png
+  AssetGenImage get exclamationMarkAlert =>
+      const AssetGenImage('assets/images/exclamation_mark_alert.png');
+
   /// File path: assets/images/exit.svg
   SvgGenImage get exit => const SvgGenImage('assets/images/exit.svg');
 
@@ -508,6 +512,7 @@ class $AssetsImagesGen {
         edit,
         ever,
         exclamationMark,
+        exclamationMarkAlert,
         exit,
         export,
         export2,

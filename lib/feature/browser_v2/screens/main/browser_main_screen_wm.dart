@@ -84,6 +84,7 @@ class BrowserMainScreenWidgetModel
   );
 
   late final _tabsDelegate = BrowserTabsDelegate(
+    context,
     model,
     renderManager: _renderManager,
     onEmptyTabs: _onEmptyTabs,
