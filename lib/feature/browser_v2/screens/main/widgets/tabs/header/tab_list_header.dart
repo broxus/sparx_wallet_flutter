@@ -23,20 +23,24 @@ class TabListHeader extends ElementaryWidget<TabListHeaderWidgetModel> {
       listenableState: wm.tabsState,
       builder: (_, BrowserTabsCollection? data) {
         return Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          mainAxisAlignment: MainAxisAlignment.center,
+          // TODO(knightforce): Changed before implementation
+          // mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            _TextButton(
-              onPressed: wm.onPressedBookmarks,
-              text: LocaleKeys.browserBookmarks.tr(),
-            ),
+            // TODO(knightforce): Removed before implementation
+            // _TextButton(
+            //   onPressed: wm.onPressedBookmarks,
+            //   text: LocaleKeys.browserBookmarks.tr(),
+            // ),
             _GroupItem(
               name: LocaleKeys.allTabs.tr(),
               count: data?.countText,
             ),
-            _TextButton(
-              onPressed: wm.onPressedCreateNewGroup,
-              text: LocaleKeys.newGroup.tr(),
-            ),
+            // TODO(knightforce): Removed before implementation
+            // _TextButton(
+            //   onPressed: wm.onPressedCreateNewGroup,
+            //   text: LocaleKeys.newGroup.tr(),
+            // ),
           ],
         );
       },
@@ -87,36 +91,39 @@ class _GroupItem extends StatelessWidget {
   Widget build(BuildContext context) {
     final styles = context.themeStyleV2.textStyles;
 
-    return Row(
-      mainAxisSize: MainAxisSize.min,
-      children: [
-        Text(
-          name,
-          style: styles.labelMedium,
-        ),
-        if (count != null)
-          Padding(
-            padding: const EdgeInsets.only(left: DimensSizeV2.d4),
-            child: DecoratedBox(
-              decoration: const BoxDecoration(
-                shape: BoxShape.circle,
-                // TODO(knightforce): add to color palette
-                color: Color(0xff353960),
-              ),
-              child: SizedBox(
-                width: DimensSizeV2.d20,
-                height: DimensSizeV2.d20,
-                child: Center(
-                  child: AutoSizeText(
-                    count!,
-                    minFontSize: 1,
-                    style: styles.labelXSmall,
+    return Padding(
+      padding: const EdgeInsets.only(bottom: DimensSizeV2.d10),
+      child: Row(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Text(
+            name,
+            style: styles.labelMedium,
+          ),
+          if (count != null)
+            Padding(
+              padding: const EdgeInsets.only(left: DimensSizeV2.d4),
+              child: DecoratedBox(
+                decoration: const BoxDecoration(
+                  shape: BoxShape.circle,
+                  // TODO(knightforce): add to color palette
+                  color: Color(0xff353960),
+                ),
+                child: SizedBox(
+                  width: DimensSizeV2.d20,
+                  height: DimensSizeV2.d20,
+                  child: Center(
+                    child: AutoSizeText(
+                      count!,
+                      minFontSize: 1,
+                      style: styles.labelXSmall,
+                    ),
                   ),
                 ),
               ),
             ),
-          ),
-      ],
+        ],
+      ),
     );
   }
 }
