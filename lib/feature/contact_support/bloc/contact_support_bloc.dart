@@ -25,7 +25,7 @@ class ContactSupportBloc extends Bloc<ContactSupportEvent, ContactSupportState>
       : super(
           ContactSupportState(
             isBusy: false,
-            isQaEnabled: currentAppBuildType == AppBuildType.development,
+            isQaEnabled: currentAppBuildType != AppBuildType.production,
           ),
         ) {
     on<ContactSupportEvent>((event, emit) async {
