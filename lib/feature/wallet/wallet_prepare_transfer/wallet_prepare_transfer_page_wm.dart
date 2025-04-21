@@ -64,7 +64,7 @@ class WalletPrepareTransferPageWidgetModel extends CustomWidgetModel<
   final formKey = GlobalKey<FormState>();
 
   late final receiverController =
-      createTextEditingController(destination.value?.address);
+      createTextEditingController(destinationState.value?.address);
   late final receiverFocus = createFocusNode();
 
   late final amountController = createTextEditingController();
@@ -82,16 +82,17 @@ class WalletPrepareTransferPageWidgetModel extends CustomWidgetModel<
 
   late final _sentry = SentryWorker.instance;
 
-  late final ListenableState<Address> address = createWidgetProperty(
+  late final ListenableState<Address> addressState = createWidgetProperty(
     (w) => w.address,
   );
-  late final ListenableState<Address?> destination = createWidgetProperty(
+  late final ListenableState<Address?> destinationState = createWidgetProperty(
     (w) => w.destination,
   );
-  late final ListenableState<Address?> rootTokenContract = createWidgetProperty(
+  late final ListenableState<Address?> rootTokenContractState =
+      createWidgetProperty(
     (w) => w.rootTokenContract,
   );
-  late final ListenableState<String?> tokenSymbol = createWidgetProperty(
+  late final ListenableState<String?> tokenSymbolState = createWidgetProperty(
     (w) => w.tokenSymbol,
   );
 
@@ -133,7 +134,7 @@ class WalletPrepareTransferPageWidgetModel extends CustomWidgetModel<
     _updateState(selectedAsset: asset);
     unawaited(_updateAsset(asset));
 
-    final address = this.address.value;
+    final address = this.addressState.value;
     if (address == null) return;
 
     model.startListeningBalance(
@@ -249,7 +250,7 @@ class WalletPrepareTransferPageWidgetModel extends CustomWidgetModel<
       return LocaleKeys.addressIsEmpty.tr();
     }
 
-    final address = this.address.value;
+    final address = this.addressState.value;
     if (address == null) return LocaleKeys.addressIsEmpty.tr();
 
     if (_selectedAsset?.isNative != true && address.address == value) {
@@ -263,7 +264,7 @@ class WalletPrepareTransferPageWidgetModel extends CustomWidgetModel<
   }
 
   Future<void> _init() async {
-    final address = this.address.value;
+    final address = this.addressState.value;
     if (address == null) return;
 
     final acc = model.findAccountByAddress(address);
@@ -284,7 +285,7 @@ class WalletPrepareTransferPageWidgetModel extends CustomWidgetModel<
 
     // If default contract not specified, then native is default and load
     // all existed assets
-    final root = rootTokenContract.value;
+    final root = rootTokenContractState.value;
 
     _createNativeContract();
     model.findExistedContracts(
@@ -292,7 +293,7 @@ class WalletPrepareTransferPageWidgetModel extends CustomWidgetModel<
       address: address,
     );
 
-    if (root != null && tokenSymbol.value != _selectedAsset?.tokenSymbol) {
+    if (root != null && tokenSymbolState.value != _selectedAsset?.tokenSymbol) {
       unawaited(_findSpecifiedContract(root));
     }
 
@@ -334,7 +335,7 @@ class WalletPrepareTransferPageWidgetModel extends CustomWidgetModel<
       return;
     }
 
-    final address = this.address.value;
+    final address = this.addressState.value;
     if (address == null) return;
 
     final accountAddress = address.address;
@@ -385,7 +386,7 @@ class WalletPrepareTransferPageWidgetModel extends CustomWidgetModel<
           asset.rootTokenContract,
         );
 
-    final address = this.address.value;
+    final address = this.addressState.value;
     if (address == null) return;
 
     final balance = await model.getBalance(asset: asset, address: address) ??
@@ -420,7 +421,7 @@ class WalletPrepareTransferPageWidgetModel extends CustomWidgetModel<
     _updateState(selectedAsset: selectedAsset);
     unawaited(_updateAsset(selectedAsset));
 
-    final address = this.address.value;
+    final address = this.addressState.value;
     if (address == null) return;
 
     model.startListeningBalance(
@@ -452,7 +453,7 @@ class WalletPrepareTransferPageWidgetModel extends CustomWidgetModel<
     _updateState(selectedAsset: selectedAsset);
     unawaited(_updateAsset(selectedAsset));
 
-    final address = this.address.value;
+    final address = this.addressState.value;
     if (address == null) return;
 
     model.startListeningBalance(

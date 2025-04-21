@@ -75,6 +75,7 @@ mixin NotifierSubscriptionsMixin<W extends ElementaryWidget,
   void dispose() {
     _subscriptionsCollection.dispose();
     _streamSubscriptionsCollection.dispose();
+    _widgetPropsReaders.clear();
     super.dispose();
   }
 
@@ -107,10 +108,6 @@ mixin NotifierSubscriptionsMixin<W extends ElementaryWidget,
   /// Creates a [StateNotifier] and adds it to the notifier collection.
   /// The notifier will be populated with data during [initWidgetModel]
   /// and [didUpdateWidget].
-  ///
-  /// This method should be called in the constructor, unlike other
-  /// `late final` declarations, because otherwise it would be called after
-  /// [initWidgetModel] and the initial data would not be added to the notifier.
   @protected
   ListenableState<T> createWidgetProperty<T>(T Function(W) reader) {
     final initialValue = isMounted ? reader(widget) : null;

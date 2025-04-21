@@ -202,12 +202,15 @@ class _AmountInputState extends State<AmountInput> {
       _formatter = null;
       _validator = null;
     } else {
+      final amount = selectedAsset.balance.amount;
+      final isDisableByInsufficent =
+          selectedAsset.isNative && amount == Fixed.zero;
+
       final (f, v) = createCurrencyTextInputFormatterValidator(
         widget.selectedAsset!.balance.currency,
         emptyError: LocaleKeys.amountIsEmpty.tr(),
         error: LocaleKeys.amountIsWrong.tr(),
-        max: selectedAsset.balance.amount.takeIf((it) => it > Fixed.zero) ??
-            Fixed.fromNum(-1, scale: 0),
+        max: isDisableByInsufficent ? Fixed.fromNum(-1, scale: 0) : amount,
         maxError: LocaleKeys.insufficientFunds.tr(),
         decimalSeparators: ['.', ','],
       );
