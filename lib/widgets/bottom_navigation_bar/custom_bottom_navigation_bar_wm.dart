@@ -41,6 +41,7 @@ class CustomBottomNavigationBarWidgetModel extends CustomWidgetModel<
   late final _visibleState = createNotifier<bool>(true);
 
   StreamSubscription<VisibleNavigationEvent>? _navigationVisibleSub;
+  StreamSubscription<OpenBrowserTabEvent>? _navigationOpenBrowserSub;
 
   bool _isForceHide = false;
 
@@ -71,6 +72,8 @@ class CustomBottomNavigationBarWidgetModel extends CustomWidgetModel<
     _updateVisible();
     _navigationVisibleSub =
         primaryBus.on<VisibleNavigationEvent>().listen(_onNavigationVisible);
+    _navigationOpenBrowserSub =
+        primaryBus.on<OpenBrowserTabEvent>().listen(_onNavigationOpenBrowser);
     WidgetsBinding.instance.addPostFrameCallback((_) {
       _appLinksNavSubs = model.browserLinksStream.listen(_listenAppLinks);
     });
@@ -79,6 +82,10 @@ class CustomBottomNavigationBarWidgetModel extends CustomWidgetModel<
   void _onNavigationVisible(VisibleNavigationEvent event) {
     _isForceHide = event is HideNavigationEvent;
     _updateVisible();
+  }
+
+  void _onNavigationOpenBrowser(OpenBrowserTabEvent event) {
+    _changeValue(RootTab.browser);
   }
 
   @override
