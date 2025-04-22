@@ -670,5 +670,6 @@
   "unsupportedWalletTypeAlertButtonLabel": "Switch Account",
   "scanSeedLoaderTitle": "Scanning and importing,\nplease wait…",
   "scanningCompleted": "Scanning completed",
-  "scanSeed": "Scan seed"
+  "scanSeed": "Scan seed",
+  "nothingFound": "No results found.\nTry adjusting your search or check for typos."
 }

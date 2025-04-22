@@ -9,7 +9,7 @@ class SearchBarHeaderDelegate extends SliverPersistentHeaderDelegate {
     required this.controller,
   });
 
-  static const double _height = DimensSizeV2.d90;
+  static const double headerHeight = DimensSizeV2.d90;
 
   TextEditingController controller;
 
@@ -49,10 +49,10 @@ class SearchBarHeaderDelegate extends SliverPersistentHeaderDelegate {
   }
 
   @override
-  double get maxExtent => _height;
+  double get maxExtent => headerHeight;
 
   @override
-  double get minExtent => _height;
+  double get minExtent => headerHeight;
 
   @override
   bool shouldRebuild(covariant SliverPersistentHeaderDelegate oldDelegate) {
