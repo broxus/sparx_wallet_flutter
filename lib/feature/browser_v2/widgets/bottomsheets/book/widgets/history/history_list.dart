@@ -12,10 +12,13 @@ import 'package:ui_components_lib/v2/ui_components_lib_v2.dart';
 
 class HistoryList extends ElementaryWidget<HistoryListWidgetModel> {
   const HistoryList({
+    required this.scrollController,
     super.key,
     WidgetModelFactory<HistoryListWidgetModel> wmFactory =
         defaultHistoryListWidgetModelFactory,
   }) : super(wmFactory);
+
+  final ScrollController scrollController;
 
   @override
   Widget build(HistoryListWidgetModel wm) {
@@ -43,6 +46,7 @@ class HistoryList extends ElementaryWidget<HistoryListWidgetModel> {
                 return const HistoryEmptyEmptyContent();
               }
               return ListView.builder(
+                controller: scrollController,
                 itemCount: list.length,
                 padding: const EdgeInsets.only(
                   left: DimensSizeV2.d24,
