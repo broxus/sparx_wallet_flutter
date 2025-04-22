@@ -48,7 +48,6 @@ dependencies:
   get_storage: 2.1.1
   go_router: 14.8.1
   hex: 0.2.0
-  http: 1.3.0
   image_picker: 1.1.2
   in_app_notification: 1.1.2
   in_app_update: ^4.2.3
@@ -71,6 +70,7 @@ dependencies:
   path_provider: 2.1.5
   permission_handler: 11.4.0
   pinenacl: 0.6.0
+  pretty_dio_logger: ^1.4.0
   render_metrics:
     #    Temporarily. Before the adoption of the PR
     #    https://github:com/surfstudio/flutter-render-metrics/pull/27:
