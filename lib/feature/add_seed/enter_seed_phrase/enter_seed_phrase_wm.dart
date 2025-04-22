@@ -258,14 +258,15 @@ class EnterSeedPhraseWidgetModel
         words.length = _inputDataList.length;
       }
 
-      words.asMap().forEach((index, word) {
-        _inputDataList[index].controller.value = TextEditingValue(
+      for (var i = 0; i < words.length; i++) {
+        final word = words[i];
+        _inputDataList[i].controller.value = TextEditingValue(
           text: word,
           selection: TextSelection.fromPosition(
             TextPosition(offset: word.length),
           ),
         );
-      });
+      }
     } catch (_) {}
 
     _tryCheckMnemonicType();
