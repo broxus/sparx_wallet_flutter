@@ -297,7 +297,7 @@ GoRoute get tokenWalletSendRoute {
   return GoRoute(
     path: AppRoute.tokenWalletSend.path,
     builder: (context, state) {
-      return TokenWalletSendPage(
+      return TokenWalletSendWidget(
         owner: Address(
           address: state.uri.queryParameters[tokenWalletSendOwnerQueryParam]!,
         ),
