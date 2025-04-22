@@ -130,9 +130,13 @@ class CustomBottomNavigationBarWidgetModel extends CustomWidgetModel<
       return;
     }
 
-    final route = getCurrentAppRoute(fullPath: _routerState.fullPath);
-    final isBottomNavigationBarVisible = route.isBottomNavigationBarVisible;
-
-    _visibleState.accept(isBottomNavigationBarVisible);
+    Future.delayed(
+      const Duration(milliseconds: 50),
+      () {
+        final route = getCurrentAppRoute(fullPath: _routerState.fullPath);
+        final isBottomNavigationBarVisible = route.isBottomNavigationBarVisible;
+        _visibleState.accept(isBottomNavigationBarVisible);
+      },
+    );
   }
 }
