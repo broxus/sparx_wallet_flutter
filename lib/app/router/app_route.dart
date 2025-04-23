@@ -75,7 +75,7 @@ enum AppRoute {
     '',
     'walletDeploy/:$walletDeployAddressPathParam/:$walletDeployPublicKeyPathParam',
   ),
-  tonConfirmTransaction(
+  confirmMultisigTransaction(
     '',
     'tonConfirmTransaction', // all data in query
   ),

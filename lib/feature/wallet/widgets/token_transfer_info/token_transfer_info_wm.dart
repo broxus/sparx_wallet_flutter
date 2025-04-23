@@ -52,6 +52,7 @@ class TokenTransferInfoWidgetModel
       (value) => Money.fromBigIntWithCurrency(value, nativeCurrency),
     ),
   );
+  late final _amount = createNotifier(widget.amount);
 
   ListenableState<Fixed> get amountUSDPrice => _amountUSDPrice;
 
@@ -64,6 +65,8 @@ class TokenTransferInfoWidgetModel
   ListenableState<String> get feeError => _feeError;
 
   ListenableState<Money> get attachedAmount => _attachedAmount;
+
+  ListenableState<Money> get amount => _amount;
 
   Currency get nativeCurrency =>
       Currencies()[model.transport.nativeTokenTicker]!;
@@ -101,6 +104,7 @@ class TokenTransferInfoWidgetModel
         (value) => Money.fromBigIntWithCurrency(value, nativeCurrency),
       ),
     );
+    _amount.accept(widget.amount);
   }
 
   Future<void> _getNativePrice() async {
