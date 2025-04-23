@@ -209,6 +209,7 @@
   "contactSupportCantFindEmailClientShare": "Share log file",
   "contactSupportOpenQa": "Open QA",
   "browserCloseAll": "Close All",
+  "browserCloseAllTabsDescription": "Are you sure you want\nto clear all tabs?",
   "done": "Done",
   "browserSearchURL": "Search or enter URL",
   "browserSearchURLCancel": "Cancel",

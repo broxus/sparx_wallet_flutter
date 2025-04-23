@@ -155,7 +155,7 @@ class _HolePainter extends CustomPainter {
 
     canvas.drawPath(
       path,
-      Paint()..color = Colors.black54,
+      Paint()..color = ColorsResV2.backgroundOverlay,
     );
   }
 

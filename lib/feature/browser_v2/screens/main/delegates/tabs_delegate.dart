@@ -3,7 +3,9 @@ import 'package:app/feature/browser_v2/data/browser_tab.dart';
 import 'package:app/feature/browser_v2/screens/main/browser_main_screen_model.dart';
 import 'package:app/feature/browser_v2/screens/main/data/browser_render_manager.dart';
 import 'package:app/feature/browser_v2/screens/main/widgets/tab_animated_view/tab_animation_type.dart';
+import 'package:app/feature/browser_v2/widgets/bottomsheets/clear_tabs_bottom_sheet.dart';
 import 'package:elementary_helper/elementary_helper.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 
 abstract interface class BrowserTabsUi {
@@ -24,6 +26,7 @@ abstract interface class BrowserTabsUi {
 
 class BrowserTabsDelegate implements BrowserTabsUi {
   BrowserTabsDelegate(
+    this.context,
     this.model, {
     required this.renderManager,
     required this.onEmptyTabs,
@@ -34,6 +37,7 @@ class BrowserTabsDelegate implements BrowserTabsUi {
     _init();
   }
 
+  final BuildContext context;
   final BrowserMainScreenModel model;
   final BrowserRenderManager renderManager;
   final VoidCallback onEmptyTabs;
@@ -127,8 +131,11 @@ class BrowserTabsDelegate implements BrowserTabsUi {
   }
 
   @override
-  void onCloseAllPressed() {
-    model.clearTabs();
+  Future<void> onCloseAllPressed() async {
+    final isClear = await showBrowserClearTabsSheet(context: context);
+    if (isClear ?? false) {
+      model.clearTabs();
+    }
   }
 
   @override

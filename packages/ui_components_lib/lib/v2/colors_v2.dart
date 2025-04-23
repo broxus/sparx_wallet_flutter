@@ -106,6 +106,7 @@ class ColorsResV2 {
 
   static const black = Color(0xFF000000);
   static const transparent = Color(0x00000000);
+  static final backgroundOverlay = const Color(0xFF11142B).withAlpha(204);
 
   ///primary
   static const p10 = Color(0xFF110A33);

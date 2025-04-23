@@ -41,6 +41,7 @@ class CustomBottomNavigationBarWidgetModel extends CustomWidgetModel<
   late final _visibleState = createNotifier<bool>(true);
 
   StreamSubscription<VisibleNavigationEvent>? _navigationVisibleSub;
+  StreamSubscription<OpenBrowserTabEvent>? _navigationOpenBrowserSub;
 
   bool _isForceHide = false;
 
@@ -71,6 +72,8 @@ class CustomBottomNavigationBarWidgetModel extends CustomWidgetModel<
     _updateVisible();
     _navigationVisibleSub =
         primaryBus.on<VisibleNavigationEvent>().listen(_onNavigationVisible);
+    _navigationOpenBrowserSub =
+        primaryBus.on<OpenBrowserTabEvent>().listen(_onNavigationOpenBrowser);
     WidgetsBinding.instance.addPostFrameCallback((_) {
       _appLinksNavSubs = model.browserLinksStream.listen(_listenAppLinks);
     });
@@ -79,6 +82,10 @@ class CustomBottomNavigationBarWidgetModel extends CustomWidgetModel<
   void _onNavigationVisible(VisibleNavigationEvent event) {
     _isForceHide = event is HideNavigationEvent;
     _updateVisible();
+  }
+
+  void _onNavigationOpenBrowser(OpenBrowserTabEvent event) {
+    _changeValue(RootTab.browser);
   }
 
   @override
@@ -123,9 +130,18 @@ class CustomBottomNavigationBarWidgetModel extends CustomWidgetModel<
       return;
     }
 
-    final route = getCurrentAppRoute(fullPath: _routerState.fullPath);
-    final isBottomNavigationBarVisible = route.isBottomNavigationBarVisible;
 
-    _visibleState.accept(isBottomNavigationBarVisible);
+    // The delay allows the route to be determined correctly.
+    // Without Future, the route variable will contain the route from which
+    // you left, not the route you went to.
+    // A 50ms delay gives more guarantees.
+    Future.delayed(
+      const Duration(milliseconds: 50),
+      () {
+        final route = getCurrentAppRoute(fullPath: _routerState.fullPath);
+        final isBottomNavigationBarVisible = route.isBottomNavigationBarVisible;
+        _visibleState.accept(isBottomNavigationBarVisible);
+      },
+    );
   }
 }

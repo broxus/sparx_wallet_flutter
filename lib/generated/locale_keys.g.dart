@@ -212,6 +212,8 @@ abstract class LocaleKeys {
       'contactSupportCantFindEmailClientShare';
   static const contactSupportOpenQa = 'contactSupportOpenQa';
   static const browserCloseAll = 'browserCloseAll';
+  static const browserCloseAllTabsDescription =
+      'browserCloseAllTabsDescription';
   static const done = 'done';
   static const browserSearchURL = 'browserSearchURL';
   static const browserSearchURLCancel = 'browserSearchURLCancel';

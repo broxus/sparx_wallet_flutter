@@ -66,8 +66,6 @@ class BrowserPageWidgetModel
   final initialSettings = InAppWebViewSettings(
     applicationNameForUserAgent: 'SparXWalletBrowser',
     useShouldOverrideUrlLoading: true,
-    disallowOverScroll: true,
-
     isInspectable: kDebugMode,
   );
 

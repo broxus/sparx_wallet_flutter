@@ -30,15 +30,6 @@ class BrowserMainMenu extends ElementaryWidget<BrowserMainMenuWidgetModel> {
         PrimaryShapedContainerColumn(
           children: [
             _Item(
-              BrowserMainMenuData.clearHistory,
-              onPressed: wm.onPressedItem,
-            ),
-          ],
-        ),
-        const SizedBox(height: DimensSizeV2.d16),
-        PrimaryShapedContainerColumn(
-          children: [
-            _Item(
               BrowserMainMenuData.newTab,
               onPressed: wm.onPressedItem,
             ),
@@ -53,6 +44,15 @@ class BrowserMainMenu extends ElementaryWidget<BrowserMainMenuWidgetModel> {
             // ),
             _Item(
               BrowserMainMenuData.addBookmark,
+              onPressed: wm.onPressedItem,
+            ),
+          ],
+        ),
+        const SizedBox(height: DimensSizeV2.d16),
+        PrimaryShapedContainerColumn(
+          children: [
+            _Item(
+              BrowserMainMenuData.clearHistory,
               onPressed: wm.onPressedItem,
             ),
           ],

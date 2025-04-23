@@ -15,9 +15,22 @@ void showBookModal(BuildContext context) {
     showModalBottomSheet(
       context: context,
       isScrollControlled: true,
+      useRootNavigator: true,
       barrierColor: Colors.black.withOpacity(.8),
       builder: (_) {
-        return const BrowserBook();
+        return DraggableScrollableSheet(
+          expand: false,
+          snap: true,
+          snapSizes: const [.57],
+          initialChildSize: .57,
+          minChildSize: .4,
+          maxChildSize: 0.942,
+          builder: (_, ScrollController scrollController) {
+            return BrowserBook(
+              scrollController: scrollController,
+            );
+          },
+        );
       },
     ),
   );
@@ -25,11 +38,13 @@ void showBookModal(BuildContext context) {
 
 class BrowserBook extends ElementaryWidget<BrowserBookWidgetModel> {
   const BrowserBook({
+    required this.scrollController,
     super.key,
     WidgetModelFactory<BrowserBookWidgetModel> wmFactory =
         defaultBrowserBookWidgetModelFactory,
   }) : super(wmFactory);
 
+  final ScrollController scrollController;
   static const _duration = Duration(milliseconds: 250);
 
   @override
@@ -59,7 +74,7 @@ class BrowserBook extends ElementaryWidget<BrowserBookWidgetModel> {
                       opacity:
                           value == BrowserBookTabBarValue.bookMarks ? 1 : 0,
                       duration: _duration,
-                      child: const BookmarksList(),
+                      child: BookmarksList(scrollController: scrollController),
                     ),
                   );
                 },
@@ -75,7 +90,7 @@ class BrowserBook extends ElementaryWidget<BrowserBookWidgetModel> {
                     child: AnimatedOpacity(
                       opacity: value == BrowserBookTabBarValue.history ? 1 : 0,
                       duration: _duration,
-                      child: const HistoryList(),
+                      child: HistoryList(scrollController: scrollController),
                     ),
                   );
                 },
