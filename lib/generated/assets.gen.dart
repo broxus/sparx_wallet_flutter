@@ -344,9 +344,9 @@ class $AssetsImagesGen {
   SvgGenImage get networkDefault =>
       const SvgGenImage('assets/images/network_default.svg');
 
-  /// File path: assets/images/network_earth.png
+  /// File path: assets/images/network_earth.webp
   AssetGenImage get networkEarth =>
-      const AssetGenImage('assets/images/network_earth.png');
+      const AssetGenImage('assets/images/network_earth.webp');
 
   /// File path: assets/images/network_vector_default.svg
   SvgGenImage get networkVectorDefault =>
