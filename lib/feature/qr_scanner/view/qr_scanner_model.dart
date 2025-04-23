@@ -1,4 +1,6 @@
 import 'package:app/app/service/service.dart';
+import 'package:app/feature/messenger/data/message.dart';
+import 'package:app/feature/messenger/domain/service/messenger_service.dart';
 import 'package:app/feature/qr_scanner/qr_scanner.dart';
 import 'package:elementary/elementary.dart';
 import 'package:flutter/widgets.dart';

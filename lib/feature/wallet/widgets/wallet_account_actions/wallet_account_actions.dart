@@ -187,7 +187,6 @@ class _ActionList extends StatelessWidget {
                           if ((numberUnconfirmedTransactions ?? 0) >= 5) {
                             inject<MessengerService>().show(
                               Message.error(
-                                context: context,
                                 message: LocaleKeys
                                     .errorMessageMaxUnconfirmedTransactions
                                     .tr(),

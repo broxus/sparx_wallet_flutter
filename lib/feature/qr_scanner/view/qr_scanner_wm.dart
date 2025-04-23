@@ -1,9 +1,9 @@
 import 'dart:async';
 
-import 'package:app/app/service/service.dart';
 import 'package:app/core/error_handler_factory.dart';
 import 'package:app/core/wm/custom_wm.dart';
 import 'package:app/di/di.dart';
+import 'package:app/feature/messenger/data/message.dart';
 import 'package:app/feature/qr_scanner/qr_scanner.dart';
 import 'package:app/generated/generated.dart';
 import 'package:app/utils/utils.dart';
@@ -72,7 +72,6 @@ class QrScannerWidgetModel
       if (contextSafe != null) {
         model.showMessage(
           Message.error(
-            context: contextSafe,
             message: LocaleKeys.givePhotosPermission.tr(),
             actionText: LocaleKeys.giveWord.tr(),
             onAction: model.openSettings,
@@ -92,7 +91,6 @@ class QrScannerWidgetModel
       } else {
         model.showMessage(
           Message.error(
-            context: contextSafe,
             message: LocaleKeys.qrScannerError.tr(),
           ),
         );
@@ -132,7 +130,6 @@ class QrScannerWidgetModel
     if (error is MobileScannerBarcodeException) {
       model.showMessage(
         Message.error(
-          context: context,
           message: error.message ?? error.toString(),
         ),
       );
@@ -167,7 +164,6 @@ class QrScannerWidgetModel
     if (!isGranted && contextSafe != null) {
       model.showMessage(
         Message.error(
-          context: contextSafe,
           message: LocaleKeys.givePermissions.tr(),
           actionText: LocaleKeys.giveWord.tr(),
           onAction: model.openSettings,
