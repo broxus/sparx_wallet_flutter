@@ -1,4 +1,3 @@
-import 'package:app/app/service/service.dart';
 import 'package:app/feature/messenger/data/message.dart';
 import 'package:app/feature/messenger/domain/service/messenger_service.dart';
 import 'package:app/utils/utils.dart';
@@ -87,13 +86,10 @@ class SendMessageModel extends ElementaryModel {
     required Address address,
     required UnsignedMessage message,
   }) =>
-      // TODO(komarov): remove when fixed in nekoton
-      transport.networkType == 'ton'
-          ? Future.value([])
-          : _nekotonRepository.simulateTransactionTree(
-              address: address,
-              message: message,
-            );
+      _nekotonRepository.simulateTransactionTree(
+        address: address,
+        message: message,
+      );
 
   String? getSeedName(PublicKey custodian) =>
       _nekotonRepository.seedList.findSeedKey(custodian)?.name;
