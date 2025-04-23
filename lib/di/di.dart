@@ -6,11 +6,9 @@ import 'package:app/feature/browser_v2/domain/service/storages/browser_history_s
 import 'package:app/feature/browser_v2/domain/service/storages/browser_permissions_storage_service.dart';
 import 'package:app/feature/browser_v2/domain/service/storages/browser_tabs_storage_service.dart';
 import 'package:app/feature/update_version/domain/storage/update_version_storage_service.dart';
-import 'package:app/http/http.dart';
 import 'package:encrypted_storage/encrypted_storage.module.dart';
 import 'package:get_it/get_it.dart';
 import 'package:get_storage/get_storage.dart';
-import 'package:http/http.dart' as http;
 import 'package:injectable/injectable.dart';
 import 'package:nekoton_repository/nekoton_repository.module.dart';
 
@@ -27,7 +25,6 @@ final getIt = GetIt.instance;
   ],
   ignoreUnregisteredTypes: [
     GetStorage,
-    http.Client,
   ],
 )
 Future<void> configureDi() async {
@@ -47,11 +44,6 @@ Future<void> configureDi() async {
   for (final container in containers) {
     getIt.registerSingleton(GetStorage(container), instanceName: container);
   }
-
-  getIt.registerLazySingleton<http.Client>(
-    ClientFactory.create,
-    dispose: (client) => client.close(),
-  );
 
   await getIt.init();
 }

@@ -44,6 +44,19 @@ class $AssetsAbiGen {
       ];
 }
 
+class $AssetsAnimationsGen {
+  const $AssetsAnimationsGen();
+
+  /// File path: assets/animations/loader.riv
+  String get loader => 'assets/animations/loader.riv';
+
+  /// File path: assets/animations/rocket.riv
+  String get rocket => 'assets/animations/rocket.riv';
+
+  /// List of all assets
+  List<String> get values => [loader, rocket];
+}
+
 class $AssetsConfigsGen {
   const $AssetsConfigsGen();
 
@@ -390,9 +403,6 @@ class $AssetsImagesGen {
   /// File path: assets/images/refresh.svg
   SvgGenImage get refresh => const SvgGenImage('assets/images/refresh.svg');
 
-  /// File path: assets/images/scan.svg
-  SvgGenImage get scan => const SvgGenImage('assets/images/scan.svg');
-
   /// File path: assets/images/search.svg
   SvgGenImage get search => const SvgGenImage('assets/images/search.svg');
 
@@ -553,7 +563,6 @@ class $AssetsImagesGen {
         plus,
         plusCircled,
         refresh,
-        scan,
         search,
         searchEmpty,
         searchX,
@@ -870,6 +879,7 @@ class Assets {
   const Assets._();
 
   static const $AssetsAbiGen abi = $AssetsAbiGen();
+  static const $AssetsAnimationsGen animations = $AssetsAnimationsGen();
   static const $AssetsConfigsGen configs = $AssetsConfigsGen();
   static const $AssetsImagesGen images = $AssetsImagesGen();
   static const $AssetsJsGen js = $AssetsJsGen();

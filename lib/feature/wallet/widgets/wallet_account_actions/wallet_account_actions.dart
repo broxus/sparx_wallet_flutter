@@ -25,6 +25,7 @@ class WalletAccountActions extends StatelessWidget {
     required this.currentAccount,
     this.allowStake = true,
     this.sendSpecified = false,
+    this.disableSensetiveActions = false,
     this.padding = const EdgeInsets.symmetric(vertical: DimensSizeV2.d32),
     super.key,
   });
@@ -34,6 +35,7 @@ class WalletAccountActions extends StatelessWidget {
 
   /// If send action should be navigated to send specified token or select token
   final bool sendSpecified;
+  final bool disableSensetiveActions;
   final EdgeInsetsGeometry padding;
 
   @override
@@ -68,6 +70,7 @@ class WalletAccountActions extends StatelessWidget {
                       sendSpecified: sendSpecified,
                       padding: padding,
                       nativeTokenTicker: nativeTokenTicker,
+                      disableSensetiveActions: disableSensetiveActions,
                     ),
                     data: (
                       action,
@@ -92,6 +95,7 @@ class WalletAccountActions extends StatelessWidget {
                       nativeTokenTicker: nativeTokenTicker,
                       numberUnconfirmedTransactions:
                           numberUnconfirmedTransactions,
+                      disableSensetiveActions: disableSensetiveActions,
                     ),
                   );
                 },
@@ -114,6 +118,7 @@ class _ActionList extends StatelessWidget {
     this.minBalance,
     this.custodians,
     this.numberUnconfirmedTransactions,
+    this.disableSensetiveActions,
   });
 
   final WalletAccountActionBehavior action;
@@ -127,6 +132,7 @@ class _ActionList extends StatelessWidget {
   final List<PublicKey>? custodians;
   final String? nativeTokenTicker;
   final int? numberUnconfirmedTransactions;
+  final bool? disableSensetiveActions;
 
   @override
   Widget build(BuildContext context) {
@@ -148,49 +154,57 @@ class _ActionList extends StatelessWidget {
             WalletActionButton(
               label: LocaleKeys.receiveWord.tr(),
               icon: LucideIcons.arrowDown,
-              onPressed: account?.let(
-                (value) => () => showReceiveFundsSheet(context, value.address),
-              ),
+              onPressed: disableSensetiveActions == false
+                  ? account?.let(
+                      (value) =>
+                          () => showReceiveFundsSheet(context, value.address),
+                    )
+                  : null,
             ),
             WalletActionButton(
               label: _actionTitle(action),
               icon: _actionIcon(action),
-              onPressed: account?.let(
-                (_) => _actionOnPressed(
-                  context: context,
-                  balance: balance,
-                  minBalance: minBalance,
-                  numberUnconfirmedTransactions: numberUnconfirmedTransactions,
-                ),
-              ),
+              onPressed: disableSensetiveActions == false
+                  ? account?.let(
+                      (_) => _actionOnPressed(
+                        context: context,
+                        balance: balance,
+                        minBalance: minBalance,
+                        numberUnconfirmedTransactions:
+                            numberUnconfirmedTransactions,
+                      ),
+                    )
+                  : null,
             ),
             if (hasStake)
               WalletActionButton(
                 label: LocaleKeys.stakeWord.tr(),
                 icon: LucideIcons.layers2,
                 badge: hasStakeActions,
-                onPressed: account?.let(
-                  (account) => () {
-                    if ((numberUnconfirmedTransactions ?? 0) >= 5) {
-                      inject<MessengerService>().show(
-                        Message.error(
-                          message: LocaleKeys
-                              .errorMessageMaxUnconfirmedTransactions
-                              .tr(),
-                        ),
-                      );
-                    } else {
-                      context.goFurther(
-                        AppRoute.walletStake.pathWithData(
-                          pathParameters: {
-                            walletStakeAddressPathParam:
-                                account.address.address,
-                          },
-                        ),
-                      );
-                    }
-                  },
-                ),
+                onPressed: disableSensetiveActions == false
+                    ? account?.let(
+                        (account) => () {
+                          if ((numberUnconfirmedTransactions ?? 0) >= 5) {
+                            inject<MessengerService>().show(
+                              Message.error(
+                                message: LocaleKeys
+                                    .errorMessageMaxUnconfirmedTransactions
+                                    .tr(),
+                              ),
+                            );
+                          } else {
+                            context.goFurther(
+                              AppRoute.walletStake.pathWithData(
+                                pathParameters: {
+                                  walletStakeAddressPathParam:
+                                      account.address.address,
+                                },
+                              ),
+                            );
+                          }
+                        },
+                      )
+                    : null,
               ),
             if (!sendSpecified)
               WalletActionButton(

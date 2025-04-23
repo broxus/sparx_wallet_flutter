@@ -11,6 +11,8 @@ class NetworkDropItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final theme = context.themeStyleV2;
+
     return Container(
       padding: const EdgeInsets.only(
         left: DimensSizeV2.d4,
@@ -19,14 +21,14 @@ class NetworkDropItem extends StatelessWidget {
         right: DimensSizeV2.d8,
       ),
       decoration: BoxDecoration(
-        color: const Color(0x10FFFFFF), //move to constants
+        color: theme.colors.backgroundAlpha,
         borderRadius: BorderRadius.circular(DimensRadiusV2.theBiggest),
       ),
       child: Row(
         children: [
           NetworkIcon(
             group: data.group,
-            itemSize: DimensSizeV2.d32,
+            itemSize: DimensSizeV2.d28,
           ),
           const SizedBox(width: DimensSizeV2.d4),
           const Icon(

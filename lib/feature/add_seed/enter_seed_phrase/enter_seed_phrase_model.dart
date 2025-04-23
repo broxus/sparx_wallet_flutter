@@ -20,12 +20,12 @@ class EnterSeedPhraseModel extends ElementaryModel with ConnectionMixin {
   final MessengerService messengerService;
   final nt.NekotonRepository _nekotonRepository;
 
-  late final List<int> seedPhraseWordsCount =
-      _nekotonRepository.currentTransport.seedPhraseWordsCount;
-
   Set<String>? _hints;
 
   String get networkGroup => _nekotonRepository.currentTransport.networkGroup;
+
+  List<int> get seedPhraseWordsCount =>
+      _nekotonRepository.currentTransport.seedPhraseWordsCount;
 
   nt.GeneratedKeyG getKey(nt.MnemonicType mnemonicType) {
     return nt.generateKey(

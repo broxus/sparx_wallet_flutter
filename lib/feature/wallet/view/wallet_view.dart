@@ -8,21 +8,17 @@ class WalletView extends StatelessWidget {
   const WalletView({
     required this.currentAccount,
     required this.scrollController,
-    required this.isShowingBadge,
     required this.isShowingNewTokens,
     required this.hasUnconfirmedTransactions,
-    required this.finishedBackupCallback,
     required this.confirmImportCallback,
     required this.manifestUrl,
     super.key,
   });
 
-  final KeyAccount? currentAccount;
+  final KeyAccount currentAccount;
   final ScrollController scrollController;
-  final bool isShowingBadge;
   final bool isShowingNewTokens;
   final bool hasUnconfirmedTransactions;
-  final VoidCallback finishedBackupCallback;
   final VoidCallback confirmImportCallback;
   final String manifestUrl;
 
@@ -41,13 +37,12 @@ class WalletView extends StatelessWidget {
               const SliverToBoxAdapter(
                 child: WalletAppBarWidget(),
               ),
-              WalletAccountsBody(
+              WalletAccountBodyWidget(
+                key: ValueKey(currentAccount),
                 account: currentAccount,
-                isShowingBadge: isShowingBadge,
-                finishedBackupCallback: finishedBackupCallback,
               ),
               WalletBottomPanel(
-                currentAccount: currentAccount!,
+                currentAccount: currentAccount,
                 scrollController: scrollController,
                 isShowingNewTokens: isShowingNewTokens,
                 confirmImportCallback: confirmImportCallback,
@@ -72,16 +67,13 @@ class _Background extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Positioned(
-      top: -DimensSizeV2.d16,
+      top: -DimensSizeV2.d36,
       left: 0,
       right: 0,
-      child: Padding(
-        padding: const EdgeInsets.all(DimensSizeV2.d8),
-        child: Image.asset(
-          Assets.images.bgMain.bgMain.path,
-          fit: BoxFit.contain,
-          alignment: Alignment.topCenter,
-        ),
+      child: Image.asset(
+        Assets.images.bgMain.bgMain.path,
+        fit: BoxFit.contain,
+        alignment: Alignment.topCenter,
       ),
     );
   }

@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:device_info_plus/device_info_plus.dart';
 import 'package:injectable/injectable.dart';
 import 'package:permission_handler/permission_handler.dart';
 
@@ -71,7 +72,19 @@ class AppPermissionsService {
 
   Future<bool> requestCamera() => requestPermission(Permission.camera);
 
-  Future<bool> requestPhotos() => requestPermission(Permission.photos);
+  Future<bool> requestPhotos() async {
+    if (Platform.isAndroid) {
+      final androidInfo = await DeviceInfoPlugin().androidInfo;
+
+      if (androidInfo.version.sdkInt <= 32) {
+        return requestPermission(Permission.storage);
+      } else {
+        return requestPermission(Permission.photos);
+      }
+    }
+
+    return requestPermission(Permission.photos);
+  }
 
   Future<void> openSettings() => openAppSettings();
 }
