@@ -105,7 +105,10 @@ class TonConfirmTransactionPage extends StatelessWidget {
             sending: (canClose) => Scaffold(
               body: Padding(
                 padding: const EdgeInsets.all(DimensSize.d16),
-                child: TransactionSendingWidget(canClose: canClose),
+                child: TransactionSendingWidget(
+                  canClose: canClose,
+                  popOnComplete: false,
+                ),
               ),
             ),
             sent: (fee, _, custodian) => _confirmPage(

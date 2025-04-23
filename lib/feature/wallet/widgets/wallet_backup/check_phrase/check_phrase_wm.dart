@@ -6,6 +6,7 @@ import 'package:app/core/wm/custom_wm.dart';
 import 'package:app/di/di.dart';
 import 'package:app/feature/wallet/widgets/wallet_backup/wallet_backup.dart';
 import 'package:app/generated/generated.dart';
+import 'package:app/utils/common_utils.dart';
 import 'package:app/v1/feature/add_seed/check_seed_phrase/cubit/check_seed_correct_answer.dart';
 import 'package:flutter/widgets.dart';
 import 'package:nekoton_repository/nekoton_repository.dart';
@@ -34,7 +35,6 @@ class CheckPhraseWidgetModel
 
   ThemeStyleV2 get themeStyle => context.themeStyleV2;
 
-  late final List<String> words = widget.words;
   late final screenState = createEntityNotifier<CheckPhraseData>()
     ..loading(
       CheckPhraseData(
@@ -47,6 +47,9 @@ class CheckPhraseWidgetModel
   List<CheckSeedCorrectAnswer>? userAnswers;
   int currentCheckIndex = 0;
   late List<CheckSeedCorrectAnswer> _correctAnswers;
+
+  late final words = createWidgetProperty((w) => w.words);
+  late final address = createWidgetProperty((w) => w.address);
 
   @override
   void initWidgetModel() {
@@ -75,7 +78,9 @@ class CheckPhraseWidgetModel
   }
 
   void clickSkip() {
-    model.setShowingBackUpFlag(widget.address);
+    address.value?.let(model.setShowingBackUpFlag);
+
+    if (!isMounted) return;
     widget.finishedBackupCallback();
     context
       ..maybePop() //close manual backup dialog
@@ -84,7 +89,7 @@ class CheckPhraseWidgetModel
   }
 
   void _init() {
-    _correctAnswers = _selectCorrectAnswers(words);
+    _correctAnswers = _selectCorrectAnswers(words.value ?? []);
     availableAnswers = _generateAnswerWords(_correctAnswers);
     userAnswers = _correctAnswers.map((e) => e.copyWith(word: '')).toList();
     screenState.content(
@@ -125,7 +130,7 @@ class CheckPhraseWidgetModel
       model.showValidateError(LocaleKeys.seedIsMissing.tr());
     } else {
       // TODO(malochka): think about get rid of maybePop method
-      model.setShowingBackUpFlag(widget.address);
+      address.value?.let(model.setShowingBackUpFlag);
       widget.finishedBackupCallback();
       context
         ..maybePop() //close manual backup

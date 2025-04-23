@@ -45,8 +45,13 @@ class WalletPrepareTransferPage
       },
       builder: (_, data) {
         if (data == null || data.isEmpty) {
-          return _DefaultBody(
-            child: _EmptyText(address: address),
+          return StateNotifierBuilder(
+            listenableState: wm.addressState,
+            builder: (context, addressState) {
+              return _DefaultBody(
+                child: _EmptyText(address: addressState ?? address),
+              );
+            },
           );
         }
 

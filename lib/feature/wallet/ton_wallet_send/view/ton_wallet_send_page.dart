@@ -1,4 +1,5 @@
 import 'package:app/app/router/router.dart';
+import 'package:app/app/router/routs/wallet/ton_wallet_send_route_data.dart';
 import 'package:app/di/di.dart';
 import 'package:app/feature/wallet/ton_wallet_send/view/ton_wallet_send_confirm_view.dart';
 import 'package:app/feature/wallet/wallet.dart';
@@ -12,71 +13,34 @@ import 'package:ui_components_lib/ui_components_lib.dart';
 /// Page that allows send funds from TonWalelt (native token).
 class TonWalletSendPage extends StatelessWidget {
   const TonWalletSendPage({
-    required this.address,
-    required this.publicKey,
-    required this.destination,
-    required this.amount,
-    this.comment,
-    this.payload,
-    this.attachedAmount,
-    this.resultMessage,
-    this.completeCloseCallback,
+    required this.data,
     super.key,
   });
 
-  /// Address of TonWallet that will be used to send funds
-  final Address address;
-
-  /// Custodian of [address] that will be initiator of transaction (for not
-  /// multisig this is main key).
-  final PublicKey publicKey;
-
-  /// Address where funds should be sent
-  final Address destination;
-
-  /// Amount of tokens that should be sent, to convert Fixed to BigInt, use
-  /// [Fixed.minorUnits].
-  final BigInt amount;
-
-  /// Ammount that will be just added to [amount]
-  final BigInt? attachedAmount;
-
-  /// Comment for transaction
-  final String? comment;
-
-  /// Transaction payload
-  final String? payload;
-
-  /// Message that will be shown when transaction sending completed
-  final String? resultMessage;
-
-  /// Callback that could be used to change default behavior for closing
-  /// this screen when user achieved last step of sending when transaction is
-  /// ready.
-  final ValueChanged<BuildContext>? completeCloseCallback;
+  final TonWalletSendRouteData data;
 
   @override
   Widget build(BuildContext context) {
     return BlocProvider<TonWalletSendBloc>(
       create: (_) => TonWalletSendBloc(
         context: context,
-        destination: destination,
-        amount: amount + (attachedAmount ?? BigInt.zero),
-        address: address,
-        comment: comment,
-        payload: payload,
-        publicKey: publicKey,
+        destination: data.destination,
+        amount: data.amount + (data.attachedAmount ?? BigInt.zero),
+        address: data.address,
+        comment: data.comment,
+        payload: data.payload,
+        publicKey: data.publicKey,
         nekotonRepository: inject(),
         messengerService: inject(),
         resultMessage:
-            resultMessage ?? LocaleKeys.transactionSentSuccessfully.tr(),
+            data.resultMessage ?? LocaleKeys.transactionSentSuccessfully.tr(),
       )..add(const TonWalletSendEvent.prepare()),
       child: BlocConsumer<TonWalletSendBloc, TonWalletSendState>(
         listener: (context, state) {
           state.whenOrNull(
             sent: (_, __) {
-              if (completeCloseCallback != null) {
-                completeCloseCallback!(context);
+              if (data.popOnComplete) {
+                context.pop(true);
               } else {
                 context.goNamed(AppRoute.wallet.name);
               }
@@ -85,62 +49,110 @@ class TonWalletSendPage extends StatelessWidget {
         },
         builder: (context, state) {
           return state.when(
-            subscribeError: (error) => Scaffold(
-              appBar: DefaultAppBar(
-                titleText: LocaleKeys.confirmTransaction.tr(),
-              ),
-              body: Center(child: WalletSubscribeErrorWidget(error: error)),
+            subscribeError: _SubscribeErrorPage.new,
+            loading: () => _ConfirmPage(data: data),
+            calculatingError: (error, fee) => _ConfirmPage(
+              data: data,
+              fee: fee,
+              error: error,
             ),
-            loading: _confirmPage,
-            calculatingError: (error, fee) =>
-                _confirmPage(fee: fee, error: error),
-            readyToSend: (fee, txErrors) =>
-                _confirmPage(fee: fee, txErrors: txErrors),
-            sending: _sendingPage,
-            sent: (fee, _) => _sendingPage(true),
+            readyToSend: (fee, txErrors) => _ConfirmPage(
+              data: data,
+              fee: fee,
+              txErrors: txErrors,
+            ),
+            sending: (canClose) => _SendingPage(
+              canClose: canClose,
+              popOnComplete: data.popOnComplete,
+            ),
+            sent: (fee, _) => _SendingPage(
+              canClose: true,
+              popOnComplete: data.popOnComplete,
+            ),
           );
         },
       ),
     );
   }
+}
 
-  Widget _confirmPage({
-    BigInt? fee,
-    String? error,
-    List<TxTreeSimulationErrorItem>? txErrors,
-  }) =>
-      Scaffold(
-        appBar: DefaultAppBar(
-          onClosePressed: (context) => context.pop(),
-          titleText: LocaleKeys.confirmTransaction.tr(),
-        ),
-        body: Padding(
-          padding: const EdgeInsets.symmetric(
-            horizontal: DimensSizeV2.d16,
-          ),
-          child: TonWalletSendConfirmView(
-            recipient: destination,
-            amount: amount,
-            attachedAmount: attachedAmount,
-            comment: comment,
-            payload: payload,
-            publicKey: publicKey,
-            fee: fee,
-            feeError: error,
-            txErrors: txErrors,
-          ),
-        ),
-      );
+class _ConfirmPage extends StatelessWidget {
+  const _ConfirmPage({
+    required this.data,
+    this.fee,
+    this.error,
+    this.txErrors,
+  });
 
-  Widget _sendingPage(bool canClose) => Scaffold(
-        body: Padding(
-          padding: const EdgeInsets.all(
-            DimensSizeV2.d16,
-          ),
-          child: TransactionSendingWidget(
-            canClose: canClose,
-            completeCloseCallback: completeCloseCallback,
-          ),
+  final BigInt? fee;
+  final String? error;
+  final List<TxTreeSimulationErrorItem>? txErrors;
+  final TonWalletSendRouteData data;
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: DefaultAppBar(
+        onClosePressed: (context) => context.pop(),
+        titleText: LocaleKeys.confirmTransaction.tr(),
+      ),
+      body: Padding(
+        padding: const EdgeInsets.symmetric(
+          horizontal: DimensSizeV2.d16,
         ),
-      );
+        child: TonWalletSendConfirmView(
+          recipient: data.destination,
+          amount: data.amount,
+          attachedAmount: data.attachedAmount,
+          comment: data.comment,
+          payload: data.payload,
+          publicKey: data.publicKey,
+          fee: fee,
+          feeError: error,
+          txErrors: txErrors,
+        ),
+      ),
+    );
+  }
+}
+
+class _SubscribeErrorPage extends StatelessWidget {
+  const _SubscribeErrorPage(this.error);
+
+  final Object error;
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: DefaultAppBar(
+        titleText: LocaleKeys.confirmTransaction.tr(),
+      ),
+      body: Center(child: WalletSubscribeErrorWidget(error: error)),
+    );
+  }
+}
+
+class _SendingPage extends StatelessWidget {
+  const _SendingPage({
+    required this.canClose,
+    required this.popOnComplete,
+  });
+
+  final bool canClose;
+  final bool popOnComplete;
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      body: Padding(
+        padding: const EdgeInsets.all(
+          DimensSizeV2.d16,
+        ),
+        child: TransactionSendingWidget(
+          canClose: canClose,
+          popOnComplete: popOnComplete,
+        ),
+      ),
+    );
+  }
 }

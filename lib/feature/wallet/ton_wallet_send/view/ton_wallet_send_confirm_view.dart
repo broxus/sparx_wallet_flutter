@@ -83,7 +83,9 @@ class _TonWalletSendConfirmViewState extends State<TonWalletSendConfirmView> {
           title: LocaleKeys.confirm.tr(),
           isLoading: isLoading,
           isDisabled: hasTxError && !isConfirmed,
-          onPasswordEntered: (pwd) => bloc.add(TonWalletSendEvent.send(pwd)),
+          onPasswordEntered: (pwd) {
+            if (!isLoading) bloc.add(TonWalletSendEvent.send(pwd));
+          },
         ),
         const SizedBox(height: DimensSize.d16),
       ],

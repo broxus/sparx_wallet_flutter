@@ -64,6 +64,11 @@ class TonWalletSendBloc extends Bloc<TonWalletSendEvent, TonWalletSendState>
   /// Fee for transaction after calculating it in [_handlePrepare]
   BigInt? fees;
 
+  BigInt get _safeFees {
+    _logger.warning('Fees not set');
+    return fees ?? BigInt.zero;
+  }
+
   KeyAccount? account;
 
   List<TxTreeSimulationErrorItem>? txErrors;
@@ -78,7 +83,7 @@ class TonWalletSendBloc extends Bloc<TonWalletSendEvent, TonWalletSendState>
     on<_CompleteSend>(
       (event, emit) {
         if (fees != null) {
-          emitSafe(TonWalletSendState.sent(fees!, event.transaction));
+          emitSafe(TonWalletSendState.sent(_safeFees, event.transaction));
         }
       },
     );
@@ -123,7 +128,7 @@ class TonWalletSendBloc extends Bloc<TonWalletSendEvent, TonWalletSendState>
       final balance = wallet.contractState.balance;
 
       final isPossibleToSendMessage =
-          fees != null && balance > (fees! + amount);
+          fees != null && balance > (_safeFees + amount);
 
       if (!isPossibleToSendMessage) {
         emitSafe(
@@ -137,7 +142,7 @@ class TonWalletSendBloc extends Bloc<TonWalletSendEvent, TonWalletSendState>
       }
 
       if (fees != null) {
-        emitSafe(TonWalletSendState.readyToSend(fees!, txErrors));
+        emitSafe(TonWalletSendState.readyToSend(_safeFees, txErrors));
       }
     } on Exception catch (e, t) {
       _logger.severe('_handlePrepare', e, t);
@@ -192,7 +197,7 @@ class TonWalletSendBloc extends Bloc<TonWalletSendEvent, TonWalletSendState>
           .show(Message.error(context: context, message: e.toString()));
 
       if (fees != null) {
-        emitSafe(TonWalletSendState.readyToSend(fees!, txErrors));
+        emitSafe(TonWalletSendState.readyToSend(_safeFees, txErrors));
       }
     } finally {
       unsignedMessage?.dispose();
