@@ -45,31 +45,31 @@ class EnterSeedPhraseWidgetModel
     super.model,
   );
 
+  static final _log = Logger('EnterSeedPhraseWidgetModel');
+
   final formKey = GlobalKey<FormState>();
 
-  final _log = Logger('EnterSeedPhraseCubit');
-
   late final List<EnterSeedPhraseInputData> _inputDataList = List.unmodifiable(
-    [
-      for (int i = 0; i < model.seedPhraseWordsCount.max; i++)
-        EnterSeedPhraseInputData.init(i)
-          ..controller.addListener(() {
-            final isExistText = _inputDataList.any(
-              (data) => data.text.isNotEmpty,
-            );
+    Iterable.generate(
+      model.seedPhraseWordsCount.max,
+      (i) => EnterSeedPhraseInputData.init(i)
+        ..controller.addListener(() {
+          final isExistText = _inputDataList.any(
+            (data) => data.text.isNotEmpty,
+          );
 
-            if (displayPasteButtonState.value == isExistText) {
-              _displayPasteButtonState.accept(!isExistText);
-            }
+          if (displayPasteButtonState.value == isExistText) {
+            _displayPasteButtonState.accept(!isExistText);
+          }
 
-            if (isExistText) {
-              _checkDebugPhraseGenerating();
-            }
+          if (isExistText) {
+            _checkDebugPhraseGenerating();
+          }
 
-            _checkInputCompletion(i);
-          })
-          ..focusNode.addListener(() => _checkInputCompletion(i)),
-    ],
+          _checkInputCompletion(i);
+        })
+        ..focusNode.addListener(() => _checkInputCompletion(i)),
+    ),
   );
 
   late final _displayPasteButtonState = createNotifier<bool>(true);
@@ -78,7 +78,6 @@ class EnterSeedPhraseWidgetModel
       final currentValue = model.seedPhraseWordsCount.first;
 
       return EnterSeedPhraseTabData(
-        allowedValues: model.seedPhraseWordsCount,
         currentValue: currentValue,
         inputs: _inputDataList.take(currentValue).toList(),
       );
@@ -107,6 +106,8 @@ class EnterSeedPhraseWidgetModel
   String get networkGroup => model.networkGroup;
 
   ListenableState<SeedPhraseFormat> get seedPhraseFormat => _seedPhraseFormat;
+
+  List<int> get seedPhraseWordsCount => model.seedPhraseWordsCount;
 
   int get _currentValue =>
       _tabState.value?.currentValue ?? model.seedPhraseWordsCount.first;
@@ -225,50 +226,51 @@ class EnterSeedPhraseWidgetModel
 
   Future<void> pastePhrase() async {
     final words = await getSeedListFromClipboard();
-
     final count = words.length;
-    if (count == actualSeedPhraseLength || count == legacySeedPhraseLength) {
+
+    if ((count == actualSeedPhraseLength || count == legacySeedPhraseLength) &&
+        count <= seedPhraseWordsCount.max) {
       changeTab(count);
+    } else {
+      model.showError(LocaleKeys.incorrectWordsFormat.tr());
+      return;
     }
 
-    Future.delayed(const Duration(milliseconds: 100), () {
-      if (words.isNotEmpty && words.length == _currentValue) {
-        for (final word in words) {
-          if (!model.checkIsWordValid(word)) {
-            words.clear();
-            break;
-          }
+    if (words.isNotEmpty && words.length == _currentValue) {
+      for (final word in words) {
+        if (!model.checkIsWordValid(word)) {
+          words.clear();
+          break;
         }
-      } else {
-        words.clear();
+      }
+    } else {
+      words.clear();
+    }
+
+    if (words.isEmpty) {
+      _resetFormAndError();
+      model.showError(LocaleKeys.incorrectWordsFormat.tr());
+      return;
+    }
+
+    try {
+      if (words.length > _inputDataList.length) {
+        words.length = _inputDataList.length;
       }
 
-      if (words.isEmpty) {
-        _resetFormAndError();
-
-        model.showError(LocaleKeys.incorrectWordsFormat.tr());
-
-        return;
+      for (var i = 0; i < words.length; i++) {
+        final word = words[i];
+        _inputDataList[i].controller.value = TextEditingValue(
+          text: word,
+          selection: TextSelection.fromPosition(
+            TextPosition(offset: word.length),
+          ),
+        );
       }
+    } catch (_) {}
 
-      try {
-        if (words.length > _inputDataList.length) {
-          words.length = _inputDataList.length;
-        }
-
-        words.asMap().forEach((index, word) {
-          _inputDataList[index].controller.value = TextEditingValue(
-            text: word,
-            selection: TextSelection.fromPosition(
-              TextPosition(offset: word.length),
-            ),
-          );
-        });
-      } catch (_) {}
-
-      _tryCheckMnemonicType();
-      _validateFormWithError();
-    });
+    _tryCheckMnemonicType();
+    _validateFormWithError();
   }
 
   void onSeedPhraseFormatChanged(SeedPhraseFormat format) =>
