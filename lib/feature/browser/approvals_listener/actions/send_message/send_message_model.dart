@@ -85,13 +85,10 @@ class SendMessageModel extends ElementaryModel {
     required Address address,
     required UnsignedMessage message,
   }) =>
-      // TODO(komarov): remove when fixed in nekoton
-      transport.networkType == 'ton'
-          ? Future.value([])
-          : _nekotonRepository.simulateTransactionTree(
-              address: address,
-              message: message,
-            );
+      _nekotonRepository.simulateTransactionTree(
+        address: address,
+        message: message,
+      );
 
   String? getSeedName(PublicKey custodian) =>
       _nekotonRepository.seedList.findSeedKey(custodian)?.name;
