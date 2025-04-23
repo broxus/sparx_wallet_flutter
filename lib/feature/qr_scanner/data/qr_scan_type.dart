@@ -1,0 +1,4 @@
+enum QrScanType {
+  address,
+  uri,
+}

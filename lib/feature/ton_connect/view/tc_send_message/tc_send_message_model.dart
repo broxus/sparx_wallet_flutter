@@ -5,7 +5,6 @@ import 'package:app/feature/messenger/data/message.dart';
 import 'package:app/feature/messenger/domain/service/messenger_service.dart';
 import 'package:app/http/repository/repository.dart';
 import 'package:app/utils/utils.dart';
-import 'package:collection/collection.dart';
 import 'package:elementary/elementary.dart';
 import 'package:nekoton_repository/nekoton_repository.dart' hide Message;
 import 'package:rxdart/rxdart.dart';
@@ -24,21 +23,21 @@ class TCSendMessageModel extends ElementaryModel {
 
   TransportStrategy get transport => _nekotonRepository.currentTransport;
 
-  Stream<Money> getBalanceStream(Address address) => _nekotonRepository
-      .walletsStream
-      .map((wallets) => wallets.firstWhereOrNull((w) => w.address == address))
-      .mapNotNull((wallet) => wallet?.wallet?.contractState.balance)
-      .map(
-        (value) => Money.fromBigIntWithCurrency(
-          value,
-          Currencies()[transport.nativeTokenTicker]!,
-        ),
-      );
+  Stream<Money> getBalanceStream(Address address) =>
+      _nekotonRepository.walletsMapStream
+          .map((wallets) => wallets[address])
+          .mapNotNull((wallet) => wallet?.wallet?.contractState.balance)
+          .map(
+            (value) => Money.fromBigIntWithCurrency(
+              value,
+              Currencies()[transport.nativeTokenTicker]!,
+            ),
+          );
 
   Future<TonWalletState> getTonWalletState(Address address) async {
-    final wallet = await _nekotonRepository.walletsStream
-        .expand((e) => e)
-        .firstWhere((wallets) => wallets.address == address);
+    final wallet = await _nekotonRepository.walletsMapStream
+        .mapNotNull((wallets) => wallets[address])
+        .first;
     return wallet;
   }
 

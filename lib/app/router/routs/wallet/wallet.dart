@@ -16,7 +16,7 @@ import 'package:app/feature/wallet/new_account/screen/new_account_screen.dart';
 import 'package:app/feature/wallet/new_account/select_seed/select_seed_page.dart';
 import 'package:app/feature/wallet/wallet.dart';
 import 'package:app/feature/wallet/widgets/account_asset_tab/select_new_asset/select_new_asset.dart';
-import 'package:app/utils/url_utils.dart';
+import 'package:app/utils/utils.dart';
 import 'package:go_router/go_router.dart';
 import 'package:nekoton_repository/nekoton_repository.dart';
 
@@ -31,6 +31,8 @@ const walletPrepareTransferAddressPathParam = 'walletPrepareAddress';
 const walletPrepareTransferRootTokenAddressPathParam =
     'walletPrepareRootTokenAddress';
 const walletPrepareTransferSymbolPathParam = 'walletPrepareSymbol';
+
+const walletPrepareTransferDestinationQueryParam = 'walletPrepareDestination';
 
 const tonWalletSendAddressQueryParam = 'tonWalletSendAddress';
 const tonWalletSendPublicKeyQueryParam = 'tonWalletSendPublicKey';
@@ -225,6 +227,9 @@ GoRoute get walletPrepareTransferRoute {
       address: Address(
         address: state.pathParameters[walletPrepareTransferAddressPathParam]!,
       ),
+      destination: state
+          .uri.queryParameters[walletPrepareTransferDestinationQueryParam]
+          ?.let((address) => Address(address: address)),
     ),
     routes: [
       tonWalletSendRoute,

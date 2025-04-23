@@ -32,8 +32,7 @@ class BalanceService {
     return Rx.combineLatest3<TonWalletState?, TransportStrategy, KeyAccount?,
         (TonWalletState?, TransportStrategy, KeyAccount?)>(
       // subscribe for wallet appearing, because it can happens later
-      nekotonRepository.walletsStream
-          .map((list) => list.firstWhereOrNull((w) => w.address == address)),
+      nekotonRepository.walletsMapStream.map((list) => list[address]),
       nekotonRepository.currentTransportStream,
       nekotonRepository.seedListStream
           .map((list) => list.findAccountByAddress(address)),
@@ -146,8 +145,7 @@ class BalanceService {
     return Rx.combineLatest2<TonWalletState?, TransportStrategy,
             (TonWalletState?, TransportStrategy)>(
       // subscribe for wallet appearing, because it can happens later
-      nekotonRepository.walletsStream
-          .map((list) => list.firstWhereOrNull((w) => w.address == address)),
+      nekotonRepository.walletsMapStream.map((wallets) => wallets[address]),
       nekotonRepository.currentTransportStream, (a, b) => (a, b),
     )
         .switchMap((value) {

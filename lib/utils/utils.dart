@@ -8,6 +8,7 @@ export 'focus_utils.dart';
 export 'input_formatters.dart';
 export 'json/json.dart';
 export 'mixins/mixins.dart';
+export 'nekoton_utils.dart';
 export 'parse_utils.dart';
 export 'seed_utils.dart';
 export 'url_utils.dart';

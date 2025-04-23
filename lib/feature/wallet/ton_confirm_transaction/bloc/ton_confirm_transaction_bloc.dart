@@ -11,6 +11,7 @@ import 'package:flutter/material.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:logging/logging.dart';
 import 'package:nekoton_repository/nekoton_repository.dart' hide Message;
+import 'package:rxdart/rxdart.dart';
 
 part 'ton_confirm_transaction_bloc.freezed.dart';
 
@@ -131,9 +132,9 @@ class TonConfirmTransactionBloc
       this.fees = fees;
       this.txErrors = txErrors;
 
-      final walletState = await nekotonRepository.walletsStream
-          .expand((e) => e)
-          .firstWhere((wallets) => wallets.address == walletAddress);
+      final walletState = await nekotonRepository.walletsMapStream
+          .mapNotNull((wallets) => wallets[walletAddress])
+          .first;
 
       if (walletState.hasError) {
         emitSafe(TonConfirmTransactionState.subscribeError(walletState.error!));

@@ -210,6 +210,7 @@ abstract class LocaleKeys {
       'contactSupportCantFindEmailClient';
   static const contactSupportCantFindEmailClientShare =
       'contactSupportCantFindEmailClientShare';
+  static const contactSupportOpenQa = 'contactSupportOpenQa';
   static const browserCloseAll = 'browserCloseAll';
   static const done = 'done';
   static const browserSearchURL = 'browserSearchURL';
@@ -703,4 +704,16 @@ abstract class LocaleKeys {
   static const appNewVersionTitle = 'appNewVersionTitle';
   static const importantUpdateReleaseNote = 'importantUpdateReleaseNote';
   static const updateWord = 'updateWord';
+  static const photos = 'photos';
+  static const flash = 'flash';
+  static const qrScannerError = 'qrScannerError';
+  static const unsupportedWalletTypeAlertTitle =
+      'unsupportedWalletTypeAlertTitle';
+  static const unsupportedWalletTypeAlertDescription =
+      'unsupportedWalletTypeAlertDescription';
+  static const unsupportedWalletTypeAlertButtonLabel =
+      'unsupportedWalletTypeAlertButtonLabel';
+  static const scanSeedLoaderTitle = 'scanSeedLoaderTitle';
+  static const scanningCompleted = 'scanningCompleted';
+  static const scanSeed = 'scanSeed';
 }

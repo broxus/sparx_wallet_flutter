@@ -36,13 +36,35 @@ platform :android do
   lane :deploy_fad do |options|
 
     flavor = options[:flavor] || "production"
-    apk_name = "app-#{flavor}-release.apk"
+    build_mode = options[:build_mode] || "release"
+    
+    # Determine APK name based on build mode
+    if build_mode == "debug"
+      apk_name = "app-#{flavor}-debug.apk"
+      UI.important("Using debug APK: #{apk_name}")
+    else
+      apk_name = "app-#{flavor}-release.apk"
+      UI.important("Using release APK: #{apk_name}")
+    end
+
+    # Check if the APK exists
+    apk_path = "../build/app/outputs/flutter-apk/#{apk_name}"
+    UI.important("Looking for APK at: #{apk_path}")
+    
+    if File.exist?(apk_path)
+      UI.success("APK found at: #{apk_path}")
+    else
+      UI.error("APK not found at: #{apk_path}")
+      all_files = Dir.glob("../build/app/outputs/flutter-apk/*")
+      UI.important("Available files in directory:")
+      all_files.each { |file| UI.important("  - #{file}") }
+    end
 
     firebase_app_distribution(
       app: "1:1017783238389:android:de95e7bcfdb82f8f2e4fbc",
       groups: "qa",
       android_artifact_type: "APK",
-      android_artifact_path: "../build/app/outputs/flutter-apk/#{apk_name}",
+      android_artifact_path: apk_path,
       service_credentials_file: "../fastlane/FirebaseADKey.json",
       release_notes_file:  "../fastlane/changelog.txt",
     )

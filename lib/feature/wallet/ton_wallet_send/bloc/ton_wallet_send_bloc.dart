@@ -11,6 +11,7 @@ import 'package:flutter/material.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:logging/logging.dart';
 import 'package:nekoton_repository/nekoton_repository.dart' hide Message;
+import 'package:rxdart/rxdart.dart';
 
 part 'ton_wallet_send_bloc.freezed.dart';
 
@@ -113,9 +114,9 @@ class TonWalletSendBloc extends Bloc<TonWalletSendEvent, TonWalletSendState>
       fees = result.$1;
       txErrors = result.$2;
 
-      final walletState = await nekotonRepository.walletsStream
-          .expand((e) => e)
-          .firstWhere((wallets) => wallets.address == address);
+      final walletState = await nekotonRepository.walletsMapStream
+          .mapNotNull((wallets) => wallets[address])
+          .first;
 
       if (walletState.hasError) {
         emitSafe(TonWalletSendState.subscribeError(walletState.error!));

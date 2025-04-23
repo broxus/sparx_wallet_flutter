@@ -53,6 +53,12 @@ class AppButtonStyle {
         buttonTextStyle = textStyles.labelMedium,
         borderColor = colors.borderFocus.withAlpha(OpacV2.opac50.toByteInt());
 
+  AppButtonStyle.transparent(ColorsPaletteV2 colors, TextStylesV2 textStyles)
+      : backgroundColor = colors.backgroundButtonAlpha,
+        iconColor = colors.content0,
+        buttonTextStyle = textStyles.labelMedium,
+        borderColor = colors.borderFocus.withAlpha(OpacV2.opac50.toByteInt());
+
   final Color backgroundColor;
   final Color iconColor;
   final TextStyle buttonTextStyle;

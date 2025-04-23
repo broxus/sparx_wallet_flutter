@@ -1,6 +1,7 @@
 import 'package:app/app/service/service.dart';
 import 'package:elementary/elementary.dart';
 import 'package:nekoton_repository/nekoton_repository.dart';
+import 'package:rxdart/rxdart.dart';
 
 class WalletPageModel extends ElementaryModel {
   WalletPageModel(
@@ -36,18 +37,6 @@ class WalletPageModel extends ElementaryModel {
     _storageService.delete(StorageKey.userWithNewWallet());
   }
 
-  bool? isShowingBadge(KeyAccount account) {
-    final masterPublicKey = _nekotonRepository.seedList
-        .findSeedByAnyPublicKey(account.publicKey)
-        ?.masterPublicKey;
-
-    if (masterPublicKey == null) return null;
-
-    return _storageService.getValue(
-      StorageKey.showingManualBackupBadge(masterPublicKey.publicKey),
-    );
-  }
-
   bool? isShowingNewTokens(KeyAccount account) {
     final address = account.address;
 
@@ -79,9 +68,9 @@ class WalletPageModel extends ElementaryModel {
   }
 
   Future<TonWalletState> getTonWalletState(Address? address) async {
-    final wallet = await _nekotonRepository.walletsStream
-        .expand((e) => e)
-        .firstWhere((wallets) => wallets.address == address);
+    final wallet = await _nekotonRepository.walletsMapStream
+        .mapNotNull((wallets) => wallets[address])
+        .first;
     return wallet;
   }
 }

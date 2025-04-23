@@ -18,6 +18,7 @@ class ColorsPaletteV2 {
     required this.backgroundNegativeAlpha,
     required this.backgroundWarningAlpha,
     required this.backgroundPositiveAlpha,
+    required this.backgroundButtonAlpha,
     required this.content0,
     required this.content1,
     required this.content2,
@@ -84,6 +85,7 @@ class ColorsPaletteV2 {
   final Color backgroundNegativeAlpha;
   final Color backgroundWarningAlpha;
   final Color backgroundPositiveAlpha;
+  final Color backgroundButtonAlpha;
 
   ///Extensions-content
   final Color contentNegative;
@@ -141,19 +143,19 @@ class ColorsResV2 {
 
   ///error
   static const e0 = Color(0xFF050101);
-  static const e10 = Color(0xFF210A06);
-  static const e15 = Color(0xFF3D120B);
-  static const e20 = Color(0xFF581B10);
-  static const e30 = Color(0xFF742615);
-  static const e35 = Color(0xFF90331D);
-  static const e40 = Color(0xFFAC4328);
-  static const e50 = Color(0xFFC75737);
-  static const e60 = Color(0xFFE3704C);
-  static const e70 = Color(0xFFFF8F69);
-  static const e80 = Color(0xFFFFAE96);
-  static const e85 = Color(0xFFFFC0B1);
-  static const e90 = Color(0xFFFFD3CB);
-  static const e95 = Color(0xFFFFE8E5);
+  static const e10 = Color(0xFF29030A);
+  static const e15 = Color(0xFF430310);
+  static const e20 = Color(0xFF540413);
+  static const e30 = Color(0xFF7D0D23);
+  static const e35 = Color(0xFFAA122F);
+  static const e40 = Color(0xFFDA1D42);
+  static const e50 = Color(0xFFFF395F);
+  static const e60 = Color(0xFFFF6381);
+  static const e70 = Color(0xFFFF7690);
+  static const e80 = Color(0xFFFFA1B3);
+  static const e85 = Color(0xFFFFBCC9);
+  static const e90 = Color(0xFFFFD1DA);
+  static const e95 = Color(0xFFFFE6EB);
   static const e100 = Color(0xFFFFFFFF);
 
   ///success

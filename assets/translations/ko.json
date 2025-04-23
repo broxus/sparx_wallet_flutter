@@ -207,6 +207,7 @@
   "contactSupportCantCreateFile": "Can't create log file",
   "contactSupportCantFindEmailClient": "Can't find email client",
   "contactSupportCantFindEmailClientShare": "Share log file",
+  "contactSupportOpenQa": "Open QA",
   "browserCloseAll": "Close All",
   "done": "Done",
   "browserSearchURL": "Search or enter URL",
@@ -675,5 +676,14 @@
   "dappManifestError": "dApp manifest error",
   "appNewVersionTitle": "SparX new version",
   "importantUpdateReleaseNote": "Important update with performance improvements, security features and enhanced stability",
-  "updateWord": "Update"
+  "updateWord": "Update",
+  "photos": "Photos",
+  "flash": "Flash",
+  "qrScannerError": "Invalid QR code",
+  "unsupportedWalletTypeAlertTitle": "V5R1 wallet not supported",
+  "unsupportedWalletTypeAlertDescription": "Unavailable in Ever/Venom networks.",
+  "unsupportedWalletTypeAlertButtonLabel": "Switch Account",
+  "scanSeedLoaderTitle": "Scanning and importing,\nplease wait…",
+  "scanningCompleted": "Scanning completed",
+  "scanSeed": "Scan seed"
 }

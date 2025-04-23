@@ -5,9 +5,9 @@ import 'package:app/core/bloc/bloc_mixin.dart';
 import 'package:app/data/models/seed/seed_phrase_model.dart';
 import 'package:app/di/di.dart';
 import 'package:app/feature/add_seed/create_password/model/password_status.dart';
-import 'package:app/feature/messenger/data/message.dart';
-import 'package:app/feature/messenger/domain/service/messenger_service.dart';
-import 'package:app/utils/mixins/connection_mixin.dart';
+import 'package:app/feature/loader_screen/loader_screen.dart';
+import 'package:app/generated/generated.dart';
+import 'package:app/utils/utils.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
@@ -81,23 +81,54 @@ class CreateSeedPasswordCubit extends Cubit<CreateSeedPasswordState>
     }
 
     emitSafe(state.copyWith(isLoading: true));
+
     final nekoton = inject<NekotonRepository>();
     final currentKeyService = inject<CurrentKeyService>();
+
     try {
-      final publicKey = await nekoton.addSeed(
-        phrase: seedPhrase.words,
-        password: passwordController.text,
-        name: name,
-        addType: type,
-        mnemonicType: mnemonicType,
-      );
-      if (setCurrentKey) {
-        currentKeyService.changeCurrentKey(publicKey);
+      PublicKey publicKey;
+      VoidCallback? hideLoader;
+
+      if (type == SeedAddType.import) {
+        hideLoader = showLoaderScreen(
+          context,
+          title: LocaleKeys.scanSeedLoaderTitle.tr(),
+        );
       }
-      await inject<BiometryService>().setKeyPassword(
-        publicKey: publicKey,
-        password: passwordController.text,
-      );
+
+      try {
+        publicKey = await nekoton.addSeed(
+          phrase: seedPhrase.words,
+          password: passwordController.text,
+          name: name,
+          addType: type,
+          mnemonicType: mnemonicType,
+        );
+
+        // wait for seed to be scanned for existing wallets and derived keys
+        await nekoton.seedScanCompleter(publicKey);
+
+        if (setCurrentKey) {
+          currentKeyService.changeCurrentKey(publicKey);
+        }
+
+        await inject<BiometryService>().setKeyPassword(
+          publicKey: publicKey,
+          password: passwordController.text,
+        );
+      } finally {
+        hideLoader?.call();
+      }
+
+      if (type == SeedAddType.import) {
+        messengerService.show(
+          Message.successful(
+            message: LocaleKeys.scanningCompleted.tr(),
+            duration: const Duration(seconds: 2),
+          ),
+        );
+      }
+
       completeCallback(publicKey);
     } catch (e) {
       Logger('CreateSeedPasswordCubit').severe(e);

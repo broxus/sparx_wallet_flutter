@@ -37,19 +37,20 @@ class CreateSeedPasswordScreenModel extends ElementaryModel {
     required SeedPhraseModel? phrase,
     required MnemonicType? mnemonicType,
   }) async {
-    late SeedPhraseModel seed;
-
     try {
-      if (phrase?.isNotEmpty ?? false) {
-        seed = phrase!;
-      } else {
-        seed = _createSeed();
-      }
+      final addType = phrase != null && phrase.isNotEmpty
+          ? SeedAddType.import
+          : SeedAddType.create;
+      final seed = switch (addType) {
+        SeedAddType.create => _createSeed(),
+        SeedAddType.import => phrase!,
+      };
 
       final publicKey = await _nekotonRepository.addSeed(
         phrase: seed.words,
         password: password,
         mnemonicType: mnemonicType,
+        addType: addType,
       );
 
       _currentKeyService.changeCurrentKey(publicKey);
