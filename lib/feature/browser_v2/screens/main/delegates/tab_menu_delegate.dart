@@ -8,6 +8,7 @@ import 'package:app/feature/browser_v2/screens/main/data/browser_render_manager.
 import 'package:app/feature/browser_v2/screens/main/widgets/tab_menu/data.dart';
 import 'package:app/feature/browser_v2/screens/main/widgets/tab_menu/tab_menu.dart';
 import 'package:app/utils/clipboard_utils.dart';
+import 'package:app/widgets/bottom_navigation_bar/custom_bottom_navigation_bar.dart';
 import 'package:flutter/cupertino.dart';
 
 // ignore: one_member_abstracts
@@ -32,20 +33,25 @@ class BrowserTabMenuDelegate implements BrowserTabMenuUi {
   final VoidCallback onShowMenu;
   final VoidCallback onHideMenu;
 
+  final _duration = CustomBottomNavigationBar.animateDuration +
+      const Duration(milliseconds: 50);
+
   @override
   Future<void> showTabMenu(
     BrowserTab tab,
   ) async {
-    final data = renderManager.getRenderData(tab.id);
-
-    if (data == null) {
-      return;
-    }
-
     onShowMenu();
     primaryBus.fire(HideNavigationEvent());
 
-    final result = await showBrowserTabMenu(context, data);
+    final result = await Future.delayed(
+      _duration,
+      () {
+        final data = renderManager.getRenderData(tab.id);
+        if (data != null && context.mounted) {
+          return showBrowserTabMenu(context, data);
+        }
+      },
+    );
 
     onHideMenu();
     primaryBus.fire(RevertNavigationEvent());

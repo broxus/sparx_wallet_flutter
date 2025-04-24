@@ -98,6 +98,7 @@ class CustomBottomNavigationBarWidgetModel extends CustomWidgetModel<
   void dispose() {
     _appLinksNavSubs?.cancel();
     _navigationVisibleSub?.cancel();
+    _navigationOpenBrowserSub?.cancel();
     super.dispose();
   }
 

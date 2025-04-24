@@ -18,6 +18,7 @@ class CustomBottomNavigationBar
         );
 
   static final height = DimensSizeV2.d48 + getViewPadding().bottom;
+  static const animateDuration = Duration(milliseconds: 150);
 
   @override
   Widget build(CustomBottomNavigationBarWidgetModel wm) {
@@ -27,7 +28,7 @@ class CustomBottomNavigationBar
         isVisible ??= false;
 
         return AnimatedSize(
-          duration: const Duration(milliseconds: 150),
+          duration: animateDuration,
           child: SizedBox(
             height: isVisible ? height : 0,
             child: Theme(
