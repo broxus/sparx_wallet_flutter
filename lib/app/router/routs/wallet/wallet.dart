@@ -56,19 +56,19 @@ const tokenWalletSendNotifyReceiverQueryParam = 'tokenWalletSendNotifyReceiver';
 const walletDeployAddressPathParam = 'walletDeployAddress';
 const walletDeployPublicKeyPathParam = 'walletDeployPublicKey';
 
-const tonWalletConfirmTransactionWalletAddressQueryParam =
+const confirmMultisigTransactionWalletAddressQueryParam =
     'tonWalletConfirmTransactionAddress';
-const tonWalletConfirmTransactionLocalCustodiansQueryParam =
+const confirmMultisigTransactionLocalCustodiansQueryParam =
     'tonWalletConfirmTransactionLocalCustodians';
-const tonWalletConfirmTransactionTransactionIdQueryParam =
+const confirmMultisigTransactionTransactionIdQueryParam =
     'tonWalletConfirmTransactionTransactionId';
-const tonWalletConfirmTransactionIdHashQueryParam =
+const confirmMultisigTransactionIdHashQueryParam =
     'tonWalletConfirmTransactionIdHash';
-const tonWalletConfirmTransactionDestinationQueryParam =
+const confirmMultisigTransactionDestinationQueryParam =
     'tonWalletConfirmTransactionDestination';
-const tonWalletConfirmTransactionAmountQueryParam =
+const confirmMultisigTransactionAmountQueryParam =
     'tonWalletConfirmTransactionAmount';
-const tonWalletConfirmTransactionCommentQueryParam =
+const confirmMultisigTransactionCommentQueryParam =
     'tonWalletConfirmTransactionComment';
 
 const networkConnectionDataIdQueryParam = 'connectionDataId';
@@ -176,7 +176,7 @@ StatefulShellBranch get walletBranch {
           tokenWalletDetailsRoute,
           walletPrepareTransferRoute,
           walletDeployRoute,
-          tonConfirmTranscationRoute,
+          confirmMultisigTranscationRoute,
           configureNetworksRoute,
           stakingRoute,
         ],
@@ -196,7 +196,7 @@ GoRoute get tonWalletDetailsRoute {
     routes: [
       walletDeployRoute,
       walletPrepareTransferLockedRoute,
-      tonConfirmTranscationRoute,
+      confirmMultisigTranscationRoute,
     ],
   );
 }
@@ -267,7 +267,7 @@ GoRoute get tonWalletSendRoute {
       final attached =
           state.uri.queryParameters[tonWalletSendAttachedAmountQueryParam];
 
-      return TonWalletSendPage(
+      return TonWalletSendWidget(
         address: Address(
           address: state.uri.queryParameters[tonWalletSendAddressQueryParam]!,
         ),
@@ -297,7 +297,7 @@ GoRoute get tokenWalletSendRoute {
   return GoRoute(
     path: AppRoute.tokenWalletSend.path,
     builder: (context, state) {
-      return TokenWalletSendPage(
+      return TokenWalletSendWidget(
         owner: Address(
           address: state.uri.queryParameters[tokenWalletSendOwnerQueryParam]!,
         ),
@@ -350,37 +350,36 @@ GoRoute get walletDeployRoute {
 }
 
 /// Confirm multisig transaction for TonWallet
-// TODO(knightforce): rename to Multisig or Custodian
-GoRoute get tonConfirmTranscationRoute {
+GoRoute get confirmMultisigTranscationRoute {
   return GoRoute(
-    path: AppRoute.tonConfirmTransaction.path,
+    path: AppRoute.confirmMultisigTransaction.path,
     builder: (context, state) {
       final decoded = (jsonDecode(
         state.uri.queryParameters[
-            tonWalletConfirmTransactionLocalCustodiansQueryParam]!,
+            confirmMultisigTransactionLocalCustodiansQueryParam]!,
       ) as List<dynamic>)
           .cast<String>();
 
-      return TonConfirmTransactionPage(
+      return ConfirmMultisigTransactionWidget(
         walletAddress: Address(
           address: state.uri.queryParameters[
-              tonWalletConfirmTransactionWalletAddressQueryParam]!,
+              confirmMultisigTransactionWalletAddressQueryParam]!,
         ),
         localCustodians: decoded.map((e) => PublicKey(publicKey: e)).toList(),
         transactionId: state.uri.queryParameters[
-            tonWalletConfirmTransactionTransactionIdQueryParam]!,
+            confirmMultisigTransactionTransactionIdQueryParam]!,
         transactionIdHash: state
-            .uri.queryParameters[tonWalletConfirmTransactionIdHashQueryParam],
+            .uri.queryParameters[confirmMultisigTransactionIdHashQueryParam],
         destination: Address(
           address: state.uri.queryParameters[
-              tonWalletConfirmTransactionDestinationQueryParam]!,
+              confirmMultisigTransactionDestinationQueryParam]!,
         ),
         amount: BigInt.parse(
-          state.uri
-              .queryParameters[tonWalletConfirmTransactionAmountQueryParam]!,
+          state
+              .uri.queryParameters[confirmMultisigTransactionAmountQueryParam]!,
         ),
         comment: state
-            .uri.queryParameters[tonWalletConfirmTransactionCommentQueryParam],
+            .uri.queryParameters[confirmMultisigTransactionCommentQueryParam],
       );
     },
   );
