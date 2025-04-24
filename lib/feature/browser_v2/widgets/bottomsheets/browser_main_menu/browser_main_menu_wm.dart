@@ -32,11 +32,16 @@ class BrowserMainMenuWidgetModel
 
   ThemeStyleV2 get _theme => context.themeStyleV2;
 
-  void onPressedItem(BrowserMainMenuData value) {
+  Future<void> onPressedItem(BrowserMainMenuData value) async {
     switch (value) {
       case BrowserMainMenuData.clearHistory:
         _close();
-        showClearHistoryModal(context);
+
+        final result = await showClearHistoryModal(context);
+
+        if (result != null) {
+          _clearHistory(result);
+        }
       case BrowserMainMenuData.newTab:
         _close();
         model.createTab();
@@ -53,5 +58,16 @@ class BrowserMainMenuWidgetModel
 
   void _close() {
     Navigator.of(context).pop();
+  }
+
+  void _clearHistory(ClearHistoryType result) {
+    final period = result.$1;
+    final targets = result.$2;
+
+    if (targets.isEmpty) {
+      return;
+    }
+
+    model.clearData(period, targets);
   }
 }

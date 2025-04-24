@@ -1,3 +1,4 @@
+import 'package:app/feature/browser_v2/data/history_type.dart';
 import 'package:app/feature/browser_v2/domain/service/browser_service.dart';
 import 'package:app/feature/browser_v2/widgets/bottomsheets/browser_main_menu/browser_main_menu.dart';
 import 'package:elementary/elementary.dart';
@@ -27,5 +28,9 @@ class BrowserMainMenuModel extends ElementaryModel {
 
   void reload() {
     _browserService.tM.refreshActiveTab();
+  }
+
+  void clearData(TimePeriod period, Set<TypeHistory> targets) {
+    _browserService.clearData(period, targets);
   }
 }
