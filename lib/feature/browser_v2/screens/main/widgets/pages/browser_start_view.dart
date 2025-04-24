@@ -1,5 +1,3 @@
-import 'package:app/feature/browser_v2/screens/main/widgets/control_panels/navigation_panel/navigation_panel.dart';
-import 'package:app/feature/browser_v2/screens/main/widgets/control_panels/toolbar/toolbar.dart';
 import 'package:app/generated/generated.dart';
 import 'package:flutter/material.dart';
 import 'package:lucide_icons_flutter/lucide_icons.dart';
@@ -7,9 +5,6 @@ import 'package:ui_components_lib/v2/ui_components_lib_v2.dart';
 
 class BrowserStartView extends StatelessWidget {
   const BrowserStartView({super.key});
-
-  static const _bottom =
-      BrowserNavigationPanel.height + Toolbar.height + DimensSizeV2.d12;
 
   @override
   Widget build(BuildContext context) {
@@ -26,7 +21,7 @@ class BrowserStartView extends StatelessWidget {
           children: [
             Assets.images.bgNetwork.image(width: double.infinity),
             Positioned(
-              bottom: BrowserStartView._bottom,
+              bottom: DimensSizeV2.d4,
               left: 0,
               right: 0,
               child: Column(
