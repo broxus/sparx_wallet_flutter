@@ -23,11 +23,14 @@ CancelUnstakingPageWidgetModel defaultCancelUnstakingPageWidgetModelFactory(
         inject(),
         inject(),
       ),
+      inject(),
     );
 
 class CancelUnstakingPageWidgetModel extends CustomWidgetModel<
     CancelUnstakingPageWidget, CancelUnstakingPageModel> {
-  CancelUnstakingPageWidgetModel(super.model);
+  CancelUnstakingPageWidgetModel(super.model, this._tonWalletSendNavigator);
+
+  final TonWalletSendRoute _tonWalletSendNavigator;
 
   late final _asset = createNotifier<TokenContractAsset>();
 
@@ -62,7 +65,8 @@ class CancelUnstakingPageWidgetModel extends CustomWidgetModel<
 
     if (!context.mounted) return;
 
-    final result = await context.push<bool>(
+    final result = await _tonWalletSendNavigator.push(
+      context,
       TonWalletSendRouteData(
         address: widget.request.accountAddress,
         amount: model.staking.stakeRemovePendingWithdrawAttachedFee,
@@ -73,7 +77,7 @@ class CancelUnstakingPageWidgetModel extends CustomWidgetModel<
           args: [widget.stakeCurrency.symbol],
         ),
         popOnComplete: true,
-      ).toLocation(),
+      ),
     );
 
     if (result ?? false) {

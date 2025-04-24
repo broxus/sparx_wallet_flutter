@@ -5,6 +5,7 @@ import 'dart:convert';
 import 'package:app/app/router/router.dart';
 import 'package:app/app/router/routs/wallet/ton_wallet_send_route_data.dart';
 import 'package:app/data/models/models.dart';
+import 'package:app/di/di.dart';
 import 'package:app/feature/biometry/view/biometry_screen.dart';
 import 'package:app/feature/network/network.dart';
 import 'package:app/feature/no_internet/no_internet_screen.dart';
@@ -85,6 +86,8 @@ const walletCancelUnstakingEverPriceQueryParam =
 
 const walletCreatePublicKeyQueryParam = 'walletCreatePublicKey';
 const walletCreatePasswordQueryParam = 'walletCreatePassword';
+
+TonWalletSendRoute get _tonWalletSendRoute => inject<TonWalletSendRoute>();
 
 /// Branch that is root for wallet.
 StatefulShellBranch get walletBranch {
@@ -224,7 +227,7 @@ GoRoute get walletPrepareTransferRoute {
           ?.let((address) => Address(address: address)),
     ),
     routes: [
-      tonWalletSendRoute,
+      _tonWalletSendRoute.route,
       tokenWalletSendRoute,
     ],
   );
@@ -245,7 +248,7 @@ GoRoute get walletPrepareTransferLockedRoute {
       tokenSymbol: state.pathParameters[walletPrepareTransferSymbolPathParam],
     ),
     routes: [
-      tonWalletSendRoute,
+      _tonWalletSendRoute.route,
       tokenWalletSendRoute,
     ],
   );
@@ -371,7 +374,7 @@ GoRoute get stakingRoute {
       ),
     ),
     routes: [
-      tonWalletSendRoute,
+      _tonWalletSendRoute.route,
       tokenWalletSendRoute,
       cancelUnstakingRoute,
     ],
@@ -412,7 +415,7 @@ GoRoute get cancelUnstakingRoute {
       ),
     ),
     routes: [
-      tonWalletSendRoute,
+      _tonWalletSendRoute.route,
     ],
   );
 }

@@ -181,7 +181,8 @@ class _ButtonWidget extends StatelessWidget {
             accountKey,
             attachedFee,
           ) {
-            context.goFurther(
+            inject<TonWalletSendRoute>().goFurther(
+              context,
               TonWalletSendRouteData(
                 address: sender,
                 publicKey: accountKey,
@@ -193,7 +194,7 @@ class _ButtonWidget extends StatelessWidget {
                 resultMessage: LocaleKeys.stEverAppearInMinutes.tr(
                   args: [wm.tokenCurrency?.symbol ?? ''],
                 ),
-              ).toLocation(),
+              ),
             );
           },
           goUnstake: (

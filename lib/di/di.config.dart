@@ -18,6 +18,7 @@ import 'package:injectable/injectable.dart' as _i526;
 import 'package:nekoton_repository/nekoton_repository.dart' as _i771;
 import 'package:nekoton_repository/nekoton_repository.module.dart' as _i1067;
 
+import '../app/router/routs/wallet/ton_wallet_send_route_data.dart' as _i712;
 import '../app/service/app_lifecycle_service.dart' as _i830;
 import '../app/service/app_links/app_links_service.dart' as _i746;
 import '../app/service/app_permissions_service.dart' as _i1070;
@@ -141,6 +142,8 @@ extension GetItInjectableX on _i174.GetIt {
     gh.singleton<_i391.DnsResolveService>(() => _i391.DnsResolveService());
     gh.singleton<_i654.BrowserApprovalsService>(
         () => _i654.BrowserApprovalsService());
+    gh.lazySingleton<_i712.TonWalletSendRoute>(
+        () => _i712.TonWalletSendRoute());
     gh.lazySingleton<_i361.Dio>(() => dioModule.getDio());
     gh.singleton<_i29.BrowserPermissionsStorageService>(() =>
         _i29.BrowserPermissionsStorageService(

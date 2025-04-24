@@ -30,7 +30,7 @@ mixin _$TonWalletSendRouteData {
   /// [Fixed.minorUnits].
   BigInt get amount => throw _privateConstructorUsedError;
 
-  /// If true - after transaction send screen will be popped
+  /// If true - after transaction send screen will be popped with true-result
   /// else - navigate to wallet
   bool get popOnComplete => throw _privateConstructorUsedError;
 
@@ -299,7 +299,7 @@ class _$TonWalletSendRouteDataImpl extends _TonWalletSendRouteData {
   @override
   final BigInt amount;
 
-  /// If true - after transaction send screen will be popped
+  /// If true - after transaction send screen will be popped with true-result
   /// else - navigate to wallet
   @override
   final bool popOnComplete;
@@ -391,7 +391,7 @@ abstract class _TonWalletSendRouteData extends TonWalletSendRouteData {
   @override
   BigInt get amount;
 
-  /// If true - after transaction send screen will be popped
+  /// If true - after transaction send screen will be popped with true-result
   /// else - navigate to wallet
   @override
   bool get popOnComplete;

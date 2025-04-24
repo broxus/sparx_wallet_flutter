@@ -41,6 +41,7 @@ WalletPrepareTransferPageWidgetModel
       inject(),
       inject(),
     ),
+    inject(),
   );
 }
 
@@ -49,7 +50,10 @@ class WalletPrepareTransferPageWidgetModel extends CustomWidgetModel<
     WalletPrepareTransferPage, WalletPrepareTransferPageModel> {
   WalletPrepareTransferPageWidgetModel(
     super.model,
+    this._tonWalletSendNavigator,
   );
+
+  final TonWalletSendRoute _tonWalletSendNavigator;
 
   late final screenState = createEntityNotifier<WalletPrepareTransferData?>()
     ..loading(
@@ -134,7 +138,7 @@ class WalletPrepareTransferPageWidgetModel extends CustomWidgetModel<
     _updateState(selectedAsset: asset);
     unawaited(_updateAsset(asset));
 
-    final address = this.addressState.value;
+    final address = addressState.value;
     if (address == null) return;
 
     model.startListeningBalance(
@@ -250,7 +254,7 @@ class WalletPrepareTransferPageWidgetModel extends CustomWidgetModel<
       return LocaleKeys.addressIsEmpty.tr();
     }
 
-    final address = this.addressState.value;
+    final address = addressState.value;
     if (address == null) return LocaleKeys.addressIsEmpty.tr();
 
     if (_selectedAsset?.isNative != true && address.address == value) {
@@ -264,7 +268,7 @@ class WalletPrepareTransferPageWidgetModel extends CustomWidgetModel<
   }
 
   Future<void> _init() async {
-    final address = this.addressState.value;
+    final address = addressState.value;
     if (address == null) return;
 
     final acc = model.findAccountByAddress(address);
@@ -335,7 +339,7 @@ class WalletPrepareTransferPageWidgetModel extends CustomWidgetModel<
       return;
     }
 
-    final address = this.addressState.value;
+    final address = addressState.value;
     if (address == null) return;
 
     final accountAddress = address.address;
@@ -355,14 +359,16 @@ class WalletPrepareTransferPageWidgetModel extends CustomWidgetModel<
     String? path;
 
     if (selectedAsset.isNative) {
-      path = TonWalletSendRouteData(
-        address: Address(address: accountAddress),
-        publicKey: PublicKey(publicKey: publicKey),
-        comment: comment,
-        destination: receiveAddress,
-        amount: amount.minorUnits,
-        popOnComplete: false,
-      ).toLocation();
+      path = _tonWalletSendNavigator.toLocation(
+        TonWalletSendRouteData(
+          address: Address(address: accountAddress),
+          publicKey: PublicKey(publicKey: publicKey),
+          comment: comment,
+          destination: receiveAddress,
+          amount: amount.minorUnits,
+          popOnComplete: false,
+        ),
+      );
     } else {
       path = AppRoute.tokenWalletSend.pathWithData(
         queryParameters: {
@@ -386,7 +392,7 @@ class WalletPrepareTransferPageWidgetModel extends CustomWidgetModel<
           asset.rootTokenContract,
         );
 
-    final address = this.addressState.value;
+    final address = addressState.value;
     if (address == null) return;
 
     final balance = await model.getBalance(asset: asset, address: address) ??
@@ -421,7 +427,7 @@ class WalletPrepareTransferPageWidgetModel extends CustomWidgetModel<
     _updateState(selectedAsset: selectedAsset);
     unawaited(_updateAsset(selectedAsset));
 
-    final address = this.addressState.value;
+    final address = addressState.value;
     if (address == null) return;
 
     model.startListeningBalance(
@@ -453,7 +459,7 @@ class WalletPrepareTransferPageWidgetModel extends CustomWidgetModel<
     _updateState(selectedAsset: selectedAsset);
     unawaited(_updateAsset(selectedAsset));
 
-    final address = this.addressState.value;
+    final address = addressState.value;
     if (address == null) return;
 
     model.startListeningBalance(
