@@ -48,6 +48,7 @@ class _TokenWalletSendConfirmViewState
       bloc.tokenCurrency,
     );
     final hasTxError = widget.txErrors?.isNotEmpty ?? false;
+    final hasFeeError = widget.feeError?.isNotEmpty ?? false;
 
     return SeparatedColumn(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -83,8 +84,12 @@ class _TokenWalletSendConfirmViewState
           publicKey: widget.publicKey,
           title: LocaleKeys.confirm.tr(),
           isLoading: isLoading,
-          isDisabled: hasTxError && !isConfirmed,
-          onPasswordEntered: (pwd) => bloc.add(TokenWalletSendEvent.send(pwd)),
+          isDisabled: (hasTxError && !isConfirmed) || hasFeeError,
+          onPasswordEntered: (pwd) {
+            if (isLoading) {
+              bloc.add(TokenWalletSendEvent.send(pwd));
+            }
+          },
         ),
         const SizedBox(height: DimensSize.d16),
       ],

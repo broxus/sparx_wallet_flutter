@@ -48,6 +48,7 @@ class _TonWalletSendConfirmViewState extends State<TonWalletSendConfirmView> {
     final amountMoney =
         Money.fromBigIntWithCurrency(widget.amount, bloc.currency);
     final hasTxError = widget.txErrors?.isNotEmpty ?? false;
+    final hasFeeError = widget.feeError?.isNotEmpty ?? false;
 
     return SeparatedColumn(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -82,9 +83,11 @@ class _TonWalletSendConfirmViewState extends State<TonWalletSendConfirmView> {
           publicKey: widget.publicKey,
           title: LocaleKeys.confirm.tr(),
           isLoading: isLoading,
-          isDisabled: hasTxError && !isConfirmed,
+          isDisabled: (hasTxError && !isConfirmed) || hasFeeError,
           onPasswordEntered: (pwd) {
-            if (!isLoading) bloc.add(TonWalletSendEvent.send(pwd));
+            if (!isLoading) {
+              bloc.add(TonWalletSendEvent.send(pwd));
+            }
           },
         ),
         const SizedBox(height: DimensSize.d16),

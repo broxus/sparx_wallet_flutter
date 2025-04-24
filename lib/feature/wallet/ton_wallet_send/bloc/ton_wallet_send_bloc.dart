@@ -131,13 +131,7 @@ class TonWalletSendBloc extends Bloc<TonWalletSendEvent, TonWalletSendState>
           fees != null && balance > (_safeFees + amount);
 
       if (!isPossibleToSendMessage) {
-        emitSafe(
-          TonWalletSendState.calculatingError(
-            LocaleKeys.insufficientFunds.tr(),
-            fees,
-          ),
-        );
-
+        _emitInsufficientFunds();
         return;
       }
 
@@ -146,7 +140,12 @@ class TonWalletSendBloc extends Bloc<TonWalletSendEvent, TonWalletSendState>
       }
     } on Exception catch (e, t) {
       _logger.severe('_handlePrepare', e, t);
-      emitSafe(TonWalletSendState.calculatingError(e.toString()));
+
+      if (e is ContractNotExistsException) {
+        _emitInsufficientFunds();
+      } else {
+        emitSafe(TonWalletSendState.calculatingError(e.toString()));
+      }
     } finally {
       unsignedMessage?.dispose();
     }
@@ -204,19 +203,29 @@ class TonWalletSendBloc extends Bloc<TonWalletSendEvent, TonWalletSendState>
     }
   }
 
-  Future<UnsignedMessage> _prepareTransfer() =>
-      nekotonRepository.prepareTransfer(
-        address: address,
-        publicKey: publicKey,
-        expiration: defaultSendTimeout,
-        params: [
-          TonWalletTransferParams(
-            destination: repackAddress(destination),
-            amount: amount,
-            body: payload ??
-                comment?.let((it) => encodeComment(it, plain: transport.isTon)),
-            bounce: defaultMessageBounce,
-          ),
-        ],
-      );
+  Future<UnsignedMessage> _prepareTransfer() {
+    return nekotonRepository.prepareTransfer(
+      address: address,
+      publicKey: publicKey,
+      expiration: defaultSendTimeout,
+      params: [
+        TonWalletTransferParams(
+          destination: repackAddress(destination),
+          amount: amount,
+          body: payload ??
+              comment?.let((it) => encodeComment(it, plain: transport.isTon)),
+          bounce: defaultMessageBounce,
+        ),
+      ],
+    );
+  }
+
+  void _emitInsufficientFunds() {
+    emitSafe(
+      TonWalletSendState.calculatingError(
+        LocaleKeys.insufficientFunds.tr(),
+        fees,
+      ),
+    );
+  }
 }

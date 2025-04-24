@@ -160,12 +160,7 @@ class TokenWalletSendBloc
           balance > (_safeFees + internalMessage.amount);
 
       if (!isPossibleToSendMessage) {
-        emitSafe(
-          TokenWalletSendState.calculatingError(
-            LocaleKeys.insufficientFunds.tr(),
-            _safeFees,
-          ),
-        );
+        _emitInsufficientFunds();
         return;
       }
 
@@ -174,7 +169,11 @@ class TokenWalletSendBloc
       );
     } on Exception catch (e, t) {
       _logger.severe('_handleSend', e, t);
-      emitSafe(TokenWalletSendState.calculatingError(e.toString()));
+      if (e is ContractNotExistsException) {
+        _emitInsufficientFunds();
+      } else {
+        emitSafe(TokenWalletSendState.calculatingError(e.toString()));
+      }
     } finally {
       unsignedMessage?.dispose();
     }
@@ -273,5 +272,14 @@ class TokenWalletSendBloc
     );
 
     return (internalMessage, unsignedMessage);
+  }
+
+  void _emitInsufficientFunds() {
+    emitSafe(
+      TokenWalletSendState.calculatingError(
+        LocaleKeys.insufficientFunds.tr(),
+        _safeFees,
+      ),
+    );
   }
 }
