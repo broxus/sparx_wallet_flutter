@@ -3,7 +3,9 @@
 import 'dart:convert';
 
 import 'package:app/app/router/router.dart';
+import 'package:app/app/router/routs/wallet/ton_wallet_send_route_data.dart';
 import 'package:app/data/models/models.dart';
+import 'package:app/di/di.dart';
 import 'package:app/feature/biometry/view/biometry_screen.dart';
 import 'package:app/feature/network/network.dart';
 import 'package:app/feature/no_internet/no_internet_screen.dart';
@@ -33,15 +35,6 @@ const walletPrepareTransferRootTokenAddressPathParam =
 const walletPrepareTransferSymbolPathParam = 'walletPrepareSymbol';
 
 const walletPrepareTransferDestinationQueryParam = 'walletPrepareDestination';
-
-const tonWalletSendAddressQueryParam = 'tonWalletSendAddress';
-const tonWalletSendPublicKeyQueryParam = 'tonWalletSendPublicKey';
-const tonWalletSendCommentQueryParam = 'tonWalletSendComment';
-const tonWalletSendPayloadQueryParam = 'tonWalletSendPayload';
-const tonWalletSendDestinationQueryParam = 'tonWalletSendDestination';
-const tonWalletSendAmountQueryParam = 'tonWalletSendAmount';
-const tonWalletSendAttachedAmountQueryParam = 'tonWalletSendAttachedAmount';
-const tonWalletSendResultMessageQueryParam = 'tonWalletSendResultMessage';
 
 const tokenWalletSendOwnerQueryParam = 'tokenWalletSendOwner';
 const tokenWalletSendContractQueryParam = 'tokenWalletSendContract';
@@ -93,6 +86,8 @@ const walletCancelUnstakingEverPriceQueryParam =
 
 const walletCreatePublicKeyQueryParam = 'walletCreatePublicKey';
 const walletCreatePasswordQueryParam = 'walletCreatePassword';
+
+TonWalletSendRoute get _tonWalletSendRoute => inject<TonWalletSendRoute>();
 
 /// Branch that is root for wallet.
 StatefulShellBranch get walletBranch {
@@ -232,7 +227,7 @@ GoRoute get walletPrepareTransferRoute {
           ?.let((address) => Address(address: address)),
     ),
     routes: [
-      tonWalletSendRoute,
+      _tonWalletSendRoute.route,
       tokenWalletSendRoute,
     ],
   );
@@ -253,42 +248,9 @@ GoRoute get walletPrepareTransferLockedRoute {
       tokenSymbol: state.pathParameters[walletPrepareTransferSymbolPathParam],
     ),
     routes: [
-      tonWalletSendRoute,
+      _tonWalletSendRoute.route,
       tokenWalletSendRoute,
     ],
-  );
-}
-
-/// Send native token from TonWallet
-GoRoute get tonWalletSendRoute {
-  return GoRoute(
-    path: AppRoute.tonWalletSend.path,
-    builder: (context, state) {
-      final attached =
-          state.uri.queryParameters[tonWalletSendAttachedAmountQueryParam];
-
-      return TonWalletSendWidget(
-        address: Address(
-          address: state.uri.queryParameters[tonWalletSendAddressQueryParam]!,
-        ),
-        publicKey: PublicKey(
-          publicKey:
-              state.uri.queryParameters[tonWalletSendPublicKeyQueryParam]!,
-        ),
-        destination: Address(
-          address:
-              state.uri.queryParameters[tonWalletSendDestinationQueryParam]!,
-        ),
-        amount: BigInt.parse(
-          state.uri.queryParameters[tonWalletSendAmountQueryParam]!,
-        ),
-        attachedAmount: attached == null ? null : BigInt.parse(attached),
-        comment: state.uri.queryParameters[tonWalletSendCommentQueryParam],
-        payload: state.uri.queryParameters[tonWalletSendPayloadQueryParam],
-        resultMessage:
-            state.uri.queryParameters[tonWalletSendResultMessageQueryParam],
-      );
-    },
   );
 }
 
@@ -411,7 +373,7 @@ GoRoute get stakingRoute {
       ),
     ),
     routes: [
-      tonWalletSendRoute,
+      _tonWalletSendRoute.route,
       tokenWalletSendRoute,
       cancelUnstakingRoute,
     ],
@@ -452,7 +414,7 @@ GoRoute get cancelUnstakingRoute {
       ),
     ),
     routes: [
-      tonWalletSendRoute,
+      _tonWalletSendRoute.route,
     ],
   );
 }

@@ -37,9 +37,9 @@ class TonWalletSendWidgetModel
   late final _error = createNotifier<String>();
   late final _state = createNotifier(const TonWalletSendState.ready());
 
-  late final KeyAccount? account = model.getAccount(widget.address);
+  late final KeyAccount? account = model.getAccount(widget.data.address);
   late final Money amount =
-      Money.fromBigIntWithCurrency(widget.amount, currency);
+      Money.fromBigIntWithCurrency(widget.data.amount, currency);
 
   Currency get currency => model.currency;
 
@@ -63,27 +63,27 @@ class TonWalletSendWidgetModel
     UnsignedMessage? unsignedMessage;
     try {
       _isLoading.accept(true);
+      final data = widget.data;
 
       final resultMessage =
-          widget.resultMessage ?? LocaleKeys.transactionSentSuccessfully.tr();
-      final totalAmount =
-          widget.amount + (widget.attachedAmount ?? BigInt.zero);
+          data.resultMessage ?? LocaleKeys.transactionSentSuccessfully.tr();
+      final totalAmount = data.amount + (data.attachedAmount ?? BigInt.zero);
 
       unsignedMessage = await model.prepareTransfer(
-        address: widget.address,
-        publicKey: widget.publicKey,
-        destination: widget.destination,
+        address: data.address,
+        publicKey: data.publicKey,
+        destination: data.destination,
         amount: totalAmount,
-        comment: widget.comment,
-        payload: widget.payload,
+        comment: data.comment,
+        payload: data.payload,
       );
 
       final transactionCompleter = await model.sendMessage(
-        address: widget.address,
-        publicKey: widget.publicKey,
+        address: data.address,
+        publicKey: data.publicKey,
         message: unsignedMessage,
         password: password,
-        destination: widget.destination,
+        destination: data.destination,
         amount: totalAmount,
       );
 
@@ -95,8 +95,8 @@ class TonWalletSendWidgetModel
 
       if (!isMounted) return;
 
-      if (widget.completeCloseCallback != null) {
-        widget.completeCloseCallback!(contextSafe!);
+      if (data.popOnComplete) {
+        contextSafe?.pop(true);
       } else {
         contextSafe?.goNamed(AppRoute.wallet.name);
       }
@@ -113,32 +113,32 @@ class TonWalletSendWidgetModel
     UnsignedMessage? unsignedMessage;
     try {
       _isLoading.accept(true);
+      final data = widget.data;
 
-      final walletState = await model.getWalletState(widget.address);
+      final walletState = await model.getWalletState(data.address);
       if (walletState.hasError) {
         _state.accept(TonWalletSendState.error(error: walletState.error!));
         return;
       }
 
-      final totalAmount =
-          widget.amount + (widget.attachedAmount ?? BigInt.zero);
+      final totalAmount = data.amount + (data.attachedAmount ?? BigInt.zero);
 
       unsignedMessage = await model.prepareTransfer(
-        address: widget.address,
-        publicKey: widget.publicKey,
-        destination: widget.destination,
+        address: data.address,
+        publicKey: data.publicKey,
+        destination: data.destination,
         amount: totalAmount,
-        comment: widget.comment,
-        payload: widget.payload,
+        comment: data.comment,
+        payload: data.payload,
       );
 
       final (fees, txErrors) = await FutureExt.wait2(
         model.estimateFees(
-          address: widget.address,
+          address: data.address,
           message: unsignedMessage,
         ),
         model.simulateTransactionTree(
-          address: widget.address,
+          address: data.address,
           message: unsignedMessage,
         ),
       );

@@ -47,12 +47,36 @@ mixin NotifierSubscriptionsMixin<W extends ElementaryWidget,
     M extends ElementaryModel> on WidgetModel<W, M> {
   late final _subscriptionsCollection = _NotifierSubscriptionsCollection();
   late final _streamSubscriptionsCollection = _StreamSubscriptionsCollection();
+  late final _widgetPropsReaders =
+      <StateNotifier<dynamic>, dynamic Function(W)>{};
+
+  void _readWidgetProps() {
+    for (final MapEntry(key: notifier, value: reader)
+        in _widgetPropsReaders.entries) {
+      notifier.accept(reader(widget));
+    }
+  }
+
+  @override
+  @mustCallSuper
+  void initWidgetModel() {
+    _readWidgetProps();
+    super.initWidgetModel();
+  }
+
+  @override
+  @mustCallSuper
+  void didUpdateWidget(W oldWidget) {
+    _readWidgetProps();
+    super.didUpdateWidget(oldWidget);
+  }
 
   @override
   @mustCallSuper
   void dispose() {
     _subscriptionsCollection.dispose();
     _streamSubscriptionsCollection.dispose();
+    _widgetPropsReaders.clear();
     super.dispose();
   }
 
@@ -80,6 +104,18 @@ mixin NotifierSubscriptionsMixin<W extends ElementaryWidget,
     return _subscriptionsCollection.add(
       EntityStateNotifier<T>(initialData),
     );
+  }
+
+  /// Creates a [StateNotifier] and adds it to the notifier collection.
+  /// The notifier will be populated with data during [initWidgetModel]
+  /// and [didUpdateWidget].
+  @protected
+  ListenableState<T> createWidgetProperty<T>(T Function(W) reader) {
+    final initialValue = isMounted ? reader(widget) : null;
+    final notifier = createNotifier<T>(initialValue);
+    _widgetPropsReaders[notifier] = reader;
+    _subscriptionsCollection.add(notifier);
+    return notifier;
   }
 
   /// Create [TextEditingController] and add to the informant collection
