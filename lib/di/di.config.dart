@@ -313,12 +313,6 @@ extension GetItInjectableX on _i174.GetIt {
         ));
     gh.singleton<_i468.BootstrapService>(
         () => _i468.BootstrapService(gh<_i116.PresetsConnectionService>()));
-    gh.singleton<_i299.SessionService>(() => _i299.SessionService(
-          gh<_i771.NekotonRepository>(),
-          gh<_i725.StorageManagerService>(),
-          gh<_i679.SecureStorageService>(),
-          gh<_i958.IIdentifyIconsService>(),
-        ));
     gh.singleton<_i473.PermissionsService>(() => _i473.PermissionsService(
           gh<_i470.BrowserService>(),
           gh<_i771.NekotonRepository>(),
@@ -333,6 +327,13 @@ extension GetItInjectableX on _i174.GetIt {
           gh<_i771.NekotonRepository>(),
           gh<_i128.PresetsConnectionService>(),
           gh<_i361.Dio>(),
+        ));
+    gh.singleton<_i299.SessionService>(() => _i299.SessionService(
+          gh<_i771.NekotonRepository>(),
+          gh<_i725.StorageManagerService>(),
+          gh<_i679.SecureStorageService>(),
+          gh<_i958.IIdentifyIconsService>(),
+          gh<_i470.BrowserService>(),
         ));
     gh.singleton<_i964.AssetsService>(
       () => _i964.AssetsService(
