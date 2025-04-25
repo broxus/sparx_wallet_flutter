@@ -155,7 +155,11 @@ class TonWalletSendWidgetModel
       }
     } on Exception catch (e, s) {
       _logger.severe('Failed to prepare transaction', e, s);
-      _error.accept(e.toString());
+      if (e is ContractNotExistsException) {
+        _error.accept(LocaleKeys.insufficientFunds.tr());
+      } else {
+        _error.accept(e.toString());
+      }
     } finally {
       unsignedMessage?.dispose();
       _isLoading.accept(false);
