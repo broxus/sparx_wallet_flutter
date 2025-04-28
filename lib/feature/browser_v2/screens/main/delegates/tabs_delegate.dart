@@ -43,7 +43,7 @@ class BrowserTabsDelegate implements BrowserTabsUi {
   final VoidCallback onEmptyTabs;
   final VoidCallback onUpdateActiveTab;
   final VoidCallback onChangeTab;
-  final bool Function(String int) scrollToTab;
+  final Future<bool> Function(String int) scrollToTab;
 
   late final _showAnimationState = StateNotifier<TabAnimationType?>();
 
@@ -101,13 +101,13 @@ class BrowserTabsDelegate implements BrowserTabsUi {
   String? getIdByIndex(int index) => _tabsCollection?.getIdByIndex(index);
 
   @override
-  void changeTab(String id) {
+  Future<void> changeTab(String id) async {
     if (_tabsCollection == null) {
       return;
     }
 
     if (id != activeTabId) {
-      final isSuccess = scrollToTab(id);
+      final isSuccess = await scrollToTab(id);
       if (isSuccess) {
         model.setActiveTab(id);
       }
