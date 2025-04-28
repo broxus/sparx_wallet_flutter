@@ -84,6 +84,8 @@ class SendMessageModel extends ElementaryModel {
   Future<List<TxTreeSimulationErrorItem>> simulateTransactionTree({
     required Address address,
     required UnsignedMessage message,
+    List<IgnoreTransactionTreeSimulationError>? ignoredComputePhaseCodes,
+    List<IgnoreTransactionTreeSimulationError>? ignoredActionPhaseCodes,
   }) =>
       // TODO(komarov): remove when fixed in nekoton
       transport.networkType == 'ton'
@@ -91,6 +93,8 @@ class SendMessageModel extends ElementaryModel {
           : _nekotonRepository.simulateTransactionTree(
               address: address,
               message: message,
+              ignoredComputePhaseCodes: ignoredComputePhaseCodes,
+              ignoredActionPhaseCodes: ignoredActionPhaseCodes,
             );
 
   String? getSeedName(PublicKey custodian) =>
