@@ -5,6 +5,7 @@ import 'package:app/core/wm/custom_wm.dart';
 import 'package:app/di/di.dart';
 import 'package:app/event_bus/events/navigation/bottom_navigation_events.dart';
 import 'package:app/event_bus/primary_bus.dart';
+import 'package:app/feature/browser_v2/custom_web_controller.dart';
 import 'package:app/feature/browser_v2/screens/main/browser_main_screen.dart';
 import 'package:app/feature/browser_v2/screens/main/browser_main_screen_model.dart';
 import 'package:app/feature/browser_v2/screens/main/data/browser_render_manager.dart';
@@ -24,7 +25,6 @@ import 'package:app/utils/common_utils.dart';
 import 'package:elementary/elementary.dart';
 import 'package:elementary_helper/elementary_helper.dart';
 import 'package:flutter/widgets.dart';
-import 'package:flutter_inappwebview/flutter_inappwebview.dart';
 import 'package:render_metrics/render_metrics.dart';
 import 'package:ui_components_lib/v2/ui_components_lib_v2.dart';
 
@@ -169,7 +169,7 @@ class BrowserMainScreenWidgetModel
 
   void onCreateWebViewController(
     String tabId,
-    InAppWebViewController controller,
+    CustomWebViewController controller,
   ) {
     model.setController(tabId, controller);
   }

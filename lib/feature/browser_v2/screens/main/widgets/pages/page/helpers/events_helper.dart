@@ -2,7 +2,7 @@ import 'dart:async';
 
 import 'package:app/app/service/js_servcie.dart';
 import 'package:app/app/service/permissions_service.dart';
-import 'package:flutter_inappwebview/flutter_inappwebview.dart';
+import 'package:app/feature/browser_v2/custom_web_controller.dart';
 import 'package:nekoton_repository/nekoton_repository.dart';
 import 'package:nekoton_webview/nekoton_webview.dart' as nwv;
 
@@ -23,7 +23,7 @@ class EventsHelper {
 
   final _subs = <StreamSubscription<dynamic>>[];
 
-  void init(InAppWebViewController controller) {
+  void init(CustomWebViewController controller) {
     _subs.addAll(
       [
         _nekotonRepository.tabTransactionsStream(_tabId).listen(

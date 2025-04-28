@@ -4,12 +4,12 @@ import 'package:app/app/service/connection/data/connection_data/connection_data.
 import 'package:app/app/service/service.dart' as s;
 import 'package:app/data/models/models.dart';
 import 'package:app/feature/browser_v1/utils.dart';
+import 'package:app/feature/browser_v2/custom_web_controller.dart';
 import 'package:app/feature/messenger/data/message.dart';
 import 'package:app/feature/messenger/domain/service/messenger_service.dart';
 import 'package:app/generated/generated.dart';
 import 'package:app/utils/utils.dart';
 import 'package:collection/collection.dart';
-import 'package:flutter_inappwebview/flutter_inappwebview.dart';
 import 'package:logging/logging.dart';
 import 'package:nekoton_repository/nekoton_repository.dart' as nr;
 import 'package:nekoton_webview/nekoton_webview.dart' hide Message;
@@ -31,7 +31,7 @@ class InpageProvider extends ProviderApi {
 
   final _logger = Logger('InpageProvider');
 
-  InAppWebViewController? controller;
+  CustomWebViewController? controller;
   final String tabId;
   final s.BrowserApprovalsService approvalsService;
   final s.PermissionsService permissionsService;

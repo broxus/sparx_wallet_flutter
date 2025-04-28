@@ -4,9 +4,11 @@ import 'package:app/core/error_handler_factory.dart';
 import 'package:app/core/wm/custom_wm.dart';
 import 'package:app/di/di.dart';
 import 'package:app/feature/browser_v1/bottom_sheets/browser_enter_basic_auth_creds_sheet.dart';
+import 'package:app/feature/browser_v2/custom_web_controller.dart';
 import 'package:app/feature/browser_v2/data/browser_basic_auth_creds.dart';
 import 'package:app/feature/browser_v2/screens/main/widgets/pages/page/browser_page.dart';
 import 'package:app/feature/browser_v2/screens/main/widgets/pages/page/browser_page_model.dart';
+import 'package:app/utils/common_utils.dart';
 import 'package:elementary/elementary.dart';
 import 'package:elementary_helper/elementary_helper.dart';
 import 'package:flutter/foundation.dart';
@@ -85,7 +87,7 @@ class BrowserPageWidgetModel
   late final _isNeedCreateWebViewState = createNotifier<bool>(false);
   late final _isShowStartViewState = createNotifier<bool>(_url.isEmpty);
 
-  InAppWebViewController? _webViewController;
+  CustomWebViewController? _webViewController;
 
   ColorsPalette get colors => _theme.colors;
 
@@ -128,12 +130,14 @@ class BrowserPageWidgetModel
   Future<void> onWebViewCreated(
     InAppWebViewController controller,
   ) async {
-    widget.onCreate(controller);
-    _webViewController = controller;
-    await model.initEvents(controller);
+    final customController = CustomWebViewController(controller);
+
+    widget.onCreate(customController);
+    _webViewController = customController;
+    await model.initEvents(customController);
 
     if (_url.isNotEmpty) {
-      await controller.loadUrl(
+      await customController.loadUrl(
         urlRequest: URLRequest(
           url: WebUri.uri(widget.tab.url),
         ),
@@ -277,8 +281,10 @@ class BrowserPageWidgetModel
     return NavigationActionPolicy.ALLOW;
   }
 
-  void _onRefresh() {
-    _webViewController?.reload();
+  Future<void> _onRefresh() async {
+    try {
+      await _webViewController?.reload();
+    } catch (_) {}
   }
 
   bool _checkIsCustomAppLink(Uri url) {
@@ -310,9 +316,13 @@ class BrowserPageWidgetModel
       return;
     }
     model.createScreenshot(
-      takePictureCallback: () async => _webViewController!.takeScreenshot(
-        screenshotConfiguration: _screenshotConfiguration,
-      ),
+      takePictureCallback: () async {
+        try {
+          return await _webViewController!.takeScreenshot(
+            screenshotConfiguration: _screenshotConfiguration,
+          );
+        } catch (_) {}
+      },
     );
   }
 }

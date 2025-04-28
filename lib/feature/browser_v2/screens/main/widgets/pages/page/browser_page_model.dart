@@ -6,6 +6,7 @@ import 'package:app/app/service/connection/connection_service.dart';
 import 'package:app/app/service/js_servcie.dart';
 import 'package:app/app/service/permissions_service.dart';
 import 'package:app/app/service/storage_service/connections_storage_service.dart';
+import 'package:app/feature/browser_v2/custom_web_controller.dart';
 import 'package:app/feature/browser_v2/data/browser_basic_auth_creds.dart';
 import 'package:app/feature/browser_v2/data/browser_tab.dart';
 import 'package:app/feature/browser_v2/domain/service/browser_service.dart';
@@ -80,7 +81,7 @@ class BrowserPageModel extends ElementaryModel {
     return super.dispose();
   }
 
-  Future<void> initEvents(InAppWebViewController controller) async {
+  Future<void> initEvents(CustomWebViewController controller) async {
     _eventsHelper.init(controller);
     _inpageProvider.controller = controller;
 
