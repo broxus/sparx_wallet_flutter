@@ -718,4 +718,5 @@ abstract class LocaleKeys {
   static const scanSeedLoaderTitle = 'scanSeedLoaderTitle';
   static const scanningCompleted = 'scanningCompleted';
   static const scanSeed = 'scanSeed';
+  static const nothingFound = 'nothingFound';
 }

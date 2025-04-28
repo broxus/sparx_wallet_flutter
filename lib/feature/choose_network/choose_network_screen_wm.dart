@@ -5,6 +5,7 @@ import 'package:app/core/error_handler_factory.dart';
 import 'package:app/core/wm/custom_wm.dart';
 import 'package:app/di/di.dart';
 import 'package:app/feature/choose_network/choose_network_screen.dart';
+import 'package:app/feature/choose_network/choose_network_screen_const.dart';
 import 'package:app/feature/choose_network/choose_network_screen_model.dart';
 import 'package:app/feature/choose_network/data/choose_network_item_data.dart';
 import 'package:elementary/elementary.dart';
@@ -39,16 +40,41 @@ class ChooseNetworkScreenWidgetModel
 
   late final _loadingItemId = createNotifier<String?>();
 
+  late final scrollController = createScrollController()
+    ..addListener(_handleScroll);
+
+  late final searchController = createTextEditingController()
+    ..addListener(_handleSearchInput);
+
+  late final _showAppBarTitle = createNotifier<bool>(false);
+
+  late final _showSearchBar = createNotifier<bool>(false);
+
+  late final _connectionsState =
+      createNotifier<List<ChooseNetworkItemData>>([]);
+
+  StateNotifier<bool> get showAppBarTitle => _showAppBarTitle;
+
+  StateNotifier<bool> get showSearchBar => _showSearchBar;
+
   StateNotifier<List<ChooseNetworkItemData>> get connectionsState =>
-      model.connectionsState;
+      _connectionsState;
 
   StateNotifier<String?> get loadingItemId => _loadingItemId;
 
-  Color get backgroundColor => _themeStyle.colors.background0;
+  Size get screenSize => MediaQuery.sizeOf(context);
+
+  ThemeStyleV2 get themeStyleV2 => context.themeStyleV2;
 
   double get windowHeight => MediaQuery.of(context).size.height;
 
-  ThemeStyleV2 get _themeStyle => context.themeStyleV2;
+  @override
+  void initWidgetModel() {
+    _connectionsState.accept(model.fetchNetworksData());
+    _showSearchBar.accept(model.shouldShowSearch());
+
+    super.initWidgetModel();
+  }
 
   Future<void> onPressedType(String id) async {
     if (_loadingItemId.value != null) return;
@@ -77,5 +103,27 @@ class ChooseNetworkScreenWidgetModel
     } finally {
       _loadingItemId.accept(null);
     }
+  }
+
+  void onBackPressed() {
+    contextSafe?.pop();
+  }
+
+  void _handleScroll() {
+    final threshold = screenSize.shortestSide * widthPercentToShowTitle;
+
+    if (scrollController.hasClients) {
+      final scrollOffset = scrollController.offset;
+      final shouldShowTitle = scrollOffset > threshold;
+
+      _showAppBarTitle.accept(shouldShowTitle);
+    }
+  }
+
+  void _handleSearchInput() {
+    final query = searchController.text;
+    final filteredNetowrks = model.fetchNetworksData(query);
+
+    _connectionsState.accept(filteredNetowrks);
   }
 }
