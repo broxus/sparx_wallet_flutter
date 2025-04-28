@@ -128,7 +128,7 @@ abstract class BaseRoute<T, R> {
 
   /// Navigate further in the flow (implementation depends on app needs)
   void goFurther(BuildContext context, T data) {
-    context.go(toLocation(data));
+    context.goFurther(toLocation(data));
   }
 }
 
