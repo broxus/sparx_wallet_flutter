@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:app/feature/browser_v2/screens/main/widgets/control_panels/toolbar/toolbar_wm.dart';
 import 'package:app/generated/generated.dart';
 import 'package:elementary/elementary.dart';
@@ -91,7 +93,7 @@ class _IconButton extends StatelessWidget {
       child: Center(
         child: Transform.rotate(
           // TODO(knightforce): Waiting for horizontal icon
-          angle: isRotate ? 1.5707963267948966 : 0,
+          angle: isRotate ? pi / 2 : 0,
           child: SvgPicture.asset(
             svg,
             width: 20,
