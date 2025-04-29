@@ -214,6 +214,7 @@ class AppRouter {
   void _listenSeed(bool hasSeeds) {
     // Again, check if the user should be redirected depending on the current
     // location and if the user has any seeds.
+
     final redirectLocation = _shouldRedirect(
       fullPath: _navigationService.state.fullPath,
       hasSeeds: hasSeeds,

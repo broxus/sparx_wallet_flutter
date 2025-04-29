@@ -46,8 +46,8 @@ class Toolbar extends ElementaryWidget<ToolbarWidgetModel> {
           ),
           Expanded(
             child: _IconButton(
-              svg: Assets.images.verticalDots.path,
-              onPressed: wm.onPressedDotsPressed,
+              svg: Assets.images.layers.path,
+              onPressed: onPressedTabs,
             ),
           ),
           Expanded(
@@ -58,8 +58,8 @@ class Toolbar extends ElementaryWidget<ToolbarWidgetModel> {
           ),
           Expanded(
             child: _IconButton(
-              svg: Assets.images.layers.path,
-              onPressed: onPressedTabs,
+              svg: Assets.images.horizontalDots.path,
+              onPressed: wm.onPressedDotsPressed,
             ),
           ),
         ],

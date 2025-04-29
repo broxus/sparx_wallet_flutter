@@ -5,6 +5,7 @@ import 'package:app/core/wm/custom_wm.dart';
 import 'package:app/di/di.dart';
 import 'package:app/event_bus/events/navigation/bottom_navigation_events.dart';
 import 'package:app/event_bus/primary_bus.dart';
+import 'package:app/feature/browser_v2/custom_web_controller.dart';
 import 'package:app/feature/browser_v2/screens/main/browser_main_screen.dart';
 import 'package:app/feature/browser_v2/screens/main/browser_main_screen_model.dart';
 import 'package:app/feature/browser_v2/screens/main/data/browser_render_manager.dart';
@@ -20,10 +21,10 @@ import 'package:app/feature/browser_v2/screens/main/delegates/tab_menu_delegate.
 import 'package:app/feature/browser_v2/screens/main/delegates/tabs_delegate.dart';
 import 'package:app/feature/browser_v2/screens/main/widgets/control_panels/navigation_panel/url_action_sheet.dart';
 import 'package:app/utils/clipboard_utils.dart';
+import 'package:app/utils/common_utils.dart';
 import 'package:elementary/elementary.dart';
 import 'package:elementary_helper/elementary_helper.dart';
 import 'package:flutter/widgets.dart';
-import 'package:flutter_inappwebview/flutter_inappwebview.dart';
 import 'package:render_metrics/render_metrics.dart';
 import 'package:ui_components_lib/v2/ui_components_lib_v2.dart';
 
@@ -47,7 +48,7 @@ class BrowserMainScreenWidgetModel
     super.model,
   );
 
-  late final keys = BrowserKeysDelegate();
+  final keys = BrowserKeysDelegate();
 
   late final sizes = BrowserSizesDelegate(context);
 
@@ -57,8 +58,10 @@ class BrowserMainScreenWidgetModel
 
   late final _pageDelegate = BrowserPageScrollDelegate(
     onPageScrollChange: (bool isToTop) {
-      _menuState.accept(isToTop ? MenuType.view : MenuType.url);
-      _visibleNavigationBarState.accept(isToTop);
+      Future(() {
+        _menuState.accept(isToTop ? MenuType.view : MenuType.url);
+        _visibleNavigationBarState.accept(isToTop);
+      });
     },
   );
 
@@ -69,8 +72,8 @@ class BrowserMainScreenWidgetModel
     model,
     context,
     renderManager: _renderManager,
-    onShowMenu: () => _menuState.accept(null),
-    onHideMenu: () => _menuState.accept(MenuType.list),
+    onShowMenu: () => callWithDelay(() => _menuState.accept(null)),
+    onHideMenu: () => callWithDelay(() => _menuState.accept(MenuType.list)),
   );
 
   final _pastGoDelegate = BrowserPastGoDelegate();
@@ -79,7 +82,9 @@ class BrowserMainScreenWidgetModel
     screenWidth: sizes.screenWidth,
     urlWidth: sizes.urlWidth,
     onChangeSlideIndex: (int tabIndex) {
-      model.setActiveTab(_tabsDelegate.getIdByIndex(tabIndex));
+      Future(() {
+        model.setActiveTab(_tabsDelegate.getIdByIndex(tabIndex));
+      });
     },
   );
 
@@ -91,13 +96,10 @@ class BrowserMainScreenWidgetModel
     scrollToTab: _scrollToTab,
     onChangeTab: _onChangeTab,
     onUpdateActiveTab: () {
-      Future.delayed(
-        const Duration(milliseconds: 100),
-        () {
-          _progressIndicatorDelegate.reset();
-          _updatePastGo();
-        },
-      );
+      callWithDelay(() {
+        _progressIndicatorDelegate.reset();
+        _updatePastGo();
+      });
     },
   );
 
@@ -167,7 +169,7 @@ class BrowserMainScreenWidgetModel
 
   void onCreateWebViewController(
     String tabId,
-    InAppWebViewController controller,
+    CustomWebViewController controller,
   ) {
     model.setController(tabId, controller);
   }
@@ -232,14 +234,16 @@ class BrowserMainScreenWidgetModel
       );
 
   void _onEmptyTabs() {
-    model.createEmptyTab();
-    _pageDelegate.reset();
-    _pageSlideDelegate.slideTo(0);
-    _viewVisibleState.accept(true);
-    _menuState.accept(MenuType.view);
+    callWithDelay(() {
+      model.createEmptyTab();
+      _pageDelegate.reset();
+      _pageSlideDelegate.slideTo(0);
+      _viewVisibleState.accept(true);
+      _menuState.accept(MenuType.view);
+    });
   }
 
-  void _onChangeTab() => _menuState.accept(MenuType.view);
+  void _onChangeTab() => callWithDelay(() => _menuState.accept(MenuType.view));
 
   void _onTabAnimationComplete(bool isVisible) {
     _viewVisibleState.accept(isVisible);
@@ -257,19 +261,21 @@ class BrowserMainScreenWidgetModel
     );
   }
 
-  bool _scrollToTab(String id) {
-    final index = _tabsDelegate.getTabIndexById(id);
+  Future<bool> _scrollToTab(String id) async {
+    return Future.delayed(const Duration(milliseconds: 100), () {
+      final index = _tabsDelegate.getTabIndexById(id);
 
-    if (index != null && index > -1) {
-      _pageSlideDelegate.slideTo(sizes.urlWidth * index + 50);
-      _pageDelegate.reset();
-    }
+      if (index != null && index > -1) {
+        _pageSlideDelegate.slideTo(sizes.urlWidth * index + 50);
+        _pageDelegate.reset();
+      }
 
-    return index != null && index > -1;
+      return index != null && index > -1;
+    });
   }
 
   void _handleMenuState() {
-    _animationDelegate.handleMenuType(_menuState.value);
+    callWithDelay(() => _animationDelegate.handleMenuType(_menuState.value));
   }
 
   Future<void> _updatePastGo() async {

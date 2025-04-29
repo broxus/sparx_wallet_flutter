@@ -97,7 +97,7 @@ class BrowserService {
   }
 
   void openUrl(Uri uri) {
-    tM.createBrowserTab(uri);
+    tM.openUrl(uri);
   }
 
   void openStringUrl(String url) {

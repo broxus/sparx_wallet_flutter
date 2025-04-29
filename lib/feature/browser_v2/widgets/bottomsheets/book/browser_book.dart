@@ -74,7 +74,7 @@ class BrowserBook extends ElementaryWidget<BrowserBookWidgetModel> {
                       opacity:
                           value == BrowserBookTabBarValue.bookMarks ? 1 : 0,
                       duration: _duration,
-                      child: BookmarksList(scrollController: scrollController),
+                      child: const BookmarksList(),
                     ),
                   );
                 },
@@ -90,7 +90,7 @@ class BrowserBook extends ElementaryWidget<BrowserBookWidgetModel> {
                     child: AnimatedOpacity(
                       opacity: value == BrowserBookTabBarValue.history ? 1 : 0,
                       duration: _duration,
-                      child: HistoryList(scrollController: scrollController),
+                      child: const HistoryList(),
                     ),
                   );
                 },

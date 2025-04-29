@@ -6,6 +6,8 @@ import 'package:app/app/service/connection/connection_service.dart';
 import 'package:app/app/service/js_servcie.dart';
 import 'package:app/app/service/permissions_service.dart';
 import 'package:app/app/service/storage_service/connections_storage_service.dart';
+import 'package:app/app/service/ton_connect/ton_connect_js_bridge.dart';
+import 'package:app/feature/browser_v2/custom_web_controller.dart';
 import 'package:app/feature/browser_v2/data/browser_basic_auth_creds.dart';
 import 'package:app/feature/browser_v2/data/browser_tab.dart';
 import 'package:app/feature/browser_v2/domain/service/browser_service.dart';
@@ -17,7 +19,6 @@ import 'package:elementary/elementary.dart';
 import 'package:elementary_helper/elementary_helper.dart';
 import 'package:flutter_inappwebview/flutter_inappwebview.dart';
 import 'package:nekoton_repository/nekoton_repository.dart';
-import 'package:nekoton_webview/nekoton_webview.dart';
 
 /// [ElementaryModel] for [BrowserPage]
 class BrowserPageModel extends ElementaryModel {
@@ -33,6 +34,7 @@ class BrowserPageModel extends ElementaryModel {
     this._connectionsStorageService,
     this._connectionService,
     this._jsService,
+    this._tonConnectJsBridge,
   ) : super(errorHandler: errorHandler);
 
   final String _tabId;
@@ -46,6 +48,7 @@ class BrowserPageModel extends ElementaryModel {
   final ConnectionsStorageService _connectionsStorageService;
   final ConnectionService _connectionService;
   final JsService _jsService;
+  final TonConnectJsBridge _tonConnectJsBridge;
 
   late final _inpageProvider = InpageProvider(
     tabId: _tabId,
@@ -80,13 +83,14 @@ class BrowserPageModel extends ElementaryModel {
     return super.dispose();
   }
 
-  Future<void> initEvents(InAppWebViewController controller) async {
+  Future<void> initEvents(CustomWebViewController controller) async {
     _eventsHelper.init(controller);
     _inpageProvider.controller = controller;
 
     await controller.initNekotonProvider(
       providerApi: _inpageProvider,
     );
+    await _tonConnectJsBridge.initJsBridge(controller);
   }
 
   BrowserBasicAuthCreds? getBasicAuthCreds(
@@ -106,7 +110,7 @@ class BrowserPageModel extends ElementaryModel {
       return;
     }
     _inpageProvider.url = uri;
-
+    _tonConnectJsBridge.url = uri;
     _browserService.tM.updateCachedUrl(_tabId, uri);
   }
 

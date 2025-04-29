@@ -35,5 +35,6 @@ extension ImageCacheHashMap on HashMap<String, String> {
 
   String? get(String key) => this[key];
 
+  // ignore: use_to_and_as_if_applicable
   HashMap<String, String> copy() => HashMap<String, String>.of(this);
 }

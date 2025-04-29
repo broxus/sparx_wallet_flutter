@@ -1,5 +1,6 @@
 import 'dart:collection';
 
+import 'package:app/feature/browser_v2/custom_web_controller.dart';
 import 'package:app/feature/browser_v2/data/browser_tab.dart';
 import 'package:app/feature/browser_v2/screens/main/widgets/pages/browser_start_view.dart';
 import 'package:app/feature/browser_v2/screens/main/widgets/pages/page/browser_page_wm.dart';
@@ -30,7 +31,7 @@ class BrowserPage extends ElementaryWidget<BrowserPageWidgetModel> {
 
   final BrowserTab tab;
   final double width;
-  final ValueChanged<InAppWebViewController> onCreate;
+  final ValueChanged<CustomWebViewController> onCreate;
   final ValueChanged<int> onWebPageScrollChanged;
   final VoidCallback onDispose;
   final ValueChanged<int> onLoadingProgressChanged;

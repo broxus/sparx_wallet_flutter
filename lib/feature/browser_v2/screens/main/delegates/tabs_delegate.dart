@@ -1,12 +1,11 @@
-import 'package:app/feature/browser_v2/data/tabs_data.dart';
 import 'package:app/feature/browser_v2/data/browser_tab.dart';
+import 'package:app/feature/browser_v2/data/tabs_data.dart';
 import 'package:app/feature/browser_v2/screens/main/browser_main_screen_model.dart';
 import 'package:app/feature/browser_v2/screens/main/data/browser_render_manager.dart';
 import 'package:app/feature/browser_v2/screens/main/widgets/tab_animated_view/tab_animation_type.dart';
 import 'package:app/feature/browser_v2/widgets/bottomsheets/clear_tabs_bottom_sheet.dart';
 import 'package:elementary_helper/elementary_helper.dart';
 import 'package:flutter/cupertino.dart';
-import 'package:flutter/foundation.dart';
 
 abstract interface class BrowserTabsUi {
   ListenableState<BrowserTabsCollection> get tabsState;
@@ -43,7 +42,7 @@ class BrowserTabsDelegate implements BrowserTabsUi {
   final VoidCallback onEmptyTabs;
   final VoidCallback onUpdateActiveTab;
   final VoidCallback onChangeTab;
-  final bool Function(String int) scrollToTab;
+  final Future<bool> Function(String int) scrollToTab;
 
   late final _showAnimationState = StateNotifier<TabAnimationType?>();
 
@@ -101,13 +100,13 @@ class BrowserTabsDelegate implements BrowserTabsUi {
   String? getIdByIndex(int index) => _tabsCollection?.getIdByIndex(index);
 
   @override
-  void changeTab(String id) {
+  Future<void> changeTab(String id) async {
     if (_tabsCollection == null) {
       return;
     }
 
     if (id != activeTabId) {
-      final isSuccess = scrollToTab(id);
+      final isSuccess = await scrollToTab(id);
       if (isSuccess) {
         model.setActiveTab(id);
       }

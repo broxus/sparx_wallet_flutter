@@ -1,7 +1,6 @@
 import 'dart:async';
 
 import 'package:app/app/service/service.dart';
-import 'package:favicon/favicon.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:injectable/injectable.dart';

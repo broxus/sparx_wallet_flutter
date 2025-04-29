@@ -11,13 +11,10 @@ import 'package:ui_components_lib/v2/ui_components_lib_v2.dart';
 
 class BookmarksList extends ElementaryWidget<BookmarksListWidgetModel> {
   const BookmarksList({
-    required this.scrollController,
     super.key,
     WidgetModelFactory<BookmarksListWidgetModel> wmFactory =
         defaultBookmarksListWidgetModelFactory,
   }) : super(wmFactory);
-
-  final ScrollController scrollController;
 
   @override
   Widget build(BookmarksListWidgetModel wm) {
@@ -51,7 +48,6 @@ class BookmarksList extends ElementaryWidget<BookmarksListWidgetModel> {
                   buildDefaultDragHandles: false,
                   itemCount: list.length,
                   onReorder: wm.onReorder,
-                  scrollController: scrollController,
                   padding: const EdgeInsets.only(
                     left: DimensSizeV2.d24,
                     right: DimensSizeV2.d24,

@@ -3,8 +3,9 @@ import 'dart:collection';
 import 'dart:math';
 
 import 'package:app/app/service/storage_service/general_storage_service.dart';
-import 'package:app/feature/browser_v2/data/tabs_data.dart';
+import 'package:app/feature/browser_v2/custom_web_controller.dart';
 import 'package:app/feature/browser_v2/data/browser_tab.dart';
+import 'package:app/feature/browser_v2/data/tabs_data.dart';
 import 'package:app/feature/browser_v2/domain/service/storages/browser_tabs_storage_service.dart';
 import 'package:app/feature/browser_v2/managers/tabs/helpers/browser_screen_shooter.dart';
 import 'package:app/feature/browser_v2/screens/main/data/toolbar_data.dart';
@@ -37,7 +38,7 @@ class BrowserTabsManager {
 
   final _activeTabState = StateNotifier<BrowserTab?>();
 
-  final _controllers = HashMap<String, InAppWebViewController>();
+  final _controllers = HashMap<String, CustomWebViewController>();
 
   ListenableState<BrowserTabsCollection> get tabsState => _tabsState;
 
@@ -58,7 +59,7 @@ class BrowserTabsManager {
   BrowserTabsCollection get _tabsCollection =>
       _tabsState.value ?? BrowserTabsCollection();
 
-  InAppWebViewController? get _currentController => _controllers[activeTabId];
+  CustomWebViewController? get _currentController => _controllers[activeTabId];
 
   String? get activeTabScreenshotPath {
     return activeTabId == null
@@ -77,7 +78,7 @@ class BrowserTabsManager {
     _screenShooter.dispose();
   }
 
-  void setController(String tabId, InAppWebViewController controller) {
+  void setController(String tabId, CustomWebViewController controller) {
     _controllers[tabId] = controller;
   }
 
@@ -223,6 +224,15 @@ class BrowserTabsManager {
   }
 
   String createEmptyTab() => createBrowserTab(_emptyUri);
+
+  void openUrl(Uri url) {
+    final lastTab = browserTabs.lastOrNull;
+    if (lastTab != null && lastTab.url.toString().isEmpty) {
+      requestUrl(lastTab.id, url);
+    } else {
+      createBrowserTab(url);
+    }
+  }
 
   String createBrowserTab(Uri url) {
     final tab = BrowserTab.create(url: url);

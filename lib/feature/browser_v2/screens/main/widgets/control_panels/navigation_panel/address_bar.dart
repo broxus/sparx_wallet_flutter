@@ -207,6 +207,8 @@ class _UrlTextField extends StatelessWidget {
           child: TextField(
             controller: controller,
             focusNode: focusNode,
+            autocorrect: false,
+            enableSuggestions: false,
             style: theme.textStyles.paragraphXMedium.copyWith(
               color: ColorsResV2.black,
             ),

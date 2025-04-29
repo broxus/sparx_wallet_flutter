@@ -1,8 +1,8 @@
+import 'package:app/feature/browser_v2/custom_web_controller.dart';
 import 'package:app/feature/browser_v2/data/tabs_data.dart';
 import 'package:app/feature/browser_v2/screens/main/widgets/pages/page/browser_page.dart';
 import 'package:elementary_helper/elementary_helper.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_inappwebview/flutter_inappwebview.dart';
 import 'package:ui_components_lib/v2/ui_components_lib_v2.dart';
 
 class BrowserPagesView extends StatelessWidget {
@@ -27,7 +27,7 @@ class BrowserPagesView extends StatelessWidget {
   final ValueChanged<int> onLoadingProgressChanged;
   final void Function(
     String tabId,
-    InAppWebViewController controller,
+    CustomWebViewController controller,
   ) onCreateWebViewController;
   final ValueChanged<int> onWebPageScrollChanged;
   final ValueChanged<String> onDispose;

@@ -36,8 +36,11 @@ void main() {
       ];
 
       for (final url in invalidUrls) {
-        expect(UrlValidator.checkString(url), isFalse,
-            reason: 'Failed on: $url');
+        expect(
+          UrlValidator.checkString(url),
+          isFalse,
+          reason: 'Failed on: $url',
+        );
       }
     });
 

@@ -287,6 +287,10 @@ class $AssetsImagesGen {
   SvgGenImage get historyFill =>
       const SvgGenImage('assets/images/history_fill.svg');
 
+  /// File path: assets/images/horizontal_dots.svg
+  SvgGenImage get horizontalDots =>
+      const SvgGenImage('assets/images/horizontal_dots.svg');
+
   /// File path: assets/images/ic_explamation_mark.png
   AssetGenImage get icExplamationMark =>
       const AssetGenImage('assets/images/ic_explamation_mark.png');
@@ -532,6 +536,7 @@ class $AssetsImagesGen {
         fingerSmall,
         history,
         historyFill,
+        horizontalDots,
         icExplamationMark,
         icMatch,
         icNotMatch,

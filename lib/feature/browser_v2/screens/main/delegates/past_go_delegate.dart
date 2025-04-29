@@ -27,6 +27,7 @@ class BrowserPastGoDelegate implements BrowserPastGoUi {
     onSuccess(text);
   }
 
+  // ignore: avoid_positional_boolean_parameters
   void updateVisible(bool isView) {
     _showPastGoState.accept(isView);
   }
