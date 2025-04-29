@@ -278,7 +278,7 @@ extension MnemonicTypeJson on MnemonicType {
 
 Future<void> callWithDelay(
   VoidCallback callback, {
-  Duration duration = const Duration(milliseconds: 50),
+  Duration duration = const Duration(milliseconds: 10),
 }) {
   return Future.delayed(duration, callback);
 }

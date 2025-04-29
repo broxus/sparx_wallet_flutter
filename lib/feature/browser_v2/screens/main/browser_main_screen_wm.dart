@@ -246,7 +246,7 @@ class BrowserMainScreenWidgetModel
   void _onChangeTab() => callWithDelay(() => _menuState.accept(MenuType.view));
 
   void _onTabAnimationComplete(bool isVisible) {
-    callWithDelay(() => _viewVisibleState.accept(isVisible));
+    _viewVisibleState.accept(isVisible);
   }
 
   void _handleViewVisibleState() {
