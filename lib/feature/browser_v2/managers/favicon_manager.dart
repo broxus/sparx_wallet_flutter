@@ -30,7 +30,8 @@ class FaviconManager {
 
       if (loadedUrl != null) {
         unawaited(
-            _browserFaviconURLStorageService.saveFaviconUrl(url, loadedUrl));
+          _browserFaviconURLStorageService.saveFaviconUrl(url, loadedUrl),
+        );
       }
       iconUrl = loadedUrl;
     }

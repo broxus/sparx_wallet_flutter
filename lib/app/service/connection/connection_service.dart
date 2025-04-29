@@ -1,7 +1,7 @@
 import 'package:app/app/service/service.dart';
 import 'package:app/di/di.dart';
-import 'package:dio/dio.dart';
 import 'package:app/feature/messenger/domain/service/messenger_service.dart';
+import 'package:dio/dio.dart';
 import 'package:injectable/injectable.dart';
 import 'package:logging/logging.dart';
 import 'package:nekoton_repository/nekoton_repository.dart' hide Message;

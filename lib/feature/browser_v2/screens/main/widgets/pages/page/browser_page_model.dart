@@ -19,7 +19,6 @@ import 'package:elementary/elementary.dart';
 import 'package:elementary_helper/elementary_helper.dart';
 import 'package:flutter_inappwebview/flutter_inappwebview.dart';
 import 'package:nekoton_repository/nekoton_repository.dart';
-import 'package:nekoton_webview/nekoton_webview.dart';
 
 /// [ElementaryModel] for [BrowserPage]
 class BrowserPageModel extends ElementaryModel {

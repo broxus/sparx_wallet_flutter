@@ -131,7 +131,6 @@ class CustomBottomNavigationBarWidgetModel extends CustomWidgetModel<
       return;
     }
 
-
     // The delay allows the route to be determined correctly.
     // Without Future, the route variable will contain the route from which
     // you left, not the route you went to.

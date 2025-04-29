@@ -134,11 +134,14 @@ class CustomWebViewController {
       return null;
     }
 
-    return tryWrapper<T>(callback, onCatch: (
-      Object e,
-      StackTrace s,
-    ) async {
-      _log.severe('Exception:', e, s);
-    });
+    return tryWrapper<T>(
+      callback,
+      onCatch: (
+        Object e,
+        StackTrace s,
+      ) async {
+        _log.severe('Exception:', e, s);
+      },
+    );
   }
 }

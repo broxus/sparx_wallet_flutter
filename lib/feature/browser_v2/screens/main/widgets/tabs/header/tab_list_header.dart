@@ -48,35 +48,36 @@ class TabListHeader extends ElementaryWidget<TabListHeaderWidgetModel> {
   }
 }
 
-class _TextButton extends StatelessWidget {
-  const _TextButton({
-    required this.text,
-    required this.onPressed,
-  });
-
-  final String text;
-  final VoidCallback onPressed;
-
-  @override
-  Widget build(BuildContext context) {
-    final theme = context.themeStyleV2;
-
-    final colors = theme.colors;
-
-    final styles = theme.textStyles;
-
-    return GhostButton(
-      onPressed: onPressed,
-      buttonShape: ButtonShape.rectangle,
-      child: Text(
-        text,
-        style: styles.labelSmall.copyWith(
-          color: colors.content2,
-        ),
-      ),
-    );
-  }
-}
+// TODO(knightforce): Removed before implementation
+// class _TextButton extends StatelessWidget {
+//   const _TextButton({
+//     required this.text,
+//     required this.onPressed,
+//   });
+//
+//   final String text;
+//   final VoidCallback onPressed;
+//
+//   @override
+//   Widget build(BuildContext context) {
+//     final theme = context.themeStyleV2;
+//
+//     final colors = theme.colors;
+//
+//     final styles = theme.textStyles;
+//
+//     return GhostButton(
+//       onPressed: onPressed,
+//       buttonShape: ButtonShape.rectangle,
+//       child: Text(
+//         text,
+//         style: styles.labelSmall.copyWith(
+//           color: colors.content2,
+//         ),
+//       ),
+//     );
+//   }
+// }
 
 class _GroupItem extends StatelessWidget {
   const _GroupItem({

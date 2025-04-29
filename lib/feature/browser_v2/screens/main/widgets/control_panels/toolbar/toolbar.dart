@@ -1,5 +1,3 @@
-import 'dart:math';
-
 import 'package:app/feature/browser_v2/screens/main/widgets/control_panels/toolbar/toolbar_wm.dart';
 import 'package:app/generated/generated.dart';
 import 'package:elementary/elementary.dart';
