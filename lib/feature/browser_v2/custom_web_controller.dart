@@ -192,4 +192,27 @@ class CustomWebViewController {
       );
     } catch (_) {}
   }
+
+  Future<void> addUserScript({
+    required UserScript userScript,
+  }) async {
+    if (isDisposed) {
+      return;
+    }
+    try {
+      return await _nativeController.addUserScript(userScript: userScript);
+    } catch (_) {}
+  }
+
+  void addJavaScriptHandler({
+    required String handlerName,
+    required JavaScriptHandlerCallback callback,
+  }) {
+    try {
+      return _nativeController.addJavaScriptHandler(
+        handlerName: handlerName,
+        callback: callback,
+      );
+    } catch (_) {}
+  }
 }

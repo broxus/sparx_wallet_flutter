@@ -8,7 +8,6 @@ import 'package:app/feature/browser_v2/custom_web_controller.dart';
 import 'package:app/feature/browser_v2/data/browser_basic_auth_creds.dart';
 import 'package:app/feature/browser_v2/screens/main/widgets/pages/page/browser_page.dart';
 import 'package:app/feature/browser_v2/screens/main/widgets/pages/page/browser_page_model.dart';
-import 'package:app/utils/common_utils.dart';
 import 'package:elementary/elementary.dart';
 import 'package:elementary_helper/elementary_helper.dart';
 import 'package:flutter/foundation.dart';
@@ -27,6 +26,7 @@ BrowserPageWidgetModel defaultBrowserPageWidgetModelFactory(
     BrowserPageModel(
       createPrimaryErrorHandler(context),
       tabId,
+      inject(),
       inject(),
       inject(),
       inject(),
@@ -321,7 +321,9 @@ class BrowserPageWidgetModel
           return await _webViewController!.takeScreenshot(
             screenshotConfiguration: _screenshotConfiguration,
           );
-        } catch (_) {}
+        } catch (_) {
+          return null;
+        }
       },
     );
   }

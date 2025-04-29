@@ -6,6 +6,7 @@ import 'package:app/app/service/connection/connection_service.dart';
 import 'package:app/app/service/js_servcie.dart';
 import 'package:app/app/service/permissions_service.dart';
 import 'package:app/app/service/storage_service/connections_storage_service.dart';
+import 'package:app/app/service/ton_connect/ton_connect_js_bridge.dart';
 import 'package:app/feature/browser_v2/custom_web_controller.dart';
 import 'package:app/feature/browser_v2/data/browser_basic_auth_creds.dart';
 import 'package:app/feature/browser_v2/data/browser_tab.dart';
@@ -34,6 +35,7 @@ class BrowserPageModel extends ElementaryModel {
     this._connectionsStorageService,
     this._connectionService,
     this._jsService,
+    this._tonConnectJsBridge,
   ) : super(errorHandler: errorHandler);
 
   final String _tabId;
@@ -47,6 +49,7 @@ class BrowserPageModel extends ElementaryModel {
   final ConnectionsStorageService _connectionsStorageService;
   final ConnectionService _connectionService;
   final JsService _jsService;
+  final TonConnectJsBridge _tonConnectJsBridge;
 
   late final _inpageProvider = InpageProvider(
     tabId: _tabId,
@@ -88,6 +91,7 @@ class BrowserPageModel extends ElementaryModel {
     await controller.initNekotonProvider(
       providerApi: _inpageProvider,
     );
+    await _tonConnectJsBridge.initJsBridge(controller);
   }
 
   BrowserBasicAuthCreds? getBasicAuthCreds(
@@ -107,7 +111,7 @@ class BrowserPageModel extends ElementaryModel {
       return;
     }
     _inpageProvider.url = uri;
-
+    _tonConnectJsBridge.url = uri;
     _browserService.tM.updateCachedUrl(_tabId, uri);
   }
 
