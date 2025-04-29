@@ -84,11 +84,11 @@ class _AmountInputState extends State<AmountInput> {
               vertical: DimensSizeV2.d12,
             ),
             child: SeparatedRow(
-              separatorSize: DimensSizeV2.d4,
+              spacing: DimensSizeV2.d4,
               children: [
                 Expanded(
                   child: SeparatedColumn(
-                    separatorSize: DimensSizeV2.d4,
+                    spacing: DimensSizeV2.d4,
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       AmountInputAssetSelect(

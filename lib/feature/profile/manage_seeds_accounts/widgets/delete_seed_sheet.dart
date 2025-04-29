@@ -40,7 +40,7 @@ class DeleteSeedSheet extends StatelessWidget {
               child: ShapedContainerColumn(
                 color: theme.colors.background2,
                 margin: EdgeInsets.zero,
-                separatorSize: DimensSize.d16,
+                spacing: DimensSize.d16,
                 mainAxisSize: MainAxisSize.min,
                 children: [
                   _sectionItem(
@@ -108,7 +108,7 @@ class DeleteSeedSheet extends StatelessWidget {
         return SeparatedColumn(
           mainAxisSize: MainAxisSize.min,
           crossAxisAlignment: CrossAxisAlignment.start,
-          separatorSize: DimensSize.d12,
+          spacing: DimensSize.d12,
           children: [
             Text(
               title,

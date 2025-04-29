@@ -41,11 +41,11 @@ class SeedPhraseFormatView extends StatelessWidget {
         ),
         child: SeparatedColumn(
           crossAxisAlignment: CrossAxisAlignment.start,
-          separatorSize: DimensSizeV2.d12,
+          spacing: DimensSizeV2.d12,
           children: [
             Text(_getLabel(), style: theme.textStyles.labelSmall),
             SeparatedRow(
-              separatorSize: DimensSizeV2.d16,
+              spacing: DimensSizeV2.d16,
               children: [
                 CommonRadioInput(
                   value: SeedPhraseFormat.standard,

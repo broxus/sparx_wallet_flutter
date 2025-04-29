@@ -74,7 +74,7 @@ class _BrowserBookmarkRenameSheetState
         builder: (context) {
           return SeparatedColumn(
             mainAxisSize: MainAxisSize.min,
-            separatorSize: DimensSizeV2.d24,
+            spacing: DimensSizeV2.d24,
             children: [
               PrimaryTextField(
                 textEditingController: _nameController,

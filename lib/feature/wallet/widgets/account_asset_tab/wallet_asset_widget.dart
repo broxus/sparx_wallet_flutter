@@ -47,7 +47,7 @@ class WalletAssetWidget extends StatelessWidget {
       onTap: onPressed,
       behavior: HitTestBehavior.translucent,
       child: SeparatedRow(
-        separatorSize: DimensSizeV2.d12,
+        spacing: DimensSizeV2.d12,
         children: [
           const SizedBox(width: DimensSizeV2.d4),
           icon,

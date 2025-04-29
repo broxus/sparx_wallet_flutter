@@ -46,7 +46,7 @@ class StEverHowItWorksSheet extends StatelessWidget {
     return SeparatedColumn(
       crossAxisAlignment: CrossAxisAlignment.start,
       mainAxisSize: MainAxisSize.min,
-      separatorSize: DimensSizeV2.d16,
+      spacing: DimensSizeV2.d16,
       children: [
         Flexible(
           child: SingleChildScrollView(
@@ -118,12 +118,12 @@ class StEverHowItWorksSheet extends StatelessWidget {
           padding: const EdgeInsets.all(DimensSizeV2.d16),
           child: SeparatedRow(
             crossAxisAlignment: CrossAxisAlignment.start,
-            separatorSize: DimensSizeV2.d12,
+            spacing: DimensSizeV2.d12,
             children: [
               icon,
               Expanded(
                 child: SeparatedColumn(
-                  separatorSize: DimensSizeV2.d4,
+                  spacing: DimensSizeV2.d4,
                   mainAxisSize: MainAxisSize.min,
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [

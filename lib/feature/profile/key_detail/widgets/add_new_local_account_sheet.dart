@@ -57,7 +57,7 @@ class _AddNewLocalAccountSheetState extends State<AddNewLocalAccountSheet> {
       controller: widget.controller,
       child: SeparatedColumn(
         mainAxisSize: MainAxisSize.min,
-        separatorSize: DimensSizeV2.d24,
+        spacing: DimensSizeV2.d24,
         children: [
           PrimaryTextField(
             maxLength: maxLengthForMainEntities,

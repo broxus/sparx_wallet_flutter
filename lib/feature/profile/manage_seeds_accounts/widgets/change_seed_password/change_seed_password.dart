@@ -78,7 +78,7 @@ class _ChangeSeedPasswordSheetState extends State<ChangeSeedPasswordSheet> {
           child: SingleChildScrollView(
             child: SeparatedColumn(
               mainAxisSize: MainAxisSize.min,
-              separatorSize: DimensSize.d24,
+              spacing: DimensSize.d24,
               children: [
                 SecureTextField(
                   textEditingController: _oldPasswordController,

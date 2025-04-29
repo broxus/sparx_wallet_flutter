@@ -56,7 +56,7 @@ class _TokenWalletSendConfirmViewState
           child: SingleChildScrollView(
             child: SeparatedColumn(
               mainAxisSize: MainAxisSize.min,
-              separatorSize: DimensSize.d16,
+              spacing: DimensSize.d16,
               children: [
                 if (bloc.account != null) AccountInfo(account: bloc.account!),
                 TokenTransferInfoWidget(
