@@ -2,10 +2,13 @@ import 'dart:typed_data';
 
 import 'package:app/utils/common_utils.dart';
 import 'package:flutter_inappwebview/flutter_inappwebview.dart';
+import 'package:logging/logging.dart';
 import 'package:nekoton_webview/nekoton_webview.dart';
 
 class CustomWebViewController {
   CustomWebViewController(this._nativeController);
+
+  static final _log = Logger('CustomWebViewController');
 
   final InAppWebViewController _nativeController;
 
@@ -131,6 +134,11 @@ class CustomWebViewController {
       return null;
     }
 
-    return tryWrapper<T>(callback);
+    return tryWrapper<T>(callback, onCatch: (
+      Object e,
+      StackTrace s,
+    ) async {
+      _log.severe('Exception:', e, s);
+    });
   }
 }
