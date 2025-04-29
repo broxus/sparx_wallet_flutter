@@ -46,8 +46,8 @@ class Toolbar extends ElementaryWidget<ToolbarWidgetModel> {
           ),
           Expanded(
             child: _IconButton(
-              svg: Assets.images.verticalDots.path,
-              onPressed: wm.onPressedDotsPressed,
+              svg: Assets.images.layers.path,
+              onPressed: onPressedTabs,
             ),
           ),
           Expanded(
@@ -58,8 +58,9 @@ class Toolbar extends ElementaryWidget<ToolbarWidgetModel> {
           ),
           Expanded(
             child: _IconButton(
-              svg: Assets.images.layers.path,
-              onPressed: onPressedTabs,
+              svg: Assets.images.verticalDots.path,
+              isRotate: true,
+              onPressed: wm.onPressedDotsPressed,
             ),
           ),
         ],
@@ -73,11 +74,13 @@ class _IconButton extends StatelessWidget {
     required this.svg,
     required this.onPressed,
     this.isActive = true,
+    this.isRotate = false,
   });
 
   final String svg;
   final VoidCallback onPressed;
   final bool isActive;
+  final bool isRotate;
 
   @override
   Widget build(BuildContext context) {
@@ -86,14 +89,18 @@ class _IconButton extends StatelessWidget {
       behavior: HitTestBehavior.opaque,
       onTap: isActive ? onPressed : null,
       child: Center(
-        child: SvgPicture.asset(
-          svg,
-          width: 20,
-          height: 20,
-          colorFilter:
-              (isActive ? colors.content3 : colors.content3.withAlpha(125))
-                  .colorFilter,
-          //isActive
+        child: Transform.rotate(
+          // TODO(knightforce): Waiting for horizontal icon
+          angle: isRotate ? 1.5707963267948966 : 0,
+          child: SvgPicture.asset(
+            svg,
+            width: 20,
+            height: 20,
+            colorFilter:
+                (isActive ? colors.content3 : colors.content3.withAlpha(125))
+                    .colorFilter,
+            //isActive
+          ),
         ),
       ),
     );
