@@ -1,5 +1,6 @@
 import 'dart:typed_data';
 
+import 'package:app/utils/common_utils.dart';
 import 'package:flutter_inappwebview/flutter_inappwebview.dart';
 import 'package:nekoton_webview/nekoton_webview.dart';
 
@@ -19,200 +20,117 @@ class CustomWebViewController {
     } catch (_) {}
   }
 
-  Future<void> transactionsFound(TransactionsFoundEvent event) async {
-    if (_isDisposed) {
-      return;
-    }
-
-    try {
-      return await _nativeController.transactionsFound(
+  void transactionsFound(TransactionsFoundEvent event) {
+    _safeCall(() {
+      return _nativeController.transactionsFound(
         event,
       );
-    } catch (_) {}
+    });
   }
 
-  Future<void> contractStateChanged(ContractStateChangedEvent event) async {
-    if (_isDisposed) {
-      return;
-    }
-
-    try {
-      await _nativeController.contractStateChanged(event);
-    } catch (_) {}
+  void contractStateChanged(ContractStateChangedEvent event) {
+    _safeCall(() => _nativeController.contractStateChanged(event));
   }
 
-  Future<void> networkChanged(NetworkChangedEvent event) async {
-    if (_isDisposed) {
-      return;
-    }
-
-    try {
-      return await _nativeController.networkChanged(event);
-    } catch (_) {}
+  void networkChanged(NetworkChangedEvent event) {
+    _safeCall(() {
+      return _nativeController.networkChanged(event);
+    });
   }
 
   Future<void> loadUrl({
     required URLRequest urlRequest,
     WebUri? allowingReadAccessTo,
   }) async {
-    if (_isDisposed) {
-      return;
-    }
-
-    try {
-      return await _nativeController.loadUrl(
+    return _safeCall(
+      () => _nativeController.loadUrl(
         urlRequest: urlRequest,
         allowingReadAccessTo: allowingReadAccessTo,
-      );
-    } catch (_) {}
+      ),
+    );
   }
 
-  Future<void> loggedOut() async {
-    if (_isDisposed) {
-      return;
-    }
-
-    try {
-      return await _nativeController.loggedOut();
-    } catch (_) {}
+  void loggedOut() {
+    _safeCall(_nativeController.loggedOut);
   }
 
-  Future<WebUri?> getUrl() async {
-    if (_isDisposed) {
-      return null;
-    }
-
-    try {
-      return await _nativeController.getUrl();
-    } catch (_) {
-      return null;
-    }
+  Future<WebUri?> getUrl() {
+    return _safeCall<WebUri?>(_nativeController.getUrl);
   }
 
-  Future<void> reload() async {
-    if (_isDisposed) {
-      return;
-    }
-
-    try {
-      return await _nativeController.reload();
-    } catch (_) {}
+  Future<void> reload() {
+    return _safeCall(_nativeController.reload);
   }
 
   Future<Uint8List?> takeScreenshot({
     ScreenshotConfiguration? screenshotConfiguration,
-  }) async {
-    if (_isDisposed) {
-      return null;
-    }
-
-    try {
-      return _nativeController.takeScreenshot(
+  }) {
+    return _safeCall<Uint8List?>(
+      () => _nativeController.takeScreenshot(
         screenshotConfiguration: screenshotConfiguration,
-      );
-    } catch (_) {
-      return null;
-    }
+      ),
+    );
   }
 
-  Future<bool> canGoBack() async {
-    if (_isDisposed) {
-      return false;
-    }
-
-    try {
-      return await _nativeController.canGoBack();
-    } catch (_) {
-      return false;
-    }
+  Future<bool?> canGoBack() {
+    return _safeCall<bool>(_nativeController.canGoBack);
   }
 
-  Future<bool> canGoForward() async {
-    if (_isDisposed) {
-      false;
-    }
-
-    try {
-      return await _nativeController.canGoForward();
-    } catch (_) {
-      return false;
-    }
+  Future<bool?> canGoForward() {
+    return _safeCall<bool>(_nativeController.canGoForward);
   }
 
-  Future<void> goBack() async {
-    if (_isDisposed) {
-      return;
-    }
-
-    try {
-      return await _nativeController.goBack();
-    } catch (_) {}
+  Future<void> goBack() {
+    return _safeCall(_nativeController.goBack);
   }
 
   Future<void> goForward() async {
-    if (_isDisposed) {
-      return;
-    }
-
-    try {
-      return await _nativeController.goForward();
-    } catch (_) {}
+    return _safeCall(_nativeController.goForward);
   }
 
-  Future<void> permissionsChanged(PermissionsChangedEvent event) async {
-    if (_isDisposed) {
-      return;
-    }
-
-    try {
-      return await _nativeController.permissionsChanged(event);
-    } catch (_) {}
+  Future<void> permissionsChanged(PermissionsChangedEvent event) {
+    return _safeCall(() => _nativeController.permissionsChanged(event));
   }
 
-  Future<void> messageStatusUpdated(MessageStatusUpdatedEvent event) async {
-    if (_isDisposed) {
-      return;
-    }
-
-    try {
-      return await _nativeController.messageStatusUpdated(event);
-    } catch (_) {}
+  Future<void> messageStatusUpdated(MessageStatusUpdatedEvent event) {
+    return _safeCall(() => _nativeController.messageStatusUpdated(event));
   }
 
   Future<void> initNekotonProvider({
     required ProviderApi providerApi,
-  }) async {
-    if (_isDisposed) {
-      return;
-    }
-
-    try {
-      return await _nativeController.initNekotonProvider(
+  }) {
+    return _safeCall(
+      () => _nativeController.initNekotonProvider(
         providerApi: providerApi,
-      );
-    } catch (_) {}
+      ),
+    );
   }
 
   Future<void> addUserScript({
     required UserScript userScript,
-  }) async {
-    if (isDisposed) {
-      return;
-    }
-    try {
-      return await _nativeController.addUserScript(userScript: userScript);
-    } catch (_) {}
+  }) {
+    return _safeCall(
+      () => _nativeController.addUserScript(userScript: userScript),
+    );
   }
 
   void addJavaScriptHandler({
     required String handlerName,
     required JavaScriptHandlerCallback callback,
   }) {
-    try {
-      return _nativeController.addJavaScriptHandler(
+    _safeCall(
+      () async => _nativeController.addJavaScriptHandler(
         handlerName: handlerName,
         callback: callback,
-      );
-    } catch (_) {}
+      ),
+    );
+  }
+
+  Future<T?> _safeCall<T>(Future<T> Function() callback) async {
+    if (_isDisposed) {
+      return null;
+    }
+
+    return tryWrapper<T>(callback);
   }
 }
