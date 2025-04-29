@@ -19,8 +19,8 @@ abstract class DioModule {
         PrettyDioLogger(
           requestBody: true,
           filter: (options, args) {
-            // don't print responses with unit8 list data
-            return !args.isResponse || !args.hasUint8ListData;
+            // don't print requests/responses with unit8 list data
+            return !args.hasUint8ListData;
           },
         ),
       ])
