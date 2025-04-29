@@ -225,6 +225,15 @@ class BrowserTabsManager {
 
   String createEmptyTab() => createBrowserTab(_emptyUri);
 
+  void openUrl(Uri url) {
+    final lastTab = browserTabs.lastOrNull;
+    if (lastTab != null && lastTab.url.toString().isEmpty) {
+      requestUrl(lastTab.id, url);
+    } else {
+      createBrowserTab(url);
+    }
+  }
+
   String createBrowserTab(Uri url) {
     final tab = BrowserTab.create(url: url);
     _setTabs(
