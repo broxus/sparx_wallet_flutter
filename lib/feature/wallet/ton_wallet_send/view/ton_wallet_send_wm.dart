@@ -100,6 +100,10 @@ class TonWalletSendWidgetModel
       } else {
         contextSafe?.goNamed(AppRoute.wallet.name);
       }
+    } on OperationCanceledException catch (_) {
+      // TODO(Levitsky): Now exception is muted, but in future
+      // _nekotonRepository could be improved, to graceful
+      // handle account change.
     } on Exception catch (e, s) {
       _logger.severe('Failed to send transaction', e, s);
       model.showMessage(Message.error(message: e.toString()));
@@ -153,13 +157,12 @@ class TonWalletSendWidgetModel
       if (!isPossibleToSendMessage) {
         _error.accept(LocaleKeys.insufficientFunds.tr());
       }
+    } on ContractNotExistsException catch (e, s) {
+      _logger.severe('Failed to prepare transaction', e, s);
+      _error.accept(LocaleKeys.insufficientFunds.tr());
     } on Exception catch (e, s) {
       _logger.severe('Failed to prepare transaction', e, s);
-      if (e is ContractNotExistsException) {
-        _error.accept(LocaleKeys.insufficientFunds.tr());
-      } else {
-        _error.accept(e.toString());
-      }
+      _error.accept(e.toString());
     } finally {
       unsignedMessage?.dispose();
       _isLoading.accept(false);
