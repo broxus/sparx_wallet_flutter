@@ -131,6 +131,7 @@ class WalletDeployPage extends StatelessWidget {
                 padding: const EdgeInsets.all(DimensSize.d16),
                 child: TransactionSendingWidget(
                   canClose: canClose,
+                  popOnComplete: false,
                   isDeploying: true,
                 ),
               ),

@@ -39,11 +39,6 @@ class UpdateVersionWidgetModel
 
   MediaQueryData get mediaQuery => MediaQuery.of(context);
 
-  @override
-  void initWidgetModel() {
-    super.initWidgetModel();
-  }
-
   void onUpdateButtonPressed() {
     model.openAppStore();
     if (model.isCloseAvailable) contextSafe?.let(Navigator.of).pop();

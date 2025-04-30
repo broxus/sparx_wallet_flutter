@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:app/app/router/router.dart';
+import 'package:app/app/router/routs/wallet/ton_wallet_send_route_data.dart';
 import 'package:app/core/error_handler_factory.dart';
 import 'package:app/core/wm/custom_wm.dart';
 import 'package:app/data/models/models.dart';
@@ -22,11 +23,14 @@ CancelUnstakingPageWidgetModel defaultCancelUnstakingPageWidgetModelFactory(
         inject(),
         inject(),
       ),
+      inject(),
     );
 
 class CancelUnstakingPageWidgetModel extends CustomWidgetModel<
     CancelUnstakingPageWidget, CancelUnstakingPageModel> {
-  CancelUnstakingPageWidgetModel(super.model);
+  CancelUnstakingPageWidgetModel(super.model, this._tonWalletSendNavigator);
+
+  final TonWalletSendRoute _tonWalletSendNavigator;
 
   late final _asset = createNotifier<TokenContractAsset>();
 
@@ -61,19 +65,18 @@ class CancelUnstakingPageWidgetModel extends CustomWidgetModel<
 
     if (!context.mounted) return;
 
-    final result = await Navigator.of(context, rootNavigator: true).push<bool>(
-      MaterialPageRoute(
-        builder: (_) => TonWalletSendPage(
-          address: widget.request.accountAddress,
-          amount: model.staking.stakeRemovePendingWithdrawAttachedFee,
-          payload: payload,
-          destination: model.staking.stakingValutAddress,
-          publicKey: widget.accountKey,
-          resultMessage: LocaleKeys.stEverReturnInMinutes.tr(
-            args: [widget.stakeCurrency.symbol],
-          ),
-          completeCloseCallback: (context) => Navigator.of(context).pop(true),
+    final result = await _tonWalletSendNavigator.push(
+      context,
+      TonWalletSendRouteData(
+        address: widget.request.accountAddress,
+        amount: model.staking.stakeRemovePendingWithdrawAttachedFee,
+        payload: payload,
+        destination: model.staking.stakingValutAddress,
+        publicKey: widget.accountKey,
+        resultMessage: LocaleKeys.stEverReturnInMinutes.tr(
+          args: [widget.stakeCurrency.symbol],
         ),
+        popOnComplete: true,
       ),
     );
 

@@ -90,7 +90,7 @@ class StakingService {
   StakingInformation get stakingInformation =>
       nekotonRepository.currentTransport.stakeInformation!;
 
-  /// Returns body/comment for TonWalletSendPage, all other fields should be
+  /// Returns body/comment for TonWalletSendWidget, all other fields should be
   /// put manually.
   Future<String> depositEverBodyPayload(BigInt depositAmount) {
     final payload = FunctionCall(
@@ -126,7 +126,7 @@ class StakingService {
   }
 
   /// Cancel withdraw request.
-  /// Returns body/comment that should be handled via TonWalletSendPage
+  /// Returns body/comment that should be handled via TonWalletSendWidget
   Future<String> removeWithdrawPayload(String nonce) {
     final payload = FunctionCall(
       method: 'removePendingWithdraw',

@@ -1,6 +1,7 @@
 import 'package:app/feature/wallet/wallet.dart';
 import 'package:app/feature/wallet/wallet_prepare_transfer/wallet_prepare_transfer_page_wm.dart';
 import 'package:app/generated/generated.dart';
+import 'package:app/utils/common_utils.dart';
 import 'package:app/widgets/amount_input/amount_input.dart';
 import 'package:elementary_helper/elementary_helper.dart';
 import 'package:flutter/material.dart';
@@ -87,10 +88,17 @@ class WalletPrepareTransferView extends StatelessWidget {
               ),
             ),
           ),
-          AccentButton(
-            buttonShape: ButtonShape.pill,
-            title: LocaleKeys.continueWord.tr(),
-            onPressed: _wm.onPressedNext,
+          StateNotifierBuilder(
+            listenableState: _wm.isInitialDataLoaded,
+            builder: (context, isInitialDataLoaded) {
+              return AccentButton(
+                buttonShape: ButtonShape.pill,
+                title: LocaleKeys.continueWord.tr(),
+                onPressed: _wm.onPressedNext.takeIf(
+                  (_) => isInitialDataLoaded ?? false,
+                ),
+              );
+            },
           ),
           const SizedBox(height: DimensSize.d16),
         ],

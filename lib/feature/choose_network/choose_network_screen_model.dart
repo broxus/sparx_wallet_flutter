@@ -32,7 +32,7 @@ class ChooseNetworkScreenModel extends ElementaryModel with ConnectionMixin {
   final ConnectionsStorageService _connectionsStorageService;
   final NekotonRepository _nekotonRepository;
 
-  Future<bool> selectType(BuildContext context, String id) async {
+  Future<bool> selectType(String id) async {
     try {
       _connectionsStorageService.saveCurrentConnectionId(id);
       await _nekotonRepository.currentTransportStream.firstWhere(
@@ -41,7 +41,6 @@ class ChooseNetworkScreenModel extends ElementaryModel with ConnectionMixin {
     } catch (e) {
       messengerService.show(
         Message.error(
-          context: context,
           message: e.toString(),
         ),
       );
