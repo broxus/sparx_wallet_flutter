@@ -1,1 +1,1 @@
-export 'ton_wallet_send_page.dart';
+export 'ton_wallet_send_widget.dart';

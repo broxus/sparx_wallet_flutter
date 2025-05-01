@@ -98,6 +98,8 @@ String toEllipseString(String value) => value.length > 6
 
 extension FunctionalExt<T> on T {
   R let<R>(R Function(T value) block) => block(this);
+
+  T? takeIf(bool Function(T value) condition) => condition(this) ? this : null;
 }
 
 extension MoneyExt on Money {

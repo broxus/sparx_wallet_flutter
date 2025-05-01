@@ -3,7 +3,6 @@ import 'package:app/feature/messenger/data/message.dart';
 import 'package:app/feature/messenger/domain/service/messenger_service.dart';
 import 'package:app/generated/generated.dart';
 import 'package:elementary/elementary.dart';
-import 'package:flutter/material.dart';
 import 'package:local_auth/local_auth.dart';
 import 'package:nekoton_repository/nekoton_repository.dart' hide Message;
 
@@ -79,7 +78,7 @@ class AddAccountConfirmModel extends ElementaryModel {
     return correct;
   }
 
-  void showWrongPassword(BuildContext context) {
+  void showWrongPassword() {
     _messengerService.show(
       Message.error(message: LocaleKeys.passwordIsWrong.tr()),
     );

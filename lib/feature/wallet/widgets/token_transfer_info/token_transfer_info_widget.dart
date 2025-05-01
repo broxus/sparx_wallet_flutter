@@ -62,64 +62,76 @@ class TokenTransferInfoWidget
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          if (amount != null)
-            _InfoRow(
-              label: LocaleKeys.token.tr(),
-              child: Text(
-                amount!.currency.symbolFixed,
-                style: theme.textStyles.labelSmall,
-              ),
-            ),
-          if (amount != null)
-            _InfoRow(
-              margin: const EdgeInsets.only(top: DimensSizeV2.d16),
-              label: LocaleKeys.amountWord.tr(),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.end,
-                children: [
-                  StateNotifierBuilder(
-                    listenableState: wm.tokenAsset,
-                    builder: (_, asset) {
-                      final icon = asset?.let(
-                            (asset) => TokenWalletIconWidget(
-                              address: asset.address,
-                              logoURI: asset.logoURI,
-                              version: asset.version,
-                              size: DimensSizeV2.d20,
-                            ),
-                          ) ??
-                          TonWalletIconWidget(
-                            path: wm.isNative
-                                ? wm.nativeTokenIcon
-                                : Assets.images.tokenDefaultIcon.path,
-                            size: DimensSizeV2.d20,
-                          );
+          StateNotifierBuilder(
+            listenableState: wm.amount,
+            builder: (_, amount) {
+              if (amount == null) return const SizedBox.shrink();
 
-                      return AmountWidget.fromMoney(
-                        amount: amount!,
-                        icon: icon,
-                        includeSymbol: false,
-                      );
-                    },
-                  ),
-                  StateNotifierBuilder(
-                    listenableState: wm.amountUSDPrice,
-                    builder: (_, price) => price != null
-                        ? Padding(
-                            padding:
-                                const EdgeInsets.only(top: DimensSizeV2.d4),
-                            child: AmountWidget.dollars(
-                              amount: amount!.exchangeToUSD(price),
-                              style: theme.textStyles.labelXSmall.copyWith(
-                                color: theme.colors.content3,
+              return _InfoRow(
+                label: LocaleKeys.token.tr(),
+                child: Text(
+                  amount.currency.symbolFixed,
+                  style: theme.textStyles.labelSmall,
+                ),
+              );
+            },
+          ),
+          StateNotifierBuilder(
+            listenableState: wm.amount,
+            builder: (_, amount) {
+              if (amount == null) return const SizedBox.shrink();
+
+              return _InfoRow(
+                margin: const EdgeInsets.only(top: DimensSizeV2.d16),
+                label: LocaleKeys.amountWord.tr(),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.end,
+                  children: [
+                    StateNotifierBuilder(
+                      listenableState: wm.tokenAsset,
+                      builder: (_, asset) {
+                        final icon = asset?.let(
+                              (asset) => TokenWalletIconWidget(
+                                address: asset.address,
+                                logoURI: asset.logoURI,
+                                version: asset.version,
+                                size: DimensSizeV2.d20,
                               ),
-                            ),
-                          )
-                        : const SizedBox.shrink(),
-                  ),
-                ],
-              ),
-            ),
+                            ) ??
+                            TonWalletIconWidget(
+                              path: wm.isNative
+                                  ? wm.nativeTokenIcon
+                                  : Assets.images.tokenDefaultIcon.path,
+                              size: DimensSizeV2.d20,
+                            );
+
+                        return AmountWidget.fromMoney(
+                          amount: amount,
+                          icon: icon,
+                          includeSymbol: false,
+                        );
+                      },
+                    ),
+                    StateNotifierBuilder(
+                      listenableState: wm.amountUSDPrice,
+                      builder: (_, price) => price != null
+                          ? Padding(
+                              padding:
+                                  const EdgeInsets.only(top: DimensSizeV2.d4),
+                              child: AmountWidget.dollars(
+                                amount: amount.exchangeToUSD(price),
+                                style: theme.textStyles.labelXSmall.copyWith(
+                                  color: theme.colors.content3,
+                                ),
+                              ),
+                            )
+                          : const SizedBox.shrink(),
+                    ),
+                  ],
+                ),
+              );
+            },
+          ),
           DoubleSourceBuilder(
             firstSource: wm.attachedAmount,
             secondSource: wm.nativeUSDPrice,
@@ -299,9 +311,10 @@ class _InfoRow extends StatelessWidget {
 
     return Padding(
       padding: margin,
-      child: SeparatedRow(
+      child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         crossAxisAlignment: CrossAxisAlignment.start,
+        spacing: DimensSizeV2.d8,
         children: [
           Text(
             label,
