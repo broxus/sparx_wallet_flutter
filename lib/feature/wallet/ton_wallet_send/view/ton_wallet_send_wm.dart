@@ -1,8 +1,8 @@
 import 'package:app/app/router/router.dart';
-import 'package:app/app/service/service.dart';
 import 'package:app/core/error_handler_factory.dart';
 import 'package:app/core/wm/custom_wm.dart';
 import 'package:app/di/di.dart';
+import 'package:app/feature/messenger/data/message.dart';
 import 'package:app/feature/wallet/ton_wallet_send/data/ton_wallet_send_state.dart';
 import 'package:app/feature/wallet/ton_wallet_send/view/ton_wallet_send_model.dart';
 import 'package:app/feature/wallet/ton_wallet_send/view/ton_wallet_send_widget.dart';

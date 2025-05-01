@@ -2510,6 +2510,7 @@ abstract class _$$CallContractMethodImplCopyWith<$Res>
   $AddressCopyWith<$Res> get account;
   $PublicKeyCopyWith<$Res> get publicKey;
   $AddressCopyWith<$Res> get recipient;
+  $FunctionCallCopyWith<$Res> get payload;
 }
 
 /// @nodoc
@@ -2529,7 +2530,7 @@ class __$$CallContractMethodImplCopyWithImpl<$Res>
     Object? account = null,
     Object? publicKey = null,
     Object? recipient = null,
-    Object? payload = freezed,
+    Object? payload = null,
     Object? completer = null,
   }) {
     return _then(_$CallContractMethodImpl(
@@ -2549,7 +2550,7 @@ class __$$CallContractMethodImplCopyWithImpl<$Res>
           ? _value.recipient
           : recipient // ignore: cast_nullable_to_non_nullable
               as Address,
-      payload: freezed == payload
+      payload: null == payload
           ? _value.payload
           : payload // ignore: cast_nullable_to_non_nullable
               as FunctionCall,
@@ -2587,6 +2588,16 @@ class __$$CallContractMethodImplCopyWithImpl<$Res>
   $AddressCopyWith<$Res> get recipient {
     return $AddressCopyWith<$Res>(_value.recipient, (value) {
       return _then(_value.copyWith(recipient: value));
+    });
+  }
+
+  /// Create a copy of ApprovalRequest
+  /// with the given fields replaced by the non-null parameter values.
+  @override
+  @pragma('vm:prefer-inline')
+  $FunctionCallCopyWith<$Res> get payload {
+    return $FunctionCallCopyWith<$Res>(_value.payload, (value) {
+      return _then(_value.copyWith(payload: value));
     });
   }
 }
@@ -2631,14 +2642,14 @@ class _$CallContractMethodImpl implements _CallContractMethod {
                 other.publicKey == publicKey) &&
             (identical(other.recipient, recipient) ||
                 other.recipient == recipient) &&
-            const DeepCollectionEquality().equals(other.payload, payload) &&
+            (identical(other.payload, payload) || other.payload == payload) &&
             (identical(other.completer, completer) ||
                 other.completer == completer));
   }
 
   @override
-  int get hashCode => Object.hash(runtimeType, origin, account, publicKey,
-      recipient, const DeepCollectionEquality().hash(payload), completer);
+  int get hashCode => Object.hash(
+      runtimeType, origin, account, publicKey, recipient, payload, completer);
 
   /// Create a copy of ApprovalRequest
   /// with the given fields replaced by the non-null parameter values.
@@ -2918,6 +2929,7 @@ abstract class _$$SendMessageImplCopyWith<$Res>
 
   $AddressCopyWith<$Res> get sender;
   $AddressCopyWith<$Res> get recipient;
+  $FunctionCallCopyWith<$Res>? get payload;
   $KnownPayloadCopyWith<$Res>? get knownPayload;
 }
 
@@ -3003,6 +3015,20 @@ class __$$SendMessageImplCopyWithImpl<$Res>
   /// with the given fields replaced by the non-null parameter values.
   @override
   @pragma('vm:prefer-inline')
+  $FunctionCallCopyWith<$Res>? get payload {
+    if (_value.payload == null) {
+      return null;
+    }
+
+    return $FunctionCallCopyWith<$Res>(_value.payload!, (value) {
+      return _then(_value.copyWith(payload: value));
+    });
+  }
+
+  /// Create a copy of ApprovalRequest
+  /// with the given fields replaced by the non-null parameter values.
+  @override
+  @pragma('vm:prefer-inline')
   $KnownPayloadCopyWith<$Res>? get knownPayload {
     if (_value.knownPayload == null) {
       return null;
@@ -3061,7 +3087,7 @@ class _$SendMessageImpl implements _SendMessage {
                 other.recipient == recipient) &&
             (identical(other.amount, amount) || other.amount == amount) &&
             (identical(other.bounce, bounce) || other.bounce == bounce) &&
-            const DeepCollectionEquality().equals(other.payload, payload) &&
+            (identical(other.payload, payload) || other.payload == payload) &&
             (identical(other.knownPayload, knownPayload) ||
                 other.knownPayload == knownPayload) &&
             (identical(other.completer, completer) ||
@@ -3069,16 +3095,8 @@ class _$SendMessageImpl implements _SendMessage {
   }
 
   @override
-  int get hashCode => Object.hash(
-      runtimeType,
-      origin,
-      sender,
-      recipient,
-      amount,
-      bounce,
-      const DeepCollectionEquality().hash(payload),
-      knownPayload,
-      completer);
+  int get hashCode => Object.hash(runtimeType, origin, sender, recipient,
+      amount, bounce, payload, knownPayload, completer);
 
   /// Create a copy of ApprovalRequest
   /// with the given fields replaced by the non-null parameter values.

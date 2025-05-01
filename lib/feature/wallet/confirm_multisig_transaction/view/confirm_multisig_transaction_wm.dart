@@ -1,8 +1,8 @@
 import 'package:app/app/router/router.dart';
-import 'package:app/app/service/service.dart';
 import 'package:app/core/error_handler_factory.dart';
 import 'package:app/core/wm/custom_wm.dart';
 import 'package:app/di/di.dart';
+import 'package:app/feature/messenger/data/message.dart';
 import 'package:app/feature/wallet/confirm_multisig_transaction/data/data.dart';
 import 'package:app/feature/wallet/confirm_multisig_transaction/view/confirm_multisig_transaction_model.dart';
 import 'package:app/feature/wallet/confirm_multisig_transaction/view/confirm_multisig_transaction_widget.dart';
