@@ -46,7 +46,7 @@ dependencies:
   freezed_annotation: 2.4.4
   get_it: 8.0.3
   get_storage: 2.1.1
-  go_router: 14.8.1
+  go_router: 15.1.1
   hex: 0.2.0
   image_picker: 1.1.2
   image_picker_android: ^0.8.12+23
