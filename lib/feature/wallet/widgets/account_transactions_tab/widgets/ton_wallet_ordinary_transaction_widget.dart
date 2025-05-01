@@ -1,5 +1,5 @@
 import 'package:app/di/di.dart';
-import 'package:app/feature/wallet/widgets/account_transactions_tab/detail/ton_wallet_ordinary_transaction_details.dart';
+import 'package:app/feature/wallet/widgets/account_transactions_tab/detail/ton_wallet_ordinary_transaction_details/ton_wallet_ordinary_transaction_details.dart';
 import 'package:app/feature/wallet/widgets/account_transactions_tab/widgets/ton_wallet_transaction_status_body.dart';
 import 'package:app/feature/wallet/widgets/account_transactions_tab/widgets/ton_wallet_transaction_widget.dart';
 import 'package:flutter/material.dart';
@@ -35,7 +35,7 @@ class TonWalletOrdinaryTransactionWidget extends StatelessWidget {
       isLast: isLast,
       onPressed: () => Navigator.of(context, rootNavigator: true).push(
         MaterialPageRoute<void>(
-          builder: (_) => TonWalletOrdinaryTransactionDetailsPage(
+          builder: (_) => TonWalletOrdinaryTransactionDetails(
             transaction: transaction,
             price: price,
           ),
