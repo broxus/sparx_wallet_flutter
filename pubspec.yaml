@@ -1,7 +1,7 @@
 ---
 name: app
 description: SparX Wallet Flutter app
-version: 1.7.0
+version: 1.7.1
 publish_to: none
 
 environment:
@@ -49,6 +49,8 @@ dependencies:
   go_router: 14.8.1
   hex: 0.2.0
   image_picker: 1.1.2
+  image_picker_android: ^0.8.12+23
+  image_picker_platform_interface: ^2.10.1
   in_app_notification: 1.1.2
   in_app_update: ^4.2.3
   injectable: 2.5.0
