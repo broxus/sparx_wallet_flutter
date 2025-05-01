@@ -13,6 +13,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
+import 'package:image_picker_android/image_picker_android.dart';
+import 'package:image_picker_platform_interface/image_picker_platform_interface.dart';
 import 'package:logging/logging.dart';
 import 'package:nekoton_repository/nekoton_repository.dart';
 import 'package:ui_components_lib/ui_components_lib.dart';
@@ -69,6 +71,11 @@ Future<void> run(
       await SystemChrome.setPreferredOrientations([
         DeviceOrientation.portraitUp,
       ]);
+
+      final imagePickerImplementation = ImagePickerPlatform.instance;
+      if (imagePickerImplementation is ImagePickerAndroid) {
+        imagePickerImplementation.useAndroidPhotoPicker = true;
+      }
 
       runApp(const App());
     },
