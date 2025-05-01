@@ -3,7 +3,9 @@
 import 'dart:convert';
 
 import 'package:app/app/router/router.dart';
+import 'package:app/app/router/routs/wallet/ton_wallet_send_route_data.dart';
 import 'package:app/data/models/models.dart';
+import 'package:app/di/di.dart';
 import 'package:app/feature/biometry/view/biometry_screen.dart';
 import 'package:app/feature/network/network.dart';
 import 'package:app/feature/no_internet/no_internet_screen.dart';
@@ -34,15 +36,6 @@ const walletPrepareTransferSymbolPathParam = 'walletPrepareSymbol';
 
 const walletPrepareTransferDestinationQueryParam = 'walletPrepareDestination';
 
-const tonWalletSendAddressQueryParam = 'tonWalletSendAddress';
-const tonWalletSendPublicKeyQueryParam = 'tonWalletSendPublicKey';
-const tonWalletSendCommentQueryParam = 'tonWalletSendComment';
-const tonWalletSendPayloadQueryParam = 'tonWalletSendPayload';
-const tonWalletSendDestinationQueryParam = 'tonWalletSendDestination';
-const tonWalletSendAmountQueryParam = 'tonWalletSendAmount';
-const tonWalletSendAttachedAmountQueryParam = 'tonWalletSendAttachedAmount';
-const tonWalletSendResultMessageQueryParam = 'tonWalletSendResultMessage';
-
 const tokenWalletSendOwnerQueryParam = 'tokenWalletSendOwner';
 const tokenWalletSendContractQueryParam = 'tokenWalletSendContract';
 const tokenWalletSendPublicKeyQueryParam = 'tokenWalletSendPublicKey';
@@ -56,19 +49,19 @@ const tokenWalletSendNotifyReceiverQueryParam = 'tokenWalletSendNotifyReceiver';
 const walletDeployAddressPathParam = 'walletDeployAddress';
 const walletDeployPublicKeyPathParam = 'walletDeployPublicKey';
 
-const tonWalletConfirmTransactionWalletAddressQueryParam =
+const confirmMultisigTransactionWalletAddressQueryParam =
     'tonWalletConfirmTransactionAddress';
-const tonWalletConfirmTransactionLocalCustodiansQueryParam =
+const confirmMultisigTransactionLocalCustodiansQueryParam =
     'tonWalletConfirmTransactionLocalCustodians';
-const tonWalletConfirmTransactionTransactionIdQueryParam =
+const confirmMultisigTransactionTransactionIdQueryParam =
     'tonWalletConfirmTransactionTransactionId';
-const tonWalletConfirmTransactionIdHashQueryParam =
+const confirmMultisigTransactionIdHashQueryParam =
     'tonWalletConfirmTransactionIdHash';
-const tonWalletConfirmTransactionDestinationQueryParam =
+const confirmMultisigTransactionDestinationQueryParam =
     'tonWalletConfirmTransactionDestination';
-const tonWalletConfirmTransactionAmountQueryParam =
+const confirmMultisigTransactionAmountQueryParam =
     'tonWalletConfirmTransactionAmount';
-const tonWalletConfirmTransactionCommentQueryParam =
+const confirmMultisigTransactionCommentQueryParam =
     'tonWalletConfirmTransactionComment';
 
 const networkConnectionDataIdQueryParam = 'connectionDataId';
@@ -93,6 +86,8 @@ const walletCancelUnstakingEverPriceQueryParam =
 
 const walletCreatePublicKeyQueryParam = 'walletCreatePublicKey';
 const walletCreatePasswordQueryParam = 'walletCreatePassword';
+
+TonWalletSendRoute get _tonWalletSendRoute => inject<TonWalletSendRoute>();
 
 /// Branch that is root for wallet.
 StatefulShellBranch get walletBranch {
@@ -176,7 +171,7 @@ StatefulShellBranch get walletBranch {
           tokenWalletDetailsRoute,
           walletPrepareTransferRoute,
           walletDeployRoute,
-          tonConfirmTranscationRoute,
+          confirmMultisigTranscationRoute,
           configureNetworksRoute,
           stakingRoute,
         ],
@@ -196,7 +191,7 @@ GoRoute get tonWalletDetailsRoute {
     routes: [
       walletDeployRoute,
       walletPrepareTransferLockedRoute,
-      tonConfirmTranscationRoute,
+      confirmMultisigTranscationRoute,
     ],
   );
 }
@@ -232,7 +227,7 @@ GoRoute get walletPrepareTransferRoute {
           ?.let((address) => Address(address: address)),
     ),
     routes: [
-      tonWalletSendRoute,
+      _tonWalletSendRoute.route,
       tokenWalletSendRoute,
     ],
   );
@@ -253,42 +248,9 @@ GoRoute get walletPrepareTransferLockedRoute {
       tokenSymbol: state.pathParameters[walletPrepareTransferSymbolPathParam],
     ),
     routes: [
-      tonWalletSendRoute,
+      _tonWalletSendRoute.route,
       tokenWalletSendRoute,
     ],
-  );
-}
-
-/// Send native token from TonWallet
-GoRoute get tonWalletSendRoute {
-  return GoRoute(
-    path: AppRoute.tonWalletSend.path,
-    builder: (context, state) {
-      final attached =
-          state.uri.queryParameters[tonWalletSendAttachedAmountQueryParam];
-
-      return TonWalletSendPage(
-        address: Address(
-          address: state.uri.queryParameters[tonWalletSendAddressQueryParam]!,
-        ),
-        publicKey: PublicKey(
-          publicKey:
-              state.uri.queryParameters[tonWalletSendPublicKeyQueryParam]!,
-        ),
-        destination: Address(
-          address:
-              state.uri.queryParameters[tonWalletSendDestinationQueryParam]!,
-        ),
-        amount: BigInt.parse(
-          state.uri.queryParameters[tonWalletSendAmountQueryParam]!,
-        ),
-        attachedAmount: attached == null ? null : BigInt.parse(attached),
-        comment: state.uri.queryParameters[tonWalletSendCommentQueryParam],
-        payload: state.uri.queryParameters[tonWalletSendPayloadQueryParam],
-        resultMessage:
-            state.uri.queryParameters[tonWalletSendResultMessageQueryParam],
-      );
-    },
   );
 }
 
@@ -297,7 +259,7 @@ GoRoute get tokenWalletSendRoute {
   return GoRoute(
     path: AppRoute.tokenWalletSend.path,
     builder: (context, state) {
-      return TokenWalletSendPage(
+      return TokenWalletSendWidget(
         owner: Address(
           address: state.uri.queryParameters[tokenWalletSendOwnerQueryParam]!,
         ),
@@ -350,37 +312,36 @@ GoRoute get walletDeployRoute {
 }
 
 /// Confirm multisig transaction for TonWallet
-// TODO(knightforce): rename to Multisig or Custodian
-GoRoute get tonConfirmTranscationRoute {
+GoRoute get confirmMultisigTranscationRoute {
   return GoRoute(
-    path: AppRoute.tonConfirmTransaction.path,
+    path: AppRoute.confirmMultisigTransaction.path,
     builder: (context, state) {
       final decoded = (jsonDecode(
         state.uri.queryParameters[
-            tonWalletConfirmTransactionLocalCustodiansQueryParam]!,
+            confirmMultisigTransactionLocalCustodiansQueryParam]!,
       ) as List<dynamic>)
           .cast<String>();
 
-      return TonConfirmTransactionPage(
+      return ConfirmMultisigTransactionWidget(
         walletAddress: Address(
           address: state.uri.queryParameters[
-              tonWalletConfirmTransactionWalletAddressQueryParam]!,
+              confirmMultisigTransactionWalletAddressQueryParam]!,
         ),
         localCustodians: decoded.map((e) => PublicKey(publicKey: e)).toList(),
         transactionId: state.uri.queryParameters[
-            tonWalletConfirmTransactionTransactionIdQueryParam]!,
+            confirmMultisigTransactionTransactionIdQueryParam]!,
         transactionIdHash: state
-            .uri.queryParameters[tonWalletConfirmTransactionIdHashQueryParam],
+            .uri.queryParameters[confirmMultisigTransactionIdHashQueryParam],
         destination: Address(
           address: state.uri.queryParameters[
-              tonWalletConfirmTransactionDestinationQueryParam]!,
+              confirmMultisigTransactionDestinationQueryParam]!,
         ),
         amount: BigInt.parse(
-          state.uri
-              .queryParameters[tonWalletConfirmTransactionAmountQueryParam]!,
+          state
+              .uri.queryParameters[confirmMultisigTransactionAmountQueryParam]!,
         ),
         comment: state
-            .uri.queryParameters[tonWalletConfirmTransactionCommentQueryParam],
+            .uri.queryParameters[confirmMultisigTransactionCommentQueryParam],
       );
     },
   );
@@ -412,7 +373,7 @@ GoRoute get stakingRoute {
       ),
     ),
     routes: [
-      tonWalletSendRoute,
+      _tonWalletSendRoute.route,
       tokenWalletSendRoute,
       cancelUnstakingRoute,
     ],
@@ -453,7 +414,7 @@ GoRoute get cancelUnstakingRoute {
       ),
     ),
     routes: [
-      tonWalletSendRoute,
+      _tonWalletSendRoute.route,
     ],
   );
 }

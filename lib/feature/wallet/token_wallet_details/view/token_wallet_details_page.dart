@@ -202,7 +202,7 @@ class _Body extends StatelessWidget {
                     child: WalletSubscribeErrorWidget(
                       error: error!,
                       isLoadingError: isLoadingError,
-                      onRetryPressed: (context) =>
+                      onRetryPressed: () =>
                           context.read<TokenWalletDetailsCubit>().retry(),
                     ),
                   )

@@ -1,6 +1,5 @@
 import 'package:app/feature/wallet/custodians_settings/custodian_data.dart';
 import 'package:app/feature/wallet/custodians_settings/custodians_settings_view_model.dart';
-import 'package:app/feature/wallet/custodians_settings/rename_custodian_modal.dart';
 import 'package:app/generated/generated.dart';
 import 'package:elementary/elementary.dart';
 import 'package:elementary_helper/elementary_helper.dart';
@@ -33,35 +32,22 @@ class CustodiansSettingsView
           StateNotifierBuilder<List<CustodianData>>(
             listenableState: wm.custodians,
             builder: (_, custodians) {
-              if (custodians == null) {
-                return const SizedBox.shrink();
-              }
-
-              final items = <Widget>[];
-              final numberCustodians = custodians.length;
-              for (var i = 0; i < custodians.length; i++) {
-                items.add(
-                  _CustodianItem(custodians[i], () {
-                    // TODO(knightforce): bad practice
-                    if (wm.contextSafe != null) {
-                      showRenameCustodianModal(wm.contextSafe!, (value) {
-                        wm.renameCustodian(custodians[i].key, value);
-                      });
-                    }
-                  }),
-                );
-                if (i < numberCustodians - 1) {
-                  items.add(const CommonDivider());
-                }
-              }
+              if (custodians == null) return const SizedBox.shrink();
 
               return Container(
                 decoration: BoxDecoration(
                   color: theme.colors.background2,
                   borderRadius: BorderRadius.circular(DimensRadiusV2.radius16),
                 ),
-                child: Column(
-                  children: items,
+                child: SeparatedColumn(
+                  separator: const CommonDivider(),
+                  children: [
+                    for (final item in custodians)
+                      _CustodianItem(
+                        item: item,
+                        onTap: () => wm.renameCustodian(item.key),
+                      ),
+                  ],
                 ),
               );
             },
@@ -73,7 +59,10 @@ class CustodiansSettingsView
 }
 
 class _CustodianItem extends StatelessWidget {
-  const _CustodianItem(this.item, this.onTap);
+  const _CustodianItem({
+    required this.item,
+    required this.onTap,
+  });
 
   final CustodianData item;
   final VoidCallback onTap;

@@ -44,6 +44,19 @@ class $AssetsAbiGen {
       ];
 }
 
+class $AssetsAnimationsGen {
+  const $AssetsAnimationsGen();
+
+  /// File path: assets/animations/loader.riv
+  String get loader => 'assets/animations/loader.riv';
+
+  /// File path: assets/animations/rocket.riv
+  String get rocket => 'assets/animations/rocket.riv';
+
+  /// List of all assets
+  List<String> get values => [loader, rocket];
+}
+
 class $AssetsConfigsGen {
   const $AssetsConfigsGen();
 
@@ -331,9 +344,9 @@ class $AssetsImagesGen {
   SvgGenImage get networkDefault =>
       const SvgGenImage('assets/images/network_default.svg');
 
-  /// File path: assets/images/network_earth.png
+  /// File path: assets/images/network_earth.webp
   AssetGenImage get networkEarth =>
-      const AssetGenImage('assets/images/network_earth.png');
+      const AssetGenImage('assets/images/network_earth.webp');
 
   /// File path: assets/images/network_vector_default.svg
   SvgGenImage get networkVectorDefault =>
@@ -836,6 +849,7 @@ class Assets {
   const Assets._();
 
   static const $AssetsAbiGen abi = $AssetsAbiGen();
+  static const $AssetsAnimationsGen animations = $AssetsAnimationsGen();
   static const $AssetsConfigsGen configs = $AssetsConfigsGen();
   static const $AssetsImagesGen images = $AssetsImagesGen();
   static const $AssetsJsGen js = $AssetsJsGen();

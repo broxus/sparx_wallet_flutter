@@ -205,6 +205,7 @@
   "contactSupportCantCreateFile": "Can't create log file",
   "contactSupportCantFindEmailClient": "Can't find email client",
   "contactSupportCantFindEmailClientShare": "Share log file",
+  "contactSupportOpenQa": "Open QA",
   "browserCloseAll": "Close All",
   "browserDone": "Done",
   "browserSearchURL": "Search or enter URL",
@@ -666,5 +667,9 @@
   "qrScannerError": "Invalid QR code",
   "unsupportedWalletTypeAlertTitle": "V5R1 wallet not supported",
   "unsupportedWalletTypeAlertDescription": "Unavailable in Ever/Venom networks.",
-  "unsupportedWalletTypeAlertButtonLabel": "Switch Account"
+  "unsupportedWalletTypeAlertButtonLabel": "Switch Account",
+  "scanSeedLoaderTitle": "Scanning and importing,\nplease wait…",
+  "scanningCompleted": "Scanning completed",
+  "scanSeed": "Scan seed",
+  "nothingFound": "No results found.\nTry adjusting your search or check for typos."
 }

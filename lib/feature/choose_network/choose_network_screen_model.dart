@@ -2,10 +2,10 @@
 
 import 'package:app/app/service/service.dart';
 import 'package:app/feature/choose_network/choose_network_screen.dart';
+import 'package:app/feature/choose_network/choose_network_screen_const.dart';
 import 'package:app/feature/choose_network/data/choose_network_item_data.dart';
 import 'package:app/utils/mixins/connection_mixin.dart';
 import 'package:elementary/elementary.dart';
-import 'package:elementary_helper/elementary_helper.dart';
 import 'package:flutter/material.dart';
 import 'package:nekoton_repository/nekoton_repository.dart' hide Message;
 
@@ -32,23 +32,7 @@ class ChooseNetworkScreenModel extends ElementaryModel with ConnectionMixin {
   final ConnectionsStorageService _connectionsStorageService;
   final NekotonRepository _nekotonRepository;
 
-  final connectionsState = StateNotifier<List<ChooseNetworkItemData>>(
-    initValue: [],
-  );
-
-  @override
-  void init() {
-    _initNetworksData();
-    super.init();
-  }
-
-  @override
-  void dispose() {
-    connectionsState.dispose();
-    super.dispose();
-  }
-
-  Future<bool> selectType(BuildContext context, String id) async {
+  Future<bool> selectType(String id) async {
     try {
       _connectionsStorageService.saveCurrentConnectionId(id);
       await _nekotonRepository.currentTransportStream.firstWhere(
@@ -57,7 +41,6 @@ class ChooseNetworkScreenModel extends ElementaryModel with ConnectionMixin {
     } catch (e) {
       messengerService.show(
         Message.error(
-          context: context,
           message: e.toString(),
         ),
       );
@@ -67,23 +50,41 @@ class ChooseNetworkScreenModel extends ElementaryModel with ConnectionMixin {
     return true;
   }
 
-  void _initNetworksData() {
-    final networks = _presetsConnectionService.networks;
+  List<ChooseNetworkItemData> fetchNetworksData([String? query]) {
+    var networks = _startNetworks();
+    if (query != null) {
+      final caseSensetiveQuery = query.toLowerCase();
 
-    connectionsState.accept(
-      [
-        for (final connection in networks)
-          if (connection.isUsedOnStart)
-            ChooseNetworkItemData(
-              id: connection.id,
-              icon: _presetsConnectionService
-                  .getTransportIconsByNetwork(
-                    connection.group,
-                  )
-                  .vector,
-              title: connection.name,
-            ),
-      ],
-    );
+      networks = networks.where(
+        (conntection) {
+          final name = conntection.name.toLowerCase();
+
+          return name.contains(caseSensetiveQuery);
+        },
+      ).toList();
+    }
+
+    return [
+      for (final connection in networks)
+        ChooseNetworkItemData(
+          id: connection.id,
+          icon: _presetsConnectionService
+              .getTransportIconsByNetwork(
+                connection.group,
+              )
+              .network,
+          title: connection.name,
+        ),
+    ];
+  }
+
+  bool shouldShowSearch() {
+    return _startNetworks().length > showSearchNetworksThreshold;
+  }
+
+  List<ConnectionData> _startNetworks() {
+    return _presetsConnectionService.networks
+        .where((network) => network.isUsedOnStart)
+        .toList();
   }
 }

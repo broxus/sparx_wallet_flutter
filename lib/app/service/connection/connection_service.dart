@@ -1,5 +1,6 @@
 import 'package:app/app/service/service.dart';
 import 'package:app/di/di.dart';
+import 'package:dio/dio.dart';
 import 'package:injectable/injectable.dart';
 import 'package:logging/logging.dart';
 import 'package:nekoton_repository/nekoton_repository.dart' hide Message;
@@ -16,6 +17,7 @@ class ConnectionService {
     this._storageService,
     this._nekotonRepository,
     this._presetsConnectionService,
+    this._dio,
   );
 
   static final _log = Logger('ConnectionService');
@@ -23,6 +25,7 @@ class ConnectionService {
   final ConnectionsStorageService _storageService;
   final NekotonRepository _nekotonRepository;
   final PresetsConnectionService _presetsConnectionService;
+  final Dio _dio;
 
   /// Set up selected connection.
   Future<void> setUp() async {
@@ -61,7 +64,7 @@ class ConnectionService {
   Future<Transport> createTransportByConnection(ConnectionData connection) =>
       switch (connection) {
         final ConnectionDataGql data => _nekotonRepository.createGqlTransport(
-            client: GqlHttpClient(),
+            client: GqlHttpClient(_dio),
             name: data.name,
             group: data.group,
             endpoints: data.endpoints,
@@ -72,14 +75,14 @@ class ConnectionService {
           ),
         ConnectionDataProto(:final name, :final group, :final endpoint) =>
           _nekotonRepository.createProtoTransport(
-            client: ProtoHttpClient(),
+            client: ProtoHttpClient(_dio),
             name: name,
             group: group,
             endpoint: endpoint,
           ),
         ConnectionDataJrpc(:final name, :final group, :final endpoint) =>
           _nekotonRepository.createJrpcTransport(
-            client: JrpcHttpClient(),
+            client: JrpcHttpClient(_dio),
             name: name,
             group: group,
             endpoint: endpoint,

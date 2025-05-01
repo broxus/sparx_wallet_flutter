@@ -8,7 +8,6 @@ import 'package:app/feature/wallet/wallet_prepare_transfer/wallet_prepare_transf
 import 'package:app/utils/utils.dart';
 import 'package:collection/collection.dart';
 import 'package:elementary/elementary.dart';
-import 'package:flutter/material.dart';
 import 'package:logging/logging.dart';
 import 'package:nekoton_repository/nekoton_repository.dart' hide Message;
 
@@ -46,8 +45,8 @@ class WalletPrepareTransferPageModel extends ElementaryModel {
 
   TransportStrategy get currentTransport => _nekotonRepository.currentTransport;
 
-  Stream<List<TonWalletState>> get _walletsStream =>
-      _nekotonRepository.walletsStream;
+  Stream<Map<Address, TonWalletState>> get _walletsStream =>
+      _nekotonRepository.walletsMapStream;
 
   Stream<List<TokenWalletState>> get _tokenWalletsStream =>
       _nekotonRepository.tokenWalletsStream;
@@ -104,9 +103,9 @@ class WalletPrepareTransferPageModel extends ElementaryModel {
     );
   }
 
-  void showError(BuildContext context, String text) {
+  void showError(String text) {
     _messengerService.show(
-      Message.error(context: context, message: text),
+      Message.error(message: text),
     );
   }
 
@@ -188,8 +187,7 @@ class WalletPrepareTransferPageModel extends ElementaryModel {
     final root = contract.rootTokenContract;
     _walletsSubscription = _walletsStream.listen(
       (wallets) {
-        final walletState =
-            wallets.firstWhereOrNull((w) => w.address == address);
+        final walletState = wallets[address];
 
         if (walletState == null) {
           return;

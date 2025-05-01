@@ -124,7 +124,7 @@ class _Body extends StatelessWidget {
                   const SizedBox(height: DimensSizeV2.d16),
                   if (error == null)
                     WalletAccountActions(
-                      currentAccount: account,
+                      account: account,
                       allowStake: false,
                       sendSpecified: true,
                       padding: EdgeInsets.zero,
@@ -164,7 +164,7 @@ class _Body extends StatelessWidget {
                     child: WalletSubscribeErrorWidget(
                       error: error!,
                       isLoadingError: isLoadingError,
-                      onRetryPressed: (context) =>
+                      onRetryPressed: () =>
                           context.read<TonWalletDetailsCubit>().retry(),
                     ),
                   )

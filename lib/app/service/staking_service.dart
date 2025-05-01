@@ -1,11 +1,11 @@
 import 'dart:async';
-import 'dart:convert';
 
 import 'package:app/app/service/resources_service.dart';
 import 'package:app/app/service/service.dart';
 import 'package:app/data/models/models.dart';
 import 'package:app/utils/utils.dart';
 import 'package:collection/collection.dart';
+import 'package:dio/dio.dart';
 import 'package:injectable/injectable.dart';
 import 'package:nekoton_repository/nekoton_repository.dart';
 import 'package:rxdart/rxdart.dart';
@@ -20,12 +20,12 @@ const _stEverAccountNewAbiPath = 'assets/abi/StEverAccountNew.abi.json';
 class StakingService {
   StakingService(
     this.nekotonRepository,
-    this.httpService,
+    this.dio,
     this._resourcesService,
   );
 
   final NekotonRepository nekotonRepository;
-  final HttpService httpService;
+  final Dio dio;
   final ResourcesService _resourcesService;
 
   FullContractState? _vaultStateCache;
@@ -90,7 +90,7 @@ class StakingService {
   StakingInformation get stakingInformation =>
       nekotonRepository.currentTransport.stakeInformation!;
 
-  /// Returns body/comment for TonWalletSendPage, all other fields should be
+  /// Returns body/comment for TonWalletSendWidget, all other fields should be
   /// put manually.
   Future<String> depositEverBodyPayload(BigInt depositAmount) {
     final payload = FunctionCall(
@@ -126,7 +126,7 @@ class StakingService {
   }
 
   /// Cancel withdraw request.
-  /// Returns body/comment that should be handled via TonWalletSendPage
+  /// Returns body/comment that should be handled via TonWalletSendWidget
   Future<String> removeWithdrawPayload(String nonce) {
     final payload = FunctionCall(
       method: 'removePendingWithdraw',
@@ -276,13 +276,13 @@ class StakingService {
   /// Load average apy from stever website.
   /// This returns value from 0 to 100.
   Future<double> getAverageAPYPercent() async {
-    final encoded = await httpService.getTransportData(
+    final response = await dio.get<Map<String, dynamic>>(
       stakingInformation.stakingAPYLink.toString(),
     );
-    final decoded = jsonDecode(encoded) as Map<String, dynamic>;
+    final data = response.data ?? {};
 
     // ignore: avoid_dynamic_calls, no-magic-number
-    return double.parse(decoded['data']?['apy'] as String? ?? '0.0') * 100;
+    return double.parse(data['data']?['apy'] as String? ?? '0.0') * 100;
   }
 
   void resetCache() => _vaultStateCache = null;

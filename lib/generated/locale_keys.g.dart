@@ -208,6 +208,7 @@ abstract class LocaleKeys {
       'contactSupportCantFindEmailClient';
   static const contactSupportCantFindEmailClientShare =
       'contactSupportCantFindEmailClientShare';
+  static const contactSupportOpenQa = 'contactSupportOpenQa';
   static const browserCloseAll = 'browserCloseAll';
   static const browserDone = 'browserDone';
   static const browserSearchURL = 'browserSearchURL';
@@ -697,4 +698,8 @@ abstract class LocaleKeys {
       'unsupportedWalletTypeAlertDescription';
   static const unsupportedWalletTypeAlertButtonLabel =
       'unsupportedWalletTypeAlertButtonLabel';
+  static const scanSeedLoaderTitle = 'scanSeedLoaderTitle';
+  static const scanningCompleted = 'scanningCompleted';
+  static const scanSeed = 'scanSeed';
+  static const nothingFound = 'nothingFound';
 }

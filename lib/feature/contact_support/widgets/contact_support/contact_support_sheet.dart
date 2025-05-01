@@ -34,11 +34,9 @@ Future<void> showContactSupportSheet({
       create: ContactSupportBloc.new,
       child: BlocListener<ContactSupportBloc, ContactSupportState>(
         listener: (context, state) {
-          state.whenOrNull(
-            initial: () {
-              Navigator.of(context).pop();
-            },
-          );
+          if (!state.isBusy) {
+            Navigator.of(context).pop();
+          }
         },
         child: ContactSupportSheet(mode: mode),
       ),
@@ -67,17 +65,31 @@ class ContactSupportSheet extends StatelessWidget {
       builder: (context, state) {
         return Padding(
           padding: const EdgeInsets.only(bottom: DimensSizeV2.d24),
-          child: AccentButton(
-            buttonShape: ButtonShape.pill,
-            title: buttonText,
-            isLoading: state.when(initial: () => false, busy: () => true),
-            onPressed: () => {
-              context.read<ContactSupportBloc>().add(
-                    ContactSupportEvent.sendEmail(
-                      mode,
-                    ),
-                  ),
-            },
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              AccentButton(
+                buttonShape: ButtonShape.pill,
+                title: buttonText,
+                isLoading: state.isBusy,
+                onPressed: () {
+                  context
+                      .read<ContactSupportBloc>()
+                      .add(ContactSupportEvent.sendEmail(mode));
+                },
+              ),
+              if (state.isQaEnabled) const SizedBox(height: DimensSizeV2.d16),
+              if (state.isQaEnabled)
+                AccentButton(
+                  buttonShape: ButtonShape.pill,
+                  title: LocaleKeys.contactSupportOpenQa.tr(),
+                  onPressed: () {
+                    context
+                        .read<ContactSupportBloc>()
+                        .add(const ContactSupportEvent.openQaScreen());
+                  },
+                ),
+            ],
           ),
         );
       },

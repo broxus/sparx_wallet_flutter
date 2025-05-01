@@ -5,25 +5,19 @@ import 'package:flutter/material.dart';
 import 'package:ui_components_lib/ui_components_lib.dart';
 import 'package:ui_components_lib/v2/ui_components_lib_v2.dart';
 
-Future<void> showRenameCustodianModal(
-  BuildContext context,
-  Function(String) callback,
-) {
-  return showCommonBottomSheet(
+Future<String?> showRenameCustodianModal(BuildContext context) {
+  return showCommonBottomSheet<String>(
     context: context,
     titleTextStyle: context.themeStyleV2.textStyles.headingLarge,
     title: LocaleKeys.enterNewName.tr(),
-    body: (_, __) => AccountRenameSheet(callback: callback),
+    body: (_, __) => const AccountRenameSheet(),
   );
 }
 
 class AccountRenameSheet extends StatefulWidget {
   const AccountRenameSheet({
-    required this.callback,
     super.key,
   });
-
-  final Function(String) callback;
 
   @override
   State<AccountRenameSheet> createState() => _AccountRenameSheetState();
@@ -31,6 +25,8 @@ class AccountRenameSheet extends StatefulWidget {
 
 class _AccountRenameSheetState extends State<AccountRenameSheet> {
   final nameController = TextEditingController();
+
+  String get value => nameController.text.trim();
 
   @override
   void dispose() {
@@ -48,20 +44,16 @@ class _AccountRenameSheetState extends State<AccountRenameSheet> {
           maxLength: maxLengthForMainEntities,
           textEditingController: nameController,
           hintText: LocaleKeys.nameWord.tr(),
-          onSubmit: (_) {
-            widget.callback(nameController.text.trim());
-            Navigator.of(context).pop();
-          },
+          onSubmit: _onSubmit,
         ),
         PrimaryButton(
           buttonShape: ButtonShape.pill,
           title: LocaleKeys.renameWord.tr(),
-          onPressed: () {
-            widget.callback(nameController.text.trim());
-            Navigator.of(context).pop();
-          },
+          onPressed: _onSubmit,
         ),
       ],
     );
   }
+
+  void _onSubmit([String? _]) => Navigator.of(context).pop(value);
 }

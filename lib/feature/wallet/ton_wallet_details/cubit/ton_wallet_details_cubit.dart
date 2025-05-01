@@ -3,7 +3,6 @@ import 'dart:async';
 import 'package:app/app/service/service.dart';
 import 'package:app/core/bloc/bloc_mixin.dart';
 import 'package:bloc/bloc.dart';
-import 'package:collection/collection.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:nekoton_repository/nekoton_repository.dart';
 
@@ -37,8 +36,8 @@ class TonWalletDetailsCubit extends Cubit<TonWalletDetailsState>
 
     _updateState();
 
-    _walletsSubscription = nekotonRepository.walletsStream.listen((wallets) {
-      final walletState = wallets.firstWhereOrNull((w) => w.address == address);
+    _walletsSubscription = nekotonRepository.walletsMapStream.listen((wallets) {
+      final walletState = wallets[address];
       if (walletState != null) {
         _walletsSubscription?.cancel();
 

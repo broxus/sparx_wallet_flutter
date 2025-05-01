@@ -4,9 +4,8 @@ import 'dart:convert';
 import 'package:app/app/service/service.dart';
 import 'package:app/utils/utils.dart';
 import 'package:collection/collection.dart';
+import 'package:dio/dio.dart';
 import 'package:flutter/scheduler.dart';
-import 'package:http/http.dart' as http;
-import 'package:http/retry.dart';
 import 'package:injectable/injectable.dart';
 import 'package:logging/logging.dart';
 
@@ -16,7 +15,7 @@ class TonConnectHttpBridge {
     this._tonConnectService,
     this._appLifecycleService,
     this._storageService,
-    this._client,
+    this._dio,
   ) {
     _appLifecycleService.appLifecycleStateStream.listen(_onStateChange);
   }
@@ -26,7 +25,7 @@ class TonConnectHttpBridge {
   final TonConnectService _tonConnectService;
   final AppLifecycleService _appLifecycleService;
   final TonConnectStorageService _storageService;
-  final http.Client _client;
+  final Dio _dio;
 
   final _backoff = ExponentialBackoff(
     initialDuration: tonConnectBackoffInitialDuration,
@@ -223,17 +222,9 @@ class TonConnectHttpBridge {
     num? ttl = tonConnectMessageDefaultTtl,
   }) async {
     try {
-      final client = RetryClient(
-        _client,
-        retries: tonConnectHttpBridgeSendRetries,
-        when: (_) => true,
-      );
-
-      await client.post(
-        Uri.parse(
-          '$tonConnectHttpBridgeUrl/message?client_id=${sessionCrypto.sessionId}&to=$clientId&ttl=$ttl',
-        ),
-        body: sessionCrypto.encrypt(data, clientId),
+      await _dio.post<void>(
+        '$tonConnectHttpBridgeUrl/message?client_id=${sessionCrypto.sessionId}&to=$clientId&ttl=$ttl',
+        data: sessionCrypto.encrypt(data, clientId),
       );
     } catch (e, s) {
       _logger.severe('Send message failed', e, s);
@@ -265,12 +256,20 @@ class TonConnectHttpBridge {
         uri += '&last_event_id=$lastEventId';
       }
 
-      final request = http.Request('GET', Uri.parse(uri))
-        ..headers['Connection'] = 'Keep-Alive'
-        ..headers['Accept'] = 'text/event-stream';
-
-      final stream = await _client.send(request).then(
-            (response) => response.stream.transform(
+      final stream = await _dio
+          .get<ResponseBody>(
+            uri,
+            options: Options(
+              responseType: ResponseType.stream,
+              headers: {
+                'Connection': 'Keep-Alive',
+                'Accept': 'text/event-stream',
+                'Cache-Control': 'no-cache',
+              },
+            ),
+          )
+          .then(
+            (response) => response.data!.stream.transform(
               ResponseBodyToSseMessageTransformer(),
             ),
           );
