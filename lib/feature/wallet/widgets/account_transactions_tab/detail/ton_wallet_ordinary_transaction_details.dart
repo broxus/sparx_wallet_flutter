@@ -43,7 +43,7 @@ class TonWalletOrdinaryTransactionDetailsPage extends StatelessWidget {
           Expanded(
             child: SingleChildScrollView(
               child: SeparatedColumn(
-                separatorSize: DimensSize.d16,
+                spacing: DimensSize.d16,
                 children: [
                   WalletTransactionDetailsDefaultBody(
                     date: transaction.date,

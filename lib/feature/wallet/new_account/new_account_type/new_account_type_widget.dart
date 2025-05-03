@@ -239,11 +239,11 @@ class _WalletType extends StatelessWidget {
       child: Padding(
         padding: const EdgeInsets.all(DimensSizeV2.d16),
         child: SeparatedRow(
-          separatorSize: DimensSizeV2.d12,
+          spacing: DimensSizeV2.d12,
           children: [
             Expanded(
               child: SeparatedColumn(
-                separatorSize: DimensSizeV2.d4,
+                spacing: DimensSizeV2.d4,
                 mainAxisSize: MainAxisSize.min,
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [

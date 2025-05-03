@@ -42,7 +42,7 @@ class _AccountRenameSheetState extends State<AccountRenameSheet> {
   Widget build(BuildContext context) {
     return SeparatedColumn(
       mainAxisSize: MainAxisSize.min,
-      separatorSize: DimensSize.d16,
+      spacing: DimensSize.d16,
       children: [
         PrimaryTextField(
           maxLength: maxLengthForMainEntities,

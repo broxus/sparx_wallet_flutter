@@ -158,7 +158,7 @@ class _Item extends StatelessWidget {
       child: Padding(
         padding: const EdgeInsets.all(DimensSizeV2.d12),
         child: SeparatedColumn(
-          separatorSize: DimensSizeV2.d4,
+          spacing: DimensSizeV2.d4,
           crossAxisAlignment: CrossAxisAlignment.start,
           mainAxisSize: MainAxisSize.min,
           children: [
@@ -169,7 +169,7 @@ class _Item extends StatelessWidget {
               ),
             ),
             SeparatedRow(
-              separatorSize: DimensSizeV2.d16,
+              spacing: DimensSizeV2.d16,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Expanded(
