@@ -142,3 +142,6 @@ secrets/sentry-dsn*
 **/fastlane/report.xml
 fastlane/changelog.txt
 .qodo
+
+# AI
+**/.claude/settings.local.json

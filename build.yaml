@@ -19,7 +19,6 @@ targets:
           - lib/http/**/*.dart
           - lib/feature/**/data/*.dart
           - lib/feature/**/data/**/*.dart
-          - lib/app/router/routs/**/*.dart
       retrofit_generator:
         generate_for:
           - lib/http/*.dart
@@ -36,7 +35,9 @@ targets:
           - lib/http/**/*.dart
           - lib/feature/**/domain/*.dart
           - lib/feature/**/domain/**/*.dart
-          - lib/app/router/routs/**/*.dart
+          - lib/feature/**/*route.dart
+          - lib/feature/**/*guard.dart
+          - lib/app/router/router.dart
       freezed:
         generate_for:
           - lib/app/service/*.dart
@@ -52,4 +53,4 @@ targets:
           - lib/feature/**/data/*.dart
           - lib/feature/**/data/**/*.dart
           - lib/feature/**/widget/**/*.dart
-          - lib/app/router/routs/**/*.dart
+          - lib/feature/**/*route.dart

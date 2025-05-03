@@ -20,9 +20,6 @@ AppWidgetModel defaultAppWidgetModelFactory(
       inject(),
       inject(),
       inject(),
-      inject(),
-      inject(),
-      inject(),
     ),
   );
 }
@@ -39,7 +36,7 @@ class AppWidgetModel extends CustomWidgetModel<App, AppModel> {
     getMessage: model.getMessage,
   );
 
-  late final router = model.appRouter.router;
+  late final router = model.router.router;
 
   List<LocalizationsDelegate<dynamic>> get localizationDelegates =>
       context.localizationDelegates;

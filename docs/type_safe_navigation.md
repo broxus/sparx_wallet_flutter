@@ -1,0 +1,537 @@
+# Compass Navigation in SparX Wallet
+
+This document describes the type-safe navigation system (Compass) implemented in the SparX Wallet Flutter application.
+
+## Overview
+
+The Compass navigation system provides a type-safe way to define routes and navigate between screens. It's built on top of GoRouter but adds strong typing for route parameters, consistent navigation patterns, and navigation guards.
+
+The system is designed to ensure:
+
+- Type safety throughout the navigation process
+- Predictable navigation behavior
+- Support for deep linking and complex navigation patterns
+- Testability of navigation logic
+
+## Key Concepts
+
+### Route Data
+
+All navigation in Compass is driven by strongly-typed data objects that implement the `CompassRouteData` interface. These objects:
+
+- Carry all parameters needed for a route
+- Can be converted to/from URL query parameters
+- Have well-defined structures using Freezed
+
+### Routes
+
+The Compass system provides different route abstractions for different navigation scenarios:
+
+- **`CompassRoute<T>`**: For routes that require query parameters
+- **`CompassRouteParameterless<T>`**: For routes without parameters
+- **`CompassShellRoute`**: For shell routes (e.g., tabbed navigation)
+
+### Navigation Guards
+
+Guards allow intercepting navigation requests to implement:
+
+- Authentication protection
+- Redirects based on application state
+- Feature flags
+- Deep link handling
+
+## Core Components
+
+### `CompassRouteData`
+
+```dart
+interface class CompassRouteData {}
+```
+
+Base interface implemented by all route data classes. Route data objects carry navigation parameters and state between screens.
+
+### `CompassRouteDataQuery`
+
+```dart
+abstract interface class CompassRouteDataQuery implements CompassRouteData {
+  Map<String, String> toQueryParams();
+}
+```
+
+Interface for route data that needs to be converted to URL query parameters.
+
+### `CompassBaseRoute`
+
+```dart
+abstract class CompassBaseRoute {
+  RouteBase get route;
+  final bool isTopLevel;
+}
+```
+
+Base class that all routes extend. Provides common functionality and the contract for getting a GoRouter-compatible route.
+
+## Navigation Classes
+
+The Compass system provides several base classes for creating routes with different behaviors:
+
+### `CompassRoute<T>`
+
+Use this for routes that require parameters:
+
+```dart
+abstract class CompassRoute<T extends CompassRouteDataQuery>
+    extends CompassBaseGoRoute<T> with CompassRouteDataQueryMixin<T> {
+  // ...
+}
+```
+
+Key features:
+- Handles query parameter serialization and deserialization
+- Provides type-safe access to route parameters
+- Preserves parameters during navigation
+
+### `CompassRouteParameterless<T>`
+
+Use this for routes that don't require parameters:
+
+```dart
+abstract class CompassRouteParameterless<T extends CompassRouteData>
+    extends CompassBaseGoRoute<T> with EmptyRouteDataMixin<T> {
+  // ...
+}
+```
+
+Key features:
+- Simplified implementation for routes without parameters
+- Uses a factory method pattern with `dataFabric()` to create route data
+- Type-safe routing without the overhead of parameter handling
+
+### `CompassShellRoute`
+
+Use this for creating shell-based navigation (like bottom tabs):
+
+```dart
+abstract class CompassShellRoute
+    extends CompassBaseStatefulShellRoute {
+  // ...
+}
+```
+
+Key features:
+- Creates a StatefulShellRoute for complex UI patterns like tab navigation
+- Each child route becomes a separate branch in the shell
+- Maintains independent navigation state for each branch
+- Provides a custom builder method for creating the shell UI
+
+## Route Resolution and DI Integration
+
+The `CompassRouter` class handles route resolution using several mapping strategies:
+
+1. **Type-based Resolution**: Routes are mapped by their route data type
+2. **Path-based Resolution**: Routes are mapped by URL path
+3. **Guard-based Resolution**: Navigation requests are filtered through guards
+
+These resolution strategies ensure that navigation requests:
+
+- Target the correct route
+- Carry the right data
+- Are properly intercepted by guards when needed
+
+### How Routes and Guards are Discovered
+
+The Compass router automatically discovers routes and guards through dependency injection:
+
+1. During router initialization, it scans the DI container for all registered types
+2. It identifies classes that extend `CompassBaseRoute` or `CompassGuard`
+3. These components must be registered as **singletons** (not lazySingletons) to be discovered
+4. The router then builds its routing table and middleware chain using these discovered components
+
+Specifically, in `CompassRouter`:
+- Routes are discovered via `GetIt.I.getAll<CompassBaseRoute>()`
+- Guards are discovered via `GetIt.I.getAll<CompassGuard>()`
+- Guards are sorted by priority for execution order (higher priority guards execute first)
+- Only routes marked with `isTopLevel = true` are registered directly with the root GoRouter
+- Only one route should be marked with `isInitial = true` to define the app's initial route
+
+This automatic discovery eliminates the need for manual route registration and ensures that all properly annotated route classes are included in the routing system.
+
+## How To Use
+
+### 1. Define Route Data Class
+
+First, define a Freezed class that implements `CompassRouteDataQuery`:
+
+```dart
+@freezed
+class ProfileRouteData with _$ProfileRouteData implements CompassRouteDataQuery {
+  const factory ProfileRouteData({
+    required String userId,
+    String? displayName,
+  }) = _ProfileRouteData;
+
+  const ProfileRouteData._();
+
+  @override
+  Map<String, String> toQueryParams() {
+    return {
+      'userId': userId,
+      if (displayName != null) 'displayName': displayName!,
+    };
+  }
+}
+```
+
+For parameterless routes, implement `CompassRouteData` instead:
+
+```dart
+@freezed
+class HomeRouteData with _$HomeRouteData implements CompassRouteData {
+  const factory HomeRouteData() = _HomeRouteData;
+}
+```
+
+### 2. Define the Route Class
+
+For parameterized routes:
+
+```dart
+@singleton
+class ProfileRoute extends CompassRoute<ProfileRouteData> {
+  ProfileRoute() : super(
+    name: 'profile',
+    isTopLevel: true,
+    builder: (context, data, state) => ProfilePage(userId: data.userId),
+  );
+
+  @override
+  ProfileRouteData fromQueryParams(Map<String, String> queryParams) {
+    return ProfileRouteData(
+      userId: queryParams['userId'] ?? '',
+      displayName: queryParams['displayName'],
+    );
+  }
+}
+```
+
+For parameterless routes:
+
+```dart
+@singleton
+class HomeRoute extends CompassRouteParameterless<HomeRouteData> {
+  HomeRoute() : super(
+    name: 'home',
+    isTopLevel: true,
+    isInitial: true,
+    builder: (context, data, state) => HomePage(),
+  );
+
+  @override
+  HomeRouteData dataFabric() {
+    return HomeRouteData();
+  }
+}
+```
+
+For shell routes (like bottom tab navigation):
+
+```dart
+@singleton
+class MainShellRoute extends CompassShellRoute {
+  MainShellRoute({
+    required HomeRoute homeRoute,
+    required ProfileRoute profileRoute,
+  }) : super(
+    isTopLevel: true,
+    compassBaseRoutes: [homeRoute, profileRoute],
+  );
+
+  @override
+  Widget builder(
+    BuildContext context, 
+    GoRouterState state,
+    StatefulNavigationShell navigationShell,
+  ) {
+    return MainScaffold(navigationShell: navigationShell);
+  }
+}
+```
+
+Shell routes create a StatefulShellRoute where each child route becomes a separate branch. This supports independent navigation stacks within a shared UI shell (like tabs).
+
+### 3. Navigation
+
+The Compass system provides several methods for navigation with different behaviors:
+
+#### Navigate with `compassPoint` (like GoRouter's `go`)
+
+Replaces the current screen in the navigation stack:
+
+```dart
+// Using CompassRouter directly
+final router = GetIt.I<CompassRouter>();
+router.compassPoint(ProfileRouteData(userId: '123'));
+
+// Using BuildContext extension
+context.compassPoint(ProfileRouteData(userId: '123'));
+```
+
+This is the most common navigation method and is similar to `Navigator.pushReplacement`.
+
+#### Navigate with `compassPush` (like GoRouter's `push`)
+
+Adds a new screen to the navigation stack and allows returning a result:
+
+```dart
+// Using CompassRouter directly
+final result = await router.compassPush<ProfileRouteData, bool>(
+  ProfileRouteData(userId: '123'),
+);
+
+// Using BuildContext extension
+final result = await context.compassPush<ProfileRouteData, bool>(
+  ProfileRouteData(userId: '123'),
+);
+```
+
+This is useful for flows where you expect a result back from the pushed screen.
+
+#### Navigate with `compassContinue` (preserves state)
+
+Navigates while preserving the current location's path and query parameters:
+
+```dart
+// Using CompassRouter directly
+router.compassContinue(ProfileRouteData(userId: '123'));
+
+// Using BuildContext extension
+context.compassContinue(ProfileRouteData(userId: '123'));
+```
+
+Technical implementation:
+1. The current path is preserved using the '.' path segment
+2. The new path segments are appended to the relative path
+3. Query parameters from both the original and new location are merged
+
+This is particularly useful for preserving state in multi-step flows.
+
+#### Go back with `compassBack`
+
+Navigates back to the previous screen, optionally with a result:
+
+```dart
+// Using CompassRouter directly
+router.compassBack<bool>(true); // With result
+
+// Using BuildContext extension
+context.compassBack(); // Without result
+```
+
+This method first cleans up query parameters from the current route, then pops the navigation stack if possible.
+
+## Implementing Navigation Guards
+
+Guards allow you to implement navigation interception for auth, redirects, feature flags, and similar cross-cutting concerns.
+
+```dart
+@singleton
+class AuthGuard extends CompassGuard {
+  AuthGuard(this._authService) : super(priority: priorityHigh);
+
+  final AuthService _authService;
+
+  @override
+  void attachToRouter(CompassRouter router) {
+    // Setup subscriptions or listeners
+    // This method is called when the router is initialized
+    // Use it to subscribe to state changes that might affect navigation
+  }
+
+  @override
+  void detach() {
+    // Clean up resources
+    // Cancel subscriptions to prevent memory leaks
+  }
+
+  @override
+  CompassRouteData? protect(
+    BuildContext? context,
+    List<CompassBaseGoRoute> location,
+  ) {
+    // Check if user is authenticated
+    if (!_authService.isAuthenticated && location.last is! LoginRoute) {
+      // Redirect to login by returning a different route data
+      return LoginRouteData();
+    }
+    
+    // Return null to allow navigation to proceed without redirection
+    return null;
+  }
+}
+```
+
+Guards are executed in priority order (highest to lowest) when navigation occurs. The predefined priority constants are:
+- `priorityHigh = 3` - For critical guards like authentication
+- `priorityMedium = 2` - For feature flag guards and similar
+- `priorityLow = 1` - For analytics and other non-blocking guards
+
+As soon as any guard returns a non-null value, the navigation is redirected to that route and remaining guards are not executed.
+
+## Nested Routes
+
+Nested routes are supported through the `compassBaseRoutes` parameter:
+
+```dart
+@singleton
+class ProfileRoute extends CompassRoute<ProfileRouteData> {
+  ProfileRoute({
+    required ProfileSettingsRoute settingsRoute,
+  }) : super(
+    name: 'profile',
+    isTopLevel: true,
+    compassBaseRoutes: [settingsRoute],
+    builder: (context, data, state) => ProfilePage(userId: data.userId),
+  );
+  
+  // ...
+}
+```
+
+## Testing Navigation
+
+The Compass system is designed to be highly testable with proper separation of concerns.
+
+### Unit Testing Routes
+
+For unit testing, you can mock routes and verify navigation calls:
+
+```dart
+// Setup mocks
+final mockRouter = MockCompassRouter();
+final mockHomeRoute = MockHomeRoute();
+
+// Test navigation
+void testNavigation() {
+  final viewModel = MyViewModel(mockRouter);
+  
+  viewModel.goToHome();
+  
+  verify(mockRouter.compassPoint(any)).called(1);
+}
+```
+
+### Widget Testing with MockRoutes
+
+The project includes a `MockRoutes` helper class that provides pre-configured mock implementations of your routes:
+
+```dart
+testWidgets('Navigate to profile when button is pressed', (tester) async {
+  // Setup mock routes
+  final mockProfileRoute = MockRoutes.mockProfileRoute();
+  
+  // Build widget tree
+  await tester.pumpWidget(
+    MaterialApp(
+      home: MyWidget(profileRoute: mockProfileRoute),
+    ),
+  );
+  
+  // Trigger navigation
+  await tester.tap(find.byType(ElevatedButton));
+  
+  // Verify navigation
+  verify(
+    mockProfileRoute.compassPoint(
+      argThat(predicate<ProfileRouteData>(
+        (data) => data.userId == '123',
+      )),
+    ),
+  ).called(1);
+});
+```
+
+### Verifying Navigation Parameters
+
+The `MockRoutes` class also provides helper methods to verify navigation with specific parameters:
+
+```dart
+// Verify navigation to SendToken with specific parameters
+MockRoutes.verifyTokenWalletSendNavigation(
+  mockTokenWalletSendRoute,
+  expectedOwner,
+  expectedRootTokenContract,
+  expectedDestination,
+  expectedAmount,
+);
+```
+
+### Testing Guards
+
+To test navigation guards, you can create a test instance of the router with mock guards:
+
+```dart
+test('AuthGuard redirects to login when user is not authenticated', () {
+  // Setup
+  final mockAuthService = MockAuthService();
+  when(mockAuthService.isAuthenticated).thenReturn(false);
+  
+  final authGuard = AuthGuard(mockAuthService);
+  final router = TestCompassRouter([authGuard]);
+  
+  // Execute navigation to protected route
+  final redirectResult = router.testRedirect(
+    [mockHomeRoute, mockProfileRoute], // Simulate this navigation path
+    buildContext: null,
+  );
+  
+  // Verify redirection
+  expect(redirectResult, isA<LoginRouteData>());
+});
+```
+
+## Best Practices
+
+1. **Keep route data immutable**
+   - Use Freezed for all route data classes
+   - Don't modify route data after creation
+
+2. **Choose the right route type**
+   - Use `CompassRoute` for routes with parameters
+   - Use `CompassRouteParameterless` for routes without parameters
+   - Use `CompassShellRoute` for tabbed or drawer navigation
+
+3. **Organize route files effectively**
+   - Place route files in the same feature folder as the screen they navigate to
+   - Use `route.dart` and `route.freezed.dart` naming conventions
+
+4. **Use singleton for all routes and guards**
+   - Routes and Guards should be marked with @singleton (not @singleton)
+   - The router scans the dependency injection container for all registered types
+   - Use constructor injection for route dependencies
+
+5. **Make route data conversions robust**
+   - Handle missing or invalid parameters gracefully
+   - Provide sensible defaults where possible
+
+6. **Leverage navigation guards for cross-cutting concerns**
+   - Authentication
+   - Feature flags
+   - Analytics
+   - Deep link handling
+
+7. **Follow naming conventions**
+   - Route classes: `FooRoute`
+   - Route data classes: `FooRouteData`
+
+8. **Prioritize type safety**
+   - Avoid using `UnsafeRedirectCompassRouteData` unless absolutely necessary
+   - Always check navigation results when using `compassPush`
+   - Use route verification when redirecting in guards
+
+9. **Router organization and discovery**
+   - The router automatically discovers all routes and guards registered with `@singleton`
+   - Only routes with `isTopLevel = true` are registered directly with GoRouter
+   - Only one route should have `isInitial = true` to define the app's entry point
+   - Guards are executed in priority order (highest to lowest)
+   - Routes are identified by both type and path for efficient lookup
+
