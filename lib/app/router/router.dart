@@ -1,8 +1,14 @@
 import 'dart:async';
 
+import 'package:app/app/router/app_route.dart';
 import 'package:app/app/router/page_transitions.dart';
-import 'package:app/app/router/router.dart';
+import 'package:app/app/router/routs/add_seed/add_seed.dart';
+import 'package:app/app/router/routs/bootstrap_failed/bootstrap_failed.dart';
+import 'package:app/app/router/routs/browser/browser.dart';
 import 'package:app/app/router/routs/network/network.dart';
+import 'package:app/app/router/routs/profile/profile.dart';
+import 'package:app/app/router/routs/update_version/update_version.dart';
+import 'package:app/app/router/routs/wallet/wallet.dart';
 import 'package:app/app/service/service.dart';
 import 'package:app/di/di.dart';
 import 'package:app/event_bus/events/bootstrap/bootstrap_event.dart';
@@ -208,6 +214,7 @@ class AppRouter {
   void _listenSeed(bool hasSeeds) {
     // Again, check if the user should be redirected depending on the current
     // location and if the user has any seeds.
+
     final redirectLocation = _shouldRedirect(
       fullPath: _navigationService.state.fullPath,
       hasSeeds: hasSeeds,
@@ -275,7 +282,7 @@ class AppRouter {
     }
 
     if (_currentPath == AppRoute.splash.path) {
-      return _isExistSavedLocation ? _savedLocation : currentRoute.path;
+      return _isExistSavedLocation ? _savedLocation : '/';
     }
 
     // No need to redirect

@@ -4,6 +4,8 @@ import 'package:app/app/service/service.dart';
 import 'package:app/core/bloc/bloc_mixin.dart';
 import 'package:app/data/models/custom_currency.dart';
 import 'package:app/di/di.dart';
+import 'package:app/feature/messenger/data/message.dart';
+import 'package:app/feature/messenger/domain/service/messenger_service.dart';
 import 'package:app/generated/generated.dart';
 import 'package:app/utils/constants.dart';
 import 'package:bloc/bloc.dart';
@@ -160,8 +162,9 @@ class WalletDeployBloc extends Bloc<WalletDeployEvent, WalletDeployState>
       await _handlePrepareDeploy(emit);
     } on Exception catch (e, t) {
       _logger.severe('_handlePrepareStandard', e, t);
-      inject<MessengerService>()
-          .show(Message.error(context: context, message: e.toString()));
+      inject<MessengerService>().show(
+        Message.error(message: e.toString()),
+      );
     }
   }
 
@@ -179,8 +182,7 @@ class WalletDeployBloc extends Bloc<WalletDeployEvent, WalletDeployState>
       await _handlePrepareDeploy(emit, custodians, requireConfirmations);
     } on Exception catch (e, t) {
       _logger.severe('_handlePrepareMultisig', e, t);
-      inject<MessengerService>()
-          .show(Message.error(context: context, message: e.toString()));
+      inject<MessengerService>().show(Message.error(message: e.toString()));
     }
   }
 
@@ -293,7 +295,6 @@ class WalletDeployBloc extends Bloc<WalletDeployEvent, WalletDeployState>
 
       inject<MessengerService>().show(
         Message.successful(
-          context: context,
           message: LocaleKeys.walletDeployedSuccessfully.tr(),
         ),
       );
@@ -303,8 +304,11 @@ class WalletDeployBloc extends Bloc<WalletDeployEvent, WalletDeployState>
     } on OperationCanceledException catch (_) {
     } on Exception catch (e, t) {
       _logger.severe('_handleSend', e, t);
-      inject<MessengerService>()
-          .show(Message.error(context: context, message: e.toString()));
+      inject<MessengerService>().show(
+        Message.error(
+          message: e.toString(),
+        ),
+      );
       emitSafe(
         WalletDeployState.readyToDeploy(
           fee: fees!,

@@ -1,11 +1,11 @@
 import 'dart:async';
 
 import 'package:app/app/router/router.dart';
-import 'package:app/app/service/service.dart';
 import 'package:app/core/error_handler_factory.dart';
 import 'package:app/core/wm/custom_wm.dart';
 import 'package:app/data/models/models.dart';
 import 'package:app/di/di.dart';
+import 'package:app/feature/messenger/data/message.dart';
 import 'package:app/feature/profile/profile.dart';
 import 'package:app/feature/wallet/wallet.dart';
 import 'package:app/feature/wallet/wallet_deploy/widgets/deploy_wallet_min_ever_modal.dart';
@@ -61,7 +61,9 @@ class WalletAccountActionsWidgetModel
   StreamSubscription<List<StEverWithdrawRequest>>? _withdrawsSubscription;
 
   ListenableState<WalletAccountActionBehavior> get action => _action;
+
   ListenableState<bool> get hasStake => _hasStake;
+
   ListenableState<bool> get hasStakeActions => _hasStakeActions;
 
   @override
@@ -188,7 +190,6 @@ class WalletAccountActionsWidgetModel
     if (_numberUnconfirmedTransactions >= 5) {
       model.showMessage(
         Message.error(
-          context: context,
           message: LocaleKeys.errorMessageMaxUnconfirmedTransactions.tr(),
         ),
       );
@@ -215,7 +216,6 @@ class WalletAccountActionsWidgetModel
     if (_numberUnconfirmedTransactions >= 5) {
       model.showMessage(
         Message.error(
-          context: context,
           message: LocaleKeys.errorMessageMaxUnconfirmedTransactions.tr(),
         ),
       );
@@ -271,7 +271,6 @@ class WalletAccountActionsWidgetModel
   void _handleSendLocalCustodiansNeededAction() {
     model.showMessage(
       Message.error(
-        context: context,
         message: LocaleKeys.toSendMultisigAddCustodian.tr(),
         actionText: LocaleKeys.addWord.tr(),
         onAction: _showAddSeedSheet,

@@ -88,7 +88,7 @@ class ConfirmActionWidgetModel
         final phrase = await seed.export(password);
 
         context.maybePop();
-        showManualBackupDialog(
+        await showManualBackupDialog(
           context,
           phrase,
           widget.account?.address.address ?? '',

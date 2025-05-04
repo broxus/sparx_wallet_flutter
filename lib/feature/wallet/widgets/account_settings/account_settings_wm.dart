@@ -5,7 +5,7 @@ import 'package:app/app/router/routs/wallet/wallet.dart';
 import 'package:app/core/error_handler_factory.dart';
 import 'package:app/core/wm/custom_wm.dart';
 import 'package:app/di/di.dart';
-import 'package:app/feature/browser/browser.dart';
+import 'package:app/feature/browser_v1/browser.dart';
 import 'package:app/feature/profile/profile.dart';
 import 'package:app/feature/wallet/widgets/account_settings/account_settings_model.dart';
 import 'package:app/feature/wallet/widgets/account_settings/account_settings_widget.dart';
@@ -51,8 +51,7 @@ class AccountSettingsWidgetModel
 
   void onViewInExplorer() {
     Navigator.of(context).pop();
-    browserNewTab(
-      context,
+    openBrowserUrl(
       model.getAccountExplorerLink(widget.account.address),
     );
   }

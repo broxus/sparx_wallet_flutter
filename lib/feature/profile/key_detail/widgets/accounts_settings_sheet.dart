@@ -1,6 +1,7 @@
-import 'package:app/app/service/service.dart';
 import 'package:app/di/di.dart';
-import 'package:app/feature/browser/utils.dart';
+import 'package:app/feature/browser_v1/browser.dart';
+import 'package:app/feature/messenger/data/message.dart';
+import 'package:app/feature/messenger/domain/service/messenger_service.dart';
 import 'package:app/feature/profile/profile.dart';
 import 'package:app/generated/generated.dart';
 import 'package:flutter/material.dart';
@@ -109,7 +110,6 @@ class AccountSettingsSheet extends StatelessWidget {
                     );
                     inject<MessengerService>().show(
                       Message.successful(
-                        context: context,
                         message: LocaleKeys.valueCopiedExclamation.tr(
                           args: [account.address.toEllipseString()],
                         ),
@@ -126,8 +126,7 @@ class AccountSettingsSheet extends StatelessWidget {
                   titleText: LocaleKeys.seeInExplorer.tr(),
                   onPressed: () {
                     Navigator.of(context).pop();
-                    browserNewTab(
-                      context,
+                    openBrowserUrl(
                       inject<NekotonRepository>()
                           .currentTransport
                           .accountExplorerLink(account.address),

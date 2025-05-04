@@ -135,9 +135,16 @@ class $AssetsImagesGen {
   /// Directory path: assets/images/bg_main
   $AssetsImagesBgMainGen get bgMain => const $AssetsImagesBgMainGen();
 
+  /// File path: assets/images/bg_network.png
+  AssetGenImage get bgNetwork =>
+      const AssetGenImage('assets/images/bg_network.png');
+
   /// File path: assets/images/blur_background.png
   AssetGenImage get blurBackground =>
       const AssetGenImage('assets/images/blur_background.png');
+
+  /// File path: assets/images/book-open.svg
+  SvgGenImage get bookOpen => const SvgGenImage('assets/images/book-open.svg');
 
   /// File path: assets/images/browser_card_01.svg
   SvgGenImage get browserCard01 =>
@@ -206,12 +213,11 @@ class $AssetsImagesGen {
   AssetGenImage get circleCheck =>
       const AssetGenImage('assets/images/circle_check.png');
 
+  /// File path: assets/images/clear.svg
+  SvgGenImage get clear => const SvgGenImage('assets/images/clear.svg');
+
   /// File path: assets/images/close.svg
   SvgGenImage get close => const SvgGenImage('assets/images/close.svg');
-
-  /// File path: assets/images/close_another.svg
-  SvgGenImage get closeAnother =>
-      const SvgGenImage('assets/images/close_another.svg');
 
   /// File path: assets/images/closed_eye.svg
   SvgGenImage get closedEye =>
@@ -247,6 +253,10 @@ class $AssetsImagesGen {
   AssetGenImage get exclamationMark =>
       const AssetGenImage('assets/images/exclamation_mark.png');
 
+  /// File path: assets/images/exclamation_mark_alert.png
+  AssetGenImage get exclamationMarkAlert =>
+      const AssetGenImage('assets/images/exclamation_mark_alert.png');
+
   /// File path: assets/images/exit.svg
   SvgGenImage get exit => const SvgGenImage('assets/images/exit.svg');
 
@@ -277,6 +287,10 @@ class $AssetsImagesGen {
   SvgGenImage get historyFill =>
       const SvgGenImage('assets/images/history_fill.svg');
 
+  /// File path: assets/images/horizontal_dots.svg
+  SvgGenImage get horizontalDots =>
+      const SvgGenImage('assets/images/horizontal_dots.svg');
+
   /// File path: assets/images/ic_explamation_mark.png
   AssetGenImage get icExplamationMark =>
       const AssetGenImage('assets/images/ic_explamation_mark.png');
@@ -305,6 +319,9 @@ class $AssetsImagesGen {
   /// Directory path: assets/images/lang_icons
   $AssetsImagesLangIconsGen get langIcons => const $AssetsImagesLangIconsGen();
 
+  /// File path: assets/images/layers.svg
+  SvgGenImage get layers => const SvgGenImage('assets/images/layers.svg');
+
   /// File path: assets/images/lightning.svg
   SvgGenImage get lightning => const SvgGenImage('assets/images/lightning.svg');
 
@@ -314,6 +331,9 @@ class $AssetsImagesGen {
   /// File path: assets/images/lock_backup.png
   AssetGenImage get lockBackup =>
       const AssetGenImage('assets/images/lock_backup.png');
+
+  /// File path: assets/images/lock_fill.svg
+  SvgGenImage get lockFill => const SvgGenImage('assets/images/lock_fill.svg');
 
   /// File path: assets/images/logo.svg
   SvgGenImage get logo => const SvgGenImage('assets/images/logo.svg');
@@ -427,6 +447,9 @@ class $AssetsImagesGen {
   SvgGenImage get tokenDefaultIcon =>
       const SvgGenImage('assets/images/token_default_icon.svg');
 
+  /// File path: assets/images/tooltip.svg
+  SvgGenImage get tooltip => const SvgGenImage('assets/images/tooltip.svg');
+
   /// File path: assets/images/transaction_progress.png
   AssetGenImage get transactionProgress =>
       const AssetGenImage('assets/images/transaction_progress.png');
@@ -441,6 +464,10 @@ class $AssetsImagesGen {
   /// File path: assets/images/version_update_icon.webp
   AssetGenImage get versionUpdateIcon =>
       const AssetGenImage('assets/images/version_update_icon.webp');
+
+  /// File path: assets/images/vertical_dots.svg
+  SvgGenImage get verticalDots =>
+      const SvgGenImage('assets/images/vertical_dots.svg');
 
   /// File path: assets/images/wallet.svg
   SvgGenImage get wallet => const SvgGenImage('assets/images/wallet.svg');
@@ -467,7 +494,9 @@ class $AssetsImagesGen {
         arrowsLeftRight,
         bgConnection,
         bgInternet,
+        bgNetwork,
         blurBackground,
+        bookOpen,
         browserCard01,
         browserCard02,
         burger,
@@ -485,8 +514,8 @@ class $AssetsImagesGen {
         checkSquare,
         choose,
         circleCheck,
+        clear,
         close,
-        closeAnother,
         closedEye,
         copy,
         copyOutlined,
@@ -497,6 +526,7 @@ class $AssetsImagesGen {
         edit,
         ever,
         exclamationMark,
+        exclamationMarkAlert,
         exit,
         export,
         export2,
@@ -506,6 +536,7 @@ class $AssetsImagesGen {
         fingerSmall,
         history,
         historyFill,
+        horizontalDots,
         icExplamationMark,
         icMatch,
         icNotMatch,
@@ -513,9 +544,11 @@ class $AssetsImagesGen {
         import,
         importFill,
         key,
+        layers,
         lightning,
         lock,
         lockBackup,
+        lockFill,
         logo,
         minus,
         moon,
@@ -546,9 +579,11 @@ class $AssetsImagesGen {
         star,
         support,
         tokenDefaultIcon,
+        tooltip,
         transactionProgress,
         trash,
         versionUpdateIcon,
+        verticalDots,
         wallet,
         web
       ];

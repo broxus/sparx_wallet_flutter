@@ -4,6 +4,7 @@ import 'package:nekoton_repository/nekoton_repository.dart';
 import 'package:uuid/uuid.dart';
 
 part 'browser_history_item.freezed.dart';
+
 part 'browser_history_item.g.dart';
 
 @freezed
@@ -17,12 +18,11 @@ class BrowserHistoryItem with _$BrowserHistoryItem {
   }) = _BrowserHistoryItemDto;
 
   factory BrowserHistoryItem.create({
-    required String title,
     @uriJsonConverter required Uri url,
   }) =>
       BrowserHistoryItem(
         id: const Uuid().v4(),
-        title: title,
+        title: url.host,
         url: url,
         visitTime: NtpTime.now(),
       );

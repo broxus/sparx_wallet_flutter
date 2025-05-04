@@ -1,5 +1,6 @@
-import 'package:app/app/service/service.dart';
 import 'package:app/di/di.dart';
+import 'package:app/feature/messenger/data/message.dart';
+import 'package:app/feature/messenger/domain/service/messenger_service.dart';
 import 'package:app/feature/profile/widgets/rename_sheet/rename_sheet_cubit.dart';
 import 'package:app/generated/generated.dart';
 import 'package:app/utils/constants.dart';
@@ -77,7 +78,6 @@ class _RenameSheetState extends State<RenameSheet> {
               completed: (isSeed) {
                 inject<MessengerService>().show(
                   Message.successful(
-                    context: context,
                     message: isSeed
                         ? LocaleKeys.valueRenamed.tr(
                             args: [LocaleKeys.seedPhrase.tr()],

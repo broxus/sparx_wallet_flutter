@@ -1,5 +1,6 @@
 import 'package:app/app/view/app.dart';
 import 'package:app/app/view/app_model.dart';
+import 'package:app/app/view/message_viewer.dart';
 import 'package:app/core/error_handler_factory.dart';
 import 'package:app/core/wm/custom_wm.dart';
 import 'package:app/di/di.dart';
@@ -21,6 +22,7 @@ AppWidgetModel defaultAppWidgetModelFactory(
       inject(),
       inject(),
       inject(),
+      inject(),
     ),
   );
 }
@@ -31,6 +33,12 @@ class AppWidgetModel extends CustomWidgetModel<App, AppModel> {
     super.model,
   );
 
+  late final _messageViewer = MessageViewer(
+    messagesExistStream: model.messagesExistStream,
+    getRootContext: () => model.navContext,
+    getMessage: model.getMessage,
+  );
+
   late final router = model.appRouter.router;
 
   List<LocalizationsDelegate<dynamic>> get localizationDelegates =>
@@ -39,4 +47,16 @@ class AppWidgetModel extends CustomWidgetModel<App, AppModel> {
   List<Locale> get supportedLocales => context.supportedLocales;
 
   Locale get locale => context.locale;
+
+  @override
+  void initWidgetModel() {
+    _messageViewer.init();
+    super.initWidgetModel();
+  }
+
+  @override
+  void dispose() {
+    _messageViewer.dispose();
+    super.dispose();
+  }
 }

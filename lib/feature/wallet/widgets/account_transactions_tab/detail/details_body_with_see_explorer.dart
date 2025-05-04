@@ -1,5 +1,5 @@
 import 'package:app/di/di.dart';
-import 'package:app/feature/browser/utils.dart';
+import 'package:app/feature/browser_v1/browser.dart';
 import 'package:app/generated/generated.dart';
 import 'package:flutter/material.dart';
 import 'package:lucide_icons_flutter/lucide_icons.dart';
@@ -55,8 +55,7 @@ class WalletTransactionDetailsBodyWithExplorerButton extends StatelessWidget {
                 onPressed: () {
                   Navigator.of(context).pop();
                   // TODO(oldVersion): extract inject from widget
-                  browserNewTab(
-                    context,
+                  openBrowserUrl(
                     inject<NekotonRepository>()
                         .currentTransport
                         .transactionExplorerLink(transactionHash),

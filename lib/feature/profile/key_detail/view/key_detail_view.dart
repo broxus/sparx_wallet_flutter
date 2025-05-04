@@ -1,6 +1,7 @@
 import 'package:app/app/router/router.dart';
-import 'package:app/app/service/service.dart';
 import 'package:app/di/di.dart';
+import 'package:app/feature/messenger/data/message.dart';
+import 'package:app/feature/messenger/domain/service/messenger_service.dart';
 import 'package:app/feature/profile/profile.dart';
 import 'package:app/generated/generated.dart';
 import 'package:app/widgets/user_avatar/user_avatar.dart';
@@ -102,7 +103,6 @@ class KeyDetailView extends StatelessWidget {
                             );
                             inject<MessengerService>().show(
                               Message.successful(
-                                context: context,
                                 message: LocaleKeys.valueCopiedExclamation.tr(
                                   args: [seedKey.publicKey.toEllipseString()],
                                 ),

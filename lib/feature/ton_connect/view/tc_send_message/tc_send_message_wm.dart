@@ -4,6 +4,7 @@ import 'package:app/app/service/service.dart';
 import 'package:app/core/error_handler_factory.dart';
 import 'package:app/core/wm/custom_wm.dart';
 import 'package:app/di/di.dart';
+import 'package:app/feature/messenger/data/message.dart';
 import 'package:app/feature/ton_connect/ton_connect.dart';
 import 'package:app/generated/generated.dart';
 import 'package:app/utils/utils.dart';
@@ -119,7 +120,6 @@ class TCSendMessageWidgetModel
       if (contextSafe != null) {
         model.showMessage(
           Message.successful(
-            context: contextSafe,
             message: LocaleKeys.transactionSentSuccessfully.tr(),
           ),
         );
@@ -130,7 +130,6 @@ class TCSendMessageWidgetModel
       contextSafe?.let(
         (context) => model.showMessage(
           Message.error(
-            context: context,
             message: e.toString(),
           ),
         ),
@@ -268,7 +267,6 @@ class TCSendMessageWidgetModel
       contextSafe?.let(
         (context) => model.showMessage(
           Message.error(
-            context: context,
             message: e.toString(),
           ),
         ),
