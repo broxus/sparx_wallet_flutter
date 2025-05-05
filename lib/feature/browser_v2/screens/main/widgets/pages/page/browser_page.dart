@@ -14,27 +14,26 @@ class BrowserPage extends ElementaryWidget<BrowserPageWidgetModel> {
   BrowserPage({
     required this.tab,
     required this.width,
-    required this.onCreate,
-    required this.onWebPageScrollChanged,
-    required this.onDispose,
-    required this.onLoadingProgressChanged,
-    Key? key,
+    required ValueChanged<CustomWebViewController> onCreate,
+    required ValueChanged<int> onWebPageScrollChanged,
+    required VoidCallback onDispose,
+    required ValueChanged<int> onLoadingProgressChanged,
+    super.key,
     WidgetModelFactory<BrowserPageWidgetModel>? wmFactory,
   }) : super(
           wmFactory ??
               (ctx) => defaultBrowserPageWidgetModelFactory(
                     ctx,
                     tabId: tab.id,
+                    onCreate: onCreate,
+                    onWebPageScrollChanged: onWebPageScrollChanged,
+                    onDispose: onDispose,
+                    onLoadingProgressChanged: onLoadingProgressChanged,
                   ),
-          key: key,
         );
 
   final BrowserTab tab;
   final double width;
-  final ValueChanged<CustomWebViewController> onCreate;
-  final ValueChanged<int> onWebPageScrollChanged;
-  final VoidCallback onDispose;
-  final ValueChanged<int> onLoadingProgressChanged;
 
   @override
   Widget build(BrowserPageWidgetModel wm) {
