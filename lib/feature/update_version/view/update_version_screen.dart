@@ -34,7 +34,7 @@ class UpdateVersionScreen extends ElementaryWidget<UpdateVersionWidgetModel> {
             body: Stack(
               fit: StackFit.expand,
               children: [
-                const Expanded(
+                const SizedBox.expand(
                   child: _BlurredBackground(),
                 ),
                 Align(
