@@ -1,0 +1,52 @@
+import 'dart:convert';
+
+import 'package:app/app/service/resources_service.dart';
+import 'package:app/utils/json/json.dart';
+import 'package:flutter/foundation.dart';
+import 'package:flutter/services.dart';
+import 'package:logging/logging.dart';
+import 'package:rxdart/rxdart.dart';
+
+class BrowserAntiPhishingManager {
+  BrowserAntiPhishingManager(this._resourcesService);
+
+  final _blackListSubj = BehaviorSubject<List<String>>.seeded([]);
+
+  List<String> get blackList => _blackListSubj.value;
+
+  final ResourcesService _resourcesService;
+
+  final _log = Logger('BrowserAntiPhishingManager');
+
+  Future<void> init() {
+    return loadLinksJson();
+  }
+
+  void dispose() {
+    _blackListSubj.close();
+  }
+
+  Future<void> loadLinksJson() async {
+    try {
+      final json = await _resourcesService.loadString(
+        'assets/configs/anti_phishing.json',
+      );
+
+      final map = await compute<String, Map<String, dynamic>>(_parse, json);
+
+      _blackListSubj.add(castJsonList(map['blacklist']));
+    } catch (e, s) {
+      _log.severe('Load blacklist JSON error', e, s);
+    }
+  }
+
+  Future<String> getPhishingGuardHtml(String path) async {
+    final html = await rootBundle.loadString('assets/html/anti_phishing.html');
+    html.replaceFirst('{PHISHING_ORIGINAL_SITE}', path);
+    return html;
+  }
+
+  static Map<String, dynamic> _parse(String json) {
+    return jsonDecode(json) as Map<String, dynamic>;
+  }
+}

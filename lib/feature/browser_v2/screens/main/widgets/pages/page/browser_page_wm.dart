@@ -137,11 +137,7 @@ class BrowserPageWidgetModel
     await model.initEvents(customController);
 
     if (_url.isNotEmpty) {
-      await customController.loadUrl(
-        urlRequest: URLRequest(
-          url: WebUri.uri(widget.tab.url),
-        ),
-      );
+      unawaited(model.initUri(widget.tab.url));
     }
   }
 
@@ -263,14 +259,23 @@ class BrowserPageWidgetModel
     NavigationAction navigationAction,
   ) async {
     final url = navigationAction.request.url;
-
     if (url == null) {
       return NavigationActionPolicy.ALLOW;
     }
 
+    final path = url.toString();
+
+    final isLoaded = await model.loadPhishingGuardIfNeed(
+      path: path,
+      host: url.host,
+    );
+    if (isLoaded) {
+      return NavigationActionPolicy.CANCEL;
+    }
+
     final scheme = navigationAction.request.url?.scheme;
 
-    if (!_allowSchemes.contains(scheme) || _checkIsCustomAppLink(url)) {
+    if (!_allowSchemes.contains(scheme) || _checkIsCustomAppLink(path)) {
       try {
         await launchUrl(url);
       } catch (_) {}
@@ -287,9 +292,7 @@ class BrowserPageWidgetModel
     } catch (_) {}
   }
 
-  bool _checkIsCustomAppLink(Uri url) {
-    final path = url.toString();
-
+  bool _checkIsCustomAppLink(String path) {
     for (final segment in _customAppLinks) {
       if (path.contains(segment)) {
         return true;

@@ -138,4 +138,29 @@ class BrowserPageModel extends ElementaryModel {
   bool checkIsActiveTab(String id) {
     return _activeTabId == null || id == _activeTabId;
   }
+
+  Future<void> initUri(Uri uri) async {
+    final isLoaded = await loadPhishingGuardIfNeed(
+      path: uri.path,
+      host: uri.host,
+    );
+
+    if (isLoaded) {
+      return;
+    }
+
+    return _browserService.tabs.requestUrlActiveTab(
+      uri.host == '' && uri.path == 'blank' ? WebUri('') : WebUri.uri(uri),
+    );
+  }
+
+  Future<bool> loadPhishingGuardIfNeed({
+    required String path,
+    required String host,
+  }) {
+    return _browserService.loadPhishingGuardIfNeed(
+      path: path,
+      host: host,
+    );
+  }
 }
