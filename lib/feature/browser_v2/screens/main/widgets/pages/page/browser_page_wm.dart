@@ -281,6 +281,7 @@ class BrowserPageWidgetModel
     NavigationAction navigationAction,
   ) async {
     final url = navigationAction.request.url;
+
     if (url == null) {
       return NavigationActionPolicy.ALLOW;
     }
