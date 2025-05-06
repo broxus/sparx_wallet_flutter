@@ -22,13 +22,13 @@ on:
         required: true
         default: release
         type: choice
-        options: [release, debug]
+        options: [ release, debug ]
       flavor:
         description: 'Target flavor:'
         required: true
         default: staging
         type: choice
-        options: [development, staging, production]
+        options: [ development, staging, production ]
 
 jobs:
   setup:
@@ -76,7 +76,7 @@ jobs:
             echo "🚫 Error: Deployment to store, ios_store, or android_store is only allowed for 'release' build type."
             exit 1
           fi
-          
+
       - name: Fetch anti-phishing lists
         run: |
           curl -s https://raw.githubusercontent.com/broxus/ever-wallet-anti-phishing/master/blacklist.json \
@@ -92,7 +92,7 @@ jobs:
             > anti_phishing.json
 
       - name: Upload anti-phishing file
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: anti-phishing-json
           path: anti_phishing.json
@@ -179,9 +179,7 @@ jobs:
         uses: actions/download-artifact@v4
         with:
           name: anti-phishing-json
-
-      - name: Replace anti-phishing file
-        run: mv anti_phishing.json assets/config/anti_phishing.json
+          path: assets/config
 
       - name: Setup Flutter
         uses: subosito/flutter-action@v2
@@ -281,9 +279,7 @@ jobs:
         uses: actions/download-artifact@v4
         with:
           name: anti-phishing-json
-
-      - name: Replace anti-phishing file
-        run: mv anti_phishing.json assets/config/anti_phishing.json
+          path: assets/config
 
       - name: Setup Flutter
         uses: subosito/flutter-action@v2
