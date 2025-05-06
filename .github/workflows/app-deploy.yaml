@@ -76,6 +76,26 @@ jobs:
             echo "🚫 Error: Deployment to store, ios_store, or android_store is only allowed for 'release' build type."
             exit 1
           fi
+          
+      - name: Fetch anti-phishing lists
+        run: |
+          curl -s https://raw.githubusercontent.com/broxus/ever-wallet-anti-phishing/master/blacklist.json \
+            -o /tmp/blacklist1.json
+          curl -s https://raw.githubusercontent.com/MetaMask/eth-phishing-detect/refs/heads/main/src/config.json \
+            -o /tmp/config.json
+          
+          jq -s '
+            (.[0] + .[1].blacklist)
+            | unique
+            | { blacklist: . }
+          ' /tmp/blacklist1.json /tmp/config.json \
+            > anti_phishing.json
+
+      - name: Upload anti-phishing file
+        uses: actions/upload-artifact@v3
+        with:
+          name: anti-phishing-json
+          path: anti_phishing.json
 
       - name: Read Flutter version
         id: read_flutter
@@ -154,6 +174,14 @@ jobs:
         run: |
           echo "ios_target is set to = ${{ env.ios_target }}"
           echo "build_mode is set to = ${{ inputs.build_mode }}"
+
+      - name: Download anti-phishing file
+        uses: actions/download-artifact@v4
+        with:
+          name: anti-phishing-json
+
+      - name: Replace anti-phishing file
+        run: mv anti_phishing.json assets/config/anti_phishing.json
 
       - name: Setup Flutter
         uses: subosito/flutter-action@v2
@@ -248,6 +276,14 @@ jobs:
         run: |
           echo "android_target is set to = ${{ env.android_target }}"
           echo "build_mode is set to = ${{ inputs.build_mode }}"
+
+      - name: Download anti-phishing file
+        uses: actions/download-artifact@v4
+        with:
+          name: anti-phishing-json
+
+      - name: Replace anti-phishing file
+        run: mv anti_phishing.json assets/config/anti_phishing.json
 
       - name: Setup Flutter
         uses: subosito/flutter-action@v2
