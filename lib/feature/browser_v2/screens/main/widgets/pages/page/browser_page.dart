@@ -34,10 +34,6 @@ class BrowserPage extends ElementaryWidget<BrowserPageWidgetModel> {
 
   final BrowserTab tab;
   final double width;
-  final ValueChanged<CustomWebViewController> onCreate;
-  final ValueChanged<int> onWebPageScrollChanged;
-  final VoidCallback onDispose;
-  final ValueChanged<int> onLoadingProgressChanged;
 
   @override
   Widget build(BrowserPageWidgetModel wm) {

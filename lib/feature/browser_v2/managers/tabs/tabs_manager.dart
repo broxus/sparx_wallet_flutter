@@ -130,7 +130,7 @@ class BrowserTabsManager {
     final resultUri = uri.scheme.isEmpty && uri.path.isNotEmpty
         ? Uri.parse('https://$uri')
         : uri;
-print('!!! ${uri.scheme.isEmpty && uri.path.isNotEmpty}');
+
     final isSuccess = updateCachedUrl(tabId, resultUri);
 
     if (!isSuccess) {

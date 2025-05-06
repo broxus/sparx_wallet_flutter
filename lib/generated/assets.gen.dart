@@ -77,6 +77,16 @@ class $AssetsConfigsGen {
       [antiPhishing, connections, releaseNotes, updateRules];
 }
 
+class $AssetsHtmlGen {
+  const $AssetsHtmlGen();
+
+  /// File path: assets/html/anti_phishing.html
+  String get antiPhishing => 'assets/html/anti_phishing.html';
+
+  /// List of all assets
+  List<String> get values => [antiPhishing];
+}
+
 class $AssetsImagesGen {
   const $AssetsImagesGen();
 
@@ -890,6 +900,7 @@ class Assets {
   static const $AssetsAbiGen abi = $AssetsAbiGen();
   static const $AssetsAnimationsGen animations = $AssetsAnimationsGen();
   static const $AssetsConfigsGen configs = $AssetsConfigsGen();
+  static const $AssetsHtmlGen html = $AssetsHtmlGen();
   static const $AssetsImagesGen images = $AssetsImagesGen();
   static const $AssetsJsGen js = $AssetsJsGen();
   static const $AssetsSplashGen splash = $AssetsSplashGen();
