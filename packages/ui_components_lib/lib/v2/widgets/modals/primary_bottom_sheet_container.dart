@@ -47,7 +47,7 @@ class _Label extends StatelessWidget {
         child: DecoratedBox(
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(DimensSizeV2.d2),
-            color: colors.primaryA.withOpacity(.7),
+            color: colors.primaryA.withValues(alpha: .7),
           ),
         ),
       ),

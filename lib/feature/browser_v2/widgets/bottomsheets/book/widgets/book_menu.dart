@@ -132,7 +132,7 @@ class _Container extends StatelessWidget {
           color: colors.background1,
           border: Border(
             top: BorderSide(
-              color: colors.primaryA.withOpacity(.1),
+              color: colors.primaryA.withValues(alpha: .1),
             ),
           ),
         ),

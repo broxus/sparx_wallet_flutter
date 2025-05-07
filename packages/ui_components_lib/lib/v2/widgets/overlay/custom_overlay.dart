@@ -29,8 +29,8 @@ class CustomOverlay {
               child: ClipPath(
                 clipper: HoleClipper(positions, sizes),
                 child: Container(
-                  color: context.themeStyleV2.colors.background0.withOpacity(
-                    OpacV2.opac90,
+                  color: context.themeStyleV2.colors.background0.withValues(
+                    alpha: OpacV2.opac90,
                   ),
                 ),
               ),

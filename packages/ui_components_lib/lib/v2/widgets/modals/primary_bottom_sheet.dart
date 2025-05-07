@@ -159,7 +159,7 @@ class _ContentBottomSheet extends StatelessWidget {
                     height: DimensSizeV2.d5,
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(DimensSizeV2.d2),
-                      color: theme.colors.primaryA.withOpacity(.7),
+                      color: theme.colors.primaryA.withValues(alpha: .7),
                     ),
                   ),
                 ],

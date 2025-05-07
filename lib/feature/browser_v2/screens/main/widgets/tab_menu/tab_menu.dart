@@ -192,7 +192,7 @@ class _Item extends StatelessWidget {
             border: isShowBorder
                 ? Border(
                     bottom: BorderSide(
-                      color: Colors.white.withOpacity(.1),
+                      color: Colors.white.withValues(alpha: .1),
                     ),
                   )
                 : null,
