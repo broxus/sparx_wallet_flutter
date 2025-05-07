@@ -227,7 +227,9 @@ class _RemoveLabel extends StatelessWidget {
           decoration: BoxDecoration(
             border: Border(
               right: BorderSide(
-                color: context.themeStyleV2.colors.content3.withOpacity(.2),
+                color: context.themeStyleV2.colors.content3.withValues(
+                  alpha: .2,
+                ),
               ),
             ),
           ),
@@ -256,7 +258,7 @@ class _DragLabel extends StatelessWidget {
         decoration: BoxDecoration(
           border: Border(
             left: BorderSide(
-              color: context.themeStyleV2.colors.content3.withOpacity(.2),
+              color: context.themeStyleV2.colors.content3.withValues(alpha: .2),
             ),
           ),
         ),
