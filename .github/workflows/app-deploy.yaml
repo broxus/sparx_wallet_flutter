@@ -90,7 +90,7 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: anti-phishing-json
-          path: anti_phishing.json
+          path: assets/config/anti_phishing.json
 
       - name: Read Flutter version
         id: read_flutter
@@ -283,6 +283,12 @@ jobs:
         with:
           name: anti-phishing-json
           path: assets/config
+
+      - name: Debug anti_phishing.json
+        run: |
+          echo "→ Content assets/config:"
+          ls -l assets/config
+          cat assets/config/anti_phishing.json
 
       - name: Setup Flutter
         uses: subosito/flutter-action@v2
