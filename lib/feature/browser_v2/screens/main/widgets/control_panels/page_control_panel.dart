@@ -75,12 +75,9 @@ class _Space extends StatelessWidget {
         _menuHeight -
         (Platform.isIOS ? DimensSizeV2.d32 : 0);
 
-    return AnimatedSize(
-      duration: const Duration(milliseconds: 250),
-      child: SizedBox(
-        width: double.infinity,
-        height: bottom > 0 ? bottom : 0,
-      ),
+    return SizedBox(
+      width: double.infinity,
+      height: bottom > 0 ? bottom : 0,
     );
   }
 }
