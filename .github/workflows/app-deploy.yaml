@@ -284,6 +284,13 @@ jobs:
           name: anti-phishing-json
           path: assets/config
 
+      - name: Touch asset to bump timestamp
+        run: |
+          touch assets/config/anti_phishing.json
+
+      - name: Refresh Flutter assets manifest
+        run: dart pub get
+
       - name: Debug anti_phishing.json
         run: |
           echo "→ Content assets/config:"
