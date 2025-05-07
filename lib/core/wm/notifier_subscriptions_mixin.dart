@@ -114,7 +114,6 @@ mixin NotifierSubscriptionsMixin<W extends ElementaryWidget,
     final initialValue = isMounted ? reader(widget) : null;
     final notifier = createNotifier<T>(initialValue);
     _widgetPropsReaders[notifier] = reader;
-    _subscriptionsCollection.add(notifier);
     return notifier;
   }
 
