@@ -1,5 +1,7 @@
-import 'package:app/app/router/app_route.dart';
+import 'package:app/app/router/router.dart';
+import 'package:app/di/di.dart';
 import 'package:app/feature/biometry/view/biometry_screen.dart';
+import 'package:app/feature/wallet/route.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
@@ -22,5 +24,5 @@ class AddSeedEnableBiometryPage extends StatelessWidget {
     );
   }
 
-  void _next(BuildContext context) => context.goNamed(AppRoute.wallet.name);
+  void _next(BuildContext context) => context.compassPoint(const WalletRouteData());
 }

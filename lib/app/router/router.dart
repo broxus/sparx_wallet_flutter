@@ -170,7 +170,7 @@ class CompassRouter {
   /// current route, then pops the navigation stack if possible.
   ///
   /// [result] Optional value to return to the previous screen.
-  void compassBack<T>([T? result]) {
+  void compassBack<T extends Object?>([T? result]) {
     try {
       final route = currentRoutes.lastOrNull;
       if (route is CompassRouteDataQueryMixin) {
@@ -338,7 +338,7 @@ extension CompassNavigationContextExtension on BuildContext {
   /// [result] Optional value to return to the previous screen.
   ///
   /// See [CompassRouter.compassBack] for more details.
-  void compassBack<T>([T? result]) {
+  void compassBack<T extends Object?>([T? result]) {
     return CompassRouterProvider.of(this).compassBack(result);
   }
 }

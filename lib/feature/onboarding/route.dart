@@ -1,13 +1,13 @@
-import 'package:app/app/router/base/base.dart';
-import 'package:app/app/router/base/route.dart';
-import 'package:app/app/router/page_transitions.dart';
+import 'package:app/app/router/compass/compass.dart';
 import 'package:app/feature/choose_network/route.dart';
 import 'package:app/feature/onboarding/screen/welcome/welcome_screen.dart';
+import 'package:flutter/widgets.dart';
+import 'package:go_router/go_router.dart';
 import 'package:injectable/injectable.dart';
 
-@lazySingleton
+@singleton
 class OnBoardingRoute
-    extends SparxRouteParameterless<OnBoardingRouteData, void> {
+    extends CompassRouteParameterless<OnBoardingRouteData> {
   OnBoardingRoute(
     this.chooseNetworkRoute,
   ) : super(
@@ -17,7 +17,7 @@ class OnBoardingRoute
             state,
             const WelcomeScreen(),
           ),
-          sparxBaseRoutes: [chooseNetworkRoute],
+          compassBaseRoutes: [chooseNetworkRoute],
         );
 
   final ChooseNetworkRoute chooseNetworkRoute;
@@ -28,4 +28,34 @@ class OnBoardingRoute
   }
 }
 
-class OnBoardingRouteData implements SparxRouteData {}
+class OnBoardingRouteData implements CompassRouteData {}
+
+CustomTransitionPage<void> onboardingTransitionPageBuilder(
+  BuildContext _,
+  GoRouterState state,
+  Widget child,
+) {
+  return CustomTransitionPage<void>(
+    key: state.pageKey,
+    name: state.name,
+    child: child,
+    transitionsBuilder: (
+      BuildContext context,
+      Animation<double> animation,
+      Animation<double> secondaryAnimation,
+      Widget child,
+    ) {
+      return SlideTransition(
+        position: animation.drive(
+          Tween<Offset>(
+            begin: const Offset(-1, 0),
+            end: Offset.zero,
+          ).chain(
+            CurveTween(curve: Curves.easeInOut),
+          ),
+        ),
+        child: child,
+      );
+    },
+  );
+}

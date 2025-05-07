@@ -21,7 +21,7 @@ class AppModel extends ElementaryModel with WidgetsBindingObserver {
     this._messengerService,
   ) : super(errorHandler: errorHandler);
 
-  final AppRouter router;
+  final CompassRouter router;
   final AppLifecycleService _appLifecycleService;
   final LocalizationService _localizationService;
   final BiometryService _biometryService;
