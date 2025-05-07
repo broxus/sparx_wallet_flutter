@@ -79,17 +79,12 @@ jobs:
 
       - name: Fetch anti-phishing lists
         run: |
-          curl -s https://raw.githubusercontent.com/broxus/ever-wallet-anti-phishing/master/blacklist.json \
-            -o /tmp/blacklist1.json
-          curl -s https://raw.githubusercontent.com/MetaMask/eth-phishing-detect/refs/heads/main/src/config.json \
-            -o /tmp/config.json
-          
-          jq -s '
-            (.[0] + .[1].blacklist)
-            | unique
-            | { blacklist: . }
-          ' /tmp/blacklist1.json /tmp/config.json \
-            > anti_phishing.json
+          curl -s https://raw.githubusercontent.com/broxus/ever-wallet-anti-phishing/master/blacklist.json  -o /tmp/blacklist1.json
+          curl -s https://raw.githubusercontent.com/MetaMask/eth-phishing-detect/refs/heads/main/src/config.json     -o /tmp/config.json
+          mkdir -p assets/config
+          jq -s '(.[0] + .[1].blacklist) | unique | { blacklist: . }' \
+          /tmp/blacklist1.json /tmp/config.json \
+          > assets/config/anti_phishing.json
 
       - name: Upload anti-phishing file
         uses: actions/upload-artifact@v4
@@ -174,6 +169,10 @@ jobs:
         run: |
           echo "ios_target is set to = ${{ env.ios_target }}"
           echo "build_mode is set to = ${{ inputs.build_mode }}"
+
+      - name: Remove default anti_phishing.json
+        run: |
+          rm -f assets/config/anti_phishing.json
 
       - name: Download anti-phishing file
         uses: actions/download-artifact@v4
@@ -274,6 +273,10 @@ jobs:
         run: |
           echo "android_target is set to = ${{ env.android_target }}"
           echo "build_mode is set to = ${{ inputs.build_mode }}"
+
+      - name: Remove default anti_phishing.json
+        run: |
+          rm -f assets/config/anti_phishing.json
 
       - name: Download anti-phishing file
         uses: actions/download-artifact@v4
