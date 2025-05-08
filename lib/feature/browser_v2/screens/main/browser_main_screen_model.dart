@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:app/feature/browser_v2/custom_web_controller.dart';
 import 'package:app/feature/browser_v2/data/browser_tab.dart';
 import 'package:app/feature/browser_v2/data/tabs_data.dart';
@@ -39,7 +41,7 @@ class BrowserMainScreenModel extends ElementaryModel {
 
   String createEmptyTab() => _browserService.tM.createEmptyTab();
 
-  void requestUrl(String? tabId, String enteredText) {
+  Future<void> requestUrl(String? tabId, String enteredText) async {
     if (tabId == null) {
       return;
     }
@@ -52,9 +54,21 @@ class BrowserMainScreenModel extends ElementaryModel {
 
     final isUrl = UrlValidator.checkString(text);
 
-    _browserService.tM.requestUrl(
-      tabId,
-      isUrl ? Uri.parse(text) : Uri.parse('$_searchEngineUri$text'),
+    if (isUrl) {
+      final isLoaded = await _browserService.loadPhishingGuardIfNeed(
+        path: text,
+        host: Uri.parse(text).host,
+      );
+      if (isLoaded) {
+        return;
+      }
+    }
+
+    unawaited(
+      _browserService.tM.requestUrl(
+        tabId,
+        isUrl ? Uri.parse(text) : Uri.parse('$_searchEngineUri$text'),
+      ),
     );
   }
 

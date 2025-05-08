@@ -127,7 +127,9 @@ class BrowserTabsManager {
   }
 
   Future<void> requestUrl(String tabId, Uri uri) async {
-    final resultUri = uri.scheme.isEmpty ? Uri.parse('https://$uri') : uri;
+    final resultUri = uri.scheme.isEmpty && uri.path.isNotEmpty
+        ? Uri.parse('https://$uri')
+        : uri;
 
     final isSuccess = updateCachedUrl(tabId, resultUri);
 
@@ -150,6 +152,10 @@ class BrowserTabsManager {
     }
 
     return requestUrl(id, uri);
+  }
+
+  Future<void> loadDataOnActiveTab(String html) async {
+    return _controllers[activeTabId]?.loadData(data: html);
   }
 
   void updateTitle(String tabId, String title) {

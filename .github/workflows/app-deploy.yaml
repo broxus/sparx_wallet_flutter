@@ -22,13 +22,13 @@ on:
         required: true
         default: release
         type: choice
-        options: [release, debug]
+        options: [ release, debug ]
       flavor:
         description: 'Target flavor:'
         required: true
         default: staging
         type: choice
-        options: [development, staging, production]
+        options: [ development, staging, production ]
 
 jobs:
   setup:
@@ -76,6 +76,21 @@ jobs:
             echo "🚫 Error: Deployment to store, ios_store, or android_store is only allowed for 'release' build type."
             exit 1
           fi
+
+      - name: Fetch anti-phishing lists
+        run: |
+          curl -s https://raw.githubusercontent.com/broxus/ever-wallet-anti-phishing/master/blacklist.json  -o /tmp/blacklist1.json
+          curl -s https://raw.githubusercontent.com/MetaMask/eth-phishing-detect/refs/heads/main/src/config.json     -o /tmp/config.json
+          mkdir -p assets/config
+          jq -s '(.[0] + .[1].blacklist) | unique | { blacklist: . }' \
+          /tmp/blacklist1.json /tmp/config.json \
+          > assets/config/anti_phishing.json
+
+      - name: Upload anti-phishing file
+        uses: actions/upload-artifact@v4
+        with:
+          name: anti-phishing-json
+          path: assets/config/anti_phishing.json
 
       - name: Read Flutter version
         id: read_flutter
@@ -154,6 +169,16 @@ jobs:
         run: |
           echo "ios_target is set to = ${{ env.ios_target }}"
           echo "build_mode is set to = ${{ inputs.build_mode }}"
+
+      - name: Remove default anti_phishing.json
+        run: |
+          rm -f assets/config/anti_phishing.json
+
+      - name: Download anti-phishing file
+        uses: actions/download-artifact@v4
+        with:
+          name: anti-phishing-json
+          path: assets/config
 
       - name: Setup Flutter
         uses: subosito/flutter-action@v2
@@ -256,6 +281,27 @@ jobs:
           channel: stable
           cache: true
           cache-key: flutter-:os:-:channel:-:version:-:arch:-:hash:-${{ hashFiles('**/pubspec.lock') }}
+
+      - name: Remove default anti_phishing.json
+        run: |
+          rm -f assets/config/anti_phishing.json
+
+      - name: Download anti-phishing file
+        uses: actions/download-artifact@v4
+        with:
+          name: anti-phishing-json
+          path: assets/config
+
+      - name: Refresh Flutter assets manifest
+        run: |
+          touch assets/config/anti_phishing.json
+          dart pub get
+
+      - name: Debug anti_phishing.json
+        run: |
+          echo "→ Content assets/config:"
+          ls -l assets/config
+          cat assets/config/anti_phishing.json
 
       - name: Display Flutter version
         run: flutter --version

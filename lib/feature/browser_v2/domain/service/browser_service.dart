@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:app/app/service/app_links/app_links.dart';
+import 'package:app/app/service/resources_service.dart';
 import 'package:app/app/service/storage_service/general_storage_service.dart';
 import 'package:app/feature/browser_v2/data/history_type.dart';
 import 'package:app/feature/browser_v2/domain/service/storages/browser_bookmarks_storage_service.dart';
@@ -9,6 +10,7 @@ import 'package:app/feature/browser_v2/domain/service/storages/browser_history_s
 import 'package:app/feature/browser_v2/domain/service/storages/browser_permissions_storage_service.dart';
 import 'package:app/feature/browser_v2/domain/service/storages/browser_tabs_storage_service.dart';
 import 'package:app/feature/browser_v2/managers/bookmarks_manager.dart';
+import 'package:app/feature/browser_v2/managers/broser_anti_phishing_manager.dart';
 import 'package:app/feature/browser_v2/managers/browser_auth_manager.dart';
 import 'package:app/feature/browser_v2/managers/favicon_manager.dart';
 import 'package:app/feature/browser_v2/managers/history_manager.dart';
@@ -30,6 +32,7 @@ class BrowserService {
     this._browserPermissionsStorageService,
     this._messengerService,
     this._generalStorageService,
+    this._resourcesService,
   );
 
   final AppLinksService _appLinksService;
@@ -39,8 +42,8 @@ class BrowserService {
   final BrowserTabsStorageService _browserTabsStorageService;
   final BrowserPermissionsStorageService _browserPermissionsStorageService;
   final GeneralStorageService _generalStorageService;
-
   final MessengerService _messengerService;
+  final ResourcesService _resourcesService;
 
   late final bookmarks = BookmarksManager(
     _bookmarksStorageService,
@@ -58,6 +61,8 @@ class BrowserService {
 
   final auth = BrowserAuthManager();
 
+  late final antiPhishing = BrowserAntiPhishingManager(_resourcesService);
+
   StreamSubscription<BrowserAppLinksData>? _appLinksNavSubs;
 
   BookmarksManager get bM => bookmarks;
@@ -72,11 +77,12 @@ class BrowserService {
 
   BrowserAuthManager get aM => auth;
 
-  void init() {
+  Future<void> init() async {
     bookmarks.init();
     history.init();
     tabs.init();
     permissions.init();
+    await antiPhishing.init();
     WidgetsBinding.instance.addPostFrameCallback((_) {
       _appLinksNavSubs =
           _appLinksService.browserLinksStream.listen(_listenAppLinks);
@@ -94,6 +100,7 @@ class BrowserService {
   void dispose() {
     tabs.dispose();
     _appLinksNavSubs?.cancel();
+    antiPhishing.dispose();
   }
 
   void openUrl(Uri uri) {
@@ -125,6 +132,30 @@ class BrowserService {
           tM.clearCachedFiles();
       }
     }
+  }
+
+  Future<void> loadPhishingGuard(
+    String path,
+  ) async {
+    final html = await antiPhishing.getPhishingGuardHtml(path);
+    return tabs.loadDataOnActiveTab(html);
+  }
+
+  Future<bool> loadPhishingGuardIfNeed({
+    required String path,
+    required String host,
+  }) async {
+    final list = antiPhishing.blackList;
+
+    for (final link in list) {
+      if (path != link && host != link) {
+        continue;
+      }
+
+      unawaited(loadPhishingGuard(path));
+      return true;
+    }
+    return false;
   }
 
   void _listenAppLinks(BrowserAppLinksData event) {

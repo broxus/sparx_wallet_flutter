@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:app/app/service/bootstrap/bootstrap_service.dart';
 import 'package:app/app/service/network_connection/network_connection_service.dart';
 import 'package:app/feature/browser_v2/domain/service/browser_service.dart';
@@ -22,6 +24,6 @@ class SplashScreenModel extends ElementaryModel {
 
   Future<void> configure() async {
     await _bootstrapService.init(currentAppBuildType);
-    _browserService.init();
+    unawaited(_browserService.init());
   }
 }
