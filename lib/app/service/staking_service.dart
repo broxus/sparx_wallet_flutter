@@ -115,7 +115,7 @@ class StakingService {
     final result = await runLocal(
       accountStuffBoc: contract.boc,
       contractAbi: stEverVaultAbi,
-      method: 'encodeDepositPayload',
+      methodId: 'encodeDepositPayload',
       input: {
         '_nonce': NtpTime.now().millisecondsSinceEpoch,
       },
@@ -151,7 +151,7 @@ class StakingService {
     final result = await runLocal(
       accountStuffBoc: vaultState.boc,
       contractAbi: stEverVaultAbi,
-      method: 'getAccountAddress',
+      methodId: 'getAccountAddress',
       input: {'answerId': 0, '_user': accountAddress.address},
       responsible: true,
     );
@@ -165,7 +165,7 @@ class StakingService {
       final requestsResult = await runLocal(
         accountStuffBoc: userState.boc,
         contractAbi: stEverAccountAbi,
-        method: 'withdrawRequests',
+        methodId: 'withdrawRequests',
         input: {},
         responsible: false,
       );
@@ -198,7 +198,7 @@ class StakingService {
     final result = await runLocal(
       accountStuffBoc: contractState.boc,
       contractAbi: stEverVaultAbi,
-      method: 'getDepositStEverAmount',
+      methodId: 'getDepositStEverAmount',
       input: {'_amount': evers.toString()},
       responsible: false,
     );
@@ -213,7 +213,7 @@ class StakingService {
     final result = await runLocal(
       accountStuffBoc: contractState.boc,
       contractAbi: stEverVaultAbi,
-      method: 'getWithdrawEverAmount',
+      methodId: 'getWithdrawEverAmount',
       input: {'_amount': stEvers.toString()},
       responsible: false,
     );
@@ -228,7 +228,7 @@ class StakingService {
     final result = await runLocal(
       accountStuffBoc: contractState.boc,
       contractAbi: stEverVaultAbi,
-      method: 'getDetails',
+      methodId: 'getDetails',
       input: {'answerId': 0},
       responsible: true,
     );
