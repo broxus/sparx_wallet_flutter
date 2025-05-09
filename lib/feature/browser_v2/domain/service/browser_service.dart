@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:app/app/service/app_links/app_links.dart';
 import 'package:app/app/service/storage_service/general_storage_service.dart';
+import 'package:app/app/service/ton_connect/ton_connect_service.dart';
 import 'package:app/feature/browser_v2/data/history_type.dart';
 import 'package:app/feature/browser_v2/domain/service/storages/browser_bookmarks_storage_service.dart';
 import 'package:app/feature/browser_v2/domain/service/storages/browser_favicon_url_storage_service.dart';
@@ -31,6 +32,7 @@ class BrowserService {
     this._browserPermissionsStorageService,
     this._messengerService,
     this._generalStorageService,
+    this._tonConnectService,
   );
 
   final AppLinksService _appLinksService;
@@ -40,6 +42,7 @@ class BrowserService {
   final BrowserTabsStorageService _browserTabsStorageService;
   final BrowserPermissionsStorageService _browserPermissionsStorageService;
   final GeneralStorageService _generalStorageService;
+  final TonConnectService _tonConnectService;
 
   final MessengerService _messengerService;
 
@@ -145,6 +148,7 @@ class BrowserService {
         const PermissionsChangedEvent(PermissionsPartial(null, null)),
       );
     }
+    _tonConnectService.disconnectAllInBrowser();
   }
 
   void _listenAppLinks(BrowserAppLinksData event) {
