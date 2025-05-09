@@ -8,7 +8,7 @@ import 'package:ui_components_lib/v2/widgets/modals/primary_bottom_sheet.dart';
 Future<void> showBrowserMainMenu(BuildContext context) {
   return showPrimaryBottomSheet(
     context: context,
-    barrierColor: Colors.black.withOpacity(.8),
+    barrierColor: Colors.black.withValues(alpha: .8),
     padding: const EdgeInsets.symmetric(horizontal: DimensSizeV2.d21),
     content: const BrowserMainMenu(),
   );

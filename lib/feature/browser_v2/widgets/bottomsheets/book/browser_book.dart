@@ -16,7 +16,7 @@ void showBookModal(BuildContext context) {
       context: context,
       isScrollControlled: true,
       useRootNavigator: true,
-      barrierColor: Colors.black.withOpacity(.8),
+      barrierColor: Colors.black.withValues(alpha: .8),
       builder: (_) {
         return const BrowserBook();
       },
