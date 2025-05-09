@@ -2,6 +2,7 @@ import 'package:app/core/app_build_type.dart';
 import 'package:app/feature/presets_config/data/connection_network_dto.dart';
 import 'package:app/feature/presets_config/data/release_notes.dart';
 import 'package:app/feature/presets_config/data/update_rules.dart';
+import 'package:app/generated/generated.dart';
 
 /// Configuration types supported by the application.
 ///
@@ -47,4 +48,11 @@ enum PresetConfigType<T> {
     };
     return '${name}_$suffix.json';
   }
+
+  /// The key used for loading the configuration from local assets.
+  String getLocalFileName() => switch (this) {
+        PresetConfigType.connections => Assets.configs.connections,
+        PresetConfigType.updateRules => Assets.configs.updateRules,
+        PresetConfigType.releaseNotes => Assets.configs.releaseNotes,
+      };
 }
