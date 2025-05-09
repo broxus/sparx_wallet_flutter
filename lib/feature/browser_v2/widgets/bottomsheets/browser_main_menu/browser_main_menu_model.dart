@@ -32,5 +32,11 @@ class BrowserMainMenuModel extends ElementaryModel {
 
   void clearData(TimePeriod period, Set<TypeHistory> targets) {
     _browserService.clearData(period, targets);
+    final tabs = _browserService.tM.browserTabs;
+    for (final tab in tabs) {
+      _browserService.pM.deletePermissionsForOrigin(
+        tab.url.origin,
+      );
+    }
   }
 }
