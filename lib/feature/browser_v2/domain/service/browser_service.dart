@@ -18,6 +18,7 @@ import 'package:app/feature/messenger/domain/service/messenger_service.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_inappwebview/flutter_inappwebview.dart';
 import 'package:injectable/injectable.dart';
+import 'package:nekoton_webview/nekoton_webview.dart';
 
 @singleton
 class BrowserService {
@@ -112,6 +113,13 @@ class BrowserService {
     }
 
     bM.createBrowserBookmark(tab.url, tab.title);
+  }
+
+  Future<void> permissionsChanged(
+    String tabId,
+    PermissionsChangedEvent event,
+  ) {
+    return tabs.permissionsChanged(tabId, event);
   }
 
   void clearData(TimePeriod period, Set<TypeHistory> targets) {
