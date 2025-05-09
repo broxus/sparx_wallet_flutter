@@ -43,7 +43,8 @@ class _CommonCheckboxInputState extends State<CommonCheckboxInput> {
   }
 
   Widget _onBuild(FormFieldState<bool> state) {
-    final colors = context.themeStyle.colors;
+    // TODO(knightforce): check if it is necessary to use
+    // final colors = context.themeStyle.colors;
     field = state;
 
     return GestureDetector(
