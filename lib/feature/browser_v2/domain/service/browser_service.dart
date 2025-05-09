@@ -128,10 +128,22 @@ class BrowserService {
         case TypeHistory.browsingHistory:
           hM.clearHistory(period);
         case TypeHistory.cookie:
-          tM.clearCookie();
+          _clearCookieAndData();
         case TypeHistory.cachedImages:
           tM.clearCachedFiles();
       }
+    }
+  }
+
+  Future<void> _clearCookieAndData() async {
+    await tM.clearCookie();
+    final list = tabs.browserTabs;
+    for (final tab in list) {
+      permissions.deletePermissionsForOrigin(tab.url.origin);
+      await permissionsChanged(
+        tab.id,
+        const PermissionsChangedEvent(PermissionsPartial(null, null)),
+      );
     }
   }
 

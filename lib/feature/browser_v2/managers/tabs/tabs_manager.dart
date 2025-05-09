@@ -264,8 +264,8 @@ class BrowserTabsManager {
     unawaited(_updateControlPanel());
   }
 
-  void clearCookie() {
-    unawaited(CookieManager.instance().deleteAllCookies());
+  Future<bool> clearCookie() async {
+    return CookieManager.instance().deleteAllCookies();
   }
 
   void clearCachedFiles() {

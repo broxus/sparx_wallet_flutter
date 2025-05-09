@@ -33,15 +33,5 @@ class BrowserMainMenuModel extends ElementaryModel {
 
   Future<void> clearData(TimePeriod period, Set<TypeHistory> targets) async {
     _browserService.clearData(period, targets);
-    final tabs = _browserService.tM.browserTabs;
-    for (final tab in tabs) {
-      _browserService.pM.deletePermissionsForOrigin(
-        tab.url.origin,
-      );
-      await _browserService.permissionsChanged(
-        tab.id,
-        const PermissionsChangedEvent(PermissionsPartial(null, null)),
-      );
-    }
   }
 }
