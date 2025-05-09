@@ -275,7 +275,10 @@ class BrowserMainScreenWidgetModel
   }
 
   void _handleMenuState() {
-    callWithDelay(() => _animationDelegate.handleMenuType(_menuState.value));
+    _animationDelegate.handleMenuType(
+      _menuState.value,
+      duration: Duration.zero,
+    );
   }
 
   Future<void> _updatePastGo() async {
