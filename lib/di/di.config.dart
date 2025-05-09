@@ -258,6 +258,11 @@ extension GetItInjectableX on _i174.GetIt {
               gh<_i128.TonConnectStorageService>(),
               gh<_i361.Dio>(),
             ));
+    gh.singleton<_i575.BiometryService>(() => _i575.BiometryService(
+          gh<_i128.GeneralStorageService>(),
+          gh<_i128.SecureStorageService>(),
+          gh<_i128.AppLifecycleService>(),
+        ));
     gh.singleton<_i470.BrowserService>(
       () => _i470.BrowserService(
         gh<_i850.AppLinksService>(),
@@ -268,14 +273,10 @@ extension GetItInjectableX on _i174.GetIt {
         gh<_i229.BrowserPermissionsStorageService>(),
         gh<_i632.MessengerService>(),
         gh<_i747.GeneralStorageService>(),
+        gh<_i175.TonConnectService>(),
       ),
       dispose: (i) => i.dispose(),
     );
-    gh.singleton<_i575.BiometryService>(() => _i575.BiometryService(
-          gh<_i128.GeneralStorageService>(),
-          gh<_i128.SecureStorageService>(),
-          gh<_i128.AppLifecycleService>(),
-        ));
     gh.singleton<_i308.CurrenciesService>(() => _i308.CurrenciesService(
           dio: gh<_i361.Dio>(),
           nekotonRepository: gh<_i771.NekotonRepository>(),

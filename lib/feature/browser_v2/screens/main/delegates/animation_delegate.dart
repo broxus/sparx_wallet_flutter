@@ -107,29 +107,32 @@ class BrowserAnimationDelegate implements BrowserAnimationUi {
     _paddingPageController.dispose();
   }
 
-  void handleMenuType(MenuType? type) {
+  void handleMenuType(
+    MenuType? type, {
+    Duration? duration,
+  }) {
     switch (type) {
       case MenuType.list:
-        _listMenuController.animateTo(0);
-        _viewMenuController.animateTo(1);
-        _urlMenuController.animateTo(1);
+        _listMenuController.animateTo(0, duration: duration);
+        _viewMenuController.animateTo(1, duration: duration);
+        _urlMenuController.animateTo(1, duration: duration);
         return;
       case MenuType.view:
-        _listMenuController.animateTo(1);
-        _viewMenuController.animateTo(0);
-        _urlMenuController.animateTo(1);
-        _paddingPageController.animateTo(0);
+        _listMenuController.animateTo(1, duration: duration);
+        _viewMenuController.animateTo(0, duration: duration);
+        _urlMenuController.animateTo(1, duration: duration);
+        _paddingPageController.animateTo(0, duration: duration);
         return;
       case MenuType.url:
-        _listMenuController.animateTo(1);
-        _viewMenuController.animateTo(1);
-        _urlMenuController.animateTo(0);
-        _paddingPageController.animateTo(1);
+        _listMenuController.animateTo(1, duration: duration);
+        _viewMenuController.animateTo(1, duration: duration);
+        _urlMenuController.animateTo(0, duration: duration);
+        _paddingPageController.animateTo(1, duration: duration);
         return;
       case null:
-        _listMenuController.animateTo(1);
-        _viewMenuController.animateTo(1);
-        _paddingPageController.animateTo(1);
+        _listMenuController.animateTo(1, duration: duration);
+        _viewMenuController.animateTo(1, duration: duration);
+        _paddingPageController.animateTo(1, duration: duration);
         return;
     }
   }

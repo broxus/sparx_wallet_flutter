@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:app/feature/browser_v2/custom_web_controller.dart';
 import 'package:app/feature/browser_v2/data/browser_tab.dart';
 import 'package:app/feature/browser_v2/data/tabs_data.dart';
@@ -52,9 +54,11 @@ class BrowserMainScreenModel extends ElementaryModel {
 
     final isUrl = UrlValidator.checkString(text);
 
-    _browserService.tM.requestUrl(
-      tabId,
-      isUrl ? Uri.parse(text) : Uri.parse('$_searchEngineUri$text'),
+    unawaited(
+      _browserService.tM.requestUrl(
+        tabId,
+        isUrl ? Uri.parse(text) : Uri.parse('$_searchEngineUri$text'),
+      ),
     );
   }
 

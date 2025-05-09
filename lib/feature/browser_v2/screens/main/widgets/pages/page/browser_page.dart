@@ -12,29 +12,29 @@ import 'package:ui_components_lib/v2/ui_components_lib_v2.dart';
 
 class BrowserPage extends ElementaryWidget<BrowserPageWidgetModel> {
   BrowserPage({
-    required this.tab,
+    required ValueChanged<CustomWebViewController> onCreate,
+    required ValueChanged<int> onWebPageScrollChanged,
+    required VoidCallback onDispose,
+    required ValueChanged<int> onLoadingProgressChanged,
     required this.width,
-    required this.onCreate,
-    required this.onWebPageScrollChanged,
-    required this.onDispose,
-    required this.onLoadingProgressChanged,
+    required this.tab,
     Key? key,
     WidgetModelFactory<BrowserPageWidgetModel>? wmFactory,
   }) : super(
           wmFactory ??
               (ctx) => defaultBrowserPageWidgetModelFactory(
                     ctx,
-                    tabId: tab.id,
+                    tab: tab,
+                    onCreate: onCreate,
+                    onWebPageScrollChanged: onWebPageScrollChanged,
+                    onDispose: onDispose,
+                    onLoadingProgressChanged: onLoadingProgressChanged,
                   ),
           key: key,
         );
 
-  final BrowserTab tab;
   final double width;
-  final ValueChanged<CustomWebViewController> onCreate;
-  final ValueChanged<int> onWebPageScrollChanged;
-  final VoidCallback onDispose;
-  final ValueChanged<int> onLoadingProgressChanged;
+  final BrowserTab tab;
 
   @override
   Widget build(BrowserPageWidgetModel wm) {

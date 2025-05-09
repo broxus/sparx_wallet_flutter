@@ -13,6 +13,7 @@ import 'package:collection/collection.dart';
 import 'package:elementary_helper/elementary_helper.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_inappwebview/flutter_inappwebview.dart';
+import 'package:nekoton_webview/nekoton_webview.dart';
 
 class BrowserTabsManager {
   BrowserTabsManager(
@@ -263,8 +264,8 @@ class BrowserTabsManager {
     unawaited(_updateControlPanel());
   }
 
-  void clearCookie() {
-    unawaited(CookieManager.instance().deleteAllCookies());
+  Future<bool> clearCookie() async {
+    return CookieManager.instance().deleteAllCookies();
   }
 
   void clearCachedFiles() {
@@ -274,6 +275,13 @@ class BrowserTabsManager {
 
   BrowserTab? getTabById(String id) {
     return browserTabs.firstWhereOrNull((tab) => tab.id == id);
+  }
+
+  Future<void> permissionsChanged(
+    String tabId,
+    PermissionsChangedEvent event,
+  ) async {
+    return _controllers[tabId]?.permissionsChanged(event);
   }
 
   /// Put browser tabs to stream

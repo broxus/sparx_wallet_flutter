@@ -30,41 +30,43 @@ class TabAnimatedView extends ElementaryWidget<TabAnimatedViewWidgetModel> {
       builder: (_, TabAnimationType? type) {
         return Visibility(
           visible: type != null,
-          child: AnimatedBuilder(
-            animation: wm.animationListenable,
-            builder: (_, Widget? child) {
-              return Stack(
-                children: [
-                  Positioned(
-                    top: wm.topPositionAnimation?.value ?? 0,
-                    left: wm.leftPositionAnimation?.value ?? 0,
-                    child: Opacity(
-                      opacity: wm.opacityAnimation.value,
-                      child: SizedBox(
-                        width: wm.widthAnimation.value,
-                        height: wm.heightAnimation.value,
-                        child: child ?? const SizedBox.shrink(),
+          child: RepaintBoundary(
+            child: AnimatedBuilder(
+              animation: wm.animationListenable,
+              builder: (_, Widget? child) {
+                return Stack(
+                  children: [
+                    Positioned(
+                      top: wm.topPositionAnimation?.value ?? 0,
+                      left: wm.leftPositionAnimation?.value ?? 0,
+                      child: Opacity(
+                        opacity: wm.opacityAnimation.value,
+                        child: SizedBox(
+                          width: wm.widthAnimation.value,
+                          height: wm.heightAnimation.value,
+                          child: child ?? const SizedBox.shrink(),
+                        ),
                       ),
                     ),
-                  ),
-                ],
-              );
-            },
-            child: StateNotifierBuilder<File?>(
-              listenableState: wm.screenshotStateState,
-              builder: (_, File? file) {
-                return ClipRRect(
-                  borderRadius: BorderRadius.circular(
-                    wm.borderRadiusAnimation.value,
-                  ),
-                  child: file == null
-                      ? const _StartPageAnimationView()
-                      : Image.file(
-                          file,
-                          fit: BoxFit.fill,
-                        ),
+                  ],
                 );
               },
+              child: StateNotifierBuilder<File?>(
+                listenableState: wm.screenshotStateState,
+                builder: (_, File? file) {
+                  return ClipRRect(
+                    borderRadius: BorderRadius.circular(
+                      wm.borderRadiusAnimation.value,
+                    ),
+                    child: file == null
+                        ? const _StartPageAnimationView()
+                        : Image.file(
+                            file,
+                            fit: BoxFit.fill,
+                          ),
+                  );
+                },
+              ),
             ),
           ),
         );

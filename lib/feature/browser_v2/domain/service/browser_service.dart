@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:app/app/service/app_links/app_links.dart';
 import 'package:app/app/service/storage_service/general_storage_service.dart';
+import 'package:app/app/service/ton_connect/ton_connect_service.dart';
 import 'package:app/feature/browser_v2/data/history_type.dart';
 import 'package:app/feature/browser_v2/domain/service/storages/browser_bookmarks_storage_service.dart';
 import 'package:app/feature/browser_v2/domain/service/storages/browser_favicon_url_storage_service.dart';
@@ -18,6 +19,7 @@ import 'package:app/feature/messenger/domain/service/messenger_service.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_inappwebview/flutter_inappwebview.dart';
 import 'package:injectable/injectable.dart';
+import 'package:nekoton_webview/nekoton_webview.dart';
 
 @singleton
 class BrowserService {
@@ -30,6 +32,7 @@ class BrowserService {
     this._browserPermissionsStorageService,
     this._messengerService,
     this._generalStorageService,
+    this._tonConnectService,
   );
 
   final AppLinksService _appLinksService;
@@ -39,6 +42,7 @@ class BrowserService {
   final BrowserTabsStorageService _browserTabsStorageService;
   final BrowserPermissionsStorageService _browserPermissionsStorageService;
   final GeneralStorageService _generalStorageService;
+  final TonConnectService _tonConnectService;
 
   final MessengerService _messengerService;
 
@@ -114,17 +118,37 @@ class BrowserService {
     bM.createBrowserBookmark(tab.url, tab.title);
   }
 
+  Future<void> permissionsChanged(
+    String tabId,
+    PermissionsChangedEvent event,
+  ) {
+    return tabs.permissionsChanged(tabId, event);
+  }
+
   void clearData(TimePeriod period, Set<TypeHistory> targets) {
     for (final target in targets) {
       switch (target) {
         case TypeHistory.browsingHistory:
           hM.clearHistory(period);
         case TypeHistory.cookie:
-          tM.clearCookie();
+          _clearCookieAndData();
         case TypeHistory.cachedImages:
           tM.clearCachedFiles();
       }
     }
+  }
+
+  Future<void> _clearCookieAndData() async {
+    await tM.clearCookie();
+    final list = tabs.browserTabs;
+    for (final tab in list) {
+      permissions.deletePermissionsForOrigin(tab.url.origin);
+      await permissionsChanged(
+        tab.id,
+        const PermissionsChangedEvent(PermissionsPartial(null, null)),
+      );
+    }
+    _tonConnectService.disconnectAllInBrowser();
   }
 
   void _listenAppLinks(BrowserAppLinksData event) {

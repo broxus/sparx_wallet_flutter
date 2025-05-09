@@ -849,7 +849,7 @@ class InpageProvider extends ProviderApi {
     final executionOutput = await nr.runLocal(
       accountStuffBoc: contractState.boc,
       contractAbi: input.functionCall.abi,
-      method: input.functionCall.method,
+      methodId: input.functionCall.method,
       input: input.functionCall.params,
       responsible: input.responsible ?? false,
     );
