@@ -86,6 +86,7 @@ class BrowserMainScreenWidgetModel
         model.setActiveTab(_tabsDelegate.getIdByIndex(tabIndex));
       });
     },
+    checkIsViewPages: () => viewVisibleState.value ?? true,
   );
 
   late final _tabsDelegate = BrowserTabsDelegate(
@@ -262,7 +263,7 @@ class BrowserMainScreenWidgetModel
   }
 
   Future<bool> _scrollToTab(String id) async {
-    return Future.delayed(const Duration(milliseconds: 100), () {
+    return Future.delayed(const Duration(milliseconds: 10), () {
       final index = _tabsDelegate.getTabIndexById(id);
 
       if (index != null && index > -1) {
