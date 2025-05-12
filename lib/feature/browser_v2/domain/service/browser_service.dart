@@ -19,6 +19,7 @@ import 'package:app/feature/messenger/domain/service/messenger_service.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_inappwebview/flutter_inappwebview.dart';
 import 'package:injectable/injectable.dart';
+import 'package:nekoton_repository/nekoton_repository.dart';
 import 'package:nekoton_webview/nekoton_webview.dart';
 
 @singleton
@@ -33,6 +34,7 @@ class BrowserService {
     this._messengerService,
     this._generalStorageService,
     this._tonConnectService,
+    this._nekotonRepository,
   );
 
   final AppLinksService _appLinksService;
@@ -43,8 +45,8 @@ class BrowserService {
   final BrowserPermissionsStorageService _browserPermissionsStorageService;
   final GeneralStorageService _generalStorageService;
   final TonConnectService _tonConnectService;
-
   final MessengerService _messengerService;
+  final NekotonRepository _nekotonRepository;
 
   late final bookmarks = BookmarksManager(
     _bookmarksStorageService,
@@ -140,15 +142,26 @@ class BrowserService {
 
   Future<void> _clearCookieAndData() async {
     await tM.clearCookie();
-    final list = tabs.browserTabs;
     await permissions.clearPermissions();
+    final list = tabs.browserTabs;
+    final contracts = _nekotonRepository.allContracts;
+
+    _tonConnectService.disconnectAllInBrowser();
+
+    for (final contract in contracts) {
+      _nekotonRepository.unsubscribeContract(
+        address: contract.address,
+        origin: contract.origin,
+        tabId: contract.tabId,
+      );
+    }
+
     for (final tab in list) {
       await permissionsChanged(
         tab.id,
         const PermissionsChangedEvent(PermissionsPartial(null, null)),
       );
     }
-    _tonConnectService.disconnectAllInBrowser();
   }
 
   void _listenAppLinks(BrowserAppLinksData event) {
