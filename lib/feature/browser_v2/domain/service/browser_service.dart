@@ -141,8 +141,8 @@ class BrowserService {
   Future<void> _clearCookieAndData() async {
     await tM.clearCookie();
     final list = tabs.browserTabs;
+    await permissions.clearPermissions();
     for (final tab in list) {
-      permissions.deletePermissionsForOrigin(tab.url.origin);
       await permissionsChanged(
         tab.id,
         const PermissionsChangedEvent(PermissionsPartial(null, null)),
