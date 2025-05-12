@@ -9,19 +9,22 @@ import 'package:flutter/material.dart';
 import 'package:ui_components_lib/v2/ui_components_lib_v2.dart';
 
 class TabAnimatedView extends ElementaryWidget<TabAnimatedViewWidgetModel> {
-  const TabAnimatedView({
+  TabAnimatedView({
     required this.showAnimationState,
-    required this.onAnimationStart,
-    required this.onAnimationEnd,
-    WidgetModelFactory<TabAnimatedViewWidgetModel> wmFactory =
-        defaultTabAnimatedViewWidgetModelFactory,
+    required VoidCallback onAnimationStart,
+    required ValueChanged<TabAnimationType?> onAnimationEnd,
+    WidgetModelFactory<TabAnimatedViewWidgetModel>? wmFactory,
     super.key,
-  }) : super(wmFactory);
+  }) : super(
+          wmFactory ??
+              (ctx) => defaultTabAnimatedViewWidgetModelFactory(
+                    ctx,
+                    onAnimationStart: onAnimationStart,
+                    onAnimationEnd: onAnimationEnd,
+                  ),
+        );
 
   final ListenableState<TabAnimationType?> showAnimationState;
-
-  final VoidCallback onAnimationStart;
-  final VoidCallback onAnimationEnd;
 
   @override
   Widget build(TabAnimatedViewWidgetModel wm) {

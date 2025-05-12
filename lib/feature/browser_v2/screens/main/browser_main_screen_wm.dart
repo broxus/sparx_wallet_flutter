@@ -19,7 +19,9 @@ import 'package:app/feature/browser_v2/screens/main/delegates/scroll_page_delega
 import 'package:app/feature/browser_v2/screens/main/delegates/size_delegate.dart';
 import 'package:app/feature/browser_v2/screens/main/delegates/tab_menu_delegate.dart';
 import 'package:app/feature/browser_v2/screens/main/delegates/tabs_delegate.dart';
+import 'package:app/feature/browser_v2/screens/main/widgets/control_panels/navigation_panel/navigation_panel.dart';
 import 'package:app/feature/browser_v2/screens/main/widgets/control_panels/navigation_panel/url_action_sheet.dart';
+import 'package:app/feature/browser_v2/screens/main/widgets/tab_animated_view/tab_animation_type.dart';
 import 'package:app/utils/clipboard_utils.dart';
 import 'package:app/utils/common_utils.dart';
 import 'package:elementary/elementary.dart';
@@ -112,6 +114,13 @@ class BrowserMainScreenWidgetModel
     _tabsDelegate.activeTabState.value != null ? MenuType.view : MenuType.list,
   );
 
+  late final _navigationScrollModeState =
+      createNotifier<NavigationUrlPhysicMode>(
+    _tabsDelegate.activeTabState.value != null
+        ? NavigationUrlPhysicMode.snap
+        : NavigationUrlPhysicMode.none,
+  );
+
   late final _visibleNavigationBarState = createNotifier<bool>(true);
 
   BrowserPageSlideUi get pageSlider => _pageSlideDelegate;
@@ -134,6 +143,9 @@ class BrowserMainScreenWidgetModel
   ListenableState<MenuType> get menuState => _menuState;
 
   ListenableState<bool> get viewVisibleState => _viewVisibleState;
+
+  ListenableState<NavigationUrlPhysicMode> get navigationScrollModeState =>
+      _navigationScrollModeState;
 
   ColorsPaletteV2 get colors => _theme.colors;
 
@@ -230,9 +242,22 @@ class BrowserMainScreenWidgetModel
         _onTabAnimationComplete,
       );
 
-  void onTabAnimationEnd() => _tabsDelegate.onTabAnimationEnd(
-        _onTabAnimationComplete,
+  void onTabAnimationEnd(TabAnimationType? animationType) {
+    _tabsDelegate.onTabAnimationEnd(
+      _onTabAnimationComplete,
+    );
+
+    if (animationType is ShowViewAnimationType) {
+      _navigationScrollModeState.accept(
+        NavigationUrlPhysicMode.none,
       );
+      Future.delayed(const Duration(seconds: 1), () {
+        _navigationScrollModeState.accept(
+          NavigationUrlPhysicMode.snap,
+        );
+      });
+    }
+  }
 
   void _onEmptyTabs() {
     callWithDelay(() {

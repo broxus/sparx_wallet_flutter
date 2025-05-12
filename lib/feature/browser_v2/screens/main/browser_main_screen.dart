@@ -98,6 +98,7 @@ class BrowserMainScreen extends ElementaryWidget<BrowserMainScreenWidgetModel> {
                       onEditingCompleteUrl: wm.onEditingCompleteUrl,
                       urlSliderController: wm.pageSlider.urlSliderController,
                       tabsState: wm.tabs.tabsState,
+                      navigationScrollModeState: wm.navigationScrollModeState,
                     ),
                   ),
                 ),
