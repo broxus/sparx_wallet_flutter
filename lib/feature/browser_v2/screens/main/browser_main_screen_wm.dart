@@ -116,9 +116,7 @@ class BrowserMainScreenWidgetModel
 
   late final _navigationScrollModeState =
       createNotifier<NavigationUrlPhysicMode>(
-    _tabsDelegate.activeTabState.value != null
-        ? NavigationUrlPhysicMode.snap
-        : NavigationUrlPhysicMode.none,
+    NavigationUrlPhysicMode.none,
   );
 
   late final _visibleNavigationBarState = createNotifier<bool>(true);
@@ -249,14 +247,16 @@ class BrowserMainScreenWidgetModel
 
     if (animationType is ShowViewAnimationType) {
       _navigationScrollModeState.accept(
-        NavigationUrlPhysicMode.none,
+        NavigationUrlPhysicMode.snap,
       );
-      Future.delayed(const Duration(seconds: 1), () {
-        _navigationScrollModeState.accept(
-          NavigationUrlPhysicMode.snap,
-        );
-      });
     }
+  }
+
+  void onPressedTab(String id) {
+    _navigationScrollModeState.accept(
+      NavigationUrlPhysicMode.none,
+    );
+    tabs.changeTab(id);
   }
 
   void _onEmptyTabs() {

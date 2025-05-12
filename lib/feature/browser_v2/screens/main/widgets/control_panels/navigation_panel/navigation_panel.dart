@@ -80,13 +80,11 @@ class _BrowserTabViewMenuUrlPanelState extends State<BrowserNavigationPanel> {
 }
 
 class _SnapPageScrollPhysics extends ScrollPhysics {
-  _SnapPageScrollPhysics({
+  const _SnapPageScrollPhysics({
     required this.pageWidth,
     required this.modeState,
     ScrollPhysics? parent,
-  }) : super(parent: parent ?? const ClampingScrollPhysics()) {
-    print('!!!');
-  }
+  }) : super(parent: parent ?? const ClampingScrollPhysics());
 
   final double pageWidth;
   final ListenableState<NavigationUrlPhysicMode> modeState;
@@ -105,26 +103,30 @@ class _SnapPageScrollPhysics extends ScrollPhysics {
     ScrollMetrics position,
     double velocity,
   ) {
-    if (!(modeState.value == NavigationUrlPhysicMode.none)) {
-      final target = _getTargetPixels(position, velocity);
+    final current = position.pixels;
+    final tol = toleranceFor(position);
+    final target = _getTargetPixels(position, velocity);
+
+    if ((velocity <= 0.0 && current <= position.minScrollExtent) ||
+        (velocity >= 0.0 && current >= position.maxScrollExtent)) {
+      return super.createBallisticSimulation(position, velocity);
+    }
+
+    if ((target - current).abs() <= tol.distance) {
+      return null;
+    }
+
+    if (modeState.value == NavigationUrlPhysicMode.none) {
       return _InstantScrollSimulation(target);
     }
 
-    if ((velocity <= 0.0 && position.pixels <= position.minScrollExtent) ||
-        (velocity >= 0.0 && position.pixels >= position.maxScrollExtent)) {
-      return super.createBallisticSimulation(position, velocity);
-    }
-    final target = _getTargetPixels(position, velocity);
-    if (target != position.pixels) {
-      return ScrollSpringSimulation(
-        spring,
-        position.pixels,
-        target,
-        velocity,
-        tolerance: toleranceFor(position),
-      );
-    }
-    return null;
+    return ScrollSpringSimulation(
+      spring,
+      current,
+      target,
+      velocity,
+      tolerance: tol,
+    );
   }
 
   double _getCurrentPage(ScrollMetrics position) {
