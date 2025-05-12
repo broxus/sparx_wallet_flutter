@@ -9,8 +9,8 @@ part 'route.freezed.dart';
 /// Query parameter name for the account address in the SelectNewAsset route
 const selectNewAssetAddressQueryParam = 'selectNewAssetAddress';
 
-@lazySingleton
-class SelectNewAssetRoute extends CompassRoute<SelectNewAssetRouteData, void> {
+@singleton
+class SelectNewAssetRoute extends CompassRoute<SelectNewAssetRouteData> {
   SelectNewAssetRoute()
       : super(
           name: 'select-new-asset',
@@ -48,4 +48,3 @@ class SelectNewAssetRouteData
     };
   }
 }
-

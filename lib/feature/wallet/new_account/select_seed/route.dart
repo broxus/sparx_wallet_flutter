@@ -1,33 +1,37 @@
-import 'package:app/app/router/compass/base.dart';
+import 'package:app/app/router/compass/compass.dart';
+import 'package:app/feature/wallet/new_account/screen/route.dart';
 import 'package:app/feature/wallet/new_account/select_seed/select_seed_page.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:injectable/injectable.dart';
 
 part 'route.freezed.dart';
 
-@lazySingleton
-class WalletSelectSeedRoute
-    extends CompassRouteParameterless<WalletSelectSeedRouteData, void> {
-  WalletSelectSeedRoute()
-      : super(
+@singleton
+class SelectSeedRoute extends CompassRouteParameterless<SelectSeedRouteData> {
+  SelectSeedRoute(
+    NewAccountRoute newAccountRoute,
+  ) : super(
           name: 'wallet-select-seed',
           builder: (context, _, __) => const SelectSeedPage(),
+          compassBaseRoutes: [
+            newAccountRoute,
+          ],
         );
 
   @override
-  WalletSelectSeedRouteData dataFabric() {
-    return const WalletSelectSeedRouteData();
+  SelectSeedRouteData dataFabric() {
+    return const SelectSeedRouteData();
   }
 }
 
-/// Data model for WalletSelectSeed route
+/// Data model for SelectSeed route
 @freezed
-class WalletSelectSeedRouteData
-    with _$WalletSelectSeedRouteData
+class SelectSeedRouteData
+    with _$SelectSeedRouteData
     implements CompassRouteDataQuery {
-  const factory WalletSelectSeedRouteData() = _WalletSelectSeedRouteData;
+  const factory SelectSeedRouteData() = _SelectSeedRouteData;
 
-  const WalletSelectSeedRouteData._();
+  const SelectSeedRouteData._();
 
   @override
   Map<String, String> toQueryParams() {

@@ -5,13 +5,12 @@ import 'package:injectable/injectable.dart';
 
 part 'route.freezed.dart';
 
-@lazySingleton
+@singleton
 class NoInternetRoute
     extends CompassRouteParameterless<NoInternetRouteData> {
   NoInternetRoute()
       : super(
           name: 'no-internet',
-          path: '/no-internet',
           isTopLevel: true, // Mark as top-level route
           builder: (context, _, __) => const NoInternetScreen(),
         );

@@ -10,13 +10,12 @@ part 'route.freezed.dart';
 /// Constants for query parameter names
 const keyDetailPublicKeyQueryParam = 'publicKey';
 
-@lazySingleton
-class KeyDetailRoute extends CompassRoute<KeyDetailRouteData, void> {
+@singleton
+class KeyDetailRoute extends CompassRoute<KeyDetailRouteData> {
   KeyDetailRoute({
     required this.accountDetailRoute,
   }) : super(
           name: 'key-detail',
-          path: 'key-detail',
           builder: (context, data, _) => KeyDetailPage(
             publicKey: data.publicKey,
           ),

@@ -303,6 +303,12 @@ class CompassRouterProvider extends InheritedWidget {
 /// These methods allow for direct navigation from any widget that has access
 /// to a BuildContext, without needing to manually retrieve the router instance.
 extension CompassNavigationContextExtension on BuildContext {
+  /// Returns the current active routes in the navigation stack.
+  /// See [CompassRouter.currentRoutes] for more details.
+  Iterable<CompassBaseGoRoute> currentRoutes() {
+    return CompassRouterProvider.of(this).currentRoutes;
+  }
+
   /// Navigates to a route specified by route data using replace approach.
   ///
   /// [data] The route data containing information needed for navigation.

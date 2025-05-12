@@ -6,14 +6,13 @@ import 'package:injectable/injectable.dart';
 
 part 'route.freezed.dart';
 
-@lazySingleton
+@singleton
 class UpdateVersionRoute
     extends CompassRouteParameterless<UpdateVersionRouteData> {
   UpdateVersionRoute()
       : super(
           name: 'update-version',
-          path: '/update-version',
-          isTopLevel: true, // Mark as top-level route
+          isTopLevel: true,
           pageBuilder: (context, _, state) => CustomTransitionPage<void>(
             key: state.pageKey,
             fullscreenDialog: true,

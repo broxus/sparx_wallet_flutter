@@ -6,14 +6,13 @@ import 'package:injectable/injectable.dart';
 
 part 'route.freezed.dart';
 
-@lazySingleton
+@singleton
 class ConfigureNetworksRoute
     extends CompassRouteParameterless<ConfigureNetworksRouteData> {
   ConfigureNetworksRoute({
     required this.editNetworkRoute,
   }) : super(
           name: 'configure-networks',
-          path: 'configure-networks',
           builder: (context, _, __) => const ConfigureNetworksPage(),
           compassBaseRoutes: [editNetworkRoute],
         );

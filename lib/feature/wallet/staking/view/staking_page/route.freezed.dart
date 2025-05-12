@@ -15,22 +15,22 @@ final _privateConstructorUsedError = UnsupportedError(
     'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models');
 
 /// @nodoc
-mixin _$WalletStakeRouteData {
+mixin _$StakingRouteData {
   /// Address of the account to stake
   Address get accountAddress => throw _privateConstructorUsedError;
 
-  /// Create a copy of WalletStakeRouteData
+  /// Create a copy of StakingRouteData
   /// with the given fields replaced by the non-null parameter values.
   @JsonKey(includeFromJson: false, includeToJson: false)
-  $WalletStakeRouteDataCopyWith<WalletStakeRouteData> get copyWith =>
+  $StakingRouteDataCopyWith<StakingRouteData> get copyWith =>
       throw _privateConstructorUsedError;
 }
 
 /// @nodoc
-abstract class $WalletStakeRouteDataCopyWith<$Res> {
-  factory $WalletStakeRouteDataCopyWith(WalletStakeRouteData value,
-          $Res Function(WalletStakeRouteData) then) =
-      _$WalletStakeRouteDataCopyWithImpl<$Res, WalletStakeRouteData>;
+abstract class $StakingRouteDataCopyWith<$Res> {
+  factory $StakingRouteDataCopyWith(
+          StakingRouteData value, $Res Function(StakingRouteData) then) =
+      _$StakingRouteDataCopyWithImpl<$Res, StakingRouteData>;
   @useResult
   $Res call({Address accountAddress});
 
@@ -38,17 +38,16 @@ abstract class $WalletStakeRouteDataCopyWith<$Res> {
 }
 
 /// @nodoc
-class _$WalletStakeRouteDataCopyWithImpl<$Res,
-        $Val extends WalletStakeRouteData>
-    implements $WalletStakeRouteDataCopyWith<$Res> {
-  _$WalletStakeRouteDataCopyWithImpl(this._value, this._then);
+class _$StakingRouteDataCopyWithImpl<$Res, $Val extends StakingRouteData>
+    implements $StakingRouteDataCopyWith<$Res> {
+  _$StakingRouteDataCopyWithImpl(this._value, this._then);
 
   // ignore: unused_field
   final $Val _value;
   // ignore: unused_field
   final $Res Function($Val) _then;
 
-  /// Create a copy of WalletStakeRouteData
+  /// Create a copy of StakingRouteData
   /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
@@ -63,7 +62,7 @@ class _$WalletStakeRouteDataCopyWithImpl<$Res,
     ) as $Val);
   }
 
-  /// Create a copy of WalletStakeRouteData
+  /// Create a copy of StakingRouteData
   /// with the given fields replaced by the non-null parameter values.
   @override
   @pragma('vm:prefer-inline')
@@ -75,11 +74,11 @@ class _$WalletStakeRouteDataCopyWithImpl<$Res,
 }
 
 /// @nodoc
-abstract class _$$WalletStakeRouteDataImplCopyWith<$Res>
-    implements $WalletStakeRouteDataCopyWith<$Res> {
-  factory _$$WalletStakeRouteDataImplCopyWith(_$WalletStakeRouteDataImpl value,
-          $Res Function(_$WalletStakeRouteDataImpl) then) =
-      __$$WalletStakeRouteDataImplCopyWithImpl<$Res>;
+abstract class _$$StakingRouteDataImplCopyWith<$Res>
+    implements $StakingRouteDataCopyWith<$Res> {
+  factory _$$StakingRouteDataImplCopyWith(_$StakingRouteDataImpl value,
+          $Res Function(_$StakingRouteDataImpl) then) =
+      __$$StakingRouteDataImplCopyWithImpl<$Res>;
   @override
   @useResult
   $Res call({Address accountAddress});
@@ -89,21 +88,21 @@ abstract class _$$WalletStakeRouteDataImplCopyWith<$Res>
 }
 
 /// @nodoc
-class __$$WalletStakeRouteDataImplCopyWithImpl<$Res>
-    extends _$WalletStakeRouteDataCopyWithImpl<$Res, _$WalletStakeRouteDataImpl>
-    implements _$$WalletStakeRouteDataImplCopyWith<$Res> {
-  __$$WalletStakeRouteDataImplCopyWithImpl(_$WalletStakeRouteDataImpl _value,
-      $Res Function(_$WalletStakeRouteDataImpl) _then)
+class __$$StakingRouteDataImplCopyWithImpl<$Res>
+    extends _$StakingRouteDataCopyWithImpl<$Res, _$StakingRouteDataImpl>
+    implements _$$StakingRouteDataImplCopyWith<$Res> {
+  __$$StakingRouteDataImplCopyWithImpl(_$StakingRouteDataImpl _value,
+      $Res Function(_$StakingRouteDataImpl) _then)
       : super(_value, _then);
 
-  /// Create a copy of WalletStakeRouteData
+  /// Create a copy of StakingRouteData
   /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
     Object? accountAddress = null,
   }) {
-    return _then(_$WalletStakeRouteDataImpl(
+    return _then(_$StakingRouteDataImpl(
       accountAddress: null == accountAddress
           ? _value.accountAddress
           : accountAddress // ignore: cast_nullable_to_non_nullable
@@ -114,8 +113,8 @@ class __$$WalletStakeRouteDataImplCopyWithImpl<$Res>
 
 /// @nodoc
 
-class _$WalletStakeRouteDataImpl extends _WalletStakeRouteData {
-  const _$WalletStakeRouteDataImpl({required this.accountAddress}) : super._();
+class _$StakingRouteDataImpl extends _StakingRouteData {
+  const _$StakingRouteDataImpl({required this.accountAddress}) : super._();
 
   /// Address of the account to stake
   @override
@@ -123,14 +122,14 @@ class _$WalletStakeRouteDataImpl extends _WalletStakeRouteData {
 
   @override
   String toString() {
-    return 'WalletStakeRouteData(accountAddress: $accountAddress)';
+    return 'StakingRouteData(accountAddress: $accountAddress)';
   }
 
   @override
   bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$WalletStakeRouteDataImpl &&
+            other is _$StakingRouteDataImpl &&
             (identical(other.accountAddress, accountAddress) ||
                 other.accountAddress == accountAddress));
   }
@@ -138,30 +137,29 @@ class _$WalletStakeRouteDataImpl extends _WalletStakeRouteData {
   @override
   int get hashCode => Object.hash(runtimeType, accountAddress);
 
-  /// Create a copy of WalletStakeRouteData
+  /// Create a copy of StakingRouteData
   /// with the given fields replaced by the non-null parameter values.
   @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
-  _$$WalletStakeRouteDataImplCopyWith<_$WalletStakeRouteDataImpl>
-      get copyWith =>
-          __$$WalletStakeRouteDataImplCopyWithImpl<_$WalletStakeRouteDataImpl>(
-              this, _$identity);
+  _$$StakingRouteDataImplCopyWith<_$StakingRouteDataImpl> get copyWith =>
+      __$$StakingRouteDataImplCopyWithImpl<_$StakingRouteDataImpl>(
+          this, _$identity);
 }
 
-abstract class _WalletStakeRouteData extends WalletStakeRouteData {
-  const factory _WalletStakeRouteData({required final Address accountAddress}) =
-      _$WalletStakeRouteDataImpl;
-  const _WalletStakeRouteData._() : super._();
+abstract class _StakingRouteData extends StakingRouteData {
+  const factory _StakingRouteData({required final Address accountAddress}) =
+      _$StakingRouteDataImpl;
+  const _StakingRouteData._() : super._();
 
   /// Address of the account to stake
   @override
   Address get accountAddress;
 
-  /// Create a copy of WalletStakeRouteData
+  /// Create a copy of StakingRouteData
   /// with the given fields replaced by the non-null parameter values.
   @override
   @JsonKey(includeFromJson: false, includeToJson: false)
-  _$$WalletStakeRouteDataImplCopyWith<_$WalletStakeRouteDataImpl>
-      get copyWith => throw _privateConstructorUsedError;
+  _$$StakingRouteDataImplCopyWith<_$StakingRouteDataImpl> get copyWith =>
+      throw _privateConstructorUsedError;
 }

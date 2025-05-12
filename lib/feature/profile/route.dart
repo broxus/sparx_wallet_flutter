@@ -6,14 +6,12 @@ import 'package:injectable/injectable.dart';
 
 part 'route.freezed.dart';
 
-@lazySingleton
+@singleton
 class ProfileRoute extends CompassRouteParameterless<ProfileRouteData> {
   ProfileRoute({
     required this.manageSeedsAccountsRoute,
   }) : super(
           name: 'profile',
-          path: '/profile',
-          isTopLevel: true, // Mark as top-level route
           builder: (context, _, __) => const ProfilePageWidget(),
           compassBaseRoutes: [
             manageSeedsAccountsRoute,

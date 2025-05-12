@@ -15,13 +15,24 @@ final _privateConstructorUsedError = UnsupportedError(
     'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models');
 
 /// @nodoc
-mixin _$EnterSeedPhraseRouteData {}
+mixin _$EnterSeedPhraseRouteData {
+  bool get isOnboarding => throw _privateConstructorUsedError;
+  String? get seedName => throw _privateConstructorUsedError;
+
+  /// Create a copy of EnterSeedPhraseRouteData
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  $EnterSeedPhraseRouteDataCopyWith<EnterSeedPhraseRouteData> get copyWith =>
+      throw _privateConstructorUsedError;
+}
 
 /// @nodoc
 abstract class $EnterSeedPhraseRouteDataCopyWith<$Res> {
   factory $EnterSeedPhraseRouteDataCopyWith(EnterSeedPhraseRouteData value,
           $Res Function(EnterSeedPhraseRouteData) then) =
       _$EnterSeedPhraseRouteDataCopyWithImpl<$Res, EnterSeedPhraseRouteData>;
+  @useResult
+  $Res call({bool isOnboarding, String? seedName});
 }
 
 /// @nodoc
@@ -37,14 +48,35 @@ class _$EnterSeedPhraseRouteDataCopyWithImpl<$Res,
 
   /// Create a copy of EnterSeedPhraseRouteData
   /// with the given fields replaced by the non-null parameter values.
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? isOnboarding = null,
+    Object? seedName = freezed,
+  }) {
+    return _then(_value.copyWith(
+      isOnboarding: null == isOnboarding
+          ? _value.isOnboarding
+          : isOnboarding // ignore: cast_nullable_to_non_nullable
+              as bool,
+      seedName: freezed == seedName
+          ? _value.seedName
+          : seedName // ignore: cast_nullable_to_non_nullable
+              as String?,
+    ) as $Val);
+  }
 }
 
 /// @nodoc
-abstract class _$$EnterSeedPhraseRouteDataImplCopyWith<$Res> {
+abstract class _$$EnterSeedPhraseRouteDataImplCopyWith<$Res>
+    implements $EnterSeedPhraseRouteDataCopyWith<$Res> {
   factory _$$EnterSeedPhraseRouteDataImplCopyWith(
           _$EnterSeedPhraseRouteDataImpl value,
           $Res Function(_$EnterSeedPhraseRouteDataImpl) then) =
       __$$EnterSeedPhraseRouteDataImplCopyWithImpl<$Res>;
+  @override
+  @useResult
+  $Res call({bool isOnboarding, String? seedName});
 }
 
 /// @nodoc
@@ -59,30 +91,81 @@ class __$$EnterSeedPhraseRouteDataImplCopyWithImpl<$Res>
 
   /// Create a copy of EnterSeedPhraseRouteData
   /// with the given fields replaced by the non-null parameter values.
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? isOnboarding = null,
+    Object? seedName = freezed,
+  }) {
+    return _then(_$EnterSeedPhraseRouteDataImpl(
+      isOnboarding: null == isOnboarding
+          ? _value.isOnboarding
+          : isOnboarding // ignore: cast_nullable_to_non_nullable
+              as bool,
+      seedName: freezed == seedName
+          ? _value.seedName
+          : seedName // ignore: cast_nullable_to_non_nullable
+              as String?,
+    ));
+  }
 }
 
 /// @nodoc
 
 class _$EnterSeedPhraseRouteDataImpl extends _EnterSeedPhraseRouteData {
-  const _$EnterSeedPhraseRouteDataImpl() : super._();
+  const _$EnterSeedPhraseRouteDataImpl(
+      {required this.isOnboarding, required this.seedName})
+      : super._();
+
+  @override
+  final bool isOnboarding;
+  @override
+  final String? seedName;
 
   @override
   String toString() {
-    return 'EnterSeedPhraseRouteData()';
+    return 'EnterSeedPhraseRouteData(isOnboarding: $isOnboarding, seedName: $seedName)';
   }
 
   @override
   bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$EnterSeedPhraseRouteDataImpl);
+            other is _$EnterSeedPhraseRouteDataImpl &&
+            (identical(other.isOnboarding, isOnboarding) ||
+                other.isOnboarding == isOnboarding) &&
+            (identical(other.seedName, seedName) ||
+                other.seedName == seedName));
   }
 
   @override
-  int get hashCode => runtimeType.hashCode;
+  int get hashCode => Object.hash(runtimeType, isOnboarding, seedName);
+
+  /// Create a copy of EnterSeedPhraseRouteData
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$EnterSeedPhraseRouteDataImplCopyWith<_$EnterSeedPhraseRouteDataImpl>
+      get copyWith => __$$EnterSeedPhraseRouteDataImplCopyWithImpl<
+          _$EnterSeedPhraseRouteDataImpl>(this, _$identity);
 }
 
 abstract class _EnterSeedPhraseRouteData extends EnterSeedPhraseRouteData {
-  const factory _EnterSeedPhraseRouteData() = _$EnterSeedPhraseRouteDataImpl;
+  const factory _EnterSeedPhraseRouteData(
+      {required final bool isOnboarding,
+      required final String? seedName}) = _$EnterSeedPhraseRouteDataImpl;
   const _EnterSeedPhraseRouteData._() : super._();
+
+  @override
+  bool get isOnboarding;
+  @override
+  String? get seedName;
+
+  /// Create a copy of EnterSeedPhraseRouteData
+  /// with the given fields replaced by the non-null parameter values.
+  @override
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  _$$EnterSeedPhraseRouteDataImplCopyWith<_$EnterSeedPhraseRouteDataImpl>
+      get copyWith => throw _privateConstructorUsedError;
 }

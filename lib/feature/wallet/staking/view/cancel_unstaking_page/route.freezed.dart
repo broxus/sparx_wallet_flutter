@@ -15,7 +15,7 @@ final _privateConstructorUsedError = UnsupportedError(
     'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models');
 
 /// @nodoc
-mixin _$WalletCancelUnstakingRouteData {
+mixin _$CancelUnstakingRouteData {
   /// StEver withdraw request
   StEverWithdrawRequest get request => throw _privateConstructorUsedError;
 
@@ -40,20 +40,18 @@ mixin _$WalletCancelUnstakingRouteData {
   /// Ever price (optional)
   Fixed? get everPrice => throw _privateConstructorUsedError;
 
-  /// Create a copy of WalletCancelUnstakingRouteData
+  /// Create a copy of CancelUnstakingRouteData
   /// with the given fields replaced by the non-null parameter values.
   @JsonKey(includeFromJson: false, includeToJson: false)
-  $WalletCancelUnstakingRouteDataCopyWith<WalletCancelUnstakingRouteData>
-      get copyWith => throw _privateConstructorUsedError;
+  $CancelUnstakingRouteDataCopyWith<CancelUnstakingRouteData> get copyWith =>
+      throw _privateConstructorUsedError;
 }
 
 /// @nodoc
-abstract class $WalletCancelUnstakingRouteDataCopyWith<$Res> {
-  factory $WalletCancelUnstakingRouteDataCopyWith(
-          WalletCancelUnstakingRouteData value,
-          $Res Function(WalletCancelUnstakingRouteData) then) =
-      _$WalletCancelUnstakingRouteDataCopyWithImpl<$Res,
-          WalletCancelUnstakingRouteData>;
+abstract class $CancelUnstakingRouteDataCopyWith<$Res> {
+  factory $CancelUnstakingRouteDataCopyWith(CancelUnstakingRouteData value,
+          $Res Function(CancelUnstakingRouteData) then) =
+      _$CancelUnstakingRouteDataCopyWithImpl<$Res, CancelUnstakingRouteData>;
   @useResult
   $Res call(
       {StEverWithdrawRequest request,
@@ -70,17 +68,17 @@ abstract class $WalletCancelUnstakingRouteDataCopyWith<$Res> {
 }
 
 /// @nodoc
-class _$WalletCancelUnstakingRouteDataCopyWithImpl<$Res,
-        $Val extends WalletCancelUnstakingRouteData>
-    implements $WalletCancelUnstakingRouteDataCopyWith<$Res> {
-  _$WalletCancelUnstakingRouteDataCopyWithImpl(this._value, this._then);
+class _$CancelUnstakingRouteDataCopyWithImpl<$Res,
+        $Val extends CancelUnstakingRouteData>
+    implements $CancelUnstakingRouteDataCopyWith<$Res> {
+  _$CancelUnstakingRouteDataCopyWithImpl(this._value, this._then);
 
   // ignore: unused_field
   final $Val _value;
   // ignore: unused_field
   final $Res Function($Val) _then;
 
-  /// Create a copy of WalletCancelUnstakingRouteData
+  /// Create a copy of CancelUnstakingRouteData
   /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
@@ -130,7 +128,7 @@ class _$WalletCancelUnstakingRouteDataCopyWithImpl<$Res,
     ) as $Val);
   }
 
-  /// Create a copy of WalletCancelUnstakingRouteData
+  /// Create a copy of CancelUnstakingRouteData
   /// with the given fields replaced by the non-null parameter values.
   @override
   @pragma('vm:prefer-inline')
@@ -140,7 +138,7 @@ class _$WalletCancelUnstakingRouteDataCopyWithImpl<$Res,
     });
   }
 
-  /// Create a copy of WalletCancelUnstakingRouteData
+  /// Create a copy of CancelUnstakingRouteData
   /// with the given fields replaced by the non-null parameter values.
   @override
   @pragma('vm:prefer-inline')
@@ -152,12 +150,12 @@ class _$WalletCancelUnstakingRouteDataCopyWithImpl<$Res,
 }
 
 /// @nodoc
-abstract class _$$WalletCancelUnstakingRouteDataImplCopyWith<$Res>
-    implements $WalletCancelUnstakingRouteDataCopyWith<$Res> {
-  factory _$$WalletCancelUnstakingRouteDataImplCopyWith(
-          _$WalletCancelUnstakingRouteDataImpl value,
-          $Res Function(_$WalletCancelUnstakingRouteDataImpl) then) =
-      __$$WalletCancelUnstakingRouteDataImplCopyWithImpl<$Res>;
+abstract class _$$CancelUnstakingRouteDataImplCopyWith<$Res>
+    implements $CancelUnstakingRouteDataCopyWith<$Res> {
+  factory _$$CancelUnstakingRouteDataImplCopyWith(
+          _$CancelUnstakingRouteDataImpl value,
+          $Res Function(_$CancelUnstakingRouteDataImpl) then) =
+      __$$CancelUnstakingRouteDataImplCopyWithImpl<$Res>;
   @override
   @useResult
   $Res call(
@@ -177,16 +175,16 @@ abstract class _$$WalletCancelUnstakingRouteDataImplCopyWith<$Res>
 }
 
 /// @nodoc
-class __$$WalletCancelUnstakingRouteDataImplCopyWithImpl<$Res>
-    extends _$WalletCancelUnstakingRouteDataCopyWithImpl<$Res,
-        _$WalletCancelUnstakingRouteDataImpl>
-    implements _$$WalletCancelUnstakingRouteDataImplCopyWith<$Res> {
-  __$$WalletCancelUnstakingRouteDataImplCopyWithImpl(
-      _$WalletCancelUnstakingRouteDataImpl _value,
-      $Res Function(_$WalletCancelUnstakingRouteDataImpl) _then)
+class __$$CancelUnstakingRouteDataImplCopyWithImpl<$Res>
+    extends _$CancelUnstakingRouteDataCopyWithImpl<$Res,
+        _$CancelUnstakingRouteDataImpl>
+    implements _$$CancelUnstakingRouteDataImplCopyWith<$Res> {
+  __$$CancelUnstakingRouteDataImplCopyWithImpl(
+      _$CancelUnstakingRouteDataImpl _value,
+      $Res Function(_$CancelUnstakingRouteDataImpl) _then)
       : super(_value, _then);
 
-  /// Create a copy of WalletCancelUnstakingRouteData
+  /// Create a copy of CancelUnstakingRouteData
   /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
@@ -200,7 +198,7 @@ class __$$WalletCancelUnstakingRouteDataImplCopyWithImpl<$Res>
     Object? tokenPrice = freezed,
     Object? everPrice = freezed,
   }) {
-    return _then(_$WalletCancelUnstakingRouteDataImpl(
+    return _then(_$CancelUnstakingRouteDataImpl(
       request: null == request
           ? _value.request
           : request // ignore: cast_nullable_to_non_nullable
@@ -239,9 +237,8 @@ class __$$WalletCancelUnstakingRouteDataImplCopyWithImpl<$Res>
 
 /// @nodoc
 
-class _$WalletCancelUnstakingRouteDataImpl
-    extends _WalletCancelUnstakingRouteData {
-  const _$WalletCancelUnstakingRouteDataImpl(
+class _$CancelUnstakingRouteDataImpl extends _CancelUnstakingRouteData {
+  const _$CancelUnstakingRouteDataImpl(
       {required this.request,
       required this.accountKey,
       required this.attachedFee,
@@ -286,14 +283,14 @@ class _$WalletCancelUnstakingRouteDataImpl
 
   @override
   String toString() {
-    return 'WalletCancelUnstakingRouteData(request: $request, accountKey: $accountKey, attachedFee: $attachedFee, exchangeRate: $exchangeRate, stakeCurrency: $stakeCurrency, withdrawHours: $withdrawHours, tokenPrice: $tokenPrice, everPrice: $everPrice)';
+    return 'CancelUnstakingRouteData(request: $request, accountKey: $accountKey, attachedFee: $attachedFee, exchangeRate: $exchangeRate, stakeCurrency: $stakeCurrency, withdrawHours: $withdrawHours, tokenPrice: $tokenPrice, everPrice: $everPrice)';
   }
 
   @override
   bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$WalletCancelUnstakingRouteDataImpl &&
+            other is _$CancelUnstakingRouteDataImpl &&
             (identical(other.request, request) || other.request == request) &&
             (identical(other.accountKey, accountKey) ||
                 other.accountKey == accountKey) &&
@@ -315,20 +312,18 @@ class _$WalletCancelUnstakingRouteDataImpl
   int get hashCode => Object.hash(runtimeType, request, accountKey, attachedFee,
       exchangeRate, stakeCurrency, withdrawHours, tokenPrice, everPrice);
 
-  /// Create a copy of WalletCancelUnstakingRouteData
+  /// Create a copy of CancelUnstakingRouteData
   /// with the given fields replaced by the non-null parameter values.
   @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
-  _$$WalletCancelUnstakingRouteDataImplCopyWith<
-          _$WalletCancelUnstakingRouteDataImpl>
-      get copyWith => __$$WalletCancelUnstakingRouteDataImplCopyWithImpl<
-          _$WalletCancelUnstakingRouteDataImpl>(this, _$identity);
+  _$$CancelUnstakingRouteDataImplCopyWith<_$CancelUnstakingRouteDataImpl>
+      get copyWith => __$$CancelUnstakingRouteDataImplCopyWithImpl<
+          _$CancelUnstakingRouteDataImpl>(this, _$identity);
 }
 
-abstract class _WalletCancelUnstakingRouteData
-    extends WalletCancelUnstakingRouteData {
-  const factory _WalletCancelUnstakingRouteData(
+abstract class _CancelUnstakingRouteData extends CancelUnstakingRouteData {
+  const factory _CancelUnstakingRouteData(
       {required final StEverWithdrawRequest request,
       required final PublicKey accountKey,
       required final BigInt attachedFee,
@@ -336,8 +331,8 @@ abstract class _WalletCancelUnstakingRouteData
       required final Currency stakeCurrency,
       required final int withdrawHours,
       final Fixed? tokenPrice,
-      final Fixed? everPrice}) = _$WalletCancelUnstakingRouteDataImpl;
-  const _WalletCancelUnstakingRouteData._() : super._();
+      final Fixed? everPrice}) = _$CancelUnstakingRouteDataImpl;
+  const _CancelUnstakingRouteData._() : super._();
 
   /// StEver withdraw request
   @override
@@ -371,11 +366,10 @@ abstract class _WalletCancelUnstakingRouteData
   @override
   Fixed? get everPrice;
 
-  /// Create a copy of WalletCancelUnstakingRouteData
+  /// Create a copy of CancelUnstakingRouteData
   /// with the given fields replaced by the non-null parameter values.
   @override
   @JsonKey(includeFromJson: false, includeToJson: false)
-  _$$WalletCancelUnstakingRouteDataImplCopyWith<
-          _$WalletCancelUnstakingRouteDataImpl>
+  _$$CancelUnstakingRouteDataImplCopyWith<_$CancelUnstakingRouteDataImpl>
       get copyWith => throw _privateConstructorUsedError;
 }

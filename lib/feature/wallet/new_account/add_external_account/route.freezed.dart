@@ -15,79 +15,78 @@ final _privateConstructorUsedError = UnsupportedError(
     'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models');
 
 /// @nodoc
-mixin _$WalletNewExternalAccountRouteData {}
+mixin _$NewExternalAccountRouteData {}
 
 /// @nodoc
-abstract class $WalletNewExternalAccountRouteDataCopyWith<$Res> {
-  factory $WalletNewExternalAccountRouteDataCopyWith(
-          WalletNewExternalAccountRouteData value,
-          $Res Function(WalletNewExternalAccountRouteData) then) =
-      _$WalletNewExternalAccountRouteDataCopyWithImpl<$Res,
-          WalletNewExternalAccountRouteData>;
+abstract class $NewExternalAccountRouteDataCopyWith<$Res> {
+  factory $NewExternalAccountRouteDataCopyWith(
+          NewExternalAccountRouteData value,
+          $Res Function(NewExternalAccountRouteData) then) =
+      _$NewExternalAccountRouteDataCopyWithImpl<$Res,
+          NewExternalAccountRouteData>;
 }
 
 /// @nodoc
-class _$WalletNewExternalAccountRouteDataCopyWithImpl<$Res,
-        $Val extends WalletNewExternalAccountRouteData>
-    implements $WalletNewExternalAccountRouteDataCopyWith<$Res> {
-  _$WalletNewExternalAccountRouteDataCopyWithImpl(this._value, this._then);
+class _$NewExternalAccountRouteDataCopyWithImpl<$Res,
+        $Val extends NewExternalAccountRouteData>
+    implements $NewExternalAccountRouteDataCopyWith<$Res> {
+  _$NewExternalAccountRouteDataCopyWithImpl(this._value, this._then);
 
   // ignore: unused_field
   final $Val _value;
   // ignore: unused_field
   final $Res Function($Val) _then;
 
-  /// Create a copy of WalletNewExternalAccountRouteData
+  /// Create a copy of NewExternalAccountRouteData
   /// with the given fields replaced by the non-null parameter values.
 }
 
 /// @nodoc
-abstract class _$$WalletNewExternalAccountRouteDataImplCopyWith<$Res> {
-  factory _$$WalletNewExternalAccountRouteDataImplCopyWith(
-          _$WalletNewExternalAccountRouteDataImpl value,
-          $Res Function(_$WalletNewExternalAccountRouteDataImpl) then) =
-      __$$WalletNewExternalAccountRouteDataImplCopyWithImpl<$Res>;
+abstract class _$$NewExternalAccountRouteDataImplCopyWith<$Res> {
+  factory _$$NewExternalAccountRouteDataImplCopyWith(
+          _$NewExternalAccountRouteDataImpl value,
+          $Res Function(_$NewExternalAccountRouteDataImpl) then) =
+      __$$NewExternalAccountRouteDataImplCopyWithImpl<$Res>;
 }
 
 /// @nodoc
-class __$$WalletNewExternalAccountRouteDataImplCopyWithImpl<$Res>
-    extends _$WalletNewExternalAccountRouteDataCopyWithImpl<$Res,
-        _$WalletNewExternalAccountRouteDataImpl>
-    implements _$$WalletNewExternalAccountRouteDataImplCopyWith<$Res> {
-  __$$WalletNewExternalAccountRouteDataImplCopyWithImpl(
-      _$WalletNewExternalAccountRouteDataImpl _value,
-      $Res Function(_$WalletNewExternalAccountRouteDataImpl) _then)
+class __$$NewExternalAccountRouteDataImplCopyWithImpl<$Res>
+    extends _$NewExternalAccountRouteDataCopyWithImpl<$Res,
+        _$NewExternalAccountRouteDataImpl>
+    implements _$$NewExternalAccountRouteDataImplCopyWith<$Res> {
+  __$$NewExternalAccountRouteDataImplCopyWithImpl(
+      _$NewExternalAccountRouteDataImpl _value,
+      $Res Function(_$NewExternalAccountRouteDataImpl) _then)
       : super(_value, _then);
 
-  /// Create a copy of WalletNewExternalAccountRouteData
+  /// Create a copy of NewExternalAccountRouteData
   /// with the given fields replaced by the non-null parameter values.
 }
 
 /// @nodoc
 
-class _$WalletNewExternalAccountRouteDataImpl
-    extends _WalletNewExternalAccountRouteData {
-  const _$WalletNewExternalAccountRouteDataImpl() : super._();
+class _$NewExternalAccountRouteDataImpl extends _NewExternalAccountRouteData {
+  const _$NewExternalAccountRouteDataImpl() : super._();
 
   @override
   String toString() {
-    return 'WalletNewExternalAccountRouteData()';
+    return 'NewExternalAccountRouteData()';
   }
 
   @override
   bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$WalletNewExternalAccountRouteDataImpl);
+            other is _$NewExternalAccountRouteDataImpl);
   }
 
   @override
   int get hashCode => runtimeType.hashCode;
 }
 
-abstract class _WalletNewExternalAccountRouteData
-    extends WalletNewExternalAccountRouteData {
-  const factory _WalletNewExternalAccountRouteData() =
-      _$WalletNewExternalAccountRouteDataImpl;
-  const _WalletNewExternalAccountRouteData._() : super._();
+abstract class _NewExternalAccountRouteData
+    extends NewExternalAccountRouteData {
+  const factory _NewExternalAccountRouteData() =
+      _$NewExternalAccountRouteDataImpl;
+  const _NewExternalAccountRouteData._() : super._();
 }

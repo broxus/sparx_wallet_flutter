@@ -18,8 +18,8 @@ const tonWalletSendCommentQueryParam = 'comment';
 const tonWalletSendPayloadQueryParam = 'payload';
 const tonWalletSendResultMessageQueryParam = 'resultMessage';
 
-@lazySingleton
-class TonWalletSendRoute extends CompassRoute<TonWalletSendRouteData, bool> {
+@singleton
+class TonWalletSendRoute extends CompassRoute<TonWalletSendRouteData> {
   TonWalletSendRoute()
       : super(
           name: 'ton-wallet-send',

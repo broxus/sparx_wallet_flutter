@@ -10,16 +10,14 @@ import 'package:go_router/go_router.dart';
 abstract class CompassBaseStatefulShellRoute extends CompassBaseRoute {
   CompassBaseStatefulShellRoute({
     required this.branches,
-    super.isTopLevel,
-    this.name,
     this.parentNavigatorKey,
+    this.redirect,
+    this.builder,
+    this.pageBuilder,
+    this.restorationScopeId,
+    this.key,
+    super.isTopLevel,
   });
-
-  /// Optional name identifier for this shell route.
-  ///
-  /// Unlike regular routes, shell routes don't always need a name
-  /// as they often serve as containers rather than direct navigation targets.
-  final String? name;
 
   /// List of navigation branches that make up this shell.
   ///
@@ -31,6 +29,12 @@ abstract class CompassBaseStatefulShellRoute extends CompassBaseRoute {
   /// this shell route belongs to.
   final GlobalKey<NavigatorState>? parentNavigatorKey;
 
+  /// Optional redirect function for conditional navigation.
+  ///
+  /// This follows the GoRouter redirect pattern and can be used to
+  /// implement navigation guards at the route level.
+  final GoRouterRedirect? redirect;
+
   /// Builder function for creating the shell's UI.
   ///
   /// This method is called to build the shell container that hosts
@@ -40,17 +44,20 @@ abstract class CompassBaseStatefulShellRoute extends CompassBaseRoute {
   /// [context] The build context
   /// [state] The current GoRouter state
   /// [navigationShell] The shell that manages navigation between branches
-  Widget builder(
-    BuildContext context,
-    GoRouterState state,
-    StatefulNavigationShell navigationShell,
-  );
+  final StatefulShellRouteBuilder? builder;
+
+  final StatefulShellRoutePageBuilder? pageBuilder;
+  final String? restorationScopeId;
+  final GlobalKey<StatefulNavigationShellState>? key;
 
   @override
   late final StatefulShellRoute route = StatefulShellRoute.indexedStack(
     builder: builder,
+    pageBuilder: pageBuilder,
     branches: branches,
+    redirect: redirect,
+    restorationScopeId: restorationScopeId,
     parentNavigatorKey: parentNavigatorKey,
+    key: key,
   );
 }
-

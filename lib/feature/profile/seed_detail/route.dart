@@ -10,13 +10,12 @@ part 'route.freezed.dart';
 /// Constants for query parameter names
 const seedDetailPublicKeyQueryParam = 'publicKey';
 
-@lazySingleton
-class SeedDetailRoute extends CompassRoute<SeedDetailRouteData, void> {
+@singleton
+class SeedDetailRoute extends CompassRoute<SeedDetailRouteData> {
   SeedDetailRoute({
     required this.keyDetailRoute,
   }) : super(
           name: 'seed-detail',
-          path: 'seed-detail',
           builder: (context, data, _) => SeedDetailPageWidget(
             publicKey: data.publicKey,
           ),

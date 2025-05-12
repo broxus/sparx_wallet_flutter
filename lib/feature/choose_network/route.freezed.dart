@@ -16,7 +16,7 @@ final _privateConstructorUsedError = UnsupportedError(
 
 /// @nodoc
 mixin _$ChooseNetworkRouteData {
-  String? get nextStep => throw _privateConstructorUsedError;
+  ChooseNetworkNextStep get nextStep => throw _privateConstructorUsedError;
 
   /// Create a copy of ChooseNetworkRouteData
   /// with the given fields replaced by the non-null parameter values.
@@ -31,7 +31,7 @@ abstract class $ChooseNetworkRouteDataCopyWith<$Res> {
           $Res Function(ChooseNetworkRouteData) then) =
       _$ChooseNetworkRouteDataCopyWithImpl<$Res, ChooseNetworkRouteData>;
   @useResult
-  $Res call({String? nextStep});
+  $Res call({ChooseNetworkNextStep nextStep});
 }
 
 /// @nodoc
@@ -50,13 +50,13 @@ class _$ChooseNetworkRouteDataCopyWithImpl<$Res,
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? nextStep = freezed,
+    Object? nextStep = null,
   }) {
     return _then(_value.copyWith(
-      nextStep: freezed == nextStep
+      nextStep: null == nextStep
           ? _value.nextStep
           : nextStep // ignore: cast_nullable_to_non_nullable
-              as String?,
+              as ChooseNetworkNextStep,
     ) as $Val);
   }
 }
@@ -70,7 +70,7 @@ abstract class _$$ChooseNetworkRouteDataImplCopyWith<$Res>
       __$$ChooseNetworkRouteDataImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({String? nextStep});
+  $Res call({ChooseNetworkNextStep nextStep});
 }
 
 /// @nodoc
@@ -88,24 +88,24 @@ class __$$ChooseNetworkRouteDataImplCopyWithImpl<$Res>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? nextStep = freezed,
+    Object? nextStep = null,
   }) {
     return _then(_$ChooseNetworkRouteDataImpl(
-      nextStep: freezed == nextStep
+      nextStep: null == nextStep
           ? _value.nextStep
           : nextStep // ignore: cast_nullable_to_non_nullable
-              as String?,
+              as ChooseNetworkNextStep,
     ));
   }
 }
 
 /// @nodoc
 
-class _$ChooseNetworkRouteDataImpl implements _ChooseNetworkRouteData {
-  const _$ChooseNetworkRouteDataImpl({required this.nextStep});
+class _$ChooseNetworkRouteDataImpl extends _ChooseNetworkRouteData {
+  const _$ChooseNetworkRouteDataImpl({required this.nextStep}) : super._();
 
   @override
-  final String? nextStep;
+  final ChooseNetworkNextStep nextStep;
 
   @override
   String toString() {
@@ -134,12 +134,14 @@ class _$ChooseNetworkRouteDataImpl implements _ChooseNetworkRouteData {
           _$ChooseNetworkRouteDataImpl>(this, _$identity);
 }
 
-abstract class _ChooseNetworkRouteData implements ChooseNetworkRouteData {
-  const factory _ChooseNetworkRouteData({required final String? nextStep}) =
+abstract class _ChooseNetworkRouteData extends ChooseNetworkRouteData {
+  const factory _ChooseNetworkRouteData(
+          {required final ChooseNetworkNextStep nextStep}) =
       _$ChooseNetworkRouteDataImpl;
+  const _ChooseNetworkRouteData._() : super._();
 
   @override
-  String? get nextStep;
+  ChooseNetworkNextStep get nextStep;
 
   /// Create a copy of ChooseNetworkRouteData
   /// with the given fields replaced by the non-null parameter values.

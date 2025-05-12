@@ -18,9 +18,9 @@ const tokenWalletSendAttachedAmountQueryParam = 'tokenWalletSendAttachedAmount';
 const tokenWalletSendResultMessageQueryParam = 'tokenWalletSendResultMessage';
 const tokenWalletSendNotifyReceiverQueryParam = 'tokenWalletSendNotifyReceiver';
 
-@lazySingleton
+@singleton
 class TokenWalletSendRoute
-    extends CompassRoute<TokenWalletSendRouteData, void> {
+    extends CompassRoute<TokenWalletSendRouteData> {
   TokenWalletSendRoute()
       : super(
           name: 'token-wallet-send',

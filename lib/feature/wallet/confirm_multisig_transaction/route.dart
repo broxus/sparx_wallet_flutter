@@ -23,9 +23,9 @@ const confirmMultisigTransactionAmountQueryParam =
 const confirmMultisigTransactionCommentQueryParam =
     'tonWalletConfirmTransactionComment';
 
-@lazySingleton
+@singleton
 class ConfirmMultisigTransactionRoute
-    extends CompassRoute<ConfirmMultisigTransactionRouteData, void> {
+    extends CompassRoute<ConfirmMultisigTransactionRouteData> {
   ConfirmMultisigTransactionRoute()
       : super(
           name: 'confirm-multisig-transaction',
@@ -42,7 +42,8 @@ class ConfirmMultisigTransactionRoute
 
   @override
   ConfirmMultisigTransactionRouteData fromQueryParams(
-      Map<String, String> queryParams) {
+    Map<String, String> queryParams,
+  ) {
     final decoded = (jsonDecode(
       queryParams[confirmMultisigTransactionLocalCustodiansQueryParam]!,
     ) as List<dynamic>)

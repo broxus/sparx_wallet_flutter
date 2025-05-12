@@ -6,14 +6,13 @@ import 'package:injectable/injectable.dart';
 
 part 'route.freezed.dart';
 
-@lazySingleton
+@singleton
 class AddExistingWalletRoute
     extends CompassRouteParameterless<AddExistingWalletRouteData> {
   AddExistingWalletRoute({
     required this.importWalletRoute,
   }) : super(
           name: 'add-existing-wallet',
-          path: 'add-existing-wallet',
           builder: (context, _, __) => const AddExistingWalletPage(),
           compassBaseRoutes: [importWalletRoute],
         );

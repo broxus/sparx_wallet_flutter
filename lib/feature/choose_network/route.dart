@@ -7,9 +7,9 @@ import 'package:injectable/injectable.dart';
 
 part 'route.freezed.dart';
 
-const nextStepQueryParam = 'nextStep';
+const _nextStepQueryParam = 'nextStep';
 
-@lazySingleton
+@singleton
 class ChooseNetworkRoute extends CompassRoute<ChooseNetworkRouteData> {
   ChooseNetworkRoute({
     required this.createSeedPasswordRoute,
@@ -33,9 +33,17 @@ class ChooseNetworkRoute extends CompassRoute<ChooseNetworkRouteData> {
   @override
   ChooseNetworkRouteData fromQueryParams(Map<String, String> queryParams) {
     return ChooseNetworkRouteData(
-      nextStep: queryParams[nextStepQueryParam],
+      nextStep: ChooseNetworkNextStep.values.byName(
+        queryParams[_nextStepQueryParam]!,
+      ),
     );
   }
+}
+
+/// Enum representing possible next steps after choosing a network
+enum ChooseNetworkNextStep {
+  createSeedPassword,
+  addExistingWallet;
 }
 
 @freezed
@@ -43,13 +51,18 @@ class ChooseNetworkRouteData
     with _$ChooseNetworkRouteData
     implements CompassRouteDataQuery {
   const factory ChooseNetworkRouteData({
-    required String? nextStep,
+    required ChooseNetworkNextStep nextStep,
   }) = _ChooseNetworkRouteData;
+
+  const ChooseNetworkRouteData._();
 
   @override
   Map<String, String> toQueryParams() {
+    final nextStep = this.nextStep;
+
     return {
-      if (nextStep != null) nextStepQueryParam: nextStep!,
+      if (nextStep != null) _nextStepQueryParam: nextStep.name,
     };
   }
 }
+

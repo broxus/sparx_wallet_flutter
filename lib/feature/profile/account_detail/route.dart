@@ -9,12 +9,11 @@ part 'route.freezed.dart';
 /// Constants for query parameter names
 const accountDetailAddressQueryParam = 'address';
 
-@lazySingleton
-class AccountDetailRoute extends CompassRoute<AccountDetailRouteData, void> {
+@singleton
+class AccountDetailRoute extends CompassRoute<AccountDetailRouteData> {
   AccountDetailRoute()
       : super(
           name: 'account-detail',
-          path: 'account-detail',
           builder: (context, data, _) => AccountDetailPage(
             address: data.address,
           ),

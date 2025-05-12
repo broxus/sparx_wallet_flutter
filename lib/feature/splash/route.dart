@@ -5,13 +5,12 @@ import 'package:injectable/injectable.dart';
 
 part 'route.freezed.dart';
 
-@lazySingleton
+@singleton
 class SplashScreenRoute
     extends CompassRouteParameterless<SplashScreenRouteData> {
   SplashScreenRoute()
       : super(
           name: 'splash',
-          path: '/splash',
           isInitial: true, // Mark as initial route
           isTopLevel: true, // Mark as top-level route
           builder: (context, _, __) => const SplashScreen(),

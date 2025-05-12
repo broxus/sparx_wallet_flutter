@@ -12,7 +12,7 @@ const tokenWalletDetailsOwnerAddressQueryParam =
 const tokenWalletDetailsContractAddressQueryParam =
     'tokenWalletDetailsContractAddress';
 
-@lazySingleton
+@singleton
 class TokenWalletDetailsRoute
     extends CompassRoute<TokenWalletDetailsRouteData, void> {
   TokenWalletDetailsRoute({

@@ -106,4 +106,3 @@ abstract class CompassBaseGoRoute<T extends CompassRouteData>
     parentNavigatorKey: parentNavigatorKey,
   );
 }
-

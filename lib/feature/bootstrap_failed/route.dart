@@ -10,13 +10,12 @@ part 'route.freezed.dart';
 /// Constants for query parameter names
 const bootstrapFailedStepQueryParam = 'step';
 
-@lazySingleton
-class BootstrapFailedRoute extends CompassRoute<BootstrapFailedRouteData, void> {
+@singleton
+class BootstrapFailedRoute extends CompassRoute<BootstrapFailedRouteData> {
   BootstrapFailedRoute({
     required this.configureNetworksRoute,
   }) : super(
           name: 'bootstrap-failed',
-          path: '/bootstrap-failed',
           isTopLevel: true, // Mark as top-level route
           builder: (context, data, _) => BootstrapFailedPage(
             step: data.step,

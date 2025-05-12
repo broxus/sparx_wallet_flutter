@@ -7,7 +7,7 @@ import 'package:injectable/injectable.dart';
 
 part 'route.freezed.dart';
 
-@lazySingleton
+@singleton
 class ImportWalletRoute
     extends CompassRouteParameterless<ImportWalletRouteData> {
   ImportWalletRoute({
@@ -15,7 +15,6 @@ class ImportWalletRoute
     required this.createSeedPasswordRoute,
   }) : super(
           name: 'import-wallet',
-          path: 'import-wallet',
           builder: (context, _, __) => const ImportWalletScreen(),
           compassBaseRoutes: [
             enterSeedPhraseRoute,

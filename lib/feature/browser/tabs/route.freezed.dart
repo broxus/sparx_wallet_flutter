@@ -15,70 +15,71 @@ final _privateConstructorUsedError = UnsupportedError(
     'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models');
 
 /// @nodoc
-mixin _$SelectSeedRouteData {}
+mixin _$BrowserTabsRouteData {}
 
 /// @nodoc
-abstract class $SelectSeedRouteDataCopyWith<$Res> {
-  factory $SelectSeedRouteDataCopyWith(
-          SelectSeedRouteData value, $Res Function(SelectSeedRouteData) then) =
-      _$SelectSeedRouteDataCopyWithImpl<$Res, SelectSeedRouteData>;
+abstract class $BrowserTabsRouteDataCopyWith<$Res> {
+  factory $BrowserTabsRouteDataCopyWith(BrowserTabsRouteData value,
+          $Res Function(BrowserTabsRouteData) then) =
+      _$BrowserTabsRouteDataCopyWithImpl<$Res, BrowserTabsRouteData>;
 }
 
 /// @nodoc
-class _$SelectSeedRouteDataCopyWithImpl<$Res, $Val extends SelectSeedRouteData>
-    implements $SelectSeedRouteDataCopyWith<$Res> {
-  _$SelectSeedRouteDataCopyWithImpl(this._value, this._then);
+class _$BrowserTabsRouteDataCopyWithImpl<$Res,
+        $Val extends BrowserTabsRouteData>
+    implements $BrowserTabsRouteDataCopyWith<$Res> {
+  _$BrowserTabsRouteDataCopyWithImpl(this._value, this._then);
 
   // ignore: unused_field
   final $Val _value;
   // ignore: unused_field
   final $Res Function($Val) _then;
 
-  /// Create a copy of SelectSeedRouteData
+  /// Create a copy of BrowserTabsRouteData
   /// with the given fields replaced by the non-null parameter values.
 }
 
 /// @nodoc
-abstract class _$$SelectSeedRouteDataImplCopyWith<$Res> {
-  factory _$$SelectSeedRouteDataImplCopyWith(_$SelectSeedRouteDataImpl value,
-          $Res Function(_$SelectSeedRouteDataImpl) then) =
-      __$$SelectSeedRouteDataImplCopyWithImpl<$Res>;
+abstract class _$$BrowserTabsRouteDataImplCopyWith<$Res> {
+  factory _$$BrowserTabsRouteDataImplCopyWith(_$BrowserTabsRouteDataImpl value,
+          $Res Function(_$BrowserTabsRouteDataImpl) then) =
+      __$$BrowserTabsRouteDataImplCopyWithImpl<$Res>;
 }
 
 /// @nodoc
-class __$$SelectSeedRouteDataImplCopyWithImpl<$Res>
-    extends _$SelectSeedRouteDataCopyWithImpl<$Res, _$SelectSeedRouteDataImpl>
-    implements _$$SelectSeedRouteDataImplCopyWith<$Res> {
-  __$$SelectSeedRouteDataImplCopyWithImpl(_$SelectSeedRouteDataImpl _value,
-      $Res Function(_$SelectSeedRouteDataImpl) _then)
+class __$$BrowserTabsRouteDataImplCopyWithImpl<$Res>
+    extends _$BrowserTabsRouteDataCopyWithImpl<$Res, _$BrowserTabsRouteDataImpl>
+    implements _$$BrowserTabsRouteDataImplCopyWith<$Res> {
+  __$$BrowserTabsRouteDataImplCopyWithImpl(_$BrowserTabsRouteDataImpl _value,
+      $Res Function(_$BrowserTabsRouteDataImpl) _then)
       : super(_value, _then);
 
-  /// Create a copy of SelectSeedRouteData
+  /// Create a copy of BrowserTabsRouteData
   /// with the given fields replaced by the non-null parameter values.
 }
 
 /// @nodoc
 
-class _$SelectSeedRouteDataImpl extends _SelectSeedRouteData {
-  const _$SelectSeedRouteDataImpl() : super._();
+class _$BrowserTabsRouteDataImpl extends _BrowserTabsRouteData {
+  const _$BrowserTabsRouteDataImpl() : super._();
 
   @override
   String toString() {
-    return 'SelectSeedRouteData()';
+    return 'BrowserTabsRouteData()';
   }
 
   @override
   bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$SelectSeedRouteDataImpl);
+            other is _$BrowserTabsRouteDataImpl);
   }
 
   @override
   int get hashCode => runtimeType.hashCode;
 }
 
-abstract class _SelectSeedRouteData extends SelectSeedRouteData {
-  const factory _SelectSeedRouteData() = _$SelectSeedRouteDataImpl;
-  const _SelectSeedRouteData._() : super._();
+abstract class _BrowserTabsRouteData extends BrowserTabsRouteData {
+  const factory _BrowserTabsRouteData() = _$BrowserTabsRouteDataImpl;
+  const _BrowserTabsRouteData._() : super._();
 }

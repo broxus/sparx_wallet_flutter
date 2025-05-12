@@ -10,8 +10,8 @@ part 'route.freezed.dart';
 const walletDeployAddressQueryParam = 'walletDeployAddress';
 const walletDeployPublicKeyQueryParam = 'walletDeployPublicKey';
 
-@lazySingleton
-class WalletDeployRoute extends CompassRoute<WalletDeployRouteData, void> {
+@singleton
+class WalletDeployRoute extends CompassRoute<WalletDeployRouteData> {
   WalletDeployRoute()
       : super(
           name: 'wallet-deploy',

@@ -15,74 +15,70 @@ final _privateConstructorUsedError = UnsupportedError(
     'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models');
 
 /// @nodoc
-mixin _$WalletAddAccountRouteData {}
+mixin _$AddAccountRouteData {}
 
 /// @nodoc
-abstract class $WalletAddAccountRouteDataCopyWith<$Res> {
-  factory $WalletAddAccountRouteDataCopyWith(WalletAddAccountRouteData value,
-          $Res Function(WalletAddAccountRouteData) then) =
-      _$WalletAddAccountRouteDataCopyWithImpl<$Res, WalletAddAccountRouteData>;
+abstract class $AddAccountRouteDataCopyWith<$Res> {
+  factory $AddAccountRouteDataCopyWith(
+          AddAccountRouteData value, $Res Function(AddAccountRouteData) then) =
+      _$AddAccountRouteDataCopyWithImpl<$Res, AddAccountRouteData>;
 }
 
 /// @nodoc
-class _$WalletAddAccountRouteDataCopyWithImpl<$Res,
-        $Val extends WalletAddAccountRouteData>
-    implements $WalletAddAccountRouteDataCopyWith<$Res> {
-  _$WalletAddAccountRouteDataCopyWithImpl(this._value, this._then);
+class _$AddAccountRouteDataCopyWithImpl<$Res, $Val extends AddAccountRouteData>
+    implements $AddAccountRouteDataCopyWith<$Res> {
+  _$AddAccountRouteDataCopyWithImpl(this._value, this._then);
 
   // ignore: unused_field
   final $Val _value;
   // ignore: unused_field
   final $Res Function($Val) _then;
 
-  /// Create a copy of WalletAddAccountRouteData
+  /// Create a copy of AddAccountRouteData
   /// with the given fields replaced by the non-null parameter values.
 }
 
 /// @nodoc
-abstract class _$$WalletAddAccountRouteDataImplCopyWith<$Res> {
-  factory _$$WalletAddAccountRouteDataImplCopyWith(
-          _$WalletAddAccountRouteDataImpl value,
-          $Res Function(_$WalletAddAccountRouteDataImpl) then) =
-      __$$WalletAddAccountRouteDataImplCopyWithImpl<$Res>;
+abstract class _$$AddAccountRouteDataImplCopyWith<$Res> {
+  factory _$$AddAccountRouteDataImplCopyWith(_$AddAccountRouteDataImpl value,
+          $Res Function(_$AddAccountRouteDataImpl) then) =
+      __$$AddAccountRouteDataImplCopyWithImpl<$Res>;
 }
 
 /// @nodoc
-class __$$WalletAddAccountRouteDataImplCopyWithImpl<$Res>
-    extends _$WalletAddAccountRouteDataCopyWithImpl<$Res,
-        _$WalletAddAccountRouteDataImpl>
-    implements _$$WalletAddAccountRouteDataImplCopyWith<$Res> {
-  __$$WalletAddAccountRouteDataImplCopyWithImpl(
-      _$WalletAddAccountRouteDataImpl _value,
-      $Res Function(_$WalletAddAccountRouteDataImpl) _then)
+class __$$AddAccountRouteDataImplCopyWithImpl<$Res>
+    extends _$AddAccountRouteDataCopyWithImpl<$Res, _$AddAccountRouteDataImpl>
+    implements _$$AddAccountRouteDataImplCopyWith<$Res> {
+  __$$AddAccountRouteDataImplCopyWithImpl(_$AddAccountRouteDataImpl _value,
+      $Res Function(_$AddAccountRouteDataImpl) _then)
       : super(_value, _then);
 
-  /// Create a copy of WalletAddAccountRouteData
+  /// Create a copy of AddAccountRouteData
   /// with the given fields replaced by the non-null parameter values.
 }
 
 /// @nodoc
 
-class _$WalletAddAccountRouteDataImpl extends _WalletAddAccountRouteData {
-  const _$WalletAddAccountRouteDataImpl() : super._();
+class _$AddAccountRouteDataImpl extends _AddAccountRouteData {
+  const _$AddAccountRouteDataImpl() : super._();
 
   @override
   String toString() {
-    return 'WalletAddAccountRouteData()';
+    return 'AddAccountRouteData()';
   }
 
   @override
   bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$WalletAddAccountRouteDataImpl);
+            other is _$AddAccountRouteDataImpl);
   }
 
   @override
   int get hashCode => runtimeType.hashCode;
 }
 
-abstract class _WalletAddAccountRouteData extends WalletAddAccountRouteData {
-  const factory _WalletAddAccountRouteData() = _$WalletAddAccountRouteDataImpl;
-  const _WalletAddAccountRouteData._() : super._();
+abstract class _AddAccountRouteData extends AddAccountRouteData {
+  const factory _AddAccountRouteData() = _$AddAccountRouteDataImpl;
+  const _AddAccountRouteData._() : super._();
 }

@@ -38,6 +38,8 @@ targets:
           - lib/feature/**/*route.dart
           - lib/feature/**/*guard.dart
           - lib/app/router/router.dart
+          - lib/v1/**/*route.dart
+          - lib/v1/**/*guard.dart
       freezed:
         generate_for:
           - lib/app/service/*.dart
@@ -54,3 +56,4 @@ targets:
           - lib/feature/**/data/**/*.dart
           - lib/feature/**/widget/**/*.dart
           - lib/feature/**/*route.dart
+          - lib/v1/**/*route.dart

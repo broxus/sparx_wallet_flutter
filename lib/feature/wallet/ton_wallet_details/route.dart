@@ -11,14 +11,13 @@ part 'route.freezed.dart';
 
 const tonWalletDetailsAddressQueryParam = 'tonWalletDetailsAddress';
 
-@lazySingleton
-class TonWalletDetailsRoute
-    extends CompassRoute<TonWalletDetailsRouteData, void> {
-  TonWalletDetailsRoute({
-    required this.walletDeployRoute,
-    required this.walletPrepareTransferRoute,
-    required this.confirmMultisigTransactionRoute,
-  }) : super(
+@singleton
+class TonWalletDetailsRoute extends CompassRoute<TonWalletDetailsRouteData> {
+  TonWalletDetailsRoute(
+    WalletDeployRoute walletDeployRoute,
+    WalletPrepareTransferRoute walletPrepareTransferRoute,
+    ConfirmMultisigTransactionRoute confirmMultisigTransactionRoute,
+  ) : super(
           name: 'ton-wallet-details',
           builder: (context, data, _) => TonWalletDetailsPage(
             address: data.address,
@@ -29,10 +28,6 @@ class TonWalletDetailsRoute
             confirmMultisigTransactionRoute,
           ],
         );
-
-  final WalletDeployRoute walletDeployRoute;
-  final WalletPrepareTransferRoute walletPrepareTransferRoute;
-  final ConfirmMultisigTransactionRoute confirmMultisigTransactionRoute;
 
   @override
   TonWalletDetailsRouteData fromQueryParams(Map<String, String> queryParams) {

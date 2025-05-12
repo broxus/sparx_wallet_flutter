@@ -8,12 +8,11 @@ part 'route.freezed.dart';
 /// Constants for query parameter names
 const networkConnectionDataIdQueryParam = 'connectionDataId';
 
-@lazySingleton
-class EditNetworkRoute extends CompassRoute<EditNetworkRouteData, void> {
+@singleton
+class EditNetworkRoute extends CompassRoute<EditNetworkRouteData> {
   EditNetworkRoute()
       : super(
           name: 'edit-network',
-          path: 'edit-network',
           builder: (context, data, _) => EditNetworkPageWidget(
             connectionDataId: data.connectionDataId,
           ),

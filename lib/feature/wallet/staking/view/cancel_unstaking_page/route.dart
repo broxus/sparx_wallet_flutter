@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:app/app/router/compass/compass.dart';
 import 'package:app/data/models/stever/stever_withdraw_request.dart';
 import 'package:app/feature/wallet/staking/view/cancel_unstaking_page/cancel_unstaking_page_widget.dart';
+import 'package:app/feature/wallet/ton_wallet_send/route.dart';
 import 'package:app/utils/common_utils.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:injectable/injectable.dart';
@@ -27,11 +28,11 @@ const walletCancelUnstakingTokenPriceQueryParam =
 const walletCancelUnstakingEverPriceQueryParam =
     'walletCancelUnstakingEverPrice';
 
-@lazySingleton
-class WalletCancelUnstakingRoute
-    extends CompassRoute<WalletCancelUnstakingRouteData, void> {
-  WalletCancelUnstakingRoute()
-      : super(
+@singleton
+class CancelUnstakingRoute extends CompassRoute<CancelUnstakingRouteData> {
+  CancelUnstakingRoute({
+    required this.tonWalletSendRoute,
+  }) : super(
           name: 'wallet-cancel-unstaking',
           builder: (context, data, _) => CancelUnstakingPageWidget(
             request: data.request,
@@ -45,8 +46,10 @@ class WalletCancelUnstakingRoute
           ),
         );
 
+  final TonWalletSendRoute tonWalletSendRoute;
+
   @override
-  WalletCancelUnstakingRouteData fromQueryParams(
+  CancelUnstakingRouteData fromQueryParams(
     Map<String, String> queryParams,
   ) {
     final requestJson = jsonDecode(
@@ -57,7 +60,7 @@ class WalletCancelUnstakingRoute
         queryParams[walletCancelUnstakingTokenPriceQueryParam];
     final everPriceStr = queryParams[walletCancelUnstakingEverPriceQueryParam];
 
-    return WalletCancelUnstakingRouteData(
+    return CancelUnstakingRouteData(
       request: StEverWithdrawRequest.fromJson(requestJson),
       accountKey: PublicKey(
         publicKey: queryParams[walletCancelUnstakingPublicKeyQueryParam]!,
@@ -79,12 +82,12 @@ class WalletCancelUnstakingRoute
   }
 }
 
-/// Data model for WalletCancelUnstaking route
+/// Data model for CancelUnstaking route
 @freezed
-class WalletCancelUnstakingRouteData
-    with _$WalletCancelUnstakingRouteData
+class CancelUnstakingRouteData
+    with _$CancelUnstakingRouteData
     implements CompassRouteDataQuery {
-  const factory WalletCancelUnstakingRouteData({
+  const factory CancelUnstakingRouteData({
     /// StEver withdraw request
     required StEverWithdrawRequest request,
 
@@ -108,9 +111,9 @@ class WalletCancelUnstakingRouteData
 
     /// Ever price (optional)
     Fixed? everPrice,
-  }) = _WalletCancelUnstakingRouteData;
+  }) = _CancelUnstakingRouteData;
 
-  const WalletCancelUnstakingRouteData._();
+  const CancelUnstakingRouteData._();
 
   @override
   Map<String, String> toQueryParams() {

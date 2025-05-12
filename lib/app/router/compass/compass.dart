@@ -73,9 +73,13 @@ abstract class CompassRouteParameterless<T extends CompassRouteData>
 abstract class CompassShellRoute extends CompassBaseStatefulShellRoute {
   CompassShellRoute({
     this.compassBaseRoutes = const [],
-    super.isTopLevel,
-    super.name,
     super.parentNavigatorKey,
+    super.redirect,
+    super.builder,
+    super.pageBuilder,
+    super.restorationScopeId,
+    super.key,
+    super.isTopLevel,
   }) : super(
           branches: compassBaseRoutes
               .map(
@@ -92,4 +96,3 @@ abstract class CompassShellRoute extends CompassBaseStatefulShellRoute {
   /// allowing for independent navigation stacks within the shell.
   final List<CompassBaseRoute> compassBaseRoutes;
 }
-

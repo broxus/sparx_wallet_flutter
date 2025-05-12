@@ -17,6 +17,7 @@ class OnBoardingRoute
             state,
             const WelcomeScreen(),
           ),
+          isTopLevel: true,
           compassBaseRoutes: [chooseNetworkRoute],
         );
 

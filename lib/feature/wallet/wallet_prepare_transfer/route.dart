@@ -18,9 +18,9 @@ const walletPrepareTransferRootTokenAddressQueryParam =
 const walletPrepareTransferSymbolQueryParam = 'walletPrepareTransferSymbol';
 const walletPrepareTransferTypeQueryParam = 'walletPrepareTransferType';
 
-@lazySingleton
+@singleton
 class WalletPrepareTransferRoute
-    extends CompassRoute<WalletPrepareTransferRouteData, void> {
+    extends CompassRoute<WalletPrepareTransferRouteData> {
   WalletPrepareTransferRoute({
     required this.tonWalletSendRoute,
     required this.tokenWalletSendRoute,
@@ -44,7 +44,7 @@ class WalletPrepareTransferRoute
             tokenWalletSendRoute,
           ],
         );
-        
+
   final TonWalletSendRoute tonWalletSendRoute;
   final TokenWalletSendRoute tokenWalletSendRoute;
 

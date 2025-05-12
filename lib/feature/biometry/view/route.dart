@@ -5,7 +5,7 @@ import 'package:injectable/injectable.dart';
 
 part 'route.freezed.dart';
 
-@lazySingleton
+@singleton
 class EnableBiometryRoute
     extends CompassRouteParameterless<EnableBiometryRouteData> {
   EnableBiometryRoute()
@@ -29,4 +29,3 @@ class EnableBiometryRouteData
 
   const EnableBiometryRouteData._();
 }
-

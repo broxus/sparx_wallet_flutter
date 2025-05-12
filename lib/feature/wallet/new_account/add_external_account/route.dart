@@ -5,28 +5,28 @@ import 'package:injectable/injectable.dart';
 
 part 'route.freezed.dart';
 
-@lazySingleton
-class WalletNewExternalAccountRoute
-    extends CompassRouteParameterless<WalletNewExternalAccountRouteData> {
-  WalletNewExternalAccountRoute()
+@singleton
+class NewExternalAccountRoute
+    extends CompassRouteParameterless<NewExternalAccountRouteData> {
+  NewExternalAccountRoute()
       : super(
           name: 'wallet-new-external-account',
           builder: (context, _, __) => const AddExternalAccountPage(),
         );
 
   @override
-  WalletNewExternalAccountRouteData dataFabric() {
-    return const WalletNewExternalAccountRouteData();
+  NewExternalAccountRouteData dataFabric() {
+    return const NewExternalAccountRouteData();
   }
 }
 
-/// Data model for WalletNewExternalAccount route
+/// Data model for NewExternalAccount route
 @freezed
-class WalletNewExternalAccountRouteData
-    with _$WalletNewExternalAccountRouteData
+class NewExternalAccountRouteData
+    with _$NewExternalAccountRouteData
     implements CompassRouteData {
-  const factory WalletNewExternalAccountRouteData() =
-      _WalletNewExternalAccountRouteData;
+  const factory NewExternalAccountRouteData() =
+      _NewExternalAccountRouteData;
 
-  const WalletNewExternalAccountRouteData._();
+  const NewExternalAccountRouteData._();
 }

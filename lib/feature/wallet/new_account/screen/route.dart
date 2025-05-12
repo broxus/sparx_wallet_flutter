@@ -6,13 +6,12 @@ import 'package:injectable/injectable.dart';
 part 'route.freezed.dart';
 
 // Constants moved from wallet.dart
-const walletCreatePublicKeyQueryParam = 'walletCreatePublicKey';
-const walletCreatePasswordQueryParam = 'walletCreatePassword';
+const _publicKeyQueryParam = 'publicKey';
+const _passwordQueryParam = 'password';
 
-@lazySingleton
-class WalletNewAccountRoute
-    extends CompassRoute<WalletNewAccountRouteData> {
-  WalletNewAccountRoute()
+@singleton
+class NewAccountRoute extends CompassRoute<NewAccountRouteData> {
+  NewAccountRoute()
       : super(
           name: 'wallet-new-account',
           builder: (context, data, _) => NewAccountScreen(
@@ -22,34 +21,34 @@ class WalletNewAccountRoute
         );
 
   @override
-  WalletNewAccountRouteData fromQueryParams(Map<String, String> queryParams) {
-    return WalletNewAccountRouteData(
-      publicKey: queryParams[walletCreatePublicKeyQueryParam] ?? '',
-      password: queryParams[walletCreatePasswordQueryParam],
+  NewAccountRouteData fromQueryParams(Map<String, String> queryParams) {
+    return NewAccountRouteData(
+      publicKey: queryParams[_publicKeyQueryParam]!,
+      password: queryParams[_passwordQueryParam],
     );
   }
 }
 
-/// Data model for WalletNewAccount route
+/// Data model for NewAccount route
 @freezed
-class WalletNewAccountRouteData
-    with _$WalletNewAccountRouteData
+class NewAccountRouteData
+    with _$NewAccountRouteData
     implements CompassRouteDataQuery {
-  const factory WalletNewAccountRouteData({
+  const factory NewAccountRouteData({
     required String publicKey,
     String? password,
-  }) = _WalletNewAccountRouteData;
+  }) = _NewAccountRouteData;
 
-  const WalletNewAccountRouteData._();
+  const NewAccountRouteData._();
 
   @override
   Map<String, String> toQueryParams() {
     final result = <String, String>{
-      walletCreatePublicKeyQueryParam: publicKey,
+      _publicKeyQueryParam: publicKey,
     };
 
     if (password != null) {
-      result[walletCreatePasswordQueryParam] = password!;
+      result[_passwordQueryParam] = password!;
     }
 
     return result;
