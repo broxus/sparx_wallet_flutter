@@ -144,17 +144,9 @@ class BrowserService {
     await tM.clearCookie();
     await permissions.clearPermissions();
     final list = tabs.browserTabs;
-    final contracts = _nekotonRepository.allContracts;
 
     _tonConnectService.disconnectAllInBrowser();
-
-    for (final contract in contracts) {
-      _nekotonRepository.unsubscribeContract(
-        address: contract.address,
-        origin: contract.origin,
-        tabId: contract.tabId,
-      );
-    }
+    _nekotonRepository.unsubscribeAllContracts();
 
     for (final tab in list) {
       await permissionsChanged(
