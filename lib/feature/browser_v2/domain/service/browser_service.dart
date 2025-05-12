@@ -16,6 +16,7 @@ import 'package:app/feature/browser_v2/managers/history_manager.dart';
 import 'package:app/feature/browser_v2/managers/permissions_manager.dart';
 import 'package:app/feature/browser_v2/managers/tabs/tabs_manager.dart';
 import 'package:app/feature/messenger/domain/service/messenger_service.dart';
+import 'package:app/utils/common_utils.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_inappwebview/flutter_inappwebview.dart';
 import 'package:injectable/injectable.dart';
@@ -141,19 +142,22 @@ class BrowserService {
   }
 
   Future<void> _clearCookieAndData() async {
-    await tM.clearCookie();
-    await permissions.clearPermissions();
+    await tryWrapper(tM.clearCookie);
+    await tryWrapper(permissions.clearPermissions);
+
     final list = tabs.browserTabs;
 
-    _tonConnectService.disconnectAllInBrowser();
-    _nekotonRepository.unsubscribeAllContracts();
+    await tryWrapper(() async => _tonConnectService.disconnectAllInBrowser());
+    await tryWrapper(() async => _nekotonRepository.unsubscribeAllContracts());
 
-    for (final tab in list) {
-      await permissionsChanged(
-        tab.id,
-        const PermissionsChangedEvent(PermissionsPartial(null, null)),
-      );
-    }
+    await tryWrapper(() async {
+      for (final tab in list) {
+        await permissionsChanged(
+          tab.id,
+          const PermissionsChangedEvent(PermissionsPartial(null, null)),
+        );
+      }
+    });
   }
 
   void _listenAppLinks(BrowserAppLinksData event) {
