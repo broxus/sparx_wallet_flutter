@@ -231,7 +231,7 @@ class TokenWalletsService {
     final walletOf = await runLocal(
       accountStuffBoc: state.boc,
       contractAbi: _tokenRootAbi,
-      method: 'walletOf',
+      methodId: 'walletOf',
       input: {'answerId': 0, 'walletOwner': walletOwner},
       responsible: true,
     );
@@ -250,7 +250,7 @@ class TokenWalletsService {
     final balance = await runLocal(
       accountStuffBoc: state.boc,
       contractAbi: _tokenWalletAbi,
-      method: 'balance',
+      methodId: 'balance',
       input: {'answerId': 0},
       responsible: true,
     );

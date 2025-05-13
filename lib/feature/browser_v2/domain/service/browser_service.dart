@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:app/app/service/app_links/app_links.dart';
 import 'package:app/app/service/storage_service/general_storage_service.dart';
+import 'package:app/app/service/ton_connect/ton_connect_service.dart';
 import 'package:app/feature/browser_v2/data/history_type.dart';
 import 'package:app/feature/browser_v2/domain/service/storages/browser_bookmarks_storage_service.dart';
 import 'package:app/feature/browser_v2/domain/service/storages/browser_favicon_url_storage_service.dart';
@@ -15,9 +16,12 @@ import 'package:app/feature/browser_v2/managers/history_manager.dart';
 import 'package:app/feature/browser_v2/managers/permissions_manager.dart';
 import 'package:app/feature/browser_v2/managers/tabs/tabs_manager.dart';
 import 'package:app/feature/messenger/domain/service/messenger_service.dart';
+import 'package:app/utils/common_utils.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_inappwebview/flutter_inappwebview.dart';
 import 'package:injectable/injectable.dart';
+import 'package:nekoton_repository/nekoton_repository.dart';
+import 'package:nekoton_webview/nekoton_webview.dart';
 
 @singleton
 class BrowserService {
@@ -30,6 +34,8 @@ class BrowserService {
     this._browserPermissionsStorageService,
     this._messengerService,
     this._generalStorageService,
+    this._tonConnectService,
+    this._nekotonRepository,
   );
 
   final AppLinksService _appLinksService;
@@ -39,8 +45,9 @@ class BrowserService {
   final BrowserTabsStorageService _browserTabsStorageService;
   final BrowserPermissionsStorageService _browserPermissionsStorageService;
   final GeneralStorageService _generalStorageService;
-
+  final TonConnectService _tonConnectService;
   final MessengerService _messengerService;
+  final NekotonRepository _nekotonRepository;
 
   late final bookmarks = BookmarksManager(
     _bookmarksStorageService,
@@ -114,17 +121,43 @@ class BrowserService {
     bM.createBrowserBookmark(tab.url, tab.title);
   }
 
+  Future<void> permissionsChanged(
+    String tabId,
+    PermissionsChangedEvent event,
+  ) {
+    return tabs.permissionsChanged(tabId, event);
+  }
+
   void clearData(TimePeriod period, Set<TypeHistory> targets) {
     for (final target in targets) {
       switch (target) {
         case TypeHistory.browsingHistory:
           hM.clearHistory(period);
         case TypeHistory.cookie:
-          tM.clearCookie();
+          _clearCookieAndData();
         case TypeHistory.cachedImages:
           tM.clearCachedFiles();
       }
     }
+  }
+
+  Future<void> _clearCookieAndData() async {
+    await tryWrapper(tM.clearCookie);
+    await tryWrapper(permissions.clearPermissions);
+
+    final list = tabs.browserTabs;
+
+    await tryWrapper(() async => _tonConnectService.disconnectAllInBrowser());
+    await tryWrapper(() async => _nekotonRepository.unsubscribeAllContracts());
+
+    await tryWrapper(() async {
+      for (final tab in list) {
+        await permissionsChanged(
+          tab.id,
+          const PermissionsChangedEvent(PermissionsPartial(null, null)),
+        );
+      }
+    });
   }
 
   void _listenAppLinks(BrowserAppLinksData event) {

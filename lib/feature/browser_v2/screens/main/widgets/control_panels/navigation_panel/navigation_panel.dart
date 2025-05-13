@@ -16,6 +16,7 @@ class BrowserNavigationPanel extends StatefulWidget {
     required this.onPressedCurrentUrlMenu,
     required this.onPressedRefresh,
     required this.onEditingCompleteUrl,
+    required this.scrollModeState,
     super.key,
   });
 
@@ -28,6 +29,7 @@ class BrowserNavigationPanel extends StatefulWidget {
   final ValueChanged<String> onPressedCurrentUrlMenu;
   final ValueChanged<String> onPressedRefresh;
   final DoubleValueCallback<String, String> onEditingCompleteUrl;
+  final ListenableState<NavigationUrlPhysicMode> scrollModeState;
 
   @override
   State<BrowserNavigationPanel> createState() =>
@@ -37,6 +39,7 @@ class BrowserNavigationPanel extends StatefulWidget {
 class _BrowserTabViewMenuUrlPanelState extends State<BrowserNavigationPanel> {
   late final _physics = _SnapPageScrollPhysics(
     pageWidth: widget.urlWidth,
+    modeState: widget.scrollModeState,
   );
 
   @override
@@ -79,15 +82,18 @@ class _BrowserTabViewMenuUrlPanelState extends State<BrowserNavigationPanel> {
 class _SnapPageScrollPhysics extends ScrollPhysics {
   const _SnapPageScrollPhysics({
     required this.pageWidth,
+    required this.modeState,
     ScrollPhysics? parent,
   }) : super(parent: parent ?? const ClampingScrollPhysics());
 
   final double pageWidth;
+  final ListenableState<NavigationUrlPhysicMode> modeState;
 
   @override
   _SnapPageScrollPhysics applyTo(ScrollPhysics? ancestor) {
     return _SnapPageScrollPhysics(
       pageWidth: pageWidth,
+      modeState: modeState,
       parent: buildParent(ancestor),
     );
   }
@@ -97,21 +103,30 @@ class _SnapPageScrollPhysics extends ScrollPhysics {
     ScrollMetrics position,
     double velocity,
   ) {
-    if ((velocity <= 0.0 && position.pixels <= position.minScrollExtent) ||
-        (velocity >= 0.0 && position.pixels >= position.maxScrollExtent)) {
+    final current = position.pixels;
+    final tol = toleranceFor(position);
+    final target = _getTargetPixels(position, velocity);
+
+    if ((velocity <= 0.0 && current <= position.minScrollExtent) ||
+        (velocity >= 0.0 && current >= position.maxScrollExtent)) {
       return super.createBallisticSimulation(position, velocity);
     }
-    final target = _getTargetPixels(position, velocity);
-    if (target != position.pixels) {
-      return ScrollSpringSimulation(
-        spring,
-        position.pixels,
-        target,
-        velocity,
-        tolerance: toleranceFor(position),
-      );
+
+    if ((target - current).abs() <= tol.distance) {
+      return null;
     }
-    return null;
+
+    if (modeState.value == NavigationUrlPhysicMode.none) {
+      return _InstantScrollSimulation(target);
+    }
+
+    return ScrollSpringSimulation(
+      spring,
+      current,
+      target,
+      velocity,
+      tolerance: tol,
+    );
   }
 
   double _getCurrentPage(ScrollMetrics position) {
@@ -145,4 +160,24 @@ class _SnapPageScrollPhysics extends ScrollPhysics {
 
   @override
   bool get allowImplicitScrolling => false;
+}
+
+class _InstantScrollSimulation extends Simulation {
+  _InstantScrollSimulation(this.target);
+
+  final double target;
+
+  @override
+  double x(double time) => target;
+
+  @override
+  double dx(double time) => 0;
+
+  @override
+  bool isDone(double time) => true;
+}
+
+enum NavigationUrlPhysicMode {
+  snap,
+  none,
 }

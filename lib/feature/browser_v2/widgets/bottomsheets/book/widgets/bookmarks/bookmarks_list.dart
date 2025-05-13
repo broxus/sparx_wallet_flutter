@@ -44,6 +44,7 @@ class BookmarksList extends ElementaryWidget<BookmarksListWidgetModel> {
                   return const BookmarksEmptyContent();
                 }
                 return ReorderableListView.builder(
+                  physics: const ClampingScrollPhysics(),
                   proxyDecorator: _proxyDecorator,
                   buildDefaultDragHandles: false,
                   itemCount: list.length,

@@ -18,19 +18,7 @@ void showBookModal(BuildContext context) {
       useRootNavigator: true,
       barrierColor: Colors.black.withValues(alpha: .8),
       builder: (_) {
-        return DraggableScrollableSheet(
-          expand: false,
-          snap: true,
-          snapSizes: const [.57],
-          initialChildSize: .57,
-          minChildSize: .4,
-          maxChildSize: 0.942,
-          builder: (_, ScrollController scrollController) {
-            return BrowserBook(
-              scrollController: scrollController,
-            );
-          },
-        );
+        return const BrowserBook();
       },
     ),
   );
@@ -38,13 +26,11 @@ void showBookModal(BuildContext context) {
 
 class BrowserBook extends ElementaryWidget<BrowserBookWidgetModel> {
   const BrowserBook({
-    required this.scrollController,
-    super.key,
     WidgetModelFactory<BrowserBookWidgetModel> wmFactory =
         defaultBrowserBookWidgetModelFactory,
+    super.key,
   }) : super(wmFactory);
 
-  final ScrollController scrollController;
   static const _duration = Duration(milliseconds: 250);
 
   @override
