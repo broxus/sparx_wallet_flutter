@@ -3,10 +3,7 @@ import 'package:app/feature/wallet/new_account/add_account_page.dart';
 import 'package:app/feature/wallet/new_account/add_external_account/route.dart';
 import 'package:app/feature/wallet/new_account/screen/route.dart';
 import 'package:app/feature/wallet/new_account/select_seed/route.dart';
-import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:injectable/injectable.dart';
-
-part 'route.freezed.dart';
 
 @singleton
 class AddAccountRoute extends CompassRouteParameterless<AddAccountRouteData> {
@@ -30,12 +27,7 @@ class AddAccountRoute extends CompassRouteParameterless<AddAccountRouteData> {
   }
 }
 
-/// Data model for AddAccount route
-@freezed
 class AddAccountRouteData
-    with _$AddAccountRouteData
     implements CompassRouteData {
-  const factory AddAccountRouteData() = _AddAccountRouteData;
-
-  const AddAccountRouteData._();
+  const AddAccountRouteData();
 }

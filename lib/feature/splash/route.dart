@@ -1,9 +1,6 @@
 import 'package:app/app/router/compass/compass.dart';
 import 'package:app/feature/splash/splash_screen.dart';
-import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:injectable/injectable.dart';
-
-part 'route.freezed.dart';
 
 @singleton
 class SplashScreenRoute
@@ -22,12 +19,6 @@ class SplashScreenRoute
   }
 }
 
-/// Data model for SplashScreen route
-@freezed
-class SplashScreenRouteData
-    with _$SplashScreenRouteData
-    implements CompassRouteData {
-  const factory SplashScreenRouteData() = _SplashScreenRouteData;
-
-  const SplashScreenRouteData._();
+class SplashScreenRouteData implements CompassRouteData {
+  const SplashScreenRouteData();
 }

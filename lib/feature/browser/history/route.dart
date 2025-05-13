@@ -1,10 +1,6 @@
-
 import 'package:app/app/router/compass/compass.dart';
 import 'package:app/feature/browser/history/history_page.dart';
-import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:injectable/injectable.dart';
-
-part 'route.freezed.dart';
 
 @singleton
 class BrowserHistoryRoute
@@ -21,12 +17,6 @@ class BrowserHistoryRoute
   }
 }
 
-/// Data model for BrowserHistory route
-@freezed
-class BrowserHistoryRouteData
-    with _$BrowserHistoryRouteData
-    implements CompassRouteData {
-  const factory BrowserHistoryRouteData() = _BrowserHistoryRouteData;
-
-  const BrowserHistoryRouteData._();
+class BrowserHistoryRouteData implements CompassRouteData {
+  const BrowserHistoryRouteData();
 }

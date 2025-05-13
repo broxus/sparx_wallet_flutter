@@ -14,7 +14,7 @@ const tokenWalletDetailsContractAddressQueryParam =
 
 @singleton
 class TokenWalletDetailsRoute
-    extends CompassRoute<TokenWalletDetailsRouteData, void> {
+    extends CompassRoute<TokenWalletDetailsRouteData> {
   TokenWalletDetailsRoute({
     required this.walletPrepareTransferRoute,
   }) : super(

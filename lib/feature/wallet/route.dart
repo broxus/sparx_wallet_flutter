@@ -12,10 +12,7 @@ import 'package:app/feature/wallet/wallet_deploy/route.dart';
 import 'package:app/feature/wallet/wallet_prepare_transfer/route.dart';
 import 'package:app/feature/wallet/widgets/account_asset_tab/select_new_asset/route.dart';
 import 'package:app/v1/feature/add_seed/enter_seed_name/route.dart';
-import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:injectable/injectable.dart';
-
-part 'route.freezed.dart';
 
 @singleton
 class WalletRoute extends CompassRouteParameterless<WalletRouteData> {
@@ -58,10 +55,6 @@ class WalletRoute extends CompassRouteParameterless<WalletRouteData> {
   }
 }
 
-/// Data model for Wallet route
-@freezed
-class WalletRouteData with _$WalletRouteData implements CompassRouteData {
-  const factory WalletRouteData() = _WalletRouteData;
-
-  const WalletRouteData._();
+class WalletRouteData implements CompassRouteData {
+  const WalletRouteData();
 }

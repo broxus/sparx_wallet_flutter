@@ -1,9 +1,6 @@
 import 'package:app/app/router/compass/compass.dart';
 import 'package:app/feature/biometry/view/biometry_screen.dart';
-import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:injectable/injectable.dart';
-
-part 'route.freezed.dart';
 
 @singleton
 class EnableBiometryRoute
@@ -20,12 +17,6 @@ class EnableBiometryRoute
   }
 }
 
-/// Data model for EnableBiometry route
-@freezed
-class EnableBiometryRouteData
-    with _$EnableBiometryRouteData
-    implements CompassRouteData {
-  const factory EnableBiometryRouteData() = _EnableBiometryRouteData;
-
-  const EnableBiometryRouteData._();
+class EnableBiometryRouteData implements CompassRouteData {
+  const EnableBiometryRouteData();
 }

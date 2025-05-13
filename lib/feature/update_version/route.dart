@@ -1,10 +1,7 @@
 import 'package:app/app/router/compass/compass.dart';
 import 'package:app/feature/update_version/view/update_version_screen.dart';
-import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:go_router/go_router.dart';
 import 'package:injectable/injectable.dart';
-
-part 'route.freezed.dart';
 
 @singleton
 class UpdateVersionRoute
@@ -28,12 +25,6 @@ class UpdateVersionRoute
   }
 }
 
-/// Data model for UpdateVersion route
-@freezed
-class UpdateVersionRouteData
-    with _$UpdateVersionRouteData
-    implements CompassRouteData {
-  const factory UpdateVersionRouteData() = _UpdateVersionRouteData;
-
-  const UpdateVersionRouteData._();
+class UpdateVersionRouteData implements CompassRouteData {
+  const UpdateVersionRouteData();
 }

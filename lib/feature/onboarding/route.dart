@@ -6,8 +6,7 @@ import 'package:go_router/go_router.dart';
 import 'package:injectable/injectable.dart';
 
 @singleton
-class OnBoardingRoute
-    extends CompassRouteParameterless<OnBoardingRouteData> {
+class OnBoardingRoute extends CompassRouteParameterless<OnBoardingRouteData> {
   OnBoardingRoute(
     this.chooseNetworkRoute,
   ) : super(
@@ -25,11 +24,13 @@ class OnBoardingRoute
 
   @override
   OnBoardingRouteData dataFabric() {
-    return OnBoardingRouteData();
+    return const OnBoardingRouteData();
   }
 }
 
-class OnBoardingRouteData implements CompassRouteData {}
+class OnBoardingRouteData implements CompassRouteData {
+  const OnBoardingRouteData();
+}
 
 CustomTransitionPage<void> onboardingTransitionPageBuilder(
   BuildContext _,

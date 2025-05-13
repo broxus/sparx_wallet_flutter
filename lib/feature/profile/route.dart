@@ -1,10 +1,7 @@
 import 'package:app/app/router/compass/compass.dart';
 import 'package:app/feature/profile/manage_seeds_accounts/route.dart';
 import 'package:app/feature/profile/view/profile_page_widget.dart';
-import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:injectable/injectable.dart';
-
-part 'route.freezed.dart';
 
 @singleton
 class ProfileRoute extends CompassRouteParameterless<ProfileRouteData> {
@@ -26,12 +23,6 @@ class ProfileRoute extends CompassRouteParameterless<ProfileRouteData> {
   }
 }
 
-/// Data model for Profile route
-@freezed
-class ProfileRouteData
-    with _$ProfileRouteData
-    implements CompassRouteData {
-  const factory ProfileRouteData() = _ProfileRouteData;
-
-  const ProfileRouteData._();
+class ProfileRouteData implements CompassRouteData {
+  const ProfileRouteData();
 }

@@ -2,10 +2,7 @@ import 'package:app/app/router/compass/compass.dart';
 import 'package:app/feature/add_seed/create_password/route.dart';
 import 'package:app/feature/add_seed/enter_seed_phrase/route.dart';
 import 'package:app/feature/add_seed/import_wallet/import_wallet_screen.dart';
-import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:injectable/injectable.dart';
-
-part 'route.freezed.dart';
 
 @singleton
 class ImportWalletRoute
@@ -31,12 +28,6 @@ class ImportWalletRoute
   }
 }
 
-/// Data model for ImportWallet route
-@freezed
-class ImportWalletRouteData
-    with _$ImportWalletRouteData
-    implements CompassRouteData {
-  const factory ImportWalletRouteData() = _ImportWalletRouteData;
-
-  const ImportWalletRouteData._();
+class ImportWalletRouteData implements CompassRouteData {
+  const ImportWalletRouteData();
 }
