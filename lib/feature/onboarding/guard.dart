@@ -9,7 +9,8 @@ import 'package:logging/logging.dart';
 import 'package:nekoton_repository/nekoton_repository.dart';
 
 /// Interceptor that redirects to onboarding if the user doesn't have any seeds.
-@singleton
+@named
+@Singleton(as: CompassGuard)
 class OnboardingGuard extends CompassGuard {
   OnboardingGuard(
     this._bootstrapService,

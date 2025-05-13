@@ -4,12 +4,13 @@ import 'package:app/feature/browser/tabs/route.dart';
 import 'package:app/feature/browser/view/browser_page.dart';
 import 'package:injectable/injectable.dart';
 
-@singleton
+@named
+@Singleton(as: CompassBaseRoute)
 class BrowserRoute extends CompassShellRoute {
-  BrowserRoute({
-    required this.browserPrimaryRoute,
-    required this.browserTabsRoute,
-  }) : super(
+  BrowserRoute(
+    @Named.from(BrowserPrimaryRoute) CompassBaseRoute browserPrimaryRoute,
+    @Named.from(BrowserTabsRoute) CompassBaseRoute browserTabsRoute,
+  ) : super(
           builder: (context, state, shell) => BrowserPage(
             child: shell,
           ),
@@ -18,7 +19,4 @@ class BrowserRoute extends CompassShellRoute {
             browserTabsRoute,
           ],
         );
-
-  final BrowserPrimaryRoute browserPrimaryRoute;
-  final BrowserTabsRoute browserTabsRoute;
 }

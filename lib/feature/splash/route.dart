@@ -2,7 +2,8 @@ import 'package:app/app/router/compass/compass.dart';
 import 'package:app/feature/splash/splash_screen.dart';
 import 'package:injectable/injectable.dart';
 
-@singleton
+@named
+@Singleton(as: CompassBaseRoute)
 class SplashScreenRoute
     extends CompassRouteParameterless<SplashScreenRouteData> {
   SplashScreenRoute()

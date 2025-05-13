@@ -10,14 +10,15 @@ part 'route.freezed.dart';
 const _commandQueryParam = 'command';
 
 /// Route that allows CREATE or ENTER seed phrase with entering name.
-@singleton
+@named
+@Singleton(as: CompassBaseRoute)
 @Deprecated('Use v2 version')
 class EnterSeedNameRoute extends CompassRoute<EnterSeedNameRouteData> {
   @Deprecated('Use v2 version')
-  EnterSeedNameRoute({
-    required this.createSeedRoute,
-    required this.enterSeedPhraseRoute,
-  }) : super(
+  EnterSeedNameRoute(
+    @Named.from(CreateSeedRoute) CompassBaseRoute createSeedRoute,
+    @Named.from(EnterSeedPhraseRoute) CompassBaseRoute enterSeedPhraseRoute,
+  ) : super(
           name: 'enter-seed-name',
           builder: (_, data, __) => EnterSeedNamePage(
             command: data.command,
@@ -27,9 +28,6 @@ class EnterSeedNameRoute extends CompassRoute<EnterSeedNameRouteData> {
             enterSeedPhraseRoute,
           ],
         );
-
-  final CreateSeedRoute createSeedRoute;
-  final EnterSeedPhraseRoute enterSeedPhraseRoute;
 
   @override
   EnterSeedNameRouteData fromQueryParams(Map<String, String> queryParams) {

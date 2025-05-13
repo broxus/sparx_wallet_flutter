@@ -10,7 +10,8 @@ part 'route.freezed.dart';
 // Moved parameter constants here from wallet.dart
 const custodianSettingsCustodiansParam = 'custodianSettingsCustodiansParam';
 
-@singleton
+@named
+@Singleton(as: CompassBaseRoute)
 class CustodiansSettingsRoute
     extends CompassRoute<CustodiansSettingsRouteData> {
   CustodiansSettingsRoute()

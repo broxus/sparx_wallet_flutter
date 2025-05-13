@@ -9,12 +9,14 @@ part 'route.freezed.dart';
 
 const _nextStepQueryParam = 'nextStep';
 
-@singleton
+@named
+@Singleton(as: CompassBaseRoute)
 class ChooseNetworkRoute extends CompassRoute<ChooseNetworkRouteData> {
-  ChooseNetworkRoute({
-    required this.createSeedPasswordRoute,
-    required this.addExistingWalletRoute,
-  }) : super(
+  ChooseNetworkRoute(
+    @Named.from(CreateSeedOnboardingPasswordRoute)
+    CompassBaseRoute createSeedOnboardingPasswordRoute,
+    @Named.from(AddExistingWalletRoute) CompassBaseRoute addExistingWalletRoute,
+  ) : super(
           name: 'choose-network',
           builder: (context, data, _) {
             return ChooseNetworkScreen(
@@ -22,13 +24,10 @@ class ChooseNetworkRoute extends CompassRoute<ChooseNetworkRouteData> {
             );
           },
           compassBaseRoutes: [
-            createSeedPasswordRoute,
+            createSeedOnboardingPasswordRoute,
             addExistingWalletRoute,
           ],
         );
-
-  final CreateSeedPasswordRoute createSeedPasswordRoute;
-  final AddExistingWalletRoute addExistingWalletRoute;
 
   @override
   ChooseNetworkRouteData fromQueryParams(Map<String, String> queryParams) {
@@ -58,11 +57,8 @@ class ChooseNetworkRouteData
 
   @override
   Map<String, String> toQueryParams() {
-    final nextStep = this.nextStep;
-
     return {
-      if (nextStep != null) _nextStepQueryParam: nextStep.name,
+      _nextStepQueryParam: nextStep.name,
     };
   }
 }
-

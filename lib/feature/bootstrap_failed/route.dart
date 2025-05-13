@@ -10,11 +10,12 @@ part 'route.freezed.dart';
 /// Constants for query parameter names
 const bootstrapFailedStepQueryParam = 'step';
 
-@singleton
+@named
+@Singleton(as: CompassBaseRoute)
 class BootstrapFailedRoute extends CompassRoute<BootstrapFailedRouteData> {
-  BootstrapFailedRoute({
-    required this.configureNetworksRoute,
-  }) : super(
+  BootstrapFailedRoute(
+    @Named.from(ConfigureNetworksRoute) CompassBaseRoute configureNetworksRoute,
+  ) : super(
           name: 'bootstrap-failed',
           isTopLevel: true, // Mark as top-level route
           builder: (context, data, _) => BootstrapFailedPage(
@@ -22,8 +23,6 @@ class BootstrapFailedRoute extends CompassRoute<BootstrapFailedRouteData> {
           ),
           compassBaseRoutes: [configureNetworksRoute],
         );
-
-  final ConfigureNetworksRoute configureNetworksRoute;
 
   @override
   BootstrapFailedRouteData fromQueryParams(Map<String, String> queryParams) {

@@ -11,11 +11,13 @@ const _seedPhraseQueryParam = 'seed';
 const _seedNameQueryParam = 'seedName';
 
 /// Route implementation for CheckSeedPhrase
-@singleton
+@named
+@Singleton(as: CompassBaseRoute)
 class CheckSeedPhraseRoute extends CompassRoute<CheckSeedPhraseRouteData> {
-  CheckSeedPhraseRoute({
-    required this.createSeedPasswordProfileRoute,
-  }) : super(
+  CheckSeedPhraseRoute(
+    @Named.from(CreateSeedPasswordRoute)
+    CompassBaseRoute createSeedPasswordProfileRoute,
+  ) : super(
           name: 'check-seed',
           builder: (context, data, _) => CheckSeedPhrasePage(
             seed: SeedPhraseModel(data.seedPhrase),
@@ -25,8 +27,6 @@ class CheckSeedPhraseRoute extends CompassRoute<CheckSeedPhraseRouteData> {
             createSeedPasswordProfileRoute,
           ],
         );
-
-  final CreateSeedPasswordRoute createSeedPasswordProfileRoute;
 
   @override
   CheckSeedPhraseRouteData fromQueryParams(Map<String, String> queryParams) {

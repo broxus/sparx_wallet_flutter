@@ -23,7 +23,8 @@ const confirmMultisigTransactionAmountQueryParam =
 const confirmMultisigTransactionCommentQueryParam =
     'tonWalletConfirmTransactionComment';
 
-@singleton
+@named
+@Singleton(as: CompassBaseRoute)
 class ConfirmMultisigTransactionRoute
     extends CompassRoute<ConfirmMultisigTransactionRouteData> {
   ConfirmMultisigTransactionRoute()

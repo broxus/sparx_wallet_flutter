@@ -9,7 +9,8 @@ part 'route.freezed.dart';
 const _publicKeyQueryParam = 'publicKey';
 const _passwordQueryParam = 'password';
 
-@singleton
+@named
+@Singleton(as: CompassBaseRoute)
 class NewAccountRoute extends CompassRoute<NewAccountRouteData> {
   NewAccountRoute()
       : super(

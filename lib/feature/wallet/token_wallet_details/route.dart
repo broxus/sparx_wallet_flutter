@@ -12,12 +12,14 @@ const tokenWalletDetailsOwnerAddressQueryParam =
 const tokenWalletDetailsContractAddressQueryParam =
     'tokenWalletDetailsContractAddress';
 
-@singleton
+@named
+@Singleton(as: CompassBaseRoute)
 class TokenWalletDetailsRoute
     extends CompassRoute<TokenWalletDetailsRouteData> {
-  TokenWalletDetailsRoute({
-    required this.walletPrepareTransferRoute,
-  }) : super(
+  TokenWalletDetailsRoute(
+    @Named.from(WalletPrepareTransferRoute)
+    CompassBaseRoute walletPrepareTransferRoute,
+  ) : super(
           name: 'token-wallet-details',
           builder: (context, data, _) => TokenWalletDetailsPage(
             owner: data.owner,
@@ -25,8 +27,6 @@ class TokenWalletDetailsRoute
           ),
           compassBaseRoutes: [walletPrepareTransferRoute],
         );
-
-  final WalletPrepareTransferRoute walletPrepareTransferRoute;
 
   @override
   TokenWalletDetailsRouteData fromQueryParams(Map<String, String> queryParams) {

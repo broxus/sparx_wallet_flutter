@@ -15,56 +15,193 @@ final _privateConstructorUsedError = UnsupportedError(
     'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models');
 
 /// @nodoc
-mixin _$CreateSeedPasswordRouteData {
+mixin _$CreateSeedOnboardingPasswordRouteData {
   String? get seedPhrase => throw _privateConstructorUsedError;
   MnemonicType? get mnemonicType => throw _privateConstructorUsedError;
-  @optionalTypeArgs
-  TResult when<TResult extends Object?>({
-    required TResult Function(String? seedPhrase, MnemonicType? mnemonicType)
-        onboarding,
-    required TResult Function(SeedAddType type, String? seedPhrase,
-            MnemonicType? mnemonicType, String? name)
-        profile,
-  }) =>
-      throw _privateConstructorUsedError;
-  @optionalTypeArgs
-  TResult? whenOrNull<TResult extends Object?>({
-    TResult? Function(String? seedPhrase, MnemonicType? mnemonicType)?
-        onboarding,
-    TResult? Function(SeedAddType type, String? seedPhrase,
-            MnemonicType? mnemonicType, String? name)?
-        profile,
-  }) =>
-      throw _privateConstructorUsedError;
-  @optionalTypeArgs
-  TResult maybeWhen<TResult extends Object?>({
-    TResult Function(String? seedPhrase, MnemonicType? mnemonicType)?
-        onboarding,
-    TResult Function(SeedAddType type, String? seedPhrase,
-            MnemonicType? mnemonicType, String? name)?
-        profile,
-    required TResult orElse(),
-  }) =>
-      throw _privateConstructorUsedError;
-  @optionalTypeArgs
-  TResult map<TResult extends Object?>({
-    required TResult Function(_OnboardingCreateSeed value) onboarding,
-    required TResult Function(_ProfileCreateSeed value) profile,
-  }) =>
-      throw _privateConstructorUsedError;
-  @optionalTypeArgs
-  TResult? mapOrNull<TResult extends Object?>({
-    TResult? Function(_OnboardingCreateSeed value)? onboarding,
-    TResult? Function(_ProfileCreateSeed value)? profile,
-  }) =>
-      throw _privateConstructorUsedError;
-  @optionalTypeArgs
-  TResult maybeMap<TResult extends Object?>({
-    TResult Function(_OnboardingCreateSeed value)? onboarding,
-    TResult Function(_ProfileCreateSeed value)? profile,
-    required TResult orElse(),
-  }) =>
-      throw _privateConstructorUsedError;
+
+  /// Create a copy of CreateSeedOnboardingPasswordRouteData
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  $CreateSeedOnboardingPasswordRouteDataCopyWith<
+          CreateSeedOnboardingPasswordRouteData>
+      get copyWith => throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class $CreateSeedOnboardingPasswordRouteDataCopyWith<$Res> {
+  factory $CreateSeedOnboardingPasswordRouteDataCopyWith(
+          CreateSeedOnboardingPasswordRouteData value,
+          $Res Function(CreateSeedOnboardingPasswordRouteData) then) =
+      _$CreateSeedOnboardingPasswordRouteDataCopyWithImpl<$Res,
+          CreateSeedOnboardingPasswordRouteData>;
+  @useResult
+  $Res call({String? seedPhrase, MnemonicType? mnemonicType});
+
+  $MnemonicTypeCopyWith<$Res>? get mnemonicType;
+}
+
+/// @nodoc
+class _$CreateSeedOnboardingPasswordRouteDataCopyWithImpl<$Res,
+        $Val extends CreateSeedOnboardingPasswordRouteData>
+    implements $CreateSeedOnboardingPasswordRouteDataCopyWith<$Res> {
+  _$CreateSeedOnboardingPasswordRouteDataCopyWithImpl(this._value, this._then);
+
+  // ignore: unused_field
+  final $Val _value;
+  // ignore: unused_field
+  final $Res Function($Val) _then;
+
+  /// Create a copy of CreateSeedOnboardingPasswordRouteData
+  /// with the given fields replaced by the non-null parameter values.
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? seedPhrase = freezed,
+    Object? mnemonicType = freezed,
+  }) {
+    return _then(_value.copyWith(
+      seedPhrase: freezed == seedPhrase
+          ? _value.seedPhrase
+          : seedPhrase // ignore: cast_nullable_to_non_nullable
+              as String?,
+      mnemonicType: freezed == mnemonicType
+          ? _value.mnemonicType
+          : mnemonicType // ignore: cast_nullable_to_non_nullable
+              as MnemonicType?,
+    ) as $Val);
+  }
+
+  /// Create a copy of CreateSeedOnboardingPasswordRouteData
+  /// with the given fields replaced by the non-null parameter values.
+  @override
+  @pragma('vm:prefer-inline')
+  $MnemonicTypeCopyWith<$Res>? get mnemonicType {
+    if (_value.mnemonicType == null) {
+      return null;
+    }
+
+    return $MnemonicTypeCopyWith<$Res>(_value.mnemonicType!, (value) {
+      return _then(_value.copyWith(mnemonicType: value) as $Val);
+    });
+  }
+}
+
+/// @nodoc
+abstract class _$$CreateSeedOnboardingPasswordRouteDataImplCopyWith<$Res>
+    implements $CreateSeedOnboardingPasswordRouteDataCopyWith<$Res> {
+  factory _$$CreateSeedOnboardingPasswordRouteDataImplCopyWith(
+          _$CreateSeedOnboardingPasswordRouteDataImpl value,
+          $Res Function(_$CreateSeedOnboardingPasswordRouteDataImpl) then) =
+      __$$CreateSeedOnboardingPasswordRouteDataImplCopyWithImpl<$Res>;
+  @override
+  @useResult
+  $Res call({String? seedPhrase, MnemonicType? mnemonicType});
+
+  @override
+  $MnemonicTypeCopyWith<$Res>? get mnemonicType;
+}
+
+/// @nodoc
+class __$$CreateSeedOnboardingPasswordRouteDataImplCopyWithImpl<$Res>
+    extends _$CreateSeedOnboardingPasswordRouteDataCopyWithImpl<$Res,
+        _$CreateSeedOnboardingPasswordRouteDataImpl>
+    implements _$$CreateSeedOnboardingPasswordRouteDataImplCopyWith<$Res> {
+  __$$CreateSeedOnboardingPasswordRouteDataImplCopyWithImpl(
+      _$CreateSeedOnboardingPasswordRouteDataImpl _value,
+      $Res Function(_$CreateSeedOnboardingPasswordRouteDataImpl) _then)
+      : super(_value, _then);
+
+  /// Create a copy of CreateSeedOnboardingPasswordRouteData
+  /// with the given fields replaced by the non-null parameter values.
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? seedPhrase = freezed,
+    Object? mnemonicType = freezed,
+  }) {
+    return _then(_$CreateSeedOnboardingPasswordRouteDataImpl(
+      seedPhrase: freezed == seedPhrase
+          ? _value.seedPhrase
+          : seedPhrase // ignore: cast_nullable_to_non_nullable
+              as String?,
+      mnemonicType: freezed == mnemonicType
+          ? _value.mnemonicType
+          : mnemonicType // ignore: cast_nullable_to_non_nullable
+              as MnemonicType?,
+    ));
+  }
+}
+
+/// @nodoc
+
+class _$CreateSeedOnboardingPasswordRouteDataImpl
+    extends _CreateSeedOnboardingPasswordRouteData {
+  const _$CreateSeedOnboardingPasswordRouteDataImpl(
+      {this.seedPhrase, this.mnemonicType})
+      : super._();
+
+  @override
+  final String? seedPhrase;
+  @override
+  final MnemonicType? mnemonicType;
+
+  @override
+  String toString() {
+    return 'CreateSeedOnboardingPasswordRouteData(seedPhrase: $seedPhrase, mnemonicType: $mnemonicType)';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$CreateSeedOnboardingPasswordRouteDataImpl &&
+            (identical(other.seedPhrase, seedPhrase) ||
+                other.seedPhrase == seedPhrase) &&
+            (identical(other.mnemonicType, mnemonicType) ||
+                other.mnemonicType == mnemonicType));
+  }
+
+  @override
+  int get hashCode => Object.hash(runtimeType, seedPhrase, mnemonicType);
+
+  /// Create a copy of CreateSeedOnboardingPasswordRouteData
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$CreateSeedOnboardingPasswordRouteDataImplCopyWith<
+          _$CreateSeedOnboardingPasswordRouteDataImpl>
+      get copyWith => __$$CreateSeedOnboardingPasswordRouteDataImplCopyWithImpl<
+          _$CreateSeedOnboardingPasswordRouteDataImpl>(this, _$identity);
+}
+
+abstract class _CreateSeedOnboardingPasswordRouteData
+    extends CreateSeedOnboardingPasswordRouteData {
+  const factory _CreateSeedOnboardingPasswordRouteData(
+          {final String? seedPhrase, final MnemonicType? mnemonicType}) =
+      _$CreateSeedOnboardingPasswordRouteDataImpl;
+  const _CreateSeedOnboardingPasswordRouteData._() : super._();
+
+  @override
+  String? get seedPhrase;
+  @override
+  MnemonicType? get mnemonicType;
+
+  /// Create a copy of CreateSeedOnboardingPasswordRouteData
+  /// with the given fields replaced by the non-null parameter values.
+  @override
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  _$$CreateSeedOnboardingPasswordRouteDataImplCopyWith<
+          _$CreateSeedOnboardingPasswordRouteDataImpl>
+      get copyWith => throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+mixin _$CreateSeedPasswordRouteData {
+  SeedAddType get type => throw _privateConstructorUsedError;
+  String? get seedPhrase => throw _privateConstructorUsedError;
+  MnemonicType? get mnemonicType => throw _privateConstructorUsedError;
+  String? get name => throw _privateConstructorUsedError;
 
   /// Create a copy of CreateSeedPasswordRouteData
   /// with the given fields replaced by the non-null parameter values.
@@ -81,7 +218,11 @@ abstract class $CreateSeedPasswordRouteDataCopyWith<$Res> {
       _$CreateSeedPasswordRouteDataCopyWithImpl<$Res,
           CreateSeedPasswordRouteData>;
   @useResult
-  $Res call({String? seedPhrase, MnemonicType? mnemonicType});
+  $Res call(
+      {SeedAddType type,
+      String? seedPhrase,
+      MnemonicType? mnemonicType,
+      String? name});
 
   $MnemonicTypeCopyWith<$Res>? get mnemonicType;
 }
@@ -102,10 +243,16 @@ class _$CreateSeedPasswordRouteDataCopyWithImpl<$Res,
   @pragma('vm:prefer-inline')
   @override
   $Res call({
+    Object? type = null,
     Object? seedPhrase = freezed,
     Object? mnemonicType = freezed,
+    Object? name = freezed,
   }) {
     return _then(_value.copyWith(
+      type: null == type
+          ? _value.type
+          : type // ignore: cast_nullable_to_non_nullable
+              as SeedAddType,
       seedPhrase: freezed == seedPhrase
           ? _value.seedPhrase
           : seedPhrase // ignore: cast_nullable_to_non_nullable
@@ -114,6 +261,10 @@ class _$CreateSeedPasswordRouteDataCopyWithImpl<$Res,
           ? _value.mnemonicType
           : mnemonicType // ignore: cast_nullable_to_non_nullable
               as MnemonicType?,
+      name: freezed == name
+          ? _value.name
+          : name // ignore: cast_nullable_to_non_nullable
+              as String?,
     ) as $Val);
   }
 
@@ -133,186 +284,12 @@ class _$CreateSeedPasswordRouteDataCopyWithImpl<$Res,
 }
 
 /// @nodoc
-abstract class _$$OnboardingCreateSeedImplCopyWith<$Res>
+abstract class _$$CreateSeedPasswordRouteDataImplCopyWith<$Res>
     implements $CreateSeedPasswordRouteDataCopyWith<$Res> {
-  factory _$$OnboardingCreateSeedImplCopyWith(_$OnboardingCreateSeedImpl value,
-          $Res Function(_$OnboardingCreateSeedImpl) then) =
-      __$$OnboardingCreateSeedImplCopyWithImpl<$Res>;
-  @override
-  @useResult
-  $Res call({String? seedPhrase, MnemonicType? mnemonicType});
-
-  @override
-  $MnemonicTypeCopyWith<$Res>? get mnemonicType;
-}
-
-/// @nodoc
-class __$$OnboardingCreateSeedImplCopyWithImpl<$Res>
-    extends _$CreateSeedPasswordRouteDataCopyWithImpl<$Res,
-        _$OnboardingCreateSeedImpl>
-    implements _$$OnboardingCreateSeedImplCopyWith<$Res> {
-  __$$OnboardingCreateSeedImplCopyWithImpl(_$OnboardingCreateSeedImpl _value,
-      $Res Function(_$OnboardingCreateSeedImpl) _then)
-      : super(_value, _then);
-
-  /// Create a copy of CreateSeedPasswordRouteData
-  /// with the given fields replaced by the non-null parameter values.
-  @pragma('vm:prefer-inline')
-  @override
-  $Res call({
-    Object? seedPhrase = freezed,
-    Object? mnemonicType = freezed,
-  }) {
-    return _then(_$OnboardingCreateSeedImpl(
-      seedPhrase: freezed == seedPhrase
-          ? _value.seedPhrase
-          : seedPhrase // ignore: cast_nullable_to_non_nullable
-              as String?,
-      mnemonicType: freezed == mnemonicType
-          ? _value.mnemonicType
-          : mnemonicType // ignore: cast_nullable_to_non_nullable
-              as MnemonicType?,
-    ));
-  }
-}
-
-/// @nodoc
-
-class _$OnboardingCreateSeedImpl extends _OnboardingCreateSeed {
-  const _$OnboardingCreateSeedImpl({this.seedPhrase, this.mnemonicType})
-      : super._();
-
-  @override
-  final String? seedPhrase;
-  @override
-  final MnemonicType? mnemonicType;
-
-  @override
-  String toString() {
-    return 'CreateSeedPasswordRouteData.onboarding(seedPhrase: $seedPhrase, mnemonicType: $mnemonicType)';
-  }
-
-  @override
-  bool operator ==(Object other) {
-    return identical(this, other) ||
-        (other.runtimeType == runtimeType &&
-            other is _$OnboardingCreateSeedImpl &&
-            (identical(other.seedPhrase, seedPhrase) ||
-                other.seedPhrase == seedPhrase) &&
-            (identical(other.mnemonicType, mnemonicType) ||
-                other.mnemonicType == mnemonicType));
-  }
-
-  @override
-  int get hashCode => Object.hash(runtimeType, seedPhrase, mnemonicType);
-
-  /// Create a copy of CreateSeedPasswordRouteData
-  /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
-  @override
-  @pragma('vm:prefer-inline')
-  _$$OnboardingCreateSeedImplCopyWith<_$OnboardingCreateSeedImpl>
-      get copyWith =>
-          __$$OnboardingCreateSeedImplCopyWithImpl<_$OnboardingCreateSeedImpl>(
-              this, _$identity);
-
-  @override
-  @optionalTypeArgs
-  TResult when<TResult extends Object?>({
-    required TResult Function(String? seedPhrase, MnemonicType? mnemonicType)
-        onboarding,
-    required TResult Function(SeedAddType type, String? seedPhrase,
-            MnemonicType? mnemonicType, String? name)
-        profile,
-  }) {
-    return onboarding(seedPhrase, mnemonicType);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult? whenOrNull<TResult extends Object?>({
-    TResult? Function(String? seedPhrase, MnemonicType? mnemonicType)?
-        onboarding,
-    TResult? Function(SeedAddType type, String? seedPhrase,
-            MnemonicType? mnemonicType, String? name)?
-        profile,
-  }) {
-    return onboarding?.call(seedPhrase, mnemonicType);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult maybeWhen<TResult extends Object?>({
-    TResult Function(String? seedPhrase, MnemonicType? mnemonicType)?
-        onboarding,
-    TResult Function(SeedAddType type, String? seedPhrase,
-            MnemonicType? mnemonicType, String? name)?
-        profile,
-    required TResult orElse(),
-  }) {
-    if (onboarding != null) {
-      return onboarding(seedPhrase, mnemonicType);
-    }
-    return orElse();
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult map<TResult extends Object?>({
-    required TResult Function(_OnboardingCreateSeed value) onboarding,
-    required TResult Function(_ProfileCreateSeed value) profile,
-  }) {
-    return onboarding(this);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult? mapOrNull<TResult extends Object?>({
-    TResult? Function(_OnboardingCreateSeed value)? onboarding,
-    TResult? Function(_ProfileCreateSeed value)? profile,
-  }) {
-    return onboarding?.call(this);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult maybeMap<TResult extends Object?>({
-    TResult Function(_OnboardingCreateSeed value)? onboarding,
-    TResult Function(_ProfileCreateSeed value)? profile,
-    required TResult orElse(),
-  }) {
-    if (onboarding != null) {
-      return onboarding(this);
-    }
-    return orElse();
-  }
-}
-
-abstract class _OnboardingCreateSeed extends CreateSeedPasswordRouteData {
-  const factory _OnboardingCreateSeed(
-      {final String? seedPhrase,
-      final MnemonicType? mnemonicType}) = _$OnboardingCreateSeedImpl;
-  const _OnboardingCreateSeed._() : super._();
-
-  @override
-  String? get seedPhrase;
-  @override
-  MnemonicType? get mnemonicType;
-
-  /// Create a copy of CreateSeedPasswordRouteData
-  /// with the given fields replaced by the non-null parameter values.
-  @override
-  @JsonKey(includeFromJson: false, includeToJson: false)
-  _$$OnboardingCreateSeedImplCopyWith<_$OnboardingCreateSeedImpl>
-      get copyWith => throw _privateConstructorUsedError;
-}
-
-/// @nodoc
-abstract class _$$ProfileCreateSeedImplCopyWith<$Res>
-    implements $CreateSeedPasswordRouteDataCopyWith<$Res> {
-  factory _$$ProfileCreateSeedImplCopyWith(_$ProfileCreateSeedImpl value,
-          $Res Function(_$ProfileCreateSeedImpl) then) =
-      __$$ProfileCreateSeedImplCopyWithImpl<$Res>;
+  factory _$$CreateSeedPasswordRouteDataImplCopyWith(
+          _$CreateSeedPasswordRouteDataImpl value,
+          $Res Function(_$CreateSeedPasswordRouteDataImpl) then) =
+      __$$CreateSeedPasswordRouteDataImplCopyWithImpl<$Res>;
   @override
   @useResult
   $Res call(
@@ -326,12 +303,13 @@ abstract class _$$ProfileCreateSeedImplCopyWith<$Res>
 }
 
 /// @nodoc
-class __$$ProfileCreateSeedImplCopyWithImpl<$Res>
+class __$$CreateSeedPasswordRouteDataImplCopyWithImpl<$Res>
     extends _$CreateSeedPasswordRouteDataCopyWithImpl<$Res,
-        _$ProfileCreateSeedImpl>
-    implements _$$ProfileCreateSeedImplCopyWith<$Res> {
-  __$$ProfileCreateSeedImplCopyWithImpl(_$ProfileCreateSeedImpl _value,
-      $Res Function(_$ProfileCreateSeedImpl) _then)
+        _$CreateSeedPasswordRouteDataImpl>
+    implements _$$CreateSeedPasswordRouteDataImplCopyWith<$Res> {
+  __$$CreateSeedPasswordRouteDataImplCopyWithImpl(
+      _$CreateSeedPasswordRouteDataImpl _value,
+      $Res Function(_$CreateSeedPasswordRouteDataImpl) _then)
       : super(_value, _then);
 
   /// Create a copy of CreateSeedPasswordRouteData
@@ -344,7 +322,7 @@ class __$$ProfileCreateSeedImplCopyWithImpl<$Res>
     Object? mnemonicType = freezed,
     Object? name = freezed,
   }) {
-    return _then(_$ProfileCreateSeedImpl(
+    return _then(_$CreateSeedPasswordRouteDataImpl(
       type: null == type
           ? _value.type
           : type // ignore: cast_nullable_to_non_nullable
@@ -367,8 +345,8 @@ class __$$ProfileCreateSeedImplCopyWithImpl<$Res>
 
 /// @nodoc
 
-class _$ProfileCreateSeedImpl extends _ProfileCreateSeed {
-  const _$ProfileCreateSeedImpl(
+class _$CreateSeedPasswordRouteDataImpl extends _CreateSeedPasswordRouteData {
+  const _$CreateSeedPasswordRouteDataImpl(
       {required this.type, this.seedPhrase, this.mnemonicType, this.name})
       : super._();
 
@@ -383,14 +361,14 @@ class _$ProfileCreateSeedImpl extends _ProfileCreateSeed {
 
   @override
   String toString() {
-    return 'CreateSeedPasswordRouteData.profile(type: $type, seedPhrase: $seedPhrase, mnemonicType: $mnemonicType, name: $name)';
+    return 'CreateSeedPasswordRouteData(type: $type, seedPhrase: $seedPhrase, mnemonicType: $mnemonicType, name: $name)';
   }
 
   @override
   bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$ProfileCreateSeedImpl &&
+            other is _$CreateSeedPasswordRouteDataImpl &&
             (identical(other.type, type) || other.type == type) &&
             (identical(other.seedPhrase, seedPhrase) ||
                 other.seedPhrase == seedPhrase) &&
@@ -408,101 +386,33 @@ class _$ProfileCreateSeedImpl extends _ProfileCreateSeed {
   @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
-  _$$ProfileCreateSeedImplCopyWith<_$ProfileCreateSeedImpl> get copyWith =>
-      __$$ProfileCreateSeedImplCopyWithImpl<_$ProfileCreateSeedImpl>(
-          this, _$identity);
-
-  @override
-  @optionalTypeArgs
-  TResult when<TResult extends Object?>({
-    required TResult Function(String? seedPhrase, MnemonicType? mnemonicType)
-        onboarding,
-    required TResult Function(SeedAddType type, String? seedPhrase,
-            MnemonicType? mnemonicType, String? name)
-        profile,
-  }) {
-    return profile(type, seedPhrase, mnemonicType, name);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult? whenOrNull<TResult extends Object?>({
-    TResult? Function(String? seedPhrase, MnemonicType? mnemonicType)?
-        onboarding,
-    TResult? Function(SeedAddType type, String? seedPhrase,
-            MnemonicType? mnemonicType, String? name)?
-        profile,
-  }) {
-    return profile?.call(type, seedPhrase, mnemonicType, name);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult maybeWhen<TResult extends Object?>({
-    TResult Function(String? seedPhrase, MnemonicType? mnemonicType)?
-        onboarding,
-    TResult Function(SeedAddType type, String? seedPhrase,
-            MnemonicType? mnemonicType, String? name)?
-        profile,
-    required TResult orElse(),
-  }) {
-    if (profile != null) {
-      return profile(type, seedPhrase, mnemonicType, name);
-    }
-    return orElse();
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult map<TResult extends Object?>({
-    required TResult Function(_OnboardingCreateSeed value) onboarding,
-    required TResult Function(_ProfileCreateSeed value) profile,
-  }) {
-    return profile(this);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult? mapOrNull<TResult extends Object?>({
-    TResult? Function(_OnboardingCreateSeed value)? onboarding,
-    TResult? Function(_ProfileCreateSeed value)? profile,
-  }) {
-    return profile?.call(this);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult maybeMap<TResult extends Object?>({
-    TResult Function(_OnboardingCreateSeed value)? onboarding,
-    TResult Function(_ProfileCreateSeed value)? profile,
-    required TResult orElse(),
-  }) {
-    if (profile != null) {
-      return profile(this);
-    }
-    return orElse();
-  }
+  _$$CreateSeedPasswordRouteDataImplCopyWith<_$CreateSeedPasswordRouteDataImpl>
+      get copyWith => __$$CreateSeedPasswordRouteDataImplCopyWithImpl<
+          _$CreateSeedPasswordRouteDataImpl>(this, _$identity);
 }
 
-abstract class _ProfileCreateSeed extends CreateSeedPasswordRouteData {
-  const factory _ProfileCreateSeed(
+abstract class _CreateSeedPasswordRouteData
+    extends CreateSeedPasswordRouteData {
+  const factory _CreateSeedPasswordRouteData(
       {required final SeedAddType type,
       final String? seedPhrase,
       final MnemonicType? mnemonicType,
-      final String? name}) = _$ProfileCreateSeedImpl;
-  const _ProfileCreateSeed._() : super._();
+      final String? name}) = _$CreateSeedPasswordRouteDataImpl;
+  const _CreateSeedPasswordRouteData._() : super._();
 
+  @override
   SeedAddType get type;
   @override
   String? get seedPhrase;
   @override
   MnemonicType? get mnemonicType;
+  @override
   String? get name;
 
   /// Create a copy of CreateSeedPasswordRouteData
   /// with the given fields replaced by the non-null parameter values.
   @override
   @JsonKey(includeFromJson: false, includeToJson: false)
-  _$$ProfileCreateSeedImplCopyWith<_$ProfileCreateSeedImpl> get copyWith =>
-      throw _privateConstructorUsedError;
+  _$$CreateSeedPasswordRouteDataImplCopyWith<_$CreateSeedPasswordRouteDataImpl>
+      get copyWith => throw _privateConstructorUsedError;
 }

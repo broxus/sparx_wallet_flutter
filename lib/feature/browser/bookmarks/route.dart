@@ -2,7 +2,8 @@ import 'package:app/app/router/compass/compass.dart';
 import 'package:app/feature/browser/bookmarks/bookmarks_page.dart';
 import 'package:injectable/injectable.dart';
 
-@singleton
+@named
+@Singleton(as: CompassBaseRoute)
 class BrowserBookmarksRoute
     extends CompassRouteParameterless<BrowserBookmarksRouteData> {
   BrowserBookmarksRoute()

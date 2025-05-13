@@ -4,23 +4,22 @@ import 'package:app/feature/add_seed/enter_seed_phrase/route.dart';
 import 'package:app/feature/add_seed/import_wallet/import_wallet_screen.dart';
 import 'package:injectable/injectable.dart';
 
-@singleton
+@named
+@Singleton(as: CompassBaseRoute)
 class ImportWalletRoute
     extends CompassRouteParameterless<ImportWalletRouteData> {
-  ImportWalletRoute({
-    required this.enterSeedPhraseRoute,
-    required this.createSeedPasswordRoute,
-  }) : super(
+  ImportWalletRoute(
+    // @Named.from(EnterSeedPhraseRoute) CompassBaseRoute enterSeedPhraseRoute,
+    @Named.from(CreateSeedOnboardingPasswordRoute)
+    CompassBaseRoute createSeedPasswordRoute,
+  ) : super(
           name: 'import-wallet',
           builder: (context, _, __) => const ImportWalletScreen(),
           compassBaseRoutes: [
-            enterSeedPhraseRoute,
+            // enterSeedPhraseRoute,
             createSeedPasswordRoute,
           ],
         );
-
-  final EnterSeedPhraseRoute enterSeedPhraseRoute;
-  final CreateSeedPasswordRoute createSeedPasswordRoute;
 
   @override
   ImportWalletRouteData dataFabric() {

@@ -11,12 +11,15 @@ part 'route.freezed.dart';
 
 const tonWalletDetailsAddressQueryParam = 'tonWalletDetailsAddress';
 
-@singleton
+@named
+@Singleton(as: CompassBaseRoute)
 class TonWalletDetailsRoute extends CompassRoute<TonWalletDetailsRouteData> {
   TonWalletDetailsRoute(
-    WalletDeployRoute walletDeployRoute,
-    WalletPrepareTransferRoute walletPrepareTransferRoute,
-    ConfirmMultisigTransactionRoute confirmMultisigTransactionRoute,
+    @Named.from(WalletDeployRoute) CompassBaseRoute walletDeployRoute,
+    @Named.from(WalletPrepareTransferRoute)
+    CompassBaseRoute walletPrepareTransferRoute,
+    @Named.from(ConfirmMultisigTransactionRoute)
+    CompassBaseRoute confirmMultisigTransactionRoute,
   ) : super(
           name: 'ton-wallet-details',
           builder: (context, data, _) => TonWalletDetailsPage(

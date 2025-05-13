@@ -12,12 +12,13 @@ part 'route.freezed.dart';
 /// Query parameter name for the account address in the WalletStake route
 const _addressQueryParam = 'walletStakeAddress';
 
-@singleton
+@named
+@Singleton(as: CompassBaseRoute)
 class StakingRoute extends CompassRoute<StakingRouteData> {
   StakingRoute(
-    TonWalletSendRoute tonWalletSendRoute,
-    TokenWalletSendRoute tokenWalletSendRoute,
-    CancelUnstakingRoute cancelUnstakingRoute,
+    @Named.from(TonWalletSendRoute) CompassBaseRoute tonWalletSendRoute,
+    @Named.from(TokenWalletSendRoute) CompassBaseRoute tokenWalletSendRoute,
+    @Named.from(CancelUnstakingRoute) CompassBaseRoute cancelUnstakingRoute,
   ) : super(
           name: 'wallet-stake',
           builder: (context, data, _) => StakingPageWidget(

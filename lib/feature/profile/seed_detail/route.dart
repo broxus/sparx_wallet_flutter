@@ -10,19 +10,18 @@ part 'route.freezed.dart';
 /// Constants for query parameter names
 const seedDetailPublicKeyQueryParam = 'publicKey';
 
-@singleton
+@named
+@Singleton(as: CompassBaseRoute)
 class SeedDetailRoute extends CompassRoute<SeedDetailRouteData> {
-  SeedDetailRoute({
-    required this.keyDetailRoute,
-  }) : super(
+  SeedDetailRoute(
+    @Named.from(KeyDetailRoute) CompassBaseRoute keyDetailRoute,
+  ) : super(
           name: 'seed-detail',
           builder: (context, data, _) => SeedDetailPageWidget(
             publicKey: data.publicKey,
           ),
           compassBaseRoutes: [keyDetailRoute],
         );
-
-  final KeyDetailRoute keyDetailRoute;
 
   @override
   SeedDetailRouteData fromQueryParams(Map<String, String> queryParams) {

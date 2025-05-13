@@ -6,7 +6,8 @@ import 'package:injectable/injectable.dart';
 import 'package:logging/logging.dart';
 
 /// Interceptor that restores subroutes when navigating between root app routes.
-@singleton
+@named
+@Singleton(as: CompassGuard)
 class RestoreSubroutesGuard extends CompassGuard {
   RestoreSubroutesGuard(
     this._navigationService,

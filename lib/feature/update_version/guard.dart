@@ -13,7 +13,8 @@ import 'package:rxdart/rxdart.dart';
 
 /// Interceptor that handles update requests and redirects
 /// to the update version screen.
-@singleton
+@named
+@Singleton(as: CompassGuard)
 class UpdateVersionGuard extends CompassGuard {
   UpdateVersionGuard(
     this._updateService,

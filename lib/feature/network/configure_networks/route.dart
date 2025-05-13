@@ -3,18 +3,17 @@ import 'package:app/feature/network/configure_networks/configure_networks_page.d
 import 'package:app/feature/network/edit_network/route.dart';
 import 'package:injectable/injectable.dart';
 
-@singleton
+@named
+@Singleton(as: CompassBaseRoute)
 class ConfigureNetworksRoute
     extends CompassRouteParameterless<ConfigureNetworksRouteData> {
-  ConfigureNetworksRoute({
-    required this.editNetworkRoute,
-  }) : super(
+  ConfigureNetworksRoute(
+    @Named.from(EditNetworkRoute) CompassBaseRoute editNetworkRoute,
+  ) : super(
           name: 'configure-networks',
           builder: (context, _, __) => const ConfigureNetworksPage(),
           compassBaseRoutes: [editNetworkRoute],
         );
-
-  final EditNetworkRoute editNetworkRoute;
 
   @override
   ConfigureNetworksRouteData dataFabric() {
@@ -22,7 +21,6 @@ class ConfigureNetworksRoute
   }
 }
 
-class ConfigureNetworksRouteData
-    implements CompassRouteData {
+class ConfigureNetworksRouteData implements CompassRouteData {
   const ConfigureNetworksRouteData();
 }

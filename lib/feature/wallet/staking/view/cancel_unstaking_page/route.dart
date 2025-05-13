@@ -28,11 +28,12 @@ const walletCancelUnstakingTokenPriceQueryParam =
 const walletCancelUnstakingEverPriceQueryParam =
     'walletCancelUnstakingEverPrice';
 
-@singleton
+@named
+@Singleton(as: CompassBaseRoute)
 class CancelUnstakingRoute extends CompassRoute<CancelUnstakingRouteData> {
-  CancelUnstakingRoute({
-    required this.tonWalletSendRoute,
-  }) : super(
+  CancelUnstakingRoute(
+    @Named.from(TonWalletSendRoute) CompassBaseRoute tonWalletSendRoute,
+  ) : super(
           name: 'wallet-cancel-unstaking',
           builder: (context, data, _) => CancelUnstakingPageWidget(
             request: data.request,
@@ -44,9 +45,8 @@ class CancelUnstakingRoute extends CompassRoute<CancelUnstakingRouteData> {
             tokenPrice: data.tokenPrice,
             everPrice: data.everPrice,
           ),
+          compassBaseRoutes: [tonWalletSendRoute],
         );
-
-  final TonWalletSendRoute tonWalletSendRoute;
 
   @override
   CancelUnstakingRouteData fromQueryParams(

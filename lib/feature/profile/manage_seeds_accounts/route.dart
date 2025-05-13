@@ -4,13 +4,14 @@ import 'package:app/feature/profile/seed_detail/route.dart';
 import 'package:app/v1/feature/add_seed/enter_seed_name/route.dart';
 import 'package:injectable/injectable.dart';
 
-@singleton
+@named
+@Singleton(as: CompassBaseRoute)
 class ManageSeedsAccountsRoute
     extends CompassRouteParameterless<ManageSeedsAccountsRouteData> {
   ManageSeedsAccountsRoute(
-    SeedDetailRoute seedDetailRoute,
+    @Named.from(SeedDetailRoute) CompassBaseRoute seedDetailRoute,
     // ignore: deprecated_member_use_from_same_package
-    EnterSeedNameRoute enterSeedNameRoute,
+    @Named.from(EnterSeedNameRoute) CompassBaseRoute enterSeedNameRoute,
   ) : super(
           name: 'manage-seeds-accounts',
           builder: (context, _, __) => const ManageSeedsAccountsPage(),

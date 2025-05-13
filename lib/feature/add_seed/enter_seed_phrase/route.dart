@@ -11,17 +11,22 @@ const _seedNameQueryParam = 'seedName';
 const _isOnboardingQueryParam = 'isOnboarding';
 
 /// Route that allows to enter a seed phrase without entering name.
-@singleton
+@named
+@Singleton(as: CompassBaseRoute)
 class EnterSeedPhraseRoute extends CompassRoute<EnterSeedPhraseRouteData> {
-  EnterSeedPhraseRoute({
-    required this.createSeedPasswordRoute,
-  }) : super(
+  EnterSeedPhraseRoute(
+    @Named.from(CreateSeedPasswordRoute)
+    CompassBaseRoute createSeedPasswordRoute,
+    @Named.from(CreateSeedOnboardingPasswordRoute)
+    CompassBaseRoute createSeedOnboardingPasswordRoute,
+  ) : super(
           name: 'enter-seed-phrase',
           builder: (context, _, __) => const EnterSeedPhraseWidget(),
-          compassBaseRoutes: [createSeedPasswordRoute],
+          compassBaseRoutes: [
+            createSeedPasswordRoute,
+            createSeedOnboardingPasswordRoute,
+          ],
         );
-
-  final CreateSeedPasswordRoute createSeedPasswordRoute;
 
   @override
   EnterSeedPhraseRouteData fromQueryParams(Map<String, String> queryParams) {

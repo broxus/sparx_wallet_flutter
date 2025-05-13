@@ -18,13 +18,14 @@ const walletPrepareTransferRootTokenAddressQueryParam =
 const walletPrepareTransferSymbolQueryParam = 'walletPrepareTransferSymbol';
 const walletPrepareTransferTypeQueryParam = 'walletPrepareTransferType';
 
-@singleton
+@named
+@Singleton(as: CompassBaseRoute)
 class WalletPrepareTransferRoute
     extends CompassRoute<WalletPrepareTransferRouteData> {
-  WalletPrepareTransferRoute({
-    required this.tonWalletSendRoute,
-    required this.tokenWalletSendRoute,
-  }) : super(
+  WalletPrepareTransferRoute(
+    @Named.from(TonWalletSendRoute) CompassBaseRoute tonWalletSendRoute,
+    @Named.from(TokenWalletSendRoute) CompassBaseRoute tokenWalletSendRoute,
+  ) : super(
           name: 'wallet-prepare-transfer',
           builder: (context, data, _) {
             return data.map(
@@ -44,9 +45,6 @@ class WalletPrepareTransferRoute
             tokenWalletSendRoute,
           ],
         );
-
-  final TonWalletSendRoute tonWalletSendRoute;
-  final TokenWalletSendRoute tokenWalletSendRoute;
 
   @override
   WalletPrepareTransferRouteData fromQueryParams(

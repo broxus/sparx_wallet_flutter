@@ -18,7 +18,8 @@ const tokenWalletSendAttachedAmountQueryParam = 'tokenWalletSendAttachedAmount';
 const tokenWalletSendResultMessageQueryParam = 'tokenWalletSendResultMessage';
 const tokenWalletSendNotifyReceiverQueryParam = 'tokenWalletSendNotifyReceiver';
 
-@singleton
+@named
+@Singleton(as: CompassBaseRoute)
 class TokenWalletSendRoute
     extends CompassRoute<TokenWalletSendRouteData> {
   TokenWalletSendRoute()

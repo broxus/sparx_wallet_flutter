@@ -2,7 +2,8 @@ import 'package:app/app/router/compass/compass.dart';
 import 'package:app/feature/no_internet/no_internet_screen.dart';
 import 'package:injectable/injectable.dart';
 
-@singleton
+@named
+@Singleton(as: CompassBaseRoute)
 class NoInternetRoute extends CompassRouteParameterless<NoInternetRouteData> {
   NoInternetRoute()
       : super(

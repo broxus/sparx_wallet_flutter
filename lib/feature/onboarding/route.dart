@@ -5,10 +5,11 @@ import 'package:flutter/widgets.dart';
 import 'package:go_router/go_router.dart';
 import 'package:injectable/injectable.dart';
 
-@singleton
+@named
+@Singleton(as: CompassBaseRoute)
 class OnBoardingRoute extends CompassRouteParameterless<OnBoardingRouteData> {
   OnBoardingRoute(
-    this.chooseNetworkRoute,
+    @Named.from(ChooseNetworkRoute) CompassBaseRoute chooseNetworkRoute,
   ) : super(
           name: 'onboarding',
           pageBuilder: (context, _, state) => onboardingTransitionPageBuilder(
@@ -19,8 +20,6 @@ class OnBoardingRoute extends CompassRouteParameterless<OnBoardingRouteData> {
           isTopLevel: true,
           compassBaseRoutes: [chooseNetworkRoute],
         );
-
-  final ChooseNetworkRoute chooseNetworkRoute;
 
   @override
   OnBoardingRouteData dataFabric() {

@@ -10,19 +10,18 @@ part 'route.freezed.dart';
 /// Constants for query parameter names
 const keyDetailPublicKeyQueryParam = 'publicKey';
 
-@singleton
+@named
+@Singleton(as: CompassBaseRoute)
 class KeyDetailRoute extends CompassRoute<KeyDetailRouteData> {
-  KeyDetailRoute({
-    required this.accountDetailRoute,
-  }) : super(
+  KeyDetailRoute(
+    @Named.from(AccountDetailRoute) CompassBaseRoute accountDetailRoute,
+  ) : super(
           name: 'key-detail',
           builder: (context, data, _) => KeyDetailPage(
             publicKey: data.publicKey,
           ),
           compassBaseRoutes: [accountDetailRoute],
         );
-
-  final AccountDetailRoute accountDetailRoute;
 
   @override
   KeyDetailRouteData fromQueryParams(Map<String, String> queryParams) {

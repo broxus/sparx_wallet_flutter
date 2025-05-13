@@ -18,7 +18,8 @@ const tonWalletSendCommentQueryParam = 'comment';
 const tonWalletSendPayloadQueryParam = 'payload';
 const tonWalletSendResultMessageQueryParam = 'resultMessage';
 
-@singleton
+@named
+@Singleton(as: CompassBaseRoute)
 class TonWalletSendRoute extends CompassRoute<TonWalletSendRouteData> {
   TonWalletSendRoute()
       : super(

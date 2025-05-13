@@ -5,12 +5,14 @@ import 'package:app/feature/wallet/new_account/screen/route.dart';
 import 'package:app/feature/wallet/new_account/select_seed/route.dart';
 import 'package:injectable/injectable.dart';
 
-@singleton
+@named
+@Singleton(as: CompassBaseRoute)
 class AddAccountRoute extends CompassRouteParameterless<AddAccountRouteData> {
   AddAccountRoute(
-    SelectSeedRoute selectSeedRoute,
-    NewAccountRoute newAccountRoute,
-    NewExternalAccountRoute newExternalAccountRoute,
+    @Named.from(SelectSeedRoute) CompassBaseRoute selectSeedRoute,
+    @Named.from(NewAccountRoute) CompassBaseRoute newAccountRoute,
+    @Named.from(NewExternalAccountRoute)
+    CompassBaseRoute newExternalAccountRoute,
   ) : super(
           name: 'wallet-add-account',
           builder: (context, _, __) => const AddAccountPage(),
@@ -27,7 +29,6 @@ class AddAccountRoute extends CompassRouteParameterless<AddAccountRouteData> {
   }
 }
 
-class AddAccountRouteData
-    implements CompassRouteData {
+class AddAccountRouteData implements CompassRouteData {
   const AddAccountRouteData();
 }

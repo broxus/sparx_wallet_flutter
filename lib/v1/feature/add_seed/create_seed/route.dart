@@ -10,14 +10,16 @@ part 'route.freezed.dart';
 const _seedNameQueryParam = 'seedName';
 
 /// Route that allows to create a seed phrase with/without entering name.
-@singleton
+@named
+@Singleton(as: CompassBaseRoute)
 @Deprecated('Use v2 version')
 class CreateSeedRoute extends CompassRoute<CreateSeedRouteData> {
   @Deprecated('Use v2 version')
-  CreateSeedRoute({
-    required this.checkSeedPhraseRoute,
-    required this.createSeedPasswordRoute,
-  }) : super(
+  CreateSeedRoute(
+    @Named.from(CheckSeedPhraseRoute) CompassBaseRoute checkSeedPhraseRoute,
+    @Named.from(CreateSeedPasswordRoute)
+    CompassBaseRoute createSeedPasswordRoute,
+  ) : super(
           name: 'create-seed',
           builder: (_, data, ___) => CreateSeedPage(
             name: data.seedName,
@@ -27,9 +29,6 @@ class CreateSeedRoute extends CompassRoute<CreateSeedRouteData> {
             createSeedPasswordRoute,
           ],
         );
-
-  final CheckSeedPhraseRoute checkSeedPhraseRoute;
-  final CreateSeedPasswordRoute createSeedPasswordRoute;
 
   @override
   CreateSeedRouteData fromQueryParams(Map<String, String> queryParams) {

@@ -2,7 +2,8 @@ import 'package:app/app/router/compass/compass.dart';
 import 'package:app/feature/browser/tabs/tabs_page.dart';
 import 'package:injectable/injectable.dart';
 
-@singleton
+@named
+@Singleton(as: CompassBaseRoute)
 class BrowserTabsRoute extends CompassRouteParameterless<BrowserTabsRouteData> {
   BrowserTabsRoute()
       : super(

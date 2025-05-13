@@ -14,22 +14,27 @@ import 'package:app/feature/wallet/widgets/account_asset_tab/select_new_asset/ro
 import 'package:app/v1/feature/add_seed/enter_seed_name/route.dart';
 import 'package:injectable/injectable.dart';
 
-@singleton
+@named
+@Singleton(as: CompassBaseRoute)
 class WalletRoute extends CompassRouteParameterless<WalletRouteData> {
   WalletRoute(
-    EnableBiometryRoute enableBiometryRoute,
-    SelectNewAssetRoute selectNewAssetRoute,
-    CustodiansSettingsRoute custodiansSettingsRoute,
-    AddAccountRoute addAccountRoute,
-    TonWalletDetailsRoute tonWalletDetailsRoute,
-    TokenWalletDetailsRoute tokenWalletDetailsRoute,
-    WalletPrepareTransferRoute walletPrepareTransferRoute,
-    WalletDeployRoute walletDeployRoute,
-    ConfirmMultisigTransactionRoute confirmMultisigTransactionRoute,
-    ConfigureNetworksRoute configureNetworksRoute,
-    StakingRoute walletStakeRoute,
+    @Named.from(EnableBiometryRoute) CompassBaseRoute enableBiometryRoute,
+    @Named.from(SelectNewAssetRoute) CompassBaseRoute selectNewAssetRoute,
+    @Named.from(CustodiansSettingsRoute)
+    CompassBaseRoute custodiansSettingsRoute,
+    @Named.from(AddAccountRoute) CompassBaseRoute addAccountRoute,
+    @Named.from(TonWalletDetailsRoute) CompassBaseRoute tonWalletDetailsRoute,
+    @Named.from(TokenWalletDetailsRoute)
+    CompassBaseRoute tokenWalletDetailsRoute,
+    @Named.from(WalletPrepareTransferRoute)
+    CompassBaseRoute walletPrepareTransferRoute,
+    @Named.from(WalletDeployRoute) CompassBaseRoute walletDeployRoute,
+    @Named.from(ConfirmMultisigTransactionRoute)
+    CompassBaseRoute confirmMultisigTransactionRoute,
+    @Named.from(ConfigureNetworksRoute) CompassBaseRoute configureNetworksRoute,
+    @Named.from(StakingRoute) CompassBaseRoute walletStakeRoute,
     // ignore: deprecated_member_use_from_same_package
-    EnterSeedNameRoute enterSeedNameRoute,
+    @Named.from(EnterSeedNameRoute) CompassBaseRoute enterSeedNameRoute,
   ) : super(
           name: 'wallet',
           builder: (context, _, __) => const WalletPageWidget(),

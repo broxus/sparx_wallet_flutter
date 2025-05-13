@@ -2,7 +2,8 @@ import 'package:app/app/router/compass/compass.dart';
 import 'package:app/feature/wallet/new_account/add_external_account/add_external_account_page.dart';
 import 'package:injectable/injectable.dart';
 
-@singleton
+@named
+@Singleton(as: CompassBaseRoute)
 class NewExternalAccountRoute
     extends CompassRouteParameterless<NewExternalAccountRouteData> {
   NewExternalAccountRoute()

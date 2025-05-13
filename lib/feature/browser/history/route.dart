@@ -2,7 +2,8 @@ import 'package:app/app/router/compass/compass.dart';
 import 'package:app/feature/browser/history/history_page.dart';
 import 'package:injectable/injectable.dart';
 
-@singleton
+@named
+@Singleton(as: CompassBaseRoute)
 class BrowserHistoryRoute
     extends CompassRouteParameterless<BrowserHistoryRouteData> {
   BrowserHistoryRoute()

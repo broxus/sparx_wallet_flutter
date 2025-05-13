@@ -9,7 +9,8 @@ part 'route.freezed.dart';
 /// Query parameter name for the account address in the SelectNewAsset route
 const selectNewAssetAddressQueryParam = 'selectNewAssetAddress';
 
-@singleton
+@named
+@Singleton(as: CompassBaseRoute)
 class SelectNewAssetRoute extends CompassRoute<SelectNewAssetRouteData> {
   SelectNewAssetRoute()
       : super(

@@ -11,12 +11,13 @@ part 'route.freezed.dart';
 const _urlQueryParam = 'url';
 const _tabIdQueryParam = 'tabId';
 
-@singleton
+@named
+@Singleton(as: CompassBaseRoute)
 class BrowserPrimaryRoute extends CompassRoute<BrowserPrimaryRouteData> {
-  BrowserPrimaryRoute({
-    required this.browserHistoryRoute,
-    required this.browserBookmarksRoute,
-  }) : super(
+  BrowserPrimaryRoute(
+    @Named.from(BrowserHistoryRoute) CompassBaseRoute browserHistoryRoute,
+    @Named.from(BrowserBookmarksRoute) CompassBaseRoute browserBookmarksRoute,
+  ) : super(
           name: 'browser-primary',
           builder: (context, data, _) => PrimaryPage(
             url: data.url,
@@ -27,9 +28,6 @@ class BrowserPrimaryRoute extends CompassRoute<BrowserPrimaryRouteData> {
             browserBookmarksRoute,
           ],
         );
-
-  final BrowserHistoryRoute browserHistoryRoute;
-  final BrowserBookmarksRoute browserBookmarksRoute;
 
   @override
   BrowserPrimaryRouteData fromQueryParams(Map<String, String> queryParams) {
@@ -62,7 +60,7 @@ class BrowserPrimaryRouteData
 
     return {
       if (url != null) _urlQueryParam: url,
-      if (tabId != null) _tabIdQueryParam: tabId!,
+      if (tabId != null) _tabIdQueryParam: tabId,
     };
   }
 }

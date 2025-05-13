@@ -5,13 +5,14 @@ import 'package:app/feature/root/view/root_page.dart';
 import 'package:app/feature/wallet/route.dart';
 import 'package:injectable/injectable.dart';
 
-@singleton
+@named
+@Singleton(as: CompassBaseRoute)
 class RootRoute extends CompassShellRoute {
-  RootRoute({
-    required this.walletRoute,
-    required this.browserRoute,
-    required this.profileRoute,
-  }) : super(
+  RootRoute(
+    @Named.from(WalletRoute) CompassBaseRoute walletRoute,
+    @Named.from(BrowserRoute) CompassBaseRoute browserRoute,
+    @Named.from(ProfileRoute) CompassBaseRoute profileRoute,
+  ) : super(
           isTopLevel: true, // Mark as top-level route
           builder: (context, state, shell) => RootPage(
             child: shell,
@@ -22,8 +23,4 @@ class RootRoute extends CompassShellRoute {
             profileRoute,
           ],
         );
-
-  final WalletRoute walletRoute;
-  final BrowserRoute browserRoute;
-  final ProfileRoute profileRoute;
 }

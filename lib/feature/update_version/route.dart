@@ -3,7 +3,8 @@ import 'package:app/feature/update_version/view/update_version_screen.dart';
 import 'package:go_router/go_router.dart';
 import 'package:injectable/injectable.dart';
 
-@singleton
+@named
+@Singleton(as: CompassBaseRoute)
 class UpdateVersionRoute
     extends CompassRouteParameterless<UpdateVersionRouteData> {
   UpdateVersionRoute()
