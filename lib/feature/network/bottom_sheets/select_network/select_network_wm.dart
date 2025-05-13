@@ -5,6 +5,7 @@ import 'package:app/core/wm/custom_wm.dart';
 import 'package:app/di/di.dart';
 import 'package:app/feature/network/bottom_sheets/select_network/select_network_model.dart';
 import 'package:app/feature/network/bottom_sheets/select_network/select_network_widget.dart';
+import 'package:app/feature/network/configure_networks/route.dart';
 import 'package:elementary_helper/elementary_helper.dart';
 import 'package:flutter/material.dart';
 
@@ -32,7 +33,9 @@ class SelectNetworkWidgetModel
 
   void onConfigure() {
     if (widget.needPopAfterAction) Navigator.of(context).pop();
-    context.goFurther(AppRoute.configureNetworks.path);
+    context.compassContinue(
+      const ConfigureNetworksRouteData(),
+    );
   }
 
   void onItemTap(ConnectionData data) {

@@ -1,5 +1,6 @@
-import 'package:app/app/router/app_route.dart';
+import 'package:app/app/router/router.dart';
 import 'package:app/feature/wallet/new_account/add_account/add_account_wm.dart';
+import 'package:app/feature/wallet/new_account/add_external_account/route.dart';
 import 'package:app/generated/generated.dart';
 import 'package:elementary/elementary.dart';
 import 'package:elementary_helper/elementary_helper.dart';
@@ -60,8 +61,8 @@ class AddAccountView extends ElementaryWidget<AddAccountWidgetModel> {
               ),
               GestureDetector(
                 onTap: () {
-                  context.goFurther(
-                    AppRoute.walletNewExternalAccount.path,
+                  context.compassContinue(
+                    const NewExternalAccountRouteData(),
                   );
                 },
                 child: SizedBox(

@@ -1,3 +1,4 @@
+import 'package:app/app/router/router.dart';
 import 'package:app/feature/wallet/token_wallet_send/data/data.dart';
 import 'package:app/feature/wallet/token_wallet_send/view/token_wallet_send_wm.dart';
 import 'package:app/feature/wallet/wallet.dart';
@@ -70,7 +71,7 @@ class TokenWalletSendWidget
           TokenWalletSendStateError() =>
             DefaultAppBar(titleText: LocaleKeys.confirmTransaction.tr()),
           TokenWalletSendStateReady() => DefaultAppBar(
-              onClosePressed: (context) => context.pop(),
+              onClosePressed: (context) => context.compassBack(),
               titleText: LocaleKeys.confirmTransaction.tr(),
             ),
         };

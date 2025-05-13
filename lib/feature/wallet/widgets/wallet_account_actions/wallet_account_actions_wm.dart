@@ -7,12 +7,16 @@ import 'package:app/data/models/models.dart';
 import 'package:app/di/di.dart';
 import 'package:app/feature/messenger/data/message.dart';
 import 'package:app/feature/profile/profile.dart';
+import 'package:app/feature/wallet/staking/view/staking_page/route.dart';
 import 'package:app/feature/wallet/wallet.dart';
+import 'package:app/feature/wallet/wallet_deploy/route.dart';
 import 'package:app/feature/wallet/wallet_deploy/widgets/deploy_wallet_min_ever_modal.dart';
+import 'package:app/feature/wallet/wallet_prepare_transfer/route.dart';
 import 'package:app/feature/wallet/widgets/account_settings/account_settings.dart';
 import 'package:app/feature/wallet/widgets/wallet_account_actions/wallet_account_actions_model.dart';
 import 'package:app/generated/generated.dart';
 import 'package:app/v1/feature/add_seed/enter_seed_name/enter_seed_name.dart';
+import 'package:app/v1/feature/add_seed/enter_seed_name/route.dart';
 import 'package:elementary_helper/elementary_helper.dart';
 import 'package:flutter/material.dart';
 import 'package:logging/logging.dart';
@@ -194,12 +198,8 @@ class WalletAccountActionsWidgetModel
         ),
       );
     } else {
-      context.goFurther(
-        AppRoute.walletStake.pathWithData(
-          pathParameters: {
-            walletStakeAddressPathParam: widget.account.address.address,
-          },
-        ),
+      contextSafe?.compassContinue(
+        StakingRouteData(accountAddress: widget.account.address),
       );
     }
   }
@@ -223,24 +223,17 @@ class WalletAccountActionsWidgetModel
     }
 
     if (widget.sendSpecified) {
-      context.goFurther(
-        AppRoute.walletPrepareTransferSpecified.pathWithData(
-          pathParameters: {
-            walletPrepareTransferAddressPathParam:
-                widget.account.address.address,
-            walletPrepareTransferRootTokenAddressPathParam:
-                model.nativeTokenAddress.address,
-            walletPrepareTransferSymbolPathParam: model.nativeTokenTicker,
-          },
+      contextSafe?.compassContinue(
+        WalletPrepareTransferRouteData.specified(
+          address: widget.account.address,
+          rootTokenContract: model.nativeTokenAddress,
+          tokenSymbol: model.nativeTokenTicker,
         ),
       );
     } else {
-      context.goFurther(
-        AppRoute.walletPrepareTransfer.pathWithData(
-          pathParameters: {
-            walletPrepareTransferAddressPathParam:
-                widget.account.address.address,
-          },
+      contextSafe?.compassContinue(
+        WalletPrepareTransferRouteData.basic(
+          address: widget.account.address,
         ),
       );
     }
@@ -250,12 +243,10 @@ class WalletAccountActionsWidgetModel
     if (contextSafe == null) return;
 
     if (_balance >= _minBalance) {
-      contextSafe!.goFurther(
-        AppRoute.walletDeploy.pathWithData(
-          pathParameters: {
-            walletDeployAddressPathParam: widget.account.address.address,
-            walletDeployPublicKeyPathParam: widget.account.publicKey.publicKey,
-          },
+      contextSafe?.compassContinue(
+        WalletDeployRouteData(
+          address: widget.account.address,
+          publicKey: widget.account.publicKey,
         ),
       );
     } else {
@@ -284,19 +275,15 @@ class WalletAccountActionsWidgetModel
     if (contextSafe != null && selected != null) {
       switch (selected) {
         case SelectAddSeedType.create:
-          contextSafe!.goFurther(
-            AppRoute.enterSeedName.pathWithData(
-              pathParameters: {
-                enterSeedNameCommandPathParam: EnterSeedNameCommand.create.name,
-              },
+          contextSafe?.compassContinue(
+            const EnterSeedNameRouteData(
+              command: EnterSeedNameCommand.create,
             ),
           );
         case SelectAddSeedType.import:
-          contextSafe!.goFurther(
-            AppRoute.enterSeedName.pathWithData(
-              pathParameters: {
-                enterSeedNameCommandPathParam: EnterSeedNameCommand.import.name,
-              },
+          contextSafe?.compassContinue(
+            const EnterSeedNameRouteData(
+              command: EnterSeedNameCommand.import,
             ),
           );
       }

@@ -36,7 +36,7 @@ class AppWidgetModel extends CustomWidgetModel<App, AppModel> {
     getMessage: model.getMessage,
   );
 
-  late final router = model.router.router;
+  late final router = model.router;
 
   List<LocalizationsDelegate<dynamic>> get localizationDelegates =>
       context.localizationDelegates;

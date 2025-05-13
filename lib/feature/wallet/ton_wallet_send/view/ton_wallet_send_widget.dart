@@ -1,4 +1,4 @@
-import 'package:app/app/router/routs/wallet/ton_wallet_send_route_data.dart';
+import 'package:app/app/router/router.dart';
 import 'package:app/feature/wallet/ton_wallet_send/data/data.dart';
 import 'package:app/feature/wallet/ton_wallet_send/view/ton_wallet_send_confirm_view.dart';
 import 'package:app/feature/wallet/ton_wallet_send/view/ton_wallet_send_wm.dart';
@@ -32,7 +32,7 @@ class TonWalletSendWidget extends ElementaryWidget<TonWalletSendWidgetModel> {
           TonWalletSendStateError() =>
             DefaultAppBar(titleText: LocaleKeys.confirmTransaction.tr()),
           TonWalletSendStateReady() => DefaultAppBar(
-              onClosePressed: (context) => context.pop(),
+              onClosePressed: (context) => context.compassBack(),
               titleText: LocaleKeys.confirmTransaction.tr(),
             ),
         };

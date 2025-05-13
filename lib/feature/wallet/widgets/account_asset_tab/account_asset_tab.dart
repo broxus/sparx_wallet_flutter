@@ -1,6 +1,7 @@
 import 'package:app/app/router/router.dart';
 import 'package:app/app/service/service.dart';
 import 'package:app/di/di.dart';
+import 'package:app/feature/wallet/widgets/account_asset_tab/select_new_asset/route.dart';
 import 'package:app/feature/wallet/widgets/account_asset_tab/account_asset_tab_cubit.dart';
 import 'package:app/feature/wallet/widgets/account_asset_tab/select_tokens/select_tokens_modal.dart';
 import 'package:app/feature/wallet/widgets/account_asset_tab/token_wallet_asset/token_wallet_asset_widget.dart';
@@ -204,13 +205,11 @@ class _FooterAssetsWidget extends StatelessWidget {
               style: theme.textStyles.paragraphSmall,
             ),
             GestureDetector(
-              onTap: () => context.goFurther(
-                AppRoute.selectNewAsset.pathWithData(
-                  pathParameters: {
-                    selectNewAssetAddressPathParam: address.address,
-                  },
-                ),
-              ),
+              onTap: () {
+                context.compassContinue(
+                  SelectNewAssetRouteData(address: address),
+                );
+              },
               child: Text(
                 LocaleKeys.manageAssets.tr(),
                 style: theme.textStyles.labelSmall,

@@ -3,6 +3,7 @@ import 'package:app/core/error_handler_factory.dart';
 import 'package:app/core/wm/custom_wm.dart';
 import 'package:app/di/di.dart';
 import 'package:app/feature/messenger/data/message.dart';
+import 'package:app/feature/wallet/route.dart';
 import 'package:app/feature/wallet/token_wallet_send/data/data.dart';
 import 'package:app/feature/wallet/token_wallet_send/view/token_wallet_send_model.dart';
 import 'package:app/feature/wallet/token_wallet_send/view/token_wallet_send_widget.dart';
@@ -99,7 +100,9 @@ class TokenWalletSendWidgetModel
 
       model.showMessage(Message.successful(message: resultMessage));
 
-      contextSafe?.goNamed(AppRoute.wallet.name);
+      contextSafe?.compassPoint(
+        const WalletRouteData(),
+      );
     } on OperationCanceledException catch (_) {
       // TODO(Levitsky): Now exception is muted, but in future
       // _nekotonRepository could be improved, to graceful

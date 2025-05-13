@@ -1,3 +1,4 @@
+import 'package:app/app/router/router.dart';
 import 'package:app/di/di.dart';
 import 'package:app/feature/profile/profile.dart';
 import 'package:flutter/material.dart';
@@ -28,7 +29,7 @@ class AccountDetailPage extends StatelessWidget {
       )..init(),
       child: BlocConsumer<AccountDetailCubit, AccountDetailState>(
         listener: (context, state) {
-          state.whenOrNull(empty: () => context.pop());
+          state.whenOrNull(empty: () => context.compassBack());
         },
         builder: (context, state) {
           return state.maybeWhen(

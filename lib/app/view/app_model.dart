@@ -6,6 +6,7 @@ import 'package:app/app/view/app.dart';
 import 'package:app/bootstrap/bootstrap.dart';
 import 'package:app/feature/messenger/data/message.dart';
 import 'package:app/feature/messenger/domain/service/messenger_service.dart';
+import 'package:app/feature/profile/route.dart';
 import 'package:app/generated/generated.dart';
 import 'package:elementary/elementary.dart';
 import 'package:flutter/widgets.dart';
@@ -28,7 +29,7 @@ class AppModel extends ElementaryModel with WidgetsBindingObserver {
   final MessengerService _messengerService;
 
   BuildContext? get navContext =>
-      NavigationService.navigatorKey.currentState?.context;
+      CompassRouter.navigatorKey.currentState?.context;
 
   Stream<bool> get messagesExistStream => _messengerService.messagesExistStream;
 
@@ -77,10 +78,10 @@ class AppModel extends ElementaryModel with WidgetsBindingObserver {
   }
 
   Future<void> _checkBiometry() async {
-    final location = router.currentPath.uri.path;
+    final location = router.currentRoutes.firstOrNull;
     final canUpdateStatus = await _biometryService.canUpdateStatus();
 
-    if (canUpdateStatus && location == AppRoute.profile.path) {
+    if (canUpdateStatus && location is ProfileRoute) {
       await _biometryService.setStatus(
         localizedReason: LocaleKeys.biometryAuthReason.tr(),
         isEnabled: true,

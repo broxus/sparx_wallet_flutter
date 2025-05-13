@@ -1,6 +1,7 @@
-import 'package:app/app/router/app_route.dart';
+import 'package:app/app/router/router.dart';
+import 'package:app/feature/onboarding/route.dart';
+import 'package:app/feature/wallet/route.dart';
 import 'package:flutter/material.dart';
-import 'package:go_router/go_router.dart';
 import 'package:ui_components_lib/ui_components_lib.dart';
 
 class ErrorPage extends StatefulWidget {
@@ -20,9 +21,15 @@ class _ErrorPageState extends State<ErrorPage> {
   void initState() {
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((_) {
-      context.goNamed(
-        widget.isOnboarding ? AppRoute.onboarding.name : AppRoute.wallet.name,
-      );
+      if (widget.isOnboarding) {
+        context.compassPoint(
+          const OnBoardingRouteData(),
+        );
+      } else {
+        context.compassPoint(
+          const WalletRouteData(),
+        );
+      }
     });
   }
 

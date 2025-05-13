@@ -6,11 +6,11 @@ import 'package:app/feature/messenger/data/message.dart';
 import 'package:app/feature/wallet/confirm_multisig_transaction/data/data.dart';
 import 'package:app/feature/wallet/confirm_multisig_transaction/view/confirm_multisig_transaction_model.dart';
 import 'package:app/feature/wallet/confirm_multisig_transaction/view/confirm_multisig_transaction_widget.dart';
+import 'package:app/feature/wallet/route.dart';
 import 'package:app/generated/generated.dart';
 import 'package:app/utils/utils.dart';
 import 'package:elementary_helper/elementary_helper.dart';
 import 'package:flutter/material.dart';
-import 'package:go_router/go_router.dart';
 import 'package:logging/logging.dart';
 import 'package:nekoton_repository/nekoton_repository.dart' hide Message;
 
@@ -162,7 +162,9 @@ class ConfirmMultisigTransactionWidgetModel extends CustomWidgetModel<
         ),
       );
 
-      contextSafe?.goNamed(AppRoute.wallet.name);
+      contextSafe?.compassPoint(
+        const WalletRouteData(),
+      );
     } on OperationCanceledException catch (_) {
     } on Exception catch (e, t) {
       _logger.severe('onPasswordEntered', e, t);

@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:app/app/router/router.dart';
 import 'package:app/data/models/models.dart';
 import 'package:app/di/di.dart';
+import 'package:app/feature/wallet/staking/view/cancel_unstaking_page/route.dart';
 import 'package:app/feature/wallet/widgets/account_transactions_tab/widgets/ton_wallet_transaction_status_body.dart';
 import 'package:app/feature/wallet/widgets/account_transactions_tab/widgets/ton_wallet_transaction_widget.dart';
 import 'package:app/utils/utils.dart';
@@ -55,24 +56,15 @@ class StakingInProgress extends StatelessWidget {
             isIncoming: true,
             isFirst: isFirst,
             isLast: isLast,
-            onPressed: () => context.goFurther(
-              AppRoute.walletCancelUnstaking.pathWithData(
-                queryParameters: {
-                  walletCancelUnstakingRequestQueryParam:
-                      jsonEncode(e.toJson()),
-                  walletCancelUnstakingPublicKeyQueryParam:
-                      accountKey.publicKey,
-                  walletCancelUnstakingExchangeRateQueryParam:
-                      exchangeRate.toString(),
-                  walletCancelUnstakingWithdrawHorsQueryParam:
-                      withdrawHours.toString(),
-                  walletCancelUnstakingStakingCurrencyCodeQueryParam:
-                      stakeCurrency.isoCode,
-                  walletCancelUnstakingAttachedFeeQueryParam:
-                      attachedFee.toString(),
-                  walletCancelUnstakingTokenPriceQueryParam: tokenPrice,
-                  walletCancelUnstakingEverPriceQueryParam: everPrice,
-                },
+            onPressed: () => context.compassContinue(
+              CancelUnstakingRouteData(
+                request: e,
+                accountKey: accountKey,
+                exchangeRate: exchangeRate,
+                withdrawHours: withdrawHours,
+                stakeCurrency: stakeCurrency,
+                attachedFee: attachedFee,
+                tokenPrice: Fixed.tryParse(tokenPrice),
               ),
             ),
             status: TonWalletTransactionStatus.unstakingInProgress,

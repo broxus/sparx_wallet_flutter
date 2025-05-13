@@ -3,6 +3,7 @@ import 'package:app/core/error_handler_factory.dart';
 import 'package:app/core/wm/custom_wm.dart';
 import 'package:app/di/di.dart';
 import 'package:app/feature/messenger/data/message.dart';
+import 'package:app/feature/wallet/route.dart';
 import 'package:app/feature/wallet/ton_wallet_send/data/ton_wallet_send_state.dart';
 import 'package:app/feature/wallet/ton_wallet_send/view/ton_wallet_send_model.dart';
 import 'package:app/feature/wallet/ton_wallet_send/view/ton_wallet_send_widget.dart';
@@ -10,7 +11,6 @@ import 'package:app/generated/generated.dart';
 import 'package:app/utils/utils.dart';
 import 'package:elementary_helper/elementary_helper.dart';
 import 'package:flutter/material.dart';
-import 'package:go_router/go_router.dart';
 import 'package:logging/logging.dart';
 import 'package:nekoton_repository/nekoton_repository.dart' hide Message;
 
@@ -96,9 +96,9 @@ class TonWalletSendWidgetModel
       if (!isMounted) return;
 
       if (data.popOnComplete) {
-        contextSafe?.pop(true);
+        contextSafe?.compassBack(true);
       } else {
-        contextSafe?.goNamed(AppRoute.wallet.name);
+        contextSafe?.compassPoint(const WalletRouteData());
       }
     } on OperationCanceledException catch (_) {
       // TODO(Levitsky): Now exception is muted, but in future

@@ -1,10 +1,11 @@
+import 'package:app/app/router/router.dart';
 import 'package:app/app/service/service.dart';
 import 'package:app/di/di.dart';
 import 'package:app/feature/biometry/cubit/biometry_cubit.dart';
 import 'package:app/feature/biometry/view/biometry_view.dart';
+import 'package:app/feature/wallet/route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:go_router/go_router.dart';
 import 'package:nekoton_repository/nekoton_repository.dart';
 import 'package:ui_components_lib/ui_components_lib.dart';
 
@@ -19,18 +20,13 @@ import 'package:ui_components_lib/ui_components_lib.dart';
 class BiometryScreen extends StatelessWidget {
   const BiometryScreen({
     super.key,
-    this.onCompleted,
-    this.onClose,
   });
-
-  final VoidCallback? onCompleted;
-  final VoidCallback? onClose;
 
   @override
   Widget build(BuildContext context) {
     final themeStyle = context.themeStyleV2;
     return PopCapture(
-      onPop: onClose ?? context.pop,
+      onPop: () => _openWallet(context),
       child: Scaffold(
         backgroundColor: themeStyle.colors.background0,
         body: BlocProvider<BiometryCubit>(
@@ -40,7 +36,7 @@ class BiometryScreen extends StatelessWidget {
           )..init(),
           child: BlocConsumer<BiometryCubit, BiometryState>(
             listener: (context, state) => state.whenOrNull(
-              completed: onCompleted ?? () => context.pop(),
+              completed: () => _openWallet(context),
             ),
             builder: (context, state) {
               return state.when(
@@ -51,7 +47,7 @@ class BiometryScreen extends StatelessWidget {
                       const EdgeInsets.symmetric(horizontal: DimensSize.d16),
                   child: BiometryView(
                     isFace: isFace,
-                    onClose: onClose,
+                    onClose: () => _openWallet(context),
                   ),
                 ),
               );
@@ -60,5 +56,9 @@ class BiometryScreen extends StatelessWidget {
         ),
       ),
     );
+  }
+
+  void _openWallet(BuildContext context) {
+    context.compassPoint(const WalletRouteData());
   }
 }

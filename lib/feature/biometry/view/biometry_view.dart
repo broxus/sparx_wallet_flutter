@@ -1,3 +1,4 @@
+import 'package:app/app/router/router.dart';
 import 'package:app/feature/biometry/cubit/biometry_cubit.dart';
 import 'package:app/generated/generated.dart';
 import 'package:flutter/material.dart';
@@ -72,7 +73,7 @@ class BiometryView extends StatelessWidget {
           PrimaryButton(
             title: LocaleKeys.noThanks.tr(),
             buttonShape: ButtonShape.pill,
-            onPressed: onClose ?? () => context.pop(),
+            onPressed: onClose ?? () => context.compassBack(),
           ),
         ],
       ),

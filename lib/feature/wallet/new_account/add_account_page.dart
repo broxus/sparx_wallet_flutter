@@ -1,4 +1,7 @@
 import 'package:app/app/router/router.dart';
+import 'package:app/di/di.dart';
+import 'package:app/feature/wallet/new_account/add_external_account/route.dart';
+import 'package:app/feature/wallet/new_account/select_seed/route.dart';
 import 'package:app/generated/generated.dart';
 import 'package:flutter/material.dart';
 import 'package:lucide_icons_flutter/lucide_icons.dart';
@@ -31,9 +34,7 @@ class AddAccountPage extends StatelessWidget {
             children: [
               GestureDetector(
                 onTap: () {
-                  context.goFurther(
-                    AppRoute.walletSelectSeed.path,
-                  );
+                  context.compassContinue(const SelectSeedRouteData());
                 },
                 behavior: HitTestBehavior.translucent,
                 child: SizedBox(
@@ -63,9 +64,7 @@ class AddAccountPage extends StatelessWidget {
               ),
               GestureDetector(
                 onTap: () {
-                  context.goFurther(
-                    AppRoute.walletNewExternalAccount.path,
-                  );
+                  context.compassContinue(const NewExternalAccountRouteData());
                 },
                 child: SizedBox(
                   height: DimensSizeV2.d64,

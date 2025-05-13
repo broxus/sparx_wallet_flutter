@@ -1,13 +1,16 @@
 // ignore_for_file: use_build_context_synchronously
 
-import 'package:app/app/router/app_route.dart';
+import 'package:app/app/router/router.dart';
 import 'package:app/core/error_handler_factory.dart';
 import 'package:app/core/wm/custom_wm.dart';
 import 'package:app/di/di.dart';
+import 'package:app/feature/add_seed/add_existing_wallet/route.dart';
+import 'package:app/feature/add_seed/create_password/route.dart';
 import 'package:app/feature/choose_network/choose_network_screen.dart';
 import 'package:app/feature/choose_network/choose_network_screen_const.dart';
 import 'package:app/feature/choose_network/choose_network_screen_model.dart';
 import 'package:app/feature/choose_network/data/choose_network_item_data.dart';
+import 'package:app/feature/choose_network/route.dart';
 import 'package:elementary/elementary.dart';
 import 'package:elementary_helper/elementary_helper.dart';
 import 'package:flutter/material.dart';
@@ -80,6 +83,8 @@ class ChooseNetworkScreenWidgetModel
     if (_loadingItemId.value != null) return;
 
     try {
+      final nextStep = widget.nextStep;
+
       _loadingItemId.accept(id);
 
       final context = contextSafe;
@@ -89,19 +94,17 @@ class ChooseNetworkScreenWidgetModel
         return;
       }
 
-      final isSuccess = await model.selectType(id);
+      await model.selectType(id);
 
-      final isCanPop = context.canPop();
-
-      final nextPath = widget.nextStep;
-
-      if (nextPath != null) {
-        context.goFurther(
-          nextPath,
-          preserveQueryParams: true,
-        );
-      } else if (isCanPop) {
-        context.pop(isSuccess);
+      switch (nextStep) {
+        case ChooseNetworkNextStep.createSeedPassword:
+          context.compassContinue(
+            const CreateSeedOnboardingPasswordRouteData(),
+          );
+        case ChooseNetworkNextStep.addExistingWallet:
+          context.compassContinue(
+            const AddExistingWalletRouteData(),
+          );
       }
     } finally {
       _loadingItemId.accept(null);
@@ -109,7 +112,7 @@ class ChooseNetworkScreenWidgetModel
   }
 
   void onBackPressed() {
-    contextSafe?.pop();
+    contextSafe?.compassBack();
   }
 
   void _handleScroll() {

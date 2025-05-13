@@ -1,6 +1,7 @@
 import 'package:app/feature/choose_network/choose_network_screen_const.dart';
 import 'package:app/feature/choose_network/choose_network_screen_wm.dart';
 import 'package:app/feature/choose_network/data/choose_network_item_data.dart';
+import 'package:app/feature/choose_network/route.dart';
 import 'package:app/feature/choose_network/widgets/choose_network_item.dart';
 import 'package:app/generated/generated.dart';
 import 'package:app/widgets/search/nothing_found.dart';
@@ -17,12 +18,12 @@ const chooseNetworkScreenNextStepQuery = 'chooseNetworkNextStep';
 class ChooseNetworkScreen
     extends ElementaryWidget<ChooseNetworkScreenWidgetModel> {
   const ChooseNetworkScreen({
-    this.nextStep,
+    required this.nextStep,
     Key? key,
     WidgetModelFactory wmFactory = defaultChooseNetworkScreenWidgetModelFactory,
   }) : super(wmFactory, key: key);
 
-  final String? nextStep;
+  final ChooseNetworkNextStep nextStep;
 
   @override
   Widget build(ChooseNetworkScreenWidgetModel wm) {

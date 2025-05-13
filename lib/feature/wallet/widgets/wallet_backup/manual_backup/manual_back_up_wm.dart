@@ -1,6 +1,6 @@
 import 'dart:async';
 
-import 'package:app/app/router/app_route.dart';
+import 'package:app/app/router/router.dart';
 import 'package:app/core/error_handler_factory.dart';
 import 'package:app/core/wm/custom_wm.dart';
 import 'package:app/di/di.dart';
@@ -52,7 +52,7 @@ class ManualBackUpWidgetModel
   void clickSkip(BuildContext context) {
     model.setShowingBackUpFlag(widget.address);
     widget.finishedBackupCallback();
-    context.maybePop(); //close current dialog
+    context.compassBack(); //close current dialog
     showGoodJobDialog(context);
   }
 }

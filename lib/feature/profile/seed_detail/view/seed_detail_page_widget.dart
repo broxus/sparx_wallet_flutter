@@ -1,4 +1,5 @@
 import 'package:app/app/router/router.dart';
+import 'package:app/feature/profile/key_detail/route.dart';
 import 'package:app/feature/profile/seed_detail/view/seed_detail_page_wm.dart';
 import 'package:app/feature/profile/seed_detail/widgets/key_settings_sheet.dart';
 import 'package:app/generated/generated.dart';
@@ -122,13 +123,11 @@ class _KeyItem extends StatelessWidget {
     return Column(
       children: [
         CommonListTile(
-          onPressed: () => context.goFurther(
-            AppRoute.keyDetail.pathWithData(
-              pathParameters: {
-                keyDetailPublicKeyPathParam: seedKey.publicKey.publicKey,
-              },
-            ),
-          ),
+          onPressed: () {
+            context.compassContinue(
+              KeyDetailRouteData(publicKey: seedKey.publicKey),
+            );
+          },
           padding: EdgeInsets.zero,
           leading: CommonBackgroundedIconWidget.svg(
             svg: Assets.images.key.path,

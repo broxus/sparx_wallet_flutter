@@ -1,3 +1,4 @@
+import 'package:app/app/router/router.dart';
 import 'package:app/di/di.dart';
 import 'package:app/feature/profile/profile.dart';
 import 'package:flutter/material.dart';
@@ -26,7 +27,7 @@ class KeyDetailPage extends StatelessWidget {
       )..init(),
       child: BlocConsumer<KeyDetailCubit, KeyDetailState>(
         listener: (context, state) =>
-            state.whenOrNull(empty: () => context.pop()),
+            state.whenOrNull(empty: () => context.compassBack()),
         builder: (context, state) {
           SeedKey? key;
           String? seedName;

@@ -1,3 +1,4 @@
+import 'package:app/app/router/router.dart';
 import 'package:app/app/service/service.dart';
 import 'package:app/di/di.dart';
 import 'package:app/feature/wallet/widgets/account_asset_tab/select_new_asset/select_new_asset.dart';
@@ -50,7 +51,7 @@ class _SelectNewAssetPageState extends State<SelectNewAssetPage> {
           ),
           child: BlocConsumer<SelectNewAssetCubit, SelectNewAssetState>(
             listener: (context, state) {
-              state.whenOrNull(completed: () => context.pop());
+              state.whenOrNull(completed: () => context.compassBack());
             },
             builder: (context, state) {
               return state.when(

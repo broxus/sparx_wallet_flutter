@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:app/app/router/router.dart';
 import 'package:app/di/di.dart';
+import 'package:app/feature/wallet/confirm_multisig_transaction/route.dart';
 import 'package:app/feature/wallet/widgets/account_info.dart';
 import 'package:app/feature/wallet/widgets/account_transactions_tab/detail/details.dart';
 import 'package:app/feature/wallet/widgets/account_transactions_tab/widgets/ton_wallet_transaction_status_body.dart';
@@ -96,32 +97,20 @@ class TonWalletMultisigPendingTransactionDetailsPage extends StatelessWidget {
                   buttonShape: ButtonShape.pill,
                   onPressed: () {
                     Navigator.of(context).pop();
-                    context.goFurther(
-                      AppRoute.confirmMultisigTransaction.pathWithData(
-                        queryParameters: {
-                          confirmMultisigTransactionWalletAddressQueryParam:
-                              transaction.walletAddress.address,
-                          confirmMultisigTransactionLocalCustodiansQueryParam:
-                              jsonEncode(
-                            transaction.nonConfirmedLocalCustodians
-                                .map((e) => e.publicKey)
-                                .toList(),
-                          ),
-                          confirmMultisigTransactionTransactionIdQueryParam:
-                              transaction.transactionId,
-                          if (safeHexString != null)
-                            confirmMultisigTransactionIdHashQueryParam:
-                                safeHexString,
-                          confirmMultisigTransactionDestinationQueryParam:
-                              transaction.address.address,
-                          confirmMultisigTransactionAmountQueryParam:
-                              transaction.value.toString(),
-                          if (transaction.comment != null)
-                            confirmMultisigTransactionCommentQueryParam:
-                                transaction.comment!,
-                        },
-                      ),
-                    );
+                    context
+                      ..compassBack()
+                      ..compassContinue(
+                        ConfirmMultisigTransactionRouteData(
+                          walletAddress: transaction.walletAddress,
+                          localCustodians:
+                              transaction.nonConfirmedLocalCustodians,
+                          transactionId: transaction.transactionId,
+                          transactionIdHash: safeHexString,
+                          amount: transaction.value,
+                          destination: transaction.address,
+                          comment: transaction.comment,
+                        ),
+                      );
                   },
                   title: LocaleKeys.confirmTransaction.tr(),
                   icon: LucideIcons.check,

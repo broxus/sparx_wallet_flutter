@@ -1,12 +1,12 @@
 // ignore_for_file: use_build_context_synchronously
 
-import 'package:app/app/router/app_route.dart';
+import 'package:app/app/router/router.dart';
 import 'package:app/data/models/seed/seed_phrase_model.dart';
 import 'package:app/feature/add_seed/create_password/create_password.dart';
+import 'package:app/feature/profile/manage_seeds_accounts/route.dart';
 import 'package:app/feature/profile/widgets/switch_to_seed_sheet/switch_to_seed_sheet.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:go_router/go_router.dart';
 import 'package:nekoton_repository/nekoton_repository.dart';
 import 'package:ui_components_lib/ui_components_lib.dart';
 
@@ -41,7 +41,7 @@ class CreateSeedPasswordProfilePage extends StatelessWidget {
           showSwitchToSeedSheet(context: context, publicKey: publicKey)
               .whenComplete(() {
             try {
-              context.goNamed(AppRoute.manageSeedsAccounts.name);
+              context.compassPoint(const ManageSeedsAccountsRouteData());
             } catch (_) {}
           });
         },
@@ -53,7 +53,7 @@ class CreateSeedPasswordProfilePage extends StatelessWidget {
         child: Scaffold(
           resizeToAvoidBottomInset: true,
           appBar: DefaultAppBar(
-            onClosePressed: (context) => context.maybePop(),
+            onClosePressed: (context) => context.compassBack(),
           ),
           body: Builder(
             builder: (context) {

@@ -1,5 +1,4 @@
 import 'package:app/app/router/router.dart';
-import 'package:app/app/service/navigation/service/service.dart';
 import 'package:app/bootstrap/bootstrap.dart';
 import 'package:app/feature/contact_support/contact_support.dart';
 import 'package:flutter/widgets.dart';

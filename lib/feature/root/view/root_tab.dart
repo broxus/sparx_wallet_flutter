@@ -1,18 +1,21 @@
+import 'package:app/app/router/compass/compass.dart';
 import 'package:app/app/router/router.dart';
+import 'package:app/feature/browser/primary/route.dart';
+import 'package:app/feature/browser/route.dart';
+import 'package:app/feature/browser/tabs/route.dart';
+import 'package:app/feature/profile/route.dart';
+import 'package:app/feature/wallet/route.dart';
 import 'package:app/generated/generated.dart';
 import 'package:flutter/material.dart';
-import 'package:logging/logging.dart';
 import 'package:lucide_icons_flutter/lucide_icons.dart';
 import 'package:ui_components_lib/v2/ui_components_lib_v2.dart';
 
 enum RootTab {
-  wallet(AppRoute.wallet),
-  browser(AppRoute.browser),
-  profile(AppRoute.profile);
+  wallet(),
+  browser(),
+  profile();
 
-  const RootTab(this.route);
-
-  final AppRoute route;
+  const RootTab();
 
   IconData get icon => switch (this) {
         RootTab.wallet => LucideIcons.wallet,
@@ -32,14 +35,23 @@ enum RootTab {
         tooltip: title,
       );
 
-  static RootTab getByPath(String path) {
-    return RootTab.values.firstWhere(
-      (e) => e.route.path == path,
-      orElse: () {
-        Logger('RootTabs').warning('No route found for path: $path');
+  void compassPoint(BuildContext context) {
+    final routeData = switch (this) {
+      RootTab.wallet => const WalletRouteData(),
+      RootTab.browser => const BrowserPrimaryRouteData(),
+      RootTab.profile => const ProfileRouteData(),
+    };
 
-        return wallet;
-      },
-    );
+    context.compassPoint(routeData);
+  }
+
+  static RootTab getByPath(CompassBaseGoRoute<CompassRouteData>? route) {
+    return switch (route) {
+      WalletRoute() => RootTab.wallet,
+      BrowserPrimaryRoute() => RootTab.browser,
+      BrowserTabsRoute() => RootTab.browser,
+      ProfileRoute() => RootTab.profile,
+      _ => RootTab.wallet,
+    };
   }
 }

@@ -143,8 +143,8 @@ These resolution strategies ensure that navigation requests:
 The Compass router automatically discovers routes and guards through dependency injection:
 
 1. During router initialization, it scans the DI container for all registered types
-2. It identifies classes that extend `CompassBaseRoute` or `CompassGuard`
-3. These components must be registered as **singletons** (not lazySingletons) to be discovered
+2. It identifies classes that implement `CompassBaseRoute` or `CompassGuard`
+3. These components must be registered using the specific DI pattern (see below) to be discovered
 4. The router then builds its routing table and middleware chain using these discovered components
 
 Specifically, in `CompassRouter`:
@@ -155,6 +155,33 @@ Specifically, in `CompassRouter`:
 - Only one route should be marked with `isInitial = true` to define the app's initial route
 
 This automatic discovery eliminates the need for manual route registration and ensures that all properly annotated route classes are included in the routing system.
+
+#### Route and Guard Registration
+
+Routes and guards must be registered using a specific pattern for the DI container to discover them:
+
+**For Routes:**
+```dart
+@named
+@Singleton(as: CompassBaseRoute)
+class MyRoute extends CompassRouteParameterless<MyRouteData> {
+  // Implementation
+}
+```
+
+**For Guards:**
+```dart
+@named
+@Singleton(as: CompassGuard)
+class MyGuard extends CompassGuard {
+  // Implementation
+}
+```
+
+This pattern ensures that:
+1. The concrete implementation is registered with a unique name (`@named`)
+2. The implementation is registered as its base interface type (`CompassBaseRoute` or `CompassGuard`)
+3. The DI container can find all implementations of the base types
 
 ## How To Use
 
@@ -196,7 +223,8 @@ class HomeRouteData with _$HomeRouteData implements CompassRouteData {
 For parameterized routes:
 
 ```dart
-@singleton
+@named
+@Singleton(as: CompassBaseRoute)
 class ProfileRoute extends CompassRoute<ProfileRouteData> {
   ProfileRoute() : super(
     name: 'profile',
@@ -217,7 +245,8 @@ class ProfileRoute extends CompassRoute<ProfileRouteData> {
 For parameterless routes:
 
 ```dart
-@singleton
+@named
+@Singleton(as: CompassBaseRoute)
 class HomeRoute extends CompassRouteParameterless<HomeRouteData> {
   HomeRoute() : super(
     name: 'home',
@@ -236,12 +265,13 @@ class HomeRoute extends CompassRouteParameterless<HomeRouteData> {
 For shell routes (like bottom tab navigation):
 
 ```dart
-@singleton
+@named
+@Singleton(as: CompassBaseRoute)
 class MainShellRoute extends CompassShellRoute {
-  MainShellRoute({
-    required HomeRoute homeRoute,
-    required ProfileRoute profileRoute,
-  }) : super(
+  MainShellRoute(
+    @Named.from(HomeRoute) CompassBaseRoute homeRoute,
+    @Named.from(ProfileRoute) CompassBaseRoute profileRoute,
+  ) : super(
     isTopLevel: true,
     compassBaseRoutes: [homeRoute, profileRoute],
   );
@@ -334,7 +364,8 @@ This method first cleans up query parameters from the current route, then pops t
 Guards allow you to implement navigation interception for auth, redirects, feature flags, and similar cross-cutting concerns.
 
 ```dart
-@singleton
+@named
+@Singleton(as: CompassGuard)
 class AuthGuard extends CompassGuard {
   AuthGuard(this._authService) : super(priority: priorityHigh);
 
@@ -382,11 +413,12 @@ As soon as any guard returns a non-null value, the navigation is redirected to t
 Nested routes are supported through the `compassBaseRoutes` parameter:
 
 ```dart
-@singleton
+@named
+@Singleton(as: CompassBaseRoute)
 class ProfileRoute extends CompassRoute<ProfileRouteData> {
-  ProfileRoute({
-    required ProfileSettingsRoute settingsRoute,
-  }) : super(
+  ProfileRoute(
+    @Named.from(ProfileSettingsRoute) CompassBaseRoute settingsRoute,
+  ) : super(
     name: 'profile',
     isTopLevel: true,
     compassBaseRoutes: [settingsRoute],
@@ -504,8 +536,10 @@ test('AuthGuard redirects to login when user is not authenticated', () {
    - Place route files in the same feature folder as the screen they navigate to
    - Use `route.dart` and `route.freezed.dart` naming conventions
 
-4. **Use singleton for all routes and guards**
-   - Routes and Guards should be marked with @singleton (not @singleton)
+4. **Use the correct registration pattern for routes and guards**
+   - Routes should be registered with `@named` and `@Singleton(as: CompassBaseRoute)`
+   - Guards should be registered with `@named` and `@Singleton(as: CompassGuard)`
+   - Inject routes into other routes using `@Named.from(ConcreteRouteType) CompassBaseRoute routeName`
    - The router scans the dependency injection container for all registered types
    - Use constructor injection for route dependencies
 
@@ -529,7 +563,9 @@ test('AuthGuard redirects to login when user is not authenticated', () {
    - Use route verification when redirecting in guards
 
 9. **Router organization and discovery**
-   - The router automatically discovers all routes and guards registered with `@singleton`
+   - The router automatically discovers all routes and guards registered as their base types
+   - Routes must be registered with `@named` and `@Singleton(as: CompassBaseRoute)`
+   - Guards must be registered with `@named` and `@Singleton(as: CompassGuard)`
    - Only routes with `isTopLevel = true` are registered directly with GoRouter
    - Only one route should have `isInitial = true` to define the app's entry point
    - Guards are executed in priority order (highest to lowest)
