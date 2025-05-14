@@ -272,7 +272,8 @@ abstract class LocaleKeys {
   static const newTab = 'newTab';
   static const newTabGroup = 'newTabGroup';
   static const newGroup = 'newGroup';
-  static const allTabs = 'allTabs';
+  static const groupWithCount = 'groupWithCount';
+  static const tabs = 'tabs';
   static const profileWord = 'profileWord';
   static const manageAssets = 'manageAssets';
   static const orWord = 'orWord';

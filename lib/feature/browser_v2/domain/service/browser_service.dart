@@ -6,12 +6,14 @@ import 'package:app/app/service/ton_connect/ton_connect_service.dart';
 import 'package:app/feature/browser_v2/data/history_type.dart';
 import 'package:app/feature/browser_v2/domain/service/storages/browser_bookmarks_storage_service.dart';
 import 'package:app/feature/browser_v2/domain/service/storages/browser_favicon_url_storage_service.dart';
+import 'package:app/feature/browser_v2/domain/service/storages/browser_groups_storage_service.dart';
 import 'package:app/feature/browser_v2/domain/service/storages/browser_history_storage_service.dart';
 import 'package:app/feature/browser_v2/domain/service/storages/browser_permissions_storage_service.dart';
 import 'package:app/feature/browser_v2/domain/service/storages/browser_tabs_storage_service.dart';
 import 'package:app/feature/browser_v2/managers/bookmarks_manager.dart';
 import 'package:app/feature/browser_v2/managers/browser_auth_manager.dart';
 import 'package:app/feature/browser_v2/managers/favicon_manager.dart';
+import 'package:app/feature/browser_v2/managers/groups_manager.dart';
 import 'package:app/feature/browser_v2/managers/history_manager.dart';
 import 'package:app/feature/browser_v2/managers/permissions_manager.dart';
 import 'package:app/feature/browser_v2/managers/tabs/tabs_manager.dart';
@@ -30,6 +32,7 @@ class BrowserService {
     this._bookmarksStorageService,
     this._browserFaviconURLStorageService,
     this._browserHistoryStorageService,
+    this._browserGroupsStorageService,
     this._browserTabsStorageService,
     this._browserPermissionsStorageService,
     this._messengerService,
@@ -42,6 +45,7 @@ class BrowserService {
   final BrowserBookmarksStorageService _bookmarksStorageService;
   final BrowserFaviconURLStorageService _browserFaviconURLStorageService;
   final BrowserHistoryStorageService _browserHistoryStorageService;
+  final BrowserGroupsStorageService _browserGroupsStorageService;
   final BrowserTabsStorageService _browserTabsStorageService;
   final BrowserPermissionsStorageService _browserPermissionsStorageService;
   final GeneralStorageService _generalStorageService;
@@ -55,6 +59,7 @@ class BrowserService {
   );
   late final favicon = FaviconManager(_browserFaviconURLStorageService);
   late final history = HistoryManager(_browserHistoryStorageService);
+  late final groups = BrowserGroupsManager(_browserGroupsStorageService);
   late final tabs = BrowserTabsManager(
     _browserTabsStorageService,
     _generalStorageService,
@@ -82,6 +87,7 @@ class BrowserService {
   void init() {
     bookmarks.init();
     history.init();
+    groups.init();
     tabs.init();
     permissions.init();
     WidgetsBinding.instance.addPostFrameCallback((_) {
@@ -93,6 +99,7 @@ class BrowserService {
   Future<void> clear() async {
     await bookmarks.clear();
     await history.clear();
+    await groups.clear();
     await tabs.clear();
     await permissions.clear();
   }

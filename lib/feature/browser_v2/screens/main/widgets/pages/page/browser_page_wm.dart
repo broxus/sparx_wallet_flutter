@@ -6,7 +6,7 @@ import 'package:app/di/di.dart';
 import 'package:app/feature/browser_v1/bottom_sheets/browser_enter_basic_auth_creds_sheet.dart';
 import 'package:app/feature/browser_v2/custom_web_controller.dart';
 import 'package:app/feature/browser_v2/data/browser_basic_auth_creds.dart';
-import 'package:app/feature/browser_v2/data/browser_tab.dart';
+import 'package:app/feature/browser_v2/data/tabs/browser_tab.dart';
 import 'package:app/feature/browser_v2/screens/main/widgets/pages/page/browser_page.dart';
 import 'package:app/feature/browser_v2/screens/main/widgets/pages/page/browser_page_model.dart';
 import 'package:elementary/elementary.dart';

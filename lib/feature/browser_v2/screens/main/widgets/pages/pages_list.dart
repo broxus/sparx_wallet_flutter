@@ -1,5 +1,5 @@
 import 'package:app/feature/browser_v2/custom_web_controller.dart';
-import 'package:app/feature/browser_v2/data/tabs_data.dart';
+import 'package:app/feature/browser_v2/data/tabs/tabs_data.dart';
 import 'package:app/feature/browser_v2/screens/main/widgets/pages/page/browser_page.dart';
 import 'package:elementary_helper/elementary_helper.dart';
 import 'package:flutter/material.dart';

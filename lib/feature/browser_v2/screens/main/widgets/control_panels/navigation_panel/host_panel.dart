@@ -1,4 +1,4 @@
-import 'package:app/feature/browser_v2/data/browser_tab.dart';
+import 'package:app/feature/browser_v2/data/tabs/browser_tab.dart';
 import 'package:elementary_helper/elementary_helper.dart';
 import 'package:flutter/material.dart';
 import 'package:ui_components_lib/v2/ui_components_lib_v2.dart';

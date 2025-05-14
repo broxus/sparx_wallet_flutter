@@ -2,8 +2,8 @@ import 'dart:collection';
 import 'dart:io';
 
 import 'package:app/app/service/storage_service/general_storage_service.dart';
-import 'package:app/feature/browser_v2/data/browser_tab.dart';
-import 'package:app/feature/browser_v2/data/tabs_data.dart';
+import 'package:app/feature/browser_v2/data/tabs/browser_tab.dart';
+import 'package:app/feature/browser_v2/data/tabs/tabs_data.dart';
 import 'package:collection/collection.dart';
 import 'package:elementary_helper/elementary_helper.dart';
 import 'package:flutter/services.dart';

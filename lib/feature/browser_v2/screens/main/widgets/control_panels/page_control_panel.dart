@@ -1,6 +1,6 @@
 import 'dart:io';
 
-import 'package:app/feature/browser_v2/data/tabs_data.dart';
+import 'package:app/feature/browser_v2/data/tabs/tabs_data.dart';
 import 'package:app/feature/browser_v2/screens/main/widgets/control_panels/background_blur.dart';
 import 'package:app/feature/browser_v2/screens/main/widgets/control_panels/navigation_panel/navigation_panel.dart';
 import 'package:app/feature/browser_v2/screens/main/widgets/control_panels/toolbar/toolbar.dart';

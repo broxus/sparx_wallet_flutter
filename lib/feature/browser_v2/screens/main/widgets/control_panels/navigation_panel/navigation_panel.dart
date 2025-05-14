@@ -1,6 +1,6 @@
 import 'dart:math';
 
-import 'package:app/feature/browser_v2/data/tabs_data.dart';
+import 'package:app/feature/browser_v2/data/tabs/tabs_data.dart';
 import 'package:app/feature/browser_v2/screens/main/widgets/control_panels/navigation_panel/address_bar.dart';
 import 'package:app/utils/types/fuction_types.dart';
 import 'package:elementary_helper/elementary_helper.dart';

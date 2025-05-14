@@ -1,4 +1,5 @@
-import 'package:app/feature/browser_v2/data/tabs_data.dart';
+
+import 'package:app/feature/browser_v2/data/tabs/tabs_data.dart';
 import 'package:app/feature/browser_v2/domain/service/browser_service.dart';
 import 'package:app/feature/browser_v2/screens/main/widgets/tabs/header/tab_list_header.dart';
 import 'package:elementary/elementary.dart';

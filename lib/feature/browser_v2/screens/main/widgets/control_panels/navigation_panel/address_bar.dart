@@ -1,4 +1,4 @@
-import 'package:app/feature/browser_v2/data/browser_tab.dart';
+import 'package:app/feature/browser_v2/data/tabs/browser_tab.dart';
 import 'package:app/generated/generated.dart';
 import 'package:app/utils/focus_utils.dart';
 import 'package:app/utils/types/fuction_types.dart';
