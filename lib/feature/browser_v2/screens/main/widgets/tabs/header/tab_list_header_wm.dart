@@ -1,7 +1,7 @@
 import 'package:app/core/error_handler_factory.dart';
 import 'package:app/core/wm/custom_wm.dart';
 import 'package:app/di/di.dart';
-import 'package:app/feature/browser_v2/data/tabs_data.dart';
+import 'package:app/feature/browser_v2/data/tabs/tabs_data.dart';
 import 'package:app/feature/browser_v2/screens/main/widgets/tabs/header/tab_list_header.dart';
 import 'package:app/feature/browser_v2/screens/main/widgets/tabs/header/tab_list_header_model.dart';
 import 'package:elementary/elementary.dart';

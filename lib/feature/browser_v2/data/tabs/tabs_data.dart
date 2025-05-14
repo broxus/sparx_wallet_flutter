@@ -1,19 +1,12 @@
 import 'dart:collection';
 
-import 'package:app/feature/browser_v2/data/browser_tab.dart';
+import 'package:app/feature/browser_v2/data/browser_collection.dart';
+import 'package:app/feature/browser_v2/data/tabs/browser_tab.dart';
 
 typedef ImageCache = HashMap<String, String>;
 
-class BrowserTabsCollection {
-  BrowserTabsCollection([List<BrowserTab>? list]) : list = list ?? [];
-
-  final List<BrowserTab> list;
-
-  int get count => list.length;
-
-  String get countText => count.toString();
-
-  bool get isNotEmpty => list.isNotEmpty;
+class BrowserTabsCollection extends BrowserCollection<BrowserTab> {
+  BrowserTabsCollection([super.list]);
 
   BrowserTab? get lastTab => list.lastOrNull;
 

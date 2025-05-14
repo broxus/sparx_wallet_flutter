@@ -1,4 +1,4 @@
-import 'package:app/feature/browser_v2/data/tabs_data.dart';
+import 'package:app/feature/browser_v2/data/tabs/tabs_data.dart';
 import 'package:app/feature/browser_v2/screens/main/widgets/tabs/header/tab_list_header_wm.dart';
 import 'package:app/generated/generated.dart';
 import 'package:auto_size_text/auto_size_text.dart';
@@ -33,7 +33,7 @@ class TabListHeader extends ElementaryWidget<TabListHeaderWidgetModel> {
             //   text: LocaleKeys.browserBookmarks.tr(),
             // ),
             _GroupItem(
-              name: LocaleKeys.allTabs.tr(),
+              name: LocaleKeys.tabs.tr(),
               count: data?.countText,
             ),
             // TODO(knightforce): Removed before implementation

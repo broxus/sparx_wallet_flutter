@@ -1,8 +1,8 @@
 import 'dart:async';
 
 import 'package:app/feature/browser_v2/custom_web_controller.dart';
-import 'package:app/feature/browser_v2/data/browser_tab.dart';
-import 'package:app/feature/browser_v2/data/tabs_data.dart';
+import 'package:app/feature/browser_v2/data/tabs/browser_tab.dart';
+import 'package:app/feature/browser_v2/data/tabs/tabs_data.dart';
 import 'package:app/feature/browser_v2/domain/service/browser_service.dart';
 import 'package:app/feature/browser_v2/screens/main/browser_main_screen.dart';
 import 'package:app/utils/url_utils.dart';

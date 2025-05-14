@@ -4,8 +4,8 @@ import 'dart:math';
 
 import 'package:app/app/service/storage_service/general_storage_service.dart';
 import 'package:app/feature/browser_v2/custom_web_controller.dart';
-import 'package:app/feature/browser_v2/data/browser_tab.dart';
-import 'package:app/feature/browser_v2/data/tabs_data.dart';
+import 'package:app/feature/browser_v2/data/tabs/browser_tab.dart';
+import 'package:app/feature/browser_v2/data/tabs/tabs_data.dart';
 import 'package:app/feature/browser_v2/domain/service/storages/browser_tabs_storage_service.dart';
 import 'package:app/feature/browser_v2/managers/tabs/helpers/browser_screen_shooter.dart';
 import 'package:app/feature/browser_v2/screens/main/data/toolbar_data.dart';
