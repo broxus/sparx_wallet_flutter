@@ -7,6 +7,8 @@ part 'browser_group.freezed.dart';
 
 part 'browser_group.g.dart';
 
+const mainTabsGroupId = 'mainTabsGroup';
+
 @freezed
 class BrowserGroup with _$BrowserGroup implements BrowserItem {
   const factory BrowserGroup({
