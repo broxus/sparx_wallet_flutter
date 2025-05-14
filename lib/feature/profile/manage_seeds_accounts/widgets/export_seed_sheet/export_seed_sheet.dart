@@ -1,5 +1,6 @@
-import 'package:app/app/service/service.dart';
 import 'package:app/di/di.dart';
+import 'package:app/feature/messenger/data/message.dart';
+import 'package:app/feature/messenger/domain/service/messenger_service.dart';
 import 'package:app/feature/profile/manage_seeds_accounts/widgets/export_seed_sheet/export_seed_cubit.dart';
 import 'package:app/feature/profile/manage_seeds_accounts/widgets/export_seed_sheet/export_seed_save_phrase.dart';
 import 'package:app/feature/profile/profile.dart';
@@ -44,7 +45,7 @@ class ExportSeedSheet extends StatelessWidget {
       listener: (context, state) {
         state.whenOrNull(
           error: (error) => inject<MessengerService>().show(
-            Message.error(context: context, message: error),
+            Message.error(message: error),
           ),
           success: (phrase) {
             Navigator.of(context)

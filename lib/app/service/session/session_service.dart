@@ -2,6 +2,7 @@ import 'package:app/app/service/identify/i_identify_icons_service.dart';
 import 'package:app/app/service/storage_service/secure_storage_service.dart';
 import 'package:app/app/service/storage_service/storage_manager_service.dart';
 import 'package:app/bootstrap/sentry.dart';
+import 'package:app/feature/browser_v2/domain/service/browser_service.dart';
 import 'package:app/utils/utils.dart';
 import 'package:injectable/injectable.dart';
 import 'package:logging/logging.dart';
@@ -15,12 +16,14 @@ class SessionService {
     this._storageManagerService,
     this._secureStorageService,
     this._identifyIconsService,
+    this._browserService,
   );
 
   final NekotonRepository _nekotonRepository;
   final StorageManagerService _storageManagerService;
   final SecureStorageService _secureStorageService;
   final IIdentifyIconsService _identifyIconsService;
+  final BrowserService _browserService;
 
   final _sentry = SentryWorker.instance;
 
@@ -54,6 +57,11 @@ class SessionService {
 
     await tryWrapper(
       _secureStorageService.clear,
+      onCatch: _captureException,
+    );
+
+    await tryWrapper(
+      _browserService.clear,
       onCatch: _captureException,
     );
   }

@@ -4,9 +4,10 @@ import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 import 'package:ui_components_lib/ui_components_lib.dart';
 import 'package:ui_components_lib/v2/ui_components_lib_v2.dart';
 
-Future<void> showPrimaryBottomSheet({
+Future<T?> showPrimaryBottomSheet<T>({
   required BuildContext context,
   String? assetsPath,
+  Color? barrierColor,
   String? title,
   String? subtitle,
   Widget? content,
@@ -18,8 +19,10 @@ Future<void> showPrimaryBottomSheet({
   bool wrapIntoAnimatedSize = true,
   bool useRootNavigator = true,
   bool showBackButton = false,
+  double bottomSpaceSize = DimensSizeV2.d32,
 }) {
-  return showCustomModalBottomSheet(
+  return showCustomModalBottomSheet<T>(
+    barrierColor: barrierColor,
     expand: expand,
     context: context,
     isDismissible: dismissible,
@@ -37,6 +40,7 @@ Future<void> showPrimaryBottomSheet({
       firstButton: firstButton,
       secondButton: secondButton,
       showBackButton: showBackButton,
+      bottomSpaceSize: bottomSpaceSize,
     ),
   );
 }
@@ -51,6 +55,7 @@ class _ContentBottomSheet extends StatelessWidget {
     this.content,
     this.firstButton,
     this.secondButton,
+    this.bottomSpaceSize = DimensSizeV2.d32,
   });
 
   final String? assetsPath;
@@ -61,6 +66,7 @@ class _ContentBottomSheet extends StatelessWidget {
   final Widget? firstButton;
   final Widget? secondButton;
   final bool showBackButton;
+  final double bottomSpaceSize;
 
   @override
   Widget build(BuildContext context) {
@@ -80,13 +86,15 @@ class _ContentBottomSheet extends StatelessWidget {
                   child: Column(
                     mainAxisSize: MainAxisSize.min,
                     children: [
-                      const SizedBox(height: DimensSizeV2.d16),
+                      const SizedBox(height: DimensSizeV2.d32),
                       if (showBackButton)
                         Align(
                           alignment: Alignment.centerLeft,
                           child: Padding(
-                            padding:
-                                const EdgeInsets.only(top: DimensSizeV2.d12),
+                            padding: const EdgeInsets.only(
+                              top: DimensSizeV2.d12,
+                              bottom: DimensSizeV2.d40,
+                            ),
                             child: FloatButton(
                               buttonShape: ButtonShape.circle,
                               icon: LucideIcons.arrowLeft,
@@ -94,7 +102,6 @@ class _ContentBottomSheet extends StatelessWidget {
                             ),
                           ),
                         ),
-                      const SizedBox(height: DimensSizeV2.d40),
                       if (assetsPath != null)
                         Padding(
                           padding:
@@ -138,7 +145,7 @@ class _ContentBottomSheet extends StatelessWidget {
                               const EdgeInsets.only(bottom: DimensSize.d12),
                           child: secondButton,
                         ),
-                      const SizedBox(height: DimensSizeV2.d32),
+                      SizedBox(height: bottomSpaceSize),
                     ],
                   ),
                 ),
@@ -147,12 +154,12 @@ class _ContentBottomSheet extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Container(
-                    margin: const EdgeInsets.only(top: DimensSizeV2.d12),
-                    width: DimensSizeV2.d40,
-                    height: DimensSizeV2.d4,
+                    margin: const EdgeInsets.only(top: DimensSizeV2.d6),
+                    width: DimensSizeV2.d36,
+                    height: DimensSizeV2.d5,
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(DimensSizeV2.d2),
-                      color: theme.colors.backgroundAlpha,
+                      color: theme.colors.primaryA.withValues(alpha: .7),
                     ),
                   ),
                 ],

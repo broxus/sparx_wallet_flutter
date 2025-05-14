@@ -1,9 +1,9 @@
 import 'dart:async';
 
-import 'package:app/app/service/service.dart';
 import 'package:app/core/error_handler_factory.dart';
 import 'package:app/core/wm/custom_wm.dart';
 import 'package:app/di/di.dart';
+import 'package:app/feature/messenger/data/message.dart';
 import 'package:app/feature/ton_connect/ton_connect.dart';
 import 'package:app/utils/utils.dart';
 import 'package:elementary_helper/elementary_helper.dart';
@@ -50,7 +50,6 @@ class TCSignDataWidgetModel
       contextSafe?.let(
         (context) => model.showMessage(
           Message.error(
-            context: context,
             message: e.toString(),
           ),
         ),

@@ -4,6 +4,8 @@ import 'package:app/app/service/service.dart';
 import 'package:app/feature/choose_network/choose_network_screen.dart';
 import 'package:app/feature/choose_network/choose_network_screen_const.dart';
 import 'package:app/feature/choose_network/data/choose_network_item_data.dart';
+import 'package:app/feature/messenger/data/message.dart';
+import 'package:app/feature/messenger/domain/service/messenger_service.dart';
 import 'package:app/utils/mixins/connection_mixin.dart';
 import 'package:elementary/elementary.dart';
 import 'package:flutter/material.dart';

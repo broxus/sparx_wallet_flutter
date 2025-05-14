@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:app/app/service/service.dart';
+import 'package:app/feature/browser_v2/custom_web_controller.dart';
 import 'package:app/utils/utils.dart';
 import 'package:collection/collection.dart';
 import 'package:flutter_inappwebview/flutter_inappwebview.dart';
@@ -22,7 +23,7 @@ class TonConnectJsBridge {
   Uri? url;
   InAppWebViewController? _controller;
 
-  Future<void> initJsBridge(InAppWebViewController controller) async {
+  Future<void> initJsBridge(CustomWebViewController controller) async {
     final deviceInfo = await _tonConnectService.getDeviceInfo();
     final source = _getJsSource(deviceInfo);
 

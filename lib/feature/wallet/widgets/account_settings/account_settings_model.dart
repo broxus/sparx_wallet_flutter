@@ -1,4 +1,6 @@
 import 'package:app/app/service/service.dart';
+import 'package:app/feature/messenger/data/message.dart';
+import 'package:app/feature/messenger/domain/service/messenger_service.dart';
 import 'package:app/generated/generated.dart';
 import 'package:collection/collection.dart';
 import 'package:elementary/elementary.dart';
@@ -33,7 +35,6 @@ class AccountSettingsModel extends ElementaryModel {
 
     _messengerService.show(
       Message.successful(
-        context: context,
         message: LocaleKeys.valueCopiedExclamation.tr(
           args: [address.toEllipseString()],
         ),

@@ -205,28 +205,6 @@ enum AppRoute {
 
   /// Browser section
 
-  /// Bookmarks browser page
-  browserBookmarks(
-    'browserBookmarks',
-    'browserBookmarks',
-    isSaveLocation: true,
-  ),
-
-  /// History browser page
-  browserHistory(
-    'browserHistory',
-    'browserHistory',
-    isSaveLocation: true,
-  ),
-
-  /// Tabs browser page
-  browserTabs(
-    'browserTabs',
-    '/browser/browserTabs',
-    isSaveLocation: true,
-    isBottomNavigationBarVisible: true,
-  ),
-
   /// Configure networks page
   configureNetworks(
     'configureNetworks',
@@ -373,7 +351,6 @@ String getRootPath({required String fullPath}) {
     final segments = AppRoute.pathSegments(fullPath: fullPath);
     if (segments.isEmpty) {
       AppRoute._log.severe('getRootPath: no root location found');
-
       return AppRoute.defaultRoute.path;
     }
     return segments.first;

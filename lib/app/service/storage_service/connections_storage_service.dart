@@ -1,4 +1,6 @@
 import 'package:app/app/service/service.dart';
+import 'package:app/feature/messenger/data/message.dart';
+import 'package:app/feature/messenger/domain/service/messenger_service.dart';
 import 'package:app/generated/generated.dart';
 import 'package:collection/collection.dart';
 import 'package:get_storage/get_storage.dart';
@@ -272,7 +274,7 @@ class ConnectionsStorageService extends AbstractStorageService {
     _messengerService.show(
       Message.info(
         message: LocaleKeys.networkDeleted.tr(),
-        actionText: LocaleKeys.networkDeletedUndo.tr(),
+        actionText: LocaleKeys.undo.tr(),
         onAction: () => _saveConnections(savedConnections),
       ),
     );

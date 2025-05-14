@@ -1,6 +1,6 @@
-import 'package:app/app/service/messenger/message.dart';
-import 'package:app/app/service/messenger/service/messenger_service.dart';
 import 'package:app/di/di.dart';
+import 'package:app/feature/messenger/data/message.dart';
+import 'package:app/feature/messenger/domain/service/messenger_service.dart';
 import 'package:app/feature/wallet/wallet.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -100,7 +100,7 @@ class TonWalletTransactionDetailsItem extends StatelessWidget {
   void _copy(BuildContext context, String value, String copyMessage) {
     Clipboard.setData(ClipboardData(text: value));
     inject<MessengerService>().show(
-      Message.successful(context: context, message: copyMessage),
+      Message.successful(message: copyMessage),
     );
   }
 }

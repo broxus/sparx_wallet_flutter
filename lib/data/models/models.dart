@@ -6,7 +6,6 @@ export 'asset_type.dart';
 export 'asset_type_params.dart';
 export 'browser_bookmark_item.dart';
 export 'browser_history_item.dart';
-export 'browser_tab.dart';
 export 'custom_currency.dart';
 export 'gas_price_params.dart';
 export 'key_added_event.dart';

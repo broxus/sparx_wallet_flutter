@@ -1,4 +1,6 @@
 import 'package:app/app/service/service.dart';
+import 'package:app/feature/messenger/data/message.dart';
+import 'package:app/feature/messenger/domain/service/messenger_service.dart';
 import 'package:app/generated/generated.dart';
 import 'package:elementary/elementary.dart';
 import 'package:local_auth/local_auth.dart';

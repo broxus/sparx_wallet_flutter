@@ -3,6 +3,7 @@ export 'base_button.dart';
 export 'button_shape.dart';
 export 'button_size.dart';
 export 'button_style.dart';
+export 'custom_button.dart';
 export 'destructive_button.dart';
 export 'float_button.dart';
 export 'ghost_button.dart';

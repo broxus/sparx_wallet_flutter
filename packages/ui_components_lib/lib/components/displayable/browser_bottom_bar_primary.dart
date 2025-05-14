@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:ui_components_lib/ui_components_lib.dart';
 
+@Deprecated('Old realisation')
 class BrowserBottomBarPrimary extends StatelessWidget {
+  @Deprecated('Old realisation')
   const BrowserBottomBarPrimary({
     required this.tabCount,
-    super.key,
     this.backSvg,
     this.forwardSvg,
     this.plusSvg,
@@ -16,6 +17,7 @@ class BrowserBottomBarPrimary extends StatelessWidget {
     this.onHistoryPressed,
     this.onCountIndicatorPressed,
     this.onDotsPressed,
+    super.key,
   });
 
   static const height = DimensSize.d48;

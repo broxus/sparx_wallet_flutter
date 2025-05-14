@@ -1,9 +1,9 @@
 import 'dart:async';
 
-import 'package:app/app/service/service.dart';
 import 'package:app/core/error_handler_factory.dart';
 import 'package:app/core/wm/custom_wm.dart';
 import 'package:app/di/di.dart';
+import 'package:app/feature/messenger/data/message.dart';
 import 'package:app/feature/wallet/wallet.dart';
 import 'package:app/feature/wallet/widgets/account_card/account_card_model.dart';
 import 'package:app/generated/generated.dart';
@@ -77,7 +77,6 @@ class AccountCardWidgetModel
     );
     model.showMessage(
       Message.successful(
-        context: context,
         message: LocaleKeys.valueCopiedExclamation.tr(
           args: [widget.account.address.toEllipseString()],
         ),

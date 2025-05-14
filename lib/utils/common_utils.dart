@@ -224,15 +224,16 @@ extension MapExt<K, V> on Map<K, V> {
   }
 }
 
-Future<void> tryWrapper(
-  Future<void> Function() f, {
+Future<T?> tryWrapper<T>(
+  Future<T?> Function() f, {
   Future<void> Function(Object e, StackTrace s)? onCatch,
 }) async {
   try {
-    await f();
+    return await f();
   } catch (e, s) {
     await onCatch?.call(e, s);
   }
+  return null;
 }
 
 extension ValueListenableExt<T> on ValueListenable<T> {
@@ -276,4 +277,11 @@ extension MnemonicTypeJson on MnemonicType {
   Map<String, dynamic> toJson() => const MnemonicTypeJsonConverter().toJson(
         this,
       );
+}
+
+Future<void> callWithDelay(
+  VoidCallback callback, {
+  Duration duration = const Duration(milliseconds: 10),
+}) {
+  return Future.delayed(duration, callback);
 }
