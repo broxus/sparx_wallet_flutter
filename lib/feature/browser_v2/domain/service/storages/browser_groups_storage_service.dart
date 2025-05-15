@@ -8,6 +8,7 @@ import 'package:get_storage/get_storage.dart';
 import 'package:injectable/injectable.dart';
 
 const _browserGroupsDomain = 'browser_groups';
+const _browserGroupsKey = 'browser_groups_key';
 
 /// This is a wrapper-class above [GetStorage] that provides methods
 /// to interact with all browser tabs - related data.
@@ -66,17 +67,17 @@ class BrowserGroupsStorageService extends AbstractStorageService {
     return _parseGroups(groups);
   }
 
-  List<BrowserGroup> _parseGroups(List<dynamic> list) {
-    return [
-      for (final entry in list)
-        BrowserGroup.fromJson(entry as Map<String, dynamic>),
-    ];
-  }
-
   void saveBrowserGroups(List<BrowserGroup> groups) {
     _groupsStorage.write(
       browserGroupsKey,
       groups.map((e) => e.toJson()).toList(),
     );
+  }
+
+  List<BrowserGroup> _parseGroups(List<dynamic> list) {
+    return [
+      for (final entry in list)
+        BrowserGroup.fromJson(entry as Map<String, dynamic>),
+    ];
   }
 }
