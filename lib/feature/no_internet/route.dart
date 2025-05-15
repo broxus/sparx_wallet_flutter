@@ -14,7 +14,7 @@ class NoInternetRoute extends CompassRouteParameterless<NoInternetRouteData> {
         );
 
   @override
-  NoInternetRouteData dataFabric() {
+  NoInternetRouteData createData() {
     return const NoInternetRouteData();
   }
 }

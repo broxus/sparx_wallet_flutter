@@ -60,7 +60,7 @@ class WalletRoute extends CompassRouteParameterless<WalletRouteData> {
         );
 
   @override
-  WalletRouteData dataFabric() {
+  WalletRouteData createData() {
     return const WalletRouteData();
   }
 }

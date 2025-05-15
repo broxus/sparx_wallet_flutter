@@ -17,7 +17,7 @@ class AddExistingWalletRoute
         );
 
   @override
-  AddExistingWalletRouteData dataFabric() {
+  AddExistingWalletRouteData createData() {
     return const AddExistingWalletRouteData();
   }
 }

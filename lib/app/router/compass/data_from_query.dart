@@ -77,14 +77,14 @@ mixin CompassRouteDataQueryMixin<T extends CompassRouteDataQuery>
 mixin EmptyRouteDataMixin<T extends CompassRouteData> on CompassBaseGoRoute<T> {
   @override
   T dataFromState(GoRouterState state) {
-    return dataFabric();
+    return createData();
   }
 
   /// Factory method that creates a new instance of the route data.
   ///
   /// Since this mixin is for parameterless routes, this method should
   /// return a default instance of the route data class.
-  T dataFabric();
+  T createData();
 
   @override
   Uri toLocation(T data) {

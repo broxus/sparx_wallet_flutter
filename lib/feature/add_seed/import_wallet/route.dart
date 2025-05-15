@@ -23,7 +23,7 @@ class ImportWalletRoute
         );
 
   @override
-  ImportWalletRouteData dataFabric() {
+  ImportWalletRouteData createData() {
     return const ImportWalletRouteData();
   }
 }

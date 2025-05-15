@@ -17,7 +17,7 @@ class SelectSeedRoute extends CompassRouteParameterless<SelectSeedRouteData> {
         );
 
   @override
-  SelectSeedRouteData dataFabric() {
+  SelectSeedRouteData createData() {
     return const SelectSeedRouteData();
   }
 }

@@ -13,7 +13,7 @@ class EnableBiometryRoute
         );
 
   @override
-  EnableBiometryRouteData dataFabric() {
+  EnableBiometryRouteData createData() {
     return const EnableBiometryRouteData();
   }
 }

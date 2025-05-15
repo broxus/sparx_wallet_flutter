@@ -14,7 +14,7 @@ class BrowserRoute extends CompassRouteParameterless<BrowserRouteData> {
         );
 
   @override
-  BrowserRouteData dataFabric() {
+  BrowserRouteData createData() {
     return const BrowserRouteData();
   }
 }

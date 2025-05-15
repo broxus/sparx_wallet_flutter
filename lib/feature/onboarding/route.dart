@@ -23,7 +23,7 @@ class OnBoardingRoute extends CompassRouteParameterless<OnBoardingRouteData> {
         );
 
   @override
-  OnBoardingRouteData dataFabric() {
+  OnBoardingRouteData createData() {
     return const OnBoardingRouteData();
   }
 }

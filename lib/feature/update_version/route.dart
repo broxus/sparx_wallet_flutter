@@ -22,7 +22,7 @@ class UpdateVersionRoute
         );
 
   @override
-  UpdateVersionRouteData dataFabric() {
+  UpdateVersionRouteData createData() {
     return const UpdateVersionRouteData();
   }
 }

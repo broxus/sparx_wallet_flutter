@@ -24,7 +24,7 @@ class AddAccountRoute extends CompassRouteParameterless<AddAccountRouteData> {
         );
 
   @override
-  AddAccountRouteData dataFabric() {
+  AddAccountRouteData createData() {
     return const AddAccountRouteData();
   }
 }

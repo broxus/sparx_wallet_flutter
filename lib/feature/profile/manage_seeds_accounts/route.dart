@@ -24,7 +24,7 @@ class ManageSeedsAccountsRoute
         );
 
   @override
-  ManageSeedsAccountsRouteData dataFabric() {
+  ManageSeedsAccountsRouteData createData() {
     return const ManageSeedsAccountsRouteData();
   }
 }

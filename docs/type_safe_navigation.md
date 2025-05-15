@@ -87,6 +87,7 @@ abstract class CompassRoute<T extends CompassRouteDataQuery>
 ```
 
 Key features:
+
 - Handles query parameter serialization and deserialization
 - Provides type-safe access to route parameters
 - Preserves parameters during navigation
@@ -103,6 +104,7 @@ abstract class CompassRouteParameterless<T extends CompassRouteData>
 ```
 
 Key features:
+
 - Simplified implementation for routes without parameters
 - Uses a factory method pattern with `dataFabric()` to create route data
 - Type-safe routing without the overhead of parameter handling
@@ -119,6 +121,7 @@ abstract class CompassShellRoute
 ```
 
 Key features:
+
 - Creates a StatefulShellRoute for complex UI patterns like tab navigation
 - Each child route becomes a separate branch in the shell
 - Maintains independent navigation state for each branch
@@ -148,6 +151,7 @@ The Compass router automatically discovers routes and guards through dependency 
 4. The router then builds its routing table and middleware chain using these discovered components
 
 Specifically, in `CompassRouter`:
+
 - Routes are discovered via `GetIt.I.getAll<CompassBaseRoute>()`
 - Guards are discovered via `GetIt.I.getAll<CompassGuard>()`
 - Guards are sorted by priority for execution order (higher priority guards execute first)
@@ -161,6 +165,7 @@ This automatic discovery eliminates the need for manual route registration and e
 Routes and guards must be registered using a specific pattern for the DI container to discover them:
 
 **For Routes:**
+
 ```dart
 @named
 @Singleton(as: CompassBaseRoute)
@@ -170,6 +175,7 @@ class MyRoute extends CompassRouteParameterless<MyRouteData> {
 ```
 
 **For Guards:**
+
 ```dart
 @named
 @Singleton(as: CompassGuard)
@@ -179,6 +185,7 @@ class MyGuard extends CompassGuard {
 ```
 
 This pattern ensures that:
+
 1. The concrete implementation is registered with a unique name (`@named`)
 2. The implementation is registered as its base interface type (`CompassBaseRoute` or `CompassGuard`)
 3. The DI container can find all implementations of the base types
@@ -227,6 +234,7 @@ For parameterized routes:
 class ProfileRoute extends CompassRoute<ProfileRouteData> {
   ProfileRoute() : super(
     name: 'profile',
+    path: '/profile',
     isTopLevel: true,
     builder: (context, data, state) => ProfilePage(userId: data.userId),
   );
@@ -249,13 +257,14 @@ For parameterless routes:
 class HomeRoute extends CompassRouteParameterless<HomeRouteData> {
   HomeRoute() : super(
     name: 'home',
+    path: '/home',
     isTopLevel: true,
     isInitial: true,
     builder: (context, data, state) => HomePage(),
   );
 
   @override
-  HomeRouteData dataFabric() {
+  HomeRouteData createData() {
     return HomeRouteData();
   }
 }
@@ -338,6 +347,7 @@ context.compassContinue(ProfileRouteData(userId: '123'));
 ```
 
 Technical implementation:
+
 1. The current path is preserved using the '.' path segment
 2. The new path segments are appended to the relative path
 3. Query parameters from both the original and new location are merged
@@ -401,6 +411,7 @@ class AuthGuard extends CompassGuard {
 ```
 
 Guards are executed in priority order (highest to lowest) when navigation occurs. The predefined priority constants are:
+
 - `priorityHigh = 3` - For critical guards like authentication
 - `priorityMedium = 2` - For feature flag guards and similar
 - `priorityLow = 1` - For analytics and other non-blocking guards
@@ -535,6 +546,7 @@ While Freezed is a powerful tool for creating immutable data classes in Flutter,
    - This mismatch causes the router to fail to find the correct route handler
 
 3. **Example of the Problem**:
+
    ```dart
    // This is what the router expects
    final type = ProfileRouteData;
@@ -599,11 +611,11 @@ While Freezed is a powerful tool for creating immutable data classes in Flutter,
    - Use route verification when redirecting in guards
 
 10. **Router organization and discovery**
-   - The router automatically discovers all routes and guards registered as their base types
-   - Routes must be registered with `@named` and `@Singleton(as: CompassBaseRoute)`
-   - Guards must be registered with `@named` and `@Singleton(as: CompassGuard)`
-   - Only routes with `isTopLevel = true` are registered directly with GoRouter
-   - Only one route should have `isInitial = true` to define the app's entry point
-   - Guards are executed in priority order (highest to lowest)
-   - Routes are identified by both type and path for efficient lookup
 
+- The router automatically discovers all routes and guards registered as their base types
+- Routes must be registered with `@named` and `@Singleton(as: CompassBaseRoute)`
+- Guards must be registered with `@named` and `@Singleton(as: CompassGuard)`
+- Only routes with `isTopLevel = true` are registered directly with GoRouter
+- Only one route should have `isInitial = true` to define the app's entry point
+- Guards are executed in priority order (highest to lowest)
+- Routes are identified by both type and path for efficient lookup

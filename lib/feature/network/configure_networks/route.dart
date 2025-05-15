@@ -17,7 +17,7 @@ class ConfigureNetworksRoute
         );
 
   @override
-  ConfigureNetworksRouteData dataFabric() {
+  ConfigureNetworksRouteData createData() {
     return const ConfigureNetworksRouteData();
   }
 }

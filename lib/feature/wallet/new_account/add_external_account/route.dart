@@ -13,7 +13,7 @@ class NewExternalAccountRoute
         );
 
   @override
-  NewExternalAccountRouteData dataFabric() {
+  NewExternalAccountRouteData createData() {
     return const NewExternalAccountRouteData();
   }
 }

@@ -16,7 +16,7 @@ class SplashScreenRoute
         );
 
   @override
-  SplashScreenRouteData dataFabric() {
+  SplashScreenRouteData createData() {
     return const SplashScreenRouteData();
   }
 }

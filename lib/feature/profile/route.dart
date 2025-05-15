@@ -21,7 +21,7 @@ class ProfileRoute extends CompassRouteParameterless<ProfileRouteData> {
         );
 
   @override
-  ProfileRouteData dataFabric() {
+  ProfileRouteData createData() {
     return const ProfileRouteData();
   }
 }
