@@ -130,12 +130,6 @@
           "value": "multisig2_1"
         },
         {
-          "type": "walletV3R1"
-        },
-        {
-          "type": "walletV3R2"
-        },
-        {
           "type": "walletV4R1"
         },
         {
@@ -164,14 +158,12 @@
         "walletV3": "Legacy",
         "highloadWalletV2": "HighloadWallet",
         "everWallet": "Default",
-        "walletV3R1": "WalletV3R1",
-        "walletV3R2": "WalletV3R2",
         "walletV4R1": "WalletV4R1",
         "walletV4R2": "WalletV4R2",
         "walletV5R1": "WalletV5R1"
       },
       "defaultWalletType": {
-        "type": "walletV5R1"
+        "type": "everWallet"
       },
       "nativeTokenTickerOption": {
         "type": "byName",
@@ -209,12 +201,6 @@
           "value": "multisig2_1"
         },
         {
-          "type": "walletV3R1"
-        },
-        {
-          "type": "walletV3R2"
-        },
-        {
           "type": "walletV4R1"
         },
         {
@@ -243,8 +229,6 @@
         "walletV3": "WalletV3",
         "highloadWalletV2": "HighloadWallet",
         "everWallet": "Default",
-        "walletV3R1": "WalletV3R1",
-        "walletV3R2": "WalletV3R2",
         "walletV4R1": "WalletV4R1",
         "walletV4R2": "WalletV4R2",
         "walletV5R1": "WalletV5R1"
@@ -267,7 +251,7 @@
       "defaultNativeCurrencyDecimal": 9,
       "baseCurrencyUrl": "https://api.hamsterdex.io/v1/currencies",
       "tokenApiBaseUrl": "https://tokens.hamsterscan.io/v1",
-      "currencyApiBaseUrl": "https://api.hamsterdex.io/v1/currencies",
+      "currencyApiBaseUrl": "https://api.hamsterdex.io/v1/currencies",  
       "genericTokenType": "tip3",
       "accountExplorerLinkType": "accounts",
       "transactionExplorerLinkType": "transactions"
@@ -304,8 +288,6 @@
         "walletV3": "WalletV3",
         "highloadWalletV2": "HighloadWallet",
         "everWallet": "Default",
-        "walletV3R1": "WalletV3R1",
-        "walletV3R2": "WalletV3R2",
         "walletV4R1": "WalletV4R1",
         "walletV4R2": "WalletV4R2",
         "walletV5R1": "WalletV5R1"
@@ -327,7 +309,7 @@
       "defaultNativeCurrencyDecimal": 9,
       "baseCurrencyUrl": "https://humo-dex-api.broxus.com/v1/currencies",
       "tokenApiBaseUrl": "",
-      "currencyApiBaseUrl": "https://humo-dex-api.broxus.com/v1/currencies",
+      "currencyApiBaseUrl": "https://humo-dex-api.broxus.com/v1/currencies",  
       "genericTokenType": "tip3",
       "accountExplorerLinkType": "accounts",
       "transactionExplorerLinkType": "transactions"
@@ -349,7 +331,7 @@
           "type": "multisig",
           "value": "multisig2_1"
         },
-        {
+		{
           "type": "walletV5R1"
         }
       ],
@@ -367,8 +349,6 @@
         "walletV3": "WalletV3",
         "highloadWalletV2": "HighloadWallet",
         "everWallet": "Default",
-        "walletV3R1": "WalletV3R1",
-        "walletV3R2": "WalletV3R2",
         "walletV4R1": "WalletV4R1",
         "walletV4R2": "WalletV4R2",
         "walletV5R1": "WalletV5R1"
@@ -386,7 +366,7 @@
       "nativeTokenAddress": "0:8233ae1a3a94f77a9b12ab9b07f37923144fb78a7a8c582a5e3e2ed86cb40ced",
       "seedPhraseWordsCount": [
         12,
-        24
+	24
       ],
       "defaultNativeCurrencyDecimal": 9,
       "baseCurrencyUrl": "https://api-test-tycho.flatqube.io/v1/currencies",
@@ -459,8 +439,6 @@
         "walletV3": "WalletV3",
         "highloadWalletV2": "HighloadWallet",
         "everWallet": "EVER Wallet",
-        "walletV3R1": "WalletV3R1",
-        "walletV3R2": "WalletV3R2",
         "walletV4R1": "WalletV4R1",
         "walletV4R2": "WalletV4R2",
         "walletV5R1": "WalletV5R1"
@@ -528,8 +506,6 @@
         "walletV3": "Legacy",
         "highloadWalletV2": "HighloadWallet",
         "everWallet": "Default",
-        "walletV3R1": "WalletV3R1",
-        "walletV3R2": "WalletV3R2",
         "walletV4R1": "WalletV4R1",
         "walletV4R2": "WalletV4R2",
         "walletV5R1": "WalletV5R1"
@@ -551,13 +527,13 @@
       "defaultNativeCurrencyDecimal": 9,
       "baseCurrencyUrl": "https://api.web3.world/v1/currencies",
       "stakeInformation": {
-        "stakingAPYLink": "https://api.venomstake.com/v1/strategies/main",
-        "stakingValutAddress": "0:9df94dffc0ca1768647f819c04b2cf00c484b3b756ba6ecde68d5fb62de1dfc7",
-        "stakingRootContractAddress": "0:74604c7a56419477d67329848d754d205f31870025a7135909e90e1726ad9a54",
-        "stakeDepositAttachedFee": "3000000000",
-        "stakeRemovePendingWithdrawAttachedFee": "2000000000",
-        "stakeWithdrawAttachedFee": "3000000000"
-      },
+      	"stakingAPYLink":  "https://api.venomstake.com/v1/strategies/main",
+      	"stakingValutAddress": "0:9df94dffc0ca1768647f819c04b2cf00c484b3b756ba6ecde68d5fb62de1dfc7",
+      	"stakingRootContractAddress": "0:74604c7a56419477d67329848d754d205f31870025a7135909e90e1726ad9a54",
+      	"stakeDepositAttachedFee": "3000000000",
+      	"stakeRemovePendingWithdrawAttachedFee": "2000000000",
+      	"stakeWithdrawAttachedFee": "3000000000"
+      	},
       "tokenApiBaseUrl": "https://tokens.venomscan.com/v1",
       "currencyApiBaseUrl": "https://api.web3.world/v1/currencies",
       "genericTokenType": "tip3",
