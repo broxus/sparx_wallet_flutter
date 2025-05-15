@@ -1,8 +1,11 @@
 import 'package:app/app/router/router.dart';
 import 'package:app/data/models/seed/seed_phrase_model.dart';
+import 'package:app/feature/add_seed/create_password/route.dart';
+import 'package:app/v1/feature/add_seed/check_seed_phrase/route.dart';
 import 'package:app/v1/feature/add_seed/create_seed/create_seed.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:nekoton_repository/nekoton_repository.dart';
 import 'package:ui_components_lib/ui_components_lib.dart';
 
 /// {@template create_seed_page}
@@ -10,7 +13,12 @@ import 'package:ui_components_lib/ui_components_lib.dart';
 /// {@endtemplate}
 class CreateSeedPage extends StatelessWidget {
   /// {@macro create_seed_page}
-  const CreateSeedPage({super.key});
+  const CreateSeedPage({
+    super.key,
+    this.name,
+  });
+
+  final String? name;
 
   @override
   Widget build(BuildContext context) {
@@ -22,20 +30,20 @@ class CreateSeedPage extends StatelessWidget {
         body: CreateSeedView(
           // ignore: prefer-extracting-callbacks
           checkCallback: (SeedPhraseModel seed) {
-            context.goFurther(
-              AppRoute.checkSeed.pathWithData(
-                queryParameters: {addSeedPhraseQueryParam: seed.phrase},
+            context.compassContinue(
+              CheckSeedPhraseRouteData(
+                seedPhrase: seed.phrase,
+                name: name,
               ),
-              preserveQueryParams: true,
             );
           },
-          // ignore: prefer-extracting-callbacks
-          skipCallback: (SeedPhraseModel seed) {
-            context.goFurther(
-              AppRoute.createSeedPassword.pathWithData(
-                queryParameters: {addSeedPhraseQueryParam: seed.phrase},
+          skipCallback: (seed) {
+            context.compassContinue(
+              CreateSeedPasswordRouteData(
+                seedPhrase: seed.phrase,
+                name: name,
+                type: SeedAddType.create,
               ),
-              preserveQueryParams: true,
             );
           },
         ),

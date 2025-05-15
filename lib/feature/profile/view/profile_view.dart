@@ -1,5 +1,6 @@
-import 'package:app/app/router/app_route.dart';
+import 'package:app/app/router/router.dart';
 import 'package:app/feature/contact_support/contact_support.dart';
+import 'package:app/feature/profile/manage_seeds_accounts/route.dart';
 import 'package:app/feature/profile/profile.dart';
 import 'package:app/generated/assets.gen.dart';
 import 'package:app/generated/locale_keys.g.dart';
@@ -85,8 +86,11 @@ class ProfileView extends StatelessWidget {
                     LucideIcons.chevronRight,
                     size: DimensSizeV2.d20,
                   ),
-                  onPressed: () =>
-                      context.goFurther(AppRoute.manageSeedsAccounts.path),
+                  onPressed: () {
+                    context.compassContinue(
+                      const ManageSeedsAccountsRouteData(),
+                    );
+                  },
                   backgroundColor: theme.colors.backgroundAlpha,
                   iconColor: theme.colors.content0,
                 ),

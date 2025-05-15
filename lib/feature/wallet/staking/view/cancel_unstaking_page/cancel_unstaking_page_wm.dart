@@ -1,16 +1,15 @@
 import 'dart:async';
 
 import 'package:app/app/router/router.dart';
-import 'package:app/app/router/routs/wallet/ton_wallet_send_route_data.dart';
 import 'package:app/core/error_handler_factory.dart';
 import 'package:app/core/wm/custom_wm.dart';
 import 'package:app/data/models/models.dart';
 import 'package:app/di/di.dart';
+import 'package:app/feature/wallet/route.dart';
 import 'package:app/feature/wallet/wallet.dart';
 import 'package:app/generated/generated.dart';
 import 'package:elementary_helper/elementary_helper.dart';
 import 'package:flutter/material.dart';
-import 'package:go_router/go_router.dart';
 import 'package:ui_components_lib/ui_components_lib.dart';
 
 CancelUnstakingPageWidgetModel defaultCancelUnstakingPageWidgetModelFactory(
@@ -23,14 +22,11 @@ CancelUnstakingPageWidgetModel defaultCancelUnstakingPageWidgetModelFactory(
         inject(),
         inject(),
       ),
-      inject(),
     );
 
 class CancelUnstakingPageWidgetModel extends CustomWidgetModel<
     CancelUnstakingPageWidget, CancelUnstakingPageModel> {
-  CancelUnstakingPageWidgetModel(super.model, this._tonWalletSendNavigator);
-
-  final TonWalletSendRoute _tonWalletSendNavigator;
+  CancelUnstakingPageWidgetModel(super.model);
 
   late final _asset = createNotifier<TokenContractAsset>();
 
@@ -65,8 +61,7 @@ class CancelUnstakingPageWidgetModel extends CustomWidgetModel<
 
     if (!context.mounted) return;
 
-    final result = await _tonWalletSendNavigator.push(
-      context,
+    final result = await contextSafe?.compassPush<bool>(
       TonWalletSendRouteData(
         address: widget.request.accountAddress,
         amount: model.staking.stakeRemovePendingWithdrawAttachedFee,
@@ -82,7 +77,9 @@ class CancelUnstakingPageWidgetModel extends CustomWidgetModel<
 
     if (result ?? false) {
       model.acceptCancelledWithdraw(widget.request);
-      contextSafe?.goNamed(AppRoute.wallet.name);
+      contextSafe?.compassPointNamed(
+        const WalletRouteData(),
+      );
     }
   }
 }

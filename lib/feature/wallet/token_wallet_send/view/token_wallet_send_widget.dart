@@ -1,3 +1,4 @@
+import 'package:app/app/router/router.dart';
 import 'package:app/feature/wallet/token_wallet_send/data/data.dart';
 import 'package:app/feature/wallet/token_wallet_send/view/token_wallet_send_wm.dart';
 import 'package:app/feature/wallet/wallet.dart';
@@ -5,7 +6,6 @@ import 'package:app/generated/generated.dart';
 import 'package:elementary/elementary.dart';
 import 'package:elementary_helper/elementary_helper.dart';
 import 'package:flutter/material.dart';
-import 'package:go_router/go_router.dart';
 import 'package:nekoton_repository/nekoton_repository.dart';
 import 'package:ui_components_lib/ui_components_lib.dart';
 
@@ -70,7 +70,7 @@ class TokenWalletSendWidget
           TokenWalletSendStateError() =>
             DefaultAppBar(titleText: LocaleKeys.confirmTransaction.tr()),
           TokenWalletSendStateReady() => DefaultAppBar(
-              onClosePressed: (context) => context.pop(),
+              onClosePressed: (context) => context.compassBack(),
               titleText: LocaleKeys.confirmTransaction.tr(),
             ),
         };

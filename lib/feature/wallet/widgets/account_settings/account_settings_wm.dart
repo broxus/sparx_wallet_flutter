@@ -1,12 +1,10 @@
-import 'dart:convert';
-
-import 'package:app/app/router/app_route.dart';
-import 'package:app/app/router/routs/wallet/wallet.dart';
+import 'package:app/app/router/router.dart';
 import 'package:app/core/error_handler_factory.dart';
 import 'package:app/core/wm/custom_wm.dart';
 import 'package:app/di/di.dart';
 import 'package:app/feature/browser_v1/browser.dart';
 import 'package:app/feature/profile/profile.dart';
+import 'package:app/feature/wallet/custodians_settings/route.dart';
 import 'package:app/feature/wallet/widgets/account_settings/account_settings_model.dart';
 import 'package:app/feature/wallet/widgets/account_settings/account_settings_widget.dart';
 import 'package:elementary_helper/elementary_helper.dart';
@@ -40,12 +38,8 @@ class AccountSettingsWidgetModel
       publicKeys.add(custodian.publicKey);
     }
 
-    context.goFurther(
-      AppRoute.custodiansSettings.pathWithData(
-        queryParameters: {
-          custodianSettingsCustodiansParam: jsonEncode(publicKeys),
-        },
-      ),
+    context.compassContinue(
+      CustodiansSettingsRouteData(custodians: publicKeys),
     );
   }
 

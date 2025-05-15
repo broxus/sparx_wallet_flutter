@@ -1,12 +1,11 @@
-import 'dart:convert';
-
-import 'package:app/app/router/app_route.dart';
-import 'package:app/app/router/routs/add_seed/add_seed.dart';
+import 'package:app/app/router/router.dart';
 import 'package:app/core/error_handler_factory.dart';
 import 'package:app/core/wm/custom_wm.dart';
 import 'package:app/data/models/models.dart';
 import 'package:app/di/di.dart';
 import 'package:app/feature/add_seed/add_seed.dart';
+import 'package:app/feature/add_seed/create_password/route.dart';
+import 'package:app/feature/add_seed/import_wallet/route.dart';
 import 'package:app/feature/constants.dart';
 import 'package:app/generated/generated.dart';
 import 'package:app/utils/utils.dart';
@@ -14,7 +13,6 @@ import 'package:collection/collection.dart';
 import 'package:elementary/elementary.dart';
 import 'package:elementary_helper/elementary_helper.dart';
 import 'package:flutter/widgets.dart';
-import 'package:go_router/go_router.dart';
 import 'package:logging/logging.dart';
 import 'package:nekoton_repository/nekoton_repository.dart';
 import 'package:ui_components_lib/ui_components_lib.dart';
@@ -128,7 +126,7 @@ class EnterSeedPhraseWidgetModel
 
   void onPressedResetFocus() => resetFocus(contextSafe);
 
-  void onClosePressed(BuildContext context) => context.maybePop();
+  void onClosePressed(BuildContext context) => context.compassBack();
 
   /// Callback for UI TextField widget
   List<String> onSuggestions(String text) {
@@ -309,19 +307,23 @@ class EnterSeedPhraseWidgetModel
   }
 
   void _next(String phrase) {
-    final path =
-        GoRouter.of(context).routerDelegate.currentConfiguration.fullPath;
-    final route = getCurrentAppRoute(fullPath: path);
+    final currentRoutes = context.currentRoutes().toList();
+    final isOnboarding = currentRoutes.any((it) => it is ImportWalletRoute);
 
-    if (route != AppRoute.createSeedPassword) {
-      context.goFurther(
-        AppRoute.createSeedPassword.pathWithData(
-          queryParameters: {
-            addSeedPhraseQueryParam: phrase,
-            mnemonicTypeQueryParam: jsonEncode(_mnemonicType.toJson()),
-          },
+    if (isOnboarding) {
+      context.compassContinue(
+        CreateSeedOnboardingPasswordRouteData(
+          seedPhrase: phrase,
+          mnemonicType: _mnemonicType,
         ),
-        preserveQueryParams: true,
+      );
+    } else {
+      context.compassContinue(
+        CreateSeedPasswordRouteData(
+          seedPhrase: phrase,
+          mnemonicType: _mnemonicType,
+          type: SeedAddType.import,
+        ),
       );
     }
   }

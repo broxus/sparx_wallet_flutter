@@ -5,6 +5,7 @@ import 'package:app/core/wm/custom_wm.dart';
 import 'package:app/di/di.dart';
 import 'package:app/feature/network/configure_networks/configure_networks_model.dart';
 import 'package:app/feature/network/configure_networks/configure_networks_widget.dart';
+import 'package:app/feature/network/edit_network/route.dart';
 import 'package:elementary_helper/elementary_helper.dart';
 import 'package:flutter/material.dart';
 import 'package:ui_components_lib/v2/ui_components_lib_v2.dart';
@@ -30,16 +31,16 @@ class ConfigureNetworksWidgetModel
   ThemeStyleV2 get theme => context.themeStyleV2;
 
   void onItemTap(ConnectionData data) {
-    context.goFurther(
-      AppRoute.editNetwork.pathWithData(
-        queryParameters: {
-          networkConnectionDataIdQueryParam: data.id,
-        },
+    context.compassContinue(
+      EditNetworkRouteData(
+        connectionDataId: data.id,
       ),
     );
   }
 
   void onAddNetwork() {
-    context.goFurther(AppRoute.editNetwork.path);
+    context.compassContinue(
+      const EditNetworkRouteData(),
+    );
   }
 }

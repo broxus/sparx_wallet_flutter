@@ -1,6 +1,6 @@
 import 'dart:math';
 
-import 'package:app/app/router/app_route.dart';
+import 'package:app/app/router/router.dart';
 import 'package:app/core/error_handler_factory.dart';
 import 'package:app/core/wm/custom_wm.dart';
 import 'package:app/di/di.dart';
@@ -83,8 +83,8 @@ class CheckPhraseWidgetModel
     if (!isMounted) return;
     widget.finishedBackupCallback();
     context
-      ..maybePop() //close manual backup dialog
-      ..maybePop(); //close current dialog
+      ..compassBack() //close manual backup dialog
+      ..compassBack(); //close current dialog
     showGoodJobDialog(context);
   }
 
@@ -129,12 +129,12 @@ class CheckPhraseWidgetModel
     if (hasError) {
       model.showValidateError(LocaleKeys.seedIsMissing.tr());
     } else {
-      // TODO(malochka): think about get rid of maybePop method
+      // TODO(malochka): think about get rid of compassBack method
       address.value?.let(model.setShowingBackUpFlag);
       widget.finishedBackupCallback();
       context
-        ..maybePop() //close manual backup
-        ..maybePop(); //close check your seed phrase
+        ..compassBack() //close manual backup
+        ..compassBack(); //close check your seed phrase
       showGoodJobDialog(context);
     }
   }
