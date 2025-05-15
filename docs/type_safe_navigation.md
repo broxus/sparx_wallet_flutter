@@ -21,7 +21,7 @@ All navigation in Compass is driven by strongly-typed data objects that implemen
 
 - Carry all parameters needed for a route
 - Can be converted to/from URL query parameters
-- Have well-defined structures using Freezed
+- Have well-defined structures (but should NOT use Freezed)
 
 ### Routes
 
@@ -187,17 +187,17 @@ This pattern ensures that:
 
 ### 1. Define Route Data Class
 
-First, define a Freezed class that implements `CompassRouteDataQuery`:
+First, define a class that implements `CompassRouteDataQuery`:
 
 ```dart
-@freezed
-class ProfileRouteData with _$ProfileRouteData implements CompassRouteDataQuery {
-  const factory ProfileRouteData({
-    required String userId,
-    String? displayName,
-  }) = _ProfileRouteData;
+class ProfileRouteData implements CompassRouteDataQuery {
+  const ProfileRouteData({
+    required this.userId,
+    this.displayName,
+  });
 
-  const ProfileRouteData._();
+  final String userId;
+  final String? displayName;
 
   @override
   Map<String, String> toQueryParams() {
@@ -212,9 +212,8 @@ class ProfileRouteData with _$ProfileRouteData implements CompassRouteDataQuery 
 For parameterless routes, implement `CompassRouteData` instead:
 
 ```dart
-@freezed
-class HomeRouteData with _$HomeRouteData implements CompassRouteData {
-  const factory HomeRouteData() = _HomeRouteData;
+class HomeRouteData implements CompassRouteData {
+  const HomeRouteData();
 }
 ```
 
@@ -521,10 +520,41 @@ test('AuthGuard redirects to login when user is not authenticated', () {
 });
 ```
 
+## Why Not Use Freezed with RouteData Classes
+
+While Freezed is a powerful tool for creating immutable data classes in Flutter, it should **not** be used with RouteData classes in the Compass navigation system. Here's why:
+
+1. **Type Transformation**
+   - Freezed generates a new class that extends your original RouteData class
+   - The generated class type is actually `_$YourClass` which implements `_YourClass`
+   - This changes the runtime type of your objects from the expected `YourRouteData` to something like `_$_YourRouteData`
+
+2. **Type-Based Resolution Issues**
+   - The Compass router uses type-based lookup to find the correct route for a given RouteData
+   - When you create a RouteData instance with Freezed, its actual runtime type doesn't match the type expected by the router
+   - This mismatch causes the router to fail to find the correct route handler
+
+3. **Example of the Problem**:
+   ```dart
+   // This is what the router expects
+   final type = ProfileRouteData;
+   
+   // But with Freezed, you get this instead
+   final actualType = freezedProfileRouteData.runtimeType; // _$_ProfileRouteData
+   
+   // Type comparison fails
+   type == actualType; // false
+   ```
+
+4. **The Solution**
+   - Create simple immutable classes with final fields
+   - Implement custom equality and hashCode manually if needed
+   - The minimal overhead of manually writing these classes is worth the correct type preservation
+
 ## Best Practices
 
 1. **Keep route data immutable**
-   - Use Freezed for all route data classes
+   - Create immutable classes with final fields (do NOT use Freezed)
    - Don't modify route data after creation
 
 2. **Choose the right route type**
@@ -534,7 +564,7 @@ test('AuthGuard redirects to login when user is not authenticated', () {
 
 3. **Organize route files effectively**
    - Place route files in the same feature folder as the screen they navigate to
-   - Use `route.dart` and `route.freezed.dart` naming conventions
+   - Use `route.dart` naming convention
 
 4. **Use the correct registration pattern for routes and guards**
    - Routes should be registered with `@named` and `@Singleton(as: CompassBaseRoute)`
@@ -543,26 +573,32 @@ test('AuthGuard redirects to login when user is not authenticated', () {
    - The router scans the dependency injection container for all registered types
    - Use constructor injection for route dependencies
 
-5. **Make route data conversions robust**
+5. **Avoid using Freezed with RouteData classes**
+   - Freezed should NOT be used with RouteData classes as it changes the original Type of RouteData
+   - This type change interferes with the router's type-based lookup mechanisms
+   - Using Freezed can cause incorrect route resolution and navigation errors
+   - Instead, create simple immutable classes with final fields
+
+6. **Make route data conversions robust**
    - Handle missing or invalid parameters gracefully
    - Provide sensible defaults where possible
 
-6. **Leverage navigation guards for cross-cutting concerns**
+7. **Leverage navigation guards for cross-cutting concerns**
    - Authentication
    - Feature flags
    - Analytics
    - Deep link handling
 
-7. **Follow naming conventions**
+8. **Follow naming conventions**
    - Route classes: `FooRoute`
    - Route data classes: `FooRouteData`
 
-8. **Prioritize type safety**
+9. **Prioritize type safety**
    - Avoid using `UnsafeRedirectCompassRouteData` unless absolutely necessary
    - Always check navigation results when using `compassPush`
    - Use route verification when redirecting in guards
 
-9. **Router organization and discovery**
+10. **Router organization and discovery**
    - The router automatically discovers all routes and guards registered as their base types
    - Routes must be registered with `@named` and `@Singleton(as: CompassBaseRoute)`
    - Guards must be registered with `@named` and `@Singleton(as: CompassGuard)`
