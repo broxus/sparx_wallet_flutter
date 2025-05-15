@@ -208,11 +208,13 @@ extension GetItInjectableX on _i174.GetIt {
     gh.singleton<_i213.BrowserBookmarksStorageService>(() =>
         _i213.BrowserBookmarksStorageService(
             gh<_i792.GetStorage>(instanceName: 'browser_bookmarks')));
-    gh.singleton<_i988.BrowserGroupsStorageService>(() =>
-        _i988.BrowserGroupsStorageService(
-            gh<_i792.GetStorage>(instanceName: 'browser_groups')));
     gh.singleton<_i495.TonRepository>(
         () => _i495.TonRepository(gh<_i162.TonApi>()));
+    gh.singleton<_i988.BrowserGroupsStorageService>(
+        () => _i988.BrowserGroupsStorageService(
+              gh<_i792.GetStorage>(instanceName: 'browser_groups'),
+              gh<_i792.GetStorage>(instanceName: 'browser_tabs'),
+            ));
     gh.singleton<_i747.GeneralStorageService>(() => _i747.GeneralStorageService(
           gh<_i792.GetStorage>(instanceName: 'preferences_key'),
           gh<_i792.GetStorage>(instanceName: 'currencies_key'),

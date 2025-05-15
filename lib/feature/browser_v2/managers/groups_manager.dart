@@ -73,7 +73,7 @@ class BrowserGroupsManager {
   }
 
   void _fetchGroupsFromCache() {
-    final groups = _browserGroupsStorageService.getGroups()
+    final groups = _browserGroupsStorageService.initGroups()
       ..sort(
         (a, b) => a.sortingOrder.compareTo(b.sortingOrder),
       );

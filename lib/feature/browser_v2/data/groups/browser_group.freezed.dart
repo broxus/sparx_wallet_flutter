@@ -24,6 +24,8 @@ mixin _$BrowserGroup {
   String? get title => throw _privateConstructorUsedError;
   List<String> get tabsIds => throw _privateConstructorUsedError;
   double get sortingOrder => throw _privateConstructorUsedError;
+  bool get isCanRemoved => throw _privateConstructorUsedError;
+  bool get isCanEditTitle => throw _privateConstructorUsedError;
 
   /// Serializes this BrowserGroup to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
@@ -42,7 +44,12 @@ abstract class $BrowserGroupCopyWith<$Res> {
       _$BrowserGroupCopyWithImpl<$Res, BrowserGroup>;
   @useResult
   $Res call(
-      {String id, String? title, List<String> tabsIds, double sortingOrder});
+      {String id,
+      String? title,
+      List<String> tabsIds,
+      double sortingOrder,
+      bool isCanRemoved,
+      bool isCanEditTitle});
 }
 
 /// @nodoc
@@ -64,6 +71,8 @@ class _$BrowserGroupCopyWithImpl<$Res, $Val extends BrowserGroup>
     Object? title = freezed,
     Object? tabsIds = null,
     Object? sortingOrder = null,
+    Object? isCanRemoved = null,
+    Object? isCanEditTitle = null,
   }) {
     return _then(_value.copyWith(
       id: null == id
@@ -82,6 +91,14 @@ class _$BrowserGroupCopyWithImpl<$Res, $Val extends BrowserGroup>
           ? _value.sortingOrder
           : sortingOrder // ignore: cast_nullable_to_non_nullable
               as double,
+      isCanRemoved: null == isCanRemoved
+          ? _value.isCanRemoved
+          : isCanRemoved // ignore: cast_nullable_to_non_nullable
+              as bool,
+      isCanEditTitle: null == isCanEditTitle
+          ? _value.isCanEditTitle
+          : isCanEditTitle // ignore: cast_nullable_to_non_nullable
+              as bool,
     ) as $Val);
   }
 }
@@ -95,7 +112,12 @@ abstract class _$$BrowserGroupImplCopyWith<$Res>
   @override
   @useResult
   $Res call(
-      {String id, String? title, List<String> tabsIds, double sortingOrder});
+      {String id,
+      String? title,
+      List<String> tabsIds,
+      double sortingOrder,
+      bool isCanRemoved,
+      bool isCanEditTitle});
 }
 
 /// @nodoc
@@ -115,6 +137,8 @@ class __$$BrowserGroupImplCopyWithImpl<$Res>
     Object? title = freezed,
     Object? tabsIds = null,
     Object? sortingOrder = null,
+    Object? isCanRemoved = null,
+    Object? isCanEditTitle = null,
   }) {
     return _then(_$BrowserGroupImpl(
       id: null == id
@@ -133,6 +157,14 @@ class __$$BrowserGroupImplCopyWithImpl<$Res>
           ? _value.sortingOrder
           : sortingOrder // ignore: cast_nullable_to_non_nullable
               as double,
+      isCanRemoved: null == isCanRemoved
+          ? _value.isCanRemoved
+          : isCanRemoved // ignore: cast_nullable_to_non_nullable
+              as bool,
+      isCanEditTitle: null == isCanEditTitle
+          ? _value.isCanEditTitle
+          : isCanEditTitle // ignore: cast_nullable_to_non_nullable
+              as bool,
     ));
   }
 }
@@ -144,7 +176,9 @@ class _$BrowserGroupImpl implements _BrowserGroup {
       {required this.id,
       required this.title,
       final List<String> tabsIds = const [],
-      required this.sortingOrder})
+      required this.sortingOrder,
+      this.isCanRemoved = false,
+      this.isCanEditTitle = false})
       : _tabsIds = tabsIds;
 
   factory _$BrowserGroupImpl.fromJson(Map<String, dynamic> json) =>
@@ -165,10 +199,16 @@ class _$BrowserGroupImpl implements _BrowserGroup {
 
   @override
   final double sortingOrder;
+  @override
+  @JsonKey()
+  final bool isCanRemoved;
+  @override
+  @JsonKey()
+  final bool isCanEditTitle;
 
   @override
   String toString() {
-    return 'BrowserGroup(id: $id, title: $title, tabsIds: $tabsIds, sortingOrder: $sortingOrder)';
+    return 'BrowserGroup(id: $id, title: $title, tabsIds: $tabsIds, sortingOrder: $sortingOrder, isCanRemoved: $isCanRemoved, isCanEditTitle: $isCanEditTitle)';
   }
 
   @override
@@ -180,13 +220,23 @@ class _$BrowserGroupImpl implements _BrowserGroup {
             (identical(other.title, title) || other.title == title) &&
             const DeepCollectionEquality().equals(other._tabsIds, _tabsIds) &&
             (identical(other.sortingOrder, sortingOrder) ||
-                other.sortingOrder == sortingOrder));
+                other.sortingOrder == sortingOrder) &&
+            (identical(other.isCanRemoved, isCanRemoved) ||
+                other.isCanRemoved == isCanRemoved) &&
+            (identical(other.isCanEditTitle, isCanEditTitle) ||
+                other.isCanEditTitle == isCanEditTitle));
   }
 
   @JsonKey(includeFromJson: false, includeToJson: false)
   @override
-  int get hashCode => Object.hash(runtimeType, id, title,
-      const DeepCollectionEquality().hash(_tabsIds), sortingOrder);
+  int get hashCode => Object.hash(
+      runtimeType,
+      id,
+      title,
+      const DeepCollectionEquality().hash(_tabsIds),
+      sortingOrder,
+      isCanRemoved,
+      isCanEditTitle);
 
   /// Create a copy of BrowserGroup
   /// with the given fields replaced by the non-null parameter values.
@@ -209,7 +259,9 @@ abstract class _BrowserGroup implements BrowserGroup {
       {required final String id,
       required final String? title,
       final List<String> tabsIds,
-      required final double sortingOrder}) = _$BrowserGroupImpl;
+      required final double sortingOrder,
+      final bool isCanRemoved,
+      final bool isCanEditTitle}) = _$BrowserGroupImpl;
 
   factory _BrowserGroup.fromJson(Map<String, dynamic> json) =
       _$BrowserGroupImpl.fromJson;
@@ -222,6 +274,10 @@ abstract class _BrowserGroup implements BrowserGroup {
   List<String> get tabsIds;
   @override
   double get sortingOrder;
+  @override
+  bool get isCanRemoved;
+  @override
+  bool get isCanEditTitle;
 
   /// Create a copy of BrowserGroup
   /// with the given fields replaced by the non-null parameter values.

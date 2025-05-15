@@ -7,7 +7,7 @@ part 'browser_group.freezed.dart';
 
 part 'browser_group.g.dart';
 
-const mainTabsGroupId = 'mainTabsGroup';
+const tabsGroupId = 'mainTabsGroup';
 
 @freezed
 class BrowserGroup with _$BrowserGroup implements BrowserItem {
@@ -16,6 +16,8 @@ class BrowserGroup with _$BrowserGroup implements BrowserItem {
     required String? title,
     @Default([]) List<String> tabsIds,
     required double sortingOrder,
+    @Default(false) bool isCanRemoved,
+    @Default(false) bool isCanEditTitle,
   }) = _BrowserGroup;
 
   factory BrowserGroup.fromJson(Map<String, dynamic> json) =>
@@ -24,12 +26,14 @@ class BrowserGroup with _$BrowserGroup implements BrowserItem {
   static BrowserGroup create({
     required String name,
     List<String>? tabsIds,
+    bool isCanRemoved = false,
   }) {
     return BrowserGroup(
       id: const Uuid().v4(),
       title: name,
       tabsIds: tabsIds ?? [],
       sortingOrder: NtpTime.now().millisecondsSinceEpoch.toDouble(),
+      isCanRemoved: isCanRemoved,
     );
   }
 }

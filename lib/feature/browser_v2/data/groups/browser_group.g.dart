@@ -15,6 +15,8 @@ _$BrowserGroupImpl _$$BrowserGroupImplFromJson(Map<String, dynamic> json) =>
               .toList() ??
           const [],
       sortingOrder: (json['sortingOrder'] as num).toDouble(),
+      isCanRemoved: json['isCanRemoved'] as bool? ?? false,
+      isCanEditTitle: json['isCanEditTitle'] as bool? ?? false,
     );
 
 Map<String, dynamic> _$$BrowserGroupImplToJson(_$BrowserGroupImpl instance) =>
@@ -23,4 +25,6 @@ Map<String, dynamic> _$$BrowserGroupImplToJson(_$BrowserGroupImpl instance) =>
       'title': instance.title,
       'tabsIds': instance.tabsIds,
       'sortingOrder': instance.sortingOrder,
+      'isCanRemoved': instance.isCanRemoved,
+      'isCanEditTitle': instance.isCanEditTitle,
     };
