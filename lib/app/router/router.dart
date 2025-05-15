@@ -5,6 +5,7 @@ import 'package:app/app/service/service.dart';
 import 'package:app/feature/error/error.dart';
 import 'package:app/feature/onboarding/route.dart';
 import 'package:collection/collection.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/widgets.dart';
 import 'package:get_it/get_it.dart';
 import 'package:go_router/go_router.dart';
@@ -104,15 +105,13 @@ class CompassRouter {
   ///
   /// Throws [StateError] if no route is found for the provided data type.
   void compassPoint(CompassRouteData data) {
-    final route = _findRouteForData(data);
+    final location = _routeDataToLocation(data);
 
-    if (route == null) {
+    if (location == null) {
       throw StateError('No route for data by type ${data.runtimeType}');
-    } else {
-      _log.info('Navigate to route $route');
     }
 
-    router.go(route.toLocation(data).toString());
+    router.go(location.toString());
   }
 
   /// Navigates to a named route specified by route data using replace approach.
@@ -127,8 +126,6 @@ class CompassRouter {
 
     if (route == null) {
       throw StateError('No route for data by type ${data.runtimeType}');
-    } else {
-      _log.info('Navigate to route $route');
     }
 
     final name = route.name;
@@ -155,13 +152,13 @@ class CompassRouter {
   ///
   /// Throws [StateError] if no route is found for the provided data type.
   Future<R?> compassPush<R extends Object?>(CompassRouteData data) {
-    final route = _findRouteForData(data);
+    final location = _routeDataToLocation(data);
 
-    if (route == null) {
+    if (location == null) {
       throw StateError('No route for data by type ${data.runtimeType}');
     }
 
-    return router.push(route.toLocation(data).toString());
+    return router.push(location.toString());
   }
 
   /// Navigates to a route while preserving the current location's path
@@ -179,13 +176,12 @@ class CompassRouter {
   ///
   /// Throws [StateError] if no route is found for the provided data type.
   void compassContinue(CompassRouteData data) {
-    final route = _findRouteForData(data);
-    if (route == null) {
+    final newLocation = _routeDataToLocation(data);
+    if (newLocation == null) {
       throw StateError('No route for data by type ${data.runtimeType}');
     }
 
     final originalLocation = router.state.uri;
-    final newLocation = route.toLocation(data);
 
     final concatedUri = newLocation.replace(
       queryParameters: {
@@ -237,6 +233,8 @@ class CompassRouter {
   }
 
   GoRouter _createRouter() {
+    _validateRoutesDataIntersection();
+
     final initalRoute = _routsByType.values.firstWhere((it) => it.isInitial);
 
     final topLevelRoutes = _routs.where((it) => it.isTopLevel).toList();
@@ -256,13 +254,9 @@ class CompassRouter {
         for (final guard in _guards) {
           final redirectData = guard.protect(context, location);
           if (redirectData != null) {
-            if (redirectData is UnsafeRedirectCompassRouteData) {
-              return redirectData.route;
-            } else {
-              final route = _routsByType[redirectData.runtimeType];
-              if (route != null) {
-                return route.toLocation(redirectData).toString();
-              }
+            final location = _routeDataToLocation(redirectData);
+            if (location != null) {
+              return location.toString();
             }
           }
         }
@@ -296,13 +290,45 @@ class CompassRouter {
     return router;
   }
 
+  void _validateRoutesDataIntersection() {
+    if (kDebugMode) {
+      final compassGoRoutes = _routsByPaths.entries
+          .map(
+            (entry) => entry.value,
+          )
+          .toList();
+
+      for (final route1 in compassGoRoutes) {
+        for (final route2 in compassGoRoutes) {
+          if (route1 != route2 &&
+              route1.routeDataType == route2.routeDataType) {
+            throw StateError(
+              'Duplicate route data type detected: ${route1.routeDataType}. '
+              'Routes must have unique data types. '
+              'Found in routes: ${route1.runtimeType} '
+              'and ${route2.runtimeType}.',
+            );
+          }
+        }
+      }
+    }
+  }
+
   CompassBaseGoRoute<CompassRouteData>? _findRouteForData(
     CompassRouteData data,
   ) {
-    final route = _routsByType[data.runtimeType];
-    if (route == null) return null;
+    return _routsByType[data.runtimeType];
+  }
 
-    return route;
+  Uri? _routeDataToLocation(
+    CompassRouteData data,
+  ) {
+    if (data is UnsafeRedirectCompassRouteData) {
+      return Uri.tryParse(data.route);
+    } else {
+      final route = _findRouteForData(data);
+      return route?.toLocation(data);
+    }
   }
 
   Iterable<CompassBaseGoRoute> _locationByUri(Uri uri) {
