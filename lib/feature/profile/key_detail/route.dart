@@ -5,7 +5,7 @@ import 'package:injectable/injectable.dart';
 import 'package:nekoton_repository/nekoton_repository.dart';
 
 /// Constants for query parameter names
-const keyDetailPublicKeyQueryParam = 'publicKey';
+const _publicKeyQueryParam = 'publicKey';
 
 @named
 @Singleton(as: CompassBaseRoute)
@@ -25,7 +25,7 @@ class KeyDetailRoute extends CompassRoute<KeyDetailRouteData> {
   KeyDetailRouteData fromQueryParams(Map<String, String> queryParams) {
     return KeyDetailRouteData(
       publicKey: PublicKey(
-        publicKey: queryParams[keyDetailPublicKeyQueryParam]!,
+        publicKey: queryParams[_publicKeyQueryParam]!,
       ),
     );
   }
@@ -42,7 +42,7 @@ class KeyDetailRouteData implements CompassRouteDataQuery {
   @override
   Map<String, String> toQueryParams() {
     return {
-      keyDetailPublicKeyQueryParam: publicKey.publicKey,
+      _publicKeyQueryParam: publicKey.publicKey,
     };
   }
 }

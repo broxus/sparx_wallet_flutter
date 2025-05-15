@@ -42,14 +42,11 @@ class ConfirmMultisigTransactionRoute
 
     return ConfirmMultisigTransactionRouteData(
       walletAddress: Address(
-        address:
-            queryParams[_walletAddressQueryParam]!,
+        address: queryParams[_walletAddressQueryParam]!,
       ),
       localCustodians: decoded.map((e) => PublicKey(publicKey: e)).toList(),
-      transactionId:
-          queryParams[_transactionIdQueryParam]!,
-      transactionIdHash:
-          queryParams[_idHashQueryParam],
+      transactionId: queryParams[_transactionIdQueryParam]!,
+      transactionIdHash: queryParams[_idHashQueryParam],
       destination: Address(
         address: queryParams[_destinationQueryParam]!,
       ),

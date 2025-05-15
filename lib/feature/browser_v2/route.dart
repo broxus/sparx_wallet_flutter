@@ -4,8 +4,7 @@ import 'package:injectable/injectable.dart';
 
 @named
 @Singleton(as: CompassBaseRoute)
-class BrowserRoute
-    extends CompassRouteParameterless<BrowserRouteData> {
+class BrowserRoute extends CompassRouteParameterless<BrowserRouteData> {
   BrowserRoute()
       : super(
           name: 'browser',

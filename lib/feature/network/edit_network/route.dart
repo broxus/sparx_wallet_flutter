@@ -36,8 +36,7 @@ class EditNetworkRouteData implements CompassRouteDataQuery {
   @override
   Map<String, String> toQueryParams() {
     return {
-      if (connectionDataId != null)
-        _dataIdQueryParam: connectionDataId!,
+      if (connectionDataId != null) _dataIdQueryParam: connectionDataId!,
     };
   }
 }

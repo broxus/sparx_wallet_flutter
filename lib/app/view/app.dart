@@ -60,7 +60,7 @@ class _AppContent extends StatelessWidget {
           child: InAppNotification(
             child: CrashDetectorServiceWidget(
               child: LocalizationServiceWidget(
-                  child: child ?? Container(),
+                child: child ?? Container(),
               ),
             ),
           ),

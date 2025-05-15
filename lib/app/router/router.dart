@@ -52,10 +52,9 @@ class CompassRouter {
   /// List of navigation guards sorted by priority.
   ///
   /// Guards can intercept navigation requests and redirect as needed.
-  late final _guards =
-      GetIt.I.getAll<CompassGuard>().toList().sortedBy<num>(
-            (it) => -it.priority,
-          );
+  late final _guards = GetIt.I.getAll<CompassGuard>().toList().sortedBy<num>(
+        (it) => -it.priority,
+      );
 
   late final _routs = GetIt.I.getAll<CompassBaseRoute>();
 

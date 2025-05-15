@@ -30,13 +30,10 @@ class TonWalletSendRoute extends CompassRoute<TonWalletSendRouteData> {
 
     return TonWalletSendRouteData(
       address: Address.fromJson(queryParams[_addressQueryParam]!),
-      publicKey:
-          PublicKey.fromJson(queryParams[_publicKeyQueryParam]!),
-      destination:
-          Address.fromJson(queryParams[_destinationQueryParam]!),
+      publicKey: PublicKey.fromJson(queryParams[_publicKeyQueryParam]!),
+      destination: Address.fromJson(queryParams[_destinationQueryParam]!),
       amount: BigInt.parse(queryParams[_amountQueryParam]!),
-      popOnComplete:
-          bool.parse(queryParams[_popOnCompleteQueryParam]!),
+      popOnComplete: bool.parse(queryParams[_popOnCompleteQueryParam]!),
       attachedAmount: attachedAmount?.let(BigInt.parse),
       comment: queryParams[_commentQueryParam],
       payload: queryParams[_payloadQueryParam],
@@ -106,8 +103,7 @@ class TonWalletSendRouteData implements CompassRouteDataQuery {
         _attachedAmountQueryParam: attachedAmount.toString(),
       if (comment != null) _commentQueryParam: comment,
       if (payload != null) _payloadQueryParam: payload,
-      if (resultMessage != null)
-        _resultMessageQueryParam: resultMessage,
+      if (resultMessage != null) _resultMessageQueryParam: resultMessage,
     };
   }
 }

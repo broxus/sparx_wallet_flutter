@@ -19,7 +19,7 @@ class RootTabSyncGuard extends CompassGuard {
 
   final BootstrapService _bootstrapService;
   final NekotonRepository _nekotonRepository;
-  final _log = Logger('OnboardingGuard');
+  final _log = Logger('RootTabSyncGuard');
 
   StreamSubscription<bool>? _seedsSubscription;
   CompassRouter? _router;

@@ -55,7 +55,7 @@ class TonWalletMultisigPendingTransactionDetailsPage extends StatelessWidget {
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: DimensSizeV2.d16),
               child: AccountInfo(account: account),
-     ),
+            ),
             WalletTransactionDetailsDefaultBody(
               date: transaction.date,
               isIncoming: !transaction.isOutgoing,

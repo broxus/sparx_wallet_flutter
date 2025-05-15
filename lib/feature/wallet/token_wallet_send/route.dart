@@ -36,10 +36,8 @@ class TokenWalletSendRoute extends CompassRoute<TokenWalletSendRouteData> {
 
   @override
   TokenWalletSendRouteData fromQueryParams(Map<String, String> queryParams) {
-    final attachedAmountStr =
-        queryParams[_attachedAmountQueryParam];
-    final notifyReceiverStr =
-        queryParams[_notifyReceiverQueryParam];
+    final attachedAmountStr = queryParams[_attachedAmountQueryParam];
+    final notifyReceiverStr = queryParams[_notifyReceiverQueryParam];
 
     return TokenWalletSendRouteData(
       owner: Address(
@@ -121,8 +119,7 @@ class TokenWalletSendRouteData implements CompassRouteDataQuery {
       if (attachedAmount != null)
         _attachedAmountQueryParam: attachedAmount.toString(),
       if (comment != null) _commentQueryParam: comment,
-      if (resultMessage != null)
-        _resultMessageQueryParam: resultMessage,
+      if (resultMessage != null) _resultMessageQueryParam: resultMessage,
       if (notifyReceiver != null)
         _notifyReceiverQueryParam: notifyReceiver.toString(),
     };

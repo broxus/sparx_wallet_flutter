@@ -4,8 +4,8 @@ import 'package:app/app/router/compass/compass.dart';
 import 'package:app/feature/wallet/custodians_settings/custodians_settings_page.dart';
 import 'package:injectable/injectable.dart';
 
-// Moved parameter constants here from wallet.dart
-const custodianSettingsCustodiansParam = 'custodianSettingsCustodiansParam';
+/// Constants for query parameter names
+const _custodiansQueryParam = 'custodians';
 
 @named
 @Singleton(as: CompassBaseRoute)
@@ -21,7 +21,7 @@ class CustodiansSettingsRoute
 
   @override
   CustodiansSettingsRouteData fromQueryParams(Map<String, String> queryParams) {
-    final custodiansParam = queryParams[custodianSettingsCustodiansParam];
+    final custodiansParam = queryParams[_custodiansQueryParam];
     if (custodiansParam == null || custodiansParam.isEmpty) {
       return const CustodiansSettingsRouteData(custodians: []);
     }
@@ -46,7 +46,7 @@ class CustodiansSettingsRouteData implements CompassRouteDataQuery {
     }
 
     return {
-      custodianSettingsCustodiansParam: jsonEncode(custodians),
+      _custodiansQueryParam: jsonEncode(custodians),
     };
   }
 }
