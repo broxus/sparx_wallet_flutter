@@ -40,10 +40,6 @@ abstract class CompassBaseStatefulShellRoute extends CompassBaseRoute {
   /// This method is called to build the shell container that hosts
   /// the active branch's content. Implementations would typically return
   /// a scaffold with a bottom navigation bar or similar UI pattern.
-  ///
-  /// [context] The build context
-  /// [state] The current GoRouter state
-  /// [navigationShell] The shell that manages navigation between branches
   final StatefulShellRouteBuilder? builder;
 
   final StatefulShellRoutePageBuilder? pageBuilder;

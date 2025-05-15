@@ -14,7 +14,7 @@ class AddAccountRoute extends CompassRouteParameterless<AddAccountRouteData> {
     @Named.from(NewExternalAccountRoute)
     CompassBaseRoute newExternalAccountRoute,
   ) : super(
-          name: 'wallet-add-account',
+          path: '/wallet-add-account',
           builder: (context, _, __) => const AddAccountPage(),
           compassBaseRoutes: [
             selectSeedRoute,

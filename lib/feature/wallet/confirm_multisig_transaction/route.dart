@@ -2,26 +2,16 @@ import 'dart:convert';
 
 import 'package:app/app/router/compass/compass.dart';
 import 'package:app/feature/wallet/confirm_multisig_transaction/view/confirm_multisig_transaction_widget.dart';
-import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:injectable/injectable.dart';
 import 'package:nekoton_repository/nekoton_repository.dart';
 
-part 'route.freezed.dart';
-
-const confirmMultisigTransactionWalletAddressQueryParam =
-    'tonWalletConfirmTransactionAddress';
-const confirmMultisigTransactionLocalCustodiansQueryParam =
-    'tonWalletConfirmTransactionLocalCustodians';
-const confirmMultisigTransactionTransactionIdQueryParam =
-    'tonWalletConfirmTransactionTransactionId';
-const confirmMultisigTransactionIdHashQueryParam =
-    'tonWalletConfirmTransactionIdHash';
-const confirmMultisigTransactionDestinationQueryParam =
-    'tonWalletConfirmTransactionDestination';
-const confirmMultisigTransactionAmountQueryParam =
-    'tonWalletConfirmTransactionAmount';
-const confirmMultisigTransactionCommentQueryParam =
-    'tonWalletConfirmTransactionComment';
+const _walletAddressQueryParam = 'address';
+const _localCustodiansQueryParam = 'localCustodians';
+const _transactionIdQueryParam = 'transactionId';
+const _idHashQueryParam = 'idHash';
+const _destinationQueryParam = 'destination';
+const _amountQueryParam = 'amount';
+const _commentQueryParam = 'comment';
 
 @named
 @Singleton(as: CompassBaseRoute)
@@ -29,7 +19,7 @@ class ConfirmMultisigTransactionRoute
     extends CompassRoute<ConfirmMultisigTransactionRouteData> {
   ConfirmMultisigTransactionRoute()
       : super(
-          name: 'confirm-multisig-transaction',
+          path: '/confirm-multisig-transaction',
           builder: (context, data, _) => ConfirmMultisigTransactionWidget(
             walletAddress: data.walletAddress,
             localCustodians: data.localCustodians,
@@ -46,79 +36,81 @@ class ConfirmMultisigTransactionRoute
     Map<String, String> queryParams,
   ) {
     final decoded = (jsonDecode(
-      queryParams[confirmMultisigTransactionLocalCustodiansQueryParam]!,
+      queryParams[_localCustodiansQueryParam]!,
     ) as List<dynamic>)
         .cast<String>();
 
     return ConfirmMultisigTransactionRouteData(
       walletAddress: Address(
         address:
-            queryParams[confirmMultisigTransactionWalletAddressQueryParam]!,
+            queryParams[_walletAddressQueryParam]!,
       ),
       localCustodians: decoded.map((e) => PublicKey(publicKey: e)).toList(),
       transactionId:
-          queryParams[confirmMultisigTransactionTransactionIdQueryParam]!,
+          queryParams[_transactionIdQueryParam]!,
       transactionIdHash:
-          queryParams[confirmMultisigTransactionIdHashQueryParam],
+          queryParams[_idHashQueryParam],
       destination: Address(
-        address: queryParams[confirmMultisigTransactionDestinationQueryParam]!,
+        address: queryParams[_destinationQueryParam]!,
       ),
       amount: BigInt.parse(
-        queryParams[confirmMultisigTransactionAmountQueryParam]!,
+        queryParams[_amountQueryParam]!,
       ),
-      comment: queryParams[confirmMultisigTransactionCommentQueryParam],
+      comment: queryParams[_commentQueryParam],
     );
   }
 }
 
-/// Data model for ConfirmMultisigTransaction route
-@freezed
-class ConfirmMultisigTransactionRouteData
-    with _$ConfirmMultisigTransactionRouteData
-    implements CompassRouteDataQuery {
-  const factory ConfirmMultisigTransactionRouteData({
-    /// Address of wallet which will be used to confirm transaction
-    required Address walletAddress,
+class ConfirmMultisigTransactionRouteData implements CompassRouteDataQuery {
+  const ConfirmMultisigTransactionRouteData({
+    required this.walletAddress,
+    required this.localCustodians,
+    required this.transactionId,
+    required this.amount,
+    required this.destination,
+    this.transactionIdHash,
+    this.comment,
+  });
 
-    /// Local custodians that CAN CONFIRM transaction (not all local)
-    required List<PublicKey> localCustodians,
+  /// Address of wallet which will be used to confirm transaction
+  final Address walletAddress;
 
-    /// Transaction that should be confirmed
-    required String transactionId,
+  /// Local custodians that CAN CONFIRM transaction (not all local)
+  final List<PublicKey> localCustodians;
 
-    /// Amount of transaction
-    required BigInt amount,
+  /// Transaction that should be confirmed
+  final String transactionId;
 
-    /// Destination where funds should be sent
-    required Address destination,
+  /// Amount of transaction
+  final BigInt amount;
 
-    /// Transaction id hash
-    String? transactionIdHash,
+  /// Destination where funds should be sent
+  final Address destination;
 
-    /// Comment of transaction
-    String? comment,
-  }) = _ConfirmMultisigTransactionRouteData;
+  /// Transaction id hash
+  final String? transactionIdHash;
 
-  const ConfirmMultisigTransactionRouteData._();
+  /// Comment of transaction
+  final String? comment;
 
   @override
   Map<String, String> toQueryParams() {
     final params = {
-      confirmMultisigTransactionWalletAddressQueryParam: walletAddress.address,
-      confirmMultisigTransactionLocalCustodiansQueryParam: jsonEncode(
+      _walletAddressQueryParam: walletAddress.address,
+      _localCustodiansQueryParam: jsonEncode(
         localCustodians.map((e) => e.publicKey).toList(),
       ),
-      confirmMultisigTransactionTransactionIdQueryParam: transactionId,
-      confirmMultisigTransactionDestinationQueryParam: destination.address,
-      confirmMultisigTransactionAmountQueryParam: amount.toString(),
+      _transactionIdQueryParam: transactionId,
+      _destinationQueryParam: destination.address,
+      _amountQueryParam: amount.toString(),
     };
 
     if (transactionIdHash != null) {
-      params[confirmMultisigTransactionIdHashQueryParam] = transactionIdHash!;
+      params[_idHashQueryParam] = transactionIdHash!;
     }
 
     if (comment != null) {
-      params[confirmMultisigTransactionCommentQueryParam] = comment!;
+      params[_commentQueryParam] = comment!;
     }
 
     return params;

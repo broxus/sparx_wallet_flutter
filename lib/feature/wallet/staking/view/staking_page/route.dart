@@ -3,11 +3,8 @@ import 'package:app/feature/wallet/staking/view/cancel_unstaking_page/route.dart
 import 'package:app/feature/wallet/staking/view/staking_page/staking_page_widget.dart';
 import 'package:app/feature/wallet/token_wallet_send/route.dart';
 import 'package:app/feature/wallet/ton_wallet_send/route.dart';
-import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:injectable/injectable.dart';
 import 'package:nekoton_repository/nekoton_repository.dart';
-
-part 'route.freezed.dart';
 
 /// Query parameter name for the account address in the WalletStake route
 const _addressQueryParam = 'walletStakeAddress';
@@ -20,7 +17,7 @@ class StakingRoute extends CompassRoute<StakingRouteData> {
     @Named.from(TokenWalletSendRoute) CompassBaseRoute tokenWalletSendRoute,
     @Named.from(CancelUnstakingRoute) CompassBaseRoute cancelUnstakingRoute,
   ) : super(
-          name: 'wallet-stake',
+          path: '/wallet-stake',
           builder: (context, data, _) => StakingPageWidget(
             accountAddress: data.accountAddress,
           ),
@@ -41,17 +38,13 @@ class StakingRoute extends CompassRoute<StakingRouteData> {
   }
 }
 
-/// Data model for WalletStake route
-@freezed
-class StakingRouteData
-    with _$StakingRouteData
-    implements CompassRouteDataQuery {
-  const factory StakingRouteData({
-    /// Address of the account to stake
-    required Address accountAddress,
-  }) = _StakingRouteData;
+class StakingRouteData implements CompassRouteDataQuery {
+  const StakingRouteData({
+    required this.accountAddress,
+  });
 
-  const StakingRouteData._();
+  /// Address of the account to stake
+  final Address accountAddress;
 
   @override
   Map<String, String> toQueryParams() {

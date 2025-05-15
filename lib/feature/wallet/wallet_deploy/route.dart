@@ -1,21 +1,18 @@
 import 'package:app/app/router/compass/compass.dart';
 import 'package:app/feature/wallet/wallet_deploy/view/wallet_deploy_page.dart';
-import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:injectable/injectable.dart';
 import 'package:nekoton_repository/nekoton_repository.dart';
 
-part 'route.freezed.dart';
-
 // Define query parameter constants
-const walletDeployAddressQueryParam = 'walletDeployAddress';
-const walletDeployPublicKeyQueryParam = 'walletDeployPublicKey';
+const _addressQueryParam = 'address';
+const _publicKeyQueryParam = 'publicKey';
 
 @named
 @Singleton(as: CompassBaseRoute)
 class WalletDeployRoute extends CompassRoute<WalletDeployRouteData> {
   WalletDeployRoute()
       : super(
-          name: 'wallet-deploy',
+          path: '/wallet-deploy',
           builder: (context, data, _) => WalletDeployPage(
             address: data.address,
             publicKey: data.publicKey,
@@ -26,35 +23,32 @@ class WalletDeployRoute extends CompassRoute<WalletDeployRouteData> {
   WalletDeployRouteData fromQueryParams(Map<String, String> queryParams) {
     return WalletDeployRouteData(
       address: Address(
-        address: queryParams[walletDeployAddressQueryParam]!,
+        address: queryParams[_addressQueryParam]!,
       ),
       publicKey: PublicKey(
-        publicKey: queryParams[walletDeployPublicKeyQueryParam]!,
+        publicKey: queryParams[_publicKeyQueryParam]!,
       ),
     );
   }
 }
 
-/// Data model for WalletDeploy route
-@freezed
-class WalletDeployRouteData
-    with _$WalletDeployRouteData
-    implements CompassRouteDataQuery {
-  const factory WalletDeployRouteData({
-    /// Address of wallet to deploy
-    required Address address,
+class WalletDeployRouteData implements CompassRouteDataQuery {
+  const WalletDeployRouteData({
+    required this.address,
+    required this.publicKey,
+  });
 
-    /// Public key of wallet owner
-    required PublicKey publicKey,
-  }) = _WalletDeployRouteData;
+  /// Address of wallet to deploy
+  final Address address;
 
-  const WalletDeployRouteData._();
+  /// Public key of wallet owner
+  final PublicKey publicKey;
 
   @override
   Map<String, String> toQueryParams() {
     return {
-      walletDeployAddressQueryParam: address.address,
-      walletDeployPublicKeyQueryParam: publicKey.publicKey,
+      _addressQueryParam: address.address,
+      _publicKeyQueryParam: publicKey.publicKey,
     };
   }
 }

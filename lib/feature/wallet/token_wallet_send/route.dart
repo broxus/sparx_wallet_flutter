@@ -1,30 +1,26 @@
 import 'package:app/app/router/compass/compass.dart';
 import 'package:app/feature/wallet/token_wallet_send/view/token_wallet_send_widget.dart';
 import 'package:app/utils/common_utils.dart';
-import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:injectable/injectable.dart';
 import 'package:nekoton_repository/nekoton_repository.dart';
 
-part 'route.freezed.dart';
-
 /// Constants for query parameter names
-const tokenWalletSendOwnerQueryParam = 'tokenWalletSendOwner';
-const tokenWalletSendContractQueryParam = 'tokenWalletSendContract';
-const tokenWalletSendPublicKeyQueryParam = 'tokenWalletSendPublicKey';
-const tokenWalletSendCommentQueryParam = 'tokenWalletSendComment';
-const tokenWalletSendDestinationQueryParam = 'tokenWalletSendDestination';
-const tokenWalletSendAmountQueryParam = 'tokenWalletSendAmount';
-const tokenWalletSendAttachedAmountQueryParam = 'tokenWalletSendAttachedAmount';
-const tokenWalletSendResultMessageQueryParam = 'tokenWalletSendResultMessage';
-const tokenWalletSendNotifyReceiverQueryParam = 'tokenWalletSendNotifyReceiver';
+const _ownerQueryParam = 'sendOwner';
+const _contractQueryParam = 'sendContract';
+const _publicKeyQueryParam = 'sendPublicKey';
+const _commentQueryParam = 'sendComment';
+const _destinationQueryParam = 'sendDestination';
+const _amountQueryParam = 'sendAmount';
+const _attachedAmountQueryParam = 'sendAttachedAmount';
+const _resultMessageQueryParam = 'sendResultMessage';
+const _notifyReceiverQueryParam = 'sendNotifyReceiver';
 
 @named
 @Singleton(as: CompassBaseRoute)
-class TokenWalletSendRoute
-    extends CompassRoute<TokenWalletSendRouteData> {
+class TokenWalletSendRoute extends CompassRoute<TokenWalletSendRouteData> {
   TokenWalletSendRoute()
       : super(
-          name: 'token-wallet-send',
+          path: '/token-send',
           builder: (context, data, _) => TokenWalletSendWidget(
             owner: data.owner,
             rootTokenContract: data.rootTokenContract,
@@ -41,69 +37,73 @@ class TokenWalletSendRoute
   @override
   TokenWalletSendRouteData fromQueryParams(Map<String, String> queryParams) {
     final attachedAmountStr =
-        queryParams[tokenWalletSendAttachedAmountQueryParam];
+        queryParams[_attachedAmountQueryParam];
     final notifyReceiverStr =
-        queryParams[tokenWalletSendNotifyReceiverQueryParam];
+        queryParams[_notifyReceiverQueryParam];
 
     return TokenWalletSendRouteData(
       owner: Address(
-        address: queryParams[tokenWalletSendOwnerQueryParam]!,
+        address: queryParams[_ownerQueryParam]!,
       ),
       rootTokenContract: Address(
-        address: queryParams[tokenWalletSendContractQueryParam]!,
+        address: queryParams[_contractQueryParam]!,
       ),
       publicKey: PublicKey(
-        publicKey: queryParams[tokenWalletSendPublicKeyQueryParam]!,
+        publicKey: queryParams[_publicKeyQueryParam]!,
       ),
       destination: Address(
-        address: queryParams[tokenWalletSendDestinationQueryParam]!,
+        address: queryParams[_destinationQueryParam]!,
       ),
       amount: BigInt.parse(
-        queryParams[tokenWalletSendAmountQueryParam]!,
+        queryParams[_amountQueryParam]!,
       ),
       attachedAmount: attachedAmountStr?.let(BigInt.tryParse),
-      comment: queryParams[tokenWalletSendCommentQueryParam],
-      resultMessage: queryParams[tokenWalletSendResultMessageQueryParam],
+      comment: queryParams[_commentQueryParam],
+      resultMessage: queryParams[_resultMessageQueryParam],
       notifyReceiver: notifyReceiverStr?.let(bool.tryParse),
     );
   }
 }
 
-/// Data model for TokenWalletSend route
-@freezed
-class TokenWalletSendRouteData
-    with _$TokenWalletSendRouteData
-    implements CompassRouteDataQuery {
-  const factory TokenWalletSendRouteData({
-    /// Owner address
-    required Address owner,
+class TokenWalletSendRouteData implements CompassRouteDataQuery {
+  const TokenWalletSendRouteData({
+    required this.owner,
+    required this.rootTokenContract,
+    required this.publicKey,
+    required this.destination,
+    required this.amount,
+    this.attachedAmount,
+    this.comment,
+    this.resultMessage,
+    this.notifyReceiver,
+  });
 
-    /// Token contract address
-    required Address rootTokenContract,
+  /// Owner address
+  final Address owner;
 
-    /// Public key
-    required PublicKey publicKey,
+  /// Token contract address
+  final Address rootTokenContract;
 
-    /// Destination address
-    required Address destination,
+  /// Public key
+  final PublicKey publicKey;
 
-    /// Amount to send
-    required BigInt amount,
+  /// Destination address
+  final Address destination;
 
-    /// Attached amount (optional)
-    BigInt? attachedAmount,
+  /// Amount to send
+  final BigInt amount;
 
-    /// Comment for transaction (optional)
-    String? comment,
+  /// Attached amount (optional)
+  final BigInt? attachedAmount;
 
-    /// Result message (optional)
-    String? resultMessage,
+  /// Comment for transaction (optional)
+  final String? comment;
 
-    /// Notify receiver flag (optional)
-    bool? notifyReceiver,
-  }) = _TokenWalletSendRouteData;
+  /// Result message (optional)
+  final String? resultMessage;
 
-  const TokenWalletSendRouteData._();
+  /// Notify receiver flag (optional)
+  final bool? notifyReceiver;
 
   @override
   Map<String, String> toQueryParams() {
@@ -113,18 +113,18 @@ class TokenWalletSendRouteData
     final notifyReceiver = this.notifyReceiver;
 
     return {
-      tokenWalletSendOwnerQueryParam: owner.address,
-      tokenWalletSendContractQueryParam: rootTokenContract.address,
-      tokenWalletSendPublicKeyQueryParam: publicKey.publicKey,
-      tokenWalletSendDestinationQueryParam: destination.address,
-      tokenWalletSendAmountQueryParam: amount.toString(),
+      _ownerQueryParam: owner.address,
+      _contractQueryParam: rootTokenContract.address,
+      _publicKeyQueryParam: publicKey.publicKey,
+      _destinationQueryParam: destination.address,
+      _amountQueryParam: amount.toString(),
       if (attachedAmount != null)
-        tokenWalletSendAttachedAmountQueryParam: attachedAmount.toString(),
-      if (comment != null) tokenWalletSendCommentQueryParam: comment,
+        _attachedAmountQueryParam: attachedAmount.toString(),
+      if (comment != null) _commentQueryParam: comment,
       if (resultMessage != null)
-        tokenWalletSendResultMessageQueryParam: resultMessage,
+        _resultMessageQueryParam: resultMessage,
       if (notifyReceiver != null)
-        tokenWalletSendNotifyReceiverQueryParam: notifyReceiver.toString(),
+        _notifyReceiverQueryParam: notifyReceiver.toString(),
     };
   }
 }

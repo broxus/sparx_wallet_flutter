@@ -12,6 +12,7 @@ class OnBoardingRoute extends CompassRouteParameterless<OnBoardingRouteData> {
     @Named.from(ChooseNetworkRoute) CompassBaseRoute chooseNetworkRoute,
   ) : super(
           name: 'onboarding',
+          path: '/onboarding',
           pageBuilder: (context, _, state) => onboardingTransitionPageBuilder(
             context,
             state,

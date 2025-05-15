@@ -9,6 +9,7 @@ class SplashScreenRoute
   SplashScreenRoute()
       : super(
           name: 'splash',
+          path: '/splash',
           isInitial: true, // Mark as initial route
           isTopLevel: true, // Mark as top-level route
           builder: (context, _, __) => const SplashScreen(),

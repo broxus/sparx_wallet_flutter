@@ -28,6 +28,8 @@ class WalletRoute extends CompassRouteParameterless<WalletRouteData> {
     CompassBaseRoute tokenWalletDetailsRoute,
     @Named.from(WalletPrepareTransferRoute)
     CompassBaseRoute walletPrepareTransferRoute,
+    @Named.from(WalletPrepareSpecifiedTransferRoute)
+    CompassBaseRoute walletPrepareSpecifiedTransferRoute,
     @Named.from(WalletDeployRoute) CompassBaseRoute walletDeployRoute,
     @Named.from(ConfirmMultisigTransactionRoute)
     CompassBaseRoute confirmMultisigTransactionRoute,
@@ -37,6 +39,8 @@ class WalletRoute extends CompassRouteParameterless<WalletRouteData> {
     @Named.from(EnterSeedNameRoute) CompassBaseRoute enterSeedNameRoute,
   ) : super(
           name: 'wallet',
+          path: '/wallet',
+          isSaveLocation: true,
           builder: (context, _, __) => const WalletPageWidget(),
           compassBaseRoutes: [
             enableBiometryRoute,
@@ -46,6 +50,7 @@ class WalletRoute extends CompassRouteParameterless<WalletRouteData> {
             tonWalletDetailsRoute,
             tokenWalletDetailsRoute,
             walletPrepareTransferRoute,
+            walletPrepareSpecifiedTransferRoute,
             walletDeployRoute,
             confirmMultisigTransactionRoute,
             configureNetworksRoute,

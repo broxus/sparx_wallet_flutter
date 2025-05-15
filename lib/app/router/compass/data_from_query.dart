@@ -22,7 +22,7 @@ abstract interface class CompassRouteDataQuery implements CompassRouteData {
 /// implementations that handle query-parameterized navigation.
 mixin CompassRouteDataQueryMixin<T extends CompassRouteDataQuery>
     on CompassBaseGoRoute<T> {
-  late final _prefix = '#$path';
+  late final _prefix = '$pathWithoutLeadingSlash~';
 
   /// Removes query parameters specific to this route from the provided map.
   ///
@@ -91,4 +91,3 @@ mixin EmptyRouteDataMixin<T extends CompassRouteData> on CompassBaseGoRoute<T> {
     return Uri(path: path);
   }
 }
-

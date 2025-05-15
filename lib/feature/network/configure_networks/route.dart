@@ -10,7 +10,8 @@ class ConfigureNetworksRoute
   ConfigureNetworksRoute(
     @Named.from(EditNetworkRoute) CompassBaseRoute editNetworkRoute,
   ) : super(
-          name: 'configure-networks',
+          path: '/configure-networks',
+          isSaveLocation: true,
           builder: (context, _, __) => const ConfigureNetworksPage(),
           compassBaseRoutes: [editNetworkRoute],
         );

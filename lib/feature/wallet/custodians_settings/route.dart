@@ -2,10 +2,7 @@ import 'dart:convert';
 
 import 'package:app/app/router/compass/compass.dart';
 import 'package:app/feature/wallet/custodians_settings/custodians_settings_page.dart';
-import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:injectable/injectable.dart';
-
-part 'route.freezed.dart';
 
 // Moved parameter constants here from wallet.dart
 const custodianSettingsCustodiansParam = 'custodianSettingsCustodiansParam';
@@ -16,7 +13,7 @@ class CustodiansSettingsRoute
     extends CompassRoute<CustodiansSettingsRouteData> {
   CustodiansSettingsRoute()
       : super(
-          name: 'custodians-settings',
+          path: '/custodians-settings',
           builder: (context, data, _) => CustodiansSettingsPage(
             custodians: data.custodians,
           ),
@@ -35,16 +32,12 @@ class CustodiansSettingsRoute
   }
 }
 
-/// Data model for CustodiansSettings route
-@freezed
-class CustodiansSettingsRouteData
-    with _$CustodiansSettingsRouteData
-    implements CompassRouteDataQuery {
-  const factory CustodiansSettingsRouteData({
-    required List<String> custodians,
-  }) = _CustodiansSettingsRouteData;
+class CustodiansSettingsRouteData implements CompassRouteDataQuery {
+  const CustodiansSettingsRouteData({
+    required this.custodians,
+  });
 
-  const CustodiansSettingsRouteData._();
+  final List<String> custodians;
 
   @override
   Map<String, String> toQueryParams() {

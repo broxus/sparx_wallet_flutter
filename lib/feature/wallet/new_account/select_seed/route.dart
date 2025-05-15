@@ -9,7 +9,7 @@ class SelectSeedRoute extends CompassRouteParameterless<SelectSeedRouteData> {
   SelectSeedRoute(
     @Named.from(NewAccountRoute) CompassBaseRoute newAccountRoute,
   ) : super(
-          name: 'wallet-select-seed',
+          path: '/wallet-select-seed',
           builder: (context, _, __) => const SelectSeedPage(),
           compassBaseRoutes: [
             newAccountRoute,

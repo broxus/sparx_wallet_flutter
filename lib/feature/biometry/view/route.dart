@@ -8,7 +8,7 @@ class EnableBiometryRoute
     extends CompassRouteParameterless<EnableBiometryRouteData> {
   EnableBiometryRoute()
       : super(
-          name: 'enable-biometry',
+          path: '/enable-biometry',
           builder: (context, _, __) => const BiometryScreen(),
         );
 

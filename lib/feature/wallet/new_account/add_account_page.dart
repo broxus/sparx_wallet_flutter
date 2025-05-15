@@ -1,5 +1,4 @@
 import 'package:app/app/router/router.dart';
-import 'package:app/di/di.dart';
 import 'package:app/feature/wallet/new_account/add_external_account/route.dart';
 import 'package:app/feature/wallet/new_account/select_seed/route.dart';
 import 'package:app/generated/generated.dart';

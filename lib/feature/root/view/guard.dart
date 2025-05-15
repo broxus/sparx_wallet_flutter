@@ -11,11 +11,11 @@ import 'package:nekoton_repository/nekoton_repository.dart';
 /// Interceptor that redirects to onboarding if the user doesn't have any seeds.
 @named
 @Singleton(as: CompassGuard)
-class OnboardingGuard extends CompassGuard {
-  OnboardingGuard(
+class RootTabSyncGuard extends CompassGuard {
+  RootTabSyncGuard(
     this._bootstrapService,
     this._nekotonRepository,
-  ) : super(priority: priorityHigh);
+  ) : super(priority: priorityLow);
 
   final BootstrapService _bootstrapService;
   final NekotonRepository _nekotonRepository;

@@ -52,7 +52,7 @@ class CompassRouter {
   /// List of navigation guards sorted by priority.
   ///
   /// Guards can intercept navigation requests and redirect as needed.
-  late final _interceptors =
+  late final _guards =
       GetIt.I.getAll<CompassGuard>().toList().sortedBy<num>(
             (it) => -it.priority,
           );
@@ -80,7 +80,10 @@ class CompassRouter {
       (it) {
         if (it is! CompassBaseGoRoute) return null;
 
-        return MapEntry(it.path, it);
+        return MapEntry(
+          it.pathWithoutLeadingSlash,
+          it,
+        );
       },
     ).nonNulls,
   );
@@ -101,11 +104,42 @@ class CompassRouter {
   /// [data] The route data containing information needed for navigation.
   ///
   /// Throws [StateError] if no route is found for the provided data type.
-  void compassPoint<T extends CompassRouteData>(T data) {
-    final route = _findRouteForData<T>();
-    if (route == null) throw StateError('No route for data by type $T');
+  void compassPoint(CompassRouteData data) {
+    final route = _findRouteForData(data);
+
+    if (route == null) {
+      throw StateError('No route for data by type ${data.runtimeType}');
+    } else {
+      _log.info('Navigate to route $route');
+    }
 
     router.go(route.toLocation(data).toString());
+  }
+
+  /// Navigates to a named route specified by route data using replace approach.
+  ///
+  /// This method replaces the current page with the target page without
+  /// adding to the navigation stack. It leverages Go Router's `goNamed`
+  /// method under the hood.
+  ///
+  /// [data] The route data containing information needed for navigation.
+  void compassPointNamed(CompassRouteData data) {
+    final route = _findRouteForData(data);
+
+    if (route == null) {
+      throw StateError('No route for data by type ${data.runtimeType}');
+    } else {
+      _log.info('Navigate to route $route');
+    }
+
+    final name = route.name;
+    if (name == null) {
+      throw StateError("Route ${route.runtimeType} doesn't have name");
+    }
+
+    final location = route.toLocation(data);
+
+    router.goNamed(name, queryParameters: location.queryParameters);
   }
 
   /// Navigates to a route specified by route data by pushing to the stack.
@@ -121,9 +155,12 @@ class CompassRouter {
   /// and the value is passed to [Navigator.pop].
   ///
   /// Throws [StateError] if no route is found for the provided data type.
-  Future<R?> compassPush<T extends CompassRouteData, R>(T data) {
-    final route = _findRouteForData<T>();
-    if (route == null) throw StateError('No route for data by type $T');
+  Future<R?> compassPush<R extends Object?>(CompassRouteData data) {
+    final route = _findRouteForData(data);
+
+    if (route == null) {
+      throw StateError('No route for data by type ${data.runtimeType}');
+    }
 
     return router.push(route.toLocation(data).toString());
   }
@@ -142,18 +179,16 @@ class CompassRouter {
   /// [data] The route data containing information needed for navigation.
   ///
   /// Throws [StateError] if no route is found for the provided data type.
-  void compassContinue<T extends CompassRouteData>(T data) {
-    final route = _findRouteForData<T>();
-    if (route == null) throw StateError('No route for data by type $T');
+  void compassContinue(CompassRouteData data) {
+    final route = _findRouteForData(data);
+    if (route == null) {
+      throw StateError('No route for data by type ${data.runtimeType}');
+    }
 
     final originalLocation = router.state.uri;
     final newLocation = route.toLocation(data);
 
     final concatedUri = newLocation.replace(
-      pathSegments: [
-        '.', // Use relative path to maintain current path context
-        ...newLocation.pathSegments,
-      ],
       queryParameters: {
         ...originalLocation.queryParameters, // Preserve original parameters
         ...newLocation
@@ -161,7 +196,7 @@ class CompassRouter {
       },
     );
 
-    router.go(concatedUri.toString());
+    router.go('.$concatedUri');
   }
 
   /// Navigates back to the previous route in the navigation stack.
@@ -194,10 +229,11 @@ class CompassRouter {
 
   void dispose() {
     // Detach all interceptors
-    for (final interceptor in _interceptors) {
-      interceptor.detach();
+    for (final guard in _guards) {
+      guard.detach();
     }
 
+    router.routerDelegate.removeListener(_logRoute);
     router.dispose();
   }
 
@@ -218,8 +254,8 @@ class CompassRouter {
         // Return the first non-null redirect found
         final location = _locationByUri(state.uri).toList();
 
-        for (final interceptor in _interceptors) {
-          final redirectData = interceptor.protect(context, location);
+        for (final guard in _guards) {
+          final redirectData = guard.protect(context, location);
           if (redirectData != null) {
             if (redirectData is UnsafeRedirectCompassRouteData) {
               return redirectData.route;
@@ -250,24 +286,32 @@ class CompassRouter {
     // Attach interceptors to the router
     unawaited(
       Future.microtask(() {
-        for (final interceptor in _interceptors) {
-          interceptor.attachToRouter(this);
+        for (final guard in _guards) {
+          guard.attachToRouter(this);
         }
       }),
     );
 
+    router.routerDelegate.addListener(_logRoute);
+
     return router;
   }
 
-  CompassBaseGoRoute<T>? _findRouteForData<T extends CompassRouteData>() {
-    final route = _routsByType[T];
+  CompassBaseGoRoute<CompassRouteData>? _findRouteForData(
+    CompassRouteData data,
+  ) {
+    final route = _routsByType[data.runtimeType];
     if (route == null) return null;
 
-    return route as CompassBaseGoRoute<T>;
+    return route;
   }
 
   Iterable<CompassBaseGoRoute> _locationByUri(Uri uri) {
     return uri.pathSegments.map((it) => _routsByPaths[it]).nonNulls;
+  }
+
+  void _logRoute() {
+    _log.fine('Route update: ${router.state.uri}');
   }
 }
 
@@ -314,8 +358,17 @@ extension CompassNavigationContextExtension on BuildContext {
   /// [data] The route data containing information needed for navigation.
   ///
   /// See [CompassRouter.compassPoint] for more details.
-  void compassPoint<T extends CompassRouteData>(T data) {
+  void compassPoint(CompassRouteData data) {
     return CompassRouterProvider.of(this).compassPoint(data);
+  }
+
+  /// Navigates to a named route specified by route data using replace approach.
+  ///
+  /// [data] The route data containing information needed for navigation.
+  ///
+  /// See [CompassRouter.compassPointNamed] for more details.
+  void compassPointNamed(CompassRouteData data) {
+    return CompassRouterProvider.of(this).compassPointNamed(data);
   }
 
   /// Navigates to a route specified by route data by pushing to the stack.
@@ -325,7 +378,7 @@ extension CompassNavigationContextExtension on BuildContext {
   /// Returns a Future that completes when the pushed route is popped.
   ///
   /// See [CompassRouter.compassPush] for more details.
-  Future<R?> compassPush<T extends CompassRouteData, R>(T data) {
+  Future<R?> compassPush<R>(CompassRouteData data) {
     return CompassRouterProvider.of(this).compassPush(data);
   }
 
@@ -335,7 +388,7 @@ extension CompassNavigationContextExtension on BuildContext {
   /// [data] The route data containing information needed for navigation.
   ///
   /// See [CompassRouter.compassContinue] for more details.
-  void compassContinue<T extends CompassRouteData>(T data) {
+  void compassContinue(CompassRouteData data) {
     return CompassRouterProvider.of(this).compassContinue(data);
   }
 

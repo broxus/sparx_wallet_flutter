@@ -1,11 +1,8 @@
 import 'package:app/app/router/compass/compass.dart';
 import 'package:app/feature/profile/account_detail/route.dart';
 import 'package:app/feature/profile/key_detail/view/key_detail_page.dart';
-import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:injectable/injectable.dart';
 import 'package:nekoton_repository/nekoton_repository.dart';
-
-part 'route.freezed.dart';
 
 /// Constants for query parameter names
 const keyDetailPublicKeyQueryParam = 'publicKey';
@@ -16,7 +13,8 @@ class KeyDetailRoute extends CompassRoute<KeyDetailRouteData> {
   KeyDetailRoute(
     @Named.from(AccountDetailRoute) CompassBaseRoute accountDetailRoute,
   ) : super(
-          name: 'key-detail',
+          path: '/key-detail',
+          isSaveLocation: true,
           builder: (context, data, _) => KeyDetailPage(
             publicKey: data.publicKey,
           ),
@@ -33,17 +31,13 @@ class KeyDetailRoute extends CompassRoute<KeyDetailRouteData> {
   }
 }
 
-/// Data model for KeyDetail route
-@freezed
-class KeyDetailRouteData
-    with _$KeyDetailRouteData
-    implements CompassRouteDataQuery {
-  const factory KeyDetailRouteData({
-    /// PublicKey of key
-    required PublicKey publicKey,
-  }) = _KeyDetailRouteData;
+class KeyDetailRouteData implements CompassRouteDataQuery {
+  const KeyDetailRouteData({
+    required this.publicKey,
+  });
 
-  const KeyDetailRouteData._();
+  /// PublicKey of key
+  final PublicKey publicKey;
 
   @override
   Map<String, String> toQueryParams() {

@@ -10,7 +10,8 @@ import 'package:go_router/go_router.dart';
 abstract class CompassBaseGoRoute<T extends CompassRouteData>
     extends CompassBaseRoute {
   CompassBaseGoRoute({
-    required this.name,
+    required this.path,
+    this.name,
     this.builder,
     this.pageBuilder,
     this.isInitial = false,
@@ -20,8 +21,7 @@ abstract class CompassBaseGoRoute<T extends CompassRouteData>
     this.routes = const <RouteBase>[],
     this.redirect,
     this.parentNavigatorKey,
-    String? path,
-  }) : path = path ?? '/$name';
+  });
 
   /// The runtime type of route data this route expects.
   ///
@@ -31,7 +31,7 @@ abstract class CompassBaseGoRoute<T extends CompassRouteData>
   /// The name identifier for this route.
   ///
   /// This is used in the GoRouter configuration and for route lookup.
-  final String name;
+  final String? name;
 
   /// The URL path segment for this route.
   ///
@@ -105,4 +105,6 @@ abstract class CompassBaseGoRoute<T extends CompassRouteData>
     routes: routes,
     parentNavigatorKey: parentNavigatorKey,
   );
+
+  String get pathWithoutLeadingSlash => path.substring(1);
 }

@@ -10,6 +10,7 @@ class UpdateVersionRoute
   UpdateVersionRoute()
       : super(
           name: 'update-version',
+          path: '/update-version',
           isTopLevel: true,
           pageBuilder: (context, _, state) => CustomTransitionPage<void>(
             key: state.pageKey,

@@ -65,4 +65,3 @@ const priorityMedium = 2;
 ///
 /// Guards with this priority will execute last in the navigation pipeline.
 const priorityLow = 1;
-

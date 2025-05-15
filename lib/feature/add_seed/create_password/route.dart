@@ -6,11 +6,8 @@ import 'package:app/feature/add_seed/create_password/screens/create_seed_passwor
 import 'package:app/feature/add_seed/create_password/view/create_seed_password_page.dart';
 import 'package:app/feature/biometry/view/route.dart';
 import 'package:app/utils/utils.dart';
-import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:injectable/injectable.dart';
 import 'package:nekoton_repository/nekoton_repository.dart';
-
-part 'route.freezed.dart';
 
 // Constants for query parameter names
 const _seedQueryParam = 'seed';
@@ -25,7 +22,8 @@ class CreateSeedOnboardingPasswordRoute
   CreateSeedOnboardingPasswordRoute(
     @Named.from(EnableBiometryRoute) CompassBaseRoute enableBiometryRoute,
   ) : super(
-          name: 'create-seed-onboarding-password',
+          path: '/create-seed-onboarding-password',
+          isSaveLocation: true,
           builder: (context, data, _) => CreateSeedPasswordScreen(
             phrase: SeedPhraseModel(data.seedPhrase),
             mnemonicType: data.mnemonicType,
@@ -51,16 +49,14 @@ class CreateSeedOnboardingPasswordRoute
   }
 }
 
-@freezed
-class CreateSeedOnboardingPasswordRouteData
-    with _$CreateSeedOnboardingPasswordRouteData
-    implements CompassRouteDataQuery {
-  const factory CreateSeedOnboardingPasswordRouteData({
-    String? seedPhrase,
-    MnemonicType? mnemonicType,
-  }) = _CreateSeedOnboardingPasswordRouteData;
+class CreateSeedOnboardingPasswordRouteData implements CompassRouteDataQuery {
+  const CreateSeedOnboardingPasswordRouteData({
+    this.seedPhrase,
+    this.mnemonicType,
+  });
 
-  const CreateSeedOnboardingPasswordRouteData._();
+  final String? seedPhrase;
+  final MnemonicType? mnemonicType;
 
   @override
   Map<String, String> toQueryParams() {
@@ -81,7 +77,8 @@ class CreateSeedPasswordRoute
     extends CompassRoute<CreateSeedPasswordRouteData> {
   CreateSeedPasswordRoute()
       : super(
-          name: 'create-seed-password',
+          path: '/create-seed-password',
+          isSaveLocation: true,
           builder: (context, data, _) => CreateSeedPasswordProfilePage(
             seedPhrase: SeedPhraseModel(data.seedPhrase),
             name: data.name,
@@ -108,18 +105,18 @@ class CreateSeedPasswordRoute
   }
 }
 
-@freezed
-class CreateSeedPasswordRouteData
-    with _$CreateSeedPasswordRouteData
-    implements CompassRouteDataQuery {
-  const factory CreateSeedPasswordRouteData({
-    required SeedAddType type,
-    String? seedPhrase,
-    MnemonicType? mnemonicType,
-    String? name,
-  }) = _CreateSeedPasswordRouteData;
+class CreateSeedPasswordRouteData implements CompassRouteDataQuery {
+  const CreateSeedPasswordRouteData({
+    required this.type,
+    this.seedPhrase,
+    this.mnemonicType,
+    this.name,
+  });
 
-  const CreateSeedPasswordRouteData._();
+  final SeedAddType type;
+  final String? seedPhrase;
+  final MnemonicType? mnemonicType;
+  final String? name;
 
   @override
   Map<String, String> toQueryParams() {

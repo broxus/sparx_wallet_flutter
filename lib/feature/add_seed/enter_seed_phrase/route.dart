@@ -1,11 +1,8 @@
 import 'package:app/app/router/compass/compass.dart';
 import 'package:app/feature/add_seed/create_password/route.dart';
 import 'package:app/feature/add_seed/enter_seed_phrase/enter_seed_phrase_widget.dart';
-import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:injectable/injectable.dart';
 import 'package:string_extensions/string_extensions.dart';
-
-part 'route.freezed.dart';
 
 const _seedNameQueryParam = 'seedName';
 const _isOnboardingQueryParam = 'isOnboarding';
@@ -20,7 +17,8 @@ class EnterSeedPhraseRoute extends CompassRoute<EnterSeedPhraseRouteData> {
     @Named.from(CreateSeedOnboardingPasswordRoute)
     CompassBaseRoute createSeedOnboardingPasswordRoute,
   ) : super(
-          name: 'enter-seed-phrase',
+          path: '/enter-seed-phrase',
+          isSaveLocation: true,
           builder: (context, _, __) => const EnterSeedPhraseWidget(),
           compassBaseRoutes: [
             createSeedPasswordRoute,
@@ -37,17 +35,14 @@ class EnterSeedPhraseRoute extends CompassRoute<EnterSeedPhraseRouteData> {
   }
 }
 
-/// Data model for EnterSeedPhrase route
-@freezed
-class EnterSeedPhraseRouteData
-    with _$EnterSeedPhraseRouteData
-    implements CompassRouteDataQuery {
-  const factory EnterSeedPhraseRouteData({
-    required bool isOnboarding,
-    required String? seedName,
-  }) = _EnterSeedPhraseRouteData;
+class EnterSeedPhraseRouteData implements CompassRouteDataQuery {
+  const EnterSeedPhraseRouteData({
+    required this.isOnboarding,
+    required this.seedName,
+  });
 
-  const EnterSeedPhraseRouteData._();
+  final bool isOnboarding;
+  final String? seedName;
 
   @override
   Map<String, String> toQueryParams() {

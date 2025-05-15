@@ -2,10 +2,7 @@ import 'package:app/app/router/compass/compass.dart';
 import 'package:app/feature/add_seed/add_existing_wallet/route.dart';
 import 'package:app/feature/add_seed/create_password/route.dart';
 import 'package:app/feature/choose_network/choose_network_screen.dart';
-import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:injectable/injectable.dart';
-
-part 'route.freezed.dart';
 
 const _nextStepQueryParam = 'nextStep';
 
@@ -17,7 +14,7 @@ class ChooseNetworkRoute extends CompassRoute<ChooseNetworkRouteData> {
     CompassBaseRoute createSeedOnboardingPasswordRoute,
     @Named.from(AddExistingWalletRoute) CompassBaseRoute addExistingWalletRoute,
   ) : super(
-          name: 'choose-network',
+          path: '/choose-network',
           builder: (context, data, _) {
             return ChooseNetworkScreen(
               nextStep: data.nextStep,
@@ -45,15 +42,12 @@ enum ChooseNetworkNextStep {
   addExistingWallet;
 }
 
-@freezed
-class ChooseNetworkRouteData
-    with _$ChooseNetworkRouteData
-    implements CompassRouteDataQuery {
-  const factory ChooseNetworkRouteData({
-    required ChooseNetworkNextStep nextStep,
-  }) = _ChooseNetworkRouteData;
+class ChooseNetworkRouteData implements CompassRouteDataQuery {
+  const ChooseNetworkRouteData({
+    required this.nextStep,
+  });
 
-  const ChooseNetworkRouteData._();
+  final ChooseNetworkNextStep nextStep;
 
   @override
   Map<String, String> toQueryParams() {

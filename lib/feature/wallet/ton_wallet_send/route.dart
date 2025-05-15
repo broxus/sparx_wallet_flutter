@@ -1,91 +1,92 @@
 import 'package:app/app/router/compass/compass.dart';
 import 'package:app/feature/wallet/ton_wallet_send/view/ton_wallet_send_widget.dart';
 import 'package:app/utils/common_utils.dart';
-import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:injectable/injectable.dart';
 import 'package:nekoton_repository/nekoton_repository.dart';
 
-part 'route.freezed.dart';
-
 /// Constants for query parameter names
-const tonWalletSendAddressQueryParam = 'address';
-const tonWalletSendPublicKeyQueryParam = 'publicKey';
-const tonWalletSendDestinationQueryParam = 'destination';
-const tonWalletSendAmountQueryParam = 'amount';
-const tonWalletSendPopOnCompleteQueryParam = 'popOnComplete';
-const tonWalletSendAttachedAmountQueryParam = 'attachedAmount';
-const tonWalletSendCommentQueryParam = 'comment';
-const tonWalletSendPayloadQueryParam = 'payload';
-const tonWalletSendResultMessageQueryParam = 'resultMessage';
+const _addressQueryParam = 'address';
+const _publicKeyQueryParam = 'publicKey';
+const _destinationQueryParam = 'destination';
+const _amountQueryParam = 'amount';
+const _popOnCompleteQueryParam = 'popOnComplete';
+const _attachedAmountQueryParam = 'attachedAmount';
+const _commentQueryParam = 'comment';
+const _payloadQueryParam = 'payload';
+const _resultMessageQueryParam = 'resultMessage';
 
 @named
 @Singleton(as: CompassBaseRoute)
 class TonWalletSendRoute extends CompassRoute<TonWalletSendRouteData> {
   TonWalletSendRoute()
       : super(
-          name: 'ton-wallet-send',
+          path: '/ton-send',
           builder: (context, data, _) => TonWalletSendWidget(data: data),
         );
 
   @override
   TonWalletSendRouteData fromQueryParams(Map<String, String> queryParams) {
-    final attachedAmount = queryParams[tonWalletSendAttachedAmountQueryParam];
+    final attachedAmount = queryParams[_attachedAmountQueryParam];
 
     return TonWalletSendRouteData(
-      address: Address.fromJson(queryParams[tonWalletSendAddressQueryParam]!),
+      address: Address.fromJson(queryParams[_addressQueryParam]!),
       publicKey:
-          PublicKey.fromJson(queryParams[tonWalletSendPublicKeyQueryParam]!),
+          PublicKey.fromJson(queryParams[_publicKeyQueryParam]!),
       destination:
-          Address.fromJson(queryParams[tonWalletSendDestinationQueryParam]!),
-      amount: BigInt.parse(queryParams[tonWalletSendAmountQueryParam]!),
+          Address.fromJson(queryParams[_destinationQueryParam]!),
+      amount: BigInt.parse(queryParams[_amountQueryParam]!),
       popOnComplete:
-          bool.parse(queryParams[tonWalletSendPopOnCompleteQueryParam]!),
+          bool.parse(queryParams[_popOnCompleteQueryParam]!),
       attachedAmount: attachedAmount?.let(BigInt.parse),
-      comment: queryParams[tonWalletSendCommentQueryParam],
-      payload: queryParams[tonWalletSendPayloadQueryParam],
-      resultMessage: queryParams[tonWalletSendResultMessageQueryParam],
+      comment: queryParams[_commentQueryParam],
+      payload: queryParams[_payloadQueryParam],
+      resultMessage: queryParams[_resultMessageQueryParam],
     );
   }
 }
 
-/// Data model for TonWalletSend route
-@freezed
-class TonWalletSendRouteData
-    with _$TonWalletSendRouteData
-    implements CompassRouteDataQuery {
-  const factory TonWalletSendRouteData({
-    /// Address of TonWallet that will be used to send funds
-    required Address address,
+class TonWalletSendRouteData implements CompassRouteDataQuery {
+  const TonWalletSendRouteData({
+    required this.address,
+    required this.publicKey,
+    required this.destination,
+    required this.amount,
+    required this.popOnComplete,
+    this.attachedAmount,
+    this.comment,
+    this.payload,
+    this.resultMessage,
+  });
 
-    /// Custodian of [address] that will be initiator of transaction (for not
-    /// multisig this is main key).
-    required PublicKey publicKey,
+  /// Address of TonWallet that will be used to send funds
+  final Address address;
 
-    /// Address where funds should be sent
-    required Address destination,
+  /// Custodian of [address] that will be initiator of transaction (for not
+  /// multisig this is main key).
+  final PublicKey publicKey;
 
-    /// Amount of tokens that should be sent, to convert Fixed to BigInt, use
-    /// [Fixed.minorUnits].
-    required BigInt amount,
+  /// Address where funds should be sent
+  final Address destination;
 
-    /// If true - after transaction send screen will be popped with true-result
-    /// else - navigate to wallet
-    required bool popOnComplete,
+  /// Amount of tokens that should be sent, to convert Fixed to BigInt, use
+  /// [Fixed.minorUnits].
+  final BigInt amount;
 
-    /// Ammount that will be just added to [amount]
-    BigInt? attachedAmount,
+  /// If true - after transaction send screen will be popped with true-result
+  /// else - navigate to wallet
+  final bool popOnComplete;
 
-    /// Comment for transaction
-    String? comment,
+  /// Ammount that will be just added to [amount]
+  final BigInt? attachedAmount;
 
-    /// Transaction payload
-    String? payload,
+  /// Comment for transaction
+  final String? comment;
 
-    /// Message that will be shown when transaction sending completed
-    String? resultMessage,
-  }) = _TonWalletSendRouteData;
+  /// Transaction payload
+  final String? payload;
 
-  const TonWalletSendRouteData._();
+  /// Message that will be shown when transaction sending completed
+  final String? resultMessage;
 
   @override
   Map<String, String> toQueryParams() {
@@ -96,17 +97,17 @@ class TonWalletSendRouteData
     final popOnComplete = this.popOnComplete;
 
     return {
-      tonWalletSendAddressQueryParam: address.toJson(),
-      tonWalletSendPublicKeyQueryParam: publicKey.toJson(),
-      tonWalletSendDestinationQueryParam: destination.toJson(),
-      tonWalletSendAmountQueryParam: amount.toString(),
-      tonWalletSendPopOnCompleteQueryParam: popOnComplete.toString(),
+      _addressQueryParam: address.toJson(),
+      _publicKeyQueryParam: publicKey.toJson(),
+      _destinationQueryParam: destination.toJson(),
+      _amountQueryParam: amount.toString(),
+      _popOnCompleteQueryParam: popOnComplete.toString(),
       if (attachedAmount != null)
-        tonWalletSendAttachedAmountQueryParam: attachedAmount.toString(),
-      if (comment != null) tonWalletSendCommentQueryParam: comment,
-      if (payload != null) tonWalletSendPayloadQueryParam: payload,
+        _attachedAmountQueryParam: attachedAmount.toString(),
+      if (comment != null) _commentQueryParam: comment,
+      if (payload != null) _payloadQueryParam: payload,
       if (resultMessage != null)
-        tonWalletSendResultMessageQueryParam: resultMessage,
+        _resultMessageQueryParam: resultMessage,
     };
   }
 }

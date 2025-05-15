@@ -1,6 +1,5 @@
 import 'dart:async';
 import 'package:app/app/router/compass/compass.dart';
-import 'package:app/app/router/compass/guard.dart';
 import 'package:app/app/router/router.dart';
 import 'package:app/feature/update_version/route.dart';
 import 'package:app/feature/update_version/update_version.dart';

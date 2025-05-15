@@ -97,9 +97,13 @@ class RestoreSubroutesGuard extends CompassGuard {
     _lastSetlocation = location;
 
     final currentRoutes = _compassRouter.currentRoutes.toList();
+
+    if (currentRoutes.isEmpty) return;
+
     final isSaveLocation = currentRoutes.every((it) => it.isSaveLocation);
     final rootRoute = currentRoutes.firstOrNull;
 
+    _log.info('$currentRoutes -> isSaveLocation: $isSaveLocation');
     if (isSaveLocation) {
       _navigationService.saveLastLocation(location);
     }

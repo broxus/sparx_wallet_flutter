@@ -15,7 +15,8 @@ export 'route.dart';
 abstract class CompassRoute<T extends CompassRouteDataQuery>
     extends CompassBaseGoRoute<T> with CompassRouteDataQueryMixin<T> {
   CompassRoute({
-    required super.name,
+    required super.path,
+    super.name,
     this.compassBaseRoutes = const [],
     super.builder,
     super.pageBuilder,
@@ -25,7 +26,6 @@ abstract class CompassRoute<T extends CompassRouteDataQuery>
     super.isSaveSubroutes,
     super.redirect,
     super.parentNavigatorKey,
-    super.path,
   }) : super(
           routes: compassBaseRoutes.map((it) => it.route).toList(),
         );
@@ -44,7 +44,8 @@ abstract class CompassRoute<T extends CompassRouteDataQuery>
 abstract class CompassRouteParameterless<T extends CompassRouteData>
     extends CompassBaseGoRoute<T> with EmptyRouteDataMixin<T> {
   CompassRouteParameterless({
-    required super.name,
+    required super.path,
+    super.name,
     this.compassBaseRoutes = const [],
     super.builder,
     super.pageBuilder,
@@ -54,7 +55,6 @@ abstract class CompassRouteParameterless<T extends CompassRouteData>
     super.isSaveSubroutes,
     super.redirect,
     super.parentNavigatorKey,
-    super.path,
   }) : super(
           routes: compassBaseRoutes.map((it) => it.route).toList(),
         );

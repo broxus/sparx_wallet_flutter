@@ -2,13 +2,10 @@ import 'package:app/app/router/compass/compass.dart';
 import 'package:app/app/service/bootstrap/bootstrap_steps.dart';
 import 'package:app/feature/bootstrap_failed/view/bootstrap_failed_page.dart';
 import 'package:app/feature/network/configure_networks/route.dart';
-import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:injectable/injectable.dart';
 
-part 'route.freezed.dart';
-
 /// Constants for query parameter names
-const bootstrapFailedStepQueryParam = 'step';
+const _stepQueryParam = 'step';
 
 @named
 @Singleton(as: CompassBaseRoute)
@@ -17,6 +14,7 @@ class BootstrapFailedRoute extends CompassRoute<BootstrapFailedRouteData> {
     @Named.from(ConfigureNetworksRoute) CompassBaseRoute configureNetworksRoute,
   ) : super(
           name: 'bootstrap-failed',
+          path: '/bootstrap-failed',
           isTopLevel: true, // Mark as top-level route
           builder: (context, data, _) => BootstrapFailedPage(
             step: data.step,
@@ -26,7 +24,7 @@ class BootstrapFailedRoute extends CompassRoute<BootstrapFailedRouteData> {
 
   @override
   BootstrapFailedRouteData fromQueryParams(Map<String, String> queryParams) {
-    final stepStr = queryParams[bootstrapFailedStepQueryParam] ?? '0';
+    final stepStr = queryParams[_stepQueryParam] ?? '0';
     final stepIndex = int.tryParse(stepStr) ?? 0;
     return BootstrapFailedRouteData(
       step: BootstrapSteps.values[stepIndex],
@@ -34,22 +32,18 @@ class BootstrapFailedRoute extends CompassRoute<BootstrapFailedRouteData> {
   }
 }
 
-/// Data model for BootstrapFailed route
-@freezed
-class BootstrapFailedRouteData
-    with _$BootstrapFailedRouteData
-    implements CompassRouteDataQuery {
-  const factory BootstrapFailedRouteData({
-    /// Bootstrap step that failed
-    required BootstrapSteps step,
-  }) = _BootstrapFailedRouteData;
+class BootstrapFailedRouteData implements CompassRouteDataQuery {
+  const BootstrapFailedRouteData({
+    required this.step,
+  });
 
-  const BootstrapFailedRouteData._();
+  /// Bootstrap step that failed
+  final BootstrapSteps step;
 
   @override
   Map<String, String> toQueryParams() {
     return {
-      bootstrapFailedStepQueryParam: step.index.toString(),
+      _stepQueryParam: step.index.toString(),
     };
   }
 }

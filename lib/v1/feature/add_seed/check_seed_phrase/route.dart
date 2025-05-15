@@ -2,10 +2,7 @@ import 'package:app/app/router/compass/compass.dart';
 import 'package:app/data/models/models.dart';
 import 'package:app/feature/add_seed/create_password/route.dart';
 import 'package:app/v1/feature/add_seed/check_seed_phrase/view/view.dart';
-import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:injectable/injectable.dart';
-
-part 'route.freezed.dart';
 
 const _seedPhraseQueryParam = 'seed';
 const _seedNameQueryParam = 'seedName';
@@ -18,7 +15,7 @@ class CheckSeedPhraseRoute extends CompassRoute<CheckSeedPhraseRouteData> {
     @Named.from(CreateSeedPasswordRoute)
     CompassBaseRoute createSeedPasswordProfileRoute,
   ) : super(
-          name: 'check-seed',
+          path: '/check-seed',
           builder: (context, data, _) => CheckSeedPhrasePage(
             seed: SeedPhraseModel(data.seedPhrase),
             name: data.name,
@@ -37,17 +34,14 @@ class CheckSeedPhraseRoute extends CompassRoute<CheckSeedPhraseRouteData> {
   }
 }
 
-/// Route data for CheckSeedPhrase
-@freezed
-class CheckSeedPhraseRouteData
-    with _$CheckSeedPhraseRouteData
-    implements CompassRouteDataQuery {
-  const factory CheckSeedPhraseRouteData({
-    required String seedPhrase,
-    required String? name,
-  }) = _CheckSeedPhraseRouteData;
+class CheckSeedPhraseRouteData implements CompassRouteDataQuery {
+  const CheckSeedPhraseRouteData({
+    required this.seedPhrase,
+    required this.name,
+  });
 
-  const CheckSeedPhraseRouteData._();
+  final String seedPhrase;
+  final String? name;
 
   @override
   Map<String, String> toQueryParams() {

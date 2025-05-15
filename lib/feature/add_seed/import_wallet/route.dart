@@ -9,14 +9,15 @@ import 'package:injectable/injectable.dart';
 class ImportWalletRoute
     extends CompassRouteParameterless<ImportWalletRouteData> {
   ImportWalletRoute(
-    // @Named.from(EnterSeedPhraseRoute) CompassBaseRoute enterSeedPhraseRoute,
+    @Named.from(EnterSeedPhraseRoute) CompassBaseRoute enterSeedPhraseRoute,
     @Named.from(CreateSeedOnboardingPasswordRoute)
     CompassBaseRoute createSeedPasswordRoute,
   ) : super(
-          name: 'import-wallet',
+          path: '/import-wallet',
+          isSaveLocation: true,
           builder: (context, _, __) => const ImportWalletScreen(),
           compassBaseRoutes: [
-            // enterSeedPhraseRoute,
+            enterSeedPhraseRoute,
             createSeedPasswordRoute,
           ],
         );

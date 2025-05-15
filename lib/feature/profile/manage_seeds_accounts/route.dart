@@ -14,6 +14,8 @@ class ManageSeedsAccountsRoute
     @Named.from(EnterSeedNameRoute) CompassBaseRoute enterSeedNameRoute,
   ) : super(
           name: 'manage-seeds-accounts',
+          path: '/manage-seeds-accounts',
+          isSaveLocation: true,
           builder: (context, _, __) => const ManageSeedsAccountsPage(),
           compassBaseRoutes: [
             seedDetailRoute,

@@ -1,14 +1,11 @@
 import 'package:app/app/router/compass/compass.dart';
 import 'package:app/feature/profile/key_detail/route.dart';
 import 'package:app/feature/profile/seed_detail/view/seed_detail_page_widget.dart';
-import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:injectable/injectable.dart';
 import 'package:nekoton_repository/nekoton_repository.dart';
 
-part 'route.freezed.dart';
-
 /// Constants for query parameter names
-const seedDetailPublicKeyQueryParam = 'publicKey';
+const _publicKeyQueryParam = 'publicKey';
 
 @named
 @Singleton(as: CompassBaseRoute)
@@ -16,7 +13,8 @@ class SeedDetailRoute extends CompassRoute<SeedDetailRouteData> {
   SeedDetailRoute(
     @Named.from(KeyDetailRoute) CompassBaseRoute keyDetailRoute,
   ) : super(
-          name: 'seed-detail',
+          path: '/seed-detail',
+          isSaveLocation: true,
           builder: (context, data, _) => SeedDetailPageWidget(
             publicKey: data.publicKey,
           ),
@@ -27,28 +25,24 @@ class SeedDetailRoute extends CompassRoute<SeedDetailRouteData> {
   SeedDetailRouteData fromQueryParams(Map<String, String> queryParams) {
     return SeedDetailRouteData(
       publicKey: PublicKey(
-        publicKey: queryParams[seedDetailPublicKeyQueryParam]!,
+        publicKey: queryParams[_publicKeyQueryParam]!,
       ),
     );
   }
 }
 
-/// Data model for SeedDetail route
-@freezed
-class SeedDetailRouteData
-    with _$SeedDetailRouteData
-    implements CompassRouteDataQuery {
-  const factory SeedDetailRouteData({
-    /// PublicKey of seed
-    required PublicKey publicKey,
-  }) = _SeedDetailRouteData;
+class SeedDetailRouteData implements CompassRouteDataQuery {
+  const SeedDetailRouteData({
+    required this.publicKey,
+  });
 
-  const SeedDetailRouteData._();
+  /// PublicKey of seed
+  final PublicKey publicKey;
 
   @override
   Map<String, String> toQueryParams() {
     return {
-      seedDetailPublicKeyQueryParam: publicKey.publicKey,
+      _publicKeyQueryParam: publicKey.publicKey,
     };
   }
 }

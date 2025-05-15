@@ -1,19 +1,17 @@
 import 'package:app/app/router/compass/compass.dart';
 import 'package:app/feature/network/edit_network/edit_network_page_widget.dart';
-import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:injectable/injectable.dart';
 
-part 'route.freezed.dart';
-
 /// Constants for query parameter names
-const networkConnectionDataIdQueryParam = 'connectionDataId';
+const _dataIdQueryParam = 'connectionDataId';
 
 @named
 @Singleton(as: CompassBaseRoute)
 class EditNetworkRoute extends CompassRoute<EditNetworkRouteData> {
   EditNetworkRoute()
       : super(
-          name: 'edit-network',
+          path: '/edit-network',
+          isSaveLocation: true,
           builder: (context, data, _) => EditNetworkPageWidget(
             connectionDataId: data.connectionDataId,
           ),
@@ -22,29 +20,24 @@ class EditNetworkRoute extends CompassRoute<EditNetworkRouteData> {
   @override
   EditNetworkRouteData fromQueryParams(Map<String, String> queryParams) {
     return EditNetworkRouteData(
-      connectionDataId: queryParams[networkConnectionDataIdQueryParam],
+      connectionDataId: queryParams[_dataIdQueryParam],
     );
   }
 }
 
-/// Data model for EditNetwork route
-@freezed
-class EditNetworkRouteData
-    with _$EditNetworkRouteData
-    implements CompassRouteDataQuery {
-  const factory EditNetworkRouteData({
+class EditNetworkRouteData implements CompassRouteDataQuery {
+  const EditNetworkRouteData({
     /// ID of the connection to edit, null for new connection
-    String? connectionDataId,
-  }) = _EditNetworkRouteData;
+    this.connectionDataId,
+  });
 
-  const EditNetworkRouteData._();
+  final String? connectionDataId;
 
   @override
   Map<String, String> toQueryParams() {
     return {
       if (connectionDataId != null)
-        networkConnectionDataIdQueryParam: connectionDataId!,
+        _dataIdQueryParam: connectionDataId!,
     };
   }
 }
-

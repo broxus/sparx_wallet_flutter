@@ -2,10 +2,7 @@ import 'package:app/app/router/compass/compass.dart';
 import 'package:app/feature/add_seed/enter_seed_phrase/route.dart';
 import 'package:app/v1/feature/add_seed/create_seed/route.dart';
 import 'package:app/v1/feature/add_seed/enter_seed_name/enter_seed_name.dart';
-import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:injectable/injectable.dart';
-
-part 'route.freezed.dart';
 
 const _commandQueryParam = 'command';
 
@@ -19,7 +16,8 @@ class EnterSeedNameRoute extends CompassRoute<EnterSeedNameRouteData> {
     @Named.from(CreateSeedRoute) CompassBaseRoute createSeedRoute,
     @Named.from(EnterSeedPhraseRoute) CompassBaseRoute enterSeedPhraseRoute,
   ) : super(
-          name: 'enter-seed-name',
+          path: '/enter-seed-name',
+          isSaveLocation: true,
           builder: (_, data, __) => EnterSeedNamePage(
             command: data.command,
           ),
@@ -39,16 +37,12 @@ class EnterSeedNameRoute extends CompassRoute<EnterSeedNameRouteData> {
   }
 }
 
-/// Route data for EnterSeedName
-@freezed
-class EnterSeedNameRouteData
-    with _$EnterSeedNameRouteData
-    implements CompassRouteDataQuery {
-  const factory EnterSeedNameRouteData({
-    required EnterSeedNameCommand command,
-  }) = _EnterSeedNameRouteData;
+class EnterSeedNameRouteData implements CompassRouteDataQuery {
+  const EnterSeedNameRouteData({
+    required this.command,
+  });
 
-  const EnterSeedNameRouteData._();
+  final EnterSeedNameCommand command;
 
   @override
   Map<String, String> toQueryParams() {

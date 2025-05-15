@@ -2,10 +2,7 @@ import 'package:app/app/router/compass/compass.dart';
 import 'package:app/feature/add_seed/create_password/route.dart';
 import 'package:app/v1/feature/add_seed/check_seed_phrase/route.dart';
 import 'package:app/v1/feature/add_seed/create_seed/view/create_seed_page.dart';
-import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:injectable/injectable.dart';
-
-part 'route.freezed.dart';
 
 const _seedNameQueryParam = 'seedName';
 
@@ -20,7 +17,8 @@ class CreateSeedRoute extends CompassRoute<CreateSeedRouteData> {
     @Named.from(CreateSeedPasswordRoute)
     CompassBaseRoute createSeedPasswordRoute,
   ) : super(
-          name: 'create-seed',
+          path: '/create-seed',
+          isSaveLocation: true,
           builder: (_, data, ___) => CreateSeedPage(
             name: data.seedName,
           ),
@@ -38,16 +36,12 @@ class CreateSeedRoute extends CompassRoute<CreateSeedRouteData> {
   }
 }
 
-/// Route data for CreateSeedNamed
-@freezed
-class CreateSeedRouteData
-    with _$CreateSeedRouteData
-    implements CompassRouteDataQuery {
-  const factory CreateSeedRouteData({
-    required String? seedName,
-  }) = _CreateSeedRouteData;
+class CreateSeedRouteData implements CompassRouteDataQuery {
+  const CreateSeedRouteData({
+    required this.seedName,
+  });
 
-  const CreateSeedRouteData._();
+  final String? seedName;
 
   @override
   Map<String, String> toQueryParams() {

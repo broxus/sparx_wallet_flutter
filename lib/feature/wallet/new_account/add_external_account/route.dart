@@ -8,7 +8,7 @@ class NewExternalAccountRoute
     extends CompassRouteParameterless<NewExternalAccountRouteData> {
   NewExternalAccountRoute()
       : super(
-          name: 'wallet-new-external-account',
+          path: '/wallet-new-external-account',
           builder: (context, _, __) => const AddExternalAccountPage(),
         );
 
