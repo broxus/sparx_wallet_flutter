@@ -23,9 +23,11 @@ class SplashScreenModel extends ElementaryModel {
 
   Future<bool> get isExistInternet => _networkConnectionService.isExistInternet;
 
-  Future<void> configure() async {
-    await _bootstrapService.init(currentAppBuildType);
+  Future<bool> configure() async {
+    final isInitSuccess = await _bootstrapService.init(currentAppBuildType);
     _browserService.init();
+
+    return isInitSuccess;
   }
 
   Future<String?> getSavedNavigation() {

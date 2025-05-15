@@ -59,6 +59,6 @@ class BiometryScreen extends StatelessWidget {
   }
 
   void _openWallet(BuildContext context) {
-    context.compassPoint(const WalletRouteData());
+    context.compassPointNamed(const WalletRouteData());
   }
 }

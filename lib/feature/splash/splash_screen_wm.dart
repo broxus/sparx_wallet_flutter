@@ -13,6 +13,7 @@ import 'package:app/feature/wallet/route.dart';
 import 'package:elementary/elementary.dart';
 import 'package:flutter/widgets.dart';
 import 'package:go_router/go_router.dart';
+import 'package:logging/logging.dart';
 
 /// Factory method for creating [SplashScreenWidgetModel]
 SplashScreenWidgetModel defaultSplashScreenWidgetModelFactory(
@@ -21,6 +22,7 @@ SplashScreenWidgetModel defaultSplashScreenWidgetModelFactory(
   return SplashScreenWidgetModel(
     SplashScreenModel(
       createPrimaryErrorHandler(context),
+      inject(),
       inject(),
       inject(),
       inject(),
@@ -34,6 +36,7 @@ class SplashScreenWidgetModel
   SplashScreenWidgetModel(
     super.model,
   );
+  final _logger = Logger('SplashScreenWidgetModel');
 
   late final isIos = Platform.isIOS;
 
@@ -57,8 +60,10 @@ class SplashScreenWidgetModel
       final savedNavigation = await model.getSavedNavigation();
 
       if (savedNavigation != null) {
+        _logger.info('Navigate to $savedNavigation');
         contextSafe?.go(savedNavigation);
       } else {
+        _logger.info('Navigate to wallet');
         contextSafe?.compassPoint(const WalletRouteData());
       }
     } else {

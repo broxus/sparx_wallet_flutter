@@ -224,7 +224,7 @@ class WalletAccountActionsWidgetModel
 
     if (widget.sendSpecified) {
       contextSafe?.compassContinue(
-        WalletPrepareTransferRouteData.specified(
+        WalletPrepareSpecifiedTransferRouteData(
           address: widget.account.address,
           rootTokenContract: model.nativeTokenAddress,
           tokenSymbol: model.nativeTokenTicker,
@@ -232,7 +232,7 @@ class WalletAccountActionsWidgetModel
       );
     } else {
       contextSafe?.compassContinue(
-        WalletPrepareTransferRouteData.basic(
+        WalletPrepareTransferRouteData(
           address: widget.account.address,
         ),
       );

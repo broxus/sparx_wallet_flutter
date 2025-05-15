@@ -98,7 +98,7 @@ class TonWalletSendWidgetModel
       if (data.popOnComplete) {
         contextSafe?.compassBack(true);
       } else {
-        contextSafe?.compassPoint(const WalletRouteData());
+        contextSafe?.compassPointNamed(const WalletRouteData());
       }
     } on OperationCanceledException catch (_) {
       // TODO(Levitsky): Now exception is muted, but in future

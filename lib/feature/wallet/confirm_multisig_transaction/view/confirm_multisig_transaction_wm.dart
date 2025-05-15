@@ -162,7 +162,7 @@ class ConfirmMultisigTransactionWidgetModel extends CustomWidgetModel<
         ),
       );
 
-      contextSafe?.compassPoint(
+      contextSafe?.compassPointNamed(
         const WalletRouteData(),
       );
     } on OperationCanceledException catch (_) {

@@ -41,7 +41,7 @@ class CreateSeedPasswordProfilePage extends StatelessWidget {
           showSwitchToSeedSheet(context: context, publicKey: publicKey)
               .whenComplete(() {
             try {
-              context.compassPoint(const ManageSeedsAccountsRouteData());
+              context.compassPointNamed(const ManageSeedsAccountsRouteData());
             } catch (_) {}
           });
         },

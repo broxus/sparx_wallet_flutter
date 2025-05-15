@@ -9,7 +9,6 @@ import 'package:app/feature/wallet/widgets/select_account/select_account_model.d
 import 'package:app/feature/wallet/widgets/select_account/select_account_widget.dart';
 import 'package:elementary_helper/elementary_helper.dart';
 import 'package:flutter/material.dart';
-import 'package:go_router/go_router.dart';
 import 'package:nekoton_repository/nekoton_repository.dart';
 
 SelectAccountWidgetModel defaultSelectAccountWidgetModelFactory(
@@ -105,7 +104,7 @@ class SelectAccountWidgetModel
 
   void onManageSeedsAndAccounts() {
     Navigator.of(context).pop();
-    contextSafe?.compassPoint(const ManageSeedsAccountsRouteData());
+    contextSafe?.compassPointNamed(const ManageSeedsAccountsRouteData());
   }
 
   ListenableState<Money?> getBalanceEntity(KeyAccount account) {

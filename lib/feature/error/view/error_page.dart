@@ -22,11 +22,11 @@ class _ErrorPageState extends State<ErrorPage> {
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((_) {
       if (widget.isOnboarding) {
-        context.compassPoint(
+        context.compassPointNamed(
           const OnBoardingRouteData(),
         );
       } else {
-        context.compassPoint(
+        context.compassPointNamed(
           const WalletRouteData(),
         );
       }

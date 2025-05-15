@@ -34,7 +34,7 @@ class AddAccountResultWidgetModel
     // ignore: use_build_context_synchronously
     Navigator.of(context).pop();
     if (widget.isExternal) {
-      contextSafe?.compassPoint(
+      contextSafe?.compassPointNamed(
         const WalletRouteData(),
       );
     }
@@ -43,7 +43,7 @@ class AddAccountResultWidgetModel
   void onContinue() {
     Navigator.of(context).pop();
     if (widget.isExternal) {
-      contextSafe?.compassPoint(
+      contextSafe?.compassPointNamed(
         const WalletRouteData(),
       );
     }

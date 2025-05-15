@@ -216,7 +216,7 @@ class _Body extends StatelessWidget {
 
   void _onSend(BuildContext context) {
     context.compassContinue(
-      WalletPrepareTransferRouteData.specified(
+      WalletPrepareSpecifiedTransferRouteData(
         address: owner,
         rootTokenContract: rootTokenContract,
         tokenSymbol: tokenBalance!.currency.isoCode,

@@ -1,5 +1,3 @@
-import 'dart:convert';
-
 import 'package:app/app/router/router.dart';
 import 'package:app/di/di.dart';
 import 'package:app/feature/wallet/confirm_multisig_transaction/route.dart';
@@ -57,7 +55,7 @@ class TonWalletMultisigPendingTransactionDetailsPage extends StatelessWidget {
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: DimensSizeV2.d16),
               child: AccountInfo(account: account),
-            ),
+     ),
             WalletTransactionDetailsDefaultBody(
               date: transaction.date,
               isIncoming: !transaction.isOutgoing,

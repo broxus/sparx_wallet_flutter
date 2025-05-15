@@ -107,7 +107,7 @@ class NewAccountTypeWidgetModel
           context: contextSafe!,
           address: accountAddress,
         );
-        context.compassPoint(
+        context.compassPointNamed(
           const WalletRouteData(),
         );
       }

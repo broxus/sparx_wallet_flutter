@@ -61,7 +61,7 @@ class CancelUnstakingPageWidgetModel extends CustomWidgetModel<
 
     if (!context.mounted) return;
 
-    final result = await contextSafe?.compassPush<TonWalletSendRouteData, bool>(
+    final result = await contextSafe?.compassPush<bool>(
       TonWalletSendRouteData(
         address: widget.request.accountAddress,
         amount: model.staking.stakeRemovePendingWithdrawAttachedFee,
@@ -77,7 +77,7 @@ class CancelUnstakingPageWidgetModel extends CustomWidgetModel<
 
     if (result ?? false) {
       model.acceptCancelledWithdraw(widget.request);
-      contextSafe?.compassPoint(
+      contextSafe?.compassPointNamed(
         const WalletRouteData(),
       );
     }

@@ -9,7 +9,7 @@ class PressBottomNavigationEvent extends BottomNavigationEvent {
     required this.currentTab,
   });
 
-  final RootTab prevTab;
+  final RootTab? prevTab;
   final RootTab currentTab;
 
   late final bool isSameTab = prevTab == currentTab;

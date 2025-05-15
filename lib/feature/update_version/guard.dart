@@ -61,7 +61,7 @@ class UpdateVersionGuard extends CompassGuard {
     if (currentRoute is! WalletRoute) return;
 
     _log.info('Open update version screen $request');
-    _router?.compassPush<UpdateVersionRouteData, dynamic>(
+    _router?.compassPush(
       const UpdateVersionRouteData(),
     );
   }

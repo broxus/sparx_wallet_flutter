@@ -1,8 +1,8 @@
 import 'package:app/app/router/router.dart';
 import 'package:app/app/service/service.dart';
 import 'package:app/di/di.dart';
-import 'package:app/feature/wallet/widgets/account_asset_tab/select_new_asset/route.dart';
 import 'package:app/feature/wallet/widgets/account_asset_tab/account_asset_tab_cubit.dart';
+import 'package:app/feature/wallet/widgets/account_asset_tab/select_new_asset/route.dart';
 import 'package:app/feature/wallet/widgets/account_asset_tab/select_tokens/select_tokens_modal.dart';
 import 'package:app/feature/wallet/widgets/account_asset_tab/token_wallet_asset/token_wallet_asset_widget.dart';
 import 'package:app/feature/wallet/widgets/account_asset_tab/ton_wallet_asset/ton_wallet_asset_widget.dart';

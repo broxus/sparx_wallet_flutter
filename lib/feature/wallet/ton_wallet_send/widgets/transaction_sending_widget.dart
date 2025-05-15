@@ -1,9 +1,7 @@
 import 'package:app/app/router/router.dart';
-import 'package:app/di/di.dart';
 import 'package:app/feature/wallet/route.dart';
 import 'package:app/generated/generated.dart';
 import 'package:flutter/material.dart';
-import 'package:go_router/go_router.dart';
 import 'package:rive/rive.dart';
 import 'package:ui_components_lib/v2/ui_components_lib_v2.dart';
 
@@ -76,7 +74,7 @@ class TransactionSendingWidget extends StatelessWidget {
                 if (popOnComplete) {
                   context.compassBack(true);
                 } else {
-                  context.compassPoint(const WalletRouteData());
+                  context.compassPointNamed(const WalletRouteData());
                 }
               },
             ),

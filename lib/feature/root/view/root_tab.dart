@@ -1,8 +1,5 @@
 import 'package:app/app/router/compass/compass.dart';
-import 'package:app/app/router/router.dart';
-import 'package:app/feature/browser/primary/route.dart';
-import 'package:app/feature/browser/route.dart';
-import 'package:app/feature/browser/tabs/route.dart';
+import 'package:app/feature/browser_v2/route.dart';
 import 'package:app/feature/profile/route.dart';
 import 'package:app/feature/wallet/route.dart';
 import 'package:app/generated/generated.dart';
@@ -35,21 +32,18 @@ enum RootTab {
         tooltip: title,
       );
 
-  void compassPoint(BuildContext context) {
-    final routeData = switch (this) {
+  CompassRouteData routeData() {
+    return switch (this) {
       RootTab.wallet => const WalletRouteData(),
-      RootTab.browser => const BrowserPrimaryRouteData(),
+      RootTab.browser => const BrowserRouteData(),
       RootTab.profile => const ProfileRouteData(),
     };
-
-    context.compassPoint(routeData);
   }
 
-  static RootTab getByPath(CompassBaseGoRoute<CompassRouteData>? route) {
+  static RootTab getByRoute(CompassBaseGoRoute<CompassRouteData>? route) {
     return switch (route) {
       WalletRoute() => RootTab.wallet,
-      BrowserPrimaryRoute() => RootTab.browser,
-      BrowserTabsRoute() => RootTab.browser,
+      BrowserRouteData() => RootTab.browser,
       ProfileRoute() => RootTab.profile,
       _ => RootTab.wallet,
     };

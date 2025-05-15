@@ -77,7 +77,7 @@ class WalletAppBarWidgetModel
     if (account == null) return;
 
     context.compassContinue(
-      WalletPrepareTransferRouteData.basic(
+      WalletPrepareTransferRouteData(
         address: account.address,
         destination: address,
       ),

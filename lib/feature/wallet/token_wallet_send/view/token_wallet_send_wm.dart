@@ -11,7 +11,6 @@ import 'package:app/generated/generated.dart';
 import 'package:app/utils/utils.dart';
 import 'package:elementary_helper/elementary_helper.dart';
 import 'package:flutter/material.dart';
-import 'package:go_router/go_router.dart';
 import 'package:logging/logging.dart';
 import 'package:nekoton_repository/nekoton_repository.dart' hide Message;
 
@@ -100,7 +99,7 @@ class TokenWalletSendWidgetModel
 
       model.showMessage(Message.successful(message: resultMessage));
 
-      contextSafe?.compassPoint(
+      contextSafe?.compassPointNamed(
         const WalletRouteData(),
       );
     } on OperationCanceledException catch (_) {

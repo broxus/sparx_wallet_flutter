@@ -80,7 +80,7 @@ class CreateSeedPasswordScreenWidgetModel extends CustomWidgetModel<
     if (model.isNeedBiometry) {
       contextSafe?.compassContinue(const EnableBiometryRouteData());
     } else {
-      contextSafe?.compassPoint(const WalletRouteData());
+      contextSafe?.compassPointNamed(const WalletRouteData());
     }
   }
 
