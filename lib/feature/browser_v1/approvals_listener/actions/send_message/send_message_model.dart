@@ -1,4 +1,3 @@
-import 'package:app/app/service/service.dart';
 import 'package:app/feature/messenger/data/message.dart';
 import 'package:app/feature/messenger/domain/service/messenger_service.dart';
 import 'package:app/utils/utils.dart';
@@ -89,15 +88,12 @@ class SendMessageModel extends ElementaryModel {
     List<IgnoreTransactionTreeSimulationError>? ignoredComputePhaseCodes,
     List<IgnoreTransactionTreeSimulationError>? ignoredActionPhaseCodes,
   }) =>
-      // TODO(komarov): remove when fixed in nekoton
-      transport.networkType == 'ton'
-          ? Future.value([])
-          : _nekotonRepository.simulateTransactionTree(
+      _nekotonRepository.simulateTransactionTree(
               address: address,
               message: message,
               ignoredComputePhaseCodes: ignoredComputePhaseCodes,
               ignoredActionPhaseCodes: ignoredActionPhaseCodes,
-            );
+      );
 
   String? getSeedName(PublicKey custodian) =>
       _nekotonRepository.seedList.findSeedKey(custodian)?.name;
