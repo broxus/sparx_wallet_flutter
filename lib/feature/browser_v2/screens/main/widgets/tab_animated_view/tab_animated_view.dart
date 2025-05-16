@@ -9,19 +9,22 @@ import 'package:flutter/material.dart';
 import 'package:ui_components_lib/v2/ui_components_lib_v2.dart';
 
 class TabAnimatedView extends ElementaryWidget<TabAnimatedViewWidgetModel> {
-  const TabAnimatedView({
+  TabAnimatedView({
     required this.showAnimationState,
-    required this.onAnimationStart,
-    required this.onAnimationEnd,
-    WidgetModelFactory<TabAnimatedViewWidgetModel> wmFactory =
-        defaultTabAnimatedViewWidgetModelFactory,
+    required VoidCallback onAnimationStart,
+    required ValueChanged<TabAnimationType?> onAnimationEnd,
+    WidgetModelFactory<TabAnimatedViewWidgetModel>? wmFactory,
     super.key,
-  }) : super(wmFactory);
+  }) : super(
+          wmFactory ??
+              (ctx) => defaultTabAnimatedViewWidgetModelFactory(
+                    ctx,
+                    onAnimationStart: onAnimationStart,
+                    onAnimationEnd: onAnimationEnd,
+                  ),
+        );
 
   final ListenableState<TabAnimationType?> showAnimationState;
-
-  final VoidCallback onAnimationStart;
-  final VoidCallback onAnimationEnd;
 
   @override
   Widget build(TabAnimatedViewWidgetModel wm) {
@@ -30,41 +33,43 @@ class TabAnimatedView extends ElementaryWidget<TabAnimatedViewWidgetModel> {
       builder: (_, TabAnimationType? type) {
         return Visibility(
           visible: type != null,
-          child: AnimatedBuilder(
-            animation: wm.animationListenable,
-            builder: (_, Widget? child) {
-              return Stack(
-                children: [
-                  Positioned(
-                    top: wm.topPositionAnimation?.value ?? 0,
-                    left: wm.leftPositionAnimation?.value ?? 0,
-                    child: Opacity(
-                      opacity: wm.opacityAnimation.value,
-                      child: SizedBox(
-                        width: wm.widthAnimation.value,
-                        height: wm.heightAnimation.value,
-                        child: child ?? const SizedBox.shrink(),
+          child: RepaintBoundary(
+            child: AnimatedBuilder(
+              animation: wm.animationListenable,
+              builder: (_, Widget? child) {
+                return Stack(
+                  children: [
+                    Positioned(
+                      top: wm.topPositionAnimation?.value ?? 0,
+                      left: wm.leftPositionAnimation?.value ?? 0,
+                      child: Opacity(
+                        opacity: wm.opacityAnimation.value,
+                        child: SizedBox(
+                          width: wm.widthAnimation.value,
+                          height: wm.heightAnimation.value,
+                          child: child ?? const SizedBox.shrink(),
+                        ),
                       ),
                     ),
-                  ),
-                ],
-              );
-            },
-            child: StateNotifierBuilder<File?>(
-              listenableState: wm.screenshotStateState,
-              builder: (_, File? file) {
-                return ClipRRect(
-                  borderRadius: BorderRadius.circular(
-                    wm.borderRadiusAnimation.value,
-                  ),
-                  child: file == null
-                      ? const _StartPageAnimationView()
-                      : Image.file(
-                          file,
-                          fit: BoxFit.fill,
-                        ),
+                  ],
                 );
               },
+              child: StateNotifierBuilder<File?>(
+                listenableState: wm.screenshotStateState,
+                builder: (_, File? file) {
+                  return ClipRRect(
+                    borderRadius: BorderRadius.circular(
+                      wm.borderRadiusAnimation.value,
+                    ),
+                    child: file == null
+                        ? const _StartPageAnimationView()
+                        : Image.file(
+                            file,
+                            fit: BoxFit.fill,
+                          ),
+                  );
+                },
+              ),
             ),
           ),
         );

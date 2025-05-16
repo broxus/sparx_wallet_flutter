@@ -13,13 +13,17 @@ import 'package:ui_components_lib/ui_components_lib.dart';
 
 /// Factory method for creating [TabAnimatedViewWidgetModel]
 TabAnimatedViewWidgetModel defaultTabAnimatedViewWidgetModelFactory(
-  BuildContext context,
-) {
+  BuildContext context, {
+  required VoidCallback onAnimationStart,
+  required ValueChanged<TabAnimationType?> onAnimationEnd,
+}) {
   return TabAnimatedViewWidgetModel(
     TabAnimatedViewModel(
       createPrimaryErrorHandler(context),
       inject(),
     ),
+    onAnimationStart,
+    onAnimationEnd,
   );
 }
 
@@ -29,6 +33,8 @@ class TabAnimatedViewWidgetModel
     with SingleTickerProviderWidgetModelMixin {
   TabAnimatedViewWidgetModel(
     super.model,
+    this._onAnimationStart,
+    this._onAnimationEnd,
   );
 
   late final widthAnimation = Tween<double>(
@@ -68,6 +74,9 @@ class TabAnimatedViewWidgetModel
   late final _screenSize = MediaQuery.of(context).size;
 
   bool _isRunning = false;
+
+  final VoidCallback _onAnimationStart;
+  final ValueChanged<TabAnimationType?> _onAnimationEnd;
 
   Animation<double>? get topPositionAnimation => _topPositionAnimation;
 
@@ -152,9 +161,7 @@ class TabAnimatedViewWidgetModel
 
   void _onStart() {
     _isRunning = true;
-    Future(() {
-      widget.onAnimationStart();
-    });
+    Future(_onAnimationStart);
   }
 
   void _onEnd() {
@@ -162,8 +169,6 @@ class TabAnimatedViewWidgetModel
       return;
     }
     _isRunning = false;
-    Future(() {
-      widget.onAnimationEnd();
-    });
+    Future(() => _onAnimationEnd(showAnimationState.value));
   }
 }

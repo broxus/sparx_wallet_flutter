@@ -32,7 +32,7 @@ class BrowserMainScreen extends ElementaryWidget<BrowserMainScreenWidgetModel> {
                 tabsState: wm.tabs.tabsState,
                 renderManager: wm.renderManager,
                 onPressedTabMenu: wm.tabMenu.showTabMenu,
-                onPressedTab: wm.tabs.changeTab,
+                onPressedTab: wm.onPressedTab,
                 onCloseTab: wm.tabs.onCloseTab,
               ),
               Positioned.fill(
@@ -98,6 +98,7 @@ class BrowserMainScreen extends ElementaryWidget<BrowserMainScreenWidgetModel> {
                       onEditingCompleteUrl: wm.onEditingCompleteUrl,
                       urlSliderController: wm.pageSlider.urlSliderController,
                       tabsState: wm.tabs.tabsState,
+                      navigationScrollModeState: wm.navigationScrollModeState,
                     ),
                   ),
                 ),

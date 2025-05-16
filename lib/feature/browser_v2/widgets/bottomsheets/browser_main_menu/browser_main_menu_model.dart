@@ -30,7 +30,7 @@ class BrowserMainMenuModel extends ElementaryModel {
     _browserService.tM.refreshActiveTab();
   }
 
-  void clearData(TimePeriod period, Set<TypeHistory> targets) {
+  Future<void> clearData(TimePeriod period, Set<TypeHistory> targets) async {
     _browserService.clearData(period, targets);
   }
 }

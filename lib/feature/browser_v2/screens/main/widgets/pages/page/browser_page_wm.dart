@@ -6,6 +6,7 @@ import 'package:app/di/di.dart';
 import 'package:app/feature/browser_v1/bottom_sheets/browser_enter_basic_auth_creds_sheet.dart';
 import 'package:app/feature/browser_v2/custom_web_controller.dart';
 import 'package:app/feature/browser_v2/data/browser_basic_auth_creds.dart';
+import 'package:app/feature/browser_v2/data/browser_tab.dart';
 import 'package:app/feature/browser_v2/screens/main/widgets/pages/page/browser_page.dart';
 import 'package:app/feature/browser_v2/screens/main/widgets/pages/page/browser_page_model.dart';
 import 'package:elementary/elementary.dart';
@@ -20,12 +21,16 @@ import 'package:url_launcher/url_launcher.dart';
 /// Factory method for creating [BrowserPageWidgetModel]
 BrowserPageWidgetModel defaultBrowserPageWidgetModelFactory(
   BuildContext context, {
-  required String tabId,
+  required BrowserTab tab,
+  required ValueChanged<CustomWebViewController> onCreate,
+  required ValueChanged<int> onWebPageScrollChanged,
+  required VoidCallback onDispose,
+  required ValueChanged<int> onLoadingProgressChanged,
 }) {
   return BrowserPageWidgetModel(
     BrowserPageModel(
       createPrimaryErrorHandler(context),
-      tabId,
+      tab.id,
       inject(),
       inject(),
       inject(),
@@ -37,6 +42,10 @@ BrowserPageWidgetModel defaultBrowserPageWidgetModelFactory(
       inject(),
       inject(),
     ),
+    onCreate,
+    onWebPageScrollChanged,
+    onDispose,
+    onLoadingProgressChanged,
   );
 }
 
@@ -46,6 +55,10 @@ class BrowserPageWidgetModel
     with AutomaticKeepAliveWidgetModelMixin {
   BrowserPageWidgetModel(
     super.model,
+    this._onCreate,
+    this._onWebPageScrollChanged,
+    this._onDispose,
+    this._onLoadingProgressChanged,
   );
 
   static const _allowSchemes = [
@@ -64,6 +77,12 @@ class BrowserPageWidgetModel
   ];
 
   static final _log = Logger('BrowserTabView');
+
+  final ValueChanged<CustomWebViewController> _onCreate;
+  final ValueChanged<int> _onWebPageScrollChanged;
+  final VoidCallback _onDispose;
+  final ValueChanged<int> _onLoadingProgressChanged;
+  late BrowserTab _tab = widget.tab;
 
   final initialSettings = InAppWebViewSettings(
     applicationNameForUserAgent: 'SparXWalletBrowser',
@@ -100,7 +119,7 @@ class BrowserPageWidgetModel
 
   ThemeStyle get _theme => context.themeStyle;
 
-  String get _url => widget.tab.url.toString();
+  String get _url => _tab.url.toString();
 
   bool get _isCreate => _isNeedCreateWebViewState.value ?? false;
 
@@ -113,6 +132,7 @@ class BrowserPageWidgetModel
   @override
   void didUpdateWidget(BrowserPage oldWidget) {
     if (oldWidget.tab.url != widget.tab.url) {
+      _tab = widget.tab;
       _isShowStartViewState.accept(_url.isEmpty);
     }
     super.didUpdateWidget(oldWidget);
@@ -120,7 +140,7 @@ class BrowserPageWidgetModel
 
   @override
   void dispose() {
-    widget.onDispose();
+    _onDispose();
     _webViewController?.dispose();
     model.activeTabState.removeListener(_handleActiveTab);
     super.dispose();
@@ -132,14 +152,14 @@ class BrowserPageWidgetModel
   ) async {
     final customController = CustomWebViewController(controller);
 
-    widget.onCreate(customController);
+    _onCreate(customController);
     _webViewController = customController;
     await model.initEvents(customController);
 
     if (_url.isNotEmpty) {
       await customController.loadUrl(
         urlRequest: URLRequest(
-          url: WebUri.uri(widget.tab.url),
+          url: WebUri.uri(_tab.url),
         ),
       );
     }
@@ -176,8 +196,8 @@ class BrowserPageWidgetModel
     if (progress == 100) {
       unawaited(pullToRefreshController.endRefreshing());
     }
-    if (progress != null && model.checkIsActiveTab(widget.tab.id)) {
-      widget.onLoadingProgressChanged(progress);
+    if (progress != null && model.checkIsActiveTab(_tab.id)) {
+      _onLoadingProgressChanged(progress);
     }
   }
 
@@ -217,7 +237,7 @@ class BrowserPageWidgetModel
   }
 
   void onWebPageScrollChanged(_, __, int y) {
-    widget.onWebPageScrollChanged(y);
+    _onWebPageScrollChanged(y);
   }
 
   // Called during HTTP authorization if the site requires login/password
@@ -304,7 +324,7 @@ class BrowserPageWidgetModel
   }
 
   void _createWebView() {
-    if (_isCreate || !model.checkIsActiveTab(widget.tab.id)) {
+    if (_isCreate || !model.checkIsActiveTab(_tab.id)) {
       return;
     }
 
