@@ -37,3 +37,9 @@ class BrowserGroup with _$BrowserGroup implements BrowserItem {
     );
   }
 }
+
+extension BrowserGroupExt on BrowserGroup {
+  int get tabsCount => tabsIds.length;
+
+  String get tabsCountText => tabsIds.length.toString();
+}
