@@ -20,6 +20,7 @@ class ManageSeedsAccountsPage extends StatelessWidget {
         inject<CurrentAccountsService>(),
       )..init(),
       child: const Scaffold(
+        resizeToAvoidBottomInset: false,
         appBar: DefaultAppBar(),
         body: ManageSeedsAccountsView(),
       ),
