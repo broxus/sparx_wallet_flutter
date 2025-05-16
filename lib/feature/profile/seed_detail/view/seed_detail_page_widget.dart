@@ -41,11 +41,11 @@ class SeedDetailPageWidget extends ElementaryWidget<SeedDetailPageWidgetModel> {
         secondSource: wm.currentSeed,
         thirdSource: wm.currentKey,
         builder: (_, seed, currentSeed, currentKey) => ContainerColumn(
-          separatorSize: DimensSizeV2.d16,
+          spacing: DimensSizeV2.d16,
           padding: const EdgeInsets.all(DimensSizeV2.d16),
           children: [
             SeparatedColumn(
-              separatorSize: DimensSizeV2.d4,
+              spacing: DimensSizeV2.d4,
               children: [
                 if (seed != null && seed == currentSeed)
                   Text(

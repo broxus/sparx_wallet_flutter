@@ -43,7 +43,7 @@ class AccountListItem extends StatelessWidget {
               ),
               Expanded(
                 child: SeparatedColumn(
-                  separatorSize: DimensSizeV2.d2,
+                  spacing: DimensSizeV2.d2,
                   crossAxisAlignment: CrossAxisAlignment.start,
                   mainAxisSize: MainAxisSize.min,
                   children: [

@@ -46,7 +46,7 @@ class _SelectNewAssetSelectTabState extends State<SelectNewAssetSelectTab> {
 
         return SingleChildScrollView(
           child: SeparatedColumn(
-            separatorSize: DimensSizeV2.d16,
+            spacing: DimensSizeV2.d16,
             children: [
               PrimaryTextField(
                 hintText: LocaleKeys.enterAssetName.tr(),
@@ -81,7 +81,7 @@ class _SelectNewAssetSelectTabState extends State<SelectNewAssetSelectTab> {
               else
                 SeparatedColumn(
                   mainAxisSize: MainAxisSize.min,
-                  separatorSize: DimensSizeV2.d12,
+                  spacing: DimensSizeV2.d12,
                   children: found.toList(),
                 ),
             ],
@@ -99,7 +99,7 @@ class _SelectNewAssetSelectTabState extends State<SelectNewAssetSelectTab> {
         return Padding(
           padding: const EdgeInsets.all(DimensSizeV2.d20),
           child: SeparatedColumn(
-            separatorSize: DimensSizeV2.d12,
+            spacing: DimensSizeV2.d12,
             children: [
               SvgPicture.asset(Assets.images.searchEmpty.path),
               Text(
@@ -159,7 +159,7 @@ class SelectNewAssetItem extends StatelessWidget {
             ),
             Expanded(
               child: SeparatedColumn(
-                separatorSize: DimensSizeV2.d4,
+                spacing: DimensSizeV2.d4,
                 mainAxisSize: MainAxisSize.min,
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [

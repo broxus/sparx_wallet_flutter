@@ -50,7 +50,7 @@ class TonWalletMultisigPendingTransactionDetailsPage extends StatelessWidget {
       backgroundColor: theme.colors.background0,
       body: SingleChildScrollView(
         child: SeparatedColumn(
-          separatorSize: DimensSize.d12,
+          spacing: DimensSize.d12,
           children: [
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: DimensSizeV2.d16),
