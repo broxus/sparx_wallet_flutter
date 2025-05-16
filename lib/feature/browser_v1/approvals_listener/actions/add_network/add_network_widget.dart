@@ -31,13 +31,13 @@ class AddNetworkWidget extends ElementaryWidget<AddNetworkWidgetModel> {
     final theme = wm.theme;
 
     return SeparatedColumn(
-      separatorSize: DimensSizeV2.d12,
+      spacing: DimensSizeV2.d12,
       children: [
         Expanded(
           child: SingleChildScrollView(
             controller: scrollController,
             child: SeparatedColumn(
-              separatorSize: DimensSizeV2.d12,
+              spacing: DimensSizeV2.d12,
               children: [
                 WebsiteInfoWidget(uri: origin),
                 PrimaryCard(
@@ -50,7 +50,7 @@ class AddNetworkWidget extends ElementaryWidget<AddNetworkWidgetModel> {
                     horizontal: DimensSizeV2.d16,
                   ),
                   child: SeparatedColumn(
-                    separatorSize: DimensSizeV2.d16,
+                    spacing: DimensSizeV2.d16,
                     crossAxisAlignment: CrossAxisAlignment.stretch,
                     children: [
                       _Param(

@@ -133,7 +133,7 @@ class CommonListTile extends StatelessWidget {
               child: SeparatedColumn(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 mainAxisAlignment: MainAxisAlignment.center,
-                separatorSize: DimensSizeV2.d4,
+                spacing: DimensSizeV2.d4,
                 children: [
                   if (title != null) title,
                   if (subtitle != null) subtitle,

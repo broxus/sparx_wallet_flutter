@@ -20,7 +20,7 @@ class BootstrapFailedRerunView extends StatelessWidget {
         padding: const EdgeInsets.all(DimensSize.d16),
         child: Center(
           child: SeparatedColumn(
-            separatorSize: DimensSize.d32,
+            spacing: DimensSize.d32,
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Text(

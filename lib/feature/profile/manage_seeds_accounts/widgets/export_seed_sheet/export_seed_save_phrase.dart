@@ -38,7 +38,7 @@ class ExportSeedSavePhrase extends StatelessWidget {
   Widget build(BuildContext context) {
     return SeparatedColumn(
       mainAxisSize: MainAxisSize.min,
-      separatorSize: DimensSize.d24,
+      spacing: DimensSize.d24,
       children: [
         Flexible(
           child: SingleChildScrollView(
