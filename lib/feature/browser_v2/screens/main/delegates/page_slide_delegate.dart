@@ -14,6 +14,7 @@ class BrowserPageSlideDelegate implements BrowserPageSlideUi {
     required this.screenWidth,
     required this.urlWidth,
     required this.onChangeSlideIndex,
+    required this.checkIsViewPages,
   }) {
     _init();
   }
@@ -26,6 +27,7 @@ class BrowserPageSlideDelegate implements BrowserPageSlideUi {
   final double screenWidth;
   final double urlWidth;
   final ValueChanged<int> onChangeSlideIndex;
+  final bool Function() checkIsViewPages;
 
   void dispose() {
     viewTabScrollController.dispose();
@@ -38,10 +40,6 @@ class BrowserPageSlideDelegate implements BrowserPageSlideUi {
     });
   }
 
-  void _init() {
-    urlSliderController.addListener(_handleUrlPanelScroll);
-  }
-
   @override
   bool onScrollNotification(ScrollNotification notification) {
     if (notification is ScrollEndNotification) {
@@ -51,7 +49,14 @@ class BrowserPageSlideDelegate implements BrowserPageSlideUi {
     return false;
   }
 
+  void _init() {
+    urlSliderController.addListener(_handleUrlPanelScroll);
+  }
+
   void _handleUrlPanelScroll() {
+    if (!checkIsViewPages()) {
+      return;
+    }
     final urlOffset = urlSliderController.offset;
     final urlMax = urlSliderController.position.maxScrollExtent;
     final viewMax = viewTabScrollController.position.maxScrollExtent;

@@ -19,7 +19,9 @@ import 'package:app/feature/browser_v2/screens/main/delegates/scroll_page_delega
 import 'package:app/feature/browser_v2/screens/main/delegates/size_delegate.dart';
 import 'package:app/feature/browser_v2/screens/main/delegates/tab_menu_delegate.dart';
 import 'package:app/feature/browser_v2/screens/main/delegates/tabs_delegate.dart';
+import 'package:app/feature/browser_v2/screens/main/widgets/control_panels/navigation_panel/navigation_panel.dart';
 import 'package:app/feature/browser_v2/screens/main/widgets/control_panels/navigation_panel/url_action_sheet.dart';
+import 'package:app/feature/browser_v2/screens/main/widgets/tab_animated_view/tab_animation_type.dart';
 import 'package:app/utils/clipboard_utils.dart';
 import 'package:app/utils/common_utils.dart';
 import 'package:elementary/elementary.dart';
@@ -86,6 +88,7 @@ class BrowserMainScreenWidgetModel
         model.setActiveTab(_tabsDelegate.getIdByIndex(tabIndex));
       });
     },
+    checkIsViewPages: () => viewVisibleState.value ?? true,
   );
 
   late final _tabsDelegate = BrowserTabsDelegate(
@@ -111,6 +114,11 @@ class BrowserMainScreenWidgetModel
     _tabsDelegate.activeTabState.value != null ? MenuType.view : MenuType.list,
   );
 
+  late final _navigationScrollModeState =
+      createNotifier<NavigationUrlPhysicMode>(
+    NavigationUrlPhysicMode.none,
+  );
+
   late final _visibleNavigationBarState = createNotifier<bool>(true);
 
   BrowserPageSlideUi get pageSlider => _pageSlideDelegate;
@@ -133,6 +141,9 @@ class BrowserMainScreenWidgetModel
   ListenableState<MenuType> get menuState => _menuState;
 
   ListenableState<bool> get viewVisibleState => _viewVisibleState;
+
+  ListenableState<NavigationUrlPhysicMode> get navigationScrollModeState =>
+      _navigationScrollModeState;
 
   ColorsPaletteV2 get colors => _theme.colors;
 
@@ -229,9 +240,24 @@ class BrowserMainScreenWidgetModel
         _onTabAnimationComplete,
       );
 
-  void onTabAnimationEnd() => _tabsDelegate.onTabAnimationEnd(
-        _onTabAnimationComplete,
+  void onTabAnimationEnd(TabAnimationType? animationType) {
+    _tabsDelegate.onTabAnimationEnd(
+      _onTabAnimationComplete,
+    );
+
+    if (animationType is ShowViewAnimationType) {
+      _navigationScrollModeState.accept(
+        NavigationUrlPhysicMode.snap,
       );
+    }
+  }
+
+  void onPressedTab(String id) {
+    _navigationScrollModeState.accept(
+      NavigationUrlPhysicMode.none,
+    );
+    tabs.changeTab(id);
+  }
 
   void _onEmptyTabs() {
     callWithDelay(() {
@@ -262,7 +288,7 @@ class BrowserMainScreenWidgetModel
   }
 
   Future<bool> _scrollToTab(String id) async {
-    return Future.delayed(const Duration(milliseconds: 100), () {
+    return Future.delayed(const Duration(milliseconds: 10), () {
       final index = _tabsDelegate.getTabIndexById(id);
 
       if (index != null && index > -1) {
@@ -275,7 +301,10 @@ class BrowserMainScreenWidgetModel
   }
 
   void _handleMenuState() {
-    callWithDelay(() => _animationDelegate.handleMenuType(_menuState.value));
+    _animationDelegate.handleMenuType(
+      _menuState.value,
+      duration: Duration.zero,
+    );
   }
 
   Future<void> _updatePastGo() async {

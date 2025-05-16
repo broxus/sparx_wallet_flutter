@@ -98,6 +98,15 @@ class TonConnectService {
   }) =>
       _storageService.removeConnection(connection);
 
+  void disconnectAllInBrowser() {
+    _storageService
+        .readConnections()
+        .whereType<TonAppConnectionInjected>()
+        .forEach(
+          (connection) => disconnect(connection: connection),
+        );
+  }
+
   Future<SendTransactionResponse> sendTransaction({
     required TonAppConnection connection,
     required TransactionPayload payload,

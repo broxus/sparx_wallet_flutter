@@ -258,19 +258,6 @@ extension GetItInjectableX on _i174.GetIt {
               gh<_i128.TonConnectStorageService>(),
               gh<_i361.Dio>(),
             ));
-    gh.singleton<_i470.BrowserService>(
-      () => _i470.BrowserService(
-        gh<_i850.AppLinksService>(),
-        gh<_i213.BrowserBookmarksStorageService>(),
-        gh<_i234.BrowserFaviconURLStorageService>(),
-        gh<_i581.BrowserHistoryStorageService>(),
-        gh<_i634.BrowserTabsStorageService>(),
-        gh<_i229.BrowserPermissionsStorageService>(),
-        gh<_i632.MessengerService>(),
-        gh<_i747.GeneralStorageService>(),
-      ),
-      dispose: (i) => i.dispose(),
-    );
     gh.singleton<_i575.BiometryService>(() => _i575.BiometryService(
           gh<_i128.GeneralStorageService>(),
           gh<_i128.SecureStorageService>(),
@@ -314,6 +301,21 @@ extension GetItInjectableX on _i174.GetIt {
           gh<_i1030.UpdateVersionStorageService>(),
           gh<_i143.AppVersionService>(),
         ));
+    gh.singleton<_i470.BrowserService>(
+      () => _i470.BrowserService(
+        gh<_i850.AppLinksService>(),
+        gh<_i213.BrowserBookmarksStorageService>(),
+        gh<_i234.BrowserFaviconURLStorageService>(),
+        gh<_i581.BrowserHistoryStorageService>(),
+        gh<_i634.BrowserTabsStorageService>(),
+        gh<_i229.BrowserPermissionsStorageService>(),
+        gh<_i632.MessengerService>(),
+        gh<_i747.GeneralStorageService>(),
+        gh<_i175.TonConnectService>(),
+        gh<_i771.NekotonRepository>(),
+      ),
+      dispose: (i) => i.dispose(),
+    );
     gh.singleton<_i468.BootstrapService>(
         () => _i468.BootstrapService(gh<_i116.PresetsConnectionService>()));
     gh.singleton<_i473.PermissionsService>(() => _i473.PermissionsService(

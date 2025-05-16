@@ -61,6 +61,8 @@ class _BrowserTabMenuState extends State<BrowserTabMenu> {
     BrowserTabMenuItemData.bookmark,
   ];
 
+  late final _lastIndex = _items.last.index;
+
   final _width = DimensSizeV2.d207;
   final _itemHeight = DimensSizeV2.d44;
 
@@ -121,7 +123,7 @@ class _BrowserTabMenuState extends State<BrowserTabMenu> {
                         title: item.title,
                         icon: item.icon,
                         onTap: () => widget.onItemPressed(item),
-                        isShowBorder: !item.isLast,
+                        isShowBorder: item.index != _lastIndex,
                       ),
                   ],
                 ),
