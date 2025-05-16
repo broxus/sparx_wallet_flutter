@@ -57,7 +57,7 @@ class _TonWalletSendConfirmViewState extends State<TonWalletSendConfirmView> {
         Expanded(
           child: SingleChildScrollView(
             child: SeparatedColumn(
-              separatorSize: DimensSize.d16,
+              spacing: DimensSize.d16,
               children: [
                 if (widget.account != null)
                   AccountInfo(account: widget.account!),

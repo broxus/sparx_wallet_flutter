@@ -14,7 +14,7 @@ class PrimaryShapedContainerColumn extends StatelessWidget {
   Widget build(BuildContext context) {
     return ShapedContainerColumn(
       color: context.themeStyleV2.colors.background2,
-      separatorSize: .5,
+      spacing: .5,
       margin: EdgeInsets.zero,
       padding: EdgeInsets.zero,
       separator: const SizedBox(

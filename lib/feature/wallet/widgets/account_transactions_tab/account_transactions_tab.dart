@@ -50,7 +50,7 @@ class AccountTransactionsTab extends StatelessWidget {
             child: Padding(
               padding: const EdgeInsets.symmetric(vertical: DimensSizeV2.d24),
               child: SeparatedColumn(
-                separatorSize: DimensSizeV2.d12,
+                spacing: DimensSizeV2.d12,
                 children: [
                   SvgPicture.asset(
                     Assets.images.lightning.path,

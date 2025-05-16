@@ -27,7 +27,7 @@ class ManageSeedsAccountsView extends StatelessWidget {
             horizontal: DimensSize.d16,
           ),
           child: SeparatedColumn(
-            separatorSize: DimensSize.d16,
+            spacing: DimensSize.d16,
             children: [
               Padding(
                 padding: const EdgeInsets.symmetric(

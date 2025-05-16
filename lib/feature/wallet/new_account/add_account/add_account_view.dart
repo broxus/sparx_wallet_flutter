@@ -40,7 +40,7 @@ class AddAccountView extends ElementaryWidget<AddAccountWidgetModel> {
                       horizontal: DimensSizeV2.d16,
                     ),
                     child: SeparatedRow(
-                      separatorSize: DimensSizeV2.d12,
+                      spacing: DimensSizeV2.d12,
                       children: [
                         const Icon(LucideIcons.plus, size: DimensSizeV2.d20),
                         Expanded(
@@ -71,7 +71,7 @@ class AddAccountView extends ElementaryWidget<AddAccountWidgetModel> {
                       horizontal: DimensSizeV2.d16,
                     ),
                     child: SeparatedRow(
-                      separatorSize: DimensSizeV2.d12,
+                      spacing: DimensSizeV2.d12,
                       children: [
                         const Icon(
                           LucideIcons.import,

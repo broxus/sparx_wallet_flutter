@@ -45,7 +45,7 @@ class WalletDeployConfirmView extends StatelessWidget {
     final theme = context.themeStyleV2;
 
     return SeparatedColumn(
-      separatorSize: DimensSizeV2.d16,
+      spacing: DimensSizeV2.d16,
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         if (account != null)
@@ -200,7 +200,7 @@ class WalletDeployConfirmView extends StatelessWidget {
         return SeparatedColumn(
           mainAxisSize: MainAxisSize.min,
           crossAxisAlignment: CrossAxisAlignment.start,
-          separatorSize: DimensSizeV2.d12,
+          spacing: DimensSizeV2.d12,
           children: [
             Text(
               title,

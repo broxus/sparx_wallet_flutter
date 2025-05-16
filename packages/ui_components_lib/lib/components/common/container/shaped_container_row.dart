@@ -15,7 +15,7 @@ class ShapedContainerRow extends StatelessWidget {
     this.margin = const EdgeInsets.symmetric(horizontal: DimensSizeV2.d16),
     this.padding = const EdgeInsets.all(DimensSizeV2.d16),
     super.key,
-    this.separatorSize = DimensSizeV2.d8,
+    this.spacing = DimensSizeV2.d8,
     this.separator,
     this.mainAxisSize = MainAxisSize.max,
     this.crossAxisAlignment = CrossAxisAlignment.center,
@@ -40,8 +40,8 @@ class ShapedContainerRow extends StatelessWidget {
   /// default is all: DimensSizeV2.d16
   final EdgeInsets padding;
 
-  /// See <ContainerColumn.separatorSize>
-  final double? separatorSize;
+  /// See <ContainerColumn.spacing>
+  final double? spacing;
 
   /// See [Row.mainAxisSize]
   final MainAxisSize mainAxisSize;
@@ -67,7 +67,7 @@ class ShapedContainerRow extends StatelessWidget {
       squircleRadius: squircleRadius,
       child: SeparatedColumn(
         crossAxisAlignment: CrossAxisAlignment.start,
-        separatorSize: DimensSizeV2.d16,
+        spacing: DimensSizeV2.d16,
         children: [
           if (titleText != null)
             Text(
@@ -78,7 +78,7 @@ class ShapedContainerRow extends StatelessWidget {
             ),
           SeparatedRow(
             separator: separator,
-            separatorSize: separatorSize,
+            spacing: spacing,
             mainAxisSize: mainAxisSize,
             mainAxisAlignment: mainAxisAlignment,
             crossAxisAlignment: crossAxisAlignment,

@@ -53,10 +53,10 @@ class KeyDetailView extends StatelessWidget {
         Expanded(
           child: SingleChildScrollView(
             child: SeparatedColumn(
-              separatorSize: DimensSize.d16,
+              spacing: DimensSize.d16,
               children: [
                 SeparatedColumn(
-                  separatorSize: DimensSize.d4,
+                  spacing: DimensSize.d4,
                   children: [
                     Text(
                       LocaleKeys.publicKey.tr(),
@@ -71,7 +71,7 @@ class KeyDetailView extends StatelessWidget {
                   ],
                 ),
                 ShapedContainerColumn(
-                  separatorSize: 0,
+                  spacing: 0,
                   color: theme.colors.background1,
                   children: [
                     Padding(
@@ -117,7 +117,7 @@ class KeyDetailView extends StatelessWidget {
                 ShapedContainerColumn(
                   color: theme.colors.background1,
                   mainAxisSize: MainAxisSize.min,
-                  separatorSize: DimensSize.d16,
+                  spacing: DimensSize.d16,
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
                     SwitcherSegmentControls(
@@ -184,7 +184,7 @@ class KeyDetailView extends StatelessWidget {
         final theme = context.themeStyleV2;
 
         return SeparatedColumn(
-          separatorSize: DimensSize.d4,
+          spacing: DimensSize.d4,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             CommonListTile(
@@ -230,7 +230,7 @@ class KeyDetailView extends StatelessWidget {
           titleText: account.name,
           subtitleText: account.address.toEllipseString(),
           trailing: SeparatedRow(
-            separatorSize: DimensSize.d4,
+            spacing: DimensSize.d4,
             mainAxisSize: MainAxisSize.min,
             children: [
               if (account.isHidden)
