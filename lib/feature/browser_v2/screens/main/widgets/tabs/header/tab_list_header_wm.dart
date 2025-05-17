@@ -2,11 +2,13 @@ import 'package:app/core/error_handler_factory.dart';
 import 'package:app/core/wm/custom_wm.dart';
 import 'package:app/di/di.dart';
 import 'package:app/feature/browser_v2/data/groups/browser_group.dart';
+import 'package:app/feature/browser_v2/screens/create_group/create_browser_group_screen.dart';
 import 'package:app/feature/browser_v2/screens/main/widgets/tabs/header/tab_list_header.dart';
 import 'package:app/feature/browser_v2/screens/main/widgets/tabs/header/tab_list_header_model.dart';
 import 'package:app/feature/browser_v2/screens/main/widgets/tabs/header/ui_models/tab_list_ui_models.dart';
 import 'package:elementary/elementary.dart';
 import 'package:elementary_helper/elementary_helper.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 
 /// Factory method for creating [TabListHeaderWidgetModel]
@@ -28,11 +30,6 @@ class TabListHeaderWidgetModel
     super.model,
   );
 
-  // final pageController = PageController(
-  //     initialPage: 0
-  //     // viewportFraction: 1,
-  // );
-
   ListenableState<List<TabListHeaderUiModel>> get uiState => _uiState;
 
   late final _uiState = createNotifier<List<TabListHeaderUiModel>>([]);
@@ -51,7 +48,6 @@ class TabListHeaderWidgetModel
   void dispose() {
     model.groupsState.removeListener(_handleGroups);
     model.activeGroupState.removeListener(_handleGroups);
-    // pageController.dispose();
     super.dispose();
   }
 
@@ -59,9 +55,18 @@ class TabListHeaderWidgetModel
     // TODO(knightforce): create logic
   }
 
-  void onPressedCreateNewGroup() {
-    final groupName = 'test';
-    if(groupName == null) {
+  Future<void> onPressedCreateNewGroup() async {
+    // TODO(knightforce): Temp. Compass is expected to be implemented
+    final groupName =
+        await Navigator.of(context, rootNavigator: true).push<String>(
+      MaterialPageRoute(
+        builder: (_) {
+          return const CreateBrowserGroupScreen();
+        },
+      ),
+    );
+
+    if (groupName == null) {
       return;
     }
     final id = model.createBrowserGroup();

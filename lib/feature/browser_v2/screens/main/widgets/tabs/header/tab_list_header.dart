@@ -33,6 +33,7 @@ class TabListHeader extends ElementaryWidget<TabListHeaderWidgetModel> {
               return ListView.builder(
                 scrollDirection: Axis.horizontal,
                 itemCount: uiModels.length,
+                physics: const ClampingScrollPhysics(),
                 // padEnds: false,
                 // controller: wm.pageController,
                 itemBuilder: (_, int index) {
@@ -76,7 +77,6 @@ class TabListHeader extends ElementaryWidget<TabListHeaderWidgetModel> {
   }
 }
 
-// TODO(knightforce): Removed before implementation
 class _TextButton extends StatelessWidget {
   const _TextButton({
     required this.width,
