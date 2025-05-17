@@ -22,12 +22,6 @@ class TabListHeaderModel extends ElementaryModel {
 
   void setActiveGroup(String id) => _browserService.groups.setActiveGroup(id);
 
-  String createBrowserGroup({
-    String? title,
-    List<String>? tabsIds,
-  }) =>
-      _browserService.groups.createBrowserGroup(
-        title: title,
-        tabsIds: tabsIds,
-      );
+  String createBrowserGroup([String? title]) =>
+      _browserService.groups.createBrowserGroup(title: title);
 }

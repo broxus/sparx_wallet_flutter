@@ -9,7 +9,6 @@ import 'package:app/feature/browser_v2/screens/main/widgets/tabs/header/ui_model
 import 'package:elementary/elementary.dart';
 import 'package:elementary_helper/elementary_helper.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 
 /// Factory method for creating [TabListHeaderWidgetModel]
 TabListHeaderWidgetModel defaultTabListHeaderWidgetModelFactory(
@@ -69,7 +68,7 @@ class TabListHeaderWidgetModel
     if (groupName == null) {
       return;
     }
-    final id = model.createBrowserGroup();
+    final id = model.createBrowserGroup(groupName);
     model.setActiveGroup(id);
   }
 
