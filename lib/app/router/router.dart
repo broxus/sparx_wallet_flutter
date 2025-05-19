@@ -92,7 +92,7 @@ class CompassRouter {
   ///
   /// This is determined by parsing the current URI configuration.
   Iterable<CompassBaseGoRoute> get currentRoutes => _locationByUri(
-        router.routerDelegate.currentConfiguration.uri,
+        router.routeInformationProvider.value.uri,
       );
 
   /// Navigates to a route specified by route data using replace approach.

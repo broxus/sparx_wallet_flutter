@@ -244,6 +244,7 @@ class _NetworksListContent extends StatelessWidget {
               child: ChooseNetworkItem(
                 item,
                 isLoading: item.id == loadingItemId,
+                isDisabled: loadingItemId != null,
                 onPressed: onNetworkPressed,
               ),
             );

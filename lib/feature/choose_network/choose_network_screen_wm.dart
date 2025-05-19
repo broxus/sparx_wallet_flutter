@@ -95,6 +95,8 @@ class ChooseNetworkScreenWidgetModel
 
       await model.selectType(id);
 
+      if (!isMounted) return;
+
       switch (nextStep) {
         case ChooseNetworkNextStep.createSeedPassword:
           context.compassContinue(

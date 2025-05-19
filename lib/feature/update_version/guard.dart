@@ -57,10 +57,11 @@ class UpdateVersionGuard extends CompassGuard {
     final (request, _) = requestRoute;
     final router = _router;
     if (request == null || router == null) return;
-    final currentRoute = router.currentRoutes.lastOrNull;
+    final currentRoutes = router.currentRoutes.toList();
+    final currentRoute = currentRoutes.lastOrNull;
     if (currentRoute is! WalletRoute) return;
-
-    _log.info('Open update version screen $request');
+    final state = router.router.routeInformationProvider.value.uri;
+    _log.info('Open update version screen $state, $currentRoutes, $request');
     _router?.compassPush(
       const UpdateVersionRouteData(),
     );
