@@ -1,7 +1,10 @@
+import 'dart:math';
+
 import 'package:app/feature/browser_v2/screens/main/widgets/tabs/header/tab_list_header_wm.dart';
 import 'package:app/feature/browser_v2/screens/main/widgets/tabs/header/ui_models/tab_list_ui_models.dart';
+import 'package:app/feature/browser_v2/screens/main/widgets/tabs/header/widgets/group_header_item.dart';
+import 'package:app/feature/browser_v2/screens/main/widgets/tabs/header/widgets/header_button.dart';
 import 'package:app/generated/generated.dart';
-import 'package:auto_size_text/auto_size_text.dart';
 import 'package:elementary/elementary.dart';
 import 'package:elementary_helper/elementary_helper.dart';
 import 'package:flutter/material.dart';
@@ -22,6 +25,8 @@ class TabListHeader extends ElementaryWidget<TabListHeaderWidgetModel> {
     return LayoutBuilder(
       builder: (_, BoxConstraints constraints) {
         final itemWidth = constraints.maxWidth / 3;
+        final physic = wm.getPhysic(itemWidth);
+
         return SizedBox(
           height: DimensSizeV2.d41,
           child: StateNotifierBuilder(
@@ -33,12 +38,10 @@ class TabListHeader extends ElementaryWidget<TabListHeaderWidgetModel> {
               return ListView.builder(
                 scrollDirection: Axis.horizontal,
                 itemCount: uiModels.length,
-                physics: const ClampingScrollPhysics(),
-                // padEnds: false,
-                // controller: wm.pageController,
+                physics: physic,
                 itemBuilder: (_, int index) {
                   return switch (uiModels[index]) {
-                    TabListHeaderBookmarksUiModel() => _TextButton(
+                    TabListHeaderBookmarksUiModel() => BrowserHeaderTextButton(
                         key: ObjectKey(uiModels[index]),
                         width: itemWidth,
                         onPressed: wm.onPressedBookmarks,
@@ -51,7 +54,7 @@ class TabListHeader extends ElementaryWidget<TabListHeaderWidgetModel> {
                       :final title,
                       :final isSelected,
                     ) =>
-                      _GroupItem(
+                      BrowserGroupHeaderItem(
                         key: ValueKey(id),
                         width: itemWidth,
                         onPressed: () => wm.onPressedGroup(id),
@@ -59,7 +62,7 @@ class TabListHeader extends ElementaryWidget<TabListHeaderWidgetModel> {
                         count: tabsCountText,
                         isSelected: isSelected,
                       ),
-                    TabListHeaderNewGroupUiModel() => _TextButton(
+                    TabListHeaderNewGroupUiModel() => BrowserHeaderTextButton(
                         key: ObjectKey(uiModels[index]),
                         width: itemWidth,
                         onPressed: wm.onPressedCreateNewGroup,
@@ -77,117 +80,67 @@ class TabListHeader extends ElementaryWidget<TabListHeaderWidgetModel> {
   }
 }
 
-class _TextButton extends StatelessWidget {
-  const _TextButton({
-    required this.width,
-    required this.text,
-    required this.alignment,
-    required this.onPressed,
-    super.key,
+class CenterSnapScrollPhysics extends ClampingScrollPhysics {
+  const CenterSnapScrollPhysics({
+    required this.itemWidth,
+    super.parent,
   });
 
-  final double width;
-  final String text;
-  final Alignment alignment;
-  final VoidCallback onPressed;
+  final double itemWidth;
 
   @override
-  Widget build(BuildContext context) {
-    final theme = context.themeStyleV2;
-
-    final colors = theme.colors;
-
-    final styles = theme.textStyles;
-
-    return GestureDetector(
-      onTap: onPressed,
-      child: SizedBox(
-        width: width,
-        height: double.infinity,
-        child: Align(
-          alignment: alignment,
-          child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: DimensSizeV2.d16),
-            child: Center(
-              child: Text(
-                text,
-                style: styles.labelSmall.copyWith(
-                  color: colors.content2,
-                ),
-              ),
-            ),
-          ),
-        ),
-      ),
+  CenterSnapScrollPhysics applyTo(ScrollPhysics? ancestor) {
+    return CenterSnapScrollPhysics(
+      itemWidth: itemWidth,
+      parent: buildParent(ancestor),
     );
   }
-}
 
-class _GroupItem extends StatelessWidget {
-  const _GroupItem({
-    required this.width,
-    required this.name,
-    required this.isSelected,
-    required this.onPressed,
-    this.count,
-    super.key,
-  });
-
-  final double width;
-  final String name;
-  final bool isSelected;
-  final String? count;
-  final VoidCallback onPressed;
+  static const SpringDescription _spring = SpringDescription(
+    mass: 1,
+    stiffness: 60,
+    damping: 20,
+  );
 
   @override
-  Widget build(BuildContext context) {
-    final theme = context.themeStyleV2;
+  Simulation? createBallisticSimulation(
+    ScrollMetrics position,
+    double velocity,
+  ) {
+    final current = position.pixels;
+    final tol = toleranceFor(position);
 
-    final colors = theme.colors;
+    final target = _getTargetPixels(position);
 
-    final styles = theme.textStyles;
+    if ((target - current).abs() <= tol.distance) {
+      return null;
+    }
 
-    return GestureDetector(
-      behavior: HitTestBehavior.opaque,
-      onTap: onPressed,
-      child: SizedBox(
-        width: width,
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Text(
-              name,
-              style: isSelected
-                  ? styles.labelMedium
-                  : styles.labelSmall.copyWith(
-                      color: colors.content2,
-                    ),
-            ),
-            if (count != null)
-              Padding(
-                padding: const EdgeInsets.only(left: DimensSizeV2.d4),
-                child: DecoratedBox(
-                  decoration: const BoxDecoration(
-                    shape: BoxShape.circle,
-                    // TODO(knightforce): add to color palette
-                    color: Color(0xff353960),
-                  ),
-                  child: SizedBox(
-                    width: DimensSizeV2.d20,
-                    height: DimensSizeV2.d20,
-                    child: Center(
-                      child: AutoSizeText(
-                        count!,
-                        minFontSize: 1,
-                        style: styles.labelXSmall,
-                      ),
-                    ),
-                  ),
-                ),
-              ),
-          ],
-        ),
-      ),
+    return ScrollSpringSimulation(
+      _spring,
+      current,
+      target,
+      0,
+      tolerance: tol,
     );
   }
+
+  double _getCurrentPage(ScrollMetrics position) {
+    final offset = (position.viewportDimension - itemWidth) / 2;
+    return (position.pixels + offset) / itemWidth;
+  }
+
+  double _getTargetPixels(ScrollMetrics position) {
+    final currentPage = _getCurrentPage(position);
+    final targetPage = currentPage.roundToDouble();
+    final offset = (position.viewportDimension - itemWidth) / 2;
+    final pixels = targetPage * itemWidth - offset;
+    return max(
+      position.minScrollExtent,
+      min(position.maxScrollExtent, pixels),
+    );
+  }
+
+  @override
+  bool get allowImplicitScrolling => false;
 }

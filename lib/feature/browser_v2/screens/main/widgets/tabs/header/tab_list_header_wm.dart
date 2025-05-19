@@ -36,6 +36,12 @@ class TabListHeaderWidgetModel
   final _bookmarksUiModel = TabListHeaderBookmarksUiModel();
   final _newGroupUiModel = TabListHeaderNewGroupUiModel();
 
+  CenterSnapScrollPhysics? physic;
+
+  CenterSnapScrollPhysics getPhysic(double itemWidth) {
+    return physic ??= CenterSnapScrollPhysics(itemWidth: itemWidth);
+  }
+
   @override
   void initWidgetModel() {
     model.groupsState.addListener(_handleGroups);
