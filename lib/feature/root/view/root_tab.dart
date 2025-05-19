@@ -43,7 +43,7 @@ enum RootTab {
   static RootTab getByRoute(CompassBaseGoRoute<CompassRouteData>? route) {
     return switch (route) {
       WalletRoute() => RootTab.wallet,
-      BrowserRouteData() => RootTab.browser,
+      BrowserRoute() => RootTab.browser,
       ProfileRoute() => RootTab.profile,
       _ => RootTab.wallet,
     };

@@ -89,10 +89,10 @@ class SendMessageModel extends ElementaryModel {
     List<IgnoreTransactionTreeSimulationError>? ignoredActionPhaseCodes,
   }) =>
       _nekotonRepository.simulateTransactionTree(
-              address: address,
-              message: message,
-              ignoredComputePhaseCodes: ignoredComputePhaseCodes,
-              ignoredActionPhaseCodes: ignoredActionPhaseCodes,
+        address: address,
+        message: message,
+        ignoredComputePhaseCodes: ignoredComputePhaseCodes,
+        ignoredActionPhaseCodes: ignoredActionPhaseCodes,
       );
 
   String? getSeedName(PublicKey custodian) =>

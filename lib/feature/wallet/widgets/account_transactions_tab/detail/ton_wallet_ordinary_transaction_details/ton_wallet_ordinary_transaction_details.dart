@@ -46,7 +46,7 @@ class TonWalletOrdinaryTransactionDetails
           Expanded(
             child: SingleChildScrollView(
               child: SeparatedColumn(
-                separatorSize: DimensSize.d16,
+                spacing: DimensSize.d16,
                 children: [
                   WalletTransactionDetailsDefaultBody(
                     date: wm.date,

@@ -28,18 +28,20 @@ class TonWalletMultisigOrdinaryTransactionDetailsScreen
         wmFactory,
   }) : super(
           wmFactory ??
-              (context) =>
-                  defaultTonWalletMultisigOrdinaryTransactionDetailsScreenWidgetModelFactory(
-                    context,
-                    transaction: transaction,
-                    price: price,
-                    account: account,
-                  ),
+              (context) {
+                return tonWalletMultisigOrdinaryTransactionDetailsnWMFactory(
+                  context,
+                  transaction: transaction,
+                  price: price,
+                  account: account,
+                );
+              },
         );
 
   @override
   Widget build(
-      TonWalletMultisigOrdinaryTransactionDetailsScreenWidgetModel wm) {
+    TonWalletMultisigOrdinaryTransactionDetailsScreenWidgetModel wm,
+  ) {
     return Scaffold(
       appBar: DefaultAppBar(
         titleWidget: Text(
@@ -50,7 +52,7 @@ class TonWalletMultisigOrdinaryTransactionDetailsScreen
       backgroundColor: wm.colors.background0,
       body: SingleChildScrollView(
         child: SeparatedColumn(
-          separatorSize: DimensSize.d16,
+          spacing: DimensSize.d16,
           children: [
             Padding(
               padding: const EdgeInsets.symmetric(

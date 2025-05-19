@@ -1,9 +1,8 @@
 import 'package:app/core/error_handler_factory.dart';
 import 'package:app/core/wm/custom_wm.dart';
 import 'package:app/di/di.dart';
-import 'package:app/feature/browser/utils.dart';
+import 'package:app/feature/browser_v1/utils.dart';
 import 'package:app/feature/wallet/widgets/account_transactions_tab/detail/details.dart';
-import 'package:app/feature/wallet/widgets/account_transactions_tab/detail/ton_wallet_multisig_ordinary_transaction_details/ton_wallet_multisig_ordinary_transaction_details_screen.dart';
 import 'package:app/feature/wallet/widgets/account_transactions_tab/detail/ton_wallet_multisig_ordinary_transaction_details/ton_wallet_multisig_ordinary_transaction_details_screen_model.dart';
 import 'package:elementary/elementary.dart';
 import 'package:flutter/widgets.dart';
@@ -12,9 +11,8 @@ import 'package:ui_components_lib/v2/colors_v2.dart';
 import 'package:ui_components_lib/v2/text_styles_v2.dart';
 import 'package:ui_components_lib/v2/theme_style_v2.dart';
 
-/// Factory method for creating [TonWalletMultisigOrdinaryTransactionDetailsScreenWidgetModel]
 TonWalletMultisigOrdinaryTransactionDetailsScreenWidgetModel
-    defaultTonWalletMultisigOrdinaryTransactionDetailsScreenWidgetModelFactory(
+    tonWalletMultisigOrdinaryTransactionDetailsnWMFactory(
   BuildContext context, {
   required TonWalletMultisigOrdinaryTransaction transaction,
   required Fixed price,
@@ -76,8 +74,7 @@ class TonWalletMultisigOrdinaryTransactionDetailsScreenWidgetModel
 
   void onPressedSeeInExplorer() {
     Navigator.of(context).pop();
-    browserNewTab(
-      context,
+    openBrowserUrl(
       model.getTransactionExplorerLink(_transaction.hash),
     );
   }

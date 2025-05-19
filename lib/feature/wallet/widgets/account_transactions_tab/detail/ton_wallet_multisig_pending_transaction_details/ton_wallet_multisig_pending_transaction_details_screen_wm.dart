@@ -1,10 +1,8 @@
-import 'dart:convert';
-
-import 'package:app/app/router/app_route.dart';
-import 'package:app/app/router/routs/wallet/wallet.dart';
+import 'package:app/app/router/router.dart';
 import 'package:app/core/error_handler_factory.dart';
 import 'package:app/core/wm/custom_wm.dart';
 import 'package:app/di/di.dart';
+import 'package:app/feature/wallet/confirm_multisig_transaction/route.dart';
 import 'package:app/feature/wallet/widgets/account_transactions_tab/detail/details.dart';
 import 'package:app/feature/wallet/widgets/account_transactions_tab/detail/ton_wallet_multisig_pending_transaction_details/ton_wallet_multisig_pending_transaction_details_screen.dart';
 import 'package:app/feature/wallet/widgets/account_transactions_tab/detail/ton_wallet_multisig_pending_transaction_details/ton_wallet_multisig_pending_transaction_details_screen_model.dart';
@@ -14,9 +12,8 @@ import 'package:nekoton_repository/nekoton_repository.dart';
 import 'package:ui_components_lib/ui_components_lib.dart';
 import 'package:ui_components_lib/v2/text_styles_v2.dart';
 
-/// Factory method for creating [TonWalletMultisigPendingTransactionDetailsScreenWidgetModel]
 TonWalletMultisigPendingTransactionDetailsScreenWidgetModel
-    defaultTonWalletMultisigPendingTransactionDetailsScreenWidgetModelFactory(
+    tonWalletMultisigPendingTransactionDetailsWidgetModelFactory(
   BuildContext context, {
   required TonWalletMultisigPendingTransaction transaction,
   required Fixed price,
@@ -86,27 +83,15 @@ class TonWalletMultisigPendingTransactionDetailsScreenWidgetModel
 
   void onPressedConfirm() {
     Navigator.of(context).pop();
-    context.goFurther(
-      AppRoute.confirmMultisigTransaction.pathWithData(
-        queryParameters: {
-          confirmMultisigTransactionWalletAddressQueryParam:
-              _transaction.walletAddress.address,
-          confirmMultisigTransactionLocalCustodiansQueryParam: jsonEncode(
-            _transaction.nonConfirmedLocalCustodians
-                .map((e) => e.publicKey)
-                .toList(),
-          ),
-          confirmMultisigTransactionTransactionIdQueryParam:
-              _transaction.transactionId,
-          if (safeHexString != null)
-            confirmMultisigTransactionIdHashQueryParam: safeHexString!,
-          confirmMultisigTransactionDestinationQueryParam:
-              _transaction.address.address,
-          confirmMultisigTransactionAmountQueryParam:
-              _transaction.value.toString(),
-          if (_transaction.comment != null)
-            confirmMultisigTransactionCommentQueryParam: _transaction.comment!,
-        },
+    context.compassContinue(
+      ConfirmMultisigTransactionRouteData(
+        walletAddress: _transaction.walletAddress,
+        localCustodians: _transaction.nonConfirmedLocalCustodians,
+        transactionId: _transaction.transactionId,
+        transactionIdHash: safeHexString,
+        destination: _transaction.address,
+        amount: _transaction.value,
+        comment: _transaction.comment,
       ),
     );
   }

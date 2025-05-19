@@ -28,7 +28,7 @@ class TonWalletMultisigPendingTransactionDetailsScreen extends ElementaryWidget<
   }) : super(
           wmFactory ??
               (context) =>
-                  defaultTonWalletMultisigPendingTransactionDetailsScreenWidgetModelFactory(
+                  tonWalletMultisigPendingTransactionDetailsWidgetModelFactory(
                     context,
                     transaction: transaction,
                     price: price,
@@ -48,7 +48,7 @@ class TonWalletMultisigPendingTransactionDetailsScreen extends ElementaryWidget<
       backgroundColor: wm.colors.background0,
       body: SingleChildScrollView(
         child: SeparatedColumn(
-          separatorSize: DimensSize.d12,
+          spacing: DimensSize.d12,
           children: [
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: DimensSizeV2.d16),
