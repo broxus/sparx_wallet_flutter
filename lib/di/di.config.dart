@@ -35,7 +35,6 @@ import '../app/service/current_accounts_service.dart' as _i402;
 import '../app/service/current_seed_service.dart' as _i244;
 import '../app/service/identify/i_identify_icons_service.dart' as _i958;
 import '../app/service/identify/identify_icons_service.dart' as _i316;
-import '../app/service/js_servcie.dart' as _i157;
 import '../app/service/localization/service/localization_service.dart' as _i5;
 import '../app/service/navigation/service/navigation_service.dart' as _i451;
 import '../app/service/nekoton_related/current_key_service.dart' as _i272;
@@ -122,7 +121,6 @@ extension GetItInjectableX on _i174.GetIt {
     gh.singleton<_i139.TonWalletStorageService>(
         () => _i139.TonWalletStorageService());
     gh.singleton<_i143.AppVersionService>(() => _i143.AppVersionService());
-    gh.singleton<_i157.JsService>(() => _i157.JsService());
     gh.singleton<_i746.AppLinksService>(
       () => _i746.AppLinksService(),
       dispose: (i) => i.dispose(),
