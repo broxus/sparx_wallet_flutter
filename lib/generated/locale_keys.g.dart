@@ -719,4 +719,9 @@ abstract class LocaleKeys {
   static const scanningCompleted = 'scanningCompleted';
   static const scanSeed = 'scanSeed';
   static const nothingFound = 'nothingFound';
+  static const nftWord = 'nftWord';
+  static const nftEmptyListTitle = 'nftEmptyListTitle';
+  static const nftEmptyListSubtitle = 'nftEmptyListSubtitle';
+  static const visitMarketplace = 'visitMarketplace';
+  static const addNFT = 'addNFT';
 }
