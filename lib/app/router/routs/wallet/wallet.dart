@@ -13,7 +13,7 @@ import 'package:app/feature/splash/splash_screen.dart';
 import 'package:app/feature/wallet/custodians_settings/custodians_settings_page.dart';
 import 'package:app/feature/wallet/new_account/add_account.dart';
 import 'package:app/feature/wallet/new_account/add_account_page.dart';
-import 'package:app/feature/wallet/new_account/add_external_account/add_external_account_page.dart';
+import 'package:app/feature/wallet/new_account/add_external_account/add_external_account_widget.dart';
 import 'package:app/feature/wallet/new_account/screen/new_account_screen.dart';
 import 'package:app/feature/wallet/new_account/select_seed/select_seed_page.dart';
 import 'package:app/feature/wallet/wallet.dart';
@@ -162,7 +162,7 @@ StatefulShellBranch get walletBranch {
               ),
               GoRoute(
                 path: AppRoute.walletNewExternalAccount.path,
-                builder: (_, state) => const AddExternalAccountPage(),
+                builder: (_, state) => const AddExternalAccountWidget(),
               ),
             ],
           ),

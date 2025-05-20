@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:lucide_icons_flutter/lucide_icons.dart';
 import 'package:ui_components_lib/ui_components_lib.dart';
-import 'package:ui_components_lib/v2/widgets/buttons/button.dart';
+import 'package:ui_components_lib/v2/ui_components_lib_v2.dart';
 
 class ButtonsStoryV2 extends StatelessWidget {
   const ButtonsStoryV2({super.key});

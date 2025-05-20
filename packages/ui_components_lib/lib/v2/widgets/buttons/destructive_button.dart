@@ -1,5 +1,4 @@
-import 'package:ui_components_lib/v2/theme_style_v2.dart';
-import 'package:ui_components_lib/v2/widgets/buttons/button.dart';
+import 'package:ui_components_lib/v2/ui_components_lib_v2.dart';
 
 class DestructiveButton extends BaseButton {
   const DestructiveButton({

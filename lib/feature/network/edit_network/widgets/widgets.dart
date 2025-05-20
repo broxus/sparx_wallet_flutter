@@ -8,7 +8,6 @@ export 'name_field.dart';
 export 'network_buttons.dart';
 export 'network_form_field.dart';
 export 'network_type_field.dart';
-export 'paste_button.dart';
 export 'token_list_field.dart';
 export 'type_component.dart';
 export 'type_field.dart';

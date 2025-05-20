@@ -19,7 +19,6 @@ import 'package:app/feature/wallet/wallet_prepare_transfer/data/wallet_prepare_t
 import 'package:app/feature/wallet/wallet_prepare_transfer/wallet_prepare_transfer_page.dart';
 import 'package:app/feature/wallet/wallet_prepare_transfer/wallet_prepare_transfer_page_model.dart';
 import 'package:app/generated/generated.dart';
-import 'package:app/utils/clipboard_utils.dart';
 import 'package:app/widgets/amount_input/amount_input_asset.dart';
 import 'package:elementary/elementary.dart';
 import 'package:elementary_helper/elementary_helper.dart';
@@ -60,8 +59,6 @@ class WalletPrepareTransferPageWidgetModel extends CustomWidgetModel<
       WalletPrepareTransferData(),
     );
 
-  late final receiverState = createNotifier<String?>();
-  late final commentTextState = createNotifier<String?>();
   late final commentState = createNotifier(false);
   late final _isInitialDataLoaded = createNotifier(false);
 
@@ -217,14 +214,13 @@ class WalletPrepareTransferPageWidgetModel extends CustomWidgetModel<
 
   void onPressedReceiverClear() => receiverController.clear();
 
-  Future<void> onPressedPasteAddress() async {
-    final text = await getClipBoardText();
-    if (text?.isEmpty ?? true) {
+  void onPressedPasteAddress(String text) {
+    if (text.isEmpty) {
       model.showError(LocaleKeys.addressIsWrong.tr());
       return;
     }
 
-    if (validateAddress(Address(address: text!))) {
+    if (validateAddress(Address(address: text))) {
       receiverController.text = text;
       receiverFocus.unfocus();
     } else {
@@ -312,13 +308,6 @@ class WalletPrepareTransferPageWidgetModel extends CustomWidgetModel<
   }
 
   void _initListeners() {
-    receiverController.addListener(
-      () => receiverState.accept(receiverController.text),
-    );
-    commentController.addListener(
-      () => commentTextState.accept(commentController.text),
-    );
-
     WalletPrepareTransferAsset? prevSelectedAsset;
 
     screenState.addListener(() {
