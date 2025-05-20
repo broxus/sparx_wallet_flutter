@@ -121,6 +121,20 @@ enum AppRoute {
     isBottomNavigationBarVisible: true,
     isSaveSubroutes: true,
   ),
+  nft(
+    'nft',
+    '/nft',
+    isSaveLocation: true,
+    isBottomNavigationBarVisible: true,
+    isSaveSubroutes: true,
+  ),
+  addNft(
+    'addNft',
+    'addNft',
+    isSaveLocation: true,
+    isBottomNavigationBarVisible: false,
+    isSaveSubroutes: true,
+  ),
   manageSeedsAccounts(
     'manageSeeds',
     'manageSeeds',

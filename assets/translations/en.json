@@ -687,5 +687,10 @@
   "scanSeedLoaderTitle": "Scanning and importing,\nplease wait…",
   "scanningCompleted": "Scanning completed",
   "scanSeed": "Scan seed",
-  "nothingFound": "No results found.\nTry adjusting your search or check for typos."
+  "nothingFound": "No results found.\nTry adjusting your search or check for typos.",
+  "nftWord": "NFT",
+  "nftEmptyListTitle": "You don't have any NFTs yet",
+  "nftEmptyListSubtitle": "Visit our marketplace for Everscale collections or import NFTs manually",
+  "visitMarketplace": "Visit marketplace",
+  "addNFT": "Add NFT"
 }
