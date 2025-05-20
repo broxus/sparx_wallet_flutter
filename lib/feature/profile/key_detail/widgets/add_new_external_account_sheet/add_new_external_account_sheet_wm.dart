@@ -36,6 +36,20 @@ class AddNewExternalAccountSheetWidgetModel extends CustomWidgetModel<
 
   ValueListenable<bool> get isLoading => _isLoading;
 
+  void onPaste(String text) {
+    if (text.isEmpty) return;
+
+    final address = Address(address: text);
+    if (address.isValid) {
+      addressController.text = text;
+      focusNode.unfocus();
+    } else {
+      model.showMessage(
+        Message.error(message: LocaleKeys.addressIsWrong.tr()),
+      );
+    }
+  }
+
   Future<void> onSubmit([String? _]) async {
     if (_isLoading.value) return;
 

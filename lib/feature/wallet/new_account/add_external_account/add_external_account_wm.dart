@@ -39,11 +39,10 @@ class AddExternalAccountWidgetModel extends CustomWidgetModel<
 
   void onClose(BuildContext _) => Navigator.of(context).pop();
 
-  Future<void> onPaste() async {
-    final text = await getClipBoardText();
-    if (text?.isEmpty ?? true) return;
+  void onPaste(String text) {
+    if (text.isEmpty) return;
 
-    final address = Address(address: text!);
+    final address = Address(address: text);
     if (address.isValid) {
       addressController.text = text;
       focusNode.unfocus();

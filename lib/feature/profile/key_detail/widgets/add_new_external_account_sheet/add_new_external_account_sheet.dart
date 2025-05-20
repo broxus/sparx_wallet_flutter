@@ -1,5 +1,6 @@
 import 'package:app/feature/profile/key_detail/widgets/add_new_external_account_sheet/add_new_external_account_sheet_wm.dart';
 import 'package:app/generated/generated.dart';
+import 'package:app/widgets/widgets.dart';
 import 'package:elementary/elementary.dart';
 import 'package:flutter/material.dart';
 import 'package:nekoton_repository/nekoton_repository.dart';
@@ -53,6 +54,13 @@ class AddNewExternalAccountSheet
             textEditingController: wm.addressController,
             focusNode: wm.focusNode,
             hintText: LocaleKeys.addressWord.tr(),
+            suffixes: [
+              ClipboardPasteButton(
+                value: wm.addressController,
+                onClear: wm.addressController.clear,
+                onPaste: wm.onPaste,
+              ),
+            ],
             onSubmit: wm.onSubmit,
           ),
           ValueListenableBuilder(

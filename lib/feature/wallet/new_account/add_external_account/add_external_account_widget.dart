@@ -1,8 +1,8 @@
 import 'package:app/feature/wallet/new_account/add_external_account/add_external_account.dart';
 import 'package:app/generated/generated.dart';
+import 'package:app/widgets/widgets.dart';
 import 'package:elementary/elementary.dart';
 import 'package:flutter/material.dart';
-import 'package:lucide_icons_flutter/lucide_icons.dart';
 import 'package:ui_components_lib/ui_components_lib.dart';
 import 'package:ui_components_lib/v2/ui_components_lib_v2.dart';
 
@@ -41,30 +41,11 @@ class AddExternalAccountWidget
               focusNode: wm.focusNode,
               hintText: LocaleKeys.addressWord.tr(),
               suffixes: [
-                if (wm.addressController.text.isEmpty)
-                  Padding(
-                    padding: const EdgeInsets.only(
-                      right: DimensSizeV2.d8,
-                    ),
-                    child: FloatButton(
-                      buttonShape: ButtonShape.square,
-                      buttonSize: ButtonSize.small,
-                      icon: LucideIcons.arrowDownToDot,
-                      onPressed: wm.onPaste,
-                    ),
-                  ),
-                if (wm.addressController.text.isNotEmpty)
-                  Padding(
-                    padding: const EdgeInsets.only(
-                      right: DimensSizeV2.d8,
-                    ),
-                    child: FloatButton(
-                      buttonShape: ButtonShape.square,
-                      buttonSize: ButtonSize.small,
-                      icon: LucideIcons.x,
-                      onPressed: wm.addressController.clear,
-                    ),
-                  ),
+                ClipboardPasteButton(
+                  value: wm.addressController,
+                  onClear: wm.addressController.clear,
+                  onPaste: wm.onPaste,
+                ),
               ],
               onSubmit: wm.onSubmit,
             ),
