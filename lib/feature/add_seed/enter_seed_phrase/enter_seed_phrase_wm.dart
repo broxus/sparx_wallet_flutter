@@ -5,7 +5,6 @@ import 'package:app/data/models/models.dart';
 import 'package:app/di/di.dart';
 import 'package:app/feature/add_seed/add_seed.dart';
 import 'package:app/feature/add_seed/create_password/route.dart';
-import 'package:app/feature/add_seed/import_wallet/route.dart';
 import 'package:app/feature/constants.dart';
 import 'package:app/generated/generated.dart';
 import 'package:app/utils/utils.dart';
@@ -23,9 +22,11 @@ typedef SuggestionSelectedCallback = void Function(
 );
 
 /// Factory method for creating [EnterSeedPhraseWidgetModel]
-EnterSeedPhraseWidgetModel defaultEnterSeedPhraseWidgetModelFactory(
-  BuildContext context,
-) {
+EnterSeedPhraseWidgetModel enterSeedPhraseWidgetModelFactory(
+  BuildContext context, {
+  required bool isOnboarding,
+  String? seedName,
+}) {
   return EnterSeedPhraseWidgetModel(
     EnterSeedPhraseModel(
       createPrimaryErrorHandler(context),
@@ -33,6 +34,8 @@ EnterSeedPhraseWidgetModel defaultEnterSeedPhraseWidgetModelFactory(
       inject(),
       inject(),
     ),
+    isOnboarding: isOnboarding,
+    seedName: seedName,
   );
 }
 
@@ -40,8 +43,13 @@ EnterSeedPhraseWidgetModel defaultEnterSeedPhraseWidgetModelFactory(
 class EnterSeedPhraseWidgetModel
     extends CustomWidgetModel<EnterSeedPhraseWidget, EnterSeedPhraseModel> {
   EnterSeedPhraseWidgetModel(
-    super.model,
-  );
+    super.model, {
+    required this.isOnboarding,
+    required this.seedName,
+  });
+
+  final bool isOnboarding;
+  final String? seedName;
 
   static final _log = Logger('EnterSeedPhraseWidgetModel');
 
@@ -307,9 +315,6 @@ class EnterSeedPhraseWidgetModel
   }
 
   void _next(String phrase) {
-    final currentRoutes = context.currentRoutes().toList();
-    final isOnboarding = currentRoutes.any((it) => it is ImportWalletRoute);
-
     if (isOnboarding) {
       context.compassContinue(
         CreateSeedOnboardingPasswordRouteData(
@@ -323,6 +328,7 @@ class EnterSeedPhraseWidgetModel
           seedPhrase: phrase,
           mnemonicType: _mnemonicType,
           type: SeedAddType.import,
+          name: seedName,
         ),
       );
     }

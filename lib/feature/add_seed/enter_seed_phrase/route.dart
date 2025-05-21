@@ -19,7 +19,10 @@ class EnterSeedPhraseRoute extends CompassRoute<EnterSeedPhraseRouteData> {
   ) : super(
           path: '/enter-seed-phrase',
           isSaveLocation: true,
-          builder: (context, _, __) => const EnterSeedPhraseWidget(),
+          builder: (context, data, __) => EnterSeedPhraseWidget(
+            seedName: data.seedName,
+            isOnboarding: data.isOnboarding,
+          ),
           compassBaseRoutes: [
             createSeedPasswordRoute,
             createSeedOnboardingPasswordRoute,

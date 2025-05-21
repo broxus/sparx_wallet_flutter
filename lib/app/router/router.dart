@@ -92,7 +92,7 @@ class CompassRouter {
   ///
   /// This is determined by parsing the current URI configuration.
   Iterable<CompassBaseGoRoute> get currentRoutes => _locationByUri(
-        router.routeInformationProvider.value.uri,
+        router.state.uri,
       );
 
   /// Navigates to a route specified by route data using replace approach.
@@ -203,19 +203,27 @@ class CompassRouter {
   void compassBack<T extends Object?>([T? result]) {
     try {
       final route = currentRoutes.lastOrNull;
-      if (route is CompassRouteDataQueryMixin) {
-        final currentUri = router.state.uri;
-        final clearedQueries = route.clearScreenQueries(
-          currentUri.queryParameters,
-        );
-
-        router.go(
-          currentUri.replace(queryParameters: clearedQueries).toString(),
-        );
-      }
 
       if (router.canPop()) {
         router.pop();
+      }
+
+      if (route is CompassRouteDataQueryMixin) {
+        final routesAfterPop = currentRoutes.toList();
+        final isRouteRemoved = routesAfterPop.none(
+          (it) => it.path == route.path,
+        );
+
+        if (isRouteRemoved) {
+          final currentUri = router.state.uri;
+          final clearedQueries = route.clearScreenQueries(
+            currentUri.queryParameters,
+          );
+
+          router.go(
+            currentUri.replace(queryParameters: clearedQueries).toString(),
+          );
+        }
       }
     } catch (e, s) {
       _log.warning('Failed to pop', e, s);
