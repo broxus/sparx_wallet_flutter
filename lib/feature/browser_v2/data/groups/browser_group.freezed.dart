@@ -22,7 +22,7 @@ BrowserGroup _$BrowserGroupFromJson(Map<String, dynamic> json) {
 mixin _$BrowserGroup {
   String get id => throw _privateConstructorUsedError;
   String? get title => throw _privateConstructorUsedError;
-  List<String> get tabsIds => throw _privateConstructorUsedError;
+  Set<String> get tabsIds => throw _privateConstructorUsedError;
   double get sortingOrder => throw _privateConstructorUsedError;
   bool get isCanRemoved => throw _privateConstructorUsedError;
   bool get isCanEditTitle => throw _privateConstructorUsedError;
@@ -46,7 +46,7 @@ abstract class $BrowserGroupCopyWith<$Res> {
   $Res call(
       {String id,
       String? title,
-      List<String> tabsIds,
+      Set<String> tabsIds,
       double sortingOrder,
       bool isCanRemoved,
       bool isCanEditTitle});
@@ -86,7 +86,7 @@ class _$BrowserGroupCopyWithImpl<$Res, $Val extends BrowserGroup>
       tabsIds: null == tabsIds
           ? _value.tabsIds
           : tabsIds // ignore: cast_nullable_to_non_nullable
-              as List<String>,
+              as Set<String>,
       sortingOrder: null == sortingOrder
           ? _value.sortingOrder
           : sortingOrder // ignore: cast_nullable_to_non_nullable
@@ -114,7 +114,7 @@ abstract class _$$BrowserGroupImplCopyWith<$Res>
   $Res call(
       {String id,
       String? title,
-      List<String> tabsIds,
+      Set<String> tabsIds,
       double sortingOrder,
       bool isCanRemoved,
       bool isCanEditTitle});
@@ -152,7 +152,7 @@ class __$$BrowserGroupImplCopyWithImpl<$Res>
       tabsIds: null == tabsIds
           ? _value._tabsIds
           : tabsIds // ignore: cast_nullable_to_non_nullable
-              as List<String>,
+              as Set<String>,
       sortingOrder: null == sortingOrder
           ? _value.sortingOrder
           : sortingOrder // ignore: cast_nullable_to_non_nullable
@@ -175,7 +175,7 @@ class _$BrowserGroupImpl implements _BrowserGroup {
   const _$BrowserGroupImpl(
       {required this.id,
       required this.title,
-      final List<String> tabsIds = const [],
+      final Set<String> tabsIds = const <String>{},
       required this.sortingOrder,
       this.isCanRemoved = false,
       this.isCanEditTitle = false})
@@ -188,13 +188,13 @@ class _$BrowserGroupImpl implements _BrowserGroup {
   final String id;
   @override
   final String? title;
-  final List<String> _tabsIds;
+  final Set<String> _tabsIds;
   @override
   @JsonKey()
-  List<String> get tabsIds {
-    if (_tabsIds is EqualUnmodifiableListView) return _tabsIds;
+  Set<String> get tabsIds {
+    if (_tabsIds is EqualUnmodifiableSetView) return _tabsIds;
     // ignore: implicit_dynamic_type
-    return EqualUnmodifiableListView(_tabsIds);
+    return EqualUnmodifiableSetView(_tabsIds);
   }
 
   @override
@@ -258,7 +258,7 @@ abstract class _BrowserGroup implements BrowserGroup {
   const factory _BrowserGroup(
       {required final String id,
       required final String? title,
-      final List<String> tabsIds,
+      final Set<String> tabsIds,
       required final double sortingOrder,
       final bool isCanRemoved,
       final bool isCanEditTitle}) = _$BrowserGroupImpl;
@@ -271,7 +271,7 @@ abstract class _BrowserGroup implements BrowserGroup {
   @override
   String? get title;
   @override
-  List<String> get tabsIds;
+  Set<String> get tabsIds;
   @override
   double get sortingOrder;
   @override

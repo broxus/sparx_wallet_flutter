@@ -14,7 +14,7 @@ class BrowserGroup with _$BrowserGroup implements BrowserItem {
   const factory BrowserGroup({
     required String id,
     required String? title,
-    @Default([]) List<String> tabsIds,
+    @Default(<String>{}) Set<String> tabsIds,
     required double sortingOrder,
     @Default(false) bool isCanRemoved,
     @Default(false) bool isCanEditTitle,
@@ -25,13 +25,13 @@ class BrowserGroup with _$BrowserGroup implements BrowserItem {
 
   static BrowserGroup create({
     required String name,
-    List<String>? tabsIds,
+    Set<String>? tabsIds,
     bool isCanRemoved = false,
   }) {
     return BrowserGroup(
       id: const Uuid().v4(),
       title: name,
-      tabsIds: tabsIds ?? [],
+      tabsIds: tabsIds ?? <String>{},
       sortingOrder: NtpTime.now().millisecondsSinceEpoch.toDouble(),
       isCanRemoved: isCanRemoved,
     );

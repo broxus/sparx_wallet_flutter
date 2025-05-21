@@ -84,6 +84,8 @@ class BrowserService {
 
   BrowserAuthManager get aM => auth;
 
+  BrowserGroupsManager get gM => groups;
+
   void init() {
     bookmarks.init();
     history.init();
@@ -148,11 +150,33 @@ class BrowserService {
     }
   }
 
+  void createAndInsertBrowserGroupByTabId(String name, String tabId) {
+    final allGroups = [...gM.allGroups];
+
+    for (var i = 0; i < allGroups.length; i++) {
+      final group = allGroups[i];
+      if (group.tabsIds.contains(tabId)) {
+        allGroups[i] = group.copyWith(
+          tabsIds: {...group.tabsIds}..removeWhere((t) => t == tabId),
+        );
+      }
+    }
+
+    allGroups.add(
+      gM.makeBrowserGroup(
+        name: name,
+        tabsIds: {tabId},
+      ),
+    );
+
+    gM.replaceGroups(allGroups);
+  }
+
   Future<void> _clearCookieAndData() async {
     await tryWrapper(tM.clearCookie);
     await tryWrapper(permissions.clearPermissions);
 
-    final list = tabs.browserTabs;
+    final list = tabs.allBrowserTabs;
 
     await tryWrapper(() async => _tonConnectService.disconnectAllInBrowser());
     await tryWrapper(() async => _nekotonRepository.unsubscribeAllContracts());

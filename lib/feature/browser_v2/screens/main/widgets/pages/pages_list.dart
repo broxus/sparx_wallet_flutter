@@ -21,7 +21,7 @@ class BrowserPagesView extends StatelessWidget {
 
   final double width;
   final ListenableState<bool> viewVisibleState;
-  final ListenableState<BrowserTabsCollection> tabsState;
+  final ListenableState<BrowserTabsCollection?> tabsState;
   final ScrollController scrollController;
   final Animation<double> paddingPageAnimation;
   final ValueChanged<int> onLoadingProgressChanged;

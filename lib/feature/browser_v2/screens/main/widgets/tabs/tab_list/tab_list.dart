@@ -15,14 +15,16 @@ class BrowserTabsList extends StatelessWidget {
     required this.onPressedTabMenu,
     required this.onPressedTab,
     required this.onCloseTab,
+    required this.onPressedCreateNewGroup,
     super.key,
   });
 
-  final ListenableState<BrowserTabsCollection> tabsState;
+  final ListenableState<BrowserTabsCollection?> tabsState;
   final RenderManager<String> renderManager;
   final ValueChanged<BrowserTab> onPressedTabMenu;
   final ValueChanged<String> onPressedTab;
   final ValueChanged<String> onCloseTab;
+  final VoidCallback onPressedCreateNewGroup;
 
   // TODO(nesquikm): We should calculate this value based on the screen size
   static const _cardAspectRatio = 0.9;
@@ -38,10 +40,14 @@ class BrowserTabsList extends StatelessWidget {
   Widget build(BuildContext context) {
     return Column(
       children: [
-        const Flexible(child: TabListHeader()),
+        Flexible(
+          child: TabListHeader(
+            onPressedCreateNewGroup: onPressedCreateNewGroup,
+          ),
+        ),
         const _Separator(),
         Expanded(
-          child: StateNotifierBuilder(
+          child: StateNotifierBuilder<BrowserTabsCollection?>(
             listenableState: tabsState,
             builder: (_, BrowserTabsCollection? tabs) {
               if (tabs == null) {

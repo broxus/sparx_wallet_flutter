@@ -59,6 +59,7 @@ class _BrowserTabMenuState extends State<BrowserTabMenu> {
   final _items = [
     BrowserTabMenuItemData.copyLink,
     BrowserTabMenuItemData.bookmark,
+    BrowserTabMenuItemData.newTabGroup,
   ];
 
   late final _lastIndex = _items.last.index;

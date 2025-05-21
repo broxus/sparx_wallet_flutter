@@ -13,7 +13,7 @@ class BrowserTabsListActionBar extends StatelessWidget {
     super.key,
   });
 
-  final ListenableState<BrowserTabsCollection> tabsState;
+  final ListenableState<BrowserTabsCollection?> tabsState;
   final VoidCallback onCloseAllPressed;
   final VoidCallback onPlusPressed;
   final VoidCallback onDonePressed;
@@ -26,7 +26,7 @@ class BrowserTabsListActionBar extends StatelessWidget {
 
     return SizedBox(
       height: height,
-      child: StateNotifierBuilder<BrowserTabsCollection>(
+      child: StateNotifierBuilder<BrowserTabsCollection?>(
         listenableState: tabsState,
         builder: (_, BrowserTabsCollection? data) {
           return ColoredBox(

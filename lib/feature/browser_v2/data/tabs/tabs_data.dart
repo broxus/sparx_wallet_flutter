@@ -6,9 +6,23 @@ import 'package:app/feature/browser_v2/data/tabs/browser_tab.dart';
 typedef ImageCache = HashMap<String, String>;
 
 class BrowserTabsCollection extends BrowserCollection<BrowserTab> {
-  BrowserTabsCollection([super.list]);
+  BrowserTabsCollection.empty() : _prevCount = 0;
+
+  BrowserTabsCollection.fromList(List<BrowserTab> super.list)
+      : _prevCount = list.length;
+
+  BrowserTabsCollection._([
+    super.list,
+    int? prevCount,
+  ]) : _prevCount = prevCount ?? list?.length ?? 0;
+
+  final int _prevCount;
 
   BrowserTab? get lastTab => list.lastOrNull;
+
+  BrowserTabsCollection update(List<BrowserTab> list) {
+    return BrowserTabsCollection._(list, count);
+  }
 
   int getIndexById(String id) => list.indexWhere((item) => item.id == id);
 
@@ -19,6 +33,8 @@ class BrowserTabsCollection extends BrowserCollection<BrowserTab> {
       return null;
     }
   }
+
+  bool get isCountIncreased => count > _prevCount;
 }
 
 extension ImageCacheHashMap on HashMap<String, String> {

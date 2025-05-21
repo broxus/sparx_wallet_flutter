@@ -25,7 +25,7 @@ class BrowserNavigationPanel extends StatefulWidget {
   final double panelWidth;
   final double urlWidth;
   final ScrollController controller;
-  final ListenableState<BrowserTabsCollection> tabsState;
+  final ListenableState<BrowserTabsCollection?> tabsState;
   final ValueChanged<String> onPressedCurrentUrlMenu;
   final ValueChanged<String> onPressedRefresh;
   final DoubleValueCallback<String, String> onEditingCompleteUrl;
@@ -47,7 +47,7 @@ class _BrowserTabViewMenuUrlPanelState extends State<BrowserNavigationPanel> {
     return SizedBox(
       width: widget.panelWidth,
       height: BrowserNavigationPanel.height,
-      child: StateNotifierBuilder<BrowserTabsCollection>(
+      child: StateNotifierBuilder<BrowserTabsCollection?>(
         listenableState: widget.tabsState,
         builder: (_, BrowserTabsCollection? data) {
           if (data == null) {

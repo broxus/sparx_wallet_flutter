@@ -14,14 +14,11 @@ class TabListHeaderModel extends ElementaryModel {
 
   final BrowserService _browserService;
 
-  ListenableState<BrowserGroupsCollection> get groupsState =>
-      _browserService.groups.groupsState;
+  ListenableState<BrowserGroupsCollection> get allGroupsState =>
+      _browserService.groups.allGroupsState;
 
   ListenableState<BrowserGroup?> get activeGroupState =>
       _browserService.groups.activeGroupState;
 
   void setActiveGroup(String id) => _browserService.groups.setActiveGroup(id);
-
-  String createBrowserGroup([String? title]) =>
-      _browserService.groups.createBrowserGroup(title: title);
 }

@@ -2,7 +2,6 @@ import 'package:app/core/error_handler_factory.dart';
 import 'package:app/core/wm/custom_wm.dart';
 import 'package:app/di/di.dart';
 import 'package:app/feature/browser_v2/data/groups/browser_group.dart';
-import 'package:app/feature/browser_v2/screens/create_group/create_browser_group_screen.dart';
 import 'package:app/feature/browser_v2/screens/main/widgets/tabs/header/tab_list_header.dart';
 import 'package:app/feature/browser_v2/screens/main/widgets/tabs/header/tab_list_header_model.dart';
 import 'package:app/feature/browser_v2/screens/main/widgets/tabs/header/ui_models/tab_list_ui_models.dart';
@@ -12,13 +11,15 @@ import 'package:flutter/material.dart';
 
 /// Factory method for creating [TabListHeaderWidgetModel]
 TabListHeaderWidgetModel defaultTabListHeaderWidgetModelFactory(
-  BuildContext context,
-) {
+  BuildContext context, {
+  required VoidCallback onPressedCreateNewGroup,
+}) {
   return TabListHeaderWidgetModel(
     TabListHeaderModel(
       createPrimaryErrorHandler(context),
       inject(),
     ),
+    onPressedCreateNewGroup,
   );
 }
 
@@ -27,6 +28,7 @@ class TabListHeaderWidgetModel
     extends CustomWidgetModel<TabListHeader, TabListHeaderModel> {
   TabListHeaderWidgetModel(
     super.model,
+    this._onPressedCreateNewGroup,
   );
 
   ListenableState<List<TabListHeaderUiModel>> get uiState => _uiState;
@@ -42,16 +44,18 @@ class TabListHeaderWidgetModel
     return physic ??= CenterSnapScrollPhysics(itemWidth: itemWidth);
   }
 
+  final VoidCallback _onPressedCreateNewGroup;
+
   @override
   void initWidgetModel() {
-    model.groupsState.addListener(_handleGroups);
+    model.allGroupsState.addListener(_handleGroups);
     model.activeGroupState.addListener(_handleGroups);
     super.initWidgetModel();
   }
 
   @override
   void dispose() {
-    model.groupsState.removeListener(_handleGroups);
+    model.allGroupsState.removeListener(_handleGroups);
     model.activeGroupState.removeListener(_handleGroups);
     super.dispose();
   }
@@ -60,22 +64,8 @@ class TabListHeaderWidgetModel
     // TODO(knightforce): create logic
   }
 
-  Future<void> onPressedCreateNewGroup() async {
-    // TODO(knightforce): Temp. Compass is expected to be implemented
-    final groupName =
-        await Navigator.of(context, rootNavigator: true).push<String>(
-      MaterialPageRoute(
-        builder: (_) {
-          return const CreateBrowserGroupScreen();
-        },
-      ),
-    );
-
-    if (groupName == null) {
-      return;
-    }
-    final id = model.createBrowserGroup(groupName);
-    model.setActiveGroup(id);
+  void onPressedCreateNewGroup() {
+    _onPressedCreateNewGroup();
   }
 
   void onPressedGroup(String id) {
@@ -83,7 +73,7 @@ class TabListHeaderWidgetModel
   }
 
   void _handleGroups() {
-    final groups = model.groupsState.value;
+    final groups = model.allGroupsState.value;
     final activeGroupId = model.activeGroupState.value?.id;
     _uiState.accept(
       [

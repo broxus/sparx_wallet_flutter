@@ -1,3 +1,4 @@
+import 'package:app/feature/browser_v2/data/groups/browser_group.dart';
 import 'package:app/feature/browser_v2/data/tabs/browser_tab.dart';
 import 'package:app/feature/browser_v2/data/tabs/tabs_data.dart';
 import 'package:app/feature/browser_v2/screens/main/browser_main_screen_model.dart';
@@ -7,12 +8,12 @@ import 'package:app/feature/browser_v2/widgets/bottomsheets/clear_tabs_bottom_sh
 import 'package:elementary_helper/elementary_helper.dart';
 import 'package:flutter/cupertino.dart';
 
-abstract interface class BrowserTabsUi {
-  ListenableState<BrowserTabsCollection> get tabsState;
+abstract interface class BrowserTabsAndGroupsUi {
+  ListenableState<BrowserTabsCollection?> get tabsState;
 
   ListenableState<BrowserTab?> get activeTabState;
 
-  ListenableState<TabAnimationType?> get showAnimationState;
+  ListenableState<TabAnimationType?> get tabAnimationTypeState;
 
   void changeTab(String id);
 
@@ -23,8 +24,8 @@ abstract interface class BrowserTabsUi {
   void addTab();
 }
 
-class BrowserTabsDelegate implements BrowserTabsUi {
-  BrowserTabsDelegate(
+class BrowserTabsAndGroupsDelegate implements BrowserTabsAndGroupsUi {
+  BrowserTabsAndGroupsDelegate(
     this.context,
     this.model, {
     required this.renderManager,
@@ -44,21 +45,23 @@ class BrowserTabsDelegate implements BrowserTabsUi {
   final VoidCallback onChangeTab;
   final Future<bool> Function(String int) scrollToTab;
 
-  late final _showAnimationState = StateNotifier<TabAnimationType?>();
+  final _tabAnimationTypeState = StateNotifier<TabAnimationType?>();
 
-  late int _lastTabsCount = _tabsCollection?.count ?? 0;
+  final _tabsState = StateNotifier<BrowserTabsCollection?>();
 
   @override
-  ListenableState<BrowserTabsCollection> get tabsState => model.tabsState;
+  ListenableState<BrowserTabsCollection?> get tabsState =>
+      _tabsState;
 
   @override
   ListenableState<BrowserTab?> get activeTabState => model.activeTabState;
 
   @override
-  ListenableState<TabAnimationType?> get showAnimationState =>
-      _showAnimationState;
+  ListenableState<TabAnimationType?> get tabAnimationTypeState =>
+      _tabAnimationTypeState;
 
-  BrowserTabsCollection? get _tabsCollection => tabsState.value;
+  BrowserTabsCollection? get _tabsCollection =>
+      _tabsState.value;
 
   String? get activeTabId => _activeTab?.id;
 
@@ -66,38 +69,42 @@ class BrowserTabsDelegate implements BrowserTabsUi {
 
   BrowserTab? get _activeTab => activeTabState.value;
 
+  BrowserGroup? get _activeGroup => model.activeGroupState.value;
+
   void dispose() {
-    tabsState.removeListener(_handleTabsCollection);
+    _tabsState.removeListener(_handleActiveGroupTabsCollection);
     activeTabState.removeListener(onUpdateActiveTab);
-    _showAnimationState.dispose();
+    model.activeGroupState.removeListener(_matchTabs);
+    _tabAnimationTypeState.dispose();
   }
 
   void onTabAnimationStart(ValueChanged<bool> onComplete) {
-    if (_showAnimationState.value == null) {
+    if (_tabAnimationTypeState.value == null) {
       return;
     }
-    if (_showAnimationState.value is ShowTabsAnimationType) {
+    if (_tabAnimationTypeState.value is ShowTabsAnimationType) {
       onComplete(false);
     }
   }
 
   void onTabAnimationEnd(ValueChanged<bool> onComplete) {
-    if (_showAnimationState.value == null) {
+    if (_tabAnimationTypeState.value == null) {
       return;
     }
 
-    if (_showAnimationState.value is ShowViewAnimationType) {
+    if (_tabAnimationTypeState.value is ShowViewAnimationType) {
       onComplete(true);
     }
 
-    _showAnimationState.accept(null);
+    _tabAnimationTypeState.accept(null);
   }
 
   int? getTabIndexById(String tabId) {
     return _tabsCollection?.getIndexById(tabId);
   }
 
-  String? getIdByIndex(int index) => _tabsCollection?.getIdByIndex(index);
+  String? getIdByIndex(int index) =>
+      _tabsCollection?.getIdByIndex(index);
 
   @override
   Future<void> changeTab(String id) async {
@@ -114,7 +121,7 @@ class BrowserTabsDelegate implements BrowserTabsUi {
 
     final data = renderManager.getRenderData(id);
 
-    _showAnimationState.accept(
+    _tabAnimationTypeState.accept(
       ShowViewAnimationType(
         tabX: data?.xLeft,
         tabY: data?.yTop,
@@ -146,7 +153,7 @@ class BrowserTabsDelegate implements BrowserTabsUi {
     final id = activeTabId;
     final data = id == null ? null : renderManager.getRenderData(id);
 
-    _showAnimationState.accept(
+    _tabAnimationTypeState.accept(
       ShowViewAnimationType(
         tabX: data?.xLeft,
         tabY: data?.yTop,
@@ -158,7 +165,7 @@ class BrowserTabsDelegate implements BrowserTabsUi {
     final id = activeTabId;
     final data = id == null ? null : renderManager.getRenderData(id);
 
-    _showAnimationState.accept(
+    _tabAnimationTypeState.accept(
       ShowTabsAnimationType(
         tabX: data?.xLeft,
         tabY: data?.yTop,
@@ -167,21 +174,42 @@ class BrowserTabsDelegate implements BrowserTabsUi {
   }
 
   void _init() {
-    tabsState.addListener(_handleTabsCollection);
+    model.activeGroupState.addListener(_matchTabs);
+    _tabsState.addListener(_handleActiveGroupTabsCollection);
     activeTabState.addListener(onUpdateActiveTab);
   }
 
-  void _handleTabsCollection() {
-    final count = _tabsCollection?.count ?? 0;
+  void _handleActiveGroupTabsCollection() {
+    _matchTabs();
+
+    final isCountIncreased =
+        _tabsCollection?.isCountIncreased ?? false;
+
     if (_tabsCollection?.isNotEmpty ?? true) {
       final id = _tabsCollection!.lastTab!.id;
-      if (count > _lastTabsCount) {
+      if (isCountIncreased) {
         changeTab(id);
       }
     } else {
       onEmptyTabs();
     }
+  }
 
-    _lastTabsCount = count;
+  void _matchTabs() {
+    final allTabs = model.allTabsState.value;
+    final activeGroupTabs = _activeGroup?.tabsIds;
+    if (allTabs == null || activeGroupTabs == null) {
+      return;
+    }
+
+    final result = <BrowserTab>[];
+
+    for (final tab in allTabs.list) {
+      if (activeGroupTabs.contains(tab.id)) {
+        result.add(tab);
+      }
+    }
+
+    _tabsState.accept(BrowserTabsCollection.fromList(result));
   }
 }

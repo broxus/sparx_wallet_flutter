@@ -25,6 +25,7 @@ class BrowserTabMenuDelegate implements BrowserTabMenuUi {
     required this.renderManager,
     required this.onShowMenu,
     required this.onHideMenu,
+    required this.onNewGroup,
   });
 
   final BrowserMainScreenModel model;
@@ -32,6 +33,7 @@ class BrowserTabMenuDelegate implements BrowserTabMenuUi {
   final BrowserRenderManager renderManager;
   final VoidCallback onShowMenu;
   final VoidCallback onHideMenu;
+  final ValueChanged<String> onNewGroup;
 
   final _duration = CustomBottomNavigationBar.animateDuration +
       const Duration(milliseconds: 50);
@@ -68,7 +70,7 @@ class BrowserTabMenuDelegate implements BrowserTabMenuUi {
       case BrowserTabMenuItemData.bookmark:
         model.addUrlToBookmark(tab.id);
       case BrowserTabMenuItemData.newTabGroup:
-      // TODO(knightforce): handle
+        onNewGroup(tab.id);
       case null:
     }
   }

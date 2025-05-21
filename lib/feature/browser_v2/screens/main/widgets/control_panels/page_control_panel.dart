@@ -30,7 +30,7 @@ class BrowserPageControlPanel extends StatelessWidget {
   final ValueChanged<String> onPressedRefresh;
   final DoubleValueCallback<String, String> onEditingCompleteUrl;
   final ScrollController urlSliderController;
-  final ListenableState<BrowserTabsCollection> tabsState;
+  final ListenableState<BrowserTabsCollection?> tabsState;
   final ListenableState<NavigationUrlPhysicMode> navigationScrollModeState;
 
   static const minHeight =

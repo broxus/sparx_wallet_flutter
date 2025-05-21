@@ -29,11 +29,12 @@ class BrowserMainScreen extends ElementaryWidget<BrowserMainScreenWidgetModel> {
             children: [
               BrowserTabsList(
                 key: wm.keys.tabListKey,
-                tabsState: wm.tabs.tabsState,
+                tabsState: wm.tabs.selectedGroupTabsState,
                 renderManager: wm.renderManager,
                 onPressedTabMenu: wm.tabMenu.showTabMenu,
                 onPressedTab: wm.onPressedTab,
                 onCloseTab: wm.tabs.onCloseTab,
+                onPressedCreateNewGroup: wm.onPressedCreateNewGroup,
               ),
               Positioned.fill(
                 child: Listener(
@@ -44,7 +45,7 @@ class BrowserMainScreen extends ElementaryWidget<BrowserMainScreenWidgetModel> {
                   child: BrowserPagesView(
                     width: wm.sizes.screenWidth,
                     viewVisibleState: wm.viewVisibleState,
-                    tabsState: wm.tabs.tabsState,
+                    tabsState: wm.tabs.selectedGroupTabsState,
                     scrollController: wm.pageSlider.viewTabScrollController,
                     paddingPageAnimation: wm.animations.paddingPageAnimation,
                     onLoadingProgressChanged:
@@ -65,7 +66,7 @@ class BrowserMainScreen extends ElementaryWidget<BrowserMainScreenWidgetModel> {
               TabAnimatedView(
                 onAnimationStart: wm.onTabAnimationStart,
                 onAnimationEnd: wm.onTabAnimationEnd,
-                showAnimationState: wm.tabs.showAnimationState,
+                tabAnimationTypeState: wm.tabs.tabAnimationTypeState,
               ),
               _ItemPosition(
                 child: _MenuAnimation(
@@ -74,7 +75,7 @@ class BrowserMainScreen extends ElementaryWidget<BrowserMainScreenWidgetModel> {
                   opacityAnimation: wm.animations.listMenuOpacityAnimation,
                   child: BrowserTabsListActionBar(
                     key: wm.keys.listKey,
-                    tabsState: wm.tabs.tabsState,
+                    tabsState: wm.tabs.selectedGroupTabsState,
                     onCloseAllPressed: wm.tabs.onCloseAllPressed,
                     onPlusPressed: wm.tabs.addTab,
                     onDonePressed: wm.onDonePressed,
@@ -97,7 +98,7 @@ class BrowserMainScreen extends ElementaryWidget<BrowserMainScreenWidgetModel> {
                       onPressedRefresh: wm.onPressedRefresh,
                       onEditingCompleteUrl: wm.onEditingCompleteUrl,
                       urlSliderController: wm.pageSlider.urlSliderController,
-                      tabsState: wm.tabs.tabsState,
+                      tabsState: wm.tabs.selectedGroupTabsState,
                       navigationScrollModeState: wm.navigationScrollModeState,
                     ),
                   ),

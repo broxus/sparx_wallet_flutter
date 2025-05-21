@@ -3,6 +3,7 @@ import 'dart:collection';
 import 'dart:math';
 
 import 'package:app/app/service/storage_service/general_storage_service.dart';
+import 'package:app/core/wm/not_null_safe_notifier.dart';
 import 'package:app/feature/browser_v2/custom_web_controller.dart';
 import 'package:app/feature/browser_v2/data/tabs/browser_tab.dart';
 import 'package:app/feature/browser_v2/data/tabs/tabs_data.dart';
@@ -30,8 +31,9 @@ class BrowserTabsManager {
       BrowserManagerScreenShooter(_generalStorageService);
 
   /// Subject of browser tabs
-  final _tabsState =
-      StateNotifier<BrowserTabsCollection>(initValue: BrowserTabsCollection());
+  final _allTabsState = NotNullNotifier<BrowserTabsCollection>(
+    BrowserTabsCollection.empty(),
+  );
 
   late final _controlPanelState = StateNotifier<ToolbarData>(
     initValue: ToolbarData(),
@@ -41,7 +43,7 @@ class BrowserTabsManager {
 
   final _controllers = HashMap<String, CustomWebViewController>();
 
-  ListenableState<BrowserTabsCollection> get tabsState => _tabsState;
+  ListenableState<BrowserTabsCollection> get allTabsState => _allTabsState;
 
   ListenableState<BrowserTab?> get activeTabState => _activeTabState;
 
@@ -51,14 +53,13 @@ class BrowserTabsManager {
   ListenableState<ToolbarData> get controlPanelState => _controlPanelState;
 
   /// Get last cached browser tabs
-  List<BrowserTab> get browserTabs => _tabsCollection.list;
+  List<BrowserTab> get allBrowserTabs => _allTabsCollection.list;
 
   BrowserTab? get activeTab => _activeTabState.value;
 
   String? get activeTabId => activeTab?.id;
 
-  BrowserTabsCollection get _tabsCollection =>
-      _tabsState.value ?? BrowserTabsCollection();
+  BrowserTabsCollection get _allTabsCollection => _allTabsState.value;
 
   CustomWebViewController? get _currentController => _controllers[activeTabId];
 
@@ -75,7 +76,7 @@ class BrowserTabsManager {
 
   void dispose() {
     activeTabState.removeListener(_handleActiveTab);
-    _tabsState.dispose();
+    _allTabsState.dispose();
     _screenShooter.dispose();
   }
 
@@ -106,7 +107,7 @@ class BrowserTabsManager {
   }
 
   bool updateCachedUrl(String tabId, Uri uri) {
-    final tabs = [...browserTabs];
+    final tabs = [...allBrowserTabs];
 
     final index = tabs.indexWhere((t) => t.id == tabId);
 
@@ -154,7 +155,7 @@ class BrowserTabsManager {
   }
 
   void updateTitle(String tabId, String title) {
-    final tabs = [...browserTabs];
+    final tabs = [...allBrowserTabs];
 
     final index = tabs.indexWhere((t) => t.id == tabId);
 
@@ -175,7 +176,7 @@ class BrowserTabsManager {
   Future<void> clearTabs() async {
     await _browserTabsStorageService.clear();
     await _screenShooter.clear();
-    _tabsState.accept(BrowserTabsCollection());
+    _allTabsState.accept(BrowserTabsCollection.empty());
     _activeTabState.accept(null);
   }
 
@@ -189,7 +190,7 @@ class BrowserTabsManager {
 
   /// Remove browser tab by id
   Future<void> removeBrowserTab(String id) async {
-    final tabs = [...browserTabs];
+    final tabs = [...allBrowserTabs];
 
     final count = tabs.length;
 
@@ -227,7 +228,7 @@ class BrowserTabsManager {
   String createEmptyTab() => createBrowserTab(_emptyUri);
 
   void openUrl(Uri url) {
-    final lastTab = browserTabs.lastOrNull;
+    final lastTab = allBrowserTabs.lastOrNull;
     if (lastTab != null && lastTab.url.toString().isEmpty) {
       requestUrl(lastTab.id, url);
     } else {
@@ -238,7 +239,7 @@ class BrowserTabsManager {
   String createBrowserTab(Uri url) {
     final tab = BrowserTab.create(url: url);
     _setTabs(
-      tabs: [...browserTabs, tab],
+      tabs: [...allBrowserTabs, tab],
       activeTabId: tab.id,
     );
 
@@ -274,7 +275,7 @@ class BrowserTabsManager {
   }
 
   BrowserTab? getTabById(String id) {
-    return browserTabs.firstWhereOrNull((tab) => tab.id == id);
+    return allBrowserTabs.firstWhereOrNull((tab) => tab.id == id);
   }
 
   Future<void> permissionsChanged(
@@ -306,7 +307,7 @@ class BrowserTabsManager {
               tabs.firstOrNull;
     }
 
-    _tabsState.accept(BrowserTabsCollection(tabs));
+    _allTabsState.accept(_allTabsCollection.update(tabs));
 
     _screenShooter.init(tabs);
 
@@ -319,13 +320,13 @@ class BrowserTabsManager {
   }) {
     if (tabs != null) {
       _browserTabsStorageService.saveBrowserTabs(tabs);
-      _tabsState.accept(BrowserTabsCollection(tabs));
+      _allTabsState.accept(_allTabsCollection.update(tabs));
     }
 
     if (activeTabId != null) {
       _browserTabsStorageService.saveBrowserActiveTabId(activeTabId);
       _activeTabState.accept(
-        (tabs ?? browserTabs).firstWhereOrNull((t) => t.id == activeTabId),
+        (tabs ?? allBrowserTabs).firstWhereOrNull((t) => t.id == activeTabId),
       );
     }
   }

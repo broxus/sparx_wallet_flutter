@@ -6,6 +6,7 @@ import 'package:app/di/di.dart';
 import 'package:app/event_bus/events/navigation/bottom_navigation_events.dart';
 import 'package:app/event_bus/primary_bus.dart';
 import 'package:app/feature/browser_v2/custom_web_controller.dart';
+import 'package:app/feature/browser_v2/screens/create_group/create_browser_group_screen.dart';
 import 'package:app/feature/browser_v2/screens/main/browser_main_screen.dart';
 import 'package:app/feature/browser_v2/screens/main/browser_main_screen_model.dart';
 import 'package:app/feature/browser_v2/screens/main/data/browser_render_manager.dart';
@@ -18,7 +19,7 @@ import 'package:app/feature/browser_v2/screens/main/delegates/progress_indicator
 import 'package:app/feature/browser_v2/screens/main/delegates/scroll_page_delegate.dart';
 import 'package:app/feature/browser_v2/screens/main/delegates/size_delegate.dart';
 import 'package:app/feature/browser_v2/screens/main/delegates/tab_menu_delegate.dart';
-import 'package:app/feature/browser_v2/screens/main/delegates/tabs_delegate.dart';
+import 'package:app/feature/browser_v2/screens/main/delegates/tabs_and_groups_delegate.dart';
 import 'package:app/feature/browser_v2/screens/main/widgets/control_panels/navigation_panel/navigation_panel.dart';
 import 'package:app/feature/browser_v2/screens/main/widgets/control_panels/navigation_panel/url_action_sheet.dart';
 import 'package:app/feature/browser_v2/screens/main/widgets/tab_animated_view/tab_animation_type.dart';
@@ -26,6 +27,7 @@ import 'package:app/utils/clipboard_utils.dart';
 import 'package:app/utils/common_utils.dart';
 import 'package:elementary/elementary.dart';
 import 'package:elementary_helper/elementary_helper.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:render_metrics/render_metrics.dart';
 import 'package:ui_components_lib/v2/ui_components_lib_v2.dart';
@@ -76,6 +78,7 @@ class BrowserMainScreenWidgetModel
     renderManager: _renderManager,
     onShowMenu: () => callWithDelay(() => _menuState.accept(null)),
     onHideMenu: () => callWithDelay(() => _menuState.accept(MenuType.list)),
+    onNewGroup: _createGroup,
   );
 
   final _pastGoDelegate = BrowserPastGoDelegate();
@@ -91,7 +94,7 @@ class BrowserMainScreenWidgetModel
     checkIsViewPages: () => viewVisibleState.value ?? true,
   );
 
-  late final _tabsDelegate = BrowserTabsDelegate(
+  late final _tabsDelegate = BrowserTabsAndGroupsDelegate(
     context,
     model,
     renderManager: _renderManager,
@@ -123,7 +126,7 @@ class BrowserMainScreenWidgetModel
 
   BrowserPageSlideUi get pageSlider => _pageSlideDelegate;
 
-  BrowserTabsUi get tabs => _tabsDelegate;
+  BrowserTabsAndGroupsUi get tabs => _tabsDelegate;
 
   BrowserPastGoUi get pastGo => _pastGoDelegate;
 
@@ -259,13 +262,14 @@ class BrowserMainScreenWidgetModel
     tabs.changeTab(id);
   }
 
+  void onPressedCreateNewGroup() {
+    _createGroup();
+  }
+
   void _onEmptyTabs() {
     callWithDelay(() {
-      model.createEmptyTab();
       _pageDelegate.reset();
       _pageSlideDelegate.slideTo(0);
-      _viewVisibleState.accept(true);
-      _menuState.accept(MenuType.view);
     });
   }
 
@@ -313,5 +317,25 @@ class BrowserMainScreenWidgetModel
           (_tabsDelegate.isEmptyActiveTabUrl) &&
           await checkExistClipBoardData(),
     );
+  }
+
+  Future<void> _createGroup([String? tabId]) async {
+    // TODO(knightforce): Temp. Compass is expected to be implemented
+    final groupName =
+        await Navigator.of(context, rootNavigator: true).push<String>(
+      MaterialPageRoute(
+        builder: (_) {
+          return CreateBrowserGroupScreen(
+            tabId: tabId,
+          );
+        },
+      ),
+    );
+
+    if (groupName == null) {
+      return;
+    }
+    final id = model.createBrowserGroup(groupName);
+    model.setActiveGroup(id);
   }
 }

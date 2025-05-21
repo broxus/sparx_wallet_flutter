@@ -57,6 +57,9 @@ class TabAnimatedViewWidgetModel
     end: 1,
   ).animate(_animationController);
 
+  late final ListenableState<TabAnimationType?> showAnimationState =
+      widget.tabAnimationTypeState;
+
   final _positionXTween = Tween<double>(begin: 0, end: 0);
   final _positionYTween = Tween<double>(begin: 0, end: 0);
 
@@ -83,9 +86,6 @@ class TabAnimatedViewWidgetModel
   Animation<double>? get leftPositionAnimation => _leftPositionAnimation;
 
   Listenable get animationListenable => _animationController;
-
-  ListenableState<TabAnimationType?> get showAnimationState =>
-      widget.showAnimationState;
 
   ListenableState<File?> get screenshotStateState => _screenshotStateState;
 

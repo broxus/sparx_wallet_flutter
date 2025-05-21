@@ -11,13 +11,16 @@ import 'package:flutter/material.dart';
 import 'package:ui_components_lib/v2/ui_components_lib_v2.dart';
 
 class TabListHeader extends ElementaryWidget<TabListHeaderWidgetModel> {
-  const TabListHeader({
-    Key? key,
-    WidgetModelFactory<TabListHeaderWidgetModel> wmFactory =
-        defaultTabListHeaderWidgetModelFactory,
+  TabListHeader({
+    required VoidCallback onPressedCreateNewGroup,
+    WidgetModelFactory<TabListHeaderWidgetModel>? wmFactory,
+    super.key,
   }) : super(
-          wmFactory,
-          key: key,
+          wmFactory ??
+              (ctx) => defaultTabListHeaderWidgetModelFactory(
+                    ctx,
+                    onPressedCreateNewGroup: onPressedCreateNewGroup,
+                  ),
         );
 
   @override

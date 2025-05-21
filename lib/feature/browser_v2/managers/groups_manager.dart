@@ -14,29 +14,30 @@ class BrowserGroupsManager {
 
   final _activeGroupState = StateNotifier<BrowserGroup?>();
 
-  final _groupsState = StateNotifier<BrowserGroupsCollection>(
+  final _allGroupsState = StateNotifier<BrowserGroupsCollection>(
     initValue: BrowserGroupsCollection(),
   );
 
   ListenableState<BrowserGroup?> get activeGroupState => _activeGroupState;
 
-  ListenableState<BrowserGroupsCollection> get groupsState => _groupsState;
+  ListenableState<BrowserGroupsCollection> get allGroupsState =>
+      _allGroupsState;
 
-  List<BrowserGroup> get _browserGroups => _groupsCollection.list;
+  List<BrowserGroup> get allGroups => _allGroupsCollection.list;
 
-  BrowserGroupsCollection get _groupsCollection =>
-      _groupsState.value ?? BrowserGroupsCollection();
+  BrowserGroupsCollection get _allGroupsCollection =>
+      _allGroupsState.value ?? BrowserGroupsCollection();
 
-  BrowserGroup? get _activeTab => activeGroupState.value;
+  BrowserGroup? get _activeGroup => activeGroupState.value;
 
-  String? get _activeTabId => _activeTab?.id;
+  String? get _activeGroupId => _activeGroup?.id;
 
   void init() {
     _fetchGroupsFromCache();
   }
 
   void dispose() {
-    _groupsState.dispose();
+    _allGroupsState.dispose();
   }
 
   Future<void> clear() {
@@ -45,18 +46,30 @@ class BrowserGroupsManager {
 
   Future<void> clearGroups() async {
     await _browserGroupsStorageService.clear();
-    _groupsState.accept(BrowserGroupsCollection());
+    _allGroupsState.accept(BrowserGroupsCollection());
     _activeGroupState.accept(null);
   }
 
-  String createBrowserGroup({
-    String? title,
-    List<String>? tabsIds,
+  BrowserGroup makeBrowserGroup({
+    String? name,
+    Set<String>? tabsIds,
   }) {
-    final list = [..._browserGroups];
-
     final group = BrowserGroup.create(
-      name: title ?? LocaleKeys.groupWithCount.tr(args: ['${list.length}']),
+      name: name ?? LocaleKeys.groupWithCount.tr(args: ['${allGroups.length}']),
+      tabsIds: tabsIds,
+    );
+
+    return group;
+  }
+
+  String createBrowserGroup({
+    String? name,
+    Set<String>? tabsIds,
+  }) {
+    final list = [...allGroups];
+
+    final group = makeBrowserGroup(
+      name: name,
       tabsIds: tabsIds,
     );
 
@@ -65,10 +78,14 @@ class BrowserGroupsManager {
     return group.id;
   }
 
-  void updateTitle(String tabId, String title) {
-    final groups = [..._browserGroups];
+  void replaceGroups(List<BrowserGroup> groups) {
+    _setGroups(groups: groups);
+  }
 
-    final index = _browserGroups.indexWhere((t) => t.id == tabId);
+  void updateTitle(String tabId, String title) {
+    final groups = [...allGroups];
+
+    final index = allGroups.indexWhere((t) => t.id == tabId);
 
     if (index == -1) {
       return;
@@ -80,13 +97,13 @@ class BrowserGroupsManager {
   }
 
   Future<void> removeBrowserGroup(String id) async {
-    final groups = [..._browserGroups]..removeWhere((group) => group.id == id);
+    final groups = [...allGroups]..removeWhere((group) => group.id == id);
 
     _setGroups(groups: groups);
   }
 
   void setActiveGroup(String? id) {
-    if (id == _activeTabId) {
+    if (id == _activeGroupId) {
       return;
     }
 
@@ -109,8 +126,8 @@ class BrowserGroupsManager {
     final activeGroup = savedId == null
         ? null
         : groups.firstWhereOrNull((tab) => tab.id == savedId);
-print('!!! $activeGroup');
-    _groupsState.accept(BrowserGroupsCollection(groups));
+
+    _allGroupsState.accept(BrowserGroupsCollection(groups));
     _activeGroupState.accept(activeGroup ?? groups.firstOrNull);
   }
 
@@ -120,14 +137,13 @@ print('!!! $activeGroup');
   }) {
     if (groups != null) {
       _browserGroupsStorageService.saveGroups(groups);
-      _groupsState.accept(BrowserGroupsCollection(groups));
+      _allGroupsState.accept(BrowserGroupsCollection(groups));
     }
 
     if (activeGroupId != null) {
       _browserGroupsStorageService.saveActiveGroupId(activeGroupId);
       _activeGroupState.accept(
-        (groups ?? _browserGroups)
-            .firstWhereOrNull((t) => t.id == activeGroupId),
+        (groups ?? allGroups).firstWhereOrNull((t) => t.id == activeGroupId),
       );
     }
   }

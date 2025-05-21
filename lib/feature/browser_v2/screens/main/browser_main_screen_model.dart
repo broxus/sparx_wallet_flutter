@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:app/feature/browser_v2/custom_web_controller.dart';
+import 'package:app/feature/browser_v2/data/groups/browser_group.dart';
 import 'package:app/feature/browser_v2/data/tabs/browser_tab.dart';
 import 'package:app/feature/browser_v2/data/tabs/tabs_data.dart';
 import 'package:app/feature/browser_v2/domain/service/browser_service.dart';
@@ -20,11 +21,14 @@ class BrowserMainScreenModel extends ElementaryModel {
   ) : super(errorHandler: errorHandler);
   final BrowserService _browserService;
 
-  ListenableState<BrowserTabsCollection> get tabsState =>
-      _browserService.tM.tabsState;
+  ListenableState<BrowserTabsCollection> get allTabsState =>
+      _browserService.tM.allTabsState;
 
   ListenableState<BrowserTab?> get activeTabState =>
       _browserService.tM.activeTabState;
+
+  ListenableState<BrowserGroup?> get activeGroupState =>
+      _browserService.gM.activeGroupState;
 
   void setActiveTab(String? id) {
     if (id == null) {
@@ -103,4 +107,9 @@ class BrowserMainScreenModel extends ElementaryModel {
 
     _browserService.hM.removeHistoryItemByUri(url);
   }
+
+  String createBrowserGroup([String? name]) =>
+      _browserService.groups.createBrowserGroup(name: name);
+
+  void setActiveGroup(String id) => _browserService.groups.setActiveGroup(id);
 }
