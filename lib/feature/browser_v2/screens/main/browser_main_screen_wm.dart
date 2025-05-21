@@ -335,7 +335,6 @@ class BrowserMainScreenWidgetModel
     if (groupName == null) {
       return;
     }
-    final id = model.createBrowserGroup(groupName);
-    model.setActiveGroup(id);
+    model.createBrowserGroup(groupName);
   }
 }

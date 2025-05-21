@@ -225,7 +225,7 @@ class BrowserTabsManager {
     );
   }
 
-  String createEmptyTab() => createBrowserTab(_emptyUri);
+  BrowserTab createEmptyTab() => createBrowserTab(_emptyUri);
 
   void openUrl(Uri url) {
     final lastTab = allBrowserTabs.lastOrNull;
@@ -236,14 +236,14 @@ class BrowserTabsManager {
     }
   }
 
-  String createBrowserTab(Uri url) {
+  BrowserTab createBrowserTab(Uri url) {
     final tab = BrowserTab.create(url: url);
     _setTabs(
       tabs: [...allBrowserTabs, tab],
       activeTabId: tab.id,
     );
 
-    return tab.id;
+    return tab;
   }
 
   Future<void> createScreenshot({
@@ -307,7 +307,7 @@ class BrowserTabsManager {
               tabs.firstOrNull;
     }
 
-    _allTabsState.accept(_allTabsCollection.update(tabs));
+    _allTabsState.accept(BrowserTabsCollection.fromList(tabs));
 
     _screenShooter.init(tabs);
 
@@ -319,15 +319,15 @@ class BrowserTabsManager {
     String? activeTabId,
   }) {
     if (tabs != null) {
+      _allTabsState.accept(BrowserTabsCollection.fromList(tabs));
       _browserTabsStorageService.saveBrowserTabs(tabs);
-      _allTabsState.accept(_allTabsCollection.update(tabs));
     }
 
     if (activeTabId != null) {
-      _browserTabsStorageService.saveBrowserActiveTabId(activeTabId);
       _activeTabState.accept(
         (tabs ?? allBrowserTabs).firstWhereOrNull((t) => t.id == activeTabId),
       );
+      _browserTabsStorageService.saveBrowserActiveTabId(activeTabId);
     }
   }
 

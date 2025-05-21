@@ -25,12 +25,13 @@ class BrowserGroupsManager {
 
   List<BrowserGroup> get allGroups => _allGroupsCollection.list;
 
+  String? get activeGroupId => _activeGroup?.id;
+
   BrowserGroupsCollection get _allGroupsCollection =>
       _allGroupsState.value ?? BrowserGroupsCollection();
 
   BrowserGroup? get _activeGroup => activeGroupState.value;
 
-  String? get _activeGroupId => _activeGroup?.id;
 
   void init() {
     _fetchGroupsFromCache();
@@ -62,9 +63,10 @@ class BrowserGroupsManager {
     return group;
   }
 
-  String createBrowserGroup({
+  BrowserGroup createBrowserGroup({
     String? name,
     Set<String>? tabsIds,
+    bool isSwitchToCreatedGroup = false,
   }) {
     final list = [...allGroups];
 
@@ -73,13 +75,22 @@ class BrowserGroupsManager {
       tabsIds: tabsIds,
     );
 
-    _setGroups(groups: list..add(group));
+    _setGroups(
+      groups: list..add(group),
+      activeGroupId: isSwitchToCreatedGroup ? group.id : null,
+    );
 
-    return group.id;
+    return group;
   }
 
-  void replaceGroups(List<BrowserGroup> groups) {
-    _setGroups(groups: groups);
+  void replaceGroups(
+    List<BrowserGroup> groups, {
+    String? activeGroupId,
+  }) {
+    _setGroups(
+      groups: groups,
+      activeGroupId: activeGroupId,
+    );
   }
 
   void updateTitle(String tabId, String title) {
@@ -96,14 +107,31 @@ class BrowserGroupsManager {
     _setGroups(groups: groups);
   }
 
-  Future<void> removeBrowserGroup(String id) async {
-    final groups = [...allGroups]..removeWhere((group) => group.id == id);
+  Set<String>? removeBrowserGroup(String id) {
+    final groups = [...allGroups];
+
+    int? removedGroupIndex;
+
+    for (var i = 0; i < groups.length; i++) {
+      if (groups[i].id == id) {
+        removedGroupIndex = i;
+        break;
+      }
+    }
+
+    if (removedGroupIndex == null) {
+      return null;
+    }
+
+    final tabs = groups.removeAt(removedGroupIndex).tabsIds;
 
     _setGroups(groups: groups);
+
+    return tabs;
   }
 
   void setActiveGroup(String? id) {
-    if (id == _activeGroupId) {
+    if (id == activeGroupId) {
       return;
     }
 

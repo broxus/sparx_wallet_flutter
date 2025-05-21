@@ -43,7 +43,10 @@ class BrowserMainScreenModel extends ElementaryModel {
 
   void clearTabs() => _browserService.tM.clearTabs();
 
-  String createEmptyTab() => _browserService.tM.createEmptyTab();
+  void createEmptyTab() {
+    _browserService.tM.createEmptyTab(
+    );
+  }
 
   void requestUrl(String? tabId, String enteredText) {
     if (tabId == null) {
@@ -108,8 +111,9 @@ class BrowserMainScreenModel extends ElementaryModel {
     _browserService.hM.removeHistoryItemByUri(url);
   }
 
-  String createBrowserGroup([String? name]) =>
-      _browserService.groups.createBrowserGroup(name: name);
-
-  void setActiveGroup(String id) => _browserService.groups.setActiveGroup(id);
+  void createBrowserGroup([String? name]) =>
+      _browserService.groups.createBrowserGroup(
+        name: name,
+        isSwitchToCreatedGroup: true,
+      );
 }

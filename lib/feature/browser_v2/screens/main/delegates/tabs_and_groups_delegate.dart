@@ -50,8 +50,7 @@ class BrowserTabsAndGroupsDelegate implements BrowserTabsAndGroupsUi {
   final _tabsState = StateNotifier<BrowserTabsCollection?>();
 
   @override
-  ListenableState<BrowserTabsCollection?> get tabsState =>
-      _tabsState;
+  ListenableState<BrowserTabsCollection?> get tabsState => _tabsState;
 
   @override
   ListenableState<BrowserTab?> get activeTabState => model.activeTabState;
@@ -60,8 +59,7 @@ class BrowserTabsAndGroupsDelegate implements BrowserTabsAndGroupsUi {
   ListenableState<TabAnimationType?> get tabAnimationTypeState =>
       _tabAnimationTypeState;
 
-  BrowserTabsCollection? get _tabsCollection =>
-      _tabsState.value;
+  BrowserTabsCollection? get _tabsCollection => _tabsState.value;
 
   String? get activeTabId => _activeTab?.id;
 
@@ -103,8 +101,7 @@ class BrowserTabsAndGroupsDelegate implements BrowserTabsAndGroupsUi {
     return _tabsCollection?.getIndexById(tabId);
   }
 
-  String? getIdByIndex(int index) =>
-      _tabsCollection?.getIdByIndex(index);
+  String? getIdByIndex(int index) => _tabsCollection?.getIdByIndex(index);
 
   @override
   Future<void> changeTab(String id) async {
@@ -180,18 +177,13 @@ class BrowserTabsAndGroupsDelegate implements BrowserTabsAndGroupsUi {
   }
 
   void _handleActiveGroupTabsCollection() {
-    _matchTabs();
 
-    final isCountIncreased =
-        _tabsCollection?.isCountIncreased ?? false;
 
-    if (_tabsCollection?.isNotEmpty ?? true) {
-      final id = _tabsCollection!.lastTab!.id;
-      if (isCountIncreased) {
-        changeTab(id);
-      }
-    } else {
+    if (_tabsCollection?.isEmpty ?? true) {
       onEmptyTabs();
+      _tabsState.accept(BrowserTabsCollection.empty());
+    } else {
+      _matchTabs();
     }
   }
 

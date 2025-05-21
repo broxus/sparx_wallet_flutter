@@ -150,7 +150,7 @@ class BrowserService {
     }
   }
 
-  void createAndInsertBrowserGroupByTabId(String name, String tabId) {
+  void createBrowserGroupByTabId(String name, String tabId) {
     final allGroups = [...gM.allGroups];
 
     for (var i = 0; i < allGroups.length; i++) {
@@ -169,7 +169,10 @@ class BrowserService {
       ),
     );
 
-    gM.replaceGroups(allGroups);
+    gM.replaceGroups(
+      allGroups,
+      activeGroupId: allGroups.last.id,
+    );
   }
 
   Future<void> _clearCookieAndData() async {

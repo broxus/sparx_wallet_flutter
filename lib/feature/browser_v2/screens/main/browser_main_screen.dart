@@ -29,7 +29,7 @@ class BrowserMainScreen extends ElementaryWidget<BrowserMainScreenWidgetModel> {
             children: [
               BrowserTabsList(
                 key: wm.keys.tabListKey,
-                tabsState: wm.tabs.selectedGroupTabsState,
+                tabsState: wm.tabs.tabsState,
                 renderManager: wm.renderManager,
                 onPressedTabMenu: wm.tabMenu.showTabMenu,
                 onPressedTab: wm.onPressedTab,
@@ -45,7 +45,7 @@ class BrowserMainScreen extends ElementaryWidget<BrowserMainScreenWidgetModel> {
                   child: BrowserPagesView(
                     width: wm.sizes.screenWidth,
                     viewVisibleState: wm.viewVisibleState,
-                    tabsState: wm.tabs.selectedGroupTabsState,
+                    tabsState: wm.tabs.tabsState,
                     scrollController: wm.pageSlider.viewTabScrollController,
                     paddingPageAnimation: wm.animations.paddingPageAnimation,
                     onLoadingProgressChanged:
@@ -75,7 +75,7 @@ class BrowserMainScreen extends ElementaryWidget<BrowserMainScreenWidgetModel> {
                   opacityAnimation: wm.animations.listMenuOpacityAnimation,
                   child: BrowserTabsListActionBar(
                     key: wm.keys.listKey,
-                    tabsState: wm.tabs.selectedGroupTabsState,
+                    tabsState: wm.tabs.tabsState,
                     onCloseAllPressed: wm.tabs.onCloseAllPressed,
                     onPlusPressed: wm.tabs.addTab,
                     onDonePressed: wm.onDonePressed,
@@ -98,7 +98,7 @@ class BrowserMainScreen extends ElementaryWidget<BrowserMainScreenWidgetModel> {
                       onPressedRefresh: wm.onPressedRefresh,
                       onEditingCompleteUrl: wm.onEditingCompleteUrl,
                       urlSliderController: wm.pageSlider.urlSliderController,
-                      tabsState: wm.tabs.selectedGroupTabsState,
+                      tabsState: wm.tabs.tabsState,
                       navigationScrollModeState: wm.navigationScrollModeState,
                     ),
                   ),

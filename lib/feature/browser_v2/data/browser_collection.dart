@@ -7,6 +7,8 @@ class BrowserCollection<T extends BrowserItem> {
 
   int get count => list.length;
 
+  bool get isEmpty => list.isEmpty;
+
   bool get isNotEmpty => list.isNotEmpty;
 
   String get countText => count.toString();
