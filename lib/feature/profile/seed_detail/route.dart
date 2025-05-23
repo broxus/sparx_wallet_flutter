@@ -15,6 +15,7 @@ class SeedDetailRoute extends CompassRoute<SeedDetailRouteData> {
   ) : super(
           path: '/seed-detail',
           isSaveLocation: true,
+          isBottomNavigationBarVisible: true,
           builder: (context, data, _) => SeedDetailPageWidget(
             publicKey: data.publicKey,
           ),

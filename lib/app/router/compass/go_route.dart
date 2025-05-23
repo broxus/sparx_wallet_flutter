@@ -17,6 +17,7 @@ abstract class CompassBaseGoRoute<T extends CompassRouteData>
     this.isInitial = false,
     this.isSaveLocation = false,
     this.isSaveSubroutes = false,
+    this.isBottomNavigationBarVisible = false,
     super.isTopLevel,
     this.routes = const <RouteBase>[],
     this.redirect,
@@ -78,6 +79,12 @@ abstract class CompassBaseGoRoute<T extends CompassRouteData>
   ///
   /// This is used to preserve nested navigation state.
   final bool isSaveSubroutes;
+
+  /// Whether to show the bottom navigation bar on this route.
+  ///
+  /// Defaults to false. Set to true for routes that should display
+  /// the bottom navigation bar.
+  final bool isBottomNavigationBarVisible;
 
   /// Converts route data to a URI location.
   ///

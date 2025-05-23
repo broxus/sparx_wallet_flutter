@@ -17,9 +17,3 @@ class PressBottomNavigationEvent extends BottomNavigationEvent {
 }
 
 class OpenBrowserTabEvent extends BottomNavigationEvent {}
-
-class VisibleNavigationEvent extends BottomNavigationEvent {}
-
-class HideNavigationEvent extends VisibleNavigationEvent {}
-
-class RevertNavigationEvent extends VisibleNavigationEvent {}

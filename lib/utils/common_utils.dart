@@ -240,7 +240,7 @@ extension ChangeNotifierStreamExt on ChangeNotifier {
   Stream<T> asStreamWithValue<T>(
     ValueGetter<T> value,
   ) {
-    final subject = BehaviorSubject<T>.seeded(value());
+    final subject = PublishSubject<T>();
     void listener() => subject.add(value());
 
     subject.onListen = () => addListener(listener);

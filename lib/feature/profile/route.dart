@@ -14,6 +14,7 @@ class ProfileRoute extends CompassRouteParameterless<ProfileRouteData> {
           path: '/profile',
           isSaveLocation: true,
           isSaveSubroutes: true,
+          isBottomNavigationBarVisible: true,
           builder: (context, _, __) => const ProfilePageWidget(),
           compassBaseRoutes: [
             manageSeedsAccountsRoute,

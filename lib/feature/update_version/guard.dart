@@ -4,7 +4,6 @@ import 'package:app/app/router/router.dart';
 import 'package:app/feature/update_version/route.dart';
 import 'package:app/feature/update_version/update_version.dart';
 import 'package:app/feature/wallet/route.dart';
-import 'package:app/utils/common_utils.dart';
 import 'package:flutter/material.dart';
 import 'package:injectable/injectable.dart';
 import 'package:logging/logging.dart';
@@ -22,7 +21,7 @@ class UpdateVersionGuard extends CompassGuard {
   final UpdateService _updateService;
   final _log = Logger('UpdateVersionGuard');
 
-  StreamSubscription<(UpdateRequest?, RouteInformation)>?
+  StreamSubscription<(UpdateRequest?, CompassBaseGoRoute?)>?
       _updateVersionSubscription;
   CompassRouter? _router;
 
@@ -32,8 +31,8 @@ class UpdateVersionGuard extends CompassGuard {
 
     _updateVersionSubscription = Rx.combineLatest2(
       _updateService.updateRequests,
-      router.router.routeInformationProvider.asStream(),
-      (request, route) => (request, route),
+      router.currentRoutesStream,
+      (request, route) => (request, route.lastOrNull),
     ).listen(_onUpdateRequests);
   }
 
@@ -53,15 +52,15 @@ class UpdateVersionGuard extends CompassGuard {
     return null;
   }
 
-  void _onUpdateRequests((UpdateRequest?, RouteInformation) requestRoute) {
-    final (request, _) = requestRoute;
-    final router = _router;
-    if (request == null || router == null) return;
-    final currentRoutes = router.currentRoutes.toList();
-    final currentRoute = currentRoutes.lastOrNull;
+  void _onUpdateRequests(
+    (UpdateRequest?, CompassBaseGoRoute?) requestRoute,
+  ) {
+    final (request, currentRoute) = requestRoute;
+    if (request == null) return;
     if (currentRoute is! WalletRoute) return;
-    final state = router.router.routeInformationProvider.value.uri;
-    _log.info('Open update version screen $state, $currentRoutes, $request');
+
+    _log.info('Open update version screen $currentRoute, $request');
+
     _router?.compassPush(
       const UpdateVersionRouteData(),
     );

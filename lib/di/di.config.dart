@@ -395,6 +395,10 @@ extension GetItInjectableX on _i174.GetIt {
           gh<_i82.CompassBaseRoute>(instanceName: 'TonWalletSendRoute')),
       instanceName: 'CancelUnstakingRoute',
     );
+    gh.singleton<_i82.CompassGuard>(
+      () => _i331.RestoreSubroutesGuard(gh<_i275.NavigationService>()),
+      instanceName: 'RestoreSubroutesGuard',
+    );
     gh.singleton<_i82.CompassBaseRoute>(
       () => _i473.CreateSeedOnboardingPasswordRoute(
           gh<_i82.CompassBaseRoute>(instanceName: 'EnableBiometryRoute')),
@@ -623,13 +627,6 @@ extension GetItInjectableX on _i174.GetIt {
             instanceName: 'CreateSeedOnboardingPasswordRoute'),
       ),
       instanceName: 'ImportWalletRoute',
-    );
-    gh.singleton<_i82.CompassGuard>(
-      () => _i331.RestoreSubroutesGuard(
-        gh<_i275.NavigationService>(),
-        gh<_i309.CompassRouter>(),
-      ),
-      instanceName: 'RestoreSubroutesGuard',
     );
     gh.singleton<_i82.CompassBaseRoute>(
       () => _i852.AddExistingWalletRoute(

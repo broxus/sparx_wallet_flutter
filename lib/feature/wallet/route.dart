@@ -41,6 +41,7 @@ class WalletRoute extends CompassRouteParameterless<WalletRouteData> {
           name: 'wallet',
           path: '/wallet',
           isSaveLocation: true,
+          isBottomNavigationBarVisible: true,
           builder: (context, _, __) => const WalletPageWidget(),
           compassBaseRoutes: [
             enableBiometryRoute,

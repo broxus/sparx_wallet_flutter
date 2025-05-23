@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:app/app/router/compass/compass.dart';
 import 'package:app/app/router/router.dart';
 import 'package:app/app/service/navigation_service.dart';
@@ -11,38 +13,35 @@ import 'package:logging/logging.dart';
 class RestoreSubroutesGuard extends CompassGuard {
   RestoreSubroutesGuard(
     this._navigationService,
-    this._compassRouter,
   ) : super(priority: priorityMedium);
 
   final NavigationService _navigationService;
-  final CompassRouter _compassRouter;
   final _log = Logger('RestoreSubroutesGuard');
-
-  CompassRouter? _router;
 
   // Last saved root app route
   CompassBaseRoute? _lastRootRoute;
 
-  // Just for debouncing, because setLocation() can be called multiple times
-  // with the same location
-  String? _lastSetlocation;
-
   // Saved subroutes for each root app route
   final _savedSubroutes = <CompassBaseRoute, String>{};
+
+  StreamSubscription<Iterable<CompassBaseGoRoute>>? _routeUpdatesSubscription;
+
+  CompassRouter? _router;
 
   @override
   void attachToRouter(CompassRouter router) {
     _router = router;
-    router.router.routerDelegate.addListener(_routeUpdated);
+    _routeUpdatesSubscription = router.currentRoutesStream.listen(
+      _updateLocation,
+    );
   }
 
   @override
   void detach() {
     _savedSubroutes.clear();
-    _router?.router.routerDelegate.removeListener(_routeUpdated);
-    _router = null;
+    _routeUpdatesSubscription?.cancel();
     _lastRootRoute = null;
-    _lastSetlocation = null;
+    _router = null;
   }
 
   @override
@@ -75,30 +74,13 @@ class RestoreSubroutesGuard extends CompassGuard {
     return null;
   }
 
-  void _routeUpdated() {
-    final router = _router;
-    if (router == null) return;
-    final currentConfiguration =
-        router.router.routerDelegate.currentConfiguration;
-
-    _updateLocation(
-      currentConfiguration.uri.toString(),
-      currentConfiguration.fullPath,
-    );
-  }
-
-  void _updateLocation(String location, String fullPath) {
-    // And because of that, we need to check if the location is the same
-    // as the last one to avoid duplicate calls of NavigationService.setLocation
-    if (_lastSetlocation == location) {
-      return;
-    }
-
-    _lastSetlocation = location;
-
-    final currentRoutes = _compassRouter.currentRoutes.toList();
-
+  void _updateLocation(
+    Iterable<CompassBaseGoRoute> currentRoutes,
+  ) {
     if (currentRoutes.isEmpty) return;
+
+    final location = _router?.currentState.uri.toString();
+    if (location == null) return;
 
     final isSaveLocation = currentRoutes.every((it) => it.isSaveLocation);
     final rootRoute = currentRoutes.firstOrNull;

@@ -1,6 +1,5 @@
 import 'dart:async';
 
-import 'package:app/app/router/compass/compass.dart';
 import 'package:app/app/router/router.dart';
 import 'package:app/app/service/app_links/app_links_data.dart';
 import 'package:app/app/service/app_links/app_links_service.dart';
@@ -10,7 +9,6 @@ import 'package:app/app/service/ton_connect/ton_connect_service.dart';
 import 'package:app/di/di.dart';
 import 'package:app/feature/messenger/data/message.dart';
 import 'package:app/feature/messenger/domain/service/messenger_service.dart';
-import 'package:app/feature/root/view/route.dart';
 import 'package:app/feature/ton_connect/ton_connect.dart';
 import 'package:app/feature/wallet/route.dart';
 import 'package:app/widgets/bottom_navigation_bar/custom_bottom_navigation_bar.dart';
@@ -33,10 +31,6 @@ class _RootViewState extends State<RootView> {
   late final _tonConnectHttpBridge = inject<TonConnectHttpBridge>();
   late final _tonConnectService = inject<TonConnectService>();
   late final _messengerService = inject<MessengerService>();
-  late final _compassRouter = inject<CompassRouter>();
-  late final _rootRoute = inject<CompassBaseRoute>(
-    instanceName: (RootRoute).toString(),
-  ) as RootRoute;
 
   StreamSubscription<TonConnectAppLinksData>? _tonConnectLinkSubs;
   StreamSubscription<TonConnectUiEvent>? _uiEventsSubscription;
@@ -63,13 +57,11 @@ class _RootViewState extends State<RootView> {
 
   @override
   Widget build(BuildContext context) {
-    final currentRoutes = _compassRouter.currentRoutes.toList();
-    final firstRoute = currentRoutes.firstOrNull;
+    final currentRoutes = context.currentRoutes().toList();
     final lastRoute = currentRoutes.lastOrNull;
 
-    final isBottomNavigationBarVisible = _rootRoute.compassBaseRoutes.any(
-      (it) => it.runtimeType == firstRoute.runtimeType,
-    );
+    final isBottomNavigationBarVisible =
+        lastRoute?.isBottomNavigationBarVisible ?? false;
     final overrideExtend = lastRoute is WalletRoute;
 
     return Scaffold(

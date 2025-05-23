@@ -16,6 +16,7 @@ class ManageSeedsAccountsRoute
           name: 'manage-seeds-accounts',
           path: '/manage-seeds-accounts',
           isSaveLocation: true,
+          isBottomNavigationBarVisible: true,
           builder: (context, _, __) => const ManageSeedsAccountsPage(),
           compassBaseRoutes: [
             seedDetailRoute,

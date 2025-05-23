@@ -4,6 +4,7 @@ import 'package:app/app/router/compass/compass.dart';
 import 'package:app/app/service/service.dart';
 import 'package:app/feature/error/error.dart';
 import 'package:app/feature/onboarding/route.dart';
+import 'package:app/utils/common_utils.dart';
 import 'package:collection/collection.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/widgets.dart';
@@ -46,9 +47,7 @@ class CompassRouter {
   static GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
 
   /// The main GoRouter instance for the application.
-  ///
-  /// This is created by [_createRouter] and handles all navigation.
-  late final router = _createRouter();
+  late final _router = _createRouter();
 
   /// List of navigation guards sorted by priority.
   ///
@@ -88,12 +87,25 @@ class CompassRouter {
     ).nonNulls,
   );
 
+  /// The main GoRouter instance for the application.
+  @Deprecated('Should be used only in MaterialApp.router')
+  GoRouter get router => _router;
+
+  /// Returns the current active routes in the navigation stack.
+  ///
+  /// This is determined by parsing the current URI configuration.
+  GoRouterState get currentState => _router.state;
+
   /// Returns the current active routes in the navigation stack.
   ///
   /// This is determined by parsing the current URI configuration.
   Iterable<CompassBaseGoRoute> get currentRoutes => _locationByUri(
-        router.state.uri,
+        currentState.uri,
       );
+
+  /// Returns the stream with current active routes in the navigation stack.
+  Stream<Iterable<CompassBaseGoRoute>> get currentRoutesStream =>
+      _router.routerDelegate.asStreamWithValue(() => currentRoutes);
 
   /// Navigates to a route specified by route data using replace approach.
   ///
@@ -111,7 +123,7 @@ class CompassRouter {
       throw StateError('No route for data by type ${data.runtimeType}');
     }
 
-    router.go(location.toString());
+    _router.go(location.toString());
   }
 
   /// Navigates to a named route specified by route data using replace approach.
@@ -135,7 +147,7 @@ class CompassRouter {
 
     final location = route.toLocation(data);
 
-    router.goNamed(name, queryParameters: location.queryParameters);
+    _router.goNamed(name, queryParameters: location.queryParameters);
   }
 
   /// Navigates to a route specified by route data by pushing to the stack.
@@ -158,7 +170,7 @@ class CompassRouter {
       throw StateError('No route for data by type ${data.runtimeType}');
     }
 
-    return router.push(location.toString());
+    return _router.push(location.toString());
   }
 
   /// Navigates to a route while preserving the current location's path
@@ -181,7 +193,7 @@ class CompassRouter {
       throw StateError('No route for data by type ${data.runtimeType}');
     }
 
-    final originalLocation = router.state.uri;
+    final originalLocation = _router.state.uri;
 
     final concatedUri = newLocation.replace(
       queryParameters: {
@@ -191,7 +203,7 @@ class CompassRouter {
       },
     );
 
-    router.go('.$concatedUri');
+    _router.go('.$concatedUri');
   }
 
   /// Navigates back to the previous route in the navigation stack.
@@ -204,8 +216,8 @@ class CompassRouter {
     try {
       final route = currentRoutes.lastOrNull;
 
-      if (router.canPop()) {
-        router.pop();
+      if (_router.canPop()) {
+        _router.pop();
       }
 
       if (route is CompassRouteDataQueryMixin) {
@@ -215,12 +227,12 @@ class CompassRouter {
         );
 
         if (isRouteRemoved) {
-          final currentUri = router.state.uri;
+          final currentUri = _router.state.uri;
           final clearedQueries = route.clearScreenQueries(
             currentUri.queryParameters,
           );
 
-          router.go(
+          _router.go(
             currentUri.replace(queryParameters: clearedQueries).toString(),
           );
         }
@@ -236,8 +248,8 @@ class CompassRouter {
       guard.detach();
     }
 
-    router.routerDelegate.removeListener(_logRoute);
-    router.dispose();
+    _router.routerDelegate.removeListener(_logRoute);
+    _router.dispose();
   }
 
   GoRouter _createRouter() {
@@ -344,7 +356,7 @@ class CompassRouter {
   }
 
   void _logRoute() {
-    _log.fine('Route update: ${router.state.uri}');
+    _log.fine('Route update: ${_router.state.uri}');
   }
 }
 
@@ -370,7 +382,7 @@ class CompassRouterProvider extends InheritedWidget {
 
   @override
   bool updateShouldNotify(CompassRouterProvider oldWidget) {
-    return router != oldWidget.router;
+    return true;
   }
 }
 
@@ -380,10 +392,21 @@ class CompassRouterProvider extends InheritedWidget {
 /// These methods allow for direct navigation from any widget that has access
 /// to a BuildContext, without needing to manually retrieve the router instance.
 extension CompassNavigationContextExtension on BuildContext {
+  /// Returns the CompassRouter instance associated with this context.
+  ///
+  /// This method provides direct access to the router for advanced use cases.
+  CompassRouter _compassRouter() {
+    return CompassRouterProvider.of(this);
+  }
+
   /// Returns the current active routes in the navigation stack.
   /// See [CompassRouter.currentRoutes] for more details.
   Iterable<CompassBaseGoRoute> currentRoutes() {
-    return CompassRouterProvider.of(this).currentRoutes;
+    // This makes currentRoutes dependent on GoRouterStateRegistryScope updates
+    // to properly call didChangeDependencies on contexts
+    // that depend on currentRoutes
+    GoRouterState.of(this);
+    return _compassRouter().currentRoutes;
   }
 
   /// Navigates to a route specified by route data using replace approach.
@@ -392,7 +415,7 @@ extension CompassNavigationContextExtension on BuildContext {
   ///
   /// See [CompassRouter.compassPoint] for more details.
   void compassPoint(CompassRouteData data) {
-    return CompassRouterProvider.of(this).compassPoint(data);
+    return _compassRouter().compassPoint(data);
   }
 
   /// Navigates to a named route specified by route data using replace approach.
@@ -401,7 +424,7 @@ extension CompassNavigationContextExtension on BuildContext {
   ///
   /// See [CompassRouter.compassPointNamed] for more details.
   void compassPointNamed(CompassRouteData data) {
-    return CompassRouterProvider.of(this).compassPointNamed(data);
+    return _compassRouter().compassPointNamed(data);
   }
 
   /// Navigates to a route specified by route data by pushing to the stack.
@@ -412,7 +435,7 @@ extension CompassNavigationContextExtension on BuildContext {
   ///
   /// See [CompassRouter.compassPush] for more details.
   Future<R?> compassPush<R>(CompassRouteData data) {
-    return CompassRouterProvider.of(this).compassPush(data);
+    return _compassRouter().compassPush(data);
   }
 
   /// Navigates to a route while preserving the current location's path
@@ -422,7 +445,7 @@ extension CompassNavigationContextExtension on BuildContext {
   ///
   /// See [CompassRouter.compassContinue] for more details.
   void compassContinue(CompassRouteData data) {
-    return CompassRouterProvider.of(this).compassContinue(data);
+    return _compassRouter().compassContinue(data);
   }
 
   /// Navigates back to the previous route in the navigation stack.
@@ -431,6 +454,6 @@ extension CompassNavigationContextExtension on BuildContext {
   ///
   /// See [CompassRouter.compassBack] for more details.
   void compassBack<T extends Object?>([T? result]) {
-    return CompassRouterProvider.of(this).compassBack(result);
+    return _compassRouter().compassBack(result);
   }
 }

@@ -45,6 +45,7 @@ class _AppContent extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp.router(
       debugShowCheckedModeBanner: false,
+      // ignore: deprecated_member_use_from_same_package
       routerConfig: router.router,
       localizationsDelegates: context.localizationDelegates,
       supportedLocales: context.supportedLocales,

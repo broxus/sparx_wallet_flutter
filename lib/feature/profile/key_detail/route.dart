@@ -15,6 +15,7 @@ class KeyDetailRoute extends CompassRoute<KeyDetailRouteData> {
   ) : super(
           path: '/key-detail',
           isSaveLocation: true,
+          isBottomNavigationBarVisible: true,
           builder: (context, data, _) => KeyDetailPage(
             publicKey: data.publicKey,
           ),

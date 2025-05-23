@@ -13,6 +13,7 @@ class AccountDetailRoute extends CompassRoute<AccountDetailRouteData> {
       : super(
           path: '/account-detail',
           isSaveLocation: true,
+          isBottomNavigationBarVisible: true,
           builder: (context, data, _) => AccountDetailPage(
             address: data.address,
           ),

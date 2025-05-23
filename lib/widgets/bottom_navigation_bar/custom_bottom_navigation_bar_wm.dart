@@ -1,6 +1,5 @@
 import 'dart:async';
 
-import 'package:app/app/router/compass/compass.dart';
 import 'package:app/app/router/router.dart';
 import 'package:app/app/service/app_links/app_links_data.dart';
 import 'package:app/core/error_handler_factory.dart';
@@ -9,7 +8,6 @@ import 'package:app/di/di.dart';
 import 'package:app/event_bus/events/navigation/bottom_navigation_events.dart';
 import 'package:app/event_bus/primary_bus.dart';
 import 'package:app/feature/root/view/root_tab.dart';
-import 'package:app/feature/root/view/route.dart';
 import 'package:app/widgets/bottom_navigation_bar/custom_bottom_navigation_bar.dart';
 import 'package:app/widgets/bottom_navigation_bar/custom_bottom_navigation_bar_model.dart';
 import 'package:elementary/elementary.dart';
@@ -41,10 +39,7 @@ class CustomBottomNavigationBarWidgetModel extends CustomWidgetModel<
   late final _tabState = createNotifierFromStream<RootTab>(model.rootTabStream);
   late final _visibleState = createNotifier<bool>(true);
 
-  StreamSubscription<VisibleNavigationEvent>? _navigationVisibleSub;
   StreamSubscription<OpenBrowserTabEvent>? _navigationOpenBrowserSub;
-
-  bool _isForceHide = false;
 
   StreamSubscription<BrowserAppLinksData>? _appLinksNavSubs;
 
@@ -68,19 +63,14 @@ class CustomBottomNavigationBarWidgetModel extends CustomWidgetModel<
   @override
   void initWidgetModel() {
     super.initWidgetModel();
-    _updateVisible();
-    _navigationVisibleSub =
-        primaryBus.on<VisibleNavigationEvent>().listen(_onNavigationVisible);
     _navigationOpenBrowserSub =
         primaryBus.on<OpenBrowserTabEvent>().listen(_onNavigationOpenBrowser);
+    model.isBottomBarVisibleStream.listen(
+      (isVisible) => _visibleState.accept(isVisible),
+    );
     WidgetsBinding.instance.addPostFrameCallback((_) {
       _appLinksNavSubs = model.browserLinksStream.listen(_listenAppLinks);
     });
-  }
-
-  void _onNavigationVisible(VisibleNavigationEvent event) {
-    _isForceHide = event is HideNavigationEvent;
-    _updateVisible();
   }
 
   void _onNavigationOpenBrowser(OpenBrowserTabEvent event) {
@@ -88,15 +78,8 @@ class CustomBottomNavigationBarWidgetModel extends CustomWidgetModel<
   }
 
   @override
-  void didChangeDependencies() {
-    _updateVisible();
-    super.didChangeDependencies();
-  }
-
-  @override
   void dispose() {
     _appLinksNavSubs?.cancel();
-    _navigationVisibleSub?.cancel();
     _navigationOpenBrowserSub?.cancel();
     super.dispose();
   }
@@ -121,33 +104,5 @@ class CustomBottomNavigationBarWidgetModel extends CustomWidgetModel<
 
   void _listenAppLinks(BrowserAppLinksData data) {
     _changeValue(RootTab.browser);
-  }
-
-  void _updateVisible() {
-    if (_isForceHide) {
-      _visibleState.accept(false);
-      return;
-    }
-
-    // The delay allows the route to be determined correctly.
-    // Without Future, the route variable will contain the route from which
-    // you left, not the route you went to.
-    // A 50ms delay gives more guarantees.
-    final currentRoutes = context.currentRoutes().toList();
-    final rootRoute = inject<CompassBaseRoute>(
-      instanceName: (RootRoute).toString(),
-    ) as RootRoute;
-
-    Future.delayed(
-      const Duration(milliseconds: 50),
-      () {
-        final firstRoute = currentRoutes.firstOrNull;
-        final isBottomNavigationBarVisible = rootRoute.compassBaseRoutes.any(
-          (it) => it.runtimeType == firstRoute.runtimeType,
-        );
-
-        _visibleState.accept(isBottomNavigationBarVisible);
-      },
-    );
   }
 }

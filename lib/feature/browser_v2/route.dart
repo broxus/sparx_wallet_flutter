@@ -10,6 +10,7 @@ class BrowserRoute extends CompassRouteParameterless<BrowserRouteData> {
           name: 'browser',
           path: '/browser',
           isSaveLocation: true,
+          isBottomNavigationBarVisible: true,
           builder: (context, _, __) => const BrowserMainScreen(),
         );
 
