@@ -46,7 +46,7 @@ class BrowserBookmarkRenameBottomSheet
   Widget build(BrowserBookmarkRenameBottomSheetWidgetModel wm) {
     return SeparatedColumn(
       mainAxisSize: MainAxisSize.min,
-      separatorSize: DimensSizeV2.d24,
+      spacing: DimensSizeV2.d24,
       children: [
         PrimaryTextField(
           textEditingController: wm.nameController,

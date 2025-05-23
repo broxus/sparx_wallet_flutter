@@ -153,6 +153,10 @@ scripts:
       --deploy-target android_store \
       --build-number $BUILD_NUMBER \
       --upload true
+    
+  fetch:connections_config:
+    description: Fetch connections config
+    run: bash scripts/fetch-connections-config.sh
 
 command:
   clean:

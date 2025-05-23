@@ -27,7 +27,7 @@ class ImportWalletScreen
       resizeToAvoidBottomInset: false,
       backgroundColor: theme.colors.background0,
       appBar: DefaultAppBar(
-        onClosePressed: (context) => context.maybePop(),
+        onClosePressed: (context) => context.compassBack(),
       ),
       body: EntityStateNotifierBuilder<ImportWalletData?>(
         listenableEntityState: wm.screenState,

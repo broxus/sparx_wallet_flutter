@@ -87,7 +87,7 @@ class AmountInputAssetSelect extends StatelessWidget {
                   ),
                   Expanded(
                     child: SeparatedColumn(
-                      separatorSize: DimensSizeV2.d4,
+                      spacing: DimensSizeV2.d4,
                       mainAxisSize: MainAxisSize.min,
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
@@ -128,7 +128,7 @@ class AmountInputAssetSelect extends StatelessWidget {
           child: ValueListenableBuilder(
             valueListenable: values!,
             builder: (_, values, __) => SeparatedColumn(
-              separatorSize: DimensSizeV2.d12,
+              spacing: DimensSizeV2.d12,
               children: values
                   .map(
                     (asset) => _itemBuilder(

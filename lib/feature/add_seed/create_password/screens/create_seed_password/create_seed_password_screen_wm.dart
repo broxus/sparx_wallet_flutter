@@ -1,15 +1,15 @@
 import 'package:app/app/router/router.dart';
 import 'package:app/core/error_handler_factory.dart';
 import 'package:app/core/wm/custom_wm.dart';
-import 'package:app/core/wm/navigation_wm_mixin.dart';
 import 'package:app/di/di.dart';
 import 'package:app/feature/add_seed/create_password/model/password_status.dart';
 import 'package:app/feature/add_seed/create_password/screens/create_seed_password/create_seed_password_screen.dart';
 import 'package:app/feature/add_seed/create_password/screens/create_seed_password/create_seed_password_screen_model.dart';
+import 'package:app/feature/biometry/view/route.dart';
+import 'package:app/feature/wallet/route.dart';
 import 'package:elementary/elementary.dart';
 import 'package:elementary_helper/elementary_helper.dart';
 import 'package:flutter/widgets.dart';
-import 'package:go_router/go_router.dart';
 import 'package:ui_components_lib/v2/ui_components_lib_v2.dart';
 
 /// Factory method for creating [CreateSeedPasswordScreenWidgetModel]
@@ -30,8 +30,7 @@ CreateSeedPasswordScreenWidgetModel
 
 /// [WidgetModel] для [CreateSeedPasswordScreen]
 class CreateSeedPasswordScreenWidgetModel extends CustomWidgetModel<
-    CreateSeedPasswordScreen,
-    CreateSeedPasswordScreenModel> with NavigationMixin {
+    CreateSeedPasswordScreen, CreateSeedPasswordScreenModel> {
   CreateSeedPasswordScreenWidgetModel(
     super.model,
   );
@@ -65,11 +64,7 @@ class CreateSeedPasswordScreenWidgetModel extends CustomWidgetModel<
   }
 
   void pop() {
-    goPop(
-      removeQueries: [
-        addSeedPhraseQueryParam,
-      ],
-    );
+    context.compassBack();
   }
 
   Future<void> onPressedNext() async {
@@ -83,9 +78,9 @@ class CreateSeedPasswordScreenWidgetModel extends CustomWidgetModel<
     );
 
     if (model.isNeedBiometry) {
-      contextSafe?.goFurther(AppRoute.enableBiometry.path);
+      contextSafe?.compassContinue(const EnableBiometryRouteData());
     } else {
-      contextSafe?.goNamed(AppRoute.wallet.name);
+      contextSafe?.compassPointNamed(const WalletRouteData());
     }
   }
 

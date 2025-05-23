@@ -109,7 +109,7 @@ class DeleteKeySheet extends StatelessWidget {
         return SeparatedColumn(
           mainAxisSize: MainAxisSize.min,
           crossAxisAlignment: CrossAxisAlignment.start,
-          separatorSize: DimensSize.d12,
+          spacing: DimensSize.d12,
           children: [
             Text(
               title,

@@ -26,7 +26,7 @@ class TCSignDataWidget extends ElementaryWidget<TCSignDataWidgetModel> {
   @override
   Widget build(TCSignDataWidgetModel wm) {
     return SeparatedColumn(
-      separatorSize: DimensSizeV2.d12,
+      spacing: DimensSizeV2.d12,
       children: [
         Expanded(
           child: SingleChildScrollView(

@@ -6,7 +6,7 @@ class SeparatedColumn extends Column with SeparatedMixin {
   SeparatedColumn({
     required List<Widget> children,
     Widget? separator,
-    double? separatorSize = DimensSizeV2.d8,
+    double? spacing,
     super.key,
     super.mainAxisAlignment,
     super.mainAxisSize,
@@ -15,12 +15,12 @@ class SeparatedColumn extends Column with SeparatedMixin {
     super.verticalDirection,
     super.textBaseline,
   }) : super(
-          children: SeparatedMixin.buildChildren(
-            separator ??
-                SizedBox(
-                  height: separatorSize,
-                ),
-            children,
-          ),
+          spacing: separator != null ? 0 : (spacing ?? DimensSizeV2.d8),
+          children: separator != null
+              ? SeparatedMixin.buildChildren(
+                  separator,
+                  children,
+                )
+              : children,
         );
 }

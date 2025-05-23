@@ -16,7 +16,6 @@ export 'http_clients.dart';
 export 'identify/identify.dart';
 export 'js_servcie.dart';
 export 'localization/localization.dart';
-export 'navigation/navigation.dart';
 export 'nekoton_related/nekoton_related.dart';
 export 'network_connection/network_connection.dart';
 export 'ntp_service.dart';

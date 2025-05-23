@@ -22,7 +22,7 @@ class SelectNetworkWidget extends ElementaryWidget<SelectNetworkWidgetModel> {
   @override
   Widget build(SelectNetworkWidgetModel wm) {
     return SeparatedColumn(
-      separatorSize: DimensSizeV2.d16,
+      spacing: DimensSizeV2.d16,
       mainAxisSize: MainAxisSize.min,
       children: [
         DoubleSourceBuilder(

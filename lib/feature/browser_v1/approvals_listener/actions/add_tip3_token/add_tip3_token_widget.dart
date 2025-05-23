@@ -41,13 +41,13 @@ class AddTip3TokenWidget extends ElementaryWidget<AddTip3TokenWidgetModel> {
     );
 
     return SeparatedColumn(
-      separatorSize: DimensSizeV2.d12,
+      spacing: DimensSizeV2.d12,
       children: [
         Expanded(
           child: SingleChildScrollView(
             controller: scrollController,
             child: SeparatedColumn(
-              separatorSize: DimensSizeV2.d12,
+              spacing: DimensSizeV2.d12,
               children: [
                 AccountInfoWidget(account: account),
                 WebsiteInfoWidget(uri: origin),
@@ -59,7 +59,7 @@ class AddTip3TokenWidget extends ElementaryWidget<AddTip3TokenWidgetModel> {
                     horizontal: DimensSizeV2.d16,
                   ),
                   child: SeparatedColumn(
-                    separatorSize: DimensSizeV2.d16,
+                    spacing: DimensSizeV2.d16,
                     children: [
                       _InfoRow(
                         hint: StateNotifierBuilder(
@@ -68,7 +68,7 @@ class AddTip3TokenWidget extends ElementaryWidget<AddTip3TokenWidgetModel> {
                         ),
                         children: [
                           SeparatedRow(
-                            separatorSize: DimensSizeV2.d4,
+                            spacing: DimensSizeV2.d4,
                             children: [
                               StateNotifierBuilder(
                                 listenableState: wm.status,
@@ -147,7 +147,7 @@ class AddTip3TokenWidget extends ElementaryWidget<AddTip3TokenWidgetModel> {
                         ],
                       ),
                       SeparatedColumn(
-                        separatorSize: DimensSizeV2.d2,
+                        spacing: DimensSizeV2.d2,
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(LocaleKeys.symbolWord.tr(), style: labelStyle),
@@ -190,7 +190,7 @@ class _InfoRow extends StatelessWidget {
                 children: children,
               )
             : SeparatedColumn(
-                separatorSize: DimensSizeV2.d12,
+                spacing: DimensSizeV2.d12,
                 children: [
                   SeparatedRow(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,

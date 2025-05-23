@@ -3,8 +3,6 @@ import 'dart:async';
 import 'package:app/core/error_handler_factory.dart';
 import 'package:app/core/wm/custom_wm.dart';
 import 'package:app/di/di.dart';
-import 'package:app/event_bus/events/navigation/bottom_navigation_events.dart';
-import 'package:app/event_bus/primary_bus.dart';
 import 'package:app/feature/browser_v2/custom_web_controller.dart';
 import 'package:app/feature/browser_v2/screens/main/browser_main_screen.dart';
 import 'package:app/feature/browser_v2/screens/main/browser_main_screen_model.dart';
@@ -62,7 +60,6 @@ class BrowserMainScreenWidgetModel
     onPageScrollChange: (bool isToTop) {
       Future(() {
         _menuState.accept(isToTop ? MenuType.view : MenuType.url);
-        _visibleNavigationBarState.accept(isToTop);
       });
     },
   );
@@ -74,8 +71,6 @@ class BrowserMainScreenWidgetModel
     model,
     context,
     renderManager: _renderManager,
-    onShowMenu: () => callWithDelay(() => _menuState.accept(null)),
-    onHideMenu: () => callWithDelay(() => _menuState.accept(MenuType.list)),
   );
 
   final _pastGoDelegate = BrowserPastGoDelegate();
@@ -119,8 +114,6 @@ class BrowserMainScreenWidgetModel
     NavigationUrlPhysicMode.none,
   );
 
-  late final _visibleNavigationBarState = createNotifier<bool>(true);
-
   BrowserPageSlideUi get pageSlider => _pageSlideDelegate;
 
   BrowserTabsUi get tabs => _tabsDelegate;
@@ -153,7 +146,6 @@ class BrowserMainScreenWidgetModel
   void initWidgetModel() {
     _menuState.addListener(_handleMenuState);
     _viewVisibleState.addListener(_handleViewVisibleState);
-    _visibleNavigationBarState.addListener(_handleVisibleNavigationBar);
 
     WidgetsBinding.instance.addPostFrameCallback((_) {
       final id = _tabsDelegate.activeTabId;
@@ -222,7 +214,6 @@ class BrowserMainScreenWidgetModel
 
   void onPressedViewUrlPanel() {
     _menuState.accept(MenuType.view);
-    _visibleNavigationBarState.accept(true);
   }
 
   void onPastGoPressed() => _pastGoDelegate.onPastGoPressed(
@@ -277,14 +268,6 @@ class BrowserMainScreenWidgetModel
 
   void _handleViewVisibleState() {
     _updatePastGo();
-  }
-
-  void _handleVisibleNavigationBar() {
-    primaryBus.fire(
-      _visibleNavigationBarState.value ?? true
-          ? RevertNavigationEvent()
-          : HideNavigationEvent(),
-    );
   }
 
   Future<bool> _scrollToTab(String id) async {

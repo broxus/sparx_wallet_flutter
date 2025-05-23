@@ -39,7 +39,7 @@ class TxTreeSimulationErrorWidget extends StatelessWidget {
       borderRadius: BorderRadius.circular(DimensRadiusV2.radius12),
       padding: const EdgeInsets.all(DimensSizeV2.d16),
       child: SeparatedColumn(
-        separatorSize: DimensSizeV2.d16,
+        spacing: DimensSizeV2.d16,
         mainAxisSize: MainAxisSize.min,
         children: [
           SeparatedRow(

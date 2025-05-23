@@ -1,9 +1,8 @@
 import 'package:app/app/service/bootstrap/bootstrap_steps.dart';
 import 'package:app/app/service/presets_connection/presets_connection_service.dart';
 import 'package:app/bootstrap/bootstrap.dart';
+import 'package:app/bootstrap/sentry.dart';
 import 'package:app/core/app_build_type.dart';
-import 'package:app/event_bus/events/bootstrap/bootstrap_event.dart';
-import 'package:app/event_bus/primary_bus.dart';
 import 'package:injectable/injectable.dart';
 import 'package:logging/logging.dart';
 import 'package:rxdart/rxdart.dart';
@@ -32,7 +31,7 @@ class BootstrapService {
   bool get isConfigured => bootstrapStep == BootstrapSteps.completed;
 
   // TODO(knightforce): refactoring
-  Future<void> init(AppBuildType appBuildType) async {
+  Future<bool> init(AppBuildType appBuildType) async {
     try {
       await _coreStep(appBuildType);
 
@@ -48,11 +47,14 @@ class BootstrapService {
       _bootstrapStepSubject.add(BootstrapSteps.features);
       await _featureStep();
 
+      SentryWorker.instance.configureScope();
+
       _bootstrapStepSubject.add(BootstrapSteps.completed);
-      primaryBus.fire(BootstrapCompleteEvent());
+
+      return true;
     } catch (e, t) {
       _log.severe('init', e, t);
-      primaryBus.fire(BootstrapErrorEvent());
+      return false;
     }
   }
 
@@ -103,7 +105,6 @@ class BootstrapService {
   }
 
   Future<void> _storageStep() async {
-    await configureNavigationService();
     await migrateStorage();
     await configureStorageServices();
     await configureNtpService();

@@ -31,11 +31,11 @@ class AccountDetailView extends StatelessWidget {
       padding: const EdgeInsets.symmetric(horizontal: DimensSizeV2.d16),
       child: SeparatedColumn(
         mainAxisSize: MainAxisSize.min,
-        separatorSize: DimensSizeV2.d16,
+        spacing: DimensSizeV2.d16,
         children: [
           SeparatedColumn(
             mainAxisSize: MainAxisSize.min,
-            separatorSize: DimensSizeV2.d4,
+            spacing: DimensSizeV2.d4,
             children: [
               Text(
                 LocaleKeys.accountWord.tr(),

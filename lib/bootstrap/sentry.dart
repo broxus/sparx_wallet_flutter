@@ -2,8 +2,6 @@ import 'dart:async';
 
 import 'package:app/app/service/service.dart';
 import 'package:app/core/app_build_type.dart';
-import 'package:app/event_bus/events/bootstrap/bootstrap_event.dart';
-import 'package:app/event_bus/primary_bus.dart';
 import 'package:app/utils/utils.dart';
 import 'package:collection/collection.dart';
 import 'package:logging/logging.dart';
@@ -48,12 +46,6 @@ class SentryWorker {
       return;
     }
 
-    unawaited(
-      primaryBus.on<BootstrapCompleteEvent>().first.then(
-            (_) => _configureScope(),
-          ),
-    );
-
     return SentryFlutter.init(
       (options) {
         options
@@ -79,7 +71,7 @@ class SentryWorker {
     Sentry.captureException(exception, stackTrace: stackTrace);
   }
 
-  void _configureScope() {
+  void configureScope() {
     if (_nekotonRepository == null || _generalStorageService == null) return;
 
     Rx.combineLatest3(

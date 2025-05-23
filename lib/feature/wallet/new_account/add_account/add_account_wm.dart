@@ -5,6 +5,8 @@ import 'package:app/di/di.dart';
 import 'package:app/feature/wallet/new_account/add_account/add_account_model.dart';
 import 'package:app/feature/wallet/new_account/add_account/add_account_view.dart';
 import 'package:app/feature/wallet/new_account/add_account_confirm/add_new_account_confirm_sheet.dart';
+import 'package:app/feature/wallet/new_account/screen/route.dart';
+import 'package:app/feature/wallet/new_account/select_seed/route.dart';
 import 'package:elementary_helper/elementary_helper.dart';
 import 'package:flutter/material.dart';
 import 'package:nekoton_repository/nekoton_repository.dart';
@@ -36,9 +38,7 @@ class AddAccountWidgetModel
 
   Future<void> onSelect() async {
     if ((list.value?.length ?? 0) > 1) {
-      contextSafe?.goFurther(
-        AppRoute.walletSelectSeed.path,
-      );
+      contextSafe?.compassContinue(const SelectSeedRouteData());
       return;
     }
 
@@ -49,11 +49,9 @@ class AddAccountWidgetModel
     }
 
     if (seed.masterKey.isLegacy) {
-      contextSafe!.goFurther(
-        AppRoute.walletNewAccount.pathWithData(
-          queryParameters: {
-            walletCreatePublicKeyQueryParam: seed.publicKey.publicKey,
-          },
+      contextSafe?.compassContinue(
+        NewAccountRouteData(
+          publicKey: seed.publicKey.publicKey,
         ),
       );
       return;
@@ -66,12 +64,10 @@ class AddAccountWidgetModel
     );
 
     if (contextSafe != null && result != null) {
-      contextSafe!.goFurther(
-        AppRoute.walletNewAccount.pathWithData(
-          queryParameters: {
-            walletCreatePublicKeyQueryParam: result.$1.publicKey,
-            walletCreatePasswordQueryParam: result.$2,
-          },
+      contextSafe?.compassContinue(
+        NewAccountRouteData(
+          publicKey: result.$1.publicKey,
+          password: result.$2,
         ),
       );
     }

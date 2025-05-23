@@ -1,5 +1,6 @@
-import 'package:app/app/router/app_route.dart';
+import 'package:app/app/router/router.dart';
 import 'package:app/feature/wallet/new_account/add_account/add_account_wm.dart';
+import 'package:app/feature/wallet/new_account/add_external_account/route.dart';
 import 'package:app/generated/generated.dart';
 import 'package:elementary/elementary.dart';
 import 'package:elementary_helper/elementary_helper.dart';
@@ -40,7 +41,7 @@ class AddAccountView extends ElementaryWidget<AddAccountWidgetModel> {
                       horizontal: DimensSizeV2.d16,
                     ),
                     child: SeparatedRow(
-                      separatorSize: DimensSizeV2.d12,
+                      spacing: DimensSizeV2.d12,
                       children: [
                         const Icon(LucideIcons.plus, size: DimensSizeV2.d20),
                         Expanded(
@@ -60,8 +61,8 @@ class AddAccountView extends ElementaryWidget<AddAccountWidgetModel> {
               ),
               GestureDetector(
                 onTap: () {
-                  context.goFurther(
-                    AppRoute.walletNewExternalAccount.path,
+                  context.compassContinue(
+                    const NewExternalAccountRouteData(),
                   );
                 },
                 child: SizedBox(
@@ -71,7 +72,7 @@ class AddAccountView extends ElementaryWidget<AddAccountWidgetModel> {
                       horizontal: DimensSizeV2.d16,
                     ),
                     child: SeparatedRow(
-                      separatorSize: DimensSizeV2.d12,
+                      spacing: DimensSizeV2.d12,
                       children: [
                         const Icon(
                           LucideIcons.import,

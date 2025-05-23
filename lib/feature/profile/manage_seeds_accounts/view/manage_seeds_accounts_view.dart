@@ -2,8 +2,10 @@
 
 import 'package:app/app/router/router.dart';
 import 'package:app/feature/profile/manage_seeds_accounts/manage_seeds_accounts.dart';
+import 'package:app/feature/profile/seed_detail/route.dart';
 import 'package:app/generated/generated.dart';
 import 'package:app/v1/feature/add_seed/enter_seed_name/enter_seed_name.dart';
+import 'package:app/v1/feature/add_seed/enter_seed_name/route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:lucide_icons_flutter/lucide_icons.dart';
@@ -27,7 +29,7 @@ class ManageSeedsAccountsView extends StatelessWidget {
             horizontal: DimensSize.d16,
           ),
           child: SeparatedColumn(
-            separatorSize: DimensSize.d16,
+            spacing: DimensSize.d16,
             children: [
               Padding(
                 padding: const EdgeInsets.symmetric(
@@ -80,20 +82,12 @@ class ManageSeedsAccountsView extends StatelessWidget {
     if (context.mounted && selected != null) {
       switch (selected) {
         case SelectAddSeedType.create:
-          context.goFurther(
-            AppRoute.enterSeedName.pathWithData(
-              pathParameters: {
-                enterSeedNameCommandPathParam: EnterSeedNameCommand.create.name,
-              },
-            ),
+          context.compassContinue(
+            const EnterSeedNameRouteData(command: EnterSeedNameCommand.create),
           );
         case SelectAddSeedType.import:
-          context.goFurther(
-            AppRoute.enterSeedName.pathWithData(
-              pathParameters: {
-                enterSeedNameCommandPathParam: EnterSeedNameCommand.import.name,
-              },
-            ),
+          context.compassContinue(
+            const EnterSeedNameRouteData(command: EnterSeedNameCommand.import),
           );
       }
     }
@@ -109,13 +103,13 @@ class ManageSeedsAccountsView extends StatelessWidget {
 
         return CommonListTile(
           padding: EdgeInsets.zero,
-          onPressed: () => context.goFurther(
-            AppRoute.seedDetail.pathWithData(
-              pathParameters: {
-                seedDetailPublicKeyPathParam: seed.publicKey.publicKey,
-              },
-            ),
-          ),
+          onPressed: () {
+            context.compassContinue(
+              SeedDetailRouteData(
+                publicKey: seed.publicKey,
+              ),
+            );
+          },
           leading: CommonBackgroundedIconWidget.svg(
             svg: Assets.images.sparxLogoSmall.path,
             backgroundColor: theme.colors.backgroundAlpha,

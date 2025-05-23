@@ -88,12 +88,10 @@ class TokenWalletSendModel extends ElementaryModel {
     required Address address,
     required UnsignedMessage message,
   }) =>
-      transport.networkType == 'ton'
-          ? Future<List<TxTreeSimulationErrorItem>>.value([])
-          : _nekotonRepository.simulateTransactionTree(
-              address: address,
-              message: message,
-            );
+      _nekotonRepository.simulateTransactionTree(
+        address: address,
+        message: message,
+      );
 
   Future<Future<Transaction>> sendMessage({
     required Address address,
