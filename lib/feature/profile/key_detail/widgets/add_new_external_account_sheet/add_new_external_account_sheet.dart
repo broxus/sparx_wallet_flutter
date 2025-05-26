@@ -74,7 +74,7 @@ class _AddNewExternalAccountSheetState
 
           return SeparatedColumn(
             mainAxisSize: MainAxisSize.min,
-            separatorSize: DimensSizeV2.d16,
+            spacing: DimensSizeV2.d16,
             children: [
               PrimaryTextField(
                 textEditingController: addressController,

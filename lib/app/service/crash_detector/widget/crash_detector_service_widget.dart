@@ -1,4 +1,4 @@
-import 'package:app/app/service/navigation/service/service.dart';
+import 'package:app/app/router/router.dart';
 import 'package:app/bootstrap/bootstrap.dart';
 import 'package:app/feature/contact_support/contact_support.dart';
 import 'package:flutter/widgets.dart';
@@ -40,7 +40,7 @@ class _CrashDetectorServiceWidgetState
       });
 
       // We can't use current context here because it's not contains Navigator
-      final ctx = NavigationService.navigatorKey.currentState?.context;
+      final ctx = CompassRouter.navigatorKey.currentState?.context;
       if (ctx == null) {
         return;
       }

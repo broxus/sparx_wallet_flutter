@@ -132,7 +132,7 @@ class _AccountInfo extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 SeparatedRow(
-                  separatorSize: DimensSizeV2.d2,
+                  spacing: DimensSizeV2.d2,
                   children: [
                     Text(
                       account.name,
@@ -168,7 +168,7 @@ class _AccountInfo extends StatelessWidget {
                     const SizedBox(width: DimensSizeV2.d8),
                     if (requiredConfirmations != null && custodians > 1)
                       SeparatedRow(
-                        separatorSize: DimensSizeV2.d4,
+                        spacing: DimensSizeV2.d4,
                         children: [
                           Icon(
                             LucideIcons.usersRound,

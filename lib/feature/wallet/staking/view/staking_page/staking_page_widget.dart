@@ -1,8 +1,7 @@
 import 'package:app/app/router/router.dart';
-import 'package:app/app/router/routs/wallet/ton_wallet_send_route_data.dart';
 import 'package:app/di/di.dart';
 import 'package:app/feature/wallet/staking/models/models.dart';
-import 'package:app/feature/wallet/staking/staking.dart';
+import 'package:app/feature/wallet/token_wallet_send/route.dart';
 import 'package:app/feature/wallet/wallet.dart';
 import 'package:app/generated/generated.dart';
 import 'package:elementary/elementary.dart';
@@ -181,8 +180,7 @@ class _ButtonWidget extends StatelessWidget {
             accountKey,
             attachedFee,
           ) {
-            inject<TonWalletSendRoute>().goFurther(
-              context,
+            context.compassContinue(
               TonWalletSendRouteData(
                 address: sender,
                 publicKey: accountKey,
@@ -207,24 +205,19 @@ class _ButtonWidget extends StatelessWidget {
             withdrawHours,
             stakingRootContractAddress,
           ) {
-            context.goFurther(
-              AppRoute.tokenWalletSend.pathWithData(
-                queryParameters: {
-                  tokenWalletSendOwnerQueryParam: sender.address,
-                  tokenWalletSendContractQueryParam:
-                      stakingRootContractAddress.address,
-                  tokenWalletSendPublicKeyQueryParam: accountKey.publicKey,
-                  tokenWalletSendCommentQueryParam: payload,
-                  tokenWalletSendDestinationQueryParam: destination.address,
-                  tokenWalletSendAmountQueryParam: amount.toString(),
-                  tokenWalletSendAttachedAmountQueryParam:
-                      attachedFee.toString(),
-                  tokenWalletSendResultMessageQueryParam:
-                      LocaleKeys.withdrawHoursProgress.tr(
-                    args: [wm.currency.symbol, withdrawHours.toString()],
-                  ),
-                  tokenWalletSendNotifyReceiverQueryParam: 'true',
-                },
+            context.compassContinue(
+              TokenWalletSendRouteData(
+                owner: sender,
+                rootTokenContract: stakingRootContractAddress,
+                publicKey: accountKey,
+                comment: payload,
+                destination: destination,
+                amount: amount,
+                attachedAmount: attachedFee,
+                resultMessage: LocaleKeys.withdrawHoursProgress.tr(
+                  args: [wm.currency.symbol, withdrawHours.toString()],
+                ),
+                notifyReceiver: true,
               ),
             );
           },

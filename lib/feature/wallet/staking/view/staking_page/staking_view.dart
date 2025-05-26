@@ -35,7 +35,7 @@ class StakingView extends StatelessWidget {
     final theme = context.themeStyleV2;
 
     return SeparatedColumn(
-      separatorSize: DimensSizeV2.d16,
+      spacing: DimensSizeV2.d16,
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         SingleChildScrollView(
@@ -113,7 +113,7 @@ class StakingView extends StatelessWidget {
 
     return SeparatedColumn(
       crossAxisAlignment: CrossAxisAlignment.start,
-      separatorSize: DimensSizeV2.d4,
+      spacing: DimensSizeV2.d4,
       children: [
         AmountInput(
           controller: inputController,
@@ -178,7 +178,7 @@ class _InfoField extends StatelessWidget {
       borderRadius: BorderRadius.circular(DimensRadiusV2.radius16),
       // color: color,
       child: SeparatedColumn(
-        separatorSize: DimensSizeV2.d16,
+        spacing: DimensSizeV2.d16,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           _InfoRow(

@@ -58,7 +58,7 @@ class _BrowserEnterBasicAuthCredsSheetState
     return SingleChildScrollView(
       controller: widget.controller,
       child: SeparatedColumn(
-        separatorSize: DimensSizeV2.d24,
+        spacing: DimensSizeV2.d24,
         children: [
           Text(
             LocaleKeys.browserEnterBasicAuthDescription.tr(

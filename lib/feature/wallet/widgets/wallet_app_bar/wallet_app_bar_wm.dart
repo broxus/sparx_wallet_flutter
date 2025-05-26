@@ -6,6 +6,7 @@ import 'package:app/di/di.dart';
 import 'package:app/feature/network/bottom_sheets/bottom_sheets.dart';
 import 'package:app/feature/qr_scanner/qr_scanner.dart';
 import 'package:app/feature/wallet/wallet.dart';
+import 'package:app/feature/wallet/wallet_prepare_transfer/route.dart';
 import 'package:app/feature/wallet/widgets/account_settings/account_settings.dart';
 import 'package:app/feature/wallet/widgets/wallet_app_bar/wallet_app_bar_model.dart';
 import 'package:elementary_helper/elementary_helper.dart';
@@ -75,14 +76,10 @@ class WalletAppBarWidgetModel
     final account = currentAccount.value;
     if (account == null) return;
 
-    context.goFurther(
-      AppRoute.walletPrepareTransfer.pathWithData(
-        pathParameters: {
-          walletPrepareTransferAddressPathParam: account.address.address,
-        },
-        queryParameters: {
-          walletPrepareTransferDestinationQueryParam: address.address,
-        },
+    context.compassContinue(
+      WalletPrepareTransferRouteData(
+        address: account.address,
+        destination: address,
       ),
     );
   }

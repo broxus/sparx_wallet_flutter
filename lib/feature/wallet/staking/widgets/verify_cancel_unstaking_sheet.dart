@@ -34,7 +34,7 @@ class VerifyCancelUnstakingSheet extends StatelessWidget {
     final theme = context.themeStyleV2;
 
     return SeparatedColumn(
-      separatorSize: DimensSizeV2.d24,
+      spacing: DimensSizeV2.d24,
       mainAxisSize: MainAxisSize.min,
       children: [
         Text(

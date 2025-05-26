@@ -42,7 +42,7 @@ class AccountInfo extends StatelessWidget {
         ),
         Flexible(
           child: SeparatedColumn(
-            separatorSize: DimensSizeV2.d4,
+            spacing: DimensSizeV2.d4,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
