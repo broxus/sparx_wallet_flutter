@@ -27,7 +27,7 @@ class BarcodeAddress extends StatelessWidget {
     return ShapedContainerColumn(
       mainAxisSize: MainAxisSize.min,
       crossAxisAlignment: CrossAxisAlignment.center,
-      separatorSize: 0,
+      spacing: 0,
       margin: EdgeInsets.zero,
       padding: const EdgeInsets.symmetric(
         horizontal: DimensSizeV2.d32,

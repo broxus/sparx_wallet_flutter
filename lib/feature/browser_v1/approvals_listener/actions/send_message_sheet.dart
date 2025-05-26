@@ -15,6 +15,8 @@ Future<(PublicKey, String)?> showSendMessageSheet({
   required bool bounce,
   required FunctionCall? payload,
   required KnownPayload? knownPayload,
+  List<IgnoreTransactionTreeSimulationError>? ignoredComputePhaseCodes,
+  List<IgnoreTransactionTreeSimulationError>? ignoredActionPhaseCodes,
 }) {
   return showCommonBottomSheet(
     context: context,
@@ -28,6 +30,8 @@ Future<(PublicKey, String)?> showSendMessageSheet({
       bounce: bounce,
       payload: payload,
       knownPayload: knownPayload,
+      ignoredComputePhaseCodes: ignoredComputePhaseCodes,
+      ignoredActionPhaseCodes: ignoredActionPhaseCodes,
       scrollController: controller,
     ),
   );

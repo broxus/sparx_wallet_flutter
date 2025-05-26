@@ -31,7 +31,7 @@ class TCSendMessageWidget extends ElementaryWidget<TCSendMessageWidgetModel> {
     final theme = wm.theme;
 
     return SeparatedColumn(
-      separatorSize: DimensSizeV2.d12,
+      spacing: DimensSizeV2.d12,
       mainAxisSize: MainAxisSize.min,
       children: [
         Expanded(

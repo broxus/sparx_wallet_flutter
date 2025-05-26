@@ -18,7 +18,7 @@ class ConfigureNetworksWidget
   @override
   Widget build(ConfigureNetworksWidgetModel wm) {
     return SeparatedColumn(
-      separatorSize: DimensSizeV2.d16,
+      spacing: DimensSizeV2.d16,
       children: [
         StateNotifierBuilder(
           listenableState: wm.connections,

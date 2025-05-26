@@ -1,4 +1,5 @@
 import 'package:app/feature/choose_network/data/choose_network_item_data.dart';
+import 'package:app/utils/common_utils.dart';
 import 'package:app/widgets/network_vector_icon.dart';
 import 'package:flutter/material.dart';
 import 'package:lucide_icons_flutter/lucide_icons.dart';
@@ -9,17 +10,19 @@ class ChooseNetworkItem extends StatelessWidget {
     this.data, {
     required this.onPressed,
     required this.isLoading,
+    required this.isDisabled,
     super.key,
   });
 
   final ChooseNetworkItemData data;
   final bool isLoading;
+  final bool isDisabled;
   final ValueChanged<String> onPressed;
 
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: () => onPressed(data.id),
+      onTap: _onNetworkPressed.takeIf((_) => !isDisabled),
       child: PrimaryCard(
         borderRadius: BorderRadius.circular(DimensSizeV2.d12),
         child: Row(
@@ -56,6 +59,10 @@ class ChooseNetworkItem extends StatelessWidget {
         ),
       ),
     );
+  }
+
+  void _onNetworkPressed() {
+    onPressed(data.id);
   }
 }
 

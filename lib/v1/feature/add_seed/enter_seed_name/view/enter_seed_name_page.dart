@@ -1,4 +1,6 @@
 import 'package:app/app/router/router.dart';
+import 'package:app/feature/add_seed/enter_seed_phrase/route.dart';
+import 'package:app/v1/feature/add_seed/create_seed/route.dart';
 import 'package:app/v1/feature/add_seed/enter_seed_name/view/enter_seed_name_view.dart';
 import 'package:flutter/material.dart';
 import 'package:ui_components_lib/ui_components_lib.dart';
@@ -24,11 +26,11 @@ enum EnterSeedNameCommand {
 class EnterSeedNamePage extends StatelessWidget {
   /// {@macro enter_seed_name_create_page}
   const EnterSeedNamePage({
-    required this.commandName,
+    required this.command,
     super.key,
   });
 
-  final String? commandName;
+  final EnterSeedNameCommand command;
 
   @override
   Widget build(BuildContext context) {
@@ -40,26 +42,21 @@ class EnterSeedNamePage extends StatelessWidget {
         body: EnterSeedNameView(
           // ignore: prefer-extracting-callbacks
           callback: (name) {
-            final command = EnterSeedNameCommand.getByName(commandName);
-
-            final path = switch (command) {
-              EnterSeedNameCommand.import => name == null
-                  ? AppRoute.enterSeed.path
-                  : AppRoute.enterSeedNamed.pathWithData(
-                      pathParameters: {
-                        enterSeedNameNamePathParam: name,
-                      },
-                    ),
-              EnterSeedNameCommand.create => name == null
-                  ? AppRoute.createSeed.path
-                  : AppRoute.createSeedNamed.pathWithData(
-                      pathParameters: {
-                        enterSeedNameNamePathParam: name,
-                      },
-                    ),
-            };
-
-            context.goFurther(path);
+            switch (command) {
+              case EnterSeedNameCommand.import:
+                context.compassContinue(
+                  EnterSeedPhraseRouteData(
+                    isOnboarding: false,
+                    seedName: name,
+                  ),
+                );
+              case EnterSeedNameCommand.create:
+                context.compassContinue(
+                  CreateSeedRouteData(
+                    seedName: name,
+                  ),
+                );
+            }
           },
         ),
       ),

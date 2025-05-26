@@ -58,6 +58,9 @@ mixin _$ApprovalRequest {
             bool bounce,
             FunctionCall? payload,
             KnownPayload? knownPayload,
+            List<IgnoreTransactionTreeSimulationError>?
+                ignoredComputePhaseCodes,
+            List<IgnoreTransactionTreeSimulationError>? ignoredActionPhaseCodes,
             Completer<(PublicKey, String)> completer)
         sendMessage,
     required TResult Function(
@@ -107,6 +110,9 @@ mixin _$ApprovalRequest {
             bool bounce,
             FunctionCall? payload,
             KnownPayload? knownPayload,
+            List<IgnoreTransactionTreeSimulationError>?
+                ignoredComputePhaseCodes,
+            List<IgnoreTransactionTreeSimulationError>? ignoredActionPhaseCodes,
             Completer<(PublicKey, String)> completer)?
         sendMessage,
     TResult? Function(
@@ -156,6 +162,9 @@ mixin _$ApprovalRequest {
             bool bounce,
             FunctionCall? payload,
             KnownPayload? knownPayload,
+            List<IgnoreTransactionTreeSimulationError>?
+                ignoredComputePhaseCodes,
+            List<IgnoreTransactionTreeSimulationError>? ignoredActionPhaseCodes,
             Completer<(PublicKey, String)> completer)?
         sendMessage,
     TResult Function(
@@ -397,6 +406,9 @@ class _$RequestPermissionsImpl implements _RequestPermissions {
             bool bounce,
             FunctionCall? payload,
             KnownPayload? knownPayload,
+            List<IgnoreTransactionTreeSimulationError>?
+                ignoredComputePhaseCodes,
+            List<IgnoreTransactionTreeSimulationError>? ignoredActionPhaseCodes,
             Completer<(PublicKey, String)> completer)
         sendMessage,
     required TResult Function(
@@ -449,6 +461,9 @@ class _$RequestPermissionsImpl implements _RequestPermissions {
             bool bounce,
             FunctionCall? payload,
             KnownPayload? knownPayload,
+            List<IgnoreTransactionTreeSimulationError>?
+                ignoredComputePhaseCodes,
+            List<IgnoreTransactionTreeSimulationError>? ignoredActionPhaseCodes,
             Completer<(PublicKey, String)> completer)?
         sendMessage,
     TResult? Function(
@@ -501,6 +516,9 @@ class _$RequestPermissionsImpl implements _RequestPermissions {
             bool bounce,
             FunctionCall? payload,
             KnownPayload? knownPayload,
+            List<IgnoreTransactionTreeSimulationError>?
+                ignoredComputePhaseCodes,
+            List<IgnoreTransactionTreeSimulationError>? ignoredActionPhaseCodes,
             Completer<(PublicKey, String)> completer)?
         sendMessage,
     TResult Function(
@@ -769,6 +787,9 @@ class _$ChangeAccountImpl implements _ChangeAccount {
             bool bounce,
             FunctionCall? payload,
             KnownPayload? knownPayload,
+            List<IgnoreTransactionTreeSimulationError>?
+                ignoredComputePhaseCodes,
+            List<IgnoreTransactionTreeSimulationError>? ignoredActionPhaseCodes,
             Completer<(PublicKey, String)> completer)
         sendMessage,
     required TResult Function(
@@ -822,6 +843,9 @@ class _$ChangeAccountImpl implements _ChangeAccount {
             bool bounce,
             FunctionCall? payload,
             KnownPayload? knownPayload,
+            List<IgnoreTransactionTreeSimulationError>?
+                ignoredComputePhaseCodes,
+            List<IgnoreTransactionTreeSimulationError>? ignoredActionPhaseCodes,
             Completer<(PublicKey, String)> completer)?
         sendMessage,
     TResult? Function(
@@ -875,6 +899,9 @@ class _$ChangeAccountImpl implements _ChangeAccount {
             bool bounce,
             FunctionCall? payload,
             KnownPayload? knownPayload,
+            List<IgnoreTransactionTreeSimulationError>?
+                ignoredComputePhaseCodes,
+            List<IgnoreTransactionTreeSimulationError>? ignoredActionPhaseCodes,
             Completer<(PublicKey, String)> completer)?
         sendMessage,
     TResult Function(
@@ -1138,6 +1165,9 @@ class _$AddTip3TokenImpl implements _AddTip3Token {
             bool bounce,
             FunctionCall? payload,
             KnownPayload? knownPayload,
+            List<IgnoreTransactionTreeSimulationError>?
+                ignoredComputePhaseCodes,
+            List<IgnoreTransactionTreeSimulationError>? ignoredActionPhaseCodes,
             Completer<(PublicKey, String)> completer)
         sendMessage,
     required TResult Function(
@@ -1190,6 +1220,9 @@ class _$AddTip3TokenImpl implements _AddTip3Token {
             bool bounce,
             FunctionCall? payload,
             KnownPayload? knownPayload,
+            List<IgnoreTransactionTreeSimulationError>?
+                ignoredComputePhaseCodes,
+            List<IgnoreTransactionTreeSimulationError>? ignoredActionPhaseCodes,
             Completer<(PublicKey, String)> completer)?
         sendMessage,
     TResult? Function(
@@ -1242,6 +1275,9 @@ class _$AddTip3TokenImpl implements _AddTip3Token {
             bool bounce,
             FunctionCall? payload,
             KnownPayload? knownPayload,
+            List<IgnoreTransactionTreeSimulationError>?
+                ignoredComputePhaseCodes,
+            List<IgnoreTransactionTreeSimulationError>? ignoredActionPhaseCodes,
             Completer<(PublicKey, String)> completer)?
         sendMessage,
     TResult Function(
@@ -1515,6 +1551,9 @@ class _$SignDataImpl implements _SignData {
             bool bounce,
             FunctionCall? payload,
             KnownPayload? knownPayload,
+            List<IgnoreTransactionTreeSimulationError>?
+                ignoredComputePhaseCodes,
+            List<IgnoreTransactionTreeSimulationError>? ignoredActionPhaseCodes,
             Completer<(PublicKey, String)> completer)
         sendMessage,
     required TResult Function(
@@ -1567,6 +1606,9 @@ class _$SignDataImpl implements _SignData {
             bool bounce,
             FunctionCall? payload,
             KnownPayload? knownPayload,
+            List<IgnoreTransactionTreeSimulationError>?
+                ignoredComputePhaseCodes,
+            List<IgnoreTransactionTreeSimulationError>? ignoredActionPhaseCodes,
             Completer<(PublicKey, String)> completer)?
         sendMessage,
     TResult? Function(
@@ -1619,6 +1661,9 @@ class _$SignDataImpl implements _SignData {
             bool bounce,
             FunctionCall? payload,
             KnownPayload? knownPayload,
+            List<IgnoreTransactionTreeSimulationError>?
+                ignoredComputePhaseCodes,
+            List<IgnoreTransactionTreeSimulationError>? ignoredActionPhaseCodes,
             Completer<(PublicKey, String)> completer)?
         sendMessage,
     TResult Function(
@@ -1894,6 +1939,9 @@ class _$EncryptDataImpl implements _EncryptData {
             bool bounce,
             FunctionCall? payload,
             KnownPayload? knownPayload,
+            List<IgnoreTransactionTreeSimulationError>?
+                ignoredComputePhaseCodes,
+            List<IgnoreTransactionTreeSimulationError>? ignoredActionPhaseCodes,
             Completer<(PublicKey, String)> completer)
         sendMessage,
     required TResult Function(
@@ -1946,6 +1994,9 @@ class _$EncryptDataImpl implements _EncryptData {
             bool bounce,
             FunctionCall? payload,
             KnownPayload? knownPayload,
+            List<IgnoreTransactionTreeSimulationError>?
+                ignoredComputePhaseCodes,
+            List<IgnoreTransactionTreeSimulationError>? ignoredActionPhaseCodes,
             Completer<(PublicKey, String)> completer)?
         sendMessage,
     TResult? Function(
@@ -1998,6 +2049,9 @@ class _$EncryptDataImpl implements _EncryptData {
             bool bounce,
             FunctionCall? payload,
             KnownPayload? knownPayload,
+            List<IgnoreTransactionTreeSimulationError>?
+                ignoredComputePhaseCodes,
+            List<IgnoreTransactionTreeSimulationError>? ignoredActionPhaseCodes,
             Completer<(PublicKey, String)> completer)?
         sendMessage,
     TResult Function(
@@ -2285,6 +2339,9 @@ class _$DecryptDataImpl implements _DecryptData {
             bool bounce,
             FunctionCall? payload,
             KnownPayload? knownPayload,
+            List<IgnoreTransactionTreeSimulationError>?
+                ignoredComputePhaseCodes,
+            List<IgnoreTransactionTreeSimulationError>? ignoredActionPhaseCodes,
             Completer<(PublicKey, String)> completer)
         sendMessage,
     required TResult Function(
@@ -2338,6 +2395,9 @@ class _$DecryptDataImpl implements _DecryptData {
             bool bounce,
             FunctionCall? payload,
             KnownPayload? knownPayload,
+            List<IgnoreTransactionTreeSimulationError>?
+                ignoredComputePhaseCodes,
+            List<IgnoreTransactionTreeSimulationError>? ignoredActionPhaseCodes,
             Completer<(PublicKey, String)> completer)?
         sendMessage,
     TResult? Function(
@@ -2391,6 +2451,9 @@ class _$DecryptDataImpl implements _DecryptData {
             bool bounce,
             FunctionCall? payload,
             KnownPayload? knownPayload,
+            List<IgnoreTransactionTreeSimulationError>?
+                ignoredComputePhaseCodes,
+            List<IgnoreTransactionTreeSimulationError>? ignoredActionPhaseCodes,
             Completer<(PublicKey, String)> completer)?
         sendMessage,
     TResult Function(
@@ -2701,6 +2764,9 @@ class _$CallContractMethodImpl implements _CallContractMethod {
             bool bounce,
             FunctionCall? payload,
             KnownPayload? knownPayload,
+            List<IgnoreTransactionTreeSimulationError>?
+                ignoredComputePhaseCodes,
+            List<IgnoreTransactionTreeSimulationError>? ignoredActionPhaseCodes,
             Completer<(PublicKey, String)> completer)
         sendMessage,
     required TResult Function(
@@ -2754,6 +2820,9 @@ class _$CallContractMethodImpl implements _CallContractMethod {
             bool bounce,
             FunctionCall? payload,
             KnownPayload? knownPayload,
+            List<IgnoreTransactionTreeSimulationError>?
+                ignoredComputePhaseCodes,
+            List<IgnoreTransactionTreeSimulationError>? ignoredActionPhaseCodes,
             Completer<(PublicKey, String)> completer)?
         sendMessage,
     TResult? Function(
@@ -2807,6 +2876,9 @@ class _$CallContractMethodImpl implements _CallContractMethod {
             bool bounce,
             FunctionCall? payload,
             KnownPayload? knownPayload,
+            List<IgnoreTransactionTreeSimulationError>?
+                ignoredComputePhaseCodes,
+            List<IgnoreTransactionTreeSimulationError>? ignoredActionPhaseCodes,
             Completer<(PublicKey, String)> completer)?
         sendMessage,
     TResult Function(
@@ -2925,6 +2997,8 @@ abstract class _$$SendMessageImplCopyWith<$Res>
       bool bounce,
       FunctionCall? payload,
       KnownPayload? knownPayload,
+      List<IgnoreTransactionTreeSimulationError>? ignoredComputePhaseCodes,
+      List<IgnoreTransactionTreeSimulationError>? ignoredActionPhaseCodes,
       Completer<(PublicKey, String)> completer});
 
   $AddressCopyWith<$Res> get sender;
@@ -2953,6 +3027,8 @@ class __$$SendMessageImplCopyWithImpl<$Res>
     Object? bounce = null,
     Object? payload = freezed,
     Object? knownPayload = freezed,
+    Object? ignoredComputePhaseCodes = freezed,
+    Object? ignoredActionPhaseCodes = freezed,
     Object? completer = null,
   }) {
     return _then(_$SendMessageImpl(
@@ -2984,6 +3060,14 @@ class __$$SendMessageImplCopyWithImpl<$Res>
           ? _value.knownPayload
           : knownPayload // ignore: cast_nullable_to_non_nullable
               as KnownPayload?,
+      ignoredComputePhaseCodes: freezed == ignoredComputePhaseCodes
+          ? _value._ignoredComputePhaseCodes
+          : ignoredComputePhaseCodes // ignore: cast_nullable_to_non_nullable
+              as List<IgnoreTransactionTreeSimulationError>?,
+      ignoredActionPhaseCodes: freezed == ignoredActionPhaseCodes
+          ? _value._ignoredActionPhaseCodes
+          : ignoredActionPhaseCodes // ignore: cast_nullable_to_non_nullable
+              as List<IgnoreTransactionTreeSimulationError>?,
       completer: null == completer
           ? _value.completer
           : completer // ignore: cast_nullable_to_non_nullable
@@ -3051,7 +3135,13 @@ class _$SendMessageImpl implements _SendMessage {
       required this.bounce,
       required this.payload,
       required this.knownPayload,
-      required this.completer});
+      required final List<IgnoreTransactionTreeSimulationError>?
+          ignoredComputePhaseCodes,
+      required final List<IgnoreTransactionTreeSimulationError>?
+          ignoredActionPhaseCodes,
+      required this.completer})
+      : _ignoredComputePhaseCodes = ignoredComputePhaseCodes,
+        _ignoredActionPhaseCodes = ignoredActionPhaseCodes;
 
   @override
   final Uri origin;
@@ -3068,12 +3158,34 @@ class _$SendMessageImpl implements _SendMessage {
   final FunctionCall? payload;
   @override
   final KnownPayload? knownPayload;
+  final List<IgnoreTransactionTreeSimulationError>? _ignoredComputePhaseCodes;
+  @override
+  List<IgnoreTransactionTreeSimulationError>? get ignoredComputePhaseCodes {
+    final value = _ignoredComputePhaseCodes;
+    if (value == null) return null;
+    if (_ignoredComputePhaseCodes is EqualUnmodifiableListView)
+      return _ignoredComputePhaseCodes;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(value);
+  }
+
+  final List<IgnoreTransactionTreeSimulationError>? _ignoredActionPhaseCodes;
+  @override
+  List<IgnoreTransactionTreeSimulationError>? get ignoredActionPhaseCodes {
+    final value = _ignoredActionPhaseCodes;
+    if (value == null) return null;
+    if (_ignoredActionPhaseCodes is EqualUnmodifiableListView)
+      return _ignoredActionPhaseCodes;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(value);
+  }
+
   @override
   final Completer<(PublicKey, String)> completer;
 
   @override
   String toString() {
-    return 'ApprovalRequest.sendMessage(origin: $origin, sender: $sender, recipient: $recipient, amount: $amount, bounce: $bounce, payload: $payload, knownPayload: $knownPayload, completer: $completer)';
+    return 'ApprovalRequest.sendMessage(origin: $origin, sender: $sender, recipient: $recipient, amount: $amount, bounce: $bounce, payload: $payload, knownPayload: $knownPayload, ignoredComputePhaseCodes: $ignoredComputePhaseCodes, ignoredActionPhaseCodes: $ignoredActionPhaseCodes, completer: $completer)';
   }
 
   @override
@@ -3090,13 +3202,27 @@ class _$SendMessageImpl implements _SendMessage {
             (identical(other.payload, payload) || other.payload == payload) &&
             (identical(other.knownPayload, knownPayload) ||
                 other.knownPayload == knownPayload) &&
+            const DeepCollectionEquality().equals(
+                other._ignoredComputePhaseCodes, _ignoredComputePhaseCodes) &&
+            const DeepCollectionEquality().equals(
+                other._ignoredActionPhaseCodes, _ignoredActionPhaseCodes) &&
             (identical(other.completer, completer) ||
                 other.completer == completer));
   }
 
   @override
-  int get hashCode => Object.hash(runtimeType, origin, sender, recipient,
-      amount, bounce, payload, knownPayload, completer);
+  int get hashCode => Object.hash(
+      runtimeType,
+      origin,
+      sender,
+      recipient,
+      amount,
+      bounce,
+      payload,
+      knownPayload,
+      const DeepCollectionEquality().hash(_ignoredComputePhaseCodes),
+      const DeepCollectionEquality().hash(_ignoredActionPhaseCodes),
+      completer);
 
   /// Create a copy of ApprovalRequest
   /// with the given fields replaced by the non-null parameter values.
@@ -3147,6 +3273,9 @@ class _$SendMessageImpl implements _SendMessage {
             bool bounce,
             FunctionCall? payload,
             KnownPayload? knownPayload,
+            List<IgnoreTransactionTreeSimulationError>?
+                ignoredComputePhaseCodes,
+            List<IgnoreTransactionTreeSimulationError>? ignoredActionPhaseCodes,
             Completer<(PublicKey, String)> completer)
         sendMessage,
     required TResult Function(
@@ -3159,8 +3288,17 @@ class _$SendMessageImpl implements _SendMessage {
             bool switchNetwork, Completer<Network?> completer)
         addNetwork,
   }) {
-    return sendMessage(origin, sender, recipient, amount, bounce, payload,
-        knownPayload, completer);
+    return sendMessage(
+        origin,
+        sender,
+        recipient,
+        amount,
+        bounce,
+        payload,
+        knownPayload,
+        ignoredComputePhaseCodes,
+        ignoredActionPhaseCodes,
+        completer);
   }
 
   @override
@@ -3200,6 +3338,9 @@ class _$SendMessageImpl implements _SendMessage {
             bool bounce,
             FunctionCall? payload,
             KnownPayload? knownPayload,
+            List<IgnoreTransactionTreeSimulationError>?
+                ignoredComputePhaseCodes,
+            List<IgnoreTransactionTreeSimulationError>? ignoredActionPhaseCodes,
             Completer<(PublicKey, String)> completer)?
         sendMessage,
     TResult? Function(
@@ -3212,8 +3353,17 @@ class _$SendMessageImpl implements _SendMessage {
             Completer<Network?> completer)?
         addNetwork,
   }) {
-    return sendMessage?.call(origin, sender, recipient, amount, bounce, payload,
-        knownPayload, completer);
+    return sendMessage?.call(
+        origin,
+        sender,
+        recipient,
+        amount,
+        bounce,
+        payload,
+        knownPayload,
+        ignoredComputePhaseCodes,
+        ignoredActionPhaseCodes,
+        completer);
   }
 
   @override
@@ -3253,6 +3403,9 @@ class _$SendMessageImpl implements _SendMessage {
             bool bounce,
             FunctionCall? payload,
             KnownPayload? knownPayload,
+            List<IgnoreTransactionTreeSimulationError>?
+                ignoredComputePhaseCodes,
+            List<IgnoreTransactionTreeSimulationError>? ignoredActionPhaseCodes,
             Completer<(PublicKey, String)> completer)?
         sendMessage,
     TResult Function(
@@ -3267,8 +3420,17 @@ class _$SendMessageImpl implements _SendMessage {
     required TResult orElse(),
   }) {
     if (sendMessage != null) {
-      return sendMessage(origin, sender, recipient, amount, bounce, payload,
-          knownPayload, completer);
+      return sendMessage(
+          origin,
+          sender,
+          recipient,
+          amount,
+          bounce,
+          payload,
+          knownPayload,
+          ignoredComputePhaseCodes,
+          ignoredActionPhaseCodes,
+          completer);
     }
     return orElse();
   }
@@ -3338,6 +3500,10 @@ abstract class _SendMessage implements ApprovalRequest {
           required final bool bounce,
           required final FunctionCall? payload,
           required final KnownPayload? knownPayload,
+          required final List<IgnoreTransactionTreeSimulationError>?
+              ignoredComputePhaseCodes,
+          required final List<IgnoreTransactionTreeSimulationError>?
+              ignoredActionPhaseCodes,
           required final Completer<(PublicKey, String)> completer}) =
       _$SendMessageImpl;
 
@@ -3350,6 +3516,8 @@ abstract class _SendMessage implements ApprovalRequest {
   bool get bounce;
   FunctionCall? get payload;
   KnownPayload? get knownPayload;
+  List<IgnoreTransactionTreeSimulationError>? get ignoredComputePhaseCodes;
+  List<IgnoreTransactionTreeSimulationError>? get ignoredActionPhaseCodes;
   @override
   Completer<(PublicKey, String)> get completer;
 
@@ -3512,6 +3680,9 @@ class _$ChangeNetworkImpl implements _ChangeNetwork {
             bool bounce,
             FunctionCall? payload,
             KnownPayload? knownPayload,
+            List<IgnoreTransactionTreeSimulationError>?
+                ignoredComputePhaseCodes,
+            List<IgnoreTransactionTreeSimulationError>? ignoredActionPhaseCodes,
             Completer<(PublicKey, String)> completer)
         sendMessage,
     required TResult Function(
@@ -3564,6 +3735,9 @@ class _$ChangeNetworkImpl implements _ChangeNetwork {
             bool bounce,
             FunctionCall? payload,
             KnownPayload? knownPayload,
+            List<IgnoreTransactionTreeSimulationError>?
+                ignoredComputePhaseCodes,
+            List<IgnoreTransactionTreeSimulationError>? ignoredActionPhaseCodes,
             Completer<(PublicKey, String)> completer)?
         sendMessage,
     TResult? Function(
@@ -3616,6 +3790,9 @@ class _$ChangeNetworkImpl implements _ChangeNetwork {
             bool bounce,
             FunctionCall? payload,
             KnownPayload? knownPayload,
+            List<IgnoreTransactionTreeSimulationError>?
+                ignoredComputePhaseCodes,
+            List<IgnoreTransactionTreeSimulationError>? ignoredActionPhaseCodes,
             Completer<(PublicKey, String)> completer)?
         sendMessage,
     TResult Function(
@@ -3857,6 +4034,9 @@ class _$AddNetworkImpl implements _AddNetwork {
             bool bounce,
             FunctionCall? payload,
             KnownPayload? knownPayload,
+            List<IgnoreTransactionTreeSimulationError>?
+                ignoredComputePhaseCodes,
+            List<IgnoreTransactionTreeSimulationError>? ignoredActionPhaseCodes,
             Completer<(PublicKey, String)> completer)
         sendMessage,
     required TResult Function(
@@ -3909,6 +4089,9 @@ class _$AddNetworkImpl implements _AddNetwork {
             bool bounce,
             FunctionCall? payload,
             KnownPayload? knownPayload,
+            List<IgnoreTransactionTreeSimulationError>?
+                ignoredComputePhaseCodes,
+            List<IgnoreTransactionTreeSimulationError>? ignoredActionPhaseCodes,
             Completer<(PublicKey, String)> completer)?
         sendMessage,
     TResult? Function(
@@ -3961,6 +4144,9 @@ class _$AddNetworkImpl implements _AddNetwork {
             bool bounce,
             FunctionCall? payload,
             KnownPayload? knownPayload,
+            List<IgnoreTransactionTreeSimulationError>?
+                ignoredComputePhaseCodes,
+            List<IgnoreTransactionTreeSimulationError>? ignoredActionPhaseCodes,
             Completer<(PublicKey, String)> completer)?
         sendMessage,
     TResult Function(
