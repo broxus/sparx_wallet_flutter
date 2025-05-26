@@ -1,22 +1,19 @@
 import 'dart:collection';
 
-import 'package:app/feature/browser_v2/data/browser_collection.dart';
 import 'package:app/feature/browser_v2/data/tabs/browser_tab.dart';
 
 typedef ImageCache = HashMap<String, String>;
 
-class BrowserTabsCollection extends BrowserCollection<BrowserTab> {
-  BrowserTabsCollection.empty();
+extension BrowserTabsCollectionExtension on List<BrowserTab> {
+  BrowserTab? get lastTab => lastOrNull;
 
-  BrowserTabsCollection.fromList(List<BrowserTab> super.list);
+  String get countText => length.toString();
 
-  BrowserTab? get lastTab => list.lastOrNull;
-
-  int getIndexById(String id) => list.indexWhere((item) => item.id == id);
+  int getIndexById(String id) => indexWhere((item) => item.id == id);
 
   String? getIdByIndex(int index) {
     try {
-      return list[index].id;
+      return this[index].id;
     } catch (_) {
       return null;
     }

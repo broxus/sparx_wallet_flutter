@@ -1,23 +1,27 @@
-import 'package:app/feature/browser_v2/data/groups/browser_group.dart';
 import 'package:app/feature/browser_v2/data/tabs/browser_tab.dart';
-import 'package:app/feature/browser_v2/data/tabs/tabs_data.dart';
 import 'package:app/feature/browser_v2/screens/main/browser_main_screen_model.dart';
 import 'package:app/feature/browser_v2/screens/main/data/browser_render_manager.dart';
 import 'package:app/feature/browser_v2/screens/main/widgets/tab_animated_view/tab_animation_type.dart';
 import 'package:app/feature/browser_v2/widgets/bottomsheets/clear_tabs_bottom_sheet.dart';
+import 'package:app/utils/common_utils.dart';
 import 'package:elementary_helper/elementary_helper.dart';
 import 'package:flutter/cupertino.dart';
 
 abstract interface class BrowserTabsAndGroupsUi {
-  ListenableState<BrowserTabsCollection?> get tabsState;
+  ListenableState<List<BrowserTab>?> get tabsState;
 
-  ListenableState<BrowserTab?> get activeTabState;
+  ListenableState<String?> get hostState;
+
+  ListenableState<String?> get selectedGroupIdState;
 
   ListenableState<TabAnimationType?> get tabAnimationTypeState;
 
-  void changeTab(String id);
+  void changeTab({
+    required String groupId,
+    required String tabId,
+  });
 
-  void onCloseTab(String id);
+  void onPressedGroup(String groupId);
 
   void onCloseAllPressed();
 
@@ -43,37 +47,58 @@ class BrowserTabsAndGroupsDelegate implements BrowserTabsAndGroupsUi {
   final VoidCallback onEmptyTabs;
   final VoidCallback onUpdateActiveTab;
   final VoidCallback onChangeTab;
-  final Future<bool> Function(String int) scrollToTab;
+  final Future<bool> Function({
+    required String groupId,
+    required String tabId,
+  }) scrollToTab;
 
   final _tabAnimationTypeState = StateNotifier<TabAnimationType?>();
 
-  final _tabsState = StateNotifier<BrowserTabsCollection?>();
+  final _tabsState = StateNotifier<List<BrowserTab>?>();
+
+  final _hostState = StateNotifier<String?>();
+
+  late final _selectedGroupIdState = StateNotifier<String?>(
+    initValue: model.activeGroupState.value?.activeTabId,
+  );
+
+  // final _selectedGroupTabsState = StateNotifier<List<BrowserTab>?>();
 
   @override
-  ListenableState<BrowserTabsCollection?> get tabsState => _tabsState;
+  ListenableState<String?> get selectedGroupIdState => _selectedGroupIdState;
 
   @override
-  ListenableState<BrowserTab?> get activeTabState => model.activeTabState;
+  ListenableState<List<BrowserTab>?> get tabsState => _tabsState;
+
+  @override
+  ListenableState<String?> get hostState => _hostState;
+
+  // @override
+  // ListenableState<List<BrowserTab>?> get selectedGroupTabsState =>
+  //     _selectedGroupTabsState;
 
   @override
   ListenableState<TabAnimationType?> get tabAnimationTypeState =>
       _tabAnimationTypeState;
 
-  BrowserTabsCollection? get _tabsCollection => _tabsState.value;
-
-  String? get activeTabId => _activeTab?.id;
+  String? get activeTabId => model.activeGroupState.value?.activeTabId;
 
   bool get isEmptyActiveTabUrl => _activeTab?.url.toString().isEmpty ?? false;
 
-  BrowserTab? get _activeTab => activeTabState.value;
-
-  BrowserGroup? get _activeGroup => model.activeGroupState.value;
+  BrowserTab? get _activeTab => model.getTabById(activeTabId);
 
   void dispose() {
-    _tabsState.removeListener(_handleActiveGroupTabsCollection);
-    activeTabState.removeListener(onUpdateActiveTab);
-    model.activeGroupState.removeListener(_matchTabs);
+    // _tabsState.removeListener(_handleActiveGroupTabsCollection);
+    model.activeGroupState.removeListener(onUpdateActiveTab);
+    _selectedGroupIdState.dispose();
+    // model.activeGroupState.removeListener(_matchTabs);
     _tabAnimationTypeState.dispose();
+    _tabsState.removeListener(_handleTabs);
+  }
+
+  @override
+  void onPressedGroup(String groupId) {
+    _selectedGroupIdState.accept(groupId);
   }
 
   void onTabAnimationStart(ValueChanged<bool> onComplete) {
@@ -97,41 +122,71 @@ class BrowserTabsAndGroupsDelegate implements BrowserTabsAndGroupsUi {
     _tabAnimationTypeState.accept(null);
   }
 
-  int? getTabIndexById(String tabId) {
-    return _tabsCollection?.getIndexById(tabId);
-  }
-
-  String? getIdByIndex(int index) => _tabsCollection?.getIdByIndex(index);
-
-  @override
-  Future<void> changeTab(String id) async {
-    if (_tabsCollection == null) {
-      return;
-    }
-
-    if (id != activeTabId) {
-      final isSuccess = await scrollToTab(id);
-      if (isSuccess) {
-        model.setActiveTab(id);
-      }
-    }
-
-    final data = renderManager.getRenderData(id);
-
-    _tabAnimationTypeState.accept(
-      ShowViewAnimationType(
-        tabX: data?.xLeft,
-        tabY: data?.yTop,
-      ),
+  int? getTabIndexById({
+    required String groupId,
+    required String tabId,
+  }) {
+    return model.getTabIndex(
+      groupId: groupId,
+      tabId: tabId,
     );
-
-    onChangeTab();
   }
+
+  String? getIdByIndex({
+    required String groupId,
+    required int index,
+  }) =>
+      model.getTabIdByIndex(
+        groupId: groupId,
+        index: index,
+      );
 
   @override
-  void onCloseTab(String id) {
-    model.removeBrowserTab(id);
+  void changeTab({
+    required String groupId,
+    required String tabId,
+  }) {
+    model.setActiveTab(groupId: groupId, tabId: tabId);
+
+    callWithDelay(() async {
+      if (tabId != activeTabId) {
+        final isSuccess = await scrollToTab(
+          groupId: groupId,
+          tabId: tabId,
+        );
+        if (isSuccess) {
+          model.setActiveTab(
+            groupId: groupId,
+            tabId: tabId,
+          );
+        }
+      }
+
+      final data = renderManager.getRenderData(tabId);
+
+      _tabAnimationTypeState.accept(
+        ShowViewAnimationType(
+          tabX: data?.xLeft,
+          tabY: data?.yTop,
+        ),
+      );
+
+      if (model.activeGroupState.value?.groupId != groupId) {
+        _tabsState.accept(model.getGroupTabs(groupId));
+      }
+      onChangeTab();
+    });
   }
+
+  // @override
+  // void onPressedGroup(String groupId) {
+  //   _selectedGroupTabsState.accept(model.getGroupTabs(groupId));
+  // }
+
+  // @override
+  // void onCloseTab(String tabId) {
+  //   model.removeBrowserTab(tabId);
+  // }
 
   @override
   Future<void> onCloseAllPressed() async {
@@ -143,7 +198,13 @@ class BrowserTabsAndGroupsDelegate implements BrowserTabsAndGroupsUi {
 
   @override
   void addTab() {
-    model.createEmptyTab();
+    final id = _selectedGroupIdState.value;
+
+    if (id == null) {
+      return;
+    }
+
+    model.createEmptyTab(id);
   }
 
   void animateShowView() {
@@ -171,37 +232,13 @@ class BrowserTabsAndGroupsDelegate implements BrowserTabsAndGroupsUi {
   }
 
   void _init() {
-    model.activeGroupState.addListener(_matchTabs);
-    _tabsState.addListener(_handleActiveGroupTabsCollection);
-    activeTabState.addListener(onUpdateActiveTab);
+    _tabsState.addListener(_handleTabs);
+    tabsState.addListener(onUpdateActiveTab);
   }
 
-  void _handleActiveGroupTabsCollection() {
-
-
-    if (_tabsCollection?.isEmpty ?? true) {
+  void _handleTabs() {
+    if (_tabsState.value?.isEmpty ?? true) {
       onEmptyTabs();
-      _tabsState.accept(BrowserTabsCollection.empty());
-    } else {
-      _matchTabs();
     }
-  }
-
-  void _matchTabs() {
-    final allTabs = model.allTabsState.value;
-    final activeGroupTabs = _activeGroup?.tabsIds;
-    if (allTabs == null || activeGroupTabs == null) {
-      return;
-    }
-
-    final result = <BrowserTab>[];
-
-    for (final tab in allTabs.list) {
-      if (activeGroupTabs.contains(tab.id)) {
-        result.add(tab);
-      }
-    }
-
-    _tabsState.accept(BrowserTabsCollection.fromList(result));
   }
 }

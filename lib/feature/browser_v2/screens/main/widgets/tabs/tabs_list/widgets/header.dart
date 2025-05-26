@@ -1,39 +1,41 @@
 import 'dart:math';
 
-import 'package:app/feature/browser_v2/screens/main/widgets/tabs/header/tab_list_header_wm.dart';
-import 'package:app/feature/browser_v2/screens/main/widgets/tabs/header/ui_models/tab_list_ui_models.dart';
-import 'package:app/feature/browser_v2/screens/main/widgets/tabs/header/widgets/group_header_item.dart';
-import 'package:app/feature/browser_v2/screens/main/widgets/tabs/header/widgets/header_button.dart';
+import 'package:app/feature/browser_v2/screens/main/widgets/tabs/tabs_list/widgets/group_header_item.dart';
+import 'package:app/feature/browser_v2/screens/main/widgets/tabs/tabs_list/widgets/header_button.dart';
+import 'package:app/feature/browser_v2/screens/main/widgets/tabs/tabs_list/widgets/tab_list_ui_models.dart';
 import 'package:app/generated/generated.dart';
-import 'package:elementary/elementary.dart';
 import 'package:elementary_helper/elementary_helper.dart';
-import 'package:flutter/material.dart';
-import 'package:ui_components_lib/v2/ui_components_lib_v2.dart';
+import 'package:flutter/cupertino.dart';
+import 'package:ui_components_lib/v2/dimens_v2.dart';
 
-class TabListHeader extends ElementaryWidget<TabListHeaderWidgetModel> {
-  TabListHeader({
-    required VoidCallback onPressedCreateNewGroup,
-    WidgetModelFactory<TabListHeaderWidgetModel>? wmFactory,
+class TabListHeader extends StatelessWidget {
+  const TabListHeader({
+    required this.getPhysic,
+    required this.onPressedCreateNewGroup,
+    required this.onPressedGroup,
+    required this.onPressedBookmarks,
+    required this.uiState,
     super.key,
-  }) : super(
-          wmFactory ??
-              (ctx) => defaultTabListHeaderWidgetModelFactory(
-                    ctx,
-                    onPressedCreateNewGroup: onPressedCreateNewGroup,
-                  ),
-        );
+  });
+
+  final ScrollPhysics Function(double itemWidth) getPhysic;
+  final VoidCallback onPressedCreateNewGroup;
+  final ValueChanged<String> onPressedGroup;
+  final VoidCallback onPressedBookmarks;
+
+  final ListenableState<List<TabListHeaderUiModel>> uiState;
 
   @override
-  Widget build(TabListHeaderWidgetModel wm) {
+  Widget build(BuildContext context) {
     return LayoutBuilder(
       builder: (_, BoxConstraints constraints) {
         final itemWidth = constraints.maxWidth / 3;
-        final physic = wm.getPhysic(itemWidth);
+        final physic = getPhysic(itemWidth);
 
         return SizedBox(
           height: DimensSizeV2.d41,
           child: StateNotifierBuilder(
-            listenableState: wm.uiState,
+            listenableState: uiState,
             builder: (_, List<TabListHeaderUiModel>? uiModels) {
               if (uiModels == null) {
                 return const SizedBox.shrink();
@@ -47,7 +49,7 @@ class TabListHeader extends ElementaryWidget<TabListHeaderWidgetModel> {
                     TabListHeaderBookmarksUiModel() => BrowserHeaderTextButton(
                         key: ObjectKey(uiModels[index]),
                         width: itemWidth,
-                        onPressed: wm.onPressedBookmarks,
+                        onPressed: onPressedBookmarks,
                         text: LocaleKeys.browserBookmarks.tr(),
                         alignment: Alignment.centerLeft,
                       ),
@@ -60,7 +62,7 @@ class TabListHeader extends ElementaryWidget<TabListHeaderWidgetModel> {
                       BrowserGroupHeaderItem(
                         key: ValueKey(id),
                         width: itemWidth,
-                        onPressed: () => wm.onPressedGroup(id),
+                        onPressed: () => onPressedGroup(id),
                         name: title ?? '',
                         count: tabsCountText,
                         isSelected: isSelected,
@@ -68,7 +70,7 @@ class TabListHeader extends ElementaryWidget<TabListHeaderWidgetModel> {
                     TabListHeaderNewGroupUiModel() => BrowserHeaderTextButton(
                         key: ObjectKey(uiModels[index]),
                         width: itemWidth,
-                        onPressed: wm.onPressedCreateNewGroup,
+                        onPressed: onPressedCreateNewGroup,
                         text: LocaleKeys.newGroup.tr(),
                         alignment: Alignment.centerRight,
                       ),

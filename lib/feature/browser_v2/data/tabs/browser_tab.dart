@@ -1,4 +1,3 @@
-import 'package:app/feature/browser_v2/data/browser_item.dart';
 import 'package:app/utils/utils.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:nekoton_repository/nekoton_repository.dart';
@@ -9,7 +8,7 @@ part 'browser_tab.freezed.dart';
 part 'browser_tab.g.dart';
 
 @freezed
-class BrowserTab with _$BrowserTab implements BrowserItem {
+class BrowserTab with _$BrowserTab {
   factory BrowserTab({
     /// The id of the tab.
     required final String id,

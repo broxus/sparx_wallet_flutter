@@ -9,7 +9,7 @@ import 'package:app/app/service/storage_service/connections_storage_service.dart
 import 'package:app/app/service/ton_connect/ton_connect_js_bridge.dart';
 import 'package:app/feature/browser_v2/custom_web_controller.dart';
 import 'package:app/feature/browser_v2/data/browser_basic_auth_creds.dart';
-import 'package:app/feature/browser_v2/data/tabs/browser_tab.dart';
+import 'package:app/feature/browser_v2/data/groups/groups_data.dart';
 import 'package:app/feature/browser_v2/domain/service/browser_service.dart';
 import 'package:app/feature/browser_v2/inpage_provider/inpage_provider.dart';
 import 'package:app/feature/browser_v2/screens/main/widgets/pages/page/browser_page.dart';
@@ -71,10 +71,11 @@ class BrowserPageModel extends ElementaryModel {
   EntityValueListenable<String?> get nekotonJsState =>
       _jsService.nekotonJsState;
 
-  ListenableState<BrowserTab?> get activeTabState =>
-      _browserService.tM.activeTabState;
+  ListenableState<ActiveGroupData?> get activeTabState =>
+      _browserService.tM.activeGroupState;
 
-  String? get _activeTabId => _browserService.tM.activeTabId;
+  String? get _activeTabId =>
+      _browserService.tM.activeGroupState.value?.activeTabId;
 
   @override
   void dispose() {
@@ -115,7 +116,7 @@ class BrowserPageModel extends ElementaryModel {
   }
 
   void updateTitle(String title) {
-    _browserService.tM.updateTitle(_tabId, title);
+    _browserService.tM.updateTabTitle(_tabId, title);
   }
 
   void addHistory(Uri? uri) {

@@ -13,7 +13,6 @@ import 'package:app/feature/browser_v2/domain/service/storages/browser_tabs_stor
 import 'package:app/feature/browser_v2/managers/bookmarks_manager.dart';
 import 'package:app/feature/browser_v2/managers/browser_auth_manager.dart';
 import 'package:app/feature/browser_v2/managers/favicon_manager.dart';
-import 'package:app/feature/browser_v2/managers/groups_manager.dart';
 import 'package:app/feature/browser_v2/managers/history_manager.dart';
 import 'package:app/feature/browser_v2/managers/permissions_manager.dart';
 import 'package:app/feature/browser_v2/managers/tabs/tabs_manager.dart';
@@ -59,9 +58,9 @@ class BrowserService {
   );
   late final favicon = FaviconManager(_browserFaviconURLStorageService);
   late final history = HistoryManager(_browserHistoryStorageService);
-  late final groups = BrowserGroupsManager(_browserGroupsStorageService);
   late final tabs = BrowserTabsManager(
     _browserTabsStorageService,
+    _browserGroupsStorageService,
     _generalStorageService,
   );
   late final permissions = PermissionsManager(
@@ -84,12 +83,9 @@ class BrowserService {
 
   BrowserAuthManager get aM => auth;
 
-  BrowserGroupsManager get gM => groups;
-
   void init() {
     bookmarks.init();
     history.init();
-    groups.init();
     tabs.init();
     permissions.init();
     WidgetsBinding.instance.addPostFrameCallback((_) {
@@ -101,7 +97,6 @@ class BrowserService {
   Future<void> clear() async {
     await bookmarks.clear();
     await history.clear();
-    await groups.clear();
     await tabs.clear();
     await permissions.clear();
   }
@@ -112,12 +107,8 @@ class BrowserService {
     _appLinksNavSubs?.cancel();
   }
 
-  void openUrl(Uri uri) {
-    tM.openUrl(uri);
-  }
-
   void openStringUrl(String url) {
-    return openUrl(WebUri(url));
+    return tM.openUrl(WebUri(url));
   }
 
   void createTabBookMark(String tabId) {
@@ -151,27 +142,10 @@ class BrowserService {
   }
 
   void createBrowserGroupByTabId(String name, String tabId) {
-    final allGroups = [...gM.allGroups];
-
-    for (var i = 0; i < allGroups.length; i++) {
-      final group = allGroups[i];
-      if (group.tabsIds.contains(tabId)) {
-        allGroups[i] = group.copyWith(
-          tabsIds: {...group.tabsIds}..removeWhere((t) => t == tabId),
-        );
-      }
-    }
-
-    allGroups.add(
-      gM.makeBrowserGroup(
-        name: name,
-        tabsIds: {tabId},
-      ),
-    );
-
-    gM.replaceGroups(
-      allGroups,
-      activeGroupId: allGroups.last.id,
+    tabs.createBrowserGroup(
+      name: name,
+      initTabId: tabId,
+      isSwitchToCreatedGroup: true,
     );
   }
 
@@ -179,15 +153,15 @@ class BrowserService {
     await tryWrapper(tM.clearCookie);
     await tryWrapper(permissions.clearPermissions);
 
-    final list = tabs.allBrowserTabs;
+    final ids = tabs.allBrowserTabsIds;
 
     await tryWrapper(() async => _tonConnectService.disconnectAllInBrowser());
     await tryWrapper(() async => _nekotonRepository.unsubscribeAllContracts());
 
     await tryWrapper(() async {
-      for (final tab in list) {
+      for (final id in ids) {
         await permissionsChanged(
-          tab.id,
+          id,
           const PermissionsChangedEvent(PermissionsPartial(null, null)),
         );
       }
@@ -195,6 +169,6 @@ class BrowserService {
   }
 
   void _listenAppLinks(BrowserAppLinksData event) {
-    openUrl(event.url);
+    tM.openUrl(event.url);
   }
 }

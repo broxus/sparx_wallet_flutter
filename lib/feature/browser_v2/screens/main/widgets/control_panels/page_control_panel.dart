@@ -1,6 +1,6 @@
 import 'dart:io';
 
-import 'package:app/feature/browser_v2/data/tabs/tabs_data.dart';
+import 'package:app/feature/browser_v2/data/tabs/browser_tab.dart';
 import 'package:app/feature/browser_v2/screens/main/widgets/control_panels/background_blur.dart';
 import 'package:app/feature/browser_v2/screens/main/widgets/control_panels/navigation_panel/navigation_panel.dart';
 import 'package:app/feature/browser_v2/screens/main/widgets/control_panels/toolbar/toolbar.dart';
@@ -14,6 +14,7 @@ class BrowserPageControlPanel extends StatelessWidget {
     required this.menuUrlPanelWidth,
     required this.urlWidth,
     required this.onPressedTabs,
+    required this.onPressedDotsPressed,
     required this.onPressedCurrentUrlMenu,
     required this.onPressedRefresh,
     required this.onEditingCompleteUrl,
@@ -26,11 +27,12 @@ class BrowserPageControlPanel extends StatelessWidget {
   final double menuUrlPanelWidth;
   final double urlWidth;
   final VoidCallback onPressedTabs;
+  final  VoidCallback onPressedDotsPressed;
   final ValueChanged<String> onPressedCurrentUrlMenu;
   final ValueChanged<String> onPressedRefresh;
   final DoubleValueCallback<String, String> onEditingCompleteUrl;
   final ScrollController urlSliderController;
-  final ListenableState<BrowserTabsCollection?> tabsState;
+  final ListenableState<List<BrowserTab>?> tabsState;
   final ListenableState<NavigationUrlPhysicMode> navigationScrollModeState;
 
   static const minHeight =
@@ -58,6 +60,7 @@ class BrowserPageControlPanel extends StatelessWidget {
             const _Space(),
             Toolbar(
               onPressedTabs: onPressedTabs,
+                onPressedDotsPressed: onPressedDotsPressed,
             ),
           ],
         ),

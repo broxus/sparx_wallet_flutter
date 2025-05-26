@@ -1,4 +1,4 @@
-import 'package:app/feature/browser_v2/data/tabs/tabs_data.dart';
+import 'package:app/feature/browser_v2/data/tabs/browser_tab.dart';
 import 'package:app/generated/generated.dart';
 import 'package:elementary_helper/elementary_helper.dart';
 import 'package:flutter/material.dart';
@@ -13,7 +13,7 @@ class BrowserTabsListActionBar extends StatelessWidget {
     super.key,
   });
 
-  final ListenableState<BrowserTabsCollection?> tabsState;
+  final ListenableState<List<BrowserTab>?> tabsState;
   final VoidCallback onCloseAllPressed;
   final VoidCallback onPlusPressed;
   final VoidCallback onDonePressed;
@@ -26,9 +26,9 @@ class BrowserTabsListActionBar extends StatelessWidget {
 
     return SizedBox(
       height: height,
-      child: StateNotifierBuilder<BrowserTabsCollection?>(
+      child: StateNotifierBuilder<List<BrowserTab>?>(
         listenableState: tabsState,
-        builder: (_, BrowserTabsCollection? data) {
+        builder: (_, List<BrowserTab>? tabs) {
           return ColoredBox(
             color: colors.background1,
             child: SizedBox(
@@ -37,7 +37,7 @@ class BrowserTabsListActionBar extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
                   Expanded(
-                    child: data?.list.isEmpty ?? true
+                    child: tabs?.isEmpty ?? true
                         ? const SizedBox.shrink()
                         : _TextButton(
                             title: LocaleKeys.browserCloseAll.tr(),

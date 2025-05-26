@@ -6,7 +6,7 @@ import 'package:app/feature/browser_v2/screens/main/widgets/control_panels/page_
 import 'package:app/feature/browser_v2/screens/main/widgets/control_panels/tabs_list_action_bar.dart';
 import 'package:app/feature/browser_v2/screens/main/widgets/pages/pages_list.dart';
 import 'package:app/feature/browser_v2/screens/main/widgets/tab_animated_view/tab_animated_view.dart';
-import 'package:app/feature/browser_v2/screens/main/widgets/tabs/tab_list/tab_list.dart';
+import 'package:app/feature/browser_v2/screens/main/widgets/tabs/tabs_list/tabs_list.dart';
 import 'package:app/feature/browser_v2/widgets/past_go.dart';
 import 'package:elementary/elementary.dart';
 import 'package:elementary_helper/elementary_helper.dart';
@@ -29,12 +29,15 @@ class BrowserMainScreen extends ElementaryWidget<BrowserMainScreenWidgetModel> {
             children: [
               BrowserTabsList(
                 key: wm.keys.tabListKey,
-                tabsState: wm.tabs.tabsState,
+                // selectedTabsState: wm.tabs.selectedGroupTabsState,
+                selectedGroupIdState: wm.tabs.selectedGroupIdState,
                 renderManager: wm.renderManager,
                 onPressedTabMenu: wm.tabMenu.showTabMenu,
+                onPressedGroup: wm.tabs.onPressedGroup,
                 onPressedTab: wm.onPressedTab,
-                onCloseTab: wm.tabs.onCloseTab,
+                // onCloseTab: wm.tabs.onCloseTab,
                 onPressedCreateNewGroup: wm.onPressedCreateNewGroup,
+                // onPressedGroup: wm.tabs.onPressedGroup,
               ),
               Positioned.fill(
                 child: Listener(
@@ -93,6 +96,7 @@ class BrowserMainScreen extends ElementaryWidget<BrowserMainScreenWidgetModel> {
                       key: wm.keys.viewKey,
                       menuUrlPanelWidth: wm.sizes.screenWidth,
                       urlWidth: wm.sizes.urlWidth,
+                      onPressedDotsPressed: wm.onPressedDotsPressed,
                       onPressedTabs: wm.onPressedTabs,
                       onPressedCurrentUrlMenu: wm.onPressedCurrentUrlMenu,
                       onPressedRefresh: wm.onPressedRefresh,
@@ -110,7 +114,7 @@ class BrowserMainScreen extends ElementaryWidget<BrowserMainScreenWidgetModel> {
                   offsetAnimation: wm.animations.urlMenuOffsetAnimation,
                   opacityAnimation: wm.animations.urlMenuOpacityAnimation,
                   child: HostPanel(
-                    wm.tabs.activeTabState,
+                    wm.tabs.hostState,
                     key: wm.keys.urlKey,
                     onPressed: wm.onPressedViewUrlPanel,
                   ),

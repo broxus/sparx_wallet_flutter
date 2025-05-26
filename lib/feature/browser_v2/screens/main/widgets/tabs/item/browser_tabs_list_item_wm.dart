@@ -49,7 +49,7 @@ class BrowserTabsListItemWidgetModel
 
   @override
   void initWidgetModel() {
-    model.activeTabState.addListener(_handleActiveTab);
+    model.activeGroupState.addListener(_handleActiveTab);
     model.screenshotsState.addListener(_handleScreenShots);
     _updateTitle();
     super.initWidgetModel();
@@ -80,13 +80,15 @@ class BrowserTabsListItemWidgetModel
 
   @override
   void dispose() {
-    model.activeTabState.removeListener(_handleActiveTab);
+    model.activeGroupState.removeListener(_handleActiveTab);
     model.screenshotsState.removeListener(_handleScreenShots);
     super.dispose();
   }
 
   void _handleActiveTab() {
-    _activeState.accept(widget.tab.id == model.activeTabState.value?.id);
+    _activeState.accept(
+      widget.tab.id == model.activeGroupState.value?.activeTabId,
+    );
   }
 
   void _handleScreenShots() {

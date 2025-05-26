@@ -12,8 +12,8 @@ _$BrowserGroupImpl _$$BrowserGroupImplFromJson(Map<String, dynamic> json) =>
       title: json['title'] as String?,
       tabsIds: (json['tabsIds'] as List<dynamic>?)
               ?.map((e) => e as String)
-              .toSet() ??
-          const <String>{},
+              .toList() ??
+          const <String>[],
       sortingOrder: (json['sortingOrder'] as num).toDouble(),
       isCanRemoved: json['isCanRemoved'] as bool? ?? false,
       isCanEditTitle: json['isCanEditTitle'] as bool? ?? false,
@@ -23,7 +23,7 @@ Map<String, dynamic> _$$BrowserGroupImplToJson(_$BrowserGroupImpl instance) =>
     <String, dynamic>{
       'id': instance.id,
       'title': instance.title,
-      'tabsIds': instance.tabsIds.toList(),
+      'tabsIds': instance.tabsIds,
       'sortingOrder': instance.sortingOrder,
       'isCanRemoved': instance.isCanRemoved,
       'isCanEditTitle': instance.isCanEditTitle,

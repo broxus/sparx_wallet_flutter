@@ -1,9 +1,8 @@
 import 'dart:async';
 
 import 'package:app/feature/browser_v2/custom_web_controller.dart';
-import 'package:app/feature/browser_v2/data/groups/browser_group.dart';
+import 'package:app/feature/browser_v2/data/groups/groups_data.dart';
 import 'package:app/feature/browser_v2/data/tabs/browser_tab.dart';
-import 'package:app/feature/browser_v2/data/tabs/tabs_data.dart';
 import 'package:app/feature/browser_v2/domain/service/browser_service.dart';
 import 'package:app/feature/browser_v2/screens/main/browser_main_screen.dart';
 import 'package:app/utils/url_utils.dart';
@@ -21,31 +20,45 @@ class BrowserMainScreenModel extends ElementaryModel {
   ) : super(errorHandler: errorHandler);
   final BrowserService _browserService;
 
-  ListenableState<BrowserTabsCollection> get allTabsState =>
-      _browserService.tM.allTabsState;
+  ListenableState<ActiveGroupData?> get activeGroupState =>
+      _browserService.tM.activeGroupState;
 
-  ListenableState<BrowserTab?> get activeTabState =>
-      _browserService.tM.activeTabState;
-
-  ListenableState<BrowserGroup?> get activeGroupState =>
-      _browserService.gM.activeGroupState;
-
-  void setActiveTab(String? id) {
-    if (id == null) {
-      return;
-    }
-    _browserService.tM.setActiveTab(id);
+  void setActiveTab({
+    required String groupId,
+    required String tabId,
+  }) {
+    _browserService.tM.setActiveTab(
+      groupId: groupId,
+      tabId: tabId,
+    );
   }
 
-  void removeBrowserTab(String id) {
-    _browserService.tM.removeBrowserTab(id);
+  BrowserTab? getTabById(String? tabId) {
+    if (tabId == null) {
+      return null;
+    }
+    return _browserService.tM.getTabById(tabId);
+  }
+
+  //
+  // void removeBrowserTab(String id) {
+  //   _browserService.tM.removeBrowserTab(id);
+  // }
+
+  int? getTabIndex({
+    required String groupId,
+    required String tabId,
+  }) {
+    return _browserService.tabs.getTabIndex(
+      groupId: groupId,
+      tabId: tabId,
+    );
   }
 
   void clearTabs() => _browserService.tM.clearTabs();
 
-  void createEmptyTab() {
-    _browserService.tM.createEmptyTab(
-    );
+  void createEmptyTab(String groupId) {
+    _browserService.tM.createEmptyTab(groupId);
   }
 
   void requestUrl(String? tabId, String enteredText) {
@@ -111,9 +124,29 @@ class BrowserMainScreenModel extends ElementaryModel {
     _browserService.hM.removeHistoryItemByUri(url);
   }
 
-  void createBrowserGroup([String? name]) =>
-      _browserService.groups.createBrowserGroup(
+  void createBrowserGroup({
+    String? name,
+    String? tabId,
+  }) =>
+      _browserService.tabs.createBrowserGroup(
         name: name,
         isSwitchToCreatedGroup: true,
+        initTabId: tabId,
       );
+
+  List<BrowserTab> getGroupTabs(String groupId) {
+    return _browserService.tabs.getGroupTabs(groupId);
+  }
+
+
+
+  String? getTabIdByIndex({
+    required String groupId,
+    required int index,
+  }) {
+    return _browserService.tabs.getTabIdByIndex(
+      groupId: groupId,
+      index: index,
+    );
+  }
 }

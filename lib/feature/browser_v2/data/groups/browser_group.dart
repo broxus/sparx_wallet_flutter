@@ -1,4 +1,3 @@
-import 'package:app/feature/browser_v2/data/browser_item.dart';
 import 'package:app/utils/common_utils.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:uuid/uuid.dart';
@@ -10,11 +9,11 @@ part 'browser_group.g.dart';
 const tabsGroupId = 'mainTabsGroup';
 
 @freezed
-class BrowserGroup with _$BrowserGroup implements BrowserItem {
+class BrowserGroup with _$BrowserGroup {
   const factory BrowserGroup({
     required String id,
     required String? title,
-    @Default(<String>{}) Set<String> tabsIds,
+    @Default(<String>[]) List<String> tabsIds,
     required double sortingOrder,
     @Default(false) bool isCanRemoved,
     @Default(false) bool isCanEditTitle,
@@ -25,13 +24,13 @@ class BrowserGroup with _$BrowserGroup implements BrowserItem {
 
   static BrowserGroup create({
     required String name,
-    Set<String>? tabsIds,
+    List<String>? tabsIds,
     bool isCanRemoved = false,
   }) {
     return BrowserGroup(
       id: const Uuid().v4(),
       title: name,
-      tabsIds: tabsIds ?? <String>{},
+      tabsIds: tabsIds ?? <String>[],
       sortingOrder: NtpTime.now().millisecondsSinceEpoch.toDouble(),
       isCanRemoved: isCanRemoved,
     );

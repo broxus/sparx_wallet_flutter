@@ -23,12 +23,12 @@ import 'package:app/feature/browser_v2/screens/main/delegates/tabs_and_groups_de
 import 'package:app/feature/browser_v2/screens/main/widgets/control_panels/navigation_panel/navigation_panel.dart';
 import 'package:app/feature/browser_v2/screens/main/widgets/control_panels/navigation_panel/url_action_sheet.dart';
 import 'package:app/feature/browser_v2/screens/main/widgets/tab_animated_view/tab_animation_type.dart';
+import 'package:app/feature/browser_v2/widgets/bottomsheets/browser_main_menu/browser_main_menu.dart';
 import 'package:app/utils/clipboard_utils.dart';
 import 'package:app/utils/common_utils.dart';
 import 'package:elementary/elementary.dart';
 import 'package:elementary_helper/elementary_helper.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:render_metrics/render_metrics.dart';
 import 'package:ui_components_lib/v2/ui_components_lib_v2.dart';
 
@@ -78,7 +78,7 @@ class BrowserMainScreenWidgetModel
     renderManager: _renderManager,
     onShowMenu: () => callWithDelay(() => _menuState.accept(null)),
     onHideMenu: () => callWithDelay(() => _menuState.accept(MenuType.list)),
-    onNewGroup: _createGroup,
+    createGroup: _createGroup,
   );
 
   final _pastGoDelegate = BrowserPastGoDelegate();
@@ -88,7 +88,25 @@ class BrowserMainScreenWidgetModel
     urlWidth: sizes.urlWidth,
     onChangeSlideIndex: (int tabIndex) {
       Future(() {
-        model.setActiveTab(_tabsDelegate.getIdByIndex(tabIndex));
+        final groupId = model.activeGroupState.value?.groupId;
+
+        if (groupId == null) {
+          return;
+        }
+
+        final tabId = _tabsDelegate.getIdByIndex(
+          groupId: groupId,
+          index: tabIndex,
+        );
+
+        if (tabId == null) {
+          return;
+        }
+
+        model.setActiveTab(
+          groupId: groupId,
+          tabId: tabId,
+        );
       });
     },
     checkIsViewPages: () => viewVisibleState.value ?? true,
@@ -100,7 +118,7 @@ class BrowserMainScreenWidgetModel
     renderManager: _renderManager,
     onEmptyTabs: _onEmptyTabs,
     scrollToTab: _scrollToTab,
-    onChangeTab: _onChangeTab,
+    onChangeTab: () => callWithDelay(() => _menuState.accept(MenuType.view)),
     onUpdateActiveTab: () {
       callWithDelay(() {
         _progressIndicatorDelegate.reset();
@@ -110,11 +128,13 @@ class BrowserMainScreenWidgetModel
   );
 
   late final _viewVisibleState = createNotifier<bool>(
-    _tabsDelegate.activeTabState.value != null,
+    model.activeGroupState.value?.activeTabId != null,
   );
 
   late final _menuState = createNotifier<MenuType>(
-    _tabsDelegate.activeTabState.value != null ? MenuType.view : MenuType.list,
+    model.activeGroupState.value?.activeTabId != null
+        ? MenuType.view
+        : MenuType.list,
   );
 
   late final _navigationScrollModeState =
@@ -159,9 +179,13 @@ class BrowserMainScreenWidgetModel
     _visibleNavigationBarState.addListener(_handleVisibleNavigationBar);
 
     WidgetsBinding.instance.addPostFrameCallback((_) {
-      final id = _tabsDelegate.activeTabId;
-      if (id != null) {
-        _scrollToTab(id);
+      final groupId = model.activeGroupState.value?.groupId;
+      final tabId = _tabsDelegate.activeTabId;
+      if (groupId != null && tabId != null) {
+        _scrollToTab(
+          groupId: groupId,
+          tabId: tabId,
+        );
       }
     });
 
@@ -255,11 +279,33 @@ class BrowserMainScreenWidgetModel
     }
   }
 
-  void onPressedTab(String id) {
+  void onPressedDotsPressed() {
+    final groupId = tabs.selectedGroupIdState.value;
+
+    if (groupId == null) {
+      return;
+    }
+
+    showBrowserMainMenu(
+      context,
+      groupId: groupId,
+    );
+  }
+
+  void onPressedTab(String tabId) {
+    final groupId = tabs.selectedGroupIdState.value;
+
+    if (groupId == null) {
+      return;
+    }
+
     _navigationScrollModeState.accept(
       NavigationUrlPhysicMode.none,
     );
-    tabs.changeTab(id);
+    tabs.changeTab(
+      groupId: groupId,
+      tabId: tabId,
+    );
   }
 
   void onPressedCreateNewGroup() {
@@ -272,8 +318,6 @@ class BrowserMainScreenWidgetModel
       _pageSlideDelegate.slideTo(0);
     });
   }
-
-  void _onChangeTab() => callWithDelay(() => _menuState.accept(MenuType.view));
 
   void _onTabAnimationComplete(bool isVisible) {
     _viewVisibleState.accept(isVisible);
@@ -291,9 +335,15 @@ class BrowserMainScreenWidgetModel
     );
   }
 
-  Future<bool> _scrollToTab(String id) async {
+  Future<bool> _scrollToTab({
+    required String groupId,
+    required String tabId,
+  }) async {
     return Future.delayed(const Duration(milliseconds: 10), () {
-      final index = _tabsDelegate.getTabIndexById(id);
+      final index = _tabsDelegate.getTabIndexById(
+        groupId: groupId,
+        tabId: tabId,
+      );
 
       if (index != null && index > -1) {
         _pageSlideDelegate.slideTo(sizes.urlWidth * index + 50);
@@ -335,6 +385,9 @@ class BrowserMainScreenWidgetModel
     if (groupName == null) {
       return;
     }
-    model.createBrowserGroup(groupName);
+    model.createBrowserGroup(
+      name: groupName,
+      tabId: tabId,
+    );
   }
 }

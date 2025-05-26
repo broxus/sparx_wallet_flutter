@@ -1,6 +1,6 @@
 import 'dart:math';
 
-import 'package:app/feature/browser_v2/data/tabs/tabs_data.dart';
+import 'package:app/feature/browser_v2/data/tabs/browser_tab.dart';
 import 'package:app/feature/browser_v2/screens/main/widgets/control_panels/navigation_panel/address_bar.dart';
 import 'package:app/utils/types/fuction_types.dart';
 import 'package:elementary_helper/elementary_helper.dart';
@@ -25,7 +25,7 @@ class BrowserNavigationPanel extends StatefulWidget {
   final double panelWidth;
   final double urlWidth;
   final ScrollController controller;
-  final ListenableState<BrowserTabsCollection?> tabsState;
+  final ListenableState<List<BrowserTab>?> tabsState;
   final ValueChanged<String> onPressedCurrentUrlMenu;
   final ValueChanged<String> onPressedRefresh;
   final DoubleValueCallback<String, String> onEditingCompleteUrl;
@@ -47,26 +47,26 @@ class _BrowserTabViewMenuUrlPanelState extends State<BrowserNavigationPanel> {
     return SizedBox(
       width: widget.panelWidth,
       height: BrowserNavigationPanel.height,
-      child: StateNotifierBuilder<BrowserTabsCollection?>(
+      child: StateNotifierBuilder<List<BrowserTab>?>(
         listenableState: widget.tabsState,
-        builder: (_, BrowserTabsCollection? data) {
-          if (data == null) {
+        builder: (_, List<BrowserTab>? list) {
+          if (list == null) {
             return const SizedBox.shrink();
           }
 
           return ListView.builder(
-            padding: data.count == 1
+            padding: list.length == 1
                 ? const EdgeInsets.only(left: DimensSizeV2.d8)
                 : EdgeInsets.zero,
             physics: _physics,
             scrollDirection: Axis.horizontal,
             controller: widget.controller,
-            itemCount: data.count,
+            itemCount: list.length,
             itemBuilder: (_, int index) {
               return BrowserAddressBar(
-                key: ValueKey(data.list[index].id),
+                key: ValueKey(list[index].id),
                 width: widget.urlWidth,
-                tab: data.list[index],
+                tab: list[index],
                 onPressedCurrentUrlMenu: widget.onPressedCurrentUrlMenu,
                 onPressedRefresh: widget.onPressedRefresh,
                 onEditingComplete: widget.onEditingCompleteUrl,

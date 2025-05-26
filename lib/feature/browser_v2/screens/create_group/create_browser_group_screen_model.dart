@@ -18,8 +18,6 @@ class CreateBrowserGroupScreenModel extends ElementaryModel {
       return null;
     }
 
-    final allTabs = _browserService.tabs.allBrowserTabs;
-
-    return allTabs.firstWhereOrNull((tab) => tabId == tab.id);
+    return _browserService.tabs.getTabById(tabId);
   }
 }
