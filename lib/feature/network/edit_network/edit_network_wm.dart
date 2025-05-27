@@ -144,7 +144,7 @@ class EditNetworkWidgetModel
 
     if ((result ?? false) && connection != null) {
       model.removeConnection(connection!.id);
-      contextSafe?.clearQueryParamsAndPop();
+      contextSafe?.compassBack();
     }
   }
 
@@ -172,7 +172,7 @@ class EditNetworkWidgetModel
       );
     }
 
-    contextSafe?.clearQueryParamsAndPop();
+    contextSafe?.compassBack();
   }
 
   // ignore: long-method

@@ -18,7 +18,7 @@ class ShapedContainerColumn extends StatelessWidget {
       vertical: DimensSize.d8,
     ),
     super.key,
-    this.separatorSize = DimensSize.d8,
+    this.spacing = DimensSize.d8,
     this.separator,
     this.mainAxisSize = MainAxisSize.max,
     this.crossAxisAlignment = CrossAxisAlignment.start,
@@ -45,8 +45,8 @@ class ShapedContainerColumn extends StatelessWidget {
   /// Inner padding of container, around content, default is all: DimensSize.d16
   final EdgeInsets padding;
 
-  /// See <ContainerColumn.separatorSize>
-  final double? separatorSize;
+  /// See <ContainerColumn.spacing>
+  final double? spacing;
 
   /// See [Column.mainAxisSize]
   final MainAxisSize mainAxisSize;
@@ -75,7 +75,7 @@ class ShapedContainerColumn extends StatelessWidget {
   Widget build(BuildContext context) {
     final body = SeparatedColumn(
       separator: separator,
-      separatorSize: separatorSize,
+      spacing: spacing,
       mainAxisSize: mainAxisSize,
       mainAxisAlignment: mainAxisAlignment,
       crossAxisAlignment: crossAxisAlignment,
@@ -95,7 +95,7 @@ class ShapedContainerColumn extends StatelessWidget {
           : SeparatedColumn(
               mainAxisSize: mainAxisSize,
               crossAxisAlignment: CrossAxisAlignment.start,
-              separatorSize: DimensSize.d16,
+              spacing: DimensSize.d16,
               children: [
                 Padding(
                   padding: const EdgeInsets.only(top: DimensSize.d8),

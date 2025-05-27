@@ -3,6 +3,7 @@ import 'package:app/core/error_handler_factory.dart';
 import 'package:app/core/wm/custom_wm.dart';
 import 'package:app/di/di.dart';
 import 'package:app/feature/wallet/new_account/add_account_confirm/add_new_account_confirm_sheet.dart';
+import 'package:app/feature/wallet/new_account/screen/route.dart';
 import 'package:app/feature/wallet/new_account/select_seed/select_seed_model.dart';
 import 'package:app/feature/wallet/new_account/select_seed/select_seed_view.dart';
 import 'package:elementary_helper/elementary_helper.dart';
@@ -51,11 +52,9 @@ class SelectSeedWidgetModel
     }
 
     if (seed.masterKey.isLegacy) {
-      contextSafe!.goFurther(
-        AppRoute.walletNewAccount.pathWithData(
-          queryParameters: {
-            walletCreatePublicKeyQueryParam: seed.publicKey.publicKey,
-          },
+      contextSafe?.compassContinue(
+        NewAccountRouteData(
+          publicKey: seed.publicKey.publicKey,
         ),
       );
       return;
@@ -68,12 +67,10 @@ class SelectSeedWidgetModel
     );
 
     if (contextSafe != null && result != null) {
-      contextSafe!.goFurther(
-        AppRoute.walletNewAccount.pathWithData(
-          queryParameters: {
-            walletCreatePublicKeyQueryParam: result.$1.publicKey,
-            walletCreatePasswordQueryParam: result.$2,
-          },
+      contextSafe?.compassContinue(
+        NewAccountRouteData(
+          publicKey: result.$1.publicKey,
+          password: result.$2,
         ),
       );
     }
