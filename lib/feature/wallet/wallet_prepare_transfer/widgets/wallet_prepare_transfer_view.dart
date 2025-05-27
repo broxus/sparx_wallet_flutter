@@ -38,7 +38,7 @@ class WalletPrepareTransferView extends StatelessWidget {
           Expanded(
             child: SingleChildScrollView(
               child: SeparatedColumn(
-                separatorSize: DimensSize.d16,
+                spacing: DimensSize.d16,
                 children: [
                   if (account != null) AccountInfo(account: account!),
                   if (localCustodians != null && localCustodians!.length > 1)

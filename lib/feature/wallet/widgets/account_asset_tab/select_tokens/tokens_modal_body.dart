@@ -48,7 +48,7 @@ class TokensModalBody extends StatelessWidget {
         const SizedBox(height: DimensSizeV2.d8),
         SeparatedColumn(
           mainAxisSize: MainAxisSize.min,
-          separatorSize: DimensSizeV2.d12,
+          spacing: DimensSizeV2.d12,
           children: assets
               .map(
                 (value) => _TokenItem(
@@ -94,7 +94,7 @@ class _TokenItem extends StatelessWidget {
         ),
         Expanded(
           child: SeparatedColumn(
-            separatorSize: DimensSizeV2.d4,
+            spacing: DimensSizeV2.d4,
             mainAxisSize: MainAxisSize.min,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [

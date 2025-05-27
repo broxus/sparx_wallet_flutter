@@ -119,7 +119,7 @@ class _WalletDeployMultisigBodyState extends State<WalletDeployMultisigBody> {
 
                       return SeparatedColumn(
                         crossAxisAlignment: CrossAxisAlignment.start,
-                        separatorSize: DimensSize.d12,
+                        spacing: DimensSize.d12,
                         children: [
                           WalletSelectDeployTypeWidget(
                             type: WalletDeployType.multisig,

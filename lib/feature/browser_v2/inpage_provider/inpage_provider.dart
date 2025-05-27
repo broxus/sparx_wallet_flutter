@@ -190,7 +190,7 @@ class InpageProvider extends ProviderApi {
   @override
   Future<CodeToTvcOutput> codeToTvc(CodeToTvcInput input) async {
     _checkBasicPermission();
-    final (tvc, hash) = await nr.codeToTvc(input.code);
+    final (tvc, hash) = nr.codeToTvc(input.code);
 
     return CodeToTvcOutput(tvc, hash);
   }
@@ -588,7 +588,7 @@ class InpageProvider extends ProviderApi {
     ExtractPublicKeyInput input,
   ) async {
     _checkBasicPermission();
-    final output = await nr.extractPublicKey(input.boc);
+    final output = nr.extractPublicKey(input.boc);
 
     return ExtractPublicKeyOutput(output.publicKey);
   }
@@ -632,7 +632,7 @@ class InpageProvider extends ProviderApi {
   @override
   Future<GetBocHashOutput> getBocHash(GetBocHashInput input) async {
     _checkBasicPermission();
-    final hash = await nr.getBocHash(input.boc);
+    final hash = nr.getBocHash(input.boc);
 
     return GetBocHashOutput(hash);
   }
@@ -640,7 +640,7 @@ class InpageProvider extends ProviderApi {
   @override
   Future<GetCodeSaltOutput> getCodeSalt(GetCodeSaltInput input) async {
     _checkBasicPermission();
-    final code = await nr.getCodeSalt(input.code);
+    final code = nr.getCodeSalt(input.code);
 
     return GetCodeSaltOutput(code);
   }
@@ -769,7 +769,7 @@ class InpageProvider extends ProviderApi {
   @override
   Future<MergeTvcOutput> mergeTvc(MergeTvcInput input) async {
     _checkBasicPermission();
-    final (tvc, hash) = await nr.mergeTvc(code: input.code, data: input.data);
+    final (tvc, hash) = nr.mergeTvc(code: input.code, data: input.data);
 
     return MergeTvcOutput(tvc, hash);
   }
@@ -777,7 +777,7 @@ class InpageProvider extends ProviderApi {
   @override
   Future<PackIntoCellOutput> packIntoCell(PackIntoCellInput input) async {
     _checkBasicPermission();
-    final (boc, hash) = await nr.packIntoCell(
+    final (boc, hash) = nr.packIntoCell(
       params:
           input.structure.map((e) => nr.AbiParam.fromJson(e.toJson())).toList(),
       tokens: input.data,
@@ -1113,6 +1113,12 @@ class InpageProvider extends ProviderApi {
             ? nr.FunctionCall.fromJson(input.payload!.toJson())
             : null,
         knownPayload: knownPayload,
+        ignoredComputePhaseCodes: input.ignoredComputePhaseCodes
+            ?.map(_mapIgnoreTransactionTreeSimulationError)
+            .toList(),
+        ignoredActionPhaseCodes: input.ignoredActionPhaseCodes
+            ?.map(_mapIgnoreTransactionTreeSimulationError)
+            .toList(),
       );
 
       final unsignedMessage = await nekotonRepository.prepareTransfer(
@@ -1215,6 +1221,12 @@ class InpageProvider extends ProviderApi {
             ? nr.FunctionCall.fromJson(input.payload!.toJson())
             : null,
         knownPayload: knownPayload,
+        ignoredComputePhaseCodes: input.ignoredComputePhaseCodes
+            ?.map(_mapIgnoreTransactionTreeSimulationError)
+            .toList(),
+        ignoredActionPhaseCodes: input.ignoredActionPhaseCodes
+            ?.map(_mapIgnoreTransactionTreeSimulationError)
+            .toList(),
       );
 
       final unsignedMessage = await nekotonRepository.prepareTransfer(
@@ -1372,8 +1384,7 @@ class InpageProvider extends ProviderApi {
   @override
   Future<SetCodeSaltOutput> setCodeSalt(SetCodeSaltInput input) async {
     _checkBasicPermission();
-    final (code, hash) =
-        await nr.setCodeSalt(code: input.code, salt: input.salt);
+    final (code, hash) = nr.setCodeSalt(code: input.code, salt: input.salt);
 
     return SetCodeSaltOutput(code, hash);
   }
@@ -1454,7 +1465,7 @@ class InpageProvider extends ProviderApi {
   @override
   Future<SplitTvcOutput> splitTvc(SplitTvcInput input) async {
     _checkBasicPermission();
-    final (data, code) = await nr.splitTvc(input.tvc);
+    final (data, code) = nr.splitTvc(input.tvc);
 
     return SplitTvcOutput(data, code);
   }
@@ -1490,7 +1501,7 @@ class InpageProvider extends ProviderApi {
   @override
   Future<UnpackFromCellOutput> unpackFromCell(UnpackFromCellInput input) async {
     _checkBasicPermission();
-    final data = await nr.unpackFromCell(
+    final data = nr.unpackFromCell(
       params:
           input.structure.map((e) => nr.AbiParam.fromJson(e.toJson())).toList(),
       boc: input.boc,
@@ -1701,3 +1712,14 @@ class InpageProvider extends ProviderApi {
     return list;
   }
 }
+
+nr.IgnoreTransactionTreeSimulationError
+    _mapIgnoreTransactionTreeSimulationError(
+  IgnoreTransactionTreeSimulationError error,
+) =>
+        nr.IgnoreTransactionTreeSimulationError(
+          code: error.code.toInt(),
+          address: error.address?.let(
+            (address) => nr.Address(address: address),
+          ),
+        );

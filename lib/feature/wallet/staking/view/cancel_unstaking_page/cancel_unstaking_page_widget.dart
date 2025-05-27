@@ -68,7 +68,7 @@ class CancelUnstakingPageWidget
                 ),
                 borderRadius: BorderRadius.circular(DimensRadiusV2.radius12),
                 child: SeparatedColumn(
-                  separatorSize: DimensSizeV2.d16,
+                  spacing: DimensSizeV2.d16,
                   mainAxisSize: MainAxisSize.min,
                   children: [
                     const SizedBox.shrink(),

@@ -38,7 +38,7 @@ class TokenWalletOrdinaryTransactionDetailsScreen extends ElementaryWidget<
       body: WalletTransactionDetailsBodyWithExplorerButton(
         transactionHash: transaction.hash,
         body: SeparatedColumn(
-          separatorSize: DimensSize.d16,
+          spacing: DimensSize.d16,
           children: [
             WalletTransactionDetailsDefaultBody(
               date: transaction.date,

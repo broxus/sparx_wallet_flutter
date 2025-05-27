@@ -45,7 +45,7 @@ class _SelectNewAssetCustomEnterState extends State<SelectNewAssetCustomEnter> {
         Expanded(
           child: SingleChildScrollView(
             child: SeparatedColumn(
-              separatorSize: DimensSizeV2.d16,
+              spacing: DimensSizeV2.d16,
               children: [
                 PrimaryTextField(
                   hintText: LocaleKeys.rootTokenContract.tr(),
@@ -66,7 +66,7 @@ class _SelectNewAssetCustomEnterState extends State<SelectNewAssetCustomEnter> {
                   ],
                 ),
                 SeparatedColumn(
-                  separatorSize: DimensSizeV2.d12,
+                  spacing: DimensSizeV2.d12,
                   children: [
                     ...widget.contracts.map(
                       (pair) => SelectNewAssetItem(
