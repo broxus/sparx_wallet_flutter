@@ -117,7 +117,6 @@ class BrowserMainScreenWidgetModel
     model,
     renderManager: _renderManager,
     onEmptyTabs: _onEmptyTabs,
-    scrollToTab: _scrollToTab,
     onChangeTab: () => callWithDelay(() => _menuState.accept(MenuType.view)),
     onUpdateActiveTab: () {
       callWithDelay(() {
@@ -125,6 +124,7 @@ class BrowserMainScreenWidgetModel
         _updatePastGo();
       });
     },
+    scrollToTab: _scrollToTab,
   );
 
   late final _viewVisibleState = createNotifier<bool>(
@@ -292,7 +292,7 @@ class BrowserMainScreenWidgetModel
     );
   }
 
-  void onPressedTab(String tabId) {
+  Future<void> onPressedTab(String tabId) async {
     final groupId = tabs.selectedGroupIdState.value;
 
     if (groupId == null) {
@@ -302,6 +302,7 @@ class BrowserMainScreenWidgetModel
     _navigationScrollModeState.accept(
       NavigationUrlPhysicMode.none,
     );
+
     tabs.changeTab(
       groupId: groupId,
       tabId: tabId,
@@ -381,7 +382,6 @@ class BrowserMainScreenWidgetModel
         },
       ),
     );
-
 
     if (groupName == null) {
       return;

@@ -67,6 +67,8 @@ class TabAnimatedViewWidgetModel
 
   Animation<double>? _leftPositionAnimation;
 
+  TabAnimationType? _prevAnimationType;
+
   late final _screenshotStateState = createNotifier<File?>();
 
   late final _animationController = AnimationController(
@@ -106,7 +108,7 @@ class TabAnimatedViewWidgetModel
   void _handleTabAnimationType() {
     final animationType = showAnimationState.value;
 
-    if (animationType == null) {
+    if (animationType == null || _prevAnimationType == animationType) {
       return;
     }
     final tabX = animationType.tabX;
@@ -131,6 +133,8 @@ class TabAnimatedViewWidgetModel
         _updateAnimationPosition(tabX, tabY);
         _animationController.forward();
     }
+
+    _prevAnimationType = animationType;
   }
 
   void _handleAnimationStatus(AnimationStatus status) {

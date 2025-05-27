@@ -107,6 +107,10 @@ class _SnapPageScrollPhysics extends ScrollPhysics {
     final tol = toleranceFor(position);
     final target = _getTargetPixels(position, velocity);
 
+    if (modeState.value == NavigationUrlPhysicMode.none) {
+      return _InstantScrollSimulation(target);
+    }
+
     if ((velocity <= 0.0 && current <= position.minScrollExtent) ||
         (velocity >= 0.0 && current >= position.maxScrollExtent)) {
       return super.createBallisticSimulation(position, velocity);
@@ -114,10 +118,6 @@ class _SnapPageScrollPhysics extends ScrollPhysics {
 
     if ((target - current).abs() <= tol.distance) {
       return null;
-    }
-
-    if (modeState.value == NavigationUrlPhysicMode.none) {
-      return _InstantScrollSimulation(target);
     }
 
     return ScrollSpringSimulation(
