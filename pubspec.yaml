@@ -65,7 +65,9 @@ dependencies:
   money2: 5.4.6
   money2_fixer: 3.0.0
   native_dio_adapter: ^1.4.0
-  nekoton_repository: 0.68.0
+  # nekoton_repository: 0.68.0
+  nekoton_repository:
+    path: ../nekoton_repository
   nekoton_webview: 0.1.9
   ntp: 2.0.0
   open_settings_plus: 0.4.0
@@ -145,6 +147,7 @@ flutter:
     - assets/images/check_circle_fill/
     - assets/images/wallet_bg/
     - assets/images/bg_main/
+    - assets/images/nft_placeholder/
     - assets/splash/
     - assets/js/
     - assets/animations/

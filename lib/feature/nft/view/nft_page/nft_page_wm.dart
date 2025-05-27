@@ -1,0 +1,70 @@
+import 'dart:async';
+
+import 'package:app/app/router/router.dart';
+import 'package:app/app/service/service.dart';
+import 'package:app/core/error_handler_factory.dart';
+import 'package:app/core/wm/custom_wm.dart';
+import 'package:app/di/di.dart';
+import 'package:app/feature/nft/nft.dart';
+import 'package:elementary_helper/elementary_helper.dart';
+import 'package:flutter/material.dart';
+import 'package:nekoton_repository/nekoton_repository.dart';
+import 'package:rxdart/rxdart.dart';
+import 'package:ui_components_lib/ui_components_lib.dart';
+
+NftPageWidgetModel defaultNftPageWidgetModelFactory(
+  BuildContext context,
+) =>
+    NftPageWidgetModel(
+      NftPageModel(
+        createPrimaryErrorHandler(context),
+        inject(),
+        inject(),
+        inject(),
+      ),
+    );
+
+class NftPageWidgetModel
+    extends CustomWidgetModel<NftPageWidget, NftPageModel> {
+  NftPageWidgetModel(super.model);
+
+  late final _isLoading = createNotifier(true);
+  late final _collections = createNotifierFromStream(
+    model.currentAccountStream
+        .mapNotNull((e) => e?.address)
+        .distinct()
+        .switchMap((owner) => model.getAccountCollectionsStream(owner)),
+  );
+  late final _displayMode = createNotifierFromStream(model.displayModeStream);
+
+  StreamSubscription<Address?>? _subscription;
+
+  ListenableState<bool> get isLoading => _isLoading;
+
+  ListenableState<List<NftCollection>> get collections => _collections;
+
+  ListenableState<NftDisplayMode?> get displayMode => _displayMode;
+
+  ThemeStyleV2 get theme => context.themeStyleV2;
+
+  @override
+  void initWidgetModel() {
+    super.initWidgetModel();
+
+    _subscription = Rx.combineLatest2(
+      model.currentTransportStream.map((e) => e.networkGroup).distinct(),
+      model.currentAccountStream.mapNotNull((e) => e?.address).distinct(),
+      (_, owner) => owner,
+    ).listen((owner) => model.scanNftCollections(owner));
+  }
+
+  @override
+  void dispose() {
+    _subscription?.cancel();
+    super.dispose();
+  }
+
+  void setDisplayMode(NftDisplayMode mode) => model.setDisplayMode(mode);
+
+  void onAddNftPressed() => context.goFurther(AppRoute.addNft.path);
+}

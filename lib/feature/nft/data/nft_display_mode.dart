@@ -1,0 +1,4 @@
+enum NftDisplayMode {
+  grid,
+  list;
+}

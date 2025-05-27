@@ -11,10 +11,12 @@ import 'package:app/app/service/connection/network_type.dart';
 import 'package:app/app/service/connection/transport_strategies/app_transport_strategy.dart';
 import 'package:app/di/di.dart';
 import 'package:app/generated/generated.dart';
+import 'package:dio/dio.dart';
 import 'package:nekoton_repository/nekoton_repository.dart';
 
 class CommonTransportStrategy extends AppTransportStrategy {
   CommonTransportStrategy({
+    required this.dio,
     required this.transport,
     required this.connection,
     required this.icons,
@@ -37,12 +39,14 @@ class CommonTransportStrategy extends AppTransportStrategy {
     String? baseCurrencyUrl,
   }) : baseCurrencyUrl = baseCurrencyUrl ?? '';
 
-  factory CommonTransportStrategy.fromData(
-    Transport transport,
-    ConnectionData connection,
-    ConnectionTransportData transportData,
-  ) {
+  factory CommonTransportStrategy.fromData({
+    required Dio dio,
+    required Transport transport,
+    required ConnectionData connection,
+    required ConnectionTransportData transportData,
+  }) {
     return CommonTransportStrategy(
+      dio: dio,
       transport: transport,
       connection: connection,
       icons: transportData.icons,
@@ -67,6 +71,8 @@ class CommonTransportStrategy extends AppTransportStrategy {
       baseCurrencyUrl: transportData.baseCurrencyUrl,
     );
   }
+
+  final Dio dio;
 
   @override
   final Transport transport;
@@ -199,4 +205,14 @@ class CommonTransportStrategy extends AppTransportStrategy {
         rootTokenContract: rootTokenContract,
         transport: transport,
       );
+
+  @override
+  Future<Map<String, dynamic>?> fetchJson(String url) async {
+    try {
+      final response = await dio.get<Map<String, dynamic>>(url);
+      return response.data;
+    } catch (_) {
+      return null;
+    }
+  }
 }

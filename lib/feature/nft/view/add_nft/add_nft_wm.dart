@@ -1,11 +1,11 @@
-import 'package:app/app/service/messenger/message.dart';
-import 'package:app/app/service/messenger/service/messenger_service.dart';
 import 'package:app/core/error_handler_factory.dart';
 import 'package:app/core/wm/custom_wm.dart';
 import 'package:app/core/wm/navigation_wm_mixin.dart';
 import 'package:app/di/di.dart';
-import 'package:app/feature/nft/add_nft/add_nft_model.dart';
-import 'package:app/feature/nft/add_nft/add_nft_page.dart';
+import 'package:app/feature/messenger/data/message.dart';
+import 'package:app/feature/messenger/domain/service/messenger_service.dart';
+import 'package:app/feature/nft/view/add_nft/add_nft_model.dart';
+import 'package:app/feature/nft/view/add_nft/add_nft_widget.dart';
 import 'package:app/generated/generated.dart';
 import 'package:app/utils/clipboard_utils.dart';
 import 'package:elementary_helper/elementary_helper.dart';
@@ -25,7 +25,7 @@ AddNftWidgetModel defaultAddNftWidgetModelFactory(BuildContext context) {
   );
 }
 
-class AddNftWidgetModel extends CustomWidgetModel<AddNftPage, AddNftModel>
+class AddNftWidgetModel extends CustomWidgetModel<AddNftWidget, AddNftModel>
     with NavigationMixin {
   AddNftWidgetModel(
     super.model,
@@ -43,11 +43,6 @@ class AddNftWidgetModel extends CustomWidgetModel<AddNftPage, AddNftModel>
 
   ThemeStyleV2 get themeStyle => context.themeStyleV2;
 
-  @override
-  void initWidgetModel() {
-    super.initWidgetModel();
-  }
-
   Future<void> paste() async {
     final text = await getClipBoardText();
     if (text?.isEmpty ?? true) return;
@@ -58,7 +53,6 @@ class AddNftWidgetModel extends CustomWidgetModel<AddNftPage, AddNftModel>
     } else {
       inject<MessengerService>().show(
         Message.error(
-          context: context,
           message: LocaleKeys.invalidRootTokenContract.tr(),
         ),
       );

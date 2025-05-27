@@ -56,9 +56,10 @@ class ConnectionService {
         );
 
     return CommonTransportStrategy.fromData(
-      transport,
-      connection,
-      data,
+      dio: _dio,
+      transport: transport,
+      connection: connection,
+      transportData: data,
     );
   }
 

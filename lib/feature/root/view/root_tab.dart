@@ -3,7 +3,7 @@ import 'package:app/generated/generated.dart';
 import 'package:flutter/material.dart';
 import 'package:logging/logging.dart';
 import 'package:lucide_icons_flutter/lucide_icons.dart';
-import 'package:ui_components_lib/v2/ui_components_lib_v2.dart';
+import 'package:ui_components_lib/ui_components_lib.dart';
 
 enum RootTab {
   wallet(AppRoute.wallet),
@@ -15,11 +15,11 @@ enum RootTab {
 
   final AppRoute route;
 
-  IconData get icon => switch (this) {
+  Object get icon => switch (this) {
         RootTab.wallet => LucideIcons.wallet,
         RootTab.browser => LucideIcons.compass,
         RootTab.profile => LucideIcons.circleUser,
-        RootTab.nft => LucideIcons.nfc,
+        RootTab.nft => Assets.images.nftIcon.path,
       };
 
   String get title => switch (this) {
@@ -30,7 +30,21 @@ enum RootTab {
       };
 
   BottomNavigationBarItem item() => BottomNavigationBarItem(
-        icon: Icon(icon, size: DimensSizeV2.d24),
+        icon: switch (icon) {
+          final IconData icon => Icon(icon, size: DimensSizeV2.d24),
+          final String assetName => Builder(
+              builder: (context) {
+                final theme = IconTheme.of(context);
+                return SvgPicture.asset(
+                  assetName,
+                  colorFilter: theme.color?.colorFilter,
+                  width: DimensSizeV2.d24,
+                  height: DimensSizeV2.d24,
+                );
+              },
+            ),
+          _ => const SizedBox.shrink(),
+        },
         label: title,
         tooltip: title,
       );

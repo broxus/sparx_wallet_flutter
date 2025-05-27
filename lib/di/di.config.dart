@@ -85,6 +85,9 @@ import '../feature/browser_v2/domain/service/storages/browser_permissions_storag
 import '../feature/browser_v2/domain/service/storages/browser_tabs_storage_service.dart'
     as _i634;
 import '../feature/messenger/domain/service/messenger_service.dart' as _i632;
+import '../feature/nft/domain/nft_service.dart' as _i263;
+import '../feature/nft/domain/nft_storage_service.dart' as _i336;
+import '../feature/nft/nft.dart' as _i1015;
 import '../feature/presets_config/domain/presets_config_reader.dart' as _i130;
 import '../feature/presets_config/presets_config.dart' as _i418;
 import '../feature/update_version/domain/latest_version_finder.dart' as _i803;
@@ -243,6 +246,8 @@ extension GetItInjectableX on _i174.GetIt {
     gh.singleton<_i234.BrowserFaviconURLStorageService>(() =>
         _i234.BrowserFaviconURLStorageService(
             gh<_i792.GetStorage>(instanceName: 'browser_favicon_urls')));
+    gh.singleton<_i336.NftStorageService>(() => _i336.NftStorageService(
+        gh<_i792.GetStorage>(instanceName: 'nft_storage_service')));
     gh.singleton<_i244.CurrentSeedService>(() => _i244.CurrentSeedService(
           gh<_i771.NekotonRepository>(),
           gh<_i403.CurrentKeyService>(),
@@ -263,6 +268,11 @@ extension GetItInjectableX on _i174.GetIt {
           gh<_i128.SecureStorageService>(),
           gh<_i128.AppLifecycleService>(),
         ));
+    gh.singleton<_i263.NftService>(() => _i263.NftService(
+          gh<_i771.NekotonRepository>(),
+          gh<_i1015.NftStorageService>(),
+          gh<_i128.AppStorageService>(),
+        ));
     gh.singleton<_i308.CurrenciesService>(() => _i308.CurrenciesService(
           dio: gh<_i361.Dio>(),
           nekotonRepository: gh<_i771.NekotonRepository>(),
@@ -276,24 +286,6 @@ extension GetItInjectableX on _i174.GetIt {
               gh<_i128.PresetsConnectionService>(),
               gh<_i632.MessengerService>(),
             ));
-    gh.singleton<_i725.StorageManagerService>(() => _i725.StorageManagerService(
-          gh<_i128.SecureStorageService>(),
-          gh<_i128.GeneralStorageService>(),
-          gh<_i634.BrowserTabsStorageService>(),
-          gh<_i581.BrowserHistoryStorageService>(),
-          gh<_i213.BrowserBookmarksStorageService>(),
-          gh<_i229.BrowserPermissionsStorageService>(),
-          gh<_i234.BrowserFaviconURLStorageService>(),
-          gh<_i128.NekotonStorageService>(),
-          gh<_i128.NekotonRepositoryStorageService>(),
-          gh<_i128.TonWalletStorageService>(),
-          gh<_i128.TokenWalletStorageService>(),
-          gh<_i128.ConnectionsStorageService>(),
-          gh<_i128.BalanceStorageService>(),
-          gh<_i128.AppStorageService>(),
-          gh<_i128.TonConnectStorageService>(),
-          gh<_i1030.UpdateVersionStorageService>(),
-        ));
     gh.singleton<_i720.UpdateService>(() => _i720.UpdateService(
           gh<_i130.PresetsConfigReader>(),
           gh<_i1008.UpdateStatusChecker>(),
@@ -326,6 +318,25 @@ extension GetItInjectableX on _i174.GetIt {
           gh<_i771.NekotonRepository>(),
           gh<_i128.CurrenciesService>(),
           gh<_i128.BalanceStorageService>(),
+        ));
+    gh.singleton<_i725.StorageManagerService>(() => _i725.StorageManagerService(
+          gh<_i128.SecureStorageService>(),
+          gh<_i128.GeneralStorageService>(),
+          gh<_i634.BrowserTabsStorageService>(),
+          gh<_i581.BrowserHistoryStorageService>(),
+          gh<_i213.BrowserBookmarksStorageService>(),
+          gh<_i229.BrowserPermissionsStorageService>(),
+          gh<_i234.BrowserFaviconURLStorageService>(),
+          gh<_i128.NekotonStorageService>(),
+          gh<_i128.NekotonRepositoryStorageService>(),
+          gh<_i128.TonWalletStorageService>(),
+          gh<_i128.TokenWalletStorageService>(),
+          gh<_i128.ConnectionsStorageService>(),
+          gh<_i128.BalanceStorageService>(),
+          gh<_i128.AppStorageService>(),
+          gh<_i128.TonConnectStorageService>(),
+          gh<_i1030.UpdateVersionStorageService>(),
+          gh<_i1015.NftStorageService>(),
         ));
     gh.singleton<_i754.ConnectionService>(() => _i754.ConnectionService(
           gh<_i128.ConnectionsStorageService>(),

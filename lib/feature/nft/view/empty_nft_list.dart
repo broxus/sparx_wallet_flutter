@@ -1,15 +1,20 @@
-import 'package:app/app/router/app_route.dart';
 import 'package:app/generated/generated.dart';
 import 'package:flutter/material.dart';
 import 'package:ui_components_lib/v2/ui_components_lib_v2.dart';
 
 class EmptyNftList extends StatelessWidget {
-  const EmptyNftList({super.key});
+  const EmptyNftList({
+    required this.onAddNftPressed,
+    super.key,
+  });
+
+  final VoidCallback onAddNftPressed;
 
   @override
   Widget build(BuildContext context) {
     final theme = context.themeStyleV2;
     return Column(
+      mainAxisSize: MainAxisSize.min,
       children: [
         Padding(
           padding: const EdgeInsets.symmetric(horizontal: DimensSizeV2.d48),
@@ -19,6 +24,7 @@ class EmptyNftList extends StatelessWidget {
         Padding(
           padding: const EdgeInsets.symmetric(horizontal: DimensSizeV2.d16),
           child: Column(
+            mainAxisSize: MainAxisSize.min,
             children: [
               Padding(
                 padding: const EdgeInsets.symmetric(
@@ -50,10 +56,8 @@ class EmptyNftList extends StatelessWidget {
               const SizedBox(height: DimensSizeV2.d8),
               PrimaryButton(
                 buttonShape: ButtonShape.pill,
-                onPressed: () {
-                  context.goFurther(AppRoute.addNft.path);
-                },
                 title: LocaleKeys.addNFT.tr(),
+                onPressed: onAddNftPressed,
               ),
             ],
           ),

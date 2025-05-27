@@ -724,4 +724,6 @@ abstract class LocaleKeys {
   static const nftEmptyListSubtitle = 'nftEmptyListSubtitle';
   static const visitMarketplace = 'visitMarketplace';
   static const addNFT = 'addNFT';
+  static const nftMyCollections = 'nftMyCollections';
+  static const nftPasteHint = 'nftPasteHint';
 }
