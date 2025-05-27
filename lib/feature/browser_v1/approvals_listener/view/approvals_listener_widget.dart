@@ -146,6 +146,8 @@ class _ApprovalsListenerWidgetState extends State<ApprovalsListenerWidget> {
           bounce,
           payload,
           knownPayload,
+          ignoredComputePhaseCodes,
+          ignoredActionPhaseCodes,
           completer,
         ) =>
             sendMessage(
@@ -157,6 +159,8 @@ class _ApprovalsListenerWidgetState extends State<ApprovalsListenerWidget> {
           bounce: bounce,
           payload: payload,
           knownPayload: knownPayload,
+          ignoredComputePhaseCodes: ignoredComputePhaseCodes,
+          ignoredActionPhaseCodes: ignoredActionPhaseCodes,
           completer: completer,
         ),
         changeNetwork: (
@@ -419,6 +423,10 @@ class _ApprovalsListenerWidgetState extends State<ApprovalsListenerWidget> {
     required bool bounce,
     required FunctionCall? payload,
     required KnownPayload? knownPayload,
+    required List<IgnoreTransactionTreeSimulationError>?
+        ignoredComputePhaseCodes,
+    required List<IgnoreTransactionTreeSimulationError>?
+        ignoredActionPhaseCodes,
     required Completer<(PublicKey, String)> completer,
   }) async {
     try {
@@ -431,6 +439,8 @@ class _ApprovalsListenerWidgetState extends State<ApprovalsListenerWidget> {
         bounce: bounce,
         payload: payload,
         knownPayload: knownPayload,
+        ignoredComputePhaseCodes: ignoredComputePhaseCodes,
+        ignoredActionPhaseCodes: ignoredActionPhaseCodes,
       );
 
       if (result != null) {

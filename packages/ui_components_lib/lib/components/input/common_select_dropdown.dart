@@ -75,7 +75,7 @@ class CommonSelectDropdown<T> extends StatelessWidget {
             ),
           ),
           child: SeparatedRow(
-            separatorSize: DimensSizeV2.d4,
+            spacing: DimensSizeV2.d4,
             children: [
               if (titleText != null)
                 Text(

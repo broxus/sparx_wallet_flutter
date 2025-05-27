@@ -1,6 +1,7 @@
 import 'package:app/app/router/router.dart';
 import 'package:app/di/di.dart';
 import 'package:app/feature/wallet/wallet.dart';
+import 'package:app/feature/wallet/wallet_prepare_transfer/route.dart';
 import 'package:app/generated/generated.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -213,17 +214,15 @@ class _Body extends StatelessWidget {
     );
   }
 
-  void _onSend(BuildContext context) => context.goFurther(
-        AppRoute.walletPrepareTransferSpecified.pathWithData(
-          pathParameters: {
-            walletPrepareTransferAddressPathParam: owner.address,
-            walletPrepareTransferRootTokenAddressPathParam:
-                rootTokenContract.address,
-            walletPrepareTransferSymbolPathParam:
-                tokenBalance!.currency.isoCode,
-          },
-        ),
-      );
+  void _onSend(BuildContext context) {
+    context.compassContinue(
+      WalletPrepareSpecifiedTransferRouteData(
+        address: owner,
+        rootTokenContract: rootTokenContract,
+        tokenSymbol: tokenBalance!.currency.isoCode,
+      ),
+    );
+  }
 }
 
 class _Background extends StatelessWidget {

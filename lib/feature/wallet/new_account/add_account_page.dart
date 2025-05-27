@@ -1,4 +1,6 @@
 import 'package:app/app/router/router.dart';
+import 'package:app/feature/wallet/new_account/add_external_account/route.dart';
+import 'package:app/feature/wallet/new_account/select_seed/route.dart';
 import 'package:app/generated/generated.dart';
 import 'package:flutter/material.dart';
 import 'package:lucide_icons_flutter/lucide_icons.dart';
@@ -31,9 +33,7 @@ class AddAccountPage extends StatelessWidget {
             children: [
               GestureDetector(
                 onTap: () {
-                  context.goFurther(
-                    AppRoute.walletSelectSeed.path,
-                  );
+                  context.compassContinue(const SelectSeedRouteData());
                 },
                 behavior: HitTestBehavior.translucent,
                 child: SizedBox(
@@ -43,7 +43,7 @@ class AddAccountPage extends StatelessWidget {
                       horizontal: DimensSizeV2.d16,
                     ),
                     child: SeparatedRow(
-                      separatorSize: DimensSizeV2.d12,
+                      spacing: DimensSizeV2.d12,
                       children: [
                         const Icon(LucideIcons.plus, size: DimensSizeV2.d20),
                         Expanded(
@@ -63,9 +63,7 @@ class AddAccountPage extends StatelessWidget {
               ),
               GestureDetector(
                 onTap: () {
-                  context.goFurther(
-                    AppRoute.walletNewExternalAccount.path,
-                  );
+                  context.compassContinue(const NewExternalAccountRouteData());
                 },
                 child: SizedBox(
                   height: DimensSizeV2.d64,
@@ -74,7 +72,7 @@ class AddAccountPage extends StatelessWidget {
                       horizontal: DimensSizeV2.d16,
                     ),
                     child: SeparatedRow(
-                      separatorSize: DimensSizeV2.d12,
+                      spacing: DimensSizeV2.d12,
                       children: [
                         const Icon(
                           LucideIcons.import,

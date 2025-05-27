@@ -1,8 +1,8 @@
-import 'package:app/app/router/app_route.dart';
+import 'package:app/app/router/router.dart';
 import 'package:app/core/error_handler_factory.dart';
 import 'package:app/core/wm/custom_wm.dart';
 import 'package:app/di/di.dart';
-import 'package:app/feature/choose_network/choose_network_screen.dart';
+import 'package:app/feature/choose_network/route.dart';
 import 'package:app/feature/contact_support/widgets/widgets.dart';
 import 'package:app/feature/onboarding/screen/welcome/welcome_screen.dart';
 import 'package:app/feature/onboarding/screen/welcome/welcome_screen_model.dart';
@@ -36,20 +36,18 @@ class WelcomeScreenWidgetModel
 
   void onPressedCreateWallet() {
     model.saveUserNew(userWithNewWallet: true);
-    _goNext(AppRoute.createSeedPassword.path);
+    contextSafe?.compassContinue(
+      const ChooseNetworkRouteData(
+        nextStep: ChooseNetworkNextStep.createSeedPassword,
+      ),
+    );
   }
 
   void onPressedWalletLogin() {
     model.saveUserNew(userWithNewWallet: false);
-    _goNext(AppRoute.addExistingWallet.path);
-  }
-
-  void _goNext(String nextStep) {
-    contextSafe?.goFurther(
-      AppRoute.chooseNetwork.pathWithData(
-        queryParameters: {
-          chooseNetworkScreenNextStepQuery: nextStep,
-        },
+    contextSafe?.compassContinue(
+      const ChooseNetworkRouteData(
+        nextStep: ChooseNetworkNextStep.addExistingWallet,
       ),
     );
   }
