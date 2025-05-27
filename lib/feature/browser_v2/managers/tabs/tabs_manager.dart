@@ -388,7 +388,6 @@ class BrowserTabsManager {
     String? initTabId,
     bool isSwitchToCreatedGroup = false,
   }) {
-
     if (initTabId != null) {
       final keys = _allGroups.keys;
 

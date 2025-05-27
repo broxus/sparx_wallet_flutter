@@ -87,6 +87,10 @@ class BrowserMainScreenWidgetModel
     screenWidth: sizes.screenWidth,
     urlWidth: sizes.urlWidth,
     onChangeSlideIndex: (int tabIndex) {
+      if (_viewVisibleState.value ?? false) {
+        return;
+      }
+
       Future(() {
         final groupId = model.activeGroupState.value?.groupId;
 
@@ -109,7 +113,6 @@ class BrowserMainScreenWidgetModel
         );
       });
     },
-    checkIsViewPages: () => viewVisibleState.value ?? true,
   );
 
   late final _tabsDelegate = BrowserTabsAndGroupsDelegate(
@@ -348,6 +351,7 @@ class BrowserMainScreenWidgetModel
 
       if (index != null && index > -1) {
         _pageSlideDelegate.slideTo(sizes.urlWidth * index + 50);
+
         _pageDelegate.reset();
       }
 
@@ -386,9 +390,14 @@ class BrowserMainScreenWidgetModel
     if (groupName == null) {
       return;
     }
-    model.createBrowserGroup(
+
+    final group = model.createBrowserGroup(
       name: groupName,
       tabId: tabId,
     );
+
+    if (group != null) {
+      _tabsDelegate.updateSelectedGroupId(group.id);
+    }
   }
 }

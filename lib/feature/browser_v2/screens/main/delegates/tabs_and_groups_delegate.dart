@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:app/feature/browser_v2/data/tabs/browser_tab.dart';
 import 'package:app/feature/browser_v2/screens/main/browser_main_screen_model.dart';
 import 'package:app/feature/browser_v2/screens/main/data/browser_render_manager.dart';
@@ -110,7 +112,9 @@ class BrowserTabsAndGroupsDelegate implements BrowserTabsAndGroupsUi {
         groupId: groupId,
         tabId: tabId,
       );
+      _selectedGroupIdState.accept(groupId);
     }
+    onChangeTab();
   }
 
   @override
@@ -201,6 +205,10 @@ class BrowserTabsAndGroupsDelegate implements BrowserTabsAndGroupsUi {
     );
   }
 
+  void updateSelectedGroupId(String id) {
+    _selectedGroupIdState.accept(id);
+  }
+
   void _init() {
     model.activeGroupState.addListener(_handleActiveGroup);
     _viewTabsState.addListener(_handleTabs);
@@ -212,38 +220,39 @@ class BrowserTabsAndGroupsDelegate implements BrowserTabsAndGroupsUi {
   }
 
   Future<void> _handleActiveGroup() async {
-    final groupId = model.activeGroupState.value?.groupId;
+    final activeGroupId = model.activeGroupState.value?.groupId;
     final activeTabId = model.activeGroupState.value?.activeTabId;
 
-    if (groupId == null || activeTabId == null) {
+    if (activeGroupId == null || activeTabId == null) {
       return;
     }
 
-    _selectedGroupIdState.accept(groupId);
-    _viewTabsState.accept(model.getGroupTabs(groupId));
+    _selectedGroupIdState.accept(activeGroupId);
+    _viewTabsState.accept(model.getGroupTabs(activeGroupId));
 
     onUpdateActiveTab();
 
-    if (_prevActiveGroupId != groupId || _prevActiveTabId != activeTabId) {
-      await scrollToTab(
-        groupId: groupId,
-        tabId: activeTabId,
+    if (_prevActiveTabId != activeTabId) {
+      final data = renderManager.getRenderData(activeTabId);
+
+      _tabAnimationTypeState.accept(
+        ShowViewAnimationType(
+          tabX: data?.xLeft,
+          tabY: data?.yTop,
+        ),
       );
-      await callWithDelay(() {
-        final data = renderManager.getRenderData(activeTabId);
-
-        _tabAnimationTypeState.accept(
-          ShowViewAnimationType(
-            tabX: data?.xLeft,
-            tabY: data?.yTop,
-          ),
-        );
-      });
-
-      onChangeTab();
-      _prevActiveGroupId = groupId;
-      _prevActiveTabId = activeTabId;
+      unawaited(
+        scrollToTab(
+          groupId: activeGroupId,
+          tabId: activeTabId,
+        ),
+      );
     }
+
+    onChangeTab();
+
+    _prevActiveGroupId = activeGroupId;
+    _prevActiveTabId = activeTabId;
   }
 
   void _handleTabs() {

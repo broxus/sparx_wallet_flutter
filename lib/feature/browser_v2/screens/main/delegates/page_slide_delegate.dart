@@ -14,7 +14,6 @@ class BrowserPageSlideDelegate implements BrowserPageSlideUi {
     required this.screenWidth,
     required this.urlWidth,
     required this.onChangeSlideIndex,
-    required this.checkIsViewPages,
   }) {
     _init();
   }
@@ -27,7 +26,6 @@ class BrowserPageSlideDelegate implements BrowserPageSlideUi {
   final double screenWidth;
   final double urlWidth;
   final ValueChanged<int> onChangeSlideIndex;
-  final bool Function() checkIsViewPages;
 
   void dispose() {
     viewTabScrollController.dispose();
@@ -54,17 +52,14 @@ class BrowserPageSlideDelegate implements BrowserPageSlideUi {
   }
 
   void _handleUrlPanelScroll() {
-    if (!checkIsViewPages()) {
-      return;
-    }
     final urlOffset = urlSliderController.offset;
     final urlMax = urlSliderController.position.maxScrollExtent;
     final viewMax = viewTabScrollController.position.maxScrollExtent;
     final tabIndex = ((viewMax - (viewMax - urlOffset)) / urlWidth).round();
 
-    onChangeSlideIndex(tabIndex);
-
     final x = viewMax * urlOffset / urlMax;
+
+    onChangeSlideIndex(tabIndex);
 
     if (x == 0) {
       viewTabScrollController.animateTo(

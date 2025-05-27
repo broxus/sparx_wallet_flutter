@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:app/feature/browser_v2/custom_web_controller.dart';
+import 'package:app/feature/browser_v2/data/groups/browser_group.dart';
 import 'package:app/feature/browser_v2/data/groups/groups_data.dart';
 import 'package:app/feature/browser_v2/data/tabs/browser_tab.dart';
 import 'package:app/feature/browser_v2/domain/service/browser_service.dart';
@@ -119,21 +120,19 @@ class BrowserMainScreenModel extends ElementaryModel {
     _browserService.hM.removeHistoryItemByUri(url);
   }
 
-  void createBrowserGroup({
+  BrowserGroup? createBrowserGroup({
     String? name,
     String? tabId,
   }) =>
       _browserService.tabs.createBrowserGroup(
         name: name,
-        isSwitchToCreatedGroup: true,
+        isSwitchToCreatedGroup: tabId == null,
         initTabId: tabId,
       );
 
   List<BrowserTab> getGroupTabs(String groupId) {
     return _browserService.tabs.getGroupTabs(groupId);
   }
-
-
 
   String? getTabIdByIndex({
     required String groupId,

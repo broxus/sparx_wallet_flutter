@@ -141,14 +141,6 @@ class BrowserService {
     }
   }
 
-  void createBrowserGroupByTabId(String name, String tabId) {
-    tabs.createBrowserGroup(
-      name: name,
-      initTabId: tabId,
-      isSwitchToCreatedGroup: true,
-    );
-  }
-
   Future<void> _clearCookieAndData() async {
     await tryWrapper(tM.clearCookie);
     await tryWrapper(permissions.clearPermissions);
