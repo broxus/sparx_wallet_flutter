@@ -66,5 +66,8 @@ class NftPageWidgetModel
 
   void setDisplayMode(NftDisplayMode mode) => model.setDisplayMode(mode);
 
-  void onAddNftPressed() => context.goFurther(AppRoute.addNft.path);
+  Future<void> onAddNftPressed() async {
+    await context.compassPush<void>(const AddNftRouteRouteData());
+    // TODO: handle result
+  }
 }

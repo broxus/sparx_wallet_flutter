@@ -1,6 +1,5 @@
 import 'package:app/core/error_handler_factory.dart';
 import 'package:app/core/wm/custom_wm.dart';
-import 'package:app/core/wm/navigation_wm_mixin.dart';
 import 'package:app/di/di.dart';
 import 'package:app/feature/messenger/data/message.dart';
 import 'package:app/feature/messenger/domain/service/messenger_service.dart';
@@ -25,11 +24,8 @@ AddNftWidgetModel defaultAddNftWidgetModelFactory(BuildContext context) {
   );
 }
 
-class AddNftWidgetModel extends CustomWidgetModel<AddNftWidget, AddNftModel>
-    with NavigationMixin {
-  AddNftWidgetModel(
-    super.model,
-  );
+class AddNftWidgetModel extends CustomWidgetModel<AddNftWidget, AddNftModel> {
+  AddNftWidgetModel(super.model);
 
   late final _currentAccount = createNotifierFromStream(model.currentAccount);
 
@@ -41,7 +37,7 @@ class AddNftWidgetModel extends CustomWidgetModel<AddNftWidget, AddNftModel>
     RegExp(r'\s'),
   );
 
-  ThemeStyleV2 get themeStyle => context.themeStyleV2;
+  ThemeStyleV2 get themeStyleV2 => context.themeStyleV2;
 
   Future<void> paste() async {
     final text = await getClipBoardText();

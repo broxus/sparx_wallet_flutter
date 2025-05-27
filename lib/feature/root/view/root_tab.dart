@@ -1,5 +1,6 @@
 import 'package:app/app/router/compass/compass.dart';
 import 'package:app/feature/browser_v2/route.dart';
+import 'package:app/feature/nft/nft.dart';
 import 'package:app/feature/profile/route.dart';
 import 'package:app/feature/wallet/route.dart';
 import 'package:app/generated/generated.dart';
@@ -54,6 +55,7 @@ enum RootTab {
       RootTab.wallet => const WalletRouteData(),
       RootTab.browser => const BrowserRouteData(),
       RootTab.profile => const ProfileRouteData(),
+      RootTab.nft => const NftRouteData(),
     };
   }
 
@@ -62,6 +64,7 @@ enum RootTab {
       WalletRoute() => RootTab.wallet,
       BrowserRoute() => RootTab.browser,
       ProfileRoute() => RootTab.profile,
+      NftRoute() => RootTab.nft,
       _ => RootTab.wallet,
     };
   }

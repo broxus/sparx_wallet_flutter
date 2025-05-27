@@ -18,7 +18,7 @@ class AddNftWidget extends ElementaryWidget<AddNftWidgetModel> {
 
   @override
   Widget build(AddNftWidgetModel wm) {
-    final theme = wm.context.themeStyleV2;
+    final theme = wm.themeStyleV2;
 
     return Scaffold(
       backgroundColor: theme.colors.background0,
@@ -37,7 +37,7 @@ class AddNftWidget extends ElementaryWidget<AddNftWidgetModel> {
                   ),
                   PrimaryTextField(
                     sizeType: PrimaryTextFieldSizeType.medium,
-                    hintText: "Paste NFT address",
+                    hintText: LocaleKeys.nftPasteHint.tr(),
                     textEditingController: wm.addressController,
                     inputFormatters: [wm.addressFilterFormatter],
                     validator: wm.validateAddressField,
