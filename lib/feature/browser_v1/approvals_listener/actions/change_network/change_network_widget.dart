@@ -27,13 +27,13 @@ class ChangeNetworkWidget extends ElementaryWidget<ChangeNetworkWidgetModel> {
     final theme = wm.theme;
 
     return SeparatedColumn(
-      separatorSize: DimensSizeV2.d12,
+      spacing: DimensSizeV2.d12,
       children: [
         Expanded(
           child: SingleChildScrollView(
             controller: scrollController,
             child: SeparatedColumn(
-              separatorSize: DimensSizeV2.d12,
+              spacing: DimensSizeV2.d12,
               children: [
                 WebsiteInfoWidget(uri: origin),
                 if (connections.length > 1)
@@ -65,7 +65,7 @@ class ChangeNetworkWidget extends ElementaryWidget<ChangeNetworkWidgetModel> {
                       horizontal: DimensSizeV2.d16,
                     ),
                     child: SeparatedColumn(
-                      separatorSize: DimensSizeV2.d16,
+                      spacing: DimensSizeV2.d16,
                       children: [
                         _Param(
                           label: LocaleKeys.networkId.tr(),

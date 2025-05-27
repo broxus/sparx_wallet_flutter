@@ -2,7 +2,7 @@ import 'package:app/feature/wallet/wallet.dart';
 import 'package:app/feature/wallet/wallet_prepare_transfer/wallet_prepare_transfer_page_wm.dart';
 import 'package:app/generated/generated.dart';
 import 'package:app/utils/common_utils.dart';
-import 'package:app/widgets/amount_input/amount_input.dart';
+import 'package:app/widgets/widgets.dart';
 import 'package:elementary_helper/elementary_helper.dart';
 import 'package:flutter/material.dart';
 import 'package:lucide_icons_flutter/lucide_icons.dart';
@@ -38,7 +38,7 @@ class WalletPrepareTransferView extends StatelessWidget {
           Expanded(
             child: SingleChildScrollView(
               child: SeparatedColumn(
-                separatorSize: DimensSize.d16,
+                spacing: DimensSize.d16,
                 children: [
                   if (account != null) AccountInfo(account: account!),
                   if (localCustodians != null && localCustodians!.length > 1)
@@ -64,13 +64,13 @@ class WalletPrepareTransferView extends StatelessWidget {
                     validator: _wm.validateAddressField,
                     suffixes: [
                       _ScanQRButton(
-                        receiver: _wm.receiverState,
+                        receiver: _wm.receiverController,
                         onPressed: _wm.onPressedScan,
                       ),
-                      _PasteButton(
-                        receiver: _wm.receiverState,
-                        onPaste: _wm.onPressedPasteAddress,
+                      ClipboardPasteButton(
+                        value: _wm.receiverController,
                         onClear: _wm.onPressedReceiverClear,
+                        onPaste: _wm.onPressedPasteAddress,
                       ),
                     ],
                   ),
@@ -141,22 +141,22 @@ class WalletPrepareTransferView extends StatelessWidget {
               ),
       );
 
-  Widget _buildCommentSuffix() => StateNotifierBuilder(
-        listenableState: _wm.commentTextState,
-        builder: (_, value) {
-          if (value?.isNotEmpty ?? false) {
-            return Padding(
-              padding: const EdgeInsets.only(right: DimensSize.d8),
-              child: FloatButton(
-                buttonShape: ButtonShape.square,
-                buttonSize: ButtonSize.small,
-                icon: LucideIcons.x,
-                onPressed: _wm.onPressedCleanComment,
-              ),
-            );
-          } else {
+  Widget _buildCommentSuffix() => ValueListenableBuilder(
+        valueListenable: _wm.commentController,
+        builder: (_, value, __) {
+          if (value.text.isEmpty) {
             return const SizedBox.shrink();
           }
+
+          return Padding(
+            padding: const EdgeInsets.only(right: DimensSize.d8),
+            child: FloatButton(
+              buttonShape: ButtonShape.square,
+              buttonSize: ButtonSize.small,
+              icon: LucideIcons.x,
+              onPressed: _wm.onPressedCleanComment,
+            ),
+          );
         },
       );
 }
@@ -167,14 +167,14 @@ class _ScanQRButton extends StatelessWidget {
     required this.onPressed,
   });
 
-  final StateNotifier<String?> receiver;
+  final ValueNotifier<TextEditingValue> receiver;
   final VoidCallback onPressed;
 
   @override
   Widget build(BuildContext context) {
-    return StateNotifierBuilder(
-      listenableState: receiver,
-      builder: (_, value) => value?.isEmpty ?? true
+    return ValueListenableBuilder(
+      valueListenable: receiver,
+      builder: (_, value, ___) => value.text.isEmpty
           ? Padding(
               padding: const EdgeInsets.only(right: DimensSize.d4),
               child: PrimaryButton(
@@ -185,45 +185,6 @@ class _ScanQRButton extends StatelessWidget {
               ),
             )
           : const SizedBox.shrink(),
-    );
-  }
-}
-
-class _PasteButton extends StatelessWidget {
-  const _PasteButton({
-    required this.receiver,
-    required this.onPaste,
-    required this.onClear,
-  });
-
-  final StateNotifier<String?> receiver;
-  final VoidCallback onPaste;
-  final VoidCallback onClear;
-
-  @override
-  Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.only(right: DimensSize.d8),
-      child: StateNotifierBuilder(
-        listenableState: receiver,
-        builder: (_, value) {
-          if (value?.isEmpty ?? true) {
-            return PrimaryButton(
-              buttonShape: ButtonShape.square,
-              buttonSize: ButtonSize.small,
-              icon: LucideIcons.arrowDownToDot,
-              onPressed: onPaste,
-            );
-          }
-
-          return PrimaryButton(
-            buttonShape: ButtonShape.square,
-            icon: LucideIcons.x,
-            onPressed: onClear,
-            buttonSize: ButtonSize.small,
-          );
-        },
-      ),
     );
   }
 }

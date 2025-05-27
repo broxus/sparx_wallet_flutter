@@ -1,8 +1,8 @@
+import 'package:app/app/router/router.dart';
 import 'package:app/di/di.dart';
 import 'package:app/feature/profile/profile.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:go_router/go_router.dart';
 import 'package:lucide_icons_flutter/lucide_icons.dart';
 import 'package:nekoton_repository/nekoton_repository.dart';
 import 'package:ui_components_lib/ui_components_lib.dart';
@@ -28,7 +28,7 @@ class AccountDetailPage extends StatelessWidget {
       )..init(),
       child: BlocConsumer<AccountDetailCubit, AccountDetailState>(
         listener: (context, state) {
-          state.whenOrNull(empty: () => context.pop());
+          state.whenOrNull(empty: () => context.compassBack());
         },
         builder: (context, state) {
           return state.maybeWhen(

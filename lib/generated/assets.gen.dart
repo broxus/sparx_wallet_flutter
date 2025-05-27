@@ -121,24 +121,24 @@ class $AssetsImagesGen {
   SvgGenImage get arrowsLeftRight =>
       const SvgGenImage('assets/images/arrows_left_right.svg');
 
-  /// File path: assets/images/bg_connection.png
+  /// File path: assets/images/bg_connection.webp
   AssetGenImage get bgConnection =>
-      const AssetGenImage('assets/images/bg_connection.png');
+      const AssetGenImage('assets/images/bg_connection.webp');
 
-  /// File path: assets/images/bg_internet.png
+  /// File path: assets/images/bg_internet.webp
   AssetGenImage get bgInternet =>
-      const AssetGenImage('assets/images/bg_internet.png');
+      const AssetGenImage('assets/images/bg_internet.webp');
 
   /// Directory path: assets/images/bg_main
   $AssetsImagesBgMainGen get bgMain => const $AssetsImagesBgMainGen();
 
-  /// File path: assets/images/bg_network.png
+  /// File path: assets/images/bg_network.webp
   AssetGenImage get bgNetwork =>
-      const AssetGenImage('assets/images/bg_network.png');
+      const AssetGenImage('assets/images/bg_network.webp');
 
-  /// File path: assets/images/blur_background.png
+  /// File path: assets/images/blur_background.webp
   AssetGenImage get blurBackground =>
-      const AssetGenImage('assets/images/blur_background.png');
+      const AssetGenImage('assets/images/blur_background.webp');
 
   /// File path: assets/images/book-open.svg
   SvgGenImage get bookOpen => const SvgGenImage('assets/images/book-open.svg');
@@ -206,9 +206,9 @@ class $AssetsImagesGen {
   /// File path: assets/images/choose.svg
   SvgGenImage get choose => const SvgGenImage('assets/images/choose.svg');
 
-  /// File path: assets/images/circle_check.png
+  /// File path: assets/images/circle_check.webp
   AssetGenImage get circleCheck =>
-      const AssetGenImage('assets/images/circle_check.png');
+      const AssetGenImage('assets/images/circle_check.webp');
 
   /// File path: assets/images/clear.svg
   SvgGenImage get clear => const SvgGenImage('assets/images/clear.svg');
@@ -233,9 +233,9 @@ class $AssetsImagesGen {
   /// File path: assets/images/deploy.svg
   SvgGenImage get deploy => const SvgGenImage('assets/images/deploy.svg');
 
-  /// File path: assets/images/deployment_progress.png
+  /// File path: assets/images/deployment_progress.webp
   AssetGenImage get deploymentProgress =>
-      const AssetGenImage('assets/images/deployment_progress.png');
+      const AssetGenImage('assets/images/deployment_progress.webp');
 
   /// File path: assets/images/dots.svg
   SvgGenImage get dots => const SvgGenImage('assets/images/dots.svg');
@@ -246,13 +246,13 @@ class $AssetsImagesGen {
   /// File path: assets/images/ever.svg
   SvgGenImage get ever => const SvgGenImage('assets/images/ever.svg');
 
-  /// File path: assets/images/exclamation_mark.png
+  /// File path: assets/images/exclamation_mark.webp
   AssetGenImage get exclamationMark =>
-      const AssetGenImage('assets/images/exclamation_mark.png');
+      const AssetGenImage('assets/images/exclamation_mark.webp');
 
-  /// File path: assets/images/exclamation_mark_alert.png
+  /// File path: assets/images/exclamation_mark_alert.webp
   AssetGenImage get exclamationMarkAlert =>
-      const AssetGenImage('assets/images/exclamation_mark_alert.png');
+      const AssetGenImage('assets/images/exclamation_mark_alert.webp');
 
   /// File path: assets/images/exit.svg
   SvgGenImage get exit => const SvgGenImage('assets/images/exit.svg');
@@ -288,9 +288,9 @@ class $AssetsImagesGen {
   SvgGenImage get horizontalDots =>
       const SvgGenImage('assets/images/horizontal_dots.svg');
 
-  /// File path: assets/images/ic_explamation_mark.png
+  /// File path: assets/images/ic_explamation_mark.webp
   AssetGenImage get icExplamationMark =>
-      const AssetGenImage('assets/images/ic_explamation_mark.png');
+      const AssetGenImage('assets/images/ic_explamation_mark.webp');
 
   /// File path: assets/images/ic_match.svg
   SvgGenImage get icMatch => const SvgGenImage('assets/images/ic_match.svg');
@@ -325,9 +325,9 @@ class $AssetsImagesGen {
   /// File path: assets/images/lock.svg
   SvgGenImage get lock => const SvgGenImage('assets/images/lock.svg');
 
-  /// File path: assets/images/lock_backup.png
+  /// File path: assets/images/lock_backup.webp
   AssetGenImage get lockBackup =>
-      const AssetGenImage('assets/images/lock_backup.png');
+      const AssetGenImage('assets/images/lock_backup.webp');
 
   /// File path: assets/images/lock_fill.svg
   SvgGenImage get lockFill => const SvgGenImage('assets/images/lock_fill.svg');
@@ -425,9 +425,9 @@ class $AssetsImagesGen {
   /// File path: assets/images/search_x.svg
   SvgGenImage get searchX => const SvgGenImage('assets/images/search_x.svg');
 
-  /// File path: assets/images/seed_phrase_icon.png
+  /// File path: assets/images/seed_phrase_icon.webp
   AssetGenImage get seedPhraseIcon =>
-      const AssetGenImage('assets/images/seed_phrase_icon.png');
+      const AssetGenImage('assets/images/seed_phrase_icon.webp');
 
   /// File path: assets/images/settings.svg
   SvgGenImage get settings => const SvgGenImage('assets/images/settings.svg');
@@ -458,9 +458,9 @@ class $AssetsImagesGen {
   /// File path: assets/images/tooltip.svg
   SvgGenImage get tooltip => const SvgGenImage('assets/images/tooltip.svg');
 
-  /// File path: assets/images/transaction_progress.png
+  /// File path: assets/images/transaction_progress.webp
   AssetGenImage get transactionProgress =>
-      const AssetGenImage('assets/images/transaction_progress.png');
+      const AssetGenImage('assets/images/transaction_progress.webp');
 
   /// File path: assets/images/trash.svg
   SvgGenImage get trash => const SvgGenImage('assets/images/trash.svg');
@@ -614,17 +614,17 @@ class $AssetsJsGen {
 class $AssetsSplashGen {
   const $AssetsSplashGen();
 
-  /// File path: assets/splash/ic_splash_banner.png
+  /// File path: assets/splash/ic_splash_banner.webp
   AssetGenImage get icSplashBanner =>
-      const AssetGenImage('assets/splash/ic_splash_banner.png');
+      const AssetGenImage('assets/splash/ic_splash_banner.webp');
 
-  /// File path: assets/splash/ic_splash_logo.png
+  /// File path: assets/splash/ic_splash_logo.webp
   AssetGenImage get icSplashLogo =>
-      const AssetGenImage('assets/splash/ic_splash_logo.png');
+      const AssetGenImage('assets/splash/ic_splash_logo.webp');
 
-  /// File path: assets/splash/native_splash.png
+  /// File path: assets/splash/native_splash.webp
   AssetGenImage get nativeSplash =>
-      const AssetGenImage('assets/splash/native_splash.png');
+      const AssetGenImage('assets/splash/native_splash.webp');
 
   /// List of all assets
   List<AssetGenImage> get values =>
@@ -647,9 +647,9 @@ class $AssetsTranslationsGen {
 class $AssetsImagesAlertOctagonFillGen {
   const $AssetsImagesAlertOctagonFillGen();
 
-  /// File path: assets/images/alert_octagon_fill/alert_octagon_fill.png
+  /// File path: assets/images/alert_octagon_fill/alert_octagon_fill.webp
   AssetGenImage get alertOctagonFill => const AssetGenImage(
-      'assets/images/alert_octagon_fill/alert_octagon_fill.png');
+      'assets/images/alert_octagon_fill/alert_octagon_fill.webp');
 
   /// List of all assets
   List<AssetGenImage> get values => [alertOctagonFill];
@@ -658,9 +658,9 @@ class $AssetsImagesAlertOctagonFillGen {
 class $AssetsImagesBgMainGen {
   const $AssetsImagesBgMainGen();
 
-  /// File path: assets/images/bg_main/bg_main.png
+  /// File path: assets/images/bg_main/bg_main.webp
   AssetGenImage get bgMain =>
-      const AssetGenImage('assets/images/bg_main/bg_main.png');
+      const AssetGenImage('assets/images/bg_main/bg_main.webp');
 
   /// List of all assets
   List<AssetGenImage> get values => [bgMain];
@@ -669,9 +669,9 @@ class $AssetsImagesBgMainGen {
 class $AssetsImagesCheckCircleFillGen {
   const $AssetsImagesCheckCircleFillGen();
 
-  /// File path: assets/images/check_circle_fill/check_circle_fill.png
+  /// File path: assets/images/check_circle_fill/check_circle_fill.webp
   AssetGenImage get checkCircleFill => const AssetGenImage(
-      'assets/images/check_circle_fill/check_circle_fill.png');
+      'assets/images/check_circle_fill/check_circle_fill.webp');
 
   /// List of all assets
   List<AssetGenImage> get values => [checkCircleFill];
@@ -737,9 +737,9 @@ class $AssetsImagesSteverGen {
 class $AssetsImagesUserAvatarGen {
   const $AssetsImagesUserAvatarGen();
 
-  /// File path: assets/images/user_avatar/user_avatar.png
+  /// File path: assets/images/user_avatar/user_avatar.webp
   AssetGenImage get userAvatar =>
-      const AssetGenImage('assets/images/user_avatar/user_avatar.png');
+      const AssetGenImage('assets/images/user_avatar/user_avatar.webp');
 
   /// List of all assets
   List<AssetGenImage> get values => [userAvatar];
@@ -748,9 +748,9 @@ class $AssetsImagesUserAvatarGen {
 class $AssetsImagesWalletBgGen {
   const $AssetsImagesWalletBgGen();
 
-  /// File path: assets/images/wallet_bg/wallet_bg.png
+  /// File path: assets/images/wallet_bg/wallet_bg.webp
   AssetGenImage get walletBg =>
-      const AssetGenImage('assets/images/wallet_bg/wallet_bg.png');
+      const AssetGenImage('assets/images/wallet_bg/wallet_bg.webp');
 
   /// List of all assets
   List<AssetGenImage> get values => [walletBg];

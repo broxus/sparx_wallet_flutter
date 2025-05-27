@@ -212,6 +212,8 @@ class SendMessageWidgetModel
       final errors = await model.simulateTransactionTree(
         address: widget.sender,
         message: message,
+        ignoredComputePhaseCodes: widget.ignoredComputePhaseCodes,
+        ignoredActionPhaseCodes: widget.ignoredActionPhaseCodes,
       );
 
       _txErrors.accept(errors);

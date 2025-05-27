@@ -1,4 +1,4 @@
-import 'package:app/app/router/app_route.dart';
+import 'package:app/app/router/router.dart';
 import 'package:app/generated/generated.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:lucide_icons_flutter/lucide_icons.dart';
@@ -17,7 +17,7 @@ Future<void> showGoodJobDialog(BuildContext context) {
           buttonShape: ButtonShape.pill,
           title: LocaleKeys.gotItButton.tr(),
           postfixIcon: LucideIcons.check,
-          onPressed: context.maybePop,
+          onPressed: context.compassBack,
         );
       },
     ),

@@ -1113,6 +1113,12 @@ class InpageProvider extends ProviderApi {
             ? nr.FunctionCall.fromJson(input.payload!.toJson())
             : null,
         knownPayload: knownPayload,
+        ignoredComputePhaseCodes: input.ignoredComputePhaseCodes
+            ?.map(_mapIgnoreTransactionTreeSimulationError)
+            .toList(),
+        ignoredActionPhaseCodes: input.ignoredActionPhaseCodes
+            ?.map(_mapIgnoreTransactionTreeSimulationError)
+            .toList(),
       );
 
       final unsignedMessage = await nekotonRepository.prepareTransfer(
@@ -1215,6 +1221,12 @@ class InpageProvider extends ProviderApi {
             ? nr.FunctionCall.fromJson(input.payload!.toJson())
             : null,
         knownPayload: knownPayload,
+        ignoredComputePhaseCodes: input.ignoredComputePhaseCodes
+            ?.map(_mapIgnoreTransactionTreeSimulationError)
+            .toList(),
+        ignoredActionPhaseCodes: input.ignoredActionPhaseCodes
+            ?.map(_mapIgnoreTransactionTreeSimulationError)
+            .toList(),
       );
 
       final unsignedMessage = await nekotonRepository.prepareTransfer(
@@ -1700,3 +1712,14 @@ class InpageProvider extends ProviderApi {
     return list;
   }
 }
+
+nr.IgnoreTransactionTreeSimulationError
+    _mapIgnoreTransactionTreeSimulationError(
+  IgnoreTransactionTreeSimulationError error,
+) =>
+        nr.IgnoreTransactionTreeSimulationError(
+          code: error.code.toInt(),
+          address: error.address?.let(
+            (address) => nr.Address(address: address),
+          ),
+        );

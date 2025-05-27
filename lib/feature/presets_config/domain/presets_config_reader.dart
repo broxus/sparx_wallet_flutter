@@ -143,9 +143,7 @@ class PresetsConfigReader {
   }
 
   Future<String?> _fetchLocalData<T>(PresetConfigType<T> configType) {
-    return _resourcesService.loadString(
-      'assets/configs/${configType.name}.json',
-    );
+    return _resourcesService.loadString(configType.getLocalFileName());
   }
 
   Future<void> _performCacheUpdate<T>(

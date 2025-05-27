@@ -2,6 +2,7 @@ import 'package:app/app/router/router.dart';
 import 'package:app/app/service/service.dart';
 import 'package:app/data/models/models.dart';
 import 'package:app/di/di.dart';
+import 'package:app/feature/wallet/token_wallet_details/route.dart';
 import 'package:app/feature/wallet/widgets/account_asset_tab/token_wallet_asset/token_wallet_asset_cubit.dart';
 import 'package:app/feature/wallet/widgets/account_asset_tab/token_wallet_asset/token_wallet_icon.dart';
 import 'package:app/feature/wallet/widgets/account_asset_tab/wallet_asset_widget.dart';
@@ -70,15 +71,14 @@ class TokenWalletAssetWidget extends StatelessWidget {
             address: asset.address,
             version: asset.version,
           ),
-          onPressed: () => context.goFurther(
-            AppRoute.tokenWalletDetails.pathWithData(
-              pathParameters: {
-                tokenWalletDetailsOwnerAddressPathParam: owner.address,
-                tokenWalletDetailsContractAddressPathParam:
-                    asset.address.address,
-              },
-            ),
-          ),
+          onPressed: () {
+            context.compassContinue(
+              TokenWalletDetailsRouteData(
+                owner: owner,
+                rootTokenContract: asset.address,
+              ),
+            );
+          },
         );
       },
     );
