@@ -157,20 +157,28 @@ class CompassRouter {
   /// It's similar to Go Router's `push` method.
   ///
   /// [data] The route data containing information needed for navigation.
+  /// [isContinue] When true (default), preserves current location's path
+  /// and query parameters using continued location strategy. When false,
+  /// uses standard location without preserving current state.
   ///
   /// Returns a Future that completes with a value
   /// when the pushed route is popped
   /// and the value is passed to [Navigator.pop].
   ///
   /// Throws [StateError] if no route is found for the provided data type.
-  Future<R?> compassPush<R extends Object?>(CompassRouteData data) {
-    final location = _routeDataToLocation(data);
+  Future<R?> compassPush<R extends Object?>(
+    CompassRouteData data, {
+    bool isContinue = true,
+  }) {
+    final location = isContinue
+        ? _routeDataToContinuedLocation(data)
+        : _routeDataToLocation(data)?.toString();
 
     if (location == null) {
       throw StateError('No route for data by type ${data.runtimeType}');
     }
 
-    return _router.push(location.toString());
+    return _router.push(location);
   }
 
   /// Navigates to a route while preserving the current location's path
@@ -188,22 +196,12 @@ class CompassRouter {
   ///
   /// Throws [StateError] if no route is found for the provided data type.
   void compassContinue(CompassRouteData data) {
-    final newLocation = _routeDataToLocation(data);
-    if (newLocation == null) {
+    final continuedLocation = _routeDataToContinuedLocation(data);
+    if (continuedLocation == null) {
       throw StateError('No route for data by type ${data.runtimeType}');
     }
 
-    final originalLocation = _router.state.uri;
-
-    final concatedUri = newLocation.replace(
-      queryParameters: {
-        ...originalLocation.queryParameters, // Preserve original parameters
-        ...newLocation
-            .queryParameters, // Add new parameters (overrides duplicates)
-      },
-    );
-
-    _router.go('.$concatedUri');
+    _router.go(continuedLocation);
   }
 
   /// Navigates back to the previous route in the navigation stack.
@@ -217,7 +215,7 @@ class CompassRouter {
       final route = currentRoutes.lastOrNull;
 
       if (_router.canPop()) {
-        _router.pop();
+        _router.pop(result);
       }
 
       if (route is CompassRouteDataQueryMixin) {
@@ -351,6 +349,27 @@ class CompassRouter {
     }
   }
 
+  String? _routeDataToContinuedLocation(
+    CompassRouteData data,
+  ) {
+    final newLocation = _routeDataToLocation(data);
+    if (newLocation == null) {
+      return null;
+    }
+
+    final originalLocation = _router.state.uri;
+
+    final concatedUri = newLocation.replace(
+      queryParameters: {
+        ...originalLocation.queryParameters, // Preserve original parameters
+        ...newLocation
+            .queryParameters, // Add new parameters (overrides duplicates)
+      },
+    );
+
+    return '.$concatedUri';
+  }
+
   Iterable<CompassBaseGoRoute> _locationByUri(Uri uri) {
     return uri.pathSegments.map((it) => _routsByPaths[it]).nonNulls;
   }
@@ -430,12 +449,18 @@ extension CompassNavigationContextExtension on BuildContext {
   /// Navigates to a route specified by route data by pushing to the stack.
   ///
   /// [data] The route data containing information needed for navigation.
+  /// [isContinue] When true (default), preserves current location's path
+  /// and query parameters using continued location strategy. When false,
+  /// uses standard location without preserving current state.
   ///
   /// Returns a Future that completes when the pushed route is popped.
   ///
   /// See [CompassRouter.compassPush] for more details.
-  Future<R?> compassPush<R>(CompassRouteData data) {
-    return _compassRouter().compassPush(data);
+  Future<R?> compassPush<R>(
+    CompassRouteData data, {
+    bool isContinue = true,
+  }) {
+    return _compassRouter().compassPush(data, isContinue: isContinue);
   }
 
   /// Navigates to a route while preserving the current location's path

@@ -63,6 +63,7 @@ class UpdateVersionGuard extends CompassGuard {
 
     _router?.compassPush(
       const UpdateVersionRouteData(),
+      isContinue: false,
     );
   }
 }

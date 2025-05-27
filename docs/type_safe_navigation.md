@@ -330,7 +330,18 @@ final result = await router.compassPush<ProfileRouteData, bool>(
 final result = await context.compassPush<ProfileRouteData, bool>(
   ProfileRouteData(userId: '123'),
 );
+
+// With isContinue parameter (default: true)
+final result = await context.compassPush<ProfileRouteData, bool>(
+  ProfileRouteData(userId: '123'),
+  isContinue: false, // Don't preserve current location state
+);
 ```
+
+The `isContinue` parameter controls whether the current location's path and query parameters are preserved:
+
+- `isContinue: true` (default) - Uses continued location strategy to preserve current state
+- `isContinue: false` - Uses standard location without preserving current state
 
 This is useful for flows where you expect a result back from the pushed screen.
 
