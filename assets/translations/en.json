@@ -258,6 +258,8 @@
   "historyEmptyDescription": "Your recent activity will appear here",
   "walletWord": "Wallet",
   "browserWord": "Browser",
+  "browserNoTabsTitle": "No Tabs Yet",
+  "browserNoTabsDescription": "Keep track of important details, private\nkeys, or ideas right here",
   "copyLink": "Copy link",
   "copyUrl": "Copy URL",
   "pinTab": "Pin tab",

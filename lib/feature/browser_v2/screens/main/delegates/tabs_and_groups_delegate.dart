@@ -8,7 +8,7 @@ import 'package:elementary_helper/elementary_helper.dart';
 import 'package:flutter/cupertino.dart';
 
 abstract interface class BrowserTabsAndGroupsUi {
-  ListenableState<List<BrowserTab>?> get tabsState;
+  ListenableState<List<BrowserTab>?> get viewTabsState;
 
   ListenableState<String?> get hostState;
 
@@ -54,7 +54,7 @@ class BrowserTabsAndGroupsDelegate implements BrowserTabsAndGroupsUi {
 
   final _tabAnimationTypeState = StateNotifier<TabAnimationType?>();
 
-  final _tabsState = StateNotifier<List<BrowserTab>?>();
+  late final _viewTabsState = StateNotifier<List<BrowserTab>?>();
 
   final _hostState = StateNotifier<String?>();
 
@@ -62,20 +62,14 @@ class BrowserTabsAndGroupsDelegate implements BrowserTabsAndGroupsUi {
     initValue: model.activeGroupState.value?.activeTabId,
   );
 
-  // final _selectedGroupTabsState = StateNotifier<List<BrowserTab>?>();
-
   @override
   ListenableState<String?> get selectedGroupIdState => _selectedGroupIdState;
 
   @override
-  ListenableState<List<BrowserTab>?> get tabsState => _tabsState;
+  ListenableState<List<BrowserTab>?> get viewTabsState => _viewTabsState;
 
   @override
   ListenableState<String?> get hostState => _hostState;
-
-  // @override
-  // ListenableState<List<BrowserTab>?> get selectedGroupTabsState =>
-  //     _selectedGroupTabsState;
 
   @override
   ListenableState<TabAnimationType?> get tabAnimationTypeState =>
@@ -88,12 +82,10 @@ class BrowserTabsAndGroupsDelegate implements BrowserTabsAndGroupsUi {
   BrowserTab? get _activeTab => model.getTabById(activeTabId);
 
   void dispose() {
-    // _tabsState.removeListener(_handleActiveGroupTabsCollection);
-    model.activeGroupState.removeListener(onUpdateActiveTab);
+    model.activeGroupState.removeListener(_handleActiveGroup);
     _selectedGroupIdState.dispose();
-    // model.activeGroupState.removeListener(_matchTabs);
     _tabAnimationTypeState.dispose();
-    _tabsState.removeListener(_handleTabs);
+    _viewTabsState.removeListener(_handleTabs);
   }
 
   @override
@@ -146,10 +138,10 @@ class BrowserTabsAndGroupsDelegate implements BrowserTabsAndGroupsUi {
     required String groupId,
     required String tabId,
   }) {
-    model.setActiveTab(groupId: groupId, tabId: tabId);
+    final prevActiveTabId = activeTabId;
 
     callWithDelay(() async {
-      if (tabId != activeTabId) {
+      if (tabId != prevActiveTabId) {
         final isSuccess = await scrollToTab(
           groupId: groupId,
           tabId: tabId,
@@ -172,21 +164,11 @@ class BrowserTabsAndGroupsDelegate implements BrowserTabsAndGroupsUi {
       );
 
       if (model.activeGroupState.value?.groupId != groupId) {
-        _tabsState.accept(model.getGroupTabs(groupId));
+        _viewTabsState.accept(model.getGroupTabs(groupId));
       }
       onChangeTab();
     });
   }
-
-  // @override
-  // void onPressedGroup(String groupId) {
-  //   _selectedGroupTabsState.accept(model.getGroupTabs(groupId));
-  // }
-
-  // @override
-  // void onCloseTab(String tabId) {
-  //   model.removeBrowserTab(tabId);
-  // }
 
   @override
   Future<void> onCloseAllPressed() async {
@@ -232,12 +214,35 @@ class BrowserTabsAndGroupsDelegate implements BrowserTabsAndGroupsUi {
   }
 
   void _init() {
-    _tabsState.addListener(_handleTabs);
-    tabsState.addListener(onUpdateActiveTab);
+    model.activeGroupState.addListener(_handleActiveGroup);
+    _viewTabsState.addListener(_handleTabs);
+    final groupId = model.activeGroupState.value?.groupId;
+
+    if (groupId != null) {
+      _viewTabsState.accept(model.getGroupTabs(groupId));
+    }
+  }
+
+  String? _prevActiveTabId;
+
+  void _handleActiveGroup() {
+    final activeTabId = model.activeGroupState.value?.activeTabId;
+
+    onUpdateActiveTab();
+    final groupId = model.activeGroupState.value?.groupId;
+
+    if (groupId == null) {
+      return;
+    }
+
+    _selectedGroupIdState.accept(groupId);
+    _viewTabsState.accept(model.getGroupTabs(groupId));
+
+    _prevActiveTabId = activeTabId;
   }
 
   void _handleTabs() {
-    if (_tabsState.value?.isEmpty ?? true) {
+    if (_viewTabsState.value?.isEmpty ?? true) {
       onEmptyTabs();
     }
   }

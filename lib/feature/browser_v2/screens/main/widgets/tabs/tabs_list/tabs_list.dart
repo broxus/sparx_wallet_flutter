@@ -3,6 +3,7 @@ import 'package:app/feature/browser_v2/screens/main/widgets/control_panels/tabs_
 import 'package:app/feature/browser_v2/screens/main/widgets/tabs/item/browser_tabs_list_item.dart';
 import 'package:app/feature/browser_v2/screens/main/widgets/tabs/tabs_list/tabs_list_wm.dart';
 import 'package:app/feature/browser_v2/screens/main/widgets/tabs/tabs_list/widgets/header.dart';
+import 'package:app/generated/generated.dart';
 import 'package:elementary/elementary.dart';
 import 'package:elementary_helper/elementary_helper.dart';
 import 'package:flutter/material.dart';
@@ -11,13 +12,11 @@ import 'package:ui_components_lib/ui_components_lib.dart';
 
 class BrowserTabsList extends ElementaryWidget<BrowserTabsListWidgetModel> {
   BrowserTabsList({
-    // required ListenableState<List<BrowserTab>?> selectedTabsState,
     required ListenableState<String?> selectedGroupIdState,
     required RenderManager<String> renderManager,
     required ValueChanged<BrowserTab> onPressedTabMenu,
     required ValueChanged<String> onPressedGroup,
     required ValueChanged<String> onPressedTab,
-    // required ValueChanged<String> onCloseTab,
     required VoidCallback onPressedCreateNewGroup,
     super.key,
     WidgetModelFactory<BrowserTabsListWidgetModel>? wmFactory,
@@ -25,15 +24,12 @@ class BrowserTabsList extends ElementaryWidget<BrowserTabsListWidgetModel> {
           wmFactory ??
               (ctx) => defaultBrowserTabsListWidgetModelFactory(
                     ctx,
-                    // selectedTabsState: selectedTabsState,
                     selectedGroupIdState: selectedGroupIdState,
                     renderManager: renderManager,
                     onPressedTabMenu: onPressedTabMenu,
                     onPressedGroup: onPressedGroup,
                     onPressedTab: onPressedTab,
-                    // onCloseTab: onCloseTab,
                     onPressedCreateNewGroup: onPressedCreateNewGroup,
-                    // onPressedGroup: onPressedGroup,
                   ),
         );
 
@@ -51,14 +47,12 @@ class BrowserTabsList extends ElementaryWidget<BrowserTabsListWidgetModel> {
   Widget build(BrowserTabsListWidgetModel wm) {
     return Column(
       children: [
-        Flexible(
-          child: TabListHeader(
-            getPhysic: wm.getPhysic,
-            onPressedCreateNewGroup: wm.onPressedCreateNewGroup,
-            onPressedGroup: wm.onPressedGroup,
-            onPressedBookmarks: wm.onPressedBookmarks,
-            uiState: wm.uiState,
-          ),
+        TabListHeader(
+          getPhysic: wm.getPhysic,
+          onPressedCreateNewGroup: wm.onPressedCreateNewGroup,
+          onPressedGroup: wm.onPressedGroup,
+          onPressedBookmarks: wm.onPressedBookmarks,
+          uiState: wm.uiState,
         ),
         const _Separator(),
         Expanded(
@@ -67,10 +61,11 @@ class BrowserTabsList extends ElementaryWidget<BrowserTabsListWidgetModel> {
             builder: (_, List<BrowserTab>? tabs) {
               if (tabs == null) {
                 return const SizedBox.shrink();
+              } else if (tabs.isEmpty) {
+                return _Empty();
               }
 
               return GridView.count(
-                // ignore: no-magic-number
                 padding: _padding,
                 crossAxisCount: 2,
                 crossAxisSpacing: DimensSizeV2.d8,
@@ -104,6 +99,35 @@ class _Separator extends StatelessWidget {
     return Divider(
       height: DimensSizeV2.d1,
       color: context.themeStyleV2.colors.primaryA.withAlpha(25),
+    );
+  }
+}
+
+class _Empty extends StatelessWidget {
+  const _Empty();
+
+  @override
+  Widget build(BuildContext context) {
+    final theme = context.themeStyleV2;
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: DimensSizeV2.d24),
+      child: Column(
+        spacing: DimensSizeV2.d8,
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Text(
+            LocaleKeys.browserNoTabsTitle.tr(),
+            style: theme.textStyles.headingLarge,
+          ),
+          Text(
+            LocaleKeys.browserNoTabsDescription.tr(),
+            style: theme.textStyles.paragraphMedium.copyWith(
+              color: theme.colors.content4,
+            ),
+            textAlign: TextAlign.center,
+          ),
+        ],
+      ),
     );
   }
 }

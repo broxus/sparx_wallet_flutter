@@ -69,9 +69,12 @@ class CreateBrowserGroupScreen
 
                   return Align(
                     alignment: Alignment.topLeft,
-                    child: _BrowserItem(
-                      title: tab.title,
-                      file: file,
+                    child: Padding(
+                      padding: const EdgeInsets.only(top: DimensSizeV2.d28),
+                      child: _BrowserItem(
+                        title: tab.title,
+                        file: file,
+                      ),
                     ),
                   );
                 },
@@ -123,14 +126,29 @@ class _BrowserItem extends StatelessWidget {
                       errorBuilder: (_, __, ___) => const SizedBox(),
                     ),
             ),
-            Text(
-              title ?? '',
-              style: textStyles.labelXSmall.copyWith(
-                color: colors.content2,
+            SizedBox(
+              width: double.infinity,
+              height: DimensSizeV2.d36,
+              child: DecoratedBox(
+                decoration: BoxDecoration(
+                  color: colors.background2,
+                ),
+                child: Align(
+                  alignment: Alignment.centerLeft,
+                  child: Padding(
+                    padding: const EdgeInsets.only(left: DimensSizeV2.d12),
+                    child: Text(
+                      title ?? '',
+                      style: textStyles.labelXSmall.copyWith(
+                        color: colors.content2,
+                      ),
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
+                      softWrap: false,
+                    ),
+                  ),
+                ),
               ),
-              maxLines: 1,
-              overflow: TextOverflow.ellipsis,
-              softWrap: false,
             ),
           ],
         ),

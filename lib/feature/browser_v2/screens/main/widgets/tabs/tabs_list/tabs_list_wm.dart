@@ -120,9 +120,6 @@ class BrowserTabsListWidgetModel
     }
 
     _handleGroups();
-    _selectedGroupTabsState.accept(
-      model.getGroupTabs(id),
-    );
   }
 
   void _handleGroups() {
@@ -144,6 +141,12 @@ class BrowserTabsListWidgetModel
         _newGroupUiModel,
       ],
     );
+
+    if (id != null) {
+      _selectedGroupTabsState.accept(
+        model.getGroupTabs(id),
+      );
+    }
   }
 
   void _handleActiveGroup() {

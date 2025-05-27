@@ -40,11 +40,6 @@ class BrowserMainScreenModel extends ElementaryModel {
     return _browserService.tM.getTabById(tabId);
   }
 
-  //
-  // void removeBrowserTab(String id) {
-  //   _browserService.tM.removeBrowserTab(id);
-  // }
-
   int? getTabIndex({
     required String groupId,
     required String tabId,

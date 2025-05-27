@@ -24,6 +24,7 @@ class BrowserHeaderTextButton extends StatelessWidget {
     final styles = theme.textStyles;
 
     return GestureDetector(
+      behavior: HitTestBehavior.opaque,
       onTap: onPressed,
       child: SizedBox(
         width: width,

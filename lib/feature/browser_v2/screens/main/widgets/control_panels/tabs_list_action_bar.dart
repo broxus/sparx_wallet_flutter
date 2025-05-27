@@ -2,18 +2,19 @@ import 'package:app/feature/browser_v2/data/tabs/browser_tab.dart';
 import 'package:app/generated/generated.dart';
 import 'package:elementary_helper/elementary_helper.dart';
 import 'package:flutter/material.dart';
+import 'package:ui_components_lib/opac.dart';
 import 'package:ui_components_lib/v2/ui_components_lib_v2.dart';
 
 class BrowserTabsListActionBar extends StatelessWidget {
   const BrowserTabsListActionBar({
-    required this.tabsState,
+    required this.viewTabsState,
     required this.onCloseAllPressed,
     required this.onPlusPressed,
     required this.onDonePressed,
     super.key,
   });
 
-  final ListenableState<List<BrowserTab>?> tabsState;
+  final ListenableState<List<BrowserTab>?> viewTabsState;
   final VoidCallback onCloseAllPressed;
   final VoidCallback onPlusPressed;
   final VoidCallback onDonePressed;
@@ -27,8 +28,9 @@ class BrowserTabsListActionBar extends StatelessWidget {
     return SizedBox(
       height: height,
       child: StateNotifierBuilder<List<BrowserTab>?>(
-        listenableState: tabsState,
+        listenableState: viewTabsState,
         builder: (_, List<BrowserTab>? tabs) {
+          final isEmpty = tabs?.isEmpty ?? true;
           return ColoredBox(
             color: colors.background1,
             child: SizedBox(
@@ -37,7 +39,7 @@ class BrowserTabsListActionBar extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
                   Expanded(
-                    child: tabs?.isEmpty ?? true
+                    child: isEmpty
                         ? const SizedBox.shrink()
                         : _TextButton(
                             title: LocaleKeys.browserCloseAll.tr(),
@@ -58,10 +60,16 @@ class BrowserTabsListActionBar extends StatelessWidget {
                     ),
                   ),
                   Expanded(
-                    child: _TextButton(
-                      title: LocaleKeys.done.tr(),
-                      alignment: Alignment.centerRight,
-                      onPressed: onDonePressed,
+                    child: IgnorePointer(
+                      ignoring: isEmpty,
+                      child: Opacity(
+                        opacity: isEmpty ? .7 : 1,
+                        child: _TextButton(
+                          title: LocaleKeys.done.tr(),
+                          alignment: Alignment.centerRight,
+                          onPressed: onDonePressed,
+                        ),
+                      ),
                     ),
                   ),
                 ],

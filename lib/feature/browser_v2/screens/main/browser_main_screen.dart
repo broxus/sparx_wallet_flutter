@@ -29,15 +29,12 @@ class BrowserMainScreen extends ElementaryWidget<BrowserMainScreenWidgetModel> {
             children: [
               BrowserTabsList(
                 key: wm.keys.tabListKey,
-                // selectedTabsState: wm.tabs.selectedGroupTabsState,
                 selectedGroupIdState: wm.tabs.selectedGroupIdState,
                 renderManager: wm.renderManager,
                 onPressedTabMenu: wm.tabMenu.showTabMenu,
                 onPressedGroup: wm.tabs.onPressedGroup,
                 onPressedTab: wm.onPressedTab,
-                // onCloseTab: wm.tabs.onCloseTab,
                 onPressedCreateNewGroup: wm.onPressedCreateNewGroup,
-                // onPressedGroup: wm.tabs.onPressedGroup,
               ),
               Positioned.fill(
                 child: Listener(
@@ -48,7 +45,7 @@ class BrowserMainScreen extends ElementaryWidget<BrowserMainScreenWidgetModel> {
                   child: BrowserPagesView(
                     width: wm.sizes.screenWidth,
                     viewVisibleState: wm.viewVisibleState,
-                    tabsState: wm.tabs.tabsState,
+                    tabsState: wm.tabs.viewTabsState,
                     scrollController: wm.pageSlider.viewTabScrollController,
                     paddingPageAnimation: wm.animations.paddingPageAnimation,
                     onLoadingProgressChanged:
@@ -78,7 +75,7 @@ class BrowserMainScreen extends ElementaryWidget<BrowserMainScreenWidgetModel> {
                   opacityAnimation: wm.animations.listMenuOpacityAnimation,
                   child: BrowserTabsListActionBar(
                     key: wm.keys.listKey,
-                    tabsState: wm.tabs.tabsState,
+                    viewTabsState: wm.tabs.viewTabsState,
                     onCloseAllPressed: wm.tabs.onCloseAllPressed,
                     onPlusPressed: wm.tabs.addTab,
                     onDonePressed: wm.onDonePressed,
@@ -102,7 +99,7 @@ class BrowserMainScreen extends ElementaryWidget<BrowserMainScreenWidgetModel> {
                       onPressedRefresh: wm.onPressedRefresh,
                       onEditingCompleteUrl: wm.onEditingCompleteUrl,
                       urlSliderController: wm.pageSlider.urlSliderController,
-                      tabsState: wm.tabs.tabsState,
+                      tabsState: wm.tabs.viewTabsState,
                       navigationScrollModeState: wm.navigationScrollModeState,
                     ),
                   ),

@@ -337,8 +337,7 @@ class BrowserTabsManager {
     required String groupId,
     required String tabId,
   }) {
-    final index =
-        _allGroups[groupId]?.tabsIds.indexWhere((id) => id == tabId);
+    final index = _allGroups[groupId]?.tabsIds.indexWhere((id) => id == tabId);
 
     return index == -1 ? null : index;
   }
@@ -389,6 +388,7 @@ class BrowserTabsManager {
     String? initTabId,
     bool isSwitchToCreatedGroup = false,
   }) {
+
     if (initTabId != null) {
       final keys = _allGroups.keys;
 
@@ -403,7 +403,7 @@ class BrowserTabsManager {
 
       if (prevGroup != null) {
         _allGroups[prevGroup.id] = prevGroup.copyWith(
-          tabsIds: [...prevGroup.tabsIds..remove(initTabId)],
+          tabsIds: [...prevGroup.tabsIds]..remove(initTabId),
         );
       }
     }
@@ -417,6 +417,8 @@ class BrowserTabsManager {
         if (initTabId != null) initTabId,
       ],
     );
+
+    _allGroups[group.id] = group;
 
     _setGroups(
       groups: _allGroups.valuesList,
@@ -444,7 +446,9 @@ class BrowserTabsManager {
     _setGroups(groups: _allGroups.valuesList);
 
     if (groupId == _activeGroupState.value?.groupId) {
-      _activeGroupState.accept(_activeGroupState.value?.copyWith());
+      _activeGroupState.accept(
+        _activeGroupState.value?.copyWith(group: group),
+      );
     }
   }
 
@@ -523,6 +527,7 @@ class BrowserTabsManager {
     if (tabs.isEmpty) {
       activeTab = BrowserTab.create(url: _emptyUri);
       _allTabs[activeTab.id] = activeTab;
+      _browserTabsStorageService.saveBrowserTabs([activeTab]);
     } else {
       activeTab =
           _allTabs[_browserTabsStorageService.getActiveTabId()] ?? tabs.first;

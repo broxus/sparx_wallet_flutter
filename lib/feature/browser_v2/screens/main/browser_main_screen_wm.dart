@@ -382,6 +382,7 @@ class BrowserMainScreenWidgetModel
       ),
     );
 
+
     if (groupName == null) {
       return;
     }
