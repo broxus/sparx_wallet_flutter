@@ -96,17 +96,12 @@ class _Header extends StatelessWidget {
 
 class _GroupsList extends StatelessWidget {
   const _GroupsList({
-    // required this.listHeight,
-    // required this.itemHeight,
     required this.groupsState,
     required this.editGroupsState,
     required this.onPressedItem,
     required this.onPressedEditGroup,
     required this.onPressedRemoveGroup,
   });
-
-  // final double listHeight;
-  // final double itemHeight;
 
   final ListenableState<GroupsData> groupsState;
 
@@ -142,7 +137,6 @@ class _GroupsList extends StatelessWidget {
                 for (final group in data!.$1!)
                   BrowserGroupMenuItem(
                     key: ValueKey(group.id),
-                    // height: itemHeight,
                     name: group.title,
                     count: group.tabsIds.length,
                     isActive: group.id == data.$2,

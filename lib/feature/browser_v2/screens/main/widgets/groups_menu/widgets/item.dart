@@ -83,7 +83,7 @@ class BrowserGroupMenuItem extends StatelessWidget {
                       ),
                     ),
                   ),
-                  if (isEdit)
+                  if (isEditable && isEdit)
                     _Menu(
                       onPressedEdit: onPressedEdit,
                       onPressedRemove: onPressedRemove,

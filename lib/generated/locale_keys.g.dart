@@ -263,6 +263,8 @@ abstract class LocaleKeys {
   static const browserStartTitle = 'browserStartTitle';
   static const browserStartDescription = 'browserStartDescription';
   static const bookmarksEmptyDescription = 'bookmarksEmptyDescription';
+  static const browserGroupWillDeleted = 'browserGroupWillDeleted';
+  static const maxCharactersAllowed = 'maxCharactersAllowed';
   static const historyEmptyDescription = 'historyEmptyDescription';
   static const walletWord = 'walletWord';
   static const browserWord = 'browserWord';

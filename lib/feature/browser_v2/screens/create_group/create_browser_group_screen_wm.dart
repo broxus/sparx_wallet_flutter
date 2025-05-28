@@ -36,10 +36,14 @@ class CreateBrowserGroupScreenWidgetModel extends CustomWidgetModel<
     this._tabId,
   );
 
+  late final screenHeight = MediaQuery.of(context).size.height;
+
   final String? _tabId;
+  final int _maxLength = 24;
 
   late final _tabState = createNotifier<BrowserTab?>();
   late final _screenShotState = createNotifier<File?>();
+  late final _errorState = createNotifier<bool>(false);
 
   ColorsPaletteV2 get colors => _themeStyleV2.colors;
 
@@ -51,6 +55,10 @@ class CreateBrowserGroupScreenWidgetModel extends CustomWidgetModel<
 
   ListenableState<File?> get screenShotState => _screenShotState;
 
+  ListenableState<bool> get errorState => _errorState;
+
+  int get maxLength => _maxLength;
+
   @override
   void initWidgetModel() {
     _tabState.accept(model.getTabsByIds(_tabId));
@@ -61,7 +69,14 @@ class CreateBrowserGroupScreenWidgetModel extends CustomWidgetModel<
     _navigator.pop();
   }
 
+  void onChangeText(String text) {
+    _errorState.accept(text.length > _maxLength);
+  }
+
   void onEditingComplete(String text) {
     _navigator.pop(text);
+    _errorState.accept(text.length > _maxLength);
   }
+
+  void onOverflowLength() => _errorState.accept(true);
 }

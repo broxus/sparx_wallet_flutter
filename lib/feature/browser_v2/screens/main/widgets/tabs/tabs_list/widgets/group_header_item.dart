@@ -34,12 +34,15 @@ class BrowserGroupHeaderItem extends StatelessWidget {
         child: Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Text(
-              name,
-              style: isSelected
-                  ? styles.labelMedium
-                  : styles.labelSmall.copyWith(
-                color: colors.content2,
+            Flexible(
+              child: Text(
+                name,
+                overflow: TextOverflow.ellipsis,
+                style: isSelected
+                    ? styles.labelMedium
+                    : styles.labelSmall.copyWith(
+                        color: colors.content2,
+                      ),
               ),
             ),
             if (count != null)
