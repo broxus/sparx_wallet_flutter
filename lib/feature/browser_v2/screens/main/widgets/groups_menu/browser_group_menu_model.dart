@@ -43,4 +43,8 @@ class BrowserGroupMenuModel extends ElementaryModel {
       name: name,
     );
   }
+
+  void removeGroup(String groupId) {
+   _browserService.tabs.removeBrowserGroup(groupId);
+  }
 }

@@ -94,7 +94,9 @@ class BrowserGroupMenuWidgetModel
     );
   }
 
-  void onPressedRemoveGroup(String groupId) {}
+  void onPressedRemoveGroup(String groupId) {
+    model.removeGroup(groupId);
+  }
 
   Future<void> onPressedNewGroup() async {
     // TODO(knightforce): Temp. Compass is expected to be implemented

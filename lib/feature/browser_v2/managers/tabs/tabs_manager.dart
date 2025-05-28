@@ -497,6 +497,7 @@ class BrowserTabsManager {
 
     if (groupTabsIds != null) {
       for (final id in groupTabsIds) {
+        print('!!! $id');
         _allTabs.remove(id);
       }
     }

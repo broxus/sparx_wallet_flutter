@@ -256,6 +256,7 @@
   "browserStartTitle": "Explore\nthe Decentralized\nWeb",
   "browserStartDescription": "Seamless access to DeFi, NFTs,\nand beyond. Your journey starts here",
   "bookmarksEmptyDescription": "Keep track of important details, private\nkeys, or ideas right here",
+  "browserGroupWillDeleted": "The group will be deleted",
   "historyEmptyDescription": "Your recent activity will appear here",
   "walletWord": "Wallet",
   "browserWord": "Browser",
