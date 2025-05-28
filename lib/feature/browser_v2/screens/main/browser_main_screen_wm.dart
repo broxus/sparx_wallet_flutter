@@ -60,6 +60,7 @@ class BrowserMainScreenWidgetModel
     onPageScrollChange: (bool isToTop) {
       Future(() {
         _menuState.accept(isToTop ? MenuType.view : MenuType.url);
+        model.updateInteractedState(isInteracted: !isToTop);
       });
     },
   );
@@ -214,6 +215,7 @@ class BrowserMainScreenWidgetModel
 
   void onPressedViewUrlPanel() {
     _menuState.accept(MenuType.view);
+    model.updateInteractedState(isInteracted: false);
   }
 
   void onPastGoPressed() => _pastGoDelegate.onPastGoPressed(
