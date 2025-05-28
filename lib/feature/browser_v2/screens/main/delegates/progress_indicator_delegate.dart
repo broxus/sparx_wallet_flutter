@@ -1,4 +1,5 @@
 import 'package:flutter/cupertino.dart';
+import 'package:logging/logging.dart';
 
 abstract interface class BrowserProgressIndicatorUi {
   Animation<double> get animation;
@@ -10,6 +11,8 @@ class BrowserProgressIndicatorDelegate implements BrowserProgressIndicatorUi {
   BrowserProgressIndicatorDelegate(this.vsync);
 
   final TickerProvider vsync;
+
+  final _logger = Logger('BrowserProgressIndicatorDelegate');
 
   late final _progressController = AnimationController(
     vsync: vsync,
@@ -29,6 +32,10 @@ class BrowserProgressIndicatorDelegate implements BrowserProgressIndicatorUi {
   }
 
   void reset() {
-    _progressController.reset();
+    try {
+      _progressController.reset();
+    } catch (e, s) {
+      _logger.severe('reset call error', e, s);
+    }
   }
 }
