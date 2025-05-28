@@ -52,8 +52,7 @@ class BrowserGroupsStorageService extends AbstractStorageService {
       'title': LocaleKeys.tabs.tr(),
       'tabsIds': tabIds ?? [],
       'sortingOrder': NtpTime.now().millisecondsSinceEpoch.toDouble(),
-      'isCanRemoved': false,
-      'isCanEditTitle': false,
+      'isEditable': false,
     };
 
     _groupsStorage

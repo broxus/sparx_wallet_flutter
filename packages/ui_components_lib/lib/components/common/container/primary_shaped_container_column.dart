@@ -5,18 +5,24 @@ import 'package:ui_components_lib/v2/ui_components_lib_v2.dart';
 class PrimaryShapedContainerColumn extends StatelessWidget {
   const PrimaryShapedContainerColumn({
     required this.children,
+    this.margin = EdgeInsets.zero,
+    this.padding = EdgeInsets.zero,
+    this.backgroundColor,
     super.key,
   });
 
   final List<Widget> children;
+  final EdgeInsets margin;
+  final EdgeInsets padding;
+  final Color? backgroundColor;
 
   @override
   Widget build(BuildContext context) {
     return ShapedContainerColumn(
-      color: context.themeStyleV2.colors.background2,
+      color: backgroundColor ?? context.themeStyleV2.colors.background2,
       separatorSize: .5,
-      margin: EdgeInsets.zero,
-      padding: EdgeInsets.zero,
+      margin: margin,
+      padding: padding,
       separator: const SizedBox(
         width: double.infinity,
         height: .5,

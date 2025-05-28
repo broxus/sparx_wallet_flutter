@@ -15,8 +15,7 @@ class BrowserGroup with _$BrowserGroup {
     required String? title,
     @Default(<String>[]) List<String> tabsIds,
     required double sortingOrder,
-    @Default(false) bool isCanRemoved,
-    @Default(false) bool isCanEditTitle,
+    @Default(true) bool isEditable,
   }) = _BrowserGroup;
 
   factory BrowserGroup.fromJson(Map<String, dynamic> json) =>
@@ -25,14 +24,14 @@ class BrowserGroup with _$BrowserGroup {
   static BrowserGroup create({
     required String name,
     List<String>? tabsIds,
-    bool isCanRemoved = false,
+    bool isEditable = true,
   }) {
     return BrowserGroup(
       id: const Uuid().v4(),
       title: name,
       tabsIds: tabsIds ?? <String>[],
       sortingOrder: NtpTime.now().millisecondsSinceEpoch.toDouble(),
-      isCanRemoved: isCanRemoved,
+      isEditable: isEditable,
     );
   }
 }

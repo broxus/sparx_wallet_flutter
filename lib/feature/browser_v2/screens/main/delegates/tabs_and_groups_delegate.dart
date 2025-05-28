@@ -1,13 +1,13 @@
 import 'dart:async';
 
 import 'package:app/feature/browser_v2/data/tabs/browser_tab.dart';
+import 'package:app/feature/browser_v2/screens/create_group/create_browser_group_screen.dart';
 import 'package:app/feature/browser_v2/screens/main/browser_main_screen_model.dart';
 import 'package:app/feature/browser_v2/screens/main/data/browser_render_manager.dart';
 import 'package:app/feature/browser_v2/screens/main/widgets/tab_animated_view/tab_animation_type.dart';
 import 'package:app/feature/browser_v2/widgets/bottomsheets/clear_tabs_bottom_sheet.dart';
-import 'package:app/utils/common_utils.dart';
 import 'package:elementary_helper/elementary_helper.dart';
-import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 
 abstract interface class BrowserTabsAndGroupsUi {
   ListenableState<List<BrowserTab>?> get viewTabsState;
@@ -205,8 +205,34 @@ class BrowserTabsAndGroupsDelegate implements BrowserTabsAndGroupsUi {
     );
   }
 
-  void updateSelectedGroupId(String id) {
-    _selectedGroupIdState.accept(id);
+  Future<void> createGroup(
+    BuildContext context, {
+    String? tabId,
+  }) async {
+    // TODO(knightforce): Temp. Compass is expected to be implemented
+    final groupName =
+        await Navigator.of(context, rootNavigator: true).push<String>(
+      MaterialPageRoute(
+        builder: (_) {
+          return CreateBrowserGroupScreen(
+            tabId: tabId,
+          );
+        },
+      ),
+    );
+
+    if (groupName == null) {
+      return;
+    }
+
+    final group = model.createBrowserGroup(
+      name: groupName,
+      tabId: tabId,
+    );
+
+    if (group != null) {
+      _selectedGroupIdState.accept(group.id);
+    }
   }
 
   void _init() {

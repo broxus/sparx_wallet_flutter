@@ -272,8 +272,10 @@ abstract class LocaleKeys {
   static const pinTab = 'pinTab';
   static const bookmark = 'bookmark';
   static const newTab = 'newTab';
+  static const tabGroups = 'tabGroups';
   static const newTabGroup = 'newTabGroup';
   static const newGroup = 'newGroup';
+  static const newEmptyGroup = 'newEmptyGroup';
   static const groupWithCount = 'groupWithCount';
   static const tabs = 'tabs';
   static const profileWord = 'profileWord';

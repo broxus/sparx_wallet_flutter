@@ -77,6 +77,7 @@ class BrowserMainScreen extends ElementaryWidget<BrowserMainScreenWidgetModel> {
                     key: wm.keys.listKey,
                     viewTabsState: wm.tabs.viewTabsState,
                     onCloseAllPressed: wm.tabs.onCloseAllPressed,
+                    onGroupsMenuPressed: wm.onGroupsMenuPressed,
                     onPlusPressed: wm.tabs.addTab,
                     onDonePressed: wm.onDonePressed,
                   ),

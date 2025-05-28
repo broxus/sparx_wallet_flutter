@@ -15,7 +15,10 @@ class PrimaryBottomSheetContainer extends StatelessWidget {
     return DecoratedBox(
       decoration: BoxDecoration(
         color: colors.background1,
-        borderRadius: BorderRadius.circular(DimensRadiusV2.radius16),
+        borderRadius: const BorderRadius.only(
+          topLeft: Radius.circular(DimensRadiusV2.radius16),
+          topRight: Radius.circular(DimensRadiusV2.radius16),
+        ),
       ),
       child: Column(
         children: [

@@ -400,10 +400,6 @@ class $AssetsImagesGen {
   /// File path: assets/images/plus.svg
   SvgGenImage get plus => const SvgGenImage('assets/images/plus.svg');
 
-  /// File path: assets/images/plus_circled.svg
-  SvgGenImage get plusCircled =>
-      const SvgGenImage('assets/images/plus_circled.svg');
-
   /// File path: assets/images/refresh.svg
   SvgGenImage get refresh => const SvgGenImage('assets/images/refresh.svg');
 
@@ -566,7 +562,6 @@ class $AssetsImagesGen {
         planetInner,
         planetOuter,
         plus,
-        plusCircled,
         refresh,
         search,
         searchEmpty,

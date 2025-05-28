@@ -6,13 +6,13 @@ import 'package:app/di/di.dart';
 import 'package:app/event_bus/events/navigation/bottom_navigation_events.dart';
 import 'package:app/event_bus/primary_bus.dart';
 import 'package:app/feature/browser_v2/custom_web_controller.dart';
-import 'package:app/feature/browser_v2/screens/create_group/create_browser_group_screen.dart';
 import 'package:app/feature/browser_v2/screens/main/browser_main_screen.dart';
 import 'package:app/feature/browser_v2/screens/main/browser_main_screen_model.dart';
 import 'package:app/feature/browser_v2/screens/main/data/browser_render_manager.dart';
 import 'package:app/feature/browser_v2/screens/main/data/menu_data.dart';
 import 'package:app/feature/browser_v2/screens/main/delegates/animation_delegate.dart';
 import 'package:app/feature/browser_v2/screens/main/delegates/browser_keys_delegate.dart';
+import 'package:app/feature/browser_v2/screens/main/delegates/group_menu_delegate.dart';
 import 'package:app/feature/browser_v2/screens/main/delegates/page_slide_delegate.dart';
 import 'package:app/feature/browser_v2/screens/main/delegates/past_go_delegate.dart';
 import 'package:app/feature/browser_v2/screens/main/delegates/progress_indicator_delegate.dart';
@@ -78,8 +78,13 @@ class BrowserMainScreenWidgetModel
     renderManager: _renderManager,
     onShowMenu: () => callWithDelay(() => _menuState.accept(null)),
     onHideMenu: () => callWithDelay(() => _menuState.accept(MenuType.list)),
-    createGroup: _createGroup,
+    createGroup: (String tabId) => _tabsDelegate.createGroup(
+      context,
+      tabId: tabId,
+    ),
   );
+
+  late final _groupMenuDelegate = BrowserGroupMenuDelegate();
 
   final _pastGoDelegate = BrowserPastGoDelegate();
 
@@ -160,6 +165,8 @@ class BrowserMainScreenWidgetModel
 
   BrowserTabMenuUi get tabMenu => _tabMenuDelegate;
 
+  // BrowserGroupMenuUi get groupsMenu => _groupMenuDelegate;
+
   BrowserPageScrollDelegate get page => _pageDelegate;
 
   RenderManager<String> get renderManager => _renderManager;
@@ -227,6 +234,10 @@ class BrowserMainScreenWidgetModel
   void onPressedTabs() {
     _tabsDelegate.animateShowTabs();
     _menuState.accept(MenuType.list);
+  }
+
+  void onGroupsMenuPressed() {
+    _groupMenuDelegate.showMenu(context);
   }
 
   Future<void> onPressedCurrentUrlMenu(String tabId) async {
@@ -313,7 +324,7 @@ class BrowserMainScreenWidgetModel
   }
 
   void onPressedCreateNewGroup() {
-    _createGroup();
+    _tabsDelegate.createGroup(context);
   }
 
   void _onEmptyTabs() {
@@ -372,32 +383,5 @@ class BrowserMainScreenWidgetModel
           (_tabsDelegate.isEmptyActiveTabUrl) &&
           await checkExistClipBoardData(),
     );
-  }
-
-  Future<void> _createGroup([String? tabId]) async {
-    // TODO(knightforce): Temp. Compass is expected to be implemented
-    final groupName =
-        await Navigator.of(context, rootNavigator: true).push<String>(
-      MaterialPageRoute(
-        builder: (_) {
-          return CreateBrowserGroupScreen(
-            tabId: tabId,
-          );
-        },
-      ),
-    );
-
-    if (groupName == null) {
-      return;
-    }
-
-    final group = model.createBrowserGroup(
-      name: groupName,
-      tabId: tabId,
-    );
-
-    if (group != null) {
-      _tabsDelegate.updateSelectedGroupId(group.id);
-    }
   }
 }
