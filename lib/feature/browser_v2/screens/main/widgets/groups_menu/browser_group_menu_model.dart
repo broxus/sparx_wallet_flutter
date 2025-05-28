@@ -22,6 +22,9 @@ class BrowserGroupMenuModel extends ElementaryModel {
 
   int? get allGroupsCount => allGroupsState.value?.length;
 
+  String? getGroupNameById(String id) =>
+      _browserService.tabs.getGroupById(id)?.title;
+
   void setActiveGroup(String groupId) {
     _browserService.tabs.setActiveTab(groupId: groupId);
   }
@@ -30,4 +33,14 @@ class BrowserGroupMenuModel extends ElementaryModel {
       _browserService.tabs.createBrowserGroup(
         name: name,
       );
+
+  void updateGroupName({
+    required String groupId,
+    required String name,
+  }) {
+    _browserService.tabs.updateGroupName(
+      groupId: groupId,
+      name: name,
+    );
+  }
 }

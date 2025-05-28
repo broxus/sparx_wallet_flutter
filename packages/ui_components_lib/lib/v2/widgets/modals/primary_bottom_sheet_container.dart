@@ -4,17 +4,19 @@ import 'package:ui_components_lib/v2/ui_components_lib_v2.dart';
 class PrimaryBottomSheetContainer extends StatelessWidget {
   const PrimaryBottomSheetContainer({
     required this.child,
+    this.backgroundColor,
     super.key,
   });
 
   final Widget child;
+  final Color? backgroundColor;
 
   @override
   Widget build(BuildContext context) {
     final colors = context.themeStyleV2.colors;
     return DecoratedBox(
       decoration: BoxDecoration(
-        color: colors.background1,
+        color: backgroundColor ?? colors.background1,
         borderRadius: const BorderRadius.only(
           topLeft: Radius.circular(DimensRadiusV2.radius16),
           topRight: Radius.circular(DimensRadiusV2.radius16),

@@ -62,6 +62,7 @@ class DimensSizeV2 {
   static const double d207 = 207;
   static const double d256 = 256;
   static const double d348 = 348;
+  static const double d530 = 530;
 }
 
 class DimensStrokeV2 {

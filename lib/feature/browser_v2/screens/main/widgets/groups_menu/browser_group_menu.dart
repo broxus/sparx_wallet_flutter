@@ -37,6 +37,7 @@ class BrowserGroupMenu extends ElementaryWidget<BrowserGroupMenuWidgetModel> {
       width: double.infinity,
       height: DimensSizeV2.d348,
       child: PrimaryBottomSheetContainer(
+        backgroundColor: ColorsResV2.n15,
         child: Column(
           children: [
             _Header(
@@ -45,8 +46,6 @@ class BrowserGroupMenu extends ElementaryWidget<BrowserGroupMenuWidgetModel> {
             ),
             const SizedBox(height: DimensSizeV2.d22),
             _GroupsList(
-              // listHeight: wm.groupsListHeight,
-              // itemHeight: wm.groupHeight,
               groupsState: wm.groupsState,
               editGroupsState: wm.editGroupsState,
               onPressedItem: wm.onPressedItem,

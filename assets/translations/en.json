@@ -243,6 +243,7 @@
   "browserBookmarkRenameName": "Name",
   "browserBookmarkRenameWord": "Rename",
   "edit": "Edit",
+  "editName": "Edit Name",
   "browserBookmarkAdded": "Site added to bookmarks",
   "browserBookmarksClear": "Delete all",
   "browserBookmarksDeleted": "All bookmarks have been deleted",

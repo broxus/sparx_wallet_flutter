@@ -7,6 +7,7 @@ import 'package:app/feature/browser_v2/data/groups/browser_group.dart';
 import 'package:app/feature/browser_v2/screens/create_group/create_browser_group_screen.dart';
 import 'package:app/feature/browser_v2/screens/main/widgets/groups_menu/browser_group_menu.dart';
 import 'package:app/feature/browser_v2/screens/main/widgets/groups_menu/browser_group_menu_model.dart';
+import 'package:app/feature/browser_v2/screens/main/widgets/groups_menu/widgets/edit_group_name_bottom_sheet.dart';
 import 'package:elementary/elementary.dart';
 import 'package:elementary_helper/elementary_helper.dart';
 import 'package:flutter/material.dart';
@@ -74,7 +75,24 @@ class BrowserGroupMenuWidgetModel
     model.setActiveGroup(groupId);
   }
 
-  void onPressedEditGroup(String groupId) {}
+  Future<void> onPressedEditGroup(String groupId) async {
+    final groupName = model.getGroupNameById(groupId);
+
+    if (groupName == null) {
+      return;
+    }
+
+    final newName = (await showBrowserEditNameMenu(context, groupName))?.trim();
+
+    if (newName == null || groupName == newName) {
+      return;
+    }
+
+    model.updateGroupName(
+      groupId: groupId,
+      name: newName,
+    );
+  }
 
   void onPressedRemoveGroup(String groupId) {}
 

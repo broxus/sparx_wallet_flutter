@@ -374,6 +374,8 @@ class BrowserTabsManager {
     return result;
   }
 
+  BrowserGroup? getGroupById(String id) => _allGroups[id];
+
   BrowserTab? getTabById(String id) => _allTabs[id];
 
   Future<void> permissionsChanged(
@@ -433,14 +435,17 @@ class BrowserTabsManager {
     return group;
   }
 
-  void updateGroupName(String groupId, String title) {
+  void updateGroupName({
+    required String groupId,
+    required String name,
+  }) {
     final group = _allGroups[groupId];
 
     if (group == null) {
       return;
     }
 
-    _allGroups[groupId] = group.copyWith(title: title);
+    _allGroups[groupId] = group.copyWith(title: name);
 
     _setGroups(groups: _allGroups.valuesList);
 

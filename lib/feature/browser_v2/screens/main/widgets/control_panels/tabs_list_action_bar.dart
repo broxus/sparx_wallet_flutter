@@ -41,14 +41,17 @@ class BrowserTabsListActionBar extends StatelessWidget {
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  if (isEmpty)
-                    const SizedBox.shrink()
-                  else
-                    BrowserTextButton(
-                      title: LocaleKeys.browserCloseAll.tr(),
-                      alignment: Alignment.centerLeft,
-                      onPressed: onCloseAllPressed,
+                  IgnorePointer(
+                    ignoring: isEmpty,
+                    child: Opacity(
+                      opacity: isEmpty ? 0 : 1,
+                      child: BrowserTextButton(
+                        title: LocaleKeys.browserCloseAll.tr(),
+                        alignment: Alignment.centerLeft,
+                        onPressed: onCloseAllPressed,
+                      ),
                     ),
+                  ),
                   GestureDetector(
                     behavior: HitTestBehavior.opaque,
                     onTap: onGroupsMenuPressed,
