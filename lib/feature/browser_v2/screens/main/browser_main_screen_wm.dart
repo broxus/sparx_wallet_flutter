@@ -119,6 +119,11 @@ class BrowserMainScreenWidgetModel
           groupId: groupId,
           tabId: tabId,
         );
+
+        callWithDelay(() {
+          _progressIndicatorDelegate.reset();
+          _updatePastGo();
+        });
       });
     },
   );

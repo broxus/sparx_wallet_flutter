@@ -57,39 +57,44 @@ class BrowserTabsListWidgetModel
 
   final VoidCallback onPressedCreateNewGroup;
 
-  late final _selectedGroupTabsState = createNotifier<List<BrowserTab>?>();
+  late final _selectedTabsState = createNotifier<List<BrowserTab>?>();
 
-  ListenableState<List<BrowserTab>?> get selectedGroupTabsState =>
-      _selectedGroupTabsState;
+  ListenableState<List<BrowserTab>?> get selectedTabsState =>
+      _selectedTabsState;
 
   ListenableState<List<TabListHeaderUiModel>> get uiState => _uiState;
 
-  late final _uiState = createNotifier<List<TabListHeaderUiModel>>([]);
+  late final _uiState = createNotNullNotifier<List<TabListHeaderUiModel>>([]);
+  late final scrollController = createScrollController();
 
   final _bookmarksUiModel = TabListHeaderBookmarksUiModel();
   final _newGroupUiModel = TabListHeaderNewGroupUiModel();
 
-  CenterSnapScrollPhysics? physic;
-
-  CenterSnapScrollPhysics getPhysic(double itemWidth) {
-    return physic ??= CenterSnapScrollPhysics(itemWidth: itemWidth);
-  }
+  CenterSnapScrollPhysics? _physic;
+  double? _itemWidth;
 
   @override
   void initWidgetModel() {
-    model.allGroupsState.addListener(_handleGroups);
-    model.activeGroupState.addListener(_handleActiveGroup);
-    selectedGroupIdState.addListener(_handleSelectedGroup);
+    model.allGroupsState.addListener(_handleAllGroups);
+    selectedGroupIdState.addListener(_handleSelectedGroupId);
     super.initWidgetModel();
   }
 
   @override
   void dispose() {
-    model.allGroupsState.removeListener(_handleGroups);
-    model.activeGroupState.removeListener(_handleActiveGroup);
-    selectedGroupIdState.removeListener(_handleSelectedGroup);
+    model.allGroupsState.removeListener(_handleAllGroups);
+    selectedGroupIdState.removeListener(_handleSelectedGroupId);
 
     super.dispose();
+  }
+
+  CenterSnapScrollPhysics getPhysic(double itemWidth) {
+    return _physic ??= CenterSnapScrollPhysics(itemWidth: itemWidth);
+  }
+
+  //ignore: use_setters_to_change_properties
+  void updateItemWidth(double itemWidth) {
+    _itemWidth = itemWidth;
   }
 
   void onPressedBookmarks() {
@@ -112,17 +117,18 @@ class BrowserTabsListWidgetModel
     );
   }
 
-  void _handleSelectedGroup() {
+  void _handleSelectedGroupId() {
     final id = selectedGroupIdState.value;
 
     if (id == null) {
       return;
     }
 
-    _handleGroups();
+    _handleAllGroups();
+    _scrollToGroup();
   }
 
-  void _handleGroups() {
+  void _handleAllGroups() {
     final id = selectedGroupIdState.value;
 
     final groups = model.allGroupsState.value;
@@ -143,18 +149,31 @@ class BrowserTabsListWidgetModel
     );
 
     if (id != null) {
-      _selectedGroupTabsState.accept(
+      _selectedTabsState.accept(
         model.getGroupTabs(id),
       );
     }
   }
 
-  void _handleActiveGroup() {
-    final activeGroupId = model.activeGroupState.value?.activeTabId;
-    final selectedId = selectedGroupIdState.value;
-    if (activeGroupId == selectedId) {
+  void _scrollToGroup() {
+    if (_itemWidth == null) {
       return;
     }
-    _handleGroups();
+
+    final selectedId = selectedGroupIdState.value;
+
+    final index = _uiState.value.indexWhere(
+      (item) => item is TabListHeaderGroupUiModel && item.id == selectedId,
+    );
+
+    if (index == -1) {
+      return;
+    }
+
+    scrollController.animateTo(
+      _itemWidth! * index - _itemWidth!,
+      duration: const Duration(milliseconds: 250),
+      curve: Curves.linear,
+    );
   }
 }

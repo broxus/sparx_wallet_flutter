@@ -18,9 +18,6 @@ class BrowserTabsListModel extends ElementaryModel {
   ListenableState<List<BrowserGroup>> get allGroupsState =>
       _browserService.tabs.allGroupsState;
 
-  ListenableState<ActiveGroupData?> get activeGroupState =>
-      _browserService.tabs.activeGroupState;
-
   List<BrowserTab> getGroupTabs(String groupId) {
     return _browserService.tabs.getGroupTabs(groupId);
   }

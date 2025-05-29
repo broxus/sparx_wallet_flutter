@@ -49,20 +49,22 @@ class BrowserTabsList extends ElementaryWidget<BrowserTabsListWidgetModel> {
       children: [
         TabListHeader(
           getPhysic: wm.getPhysic,
+          updateItemWidth: wm.updateItemWidth,
           onPressedCreateNewGroup: wm.onPressedCreateNewGroup,
           onPressedGroup: wm.onPressedGroup,
           onPressedBookmarks: wm.onPressedBookmarks,
           uiState: wm.uiState,
+          scrollController: wm.scrollController,
         ),
         const _Separator(),
         Expanded(
           child: StateNotifierBuilder<List<BrowserTab>?>(
-            listenableState: wm.selectedGroupTabsState,
+            listenableState: wm.selectedTabsState,
             builder: (_, List<BrowserTab>? tabs) {
               if (tabs == null) {
                 return const SizedBox.shrink();
               } else if (tabs.isEmpty) {
-                return _Empty();
+                return const _Empty();
               }
 
               return GridView.count(

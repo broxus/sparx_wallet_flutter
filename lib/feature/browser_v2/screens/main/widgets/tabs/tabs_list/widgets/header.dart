@@ -11,19 +11,22 @@ import 'package:ui_components_lib/v2/dimens_v2.dart';
 class TabListHeader extends StatelessWidget {
   const TabListHeader({
     required this.getPhysic,
+    required this.updateItemWidth,
     required this.onPressedCreateNewGroup,
     required this.onPressedGroup,
     required this.onPressedBookmarks,
     required this.uiState,
+    required this.scrollController,
     super.key,
   });
 
   final ScrollPhysics Function(double itemWidth) getPhysic;
+  final ValueChanged<double> updateItemWidth;
   final VoidCallback onPressedCreateNewGroup;
   final ValueChanged<String> onPressedGroup;
   final VoidCallback onPressedBookmarks;
-
   final ListenableState<List<TabListHeaderUiModel>> uiState;
+  final ScrollController scrollController;
 
   @override
   Widget build(BuildContext context) {
@@ -31,6 +34,7 @@ class TabListHeader extends StatelessWidget {
       builder: (_, BoxConstraints constraints) {
         final itemWidth = constraints.maxWidth / 3;
         final physic = getPhysic(itemWidth);
+        updateItemWidth(itemWidth);
 
         return SizedBox(
           height: DimensSizeV2.d41,
@@ -41,6 +45,7 @@ class TabListHeader extends StatelessWidget {
                 return const SizedBox.shrink();
               }
               return ListView.builder(
+                controller: scrollController,
                 scrollDirection: Axis.horizontal,
                 itemCount: uiModels.length,
                 physics: physic,
