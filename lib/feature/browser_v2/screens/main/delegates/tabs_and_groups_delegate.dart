@@ -63,7 +63,7 @@ class BrowserTabsAndGroupsDelegate implements BrowserTabsAndGroupsUi {
   final _hostState = StateNotifier<String?>();
 
   late final _selectedGroupIdState = StateNotifier<String?>(
-    initValue: model.activeGroupState.value?.activeTabId,
+    initValue: model.activeGroupState.value?.groupId,
   );
 
   String? _prevActiveGroupId;
