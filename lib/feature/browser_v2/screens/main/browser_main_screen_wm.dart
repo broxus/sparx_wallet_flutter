@@ -350,20 +350,18 @@ class BrowserMainScreenWidgetModel
     required String groupId,
     required String tabId,
   }) async {
-    return Future.delayed(const Duration(milliseconds: 10), () {
-      final index = _tabsDelegate.getTabIndexById(
-        groupId: groupId,
-        tabId: tabId,
-      );
+    final index = _tabsDelegate.getTabIndexById(
+      groupId: groupId,
+      tabId: tabId,
+    );
 
-      if (index != null && index > -1) {
-        _pageSlideDelegate.slideTo(sizes.urlWidth * index + 50);
+    if (index != null && index > -1) {
+      _pageSlideDelegate.slideTo(sizes.urlWidth * index + 50);
 
-        _pageDelegate.reset();
-      }
+      _pageDelegate.reset();
+    }
 
-      return index != null && index > -1;
-    });
+    return index != null && index > -1;
   }
 
   void _handleMenuState() {
