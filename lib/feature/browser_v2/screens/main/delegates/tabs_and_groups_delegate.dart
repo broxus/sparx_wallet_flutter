@@ -39,6 +39,7 @@ class BrowserTabsAndGroupsDelegate implements BrowserTabsAndGroupsUi {
     required this.onUpdateActiveTab,
     required this.onChangeTab,
     required this.scrollToTab,
+    required this.checkIsVisiblePages,
   }) {
     _init();
   }
@@ -53,6 +54,7 @@ class BrowserTabsAndGroupsDelegate implements BrowserTabsAndGroupsUi {
     required String groupId,
     required String tabId,
   }) scrollToTab;
+  final bool Function() checkIsVisiblePages;
 
   final _tabAnimationTypeState = StateNotifier<TabAnimationType?>();
 
@@ -246,6 +248,10 @@ class BrowserTabsAndGroupsDelegate implements BrowserTabsAndGroupsUi {
   }
 
   Future<void> _handleActiveGroup() async {
+    if (checkIsVisiblePages()) {
+      return;
+    }
+
     final activeGroupId = model.activeGroupState.value?.groupId;
     final activeTabId = model.activeGroupState.value?.activeTabId;
 

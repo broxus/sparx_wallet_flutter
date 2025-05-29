@@ -92,7 +92,7 @@ class BrowserMainScreenWidgetModel
     screenWidth: sizes.screenWidth,
     urlWidth: sizes.urlWidth,
     onChangeSlideIndex: (int tabIndex) {
-      if (_viewVisibleState.value ?? false) {
+      if (!_viewVisibleState.value) {
         return;
       }
 
@@ -108,7 +108,10 @@ class BrowserMainScreenWidgetModel
           index: tabIndex,
         );
 
-        if (tabId == null) {
+        final data = model.activeGroupState.value;
+
+        if (tabId == null ||
+            data?.groupId == groupId && data?.activeTabId == tabId) {
           return;
         }
 
@@ -133,9 +136,10 @@ class BrowserMainScreenWidgetModel
       });
     },
     scrollToTab: _scrollToTab,
+    checkIsVisiblePages: () => _viewVisibleState.value,
   );
 
-  late final _viewVisibleState = createNotifier<bool>(
+  late final _viewVisibleState = createNotNullNotifier<bool>(
     model.activeGroupState.value?.activeTabId != null,
   );
 
@@ -164,8 +168,6 @@ class BrowserMainScreenWidgetModel
       _progressIndicatorDelegate;
 
   BrowserTabMenuUi get tabMenu => _tabMenuDelegate;
-
-  // BrowserGroupMenuUi get groupsMenu => _groupMenuDelegate;
 
   BrowserPageScrollDelegate get page => _pageDelegate;
 
@@ -379,7 +381,7 @@ class BrowserMainScreenWidgetModel
 
   Future<void> _updatePastGo() async {
     _pastGoDelegate.updateVisible(
-      (_viewVisibleState.value ?? false) &&
+      (_viewVisibleState.value) &&
           (_tabsDelegate.isEmptyActiveTabUrl) &&
           await checkExistClipBoardData(),
     );
