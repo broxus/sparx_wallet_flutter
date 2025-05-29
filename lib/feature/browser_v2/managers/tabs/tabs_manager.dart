@@ -528,16 +528,16 @@ class BrowserTabsManager {
     late BrowserGroup activeGroup;
     BrowserTab? activeTab;
 
-    if (tabs.isEmpty) {
+    if (_allTabs.isEmpty) {
       activeTab = BrowserTab.create(url: _emptyUri);
       _allTabs[activeTab.id] = activeTab;
       _browserTabsStorageService.saveBrowserTabs([activeTab]);
     } else {
-      activeTab =
-          _allTabs[_browserTabsStorageService.getActiveTabId()] ?? tabs.first;
+      activeTab = _allTabs[_browserTabsStorageService.getActiveTabId()] ??
+          _allTabs[_allTabs.keys.firstOrNull];
     }
 
-    if (groups.isEmpty) {
+    if (_allGroups.isEmpty) {
       activeGroup = _browserGroupsStorageService.initGroups(
         _allTabs.keys.toList(),
       );
@@ -550,8 +550,8 @@ class BrowserTabsManager {
     }
 
     // guard
-    if (!activeGroup.tabsIds.contains(activeTab.id)) {
-      final newActiveGroup = groups.firstWhereOrNull(
+    if (activeTab != null && !activeGroup.tabsIds.contains(activeTab.id)) {
+      final newActiveGroup = _allGroups.values.firstWhereOrNull(
         (g) => g.tabsIds.contains(activeTab?.id),
       );
 
@@ -561,7 +561,7 @@ class BrowserTabsManager {
       }
     }
 
-    _allGroupsState.accept(groups);
+    _allGroupsState.accept(_allGroups.valuesList);
     _activeGroupState.accept(
       ActiveGroupData(
         group: activeGroup,
