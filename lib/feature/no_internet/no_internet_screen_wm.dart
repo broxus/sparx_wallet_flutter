@@ -1,14 +1,14 @@
 // ignore_for_file: use_build_context_synchronously
 
-import 'package:app/app/router/app_route.dart';
+import 'package:app/app/router/router.dart';
 import 'package:app/core/error_handler_factory.dart';
 import 'package:app/core/wm/custom_wm.dart';
 import 'package:app/di/di.dart';
 import 'package:app/feature/no_internet/no_internet_screen.dart';
 import 'package:app/feature/no_internet/no_internet_screen_model.dart';
+import 'package:app/feature/splash/route.dart';
 import 'package:elementary/elementary.dart';
 import 'package:flutter/widgets.dart';
-import 'package:go_router/go_router.dart';
 import 'package:ui_components_lib/ui_components_lib.dart';
 import 'package:ui_components_lib/v2/text_styles_v2.dart';
 
@@ -40,7 +40,7 @@ class NoInternetScreenWidgetModel
   Future<void> onPressedTryAgain() async {
     final isExistInternet = await model.isExistInternet;
     if (isExistInternet) {
-      contextSafe?.go(AppRoute.splash.path);
+      contextSafe?.compassPoint(const SplashScreenRouteData());
     }
   }
 }

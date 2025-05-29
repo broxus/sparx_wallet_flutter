@@ -91,7 +91,7 @@ class CommonCard extends StatelessWidget {
       title = SeparatedColumn(
         mainAxisSize: MainAxisSize.min,
         crossAxisAlignment: CrossAxisAlignment.start,
-        separatorSize: DimensSize.d4,
+        spacing: DimensSize.d4,
         children: [
           topSubtitle,
           title,

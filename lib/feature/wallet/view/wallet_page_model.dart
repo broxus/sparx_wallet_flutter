@@ -1,4 +1,6 @@
 import 'package:app/app/service/service.dart';
+import 'package:app/feature/root/domain/root_tab_service.dart';
+import 'package:app/feature/root/view/root_tab.dart';
 import 'package:elementary/elementary.dart';
 import 'package:nekoton_repository/nekoton_repository.dart';
 import 'package:rxdart/rxdart.dart';
@@ -10,18 +12,25 @@ class WalletPageModel extends ElementaryModel {
     this._currentAccountsService,
     this._storageService,
     this._nekotonRepository,
+    this._rootTabRepository,
   ) : super(errorHandler: errorHandler);
 
   final AssetsService _assetsService;
   final CurrentAccountsService _currentAccountsService;
   final AppStorageService _storageService;
   final NekotonRepository _nekotonRepository;
+  final RootTabService _rootTabRepository;
 
   Stream<KeyAccount?> get currentAccount =>
       _currentAccountsService.currentActiveAccountStream;
 
   Stream<TransportStrategy> get transportStrategy =>
       _nekotonRepository.currentTransportStream;
+
+  Stream<RootTab> get shouldScrollTopStream =>
+      _rootTabRepository.scrollTabToTopSubject.where(
+        (tab) => tab == RootTab.wallet,
+      );
 
   @override
   void init() {

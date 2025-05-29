@@ -71,6 +71,10 @@ class ApprovalRequest with _$ApprovalRequest {
     required bool bounce,
     required FunctionCall? payload,
     required KnownPayload? knownPayload,
+    required List<IgnoreTransactionTreeSimulationError>?
+        ignoredComputePhaseCodes,
+    required List<IgnoreTransactionTreeSimulationError>?
+        ignoredActionPhaseCodes,
     required Completer<(PublicKey, String)> completer,
   }) = _SendMessage;
 

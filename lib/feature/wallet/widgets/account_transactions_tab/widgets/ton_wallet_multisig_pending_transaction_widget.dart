@@ -1,5 +1,5 @@
 import 'package:app/di/di.dart';
-import 'package:app/feature/wallet/widgets/account_transactions_tab/detail/ton_wallet_multisig_pending_transaction_details.dart';
+import 'package:app/feature/wallet/widgets/account_transactions_tab/detail/ton_wallet_multisig_pending_transaction_details/ton_wallet_multisig_pending_transaction_details_screen.dart';
 import 'package:app/feature/wallet/widgets/account_transactions_tab/widgets/ton_wallet_transaction_status_body.dart';
 import 'package:app/feature/wallet/widgets/account_transactions_tab/widgets/ton_wallet_transaction_widget.dart';
 import 'package:app/generated/generated.dart';
@@ -37,7 +37,7 @@ class TonWalletMultisigPendingTransactionWidget extends StatelessWidget {
       isLast: isLast,
       onPressed: () => Navigator.of(context, rootNavigator: true).push(
         MaterialPageRoute<void>(
-          builder: (_) => TonWalletMultisigPendingTransactionDetailsPage(
+          builder: (_) => TonWalletMultisigPendingTransactionDetailsScreen(
             transaction: transaction,
             price: price,
             account: account,
