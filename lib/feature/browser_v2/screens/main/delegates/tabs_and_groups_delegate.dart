@@ -255,7 +255,7 @@ class BrowserTabsAndGroupsDelegate implements BrowserTabsAndGroupsUi {
     final activeGroupId = model.activeGroupState.value?.groupId;
     final activeTabId = model.activeGroupState.value?.activeTabId;
 
-    if (activeGroupId == null || activeTabId == null) {
+    if (activeGroupId == null) {
       return;
     }
 
@@ -264,7 +264,7 @@ class BrowserTabsAndGroupsDelegate implements BrowserTabsAndGroupsUi {
 
     onUpdateActiveTab();
 
-    if (_prevActiveTabId != activeTabId) {
+    if (activeTabId != null && _prevActiveTabId != activeTabId) {
       final data = renderManager.getRenderData(activeTabId);
 
       _tabAnimationTypeState.accept(
