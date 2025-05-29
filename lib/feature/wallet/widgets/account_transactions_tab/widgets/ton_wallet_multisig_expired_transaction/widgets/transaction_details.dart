@@ -47,7 +47,7 @@ class TonWalletMultisigExpiredTransactionDetailsPage extends StatelessWidget {
       backgroundColor: theme.colors.background0,
       body: SingleChildScrollView(
         child: SeparatedColumn(
-          separatorSize: DimensSize.d16,
+          spacing: DimensSize.d16,
           children: [
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: DimensSizeV2.d16),

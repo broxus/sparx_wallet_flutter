@@ -53,11 +53,11 @@ class _SelectAccountWidget extends StatelessWidget {
     final theme = context.themeStyleV2;
 
     return SeparatedColumn(
-      separatorSize: DimensSizeV2.d12,
+      spacing: DimensSizeV2.d12,
       children: [
         Expanded(
           child: SeparatedColumn(
-            separatorSize: DimensSizeV2.d12,
+            spacing: DimensSizeV2.d12,
             children: [
               WebsiteInfoWidget(uri: wm.origin),
               PrimaryTextField(
@@ -154,13 +154,13 @@ class _ConfirmPermissionsWidget extends StatelessWidget {
     final account = wm.selected.value!;
 
     return SeparatedColumn(
-      separatorSize: DimensSizeV2.d12,
+      spacing: DimensSizeV2.d12,
       children: [
         Expanded(
           child: SingleChildScrollView(
             controller: wm.scrollController,
             child: SeparatedColumn(
-              separatorSize: DimensSizeV2.d12,
+              spacing: DimensSizeV2.d12,
               children: [
                 AccountInfo(
                   account: account,
@@ -190,7 +190,7 @@ class _ConfirmPermissionsWidget extends StatelessWidget {
                           );
 
                           return SeparatedColumn(
-                            separatorSize: DimensSizeV2.d12,
+                            spacing: DimensSizeV2.d12,
                             children: [
                               Row(
                                 children: [

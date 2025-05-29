@@ -22,6 +22,8 @@ class SendMessageWidget extends ElementaryWidget<SendMessageWidgetModel> {
     required this.payload,
     required this.knownPayload,
     required this.scrollController,
+    this.ignoredComputePhaseCodes,
+    this.ignoredActionPhaseCodes,
     Key? key,
     WidgetModelFactory wmFactory = defaultSendMessageWidgetModelFactory,
   }) : super(wmFactory, key: key);
@@ -33,6 +35,8 @@ class SendMessageWidget extends ElementaryWidget<SendMessageWidgetModel> {
   final bool bounce;
   final FunctionCall? payload;
   final KnownPayload? knownPayload;
+  final List<IgnoreTransactionTreeSimulationError>? ignoredComputePhaseCodes;
+  final List<IgnoreTransactionTreeSimulationError>? ignoredActionPhaseCodes;
   final ScrollController scrollController;
 
   @override
@@ -40,7 +44,7 @@ class SendMessageWidget extends ElementaryWidget<SendMessageWidgetModel> {
     final theme = wm.theme;
 
     return SeparatedColumn(
-      separatorSize: DimensSizeV2.d12,
+      spacing: DimensSizeV2.d12,
       children: [
         Expanded(
           child: SingleChildScrollView(
@@ -119,7 +123,7 @@ class SendMessageWidget extends ElementaryWidget<SendMessageWidgetModel> {
                     child: ExpandableCard(
                       collapsedHeight: DimensSizeV2.d256,
                       child: SeparatedColumn(
-                        separatorSize: DimensSizeV2.d16,
+                        spacing: DimensSizeV2.d16,
                         crossAxisAlignment: CrossAxisAlignment.stretch,
                         children: [
                           Text(

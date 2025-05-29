@@ -210,6 +210,10 @@ class BrowserApprovalsService {
     required bool bounce,
     required FunctionCall? payload,
     required KnownPayload? knownPayload,
+    required List<IgnoreTransactionTreeSimulationError>?
+        ignoredComputePhaseCodes,
+    required List<IgnoreTransactionTreeSimulationError>?
+        ignoredActionPhaseCodes,
   }) async {
     final completer = Completer<(PublicKey, String)>();
 
@@ -221,6 +225,8 @@ class BrowserApprovalsService {
       bounce: bounce,
       payload: payload,
       knownPayload: knownPayload,
+      ignoredComputePhaseCodes: ignoredComputePhaseCodes,
+      ignoredActionPhaseCodes: ignoredActionPhaseCodes,
       completer: completer,
     );
 

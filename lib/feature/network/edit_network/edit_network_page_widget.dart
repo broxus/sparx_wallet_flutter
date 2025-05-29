@@ -30,7 +30,7 @@ class EditNetworkPageWidget extends ElementaryWidget<EditNetworkWidgetModel> {
                   child: Padding(
                     padding: const EdgeInsets.all(DimensSizeV2.d16),
                     child: SeparatedColumn(
-                      separatorSize: DimensSizeV2.d24,
+                      spacing: DimensSizeV2.d24,
                       mainAxisSize: MainAxisSize.min,
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [

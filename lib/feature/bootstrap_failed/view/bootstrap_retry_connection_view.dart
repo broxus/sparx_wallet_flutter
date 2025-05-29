@@ -27,7 +27,7 @@ class BootstrapRetryConnectionView extends StatelessWidget {
         // ignore: no-empty-block
         listener: (_, __) {},
         child: SeparatedColumn(
-          separatorSize: DimensSize.d16,
+          spacing: DimensSize.d16,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Padding(
