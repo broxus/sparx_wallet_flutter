@@ -94,7 +94,8 @@ import '../feature/browser_v2/domain/service/storages/browser_permissions_storag
     as _i229;
 import '../feature/browser_v2/domain/service/storages/browser_tabs_storage_service.dart'
     as _i634;
-import '../feature/browser_v2/route.dart' as _i537;
+import '../feature/browser_v2/screens/create_group/route.dart' as _i345;
+import '../feature/browser_v2/screens/main/route.dart' as _i1040;
 import '../feature/choose_network/route.dart' as _i805;
 import '../feature/messenger/domain/service/messenger_service.dart' as _i632;
 import '../feature/network/configure_networks/route.dart' as _i1004;
@@ -250,6 +251,10 @@ extension GetItInjectableX on _i174.GetIt {
       () => _i303.AccountDetailRoute(),
       instanceName: 'AccountDetailRoute',
     );
+    gh.singleton<_i82.CompassBaseRoute>(
+      () => _i345.CreateBrowserGroupRoute(),
+      instanceName: 'CreateBrowserGroupRoute',
+    );
     gh.lazySingleton<_i175.TonConnectService>(() => _i175.TonConnectService(
           gh<_i128.TonConnectStorageService>(),
           gh<_i771.NekotonRepository>(),
@@ -277,10 +282,6 @@ extension GetItInjectableX on _i174.GetIt {
           gh<_i679.SecureStorageService>(),
           gh<_i104.ResourcesService>(),
         ));
-    gh.singleton<_i82.CompassBaseRoute>(
-      () => _i537.BrowserRoute(),
-      instanceName: 'BrowserRoute',
-    );
     gh.factory<_i934.StoreUrlGenerator>(
         () => _i934.StoreUrlGenerator(gh<_i143.AppVersionService>()));
     gh.singleton<_i82.CompassBaseRoute>(
@@ -345,6 +346,11 @@ extension GetItInjectableX on _i174.GetIt {
     );
     gh.singleton<_i495.TonRepository>(
         () => _i495.TonRepository(gh<_i162.TonApi>()));
+    gh.singleton<_i82.CompassBaseRoute>(
+      () => _i1040.BrowserRoute(
+          gh<_i82.CompassBaseRoute>(instanceName: 'CreateBrowserGroupRoute')),
+      instanceName: 'BrowserRoute',
+    );
     gh.singleton<_i747.GeneralStorageService>(() => _i747.GeneralStorageService(
           gh<_i792.GetStorage>(instanceName: 'preferences_key'),
           gh<_i792.GetStorage>(instanceName: 'currencies_key'),

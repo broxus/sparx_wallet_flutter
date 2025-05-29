@@ -1,7 +1,8 @@
 import 'dart:async';
 
+import 'package:app/app/router/router.dart';
 import 'package:app/feature/browser_v2/data/tabs/browser_tab.dart';
-import 'package:app/feature/browser_v2/screens/create_group/create_browser_group_screen.dart';
+import 'package:app/feature/browser_v2/screens/create_group/route.dart';
 import 'package:app/feature/browser_v2/screens/main/browser_main_screen_model.dart';
 import 'package:app/feature/browser_v2/screens/main/data/browser_render_manager.dart';
 import 'package:app/feature/browser_v2/screens/main/widgets/tab_animated_view/tab_animation_type.dart';
@@ -205,15 +206,9 @@ class BrowserTabsAndGroupsDelegate implements BrowserTabsAndGroupsUi {
     BuildContext context, {
     String? tabId,
   }) async {
-    // TODO(knightforce): Temp. Compass is expected to be implemented
-    final groupName =
-        await Navigator.of(context, rootNavigator: true).push<String>(
-      MaterialPageRoute(
-        builder: (_) {
-          return CreateBrowserGroupScreen(
-            tabId: tabId,
-          );
-        },
+    final groupName = await context.compassPush<String?>(
+      CreateBrowserGroupRouteData(
+        tabId: tabId,
       ),
     );
 

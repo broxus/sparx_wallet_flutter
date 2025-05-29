@@ -24,10 +24,10 @@ mixin _$BrowserGroup {
   set id(String value) => throw _privateConstructorUsedError;
   String? get title => throw _privateConstructorUsedError;
   set title(String? value) => throw _privateConstructorUsedError;
-  List<String> get tabsIds => throw _privateConstructorUsedError;
-  set tabsIds(List<String> value) => throw _privateConstructorUsedError;
   double get sortingOrder => throw _privateConstructorUsedError;
   set sortingOrder(double value) => throw _privateConstructorUsedError;
+  List<String> get tabsIds => throw _privateConstructorUsedError;
+  set tabsIds(List<String> value) => throw _privateConstructorUsedError;
   bool get isEditable => throw _privateConstructorUsedError;
   set isEditable(bool value) => throw _privateConstructorUsedError;
 
@@ -50,8 +50,8 @@ abstract class $BrowserGroupCopyWith<$Res> {
   $Res call(
       {String id,
       String? title,
-      List<String> tabsIds,
       double sortingOrder,
+      List<String> tabsIds,
       bool isEditable});
 }
 
@@ -72,8 +72,8 @@ class _$BrowserGroupCopyWithImpl<$Res, $Val extends BrowserGroup>
   $Res call({
     Object? id = null,
     Object? title = freezed,
-    Object? tabsIds = null,
     Object? sortingOrder = null,
+    Object? tabsIds = null,
     Object? isEditable = null,
   }) {
     return _then(_value.copyWith(
@@ -85,14 +85,14 @@ class _$BrowserGroupCopyWithImpl<$Res, $Val extends BrowserGroup>
           ? _value.title
           : title // ignore: cast_nullable_to_non_nullable
               as String?,
-      tabsIds: null == tabsIds
-          ? _value.tabsIds
-          : tabsIds // ignore: cast_nullable_to_non_nullable
-              as List<String>,
       sortingOrder: null == sortingOrder
           ? _value.sortingOrder
           : sortingOrder // ignore: cast_nullable_to_non_nullable
               as double,
+      tabsIds: null == tabsIds
+          ? _value.tabsIds
+          : tabsIds // ignore: cast_nullable_to_non_nullable
+              as List<String>,
       isEditable: null == isEditable
           ? _value.isEditable
           : isEditable // ignore: cast_nullable_to_non_nullable
@@ -112,8 +112,8 @@ abstract class _$$BrowserGroupImplCopyWith<$Res>
   $Res call(
       {String id,
       String? title,
-      List<String> tabsIds,
       double sortingOrder,
+      List<String> tabsIds,
       bool isEditable});
 }
 
@@ -132,8 +132,8 @@ class __$$BrowserGroupImplCopyWithImpl<$Res>
   $Res call({
     Object? id = null,
     Object? title = freezed,
-    Object? tabsIds = null,
     Object? sortingOrder = null,
+    Object? tabsIds = null,
     Object? isEditable = null,
   }) {
     return _then(_$BrowserGroupImpl(
@@ -145,14 +145,14 @@ class __$$BrowserGroupImplCopyWithImpl<$Res>
           ? _value.title
           : title // ignore: cast_nullable_to_non_nullable
               as String?,
-      tabsIds: null == tabsIds
-          ? _value.tabsIds
-          : tabsIds // ignore: cast_nullable_to_non_nullable
-              as List<String>,
       sortingOrder: null == sortingOrder
           ? _value.sortingOrder
           : sortingOrder // ignore: cast_nullable_to_non_nullable
               as double,
+      tabsIds: null == tabsIds
+          ? _value.tabsIds
+          : tabsIds // ignore: cast_nullable_to_non_nullable
+              as List<String>,
       isEditable: null == isEditable
           ? _value.isEditable
           : isEditable // ignore: cast_nullable_to_non_nullable
@@ -167,8 +167,8 @@ class _$BrowserGroupImpl implements _BrowserGroup {
   _$BrowserGroupImpl(
       {required this.id,
       required this.title,
-      this.tabsIds = const <String>[],
       required this.sortingOrder,
+      this.tabsIds = const <String>[],
       this.isEditable = true});
 
   factory _$BrowserGroupImpl.fromJson(Map<String, dynamic> json) =>
@@ -179,17 +179,17 @@ class _$BrowserGroupImpl implements _BrowserGroup {
   @override
   String? title;
   @override
+  double sortingOrder;
+  @override
   @JsonKey()
   List<String> tabsIds;
-  @override
-  double sortingOrder;
   @override
   @JsonKey()
   bool isEditable;
 
   @override
   String toString() {
-    return 'BrowserGroup(id: $id, title: $title, tabsIds: $tabsIds, sortingOrder: $sortingOrder, isEditable: $isEditable)';
+    return 'BrowserGroup(id: $id, title: $title, sortingOrder: $sortingOrder, tabsIds: $tabsIds, isEditable: $isEditable)';
   }
 
   /// Create a copy of BrowserGroup
@@ -212,8 +212,8 @@ abstract class _BrowserGroup implements BrowserGroup {
   factory _BrowserGroup(
       {required String id,
       required String? title,
-      List<String> tabsIds,
       required double sortingOrder,
+      List<String> tabsIds,
       bool isEditable}) = _$BrowserGroupImpl;
 
   factory _BrowserGroup.fromJson(Map<String, dynamic> json) =
@@ -226,11 +226,11 @@ abstract class _BrowserGroup implements BrowserGroup {
   String? get title;
   set title(String? value);
   @override
-  List<String> get tabsIds;
-  set tabsIds(List<String> value);
-  @override
   double get sortingOrder;
   set sortingOrder(double value);
+  @override
+  List<String> get tabsIds;
+  set tabsIds(List<String> value);
   @override
   bool get isEditable;
   set isEditable(bool value);

@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:app/app/router/router.dart';
 import 'package:app/core/error_handler_factory.dart';
 import 'package:app/core/wm/custom_wm.dart';
 import 'package:app/di/di.dart';
@@ -49,8 +50,6 @@ class CreateBrowserGroupScreenWidgetModel extends CustomWidgetModel<
 
   ThemeStyleV2 get _themeStyleV2 => context.themeStyleV2;
 
-  NavigatorState get _navigator => Navigator.of(context);
-
   ListenableState<BrowserTab?> get tabState => _tabState;
 
   ListenableState<File?> get screenShotState => _screenShotState;
@@ -66,7 +65,7 @@ class CreateBrowserGroupScreenWidgetModel extends CustomWidgetModel<
   }
 
   void onPressedBack() {
-    _navigator.pop();
+    context.compassBack();
   }
 
   void onChangeText(String text) {
@@ -74,7 +73,7 @@ class CreateBrowserGroupScreenWidgetModel extends CustomWidgetModel<
   }
 
   void onEditingComplete(String text) {
-    _navigator.pop(text);
+    context.compassBack<String>(text);
     _errorState.accept(text.length > _maxLength);
   }
 
