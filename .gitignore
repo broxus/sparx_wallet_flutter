@@ -20,7 +20,7 @@
 .classpath
 .project
 .settings/
-.vscode/*
+.vscode/
 
 # Flutter repo-specific
 /bin/cache/
@@ -122,6 +122,7 @@ app.*.map.json
 !.idea/codeStyles/
 !.idea/dictionaries/
 !.idea/runConfigurations/
+!pubspec.lock
 
 # melos-related
 pubspec_overrides.yaml
@@ -142,3 +143,6 @@ secrets/sentry-dsn*
 **/fastlane/report.xml
 fastlane/changelog.txt
 .qodo
+
+# AI
+**/.claude/settings.local.json

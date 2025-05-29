@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:app/app/router/router.dart';
 import 'package:app/app/service/app_links/app_links.dart';
 import 'package:app/app/service/storage_service/general_storage_service.dart';
 import 'package:app/app/service/ton_connect/ton_connect_service.dart';
@@ -16,13 +17,14 @@ import 'package:app/feature/browser_v2/managers/favicon_manager.dart';
 import 'package:app/feature/browser_v2/managers/history_manager.dart';
 import 'package:app/feature/browser_v2/managers/permissions_manager.dart';
 import 'package:app/feature/browser_v2/managers/tabs/tabs_manager.dart';
+import 'package:app/feature/browser_v2/route.dart';
 import 'package:app/feature/messenger/domain/service/messenger_service.dart';
 import 'package:app/utils/common_utils.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_inappwebview/flutter_inappwebview.dart';
 import 'package:injectable/injectable.dart';
 import 'package:nekoton_repository/nekoton_repository.dart';
 import 'package:nekoton_webview/nekoton_webview.dart';
+import 'package:rxdart/rxdart.dart';
 
 @singleton
 class BrowserService {
@@ -38,6 +40,7 @@ class BrowserService {
     this._generalStorageService,
     this._tonConnectService,
     this._nekotonRepository,
+    this._compassRouter,
   );
 
   final AppLinksService _appLinksService;
@@ -51,6 +54,7 @@ class BrowserService {
   final TonConnectService _tonConnectService;
   final MessengerService _messengerService;
   final NekotonRepository _nekotonRepository;
+  final CompassRouter _compassRouter;
 
   late final bookmarks = BookmarksManager(
     _bookmarksStorageService,
@@ -69,6 +73,8 @@ class BrowserService {
 
   final auth = BrowserAuthManager();
 
+  final _isContentInteractedStream = BehaviorSubject.seeded(false);
+
   StreamSubscription<BrowserAppLinksData>? _appLinksNavSubs;
 
   BookmarksManager get bM => bookmarks;
@@ -82,6 +88,8 @@ class BrowserService {
   PermissionsManager get pM => permissions;
 
   BrowserAuthManager get aM => auth;
+
+  ValueStream<bool> get isContentInteractedStream => _isContentInteractedStream;
 
   void init() {
     bookmarks.init();
@@ -108,7 +116,14 @@ class BrowserService {
   }
 
   void openStringUrl(String url) {
-    return tM.openUrl(WebUri(url));
+    return openUrl(WebUri(url));
+  }
+
+  void openUrl(Uri uri) {
+    if (_compassRouter.currentRoutes.lastOrNull is! BrowserRoute) {
+      _compassRouter.compassPointNamed(const BrowserRouteData());
+    }
+    tM.openUrl(uri);
   }
 
   void createTabBookMark(String tabId) {
@@ -139,6 +154,10 @@ class BrowserService {
           tM.clearCachedFiles();
       }
     }
+  }
+
+  void updateInteractedState({required bool isInteracted}) {
+    _isContentInteractedStream.add(isInteracted);
   }
 
   Future<void> _clearCookieAndData() async {

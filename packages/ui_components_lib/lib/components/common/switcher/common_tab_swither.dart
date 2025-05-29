@@ -56,7 +56,7 @@ class CommonTabSwitcher<T> extends StatelessWidget {
 
     return ShapedContainerRow(
       mainAxisSize: MainAxisSize.min,
-      separatorSize: DimensSize.d4,
+      spacing: DimensSize.d4,
       margin: EdgeInsets.zero,
       padding: const EdgeInsets.all(DimensSize.d4),
       color: colors.appBackground,

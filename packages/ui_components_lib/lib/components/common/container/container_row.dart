@@ -7,7 +7,7 @@ class ContainerRow extends Container {
     super.key,
     super.alignment,
     super.padding = const EdgeInsets.all(DimensSize.d8),
-    double? separatorSize = DimensSize.d8,
+    double? spacing = DimensSize.d8,
     MainAxisSize mainAxisSize = MainAxisSize.max,
     CrossAxisAlignment crossAxisAlignment = CrossAxisAlignment.center,
     Widget? separator,
@@ -23,7 +23,7 @@ class ContainerRow extends Container {
     super.clipBehavior = Clip.none,
   }) : super(
           child: SeparatedRow(
-            separatorSize: separatorSize,
+            spacing: spacing,
             mainAxisSize: mainAxisSize,
             crossAxisAlignment: crossAxisAlignment,
             separator: separator,

@@ -148,4 +148,8 @@ class BrowserMainScreenModel extends ElementaryModel {
       index: index,
     );
   }
+
+  void updateInteractedState({required bool isInteracted}) {
+    _browserService.updateInteractedState(isInteracted: isInteracted);
+  }
 }

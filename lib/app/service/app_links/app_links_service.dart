@@ -17,13 +17,13 @@ class AppLinksService {
 
   final _linksSubj = BehaviorSubject<AppLinksData>.seeded(EmptyAppLinksData());
 
-  late final Stream<AppLinksData> appLinksStream = _linksSubj.stream;
+  late final Stream<AppLinksData> _appLinksStream = _linksSubj.stream;
 
   Stream<BrowserAppLinksData> get browserLinksStream =>
-      appLinksStream.whereType<BrowserAppLinksData>();
+      _appLinksStream.whereType<BrowserAppLinksData>();
 
   Stream<TonConnectAppLinksData> get tonConnecLinksData =>
-      appLinksStream.whereType<TonConnectAppLinksData>();
+      _appLinksStream.whereType<TonConnectAppLinksData>();
 
   StreamSubscription<Uri>? _linkSubscription;
 

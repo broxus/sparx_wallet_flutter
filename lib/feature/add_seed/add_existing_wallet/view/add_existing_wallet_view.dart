@@ -1,4 +1,5 @@
 import 'package:app/app/router/router.dart';
+import 'package:app/feature/add_seed/import_wallet/route.dart';
 import 'package:app/generated/generated.dart';
 import 'package:flutter/material.dart';
 import 'package:lucide_icons_flutter/lucide_icons.dart';
@@ -30,9 +31,8 @@ class AddExistingWalletView extends StatelessWidget {
               buttonShape: ButtonShape.pill,
               title: LocaleKeys.useSecretPhraseTitle.tr(),
               onPressed: () {
-                context.goFurther(
-                  AppRoute.importWallet.path,
-                  preserveQueryParams: true,
+                context.compassContinue(
+                  const ImportWalletRouteData(),
                 );
               },
               icon: LucideIcons.textCursorInput,

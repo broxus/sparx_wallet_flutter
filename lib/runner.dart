@@ -64,8 +64,7 @@ Future<void> run(
 
       Bloc.observer = AppBlocObserver();
 
-      DefaultAppBar.defaultPopAction =
-          (context) => context.maybePop(preserveQueryParams: false);
+      DefaultAppBar.defaultPopAction = (context) => context.compassBack();
       DefaultAppBar.defaultCanPopAction = (context) => context.canPop();
 
       await SystemChrome.setPreferredOrientations([

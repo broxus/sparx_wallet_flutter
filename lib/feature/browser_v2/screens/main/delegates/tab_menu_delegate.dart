@@ -43,8 +43,6 @@ class BrowserTabMenuDelegate implements BrowserTabMenuUi {
     BrowserTab tab,
   ) async {
     onShowMenu();
-    primaryBus.fire(HideNavigationEvent());
-
     final result = await Future.delayed(
       _duration,
       () {
@@ -56,7 +54,6 @@ class BrowserTabMenuDelegate implements BrowserTabMenuUi {
     );
 
     onHideMenu();
-    primaryBus.fire(RevertNavigationEvent());
 
     switch (result) {
       case BrowserTabMenuItemData.copyLink:

@@ -1,4 +1,4 @@
-import 'package:app/app/router/routs/wallet/ton_wallet_send_route_data.dart';
+import 'package:app/app/router/router.dart';
 import 'package:app/feature/wallet/ton_wallet_send/data/data.dart';
 import 'package:app/feature/wallet/ton_wallet_send/view/ton_wallet_send_confirm_view.dart';
 import 'package:app/feature/wallet/ton_wallet_send/view/ton_wallet_send_wm.dart';
@@ -7,7 +7,6 @@ import 'package:app/generated/generated.dart';
 import 'package:elementary/elementary.dart';
 import 'package:elementary_helper/elementary_helper.dart';
 import 'package:flutter/material.dart';
-import 'package:go_router/go_router.dart';
 import 'package:ui_components_lib/ui_components_lib.dart';
 
 /// Page that allows send funds from TonWalelt (native token).
@@ -32,7 +31,7 @@ class TonWalletSendWidget extends ElementaryWidget<TonWalletSendWidgetModel> {
           TonWalletSendStateError() =>
             DefaultAppBar(titleText: LocaleKeys.confirmTransaction.tr()),
           TonWalletSendStateReady() => DefaultAppBar(
-              onClosePressed: (context) => context.pop(),
+              onClosePressed: (context) => context.compassBack(),
               titleText: LocaleKeys.confirmTransaction.tr(),
             ),
         };
