@@ -237,16 +237,16 @@ Future<T?> tryWrapper<T>(
 }
 
 extension ChangeNotifierStreamExt on ChangeNotifier {
-  Stream<T> asStreamWithValue<T>(
+  BehaviorSubject<T> asBehaviourSubject<T>(
     ValueGetter<T> value,
   ) {
-    final subject = PublishSubject<T>();
+    final subject = BehaviorSubject<T>.seeded(value());
     void listener() => subject.add(value());
 
     subject.onListen = () => addListener(listener);
     subject.onCancel = () => removeListener(listener);
 
-    return subject.stream;
+    return subject;
   }
 }
 

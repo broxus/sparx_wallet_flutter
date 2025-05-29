@@ -3,8 +3,7 @@ import 'dart:async';
 import 'package:app/core/error_handler_factory.dart';
 import 'package:app/core/wm/custom_wm.dart';
 import 'package:app/di/di.dart';
-import 'package:app/event_bus/events/navigation/bottom_navigation_events.dart';
-import 'package:app/event_bus/primary_bus.dart';
+import 'package:app/feature/root/view/root_tab.dart';
 import 'package:app/feature/wallet/view/wallet_page_model.dart';
 import 'package:app/feature/wallet/view/wallet_page_widget.dart';
 import 'package:elementary_helper/elementary_helper.dart';
@@ -18,6 +17,7 @@ WalletPageWidgetModel defaultWalletPageWidgetModelFactory(
     WalletPageWidgetModel(
       WalletPageModel(
         createPrimaryErrorHandler(context),
+        inject(),
         inject(),
         inject(),
         inject(),
@@ -37,7 +37,7 @@ class WalletPageWidgetModel
   late final _isShowingNewTokensNotifier = createNotifier<bool>();
   late final _hasUnconfirmedTransactionsNotifier = createNotifier<bool>();
 
-  StreamSubscription<PressBottomNavigationEvent>? _pressWalletSubscribtion;
+  StreamSubscription<RootTab>? _pressWalletSubscribtion;
 
   StreamSubscription<void>? _changeTransactions;
 
@@ -57,9 +57,15 @@ class WalletPageWidgetModel
   @override
   void initWidgetModel() {
     super.initWidgetModel();
-    _pressWalletSubscribtion = primaryBus
-        .on<PressBottomNavigationEvent>()
-        .listen(_onPressWalletBottomNavigation);
+    _pressWalletSubscribtion = model.shouldScrollTopStream.listen(
+      (_) {
+        scrollController.animateTo(
+          0,
+          duration: const Duration(milliseconds: 250),
+          curve: Curves.linear,
+        );
+      },
+    );
     _currentAccountSubscribtion =
         model.currentAccount.whereNotNull().listen(_onAccountChanged);
   }
@@ -78,18 +84,6 @@ class WalletPageWidgetModel
     if (account != null) {
       model.hideNewTokenLabels(account);
     }
-  }
-
-  void _onPressWalletBottomNavigation(PressBottomNavigationEvent event) {
-    if (!event.isSameTab || !event.isWalletTab) {
-      return;
-    }
-
-    scrollController.animateTo(
-      0,
-      duration: const Duration(milliseconds: 250),
-      curve: Curves.linear,
-    );
   }
 
   void _onAccountChanged(KeyAccount account) {
