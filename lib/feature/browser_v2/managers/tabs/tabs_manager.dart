@@ -41,10 +41,11 @@ class BrowserTabsManager {
 
   final _controllers = HashMap<String, CustomWebViewController>();
 
-  final _allTabs = <String, BrowserTab>{};
+  // final _allTabs = <String, BrowserTab>{};
   final _allGroups = <String, BrowserGroup>{};
 
   final _activeGroupState = StateNotifier<BrowserGroup?>();
+  final _allTabsState = _TabsNotifier();
   final _activeTabState = StateNotifier<BrowserTab?>();
 
   final _allGroupsState = NotNullNotifier<List<BrowserGroup>>([]);
@@ -54,6 +55,8 @@ class BrowserTabsManager {
   ListenableState<BrowserTab?> get activeTabState => _activeTabState;
 
   ListenableState<List<BrowserGroup>> get allGroupsState => _allGroupsState;
+
+  ListenableState<Map<String, BrowserTab>> get allTabsState => _allTabsState;
 
   ListenableState<ImageCache?> get screenshotsState =>
       _screenShooter.screenshotsState;
@@ -66,7 +69,7 @@ class BrowserTabsManager {
 
   ListenableState<ToolbarData> get controlPanelState => _controlPanelState;
 
-  Iterable<String> get allBrowserTabsIds => _allTabs.keys;
+  Iterable<String> get allBrowserTabsIds => _allTabsState.value.keys;
 
   BrowserTab? get activeTab => activeTabState.value;
 
@@ -79,9 +82,11 @@ class BrowserTabsManager {
   }
 
   void dispose() {
-    activeGroupState.removeListener(_handleActiveTab);
     _screenShooter.dispose();
     _allGroupsState.dispose();
+    _activeGroupState.dispose();
+    _allTabsState.dispose();
+    _activeTabState.dispose();
   }
 
   void setController(String tabId, CustomWebViewController controller) {
@@ -121,7 +126,7 @@ class BrowserTabsManager {
   Future<void> clearTabs() async {
     await _browserTabsStorageService.clear();
     await _screenShooter.clear();
-    _allTabs.clear();
+    _allTabsState.clear();
     _allGroups.forEach((id, group) {
       group.tabsIds.clear();
     });
@@ -130,14 +135,14 @@ class BrowserTabsManager {
   }
 
   bool updateCachedUrl(String tabId, Uri uri) {
-    final tab = _allTabs[tabId];
+    final tab = _allTabsState[tabId];
 
     if (tab == null) {
       return false;
     }
 
-    _allTabs[tabId] = tab.copyWith(url: uri);
-    _browserTabsStorageService.saveBrowserTabs(_allTabs.valuesList);
+    _allTabsState[tabId] = tab.copyWith(url: uri);
+    _browserTabsStorageService.saveBrowserTabs(_allTabsState.tabs);
 
     if (tabId == activeTab?.id) {
       _activeGroupState.accept(_activeGroupState.value?.copyWith());
@@ -173,14 +178,14 @@ class BrowserTabsManager {
   }
 
   void updateTabTitle(String tabId, String title) {
-    final tab = _allTabs[tabId];
+    final tab = _allTabsState[tabId];
 
     if (tab == null) {
       return;
     }
 
-    _allTabs[tabId] = tab.copyWith(title: title);
-    _browserTabsStorageService.saveBrowserTabs(_allTabs.valuesList);
+    _allTabsState[tabId] = tab.copyWith(title: title);
+    _browserTabsStorageService.saveBrowserTabs(_allTabsState.tabs);
 
     if (tabId == activeTab?.id) {
       _activeGroupState.accept(_activeGroupState.value?.copyWith());
@@ -206,7 +211,7 @@ class BrowserTabsManager {
       return;
     }
 
-    final tab = _allTabs[tabId];
+    final tab = _allTabsState[tabId];
 
     if (tab == null) {
       return;
@@ -228,8 +233,6 @@ class BrowserTabsManager {
       return;
     }
 
-    _allTabs.remove(tabId);
-
     final groupTabsIds = [...group.tabsIds];
 
     String? newActiveTabId;
@@ -249,7 +252,8 @@ class BrowserTabsManager {
     );
 
     _setGroups(groups: _allGroups.valuesList);
-    _browserTabsStorageService.saveBrowserTabs(_allTabs.valuesList);
+    _allTabsState.remove(tabId);
+    _browserTabsStorageService.saveBrowserTabs(_allTabsState.tabs);
 
     unawaited(_screenShooter.removeScreenshot(tabId));
 
@@ -274,8 +278,8 @@ class BrowserTabsManager {
 
     final tab = BrowserTab.create(url: url);
 
-    _allTabs[tab.id] = tab;
-    _browserTabsStorageService.saveBrowserTabs(_allTabs.valuesList);
+    _allTabsState[tab.id] = tab;
+    _browserTabsStorageService.saveBrowserTabs(_allTabsState.tabs);
 
     _allGroups[groupId] = group.copyWith(tabsIds: [...group.tabsIds, tab.id]);
 
@@ -295,7 +299,7 @@ class BrowserTabsManager {
     }
 
     final lastTabId = group.tabsIds.lastOrNull;
-    final lastTab = _allTabs[lastTabId];
+    final lastTab = _allTabsState[lastTabId];
 
     if (lastTab != null &&
         lastTabId != null &&
@@ -370,7 +374,7 @@ class BrowserTabsManager {
     final result = <BrowserTab>[];
 
     for (final id in tabIds) {
-      final tab = _allTabs[id];
+      final tab = _allTabsState[id];
       if (tab == null) {
         continue;
       }
@@ -382,7 +386,7 @@ class BrowserTabsManager {
 
   BrowserGroup? getGroupById(String id) => _allGroups[id];
 
-  BrowserTab? getTabById(String id) => _allTabs[id];
+  BrowserTab? getTabById(String id) => _allTabsState[id];
 
   Future<void> permissionsChanged(
     String tabId,
@@ -492,13 +496,11 @@ class BrowserTabsManager {
     }
 
     if (groupTabsIds != null) {
-      for (final id in groupTabsIds) {
-        _allTabs.remove(id);
-      }
+      _allTabsState.removeByList(groupTabsIds);
     }
 
     _setGroups(groups: _allGroups.valuesList);
-    _browserTabsStorageService.saveBrowserTabs(_allTabs.valuesList);
+    _browserTabsStorageService.saveBrowserTabs(_allTabsState.tabs);
   }
 
   /// Put browser tabs to stream
@@ -517,25 +519,28 @@ class BrowserTabsManager {
       _allGroups[group.id] = group;
     }
 
+    final tabsMap = <String, BrowserTab>{};
+
     for (final tab in tabs) {
-      _allTabs[tab.id] = tab;
+      tabsMap[tab.id] = tab;
     }
+    _allTabsState.addTabs(tabsMap);
 
     BrowserGroup? activeGroup;
     BrowserTab? activeTab;
 
-    if (_allTabs.isEmpty) {
+    if (_allTabsState.isEmpty) {
       activeTab = BrowserTab.create(url: _emptyUri);
-      _allTabs[activeTab.id] = activeTab;
+      _allTabsState[activeTab.id] = activeTab;
       _browserTabsStorageService.saveBrowserTabs([activeTab]);
     } else {
-      activeTab = _allTabs[_browserTabsStorageService.getActiveTabId()] ??
-          _allTabs[_allTabs.keys.firstOrNull];
+      activeTab = _allTabsState[_browserTabsStorageService.getActiveTabId()] ??
+          _allTabsState[_allTabsState.ids.firstOrNull];
     }
 
     if (_allGroups.isEmpty) {
       activeGroup = _browserGroupsStorageService.initGroups(
-        _allTabs.keys.toList(),
+        _allTabsState.ids.toList(),
       );
 
       _allGroups[activeGroup.id] = activeGroup;
@@ -553,7 +558,7 @@ class BrowserTabsManager {
 
       if (activeGroup == null) {
         activeGroup = _allGroups[tabsGroupId];
-        activeTab = _allTabs[activeGroup?.tabsIds.firstOrNull];
+        activeTab = _allTabsState[activeGroup?.tabsIds.firstOrNull];
       }
     }
 
@@ -589,4 +594,42 @@ class BrowserTabsManager {
 
 extension _MapExt<K, V> on Map<K, V> {
   List<V> get valuesList => values.toList();
+}
+
+class _TabsNotifier extends NotNullNotifier<Map<String, BrowserTab>> {
+  _TabsNotifier() : super({});
+
+  List<String> get ids => value.keys.toList();
+
+  List<BrowserTab> get tabs => value.values.toList();
+
+  bool get isEmpty => value.isEmpty;
+
+  BrowserTab? operator [](String? key) {
+    return value[key];
+  }
+
+  void operator []=(String key, BrowserTab tab) {
+    value[key] = tab;
+    accept(value, isUnique: false);
+  }
+
+  void addTabs(Map<String, BrowserTab> map) {
+    accept(value..addAll(map), isUnique: false);
+  }
+
+  void remove(String key) {
+    accept(value..remove(key), isUnique: false);
+  }
+
+  void removeByList(List<String> ids) {
+    for (final id in ids) {
+      value.remove(id);
+    }
+    accept(value, isUnique: false);
+  }
+
+  void clear() {
+    accept(value..clear(), isUnique: false);
+  }
 }

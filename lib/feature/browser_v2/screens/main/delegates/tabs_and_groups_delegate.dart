@@ -88,6 +88,7 @@ class BrowserTabsAndGroupsDelegate implements BrowserTabsAndGroupsUi {
   void dispose() {
     model.activeGroupState.removeListener(_handleActiveGroup);
     model.activeTabState.removeListener(_handleActiveTab);
+    model.allTabsState.removeListener(_handleAllTabs);
     _selectedGroupIdState.dispose();
     _tabAnimationTypeState.dispose();
     _viewTabsState.removeListener(_handleTabs);
@@ -233,6 +234,7 @@ class BrowserTabsAndGroupsDelegate implements BrowserTabsAndGroupsUi {
   void _init() {
     model.activeGroupState.addListener(_handleActiveGroup);
     model.activeTabState.addListener(_handleActiveTab);
+    model.allTabsState.addListener(_handleAllTabs);
     _viewTabsState.addListener(_handleTabs);
     final groupId = model.activeGroupState.value?.id;
 
@@ -277,6 +279,14 @@ class BrowserTabsAndGroupsDelegate implements BrowserTabsAndGroupsUi {
     );
 
     onChangeTab();
+  }
+
+  void _handleAllTabs() {
+    final activeGroupId = model.activeGroupState.value?.id;
+
+    if (activeGroupId != null) {
+      _viewTabsState.accept(model.getGroupTabs(activeGroupId));
+    }
   }
 
   void _handleTabs() {

@@ -24,8 +24,11 @@ class NotNullNotifier<T> extends ChangeNotifier implements ListenableState<T> {
     listener.call();
   }
 
-  void accept(T newValue) {
-    if (_disposed || _value == newValue) return;
+  void accept(
+    T newValue, {
+    bool isUnique = true,
+  }) {
+    if (_disposed || isUnique && _value == newValue) return;
 
     _value = newValue;
     notifyListeners();
