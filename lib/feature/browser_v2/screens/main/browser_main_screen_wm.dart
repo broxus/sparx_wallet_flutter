@@ -289,11 +289,15 @@ class BrowserMainScreenWidgetModel
     );
 
     if (animationType is ShowViewAnimationType) {
-      _navigationScrollModeState.accept(
-        NavigationUrlPhysicMode.snap,
-      );
+      callWithDelay(() {
+        _navigationScrollModeState.accept(
+          NavigationUrlPhysicMode.snap,
+        );
+      }, duration: _duration);
     }
   }
+
+  final _duration = const Duration(seconds: 1);
 
   void onPressedDotsPressed() {
     final groupId = tabs.selectedGroupIdState.value;
