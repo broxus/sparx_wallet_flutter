@@ -8,9 +8,9 @@ part 'browser_group.g.dart';
 
 const tabsGroupId = 'mainTabsGroup';
 
-@freezed
+@unfreezed
 class BrowserGroup with _$BrowserGroup {
-  const factory BrowserGroup({
+  factory BrowserGroup({
     required String id,
     required String? title,
     @Default(<String>[]) List<String> tabsIds,

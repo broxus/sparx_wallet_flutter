@@ -49,7 +49,7 @@ class BrowserTabsListItemWidgetModel
 
   @override
   void initWidgetModel() {
-    model.activeGroupState.addListener(_handleActiveTab);
+    model.activeTabState.addListener(_handleActiveTab);
     model.screenshotsState.addListener(_handleScreenShots);
     _updateTitle();
     super.initWidgetModel();
@@ -80,7 +80,7 @@ class BrowserTabsListItemWidgetModel
 
   @override
   void dispose() {
-    model.activeGroupState.removeListener(_handleActiveTab);
+    model.activeTabState.removeListener(_handleActiveTab);
     model.screenshotsState.removeListener(_handleScreenShots);
     super.dispose();
   }

@@ -23,7 +23,10 @@ class BrowserMainScreenModel extends ElementaryModel {
   ListenableState<BrowserGroup?> get activeGroupState =>
       _browserService.tM.activeGroupState;
 
-  String? get activeTabId => _browserService.tM.activeTabState.value?.id;
+  ListenableState<BrowserTab?> get activeTabState =>
+      _browserService.tM.activeTabState;
+
+  String? get activeTabId => activeTabState.value?.id;
 
   void setActiveGroup(String groupId) {
     _browserService.tM.setActiveGroup(groupId);

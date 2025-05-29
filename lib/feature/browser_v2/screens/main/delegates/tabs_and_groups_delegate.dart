@@ -66,9 +66,6 @@ class BrowserTabsAndGroupsDelegate implements BrowserTabsAndGroupsUi {
     initValue: model.activeGroupState.value?.id,
   );
 
-  String? _prevActiveGroupId;
-  String? _prevActiveTabId;
-
   @override
   ListenableState<String?> get selectedGroupIdState => _selectedGroupIdState;
 
@@ -90,6 +87,7 @@ class BrowserTabsAndGroupsDelegate implements BrowserTabsAndGroupsUi {
 
   void dispose() {
     model.activeGroupState.removeListener(_handleActiveGroup);
+    model.activeTabState.removeListener(_handleActiveTab);
     _selectedGroupIdState.dispose();
     _tabAnimationTypeState.dispose();
     _viewTabsState.removeListener(_handleTabs);
@@ -100,21 +98,17 @@ class BrowserTabsAndGroupsDelegate implements BrowserTabsAndGroupsUi {
     required String groupId,
     required String tabId,
   }) {
-    if (_prevActiveGroupId == groupId && _prevActiveTabId == tabId) {
-      final data = renderManager.getRenderData(tabId);
+    final data = renderManager.getRenderData(tabId);
 
-      _tabAnimationTypeState.accept(
-        ShowViewAnimationType(
-          tabX: data?.xLeft,
-          tabY: data?.yTop,
-        ),
-      );
-    } else {
-      model
-        ..setActiveGroup(groupId)
-        ..setActiveTab(tabId);
-      _selectedGroupIdState.accept(groupId);
-    }
+    _tabAnimationTypeState.accept(
+      ShowViewAnimationType(
+        tabX: data?.xLeft,
+        tabY: data?.yTop,
+      ),
+    );
+    model
+      ..setActiveGroup(groupId)
+      ..setActiveTab(tabId);
     onChangeTab();
   }
 
@@ -238,6 +232,7 @@ class BrowserTabsAndGroupsDelegate implements BrowserTabsAndGroupsUi {
 
   void _init() {
     model.activeGroupState.addListener(_handleActiveGroup);
+    model.activeTabState.addListener(_handleActiveTab);
     _viewTabsState.addListener(_handleTabs);
     final groupId = model.activeGroupState.value?.id;
 
@@ -246,7 +241,11 @@ class BrowserTabsAndGroupsDelegate implements BrowserTabsAndGroupsUi {
     }
   }
 
-  Future<void> _handleActiveGroup() async {
+  void _handleActiveGroup() {
+    _selectedGroupIdState.accept(model.activeGroupState.value?.id);
+  }
+
+  Future<void> _handleActiveTab() async {
     if (checkIsVisiblePages()) {
       return;
     }
@@ -254,7 +253,7 @@ class BrowserTabsAndGroupsDelegate implements BrowserTabsAndGroupsUi {
     final activeGroupId = model.activeGroupState.value?.id;
     final activeTabId = model.activeTabId;
 
-    if (activeGroupId == null) {
+    if (activeGroupId == null || activeTabId == null) {
       return;
     }
 
@@ -263,27 +262,21 @@ class BrowserTabsAndGroupsDelegate implements BrowserTabsAndGroupsUi {
 
     onUpdateActiveTab();
 
-    if (activeTabId != null && _prevActiveTabId != activeTabId) {
-      final data = renderManager.getRenderData(activeTabId);
+    final data = renderManager.getRenderData(activeTabId);
 
-      _tabAnimationTypeState.accept(
-        ShowViewAnimationType(
-          tabX: data?.xLeft,
-          tabY: data?.yTop,
-        ),
-      );
-      unawaited(
-        scrollToTab(
-          groupId: activeGroupId,
-          tabId: activeTabId,
-        ),
-      );
-    }
+    await scrollToTab(
+      groupId: activeGroupId,
+      tabId: activeTabId,
+    );
+
+    _tabAnimationTypeState.accept(
+      ShowViewAnimationType(
+        tabX: data?.xLeft,
+        tabY: data?.yTop,
+      ),
+    );
 
     onChangeTab();
-
-    _prevActiveGroupId = activeGroupId;
-    _prevActiveTabId = activeTabId;
   }
 
   void _handleTabs() {

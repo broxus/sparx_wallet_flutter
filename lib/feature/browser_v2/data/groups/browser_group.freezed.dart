@@ -21,10 +21,15 @@ BrowserGroup _$BrowserGroupFromJson(Map<String, dynamic> json) {
 /// @nodoc
 mixin _$BrowserGroup {
   String get id => throw _privateConstructorUsedError;
+  set id(String value) => throw _privateConstructorUsedError;
   String? get title => throw _privateConstructorUsedError;
+  set title(String? value) => throw _privateConstructorUsedError;
   List<String> get tabsIds => throw _privateConstructorUsedError;
+  set tabsIds(List<String> value) => throw _privateConstructorUsedError;
   double get sortingOrder => throw _privateConstructorUsedError;
+  set sortingOrder(double value) => throw _privateConstructorUsedError;
   bool get isEditable => throw _privateConstructorUsedError;
+  set isEditable(bool value) => throw _privateConstructorUsedError;
 
   /// Serializes this BrowserGroup to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
@@ -141,7 +146,7 @@ class __$$BrowserGroupImplCopyWithImpl<$Res>
           : title // ignore: cast_nullable_to_non_nullable
               as String?,
       tabsIds: null == tabsIds
-          ? _value._tabsIds
+          ? _value.tabsIds
           : tabsIds // ignore: cast_nullable_to_non_nullable
               as List<String>,
       sortingOrder: null == sortingOrder
@@ -159,59 +164,33 @@ class __$$BrowserGroupImplCopyWithImpl<$Res>
 /// @nodoc
 @JsonSerializable()
 class _$BrowserGroupImpl implements _BrowserGroup {
-  const _$BrowserGroupImpl(
+  _$BrowserGroupImpl(
       {required this.id,
       required this.title,
-      final List<String> tabsIds = const <String>[],
+      this.tabsIds = const <String>[],
       required this.sortingOrder,
-      this.isEditable = true})
-      : _tabsIds = tabsIds;
+      this.isEditable = true});
 
   factory _$BrowserGroupImpl.fromJson(Map<String, dynamic> json) =>
       _$$BrowserGroupImplFromJson(json);
 
   @override
-  final String id;
+  String id;
   @override
-  final String? title;
-  final List<String> _tabsIds;
-  @override
-  @JsonKey()
-  List<String> get tabsIds {
-    if (_tabsIds is EqualUnmodifiableListView) return _tabsIds;
-    // ignore: implicit_dynamic_type
-    return EqualUnmodifiableListView(_tabsIds);
-  }
-
-  @override
-  final double sortingOrder;
+  String? title;
   @override
   @JsonKey()
-  final bool isEditable;
+  List<String> tabsIds;
+  @override
+  double sortingOrder;
+  @override
+  @JsonKey()
+  bool isEditable;
 
   @override
   String toString() {
     return 'BrowserGroup(id: $id, title: $title, tabsIds: $tabsIds, sortingOrder: $sortingOrder, isEditable: $isEditable)';
   }
-
-  @override
-  bool operator ==(Object other) {
-    return identical(this, other) ||
-        (other.runtimeType == runtimeType &&
-            other is _$BrowserGroupImpl &&
-            (identical(other.id, id) || other.id == id) &&
-            (identical(other.title, title) || other.title == title) &&
-            const DeepCollectionEquality().equals(other._tabsIds, _tabsIds) &&
-            (identical(other.sortingOrder, sortingOrder) ||
-                other.sortingOrder == sortingOrder) &&
-            (identical(other.isEditable, isEditable) ||
-                other.isEditable == isEditable));
-  }
-
-  @JsonKey(includeFromJson: false, includeToJson: false)
-  @override
-  int get hashCode => Object.hash(runtimeType, id, title,
-      const DeepCollectionEquality().hash(_tabsIds), sortingOrder, isEditable);
 
   /// Create a copy of BrowserGroup
   /// with the given fields replaced by the non-null parameter values.
@@ -230,26 +209,31 @@ class _$BrowserGroupImpl implements _BrowserGroup {
 }
 
 abstract class _BrowserGroup implements BrowserGroup {
-  const factory _BrowserGroup(
-      {required final String id,
-      required final String? title,
-      final List<String> tabsIds,
-      required final double sortingOrder,
-      final bool isEditable}) = _$BrowserGroupImpl;
+  factory _BrowserGroup(
+      {required String id,
+      required String? title,
+      List<String> tabsIds,
+      required double sortingOrder,
+      bool isEditable}) = _$BrowserGroupImpl;
 
   factory _BrowserGroup.fromJson(Map<String, dynamic> json) =
       _$BrowserGroupImpl.fromJson;
 
   @override
   String get id;
+  set id(String value);
   @override
   String? get title;
+  set title(String? value);
   @override
   List<String> get tabsIds;
+  set tabsIds(List<String> value);
   @override
   double get sortingOrder;
+  set sortingOrder(double value);
   @override
   bool get isEditable;
+  set isEditable(bool value);
 
   /// Create a copy of BrowserGroup
   /// with the given fields replaced by the non-null parameter values.
