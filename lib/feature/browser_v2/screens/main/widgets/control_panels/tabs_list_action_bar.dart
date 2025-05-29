@@ -8,7 +8,7 @@ import 'package:ui_components_lib/v2/ui_components_lib_v2.dart';
 
 class BrowserTabsListActionBar extends StatelessWidget {
   const BrowserTabsListActionBar({
-    required this.viewTabsState,
+    required this.activeTabState,
     required this.onCloseAllPressed,
     required this.onGroupsMenuPressed,
     required this.onPlusPressed,
@@ -16,7 +16,7 @@ class BrowserTabsListActionBar extends StatelessWidget {
     super.key,
   });
 
-  final ListenableState<List<BrowserTab>?> viewTabsState;
+  final ListenableState<BrowserTab?> activeTabState;
   final VoidCallback onCloseAllPressed;
   final VoidCallback onGroupsMenuPressed;
   final VoidCallback onPlusPressed;
@@ -30,10 +30,9 @@ class BrowserTabsListActionBar extends StatelessWidget {
 
     return SizedBox(
       height: height,
-      child: StateNotifierBuilder<List<BrowserTab>?>(
-        listenableState: viewTabsState,
-        builder: (_, List<BrowserTab>? tabs) {
-          final isEmpty = tabs?.isEmpty ?? true;
+      child: StateNotifierBuilder<BrowserTab?>(
+        listenableState: activeTabState,
+        builder: (_, BrowserTab? tab) {
           return ColoredBox(
             color: colors.background1,
             child: SizedBox(
@@ -41,16 +40,10 @@ class BrowserTabsListActionBar extends StatelessWidget {
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  IgnorePointer(
-                    ignoring: isEmpty,
-                    child: Opacity(
-                      opacity: isEmpty ? 0 : 1,
-                      child: BrowserTextButton(
-                        title: LocaleKeys.browserCloseAll.tr(),
-                        alignment: Alignment.centerLeft,
-                        onPressed: onCloseAllPressed,
-                      ),
-                    ),
+                  BrowserTextButton(
+                    title: LocaleKeys.browserCloseAll.tr(),
+                    alignment: Alignment.centerLeft,
+                    onPressed: onCloseAllPressed,
                   ),
                   GestureDetector(
                     behavior: HitTestBehavior.opaque,
@@ -80,9 +73,9 @@ class BrowserTabsListActionBar extends StatelessWidget {
                     ),
                   ),
                   IgnorePointer(
-                    ignoring: isEmpty,
+                    ignoring: tab == null,
                     child: Opacity(
-                      opacity: isEmpty ? .7 : 1,
+                      opacity: tab == null ? .7 : 1,
                       child: BrowserTextButton(
                         title: LocaleKeys.done.tr(),
                         alignment: Alignment.centerRight,

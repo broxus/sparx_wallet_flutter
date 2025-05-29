@@ -6,6 +6,7 @@ import 'package:app/di/di.dart';
 import 'package:app/event_bus/events/navigation/bottom_navigation_events.dart';
 import 'package:app/event_bus/primary_bus.dart';
 import 'package:app/feature/browser_v2/custom_web_controller.dart';
+import 'package:app/feature/browser_v2/data/tabs/browser_tab.dart';
 import 'package:app/feature/browser_v2/screens/main/browser_main_screen.dart';
 import 'package:app/feature/browser_v2/screens/main/browser_main_screen_model.dart';
 import 'package:app/feature/browser_v2/screens/main/data/browser_render_manager.dart';
@@ -173,6 +174,8 @@ class BrowserMainScreenWidgetModel
   ListenableState<MenuType> get menuState => _menuState;
 
   ListenableState<bool> get viewVisibleState => _viewVisibleState;
+
+  ListenableState<BrowserTab?> get activeTabState => model.activeTabState;
 
   ListenableState<NavigationUrlPhysicMode> get navigationScrollModeState =>
       _navigationScrollModeState;

@@ -125,6 +125,8 @@ class BrowserTabsManager {
     _allGroups.forEach((id, group) {
       group.tabsIds.clear();
     });
+    _allGroupsState.accept(_allGroups.valuesList);
+    _activeTabState.accept(null);
   }
 
   bool updateCachedUrl(String tabId, Uri uri) {
