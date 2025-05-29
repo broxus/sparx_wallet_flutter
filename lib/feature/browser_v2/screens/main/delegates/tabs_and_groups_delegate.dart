@@ -266,9 +266,11 @@ class BrowserTabsAndGroupsDelegate implements BrowserTabsAndGroupsUi {
 
     final data = renderManager.getRenderData(activeTabId);
 
-    await scrollToTab(
-      groupId: activeGroupId,
-      tabId: activeTabId,
+    unawaited(
+      scrollToTab(
+        groupId: activeGroupId,
+        tabId: activeTabId,
+      ),
     );
 
     _tabAnimationTypeState.accept(

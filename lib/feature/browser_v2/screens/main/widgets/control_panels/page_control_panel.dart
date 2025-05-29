@@ -27,7 +27,7 @@ class BrowserPageControlPanel extends StatelessWidget {
   final double menuUrlPanelWidth;
   final double urlWidth;
   final VoidCallback onPressedTabs;
-  final  VoidCallback onPressedDotsPressed;
+  final VoidCallback onPressedDotsPressed;
   final ValueChanged<String> onPressedCurrentUrlMenu;
   final ValueChanged<String> onPressedRefresh;
   final DoubleValueCallback<String, String> onEditingCompleteUrl;
@@ -60,7 +60,7 @@ class BrowserPageControlPanel extends StatelessWidget {
             const _Space(),
             Toolbar(
               onPressedTabs: onPressedTabs,
-                onPressedDotsPressed: onPressedDotsPressed,
+              onPressedDotsPressed: onPressedDotsPressed,
             ),
           ],
         ),

@@ -13,15 +13,15 @@ class BrowserGroup with _$BrowserGroup {
   factory BrowserGroup({
     required String id,
     required String? title,
-    @Default(<String>[]) List<String> tabsIds,
     required double sortingOrder,
+    @Default(<String>[]) List<String> tabsIds,
     @Default(true) bool isEditable,
   }) = _BrowserGroup;
 
   factory BrowserGroup.fromJson(Map<String, dynamic> json) =>
       _$BrowserGroupFromJson(json);
 
-  static BrowserGroup create({
+  factory BrowserGroup.create({
     required String name,
     List<String>? tabsIds,
     bool isEditable = true,

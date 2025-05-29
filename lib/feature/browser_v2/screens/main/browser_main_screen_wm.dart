@@ -284,11 +284,14 @@ class BrowserMainScreenWidgetModel
     );
 
     if (animationType is ShowViewAnimationType) {
-      callWithDelay(() {
-        _navigationScrollModeState.accept(
-          NavigationUrlPhysicMode.snap,
-        );
-      }, duration: _duration);
+      callWithDelay(
+        () {
+          _navigationScrollModeState.accept(
+            NavigationUrlPhysicMode.snap,
+          );
+        },
+        duration: _duration,
+      );
     }
   }
 

@@ -115,10 +115,6 @@ class BrowserService {
     _appLinksNavSubs?.cancel();
   }
 
-  void openStringUrl(String url) {
-    return openUrl(WebUri(url));
-  }
-
   void openUrl(Uri uri) {
     if (_compassRouter.currentRoutes.lastOrNull is! BrowserRoute) {
       _compassRouter.compassPointNamed(const BrowserRouteData());
