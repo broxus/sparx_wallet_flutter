@@ -63,7 +63,7 @@ class BrowserTabsAndGroupsDelegate implements BrowserTabsAndGroupsUi {
   final _hostState = StateNotifier<String?>();
 
   late final _selectedGroupIdState = StateNotifier<String?>(
-    initValue: model.activeGroupState.value?.groupId,
+    initValue: model.activeGroupState.value?.id,
   );
 
   String? _prevActiveGroupId;
@@ -82,7 +82,7 @@ class BrowserTabsAndGroupsDelegate implements BrowserTabsAndGroupsUi {
   ListenableState<TabAnimationType?> get tabAnimationTypeState =>
       _tabAnimationTypeState;
 
-  String? get activeTabId => model.activeGroupState.value?.activeTabId;
+  String? get activeTabId => model.activeTabId;
 
   bool get isEmptyActiveTabUrl => _activeTab?.url.toString().isEmpty ?? false;
 
@@ -110,10 +110,9 @@ class BrowserTabsAndGroupsDelegate implements BrowserTabsAndGroupsUi {
         ),
       );
     } else {
-      model.setActiveTab(
-        groupId: groupId,
-        tabId: tabId,
-      );
+      model
+        ..setActiveGroup(groupId)
+        ..setActiveTab(tabId);
       _selectedGroupIdState.accept(groupId);
     }
     onChangeTab();
@@ -240,7 +239,7 @@ class BrowserTabsAndGroupsDelegate implements BrowserTabsAndGroupsUi {
   void _init() {
     model.activeGroupState.addListener(_handleActiveGroup);
     _viewTabsState.addListener(_handleTabs);
-    final groupId = model.activeGroupState.value?.groupId;
+    final groupId = model.activeGroupState.value?.id;
 
     if (groupId != null) {
       _viewTabsState.accept(model.getGroupTabs(groupId));
@@ -252,8 +251,8 @@ class BrowserTabsAndGroupsDelegate implements BrowserTabsAndGroupsUi {
       return;
     }
 
-    final activeGroupId = model.activeGroupState.value?.groupId;
-    final activeTabId = model.activeGroupState.value?.activeTabId;
+    final activeGroupId = model.activeGroupState.value?.id;
+    final activeTabId = model.activeTabId;
 
     if (activeGroupId == null) {
       return;

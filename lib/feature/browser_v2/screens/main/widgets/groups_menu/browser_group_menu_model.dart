@@ -1,5 +1,4 @@
 import 'package:app/feature/browser_v2/data/groups/browser_group.dart';
-import 'package:app/feature/browser_v2/data/groups/groups_data.dart';
 import 'package:app/feature/browser_v2/domain/service/browser_service.dart';
 import 'package:app/feature/browser_v2/screens/main/widgets/groups_menu/browser_group_menu.dart';
 import 'package:elementary/elementary.dart';
@@ -17,7 +16,7 @@ class BrowserGroupMenuModel extends ElementaryModel {
   ListenableState<List<BrowserGroup>> get allGroupsState =>
       _browserService.tabs.allGroupsState;
 
-  ListenableState<ActiveGroupData?> get activeGroupState =>
+  ListenableState<BrowserGroup?> get activeGroupState =>
       _browserService.tabs.activeGroupState;
 
   int? get allGroupsCount => allGroupsState.value?.length;
@@ -26,7 +25,7 @@ class BrowserGroupMenuModel extends ElementaryModel {
       _browserService.tabs.getGroupById(id)?.title;
 
   void setActiveGroup(String groupId) {
-    _browserService.tabs.setActiveTab(groupId: groupId);
+    _browserService.tabs.setActiveGroup(groupId);
   }
 
   void createBrowserGroup(String name) =>
@@ -45,6 +44,6 @@ class BrowserGroupMenuModel extends ElementaryModel {
   }
 
   void removeGroup(String groupId) {
-   _browserService.tabs.removeBrowserGroup(groupId);
+    _browserService.tabs.removeBrowserGroup(groupId);
   }
 }

@@ -1,5 +1,4 @@
-import 'package:app/feature/browser_v2/data/groups/groups_data.dart';
-import 'package:app/feature/browser_v2/data/tabs/browser_tab.dart';
+import 'package:app/feature/browser_v2/data/groups/browser_group.dart';
 import 'package:app/feature/browser_v2/data/tabs/tabs_data.dart';
 import 'package:app/feature/browser_v2/domain/service/browser_service.dart';
 import 'package:app/feature/browser_v2/screens/main/widgets/tabs/item/browser_tabs_list_item.dart';
@@ -15,8 +14,10 @@ class BrowserTabsListItemModel extends ElementaryModel {
 
   final BrowserService _browserService;
 
-  ListenableState<ActiveGroupData?> get activeGroupState =>
+  ListenableState<BrowserGroup?> get activeGroupState =>
       _browserService.tM.activeGroupState;
+
+  String? get activeTabId => _browserService.tM.activeTab?.id;
 
   ListenableState<ImageCache?> get screenshotsState =>
       _browserService.tM.screenshotsState;

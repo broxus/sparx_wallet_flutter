@@ -84,7 +84,6 @@ class BrowserTabsListWidgetModel
   void dispose() {
     model.allGroupsState.removeListener(_handleAllGroups);
     selectedGroupIdState.removeListener(_handleSelectedGroupId);
-
     super.dispose();
   }
 

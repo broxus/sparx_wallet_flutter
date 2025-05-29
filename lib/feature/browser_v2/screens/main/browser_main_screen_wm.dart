@@ -97,28 +97,22 @@ class BrowserMainScreenWidgetModel
       }
 
       Future(() {
-        final groupId = model.activeGroupState.value?.groupId;
+        final group = model.activeGroupState.value;
 
-        if (groupId == null) {
+        if (group == null) {
           return;
         }
 
         final tabId = _tabsDelegate.getIdByIndex(
-          groupId: groupId,
+          groupId: group.id,
           index: tabIndex,
         );
 
-        final data = model.activeGroupState.value;
-
-        if (tabId == null ||
-            data?.groupId == groupId && data?.activeTabId == tabId) {
+        if (tabId == null || model.activeTabId == tabId) {
           return;
         }
 
-        model.setActiveTab(
-          groupId: groupId,
-          tabId: tabId,
-        );
+        model.setActiveTab(tabId);
 
         callWithDelay(() {
           _progressIndicatorDelegate.reset();
@@ -145,13 +139,11 @@ class BrowserMainScreenWidgetModel
   );
 
   late final _viewVisibleState = createNotNullNotifier<bool>(
-    model.activeGroupState.value?.activeTabId != null,
+    model.activeTabId != null,
   );
 
   late final _menuState = createNotifier<MenuType>(
-    model.activeGroupState.value?.activeTabId != null
-        ? MenuType.view
-        : MenuType.list,
+    model.activeTabId != null ? MenuType.view : MenuType.list,
   );
 
   late final _navigationScrollModeState =
@@ -196,7 +188,7 @@ class BrowserMainScreenWidgetModel
     _visibleNavigationBarState.addListener(_handleVisibleNavigationBar);
 
     WidgetsBinding.instance.addPostFrameCallback((_) {
-      final groupId = model.activeGroupState.value?.groupId;
+      final groupId = model.activeGroupState.value?.id;
       final tabId = _tabsDelegate.activeTabId;
       if (groupId != null && tabId != null) {
         _scrollToTab(

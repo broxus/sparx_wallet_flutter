@@ -15,24 +15,3 @@ extension BrowserGroupsCollectionExtension on List<BrowserGroup> {
     }
   }
 }
-
-class ActiveGroupData {
-  ActiveGroupData({
-    required this.group,
-    this.activeTabId,
-  });
-
-  final BrowserGroup group;
-  final String? activeTabId;
-  late final groupId = group.id;
-
-  ActiveGroupData copyWith({
-    BrowserGroup? group,
-    String? activeTabId,
-  }) {
-    return ActiveGroupData(
-      group: group ?? this.group,
-      activeTabId: activeTabId ?? this.activeTabId,
-    );
-  }
-}

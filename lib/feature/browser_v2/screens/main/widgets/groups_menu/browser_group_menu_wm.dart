@@ -1,5 +1,3 @@
-import 'dart:math';
-
 import 'package:app/core/error_handler_factory.dart';
 import 'package:app/core/wm/custom_wm.dart';
 import 'package:app/di/di.dart';
@@ -58,7 +56,7 @@ class BrowserGroupMenuWidgetModel
     _groupsState.accept(
       (
         model.allGroupsState.value,
-        model.activeGroupState.value?.groupId,
+        model.activeGroupState.value?.id,
       ),
     );
   }

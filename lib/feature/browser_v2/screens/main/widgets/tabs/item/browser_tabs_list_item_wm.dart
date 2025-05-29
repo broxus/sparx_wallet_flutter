@@ -87,7 +87,7 @@ class BrowserTabsListItemWidgetModel
 
   void _handleActiveTab() {
     _activeState.accept(
-      widget.tab.id == model.activeGroupState.value?.activeTabId,
+      widget.tab.id == model.activeTabId,
     );
   }
 

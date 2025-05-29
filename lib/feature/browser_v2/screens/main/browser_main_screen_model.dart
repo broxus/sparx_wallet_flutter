@@ -2,7 +2,6 @@ import 'dart:async';
 
 import 'package:app/feature/browser_v2/custom_web_controller.dart';
 import 'package:app/feature/browser_v2/data/groups/browser_group.dart';
-import 'package:app/feature/browser_v2/data/groups/groups_data.dart';
 import 'package:app/feature/browser_v2/data/tabs/browser_tab.dart';
 import 'package:app/feature/browser_v2/domain/service/browser_service.dart';
 import 'package:app/feature/browser_v2/screens/main/browser_main_screen.dart';
@@ -21,17 +20,17 @@ class BrowserMainScreenModel extends ElementaryModel {
   ) : super(errorHandler: errorHandler);
   final BrowserService _browserService;
 
-  ListenableState<ActiveGroupData?> get activeGroupState =>
+  ListenableState<BrowserGroup?> get activeGroupState =>
       _browserService.tM.activeGroupState;
 
-  void setActiveTab({
-    required String groupId,
-    required String tabId,
-  }) {
-    _browserService.tM.setActiveTab(
-      groupId: groupId,
-      tabId: tabId,
-    );
+  String? get activeTabId => _browserService.tM.activeTabState.value?.id;
+
+  void setActiveGroup(String groupId) {
+    _browserService.tM.setActiveGroup(groupId);
+  }
+
+  void setActiveTab(String tabId) {
+    _browserService.tM.setActiveTab(tabId);
   }
 
   BrowserTab? getTabById(String? tabId) {
