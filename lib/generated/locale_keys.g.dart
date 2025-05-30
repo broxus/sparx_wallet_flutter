@@ -527,6 +527,8 @@ abstract class LocaleKeys {
       'importWalletManuallyButtonText';
   static const importWalletPasteClipboard = 'importWalletPasteClipboard';
   static const toInputLabel = 'toInputLabel';
+  static const amountInputLabel = 'amountInputLabel';
+  static const amountInputHint = 'amountInputHint';
   static const balance = 'balance';
   static const addComment = 'addComment';
   static const addCommentHint = 'addCommentHint';
@@ -722,8 +724,27 @@ abstract class LocaleKeys {
   static const nftWord = 'nftWord';
   static const nftEmptyListTitle = 'nftEmptyListTitle';
   static const nftEmptyListSubtitle = 'nftEmptyListSubtitle';
+  static const nftEmptyListSubtitleNoMarket = 'nftEmptyListSubtitleNoMarket';
   static const visitMarketplace = 'visitMarketplace';
   static const addNFT = 'addNFT';
   static const nftMyCollections = 'nftMyCollections';
+  static const nftMyNfts = 'nftMyNfts';
   static const nftPasteHint = 'nftPasteHint';
+  static const invalidAddressFormat = 'invalidAddressFormat';
+  static const nftOwnerError = 'nftOwnerError';
+  static const nftImportHint = 'nftImportHint';
+  static const nftViewInExplorer = 'nftViewInExplorer';
+  static const nftHideCollection = 'nftHideCollection';
+  static const nftCollectionHidden = 'nftCollectionHidden';
+  static const showMore = 'showMore';
+  static const owner = 'owner';
+  static const manager = 'manager';
+  static const balanceWord = 'balanceWord';
+  static const transfer = 'transfer';
+  static const transferTokens = 'transferTokens';
+  static const openInMarketplace = 'openInMarketplace';
+  static const nftTransferTitle = 'nftTransferTitle';
+  static const nftTransferDescription = 'nftTransferDescription';
+  static const nftTransferSuccessMessage = 'nftTransferSuccessMessage';
+  static const nftAttachedAmountNotification = 'nftAttachedAmountNotification';
 }

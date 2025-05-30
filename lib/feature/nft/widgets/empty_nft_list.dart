@@ -1,13 +1,16 @@
 import 'package:app/generated/generated.dart';
 import 'package:flutter/material.dart';
 import 'package:ui_components_lib/v2/ui_components_lib_v2.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class EmptyNftList extends StatelessWidget {
   const EmptyNftList({
+    required this.marketplaceUrl,
     required this.onAddNftPressed,
     super.key,
   });
 
+  final Uri? marketplaceUrl;
   final VoidCallback onAddNftPressed;
 
   @override
@@ -25,6 +28,7 @@ class EmptyNftList extends StatelessWidget {
           padding: const EdgeInsets.symmetric(horizontal: DimensSizeV2.d16),
           child: Column(
             mainAxisSize: MainAxisSize.min,
+            spacing: DimensSizeV2.d8,
             children: [
               Padding(
                 padding: const EdgeInsets.symmetric(
@@ -36,24 +40,32 @@ class EmptyNftList extends StatelessWidget {
                   textAlign: TextAlign.center,
                 ),
               ),
-              const SizedBox(height: DimensSizeV2.d8),
               Padding(
                 padding: const EdgeInsets.symmetric(
                   horizontal: DimensSizeV2.d16,
                 ),
                 child: Text(
-                  LocaleKeys.nftEmptyListSubtitle.tr(),
-                  style: theme.textStyles.paragraphSmall,
+                  marketplaceUrl != null
+                      ? LocaleKeys.nftEmptyListSubtitle.tr()
+                      : LocaleKeys.nftEmptyListSubtitleNoMarket.tr(),
+                  style: theme.textStyles.paragraphSmall.copyWith(
+                    color: theme.colors.content1,
+                  ),
                   textAlign: TextAlign.center,
                 ),
               ),
-              const SizedBox(height: DimensSizeV2.d24),
-              AccentButton(
-                buttonShape: ButtonShape.pill,
-                onPressed: () {},
-                title: LocaleKeys.visitMarketplace.tr(),
-              ),
-              const SizedBox(height: DimensSizeV2.d8),
+              if (marketplaceUrl != null)
+                Padding(
+                  padding: const EdgeInsets.only(top: DimensSizeV2.d16),
+                  child: AccentButton(
+                    buttonShape: ButtonShape.pill,
+                    onPressed: () => launchUrl(
+                      marketplaceUrl!,
+                      mode: LaunchMode.externalApplication,
+                    ),
+                    title: LocaleKeys.visitMarketplace.tr(),
+                  ),
+                ),
               PrimaryButton(
                 buttonShape: ButtonShape.pill,
                 title: LocaleKeys.addNFT.tr(),

@@ -1,12 +1,11 @@
 import 'package:app/feature/nft/view/add_nft/add_nft_wm.dart';
 import 'package:app/feature/wallet/widgets/account_info.dart';
 import 'package:app/generated/locale_keys.g.dart';
+import 'package:app/widgets/widgets.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:elementary/elementary.dart';
 import 'package:elementary_helper/elementary_helper.dart';
 import 'package:flutter/material.dart';
-import 'package:lucide_icons_flutter/lucide_icons.dart';
-import 'package:nekoton_repository/nekoton_repository.dart';
 import 'package:ui_components_lib/ui_components_lib.dart';
 import 'package:ui_components_lib/v2/ui_components_lib_v2.dart';
 
@@ -24,17 +23,16 @@ class AddNftWidget extends ElementaryWidget<AddNftWidgetModel> {
       backgroundColor: theme.colors.background0,
       appBar: DefaultAppBar(titleText: LocaleKeys.addNFT.tr()),
       body: SafeArea(
-        child: StateNotifierBuilder<KeyAccount?>(
+        child: StateNotifierBuilder(
           listenableState: wm.currentAccount,
-          builder: (context, account) {
+          builder: (_, account) {
             return Padding(
               padding: const EdgeInsets.symmetric(horizontal: DimensSizeV2.d16),
               child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   if (account != null) AccountInfo(account: account),
-                  const SizedBox(
-                    height: DimensSizeV2.d12,
-                  ),
+                  const SizedBox(height: DimensSizeV2.d12),
                   PrimaryTextField(
                     sizeType: PrimaryTextFieldSizeType.medium,
                     hintText: LocaleKeys.nftPasteHint.tr(),
@@ -42,45 +40,43 @@ class AddNftWidget extends ElementaryWidget<AddNftWidgetModel> {
                     inputFormatters: [wm.addressFilterFormatter],
                     validator: wm.validateAddressField,
                     suffixes: [
-                      ValueListenableBuilder<TextEditingValue>(
-                        valueListenable: wm.addressController,
-                        builder: (context, value, _) {
-                          if (value.text.isEmpty) {
-                            return Padding(
-                              padding: const EdgeInsets.only(
-                                right: DimensSizeV2.d8,
-                              ),
-                              child: FloatButton(
-                                buttonShape: ButtonShape.square,
-                                buttonSize: ButtonSize.small,
-                                icon: LucideIcons.arrowDownToDot,
-                                onPressed: wm.paste,
-                              ),
-                            );
-                          }
-
-                          return Padding(
-                            padding: const EdgeInsets.only(
-                              right: DimensSizeV2.d8,
-                            ),
-                            child: FloatButton(
-                              buttonShape: ButtonShape.square,
-                              buttonSize: ButtonSize.small,
-                              icon: LucideIcons.x,
-                              onPressed: () {
-                                wm.addressController.clear();
-                              },
-                            ),
-                          );
-                        },
+                      ClipboardPasteButton(
+                        value: wm.addressController,
+                        onClear: wm.onPressedClear,
+                        onPaste: wm.onPressedPaste,
                       ),
                     ],
                   ),
+                  const SizedBox(height: DimensSizeV2.d6),
+                  StateNotifierBuilder(
+                    listenableState: wm.error,
+                    builder: (_, error) {
+                      if (error == null || error.isEmpty) {
+                        return Text(
+                          LocaleKeys.nftImportHint.tr(),
+                          style: theme.textStyles.labelXSmall.copyWith(
+                            color: theme.colors.content1,
+                          ),
+                        );
+                      }
+
+                      return Text(
+                        error,
+                        style: theme.textStyles.labelXSmall.copyWith(
+                          color: theme.colors.negative,
+                        ),
+                      );
+                    },
+                  ),
                   const Spacer(),
-                  AccentButton(
-                    buttonShape: ButtonShape.pill,
-                    title: LocaleKeys.importWalletButtonText.tr(),
-                    onPressed: () {},
+                  StateNotifierBuilder(
+                    listenableState: wm.isLoading,
+                    builder: (_, isLoading) => AccentButton(
+                      buttonShape: ButtonShape.pill,
+                      title: LocaleKeys.importWalletButtonText.tr(),
+                      isLoading: isLoading ?? false,
+                      onPressed: wm.onPressedImport,
+                    ),
                   ),
                   const SizedBox(height: DimensSizeV2.d28),
                 ],

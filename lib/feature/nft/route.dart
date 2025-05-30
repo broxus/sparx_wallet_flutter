@@ -7,6 +7,7 @@ import 'package:injectable/injectable.dart';
 class NftRoute extends CompassRouteParameterless<NftRouteData> {
   NftRoute(
     @Named.from(AddNftRoute) CompassBaseRoute addNftRoute,
+    @Named.from(NftCollectionRoute) CompassBaseRoute nftCollectionRoute,
   ) : super(
           name: 'nft',
           path: '/nft',
@@ -16,6 +17,7 @@ class NftRoute extends CompassRouteParameterless<NftRouteData> {
           builder: (context, _, __) => const NftPageWidget(),
           compassBaseRoutes: [
             addNftRoute,
+            nftCollectionRoute,
           ],
         );
 

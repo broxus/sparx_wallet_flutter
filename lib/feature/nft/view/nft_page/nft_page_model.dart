@@ -2,6 +2,7 @@ import 'package:app/app/service/service.dart';
 import 'package:app/feature/nft/nft.dart';
 import 'package:elementary/elementary.dart';
 import 'package:nekoton_repository/nekoton_repository.dart';
+import 'package:rxdart/rxdart.dart';
 
 class NftPageModel extends ElementaryModel {
   NftPageModel(
@@ -24,6 +25,14 @@ class NftPageModel extends ElementaryModel {
   Stream<NftDisplayMode?> get displayModeStream =>
       _nftService.displayModeStream;
 
+  Future<Address> get _owner =>
+      currentAccountStream.mapNotNull((e) => e?.address).first;
+
+  Stream<NftTransferEvent> getNftTransferEventStream() =>
+      _owner.asStream().switchMap(
+            (owner) => _nftService.getNftTransferEventStream(owner: owner),
+          );
+
   void setDisplayMode(NftDisplayMode mode) => _nftService.setDisplayMode(mode);
 
   Stream<List<NftCollection>> getAccountCollectionsStream(Address owner) =>
@@ -31,4 +40,13 @@ class NftPageModel extends ElementaryModel {
 
   Future<void> scanNftCollections(Address owner) =>
       _nftService.scanNftCollections(owner);
+
+  void addCollection({
+    required Address account,
+    required Address collection,
+  }) =>
+      _nftService.addCollection(
+        account: account,
+        collection: collection,
+      );
 }

@@ -10,14 +10,14 @@ class DisplayModeSwitch extends StatelessWidget {
     super.key,
   });
 
-  final NftDisplayMode? mode;
+  final NftDisplayMode mode;
   final ValueChanged<NftDisplayMode> onModeChanged;
 
   @override
   Widget build(BuildContext context) {
     return SwitcherSegmentControls(
       fullWidth: false,
-      currentValue: mode ?? NftDisplayMode.grid,
+      currentValue: mode,
       values: const [
         PrimarySegmentControl(
           value: NftDisplayMode.grid,

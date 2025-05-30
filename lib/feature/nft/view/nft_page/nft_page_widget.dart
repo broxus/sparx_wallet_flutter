@@ -4,7 +4,6 @@ import 'package:app/generated/generated.dart';
 import 'package:elementary/elementary.dart';
 import 'package:elementary_helper/elementary_helper.dart';
 import 'package:flutter/material.dart';
-import 'package:ui_components_lib/ui_components_lib.dart';
 import 'package:ui_components_lib/v2/ui_components_lib_v2.dart';
 
 class NftPageWidget extends ElementaryWidget<NftPageWidgetModel> {
@@ -20,13 +19,27 @@ class NftPageWidget extends ElementaryWidget<NftPageWidgetModel> {
         child: Column(
           children: [
             const WalletAppBarWidget(),
-            StateNotifierBuilder(
-              listenableState: wm.collections,
-              builder: (_, collections) {
+            DoubleSourceBuilder(
+              firstSource: wm.isLoading,
+              secondSource: wm.collections,
+              builder: (_, isLoading, collections) {
+                if (isLoading ?? false) {
+                  return const Expanded(
+                    child: Center(
+                      child: ProgressIndicatorWidget(
+                        size: DimensSizeV2.d32,
+                      ),
+                    ),
+                  );
+                }
+
                 if (collections == null || collections.isEmpty) {
                   return Expanded(
                     child: Center(
-                      child: EmptyNftList(onAddNftPressed: wm.onAddNftPressed),
+                      child: EmptyNftList(
+                        marketplaceUrl: null, // TODO: marketplace URL
+                        onAddNftPressed: wm.onAddNftPressed,
+                      ),
                     ),
                   );
                 }
@@ -55,7 +68,7 @@ class NftPageWidget extends ElementaryWidget<NftPageWidgetModel> {
                                 listenableState: wm.displayMode,
                                 builder: (_, displayMode) {
                                   return DisplayModeSwitch(
-                                    mode: displayMode,
+                                    mode: displayMode ?? NftDisplayMode.grid,
                                     onModeChanged: wm.setDisplayMode,
                                   );
                                 },
@@ -64,9 +77,16 @@ class NftPageWidget extends ElementaryWidget<NftPageWidgetModel> {
                           ),
                         ),
                         Expanded(
-                          child: NftCollectionsList(
-                            displayMode: NftDisplayMode.grid,
-                            collections: collections,
+                          child: StateNotifierBuilder(
+                            listenableState: wm.displayMode,
+                            builder: (_, displayMode) {
+                              return NftCollectionsList(
+                                displayMode: displayMode ?? NftDisplayMode.grid,
+                                collections: collections,
+                                onNftCollectionPressed:
+                                    wm.onNftCollectionPressed,
+                              );
+                            },
                           ),
                         ),
                         Padding(

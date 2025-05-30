@@ -38,6 +38,7 @@ class NftPageWidgetModel
   late final _displayMode = createNotifierFromStream(model.displayModeStream);
 
   StreamSubscription<Address?>? _subscription;
+  StreamSubscription<NftTransferEvent>? _transferEventSubscription;
 
   ListenableState<bool> get isLoading => _isLoading;
 
@@ -55,19 +56,50 @@ class NftPageWidgetModel
       model.currentTransportStream.map((e) => e.networkGroup).distinct(),
       model.currentAccountStream.mapNotNull((e) => e?.address).distinct(),
       (_, owner) => owner,
-    ).listen((owner) => model.scanNftCollections(owner));
+    ).listen(
+      (owner) => model.scanNftCollections(owner).then(
+            (_) => _isLoading.accept(false),
+          ),
+    );
+
+    _transferEventSubscription =
+        model.getNftTransferEventStream().listen((_) => _reload());
   }
 
   @override
   void dispose() {
     _subscription?.cancel();
+    _transferEventSubscription?.cancel();
     super.dispose();
   }
 
   void setDisplayMode(NftDisplayMode mode) => model.setDisplayMode(mode);
 
   Future<void> onAddNftPressed() async {
-    await context.compassPush<void>(const AddNftRouteRouteData());
-    // TODO: handle result
+    final collection = await context.compassPush<NftCollection>(
+      const AddNftRouteRouteData(),
+    );
+
+    if (collection != null) {
+      final owner = await model.currentAccountStream.whereNotNull().first;
+      model.addCollection(
+        account: owner.address,
+        collection: collection.address,
+      );
+      await _reload(owner);
+    }
+  }
+
+  void onNftCollectionPressed(NftCollection collection) {
+    context.compassContinue(
+      NftCollectionRouteData(
+        collection: collection.address,
+      ),
+    );
+  }
+
+  Future<void> _reload([KeyAccount? owner]) async {
+    owner ??= await model.currentAccountStream.whereNotNull().first;
+    await model.scanNftCollections(owner.address);
   }
 }
