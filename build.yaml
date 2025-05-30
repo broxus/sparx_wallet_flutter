@@ -38,6 +38,7 @@ targets:
           - lib/feature/**/*route.dart
           - lib/feature/**/*guard.dart
           - lib/app/router/router.dart
+          - lib/app/router/guard.dart
           - lib/v1/**/*route.dart
           - lib/v1/**/*guard.dart
       freezed:

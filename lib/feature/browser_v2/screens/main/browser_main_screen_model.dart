@@ -103,4 +103,8 @@ class BrowserMainScreenModel extends ElementaryModel {
 
     _browserService.hM.removeHistoryItemByUri(url);
   }
+
+  void updateInteractedState({required bool isInteracted}) {
+    _browserService.updateInteractedState(isInteracted: isInteracted);
+  }
 }
