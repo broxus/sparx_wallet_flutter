@@ -339,6 +339,10 @@ extension GetItInjectableX on _i174.GetIt {
           gh<_i82.CompassBaseRoute>(instanceName: 'EditNetworkRoute')),
       instanceName: 'ConfigureNetworksRoute',
     );
+    gh.singleton<_i336.NftStorageService>(() => _i336.NftStorageService(
+          gh<_i792.GetStorage>(instanceName: 'nft_storage_service_metadata'),
+          gh<_i792.GetStorage>(instanceName: 'nft_storage_service_general'),
+        ));
     gh.singleton<_i213.BrowserBookmarksStorageService>(() =>
         _i213.BrowserBookmarksStorageService(
             gh<_i792.GetStorage>(instanceName: 'browser_bookmarks')));
@@ -411,8 +415,6 @@ extension GetItInjectableX on _i174.GetIt {
           gh<_i82.CompassBaseRoute>(instanceName: 'NftSendRoute')),
       instanceName: 'NftPrepareTransferRoute',
     );
-    gh.singleton<_i336.NftStorageService>(() => _i336.NftStorageService(
-        gh<_i792.GetStorage>(instanceName: 'nft_storage_service')));
     gh.singleton<_i82.CompassBaseRoute>(
       () => _i278.SelectSeedRoute(
           gh<_i82.CompassBaseRoute>(instanceName: 'NewAccountRoute')),

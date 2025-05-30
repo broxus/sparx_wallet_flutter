@@ -26,7 +26,8 @@ class NftService {
 
   final Map<Address, NftCollection> _collections = {};
   KeyAccount? _currentSubscribedAccount;
-  StreamSubscription<KeyAccount?>? _subscription;
+  StreamSubscription<KeyAccount?>? _accountSubscription;
+  StreamSubscription<NftTransferEvent>? _nftTransferSubscription;
 
   Stream<NftDisplayMode?> get displayModeStream =>
       _appStorageService.getValueStream<String>(StorageKey.nftGridMode()).map(
@@ -38,25 +39,10 @@ class NftService {
           );
 
   void init() {
-    _subscription = _currentAccountsService.currentActiveAccountStream.listen(
-      (account) async {
-        if (_currentSubscribedAccount != null) {
-          _nekotonRepository.unsubscribeFromWalletNftTransfers(
-            _currentSubscribedAccount!.address,
-          );
-          _currentSubscribedAccount = null;
-        }
-
-        if (account != null) {
-          final wallet = await _nekotonRepository.getWallet(account.address);
-
-          if (wallet.wallet != null) {
-            _nekotonRepository.subscribeToWalletNftTransfers(wallet.wallet!);
-            _currentSubscribedAccount = account;
-          }
-        }
-      },
-    );
+    _accountSubscription = _currentAccountsService.currentActiveAccountStream
+        .listen(_handleAccount);
+    _nftTransferSubscription =
+        _nekotonRepository.nftTransferEventStream.listen(_handleTransferEvent);
   }
 
   void dispose() {
@@ -66,8 +52,10 @@ class NftService {
       );
     }
 
-    _subscription?.cancel();
-    _subscription = null;
+    _accountSubscription?.cancel();
+    _nftTransferSubscription?.cancel();
+    _accountSubscription = null;
+    _nftTransferSubscription = null;
     _currentSubscribedAccount = null;
   }
 
@@ -97,6 +85,20 @@ class NftService {
           .nonNulls
           .sortedBy((c) => c.name)
           .toList(),
+    );
+  }
+
+  Stream<List<PendingNft>> getAccountPendingNftsStream(Address owner) {
+    return Rx.combineLatest2(
+      _nekotonRepository.currentTransportStream
+          .map((e) => e.networkGroup)
+          .distinct(),
+      _nftStorageService.pendingNftStream,
+      (group, pendingNft) {
+        return pendingNft
+            .where((e) => e.networkGroup == group && e.owner == owner)
+            .toList();
+      },
     );
   }
 
@@ -152,10 +154,15 @@ class NftService {
         .where((e) => e.networkGroup == networkGroup);
     final hidden =
         meta.where((e) => !e.isVisible).map((e) => e.collection).toSet();
+    final pending = _nftStorageService.pendingNft
+        .where((e) => e.networkGroup == networkGroup && e.owner == owner)
+        .map((e) => e.collection)
+        .toSet();
 
     final collections = [
       ...whitelist,
       ...meta.map((e) => e.collection),
+      ...pending,
     ];
 
     final scanned = await _nekotonRepository.scanNftCollections(
@@ -206,5 +213,45 @@ class NftService {
         isVisible: false,
       ),
     );
+  }
+
+  Future<void> _handleAccount(KeyAccount? account) async {
+    if (_currentSubscribedAccount != null) {
+      _nekotonRepository.unsubscribeFromWalletNftTransfers(
+        _currentSubscribedAccount!.address,
+      );
+      _currentSubscribedAccount = null;
+    }
+
+    if (account != null) {
+      final wallet = await _nekotonRepository.getWallet(account.address);
+
+      if (wallet.wallet != null) {
+        final tracker = TonWalletLatestLtTracker(
+          address: account.address,
+          networkGroup: _nekotonRepository.currentTransport.networkGroup,
+          nftStorageService: _nftStorageService,
+        );
+
+        _nekotonRepository.subscribeToWalletNftTransfers(
+          wallet: wallet.wallet!,
+          tracker: tracker,
+        );
+        _currentSubscribedAccount = account;
+      }
+    }
+  }
+
+  void _handleTransferEvent(NftTransferEvent event) {
+    if (event.direction == TransferDirection.incoming) {
+      _nftStorageService.addPendingNft(
+        PendingNft(
+          id: event.id,
+          collection: event.collection,
+          owner: event.recipient,
+          networkGroup: _nekotonRepository.currentTransport.networkGroup,
+        ),
+      );
+    }
   }
 }

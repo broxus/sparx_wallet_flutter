@@ -12,12 +12,14 @@ class NftCollectionPageModel extends ElementaryModel {
   NftCollectionPageModel(
     ErrorHandler errorHandler,
     this._nftService,
+    this._nftStorageService,
     this._currentAccountsService,
     this._nekotonRepository,
     this._messengerService,
   ) : super(errorHandler: errorHandler);
 
   final NftService _nftService;
+  final NftStorageService _nftStorageService;
   final CurrentAccountsService _currentAccountsService;
   final NekotonRepository _nekotonRepository;
   final MessengerService _messengerService;
@@ -32,7 +34,7 @@ class NftCollectionPageModel extends ElementaryModel {
       currentAccountStream.mapNotNull((e) => e?.address).first;
 
   Stream<NftTransferEvent> getNftTransferEventStream(Address collection) =>
-      _owner.asStream().switchMap(
+      currentAccountStream.mapNotNull((e) => e?.address).switchMap(
             (owner) => _nftService.getNftTransferEventStream(
               owner: owner,
               collection: collection,
@@ -68,4 +70,12 @@ class NftCollectionPageModel extends ElementaryModel {
 
   String getAccountExplorerLink(Address address) =>
       _nekotonRepository.currentTransport.accountExplorerLink(address);
+
+  Future<void> removePendingNft(Address collection) async {
+    _nftStorageService.removePendingNftByCollection(
+      owner: await _owner,
+      collection: collection,
+      networkGroup: _nekotonRepository.currentTransport.networkGroup,
+    );
+  }
 }

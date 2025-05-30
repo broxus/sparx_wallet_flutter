@@ -77,12 +77,14 @@ class NftPageWidget extends ElementaryWidget<NftPageWidgetModel> {
                           ),
                         ),
                         Expanded(
-                          child: StateNotifierBuilder(
-                            listenableState: wm.displayMode,
-                            builder: (_, displayMode) {
+                          child: DoubleSourceBuilder(
+                            firstSource: wm.displayMode,
+                            secondSource: wm.pending,
+                            builder: (_, displayMode, pending) {
                               return NftCollectionsList(
                                 displayMode: displayMode ?? NftDisplayMode.grid,
                                 collections: collections,
+                                pending: pending ?? const {},
                                 onNftCollectionPressed:
                                     wm.onNftCollectionPressed,
                               );

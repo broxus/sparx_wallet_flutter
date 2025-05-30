@@ -7,12 +7,14 @@ import 'package:ui_components_lib/v2/ui_components_lib_v2.dart';
 class NftCollectionsList extends StatelessWidget {
   const NftCollectionsList({
     required this.collections,
+    required this.pending,
     required this.displayMode,
     required this.onNftCollectionPressed,
     super.key,
   });
 
   final List<NftCollection> collections;
+  final Map<Address, List<PendingNft>> pending;
   final NftDisplayMode displayMode;
   final ValueChanged<NftCollection> onNftCollectionPressed;
 
@@ -36,6 +38,7 @@ class NftCollectionsList extends StatelessWidget {
             key: ValueKey(collection.address),
             displayMode: displayMode,
             collection: collection,
+            pendingCount: pending[collection.address]?.length ?? 0,
             onTap: () => onNftCollectionPressed(collection),
           ),
       ],
@@ -52,6 +55,7 @@ class NftCollectionsList extends StatelessWidget {
           key: ValueKey(collection.address),
           displayMode: displayMode,
           collection: collection,
+          pendingCount: pending[collection.address]?.length ?? 0,
           onTap: () => onNftCollectionPressed(collection),
         );
       },
@@ -63,12 +67,14 @@ class _Item extends StatelessWidget {
   const _Item({
     required this.displayMode,
     required this.collection,
+    required this.pendingCount,
     required this.onTap,
     super.key,
   });
 
   final NftDisplayMode displayMode;
   final NftCollection collection;
+  final int pendingCount;
   final VoidCallback onTap;
 
   @override
@@ -90,25 +96,48 @@ class _Item extends StatelessWidget {
         borderRadius: BorderRadius.circular(
           DimensRadiusV2.radius12,
         ),
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          crossAxisAlignment: CrossAxisAlignment.start,
-          spacing: DimensSizeV2.d8,
+        child: Stack(
           children: [
-            ClipRRect(
-              borderRadius: BorderRadius.circular(DimensRadiusV2.radius8),
-              child: AspectRatio(
-                aspectRatio: 1,
-                child: NftImage(imageUrl: collection.imageUrl),
+            Column(
+              mainAxisSize: MainAxisSize.min,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              spacing: DimensSizeV2.d8,
+              children: [
+                ClipRRect(
+                  borderRadius: BorderRadius.circular(DimensRadiusV2.radius8),
+                  child: AspectRatio(
+                    aspectRatio: 1,
+                    child: NftImage(imageUrl: collection.imageUrl),
+                  ),
+                ),
+                Text(
+                  collection.name,
+                  style: theme.textStyles.labelMedium,
+                  overflow: TextOverflow.ellipsis,
+                  softWrap: false,
+                  maxLines: 1,
+                ),
+              ],
+            ),
+            if (pendingCount > 0)
+              Positioned(
+                top: DimensSizeV2.d6,
+                right: DimensSizeV2.d6,
+                child: ClipRRect(
+                  borderRadius: BorderRadius.circular(DimensRadiusV2.radius10),
+                  child: Container(
+                    width: DimensSizeV2.d20,
+                    height: DimensSizeV2.d20,
+                    color: theme.colors.backgroundAccent,
+                    child: Center(
+                      child: Text(
+                        pendingCount.toString(),
+                        style: theme.textStyles.labelXSmall,
+                      ),
+                    ),
+                  ),
+                ),
               ),
-            ),
-            Text(
-              collection.name,
-              style: theme.textStyles.labelMedium,
-              overflow: TextOverflow.ellipsis,
-              softWrap: false,
-              maxLines: 1,
-            ),
           ],
         ),
       ),
@@ -141,12 +170,34 @@ class _Item extends StatelessWidget {
               ),
             ),
             Expanded(
-              child: Text(
-                collection.name,
-                style: theme.textStyles.labelMedium,
-                overflow: TextOverflow.ellipsis,
-                softWrap: false,
-                maxLines: 1,
+              child: Row(
+                mainAxisSize: MainAxisSize.min,
+                spacing: DimensSizeV2.d4,
+                children: [
+                  Text(
+                    collection.name,
+                    style: theme.textStyles.labelMedium,
+                    overflow: TextOverflow.ellipsis,
+                    softWrap: false,
+                    maxLines: 1,
+                  ),
+                  if (pendingCount > 0)
+                    ClipRRect(
+                      borderRadius:
+                          BorderRadius.circular(DimensRadiusV2.radius10),
+                      child: Container(
+                        width: DimensSizeV2.d20,
+                        height: DimensSizeV2.d20,
+                        color: theme.colors.backgroundAccent,
+                        child: Center(
+                          child: Text(
+                            pendingCount.toString(),
+                            style: theme.textStyles.labelXSmall,
+                          ),
+                        ),
+                      ),
+                    ),
+                ],
               ),
             ),
             Icon(

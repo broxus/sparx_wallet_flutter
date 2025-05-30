@@ -7,39 +7,54 @@ import 'package:injectable/injectable.dart';
 import 'package:nekoton_repository/nekoton_repository.dart' show Address;
 import 'package:rxdart/rxdart.dart';
 
+const _pendingNftsKey = 'pending_nfts';
+
 @singleton
 class NftStorageService extends AbstractStorageService {
   NftStorageService(
-    @Named(container) this._storage,
+    @Named(metadataContainer) this._metadataStorage,
+    @Named(generalContainer) this._generalStorage,
   );
 
-  static const String container = 'nft_storage_service';
+  static const String metadataContainer = 'nft_storage_service_metadata';
+  static const String generalContainer = 'nft_storage_service_general';
+  static const containers = [
+    metadataContainer,
+    generalContainer,
+  ];
 
-  final GetStorage _storage;
+  final GetStorage _metadataStorage;
+  final GetStorage _generalStorage;
 
   final _metadataSubject =
       BehaviorSubject<Map<Address, List<CollectionMeta>>>();
+  final _pendingNftSubject = BehaviorSubject<List<PendingNft>>();
 
   Stream<Map<Address, List<CollectionMeta>>> get metadataStream =>
       _metadataSubject.stream;
 
+  Stream<List<PendingNft>> get pendingNftStream => _pendingNftSubject.stream;
+
+  List<PendingNft> get pendingNft => _pendingNftSubject.valueOrNull ?? [];
+
   @override
   Future<void> init() async {
-    await GetStorage.init(container);
+    await GetStorage.init(metadataContainer);
     _streamedMetadata();
+    _streamedPendingNfts();
   }
 
   @override
   Future<void> clear() async {
     try {
-      await _storage.erase();
+      await _metadataStorage.erase();
     } catch (_) {}
   }
 
   /// Reads the metadata from storage and returns it as a map.
   /// The map's keys are account addresses
   Map<Address, List<CollectionMeta>> readMetadata() {
-    final encoded = _storage.getEntries();
+    final encoded = _metadataStorage.getEntries();
 
     return Map<Address, List<CollectionMeta>>.fromEntries(
       encoded.entries.map(
@@ -61,7 +76,7 @@ class NftStorageService extends AbstractStorageService {
     required Address account,
     required List<CollectionMeta> metadata,
   }) {
-    _storage.write(
+    _metadataStorage.write(
       account.address,
       metadata.map((e) => e.toJson()).toList(),
     );
@@ -83,7 +98,7 @@ class NftStorageService extends AbstractStorageService {
       collectionMeta,
     ];
 
-    _storage.write(
+    _metadataStorage.write(
       account.address,
       updatedList.map((e) => e.toJson()).toList(),
     );
@@ -101,7 +116,7 @@ class NftStorageService extends AbstractStorageService {
       (e) => e.collection == collection && e.networkGroup == networkGroup,
     );
 
-    _storage.write(
+    _metadataStorage.write(
       account.address,
       updatedList.map((e) => e.toJson()).toList(),
     );
@@ -109,5 +124,86 @@ class NftStorageService extends AbstractStorageService {
     _streamedMetadata();
   }
 
+  BigInt? readLatestLt({
+    required Address address,
+    required NetworkGroup networkGroup,
+  }) {
+    final key = _LatestLtKey(address: address, networkGroup: networkGroup);
+    final value = _generalStorage.read<String>(key.toString());
+
+    return value != null ? BigInt.tryParse(value) : null;
+  }
+
+  void writeLatestLt({
+    required Address address,
+    required NetworkGroup networkGroup,
+    required BigInt lt,
+  }) {
+    final key = _LatestLtKey(address: address, networkGroup: networkGroup);
+    _generalStorage.write(key.toString(), lt.toString());
+  }
+
+  List<PendingNft> readPendingNfts() {
+    final encoded = _generalStorage.read<List<dynamic>>(_pendingNftsKey) ?? [];
+    return encoded
+        .map((e) => PendingNft.fromJson(e as Map<String, dynamic>))
+        .toList();
+  }
+
+  void addPendingNft(PendingNft pendingNft) {
+    final currentList = _pendingNftSubject.valueOrNull ?? [];
+    final updatedList = [
+      ...currentList.whereNot((e) => e == pendingNft),
+      pendingNft,
+    ];
+
+    _generalStorage.write(
+      _pendingNftsKey,
+      updatedList.map((e) => e.toJson()).toList(),
+    );
+    _pendingNftSubject.add(updatedList);
+  }
+
+  void removePendingNftByCollection({
+    required Address owner,
+    required Address collection,
+    required NetworkGroup networkGroup,
+  }) {
+    final currentList = _pendingNftSubject.valueOrNull ?? [];
+    final updatedList = currentList
+        .whereNot(
+          (e) =>
+              e.owner == owner &&
+              e.collection == collection &&
+              e.networkGroup == networkGroup,
+        )
+        .toList();
+
+    if (currentList.length == updatedList.length) {
+      return; // No change, so no need to update storage or stream
+    }
+
+    _generalStorage.write(
+      _pendingNftsKey,
+      updatedList.map((e) => e.toJson()).toList(),
+    );
+    _pendingNftSubject.add(updatedList);
+  }
+
   void _streamedMetadata() => _metadataSubject.add(readMetadata());
+
+  void _streamedPendingNfts() => _pendingNftSubject.add(readPendingNfts());
+}
+
+class _LatestLtKey {
+  _LatestLtKey({
+    required this.address,
+    required this.networkGroup,
+  });
+
+  final Address address;
+  final NetworkGroup networkGroup;
+
+  @override
+  String toString() => 'lt::$networkGroup::${address.toRaw()}';
 }

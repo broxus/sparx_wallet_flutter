@@ -43,7 +43,7 @@ Future<void> configureDi() async {
     BrowserTabsStorageService.container,
     TonConnectStorageService.container,
     UpdateVersionStorageService.container,
-    NftStorageService.container,
+    ...NftStorageService.containers,
   ];
   for (final container in containers) {
     getIt.registerSingleton(GetStorage(container), instanceName: container);

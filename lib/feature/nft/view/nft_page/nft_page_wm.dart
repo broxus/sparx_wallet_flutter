@@ -6,6 +6,7 @@ import 'package:app/core/error_handler_factory.dart';
 import 'package:app/core/wm/custom_wm.dart';
 import 'package:app/di/di.dart';
 import 'package:app/feature/nft/nft.dart';
+import 'package:collection/collection.dart';
 import 'package:elementary_helper/elementary_helper.dart';
 import 'package:flutter/material.dart';
 import 'package:nekoton_repository/nekoton_repository.dart';
@@ -30,10 +31,12 @@ class NftPageWidgetModel
 
   late final _isLoading = createNotifier(true);
   late final _collections = createNotifierFromStream(
-    model.currentAccountStream
-        .mapNotNull((e) => e?.address)
-        .distinct()
-        .switchMap((owner) => model.getAccountCollectionsStream(owner)),
+    model.getCollectionsStream(),
+  );
+  late final _pending = createNotifierFromStream(
+    model.getPendingNftStream().map(
+          (pending) => pending.groupListsBy((e) => e.collection),
+        ),
   );
   late final _displayMode = createNotifierFromStream(model.displayModeStream);
 
@@ -43,6 +46,8 @@ class NftPageWidgetModel
   ListenableState<bool> get isLoading => _isLoading;
 
   ListenableState<List<NftCollection>> get collections => _collections;
+
+  ListenableState<Map<Address, List<PendingNft>>> get pending => _pending;
 
   ListenableState<NftDisplayMode?> get displayMode => _displayMode;
 

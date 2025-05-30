@@ -25,18 +25,20 @@ class NftPageModel extends ElementaryModel {
   Stream<NftDisplayMode?> get displayModeStream =>
       _nftService.displayModeStream;
 
-  Future<Address> get _owner =>
-      currentAccountStream.mapNotNull((e) => e?.address).first;
+  Stream<Address> get _owner =>
+      currentAccountStream.mapNotNull((e) => e?.address);
 
-  Stream<NftTransferEvent> getNftTransferEventStream() =>
-      _owner.asStream().switchMap(
-            (owner) => _nftService.getNftTransferEventStream(owner: owner),
-          );
+  Stream<NftTransferEvent> getNftTransferEventStream() => _owner.switchMap(
+        (owner) => _nftService.getNftTransferEventStream(owner: owner),
+      );
+
+  Stream<List<PendingNft>> getPendingNftStream() =>
+      _owner.switchMap(_nftService.getAccountPendingNftsStream);
 
   void setDisplayMode(NftDisplayMode mode) => _nftService.setDisplayMode(mode);
 
-  Stream<List<NftCollection>> getAccountCollectionsStream(Address owner) =>
-      _nftService.getAccountCollectionsStream(owner);
+  Stream<List<NftCollection>> getCollectionsStream() =>
+      _owner.switchMap(_nftService.getAccountCollectionsStream);
 
   Future<void> scanNftCollections(Address owner) =>
       _nftService.scanNftCollections(owner);

@@ -22,6 +22,7 @@ NftCollectionPageWidgetModel defaultNftCollectionPageWidgetModelFactory(
         inject(),
         inject(),
         inject(),
+        inject(),
       ),
     );
 
@@ -81,6 +82,7 @@ class NftCollectionPageWidgetModel
 
   Future<void> _init() async {
     final collection = await model.getCollection(widget.collection);
+    await model.removePendingNft(widget.collection);
 
     if (collection == null) {
       contextSafe?.compassBack();
