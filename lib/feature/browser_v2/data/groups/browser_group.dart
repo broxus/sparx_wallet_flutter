@@ -1,3 +1,4 @@
+import 'package:app/feature/browser_v2/data/broser_entity.dart';
 import 'package:app/utils/common_utils.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:uuid/uuid.dart';
@@ -9,7 +10,7 @@ part 'browser_group.g.dart';
 const tabsGroupId = 'mainTabsGroup';
 
 @unfreezed
-class BrowserGroup with _$BrowserGroup {
+class BrowserGroup with _$BrowserGroup implements BrowserEntity {
   factory BrowserGroup({
     required String id,
     required String? title,

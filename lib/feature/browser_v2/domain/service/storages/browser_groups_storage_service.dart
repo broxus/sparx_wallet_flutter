@@ -46,7 +46,7 @@ class BrowserGroupsStorageService extends AbstractStorageService {
     ];
   }
 
-  BrowserGroup initGroups([List<String>? tabIds]) {
+  List<BrowserGroup> initGroups([List<String>? tabIds]) {
     final tabsGroup = <String, dynamic>{
       'id': tabsGroupId,
       'title': LocaleKeys.tabs.tr(),
@@ -65,7 +65,7 @@ class BrowserGroupsStorageService extends AbstractStorageService {
         tabsGroupId,
       );
 
-    return BrowserGroup.fromJson(tabsGroup);
+    return [BrowserGroup.fromJson(tabsGroup)];
   }
 
   String? getActiveGroupId() =>

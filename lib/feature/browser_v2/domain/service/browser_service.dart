@@ -160,7 +160,7 @@ class BrowserService {
     await tryWrapper(tM.clearCookie);
     await tryWrapper(permissions.clearPermissions);
 
-    final ids = tabs.allBrowserTabsIds;
+    final ids = tabs.allTabsIds;
 
     await tryWrapper(() async => _tonConnectService.disconnectAllInBrowser());
     await tryWrapper(() async => _nekotonRepository.unsubscribeAllContracts());
