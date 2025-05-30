@@ -37,7 +37,7 @@ class NftPageWidget extends ElementaryWidget<NftPageWidgetModel> {
                   return Expanded(
                     child: Center(
                       child: EmptyNftList(
-                        marketplaceUrl: null, // TODO: marketplace URL
+                        marketplaceUrl: null, // TODO(komarov): marketplace URL
                         onAddNftPressed: wm.onAddNftPressed,
                       ),
                     ),

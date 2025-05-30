@@ -146,7 +146,7 @@ class NftService {
 
   Future<void> scanNftCollections(Address owner) async {
     final networkGroup = _nekotonRepository.currentTransport.networkGroup;
-    // TODO: whitelist collections
+    // TODO(komarov): whitelist collections
     final whitelist = <Address>[];
     final meta = (_nftStorageService.readMetadata()[owner] ?? [])
         .where((e) => e.networkGroup == networkGroup);
