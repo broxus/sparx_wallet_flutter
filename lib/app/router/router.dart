@@ -91,21 +91,21 @@ class CompassRouter {
   @Deprecated('Should be used only in MaterialApp.router')
   GoRouter get router => _router;
 
-  /// Returns the current active routes in the navigation stack.
-  ///
-  /// This is determined by parsing the current URI configuration.
-  GoRouterState get currentState => _router.state;
+  /// Returns the current [Uri] of the navigation stack.
+  Uri get currentUri => _router.routerDelegate.currentConfiguration.uri;
 
   /// Returns the current active routes in the navigation stack.
   ///
   /// This is determined by parsing the current URI configuration.
-  Iterable<CompassBaseGoRoute> get currentRoutes => _locationByUri(
-        currentState.uri,
-      );
+  Iterable<CompassBaseGoRoute> get currentRoutes => _currentRoutesSubject.value;
 
   /// Returns the stream with current active routes in the navigation stack.
+  late final _currentRoutesSubject = _router.routerDelegate.asBehaviourSubject(
+    () => _locationByUri(currentUri),
+  );
+
   Stream<Iterable<CompassBaseGoRoute>> get currentRoutesStream =>
-      _router.routerDelegate.asStreamWithValue(() => currentRoutes);
+      _currentRoutesSubject.stream;
 
   /// Navigates to a route specified by route data using replace approach.
   ///
@@ -225,7 +225,7 @@ class CompassRouter {
         );
 
         if (isRouteRemoved) {
-          final currentUri = _router.state.uri;
+          final currentUri = this.currentUri;
           final clearedQueries = route.clearScreenQueries(
             currentUri.queryParameters,
           );
@@ -246,7 +246,6 @@ class CompassRouter {
       guard.detach();
     }
 
-    _router.routerDelegate.removeListener(_logRoute);
     _router.dispose();
   }
 
@@ -302,8 +301,6 @@ class CompassRouter {
         }
       }),
     );
-
-    router.routerDelegate.addListener(_logRoute);
 
     return router;
   }
@@ -372,10 +369,6 @@ class CompassRouter {
 
   Iterable<CompassBaseGoRoute> _locationByUri(Uri uri) {
     return uri.pathSegments.map((it) => _routsByPaths[it]).nonNulls;
-  }
-
-  void _logRoute() {
-    _log.fine('Route update: ${_router.state.uri}');
   }
 }
 

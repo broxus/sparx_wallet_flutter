@@ -122,6 +122,7 @@ app.*.map.json
 !.idea/codeStyles/
 !.idea/dictionaries/
 !.idea/runConfigurations/
+!pubspec.lock
 
 # melos-related
 pubspec_overrides.yaml
