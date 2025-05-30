@@ -79,7 +79,7 @@ class RestoreSubroutesGuard extends CompassGuard {
   ) {
     if (currentRoutes.isEmpty) return;
 
-    final location = _router?.currentState.uri.toString();
+    final location = _router?.currentUri.toString();
     if (location == null) return;
 
     final isSaveLocation = currentRoutes.every((it) => it.isSaveLocation);
