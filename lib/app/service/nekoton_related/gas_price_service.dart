@@ -21,7 +21,7 @@ class GasPriceService {
         address: _address,
         contractAbi: _configAbi,
       );
-      final (nonEmptyMap, hash) = await packIntoCell(
+      final (nonEmptyMap, hash) = packIntoCell(
         abiVersion: '2.2',
         params: const [
           AbiParam(name: 'flag', type: 'bool'),
@@ -32,7 +32,7 @@ class GasPriceService {
           'root': fields!['paramsRoot'],
         },
       );
-      final rawParams = await unpackFromCell(
+      final rawParams = unpackFromCell(
         abiVersion: '2.2',
         params: const [AbiParam(name: 'params', type: 'map(uint32,cell)')],
         boc: nonEmptyMap,
@@ -42,7 +42,7 @@ class GasPriceService {
           .cast<List<dynamic>>()
           .map((e) => MapEntry(int.parse(e[0] as String), e[1] as String));
       final params = Map.fromEntries(entries);
-      final data = await unpackFromCell(
+      final data = unpackFromCell(
         abiVersion: '2.2',
         params: (jsonDecode(_pricesParamAbi) as List<dynamic>)
             .map(
