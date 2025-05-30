@@ -8,10 +8,18 @@ import 'package:ui_components_lib/v2/widgets/widgets.dart';
 
 class EnterSeedPhraseWidget
     extends ElementaryWidget<EnterSeedPhraseWidgetModel> {
-  const EnterSeedPhraseWidget({
+  EnterSeedPhraseWidget({
+    required bool isOnboarding,
+    String? seedName,
     Key? key,
-    WidgetModelFactory wmFactory = defaultEnterSeedPhraseWidgetModelFactory,
-  }) : super(wmFactory, key: key);
+  }) : super(
+          (context) => enterSeedPhraseWidgetModelFactory(
+            context,
+            isOnboarding: isOnboarding,
+            seedName: seedName,
+          ),
+          key: key,
+        );
 
   @override
   Widget build(EnterSeedPhraseWidgetModel wm) {

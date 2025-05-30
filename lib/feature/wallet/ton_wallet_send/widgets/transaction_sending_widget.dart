@@ -1,7 +1,7 @@
 import 'package:app/app/router/router.dart';
+import 'package:app/feature/wallet/route.dart';
 import 'package:app/generated/generated.dart';
 import 'package:flutter/material.dart';
-import 'package:go_router/go_router.dart';
 import 'package:rive/rive.dart';
 import 'package:ui_components_lib/v2/ui_components_lib_v2.dart';
 
@@ -72,9 +72,9 @@ class TransactionSendingWidget extends StatelessWidget {
               title: LocaleKeys.okayWord.tr(),
               onPressed: () {
                 if (popOnComplete) {
-                  context.pop(true);
+                  context.compassBack(true);
                 } else {
-                  context.goNamed(AppRoute.wallet.name);
+                  context.compassPointNamed(const WalletRouteData());
                 }
               },
             ),
