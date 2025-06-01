@@ -51,6 +51,7 @@ class BrowserCollection<T extends BrowserEntity> {
   void add(T entity) {
     if (_map.containsKey(entity.id)) {
       _map[entity.id]?.accept(entity);
+      return;
     }
 
     _map[entity.id] = NotNullNotifier(entity);
@@ -74,8 +75,12 @@ class BrowserCollection<T extends BrowserEntity> {
       }
     }
 
+    if (removedIndex == null) {
+      return null;
+    }
+
     _idsState
-      ..value.remove(entityId)
+      ..value.removeAt(removedIndex)
       ..update();
 
     return removedIndex;
@@ -95,10 +100,12 @@ class BrowserCollection<T extends BrowserEntity> {
 
   void setActiveById(String? id) => _activeEntityIdState.accept(id);
 
-  void setActiveByIndex(int index) => _idsState.value[min(
-        index,
-        _idsState.value.length - 1,
-      )];
+  void setActiveByIndex(int index) => _activeEntityIdState.accept(
+        _idsState.value[min(
+          index,
+          _idsState.value.length - 1,
+        )],
+      );
 
   bool checkExistEntity(String id) => _map[id] != null;
 
@@ -120,27 +127,25 @@ class GroupsCollection extends BrowserCollection<BrowserGroup> {
     required String tabId,
     String? groupId,
   }) {
+    NotNullNotifier<BrowserGroup>? groupNotifier;
+
     if (groupId == null) {
       final notifiers = _map.values;
       for (final notifier in notifiers) {
         if (notifier.value.tabsIds.contains(tabId)) {
-          groupId = notifier.value.id;
+          groupNotifier = notifier;
           break;
         }
       }
+    } else {
+      groupNotifier = getNotifier(groupId);
     }
 
-    if (groupId == null) {
+    if (groupNotifier == null) {
       return null;
     }
 
-    final notifier = getNotifier(groupId);
-
-    if (notifier == null) {
-      return null;
-    }
-
-    final tabsIds = notifier.value.tabsIds;
+    final tabsIds = groupNotifier.value.tabsIds;
 
     final index = tabsIds.indexWhere((id) => id == tabId);
 
@@ -148,9 +153,9 @@ class GroupsCollection extends BrowserCollection<BrowserGroup> {
       return null;
     }
 
-    tabsIds.remove(tabId);
+    tabsIds.removeAt(index);
 
-    notifier.update();
+    groupNotifier.update();
 
     return index;
   }
@@ -187,8 +192,10 @@ class TabsCollection extends BrowserCollection<BrowserTab> {
 
   void removeList(List<String> ids) {
     for (final id in ids) {
-      remove(id);
+      _map.remove(id)?.dispose();
     }
+
+    _idsState.accept(_map.keys.toList());
   }
 
   Uri? getCachedUrl(String tabId) => getNotifier(tabId)?.value.url;

@@ -37,52 +37,55 @@ class BrowserTabsListItem
 
   @override
   Widget build(BrowserTabsListItemWidgetModel wm) {
-    return RenderMetricsObject(
-      id: wm.id,
-      manager: renderManager,
-      child: Stack(
-        children: [
-          _ReactiveShapeWidget(
-            activeState: wm.activeState,
-            backgroundColor: wm.colors.background1,
-            activeColor: ColorsResV2.p75,
-            inactiveColor: wm.colors.primaryA.withAlpha(25),
-            child: InkWell(
-              onTap: onPressed,
-              child: Stack(
-                children: [
-                  OverflowBox(
-                    alignment: Alignment.topCenter,
-                    maxHeight: 1000,
-                    child: StateNotifierBuilder<File?>(
-                      listenableState: wm.screenShotState,
-                      builder: (_, File? file) {
-                        return file == null
-                            ? const _EmptyContent()
-                            : Image.file(
+    return SizedBox(
+      height: DimensSizeV2.d200,
+      child: RenderMetricsObject(
+        id: wm.id,
+        manager: renderManager,
+        child: Stack(
+          children: [
+            _ReactiveShapeWidget(
+              activeState: wm.activeState,
+              backgroundColor: wm.colors.background1,
+              activeColor: ColorsResV2.p75,
+              inactiveColor: wm.colors.primaryA.withAlpha(25),
+              child: InkWell(
+                onTap: onPressed,
+                child: Stack(
+                  children: [
+                    SizedBox(
+                      width: double.infinity,
+                      child: StateNotifierBuilder<File?>(
+                        listenableState: wm.screenShotState,
+                        builder: (_, File? file) {
+                          return file == null
+                              ? const _EmptyContent()
+                              : Image.file(
                                 file,
-                                fit: BoxFit.scaleDown,
-                                errorBuilder: (_, __, ___) => const SizedBox(),
+                                fit: BoxFit.cover,
+                                errorBuilder: (_, __, ___) =>
+                                    const SizedBox(),
                               );
-                      },
+                        },
+                      ),
                     ),
-                  ),
-                  _Header(
-                    tabNotifier: wm.tabNotifier,
-                    onPressedClose: onClosePressed,
-                  ),
-                ],
+                    _Header(
+                      tabNotifier: wm.tabNotifier,
+                      onPressedClose: onClosePressed,
+                    ),
+                  ],
+                ),
               ),
             ),
-          ),
-          Positioned(
-            bottom: 0,
-            right: 0,
-            child: _Menu(
-              onPressed: onPressedTabMenu,
+            Positioned(
+              bottom: 0,
+              right: 0,
+              child: _Menu(
+                onPressed: onPressedTabMenu,
+              ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }
@@ -95,13 +98,11 @@ class _Header extends StatelessWidget {
   });
 
   final NotNullListenableState<BrowserTab> tabNotifier;
-
   final VoidCallback? onPressedClose;
 
   @override
   Widget build(BuildContext context) {
-    final themeStyle = context.themeStyleV2;
-    final textStyles = themeStyle.textStyles;
+    final textStyles = context.themeStyleV2.textStyles;
     final colors = context.themeStyleV2.colors;
 
     return SizedBox(
@@ -115,17 +116,16 @@ class _Header extends StatelessWidget {
             Expanded(
               child: Padding(
                 padding: const EdgeInsets.only(left: DimensSizeV2.d12),
-                child: StateNotifierBuilder<BrowserTab?>(
+                child: StateNotifierBuilder<BrowserTab>(
                   listenableState: tabNotifier,
                   builder: (_, BrowserTab? tab) {
                     return Text(
-                      tab?.title ?? '',
+                      tab?.title ?? LocaleKeys.startPage.tr(),
                       style: textStyles.labelXSmall.copyWith(
                         color: colors.content2,
                       ),
                       maxLines: 1,
                       overflow: TextOverflow.ellipsis,
-                      softWrap: false,
                     );
                   },
                 ),
@@ -156,7 +156,10 @@ class _EmptyContent extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Assets.images.bgNetwork.image(width: double.infinity);
+    return Assets.images.bgNetwork.image(
+      width: double.infinity,
+      fit: BoxFit.cover,
+    );
   }
 }
 
@@ -206,14 +209,6 @@ class _ReactiveShapeWidget extends SingleChildRenderObjectWidget {
     required Widget child,
   }) : super(child: child);
 
-  // shape: SquircleShapeBorder(
-  // borderColor: isActive
-  // ? ColorsResV2.p75
-  //     : wm.colors.primaryA.withAlpha(25),
-  // ),
-  // clipBehavior: Clip.antiAlias,
-  // color: wm.colors.background1,
-
   final ListenableState<bool?> activeState;
   final Color backgroundColor;
   final Color activeColor;
@@ -255,6 +250,7 @@ class _ReactiveShapeRenderBox extends RenderProxyBox {
   Color backgroundColor;
   Color activeColor;
   Color inactiveColor;
+
   final _radius = const Radius.circular(DimensRadiusV2.radius16);
 
   void _onChanged() {
@@ -270,27 +266,35 @@ class _ReactiveShapeRenderBox extends RenderProxyBox {
   @override
   void paint(PaintingContext context, Offset offset) {
     final canvas = context.canvas;
+    final isActive = activeState.value ?? false;
+
+    final borderWidth = isActive ? DimensSizeV2.d4 : DimensSizeV2.d2;
+    final rect = offset & size;
+    final rRect = RRect.fromRectAndRadius(offset & size, _radius);
 
     final fillPaint = Paint()
       ..color = backgroundColor
       ..style = PaintingStyle.fill;
 
-    final borderWidth =
-        (activeState.value ?? false) ? DimensSizeV2.d4 : DimensSizeV2.d2;
+    canvas.drawRRect(rRect, fillPaint);
+
+    if (child != null) {
+      context.pushClipRRect(
+        needsCompositing,
+        offset,
+        rect,
+        rRect,
+        (innerContext, innerOffset) {
+          child!.paint(innerContext, innerOffset);
+        },
+      );
+    }
+
     final borderPaint = Paint()
-      ..color = (activeState.value ?? false) ? activeColor : inactiveColor
+      ..color = isActive ? activeColor : inactiveColor
       ..style = PaintingStyle.stroke
       ..strokeWidth = borderWidth;
 
-    final rRect = RRect.fromRectAndRadius(
-      offset & size,
-      _radius,
-    );
-
-    canvas
-      ..drawRRect(rRect, fillPaint)
-      ..drawRRect(rRect.deflate(borderWidth / 2), borderPaint);
-
-    super.paint(context, offset);
+    canvas.drawRRect(rRect.deflate(borderWidth / 2), borderPaint);
   }
 }
