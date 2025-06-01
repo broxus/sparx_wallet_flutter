@@ -1,3 +1,4 @@
+import 'package:app/core/wm/not_null_listenable_state.dart';
 import 'package:app/feature/browser_v2/custom_web_controller.dart';
 import 'package:app/feature/browser_v2/data/tabs/browser_tab.dart';
 import 'package:app/feature/browser_v2/screens/main/widgets/pages/page/browser_page.dart';
@@ -21,7 +22,7 @@ class BrowserPagesView extends StatelessWidget {
 
   final double width;
   final ListenableState<bool> viewVisibleState;
-  final ListenableState<List<BrowserTab>?> tabsState;
+  final ListenableState<List<NotNullListenableState<BrowserTab>>?> tabsState;
   final ScrollController scrollController;
   final Animation<double> paddingPageAnimation;
   final ValueChanged<int> onLoadingProgressChanged;
@@ -47,10 +48,14 @@ class BrowserPagesView extends StatelessWidget {
             child: Column(
               children: [
                 Flexible(
-                  child: StateNotifierBuilder<List<BrowserTab>?>(
+                  child: StateNotifierBuilder<
+                      List<NotNullListenableState<BrowserTab>>?>(
                     listenableState: tabsState,
-                    builder: (_, List<BrowserTab>? tabs) {
-                      if (tabs == null) {
+                    builder: (
+                      _,
+                      List<NotNullListenableState<BrowserTab>>? list,
+                    ) {
+                      if (list == null) {
                         return const SizedBox.shrink();
                       }
 
@@ -58,19 +63,19 @@ class BrowserPagesView extends StatelessWidget {
                         scrollDirection: Axis.horizontal,
                         controller: scrollController,
                         physics: const NeverScrollableScrollPhysics(),
-                        itemCount: tabs.length,
+                        itemCount: list.length,
                         itemBuilder: (_, int index) {
                           return BrowserPage(
-                            key: ValueKey(tabs[index].id),
+                            key: ValueKey(list[index].value.id),
                             onLoadingProgressChanged: onLoadingProgressChanged,
                             width: width,
-                            tab: tabs[index],
+                            listenable: list[index],
                             onCreate: (controller) => onCreateWebViewController(
-                              tabs[index].id,
+                              list[index].value.id,
                               controller,
                             ),
                             onWebPageScrollChanged: onWebPageScrollChanged,
-                            onDispose: () => onDispose(tabs[index].id),
+                            onDispose: () => onDispose(list[index].value.id),
                           );
                         },
                       );

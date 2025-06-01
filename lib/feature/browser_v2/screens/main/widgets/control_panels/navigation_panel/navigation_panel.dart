@@ -1,5 +1,6 @@
 import 'dart:math';
 
+import 'package:app/core/wm/not_null_listenable_state.dart';
 import 'package:app/feature/browser_v2/data/tabs/browser_tab.dart';
 import 'package:app/feature/browser_v2/screens/main/widgets/control_panels/navigation_panel/address_bar.dart';
 import 'package:app/utils/types/fuction_types.dart';
@@ -25,7 +26,7 @@ class BrowserNavigationPanel extends StatefulWidget {
   final double panelWidth;
   final double urlWidth;
   final ScrollController controller;
-  final ListenableState<List<BrowserTab>?> tabsState;
+  final ListenableState<List<NotNullListenableState<BrowserTab>>?> tabsState;
   final ValueChanged<String> onPressedCurrentUrlMenu;
   final ValueChanged<String> onPressedRefresh;
   final DoubleValueCallback<String, String> onEditingCompleteUrl;
@@ -47,9 +48,9 @@ class _BrowserTabViewMenuUrlPanelState extends State<BrowserNavigationPanel> {
     return SizedBox(
       width: widget.panelWidth,
       height: BrowserNavigationPanel.height,
-      child: StateNotifierBuilder<List<BrowserTab>?>(
+      child: StateNotifierBuilder<List<NotNullListenableState<BrowserTab>>?>(
         listenableState: widget.tabsState,
-        builder: (_, List<BrowserTab>? list) {
+        builder: (_, List<NotNullListenableState<BrowserTab>>? list) {
           if (list == null) {
             return const SizedBox.shrink();
           }
@@ -64,9 +65,9 @@ class _BrowserTabViewMenuUrlPanelState extends State<BrowserNavigationPanel> {
             itemCount: list.length,
             itemBuilder: (_, int index) {
               return BrowserAddressBar(
-                key: ValueKey(list[index].id),
+                key: ValueKey(list[index].value.id),
                 width: widget.urlWidth,
-                tab: list[index],
+                listenable: list[index],
                 onPressedCurrentUrlMenu: widget.onPressedCurrentUrlMenu,
                 onPressedRefresh: widget.onPressedRefresh,
                 onEditingComplete: widget.onEditingCompleteUrl,

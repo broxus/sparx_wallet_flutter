@@ -1,3 +1,4 @@
+import 'package:app/core/wm/not_null_listenable_state.dart';
 import 'package:app/feature/browser_v2/data/groups/browser_group.dart';
 import 'package:app/feature/browser_v2/data/tabs/browser_tab.dart';
 import 'package:app/feature/browser_v2/domain/service/browser_service.dart';
@@ -14,11 +15,8 @@ class BrowserTabsListModel extends ElementaryModel {
 
   final BrowserService _browserService;
 
-  ListenableState<List<BrowserGroup>> get allGroupsState =>
-      _browserService.tabs.allGroupsState;
-
-  List<BrowserTab> getGroupTabs(String groupId) {
-    return _browserService.tabs.getGroupTabs(groupId);
+  List<NotNullListenableState<BrowserTab>> getGroupTabs(String groupId) {
+    return _browserService.tabs.getGroupTabsListenable(groupId);
   }
 
   void removeBrowserTab({

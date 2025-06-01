@@ -4,7 +4,6 @@ import 'package:app/core/error_handler_factory.dart';
 import 'package:app/core/wm/custom_wm.dart';
 import 'package:app/di/di.dart';
 import 'package:app/feature/browser_v2/custom_web_controller.dart';
-import 'package:app/feature/browser_v2/data/tabs/browser_tab.dart';
 import 'package:app/feature/browser_v2/screens/main/browser_main_screen.dart';
 import 'package:app/feature/browser_v2/screens/main/browser_main_screen_model.dart';
 import 'package:app/feature/browser_v2/screens/main/data/browser_render_manager.dart';
@@ -96,14 +95,14 @@ class BrowserMainScreenWidgetModel
       }
 
       Future(() {
-        final group = model.activeGroupState.value;
+        final groupId = model.activeGroupIdState.value;
 
-        if (group == null) {
+        if (groupId == null) {
           return;
         }
 
         final tabId = _tabsDelegate.getIdByIndex(
-          groupId: group.id,
+          groupId: groupId,
           index: tabIndex,
         );
 
@@ -171,7 +170,7 @@ class BrowserMainScreenWidgetModel
 
   ListenableState<bool> get viewVisibleState => _viewVisibleState;
 
-  ListenableState<BrowserTab?> get activeTabState => model.activeTabState;
+  ListenableState<String?> get activeTabIdState => model.activeTabIdState;
 
   ListenableState<NavigationUrlPhysicMode> get navigationScrollModeState =>
       _navigationScrollModeState;
@@ -186,7 +185,7 @@ class BrowserMainScreenWidgetModel
     _viewVisibleState.addListener(_handleViewVisibleState);
 
     WidgetsBinding.instance.addPostFrameCallback((_) {
-      final groupId = model.activeGroupState.value?.id;
+      final groupId = model.activeGroupIdState.value;
       final tabId = _tabsDelegate.activeTabId;
       if (groupId != null && tabId != null) {
         _scrollToTab(

@@ -1,7 +1,8 @@
-import 'package:elementary_helper/elementary_helper.dart';
+import 'package:app/core/wm/not_null_listenable_state.dart';
 import 'package:flutter/cupertino.dart';
 
-class NotNullNotifier<T> extends ChangeNotifier implements ListenableState<T> {
+class NotNullNotifier<T> extends ChangeNotifier
+    implements NotNullListenableState<T> {
   NotNullNotifier(T initValue) : _value = initValue;
 
   @override

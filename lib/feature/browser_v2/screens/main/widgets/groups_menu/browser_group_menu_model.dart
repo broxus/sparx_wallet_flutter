@@ -1,3 +1,4 @@
+import 'package:app/core/wm/not_null_listenable_state.dart';
 import 'package:app/feature/browser_v2/data/groups/browser_group.dart';
 import 'package:app/feature/browser_v2/domain/service/browser_service.dart';
 import 'package:app/feature/browser_v2/screens/main/widgets/groups_menu/browser_group_menu.dart';
@@ -13,16 +14,16 @@ class BrowserGroupMenuModel extends ElementaryModel {
 
   final BrowserService _browserService;
 
-  ListenableState<List<BrowserGroup>> get allGroupsState =>
-      _browserService.tabs.allGroupsState;
+  NotNullListenableState<List<String>> get allGroupsIdsState =>
+      _browserService.tabs.allGroupsIdsState;
 
-  ListenableState<BrowserGroup?> get activeGroupState =>
-      _browserService.tabs.activeGroupState;
+  ListenableState<String?> get activeGroupIdState =>
+      _browserService.tabs.activeGroupIdState;
 
-  int? get allGroupsCount => allGroupsState.value?.length;
+  int? get allGroupsCount => allGroupsIdsState.value.length;
 
-  String? getGroupNameById(String id) =>
-      _browserService.tabs.getGroupById(id)?.title;
+  String? getGroupNameById(String groupId) =>
+      _browserService.tabs.getGroupListenableById(groupId)?.value.title;
 
   void setActiveGroup(String groupId) {
     _browserService.tabs.setActiveGroup(groupId);
@@ -46,4 +47,9 @@ class BrowserGroupMenuModel extends ElementaryModel {
   void removeGroup(String groupId) {
     _browserService.tabs.removeBrowserGroup(groupId);
   }
+
+  NotNullListenableState<BrowserGroup>? getGroupListenableById(
+    String groupId,
+  ) =>
+      _browserService.tabs.getGroupListenableById(groupId);
 }

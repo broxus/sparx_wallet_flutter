@@ -1,5 +1,7 @@
 import 'package:app/core/error_handler_factory.dart';
 import 'package:app/core/wm/custom_wm.dart';
+import 'package:app/core/wm/not_null_listenable_state.dart';
+import 'package:app/core/wm/not_null_safe_notifier.dart';
 import 'package:app/di/di.dart';
 import 'package:app/feature/browser_v2/data/groups/browser_group.dart';
 import 'package:app/feature/browser_v2/screens/create_group/create_browser_group_screen.dart';
@@ -10,7 +12,7 @@ import 'package:elementary/elementary.dart';
 import 'package:elementary_helper/elementary_helper.dart';
 import 'package:flutter/material.dart';
 
-typedef GroupsData = (List<BrowserGroup>?, String?);
+typedef GroupData = NotNullListenableState<BrowserGroup>;
 
 /// Factory method for creating [BrowserGroupMenuWidgetModel]
 BrowserGroupMenuWidgetModel defaultBrowserGroupMenuWidgetModelFactory(
@@ -31,34 +33,41 @@ class BrowserGroupMenuWidgetModel
     super.model,
   );
 
-  late final _groupsState = createNotifier<GroupsData>();
+  late final _groupsState = createNotifier<List<GroupData>>();
   late final _editGroupsState = createNotNullNotifier<bool>(false);
 
-  ListenableState<GroupsData> get groupsState => _groupsState;
+  ListenableState<List<GroupData>> get groupsState => _groupsState;
 
   ListenableState<bool> get editGroupsState => _editGroupsState;
 
+  ListenableState<String?> get activeGroupIdState => model.activeGroupIdState;
+
   @override
   void initWidgetModel() {
-    model.allGroupsState.addListener(_handleGroups);
-    model.activeGroupState.addListener(_handleGroups);
+    model.allGroupsIdsState.addListener(_handleGroups);
     super.initWidgetModel();
   }
 
   @override
   void dispose() {
-    model.allGroupsState.removeListener(_handleGroups);
-    model.activeGroupState.removeListener(_handleGroups);
+    model.allGroupsIdsState.removeListener(_handleGroups);
     super.dispose();
   }
 
   void _handleGroups() {
-    _groupsState.accept(
-      (
-        model.allGroupsState.value,
-        model.activeGroupState.value?.id,
-      ),
-    );
+    final result = <NotNullListenableState<BrowserGroup>>[];
+
+    for (final id in model.allGroupsIdsState.value) {
+      final listenable = model.getGroupListenableById(id);
+
+      if (listenable == null) {
+        continue;
+      }
+
+      result.add(listenable);
+    }
+
+    _groupsState.accept(result);
   }
 
   void onPressedEditAll() {

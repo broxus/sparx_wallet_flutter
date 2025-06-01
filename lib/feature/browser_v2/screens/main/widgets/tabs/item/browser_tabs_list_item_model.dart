@@ -14,10 +14,8 @@ class BrowserTabsListItemModel extends ElementaryModel {
 
   final BrowserService _browserService;
 
-  ListenableState<BrowserTab?> get activeTabState =>
-      _browserService.tM.activeTabState;
-
-  String? get activeTabId => _browserService.tM.activeTab?.id;
+  ListenableState<String?> get activeTabIdState =>
+      _browserService.tM.activeTabIdState;
 
   ListenableState<ImageCache?> get screenshotsState =>
       _browserService.tM.screenshotsState;

@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:app/core/error_handler_factory.dart';
 import 'package:app/core/wm/custom_wm.dart';
+import 'package:app/core/wm/not_null_listenable_state.dart';
 import 'package:app/di/di.dart';
 import 'package:app/feature/browser_v1/bottom_sheets/browser_enter_basic_auth_creds_sheet.dart';
 import 'package:app/feature/browser_v2/custom_web_controller.dart';
@@ -21,7 +22,7 @@ import 'package:url_launcher/url_launcher.dart';
 /// Factory method for creating [BrowserPageWidgetModel]
 BrowserPageWidgetModel defaultBrowserPageWidgetModelFactory(
   BuildContext context, {
-  required BrowserTab tab,
+  required NotNullListenableState<BrowserTab> listenable,
   required ValueChanged<CustomWebViewController> onCreate,
   required ValueChanged<int> onWebPageScrollChanged,
   required VoidCallback onDispose,
@@ -30,7 +31,7 @@ BrowserPageWidgetModel defaultBrowserPageWidgetModelFactory(
   return BrowserPageWidgetModel(
     BrowserPageModel(
       createPrimaryErrorHandler(context),
-      tab.id,
+      listenable.value.id,
       inject(),
       inject(),
       inject(),
@@ -42,6 +43,7 @@ BrowserPageWidgetModel defaultBrowserPageWidgetModelFactory(
       inject(),
       inject(),
     ),
+    listenable,
     onCreate,
     onWebPageScrollChanged,
     onDispose,
@@ -55,6 +57,7 @@ class BrowserPageWidgetModel
     with AutomaticKeepAliveWidgetModelMixin {
   BrowserPageWidgetModel(
     super.model,
+    this._listenable,
     this._onCreate,
     this._onWebPageScrollChanged,
     this._onDispose,
@@ -78,11 +81,11 @@ class BrowserPageWidgetModel
 
   static final _log = Logger('BrowserTabView');
 
+  final NotNullListenableState<BrowserTab> _listenable;
   final ValueChanged<CustomWebViewController> _onCreate;
   final ValueChanged<int> _onWebPageScrollChanged;
   final VoidCallback _onDispose;
   final ValueChanged<int> _onLoadingProgressChanged;
-  late BrowserTab _tab = widget.tab;
 
   final initialSettings = InAppWebViewSettings(
     applicationNameForUserAgent: 'SparXWalletBrowser',
@@ -108,6 +111,8 @@ class BrowserPageWidgetModel
 
   CustomWebViewController? _webViewController;
 
+  Uri? _prevUri;
+
   ColorsPalette get colors => _theme.colors;
 
   ListenableState<bool> get isNeedCreateWebViewState =>
@@ -119,30 +124,25 @@ class BrowserPageWidgetModel
 
   ThemeStyle get _theme => context.themeStyle;
 
+  BrowserTab get _tab => _listenable.value;
+
   String get _url => _tab.url.toString();
 
   bool get _isCreate => _isNeedCreateWebViewState.value ?? false;
 
   @override
   void initWidgetModel() {
-    model.activeTabState.addListener(_handleActiveTab);
+    model.activeTabIdState.addListener(_handleActiveTab);
+    _listenable.addListener(_handleTabState);
     super.initWidgetModel();
-  }
-
-  @override
-  void didUpdateWidget(BrowserPage oldWidget) {
-    if (oldWidget.tab.url != widget.tab.url) {
-      _tab = widget.tab;
-      _isShowStartViewState.accept(_url.isEmpty);
-    }
-    super.didUpdateWidget(oldWidget);
   }
 
   @override
   void dispose() {
     _onDispose();
     _webViewController?.dispose();
-    model.activeTabState.removeListener(_handleActiveTab);
+    model.activeTabIdState.removeListener(_handleActiveTab);
+    _listenable.removeListener(_handleTabState);
     super.dispose();
   }
 
@@ -346,5 +346,15 @@ class BrowserPageWidgetModel
         }
       },
     );
+  }
+
+  void _handleTabState() {
+    final uri = _listenable.value.url;
+
+    if (_prevUri != uri) {
+      _isShowStartViewState.accept(_url.isEmpty);
+    }
+
+    _prevUri = uri;
   }
 }

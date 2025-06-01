@@ -47,6 +47,7 @@ class BrowserGroupMenu extends ElementaryWidget<BrowserGroupMenuWidgetModel> {
             const SizedBox(height: DimensSizeV2.d22),
             _GroupsList(
               groupsState: wm.groupsState,
+              activeGroupIdState: wm.activeGroupIdState,
               editGroupsState: wm.editGroupsState,
               onPressedItem: wm.onPressedItem,
               onPressedEditGroup: wm.onPressedEditGroup,
@@ -97,13 +98,15 @@ class _Header extends StatelessWidget {
 class _GroupsList extends StatelessWidget {
   const _GroupsList({
     required this.groupsState,
+    required this.activeGroupIdState,
     required this.editGroupsState,
     required this.onPressedItem,
     required this.onPressedEditGroup,
     required this.onPressedRemoveGroup,
   });
 
-  final ListenableState<GroupsData> groupsState;
+  final ListenableState<List<GroupData>> groupsState;
+  final ListenableState<String?> activeGroupIdState;
 
   final ListenableState<bool> editGroupsState;
 
@@ -113,15 +116,10 @@ class _GroupsList extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return DoubleSourceBuilder<GroupsData, bool>(
-      firstSource: groupsState,
-      secondSource: editGroupsState,
-      builder: (
-        _,
-        GroupsData? data,
-        bool? isEdit,
-      ) {
-        if (data?.$1 == null) {
+    return StateNotifierBuilder(
+      listenableState: groupsState,
+      builder: (_, List<GroupData>? list) {
+        if (list == null) {
           return const SizedBox.shrink();
         }
 
@@ -134,17 +132,17 @@ class _GroupsList extends StatelessWidget {
               backgroundColor: context.themeStyleV2.colors.background2,
               margin: const EdgeInsets.symmetric(horizontal: DimensSizeV2.d24),
               children: [
-                for (final group in data!.$1!)
+                for (final listenable in list)
                   BrowserGroupMenuItem(
-                    key: ValueKey(group.id),
-                    name: group.title,
-                    count: group.tabsIds.length,
-                    isActive: group.id == data.$2,
-                    isEditable: group.isEditable,
-                    isEdit: isEdit ?? false,
-                    onPressed: () => onPressedItem(group.id),
-                    onPressedEdit: () => onPressedEditGroup(group.id),
-                    onPressedRemove: () => onPressedRemoveGroup(group.id),
+                    key: ValueKey(listenable.value.id),
+                    listenable: listenable,
+                    activeGroupIdState: activeGroupIdState,
+                    editGroupsState: editGroupsState,
+                    onPressed: () => onPressedItem(listenable.value.id),
+                    onPressedEdit: () =>
+                        onPressedEditGroup(listenable.value.id),
+                    onPressedRemove: () =>
+                        onPressedRemoveGroup(listenable.value.id),
                   ),
               ],
             ),

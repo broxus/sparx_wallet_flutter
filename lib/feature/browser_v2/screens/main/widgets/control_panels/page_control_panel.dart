@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:app/core/wm/not_null_listenable_state.dart';
 import 'package:app/feature/browser_v2/data/tabs/browser_tab.dart';
 import 'package:app/feature/browser_v2/screens/main/widgets/control_panels/background_blur.dart';
 import 'package:app/feature/browser_v2/screens/main/widgets/control_panels/navigation_panel/navigation_panel.dart';
@@ -32,7 +33,7 @@ class BrowserPageControlPanel extends StatelessWidget {
   final ValueChanged<String> onPressedRefresh;
   final DoubleValueCallback<String, String> onEditingCompleteUrl;
   final ScrollController urlSliderController;
-  final ListenableState<List<BrowserTab>?> tabsState;
+  final ListenableState<List<NotNullListenableState<BrowserTab>>?> tabsState;
   final ListenableState<NavigationUrlPhysicMode> navigationScrollModeState;
 
   static const minHeight =

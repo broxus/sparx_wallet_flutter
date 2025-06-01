@@ -3,6 +3,7 @@ import 'dart:collection';
 import 'dart:math';
 
 import 'package:app/app/service/storage_service/general_storage_service.dart';
+import 'package:app/core/wm/not_null_listenable_state.dart';
 import 'package:app/feature/browser_v2/browser_collection.dart';
 import 'package:app/feature/browser_v2/custom_web_controller.dart';
 import 'package:app/feature/browser_v2/data/groups/browser_group.dart';
@@ -50,10 +51,10 @@ class BrowserTabsManager {
   ListenableState<String?> get activeTabIdState =>
       _tabsCollection.activeEntityIdState;
 
-  ListenableState<List<String>> get allGroupsIdsState =>
+  NotNullListenableState<List<String>> get allGroupsIdsState =>
       _groupsCollection.idsState;
 
-  ListenableState<List<String>> get allTabsIdsState =>
+  NotNullListenableState<List<String>> get allTabsIdsState =>
       _groupsCollection.idsState;
 
   ListenableState<ImageCache?> get screenshotsState =>
@@ -69,7 +70,7 @@ class BrowserTabsManager {
 
   String? get activeGroupId => _groupsCollection.activeEntityIdState.value;
 
-  List<String> get allTabsIds => allTabsIdsState.value ?? [];
+  List<String> get allTabsIds => allTabsIdsState.value;
 
   String? get activeTabId => _tabsCollection.activeEntityIdState.value;
 
@@ -308,14 +309,16 @@ class BrowserTabsManager {
     );
   }
 
-  List<ListenableState<BrowserTab>> getGroupTabsListenable(String groupId) {
+  List<NotNullListenableState<BrowserTab>> getGroupTabsListenable(
+    String groupId,
+  ) {
     final tabIds = _groupsCollection.getTabIds(groupId);
 
     if (tabIds == null) {
       return [];
     }
 
-    final result = <ListenableState<BrowserTab>>[];
+    final result = <NotNullListenableState<BrowserTab>>[];
 
     for (final id in tabIds) {
       final listenable = _tabsCollection.getListenable(id);
@@ -328,10 +331,15 @@ class BrowserTabsManager {
     return result;
   }
 
-  ListenableState<BrowserTab>? getTabListenableById(String id) =>
+  NotNullListenableState<BrowserGroup>? getGroupListenableById(String id) =>
+      _groupsCollection.getListenable(id);
+
+  NotNullListenableState<BrowserTab>? getTabListenableById(String id) =>
       _tabsCollection.getListenable(id);
 
   BrowserTab? getTabById(String id) => getTabListenableById(id)?.value;
+
+  Uri? getTabUriId(String id) => getTabListenableById(id)?.value.url;
 
   Future<void> permissionsChanged(
     String tabId,

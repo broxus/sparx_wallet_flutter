@@ -1,8 +1,9 @@
+import 'package:app/core/wm/not_null_listenable_state.dart';
 import 'package:app/feature/browser_v2/data/tabs/browser_tab.dart';
 import 'package:app/feature/browser_v2/screens/main/widgets/control_panels/tabs_list_action_bar.dart';
 import 'package:app/feature/browser_v2/screens/main/widgets/tabs/item/browser_tabs_list_item.dart';
 import 'package:app/feature/browser_v2/screens/main/widgets/tabs/tabs_list/tabs_list_wm.dart';
-import 'package:app/feature/browser_v2/screens/main/widgets/tabs/tabs_list/widgets/header.dart';
+import 'package:app/feature/browser_v2/screens/main/widgets/tabs/tabs_list/widgets/header/tab_list_header.dart';
 import 'package:app/generated/generated.dart';
 import 'package:elementary/elementary.dart';
 import 'package:elementary_helper/elementary_helper.dart';
@@ -15,9 +16,9 @@ class BrowserTabsList extends ElementaryWidget<BrowserTabsListWidgetModel> {
     required ListenableState<String?> selectedGroupIdState,
     required RenderManager<String> renderManager,
     required ValueChanged<BrowserTab> onPressedTabMenu,
-    required ValueChanged<String> onPressedGroup,
+    required this.onPressedGroup,
     required ValueChanged<String> onPressedTab,
-    required VoidCallback onPressedCreateNewGroup,
+    required this.onPressedCreateNewGroup,
     super.key,
     WidgetModelFactory<BrowserTabsListWidgetModel>? wmFactory,
   }) : super(
@@ -27,11 +28,12 @@ class BrowserTabsList extends ElementaryWidget<BrowserTabsListWidgetModel> {
                     selectedGroupIdState: selectedGroupIdState,
                     renderManager: renderManager,
                     onPressedTabMenu: onPressedTabMenu,
-                    onPressedGroup: onPressedGroup,
                     onPressedTab: onPressedTab,
-                    onPressedCreateNewGroup: onPressedCreateNewGroup,
                   ),
         );
+
+  final ValueChanged<String> onPressedGroup;
+  final VoidCallback onPressedCreateNewGroup;
 
   // TODO(nesquikm): We should calculate this value based on the screen size
   static const _cardAspectRatio = 0.9;
@@ -48,22 +50,22 @@ class BrowserTabsList extends ElementaryWidget<BrowserTabsListWidgetModel> {
     return Column(
       children: [
         TabListHeader(
-          getPhysic: wm.getPhysic,
-          updateItemWidth: wm.updateItemWidth,
-          onPressedCreateNewGroup: wm.onPressedCreateNewGroup,
-          onPressedGroup: wm.onPressedGroup,
-          onPressedBookmarks: wm.onPressedBookmarks,
-          uiState: wm.uiState,
-          scrollController: wm.scrollController,
+          selectedGroupIdState: wm.selectedGroupIdState,
+          onPressedGroup: onPressedGroup,
+          onPressedCreateNewGroup: onPressedCreateNewGroup,
         ),
         const _Separator(),
         Expanded(
-          child: StateNotifierBuilder<List<BrowserTab>?>(
+          child:
+              StateNotifierBuilder<List<NotNullListenableState<BrowserTab>>?>(
             listenableState: wm.selectedTabsState,
-            builder: (_, List<BrowserTab>? tabs) {
-              if (tabs == null) {
+            builder: (
+              _,
+              List<NotNullListenableState<BrowserTab>>? tabsNotifiers,
+            ) {
+              if (tabsNotifiers == null) {
                 return const SizedBox.shrink();
-              } else if (tabs.isEmpty) {
+              } else if (tabsNotifiers.isEmpty) {
                 return const _Empty();
               }
 
@@ -74,14 +76,15 @@ class BrowserTabsList extends ElementaryWidget<BrowserTabsListWidgetModel> {
                 mainAxisSpacing: DimensSizeV2.d8,
                 childAspectRatio: _cardAspectRatio,
                 children: [
-                  for (final tab in tabs)
+                  for (final notifiers in tabsNotifiers)
                     BrowserTabsListItem(
-                      key: ValueKey(tab.id),
+                      key: ValueKey(notifiers.value.id),
                       renderManager: wm.renderManager,
-                      tab: tab,
-                      onPressedTabMenu: () => wm.onPressedTabMenu(tab),
-                      onPressed: () => wm.onPressedTab(tab.id),
-                      onClosePressed: () => wm.onCloseTab(tab.id),
+                      tabNotifier: notifiers,
+                      onPressedTabMenu: () =>
+                          wm.onPressedTabMenu(notifiers.value),
+                      onPressed: () => wm.onPressedTab(notifiers.value.id),
+                      onClosePressed: () => wm.onCloseTab(notifiers.value.id),
                     ),
                 ],
               );

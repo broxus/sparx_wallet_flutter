@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:app/app/router/router.dart';
+import 'package:app/core/wm/not_null_listenable_state.dart';
 import 'package:app/feature/browser_v2/data/tabs/browser_tab.dart';
 import 'package:app/feature/browser_v2/screens/create_group/route.dart';
 import 'package:app/feature/browser_v2/screens/main/browser_main_screen_model.dart';
@@ -11,7 +12,7 @@ import 'package:elementary_helper/elementary_helper.dart';
 import 'package:flutter/material.dart';
 
 abstract interface class BrowserTabsAndGroupsUi {
-  ListenableState<List<BrowserTab>?> get viewTabsState;
+  ListenableState<List<NotNullListenableState<BrowserTab>>?> get viewTabsState;
 
   ListenableState<String?> get hostState;
 
@@ -59,19 +60,21 @@ class BrowserTabsAndGroupsDelegate implements BrowserTabsAndGroupsUi {
 
   final _tabAnimationTypeState = StateNotifier<TabAnimationType?>();
 
-  late final _viewTabsState = StateNotifier<List<BrowserTab>?>();
+  late final _viewTabsState =
+      StateNotifier<List<NotNullListenableState<BrowserTab>>?>();
 
   final _hostState = StateNotifier<String?>();
 
   late final _selectedGroupIdState = StateNotifier<String?>(
-    initValue: model.activeGroupState.value?.id,
+    initValue: model.activeGroupIdState.value,
   );
 
   @override
   ListenableState<String?> get selectedGroupIdState => _selectedGroupIdState;
 
   @override
-  ListenableState<List<BrowserTab>?> get viewTabsState => _viewTabsState;
+  ListenableState<List<NotNullListenableState<BrowserTab>>?>
+      get viewTabsState => _viewTabsState;
 
   @override
   ListenableState<String?> get hostState => _hostState;
@@ -87,9 +90,9 @@ class BrowserTabsAndGroupsDelegate implements BrowserTabsAndGroupsUi {
   BrowserTab? get _activeTab => model.getTabById(activeTabId);
 
   void dispose() {
-    model.activeGroupState.removeListener(_handleActiveGroup);
-    model.activeTabState.removeListener(_handleActiveTab);
-    model.allTabsState.removeListener(_handleAllTabs);
+    model.activeGroupIdState.removeListener(_handleActiveGroup);
+    model.activeTabIdState.removeListener(_handleActiveTab);
+    model.allTabsIdsState.removeListener(_handleAllTabs);
     _selectedGroupIdState.dispose();
     _tabAnimationTypeState.dispose();
     _viewTabsState.removeListener(_handleTabs);
@@ -227,11 +230,11 @@ class BrowserTabsAndGroupsDelegate implements BrowserTabsAndGroupsUi {
   }
 
   void _init() {
-    model.activeGroupState.addListener(_handleActiveGroup);
-    model.activeTabState.addListener(_handleActiveTab);
-    model.allTabsState.addListener(_handleAllTabs);
+    model.activeGroupIdState.addListener(_handleActiveGroup);
+    model.activeTabIdState.addListener(_handleActiveTab);
+    model.allTabsIdsState.addListener(_handleAllTabs);
     _viewTabsState.addListener(_handleTabs);
-    final groupId = model.activeGroupState.value?.id;
+    final groupId = model.activeGroupIdState.value;
 
     if (groupId != null) {
       _viewTabsState.accept(model.getGroupTabs(groupId));
@@ -239,7 +242,7 @@ class BrowserTabsAndGroupsDelegate implements BrowserTabsAndGroupsUi {
   }
 
   void _handleActiveGroup() {
-    _selectedGroupIdState.accept(model.activeGroupState.value?.id);
+    _selectedGroupIdState.accept(model.activeGroupIdState.value);
   }
 
   Future<void> _handleActiveTab() async {
@@ -247,7 +250,7 @@ class BrowserTabsAndGroupsDelegate implements BrowserTabsAndGroupsUi {
       return;
     }
 
-    final activeGroupId = model.activeGroupState.value?.id;
+    final activeGroupId = model.activeGroupIdState.value;
     final activeTabId = model.activeTabId;
 
     if (activeGroupId == null || activeTabId == null) {
@@ -279,7 +282,7 @@ class BrowserTabsAndGroupsDelegate implements BrowserTabsAndGroupsUi {
   }
 
   void _handleAllTabs() {
-    final activeGroupId = model.activeGroupState.value?.id;
+    final activeGroupId = model.activeGroupIdState.value;
 
     if (activeGroupId != null) {
       _viewTabsState.accept(model.getGroupTabs(activeGroupId));

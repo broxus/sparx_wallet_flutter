@@ -1,4 +1,3 @@
-import 'package:app/feature/browser_v2/data/tabs/browser_tab.dart';
 import 'package:app/feature/browser_v2/screens/main/widgets/browser_text_button.dart';
 import 'package:app/generated/generated.dart';
 import 'package:elementary_helper/elementary_helper.dart';
@@ -16,7 +15,7 @@ class BrowserTabsListActionBar extends StatelessWidget {
     super.key,
   });
 
-  final ListenableState<BrowserTab?> activeTabState;
+  final ListenableState<String?> activeTabState;
   final VoidCallback onCloseAllPressed;
   final VoidCallback onGroupsMenuPressed;
   final VoidCallback onPlusPressed;
@@ -30,9 +29,9 @@ class BrowserTabsListActionBar extends StatelessWidget {
 
     return SizedBox(
       height: height,
-      child: StateNotifierBuilder<BrowserTab?>(
+      child: StateNotifierBuilder<String?>(
         listenableState: activeTabState,
-        builder: (_, BrowserTab? tab) {
+        builder: (_, String? tabId) {
           return ColoredBox(
             color: colors.background1,
             child: SizedBox(
@@ -73,9 +72,9 @@ class BrowserTabsListActionBar extends StatelessWidget {
                     ),
                   ),
                   IgnorePointer(
-                    ignoring: tab == null,
+                    ignoring: tabId == null,
                     child: Opacity(
-                      opacity: tab == null ? .7 : 1,
+                      opacity: tabId == null ? .7 : 1,
                       child: BrowserTextButton(
                         title: LocaleKeys.done.tr(),
                         alignment: Alignment.centerRight,

@@ -9,8 +9,6 @@ import 'package:app/app/service/storage_service/connections_storage_service.dart
 import 'package:app/app/service/ton_connect/ton_connect_js_bridge.dart';
 import 'package:app/feature/browser_v2/custom_web_controller.dart';
 import 'package:app/feature/browser_v2/data/browser_basic_auth_creds.dart';
-import 'package:app/feature/browser_v2/data/groups/browser_group.dart';
-import 'package:app/feature/browser_v2/data/tabs/browser_tab.dart';
 import 'package:app/feature/browser_v2/domain/service/browser_service.dart';
 import 'package:app/feature/browser_v2/inpage_provider/inpage_provider.dart';
 import 'package:app/feature/browser_v2/screens/main/widgets/pages/page/browser_page.dart';
@@ -72,13 +70,13 @@ class BrowserPageModel extends ElementaryModel {
   EntityValueListenable<String?> get nekotonJsState =>
       _jsService.nekotonJsState;
 
-  ListenableState<BrowserGroup?> get activeGroupState =>
-      _browserService.tM.activeGroupState;
+  ListenableState<String?> get activeGroupIdState =>
+      _browserService.tM.activeGroupIdState;
 
-  ListenableState<BrowserTab?> get activeTabState =>
-      _browserService.tM.activeTabState;
+  ListenableState<String?> get activeTabIdState =>
+      _browserService.tM.activeTabIdState;
 
-  String? get _activeTabId => activeTabState.value?.id;
+  String? get _activeTabId => activeTabIdState.value;
 
   @override
   void dispose() {

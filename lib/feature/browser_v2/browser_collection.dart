@@ -1,5 +1,6 @@
 import 'dart:math';
 
+import 'package:app/core/wm/not_null_listenable_state.dart';
 import 'package:app/core/wm/not_null_safe_notifier.dart';
 import 'package:app/feature/browser_v2/data/broser_entity.dart';
 import 'package:app/feature/browser_v2/data/groups/browser_group.dart';
@@ -16,7 +17,7 @@ class BrowserCollection<T extends BrowserEntity> {
 
   List<T> get entities => _map.values.map((n) => n.value).toList();
 
-  ListenableState<List<String>> get idsState => _idsState;
+  NotNullListenableState<List<String>> get idsState => _idsState;
 
   ListenableState<String?> get activeEntityIdState => _activeEntityIdState;
 
@@ -80,7 +81,8 @@ class BrowserCollection<T extends BrowserEntity> {
     return removedIndex;
   }
 
-  ListenableState<T>? getListenable(String entityId) => getNotifier(entityId);
+  NotNullListenableState<T>? getListenable(String entityId) =>
+      getNotifier(entityId);
 
   void updateTitle({
     required String id,

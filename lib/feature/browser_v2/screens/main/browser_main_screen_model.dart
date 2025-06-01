@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:app/core/wm/not_null_listenable_state.dart';
 import 'package:app/feature/browser_v2/custom_web_controller.dart';
 import 'package:app/feature/browser_v2/data/groups/browser_group.dart';
 import 'package:app/feature/browser_v2/data/tabs/browser_tab.dart';
@@ -20,16 +21,16 @@ class BrowserMainScreenModel extends ElementaryModel {
   ) : super(errorHandler: errorHandler);
   final BrowserService _browserService;
 
-  ListenableState<BrowserGroup?> get activeGroupState =>
-      _browserService.tM.activeGroupState;
+  ListenableState<String?> get activeGroupIdState =>
+      _browserService.tM.activeGroupIdState;
 
-  ListenableState<BrowserTab?> get activeTabState =>
-      _browserService.tM.activeTabState;
+  ListenableState<String?> get activeTabIdState =>
+      _browserService.tM.activeTabIdState;
 
-  ListenableState<Map<String, BrowserTab>> get allTabsState =>
-      _browserService.tM.allTabsState;
+  ListenableState<List<String>> get allTabsIdsState =>
+      _browserService.tM.allTabsIdsState;
 
-  String? get activeTabId => activeTabState.value?.id;
+  String? get activeTabId => activeTabIdState.value;
 
   void setActiveGroup(String groupId) {
     _browserService.tM.setActiveGroup(groupId);
@@ -98,7 +99,7 @@ class BrowserMainScreenModel extends ElementaryModel {
   }
 
   void copyTabUrl(String tabId) {
-    final url = _browserService.tM.activeTab?.url;
+    final url = _browserService.tM.getTabUriId(tabId);
 
     if (url == null) {
       return;
@@ -116,7 +117,7 @@ class BrowserMainScreenModel extends ElementaryModel {
   }
 
   void clearUrlFromHistory(String tabId) {
-    final url = _browserService.tM.activeTab?.url;
+    final url = _browserService.tM.getTabUriId(tabId);
 
     if (url == null) {
       return;
@@ -135,8 +136,8 @@ class BrowserMainScreenModel extends ElementaryModel {
         initTabId: tabId,
       );
 
-  List<BrowserTab> getGroupTabs(String groupId) {
-    return _browserService.tabs.getGroupTabs(groupId);
+  List<NotNullListenableState<BrowserTab>> getGroupTabs(String groupId) {
+    return _browserService.tabs.getGroupTabsListenable(groupId);
   }
 
   String? getTabIdByIndex({

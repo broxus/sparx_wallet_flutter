@@ -1,5 +1,6 @@
 import 'dart:collection';
 
+import 'package:app/core/wm/not_null_listenable_state.dart';
 import 'package:app/feature/browser_v2/custom_web_controller.dart';
 import 'package:app/feature/browser_v2/data/tabs/browser_tab.dart';
 import 'package:app/feature/browser_v2/screens/main/widgets/pages/browser_start_view.dart';
@@ -17,14 +18,14 @@ class BrowserPage extends ElementaryWidget<BrowserPageWidgetModel> {
     required VoidCallback onDispose,
     required ValueChanged<int> onLoadingProgressChanged,
     required this.width,
-    required this.tab,
+    required NotNullListenableState<BrowserTab> listenable,
     Key? key,
     WidgetModelFactory<BrowserPageWidgetModel>? wmFactory,
   }) : super(
           wmFactory ??
               (ctx) => defaultBrowserPageWidgetModelFactory(
                     ctx,
-                    tab: tab,
+                    listenable: listenable,
                     onCreate: onCreate,
                     onWebPageScrollChanged: onWebPageScrollChanged,
                     onDispose: onDispose,
@@ -34,7 +35,6 @@ class BrowserPage extends ElementaryWidget<BrowserPageWidgetModel> {
         );
 
   final double width;
-  final BrowserTab tab;
 
   @override
   Widget build(BrowserPageWidgetModel wm) {
