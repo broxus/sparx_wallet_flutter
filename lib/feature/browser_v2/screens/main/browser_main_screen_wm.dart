@@ -82,7 +82,7 @@ class BrowserMainScreenWidgetModel
     ),
   );
 
-  late final _groupMenuDelegate = BrowserGroupMenuDelegate();
+  final _groupMenuDelegate = BrowserGroupMenuDelegate();
 
   final _pastGoDelegate = BrowserPastGoDelegate();
 

@@ -128,7 +128,6 @@ class _GroupsList extends StatelessWidget {
           child: SingleChildScrollView(
             physics: const ClampingScrollPhysics(),
             child: PrimaryShapedContainerColumn(
-              // // TODO(knightforce): add to color palette
               backgroundColor: context.themeStyleV2.colors.background2,
               margin: const EdgeInsets.symmetric(horizontal: DimensSizeV2.d24),
               children: [

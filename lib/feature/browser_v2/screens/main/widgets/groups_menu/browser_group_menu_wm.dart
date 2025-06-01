@@ -75,6 +75,10 @@ class BrowserGroupMenuWidgetModel
   }
 
   void onPressedDone() {
+    if (_editGroupsState.value) {
+      _editGroupsState.accept(false);
+      return;
+    }
     Navigator.of(context).pop();
   }
 

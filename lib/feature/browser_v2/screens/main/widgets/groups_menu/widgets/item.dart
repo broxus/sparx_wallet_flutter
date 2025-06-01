@@ -59,7 +59,6 @@ class BrowserGroupMenuItem extends StatelessWidget {
                       endActionPane: ActionPane(
                         motion: const BehindMotion(),
                         extentRatio: 0.24,
-                        //dragDismissible: false,
                         children: [
                           _MenuButton(
                             icon: LucideIcons.pencilLine,
@@ -172,10 +171,16 @@ class _Content extends StatelessWidget {
               ),
             ),
           ),
-          DoubleSourceBuilder<BrowserGroup, bool>(
+          TripleSourceBuilder<BrowserGroup, bool, String?>(
             firstSource: listenable,
             secondSource: editGroupsState,
-            builder: (_, BrowserGroup? group, bool? isEdit) {
+            thirdSource: activeGroupIdState,
+            builder: (
+              _,
+              BrowserGroup? group,
+              bool? isEdit,
+              String? activeGroupId,
+            ) {
               isEdit ??= false;
 
               if ((group?.isEditable ?? false) && isEdit) {
@@ -183,27 +188,17 @@ class _Content extends StatelessWidget {
                   onPressedEdit: onPressedEdit,
                   onPressedRemove: onPressedRemove,
                 );
-              }
-
-              return const SizedBox.shrink();
-            },
-          ),
-          StateNotifierBuilder<String?>(
-            listenableState: activeGroupIdState,
-            builder: (_, String? activeGroupId) {
-              return Padding(
-                padding: const EdgeInsets.only(
-                  right: DimensSizeV2.d16,
-                ),
-                child: AnimatedOpacity(
-                  opacity: activeGroupId == listenable.value.id ? 1 : 0,
-                  duration: _duration,
-                  child: const Icon(
+              } else if (activeGroupId == listenable.value.id) {
+                return const Padding(
+                  padding: EdgeInsets.only(right: DimensSizeV2.d16),
+                  child: Icon(
                     LucideIcons.check,
                     size: DimensSizeV2.d16,
                   ),
-                ),
-              );
+                );
+              }
+
+              return const SizedBox.shrink();
             },
           ),
         ],
