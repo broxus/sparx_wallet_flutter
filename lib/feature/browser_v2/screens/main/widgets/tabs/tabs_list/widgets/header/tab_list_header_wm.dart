@@ -48,6 +48,7 @@ class TabListHeaderWidgetModel
   void initWidgetModel() {
     model.groupsIdsState.addListener(_handleGroupsIds);
     selectedGroupIdState.addListener(_handleSelectedId);
+    WidgetsBinding.instance.addPostFrameCallback((_) => _scrollToGroup());
     super.initWidgetModel();
   }
 
@@ -86,7 +87,6 @@ class TabListHeaderWidgetModel
     }
 
     _uiState.accept(result..add(_newGroupUiModel));
-
   }
 
   void _handleSelectedId() {
@@ -94,11 +94,11 @@ class TabListHeaderWidgetModel
   }
 
   void _scrollToGroup() {
-    if (_itemWidth == null) {
+    final selectedId = selectedGroupIdState.value;
+
+    if (_itemWidth == null || selectedId == null) {
       return;
     }
-
-    final selectedId = selectedGroupIdState.value;
 
     final index = _uiState.value.indexWhere(
       (item) => item is TabListHeaderGroupUiModel && item.id == selectedId,
