@@ -407,6 +407,7 @@ class BrowserTabsManager {
     if (groupId == activeGroupId) {
       if (removeIndex != null) {
         _groupsCollection.setActiveByIndex(removeIndex);
+        setActiveTab(null);
       } else {
         _groupsCollection.setActiveById(tabsGroupId);
       }

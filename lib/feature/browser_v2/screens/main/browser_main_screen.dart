@@ -75,7 +75,8 @@ class BrowserMainScreen extends ElementaryWidget<BrowserMainScreenWidgetModel> {
                   opacityAnimation: wm.animations.listMenuOpacityAnimation,
                   child: BrowserTabsListActionBar(
                     key: wm.keys.listKey,
-                    activeTabState: wm.activeTabIdState,
+                    allTabsIdsState: wm.allTabsIdsState,
+                    activeTabIdState: wm.activeTabIdState,
                     onCloseAllPressed: wm.tabs.onCloseAllPressed,
                     onGroupsMenuPressed: wm.onGroupsMenuPressed,
                     onPlusPressed: wm.tabs.addTab,

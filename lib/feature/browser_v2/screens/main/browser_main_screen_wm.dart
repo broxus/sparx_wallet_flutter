@@ -170,6 +170,8 @@ class BrowserMainScreenWidgetModel
 
   ListenableState<bool> get viewVisibleState => _viewVisibleState;
 
+  ListenableState<List<String>?> get allTabsIdsState => model.allTabsIdsState;
+
   ListenableState<String?> get activeTabIdState => model.activeTabIdState;
 
   ListenableState<NavigationUrlPhysicMode> get navigationScrollModeState =>

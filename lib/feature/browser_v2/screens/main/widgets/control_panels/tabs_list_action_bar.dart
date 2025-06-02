@@ -7,7 +7,8 @@ import 'package:ui_components_lib/v2/ui_components_lib_v2.dart';
 
 class BrowserTabsListActionBar extends StatelessWidget {
   const BrowserTabsListActionBar({
-    required this.activeTabState,
+    required this.allTabsIdsState,
+    required this.activeTabIdState,
     required this.onCloseAllPressed,
     required this.onGroupsMenuPressed,
     required this.onPlusPressed,
@@ -15,7 +16,8 @@ class BrowserTabsListActionBar extends StatelessWidget {
     super.key,
   });
 
-  final ListenableState<String?> activeTabState;
+  final ListenableState<List<String>?> allTabsIdsState;
+  final ListenableState<String?> activeTabIdState;
   final VoidCallback onCloseAllPressed;
   final VoidCallback onGroupsMenuPressed;
   final VoidCallback onPlusPressed;
@@ -29,64 +31,93 @@ class BrowserTabsListActionBar extends StatelessWidget {
 
     return SizedBox(
       height: height,
-      child: StateNotifierBuilder<String?>(
-        listenableState: activeTabState,
-        builder: (_, String? tabId) {
-          return ColoredBox(
-            color: colors.background1,
-            child: SizedBox(
-              height: DimensSizeV2.d48,
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  BrowserTextButton(
+      child: ColoredBox(
+        color: colors.background1,
+        child: SizedBox(
+          height: DimensSizeV2.d48,
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              StateNotifierBuilder<List<String>?>(
+                listenableState: allTabsIdsState,
+                builder: (_, List<String>? ids) {
+                  return _Button(
+                    onPressed: onCloseAllPressed,
                     title: LocaleKeys.browserCloseAll.tr(),
                     alignment: Alignment.centerLeft,
-                    onPressed: onCloseAllPressed,
-                  ),
-                  GestureDetector(
-                    behavior: HitTestBehavior.opaque,
-                    onTap: onGroupsMenuPressed,
-                    child: SizedBox(
-                      width: DimensSizeV2.d32,
-                      height: double.infinity,
-                      child: Icon(
-                        LucideIcons.menu,
-                        size: DimensSizeV2.d16,
-                        color: colors.content3,
-                      ),
-                    ),
-                  ),
-                  // удалить
-                  SizedBox(
-                    width: DimensSizeV2.d32,
-                    height: double.infinity,
-                    child: GestureDetector(
-                      behavior: HitTestBehavior.opaque,
-                      onTap: onPlusPressed,
-                      child: Icon(
-                        LucideIcons.plus,
-                        size: DimensSizeV2.d16,
-                        color: colors.content3,
-                      ),
-                    ),
-                  ),
-                  IgnorePointer(
-                    ignoring: tabId == null,
-                    child: Opacity(
-                      opacity: tabId == null ? .7 : 1,
-                      child: BrowserTextButton(
-                        title: LocaleKeys.done.tr(),
-                        alignment: Alignment.centerRight,
-                        onPressed: onDonePressed,
-                      ),
-                    ),
-                  ),
-                ],
+                    isActive: ids?.isNotEmpty ?? false,
+                  );
+                },
               ),
-            ),
-          );
-        },
+              GestureDetector(
+                behavior: HitTestBehavior.opaque,
+                onTap: onGroupsMenuPressed,
+                child: SizedBox(
+                  width: DimensSizeV2.d32,
+                  height: double.infinity,
+                  child: Icon(
+                    LucideIcons.menu,
+                    size: DimensSizeV2.d16,
+                    color: colors.content3,
+                  ),
+                ),
+              ),
+              SizedBox(
+                width: DimensSizeV2.d32,
+                height: double.infinity,
+                child: GestureDetector(
+                  behavior: HitTestBehavior.opaque,
+                  onTap: onPlusPressed,
+                  child: Icon(
+                    LucideIcons.plus,
+                    size: DimensSizeV2.d16,
+                    color: colors.content3,
+                  ),
+                ),
+              ),
+              StateNotifierBuilder<String?>(
+                listenableState: activeTabIdState,
+                builder: (_, String? id) {
+                  return _Button(
+                    title: LocaleKeys.done.tr(),
+                    alignment: Alignment.centerRight,
+                    onPressed: onDonePressed,
+                    isActive: id != null,
+                  );
+                },
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+class _Button extends StatelessWidget {
+  const _Button({
+    required this.title,
+    required this.alignment,
+    required this.onPressed,
+    required this.isActive,
+  });
+
+  final String title;
+  final Alignment alignment;
+  final VoidCallback onPressed;
+  final bool isActive;
+
+  @override
+  Widget build(BuildContext context) {
+    return IgnorePointer(
+      ignoring: !isActive,
+      child: Opacity(
+        opacity: isActive ? 1 : .5,
+        child: BrowserTextButton(
+          title: title,
+          alignment: alignment,
+          onPressed: onPressed,
+        ),
       ),
     );
   }
