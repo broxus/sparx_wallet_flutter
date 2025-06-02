@@ -39,6 +39,9 @@ class NftPageWidgetModel
         ),
   );
   late final _displayMode = createNotifierFromStream(model.displayModeStream);
+  late final _marketplaceUrl = createNotifierFromStream(
+    model.marketplaceUrlStream,
+  );
 
   StreamSubscription<Address?>? _subscription;
   StreamSubscription<NftTransferEvent>? _transferEventSubscription;
@@ -50,6 +53,8 @@ class NftPageWidgetModel
   ListenableState<Map<Address, List<PendingNft>>> get pending => _pending;
 
   ListenableState<NftDisplayMode?> get displayMode => _displayMode;
+
+  ListenableState<String?> get marketplaceUrl => _marketplaceUrl;
 
   ThemeStyleV2 get theme => context.themeStyleV2;
 

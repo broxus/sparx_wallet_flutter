@@ -22,6 +22,11 @@ class NftPageModel extends ElementaryModel {
   Stream<TransportStrategy> get currentTransportStream =>
       _nekotonRepository.currentTransportStream;
 
+  Stream<String?> get marketplaceUrlStream =>
+      _nekotonRepository.currentTransportStream.map(
+        (transport) => transport.nftInformation?.marketplaceUrl,
+      );
+
   Stream<NftDisplayMode?> get displayModeStream =>
       _nftService.displayModeStream;
 

@@ -1,7 +1,7 @@
+import 'package:app/feature/browser_v1/browser.dart';
 import 'package:app/generated/generated.dart';
 import 'package:flutter/material.dart';
 import 'package:ui_components_lib/v2/ui_components_lib_v2.dart';
-import 'package:url_launcher/url_launcher.dart';
 
 class EmptyNftList extends StatelessWidget {
   const EmptyNftList({
@@ -10,7 +10,7 @@ class EmptyNftList extends StatelessWidget {
     super.key,
   });
 
-  final Uri? marketplaceUrl;
+  final String? marketplaceUrl;
   final VoidCallback onAddNftPressed;
 
   @override
@@ -59,10 +59,7 @@ class EmptyNftList extends StatelessWidget {
                   padding: const EdgeInsets.only(top: DimensSizeV2.d16),
                   child: AccentButton(
                     buttonShape: ButtonShape.pill,
-                    onPressed: () => launchUrl(
-                      marketplaceUrl!,
-                      mode: LaunchMode.externalApplication,
-                    ),
+                    onPressed: () => openBrowserUrl(marketplaceUrl!),
                     title: LocaleKeys.visitMarketplace.tr(),
                   ),
                 ),

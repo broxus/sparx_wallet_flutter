@@ -121,15 +121,23 @@ class NftItemPageWidget extends ElementaryWidget<NftItemPageWidgetModel> {
                         );
                       },
                     ),
-                    if (wm.canOpenInMarketplace)
-                      Padding(
-                        padding: const EdgeInsets.only(top: DimensSizeV2.d8),
-                        child: AccentButton(
-                          buttonShape: ButtonShape.pill,
-                          title: LocaleKeys.openInMarketplace.tr(),
-                          onPressed: wm.onOpenInMarketplace,
-                        ),
-                      ),
+                    StateNotifierBuilder(
+                      listenableState: wm.marketplaceUrl,
+                      builder: (_, marketplaceUrl) {
+                        if (marketplaceUrl == null) {
+                          return const SizedBox.shrink();
+                        }
+
+                        return Padding(
+                          padding: const EdgeInsets.only(top: DimensSizeV2.d8),
+                          child: AccentButton(
+                            buttonShape: ButtonShape.pill,
+                            title: LocaleKeys.openInMarketplace.tr(),
+                            onPressed: wm.onOpenInMarketplace,
+                          ),
+                        );
+                      },
+                    ),
                     const SizedBox(height: DimensSize.d16),
                   ],
                 ),

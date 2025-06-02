@@ -16,6 +16,11 @@ class NftItemPageModel extends ElementaryModel {
   final CurrentAccountsService _currentAccountsService;
   final NekotonRepository _nekotonRepository;
 
+  Stream<String?> get marketplaceUrlStream =>
+      _nekotonRepository.currentTransportStream.map(
+        (transport) => transport.nftInformation?.marketplaceUrl,
+      );
+
   Stream<KeyAccount?> get currentAccount =>
       _currentAccountsService.currentActiveAccountStream;
 

@@ -36,9 +36,12 @@ class NftPageWidget extends ElementaryWidget<NftPageWidgetModel> {
                 if (collections == null || collections.isEmpty) {
                   return Expanded(
                     child: Center(
-                      child: EmptyNftList(
-                        marketplaceUrl: null, // TODO(komarov): marketplace URL
-                        onAddNftPressed: wm.onAddNftPressed,
+                      child: StateNotifierBuilder(
+                        listenableState: wm.marketplaceUrl,
+                        builder: (_, marketplaceUrl) => EmptyNftList(
+                          marketplaceUrl: marketplaceUrl,
+                          onAddNftPressed: wm.onAddNftPressed,
+                        ),
                       ),
                     ),
                   );

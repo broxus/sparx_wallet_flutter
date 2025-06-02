@@ -31,6 +31,8 @@ class NftItemPageWidgetModel
   late final _item = createNotifier<NftItem>();
   late final _collection = createNotifier<NftCollection>();
   late final _currentAccount = createNotifierFromStream(model.currentAccount);
+  late final _marketplaceUrl =
+      createNotifierFromStream(model.marketplaceUrlStream);
 
   ListenableState<NftItem> get item => _item;
 
@@ -38,9 +40,9 @@ class NftItemPageWidgetModel
 
   ListenableState<KeyAccount?> get currentAccount => _currentAccount;
 
-  ThemeStyleV2 get theme => context.themeStyleV2;
+  ListenableState<String?> get marketplaceUrl => _marketplaceUrl;
 
-  bool get canOpenInMarketplace => false;
+  ThemeStyleV2 get theme => context.themeStyleV2;
 
   @override
   void initWidgetModel() {
@@ -83,7 +85,15 @@ class NftItemPageWidgetModel
     );
   }
 
-  void onOpenInMarketplace() {}
+  void onOpenInMarketplace() {
+    final item = _item.value;
+    final marketplaceUrl = _marketplaceUrl.value;
+    if (item == null || marketplaceUrl == null) return;
+
+    openBrowserUrl(
+      '$marketplaceUrl/nft/${item.nft.address}',
+    );
+  }
 
   Future<void> _init() async {
     final (item, collection) = await FutureExt.wait2(
