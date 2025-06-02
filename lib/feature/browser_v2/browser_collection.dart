@@ -9,8 +9,6 @@ import 'package:elementary_helper/elementary_helper.dart';
 import 'package:flutter/cupertino.dart';
 
 class BrowserCollection<T extends BrowserEntity> {
-  BrowserCollection();
-
   final _map = <String, NotNullNotifier<T>>{};
 
   final _idsState = NotNullNotifier<List<String>>([]);
@@ -20,6 +18,7 @@ class BrowserCollection<T extends BrowserEntity> {
   List<T> get entities => _map.values.map((n) => n.value).toList();
 
   NotNullListenableState<List<String>> get idsState => _idsState;
+  NotNullNotifier<List<String>> get test => _idsState;
 
   ListenableState<String?> get activeEntityIdState => _activeEntityIdState;
 

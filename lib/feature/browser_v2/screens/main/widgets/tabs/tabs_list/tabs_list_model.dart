@@ -15,8 +15,15 @@ class BrowserTabsListModel extends ElementaryModel {
 
   final BrowserService _browserService;
 
+  NotNullListenableState<List<String>> get allTabsIdsState =>
+      _browserService.tabs.allTabsIdsState;
+
   List<NotNullListenableState<BrowserTab>> getGroupTabs(String groupId) {
     return _browserService.tabs.getGroupTabsListenable(groupId);
+  }
+
+  List<String>? getTabIds(String groupId) {
+    return _browserService.tabs.getTabIds(groupId);
   }
 
   void removeBrowserTab({

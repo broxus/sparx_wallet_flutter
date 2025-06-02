@@ -55,12 +55,14 @@ class BrowserTabsListWidgetModel
   @override
   void initWidgetModel() {
     selectedGroupIdState.addListener(_handleSelectedGroup);
+    model.allTabsIdsState.addListener(_handleAllTabs);
     super.initWidgetModel();
   }
 
   @override
   void dispose() {
     selectedGroupIdState.removeListener(_handleSelectedGroup);
+    model.allTabsIdsState.removeListener(_handleAllTabs);
     super.dispose();
   }
 
@@ -84,5 +86,23 @@ class BrowserTabsListWidgetModel
     }
 
     _selectedTabsState.accept(model.getGroupTabs(groupId));
+  }
+
+  void _handleAllTabs() {
+    Future(() {
+      final groupId = selectedGroupIdState.value;
+
+      if (groupId == null) {
+        return;
+      }
+
+      final list = model.getTabIds(groupId);
+
+      if (_selectedTabsState.value?.length == list?.length) {
+        return;
+      }
+
+      _selectedTabsState.accept(model.getGroupTabs(groupId));
+    });
   }
 }

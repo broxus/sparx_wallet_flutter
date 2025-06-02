@@ -55,7 +55,7 @@ class BrowserTabsManager {
       _groupsCollection.idsState;
 
   NotNullListenableState<List<String>> get allTabsIdsState =>
-      _groupsCollection.idsState;
+      _tabsCollection.idsState;
 
   ListenableState<ImageCache?> get screenshotsState =>
       _screenShooter.screenshotsState;
@@ -219,11 +219,11 @@ class BrowserTabsManager {
 
     final tab = BrowserTab.create(url: url);
 
-    _tabsCollection.add(tab);
     _groupsCollection.addTabId(
       groupId: targetGroupId,
       tabId: tab.id,
     );
+    _tabsCollection.add(tab);
 
     _browserGroupsStorageService.saveGroups(_groupsCollection.entities);
     _browserTabsStorageService.saveBrowserTabs(_tabsCollection.entities);
@@ -308,6 +308,9 @@ class BrowserTabsManager {
       index: index,
     );
   }
+
+  List<String>? getTabIds(String groupId) =>
+      _groupsCollection.getTabIds(groupId);
 
   List<NotNullListenableState<BrowserTab>> getGroupTabsListenable(
     String groupId,
