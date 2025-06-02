@@ -108,15 +108,18 @@ class BrowserTabsAndGroupsDelegate implements BrowserTabsAndGroupsUi {
   }) {
     final data = renderManager.getRenderData(tabId);
 
-    _tabAnimationTypeState.accept(
-      ShowViewAnimationType(
-        tabX: data?.xLeft,
-        tabY: data?.yTop,
-      ),
-    );
-    model
-      ..setActiveGroup(groupId)
-      ..setActiveTab(tabId);
+    if (tabId == _activeTab?.id) {
+      _tabAnimationTypeState.accept(
+        ShowViewAnimationType(
+          tabX: data?.xLeft,
+          tabY: data?.yTop,
+        ),
+      );
+    } else {
+      model
+        ..setActiveGroup(groupId)
+        ..setActiveTab(tabId);
+    }
     onChangeTab();
   }
 
