@@ -111,20 +111,22 @@ class BrowserTabsManager {
 
   Future<void> clear() async {
     await clearGroups();
+    await clearTabs();
   }
 
   Future<void> clearGroups() async {
     await _browserGroupsStorageService.clear();
     _groupsCollection.clear();
-    await clearTabs();
   }
 
   /// Clear all browser tabs
   Future<void> clearTabs() async {
     await _browserTabsStorageService.clear();
     await _screenShooter.clear();
+    _groupsCollection.clearTabs();
     _tabsCollection.clear();
   }
+
 
   void updateCachedUrl(String tabId, Uri uri) {
     _tabsCollection.updateUrl(tabId: tabId, uri: uri);

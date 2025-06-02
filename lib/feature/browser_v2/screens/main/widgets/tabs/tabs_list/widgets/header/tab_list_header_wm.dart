@@ -87,11 +87,6 @@ class TabListHeaderWidgetModel
 
     _uiState.accept(result..add(_newGroupUiModel));
 
-    // if (id != null) {
-    //   _selectedTabsState.accept(
-    //     model.getGroupTabs(id),
-    //   );
-    // }
   }
 
   void _handleSelectedId() {
