@@ -69,6 +69,9 @@ class BrowserTabsAndGroupsDelegate implements BrowserTabsAndGroupsUi {
     initValue: model.activeGroupIdState.value,
   );
 
+  int? _tabsPrevCount;
+  int? _tabsCount;
+
   @override
   ListenableState<String?> get selectedGroupIdState => _selectedGroupIdState;
 
@@ -262,6 +265,12 @@ class BrowserTabsAndGroupsDelegate implements BrowserTabsAndGroupsUi {
 
     onUpdateActiveTab();
 
+    if (_tabsCount != null &&
+        _tabsPrevCount != null &&
+        _tabsCount! < _tabsPrevCount!) {
+      return;
+    }
+
     final data = renderManager.getRenderData(activeTabId);
 
     unawaited(
@@ -282,6 +291,9 @@ class BrowserTabsAndGroupsDelegate implements BrowserTabsAndGroupsUi {
   }
 
   void _handleAllTabs() {
+    _tabsPrevCount = _tabsCount;
+    _tabsCount = model.allTabsIdsState.value.length;
+
     final activeGroupId = model.activeGroupIdState.value;
 
     if (activeGroupId != null) {

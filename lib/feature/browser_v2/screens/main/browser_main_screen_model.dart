@@ -27,7 +27,7 @@ class BrowserMainScreenModel extends ElementaryModel {
   ListenableState<String?> get activeTabIdState =>
       _browserService.tM.activeTabIdState;
 
-  ListenableState<List<String>> get allTabsIdsState =>
+  NotNullListenableState<List<String>> get allTabsIdsState =>
       _browserService.tM.allTabsIdsState;
 
   String? get activeTabId => activeTabIdState.value;
