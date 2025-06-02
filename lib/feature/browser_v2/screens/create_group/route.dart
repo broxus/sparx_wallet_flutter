@@ -13,7 +13,9 @@ class CreateBrowserGroupRoute
           name: 'createBrowserGroup',
           path: '/createBrowserGroup',
           isBottomNavigationBarVisible: false,
-          builder: (context, data, __) => CreateBrowserGroupScreen(),
+          builder: (context, data, __) => CreateBrowserGroupScreen(
+            tabId: data.tabId,
+          ),
         );
 
   @override

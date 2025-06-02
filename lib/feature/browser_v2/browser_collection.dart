@@ -18,7 +18,6 @@ class BrowserCollection<T extends BrowserEntity> {
   List<T> get entities => _map.values.map((n) => n.value).toList();
 
   NotNullListenableState<List<String>> get idsState => _idsState;
-  NotNullNotifier<List<String>> get test => _idsState;
 
   ListenableState<String?> get activeEntityIdState => _activeEntityIdState;
 

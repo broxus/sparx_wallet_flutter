@@ -1,7 +1,10 @@
+import 'package:app/core/wm/not_null_listenable_state.dart';
 import 'package:app/feature/browser_v2/data/tabs/browser_tab.dart';
+import 'package:app/feature/browser_v2/data/tabs/tabs_data.dart';
 import 'package:app/feature/browser_v2/domain/service/browser_service.dart';
 import 'package:app/feature/browser_v2/screens/create_group/create_browser_group_screen.dart';
 import 'package:elementary/elementary.dart';
+import 'package:elementary_helper/elementary_helper.dart';
 
 /// [ElementaryModel] for [CreateBrowserGroupScreen]
 class CreateBrowserGroupScreenModel extends ElementaryModel {
@@ -12,11 +15,14 @@ class CreateBrowserGroupScreenModel extends ElementaryModel {
 
   final BrowserService _browserService;
 
-  BrowserTab? getTabsByIds(String? tabId) {
+  ListenableState<ImageCache?> get screenshotsState =>
+      _browserService.tM.screenshotsState;
+
+  NotNullListenableState<BrowserTab>? getTabById(String? tabId) {
     if (tabId == null) {
       return null;
     }
 
-    return _browserService.tabs.getTabById(tabId);
+    return _browserService.tabs.getTabListenableById(tabId);
   }
 }

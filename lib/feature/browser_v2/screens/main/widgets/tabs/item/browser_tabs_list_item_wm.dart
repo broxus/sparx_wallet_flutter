@@ -11,7 +11,6 @@ import 'package:app/feature/browser_v2/screens/main/widgets/tabs/item/browser_ta
 import 'package:elementary/elementary.dart';
 import 'package:elementary_helper/elementary_helper.dart';
 import 'package:flutter/widgets.dart';
-import 'package:ui_components_lib/v2/ui_components_lib_v2.dart';
 
 /// Factory method for creating [BrowserTabsListItemWidgetModel]
 BrowserTabsListItemWidgetModel defaultBrowserTabsListItemWidgetModelFactory(
@@ -46,8 +45,6 @@ class BrowserTabsListItemWidgetModel
   ListenableState<bool?> get activeState => _activeState;
 
   ListenableState<File?> get screenShotState => _screenShotState;
-
-  ColorsPaletteV2 get colors => context.themeStyleV2.colors;
 
   String get id => tabNotifier.value.id;
 

@@ -1,13 +1,9 @@
-import 'dart:io';
-
 import 'package:app/core/wm/not_null_listenable_state.dart';
 import 'package:app/feature/browser_v2/data/tabs/browser_tab.dart';
 import 'package:app/feature/browser_v2/screens/main/widgets/tabs/item/browser_tabs_list_item_wm.dart';
-import 'package:app/generated/generated.dart';
+import 'package:app/feature/browser_v2/screens/main/widgets/tabs/item/widgets/browser_tabs_list_Item_body.dart';
 import 'package:elementary/elementary.dart';
-import 'package:elementary_helper/elementary_helper.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/rendering.dart';
 import 'package:lucide_icons_flutter/lucide_icons.dart';
 import 'package:render_metrics/render_metrics.dart';
 import 'package:ui_components_lib/ui_components_lib.dart';
@@ -44,38 +40,12 @@ class BrowserTabsListItem
         manager: renderManager,
         child: Stack(
           children: [
-            _ReactiveShapeWidget(
+            BrowserTabsListItemBody(
               activeState: wm.activeState,
-              backgroundColor: wm.colors.background1,
-              activeColor: ColorsResV2.p75,
-              inactiveColor: wm.colors.primaryA.withAlpha(25),
-              child: InkWell(
-                onTap: onPressed,
-                child: Stack(
-                  children: [
-                    SizedBox(
-                      width: double.infinity,
-                      child: StateNotifierBuilder<File?>(
-                        listenableState: wm.screenShotState,
-                        builder: (_, File? file) {
-                          return file == null
-                              ? const _EmptyContent()
-                              : Image.file(
-                                file,
-                                fit: BoxFit.cover,
-                                errorBuilder: (_, __, ___) =>
-                                    const SizedBox(),
-                              );
-                        },
-                      ),
-                    ),
-                    _Header(
-                      tabNotifier: wm.tabNotifier,
-                      onPressedClose: onClosePressed,
-                    ),
-                  ],
-                ),
-              ),
+              tabNotifier: wm.tabNotifier,
+              screenShotState: wm.screenShotState,
+              onPressed: onPressed,
+              onClosePressed: onClosePressed,
             ),
             Positioned(
               bottom: 0,
@@ -87,78 +57,6 @@ class BrowserTabsListItem
           ],
         ),
       ),
-    );
-  }
-}
-
-class _Header extends StatelessWidget {
-  const _Header({
-    required this.tabNotifier,
-    this.onPressedClose,
-  });
-
-  final NotNullListenableState<BrowserTab> tabNotifier;
-  final VoidCallback? onPressedClose;
-
-  @override
-  Widget build(BuildContext context) {
-    final textStyles = context.themeStyleV2.textStyles;
-    final colors = context.themeStyleV2.colors;
-
-    return SizedBox(
-      height: DimensSizeV2.d36,
-      child: DecoratedBox(
-        decoration: BoxDecoration(
-          color: colors.background2,
-        ),
-        child: Row(
-          children: [
-            Expanded(
-              child: Padding(
-                padding: const EdgeInsets.only(left: DimensSizeV2.d12),
-                child: StateNotifierBuilder<BrowserTab>(
-                  listenableState: tabNotifier,
-                  builder: (_, BrowserTab? tab) {
-                    return Text(
-                      tab?.title ?? LocaleKeys.startPage.tr(),
-                      style: textStyles.labelXSmall.copyWith(
-                        color: colors.content2,
-                      ),
-                      maxLines: 1,
-                      overflow: TextOverflow.ellipsis,
-                    );
-                  },
-                ),
-              ),
-            ),
-            GestureDetector(
-              behavior: HitTestBehavior.opaque,
-              onTap: onPressedClose,
-              child: SizedBox(
-                width: DimensSizeV2.d36,
-                height: double.infinity,
-                child: Icon(
-                  LucideIcons.circleX,
-                  size: DimensSizeV2.d20,
-                  color: colors.content3,
-                ),
-              ),
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-}
-
-class _EmptyContent extends StatelessWidget {
-  const _EmptyContent();
-
-  @override
-  Widget build(BuildContext context) {
-    return Assets.images.bgNetwork.image(
-      width: double.infinity,
-      fit: BoxFit.cover,
     );
   }
 }
@@ -197,104 +95,5 @@ class _Menu extends StatelessWidget {
         ),
       ),
     );
-  }
-}
-
-class _ReactiveShapeWidget extends SingleChildRenderObjectWidget {
-  const _ReactiveShapeWidget({
-    required this.activeState,
-    required this.backgroundColor,
-    required this.activeColor,
-    required this.inactiveColor,
-    required Widget child,
-  }) : super(child: child);
-
-  final ListenableState<bool?> activeState;
-  final Color backgroundColor;
-  final Color activeColor;
-  final Color inactiveColor;
-
-  @override
-  RenderObject createRenderObject(BuildContext context) {
-    return _ReactiveShapeRenderBox(
-      activeState,
-      backgroundColor,
-      activeColor,
-      inactiveColor,
-    );
-  }
-
-  @override
-  void updateRenderObject(
-    BuildContext context,
-    covariant _ReactiveShapeRenderBox renderObject,
-  ) {
-    renderObject
-      ..backgroundColor = backgroundColor
-      ..activeColor = activeColor
-      ..inactiveColor = inactiveColor;
-  }
-}
-
-class _ReactiveShapeRenderBox extends RenderProxyBox {
-  _ReactiveShapeRenderBox(
-    this.activeState,
-    this.backgroundColor,
-    this.activeColor,
-    this.inactiveColor,
-  ) {
-    activeState.addListener(_onChanged);
-  }
-
-  final ListenableState<bool?> activeState;
-  Color backgroundColor;
-  Color activeColor;
-  Color inactiveColor;
-
-  final _radius = const Radius.circular(DimensRadiusV2.radius16);
-
-  void _onChanged() {
-    markNeedsPaint();
-  }
-
-  @override
-  void detach() {
-    activeState.removeListener(_onChanged);
-    super.detach();
-  }
-
-  @override
-  void paint(PaintingContext context, Offset offset) {
-    final canvas = context.canvas;
-    final isActive = activeState.value ?? false;
-
-    final borderWidth = isActive ? DimensSizeV2.d4 : DimensSizeV2.d2;
-    final rect = offset & size;
-    final rRect = RRect.fromRectAndRadius(offset & size, _radius);
-
-    final fillPaint = Paint()
-      ..color = backgroundColor
-      ..style = PaintingStyle.fill;
-
-    canvas.drawRRect(rRect, fillPaint);
-
-    if (child != null) {
-      context.pushClipRRect(
-        needsCompositing,
-        offset,
-        rect,
-        rRect,
-        (innerContext, innerOffset) {
-          child!.paint(innerContext, innerOffset);
-        },
-      );
-    }
-
-    final borderPaint = Paint()
-      ..color = isActive ? activeColor : inactiveColor
-      ..style = PaintingStyle.stroke
-      ..strokeWidth = borderWidth;
-
-    canvas.drawRRect(rRect.deflate(borderWidth / 2), borderPaint);
   }
 }

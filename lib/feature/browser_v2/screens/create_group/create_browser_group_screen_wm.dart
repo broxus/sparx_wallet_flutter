@@ -3,8 +3,10 @@ import 'dart:io';
 import 'package:app/app/router/router.dart';
 import 'package:app/core/error_handler_factory.dart';
 import 'package:app/core/wm/custom_wm.dart';
+import 'package:app/core/wm/not_null_listenable_state.dart';
 import 'package:app/di/di.dart';
 import 'package:app/feature/browser_v2/data/tabs/browser_tab.dart';
+import 'package:app/feature/browser_v2/data/tabs/tabs_data.dart';
 import 'package:app/feature/browser_v2/screens/create_group/create_browser_group_screen.dart';
 import 'package:app/feature/browser_v2/screens/create_group/create_browser_group_screen_model.dart';
 import 'package:elementary/elementary.dart';
@@ -41,8 +43,8 @@ class CreateBrowserGroupScreenWidgetModel extends CustomWidgetModel<
 
   final String? _tabId;
   final int _maxLength = 24;
+  String? _lastFilePath;
 
-  late final _tabState = createNotifier<BrowserTab?>();
   late final _screenShotState = createNotifier<File?>();
   late final _errorState = createNotifier<bool>(false);
 
@@ -50,7 +52,8 @@ class CreateBrowserGroupScreenWidgetModel extends CustomWidgetModel<
 
   ThemeStyleV2 get _themeStyleV2 => context.themeStyleV2;
 
-  ListenableState<BrowserTab?> get tabState => _tabState;
+  late final NotNullListenableState<BrowserTab>? tabNotifier =
+      model.getTabById(_tabId);
 
   ListenableState<File?> get screenShotState => _screenShotState;
 
@@ -60,8 +63,18 @@ class CreateBrowserGroupScreenWidgetModel extends CustomWidgetModel<
 
   @override
   void initWidgetModel() {
-    _tabState.accept(model.getTabsByIds(_tabId));
+    if (tabNotifier != null) {
+      model.screenshotsState.addListener(_handleScreenShots);
+    }
     super.initWidgetModel();
+  }
+
+  @override
+  void dispose() {
+    if (tabNotifier != null) {
+      model.screenshotsState.removeListener(_handleScreenShots);
+    }
+    super.dispose();
   }
 
   void onPressedBack() {
@@ -78,4 +91,22 @@ class CreateBrowserGroupScreenWidgetModel extends CustomWidgetModel<
   }
 
   void onOverflowLength() => _errorState.accept(true);
+
+  void _handleScreenShots() {
+    if (tabNotifier == null) {
+      return;
+    }
+
+    final filePath = model.screenshotsState.value?.get(tabNotifier!.value.id);
+
+    if (filePath == null) {
+      return;
+    }
+
+    if (filePath != _lastFilePath) {
+      _screenShotState.accept(File(filePath));
+    }
+
+    _lastFilePath = filePath;
+  }
 }
