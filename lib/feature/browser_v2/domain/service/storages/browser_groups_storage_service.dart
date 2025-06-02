@@ -17,7 +17,6 @@ class BrowserGroupsStorageService extends AbstractStorageService {
 
   static const container = _browserGroupsDomain;
   static const browserGroupsKey = 'browser_groups_key';
-  static const _browserGroupsActiveTabIdKey = 'browser_tabs_active_tab_id_key';
 
   final GetStorage _groupsStorage;
 
@@ -55,24 +54,12 @@ class BrowserGroupsStorageService extends AbstractStorageService {
       'isEditable': false,
     };
 
-    _groupsStorage
-      ..write(
-        browserGroupsKey,
-        [tabsGroup],
-      )
-      ..write(
-        _browserGroupsActiveTabIdKey,
-        tabsGroupId,
-      );
+    _groupsStorage.write(
+      browserGroupsKey,
+      [tabsGroup],
+    );
 
     return [BrowserGroup.fromJson(tabsGroup)];
-  }
-
-  String? getActiveGroupId() =>
-      _groupsStorage.read(_browserGroupsActiveTabIdKey);
-
-  void saveActiveGroupId(String? id) {
-    _groupsStorage.write(_browserGroupsActiveTabIdKey, id);
   }
 
   void saveGroups(List<BrowserGroup> groups) {

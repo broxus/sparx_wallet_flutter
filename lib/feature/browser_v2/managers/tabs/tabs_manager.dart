@@ -127,7 +127,6 @@ class BrowserTabsManager {
     _tabsCollection.clear();
   }
 
-
   void updateCachedUrl(String tabId, Uri uri) {
     _tabsCollection.updateUrl(tabId: tabId, uri: uri);
     _browserTabsStorageService.saveBrowserTabs(_tabsCollection.entities);
@@ -162,7 +161,6 @@ class BrowserTabsManager {
 
   void setActiveGroup(String groupId) {
     _groupsCollection.setActiveById(groupId);
-    _browserGroupsStorageService.saveActiveGroupId(groupId);
   }
 
   void setActiveTab(String? tabId) {
@@ -234,7 +232,6 @@ class BrowserTabsManager {
       _groupsCollection.setActiveById(targetGroupId);
       _tabsCollection.setActiveById(tab.id);
 
-      _browserGroupsStorageService.saveActiveGroupId(targetGroupId);
       _browserTabsStorageService.saveBrowserActiveTabId(tab.id);
     }
   }
@@ -250,7 +247,6 @@ class BrowserTabsManager {
 
         _groupsCollection.setActiveById(tabsGroupId);
         _tabsCollection.setActiveById(lastTabId);
-        _browserGroupsStorageService.saveActiveGroupId(tabsGroupId);
         _browserTabsStorageService.saveBrowserActiveTabId(lastTabId);
 
         return;
@@ -381,7 +377,6 @@ class BrowserTabsManager {
 
     if (isSwitchToCreatedGroup) {
       _groupsCollection.setActiveById(group.id);
-      _browserGroupsStorageService.saveActiveGroupId(group.id);
       if (initTabId != null) {
         _tabsCollection.setActiveById(initTabId);
         _browserTabsStorageService.saveBrowserActiveTabId(initTabId);
@@ -458,8 +453,7 @@ class BrowserTabsManager {
         ?.id;
 
     if (activeGroupId == null || activeTabId == null) {
-      activeGroupId =
-          _browserGroupsStorageService.getActiveGroupId() ?? tabsGroupId;
+      activeGroupId = tabsGroupId;
       activeTabId = null;
     }
 
