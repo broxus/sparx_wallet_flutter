@@ -271,6 +271,7 @@ class BrowserTabsAndGroupsDelegate implements BrowserTabsAndGroupsUi {
     if (_tabsCount != null &&
         _tabsPrevCount != null &&
         _tabsCount! < _tabsPrevCount!) {
+      _updateCount();
       return;
     }
 
@@ -294,8 +295,7 @@ class BrowserTabsAndGroupsDelegate implements BrowserTabsAndGroupsUi {
   }
 
   void _handleAllTabs() {
-    _tabsPrevCount = _tabsCount;
-    _tabsCount = model.allTabsIdsState.value.length;
+    _updateCount();
 
     final activeGroupId = model.activeGroupIdState.value;
 
@@ -308,5 +308,10 @@ class BrowserTabsAndGroupsDelegate implements BrowserTabsAndGroupsUi {
     if (_viewTabsState.value?.isEmpty ?? true) {
       onEmptyTabs();
     }
+  }
+
+  void _updateCount() {
+    _tabsPrevCount = _tabsCount;
+    _tabsCount = model.allTabsIdsState.value.length;
   }
 }
