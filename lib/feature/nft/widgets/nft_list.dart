@@ -1,4 +1,5 @@
 import 'package:app/feature/nft/nft.dart';
+import 'package:app/generated/generated.dart';
 import 'package:flutter/material.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 import 'package:lucide_icons_flutter/lucide_icons.dart';
@@ -132,7 +133,7 @@ class _Item extends StatelessWidget {
                   ),
                 ),
                 Text(
-                  item.nft.name,
+                  item.nft.name ?? LocaleKeys.unknown.tr(),
                   style: theme.textStyles.labelMedium,
                   overflow: TextOverflow.ellipsis,
                   softWrap: false,
@@ -192,7 +193,7 @@ class _Item extends StatelessWidget {
             ),
             Expanded(
               child: Text(
-                item.nft.name,
+                item.nft.name ?? LocaleKeys.unknown.tr(),
                 style: theme.textStyles.labelMedium,
                 overflow: TextOverflow.ellipsis,
                 softWrap: false,

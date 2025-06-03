@@ -83,7 +83,7 @@ class NftService {
       (e) => e
           .map((meta) => _collections[meta.collection])
           .nonNulls
-          .sortedBy((c) => c.name)
+          .sortedBy((c) => c.name ?? '')
           .toList(),
     );
   }

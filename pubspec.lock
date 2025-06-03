@@ -1544,7 +1544,7 @@ packages:
     description:
       path: "."
       ref: "feat/EWM-517_nft"
-      resolved-ref: fc9bf21c4740d292d5bb3f90c54c1e03873ce9ac
+      resolved-ref: a09e44708bf464d3f4a3652a59fa7d6a3c9b0339
       url: "https://github.com/broxus/nekoton_repository"
     source: git
     version: "0.70.0"

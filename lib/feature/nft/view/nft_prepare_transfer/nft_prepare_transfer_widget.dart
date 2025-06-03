@@ -254,14 +254,14 @@ class _Item extends StatelessWidget {
             mainAxisSize: MainAxisSize.min,
             children: [
               Text(
-                item.nft.name,
+                item.nft.name ?? LocaleKeys.unknown.tr(),
                 style: theme.textStyles.labelMedium,
                 overflow: TextOverflow.ellipsis,
                 softWrap: false,
                 maxLines: 1,
               ),
               Text(
-                collection.name,
+                collection.name ?? LocaleKeys.unknown.tr(),
                 style: theme.textStyles.labelXSmall.copyWith(
                   color: theme.colors.content3,
                 ),

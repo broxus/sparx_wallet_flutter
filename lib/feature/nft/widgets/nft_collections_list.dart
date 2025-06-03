@@ -1,4 +1,5 @@
 import 'package:app/feature/nft/nft.dart';
+import 'package:app/generated/generated.dart';
 import 'package:flutter/material.dart';
 import 'package:lucide_icons_flutter/lucide_icons.dart';
 import 'package:nekoton_repository/nekoton_repository.dart';
@@ -111,7 +112,7 @@ class _Item extends StatelessWidget {
                   ),
                 ),
                 Text(
-                  collection.name,
+                  collection.name ?? LocaleKeys.unknown.tr(),
                   style: theme.textStyles.labelMedium,
                   overflow: TextOverflow.ellipsis,
                   softWrap: false,
@@ -175,7 +176,7 @@ class _Item extends StatelessWidget {
                 spacing: DimensSizeV2.d4,
                 children: [
                   Text(
-                    collection.name,
+                    collection.name ?? LocaleKeys.unknown.tr(),
                     style: theme.textStyles.labelMedium,
                     overflow: TextOverflow.ellipsis,
                     softWrap: false,

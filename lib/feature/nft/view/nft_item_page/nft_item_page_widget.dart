@@ -54,7 +54,7 @@ class NftItemPageWidget extends ElementaryWidget<NftItemPageWidgetModel> {
                       mainAxisSize: MainAxisSize.min,
                       children: [
                         Text(
-                          item.nft.name,
+                          item.nft.name ?? LocaleKeys.unknown.tr(),
                           style: wm.theme.textStyles.headingLarge,
                           textAlign: TextAlign.center,
                         ),
