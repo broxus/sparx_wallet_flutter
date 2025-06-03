@@ -39,6 +39,8 @@ class _BrowserTabViewMenuUrlPanelState extends State<BrowserNavigationPanel> {
   late final _pageViewController = widget.urlSliderController;
   late final _onPageChanged = widget.onPageChanged;
 
+  int _currentPage = 0;
+
   @override
   Widget build(BuildContext context) {
     return SizedBox(
@@ -51,24 +53,49 @@ class _BrowserTabViewMenuUrlPanelState extends State<BrowserNavigationPanel> {
             return const SizedBox.shrink();
           }
 
-          return PageView.builder(
-            physics: const ClampingScrollPhysics(),
-            controller: _pageViewController,
-            itemCount: list.length,
-            onPageChanged: _onPageChanged,
-            itemBuilder: (_, int index) {
-              return BrowserAddressBar(
-                key: ValueKey(list[index].value.id),
-                width: widget.urlWidth,
-                listenable: list[index],
-                onPressedCurrentUrlMenu: widget.onPressedCurrentUrlMenu,
-                onPressedRefresh: widget.onPressedRefresh,
-                onEditingComplete: widget.onEditingCompleteUrl,
-              );
+          return NotificationListener(
+            onNotification: (notification) {
+              if (notification is ScrollUpdateNotification) {
+                _handleScrollUpdate(notification);
+              }
+              return false;
             },
+            child: PageView.builder(
+              physics: const ClampingScrollPhysics(),
+              controller: _pageViewController,
+              itemCount: list.length,
+              onPageChanged: _onPageChanged,
+              itemBuilder: (_, int index) {
+                return BrowserAddressBar(
+                  key: ValueKey(list[index].value.id),
+                  width: widget.urlWidth,
+                  listenable: list[index],
+                  onPressedCurrentUrlMenu: widget.onPressedCurrentUrlMenu,
+                  onPressedRefresh: widget.onPressedRefresh,
+                  onEditingComplete: widget.onEditingCompleteUrl,
+                );
+              },
+            ),
           );
         },
       ),
     );
+  }
+
+  void _handleScrollUpdate(ScrollUpdateNotification notification) {
+    final page = _pageViewController.page ?? 0;
+    final delta = (page - _currentPage).abs();
+
+    if (delta > 0.7) {
+      final targetPage =
+          page.round().clamp(0, (widget.tabsState.value?.length ?? 1) - 1);
+      _pageViewController.animateToPage(
+        targetPage,
+        duration: const Duration(milliseconds: 300),
+        curve: Curves.easeOut,
+      );
+      _currentPage = targetPage;
+      _onPageChanged(targetPage);
+    }
   }
 }
