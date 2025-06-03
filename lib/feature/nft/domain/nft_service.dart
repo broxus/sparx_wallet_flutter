@@ -29,14 +29,9 @@ class NftService {
   StreamSubscription<KeyAccount?>? _accountSubscription;
   StreamSubscription<NftTransferEvent>? _nftTransferSubscription;
 
-  Stream<NftDisplayMode?> get displayModeStream =>
-      _appStorageService.getValueStream<String>(StorageKey.nftGridMode()).map(
-            (name) => switch (name) {
-              'grid' => NftDisplayMode.grid,
-              'list' => NftDisplayMode.list,
-              _ => null,
-            },
-          );
+  Stream<NftDisplayMode?> get displayModeStream => _appStorageService
+      .getValueStream<String>(StorageKey.nftGridMode())
+      .map((name) => name != null ? NftDisplayMode.byName(name) : null);
 
   void init() {
     _accountSubscription = _currentAccountsService.currentActiveAccountStream
