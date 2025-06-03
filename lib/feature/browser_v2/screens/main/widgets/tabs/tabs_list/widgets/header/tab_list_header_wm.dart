@@ -5,6 +5,7 @@ import 'package:app/feature/browser_v2/screens/main/widgets/tabs/tabs_list/widge
 import 'package:app/feature/browser_v2/screens/main/widgets/tabs/tabs_list/widgets/header/tab_list_header.dart';
 import 'package:app/feature/browser_v2/screens/main/widgets/tabs/tabs_list/widgets/header/tab_list_header_model.dart';
 import 'package:app/feature/browser_v2/screens/main/widgets/tabs/tabs_list/widgets/header/ui_models.dart';
+import 'package:app/feature/browser_v2/widgets/bottomsheets/book/browser_book.dart';
 import 'package:elementary/elementary.dart';
 import 'package:elementary_helper/elementary_helper.dart';
 import 'package:flutter/widgets.dart';
@@ -62,9 +63,7 @@ class TabListHeaderWidgetModel
     return _physic ??= CenterSnapScrollPhysics(itemWidth: itemWidth);
   }
 
-  void onPressedBookmarks() {
-    // TODO(knightforce): create logic
-  }
+  void onPressedBookmarks() => showBookModal(context);
 
   //ignore: use_setters_to_change_properties
   void updateItemWidth(double itemWidth) {
