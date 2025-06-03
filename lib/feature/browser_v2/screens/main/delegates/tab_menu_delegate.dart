@@ -21,16 +21,12 @@ class BrowserTabMenuDelegate implements BrowserTabMenuUi {
     this.model,
     this.context, {
     required this.renderManager,
-    required this.onShowMenu,
-    required this.onHideMenu,
     required this.createGroup,
   });
 
   final BrowserMainScreenModel model;
   final BuildContext context;
   final BrowserRenderManager renderManager;
-  final VoidCallback onShowMenu;
-  final VoidCallback onHideMenu;
   final ValueChanged<String> createGroup;
 
   final _duration = CustomBottomNavigationBar.animateDuration +
@@ -40,7 +36,6 @@ class BrowserTabMenuDelegate implements BrowserTabMenuUi {
   Future<void> showTabMenu(
     BrowserTab tab,
   ) async {
-    onShowMenu();
     final result = await Future.delayed(
       _duration,
       () {
@@ -50,8 +45,6 @@ class BrowserTabMenuDelegate implements BrowserTabMenuUi {
         }
       },
     );
-
-    onHideMenu();
 
     switch (result) {
       case BrowserTabMenuItemData.copyLink:

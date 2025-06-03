@@ -74,8 +74,6 @@ class BrowserMainScreenWidgetModel
     model,
     context,
     renderManager: _renderManager,
-    onShowMenu: () => callWithDelay(() => _menuState.accept(null)),
-    onHideMenu: () => callWithDelay(() => _menuState.accept(MenuType.list)),
     createGroup: (String tabId) => _tabsDelegate.createGroup(
       context,
       tabId: tabId,
