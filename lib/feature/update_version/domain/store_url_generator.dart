@@ -14,7 +14,8 @@ class StoreUrlGenerator {
     final packageName = await _appVersionService.packageName();
 
     return switch (defaultTargetPlatform) {
-      TargetPlatform.iOS => 'https://apps.apple.com/app/$packageName',
+      TargetPlatform.iOS =>
+        'https://apps.apple.com/us/app/sparx-tvm-wallet/id6670219321',
       _ => 'https://play.google.com/store/apps/details?id=$packageName',
     };
   }
