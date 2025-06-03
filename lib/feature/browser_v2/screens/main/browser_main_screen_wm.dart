@@ -18,7 +18,6 @@ import 'package:app/feature/browser_v2/screens/main/delegates/scroll_page_delega
 import 'package:app/feature/browser_v2/screens/main/delegates/size_delegate.dart';
 import 'package:app/feature/browser_v2/screens/main/delegates/tab_menu_delegate.dart';
 import 'package:app/feature/browser_v2/screens/main/delegates/tabs_and_groups_delegate.dart';
-import 'package:app/feature/browser_v2/screens/main/widgets/control_panels/navigation_panel/navigation_panel.dart';
 import 'package:app/feature/browser_v2/screens/main/widgets/control_panels/navigation_panel/url_action_sheet.dart';
 import 'package:app/feature/browser_v2/screens/main/widgets/tab_animated_view/tab_animation_type.dart';
 import 'package:app/feature/browser_v2/widgets/bottomsheets/browser_main_menu/browser_main_menu.dart';
@@ -142,11 +141,6 @@ class BrowserMainScreenWidgetModel
     model.activeTabId != null ? MenuType.view : MenuType.list,
   );
 
-  late final _navigationScrollModeState =
-      createNotifier<NavigationUrlPhysicMode>(
-    NavigationUrlPhysicMode.none,
-  );
-
   BrowserPageSlideUi get pageSlider => _pageSlideDelegate;
 
   BrowserTabsAndGroupsUi get tabs => _tabsDelegate;
@@ -171,9 +165,6 @@ class BrowserMainScreenWidgetModel
   ListenableState<List<String>?> get allTabsIdsState => model.allTabsIdsState;
 
   ListenableState<String?> get activeTabIdState => model.activeTabIdState;
-
-  ListenableState<NavigationUrlPhysicMode> get navigationScrollModeState =>
-      _navigationScrollModeState;
 
   ColorsPaletteV2 get colors => _theme.colors;
 
@@ -281,17 +272,6 @@ class BrowserMainScreenWidgetModel
     _tabsDelegate.onTabAnimationEnd(
       _onTabAnimationComplete,
     );
-
-    if (animationType is ShowViewAnimationType) {
-      callWithDelay(
-        () {
-          _navigationScrollModeState.accept(
-            NavigationUrlPhysicMode.snap,
-          );
-        },
-        duration: _duration,
-      );
-    }
   }
 
   final _duration = const Duration(seconds: 1);
@@ -315,10 +295,6 @@ class BrowserMainScreenWidgetModel
     if (groupId == null) {
       return;
     }
-
-    _navigationScrollModeState.accept(
-      NavigationUrlPhysicMode.none,
-    );
 
     tabs.changeTab(
       groupId: groupId,

@@ -46,7 +46,8 @@ class BrowserMainScreen extends ElementaryWidget<BrowserMainScreenWidgetModel> {
                     width: wm.sizes.screenWidth,
                     viewVisibleState: wm.viewVisibleState,
                     tabsState: wm.tabs.viewTabsState,
-                    scrollController: wm.pageSlider.viewTabScrollController,
+                    viewTabScrollController:
+                        wm.pageSlider.viewTabScrollController,
                     paddingPageAnimation: wm.animations.paddingPageAnimation,
                     onLoadingProgressChanged:
                         wm.progressIndicator.onProgressChanged,
@@ -100,9 +101,10 @@ class BrowserMainScreen extends ElementaryWidget<BrowserMainScreenWidgetModel> {
                       onPressedCurrentUrlMenu: wm.onPressedCurrentUrlMenu,
                       onPressedRefresh: wm.onPressedRefresh,
                       onEditingCompleteUrl: wm.onEditingCompleteUrl,
-                      urlSliderController: wm.pageSlider.urlSliderController,
+                      urlSliderPageController:
+                          wm.pageSlider.urlSliderPageController,
                       tabsState: wm.tabs.viewTabsState,
-                      navigationScrollModeState: wm.navigationScrollModeState,
+                      onPageChanged: wm.pageSlider.onPageChanged,
                     ),
                   ),
                 ),

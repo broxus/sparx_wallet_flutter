@@ -1,5 +1,3 @@
-import 'dart:math';
-
 import 'package:app/core/wm/not_null_listenable_state.dart';
 import 'package:app/feature/browser_v2/data/tabs/browser_tab.dart';
 import 'package:app/feature/browser_v2/screens/main/widgets/control_panels/navigation_panel/address_bar.dart';
@@ -12,12 +10,12 @@ class BrowserNavigationPanel extends StatefulWidget {
   const BrowserNavigationPanel({
     required this.panelWidth,
     required this.urlWidth,
-    required this.controller,
+    required this.urlSliderController,
     required this.tabsState,
     required this.onPressedCurrentUrlMenu,
     required this.onPressedRefresh,
     required this.onEditingCompleteUrl,
-    required this.scrollModeState,
+    required this.onPageChanged,
     super.key,
   });
 
@@ -25,12 +23,12 @@ class BrowserNavigationPanel extends StatefulWidget {
 
   final double panelWidth;
   final double urlWidth;
-  final ScrollController controller;
+  final PageController urlSliderController;
   final ListenableState<List<NotNullListenableState<BrowserTab>>?> tabsState;
   final ValueChanged<String> onPressedCurrentUrlMenu;
   final ValueChanged<String> onPressedRefresh;
   final DoubleValueCallback<String, String> onEditingCompleteUrl;
-  final ListenableState<NavigationUrlPhysicMode> scrollModeState;
+  final ValueChanged<int> onPageChanged;
 
   @override
   State<BrowserNavigationPanel> createState() =>
@@ -38,10 +36,8 @@ class BrowserNavigationPanel extends StatefulWidget {
 }
 
 class _BrowserTabViewMenuUrlPanelState extends State<BrowserNavigationPanel> {
-  late final _physics = _SnapPageScrollPhysics(
-    pageWidth: widget.urlWidth,
-    modeState: widget.scrollModeState,
-  );
+  late final _pageViewController = widget.urlSliderController;
+  late final _onPageChanged = widget.onPageChanged;
 
   @override
   Widget build(BuildContext context) {
@@ -55,14 +51,11 @@ class _BrowserTabViewMenuUrlPanelState extends State<BrowserNavigationPanel> {
             return const SizedBox.shrink();
           }
 
-          return ListView.builder(
-            padding: list.length == 1
-                ? const EdgeInsets.only(left: DimensSizeV2.d8)
-                : EdgeInsets.zero,
-            physics: _physics,
-            scrollDirection: Axis.horizontal,
-            controller: widget.controller,
+          return PageView.builder(
+            physics: const ClampingScrollPhysics(),
+            controller: _pageViewController,
             itemCount: list.length,
+            onPageChanged: _onPageChanged,
             itemBuilder: (_, int index) {
               return BrowserAddressBar(
                 key: ValueKey(list[index].value.id),
@@ -78,107 +71,4 @@ class _BrowserTabViewMenuUrlPanelState extends State<BrowserNavigationPanel> {
       ),
     );
   }
-}
-
-class _SnapPageScrollPhysics extends ScrollPhysics {
-  const _SnapPageScrollPhysics({
-    required this.pageWidth,
-    required this.modeState,
-    ScrollPhysics? parent,
-  }) : super(parent: parent ?? const ClampingScrollPhysics());
-
-  final double pageWidth;
-  final ListenableState<NavigationUrlPhysicMode> modeState;
-
-  @override
-  _SnapPageScrollPhysics applyTo(ScrollPhysics? ancestor) {
-    return _SnapPageScrollPhysics(
-      pageWidth: pageWidth,
-      modeState: modeState,
-      parent: buildParent(ancestor),
-    );
-  }
-
-  @override
-  Simulation? createBallisticSimulation(
-    ScrollMetrics position,
-    double velocity,
-  ) {
-    final current = position.pixels;
-    final tol = toleranceFor(position);
-    final target = _getTargetPixels(position, velocity);
-
-    if ((velocity <= 0.0 && current <= position.minScrollExtent) ||
-        (velocity >= 0.0 && current >= position.maxScrollExtent)) {
-      return super.createBallisticSimulation(position, velocity);
-    }
-
-    if ((target - current).abs() <= tol.distance) {
-      return null;
-    }
-
-    if (modeState.value == NavigationUrlPhysicMode.none) {
-      return _InstantScrollSimulation(target);
-    }
-
-    return ScrollSpringSimulation(
-      spring,
-      current,
-      target,
-      velocity,
-      tolerance: tol,
-    );
-  }
-
-  double _getCurrentPage(ScrollMetrics position) {
-    final offset = (position.viewportDimension - pageWidth) / 2;
-    return (position.pixels + offset) / pageWidth;
-  }
-
-  double _getTargetPixels(ScrollMetrics position, double velocity) {
-    final currentPage = _getCurrentPage(position);
-    final tolerance = toleranceFor(position);
-    double targetPage;
-
-    if (velocity.abs() < tolerance.velocity) {
-      targetPage = currentPage.roundToDouble();
-    } else {
-      targetPage = velocity > 0
-          ? currentPage.ceilToDouble()
-          : currentPage.floorToDouble();
-    }
-
-    final offset = (position.viewportDimension - pageWidth) / 2;
-    final targetPixels = targetPage * pageWidth - offset;
-    return max(
-      position.minScrollExtent,
-      min(
-        targetPixels,
-        position.maxScrollExtent,
-      ),
-    );
-  }
-
-  @override
-  bool get allowImplicitScrolling => false;
-}
-
-class _InstantScrollSimulation extends Simulation {
-  _InstantScrollSimulation(this.target);
-
-  final double target;
-
-  @override
-  double x(double time) => target;
-
-  @override
-  double dx(double time) => 0;
-
-  @override
-  bool isDone(double time) => true;
-}
-
-enum NavigationUrlPhysicMode {
-  snap,
-  none,
 }

@@ -4,9 +4,11 @@ import 'package:flutter/cupertino.dart';
 abstract interface class BrowserPageSlideUi {
   ScrollController get viewTabScrollController;
 
-  ScrollController get urlSliderController;
+  PageController get urlSliderPageController;
 
   bool onScrollNotification(ScrollNotification notification);
+
+  void onPageChanged(int index);
 }
 
 class BrowserPageSlideDelegate implements BrowserPageSlideUi {
@@ -21,7 +23,7 @@ class BrowserPageSlideDelegate implements BrowserPageSlideUi {
   @override
   final viewTabScrollController = ScrollController();
   @override
-  final urlSliderController = ScrollController();
+  final urlSliderPageController = PageController(viewportFraction: .94);
 
   final double screenWidth;
   final double urlWidth;
@@ -29,12 +31,12 @@ class BrowserPageSlideDelegate implements BrowserPageSlideUi {
 
   void dispose() {
     viewTabScrollController.dispose();
-    urlSliderController.dispose();
+    urlSliderPageController.dispose();
   }
 
   void slideTo(double value) {
     callWithDelay(() {
-      urlSliderController.jumpTo(value);
+      urlSliderPageController.jumpTo(value);
     });
   }
 
@@ -47,19 +49,21 @@ class BrowserPageSlideDelegate implements BrowserPageSlideUi {
     return false;
   }
 
+  @override
+  void onPageChanged(int index) {
+    onChangeSlideIndex(index);
+  }
+
   void _init() {
-    urlSliderController.addListener(_handleUrlPanelScroll);
+    urlSliderPageController.addListener(_handleUrlPanelScroll);
   }
 
   void _handleUrlPanelScroll() {
-    final urlOffset = urlSliderController.offset;
-    final urlMax = urlSliderController.position.maxScrollExtent;
+    final urlOffset = urlSliderPageController.offset;
+    final urlMax = urlSliderPageController.position.maxScrollExtent;
     final viewMax = viewTabScrollController.position.maxScrollExtent;
-    final tabIndex = ((viewMax - (viewMax - urlOffset)) / urlWidth).round();
 
     final x = viewMax * urlOffset / urlMax;
-
-    onChangeSlideIndex(tabIndex);
 
     if (x == 0) {
       viewTabScrollController.animateTo(
@@ -73,7 +77,7 @@ class BrowserPageSlideDelegate implements BrowserPageSlideUi {
   }
 
   void _snapViewScroll() {
-    final urlOffset = urlSliderController.offset;
+    final urlOffset = urlSliderPageController.offset;
     final tabIndex = (urlOffset / urlWidth).round();
     final targetOffset = tabIndex * screenWidth;
 
