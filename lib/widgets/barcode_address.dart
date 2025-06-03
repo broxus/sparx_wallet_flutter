@@ -8,7 +8,7 @@ import 'package:flutter/services.dart';
 import 'package:lucide_icons_flutter/lucide_icons.dart';
 import 'package:nekoton_repository/nekoton_repository.dart' hide Message;
 import 'package:ui_components_lib/ui_components_lib.dart';
-import 'package:ui_components_lib/v2/widgets/buttons/button.dart';
+import 'package:ui_components_lib/v2/ui_components_lib_v2.dart';
 
 class BarcodeAddress extends StatelessWidget {
   const BarcodeAddress({
