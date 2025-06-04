@@ -109,10 +109,8 @@ class BrowserMainScreenWidgetModel
 
         model.setActiveTab(tabId);
 
-        callWithDelay(() {
-          _progressIndicatorDelegate.reset();
-          _updatePastGo();
-        });
+        _progressIndicatorDelegate.reset();
+        _updatePastGo();
       });
     },
   );
@@ -122,12 +120,10 @@ class BrowserMainScreenWidgetModel
     model,
     renderManager: _renderManager,
     onEmptyTabs: _onEmptyTabs,
-    onChangeTab: () => callWithDelay(() => _menuState.accept(MenuType.view)),
+    onChangeTab: () => _menuState.accept(MenuType.view),
     onUpdateActiveTab: () {
-      callWithDelay(() {
-        _progressIndicatorDelegate.reset();
-        _updatePastGo();
-      });
+      _progressIndicatorDelegate.reset();
+      _updatePastGo();
     },
     scrollToTab: _scrollToTab,
     checkIsVisiblePages: () => _viewVisibleState.value,
@@ -307,10 +303,8 @@ class BrowserMainScreenWidgetModel
   }
 
   void _onEmptyTabs() {
-    callWithDelay(() {
-      _pageDelegate.reset();
-      _pageSlideDelegate.slideToPage(0);
-    });
+    _pageDelegate.reset();
+    _pageSlideDelegate.slideToPage(0);
   }
 
   void _onTabAnimationComplete(bool isVisible) {

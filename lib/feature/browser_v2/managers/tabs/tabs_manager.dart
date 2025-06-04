@@ -183,17 +183,13 @@ class BrowserTabsManager {
       return;
     }
 
-    String? newActiveTabId;
-
     final tabIds = _groupsCollection.getTabIds(groupId);
 
-    if (tabIds != null) {
-      newActiveTabId = tabIds.isEmpty || tabId != activeTabId
+    if (groupId == activeGroupId && tabId == activeTabId) {
+      final newActiveTabId = (tabIds?.isEmpty ?? true)
           ? null
-          : tabIds[min(removedIndex, tabIds.length - 1)];
-    }
+          : tabIds?[min(removedIndex, tabIds.length - 1)];
 
-    if (newActiveTabId != null) {
       _tabsCollection.setActiveById(newActiveTabId);
       _browserTabsStorageService.saveBrowserActiveTabId(newActiveTabId);
     }
