@@ -8,6 +8,11 @@ part 'browser_tab.freezed.dart';
 
 part 'browser_tab.g.dart';
 
+/// Browser tab class.
+/// Since the field values change very often, -
+/// for optimization, instead of creating a new instance via copyWith,
+/// the class was declared as @unfreezed.
+/// The field values change directly in the same object.
 @unfreezed
 class BrowserTab with _$BrowserTab implements BrowserEntity {
   factory BrowserTab({
