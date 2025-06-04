@@ -57,12 +57,17 @@ class TabAnimatedViewWidgetModel
     end: 1,
   ).animate(_animationController);
 
+  late final ListenableState<TabAnimationType?> showAnimationState =
+      widget.tabAnimationTypeState;
+
   final _positionXTween = Tween<double>(begin: 0, end: 0);
   final _positionYTween = Tween<double>(begin: 0, end: 0);
 
   Animation<double>? _topPositionAnimation;
 
   Animation<double>? _leftPositionAnimation;
+
+  TabAnimationType? _prevAnimationType;
 
   late final _screenshotStateState = createNotifier<File?>();
 
@@ -84,9 +89,6 @@ class TabAnimatedViewWidgetModel
 
   Listenable get animationListenable => _animationController;
 
-  ListenableState<TabAnimationType?> get showAnimationState =>
-      widget.showAnimationState;
-
   ListenableState<File?> get screenshotStateState => _screenshotStateState;
 
   @override
@@ -106,7 +108,7 @@ class TabAnimatedViewWidgetModel
   void _handleTabAnimationType() {
     final animationType = showAnimationState.value;
 
-    if (animationType == null) {
+    if (animationType == null || _prevAnimationType == animationType) {
       return;
     }
     final tabX = animationType.tabX;
@@ -131,6 +133,8 @@ class TabAnimatedViewWidgetModel
         _updateAnimationPosition(tabX, tabY);
         _animationController.forward();
     }
+
+    _prevAnimationType = animationType;
   }
 
   void _handleAnimationStatus(AnimationStatus status) {

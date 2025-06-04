@@ -36,6 +36,8 @@ class BaseTextField extends StatefulWidget {
     this.focusedBackgroundColor,
     this.errorBackgroundColor,
     this.cursorColor,
+    double? cursorWidth,
+    this.cursorHeight,
     this.enabledBorder,
     this.disabledBorder,
     this.focusedBorder,
@@ -69,7 +71,7 @@ class BaseTextField extends StatefulWidget {
     this.errorType = TextFieldErrorType.outline,
     this.enableSuggestions = false,
     this.autocorrect = false,
-  });
+  }) : cursorWidth = cursorWidth ?? 2;
 
   /// Necessary if you plan to use getting the value of a field through a form
   final String? name;
@@ -93,6 +95,8 @@ class BaseTextField extends StatefulWidget {
   final Color? focusedBackgroundColor;
   final Color? errorBackgroundColor;
   final Color? cursorColor;
+  final double cursorWidth;
+  final double? cursorHeight;
   final BoxBorder? enabledBorder;
   final BoxBorder? disabledBorder;
   final BoxBorder? focusedBorder;
@@ -259,6 +263,8 @@ class _BaseTextFieldState extends State<BaseTextField> with StateMixin {
                 enabled: _isEnabled,
                 name: _name,
                 cursorColor: widget.cursorColor,
+                cursorWidth: widget.cursorWidth,
+                cursorHeight: widget.cursorHeight,
                 decoration: InputDecoration(
                   filled: true,
                   hintText: widget.hintText,

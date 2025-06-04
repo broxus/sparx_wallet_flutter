@@ -1,6 +1,6 @@
 import 'dart:async';
 
-import 'package:app/feature/browser_v2/data/browser_tab.dart';
+import 'package:app/feature/browser_v2/data/tabs/browser_tab.dart';
 import 'package:app/feature/browser_v2/screens/main/browser_main_screen_model.dart';
 import 'package:app/feature/browser_v2/screens/main/data/browser_render_manager.dart';
 import 'package:app/feature/browser_v2/screens/main/widgets/tab_menu/data.dart';
@@ -21,11 +21,13 @@ class BrowserTabMenuDelegate implements BrowserTabMenuUi {
     this.model,
     this.context, {
     required this.renderManager,
+    required this.createGroup,
   });
 
   final BrowserMainScreenModel model;
   final BuildContext context;
   final BrowserRenderManager renderManager;
+  final ValueChanged<String> createGroup;
 
   final _duration = CustomBottomNavigationBar.animateDuration +
       const Duration(milliseconds: 50);
@@ -56,7 +58,7 @@ class BrowserTabMenuDelegate implements BrowserTabMenuUi {
       case BrowserTabMenuItemData.bookmark:
         model.addUrlToBookmark(tab.id);
       case BrowserTabMenuItemData.newTabGroup:
-      // TODO(knightforce): handle
+        createGroup(tab.id);
       case null:
     }
   }

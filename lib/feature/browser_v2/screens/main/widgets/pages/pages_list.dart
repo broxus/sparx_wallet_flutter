@@ -1,5 +1,6 @@
+import 'package:app/core/wm/not_null_listenable_state.dart';
 import 'package:app/feature/browser_v2/custom_web_controller.dart';
-import 'package:app/feature/browser_v2/data/tabs_data.dart';
+import 'package:app/feature/browser_v2/data/tabs/browser_tab.dart';
 import 'package:app/feature/browser_v2/screens/main/widgets/pages/page/browser_page.dart';
 import 'package:elementary_helper/elementary_helper.dart';
 import 'package:flutter/material.dart';
@@ -21,7 +22,7 @@ class BrowserPagesView extends StatelessWidget {
 
   final double width;
   final ListenableState<bool> viewVisibleState;
-  final ListenableState<BrowserTabsCollection> tabsState;
+  final ListenableState<List<NotNullListenableState<BrowserTab>>?> tabsState;
   final ScrollController scrollController;
   final Animation<double> paddingPageAnimation;
   final ValueChanged<int> onLoadingProgressChanged;
@@ -47,10 +48,14 @@ class BrowserPagesView extends StatelessWidget {
             child: Column(
               children: [
                 Flexible(
-                  child: StateNotifierBuilder<BrowserTabsCollection?>(
+                  child: StateNotifierBuilder<
+                      List<NotNullListenableState<BrowserTab>>?>(
                     listenableState: tabsState,
-                    builder: (_, BrowserTabsCollection? data) {
-                      if (data == null) {
+                    builder: (
+                      _,
+                      List<NotNullListenableState<BrowserTab>>? list,
+                    ) {
+                      if (list == null) {
                         return const SizedBox.shrink();
                       }
 
@@ -58,19 +63,19 @@ class BrowserPagesView extends StatelessWidget {
                         scrollDirection: Axis.horizontal,
                         controller: scrollController,
                         physics: const NeverScrollableScrollPhysics(),
-                        itemCount: data.count,
+                        itemCount: list.length,
                         itemBuilder: (_, int index) {
                           return BrowserPage(
-                            key: ValueKey(data.list[index].id),
+                            key: ValueKey(list[index].value.id),
                             onLoadingProgressChanged: onLoadingProgressChanged,
                             width: width,
-                            tab: data.list[index],
+                            listenable: list[index],
                             onCreate: (controller) => onCreateWebViewController(
-                              data.list[index].id,
+                              list[index].value.id,
                               controller,
                             ),
                             onWebPageScrollChanged: onWebPageScrollChanged,
-                            onDispose: () => onDispose(data.list[index].id),
+                            onDispose: () => onDispose(list[index].value.id),
                           );
                         },
                       );

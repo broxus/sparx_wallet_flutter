@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:app/core/wm/not_null_safe_notifier.dart';
 import 'package:app/core/wm/safe_state_notifier.dart';
 import 'package:elementary/elementary.dart';
 import 'package:elementary_helper/elementary_helper.dart';
@@ -78,6 +79,14 @@ mixin NotifierSubscriptionsMixin<W extends ElementaryWidget,
     _streamSubscriptionsCollection.dispose();
     _widgetPropsReaders.clear();
     super.dispose();
+  }
+
+  /// Create [NotNullNotifier] and add to the notifier collection
+  @protected
+  NotNullNotifier<T> createNotNullNotifier<T>(T initValue) {
+    return _subscriptionsCollection.add(
+      NotNullNotifier<T>(initValue),
+    );
   }
 
   /// Create [StateNotifier] and add to the notifier collection

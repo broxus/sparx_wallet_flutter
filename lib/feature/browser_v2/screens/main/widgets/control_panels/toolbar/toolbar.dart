@@ -9,6 +9,7 @@ import 'package:ui_components_lib/v2/ui_components_lib_v2.dart';
 class Toolbar extends ElementaryWidget<ToolbarWidgetModel> {
   const Toolbar({
     required this.onPressedTabs,
+    required this.onPressedDotsPressed,
     super.key,
     WidgetModelFactory<ToolbarWidgetModel> wmFactory =
         defaultToolbarWidgetModelFactory,
@@ -17,6 +18,7 @@ class Toolbar extends ElementaryWidget<ToolbarWidgetModel> {
   static const height = DimensSizeV2.d48;
 
   final VoidCallback onPressedTabs;
+  final VoidCallback onPressedDotsPressed;
 
   @override
   Widget build(ToolbarWidgetModel wm) {
@@ -59,7 +61,7 @@ class Toolbar extends ElementaryWidget<ToolbarWidgetModel> {
           Expanded(
             child: _IconButton(
               svg: Assets.images.horizontalDots.path,
-              onPressed: wm.onPressedDotsPressed,
+              onPressed: onPressedDotsPressed,
             ),
           ),
         ],

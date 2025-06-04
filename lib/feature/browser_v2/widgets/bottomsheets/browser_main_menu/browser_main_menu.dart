@@ -5,21 +5,30 @@ import 'package:flutter/material.dart';
 import 'package:ui_components_lib/ui_components_lib.dart';
 import 'package:ui_components_lib/v2/widgets/modals/primary_bottom_sheet.dart';
 
-Future<void> showBrowserMainMenu(BuildContext context) {
+Future<void> showBrowserMainMenu(
+  BuildContext context, {
+  required String groupId,
+}) {
   return showPrimaryBottomSheet(
     context: context,
     barrierColor: Colors.black.withValues(alpha: .8),
     padding: const EdgeInsets.symmetric(horizontal: DimensSizeV2.d21),
-    content: const BrowserMainMenu(),
+    content: BrowserMainMenu(groupId: groupId),
   );
 }
 
 class BrowserMainMenu extends ElementaryWidget<BrowserMainMenuWidgetModel> {
-  const BrowserMainMenu({
+  BrowserMainMenu({
+    required String groupId,
     super.key,
-    WidgetModelFactory<BrowserMainMenuWidgetModel> wmFactory =
-        defaultBrowserMainMenuWidgetModelFactory,
-  }) : super(wmFactory);
+    WidgetModelFactory<BrowserMainMenuWidgetModel>? wmFactory,
+  }) : super(
+          wmFactory ??
+              (ctx) => defaultBrowserMainMenuWidgetModelFactory(
+                    ctx,
+                    groupId: groupId,
+                  ),
+        );
 
   @override
   Widget build(BrowserMainMenuWidgetModel wm) {

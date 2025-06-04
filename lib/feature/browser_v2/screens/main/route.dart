@@ -1,17 +1,23 @@
 import 'package:app/app/router/compass/compass.dart';
+import 'package:app/feature/browser_v2/screens/create_group/route.dart';
 import 'package:app/feature/browser_v2/screens/main/browser_main_screen.dart';
 import 'package:injectable/injectable.dart';
 
 @named
 @Singleton(as: CompassBaseRoute)
 class BrowserRoute extends CompassRouteParameterless<BrowserRouteData> {
-  BrowserRoute()
-      : super(
+  BrowserRoute(
+    @Named.from(CreateBrowserGroupRoute)
+    CompassBaseRoute createBrowserGroupRoute,
+  ) : super(
           name: 'browser',
           path: '/browser',
           isSaveLocation: true,
           isBottomNavigationBarVisible: true,
           builder: (context, _, __) => const BrowserMainScreen(),
+          compassBaseRoutes: [
+            createBrowserGroupRoute,
+          ],
         );
 
   @override

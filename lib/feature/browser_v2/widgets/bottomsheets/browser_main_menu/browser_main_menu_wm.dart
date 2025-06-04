@@ -11,13 +11,15 @@ import 'package:ui_components_lib/ui_components_lib.dart';
 
 /// Factory method for creating [BrowserMainMenuWidgetModel]
 BrowserMainMenuWidgetModel defaultBrowserMainMenuWidgetModelFactory(
-  BuildContext context,
-) {
+  BuildContext context, {
+  required String groupId,
+}) {
   return BrowserMainMenuWidgetModel(
     BrowserMainMenuModel(
       createPrimaryErrorHandler(context),
       inject(),
     ),
+    groupId,
   );
 }
 
@@ -26,7 +28,10 @@ class BrowserMainMenuWidgetModel
     extends CustomWidgetModel<BrowserMainMenu, BrowserMainMenuModel> {
   BrowserMainMenuWidgetModel(
     super.model,
+    this._groupId,
   );
+
+  final String _groupId;
 
   ColorsPaletteV2 get colors => _theme.colors;
 
@@ -44,7 +49,7 @@ class BrowserMainMenuWidgetModel
         }
       case BrowserMainMenuData.newTab:
         _close();
-        model.createTab();
+        model.createTab(_groupId);
       case BrowserMainMenuData.reload:
         model.reload();
         _close();

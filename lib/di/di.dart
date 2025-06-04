@@ -2,6 +2,7 @@ import 'package:app/app/service/service.dart';
 import 'package:app/di/di.config.dart';
 import 'package:app/feature/browser_v2/domain/service/storages/browser_bookmarks_storage_service.dart';
 import 'package:app/feature/browser_v2/domain/service/storages/browser_favicon_url_storage_service.dart';
+import 'package:app/feature/browser_v2/domain/service/storages/browser_groups_storage_service.dart';
 import 'package:app/feature/browser_v2/domain/service/storages/browser_history_storage_service.dart';
 import 'package:app/feature/browser_v2/domain/service/storages/browser_permissions_storage_service.dart';
 import 'package:app/feature/browser_v2/domain/service/storages/browser_tabs_storage_service.dart';
@@ -39,6 +40,7 @@ Future<void> configureDi() async {
     BrowserFaviconURLStorageService.container,
     BrowserHistoryStorageService.container,
     BrowserPermissionsStorageService.container,
+    BrowserGroupsStorageService.container,
     BrowserTabsStorageService.container,
     TonConnectStorageService.container,
     UpdateVersionStorageService.container,
