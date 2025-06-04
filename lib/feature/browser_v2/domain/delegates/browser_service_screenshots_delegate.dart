@@ -4,13 +4,19 @@ import 'dart:io';
 import 'package:app/app/service/storage_service/general_storage_service.dart';
 import 'package:app/feature/browser_v2/data/tabs/browser_tab.dart';
 import 'package:app/feature/browser_v2/data/tabs/tabs_data.dart';
+import 'package:app/feature/browser_v2/domain/delegates/browser_base_delegate.dart';
 import 'package:collection/collection.dart';
 import 'package:elementary_helper/elementary_helper.dart';
-import 'package:flutter/services.dart';
+import 'package:flutter/foundation.dart';
+import 'package:injectable/injectable.dart';
 import 'package:uuid/uuid.dart';
 
-class BrowserManagerScreenShooter {
-  BrowserManagerScreenShooter(
+abstract interface class BrowserServiceScreenshots {}
+
+@injectable
+class BrowserServiceScreenshotsDelegate
+    implements BrowserDelegate, BrowserServiceScreenshots {
+  BrowserServiceScreenshotsDelegate(
     this._generalStorageService,
   );
 

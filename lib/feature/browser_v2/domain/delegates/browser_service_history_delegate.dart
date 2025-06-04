@@ -1,11 +1,27 @@
 import 'package:app/data/models/browser_history_item.dart';
 import 'package:app/feature/browser_v2/data/history_type.dart';
+import 'package:app/feature/browser_v2/domain/delegates/browser_base_delegate.dart';
 import 'package:app/feature/browser_v2/domain/service/storages/browser_history_storage_service.dart';
 import 'package:app/feature/browser_v2/widgets/bottomsheets/book/widgets/history/ui_models/time_period_ui.dart';
+import 'package:injectable/injectable.dart';
 import 'package:rxdart/rxdart.dart';
 
-class HistoryManager {
-  HistoryManager(this._browserHistoryStorageService);
+abstract interface class BrowserServiceHistory {
+  Stream<List<BrowserHistoryItem>> get browserHistoryStream;
+
+  List<BrowserHistoryItem> get browserHistoryItems;
+
+  void createHistoryItem(Uri url);
+
+  void removeHistoryItemByUri(Uri uri);
+
+  void removeHistoryItem(String id);
+}
+
+@injectable
+class BrowserServiceHistoryDelegate
+    implements BrowserDelegate, BrowserServiceHistory {
+  BrowserServiceHistoryDelegate(this._browserHistoryStorageService);
 
   /// Limit of browser history items
   static const _historyItemCountLimit = 100;
@@ -16,10 +32,12 @@ class HistoryManager {
   final _browserHistorySubject = BehaviorSubject<List<BrowserHistoryItem>>();
 
   /// Stream of browser history items
+  @override
   Stream<List<BrowserHistoryItem>> get browserHistoryStream =>
       _browserHistorySubject;
 
   /// Get last cached browser history items
+  @override
   List<BrowserHistoryItem> get browserHistoryItems =>
       _browserHistorySubject.valueOrNull ?? [];
 
@@ -31,6 +49,7 @@ class HistoryManager {
     return clearHistory();
   }
 
+  @override
   void createHistoryItem(Uri url) {
     if (url.host.isEmpty || browserHistoryItems.firstOrNull?.url == url) {
       return;
@@ -43,12 +62,14 @@ class HistoryManager {
     );
   }
 
+  @override
   void removeHistoryItem(String id) {
     _saveBrowserHistory(
       [...browserHistoryItems]..removeWhere((item) => item.id == id),
     );
   }
 
+  @override
   void removeHistoryItemByUri(Uri uri) {
     _saveBrowserHistory(
       [...browserHistoryItems]..removeWhere((item) => item.url == uri),

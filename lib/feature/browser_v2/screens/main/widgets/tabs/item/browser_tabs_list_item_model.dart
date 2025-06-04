@@ -1,4 +1,3 @@
-import 'package:app/feature/browser_v2/data/tabs/browser_tab.dart';
 import 'package:app/feature/browser_v2/data/tabs/tabs_data.dart';
 import 'package:app/feature/browser_v2/domain/service/browser_service.dart';
 import 'package:app/feature/browser_v2/screens/main/widgets/tabs/item/browser_tabs_list_item.dart';
@@ -15,8 +14,8 @@ class BrowserTabsListItemModel extends ElementaryModel {
   final BrowserService _browserService;
 
   ListenableState<String?> get activeTabIdState =>
-      _browserService.tM.activeTabIdState;
+      _browserService.tab.activeTabIdState;
 
   ListenableState<ImageCache?> get screenshotsState =>
-      _browserService.tM.screenshotsState;
+      _browserService.tab.screenshotsState;
 }

@@ -22,7 +22,7 @@ class PermissionsService {
 
   /// Stream that allows tracking permissions changing
   Stream<Map<Uri, Permissions>> get permissionsStream =>
-      _browserService.pM.permissionsStream.map(
+      _browserService.perm.permissionsStream.map(
         (event) => event.map((key, value) => MapEntry(Uri.parse(key), value)),
       );
 
@@ -31,7 +31,7 @@ class PermissionsService {
   ///
   /// If you are not sure, that your key is true origin, use [getPermissions].
   Map<Uri, Permissions> get permissions =>
-      _browserService.pM.permissionsStream.value.map(
+      _browserService.perm.permissionsStream.value.map(
         (key, value) => MapEntry(Uri.parse(key), value),
       );
 
@@ -46,18 +46,18 @@ class PermissionsService {
     required Uri url,
     required Permissions permissions,
   }) =>
-      _browserService.pM.setPermissions(
+      _browserService.perm.setPermissions(
         origin: url.origin,
         permissions: permissions,
       );
 
   /// Delete permissions for browser tab with [url]
   void deletePermissionsForOrigin(Uri url) =>
-      _browserService.pM.deletePermissionsForOrigin(url.origin);
+      _browserService.perm.deletePermissionsForOrigin(url.origin);
 
   /// Delete permissions for specified account
   void deletePermissionsForAccount(Address address) =>
-      _browserService.pM.deletePermissionsForAccount(address);
+      _browserService.perm.deletePermissionsForAccount(address);
 
 // we do not save stream sub, because it must stay all app life-time
   void _listenAccountsDeletion() {

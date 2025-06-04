@@ -71,10 +71,10 @@ class BrowserPageModel extends ElementaryModel {
       _jsService.nekotonJsState;
 
   ListenableState<String?> get activeGroupIdState =>
-      _browserService.tM.activeGroupIdState;
+      _browserService.tab.activeGroupIdState;
 
   ListenableState<String?> get activeTabIdState =>
-      _browserService.tM.activeTabIdState;
+      _browserService.tab.activeTabIdState;
 
   String? get _activeTabId => activeTabIdState.value;
 
@@ -98,7 +98,7 @@ class BrowserPageModel extends ElementaryModel {
   BrowserBasicAuthCreds? getBasicAuthCreds(
     URLAuthenticationChallenge challenge,
   ) =>
-      _browserService.aM.getBasicAuthCreds(challenge);
+      _browserService.auth.getBasicAuthCreds(challenge);
 
   void updateAuthCreds(
     URLAuthenticationChallenge challenge,
@@ -113,25 +113,25 @@ class BrowserPageModel extends ElementaryModel {
     }
     _inpageProvider.url = uri;
     _tonConnectJsBridge.url = uri;
-    _browserService.tM.updateCachedUrl(_tabId, uri);
+    _browserService.tab.updateCachedUrl(_tabId, uri);
   }
 
   void updateTitle(String title) {
-    _browserService.tM.updateTabTitle(_tabId, title);
+    _browserService.tab.updateTabTitle(_tabId, title);
   }
 
   void addHistory(Uri? uri) {
     if (uri == null) {
       return;
     }
-    _browserService.hM.createHistoryItem(uri);
+    _browserService.hist.createHistoryItem(uri);
   }
 
   Future<void> createScreenshot({
     required Future<Uint8List?> Function() takePictureCallback,
     bool force = false,
   }) async {
-    return _browserService.tabs.createScreenshot(
+    return _browserService.tab.createScreenshot(
       tabId: _tabId,
       takePictureCallback: takePictureCallback,
     );
