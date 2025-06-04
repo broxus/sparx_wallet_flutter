@@ -309,7 +309,7 @@ class BrowserMainScreenWidgetModel
   void _onEmptyTabs() {
     callWithDelay(() {
       _pageDelegate.reset();
-      _pageSlideDelegate.slideTo(0);
+      _pageSlideDelegate.slideToPage(0);
     });
   }
 
@@ -331,7 +331,7 @@ class BrowserMainScreenWidgetModel
     );
 
     if (index != null && index > -1) {
-      _pageSlideDelegate.slideTo(sizes.urlWidth * index + 50);
+      _pageSlideDelegate.slideToPage(index);
 
       _pageDelegate.reset();
     }

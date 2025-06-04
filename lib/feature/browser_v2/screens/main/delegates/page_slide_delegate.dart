@@ -1,4 +1,3 @@
-import 'package:app/utils/common_utils.dart';
 import 'package:flutter/cupertino.dart';
 
 abstract interface class BrowserPageSlideUi {
@@ -34,10 +33,8 @@ class BrowserPageSlideDelegate implements BrowserPageSlideUi {
     urlSliderPageController.dispose();
   }
 
-  void slideTo(double value) {
-    callWithDelay(() {
-      urlSliderPageController.jumpTo(value);
-    });
+  void slideToPage(int page) {
+    urlSliderPageController.jumpToPage(page);
   }
 
   @override
