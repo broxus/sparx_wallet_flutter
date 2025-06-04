@@ -43,6 +43,7 @@ abstract class $NftPrepareTransferDataCopyWith<$Res> {
       List<PublicKey>? localCustodians});
 
   $PublicKeyCopyWith<$Res> get custodian;
+  $NftItemCopyWith<$Res> get item;
   $NftCollectionCopyWith<$Res> get collection;
 }
 
@@ -106,6 +107,16 @@ class _$NftPrepareTransferDataCopyWithImpl<$Res,
   /// with the given fields replaced by the non-null parameter values.
   @override
   @pragma('vm:prefer-inline')
+  $NftItemCopyWith<$Res> get item {
+    return $NftItemCopyWith<$Res>(_value.item, (value) {
+      return _then(_value.copyWith(item: value) as $Val);
+    });
+  }
+
+  /// Create a copy of NftPrepareTransferData
+  /// with the given fields replaced by the non-null parameter values.
+  @override
+  @pragma('vm:prefer-inline')
   $NftCollectionCopyWith<$Res> get collection {
     return $NftCollectionCopyWith<$Res>(_value.collection, (value) {
       return _then(_value.copyWith(collection: value) as $Val);
@@ -131,6 +142,8 @@ abstract class _$$NftPrepareTransferDataImplCopyWith<$Res>
 
   @override
   $PublicKeyCopyWith<$Res> get custodian;
+  @override
+  $NftItemCopyWith<$Res> get item;
   @override
   $NftCollectionCopyWith<$Res> get collection;
 }
