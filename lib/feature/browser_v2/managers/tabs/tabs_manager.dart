@@ -430,8 +430,7 @@ class BrowserTabsManager {
       tabs.add(newTab);
       _browserTabsStorageService.saveBrowserTabs(tabs);
     } else {
-      activeTabId =
-          _browserTabsStorageService.getActiveTabId() ?? tabs.lastOrNull?.id;
+      activeTabId = _browserTabsStorageService.getActiveTabId();
     }
 
     if (groups.isEmpty) {
@@ -442,16 +441,14 @@ class BrowserTabsManager {
       );
     }
 
-    var activeGroupId = groups
-        .firstWhereOrNull(
-          (g) => g.tabsIds.contains(activeTabId),
-        )
-        ?.id;
-
-    if (activeGroupId == null || activeTabId == null) {
-      activeGroupId = tabsGroupId;
-      activeTabId = null;
-    }
+    final activeGroupId = activeTabId == null
+        ? tabsGroupId
+        : groups
+                .firstWhereOrNull(
+                  (g) => g.tabsIds.contains(activeTabId),
+                )
+                ?.id ??
+            tabsGroupId;
 
     _screenShooter.init(tabs);
 
