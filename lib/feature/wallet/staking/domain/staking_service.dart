@@ -1,8 +1,8 @@
 import 'dart:async';
 
-import 'package:app/app/service/resources_service.dart';
 import 'package:app/app/service/service.dart';
 import 'package:app/data/models/models.dart';
+import 'package:app/feature/wallet/staking/staking.dart';
 import 'package:app/utils/utils.dart';
 import 'package:collection/collection.dart';
 import 'package:dio/dio.dart';
@@ -10,39 +10,24 @@ import 'package:injectable/injectable.dart';
 import 'package:nekoton_repository/nekoton_repository.dart';
 import 'package:rxdart/rxdart.dart';
 
-/// Paths to load stever abi
-const _stEverVaultAbiPath = 'assets/abi/StEverVault.abi.min.json';
-const _stEverAccountAbiPath = 'assets/abi/StEverAccount.abi.min.json';
-const _stEverVaultNewAbiPath = 'assets/abi/StEverVaultNew.abi.json';
-const _stEverAccountNewAbiPath = 'assets/abi/StEverAccountNew.abi.json';
-
 @singleton
 class StakingService {
   StakingService(
-    this.nekotonRepository,
-    this.dio,
-    this._resourcesService,
+    this._nekotonRepository,
+    this._dio,
+    this._abiProvider,
+    this._gasPriceService,
   );
 
-  final NekotonRepository nekotonRepository;
-  final Dio dio;
-  final ResourcesService _resourcesService;
+  final NekotonRepository _nekotonRepository;
+  final Dio _dio;
+  final StakingAbiProvider _abiProvider;
+  final GasPriceService _gasPriceService;
 
-  FullContractState? _vaultStateCache;
+  // TODO(komarov): use CachedContractStateProvider instead of this field
+  Future<FullContractState?>? _vaultStateCache;
 
-  /// Initialize service loading abi from files
-  Future<void> init() async {
-    _stEverVaultAbi = await _abiLoader(_stEverVaultAbiPath);
-    _stEverAccountAbi = await _abiLoader(_stEverAccountAbiPath);
-    _stEverVaultNewAbi = await _abiLoader(_stEverVaultNewAbiPath);
-    _stEverAccountNewAbi = await _abiLoader(_stEverAccountNewAbiPath);
-  }
-
-  /// Json strings of contract abi that sends in requests
-  late final String _stEverVaultAbi;
-  late final String _stEverAccountAbi;
-  late final String _stEverVaultNewAbi;
-  late final String _stEverAccountNewAbi;
+  Future<void> init() async {}
 
   /// Withdraw request that was cancelled and mustn't be displayed when
   /// [userAvailableWithdraw] returns uncompleted list of blockchain messages.
@@ -54,15 +39,13 @@ class StakingService {
   final _withdrawSubject =
       BehaviorSubject<Map<Address, List<StEverWithdrawRequest>>>.seeded({});
 
-  String get stEverVaultAbi =>
-      nekotonRepository.currentTransport.networkType == 'ever'
-          ? _stEverVaultAbi
-          : _stEverVaultNewAbi;
+  /// If we are calling any method of staking, then current transport has this
+  /// data.
+  StakingInformation get stakingInformation =>
+      _nekotonRepository.currentTransport.stakeInformation!;
 
-  String get stEverAccountAbi =>
-      nekotonRepository.currentTransport.networkType == 'ever'
-          ? _stEverAccountAbi
-          : _stEverAccountNewAbi;
+  NetworkType get _networkType =>
+      _nekotonRepository.currentTransport.networkType;
 
   /// Get all possible withdraw requests for [accountAddress].
   /// To update withdraws, call [tryUpdateWithdraws].
@@ -85,17 +68,12 @@ class StakingService {
     }
   }
 
-  /// If we are calling any method of staking, then current transport has this
-  /// data.
-  StakingInformation get stakingInformation =>
-      nekotonRepository.currentTransport.stakeInformation!;
-
   /// Returns body/comment for TonWalletSendWidget, all other fields should be
   /// put manually.
-  Future<String> depositEverBodyPayload(BigInt depositAmount) {
+  Future<String> depositEverBodyPayload(BigInt depositAmount) async {
     final payload = FunctionCall(
       method: 'deposit',
-      abi: stEverVaultAbi,
+      abi: await _abiProvider.getVaultAbi(_networkType),
       params: {
         '_nonce': NtpTime.now().millisecondsSinceEpoch,
         '_amount': depositAmount.toString(),
@@ -114,7 +92,7 @@ class StakingService {
     final contract = await getVaultContractState();
     final result = await runLocal(
       accountStuffBoc: contract.boc,
-      contractAbi: stEverVaultAbi,
+      contractAbi: await _abiProvider.getVaultAbi(_networkType),
       methodId: 'encodeDepositPayload',
       input: {
         '_nonce': NtpTime.now().millisecondsSinceEpoch,
@@ -127,10 +105,10 @@ class StakingService {
 
   /// Cancel withdraw request.
   /// Returns body/comment that should be handled via TonWalletSendWidget
-  Future<String> removeWithdrawPayload(String nonce) {
+  Future<String> removeWithdrawPayload(String nonce) async {
     final payload = FunctionCall(
       method: 'removePendingWithdraw',
-      abi: stEverVaultAbi,
+      abi: await _abiProvider.getVaultAbi(_networkType),
       params: {
         '_nonce': nonce,
       },
@@ -145,14 +123,14 @@ class StakingService {
 
   /// Returns unstake requests that in progress
   Future<List<StEverWithdrawRequest>> userAvailableWithdraw(
-    Address accountAddress,
+    Address account,
   ) async {
     final vaultState = await getVaultContractState();
     final result = await runLocal(
       accountStuffBoc: vaultState.boc,
-      contractAbi: stEverVaultAbi,
+      contractAbi: await _abiProvider.getVaultAbi(_networkType),
       methodId: 'getAccountAddress',
-      input: {'answerId': 0, '_user': accountAddress.address},
+      input: {'answerId': 0, '_user': account.toRaw()},
       responsible: true,
     );
     final address = result.output?.values.firstOrNull as String?;
@@ -164,7 +142,7 @@ class StakingService {
       final userState = await getUserContractState(Address(address: address));
       final requestsResult = await runLocal(
         accountStuffBoc: userState.boc,
-        contractAbi: stEverAccountAbi,
+        contractAbi: await _abiProvider.getAccountAbi(_networkType),
         methodId: 'withdrawRequests',
         input: {},
         responsible: false,
@@ -177,7 +155,7 @@ class StakingService {
           .where((e) => !_cancelledWithdraw.contains(e[0] as String))
           .map(
             (e) => StEverWithdrawRequest(
-              accountAddress: accountAddress,
+              accountAddress: account,
               nonce: e[0] as String,
               data: StEverWithdrawRequestData.fromJson(
                 e[1] as Map<String, dynamic>,
@@ -197,7 +175,7 @@ class StakingService {
     final contractState = await getVaultContractState();
     final result = await runLocal(
       accountStuffBoc: contractState.boc,
-      contractAbi: stEverVaultAbi,
+      contractAbi: await _abiProvider.getVaultAbi(_networkType),
       methodId: 'getDepositStEverAmount',
       input: {'_amount': evers.toString()},
       responsible: false,
@@ -212,7 +190,7 @@ class StakingService {
     final contractState = await getVaultContractState();
     final result = await runLocal(
       accountStuffBoc: contractState.boc,
-      contractAbi: stEverVaultAbi,
+      contractAbi: await _abiProvider.getVaultAbi(_networkType),
       methodId: 'getWithdrawEverAmount',
       input: {'_amount': stEvers.toString()},
       responsible: false,
@@ -227,7 +205,7 @@ class StakingService {
     final contractState = await getVaultContractState();
     final result = await runLocal(
       accountStuffBoc: contractState.boc,
-      contractAbi: stEverVaultAbi,
+      contractAbi: await _abiProvider.getVaultAbi(_networkType),
       methodId: 'getDetails',
       input: {'answerId': 0},
       responsible: true,
@@ -242,14 +220,15 @@ class StakingService {
   /// Get contract state for staking valut, can be used to call [runLocal]
   /// methods with this contract.
   Future<FullContractState> getVaultContractState() async {
-    _vaultStateCache ??= await nekotonRepository.currentTransport.transport
-        .getFullContractState(stakingInformation.stakingValutAddress);
+    final state = await (_vaultStateCache ??= _nekotonRepository
+        .currentTransport.transport
+        .getFullContractState(stakingInformation.stakingValutAddress));
 
-    if (_vaultStateCache == null) {
+    if (state == null) {
       throw Exception('StEver contract state not provided');
     }
 
-    return _vaultStateCache!;
+    return state;
   }
 
   /// Get contract state for user staking, that can be used to call [runLocal]
@@ -257,7 +236,7 @@ class StakingService {
   Future<FullContractState> getUserContractState(
     Address accountVault,
   ) async {
-    final contractState = await nekotonRepository.currentTransport.transport
+    final contractState = await _nekotonRepository.currentTransport.transport
         .getFullContractState(accountVault);
     if (contractState == null) {
       throw Exception('User StEver contract state not provided');
@@ -276,7 +255,7 @@ class StakingService {
   /// Load average apy from stever website.
   /// This returns value from 0 to 100.
   Future<double> getAverageAPYPercent() async {
-    final response = await dio.get<Map<String, dynamic>>(
+    final response = await _dio.get<Map<String, dynamic>>(
       stakingInformation.stakingAPYLink.toString(),
     );
     final data = response.data ?? {};
@@ -287,5 +266,34 @@ class StakingService {
 
   void resetCache() => _vaultStateCache = null;
 
-  Future<String> _abiLoader(String path) => _resourcesService.loadString(path);
+  Future<StakingFees> computeFees() async {
+    final info = _nekotonRepository.currentTransport.stakeInformation;
+    if (info == null) return StakingFees.empty();
+
+    if (_networkType == 'tycho') {
+      final price = await _gasPriceService.getGasPriceParams();
+
+      return StakingFees(
+        depositAttachedFee: await _gasPriceService.computeGas(
+          dynamicGas: info.stakeDepositAttachedFee,
+          params: price,
+        ),
+        removePendingWithdrawAttachedFee: await _gasPriceService.computeGas(
+          dynamicGas: info.stakeRemovePendingWithdrawAttachedFee,
+          params: price,
+        ),
+        withdrawAttachedFee: await _gasPriceService.computeGas(
+          dynamicGas: info.stakeWithdrawAttachedFee,
+          params: price,
+        ),
+      );
+    }
+
+    return StakingFees(
+      depositAttachedFee: info.stakeDepositAttachedFee,
+      removePendingWithdrawAttachedFee:
+          info.stakeRemovePendingWithdrawAttachedFee,
+      withdrawAttachedFee: info.stakeWithdrawAttachedFee,
+    );
+  }
 }

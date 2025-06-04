@@ -1,4 +1,5 @@
 import 'package:app/data/models/models.dart';
+import 'package:app/feature/wallet/staking/staking.dart';
 import 'package:nekoton_repository/nekoton_repository.dart';
 
 final class StakingInfo {
@@ -11,6 +12,7 @@ final class StakingInfo {
     required this.apy,
     required this.withdrawHours,
     required this.tokenContractAsset,
+    required this.fees,
   });
 
   final TonWallet wallet;
@@ -21,4 +23,5 @@ final class StakingInfo {
   final double apy;
   final int withdrawHours;
   final TokenContractAsset? tokenContractAsset;
+  final StakingFees fees;
 }
