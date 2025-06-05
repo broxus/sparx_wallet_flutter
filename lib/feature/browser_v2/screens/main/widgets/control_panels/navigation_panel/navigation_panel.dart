@@ -35,11 +35,27 @@ class BrowserNavigationPanel extends StatefulWidget {
       _BrowserTabViewMenuUrlPanelState();
 }
 
-class _BrowserTabViewMenuUrlPanelState extends State<BrowserNavigationPanel> {
+class _BrowserTabViewMenuUrlPanelState extends State<BrowserNavigationPanel>
+    with TickerProviderStateMixin {
   late final _pageViewController = widget.urlSliderController;
-  late final _onPageChanged = widget.onPageChanged;
 
   int _currentPage = 0;
+  bool _isTouch = false;
+  final _duration = const Duration(milliseconds: 300);
+
+  late final _animationLeftController = AnimationController(
+    vsync: this,
+    duration: _duration,
+  );
+
+  late final _offsetAnimation =
+      Tween<double>(begin: -10, end: 10).animate(_animationLeftController);
+
+  @override
+  void dispose() {
+    _animationLeftController.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -53,33 +69,62 @@ class _BrowserTabViewMenuUrlPanelState extends State<BrowserNavigationPanel> {
             return const SizedBox.shrink();
           }
 
-          return NotificationListener(
-            onNotification: (notification) {
-              if (notification is ScrollUpdateNotification) {
-                _handleScrollUpdate(notification);
-              }
-              return false;
-            },
-            child: PageView.builder(
-              physics: const ClampingScrollPhysics(),
-              controller: _pageViewController,
-              itemCount: list.length,
-              onPageChanged: _onPageChanged,
-              itemBuilder: (_, int index) {
-                return BrowserAddressBar(
-                  key: ValueKey(list[index].value.id),
-                  width: widget.urlWidth,
-                  listenable: list[index],
-                  onPressedCurrentUrlMenu: widget.onPressedCurrentUrlMenu,
-                  onPressedRefresh: widget.onPressedRefresh,
-                  onEditingComplete: widget.onEditingCompleteUrl,
+          return Listener(
+            onPointerDown: _onPointerDown,
+            onPointerUp: _onPointerUp,
+            onPointerCancel: _onPointerCancel,
+            child: AnimatedBuilder(
+              animation: _offsetAnimation,
+              builder: (
+                _,
+                Widget? child,
+              ) {
+                return Transform.translate(
+                  offset: Offset(_offsetAnimation.value, 0),
+                  child: child,
                 );
               },
+              child: NotificationListener(
+                onNotification: (notification) {
+                  if (notification is ScrollUpdateNotification) {
+                    _handleScrollUpdate(notification);
+                  }
+                  return false;
+                },
+                child: PageView.builder(
+                  physics: const ClampingScrollPhysics(),
+                  controller: _pageViewController,
+                  itemCount: list.length,
+                  onPageChanged: _onPageChanged,
+                  itemBuilder: (_, int index) {
+                    return BrowserAddressBar(
+                      key: ValueKey(list[index].value.id),
+                      width: widget.urlWidth,
+                      listenable: list[index],
+                      onPressedCurrentUrlMenu: widget.onPressedCurrentUrlMenu,
+                      onPressedRefresh: widget.onPressedRefresh,
+                      onEditingComplete: widget.onEditingCompleteUrl,
+                    );
+                  },
+                ),
+              ),
             ),
           );
         },
       ),
     );
+  }
+
+  void _onPointerDown(_) {
+    _isTouch = true;
+  }
+
+  void _onPointerUp(_) {
+    _isTouch = false;
+  }
+
+  void _onPointerCancel(_) {
+    _isTouch = false;
   }
 
   void _handleScrollUpdate(ScrollUpdateNotification notification) {
@@ -95,7 +140,36 @@ class _BrowserTabViewMenuUrlPanelState extends State<BrowserNavigationPanel> {
         curve: Curves.easeOut,
       );
       _currentPage = targetPage;
-      _onPageChanged(targetPage);
+      widget.onPageChanged(targetPage);
     }
+  }
+
+  void _animate(num page) {
+    final value = _animationLeftController.value;
+    double? newValue;
+
+    if (page == 0 && value != 0) {
+      newValue = 0;
+    } else {
+      final count = widget.tabsState.value?.length;
+      if (count != null && page == count - 1 && value != 1) {
+        newValue = 1;
+      } else if (value != .5) {
+        newValue = .5;
+      }
+    }
+
+    if (newValue == null) {
+      return;
+    }
+
+    _animationLeftController.animateTo(
+      newValue,
+      duration: _isTouch ? _duration : Duration.zero,
+    );
+  }
+
+  void _onPageChanged(int page) {
+    _animate(page);
   }
 }
