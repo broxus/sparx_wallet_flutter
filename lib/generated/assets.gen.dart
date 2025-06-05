@@ -589,19 +589,6 @@ class $AssetsImagesGen {
       ];
 }
 
-class $AssetsJsGen {
-  const $AssetsJsGen();
-
-  /// File path: assets/js/main.js.LICENSE.txt
-  String get mainJsLICENSE => 'assets/js/main.js.LICENSE.txt';
-
-  /// File path: assets/js/nekoton.js
-  String get nekoton => 'assets/js/nekoton.js';
-
-  /// List of all assets
-  List<String> get values => [mainJsLICENSE, nekoton];
-}
-
 class $AssetsSplashGen {
   const $AssetsSplashGen();
 
@@ -887,7 +874,6 @@ class Assets {
   static const $AssetsAnimationsGen animations = $AssetsAnimationsGen();
   static const $AssetsConfigsGen configs = $AssetsConfigsGen();
   static const $AssetsImagesGen images = $AssetsImagesGen();
-  static const $AssetsJsGen js = $AssetsJsGen();
   static const $AssetsSplashGen splash = $AssetsSplashGen();
   static const $AssetsTranslationsGen translations = $AssetsTranslationsGen();
 }
