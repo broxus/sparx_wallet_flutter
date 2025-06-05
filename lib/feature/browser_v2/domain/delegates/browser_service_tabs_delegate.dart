@@ -138,8 +138,6 @@ class BrowserServiceTabsDelegate
     initValue: ToolbarData(),
   );
 
-  final _controllers = HashMap<String, CustomWebViewController>();
-
   final _groupsCollection = GroupsCollection();
   final _tabsCollection = TabsCollection();
 
@@ -178,8 +176,6 @@ class BrowserServiceTabsDelegate
   List<String> get allTabsIds => allTabsIdsState.value;
 
   String? get activeTabId => _tabsCollection.activeEntityIdState.value;
-
-  CustomWebViewController? get _currentController => _controllers[activeTabId];
 
   void init() {
     activeTabIdState.addListener(_handleActiveTab);
@@ -224,6 +220,7 @@ class BrowserServiceTabsDelegate
   }
 
   /// Clear all browser tabs
+  @override
   Future<void> clearTabs() async {
     await _browserTabsStorageService.clear();
     await _screenShooter.clear();
@@ -235,6 +232,7 @@ class BrowserServiceTabsDelegate
   void updateCachedUrl(String tabId, Uri uri) {
     _tabsCollection.updateUrl(tabId: tabId, uri: uri);
     _browserTabsStorageService.saveBrowserTabs(_tabsCollection.entities);
+    _updateControlPanel();
   }
 
   @override
@@ -244,8 +242,6 @@ class BrowserServiceTabsDelegate
     updateCachedUrl(tabId, resultUri);
 
     unawaited(_controllersDelegate.loadUrl(tabId, uri));
-
-    unawaited(_updateControlPanel());
   }
 
   @override
@@ -593,13 +589,15 @@ class BrowserServiceTabsDelegate
   }
 
   Future<void> _updateControlPanel() async {
-    final controller = _currentController;
+    final id = activeTabId;
 
     _controlPanelState.accept(
-      ToolbarData(
-        isCanGoBack: await controller?.canGoBack(),
-        isCanGoForward: await controller?.canGoForward(),
-      ),
+      id == null
+          ? ToolbarData()
+          : ToolbarData(
+              isCanGoBack: await _controllersDelegate.checkCanGoBack(id),
+              isCanGoForward: await _controllersDelegate.checkCanGoForward(id),
+            ),
     );
   }
 }

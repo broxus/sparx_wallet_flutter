@@ -41,4 +41,10 @@ class BrowserServicePagesControllersDelegate implements BrowserDelegate {
 
   Future<void> goForward(String tabId) async =>
       await _controllers[tabId]?.goForward();
+
+  Future<bool> checkCanGoBack(String tabId) async =>
+      (await _controllers[tabId]?.canGoBack()) ?? false;
+
+  Future<bool> checkCanGoForward(String tabId) async =>
+      (await _controllers[tabId]?.canGoForward()) ?? false;
 }
