@@ -71,10 +71,9 @@ class NftTransferInfoWidget
                 style: theme.textStyles.labelSmall,
               ),
             ),
-          DoubleSourceBuilder(
-            firstSource: attachedAmount,
-            secondSource: wm.nativeUSDPrice,
-            builder: (_, attachedAmount, nativeUSDPrice) {
+          StateNotifierBuilder(
+            listenableState: attachedAmount,
+            builder: (_, attachedAmount) {
               final amount = attachedAmount?.let(
                 (attachedAmount) => Money.fromBigIntWithCurrency(
                   attachedAmount,
@@ -86,7 +85,6 @@ class NftTransferInfoWidget
                 margin: const EdgeInsets.only(top: DimensSizeV2.d16),
                 label: LocaleKeys.attachedAmount.tr(),
                 child: SeparatedColumn(
-                  spacing: DimensSize.d4,
                   crossAxisAlignment: CrossAxisAlignment.end,
                   children: [
                     amount?.let(
@@ -100,23 +98,33 @@ class NftTransferInfoWidget
                           ),
                         ) ??
                         _indicator,
-                    if (nativeUSDPrice != null && amount != null)
-                      AmountWidget.dollars(
-                        amount: amount.exchangeToUSD(nativeUSDPrice),
-                        style: theme.textStyles.labelXSmall.copyWith(
-                          color: theme.colors.content3,
-                        ),
-                      ),
+                    StateNotifierBuilder(
+                      listenableState: wm.nativeUSDPrice,
+                      builder: (_, nativeUSDPrice) {
+                        if (nativeUSDPrice == null || amount == null) {
+                          return const SizedBox.shrink();
+                        }
+
+                        return Padding(
+                          padding: const EdgeInsets.only(top: DimensSizeV2.d4),
+                          child: AmountWidget.dollars(
+                            amount: amount.exchangeToUSD(nativeUSDPrice),
+                            style: theme.textStyles.labelXSmall.copyWith(
+                              color: theme.colors.content3,
+                            ),
+                          ),
+                        );
+                      },
+                    ),
                   ],
                 ),
               );
             },
           ),
-          TripleSourceBuilder(
+          DoubleSourceBuilder(
             firstSource: fees,
-            secondSource: feeError,
-            thirdSource: wm.nativeUSDPrice,
-            builder: (_, fees, feeError, nativeUSDPrice) {
+            secondSource: wm.nativeUSDPrice,
+            builder: (_, fees, nativeUSDPrice) {
               final amount = fees?.let(
                 (fees) => Money.fromBigIntWithCurrency(
                   fees,
@@ -126,7 +134,6 @@ class NftTransferInfoWidget
 
               final child = SeparatedColumn(
                 crossAxisAlignment: CrossAxisAlignment.end,
-                spacing: DimensSizeV2.d4,
                 children: [
                   WalletTransactionDetailsItem(
                     title: LocaleKeys.networkFee.tr(),
@@ -149,13 +156,22 @@ class NftTransferInfoWidget
                               )
                             : null,
                   ),
-                  if (feeError != null)
-                    Text(
-                      feeError,
-                      style: theme.textStyles.labelSmall.copyWith(
-                        color: theme.colors.negative,
-                      ),
-                    ),
+                  StateNotifierBuilder(
+                    listenableState: feeError,
+                    builder: (_, feeError) {
+                      if (feeError == null) return const SizedBox.shrink();
+
+                      return Padding(
+                        padding: const EdgeInsets.only(top: DimensSizeV2.d4),
+                        child: Text(
+                          feeError,
+                          style: theme.textStyles.labelSmall.copyWith(
+                            color: theme.colors.negative,
+                          ),
+                        ),
+                      );
+                    },
+                  ),
                 ],
               );
 

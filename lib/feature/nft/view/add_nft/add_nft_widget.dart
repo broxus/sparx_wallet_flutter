@@ -37,7 +37,7 @@ class AddNftWidget extends ElementaryWidget<AddNftWidgetModel> {
                     sizeType: PrimaryTextFieldSizeType.medium,
                     hintText: LocaleKeys.nftPasteHint.tr(),
                     textEditingController: wm.addressController,
-                    inputFormatters: [wm.addressFilterFormatter],
+                    inputFormatters: wm.addressFilterFormatter,
                     validator: wm.validateAddressField,
                     suffixes: [
                       ClipboardPasteButton(

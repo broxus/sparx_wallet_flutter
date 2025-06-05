@@ -38,9 +38,9 @@ class AddNftWidgetModel extends CustomWidgetModel<AddNftWidget, AddNftModel> {
 
   late final addressController = createTextEditingController();
 
-  final addressFilterFormatter = FilteringTextInputFormatter.deny(
-    RegExp(r'\s'),
-  );
+  final addressFilterFormatter = [
+    FilteringTextInputFormatter.deny(RegExp(r'\s')),
+  ];
 
   ThemeStyleV2 get themeStyleV2 => context.themeStyleV2;
 

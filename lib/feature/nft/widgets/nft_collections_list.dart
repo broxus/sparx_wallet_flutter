@@ -5,6 +5,8 @@ import 'package:lucide_icons_flutter/lucide_icons.dart';
 import 'package:nekoton_repository/nekoton_repository.dart';
 import 'package:ui_components_lib/v2/ui_components_lib_v2.dart';
 
+const _aspectRatio = 168 / 196;
+
 class NftCollectionsList extends StatelessWidget {
   const NftCollectionsList({
     required this.collections,
@@ -32,7 +34,7 @@ class NftCollectionsList extends StatelessWidget {
       crossAxisCount: 2,
       mainAxisSpacing: DimensSizeV2.d8,
       crossAxisSpacing: DimensSizeV2.d8,
-      childAspectRatio: 168 / 196,
+      childAspectRatio: _aspectRatio,
       children: [
         for (final collection in collections)
           _Item(
