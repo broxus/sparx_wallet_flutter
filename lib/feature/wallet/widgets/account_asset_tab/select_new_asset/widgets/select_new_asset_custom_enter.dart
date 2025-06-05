@@ -1,16 +1,13 @@
-// ignore_for_file: use_build_context_synchronously
-
 import 'package:app/data/models/models.dart';
 import 'package:app/di/di.dart';
 import 'package:app/feature/messenger/data/message.dart';
 import 'package:app/feature/messenger/domain/service/messenger_service.dart';
 import 'package:app/feature/wallet/widgets/account_asset_tab/select_new_asset/select_new_asset.dart';
 import 'package:app/generated/generated.dart';
-import 'package:app/utils/clipboard_utils.dart';
 import 'package:app/utils/input_formatters.dart';
+import 'package:app/widgets/widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:lucide_icons_flutter/lucide_icons.dart';
 import 'package:nekoton_repository/nekoton_repository.dart' hide Message;
 import 'package:ui_components_lib/ui_components_lib.dart';
 import 'package:ui_components_lib/v2/ui_components_lib_v2.dart';
@@ -53,43 +50,15 @@ class _SelectNewAssetCustomEnterState extends State<SelectNewAssetCustomEnter> {
                 PrimaryTextField(
                   hintText: LocaleKeys.rootTokenContract.tr(),
                   textEditingController: addressController,
-                  onSubmit: (_) => _enable(context),
+                  onSubmit: _onSubmit,
                   inputFormatters: [
                     InputFormatters.noSpacesFormatter,
                   ],
                   suffixes: [
-                    ValueListenableBuilder<TextEditingValue>(
-                      valueListenable: addressController,
-                      builder: (context, value, _) {
-                        if (value.text.isEmpty) {
-                          return Padding(
-                            padding: const EdgeInsets.only(
-                              right: DimensSizeV2.d8,
-                            ),
-                            child: FloatButton(
-                              buttonShape: ButtonShape.square,
-                              buttonSize: ButtonSize.small,
-                              icon: LucideIcons.arrowDownToDot,
-                              onPressed: () => _paste(context),
-                            ),
-                          );
-                        }
-
-                        return Padding(
-                          padding: const EdgeInsets.only(
-                            right: DimensSizeV2.d8,
-                          ),
-                          child: FloatButton(
-                            buttonShape: ButtonShape.square,
-                            buttonSize: ButtonSize.small,
-                            icon: LucideIcons.x,
-                            onPressed: () {
-                              widget.focus.unfocus();
-                              addressController.clear();
-                            },
-                          ),
-                        );
-                      },
+                    ClipboardPasteButton(
+                      value: addressController,
+                      onClear: _onClear,
+                      onPaste: _paste,
                     ),
                   ],
                 ),
@@ -117,8 +86,7 @@ class _SelectNewAssetCustomEnterState extends State<SelectNewAssetCustomEnter> {
               child: AccentButton(
                 buttonShape: ButtonShape.pill,
                 title: LocaleKeys.proceedWord.tr(),
-                onPressed:
-                    value.text.isNotEmpty ? () => _enable(context) : null,
+                onPressed: value.text.isNotEmpty ? _enable : null,
               ),
             ),
           ),
@@ -127,7 +95,14 @@ class _SelectNewAssetCustomEnterState extends State<SelectNewAssetCustomEnter> {
     );
   }
 
-  void _enable(BuildContext context) {
+  void _onSubmit(String? _) => _enable();
+
+  void _onClear() {
+    widget.focus.unfocus();
+    addressController.clear();
+  }
+
+  void _enable() {
     widget.focus.unfocus();
 
     context
@@ -135,11 +110,10 @@ class _SelectNewAssetCustomEnterState extends State<SelectNewAssetCustomEnter> {
         .addCustom(context, Address(address: addressController.text.trim()));
   }
 
-  Future<void> _paste(BuildContext context) async {
-    final text = await getClipBoardText();
-    if (text?.isEmpty ?? true) return;
+  void _paste(String text) {
+    if (text.isEmpty) return;
 
-    final isValid = validateAddress(Address(address: text!));
+    final isValid = validateAddress(Address(address: text));
     if (isValid) {
       addressController.text = text;
     } else {

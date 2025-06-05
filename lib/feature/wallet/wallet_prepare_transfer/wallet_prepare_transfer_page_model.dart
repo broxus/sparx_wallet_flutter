@@ -83,12 +83,6 @@ class WalletPrepareTransferPageModel extends ElementaryModel {
     return null;
   }
 
-  String getWalletName(KeyAccount account) {
-    return _nekotonRepository.currentTransport
-        .defaultAccountName(account.account.tonWallet.contract)
-        .toLowerCase();
-  }
-
   String? getSeedName(PublicKey custodian) {
     return _nekotonRepository.seedList.findSeedKey(custodian)?.name;
   }

@@ -56,9 +56,10 @@ class ConnectionService {
         );
 
     return CommonTransportStrategy.fromData(
-      transport,
-      connection,
-      data,
+      dio: _dio,
+      transport: transport,
+      connection: connection,
+      transportData: data,
     );
   }
 
@@ -146,6 +147,14 @@ extension TransportTypeExtension on TransportStrategy {
     }
 
     return '';
+  }
+
+  NftInformation? get nftInformation {
+    if (this is CommonTransportStrategy) {
+      return (this as CommonTransportStrategy).nftInformation;
+    }
+
+    return null;
   }
 
   bool get isEverscale => networkType == 'ever';

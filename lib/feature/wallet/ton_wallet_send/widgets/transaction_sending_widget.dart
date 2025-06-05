@@ -1,3 +1,4 @@
+import 'package:app/app/router/compass/compass.dart';
 import 'package:app/app/router/router.dart';
 import 'package:app/feature/wallet/route.dart';
 import 'package:app/generated/generated.dart';
@@ -12,6 +13,7 @@ class TransactionSendingWidget extends StatelessWidget {
   const TransactionSendingWidget({
     required this.canClose,
     required this.popOnComplete,
+    this.routeData = const WalletRouteData(),
     this.isDeploying = false,
     super.key,
   });
@@ -19,6 +21,7 @@ class TransactionSendingWidget extends StatelessWidget {
   final bool canClose;
   final bool isDeploying;
   final bool popOnComplete;
+  final CompassRouteData routeData;
 
   @override
   Widget build(BuildContext context) {
@@ -74,7 +77,7 @@ class TransactionSendingWidget extends StatelessWidget {
                 if (popOnComplete) {
                   context.compassBack(true);
                 } else {
-                  context.compassPointNamed(const WalletRouteData());
+                  context.compassPointNamed(routeData);
                 }
               },
             ),
