@@ -1,5 +1,6 @@
 import 'package:app/app/service/service.dart';
 import 'package:app/data/models/models.dart';
+import 'package:app/feature/wallet/staking/staking.dart';
 import 'package:elementary/elementary.dart';
 import 'package:nekoton_repository/nekoton_repository.dart';
 
@@ -37,4 +38,6 @@ class CancelUnstakingPageModel extends ElementaryModel {
 
   void acceptCancelledWithdraw(StEverWithdrawRequest request) =>
       _stakingService.acceptCancelledWithdraw(request);
+
+  Future<StakingFees> computeFees() => _stakingService.computeFees();
 }

@@ -1,5 +1,6 @@
 import 'package:app/app/service/service.dart';
 import 'package:app/data/models/models.dart';
+import 'package:app/feature/wallet/staking/staking.dart';
 import 'package:elementary/elementary.dart';
 import 'package:nekoton_repository/nekoton_repository.dart' hide Message;
 
@@ -10,6 +11,7 @@ class StakingPageModel extends ElementaryModel {
     this._currenciesService,
     this._stakingService,
     this._assetsService,
+    this._storage,
   ) : super(errorHandler: errorHandler) {
     _stakingService.resetCache();
   }
@@ -18,6 +20,7 @@ class StakingPageModel extends ElementaryModel {
   final CurrenciesService _currenciesService;
   final StakingService _stakingService;
   final AssetsService _assetsService;
+  final GeneralStorageService _storage;
 
   TransportStrategy get transport => _nekotonRepository.currentTransport;
 
@@ -29,6 +32,10 @@ class StakingPageModel extends ElementaryModel {
     }
     return transport.stakeInformation!;
   }
+
+  bool get getWasStEverOpened => _storage.getWasStEverOpened;
+
+  void saveWasStEverOpened() => _storage.saveWasStEverOpened();
 
   Stream<List<StEverWithdrawRequest>> getWithdrawRequests(Address address) =>
       _stakingService.withdrawRequestsStream(address);
@@ -68,4 +75,15 @@ class StakingPageModel extends ElementaryModel {
 
   Future<BigInt> getWithdrawEverAmount(BigInt value) =>
       _stakingService.getWithdrawEverAmount(value);
+
+  Future<String> depositEverBodyPayload(BigInt depositAmount) =>
+      _stakingService.depositEverBodyPayload(depositAmount);
+
+  Future<String> withdrawStEverPayload() =>
+      _stakingService.withdrawStEverPayload();
+
+  KeyAccount? findAccountByAddress(Address address) =>
+      _nekotonRepository.seedList.findAccountByAddress(address);
+
+  Future<StakingFees> computeFees() => _stakingService.computeFees();
 }
