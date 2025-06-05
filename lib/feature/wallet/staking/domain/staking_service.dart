@@ -23,9 +23,7 @@ class StakingService {
   final Dio _dio;
   final StakingAbiProvider _abiProvider;
   final GasPriceService _gasPriceService;
-
-  // TODO(komarov): use CachedContractStateProvider instead of this field
-  Future<FullContractState?>? _vaultStateCache;
+  final _cachedContractStateProvider = CachedContractStateProvider();
 
   Future<void> init() async {}
 
@@ -220,15 +218,10 @@ class StakingService {
   /// Get contract state for staking valut, can be used to call [runLocal]
   /// methods with this contract.
   Future<FullContractState> getVaultContractState() async {
-    final state = await (_vaultStateCache ??= _nekotonRepository
-        .currentTransport.transport
-        .getFullContractState(stakingInformation.stakingValutAddress));
-
-    if (state == null) {
-      throw Exception('StEver contract state not provided');
-    }
-
-    return state;
+    return _cachedContractStateProvider.get(
+      address: stakingInformation.stakingValutAddress,
+      transport: _nekotonRepository.currentTransport.transport,
+    );
   }
 
   /// Get contract state for user staking, that can be used to call [runLocal]
@@ -264,7 +257,7 @@ class StakingService {
     return double.parse(data['data']?['apy'] as String? ?? '0.0') * 100;
   }
 
-  void resetCache() => _vaultStateCache = null;
+  void resetCache() => _cachedContractStateProvider.clear();
 
   Future<StakingFees> computeFees() async {
     final info = _nekotonRepository.currentTransport.stakeInformation;
