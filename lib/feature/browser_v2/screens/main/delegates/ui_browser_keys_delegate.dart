@@ -1,6 +1,6 @@
 import 'package:flutter/foundation.dart';
 
-class BrowserKeysDelegate {
+class BrowserKeysUiDelegate {
   final tabListKey = UniqueKey();
   final tabViewKey = UniqueKey();
   final listKey = UniqueKey();

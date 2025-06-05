@@ -7,8 +7,8 @@ abstract interface class BrowserProgressIndicatorUi {
   void onProgressChanged(int progressValue);
 }
 
-class BrowserProgressIndicatorDelegate implements BrowserProgressIndicatorUi {
-  BrowserProgressIndicatorDelegate(this.vsync);
+class BrowserProgressIndicatorUiDelegate implements BrowserProgressIndicatorUi {
+  BrowserProgressIndicatorUiDelegate(this.vsync);
 
   final TickerProvider vsync;
 

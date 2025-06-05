@@ -89,6 +89,8 @@ import '../feature/browser_v2/domain/delegates/browser_service_favicon_delegate.
     as _i181;
 import '../feature/browser_v2/domain/delegates/browser_service_history_delegate.dart'
     as _i617;
+import '../feature/browser_v2/domain/delegates/browser_service_pages_controllers_delegate.dart'
+    as _i318;
 import '../feature/browser_v2/domain/delegates/browser_service_permissions_delegate.dart'
     as _i475;
 import '../feature/browser_v2/domain/delegates/browser_service_screenshots_delegate.dart'
@@ -182,6 +184,8 @@ extension GetItInjectableX on _i174.GetIt {
     await _i1067.NekotonRepositoryPackageModule().init(gh);
     final dioModule = _$DioModule();
     gh.factory<_i728.VersionComparator>(() => _i728.VersionComparator());
+    gh.factory<_i318.BrowserServicePagesControllersDelegate>(
+        () => _i318.BrowserServicePagesControllersDelegate());
     gh.factory<_i931.BrowserServiceAuthDelegate>(
         () => _i931.BrowserServiceAuthDelegate());
     gh.singleton<_i738.TokenWalletStorageService>(
@@ -494,6 +498,13 @@ extension GetItInjectableX on _i174.GetIt {
           storageService: gh<_i128.GeneralStorageService>(),
           appLifecycle: gh<_i128.AppLifecycleService>(),
         ));
+    gh.factory<_i77.BrowserServiceTabsDelegate>(
+        () => _i77.BrowserServiceTabsDelegate(
+              gh<_i634.BrowserTabsStorageService>(),
+              gh<_i988.BrowserGroupsStorageService>(),
+              gh<_i318.BrowserServicePagesControllersDelegate>(),
+              gh<_i169.BrowserServiceScreenshotsDelegate>(),
+            ));
     gh.singleton<_i65.ConnectionsStorageService>(
         () => _i65.ConnectionsStorageService(
               gh<_i792.GetStorage>(instanceName: 'connections'),
@@ -541,12 +552,6 @@ extension GetItInjectableX on _i174.GetIt {
       ),
       instanceName: 'OnboardingGuard',
     );
-    gh.factory<_i77.BrowserServiceTabsDelegate>(
-        () => _i77.BrowserServiceTabsDelegate(
-              gh<_i634.BrowserTabsStorageService>(),
-              gh<_i988.BrowserGroupsStorageService>(),
-              gh<_i169.BrowserServiceScreenshotsDelegate>(),
-            ));
     gh.singleton<_i637.BalanceService>(() => _i637.BalanceService(
           gh<_i771.NekotonRepository>(),
           gh<_i128.CurrenciesService>(),

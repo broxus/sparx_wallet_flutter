@@ -14,8 +14,8 @@ abstract interface class BrowserPageScrollUi {
   void onPointerMove(PointerMoveEvent event);
 }
 
-class BrowserPageScrollDelegate implements BrowserPageScrollUi {
-  BrowserPageScrollDelegate({
+class BrowserPageScrollUiDelegate implements BrowserPageScrollUi {
+  BrowserPageScrollUiDelegate({
     required this.onPageScrollChange,
   });
 

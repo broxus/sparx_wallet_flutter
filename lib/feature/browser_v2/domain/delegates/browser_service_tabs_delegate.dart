@@ -9,6 +9,7 @@ import 'package:app/feature/browser_v2/data/groups/browser_group.dart';
 import 'package:app/feature/browser_v2/data/tabs/browser_tab.dart';
 import 'package:app/feature/browser_v2/data/tabs/tabs_data.dart';
 import 'package:app/feature/browser_v2/domain/delegates/browser_base_delegate.dart';
+import 'package:app/feature/browser_v2/domain/delegates/browser_service_pages_controllers_delegate.dart';
 import 'package:app/feature/browser_v2/domain/delegates/browser_service_screenshots_delegate.dart';
 import 'package:app/feature/browser_v2/domain/service/storages/browser_groups_storage_service.dart';
 import 'package:app/feature/browser_v2/domain/service/storages/browser_tabs_storage_service.dart';
@@ -121,6 +122,7 @@ class BrowserServiceTabsDelegate
   BrowserServiceTabsDelegate(
     this._browserTabsStorageService,
     this._browserGroupsStorageService,
+    this._controllersDelegate,
     this._screenShooter,
   );
 
@@ -129,6 +131,7 @@ class BrowserServiceTabsDelegate
   final BrowserTabsStorageService _browserTabsStorageService;
   final BrowserGroupsStorageService _browserGroupsStorageService;
 
+  final BrowserServicePagesControllersDelegate _controllersDelegate;
   final BrowserServiceScreenshotsDelegate _screenShooter;
 
   late final _controlPanelState = StateNotifier<ToolbarData>(
@@ -190,31 +193,25 @@ class BrowserServiceTabsDelegate
   }
 
   @override
-  void setController(String tabId, CustomWebViewController controller) {
-    _controllers[tabId] = controller;
-  }
+  void setController(String tabId, CustomWebViewController controller) =>
+      _controllersDelegate.setController(tabId, controller);
 
   @override
-  void removeController(String tabId) {
-    _controllers.remove(tabId);
-  }
+  void removeController(String tabId) =>
+      _controllersDelegate.removeController(tabId);
 
   @override
-  void refresh(String tabId) {
-    _controllers[tabId]?.reload();
-  }
+  void refresh(String tabId) => _controllersDelegate.refresh(tabId);
 
   @override
   void refreshActiveTab() {
-    _controllers[activeTabId]?.reload();
+    if (activeTabId != null) {
+      refresh(activeTabId!);
+    }
   }
 
   @override
-  void closeAllControllers() {
-    _controllers
-      ..forEach((k, c) => c.dispose())
-      ..clear();
-  }
+  void closeAllControllers() => _controllersDelegate.closeAllControllers();
 
   Future<void> clear() async {
     await clearGroups();
@@ -240,14 +237,13 @@ class BrowserServiceTabsDelegate
     _browserTabsStorageService.saveBrowserTabs(_tabsCollection.entities);
   }
 
+  @override
   Future<void> requestUrl(String tabId, Uri uri) async {
     final resultUri = uri.scheme.isEmpty ? Uri.parse('https://$uri') : uri;
 
     updateCachedUrl(tabId, resultUri);
 
-    await _controllers[tabId]?.loadUrl(
-      urlRequest: URLRequest(url: WebUri.uri(resultUri)),
-    );
+    unawaited(_controllersDelegate.loadUrl(tabId, uri));
 
     unawaited(_updateControlPanel());
   }
@@ -381,18 +377,22 @@ class BrowserServiceTabsDelegate
 
   @override
   Future<void> backWeb() async {
-    await _currentController?.goBack();
+    if (activeTabId == null) {
+      return;
+    }
+
+    await _controllersDelegate.goBack(activeTabId!);
     unawaited(_updateControlPanel());
   }
 
   @override
   Future<void> forwardWeb() async {
-    await _currentController?.goForward();
-    unawaited(_updateControlPanel());
-  }
+    if (activeTabId == null) {
+      return;
+    }
 
-  Future<bool> clearCookie() async {
-    return CookieManager.instance().deleteAllCookies();
+    await _controllersDelegate.goForward(activeTabId!);
+    unawaited(_updateControlPanel());
   }
 
   void clearCachedFiles() {
@@ -466,9 +466,11 @@ class BrowserServiceTabsDelegate
   Future<void> permissionsChanged(
     String tabId,
     PermissionsChangedEvent event,
-  ) async {
-    return _controllers[tabId]?.permissionsChanged(event);
-  }
+  ) =>
+      _controllersDelegate.permissionsChanged(
+        tabId,
+        event,
+      );
 
   @override
   BrowserGroup createBrowserGroup({

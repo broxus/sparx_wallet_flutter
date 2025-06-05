@@ -10,8 +10,8 @@ abstract interface class BrowserPageSlideUi {
   void onPageChanged(int index);
 }
 
-class BrowserPageSlideDelegate implements BrowserPageSlideUi {
-  BrowserPageSlideDelegate({
+class BrowserPageSlideUiDelegate implements BrowserPageSlideUi {
+  BrowserPageSlideUiDelegate({
     required this.screenWidth,
     required this.urlWidth,
     required this.onChangeSlideIndex,

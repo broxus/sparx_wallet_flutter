@@ -13,6 +13,7 @@ import 'package:app/feature/browser_v2/domain/delegates/browser_service_tabs_del
 import 'package:app/feature/browser_v2/screens/main/route.dart';
 import 'package:app/utils/common_utils.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_inappwebview/flutter_inappwebview.dart';
 import 'package:injectable/injectable.dart';
 import 'package:nekoton_repository/nekoton_repository.dart';
 import 'package:nekoton_webview/nekoton_webview.dart';
@@ -128,8 +129,12 @@ class BrowserService {
     _isContentInteractedStream.add(isInteracted);
   }
 
+  Future<bool> _clearCookie() async {
+    return CookieManager.instance().deleteAllCookies();
+  }
+
   Future<void> _clearCookieAndData() async {
-    await tryWrapper(_tabsDelegate.clearCookie);
+    await tryWrapper(_clearCookie);
     await tryWrapper(_permissionsDelegate.clearPermissions);
 
     final ids = _tabsDelegate.allTabsIds;

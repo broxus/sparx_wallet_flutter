@@ -8,21 +8,20 @@ import 'package:app/feature/browser_v2/screens/main/browser_main_screen.dart';
 import 'package:app/feature/browser_v2/screens/main/browser_main_screen_model.dart';
 import 'package:app/feature/browser_v2/screens/main/data/browser_render_manager.dart';
 import 'package:app/feature/browser_v2/screens/main/data/menu_data.dart';
-import 'package:app/feature/browser_v2/screens/main/delegates/animation_delegate.dart';
-import 'package:app/feature/browser_v2/screens/main/delegates/browser_keys_delegate.dart';
-import 'package:app/feature/browser_v2/screens/main/delegates/group_menu_delegate.dart';
-import 'package:app/feature/browser_v2/screens/main/delegates/page_slide_delegate.dart';
-import 'package:app/feature/browser_v2/screens/main/delegates/past_go_delegate.dart';
-import 'package:app/feature/browser_v2/screens/main/delegates/progress_indicator_delegate.dart';
-import 'package:app/feature/browser_v2/screens/main/delegates/scroll_page_delegate.dart';
-import 'package:app/feature/browser_v2/screens/main/delegates/size_delegate.dart';
-import 'package:app/feature/browser_v2/screens/main/delegates/tab_menu_delegate.dart';
-import 'package:app/feature/browser_v2/screens/main/delegates/tabs_and_groups_delegate.dart';
+import 'package:app/feature/browser_v2/screens/main/delegates/ui_animation_delegate.dart';
+import 'package:app/feature/browser_v2/screens/main/delegates/ui_browser_keys_delegate.dart';
+import 'package:app/feature/browser_v2/screens/main/delegates/ui_group_menu_delegate.dart';
+import 'package:app/feature/browser_v2/screens/main/delegates/ui_page_slide_delegate.dart';
+import 'package:app/feature/browser_v2/screens/main/delegates/ui_past_go_delegate.dart';
+import 'package:app/feature/browser_v2/screens/main/delegates/ui_progress_indicator_delegate.dart';
+import 'package:app/feature/browser_v2/screens/main/delegates/ui_scroll_page_delegate.dart';
+import 'package:app/feature/browser_v2/screens/main/delegates/ui_size_delegate.dart';
+import 'package:app/feature/browser_v2/screens/main/delegates/ui_tab_menu_delegate.dart';
+import 'package:app/feature/browser_v2/screens/main/delegates/ui_tabs_and_groups_delegate.dart';
 import 'package:app/feature/browser_v2/screens/main/widgets/control_panels/navigation_panel/url_action_sheet.dart';
 import 'package:app/feature/browser_v2/screens/main/widgets/tab_animated_view/tab_animation_type.dart';
 import 'package:app/feature/browser_v2/widgets/bottomsheets/browser_main_menu/browser_main_menu.dart';
 import 'package:app/utils/clipboard_utils.dart';
-import 'package:app/utils/common_utils.dart';
 import 'package:elementary/elementary.dart';
 import 'package:elementary_helper/elementary_helper.dart';
 import 'package:flutter/material.dart';
@@ -49,15 +48,15 @@ class BrowserMainScreenWidgetModel
     super.model,
   );
 
-  final keys = BrowserKeysDelegate();
+  final keys = BrowserKeysUiDelegate();
 
-  late final sizes = BrowserSizesDelegate(context);
+  late final sizes = BrowserSizesUiDelegate(context);
 
   final _renderManager = BrowserRenderManager();
 
-  late final _animationDelegate = BrowserAnimationDelegate(this);
+  late final _animationDelegate = BrowserAnimationUiDelegate(this);
 
-  late final _pageDelegate = BrowserPageScrollDelegate(
+  late final _pageDelegate = BrowserPageScrollUiDelegate(
     onPageScrollChange: (bool isToTop) {
       Future(() {
         _menuState.accept(isToTop ? MenuType.view : MenuType.url);
@@ -67,9 +66,9 @@ class BrowserMainScreenWidgetModel
   );
 
   late final _progressIndicatorDelegate =
-      BrowserProgressIndicatorDelegate(this);
+      BrowserProgressIndicatorUiDelegate(this);
 
-  late final _tabMenuDelegate = BrowserTabMenuDelegate(
+  late final _tabMenuDelegate = BrowserTabMenuUiDelegate(
     model,
     context,
     renderManager: _renderManager,
@@ -79,11 +78,11 @@ class BrowserMainScreenWidgetModel
     ),
   );
 
-  final _groupMenuDelegate = BrowserGroupMenuDelegate();
+  final _groupMenuDelegate = BrowserGroupMenuUiDelegate();
 
-  final _pastGoDelegate = BrowserPastGoDelegate();
+  final _pastGoDelegate = BrowserPastGoUiDelegate();
 
-  late final _pageSlideDelegate = BrowserPageSlideDelegate(
+  late final _pageSlideDelegate = BrowserPageSlideUiDelegate(
     screenWidth: sizes.screenWidth,
     urlWidth: sizes.urlWidth,
     onChangeSlideIndex: (int tabIndex) {
@@ -115,7 +114,7 @@ class BrowserMainScreenWidgetModel
     },
   );
 
-  late final _tabsDelegate = BrowserTabsAndGroupsDelegate(
+  late final _tabsDelegate = BrowserTabsAndGroupsUiDelegate(
     context,
     model,
     renderManager: _renderManager,
@@ -150,7 +149,7 @@ class BrowserMainScreenWidgetModel
 
   BrowserTabMenuUi get tabMenu => _tabMenuDelegate;
 
-  BrowserPageScrollDelegate get page => _pageDelegate;
+  BrowserPageScrollUi get page => _pageDelegate;
 
   RenderManager<String> get renderManager => _renderManager;
 
@@ -269,8 +268,6 @@ class BrowserMainScreenWidgetModel
       _onTabAnimationComplete,
     );
   }
-
-  final _duration = const Duration(seconds: 1);
 
   void onPressedDotsPressed() {
     final groupId = tabs.selectedGroupIdState.value;

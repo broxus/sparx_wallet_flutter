@@ -32,8 +32,8 @@ abstract interface class BrowserTabsAndGroupsUi {
   });
 }
 
-class BrowserTabsAndGroupsDelegate implements BrowserTabsAndGroupsUi {
-  BrowserTabsAndGroupsDelegate(
+class BrowserTabsAndGroupsUiDelegate implements BrowserTabsAndGroupsUi {
+  BrowserTabsAndGroupsUiDelegate(
     this.context,
     this.model, {
     required this.renderManager,
