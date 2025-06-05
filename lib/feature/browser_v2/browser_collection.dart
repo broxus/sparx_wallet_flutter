@@ -140,9 +140,9 @@ class GroupsCollection extends BrowserCollection<BrowserGroup> {
     required String tabId,
     String? groupId,
   }) {
-    NotNullNotifier<BrowserGroup>? groupNotifier;
+    var groupNotifier = groupId == null ? null : getNotifier(groupId);
 
-    if (groupId == null) {
+    if (groupNotifier == null) {
       final notifiers = _map.values;
       for (final notifier in notifiers) {
         if (notifier.value.tabsIds.contains(tabId)) {
@@ -150,8 +150,6 @@ class GroupsCollection extends BrowserCollection<BrowserGroup> {
           break;
         }
       }
-    } else {
-      groupNotifier = getNotifier(groupId);
     }
 
     if (groupNotifier == null) {
