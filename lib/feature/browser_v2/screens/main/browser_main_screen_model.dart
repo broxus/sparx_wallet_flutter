@@ -128,11 +128,13 @@ class BrowserMainScreenModel extends ElementaryModel {
 
   BrowserGroup? createBrowserGroup({
     String? name,
+    String? originalGroupId,
     String? tabId,
   }) =>
       _browserService.tab.createBrowserGroup(
         name: name,
         isSwitchToCreatedGroup: tabId == null,
+        originalGroupId: originalGroupId,
         initTabId: tabId,
       );
 

@@ -75,6 +75,7 @@ class BrowserMainScreenWidgetModel
     createGroup: (String tabId) => _tabsDelegate.createGroup(
       context,
       tabId: tabId,
+      originalGroupId: tabs.selectedGroupIdState.value,
     ),
   );
 

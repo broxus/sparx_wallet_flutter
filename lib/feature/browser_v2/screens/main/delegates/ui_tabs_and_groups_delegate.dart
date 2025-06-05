@@ -214,6 +214,7 @@ class BrowserTabsAndGroupsUiDelegate implements BrowserTabsAndGroupsUi {
   Future<void> createGroup(
     BuildContext context, {
     String? tabId,
+    String? originalGroupId,
   }) async {
     final groupName = await context.compassPush<String?>(
       CreateBrowserGroupRouteData(
@@ -228,6 +229,7 @@ class BrowserTabsAndGroupsUiDelegate implements BrowserTabsAndGroupsUi {
     final group = model.createBrowserGroup(
       name: groupName,
       tabId: tabId,
+      originalGroupId: originalGroupId,
     );
 
     if (group != null) {

@@ -1,5 +1,4 @@
 import 'dart:async';
-import 'dart:collection';
 import 'dart:math';
 
 import 'package:app/core/wm/not_null_listenable_state.dart';
@@ -45,7 +44,7 @@ abstract interface class BrowserServiceTabs {
 
   BrowserGroup createBrowserGroup({
     String? name,
-    String? prevOwnerGroupId,
+    String? originalGroupId,
     String? initTabId,
     bool isSwitchToCreatedGroup = false,
   });
@@ -471,13 +470,13 @@ class BrowserServiceTabsDelegate
   @override
   BrowserGroup createBrowserGroup({
     String? name,
-    String? prevOwnerGroupId,
+    String? originalGroupId,
     String? initTabId,
     bool isSwitchToCreatedGroup = false,
   }) {
     if (initTabId != null) {
       _groupsCollection.removeTabId(
-        groupId: prevOwnerGroupId,
+        groupId: originalGroupId,
         tabId: initTabId,
       );
     }
