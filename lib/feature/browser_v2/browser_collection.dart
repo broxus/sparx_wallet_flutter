@@ -187,7 +187,9 @@ class GroupsCollection extends BrowserCollection<BrowserGroup> {
     required String groupId,
     required int index,
   }) {
-    return getTabIds(groupId)?[index];
+    final tabIds = getTabIds(groupId);
+
+    return (tabIds == null || index >= tabIds.length) ? null : tabIds[index];
   }
 }
 

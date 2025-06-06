@@ -40,6 +40,7 @@ class _BrowserTabViewMenuUrlPanelState extends State<BrowserNavigationPanel>
   late final _pageViewController = widget.urlSliderController;
 
   int _currentPage = 0;
+  late int? _pagesCount = widget.tabsState.value?.length;
   bool _isTouch = false;
   final _duration = const Duration(milliseconds: 300);
 
@@ -52,8 +53,16 @@ class _BrowserTabViewMenuUrlPanelState extends State<BrowserNavigationPanel>
       Tween<double>(begin: -10, end: 10).animate(_animationLeftController);
 
   @override
+  void initState() {
+    super.initState();
+    _animate();
+    widget.tabsState.addListener(_handleChange);
+  }
+
+  @override
   void dispose() {
     _animationLeftController.dispose();
+    widget.tabsState.removeListener(_handleChange);
     super.dispose();
   }
 
@@ -131,6 +140,13 @@ class _BrowserTabViewMenuUrlPanelState extends State<BrowserNavigationPanel>
     final page = _pageViewController.page ?? 0;
     final delta = (page - _currentPage).abs();
 
+    if (delta <= .7) {
+      return;
+    }
+
+    final targetPage =
+        page.round().clamp(0, (widget.tabsState.value?.length ?? 1) - 1);
+
     if (delta > 0.7) {
       final targetPage =
           page.round().clamp(0, (widget.tabsState.value?.length ?? 1) - 1);
@@ -141,25 +157,30 @@ class _BrowserTabViewMenuUrlPanelState extends State<BrowserNavigationPanel>
       );
       _currentPage = targetPage;
       widget.onPageChanged(targetPage);
+    } else if (delta == 1) {
+      _animateToPage(targetPage);
     }
   }
 
-  void _animate(num page) {
+  void _animateToPage(num page) {
+    final count = widget.tabsState.value?.length;
     final value = _animationLeftController.value;
-    double? newValue;
 
-    if (page == 0 && value != 0) {
-      newValue = 0;
-    } else {
-      final count = widget.tabsState.value?.length;
-      if (count != null && page == count - 1 && value != 1) {
-        newValue = 1;
-      } else if (value != .5) {
-        newValue = .5;
-      }
+    double? newValue;
+    if (count == null) {
+      return;
     }
 
-    if (newValue == null) {
+    if (count > 1 && page == 0) {
+      newValue = 0;
+    }
+    if (count == 1 || page > 0 && page != count - 1) {
+      newValue = .5;
+    } else if (count > 0 && page == count - 1) {
+      newValue = 1;
+    }
+
+    if (newValue == null || value == newValue) {
       return;
     }
 
@@ -170,6 +191,27 @@ class _BrowserTabViewMenuUrlPanelState extends State<BrowserNavigationPanel>
   }
 
   void _onPageChanged(int page) {
-    _animate(page);
+    _animateToPage(page);
+  }
+
+  void _handleChange() {
+    final currentCount = widget.tabsState.value?.length;
+
+    if (_pagesCount != currentCount) {
+      _animate();
+    }
+
+    _pagesCount = currentCount;
+  }
+
+  void _animate() {
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (_pageViewController.hasClients) {
+        final page = _pageViewController.page;
+        if (page != null) {
+          _animateToPage(page);
+        }
+      }
+    });
   }
 }
