@@ -22,6 +22,7 @@ import 'package:app/feature/browser_v2/screens/main/widgets/control_panels/navig
 import 'package:app/feature/browser_v2/screens/main/widgets/tab_animated_view/tab_animation_type.dart';
 import 'package:app/feature/browser_v2/widgets/bottomsheets/browser_main_menu/browser_main_menu.dart';
 import 'package:app/utils/clipboard_utils.dart';
+import 'package:app/utils/focus_utils.dart';
 import 'package:elementary/elementary.dart';
 import 'package:elementary_helper/elementary_helper.dart';
 import 'package:flutter/material.dart';
@@ -61,6 +62,7 @@ class BrowserMainScreenWidgetModel
       Future(() {
         _menuState.accept(isToTop ? MenuType.view : MenuType.url);
         model.updateInteractedState(isInteracted: !isToTop);
+        resetFocus(contextSafe);
       });
     },
   );
@@ -336,6 +338,7 @@ class BrowserMainScreenWidgetModel
       _menuState.value,
       duration: Duration.zero,
     );
+    resetFocus(contextSafe);
   }
 
   Future<void> _updatePastGo() async {
