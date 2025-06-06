@@ -369,9 +369,6 @@ class $AssetsImagesGen {
   SvgGenImage get networkVectorDefault =>
       const SvgGenImage('assets/images/network_vector_default.svg');
 
-  /// File path: assets/images/nft-icon.svg
-  SvgGenImage get nftIcon => const SvgGenImage('assets/images/nft-icon.svg');
-
   /// File path: assets/images/nft_empty_list.png
   AssetGenImage get nftEmptyList =>
       const AssetGenImage('assets/images/nft_empty_list.png');
@@ -566,7 +563,6 @@ class $AssetsImagesGen {
         networkDefault,
         networkEarth,
         networkVectorDefault,
-        nftIcon,
         nftEmptyList,
         openedEye,
         paste,

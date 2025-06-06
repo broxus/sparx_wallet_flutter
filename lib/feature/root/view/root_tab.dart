@@ -16,11 +16,11 @@ enum RootTab {
 
   const RootTab();
 
-  Object get icon => switch (this) {
+  IconData get icon => switch (this) {
         RootTab.wallet => LucideIcons.wallet,
         RootTab.browser => LucideIcons.compass,
         RootTab.profile => LucideIcons.circleUser,
-        RootTab.nft => Assets.images.nftIcon.path,
+        RootTab.nft => LucideIcons.image,
       };
 
   String get title => switch (this) {
@@ -31,21 +31,7 @@ enum RootTab {
       };
 
   BottomNavigationBarItem item() => BottomNavigationBarItem(
-        icon: switch (icon) {
-          final IconData icon => Icon(icon, size: DimensSizeV2.d24),
-          final String assetName => Builder(
-              builder: (context) {
-                final theme = IconTheme.of(context);
-                return SvgPicture.asset(
-                  assetName,
-                  colorFilter: theme.color?.colorFilter,
-                  width: DimensSizeV2.d24,
-                  height: DimensSizeV2.d24,
-                );
-              },
-            ),
-          _ => const SizedBox.shrink(),
-        },
+        icon: Icon(icon, size: DimensSizeV2.d24),
         label: title,
         tooltip: title,
       );
