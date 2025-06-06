@@ -6,6 +6,7 @@ import 'package:app/utils/utils.dart';
 import 'package:elementary/elementary.dart';
 import 'package:elementary_helper/elementary_helper.dart';
 import 'package:flutter/material.dart';
+import 'package:lucide_icons_flutter/lucide_icons.dart';
 import 'package:nekoton_repository/nekoton_repository.dart';
 import 'package:ui_components_lib/ui_components_lib.dart';
 import 'package:ui_components_lib/v2/ui_components_lib_v2.dart';
@@ -198,22 +199,23 @@ class NftTransferInfoWidget
               ],
             ),
           ),
-          PrimaryCard(
-            margin: const EdgeInsets.only(
-              top: DimensSizeV2.d12,
-            ),
-            padding: const EdgeInsets.symmetric(
-              vertical: DimensSizeV2.d8,
-              horizontal: DimensSizeV2.d12,
-            ),
-            color: theme.colors.primaryA,
-            borderRadius: BorderRadius.circular(DimensRadiusV2.radius8),
-            child: Text(
-              LocaleKeys.nftAttachedAmountNotification.tr(),
-              style: theme.textStyles.paragraphSmall.copyWith(
-                color: theme.colors.primaryB,
+          const SizedBox(height: DimensSizeV2.d16),
+          Row(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            spacing: DimensSizeV2.d8,
+            children: [
+              const Icon(
+                LucideIcons.octagonAlert,
+                size: DimensSizeV2.d20,
+                color: ColorsResV2.p75,
               ),
-            ),
+              Text(
+                LocaleKeys.nftAttachedAmountNotification.tr(),
+                style: theme.textStyles.paragraphSmall.copyWith(
+                  color: ColorsResV2.p75,
+                ),
+              )
+            ],
           ),
         ],
       ),
