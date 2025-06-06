@@ -36,6 +36,8 @@ abstract interface class BrowserServiceTabs {
 
   NotNullListenableState<List<String>> get allTabsIdsState;
 
+  ListenableState<String?> get activeTabUrlHostState;
+
   NotNullListenableState<BrowserTab>? getTabListenableById(String id);
 
   NotNullListenableState<BrowserGroup>? getGroupListenableById(String id);
@@ -137,6 +139,8 @@ class BrowserServiceTabsDelegate
     initValue: ToolbarData(),
   );
 
+  late final _activeTabUrlHostState = StateNotifier<String?>();
+
   final _groupsCollection = GroupsCollection();
   final _tabsCollection = TabsCollection();
 
@@ -155,6 +159,9 @@ class BrowserServiceTabsDelegate
   @override
   NotNullListenableState<List<String>> get allTabsIdsState =>
       _tabsCollection.idsState;
+
+  @override
+  ListenableState<String?> get activeTabUrlHostState => _activeTabUrlHostState;
 
   @override
   ListenableState<ImageCache?> get screenshotsState =>
@@ -229,6 +236,9 @@ class BrowserServiceTabsDelegate
 
   @override
   void updateCachedUrl(String tabId, Uri uri) {
+    if (tabId == activeTabId) {
+      _activeTabUrlHostState.accept(uri.host);
+    }
     _tabsCollection.updateUrl(tabId: tabId, uri: uri);
     _browserTabsStorageService.saveBrowserTabs(_tabsCollection.entities);
     _updateControlPanel();
@@ -585,6 +595,12 @@ class BrowserServiceTabsDelegate
 
   void _handleActiveTab() {
     _updateControlPanel();
+
+    if (activeTabId != null) {
+      _activeTabUrlHostState.accept(
+        _tabsCollection.getCachedUrl(activeTabId!)?.host,
+      );
+    }
   }
 
   Future<void> _updateControlPanel() async {

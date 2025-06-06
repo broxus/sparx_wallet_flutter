@@ -63,7 +63,6 @@ class BrowserTabsAndGroupsUiDelegate implements BrowserTabsAndGroupsUi {
   late final _viewTabsState =
       StateNotifier<List<NotNullListenableState<BrowserTab>>?>();
 
-  final _hostState = StateNotifier<String?>();
 
   late final _selectedGroupIdState = StateNotifier<String?>(
     initValue: model.activeGroupIdState.value,
@@ -80,7 +79,7 @@ class BrowserTabsAndGroupsUiDelegate implements BrowserTabsAndGroupsUi {
       get viewTabsState => _viewTabsState;
 
   @override
-  ListenableState<String?> get hostState => _hostState;
+  ListenableState<String?> get hostState => model.activeTabUrlHostState;
 
   @override
   ListenableState<TabAnimationType?> get tabAnimationTypeState =>

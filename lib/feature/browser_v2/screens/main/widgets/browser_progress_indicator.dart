@@ -55,13 +55,12 @@ class CoderPainter extends CustomPainter {
   CoderPainter(
     this.animation,
     Color _color,
-  )   : _paint = Paint()
-          ..color = _color
-          ..strokeWidth = 3,
-        super(repaint: animation);
+  ) : super(repaint: animation) {
+    _paint.color = _color;
+  }
 
   final Animation<double> animation;
-  final Paint _paint;
+  static final _paint = Paint()..strokeWidth = 3;
 
   @override
   void paint(Canvas canvas, Size size) {
