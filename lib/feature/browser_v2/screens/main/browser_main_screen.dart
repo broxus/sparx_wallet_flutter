@@ -165,18 +165,12 @@ class _MenuAnimation extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return AnimatedBuilder(
-      animation: controller,
-      builder: (context, child) {
-        return Transform.translate(
-          offset: offsetAnimation.value,
-          child: Opacity(
-            opacity: opacityAnimation.value,
-            child: child,
-          ),
-        );
-      },
-      child: child,
+    return SlideTransition(
+      position: offsetAnimation,
+      child: FadeTransition(
+        opacity: opacityAnimation,
+        child: child,
+      ),
     );
   }
 }
