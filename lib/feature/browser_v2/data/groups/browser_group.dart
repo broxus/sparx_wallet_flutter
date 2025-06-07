@@ -35,10 +35,8 @@ class BrowserGroup with _$BrowserGroup implements BrowserEntity {
       isEditable: isEditable,
     );
   }
-}
 
-extension BrowserGroupExt on BrowserGroup {
-  int get tabsCount => tabsIds.length;
+  const BrowserGroup._();
 
   String get tabsCountText => tabsIds.length.toString();
 }

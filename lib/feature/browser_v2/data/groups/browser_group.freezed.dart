@@ -163,13 +163,14 @@ class __$$BrowserGroupImplCopyWithImpl<$Res>
 
 /// @nodoc
 @JsonSerializable()
-class _$BrowserGroupImpl implements _BrowserGroup {
+class _$BrowserGroupImpl extends _BrowserGroup {
   _$BrowserGroupImpl(
       {required this.id,
       required this.title,
       required this.sortingOrder,
       this.tabsIds = const <String>[],
-      this.isEditable = true});
+      this.isEditable = true})
+      : super._();
 
   factory _$BrowserGroupImpl.fromJson(Map<String, dynamic> json) =>
       _$$BrowserGroupImplFromJson(json);
@@ -208,13 +209,14 @@ class _$BrowserGroupImpl implements _BrowserGroup {
   }
 }
 
-abstract class _BrowserGroup implements BrowserGroup {
+abstract class _BrowserGroup extends BrowserGroup {
   factory _BrowserGroup(
       {required String id,
       required String? title,
       required double sortingOrder,
       List<String> tabsIds,
       bool isEditable}) = _$BrowserGroupImpl;
+  _BrowserGroup._() : super._();
 
   factory _BrowserGroup.fromJson(Map<String, dynamic> json) =
       _$BrowserGroupImpl.fromJson;

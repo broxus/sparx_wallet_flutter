@@ -6,7 +6,7 @@ abstract interface class BrowserPastGoUi {
   ListenableState<bool> get showPastGoState;
 }
 
-class BrowserPastGoDelegate implements BrowserPastGoUi {
+class BrowserPastGoUiDelegate implements BrowserPastGoUi {
   late final _showPastGoState = StateNotifier<bool>(initValue: true);
 
   @override

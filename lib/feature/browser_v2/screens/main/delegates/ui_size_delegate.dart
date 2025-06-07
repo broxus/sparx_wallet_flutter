@@ -1,8 +1,8 @@
 import 'package:flutter/widgets.dart';
 import 'package:ui_components_lib/ui_components_lib.dart';
 
-class BrowserSizesDelegate {
-  BrowserSizesDelegate(this._context);
+class BrowserSizesUiDelegate {
+  BrowserSizesUiDelegate(this._context);
 
   final BuildContext _context;
 

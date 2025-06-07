@@ -10,5 +10,5 @@ class WebsiteInfoModel extends ElementaryModel {
   final BrowserService _browserService;
 
   Future<String?> getFaviconUrl(Uri uri) =>
-      _browserService.fM.getFaviconURL(uri);
+      _browserService.fav.getFaviconURL(uri);
 }

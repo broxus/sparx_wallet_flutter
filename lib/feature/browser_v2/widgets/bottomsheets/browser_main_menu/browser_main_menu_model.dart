@@ -13,7 +13,7 @@ class BrowserMainMenuModel extends ElementaryModel {
   final BrowserService _browserService;
 
   void addCurrentToBookmark() {
-    final id = _browserService.tM.activeTabIdState.value;
+    final id = _browserService.tab.activeTabIdState.value;
 
     if (id == null) {
       return;
@@ -23,11 +23,11 @@ class BrowserMainMenuModel extends ElementaryModel {
   }
 
   void createTab(String groupId) {
-    _browserService.tM.createEmptyTab(groupId);
+    _browserService.tab.createEmptyTab(groupId);
   }
 
   void reload() {
-    _browserService.tM.refreshActiveTab();
+    _browserService.tab.refreshActiveTab();
   }
 
   Future<void> clearData(TimePeriod period, Set<TypeHistory> targets) async {

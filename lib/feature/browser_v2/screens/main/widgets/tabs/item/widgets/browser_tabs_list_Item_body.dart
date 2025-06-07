@@ -9,7 +9,7 @@ import 'package:flutter/rendering.dart';
 import 'package:lucide_icons_flutter/lucide_icons.dart';
 import 'package:ui_components_lib/ui_components_lib.dart';
 
-const _radius =  Radius.circular(DimensRadiusV2.radius16);
+const _radius = Radius.circular(DimensRadiusV2.radius16);
 
 class BrowserTabsListItemBody extends StatelessWidget {
   const BrowserTabsListItemBody({
@@ -52,7 +52,7 @@ class BrowserTabsListItemBody extends StatelessWidget {
                         : Image.file(
                             file,
                             fit: BoxFit.cover,
-                            errorBuilder: (_, __, ___) => const SizedBox(),
+                            errorBuilder: (_, __, ___) => const _ErrorContent(),
                           );
                   },
                 ),
@@ -137,7 +137,21 @@ class _EmptyContent extends StatelessWidget {
   Widget build(BuildContext context) {
     return Assets.images.bgNetwork.image(
       width: double.infinity,
+      height: double.infinity,
       fit: BoxFit.cover,
+    );
+  }
+}
+
+class _ErrorContent extends StatelessWidget {
+  const _ErrorContent();
+
+  @override
+  Widget build(BuildContext context) {
+    return const SizedBox.expand(
+      child: ColoredBox(
+        color: Colors.white,
+      ),
     );
   }
 }
@@ -190,8 +204,6 @@ class _ReactiveShapeRenderBox extends RenderProxyBox {
   final ListenableState<bool?>? activeState;
   Color activeColor;
   Color inactiveColor;
-
-
 
   void _onChanged() {
     markNeedsPaint();

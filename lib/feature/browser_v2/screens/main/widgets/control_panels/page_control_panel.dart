@@ -19,9 +19,9 @@ class BrowserPageControlPanel extends StatelessWidget {
     required this.onPressedCurrentUrlMenu,
     required this.onPressedRefresh,
     required this.onEditingCompleteUrl,
-    required this.urlSliderController,
+    required this.urlSliderPageController,
     required this.tabsState,
-    required this.navigationScrollModeState,
+    required this.onPageChanged,
     super.key,
   });
 
@@ -32,9 +32,9 @@ class BrowserPageControlPanel extends StatelessWidget {
   final ValueChanged<String> onPressedCurrentUrlMenu;
   final ValueChanged<String> onPressedRefresh;
   final DoubleValueCallback<String, String> onEditingCompleteUrl;
-  final ScrollController urlSliderController;
+  final PageController urlSliderPageController;
   final ListenableState<List<NotNullListenableState<BrowserTab>>?> tabsState;
-  final ListenableState<NavigationUrlPhysicMode> navigationScrollModeState;
+  final ValueChanged<int> onPageChanged;
 
   static const minHeight =
       BrowserNavigationPanel.height + Toolbar.height + DimensSizeV2.d8;
@@ -51,12 +51,12 @@ class BrowserPageControlPanel extends StatelessWidget {
             BrowserNavigationPanel(
               panelWidth: menuUrlPanelWidth,
               urlWidth: urlWidth,
-              controller: urlSliderController,
+              urlSliderController: urlSliderPageController,
               tabsState: tabsState,
-              scrollModeState: navigationScrollModeState,
               onPressedCurrentUrlMenu: onPressedCurrentUrlMenu,
               onPressedRefresh: onPressedRefresh,
               onEditingCompleteUrl: onEditingCompleteUrl,
+              onPageChanged: onPageChanged,
             ),
             const _Space(),
             Toolbar(

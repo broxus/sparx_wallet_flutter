@@ -1,14 +1,33 @@
 import 'package:app/data/models/browser_bookmark_item.dart';
+import 'package:app/feature/browser_v2/domain/delegates/browser_base_delegate.dart';
 import 'package:app/feature/browser_v2/domain/service/storages/browser_bookmarks_storage_service.dart';
 import 'package:app/feature/messenger/data/message.dart';
 import 'package:app/feature/messenger/domain/service/messenger_service.dart';
 import 'package:app/generated/generated.dart';
+import 'package:injectable/injectable.dart';
 import 'package:logging/logging.dart';
 import 'package:rxdart/rxdart.dart';
 import 'package:ui_components_lib/v2/ui_components_lib_v2.dart';
 
-class BookmarksManager {
-  BookmarksManager(
+abstract interface class BrowserServiceBookmarks {
+  Stream<List<BrowserBookmarkItem>> get browserBookmarksStream;
+
+  List<BrowserBookmarkItem> get browserBookmarks;
+
+  void removeBrowserBookmarkItem(
+    String id, {
+    bool needUndo = true,
+  });
+
+  void reorder(int oldIndex, int newIndex);
+
+  void renameBookmark(String id, String name);
+}
+
+@injectable
+class BrowserServiceBookmarksDelegate
+    implements BrowserDelegate, BrowserServiceBookmarks {
+  BrowserServiceBookmarksDelegate(
     this._bookmarksStorageService,
     this._messengerService,
   );
@@ -23,10 +42,12 @@ class BookmarksManager {
       BehaviorSubject<List<BrowserBookmarkItem>>.seeded([]);
 
   /// Stream of browser bookmarks items
+  @override
   Stream<List<BrowserBookmarkItem>> get browserBookmarksStream =>
       _browserBookmarksSubject;
 
   /// Get last cached browser bookmarks items
+  @override
   List<BrowserBookmarkItem> get browserBookmarks =>
       _browserBookmarksSubject.valueOrNull ?? [];
 
@@ -93,6 +114,7 @@ class BookmarksManager {
     }
   }
 
+  @override
   void reorder(int oldIndex, int newIndex) {
     final bookmarks = [...browserBookmarks];
 
@@ -115,6 +137,7 @@ class BookmarksManager {
     saveBrowserBookmarks(bookmarks);
   }
 
+  @override
   void removeBrowserBookmarkItem(
     String id, {
     bool needUndo = true,
@@ -176,6 +199,7 @@ class BookmarksManager {
         browserBookmarks.indexWhere((item) => item.url == url) < 0;
   }
 
+  @override
   void renameBookmark(String id, String name) {
     final index = browserBookmarks.indexWhere((item) => item.id == id);
 

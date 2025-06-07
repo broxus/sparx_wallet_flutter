@@ -1,71 +1,180 @@
 import 'dart:async';
-import 'dart:collection';
 import 'dart:math';
 
-import 'package:app/app/service/storage_service/general_storage_service.dart';
 import 'package:app/core/wm/not_null_listenable_state.dart';
 import 'package:app/feature/browser_v2/browser_collection.dart';
 import 'package:app/feature/browser_v2/custom_web_controller.dart';
 import 'package:app/feature/browser_v2/data/groups/browser_group.dart';
 import 'package:app/feature/browser_v2/data/tabs/browser_tab.dart';
 import 'package:app/feature/browser_v2/data/tabs/tabs_data.dart';
+import 'package:app/feature/browser_v2/domain/delegates/browser_base_delegate.dart';
+import 'package:app/feature/browser_v2/domain/delegates/browser_service_pages_controllers_delegate.dart';
+import 'package:app/feature/browser_v2/domain/delegates/browser_service_screenshots_delegate.dart';
 import 'package:app/feature/browser_v2/domain/service/storages/browser_groups_storage_service.dart';
 import 'package:app/feature/browser_v2/domain/service/storages/browser_tabs_storage_service.dart';
-import 'package:app/feature/browser_v2/managers/tabs/helpers/browser_screen_shooter.dart';
 import 'package:app/feature/browser_v2/screens/main/data/toolbar_data.dart';
 import 'package:app/generated/generated.dart';
 import 'package:collection/collection.dart';
 import 'package:elementary_helper/elementary_helper.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_inappwebview/flutter_inappwebview.dart';
+import 'package:injectable/injectable.dart';
 import 'package:nekoton_webview/nekoton_webview.dart';
 
-class BrowserTabsManager {
-  BrowserTabsManager(
+abstract interface class BrowserServiceTabs {
+  ListenableState<ImageCache?> get screenshotsState;
+
+  ListenableState<ToolbarData> get controlPanelState;
+
+  NotNullListenableState<List<String>> get allGroupsIdsState;
+
+  ListenableState<String?> get activeGroupIdState;
+
+  ListenableState<String?> get activeTabIdState;
+
+  String? get activeTabScreenshotPath;
+
+  NotNullListenableState<List<String>> get allTabsIdsState;
+
+  ListenableState<String?> get activeTabUrlHostState;
+
+  NotNullListenableState<BrowserTab>? getTabListenableById(String id);
+
+  NotNullListenableState<BrowserGroup>? getGroupListenableById(String id);
+
+  void setActiveGroup(String groupId);
+
+  BrowserGroup createBrowserGroup({
+    String? name,
+    String? originalGroupId,
+    String? initTabId,
+    bool isSwitchToCreatedGroup = false,
+  });
+
+  void updateGroupName({
+    required String groupId,
+    required String name,
+  });
+
+  void removeBrowserGroup(String groupId);
+
+  Future<void> backWeb();
+
+  Future<void> forwardWeb();
+
+  void updateCachedUrl(String tabId, Uri uri);
+
+  void updateTabTitle(String tabId, String title);
+
+  Future<void> createScreenshot({
+    required String tabId,
+    required Future<Uint8List?> Function() takePictureCallback,
+  });
+
+  List<NotNullListenableState<BrowserTab>> getGroupTabsListenable(
+    String groupId,
+  );
+
+  List<String>? getTabIds(String groupId);
+
+  Future<void> removeBrowserTab({
+    required String groupId,
+    required String tabId,
+  });
+
+  void setActiveTab(String? tabId);
+
+  BrowserTab? getTabById(String id);
+
+  Future<void> clearTabs();
+
+  void createEmptyTab(String groupId);
+
+  Future<void> requestUrl(String tabId, Uri uri);
+
+  void setController(String tabId, CustomWebViewController controller);
+
+  void removeController(String tabId);
+
+  void closeAllControllers();
+
+  void refresh(String tabId);
+
+  Uri? getTabUriId(String id);
+
+  String? getTabIdByIndex({
+    required String groupId,
+    required int index,
+  });
+
+  int? getTabIndex({
+    required String groupId,
+    required String tabId,
+  });
+
+  Future<void> requestUrlActiveTab(Uri uri);
+
+  void refreshActiveTab();
+}
+
+@injectable
+class BrowserServiceTabsDelegate
+    implements BrowserDelegate, BrowserServiceTabs {
+  BrowserServiceTabsDelegate(
     this._browserTabsStorageService,
     this._browserGroupsStorageService,
-    this._generalStorageService,
+    this._controllersDelegate,
+    this._screenShooter,
   );
 
   static final _emptyUri = Uri.parse('');
 
   final BrowserTabsStorageService _browserTabsStorageService;
   final BrowserGroupsStorageService _browserGroupsStorageService;
-  final GeneralStorageService _generalStorageService;
 
-  late final _screenShooter =
-      BrowserManagerScreenShooter(_generalStorageService);
+  final BrowserServicePagesControllersDelegate _controllersDelegate;
+  final BrowserServiceScreenshotsDelegate _screenShooter;
 
   late final _controlPanelState = StateNotifier<ToolbarData>(
     initValue: ToolbarData(),
   );
 
-  final _controllers = HashMap<String, CustomWebViewController>();
+  late final _activeTabUrlHostState = StateNotifier<String?>();
 
   final _groupsCollection = GroupsCollection();
   final _tabsCollection = TabsCollection();
 
+  @override
   ListenableState<String?> get activeGroupIdState =>
       _groupsCollection.activeEntityIdState;
 
+  @override
   ListenableState<String?> get activeTabIdState =>
       _tabsCollection.activeEntityIdState;
 
+  @override
   NotNullListenableState<List<String>> get allGroupsIdsState =>
       _groupsCollection.idsState;
 
+  @override
   NotNullListenableState<List<String>> get allTabsIdsState =>
       _tabsCollection.idsState;
 
+  @override
+  ListenableState<String?> get activeTabUrlHostState => _activeTabUrlHostState;
+
+  @override
   ListenableState<ImageCache?> get screenshotsState =>
       _screenShooter.screenshotsState;
 
+  @override
   String? get activeTabScreenshotPath {
     return activeTabId == null
         ? null
         : _screenShooter.getScreenShotById(activeTabId!);
   }
 
+  @override
   ListenableState<ToolbarData> get controlPanelState => _controlPanelState;
 
   String? get activeGroupId => _groupsCollection.activeEntityIdState.value;
@@ -73,8 +182,6 @@ class BrowserTabsManager {
   List<String> get allTabsIds => allTabsIdsState.value;
 
   String? get activeTabId => _tabsCollection.activeEntityIdState.value;
-
-  CustomWebViewController? get _currentController => _controllers[activeTabId];
 
   void init() {
     activeTabIdState.addListener(_handleActiveTab);
@@ -87,27 +194,26 @@ class BrowserTabsManager {
     _tabsCollection.dispose();
   }
 
-  void setController(String tabId, CustomWebViewController controller) {
-    _controllers[tabId] = controller;
-  }
+  @override
+  void setController(String tabId, CustomWebViewController controller) =>
+      _controllersDelegate.setController(tabId, controller);
 
-  void removeController(String tabId) {
-    _controllers.remove(tabId);
-  }
+  @override
+  void removeController(String tabId) =>
+      _controllersDelegate.removeController(tabId);
 
-  void refresh(String tabId) {
-    _controllers[tabId]?.reload();
-  }
+  @override
+  void refresh(String tabId) => _controllersDelegate.refresh(tabId);
 
+  @override
   void refreshActiveTab() {
-    _controllers[activeTabId]?.reload();
+    if (activeTabId != null) {
+      refresh(activeTabId!);
+    }
   }
 
-  void closeAllControllers() {
-    _controllers
-      ..forEach((k, c) => c.dispose())
-      ..clear();
-  }
+  @override
+  void closeAllControllers() => _controllersDelegate.closeAllControllers();
 
   Future<void> clear() async {
     await clearGroups();
@@ -120,6 +226,7 @@ class BrowserTabsManager {
   }
 
   /// Clear all browser tabs
+  @override
   Future<void> clearTabs() async {
     await _browserTabsStorageService.clear();
     await _screenShooter.clear();
@@ -127,23 +234,26 @@ class BrowserTabsManager {
     _tabsCollection.clear();
   }
 
+  @override
   void updateCachedUrl(String tabId, Uri uri) {
+    if (tabId == activeTabId) {
+      _activeTabUrlHostState.accept(uri.host);
+    }
     _tabsCollection.updateUrl(tabId: tabId, uri: uri);
     _browserTabsStorageService.saveBrowserTabs(_tabsCollection.entities);
+    _updateControlPanel();
   }
 
+  @override
   Future<void> requestUrl(String tabId, Uri uri) async {
     final resultUri = uri.scheme.isEmpty ? Uri.parse('https://$uri') : uri;
 
     updateCachedUrl(tabId, resultUri);
 
-    await _controllers[tabId]?.loadUrl(
-      urlRequest: URLRequest(url: WebUri.uri(resultUri)),
-    );
-
-    unawaited(_updateControlPanel());
+    unawaited(_controllersDelegate.loadUrl(tabId, uri));
   }
 
+  @override
   Future<void> requestUrlActiveTab(Uri uri) async {
     final id = activeTabId;
 
@@ -154,21 +264,25 @@ class BrowserTabsManager {
     return requestUrl(id, uri);
   }
 
+  @override
   void updateTabTitle(String tabId, String title) {
     _tabsCollection.updateTitle(id: tabId, title: title);
     _browserTabsStorageService.saveBrowserTabs(_tabsCollection.entities);
   }
 
+  @override
   void setActiveGroup(String groupId) {
     _groupsCollection.setActiveById(groupId);
   }
 
+  @override
   void setActiveTab(String? tabId) {
     _tabsCollection.setActiveById(tabId);
     _browserTabsStorageService.saveBrowserActiveTabId(tabId);
   }
 
   /// Remove browser tab by id
+  @override
   Future<void> removeBrowserTab({
     required String groupId,
     required String tabId,
@@ -183,17 +297,13 @@ class BrowserTabsManager {
       return;
     }
 
-    String? newActiveTabId;
-
     final tabIds = _groupsCollection.getTabIds(groupId);
 
-    if (tabIds != null) {
-      newActiveTabId = tabIds.isEmpty || tabId != activeTabId
+    if (groupId == activeGroupId && tabId == activeTabId) {
+      final newActiveTabId = (tabIds?.isEmpty ?? true)
           ? null
-          : tabIds[min(removedIndex, tabIds.length - 1)];
-    }
+          : tabIds?[min(removedIndex, tabIds.length - 1)];
 
-    if (newActiveTabId != null) {
       _tabsCollection.setActiveById(newActiveTabId);
       _browserTabsStorageService.saveBrowserActiveTabId(newActiveTabId);
     }
@@ -204,6 +314,7 @@ class BrowserTabsManager {
     unawaited(_screenShooter.removeScreenshot(tabId));
   }
 
+  @override
   void createEmptyTab(String groupId) => createBrowserTab(
         url: _emptyUri,
         groupId: groupId,
@@ -259,6 +370,7 @@ class BrowserTabsManager {
     );
   }
 
+  @override
   Future<void> createScreenshot({
     required String tabId,
     required Future<Uint8List?> Function() takePictureCallback,
@@ -268,18 +380,24 @@ class BrowserTabsManager {
         takePictureCallback: takePictureCallback,
       );
 
+  @override
   Future<void> backWeb() async {
-    await _currentController?.goBack();
+    if (activeTabId == null) {
+      return;
+    }
+
+    await _controllersDelegate.goBack(activeTabId!);
     unawaited(_updateControlPanel());
   }
 
+  @override
   Future<void> forwardWeb() async {
-    await _currentController?.goForward();
-    unawaited(_updateControlPanel());
-  }
+    if (activeTabId == null) {
+      return;
+    }
 
-  Future<bool> clearCookie() async {
-    return CookieManager.instance().deleteAllCookies();
+    await _controllersDelegate.goForward(activeTabId!);
+    unawaited(_updateControlPanel());
   }
 
   void clearCachedFiles() {
@@ -287,6 +405,7 @@ class BrowserTabsManager {
     InAppWebViewController.clearAllCache();
   }
 
+  @override
   int? getTabIndex({
     required String groupId,
     required String tabId,
@@ -297,6 +416,7 @@ class BrowserTabsManager {
     );
   }
 
+  @override
   String? getTabIdByIndex({
     required String groupId,
     required int index,
@@ -307,9 +427,11 @@ class BrowserTabsManager {
     );
   }
 
+  @override
   List<String>? getTabIds(String groupId) =>
       _groupsCollection.getTabIds(groupId);
 
+  @override
   List<NotNullListenableState<BrowserTab>> getGroupTabsListenable(
     String groupId,
   ) {
@@ -332,32 +454,39 @@ class BrowserTabsManager {
     return result;
   }
 
+  @override
   NotNullListenableState<BrowserGroup>? getGroupListenableById(String id) =>
       _groupsCollection.getListenable(id);
 
+  @override
   NotNullListenableState<BrowserTab>? getTabListenableById(String id) =>
       _tabsCollection.getListenable(id);
 
+  @override
   BrowserTab? getTabById(String id) => getTabListenableById(id)?.value;
 
+  @override
   Uri? getTabUriId(String id) => getTabListenableById(id)?.value.url;
 
   Future<void> permissionsChanged(
     String tabId,
     PermissionsChangedEvent event,
-  ) async {
-    return _controllers[tabId]?.permissionsChanged(event);
-  }
+  ) =>
+      _controllersDelegate.permissionsChanged(
+        tabId,
+        event,
+      );
 
+  @override
   BrowserGroup createBrowserGroup({
     String? name,
-    String? prevOwnerGroupId,
+    String? originalGroupId,
     String? initTabId,
     bool isSwitchToCreatedGroup = false,
   }) {
     if (initTabId != null) {
       _groupsCollection.removeTabId(
-        groupId: prevOwnerGroupId,
+        groupId: originalGroupId,
         tabId: initTabId,
       );
     }
@@ -386,6 +515,7 @@ class BrowserTabsManager {
     return group;
   }
 
+  @override
   void updateGroupName({
     required String groupId,
     required String name,
@@ -394,6 +524,7 @@ class BrowserTabsManager {
     _browserGroupsStorageService.saveGroups(_groupsCollection.entities);
   }
 
+  @override
   void removeBrowserGroup(String groupId) {
     final tabsIds = _groupsCollection.getTabIds(groupId);
     final removeIndex = _groupsCollection.remove(groupId);
@@ -434,8 +565,7 @@ class BrowserTabsManager {
       tabs.add(newTab);
       _browserTabsStorageService.saveBrowserTabs(tabs);
     } else {
-      activeTabId =
-          _browserTabsStorageService.getActiveTabId() ?? tabs.lastOrNull?.id;
+      activeTabId = _browserTabsStorageService.getActiveTabId();
     }
 
     if (groups.isEmpty) {
@@ -446,16 +576,14 @@ class BrowserTabsManager {
       );
     }
 
-    var activeGroupId = groups
-        .firstWhereOrNull(
-          (g) => g.tabsIds.contains(activeTabId),
-        )
-        ?.id;
-
-    if (activeGroupId == null || activeTabId == null) {
-      activeGroupId = tabsGroupId;
-      activeTabId = null;
-    }
+    final activeGroupId = activeTabId == null
+        ? tabsGroupId
+        : groups
+                .firstWhereOrNull(
+                  (g) => g.tabsIds.contains(activeTabId),
+                )
+                ?.id ??
+            tabsGroupId;
 
     _screenShooter.init(tabs);
 
@@ -467,16 +595,24 @@ class BrowserTabsManager {
 
   void _handleActiveTab() {
     _updateControlPanel();
+
+    if (activeTabId != null) {
+      _activeTabUrlHostState.accept(
+        _tabsCollection.getCachedUrl(activeTabId!)?.host,
+      );
+    }
   }
 
   Future<void> _updateControlPanel() async {
-    final controller = _currentController;
+    final id = activeTabId;
 
     _controlPanelState.accept(
-      ToolbarData(
-        isCanGoBack: await controller?.canGoBack(),
-        isCanGoForward: await controller?.canGoForward(),
-      ),
+      id == null
+          ? ToolbarData()
+          : ToolbarData(
+              isCanGoBack: await _controllersDelegate.checkCanGoBack(id),
+              isCanGoForward: await _controllersDelegate.checkCanGoForward(id),
+            ),
     );
   }
 }

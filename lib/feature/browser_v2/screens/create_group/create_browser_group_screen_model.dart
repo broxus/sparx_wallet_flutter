@@ -16,13 +16,13 @@ class CreateBrowserGroupScreenModel extends ElementaryModel {
   final BrowserService _browserService;
 
   ListenableState<ImageCache?> get screenshotsState =>
-      _browserService.tM.screenshotsState;
+      _browserService.tab.screenshotsState;
 
   NotNullListenableState<BrowserTab>? getTabById(String? tabId) {
     if (tabId == null) {
       return null;
     }
 
-    return _browserService.tabs.getTabListenableById(tabId);
+    return _browserService.tab.getTabListenableById(tabId);
   }
 }

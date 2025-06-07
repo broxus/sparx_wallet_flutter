@@ -15,8 +15,8 @@ class TabListHeaderModel extends ElementaryModel {
   final BrowserService _browserService;
 
   NotNullListenableState<List<String>> get groupsIdsState =>
-      _browserService.tabs.allGroupsIdsState;
+      _browserService.tab.allGroupsIdsState;
 
   NotNullListenableState<BrowserGroup>? getGroupListenable(String groupId) =>
-      _browserService.tabs.getGroupListenableById(groupId);
+      _browserService.tab.getGroupListenableById(groupId);
 }

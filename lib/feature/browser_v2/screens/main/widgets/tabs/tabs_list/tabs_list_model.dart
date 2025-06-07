@@ -16,21 +16,21 @@ class BrowserTabsListModel extends ElementaryModel {
   final BrowserService _browserService;
 
   NotNullListenableState<List<String>> get allTabsIdsState =>
-      _browserService.tabs.allTabsIdsState;
+      _browserService.tab.allTabsIdsState;
 
   List<NotNullListenableState<BrowserTab>> getGroupTabs(String groupId) {
-    return _browserService.tabs.getGroupTabsListenable(groupId);
+    return _browserService.tab.getGroupTabsListenable(groupId);
   }
 
   List<String>? getTabIds(String groupId) {
-    return _browserService.tabs.getTabIds(groupId);
+    return _browserService.tab.getTabIds(groupId);
   }
 
   void removeBrowserTab({
     required String groupId,
     required String tabId,
   }) {
-    _browserService.tM.removeBrowserTab(
+    _browserService.tab.removeBrowserTab(
       groupId: groupId,
       tabId: tabId,
     );

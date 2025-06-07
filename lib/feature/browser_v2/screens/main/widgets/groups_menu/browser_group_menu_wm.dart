@@ -1,7 +1,6 @@
 import 'package:app/core/error_handler_factory.dart';
 import 'package:app/core/wm/custom_wm.dart';
 import 'package:app/core/wm/not_null_listenable_state.dart';
-import 'package:app/core/wm/not_null_safe_notifier.dart';
 import 'package:app/di/di.dart';
 import 'package:app/feature/browser_v2/data/groups/browser_group.dart';
 import 'package:app/feature/browser_v2/screens/create_group/create_browser_group_screen.dart';

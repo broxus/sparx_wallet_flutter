@@ -19,18 +19,18 @@ class HistoryListModel extends ElementaryModel {
   final LocalizationService _localizationService;
 
   Stream<List<BrowserHistoryItem>> get originalBrowserHistoryStream =>
-      _browserService.hM.browserHistoryStream;
+      _browserService.hist.browserHistoryStream;
 
   List<BrowserHistoryItem> get originalBrowserHistoryItems =>
-      _browserService.hM.browserHistoryItems;
+      _browserService.hist.browserHistoryItems;
 
   bool get isExistHistory => originalBrowserHistoryItems.isNotEmpty;
 
   void requestUrl(Uri uri) {
-    _browserService.tM.requestUrlActiveTab(uri);
+    _browserService.tab.requestUrlActiveTab(uri);
   }
 
-  void removeHistory(String id) => _browserService.hM.removeHistoryItem(id);
+  void removeHistory(String id) => _browserService.hist.removeHistoryItem(id);
 
   void clearData(TimePeriod period, Set<TypeHistory> targets) {
     _browserService.clearData(period, targets);
