@@ -165,11 +165,13 @@ class _MenuAnimation extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SlideTransition(
-      position: offsetAnimation,
-      child: FadeTransition(
-        opacity: opacityAnimation,
-        child: child,
+    return RepaintBoundary(
+      child: SlideTransition(
+        position: offsetAnimation,
+        child: FadeTransition(
+          opacity: opacityAnimation,
+          child: child,
+        ),
       ),
     );
   }
@@ -186,24 +188,26 @@ class _PastGoView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return StateNotifierBuilder(
-      listenableState: showState,
-      builder: (_, bool? isShow) {
-        isShow ??= false;
+    return RepaintBoundary(
+      child: StateNotifierBuilder(
+        listenableState: showState,
+        builder: (_, bool? isShow) {
+          isShow ??= false;
 
-        return Transform.translate(
-          offset: Offset(0, isShow ? 0 : 300),
-          child: AnimatedOpacity(
-            opacity: isShow ? 1 : 0,
-            duration: const Duration(milliseconds: 250),
-            child: Center(
-              child: PastGoButton(
-                onPressed: onPressed,
+          return Transform.translate(
+            offset: Offset(0, isShow ? 0 : 300),
+            child: AnimatedOpacity(
+              opacity: isShow ? 1 : 0,
+              duration: const Duration(milliseconds: 250),
+              child: Center(
+                child: PastGoButton(
+                  onPressed: onPressed,
+                ),
               ),
             ),
-          ),
-        );
-      },
+          );
+        },
+      ),
     );
   }
 }

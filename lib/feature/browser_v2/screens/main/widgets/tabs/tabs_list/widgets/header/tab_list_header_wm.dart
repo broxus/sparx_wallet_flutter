@@ -103,7 +103,7 @@ class TabListHeaderWidgetModel
       (item) => item is TabListHeaderGroupUiModel && item.id == selectedId,
     );
 
-    if (index == -1) {
+    if (index == -1 || !scrollController.hasClients) {
       return;
     }
 

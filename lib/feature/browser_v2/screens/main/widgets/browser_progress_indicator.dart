@@ -28,25 +28,25 @@ class _BrowserProgressIndicatorState extends State<BrowserProgressIndicator> {
 
   @override
   Widget build(BuildContext context) {
-    return StateNotifierBuilder(
-      listenableState: widget.menuState,
-      builder: (_, MenuType? type) {
-        return Transform.translate(
-          offset: Offset(
-            0,
-            switch (type) {
-              MenuType.view => -BrowserPageControlPanel.minHeight,
-              MenuType.url => -HostPanel.height,
-              _ => 500,
-            },
-          ),
-          child: RepaintBoundary(
+    return RepaintBoundary(
+      child: StateNotifierBuilder(
+        listenableState: widget.menuState,
+        builder: (_, MenuType? type) {
+          return Transform.translate(
+            offset: Offset(
+              0,
+              switch (type) {
+                MenuType.view => -BrowserPageControlPanel.minHeight,
+                MenuType.url => -HostPanel.height,
+                _ => 500,
+              },
+            ),
             child: CustomPaint(
               painter: _painter,
             ),
-          ),
-        );
-      },
+          );
+        },
+      ),
     );
   }
 }
