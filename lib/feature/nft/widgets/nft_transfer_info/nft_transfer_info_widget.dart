@@ -214,7 +214,7 @@ class NftTransferInfoWidget
                 style: theme.textStyles.paragraphSmall.copyWith(
                   color: ColorsResV2.p75,
                 ),
-              )
+              ),
             ],
           ),
         ],

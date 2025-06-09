@@ -12,12 +12,14 @@ class NftImage extends StatelessWidget {
     required this.imageUrl,
     this.width,
     this.height,
+    this.fit = BoxFit.cover,
     super.key,
   });
 
   final String? imageUrl;
   final double? width;
   final double? height;
+  final BoxFit fit;
 
   @override
   Widget build(BuildContext context) {
@@ -31,7 +33,7 @@ class NftImage extends StatelessWidget {
       imageUrl: url,
       placeholder: (_, __) => _placeholder,
       errorWidget: (_, __, ___) => _placeholder,
-      fit: BoxFit.cover,
+      fit: fit,
       width: width,
       height: height,
     );

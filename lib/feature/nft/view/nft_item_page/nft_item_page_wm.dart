@@ -44,6 +44,8 @@ class NftItemPageWidgetModel
 
   ThemeStyleV2 get theme => context.themeStyleV2;
 
+  double get topOffset => MediaQuery.viewPaddingOf(context).top;
+
   @override
   void initWidgetModel() {
     super.initWidgetModel();
@@ -94,6 +96,13 @@ class NftItemPageWidgetModel
       '$marketplaceUrl/nft/${item.nft.address}',
     );
   }
+
+  void openImageView() => Navigator.push(
+        context,
+        MaterialPageRoute<void>(
+          builder: (_) => NftItemImageView(item.value!.nft.imageUrl),
+        ),
+      );
 
   Future<void> _init() async {
     final (item, collection) = await FutureExt.wait2(

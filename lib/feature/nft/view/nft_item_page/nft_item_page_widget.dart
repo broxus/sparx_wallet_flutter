@@ -1,5 +1,6 @@
 import 'package:app/feature/nft/nft.dart';
 import 'package:app/generated/generated.dart';
+import 'package:app/utils/utils.dart';
 import 'package:elementary/elementary.dart';
 import 'package:elementary_helper/elementary_helper.dart';
 import 'package:flutter/material.dart';
@@ -34,13 +35,18 @@ class NftItemPageWidget extends ElementaryWidget<NftItemPageWidgetModel> {
           ),
           body: Column(
             children: [
+              SizedBox(height: wm.topOffset),
               ClipRRect(
-                borderRadius: const BorderRadius.vertical(
-                  bottom: Radius.circular(DimensRadiusV2.radius20),
-                ),
+                borderRadius: BorderRadius.circular(DimensRadiusV2.radius20),
                 child: AspectRatio(
                   aspectRatio: 1,
-                  child: NftImage(imageUrl: item.nft.imageUrl),
+                  child: GestureDetector(
+                    onTap: item.nft.imageUrl?.let((_) => wm.openImageView),
+                    child: Hero(
+                      tag: NftItemImageView.tag,
+                      child: NftImage(imageUrl: item.nft.imageUrl),
+                    ),
+                  ),
                 ),
               ),
               const SizedBox(height: DimensSizeV2.d16),
