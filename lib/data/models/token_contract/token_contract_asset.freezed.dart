@@ -25,7 +25,7 @@ mixin _$TokenContractAsset {
   int get decimals =>
       throw _privateConstructorUsedError; // address of rootTokenContract
   Address get address => throw _privateConstructorUsedError;
-  String get networkType => throw _privateConstructorUsedError;
+  NetworkType get networkType => throw _privateConstructorUsedError;
   String get networkGroup =>
       throw _privateConstructorUsedError; // true if custom, false if system
   bool get isCustom => throw _privateConstructorUsedError;
@@ -60,7 +60,7 @@ abstract class $TokenContractAssetCopyWith<$Res> {
       String symbol,
       int decimals,
       Address address,
-      String networkType,
+      NetworkType networkType,
       String networkGroup,
       bool isCustom,
       TokenWalletVersion? version,
@@ -123,7 +123,7 @@ class _$TokenContractAssetCopyWithImpl<$Res, $Val extends TokenContractAsset>
       networkType: null == networkType
           ? _value.networkType
           : networkType // ignore: cast_nullable_to_non_nullable
-              as String,
+              as NetworkType,
       networkGroup: null == networkGroup
           ? _value.networkGroup
           : networkGroup // ignore: cast_nullable_to_non_nullable
@@ -193,7 +193,7 @@ abstract class _$$TokenContractAssetImplCopyWith<$Res>
       String symbol,
       int decimals,
       Address address,
-      String networkType,
+      NetworkType networkType,
       String networkGroup,
       bool isCustom,
       TokenWalletVersion? version,
@@ -256,7 +256,7 @@ class __$$TokenContractAssetImplCopyWithImpl<$Res>
       networkType: null == networkType
           ? _value.networkType
           : networkType // ignore: cast_nullable_to_non_nullable
-              as String,
+              as NetworkType,
       networkGroup: null == networkGroup
           ? _value.networkGroup
           : networkGroup // ignore: cast_nullable_to_non_nullable
@@ -319,7 +319,7 @@ class _$TokenContractAssetImpl implements _TokenContractAsset {
   @override
   final Address address;
   @override
-  final String networkType;
+  final NetworkType networkType;
   @override
   final String networkGroup;
 // true if custom, false if system
@@ -410,7 +410,7 @@ abstract class _TokenContractAsset implements TokenContractAsset {
       required final String symbol,
       required final int decimals,
       required final Address address,
-      required final String networkType,
+      required final NetworkType networkType,
       required final String networkGroup,
       required final bool isCustom,
       final TokenWalletVersion? version,
@@ -433,7 +433,7 @@ abstract class _TokenContractAsset implements TokenContractAsset {
   @override
   Address get address;
   @override
-  String get networkType;
+  NetworkType get networkType;
   @override
   String get networkGroup; // true if custom, false if system
   @override

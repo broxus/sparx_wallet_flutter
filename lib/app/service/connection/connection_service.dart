@@ -129,7 +129,7 @@ extension TransportTypeExtension on TransportStrategy {
       return (this as CommonTransportStrategy).networkType;
     }
 
-    return '';
+    return NetworkType.empty();
   }
 
   NetworkGroup get networkGroup {
@@ -148,8 +148,8 @@ extension TransportTypeExtension on TransportStrategy {
     return '';
   }
 
-  bool get isEverscale => networkType == 'ever';
-  bool get isVenom => networkType == 'venom';
-  bool get isTon => networkGroup.startsWith('ton');
+  bool get isEverscale => networkType.isEver;
+  bool get isVenom => networkType.isVenom;
+  bool get isTon => networkType.isTon;
   bool get isHmstr => networkGroup.startsWith('hmstr');
 }

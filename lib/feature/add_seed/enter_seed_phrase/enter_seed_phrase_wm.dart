@@ -1,4 +1,5 @@
 import 'package:app/app/router/router.dart';
+import 'package:app/app/service/service.dart';
 import 'package:app/core/error_handler_factory.dart';
 import 'package:app/core/wm/custom_wm.dart';
 import 'package:app/data/models/models.dart';
@@ -90,7 +91,7 @@ class EnterSeedPhraseWidgetModel
     }(),
   );
   late final _seedPhraseFormat = createNotifier(
-    networkGroup == 'ton' || networkGroup == 'hmstr_mainnet'
+    networkType.isTon || networkGroup == 'hmstr_mainnet'
         ? SeedPhraseFormat.ton
         : SeedPhraseFormat.standard,
   );
@@ -110,6 +111,8 @@ class EnterSeedPhraseWidgetModel
   EnterSeedPhraseTabData? get _tabData => _tabState.value;
 
   String get networkGroup => model.networkGroup;
+
+  NetworkType get networkType => model.networkType;
 
   ListenableState<SeedPhraseFormat> get seedPhraseFormat => _seedPhraseFormat;
 

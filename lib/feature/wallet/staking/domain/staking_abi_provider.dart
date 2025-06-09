@@ -12,8 +12,8 @@ class StakingAbiProvider {
 
   Future<String> getVaultAbi(NetworkType networkType) {
     final path = switch (networkType) {
-      'ever' => Assets.abi.stEverVaultAbi,
-      'tycho' => Assets.abi.stEverVaultTychoAbi,
+      NetworkType.ever => Assets.abi.stEverVaultAbi,
+      NetworkType.tycho => Assets.abi.stEverVaultTychoAbi,
       _ => Assets.abi.stEverVaultNewAbi
     };
 
@@ -22,7 +22,7 @@ class StakingAbiProvider {
 
   Future<String> getAccountAbi(NetworkType networkType) {
     final path = switch (networkType) {
-      'ever' => Assets.abi.stEverAccountAbi,
+      NetworkType.ever => Assets.abi.stEverAccountAbi,
       _ => Assets.abi.stEverVaultNewAbi
     };
 

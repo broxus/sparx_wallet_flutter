@@ -263,7 +263,7 @@ class StakingService {
     final info = _nekotonRepository.currentTransport.stakeInformation;
     if (info == null) return StakingFees.empty();
 
-    if (_networkType == 'tycho') {
+    if (_networkType.isTycho) {
       final price = await _gasPriceService.getGasPriceParams();
 
       return StakingFees(
