@@ -124,16 +124,23 @@ class GroupsCollection extends BrowserCollection<BrowserGroup> {
       ..update();
   }
 
-  void clearTabs() {
-    _map.forEach(
-      (_, notifier) {
-        if (notifier.value.tabsIds.isNotEmpty) {
-          notifier
-            ..value.tabsIds.clear()
-            ..update();
-        }
-      },
-    );
+  void clearTabs([String? groupId]) {
+    if (groupId == null) {
+      _map.forEach(
+        (_, notifier) {
+          if (notifier.value.tabsIds.isNotEmpty) {
+            notifier
+              ..value.tabsIds.clear()
+              ..update();
+          }
+        },
+      );
+      return;
+    }
+
+    _map[groupId]
+      ?..value.tabsIds.clear()
+      ..update();
   }
 
   int? removeTabId({

@@ -86,7 +86,7 @@ abstract interface class BrowserServiceTabs {
 
   BrowserTab? getTabById(String id);
 
-  Future<void> clearTabs();
+  Future<void> clearTabs([String? groupId]);
 
   (String, String) createEmptyTab(String groupId);
 
@@ -227,11 +227,29 @@ class BrowserServiceTabsDelegate
 
   /// Clear all browser tabs
   @override
-  Future<void> clearTabs() async {
-    await _browserTabsStorageService.clear();
-    await _screenShooter.clear();
-    _groupsCollection.clearTabs();
-    _tabsCollection.clear();
+  Future<void> clearTabs([String? groupId]) async {
+    if (groupId == null) {
+      await _browserTabsStorageService.clear();
+      await _screenShooter.clear();
+      _groupsCollection.clearTabs();
+      _tabsCollection.clear();
+      return;
+    }
+
+    final tabsIds = _groupsCollection.getTabIds(groupId);
+
+    if (tabsIds != null) {
+      _tabsCollection.removeList(tabsIds);
+    }
+    _groupsCollection.clearTabs(groupId);
+
+    _browserGroupsStorageService.saveGroups(_groupsCollection.entities);
+    _browserTabsStorageService.saveBrowserTabs(_tabsCollection.entities);
+
+    if (groupId == activeGroupIdState.value) {
+      _tabsCollection.setActiveById(null);
+      _browserTabsStorageService.saveBrowserActiveTabId(null);
+    }
   }
 
   @override

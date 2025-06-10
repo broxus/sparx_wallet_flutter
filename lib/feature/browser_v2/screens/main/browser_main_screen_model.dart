@@ -60,7 +60,7 @@ class BrowserMainScreenModel extends ElementaryModel {
     );
   }
 
-  void clearTabs() => _browserService.tab.clearTabs();
+  void clearTabs(String groupId) => _browserService.tab.clearTabs(groupId);
 
   void createEmptyTab(String groupId) {
     _browserService.tab.createEmptyTab(groupId);

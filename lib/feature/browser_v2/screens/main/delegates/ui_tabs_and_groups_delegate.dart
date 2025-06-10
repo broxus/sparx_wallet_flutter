@@ -63,7 +63,6 @@ class BrowserTabsAndGroupsUiDelegate implements BrowserTabsAndGroupsUi {
   late final _viewTabsState =
       StateNotifier<List<NotNullListenableState<BrowserTab>>?>();
 
-
   late final _selectedGroupIdState = StateNotifier<String?>(
     initValue: model.activeGroupIdState.value,
   );
@@ -170,8 +169,11 @@ class BrowserTabsAndGroupsUiDelegate implements BrowserTabsAndGroupsUi {
   @override
   Future<void> onCloseAllPressed() async {
     final isClear = await showBrowserClearTabsSheet(context: context);
-    if (isClear ?? false) {
-      model.clearTabs();
+
+    final groupId = selectedGroupIdState.value;
+
+    if (groupId != null && (isClear ?? false)) {
+      model.clearTabs(groupId);
     }
   }
 
