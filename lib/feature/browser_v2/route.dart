@@ -1,3 +1,4 @@
+import 'package:app/app/router/compass/bottom_bar_state.dart';
 import 'package:app/app/router/compass/compass.dart';
 import 'package:app/feature/browser_v2/screens/main/browser_main_screen.dart';
 import 'package:injectable/injectable.dart';
@@ -10,7 +11,7 @@ class BrowserRoute extends CompassRouteParameterless<BrowserRouteData> {
           name: 'browser',
           path: '/browser',
           isSaveLocation: true,
-          isBottomNavigationBarVisible: true,
+          bottomBarState: BottomBarState.expanded,
           builder: (context, _, __) => const BrowserMainScreen(),
         );
 

@@ -1,3 +1,4 @@
+import 'package:app/app/router/compass/bottom_bar_state.dart';
 import 'package:app/app/router/compass/compass.dart';
 import 'package:app/feature/biometry/view/route.dart';
 import 'package:app/feature/network/configure_networks/route.dart';
@@ -41,7 +42,7 @@ class WalletRoute extends CompassRouteParameterless<WalletRouteData> {
           name: 'wallet',
           path: '/wallet',
           isSaveLocation: true,
-          isBottomNavigationBarVisible: true,
+          bottomBarState: BottomBarState.expanded,
           builder: (context, _, __) => const WalletPageWidget(),
           compassBaseRoutes: [
             enableBiometryRoute,

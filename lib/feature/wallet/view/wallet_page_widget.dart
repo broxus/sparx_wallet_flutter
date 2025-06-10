@@ -12,30 +12,28 @@ class WalletPageWidget extends ElementaryWidget<WalletPageWidgetModel> {
 
   @override
   Widget build(WalletPageWidgetModel wm) {
-    return Scaffold(
-      body: DoubleSourceBuilder(
-        firstSource: wm.currentAccount,
-        secondSource: wm.hasUnconfirmedTransactions,
-        builder: (_, account, hasUnconfirmed) {
-          if (account == null) return const SizedBox.shrink();
+    return DoubleSourceBuilder(
+      firstSource: wm.currentAccount,
+      secondSource: wm.hasUnconfirmedTransactions,
+      builder: (_, account, hasUnconfirmed) {
+        if (account == null) return const SizedBox.shrink();
 
-          return DoubleSourceBuilder(
-            firstSource: wm.isShowingNewTokens,
-            secondSource: wm.transportStrategy,
-            builder: (_, isShowingNewTokens, transport) {
-              return WalletView(
-                key: ValueKey(account),
-                currentAccount: account,
-                scrollController: wm.scrollController,
-                isShowingNewTokens: isShowingNewTokens ?? false,
-                confirmImportCallback: wm.hideNewTokensLabel,
-                manifestUrl: transport?.manifestUrl ?? '',
-                hasUnconfirmedTransactions: hasUnconfirmed ?? false,
-              );
-            },
-          );
-        },
-      ),
+        return DoubleSourceBuilder(
+          firstSource: wm.isShowingNewTokens,
+          secondSource: wm.transportStrategy,
+          builder: (_, isShowingNewTokens, transport) {
+            return WalletView(
+              key: ValueKey(account),
+              currentAccount: account,
+              scrollController: wm.scrollController,
+              isShowingNewTokens: isShowingNewTokens ?? false,
+              confirmImportCallback: wm.hideNewTokensLabel,
+              manifestUrl: transport?.manifestUrl ?? '',
+              hasUnconfirmedTransactions: hasUnconfirmed ?? false,
+            );
+          },
+        );
+      },
     );
   }
 }

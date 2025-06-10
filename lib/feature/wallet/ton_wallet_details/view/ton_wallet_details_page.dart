@@ -33,36 +33,34 @@ class _TonWalletDetailsPageState extends State<TonWalletDetailsPage> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: BlocProvider<TonWalletDetailsCubit>(
-        create: (_) => TonWalletDetailsCubit(
-          address: widget.address,
-          nekotonRepository: inject(),
-          currencyConvertService: inject(),
-          balanceService: inject(),
-        ),
-        child: BlocBuilder<TonWalletDetailsCubit, TonWalletDetailsState>(
-          builder: (context, state) {
-            return state.when(
-              initial: () => const SizedBox.shrink(),
-              empty: () => const SizedBox.shrink(),
-              subscribeError: (symbol, account, error, isLoading) => _Body(
-                symbol: symbol,
-                account: account,
-                error: error,
-                isLoadingError: isLoading,
-                controller: controller,
-              ),
-              data: (symbol, account, tokenBalance, fiatBalance) => _Body(
-                symbol: symbol,
-                account: account,
-                tokenBalance: tokenBalance,
-                fiatBalance: fiatBalance,
-                controller: controller,
-              ),
-            );
-          },
-        ),
+    return BlocProvider<TonWalletDetailsCubit>(
+      create: (_) => TonWalletDetailsCubit(
+        address: widget.address,
+        nekotonRepository: inject(),
+        currencyConvertService: inject(),
+        balanceService: inject(),
+      ),
+      child: BlocBuilder<TonWalletDetailsCubit, TonWalletDetailsState>(
+        builder: (context, state) {
+          return state.when(
+            initial: () => const SizedBox.shrink(),
+            empty: () => const SizedBox.shrink(),
+            subscribeError: (symbol, account, error, isLoading) => _Body(
+              symbol: symbol,
+              account: account,
+              error: error,
+              isLoadingError: isLoading,
+              controller: controller,
+            ),
+            data: (symbol, account, tokenBalance, fiatBalance) => _Body(
+              symbol: symbol,
+              account: account,
+              tokenBalance: tokenBalance,
+              fiatBalance: fiatBalance,
+              controller: controller,
+            ),
+          );
+        },
       ),
     );
   }
