@@ -21,52 +21,50 @@ class WalletAppBarWidget extends ElementaryWidget<WalletAppBarWidgetModel>
 
   @override
   Widget build(WalletAppBarWidgetModel wm) {
-    return SafeArea(
-      child: Padding(
-        padding: const EdgeInsets.symmetric(
-          vertical: DimensSizeV2.d12,
-          horizontal: DimensSizeV2.d16,
-        ),
-        child: SeparatedRow(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            Flexible(
-              child: DoubleSourceBuilder(
-                firstSource: wm.currentAccount,
-                secondSource: wm.walletState,
-                builder: (_, account, walletState) =>
-                    account?.let(
-                      (value) => _AccountInfo(
-                        account: value,
-                        walletState: walletState,
-                        walletTypeName: wm.getWalletTypeName(
-                          account.account.tonWallet.contract,
-                        ),
-                        onTap: wm.onSelectAccount,
+    return Padding(
+      padding: const EdgeInsets.symmetric(
+        vertical: DimensSizeV2.d12,
+        horizontal: DimensSizeV2.d16,
+      ),
+      child: SeparatedRow(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          Flexible(
+            child: DoubleSourceBuilder(
+              firstSource: wm.currentAccount,
+              secondSource: wm.walletState,
+              builder: (_, account, walletState) =>
+                  account?.let(
+                    (value) => _AccountInfo(
+                      account: value,
+                      walletState: walletState,
+                      walletTypeName: wm.getWalletTypeName(
+                        account.account.tonWallet.contract,
+                      ),
+                      onTap: wm.onSelectAccount,
+                    ),
+                  ) ??
+                  const SizedBox.shrink(),
+            ),
+          ),
+          Row(
+            spacing: DimensSizeV2.d12,
+            children: [
+              _QrButton(onTap: wm.onScanQr),
+              StateNotifierBuilder(
+                listenableState: wm.connection,
+                builder: (_, connection) =>
+                    connection?.let(
+                      (value) => GestureDetector(
+                        onTap: wm.onNetwork,
+                        child: NetworkDropItem(data: value),
                       ),
                     ) ??
                     const SizedBox.shrink(),
               ),
-            ),
-            Row(
-              spacing: DimensSizeV2.d12,
-              children: [
-                _QrButton(onTap: wm.onScanQr),
-                StateNotifierBuilder(
-                  listenableState: wm.connection,
-                  builder: (_, connection) =>
-                      connection?.let(
-                        (value) => GestureDetector(
-                          onTap: wm.onNetwork,
-                          child: NetworkDropItem(data: value),
-                        ),
-                      ) ??
-                      const SizedBox.shrink(),
-                ),
-              ],
-            ),
-          ],
-        ),
+            ],
+          ),
+        ],
       ),
     );
   }

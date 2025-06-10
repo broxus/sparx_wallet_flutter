@@ -1,6 +1,5 @@
 import 'dart:async';
 
-import 'package:app/app/router/router.dart';
 import 'package:app/app/service/app_links/app_links_data.dart';
 import 'package:app/app/service/app_links/app_links_service.dart';
 import 'package:app/app/service/ton_connect/models/ton_connect_ui_event.dart';
@@ -10,7 +9,6 @@ import 'package:app/di/di.dart';
 import 'package:app/feature/messenger/data/message.dart';
 import 'package:app/feature/messenger/domain/service/messenger_service.dart';
 import 'package:app/feature/ton_connect/ton_connect.dart';
-import 'package:app/utils/common_utils.dart';
 import 'package:app/widgets/bottom_navigation_bar/custom_bottom_navigation_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:logging/logging.dart';

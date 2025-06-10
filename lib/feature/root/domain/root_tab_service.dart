@@ -36,7 +36,9 @@ class RootTabService {
                     : BottomBarState.expanded,
               );
             default:
-              final BottomBarState state = currentRoute?.bottomBarState ?? BottomBarState.hidden;
+              final state =
+                  currentRoute?.bottomBarState ?? BottomBarState.hidden;
+
               return Stream.value(state);
           }
         },
