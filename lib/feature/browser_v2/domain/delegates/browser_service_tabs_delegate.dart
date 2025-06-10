@@ -88,7 +88,7 @@ abstract interface class BrowserServiceTabs {
 
   Future<void> clearTabs();
 
-  void createEmptyTab(String groupId);
+  (String, String) createEmptyTab(String groupId);
 
   Future<void> requestUrl(String tabId, Uri uri);
 
@@ -315,12 +315,12 @@ class BrowserServiceTabsDelegate
   }
 
   @override
-  void createEmptyTab(String groupId) => createBrowserTab(
+  (String, String) createEmptyTab(String groupId) => createBrowserTab(
         url: _emptyUri,
         groupId: groupId,
       );
 
-  void createBrowserTab({
+  (String, String) createBrowserTab({
     required String groupId,
     required Uri url,
     bool isSetActive = true,
@@ -345,6 +345,8 @@ class BrowserServiceTabsDelegate
 
       _browserTabsStorageService.saveBrowserActiveTabId(tab.id);
     }
+
+    return (groupId, tab.id);
   }
 
   void openUrl(Uri url) {

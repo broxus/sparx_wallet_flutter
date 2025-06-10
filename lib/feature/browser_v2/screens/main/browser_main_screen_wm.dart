@@ -22,6 +22,7 @@ import 'package:app/feature/browser_v2/screens/main/widgets/control_panels/navig
 import 'package:app/feature/browser_v2/screens/main/widgets/tab_animated_view/tab_animation_type.dart';
 import 'package:app/feature/browser_v2/widgets/bottomsheets/browser_main_menu/browser_main_menu.dart';
 import 'package:app/utils/clipboard_utils.dart';
+import 'package:app/utils/common_utils.dart';
 import 'package:app/utils/focus_utils.dart';
 import 'package:elementary/elementary.dart';
 import 'package:elementary_helper/elementary_helper.dart';
@@ -277,6 +278,7 @@ class BrowserMainScreenWidgetModel
     showBrowserMainMenu(
       context,
       groupId: groupId,
+      onPressedCreateTab: _onPressedCreateTab,
     );
   }
 
@@ -309,6 +311,7 @@ class BrowserMainScreenWidgetModel
   Future<bool> _scrollToTab({
     required String groupId,
     required String tabId,
+    bool isAnimated = false,
   }) async {
     final index = _tabsDelegate.getTabIndexById(
       groupId: groupId,
@@ -316,7 +319,10 @@ class BrowserMainScreenWidgetModel
     );
 
     if (index != null && index > -1) {
-      _pageSlideDelegate.slideToPage(index);
+      _pageSlideDelegate.slideToPage(
+        index,
+        isAnimated: isAnimated,
+      );
 
       _pageDelegate.reset();
     }
@@ -337,6 +343,16 @@ class BrowserMainScreenWidgetModel
       (_viewVisibleState.value) &&
           (model.activeTabUrlHostState.value?.isEmpty ?? false) &&
           await checkExistClipBoardData(),
+    );
+  }
+
+  void _onPressedCreateTab(String groupId, String tabId) {
+    callWithDelay(
+      () => _scrollToTab(
+        groupId: groupId,
+        tabId: tabId,
+        isAnimated: true,
+      ),
     );
   }
 }

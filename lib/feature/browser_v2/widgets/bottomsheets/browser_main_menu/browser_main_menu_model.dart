@@ -22,8 +22,8 @@ class BrowserMainMenuModel extends ElementaryModel {
     _browserService.createTabBookMark(id);
   }
 
-  void createTab(String groupId) {
-    _browserService.tab.createEmptyTab(groupId);
+  (String, String) createTab(String groupId) {
+    return _browserService.tab.createEmptyTab(groupId);
   }
 
   void reload() {

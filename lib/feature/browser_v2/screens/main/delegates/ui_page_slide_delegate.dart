@@ -33,8 +33,19 @@ class BrowserPageSlideUiDelegate implements BrowserPageSlideUi {
     urlSliderPageController.dispose();
   }
 
-  void slideToPage(int page) {
-    urlSliderPageController.jumpToPage(page);
+  void slideToPage(
+    int page, {
+    bool isAnimated = false,
+  }) {
+    if (isAnimated) {
+      urlSliderPageController.animateToPage(
+        page,
+        duration: const Duration(milliseconds: 250),
+        curve: Curves.easeInOut,
+      );
+    } else {
+      urlSliderPageController.jumpToPage(page);
+    }
   }
 
   @override

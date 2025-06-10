@@ -1,5 +1,6 @@
 import 'package:app/feature/browser_v2/widgets/bottomsheets/browser_main_menu/browser_main_menu_wm.dart';
 import 'package:app/feature/browser_v2/widgets/bottomsheets/browser_main_menu/data/browser_main_menu_data.dart';
+import 'package:app/utils/types/fuction_types.dart';
 import 'package:elementary/elementary.dart';
 import 'package:flutter/material.dart';
 import 'package:ui_components_lib/ui_components_lib.dart';
@@ -8,18 +9,23 @@ import 'package:ui_components_lib/v2/widgets/modals/primary_bottom_sheet.dart';
 Future<void> showBrowserMainMenu(
   BuildContext context, {
   required String groupId,
+  required DoubleValueCallback<String, String> onPressedCreateTab,
 }) {
   return showPrimaryBottomSheet(
     context: context,
     barrierColor: Colors.black.withValues(alpha: .8),
     padding: const EdgeInsets.symmetric(horizontal: DimensSizeV2.d21),
-    content: BrowserMainMenu(groupId: groupId),
+    content: BrowserMainMenu(
+      groupId: groupId,
+      onPressedCreateTab: onPressedCreateTab,
+    ),
   );
 }
 
 class BrowserMainMenu extends ElementaryWidget<BrowserMainMenuWidgetModel> {
   BrowserMainMenu({
     required String groupId,
+    required DoubleValueCallback<String, String> onPressedCreateTab,
     super.key,
     WidgetModelFactory<BrowserMainMenuWidgetModel>? wmFactory,
   }) : super(
@@ -27,6 +33,7 @@ class BrowserMainMenu extends ElementaryWidget<BrowserMainMenuWidgetModel> {
               (ctx) => defaultBrowserMainMenuWidgetModelFactory(
                     ctx,
                     groupId: groupId,
+                    onPressedCreateTab: onPressedCreateTab,
                   ),
         );
 
