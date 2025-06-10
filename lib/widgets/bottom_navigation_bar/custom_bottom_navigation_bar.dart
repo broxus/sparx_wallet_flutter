@@ -1,3 +1,6 @@
+import 'dart:math';
+
+import 'package:app/app/router/compass/bottom_bar_state.dart';
 import 'package:app/feature/root/view/root_tab.dart';
 import 'package:app/utils/system_utils.dart';
 import 'package:app/widgets/bottom_navigation_bar/custom_bottom_navigation_bar_wm.dart';
@@ -17,23 +20,31 @@ class CustomBottomNavigationBar
           key: key,
         );
 
-  static final height = DimensSizeV2.d48 + getViewPadding().bottom;
+  static const height = DimensSizeV2.d48;
   static const animateDuration = Duration(milliseconds: 150);
 
   @override
   Widget build(CustomBottomNavigationBarWidgetModel wm) {
-    return StateNotifierBuilder<bool>(
-      listenableState: wm.visibleState,
-      builder: (_, bool? isVisible) {
-        isVisible ??= false;
+    final bottomPadding = wm.bottomPadding;
 
-        return AnimatedSize(
+    return StateNotifierBuilder<BottomBarState>(
+      listenableState: wm.visibleState,
+      builder: (_, BottomBarState? visibleState) {
+        visibleState ??= BottomBarState.hidden;
+
+        return AnimatedOpacity(
           duration: animateDuration,
-          child: SizedBox(
-            height: isVisible ? height : 0,
-            child: Theme(
-              data: wm.themeData,
-              child: SafeArea(
+          opacity: visibleState == BottomBarState.expanded ? 1.0 : 0.0,
+          child: AnimatedSize(
+            duration: animateDuration,
+            child: SizedBox(
+              height: switch (visibleState) {
+                BottomBarState.expanded => height + bottomPadding,
+                BottomBarState.collapsed => bottomPadding,
+                BottomBarState.hidden => 0,
+              },
+              child: Theme(
+                data: wm.themeData,
                 child: OverflowBox(
                   maxHeight: double.infinity,
                   alignment: Alignment.topCenter,

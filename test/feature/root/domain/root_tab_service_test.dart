@@ -1,3 +1,4 @@
+import 'package:app/app/router/compass/bottom_bar_state.dart';
 import 'package:app/app/router/compass/compass.dart';
 import 'package:app/app/router/router.dart';
 import 'package:app/feature/browser_v2/domain/service/browser_service.dart';
@@ -16,12 +17,12 @@ class MockBrowserService extends Mock implements BrowserService {}
 
 class MockWalletRoute extends Mock implements WalletRoute {
   @override
-  bool get isBottomNavigationBarVisible => true;
+  BottomBarState get bottomBarState => BottomBarState.expanded;
 }
 
 class MockBrowserRoute extends Mock implements BrowserRoute {
   @override
-  bool get isBottomNavigationBarVisible => true;
+  BottomBarState get bottomBarState => BottomBarState.expanded;
 
   @override
   Type get runtimeType => BrowserRoute;
@@ -29,7 +30,7 @@ class MockBrowserRoute extends Mock implements BrowserRoute {
 
 class MockProfileRoute extends Mock implements ProfileRoute {
   @override
-  bool get isBottomNavigationBarVisible => false;
+  BottomBarState get bottomBarState => BottomBarState.collapsed;
 
   @override
   Type get runtimeType => ProfileRoute;
@@ -38,7 +39,13 @@ class MockProfileRoute extends Mock implements ProfileRoute {
 class MockCompassBaseGoRoute extends Mock
     implements CompassBaseGoRoute<CompassRouteData> {
   @override
-  bool get isBottomNavigationBarVisible => false;
+  BottomBarState get bottomBarState => BottomBarState.collapsed;
+}
+
+class MockFullscreenRoute extends Mock
+    implements CompassBaseGoRoute<CompassRouteData> {
+  @override
+  BottomBarState get bottomBarState => BottomBarState.hidden;
 }
 
 void main() {
@@ -171,9 +178,9 @@ void main() {
       });
     });
 
-    group('isBottomBarVisibleStream', () {
+    group('bottomBarStateStream', () {
       test(
-        'should emit browser service scrolled state for BrowserRoute',
+        'should emit expanded state for BrowserRoute when not interacted',
         () {
           // Arrange
           final browserRoute = MockBrowserRoute();
@@ -191,14 +198,14 @@ void main() {
 
           // Act & Assert
           expect(
-            rootTabService.isBottomBarVisibleStream,
-            emits(true), // !false = true
+            rootTabService.bottomBarStateStream,
+            emits(BottomBarState.expanded),
           );
         },
       );
 
       test(
-        'should emit inverted browser scrolled state for BrowserRoute',
+        'should emit collapsed state for BrowserRoute when interacted',
         () async {
           // Arrange
           final browserRoute = MockBrowserRoute();
@@ -214,10 +221,10 @@ void main() {
 
           // Act & Assert
           expect(
-            rootTabService.isBottomBarVisibleStream,
+            rootTabService.bottomBarStateStream,
             emitsInOrder([
-              true,
-              false,
+              BottomBarState.expanded,
+              BottomBarState.collapsed,
             ]),
           );
 
@@ -233,7 +240,7 @@ void main() {
       );
 
       test(
-        'should emit route visibility for non-BrowserRoute '
+        'should emit expanded state for non-BrowserRoute '
         'with visible nav bar',
         () {
           // Arrange
@@ -248,14 +255,14 @@ void main() {
 
           // Act & Assert
           expect(
-            rootTabService.isBottomBarVisibleStream,
-            emits(true),
+            rootTabService.bottomBarStateStream,
+            emits(BottomBarState.expanded),
           );
         },
       );
 
       test(
-        'should emit route visibility for non-BrowserRoute with hidden nav bar',
+        'should emit collapsed state for non-BrowserRoute with hidden nav bar',
         () {
           // Arrange
           final profileRoute = MockProfileRoute();
@@ -269,13 +276,13 @@ void main() {
 
           // Act & Assert
           expect(
-            rootTabService.isBottomBarVisibleStream,
-            emits(false),
+            rootTabService.bottomBarStateStream,
+            emits(BottomBarState.collapsed),
           );
         },
       );
 
-      test('should emit false when route is null', () {
+      test('should emit hidden state when route is null', () {
         // Arrange
         final routesStream = BehaviorSubject<List<CompassBaseGoRoute>>.seeded(
           <CompassBaseGoRoute>[],
@@ -287,8 +294,26 @@ void main() {
 
         // Act & Assert
         expect(
-          rootTabService.isBottomBarVisibleStream,
-          emits(false),
+          rootTabService.bottomBarStateStream,
+          emits(BottomBarState.hidden),
+        );
+      });
+
+      test('should emit hidden state for fullscreen routes', () {
+        // Arrange
+        final fullscreenRoute = MockFullscreenRoute();
+        final routesStream = BehaviorSubject<List<CompassBaseGoRoute>>.seeded(
+          [fullscreenRoute],
+        );
+
+        when(() => mockRouter.currentRoutesStream).thenAnswer(
+          (_) => routesStream.stream,
+        );
+
+        // Act & Assert
+        expect(
+          rootTabService.bottomBarStateStream,
+          emits(BottomBarState.hidden),
         );
       });
 
@@ -310,10 +335,10 @@ void main() {
 
           // Act & Assert
           expect(
-            rootTabService.isBottomBarVisibleStream,
+            rootTabService.bottomBarStateStream,
             emitsInOrder([
-              false, // Browser route with scrolled=true -> !true = false
-              true, // Wallet route with visible nav bar
+              BottomBarState.collapsed, // Browser route with scrolled=true
+              BottomBarState.expanded, // Wallet route with visible nav bar
             ]),
           );
 

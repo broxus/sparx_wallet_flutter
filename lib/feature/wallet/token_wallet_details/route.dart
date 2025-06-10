@@ -1,3 +1,4 @@
+import 'package:app/app/router/compass/bottom_bar_state.dart';
 import 'package:app/app/router/compass/compass.dart';
 import 'package:app/feature/wallet/token_wallet_details/view/token_wallet_details_page.dart';
 import 'package:app/feature/wallet/wallet_prepare_transfer/route.dart';
@@ -16,6 +17,7 @@ class TokenWalletDetailsRoute
     CompassBaseRoute walletPrepareTransferRoute,
   ) : super(
           path: '/token-details',
+          bottomBarState: BottomBarState.hidden,
           builder: (context, data, _) => TokenWalletDetailsPage(
             owner: data.owner,
             rootTokenContract: data.rootTokenContract,

@@ -2,6 +2,7 @@ import 'package:app/app/router/router.dart';
 import 'package:app/core/error_handler_factory.dart';
 import 'package:app/core/wm/custom_wm.dart';
 import 'package:app/di/di.dart';
+import 'package:app/app/router/compass/bottom_bar_state.dart';
 import 'package:app/feature/root/view/root_tab.dart';
 import 'package:app/widgets/bottom_navigation_bar/custom_bottom_navigation_bar.dart';
 import 'package:app/widgets/bottom_navigation_bar/custom_bottom_navigation_bar_model.dart';
@@ -31,15 +32,17 @@ class CustomBottomNavigationBarWidgetModel extends CustomWidgetModel<
   );
 
   late final _tabState = createNotifierFromStream<RootTab>(model.rootTabStream);
-  late final _visibleState = createNotifierFromStream<bool>(
-    model.isBottomBarVisibleStream,
+  late final _visibleState = createNotifierFromStream(
+    model.bottomBarStateStream,
   );
 
-  ListenableState<bool> get visibleState => _visibleState;
+  ListenableState<BottomBarState> get visibleState => _visibleState;
 
   ListenableState<RootTab> get tabState => _tabState;
 
   ColorsPaletteV2 get colors => _theme.colors;
+
+  double get bottomPadding => MediaQuery.of(context).padding.bottom;
 
   ThemeData get themeData => Theme.of(context).copyWith(
         splashColor: Colors.transparent,
