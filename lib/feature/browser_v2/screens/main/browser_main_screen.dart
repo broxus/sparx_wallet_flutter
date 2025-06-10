@@ -127,7 +127,7 @@ class BrowserMainScreen extends ElementaryWidget<BrowserMainScreenWidgetModel> {
                 right: 0,
                 child: _PastGoView(
                   showState: wm.pastGo.showPastGoState,
-                  onPressed: wm.onPastGoPressed,
+                  onPressed: wm.pastGo.onPastGoPressed,
                 ),
               ),
             ],

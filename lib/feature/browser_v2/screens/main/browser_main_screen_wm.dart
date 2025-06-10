@@ -83,7 +83,7 @@ class BrowserMainScreenWidgetModel
 
   final _groupMenuDelegate = BrowserGroupMenuUiDelegate();
 
-  final _pastGoDelegate = BrowserPastGoUiDelegate();
+  late final _pastGoDelegate = BrowserPastGoUiDelegate(model);
 
   late final _pageSlideDelegate = BrowserPageSlideUiDelegate(
     screenWidth: sizes.screenWidth,
@@ -171,7 +171,8 @@ class BrowserMainScreenWidgetModel
   @override
   void initWidgetModel() {
     _menuState.addListener(_handleMenuState);
-    _viewVisibleState.addListener(_handleViewVisibleState);
+    _viewVisibleState.addListener(_updatePastGo);
+    model.activeTabUrlHostState.addListener(_updatePastGo);
 
     WidgetsBinding.instance.addPostFrameCallback((_) {
       final groupId = model.activeGroupIdState.value;
@@ -197,6 +198,7 @@ class BrowserMainScreenWidgetModel
     _renderManager.dispose();
     _pastGoDelegate.dispose();
     _pageSlideDelegate.dispose();
+    model.activeTabUrlHostState.removeListener(_updatePastGo);
     super.dispose();
   }
 
@@ -251,13 +253,6 @@ class BrowserMainScreenWidgetModel
     model.updateInteractedState(isInteracted: false);
   }
 
-  void onPastGoPressed() => _pastGoDelegate.onPastGoPressed(
-        onSuccess: (String text) => model.requestUrl(
-          _tabsDelegate.activeTabId,
-          text,
-        ),
-      );
-
   void onEditingCompleteUrl(String tabId, String text) {
     model.requestUrl(tabId, text);
   }
@@ -311,10 +306,6 @@ class BrowserMainScreenWidgetModel
     _viewVisibleState.accept(isVisible);
   }
 
-  void _handleViewVisibleState() {
-    _updatePastGo();
-  }
-
   Future<bool> _scrollToTab({
     required String groupId,
     required String tabId,
@@ -344,7 +335,7 @@ class BrowserMainScreenWidgetModel
   Future<void> _updatePastGo() async {
     _pastGoDelegate.updateVisible(
       (_viewVisibleState.value) &&
-          (_tabsDelegate.isEmptyActiveTabUrl) &&
+          (model.activeTabUrlHostState.value?.isEmpty ?? false) &&
           await checkExistClipBoardData(),
     );
   }
