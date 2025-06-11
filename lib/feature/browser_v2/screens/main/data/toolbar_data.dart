@@ -1,23 +1,12 @@
 import 'package:flutter/foundation.dart';
+import 'package:freezed_annotation/freezed_annotation.dart';
 
-@immutable
-class ToolbarData {
-  ToolbarData({
-    bool? isCanGoBack,
-    bool? isCanGoForward,
-  })  : isCanGoBack = isCanGoBack ?? false,
-        isCanGoForward = isCanGoForward ?? false;
+part 'toolbar_data.freezed.dart';
 
-  final bool isCanGoBack;
-  final bool isCanGoForward;
-
-  @override
-  bool operator ==(Object other) {
-    return other is ToolbarData &&
-        other.isCanGoBack == isCanGoBack &&
-        other.isCanGoForward == isCanGoForward;
-  }
-
-  @override
-  late final hashCode = Object.hash(isCanGoBack, isCanGoForward);
+@freezed
+class ToolbarData with _$ToolbarData {
+  const factory ToolbarData({
+    @Default(false) bool isCanGoBack,
+    @Default(false) bool isCanGoForward,
+  }) = _ToolbarData;
 }
