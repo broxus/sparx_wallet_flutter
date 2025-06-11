@@ -10,20 +10,24 @@ import 'package:ui_components_lib/ui_components_lib.dart';
 
 class TokenWalletOrdinaryTransactionDetailsScreen extends ElementaryWidget<
     TokenWalletOrdinaryTransactionDetailsScreenWidgetModel> {
-  const TokenWalletOrdinaryTransactionDetailsScreen({
-    required this.transaction,
-    required this.tokenCurrency,
-    required this.price,
-    required this.rootTokenContract,
+  TokenWalletOrdinaryTransactionDetailsScreen({
+    required TokenWalletOrdinaryTransaction transaction,
+    required Currency tokenCurrency,
+    required Fixed price,
+    required Address rootTokenContract,
     Key? key,
-    WidgetModelFactory wmFactory =
-        defaultTokenWalletOrdinaryTransactionDetailsScreenWidgetModelFactory,
-  }) : super(wmFactory, key: key);
-
-  final TokenWalletOrdinaryTransaction transaction;
-  final Currency tokenCurrency;
-  final Fixed price;
-  final Address rootTokenContract;
+    WidgetModelFactory? wmFactory,
+  }) : super(
+            wmFactory ??
+                (ctx) =>
+                    defaultTokenWalletOrdinaryTransactionDetailsScreenWidgetModelFactory(
+                      ctx,
+                      transaction: transaction,
+                      tokenCurrency: tokenCurrency,
+                      price: price,
+                      rootTokenContract: rootTokenContract,
+                    ),
+            key: key);
 
   @override
   Widget build(TokenWalletOrdinaryTransactionDetailsScreenWidgetModel wm) {
@@ -36,25 +40,26 @@ class TokenWalletOrdinaryTransactionDetailsScreen extends ElementaryWidget<
       ),
       backgroundColor: wm.theme.colors.background0,
       body: WalletTransactionDetailsBodyWithExplorerButton(
-        transactionHash: transaction.hash,
+        transactionHash: wm.transaction.hash,
         body: SeparatedColumn(
           spacing: DimensSize.d16,
           children: [
             WalletTransactionDetailsDefaultBody(
-              date: transaction.date,
-              isIncoming: !transaction.isOutgoing,
+              date: wm.transaction.date,
+              isIncoming: !wm.transaction.isOutgoing,
               status: TonWalletTransactionStatus.completed,
               fee: wm.moneyFee,
               value: wm.moneyValue,
-              hash: transaction.hash,
-              recipientOrSender: transaction.address,
+              hash: wm.transaction.hash,
+              recipientOrSender: wm.transaction.address,
               type: LocaleKeys.ordinaryWord.tr(),
-              price: price,
+              price: wm.price,
               tonIconPath: wm.tonIconPath,
               tokenIconPath: wm.logoURI,
             ),
           ],
         ),
+        onPressed: wm.onPressedDetails,
       ),
     );
   }
