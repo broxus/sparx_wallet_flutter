@@ -1,4 +1,4 @@
-import 'package:app/bootstrap/sentry.dart';
+import 'package:app/core/sentry.dart';
 import 'package:app/feature/update_version/data/update_request.dart';
 import 'package:app/feature/update_version/data/update_status.dart';
 import 'package:app/feature/update_version/domain/store_url_generator.dart';

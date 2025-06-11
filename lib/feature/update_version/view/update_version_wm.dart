@@ -1,4 +1,4 @@
-import 'package:app/bootstrap/sentry.dart';
+import 'package:app/core/sentry.dart';
 import 'package:app/core/error_handler_factory.dart';
 import 'package:app/core/wm/custom_wm.dart';
 import 'package:app/di/di.dart';

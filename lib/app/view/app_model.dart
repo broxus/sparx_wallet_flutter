@@ -1,9 +1,10 @@
 import 'package:app/app/router/router.dart';
 import 'package:app/app/service/app_lifecycle_service.dart';
 import 'package:app/app/service/biometry_service.dart';
+import 'package:app/app/service/bootstrap/configurators/logger.dart';
+import 'package:app/app/service/crash_detector/domain/service/crash_detector_service.dart';
 import 'package:app/app/service/localization/service/localization_service.dart';
 import 'package:app/app/view/app.dart';
-import 'package:app/bootstrap/bootstrap.dart';
 import 'package:app/feature/messenger/data/message.dart';
 import 'package:app/feature/messenger/domain/service/messenger_service.dart';
 import 'package:app/feature/profile/route.dart';
@@ -20,6 +21,8 @@ class AppModel extends ElementaryModel with WidgetsBindingObserver {
     this._localizationService,
     this._biometryService,
     this._messengerService,
+    this._crashDetectorService,
+    this._loggerConfigurator,
   ) : super(errorHandler: errorHandler);
 
   final CompassRouter router;
@@ -27,6 +30,8 @@ class AppModel extends ElementaryModel with WidgetsBindingObserver {
   final LocalizationService _localizationService;
   final BiometryService _biometryService;
   final MessengerService _messengerService;
+  final CrashDetectorService _crashDetectorService;
+  final LoggerConfigurator _loggerConfigurator;
 
   BuildContext? get navContext =>
       CompassRouter.navigatorKey.currentState?.context;
@@ -40,7 +45,7 @@ class AppModel extends ElementaryModel with WidgetsBindingObserver {
     _listener = AppLifecycleListener(
       onStateChange: _onStateChanged,
     );
-    appStartSession(setCrashDetected: true);
+    _crashDetectorService.startSession(setCrashDetected: true);
     _checkBiometry();
     super.init();
   }
@@ -61,13 +66,16 @@ class AppModel extends ElementaryModel with WidgetsBindingObserver {
 
   Message? getMessage() => _messengerService.takeMessage();
 
+  Future<bool> checkCrashDetected() =>
+      _crashDetectorService.checkCrashDetected();
+
   void _onStateChanged(AppLifecycleState state) {
     switch (state) {
       case AppLifecycleState.resumed:
-        startLogSession();
-        appStartSession(setCrashDetected: false);
+        _loggerConfigurator.startLogSession();
+        _crashDetectorService.startSession(setCrashDetected: false);
       case AppLifecycleState.inactive:
-        appStopSession();
+        _crashDetectorService.stopSession();
       case AppLifecycleState.paused:
       case AppLifecycleState.detached:
       case AppLifecycleState.hidden:

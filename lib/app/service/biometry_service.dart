@@ -18,7 +18,11 @@ class BiometryPasswordNotStoredException implements Exception {}
 /// Service that helps reading/updating biometry settings.
 @singleton
 class BiometryService {
-  BiometryService(this.storage, this.secureStorage, this.appLifecycleService);
+  BiometryService(
+    this.storage,
+    this.secureStorage,
+    this.appLifecycleService,
+  );
 
   final GeneralStorageService storage;
   final SecureStorageService secureStorage;

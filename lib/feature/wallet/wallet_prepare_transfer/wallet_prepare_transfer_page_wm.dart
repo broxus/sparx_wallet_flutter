@@ -6,7 +6,7 @@ import 'dart:math';
 import 'package:app/app/router/compass/compass.dart';
 import 'package:app/app/router/router.dart';
 import 'package:app/app/service/currency_convert_service.dart';
-import 'package:app/bootstrap/sentry.dart';
+import 'package:app/core/sentry.dart';
 import 'package:app/core/error_handler_factory.dart';
 import 'package:app/core/wm/custom_wm.dart';
 import 'package:app/data/models/token_contract/token_contract_asset.dart';
