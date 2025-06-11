@@ -9,23 +9,23 @@ import 'package:elementary_helper/elementary_helper.dart';
 import 'package:flutter/cupertino.dart';
 
 class BrowserEntityReactiveStore<T extends BrowserEntity> {
-  final _map = <String, NotNullNotifier<T>>{};
+  final _notifiersMap = <String, NotNullNotifier<T>>{};
 
   final _idsState = NotNullNotifier<List<String>>([]);
 
   final _activeEntityIdState = StateNotifier<String?>();
 
-  List<T> get entities => _map.values.map((n) => n.value).toList();
+  List<T> get entities => _notifiersMap.values.map((n) => n.value).toList();
 
   NotNullListenableState<List<String>> get idsState => _idsState;
 
   ListenableState<String?> get activeEntityIdState => _activeEntityIdState;
 
-  int get count => _map.length;
+  int get count => _notifiersMap.length;
 
   @mustCallSuper
   void dispose() {
-    _map.forEach((_, notifier) {
+    _notifiersMap.forEach((_, notifier) {
       notifier.dispose();
     });
     _activeEntityIdState.dispose();
@@ -33,7 +33,7 @@ class BrowserEntityReactiveStore<T extends BrowserEntity> {
   }
 
   void clear() {
-    _map
+    _notifiersMap
       ..forEach((_, notifier) => notifier.dispose())
       ..clear();
     _activeEntityIdState.accept(null);
@@ -42,7 +42,7 @@ class BrowserEntityReactiveStore<T extends BrowserEntity> {
 
   void addList(List<T> entities) {
     for (final entity in entities) {
-      _map[entity.id] = NotNullNotifier(entity);
+      _notifiersMap[entity.id] = NotNullNotifier(entity);
       _idsState.value.add(entity.id);
     }
 
@@ -50,19 +50,19 @@ class BrowserEntityReactiveStore<T extends BrowserEntity> {
   }
 
   void add(T entity) {
-    if (_map.containsKey(entity.id)) {
-      _map[entity.id]?.accept(entity);
+    if (_notifiersMap.containsKey(entity.id)) {
+      _notifiersMap[entity.id]?.accept(entity);
       return;
     }
 
-    _map[entity.id] = NotNullNotifier(entity);
+    _notifiersMap[entity.id] = NotNullNotifier(entity);
     _idsState
       ..value.add(entity.id)
       ..update();
   }
 
   int? remove(String entityId) {
-    _map.remove(entityId)?.dispose();
+    _notifiersMap.remove(entityId)?.dispose();
 
     final ids = _idsState.value;
     final count = ids.length;
@@ -94,7 +94,7 @@ class BrowserEntityReactiveStore<T extends BrowserEntity> {
     required String id,
     required String title,
   }) {
-    _map[id]
+    _notifiersMap[id]
       ?..value.title = title
       ..update();
   }
@@ -108,10 +108,10 @@ class BrowserEntityReactiveStore<T extends BrowserEntity> {
         )],
       );
 
-  bool checkExistEntity(String id) => _map[id] != null;
+  bool checkExistEntity(String id) => _notifiersMap[id] != null;
 
   @protected
-  NotNullNotifier<T>? getNotifier(String entityId) => _map[entityId];
+  NotNullNotifier<T>? getNotifier(String entityId) => _notifiersMap[entityId];
 }
 
 class GroupsReactiveStore extends BrowserEntityReactiveStore<BrowserGroup> {
@@ -126,7 +126,7 @@ class GroupsReactiveStore extends BrowserEntityReactiveStore<BrowserGroup> {
 
   void clearTabs([String? groupId]) {
     if (groupId == null) {
-      _map.forEach(
+      _notifiersMap.forEach(
         (_, notifier) {
           if (notifier.value.tabsIds.isNotEmpty) {
             notifier
@@ -138,7 +138,7 @@ class GroupsReactiveStore extends BrowserEntityReactiveStore<BrowserGroup> {
       return;
     }
 
-    _map[groupId]
+    _notifiersMap[groupId]
       ?..value.tabsIds.clear()
       ..update();
   }
@@ -150,7 +150,7 @@ class GroupsReactiveStore extends BrowserEntityReactiveStore<BrowserGroup> {
     var groupNotifier = groupId == null ? null : getNotifier(groupId);
 
     if (groupNotifier == null) {
-      final notifiers = _map.values;
+      final notifiers = _notifiersMap.values;
       for (final notifier in notifiers) {
         if (notifier.value.tabsIds.contains(tabId)) {
           groupNotifier = notifier;
@@ -212,10 +212,10 @@ class TabsReactiveStore extends BrowserEntityReactiveStore<BrowserTab> {
 
   void removeList(List<String> ids) {
     for (final id in ids) {
-      _map.remove(id)?.dispose();
+      _notifiersMap.remove(id)?.dispose();
     }
 
-    _idsState.accept(_map.keys.toList());
+    _idsState.accept(_notifiersMap.keys.toList());
   }
 
   Uri? getCachedUrl(String tabId) => getNotifier(tabId)?.value.url;
