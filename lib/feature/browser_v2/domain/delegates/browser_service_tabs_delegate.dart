@@ -154,11 +154,11 @@ class BrowserServiceTabsDelegate
 
   @override
   NotNullListenableState<List<String>> get allGroupsIdsState =>
-      _groupsReactiveStore.idsState;
+      _groupsReactiveStore.entitiesIdsListState;
 
   @override
   NotNullListenableState<List<String>> get allTabsIdsState =>
-      _tabsReactiveStore.idsState;
+      _tabsReactiveStore.entitiesIdsListState;
 
   @override
   ListenableState<String?> get activeTabUrlHostState => _activeTabUrlHostState;

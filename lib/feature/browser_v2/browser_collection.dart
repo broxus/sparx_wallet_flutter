@@ -11,13 +11,14 @@ import 'package:flutter/cupertino.dart';
 class BrowserEntityReactiveStore<T extends BrowserEntity> {
   final _notifiersMap = <String, NotNullNotifier<T>>{};
 
-  final _idsState = NotNullNotifier<List<String>>([]);
+  final _entitiesIdsListState = NotNullNotifier<List<String>>([]);
 
   final _activeEntityIdState = StateNotifier<String?>();
 
   List<T> get entities => _notifiersMap.values.map((n) => n.value).toList();
 
-  NotNullListenableState<List<String>> get idsState => _idsState;
+  NotNullListenableState<List<String>> get entitiesIdsListState =>
+      _entitiesIdsListState;
 
   ListenableState<String?> get activeEntityIdState => _activeEntityIdState;
 
@@ -29,7 +30,7 @@ class BrowserEntityReactiveStore<T extends BrowserEntity> {
       notifier.dispose();
     });
     _activeEntityIdState.dispose();
-    _idsState.dispose();
+    _entitiesIdsListState.dispose();
   }
 
   void clear() {
@@ -37,16 +38,16 @@ class BrowserEntityReactiveStore<T extends BrowserEntity> {
       ..forEach((_, notifier) => notifier.dispose())
       ..clear();
     _activeEntityIdState.accept(null);
-    _idsState.accept([]);
+    _entitiesIdsListState.accept([]);
   }
 
   void addList(List<T> entities) {
     for (final entity in entities) {
       _notifiersMap[entity.id] = NotNullNotifier(entity);
-      _idsState.value.add(entity.id);
+      _entitiesIdsListState.value.add(entity.id);
     }
 
-    _idsState.update();
+    _entitiesIdsListState.update();
   }
 
   void add(T entity) {
@@ -56,7 +57,7 @@ class BrowserEntityReactiveStore<T extends BrowserEntity> {
     }
 
     _notifiersMap[entity.id] = NotNullNotifier(entity);
-    _idsState
+    _entitiesIdsListState
       ..value.add(entity.id)
       ..update();
   }
@@ -64,7 +65,7 @@ class BrowserEntityReactiveStore<T extends BrowserEntity> {
   int? remove(String entityId) {
     _notifiersMap.remove(entityId)?.dispose();
 
-    final ids = _idsState.value;
+    final ids = _entitiesIdsListState.value;
     final count = ids.length;
 
     int? removedIndex;
@@ -80,7 +81,7 @@ class BrowserEntityReactiveStore<T extends BrowserEntity> {
       return null;
     }
 
-    _idsState
+    _entitiesIdsListState
       ..value.removeAt(removedIndex)
       ..update();
 
@@ -102,9 +103,9 @@ class BrowserEntityReactiveStore<T extends BrowserEntity> {
   void setActiveById(String? id) => _activeEntityIdState.accept(id);
 
   void setActiveByIndex(int index) => _activeEntityIdState.accept(
-        _idsState.value[min(
+        _entitiesIdsListState.value[min(
           index,
-          _idsState.value.length - 1,
+          _entitiesIdsListState.value.length - 1,
         )],
       );
 
@@ -215,7 +216,7 @@ class TabsReactiveStore extends BrowserEntityReactiveStore<BrowserTab> {
       _notifiersMap.remove(id)?.dispose();
     }
 
-    _idsState.accept(_notifiersMap.keys.toList());
+    _entitiesIdsListState.accept(_notifiersMap.keys.toList());
   }
 
   Uri? getCachedUrl(String tabId) => getNotifier(tabId)?.value.url;
