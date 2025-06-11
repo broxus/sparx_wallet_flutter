@@ -209,10 +209,12 @@ class NftTransferInfoWidget
                 size: DimensSizeV2.d20,
                 color: ColorsResV2.p75,
               ),
-              Text(
-                LocaleKeys.nftAttachedAmountNotification.tr(),
-                style: theme.textStyles.paragraphSmall.copyWith(
-                  color: ColorsResV2.p75,
+              Expanded(
+                child: Text(
+                  LocaleKeys.nftAttachedAmountNotification.tr(),
+                  style: theme.textStyles.paragraphSmall.copyWith(
+                    color: ColorsResV2.p75,
+                  ),
                 ),
               ),
             ],
