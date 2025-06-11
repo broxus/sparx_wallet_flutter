@@ -18,16 +18,17 @@ class TokenWalletOrdinaryTransactionDetailsScreen extends ElementaryWidget<
     Key? key,
     WidgetModelFactory? wmFactory,
   }) : super(
-            wmFactory ??
-                (ctx) =>
-                    defaultTokenWalletOrdinaryTransactionDetailsScreenWidgetModelFactory(
-                      ctx,
-                      transaction: transaction,
-                      tokenCurrency: tokenCurrency,
-                      price: price,
-                      rootTokenContract: rootTokenContract,
-                    ),
-            key: key);
+          wmFactory ??
+              (ctx) =>
+                  defaultTokenWalletOrdinaryTransactionDetailsScreenWMFactory(
+                    ctx,
+                    transaction: transaction,
+                    tokenCurrency: tokenCurrency,
+                    price: price,
+                    rootTokenContract: rootTokenContract,
+                  ),
+          key: key,
+        );
 
   @override
   Widget build(TokenWalletOrdinaryTransactionDetailsScreenWidgetModel wm) {

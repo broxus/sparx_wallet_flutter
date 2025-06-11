@@ -13,7 +13,7 @@ import 'package:ui_components_lib/v2/theme_style_v2.dart';
 /// Factory method for creating
 /// [TokenWalletOrdinaryTransactionDetailsScreenWidgetModel]
 TokenWalletOrdinaryTransactionDetailsScreenWidgetModel
-    defaultTokenWalletOrdinaryTransactionDetailsScreenWidgetModelFactory(
+    defaultTokenWalletOrdinaryTransactionDetailsScreenWMFactory(
   BuildContext context, {
   required TokenWalletOrdinaryTransaction transaction,
   required Currency tokenCurrency,
