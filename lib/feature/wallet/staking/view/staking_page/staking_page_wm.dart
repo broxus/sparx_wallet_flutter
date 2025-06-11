@@ -304,7 +304,9 @@ class StakingPageWidgetModel
 
   Future<Money?> _getReceive() async {
     final tab = _tab.value;
-    final currency = _currentCurrency;
+    final currency = tab == StakingTab.stake
+        ? _info.value.data?.tokenWallet.currency
+        : model.nativeCurrency;
     final value = _currentValue;
 
     if (currency == null) return null;
