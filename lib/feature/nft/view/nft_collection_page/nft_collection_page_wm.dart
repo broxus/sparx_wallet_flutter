@@ -101,14 +101,12 @@ class NftCollectionPageWidgetModel
   }
 
   void _onViewInExplorer() {
-    Navigator.of(context).pop();
     openBrowserUrl(
       model.getAccountExplorerLink(widget.collection),
     );
   }
 
   Future<void> _onHideCollection() async {
-    Navigator.of(context).pop();
     await model.hideCollection(widget.collection);
     contextSafe?.compassBack();
   }

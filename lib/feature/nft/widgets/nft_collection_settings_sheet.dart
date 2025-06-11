@@ -44,7 +44,10 @@ class _NftCollectionSettingsSheet extends StatelessWidget {
             size: DimensSizeV2.d20,
             color: theme.colors.content0,
           ),
-          onPressed: onViewInExplorer,
+          onPressed: () {
+            Navigator.of(context).pop();
+            onViewInExplorer();
+          },
         ),
         CommonListTile(
           titleText: LocaleKeys.nftHideCollection.tr(),
@@ -54,7 +57,10 @@ class _NftCollectionSettingsSheet extends StatelessWidget {
             color: theme.colors.negative,
           ),
           contentColor: theme.colors.negative,
-          onPressed: onHideCollection,
+          onPressed: () {
+            Navigator.of(context).pop();
+            onHideCollection();
+          },
         ),
       ],
     );
