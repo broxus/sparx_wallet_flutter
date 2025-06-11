@@ -141,24 +141,24 @@ class BrowserServiceTabsDelegate
 
   late final _activeTabUrlHostState = StateNotifier<String?>();
 
-  final _groupsCollection = GroupsCollection();
-  final _tabsCollection = TabsCollection();
+  final _groupsReactiveStore = GroupsReactiveStore();
+  final _tabsReactiveStore = TabsReactiveStore();
 
   @override
   ListenableState<String?> get activeGroupIdState =>
-      _groupsCollection.activeEntityIdState;
+      _groupsReactiveStore.activeEntityIdState;
 
   @override
   ListenableState<String?> get activeTabIdState =>
-      _tabsCollection.activeEntityIdState;
+      _tabsReactiveStore.activeEntityIdState;
 
   @override
   NotNullListenableState<List<String>> get allGroupsIdsState =>
-      _groupsCollection.idsState;
+      _groupsReactiveStore.idsState;
 
   @override
   NotNullListenableState<List<String>> get allTabsIdsState =>
-      _tabsCollection.idsState;
+      _tabsReactiveStore.idsState;
 
   @override
   ListenableState<String?> get activeTabUrlHostState => _activeTabUrlHostState;
@@ -177,11 +177,11 @@ class BrowserServiceTabsDelegate
   @override
   ListenableState<ToolbarData> get controlPanelState => _controlPanelState;
 
-  String? get activeGroupId => _groupsCollection.activeEntityIdState.value;
+  String? get activeGroupId => _groupsReactiveStore.activeEntityIdState.value;
 
   List<String> get allTabsIds => allTabsIdsState.value;
 
-  String? get activeTabId => _tabsCollection.activeEntityIdState.value;
+  String? get activeTabId => _tabsReactiveStore.activeEntityIdState.value;
 
   void init() {
     activeTabIdState.addListener(_handleActiveTab);
@@ -190,8 +190,8 @@ class BrowserServiceTabsDelegate
 
   void dispose() {
     _screenShooter.dispose();
-    _groupsCollection.dispose();
-    _tabsCollection.dispose();
+    _groupsReactiveStore.dispose();
+    _tabsReactiveStore.dispose();
   }
 
   @override
@@ -222,7 +222,7 @@ class BrowserServiceTabsDelegate
 
   Future<void> clearGroups() async {
     await _browserGroupsStorageService.clear();
-    _groupsCollection.clear();
+    _groupsReactiveStore.clear();
   }
 
   /// Clear all browser tabs
@@ -231,23 +231,23 @@ class BrowserServiceTabsDelegate
     if (groupId == null) {
       await _browserTabsStorageService.clear();
       await _screenShooter.clear();
-      _groupsCollection.clearTabs();
-      _tabsCollection.clear();
+      _groupsReactiveStore.clearTabs();
+      _tabsReactiveStore.clear();
       return;
     }
 
-    final tabsIds = _groupsCollection.getTabIds(groupId);
+    final tabsIds = _groupsReactiveStore.getTabIds(groupId);
 
     if (tabsIds != null) {
-      _tabsCollection.removeList(tabsIds);
+      _tabsReactiveStore.removeList(tabsIds);
     }
-    _groupsCollection.clearTabs(groupId);
+    _groupsReactiveStore.clearTabs(groupId);
 
-    _browserGroupsStorageService.saveGroups(_groupsCollection.entities);
-    _browserTabsStorageService.saveBrowserTabs(_tabsCollection.entities);
+    _browserGroupsStorageService.saveGroups(_groupsReactiveStore.entities);
+    _browserTabsStorageService.saveBrowserTabs(_tabsReactiveStore.entities);
 
     if (groupId == activeGroupIdState.value) {
-      _tabsCollection.setActiveById(null);
+      _tabsReactiveStore.setActiveById(null);
       _browserTabsStorageService.saveBrowserActiveTabId(null);
     }
   }
@@ -257,8 +257,8 @@ class BrowserServiceTabsDelegate
     if (tabId == activeTabId) {
       _activeTabUrlHostState.accept(uri.host);
     }
-    _tabsCollection.updateUrl(tabId: tabId, uri: uri);
-    _browserTabsStorageService.saveBrowserTabs(_tabsCollection.entities);
+    _tabsReactiveStore.updateUrl(tabId: tabId, uri: uri);
+    _browserTabsStorageService.saveBrowserTabs(_tabsReactiveStore.entities);
     _updateControlPanel();
   }
 
@@ -284,18 +284,18 @@ class BrowserServiceTabsDelegate
 
   @override
   void updateTabTitle(String tabId, String title) {
-    _tabsCollection.updateTitle(id: tabId, title: title);
-    _browserTabsStorageService.saveBrowserTabs(_tabsCollection.entities);
+    _tabsReactiveStore.updateTitle(id: tabId, title: title);
+    _browserTabsStorageService.saveBrowserTabs(_tabsReactiveStore.entities);
   }
 
   @override
   void setActiveGroup(String groupId) {
-    _groupsCollection.setActiveById(groupId);
+    _groupsReactiveStore.setActiveById(groupId);
   }
 
   @override
   void setActiveTab(String? tabId) {
-    _tabsCollection.setActiveById(tabId);
+    _tabsReactiveStore.setActiveById(tabId);
     _browserTabsStorageService.saveBrowserActiveTabId(tabId);
   }
 
@@ -305,29 +305,29 @@ class BrowserServiceTabsDelegate
     required String groupId,
     required String tabId,
   }) async {
-    final removedIndex = _groupsCollection.removeTabId(
+    final removedIndex = _groupsReactiveStore.removeTabId(
       groupId: groupId,
       tabId: tabId,
     );
-    _tabsCollection.remove(tabId);
+    _tabsReactiveStore.remove(tabId);
 
     if (removedIndex == null) {
       return;
     }
 
-    final tabIds = _groupsCollection.getTabIds(groupId);
+    final tabIds = _groupsReactiveStore.getTabIds(groupId);
 
     if (groupId == activeGroupId && tabId == activeTabId) {
       final newActiveTabId = (tabIds?.isEmpty ?? true)
           ? null
           : tabIds?[min(removedIndex, tabIds.length - 1)];
 
-      _tabsCollection.setActiveById(newActiveTabId);
+      _tabsReactiveStore.setActiveById(newActiveTabId);
       _browserTabsStorageService.saveBrowserActiveTabId(newActiveTabId);
     }
 
-    _browserGroupsStorageService.saveGroups(_groupsCollection.entities);
-    _browserTabsStorageService.saveBrowserTabs(_tabsCollection.entities);
+    _browserGroupsStorageService.saveGroups(_groupsReactiveStore.entities);
+    _browserTabsStorageService.saveBrowserTabs(_tabsReactiveStore.entities);
 
     unawaited(_screenShooter.removeScreenshot(tabId));
   }
@@ -344,22 +344,22 @@ class BrowserServiceTabsDelegate
     bool isSetActive = true,
   }) {
     final targetGroupId =
-        _groupsCollection.checkExistEntity(groupId) ? groupId : tabsGroupId;
+        _groupsReactiveStore.checkExistEntity(groupId) ? groupId : tabsGroupId;
 
     final tab = BrowserTab.create(url: url);
 
-    _groupsCollection.addTabId(
+    _groupsReactiveStore.addTabId(
       groupId: targetGroupId,
       tabId: tab.id,
     );
-    _tabsCollection.add(tab);
+    _tabsReactiveStore.add(tab);
 
-    _browserGroupsStorageService.saveGroups(_groupsCollection.entities);
-    _browserTabsStorageService.saveBrowserTabs(_tabsCollection.entities);
+    _browserGroupsStorageService.saveGroups(_groupsReactiveStore.entities);
+    _browserTabsStorageService.saveBrowserTabs(_tabsReactiveStore.entities);
 
     if (isSetActive) {
-      _groupsCollection.setActiveById(targetGroupId);
-      _tabsCollection.setActiveById(tab.id);
+      _groupsReactiveStore.setActiveById(targetGroupId);
+      _tabsReactiveStore.setActiveById(tab.id);
 
       _browserTabsStorageService.saveBrowserActiveTabId(tab.id);
     }
@@ -368,16 +368,16 @@ class BrowserServiceTabsDelegate
   }
 
   void openUrl(Uri url) {
-    final lastTabId = _groupsCollection.getTabIds(tabsGroupId)?.lastOrNull;
+    final lastTabId = _groupsReactiveStore.getTabIds(tabsGroupId)?.lastOrNull;
 
     if (lastTabId != null) {
       final isExistUrl =
-          _tabsCollection.getCachedUrl(lastTabId).toString().isNotEmpty;
+          _tabsReactiveStore.getCachedUrl(lastTabId).toString().isNotEmpty;
       if (!isExistUrl) {
         requestUrl(lastTabId, url);
 
-        _groupsCollection.setActiveById(tabsGroupId);
-        _tabsCollection.setActiveById(lastTabId);
+        _groupsReactiveStore.setActiveById(tabsGroupId);
+        _tabsReactiveStore.setActiveById(lastTabId);
         _browserTabsStorageService.saveBrowserActiveTabId(lastTabId);
 
         return;
@@ -430,7 +430,7 @@ class BrowserServiceTabsDelegate
     required String groupId,
     required String tabId,
   }) {
-    return _groupsCollection.getTabIndex(
+    return _groupsReactiveStore.getTabIndex(
       groupId: groupId,
       tabId: tabId,
     );
@@ -441,7 +441,7 @@ class BrowserServiceTabsDelegate
     required String groupId,
     required int index,
   }) {
-    return _groupsCollection.getTabIdByIndex(
+    return _groupsReactiveStore.getTabIdByIndex(
       groupId: groupId,
       index: index,
     );
@@ -449,13 +449,13 @@ class BrowserServiceTabsDelegate
 
   @override
   List<String>? getTabIds(String groupId) =>
-      _groupsCollection.getTabIds(groupId);
+      _groupsReactiveStore.getTabIds(groupId);
 
   @override
   List<NotNullListenableState<BrowserTab>> getGroupTabsListenable(
     String groupId,
   ) {
-    final tabIds = _groupsCollection.getTabIds(groupId);
+    final tabIds = _groupsReactiveStore.getTabIds(groupId);
 
     if (tabIds == null) {
       return [];
@@ -464,7 +464,7 @@ class BrowserServiceTabsDelegate
     final result = <NotNullListenableState<BrowserTab>>[];
 
     for (final id in tabIds) {
-      final listenable = _tabsCollection.getListenable(id);
+      final listenable = _tabsReactiveStore.getListenable(id);
       if (listenable == null) {
         continue;
       }
@@ -476,11 +476,11 @@ class BrowserServiceTabsDelegate
 
   @override
   NotNullListenableState<BrowserGroup>? getGroupListenableById(String id) =>
-      _groupsCollection.getListenable(id);
+      _groupsReactiveStore.getListenable(id);
 
   @override
   NotNullListenableState<BrowserTab>? getTabListenableById(String id) =>
-      _tabsCollection.getListenable(id);
+      _tabsReactiveStore.getListenable(id);
 
   @override
   BrowserTab? getTabById(String id) => getTabListenableById(id)?.value;
@@ -505,7 +505,7 @@ class BrowserServiceTabsDelegate
     bool isSwitchToCreatedGroup = false,
   }) {
     if (initTabId != null) {
-      _groupsCollection.removeTabId(
+      _groupsReactiveStore.removeTabId(
         groupId: originalGroupId,
         tabId: initTabId,
       );
@@ -514,20 +514,20 @@ class BrowserServiceTabsDelegate
     final group = BrowserGroup.create(
       name: name ??
           LocaleKeys.groupWithCount.tr(
-            args: ['${_groupsCollection.count}'],
+            args: ['${_groupsReactiveStore.count}'],
           ),
       tabsIds: [
         if (initTabId != null) initTabId,
       ],
     );
 
-    _groupsCollection.add(group);
-    _browserGroupsStorageService.saveGroups(_groupsCollection.entities);
+    _groupsReactiveStore.add(group);
+    _browserGroupsStorageService.saveGroups(_groupsReactiveStore.entities);
 
     if (isSwitchToCreatedGroup) {
-      _groupsCollection.setActiveById(group.id);
+      _groupsReactiveStore.setActiveById(group.id);
       if (initTabId != null) {
-        _tabsCollection.setActiveById(initTabId);
+        _tabsReactiveStore.setActiveById(initTabId);
         _browserTabsStorageService.saveBrowserActiveTabId(initTabId);
       }
     }
@@ -540,29 +540,29 @@ class BrowserServiceTabsDelegate
     required String groupId,
     required String name,
   }) {
-    _groupsCollection.updateTitle(id: groupId, title: name);
-    _browserGroupsStorageService.saveGroups(_groupsCollection.entities);
+    _groupsReactiveStore.updateTitle(id: groupId, title: name);
+    _browserGroupsStorageService.saveGroups(_groupsReactiveStore.entities);
   }
 
   @override
   void removeBrowserGroup(String groupId) {
-    final tabsIds = _groupsCollection.getTabIds(groupId);
-    final removeIndex = _groupsCollection.remove(groupId);
+    final tabsIds = _groupsReactiveStore.getTabIds(groupId);
+    final removeIndex = _groupsReactiveStore.remove(groupId);
     if (tabsIds != null) {
-      _tabsCollection.removeList(tabsIds);
+      _tabsReactiveStore.removeList(tabsIds);
     }
 
     if (groupId == activeGroupId) {
       if (removeIndex != null) {
-        _groupsCollection.setActiveByIndex(removeIndex);
+        _groupsReactiveStore.setActiveByIndex(removeIndex);
         setActiveTab(null);
       } else {
-        _groupsCollection.setActiveById(tabsGroupId);
+        _groupsReactiveStore.setActiveById(tabsGroupId);
       }
     }
 
-    _browserGroupsStorageService.saveGroups(_groupsCollection.entities);
-    _browserTabsStorageService.saveBrowserTabs(_tabsCollection.entities);
+    _browserGroupsStorageService.saveGroups(_groupsReactiveStore.entities);
+    _browserTabsStorageService.saveBrowserTabs(_tabsReactiveStore.entities);
   }
 
   /// Put browser tabs to stream
@@ -607,10 +607,10 @@ class BrowserServiceTabsDelegate
 
     _screenShooter.init(tabs);
 
-    _groupsCollection.addList(groups);
-    _tabsCollection.addList(tabs);
-    _groupsCollection.setActiveById(activeGroupId);
-    _tabsCollection.setActiveById(activeTabId);
+    _groupsReactiveStore.addList(groups);
+    _tabsReactiveStore.addList(tabs);
+    _groupsReactiveStore.setActiveById(activeGroupId);
+    _tabsReactiveStore.setActiveById(activeTabId);
   }
 
   void _handleActiveTab() {
@@ -618,7 +618,7 @@ class BrowserServiceTabsDelegate
 
     if (activeTabId != null) {
       _activeTabUrlHostState.accept(
-        _tabsCollection.getCachedUrl(activeTabId!)?.host,
+        _tabsReactiveStore.getCachedUrl(activeTabId!)?.host,
       );
     }
   }

@@ -8,7 +8,7 @@ import 'package:app/feature/browser_v2/data/tabs/browser_tab.dart';
 import 'package:elementary_helper/elementary_helper.dart';
 import 'package:flutter/cupertino.dart';
 
-class BrowserCollection<T extends BrowserEntity> {
+class BrowserEntityReactiveStore<T extends BrowserEntity> {
   final _map = <String, NotNullNotifier<T>>{};
 
   final _idsState = NotNullNotifier<List<String>>([]);
@@ -114,7 +114,7 @@ class BrowserCollection<T extends BrowserEntity> {
   NotNullNotifier<T>? getNotifier(String entityId) => _map[entityId];
 }
 
-class GroupsCollection extends BrowserCollection<BrowserGroup> {
+class GroupsReactiveStore extends BrowserEntityReactiveStore<BrowserGroup> {
   void addTabId({
     required String groupId,
     required String tabId,
@@ -200,7 +200,7 @@ class GroupsCollection extends BrowserCollection<BrowserGroup> {
   }
 }
 
-class TabsCollection extends BrowserCollection<BrowserTab> {
+class TabsReactiveStore extends BrowserEntityReactiveStore<BrowserTab> {
   void updateUrl({
     required String tabId,
     required Uri uri,
