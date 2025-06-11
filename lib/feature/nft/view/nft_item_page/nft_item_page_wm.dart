@@ -54,7 +54,7 @@ class NftItemPageWidgetModel
 
   void onViewInExplorer(Address address) {
     openBrowserUrl(
-      model.getAccountExplorerLink(widget.address),
+      model.getAccountExplorerLink(address),
     );
   }
 
