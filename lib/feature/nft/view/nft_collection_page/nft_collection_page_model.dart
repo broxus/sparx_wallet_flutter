@@ -71,8 +71,8 @@ class NftCollectionPageModel extends ElementaryModel {
   String getAccountExplorerLink(Address address) =>
       _nekotonRepository.currentTransport.accountExplorerLink(address);
 
-  Future<void> removePendingNft(Address collection) async {
-    _nftStorageService.removePendingNftByCollection(
+  Future<List<PendingNft>> removePendingNft(Address collection) async {
+    return _nftStorageService.removePendingNftByCollection(
       owner: await _owner,
       collection: collection,
       networkGroup: _nekotonRepository.currentTransport.networkGroup,

@@ -42,6 +42,8 @@ class NftCollectionPageWidgetModel
     fetchPage: _fetchPage,
   );
 
+  Set<String> pending = const {};
+
   NftList? _current;
   StreamSubscription<NftTransferEvent>? _transferEventSubscription;
 
@@ -82,13 +84,14 @@ class NftCollectionPageWidgetModel
 
   Future<void> _init() async {
     final collection = await model.getCollection(widget.collection);
-    await model.removePendingNft(widget.collection);
+    final pendingList = await model.removePendingNft(widget.collection);
 
     if (collection == null) {
       contextSafe?.compassBack();
       return;
     }
 
+    pending = pendingList.map((e) => e.id).toSet();
     _collection.accept(collection);
     _transferEventSubscription = model
         .getNftTransferEventStream(collection.address)

@@ -164,30 +164,36 @@ class NftStorageService extends AbstractStorageService {
     _pendingNftSubject.add(updatedList);
   }
 
-  void removePendingNftByCollection({
+  List<PendingNft> removePendingNftByCollection({
     required Address owner,
     required Address collection,
     required NetworkGroup networkGroup,
   }) {
     final currentList = _pendingNftSubject.valueOrNull ?? [];
-    final updatedList = currentList
-        .whereNot(
-          (e) =>
-              e.owner == owner &&
-              e.collection == collection &&
-              e.networkGroup == networkGroup,
-        )
-        .toList();
 
-    if (currentList.length == updatedList.length) {
-      return; // No change, so no need to update storage or stream
+    // Partition the list into items to remove and items to keep
+    final removed = <PendingNft>[];
+    final updatedList = <PendingNft>[];
+
+    for (final e in currentList) {
+      if (e.owner == owner &&
+          e.collection == collection &&
+          e.networkGroup == networkGroup) {
+        removed.add(e);
+      } else {
+        updatedList.add(e);
+      }
     }
 
-    _generalStorage.write(
-      _pendingNftsKey,
-      updatedList.map((e) => e.toJson()).toList(),
-    );
-    _pendingNftSubject.add(updatedList);
+    if (removed.isNotEmpty) {
+      _generalStorage.write(
+        _pendingNftsKey,
+        updatedList.map((e) => e.toJson()).toList(),
+      );
+      _pendingNftSubject.add(updatedList);
+    }
+
+    return removed;
   }
 
   void _streamedMetadata() => _metadataSubject.add(readMetadata());

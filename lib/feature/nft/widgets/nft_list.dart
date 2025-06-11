@@ -16,12 +16,14 @@ class Nftist extends StatelessWidget {
   const Nftist({
     required this.controller,
     required this.displayMode,
+    required this.pending,
     required this.onNftPressed,
     super.key,
   });
 
   final PagingController<String, NftItem> controller;
   final NftDisplayMode displayMode;
+  final Set<String> pending;
   final ValueChanged<NftItem> onNftPressed;
 
   @override
@@ -29,13 +31,13 @@ class Nftist extends StatelessWidget {
     return PagingListener<String, NftItem>(
       controller: controller,
       builder: switch (displayMode) {
-        NftDisplayMode.grid => _buildGridView,
-        NftDisplayMode.list => _buildListView,
+        NftDisplayMode.grid => _gridViewBuilder,
+        NftDisplayMode.list => _listViewBuilder,
       },
     );
   }
 
-  Widget _buildGridView(
+  Widget _gridViewBuilder(
     BuildContext context,
     PagingState<String, NftItem> state,
     VoidCallback fetchNextPage,
@@ -53,17 +55,12 @@ class Nftist extends StatelessWidget {
         invisibleItemsThreshold: 1,
         firstPageProgressIndicatorBuilder: (_) => _indicator,
         newPageProgressIndicatorBuilder: (_) => _indicator,
-        itemBuilder: (_, item, __) => _Item(
-          key: ValueKey(item.nft.address),
-          item: item,
-          displayMode: displayMode,
-          onTap: () => onNftPressed(item),
-        ),
+        itemBuilder: _itemBuilder,
       ),
     );
   }
 
-  Widget _buildListView(
+  Widget _listViewBuilder(
     BuildContext context,
     PagingState<String, NftItem> state,
     VoidCallback fetchNextPage,
@@ -76,27 +73,32 @@ class Nftist extends StatelessWidget {
         invisibleItemsThreshold: 1,
         firstPageProgressIndicatorBuilder: (_) => _indicator,
         newPageProgressIndicatorBuilder: (_) => _indicator,
-        itemBuilder: (_, item, __) => _Item(
-          key: ValueKey(item.nft.address),
-          item: item,
-          displayMode: displayMode,
-          onTap: () => onNftPressed(item),
-        ),
+        itemBuilder: _itemBuilder,
       ),
     );
   }
+
+  Widget _itemBuilder(BuildContext _, NftItem item, int __) => _Item(
+        key: ValueKey(item.nft.address),
+        item: item,
+        displayMode: displayMode,
+        isPending: pending.contains(item.nft.id),
+        onTap: () => onNftPressed(item),
+      );
 }
 
 class _Item extends StatelessWidget {
   const _Item({
     required this.displayMode,
     required this.item,
+    required this.isPending,
     required this.onTap,
     super.key,
   });
 
   final NftDisplayMode displayMode;
   final NftItem item;
+  final bool isPending;
   final VoidCallback onTap;
 
   @override
@@ -153,9 +155,26 @@ class _Item extends StatelessWidget {
                   constraints: const BoxConstraints(),
                   child: Padding(
                     padding: const EdgeInsets.all(DimensSizeV2.d14),
-                    child: _Badge(
-                      balance: item.wallet!.balance,
-                      supply: item.nft.supply ?? BigInt.zero,
+                    child: Row(
+                      mainAxisSize: MainAxisSize.min,
+                      spacing: DimensSizeV2.d4,
+                      children: [
+                        Flexible(
+                          child: _Badge(
+                            balance: item.wallet!.balance,
+                            supply: item.nft.supply ?? BigInt.zero,
+                          ),
+                        ),
+                        if (isPending)
+                          Container(
+                            width: DimensSizeV2.d10,
+                            height: DimensSizeV2.d10,
+                            decoration: BoxDecoration(
+                              color: theme.colors.backgroundAccent,
+                              shape: BoxShape.circle,
+                            ),
+                          ),
+                      ],
                     ),
                   ),
                 ),

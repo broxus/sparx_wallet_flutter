@@ -81,6 +81,7 @@ class NftCollectionPageWidget
                         return Nftist(
                           controller: wm.controller,
                           displayMode: displayMode ?? NftDisplayMode.grid,
+                          pending: wm.pending,
                           onNftPressed: wm.onNftPressed,
                         );
                       },
