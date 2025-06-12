@@ -10,7 +10,6 @@ import 'package:app/feature/wallet/wallet.dart';
 import 'package:app/generated/generated.dart';
 import 'package:app/utils/utils.dart';
 import 'package:app/widgets/amount_input/amount_input_asset.dart';
-import 'package:collection/collection.dart';
 import 'package:elementary_helper/elementary_helper.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -174,16 +173,7 @@ class StakingPageWidgetModel
 
   Future<void> _init() async {
     try {
-      final rootContractAddress = model.staking.stakingRootContractAddress;
-      final group = model.transport.transport.group;
-      final account = model.findAccountByAddress(widget.accountAddress);
-      final asset = account?.additionalAssets[group]?.tokenWallets
-          .firstWhereOrNull((c) => c.rootTokenContract == rootContractAddress);
-
-      // if staking coin not in account, add it
-      if (asset == null) {
-        unawaited(account?.addTokenWallet(rootContractAddress));
-      }
+      unawaited(model.tryAddTokenWallet(widget.accountAddress));
 
       final (ever, token) = await FutureExt.wait2(
         model.getWallet(widget.accountAddress),

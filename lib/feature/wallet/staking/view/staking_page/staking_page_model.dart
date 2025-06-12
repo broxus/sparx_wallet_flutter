@@ -1,6 +1,7 @@
 import 'package:app/app/service/service.dart';
 import 'package:app/data/models/models.dart';
 import 'package:app/feature/wallet/staking/staking.dart';
+import 'package:collection/collection.dart';
 import 'package:elementary/elementary.dart';
 import 'package:nekoton_repository/nekoton_repository.dart' hide Message;
 
@@ -82,8 +83,18 @@ class StakingPageModel extends ElementaryModel {
   Future<String> withdrawStEverPayload() =>
       _stakingService.withdrawStEverPayload();
 
-  KeyAccount? findAccountByAddress(Address address) =>
-      _nekotonRepository.seedList.findAccountByAddress(address);
-
   Future<StakingFees> computeFees() => _stakingService.computeFees();
+
+  Future<void> tryAddTokenWallet(Address address) async {
+    final rootContractAddress = staking.stakingRootContractAddress;
+    final group = transport.transport.group;
+    final account = _nekotonRepository.seedList.findAccountByAddress(address);
+    final asset = account?.additionalAssets[group]?.tokenWallets
+        .firstWhereOrNull((c) => c.rootTokenContract == rootContractAddress);
+
+    if (asset != null || account == null) return;
+
+    await account.addTokenWallet(rootContractAddress);
+    // await _nekotonRepository.updateTokenSubscriptions([account.account]);
+  }
 }
