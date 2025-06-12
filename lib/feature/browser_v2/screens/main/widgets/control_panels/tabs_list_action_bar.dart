@@ -57,7 +57,7 @@ class BrowserTabsListActionBar extends StatelessWidget {
                   height: double.infinity,
                   child: Icon(
                     LucideIcons.menu,
-                    size: DimensSizeV2.d16,
+                    size: DimensSizeV2.d20,
                     color: colors.content3,
                   ),
                 ),
@@ -70,7 +70,7 @@ class BrowserTabsListActionBar extends StatelessWidget {
                   onTap: onPlusPressed,
                   child: Icon(
                     LucideIcons.plus,
-                    size: DimensSizeV2.d16,
+                    size: DimensSizeV2.d20,
                     color: colors.content3,
                   ),
                 ),

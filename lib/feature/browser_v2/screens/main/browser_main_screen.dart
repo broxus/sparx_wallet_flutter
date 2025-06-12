@@ -46,7 +46,8 @@ class BrowserMainScreen extends ElementaryWidget<BrowserMainScreenWidgetModel> {
                     width: wm.sizes.screenWidth,
                     viewVisibleState: wm.viewVisibleState,
                     tabsState: wm.tabs.viewTabsState,
-                    scrollController: wm.pageSlider.viewTabScrollController,
+                    viewTabScrollController:
+                        wm.pageSlider.viewTabScrollController,
                     paddingPageAnimation: wm.animations.paddingPageAnimation,
                     onLoadingProgressChanged:
                         wm.progressIndicator.onProgressChanged,
@@ -100,9 +101,10 @@ class BrowserMainScreen extends ElementaryWidget<BrowserMainScreenWidgetModel> {
                       onPressedCurrentUrlMenu: wm.onPressedCurrentUrlMenu,
                       onPressedRefresh: wm.onPressedRefresh,
                       onEditingCompleteUrl: wm.onEditingCompleteUrl,
-                      urlSliderController: wm.pageSlider.urlSliderController,
+                      urlSliderPageController:
+                          wm.pageSlider.urlSliderPageController,
                       tabsState: wm.tabs.viewTabsState,
-                      navigationScrollModeState: wm.navigationScrollModeState,
+                      onPageChanged: wm.pageSlider.onPageChanged,
                     ),
                   ),
                 ),
@@ -125,7 +127,7 @@ class BrowserMainScreen extends ElementaryWidget<BrowserMainScreenWidgetModel> {
                 right: 0,
                 child: _PastGoView(
                   showState: wm.pastGo.showPastGoState,
-                  onPressed: wm.onPastGoPressed,
+                  onPressed: wm.pastGo.onPastGoPressed,
                 ),
               ),
             ],
@@ -163,18 +165,14 @@ class _MenuAnimation extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return AnimatedBuilder(
-      animation: controller,
-      builder: (context, child) {
-        return Transform.translate(
-          offset: offsetAnimation.value,
-          child: Opacity(
-            opacity: opacityAnimation.value,
-            child: child,
-          ),
-        );
-      },
-      child: child,
+    return RepaintBoundary(
+      child: SlideTransition(
+        position: offsetAnimation,
+        child: FadeTransition(
+          opacity: opacityAnimation,
+          child: child,
+        ),
+      ),
     );
   }
 }
@@ -190,24 +188,26 @@ class _PastGoView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return StateNotifierBuilder(
-      listenableState: showState,
-      builder: (_, bool? isShow) {
-        isShow ??= false;
+    return RepaintBoundary(
+      child: StateNotifierBuilder(
+        listenableState: showState,
+        builder: (_, bool? isShow) {
+          isShow ??= false;
 
-        return Transform.translate(
-          offset: Offset(0, isShow ? 0 : 300),
-          child: AnimatedOpacity(
-            opacity: isShow ? 1 : 0,
-            duration: const Duration(milliseconds: 250),
-            child: Center(
-              child: PastGoButton(
-                onPressed: onPressed,
+          return Transform.translate(
+            offset: Offset(0, isShow ? 0 : 300),
+            child: AnimatedOpacity(
+              opacity: isShow ? 1 : 0,
+              duration: const Duration(milliseconds: 250),
+              child: Center(
+                child: PastGoButton(
+                  onPressed: onPressed,
+                ),
               ),
             ),
-          ),
-        );
-      },
+          );
+        },
+      ),
     );
   }
 }

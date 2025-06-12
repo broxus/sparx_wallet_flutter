@@ -10,7 +10,7 @@ class BrowserPagesView extends StatelessWidget {
   const BrowserPagesView({
     required this.width,
     required this.viewVisibleState,
-    required this.scrollController,
+    required this.viewTabScrollController,
     required this.paddingPageAnimation,
     required this.onLoadingProgressChanged,
     required this.tabsState,
@@ -23,7 +23,7 @@ class BrowserPagesView extends StatelessWidget {
   final double width;
   final ListenableState<bool> viewVisibleState;
   final ListenableState<List<NotNullListenableState<BrowserTab>>?> tabsState;
-  final ScrollController scrollController;
+  final ScrollController viewTabScrollController;
   final Animation<double> paddingPageAnimation;
   final ValueChanged<int> onLoadingProgressChanged;
   final void Function(
@@ -61,7 +61,7 @@ class BrowserPagesView extends StatelessWidget {
 
                       return ListView.builder(
                         scrollDirection: Axis.horizontal,
-                        controller: scrollController,
+                        controller: viewTabScrollController,
                         physics: const NeverScrollableScrollPhysics(),
                         itemCount: list.length,
                         itemBuilder: (_, int index) {

@@ -15,22 +15,22 @@ class BrowserGroupMenuModel extends ElementaryModel {
   final BrowserService _browserService;
 
   NotNullListenableState<List<String>> get allGroupsIdsState =>
-      _browserService.tabs.allGroupsIdsState;
+      _browserService.tab.allGroupsIdsState;
 
   ListenableState<String?> get activeGroupIdState =>
-      _browserService.tabs.activeGroupIdState;
+      _browserService.tab.activeGroupIdState;
 
   int? get allGroupsCount => allGroupsIdsState.value.length;
 
   String? getGroupNameById(String groupId) =>
-      _browserService.tabs.getGroupListenableById(groupId)?.value.title;
+      _browserService.tab.getGroupListenableById(groupId)?.value.title;
 
   void setActiveGroup(String groupId) {
-    _browserService.tabs.setActiveGroup(groupId);
+    _browserService.tab.setActiveGroup(groupId);
   }
 
   void createBrowserGroup(String name) =>
-      _browserService.tabs.createBrowserGroup(
+      _browserService.tab.createBrowserGroup(
         name: name,
       );
 
@@ -38,18 +38,18 @@ class BrowserGroupMenuModel extends ElementaryModel {
     required String groupId,
     required String name,
   }) {
-    _browserService.tabs.updateGroupName(
+    _browserService.tab.updateGroupName(
       groupId: groupId,
       name: name,
     );
   }
 
   void removeGroup(String groupId) {
-    _browserService.tabs.removeBrowserGroup(groupId);
+    _browserService.tab.removeBrowserGroup(groupId);
   }
 
   NotNullListenableState<BrowserGroup>? getGroupListenableById(
     String groupId,
   ) =>
-      _browserService.tabs.getGroupListenableById(groupId);
+      _browserService.tab.getGroupListenableById(groupId);
 }

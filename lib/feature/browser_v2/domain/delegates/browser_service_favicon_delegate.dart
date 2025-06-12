@@ -1,13 +1,21 @@
 import 'dart:async';
 import 'dart:collection';
 
+import 'package:app/feature/browser_v2/domain/delegates/browser_base_delegate.dart';
 import 'package:app/feature/browser_v2/domain/service/storages/browser_favicon_url_storage_service.dart';
 import 'package:favicon/favicon.dart';
+import 'package:injectable/injectable.dart';
 
 const _suffixes = ['png', 'ico'];
 
-class FaviconManager {
-  FaviconManager(
+abstract interface class BrowserServiceFavicon {
+  Future<String?> getFaviconURL(Uri uri);
+}
+
+@injectable
+class BrowserServiceFaviconDelegate
+    implements BrowserDelegate, BrowserServiceFavicon {
+  BrowserServiceFaviconDelegate(
     this._browserFaviconURLStorageService,
   );
 
@@ -15,6 +23,7 @@ class FaviconManager {
 
   final _cache = HashMap<Uri, String>();
 
+  @override
   Future<String?> getFaviconURL(Uri uri) async {
     if (_cache[uri] != null) {
       return _cache[uri];

@@ -16,8 +16,8 @@ abstract interface class BrowserTabMenuUi {
   );
 }
 
-class BrowserTabMenuDelegate implements BrowserTabMenuUi {
-  BrowserTabMenuDelegate(
+class BrowserTabMenuUiDelegate implements BrowserTabMenuUi {
+  BrowserTabMenuUiDelegate(
     this.model,
     this.context, {
     required this.renderManager,

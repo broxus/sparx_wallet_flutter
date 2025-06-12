@@ -32,8 +32,8 @@ abstract interface class BrowserTabsAndGroupsUi {
   });
 }
 
-class BrowserTabsAndGroupsDelegate implements BrowserTabsAndGroupsUi {
-  BrowserTabsAndGroupsDelegate(
+class BrowserTabsAndGroupsUiDelegate implements BrowserTabsAndGroupsUi {
+  BrowserTabsAndGroupsUiDelegate(
     this.context,
     this.model, {
     required this.renderManager,
@@ -63,8 +63,6 @@ class BrowserTabsAndGroupsDelegate implements BrowserTabsAndGroupsUi {
   late final _viewTabsState =
       StateNotifier<List<NotNullListenableState<BrowserTab>>?>();
 
-  final _hostState = StateNotifier<String?>();
-
   late final _selectedGroupIdState = StateNotifier<String?>(
     initValue: model.activeGroupIdState.value,
   );
@@ -80,7 +78,7 @@ class BrowserTabsAndGroupsDelegate implements BrowserTabsAndGroupsUi {
       get viewTabsState => _viewTabsState;
 
   @override
-  ListenableState<String?> get hostState => _hostState;
+  ListenableState<String?> get hostState => model.activeTabUrlHostState;
 
   @override
   ListenableState<TabAnimationType?> get tabAnimationTypeState =>
@@ -171,8 +169,11 @@ class BrowserTabsAndGroupsDelegate implements BrowserTabsAndGroupsUi {
   @override
   Future<void> onCloseAllPressed() async {
     final isClear = await showBrowserClearTabsSheet(context: context);
-    if (isClear ?? false) {
-      model.clearTabs();
+
+    final groupId = selectedGroupIdState.value;
+
+    if (groupId != null && (isClear ?? false)) {
+      model.clearTabs(groupId);
     }
   }
 
@@ -214,6 +215,7 @@ class BrowserTabsAndGroupsDelegate implements BrowserTabsAndGroupsUi {
   Future<void> createGroup(
     BuildContext context, {
     String? tabId,
+    String? originalGroupId,
   }) async {
     final groupName = await context.compassPush<String?>(
       CreateBrowserGroupRouteData(
@@ -228,6 +230,7 @@ class BrowserTabsAndGroupsDelegate implements BrowserTabsAndGroupsUi {
     final group = model.createBrowserGroup(
       name: groupName,
       tabId: tabId,
+      originalGroupId: originalGroupId,
     );
 
     if (group != null) {

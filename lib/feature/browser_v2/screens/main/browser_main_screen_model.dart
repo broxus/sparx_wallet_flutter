@@ -22,45 +22,48 @@ class BrowserMainScreenModel extends ElementaryModel {
   final BrowserService _browserService;
 
   ListenableState<String?> get activeGroupIdState =>
-      _browserService.tM.activeGroupIdState;
+      _browserService.tab.activeGroupIdState;
 
   ListenableState<String?> get activeTabIdState =>
-      _browserService.tM.activeTabIdState;
+      _browserService.tab.activeTabIdState;
 
   NotNullListenableState<List<String>> get allTabsIdsState =>
-      _browserService.tM.allTabsIdsState;
+      _browserService.tab.allTabsIdsState;
+
+  ListenableState<String?> get activeTabUrlHostState =>
+      _browserService.tab.activeTabUrlHostState;
 
   String? get activeTabId => activeTabIdState.value;
 
   void setActiveGroup(String groupId) {
-    _browserService.tM.setActiveGroup(groupId);
+    _browserService.tab.setActiveGroup(groupId);
   }
 
   void setActiveTab(String tabId) {
-    _browserService.tM.setActiveTab(tabId);
+    _browserService.tab.setActiveTab(tabId);
   }
 
   BrowserTab? getTabById(String? tabId) {
     if (tabId == null) {
       return null;
     }
-    return _browserService.tM.getTabById(tabId);
+    return _browserService.tab.getTabById(tabId);
   }
 
   int? getTabIndex({
     required String groupId,
     required String tabId,
   }) {
-    return _browserService.tabs.getTabIndex(
+    return _browserService.tab.getTabIndex(
       groupId: groupId,
       tabId: tabId,
     );
   }
 
-  void clearTabs() => _browserService.tM.clearTabs();
+  void clearTabs(String groupId) => _browserService.tab.clearTabs(groupId);
 
   void createEmptyTab(String groupId) {
-    _browserService.tM.createEmptyTab(groupId);
+    _browserService.tab.createEmptyTab(groupId);
   }
 
   void requestUrl(String? tabId, String enteredText) {
@@ -77,7 +80,7 @@ class BrowserMainScreenModel extends ElementaryModel {
     final isUrl = UrlValidator.checkString(text);
 
     unawaited(
-      _browserService.tM.requestUrl(
+      _browserService.tab.requestUrl(
         tabId,
         isUrl ? Uri.parse(text) : Uri.parse('$_searchEngineUri$text'),
       ),
@@ -85,21 +88,21 @@ class BrowserMainScreenModel extends ElementaryModel {
   }
 
   void setController(String tabId, CustomWebViewController controller) {
-    _browserService.tM.setController(tabId, controller);
+    _browserService.tab.setController(tabId, controller);
   }
 
   void removeController(String tabId) {
-    _browserService.tM.removeController(tabId);
+    _browserService.tab.removeController(tabId);
   }
 
-  void closeAllControllers() => _browserService.tM.closeAllControllers();
+  void closeAllControllers() => _browserService.tab.closeAllControllers();
 
   void refresh(String tabId) {
-    _browserService.tM.refresh(tabId);
+    _browserService.tab.refresh(tabId);
   }
 
   void copyTabUrl(String tabId) {
-    final url = _browserService.tM.getTabUriId(tabId);
+    final url = _browserService.tab.getTabUriId(tabId);
 
     if (url == null) {
       return;
@@ -117,34 +120,36 @@ class BrowserMainScreenModel extends ElementaryModel {
   }
 
   void clearUrlFromHistory(String tabId) {
-    final url = _browserService.tM.getTabUriId(tabId);
+    final url = _browserService.tab.getTabUriId(tabId);
 
     if (url == null) {
       return;
     }
 
-    _browserService.hM.removeHistoryItemByUri(url);
+    _browserService.hist.removeHistoryItemByUri(url);
   }
 
   BrowserGroup? createBrowserGroup({
     String? name,
+    String? originalGroupId,
     String? tabId,
   }) =>
-      _browserService.tabs.createBrowserGroup(
+      _browserService.tab.createBrowserGroup(
         name: name,
         isSwitchToCreatedGroup: tabId == null,
+        originalGroupId: originalGroupId,
         initTabId: tabId,
       );
 
   List<NotNullListenableState<BrowserTab>> getGroupTabs(String groupId) {
-    return _browserService.tabs.getGroupTabsListenable(groupId);
+    return _browserService.tab.getGroupTabsListenable(groupId);
   }
 
   String? getTabIdByIndex({
     required String groupId,
     required int index,
   }) {
-    return _browserService.tabs.getTabIdByIndex(
+    return _browserService.tab.getTabIdByIndex(
       groupId: groupId,
       index: index,
     );

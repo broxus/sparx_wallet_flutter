@@ -1,12 +1,18 @@
+import 'package:app/feature/browser_v2/screens/main/browser_main_screen_model.dart';
 import 'package:app/utils/clipboard_utils.dart';
 import 'package:elementary_helper/elementary_helper.dart';
-import 'package:flutter/cupertino.dart';
 
 abstract interface class BrowserPastGoUi {
   ListenableState<bool> get showPastGoState;
+
+  Future<void> onPastGoPressed();
 }
 
-class BrowserPastGoDelegate implements BrowserPastGoUi {
+class BrowserPastGoUiDelegate implements BrowserPastGoUi {
+  BrowserPastGoUiDelegate(this._model);
+
+  final BrowserMainScreenModel _model;
+
   late final _showPastGoState = StateNotifier<bool>(initValue: true);
 
   @override
@@ -16,16 +22,17 @@ class BrowserPastGoDelegate implements BrowserPastGoUi {
     _showPastGoState.dispose();
   }
 
-  Future<void> onPastGoPressed({
-    required ValueChanged<String> onSuccess,
-  }) async {
+  @override
+  Future<void> onPastGoPressed() async {
     final text = await getClipBoardText();
     if (text == null) {
       return;
     }
 
-    onSuccess(text);
+    _model.requestUrl(_model.activeTabId, text);
   }
+
+  //activeTabUrlHostState
 
   // ignore: avoid_positional_boolean_parameters
   void updateVisible(bool isView) {

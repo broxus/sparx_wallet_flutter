@@ -25,8 +25,8 @@ abstract interface class BrowserAnimationUi {
   Animation<double> get paddingPageAnimation;
 }
 
-class BrowserAnimationDelegate implements BrowserAnimationUi {
-  BrowserAnimationDelegate(this._vsync);
+class BrowserAnimationUiDelegate implements BrowserAnimationUi {
+  BrowserAnimationUiDelegate(this._vsync);
 
   @override
   late final listMenuOffsetAnimation =

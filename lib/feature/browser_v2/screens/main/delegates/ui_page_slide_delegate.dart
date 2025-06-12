@@ -1,16 +1,17 @@
-import 'package:app/utils/common_utils.dart';
 import 'package:flutter/cupertino.dart';
 
 abstract interface class BrowserPageSlideUi {
   ScrollController get viewTabScrollController;
 
-  ScrollController get urlSliderController;
+  PageController get urlSliderPageController;
 
   bool onScrollNotification(ScrollNotification notification);
+
+  void onPageChanged(int index);
 }
 
-class BrowserPageSlideDelegate implements BrowserPageSlideUi {
-  BrowserPageSlideDelegate({
+class BrowserPageSlideUiDelegate implements BrowserPageSlideUi {
+  BrowserPageSlideUiDelegate({
     required this.screenWidth,
     required this.urlWidth,
     required this.onChangeSlideIndex,
@@ -21,7 +22,7 @@ class BrowserPageSlideDelegate implements BrowserPageSlideUi {
   @override
   final viewTabScrollController = ScrollController();
   @override
-  final urlSliderController = ScrollController();
+  final urlSliderPageController = PageController(viewportFraction: .94);
 
   final double screenWidth;
   final double urlWidth;
@@ -29,13 +30,22 @@ class BrowserPageSlideDelegate implements BrowserPageSlideUi {
 
   void dispose() {
     viewTabScrollController.dispose();
-    urlSliderController.dispose();
+    urlSliderPageController.dispose();
   }
 
-  void slideTo(double value) {
-    callWithDelay(() {
-      urlSliderController.jumpTo(value);
-    });
+  void slideToPage(
+    int page, {
+    bool isAnimated = false,
+  }) {
+    if (isAnimated) {
+      urlSliderPageController.animateToPage(
+        page,
+        duration: const Duration(milliseconds: 250),
+        curve: Curves.easeInOut,
+      );
+    } else {
+      urlSliderPageController.jumpToPage(page);
+    }
   }
 
   @override
@@ -47,19 +57,21 @@ class BrowserPageSlideDelegate implements BrowserPageSlideUi {
     return false;
   }
 
+  @override
+  void onPageChanged(int index) {
+    onChangeSlideIndex(index);
+  }
+
   void _init() {
-    urlSliderController.addListener(_handleUrlPanelScroll);
+    urlSliderPageController.addListener(_handleUrlPanelScroll);
   }
 
   void _handleUrlPanelScroll() {
-    final urlOffset = urlSliderController.offset;
-    final urlMax = urlSliderController.position.maxScrollExtent;
+    final urlOffset = urlSliderPageController.offset;
+    final urlMax = urlSliderPageController.position.maxScrollExtent;
     final viewMax = viewTabScrollController.position.maxScrollExtent;
-    final tabIndex = ((viewMax - (viewMax - urlOffset)) / urlWidth).round();
 
     final x = viewMax * urlOffset / urlMax;
-
-    onChangeSlideIndex(tabIndex);
 
     if (x == 0) {
       viewTabScrollController.animateTo(
@@ -73,7 +85,7 @@ class BrowserPageSlideDelegate implements BrowserPageSlideUi {
   }
 
   void _snapViewScroll() {
-    final urlOffset = urlSliderController.offset;
+    final urlOffset = urlSliderPageController.offset;
     final tabIndex = (urlOffset / urlWidth).round();
     final targetOffset = tabIndex * screenWidth;
 

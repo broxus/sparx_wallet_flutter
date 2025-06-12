@@ -86,8 +86,14 @@ class CreateBrowserGroupScreenWidgetModel extends CustomWidgetModel<
   }
 
   void onEditingComplete(String text) {
+    final result = text.trim();
+
+    if (result.isEmpty) {
+      context.compassBack();
+      return;
+    }
+
     context.compassBack<String>(text);
-    _errorState.accept(text.length > _maxLength);
   }
 
   void onOverflowLength() => _errorState.accept(true);
