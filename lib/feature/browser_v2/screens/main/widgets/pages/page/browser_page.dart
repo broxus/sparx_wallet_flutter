@@ -47,39 +47,21 @@ class BrowserPage extends ElementaryWidget<BrowserPageWidgetModel> {
             builder: (_, bool? isNeedCreate) {
               isNeedCreate ??= false;
 
-              if (!isNeedCreate) {
-                return const SizedBox.shrink();
-              }
-              return EntityStateNotifierBuilder<String?>(
-                listenableEntityState: wm.nekotonJsState,
-                loadingBuilder: (_, __) => const SizedBox.shrink(),
-                errorBuilder: (_, __, ___) => const SizedBox.shrink(),
-                builder: (_, String? jsStr) {
-                  return InAppWebView(
-                    pullToRefreshController: wm.pullToRefreshController,
-                    initialSettings: wm.initialSettings,
-                    initialUserScripts: UnmodifiableListView<UserScript>([
-                      if (jsStr != null)
-                        UserScript(
-                          source: jsStr,
-                          injectionTime:
-                              UserScriptInjectionTime.AT_DOCUMENT_START,
-                        ),
-                    ]),
-                    onScrollChanged: wm.onWebPageScrollChanged,
-                    onWebViewCreated: wm.onWebViewCreated,
-                    onLoadStart: wm.onWebPageLoadStart,
-                    onLoadStop: wm.onWebPageLoadStop,
-                    onLoadResource: wm.onWebPageLoadResource,
-                    onReceivedError: wm.onWebPageReceivedError,
-                    onReceivedHttpError: wm.onWebPageReceivedHttpError,
-                    onTitleChanged: wm.onWebPageTitleChanged,
-                    onReceivedHttpAuthRequest:
-                        wm.onWebPageReceivedHttpAuthRequest,
-                    shouldOverrideUrlLoading:
-                        wm.onWebPageShouldOverrideUrlLoading,
-                  );
-                },
+              if (!isNeedCreate) return const SizedBox.shrink();
+
+              return InAppWebView(
+                pullToRefreshController: wm.pullToRefreshController,
+                initialSettings: wm.initialSettings,
+                onScrollChanged: wm.onWebPageScrollChanged,
+                onWebViewCreated: wm.onWebViewCreated,
+                onLoadStart: wm.onWebPageLoadStart,
+                onLoadStop: wm.onWebPageLoadStop,
+                onLoadResource: wm.onWebPageLoadResource,
+                onReceivedError: wm.onWebPageReceivedError,
+                onReceivedHttpError: wm.onWebPageReceivedHttpError,
+                onTitleChanged: wm.onWebPageTitleChanged,
+                onReceivedHttpAuthRequest: wm.onWebPageReceivedHttpAuthRequest,
+                shouldOverrideUrlLoading: wm.onWebPageShouldOverrideUrlLoading,
               );
             },
           ),

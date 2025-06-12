@@ -92,7 +92,14 @@ class CompassRouter {
   GoRouter get router => _router;
 
   /// Returns the current [Uri] of the navigation stack.
-  Uri get currentUri => _router.routerDelegate.currentConfiguration.uri;
+  Uri get currentUri {
+    // Manual check needed because state call currentConfiguration.last
+    // that could throw BadStateException
+    if (_router.routerDelegate.currentConfiguration.lastOrNull == null) {
+      return Uri();
+    }
+    return _router.state.uri;
+  }
 
   /// Returns the current active routes in the navigation stack.
   ///

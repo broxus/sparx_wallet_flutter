@@ -3,7 +3,6 @@ import 'dart:typed_data';
 import 'package:app/app/service/approvals_service.dart';
 import 'package:app/app/service/assets_service.dart';
 import 'package:app/app/service/connection/connection_service.dart';
-import 'package:app/app/service/js_servcie.dart';
 import 'package:app/app/service/permissions_service.dart';
 import 'package:app/app/service/storage_service/connections_storage_service.dart';
 import 'package:app/app/service/ton_connect/ton_connect_js_bridge.dart';
@@ -32,7 +31,6 @@ class BrowserPageModel extends ElementaryModel {
     this._assetsService,
     this._connectionsStorageService,
     this._connectionService,
-    this._jsService,
     this._tonConnectJsBridge,
   ) : super(errorHandler: errorHandler);
 
@@ -46,7 +44,6 @@ class BrowserPageModel extends ElementaryModel {
   final AssetsService _assetsService;
   final ConnectionsStorageService _connectionsStorageService;
   final ConnectionService _connectionService;
-  final JsService _jsService;
   final TonConnectJsBridge _tonConnectJsBridge;
 
   late final _inpageProvider = InpageProvider(
@@ -63,12 +60,8 @@ class BrowserPageModel extends ElementaryModel {
   late final _eventsHelper = EventsHelper(
     _nekotonRepository,
     _permissionsService,
-    _jsService,
     _tabId,
   );
-
-  EntityValueListenable<String?> get nekotonJsState =>
-      _jsService.nekotonJsState;
 
   ListenableState<String?> get activeGroupIdState =>
       _browserService.tab.activeGroupIdState;
@@ -98,7 +91,7 @@ class BrowserPageModel extends ElementaryModel {
   BrowserBasicAuthCreds? getBasicAuthCreds(
     URLAuthenticationChallenge challenge,
   ) =>
-      _browserService.auth.getBasicAuthCreds(challenge);
+      _browserService.aM.getBasicAuthCreds(challenge);
 
   void updateAuthCreds(
     URLAuthenticationChallenge challenge,

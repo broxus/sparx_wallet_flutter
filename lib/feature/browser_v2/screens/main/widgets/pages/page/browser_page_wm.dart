@@ -41,7 +41,6 @@ BrowserPageWidgetModel defaultBrowserPageWidgetModelFactory(
       inject(),
       inject(),
       inject(),
-      inject(),
     ),
     listenable,
     onCreate,
@@ -119,8 +118,6 @@ class BrowserPageWidgetModel
       _isNeedCreateWebViewState;
 
   ListenableState<bool> get isShowStartViewState => _isShowStartViewState;
-
-  EntityValueListenable<String?> get nekotonJsState => model.nekotonJsState;
 
   ThemeStyle get _theme => context.themeStyle;
 
