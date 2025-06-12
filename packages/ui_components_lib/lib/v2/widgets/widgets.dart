@@ -1,5 +1,5 @@
 export 'amount_widget.dart';
-export 'buttons/button.dart';
+export 'buttons/buttons.dart';
 export 'cards/cards.dart';
 export 'modals/primary_bottom_sheet_container.dart';
 export 'progress_indicator_widget.dart';
