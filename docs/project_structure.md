@@ -134,18 +134,6 @@ UI models are located either next to the widget in the `widget` folder or in the
 - Use Retrofit annotations for api-layer
 - Use JsonSerializable for serialization  
 
-## Routing System
-
-The application uses GoRouter for navigation:
-
-```
-/app/router/
-├── app_route.dart            # route definitions
-├── router.dart               # router configuration
-├── page_transitions.dart
-└── routs/                    # route implementations
-```
-
 ## Application Entry Points
 
 The application has multiple entry points for different environments:
