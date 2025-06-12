@@ -846,12 +846,15 @@ class InpageProvider extends ProviderApi {
       throw s.ApprovalsHandleException(LocaleKeys.accountNotDeployed.tr());
     }
 
+    final signatureId = await _computeSignatureId(input.withSignatureId);
+
     final executionOutput = await nr.runLocal(
       accountStuffBoc: contractState.boc,
       contractAbi: input.functionCall.abi,
       methodId: input.functionCall.method,
       input: input.functionCall.params,
       responsible: input.responsible ?? false,
+      signatureId: signatureId,
     );
 
     return RunLocalOutput(executionOutput.output, executionOutput.code);
@@ -1392,7 +1395,6 @@ class InpageProvider extends ProviderApi {
   @override
   Future<SignDataOutput> signData(SignDataInput input) async {
     final publicKey = nr.PublicKey(publicKey: input.publicKey);
-    final withSignatureId = input.withSignatureId;
     final accountInteraction = _checkAccountInteractionPermission(
       publicKey: publicKey,
     );
@@ -1403,13 +1405,7 @@ class InpageProvider extends ProviderApi {
       publicKey: publicKey,
       data: input.data,
     );
-    final signatureId = withSignatureId == true
-        ? await nekotonRepository.currentTransport.transport.getSignatureId()
-        : withSignatureId == false
-            ? null
-            : withSignatureId != null && withSignatureId is num
-                ? withSignatureId.toInt()
-                : null;
+    final signatureId = await _computeSignatureId(input.withSignatureId);
 
     final signedData = await nekotonRepository.seedList.signData(
       data: input.data,
@@ -1672,6 +1668,41 @@ class InpageProvider extends ProviderApi {
     return ChangeNetworkOutput(await transport?.toNetwork());
   }
 
+  @override
+  Future<RunGetterOutput> runGetter(RunGetterInput input) async {
+    _checkBasicPermission();
+
+    final address = nr.Address(address: input.address);
+    final cachedState = input.cachedState == null
+        ? null
+        : nr.FullContractState.fromJson(input.cachedState!.toJson());
+    final contractState = cachedState ??
+        await nekotonRepository.currentTransport.transport
+            .getFullContractState(address);
+
+    if (contractState == null) {
+      throw Exception(
+        LocaleKeys.accountNotFound.tr(args: [address.address]),
+      );
+    }
+
+    if (!contractState.isDeployed || contractState.lastTransactionId == null) {
+      throw s.ApprovalsHandleException(LocaleKeys.accountNotDeployed.tr());
+    }
+
+    final signatureId = await _computeSignatureId(input.withSignatureId);
+
+    final executionOutput = await nr.runGetter(
+      accountStuffBoc: contractState.boc,
+      contractAbi: input.getterCall.abi,
+      methodId: input.getterCall.getter,
+      input: input.getterCall.params,
+      signatureId: signatureId,
+    );
+
+    return RunGetterOutput(executionOutput.output, executionOutput.code);
+  }
+
   Future<List<ConnectionData>> _getConnections(int networkId) async {
     final connections = connectionsStorageService.connections;
     final networksIds = connectionsStorageService.networksIds;
@@ -1710,6 +1741,17 @@ class InpageProvider extends ProviderApi {
     }
 
     return list;
+  }
+
+  Future<int?> _computeSignatureId(Object? withSignatureId) async {
+    final signatureId = withSignatureId == true
+        ? await nekotonRepository.currentTransport.transport.getSignatureId()
+        : withSignatureId == false
+            ? null
+            : withSignatureId != null && withSignatureId is num
+                ? withSignatureId.toInt()
+                : null;
+    return signatureId;
   }
 }
 
