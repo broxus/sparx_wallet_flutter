@@ -106,8 +106,6 @@ class _Content extends StatelessWidget {
   final VoidCallback onPressedEdit;
   final VoidCallback onPressedRemove;
 
-  static const _duration = Duration(milliseconds: 250);
-
   @override
   Widget build(BuildContext context) {
     final theme = context.themeStyleV2;

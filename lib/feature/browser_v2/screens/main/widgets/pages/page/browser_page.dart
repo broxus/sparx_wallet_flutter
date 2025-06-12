@@ -1,5 +1,3 @@
-import 'dart:collection';
-
 import 'package:app/core/wm/not_null_listenable_state.dart';
 import 'package:app/feature/browser_v2/custom_web_controller.dart';
 import 'package:app/feature/browser_v2/data/tabs/browser_tab.dart';

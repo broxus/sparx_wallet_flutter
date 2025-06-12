@@ -91,7 +91,7 @@ class BrowserPageModel extends ElementaryModel {
   BrowserBasicAuthCreds? getBasicAuthCreds(
     URLAuthenticationChallenge challenge,
   ) =>
-      _browserService.aM.getBasicAuthCreds(challenge);
+      _browserService.auth.getBasicAuthCreds(challenge);
 
   void updateAuthCreds(
     URLAuthenticationChallenge challenge,

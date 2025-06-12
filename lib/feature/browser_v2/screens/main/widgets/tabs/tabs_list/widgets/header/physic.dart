@@ -1,4 +1,3 @@
-
 import 'dart:math';
 
 import 'package:flutter/widgets.dart';
@@ -27,9 +26,9 @@ class CenterSnapScrollPhysics extends ClampingScrollPhysics {
 
   @override
   Simulation? createBallisticSimulation(
-      ScrollMetrics position,
-      double velocity,
-      ) {
+    ScrollMetrics position,
+    double velocity,
+  ) {
     final current = position.pixels;
     final tol = toleranceFor(position);
 

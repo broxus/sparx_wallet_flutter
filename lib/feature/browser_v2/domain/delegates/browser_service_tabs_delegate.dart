@@ -136,7 +136,7 @@ class BrowserServiceTabsDelegate
   final BrowserServiceScreenshotsDelegate _screenShooter;
 
   late final _controlPanelState = StateNotifier<ToolbarData>(
-    initValue: ToolbarData(),
+    initValue: const ToolbarData(),
   );
 
   late final _activeTabUrlHostState = StateNotifier<String?>();
@@ -628,7 +628,7 @@ class BrowserServiceTabsDelegate
 
     _controlPanelState.accept(
       id == null
-          ? ToolbarData()
+          ? const ToolbarData()
           : ToolbarData(
               isCanGoBack: await _controllersDelegate.checkCanGoBack(id),
               isCanGoForward: await _controllersDelegate.checkCanGoForward(id),

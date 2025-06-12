@@ -16,12 +16,12 @@ class CreateBrowserGroupScreen
     WidgetModelFactory<CreateBrowserGroupScreenWidgetModel>? wmFactory,
     super.key,
   }) : super(
-    wmFactory ??
-            (ctx) => defaultCreateBrowserGroupScreenWidgetModelFactory(
-          ctx,
-          tabId: tabId,
-        ),
-  );
+          wmFactory ??
+              (ctx) => defaultCreateBrowserGroupScreenWidgetModelFactory(
+                    ctx,
+                    tabId: tabId,
+                  ),
+        );
 
   @override
   Widget build(CreateBrowserGroupScreenWidgetModel wm) {
@@ -92,12 +92,12 @@ class CreateBrowserGroupScreen
                       isShowError ??= false;
                       return isShowError
                           ? _Error(
-                        LocaleKeys.maxCharactersAllowed.tr(
-                          args: [
-                            wm.maxLength.toString(),
-                          ],
-                        ),
-                      )
+                              LocaleKeys.maxCharactersAllowed.tr(
+                                args: [
+                                  wm.maxLength.toString(),
+                                ],
+                              ),
+                            )
                           : const SizedBox.shrink();
                     },
                   ),
@@ -113,8 +113,8 @@ class CreateBrowserGroupScreen
 
 class _Error extends StatelessWidget {
   const _Error(
-      this.errorText,
-      );
+    this.errorText,
+  );
 
   final String errorText;
 

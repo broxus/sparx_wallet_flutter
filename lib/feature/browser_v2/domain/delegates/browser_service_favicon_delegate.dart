@@ -8,6 +8,7 @@ import 'package:injectable/injectable.dart';
 
 const _suffixes = ['png', 'ico'];
 
+// ignore: one_member_abstracts
 abstract interface class BrowserServiceFavicon {
   Future<String?> getFaviconURL(Uri uri);
 }
