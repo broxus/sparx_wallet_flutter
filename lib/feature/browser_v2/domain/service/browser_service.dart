@@ -2,24 +2,18 @@ import 'dart:async';
 
 import 'package:app/app/router/router.dart';
 import 'package:app/app/service/app_links/app_links.dart';
-import 'package:app/app/service/storage_service/general_storage_service.dart';
 import 'package:app/app/service/ton_connect/ton_connect_service.dart';
 import 'package:app/feature/browser_v2/data/history_type.dart';
-import 'package:app/feature/browser_v2/domain/service/storages/browser_bookmarks_storage_service.dart';
-import 'package:app/feature/browser_v2/domain/service/storages/browser_favicon_url_storage_service.dart';
-import 'package:app/feature/browser_v2/domain/service/storages/browser_history_storage_service.dart';
-import 'package:app/feature/browser_v2/domain/service/storages/browser_permissions_storage_service.dart';
-import 'package:app/feature/browser_v2/domain/service/storages/browser_tabs_storage_service.dart';
-import 'package:app/feature/browser_v2/managers/bookmarks_manager.dart';
-import 'package:app/feature/browser_v2/managers/browser_auth_manager.dart';
-import 'package:app/feature/browser_v2/managers/favicon_manager.dart';
-import 'package:app/feature/browser_v2/managers/history_manager.dart';
-import 'package:app/feature/browser_v2/managers/permissions_manager.dart';
-import 'package:app/feature/browser_v2/managers/tabs/tabs_manager.dart';
-import 'package:app/feature/browser_v2/route.dart';
-import 'package:app/feature/messenger/domain/service/messenger_service.dart';
+import 'package:app/feature/browser_v2/domain/delegates/browser_service_auth_delegate.dart';
+import 'package:app/feature/browser_v2/domain/delegates/browser_service_bookmarks_delegate.dart';
+import 'package:app/feature/browser_v2/domain/delegates/browser_service_favicon_delegate.dart';
+import 'package:app/feature/browser_v2/domain/delegates/browser_service_history_delegate.dart';
+import 'package:app/feature/browser_v2/domain/delegates/browser_service_permissions_delegate.dart';
+import 'package:app/feature/browser_v2/domain/delegates/browser_service_tabs_delegate.dart';
+import 'package:app/feature/browser_v2/screens/main/route.dart';
 import 'package:app/utils/common_utils.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_inappwebview/flutter_inappwebview.dart';
 import 'package:injectable/injectable.dart';
 import 'package:nekoton_repository/nekoton_repository.dart';
 import 'package:nekoton_webview/nekoton_webview.dart';
@@ -29,69 +23,52 @@ import 'package:rxdart/rxdart.dart';
 class BrowserService {
   BrowserService(
     this._appLinksService,
-    this._bookmarksStorageService,
-    this._browserFaviconURLStorageService,
-    this._browserHistoryStorageService,
-    this._browserTabsStorageService,
-    this._browserPermissionsStorageService,
-    this._messengerService,
-    this._generalStorageService,
     this._tonConnectService,
     this._nekotonRepository,
     this._compassRouter,
+    this._authDelegate,
+    this._bookmarksDelegate,
+    this._faviconDelegate,
+    this._historyDelegate,
+    this._permissionsDelegate,
+    this._tabsDelegate,
   );
 
   final AppLinksService _appLinksService;
-  final BrowserBookmarksStorageService _bookmarksStorageService;
-  final BrowserFaviconURLStorageService _browserFaviconURLStorageService;
-  final BrowserHistoryStorageService _browserHistoryStorageService;
-  final BrowserTabsStorageService _browserTabsStorageService;
-  final BrowserPermissionsStorageService _browserPermissionsStorageService;
-  final GeneralStorageService _generalStorageService;
   final TonConnectService _tonConnectService;
-  final MessengerService _messengerService;
   final NekotonRepository _nekotonRepository;
   final CompassRouter _compassRouter;
 
-  late final bookmarks = BookmarksManager(
-    _bookmarksStorageService,
-    _messengerService,
-  );
-  late final favicon = FaviconManager(_browserFaviconURLStorageService);
-  late final history = HistoryManager(_browserHistoryStorageService);
-  late final tabs = BrowserTabsManager(
-    _browserTabsStorageService,
-    _generalStorageService,
-  );
-  late final permissions = PermissionsManager(
-    _browserPermissionsStorageService,
-  );
-
-  final auth = BrowserAuthManager();
+  final BrowserServiceAuthDelegate _authDelegate;
+  final BrowserServiceBookmarksDelegate _bookmarksDelegate;
+  final BrowserServiceFaviconDelegate _faviconDelegate;
+  final BrowserServiceHistoryDelegate _historyDelegate;
+  final BrowserServicePermissionsDelegate _permissionsDelegate;
+  final BrowserServiceTabsDelegate _tabsDelegate;
 
   final _isContentInteractedStream = BehaviorSubject.seeded(false);
 
   StreamSubscription<BrowserAppLinksData>? _appLinksNavSubs;
 
-  BookmarksManager get bM => bookmarks;
+  BrowserServiceAuth get auth => _authDelegate;
 
-  FaviconManager get fM => favicon;
+  BrowserServiceBookmarks get book => _bookmarksDelegate;
 
-  HistoryManager get hM => history;
+  BrowserServiceFavicon get fav => _faviconDelegate;
 
-  BrowserTabsManager get tM => tabs;
+  BrowserServiceHistory get hist => _historyDelegate;
 
-  PermissionsManager get pM => permissions;
+  BrowserServicePermissions get perm => _permissionsDelegate;
 
-  BrowserAuthManager get aM => auth;
+  BrowserServiceTabs get tab => _tabsDelegate;
 
   ValueStream<bool> get isContentInteractedStream => _isContentInteractedStream;
 
   void init() {
-    bookmarks.init();
-    history.init();
-    tabs.init();
-    permissions.init();
+    _bookmarksDelegate.init();
+    _historyDelegate.init();
+    _permissionsDelegate.init();
+    _tabsDelegate.init();
     WidgetsBinding.instance.addPostFrameCallback((_) {
       _appLinksNavSubs =
           _appLinksService.browserLinksStream.listen(_listenAppLinks);
@@ -99,15 +76,15 @@ class BrowserService {
   }
 
   Future<void> clear() async {
-    await bookmarks.clear();
-    await history.clear();
-    await tabs.clear();
-    await permissions.clear();
+    await _bookmarksDelegate.clear();
+    await _historyDelegate.clear();
+    await _permissionsDelegate.clear();
+    await _tabsDelegate.clear();
   }
 
   @disposeMethod
   void dispose() {
-    tabs.dispose();
+    _tabsDelegate.dispose();
     _appLinksNavSubs?.cancel();
   }
 
@@ -115,35 +92,35 @@ class BrowserService {
     if (_compassRouter.currentRoutes.lastOrNull is! BrowserRoute) {
       _compassRouter.compassPointNamed(const BrowserRouteData());
     }
-    tM.openUrl(uri);
+    _tabsDelegate.openUrl(uri);
   }
 
   void createTabBookMark(String tabId) {
-    final tab = tM.getTabById(tabId);
+    final item = _tabsDelegate.getTabById(tabId);
 
-    if (tab == null || tab.url.host.isEmpty) {
+    if (item == null || item.url.host.isEmpty) {
       return;
     }
 
-    bM.createBrowserBookmark(tab.url, tab.title);
+    _bookmarksDelegate.createBrowserBookmark(item.url, item.title);
   }
 
   Future<void> permissionsChanged(
     String tabId,
     PermissionsChangedEvent event,
   ) {
-    return tabs.permissionsChanged(tabId, event);
+    return _tabsDelegate.permissionsChanged(tabId, event);
   }
 
   void clearData(TimePeriod period, Set<TypeHistory> targets) {
     for (final target in targets) {
       switch (target) {
         case TypeHistory.browsingHistory:
-          hM.clearHistory(period);
+          _historyDelegate.clearHistory(period);
         case TypeHistory.cookie:
           _clearCookieAndData();
         case TypeHistory.cachedImages:
-          tM.clearCachedFiles();
+          _tabsDelegate.clearCachedFiles();
       }
     }
   }
@@ -152,19 +129,23 @@ class BrowserService {
     _isContentInteractedStream.add(isInteracted);
   }
 
-  Future<void> _clearCookieAndData() async {
-    await tryWrapper(tM.clearCookie);
-    await tryWrapper(permissions.clearPermissions);
+  Future<bool> _clearCookie() async {
+    return CookieManager.instance().deleteAllCookies();
+  }
 
-    final list = tabs.browserTabs;
+  Future<void> _clearCookieAndData() async {
+    await tryWrapper(_clearCookie);
+    await tryWrapper(_permissionsDelegate.clearPermissions);
+
+    final ids = _tabsDelegate.allTabsIds;
 
     await tryWrapper(() async => _tonConnectService.disconnectAllInBrowser());
     await tryWrapper(() async => _nekotonRepository.unsubscribeAllContracts());
 
     await tryWrapper(() async {
-      for (final tab in list) {
+      for (final id in ids) {
         await permissionsChanged(
-          tab.id,
+          id,
           const PermissionsChangedEvent(PermissionsPartial(null, null)),
         );
       }
@@ -172,6 +153,6 @@ class BrowserService {
   }
 
   void _listenAppLinks(BrowserAppLinksData event) {
-    openUrl(event.url);
+    _tabsDelegate.openUrl(event.url);
   }
 }

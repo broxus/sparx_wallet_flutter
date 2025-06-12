@@ -8,7 +8,6 @@ import 'package:app/app/service/storage_service/connections_storage_service.dart
 import 'package:app/app/service/ton_connect/ton_connect_js_bridge.dart';
 import 'package:app/feature/browser_v2/custom_web_controller.dart';
 import 'package:app/feature/browser_v2/data/browser_basic_auth_creds.dart';
-import 'package:app/feature/browser_v2/data/browser_tab.dart';
 import 'package:app/feature/browser_v2/domain/service/browser_service.dart';
 import 'package:app/feature/browser_v2/inpage_provider/inpage_provider.dart';
 import 'package:app/feature/browser_v2/screens/main/widgets/pages/page/browser_page.dart';
@@ -64,10 +63,13 @@ class BrowserPageModel extends ElementaryModel {
     _tabId,
   );
 
-  ListenableState<BrowserTab?> get activeTabState =>
-      _browserService.tM.activeTabState;
+  ListenableState<String?> get activeGroupIdState =>
+      _browserService.tab.activeGroupIdState;
 
-  String? get _activeTabId => _browserService.tM.activeTabId;
+  ListenableState<String?> get activeTabIdState =>
+      _browserService.tab.activeTabIdState;
+
+  String? get _activeTabId => activeTabIdState.value;
 
   @override
   void dispose() {
@@ -89,7 +91,7 @@ class BrowserPageModel extends ElementaryModel {
   BrowserBasicAuthCreds? getBasicAuthCreds(
     URLAuthenticationChallenge challenge,
   ) =>
-      _browserService.aM.getBasicAuthCreds(challenge);
+      _browserService.auth.getBasicAuthCreds(challenge);
 
   void updateAuthCreds(
     URLAuthenticationChallenge challenge,
@@ -104,25 +106,25 @@ class BrowserPageModel extends ElementaryModel {
     }
     _inpageProvider.url = uri;
     _tonConnectJsBridge.url = uri;
-    _browserService.tM.updateCachedUrl(_tabId, uri);
+    _browserService.tab.updateCachedUrl(_tabId, uri);
   }
 
   void updateTitle(String title) {
-    _browserService.tM.updateTitle(_tabId, title);
+    _browserService.tab.updateTabTitle(_tabId, title);
   }
 
   void addHistory(Uri? uri) {
     if (uri == null) {
       return;
     }
-    _browserService.hM.createHistoryItem(uri);
+    _browserService.hist.createHistoryItem(uri);
   }
 
   Future<void> createScreenshot({
     required Future<Uint8List?> Function() takePictureCallback,
     bool force = false,
   }) async {
-    return _browserService.tabs.createScreenshot(
+    return _browserService.tab.createScreenshot(
       tabId: _tabId,
       takePictureCallback: takePictureCallback,
     );

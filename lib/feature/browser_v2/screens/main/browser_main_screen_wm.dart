@@ -8,23 +8,25 @@ import 'package:app/feature/browser_v2/screens/main/browser_main_screen.dart';
 import 'package:app/feature/browser_v2/screens/main/browser_main_screen_model.dart';
 import 'package:app/feature/browser_v2/screens/main/data/browser_render_manager.dart';
 import 'package:app/feature/browser_v2/screens/main/data/menu_data.dart';
-import 'package:app/feature/browser_v2/screens/main/delegates/animation_delegate.dart';
-import 'package:app/feature/browser_v2/screens/main/delegates/browser_keys_delegate.dart';
-import 'package:app/feature/browser_v2/screens/main/delegates/page_slide_delegate.dart';
-import 'package:app/feature/browser_v2/screens/main/delegates/past_go_delegate.dart';
-import 'package:app/feature/browser_v2/screens/main/delegates/progress_indicator_delegate.dart';
-import 'package:app/feature/browser_v2/screens/main/delegates/scroll_page_delegate.dart';
-import 'package:app/feature/browser_v2/screens/main/delegates/size_delegate.dart';
-import 'package:app/feature/browser_v2/screens/main/delegates/tab_menu_delegate.dart';
-import 'package:app/feature/browser_v2/screens/main/delegates/tabs_delegate.dart';
-import 'package:app/feature/browser_v2/screens/main/widgets/control_panels/navigation_panel/navigation_panel.dart';
+import 'package:app/feature/browser_v2/screens/main/delegates/ui_animation_delegate.dart';
+import 'package:app/feature/browser_v2/screens/main/delegates/ui_browser_keys_delegate.dart';
+import 'package:app/feature/browser_v2/screens/main/delegates/ui_group_menu_delegate.dart';
+import 'package:app/feature/browser_v2/screens/main/delegates/ui_page_slide_delegate.dart';
+import 'package:app/feature/browser_v2/screens/main/delegates/ui_past_go_delegate.dart';
+import 'package:app/feature/browser_v2/screens/main/delegates/ui_progress_indicator_delegate.dart';
+import 'package:app/feature/browser_v2/screens/main/delegates/ui_scroll_page_delegate.dart';
+import 'package:app/feature/browser_v2/screens/main/delegates/ui_size_delegate.dart';
+import 'package:app/feature/browser_v2/screens/main/delegates/ui_tab_menu_delegate.dart';
+import 'package:app/feature/browser_v2/screens/main/delegates/ui_tabs_and_groups_delegate.dart';
 import 'package:app/feature/browser_v2/screens/main/widgets/control_panels/navigation_panel/url_action_sheet.dart';
 import 'package:app/feature/browser_v2/screens/main/widgets/tab_animated_view/tab_animation_type.dart';
+import 'package:app/feature/browser_v2/widgets/bottomsheets/browser_main_menu/browser_main_menu.dart';
 import 'package:app/utils/clipboard_utils.dart';
 import 'package:app/utils/common_utils.dart';
+import 'package:app/utils/focus_utils.dart';
 import 'package:elementary/elementary.dart';
 import 'package:elementary_helper/elementary_helper.dart';
-import 'package:flutter/widgets.dart';
+import 'package:flutter/material.dart';
 import 'package:render_metrics/render_metrics.dart';
 import 'package:ui_components_lib/v2/ui_components_lib_v2.dart';
 
@@ -48,76 +50,99 @@ class BrowserMainScreenWidgetModel
     super.model,
   );
 
-  final keys = BrowserKeysDelegate();
+  final keys = BrowserKeysUiDelegate();
 
-  late final sizes = BrowserSizesDelegate(context);
+  late final sizes = BrowserSizesUiDelegate(context);
 
   final _renderManager = BrowserRenderManager();
 
-  late final _animationDelegate = BrowserAnimationDelegate(this);
+  late final _animationDelegate = BrowserAnimationUiDelegate(this);
 
-  late final _pageDelegate = BrowserPageScrollDelegate(
+  late final _pageDelegate = BrowserPageScrollUiDelegate(
     onPageScrollChange: (bool isToTop) {
       Future(() {
         _menuState.accept(isToTop ? MenuType.view : MenuType.url);
         model.updateInteractedState(isInteracted: !isToTop);
+        resetFocus(contextSafe);
       });
     },
   );
 
   late final _progressIndicatorDelegate =
-      BrowserProgressIndicatorDelegate(this);
+      BrowserProgressIndicatorUiDelegate(this);
 
-  late final _tabMenuDelegate = BrowserTabMenuDelegate(
+  late final _tabMenuDelegate = BrowserTabMenuUiDelegate(
     model,
     context,
     renderManager: _renderManager,
+    createGroup: (String tabId) => _tabsDelegate.createGroup(
+      context,
+      tabId: tabId,
+      originalGroupId: tabs.selectedGroupIdState.value,
+    ),
   );
 
-  final _pastGoDelegate = BrowserPastGoDelegate();
+  final _groupMenuDelegate = BrowserGroupMenuUiDelegate();
 
-  late final _pageSlideDelegate = BrowserPageSlideDelegate(
+  late final _pastGoDelegate = BrowserPastGoUiDelegate(model);
+
+  late final _pageSlideDelegate = BrowserPageSlideUiDelegate(
     screenWidth: sizes.screenWidth,
     urlWidth: sizes.urlWidth,
     onChangeSlideIndex: (int tabIndex) {
-      Future(() {
-        model.setActiveTab(_tabsDelegate.getIdByIndex(tabIndex));
-      });
-    },
-    checkIsViewPages: () => viewVisibleState.value ?? true,
-  );
+      if (!_viewVisibleState.value) {
+        return;
+      }
 
-  late final _tabsDelegate = BrowserTabsDelegate(
-    context,
-    model,
-    renderManager: _renderManager,
-    onEmptyTabs: _onEmptyTabs,
-    scrollToTab: _scrollToTab,
-    onChangeTab: _onChangeTab,
-    onUpdateActiveTab: () {
-      callWithDelay(() {
+      Future(() {
+        final groupId = model.activeGroupIdState.value;
+
+        if (groupId == null) {
+          return;
+        }
+
+        final tabId = _tabsDelegate.getIdByIndex(
+          groupId: groupId,
+          index: tabIndex,
+        );
+
+        if (tabId == null || model.activeTabId == tabId) {
+          return;
+        }
+
+        model.setActiveTab(tabId);
+
         _progressIndicatorDelegate.reset();
         _updatePastGo();
       });
     },
   );
 
-  late final _viewVisibleState = createNotifier<bool>(
-    _tabsDelegate.activeTabState.value != null,
+  late final _tabsDelegate = BrowserTabsAndGroupsUiDelegate(
+    context,
+    model,
+    renderManager: _renderManager,
+    onEmptyTabs: _onEmptyTabs,
+    onChangeTab: () => _menuState.accept(MenuType.view),
+    onUpdateActiveTab: () {
+      _progressIndicatorDelegate.reset();
+      _updatePastGo();
+    },
+    scrollToTab: _scrollToTab,
+    checkIsVisiblePages: () => _viewVisibleState.value,
+  );
+
+  late final _viewVisibleState = createNotNullNotifier<bool>(
+    model.activeTabId != null,
   );
 
   late final _menuState = createNotifier<MenuType>(
-    _tabsDelegate.activeTabState.value != null ? MenuType.view : MenuType.list,
-  );
-
-  late final _navigationScrollModeState =
-      createNotifier<NavigationUrlPhysicMode>(
-    NavigationUrlPhysicMode.none,
+    model.activeTabId != null ? MenuType.view : MenuType.list,
   );
 
   BrowserPageSlideUi get pageSlider => _pageSlideDelegate;
 
-  BrowserTabsUi get tabs => _tabsDelegate;
+  BrowserTabsAndGroupsUi get tabs => _tabsDelegate;
 
   BrowserPastGoUi get pastGo => _pastGoDelegate;
 
@@ -128,7 +153,7 @@ class BrowserMainScreenWidgetModel
 
   BrowserTabMenuUi get tabMenu => _tabMenuDelegate;
 
-  BrowserPageScrollDelegate get page => _pageDelegate;
+  BrowserPageScrollUi get page => _pageDelegate;
 
   RenderManager<String> get renderManager => _renderManager;
 
@@ -136,8 +161,9 @@ class BrowserMainScreenWidgetModel
 
   ListenableState<bool> get viewVisibleState => _viewVisibleState;
 
-  ListenableState<NavigationUrlPhysicMode> get navigationScrollModeState =>
-      _navigationScrollModeState;
+  ListenableState<List<String>?> get allTabsIdsState => model.allTabsIdsState;
+
+  ListenableState<String?> get activeTabIdState => model.activeTabIdState;
 
   ColorsPaletteV2 get colors => _theme.colors;
 
@@ -146,12 +172,17 @@ class BrowserMainScreenWidgetModel
   @override
   void initWidgetModel() {
     _menuState.addListener(_handleMenuState);
-    _viewVisibleState.addListener(_handleViewVisibleState);
+    _viewVisibleState.addListener(_updatePastGo);
+    model.activeTabUrlHostState.addListener(_updatePastGo);
 
     WidgetsBinding.instance.addPostFrameCallback((_) {
-      final id = _tabsDelegate.activeTabId;
-      if (id != null) {
-        _scrollToTab(id);
+      final groupId = model.activeGroupIdState.value;
+      final tabId = _tabsDelegate.activeTabId;
+      if (groupId != null && tabId != null) {
+        _scrollToTab(
+          groupId: groupId,
+          tabId: tabId,
+        );
       }
     });
 
@@ -168,6 +199,7 @@ class BrowserMainScreenWidgetModel
     _renderManager.dispose();
     _pastGoDelegate.dispose();
     _pageSlideDelegate.dispose();
+    model.activeTabUrlHostState.removeListener(_updatePastGo);
     super.dispose();
   }
 
@@ -190,6 +222,10 @@ class BrowserMainScreenWidgetModel
   void onPressedTabs() {
     _tabsDelegate.animateShowTabs();
     _menuState.accept(MenuType.list);
+  }
+
+  void onGroupsMenuPressed() {
+    _groupMenuDelegate.showMenu(context);
   }
 
   Future<void> onPressedCurrentUrlMenu(String tabId) async {
@@ -218,13 +254,6 @@ class BrowserMainScreenWidgetModel
     model.updateInteractedState(isInteracted: false);
   }
 
-  void onPastGoPressed() => _pastGoDelegate.onPastGoPressed(
-        onSuccess: (String text) => model.requestUrl(
-          _tabsDelegate.activeTabId,
-          text,
-        ),
-      );
-
   void onEditingCompleteUrl(String tabId, String text) {
     model.requestUrl(tabId, text);
   }
@@ -237,52 +266,68 @@ class BrowserMainScreenWidgetModel
     _tabsDelegate.onTabAnimationEnd(
       _onTabAnimationComplete,
     );
-
-    if (animationType is ShowViewAnimationType) {
-      _navigationScrollModeState.accept(
-        NavigationUrlPhysicMode.snap,
-      );
-    }
   }
 
-  void onPressedTab(String id) {
-    _navigationScrollModeState.accept(
-      NavigationUrlPhysicMode.none,
+  void onPressedDotsPressed() {
+    final groupId = tabs.selectedGroupIdState.value;
+
+    if (groupId == null) {
+      return;
+    }
+
+    showBrowserMainMenu(
+      context,
+      groupId: groupId,
+      onPressedCreateTab: _onPressedCreateTab,
     );
-    tabs.changeTab(id);
+  }
+
+  Future<void> onPressedTab(String tabId) async {
+    final groupId = tabs.selectedGroupIdState.value;
+
+    if (groupId == null) {
+      return;
+    }
+
+    tabs.changeTab(
+      groupId: groupId,
+      tabId: tabId,
+    );
+  }
+
+  void onPressedCreateNewGroup() {
+    _tabsDelegate.createGroup(context);
   }
 
   void _onEmptyTabs() {
-    callWithDelay(() {
-      model.createEmptyTab();
-      _pageDelegate.reset();
-      _pageSlideDelegate.slideTo(0);
-      _viewVisibleState.accept(true);
-      _menuState.accept(MenuType.view);
-    });
+    _pageDelegate.reset();
+    _pageSlideDelegate.slideToPage(0);
   }
-
-  void _onChangeTab() => callWithDelay(() => _menuState.accept(MenuType.view));
 
   void _onTabAnimationComplete(bool isVisible) {
     _viewVisibleState.accept(isVisible);
   }
 
-  void _handleViewVisibleState() {
-    _updatePastGo();
-  }
+  Future<bool> _scrollToTab({
+    required String groupId,
+    required String tabId,
+    bool isAnimated = false,
+  }) async {
+    final index = _tabsDelegate.getTabIndexById(
+      groupId: groupId,
+      tabId: tabId,
+    );
 
-  Future<bool> _scrollToTab(String id) async {
-    return Future.delayed(const Duration(milliseconds: 10), () {
-      final index = _tabsDelegate.getTabIndexById(id);
+    if (index != null && index > -1) {
+      _pageSlideDelegate.slideToPage(
+        index,
+        isAnimated: isAnimated,
+      );
 
-      if (index != null && index > -1) {
-        _pageSlideDelegate.slideTo(sizes.urlWidth * index + 50);
-        _pageDelegate.reset();
-      }
+      _pageDelegate.reset();
+    }
 
-      return index != null && index > -1;
-    });
+    return index != null && index > -1;
   }
 
   void _handleMenuState() {
@@ -290,13 +335,24 @@ class BrowserMainScreenWidgetModel
       _menuState.value,
       duration: Duration.zero,
     );
+    resetFocus(contextSafe);
   }
 
   Future<void> _updatePastGo() async {
     _pastGoDelegate.updateVisible(
-      (_viewVisibleState.value ?? false) &&
-          (_tabsDelegate.isEmptyActiveTabUrl) &&
+      (_viewVisibleState.value) &&
+          (model.activeTabUrlHostState.value?.isEmpty ?? false) &&
           await checkExistClipBoardData(),
+    );
+  }
+
+  void _onPressedCreateTab(String groupId, String tabId) {
+    callWithDelay(
+      () => _scrollToTab(
+        groupId: groupId,
+        tabId: tabId,
+        isAnimated: true,
+      ),
     );
   }
 }

@@ -1,4 +1,5 @@
-import 'package:app/feature/browser_v2/data/browser_tab.dart';
+import 'package:app/core/wm/not_null_listenable_state.dart';
+import 'package:app/feature/browser_v2/data/tabs/browser_tab.dart';
 import 'package:app/generated/generated.dart';
 import 'package:app/utils/focus_utils.dart';
 import 'package:app/utils/types/fuction_types.dart';
@@ -9,7 +10,7 @@ import 'package:ui_components_lib/ui_components_lib.dart';
 
 class BrowserAddressBar extends StatefulWidget {
   const BrowserAddressBar({
-    required this.tab,
+    required this.listenable,
     required this.width,
     required this.onPressedCurrentUrlMenu,
     required this.onPressedRefresh,
@@ -17,7 +18,7 @@ class BrowserAddressBar extends StatefulWidget {
     super.key,
   });
 
-  final BrowserTab tab;
+  final NotNullListenableState<BrowserTab> listenable;
   final double width;
   final ValueChanged<String> onPressedCurrentUrlMenu;
   final ValueChanged<String> onPressedRefresh;
@@ -28,7 +29,7 @@ class BrowserAddressBar extends StatefulWidget {
 }
 
 class _BrowserAddressBarState extends State<BrowserAddressBar> {
-  late final _controller = TextEditingController(text: _urlText);
+  late final _controller = TextEditingController(text: _url.toString());
   final _focusNode = FocusNode();
 
   late final _urlVisibleTextState = StateNotifier<bool>(initValue: true);
@@ -36,25 +37,25 @@ class _BrowserAddressBarState extends State<BrowserAddressBar> {
     initValue: _controller.text.isNotEmpty,
   );
 
-  BrowserTab get _tab => widget.tab;
+  late final _listenable = widget.listenable;
+
+  BrowserTab get _tab => _listenable.value;
 
   Uri get _url => _tab.url;
-
-  String get _urlText => _url.toString();
 
   @override
   void initState() {
     _focusNode.addListener(_onFocusChange);
     _controller.addListener(_onChangeText);
+    _listenable.addListener(_handleTab);
     super.initState();
   }
 
-  @override
-  void didUpdateWidget(covariant BrowserAddressBar oldWidget) {
-    if (oldWidget.tab.url != widget.tab.url) {
-      _controller.text = _urlText;
+  void _handleTab() {
+    final urlText = _url.toString();
+    if (_controller.text != urlText) {
+      _controller.text = urlText;
     }
-    super.didUpdateWidget(oldWidget);
   }
 
   @override
@@ -63,6 +64,7 @@ class _BrowserAddressBarState extends State<BrowserAddressBar> {
     _focusNode.dispose();
     _urlVisibleTextState.dispose();
     _closeVisibleState.dispose();
+    _listenable.removeListener(_handleTab);
     super.dispose();
   }
 
@@ -88,8 +90,7 @@ class _BrowserAddressBarState extends State<BrowserAddressBar> {
                   return Visibility(
                     visible: isVisibleText ?? false,
                     child: _UrlText(
-                      text: widget.tab.url.host,
-                      isVisibleButtons: widget.tab.url.host.isNotEmpty,
+                      listenable: _listenable,
                       onPressedMenu: _onPressedMenu,
                       onPressedText: _onPressedText,
                       onPressedRefresh: _onPressedRefresh,
@@ -119,14 +120,14 @@ class _BrowserAddressBarState extends State<BrowserAddressBar> {
     );
   }
 
-  void _onPressedMenu() => widget.onPressedCurrentUrlMenu(widget.tab.id);
+  void _onPressedMenu() => widget.onPressedCurrentUrlMenu(_tab.id);
 
-  void _onPressedRefresh() => widget.onPressedRefresh(widget.tab.id);
+  void _onPressedRefresh() => widget.onPressedRefresh(_tab.id);
 
   void _onEditingComplete() {
     resetFocus(context);
     widget.onEditingComplete(
-      widget.tab.id,
+      _tab.id,
       _controller.text,
     );
   }
@@ -259,15 +260,13 @@ class _UrlTextField extends StatelessWidget {
 
 class _UrlText extends StatelessWidget {
   const _UrlText({
-    required this.text,
-    required this.isVisibleButtons,
+    required this.listenable,
     required this.onPressedMenu,
     required this.onPressedText,
     required this.onPressedRefresh,
   });
 
-  final String text;
-  final bool isVisibleButtons;
+  final NotNullListenableState<BrowserTab> listenable;
   final VoidCallback onPressedMenu;
   final VoidCallback onPressedText;
   final VoidCallback onPressedRefresh;
@@ -279,11 +278,19 @@ class _UrlText extends StatelessWidget {
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
-        if (isVisibleButtons)
-          _Button(
-            onPressed: onPressedMenu,
-            icon: LucideIcons.menu,
-          ),
+        StateNotifierBuilder(
+          listenableState: listenable,
+          builder: (_, BrowserTab? tab) {
+            if (tab?.url.host.isEmpty ?? true) {
+              return const SizedBox.shrink();
+            }
+
+            return _Button(
+              onPressed: onPressedMenu,
+              icon: LucideIcons.menu,
+            );
+          },
+        ),
         Expanded(
           child: GestureDetector(
             behavior: HitTestBehavior.opaque,
@@ -293,37 +300,57 @@ class _UrlText extends StatelessWidget {
               children: [
                 Padding(
                   padding: const EdgeInsets.only(right: DimensSizeV2.d4),
-                  child: text.isEmpty
-                      ? Icon(
-                          LucideIcons.search,
-                          size: DimensSizeV2.d16,
-                          color: theme.colors.content3,
-                        )
-                      : Assets.images.lockFill.svg(
-                          width: DimensSizeV2.d16,
-                          height: DimensSizeV2.d16,
-                          colorFilter:
-                              context.themeStyleV2.colors.content3.colorFilter,
-                        ),
+                  child: StateNotifierBuilder(
+                    listenableState: listenable,
+                    builder: (_, BrowserTab? tab) {
+                      return tab?.url.host.isEmpty ?? true
+                          ? Icon(
+                              LucideIcons.search,
+                              size: DimensSizeV2.d16,
+                              color: theme.colors.content3,
+                            )
+                          : Assets.images.lockFill.svg(
+                              width: DimensSizeV2.d16,
+                              height: DimensSizeV2.d16,
+                              colorFilter: context
+                                  .themeStyleV2.colors.content3.colorFilter,
+                            );
+                    },
+                  ),
                 ),
                 Flexible(
-                  child: Text(
-                    text.isEmpty ? LocaleKeys.browserSearchURL.tr() : text,
-                    style: theme.textStyles.labelMedium.copyWith(
-                      color: theme.colors.content3,
-                    ),
-                    overflow: TextOverflow.ellipsis,
+                  child: StateNotifierBuilder(
+                    listenableState: listenable,
+                    builder: (_, BrowserTab? tab) {
+                      return Text(
+                        tab?.url.host.isEmpty ?? true
+                            ? LocaleKeys.browserSearchURL.tr()
+                            : tab!.url.host,
+                        style: theme.textStyles.labelMedium.copyWith(
+                          color: theme.colors.content3,
+                        ),
+                        overflow: TextOverflow.ellipsis,
+                      );
+                    },
                   ),
                 ),
               ],
             ),
           ),
         ),
-        if (isVisibleButtons)
-          _Button(
-            onPressed: onPressedRefresh,
-            icon: LucideIcons.rotateCcw,
-          ),
+        StateNotifierBuilder(
+          listenableState: listenable,
+          builder: (_, BrowserTab? tab) {
+            if (tab?.url.host.isEmpty ?? true) {
+              return const SizedBox.shrink();
+            }
+
+            return _Button(
+              onPressed: onPressedRefresh,
+              icon: LucideIcons.rotateCcw,
+            );
+          },
+        ),
       ],
     );
   }
