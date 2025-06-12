@@ -1,6 +1,6 @@
 import 'package:app/feature/browser_v2/screens/create_group/create_browser_group_screen_wm.dart';
 import 'package:app/feature/browser_v2/screens/create_group/widgets/group_title_text_field.dart';
-import 'package:app/feature/browser_v2/screens/main/widgets/tabs/item/widgets/browser_tabs_list_Item_body.dart';
+import 'package:app/feature/browser_v2/screens/main/widgets/tabs/item/widgets/browser_tabs_list_item_body.dart';
 import 'package:app/generated/generated.dart';
 import 'package:elementary/elementary.dart';
 import 'package:elementary_helper/elementary_helper.dart';
