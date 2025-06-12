@@ -10,7 +10,7 @@ import 'package:ui_components_lib/v2/ui_components_lib_v2.dart';
 
 class TabAnimatedView extends ElementaryWidget<TabAnimatedViewWidgetModel> {
   TabAnimatedView({
-    required this.showAnimationState,
+    required this.tabAnimationTypeState,
     required VoidCallback onAnimationStart,
     required ValueChanged<TabAnimationType?> onAnimationEnd,
     WidgetModelFactory<TabAnimatedViewWidgetModel>? wmFactory,
@@ -24,16 +24,16 @@ class TabAnimatedView extends ElementaryWidget<TabAnimatedViewWidgetModel> {
                   ),
         );
 
-  final ListenableState<TabAnimationType?> showAnimationState;
+  final ListenableState<TabAnimationType?> tabAnimationTypeState;
 
   @override
   Widget build(TabAnimatedViewWidgetModel wm) {
-    return StateNotifierBuilder<TabAnimationType?>(
-      listenableState: showAnimationState,
-      builder: (_, TabAnimationType? type) {
-        return Visibility(
-          visible: type != null,
-          child: RepaintBoundary(
+    return RepaintBoundary(
+      child: StateNotifierBuilder<TabAnimationType?>(
+        listenableState: tabAnimationTypeState,
+        builder: (_, TabAnimationType? type) {
+          return Visibility(
+            visible: type != null,
             child: AnimatedBuilder(
               animation: wm.animationListenable,
               builder: (_, Widget? child) {
@@ -71,9 +71,9 @@ class TabAnimatedView extends ElementaryWidget<TabAnimatedViewWidgetModel> {
                 },
               ),
             ),
-          ),
-        );
-      },
+          );
+        },
+      ),
     );
   }
 }

@@ -1,10 +1,9 @@
 // ignore_for_file: lines_longer_than_80_chars
 
 import 'package:app/feature/wallet/wallet.dart';
-import 'package:app/feature/wallet/wallet_deploy/clipboard_paste_button.dart';
 import 'package:app/generated/generated.dart';
-import 'package:app/utils/clipboard_utils.dart';
 import 'package:app/utils/input_formatters.dart';
+import 'package:app/widgets/widgets.dart';
 import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -296,7 +295,14 @@ class _WalletDeployMultisigBodyState extends State<WalletDeployMultisigBody> {
                 }
               },
               maxLength: publicKeyLength,
-              suffixes: [_custodianSuffixIcon(controller, index)],
+              suffixes: [
+                ClipboardPasteButton(
+                  value: controller,
+                  onClear: controller.clear,
+                  onPaste: (String text) =>
+                      custodianControllers[index].text = text,
+                ),
+              ],
               inputFormatters: [
                 InputFormatters.noSpacesFormatter,
                 InputFormatters.publicKeyInputFormatter,
@@ -318,30 +324,6 @@ class _WalletDeployMultisigBodyState extends State<WalletDeployMultisigBody> {
               ),
             ),
         ],
-      ),
-    );
-  }
-
-  Widget _custodianSuffixIcon(
-    TextEditingController controller,
-    int index,
-  ) {
-    return Padding(
-      padding: const EdgeInsets.only(right: DimensSize.d8),
-      child: ValueListenableBuilder<TextEditingValue>(
-        valueListenable: controller,
-        builder: (context, value, _) {
-          return value.text.isNotEmpty
-              ? PrimaryButton(
-                  buttonShape: ButtonShape.square,
-                  icon: LucideIcons.x,
-                  buttonSize: ButtonSize.small,
-                  onPressed: controller.clear,
-                )
-              : ClipboardPasteButton(
-                  onPressed: () => _pasteCustodian(index),
-                );
-        },
       ),
     );
   }
@@ -425,12 +407,5 @@ class _WalletDeployMultisigBodyState extends State<WalletDeployMultisigBody> {
         ..removeListener(_focusListener)
         ..dispose();
     });
-  }
-
-  Future<void> _pasteCustodian(int index) async {
-    final text = await getClipBoardText();
-    if (text != null) {
-      custodianControllers[index].text = text;
-    }
   }
 }

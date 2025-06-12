@@ -4,7 +4,6 @@ import 'package:app/di/di.dart';
 import 'package:app/feature/browser_v2/screens/main/widgets/control_panels/toolbar/toolbar.dart';
 import 'package:app/feature/browser_v2/screens/main/widgets/control_panels/toolbar/toolbar_model.dart';
 import 'package:app/feature/browser_v2/widgets/bottomsheets/book/browser_book.dart';
-import 'package:app/feature/browser_v2/widgets/bottomsheets/browser_main_menu/browser_main_menu.dart';
 import 'package:elementary/elementary.dart';
 import 'package:elementary_helper/elementary_helper.dart';
 import 'package:flutter/widgets.dart';
@@ -52,10 +51,6 @@ class ToolbarWidgetModel extends CustomWidgetModel<Toolbar, ToolbarModel> {
 
   void onPressedForwardPressed() {
     model.forward();
-  }
-
-  void onPressedDotsPressed() {
-    showBrowserMainMenu(context);
   }
 
   void onPressedBook() {

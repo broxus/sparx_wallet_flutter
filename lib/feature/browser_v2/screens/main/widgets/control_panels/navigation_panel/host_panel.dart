@@ -1,18 +1,17 @@
-import 'package:app/feature/browser_v2/data/browser_tab.dart';
 import 'package:elementary_helper/elementary_helper.dart';
 import 'package:flutter/material.dart';
 import 'package:ui_components_lib/v2/ui_components_lib_v2.dart';
 
 class HostPanel extends StatelessWidget {
   const HostPanel(
-    this.activeTabState, {
+    this.hostState, {
     required this.onPressed,
     super.key,
   });
 
   static const height = DimensSizeV2.d62;
 
-  final ListenableState<BrowserTab?> activeTabState;
+  final ListenableState<String?> hostState;
   final VoidCallback onPressed;
 
   @override
@@ -32,11 +31,11 @@ class HostPanel extends StatelessWidget {
             alignment: Alignment.topCenter,
             child: Padding(
               padding: const EdgeInsets.all(DimensSizeV2.d10),
-              child: StateNotifierBuilder<BrowserTab?>(
-                listenableState: activeTabState,
-                builder: (_, BrowserTab? tab) {
+              child: StateNotifierBuilder<String?>(
+                listenableState: hostState,
+                builder: (_, String? host) {
                   return Text(
-                    tab?.url.host ?? '',
+                    host ?? '',
                     style: theme.textStyles.labelMedium.copyWith(
                       letterSpacing: -0.1,
                       color: theme.colors.content3,

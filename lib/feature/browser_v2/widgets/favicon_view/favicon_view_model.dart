@@ -15,6 +15,6 @@ class FaviconViewModel extends ElementaryModel {
     if (uri == null) {
       return null;
     }
-    return _browserService.fM.getFaviconURL(uri);
+    return _browserService.fav.getFaviconURL(uri);
   }
 }

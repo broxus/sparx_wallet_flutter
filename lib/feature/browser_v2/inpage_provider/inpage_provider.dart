@@ -190,7 +190,7 @@ class InpageProvider extends ProviderApi {
   @override
   Future<CodeToTvcOutput> codeToTvc(CodeToTvcInput input) async {
     _checkBasicPermission();
-    final (tvc, hash) = await nr.codeToTvc(input.code);
+    final (tvc, hash) = nr.codeToTvc(input.code);
 
     return CodeToTvcOutput(tvc, hash);
   }
@@ -588,7 +588,7 @@ class InpageProvider extends ProviderApi {
     ExtractPublicKeyInput input,
   ) async {
     _checkBasicPermission();
-    final output = await nr.extractPublicKey(input.boc);
+    final output = nr.extractPublicKey(input.boc);
 
     return ExtractPublicKeyOutput(output.publicKey);
   }
@@ -632,7 +632,7 @@ class InpageProvider extends ProviderApi {
   @override
   Future<GetBocHashOutput> getBocHash(GetBocHashInput input) async {
     _checkBasicPermission();
-    final hash = await nr.getBocHash(input.boc);
+    final hash = nr.getBocHash(input.boc);
 
     return GetBocHashOutput(hash);
   }
@@ -640,7 +640,7 @@ class InpageProvider extends ProviderApi {
   @override
   Future<GetCodeSaltOutput> getCodeSalt(GetCodeSaltInput input) async {
     _checkBasicPermission();
-    final code = await nr.getCodeSalt(input.code);
+    final code = nr.getCodeSalt(input.code);
 
     return GetCodeSaltOutput(code);
   }
@@ -769,7 +769,7 @@ class InpageProvider extends ProviderApi {
   @override
   Future<MergeTvcOutput> mergeTvc(MergeTvcInput input) async {
     _checkBasicPermission();
-    final (tvc, hash) = await nr.mergeTvc(code: input.code, data: input.data);
+    final (tvc, hash) = nr.mergeTvc(code: input.code, data: input.data);
 
     return MergeTvcOutput(tvc, hash);
   }
@@ -777,7 +777,7 @@ class InpageProvider extends ProviderApi {
   @override
   Future<PackIntoCellOutput> packIntoCell(PackIntoCellInput input) async {
     _checkBasicPermission();
-    final (boc, hash) = await nr.packIntoCell(
+    final (boc, hash) = nr.packIntoCell(
       params:
           input.structure.map((e) => nr.AbiParam.fromJson(e.toJson())).toList(),
       tokens: input.data,
@@ -846,12 +846,15 @@ class InpageProvider extends ProviderApi {
       throw s.ApprovalsHandleException(LocaleKeys.accountNotDeployed.tr());
     }
 
+    final signatureId = await _computeSignatureId(input.withSignatureId);
+
     final executionOutput = await nr.runLocal(
       accountStuffBoc: contractState.boc,
       contractAbi: input.functionCall.abi,
       methodId: input.functionCall.method,
       input: input.functionCall.params,
       responsible: input.responsible ?? false,
+      signatureId: signatureId,
     );
 
     return RunLocalOutput(executionOutput.output, executionOutput.code);
@@ -1384,8 +1387,7 @@ class InpageProvider extends ProviderApi {
   @override
   Future<SetCodeSaltOutput> setCodeSalt(SetCodeSaltInput input) async {
     _checkBasicPermission();
-    final (code, hash) =
-        await nr.setCodeSalt(code: input.code, salt: input.salt);
+    final (code, hash) = nr.setCodeSalt(code: input.code, salt: input.salt);
 
     return SetCodeSaltOutput(code, hash);
   }
@@ -1393,7 +1395,6 @@ class InpageProvider extends ProviderApi {
   @override
   Future<SignDataOutput> signData(SignDataInput input) async {
     final publicKey = nr.PublicKey(publicKey: input.publicKey);
-    final withSignatureId = input.withSignatureId;
     final accountInteraction = _checkAccountInteractionPermission(
       publicKey: publicKey,
     );
@@ -1404,13 +1405,7 @@ class InpageProvider extends ProviderApi {
       publicKey: publicKey,
       data: input.data,
     );
-    final signatureId = withSignatureId == true
-        ? await nekotonRepository.currentTransport.transport.getSignatureId()
-        : withSignatureId == false
-            ? null
-            : withSignatureId != null && withSignatureId is num
-                ? withSignatureId.toInt()
-                : null;
+    final signatureId = await _computeSignatureId(input.withSignatureId);
 
     final signedData = await nekotonRepository.seedList.signData(
       data: input.data,
@@ -1466,7 +1461,7 @@ class InpageProvider extends ProviderApi {
   @override
   Future<SplitTvcOutput> splitTvc(SplitTvcInput input) async {
     _checkBasicPermission();
-    final (data, code) = await nr.splitTvc(input.tvc);
+    final (data, code) = nr.splitTvc(input.tvc);
 
     return SplitTvcOutput(data, code);
   }
@@ -1502,7 +1497,7 @@ class InpageProvider extends ProviderApi {
   @override
   Future<UnpackFromCellOutput> unpackFromCell(UnpackFromCellInput input) async {
     _checkBasicPermission();
-    final data = await nr.unpackFromCell(
+    final data = nr.unpackFromCell(
       params:
           input.structure.map((e) => nr.AbiParam.fromJson(e.toJson())).toList(),
       boc: input.boc,
@@ -1673,6 +1668,41 @@ class InpageProvider extends ProviderApi {
     return ChangeNetworkOutput(await transport?.toNetwork());
   }
 
+  @override
+  Future<RunGetterOutput> runGetter(RunGetterInput input) async {
+    _checkBasicPermission();
+
+    final address = nr.Address(address: input.address);
+    final cachedState = input.cachedState == null
+        ? null
+        : nr.FullContractState.fromJson(input.cachedState!.toJson());
+    final contractState = cachedState ??
+        await nekotonRepository.currentTransport.transport
+            .getFullContractState(address);
+
+    if (contractState == null) {
+      throw Exception(
+        LocaleKeys.accountNotFound.tr(args: [address.address]),
+      );
+    }
+
+    if (!contractState.isDeployed || contractState.lastTransactionId == null) {
+      throw s.ApprovalsHandleException(LocaleKeys.accountNotDeployed.tr());
+    }
+
+    final signatureId = await _computeSignatureId(input.withSignatureId);
+
+    final executionOutput = await nr.runGetter(
+      accountStuffBoc: contractState.boc,
+      contractAbi: input.getterCall.abi,
+      methodId: input.getterCall.getter,
+      input: input.getterCall.params,
+      signatureId: signatureId,
+    );
+
+    return RunGetterOutput(executionOutput.output, executionOutput.code);
+  }
+
   Future<List<ConnectionData>> _getConnections(int networkId) async {
     final connections = connectionsStorageService.connections;
     final networksIds = connectionsStorageService.networksIds;
@@ -1711,6 +1741,17 @@ class InpageProvider extends ProviderApi {
     }
 
     return list;
+  }
+
+  Future<int?> _computeSignatureId(Object? withSignatureId) async {
+    final signatureId = withSignatureId == true
+        ? await nekotonRepository.currentTransport.transport.getSignatureId()
+        : withSignatureId == false
+            ? null
+            : withSignatureId != null && withSignatureId is num
+                ? withSignatureId.toInt()
+                : null;
+    return signatureId;
   }
 }
 

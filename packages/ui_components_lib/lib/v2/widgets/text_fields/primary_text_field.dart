@@ -36,6 +36,11 @@ class PrimaryTextField extends StatelessWidget {
     this.contentPadding,
     this.errorInlineIconPadding,
     this.maxLength,
+    this.borderFocusColor,
+    this.cursorColor,
+    this.cursorWidth,
+    this.cursorHeight,
+    this.textStyle,
   });
 
   final String? name;
@@ -63,6 +68,11 @@ class PrimaryTextField extends StatelessWidget {
   final EdgeInsets? errorInlineIconPadding;
   final AutovalidateMode autovalidateMode;
   final int? maxLength;
+  final Color? borderFocusColor;
+  final Color? cursorColor;
+  final double? cursorWidth;
+  final double? cursorHeight;
+  final TextStyle? textStyle;
 
   @override
   Widget build(BuildContext context) {
@@ -80,10 +90,14 @@ class PrimaryTextField extends StatelessWidget {
       hintText: hintText,
       errorText: errorText,
       activeBackgroundColor: themeStyle.colors.background1,
-      cursorColor: themeStyle.colors.primaryA,
+      cursorColor: cursorColor ?? themeStyle.colors.primaryA,
+      cursorWidth: cursorWidth,
+      cursorHeight: cursorHeight,
       enabledBorder: _getBorder(color: themeStyle.colors.border0),
       disabledBorder: _getBorder(color: themeStyle.colors.borderDisabled),
-      focusedBorder: _getBorder(color: themeStyle.colors.borderFocus),
+      focusedBorder: _getBorder(
+        color: borderFocusColor ?? themeStyle.colors.borderFocus,
+      ),
       errorBorder: _getBorder(color: themeStyle.colors.borderNegative),
       borderRadius: radius,
       height: height ?? sizeType.height,
@@ -109,10 +123,11 @@ class PrimaryTextField extends StatelessWidget {
               ),
             ),
       isAutofocus: isAutofocus,
-      textStyle: themeStyle.textStyles.labelSmall.copyWith(
-        color: themeStyle.colors.content0,
-        height: 1,
-      ),
+      textStyle: textStyle ??
+          themeStyle.textStyles.labelSmall.copyWith(
+            color: themeStyle.colors.content0,
+            height: 1,
+          ),
       errorTextStyle: themeStyle.textStyles.paragraphSmall.copyWith(
         color: themeStyle.colors.contentNegative,
       ),
