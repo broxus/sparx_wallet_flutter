@@ -144,10 +144,7 @@ class _BrowserTabViewMenuUrlPanelState extends State<BrowserNavigationPanel>
       return;
     }
 
-    final targetPage =
-        page.round().clamp(0, (widget.tabsState.value?.length ?? 1) - 1);
-
-    if (delta > 0.7) {
+    if (delta == 1) {
       final targetPage =
           page.round().clamp(0, (widget.tabsState.value?.length ?? 1) - 1);
       _pageViewController.animateToPage(
@@ -157,12 +154,11 @@ class _BrowserTabViewMenuUrlPanelState extends State<BrowserNavigationPanel>
       );
       _currentPage = targetPage;
       widget.onPageChanged(targetPage);
-    } else if (delta == 1) {
-      _animateToPage(targetPage);
+      _animateTranslate(targetPage);
     }
   }
 
-  void _animateToPage(num page) {
+  void _animateTranslate(num page) {
     final count = widget.tabsState.value?.length;
     final value = _animationLeftController.value;
 
@@ -191,7 +187,7 @@ class _BrowserTabViewMenuUrlPanelState extends State<BrowserNavigationPanel>
   }
 
   void _onPageChanged(int page) {
-    _animateToPage(page);
+    _animateTranslate(page);
   }
 
   void _handleChange() {
@@ -209,7 +205,7 @@ class _BrowserTabViewMenuUrlPanelState extends State<BrowserNavigationPanel>
       if (_pageViewController.hasClients) {
         final page = _pageViewController.page;
         if (page != null) {
-          _animateToPage(page);
+          _animateTranslate(page);
         }
       }
     });
