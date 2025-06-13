@@ -1,3 +1,4 @@
+import 'package:app/app/service/service.dart';
 import 'package:app/feature/network/edit_network/widgets/network_form_field.dart';
 import 'package:app/generated/generated.dart';
 import 'package:elementary_helper/elementary_helper.dart';
@@ -12,18 +13,18 @@ class NetworkTypeField extends StatelessWidget {
     super.key,
   });
 
-  final List<String> types;
-  final ListenableState<String?> selectedNetworkTypeState;
-  final ValueChanged<String> onChanged;
+  final List<NetworkType> types;
+  final ListenableState<NetworkType?> selectedNetworkTypeState;
+  final ValueChanged<NetworkType> onChanged;
 
   @override
   Widget build(BuildContext context) {
     final theme = context.themeStyleV2;
     return NetworkFormField(
       label: LocaleKeys.networkTypeWord.tr(),
-      child: StateNotifierBuilder<String?>(
+      child: StateNotifierBuilder(
         listenableState: selectedNetworkTypeState,
-        builder: (_, String? selectedValue) {
+        builder: (_, selectedValue) {
           return Wrap(
             spacing: DimensSize.d16,
             runSpacing: DimensSize.d16,
@@ -44,7 +45,7 @@ class NetworkTypeField extends StatelessWidget {
                       ),
                       const SizedBox(width: DimensSize.d8),
                       Text(
-                        type,
+                        type.name,
                         style: theme.textStyles.labelSmall,
                       ),
                     ],

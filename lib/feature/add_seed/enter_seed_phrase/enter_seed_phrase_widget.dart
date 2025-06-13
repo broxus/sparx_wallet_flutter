@@ -101,6 +101,7 @@ class EnterSeedPhraseWidget
                   builder: (_, tabData, seedPhraseFormat) =>
                       SeedPhraseFormatView(
                     networkGroup: wm.networkGroup,
+                    networkType: wm.networkType,
                     wordsCount: tabData?.currentValue,
                     value: seedPhraseFormat,
                     onChanged: wm.onSeedPhraseFormatChanged,

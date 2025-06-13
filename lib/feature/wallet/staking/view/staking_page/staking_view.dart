@@ -1,5 +1,4 @@
 import 'package:app/data/models/models.dart';
-import 'package:app/feature/wallet/staking/models/models.dart';
 import 'package:app/feature/wallet/wallet.dart';
 import 'package:app/generated/generated.dart';
 import 'package:app/utils/utils.dart';

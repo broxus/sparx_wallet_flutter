@@ -4,6 +4,7 @@ export 'connection_network/connection_network.dart';
 export 'connection_transport/connection_transport.dart';
 export 'custom_network/custom_network.dart';
 export 'default_active_asset.dart';
+export 'network_type.dart';
 export 'transaction_explorer/transaction_explorer.dart';
 export 'transport_icons.dart';
 export 'transport_manifest_option/transport_manifest_option.dart';

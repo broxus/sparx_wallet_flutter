@@ -1,5 +1,4 @@
 import 'dart:convert';
-import 'dart:math';
 
 import 'package:app/data/models/models.dart';
 import 'package:injectable/injectable.dart';
@@ -15,14 +14,15 @@ class GasPriceService {
 
   Transport get _transport => _nekotonRepository.currentTransport.transport;
 
-  Future<GasPriceParams?> getGasPriceParams() async {
+  Future<GasPriceParams?> getGasPriceParams([
+    GasPriceType type = GasPriceType.workchainGasLimitsAndPrices,
+  ]) async {
     try {
       final (fields, state) = await _transport.getContractFields(
         address: _address,
         contractAbi: _configAbi,
       );
-      final (nonEmptyMap, hash) = await packIntoCell(
-        abiVersion: '2.2',
+      final (nonEmptyMap, hash) = packIntoCell(
         params: const [
           AbiParam(name: 'flag', type: 'bool'),
           AbiParam(name: 'root', type: 'cell'),
@@ -32,8 +32,7 @@ class GasPriceService {
           'root': fields!['paramsRoot'],
         },
       );
-      final rawParams = await unpackFromCell(
-        abiVersion: '2.2',
+      final rawParams = unpackFromCell(
         params: const [AbiParam(name: 'params', type: 'map(uint32,cell)')],
         boc: nonEmptyMap,
         allowPartial: true,
@@ -42,14 +41,13 @@ class GasPriceService {
           .cast<List<dynamic>>()
           .map((e) => MapEntry(int.parse(e[0] as String), e[1] as String));
       final params = Map.fromEntries(entries);
-      final data = await unpackFromCell(
-        abiVersion: '2.2',
+      final data = unpackFromCell(
         params: (jsonDecode(_pricesParamAbi) as List<dynamic>)
             .map(
               (json) => AbiParam.fromJson(json as Map<String, dynamic>),
             )
             .toList(),
-        boc: params[21]!, // 20 for masterchain
+        boc: params[type.paramsKey]!,
         allowPartial: true,
       );
 
@@ -63,19 +61,44 @@ class GasPriceService {
 
   Future<BigInt> computeGas({
     required BigInt dynamicGas,
-    required BigInt fixedGas,
+    BigInt? fixedGas,
     GasPriceParams? params,
+    GasPriceType type = GasPriceType.workchainGasLimitsAndPrices,
   }) async {
-    final p = params ?? await getGasPriceParams();
+    final p = params ?? await getGasPriceParams(type);
     final gasPrice = BigInt.from(
-      (p?.gasPrice ?? _evrscaleGasPrice).toDouble() / pow(2, 16),
+      (p?.gasPrice ?? type.baseGasPrice) / type.baseGasPrice, // pow(2, 16)
     );
 
-    return dynamicGas * gasPrice + fixedGas;
+    return dynamicGas * gasPrice + (fixedGas ?? BigInt.zero);
   }
 }
 
-final _evrscaleGasPrice = BigInt.parse('65536000');
+enum GasPriceType {
+  masterchainGasLimitsAndPrices,
+  masterchainMessageForwardingPrices,
+  workchainGasLimitsAndPrices,
+  workchainMessageForwardingPrices;
+
+  int get paramsKey => switch (this) {
+        masterchainGasLimitsAndPrices => 20,
+        masterchainMessageForwardingPrices => 24,
+        workchainGasLimitsAndPrices => 21,
+        workchainMessageForwardingPrices => 25,
+      };
+
+  BigInt get baseGasPrice => switch (this) {
+        masterchainGasLimitsAndPrices ||
+        masterchainMessageForwardingPrices =>
+          _evrscaleMasterchainGasPrice,
+        workchainGasLimitsAndPrices ||
+        workchainMessageForwardingPrices =>
+          _evrscaleWorkchainGasPrice,
+      };
+}
+
+final _evrscaleWorkchainGasPrice = BigInt.parse('65536000');
+final _evrscaleMasterchainGasPrice = BigInt.parse('655360000');
 const _address = Address(
   address:
       '-1:5555555555555555555555555555555555555555555555555555555555555555',
