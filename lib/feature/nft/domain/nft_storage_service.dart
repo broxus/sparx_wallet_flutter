@@ -164,6 +164,40 @@ class NftStorageService extends AbstractStorageService {
     _pendingNftSubject.add(updatedList);
   }
 
+  PendingNft? removePendingNft({
+    required String id,
+    required Address owner,
+    required Address collection,
+    required NetworkGroup networkGroup,
+  }) {
+    final currentList = _pendingNftSubject.valueOrNull ?? [];
+
+    // Partition the list into items to remove and items to keep
+    PendingNft? removed;
+
+    for (final e in currentList) {
+      if (e.id == id &&
+          e.owner == owner &&
+          e.collection == collection &&
+          e.networkGroup == networkGroup) {
+        removed = e;
+        break;
+      }
+    }
+
+    if (removed != null) {
+      final updatedList = currentList.whereNot((e) => e == removed).toList();
+
+      _generalStorage.write(
+        _pendingNftsKey,
+        updatedList.map((e) => e.toJson()).toList(),
+      );
+      _pendingNftSubject.add(updatedList);
+    }
+
+    return removed;
+  }
+
   List<PendingNft> removePendingNftByCollection({
     required Address owner,
     required Address collection,

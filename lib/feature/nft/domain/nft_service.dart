@@ -247,6 +247,13 @@ class NftService {
           networkGroup: _nekotonRepository.currentTransport.networkGroup,
         ),
       );
+    } else {
+      _nftStorageService.removePendingNft(
+        id: event.id,
+        owner: event.sender,
+        collection: event.collection,
+        networkGroup: _nekotonRepository.currentTransport.networkGroup,
+      );
     }
   }
 }

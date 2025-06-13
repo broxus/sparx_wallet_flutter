@@ -144,7 +144,7 @@ class _Item extends StatelessWidget {
               ],
             ),
           ),
-          if (item.wallet != null)
+          if (item.wallet != null || isPending)
             Positioned(
               top: DimensSizeV2.d0,
               left: DimensSizeV2.d0,
@@ -159,12 +159,13 @@ class _Item extends StatelessWidget {
                       mainAxisSize: MainAxisSize.min,
                       spacing: DimensSizeV2.d4,
                       children: [
-                        Flexible(
-                          child: _Badge(
-                            balance: item.wallet!.balance,
-                            supply: item.nft.supply ?? BigInt.zero,
+                        if (item.wallet != null)
+                          Flexible(
+                            child: _Badge(
+                              balance: item.wallet!.balance,
+                              supply: item.nft.supply ?? BigInt.zero,
+                            ),
                           ),
-                        ),
                         if (isPending)
                           Container(
                             width: DimensSizeV2.d10,
@@ -223,6 +224,15 @@ class _Item extends StatelessWidget {
               _Badge(
                 balance: item.wallet!.balance,
                 supply: item.nft.supply ?? BigInt.zero,
+              ),
+            if (isPending)
+              Container(
+                width: DimensSizeV2.d10,
+                height: DimensSizeV2.d10,
+                decoration: BoxDecoration(
+                  color: theme.colors.backgroundAccent,
+                  shape: BoxShape.circle,
+                ),
               ),
             Icon(
               LucideIcons.chevronRight,
