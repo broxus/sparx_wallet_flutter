@@ -30,8 +30,14 @@ class NftItemPageWidget extends ElementaryWidget<NftItemPageWidgetModel> {
 
         return Scaffold(
           extendBodyBehindAppBar: true,
-          appBar: const DefaultAppBar(
+          appBar: DefaultAppBar(
             backgroundColor: Colors.transparent,
+            leading: PrimaryButton(
+              buttonShape: ButtonShape.circle,
+              icon: LucideIcons.arrowLeft,
+              buttonSize: ButtonSize.medium,
+              onPressed: wm.onBackPressed,
+            ),
           ),
           body: Column(
             children: [

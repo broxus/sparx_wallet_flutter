@@ -11,8 +11,8 @@ import 'package:ui_components_lib/ui_components_lib.dart';
 enum RootTab {
   wallet(),
   browser(),
-  profile(),
-  nft();
+  nft(),
+  profile();
 
   const RootTab();
 
