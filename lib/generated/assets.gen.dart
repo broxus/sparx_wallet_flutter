@@ -706,6 +706,9 @@ class $AssetsImagesOnboardingGen {
 class $AssetsImagesSteverGen {
   const $AssetsImagesSteverGen();
 
+  /// File path: assets/images/stever/coins.svg
+  SvgGenImage get coins => const SvgGenImage('assets/images/stever/coins.svg');
+
   /// File path: assets/images/stever/stever.svg
   SvgGenImage get stever =>
       const SvgGenImage('assets/images/stever/stever.svg');
@@ -715,7 +718,7 @@ class $AssetsImagesSteverGen {
       const SvgGenImage('assets/images/stever/steverDefi.svg');
 
   /// List of all assets
-  List<SvgGenImage> get values => [stever, steverDefi];
+  List<SvgGenImage> get values => [coins, stever, steverDefi];
 }
 
 class $AssetsImagesUserAvatarGen {

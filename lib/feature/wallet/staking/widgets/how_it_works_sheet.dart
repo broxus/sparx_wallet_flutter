@@ -80,15 +80,16 @@ class StEverHowItWorksSheet extends StatelessWidget {
                     ),
                   ),
                   _step(
-                    icon: Assets.images.stever.steverDefi.svg(
+                    icon: Assets.images.stever.coins.svg(
                       width: DimensSizeV2.d40,
                       height: DimensSizeV2.d40,
                     ),
-                    title: LocaleKeys.useSteverTitle.tr(
-                      args: [info.tokenWallet.symbol.name],
-                    ),
-                    subtitle: LocaleKeys.useSteverSubtitle.tr(
-                      args: [info.tokenWallet.symbol.name],
+                    title: LocaleKeys.earnOnPriceIncreasesTitle.tr(),
+                    subtitle: LocaleKeys.earnOnPriceIncreasesSubtitle.tr(
+                      args: [
+                        info.tokenWallet.symbol.name,
+                        info.apy.toStringAsFixed(2),
+                      ],
                     ),
                   ),
                 ],
