@@ -23,7 +23,7 @@ class StakingAbiProvider {
   Future<String> getAccountAbi(NetworkType networkType) {
     final path = switch (networkType) {
       NetworkType.ever => Assets.abi.stEverAccountAbi,
-      _ => Assets.abi.stEverVaultNewAbi
+      _ => Assets.abi.stEverAccountNewAbi
     };
 
     return _load(path);
