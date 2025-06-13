@@ -268,7 +268,7 @@ class BrowserServiceTabsDelegate
 
     updateCachedUrl(tabId, resultUri);
 
-    unawaited(_controllersDelegate.loadUrl(tabId, uri));
+    unawaited(_controllersDelegate.loadUrl(tabId, resultUri));
   }
 
   @override
