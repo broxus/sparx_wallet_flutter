@@ -55,6 +55,7 @@ class BrowserTabsAndGroupsUiDelegate implements BrowserTabsAndGroupsUi {
   final Future<bool> Function({
     required String groupId,
     required String tabId,
+    bool isAnimated,
   }) scrollToTab;
   final bool Function() checkIsVisiblePages;
 
@@ -255,14 +256,26 @@ class BrowserTabsAndGroupsUiDelegate implements BrowserTabsAndGroupsUi {
   }
 
   Future<void> _handleActiveTab() async {
-    if (checkIsVisiblePages()) {
-      return;
-    }
-
     final activeGroupId = model.activeGroupIdState.value;
     final activeTabId = model.activeTabId;
 
     if (activeGroupId == null || activeTabId == null) {
+      return;
+    }
+
+    if (checkIsVisiblePages()) {
+
+      if (_tabsPrevCount != null &&
+          _tabsCount != null &&
+          _tabsPrevCount! < _tabsCount!) {
+        unawaited(
+          scrollToTab(
+            groupId: activeGroupId,
+            tabId: activeTabId,
+            isAnimated: true,
+          ),
+        );
+      }
       return;
     }
 

@@ -79,9 +79,10 @@ class _BrowserTabViewMenuUrlPanelState extends State<BrowserNavigationPanel>
           }
 
           return Listener(
-            onPointerDown: _onPointerDown,
-            onPointerUp: _onPointerUp,
-            onPointerCancel: _onPointerCancel,
+            // onPointerDown: _onPointerDown,
+            // onPointerUp: _onPointerUp,
+            onPointerMove: _onPointerMove,
+            // onPointerCancel: _onPointerCancel,
             child: AnimatedBuilder(
               animation: _offsetAnimation,
               builder: (
@@ -94,17 +95,12 @@ class _BrowserTabViewMenuUrlPanelState extends State<BrowserNavigationPanel>
                 );
               },
               child: NotificationListener(
-                onNotification: (notification) {
-                  if (notification is ScrollUpdateNotification) {
-                    _handleScrollUpdate(notification);
-                  }
-                  return false;
-                },
+                onNotification: _onNotification,
                 child: PageView.builder(
                   physics: const ClampingScrollPhysics(),
                   controller: _pageViewController,
                   itemCount: list.length,
-                  onPageChanged: _onPageChanged,
+                  onPageChanged: _animateTranslate,
                   itemBuilder: (_, int index) {
                     return BrowserAddressBar(
                       key: ValueKey(list[index].value.id),
@@ -124,16 +120,17 @@ class _BrowserTabViewMenuUrlPanelState extends State<BrowserNavigationPanel>
     );
   }
 
-  void _onPointerDown(_) {
+  void _onPointerMove(_) {
     _isTouch = true;
   }
 
-  void _onPointerUp(_) {
-    _isTouch = false;
-  }
-
-  void _onPointerCancel(_) {
-    _isTouch = false;
+  bool _onNotification(ScrollNotification notification) {
+    if (notification is ScrollUpdateNotification) {
+      _handleScrollUpdate(notification);
+    } else if (notification is ScrollEndNotification) {
+      _isTouch = false;
+    }
+    return false;
   }
 
   void _handleScrollUpdate(ScrollUpdateNotification notification) {
@@ -147,13 +144,15 @@ class _BrowserTabViewMenuUrlPanelState extends State<BrowserNavigationPanel>
     if (delta == 1) {
       final targetPage =
           page.round().clamp(0, (widget.tabsState.value?.length ?? 1) - 1);
+      if (_isTouch) {
+        widget.onPageChanged(targetPage);
+      }
       _pageViewController.animateToPage(
         targetPage,
         duration: const Duration(milliseconds: 300),
         curve: Curves.easeOut,
       );
       _currentPage = targetPage;
-      widget.onPageChanged(targetPage);
       _animateTranslate(targetPage);
     }
   }
@@ -184,10 +183,6 @@ class _BrowserTabViewMenuUrlPanelState extends State<BrowserNavigationPanel>
       newValue,
       duration: _isTouch ? _duration : Duration.zero,
     );
-  }
-
-  void _onPageChanged(int page) {
-    _animateTranslate(page);
   }
 
   void _handleChange() {
