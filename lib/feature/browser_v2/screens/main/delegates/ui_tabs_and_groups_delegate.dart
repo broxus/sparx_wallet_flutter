@@ -20,6 +20,8 @@ abstract interface class BrowserTabsAndGroupsUi {
 
   ListenableState<TabAnimationType?> get tabAnimationTypeState;
 
+  ScrollController get tabListScrollController;
+
   void onPressedGroup(String groupId);
 
   void onCloseAllPressed();
@@ -40,7 +42,7 @@ class BrowserTabsAndGroupsUiDelegate implements BrowserTabsAndGroupsUi {
     required this.onEmptyTabs,
     required this.onUpdateActiveTab,
     required this.onChangeTab,
-    required this.scrollToTab,
+    required this.scrollToPage,
     required this.checkIsVisiblePages,
   }) {
     _init();
@@ -56,7 +58,7 @@ class BrowserTabsAndGroupsUiDelegate implements BrowserTabsAndGroupsUi {
     required String groupId,
     required String tabId,
     bool isAnimated,
-  }) scrollToTab;
+  }) scrollToPage;
   final bool Function() checkIsVisiblePages;
 
   final _tabAnimationTypeState = StateNotifier<TabAnimationType?>();
@@ -67,6 +69,9 @@ class BrowserTabsAndGroupsUiDelegate implements BrowserTabsAndGroupsUi {
   late final _selectedGroupIdState = StateNotifier<String?>(
     initValue: model.activeGroupIdState.value,
   );
+
+  @override
+  final tabListScrollController = ScrollController();
 
   int? _tabsPrevCount;
   int? _tabsCount;
@@ -98,6 +103,7 @@ class BrowserTabsAndGroupsUiDelegate implements BrowserTabsAndGroupsUi {
     _selectedGroupIdState.dispose();
     _tabAnimationTypeState.dispose();
     _viewTabsState.removeListener(_handleTabs);
+    tabListScrollController.dispose();
   }
 
   @override
@@ -239,6 +245,10 @@ class BrowserTabsAndGroupsUiDelegate implements BrowserTabsAndGroupsUi {
     }
   }
 
+  void scrollTabList(double offset) {
+    tabListScrollController.jumpTo(tabListScrollController.offset + offset);
+  }
+
   void _init() {
     model.activeGroupIdState.addListener(_handleActiveGroup);
     model.activeTabIdState.addListener(_handleActiveTab);
@@ -264,12 +274,11 @@ class BrowserTabsAndGroupsUiDelegate implements BrowserTabsAndGroupsUi {
     }
 
     if (checkIsVisiblePages()) {
-
       if (_tabsPrevCount != null &&
           _tabsCount != null &&
           _tabsPrevCount! < _tabsCount!) {
         unawaited(
-          scrollToTab(
+          scrollToPage(
             groupId: activeGroupId,
             tabId: activeTabId,
             isAnimated: true,
@@ -280,6 +289,7 @@ class BrowserTabsAndGroupsUiDelegate implements BrowserTabsAndGroupsUi {
     }
 
     _selectedGroupIdState.accept(activeGroupId);
+
     _viewTabsState.accept(model.getGroupTabs(activeGroupId));
 
     onUpdateActiveTab();
@@ -294,7 +304,7 @@ class BrowserTabsAndGroupsUiDelegate implements BrowserTabsAndGroupsUi {
     final data = renderManager.getRenderData(activeTabId);
 
     unawaited(
-      scrollToTab(
+      scrollToPage(
         groupId: activeGroupId,
         tabId: activeTabId,
       ),

@@ -19,6 +19,7 @@ class BrowserTabsList extends ElementaryWidget<BrowserTabsListWidgetModel> {
     required this.onPressedGroup,
     required ValueChanged<String> onPressedTab,
     required this.onPressedCreateNewGroup,
+    required this.tabListScrollController,
     super.key,
     WidgetModelFactory<BrowserTabsListWidgetModel>? wmFactory,
   }) : super(
@@ -32,13 +33,16 @@ class BrowserTabsList extends ElementaryWidget<BrowserTabsListWidgetModel> {
                   ),
         );
 
+  static const tabListRenderId = 'tabList';
+
+  final ScrollController tabListScrollController;
   final ValueChanged<String> onPressedGroup;
   final VoidCallback onPressedCreateNewGroup;
 
   // TODO(nesquikm): We should calculate this value based on the screen size
   static const _cardAspectRatio = 0.9;
 
-  static const _padding = EdgeInsets.only(
+  static const padding = EdgeInsets.only(
     top: DimensSizeV2.d24,
     bottom: DimensSizeV2.d16 + BrowserTabsListActionBar.height,
     left: DimensSizeV2.d16,
@@ -69,24 +73,29 @@ class BrowserTabsList extends ElementaryWidget<BrowserTabsListWidgetModel> {
                 return const _Empty();
               }
 
-              return GridView.count(
-                padding: _padding,
-                crossAxisCount: 2,
-                crossAxisSpacing: DimensSizeV2.d8,
-                mainAxisSpacing: DimensSizeV2.d8,
-                childAspectRatio: _cardAspectRatio,
-                children: [
-                  for (final notifiers in tabsNotifiers)
-                    BrowserTabsListItem(
-                      key: ValueKey(notifiers.value.id),
-                      renderManager: wm.renderManager,
-                      tabNotifier: notifiers,
-                      onPressedTabMenu: () =>
-                          wm.onPressedTabMenu(notifiers.value),
-                      onPressed: () => wm.onPressedTab(notifiers.value.id),
-                      onClosePressed: () => wm.onCloseTab(notifiers.value.id),
-                    ),
-                ],
+              return RenderMetricsObject(
+                id: tabListRenderId,
+                manager: wm.renderManager,
+                child: GridView.count(
+                  controller: tabListScrollController,
+                  padding: padding,
+                  crossAxisCount: 2,
+                  crossAxisSpacing: DimensSizeV2.d8,
+                  mainAxisSpacing: DimensSizeV2.d8,
+                  childAspectRatio: _cardAspectRatio,
+                  children: [
+                    for (final notifiers in tabsNotifiers)
+                      BrowserTabsListItem(
+                        key: ValueKey(notifiers.value.id),
+                        renderManager: wm.renderManager,
+                        tabNotifier: notifiers,
+                        onPressedTabMenu: () =>
+                            wm.onPressedTabMenu(notifiers.value),
+                        onPressed: () => wm.onPressedTab(notifiers.value.id),
+                        onClosePressed: () => wm.onCloseTab(notifiers.value.id),
+                      ),
+                  ],
+                ),
               );
             },
           ),

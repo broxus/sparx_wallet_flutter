@@ -20,6 +20,7 @@ import 'package:app/feature/browser_v2/screens/main/delegates/ui_tab_menu_delega
 import 'package:app/feature/browser_v2/screens/main/delegates/ui_tabs_and_groups_delegate.dart';
 import 'package:app/feature/browser_v2/screens/main/widgets/control_panels/navigation_panel/url_action_sheet.dart';
 import 'package:app/feature/browser_v2/screens/main/widgets/tab_animated_view/tab_animation_type.dart';
+import 'package:app/feature/browser_v2/screens/main/widgets/tabs/tabs_list/tabs_list.dart';
 import 'package:app/feature/browser_v2/widgets/bottomsheets/browser_main_menu/browser_main_menu.dart';
 import 'package:app/utils/clipboard_utils.dart';
 import 'package:app/utils/common_utils.dart';
@@ -128,7 +129,7 @@ class BrowserMainScreenWidgetModel
       _progressIndicatorDelegate.reset();
       _updatePastGo();
     },
-    scrollToTab: _scrollToTab,
+    scrollToPage: _scrollToPage,
     checkIsVisiblePages: () => _viewVisibleState.value,
   );
 
@@ -155,7 +156,7 @@ class BrowserMainScreenWidgetModel
 
   BrowserPageScrollUi get page => _pageDelegate;
 
-  RenderManager<String> get renderManager => _renderManager;
+  RenderParametersManager<String> get renderManager => _renderManager;
 
   ListenableState<MenuType> get menuState => _menuState;
 
@@ -179,11 +180,14 @@ class BrowserMainScreenWidgetModel
       final groupId = model.activeGroupIdState.value;
       final tabId = _tabsDelegate.activeTabId;
       if (groupId != null && tabId != null) {
-        _scrollToTab(
+        _scrollToPage(
           groupId: groupId,
           tabId: tabId,
         );
       }
+      _scrollToActiveTabInList(
+        const Duration(milliseconds: 100),
+      );
     });
 
     super.initWidgetModel();
@@ -306,9 +310,12 @@ class BrowserMainScreenWidgetModel
 
   void _onTabAnimationComplete(bool isVisible) {
     _viewVisibleState.accept(isVisible);
+    if (!isVisible) {
+      _scrollToActiveTabInList();
+    }
   }
 
-  Future<bool> _scrollToTab({
+  Future<bool> _scrollToPage({
     required String groupId,
     required String tabId,
     bool isAnimated = false,
@@ -348,11 +355,38 @@ class BrowserMainScreenWidgetModel
 
   void _onPressedCreateTab(String groupId, String tabId) {
     callWithDelay(
-      () => _scrollToTab(
+      () => _scrollToPage(
         groupId: groupId,
         tabId: tabId,
         isAnimated: true,
       ),
     );
+  }
+
+  void _scrollToActiveTabInList([Duration delay = Duration.zero]) {
+    final activeTabId = model.activeTabIdState.value;
+
+    if (activeTabId == null ||
+        tabs.selectedGroupIdState.value != model.activeGroupIdState.value) {
+      return;
+    }
+
+    final diff = renderManager.getDiffById(
+      activeTabId,
+      BrowserTabsList.tabListRenderId,
+    );
+    print('!!! diff = $diff');
+
+    if (diff == null) {
+      return;
+    }
+
+    if (diff.yTop < 0) {print('!!! 0');
+      _tabsDelegate.scrollTabList(diff.yTop);
+    } else if (diff.yBottom > 0) {print('!!! 1');
+      _tabsDelegate.scrollTabList(
+        diff.yBottom + BrowserTabsList.padding.bottom,
+      );
+    }
   }
 }
