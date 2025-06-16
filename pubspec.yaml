@@ -64,7 +64,7 @@ dependencies:
   money2: 5.4.6
   money2_fixer: 3.0.0
   native_dio_adapter: ^1.4.0
-  nekoton_repository: 1.0.0
+  nekoton_repository: 1.1.0
   nekoton_webview: 0.1.10
   ntp: 2.0.0
   open_settings_plus: 0.4.0
