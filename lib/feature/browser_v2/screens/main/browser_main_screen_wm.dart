@@ -375,15 +375,14 @@ class BrowserMainScreenWidgetModel
       activeTabId,
       BrowserTabsList.tabListRenderId,
     );
-    print('!!! diff = $diff');
 
     if (diff == null) {
       return;
     }
 
-    if (diff.yTop < 0) {print('!!! 0');
+    if (diff.yTop < 0) {
       _tabsDelegate.scrollTabList(diff.yTop);
-    } else if (diff.yBottom > 0) {print('!!! 1');
+    } else if (diff.yBottom > 0) {
       _tabsDelegate.scrollTabList(
         diff.yBottom + BrowserTabsList.padding.bottom,
       );

@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:collection';
 
 import 'package:app/app/router/router.dart';
 import 'package:app/core/wm/not_null_listenable_state.dart';
@@ -73,6 +74,8 @@ class BrowserTabsAndGroupsUiDelegate implements BrowserTabsAndGroupsUi {
   @override
   final tabListScrollController = ScrollController();
 
+  final _groupsScrollOffsets = HashMap<String, double>();
+
   int? _tabsPrevCount;
   int? _tabsCount;
 
@@ -104,6 +107,7 @@ class BrowserTabsAndGroupsUiDelegate implements BrowserTabsAndGroupsUi {
     _tabAnimationTypeState.dispose();
     _viewTabsState.removeListener(_handleTabs);
     tabListScrollController.dispose();
+    _groupsScrollOffsets.clear();
   }
 
   @override
@@ -130,6 +134,12 @@ class BrowserTabsAndGroupsUiDelegate implements BrowserTabsAndGroupsUi {
 
   @override
   void onPressedGroup(String groupId) {
+    final currentGroupId = _selectedGroupIdState.value;
+
+    if (currentGroupId != null) {
+      _groupsScrollOffsets[currentGroupId] = tabListScrollController.offset;
+    }
+
     _selectedGroupIdState.accept(groupId);
   }
 
@@ -254,6 +264,7 @@ class BrowserTabsAndGroupsUiDelegate implements BrowserTabsAndGroupsUi {
     model.activeTabIdState.addListener(_handleActiveTab);
     model.allTabsIdsState.addListener(_handleAllTabs);
     _viewTabsState.addListener(_handleTabs);
+    _selectedGroupIdState.addListener(_handleSelectedGroup);
     final groupId = model.activeGroupIdState.value;
 
     if (groupId != null) {
@@ -339,5 +350,12 @@ class BrowserTabsAndGroupsUiDelegate implements BrowserTabsAndGroupsUi {
   void _updateCount() {
     _tabsPrevCount = _tabsCount;
     _tabsCount = model.allTabsIdsState.value.length;
+  }
+
+  void _handleSelectedGroup() {
+    final offset = _groupsScrollOffsets[_selectedGroupIdState.value];
+    if (offset != null) {
+      tabListScrollController.jumpTo(offset);
+    }
   }
 }
