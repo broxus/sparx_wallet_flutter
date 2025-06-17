@@ -15,8 +15,10 @@ class CommonListTile extends StatelessWidget {
     this.onPressed,
     this.onLongPressed,
     this.titleText,
+    this.titleTextStyle,
     this.titleChild,
     this.subtitleText,
+    this.subtitleTextStyle,
     this.subtitleChild,
     this.leading,
     this.trailing,
@@ -38,10 +40,12 @@ class CommonListTile extends StatelessWidget {
 
   /// Title text or title widget of tile, it renders above subtitle
   final String? titleText;
+  final TextStyle? titleTextStyle;
   final Widget? titleChild;
 
   /// Subtitle text or subtitle widget of tile, it renders under title.
   final String? subtitleText;
+  final TextStyle? subtitleTextStyle;
   final Widget? subtitleChild;
 
   /// Widget that renders on the left side of tile, typically it can be
@@ -81,15 +85,16 @@ class CommonListTile extends StatelessWidget {
     final subtitle = subtitleText != null
         ? Text(
             subtitleText!,
-            style: (invertTitleSubtitleStyles
-                    ? theme.textStyles.labelMedium
-                    : theme.textStyles.labelXSmall)
-                .copyWith(
-              color: contentColor ??
-                  (invertTitleSubtitleStyles
-                      ? theme.colors.content0
-                      : theme.colors.content3),
-            ),
+            style: subtitleTextStyle ??
+                (invertTitleSubtitleStyles
+                        ? theme.textStyles.labelMedium
+                        : theme.textStyles.labelXSmall)
+                    .copyWith(
+                  color: contentColor ??
+                      (invertTitleSubtitleStyles
+                          ? theme.colors.content0
+                          : theme.colors.content3),
+                ),
             maxLines: subtitleMaxLines,
             overflow: subtitleMaxLines == null ? null : TextOverflow.ellipsis,
             softWrap: subtitleMaxLines == null,
@@ -99,15 +104,16 @@ class CommonListTile extends StatelessWidget {
     final title = titleText != null
         ? Text(
             titleText!,
-            style: (invertTitleSubtitleStyles
-                    ? theme.textStyles.labelXSmall
-                    : theme.textStyles.labelMedium)
-                .copyWith(
-              color: contentColor ??
-                  (invertTitleSubtitleStyles
-                      ? theme.colors.content3
-                      : theme.colors.content0),
-            ),
+            style: titleTextStyle ??
+                (invertTitleSubtitleStyles
+                        ? theme.textStyles.labelXSmall
+                        : theme.textStyles.labelMedium)
+                    .copyWith(
+                  color: contentColor ??
+                      (invertTitleSubtitleStyles
+                          ? theme.colors.content3
+                          : theme.colors.content0),
+                ),
             maxLines: subtitle == null ? null : 1,
             overflow: subtitle == null ? null : TextOverflow.ellipsis,
             softWrap: subtitle == null ? null : false,
@@ -130,7 +136,7 @@ class CommonListTile extends StatelessWidget {
             if (leading != null) leading!,
             Flexible(
               fit: trailing != null ? FlexFit.tight : FlexFit.loose,
-              child: SeparatedColumn(
+              child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 mainAxisAlignment: MainAxisAlignment.center,
                 spacing: DimensSizeV2.d4,
