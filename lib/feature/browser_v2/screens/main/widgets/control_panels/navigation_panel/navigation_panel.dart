@@ -134,8 +134,7 @@ class _BrowserTabViewMenuUrlPanelState extends State<BrowserNavigationPanel>
   }
 
   void _handleScrollUpdate(ScrollUpdateNotification notification) {
-
-    if(!_isTouch) {
+    if (!_isTouch) {
       return;
     }
 

@@ -374,7 +374,7 @@ class BrowserMainScreenWidgetModel
 
     final maxOffset = tabs.tabListScrollController.position.maxScrollExtent;
 
-    int activeIndex = 0;
+    var activeIndex = 0;
 
     for (var i = 0; i < tabsItems.length; i++) {
       if (tabsItems[i].value.id == activeTabId) {
