@@ -20,7 +20,6 @@ import 'package:app/feature/browser_v2/screens/main/delegates/ui_tab_menu_delega
 import 'package:app/feature/browser_v2/screens/main/delegates/ui_tabs_and_groups_delegate.dart';
 import 'package:app/feature/browser_v2/screens/main/widgets/control_panels/navigation_panel/url_action_sheet.dart';
 import 'package:app/feature/browser_v2/screens/main/widgets/tab_animated_view/tab_animation_type.dart';
-import 'package:app/feature/browser_v2/screens/main/widgets/tabs/tabs_list/tabs_list.dart';
 import 'package:app/feature/browser_v2/widgets/bottomsheets/browser_main_menu/browser_main_menu.dart';
 import 'package:app/utils/clipboard_utils.dart';
 import 'package:app/utils/common_utils.dart';
@@ -365,27 +364,36 @@ class BrowserMainScreenWidgetModel
 
   void _scrollToActiveTabInList([Duration delay = Duration.zero]) {
     final activeTabId = model.activeTabIdState.value;
+    final tabsItems = tabs.viewTabsState.value;
 
     if (activeTabId == null ||
+        tabsItems == null ||
         tabs.selectedGroupIdState.value != model.activeGroupIdState.value) {
       return;
     }
 
-    final diff = renderManager.getDiffById(
-      activeTabId,
-      BrowserTabsList.tabListRenderId,
-    );
+    final maxOffset = tabs.tabListScrollController.position.maxScrollExtent;
 
-    if (diff == null) {
-      return;
+    int activeIndex = 0;
+
+    for (var i = 0; i < tabsItems.length; i++) {
+      if (tabsItems[i].value.id == activeTabId) {
+        activeIndex = i;
+        break;
+      }
     }
 
-    if (diff.yTop < 0) {
-      _tabsDelegate.scrollTabList(diff.yTop);
-    } else if (diff.yBottom > 0) {
-      _tabsDelegate.scrollTabList(
-        diff.yBottom + BrowserTabsList.padding.bottom,
-      );
+    double offset = 0;
+
+    if (activeIndex == tabsItems.length - 1) {
+      offset = maxOffset;
+    } else if (activeIndex > 0) {
+      final lineIndex = activeIndex == 0 ? 0 : (activeIndex / 2).floor();
+      final itemSize = maxOffset / (tabsItems.length / 2).ceil();
+
+      offset = itemSize * lineIndex;
     }
+
+    _tabsDelegate.scrollTabList(offset);
   }
 }

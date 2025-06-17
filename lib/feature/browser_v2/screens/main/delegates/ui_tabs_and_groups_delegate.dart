@@ -256,7 +256,7 @@ class BrowserTabsAndGroupsUiDelegate implements BrowserTabsAndGroupsUi {
   }
 
   void scrollTabList(double offset) {
-    tabListScrollController.jumpTo(tabListScrollController.offset + offset);
+    tabListScrollController.jumpTo(offset);
   }
 
   void _init() {

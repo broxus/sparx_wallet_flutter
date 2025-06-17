@@ -33,8 +33,6 @@ class BrowserTabsList extends ElementaryWidget<BrowserTabsListWidgetModel> {
                   ),
         );
 
-  static const tabListRenderId = 'tabList';
-
   final ScrollController tabListScrollController;
   final ValueChanged<String> onPressedGroup;
   final VoidCallback onPressedCreateNewGroup;
@@ -73,29 +71,25 @@ class BrowserTabsList extends ElementaryWidget<BrowserTabsListWidgetModel> {
                 return const _Empty();
               }
 
-              return RenderMetricsObject(
-                id: tabListRenderId,
-                manager: wm.renderManager,
-                child: GridView.count(
-                  controller: tabListScrollController,
-                  padding: padding,
-                  crossAxisCount: 2,
-                  crossAxisSpacing: DimensSizeV2.d8,
-                  mainAxisSpacing: DimensSizeV2.d8,
-                  childAspectRatio: _cardAspectRatio,
-                  children: [
-                    for (final notifiers in tabsNotifiers)
-                      BrowserTabsListItem(
-                        key: ValueKey(notifiers.value.id),
-                        renderManager: wm.renderManager,
-                        tabNotifier: notifiers,
-                        onPressedTabMenu: () =>
-                            wm.onPressedTabMenu(notifiers.value),
-                        onPressed: () => wm.onPressedTab(notifiers.value.id),
-                        onClosePressed: () => wm.onCloseTab(notifiers.value.id),
-                      ),
-                  ],
-                ),
+              return GridView.count(
+                controller: tabListScrollController,
+                padding: padding,
+                crossAxisCount: 2,
+                crossAxisSpacing: DimensSizeV2.d8,
+                mainAxisSpacing: DimensSizeV2.d8,
+                childAspectRatio: _cardAspectRatio,
+                children: [
+                  for (final notifiers in tabsNotifiers)
+                    BrowserTabsListItem(
+                      key: ValueKey(notifiers.value.id),
+                      renderManager: wm.renderManager,
+                      tabNotifier: notifiers,
+                      onPressedTabMenu: () =>
+                          wm.onPressedTabMenu(notifiers.value),
+                      onPressed: () => wm.onPressedTab(notifiers.value.id),
+                      onClosePressed: () => wm.onCloseTab(notifiers.value.id),
+                    ),
+                ],
               );
             },
           ),
