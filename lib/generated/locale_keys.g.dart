@@ -719,4 +719,9 @@ abstract class LocaleKeys {
   static const scanningCompleted = 'scanningCompleted';
   static const scanSeed = 'scanSeed';
   static const nothingFound = 'nothingFound';
+  static const settings = 'settings';
+  static const faq = 'faq';
+  static const legal = 'legal';
+  static const connectedDappsTitle = 'connectedDappsTitle';
+  static const connectedDappsSubtitle = 'connectedDappsSubtitle';
 }
