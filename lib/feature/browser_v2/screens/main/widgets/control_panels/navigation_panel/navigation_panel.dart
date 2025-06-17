@@ -100,7 +100,7 @@ class _BrowserTabViewMenuUrlPanelState extends State<BrowserNavigationPanel>
                   physics: const ClampingScrollPhysics(),
                   controller: _pageViewController,
                   itemCount: list.length,
-                  onPageChanged: _animateTranslate,
+                  onPageChanged: _onPageChanged,
                   itemBuilder: (_, int index) {
                     return BrowserAddressBar(
                       key: ValueKey(list[index].value.id),
@@ -134,26 +134,31 @@ class _BrowserTabViewMenuUrlPanelState extends State<BrowserNavigationPanel>
   }
 
   void _handleScrollUpdate(ScrollUpdateNotification notification) {
-    final page = _pageViewController.page ?? 0;
-    final delta = (page - _currentPage).abs();
 
-    if (delta <= .7) {
+    if(!_isTouch) {
       return;
     }
 
-    if (delta == 1) {
+    final page = _pageViewController.page ?? 0;
+    final delta = (page - _currentPage).abs();
+
+    if (delta > 9) {
       final targetPage =
           page.round().clamp(0, (widget.tabsState.value?.length ?? 1) - 1);
-      if (_isTouch) {
-        widget.onPageChanged(targetPage);
-      }
+
       _pageViewController.animateToPage(
         targetPage,
         duration: const Duration(milliseconds: 300),
         curve: Curves.easeOut,
       );
       _currentPage = targetPage;
-      _animateTranslate(targetPage);
+    }
+  }
+
+  void _onPageChanged(int page) {
+    _animateTranslate(page);
+    if (_isTouch) {
+      widget.onPageChanged(page);
     }
   }
 
