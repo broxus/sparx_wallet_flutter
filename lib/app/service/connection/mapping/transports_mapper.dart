@@ -7,8 +7,7 @@ import 'package:app/app/service/connection/data/transport_manifest_option/transp
 import 'package:app/app/service/connection/data/transport_native_token_option/transport_native_token_option.dart';
 import 'package:app/app/service/connection/generic_token_subscriber.dart';
 import 'package:app/app/service/connection/group.dart';
-import 'package:app/utils/json/json_utils.dart';
-import 'package:app/utils/parse_utils.dart';
+import 'package:app/utils/utils.dart';
 import 'package:nekoton_repository/nekoton_repository.dart';
 
 Map<NetworkGroup, ConnectionTransportData>? mapToTransports(
@@ -64,6 +63,9 @@ Map<NetworkGroup, ConnectionTransportData>? mapToTransports(
       ),
       tokenApiBaseUrl: transport['tokenApiBaseUrl'] as String?,
       currencyApiBaseUrl: transport['currencyApiBaseUrl'] as String?,
+      pollingConfig: _mapToPollingConfig(
+        transport['pollingConfig'] as Map<String, dynamic>?,
+      ),
     );
   }
 
@@ -211,4 +213,21 @@ List<DefaultActiveAsset> _mapToDefaultActiveAssets(dynamic json) {
   } catch (_) {
     return [];
   }
+}
+
+PollingConfig? _mapToPollingConfig(Map<String, dynamic>? json) {
+  if (json == null) return null;
+
+  final ton = parseToInt(json['tonWalletRefreshInterval']);
+  final token = parseToInt(json['tokenWalletRefreshInterval']);
+  final intensive = parseToInt(json['intensivePollingInterval']);
+
+  return PollingConfig(
+    tonWalletRefreshInterval: ton?.let((it) => Duration(seconds: it)) ??
+        PollingConfig.defaultConfig.tonWalletRefreshInterval,
+    tokenWalletRefreshInterval: token?.let((it) => Duration(seconds: it)) ??
+        PollingConfig.defaultConfig.tokenWalletRefreshInterval,
+    intensivePollingInterval: intensive?.let((it) => Duration(seconds: it)) ??
+        PollingConfig.defaultConfig.intensivePollingInterval,
+  );
 }
