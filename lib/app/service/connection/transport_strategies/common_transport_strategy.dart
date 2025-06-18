@@ -11,10 +11,12 @@ import 'package:app/app/service/connection/network_type.dart';
 import 'package:app/app/service/connection/transport_strategies/app_transport_strategy.dart';
 import 'package:app/di/di.dart';
 import 'package:app/generated/generated.dart';
+import 'package:dio/dio.dart';
 import 'package:nekoton_repository/nekoton_repository.dart';
 
 class CommonTransportStrategy extends AppTransportStrategy {
   CommonTransportStrategy({
+    required this.dio,
     required this.transport,
     required this.connection,
     required this.icons,
@@ -31,18 +33,21 @@ class CommonTransportStrategy extends AppTransportStrategy {
     required this.genericTokenType,
     required this.accountExplorerLinkType,
     required this.transactionExplorerLinkType,
+    required this.pollingConfig,
     this.stakeInformation,
     this.tokenApiBaseUrl,
     this.currencyApiBaseUrl,
     String? baseCurrencyUrl,
   }) : baseCurrencyUrl = baseCurrencyUrl ?? '';
 
-  factory CommonTransportStrategy.fromData(
-    Transport transport,
-    ConnectionData connection,
-    ConnectionTransportData transportData,
-  ) {
+  factory CommonTransportStrategy.fromData({
+    required Dio dio,
+    required Transport transport,
+    required ConnectionData connection,
+    required ConnectionTransportData transportData,
+  }) {
     return CommonTransportStrategy(
+      dio: dio,
       transport: transport,
       connection: connection,
       icons: transportData.icons,
@@ -65,8 +70,11 @@ class CommonTransportStrategy extends AppTransportStrategy {
       tokenApiBaseUrl: transportData.tokenApiBaseUrl,
       currencyApiBaseUrl: transportData.currencyApiBaseUrl,
       baseCurrencyUrl: transportData.baseCurrencyUrl,
+      pollingConfig: transportData.pollingConfig ?? PollingConfig.defaultConfig,
     );
   }
+
+  final Dio dio;
 
   @override
   final Transport transport;
@@ -117,6 +125,9 @@ class CommonTransportStrategy extends AppTransportStrategy {
   final TransactionExplorerLinkType transactionExplorerLinkType;
 
   final String baseCurrencyUrl;
+
+  @override
+  final PollingConfig pollingConfig;
 
   @override
   StakingInformation? stakeInformation;
@@ -199,4 +210,14 @@ class CommonTransportStrategy extends AppTransportStrategy {
         rootTokenContract: rootTokenContract,
         transport: transport,
       );
+
+  @override
+  Future<Map<String, dynamic>?> fetchJson(String url) async {
+    try {
+      final response = await dio.get<Map<String, dynamic>>(url);
+      return response.data;
+    } catch (_) {
+      return null;
+    }
+  }
 }
