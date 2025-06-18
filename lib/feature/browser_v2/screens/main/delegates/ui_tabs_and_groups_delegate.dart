@@ -136,7 +136,7 @@ class BrowserTabsAndGroupsUiDelegate implements BrowserTabsAndGroupsUi {
   void onPressedGroup(String groupId) {
     final currentGroupId = _selectedGroupIdState.value;
 
-    if (currentGroupId != null) {
+    if (currentGroupId != null && tabListScrollController.hasClients) {
       _groupsScrollOffsets[currentGroupId] = tabListScrollController.offset;
     }
 
