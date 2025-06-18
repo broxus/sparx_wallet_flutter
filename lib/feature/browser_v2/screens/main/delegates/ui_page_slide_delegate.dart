@@ -37,6 +37,10 @@ class BrowserPageSlideUiDelegate implements BrowserPageSlideUi {
     int page, {
     bool isAnimated = false,
   }) {
+    if (!urlSliderPageController.hasClients) {
+      return;
+    }
+
     if (isAnimated) {
       urlSliderPageController.animateToPage(
         page,

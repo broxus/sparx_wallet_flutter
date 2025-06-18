@@ -218,6 +218,28 @@ class BrowserServiceTabsDelegate
   Future<void> clear() async {
     await clearGroups();
     await clearTabs();
+
+    unawaited(
+      Future(
+        () {
+          final newTab = BrowserTab.create(url: _emptyUri);
+          final tabs = [newTab];
+          final groups = _browserGroupsStorageService.initGroups([newTab.id]);
+
+          _tabsReactiveStore
+            ..addList(tabs)
+            ..setActiveById(newTab.id);
+          _browserTabsStorageService.saveBrowserTabs(tabs);
+
+          Future(() {
+            _groupsReactiveStore
+              ..addList(groups)
+              ..setActiveById(groups.first.id);
+            _browserTabsStorageService.saveBrowserActiveTabId(newTab.id);
+          });
+        },
+      ),
+    );
   }
 
   Future<void> clearGroups() async {
