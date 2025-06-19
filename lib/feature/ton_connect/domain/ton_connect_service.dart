@@ -103,9 +103,7 @@ class TonConnectService {
     _storageService
         .readConnections()
         .whereType<TonAppConnectionInjected>()
-        .forEach(
-          (connection) => disconnect(connection: connection),
-        );
+        .forEach((connection) => disconnect(connection: connection));
   }
 
   Future<SendTransactionResponse> sendTransaction({

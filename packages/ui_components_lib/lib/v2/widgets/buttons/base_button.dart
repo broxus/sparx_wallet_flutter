@@ -45,6 +45,10 @@ abstract class BaseButton extends StatelessWidget {
               horizontal: DimensSizeV2.d24,
               vertical: DimensSizeV2.d8,
             ),
+          ButtonSize.mini => const EdgeInsets.symmetric(
+              horizontal: DimensSizeV2.d12,
+              vertical: DimensSizeV2.d6,
+            ),
         };
   }
 
@@ -55,6 +59,8 @@ abstract class BaseButton extends StatelessWidget {
       case ButtonSize.medium:
         return DimensSizeV2.d16;
       case ButtonSize.small:
+        return DimensSizeV2.d16;
+      case ButtonSize.mini:
         return DimensSizeV2.d16;
     }
   }
@@ -67,6 +73,8 @@ abstract class BaseButton extends StatelessWidget {
         return DimensSizeV2.d48;
       case ButtonSize.small:
         return DimensSizeV2.d40;
+      case ButtonSize.mini:
+        return DimensSizeV2.d28;
     }
   }
 
@@ -80,6 +88,8 @@ abstract class BaseButton extends StatelessWidget {
           return DimensRadiusV2.radius12;
         case ButtonSize.small:
           return DimensRadiusV2.radius8;
+        case ButtonSize.mini:
+          return DimensRadiusV2.radius24;
       }
     } else {
       return DimensRadiusV2.theBiggest;
@@ -216,6 +226,12 @@ abstract class BaseButton extends StatelessWidget {
           _ => _paddingByButtonSize,
         },
       ),
+      minimumSize: WidgetStateProperty.resolveWith(
+        (_) => switch (buttonSize) {
+          ButtonSize.mini => Size.zero,
+          _ => null,
+        },
+      ),
     );
   }
 
@@ -317,6 +333,8 @@ abstract class BaseButton extends StatelessWidget {
         return styles.labelSmall;
       case ButtonSize.small:
         return styles.labelSmall;
+      case ButtonSize.mini:
+        return styles.labelXSmall;
     }
   }
 }
