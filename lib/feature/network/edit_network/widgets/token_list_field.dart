@@ -1,5 +1,6 @@
 import 'package:app/feature/network/edit_network/widgets/widgets.dart';
 import 'package:app/generated/generated.dart';
+import 'package:app/widgets/widgets.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:ui_components_lib/ui_components_lib.dart';
@@ -33,8 +34,10 @@ class TokenListField extends StatelessWidget {
             isEnabled: editable,
             validator: validator.validate,
             suffixes: [
-              PasteButton(
-                controller: controller,
+              ClipboardPasteButton(
+                value: controller,
+                onClear: controller.clear,
+                onPaste: (String text) => controller.text = text,
               ),
             ],
           ),

@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:lucide_icons_flutter/lucide_icons.dart';
 import 'package:ui_components_lib/ui_components_lib.dart';
-import 'package:ui_components_lib/v2/widgets/buttons/button.dart';
-import 'package:ui_components_lib/v2/widgets/toasts/toasts.dart';
+import 'package:ui_components_lib/v2/ui_components_lib_v2.dart';
 
 class ToastsV2 extends StatelessWidget {
   const ToastsV2({super.key});

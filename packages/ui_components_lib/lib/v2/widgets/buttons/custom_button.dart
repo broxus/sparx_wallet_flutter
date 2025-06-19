@@ -15,6 +15,7 @@ class CustomButton extends BaseButton {
     super.buttonSize,
     super.isFullWidth,
     super.padding,
+    super.mainAxisAlignment,
     super.key,
     this.backgroundColor,
     this.iconColor,

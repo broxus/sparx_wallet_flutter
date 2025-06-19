@@ -109,6 +109,7 @@ class TokenTransferInfoWidget
                           amount: amount,
                           icon: icon,
                           includeSymbol: false,
+                          useDefaultFormat: false,
                         );
                       },
                     ),
