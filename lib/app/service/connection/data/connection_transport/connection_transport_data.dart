@@ -28,6 +28,7 @@ class ConnectionTransportData {
     this.tokenApiBaseUrl,
     this.currencyApiBaseUrl,
     this.defaultNativeCurrencyDecimal,
+    this.pollingConfig,
     List<DefaultActiveAsset>? defaultActiveAssets,
   }) : defaultActiveAssets = defaultActiveAssets ?? [];
 
@@ -97,6 +98,7 @@ class ConnectionTransportData {
   final String? tokenApiBaseUrl;
   final String? currencyApiBaseUrl;
   final int? defaultNativeCurrencyDecimal;
+  final PollingConfig? pollingConfig;
 }
 
 class WalletDefaultAccountNames {
