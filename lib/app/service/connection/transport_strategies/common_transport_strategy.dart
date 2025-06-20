@@ -1,14 +1,4 @@
-import 'package:app/app/service/connection/data/account_explorer/account_explorer_link_type.dart';
-import 'package:app/app/service/connection/data/connection_data/connection_data.dart';
-import 'package:app/app/service/connection/data/connection_transport/connection_transport_data.dart';
-import 'package:app/app/service/connection/data/transaction_explorer/transaction_explorer_link_type.dart';
-import 'package:app/app/service/connection/data/transport_icons.dart';
-import 'package:app/app/service/connection/data/transport_manifest_option/transport_manifest_option.dart';
-import 'package:app/app/service/connection/data/transport_native_token_option/transport_native_token_option.dart';
-import 'package:app/app/service/connection/generic_token_subscriber.dart';
-import 'package:app/app/service/connection/group.dart';
-import 'package:app/app/service/connection/network_type.dart';
-import 'package:app/app/service/connection/transport_strategies/app_transport_strategy.dart';
+import 'package:app/app/service/connection/connection.dart';
 import 'package:app/di/di.dart';
 import 'package:app/generated/generated.dart';
 import 'package:dio/dio.dart';
@@ -37,6 +27,7 @@ class CommonTransportStrategy extends AppTransportStrategy {
     this.stakeInformation,
     this.tokenApiBaseUrl,
     this.currencyApiBaseUrl,
+    this.nftInformation,
     String? baseCurrencyUrl,
   }) : baseCurrencyUrl = baseCurrencyUrl ?? '';
 
@@ -70,6 +61,7 @@ class CommonTransportStrategy extends AppTransportStrategy {
       tokenApiBaseUrl: transportData.tokenApiBaseUrl,
       currencyApiBaseUrl: transportData.currencyApiBaseUrl,
       baseCurrencyUrl: transportData.baseCurrencyUrl,
+      nftInformation: transportData.nftInformation,
       pollingConfig: transportData.pollingConfig ?? PollingConfig.defaultConfig,
     );
   }
@@ -125,6 +117,8 @@ class CommonTransportStrategy extends AppTransportStrategy {
   final TransactionExplorerLinkType transactionExplorerLinkType;
 
   final String baseCurrencyUrl;
+
+  final NftInformation? nftInformation;
 
   @override
   final PollingConfig pollingConfig;

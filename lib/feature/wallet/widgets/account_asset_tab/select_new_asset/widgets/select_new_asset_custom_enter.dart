@@ -50,17 +50,14 @@ class _SelectNewAssetCustomEnterState extends State<SelectNewAssetCustomEnter> {
                 PrimaryTextField(
                   hintText: LocaleKeys.rootTokenContract.tr(),
                   textEditingController: addressController,
-                  onSubmit: (_) => _enable(context),
+                  onSubmit: _onSubmit,
                   inputFormatters: [
                     InputFormatters.noSpacesFormatter,
                   ],
                   suffixes: [
                     ClipboardPasteButton(
                       value: addressController,
-                      onClear: () {
-                        widget.focus.unfocus();
-                        addressController.clear();
-                      },
+                      onClear: _onClear,
                       onPaste: _paste,
                     ),
                   ],
@@ -89,8 +86,7 @@ class _SelectNewAssetCustomEnterState extends State<SelectNewAssetCustomEnter> {
               child: AccentButton(
                 buttonShape: ButtonShape.pill,
                 title: LocaleKeys.proceedWord.tr(),
-                onPressed:
-                    value.text.isNotEmpty ? () => _enable(context) : null,
+                onPressed: value.text.isNotEmpty ? _enable : null,
               ),
             ),
           ),
@@ -99,7 +95,14 @@ class _SelectNewAssetCustomEnterState extends State<SelectNewAssetCustomEnter> {
     );
   }
 
-  void _enable(BuildContext context) {
+  void _onSubmit(String? _) => _enable();
+
+  void _onClear() {
+    widget.focus.unfocus();
+    addressController.clear();
+  }
+
+  void _enable() {
     widget.focus.unfocus();
 
     context
