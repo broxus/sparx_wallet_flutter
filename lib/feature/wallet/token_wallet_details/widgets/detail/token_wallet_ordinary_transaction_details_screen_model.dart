@@ -27,4 +27,9 @@ class TokenWalletOrdinaryTransactionDetailsScreenModel extends ElementaryModel {
       _nekotonRepository.currentTransport,
     );
   }
+
+  String getTransactionExplorerLink(String transactionHash) {
+    return _nekotonRepository.currentTransport
+        .transactionExplorerLink(transactionHash);
+  }
 }
