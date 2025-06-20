@@ -215,8 +215,8 @@ class CurrenciesService {
     required NetworkType networkType,
     required NetworkGroup networkGroup,
   }) =>
-      switch (networkGroup) {
-        'ton' => _fetchCurrenciesTon(
+      switch (networkType) {
+        NetworkType.ton => _fetchCurrenciesTon(
             endpoint: endpoint,
             currencyAddresses: currencyAddresses,
             networkType: networkType,

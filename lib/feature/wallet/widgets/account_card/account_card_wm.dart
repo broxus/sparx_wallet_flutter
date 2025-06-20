@@ -89,7 +89,10 @@ class AccountCardWidgetModel
 
     _withdrawRequestSubscription?.cancel();
     _withdrawRequestSubscription = walletState?.wallet?.fieldUpdatesStream
+        .skip(1) // Skip the initial value to run tryUpdateWithdraws immediately
         .debounceTime(_withdrawUpdateDebounce)
         .listen((_) => model.tryUpdateWithdraws(widget.account.address));
+
+    model.tryUpdateWithdraws(widget.account.address);
   }
 }

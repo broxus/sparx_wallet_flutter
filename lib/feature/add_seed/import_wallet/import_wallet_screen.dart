@@ -145,6 +145,7 @@ class ImportWalletScreen
                         listenableState: wm.seedPhraseFormat,
                         builder: (_, seedPhraseFormat) => SeedPhraseFormatView(
                           networkGroup: wm.networkGroup,
+                          networkType: wm.networkType,
                           wordsCount: data?.selectedValue,
                           value: seedPhraseFormat,
                           onChanged: wm.onSeedPhraseFormatChanged,

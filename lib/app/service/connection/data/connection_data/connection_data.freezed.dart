@@ -34,7 +34,7 @@ mixin _$ConnectionData {
   String get id => throw _privateConstructorUsedError;
   String get name => throw _privateConstructorUsedError;
   String get group => throw _privateConstructorUsedError;
-  String get networkType => throw _privateConstructorUsedError;
+  NetworkType get networkType => throw _privateConstructorUsedError;
   String get blockExplorerUrl => throw _privateConstructorUsedError;
   String get nativeTokenTicker => throw _privateConstructorUsedError;
   bool get isPreset => throw _privateConstructorUsedError;
@@ -50,7 +50,7 @@ mixin _$ConnectionData {
             String name,
             String group,
             List<String> endpoints,
-            String networkType,
+            NetworkType networkType,
             bool isLocal,
             String blockExplorerUrl,
             String nativeTokenTicker,
@@ -69,7 +69,7 @@ mixin _$ConnectionData {
             String name,
             String group,
             String endpoint,
-            String networkType,
+            NetworkType networkType,
             String blockExplorerUrl,
             String nativeTokenTicker,
             bool isPreset,
@@ -84,7 +84,7 @@ mixin _$ConnectionData {
             String name,
             String group,
             String endpoint,
-            String networkType,
+            NetworkType networkType,
             String blockExplorerUrl,
             String nativeTokenTicker,
             bool isPreset,
@@ -103,7 +103,7 @@ mixin _$ConnectionData {
             String name,
             String group,
             List<String> endpoints,
-            String networkType,
+            NetworkType networkType,
             bool isLocal,
             String blockExplorerUrl,
             String nativeTokenTicker,
@@ -122,7 +122,7 @@ mixin _$ConnectionData {
             String name,
             String group,
             String endpoint,
-            String networkType,
+            NetworkType networkType,
             String blockExplorerUrl,
             String nativeTokenTicker,
             bool isPreset,
@@ -137,7 +137,7 @@ mixin _$ConnectionData {
             String name,
             String group,
             String endpoint,
-            String networkType,
+            NetworkType networkType,
             String blockExplorerUrl,
             String nativeTokenTicker,
             bool isPreset,
@@ -156,7 +156,7 @@ mixin _$ConnectionData {
             String name,
             String group,
             List<String> endpoints,
-            String networkType,
+            NetworkType networkType,
             bool isLocal,
             String blockExplorerUrl,
             String nativeTokenTicker,
@@ -175,7 +175,7 @@ mixin _$ConnectionData {
             String name,
             String group,
             String endpoint,
-            String networkType,
+            NetworkType networkType,
             String blockExplorerUrl,
             String nativeTokenTicker,
             bool isPreset,
@@ -190,7 +190,7 @@ mixin _$ConnectionData {
             String name,
             String group,
             String endpoint,
-            String networkType,
+            NetworkType networkType,
             String blockExplorerUrl,
             String nativeTokenTicker,
             bool isPreset,
@@ -246,7 +246,7 @@ abstract class $ConnectionDataCopyWith<$Res> {
       {String id,
       String name,
       String group,
-      String networkType,
+      NetworkType networkType,
       String blockExplorerUrl,
       String nativeTokenTicker,
       bool isPreset,
@@ -301,7 +301,7 @@ class _$ConnectionDataCopyWithImpl<$Res, $Val extends ConnectionData>
       networkType: null == networkType
           ? _value.networkType
           : networkType // ignore: cast_nullable_to_non_nullable
-              as String,
+              as NetworkType,
       blockExplorerUrl: null == blockExplorerUrl
           ? _value.blockExplorerUrl
           : blockExplorerUrl // ignore: cast_nullable_to_non_nullable
@@ -351,7 +351,7 @@ abstract class _$$ConnectionDataGqlImplCopyWith<$Res>
       String name,
       String group,
       List<String> endpoints,
-      String networkType,
+      NetworkType networkType,
       bool isLocal,
       String blockExplorerUrl,
       String nativeTokenTicker,
@@ -417,7 +417,7 @@ class __$$ConnectionDataGqlImplCopyWithImpl<$Res>
       networkType: null == networkType
           ? _value.networkType
           : networkType // ignore: cast_nullable_to_non_nullable
-              as String,
+              as NetworkType,
       isLocal: null == isLocal
           ? _value.isLocal
           : isLocal // ignore: cast_nullable_to_non_nullable
@@ -513,7 +513,7 @@ class _$ConnectionDataGqlImpl implements ConnectionDataGql {
   }
 
   @override
-  final String networkType;
+  final NetworkType networkType;
   @override
   final bool isLocal;
   @override
@@ -629,7 +629,7 @@ class _$ConnectionDataGqlImpl implements ConnectionDataGql {
             String name,
             String group,
             List<String> endpoints,
-            String networkType,
+            NetworkType networkType,
             bool isLocal,
             String blockExplorerUrl,
             String nativeTokenTicker,
@@ -648,7 +648,7 @@ class _$ConnectionDataGqlImpl implements ConnectionDataGql {
             String name,
             String group,
             String endpoint,
-            String networkType,
+            NetworkType networkType,
             String blockExplorerUrl,
             String nativeTokenTicker,
             bool isPreset,
@@ -663,7 +663,7 @@ class _$ConnectionDataGqlImpl implements ConnectionDataGql {
             String name,
             String group,
             String endpoint,
-            String networkType,
+            NetworkType networkType,
             String blockExplorerUrl,
             String nativeTokenTicker,
             bool isPreset,
@@ -702,7 +702,7 @@ class _$ConnectionDataGqlImpl implements ConnectionDataGql {
             String name,
             String group,
             List<String> endpoints,
-            String networkType,
+            NetworkType networkType,
             bool isLocal,
             String blockExplorerUrl,
             String nativeTokenTicker,
@@ -721,7 +721,7 @@ class _$ConnectionDataGqlImpl implements ConnectionDataGql {
             String name,
             String group,
             String endpoint,
-            String networkType,
+            NetworkType networkType,
             String blockExplorerUrl,
             String nativeTokenTicker,
             bool isPreset,
@@ -736,7 +736,7 @@ class _$ConnectionDataGqlImpl implements ConnectionDataGql {
             String name,
             String group,
             String endpoint,
-            String networkType,
+            NetworkType networkType,
             String blockExplorerUrl,
             String nativeTokenTicker,
             bool isPreset,
@@ -775,7 +775,7 @@ class _$ConnectionDataGqlImpl implements ConnectionDataGql {
             String name,
             String group,
             List<String> endpoints,
-            String networkType,
+            NetworkType networkType,
             bool isLocal,
             String blockExplorerUrl,
             String nativeTokenTicker,
@@ -794,7 +794,7 @@ class _$ConnectionDataGqlImpl implements ConnectionDataGql {
             String name,
             String group,
             String endpoint,
-            String networkType,
+            NetworkType networkType,
             String blockExplorerUrl,
             String nativeTokenTicker,
             bool isPreset,
@@ -809,7 +809,7 @@ class _$ConnectionDataGqlImpl implements ConnectionDataGql {
             String name,
             String group,
             String endpoint,
-            String networkType,
+            NetworkType networkType,
             String blockExplorerUrl,
             String nativeTokenTicker,
             bool isPreset,
@@ -892,7 +892,7 @@ abstract class ConnectionDataGql implements ConnectionData {
       required final String name,
       required final String group,
       required final List<String> endpoints,
-      required final String networkType,
+      required final NetworkType networkType,
       required final bool isLocal,
       required final String blockExplorerUrl,
       required final String nativeTokenTicker,
@@ -917,7 +917,7 @@ abstract class ConnectionDataGql implements ConnectionData {
   String get group;
   List<String> get endpoints;
   @override
-  String get networkType;
+  NetworkType get networkType;
   bool get isLocal;
   @override
   String get blockExplorerUrl;
@@ -960,7 +960,7 @@ abstract class _$$ConnectionDataProtoImplCopyWith<$Res>
       String name,
       String group,
       String endpoint,
-      String networkType,
+      NetworkType networkType,
       String blockExplorerUrl,
       String nativeTokenTicker,
       bool isPreset,
@@ -1018,7 +1018,7 @@ class __$$ConnectionDataProtoImplCopyWithImpl<$Res>
       networkType: null == networkType
           ? _value.networkType
           : networkType // ignore: cast_nullable_to_non_nullable
-              as String,
+              as NetworkType,
       blockExplorerUrl: null == blockExplorerUrl
           ? _value.blockExplorerUrl
           : blockExplorerUrl // ignore: cast_nullable_to_non_nullable
@@ -1087,7 +1087,7 @@ class _$ConnectionDataProtoImpl implements ConnectionDataProto {
   @override
   final String endpoint;
   @override
-  final String networkType;
+  final NetworkType networkType;
   @override
   final String blockExplorerUrl;
   @override
@@ -1181,7 +1181,7 @@ class _$ConnectionDataProtoImpl implements ConnectionDataProto {
             String name,
             String group,
             List<String> endpoints,
-            String networkType,
+            NetworkType networkType,
             bool isLocal,
             String blockExplorerUrl,
             String nativeTokenTicker,
@@ -1200,7 +1200,7 @@ class _$ConnectionDataProtoImpl implements ConnectionDataProto {
             String name,
             String group,
             String endpoint,
-            String networkType,
+            NetworkType networkType,
             String blockExplorerUrl,
             String nativeTokenTicker,
             bool isPreset,
@@ -1215,7 +1215,7 @@ class _$ConnectionDataProtoImpl implements ConnectionDataProto {
             String name,
             String group,
             String endpoint,
-            String networkType,
+            NetworkType networkType,
             String blockExplorerUrl,
             String nativeTokenTicker,
             bool isPreset,
@@ -1250,7 +1250,7 @@ class _$ConnectionDataProtoImpl implements ConnectionDataProto {
             String name,
             String group,
             List<String> endpoints,
-            String networkType,
+            NetworkType networkType,
             bool isLocal,
             String blockExplorerUrl,
             String nativeTokenTicker,
@@ -1269,7 +1269,7 @@ class _$ConnectionDataProtoImpl implements ConnectionDataProto {
             String name,
             String group,
             String endpoint,
-            String networkType,
+            NetworkType networkType,
             String blockExplorerUrl,
             String nativeTokenTicker,
             bool isPreset,
@@ -1284,7 +1284,7 @@ class _$ConnectionDataProtoImpl implements ConnectionDataProto {
             String name,
             String group,
             String endpoint,
-            String networkType,
+            NetworkType networkType,
             String blockExplorerUrl,
             String nativeTokenTicker,
             bool isPreset,
@@ -1319,7 +1319,7 @@ class _$ConnectionDataProtoImpl implements ConnectionDataProto {
             String name,
             String group,
             List<String> endpoints,
-            String networkType,
+            NetworkType networkType,
             bool isLocal,
             String blockExplorerUrl,
             String nativeTokenTicker,
@@ -1338,7 +1338,7 @@ class _$ConnectionDataProtoImpl implements ConnectionDataProto {
             String name,
             String group,
             String endpoint,
-            String networkType,
+            NetworkType networkType,
             String blockExplorerUrl,
             String nativeTokenTicker,
             bool isPreset,
@@ -1353,7 +1353,7 @@ class _$ConnectionDataProtoImpl implements ConnectionDataProto {
             String name,
             String group,
             String endpoint,
-            String networkType,
+            NetworkType networkType,
             String blockExplorerUrl,
             String nativeTokenTicker,
             bool isPreset,
@@ -1432,7 +1432,7 @@ abstract class ConnectionDataProto implements ConnectionData {
       required final String name,
       required final String group,
       required final String endpoint,
-      required final String networkType,
+      required final NetworkType networkType,
       required final String blockExplorerUrl,
       required final String nativeTokenTicker,
       required final bool isPreset,
@@ -1453,7 +1453,7 @@ abstract class ConnectionDataProto implements ConnectionData {
   String get group;
   String get endpoint;
   @override
-  String get networkType;
+  NetworkType get networkType;
   @override
   String get blockExplorerUrl;
   @override
@@ -1492,7 +1492,7 @@ abstract class _$$ConnectionDataJrpcImplCopyWith<$Res>
       String name,
       String group,
       String endpoint,
-      String networkType,
+      NetworkType networkType,
       String blockExplorerUrl,
       String nativeTokenTicker,
       bool isPreset,
@@ -1550,7 +1550,7 @@ class __$$ConnectionDataJrpcImplCopyWithImpl<$Res>
       networkType: null == networkType
           ? _value.networkType
           : networkType // ignore: cast_nullable_to_non_nullable
-              as String,
+              as NetworkType,
       blockExplorerUrl: null == blockExplorerUrl
           ? _value.blockExplorerUrl
           : blockExplorerUrl // ignore: cast_nullable_to_non_nullable
@@ -1619,7 +1619,7 @@ class _$ConnectionDataJrpcImpl implements ConnectionDataJrpc {
   @override
   final String endpoint;
   @override
-  final String networkType;
+  final NetworkType networkType;
   @override
   final String blockExplorerUrl;
   @override
@@ -1713,7 +1713,7 @@ class _$ConnectionDataJrpcImpl implements ConnectionDataJrpc {
             String name,
             String group,
             List<String> endpoints,
-            String networkType,
+            NetworkType networkType,
             bool isLocal,
             String blockExplorerUrl,
             String nativeTokenTicker,
@@ -1732,7 +1732,7 @@ class _$ConnectionDataJrpcImpl implements ConnectionDataJrpc {
             String name,
             String group,
             String endpoint,
-            String networkType,
+            NetworkType networkType,
             String blockExplorerUrl,
             String nativeTokenTicker,
             bool isPreset,
@@ -1747,7 +1747,7 @@ class _$ConnectionDataJrpcImpl implements ConnectionDataJrpc {
             String name,
             String group,
             String endpoint,
-            String networkType,
+            NetworkType networkType,
             String blockExplorerUrl,
             String nativeTokenTicker,
             bool isPreset,
@@ -1782,7 +1782,7 @@ class _$ConnectionDataJrpcImpl implements ConnectionDataJrpc {
             String name,
             String group,
             List<String> endpoints,
-            String networkType,
+            NetworkType networkType,
             bool isLocal,
             String blockExplorerUrl,
             String nativeTokenTicker,
@@ -1801,7 +1801,7 @@ class _$ConnectionDataJrpcImpl implements ConnectionDataJrpc {
             String name,
             String group,
             String endpoint,
-            String networkType,
+            NetworkType networkType,
             String blockExplorerUrl,
             String nativeTokenTicker,
             bool isPreset,
@@ -1816,7 +1816,7 @@ class _$ConnectionDataJrpcImpl implements ConnectionDataJrpc {
             String name,
             String group,
             String endpoint,
-            String networkType,
+            NetworkType networkType,
             String blockExplorerUrl,
             String nativeTokenTicker,
             bool isPreset,
@@ -1851,7 +1851,7 @@ class _$ConnectionDataJrpcImpl implements ConnectionDataJrpc {
             String name,
             String group,
             List<String> endpoints,
-            String networkType,
+            NetworkType networkType,
             bool isLocal,
             String blockExplorerUrl,
             String nativeTokenTicker,
@@ -1870,7 +1870,7 @@ class _$ConnectionDataJrpcImpl implements ConnectionDataJrpc {
             String name,
             String group,
             String endpoint,
-            String networkType,
+            NetworkType networkType,
             String blockExplorerUrl,
             String nativeTokenTicker,
             bool isPreset,
@@ -1885,7 +1885,7 @@ class _$ConnectionDataJrpcImpl implements ConnectionDataJrpc {
             String name,
             String group,
             String endpoint,
-            String networkType,
+            NetworkType networkType,
             String blockExplorerUrl,
             String nativeTokenTicker,
             bool isPreset,
@@ -1964,7 +1964,7 @@ abstract class ConnectionDataJrpc implements ConnectionData {
       required final String name,
       required final String group,
       required final String endpoint,
-      required final String networkType,
+      required final NetworkType networkType,
       required final String blockExplorerUrl,
       required final String nativeTokenTicker,
       required final bool isPreset,
@@ -1985,7 +1985,7 @@ abstract class ConnectionDataJrpc implements ConnectionData {
   String get group;
   String get endpoint;
   @override
-  String get networkType;
+  NetworkType get networkType;
   @override
   String get blockExplorerUrl;
   @override
