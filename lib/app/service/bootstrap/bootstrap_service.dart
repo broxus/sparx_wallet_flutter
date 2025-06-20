@@ -2,7 +2,7 @@ import 'package:app/app/service/bootstrap/bootstrap_steps.dart';
 import 'package:app/app/service/bootstrap/configurators/biometry.dart';
 import 'package:app/app/service/bootstrap/configurators/connection.dart';
 import 'package:app/app/service/bootstrap/configurators/encrypted_storage.dart';
-import 'package:app/app/service/bootstrap/configurators/feature_services.dart';
+import 'package:app/app/service/bootstrap/configurators/features.dart';
 import 'package:app/app/service/bootstrap/configurators/migrate_storage.dart';
 import 'package:app/app/service/bootstrap/configurators/nekoton.dart';
 import 'package:app/app/service/bootstrap/configurators/ntp.dart';

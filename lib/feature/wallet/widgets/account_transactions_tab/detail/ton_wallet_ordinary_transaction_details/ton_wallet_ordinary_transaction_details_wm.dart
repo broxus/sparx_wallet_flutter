@@ -22,6 +22,7 @@ TonWalletOrdinaryTransactionDetailsWidgetModel
     TonWalletOrdinaryTransactionDetailsModel(
       createPrimaryErrorHandler(context),
       inject(),
+      inject(),
     ),
     transaction,
     price,
@@ -76,8 +77,6 @@ class TonWalletOrdinaryTransactionDetailsWidgetModel extends CustomWidgetModel<
 
   void onPressedSeeInExplorer() {
     Navigator.of(context).pop();
-    openBrowserUrl(
-      model.getTransactionExplorerLink(_transaction.hash),
-    );
+    model.openBrowserUrl(_transaction.hash);
   }
 }

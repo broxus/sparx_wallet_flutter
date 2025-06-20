@@ -1,14 +1,17 @@
 import 'package:app/app/service/service.dart';
+import 'package:app/feature/browser_v2/domain/browser_launcher.dart';
 import 'package:elementary/elementary.dart';
 
 class EditNetworkModel extends ElementaryModel {
   EditNetworkModel(
     this._connectionsStorageService,
     this._presetsConnectionService,
+    this._browserLauncher,
   );
 
   final ConnectionsStorageService _connectionsStorageService;
   final PresetsConnectionService _presetsConnectionService;
+  final BrowserLauncher _browserLauncher;
 
   List<ConnectionData> get connections =>
       _connectionsStorageService.connections;
@@ -27,4 +30,6 @@ class EditNetworkModel extends ElementaryModel {
 
   void saveCurrentConnectionId(String id) =>
       _connectionsStorageService.saveCurrentConnectionId(id);
+
+  void openBrowserUrl(String url) => _browserLauncher.openBrowserByString(url);
 }

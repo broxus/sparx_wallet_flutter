@@ -1,7 +1,6 @@
 import 'package:app/core/error_handler_factory.dart';
 import 'package:app/core/wm/custom_wm.dart';
 import 'package:app/di/di.dart';
-import 'package:app/feature/browser_v1/browser.dart';
 import 'package:app/feature/wallet/widgets/account_transactions_tab/detail/details.dart';
 import 'package:app/feature/wallet/widgets/account_transactions_tab/widgets/ton_wallet_multisig_expired_transaction/ton_wallet_multisig_expired_transaction_model.dart';
 import 'package:app/feature/wallet/widgets/account_transactions_tab/widgets/ton_wallet_multisig_expired_transaction/ton_wallet_multisig_expired_transaction_widget.dart';
@@ -20,6 +19,7 @@ TonWalletMultisigExpiredTransactionWidgetModel
   return TonWalletMultisigExpiredTransactionWidgetModel(
     TonWalletMultisigExpiredTransactionModel(
       createPrimaryErrorHandler(context),
+      inject(),
       inject(),
     ),
   );
@@ -80,8 +80,6 @@ class TonWalletMultisigExpiredTransactionWidgetModel extends CustomWidgetModel<
   }
 
   void _openBrowserNewTab() {
-    openBrowserUrl(
-      model.getTransactionExplorerLink(widget.transaction.hash),
-    );
+    model.openBrowserUrl(widget.transaction.hash);
   }
 }

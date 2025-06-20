@@ -1,16 +1,9 @@
 import 'package:app/app/service/connection/data/connection_data/connection_data.dart';
 import 'package:app/app/service/connection/transport_strategies/common_transport_strategy.dart';
-import 'package:app/di/di.dart';
-import 'package:app/feature/browser_v2/domain/service/browser_service.dart';
 import 'package:app/utils/utils.dart';
-import 'package:flutter_inappwebview/flutter_inappwebview.dart';
 import 'package:nekoton_repository/nekoton_repository.dart'
     show GqlTransport, TransportStrategy;
 import 'package:nekoton_webview/nekoton_webview.dart';
-
-void openBrowserUrl(String url) {
-  inject<BrowserService>().openUrl(WebUri(url));
-}
 
 extension TransportExtension on TransportStrategy {
   ConnectionData? get connection => switch (this) {

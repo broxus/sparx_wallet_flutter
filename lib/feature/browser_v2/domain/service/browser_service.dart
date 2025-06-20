@@ -1,10 +1,10 @@
 import 'dart:async';
 
-import 'package:app/app/router/router.dart';
 import 'package:app/app/service/app_links/app_links.dart';
 import 'package:app/app/service/storage_service/general_storage_service.dart';
 import 'package:app/app/service/ton_connect/ton_connect_service.dart';
 import 'package:app/feature/browser_v2/data/history_type.dart';
+import 'package:app/feature/browser_v2/domain/browser_launcher.dart';
 import 'package:app/feature/browser_v2/domain/service/storages/browser_bookmarks_storage_service.dart';
 import 'package:app/feature/browser_v2/domain/service/storages/browser_favicon_url_storage_service.dart';
 import 'package:app/feature/browser_v2/domain/service/storages/browser_history_storage_service.dart';
@@ -16,7 +16,6 @@ import 'package:app/feature/browser_v2/managers/favicon_manager.dart';
 import 'package:app/feature/browser_v2/managers/history_manager.dart';
 import 'package:app/feature/browser_v2/managers/permissions_manager.dart';
 import 'package:app/feature/browser_v2/managers/tabs/tabs_manager.dart';
-import 'package:app/feature/browser_v2/route.dart';
 import 'package:app/feature/messenger/domain/service/messenger_service.dart';
 import 'package:app/utils/common_utils.dart';
 import 'package:flutter/material.dart';
@@ -38,7 +37,7 @@ class BrowserService {
     this._generalStorageService,
     this._tonConnectService,
     this._nekotonRepository,
-    this._compassRouter,
+    this._browserLauncher,
   );
 
   final AppLinksService _appLinksService;
@@ -51,7 +50,7 @@ class BrowserService {
   final TonConnectService _tonConnectService;
   final MessengerService _messengerService;
   final NekotonRepository _nekotonRepository;
-  final CompassRouter _compassRouter;
+  final BrowserLauncher _browserLauncher;
 
   late final bookmarks = BookmarksManager(
     _bookmarksStorageService,
@@ -111,13 +110,6 @@ class BrowserService {
     _appLinksNavSubs?.cancel();
   }
 
-  void openUrl(Uri uri) {
-    if (_compassRouter.currentRoutes.lastOrNull is! BrowserRoute) {
-      _compassRouter.compassPointNamed(const BrowserRouteData());
-    }
-    tM.openUrl(uri);
-  }
-
   void createTabBookMark(String tabId) {
     final tab = tM.getTabById(tabId);
 
@@ -172,6 +164,6 @@ class BrowserService {
   }
 
   void _listenAppLinks(BrowserAppLinksData event) {
-    openUrl(event.url);
+    _browserLauncher.openBrowserByUri(event.url);
   }
 }

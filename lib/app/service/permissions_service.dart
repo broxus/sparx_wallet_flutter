@@ -8,13 +8,12 @@ import 'package:nekoton_repository/nekoton_repository.dart';
 class PermissionsService {
   PermissionsService(
     this._browserService,
-    this.nekotonRepository,
+    this._nekotonRepository,
   );
 
   final BrowserService _browserService;
 
-  /// Uses to track account deletion callback
-  final NekotonRepository nekotonRepository;
+  final NekotonRepository _nekotonRepository;
 
   void init() {
     _listenAccountsDeletion();
@@ -61,7 +60,7 @@ class PermissionsService {
 
 // we do not save stream sub, because it must stay all app life-time
   void _listenAccountsDeletion() {
-    nekotonRepository.seedChangesStream.listen((changes) {
+    _nekotonRepository.seedChangesStream.listen((changes) {
       for (final account in changes.deletedAccounts) {
         deletePermissionsForAccount(account.address);
       }
