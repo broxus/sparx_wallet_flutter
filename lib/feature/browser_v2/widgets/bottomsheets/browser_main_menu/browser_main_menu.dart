@@ -1,6 +1,6 @@
+import 'package:app/core/wm/custom_wm.dart';
 import 'package:app/feature/browser_v2/widgets/bottomsheets/browser_main_menu/browser_main_menu_wm.dart';
 import 'package:app/feature/browser_v2/widgets/bottomsheets/browser_main_menu/data/browser_main_menu_data.dart';
-import 'package:elementary/elementary.dart';
 import 'package:flutter/material.dart';
 import 'package:ui_components_lib/ui_components_lib.dart';
 import 'package:ui_components_lib/v2/widgets/modals/primary_bottom_sheet.dart';
@@ -10,16 +10,15 @@ Future<void> showBrowserMainMenu(BuildContext context) {
     context: context,
     barrierColor: Colors.black.withValues(alpha: .8),
     padding: const EdgeInsets.symmetric(horizontal: DimensSizeV2.d21),
-    content: const BrowserMainMenu(),
+    content: BrowserMainMenu(),
   );
 }
 
-class BrowserMainMenu extends ElementaryWidget<BrowserMainMenuWidgetModel> {
-  const BrowserMainMenu({
+class BrowserMainMenu
+    extends InjectedElementaryWidget<BrowserMainMenuWidgetModel> {
+  BrowserMainMenu({
     super.key,
-    WidgetModelFactory<BrowserMainMenuWidgetModel> wmFactory =
-        defaultBrowserMainMenuWidgetModelFactory,
-  }) : super(wmFactory);
+  });
 
   @override
   Widget build(BrowserMainMenuWidgetModel wm) {

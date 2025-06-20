@@ -1,8 +1,7 @@
 import 'dart:async';
 
-import 'package:app/core/error_handler_factory.dart';
 import 'package:app/core/wm/custom_wm.dart';
-import 'package:app/di/di.dart';
+import 'package:injectable/injectable.dart';
 import 'package:app/feature/browser_v1/bottom_sheets/browser_enter_basic_auth_creds_sheet.dart';
 import 'package:app/feature/browser_v2/custom_web_controller.dart';
 import 'package:app/feature/browser_v2/data/browser_basic_auth_creds.dart';
@@ -18,48 +17,33 @@ import 'package:logging/logging.dart';
 import 'package:ui_components_lib/ui_components_lib.dart';
 import 'package:url_launcher/url_launcher.dart';
 
-/// Factory method for creating [BrowserPageWidgetModel]
-BrowserPageWidgetModel defaultBrowserPageWidgetModelFactory(
-  BuildContext context, {
-  required BrowserTab tab,
-  required ValueChanged<CustomWebViewController> onCreate,
-  required ValueChanged<int> onWebPageScrollChanged,
-  required VoidCallback onDispose,
-  required ValueChanged<int> onLoadingProgressChanged,
-}) {
-  return BrowserPageWidgetModel(
-    BrowserPageModel(
-      createPrimaryErrorHandler(context),
-      tab.id,
-      inject(),
-      inject(),
-      inject(),
-      inject(),
-      inject(),
-      inject(),
-      inject(),
-      inject(),
-      inject(),
-      inject(),
-    ),
-    onCreate,
-    onWebPageScrollChanged,
-    onDispose,
-    onLoadingProgressChanged,
-  );
+class BrowserPageWmParams {
+  const BrowserPageWmParams({
+    required this.tab,
+    required this.onCreate,
+    required this.onWebPageScrollChanged,
+    required this.onDispose,
+    required this.onLoadingProgressChanged,
+  });
+
+  final BrowserTab tab;
+  final ValueChanged<CustomWebViewController> onCreate;
+  final ValueChanged<int> onWebPageScrollChanged;
+  final VoidCallback onDispose;
+  final ValueChanged<int> onLoadingProgressChanged;
 }
 
 /// [WidgetModel] для [BrowserPage]
+@injectable
 class BrowserPageWidgetModel
     extends CustomWidgetModel<BrowserPage, BrowserPageModel>
     with AutomaticKeepAliveWidgetModelMixin {
   BrowserPageWidgetModel(
     super.model,
-    this._onCreate,
-    this._onWebPageScrollChanged,
-    this._onDispose,
-    this._onLoadingProgressChanged,
+    @factoryParam this._wmParams,
   );
+
+  final BrowserPageWmParams _wmParams;
 
   static const _allowSchemes = [
     'http',
@@ -78,11 +62,7 @@ class BrowserPageWidgetModel
 
   static final _log = Logger('BrowserTabView');
 
-  final ValueChanged<CustomWebViewController> _onCreate;
-  final ValueChanged<int> _onWebPageScrollChanged;
-  final VoidCallback _onDispose;
-  final ValueChanged<int> _onLoadingProgressChanged;
-  late BrowserTab _tab = widget.tab;
+  BrowserTab get _tab => _wmParams.tab;
 
   final initialSettings = InAppWebViewSettings(
     applicationNameForUserAgent: 'SparXWalletBrowser',
@@ -131,16 +111,14 @@ class BrowserPageWidgetModel
 
   @override
   void didUpdateWidget(BrowserPage oldWidget) {
-    if (oldWidget.tab.url != widget.tab.url) {
-      _tab = widget.tab;
-      _isShowStartViewState.accept(_url.isEmpty);
-    }
+    // Note: This would need to be updated if tab changes are supported
+    // Currently, we're not updating _tab from widget since we use params
     super.didUpdateWidget(oldWidget);
   }
 
   @override
   void dispose() {
-    _onDispose();
+    _wmParams.onDispose();
     _webViewController?.dispose();
     model.activeTabState.removeListener(_handleActiveTab);
     super.dispose();
@@ -152,7 +130,7 @@ class BrowserPageWidgetModel
   ) async {
     final customController = CustomWebViewController(controller);
 
-    _onCreate(customController);
+    _wmParams.onCreate(customController);
     _webViewController = customController;
     await model.initEvents(customController);
 
@@ -197,7 +175,7 @@ class BrowserPageWidgetModel
       unawaited(pullToRefreshController.endRefreshing());
     }
     if (progress != null && model.checkIsActiveTab(_tab.id)) {
-      _onLoadingProgressChanged(progress);
+      _wmParams.onLoadingProgressChanged(progress);
     }
   }
 
@@ -237,7 +215,7 @@ class BrowserPageWidgetModel
   }
 
   void onWebPageScrollChanged(_, __, int y) {
-    _onWebPageScrollChanged(y);
+    _wmParams.onWebPageScrollChanged(y);
   }
 
   // Called during HTTP authorization if the site requires login/password

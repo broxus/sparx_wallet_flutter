@@ -1,9 +1,9 @@
 import 'package:app/app/router/router.dart';
+import 'package:app/core/wm/custom_wm.dart';
 import 'package:app/feature/wallet/token_wallet_send/data/data.dart';
 import 'package:app/feature/wallet/token_wallet_send/view/token_wallet_send_wm.dart';
 import 'package:app/feature/wallet/wallet.dart';
 import 'package:app/generated/generated.dart';
-import 'package:elementary/elementary.dart';
 import 'package:elementary_helper/elementary_helper.dart';
 import 'package:flutter/material.dart';
 import 'package:nekoton_repository/nekoton_repository.dart';
@@ -14,49 +14,31 @@ import 'package:ui_components_lib/ui_components_lib.dart';
 /// For correct work subscription for [TokenWallet] and [TonWallet] with
 /// address=[owner] must be created.
 class TokenWalletSendWidget
-    extends ElementaryWidget<TokenWalletSendWidgetModel> {
-  const TokenWalletSendWidget({
-    required this.owner,
-    required this.rootTokenContract,
-    required this.publicKey,
-    required this.destination,
-    required this.amount,
-    required this.attachedAmount,
-    required this.comment,
-    required this.resultMessage,
-    required this.notifyReceiver,
-    Key? key,
-    WidgetModelFactory wmFactory = defaultTokenWalletSendWidgetModelFactory,
-  }) : super(wmFactory, key: key);
-
-  /// Address of account for token.
-  final Address owner;
-
-  /// Address of contract for token
-  final Address rootTokenContract;
-
-  /// Local custodian of account, that will be initiator of transaction (for not
-  /// multisig this is main key).
-  final PublicKey publicKey;
-
-  /// Address where tokens must be sent
-  final Address destination;
-
-  /// How many tokens must be sent, to convert Fixed to BigInt, use
-  /// [Fixed.minorUnits].
-  final BigInt amount;
-
-  /// Attached amount in native tokens, that should be added to transaction.
-  /// If null, then default value will be used.
-  final BigInt? attachedAmount;
-
-  /// Comment for transaction
-  final String? comment;
-
-  /// Message that will be shown when transaction completed
-  final String? resultMessage;
-
-  final bool? notifyReceiver;
+    extends InjectedElementaryWidget<TokenWalletSendWidgetModel> {
+  TokenWalletSendWidget({
+    required Address owner,
+    required Address rootTokenContract,
+    required PublicKey publicKey,
+    required Address destination,
+    required BigInt amount,
+    required BigInt? attachedAmount,
+    required String? comment,
+    required String? resultMessage,
+    required bool? notifyReceiver,
+    super.key,
+  }) : super(
+          param1: TokenWalletSendWmParams(
+            owner: owner,
+            rootTokenContract: rootTokenContract,
+            publicKey: publicKey,
+            destination: destination,
+            amount: amount,
+            attachedAmount: attachedAmount,
+            comment: comment,
+            resultMessage: resultMessage,
+            notifyReceiver: notifyReceiver,
+          ),
+        );
 
   @override
   Widget build(TokenWalletSendWidgetModel wm) {
@@ -90,10 +72,10 @@ class TokenWalletSendWidget
                 horizontal: DimensSizeV2.d16,
               ),
               child: TokenWalletSendConfirmView(
-                recipient: destination,
-                rootTokenContract: rootTokenContract,
-                comment: comment,
-                publicKey: publicKey,
+                recipient: wm.destination,
+                rootTokenContract: wm.rootTokenContract,
+                comment: wm.comment,
+                publicKey: wm.publicKey,
                 attachedAmount: wm.attachedAmount,
                 currency: wm.currency,
                 account: wm.account,

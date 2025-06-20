@@ -1,21 +1,16 @@
+import 'package:app/core/wm/custom_wm.dart';
 import 'package:app/feature/browser_v2/data/tabs_data.dart';
 import 'package:app/feature/browser_v2/screens/main/widgets/tabs/header/tab_list_header_wm.dart';
 import 'package:app/generated/generated.dart';
 import 'package:auto_size_text/auto_size_text.dart';
-import 'package:elementary/elementary.dart';
 import 'package:elementary_helper/elementary_helper.dart';
 import 'package:flutter/material.dart';
 import 'package:ui_components_lib/v2/ui_components_lib_v2.dart';
 
-class TabListHeader extends ElementaryWidget<TabListHeaderWidgetModel> {
+class TabListHeader extends InjectedElementaryWidget<TabListHeaderWidgetModel> {
   const TabListHeader({
-    Key? key,
-    WidgetModelFactory<TabListHeaderWidgetModel> wmFactory =
-        defaultTabListHeaderWidgetModelFactory,
-  }) : super(
-          wmFactory,
-          key: key,
-        );
+    super.key,
+  });
 
   @override
   Widget build(TabListHeaderWidgetModel wm) {

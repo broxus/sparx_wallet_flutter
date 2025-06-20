@@ -1,9 +1,8 @@
 import 'dart:async';
 
-import 'package:app/core/error_handler_factory.dart';
 import 'package:app/core/wm/custom_wm.dart';
 import 'package:app/data/models/models.dart';
-import 'package:app/di/di.dart';
+import 'package:injectable/injectable.dart';
 import 'package:app/feature/wallet/staking/models/models.dart';
 import 'package:app/feature/wallet/staking/staking.dart';
 import 'package:app/feature/wallet/wallet.dart';
@@ -20,22 +19,15 @@ import 'package:ui_components_lib/ui_components_lib.dart';
 
 const _maxFixedComission = 0.1; // 0.1 EVER
 
-StakingPageWidgetModel defaultStakingPageWidgetModelFactory(
-  BuildContext context,
-) =>
-    StakingPageWidgetModel(
-      StakingPageModel(
-        createPrimaryErrorHandler(context),
-        inject(),
-        inject(),
-        inject(),
-        inject(),
-      ),
-    );
-
+@injectable
 class StakingPageWidgetModel
     extends CustomWidgetModel<StakingPageWidget, StakingPageModel> {
-  StakingPageWidgetModel(super.model);
+  StakingPageWidgetModel(
+    super.model,
+    @factoryParam this.accountAddress,
+  );
+
+  final Address accountAddress;
 
   late final inputController = createTextEditingController();
 
@@ -44,7 +36,7 @@ class StakingPageWidgetModel
   late final _info = createEntityNotifier<StakingInfo>()..loading();
   late final _data = createNotifier<StakingData>();
   late final _requests = createNotifierFromStream(
-    model.getWithdrawRequests(widget.accountAddress),
+    model.getWithdrawRequests(accountAddress),
   );
   late final _receive = createNotifierFromStream(
     Rx.combineLatestList(
@@ -178,8 +170,8 @@ class StakingPageWidgetModel
   Future<void> _init() async {
     try {
       final (ever, token) = await FutureExt.wait2(
-        model.getWallet(widget.accountAddress),
-        model.getTokenWallet(widget.accountAddress),
+        model.getWallet(accountAddress),
+        model.getTokenWallet(accountAddress),
       );
 
       if (ever.hasError || token.hasError) {

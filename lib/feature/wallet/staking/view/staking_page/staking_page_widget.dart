@@ -1,10 +1,10 @@
 import 'package:app/app/router/router.dart';
+import 'package:app/core/wm/custom_wm.dart';
 import 'package:app/di/di.dart';
 import 'package:app/feature/wallet/staking/models/models.dart';
 import 'package:app/feature/wallet/token_wallet_send/route.dart';
 import 'package:app/feature/wallet/wallet.dart';
 import 'package:app/generated/generated.dart';
-import 'package:elementary/elementary.dart';
 import 'package:elementary_helper/elementary_helper.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
@@ -14,14 +14,12 @@ import 'package:ui_components_lib/ui_components_lib.dart';
 import 'package:ui_components_lib/v2/widgets/widgets.dart';
 
 /// Page that allows user to stake his native token.
-class StakingPageWidget extends ElementaryWidget<StakingPageWidgetModel> {
+class StakingPageWidget
+    extends InjectedElementaryWidget<StakingPageWidgetModel> {
   const StakingPageWidget({
-    required this.accountAddress,
-    Key? key,
-    WidgetModelFactory wmFactory = defaultStakingPageWidgetModelFactory,
-  }) : super(wmFactory, key: key);
-
-  final Address accountAddress;
+    required Address accountAddress,
+    super.key,
+  }) : super(param1: accountAddress);
 
   @override
   Widget build(StakingPageWidgetModel wm) {
@@ -33,7 +31,7 @@ class StakingPageWidget extends ElementaryWidget<StakingPageWidgetModel> {
         appBar: const DefaultAppBar(),
         body: BlocProvider(
           create: (_) => ActionStakingBloc(
-            accountAddress: accountAddress,
+            accountAddress: wm.accountAddress,
             nekotonRepository: inject(),
             stakingService: inject(),
             storage: inject(),

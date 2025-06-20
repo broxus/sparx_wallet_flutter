@@ -1,4 +1,5 @@
 import 'package:app/app/service/ton_connect/ton_connect.dart';
+import 'package:app/core/wm/custom_wm.dart';
 import 'package:app/feature/browser_v1/approvals_listener/actions/widgets/website_info/website_info_widget.dart';
 import 'package:app/feature/profile/profile.dart';
 import 'package:app/feature/ton_connect/ton_connect.dart';
@@ -6,24 +7,26 @@ import 'package:app/feature/wallet/wallet.dart';
 import 'package:app/generated/generated.dart';
 import 'package:app/utils/utils.dart';
 import 'package:app/widgets/widgets.dart';
-import 'package:elementary/elementary.dart';
 import 'package:elementary_helper/elementary_helper.dart';
 import 'package:flutter/material.dart';
 import 'package:nekoton_repository/nekoton_repository.dart';
 import 'package:ui_components_lib/ui_components_lib.dart';
 import 'package:ui_components_lib/v2/ui_components_lib_v2.dart';
 
-class TCSendMessageWidget extends ElementaryWidget<TCSendMessageWidgetModel> {
-  const TCSendMessageWidget({
-    required this.connection,
-    required this.payload,
+class TCSendMessageWidget
+    extends InjectedElementaryWidget<TCSendMessageWidgetModel> {
+  TCSendMessageWidget({
+    required TonAppConnection connection,
+    required TransactionPayload payload,
     required this.scrollController,
-    Key? key,
-    WidgetModelFactory wmFactory = defaultTCSendMessageWidgetModelFactory,
-  }) : super(wmFactory, key: key);
+    super.key,
+  }) : super(
+          param1: TCSendMessageWmParams(
+            connection: connection,
+            payload: payload,
+          ),
+        );
 
-  final TonAppConnection connection;
-  final TransactionPayload payload;
   final ScrollController scrollController;
 
   @override
@@ -59,8 +62,8 @@ class TCSendMessageWidget extends ElementaryWidget<TCSendMessageWidgetModel> {
                   ),
                 const SizedBox(height: DimensSizeV2.d12),
                 WebsiteInfoWidget(
-                  uri: Uri.parse(connection.manifest.url),
-                  iconUrl: Uri.tryParse(connection.manifest.iconUrl),
+                  uri: Uri.parse(wm.connection.manifest.url),
+                  iconUrl: Uri.tryParse(wm.connection.manifest.iconUrl),
                 ),
                 DoubleSourceBuilder(
                   firstSource: wm.publicKey,

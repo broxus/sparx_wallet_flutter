@@ -1,9 +1,9 @@
 // ignore_for_file: lines_longer_than_80_chars, unused_element
 
+import 'package:app/core/wm/custom_wm.dart';
 import 'package:app/feature/wallet/wallet.dart';
 import 'package:app/feature/wallet/widgets/wallet_account_actions/wallet_account_actions_wm.dart';
 import 'package:app/generated/generated.dart';
-import 'package:elementary/elementary.dart';
 import 'package:elementary_helper/elementary_helper.dart';
 import 'package:flutter/material.dart';
 import 'package:lucide_icons_flutter/lucide_icons.dart';
@@ -13,22 +13,23 @@ import 'package:ui_components_lib/ui_components_lib.dart';
 /// Row with actions for current account.
 /// If account is null, then no actions available.
 class WalletAccountActions
-    extends ElementaryWidget<WalletAccountActionsWidgetModel> {
-  const WalletAccountActions({
-    required this.account,
-    this.allowStake = true,
-    this.sendSpecified = false,
-    this.disableSensetiveActions = false,
+    extends InjectedElementaryWidget<WalletAccountActionsWidgetModel> {
+  WalletAccountActions({
+    required KeyAccount account,
+    bool allowStake = true,
+    bool sendSpecified = false,
+    bool disableSensetiveActions = false,
     this.padding = const EdgeInsets.symmetric(vertical: DimensSizeV2.d32),
-    Key? key,
-    WidgetModelFactory wmFactory =
-        defaultWalletAccountActionsWidgetModelFactory,
-  }) : super(wmFactory, key: key);
+    super.key,
+  }) : super(
+          param1: WalletAccountActionsWmParams(
+            account: account,
+            allowStake: allowStake,
+            sendSpecified: sendSpecified,
+            disableSensetiveActions: disableSensetiveActions,
+          ),
+        );
 
-  final KeyAccount account;
-  final bool allowStake;
-  final bool sendSpecified;
-  final bool disableSensetiveActions;
   final EdgeInsetsGeometry padding;
 
   @override
@@ -41,9 +42,9 @@ class WalletAccountActions
         action: action ?? WalletAccountActionBehavior.send,
         hasStake: hasStake ?? false,
         hasStakeActions: hasStakeActions ?? false,
-        sendSpecified: sendSpecified,
+        sendSpecified: wm.sendSpecified,
         padding: padding,
-        disableSensetiveActions: disableSensetiveActions,
+        disableSensetiveActions: wm.disableSensetiveActions,
         onReceivePressed: wm.onReceive,
         onMainActionPressed: wm.onMainAction,
         onStakePressed: wm.onStake,

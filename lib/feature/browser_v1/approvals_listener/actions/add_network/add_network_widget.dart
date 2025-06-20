@@ -1,9 +1,9 @@
 import 'dart:convert';
 
+import 'package:app/core/wm/custom_wm.dart';
 import 'package:app/feature/browser_v1/approvals_listener/actions/add_network/add_network_wm.dart';
 import 'package:app/feature/browser_v1/approvals_listener/actions/widgets/widgets.dart';
 import 'package:app/generated/generated.dart';
-import 'package:elementary/elementary.dart';
 import 'package:flutter/material.dart';
 import 'package:nekoton_webview/nekoton_webview.dart';
 import 'package:ui_components_lib/ui_components_lib.dart';
@@ -11,19 +11,21 @@ import 'package:ui_components_lib/v2/ui_components_lib_v2.dart';
 
 const _encoder = JsonEncoder.withIndent('  ');
 
-class AddNetworkWidget extends ElementaryWidget<AddNetworkWidgetModel> {
-  const AddNetworkWidget({
-    required this.origin,
-    required this.network,
-    required this.switchNetwork,
+class AddNetworkWidget extends InjectedElementaryWidget<AddNetworkWidgetModel> {
+  AddNetworkWidget({
+    required Uri origin,
+    required AddNetwork network,
+    required bool switchNetwork,
     required this.scrollController,
-    Key? key,
-    WidgetModelFactory wmFactory = defaultAddNetworkWidgetModelFactory,
-  }) : super(wmFactory, key: key);
+    super.key,
+  }) : super(
+          param1: AddNetworkWmParams(
+            origin: origin,
+            network: network,
+            switchNetwork: switchNetwork,
+          ),
+        );
 
-  final Uri origin;
-  final AddNetwork network;
-  final bool switchNetwork;
   final ScrollController scrollController;
 
   @override
@@ -39,7 +41,7 @@ class AddNetworkWidget extends ElementaryWidget<AddNetworkWidgetModel> {
             child: SeparatedColumn(
               spacing: DimensSizeV2.d12,
               children: [
-                WebsiteInfoWidget(uri: origin),
+                WebsiteInfoWidget(uri: wm.origin),
                 PrimaryCard(
                   color: theme.colors.background2,
                   borderRadius: BorderRadius.circular(
@@ -55,21 +57,21 @@ class AddNetworkWidget extends ElementaryWidget<AddNetworkWidgetModel> {
                     children: [
                       _Param(
                         label: LocaleKeys.networkId.tr(),
-                        value: network.networkId.toString(),
+                        value: wm.network.networkId.toString(),
                       ),
                       _Param(
                         label: LocaleKeys.networkName.tr(),
-                        value: network.name,
+                        value: wm.network.name,
                       ),
                       _Param(
                         label: LocaleKeys.connectionData.tr(),
-                        value: _encoder.convert(network.connection),
+                        value: _encoder.convert(wm.network.connection),
                         isColumn: true,
                       ),
-                      if (network.config != null)
+                      if (wm.network.config != null)
                         _Param(
                           label: LocaleKeys.networkConfig.tr(),
-                          value: _encoder.convert(network.config),
+                          value: _encoder.convert(wm.network.config),
                           isColumn: true,
                         ),
                     ],

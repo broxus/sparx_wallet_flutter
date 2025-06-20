@@ -1,18 +1,18 @@
+import 'package:app/core/wm/custom_wm.dart';
 import 'package:app/feature/profile/widgets/switch_to_seed_sheet/switch_to_seed_wm.dart';
 import 'package:app/generated/generated.dart';
-import 'package:elementary/elementary.dart';
 import 'package:flutter/material.dart';
 import 'package:nekoton_repository/nekoton_repository.dart';
 import 'package:ui_components_lib/v2/ui_components_lib_v2.dart';
 
-class SwitchToSeedWidget extends ElementaryWidget<SwitchToSeedWidgetModel> {
+class SwitchToSeedWidget
+    extends InjectedElementaryWidget<SwitchToSeedWidgetModel> {
   const SwitchToSeedWidget({
-    required this.publicKey,
-    Key? key,
-    WidgetModelFactory wmFactory = defaultSwitchToSeedWidgetModelFactory,
-  }) : super(wmFactory, key: key);
-
-  final PublicKey publicKey;
+    required PublicKey publicKey,
+    super.key,
+  }) : super(
+          param1: publicKey,
+        );
 
   @override
   Widget build(SwitchToSeedWidgetModel wm) {

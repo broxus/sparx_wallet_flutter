@@ -1,14 +1,13 @@
+import 'package:app/core/wm/custom_wm.dart';
 import 'package:app/feature/wallet/view/wallet_page_wm.dart';
 import 'package:app/feature/wallet/wallet.dart';
-import 'package:elementary/elementary.dart';
 import 'package:elementary_helper/elementary_helper.dart';
 import 'package:flutter/material.dart';
 
-class WalletPageWidget extends ElementaryWidget<WalletPageWidgetModel> {
+class WalletPageWidget extends InjectedElementaryWidget<WalletPageWidgetModel> {
   const WalletPageWidget({
-    Key? key,
-    WidgetModelFactory wmFactory = defaultWalletPageWidgetModelFactory,
-  }) : super(wmFactory, key: key);
+    super.key,
+  });
 
   @override
   Widget build(WalletPageWidgetModel wm) {

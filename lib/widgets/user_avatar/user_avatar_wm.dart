@@ -1,6 +1,4 @@
-import 'package:app/core/error_handler_factory.dart';
 import 'package:app/core/wm/custom_wm.dart';
-import 'package:app/di/di.dart';
 import 'package:app/generated/generated.dart';
 import 'package:app/widgets/user_avatar/user_avatar.dart';
 import 'package:app/widgets/user_avatar/user_avatar_model.dart';
@@ -8,24 +6,19 @@ import 'package:elementary/elementary.dart';
 import 'package:elementary_helper/elementary_helper.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:injectable/injectable.dart';
 import 'package:jdenticon_dart/jdenticon_dart.dart';
 
-/// Factory method for creating [UserAvatarWidgetModel]
-UserAvatarWidgetModel defaultUserAvatarWidgetModelFactory(
-  BuildContext context,
-) {
-  return UserAvatarWidgetModel(
-    UserAvatarModel(
-      createPrimaryErrorHandler(context),
-      inject(),
-    ),
-  );
-}
-
 /// [WidgetModel] для [UserAvatar]
+@injectable
 class UserAvatarWidgetModel
     extends CustomWidgetModel<UserAvatar, UserAvatarModel> {
-  UserAvatarWidgetModel(super.model);
+  UserAvatarWidgetModel(
+    super.model,
+    @factoryParam this._address,
+  );
+
+  final String? _address;
 
   late final _avatarState = createNotifier<AvatarData?>();
 
@@ -38,14 +31,14 @@ class UserAvatarWidgetModel
   }
 
   Future<void> _init() async {
-    if (widget.address != null) {
-      model.initListener(widget.address!);
+    if (_address != null) {
+      model.initListener(_address);
     }
     model.identifyState.addListener(_onUpdateIdentify);
   }
 
   void _onUpdateIdentify() {
-    final address = widget.address;
+    final address = _address;
     final identify = model.identifyState.value;
 
     if (address == null) {

@@ -1,37 +1,47 @@
 import 'package:app/app/service/ton_connect/models/models.dart';
+import 'package:app/core/wm/custom_wm.dart';
 import 'package:app/feature/browser_v1/approvals_listener/actions/widgets/website_info/website_info_widget.dart';
 import 'package:app/feature/profile/widgets/widgets.dart';
 import 'package:app/feature/ton_connect/ton_connect.dart';
 import 'package:app/feature/wallet/wallet.dart';
 import 'package:app/generated/generated.dart';
-import 'package:elementary/elementary.dart';
 import 'package:elementary_helper/elementary_helper.dart';
 import 'package:flutter/material.dart';
 import 'package:nekoton_repository/nekoton_repository.dart';
 import 'package:ui_components_lib/ui_components_lib.dart';
 import 'package:ui_components_lib/v2/ui_components_lib_v2.dart';
 
-class TCConnectWidget extends ElementaryWidget<TCConnectWidgetModel> {
-  const TCConnectWidget({
-    required this.request,
-    required this.manifest,
+class TCConnectWidget extends InjectedElementaryWidget<TCConnectWidgetModel> {
+  TCConnectWidget({
+    required ConnectRequest request,
+    required DappManifest manifest,
     required this.scrollController,
-    Key? key,
-    WidgetModelFactory wmFactory = defaultTCConnectWidgetModelFactory,
-  }) : super(wmFactory, key: key);
+    super.key,
+  }) : super(
+          param1: TCConnectWmParams(
+            request: request,
+            manifest: manifest,
+          ),
+        );
 
-  final ConnectRequest request;
-  final DappManifest manifest;
   final ScrollController scrollController;
 
   @override
-  Widget build(TCConnectWidgetModel wm) => ValueListenableBuilder(
-        valueListenable: wm.step,
-        builder: (context, value, child) => switch (value) {
-          TonConnectStep.account => _SelectAccountWidget(wm, scrollController),
-          TonConnectStep.confirm => _ConfirmPermissionsWidget(wm),
-        },
-      );
+  Widget build(TCConnectWidgetModel wm) {
+    return ValueListenableBuilder(
+      valueListenable: wm.step,
+      builder: (context, value, child) => switch (value) {
+        TonConnectStep.account => _SelectAccountWidget(
+            wm,
+            scrollController,
+          ),
+        TonConnectStep.confirm => _ConfirmPermissionsWidget(
+            wm,
+            scrollController,
+          ),
+      },
+    );
+  }
 }
 
 class _SelectAccountWidget extends StatelessWidget {
@@ -139,9 +149,10 @@ class _SelectAccountWidget extends StatelessWidget {
 }
 
 class _ConfirmPermissionsWidget extends StatelessWidget {
-  const _ConfirmPermissionsWidget(this.wm);
+  const _ConfirmPermissionsWidget(this.wm, this.scrollController);
 
   final TCConnectWidgetModel wm;
+  final ScrollController scrollController;
 
   @override
   Widget build(BuildContext context) {
@@ -153,7 +164,7 @@ class _ConfirmPermissionsWidget extends StatelessWidget {
       children: [
         Expanded(
           child: SingleChildScrollView(
-            controller: wm.scrollController,
+            controller: scrollController,
             child: SeparatedColumn(
               spacing: DimensSizeV2.d12,
               children: [

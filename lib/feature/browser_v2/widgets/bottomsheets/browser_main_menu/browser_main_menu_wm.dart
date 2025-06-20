@@ -1,27 +1,15 @@
-import 'package:app/core/error_handler_factory.dart';
 import 'package:app/core/wm/custom_wm.dart';
-import 'package:app/di/di.dart';
 import 'package:app/feature/browser_v2/widgets/bottomsheets/book/widgets/history/widgets/clear_history_modal.dart';
 import 'package:app/feature/browser_v2/widgets/bottomsheets/browser_main_menu/browser_main_menu.dart';
 import 'package:app/feature/browser_v2/widgets/bottomsheets/browser_main_menu/browser_main_menu_model.dart';
 import 'package:app/feature/browser_v2/widgets/bottomsheets/browser_main_menu/data/browser_main_menu_data.dart';
 import 'package:elementary/elementary.dart';
 import 'package:flutter/widgets.dart';
+import 'package:injectable/injectable.dart';
 import 'package:ui_components_lib/ui_components_lib.dart';
 
-/// Factory method for creating [BrowserMainMenuWidgetModel]
-BrowserMainMenuWidgetModel defaultBrowserMainMenuWidgetModelFactory(
-  BuildContext context,
-) {
-  return BrowserMainMenuWidgetModel(
-    BrowserMainMenuModel(
-      createPrimaryErrorHandler(context),
-      inject(),
-    ),
-  );
-}
-
 /// [WidgetModel] для [BrowserMainMenu]
+@injectable
 class BrowserMainMenuWidgetModel
     extends CustomWidgetModel<BrowserMainMenu, BrowserMainMenuModel> {
   BrowserMainMenuWidgetModel(

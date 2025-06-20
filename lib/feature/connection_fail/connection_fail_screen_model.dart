@@ -1,9 +1,11 @@
 import 'package:app/feature/bootstrap_failed/cubit/rerun_cubit/rerun_cubit.dart';
 import 'package:app/feature/connection_fail/connection_fail_screen.dart';
 import 'package:elementary/elementary.dart';
+import 'package:injectable/injectable.dart';
 import 'package:flutter/cupertino.dart';
 
 /// [ElementaryModel] for [ConnectionFailScreen]
+@injectable
 class ConnectionFailModel extends ElementaryModel {
   ConnectionFailModel(
     ErrorHandler errorHandler,

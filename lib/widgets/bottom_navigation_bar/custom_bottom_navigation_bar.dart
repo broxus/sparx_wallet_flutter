@@ -1,21 +1,16 @@
+import 'package:app/core/wm/custom_wm.dart';
 import 'package:app/feature/root/view/root_tab.dart';
 import 'package:app/utils/system_utils.dart';
 import 'package:app/widgets/bottom_navigation_bar/custom_bottom_navigation_bar_wm.dart';
-import 'package:elementary/elementary.dart';
 import 'package:elementary_helper/elementary_helper.dart';
 import 'package:flutter/material.dart';
 import 'package:ui_components_lib/ui_components_lib.dart';
 
 class CustomBottomNavigationBar
-    extends ElementaryWidget<CustomBottomNavigationBarWidgetModel> {
+    extends InjectedElementaryWidget<CustomBottomNavigationBarWidgetModel> {
   const CustomBottomNavigationBar({
-    Key? key,
-    WidgetModelFactory<CustomBottomNavigationBarWidgetModel> wmFactory =
-        defaultCustomBottomNavigationBarWidgetModelFactory,
-  }) : super(
-          wmFactory,
-          key: key,
-        );
+    super.key,
+  });
 
   static final height = DimensSizeV2.d48 + getViewPadding().bottom;
   static const animateDuration = Duration(milliseconds: 150);

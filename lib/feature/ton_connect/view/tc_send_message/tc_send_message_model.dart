@@ -6,9 +6,11 @@ import 'package:app/feature/messenger/domain/service/messenger_service.dart';
 import 'package:app/http/repository/repository.dart';
 import 'package:app/utils/utils.dart';
 import 'package:elementary/elementary.dart';
+import 'package:injectable/injectable.dart';
 import 'package:nekoton_repository/nekoton_repository.dart' hide Message;
 import 'package:rxdart/rxdart.dart';
 
+@injectable
 class TCSendMessageModel extends ElementaryModel {
   TCSendMessageModel(
     ErrorHandler errorHandler,

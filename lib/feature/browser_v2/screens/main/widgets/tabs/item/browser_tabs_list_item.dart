@@ -1,29 +1,30 @@
 import 'dart:io';
 
+import 'package:app/core/wm/custom_wm.dart';
 import 'package:app/feature/browser_v2/data/browser_tab.dart';
 import 'package:app/feature/browser_v2/screens/main/widgets/tabs/item/browser_tabs_list_item_wm.dart';
 import 'package:app/generated/generated.dart';
-import 'package:elementary/elementary.dart';
 import 'package:elementary_helper/elementary_helper.dart';
 import 'package:flutter/material.dart';
+import 'package:injectable/injectable.dart';
 import 'package:lucide_icons_flutter/lucide_icons.dart';
 import 'package:render_metrics/render_metrics.dart';
 import 'package:ui_components_lib/ui_components_lib.dart';
 
+@injectable
 class BrowserTabsListItem
-    extends ElementaryWidget<BrowserTabsListItemWidgetModel> {
+    extends InjectedElementaryWidget<BrowserTabsListItemWidgetModel> {
   const BrowserTabsListItem({
-    required this.tab,
+    required BrowserTab tab,
     required this.renderManager,
     required this.onPressedTabMenu,
     this.onPressed,
     this.onClosePressed,
     super.key,
-    WidgetModelFactory<BrowserTabsListItemWidgetModel> wmFactory =
-        defaultBrowserTabsListItemWidgetModelFactory,
-  }) : super(wmFactory);
+  }) : super(
+          param1: tab,
+        );
 
-  final BrowserTab tab;
   final RenderManager<String> renderManager;
   final VoidCallback onPressedTabMenu;
   final VoidCallback? onPressed;
@@ -32,7 +33,7 @@ class BrowserTabsListItem
   @override
   Widget build(BrowserTabsListItemWidgetModel wm) {
     return RenderMetricsObject(
-      id: tab.id,
+      id: wm.tab.id,
       manager: renderManager,
       child: Stack(
         children: [

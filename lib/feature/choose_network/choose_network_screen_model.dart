@@ -8,10 +8,12 @@ import 'package:app/feature/messenger/data/message.dart';
 import 'package:app/feature/messenger/domain/service/messenger_service.dart';
 import 'package:app/utils/mixins/connection_mixin.dart';
 import 'package:elementary/elementary.dart';
+import 'package:injectable/injectable.dart';
 import 'package:flutter/material.dart';
 import 'package:nekoton_repository/nekoton_repository.dart' hide Message;
 
 /// [ElementaryModel] for [ChooseNetworkScreen]
+@injectable
 class ChooseNetworkScreenModel extends ElementaryModel with ConnectionMixin {
   ChooseNetworkScreenModel(
     ErrorHandler errorHandler,

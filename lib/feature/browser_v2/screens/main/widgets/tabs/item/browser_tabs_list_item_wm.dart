@@ -1,35 +1,26 @@
 import 'dart:io';
 
-import 'package:app/core/error_handler_factory.dart';
 import 'package:app/core/wm/custom_wm.dart';
-import 'package:app/di/di.dart';
+import 'package:app/feature/browser_v2/data/browser_tab.dart';
 import 'package:app/feature/browser_v2/data/tabs_data.dart';
 import 'package:app/feature/browser_v2/screens/main/widgets/tabs/item/browser_tabs_list_item.dart';
 import 'package:app/feature/browser_v2/screens/main/widgets/tabs/item/browser_tabs_list_item_model.dart';
 import 'package:app/generated/generated.dart';
 import 'package:elementary/elementary.dart';
 import 'package:elementary_helper/elementary_helper.dart';
-import 'package:flutter/widgets.dart';
+import 'package:injectable/injectable.dart';
 import 'package:ui_components_lib/v2/ui_components_lib_v2.dart';
 
-/// Factory method for creating [BrowserTabsListItemWidgetModel]
-BrowserTabsListItemWidgetModel defaultBrowserTabsListItemWidgetModelFactory(
-  BuildContext context,
-) {
-  return BrowserTabsListItemWidgetModel(
-    BrowserTabsListItemModel(
-      createPrimaryErrorHandler(context),
-      inject(),
-    ),
-  );
-}
-
 /// [WidgetModel] для [BrowserTabsListItem]
+@injectable
 class BrowserTabsListItemWidgetModel
     extends CustomWidgetModel<BrowserTabsListItem, BrowserTabsListItemModel> {
   BrowserTabsListItemWidgetModel(
     super.model,
+    @factoryParam this.tab,
   );
+
+  final BrowserTab tab;
 
   String? _lastFilePath;
 
@@ -55,17 +46,7 @@ class BrowserTabsListItemWidgetModel
     super.initWidgetModel();
   }
 
-  @override
-  void didUpdateWidget(BrowserTabsListItem oldWidget) {
-    if (oldWidget.tab.title != widget.tab.title) {
-      _updateTitle();
-    }
-    super.didUpdateWidget(oldWidget);
-  }
-
   void _updateTitle() {
-    final tab = widget.tab;
-
     String? title;
 
     if (tab.title != null) {
@@ -86,11 +67,11 @@ class BrowserTabsListItemWidgetModel
   }
 
   void _handleActiveTab() {
-    _activeState.accept(widget.tab.id == model.activeTabState.value?.id);
+    _activeState.accept(tab.id == model.activeTabState.value?.id);
   }
 
   void _handleScreenShots() {
-    final filePath = model.screenshotsState.value?.get(widget.tab.id);
+    final filePath = model.screenshotsState.value?.get(tab.id);
 
     if (filePath == null) {
       return;

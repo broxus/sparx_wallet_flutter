@@ -1,7 +1,6 @@
 import 'package:app/app/service/identify/identy_icon_data.dart';
-import 'package:app/core/error_handler_factory.dart';
 import 'package:app/core/wm/custom_wm.dart';
-import 'package:app/di/di.dart';
+import 'package:injectable/injectable.dart';
 import 'package:app/feature/wallet/widgets/account_settings/widgets/change_color_bottom_sheet/change_color_bottom_sheet.dart';
 import 'package:app/feature/wallet/widgets/account_settings/widgets/change_color_bottom_sheet/change_color_bottom_sheet_model.dart';
 import 'package:elementary/elementary.dart';
@@ -10,25 +9,16 @@ import 'package:flutter/widgets.dart';
 import 'package:ui_components_lib/ui_components_lib.dart';
 import 'package:ui_components_lib/v2/text_styles_v2.dart';
 
-/// Factory method for creating [ChangeColorBottomSheetWidgetModel]
-ChangeColorBottomSheetWidgetModel
-    defaultChangeColorBottomSheetWidgetModelFactory(
-  BuildContext context,
-) {
-  return ChangeColorBottomSheetWidgetModel(
-    ChangeColorBottomSheetModel(
-      createPrimaryErrorHandler(context),
-      inject(),
-    ),
-  );
-}
-
 /// [WidgetModel] для [ChangeColorBottomSheet]
+@injectable
 class ChangeColorBottomSheetWidgetModel extends CustomWidgetModel<
     ChangeColorBottomSheet, ChangeColorBottomSheetModel> {
   ChangeColorBottomSheetWidgetModel(
     super.model,
+    @factoryParam this._address,
   );
+
+  final String _address;
 
   late final _selectedColorState = StateNotifier<IdentifyIconData?>();
 
@@ -67,12 +57,12 @@ class ChangeColorBottomSheetWidgetModel extends CustomWidgetModel<
       return;
     }
 
-    model.setData(widget.address, color);
+    model.setData(_address, color);
     _back();
   }
 
   Future<void> _init() async {
-    _selectedColorState.accept(await model.getData(widget.address));
+    _selectedColorState.accept(await model.getData(_address));
   }
 
   void _back() {

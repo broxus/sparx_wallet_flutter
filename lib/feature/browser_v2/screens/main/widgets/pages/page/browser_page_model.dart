@@ -16,11 +16,13 @@ import 'package:app/feature/browser_v2/screens/main/widgets/pages/page/browser_p
 import 'package:app/feature/browser_v2/screens/main/widgets/pages/page/helpers/events_helper.dart';
 import 'package:app/feature/messenger/domain/service/messenger_service.dart';
 import 'package:elementary/elementary.dart';
+import 'package:injectable/injectable.dart';
 import 'package:elementary_helper/elementary_helper.dart';
 import 'package:flutter_inappwebview/flutter_inappwebview.dart';
 import 'package:nekoton_repository/nekoton_repository.dart';
 
 /// [ElementaryModel] for [BrowserPage]
+@injectable
 class BrowserPageModel extends ElementaryModel {
   BrowserPageModel(
     ErrorHandler errorHandler,
