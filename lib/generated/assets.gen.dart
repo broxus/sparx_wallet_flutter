@@ -404,10 +404,6 @@ class $AssetsImagesGen {
   /// File path: assets/images/plus.svg
   SvgGenImage get plus => const SvgGenImage('assets/images/plus.svg');
 
-  /// File path: assets/images/plus_circled.svg
-  SvgGenImage get plusCircled =>
-      const SvgGenImage('assets/images/plus_circled.svg');
-
   /// File path: assets/images/refresh.svg
   SvgGenImage get refresh => const SvgGenImage('assets/images/refresh.svg');
 
@@ -570,7 +566,6 @@ class $AssetsImagesGen {
         planetInner,
         planetOuter,
         plus,
-        plusCircled,
         refresh,
         search,
         searchEmpty,
@@ -591,19 +586,6 @@ class $AssetsImagesGen {
         wallet,
         web
       ];
-}
-
-class $AssetsJsGen {
-  const $AssetsJsGen();
-
-  /// File path: assets/js/main.js.LICENSE.txt
-  String get mainJsLICENSE => 'assets/js/main.js.LICENSE.txt';
-
-  /// File path: assets/js/nekoton.js
-  String get nekoton => 'assets/js/nekoton.js';
-
-  /// List of all assets
-  List<String> get values => [mainJsLICENSE, nekoton];
 }
 
 class $AssetsSplashGen {
@@ -894,7 +876,6 @@ class Assets {
   static const $AssetsAnimationsGen animations = $AssetsAnimationsGen();
   static const $AssetsConfigsGen configs = $AssetsConfigsGen();
   static const $AssetsImagesGen images = $AssetsImagesGen();
-  static const $AssetsJsGen js = $AssetsJsGen();
   static const $AssetsSplashGen splash = $AssetsSplashGen();
   static const $AssetsTranslationsGen translations = $AssetsTranslationsGen();
 }

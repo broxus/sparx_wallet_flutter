@@ -420,10 +420,10 @@ packages:
     dependency: transitive
     description:
       name: coverage
-      sha256: aa07dbe5f2294c827b7edb9a87bba44a9c15a3cc81bc8da2ca19b37322d30080
+      sha256: "4b8701e48a58f7712492c9b1f7ba0bb9d525644dd66d023b62e1fc8cdb560c8a"
       url: "https://pub.dev"
     source: hosted
-    version: "1.14.1"
+    version: "1.14.0"
   cronet_http:
     dependency: transitive
     description:
@@ -943,6 +943,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "3.1.2"
+  flutter_slidable:
+    dependency: "direct main"
+    description:
+      name: flutter_slidable
+      sha256: ab7dbb16f783307c9d7762ede2593ce32c220ba2ba0fd540a3db8e9a3acba71a
+      url: "https://pub.dev"
+    source: hosted
+    version: "4.0.0"
   flutter_svg:
     dependency: "direct main"
     description:
@@ -1527,18 +1535,18 @@ packages:
     dependency: "direct main"
     description:
       name: nekoton_repository
-      sha256: "8602e89373abcec1dc61c19f9a1329526b917ec0abd6790dc28dca2d676424e0"
+      sha256: c7fd68044dc4fad6f8ec787ef96393a6c46484595f48dce2081e0956c2f8e67f
       url: "https://pub.dev"
     source: hosted
-    version: "1.1.0"
+    version: "1.2.0"
   nekoton_webview:
     dependency: "direct main"
     description:
       name: nekoton_webview
-      sha256: "5411454ef0adfdac51e906869bf4f6a934d9c6277ad41bd06f2f8d7f1ea1fb46"
+      sha256: b4e9f15a786ae72c64b1c995a69aac026dc482c3dd7085c55f32209c9c184035
       url: "https://pub.dev"
     source: hosted
-    version: "0.1.10"
+    version: "0.1.11"
   nested:
     dependency: transitive
     description:

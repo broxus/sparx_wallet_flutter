@@ -5,19 +5,24 @@ import 'package:app/feature/browser_v2/widgets/bottomsheets/book/widgets/history
 import 'package:app/feature/browser_v2/widgets/bottomsheets/browser_main_menu/browser_main_menu.dart';
 import 'package:app/feature/browser_v2/widgets/bottomsheets/browser_main_menu/browser_main_menu_model.dart';
 import 'package:app/feature/browser_v2/widgets/bottomsheets/browser_main_menu/data/browser_main_menu_data.dart';
+import 'package:app/utils/types/fuction_types.dart';
 import 'package:elementary/elementary.dart';
 import 'package:flutter/widgets.dart';
 import 'package:ui_components_lib/ui_components_lib.dart';
 
 /// Factory method for creating [BrowserMainMenuWidgetModel]
 BrowserMainMenuWidgetModel defaultBrowserMainMenuWidgetModelFactory(
-  BuildContext context,
-) {
+  BuildContext context, {
+  required String groupId,
+  required DoubleValueCallback<String, String> onPressedCreateTab,
+}) {
   return BrowserMainMenuWidgetModel(
     BrowserMainMenuModel(
       createPrimaryErrorHandler(context),
       inject(),
     ),
+    groupId,
+    onPressedCreateTab,
   );
 }
 
@@ -26,7 +31,12 @@ class BrowserMainMenuWidgetModel
     extends CustomWidgetModel<BrowserMainMenu, BrowserMainMenuModel> {
   BrowserMainMenuWidgetModel(
     super.model,
+    this._groupId,
+    this._onPressedCreateTab,
   );
+
+  final String _groupId;
+  final DoubleValueCallback<String, String> _onPressedCreateTab;
 
   ColorsPaletteV2 get colors => _theme.colors;
 
@@ -44,7 +54,8 @@ class BrowserMainMenuWidgetModel
         }
       case BrowserMainMenuData.newTab:
         _close();
-        model.createTab();
+        final result = model.createTab(_groupId);
+        _onPressedCreateTab(result.$1, result.$2);
       case BrowserMainMenuData.reload:
         model.reload();
         _close();

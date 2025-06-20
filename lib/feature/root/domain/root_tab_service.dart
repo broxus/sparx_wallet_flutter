@@ -1,6 +1,6 @@
 import 'package:app/app/router/router.dart';
 import 'package:app/feature/browser_v2/domain/service/browser_service.dart';
-import 'package:app/feature/browser_v2/route.dart';
+import 'package:app/feature/browser_v2/screens/main/route.dart';
 import 'package:app/feature/root/view/root_tab.dart';
 import 'package:collection/collection.dart';
 import 'package:injectable/injectable.dart';

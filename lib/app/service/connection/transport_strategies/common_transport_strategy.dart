@@ -23,6 +23,7 @@ class CommonTransportStrategy extends AppTransportStrategy {
     required this.genericTokenType,
     required this.accountExplorerLinkType,
     required this.transactionExplorerLinkType,
+    required this.pollingConfig,
     this.stakeInformation,
     this.tokenApiBaseUrl,
     this.currencyApiBaseUrl,
@@ -59,6 +60,7 @@ class CommonTransportStrategy extends AppTransportStrategy {
       tokenApiBaseUrl: transportData.tokenApiBaseUrl,
       currencyApiBaseUrl: transportData.currencyApiBaseUrl,
       baseCurrencyUrl: transportData.baseCurrencyUrl,
+      pollingConfig: transportData.pollingConfig ?? PollingConfig.defaultConfig,
     );
   }
 
@@ -113,6 +115,9 @@ class CommonTransportStrategy extends AppTransportStrategy {
   final TransactionExplorerLinkType transactionExplorerLinkType;
 
   final String baseCurrencyUrl;
+
+  @override
+  final PollingConfig pollingConfig;
 
   @override
   StakingInformation? stakeInformation;

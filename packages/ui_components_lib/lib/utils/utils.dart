@@ -78,7 +78,9 @@ extension MoneyFormat on Money {
       );
     }
 
-    if (d < 1) {
+    if (d < 0.00000001) {
+      return formatImproved(pattern: _moneyPattern(decimalDigits));
+    } else if (d < 1) {
       return formatImproved(pattern: _moneyPattern(8));
     } else if (d < 1000) {
       return formatImproved(pattern: _moneyPattern(4));
