@@ -1,5 +1,5 @@
 import 'package:app/app/router/compass/compass.dart';
-import 'package:app/feature/browser_v2/route.dart';
+import 'package:app/feature/browser_v2/screens/main/route.dart';
 import 'package:app/feature/nft/nft.dart';
 import 'package:app/feature/profile/route.dart';
 import 'package:app/feature/wallet/route.dart';

@@ -57,6 +57,9 @@ Map<NetworkGroup, ConnectionTransportData>? mapToTransports(
       currencyApiBaseUrl: transport['currencyApiBaseUrl'] as String?,
       nftInformation: (transport['nftInformation'] as Map<String, dynamic>?)
           ?.let(NftInformation.fromJson),
+      pollingConfig: _mapToPollingConfig(
+        transport['pollingConfig'] as Map<String, dynamic>?,
+      ),
     );
   }
 
@@ -204,4 +207,21 @@ List<DefaultActiveAsset> _mapToDefaultActiveAssets(dynamic json) {
   } catch (_) {
     return [];
   }
+}
+
+PollingConfig? _mapToPollingConfig(Map<String, dynamic>? json) {
+  if (json == null) return null;
+
+  final ton = parseToInt(json['tonWalletRefreshInterval']);
+  final token = parseToInt(json['tokenWalletRefreshInterval']);
+  final intensive = parseToInt(json['intensivePollingInterval']);
+
+  return PollingConfig(
+    tonWalletRefreshInterval: ton?.let((it) => Duration(seconds: it)) ??
+        PollingConfig.defaultConfig.tonWalletRefreshInterval,
+    tokenWalletRefreshInterval: token?.let((it) => Duration(seconds: it)) ??
+        PollingConfig.defaultConfig.tokenWalletRefreshInterval,
+    intensivePollingInterval: intensive?.let((it) => Duration(seconds: it)) ??
+        PollingConfig.defaultConfig.intensivePollingInterval,
+  );
 }

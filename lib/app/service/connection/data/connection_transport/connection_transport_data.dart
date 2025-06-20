@@ -23,6 +23,7 @@ class ConnectionTransportData {
     this.currencyApiBaseUrl,
     this.defaultNativeCurrencyDecimal,
     this.nftInformation,
+    this.pollingConfig,
     List<DefaultActiveAsset>? defaultActiveAssets,
   }) : defaultActiveAssets = defaultActiveAssets ?? [];
 
@@ -93,6 +94,7 @@ class ConnectionTransportData {
   final String? currencyApiBaseUrl;
   final int? defaultNativeCurrencyDecimal;
   final NftInformation? nftInformation;
+  final PollingConfig? pollingConfig;
 }
 
 class WalletDefaultAccountNames {

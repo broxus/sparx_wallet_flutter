@@ -94,8 +94,6 @@ class WalletPrepareTransferPageWidgetModel extends CustomWidgetModel<
     (w) => w.tokenSymbol,
   );
 
-  StreamSubscription<dynamic>? _currencySubscription;
-
   WalletPrepareTransferData? get _data => screenState.value.data;
 
   WalletPrepareTransferAsset? get _selectedAsset => _data?.selectedAsset;
@@ -111,12 +109,6 @@ class WalletPrepareTransferPageWidgetModel extends CustomWidgetModel<
     super.initWidgetModel();
     _init();
     _initListeners();
-  }
-
-  @override
-  void dispose() {
-    _currencySubscription?.cancel();
-    super.dispose();
   }
 
   String? getSeedName(PublicKey custodian) => model.getSeedName(custodian);

@@ -42,6 +42,7 @@ dependencies:
   flutter_inappwebview: 6.1.5
   flutter_screenutil: 5.9.3
   flutter_secure_storage: 9.2.4
+  flutter_slidable: 4.0.0
   flutter_svg: 2.0.17
   freezed_annotation: 2.4.4
   get_it: 8.0.3
@@ -65,11 +66,8 @@ dependencies:
   money2: 5.4.6
   money2_fixer: 3.0.0
   native_dio_adapter: ^1.4.0
-  nekoton_repository:
-    git:
-      url: https://github.com/broxus/nekoton_repository
-      ref: feat/EWM-517_nft
-  nekoton_webview: 0.1.10
+  nekoton_repository: 1.2.0
+  nekoton_webview: 0.1.11
   ntp: 2.0.0
   open_settings_plus: 0.4.0
   package_info_plus: 8.3.0
@@ -150,5 +148,4 @@ flutter:
     - assets/images/bg_main/
     - assets/images/nft_placeholder/
     - assets/splash/
-    - assets/js/
     - assets/animations/

@@ -12,6 +12,6 @@ class BrowserBookmarkRenameBottomSheetModel extends ElementaryModel {
   final BrowserService _browserService;
 
   void renameBookmark(String id, String text) {
-    _browserService.bM.renameBookmark(id, text);
+    _browserService.book.renameBookmark(id, text);
   }
 }

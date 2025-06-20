@@ -24,10 +24,6 @@ class BalanceService {
   /// Calculate balance in fiat currency for TonWallet, specified by [address],
   /// and all existed TokenWallets for this [address]. This is quite complicated
   /// logic and uses already created subscriptions for Ton/TokenWallets.
-  ///
-  /// If you need to get amount without subscriptions, use [getKeyBalance] or
-  /// [getAccountBalance].
-  // ignore: long-method
   Stream<Fixed?> accountOverallBalance(Address address) {
     return Rx.combineLatest3<TonWalletState?, TransportStrategy, KeyAccount?,
         (TonWalletState?, TransportStrategy, KeyAccount?)>(
@@ -233,19 +229,5 @@ class BalanceService {
 
           return Fixed.zero;
         });
-  }
-
-  /// Get balance of public key and all related Ton/Token wallets of it without
-  /// creating subscriptions.
-  // TODO(alex-a4): implement later
-  Future<Fixed> getKeyBalance(PublicKey _) async {
-    return Fixed.zero;
-  }
-
-  /// Get balance of account and all tokens of wallet without
-  /// creating subscriptions.
-  // TODO(alex-a4): implement later
-  Future<Fixed> getAccountBalance(KeyAccount _) async {
-    return Fixed.zero;
   }
 }

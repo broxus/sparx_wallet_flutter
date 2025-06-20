@@ -25,20 +25,13 @@ class PasteButton extends StatelessWidget {
       child: ValueListenableBuilder(
         valueListenable: value,
         builder: (_, value, __) {
-          if (value.text.isEmpty) {
-            return PrimaryButton(
-              icon: LucideIcons.arrowDownToDot,
-              buttonShape: ButtonShape.square,
-              buttonSize: buttonSize,
-              onPressed: onPaste,
-            );
-          }
+          final isEmpty = value.text.isEmpty;
 
           return PrimaryButton(
-            icon: LucideIcons.x,
+            icon: isEmpty ? LucideIcons.arrowDownToDot : LucideIcons.x,
             buttonShape: ButtonShape.square,
             buttonSize: buttonSize,
-            onPressed: onClear,
+            onPressed: isEmpty ? onPaste : onClear,
           );
         },
       ),
