@@ -1,6 +1,5 @@
-import 'package:app/core/error_handler_factory.dart';
 import 'package:app/core/wm/custom_wm.dart';
-import 'package:app/di/di.dart';
+import 'package:injectable/injectable.dart';
 import 'package:app/feature/browser_v1/utils.dart';
 import 'package:app/feature/wallet/widgets/account_transactions_tab/detail/details.dart';
 import 'package:app/feature/wallet/widgets/account_transactions_tab/detail/ton_wallet_ordinary_transaction_details/ton_wallet_ordinary_transaction_details.dart';
@@ -11,62 +10,55 @@ import 'package:nekoton_repository/nekoton_repository.dart';
 import 'package:ui_components_lib/ui_components_lib.dart';
 import 'package:ui_components_lib/v2/text_styles_v2.dart';
 
-/// Factory method for creating [TonWalletOrdinaryTransactionDetailsWidgetModel]
-TonWalletOrdinaryTransactionDetailsWidgetModel
-    defaultTonWalletOrdinaryTransactionDetailsWidgetModelFactory(
-  BuildContext context, {
-  required TonWalletOrdinaryTransaction transaction,
-  required Fixed price,
-}) {
-  return TonWalletOrdinaryTransactionDetailsWidgetModel(
-    TonWalletOrdinaryTransactionDetailsModel(
-      createPrimaryErrorHandler(context),
-      inject(),
-    ),
-    transaction,
-    price,
-  );
+class TonWalletOrdinaryTransactionDetailsWmParams {
+  TonWalletOrdinaryTransactionDetailsWmParams({
+    required this.transaction,
+    required this.price,
+  });
+
+  final TonWalletOrdinaryTransaction transaction;
+  final Fixed price;
 }
 
 /// [WidgetModel] для [TonWalletOrdinaryTransactionDetails]
+@injectable
 class TonWalletOrdinaryTransactionDetailsWidgetModel extends CustomWidgetModel<
     TonWalletOrdinaryTransactionDetails,
     TonWalletOrdinaryTransactionDetailsModel> {
   TonWalletOrdinaryTransactionDetailsWidgetModel(
     super.model,
-    this._transaction,
-    this.price,
+    @factoryParam this._wmParams,
   );
 
-  late final date = _transaction.date;
-  late final isIncoming = !_transaction.isOutgoing;
+  final TonWalletOrdinaryTransactionDetailsWmParams _wmParams;
+
+  Fixed get price => _wmParams.price;
+
+  late final date = _wmParams.transaction.date;
+  late final isIncoming = !_wmParams.transaction.isOutgoing;
 
   late final Money transactionFee = Money.fromBigIntWithCurrency(
-    _transaction.fees,
+    _wmParams.transaction.fees,
     Currencies()[model.ticker]!,
   );
 
   late final Money transactionValue = Money.fromBigIntWithCurrency(
-    _transaction.value,
+    _wmParams.transaction.value,
     Currencies()[model.ticker]!,
   );
 
-  late final transactionHash = _transaction.hash;
+  late final transactionHash = _wmParams.transaction.hash;
 
-  late final transactionAddress = _transaction.address;
+  late final transactionAddress = _wmParams.transaction.address;
 
-  late final transactionComment = _transaction.comment;
+  late final transactionComment = _wmParams.transaction.comment;
 
   late final transactionInfo = _methodData?.$1;
 
   late final tonIconPath = model.tonIconPath;
 
-  final Fixed price;
-
   late final _methodData =
-      _transaction.walletInteractionInfo?.method.toRepresentableData();
-
-  final TonWalletOrdinaryTransaction _transaction;
+      _wmParams.transaction.walletInteractionInfo?.method.toRepresentableData();
 
   ColorsPaletteV2 get colors => _theme.colors;
 
@@ -77,7 +69,7 @@ class TonWalletOrdinaryTransactionDetailsWidgetModel extends CustomWidgetModel<
   void onPressedSeeInExplorer() {
     Navigator.of(context).pop();
     openBrowserUrl(
-      model.getTransactionExplorerLink(_transaction.hash),
+      model.getTransactionExplorerLink(_wmParams.transaction.hash),
     );
   }
 }

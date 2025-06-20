@@ -1,29 +1,26 @@
+import 'package:app/core/wm/custom_wm.dart';
 import 'package:app/core/wm/not_null_listenable_state.dart';
 import 'package:app/feature/browser_v2/data/tabs/browser_tab.dart';
 import 'package:app/feature/browser_v2/screens/main/widgets/tabs/item/browser_tabs_list_item_wm.dart';
 import 'package:app/feature/browser_v2/screens/main/widgets/tabs/item/widgets/browser_tabs_list_item_body.dart';
-import 'package:elementary/elementary.dart';
 import 'package:flutter/material.dart';
+import 'package:injectable/injectable.dart';
 import 'package:lucide_icons_flutter/lucide_icons.dart';
 import 'package:render_metrics/render_metrics.dart';
 import 'package:ui_components_lib/ui_components_lib.dart';
 
+@injectable
 class BrowserTabsListItem
-    extends ElementaryWidget<BrowserTabsListItemWidgetModel> {
-  BrowserTabsListItem({
+    extends InjectedElementaryWidget<BrowserTabsListItemWidgetModel> {
+  const BrowserTabsListItem({
     required NotNullListenableState<BrowserTab> tabNotifier,
     required this.renderManager,
     required this.onPressedTabMenu,
     this.onPressed,
     this.onClosePressed,
     super.key,
-    WidgetModelFactory<BrowserTabsListItemWidgetModel>? wmFactory,
   }) : super(
-          wmFactory ??
-              (ctx) => defaultBrowserTabsListItemWidgetModelFactory(
-                    ctx,
-                    tabNotifier: tabNotifier,
-                  ),
+          param1: tabNotifier,
         );
 
   final RenderManager<String> renderManager;

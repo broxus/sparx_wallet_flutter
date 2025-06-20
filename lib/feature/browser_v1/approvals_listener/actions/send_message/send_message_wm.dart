@@ -1,17 +1,40 @@
 import 'dart:async';
 
 import 'package:app/app/service/service.dart';
-import 'package:app/core/error_handler_factory.dart';
 import 'package:app/core/wm/custom_wm.dart';
-import 'package:app/di/di.dart';
 import 'package:app/feature/browser_v1/approvals_listener/actions/send_message/send_message_model.dart';
-import 'package:app/feature/browser_v1/approvals_listener/actions/send_message/send_message_widget.dart';
 import 'package:app/generated/generated.dart';
 import 'package:app/utils/utils.dart';
+import 'package:elementary/elementary.dart';
 import 'package:elementary_helper/elementary_helper.dart';
 import 'package:flutter/material.dart';
+import 'package:injectable/injectable.dart';
 import 'package:nekoton_repository/nekoton_repository.dart';
 import 'package:ui_components_lib/v2/ui_components_lib_v2.dart';
+
+class SendMessageWmParams {
+  const SendMessageWmParams({
+    required this.origin,
+    required this.sender,
+    required this.recipient,
+    required this.amount,
+    required this.bounce,
+    required this.payload,
+    required this.knownPayload,
+    this.ignoredComputePhaseCodes,
+    this.ignoredActionPhaseCodes,
+  });
+
+  final Uri origin;
+  final Address sender;
+  final Address recipient;
+  final BigInt amount;
+  final bool bounce;
+  final FunctionCall? payload;
+  final KnownPayload? knownPayload;
+  final List<IgnoreTransactionTreeSimulationError>? ignoredComputePhaseCodes;
+  final List<IgnoreTransactionTreeSimulationError>? ignoredActionPhaseCodes;
+}
 
 class TransferData {
   TransferData({
@@ -27,22 +50,21 @@ class TransferData {
   final int? numberUnconfirmedTransactions;
 }
 
-SendMessageWidgetModel defaultSendMessageWidgetModelFactory(
-  BuildContext context,
-) =>
-    SendMessageWidgetModel(
-      SendMessageModel(
-        createPrimaryErrorHandler(context),
-        inject(),
-        inject(),
-      ),
-    );
-
+@injectable
 class SendMessageWidgetModel
-    extends CustomWidgetModel<SendMessageWidget, SendMessageModel> {
-  SendMessageWidgetModel(super.model);
+    extends CustomWidgetModel<ElementaryWidget, SendMessageModel> {
+  SendMessageWidgetModel(
+    super.model,
+    @factoryParam this._wmParams,
+  );
 
-  late final account = model.getAccount(widget.sender);
+  final SendMessageWmParams _wmParams;
+
+  late final account = model.getAccount(_wmParams.sender);
+
+  Uri get origin => _wmParams.origin;
+  Address get recipient => _wmParams.recipient;
+  FunctionCall? get payload => _wmParams.payload;
 
   late final _data = createNotifier<TransferData>();
   late final _fee = createNotifier<BigInt>();
@@ -51,7 +73,7 @@ class SendMessageWidgetModel
   late final _publicKey = createNotifier(account?.publicKey);
   late final _custodians = createNotifier<List<PublicKey>>();
   late final _balance = createNotifierFromStream(
-    model.getBalanceStream(widget.sender),
+    model.getBalanceStream(_wmParams.sender),
   );
   late final _isLoading = createNotifier(true);
   late final _isConfirmed = createNotifier(false);
@@ -99,7 +121,7 @@ class SendMessageWidgetModel
   void onConfirmed(bool value) => _isConfirmed.accept(value);
 
   Future<void> _init() async {
-    final tokens = widget.knownPayload?.whenOrNull(
+    final tokens = _wmParams.knownPayload?.whenOrNull(
       tokenOutgoingTransfer: (data) => data.tokens,
       tokenSwapBack: (data) => data.tokens,
     );
@@ -111,7 +133,7 @@ class SendMessageWidgetModel
         _data.accept(
           TransferData(
             amount: Money.fromBigIntWithCurrency(
-              widget.amount,
+              _wmParams.amount,
               nativeCurrency!,
             ),
             numberUnconfirmedTransactions: numberUnconfirmedTransactions,
@@ -130,8 +152,8 @@ class SendMessageWidgetModel
 
   Future<void> _getTokenTransferData(BigInt tokens) async {
     final (rootTokenContract, details) =
-        await model.getTokenRootDetailsFromTokenWallet(widget.recipient);
-    final walletTonState = await model.getTonWalletState(widget.sender);
+        await model.getTokenRootDetailsFromTokenWallet(_wmParams.recipient);
+    final walletTonState = await model.getTonWalletState(_wmParams.sender);
     numberUnconfirmedTransactions =
         (walletTonState.wallet?.unconfirmedTransactions.length ?? 0) +
             (walletTonState.wallet?.pendingTransactions.length ?? 0);
@@ -148,7 +170,7 @@ class SendMessageWidgetModel
     _data.accept(
       TransferData(
         amount: Money.fromBigIntWithCurrency(tokens, currency),
-        attachedAmount: widget.amount,
+        attachedAmount: _wmParams.amount,
         rootTokenContract: rootTokenContract,
         numberUnconfirmedTransactions: numberUnconfirmedTransactions,
       ),
@@ -156,7 +178,7 @@ class SendMessageWidgetModel
   }
 
   Future<void> _getCustodians() async {
-    final custodians = await model.getLocalCustodiansAsync(widget.sender);
+    final custodians = await model.getLocalCustodiansAsync(_wmParams.sender);
     _custodians.accept(custodians);
   }
 
@@ -166,12 +188,12 @@ class SendMessageWidgetModel
     try {
       _isLoading.accept(true);
       message = await model.prepareTransfer(
-        address: widget.sender,
-        destination: widget.recipient,
+        address: _wmParams.sender,
+        destination: _wmParams.recipient,
         publicKey: account?.publicKey,
-        amount: widget.amount,
-        payload: widget.payload,
-        bounce: widget.bounce,
+        amount: _wmParams.amount,
+        payload: _wmParams.payload,
+        bounce: _wmParams.bounce,
       );
 
       await _estimateFees(message);
@@ -179,8 +201,8 @@ class SendMessageWidgetModel
 
       final data = _data.value;
       if (data != null) {
-        final balance =
-            _balance.value ?? await model.getBalanceStream(widget.sender).first;
+        final balance = _balance.value ??
+            await model.getBalanceStream(_wmParams.sender).first;
         final fee = _fee.value ?? BigInt.zero;
         final amount = data.attachedAmount ?? data.amount.amount.minorUnits;
 
@@ -197,7 +219,7 @@ class SendMessageWidgetModel
   Future<void> _estimateFees(UnsignedMessage message) async {
     try {
       final fee = await model.estimateFees(
-        address: widget.sender,
+        address: _wmParams.sender,
         message: message,
       );
 
@@ -210,10 +232,10 @@ class SendMessageWidgetModel
   Future<void> _simulateTransactionTree(UnsignedMessage message) async {
     try {
       final errors = await model.simulateTransactionTree(
-        address: widget.sender,
+        address: _wmParams.sender,
         message: message,
-        ignoredComputePhaseCodes: widget.ignoredComputePhaseCodes,
-        ignoredActionPhaseCodes: widget.ignoredActionPhaseCodes,
+        ignoredComputePhaseCodes: _wmParams.ignoredComputePhaseCodes,
+        ignoredActionPhaseCodes: _wmParams.ignoredActionPhaseCodes,
       );
 
       _txErrors.accept(errors);
@@ -225,7 +247,7 @@ class SendMessageWidgetModel
   }
 
   Future<void> _initWalletTon(BigInt? tokens) async {
-    final walletTonState = await model.getTonWalletState(widget.sender);
+    final walletTonState = await model.getTonWalletState(_wmParams.sender);
     numberUnconfirmedTransactions =
         (walletTonState.wallet?.unconfirmedTransactions.length ?? 0) +
             (walletTonState.wallet?.pendingTransactions.length ?? 0);
@@ -233,7 +255,7 @@ class SendMessageWidgetModel
       _data.accept(
         TransferData(
           amount: Money.fromBigIntWithCurrency(
-            widget.amount,
+            _wmParams.amount,
             nativeCurrency!,
           ),
           numberUnconfirmedTransactions: numberUnconfirmedTransactions,

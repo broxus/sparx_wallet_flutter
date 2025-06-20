@@ -1,3 +1,4 @@
+import 'package:app/core/wm/custom_wm.dart';
 import 'package:app/feature/browser_v1/approvals_listener/view/approvals_listener_widget.dart';
 import 'package:app/feature/browser_v2/screens/main/browser_main_screen_wm.dart';
 import 'package:app/feature/browser_v2/screens/main/widgets/browser_progress_indicator.dart';
@@ -8,16 +9,14 @@ import 'package:app/feature/browser_v2/screens/main/widgets/pages/pages_list.dar
 import 'package:app/feature/browser_v2/screens/main/widgets/tab_animated_view/tab_animated_view.dart';
 import 'package:app/feature/browser_v2/screens/main/widgets/tabs/tabs_list/tabs_list.dart';
 import 'package:app/feature/browser_v2/widgets/past_go.dart';
-import 'package:elementary/elementary.dart';
 import 'package:elementary_helper/elementary_helper.dart';
 import 'package:flutter/material.dart';
 
-class BrowserMainScreen extends ElementaryWidget<BrowserMainScreenWidgetModel> {
+class BrowserMainScreen
+    extends InjectedElementaryWidget<BrowserMainScreenWidgetModel> {
   const BrowserMainScreen({
     super.key,
-    WidgetModelFactory<BrowserMainScreenWidgetModel> wmFactory =
-        defaultBrowserMainScreenWidgetModelFactory,
-  }) : super(wmFactory);
+  });
 
   @override
   Widget build(BrowserMainScreenWidgetModel wm) {
@@ -68,7 +67,7 @@ class BrowserMainScreen extends ElementaryWidget<BrowserMainScreenWidgetModel> {
               TabAnimatedView(
                 onAnimationStart: wm.onTabAnimationStart,
                 onAnimationEnd: wm.onTabAnimationEnd,
-                tabAnimationTypeState: wm.tabs.tabAnimationTypeState,
+                showAnimationState: wm.tabs.tabAnimationTypeState,
               ),
               _ItemPosition(
                 child: _MenuAnimation(

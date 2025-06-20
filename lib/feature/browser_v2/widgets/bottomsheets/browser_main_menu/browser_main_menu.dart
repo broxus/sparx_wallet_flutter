@@ -1,7 +1,7 @@
+import 'package:app/core/wm/custom_wm.dart';
 import 'package:app/feature/browser_v2/widgets/bottomsheets/browser_main_menu/browser_main_menu_wm.dart';
 import 'package:app/feature/browser_v2/widgets/bottomsheets/browser_main_menu/data/browser_main_menu_data.dart';
 import 'package:app/utils/types/fuction_types.dart';
-import 'package:elementary/elementary.dart';
 import 'package:flutter/material.dart';
 import 'package:ui_components_lib/ui_components_lib.dart';
 import 'package:ui_components_lib/v2/widgets/modals/primary_bottom_sheet.dart';
@@ -22,19 +22,17 @@ Future<void> showBrowserMainMenu(
   );
 }
 
-class BrowserMainMenu extends ElementaryWidget<BrowserMainMenuWidgetModel> {
+class BrowserMainMenu
+    extends InjectedElementaryWidget<BrowserMainMenuWidgetModel> {
   BrowserMainMenu({
     required String groupId,
     required DoubleValueCallback<String, String> onPressedCreateTab,
     super.key,
-    WidgetModelFactory<BrowserMainMenuWidgetModel>? wmFactory,
   }) : super(
-          wmFactory ??
-              (ctx) => defaultBrowserMainMenuWidgetModelFactory(
-                    ctx,
-                    groupId: groupId,
-                    onPressedCreateTab: onPressedCreateTab,
-                  ),
+          param1: BrowserMainMenuWmParams(
+            groupId: groupId,
+            onPressedCreateTab: onPressedCreateTab,
+          ),
         );
 
   @override

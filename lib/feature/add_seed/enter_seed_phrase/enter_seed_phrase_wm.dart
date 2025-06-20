@@ -1,8 +1,6 @@
 import 'package:app/app/router/router.dart';
-import 'package:app/core/error_handler_factory.dart';
 import 'package:app/core/wm/custom_wm.dart';
 import 'package:app/data/models/models.dart';
-import 'package:app/di/di.dart';
 import 'package:app/feature/add_seed/add_seed.dart';
 import 'package:app/feature/add_seed/create_password/route.dart';
 import 'package:app/feature/constants.dart';
@@ -12,6 +10,7 @@ import 'package:collection/collection.dart';
 import 'package:elementary/elementary.dart';
 import 'package:elementary_helper/elementary_helper.dart';
 import 'package:flutter/widgets.dart';
+import 'package:injectable/injectable.dart';
 import 'package:logging/logging.dart';
 import 'package:nekoton_repository/nekoton_repository.dart';
 import 'package:ui_components_lib/ui_components_lib.dart';
@@ -21,35 +20,23 @@ typedef SuggestionSelectedCallback = void Function(
   int index,
 );
 
-/// Factory method for creating [EnterSeedPhraseWidgetModel]
-EnterSeedPhraseWidgetModel enterSeedPhraseWidgetModelFactory(
-  BuildContext context, {
-  required bool isOnboarding,
-  String? seedName,
-}) {
-  return EnterSeedPhraseWidgetModel(
-    EnterSeedPhraseModel(
-      createPrimaryErrorHandler(context),
-      inject(),
-      inject(),
-      inject(),
-    ),
-    isOnboarding: isOnboarding,
-    seedName: seedName,
-  );
-}
-
-/// [WidgetModel] для [EnterSeedPhraseWidget]
-class EnterSeedPhraseWidgetModel
-    extends CustomWidgetModel<EnterSeedPhraseWidget, EnterSeedPhraseModel> {
-  EnterSeedPhraseWidgetModel(
-    super.model, {
-    required this.isOnboarding,
-    required this.seedName,
-  });
+class EnterSeedWmParams {
+  EnterSeedWmParams({required this.isOnboarding, required this.seedName});
 
   final bool isOnboarding;
   final String? seedName;
+}
+
+/// [WidgetModel] для [EnterSeedPhraseWidget]
+@injectable
+class EnterSeedPhraseWidgetModel
+    extends CustomWidgetModel<EnterSeedPhraseWidget, EnterSeedPhraseModel> {
+  EnterSeedPhraseWidgetModel(
+    super.model,
+    @factoryParam this._wmParams,
+  );
+
+  final EnterSeedWmParams _wmParams;
 
   static final _log = Logger('EnterSeedPhraseWidgetModel');
 
@@ -315,7 +302,7 @@ class EnterSeedPhraseWidgetModel
   }
 
   void _next(String phrase) {
-    if (isOnboarding) {
+    if (_wmParams.isOnboarding) {
       context.compassContinue(
         CreateSeedOnboardingPasswordRouteData(
           seedPhrase: phrase,
@@ -328,7 +315,7 @@ class EnterSeedPhraseWidgetModel
           seedPhrase: phrase,
           mnemonicType: _mnemonicType,
           type: SeedAddType.import,
-          name: seedName,
+          name: _wmParams.seedName,
         ),
       );
     }

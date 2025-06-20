@@ -1,9 +1,9 @@
 import 'dart:async';
 
-import 'package:app/core/error_handler_factory.dart';
 import 'package:app/core/wm/custom_wm.dart';
 import 'package:app/core/wm/not_null_listenable_state.dart';
 import 'package:app/di/di.dart';
+import 'package:injectable/injectable.dart';
 import 'package:app/feature/browser_v1/bottom_sheets/browser_enter_basic_auth_creds_sheet.dart';
 import 'package:app/feature/browser_v2/custom_web_controller.dart';
 import 'package:app/feature/browser_v2/data/browser_basic_auth_creds.dart';
@@ -19,49 +19,38 @@ import 'package:logging/logging.dart';
 import 'package:ui_components_lib/ui_components_lib.dart';
 import 'package:url_launcher/url_launcher.dart';
 
-/// Factory method for creating [BrowserPageWidgetModel]
-BrowserPageWidgetModel defaultBrowserPageWidgetModelFactory(
-  BuildContext context, {
-  required NotNullListenableState<BrowserTab> listenable,
-  required ValueChanged<CustomWebViewController> onCreate,
-  required ValueChanged<int> onWebPageScrollChanged,
-  required VoidCallback onDispose,
-  required ValueChanged<int> onLoadingProgressChanged,
-}) {
-  return BrowserPageWidgetModel(
-    BrowserPageModel(
-      createPrimaryErrorHandler(context),
-      listenable.value.id,
-      inject(),
-      inject(),
-      inject(),
-      inject(),
-      inject(),
-      inject(),
-      inject(),
-      inject(),
-      inject(),
-    ),
-    listenable,
-    onCreate,
-    onWebPageScrollChanged,
-    onDispose,
-    onLoadingProgressChanged,
-  );
+class BrowserPageWmParams {
+  const BrowserPageWmParams({
+    required this.tabState,
+    required this.onCreate,
+    required this.onWebPageScrollChanged,
+    required this.onDispose,
+    required this.onLoadingProgressChanged,
+  });
+
+  final NotNullListenableState<BrowserTab> tabState;
+  final ValueChanged<CustomWebViewController> onCreate;
+  final ValueChanged<int> onWebPageScrollChanged;
+  final VoidCallback onDispose;
+  final ValueChanged<int> onLoadingProgressChanged;
 }
 
 /// [WidgetModel] для [BrowserPage]
+@injectable
 class BrowserPageWidgetModel
     extends CustomWidgetModel<BrowserPage, BrowserPageModel>
     with AutomaticKeepAliveWidgetModelMixin {
   BrowserPageWidgetModel(
-    super.model,
-    this._listenable,
-    this._onCreate,
-    this._onWebPageScrollChanged,
-    this._onDispose,
-    this._onLoadingProgressChanged,
-  );
+    @factoryParam this._wmParams,
+  ) : super(
+          // TODO(LevitskiyDaniil): this is hack, because injectable coulnd't
+          // forward factory param.
+          inject<BrowserPageModel>(
+            param1: _wmParams.tabState.value.id,
+          ),
+        );
+
+  final BrowserPageWmParams _wmParams;
 
   static const _allowSchemes = [
     'http',
@@ -80,11 +69,7 @@ class BrowserPageWidgetModel
 
   static final _log = Logger('BrowserTabView');
 
-  final NotNullListenableState<BrowserTab> _listenable;
-  final ValueChanged<CustomWebViewController> _onCreate;
-  final ValueChanged<int> _onWebPageScrollChanged;
-  final VoidCallback _onDispose;
-  final ValueChanged<int> _onLoadingProgressChanged;
+  NotNullListenableState<BrowserTab> get _tabState => _wmParams.tabState;
 
   final initialSettings = InAppWebViewSettings(
     applicationNameForUserAgent: 'SparXWalletBrowser',
@@ -121,7 +106,7 @@ class BrowserPageWidgetModel
 
   ThemeStyle get _theme => context.themeStyle;
 
-  BrowserTab get _tab => _listenable.value;
+  BrowserTab get _tab => _tabState.value;
 
   String get _url => _tab.url.toString();
 
@@ -130,16 +115,16 @@ class BrowserPageWidgetModel
   @override
   void initWidgetModel() {
     model.activeTabIdState.addListener(_handleActiveTab);
-    _listenable.addListener(_handleTabState);
+    _tabState.addListener(_handleTabState);
     super.initWidgetModel();
   }
 
   @override
   void dispose() {
-    _onDispose();
+    _wmParams.onDispose();
     _webViewController?.dispose();
     model.activeTabIdState.removeListener(_handleActiveTab);
-    _listenable.removeListener(_handleTabState);
+    _tabState.removeListener(_handleTabState);
     super.dispose();
   }
 
@@ -149,7 +134,7 @@ class BrowserPageWidgetModel
   ) async {
     final customController = CustomWebViewController(controller);
 
-    _onCreate(customController);
+    _wmParams.onCreate(customController);
     _webViewController = customController;
     await model.initEvents(customController);
 
@@ -194,7 +179,7 @@ class BrowserPageWidgetModel
       unawaited(pullToRefreshController.endRefreshing());
     }
     if (progress != null && model.checkIsActiveTab(_tab.id)) {
-      _onLoadingProgressChanged(progress);
+      _wmParams.onLoadingProgressChanged(progress);
     }
   }
 
@@ -234,7 +219,7 @@ class BrowserPageWidgetModel
   }
 
   void onWebPageScrollChanged(_, __, int y) {
-    _onWebPageScrollChanged(y);
+    _wmParams.onWebPageScrollChanged(y);
   }
 
   // Called during HTTP authorization if the site requires login/password
@@ -346,7 +331,7 @@ class BrowserPageWidgetModel
   }
 
   void _handleTabState() {
-    final uri = _listenable.value.url;
+    final uri = _tabState.value.url;
 
     if (_prevUri != uri) {
       _isShowStartViewState.accept(_url.isEmpty);

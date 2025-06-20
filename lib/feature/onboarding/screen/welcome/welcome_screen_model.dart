@@ -1,8 +1,10 @@
 import 'package:app/app/service/service.dart';
 import 'package:app/feature/onboarding/screen/welcome/welcome_screen.dart';
 import 'package:elementary/elementary.dart';
+import 'package:injectable/injectable.dart';
 
 /// [ElementaryModel] for [WelcomeScreen]
+@injectable
 class WelcomeScreenModel extends ElementaryModel {
   WelcomeScreenModel(
     ErrorHandler errorHandler,

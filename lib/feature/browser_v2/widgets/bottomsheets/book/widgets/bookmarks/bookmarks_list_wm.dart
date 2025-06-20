@@ -1,9 +1,7 @@
 import 'dart:async';
 
-import 'package:app/core/error_handler_factory.dart';
 import 'package:app/core/wm/custom_wm.dart';
 import 'package:app/data/models/browser_bookmark_item.dart';
-import 'package:app/di/di.dart';
 import 'package:app/feature/browser_v2/widgets/bottomsheets/book/widgets/bookmarks/bookmarks_list.dart';
 import 'package:app/feature/browser_v2/widgets/bottomsheets/book/widgets/bookmarks/bookmarks_list_model.dart';
 import 'package:app/feature/browser_v2/widgets/bottomsheets/book/widgets/bookmarks/ui_models/book_mark_ui_model.dart';
@@ -11,20 +9,10 @@ import 'package:collection/collection.dart';
 import 'package:elementary/elementary.dart';
 import 'package:elementary_helper/elementary_helper.dart';
 import 'package:flutter/material.dart';
-
-/// Factory method for creating [BookmarksListWidgetModel]
-BookmarksListWidgetModel defaultBookmarksListWidgetModelFactory(
-  BuildContext context,
-) {
-  return BookmarksListWidgetModel(
-    BookmarksListModel(
-      createPrimaryErrorHandler(context),
-      inject(),
-    ),
-  );
-}
+import 'package:injectable/injectable.dart';
 
 /// [WidgetModel] для [BookmarksList]
+@injectable
 class BookmarksListWidgetModel
     extends CustomWidgetModel<BookmarksList, BookmarksListModel> {
   BookmarksListWidgetModel(

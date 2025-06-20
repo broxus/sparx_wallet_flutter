@@ -1,15 +1,15 @@
+import 'package:app/core/wm/custom_wm.dart';
 import 'package:app/feature/no_internet/no_internet_screen_wm.dart';
 import 'package:app/generated/generated.dart';
-import 'package:elementary/elementary.dart';
 import 'package:flutter/material.dart';
 import 'package:ui_components_lib/dimens.dart';
 import 'package:ui_components_lib/v2/ui_components_lib_v2.dart';
 
-class NoInternetScreen extends ElementaryWidget<NoInternetScreenWidgetModel> {
+class NoInternetScreen
+    extends InjectedElementaryWidget<NoInternetScreenWidgetModel> {
   const NoInternetScreen({
-    Key? key,
-    WidgetModelFactory wmFactory = defaultNoInternetScreenWidgetModelFactory,
-  }) : super(wmFactory, key: key);
+    super.key,
+  });
 
   @override
   Widget build(NoInternetScreenWidgetModel wm) {

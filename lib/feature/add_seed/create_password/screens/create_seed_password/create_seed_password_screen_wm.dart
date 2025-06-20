@@ -1,7 +1,6 @@
 import 'package:app/app/router/router.dart';
-import 'package:app/core/error_handler_factory.dart';
 import 'package:app/core/wm/custom_wm.dart';
-import 'package:app/di/di.dart';
+import 'package:app/data/models/models.dart';
 import 'package:app/feature/add_seed/create_password/model/password_status.dart';
 import 'package:app/feature/add_seed/create_password/screens/create_seed_password/create_seed_password_screen.dart';
 import 'package:app/feature/add_seed/create_password/screens/create_seed_password/create_seed_password_screen_model.dart';
@@ -10,30 +9,30 @@ import 'package:app/feature/wallet/route.dart';
 import 'package:elementary/elementary.dart';
 import 'package:elementary_helper/elementary_helper.dart';
 import 'package:flutter/widgets.dart';
+import 'package:injectable/injectable.dart';
+import 'package:nekoton_repository/nekoton_repository.dart';
 import 'package:ui_components_lib/v2/ui_components_lib_v2.dart';
 
-/// Factory method for creating [CreateSeedPasswordScreenWidgetModel]
-CreateSeedPasswordScreenWidgetModel
-    defaultCreateSeedPasswordScreenWidgetModelFactory(
-  BuildContext context,
-) =>
-        CreateSeedPasswordScreenWidgetModel(
-          CreateSeedPasswordScreenModel(
-            createPrimaryErrorHandler(context),
-            inject(),
-            inject(),
-            inject(),
-            inject(),
-            inject(),
-          ),
-        );
+class CreateSeedPasswordWmParams {
+  CreateSeedPasswordWmParams({
+    required this.phrase,
+    required this.mnemonicType,
+  });
+
+  final SeedPhraseModel? phrase;
+  final MnemonicType? mnemonicType;
+}
 
 /// [WidgetModel] для [CreateSeedPasswordScreen]
+@injectable
 class CreateSeedPasswordScreenWidgetModel extends CustomWidgetModel<
     CreateSeedPasswordScreen, CreateSeedPasswordScreenModel> {
   CreateSeedPasswordScreenWidgetModel(
     super.model,
+    @factoryParam this._wmParams,
   );
+
+  final CreateSeedPasswordWmParams _wmParams;
 
   late final passwordController = createTextEditingController();
   late final confirmController = createTextEditingController();
@@ -73,8 +72,8 @@ class CreateSeedPasswordScreenWidgetModel extends CustomWidgetModel<
     await model.next(
       context: context,
       password: passwordController.text,
-      phrase: widget.phrase,
-      mnemonicType: widget.mnemonicType,
+      phrase: _wmParams.phrase,
+      mnemonicType: _wmParams.mnemonicType,
     );
 
     if (model.isNeedBiometry) {

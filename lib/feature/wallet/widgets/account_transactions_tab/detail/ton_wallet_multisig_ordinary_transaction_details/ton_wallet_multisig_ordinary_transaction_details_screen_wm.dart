@@ -1,6 +1,5 @@
-import 'package:app/core/error_handler_factory.dart';
 import 'package:app/core/wm/custom_wm.dart';
-import 'package:app/di/di.dart';
+import 'package:injectable/injectable.dart';
 import 'package:app/feature/browser_v1/utils.dart';
 import 'package:app/feature/wallet/widgets/account_transactions_tab/detail/details.dart';
 import 'package:app/feature/wallet/widgets/account_transactions_tab/detail/ton_wallet_multisig_ordinary_transaction_details/ton_wallet_multisig_ordinary_transaction_details_screen_model.dart';
@@ -11,38 +10,34 @@ import 'package:ui_components_lib/v2/colors_v2.dart';
 import 'package:ui_components_lib/v2/text_styles_v2.dart';
 import 'package:ui_components_lib/v2/theme_style_v2.dart';
 
-TonWalletMultisigOrdinaryTransactionDetailsScreenWidgetModel
-    tonWalletMultisigOrdinaryTransactionDetailsnWMFactory(
-  BuildContext context, {
-  required TonWalletMultisigOrdinaryTransaction transaction,
-  required Fixed price,
-  required KeyAccount account,
-}) {
-  return TonWalletMultisigOrdinaryTransactionDetailsScreenWidgetModel(
-    TonWalletMultisigOrdinaryTransactionDetailsScreenModel(
-      createPrimaryErrorHandler(context),
-      inject(),
-    ),
-    transaction,
-    price,
-    account,
-  );
+class TonWalletMultisigOrdinaryTransactionDetailsWmParams {
+  TonWalletMultisigOrdinaryTransactionDetailsWmParams({
+    required this.price,
+    required this.account,
+    required this.transaction,
+  });
+
+  final Fixed price;
+  final KeyAccount account;
+  final TonWalletMultisigOrdinaryTransaction transaction;
 }
 
 /// [WidgetModel] для [TonWalletMultisigOrdinaryTransactionDetailsScreen]
+@injectable
 class TonWalletMultisigOrdinaryTransactionDetailsScreenWidgetModel
     extends CustomWidgetModel<TonWalletMultisigOrdinaryTransactionDetailsScreen,
         TonWalletMultisigOrdinaryTransactionDetailsScreenModel> {
   TonWalletMultisigOrdinaryTransactionDetailsScreenWidgetModel(
     super.model,
-    this._transaction,
-    this.price,
-    this.account,
+    @factoryParam this._wmParams,
   );
 
-  final Fixed price;
-  final KeyAccount account;
-  final TonWalletMultisigOrdinaryTransaction _transaction;
+  final TonWalletMultisigOrdinaryTransactionDetailsWmParams _wmParams;
+  TonWalletMultisigOrdinaryTransaction get _transaction =>
+      _wmParams.transaction;
+
+  KeyAccount get account => _wmParams.account;
+  Fixed get price => _wmParams.price;
 
   late final date = _transaction.date;
   late final isIncoming = !_transaction.isOutgoing;

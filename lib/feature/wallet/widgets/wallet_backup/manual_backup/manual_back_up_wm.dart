@@ -1,37 +1,41 @@
 import 'dart:async';
 
 import 'package:app/app/router/router.dart';
-import 'package:app/core/error_handler_factory.dart';
 import 'package:app/core/wm/custom_wm.dart';
-import 'package:app/di/di.dart';
+import 'package:injectable/injectable.dart';
 import 'package:app/feature/wallet/widgets/wallet_backup/wallet_backup.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
 import 'package:ui_components_lib/v2/ui_components_lib_v2.dart';
 
-ManualBackUpWidgetModel defaultManualBackUpWidgetModelFactory(
-  BuildContext context,
-) {
-  return ManualBackUpWidgetModel(
-    ManualBackUpModel(
-      createPrimaryErrorHandler(context),
-      inject(),
-      inject(),
-      inject(),
-    ),
-  );
+class ManualBackUpWmParams {
+  ManualBackUpWmParams({
+    required this.words,
+    required this.address,
+    required this.finishedBackupCallback,
+  });
+
+  final List<String> words;
+  final String address;
+  final VoidCallback finishedBackupCallback;
 }
 
+@injectable
 class ManualBackUpWidgetModel
     extends CustomWidgetModel<ContentManualBackup, ManualBackUpModel> {
-  ManualBackUpWidgetModel(super.model);
+  ManualBackUpWidgetModel(
+    super.model,
+    @factoryParam this._wmParams,
+  );
+
+  final ManualBackUpWmParams _wmParams;
 
   ThemeStyleV2 get themeStyle => context.themeStyleV2;
 
   late final screenState = createEntityNotifier<ManualBackUpData>()
     ..loading(ManualBackUpData(isCopied: false));
 
-  late final List<String> words = widget.words;
+  late final List<String> words = _wmParams.words;
 
   Future<void> copySeed() async {
     await Clipboard.setData(
@@ -44,14 +48,14 @@ class ManualBackUpWidgetModel
     showCheckPhraseDialog(
       context,
       words,
-      widget.address,
-      widget.finishedBackupCallback,
+      _wmParams.address,
+      _wmParams.finishedBackupCallback,
     );
   }
 
   void clickSkip(BuildContext context) {
-    model.setShowingBackUpFlag(widget.address);
-    widget.finishedBackupCallback();
+    model.setShowingBackUpFlag(_wmParams.address);
+    _wmParams.finishedBackupCallback();
     context.compassBack(); //close current dialog
     showGoodJobDialog(context);
   }

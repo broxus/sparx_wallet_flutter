@@ -1,10 +1,10 @@
 import 'package:app/app/router/router.dart';
+import 'package:app/core/wm/custom_wm.dart';
 import 'package:app/feature/profile/key_detail/route.dart';
 import 'package:app/feature/profile/seed_detail/view/seed_detail_page_wm.dart';
 import 'package:app/feature/profile/seed_detail/widgets/key_settings_sheet.dart';
 import 'package:app/generated/generated.dart';
 import 'package:collection/collection.dart';
-import 'package:elementary/elementary.dart';
 import 'package:elementary_helper/elementary_helper.dart';
 import 'package:flutter/material.dart';
 import 'package:lucide_icons_flutter/lucide_icons.dart';
@@ -12,14 +12,14 @@ import 'package:nekoton_repository/nekoton_repository.dart';
 import 'package:ui_components_lib/ui_components_lib.dart';
 import 'package:ui_components_lib/v2/ui_components_lib_v2.dart';
 
-class SeedDetailPageWidget extends ElementaryWidget<SeedDetailPageWidgetModel> {
+class SeedDetailPageWidget
+    extends InjectedElementaryWidget<SeedDetailPageWidgetModel> {
   const SeedDetailPageWidget({
-    required this.publicKey,
-    Key? key,
-    WidgetModelFactory wmFactory = defaultSeedDetailPageWidgetModelFactory,
-  }) : super(wmFactory, key: key);
-
-  final PublicKey publicKey;
+    required PublicKey publicKey,
+    super.key,
+  }) : super(
+          param1: publicKey,
+        );
 
   @override
   Widget build(SeedDetailPageWidgetModel wm) {

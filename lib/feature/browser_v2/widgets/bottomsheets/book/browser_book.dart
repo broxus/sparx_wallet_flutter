@@ -1,11 +1,11 @@
 import 'dart:async';
 
+import 'package:app/core/wm/custom_wm.dart';
 import 'package:app/feature/browser_v2/widgets/bottomsheets/book/browser_book_wm.dart';
 import 'package:app/feature/browser_v2/widgets/bottomsheets/book/widgets/bookmarks/bookmarks_list.dart';
 import 'package:app/feature/browser_v2/widgets/bottomsheets/book/widgets/history/history_list.dart';
 import 'package:app/feature/browser_v2/widgets/bottomsheets/book/widgets/tab_bar.dart';
 import 'package:app/feature/browser_v2/widgets/bottomsheets/book/widgets/tab_data.dart';
-import 'package:elementary/elementary.dart';
 import 'package:elementary_helper/elementary_helper.dart';
 import 'package:flutter/material.dart';
 import 'package:ui_components_lib/v2/ui_components_lib_v2.dart';
@@ -24,12 +24,10 @@ void showBookModal(BuildContext context) {
   );
 }
 
-class BrowserBook extends ElementaryWidget<BrowserBookWidgetModel> {
+class BrowserBook extends InjectedElementaryWidget<BrowserBookWidgetModel> {
   const BrowserBook({
-    WidgetModelFactory<BrowserBookWidgetModel> wmFactory =
-        defaultBrowserBookWidgetModelFactory,
     super.key,
-  }) : super(wmFactory);
+  });
 
   static const _duration = Duration(milliseconds: 250);
 
