@@ -14,7 +14,7 @@ part 'browser_tab.g.dart';
 /// the class was declared as @unfreezed.
 /// The field values change directly in the same object.
 @unfreezed
-class BrowserTab with _$BrowserTab implements BrowserEntity {
+abstract class BrowserTab with _$BrowserTab implements BrowserEntity {
   factory BrowserTab({
     /// The id of the tab.
     required final String id,

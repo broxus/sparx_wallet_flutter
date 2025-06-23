@@ -58,23 +58,21 @@ class _EnterPasswordWidgetState extends State<EnterPasswordWidget> {
       )..init(),
       child: BlocConsumer<EnterPasswordCubit, EnterPasswordState>(
         listener: (context, state) {
-          state.whenOrNull(
-            entered: (password, _, __) => widget.onPasswordEntered(password),
-          );
+          if (state case EnterPasswordStateEntered(:final password)) {
+            widget.onPasswordEntered(password);
+          }
         },
         builder: (context, state) {
-          return state.when(
-            initial: () => const SizedBox.shrink(),
-            biometry: _biometryBody,
-            password: _passwordBody,
-            entered: (_, fromBiometry, isFaceBiometry) {
-              if (fromBiometry) {
-                return _biometryBody(isFaceBiometry);
-              }
-
-              return _passwordBody();
-            },
-          );
+          return switch (state) {
+            EnterPasswordStateBiometry(:final isFace) => _biometryBody(isFace),
+            EnterPasswordStatePassword() => _passwordBody(),
+            EnterPasswordStateEntered(
+              :final fromBiometry,
+              :final isFaceBiometry
+            ) =>
+              fromBiometry ? _biometryBody(isFaceBiometry) : _passwordBody(),
+            _ => const SizedBox.shrink(),
+          };
         },
       ),
     );

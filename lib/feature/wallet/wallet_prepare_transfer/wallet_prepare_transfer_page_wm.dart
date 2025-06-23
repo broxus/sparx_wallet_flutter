@@ -222,12 +222,10 @@ class WalletPrepareTransferPageWidgetModel extends CustomWidgetModel<
 
     if (!context.mounted) return;
 
-    result?.whenOrNull(
-      address: (value) {
-        receiverController.text = value.address;
-        receiverFocus.unfocus();
-      },
-    );
+    if (result case QrScanResultAddress(:final value)) {
+      receiverController.text = value.address;
+      receiverFocus.unfocus();
+    }
   }
 
   void onSubmittedReceiverAddress(_) => amountFocus.requestFocus();

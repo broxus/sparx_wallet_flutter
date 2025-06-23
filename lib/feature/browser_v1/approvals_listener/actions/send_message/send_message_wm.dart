@@ -99,10 +99,11 @@ class SendMessageWidgetModel
   void onConfirmed(bool value) => _isConfirmed.accept(value);
 
   Future<void> _init() async {
-    final tokens = widget.knownPayload?.whenOrNull(
-      tokenOutgoingTransfer: (data) => data.tokens,
-      tokenSwapBack: (data) => data.tokens,
-    );
+    final tokens = switch (widget.knownPayload) {
+      KnownPayloadTokenOutgoingTransfer(:final data) => data.tokens,
+      KnownPayloadTokenSwapBack(:final data) => data.tokens,
+      _ => null,
+    };
 
     if (tokens == null) {
       await _initWalletTon(tokens);

@@ -5,7 +5,7 @@ part 'ton_connect_error.freezed.dart';
 part 'ton_connect_error.g.dart';
 
 @freezed
-class TonConnectError with _$TonConnectError {
+abstract class TonConnectError with _$TonConnectError {
   factory TonConnectError({
     required TonConnectErrorCode code,
     required String message,

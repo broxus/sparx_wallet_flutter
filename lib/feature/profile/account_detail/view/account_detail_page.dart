@@ -27,16 +27,18 @@ class AccountDetailPage extends StatelessWidget {
         convertService: inject(),
       )..init(),
       child: BlocConsumer<AccountDetailCubit, AccountDetailState>(
-        listener: (context, state) {
-          state.whenOrNull(empty: () => context.compassBack());
+        listener: (context, state) => switch (state) {
+          AccountDetailStateEmpty() => context.compassBack(),
+          _ => null,
         },
         builder: (context, state) {
-          return state.maybeWhen(
-            orElse: () => const Scaffold(
-              appBar: DefaultAppBar(),
-            ),
-            data: (account, balance, custodians) {
-              return Scaffold(
+          return switch (state) {
+            AccountDetailStateData(
+              :final account,
+              :final balance,
+              :final custodians,
+            ) =>
+              Scaffold(
                 appBar: DefaultAppBar(
                   actions: [
                     FloatButton(
@@ -56,9 +58,11 @@ class AccountDetailPage extends StatelessWidget {
                   balance: balance,
                   custodians: custodians,
                 ),
-              );
-            },
-          );
+              ),
+            _ => const Scaffold(
+                appBar: DefaultAppBar(),
+              ),
+          };
         },
       ),
     );

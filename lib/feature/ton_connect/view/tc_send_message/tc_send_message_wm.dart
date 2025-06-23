@@ -166,9 +166,10 @@ class TCSendMessageWidgetModel
     TransactionPayloadMessage message,
   ) async {
     final payload = message.payload?.let(parseKnownPayload);
-    final transfer = payload?.whenOrNull(
-      jettonOutgoingTransfer: (data) => data,
-    );
+    final transfer = switch (payload) {
+      KnownPayloadJettonOutgoingTransfer(:final data) => data,
+      _ => null,
+    };
 
     if (transfer == null) {
       // Native transfer

@@ -1,3 +1,4 @@
+// dart format width=80
 // coverage:ignore-file
 // GENERATED CODE - DO NOT MODIFY BY HAND
 // ignore_for_file: type=lint
@@ -9,353 +10,121 @@ part of 'transport_native_token_option.dart';
 // FreezedGenerator
 // **************************************************************************
 
+// dart format off
 T _$identity<T>(T value) => value;
-
-final _privateConstructorUsedError = UnsupportedError(
-    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models');
 
 /// @nodoc
 mixin _$TransportNativeTokenTickerOption {
-  @optionalTypeArgs
-  TResult when<TResult extends Object?>({
-    required TResult Function() fromConnection,
-    required TResult Function(String name) byName,
-  }) =>
-      throw _privateConstructorUsedError;
-  @optionalTypeArgs
-  TResult? whenOrNull<TResult extends Object?>({
-    TResult? Function()? fromConnection,
-    TResult? Function(String name)? byName,
-  }) =>
-      throw _privateConstructorUsedError;
-  @optionalTypeArgs
-  TResult maybeWhen<TResult extends Object?>({
-    TResult Function()? fromConnection,
-    TResult Function(String name)? byName,
-    required TResult orElse(),
-  }) =>
-      throw _privateConstructorUsedError;
-  @optionalTypeArgs
-  TResult map<TResult extends Object?>({
-    required TResult Function(
-            _TransportNativeTokenTickerOptionFromConnection value)
-        fromConnection,
-    required TResult Function(_TransportNativeTokenTickerOptionByName value)
-        byName,
-  }) =>
-      throw _privateConstructorUsedError;
-  @optionalTypeArgs
-  TResult? mapOrNull<TResult extends Object?>({
-    TResult? Function(_TransportNativeTokenTickerOptionFromConnection value)?
-        fromConnection,
-    TResult? Function(_TransportNativeTokenTickerOptionByName value)? byName,
-  }) =>
-      throw _privateConstructorUsedError;
-  @optionalTypeArgs
-  TResult maybeMap<TResult extends Object?>({
-    TResult Function(_TransportNativeTokenTickerOptionFromConnection value)?
-        fromConnection,
-    TResult Function(_TransportNativeTokenTickerOptionByName value)? byName,
-    required TResult orElse(),
-  }) =>
-      throw _privateConstructorUsedError;
-}
-
-/// @nodoc
-abstract class $TransportNativeTokenTickerOptionCopyWith<$Res> {
-  factory $TransportNativeTokenTickerOptionCopyWith(
-          TransportNativeTokenTickerOption value,
-          $Res Function(TransportNativeTokenTickerOption) then) =
-      _$TransportNativeTokenTickerOptionCopyWithImpl<$Res,
-          TransportNativeTokenTickerOption>;
-}
-
-/// @nodoc
-class _$TransportNativeTokenTickerOptionCopyWithImpl<$Res,
-        $Val extends TransportNativeTokenTickerOption>
-    implements $TransportNativeTokenTickerOptionCopyWith<$Res> {
-  _$TransportNativeTokenTickerOptionCopyWithImpl(this._value, this._then);
-
-  // ignore: unused_field
-  final $Val _value;
-  // ignore: unused_field
-  final $Res Function($Val) _then;
-
-  /// Create a copy of TransportNativeTokenTickerOption
-  /// with the given fields replaced by the non-null parameter values.
-}
-
-/// @nodoc
-abstract class _$$TransportNativeTokenTickerOptionFromConnectionImplCopyWith<
-    $Res> {
-  factory _$$TransportNativeTokenTickerOptionFromConnectionImplCopyWith(
-          _$TransportNativeTokenTickerOptionFromConnectionImpl value,
-          $Res Function(_$TransportNativeTokenTickerOptionFromConnectionImpl)
-              then) =
-      __$$TransportNativeTokenTickerOptionFromConnectionImplCopyWithImpl<$Res>;
-}
-
-/// @nodoc
-class __$$TransportNativeTokenTickerOptionFromConnectionImplCopyWithImpl<$Res>
-    extends _$TransportNativeTokenTickerOptionCopyWithImpl<$Res,
-        _$TransportNativeTokenTickerOptionFromConnectionImpl>
-    implements
-        _$$TransportNativeTokenTickerOptionFromConnectionImplCopyWith<$Res> {
-  __$$TransportNativeTokenTickerOptionFromConnectionImplCopyWithImpl(
-      _$TransportNativeTokenTickerOptionFromConnectionImpl _value,
-      $Res Function(_$TransportNativeTokenTickerOptionFromConnectionImpl) _then)
-      : super(_value, _then);
-
-  /// Create a copy of TransportNativeTokenTickerOption
-  /// with the given fields replaced by the non-null parameter values.
-}
-
-/// @nodoc
-
-class _$TransportNativeTokenTickerOptionFromConnectionImpl
-    implements _TransportNativeTokenTickerOptionFromConnection {
-  const _$TransportNativeTokenTickerOptionFromConnectionImpl();
-
-  @override
-  String toString() {
-    return 'TransportNativeTokenTickerOption.fromConnection()';
-  }
-
   @override
   bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$TransportNativeTokenTickerOptionFromConnectionImpl);
+            other is TransportNativeTokenTickerOption);
   }
 
   @override
   int get hashCode => runtimeType.hashCode;
 
   @override
-  @optionalTypeArgs
-  TResult when<TResult extends Object?>({
-    required TResult Function() fromConnection,
-    required TResult Function(String name) byName,
-  }) {
-    return fromConnection();
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult? whenOrNull<TResult extends Object?>({
-    TResult? Function()? fromConnection,
-    TResult? Function(String name)? byName,
-  }) {
-    return fromConnection?.call();
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult maybeWhen<TResult extends Object?>({
-    TResult Function()? fromConnection,
-    TResult Function(String name)? byName,
-    required TResult orElse(),
-  }) {
-    if (fromConnection != null) {
-      return fromConnection();
-    }
-    return orElse();
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult map<TResult extends Object?>({
-    required TResult Function(
-            _TransportNativeTokenTickerOptionFromConnection value)
-        fromConnection,
-    required TResult Function(_TransportNativeTokenTickerOptionByName value)
-        byName,
-  }) {
-    return fromConnection(this);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult? mapOrNull<TResult extends Object?>({
-    TResult? Function(_TransportNativeTokenTickerOptionFromConnection value)?
-        fromConnection,
-    TResult? Function(_TransportNativeTokenTickerOptionByName value)? byName,
-  }) {
-    return fromConnection?.call(this);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult maybeMap<TResult extends Object?>({
-    TResult Function(_TransportNativeTokenTickerOptionFromConnection value)?
-        fromConnection,
-    TResult Function(_TransportNativeTokenTickerOptionByName value)? byName,
-    required TResult orElse(),
-  }) {
-    if (fromConnection != null) {
-      return fromConnection(this);
-    }
-    return orElse();
-  }
-}
-
-abstract class _TransportNativeTokenTickerOptionFromConnection
-    implements TransportNativeTokenTickerOption {
-  const factory _TransportNativeTokenTickerOptionFromConnection() =
-      _$TransportNativeTokenTickerOptionFromConnectionImpl;
-}
-
-/// @nodoc
-abstract class _$$TransportNativeTokenTickerOptionByNameImplCopyWith<$Res> {
-  factory _$$TransportNativeTokenTickerOptionByNameImplCopyWith(
-          _$TransportNativeTokenTickerOptionByNameImpl value,
-          $Res Function(_$TransportNativeTokenTickerOptionByNameImpl) then) =
-      __$$TransportNativeTokenTickerOptionByNameImplCopyWithImpl<$Res>;
-  @useResult
-  $Res call({String name});
-}
-
-/// @nodoc
-class __$$TransportNativeTokenTickerOptionByNameImplCopyWithImpl<$Res>
-    extends _$TransportNativeTokenTickerOptionCopyWithImpl<$Res,
-        _$TransportNativeTokenTickerOptionByNameImpl>
-    implements _$$TransportNativeTokenTickerOptionByNameImplCopyWith<$Res> {
-  __$$TransportNativeTokenTickerOptionByNameImplCopyWithImpl(
-      _$TransportNativeTokenTickerOptionByNameImpl _value,
-      $Res Function(_$TransportNativeTokenTickerOptionByNameImpl) _then)
-      : super(_value, _then);
-
-  /// Create a copy of TransportNativeTokenTickerOption
-  /// with the given fields replaced by the non-null parameter values.
-  @pragma('vm:prefer-inline')
-  @override
-  $Res call({
-    Object? name = null,
-  }) {
-    return _then(_$TransportNativeTokenTickerOptionByNameImpl(
-      null == name
-          ? _value.name
-          : name // ignore: cast_nullable_to_non_nullable
-              as String,
-    ));
-  }
-}
-
-/// @nodoc
-
-class _$TransportNativeTokenTickerOptionByNameImpl
-    implements _TransportNativeTokenTickerOptionByName {
-  const _$TransportNativeTokenTickerOptionByNameImpl(this.name);
-
-  @override
-  final String name;
-
-  @override
   String toString() {
-    return 'TransportNativeTokenTickerOption.byName(name: $name)';
+    return 'TransportNativeTokenTickerOption()';
   }
+}
+
+/// @nodoc
+class $TransportNativeTokenTickerOptionCopyWith<$Res> {
+  $TransportNativeTokenTickerOptionCopyWith(TransportNativeTokenTickerOption _,
+      $Res Function(TransportNativeTokenTickerOption) __);
+}
+
+/// @nodoc
+
+class TransportNativeTokenTickerOptionFromConnection
+    implements TransportNativeTokenTickerOption {
+  const TransportNativeTokenTickerOptionFromConnection();
 
   @override
   bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$TransportNativeTokenTickerOptionByNameImpl &&
+            other is TransportNativeTokenTickerOptionFromConnection);
+  }
+
+  @override
+  int get hashCode => runtimeType.hashCode;
+
+  @override
+  String toString() {
+    return 'TransportNativeTokenTickerOption.fromConnection()';
+  }
+}
+
+/// @nodoc
+
+class TransportNativeTokenTickerOptionByName
+    implements TransportNativeTokenTickerOption {
+  const TransportNativeTokenTickerOptionByName(this.name);
+
+  final String name;
+
+  /// Create a copy of TransportNativeTokenTickerOption
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @pragma('vm:prefer-inline')
+  $TransportNativeTokenTickerOptionByNameCopyWith<
+          TransportNativeTokenTickerOptionByName>
+      get copyWith => _$TransportNativeTokenTickerOptionByNameCopyWithImpl<
+          TransportNativeTokenTickerOptionByName>(this, _$identity);
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is TransportNativeTokenTickerOptionByName &&
             (identical(other.name, name) || other.name == name));
   }
 
   @override
   int get hashCode => Object.hash(runtimeType, name);
 
+  @override
+  String toString() {
+    return 'TransportNativeTokenTickerOption.byName(name: $name)';
+  }
+}
+
+/// @nodoc
+abstract mixin class $TransportNativeTokenTickerOptionByNameCopyWith<$Res>
+    implements $TransportNativeTokenTickerOptionCopyWith<$Res> {
+  factory $TransportNativeTokenTickerOptionByNameCopyWith(
+          TransportNativeTokenTickerOptionByName value,
+          $Res Function(TransportNativeTokenTickerOptionByName) _then) =
+      _$TransportNativeTokenTickerOptionByNameCopyWithImpl;
+  @useResult
+  $Res call({String name});
+}
+
+/// @nodoc
+class _$TransportNativeTokenTickerOptionByNameCopyWithImpl<$Res>
+    implements $TransportNativeTokenTickerOptionByNameCopyWith<$Res> {
+  _$TransportNativeTokenTickerOptionByNameCopyWithImpl(this._self, this._then);
+
+  final TransportNativeTokenTickerOptionByName _self;
+  final $Res Function(TransportNativeTokenTickerOptionByName) _then;
+
   /// Create a copy of TransportNativeTokenTickerOption
   /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
-  @override
   @pragma('vm:prefer-inline')
-  _$$TransportNativeTokenTickerOptionByNameImplCopyWith<
-          _$TransportNativeTokenTickerOptionByNameImpl>
-      get copyWith =>
-          __$$TransportNativeTokenTickerOptionByNameImplCopyWithImpl<
-              _$TransportNativeTokenTickerOptionByNameImpl>(this, _$identity);
-
-  @override
-  @optionalTypeArgs
-  TResult when<TResult extends Object?>({
-    required TResult Function() fromConnection,
-    required TResult Function(String name) byName,
+  $Res call({
+    Object? name = null,
   }) {
-    return byName(name);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult? whenOrNull<TResult extends Object?>({
-    TResult? Function()? fromConnection,
-    TResult? Function(String name)? byName,
-  }) {
-    return byName?.call(name);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult maybeWhen<TResult extends Object?>({
-    TResult Function()? fromConnection,
-    TResult Function(String name)? byName,
-    required TResult orElse(),
-  }) {
-    if (byName != null) {
-      return byName(name);
-    }
-    return orElse();
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult map<TResult extends Object?>({
-    required TResult Function(
-            _TransportNativeTokenTickerOptionFromConnection value)
-        fromConnection,
-    required TResult Function(_TransportNativeTokenTickerOptionByName value)
-        byName,
-  }) {
-    return byName(this);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult? mapOrNull<TResult extends Object?>({
-    TResult? Function(_TransportNativeTokenTickerOptionFromConnection value)?
-        fromConnection,
-    TResult? Function(_TransportNativeTokenTickerOptionByName value)? byName,
-  }) {
-    return byName?.call(this);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult maybeMap<TResult extends Object?>({
-    TResult Function(_TransportNativeTokenTickerOptionFromConnection value)?
-        fromConnection,
-    TResult Function(_TransportNativeTokenTickerOptionByName value)? byName,
-    required TResult orElse(),
-  }) {
-    if (byName != null) {
-      return byName(this);
-    }
-    return orElse();
+    return _then(TransportNativeTokenTickerOptionByName(
+      null == name
+          ? _self.name
+          : name // ignore: cast_nullable_to_non_nullable
+              as String,
+    ));
   }
 }
 
-abstract class _TransportNativeTokenTickerOptionByName
-    implements TransportNativeTokenTickerOption {
-  const factory _TransportNativeTokenTickerOptionByName(final String name) =
-      _$TransportNativeTokenTickerOptionByNameImpl;
-
-  String get name;
-
-  /// Create a copy of TransportNativeTokenTickerOption
-  /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
-  _$$TransportNativeTokenTickerOptionByNameImplCopyWith<
-          _$TransportNativeTokenTickerOptionByNameImpl>
-      get copyWith => throw _privateConstructorUsedError;
-}
+// dart format on

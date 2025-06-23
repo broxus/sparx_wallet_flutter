@@ -1,3 +1,4 @@
+// dart format width=80
 // coverage:ignore-file
 // GENERATED CODE - DO NOT MODIFY BY HAND
 // ignore_for_file: type=lint
@@ -9,111 +10,55 @@ part of 'browser_tab.dart';
 // FreezedGenerator
 // **************************************************************************
 
+// dart format off
 T _$identity<T>(T value) => value;
-
-final _privateConstructorUsedError = UnsupportedError(
-    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models');
-
-BrowserTab _$BrowserTabFromJson(Map<String, dynamic> json) {
-  return _BrowserTab.fromJson(json);
-}
 
 /// @nodoc
 mixin _$BrowserTab {
   /// The id of the tab.
-  String get id => throw _privateConstructorUsedError;
+  String get id;
 
   /// Initial url of the tab.
   @uriJsonConverter
-  Uri get url => throw _privateConstructorUsedError;
+  Uri get url;
 
   /// Initial url of the tab.
   @uriJsonConverter
-  set url(Uri value) => throw _privateConstructorUsedError;
+  set url(Uri value);
 
   /// The title of the tab.
-  String? get title => throw _privateConstructorUsedError;
+  String? get title;
 
   /// The title of the tab.
-  set title(String? value) => throw _privateConstructorUsedError;
+  set title(String? value);
 
   /// The sorting position of the tab.
-  double get sortingOrder => throw _privateConstructorUsedError;
+  double get sortingOrder;
 
   /// The sorting position of the tab.
-  set sortingOrder(double value) => throw _privateConstructorUsedError;
-
-  /// Serializes this BrowserTab to a JSON map.
-  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
+  set sortingOrder(double value);
 
   /// Create a copy of BrowserTab
   /// with the given fields replaced by the non-null parameter values.
   @JsonKey(includeFromJson: false, includeToJson: false)
-  $BrowserTabCopyWith<BrowserTab> get copyWith =>
-      throw _privateConstructorUsedError;
-}
-
-/// @nodoc
-abstract class $BrowserTabCopyWith<$Res> {
-  factory $BrowserTabCopyWith(
-          BrowserTab value, $Res Function(BrowserTab) then) =
-      _$BrowserTabCopyWithImpl<$Res, BrowserTab>;
-  @useResult
-  $Res call(
-      {String id,
-      @uriJsonConverter Uri url,
-      String? title,
-      double sortingOrder});
-}
-
-/// @nodoc
-class _$BrowserTabCopyWithImpl<$Res, $Val extends BrowserTab>
-    implements $BrowserTabCopyWith<$Res> {
-  _$BrowserTabCopyWithImpl(this._value, this._then);
-
-  // ignore: unused_field
-  final $Val _value;
-  // ignore: unused_field
-  final $Res Function($Val) _then;
-
-  /// Create a copy of BrowserTab
-  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
+  $BrowserTabCopyWith<BrowserTab> get copyWith =>
+      _$BrowserTabCopyWithImpl<BrowserTab>(this as BrowserTab, _$identity);
+
+  /// Serializes this BrowserTab to a JSON map.
+  Map<String, dynamic> toJson();
+
   @override
-  $Res call({
-    Object? id = null,
-    Object? url = null,
-    Object? title = freezed,
-    Object? sortingOrder = null,
-  }) {
-    return _then(_value.copyWith(
-      id: null == id
-          ? _value.id
-          : id // ignore: cast_nullable_to_non_nullable
-              as String,
-      url: null == url
-          ? _value.url
-          : url // ignore: cast_nullable_to_non_nullable
-              as Uri,
-      title: freezed == title
-          ? _value.title
-          : title // ignore: cast_nullable_to_non_nullable
-              as String?,
-      sortingOrder: null == sortingOrder
-          ? _value.sortingOrder
-          : sortingOrder // ignore: cast_nullable_to_non_nullable
-              as double,
-    ) as $Val);
+  String toString() {
+    return 'BrowserTab(id: $id, url: $url, title: $title, sortingOrder: $sortingOrder)';
   }
 }
 
 /// @nodoc
-abstract class _$$BrowserTabImplCopyWith<$Res>
-    implements $BrowserTabCopyWith<$Res> {
-  factory _$$BrowserTabImplCopyWith(
-          _$BrowserTabImpl value, $Res Function(_$BrowserTabImpl) then) =
-      __$$BrowserTabImplCopyWithImpl<$Res>;
-  @override
+abstract mixin class $BrowserTabCopyWith<$Res> {
+  factory $BrowserTabCopyWith(
+          BrowserTab value, $Res Function(BrowserTab) _then) =
+      _$BrowserTabCopyWithImpl;
   @useResult
   $Res call(
       {String id,
@@ -123,12 +68,11 @@ abstract class _$$BrowserTabImplCopyWith<$Res>
 }
 
 /// @nodoc
-class __$$BrowserTabImplCopyWithImpl<$Res>
-    extends _$BrowserTabCopyWithImpl<$Res, _$BrowserTabImpl>
-    implements _$$BrowserTabImplCopyWith<$Res> {
-  __$$BrowserTabImplCopyWithImpl(
-      _$BrowserTabImpl _value, $Res Function(_$BrowserTabImpl) _then)
-      : super(_value, _then);
+class _$BrowserTabCopyWithImpl<$Res> implements $BrowserTabCopyWith<$Res> {
+  _$BrowserTabCopyWithImpl(this._self, this._then);
+
+  final BrowserTab _self;
+  final $Res Function(BrowserTab) _then;
 
   /// Create a copy of BrowserTab
   /// with the given fields replaced by the non-null parameter values.
@@ -140,21 +84,21 @@ class __$$BrowserTabImplCopyWithImpl<$Res>
     Object? title = freezed,
     Object? sortingOrder = null,
   }) {
-    return _then(_$BrowserTabImpl(
+    return _then(_self.copyWith(
       id: null == id
-          ? _value.id
+          ? _self.id
           : id // ignore: cast_nullable_to_non_nullable
               as String,
       url: null == url
-          ? _value.url
+          ? _self.url
           : url // ignore: cast_nullable_to_non_nullable
               as Uri,
       title: freezed == title
-          ? _value.title
+          ? _self.title
           : title // ignore: cast_nullable_to_non_nullable
               as String?,
       sortingOrder: null == sortingOrder
-          ? _value.sortingOrder
+          ? _self.sortingOrder
           : sortingOrder // ignore: cast_nullable_to_non_nullable
               as double,
     ));
@@ -163,16 +107,15 @@ class __$$BrowserTabImplCopyWithImpl<$Res>
 
 /// @nodoc
 @JsonSerializable()
-class _$BrowserTabImpl extends _BrowserTab {
-  _$BrowserTabImpl(
+class _BrowserTab extends BrowserTab {
+  _BrowserTab(
       {required this.id,
       @uriJsonConverter required this.url,
       required this.title,
       required this.sortingOrder})
       : super._();
-
-  factory _$BrowserTabImpl.fromJson(Map<String, dynamic> json) =>
-      _$$BrowserTabImplFromJson(json);
+  factory _BrowserTab.fromJson(Map<String, dynamic> json) =>
+      _$BrowserTabFromJson(json);
 
   /// The id of the tab.
   @override
@@ -191,69 +134,78 @@ class _$BrowserTabImpl extends _BrowserTab {
   @override
   double sortingOrder;
 
+  /// Create a copy of BrowserTab
+  /// with the given fields replaced by the non-null parameter values.
+  @override
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @pragma('vm:prefer-inline')
+  _$BrowserTabCopyWith<_BrowserTab> get copyWith =>
+      __$BrowserTabCopyWithImpl<_BrowserTab>(this, _$identity);
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$BrowserTabToJson(
+      this,
+    );
+  }
+
   @override
   String toString() {
     return 'BrowserTab(id: $id, url: $url, title: $title, sortingOrder: $sortingOrder)';
   }
+}
+
+/// @nodoc
+abstract mixin class _$BrowserTabCopyWith<$Res>
+    implements $BrowserTabCopyWith<$Res> {
+  factory _$BrowserTabCopyWith(
+          _BrowserTab value, $Res Function(_BrowserTab) _then) =
+      __$BrowserTabCopyWithImpl;
+  @override
+  @useResult
+  $Res call(
+      {String id,
+      @uriJsonConverter Uri url,
+      String? title,
+      double sortingOrder});
+}
+
+/// @nodoc
+class __$BrowserTabCopyWithImpl<$Res> implements _$BrowserTabCopyWith<$Res> {
+  __$BrowserTabCopyWithImpl(this._self, this._then);
+
+  final _BrowserTab _self;
+  final $Res Function(_BrowserTab) _then;
 
   /// Create a copy of BrowserTab
   /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
-  _$$BrowserTabImplCopyWith<_$BrowserTabImpl> get copyWith =>
-      __$$BrowserTabImplCopyWithImpl<_$BrowserTabImpl>(this, _$identity);
-
-  @override
-  Map<String, dynamic> toJson() {
-    return _$$BrowserTabImplToJson(
-      this,
-    );
+  $Res call({
+    Object? id = null,
+    Object? url = null,
+    Object? title = freezed,
+    Object? sortingOrder = null,
+  }) {
+    return _then(_BrowserTab(
+      id: null == id
+          ? _self.id
+          : id // ignore: cast_nullable_to_non_nullable
+              as String,
+      url: null == url
+          ? _self.url
+          : url // ignore: cast_nullable_to_non_nullable
+              as Uri,
+      title: freezed == title
+          ? _self.title
+          : title // ignore: cast_nullable_to_non_nullable
+              as String?,
+      sortingOrder: null == sortingOrder
+          ? _self.sortingOrder
+          : sortingOrder // ignore: cast_nullable_to_non_nullable
+              as double,
+    ));
   }
 }
 
-abstract class _BrowserTab extends BrowserTab {
-  factory _BrowserTab(
-      {required final String id,
-      @uriJsonConverter required Uri url,
-      required String? title,
-      required double sortingOrder}) = _$BrowserTabImpl;
-  _BrowserTab._() : super._();
-
-  factory _BrowserTab.fromJson(Map<String, dynamic> json) =
-      _$BrowserTabImpl.fromJson;
-
-  /// The id of the tab.
-  @override
-  String get id;
-
-  /// Initial url of the tab.
-  @override
-  @uriJsonConverter
-  Uri get url;
-
-  /// Initial url of the tab.
-  @uriJsonConverter
-  set url(Uri value);
-
-  /// The title of the tab.
-  @override
-  String? get title;
-
-  /// The title of the tab.
-  set title(String? value);
-
-  /// The sorting position of the tab.
-  @override
-  double get sortingOrder;
-
-  /// The sorting position of the tab.
-  set sortingOrder(double value);
-
-  /// Create a copy of BrowserTab
-  /// with the given fields replaced by the non-null parameter values.
-  @override
-  @JsonKey(includeFromJson: false, includeToJson: false)
-  _$$BrowserTabImplCopyWith<_$BrowserTabImpl> get copyWith =>
-      throw _privateConstructorUsedError;
-}
+// dart format on
