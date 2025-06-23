@@ -15,9 +15,7 @@ class SheetStory extends StatelessWidget {
       panelBuilder: (context, controller) {
         return SingleChildScrollView(
           controller: controller,
-          child: ContainerColumn(
-            children: _generateItems(50),
-          ),
+          child: ContainerColumn(children: _generateItems(50)),
         );
       },
       body: Scaffold(
