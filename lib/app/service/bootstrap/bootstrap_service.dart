@@ -19,7 +19,7 @@ typedef AsyncFunc = Future<void> Function();
 
 /// Service that allows initialize app step by step and re-run some operations
 /// if they failed.
-@lazySingleton
+@singleton
 class BootstrapService {
   BootstrapService(
     this._presetsConnectionService,
