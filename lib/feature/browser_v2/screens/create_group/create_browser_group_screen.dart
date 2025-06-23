@@ -1,8 +1,8 @@
+import 'package:app/core/wm/custom_wm.dart';
 import 'package:app/feature/browser_v2/screens/create_group/create_browser_group_screen_wm.dart';
 import 'package:app/feature/browser_v2/screens/create_group/widgets/group_title_text_field.dart';
 import 'package:app/feature/browser_v2/screens/main/widgets/tabs/item/widgets/browser_tabs_list_item_body.dart';
 import 'package:app/generated/generated.dart';
-import 'package:elementary/elementary.dart';
 import 'package:elementary_helper/elementary_helper.dart';
 import 'package:flutter/material.dart';
 import 'package:lucide_icons_flutter/lucide_icons.dart';
@@ -10,17 +10,12 @@ import 'package:ui_components_lib/components/button/app_bar_back_button.dart';
 import 'package:ui_components_lib/ui_components_lib.dart';
 
 class CreateBrowserGroupScreen
-    extends ElementaryWidget<CreateBrowserGroupScreenWidgetModel> {
-  CreateBrowserGroupScreen({
+    extends InjectedElementaryWidget<CreateBrowserGroupScreenWidgetModel> {
+  const CreateBrowserGroupScreen({
     String? tabId,
-    WidgetModelFactory<CreateBrowserGroupScreenWidgetModel>? wmFactory,
     super.key,
   }) : super(
-          wmFactory ??
-              (ctx) => defaultCreateBrowserGroupScreenWidgetModelFactory(
-                    ctx,
-                    tabId: tabId,
-                  ),
+          param1: tabId,
         );
 
   @override

@@ -1,6 +1,4 @@
-import 'package:app/core/error_handler_factory.dart';
 import 'package:app/core/wm/custom_wm.dart';
-import 'package:app/di/di.dart';
 import 'package:app/feature/messenger/data/message.dart';
 import 'package:app/feature/wallet/new_account/add_account_result/add_account_result_sheet.dart';
 import 'package:app/feature/wallet/new_account/add_external_account/add_external_account.dart';
@@ -8,21 +6,11 @@ import 'package:app/generated/generated.dart';
 import 'package:app/utils/utils.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:injectable/injectable.dart';
 import 'package:nekoton_repository/nekoton_repository.dart' show Address;
 import 'package:ui_components_lib/ui_components_lib.dart';
 
-AddExternalAccountWidgetModel defaultAddExternalAccountWidgetModelFactory(
-  BuildContext context,
-) {
-  return AddExternalAccountWidgetModel(
-    AddExternalAccountModel(
-      createPrimaryErrorHandler(context),
-      inject(),
-      inject(),
-    ),
-  );
-}
-
+@injectable
 class AddExternalAccountWidgetModel extends CustomWidgetModel<
     AddExternalAccountWidget, AddExternalAccountModel> {
   AddExternalAccountWidgetModel(super.model);
