@@ -6,7 +6,7 @@ part 'transaction_payload.freezed.dart';
 part 'transaction_payload.g.dart';
 
 @freezed
-class TransactionPayload with _$TransactionPayload {
+abstract class TransactionPayload with _$TransactionPayload {
   factory TransactionPayload({
     required List<TransactionPayloadMessage> messages,
     @JsonKey(name: 'valid_until') int? validUntil,

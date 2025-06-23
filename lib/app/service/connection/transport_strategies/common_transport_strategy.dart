@@ -92,9 +92,9 @@ class CommonTransportStrategy extends AppTransportStrategy {
   final WalletType defaultWalletType;
 
   @override
-  String get manifestUrl => manifestOption.when(
-        fromConnection: () => connection.manifestUrl,
-      );
+  String get manifestUrl => switch (manifestOption) {
+        TransportManifestOptionFromConnection() => connection.manifestUrl,
+      };
 
   @override
   String get nativeTokenIcon =>
@@ -146,10 +146,11 @@ class CommonTransportStrategy extends AppTransportStrategy {
   NetworkGroup get networkGroup => transport.group;
 
   @override
-  String get nativeTokenTicker => nativeTokenTickerOption.when(
-        fromConnection: () => connection.nativeTokenTicker,
-        byName: (String name) => name,
-      );
+  String get nativeTokenTicker => switch (nativeTokenTickerOption) {
+        TransportNativeTokenTickerOptionFromConnection() =>
+          connection.nativeTokenTicker,
+        TransportNativeTokenTickerOptionByName(:final name) => name,
+      };
 
   @override
   String accountExplorerLink(Address accountAddress) {
@@ -172,17 +173,21 @@ class CommonTransportStrategy extends AppTransportStrategy {
       baseCurrencyUrl.isNotEmpty ? '$baseCurrencyUrl/$currencyAddress' : '';
 
   @override
-  String defaultAccountName(WalletType walletType) => walletType.when(
-        multisig: (type) => walletDefaultAccountNames.multisig[type] ?? '',
-        walletV3: () => walletDefaultAccountNames.walletV3,
-        highloadWalletV2: () => walletDefaultAccountNames.highloadWalletV2,
-        everWallet: () => walletDefaultAccountNames.everWallet,
-        walletV3R1: () => walletDefaultAccountNames.walletV3R1,
-        walletV3R2: () => walletDefaultAccountNames.walletV3R2,
-        walletV4R1: () => walletDefaultAccountNames.walletV4R1,
-        walletV4R2: () => walletDefaultAccountNames.walletV4R2,
-        walletV5R1: () => walletDefaultAccountNames.walletV5R1,
-      );
+  String defaultAccountName(WalletType walletType) {
+    return switch (walletType) {
+      WalletTypeMultisig(:final data) =>
+        walletDefaultAccountNames.multisig[data] ?? '',
+      WalletTypeWalletV3() => walletDefaultAccountNames.walletV3,
+      WalletTypeHighloadWalletV2() =>
+        walletDefaultAccountNames.highloadWalletV2,
+      WalletTypeEverWallet() => walletDefaultAccountNames.everWallet,
+      WalletTypeWalletV3R1() => walletDefaultAccountNames.walletV3R1,
+      WalletTypeWalletV3R2() => walletDefaultAccountNames.walletV3R2,
+      WalletTypeWalletV4R1() => walletDefaultAccountNames.walletV4R1,
+      WalletTypeWalletV4R2() => walletDefaultAccountNames.walletV4R2,
+      WalletTypeWalletV5R1() => walletDefaultAccountNames.walletV5R1,
+    };
+  }
 
   @override
   String transactionExplorerLink(String transactionHash) {

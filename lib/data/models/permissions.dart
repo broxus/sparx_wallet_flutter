@@ -7,7 +7,7 @@ part 'permissions.freezed.dart';
 part 'permissions.g.dart';
 
 @freezed
-class Permissions with _$Permissions {
+abstract class Permissions with _$Permissions {
   const factory Permissions({
     @JsonKey(includeIfNull: false) bool? basic,
     @JsonKey(includeIfNull: false) AccountInteraction? accountInteraction,

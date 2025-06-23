@@ -1,3 +1,4 @@
+// dart format width=80
 // coverage:ignore-file
 // GENERATED CODE - DO NOT MODIFY BY HAND
 // ignore_for_file: type=lint
@@ -9,390 +10,102 @@ part of 'account_detail_cubit.dart';
 // FreezedGenerator
 // **************************************************************************
 
+// dart format off
 T _$identity<T>(T value) => value;
-
-final _privateConstructorUsedError = UnsupportedError(
-    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models');
 
 /// @nodoc
 mixin _$AccountDetailState {
-  @optionalTypeArgs
-  TResult when<TResult extends Object?>({
-    required TResult Function() initial,
-    required TResult Function() empty,
-    required TResult Function(
-            KeyAccount account, Money balance, List<SeedKey> custodians)
-        data,
-  }) =>
-      throw _privateConstructorUsedError;
-  @optionalTypeArgs
-  TResult? whenOrNull<TResult extends Object?>({
-    TResult? Function()? initial,
-    TResult? Function()? empty,
-    TResult? Function(
-            KeyAccount account, Money balance, List<SeedKey> custodians)?
-        data,
-  }) =>
-      throw _privateConstructorUsedError;
-  @optionalTypeArgs
-  TResult maybeWhen<TResult extends Object?>({
-    TResult Function()? initial,
-    TResult Function()? empty,
-    TResult Function(
-            KeyAccount account, Money balance, List<SeedKey> custodians)?
-        data,
-    required TResult orElse(),
-  }) =>
-      throw _privateConstructorUsedError;
-  @optionalTypeArgs
-  TResult map<TResult extends Object?>({
-    required TResult Function(_Initial value) initial,
-    required TResult Function(_Empty value) empty,
-    required TResult Function(_Data value) data,
-  }) =>
-      throw _privateConstructorUsedError;
-  @optionalTypeArgs
-  TResult? mapOrNull<TResult extends Object?>({
-    TResult? Function(_Initial value)? initial,
-    TResult? Function(_Empty value)? empty,
-    TResult? Function(_Data value)? data,
-  }) =>
-      throw _privateConstructorUsedError;
-  @optionalTypeArgs
-  TResult maybeMap<TResult extends Object?>({
-    TResult Function(_Initial value)? initial,
-    TResult Function(_Empty value)? empty,
-    TResult Function(_Data value)? data,
-    required TResult orElse(),
-  }) =>
-      throw _privateConstructorUsedError;
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType && other is AccountDetailState);
+  }
+
+  @override
+  int get hashCode => runtimeType.hashCode;
+
+  @override
+  String toString() {
+    return 'AccountDetailState()';
+  }
 }
 
 /// @nodoc
-abstract class $AccountDetailStateCopyWith<$Res> {
-  factory $AccountDetailStateCopyWith(
-          AccountDetailState value, $Res Function(AccountDetailState) then) =
-      _$AccountDetailStateCopyWithImpl<$Res, AccountDetailState>;
-}
-
-/// @nodoc
-class _$AccountDetailStateCopyWithImpl<$Res, $Val extends AccountDetailState>
-    implements $AccountDetailStateCopyWith<$Res> {
-  _$AccountDetailStateCopyWithImpl(this._value, this._then);
-
-  // ignore: unused_field
-  final $Val _value;
-  // ignore: unused_field
-  final $Res Function($Val) _then;
-
-  /// Create a copy of AccountDetailState
-  /// with the given fields replaced by the non-null parameter values.
-}
-
-/// @nodoc
-abstract class _$$InitialImplCopyWith<$Res> {
-  factory _$$InitialImplCopyWith(
-          _$InitialImpl value, $Res Function(_$InitialImpl) then) =
-      __$$InitialImplCopyWithImpl<$Res>;
-}
-
-/// @nodoc
-class __$$InitialImplCopyWithImpl<$Res>
-    extends _$AccountDetailStateCopyWithImpl<$Res, _$InitialImpl>
-    implements _$$InitialImplCopyWith<$Res> {
-  __$$InitialImplCopyWithImpl(
-      _$InitialImpl _value, $Res Function(_$InitialImpl) _then)
-      : super(_value, _then);
-
-  /// Create a copy of AccountDetailState
-  /// with the given fields replaced by the non-null parameter values.
+class $AccountDetailStateCopyWith<$Res> {
+  $AccountDetailStateCopyWith(
+      AccountDetailState _, $Res Function(AccountDetailState) __);
 }
 
 /// @nodoc
 
-class _$InitialImpl implements _Initial {
-  const _$InitialImpl();
+class AccountDetailStateInitial implements AccountDetailState {
+  const AccountDetailStateInitial();
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is AccountDetailStateInitial);
+  }
+
+  @override
+  int get hashCode => runtimeType.hashCode;
 
   @override
   String toString() {
     return 'AccountDetailState.initial()';
   }
+}
+
+/// @nodoc
+
+class AccountDetailStateEmpty implements AccountDetailState {
+  const AccountDetailStateEmpty();
 
   @override
   bool operator ==(Object other) {
     return identical(this, other) ||
-        (other.runtimeType == runtimeType && other is _$InitialImpl);
+        (other.runtimeType == runtimeType && other is AccountDetailStateEmpty);
   }
 
   @override
   int get hashCode => runtimeType.hashCode;
-
-  @override
-  @optionalTypeArgs
-  TResult when<TResult extends Object?>({
-    required TResult Function() initial,
-    required TResult Function() empty,
-    required TResult Function(
-            KeyAccount account, Money balance, List<SeedKey> custodians)
-        data,
-  }) {
-    return initial();
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult? whenOrNull<TResult extends Object?>({
-    TResult? Function()? initial,
-    TResult? Function()? empty,
-    TResult? Function(
-            KeyAccount account, Money balance, List<SeedKey> custodians)?
-        data,
-  }) {
-    return initial?.call();
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult maybeWhen<TResult extends Object?>({
-    TResult Function()? initial,
-    TResult Function()? empty,
-    TResult Function(
-            KeyAccount account, Money balance, List<SeedKey> custodians)?
-        data,
-    required TResult orElse(),
-  }) {
-    if (initial != null) {
-      return initial();
-    }
-    return orElse();
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult map<TResult extends Object?>({
-    required TResult Function(_Initial value) initial,
-    required TResult Function(_Empty value) empty,
-    required TResult Function(_Data value) data,
-  }) {
-    return initial(this);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult? mapOrNull<TResult extends Object?>({
-    TResult? Function(_Initial value)? initial,
-    TResult? Function(_Empty value)? empty,
-    TResult? Function(_Data value)? data,
-  }) {
-    return initial?.call(this);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult maybeMap<TResult extends Object?>({
-    TResult Function(_Initial value)? initial,
-    TResult Function(_Empty value)? empty,
-    TResult Function(_Data value)? data,
-    required TResult orElse(),
-  }) {
-    if (initial != null) {
-      return initial(this);
-    }
-    return orElse();
-  }
-}
-
-abstract class _Initial implements AccountDetailState {
-  const factory _Initial() = _$InitialImpl;
-}
-
-/// @nodoc
-abstract class _$$EmptyImplCopyWith<$Res> {
-  factory _$$EmptyImplCopyWith(
-          _$EmptyImpl value, $Res Function(_$EmptyImpl) then) =
-      __$$EmptyImplCopyWithImpl<$Res>;
-}
-
-/// @nodoc
-class __$$EmptyImplCopyWithImpl<$Res>
-    extends _$AccountDetailStateCopyWithImpl<$Res, _$EmptyImpl>
-    implements _$$EmptyImplCopyWith<$Res> {
-  __$$EmptyImplCopyWithImpl(
-      _$EmptyImpl _value, $Res Function(_$EmptyImpl) _then)
-      : super(_value, _then);
-
-  /// Create a copy of AccountDetailState
-  /// with the given fields replaced by the non-null parameter values.
-}
-
-/// @nodoc
-
-class _$EmptyImpl implements _Empty {
-  const _$EmptyImpl();
 
   @override
   String toString() {
     return 'AccountDetailState.empty()';
   }
-
-  @override
-  bool operator ==(Object other) {
-    return identical(this, other) ||
-        (other.runtimeType == runtimeType && other is _$EmptyImpl);
-  }
-
-  @override
-  int get hashCode => runtimeType.hashCode;
-
-  @override
-  @optionalTypeArgs
-  TResult when<TResult extends Object?>({
-    required TResult Function() initial,
-    required TResult Function() empty,
-    required TResult Function(
-            KeyAccount account, Money balance, List<SeedKey> custodians)
-        data,
-  }) {
-    return empty();
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult? whenOrNull<TResult extends Object?>({
-    TResult? Function()? initial,
-    TResult? Function()? empty,
-    TResult? Function(
-            KeyAccount account, Money balance, List<SeedKey> custodians)?
-        data,
-  }) {
-    return empty?.call();
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult maybeWhen<TResult extends Object?>({
-    TResult Function()? initial,
-    TResult Function()? empty,
-    TResult Function(
-            KeyAccount account, Money balance, List<SeedKey> custodians)?
-        data,
-    required TResult orElse(),
-  }) {
-    if (empty != null) {
-      return empty();
-    }
-    return orElse();
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult map<TResult extends Object?>({
-    required TResult Function(_Initial value) initial,
-    required TResult Function(_Empty value) empty,
-    required TResult Function(_Data value) data,
-  }) {
-    return empty(this);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult? mapOrNull<TResult extends Object?>({
-    TResult? Function(_Initial value)? initial,
-    TResult? Function(_Empty value)? empty,
-    TResult? Function(_Data value)? data,
-  }) {
-    return empty?.call(this);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult maybeMap<TResult extends Object?>({
-    TResult Function(_Initial value)? initial,
-    TResult Function(_Empty value)? empty,
-    TResult Function(_Data value)? data,
-    required TResult orElse(),
-  }) {
-    if (empty != null) {
-      return empty(this);
-    }
-    return orElse();
-  }
-}
-
-abstract class _Empty implements AccountDetailState {
-  const factory _Empty() = _$EmptyImpl;
-}
-
-/// @nodoc
-abstract class _$$DataImplCopyWith<$Res> {
-  factory _$$DataImplCopyWith(
-          _$DataImpl value, $Res Function(_$DataImpl) then) =
-      __$$DataImplCopyWithImpl<$Res>;
-  @useResult
-  $Res call({KeyAccount account, Money balance, List<SeedKey> custodians});
-}
-
-/// @nodoc
-class __$$DataImplCopyWithImpl<$Res>
-    extends _$AccountDetailStateCopyWithImpl<$Res, _$DataImpl>
-    implements _$$DataImplCopyWith<$Res> {
-  __$$DataImplCopyWithImpl(_$DataImpl _value, $Res Function(_$DataImpl) _then)
-      : super(_value, _then);
-
-  /// Create a copy of AccountDetailState
-  /// with the given fields replaced by the non-null parameter values.
-  @pragma('vm:prefer-inline')
-  @override
-  $Res call({
-    Object? account = null,
-    Object? balance = null,
-    Object? custodians = null,
-  }) {
-    return _then(_$DataImpl(
-      null == account
-          ? _value.account
-          : account // ignore: cast_nullable_to_non_nullable
-              as KeyAccount,
-      null == balance
-          ? _value.balance
-          : balance // ignore: cast_nullable_to_non_nullable
-              as Money,
-      null == custodians
-          ? _value._custodians
-          : custodians // ignore: cast_nullable_to_non_nullable
-              as List<SeedKey>,
-    ));
-  }
 }
 
 /// @nodoc
 
-class _$DataImpl implements _Data {
-  const _$DataImpl(this.account, this.balance, final List<SeedKey> custodians)
+class AccountDetailStateData implements AccountDetailState {
+  const AccountDetailStateData(
+      this.account, this.balance, final List<SeedKey> custodians)
       : _custodians = custodians;
 
-  @override
   final KeyAccount account;
-  @override
   final Money balance;
   final List<SeedKey> _custodians;
-  @override
   List<SeedKey> get custodians {
     if (_custodians is EqualUnmodifiableListView) return _custodians;
     // ignore: implicit_dynamic_type
     return EqualUnmodifiableListView(_custodians);
   }
 
-  @override
-  String toString() {
-    return 'AccountDetailState.data(account: $account, balance: $balance, custodians: $custodians)';
-  }
+  /// Create a copy of AccountDetailState
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @pragma('vm:prefer-inline')
+  $AccountDetailStateDataCopyWith<AccountDetailStateData> get copyWith =>
+      _$AccountDetailStateDataCopyWithImpl<AccountDetailStateData>(
+          this, _$identity);
 
   @override
   bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$DataImpl &&
+            other is AccountDetailStateData &&
             (identical(other.account, account) || other.account == account) &&
             (identical(other.balance, balance) || other.balance == balance) &&
             const DeepCollectionEquality()
@@ -403,100 +116,53 @@ class _$DataImpl implements _Data {
   int get hashCode => Object.hash(runtimeType, account, balance,
       const DeepCollectionEquality().hash(_custodians));
 
+  @override
+  String toString() {
+    return 'AccountDetailState.data(account: $account, balance: $balance, custodians: $custodians)';
+  }
+}
+
+/// @nodoc
+abstract mixin class $AccountDetailStateDataCopyWith<$Res>
+    implements $AccountDetailStateCopyWith<$Res> {
+  factory $AccountDetailStateDataCopyWith(AccountDetailStateData value,
+          $Res Function(AccountDetailStateData) _then) =
+      _$AccountDetailStateDataCopyWithImpl;
+  @useResult
+  $Res call({KeyAccount account, Money balance, List<SeedKey> custodians});
+}
+
+/// @nodoc
+class _$AccountDetailStateDataCopyWithImpl<$Res>
+    implements $AccountDetailStateDataCopyWith<$Res> {
+  _$AccountDetailStateDataCopyWithImpl(this._self, this._then);
+
+  final AccountDetailStateData _self;
+  final $Res Function(AccountDetailStateData) _then;
+
   /// Create a copy of AccountDetailState
   /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
-  @override
   @pragma('vm:prefer-inline')
-  _$$DataImplCopyWith<_$DataImpl> get copyWith =>
-      __$$DataImplCopyWithImpl<_$DataImpl>(this, _$identity);
-
-  @override
-  @optionalTypeArgs
-  TResult when<TResult extends Object?>({
-    required TResult Function() initial,
-    required TResult Function() empty,
-    required TResult Function(
-            KeyAccount account, Money balance, List<SeedKey> custodians)
-        data,
+  $Res call({
+    Object? account = null,
+    Object? balance = null,
+    Object? custodians = null,
   }) {
-    return data(account, balance, custodians);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult? whenOrNull<TResult extends Object?>({
-    TResult? Function()? initial,
-    TResult? Function()? empty,
-    TResult? Function(
-            KeyAccount account, Money balance, List<SeedKey> custodians)?
-        data,
-  }) {
-    return data?.call(account, balance, custodians);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult maybeWhen<TResult extends Object?>({
-    TResult Function()? initial,
-    TResult Function()? empty,
-    TResult Function(
-            KeyAccount account, Money balance, List<SeedKey> custodians)?
-        data,
-    required TResult orElse(),
-  }) {
-    if (data != null) {
-      return data(account, balance, custodians);
-    }
-    return orElse();
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult map<TResult extends Object?>({
-    required TResult Function(_Initial value) initial,
-    required TResult Function(_Empty value) empty,
-    required TResult Function(_Data value) data,
-  }) {
-    return data(this);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult? mapOrNull<TResult extends Object?>({
-    TResult? Function(_Initial value)? initial,
-    TResult? Function(_Empty value)? empty,
-    TResult? Function(_Data value)? data,
-  }) {
-    return data?.call(this);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult maybeMap<TResult extends Object?>({
-    TResult Function(_Initial value)? initial,
-    TResult Function(_Empty value)? empty,
-    TResult Function(_Data value)? data,
-    required TResult orElse(),
-  }) {
-    if (data != null) {
-      return data(this);
-    }
-    return orElse();
+    return _then(AccountDetailStateData(
+      null == account
+          ? _self.account
+          : account // ignore: cast_nullable_to_non_nullable
+              as KeyAccount,
+      null == balance
+          ? _self.balance
+          : balance // ignore: cast_nullable_to_non_nullable
+              as Money,
+      null == custodians
+          ? _self._custodians
+          : custodians // ignore: cast_nullable_to_non_nullable
+              as List<SeedKey>,
+    ));
   }
 }
 
-abstract class _Data implements AccountDetailState {
-  const factory _Data(final KeyAccount account, final Money balance,
-      final List<SeedKey> custodians) = _$DataImpl;
-
-  KeyAccount get account;
-  Money get balance;
-  List<SeedKey> get custodians;
-
-  /// Create a copy of AccountDetailState
-  /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
-  _$$DataImplCopyWith<_$DataImpl> get copyWith =>
-      throw _privateConstructorUsedError;
-}
+// dart format on

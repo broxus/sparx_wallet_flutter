@@ -89,14 +89,19 @@ class AccountTransactionsTabCubit extends Cubit<AccountTransactionsTabState>
   /// Called from UI when user scrolled to the end of the list.
   /// NOTE: this method may be called multiple times
   void tryPreloadTransactions() {
-    final lastPrevLt = state.whenOrNull(
-      transactions: (transactions, _, __, ___) => _lastLt(_transactions),
-    );
-    final (isLoading, canLoadMore) = state.maybeWhen(
-      transactions: (_, isLoading, canLoadMore, ___) =>
-          (isLoading, canLoadMore),
-      orElse: () => (true, false),
-    );
+    final lastPrevLt = switch (state) {
+      AccountTransactionsTabStateTransactions() => _lastLt(_transactions),
+      _ => null,
+    };
+    final (isLoading, canLoadMore) = switch (state) {
+      AccountTransactionsTabStateTransactions(
+        :final isLoading,
+        :final canLoadMore,
+      ) =>
+        (isLoading, canLoadMore),
+      _ => (true, false),
+    };
+
     if (isLoading || !canLoadMore || lastPrevLt == null) {
       return;
     }
@@ -306,10 +311,11 @@ class AccountTransactionsTabCubit extends Cubit<AccountTransactionsTabState>
         ),
       ]..sort((a, b) => b.compareTo(a));
 
-      var canLoadMore = state.maybeWhen(
-        transactions: (_, __, canLoadMore, ___) => canLoadMore,
-        orElse: () => true,
-      );
+      var canLoadMore = switch (state) {
+        AccountTransactionsTabStateTransactions(:final canLoadMore) =>
+          canLoadMore,
+        _ => true,
+      };
       final lastLt = _lastLt(_transactions);
 
       if (_lastLtWhenPreloaded != null && !isLoading && fromStream) {

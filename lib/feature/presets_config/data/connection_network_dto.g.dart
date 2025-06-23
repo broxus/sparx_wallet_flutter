@@ -6,9 +6,9 @@ part of 'connection_network_dto.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-_$ConnectionNetworkDtoImpl _$$ConnectionNetworkDtoImplFromJson(
+_ConnectionNetworkDto _$ConnectionNetworkDtoFromJson(
         Map<String, dynamic> json) =>
-    _$ConnectionNetworkDtoImpl(
+    _ConnectionNetworkDto(
       defaultConnectionId: json['defaultConnectionId'] as String,
       networks: (json['networks'] as List<dynamic>)
           .map((e) => e as Map<String, dynamic>)
@@ -21,8 +21,8 @@ _$ConnectionNetworkDtoImpl _$$ConnectionNetworkDtoImplFromJson(
           .toList(),
     );
 
-Map<String, dynamic> _$$ConnectionNetworkDtoImplToJson(
-        _$ConnectionNetworkDtoImpl instance) =>
+Map<String, dynamic> _$ConnectionNetworkDtoToJson(
+        _ConnectionNetworkDto instance) =>
     <String, dynamic>{
       'defaultConnectionId': instance.defaultConnectionId,
       'networks': instance.networks,

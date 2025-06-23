@@ -6,9 +6,8 @@ part of 'token_contract_asset.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-_$TokenContractAssetImpl _$$TokenContractAssetImplFromJson(
-        Map<String, dynamic> json) =>
-    _$TokenContractAssetImpl(
+_TokenContractAsset _$TokenContractAssetFromJson(Map<String, dynamic> json) =>
+    _TokenContractAsset(
       name: json['name'] as String,
       symbol: json['symbol'] as String,
       decimals: (json['decimals'] as num).toInt(),
@@ -22,8 +21,7 @@ _$TokenContractAssetImpl _$$TokenContractAssetImplFromJson(
       logoURI: json['logoURI'] as String?,
     );
 
-Map<String, dynamic> _$$TokenContractAssetImplToJson(
-        _$TokenContractAssetImpl instance) =>
+Map<String, dynamic> _$TokenContractAssetToJson(_TokenContractAsset instance) =>
     <String, dynamic>{
       'name': instance.name,
       'symbol': instance.symbol,
