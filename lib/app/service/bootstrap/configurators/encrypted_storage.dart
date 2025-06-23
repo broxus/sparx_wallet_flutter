@@ -1,4 +1,3 @@
-import 'package:app/di/di.dart';
 import 'package:encrypted_storage/encrypted_storage.dart';
 import 'package:injectable/injectable.dart';
 import 'package:logging/logging.dart';

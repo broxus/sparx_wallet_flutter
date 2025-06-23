@@ -1,5 +1,4 @@
 import 'package:app/app/service/service.dart';
-import 'package:app/di/di.dart';
 import 'package:injectable/injectable.dart';
 import 'package:logging/logging.dart';
 

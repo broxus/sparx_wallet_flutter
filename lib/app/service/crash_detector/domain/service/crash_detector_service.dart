@@ -23,7 +23,8 @@ class CrashDetectorService {
     if (crashDetected) {
       if (kDebugMode) {
         _log.info(
-          'appStartSession: crash detected, but maybe it was stop in debug mode',
+          'appStartSession: crash detected, '
+          'but maybe it was stop in debug mode',
         );
       } else {
         _log.severe('appStartSession: crash detected');

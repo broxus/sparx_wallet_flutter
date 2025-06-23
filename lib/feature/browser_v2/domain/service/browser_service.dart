@@ -4,7 +4,6 @@ import 'package:app/app/service/app_links/app_links.dart';
 import 'package:app/app/service/storage_service/general_storage_service.dart';
 import 'package:app/app/service/ton_connect/ton_connect_service.dart';
 import 'package:app/feature/browser_v2/data/history_type.dart';
-import 'package:app/feature/browser_v2/domain/browser_launcher.dart';
 import 'package:app/feature/browser_v2/domain/service/storages/browser_bookmarks_storage_service.dart';
 import 'package:app/feature/browser_v2/domain/service/storages/browser_favicon_url_storage_service.dart';
 import 'package:app/feature/browser_v2/domain/service/storages/browser_history_storage_service.dart';
@@ -18,7 +17,6 @@ import 'package:app/feature/browser_v2/managers/permissions_manager.dart';
 import 'package:app/feature/browser_v2/managers/tabs/tabs_manager.dart';
 import 'package:app/feature/messenger/domain/service/messenger_service.dart';
 import 'package:app/utils/common_utils.dart';
-import 'package:flutter/material.dart';
 import 'package:injectable/injectable.dart';
 import 'package:nekoton_repository/nekoton_repository.dart';
 import 'package:nekoton_webview/nekoton_webview.dart';
@@ -27,7 +25,6 @@ import 'package:rxdart/rxdart.dart';
 @singleton
 class BrowserService {
   BrowserService(
-    this._appLinksService,
     this._bookmarksStorageService,
     this._browserFaviconURLStorageService,
     this._browserHistoryStorageService,
@@ -37,10 +34,8 @@ class BrowserService {
     this._generalStorageService,
     this._tonConnectService,
     this._nekotonRepository,
-    this._browserLauncher,
   );
 
-  final AppLinksService _appLinksService;
   final BrowserBookmarksStorageService _bookmarksStorageService;
   final BrowserFaviconURLStorageService _browserFaviconURLStorageService;
   final BrowserHistoryStorageService _browserHistoryStorageService;
@@ -50,7 +45,6 @@ class BrowserService {
   final TonConnectService _tonConnectService;
   final MessengerService _messengerService;
   final NekotonRepository _nekotonRepository;
-  final BrowserLauncher _browserLauncher;
 
   late final bookmarks = BookmarksManager(
     _bookmarksStorageService,
@@ -91,10 +85,6 @@ class BrowserService {
     history.init();
     tabs.init();
     permissions.init();
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      _appLinksNavSubs =
-          _appLinksService.browserLinksStream.listen(_listenAppLinks);
-    });
   }
 
   Future<void> clear() async {
@@ -161,9 +151,5 @@ class BrowserService {
         );
       }
     });
-  }
-
-  void _listenAppLinks(BrowserAppLinksData event) {
-    _browserLauncher.openBrowserByUri(event.url);
   }
 }
