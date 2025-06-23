@@ -1,10 +1,10 @@
 import 'dart:async';
 
 import 'package:app/core/wm/custom_wm.dart';
-import 'package:injectable/injectable.dart';
 import 'package:app/feature/profile/view/profile_page_model.dart';
 import 'package:app/feature/profile/view/profile_page_widget.dart';
 import 'package:elementary_helper/elementary_helper.dart';
+import 'package:injectable/injectable.dart';
 import 'package:nekoton_repository/nekoton_repository.dart';
 
 @injectable

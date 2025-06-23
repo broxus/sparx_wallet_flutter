@@ -2,7 +2,6 @@ import 'dart:async';
 
 import 'package:app/core/wm/custom_wm.dart';
 import 'package:app/data/models/models.dart';
-import 'package:injectable/injectable.dart';
 import 'package:app/feature/wallet/staking/models/models.dart';
 import 'package:app/feature/wallet/staking/staking.dart';
 import 'package:app/feature/wallet/wallet.dart';
@@ -12,6 +11,7 @@ import 'package:app/widgets/amount_input/amount_input_asset.dart';
 import 'package:elementary_helper/elementary_helper.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:injectable/injectable.dart';
 import 'package:logging/logging.dart';
 import 'package:nekoton_repository/nekoton_repository.dart';
 import 'package:rxdart/rxdart.dart';

@@ -12,9 +12,8 @@ import 'package:ui_components_lib/ui_components_lib.dart';
 import 'package:ui_components_lib/v2/ui_components_lib_v2.dart';
 
 /// Widget that allows choose account that should be used for browser tab with
-/// url=[origin].
-/// This widget firstly asks to choose account via [_SelectAccountWidget]
-/// and then opens [_ConfirmPermissionsWidget] to check permissions.
+/// specified origin URL.
+/// This widget firstly asks to choose account and then confirms permissions.
 class RequestPermissionsWidget
     extends InjectedElementaryWidget<RequestPermissionsWidgetModel> {
   RequestPermissionsWidget({

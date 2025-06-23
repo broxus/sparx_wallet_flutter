@@ -1,6 +1,5 @@
 import 'package:app/app/router/router.dart';
 import 'package:app/core/wm/custom_wm.dart';
-import 'package:injectable/injectable.dart';
 import 'package:app/feature/browser_v1/browser.dart';
 import 'package:app/feature/profile/profile.dart';
 import 'package:app/feature/wallet/custodians_settings/route.dart';
@@ -8,6 +7,7 @@ import 'package:app/feature/wallet/widgets/account_settings/account_settings_mod
 import 'package:app/feature/wallet/widgets/account_settings/account_settings_widget.dart';
 import 'package:elementary_helper/elementary_helper.dart';
 import 'package:flutter/material.dart';
+import 'package:injectable/injectable.dart';
 import 'package:nekoton_repository/nekoton_repository.dart';
 
 class AccountSettingsWmParams {

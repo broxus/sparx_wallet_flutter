@@ -1,11 +1,11 @@
 // ignore_for_file: use_build_context_synchronously
 
 import 'package:app/core/wm/custom_wm.dart';
-import 'package:injectable/injectable.dart';
 import 'package:app/feature/wallet/new_account/add_account_confirm/add_account_confirm_model.dart';
 import 'package:app/feature/wallet/new_account/add_account_confirm/add_account_confirm_widget.dart';
 import 'package:elementary_helper/elementary_helper.dart';
 import 'package:flutter/material.dart';
+import 'package:injectable/injectable.dart';
 import 'package:local_auth/local_auth.dart';
 import 'package:nekoton_repository/nekoton_repository.dart';
 import 'package:ui_components_lib/ui_components_lib.dart';

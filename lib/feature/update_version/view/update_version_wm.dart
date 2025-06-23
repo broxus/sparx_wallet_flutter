@@ -1,11 +1,11 @@
 import 'package:app/core/wm/custom_wm.dart';
-import 'package:injectable/injectable.dart';
 import 'package:app/feature/update_version/data/update_request.dart';
 import 'package:app/feature/update_version/view/update_version_model.dart';
 import 'package:app/feature/update_version/view/update_version_screen.dart';
 import 'package:app/utils/common_utils.dart';
 import 'package:elementary_helper/elementary_helper.dart';
 import 'package:flutter/material.dart';
+import 'package:injectable/injectable.dart';
 import 'package:rxdart/rxdart.dart';
 import 'package:ui_components_lib/v2/ui_components_lib_v2.dart';
 

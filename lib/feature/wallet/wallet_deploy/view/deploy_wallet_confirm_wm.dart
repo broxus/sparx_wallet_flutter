@@ -4,11 +4,11 @@ import 'dart:async';
 
 import 'package:app/app/router/router.dart';
 import 'package:app/core/wm/custom_wm.dart';
-import 'package:injectable/injectable.dart';
 import 'package:app/feature/wallet/wallet_deploy/view/deploy_wallet_confirm_modal.dart';
 import 'package:app/feature/wallet/wallet_deploy/view/deploy_wallet_confirm_model.dart';
 import 'package:app/generated/generated.dart';
 import 'package:elementary_helper/elementary_helper.dart';
+import 'package:injectable/injectable.dart';
 import 'package:local_auth/local_auth.dart';
 import 'package:nekoton_repository/nekoton_repository.dart';
 import 'package:ui_components_lib/v2/ui_components_lib_v2.dart';

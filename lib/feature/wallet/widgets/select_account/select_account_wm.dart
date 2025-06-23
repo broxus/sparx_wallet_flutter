@@ -1,6 +1,5 @@
 import 'package:app/app/router/router.dart';
 import 'package:app/core/wm/custom_wm.dart';
-import 'package:injectable/injectable.dart';
 import 'package:app/feature/profile/manage_seeds_accounts/route.dart';
 import 'package:app/feature/wallet/new_account/route.dart';
 import 'package:app/feature/wallet/widgets/select_account/select_account_data.dart';
@@ -8,6 +7,7 @@ import 'package:app/feature/wallet/widgets/select_account/select_account_model.d
 import 'package:app/feature/wallet/widgets/select_account/select_account_widget.dart';
 import 'package:elementary_helper/elementary_helper.dart';
 import 'package:flutter/material.dart';
+import 'package:injectable/injectable.dart';
 import 'package:nekoton_repository/nekoton_repository.dart';
 
 @injectable

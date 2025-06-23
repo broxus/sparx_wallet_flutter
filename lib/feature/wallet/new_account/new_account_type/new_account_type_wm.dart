@@ -5,12 +5,12 @@ import 'dart:async';
 import 'package:app/app/router/router.dart';
 import 'package:app/app/service/connection/connection_service.dart';
 import 'package:app/core/wm/custom_wm.dart';
-import 'package:injectable/injectable.dart';
 import 'package:app/feature/wallet/new_account/add_account.dart';
 import 'package:app/feature/wallet/new_account/new_account_type/new_account_type_model.dart';
 import 'package:app/feature/wallet/route.dart';
 import 'package:collection/collection.dart';
 import 'package:elementary_helper/elementary_helper.dart';
+import 'package:injectable/injectable.dart';
 import 'package:nekoton_repository/nekoton_repository.dart';
 import 'package:ui_components_lib/v2/ui_components_lib_v2.dart';
 

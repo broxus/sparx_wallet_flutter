@@ -9,7 +9,6 @@ import 'package:app/app/service/currency_convert_service.dart';
 import 'package:app/bootstrap/sentry.dart';
 import 'package:app/core/wm/custom_wm.dart';
 import 'package:app/data/models/token_contract/token_contract_asset.dart';
-import 'package:injectable/injectable.dart';
 import 'package:app/feature/qr_scanner/qr_scanner.dart';
 import 'package:app/feature/wallet/token_wallet_send/route.dart';
 import 'package:app/feature/wallet/ton_wallet_send/route.dart';
@@ -25,6 +24,7 @@ import 'package:elementary_helper/elementary_helper.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
+import 'package:injectable/injectable.dart';
 import 'package:nekoton_repository/nekoton_repository.dart';
 
 class WalletPrepareTransferPageWmParams {

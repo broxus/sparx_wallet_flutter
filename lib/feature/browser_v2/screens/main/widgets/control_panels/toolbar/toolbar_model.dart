@@ -2,8 +2,8 @@ import 'package:app/feature/browser_v2/domain/service/browser_service.dart';
 import 'package:app/feature/browser_v2/screens/main/data/toolbar_data.dart';
 import 'package:app/feature/browser_v2/screens/main/widgets/control_panels/toolbar/toolbar.dart';
 import 'package:elementary/elementary.dart';
-import 'package:injectable/injectable.dart';
 import 'package:elementary_helper/elementary_helper.dart';
+import 'package:injectable/injectable.dart';
 
 /// [ElementaryModel] for [Toolbar]
 @injectable

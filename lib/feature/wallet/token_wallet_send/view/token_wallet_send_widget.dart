@@ -9,10 +9,10 @@ import 'package:flutter/material.dart';
 import 'package:nekoton_repository/nekoton_repository.dart';
 import 'package:ui_components_lib/ui_components_lib.dart';
 
-/// Page that allows to send not native token from [TokenWallet] to
-/// [destination].
-/// For correct work subscription for [TokenWallet] and [TonWallet] with
-/// address=[owner] must be created.
+/// Page that allows to send not native token from TokenWallet to
+/// destination address.
+/// For correct work subscription for TokenWallet and TonWallet with
+/// the specified owner address must be created.
 class TokenWalletSendWidget
     extends InjectedElementaryWidget<TokenWalletSendWidgetModel> {
   TokenWalletSendWidget({
