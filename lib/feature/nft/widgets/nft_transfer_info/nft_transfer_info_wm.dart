@@ -1,24 +1,12 @@
-import 'package:app/core/error_handler_factory.dart';
 import 'package:app/core/wm/custom_wm.dart';
-import 'package:app/di/di.dart';
 import 'package:app/feature/nft/nft.dart';
 import 'package:app/utils/utils.dart';
 import 'package:elementary_helper/elementary_helper.dart';
-import 'package:flutter/material.dart';
+import 'package:injectable/injectable.dart';
 import 'package:nekoton_repository/nekoton_repository.dart';
 import 'package:ui_components_lib/v2/ui_components_lib_v2.dart';
 
-NftTransferInfoWidgetModel defaultNftTransferInfoWidgetModelFactory(
-  BuildContext context,
-) =>
-    NftTransferInfoWidgetModel(
-      NftTransferInfoModel(
-        createPrimaryErrorHandler(context),
-        inject(),
-        inject(),
-      ),
-    );
-
+@injectable
 class NftTransferInfoWidgetModel
     extends CustomWidgetModel<NftTransferInfoWidget, NftTransferInfoModel> {
   NftTransferInfoWidgetModel(super.model);
