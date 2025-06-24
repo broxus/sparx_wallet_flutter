@@ -18,7 +18,7 @@ class TokenWalletOrdinaryTransactionDetailsScreen
     required Address rootTokenContract,
     super.key,
   }) : super(
-          param1: TokenWalletOrdinaryTransactionDetailsScreenWmParams(
+          wmFactoryParam: TokenWalletOrdinaryTransactionDetailsScreenWmParams(
             transaction: transaction,
             tokenCurrency: tokenCurrency,
             price: price,

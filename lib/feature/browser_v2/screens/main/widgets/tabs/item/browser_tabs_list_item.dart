@@ -20,7 +20,7 @@ class BrowserTabsListItem
     this.onClosePressed,
     super.key,
   }) : super(
-          param1: tabNotifier,
+          wmFactoryParam: tabNotifier,
         );
 
   final RenderManager<String> renderManager;

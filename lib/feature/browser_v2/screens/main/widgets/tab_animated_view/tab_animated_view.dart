@@ -16,7 +16,7 @@ class TabAnimatedView
     required ValueChanged<TabAnimationType?> onAnimationEnd,
     super.key,
   }) : super(
-          param1: TabAnimatedViewWmParams(
+          wmFactoryParam: TabAnimatedViewWmParams(
             showAnimationState: showAnimationState,
             onAnimationStart: onAnimationStart,
             onAnimationEnd: onAnimationEnd,

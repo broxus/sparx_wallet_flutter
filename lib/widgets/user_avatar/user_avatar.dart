@@ -10,7 +10,7 @@ class UserAvatar extends InjectedElementaryWidget<UserAvatarWidgetModel> {
     this.size,
     this.borderRadius,
     super.key,
-  }) : super(param1: address);
+  }) : super(wmFactoryParam: address);
 
   final double? size;
   final double? borderRadius;

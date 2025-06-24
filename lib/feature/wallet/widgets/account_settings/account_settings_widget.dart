@@ -19,7 +19,7 @@ class AccountSettingsWidget
     required List<PublicKey>? custodians,
     super.key,
   }) : super(
-          param1: AccountSettingsWmParams(
+          wmFactoryParam: AccountSettingsWmParams(
             account: account,
             custodians: custodians,
           ),

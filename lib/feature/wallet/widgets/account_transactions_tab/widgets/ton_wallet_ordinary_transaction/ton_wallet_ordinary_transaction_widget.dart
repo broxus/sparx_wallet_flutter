@@ -15,7 +15,7 @@ class TonWalletOrdinaryTransactionWidget extends InjectedElementaryWidget<
     required Fixed price,
     super.key,
   }) : super(
-          param1: TonWalletOrdinaryTransactionWmParams(
+          wmFactoryParam: TonWalletOrdinaryTransactionWmParams(
             transaction: transaction,
             isFirst: isFirst,
             isLast: isLast,

@@ -19,7 +19,7 @@ class AddNetworkWidget extends InjectedElementaryWidget<AddNetworkWidgetModel> {
     required this.scrollController,
     super.key,
   }) : super(
-          param1: AddNetworkWmParams(
+          wmFactoryParam: AddNetworkWmParams(
             origin: origin,
             network: network,
             switchNetwork: switchNetwork,

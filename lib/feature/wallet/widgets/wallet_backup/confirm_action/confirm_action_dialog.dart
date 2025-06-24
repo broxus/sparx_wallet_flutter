@@ -31,7 +31,7 @@ class ContentConfirmAction
     KeyAccount? account,
     super.key,
   }) : super(
-          param1: ConfirmActionWmParams(
+          wmFactoryParam: ConfirmActionWmParams(
             finishedBackupCallback: finishedBackupCallback,
             account: account,
           ),

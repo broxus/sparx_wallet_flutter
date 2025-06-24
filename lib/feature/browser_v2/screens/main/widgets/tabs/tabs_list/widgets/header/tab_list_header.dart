@@ -15,7 +15,7 @@ class TabListHeader extends InjectedElementaryWidget<TabListHeaderWidgetModel> {
     required this.onPressedCreateNewGroup,
     super.key,
   }) : super(
-          param1: selectedGroupIdState,
+          wmFactoryParam: selectedGroupIdState,
         );
 
   final ValueChanged<String> onPressedGroup;

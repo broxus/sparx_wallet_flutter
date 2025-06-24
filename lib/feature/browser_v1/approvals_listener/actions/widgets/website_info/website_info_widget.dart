@@ -14,7 +14,7 @@ class WebsiteInfoWidget
     Uri? iconUrl,
     super.key,
   }) : super(
-          param1: WebsiteInfoWmParams(
+          wmFactoryParam: WebsiteInfoWmParams(
             uri: uri,
             iconUrl: iconUrl,
           ),

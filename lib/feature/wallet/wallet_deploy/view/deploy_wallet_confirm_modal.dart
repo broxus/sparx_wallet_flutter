@@ -27,7 +27,7 @@ class DeployWalletConfirmModal
     required PasswordChangeCallback passwordCallback,
     super.key,
   }) : super(
-          param1: passwordCallback,
+          wmFactoryParam: passwordCallback,
         );
 
   @override

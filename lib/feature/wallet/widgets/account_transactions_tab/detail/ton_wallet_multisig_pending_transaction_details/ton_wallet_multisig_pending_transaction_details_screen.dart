@@ -24,7 +24,7 @@ class TonWalletMultisigPendingTransactionDetailsScreen
     required KeyAccount account,
     super.key,
   }) : super(
-          param1: TonWalletMultisigPendingTransactionDetailsWmParams(
+          wmFactoryParam: TonWalletMultisigPendingTransactionDetailsWmParams(
             transaction: transaction,
             price: price,
             account: account,

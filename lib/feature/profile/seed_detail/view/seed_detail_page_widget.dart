@@ -18,7 +18,7 @@ class SeedDetailPageWidget
     required PublicKey publicKey,
     super.key,
   }) : super(
-          param1: publicKey,
+          wmFactoryParam: publicKey,
         );
 
   @override

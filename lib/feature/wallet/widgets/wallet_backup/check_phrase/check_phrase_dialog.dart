@@ -34,7 +34,7 @@ class ContentCheckPhrase
   const ContentCheckPhrase({
     required CheckPhraseWmParams params,
     super.key,
-  }) : super(param1: params);
+  }) : super(wmFactoryParam: params);
 
   @override
   Widget build(CheckPhraseWidgetModel wm) {

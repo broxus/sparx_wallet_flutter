@@ -20,7 +20,7 @@ class ChooseNetworkScreen
   const ChooseNetworkScreen({
     required ChooseNetworkNextStep nextStep,
     super.key,
-  }) : super(param1: nextStep);
+  }) : super(wmFactoryParam: nextStep);
 
   @override
   Widget build(ChooseNetworkScreenWidgetModel wm) {

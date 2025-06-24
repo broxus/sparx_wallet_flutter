@@ -12,7 +12,7 @@ class CustodiansSettingsView
   const CustodiansSettingsView({
     required List<String> custodians,
     super.key,
-  }) : super(param1: custodians);
+  }) : super(wmFactoryParam: custodians);
 
   @override
   Widget build(CustodianSettingsWidgetModel wm) {

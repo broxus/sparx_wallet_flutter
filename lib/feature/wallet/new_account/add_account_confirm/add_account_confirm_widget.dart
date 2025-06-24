@@ -15,7 +15,7 @@ class AddAccountConfirmWidget
     required String seedName,
     super.key,
   }) : super(
-          param1: AddAccountConfirmWmParams(
+          wmFactoryParam: AddAccountConfirmWmParams(
             publicKey: publicKey,
             seedName: seedName,
           ),

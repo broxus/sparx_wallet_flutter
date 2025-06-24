@@ -17,7 +17,7 @@ class TCSignDataWidget extends InjectedElementaryWidget<TCSignDataWidgetModel> {
     required this.scrollController,
     super.key,
   }) : super(
-          param1: TCSignDataWmParams(
+          wmFactoryParam: TCSignDataWmParams(
             connection: connection,
             payload: payload,
           ),

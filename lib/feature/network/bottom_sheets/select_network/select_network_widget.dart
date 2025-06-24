@@ -15,7 +15,7 @@ class SelectNetworkWidget
     this.scrollController,
     super.key,
   }) : super(
-          param1: needPopAfterAction,
+          wmFactoryParam: needPopAfterAction,
         );
 
   final ScrollController? scrollController;

@@ -13,7 +13,7 @@ class AccountSettingsChangeColorButton extends InjectedElementaryWidget<
     required String address,
     super.key,
   }) : super(
-          param1: address,
+          wmFactoryParam: address,
         );
 
   @override

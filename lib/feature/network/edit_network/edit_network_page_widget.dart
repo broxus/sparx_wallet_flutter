@@ -10,7 +10,7 @@ class EditNetworkPageWidget
     String? connectionDataId,
     super.key,
   }) : super(
-          param1: connectionDataId,
+          wmFactoryParam: connectionDataId,
         );
 
   @override

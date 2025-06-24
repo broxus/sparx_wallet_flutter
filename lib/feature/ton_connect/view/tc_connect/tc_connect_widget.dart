@@ -18,7 +18,7 @@ class TCConnectWidget extends InjectedElementaryWidget<TCConnectWidgetModel> {
     required this.scrollController,
     super.key,
   }) : super(
-          param1: TCConnectWmParams(
+          wmFactoryParam: TCConnectWmParams(
             request: request,
             manifest: manifest,
           ),

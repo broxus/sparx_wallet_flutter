@@ -22,7 +22,7 @@ class WalletAccountActions
     this.padding = const EdgeInsets.symmetric(vertical: DimensSizeV2.d32),
     super.key,
   }) : super(
-          param1: WalletAccountActionsWmParams(
+          wmFactoryParam: WalletAccountActionsWmParams(
             account: account,
             allowStake: allowStake,
             sendSpecified: sendSpecified,

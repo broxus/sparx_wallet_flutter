@@ -15,7 +15,7 @@ class CreateBrowserGroupScreen
     String? tabId,
     super.key,
   }) : super(
-          param1: tabId,
+          wmFactoryParam: tabId,
         );
 
   @override

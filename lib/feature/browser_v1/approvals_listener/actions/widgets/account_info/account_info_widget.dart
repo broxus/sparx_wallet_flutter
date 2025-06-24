@@ -11,7 +11,7 @@ class AccountInfoWidget
     required Address account,
     super.key,
   }) : super(
-          param1: account,
+          wmFactoryParam: account,
         );
 
   @override

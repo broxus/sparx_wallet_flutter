@@ -27,7 +27,7 @@ class TokenWalletSendWidget
     required bool? notifyReceiver,
     super.key,
   }) : super(
-          param1: TokenWalletSendWmParams(
+          wmFactoryParam: TokenWalletSendWmParams(
             owner: owner,
             rootTokenContract: rootTokenContract,
             publicKey: publicKey,

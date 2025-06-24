@@ -19,7 +19,7 @@ class WalletPrepareTransferPage
     String? tokenSymbol,
     super.key,
   }) : super(
-          param1: WalletPrepareTransferPageWmParams(
+          wmFactoryParam: WalletPrepareTransferPageWmParams(
             address: address,
             destination: destination,
             rootTokenContract: rootTokenContract,

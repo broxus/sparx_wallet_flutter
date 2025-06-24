@@ -24,7 +24,7 @@ class CancelUnstakingPageWidget
     required Fixed? everPrice,
     super.key,
   }) : super(
-          param1: CancelUnstakingPageWmParams(
+          wmFactoryParam: CancelUnstakingPageWmParams(
             request: request,
             accountKey: accountKey,
             exchangeRate: exchangeRate,

@@ -29,7 +29,7 @@ class BrowserMainMenu
     required DoubleValueCallback<String, String> onPressedCreateTab,
     super.key,
   }) : super(
-          param1: BrowserMainMenuWmParams(
+          wmFactoryParam: BrowserMainMenuWmParams(
             groupId: groupId,
             onPressedCreateTab: onPressedCreateTab,
           ),

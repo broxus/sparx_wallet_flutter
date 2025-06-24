@@ -27,7 +27,7 @@ class SendMessageWidget
     List<IgnoreTransactionTreeSimulationError>? ignoredActionPhaseCodes,
     super.key,
   }) : super(
-          param1: SendMessageWmParams(
+          wmFactoryParam: SendMessageWmParams(
             origin: origin,
             sender: sender,
             recipient: recipient,

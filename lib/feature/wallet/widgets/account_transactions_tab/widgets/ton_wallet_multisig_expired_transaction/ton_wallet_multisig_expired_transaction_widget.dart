@@ -19,7 +19,7 @@ class TonWalletMultisigExpiredTransactionWidget
     required KeyAccount account,
     super.key,
   }) : super(
-          param1: TonWalletMultisigExpiredTransactionWmParams(
+          wmFactoryParam: TonWalletMultisigExpiredTransactionWmParams(
             transaction: transaction,
             price: price,
             isFirst: isFirst,

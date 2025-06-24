@@ -35,7 +35,7 @@ class SelectTokenWidget
     required Address address,
     required this.confirmImportCallback,
     super.key,
-  }) : super(param1: address);
+  }) : super(wmFactoryParam: address);
 
   final VoidCallback confirmImportCallback;
 

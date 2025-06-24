@@ -13,7 +13,7 @@ class NewAccountScreen
     String? password,
     super.key,
   }) : super(
-          param1: NewAccountScreenWmParams(
+          wmFactoryParam: NewAccountScreenWmParams(
             publicKey: publicKey,
             password: password,
           ),

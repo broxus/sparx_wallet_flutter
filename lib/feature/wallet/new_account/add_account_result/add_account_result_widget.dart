@@ -12,7 +12,7 @@ class AddAccountResultWidget
     required bool isExternal,
     super.key,
   }) : super(
-          param1: AddAccountResultWmParams(
+          wmFactoryParam: AddAccountResultWmParams(
             address: address,
             isExternal: isExternal,
           ),

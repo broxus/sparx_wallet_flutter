@@ -19,7 +19,7 @@ class NewAccountTypeWidget
     required String? password,
     super.key,
   }) : super(
-          param1: NewAccountTypeWmParams(
+          wmFactoryParam: NewAccountTypeWmParams(
             publicKey: publicKey,
             password: password,
           ),

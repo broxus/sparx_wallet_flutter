@@ -13,7 +13,7 @@ class FaviconView extends InjectedElementaryWidget<FaviconViewWidgetModel> {
     this.width,
     super.key,
   }) : super(
-          param1: uri,
+          wmFactoryParam: uri,
         );
 
   final double? height;

@@ -33,7 +33,7 @@ class ContentManualBackup
     required VoidCallback finishedBackupCallback,
     super.key,
   }) : super(
-          param1: ManualBackUpWmParams(
+          wmFactoryParam: ManualBackUpWmParams(
             words: words,
             address: address,
             finishedBackupCallback: finishedBackupCallback,

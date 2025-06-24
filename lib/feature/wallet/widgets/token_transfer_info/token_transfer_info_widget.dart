@@ -28,7 +28,7 @@ class TokenTransferInfoWidget
     this.margin = EdgeInsets.zero,
     super.key,
   }) : super(
-          param1: TokenTransferInfoWmParams(
+          wmFactoryParam: TokenTransferInfoWmParams(
             recipient: recipient,
             amount: amount,
             attachedAmount: attachedAmount,

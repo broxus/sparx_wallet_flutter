@@ -23,7 +23,7 @@ class RequestPermissionsWidget
     required Address? previousSelectedAccount,
     super.key,
   }) : super(
-          param1: RequestPermissionsWmParams(
+          wmFactoryParam: RequestPermissionsWmParams(
             origin: origin,
             permissions: permissions,
             scrollController: scrollController,

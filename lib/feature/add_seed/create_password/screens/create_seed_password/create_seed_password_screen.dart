@@ -19,7 +19,7 @@ class CreateSeedPasswordScreen
     required MnemonicType? mnemonicType,
     super.key,
   }) : super(
-          param1: CreateSeedPasswordWmParams(
+          wmFactoryParam: CreateSeedPasswordWmParams(
             phrase: phrase,
             mnemonicType: mnemonicType,
           ),

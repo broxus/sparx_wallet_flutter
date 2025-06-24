@@ -16,7 +16,7 @@ class ChangeNetworkWidget
     required this.scrollController,
     super.key,
   }) : super(
-          param1: ChangeNetworkWmParams(
+          wmFactoryParam: ChangeNetworkWmParams(
             origin: origin,
             networkId: networkId,
             connections: connections,

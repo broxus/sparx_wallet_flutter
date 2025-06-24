@@ -19,7 +19,7 @@ class StakingPageWidget
   const StakingPageWidget({
     required Address accountAddress,
     super.key,
-  }) : super(param1: accountAddress);
+  }) : super(wmFactoryParam: accountAddress);
 
   @override
   Widget build(StakingPageWidgetModel wm) {

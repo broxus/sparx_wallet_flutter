@@ -15,7 +15,7 @@ class QrScannerWidget extends InjectedElementaryWidget<QrScannerWidgetModel>
     required List<QrScanType> types,
     super.key,
   }) : super(
-          param1: types,
+          wmFactoryParam: types,
         );
 
   @override

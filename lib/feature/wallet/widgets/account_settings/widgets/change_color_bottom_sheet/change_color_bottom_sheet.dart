@@ -28,7 +28,7 @@ class ChangeColorBottomSheet
     required String address,
     super.key,
   }) : super(
-          param1: address,
+          wmFactoryParam: address,
         );
 
   @override

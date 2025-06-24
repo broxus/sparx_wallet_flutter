@@ -31,7 +31,7 @@ class AddNewExternalAccountSheet
     required this.controller,
     super.key,
   }) : super(
-          param1: publicKey,
+          wmFactoryParam: publicKey,
         );
 
   final ScrollController controller;

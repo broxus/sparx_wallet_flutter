@@ -36,7 +36,7 @@ class ConfirmMultisigTransactionWidget
     String? comment,
     super.key,
   }) : super(
-          param1: ConfirmMultisigTransactionWmParams(
+          wmFactoryParam: ConfirmMultisigTransactionWmParams(
             walletAddress: walletAddress,
             localCustodians: localCustodians,
             transactionId: transactionId,

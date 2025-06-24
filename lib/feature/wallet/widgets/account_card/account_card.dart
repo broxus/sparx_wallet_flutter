@@ -14,7 +14,7 @@ class AccountCard extends InjectedElementaryWidget<AccountCardWidgetModel> {
   const AccountCard({
     required KeyAccount account,
     super.key,
-  }) : super(param1: account);
+  }) : super(wmFactoryParam: account);
 
   @override
   Widget build(AccountCardWidgetModel wm) {

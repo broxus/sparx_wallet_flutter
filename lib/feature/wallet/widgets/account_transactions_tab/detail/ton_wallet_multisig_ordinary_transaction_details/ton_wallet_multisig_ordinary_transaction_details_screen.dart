@@ -24,7 +24,7 @@ class TonWalletMultisigOrdinaryTransactionDetailsScreen
     required KeyAccount account,
     super.key,
   }) : super(
-          param1: TonWalletMultisigOrdinaryTransactionDetailsWmParams(
+          wmFactoryParam: TonWalletMultisigOrdinaryTransactionDetailsWmParams(
             transaction: transaction,
             price: price,
             account: account,

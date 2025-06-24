@@ -13,7 +13,7 @@ class EnterSeedPhraseWidget
     String? seedName,
     super.key,
   }) : super(
-          param1: EnterSeedWmParams(
+          wmFactoryParam: EnterSeedWmParams(
             isOnboarding: isOnboarding,
             seedName: seedName,
           ),

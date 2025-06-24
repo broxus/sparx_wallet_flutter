@@ -21,7 +21,7 @@ class TCSendMessageWidget
     required this.scrollController,
     super.key,
   }) : super(
-          param1: TCSendMessageWmParams(
+          wmFactoryParam: TCSendMessageWmParams(
             connection: connection,
             payload: payload,
           ),

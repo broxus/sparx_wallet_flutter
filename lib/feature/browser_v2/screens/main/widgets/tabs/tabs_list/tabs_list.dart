@@ -23,7 +23,7 @@ class BrowserTabsList
     required this.tabListScrollController,
     super.key,
   }) : super(
-          param1: selectedGroupIdState,
+          wmFactoryParam: selectedGroupIdState,
         );
 
   final ScrollController tabListScrollController;

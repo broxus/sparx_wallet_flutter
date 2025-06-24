@@ -13,7 +13,7 @@ class WalletAccountBodyWidget
   const WalletAccountBodyWidget({
     required KeyAccount account,
     super.key,
-  }) : super(param1: account);
+  }) : super(wmFactoryParam: account);
 
   @override
   Widget build(WalletAccountBodyWidgetModel wm) {

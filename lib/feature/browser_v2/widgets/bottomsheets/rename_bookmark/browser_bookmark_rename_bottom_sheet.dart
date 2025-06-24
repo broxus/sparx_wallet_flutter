@@ -32,7 +32,7 @@ class BrowserBookmarkRenameBottomSheet extends InjectedElementaryWidget<
   const BrowserBookmarkRenameBottomSheet({
     required BrowserBookmarkItem item,
     super.key,
-  }) : super(param1: item);
+  }) : super(wmFactoryParam: item);
 
   @override
   Widget build(BrowserBookmarkRenameBottomSheetWidgetModel wm) {

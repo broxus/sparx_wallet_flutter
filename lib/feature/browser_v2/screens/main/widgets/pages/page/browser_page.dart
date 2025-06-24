@@ -19,7 +19,7 @@ class BrowserPage extends InjectedElementaryWidget<BrowserPageWidgetModel> {
     required NotNullListenableState<BrowserTab> listenable,
     super.key,
   }) : super(
-          param1: BrowserPageWmParams(
+          wmFactoryParam: BrowserPageWmParams(
             tabState: listenable,
             onCreate: onCreate,
             onWebPageScrollChanged: onWebPageScrollChanged,

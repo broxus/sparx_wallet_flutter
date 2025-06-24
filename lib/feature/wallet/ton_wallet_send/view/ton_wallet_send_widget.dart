@@ -15,7 +15,7 @@ class TonWalletSendWidget
   const TonWalletSendWidget({
     required TonWalletSendRouteData data,
     super.key,
-  }) : super(param1: data);
+  }) : super(wmFactoryParam: data);
 
   @override
   Widget build(TonWalletSendWidgetModel wm) {

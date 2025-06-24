@@ -20,7 +20,7 @@ class AddTip3TokenWidget
     required this.scrollController,
     super.key,
   }) : super(
-          param1: AddTip3TokenWmParams(
+          wmFactoryParam: AddTip3TokenWmParams(
             origin: origin,
             account: account,
             details: details,

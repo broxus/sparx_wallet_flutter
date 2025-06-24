@@ -22,14 +22,14 @@ abstract class InjectedElementaryWidget<WM extends WidgetModel>
     extends ElementaryWidget<WM> {
   const InjectedElementaryWidget({
     Key? key,
-    this.param1,
+    this.wmFactoryParam,
     this.instanceName,
   }) : super(
           _getItFactory,
           key: key,
         );
 
-  final Object? param1;
+  final Object? wmFactoryParam;
   final String? instanceName;
   Type get wmType => WM;
 }
@@ -43,7 +43,7 @@ WM _getItFactory<WM extends WidgetModel>(
 
   try {
     return getIt.get(
-      param1: injectedElementaryWidget.param1,
+      param1: injectedElementaryWidget.wmFactoryParam,
       instanceName: injectedElementaryWidget.instanceName,
       type: injectedElementaryWidget.wmType,
     ) as WM;
