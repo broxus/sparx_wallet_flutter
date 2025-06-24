@@ -1,12 +1,4 @@
-import 'package:app/app/service/connection/data/account_explorer/account_explorer_link_type.dart';
-import 'package:app/app/service/connection/data/connection_transport/connection_transport_data.dart';
-import 'package:app/app/service/connection/data/default_active_asset.dart';
-import 'package:app/app/service/connection/data/transaction_explorer/transaction_explorer_link_type.dart';
-import 'package:app/app/service/connection/data/transport_icons.dart';
-import 'package:app/app/service/connection/data/transport_manifest_option/transport_manifest_option.dart';
-import 'package:app/app/service/connection/data/transport_native_token_option/transport_native_token_option.dart';
-import 'package:app/app/service/connection/generic_token_subscriber.dart';
-import 'package:app/app/service/connection/group.dart';
+import 'package:app/app/service/connection/connection.dart';
 import 'package:app/utils/utils.dart';
 import 'package:nekoton_repository/nekoton_repository.dart';
 
@@ -63,6 +55,8 @@ Map<NetworkGroup, ConnectionTransportData>? mapToTransports(
       ),
       tokenApiBaseUrl: transport['tokenApiBaseUrl'] as String?,
       currencyApiBaseUrl: transport['currencyApiBaseUrl'] as String?,
+      nftInformation: (transport['nftInformation'] as Map<String, dynamic>?)
+          ?.let(NftInformation.fromJson),
       pollingConfig: _mapToPollingConfig(
         transport['pollingConfig'] as Map<String, dynamic>?,
       ),

@@ -70,6 +70,8 @@ class StorageKey {
   factory StorageKey.nameCustodian(String publicKey) =>
       StorageKey._('nameCustodian', publicKey);
 
+  factory StorageKey.nftGridMode() => StorageKey._('nftGridMode');
+
   StorageKey._(this._baseKey, [this._entityKey]);
 
   final String _baseKey;

@@ -149,6 +149,14 @@ extension TransportTypeExtension on TransportStrategy {
     return '';
   }
 
+  NftInformation? get nftInformation {
+    if (this is CommonTransportStrategy) {
+      return (this as CommonTransportStrategy).nftInformation;
+    }
+
+    return null;
+  }
+
   bool get isEverscale => networkType == 'ever';
   bool get isVenom => networkType == 'venom';
   bool get isTon => networkGroup.startsWith('ton');
