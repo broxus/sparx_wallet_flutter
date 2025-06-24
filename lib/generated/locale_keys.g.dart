@@ -695,6 +695,7 @@ abstract class LocaleKeys {
   static const expiresInCustodians = 'expiresInCustodians';
   static const deploymentInProgress = 'deploymentInProgress';
   static const expirationTimeDetails = 'expirationTimeDetails';
+  static const today = 'today';
   static const errorMessageMaxUnconfirmedTransactions =
       'errorMessageMaxUnconfirmedTransactions';
   static const noRpcConnection = 'noRpcConnection';

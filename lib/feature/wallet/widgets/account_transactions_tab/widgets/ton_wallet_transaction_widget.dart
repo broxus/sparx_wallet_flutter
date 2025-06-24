@@ -106,15 +106,10 @@ class TonWalletTransactionWidget extends StatelessWidget {
   Widget _headerDate(ThemeStyleV2 theme) {
     return Builder(
       builder: (context) {
-        final now = NtpTime.now();
-        final formatter = transactionDateTime.year == now.year
-            ? DateFormat('MMMM dd', context.locale.languageCode)
-            : DateFormat('MMMM dd y', context.locale.languageCode);
-
         return Padding(
           padding: const EdgeInsets.only(top: DimensSize.d8),
           child: Text(
-            formatter.format(transactionDateTime),
+            DateTimeUtils.formatTransactionDate(transactionDateTime, context),
             style: theme.textStyles.headingXSmall,
           ),
         );
