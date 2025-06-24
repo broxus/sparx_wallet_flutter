@@ -12,15 +12,23 @@ List<ConnectionData> mapToConnectionDataList(
 
     ConnectionData? data;
 
-    final id = network['id'] as String;
-    final name = network['name'] as String;
-    final group = network['group'] as String;
-    final isUsedOnStart = (network['isUsedOnStart'] as bool?) ?? true;
+    final id = castToString(network['id']);
+    final name = castToString(network['name']);
+    final group = castToString(network['group']);
+    final isUsedOnStart = castTo<bool>(network['isUsedOnStart']) ?? true;
     final endpoints = castJsonList<String>(network['endpoints']);
-    final networkType = network['networkType'] as String;
-    final blockExplorerUrl = network['blockExplorerUrl'] as String;
-    final manifestUrl = network['manifestUrl'] as String?;
+    final networkType = castToString(network['networkType']);
+    final blockExplorerUrl = castToString(network['blockExplorerUrl']);
+    final manifestUrl = castTo<String?>(network['manifestUrl']);
     final sortingOrder = parseToDouble(network['sortingOrder']) ?? 1;
+
+    if (id == null ||
+        name == null ||
+        group == null ||
+        networkType == null ||
+        blockExplorerUrl == null) {
+      continue;
+    }
 
     switch (type) {
       case 'proto':

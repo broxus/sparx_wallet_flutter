@@ -21,13 +21,11 @@ List<CustomNetworkOption>? mapToCustomNetworkOptions(dynamic json) {
 }
 
 CustomNetworkOption? _mapToOption(Map<String, dynamic> json) {
-  final networkType = json['networkType'];
+  final networkType = castTo<String>(json['networkType']);
 
   if (networkType == null) {
     return null;
   }
 
-  return CustomNetworkOption(
-    networkType: networkType as String,
-  );
+  return CustomNetworkOption(networkType: networkType);
 }
