@@ -23,8 +23,8 @@ class NftItemPageWidget extends ElementaryWidget<NftItemPageWidgetModel> {
   @override
   Widget build(NftItemPageWidgetModel wm) {
     return DoubleSourceBuilder(
-      firstSource: wm.item,
-      secondSource: wm.collection,
+      firstSource: wm.itemState,
+      secondSource: wm.collectionState,
       builder: (_, item, collection) {
         if (item == null) return const SizedBox.shrink();
 
@@ -117,7 +117,7 @@ class NftItemPageWidget extends ElementaryWidget<NftItemPageWidgetModel> {
                         ),
                       ),
                     StateNotifierBuilder(
-                      listenableState: wm.currentAccount,
+                      listenableState: wm.currentAccountState,
                       builder: (_, account) {
                         // cant transfer if not owner
                         if (account == null ||
@@ -134,7 +134,7 @@ class NftItemPageWidget extends ElementaryWidget<NftItemPageWidgetModel> {
                       },
                     ),
                     StateNotifierBuilder(
-                      listenableState: wm.marketplaceUrl,
+                      listenableState: wm.marketplaceUrlState,
                       builder: (_, marketplaceUrl) {
                         if (marketplaceUrl == null) {
                           return const SizedBox.shrink();

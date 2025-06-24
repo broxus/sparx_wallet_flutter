@@ -24,7 +24,7 @@ class AddNftWidget extends ElementaryWidget<AddNftWidgetModel> {
       appBar: DefaultAppBar(titleText: LocaleKeys.addNFT.tr()),
       body: SafeArea(
         child: StateNotifierBuilder(
-          listenableState: wm.currentAccount,
+          listenableState: wm.currentAccountState,
           builder: (_, account) {
             return Padding(
               padding: const EdgeInsets.symmetric(horizontal: DimensSizeV2.d16),
@@ -49,7 +49,7 @@ class AddNftWidget extends ElementaryWidget<AddNftWidgetModel> {
                   ),
                   const SizedBox(height: DimensSizeV2.d6),
                   StateNotifierBuilder(
-                    listenableState: wm.error,
+                    listenableState: wm.errorState,
                     builder: (_, error) {
                       if (error == null || error.isEmpty) {
                         return Text(
@@ -70,7 +70,7 @@ class AddNftWidget extends ElementaryWidget<AddNftWidgetModel> {
                   ),
                   const Spacer(),
                   StateNotifierBuilder(
-                    listenableState: wm.isLoading,
+                    listenableState: wm.loadingState,
                     builder: (_, isLoading) => AccentButton(
                       buttonShape: ButtonShape.pill,
                       title: LocaleKeys.importWalletButtonText.tr(),

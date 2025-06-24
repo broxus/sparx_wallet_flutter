@@ -21,7 +21,7 @@ class NftCollectionPageWidget
   @override
   Widget build(NftCollectionPageWidgetModel wm) {
     return StateNotifierBuilder(
-      listenableState: wm.collection,
+      listenableState: wm.collectionState,
       builder: (_, collection) {
         if (collection == null) return const SizedBox.shrink();
 
@@ -64,7 +64,7 @@ class NftCollectionPageWidget
                         style: wm.theme.textStyles.headingMedium,
                       ),
                       StateNotifierBuilder(
-                        listenableState: wm.displayMode,
+                        listenableState: wm.displayModeState,
                         builder: (_, displayMode) {
                           return DisplayModeSwitch(
                             mode: displayMode ?? NftDisplayMode.grid,
@@ -76,7 +76,7 @@ class NftCollectionPageWidget
                   ),
                   Expanded(
                     child: StateNotifierBuilder(
-                      listenableState: wm.displayMode,
+                      listenableState: wm.displayModeState,
                       builder: (_, displayMode) {
                         return Nftist(
                           controller: wm.controller,

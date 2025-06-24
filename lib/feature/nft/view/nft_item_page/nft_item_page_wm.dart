@@ -28,19 +28,20 @@ class NftItemPageWidgetModel
     extends CustomWidgetModel<NftItemPageWidget, NftItemPageModel> {
   NftItemPageWidgetModel(super.model);
 
-  late final _item = createNotifier<NftItem>();
-  late final _collection = createNotifier<NftCollection>();
-  late final _currentAccount = createNotifierFromStream(model.currentAccount);
-  late final _marketplaceUrl =
+  late final _itemState = createNotifier<NftItem>();
+  late final _collectionState = createNotifier<NftCollection>();
+  late final _currentAccountState =
+      createNotifierFromStream(model.currentAccount);
+  late final _marketplaceUrlState =
       createNotifierFromStream(model.marketplaceUrlStream);
 
-  ListenableState<NftItem> get item => _item;
+  ListenableState<NftItem> get itemState => _itemState;
 
-  ListenableState<NftCollection> get collection => _collection;
+  ListenableState<NftCollection> get collectionState => _collectionState;
 
-  ListenableState<KeyAccount?> get currentAccount => _currentAccount;
+  ListenableState<KeyAccount?> get currentAccountState => _currentAccountState;
 
-  ListenableState<String?> get marketplaceUrl => _marketplaceUrl;
+  ListenableState<String?> get marketplaceUrlState => _marketplaceUrlState;
 
   ThemeStyleV2 get theme => context.themeStyleV2;
 
@@ -61,8 +62,8 @@ class NftItemPageWidgetModel
   }
 
   void onTransferNft() {
-    final item = _item.value;
-    final account = _currentAccount.value;
+    final item = _itemState.value;
+    final account = _currentAccountState.value;
     if (item == null || account == null) return;
 
     contextSafe?.compassContinue(
@@ -75,8 +76,8 @@ class NftItemPageWidgetModel
   }
 
   void onTransferTokens() {
-    final item = _item.value;
-    final account = _currentAccount.value;
+    final item = _itemState.value;
+    final account = _currentAccountState.value;
     if (item == null || account == null) return;
 
     contextSafe?.compassContinue(
@@ -90,8 +91,8 @@ class NftItemPageWidgetModel
   }
 
   void onOpenInMarketplace() {
-    final item = _item.value;
-    final marketplaceUrl = _marketplaceUrl.value;
+    final item = _itemState.value;
+    final marketplaceUrl = _marketplaceUrlState.value;
     if (item == null || marketplaceUrl == null) return;
 
     openBrowserUrl(
@@ -102,7 +103,7 @@ class NftItemPageWidgetModel
   void openImageView() => Navigator.push(
         context,
         MaterialPageRoute<void>(
-          builder: (_) => NftItemImageView(item.value!.nft.imageUrl),
+          builder: (_) => NftItemImageView(itemState.value!.nft.imageUrl),
         ),
       );
 
@@ -117,7 +118,7 @@ class NftItemPageWidgetModel
       return;
     }
 
-    _item.accept(item);
-    _collection.accept(collection);
+    _itemState.accept(item);
+    _collectionState.accept(collection);
   }
 }

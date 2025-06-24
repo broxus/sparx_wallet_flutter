@@ -37,7 +37,8 @@ class NftPrepareTransferWidgetModel
     super.model,
   );
 
-  late final _data = createEntityNotifier<NftPrepareTransferData>()..loading();
+  late final _dataState = createEntityNotifier<NftPrepareTransferData>()
+    ..loading();
 
   final formKey = GlobalKey<FormState>();
   final addressFilterFormatter = FilteringTextInputFormatter.deny(
@@ -56,7 +57,8 @@ class NftPrepareTransferWidgetModel
 
   late final routeData = createWidgetProperty((w) => w.routeData);
 
-  ValueNotifier<EntityState<NftPrepareTransferData>> get data => _data;
+  ValueNotifier<EntityState<NftPrepareTransferData>> get dataState =>
+      _dataState;
 
   ThemeStyleV2 get theme => context.themeStyleV2;
 
@@ -87,7 +89,7 @@ class NftPrepareTransferWidgetModel
     }
 
     final amount = BigInt.tryParse(value!.trim());
-    final balance = _data.value.data?.item.wallet?.balance;
+    final balance = _dataState.value.data?.item.wallet?.balance;
 
     if (amount != null && balance != null && amount > balance) {
       return LocaleKeys.insufficientFunds.tr();
@@ -97,7 +99,7 @@ class NftPrepareTransferWidgetModel
   }
 
   Future<void> onSubmit() async {
-    final data = _data.value.data;
+    final data = _dataState.value.data;
     final isValid = formKey.currentState?.validate() ?? false;
     if (!isValid || data == null) return;
 
@@ -125,8 +127,8 @@ class NftPrepareTransferWidgetModel
     );
   }
 
-  void onChangedCustodian(PublicKey custodian) => _data.content(
-        _data.value.data!.copyWith(custodian: custodian),
+  void onChangedCustodian(PublicKey custodian) => _dataState.content(
+        _dataState.value.data!.copyWith(custodian: custodian),
       );
 
   void onPressedReceiverClear() => receiverController.clear();
@@ -164,7 +166,7 @@ class NftPrepareTransferWidgetModel
 
   void onMaxBalance() {
     amountController.text =
-        _data.value.data?.item.wallet?.balance.toString() ?? '0';
+        _dataState.value.data?.item.wallet?.balance.toString() ?? '0';
   }
 
   Future<void> _init() async {
@@ -180,11 +182,11 @@ class NftPrepareTransferWidgetModel
     );
 
     if (account == null || nftItem == null || nftCollection == null) {
-      _data.error(Exception('Nft transfer prepare initialization failed'));
+      _dataState.error(Exception('Nft transfer prepare initialization failed'));
       return;
     }
 
-    _data.content(
+    _dataState.content(
       NftPrepareTransferData(
         account: account,
         item: nftItem,

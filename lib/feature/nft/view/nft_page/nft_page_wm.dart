@@ -29,32 +29,35 @@ class NftPageWidgetModel
     extends CustomWidgetModel<NftPageWidget, NftPageModel> {
   NftPageWidgetModel(super.model);
 
-  late final _isLoading = createNotifier(true);
-  late final _collections = createNotifierFromStream(
+  late final _loadingState = createNotifier(true);
+  late final _collectionsState = createNotifierFromStream(
     model.getCollectionsStream(),
   );
-  late final _pending = createNotifierFromStream(
+  late final _pendingState = createNotifierFromStream(
     model.getPendingNftStream().map(
           (pending) => pending.groupListsBy((e) => e.collection),
         ),
   );
-  late final _displayMode = createNotifierFromStream(model.displayModeStream);
-  late final _marketplaceUrl = createNotifierFromStream(
+  late final _displayModeState =
+      createNotifierFromStream(model.displayModeStream);
+  late final _marketplaceUrlState = createNotifierFromStream(
     model.marketplaceUrlStream,
   );
 
   StreamSubscription<Address?>? _subscription;
   StreamSubscription<NftTransferEvent>? _transferEventSubscription;
 
-  ListenableState<bool> get isLoading => _isLoading;
+  ListenableState<bool> get loadingState => _loadingState;
 
-  ListenableState<List<NftCollection>> get collections => _collections;
+  ListenableState<List<NftCollection>> get collectionsState =>
+      _collectionsState;
 
-  ListenableState<Map<Address, List<PendingNft>>> get pending => _pending;
+  ListenableState<Map<Address, List<PendingNft>>> get pendingState =>
+      _pendingState;
 
-  ListenableState<NftDisplayMode?> get displayMode => _displayMode;
+  ListenableState<NftDisplayMode?> get displayModeState => _displayModeState;
 
-  ListenableState<String?> get marketplaceUrl => _marketplaceUrl;
+  ListenableState<String?> get marketplaceUrlState => _marketplaceUrlState;
 
   ThemeStyleV2 get theme => context.themeStyleV2;
 
@@ -68,7 +71,7 @@ class NftPageWidgetModel
       (_, owner) => owner,
     ).listen(
       (owner) => model.scanNftCollections(owner).then(
-            (_) => _isLoading.accept(false),
+            (_) => _loadingState.accept(false),
           ),
     );
 

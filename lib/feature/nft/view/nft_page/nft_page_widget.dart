@@ -20,8 +20,8 @@ class NftPageWidget extends ElementaryWidget<NftPageWidgetModel> {
           children: [
             const WalletAppBarWidget(),
             DoubleSourceBuilder(
-              firstSource: wm.isLoading,
-              secondSource: wm.collections,
+              firstSource: wm.loadingState,
+              secondSource: wm.collectionsState,
               builder: (_, isLoading, collections) {
                 if (isLoading ?? false) {
                   return const Expanded(
@@ -37,7 +37,7 @@ class NftPageWidget extends ElementaryWidget<NftPageWidgetModel> {
                   return Expanded(
                     child: Center(
                       child: StateNotifierBuilder(
-                        listenableState: wm.marketplaceUrl,
+                        listenableState: wm.marketplaceUrlState,
                         builder: (_, marketplaceUrl) => EmptyNftList(
                           marketplaceUrl: marketplaceUrl,
                           onAddNftPressed: wm.onAddNftPressed,
@@ -68,7 +68,7 @@ class NftPageWidget extends ElementaryWidget<NftPageWidgetModel> {
                                 style: wm.theme.textStyles.headingMedium,
                               ),
                               StateNotifierBuilder(
-                                listenableState: wm.displayMode,
+                                listenableState: wm.displayModeState,
                                 builder: (_, displayMode) {
                                   return DisplayModeSwitch(
                                     mode: displayMode ?? NftDisplayMode.grid,
@@ -81,8 +81,8 @@ class NftPageWidget extends ElementaryWidget<NftPageWidgetModel> {
                         ),
                         Expanded(
                           child: DoubleSourceBuilder(
-                            firstSource: wm.displayMode,
-                            secondSource: wm.pending,
+                            firstSource: wm.displayModeState,
+                            secondSource: wm.pendingState,
                             builder: (_, displayMode, pending) {
                               return NftCollectionsList(
                                 displayMode: displayMode ?? NftDisplayMode.grid,

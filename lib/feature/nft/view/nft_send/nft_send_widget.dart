@@ -20,7 +20,7 @@ class NftSendWidget extends ElementaryWidget<NftSendWidgetModel> {
   @override
   Widget build(NftSendWidgetModel wm) {
     return StateNotifierBuilder(
-      listenableState: wm.state,
+      listenableState: wm.sendState,
       builder: (_, state) {
         if (state == null) return const SizedBox.shrink();
 
@@ -48,18 +48,18 @@ class NftSendWidget extends ElementaryWidget<NftSendWidgetModel> {
           NftSendStateReady() => Padding(
               padding: const EdgeInsets.symmetric(horizontal: DimensSizeV2.d16),
               child: NftSendConfirm(
-                item: wm.item,
-                collection: wm.collection,
+                item: wm.itemState,
+                collection: wm.collectionState,
                 recipient: data.destination,
-                attachedAmount: wm.attachedAmount,
+                attachedAmount: wm.attachedAmountState,
                 publicKey: data.publicKey,
                 currency: wm.currency,
                 account: wm.account,
                 amount: data.amount,
-                fees: wm.fees,
-                error: wm.error,
-                txErrors: wm.txErrors,
-                isLoading: wm.isLoading,
+                fees: wm.feesState,
+                error: wm.errorState,
+                txErrors: wm.txErrorsState,
+                isLoading: wm.loadingState,
                 onPasswordEntered: wm.onPasswordEntered,
               ),
             ),

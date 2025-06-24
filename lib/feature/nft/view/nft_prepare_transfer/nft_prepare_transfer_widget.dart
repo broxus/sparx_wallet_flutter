@@ -27,7 +27,7 @@ class NftPrepareTransfer
         titleText: LocaleKeys.nftTransferTitle.tr(),
       ),
       body: EntityStateNotifierBuilder(
-        listenableEntityState: wm.data,
+        listenableEntityState: wm.dataState,
         loadingBuilder: (_, __) => const Center(
           child: Padding(
             padding: EdgeInsets.all(DimensSizeV2.d16),

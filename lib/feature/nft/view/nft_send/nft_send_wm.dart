@@ -30,35 +30,36 @@ class NftSendWidgetModel
 
   static final _logger = Logger('NftSendWidgetModel');
 
-  late final _isLoading = createNotifier(false);
-  late final _collection = createNotifier<NftCollection>();
-  late final _item = createNotifier<NftItem>();
-  late final _attachedAmount = createNotifier<BigInt>();
-  late final _fees = createNotifier<BigInt>();
-  late final _txErrors = createNotifier<List<TxTreeSimulationErrorItem>>();
-  late final _error = createNotifier<String>();
-  late final _state = createNotifier(const NftSendState.ready());
+  late final _loadingState = createNotifier(false);
+  late final _collectionState = createNotifier<NftCollection>();
+  late final _itemState = createNotifier<NftItem>();
+  late final _attachedAmountState = createNotifier<BigInt>();
+  late final _feesState = createNotifier<BigInt>();
+  late final _txErrorsState = createNotifier<List<TxTreeSimulationErrorItem>>();
+  late final _errorState = createNotifier<String>();
+  late final _sendState = createNotifier(const NftSendState.ready());
 
   late final KeyAccount? account = model.getAccount(widget.data.owner);
   late final routeData = createWidgetProperty((w) => w.data);
 
   Currency get currency => model.currency;
 
-  ListenableState<bool> get isLoading => _isLoading;
+  ListenableState<bool> get loadingState => _loadingState;
 
-  ListenableState<BigInt> get attachedAmount => _attachedAmount;
+  ListenableState<BigInt> get attachedAmountState => _attachedAmountState;
 
-  ListenableState<BigInt> get fees => _fees;
+  ListenableState<BigInt> get feesState => _feesState;
 
-  ListenableState<List<TxTreeSimulationErrorItem>> get txErrors => _txErrors;
+  ListenableState<List<TxTreeSimulationErrorItem>> get txErrorsState =>
+      _txErrorsState;
 
-  ListenableState<String> get error => _error;
+  ListenableState<String> get errorState => _errorState;
 
-  ListenableState<NftSendState> get state => _state;
+  ListenableState<NftSendState> get sendState => _sendState;
 
-  ListenableState<NftCollection> get collection => _collection;
+  ListenableState<NftCollection> get collectionState => _collectionState;
 
-  ListenableState<NftItem> get item => _item;
+  ListenableState<NftItem> get itemState => _itemState;
 
   @override
   void initWidgetModel() {
@@ -69,12 +70,12 @@ class NftSendWidgetModel
   Future<void> onPasswordEntered(String password) async {
     final routeData = this.routeData.value;
     final account = this.account;
-    final nftItem = _item.value;
+    final nftItem = _itemState.value;
     if (routeData == null || account == null || nftItem == null) return;
 
     UnsignedMessage? unsignedMessage;
     try {
-      _isLoading.accept(true);
+      _loadingState.accept(true);
 
       final resultMessage = LocaleKeys.nftTransferSuccessMessage.tr();
       final internalMessage = await _prepareTransfer(
@@ -99,7 +100,7 @@ class NftSendWidgetModel
         amount: internalMessage.amount,
       );
 
-      _state.accept(const NftSendState.sending(canClose: true));
+      _sendState.accept(const NftSendState.sending(canClose: true));
 
       await transactionCompleter;
 
@@ -114,7 +115,7 @@ class NftSendWidgetModel
       model.showMessage(Message.error(message: e.toString()));
     } finally {
       unsignedMessage?.dispose();
-      _isLoading.accept(false);
+      _loadingState.accept(false);
     }
   }
 
@@ -125,7 +126,7 @@ class NftSendWidgetModel
 
     UnsignedMessage? unsignedMessage;
     try {
-      _isLoading.accept(true);
+      _loadingState.accept(true);
 
       final (nftItem, nftCollection) = await FutureExt.wait2(
         model.getNftItem(address: routeData.address, owner: routeData.owner),
@@ -133,12 +134,12 @@ class NftSendWidgetModel
       );
       if (nftItem == null || nftCollection == null) return;
 
-      _collection.accept(nftCollection);
-      _item.accept(nftItem);
+      _collectionState.accept(nftCollection);
+      _itemState.accept(nftItem);
 
       final walletState = await model.getWalletState(account.address);
       if (walletState.hasError) {
-        _state.accept(NftSendState.error(error: walletState.error!));
+        _sendState.accept(NftSendState.error(error: walletState.error!));
         return;
       }
 
@@ -147,7 +148,7 @@ class NftSendWidgetModel
         nftItem: nftItem,
       );
 
-      _attachedAmount.accept(internalMessage.amount);
+      _attachedAmountState.accept(internalMessage.amount);
 
       unsignedMessage = await model.prepareMessage(
         address: account.address,
@@ -168,25 +169,25 @@ class NftSendWidgetModel
         ),
       );
 
-      _fees.accept(fees);
-      _txErrors.accept(txErrors);
+      _feesState.accept(fees);
+      _txErrorsState.accept(txErrors);
 
       final wallet = walletState.wallet!;
       final balance = wallet.contractState.balance;
       final isPossibleToSendMessage = balance > (fees + internalMessage.amount);
 
       if (!isPossibleToSendMessage) {
-        _error.accept(LocaleKeys.insufficientFunds.tr());
+        _errorState.accept(LocaleKeys.insufficientFunds.tr());
       }
     } on ContractNotExistsException catch (e, s) {
       _logger.severe('Failed to prepare transaction', e, s);
-      _error.accept(LocaleKeys.insufficientFunds.tr());
+      _errorState.accept(LocaleKeys.insufficientFunds.tr());
     } on Exception catch (e, s) {
       _logger.severe('Failed to prepare transaction', e, s);
-      _error.accept(e.toString());
+      _errorState.accept(e.toString());
     } finally {
       unsignedMessage?.dispose();
-      _isLoading.accept(false);
+      _loadingState.accept(false);
     }
   }
 

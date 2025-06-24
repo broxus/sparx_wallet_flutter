@@ -26,15 +26,16 @@ AddNftWidgetModel defaultAddNftWidgetModelFactory(BuildContext context) {
 class AddNftWidgetModel extends CustomWidgetModel<AddNftWidget, AddNftModel> {
   AddNftWidgetModel(super.model);
 
-  late final _currentAccount = createNotifierFromStream(model.currentAccount);
-  late final _isLoading = createNotifier(false);
-  late final _error = createNotifier<String>();
+  late final _currentAccountState =
+      createNotifierFromStream(model.currentAccount);
+  late final _loadingState = createNotifier(false);
+  late final _errorState = createNotifier<String>();
 
-  ListenableState<KeyAccount?> get currentAccount => _currentAccount;
+  ListenableState<KeyAccount?> get currentAccountState => _currentAccountState;
 
-  ListenableState<bool> get isLoading => _isLoading;
+  ListenableState<bool> get loadingState => _loadingState;
 
-  ListenableState<String> get error => _error;
+  ListenableState<String> get errorState => _errorState;
 
   late final addressController = createTextEditingController();
 
@@ -47,7 +48,7 @@ class AddNftWidgetModel extends CustomWidgetModel<AddNftWidget, AddNftModel> {
   @override
   void initWidgetModel() {
     super.initWidgetModel();
-    addressController.addListener(() => _error.accept(null));
+    addressController.addListener(() => _errorState.accept(null));
   }
 
   String? validateAddressField(String? value) {
@@ -78,22 +79,22 @@ class AddNftWidgetModel extends CustomWidgetModel<AddNftWidget, AddNftModel> {
       final address = Address(address: addressController.text);
 
       if (!address.isValid) {
-        _error.accept(LocaleKeys.invalidAddressFormat.tr());
+        _errorState.accept(LocaleKeys.invalidAddressFormat.tr());
         return;
       }
 
-      _isLoading.accept(true);
+      _loadingState.accept(true);
 
       final collection = await model.tryGetNftCollection(address);
 
       if (collection == null) {
-        _error.accept(LocaleKeys.nftOwnerError.tr());
+        _errorState.accept(LocaleKeys.nftOwnerError.tr());
         return;
       }
 
       contextSafe?.compassBack(collection);
     } finally {
-      _isLoading.accept(false);
+      _loadingState.accept(false);
     }
   }
 }
