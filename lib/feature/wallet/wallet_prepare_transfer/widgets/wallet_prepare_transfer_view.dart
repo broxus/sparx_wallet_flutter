@@ -118,7 +118,25 @@ class WalletPrepareTransferView extends StatelessWidget {
                     focusNode: _wm.commentFocus,
                     onSubmit: (_) => _wm.onPressedNext(),
                     suffixes: [
-                      _buildCommentSuffix(),
+                      ValueListenableBuilder(
+                        valueListenable: _wm.commentController,
+                        builder: (_, value, __) {
+                          if (value.text.isEmpty) {
+                            return const SizedBox.shrink();
+                          }
+
+                          return Padding(
+                            padding:
+                                const EdgeInsets.only(right: DimensSize.d8),
+                            child: FloatButton(
+                              buttonShape: ButtonShape.square,
+                              buttonSize: ButtonSize.small,
+                              icon: LucideIcons.x,
+                              onPressed: _wm.onPressedCleanComment,
+                            ),
+                          );
+                        },
+                      ),
                     ],
                   ),
                   Text(
@@ -139,25 +157,6 @@ class WalletPrepareTransferView extends StatelessWidget {
                   _wm.commentFocus.requestFocus();
                 },
               ),
-      );
-
-  Widget _buildCommentSuffix() => ValueListenableBuilder(
-        valueListenable: _wm.commentController,
-        builder: (_, value, __) {
-          if (value.text.isEmpty) {
-            return const SizedBox.shrink();
-          }
-
-          return Padding(
-            padding: const EdgeInsets.only(right: DimensSize.d8),
-            child: FloatButton(
-              buttonShape: ButtonShape.square,
-              buttonSize: ButtonSize.small,
-              icon: LucideIcons.x,
-              onPressed: _wm.onPressedCleanComment,
-            ),
-          );
-        },
       );
 }
 
