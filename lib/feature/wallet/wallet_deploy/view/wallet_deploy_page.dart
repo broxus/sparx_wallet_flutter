@@ -126,14 +126,12 @@ class WalletDeployPage extends StatelessWidget {
                 tonIconPath: tonIconPath,
               ),
             ),
-            deploying: (canClose) => Scaffold(
-              body: Padding(
-                padding: const EdgeInsets.all(DimensSize.d16),
-                child: TransactionSendingWidget(
-                  canClose: canClose,
-                  popOnComplete: false,
-                  isDeploying: true,
-                ),
+            deploying: (canClose) => Padding(
+              padding: const EdgeInsets.all(DimensSize.d16),
+              child: TransactionSendingWidget(
+                canClose: canClose,
+                popOnComplete: false,
+                isDeploying: true,
               ),
             ),
             orElse: () => _scaffold(const SizedBox(), canPrev: true),

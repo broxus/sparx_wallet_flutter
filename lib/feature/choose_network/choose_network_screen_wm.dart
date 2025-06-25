@@ -55,7 +55,7 @@ class ChooseNetworkScreenWidgetModel
 
   ThemeStyleV2 get themeStyleV2 => context.themeStyleV2;
 
-  double get windowHeight => MediaQuery.of(context).size.height;
+  double get bottomPadding => MediaQuery.of(context).padding.bottom;
 
   @override
   void initWidgetModel() {

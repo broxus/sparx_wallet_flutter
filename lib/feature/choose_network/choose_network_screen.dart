@@ -61,6 +61,7 @@ class ChooseNetworkScreen
               onNetworkPressed: wm.onPressedType,
               scrollController: wm.scrollController,
             ),
+            SliverToBoxAdapter(child: SizedBox(height: wm.bottomPadding)),
           ],
         ),
       ),

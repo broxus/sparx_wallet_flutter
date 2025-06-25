@@ -38,143 +38,140 @@ class ProfileView extends StatelessWidget {
     final theme = context.themeStyleV2;
     final mq = MediaQuery.of(context);
 
-    return Scaffold(
-      backgroundColor: theme.colors.background0,
-      body: SingleChildScrollView(
-        child: Column(
-          children: [
-            SizedBox(height: mq.padding.top + DimensSizeV2.d32),
-            Text(
-              LocaleKeys.currentSeed.tr(),
-              style: theme.textStyles.labelXSmall,
+    return SingleChildScrollView(
+      child: Column(
+        children: [
+          SizedBox(height: mq.padding.top + DimensSizeV2.d32),
+          Text(
+            LocaleKeys.currentSeed.tr(),
+            style: theme.textStyles.labelXSmall,
+          ),
+          const SizedBox(height: DimensSizeV2.d4),
+          StateNotifierBuilder(
+            listenableState: currentSeed,
+            builder: (_, currentSeed) => Text(
+              currentSeed?.name ?? '',
+              style: theme.textStyles.headingLarge,
             ),
-            const SizedBox(height: DimensSizeV2.d4),
-            StateNotifierBuilder(
-              listenableState: currentSeed,
-              builder: (_, currentSeed) => Text(
-                currentSeed?.name ?? '',
-                style: theme.textStyles.headingLarge,
-              ),
-            ),
-            const SizedBox(height: DimensSizeV2.d16),
-            StateNotifierBuilder(
-              listenableState: currentSeed,
-              builder: (_, currentSeed) => PrimaryButton(
-                isFullWidth: false,
-                buttonShape: ButtonShape.pill,
-                title: LocaleKeys.exportSeedPhrase.tr(),
-                postfixIcon: LucideIcons.share,
-                onPressed: currentSeed == null
-                    ? null
-                    : () => Navigator.of(context, rootNavigator: true).push(
-                          exportSeedSheetRoute(
-                            context,
-                            currentSeed.publicKey,
-                          ),
+          ),
+          const SizedBox(height: DimensSizeV2.d16),
+          StateNotifierBuilder(
+            listenableState: currentSeed,
+            builder: (_, currentSeed) => PrimaryButton(
+              isFullWidth: false,
+              buttonShape: ButtonShape.pill,
+              title: LocaleKeys.exportSeedPhrase.tr(),
+              postfixIcon: LucideIcons.share,
+              onPressed: currentSeed == null
+                  ? null
+                  : () => Navigator.of(context, rootNavigator: true).push(
+                        exportSeedSheetRoute(
+                          context,
+                          currentSeed.publicKey,
                         ),
-              ),
-            ),
-            const SizedBox(height: DimensSizeV2.d32),
-            ShapedContainerColumn(
-              color: theme.colors.background1,
-              separator: const CommonDivider(),
-              children: [
-                _profileTile(
-                  leadingIcon: Assets.images.settings.path,
-                  title: LocaleKeys.manageSeedsAndAccounts.tr(),
-                  trailing: const Icon(
-                    LucideIcons.chevronRight,
-                    size: DimensSizeV2.d20,
-                  ),
-                  onPressed: () {
-                    context.compassContinue(
-                      const ManageSeedsAccountsRouteData(),
-                    );
-                  },
-                  backgroundColor: theme.colors.backgroundAlpha,
-                  iconColor: theme.colors.content0,
-                ),
-                // TODO(knightforce): temp
-                // _profileTile(
-                //   leadingIcon: Assets.images.currency.path,
-                //   title: LocaleKeys.currencyWord.tr(),
-                //   trailing: CommonButtonIconWidget.svg(
-                //     svg: Assets.images.caretRight.path,
-                //   ),
-                //   // ignore: no-empty-block
-                //   onPressed: () {},
-                // ),
-                // TODO(knightforce): temp
-                // _profileTile(
-                //   leadingIcon: Assets.images.planetInner.path,
-                //   title: LocaleKeys.languageWord.tr(),
-                //   trailing: const Icon(
-                //     LucideIcons.chevronRight,
-                //     size: DimensSizeV2.d20,
-                //   ),
-                //   // ignore: no-empty-block
-                //   onPressed: () => showLocalizationSheet(
-                //     context: context,
-                //   ),
-                //   backgroundColor: theme.colors.backgroundAlpha,
-                //   iconColor: theme.colors.content0,
-                // ),
-                DoubleSourceBuilder(
-                  firstSource: isBiometryAvailable,
-                  secondSource: isBiometryEnabled,
-                  builder: (_, available, enabled) {
-                    if (available != true &&
-                        defaultTargetPlatform != TargetPlatform.iOS) {
-                      return const SizedBox.shrink();
-                    }
-                    return _profileTile(
-                      leadingIcon: Assets.images.fingerSmall.path,
-                      title: LocaleKeys.biometryWord.tr(),
-                      trailing: Switch(
-                        value: enabled ?? false,
-                        onChanged: onBiomentryChanged,
                       ),
-                      onPressed: null,
-                      backgroundColor: theme.colors.backgroundAlpha,
-                      iconColor: theme.colors.content0,
-                    );
-                  },
-                ),
-                _profileTile(
-                  leadingIcon: Assets.images.support.path,
-                  title: LocaleKeys.contactSupport.tr(),
-                  trailing: const Icon(
-                    LucideIcons.chevronRight,
-                    size: DimensSizeV2.d20,
-                  ),
-                  onPressed: () => showContactSupportSheet(
-                    context: context,
-                    mode: ContactSupportMode.initiatedByUser,
-                  ),
-                  backgroundColor: theme.colors.backgroundAlpha,
-                  iconColor: theme.colors.content0,
-                ),
-              ],
             ),
-            const SizedBox(height: DimensSizeV2.d40),
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: DimensSizeV2.d24),
-              child: DestructiveButton(
-                buttonShape: ButtonShape.pill,
-                onPressed: () => _logOutConfirm(context),
-                title: LocaleKeys.logOut.tr(),
-                icon: LucideIcons.logOut,
+          ),
+          const SizedBox(height: DimensSizeV2.d32),
+          ShapedContainerColumn(
+            color: theme.colors.background1,
+            separator: const CommonDivider(),
+            children: [
+              _profileTile(
+                leadingIcon: Assets.images.settings.path,
+                title: LocaleKeys.manageSeedsAndAccounts.tr(),
+                trailing: const Icon(
+                  LucideIcons.chevronRight,
+                  size: DimensSizeV2.d20,
+                ),
+                onPressed: () {
+                  context.compassContinue(
+                    const ManageSeedsAccountsRouteData(),
+                  );
+                },
+                backgroundColor: theme.colors.backgroundAlpha,
+                iconColor: theme.colors.content0,
               ),
+              // TODO(knightforce): temp
+              // _profileTile(
+              //   leadingIcon: Assets.images.currency.path,
+              //   title: LocaleKeys.currencyWord.tr(),
+              //   trailing: CommonButtonIconWidget.svg(
+              //     svg: Assets.images.caretRight.path,
+              //   ),
+              //   // ignore: no-empty-block
+              //   onPressed: () {},
+              // ),
+              // TODO(knightforce): temp
+              // _profileTile(
+              //   leadingIcon: Assets.images.planetInner.path,
+              //   title: LocaleKeys.languageWord.tr(),
+              //   trailing: const Icon(
+              //     LucideIcons.chevronRight,
+              //     size: DimensSizeV2.d20,
+              //   ),
+              //   // ignore: no-empty-block
+              //   onPressed: () => showLocalizationSheet(
+              //     context: context,
+              //   ),
+              //   backgroundColor: theme.colors.backgroundAlpha,
+              //   iconColor: theme.colors.content0,
+              // ),
+              DoubleSourceBuilder(
+                firstSource: isBiometryAvailable,
+                secondSource: isBiometryEnabled,
+                builder: (_, available, enabled) {
+                  if (available != true &&
+                      defaultTargetPlatform != TargetPlatform.iOS) {
+                    return const SizedBox.shrink();
+                  }
+                  return _profileTile(
+                    leadingIcon: Assets.images.fingerSmall.path,
+                    title: LocaleKeys.biometryWord.tr(),
+                    trailing: Switch(
+                      value: enabled ?? false,
+                      onChanged: onBiomentryChanged,
+                    ),
+                    onPressed: null,
+                    backgroundColor: theme.colors.backgroundAlpha,
+                    iconColor: theme.colors.content0,
+                  );
+                },
+              ),
+              _profileTile(
+                leadingIcon: Assets.images.support.path,
+                title: LocaleKeys.contactSupport.tr(),
+                trailing: const Icon(
+                  LucideIcons.chevronRight,
+                  size: DimensSizeV2.d20,
+                ),
+                onPressed: () => showContactSupportSheet(
+                  context: context,
+                  mode: ContactSupportMode.initiatedByUser,
+                ),
+                backgroundColor: theme.colors.backgroundAlpha,
+                iconColor: theme.colors.content0,
+              ),
+            ],
+          ),
+          const SizedBox(height: DimensSizeV2.d40),
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: DimensSizeV2.d24),
+            child: DestructiveButton(
+              buttonShape: ButtonShape.pill,
+              onPressed: () => _logOutConfirm(context),
+              title: LocaleKeys.logOut.tr(),
+              icon: LucideIcons.logOut,
             ),
-            const SizedBox(height: DimensSizeV2.d16),
-            Text(
-              '${LocaleKeys.versionWord.tr()} $appVersion',
-              textAlign: TextAlign.center,
-              style: theme.textStyles.labelXSmall
-                  .copyWith(color: theme.colors.content3),
-            ),
-          ],
-        ),
+          ),
+          const SizedBox(height: DimensSizeV2.d16),
+          Text(
+            '${LocaleKeys.versionWord.tr()} $appVersion',
+            textAlign: TextAlign.center,
+            style: theme.textStyles.labelXSmall
+                .copyWith(color: theme.colors.content3),
+          ),
+        ],
       ),
     );
   }
