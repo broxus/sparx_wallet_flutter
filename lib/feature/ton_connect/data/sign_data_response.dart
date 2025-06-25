@@ -1,4 +1,4 @@
-import 'package:app/app/service/ton_connect/ton_connect.dart';
+import 'package:app/feature/ton_connect/ton_connect.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
 part 'sign_data_response.freezed.dart';

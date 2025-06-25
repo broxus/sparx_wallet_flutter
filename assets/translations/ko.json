@@ -729,5 +729,12 @@
   "faq": "FAQ",
   "legal": "Legal",
   "connectedDappsTitle": "Connected dApps",
-  "connectedDappsSubtitle": "Only for TON"
+  "connectedDappsSubtitle": "Only for TON",
+  "connectedDappsSheetTitle": "Connected dApps",
+  "disconnectAll": "Disconnect All",
+  "disconnectDapp": "Disconnect dApp",
+  "disconnectAllText": "Are you sure you want to disconnect all dApps?",
+  "disconnectDappText": "Are you sure you want to disconnect this dApp?",
+  "emptyConnectedDapps": "No connected dApps yet",
+  "disconnect": "Disconnect"
 }
