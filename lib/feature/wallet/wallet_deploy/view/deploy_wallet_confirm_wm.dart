@@ -2,7 +2,7 @@
 // ignore_for_file: inference_failure_on_function_return_type
 import 'dart:async';
 
-import 'package:app/app/router/app_route.dart';
+import 'package:app/app/router/router.dart';
 import 'package:app/core/error_handler_factory.dart';
 import 'package:app/core/wm/custom_wm.dart';
 import 'package:app/di/di.dart';
@@ -81,7 +81,7 @@ class DeployWalletConfirmWidgetModel extends CustomWidgetModel<
     if (seed != null) {
       try {
         await seed.export(password);
-        context.maybePop();
+        context.compassBack();
         widget.passwordCallback(password);
       } catch (_) {
         model.showValidateError(LocaleKeys.passwordIsWrong.tr());

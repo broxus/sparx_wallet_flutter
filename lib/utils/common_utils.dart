@@ -236,6 +236,20 @@ Future<T?> tryWrapper<T>(
   return null;
 }
 
+extension ChangeNotifierStreamExt on ChangeNotifier {
+  BehaviorSubject<T> asBehaviourSubject<T>(
+    ValueGetter<T> value,
+  ) {
+    final subject = BehaviorSubject<T>.seeded(value());
+    void listener() => subject.add(value());
+
+    subject.onListen = () => addListener(listener);
+    subject.onCancel = () => removeListener(listener);
+
+    return subject;
+  }
+}
+
 extension ValueListenableExt<T> on ValueListenable<T> {
   Stream<T> asStream() {
     final subject = BehaviorSubject<T>.seeded(value);
@@ -281,7 +295,7 @@ extension MnemonicTypeJson on MnemonicType {
 
 Future<void> callWithDelay(
   VoidCallback callback, {
-  Duration duration = const Duration(milliseconds: 10),
+  Duration duration = Duration.zero,
 }) {
   return Future.delayed(duration, callback);
 }

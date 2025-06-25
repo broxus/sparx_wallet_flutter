@@ -20,6 +20,7 @@ abstract class BaseButton extends StatelessWidget {
     this.isFullWidth = true,
     this.backgroundBlur,
     this.padding,
+    this.mainAxisAlignment = MainAxisAlignment.center,
     super.key,
   });
 
@@ -35,6 +36,7 @@ abstract class BaseButton extends StatelessWidget {
   final bool isFullWidth;
   final double? backgroundBlur;
   final EdgeInsetsGeometry? padding;
+  final MainAxisAlignment mainAxisAlignment;
 
   EdgeInsetsGeometry get _paddingByButtonSize {
     return padding ??
@@ -117,7 +119,7 @@ abstract class BaseButton extends StatelessWidget {
                       ],
                     )
                   : Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
+                      mainAxisAlignment: mainAxisAlignment,
                       mainAxisSize:
                           isFullWidth ? MainAxisSize.max : MainAxisSize.min,
                       children: [

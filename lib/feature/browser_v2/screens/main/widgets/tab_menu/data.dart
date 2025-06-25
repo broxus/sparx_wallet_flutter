@@ -30,6 +30,4 @@ extension BrowserTabMenuItemDataExtension on BrowserTabMenuItemData {
         BrowserTabMenuItemData.bookmark => LocaleKeys.bookmark.tr(),
         BrowserTabMenuItemData.newTabGroup => LocaleKeys.newTabGroup.tr(),
       };
-
-  bool get isLast => index == BrowserTabMenuItemData.values.last.index;
 }

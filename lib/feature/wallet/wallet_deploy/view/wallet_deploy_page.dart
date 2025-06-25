@@ -1,10 +1,10 @@
 import 'package:app/app/router/router.dart';
 import 'package:app/di/di.dart';
+import 'package:app/feature/wallet/route.dart';
 import 'package:app/feature/wallet/wallet.dart';
 import 'package:app/generated/generated.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:go_router/go_router.dart';
 import 'package:nekoton_repository/nekoton_repository.dart';
 import 'package:ui_components_lib/ui_components_lib.dart';
 
@@ -40,7 +40,7 @@ class WalletDeployPage extends StatelessWidget {
               _____,
               ______,
             ) =>
-                context.goNamed(AppRoute.wallet.name),
+                context.compassPointNamed(const WalletRouteData()),
           );
         },
         builder: (context, state) {
@@ -161,7 +161,7 @@ class WalletDeployPage extends StatelessWidget {
                       .read<WalletDeployBloc>()
                       .add(const WalletDeployEvent.goPrevStep());
                 } else {
-                  context.pop();
+                  context.compassBack();
                 }
               },
             ),

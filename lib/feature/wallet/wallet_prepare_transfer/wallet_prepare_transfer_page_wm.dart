@@ -3,9 +3,8 @@
 import 'dart:async';
 import 'dart:math';
 
-import 'package:app/app/router/app_route.dart';
-import 'package:app/app/router/routs/wallet/ton_wallet_send_route_data.dart';
-import 'package:app/app/router/routs/wallet/wallet.dart';
+import 'package:app/app/router/compass/compass.dart';
+import 'package:app/app/router/router.dart';
 import 'package:app/app/service/currency_convert_service.dart';
 import 'package:app/bootstrap/sentry.dart';
 import 'package:app/core/error_handler_factory.dart';
@@ -13,13 +12,14 @@ import 'package:app/core/wm/custom_wm.dart';
 import 'package:app/data/models/token_contract/token_contract_asset.dart';
 import 'package:app/di/di.dart';
 import 'package:app/feature/qr_scanner/qr_scanner.dart';
+import 'package:app/feature/wallet/token_wallet_send/route.dart';
+import 'package:app/feature/wallet/ton_wallet_send/route.dart';
 import 'package:app/feature/wallet/wallet_prepare_transfer/data/wallet_prepare_balance_data.dart';
 import 'package:app/feature/wallet/wallet_prepare_transfer/data/wallet_prepare_transfer_asset.dart';
 import 'package:app/feature/wallet/wallet_prepare_transfer/data/wallet_prepare_transfer_data.dart';
 import 'package:app/feature/wallet/wallet_prepare_transfer/wallet_prepare_transfer_page.dart';
 import 'package:app/feature/wallet/wallet_prepare_transfer/wallet_prepare_transfer_page_model.dart';
 import 'package:app/generated/generated.dart';
-import 'package:app/utils/clipboard_utils.dart';
 import 'package:app/widgets/amount_input/amount_input_asset.dart';
 import 'package:elementary/elementary.dart';
 import 'package:elementary_helper/elementary_helper.dart';
@@ -41,7 +41,6 @@ WalletPrepareTransferPageWidgetModel
       inject(),
       inject(),
     ),
-    inject(),
   );
 }
 
@@ -50,18 +49,13 @@ class WalletPrepareTransferPageWidgetModel extends CustomWidgetModel<
     WalletPrepareTransferPage, WalletPrepareTransferPageModel> {
   WalletPrepareTransferPageWidgetModel(
     super.model,
-    this._tonWalletSendNavigator,
   );
-
-  final TonWalletSendRoute _tonWalletSendNavigator;
 
   late final screenState = createEntityNotifier<WalletPrepareTransferData?>()
     ..loading(
       WalletPrepareTransferData(),
     );
 
-  late final receiverState = createNotifier<String?>();
-  late final commentTextState = createNotifier<String?>();
   late final commentState = createNotifier(false);
   late final _isInitialDataLoaded = createNotifier(false);
 
@@ -100,8 +94,6 @@ class WalletPrepareTransferPageWidgetModel extends CustomWidgetModel<
     (w) => w.tokenSymbol,
   );
 
-  StreamSubscription<dynamic>? _currencySubscription;
-
   WalletPrepareTransferData? get _data => screenState.value.data;
 
   WalletPrepareTransferAsset? get _selectedAsset => _data?.selectedAsset;
@@ -117,12 +109,6 @@ class WalletPrepareTransferPageWidgetModel extends CustomWidgetModel<
     super.initWidgetModel();
     _init();
     _initListeners();
-  }
-
-  @override
-  void dispose() {
-    _currencySubscription?.cancel();
-    super.dispose();
   }
 
   String? getSeedName(PublicKey custodian) => model.getSeedName(custodian);
@@ -217,14 +203,13 @@ class WalletPrepareTransferPageWidgetModel extends CustomWidgetModel<
 
   void onPressedReceiverClear() => receiverController.clear();
 
-  Future<void> onPressedPasteAddress() async {
-    final text = await getClipBoardText();
-    if (text?.isEmpty ?? true) {
+  void onPressedPasteAddress(String text) {
+    if (text.isEmpty) {
       model.showError(LocaleKeys.addressIsWrong.tr());
       return;
     }
 
-    if (validateAddress(Address(address: text!))) {
+    if (validateAddress(Address(address: text))) {
       receiverController.text = text;
       receiverFocus.unfocus();
     } else {
@@ -283,7 +268,6 @@ class WalletPrepareTransferPageWidgetModel extends CustomWidgetModel<
     }
 
     _updateState(
-      walletName: model.getWalletName(acc),
       account: acc,
     );
 
@@ -302,7 +286,6 @@ class WalletPrepareTransferPageWidgetModel extends CustomWidgetModel<
     }
 
     _updateState(
-      walletName: model.getWalletName(acc),
       account: acc,
       selectedCustodian: acc.publicKey,
       localCustodians: await model.getLocalCustodiansAsync(address),
@@ -312,13 +295,6 @@ class WalletPrepareTransferPageWidgetModel extends CustomWidgetModel<
   }
 
   void _initListeners() {
-    receiverController.addListener(
-      () => receiverState.accept(receiverController.text),
-    );
-    commentController.addListener(
-      () => commentTextState.accept(commentController.text),
-    );
-
     WalletPrepareTransferAsset? prevSelectedAsset;
 
     screenState.addListener(() {
@@ -342,8 +318,8 @@ class WalletPrepareTransferPageWidgetModel extends CustomWidgetModel<
     final address = addressState.value;
     if (address == null) return;
 
-    final accountAddress = address.address;
-    final publicKey = _selectedCustodian?.publicKey;
+    final accountAddress = address;
+    final publicKey = _selectedCustodian;
 
     if (publicKey == null) {
       _sentry.captureException(
@@ -356,34 +332,29 @@ class WalletPrepareTransferPageWidgetModel extends CustomWidgetModel<
 
     final comment = commentController.text.trim();
 
-    String? path;
+    final CompassRouteData routeData;
 
     if (selectedAsset.isNative) {
-      path = _tonWalletSendNavigator.toLocation(
-        TonWalletSendRouteData(
-          address: Address(address: accountAddress),
-          publicKey: PublicKey(publicKey: publicKey),
-          comment: comment,
-          destination: receiveAddress,
-          amount: amount.minorUnits,
-          popOnComplete: false,
-        ),
+      routeData = TonWalletSendRouteData(
+        address: accountAddress,
+        publicKey: publicKey,
+        comment: comment,
+        destination: receiveAddress,
+        amount: amount.minorUnits,
+        popOnComplete: false,
       );
     } else {
-      path = AppRoute.tokenWalletSend.pathWithData(
-        queryParameters: {
-          tokenWalletSendOwnerQueryParam: accountAddress,
-          tokenWalletSendContractQueryParam:
-              selectedAsset.rootTokenContract.address,
-          tokenWalletSendPublicKeyQueryParam: publicKey,
-          if (comment.isNotEmpty) tokenWalletSendCommentQueryParam: comment,
-          tokenWalletSendDestinationQueryParam: receiveAddress.address,
-          tokenWalletSendAmountQueryParam: amount.minorUnits.toString(),
-        },
+      routeData = TokenWalletSendRouteData(
+        owner: accountAddress,
+        rootTokenContract: selectedAsset.rootTokenContract,
+        publicKey: publicKey,
+        comment: comment,
+        destination: receiveAddress,
+        amount: amount.minorUnits,
       );
     }
 
-    contextSafe?.goFurther(path);
+    contextSafe?.compassContinue(routeData);
   }
 
   Future<void> _updateAsset(WalletPrepareTransferAsset asset) async {
@@ -469,7 +440,6 @@ class WalletPrepareTransferPageWidgetModel extends CustomWidgetModel<
   }
 
   void _updateState({
-    String? walletName,
     KeyAccount? account,
     PublicKey? selectedCustodian,
     List<PublicKey>? localCustodians,
@@ -477,7 +447,6 @@ class WalletPrepareTransferPageWidgetModel extends CustomWidgetModel<
   }) {
     screenState.content(
       _data?.copyWith(
-        walletName: walletName,
         account: account,
         selectedCustodian: selectedCustodian,
         localCustodians: localCustodians,

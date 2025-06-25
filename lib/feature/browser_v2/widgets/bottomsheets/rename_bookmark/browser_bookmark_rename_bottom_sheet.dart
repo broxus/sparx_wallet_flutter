@@ -29,20 +29,24 @@ ModalRoute<void> showBrowserBookmarkRenameSheet({
 
 class BrowserBookmarkRenameBottomSheet
     extends ElementaryWidget<BrowserBookmarkRenameBottomSheetWidgetModel> {
-  const BrowserBookmarkRenameBottomSheet({
-    required this.item,
+  BrowserBookmarkRenameBottomSheet({
+    required BrowserBookmarkItem item,
+    WidgetModelFactory<BrowserBookmarkRenameBottomSheetWidgetModel>? wmFactory,
     super.key,
-    WidgetModelFactory<BrowserBookmarkRenameBottomSheetWidgetModel> wmFactory =
-        defaultBrowserBookmarkRenameBottomSheetWidgetModelFactory,
-  }) : super(wmFactory);
-
-  final BrowserBookmarkItem item;
+  }) : super(
+          wmFactory ??
+              (ctx) =>
+                  defaultBrowserBookmarkRenameBottomSheetWidgetModelFactory(
+                    ctx,
+                    item: item,
+                  ),
+        );
 
   @override
   Widget build(BrowserBookmarkRenameBottomSheetWidgetModel wm) {
     return SeparatedColumn(
       mainAxisSize: MainAxisSize.min,
-      separatorSize: DimensSizeV2.d24,
+      spacing: DimensSizeV2.d24,
       children: [
         PrimaryTextField(
           textEditingController: wm.nameController,

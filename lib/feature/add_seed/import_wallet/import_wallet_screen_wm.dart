@@ -1,12 +1,11 @@
 // ignore_for_file: use_build_context_synchronously
 
-import 'dart:convert';
-
-import 'package:app/app/router/app_route.dart';
-import 'package:app/app/router/routs/add_seed/add_seed.dart';
+import 'package:app/app/router/router.dart';
 import 'package:app/core/wm/custom_wm.dart';
 import 'package:app/data/models/models.dart';
 import 'package:app/di/di.dart';
+import 'package:app/feature/add_seed/create_password/route.dart';
+import 'package:app/feature/add_seed/enter_seed_phrase/route.dart';
 import 'package:app/feature/add_seed/import_wallet/data/import_wallet_data.dart';
 import 'package:app/feature/add_seed/import_wallet/import_wallet_screen.dart';
 import 'package:app/feature/add_seed/import_wallet/import_wallet_screen_model.dart';
@@ -83,14 +82,11 @@ class ImportWalletScreenWidgetModel
 
         if (!context.mounted) return;
 
-        context.goFurther(
-          AppRoute.createSeedPassword.pathWithData(
-            queryParameters: {
-              addSeedPhraseQueryParam: phrase,
-              mnemonicTypeQueryParam: jsonEncode(_mnemonicType.toJson()),
-            },
+        context.compassContinue(
+          CreateSeedOnboardingPasswordRouteData(
+            seedPhrase: phrase,
+            mnemonicType: _mnemonicType,
           ),
-          preserveQueryParams: true,
         );
       } else {
         model.showValidateError(context, LocaleKeys.incorrectWordsFormat.tr());
@@ -156,9 +152,11 @@ class ImportWalletScreenWidgetModel
   }
 
   void onPressedManual() {
-    context.goFurther(
-      AppRoute.enterSeed.path,
-      preserveQueryParams: true,
+    context.compassContinue(
+      const EnterSeedPhraseRouteData(
+        isOnboarding: true,
+        seedName: null,
+      ),
     );
   }
 

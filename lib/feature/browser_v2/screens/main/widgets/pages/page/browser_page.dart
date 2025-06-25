@@ -1,7 +1,6 @@
-import 'dart:collection';
-
+import 'package:app/core/wm/not_null_listenable_state.dart';
 import 'package:app/feature/browser_v2/custom_web_controller.dart';
-import 'package:app/feature/browser_v2/data/browser_tab.dart';
+import 'package:app/feature/browser_v2/data/tabs/browser_tab.dart';
 import 'package:app/feature/browser_v2/screens/main/widgets/pages/browser_start_view.dart';
 import 'package:app/feature/browser_v2/screens/main/widgets/pages/page/browser_page_wm.dart';
 import 'package:elementary/elementary.dart';
@@ -12,19 +11,19 @@ import 'package:ui_components_lib/v2/ui_components_lib_v2.dart';
 
 class BrowserPage extends ElementaryWidget<BrowserPageWidgetModel> {
   BrowserPage({
-    required this.tab,
-    required this.width,
     required ValueChanged<CustomWebViewController> onCreate,
     required ValueChanged<int> onWebPageScrollChanged,
     required VoidCallback onDispose,
     required ValueChanged<int> onLoadingProgressChanged,
+    required this.width,
+    required NotNullListenableState<BrowserTab> listenable,
     super.key,
     WidgetModelFactory<BrowserPageWidgetModel>? wmFactory,
   }) : super(
           wmFactory ??
               (ctx) => defaultBrowserPageWidgetModelFactory(
                     ctx,
-                    tabId: tab.id,
+                    listenable: listenable,
                     onCreate: onCreate,
                     onWebPageScrollChanged: onWebPageScrollChanged,
                     onDispose: onDispose,
@@ -32,7 +31,6 @@ class BrowserPage extends ElementaryWidget<BrowserPageWidgetModel> {
                   ),
         );
 
-  final BrowserTab tab;
   final double width;
 
   @override
@@ -46,39 +44,21 @@ class BrowserPage extends ElementaryWidget<BrowserPageWidgetModel> {
             builder: (_, bool? isNeedCreate) {
               isNeedCreate ??= false;
 
-              if (!isNeedCreate) {
-                return const SizedBox.shrink();
-              }
-              return EntityStateNotifierBuilder<String?>(
-                listenableEntityState: wm.nekotonJsState,
-                loadingBuilder: (_, __) => const SizedBox.shrink(),
-                errorBuilder: (_, __, ___) => const SizedBox.shrink(),
-                builder: (_, String? jsStr) {
-                  return InAppWebView(
-                    pullToRefreshController: wm.pullToRefreshController,
-                    initialSettings: wm.initialSettings,
-                    initialUserScripts: UnmodifiableListView<UserScript>([
-                      if (jsStr != null)
-                        UserScript(
-                          source: jsStr,
-                          injectionTime:
-                              UserScriptInjectionTime.AT_DOCUMENT_START,
-                        ),
-                    ]),
-                    onScrollChanged: wm.onWebPageScrollChanged,
-                    onWebViewCreated: wm.onWebViewCreated,
-                    onLoadStart: wm.onWebPageLoadStart,
-                    onLoadStop: wm.onWebPageLoadStop,
-                    onLoadResource: wm.onWebPageLoadResource,
-                    onReceivedError: wm.onWebPageReceivedError,
-                    onReceivedHttpError: wm.onWebPageReceivedHttpError,
-                    onTitleChanged: wm.onWebPageTitleChanged,
-                    onReceivedHttpAuthRequest:
-                        wm.onWebPageReceivedHttpAuthRequest,
-                    shouldOverrideUrlLoading:
-                        wm.onWebPageShouldOverrideUrlLoading,
-                  );
-                },
+              if (!isNeedCreate) return const SizedBox.shrink();
+
+              return InAppWebView(
+                pullToRefreshController: wm.pullToRefreshController,
+                initialSettings: wm.initialSettings,
+                onScrollChanged: wm.onWebPageScrollChanged,
+                onWebViewCreated: wm.onWebViewCreated,
+                onLoadStart: wm.onWebPageLoadStart,
+                onLoadStop: wm.onWebPageLoadStop,
+                onLoadResource: wm.onWebPageLoadResource,
+                onReceivedError: wm.onWebPageReceivedError,
+                onReceivedHttpError: wm.onWebPageReceivedHttpError,
+                onTitleChanged: wm.onWebPageTitleChanged,
+                onReceivedHttpAuthRequest: wm.onWebPageReceivedHttpAuthRequest,
+                shouldOverrideUrlLoading: wm.onWebPageShouldOverrideUrlLoading,
               );
             },
           ),

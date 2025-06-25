@@ -1,10 +1,4 @@
-import 'package:app/app/service/connection/data/account_explorer/account_explorer_link_type.dart';
-import 'package:app/app/service/connection/data/default_active_asset.dart';
-import 'package:app/app/service/connection/data/transaction_explorer/transaction_explorer_link_type.dart';
-import 'package:app/app/service/connection/data/transport_icons.dart';
-import 'package:app/app/service/connection/data/transport_manifest_option/transport_manifest_option.dart';
-import 'package:app/app/service/connection/data/transport_native_token_option/transport_native_token_option.dart';
-import 'package:app/app/service/connection/generic_token_subscriber.dart';
+import 'package:app/app/service/connection/connection.dart';
 import 'package:app/generated/generated.dart';
 import 'package:nekoton_repository/nekoton_repository.dart';
 
@@ -28,6 +22,8 @@ class ConnectionTransportData {
     this.tokenApiBaseUrl,
     this.currencyApiBaseUrl,
     this.defaultNativeCurrencyDecimal,
+    this.nftInformation,
+    this.pollingConfig,
     List<DefaultActiveAsset>? defaultActiveAssets,
   }) : defaultActiveAssets = defaultActiveAssets ?? [];
 
@@ -97,6 +93,8 @@ class ConnectionTransportData {
   final String? tokenApiBaseUrl;
   final String? currencyApiBaseUrl;
   final int? defaultNativeCurrencyDecimal;
+  final NftInformation? nftInformation;
+  final PollingConfig? pollingConfig;
 }
 
 class WalletDefaultAccountNames {

@@ -1,444 +1,484 @@
 import 'dart:async';
 
-import 'package:app/app/router/app_route.dart';
-import 'package:app/app/router/page_transitions.dart';
-import 'package:app/app/router/routs/add_seed/add_seed.dart';
-import 'package:app/app/router/routs/bootstrap_failed/bootstrap_failed.dart';
-import 'package:app/app/router/routs/browser/browser.dart';
-import 'package:app/app/router/routs/network/network.dart';
-import 'package:app/app/router/routs/profile/profile.dart';
-import 'package:app/app/router/routs/update_version/update_version.dart';
-import 'package:app/app/router/routs/wallet/wallet.dart';
+import 'package:app/app/router/compass/compass.dart';
 import 'package:app/app/service/service.dart';
-import 'package:app/di/di.dart';
-import 'package:app/event_bus/events/bootstrap/bootstrap_event.dart';
-import 'package:app/event_bus/primary_bus.dart';
 import 'package:app/feature/error/error.dart';
-import 'package:app/feature/onboarding/screen/welcome/welcome_screen.dart';
-import 'package:app/feature/root/root.dart';
-import 'package:app/feature/update_version/data/update_request.dart';
-import 'package:app/feature/update_version/domain/update_service.dart';
+import 'package:app/feature/onboarding/route.dart';
 import 'package:app/utils/common_utils.dart';
+import 'package:collection/collection.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/widgets.dart';
+import 'package:get_it/get_it.dart';
 import 'package:go_router/go_router.dart';
+import 'package:injectable/injectable.dart';
 import 'package:logging/logging.dart';
-import 'package:nekoton_repository/nekoton_repository.dart';
-import 'package:rxdart/rxdart.dart';
 
-export 'app_route.dart';
-export 'routs/routs.dart';
-
-class AppRouter {
-  AppRouter(
+/// Router implementation based on Compass navigation system.
+///
+/// The base navigation abstraction in [CompassRouter] is [CompassBaseRoute],
+/// which can be either a [CompassRoute]/[CompassRouteParameterless])
+/// or a [CompassShellRoute].
+///
+/// [CompassRoute]'s compose into the final URI structure. Each [CompassRoute]
+/// take one path parameter of uri ((!) they aren't parametrized through path).
+/// Composition of [CompassRoute] represents in the [currentRoutes] field.
+///
+/// [CompassShellRoute] are used to create nested navigation structures, such as
+/// bottom navigation bars or side drawers, without affecting the URL structure.
+///
+/// This design ensures:
+/// - Routes can be properly composed and navigated
+/// - State can be preserved through query parameters
+/// - Navigation is predictable and maintainable
+@singleton
+class CompassRouter {
+  CompassRouter(
     this._bootstrapService,
-    this._navigationService,
-    this._nekotonRepository,
-    this._updateService,
-  ) {
-    // Subscribe to hasSeeds to redirect if needed
-    // This is a-la guard, it should redirect to onboarding or wallet depending
-    // on the current location and if the user has any seeds.
-    _seedsSubscription = _nekotonRepository.hasSeeds.listen(_listenSeed);
-
-    // Subscribe to bootstrapStep to redirect if needed
-    // This is a-la guard, it should redirect to onboarding or wallet depending
-    // on the current location and if the user has any seeds.
-    // This happends when user was sent to bootstrap failed screen to make some
-    // action and then bootstrap process was completed.
-
-    _bootstrapErrorEventSubscription =
-        primaryBus.on<BootstrapEvent>().listen(_listenBootstrapErrorStep);
-
-    _updateVersionSubscription = Rx.combineLatest2(
-      _updateService.updateRequests,
-      router.routeInformationProvider.asStream(),
-      (request, route) => (request, route),
-    ).listen(_onUpdateRequests);
-  }
-
-  // Create a new router
-  late final router = _createRouter();
+  );
 
   final BootstrapService _bootstrapService;
-  final NavigationService _navigationService;
-  final NekotonRepository _nekotonRepository;
-  final UpdateService _updateService;
-
-  StreamSubscription<BootstrapEvent>? _bootstrapErrorEventSubscription;
-  StreamSubscription<bool>? _seedsSubscription;
-  StreamSubscription<(UpdateRequest?, RouteInformation)>?
-      _updateVersionSubscription;
 
   final _log = Logger('RouterHelper');
 
-  // Last saved root app route
-  AppRoute? _lastRootAppRoute;
+  /// Global navigator key used by the GoRouter instance.
+  ///
+  /// Can be used to access the navigator state from anywhere in the app.
+  // ignore: avoid-global-state
+  static GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
 
-  // Just for debouncing, because setLocation() can be called multiple times
-  // with the same location
-  String? _lastSetlocation;
+  /// The main GoRouter instance for the application.
+  late final _router = _createRouter();
 
-  // Saved subroutes for each root app route
-  final _savedSubroutes = <AppRoute, String>{};
+  /// List of navigation guards sorted by priority.
+  ///
+  /// Guards can intercept navigation requests and redirect as needed.
+  late final _guards = GetIt.I.getAll<CompassGuard>().toList().sortedBy<num>(
+        (it) => -it.priority,
+      );
 
-  bool get _isConfigured => _bootstrapService.isConfigured;
+  late final _routs = GetIt.I.getAll<CompassBaseRoute>();
 
-  String get _currentPath =>
-      router.routerDelegate.currentConfiguration.fullPath;
+  /// Map of route data types to their corresponding route definitions.
+  ///
+  /// Only includes GoRoutes, not ShellRoutes.
+  late final _routsByType = Map.fromEntries(
+    _routs.map(
+      (it) {
+        if (it is! CompassBaseGoRoute) return null;
 
-  String get _savedLocation => _navigationService.state.location;
+        return MapEntry(it.routeDataType, it);
+      },
+    ).nonNulls,
+  );
 
-  bool get _isExistSavedLocation => _savedLocation.isNotEmpty;
+  /// Map of path strings to their corresponding route definitions.
+  ///
+  /// Only includes GoRoutes, not ShellRoutes.
+  late final _routsByPaths = Map.fromEntries(
+    _routs.map(
+      (it) {
+        if (it is! CompassBaseGoRoute) return null;
+
+        return MapEntry(
+          it.pathWithoutLeadingSlash,
+          it,
+        );
+      },
+    ).nonNulls,
+  );
+
+  /// The main GoRouter instance for the application.
+  @Deprecated('Should be used only in MaterialApp.router')
+  GoRouter get router => _router;
+
+  /// Returns the current [Uri] of the navigation stack.
+  Uri get currentUri {
+    // Manual check needed because state call currentConfiguration.last
+    // that could throw BadStateException
+    if (_router.routerDelegate.currentConfiguration.lastOrNull == null) {
+      return Uri();
+    }
+    return _router.state.uri;
+  }
+
+  /// Returns the current active routes in the navigation stack.
+  ///
+  /// This is determined by parsing the current URI configuration.
+  Iterable<CompassBaseGoRoute> get currentRoutes => _currentRoutesSubject.value;
+
+  /// Returns the stream with current active routes in the navigation stack.
+  late final _currentRoutesSubject = _router.routerDelegate.asBehaviourSubject(
+    () => _locationByUri(currentUri),
+  );
+
+  Stream<Iterable<CompassBaseGoRoute>> get currentRoutesStream =>
+      _currentRoutesSubject.stream;
+
+  /// Navigates to a route specified by route data using replace approach.
+  ///
+  /// This method replaces the current page with the target page without
+  /// adding to the navigation stack.
+  /// It's similar to Go Router's `go` method.
+  ///
+  /// [data] The route data containing information needed for navigation.
+  ///
+  /// Throws [StateError] if no route is found for the provided data type.
+  void compassPoint(CompassRouteData data) {
+    final location = _routeDataToLocation(data);
+
+    if (location == null) {
+      throw StateError('No route for data by type ${data.runtimeType}');
+    }
+
+    _router.go(location.toString());
+  }
+
+  /// Navigates to a named route specified by route data using replace approach.
+  ///
+  /// This method replaces the current page with the target page without
+  /// adding to the navigation stack. It leverages Go Router's `goNamed`
+  /// method under the hood.
+  ///
+  /// [data] The route data containing information needed for navigation.
+  void compassPointNamed(CompassRouteData data) {
+    final route = _findRouteForData(data);
+
+    if (route == null) {
+      throw StateError('No route for data by type ${data.runtimeType}');
+    }
+
+    final name = route.name;
+    if (name == null) {
+      throw StateError("Route ${route.runtimeType} doesn't have name");
+    }
+
+    final location = route.toLocation(data);
+
+    _router.goNamed(name, queryParameters: location.queryParameters);
+  }
+
+  /// Navigates to a route specified by route data by pushing to the stack.
+  ///
+  /// This method adds the target page to the navigation stack, allowing
+  /// users to go back to the previous page.
+  /// It's similar to Go Router's `push` method.
+  ///
+  /// [data] The route data containing information needed for navigation.
+  /// [isContinue] When true (default), preserves current location's path
+  /// and query parameters using continued location strategy. When false,
+  /// uses standard location without preserving current state.
+  ///
+  /// Returns a Future that completes with a value
+  /// when the pushed route is popped
+  /// and the value is passed to [Navigator.pop].
+  ///
+  /// Throws [StateError] if no route is found for the provided data type.
+  Future<R?> compassPush<R extends Object?>(
+    CompassRouteData data, {
+    bool isContinue = true,
+  }) {
+    final location = isContinue
+        ? _routeDataToContinuedLocation(data)
+        : _routeDataToLocation(data)?.toString();
+
+    if (location == null) {
+      throw StateError('No route for data by type ${data.runtimeType}');
+    }
+
+    return _router.push(location);
+  }
+
+  /// Navigates to a route while preserving the current location's path
+  /// and query parameters.
+  ///
+  /// This method is useful for maintaining state while navigating between
+  /// related screens.
+  ///
+  /// Technical implementation:
+  /// 1. The current path is preserved using the '.' path segment
+  /// 2. The new path segments are appended to the relative path
+  /// 3. Query parameters from both the original and new location are merged
+  ///
+  /// [data] The route data containing information needed for navigation.
+  ///
+  /// Throws [StateError] if no route is found for the provided data type.
+  void compassContinue(CompassRouteData data) {
+    final continuedLocation = _routeDataToContinuedLocation(data);
+    if (continuedLocation == null) {
+      throw StateError('No route for data by type ${data.runtimeType}');
+    }
+
+    _router.go(continuedLocation);
+  }
+
+  /// Navigates back to the previous route in the navigation stack.
+  ///
+  /// This method first attempts to clear any query parameters from the
+  /// current route, then pops the navigation stack if possible.
+  ///
+  /// [result] Optional value to return to the previous screen.
+  void compassBack<T extends Object?>([T? result]) {
+    try {
+      final route = currentRoutes.lastOrNull;
+
+      if (_router.canPop()) {
+        _router.pop(result);
+      }
+
+      if (route is CompassRouteDataQueryMixin) {
+        final routesAfterPop = currentRoutes.toList();
+        final isRouteRemoved = routesAfterPop.none(
+          (it) => it.path == route.path,
+        );
+
+        if (isRouteRemoved) {
+          final currentUri = this.currentUri;
+          final clearedQueries = route.clearScreenQueries(
+            currentUri.queryParameters,
+          );
+
+          _router.go(
+            currentUri.replace(queryParameters: clearedQueries).toString(),
+          );
+        }
+      }
+    } catch (e, s) {
+      _log.warning('Failed to pop', e, s);
+    }
+  }
 
   void dispose() {
-    _bootstrapErrorEventSubscription?.cancel();
-    _seedsSubscription?.cancel();
-    _updateVersionSubscription?.cancel();
-    router.dispose();
+    // Detach all interceptors
+    for (final guard in _guards) {
+      guard.detach();
+    }
+
+    _router.dispose();
   }
 
   GoRouter _createRouter() {
-    return GoRouter(
+    _validateRoutesDataIntersection();
+
+    final initalRoute = _routsByType.values.firstWhere((it) => it.isInitial);
+
+    final topLevelRoutes = _routs.where((it) => it.isTopLevel).toList();
+
+    final router = GoRouter(
       restorationScopeId: 'app',
-      navigatorKey: NavigationService.navigatorKey,
+      navigatorKey: navigatorKey,
       redirect: (context, state) {
         if (!_bootstrapService.isConfigured) {
           return null;
         }
 
-        // Get current location and full path
-        final location = state.uri.toString();
-        final fullPath = state.fullPath ?? location;
+        // Process redirects through all interceptors in order
+        // Return the first non-null redirect found
+        final location = _locationByUri(state.uri).toList();
 
-        // Get root app route
-        final rootAppRoute = getRootAppRoute(fullPath: fullPath);
-        final segments = AppRoute.pathSegments(fullPath: fullPath);
-        final isSubroute = segments.length > 1;
-
-        // Get saved subroute for the root app route (if any)
-        final savedSubroute = _savedSubroutes[rootAppRoute];
-
-        // Check if the root app route changed
-        final rootAppRouteChaned = _lastRootAppRoute != rootAppRoute;
-
-        // Set location
-        _setLocation(location, fullPath);
-
-        // Check if the user should be redirected
-        final guardRedirect = _shouldRedirect(
-          fullPath: fullPath,
-          hasSeeds: _nekotonRepository.hasSeeds.valueOrNull,
-        );
-
-        if (guardRedirect != null) {
-          return guardRedirect;
+        for (final guard in _guards) {
+          final redirectData = guard.protect(context, location);
+          if (redirectData != null) {
+            final location = _routeDataToLocation(redirectData);
+            if (location != null) {
+              return location.toString();
+            }
+          }
         }
 
-        // If the root app route changed and there is a saved subroute,
-        // return it
-        // This is for the case when the user navigates to a subroute, then
-        // navigates to another root app route and returns back to the previous
-        // root app route using bottom tab bar. In this case, the subroute
-        // should be restored.
-        // Skip subroute restoration if navigatad directry to subrout.
-        if (rootAppRouteChaned && !isSubroute && savedSubroute != null) {
-          return savedSubroute;
-        }
-
-        // Nothing to do, return null
+        // No redirection needed
         return null;
       },
-      initialLocation: AppRoute.splash.path,
-      routes: [
-        bootstrapFailedRoute,
-        noInternetRoute,
-        splashScreenRoute,
-        updateVersionRoute,
-        GoRoute(
-          name: AppRoute.onboarding.name,
-          path: AppRoute.onboarding.path,
-          pageBuilder: (context, state) => onboardingTransitionPageBuilder(
-            context,
-            state,
-            const WelcomeScreen(),
-          ),
-          routes: [
-            chooseNetworkRoute(
-              routes: [
-                createOnboardingSeedPasswordRoute,
-                addExistingWalletRoute,
-              ],
-            ),
-          ],
-        ),
-        StatefulShellRoute.indexedStack(
-          builder: (context, state, navigationShell) => RootPage(
-            child: navigationShell,
-          ),
-          branches: [
-            walletBranch,
-            browserBranch,
-            profileBranch,
-          ],
-        ),
-      ],
+      initialLocation: initalRoute.path,
+      routes: topLevelRoutes.map((it) => it.route).toList(),
       errorBuilder: (context, state) {
         // Something went wrong, clear saved subroutes
         _log.severe('GoRouter error: ${state.error}');
-        _savedSubroutes.clear();
 
-        // Get current location and full path
-        final location = state.uri.toString();
-        final fullPath = state.fullPath ?? location;
-
-        final currentRoute = getRootAppRoute(fullPath: fullPath);
-        final isOnboarding = currentRoute == AppRoute.onboarding;
+        final isOnboarding = currentRoutes.lastOrNull is OnBoardingRoute;
 
         return ErrorPage(isOnboarding: isOnboarding);
       },
-    )
-
-      // Subscribe to routerDelegate changes to set location
-      ..routerDelegate.addListener(
-        () {
-          final currentConfiguration =
-              router.routerDelegate.currentConfiguration;
-          _setLocation(
-            currentConfiguration.uri.toString(),
-            currentConfiguration.fullPath,
-          );
-        },
-      );
-  }
-
-  void _listenSeed(bool hasSeeds) {
-    // Again, check if the user should be redirected depending on the current
-    // location and if the user has any seeds.
-
-    final redirectLocation = _shouldRedirect(
-      fullPath: _navigationService.state.fullPath,
-      hasSeeds: hasSeeds,
     );
 
-    // Redirect if needed
-    if (redirectLocation != null) {
-      router.go(redirectLocation);
+    // Attach interceptors to the router
+    unawaited(
+      Future.microtask(() {
+        for (final guard in _guards) {
+          guard.attachToRouter(this);
+        }
+      }),
+    );
+
+    return router;
+  }
+
+  void _validateRoutesDataIntersection() {
+    if (kDebugMode) {
+      final compassGoRoutes = _routsByPaths.entries
+          .map(
+            (entry) => entry.value,
+          )
+          .toList();
+
+      for (final route1 in compassGoRoutes) {
+        for (final route2 in compassGoRoutes) {
+          if (route1 != route2 &&
+              route1.routeDataType == route2.routeDataType) {
+            throw StateError(
+              'Duplicate route data type detected: ${route1.routeDataType}. '
+              'Routes must have unique data types. '
+              'Found in routes: ${route1.runtimeType} '
+              'and ${route2.runtimeType}.',
+            );
+          }
+        }
+      }
     }
   }
 
-  void _onUpdateRequests((UpdateRequest?, RouteInformation) requestRoute) {
-    final (request, route) = requestRoute;
-    if (request == null) return;
-    if (route.uri.path != AppRoute.wallet.path) return;
-
-    _log.info('Open update version screen $request');
-    router.push(AppRoute.updateVersion.path);
+  CompassBaseGoRoute<CompassRouteData>? _findRouteForData(
+    CompassRouteData data,
+  ) {
+    return _routsByType[data.runtimeType];
   }
 
-  void _listenBootstrapErrorStep(BootstrapEvent event) {
-    String? path;
-
-    if (event is BootstrapCompleteEvent) {
-      path = _shouldRedirect(
-        fullPath: _navigationService.state.fullPath,
-        hasSeeds: _nekotonRepository.hasSeeds.valueOrNull,
-      );
-    } else if (event is BootstrapErrorEvent) {
-      final fullPath = getRootAppRoute(
-        fullPath: _navigationService.state.fullPath,
-      );
-
-      path = fullPath != AppRoute.bootstrapFailedInit
-          ? AppRoute.bootstrapFailedInit.pathWithData(
-              pathParameters: {
-                bootstrapFailedIndexPathParam:
-                    _bootstrapService.bootstrapStep.index.toString(),
-              },
-            )
-          : null;
+  Uri? _routeDataToLocation(
+    CompassRouteData data,
+  ) {
+    if (data is UnsafeRedirectCompassRouteData) {
+      return Uri.tryParse(data.route);
+    } else {
+      final route = _findRouteForData(data);
+      return route?.toLocation(data);
     }
-
-    if (path == null) {
-      return;
-    }
-    router.go(path);
   }
 
-  // Redirect to onboarding or wallet depending on the current location and if
-  // the user has any seeds.
-  String? _shouldRedirect({
-    required String fullPath,
-    required bool? hasSeeds,
-  }) {
-    final currentRoute = getRootAppRoute(fullPath: fullPath);
-
-    if (!_isConfigured || hasSeeds == null) {
+  String? _routeDataToContinuedLocation(
+    CompassRouteData data,
+  ) {
+    final newLocation = _routeDataToLocation(data);
+    if (newLocation == null) {
       return null;
     }
 
-    if (!hasSeeds && currentRoute != AppRoute.onboarding) {
-      // Not onboarded, redirect to onboarding
-      return AppRoute.onboarding.path;
-    }
+    final originalLocation = _router.state.uri;
 
-    if (_currentPath == AppRoute.splash.path) {
-      return _isExistSavedLocation ? _savedLocation : '/';
-    }
-
-    // No need to redirect
-    return null;
-  }
-
-  // Set location, it will be called in multiple places
-  // because GoRouter's 'redirect' handler doesn't call it after pop()
-  void _setLocation(String location, String fullPath) {
-    // And because of that, we need to check if the location is the same
-    // as the last one to avoid duplicate calls of NavigationService.setLocation
-    if (_lastSetlocation == location) {
-      return;
-    }
-
-    _lastSetlocation = location;
-
-    // Set current location in NavigationService
-    _navigationService.setState(
-      state: NavigationServiceState(
-        location: location,
-        fullPath: fullPath,
-      ),
-      save: canSaveLocation(fullPath: fullPath),
+    final concatedUri = newLocation.replace(
+      queryParameters: {
+        ...originalLocation.queryParameters, // Preserve original parameters
+        ...newLocation
+            .queryParameters, // Add new parameters (overrides duplicates)
+      },
     );
 
-    // Get root app route
-    final rootAppRoute = getRootAppRoute(fullPath: fullPath);
+    return '.$concatedUri';
+  }
 
-    // Save subroute for the root app route
-    if (rootAppRoute.isSaveSubroutes) {
-      _savedSubroutes[rootAppRoute] = location;
-    }
-
-    // Save last root app route
-    _lastRootAppRoute = rootAppRoute;
+  Iterable<CompassBaseGoRoute> _locationByUri(Uri uri) {
+    return uri.pathSegments.map((it) => _routsByPaths[it]).nonNulls;
   }
 }
 
-extension RouterExtension on GoRouter {
-  static final _navigationService = inject<NavigationService>();
+/// An InheritedWidget that provides access to the CompassRouter instance
+/// throughout the widget tree.
+///
+/// This provider allows widgets to access the router via BuildContext.
+class CompassRouterProvider extends InheritedWidget {
+  const CompassRouterProvider({
+    required this.router,
+    required super.child,
+    super.key,
+  });
 
-  void goFurther(
-    String location, {
-    bool preserveQueryParams = false,
-    Object? extra,
+  final CompassRouter router;
+
+  static CompassRouter of(BuildContext context) {
+    final provider =
+        context.dependOnInheritedWidgetOfExactType<CompassRouterProvider>();
+    assert(provider != null, 'No CompassRouterProvider found in context');
+    return provider!.router;
+  }
+
+  @override
+  bool updateShouldNotify(CompassRouterProvider oldWidget) {
+    return true;
+  }
+}
+
+/// Extension on BuildContext that provides convenient access to CompassRouter
+/// navigation methods.
+///
+/// These methods allow for direct navigation from any widget that has access
+/// to a BuildContext, without needing to manually retrieve the router instance.
+extension CompassNavigationContextExtension on BuildContext {
+  /// Returns the CompassRouter instance associated with this context.
+  ///
+  /// This method provides direct access to the router for advanced use cases.
+  CompassRouter _compassRouter() {
+    return CompassRouterProvider.of(this);
+  }
+
+  /// Returns the current active routes in the navigation stack.
+  /// See [CompassRouter.currentRoutes] for more details.
+  Iterable<CompassBaseGoRoute> currentRoutes() {
+    // This makes currentRoutes dependent on GoRouterStateRegistryScope updates
+    // to properly call didChangeDependencies on contexts
+    // that depend on currentRoutes
+    GoRouterState.of(this);
+    return _compassRouter().currentRoutes;
+  }
+
+  /// Navigates to a route specified by route data using replace approach.
+  ///
+  /// [data] The route data containing information needed for navigation.
+  ///
+  /// See [CompassRouter.compassPoint] for more details.
+  void compassPoint(CompassRouteData data) {
+    return _compassRouter().compassPoint(data);
+  }
+
+  /// Navigates to a named route specified by route data using replace approach.
+  ///
+  /// [data] The route data containing information needed for navigation.
+  ///
+  /// See [CompassRouter.compassPointNamed] for more details.
+  void compassPointNamed(CompassRouteData data) {
+    return _compassRouter().compassPointNamed(data);
+  }
+
+  /// Navigates to a route specified by route data by pushing to the stack.
+  ///
+  /// [data] The route data containing information needed for navigation.
+  /// [isContinue] When true (default), preserves current location's path
+  /// and query parameters using continued location strategy. When false,
+  /// uses standard location without preserving current state.
+  ///
+  /// Returns a Future that completes when the pushed route is popped.
+  ///
+  /// See [CompassRouter.compassPush] for more details.
+  Future<R?> compassPush<R>(
+    CompassRouteData data, {
+    bool isContinue = true,
   }) {
-    return go(
-      Uri.decodeComponent(
-        _getUriLocation(
-          location,
-          preserveQueryParams: preserveQueryParams,
-        ).toString(),
-      ),
-      extra: extra,
-    );
+    return _compassRouter().compassPush(data, isContinue: isContinue);
   }
 
-  Future<T?> pushFurther<T>(
-    String location, {
-    bool preserveQueryParams = false,
-    Object? extra,
-  }) async {
-    return push<T>(
-      Uri.decodeComponent(
-        _getUriLocation(
-          location,
-          preserveQueryParams: preserveQueryParams,
-        ).toString(),
-      ),
-      extra: extra,
-    );
+  /// Navigates to a route while preserving the current location's path
+  /// and query parameters.
+  ///
+  /// [data] The route data containing information needed for navigation.
+  ///
+  /// See [CompassRouter.compassContinue] for more details.
+  void compassContinue(CompassRouteData data) {
+    return _compassRouter().compassContinue(data);
   }
 
-  /// Navigate to current location, but without query parameters.
-  void clearQueryParams() {
-    final currentLocation = inject<NavigationService>().state.location;
-    final resultLocation = Uri.parse(currentLocation).replace(
-      queryParameters: {},
-    );
-
-    return go(
-      Uri.decodeComponent(resultLocation.toString()),
-    );
-  }
-
-  /// Pop current screen if possible.
-  void maybePop({
-    bool preserveQueryParams = true,
-    List<String>? removeQueries,
-  }) {
-    try {
-      if (!preserveQueryParams) {
-        clearQueryParams();
-      } else if (removeQueries != null) {
-        _removeQueryParams(removeQueries);
-      }
-
-      if (canPop()) {
-        pop();
-      }
-    } catch (_) {}
-  }
-
-  void clearQueryParamsAndPop<T extends Object?>([T? result]) {
-    clearQueryParams();
-
-    pop<T>(result);
-  }
-
-  void _removeQueryParams(
-    List<String> removeQueries,
-  ) {
-    final uri = Uri.parse(_navigationService.state.location);
-
-    final queryParameters = {...uri.queryParameters};
-
-    for (final param in removeQueries) {
-      queryParameters.remove(param);
-    }
-
-    final resultLocation = uri.replace(
-      queryParameters: queryParameters,
-    );
-
-    return go(
-      Uri.decodeComponent(resultLocation.toString()),
-    );
-  }
-
-  Uri _getUriLocation(
-    String path, {
-    bool preserveQueryParams = false,
-  }) {
-    final location = Uri.parse(inject<NavigationService>().state.location);
-    final pathUri = Uri.parse(path);
-    late Uri resultLocation;
-    // We have query params in old path that we should preserve, so we must
-    // update it manually
-    if (location.hasQuery && preserveQueryParams) {
-      final query = <String, dynamic>{}
-        ..addAll(location.queryParameters)
-        ..addAll(pathUri.queryParameters);
-
-      resultLocation = location.replace(
-        path: '${location.path}/${pathUri.path}',
-        queryParameters: query,
-      );
-    } else {
-      // old location do not have query, new one may have it, we dont care
-      resultLocation = location.replace(
-        path: '${location.path}/${pathUri.path}',
-        queryParameters: pathUri.queryParameters,
-      );
-    }
-
-    return resultLocation;
+  /// Navigates back to the previous route in the navigation stack.
+  ///
+  /// [result] Optional value to return to the previous screen.
+  ///
+  /// See [CompassRouter.compassBack] for more details.
+  void compassBack<T extends Object?>([T? result]) {
+    return _compassRouter().compassBack(result);
   }
 }

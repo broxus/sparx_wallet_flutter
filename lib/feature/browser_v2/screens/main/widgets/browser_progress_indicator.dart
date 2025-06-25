@@ -28,25 +28,25 @@ class _BrowserProgressIndicatorState extends State<BrowserProgressIndicator> {
 
   @override
   Widget build(BuildContext context) {
-    return StateNotifierBuilder(
-      listenableState: widget.menuState,
-      builder: (_, MenuType? type) {
-        return Transform.translate(
-          offset: Offset(
-            0,
-            switch (type) {
-              MenuType.view => -BrowserPageControlPanel.minHeight,
-              MenuType.url => -HostPanel.height,
-              _ => 500,
-            },
-          ),
-          child: RepaintBoundary(
+    return RepaintBoundary(
+      child: StateNotifierBuilder(
+        listenableState: widget.menuState,
+        builder: (_, MenuType? type) {
+          return Transform.translate(
+            offset: Offset(
+              0,
+              switch (type) {
+                MenuType.view => -BrowserPageControlPanel.minHeight,
+                MenuType.url => -HostPanel.height,
+                _ => 500,
+              },
+            ),
             child: CustomPaint(
               painter: _painter,
             ),
-          ),
-        );
-      },
+          );
+        },
+      ),
     );
   }
 }
@@ -55,13 +55,12 @@ class CoderPainter extends CustomPainter {
   CoderPainter(
     this.animation,
     Color _color,
-  )   : _paint = Paint()
-          ..color = _color
-          ..strokeWidth = 3,
-        super(repaint: animation);
+  ) : super(repaint: animation) {
+    _paint.color = _color;
+  }
 
   final Animation<double> animation;
-  final Paint _paint;
+  static final _paint = Paint()..strokeWidth = 3;
 
   @override
   void paint(Canvas canvas, Size size) {

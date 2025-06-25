@@ -51,7 +51,7 @@ class CommonChips extends StatelessWidget {
         child: EverButtonStyleProvider(
           contentColor: type.contentColor(colors),
           child: SeparatedRow(
-            separatorSize: DimensSize.d4,
+            spacing: DimensSize.d4,
             mainAxisSize: MainAxisSize.min,
             children: [
               if (leading != null) leading!,

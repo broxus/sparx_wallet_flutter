@@ -109,6 +109,7 @@ class TokenTransferInfoWidget
                           amount: amount,
                           icon: icon,
                           includeSymbol: false,
+                          useDefaultFormat: false,
                         );
                       },
                     ),
@@ -142,7 +143,7 @@ class TokenTransferInfoWidget
                 margin: const EdgeInsets.only(top: DimensSizeV2.d16),
                 label: LocaleKeys.attachedAmount.tr(),
                 child: SeparatedColumn(
-                  separatorSize: DimensSize.d4,
+                  spacing: DimensSize.d4,
                   crossAxisAlignment: CrossAxisAlignment.end,
                   children: [
                     AmountWidget.fromMoney(
@@ -174,7 +175,7 @@ class TokenTransferInfoWidget
 
               final child = SeparatedColumn(
                 crossAxisAlignment: CrossAxisAlignment.end,
-                separatorSize: DimensSizeV2.d4,
+                spacing: DimensSizeV2.d4,
                 children: [
                   WalletTransactionDetailsItem(
                     title: LocaleKeys.networkFee.tr(),
@@ -220,7 +221,7 @@ class TokenTransferInfoWidget
             Padding(
               padding: const EdgeInsets.only(top: DimensSizeV2.d16),
               child: SeparatedColumn(
-                separatorSize: DimensSizeV2.d2,
+                spacing: DimensSizeV2.d2,
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
@@ -238,7 +239,7 @@ class TokenTransferInfoWidget
             Padding(
               padding: const EdgeInsets.only(top: DimensSizeV2.d16),
               child: SeparatedColumn(
-                separatorSize: DimensSizeV2.d2,
+                spacing: DimensSizeV2.d2,
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
@@ -256,7 +257,7 @@ class TokenTransferInfoWidget
             Padding(
               padding: const EdgeInsets.only(top: DimensSizeV2.d16),
               child: SeparatedColumn(
-                separatorSize: DimensSizeV2.d2,
+                spacing: DimensSizeV2.d2,
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
@@ -274,7 +275,7 @@ class TokenTransferInfoWidget
             Padding(
               padding: const EdgeInsets.only(top: DimensSizeV2.d16),
               child: SeparatedColumn(
-                separatorSize: DimensSizeV2.d2,
+                spacing: DimensSizeV2.d2,
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(

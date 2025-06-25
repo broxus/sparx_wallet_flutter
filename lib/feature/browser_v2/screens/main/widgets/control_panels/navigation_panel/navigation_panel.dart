@@ -1,6 +1,5 @@
-import 'dart:math';
-
-import 'package:app/feature/browser_v2/data/tabs_data.dart';
+import 'package:app/core/wm/not_null_listenable_state.dart';
+import 'package:app/feature/browser_v2/data/tabs/browser_tab.dart';
 import 'package:app/feature/browser_v2/screens/main/widgets/control_panels/navigation_panel/address_bar.dart';
 import 'package:app/utils/types/fuction_types.dart';
 import 'package:elementary_helper/elementary_helper.dart';
@@ -11,11 +10,12 @@ class BrowserNavigationPanel extends StatefulWidget {
   const BrowserNavigationPanel({
     required this.panelWidth,
     required this.urlWidth,
-    required this.controller,
+    required this.urlSliderController,
     required this.tabsState,
     required this.onPressedCurrentUrlMenu,
     required this.onPressedRefresh,
     required this.onEditingCompleteUrl,
+    required this.onPageChanged,
     super.key,
   });
 
@@ -23,126 +23,190 @@ class BrowserNavigationPanel extends StatefulWidget {
 
   final double panelWidth;
   final double urlWidth;
-  final ScrollController controller;
-  final ListenableState<BrowserTabsCollection> tabsState;
+  final PageController urlSliderController;
+  final ListenableState<List<NotNullListenableState<BrowserTab>>?> tabsState;
   final ValueChanged<String> onPressedCurrentUrlMenu;
   final ValueChanged<String> onPressedRefresh;
   final DoubleValueCallback<String, String> onEditingCompleteUrl;
+  final ValueChanged<int> onPageChanged;
 
   @override
   State<BrowserNavigationPanel> createState() =>
       _BrowserTabViewMenuUrlPanelState();
 }
 
-class _BrowserTabViewMenuUrlPanelState extends State<BrowserNavigationPanel> {
-  late final _physics = _SnapPageScrollPhysics(
-    pageWidth: widget.urlWidth,
+class _BrowserTabViewMenuUrlPanelState extends State<BrowserNavigationPanel>
+    with TickerProviderStateMixin {
+  late final _pageViewController = widget.urlSliderController;
+
+  int _currentPage = 0;
+  late int? _pagesCount = widget.tabsState.value?.length;
+  bool _isTouch = false;
+  final _duration = const Duration(milliseconds: 300);
+
+  late final _animationLeftController = AnimationController(
+    vsync: this,
+    duration: _duration,
   );
+
+  late final _offsetAnimation =
+      Tween<double>(begin: -10, end: 10).animate(_animationLeftController);
+
+  @override
+  void initState() {
+    super.initState();
+    _animate();
+    widget.tabsState.addListener(_handleChange);
+  }
+
+  @override
+  void dispose() {
+    _animationLeftController.dispose();
+    widget.tabsState.removeListener(_handleChange);
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
     return SizedBox(
       width: widget.panelWidth,
       height: BrowserNavigationPanel.height,
-      child: StateNotifierBuilder<BrowserTabsCollection>(
+      child: StateNotifierBuilder<List<NotNullListenableState<BrowserTab>>?>(
         listenableState: widget.tabsState,
-        builder: (_, BrowserTabsCollection? data) {
-          if (data == null) {
+        builder: (_, List<NotNullListenableState<BrowserTab>>? list) {
+          if (list == null) {
             return const SizedBox.shrink();
           }
 
-          return ListView.builder(
-            padding: data.count == 1
-                ? const EdgeInsets.only(left: DimensSizeV2.d8)
-                : EdgeInsets.zero,
-            physics: _physics,
-            scrollDirection: Axis.horizontal,
-            controller: widget.controller,
-            itemCount: data.count,
-            itemBuilder: (_, int index) {
-              return BrowserAddressBar(
-                key: ValueKey(data.list[index].id),
-                width: widget.urlWidth,
-                tab: data.list[index],
-                onPressedCurrentUrlMenu: widget.onPressedCurrentUrlMenu,
-                onPressedRefresh: widget.onPressedRefresh,
-                onEditingComplete: widget.onEditingCompleteUrl,
-              );
-            },
+          return Listener(
+            // onPointerDown: _onPointerDown,
+            // onPointerUp: _onPointerUp,
+            onPointerMove: _onPointerMove,
+            // onPointerCancel: _onPointerCancel,
+            child: AnimatedBuilder(
+              animation: _offsetAnimation,
+              builder: (
+                _,
+                Widget? child,
+              ) {
+                return Transform.translate(
+                  offset: Offset(_offsetAnimation.value, 0),
+                  child: child,
+                );
+              },
+              child: NotificationListener(
+                onNotification: _onNotification,
+                child: PageView.builder(
+                  physics: const ClampingScrollPhysics(),
+                  controller: _pageViewController,
+                  itemCount: list.length,
+                  onPageChanged: _onPageChanged,
+                  itemBuilder: (_, int index) {
+                    return BrowserAddressBar(
+                      key: ValueKey(list[index].value.id),
+                      width: widget.urlWidth,
+                      listenable: list[index],
+                      onPressedCurrentUrlMenu: widget.onPressedCurrentUrlMenu,
+                      onPressedRefresh: widget.onPressedRefresh,
+                      onEditingComplete: widget.onEditingCompleteUrl,
+                    );
+                  },
+                ),
+              ),
+            ),
           );
         },
       ),
     );
   }
-}
 
-class _SnapPageScrollPhysics extends ScrollPhysics {
-  const _SnapPageScrollPhysics({
-    required this.pageWidth,
-    ScrollPhysics? parent,
-  }) : super(parent: parent ?? const ClampingScrollPhysics());
-
-  final double pageWidth;
-
-  @override
-  _SnapPageScrollPhysics applyTo(ScrollPhysics? ancestor) {
-    return _SnapPageScrollPhysics(
-      pageWidth: pageWidth,
-      parent: buildParent(ancestor),
-    );
+  void _onPointerMove(_) {
+    _isTouch = true;
   }
 
-  @override
-  Simulation? createBallisticSimulation(
-    ScrollMetrics position,
-    double velocity,
-  ) {
-    if ((velocity <= 0.0 && position.pixels <= position.minScrollExtent) ||
-        (velocity >= 0.0 && position.pixels >= position.maxScrollExtent)) {
-      return super.createBallisticSimulation(position, velocity);
+  bool _onNotification(ScrollNotification notification) {
+    if (notification is ScrollUpdateNotification) {
+      _handleScrollUpdate(notification);
+    } else if (notification is ScrollEndNotification) {
+      _isTouch = false;
     }
-    final target = _getTargetPixels(position, velocity);
-    if (target != position.pixels) {
-      return ScrollSpringSimulation(
-        spring,
-        position.pixels,
-        target,
-        velocity,
-        tolerance: toleranceFor(position),
+    return false;
+  }
+
+  void _handleScrollUpdate(ScrollUpdateNotification notification) {
+    if (!_isTouch) {
+      return;
+    }
+
+    final page = _pageViewController.page ?? 0;
+    final delta = (page - _currentPage).abs();
+
+    if (delta > 9) {
+      final targetPage =
+          page.round().clamp(0, (widget.tabsState.value?.length ?? 1) - 1);
+
+      _pageViewController.animateToPage(
+        targetPage,
+        duration: const Duration(milliseconds: 300),
+        curve: Curves.easeOut,
       );
+      _currentPage = targetPage;
     }
-    return null;
   }
 
-  double _getCurrentPage(ScrollMetrics position) {
-    final offset = (position.viewportDimension - pageWidth) / 2;
-    return (position.pixels + offset) / pageWidth;
+  void _onPageChanged(int page) {
+    _animateTranslate(page);
+    if (_isTouch) {
+      widget.onPageChanged(page);
+    }
   }
 
-  double _getTargetPixels(ScrollMetrics position, double velocity) {
-    final currentPage = _getCurrentPage(position);
-    final tolerance = toleranceFor(position);
-    double targetPage;
+  void _animateTranslate(num page) {
+    final count = widget.tabsState.value?.length;
+    final value = _animationLeftController.value;
 
-    if (velocity.abs() < tolerance.velocity) {
-      targetPage = currentPage.roundToDouble();
-    } else {
-      targetPage = velocity > 0
-          ? currentPage.ceilToDouble()
-          : currentPage.floorToDouble();
+    double? newValue;
+    if (count == null) {
+      return;
     }
 
-    final offset = (position.viewportDimension - pageWidth) / 2;
-    final targetPixels = targetPage * pageWidth - offset;
-    return max(
-      position.minScrollExtent,
-      min(
-        targetPixels,
-        position.maxScrollExtent,
-      ),
+    if (count > 1 && page == 0) {
+      newValue = 0;
+    }
+    if (count == 1 || page > 0 && page != count - 1) {
+      newValue = .5;
+    } else if (count > 0 && page == count - 1) {
+      newValue = 1;
+    }
+
+    if (newValue == null || value == newValue) {
+      return;
+    }
+
+    _animationLeftController.animateTo(
+      newValue,
+      duration: _isTouch ? _duration : Duration.zero,
     );
   }
 
-  @override
-  bool get allowImplicitScrolling => false;
+  void _handleChange() {
+    final currentCount = widget.tabsState.value?.length;
+
+    if (_pagesCount != currentCount) {
+      _animate();
+    }
+
+    _pagesCount = currentCount;
+  }
+
+  void _animate() {
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (_pageViewController.hasClients) {
+        final page = _pageViewController.page;
+        if (page != null) {
+          _animateTranslate(page);
+        }
+      }
+    });
+  }
 }

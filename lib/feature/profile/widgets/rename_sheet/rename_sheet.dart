@@ -64,7 +64,7 @@ class _RenameSheetState extends State<RenameSheet> {
   Widget build(BuildContext context) {
     return SeparatedColumn(
       mainAxisSize: MainAxisSize.min,
-      separatorSize: DimensSize.d24,
+      spacing: DimensSize.d24,
       children: [
         PrimaryTextField(
           maxLength: maxLengthForMainEntities,

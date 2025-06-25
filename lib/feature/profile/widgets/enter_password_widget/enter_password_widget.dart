@@ -104,7 +104,7 @@ class _EnterPasswordWidgetState extends State<EnterPasswordWidget> {
       builder: (context) {
         return SeparatedColumn(
           mainAxisSize: MainAxisSize.min,
-          separatorSize: DimensSize.d24,
+          spacing: DimensSize.d24,
           children: [
             SecureTextField(
               hintText: LocaleKeys.yourPassword.tr(),
