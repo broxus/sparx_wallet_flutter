@@ -3,6 +3,7 @@ import 'package:app/feature/ton_connect/ton_connect.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:injectable/injectable.dart';
 import 'package:logging/logging.dart';
+import 'package:rxdart/subjects.dart';
 
 const _eventIdKey = 'event_id';
 const _lastEventIdKey = 'last_event_id';
@@ -21,6 +22,11 @@ class TonConnectStorageService extends AbstractStorageService {
   final GetStorage _storage;
 
   late var _eventId = _readEventId();
+
+  final _connectionsSubject = BehaviorSubject<List<TonAppConnection>>();
+
+  Stream<List<TonAppConnection>> get connectionsStream =>
+      _connectionsSubject.stream;
 
   @override
   Future<void> init() => GetStorage.init(container);
@@ -43,10 +49,13 @@ class TonConnectStorageService extends AbstractStorageService {
   List<TonAppConnection> readConnections() {
     try {
       final json = _storage.read<List<dynamic>>(_connectionsKey);
-      return json
+      final connections = json
               ?.map((e) => TonAppConnection.fromJson(e as Map<String, dynamic>))
               .toList() ??
           [];
+
+      _connectionsSubject.add(connections);
+      return connections;
     } catch (e, s) {
       _logger.warning('Failed to read connections', e, s);
       clearConnections();
@@ -56,6 +65,8 @@ class TonConnectStorageService extends AbstractStorageService {
 
   void addConnection(TonAppConnection connection) {
     final connections = readConnections()..add(connection);
+
+    _connectionsSubject.add(connections);
     _storage.write(
       _connectionsKey,
       connections.map((e) => e.toJson()).toList(),
@@ -63,8 +74,10 @@ class TonConnectStorageService extends AbstractStorageService {
   }
 
   void removeConnection(TonAppConnection connection) {
-    final connections = readConnections().where((e) => e != connection);
+    final connections =
+        readConnections().where((e) => e != connection).toList();
 
+    _connectionsSubject.add(connections);
     _storage.write(
       _connectionsKey,
       connections.map((e) => e.toJson()).toList(),
