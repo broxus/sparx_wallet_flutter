@@ -6,15 +6,14 @@ part of 'browser_tab.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-_$BrowserTabImpl _$$BrowserTabImplFromJson(Map<String, dynamic> json) =>
-    _$BrowserTabImpl(
+_BrowserTab _$BrowserTabFromJson(Map<String, dynamic> json) => _BrowserTab(
       id: json['id'] as String,
       url: uriJsonConverter.fromJson(json['url'] as String),
       title: json['title'] as String?,
       sortingOrder: (json['sortingOrder'] as num).toDouble(),
     );
 
-Map<String, dynamic> _$$BrowserTabImplToJson(_$BrowserTabImpl instance) =>
+Map<String, dynamic> _$BrowserTabToJson(_BrowserTab instance) =>
     <String, dynamic>{
       'id': instance.id,
       'url': uriJsonConverter.toJson(instance.url),

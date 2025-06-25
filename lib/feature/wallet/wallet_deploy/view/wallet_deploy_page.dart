@@ -31,111 +31,74 @@ class WalletDeployPage extends StatelessWidget {
       ),
       child: BlocConsumer<WalletDeployBloc, WalletDeployState>(
         listener: (context, state) {
-          state.whenOrNull(
-            deployed: (
-              _,
-              __,
-              ___,
-              ____,
-              _____,
-              ______,
-            ) =>
-                context.compassPointNamed(const WalletRouteData()),
-          );
+          if (state is WalletDeployStateDeployed) {
+            context.compassPointNamed(const WalletRouteData());
+          }
         },
         builder: (context, state) {
-          return state.maybeWhen(
-            subscribeError: (error) => _scaffold(
-              WalletSubscribeErrorWidget(error: error),
-            ),
-            standard: () => _scaffold(const WalletDeployStandardBody()),
-            multisig: (custodians, requireConfirmations, hours, walletType) =>
-                _scaffold(
-              WalletDeployMultisigBody(
-                custodians: custodians,
-                requireConfirmations: requireConfirmations,
-                hours: hours,
-                walletType: walletType,
+          return switch (state) {
+            WalletDeployStateSubscribeError(:final error) => _scaffold(
+                WalletSubscribeErrorWidget(error: error),
               ),
-            ),
-            calculatingError: (
-              error,
-              fee,
-              balance,
-              custodians,
-              requireConfirmations,
-              tonIconPath,
-              ticker,
-              customCurrency,
-            ) =>
-                _scaffold(
-              WalletDeployConfirmView(
-                publicKey: publicKey,
-                balance: balance,
-                feeError: error,
-                fee: fee,
-                custodians: custodians,
-                requireConfirmations: requireConfirmations,
-                tonIconPath: tonIconPath,
-                currency: Currencies()[ticker ?? ''],
-                customCurrency: customCurrency,
+            WalletDeployStateStandard() =>
+              _scaffold(const WalletDeployStandardBody()),
+            WalletDeployStateMultisig() => _scaffold(
+                WalletDeployMultisigBody(
+                  custodians: state.custodians,
+                  requireConfirmations: state.requireConfirmations,
+                  hours: state.hours,
+                  walletType: state.walletType,
+                ),
               ),
-              canPrev: true,
-            ),
-            readyToDeploy: (
-              fee,
-              balance,
-              custodians,
-              requireConfirmations,
-              tonIconPath,
-              ticker,
-              customCurrency,
-              account,
-              hours,
-            ) {
-              return _scaffold(
+            WalletDeployStateCalculatingError() => _scaffold(
                 WalletDeployConfirmView(
                   publicKey: publicKey,
-                  balance: balance,
-                  fee: fee,
-                  custodians: custodians,
-                  requireConfirmations: requireConfirmations,
-                  tonIconPath: tonIconPath,
-                  currency: Currencies()[ticker ?? ''],
-                  customCurrency: customCurrency,
-                  account: account,
+                  balance: state.balance,
+                  feeError: state.error,
+                  fee: state.fee,
+                  custodians: state.custodians,
+                  requireConfirmations: state.requireConfirmations,
+                  tonIconPath: state.tonIconPath,
+                  currency: Currencies()[state.ticker ?? ''],
+                  customCurrency: state.currency,
                 ),
                 canPrev: true,
-              );
-            },
-            deployed: (
-              fee,
-              balance,
-              transaction,
-              custodians,
-              requireConfirmations,
-              tonIconPath,
-            ) =>
-                _scaffold(
-              WalletDeployConfirmView(
-                publicKey: publicKey,
-                balance: balance,
-                fee: fee,
-                custodians: custodians,
-                requireConfirmations: requireConfirmations,
-                tonIconPath: tonIconPath,
               ),
-            ),
-            deploying: (canClose) => Padding(
-              padding: const EdgeInsets.all(DimensSize.d16),
-              child: TransactionSendingWidget(
-                canClose: canClose,
-                popOnComplete: false,
-                isDeploying: true,
+            WalletDeployStateReadyToDeploy() => _scaffold(
+                WalletDeployConfirmView(
+                  publicKey: publicKey,
+                  balance: state.balance,
+                  fee: state.fee,
+                  custodians: state.custodians,
+                  requireConfirmations: state.requireConfirmations,
+                  tonIconPath: state.tonIconPath,
+                  currency: Currencies()[state.ticker ?? ''],
+                  customCurrency: state.currency,
+                  account: state.account,
+                ),
+                canPrev: true,
               ),
-            ),
-            orElse: () => _scaffold(const SizedBox(), canPrev: true),
-          );
+            WalletDeployStateDeployed() => _scaffold(
+                WalletDeployConfirmView(
+                  publicKey: publicKey,
+                  balance: state.balance,
+                  fee: state.fee,
+                  custodians: state.custodians,
+                  requireConfirmations: state.requireConfirmations,
+                  tonIconPath: state.tonIconPath,
+                ),
+              ),
+            WalletDeployStateDeploying(:final canClose) => Scaffold(
+                body: Padding(
+                  padding: const EdgeInsets.all(DimensSize.d16),
+                  child: TransactionSendingWidget(
+                    canClose: canClose,
+                    popOnComplete: false,
+                    isDeploying: true,
+                  ),
+                ),
+              ),
+          };
         },
       ),
     );

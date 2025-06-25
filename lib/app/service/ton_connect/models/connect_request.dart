@@ -5,7 +5,7 @@ part 'connect_request.freezed.dart';
 part 'connect_request.g.dart';
 
 @freezed
-class ConnectRequest with _$ConnectRequest {
+abstract class ConnectRequest with _$ConnectRequest {
   factory ConnectRequest({
     required String manifestUrl,
     required List<ConnectItem> items,

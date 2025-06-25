@@ -6,14 +6,13 @@ part of 'sign_data_result.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-_$SignDataResultImpl _$$SignDataResultImplFromJson(Map<String, dynamic> json) =>
-    _$SignDataResultImpl(
+_SignDataResult _$SignDataResultFromJson(Map<String, dynamic> json) =>
+    _SignDataResult(
       signature: json['signature'] as String,
       timestamp: json['timestamp'] as String,
     );
 
-Map<String, dynamic> _$$SignDataResultImplToJson(
-        _$SignDataResultImpl instance) =>
+Map<String, dynamic> _$SignDataResultToJson(_SignDataResult instance) =>
     <String, dynamic>{
       'signature': instance.signature,
       'timestamp': instance.timestamp,

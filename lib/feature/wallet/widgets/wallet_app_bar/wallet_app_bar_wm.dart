@@ -50,12 +50,12 @@ class WalletAppBarWidgetModel
   Future<void> onScanQr() async {
     final result = await showQrScanner(context);
 
-    if (!context.mounted) return;
+    if (!context.mounted || result == null) return;
 
-    result?.when(
-      address: _handleAddress,
-      uri: _handleUri,
-    );
+    return switch (result) {
+      QrScanResultAddress(:final value) => _handleAddress(value),
+      QrScanResultUri(:final value) => _handleUri(value),
+    };
   }
 
   void _handleAddress(Address address) {

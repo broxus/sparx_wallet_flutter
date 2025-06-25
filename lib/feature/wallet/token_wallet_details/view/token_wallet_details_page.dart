@@ -37,45 +37,52 @@ class _TokenWalletDetailsPageState extends State<TokenWalletDetailsPage> {
 
   @override
   Widget build(BuildContext context) {
-    return BlocProvider<TokenWalletDetailsCubit>(
-      create: (_) => TokenWalletDetailsCubit(
-        owner: widget.owner,
-        rootTokenContract: widget.rootTokenContract,
-        nekotonRepository: inject(),
-        currencyConvertService: inject(),
-        balanceService: inject(),
-        assetsService: inject(),
-      ),
-      child: BlocBuilder<TokenWalletDetailsCubit, TokenWalletDetailsState>(
-        builder: (context, state) {
-          return state.when(
-            initial: () => const SizedBox.shrink(),
-            empty: () => const SizedBox.shrink(),
-            subscribeError: (contractName, error, isLoading) => _Body(
-              owner: widget.owner,
-              rootTokenContract: widget.rootTokenContract,
-              contractName: contractName,
-              error: error,
-              isLoadingError: isLoading,
-              controller: controller,
-            ),
-            data: (
-              contractName,
-              tokenBalance,
-              fiatBalance,
-              canSend,
-            ) =>
+    return Scaffold(
+      body: BlocProvider<TokenWalletDetailsCubit>(
+        create: (_) => TokenWalletDetailsCubit(
+          owner: widget.owner,
+          rootTokenContract: widget.rootTokenContract,
+          nekotonRepository: inject(),
+          currencyConvertService: inject(),
+          balanceService: inject(),
+          assetsService: inject(),
+        ),
+        child: BlocBuilder<TokenWalletDetailsCubit, TokenWalletDetailsState>(
+          builder: (context, state) {
+            return switch (state) {
+              TokenWalletDetailsStateInitial() => const SizedBox.shrink(),
+              TokenWalletDetailsStateEmpty() => const SizedBox.shrink(),
+              TokenWalletDetailsStateSubscribeError(
+                :final contractName,
+                :final error,
+                :final isLoading,
+              ) =>
                 _Body(
-              owner: widget.owner,
-              rootTokenContract: widget.rootTokenContract,
-              contractName: contractName,
-              tokenBalance: tokenBalance,
-              fiatBalance: fiatBalance,
-              canSend: canSend,
-              controller: controller,
-            ),
-          );
-        },
+                  owner: widget.owner,
+                  rootTokenContract: widget.rootTokenContract,
+                  contractName: contractName,
+                  error: error,
+                  isLoadingError: isLoading,
+                  controller: controller,
+                ),
+              TokenWalletDetailsStateData(
+                :final contractName,
+                :final tokenBalance,
+                :final fiatBalance,
+                :final canSend,
+              ) =>
+                _Body(
+                  owner: widget.owner,
+                  rootTokenContract: widget.rootTokenContract,
+                  contractName: contractName,
+                  tokenBalance: tokenBalance,
+                  fiatBalance: fiatBalance,
+                  canSend: canSend,
+                  controller: controller,
+                ),
+            };
+          },
+        ),
       ),
     );
   }
@@ -228,11 +235,13 @@ class _Background extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => Positioned.fill(
-        child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: DimensSizeV2.d28),
-          child: Image.asset(
-            Assets.images.walletBg.walletBg.path,
-            fit: BoxFit.cover,
+        child: SafeArea(
+          child: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: DimensSizeV2.d28),
+            child: Image.asset(
+              Assets.images.walletBg.walletBg.path,
+              fit: BoxFit.cover,
+            ),
           ),
         ),
       );

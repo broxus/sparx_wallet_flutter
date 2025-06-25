@@ -6,8 +6,8 @@ part of 'gas_price_params.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-_$GasPriceParamsImpl _$$GasPriceParamsImplFromJson(Map<String, dynamic> json) =>
-    _$GasPriceParamsImpl(
+_GasPriceParams _$GasPriceParamsFromJson(Map<String, dynamic> json) =>
+    _GasPriceParams(
       tag1: json['tag1'] as String,
       tag2: json['tag2'] as String,
       gasPrice: amountJsonConverter.fromJson(json['gasPrice'] as String),
@@ -27,8 +27,7 @@ _$GasPriceParamsImpl _$$GasPriceParamsImplFromJson(Map<String, dynamic> json) =>
           amountJsonConverter.fromJson(json['flatGasPrice'] as String),
     );
 
-Map<String, dynamic> _$$GasPriceParamsImplToJson(
-        _$GasPriceParamsImpl instance) =>
+Map<String, dynamic> _$GasPriceParamsToJson(_GasPriceParams instance) =>
     <String, dynamic>{
       'tag1': instance.tag1,
       'tag2': instance.tag2,
