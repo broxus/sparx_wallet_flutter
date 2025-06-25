@@ -1,4 +1,5 @@
 import 'package:app/app/service/service.dart';
+import 'package:app/feature/ton_connect/ton_connect.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:injectable/injectable.dart';
 import 'package:logging/logging.dart';
