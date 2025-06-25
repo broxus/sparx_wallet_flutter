@@ -53,10 +53,12 @@ class InpageProvider extends ProviderApi {
     final permissions = permissionsService.getPermissions(origin);
 
     if (permissions == null) {
-      throw s.ApprovalsHandleException(LocaleKeys.permissionsNotGranted.tr());
+      throw s.PermissionsNotGrantedException(
+        LocaleKeys.permissionsNotGranted.tr(),
+      );
     }
     if (permissions.basic != true) {
-      throw s.ApprovalsHandleException(
+      throw s.PermissionsNotGrantedException(
         LocaleKeys.basicInteractionNotPermitted.tr(),
       );
     }
@@ -74,25 +76,27 @@ class InpageProvider extends ProviderApi {
     final accountInteraction = permissions?.accountInteraction;
 
     if (permissions == null) {
-      throw s.ApprovalsHandleException(LocaleKeys.permissionsNotGranted.tr());
+      throw s.PermissionsNotGrantedException(
+        LocaleKeys.permissionsNotGranted.tr(),
+      );
     }
     if (permissions.basic != true) {
-      throw s.ApprovalsHandleException(
+      throw s.PermissionsNotGrantedException(
         LocaleKeys.basicInteractionNotPermitted.tr(),
       );
     }
     if (accountInteraction == null) {
-      throw s.ApprovalsHandleException(
+      throw s.PermissionsNotGrantedException(
         LocaleKeys.accountInteractionNotPermitted.tr(),
       );
     }
     if (account != null && accountInteraction.address != account) {
-      throw s.ApprovalsHandleException(
+      throw s.PermissionsNotGrantedException(
         LocaleKeys.specifiedAccountInteractionNotPermitted.tr(),
       );
     }
     if (publicKey != null && accountInteraction.publicKey != publicKey) {
-      throw s.ApprovalsHandleException(
+      throw s.PermissionsNotGrantedException(
         LocaleKeys.specifiedSignerIsNotPermitted.tr(),
       );
     }
@@ -1560,6 +1564,9 @@ class InpageProvider extends ProviderApi {
     _logger.finest('method: $method, params: $params');
     try {
       return await super.call(method, params);
+    } on s.PermissionsNotGrantedException catch (e, t) {
+      _logger.severe(method, e.message, t);
+      rethrow;
     } on s.ApprovalsHandleException catch (e, t) {
       _logger.severe(method, e.message, t);
       messengerService.show(Message.error(message: e.message));
