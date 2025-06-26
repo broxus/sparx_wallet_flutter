@@ -4,7 +4,7 @@ part 'ton_assets_manifest_version.freezed.dart';
 part 'ton_assets_manifest_version.g.dart';
 
 @freezed
-class TonAssetsManifestVersion with _$TonAssetsManifestVersion {
+abstract class TonAssetsManifestVersion with _$TonAssetsManifestVersion {
   const factory TonAssetsManifestVersion({
     required int major,
     required int minor,

@@ -1,5 +1,5 @@
+import 'package:app/core/wm/custom_wm.dart';
 import 'package:app/feature/qa/view/qa_wm.dart';
-import 'package:elementary/elementary.dart';
 import 'package:elementary_helper/elementary_helper.dart';
 import 'package:flutter/material.dart';
 import 'package:ui_components_lib/ui_components_lib.dart';
@@ -49,11 +49,10 @@ class _InfoRow extends StatelessWidget {
   }
 }
 
-class QaSheet extends ElementaryWidget<QaWidgetModel> {
+class QaSheet extends InjectedElementaryWidget<QaWidgetModel> {
   const QaSheet({
-    Key? key,
-    WidgetModelFactory wmFactory = defaultQaWidgetModelFactory,
-  }) : super(wmFactory, key: key);
+    super.key,
+  });
 
   @override
   Widget build(QaWidgetModel wm) {

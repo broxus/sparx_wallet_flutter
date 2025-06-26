@@ -1,30 +1,40 @@
 import 'dart:async';
 
-import 'package:app/core/error_handler_factory.dart';
+import 'package:app/app/service/ton_connect/models/sign_data_payload.dart';
+import 'package:app/app/service/ton_connect/models/ton_app_connection.dart';
 import 'package:app/core/wm/custom_wm.dart';
-import 'package:app/di/di.dart';
 import 'package:app/feature/messenger/data/message.dart';
 import 'package:app/feature/ton_connect/ton_connect.dart';
 import 'package:app/utils/utils.dart';
 import 'package:elementary_helper/elementary_helper.dart';
 import 'package:flutter/material.dart';
+import 'package:injectable/injectable.dart';
 
-TCSignDataWidgetModel defaultTCSignDataWidgetModelFactory(
-  BuildContext context,
-) =>
-    TCSignDataWidgetModel(
-      TCSignDataModel(
-        createPrimaryErrorHandler(context),
-        inject(),
-        inject(),
-      ),
-    );
+class TCSignDataWmParams {
+  TCSignDataWmParams({
+    required this.connection,
+    required this.payload,
+  });
 
+  final TonAppConnection connection;
+  final SignDataPayload payload;
+}
+
+@injectable
 class TCSignDataWidgetModel
     extends CustomWidgetModel<TCSignDataWidget, TCSignDataModel> {
-  TCSignDataWidgetModel(super.model);
+  TCSignDataWidgetModel(
+    super.model,
+    @factoryParam this._wmParams,
+  );
 
-  late final account = model.getAccount(widget.connection.walletAddress);
+  final TCSignDataWmParams _wmParams;
+
+  TonAppConnection get connection => _wmParams.connection;
+
+  SignDataPayload get payload => _wmParams.payload;
+
+  late final account = model.getAccount(_wmParams.connection.walletAddress);
 
   late final _isLoading = createNotifier(true);
 
@@ -37,8 +47,8 @@ class TCSignDataWidgetModel
       _isLoading.accept(true);
 
       final result = await model.signData(
-        schema: widget.payload.schema,
-        cell: widget.payload.cell,
+        schema: _wmParams.payload.schema,
+        cell: _wmParams.payload.cell,
         publicKey: account!.publicKey,
         password: password,
       );

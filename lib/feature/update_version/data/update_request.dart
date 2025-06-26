@@ -6,7 +6,7 @@ part 'update_request.freezed.dart';
 
 /// Represents a request to show an update notification to the user
 @freezed
-class UpdateRequest with _$UpdateRequest {
+abstract class UpdateRequest with _$UpdateRequest {
   /// Creates a new update request
   const factory UpdateRequest({
     /// The status of the update (blocking, warning, none)

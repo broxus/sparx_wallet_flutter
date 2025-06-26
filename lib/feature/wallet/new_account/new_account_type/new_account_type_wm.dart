@@ -4,32 +4,35 @@ import 'dart:async';
 
 import 'package:app/app/router/router.dart';
 import 'package:app/app/service/connection/connection_service.dart';
-import 'package:app/core/error_handler_factory.dart';
 import 'package:app/core/wm/custom_wm.dart';
-import 'package:app/di/di.dart';
 import 'package:app/feature/wallet/new_account/add_account.dart';
 import 'package:app/feature/wallet/new_account/new_account_type/new_account_type_model.dart';
 import 'package:app/feature/wallet/route.dart';
 import 'package:collection/collection.dart';
 import 'package:elementary_helper/elementary_helper.dart';
-import 'package:flutter/material.dart';
+import 'package:injectable/injectable.dart';
 import 'package:nekoton_repository/nekoton_repository.dart';
 import 'package:ui_components_lib/v2/ui_components_lib_v2.dart';
 
-NewAccountTypeWidgetModel defaultNewAccountTypeWidgetModelFactory(
-  BuildContext context,
-) =>
-    NewAccountTypeWidgetModel(
-      NewAccountTypeModel(
-        createPrimaryErrorHandler(context),
-        inject(),
-        inject(),
-      ),
-    );
+class NewAccountTypeWmParams {
+  NewAccountTypeWmParams({
+    required this.publicKey,
+    required this.password,
+  });
 
+  final PublicKey publicKey;
+  final String? password;
+}
+
+@injectable
 class NewAccountTypeWidgetModel
     extends CustomWidgetModel<NewAccountTypeWidget, NewAccountTypeModel> {
-  NewAccountTypeWidgetModel(super.model);
+  NewAccountTypeWidgetModel(
+    super.model,
+    @factoryParam this._wmParams,
+  );
+
+  final NewAccountTypeWmParams _wmParams;
 
   late final controller = createTextEditingController();
   late final availableTypes = List<WalletType>.from(
@@ -74,8 +77,8 @@ class NewAccountTypeWidgetModel
       model.transport.isHmstr ||
       model.transport.isTon;
 
-  Set<WalletType> get disabledWalletTypes => widget.password == null
-      ? model.getCreatedAccountTypes(widget.publicKey).toSet()
+  Set<WalletType> get disabledWalletTypes => _wmParams.password == null
+      ? model.getCreatedAccountTypes(_wmParams.publicKey).toSet()
       : {};
 
   String getWalletName(WalletType walletType) =>
@@ -97,9 +100,9 @@ class NewAccountTypeWidgetModel
 
       final accountAddress = await model.createAccount(
         walletType: walletType,
-        publicKey: widget.publicKey,
+        publicKey: _wmParams.publicKey,
         name: name.isEmpty ? null : name,
-        password: widget.password,
+        password: _wmParams.password,
       );
 
       if (contextSafe != null) {

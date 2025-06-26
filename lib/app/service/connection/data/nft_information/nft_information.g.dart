@@ -6,16 +6,15 @@ part of 'nft_information.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-_$NftInformationImpl _$$NftInformationImplFromJson(Map<String, dynamic> json) =>
-    _$NftInformationImpl(
+_NftInformation _$NftInformationFromJson(Map<String, dynamic> json) =>
+    _NftInformation(
       marketplaceUrl: json['marketplaceUrl'] as String?,
       defaultCollections: (json['defaultCollections'] as List<dynamic>?)
           ?.map((e) => Address.fromJson(e as String))
           .toList(),
     );
 
-Map<String, dynamic> _$$NftInformationImplToJson(
-        _$NftInformationImpl instance) =>
+Map<String, dynamic> _$NftInformationToJson(_NftInformation instance) =>
     <String, dynamic>{
       'marketplaceUrl': instance.marketplaceUrl,
       'defaultCollections':

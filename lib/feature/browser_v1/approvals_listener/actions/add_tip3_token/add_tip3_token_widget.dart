@@ -1,9 +1,9 @@
+import 'package:app/core/wm/custom_wm.dart';
 import 'package:app/data/models/models.dart';
 import 'package:app/feature/browser_v1/approvals_listener/actions/add_tip3_token/add_tip3_token_wm.dart';
 import 'package:app/feature/browser_v1/approvals_listener/actions/widgets/widgets.dart';
 import 'package:app/feature/wallet/wallet.dart';
 import 'package:app/generated/generated.dart';
-import 'package:elementary/elementary.dart';
 import 'package:elementary_helper/elementary_helper.dart';
 import 'package:flutter/material.dart';
 import 'package:lucide_icons_flutter/lucide_icons.dart';
@@ -11,19 +11,22 @@ import 'package:nekoton_repository/nekoton_repository.dart';
 import 'package:ui_components_lib/ui_components_lib.dart';
 import 'package:ui_components_lib/v2/ui_components_lib_v2.dart';
 
-class AddTip3TokenWidget extends ElementaryWidget<AddTip3TokenWidgetModel> {
-  const AddTip3TokenWidget({
-    required this.origin,
-    required this.account,
-    required this.details,
+class AddTip3TokenWidget
+    extends InjectedElementaryWidget<AddTip3TokenWidgetModel> {
+  AddTip3TokenWidget({
+    required Uri origin,
+    required Address account,
+    required TokenContractAsset details,
     required this.scrollController,
-    Key? key,
-    WidgetModelFactory wmFactory = defaultAddTip3TokenWidgetModelFactory,
-  }) : super(wmFactory, key: key);
+    super.key,
+  }) : super(
+          wmFactoryParam: AddTip3TokenWmParams(
+            origin: origin,
+            account: account,
+            details: details,
+          ),
+        );
 
-  final Uri origin;
-  final Address account;
-  final TokenContractAsset details;
   final ScrollController scrollController;
 
   @override
@@ -37,7 +40,7 @@ class AddTip3TokenWidget extends ElementaryWidget<AddTip3TokenWidgetModel> {
     );
     final zeroBalance = Money.fromIntWithCurrency(
       0,
-      Currency.create(details.symbol, 0),
+      Currency.create(wm.details.symbol, 0),
     );
 
     return SeparatedColumn(
@@ -49,8 +52,8 @@ class AddTip3TokenWidget extends ElementaryWidget<AddTip3TokenWidgetModel> {
             child: SeparatedColumn(
               spacing: DimensSizeV2.d12,
               children: [
-                AccountInfoWidget(account: account),
-                WebsiteInfoWidget(uri: origin),
+                AccountInfoWidget(account: wm.account),
+                WebsiteInfoWidget(uri: wm.origin),
                 PrimaryCard(
                   color: theme.colors.background2,
                   borderRadius: BorderRadius.circular(DimensRadiusV2.radius12),
@@ -92,7 +95,7 @@ class AddTip3TokenWidget extends ElementaryWidget<AddTip3TokenWidgetModel> {
                                 ),
                                 Flexible(
                                   child: Text(
-                                    details.name,
+                                    wm.details.name,
                                     style: textStyle,
                                     overflow: TextOverflow.ellipsis,
                                     softWrap: false,
@@ -109,7 +112,7 @@ class AddTip3TokenWidget extends ElementaryWidget<AddTip3TokenWidgetModel> {
                           Text(LocaleKeys.symbolWord.tr(), style: labelStyle),
                           Flexible(
                             child: Text(
-                              details.symbol,
+                              wm.details.symbol,
                               style: textStyle,
                               overflow: TextOverflow.ellipsis,
                               softWrap: false,
@@ -123,7 +126,7 @@ class AddTip3TokenWidget extends ElementaryWidget<AddTip3TokenWidgetModel> {
                           Text(LocaleKeys.decimalsWord.tr(), style: labelStyle),
                           Flexible(
                             child: Text(
-                              details.decimals.toString(),
+                              wm.details.decimals.toString(),
                               style: textStyle,
                             ),
                           ),
@@ -151,7 +154,7 @@ class AddTip3TokenWidget extends ElementaryWidget<AddTip3TokenWidgetModel> {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(LocaleKeys.symbolWord.tr(), style: labelStyle),
-                          Text(details.address.address, style: textStyle),
+                          Text(wm.details.address.address, style: textStyle),
                         ],
                       ),
                     ],

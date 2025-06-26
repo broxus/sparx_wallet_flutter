@@ -6,7 +6,7 @@ part 'collection_meta.freezed.dart';
 part 'collection_meta.g.dart';
 
 @freezed
-class CollectionMeta with _$CollectionMeta {
+abstract class CollectionMeta with _$CollectionMeta {
   const factory CollectionMeta({
     required Address collection,
     required NetworkGroup networkGroup,

@@ -52,19 +52,21 @@ class CreateSeedView extends StatelessWidget {
                     const SizedBox(height: DimensSizeV2.d24),
                     BlocBuilder<CreateSeedCubit, CreateSeedCubitState>(
                       builder: (context, state) {
-                        return state.when(
-                          initial: Container.new,
-                          generated: (seed, isCopied) {
-                            return Column(
+                        return switch (state) {
+                          CreateSeedCubitStateInitial() => Container(),
+                          CreateSeedCubitStateGenerated(
+                            :final seed,
+                            :final isCopied
+                          ) =>
+                            Column(
                               mainAxisSize: MainAxisSize.min,
                               children: [
                                 _wordsField(seed),
                                 const SizedBox(height: DimensSizeV2.d4),
                                 _copyButton(isCopied),
                               ],
-                            );
-                          },
-                        );
+                            ),
+                        };
                       },
                     ),
                     const SizedBox(height: DimensSizeV2.d8),
@@ -74,10 +76,10 @@ class CreateSeedView extends StatelessWidget {
             ),
             BlocBuilder<CreateSeedCubit, CreateSeedCubitState>(
               builder: (context, state) {
-                final seed = state.maybeWhen(
-                  generated: (seed, _) => seed,
-                  orElse: SeedPhraseModel.empty,
-                );
+                final seed = switch (state) {
+                  CreateSeedCubitStateGenerated(:final seed) => seed,
+                  _ => SeedPhraseModel.empty(),
+                };
 
                 return Column(
                   children: [

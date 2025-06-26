@@ -6,9 +6,9 @@ part of 'stever_withdraw_request.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-_$StEverWithdrawRequestImpl _$$StEverWithdrawRequestImplFromJson(
+_StEverWithdrawRequest _$StEverWithdrawRequestFromJson(
         Map<String, dynamic> json) =>
-    _$StEverWithdrawRequestImpl(
+    _StEverWithdrawRequest(
       nonce: json['nonce'] as String,
       data: StEverWithdrawRequestData.fromJson(
           json['data'] as Map<String, dynamic>),
@@ -16,8 +16,8 @@ _$StEverWithdrawRequestImpl _$$StEverWithdrawRequestImplFromJson(
           .fromJson(json['accountAddress'] as String),
     );
 
-Map<String, dynamic> _$$StEverWithdrawRequestImplToJson(
-        _$StEverWithdrawRequestImpl instance) =>
+Map<String, dynamic> _$StEverWithdrawRequestToJson(
+        _StEverWithdrawRequest instance) =>
     <String, dynamic>{
       'nonce': instance.nonce,
       'data': instance.data.toJson(),
@@ -25,16 +25,16 @@ Map<String, dynamic> _$$StEverWithdrawRequestImplToJson(
           const NekotonAddressConverter().toJson(instance.accountAddress),
     };
 
-_$StEverWithdrawRequestDataImpl _$$StEverWithdrawRequestDataImplFromJson(
+_StEverWithdrawRequestData _$StEverWithdrawRequestDataFromJson(
         Map<String, dynamic> json) =>
-    _$StEverWithdrawRequestDataImpl(
+    _StEverWithdrawRequestData(
       amount: amountJsonConverter.fromJson(json['amount'] as String),
       timestamp: timestampFromStringJsonConverter
           .fromJson(json['timestamp'] as String),
     );
 
-Map<String, dynamic> _$$StEverWithdrawRequestDataImplToJson(
-        _$StEverWithdrawRequestDataImpl instance) =>
+Map<String, dynamic> _$StEverWithdrawRequestDataToJson(
+        _StEverWithdrawRequestData instance) =>
     <String, dynamic>{
       'amount': amountJsonConverter.toJson(instance.amount),
       'timestamp': timestampFromStringJsonConverter.toJson(instance.timestamp),

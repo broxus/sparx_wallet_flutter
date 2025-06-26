@@ -1,31 +1,16 @@
-import 'package:app/bootstrap/sentry.dart';
-import 'package:app/core/error_handler_factory.dart';
 import 'package:app/core/wm/custom_wm.dart';
-import 'package:app/di/di.dart';
 import 'package:app/feature/update_version/data/update_request.dart';
 import 'package:app/feature/update_version/view/update_version_model.dart';
 import 'package:app/feature/update_version/view/update_version_screen.dart';
 import 'package:app/utils/common_utils.dart';
 import 'package:elementary_helper/elementary_helper.dart';
 import 'package:flutter/material.dart';
+import 'package:injectable/injectable.dart';
 import 'package:rxdart/rxdart.dart';
 import 'package:ui_components_lib/v2/ui_components_lib_v2.dart';
 
-/// Factory for [UpdateVersionWidgetModel]
-UpdateVersionWidgetModel updateVersionWidgetModelFactory(
-  BuildContext context,
-) {
-  return UpdateVersionWidgetModel(
-    UpdateVersionModel(
-      createPrimaryErrorHandler(context),
-      inject(),
-      inject(),
-      SentryWorker.instance,
-    ),
-  );
-}
-
 /// Widget model for the [UpdateVersionScreen]
+@injectable
 class UpdateVersionWidgetModel
     extends CustomWidgetModel<UpdateVersionScreen, UpdateVersionModel> {
   UpdateVersionWidgetModel(super.model);

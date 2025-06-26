@@ -1,32 +1,34 @@
 import 'package:app/app/service/service.dart';
-import 'package:app/core/error_handler_factory.dart';
 import 'package:app/core/wm/custom_wm.dart';
-import 'package:app/di/di.dart';
 import 'package:app/feature/ton_connect/ton_connect.dart';
 import 'package:collection/collection.dart';
 import 'package:elementary_helper/elementary_helper.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:injectable/injectable.dart';
 import 'package:nekoton_repository/nekoton_repository.dart';
 
 enum TonConnectStep { account, confirm }
 
-TCConnectWidgetModel defaultTCConnectWidgetModelFactory(
-  BuildContext context,
-) =>
-    TCConnectWidgetModel(
-      TCConnectModel(
-        createPrimaryErrorHandler(context),
-        inject(),
-        inject(),
-      ),
-    );
+class TCConnectWmParams {
+  const TCConnectWmParams({
+    required this.request,
+    required this.manifest,
+  });
 
+  final ConnectRequest request;
+  final DappManifest manifest;
+}
+
+@injectable
 class TCConnectWidgetModel
     extends CustomWidgetModel<TCConnectWidget, TCConnectModel> {
-  TCConnectWidgetModel(super.model);
+  TCConnectWidgetModel(
+    super.model,
+    @factoryParam this._wmParams,
+  );
 
-  late final ScrollController scrollController = widget.scrollController;
+  final TCConnectWmParams _wmParams;
 
   late final searchController = createTextEditingController();
   late final _step = createValueNotifier(TonConnectStep.account);
@@ -48,7 +50,7 @@ class TCConnectWidgetModel
   KeyAccount? get _initialSelectedAccount =>
       model.currentAccount ?? model.accounts.firstOrNull;
 
-  DappManifest get manifest => widget.manifest;
+  DappManifest get manifest => _wmParams.manifest;
 
   void onNext() {
     if (_selected.value == null) return;
@@ -84,7 +86,7 @@ class TCConnectWidgetModel
     final replyItems = await model.createReplyItems(
       password: password,
       account: account,
-      request: widget.request,
+      request: _wmParams.request,
       manifest: manifest,
     );
 

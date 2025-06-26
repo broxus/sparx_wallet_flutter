@@ -25,20 +25,20 @@ class KeyDetailPage extends StatelessWidget {
         publicKey,
       )..init(),
       child: BlocConsumer<KeyDetailCubit, KeyDetailState>(
-        listener: (context, state) =>
-            state.whenOrNull(empty: () => context.compassBack()),
+        listener: (context, state) => switch (state) {
+          KeyDetailStateEmpty() => context.compassBack(),
+          _ => null,
+        },
         builder: (context, state) {
           SeedKey? key;
           String? seedName;
           KeyDetailAccountsTab? tab;
 
-          state.whenOrNull(
-            data: (k, name, t) {
-              key = k;
-              seedName = name;
-              tab = t;
-            },
-          );
+          if (state is KeyDetailStateData) {
+            key = state.key;
+            seedName = state.ownerSeedName;
+            tab = state.accountsTab;
+          }
 
           final hasData = key != null && seedName != null && tab != null;
 
@@ -64,9 +64,9 @@ class KeyDetailPage extends StatelessWidget {
                 : SafeArea(
                     minimum: const EdgeInsets.only(bottom: DimensSize.d16),
                     child: KeyDetailView(
-                      seedKey: key!,
-                      seedName: seedName!,
-                      tab: tab!,
+                      seedKey: key,
+                      seedName: seedName,
+                      tab: tab,
                     ),
                   ),
           );

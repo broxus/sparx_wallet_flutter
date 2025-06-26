@@ -1,22 +1,24 @@
+import 'package:app/core/wm/custom_wm.dart';
 import 'package:app/feature/browser_v1/approvals_listener/actions/widgets/website_info/website_info_wm.dart';
 import 'package:app/generated/generated.dart';
 import 'package:cached_network_image/cached_network_image.dart';
-import 'package:elementary/elementary.dart';
 import 'package:elementary_helper/elementary_helper.dart';
 import 'package:flutter/material.dart';
 import 'package:ui_components_lib/ui_components_lib.dart';
 import 'package:ui_components_lib/v2/ui_components_lib_v2.dart';
 
-class WebsiteInfoWidget extends ElementaryWidget<WebsiteInfoWidgetModel> {
-  const WebsiteInfoWidget({
-    required this.uri,
-    this.iconUrl,
-    Key? key,
-    WidgetModelFactory wmFactory = defaultWebsiteInfoWidgetModelFactory,
-  }) : super(wmFactory, key: key);
-
-  final Uri uri;
-  final Uri? iconUrl;
+class WebsiteInfoWidget
+    extends InjectedElementaryWidget<WebsiteInfoWidgetModel> {
+  WebsiteInfoWidget({
+    required Uri uri,
+    Uri? iconUrl,
+    super.key,
+  }) : super(
+          wmFactoryParam: WebsiteInfoWmParams(
+            uri: uri,
+            iconUrl: iconUrl,
+          ),
+        );
 
   @override
   Widget build(WebsiteInfoWidgetModel wm) => PrimaryCard(
@@ -59,7 +61,7 @@ class WebsiteInfoWidget extends ElementaryWidget<WebsiteInfoWidgetModel> {
                     ),
                   ),
                   Text(
-                    uri.origin,
+                    wm.uri.origin,
                     style: wm.theme.textStyles.labelSmall,
                     overflow: TextOverflow.ellipsis,
                     softWrap: false,

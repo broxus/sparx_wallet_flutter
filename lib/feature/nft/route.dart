@@ -1,3 +1,4 @@
+import 'package:app/app/router/compass/bottom_bar_state.dart';
 import 'package:app/app/router/compass/compass.dart';
 import 'package:app/feature/nft/nft.dart';
 import 'package:injectable/injectable.dart';
@@ -13,7 +14,7 @@ class NftRoute extends CompassRouteParameterless<NftRouteData> {
           path: '/nft',
           isSaveLocation: true,
           isSaveSubroutes: true,
-          isBottomNavigationBarVisible: true,
+          bottomBarState: BottomBarState.expanded,
           builder: (context, _, __) => const NftPageWidget(),
           compassBaseRoutes: [
             addNftRoute,
@@ -37,7 +38,7 @@ class AddNftRoute extends CompassRouteParameterless<AddNftRouteRouteData> {
   AddNftRoute()
       : super(
           path: '/add-nft',
-          isBottomNavigationBarVisible: false,
+          bottomBarState: BottomBarState.hidden,
           builder: (context, _, __) => const AddNftWidget(),
         );
 
