@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:typed_data';
 
 import 'package:app/app/service/approvals_service.dart';
@@ -135,27 +136,21 @@ class BrowserPageModel extends ElementaryModel {
   }
 
   Future<void> initUri(Uri uri) async {
-    final isLoaded = await loadPhishingGuardIfNeed(
-      path: uri.path,
-      host: uri.host,
-    );
+    final isPhishing = checkIsPhishingUri(uri);
 
-    if (isLoaded) {
+    if (isPhishing) {
+      unawaited(loadPhishingGuard(uri));
       return;
     }
 
-    return _browserService.tabs.requestUrlActiveTab(
+    return _browserService.tab.requestUrlActiveTab(
       uri.host == '' && uri.path == 'blank' ? WebUri('') : WebUri.uri(uri),
     );
   }
 
-  Future<bool> loadPhishingGuardIfNeed({
-    required String path,
-    required String host,
-  }) {
-    return _browserService.loadPhishingGuardIfNeed(
-      path: path,
-      host: host,
-    );
+  bool checkIsPhishingUri(Uri uri) => _browserService.checkIsPhishingUri(uri);
+
+  Future<void> loadPhishingGuard(Uri uri) {
+    return _browserService.loadPhishingGuard(_tabId, uri);
   }
 }

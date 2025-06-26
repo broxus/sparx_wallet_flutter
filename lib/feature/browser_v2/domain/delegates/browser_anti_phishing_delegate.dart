@@ -4,11 +4,13 @@ import 'package:app/app/service/resources_service.dart';
 import 'package:app/utils/json/json.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';
+import 'package:injectable/injectable.dart';
 import 'package:logging/logging.dart';
 import 'package:rxdart/rxdart.dart';
 
-class BrowserAntiPhishingManager {
-  BrowserAntiPhishingManager(this._resourcesService);
+@injectable
+class BrowserAntiPhishingDelegate {
+  BrowserAntiPhishingDelegate(this._resourcesService);
 
   final _blackListSubj = BehaviorSubject<List<String>>.seeded([]);
 

@@ -154,11 +154,7 @@ class BrowserPageWidgetModel
     await model.initEvents(customController);
 
     if (_url.isNotEmpty) {
-      await customController.loadUrl(
-        urlRequest: URLRequest(
-          url: WebUri.uri(_tab.url),
-        ),
-      );
+      unawaited(model.initUri(_tab.url));
     }
   }
 
@@ -283,6 +279,19 @@ class BrowserPageWidgetModel
 
     if (url == null) {
       return NavigationActionPolicy.ALLOW;
+    }
+
+    final isGuardPhishing = model.checkIsPhishingUri(url);
+
+    if (isGuardPhishing) {
+      unawaited(
+        model.loadPhishingGuard(url),
+      );
+      return NavigationActionPolicy.CANCEL;
+    }
+
+    if (isGuardPhishing) {
+      return NavigationActionPolicy.CANCEL;
     }
 
     final scheme = navigationAction.request.url?.scheme;

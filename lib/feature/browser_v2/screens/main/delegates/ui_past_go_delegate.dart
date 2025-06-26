@@ -32,8 +32,6 @@ class BrowserPastGoUiDelegate implements BrowserPastGoUi {
     _model.requestUrl(_model.activeTabId, text);
   }
 
-  //activeTabUrlHostState
-
   // ignore: avoid_positional_boolean_parameters
   void updateVisible(bool isView) {
     _showPastGoState.accept(isView);
