@@ -103,7 +103,7 @@ class BrowserGroupMenuWidgetModel
         await Navigator.of(context, rootNavigator: true).push<String>(
       MaterialPageRoute(
         builder: (_) {
-          return CreateBrowserGroupScreen();
+          return const CreateBrowserGroupScreen();
         },
       ),
     );

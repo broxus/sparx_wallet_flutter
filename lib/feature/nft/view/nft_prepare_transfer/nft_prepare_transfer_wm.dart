@@ -139,12 +139,10 @@ class NftPrepareTransferWidgetModel
 
     if (!context.mounted) return;
 
-    result?.whenOrNull(
-      address: (value) {
-        receiverController.text = value.address;
-        receiverFocus.unfocus();
-      },
-    );
+    if (result is QrScanResultAddress) {
+      receiverController.text = result.value.address;
+      receiverFocus.unfocus();
+    }
   }
 
   void onSubmittedReceiverAddress(_) {

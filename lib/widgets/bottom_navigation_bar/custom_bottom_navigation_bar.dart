@@ -1,5 +1,5 @@
-import 'package:app/core/wm/custom_wm.dart';
 import 'package:app/app/router/compass/bottom_bar_state.dart';
+import 'package:app/core/wm/custom_wm.dart';
 import 'package:app/feature/root/view/root_tab.dart';
 import 'package:app/widgets/bottom_navigation_bar/custom_bottom_navigation_bar_wm.dart';
 import 'package:elementary_helper/elementary_helper.dart';

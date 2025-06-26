@@ -22,106 +22,118 @@ class BrowserMainScreen
   Widget build(BrowserMainScreenWidgetModel wm) {
     return SafeArea(
       child: ApprovalsListenerWidget(
-        child: Stack(
-          children: [
-            BrowserTabsList(
-              key: wm.keys.tabListKey,
-              tabsState: wm.tabs.tabsState,
-              renderManager: wm.renderManager,
-              onPressedTabMenu: wm.tabMenu.showTabMenu,
-              onPressedTab: wm.onPressedTab,
-              onCloseTab: wm.tabs.onCloseTab,
-            ),
-            Positioned.fill(
-              child: Listener(
-                onPointerDown: wm.page.onPointerDown,
-                onPointerUp: wm.page.onPointerUp,
-                onPointerMove: wm.page.onPointerMove,
-                onPointerCancel: wm.page.onPointerCancel,
-                child: BrowserPagesView(
-                  width: wm.sizes.screenWidth,
-                  viewVisibleState: wm.viewVisibleState,
-                  tabsState: wm.tabs.tabsState,
-                  scrollController: wm.pageSlider.viewTabScrollController,
-                  paddingPageAnimation: wm.animations.paddingPageAnimation,
-                  onLoadingProgressChanged:
-                      wm.progressIndicator.onProgressChanged,
-                  onCreateWebViewController: wm.onCreateWebViewController,
-                  onWebPageScrollChanged: wm.page.onWebPageScrollChanged,
-                  onDispose: wm.onDisposeWebController,
+        child: Scaffold(
+          resizeToAvoidBottomInset: false,
+          body: SafeArea(
+            child: Stack(
+              children: [
+                BrowserTabsList(
+                  key: wm.keys.tabListKey,
+                  selectedGroupIdState: wm.tabs.selectedGroupIdState,
+                  tabListScrollController: wm.tabs.tabListScrollController,
+                  renderManager: wm.renderManager,
+                  onPressedTabMenu: wm.tabMenu.showTabMenu,
+                  onPressedGroup: wm.tabs.onPressedGroup,
+                  onPressedTab: wm.onPressedTab,
+                  onPressedCreateNewGroup: wm.onPressedCreateNewGroup,
                 ),
-              ),
-            ),
-            // // TODO(knightforce): optimize render
-            _ItemPosition(
-              child: BrowserProgressIndicator(
-                animation: wm.progressIndicator.animation,
-                menuState: wm.menuState,
-              ),
-            ),
-            TabAnimatedView(
-              onAnimationStart: wm.onTabAnimationStart,
-              onAnimationEnd: wm.onTabAnimationEnd,
-              showAnimationState: wm.tabs.showAnimationState,
-            ),
-            _ItemPosition(
-              child: _MenuAnimation(
-                controller: wm.animations.listMenuAnimation,
-                offsetAnimation: wm.animations.listMenuOffsetAnimation,
-                opacityAnimation: wm.animations.listMenuOpacityAnimation,
-                child: BrowserTabsListActionBar(
-                  key: wm.keys.listKey,
-                  tabsState: wm.tabs.tabsState,
-                  onCloseAllPressed: wm.tabs.onCloseAllPressed,
-                  onPlusPressed: wm.tabs.addTab,
-                  onDonePressed: wm.onDonePressed,
-                ),
-              ),
-            ),
-            _ItemPosition(
-              child: _MenuAnimation(
-                controller: wm.animations.viewMenuAnimation,
-                offsetAnimation: wm.animations.viewMenuOffsetAnimation,
-                opacityAnimation: wm.animations.viewMenuOpacityAnimation,
-                child: NotificationListener<ScrollNotification>(
-                  onNotification: wm.pageSlider.onScrollNotification,
-                  child: BrowserPageControlPanel(
-                    key: wm.keys.viewKey,
-                    menuUrlPanelWidth: wm.sizes.screenWidth,
-                    urlWidth: wm.sizes.urlWidth,
-                    onPressedTabs: wm.onPressedTabs,
-                    onPressedCurrentUrlMenu: wm.onPressedCurrentUrlMenu,
-                    onPressedRefresh: wm.onPressedRefresh,
-                    onEditingCompleteUrl: wm.onEditingCompleteUrl,
-                    urlSliderController: wm.pageSlider.urlSliderController,
-                    tabsState: wm.tabs.tabsState,
-                    navigationScrollModeState: wm.navigationScrollModeState,
+                Positioned.fill(
+                  child: Listener(
+                    onPointerDown: wm.page.onPointerDown,
+                    onPointerUp: wm.page.onPointerUp,
+                    onPointerMove: wm.page.onPointerMove,
+                    onPointerCancel: wm.page.onPointerCancel,
+                    child: BrowserPagesView(
+                      width: wm.sizes.screenWidth,
+                      viewVisibleState: wm.viewVisibleState,
+                      tabsState: wm.tabs.viewTabsState,
+                      viewTabScrollController:
+                          wm.pageSlider.viewTabScrollController,
+                      paddingPageAnimation: wm.animations.paddingPageAnimation,
+                      onLoadingProgressChanged:
+                          wm.progressIndicator.onProgressChanged,
+                      onCreateWebViewController: wm.onCreateWebViewController,
+                      onWebPageScrollChanged: wm.page.onWebPageScrollChanged,
+                      onDispose: wm.onDisposeWebController,
+                    ),
                   ),
                 ),
-              ),
-            ),
-            _ItemPosition(
-              child: _MenuAnimation(
-                controller: wm.animations.urlMenuAnimation,
-                offsetAnimation: wm.animations.urlMenuOffsetAnimation,
-                opacityAnimation: wm.animations.urlMenuOpacityAnimation,
-                child: HostPanel(
-                  wm.tabs.activeTabState,
-                  key: wm.keys.urlKey,
-                  onPressed: wm.onPressedViewUrlPanel,
+                // // TODO(knightforce): optimize render
+                _ItemPosition(
+                  child: BrowserProgressIndicator(
+                    animation: wm.progressIndicator.animation,
+                    menuState: wm.menuState,
+                  ),
                 ),
-              ),
+                TabAnimatedView(
+                  onAnimationStart: wm.onTabAnimationStart,
+                  onAnimationEnd: wm.onTabAnimationEnd,
+                  showAnimationState: wm.tabs.tabAnimationTypeState,
+                ),
+                _ItemPosition(
+                  child: _MenuAnimation(
+                    controller: wm.animations.listMenuAnimation,
+                    offsetAnimation: wm.animations.listMenuOffsetAnimation,
+                    opacityAnimation: wm.animations.listMenuOpacityAnimation,
+                    child: BrowserTabsListActionBar(
+                      key: wm.keys.listKey,
+                      allTabsIdsState: wm.allTabsIdsState,
+                      activeTabIdState: wm.activeTabIdState,
+                      onCloseAllPressed: wm.tabs.onCloseAllPressed,
+                      onGroupsMenuPressed: wm.onGroupsMenuPressed,
+                      onPlusPressed: wm.tabs.addTab,
+                      onDonePressed: wm.onDonePressed,
+                    ),
+                  ),
+                ),
+                _ItemPosition(
+                  child: _MenuAnimation(
+                    controller: wm.animations.viewMenuAnimation,
+                    offsetAnimation: wm.animations.viewMenuOffsetAnimation,
+                    opacityAnimation: wm.animations.viewMenuOpacityAnimation,
+                    child: NotificationListener<ScrollNotification>(
+                      onNotification: wm.pageSlider.onScrollNotification,
+                      child: BrowserPageControlPanel(
+                        key: wm.keys.viewKey,
+                        menuUrlPanelWidth: wm.sizes.screenWidth,
+                        urlWidth: wm.sizes.urlWidth,
+                        onPressedDotsPressed: wm.onPressedDotsPressed,
+                        onPressedTabs: wm.onPressedTabs,
+                        onPressedCurrentUrlMenu: wm.onPressedCurrentUrlMenu,
+                        onPressedRefresh: wm.onPressedRefresh,
+                        onEditingCompleteUrl: wm.onEditingCompleteUrl,
+                        urlSliderPageController:
+                            wm.pageSlider.urlSliderPageController,
+                        tabsState: wm.tabs.viewTabsState,
+                        onPageChanged: wm.pageSlider.onPageChanged,
+                      ),
+                    ),
+                  ),
+                ),
+                _ItemPosition(
+                  child: _MenuAnimation(
+                    controller: wm.animations.urlMenuAnimation,
+                    offsetAnimation: wm.animations.urlMenuOffsetAnimation,
+                    opacityAnimation: wm.animations.urlMenuOpacityAnimation,
+                    child: HostPanel(
+                      wm.tabs.hostState,
+                      key: wm.keys.urlKey,
+                      onPressed: wm.onPressedViewUrlPanel,
+                    ),
+                  ),
+                ),
+                Positioned(
+                  bottom: BrowserTabsListActionBar.height + 44,
+                  left: 0,
+                  right: 0,
+                  child: _PastGoView(
+                    showState: wm.pastGo.showPastGoState,
+                    onPressed: wm.pastGo.onPastGoPressed,
+                  ),
+                ),
+              ],
             ),
-            Positioned(
-              bottom: BrowserTabsListActionBar.height + 44,
-              left: 0,
-              right: 0,
-              child: _PastGoView(
-                showState: wm.pastGo.showPastGoState,
-                onPressed: wm.onPastGoPressed,
-              ),
-            ),
-          ],
+          ),
         ),
       ),
     );
