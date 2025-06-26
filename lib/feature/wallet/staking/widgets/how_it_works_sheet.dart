@@ -73,10 +73,10 @@ class StEverHowItWorksSheet extends StatelessWidget {
                           Assets.images.tokenDefaultIcon.path,
                     ),
                     title: LocaleKeys.receiveSteverTitle.tr(
-                      args: [info.tokenWallet.symbol.name],
+                      args: [info.tokenWallet.currency.symbol],
                     ),
                     subtitle: LocaleKeys.receiveSteverSubtitle.tr(
-                      args: [info.tokenWallet.symbol.name],
+                      args: [info.tokenWallet.currency.symbol],
                     ),
                   ),
                   _step(
@@ -85,10 +85,10 @@ class StEverHowItWorksSheet extends StatelessWidget {
                       height: DimensSizeV2.d40,
                     ),
                     title: LocaleKeys.useSteverTitle.tr(
-                      args: [info.tokenWallet.symbol.name],
+                      args: [info.tokenWallet.currency.symbol],
                     ),
                     subtitle: LocaleKeys.useSteverSubtitle.tr(
-                      args: [info.tokenWallet.symbol.name],
+                      args: [info.tokenWallet.currency.symbol],
                     ),
                   ),
                 ],

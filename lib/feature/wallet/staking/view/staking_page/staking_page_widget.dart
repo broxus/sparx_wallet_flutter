@@ -118,7 +118,7 @@ class _StakingViewWidget extends StatelessWidget {
                         text: LocaleKeys.stakeEverReceiverStever.tr(
                           args: [
                             wm.currency.symbol,
-                            info?.tokenWallet.symbol.name ?? '',
+                            info?.tokenWallet.currency.symbol ?? '',
                           ],
                         ),
                         style: theme.textStyles.paragraphMedium.copyWith(
