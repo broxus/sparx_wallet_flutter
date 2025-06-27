@@ -77,21 +77,6 @@ jobs:
             exit 1
           fi
 
-      - name: Fetch anti-phishing lists
-        run: |
-          curl -s https://raw.githubusercontent.com/broxus/ever-wallet-anti-phishing/master/blacklist.json  -o /tmp/blacklist1.json
-          curl -s https://raw.githubusercontent.com/MetaMask/eth-phishing-detect/refs/heads/main/src/config.json     -o /tmp/config.json
-          mkdir -p assets/config
-          jq -s '(.[0] + .[1].blacklist) | unique | { blacklist: . }' \
-          /tmp/blacklist1.json /tmp/config.json \
-          > assets/config/anti_phishing.json
-
-      - name: Upload anti-phishing file
-        uses: actions/upload-artifact@v4
-        with:
-          name: anti-phishing-json
-          path: assets/config/anti_phishing.json
-
       - name: Read Flutter version
         id: read_flutter
         run: echo "flutter_version=$(cat .github/configs/flutter_version)" >> $GITHUB_OUTPUT
@@ -282,27 +267,6 @@ jobs:
           cache: true
           cache-key: flutter-:os:-:channel:-:version:-:arch:-:hash:-${{ hashFiles('**/pubspec.lock') }}
 
-      - name: Remove default anti_phishing.json
-        run: |
-          rm -f assets/config/anti_phishing.json
-
-      - name: Download anti-phishing file
-        uses: actions/download-artifact@v4
-        with:
-          name: anti-phishing-json
-          path: assets/config
-
-      - name: Refresh Flutter assets manifest
-        run: |
-          touch assets/config/anti_phishing.json
-          dart pub get
-
-      - name: Debug anti_phishing.json
-        run: |
-          echo "→ Content assets/config:"
-          ls -l assets/config
-          cat assets/config/anti_phishing.json
-
       - name: Display Flutter version
         run: flutter --version
 
@@ -326,6 +290,25 @@ jobs:
 
       - name: Display flavor target
         run: echo "Flavor target is = ${{ inputs.flavor }}"
+
+      - name: Fetch & merge anti-phishing lists
+        run: |
+          curl -s https://raw.githubusercontent.com/broxus/ever-wallet-anti-phishing/master/blacklist.json \
+            -o /tmp/blacklist1.json
+          curl -s https://raw.githubusercontent.com/MetaMask/eth-phishing-detect/refs/heads/main/src/config.json \
+            -o /tmp/config.json
+          mkdir -p assets/config
+          jq -s '(.[0] + .[1].blacklist) | unique | { blacklist: . }' \
+            /tmp/blacklist1.json /tmp/config.json \
+            > assets/config/anti_phishing.json
+          echo "→ New anti_phishing.json:"
+          head -n 5 assets/config/anti_phishing.json
+
+      - name: Flutter clean
+        run: flutter clean
+
+      - name: Get Flutter packages
+        run: dart pub get
 
       - name: Build and deploy
         run: |
