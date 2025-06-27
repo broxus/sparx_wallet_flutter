@@ -16,22 +16,10 @@ class ColorsStory extends StatelessWidget {
           child: Wrap(
             children: [
               /// Order for colors same as in ColorsPalette
-              _ColorItem(
-                color: colors.textPrimary,
-                name: 'textPrimary',
-              ),
-              _ColorItem(
-                color: colors.textSecondary,
-                name: 'textSecondary',
-              ),
-              _ColorItem(
-                color: colors.textContrast,
-                name: 'textContrast',
-              ),
-              _ColorItem(
-                color: colors.appBackground,
-                name: 'appBackground',
-              ),
+              _ColorItem(color: colors.textPrimary, name: 'textPrimary'),
+              _ColorItem(color: colors.textSecondary, name: 'textSecondary'),
+              _ColorItem(color: colors.textContrast, name: 'textContrast'),
+              _ColorItem(color: colors.appBackground, name: 'appBackground'),
               _ColorItem(
                 color: colors.backgroundPrimary,
                 name: 'backgroundPrimary',
@@ -40,62 +28,23 @@ class ColorsStory extends StatelessWidget {
                 color: colors.backgroundSecondary,
                 name: 'backgroundSecondary',
               ),
-              _ColorItem(
-                color: colors.strokePrimary,
-                name: 'strokePrimary',
-              ),
+              _ColorItem(color: colors.strokePrimary, name: 'strokePrimary'),
               _ColorItem(
                 color: colors.strokeSecondary,
                 name: 'strokeSecondary',
               ),
-              _ColorItem(
-                color: colors.strokeContrast,
-                name: 'strokeContrast',
-              ),
-              _ColorItem(
-                color: colors.alert,
-                name: 'alert',
-              ),
-              _ColorItem(
-                color: colors.apply,
-                name: 'apply',
-              ),
-              _ColorItem(
-                color: colors.blue,
-                name: 'blue',
-              ),
-              _ColorItem(
-                color: colors.blueSecond,
-                name: 'blueSecond',
-              ),
-              _ColorItem(
-                color: colors.labelYellow,
-                name: 'labelYellow',
-              ),
-              _ColorItem(
-                color: colors.labelOrange,
-                name: 'labelOrange',
-              ),
-              _ColorItem(
-                color: colors.lightBlue,
-                name: 'lightBlue',
-              ),
-              _ColorItem(
-                color: colors.lightGreen,
-                name: 'lightGreen',
-              ),
-              _ColorItem(
-                color: colors.lightOrange,
-                name: 'lightOrange',
-              ),
-              _ColorItem(
-                color: colors.lightRed,
-                name: 'lightRed',
-              ),
-              _ColorItem(
-                gradient: colors.gradient,
-                name: 'gradient',
-              ),
+              _ColorItem(color: colors.strokeContrast, name: 'strokeContrast'),
+              _ColorItem(color: colors.alert, name: 'alert'),
+              _ColorItem(color: colors.apply, name: 'apply'),
+              _ColorItem(color: colors.blue, name: 'blue'),
+              _ColorItem(color: colors.blueSecond, name: 'blueSecond'),
+              _ColorItem(color: colors.labelYellow, name: 'labelYellow'),
+              _ColorItem(color: colors.labelOrange, name: 'labelOrange'),
+              _ColorItem(color: colors.lightBlue, name: 'lightBlue'),
+              _ColorItem(color: colors.lightGreen, name: 'lightGreen'),
+              _ColorItem(color: colors.lightOrange, name: 'lightOrange'),
+              _ColorItem(color: colors.lightRed, name: 'lightRed'),
+              _ColorItem(gradient: colors.gradient, name: 'gradient'),
             ],
           ),
         ),
@@ -105,11 +54,7 @@ class ColorsStory extends StatelessWidget {
 }
 
 class _ColorItem extends StatelessWidget {
-  const _ColorItem({
-    required this.name,
-    this.color,
-    this.gradient,
-  });
+  const _ColorItem({required this.name, this.color, this.gradient});
 
   final Color? color;
   final List<Color>? gradient;

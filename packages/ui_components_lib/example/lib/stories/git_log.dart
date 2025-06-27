@@ -30,9 +30,7 @@ class _GitLogState extends State<GitLog> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: SizedBox.expand(
-        child: SingleChildScrollView(
-          child: Text(_logs ?? ''),
-        ),
+        child: SingleChildScrollView(child: Text(_logs ?? '')),
       ),
     );
   }
