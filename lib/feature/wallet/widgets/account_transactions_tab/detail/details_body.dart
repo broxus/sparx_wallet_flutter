@@ -92,6 +92,7 @@ class WalletTransactionDetailsDefaultBody extends StatelessWidget {
           valueWidget: AmountWidget.fromMoney(
             amount: value,
             includeSymbol: false,
+            useDefaultFormat: false,
             sign: isIncoming
                 ? LocaleKeys.plusSign.tr()
                 : LocaleKeys.minusSign.tr(),
