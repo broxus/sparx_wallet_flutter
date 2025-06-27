@@ -73,7 +73,19 @@ class CurrencyTextInputFormatter extends TextInputFormatter {
     TextEditingValue oldValue,
     TextEditingValue newValue,
   ) {
-    final match = _fullRegExp.firstMatch(newValue.text);
+    // Handle case where decimal separator is entered as first character
+    var textToValidate = newValue.text;
+    var prependedZero = false;
+
+    // Check if input starts with decimal separator
+    if (textToValidate.isNotEmpty &&
+        decimalSeparators != null &&
+        decimalSeparators!.contains(textToValidate[0])) {
+      textToValidate = '0$textToValidate';
+      prependedZero = true;
+    }
+
+    final match = _fullRegExp.firstMatch(textToValidate);
 
     if (match == null) {
       return oldValue;
@@ -95,11 +107,19 @@ class CurrencyTextInputFormatter extends TextInputFormatter {
     final newTextWithTicker =
         newText.isNotEmpty ? '$newText$_tickerString' : '';
 
-    final newSelection = clampSelection(newValue.selection, newText);
+    // Adjust cursor position if we prepended zero
+    var newSelection = newValue.selection;
+    if (prependedZero) {
+      newSelection = TextSelection.collapsed(
+        offset: newValue.selection.start + 1,
+      );
+    }
+
+    final clampedSelection = clampSelection(newSelection, newText);
 
     return TextEditingValue(
       text: newTextWithTicker,
-      selection: newSelection,
+      selection: clampedSelection,
     );
   }
 
