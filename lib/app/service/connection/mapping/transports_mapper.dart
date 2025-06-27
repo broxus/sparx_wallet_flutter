@@ -55,6 +55,8 @@ Map<NetworkGroup, ConnectionTransportData>? mapToTransports(
       ),
       tokenApiBaseUrl: transport['tokenApiBaseUrl'] as String?,
       currencyApiBaseUrl: transport['currencyApiBaseUrl'] as String?,
+      nftInformation: (transport['nftInformation'] as Map<String, dynamic>?)
+          ?.let(NftInformation.fromJson),
       pollingConfig: _mapToPollingConfig(
         transport['pollingConfig'] as Map<String, dynamic>?,
       ),

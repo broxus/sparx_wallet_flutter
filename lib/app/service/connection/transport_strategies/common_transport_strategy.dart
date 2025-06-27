@@ -27,6 +27,7 @@ class CommonTransportStrategy extends AppTransportStrategy {
     this.stakeInformation,
     this.tokenApiBaseUrl,
     this.currencyApiBaseUrl,
+    this.nftInformation,
     String? baseCurrencyUrl,
   }) : baseCurrencyUrl = baseCurrencyUrl ?? '';
 
@@ -60,6 +61,7 @@ class CommonTransportStrategy extends AppTransportStrategy {
       tokenApiBaseUrl: transportData.tokenApiBaseUrl,
       currencyApiBaseUrl: transportData.currencyApiBaseUrl,
       baseCurrencyUrl: transportData.baseCurrencyUrl,
+      nftInformation: transportData.nftInformation,
       pollingConfig: transportData.pollingConfig ?? PollingConfig.defaultConfig,
     );
   }
@@ -115,6 +117,8 @@ class CommonTransportStrategy extends AppTransportStrategy {
   final TransactionExplorerLinkType transactionExplorerLinkType;
 
   final String baseCurrencyUrl;
+
+  final NftInformation? nftInformation;
 
   @override
   final PollingConfig pollingConfig;

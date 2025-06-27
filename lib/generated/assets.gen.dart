@@ -80,9 +80,6 @@ class $AssetsConfigsGen {
 class $AssetsImagesGen {
   const $AssetsImagesGen();
 
-  /// File path: assets/images/NFT.svg
-  SvgGenImage get nft => const SvgGenImage('assets/images/NFT.svg');
-
   /// File path: assets/images/account_type.svg
   SvgGenImage get accountType =>
       const SvgGenImage('assets/images/account_type.svg');
@@ -376,6 +373,14 @@ class $AssetsImagesGen {
   SvgGenImage get networkVectorDefault =>
       const SvgGenImage('assets/images/network_vector_default.svg');
 
+  /// File path: assets/images/nft_empty_list.png
+  AssetGenImage get nftEmptyList =>
+      const AssetGenImage('assets/images/nft_empty_list.png');
+
+  /// Directory path: assets/images/nft_placeholder
+  $AssetsImagesNftPlaceholderGen get nftPlaceholder =>
+      const $AssetsImagesNftPlaceholderGen();
+
   /// Directory path: assets/images/onboarding
   $AssetsImagesOnboardingGen get onboarding =>
       const $AssetsImagesOnboardingGen();
@@ -480,7 +485,6 @@ class $AssetsImagesGen {
 
   /// List of all assets
   List<dynamic> get values => [
-        nft,
         accountType,
         alarm,
         alarmRounded,
@@ -559,6 +563,7 @@ class $AssetsImagesGen {
         networkDefault,
         networkEarth,
         networkVectorDefault,
+        nftEmptyList,
         openedEye,
         paste,
         person,
@@ -667,6 +672,17 @@ class $AssetsImagesLangIconsGen {
 
   /// List of all assets
   List<SvgGenImage> get values => [english, korean];
+}
+
+class $AssetsImagesNftPlaceholderGen {
+  const $AssetsImagesNftPlaceholderGen();
+
+  /// File path: assets/images/nft_placeholder/nft_placeholder.webp
+  AssetGenImage get nftPlaceholder =>
+      const AssetGenImage('assets/images/nft_placeholder/nft_placeholder.webp');
+
+  /// List of all assets
+  List<AssetGenImage> get values => [nftPlaceholder];
 }
 
 class $AssetsImagesOnboardingGen {
