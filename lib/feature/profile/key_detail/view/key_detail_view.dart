@@ -153,7 +153,9 @@ class KeyDetailView extends StatelessWidget {
           child: PrimaryButton(
             buttonShape: ButtonShape.pill,
             postfixIcon: LucideIcons.plus,
-            title: LocaleKeys.addNewAccount.tr(),
+            title: tab == KeyDetailAccountsTab.external
+                ? LocaleKeys.addExistingAccount.tr()
+                : LocaleKeys.addNewAccount.tr(),
             onPressed: () {
               switch (tab) {
                 case KeyDetailAccountsTab.local:
