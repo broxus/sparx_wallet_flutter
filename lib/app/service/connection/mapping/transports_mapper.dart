@@ -34,7 +34,7 @@ Map<NetworkGroup, ConnectionTransportData>? mapToTransports(
         address: (transport['nativeTokenAddress'] as String?) ?? '',
       ),
       networkName: transport['networkName'] as String,
-      networkType: transport['networkType'] as String,
+      networkType: NetworkType.fromJson(transport['networkType'] as String),
       seedPhraseWordsCount: _mapToSeedPhraseWordsCount(
         transport['seedPhraseWordsCount'] as List<dynamic>,
       ),

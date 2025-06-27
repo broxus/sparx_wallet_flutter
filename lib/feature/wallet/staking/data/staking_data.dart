@@ -1,4 +1,4 @@
-import 'package:app/feature/wallet/staking/models/models.dart';
+import 'package:app/feature/wallet/staking/data/data.dart';
 import 'package:app/widgets/amount_input/amount_input_asset.dart';
 import 'package:money2/money2.dart';
 
