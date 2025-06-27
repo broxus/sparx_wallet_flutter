@@ -1,9 +1,9 @@
+import 'package:app/core/wm/custom_wm.dart';
 import 'package:app/feature/wallet/wallet.dart';
 import 'package:app/feature/wallet/widgets/account_transactions_tab/detail/details_item.dart';
 import 'package:app/feature/wallet/widgets/token_transfer_info/token_transfer_info_wm.dart';
 import 'package:app/generated/generated.dart';
 import 'package:app/utils/utils.dart';
-import 'package:elementary/elementary.dart';
 import 'package:elementary_helper/elementary_helper.dart';
 import 'package:flutter/material.dart';
 import 'package:nekoton_repository/nekoton_repository.dart';
@@ -11,8 +11,8 @@ import 'package:ui_components_lib/ui_components_lib.dart';
 import 'package:ui_components_lib/v2/ui_components_lib_v2.dart';
 
 class TokenTransferInfoWidget
-    extends ElementaryWidget<TokenTransferInfoWidgetModel> {
-  const TokenTransferInfoWidget({
+    extends InjectedElementaryWidget<TokenTransferInfoWidgetModel> {
+  TokenTransferInfoWidget({
     this.recipient,
     this.amount,
     this.attachedAmount,
@@ -26,9 +26,24 @@ class TokenTransferInfoWidget
     this.numberUnconfirmedTransactions,
     this.hasFee = true,
     this.margin = EdgeInsets.zero,
-    Key? key,
-    WidgetModelFactory wmFactory = defaultTokenTransferInfoWidgetModelFactory,
-  }) : super(wmFactory, key: key);
+    super.key,
+  }) : super(
+          wmFactoryParam: TokenTransferInfoWmParams(
+            recipient: recipient,
+            amount: amount,
+            attachedAmount: attachedAmount,
+            rootTokenContract: rootTokenContract,
+            transactionIdHash: transactionIdHash,
+            comment: comment,
+            payload: payload,
+            fee: fee,
+            feeError: feeError,
+            color: color,
+            numberUnconfirmedTransactions: numberUnconfirmedTransactions,
+            hasFee: hasFee,
+            margin: margin,
+          ),
+        );
 
   final EdgeInsets margin;
   final Money? amount;

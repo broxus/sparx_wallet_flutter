@@ -6,8 +6,10 @@ import 'package:collection/collection.dart';
 import 'package:elementary/elementary.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:injectable/injectable.dart';
 import 'package:nekoton_repository/nekoton_repository.dart' hide Message;
 
+@injectable
 class AccountSettingsModel extends ElementaryModel {
   AccountSettingsModel(
     ErrorHandler errorHandler,

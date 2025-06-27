@@ -1,3 +1,4 @@
+import 'package:app/core/wm/custom_wm.dart';
 import 'package:app/feature/browser_v2/widgets/bottomsheets/book/widgets/book_item/book_item.dart';
 import 'package:app/feature/browser_v2/widgets/bottomsheets/book/widgets/book_menu.dart';
 import 'package:app/feature/browser_v2/widgets/bottomsheets/book/widgets/history/history_list_wm.dart';
@@ -5,17 +6,14 @@ import 'package:app/feature/browser_v2/widgets/bottomsheets/book/widgets/history
 import 'package:app/feature/browser_v2/widgets/bottomsheets/book/widgets/history/widgets/date_item.dart';
 import 'package:app/feature/browser_v2/widgets/bottomsheets/book/widgets/history/widgets/history_empty.dart';
 import 'package:app/generated/generated.dart';
-import 'package:elementary/elementary.dart';
 import 'package:elementary_helper/elementary_helper.dart';
 import 'package:flutter/material.dart';
 import 'package:ui_components_lib/v2/ui_components_lib_v2.dart';
 
-class HistoryList extends ElementaryWidget<HistoryListWidgetModel> {
+class HistoryList extends InjectedElementaryWidget<HistoryListWidgetModel> {
   const HistoryList({
     super.key,
-    WidgetModelFactory<HistoryListWidgetModel> wmFactory =
-        defaultHistoryListWidgetModelFactory,
-  }) : super(wmFactory);
+  }) : super();
 
   @override
   Widget build(HistoryListWidgetModel wm) {

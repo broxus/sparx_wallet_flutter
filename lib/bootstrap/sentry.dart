@@ -4,10 +4,19 @@ import 'package:app/app/service/service.dart';
 import 'package:app/core/app_build_type.dart';
 import 'package:app/utils/utils.dart';
 import 'package:collection/collection.dart';
+import 'package:injectable/injectable.dart';
 import 'package:logging/logging.dart';
 import 'package:nekoton_repository/nekoton_repository.dart';
 import 'package:rxdart/rxdart.dart';
 import 'package:sentry_flutter/sentry_flutter.dart';
+
+@module
+abstract class SentryModule {
+  @lazySingleton
+  SentryWorker getSentryWorker() {
+    return SentryWorker.instance;
+  }
+}
 
 class SentryWorker {
   /// > Singleton

@@ -1,19 +1,18 @@
+import 'package:app/core/wm/custom_wm.dart';
 import 'package:app/feature/nft/view/add_nft/add_nft_wm.dart';
 import 'package:app/feature/wallet/widgets/account_info.dart';
 import 'package:app/generated/locale_keys.g.dart';
 import 'package:app/widgets/widgets.dart';
 import 'package:easy_localization/easy_localization.dart';
-import 'package:elementary/elementary.dart';
 import 'package:elementary_helper/elementary_helper.dart';
 import 'package:flutter/material.dart';
 import 'package:ui_components_lib/ui_components_lib.dart';
 import 'package:ui_components_lib/v2/ui_components_lib_v2.dart';
 
-class AddNftWidget extends ElementaryWidget<AddNftWidgetModel> {
+class AddNftWidget extends InjectedElementaryWidget<AddNftWidgetModel> {
   const AddNftWidget({
-    Key? key,
-    WidgetModelFactory wmFactory = defaultAddNftWidgetModelFactory,
-  }) : super(wmFactory, key: key);
+    super.key,
+  });
 
   @override
   Widget build(AddNftWidgetModel wm) {

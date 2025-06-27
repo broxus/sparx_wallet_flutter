@@ -1,7 +1,7 @@
+import 'package:app/core/wm/custom_wm.dart';
 import 'package:app/feature/wallet/wallet.dart';
 import 'package:app/feature/wallet/widgets/account_card/account_card_wm.dart';
 import 'package:app/utils/utils.dart';
-import 'package:elementary/elementary.dart';
 import 'package:elementary_helper/elementary_helper.dart';
 import 'package:flutter/material.dart';
 import 'package:lucide_icons_flutter/lucide_icons.dart';
@@ -10,14 +10,11 @@ import 'package:ui_components_lib/ui_components_lib.dart';
 import 'package:ui_components_lib/v2/ui_components_lib_v2.dart';
 
 /// Card widget that displays information about account.
-class AccountCard extends ElementaryWidget<AccountCardWidgetModel> {
+class AccountCard extends InjectedElementaryWidget<AccountCardWidgetModel> {
   const AccountCard({
-    required this.account,
-    Key? key,
-    WidgetModelFactory wmFactory = defaultAccountCardWidgetModelFactory,
-  }) : super(wmFactory, key: key);
-
-  final KeyAccount account;
+    required KeyAccount account,
+    super.key,
+  }) : super(wmFactoryParam: account);
 
   @override
   Widget build(AccountCardWidgetModel wm) {
@@ -34,7 +31,7 @@ class AccountCard extends ElementaryWidget<AccountCardWidgetModel> {
         }
 
         return _AccountCard(
-          account: account,
+          account: wm.account,
           balance: wm.balance,
           onCopy: wm.onCopy,
         );

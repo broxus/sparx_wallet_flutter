@@ -1,29 +1,16 @@
 import 'package:app/app/router/router.dart';
-import 'package:app/core/error_handler_factory.dart';
 import 'package:app/core/wm/custom_wm.dart';
-import 'package:app/di/di.dart';
 import 'package:app/feature/choose_network/route.dart';
 import 'package:app/feature/contact_support/widgets/widgets.dart';
 import 'package:app/feature/onboarding/screen/welcome/welcome_screen.dart';
 import 'package:app/feature/onboarding/screen/welcome/welcome_screen_model.dart';
 import 'package:elementary/elementary.dart';
-import 'package:flutter/widgets.dart';
+import 'package:injectable/injectable.dart';
 import 'package:ui_components_lib/v2/ui_components_lib_v2.dart';
 import 'package:url_launcher/url_launcher_string.dart';
 
-/// Factory method for creating [WelcomeScreenWidgetModel]
-WelcomeScreenWidgetModel defaultWelcomeScreenWidgetModelFactory(
-  BuildContext context,
-) {
-  return WelcomeScreenWidgetModel(
-    WelcomeScreenModel(
-      createPrimaryErrorHandler(context),
-      inject(),
-    ),
-  );
-}
-
 /// [WidgetModel] для [WelcomeScreen]
+@injectable
 class WelcomeScreenWidgetModel
     extends CustomWidgetModel<WelcomeScreen, WelcomeScreenModel> {
   WelcomeScreenWidgetModel(

@@ -1,8 +1,10 @@
 import 'package:app/feature/wallet/widgets/account_transactions_tab/detail/ton_wallet_multisig_pending_transaction_details/ton_wallet_multisig_pending_transaction_details_screen.dart';
 import 'package:elementary/elementary.dart';
+import 'package:injectable/injectable.dart';
 import 'package:nekoton_repository/nekoton_repository.dart';
 
 /// [ElementaryModel] for [TonWalletMultisigPendingTransactionDetailsScreen]
+@injectable
 class TonWalletMultisigPendingTransactionDetailsScreenModel
     extends ElementaryModel {
   TonWalletMultisigPendingTransactionDetailsScreenModel(

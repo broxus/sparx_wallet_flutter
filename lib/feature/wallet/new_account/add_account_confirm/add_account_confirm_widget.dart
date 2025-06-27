@@ -1,6 +1,6 @@
+import 'package:app/core/wm/custom_wm.dart';
 import 'package:app/feature/wallet/new_account/add_account_confirm/add_account_confirm_wm.dart';
 import 'package:app/generated/generated.dart';
-import 'package:elementary/elementary.dart';
 import 'package:elementary_helper/elementary_helper.dart';
 import 'package:flutter/material.dart';
 import 'package:local_auth/local_auth.dart';
@@ -9,16 +9,17 @@ import 'package:nekoton_repository/nekoton_repository.dart';
 import 'package:ui_components_lib/v2/ui_components_lib_v2.dart';
 
 class AddAccountConfirmWidget
-    extends ElementaryWidget<AddAccountConfirmWidgetModel> {
-  const AddAccountConfirmWidget({
-    required this.publicKey,
-    required this.seedName,
-    Key? key,
-    WidgetModelFactory wmFactory = defaultAddAccountConfirmWidgetModelFactory,
-  }) : super(wmFactory, key: key);
-
-  final PublicKey publicKey;
-  final String seedName;
+    extends InjectedElementaryWidget<AddAccountConfirmWidgetModel> {
+  AddAccountConfirmWidget({
+    required PublicKey publicKey,
+    required String seedName,
+    super.key,
+  }) : super(
+          wmFactoryParam: AddAccountConfirmWmParams(
+            publicKey: publicKey,
+            seedName: seedName,
+          ),
+        );
 
   @override
   Widget build(AddAccountConfirmWidgetModel wm) {
@@ -42,7 +43,7 @@ class AddAccountConfirmWidget
               const SizedBox(width: DimensSizeV2.d12),
               Flexible(
                 child: Text(
-                  seedName,
+                  wm.seedName,
                   style: wm.theme.textStyles.labelMedium,
                   overflow: TextOverflow.ellipsis,
                 ),
