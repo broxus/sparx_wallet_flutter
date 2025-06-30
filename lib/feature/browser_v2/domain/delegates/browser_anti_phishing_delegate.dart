@@ -20,6 +20,7 @@ class BrowserAntiPhishingDelegate {
   final ResourcesService _resourcesService;
 
   final _log = Logger('BrowserAntiPhishingManager');
+  String? _htmlCache;
 
   Future<void> init() {
     return loadLinksJson();
@@ -48,9 +49,10 @@ class BrowserAntiPhishingDelegate {
   }
 
   Future<String> getPhishingGuardHtml(String path) async {
-    final html = await rootBundle.loadString('assets/html/anti_phishing.html');
-    html.replaceFirst('{PHISHING_ORIGINAL_SITE}', path);
-    return html;
+    final html = _htmlCache ??=
+        await rootBundle.loadString('assets/html/anti_phishing.html');
+
+    return html.replaceFirst('{PHISHING_ORIGINAL_SITE}', path);
   }
 
   static Map<String, dynamic> _parse(String json) {
