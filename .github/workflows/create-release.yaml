@@ -1,4 +1,4 @@
-name: Create Release
+name: Create release brunch
 
 on:
   workflow_dispatch:
