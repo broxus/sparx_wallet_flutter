@@ -17,7 +17,6 @@ class ConnectionTransportData {
     required this.genericTokenType,
     required this.accountExplorerLinkType,
     required this.transactionExplorerLinkType,
-    this.baseCurrencyUrl,
     this.stakeInformation,
     this.tokenApiBaseUrl,
     this.currencyApiBaseUrl,
@@ -79,7 +78,6 @@ class ConnectionTransportData {
   final List<WalletType> availableWalletTypes;
   final WalletDefaultAccountNames walletDefaultAccountNames;
   final WalletType defaultWalletType;
-  final String? baseCurrencyUrl;
   final TransportNativeTokenTickerOption nativeTokenTickerOption;
   final TransportManifestOption manifestOption;
   final Address nativeTokenAddress;
