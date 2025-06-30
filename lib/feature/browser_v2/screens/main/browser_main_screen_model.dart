@@ -30,8 +30,8 @@ class BrowserMainScreenModel extends ElementaryModel {
   NotNullListenableState<List<String>> get allTabsIdsState =>
       _browserService.tab.allTabsIdsState;
 
-  ListenableState<String?> get activeTabUrlHostState =>
-      _browserService.tab.activeTabUrlHostState;
+  ListenableState<Uri?> get activeTabUriState =>
+      _browserService.tab.activeTabUriState;
 
   String? get activeTabId => activeTabIdState.value;
 
@@ -79,10 +79,21 @@ class BrowserMainScreenModel extends ElementaryModel {
 
     final isUrl = UrlValidator.checkString(text);
 
+    final url = isUrl ? Uri.parse(text) : Uri.parse('$_searchEngineUri$text');
+
+    if (isUrl) {
+      final isPhishing = _browserService.checkIsPhishingUri(url);
+
+      if (isPhishing) {
+        _browserService.loadPhishingGuard(tabId, url);
+        return;
+      }
+    }
+
     unawaited(
       _browserService.tab.requestUrl(
         tabId,
-        isUrl ? Uri.parse(text) : Uri.parse('$_searchEngineUri$text'),
+        url,
       ),
     );
   }

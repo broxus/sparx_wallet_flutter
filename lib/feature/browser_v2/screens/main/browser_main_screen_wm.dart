@@ -173,7 +173,7 @@ class BrowserMainScreenWidgetModel
   void initWidgetModel() {
     _menuState.addListener(_handleMenuState);
     _viewVisibleState.addListener(_updatePastGo);
-    model.activeTabUrlHostState.addListener(_updatePastGo);
+    model.activeTabUriState.addListener(_updatePastGo);
 
     WidgetsBinding.instance.addPostFrameCallback((_) {
       final groupId = model.activeGroupIdState.value;
@@ -202,7 +202,7 @@ class BrowserMainScreenWidgetModel
     _renderManager.dispose();
     _pastGoDelegate.dispose();
     _pageSlideDelegate.dispose();
-    model.activeTabUrlHostState.removeListener(_updatePastGo);
+    model.activeTabUriState.removeListener(_updatePastGo);
     super.dispose();
   }
 
@@ -347,7 +347,7 @@ class BrowserMainScreenWidgetModel
   Future<void> _updatePastGo() async {
     _pastGoDelegate.updateVisible(
       (_viewVisibleState.value) &&
-          (model.activeTabUrlHostState.value?.isEmpty ?? false) &&
+          (model.activeTabUriState.value?.path.isEmpty ?? false) &&
           await checkExistClipBoardData(),
     );
   }

@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:typed_data';
 
 import 'package:app/app/service/approvals_service.dart';
@@ -132,5 +133,24 @@ class BrowserPageModel extends ElementaryModel {
 
   bool checkIsActiveTab(String id) {
     return _activeTabId == null || id == _activeTabId;
+  }
+
+  Future<void> initUri(Uri uri) async {
+    final isPhishing = checkIsPhishingUri(uri);
+
+    if (isPhishing) {
+      unawaited(loadPhishingGuard(uri));
+      return;
+    }
+
+    return _browserService.tab.requestUrlActiveTab(
+      uri.host == '' && uri.path == 'blank' ? WebUri('') : WebUri.uri(uri),
+    );
+  }
+
+  bool checkIsPhishingUri(Uri uri) => _browserService.checkIsPhishingUri(uri);
+
+  Future<void> loadPhishingGuard(Uri uri) {
+    return _browserService.loadPhishingGuard(_tabId, uri);
   }
 }
