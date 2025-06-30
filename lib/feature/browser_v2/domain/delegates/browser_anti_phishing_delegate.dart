@@ -1,3 +1,4 @@
+import 'dart:collection';
 import 'dart:convert';
 
 import 'package:app/app/service/resources_service.dart';
@@ -12,9 +13,9 @@ import 'package:rxdart/rxdart.dart';
 class BrowserAntiPhishingDelegate {
   BrowserAntiPhishingDelegate(this._resourcesService);
 
-  final _blackListSubj = BehaviorSubject<List<String>>.seeded([]);
+  final _blackListSubj = BehaviorSubject<HashSet<String>>.seeded(HashSet());
 
-  List<String> get blackList => _blackListSubj.value;
+  HashSet<String> get blackList => _blackListSubj.value;
 
   final ResourcesService _resourcesService;
 
@@ -36,7 +37,11 @@ class BrowserAntiPhishingDelegate {
 
       final map = await compute<String, Map<String, dynamic>>(_parse, json);
 
-      _blackListSubj.add(castJsonList(map['blacklist']));
+      _blackListSubj.add(
+        HashSet.from(
+          castJsonList<String>(map['blacklist']),
+        ),
+      );
     } catch (e, s) {
       _log.severe('Load blacklist JSON error', e, s);
     }

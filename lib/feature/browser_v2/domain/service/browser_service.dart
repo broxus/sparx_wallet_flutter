@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:collection';
 
 import 'package:app/app/router/router.dart';
 import 'package:app/app/service/app_links/app_links.dart';
@@ -50,6 +51,8 @@ class BrowserService {
   final BrowserAntiPhishingDelegate _antiPhishingDelegate;
 
   final _isContentInteractedStream = BehaviorSubject.seeded(false);
+
+  final _phishingUrlCache = HashSet<String>();
 
   StreamSubscription<BrowserAppLinksData>? _appLinksNavSubs;
 
@@ -160,8 +163,15 @@ class BrowserService {
   bool checkIsPhishingUri(Uri uri) {
     final list = _antiPhishingDelegate.blackList;
 
+    if (_phishingUrlCache.contains(uri.host)) {
+      return true;
+    }
+
     for (final link in list) {
-      if (uri.path == link || uri.host == link) {
+      if (uri.host == link ||
+          uri.host.startsWith(link) ||
+          link.startsWith('*') && uri.host.endsWith(link.substring(1))) {
+        _phishingUrlCache.add(uri.host);
         return true;
       }
     }
