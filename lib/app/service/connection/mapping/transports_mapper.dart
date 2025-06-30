@@ -49,7 +49,6 @@ Map<NetworkGroup, ConnectionTransportData>? mapToTransports(
       transactionExplorerLinkType: TransactionExplorerLinkType.values.byName(
         transport['transactionExplorerLinkType'] as String,
       ),
-      baseCurrencyUrl: transport['baseCurrencyUrl'] as String?,
       stakeInformation: _mapToStakingInformation(
         transport['stakeInformation'] as Map<String, dynamic>?,
       ),
