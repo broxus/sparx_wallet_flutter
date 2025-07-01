@@ -23,7 +23,7 @@ mixin _$BrowserBookmarkItem {
   String get id => throw _privateConstructorUsedError;
   String get title => throw _privateConstructorUsedError;
   @uriJsonConverter
-  Uri get url => throw _privateConstructorUsedError;
+  Uri get uri => throw _privateConstructorUsedError;
   double get sortingOrder => throw _privateConstructorUsedError;
 
   /// Serializes this BrowserBookmarkItem to a JSON map.
@@ -45,7 +45,7 @@ abstract class $BrowserBookmarkItemCopyWith<$Res> {
   $Res call(
       {String id,
       String title,
-      @uriJsonConverter Uri url,
+      @uriJsonConverter Uri uri,
       double sortingOrder});
 }
 
@@ -66,7 +66,7 @@ class _$BrowserBookmarkItemCopyWithImpl<$Res, $Val extends BrowserBookmarkItem>
   $Res call({
     Object? id = null,
     Object? title = null,
-    Object? url = null,
+    Object? uri = null,
     Object? sortingOrder = null,
   }) {
     return _then(_value.copyWith(
@@ -78,9 +78,9 @@ class _$BrowserBookmarkItemCopyWithImpl<$Res, $Val extends BrowserBookmarkItem>
           ? _value.title
           : title // ignore: cast_nullable_to_non_nullable
               as String,
-      url: null == url
-          ? _value.url
-          : url // ignore: cast_nullable_to_non_nullable
+      uri: null == uri
+          ? _value.uri
+          : uri // ignore: cast_nullable_to_non_nullable
               as Uri,
       sortingOrder: null == sortingOrder
           ? _value.sortingOrder
@@ -101,7 +101,7 @@ abstract class _$$BrowserBookmarkItemImplCopyWith<$Res>
   $Res call(
       {String id,
       String title,
-      @uriJsonConverter Uri url,
+      @uriJsonConverter Uri uri,
       double sortingOrder});
 }
 
@@ -120,7 +120,7 @@ class __$$BrowserBookmarkItemImplCopyWithImpl<$Res>
   $Res call({
     Object? id = null,
     Object? title = null,
-    Object? url = null,
+    Object? uri = null,
     Object? sortingOrder = null,
   }) {
     return _then(_$BrowserBookmarkItemImpl(
@@ -132,9 +132,9 @@ class __$$BrowserBookmarkItemImplCopyWithImpl<$Res>
           ? _value.title
           : title // ignore: cast_nullable_to_non_nullable
               as String,
-      url: null == url
-          ? _value.url
-          : url // ignore: cast_nullable_to_non_nullable
+      uri: null == uri
+          ? _value.uri
+          : uri // ignore: cast_nullable_to_non_nullable
               as Uri,
       sortingOrder: null == sortingOrder
           ? _value.sortingOrder
@@ -150,7 +150,7 @@ class _$BrowserBookmarkItemImpl implements _BrowserBookmarkItem {
   const _$BrowserBookmarkItemImpl(
       {required this.id,
       required this.title,
-      @uriJsonConverter required this.url,
+      @uriJsonConverter required this.uri,
       required this.sortingOrder});
 
   factory _$BrowserBookmarkItemImpl.fromJson(Map<String, dynamic> json) =>
@@ -162,13 +162,13 @@ class _$BrowserBookmarkItemImpl implements _BrowserBookmarkItem {
   final String title;
   @override
   @uriJsonConverter
-  final Uri url;
+  final Uri uri;
   @override
   final double sortingOrder;
 
   @override
   String toString() {
-    return 'BrowserBookmarkItem(id: $id, title: $title, url: $url, sortingOrder: $sortingOrder)';
+    return 'BrowserBookmarkItem(id: $id, title: $title, uri: $uri, sortingOrder: $sortingOrder)';
   }
 
   @override
@@ -178,14 +178,14 @@ class _$BrowserBookmarkItemImpl implements _BrowserBookmarkItem {
             other is _$BrowserBookmarkItemImpl &&
             (identical(other.id, id) || other.id == id) &&
             (identical(other.title, title) || other.title == title) &&
-            (identical(other.url, url) || other.url == url) &&
+            (identical(other.uri, uri) || other.uri == uri) &&
             (identical(other.sortingOrder, sortingOrder) ||
                 other.sortingOrder == sortingOrder));
   }
 
   @JsonKey(includeFromJson: false, includeToJson: false)
   @override
-  int get hashCode => Object.hash(runtimeType, id, title, url, sortingOrder);
+  int get hashCode => Object.hash(runtimeType, id, title, uri, sortingOrder);
 
   /// Create a copy of BrowserBookmarkItem
   /// with the given fields replaced by the non-null parameter values.
@@ -208,7 +208,7 @@ abstract class _BrowserBookmarkItem implements BrowserBookmarkItem {
   const factory _BrowserBookmarkItem(
       {required final String id,
       required final String title,
-      @uriJsonConverter required final Uri url,
+      @uriJsonConverter required final Uri uri,
       required final double sortingOrder}) = _$BrowserBookmarkItemImpl;
 
   factory _BrowserBookmarkItem.fromJson(Map<String, dynamic> json) =
@@ -220,7 +220,7 @@ abstract class _BrowserBookmarkItem implements BrowserBookmarkItem {
   String get title;
   @override
   @uriJsonConverter
-  Uri get url;
+  Uri get uri;
   @override
   double get sortingOrder;
 

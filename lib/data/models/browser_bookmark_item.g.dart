@@ -11,7 +11,7 @@ _$BrowserBookmarkItemImpl _$$BrowserBookmarkItemImplFromJson(
     _$BrowserBookmarkItemImpl(
       id: json['id'] as String,
       title: json['title'] as String,
-      url: uriJsonConverter.fromJson(json['url'] as String),
+      uri: uriJsonConverter.fromJson(json['uri'] as String),
       sortingOrder: (json['sortingOrder'] as num).toDouble(),
     );
 
@@ -20,6 +20,6 @@ Map<String, dynamic> _$$BrowserBookmarkItemImplToJson(
     <String, dynamic>{
       'id': instance.id,
       'title': instance.title,
-      'url': uriJsonConverter.toJson(instance.url),
+      'uri': uriJsonConverter.toJson(instance.uri),
       'sortingOrder': instance.sortingOrder,
     };

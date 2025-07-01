@@ -80,7 +80,7 @@ class HistoryListWidgetModel
       return;
     }
 
-    model.requestUrl(historyItem.url);
+    model.requestUrl(historyItem.uri);
     _close();
   }
 
@@ -154,7 +154,7 @@ class HistoryListWidgetModel
       final item = sortedItems[i];
 
       if (!item.title.contains(searchedText) &&
-          !item.url.toString().contains(searchedText)) {
+          !item.uri.toString().contains(searchedText)) {
         continue;
       }
 
@@ -168,9 +168,9 @@ class HistoryListWidgetModel
       result.add(
         HistoryItemUiModel(
           id: item.id,
-          uri: item.url,
-          title: item.url.host,
-          subTitle: item.url.toString(),
+          uri: item.uri,
+          title: item.uri.host,
+          subTitle: item.uri.toString(),
         ),
       );
 
