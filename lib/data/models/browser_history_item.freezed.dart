@@ -24,7 +24,7 @@ mixin _$BrowserHistoryItem {
   String get id => throw _privateConstructorUsedError;
   String get title => throw _privateConstructorUsedError;
   @uriJsonConverter
-  Uri get uri => throw _privateConstructorUsedError;
+  Uri get url => throw _privateConstructorUsedError;
   DateTime get visitTime => throw _privateConstructorUsedError;
 
   /// Serializes this BrowserHistoryItem to a JSON map.
@@ -44,7 +44,7 @@ abstract class $BrowserHistoryItemCopyWith<$Res> {
       _$BrowserHistoryItemCopyWithImpl<$Res, BrowserHistoryItem>;
   @useResult
   $Res call(
-      {String id, String title, @uriJsonConverter Uri uri, DateTime visitTime});
+      {String id, String title, @uriJsonConverter Uri url, DateTime visitTime});
 }
 
 /// @nodoc
@@ -64,7 +64,7 @@ class _$BrowserHistoryItemCopyWithImpl<$Res, $Val extends BrowserHistoryItem>
   $Res call({
     Object? id = null,
     Object? title = null,
-    Object? uri = null,
+    Object? url = null,
     Object? visitTime = null,
   }) {
     return _then(_value.copyWith(
@@ -76,9 +76,9 @@ class _$BrowserHistoryItemCopyWithImpl<$Res, $Val extends BrowserHistoryItem>
           ? _value.title
           : title // ignore: cast_nullable_to_non_nullable
               as String,
-      uri: null == uri
-          ? _value.uri
-          : uri // ignore: cast_nullable_to_non_nullable
+      url: null == url
+          ? _value.url
+          : url // ignore: cast_nullable_to_non_nullable
               as Uri,
       visitTime: null == visitTime
           ? _value.visitTime
@@ -98,7 +98,7 @@ abstract class _$$BrowserHistoryItemDtoImplCopyWith<$Res>
   @override
   @useResult
   $Res call(
-      {String id, String title, @uriJsonConverter Uri uri, DateTime visitTime});
+      {String id, String title, @uriJsonConverter Uri url, DateTime visitTime});
 }
 
 /// @nodoc
@@ -116,7 +116,7 @@ class __$$BrowserHistoryItemDtoImplCopyWithImpl<$Res>
   $Res call({
     Object? id = null,
     Object? title = null,
-    Object? uri = null,
+    Object? url = null,
     Object? visitTime = null,
   }) {
     return _then(_$BrowserHistoryItemDtoImpl(
@@ -128,9 +128,9 @@ class __$$BrowserHistoryItemDtoImplCopyWithImpl<$Res>
           ? _value.title
           : title // ignore: cast_nullable_to_non_nullable
               as String,
-      uri: null == uri
-          ? _value.uri
-          : uri // ignore: cast_nullable_to_non_nullable
+      url: null == url
+          ? _value.url
+          : url // ignore: cast_nullable_to_non_nullable
               as Uri,
       visitTime: null == visitTime
           ? _value.visitTime
@@ -146,7 +146,7 @@ class _$BrowserHistoryItemDtoImpl extends _BrowserHistoryItemDto {
   const _$BrowserHistoryItemDtoImpl(
       {required this.id,
       required this.title,
-      @uriJsonConverter required this.uri,
+      @uriJsonConverter required this.url,
       required this.visitTime})
       : super._();
 
@@ -160,13 +160,13 @@ class _$BrowserHistoryItemDtoImpl extends _BrowserHistoryItemDto {
   final String title;
   @override
   @uriJsonConverter
-  final Uri uri;
+  final Uri url;
   @override
   final DateTime visitTime;
 
   @override
   String toString() {
-    return 'BrowserHistoryItem(id: $id, title: $title, uri: $uri, visitTime: $visitTime)';
+    return 'BrowserHistoryItem(id: $id, title: $title, url: $url, visitTime: $visitTime)';
   }
 
   @override
@@ -176,14 +176,14 @@ class _$BrowserHistoryItemDtoImpl extends _BrowserHistoryItemDto {
             other is _$BrowserHistoryItemDtoImpl &&
             (identical(other.id, id) || other.id == id) &&
             (identical(other.title, title) || other.title == title) &&
-            (identical(other.uri, uri) || other.uri == uri) &&
+            (identical(other.url, url) || other.url == url) &&
             (identical(other.visitTime, visitTime) ||
                 other.visitTime == visitTime));
   }
 
   @JsonKey(includeFromJson: false, includeToJson: false)
   @override
-  int get hashCode => Object.hash(runtimeType, id, title, uri, visitTime);
+  int get hashCode => Object.hash(runtimeType, id, title, url, visitTime);
 
   /// Create a copy of BrowserHistoryItem
   /// with the given fields replaced by the non-null parameter values.
@@ -206,7 +206,7 @@ abstract class _BrowserHistoryItemDto extends BrowserHistoryItem {
   const factory _BrowserHistoryItemDto(
       {required final String id,
       required final String title,
-      @uriJsonConverter required final Uri uri,
+      @uriJsonConverter required final Uri url,
       required final DateTime visitTime}) = _$BrowserHistoryItemDtoImpl;
   const _BrowserHistoryItemDto._() : super._();
 
@@ -220,7 +220,7 @@ abstract class _BrowserHistoryItemDto extends BrowserHistoryItem {
   String get title;
   @override
   @uriJsonConverter
-  Uri get uri;
+  Uri get url;
   @override
   DateTime get visitTime;
 

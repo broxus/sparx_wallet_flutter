@@ -11,7 +11,7 @@ _$BrowserHistoryItemDtoImpl _$$BrowserHistoryItemDtoImplFromJson(
     _$BrowserHistoryItemDtoImpl(
       id: json['id'] as String,
       title: json['title'] as String,
-      uri: uriJsonConverter.fromJson(json['uri'] as String),
+      url: uriJsonConverter.fromJson(json['url'] as String),
       visitTime: DateTime.parse(json['visitTime'] as String),
     );
 
@@ -20,6 +20,6 @@ Map<String, dynamic> _$$BrowserHistoryItemDtoImplToJson(
     <String, dynamic>{
       'id': instance.id,
       'title': instance.title,
-      'uri': uriJsonConverter.toJson(instance.uri),
+      'url': uriJsonConverter.toJson(instance.url),
       'visitTime': instance.visitTime.toIso8601String(),
     };

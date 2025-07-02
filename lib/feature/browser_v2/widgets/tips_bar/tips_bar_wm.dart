@@ -2,29 +2,32 @@ import 'dart:async';
 
 import 'package:app/core/error_handler_factory.dart';
 import 'package:app/core/wm/custom_wm.dart';
+import 'package:app/core/wm/not_null_safe_notifier.dart';
 import 'package:app/data/models/browser_item.dart';
 import 'package:app/di/di.dart';
+import 'package:app/extensions/object_extension.dart';
+import 'package:app/extensions/string_extension.dart';
+import 'package:app/feature/browser_v2/domain/service/browser_service.dart';
 import 'package:app/feature/browser_v2/widgets/tips_bar/tips_bar.dart';
 import 'package:app/feature/browser_v2/widgets/tips_bar/tips_bar_model.dart';
 import 'package:app/feature/browser_v2/widgets/tips_bar/ui_models.dart';
 import 'package:elementary/elementary.dart';
 import 'package:elementary_helper/elementary_helper.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/widgets.dart';
 
 /// Factory method for creating [TipsBarWidgetModel]
 TipsBarWidgetModel defaultTipsBarWidgetModelFactory(
   BuildContext context, {
-  required ValueListenable<String> textListenable,
-  required ValueChanged<Uri> onSelect,
+  required NotNullNotifier<String> textNotifier,
+  required VoidCallback onPressedItem,
 }) {
   return TipsBarWidgetModel(
     TipsBarModel(
       createPrimaryErrorHandler(context),
       inject(),
     ),
-    textListenable,
-    onSelect,
+    textNotifier,
+    onPressedItem,
   );
 }
 
@@ -32,15 +35,16 @@ TipsBarWidgetModel defaultTipsBarWidgetModelFactory(
 class TipsBarWidgetModel extends CustomWidgetModel<TipsBar, TipsBarModel> {
   TipsBarWidgetModel(
     super.model,
-    this._textListenable,
-    this._onSelect,
+    this._textNotifier,
+    this._onPressedItem,
   );
 
-  final ValueListenable<String> _textListenable;
-  final ValueChanged<Uri> _onSelect;
-  Timer? _searchTimer;
+  final NotNullNotifier<String> _textNotifier;
+  final VoidCallback _onPressedItem;
 
   final _searchResult = <String, BrowserItem>{};
+  final _urlsResult = <String>{};
+  late String _prevText = _textNotifier.value;
 
   late final _uiModelsState = createNotifier<List<TipUiModel>>();
 
@@ -48,14 +52,13 @@ class TipsBarWidgetModel extends CustomWidgetModel<TipsBar, TipsBarModel> {
 
   @override
   void initWidgetModel() {
-    _textListenable.addListener(_onChangedText);
+    _textNotifier.addListener(_onChangedText);
     super.initWidgetModel();
   }
 
   @override
   void dispose() {
-    _textListenable.addListener(_onChangedText);
-    _searchTimer?.cancel();
+    _textNotifier.removeListener(_onChangedText);
     super.dispose();
   }
 
@@ -65,49 +68,85 @@ class TipsBarWidgetModel extends CustomWidgetModel<TipsBar, TipsBarModel> {
     if (item == null) {
       return;
     }
-    _onSelect(item.uri);
+
+    model.requestUri(item.url);
+
+    _onPressedItem();
   }
 
   Future<void> _search(String text) async {
-    try {
-      _searchResult.clear();
+    _searchResult.clear();
+    _urlsResult.clear();
 
-      final uiModels = <TipUiModel>[];
+    if (text.isEmpty) {
+      _uiModelsState.accept(null);
+      return;
+    }
+
+    final lowText = text.low;
+
+    final uiModels = <TipUiModel>[];
+
+    try {
+      for (final bookmark in model.browserBookmarks) {
+        if (_urlsResult.contains(bookmark.url.host)) {
+          continue;
+        }
+
+        await Future(
+          () {
+            if (bookmark.url.str.low.contains(lowText) ||
+                bookmark.title.low.contains(lowText)) {
+              _searchResult[bookmark.id] = bookmark;
+              _urlsResult.add(bookmark.url.host);
+
+              uiModels.add(
+                BookmarkTipUiModel(
+                  id: bookmark.id,
+                  title: bookmark.title,
+                  uri: bookmark.url,
+                ),
+              );
+            }
+          },
+        );
+      }
 
       for (final history in model.browserHistoryItems) {
-        await Future(() {
-          _searchResult[history.id] = history;
-          uiModels.add(
-            HistoryTipUiModel(
-              id: history.id,
-              title: history.title,
-            ),
-          );
-        });
+        if (_urlsResult.contains(history.url.host) ||
+            history.url.host.contains(BrowserService.searchEngineHost)) {
+          continue;
+        }
+
+        await Future(
+          () {
+            if (history.url.host.low.contains(lowText) ||
+                history.title.low.contains(lowText)) {
+              _searchResult[history.id] = history;
+              _urlsResult.add(history.url.host);
+              uiModels.add(
+                HistoryTipUiModel(
+                  id: history.id,
+                  title: history.title,
+                ),
+              );
+            }
+          },
+        );
       }
-
-      for (final bookmark in model.browserBookmarks) {
-        await Future(() {
-          _searchResult[bookmark.id] = bookmark;
-
-          uiModels.add(BookmarkTipUiModel(
-            id: bookmark.id,
-            title: bookmark.title,
-            uri: bookmark.uri,
-          ));
-        });
-      }
-
-      _uiModelsState.accept(uiModels);
+      _uiModelsState.accept(uiModels.toList());
     } catch (_) {
       _uiModelsState.accept(null);
     }
   }
 
   Future<void> _onChangedText() async {
-    _searchTimer?.cancel();
-    _searchTimer = Timer(const Duration(seconds: 2), () {
-      _search(_textListenable.value);
-    });
+    if (_prevText == _textNotifier.value) {
+      return;
+    }
+
+    _prevText = _textNotifier.value;
+
+    return _search(_textNotifier.value);
   }
 }

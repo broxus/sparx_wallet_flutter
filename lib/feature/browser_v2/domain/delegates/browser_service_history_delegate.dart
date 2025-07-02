@@ -51,12 +51,12 @@ class BrowserServiceHistoryDelegate
 
   @override
   void createHistoryItem(Uri url) {
-    if (url.host.isEmpty || browserHistoryItems.firstOrNull?.uri == url) {
+    if (url.host.isEmpty || browserHistoryItems.firstOrNull?.url == url) {
       return;
     }
     _saveBrowserHistory(
       [
-        BrowserHistoryItem.create(uri: url),
+        BrowserHistoryItem.create(url: url),
         ...browserHistoryItems,
       ],
     );
@@ -72,7 +72,7 @@ class BrowserServiceHistoryDelegate
   @override
   void removeHistoryItemByUri(Uri uri) {
     _saveBrowserHistory(
-      [...browserHistoryItems]..removeWhere((item) => item.uri == uri),
+      [...browserHistoryItems]..removeWhere((item) => item.url == uri),
     );
   }
 

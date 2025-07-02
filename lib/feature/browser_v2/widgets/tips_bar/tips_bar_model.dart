@@ -18,4 +18,6 @@ class TipsBarModel extends ElementaryModel {
 
   List<BrowserHistoryItem> get browserHistoryItems =>
       _browserService.hist.browserHistoryItems;
+
+  void requestUri(Uri uri) => _browserService.tab.requestUrlActiveTab(uri);
 }

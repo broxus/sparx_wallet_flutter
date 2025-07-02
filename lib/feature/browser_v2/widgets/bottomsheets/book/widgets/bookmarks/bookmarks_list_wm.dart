@@ -77,7 +77,7 @@ class BookmarksListWidgetModel
       return;
     }
 
-    model.requestUrl(bookmark.uri);
+    model.requestUrl(bookmark.url);
     _close();
   }
 
@@ -132,11 +132,11 @@ class BookmarksListWidgetModel
         for (final bookmark in list)
           if (searchedText.isEmpty ||
               bookmark.title.contains(searchedText) ||
-              bookmark.uri.toString().contains(searchedText))
+              bookmark.url.toString().contains(searchedText))
             BookMarkUiModel(
               bookmarkId: bookmark.id,
               title: bookmark.title,
-              uri: bookmark.uri,
+              uri: bookmark.url,
             ),
       ],
     );

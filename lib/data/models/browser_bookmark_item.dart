@@ -13,7 +13,7 @@ class BrowserBookmarkItem with _$BrowserBookmarkItem implements BrowserItem {
   const factory BrowserBookmarkItem({
     required String id,
     required String title,
-    @uriJsonConverter required Uri uri,
+    @uriJsonConverter required Uri url,
     required double sortingOrder,
   }) = _BrowserBookmarkItem;
 
@@ -22,12 +22,12 @@ class BrowserBookmarkItem with _$BrowserBookmarkItem implements BrowserItem {
 
   factory BrowserBookmarkItem.create({
     required String title,
-    required Uri uri,
+    required Uri url,
   }) =>
       BrowserBookmarkItem(
         id: const Uuid().v4(),
         title: title,
-        uri: uri,
+        url: url,
         sortingOrder: NtpTime.now().millisecondsSinceEpoch.toDouble(),
       );
 }

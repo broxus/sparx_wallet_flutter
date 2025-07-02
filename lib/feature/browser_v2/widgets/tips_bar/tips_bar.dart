@@ -1,24 +1,24 @@
+import 'package:app/core/wm/not_null_safe_notifier.dart';
 import 'package:app/feature/browser_v2/widgets/tips_bar/tip_bar_item.dart';
 import 'package:app/feature/browser_v2/widgets/tips_bar/tips_bar_wm.dart';
 import 'package:app/feature/browser_v2/widgets/tips_bar/ui_models.dart';
 import 'package:elementary/elementary.dart';
 import 'package:elementary_helper/elementary_helper.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:ui_components_lib/ui_components_lib.dart';
 
 class TipsBar extends ElementaryWidget<TipsBarWidgetModel> {
   TipsBar({
-    required ValueListenable<String> textListenable,
-    required ValueChanged<Uri> onSelect,
+    required NotNullNotifier<String> textNotifier,
+    required VoidCallback onPressedItem,
     WidgetModelFactory<TipsBarWidgetModel>? wmFactory,
     super.key,
   }) : super(
           wmFactory ??
               (ctx) => defaultTipsBarWidgetModelFactory(
                     ctx,
-                    textListenable: textListenable,
-                    onSelect: onSelect,
+                    textNotifier: textNotifier,
+                    onPressedItem: onPressedItem,
                   ),
         );
 
@@ -31,8 +31,10 @@ class TipsBar extends ElementaryWidget<TipsBarWidgetModel> {
           return const SizedBox.shrink();
         }
         return ListView.builder(
+          reverse: true,
           padding: const EdgeInsets.only(
-            bottom: DimensSizeV2.d8,
+            top: DimensSizeV2.d200,
+            bottom: DimensSizeV2.d16,
             left: DimensSizeV2.d16,
             right: DimensSizeV2.d16,
           ),

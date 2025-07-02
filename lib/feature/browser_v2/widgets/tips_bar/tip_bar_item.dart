@@ -1,5 +1,5 @@
 import 'package:app/feature/browser_v2/widgets/favicon_view/favicon_view.dart';
-import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 import 'package:lucide_icons_flutter/lucide_icons.dart';
 import 'package:ui_components_lib/ui_components_lib.dart';
 
@@ -20,6 +20,7 @@ class HistoryTip extends StatelessWidget {
     return _Body(
       backgroundColor: theme.colors.background2,
       borderRadius: BorderRadius.circular(DimensSizeV2.d12),
+      onPressed: onPressed,
       icon: const Icon(
         LucideIcons.history,
         size: DimensSizeV2.d20,
@@ -53,7 +54,7 @@ class BookmarkTip extends StatelessWidget {
       backgroundColor: theme.colors.background1,
       borderRadius: BorderRadius.circular(DimensSizeV2.d16),
       crossAxisAlignment: CrossAxisAlignment.start,
-      chevronPadding: const EdgeInsets.only(top: DimensSizeV2.d12),
+      onPressed: onPressed,
       icon: FaviconView(
         uri: uri,
         height: DimensSizeV2.d40,
@@ -86,47 +87,55 @@ class _Body extends StatelessWidget {
     required this.description,
     required this.backgroundColor,
     required this.borderRadius,
+    required this.onPressed,
     this.crossAxisAlignment = CrossAxisAlignment.center,
-    this.chevronPadding = EdgeInsets.zero,
   });
 
   final Widget icon;
   final Widget description;
   final CrossAxisAlignment crossAxisAlignment;
-  final EdgeInsets chevronPadding;
   final Color backgroundColor;
   final BorderRadius borderRadius;
+  final VoidCallback onPressed;
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.only(
-        bottom: DimensSizeV2.d8,
-      ),
-      child: DecoratedBox(
-        decoration: BoxDecoration(
-          color: backgroundColor,
-          borderRadius: borderRadius,
+    return GestureDetector(
+      onTap: onPressed,
+      child: Padding(
+        padding: const EdgeInsets.only(
+          top: DimensSizeV2.d8,
         ),
-        child: Padding(
-          padding: const EdgeInsets.symmetric(
-            vertical: DimensSizeV2.d12,
-            horizontal: DimensSizeV2.d16,
+        child: DecoratedBox(
+          decoration: BoxDecoration(
+            color: backgroundColor,
+            borderRadius: borderRadius,
           ),
-          child: Row(
-            spacing: DimensSizeV2.d8,
-            children: [
-              icon,
-              Flexible(child: description),
-              const Spacer(),
-              Padding(
-                padding: chevronPadding,
-                child: const Icon(
+          child: Padding(
+            padding: const EdgeInsets.symmetric(
+              vertical: DimensSizeV2.d12,
+              horizontal: DimensSizeV2.d16,
+            ),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              crossAxisAlignment: crossAxisAlignment,
+              children: [
+                Flexible(
+                  child: Row(
+                    crossAxisAlignment: crossAxisAlignment,
+                    spacing: DimensSizeV2.d8,
+                    children: [
+                      icon,
+                      Flexible(child: description),
+                    ],
+                  ),
+                ),
+                const Icon(
                   LucideIcons.chevronRight,
                   size: DimensSizeV2.d20,
                 ),
-              ),
-            ],
+              ],
+            ),
           ),
         ),
       ),

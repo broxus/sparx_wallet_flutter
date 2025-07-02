@@ -76,7 +76,7 @@ class BrowserServiceBookmarksDelegate
   void createBrowserBookmark(Uri uri, String? title) {
     setBrowserBookmarkItem(
       BrowserBookmarkItem.create(
-        uri: uri,
+        url: uri,
         title: title ?? '',
       ),
     );
@@ -86,13 +86,13 @@ class BrowserServiceBookmarksDelegate
     BrowserBookmarkItem item, {
     bool needUndo = true,
   }) {
-    if (item.uri.host.isEmpty) {
+    if (item.url.host.isEmpty) {
       return;
     }
 
     final bookmarks = [...browserBookmarks];
 
-    final index = bookmarks.indexWhere((i) => i.uri == item.uri);
+    final index = bookmarks.indexWhere((i) => i.url == item.url);
 
     if (index == -1) {
       bookmarks.add(item);
@@ -196,7 +196,7 @@ class BrowserServiceBookmarksDelegate
 
   bool checkExistBookmarkByUri(Uri? url) {
     return (url?.host.isNotEmpty ?? false) &&
-        browserBookmarks.indexWhere((item) => item.uri == url) < 0;
+        browserBookmarks.indexWhere((item) => item.url == url) < 0;
   }
 
   @override
