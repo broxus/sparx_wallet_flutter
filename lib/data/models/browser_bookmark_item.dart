@@ -1,13 +1,15 @@
+import 'package:app/data/models/browser_item.dart';
 import 'package:app/utils/utils.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:nekoton_repository/nekoton_repository.dart';
 import 'package:uuid/uuid.dart';
 
 part 'browser_bookmark_item.freezed.dart';
+
 part 'browser_bookmark_item.g.dart';
 
 @freezed
-class BrowserBookmarkItem with _$BrowserBookmarkItem {
+class BrowserBookmarkItem with _$BrowserBookmarkItem implements BrowserItem {
   const factory BrowserBookmarkItem({
     required String id,
     required String title,
