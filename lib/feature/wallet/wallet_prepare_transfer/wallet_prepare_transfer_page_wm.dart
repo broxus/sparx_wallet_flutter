@@ -266,7 +266,6 @@ class WalletPrepareTransferPageWidgetModel extends CustomWidgetModel<
     }
 
     _updateState(
-      walletName: model.getWalletName(acc),
       account: acc,
     );
 
@@ -285,7 +284,6 @@ class WalletPrepareTransferPageWidgetModel extends CustomWidgetModel<
     }
 
     _updateState(
-      walletName: model.getWalletName(acc),
       account: acc,
       selectedCustodian: acc.publicKey,
       localCustodians: await model.getLocalCustodiansAsync(address),
@@ -440,7 +438,6 @@ class WalletPrepareTransferPageWidgetModel extends CustomWidgetModel<
   }
 
   void _updateState({
-    String? walletName,
     KeyAccount? account,
     PublicKey? selectedCustodian,
     List<PublicKey>? localCustodians,
@@ -448,7 +445,6 @@ class WalletPrepareTransferPageWidgetModel extends CustomWidgetModel<
   }) {
     screenState.content(
       _data?.copyWith(
-        walletName: walletName,
         account: account,
         selectedCustodian: selectedCustodian,
         localCustodians: localCustodians,
