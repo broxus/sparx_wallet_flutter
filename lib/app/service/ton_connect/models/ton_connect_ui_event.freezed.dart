@@ -1,3 +1,4 @@
+// dart format width=80
 // coverage:ignore-file
 // GENERATED CODE - DO NOT MODIFY BY HAND
 // ignore_for_file: type=lint
@@ -9,134 +10,91 @@ part of 'ton_connect_ui_event.dart';
 // FreezedGenerator
 // **************************************************************************
 
+// dart format off
 T _$identity<T>(T value) => value;
-
-final _privateConstructorUsedError = UnsupportedError(
-    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models');
 
 /// @nodoc
 mixin _$TonConnectUiEvent {
-  @optionalTypeArgs
-  TResult when<TResult extends Object?>({
-    required TResult Function(String message) error,
-    required TResult Function(ConnectRequest request, DappManifest manifest,
-            Completer<(KeyAccount, List<ConnectItemReply>)?> completer)
-        connect,
-    required TResult Function(TonAppConnection connection,
-            TransactionPayload payload, Completer<SignedMessage?> completer)
-        sendTransaction,
-    required TResult Function(TonAppConnection connection,
-            SignDataPayload payload, Completer<SignDataResult?> completer)
-        signData,
-  }) =>
-      throw _privateConstructorUsedError;
-  @optionalTypeArgs
-  TResult? whenOrNull<TResult extends Object?>({
-    TResult? Function(String message)? error,
-    TResult? Function(ConnectRequest request, DappManifest manifest,
-            Completer<(KeyAccount, List<ConnectItemReply>)?> completer)?
-        connect,
-    TResult? Function(TonAppConnection connection, TransactionPayload payload,
-            Completer<SignedMessage?> completer)?
-        sendTransaction,
-    TResult? Function(TonAppConnection connection, SignDataPayload payload,
-            Completer<SignDataResult?> completer)?
-        signData,
-  }) =>
-      throw _privateConstructorUsedError;
-  @optionalTypeArgs
-  TResult maybeWhen<TResult extends Object?>({
-    TResult Function(String message)? error,
-    TResult Function(ConnectRequest request, DappManifest manifest,
-            Completer<(KeyAccount, List<ConnectItemReply>)?> completer)?
-        connect,
-    TResult Function(TonAppConnection connection, TransactionPayload payload,
-            Completer<SignedMessage?> completer)?
-        sendTransaction,
-    TResult Function(TonAppConnection connection, SignDataPayload payload,
-            Completer<SignDataResult?> completer)?
-        signData,
-    required TResult orElse(),
-  }) =>
-      throw _privateConstructorUsedError;
-  @optionalTypeArgs
-  TResult map<TResult extends Object?>({
-    required TResult Function(TonConnectUiEventError value) error,
-    required TResult Function(TonConnectUiEventConnect value) connect,
-    required TResult Function(TonConnectUiEventSendTransaction value)
-        sendTransaction,
-    required TResult Function(TonConnectUiEventSignData value) signData,
-  }) =>
-      throw _privateConstructorUsedError;
-  @optionalTypeArgs
-  TResult? mapOrNull<TResult extends Object?>({
-    TResult? Function(TonConnectUiEventError value)? error,
-    TResult? Function(TonConnectUiEventConnect value)? connect,
-    TResult? Function(TonConnectUiEventSendTransaction value)? sendTransaction,
-    TResult? Function(TonConnectUiEventSignData value)? signData,
-  }) =>
-      throw _privateConstructorUsedError;
-  @optionalTypeArgs
-  TResult maybeMap<TResult extends Object?>({
-    TResult Function(TonConnectUiEventError value)? error,
-    TResult Function(TonConnectUiEventConnect value)? connect,
-    TResult Function(TonConnectUiEventSendTransaction value)? sendTransaction,
-    TResult Function(TonConnectUiEventSignData value)? signData,
-    required TResult orElse(),
-  }) =>
-      throw _privateConstructorUsedError;
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType && other is TonConnectUiEvent);
+  }
+
+  @override
+  int get hashCode => runtimeType.hashCode;
+
+  @override
+  String toString() {
+    return 'TonConnectUiEvent()';
+  }
 }
 
 /// @nodoc
-abstract class $TonConnectUiEventCopyWith<$Res> {
-  factory $TonConnectUiEventCopyWith(
-          TonConnectUiEvent value, $Res Function(TonConnectUiEvent) then) =
-      _$TonConnectUiEventCopyWithImpl<$Res, TonConnectUiEvent>;
+class $TonConnectUiEventCopyWith<$Res> {
+  $TonConnectUiEventCopyWith(
+      TonConnectUiEvent _, $Res Function(TonConnectUiEvent) __);
 }
 
 /// @nodoc
-class _$TonConnectUiEventCopyWithImpl<$Res, $Val extends TonConnectUiEvent>
-    implements $TonConnectUiEventCopyWith<$Res> {
-  _$TonConnectUiEventCopyWithImpl(this._value, this._then);
 
-  // ignore: unused_field
-  final $Val _value;
-  // ignore: unused_field
-  final $Res Function($Val) _then;
+class TonConnectUiEventError implements TonConnectUiEvent {
+  TonConnectUiEventError({required this.message});
+
+  final String message;
 
   /// Create a copy of TonConnectUiEvent
   /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @pragma('vm:prefer-inline')
+  $TonConnectUiEventErrorCopyWith<TonConnectUiEventError> get copyWith =>
+      _$TonConnectUiEventErrorCopyWithImpl<TonConnectUiEventError>(
+          this, _$identity);
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is TonConnectUiEventError &&
+            (identical(other.message, message) || other.message == message));
+  }
+
+  @override
+  int get hashCode => Object.hash(runtimeType, message);
+
+  @override
+  String toString() {
+    return 'TonConnectUiEvent.error(message: $message)';
+  }
 }
 
 /// @nodoc
-abstract class _$$TonConnectUiEventErrorImplCopyWith<$Res> {
-  factory _$$TonConnectUiEventErrorImplCopyWith(
-          _$TonConnectUiEventErrorImpl value,
-          $Res Function(_$TonConnectUiEventErrorImpl) then) =
-      __$$TonConnectUiEventErrorImplCopyWithImpl<$Res>;
+abstract mixin class $TonConnectUiEventErrorCopyWith<$Res>
+    implements $TonConnectUiEventCopyWith<$Res> {
+  factory $TonConnectUiEventErrorCopyWith(TonConnectUiEventError value,
+          $Res Function(TonConnectUiEventError) _then) =
+      _$TonConnectUiEventErrorCopyWithImpl;
   @useResult
   $Res call({String message});
 }
 
 /// @nodoc
-class __$$TonConnectUiEventErrorImplCopyWithImpl<$Res>
-    extends _$TonConnectUiEventCopyWithImpl<$Res, _$TonConnectUiEventErrorImpl>
-    implements _$$TonConnectUiEventErrorImplCopyWith<$Res> {
-  __$$TonConnectUiEventErrorImplCopyWithImpl(
-      _$TonConnectUiEventErrorImpl _value,
-      $Res Function(_$TonConnectUiEventErrorImpl) _then)
-      : super(_value, _then);
+class _$TonConnectUiEventErrorCopyWithImpl<$Res>
+    implements $TonConnectUiEventErrorCopyWith<$Res> {
+  _$TonConnectUiEventErrorCopyWithImpl(this._self, this._then);
+
+  final TonConnectUiEventError _self;
+  final $Res Function(TonConnectUiEventError) _then;
 
   /// Create a copy of TonConnectUiEvent
   /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
-  @override
   $Res call({
     Object? message = null,
   }) {
-    return _then(_$TonConnectUiEventErrorImpl(
+    return _then(TonConnectUiEventError(
       message: null == message
-          ? _value.message
+          ? _self.message
           : message // ignore: cast_nullable_to_non_nullable
               as String,
     ));
@@ -145,150 +103,49 @@ class __$$TonConnectUiEventErrorImplCopyWithImpl<$Res>
 
 /// @nodoc
 
-class _$TonConnectUiEventErrorImpl implements TonConnectUiEventError {
-  _$TonConnectUiEventErrorImpl({required this.message});
+class TonConnectUiEventConnect implements TonConnectUiEvent {
+  TonConnectUiEventConnect(
+      {required this.request, required this.manifest, required this.completer});
 
-  @override
-  final String message;
+  final ConnectRequest request;
+  final DappManifest manifest;
+  final Completer<(KeyAccount, List<ConnectItemReply>)?> completer;
 
-  @override
-  String toString() {
-    return 'TonConnectUiEvent.error(message: $message)';
-  }
+  /// Create a copy of TonConnectUiEvent
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @pragma('vm:prefer-inline')
+  $TonConnectUiEventConnectCopyWith<TonConnectUiEventConnect> get copyWith =>
+      _$TonConnectUiEventConnectCopyWithImpl<TonConnectUiEventConnect>(
+          this, _$identity);
 
   @override
   bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$TonConnectUiEventErrorImpl &&
-            (identical(other.message, message) || other.message == message));
+            other is TonConnectUiEventConnect &&
+            (identical(other.request, request) || other.request == request) &&
+            (identical(other.manifest, manifest) ||
+                other.manifest == manifest) &&
+            (identical(other.completer, completer) ||
+                other.completer == completer));
   }
 
   @override
-  int get hashCode => Object.hash(runtimeType, message);
-
-  /// Create a copy of TonConnectUiEvent
-  /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
-  @override
-  @pragma('vm:prefer-inline')
-  _$$TonConnectUiEventErrorImplCopyWith<_$TonConnectUiEventErrorImpl>
-      get copyWith => __$$TonConnectUiEventErrorImplCopyWithImpl<
-          _$TonConnectUiEventErrorImpl>(this, _$identity);
+  int get hashCode => Object.hash(runtimeType, request, manifest, completer);
 
   @override
-  @optionalTypeArgs
-  TResult when<TResult extends Object?>({
-    required TResult Function(String message) error,
-    required TResult Function(ConnectRequest request, DappManifest manifest,
-            Completer<(KeyAccount, List<ConnectItemReply>)?> completer)
-        connect,
-    required TResult Function(TonAppConnection connection,
-            TransactionPayload payload, Completer<SignedMessage?> completer)
-        sendTransaction,
-    required TResult Function(TonAppConnection connection,
-            SignDataPayload payload, Completer<SignDataResult?> completer)
-        signData,
-  }) {
-    return error(message);
+  String toString() {
+    return 'TonConnectUiEvent.connect(request: $request, manifest: $manifest, completer: $completer)';
   }
-
-  @override
-  @optionalTypeArgs
-  TResult? whenOrNull<TResult extends Object?>({
-    TResult? Function(String message)? error,
-    TResult? Function(ConnectRequest request, DappManifest manifest,
-            Completer<(KeyAccount, List<ConnectItemReply>)?> completer)?
-        connect,
-    TResult? Function(TonAppConnection connection, TransactionPayload payload,
-            Completer<SignedMessage?> completer)?
-        sendTransaction,
-    TResult? Function(TonAppConnection connection, SignDataPayload payload,
-            Completer<SignDataResult?> completer)?
-        signData,
-  }) {
-    return error?.call(message);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult maybeWhen<TResult extends Object?>({
-    TResult Function(String message)? error,
-    TResult Function(ConnectRequest request, DappManifest manifest,
-            Completer<(KeyAccount, List<ConnectItemReply>)?> completer)?
-        connect,
-    TResult Function(TonAppConnection connection, TransactionPayload payload,
-            Completer<SignedMessage?> completer)?
-        sendTransaction,
-    TResult Function(TonAppConnection connection, SignDataPayload payload,
-            Completer<SignDataResult?> completer)?
-        signData,
-    required TResult orElse(),
-  }) {
-    if (error != null) {
-      return error(message);
-    }
-    return orElse();
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult map<TResult extends Object?>({
-    required TResult Function(TonConnectUiEventError value) error,
-    required TResult Function(TonConnectUiEventConnect value) connect,
-    required TResult Function(TonConnectUiEventSendTransaction value)
-        sendTransaction,
-    required TResult Function(TonConnectUiEventSignData value) signData,
-  }) {
-    return error(this);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult? mapOrNull<TResult extends Object?>({
-    TResult? Function(TonConnectUiEventError value)? error,
-    TResult? Function(TonConnectUiEventConnect value)? connect,
-    TResult? Function(TonConnectUiEventSendTransaction value)? sendTransaction,
-    TResult? Function(TonConnectUiEventSignData value)? signData,
-  }) {
-    return error?.call(this);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult maybeMap<TResult extends Object?>({
-    TResult Function(TonConnectUiEventError value)? error,
-    TResult Function(TonConnectUiEventConnect value)? connect,
-    TResult Function(TonConnectUiEventSendTransaction value)? sendTransaction,
-    TResult Function(TonConnectUiEventSignData value)? signData,
-    required TResult orElse(),
-  }) {
-    if (error != null) {
-      return error(this);
-    }
-    return orElse();
-  }
-}
-
-abstract class TonConnectUiEventError implements TonConnectUiEvent {
-  factory TonConnectUiEventError({required final String message}) =
-      _$TonConnectUiEventErrorImpl;
-
-  String get message;
-
-  /// Create a copy of TonConnectUiEvent
-  /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
-  _$$TonConnectUiEventErrorImplCopyWith<_$TonConnectUiEventErrorImpl>
-      get copyWith => throw _privateConstructorUsedError;
 }
 
 /// @nodoc
-abstract class _$$TonConnectUiEventConnectImplCopyWith<$Res> {
-  factory _$$TonConnectUiEventConnectImplCopyWith(
-          _$TonConnectUiEventConnectImpl value,
-          $Res Function(_$TonConnectUiEventConnectImpl) then) =
-      __$$TonConnectUiEventConnectImplCopyWithImpl<$Res>;
+abstract mixin class $TonConnectUiEventConnectCopyWith<$Res>
+    implements $TonConnectUiEventCopyWith<$Res> {
+  factory $TonConnectUiEventConnectCopyWith(TonConnectUiEventConnect value,
+          $Res Function(TonConnectUiEventConnect) _then) =
+      _$TonConnectUiEventConnectCopyWithImpl;
   @useResult
   $Res call(
       {ConnectRequest request,
@@ -300,35 +157,32 @@ abstract class _$$TonConnectUiEventConnectImplCopyWith<$Res> {
 }
 
 /// @nodoc
-class __$$TonConnectUiEventConnectImplCopyWithImpl<$Res>
-    extends _$TonConnectUiEventCopyWithImpl<$Res,
-        _$TonConnectUiEventConnectImpl>
-    implements _$$TonConnectUiEventConnectImplCopyWith<$Res> {
-  __$$TonConnectUiEventConnectImplCopyWithImpl(
-      _$TonConnectUiEventConnectImpl _value,
-      $Res Function(_$TonConnectUiEventConnectImpl) _then)
-      : super(_value, _then);
+class _$TonConnectUiEventConnectCopyWithImpl<$Res>
+    implements $TonConnectUiEventConnectCopyWith<$Res> {
+  _$TonConnectUiEventConnectCopyWithImpl(this._self, this._then);
+
+  final TonConnectUiEventConnect _self;
+  final $Res Function(TonConnectUiEventConnect) _then;
 
   /// Create a copy of TonConnectUiEvent
   /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
-  @override
   $Res call({
     Object? request = null,
     Object? manifest = null,
     Object? completer = null,
   }) {
-    return _then(_$TonConnectUiEventConnectImpl(
+    return _then(TonConnectUiEventConnect(
       request: null == request
-          ? _value.request
+          ? _self.request
           : request // ignore: cast_nullable_to_non_nullable
               as ConnectRequest,
       manifest: null == manifest
-          ? _value.manifest
+          ? _self.manifest
           : manifest // ignore: cast_nullable_to_non_nullable
               as DappManifest,
       completer: null == completer
-          ? _value.completer
+          ? _self.completer
           : completer // ignore: cast_nullable_to_non_nullable
               as Completer<(KeyAccount, List<ConnectItemReply>)?>,
     ));
@@ -339,8 +193,8 @@ class __$$TonConnectUiEventConnectImplCopyWithImpl<$Res>
   @override
   @pragma('vm:prefer-inline')
   $ConnectRequestCopyWith<$Res> get request {
-    return $ConnectRequestCopyWith<$Res>(_value.request, (value) {
-      return _then(_value.copyWith(request: value));
+    return $ConnectRequestCopyWith<$Res>(_self.request, (value) {
+      return _then(_self.copyWith(request: value));
     });
   }
 
@@ -349,172 +203,60 @@ class __$$TonConnectUiEventConnectImplCopyWithImpl<$Res>
   @override
   @pragma('vm:prefer-inline')
   $DappManifestCopyWith<$Res> get manifest {
-    return $DappManifestCopyWith<$Res>(_value.manifest, (value) {
-      return _then(_value.copyWith(manifest: value));
+    return $DappManifestCopyWith<$Res>(_self.manifest, (value) {
+      return _then(_self.copyWith(manifest: value));
     });
   }
 }
 
 /// @nodoc
 
-class _$TonConnectUiEventConnectImpl implements TonConnectUiEventConnect {
-  _$TonConnectUiEventConnectImpl(
-      {required this.request, required this.manifest, required this.completer});
+class TonConnectUiEventSendTransaction implements TonConnectUiEvent {
+  TonConnectUiEventSendTransaction(
+      {required this.connection,
+      required this.payload,
+      required this.completer});
 
-  @override
-  final ConnectRequest request;
-  @override
-  final DappManifest manifest;
-  @override
-  final Completer<(KeyAccount, List<ConnectItemReply>)?> completer;
+  final TonAppConnection connection;
+  final TransactionPayload payload;
+  final Completer<SignedMessage?> completer;
 
-  @override
-  String toString() {
-    return 'TonConnectUiEvent.connect(request: $request, manifest: $manifest, completer: $completer)';
-  }
+  /// Create a copy of TonConnectUiEvent
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @pragma('vm:prefer-inline')
+  $TonConnectUiEventSendTransactionCopyWith<TonConnectUiEventSendTransaction>
+      get copyWith => _$TonConnectUiEventSendTransactionCopyWithImpl<
+          TonConnectUiEventSendTransaction>(this, _$identity);
 
   @override
   bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$TonConnectUiEventConnectImpl &&
-            (identical(other.request, request) || other.request == request) &&
-            (identical(other.manifest, manifest) ||
-                other.manifest == manifest) &&
+            other is TonConnectUiEventSendTransaction &&
+            (identical(other.connection, connection) ||
+                other.connection == connection) &&
+            (identical(other.payload, payload) || other.payload == payload) &&
             (identical(other.completer, completer) ||
                 other.completer == completer));
   }
 
   @override
-  int get hashCode => Object.hash(runtimeType, request, manifest, completer);
-
-  /// Create a copy of TonConnectUiEvent
-  /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
-  @override
-  @pragma('vm:prefer-inline')
-  _$$TonConnectUiEventConnectImplCopyWith<_$TonConnectUiEventConnectImpl>
-      get copyWith => __$$TonConnectUiEventConnectImplCopyWithImpl<
-          _$TonConnectUiEventConnectImpl>(this, _$identity);
+  int get hashCode => Object.hash(runtimeType, connection, payload, completer);
 
   @override
-  @optionalTypeArgs
-  TResult when<TResult extends Object?>({
-    required TResult Function(String message) error,
-    required TResult Function(ConnectRequest request, DappManifest manifest,
-            Completer<(KeyAccount, List<ConnectItemReply>)?> completer)
-        connect,
-    required TResult Function(TonAppConnection connection,
-            TransactionPayload payload, Completer<SignedMessage?> completer)
-        sendTransaction,
-    required TResult Function(TonAppConnection connection,
-            SignDataPayload payload, Completer<SignDataResult?> completer)
-        signData,
-  }) {
-    return connect(request, manifest, completer);
+  String toString() {
+    return 'TonConnectUiEvent.sendTransaction(connection: $connection, payload: $payload, completer: $completer)';
   }
-
-  @override
-  @optionalTypeArgs
-  TResult? whenOrNull<TResult extends Object?>({
-    TResult? Function(String message)? error,
-    TResult? Function(ConnectRequest request, DappManifest manifest,
-            Completer<(KeyAccount, List<ConnectItemReply>)?> completer)?
-        connect,
-    TResult? Function(TonAppConnection connection, TransactionPayload payload,
-            Completer<SignedMessage?> completer)?
-        sendTransaction,
-    TResult? Function(TonAppConnection connection, SignDataPayload payload,
-            Completer<SignDataResult?> completer)?
-        signData,
-  }) {
-    return connect?.call(request, manifest, completer);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult maybeWhen<TResult extends Object?>({
-    TResult Function(String message)? error,
-    TResult Function(ConnectRequest request, DappManifest manifest,
-            Completer<(KeyAccount, List<ConnectItemReply>)?> completer)?
-        connect,
-    TResult Function(TonAppConnection connection, TransactionPayload payload,
-            Completer<SignedMessage?> completer)?
-        sendTransaction,
-    TResult Function(TonAppConnection connection, SignDataPayload payload,
-            Completer<SignDataResult?> completer)?
-        signData,
-    required TResult orElse(),
-  }) {
-    if (connect != null) {
-      return connect(request, manifest, completer);
-    }
-    return orElse();
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult map<TResult extends Object?>({
-    required TResult Function(TonConnectUiEventError value) error,
-    required TResult Function(TonConnectUiEventConnect value) connect,
-    required TResult Function(TonConnectUiEventSendTransaction value)
-        sendTransaction,
-    required TResult Function(TonConnectUiEventSignData value) signData,
-  }) {
-    return connect(this);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult? mapOrNull<TResult extends Object?>({
-    TResult? Function(TonConnectUiEventError value)? error,
-    TResult? Function(TonConnectUiEventConnect value)? connect,
-    TResult? Function(TonConnectUiEventSendTransaction value)? sendTransaction,
-    TResult? Function(TonConnectUiEventSignData value)? signData,
-  }) {
-    return connect?.call(this);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult maybeMap<TResult extends Object?>({
-    TResult Function(TonConnectUiEventError value)? error,
-    TResult Function(TonConnectUiEventConnect value)? connect,
-    TResult Function(TonConnectUiEventSendTransaction value)? sendTransaction,
-    TResult Function(TonConnectUiEventSignData value)? signData,
-    required TResult orElse(),
-  }) {
-    if (connect != null) {
-      return connect(this);
-    }
-    return orElse();
-  }
-}
-
-abstract class TonConnectUiEventConnect implements TonConnectUiEvent {
-  factory TonConnectUiEventConnect(
-      {required final ConnectRequest request,
-      required final DappManifest manifest,
-      required final Completer<(KeyAccount, List<ConnectItemReply>)?>
-          completer}) = _$TonConnectUiEventConnectImpl;
-
-  ConnectRequest get request;
-  DappManifest get manifest;
-  Completer<(KeyAccount, List<ConnectItemReply>)?> get completer;
-
-  /// Create a copy of TonConnectUiEvent
-  /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
-  _$$TonConnectUiEventConnectImplCopyWith<_$TonConnectUiEventConnectImpl>
-      get copyWith => throw _privateConstructorUsedError;
 }
 
 /// @nodoc
-abstract class _$$TonConnectUiEventSendTransactionImplCopyWith<$Res> {
-  factory _$$TonConnectUiEventSendTransactionImplCopyWith(
-          _$TonConnectUiEventSendTransactionImpl value,
-          $Res Function(_$TonConnectUiEventSendTransactionImpl) then) =
-      __$$TonConnectUiEventSendTransactionImplCopyWithImpl<$Res>;
+abstract mixin class $TonConnectUiEventSendTransactionCopyWith<$Res>
+    implements $TonConnectUiEventCopyWith<$Res> {
+  factory $TonConnectUiEventSendTransactionCopyWith(
+          TonConnectUiEventSendTransaction value,
+          $Res Function(TonConnectUiEventSendTransaction) _then) =
+      _$TonConnectUiEventSendTransactionCopyWithImpl;
   @useResult
   $Res call(
       {TonAppConnection connection,
@@ -526,35 +268,32 @@ abstract class _$$TonConnectUiEventSendTransactionImplCopyWith<$Res> {
 }
 
 /// @nodoc
-class __$$TonConnectUiEventSendTransactionImplCopyWithImpl<$Res>
-    extends _$TonConnectUiEventCopyWithImpl<$Res,
-        _$TonConnectUiEventSendTransactionImpl>
-    implements _$$TonConnectUiEventSendTransactionImplCopyWith<$Res> {
-  __$$TonConnectUiEventSendTransactionImplCopyWithImpl(
-      _$TonConnectUiEventSendTransactionImpl _value,
-      $Res Function(_$TonConnectUiEventSendTransactionImpl) _then)
-      : super(_value, _then);
+class _$TonConnectUiEventSendTransactionCopyWithImpl<$Res>
+    implements $TonConnectUiEventSendTransactionCopyWith<$Res> {
+  _$TonConnectUiEventSendTransactionCopyWithImpl(this._self, this._then);
+
+  final TonConnectUiEventSendTransaction _self;
+  final $Res Function(TonConnectUiEventSendTransaction) _then;
 
   /// Create a copy of TonConnectUiEvent
   /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
-  @override
   $Res call({
     Object? connection = null,
     Object? payload = null,
     Object? completer = null,
   }) {
-    return _then(_$TonConnectUiEventSendTransactionImpl(
+    return _then(TonConnectUiEventSendTransaction(
       connection: null == connection
-          ? _value.connection
+          ? _self.connection
           : connection // ignore: cast_nullable_to_non_nullable
               as TonAppConnection,
       payload: null == payload
-          ? _value.payload
+          ? _self.payload
           : payload // ignore: cast_nullable_to_non_nullable
               as TransactionPayload,
       completer: null == completer
-          ? _value.completer
+          ? _self.completer
           : completer // ignore: cast_nullable_to_non_nullable
               as Completer<SignedMessage?>,
     ));
@@ -565,8 +304,8 @@ class __$$TonConnectUiEventSendTransactionImplCopyWithImpl<$Res>
   @override
   @pragma('vm:prefer-inline')
   $TonAppConnectionCopyWith<$Res> get connection {
-    return $TonAppConnectionCopyWith<$Res>(_value.connection, (value) {
-      return _then(_value.copyWith(connection: value));
+    return $TonAppConnectionCopyWith<$Res>(_self.connection, (value) {
+      return _then(_self.copyWith(connection: value));
     });
   }
 
@@ -575,38 +314,37 @@ class __$$TonConnectUiEventSendTransactionImplCopyWithImpl<$Res>
   @override
   @pragma('vm:prefer-inline')
   $TransactionPayloadCopyWith<$Res> get payload {
-    return $TransactionPayloadCopyWith<$Res>(_value.payload, (value) {
-      return _then(_value.copyWith(payload: value));
+    return $TransactionPayloadCopyWith<$Res>(_self.payload, (value) {
+      return _then(_self.copyWith(payload: value));
     });
   }
 }
 
 /// @nodoc
 
-class _$TonConnectUiEventSendTransactionImpl
-    implements TonConnectUiEventSendTransaction {
-  _$TonConnectUiEventSendTransactionImpl(
+class TonConnectUiEventSignData implements TonConnectUiEvent {
+  TonConnectUiEventSignData(
       {required this.connection,
       required this.payload,
       required this.completer});
 
-  @override
   final TonAppConnection connection;
-  @override
-  final TransactionPayload payload;
-  @override
-  final Completer<SignedMessage?> completer;
+  final SignDataPayload payload;
+  final Completer<SignDataResult?> completer;
 
-  @override
-  String toString() {
-    return 'TonConnectUiEvent.sendTransaction(connection: $connection, payload: $payload, completer: $completer)';
-  }
+  /// Create a copy of TonConnectUiEvent
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @pragma('vm:prefer-inline')
+  $TonConnectUiEventSignDataCopyWith<TonConnectUiEventSignData> get copyWith =>
+      _$TonConnectUiEventSignDataCopyWithImpl<TonConnectUiEventSignData>(
+          this, _$identity);
 
   @override
   bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$TonConnectUiEventSendTransactionImpl &&
+            other is TonConnectUiEventSignData &&
             (identical(other.connection, connection) ||
                 other.connection == connection) &&
             (identical(other.payload, payload) || other.payload == payload) &&
@@ -617,135 +355,18 @@ class _$TonConnectUiEventSendTransactionImpl
   @override
   int get hashCode => Object.hash(runtimeType, connection, payload, completer);
 
-  /// Create a copy of TonConnectUiEvent
-  /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
-  @pragma('vm:prefer-inline')
-  _$$TonConnectUiEventSendTransactionImplCopyWith<
-          _$TonConnectUiEventSendTransactionImpl>
-      get copyWith => __$$TonConnectUiEventSendTransactionImplCopyWithImpl<
-          _$TonConnectUiEventSendTransactionImpl>(this, _$identity);
-
-  @override
-  @optionalTypeArgs
-  TResult when<TResult extends Object?>({
-    required TResult Function(String message) error,
-    required TResult Function(ConnectRequest request, DappManifest manifest,
-            Completer<(KeyAccount, List<ConnectItemReply>)?> completer)
-        connect,
-    required TResult Function(TonAppConnection connection,
-            TransactionPayload payload, Completer<SignedMessage?> completer)
-        sendTransaction,
-    required TResult Function(TonAppConnection connection,
-            SignDataPayload payload, Completer<SignDataResult?> completer)
-        signData,
-  }) {
-    return sendTransaction(connection, payload, completer);
+  String toString() {
+    return 'TonConnectUiEvent.signData(connection: $connection, payload: $payload, completer: $completer)';
   }
-
-  @override
-  @optionalTypeArgs
-  TResult? whenOrNull<TResult extends Object?>({
-    TResult? Function(String message)? error,
-    TResult? Function(ConnectRequest request, DappManifest manifest,
-            Completer<(KeyAccount, List<ConnectItemReply>)?> completer)?
-        connect,
-    TResult? Function(TonAppConnection connection, TransactionPayload payload,
-            Completer<SignedMessage?> completer)?
-        sendTransaction,
-    TResult? Function(TonAppConnection connection, SignDataPayload payload,
-            Completer<SignDataResult?> completer)?
-        signData,
-  }) {
-    return sendTransaction?.call(connection, payload, completer);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult maybeWhen<TResult extends Object?>({
-    TResult Function(String message)? error,
-    TResult Function(ConnectRequest request, DappManifest manifest,
-            Completer<(KeyAccount, List<ConnectItemReply>)?> completer)?
-        connect,
-    TResult Function(TonAppConnection connection, TransactionPayload payload,
-            Completer<SignedMessage?> completer)?
-        sendTransaction,
-    TResult Function(TonAppConnection connection, SignDataPayload payload,
-            Completer<SignDataResult?> completer)?
-        signData,
-    required TResult orElse(),
-  }) {
-    if (sendTransaction != null) {
-      return sendTransaction(connection, payload, completer);
-    }
-    return orElse();
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult map<TResult extends Object?>({
-    required TResult Function(TonConnectUiEventError value) error,
-    required TResult Function(TonConnectUiEventConnect value) connect,
-    required TResult Function(TonConnectUiEventSendTransaction value)
-        sendTransaction,
-    required TResult Function(TonConnectUiEventSignData value) signData,
-  }) {
-    return sendTransaction(this);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult? mapOrNull<TResult extends Object?>({
-    TResult? Function(TonConnectUiEventError value)? error,
-    TResult? Function(TonConnectUiEventConnect value)? connect,
-    TResult? Function(TonConnectUiEventSendTransaction value)? sendTransaction,
-    TResult? Function(TonConnectUiEventSignData value)? signData,
-  }) {
-    return sendTransaction?.call(this);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult maybeMap<TResult extends Object?>({
-    TResult Function(TonConnectUiEventError value)? error,
-    TResult Function(TonConnectUiEventConnect value)? connect,
-    TResult Function(TonConnectUiEventSendTransaction value)? sendTransaction,
-    TResult Function(TonConnectUiEventSignData value)? signData,
-    required TResult orElse(),
-  }) {
-    if (sendTransaction != null) {
-      return sendTransaction(this);
-    }
-    return orElse();
-  }
-}
-
-abstract class TonConnectUiEventSendTransaction implements TonConnectUiEvent {
-  factory TonConnectUiEventSendTransaction(
-          {required final TonAppConnection connection,
-          required final TransactionPayload payload,
-          required final Completer<SignedMessage?> completer}) =
-      _$TonConnectUiEventSendTransactionImpl;
-
-  TonAppConnection get connection;
-  TransactionPayload get payload;
-  Completer<SignedMessage?> get completer;
-
-  /// Create a copy of TonConnectUiEvent
-  /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
-  _$$TonConnectUiEventSendTransactionImplCopyWith<
-          _$TonConnectUiEventSendTransactionImpl>
-      get copyWith => throw _privateConstructorUsedError;
 }
 
 /// @nodoc
-abstract class _$$TonConnectUiEventSignDataImplCopyWith<$Res> {
-  factory _$$TonConnectUiEventSignDataImplCopyWith(
-          _$TonConnectUiEventSignDataImpl value,
-          $Res Function(_$TonConnectUiEventSignDataImpl) then) =
-      __$$TonConnectUiEventSignDataImplCopyWithImpl<$Res>;
+abstract mixin class $TonConnectUiEventSignDataCopyWith<$Res>
+    implements $TonConnectUiEventCopyWith<$Res> {
+  factory $TonConnectUiEventSignDataCopyWith(TonConnectUiEventSignData value,
+          $Res Function(TonConnectUiEventSignData) _then) =
+      _$TonConnectUiEventSignDataCopyWithImpl;
   @useResult
   $Res call(
       {TonAppConnection connection,
@@ -757,35 +378,32 @@ abstract class _$$TonConnectUiEventSignDataImplCopyWith<$Res> {
 }
 
 /// @nodoc
-class __$$TonConnectUiEventSignDataImplCopyWithImpl<$Res>
-    extends _$TonConnectUiEventCopyWithImpl<$Res,
-        _$TonConnectUiEventSignDataImpl>
-    implements _$$TonConnectUiEventSignDataImplCopyWith<$Res> {
-  __$$TonConnectUiEventSignDataImplCopyWithImpl(
-      _$TonConnectUiEventSignDataImpl _value,
-      $Res Function(_$TonConnectUiEventSignDataImpl) _then)
-      : super(_value, _then);
+class _$TonConnectUiEventSignDataCopyWithImpl<$Res>
+    implements $TonConnectUiEventSignDataCopyWith<$Res> {
+  _$TonConnectUiEventSignDataCopyWithImpl(this._self, this._then);
+
+  final TonConnectUiEventSignData _self;
+  final $Res Function(TonConnectUiEventSignData) _then;
 
   /// Create a copy of TonConnectUiEvent
   /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
-  @override
   $Res call({
     Object? connection = null,
     Object? payload = null,
     Object? completer = null,
   }) {
-    return _then(_$TonConnectUiEventSignDataImpl(
+    return _then(TonConnectUiEventSignData(
       connection: null == connection
-          ? _value.connection
+          ? _self.connection
           : connection // ignore: cast_nullable_to_non_nullable
               as TonAppConnection,
       payload: null == payload
-          ? _value.payload
+          ? _self.payload
           : payload // ignore: cast_nullable_to_non_nullable
               as SignDataPayload,
       completer: null == completer
-          ? _value.completer
+          ? _self.completer
           : completer // ignore: cast_nullable_to_non_nullable
               as Completer<SignDataResult?>,
     ));
@@ -796,8 +414,8 @@ class __$$TonConnectUiEventSignDataImplCopyWithImpl<$Res>
   @override
   @pragma('vm:prefer-inline')
   $TonAppConnectionCopyWith<$Res> get connection {
-    return $TonAppConnectionCopyWith<$Res>(_value.connection, (value) {
-      return _then(_value.copyWith(connection: value));
+    return $TonAppConnectionCopyWith<$Res>(_self.connection, (value) {
+      return _then(_self.copyWith(connection: value));
     });
   }
 
@@ -806,164 +424,10 @@ class __$$TonConnectUiEventSignDataImplCopyWithImpl<$Res>
   @override
   @pragma('vm:prefer-inline')
   $SignDataPayloadCopyWith<$Res> get payload {
-    return $SignDataPayloadCopyWith<$Res>(_value.payload, (value) {
-      return _then(_value.copyWith(payload: value));
+    return $SignDataPayloadCopyWith<$Res>(_self.payload, (value) {
+      return _then(_self.copyWith(payload: value));
     });
   }
 }
 
-/// @nodoc
-
-class _$TonConnectUiEventSignDataImpl implements TonConnectUiEventSignData {
-  _$TonConnectUiEventSignDataImpl(
-      {required this.connection,
-      required this.payload,
-      required this.completer});
-
-  @override
-  final TonAppConnection connection;
-  @override
-  final SignDataPayload payload;
-  @override
-  final Completer<SignDataResult?> completer;
-
-  @override
-  String toString() {
-    return 'TonConnectUiEvent.signData(connection: $connection, payload: $payload, completer: $completer)';
-  }
-
-  @override
-  bool operator ==(Object other) {
-    return identical(this, other) ||
-        (other.runtimeType == runtimeType &&
-            other is _$TonConnectUiEventSignDataImpl &&
-            (identical(other.connection, connection) ||
-                other.connection == connection) &&
-            (identical(other.payload, payload) || other.payload == payload) &&
-            (identical(other.completer, completer) ||
-                other.completer == completer));
-  }
-
-  @override
-  int get hashCode => Object.hash(runtimeType, connection, payload, completer);
-
-  /// Create a copy of TonConnectUiEvent
-  /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
-  @override
-  @pragma('vm:prefer-inline')
-  _$$TonConnectUiEventSignDataImplCopyWith<_$TonConnectUiEventSignDataImpl>
-      get copyWith => __$$TonConnectUiEventSignDataImplCopyWithImpl<
-          _$TonConnectUiEventSignDataImpl>(this, _$identity);
-
-  @override
-  @optionalTypeArgs
-  TResult when<TResult extends Object?>({
-    required TResult Function(String message) error,
-    required TResult Function(ConnectRequest request, DappManifest manifest,
-            Completer<(KeyAccount, List<ConnectItemReply>)?> completer)
-        connect,
-    required TResult Function(TonAppConnection connection,
-            TransactionPayload payload, Completer<SignedMessage?> completer)
-        sendTransaction,
-    required TResult Function(TonAppConnection connection,
-            SignDataPayload payload, Completer<SignDataResult?> completer)
-        signData,
-  }) {
-    return signData(connection, payload, completer);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult? whenOrNull<TResult extends Object?>({
-    TResult? Function(String message)? error,
-    TResult? Function(ConnectRequest request, DappManifest manifest,
-            Completer<(KeyAccount, List<ConnectItemReply>)?> completer)?
-        connect,
-    TResult? Function(TonAppConnection connection, TransactionPayload payload,
-            Completer<SignedMessage?> completer)?
-        sendTransaction,
-    TResult? Function(TonAppConnection connection, SignDataPayload payload,
-            Completer<SignDataResult?> completer)?
-        signData,
-  }) {
-    return signData?.call(connection, payload, completer);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult maybeWhen<TResult extends Object?>({
-    TResult Function(String message)? error,
-    TResult Function(ConnectRequest request, DappManifest manifest,
-            Completer<(KeyAccount, List<ConnectItemReply>)?> completer)?
-        connect,
-    TResult Function(TonAppConnection connection, TransactionPayload payload,
-            Completer<SignedMessage?> completer)?
-        sendTransaction,
-    TResult Function(TonAppConnection connection, SignDataPayload payload,
-            Completer<SignDataResult?> completer)?
-        signData,
-    required TResult orElse(),
-  }) {
-    if (signData != null) {
-      return signData(connection, payload, completer);
-    }
-    return orElse();
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult map<TResult extends Object?>({
-    required TResult Function(TonConnectUiEventError value) error,
-    required TResult Function(TonConnectUiEventConnect value) connect,
-    required TResult Function(TonConnectUiEventSendTransaction value)
-        sendTransaction,
-    required TResult Function(TonConnectUiEventSignData value) signData,
-  }) {
-    return signData(this);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult? mapOrNull<TResult extends Object?>({
-    TResult? Function(TonConnectUiEventError value)? error,
-    TResult? Function(TonConnectUiEventConnect value)? connect,
-    TResult? Function(TonConnectUiEventSendTransaction value)? sendTransaction,
-    TResult? Function(TonConnectUiEventSignData value)? signData,
-  }) {
-    return signData?.call(this);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult maybeMap<TResult extends Object?>({
-    TResult Function(TonConnectUiEventError value)? error,
-    TResult Function(TonConnectUiEventConnect value)? connect,
-    TResult Function(TonConnectUiEventSendTransaction value)? sendTransaction,
-    TResult Function(TonConnectUiEventSignData value)? signData,
-    required TResult orElse(),
-  }) {
-    if (signData != null) {
-      return signData(this);
-    }
-    return orElse();
-  }
-}
-
-abstract class TonConnectUiEventSignData implements TonConnectUiEvent {
-  factory TonConnectUiEventSignData(
-          {required final TonAppConnection connection,
-          required final SignDataPayload payload,
-          required final Completer<SignDataResult?> completer}) =
-      _$TonConnectUiEventSignDataImpl;
-
-  TonAppConnection get connection;
-  SignDataPayload get payload;
-  Completer<SignDataResult?> get completer;
-
-  /// Create a copy of TonConnectUiEvent
-  /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
-  _$$TonConnectUiEventSignDataImplCopyWith<_$TonConnectUiEventSignDataImpl>
-      get copyWith => throw _privateConstructorUsedError;
-}
+// dart format on

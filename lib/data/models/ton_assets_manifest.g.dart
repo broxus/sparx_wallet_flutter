@@ -6,9 +6,8 @@ part of 'ton_assets_manifest.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-_$TonAssetsManifestImpl _$$TonAssetsManifestImplFromJson(
-        Map<String, dynamic> json) =>
-    _$TonAssetsManifestImpl(
+_TonAssetsManifest _$TonAssetsManifestFromJson(Map<String, dynamic> json) =>
+    _TonAssetsManifest(
       schema: json[r'$schema'] as String,
       name: json['name'] as String,
       version: TonAssetsManifestVersion.fromJson(
@@ -21,8 +20,7 @@ _$TonAssetsManifestImpl _$$TonAssetsManifestImplFromJson(
           .toList(),
     );
 
-Map<String, dynamic> _$$TonAssetsManifestImplToJson(
-        _$TonAssetsManifestImpl instance) =>
+Map<String, dynamic> _$TonAssetsManifestToJson(_TonAssetsManifest instance) =>
     <String, dynamic>{
       r'$schema': instance.schema,
       'name': instance.name,

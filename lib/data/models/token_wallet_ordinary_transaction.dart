@@ -4,7 +4,8 @@ import 'package:nekoton_repository/nekoton_repository.dart';
 part 'token_wallet_ordinary_transaction.freezed.dart';
 
 @freezed
-class TokenWalletOrdinaryTransaction with _$TokenWalletOrdinaryTransaction {
+abstract class TokenWalletOrdinaryTransaction
+    with _$TokenWalletOrdinaryTransaction {
   const factory TokenWalletOrdinaryTransaction({
     required String lt,
     required bool isOutgoing,

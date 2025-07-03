@@ -4,7 +4,7 @@ part 'site_meta_data.freezed.dart';
 part 'site_meta_data.g.dart';
 
 @freezed
-class SiteMetaData with _$SiteMetaData {
+abstract class SiteMetaData with _$SiteMetaData {
   const factory SiteMetaData({
     required String url,
     String? title,

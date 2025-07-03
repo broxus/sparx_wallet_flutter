@@ -1,10 +1,12 @@
 part of 'account_transactions_tab_cubit.dart';
 
 @freezed
-class AccountTransactionsTabState with _$AccountTransactionsTabState {
-  const factory AccountTransactionsTabState.empty() = _Empty;
+sealed class AccountTransactionsTabState with _$AccountTransactionsTabState {
+  const factory AccountTransactionsTabState.empty() =
+      AccountTransactionsTabStateEmpty;
 
-  const factory AccountTransactionsTabState.loading() = _Loading;
+  const factory AccountTransactionsTabState.loading() =
+      AccountTransactionsTabStateLoading;
 
   /// isLoading means that user scrolled to the end of list
   const factory AccountTransactionsTabState.transactions({
@@ -12,5 +14,5 @@ class AccountTransactionsTabState with _$AccountTransactionsTabState {
     required bool isLoading,
     required bool canLoadMore,
     required Fixed price,
-  }) = _Transactions;
+  }) = AccountTransactionsTabStateTransactions;
 }

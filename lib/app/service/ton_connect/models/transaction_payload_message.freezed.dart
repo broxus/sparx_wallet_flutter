@@ -1,3 +1,4 @@
+// dart format width=80
 // coverage:ignore-file
 // GENERATED CODE - DO NOT MODIFY BY HAND
 // ignore_for_file: type=lint
@@ -9,185 +10,32 @@ part of 'transaction_payload_message.dart';
 // FreezedGenerator
 // **************************************************************************
 
+// dart format off
 T _$identity<T>(T value) => value;
-
-final _privateConstructorUsedError = UnsupportedError(
-    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models');
-
-TransactionPayloadMessage _$TransactionPayloadMessageFromJson(
-    Map<String, dynamic> json) {
-  return _TransactionPayloadMessage.fromJson(json);
-}
 
 /// @nodoc
 mixin _$TransactionPayloadMessage {
-  Address get address => throw _privateConstructorUsedError;
-  String get amount => throw _privateConstructorUsedError;
-  String? get payload => throw _privateConstructorUsedError;
-  String? get stateInit => throw _privateConstructorUsedError;
-
-  /// Serializes this TransactionPayloadMessage to a JSON map.
-  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
+  Address get address;
+  String get amount;
+  String? get payload;
+  String? get stateInit;
 
   /// Create a copy of TransactionPayloadMessage
   /// with the given fields replaced by the non-null parameter values.
   @JsonKey(includeFromJson: false, includeToJson: false)
+  @pragma('vm:prefer-inline')
   $TransactionPayloadMessageCopyWith<TransactionPayloadMessage> get copyWith =>
-      throw _privateConstructorUsedError;
-}
+      _$TransactionPayloadMessageCopyWithImpl<TransactionPayloadMessage>(
+          this as TransactionPayloadMessage, _$identity);
 
-/// @nodoc
-abstract class $TransactionPayloadMessageCopyWith<$Res> {
-  factory $TransactionPayloadMessageCopyWith(TransactionPayloadMessage value,
-          $Res Function(TransactionPayloadMessage) then) =
-      _$TransactionPayloadMessageCopyWithImpl<$Res, TransactionPayloadMessage>;
-  @useResult
-  $Res call(
-      {Address address, String amount, String? payload, String? stateInit});
-
-  $AddressCopyWith<$Res> get address;
-}
-
-/// @nodoc
-class _$TransactionPayloadMessageCopyWithImpl<$Res,
-        $Val extends TransactionPayloadMessage>
-    implements $TransactionPayloadMessageCopyWith<$Res> {
-  _$TransactionPayloadMessageCopyWithImpl(this._value, this._then);
-
-  // ignore: unused_field
-  final $Val _value;
-  // ignore: unused_field
-  final $Res Function($Val) _then;
-
-  /// Create a copy of TransactionPayloadMessage
-  /// with the given fields replaced by the non-null parameter values.
-  @pragma('vm:prefer-inline')
-  @override
-  $Res call({
-    Object? address = null,
-    Object? amount = null,
-    Object? payload = freezed,
-    Object? stateInit = freezed,
-  }) {
-    return _then(_value.copyWith(
-      address: null == address
-          ? _value.address
-          : address // ignore: cast_nullable_to_non_nullable
-              as Address,
-      amount: null == amount
-          ? _value.amount
-          : amount // ignore: cast_nullable_to_non_nullable
-              as String,
-      payload: freezed == payload
-          ? _value.payload
-          : payload // ignore: cast_nullable_to_non_nullable
-              as String?,
-      stateInit: freezed == stateInit
-          ? _value.stateInit
-          : stateInit // ignore: cast_nullable_to_non_nullable
-              as String?,
-    ) as $Val);
-  }
-
-  /// Create a copy of TransactionPayloadMessage
-  /// with the given fields replaced by the non-null parameter values.
-  @override
-  @pragma('vm:prefer-inline')
-  $AddressCopyWith<$Res> get address {
-    return $AddressCopyWith<$Res>(_value.address, (value) {
-      return _then(_value.copyWith(address: value) as $Val);
-    });
-  }
-}
-
-/// @nodoc
-abstract class _$$TransactionPayloadMessageImplCopyWith<$Res>
-    implements $TransactionPayloadMessageCopyWith<$Res> {
-  factory _$$TransactionPayloadMessageImplCopyWith(
-          _$TransactionPayloadMessageImpl value,
-          $Res Function(_$TransactionPayloadMessageImpl) then) =
-      __$$TransactionPayloadMessageImplCopyWithImpl<$Res>;
-  @override
-  @useResult
-  $Res call(
-      {Address address, String amount, String? payload, String? stateInit});
-
-  @override
-  $AddressCopyWith<$Res> get address;
-}
-
-/// @nodoc
-class __$$TransactionPayloadMessageImplCopyWithImpl<$Res>
-    extends _$TransactionPayloadMessageCopyWithImpl<$Res,
-        _$TransactionPayloadMessageImpl>
-    implements _$$TransactionPayloadMessageImplCopyWith<$Res> {
-  __$$TransactionPayloadMessageImplCopyWithImpl(
-      _$TransactionPayloadMessageImpl _value,
-      $Res Function(_$TransactionPayloadMessageImpl) _then)
-      : super(_value, _then);
-
-  /// Create a copy of TransactionPayloadMessage
-  /// with the given fields replaced by the non-null parameter values.
-  @pragma('vm:prefer-inline')
-  @override
-  $Res call({
-    Object? address = null,
-    Object? amount = null,
-    Object? payload = freezed,
-    Object? stateInit = freezed,
-  }) {
-    return _then(_$TransactionPayloadMessageImpl(
-      address: null == address
-          ? _value.address
-          : address // ignore: cast_nullable_to_non_nullable
-              as Address,
-      amount: null == amount
-          ? _value.amount
-          : amount // ignore: cast_nullable_to_non_nullable
-              as String,
-      payload: freezed == payload
-          ? _value.payload
-          : payload // ignore: cast_nullable_to_non_nullable
-              as String?,
-      stateInit: freezed == stateInit
-          ? _value.stateInit
-          : stateInit // ignore: cast_nullable_to_non_nullable
-              as String?,
-    ));
-  }
-}
-
-/// @nodoc
-@JsonSerializable()
-class _$TransactionPayloadMessageImpl implements _TransactionPayloadMessage {
-  _$TransactionPayloadMessageImpl(
-      {required this.address,
-      required this.amount,
-      this.payload,
-      this.stateInit});
-
-  factory _$TransactionPayloadMessageImpl.fromJson(Map<String, dynamic> json) =>
-      _$$TransactionPayloadMessageImplFromJson(json);
-
-  @override
-  final Address address;
-  @override
-  final String amount;
-  @override
-  final String? payload;
-  @override
-  final String? stateInit;
-
-  @override
-  String toString() {
-    return 'TransactionPayloadMessage(address: $address, amount: $amount, payload: $payload, stateInit: $stateInit)';
-  }
+  /// Serializes this TransactionPayloadMessage to a JSON map.
+  Map<String, dynamic> toJson();
 
   @override
   bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$TransactionPayloadMessageImpl &&
+            other is TransactionPayloadMessage &&
             (identical(other.address, address) || other.address == address) &&
             (identical(other.amount, amount) || other.amount == amount) &&
             (identical(other.payload, payload) || other.payload == payload) &&
@@ -200,46 +48,195 @@ class _$TransactionPayloadMessageImpl implements _TransactionPayloadMessage {
   int get hashCode =>
       Object.hash(runtimeType, address, amount, payload, stateInit);
 
-  /// Create a copy of TransactionPayloadMessage
-  /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
-  @pragma('vm:prefer-inline')
-  _$$TransactionPayloadMessageImplCopyWith<_$TransactionPayloadMessageImpl>
-      get copyWith => __$$TransactionPayloadMessageImplCopyWithImpl<
-          _$TransactionPayloadMessageImpl>(this, _$identity);
-
-  @override
-  Map<String, dynamic> toJson() {
-    return _$$TransactionPayloadMessageImplToJson(
-      this,
-    );
+  String toString() {
+    return 'TransactionPayloadMessage(address: $address, amount: $amount, payload: $payload, stateInit: $stateInit)';
   }
 }
 
-abstract class _TransactionPayloadMessage implements TransactionPayloadMessage {
-  factory _TransactionPayloadMessage(
-      {required final Address address,
-      required final String amount,
-      final String? payload,
-      final String? stateInit}) = _$TransactionPayloadMessageImpl;
+/// @nodoc
+abstract mixin class $TransactionPayloadMessageCopyWith<$Res> {
+  factory $TransactionPayloadMessageCopyWith(TransactionPayloadMessage value,
+          $Res Function(TransactionPayloadMessage) _then) =
+      _$TransactionPayloadMessageCopyWithImpl;
+  @useResult
+  $Res call(
+      {Address address, String amount, String? payload, String? stateInit});
 
-  factory _TransactionPayloadMessage.fromJson(Map<String, dynamic> json) =
-      _$TransactionPayloadMessageImpl.fromJson;
+  $AddressCopyWith<$Res> get address;
+}
+
+/// @nodoc
+class _$TransactionPayloadMessageCopyWithImpl<$Res>
+    implements $TransactionPayloadMessageCopyWith<$Res> {
+  _$TransactionPayloadMessageCopyWithImpl(this._self, this._then);
+
+  final TransactionPayloadMessage _self;
+  final $Res Function(TransactionPayloadMessage) _then;
+
+  /// Create a copy of TransactionPayloadMessage
+  /// with the given fields replaced by the non-null parameter values.
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? address = null,
+    Object? amount = null,
+    Object? payload = freezed,
+    Object? stateInit = freezed,
+  }) {
+    return _then(_self.copyWith(
+      address: null == address
+          ? _self.address
+          : address // ignore: cast_nullable_to_non_nullable
+              as Address,
+      amount: null == amount
+          ? _self.amount
+          : amount // ignore: cast_nullable_to_non_nullable
+              as String,
+      payload: freezed == payload
+          ? _self.payload
+          : payload // ignore: cast_nullable_to_non_nullable
+              as String?,
+      stateInit: freezed == stateInit
+          ? _self.stateInit
+          : stateInit // ignore: cast_nullable_to_non_nullable
+              as String?,
+    ));
+  }
+
+  /// Create a copy of TransactionPayloadMessage
+  /// with the given fields replaced by the non-null parameter values.
+  @override
+  @pragma('vm:prefer-inline')
+  $AddressCopyWith<$Res> get address {
+    return $AddressCopyWith<$Res>(_self.address, (value) {
+      return _then(_self.copyWith(address: value));
+    });
+  }
+}
+
+/// @nodoc
+@JsonSerializable()
+class _TransactionPayloadMessage implements TransactionPayloadMessage {
+  _TransactionPayloadMessage(
+      {required this.address,
+      required this.amount,
+      this.payload,
+      this.stateInit});
+  factory _TransactionPayloadMessage.fromJson(Map<String, dynamic> json) =>
+      _$TransactionPayloadMessageFromJson(json);
 
   @override
-  Address get address;
+  final Address address;
   @override
-  String get amount;
+  final String amount;
   @override
-  String? get payload;
+  final String? payload;
   @override
-  String? get stateInit;
+  final String? stateInit;
 
   /// Create a copy of TransactionPayloadMessage
   /// with the given fields replaced by the non-null parameter values.
   @override
   @JsonKey(includeFromJson: false, includeToJson: false)
-  _$$TransactionPayloadMessageImplCopyWith<_$TransactionPayloadMessageImpl>
-      get copyWith => throw _privateConstructorUsedError;
+  @pragma('vm:prefer-inline')
+  _$TransactionPayloadMessageCopyWith<_TransactionPayloadMessage>
+      get copyWith =>
+          __$TransactionPayloadMessageCopyWithImpl<_TransactionPayloadMessage>(
+              this, _$identity);
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$TransactionPayloadMessageToJson(
+      this,
+    );
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _TransactionPayloadMessage &&
+            (identical(other.address, address) || other.address == address) &&
+            (identical(other.amount, amount) || other.amount == amount) &&
+            (identical(other.payload, payload) || other.payload == payload) &&
+            (identical(other.stateInit, stateInit) ||
+                other.stateInit == stateInit));
+  }
+
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @override
+  int get hashCode =>
+      Object.hash(runtimeType, address, amount, payload, stateInit);
+
+  @override
+  String toString() {
+    return 'TransactionPayloadMessage(address: $address, amount: $amount, payload: $payload, stateInit: $stateInit)';
+  }
 }
+
+/// @nodoc
+abstract mixin class _$TransactionPayloadMessageCopyWith<$Res>
+    implements $TransactionPayloadMessageCopyWith<$Res> {
+  factory _$TransactionPayloadMessageCopyWith(_TransactionPayloadMessage value,
+          $Res Function(_TransactionPayloadMessage) _then) =
+      __$TransactionPayloadMessageCopyWithImpl;
+  @override
+  @useResult
+  $Res call(
+      {Address address, String amount, String? payload, String? stateInit});
+
+  @override
+  $AddressCopyWith<$Res> get address;
+}
+
+/// @nodoc
+class __$TransactionPayloadMessageCopyWithImpl<$Res>
+    implements _$TransactionPayloadMessageCopyWith<$Res> {
+  __$TransactionPayloadMessageCopyWithImpl(this._self, this._then);
+
+  final _TransactionPayloadMessage _self;
+  final $Res Function(_TransactionPayloadMessage) _then;
+
+  /// Create a copy of TransactionPayloadMessage
+  /// with the given fields replaced by the non-null parameter values.
+  @override
+  @pragma('vm:prefer-inline')
+  $Res call({
+    Object? address = null,
+    Object? amount = null,
+    Object? payload = freezed,
+    Object? stateInit = freezed,
+  }) {
+    return _then(_TransactionPayloadMessage(
+      address: null == address
+          ? _self.address
+          : address // ignore: cast_nullable_to_non_nullable
+              as Address,
+      amount: null == amount
+          ? _self.amount
+          : amount // ignore: cast_nullable_to_non_nullable
+              as String,
+      payload: freezed == payload
+          ? _self.payload
+          : payload // ignore: cast_nullable_to_non_nullable
+              as String?,
+      stateInit: freezed == stateInit
+          ? _self.stateInit
+          : stateInit // ignore: cast_nullable_to_non_nullable
+              as String?,
+    ));
+  }
+
+  /// Create a copy of TransactionPayloadMessage
+  /// with the given fields replaced by the non-null parameter values.
+  @override
+  @pragma('vm:prefer-inline')
+  $AddressCopyWith<$Res> get address {
+    return $AddressCopyWith<$Res>(_self.address, (value) {
+      return _then(_self.copyWith(address: value));
+    });
+  }
+}
+
+// dart format on

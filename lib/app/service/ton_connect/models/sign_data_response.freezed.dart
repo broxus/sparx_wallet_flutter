@@ -1,3 +1,4 @@
+// dart format width=80
 // coverage:ignore-file
 // GENERATED CODE - DO NOT MODIFY BY HAND
 // ignore_for_file: type=lint
@@ -9,11 +10,8 @@ part of 'sign_data_response.dart';
 // FreezedGenerator
 // **************************************************************************
 
+// dart format off
 T _$identity<T>(T value) => value;
-
-final _privateConstructorUsedError = UnsupportedError(
-    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models');
-
 SignDataResponse _$SignDataResponseFromJson(Map<String, dynamic> json) {
   switch (json['runtimeType']) {
     case 'success':
@@ -29,74 +27,53 @@ SignDataResponse _$SignDataResponseFromJson(Map<String, dynamic> json) {
 
 /// @nodoc
 mixin _$SignDataResponse {
-  String get id => throw _privateConstructorUsedError;
-  @optionalTypeArgs
-  TResult when<TResult extends Object?>({
-    required TResult Function(String id, SignDataResult result) success,
-    required TResult Function(String id, TonConnectError error) error,
-  }) =>
-      throw _privateConstructorUsedError;
-  @optionalTypeArgs
-  TResult? whenOrNull<TResult extends Object?>({
-    TResult? Function(String id, SignDataResult result)? success,
-    TResult? Function(String id, TonConnectError error)? error,
-  }) =>
-      throw _privateConstructorUsedError;
-  @optionalTypeArgs
-  TResult maybeWhen<TResult extends Object?>({
-    TResult Function(String id, SignDataResult result)? success,
-    TResult Function(String id, TonConnectError error)? error,
-    required TResult orElse(),
-  }) =>
-      throw _privateConstructorUsedError;
-  @optionalTypeArgs
-  TResult map<TResult extends Object?>({
-    required TResult Function(SignDataResponseSuccess value) success,
-    required TResult Function(SignDataResponseError value) error,
-  }) =>
-      throw _privateConstructorUsedError;
-  @optionalTypeArgs
-  TResult? mapOrNull<TResult extends Object?>({
-    TResult? Function(SignDataResponseSuccess value)? success,
-    TResult? Function(SignDataResponseError value)? error,
-  }) =>
-      throw _privateConstructorUsedError;
-  @optionalTypeArgs
-  TResult maybeMap<TResult extends Object?>({
-    TResult Function(SignDataResponseSuccess value)? success,
-    TResult Function(SignDataResponseError value)? error,
-    required TResult orElse(),
-  }) =>
-      throw _privateConstructorUsedError;
-
-  /// Serializes this SignDataResponse to a JSON map.
-  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
+  String get id;
 
   /// Create a copy of SignDataResponse
   /// with the given fields replaced by the non-null parameter values.
   @JsonKey(includeFromJson: false, includeToJson: false)
+  @pragma('vm:prefer-inline')
   $SignDataResponseCopyWith<SignDataResponse> get copyWith =>
-      throw _privateConstructorUsedError;
+      _$SignDataResponseCopyWithImpl<SignDataResponse>(
+          this as SignDataResponse, _$identity);
+
+  /// Serializes this SignDataResponse to a JSON map.
+  Map<String, dynamic> toJson();
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is SignDataResponse &&
+            (identical(other.id, id) || other.id == id));
+  }
+
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @override
+  int get hashCode => Object.hash(runtimeType, id);
+
+  @override
+  String toString() {
+    return 'SignDataResponse(id: $id)';
+  }
 }
 
 /// @nodoc
-abstract class $SignDataResponseCopyWith<$Res> {
+abstract mixin class $SignDataResponseCopyWith<$Res> {
   factory $SignDataResponseCopyWith(
-          SignDataResponse value, $Res Function(SignDataResponse) then) =
-      _$SignDataResponseCopyWithImpl<$Res, SignDataResponse>;
+          SignDataResponse value, $Res Function(SignDataResponse) _then) =
+      _$SignDataResponseCopyWithImpl;
   @useResult
   $Res call({String id});
 }
 
 /// @nodoc
-class _$SignDataResponseCopyWithImpl<$Res, $Val extends SignDataResponse>
+class _$SignDataResponseCopyWithImpl<$Res>
     implements $SignDataResponseCopyWith<$Res> {
-  _$SignDataResponseCopyWithImpl(this._value, this._then);
+  _$SignDataResponseCopyWithImpl(this._self, this._then);
 
-  // ignore: unused_field
-  final $Val _value;
-  // ignore: unused_field
-  final $Res Function($Val) _then;
+  final SignDataResponse _self;
+  final $Res Function(SignDataResponse) _then;
 
   /// Create a copy of SignDataResponse
   /// with the given fields replaced by the non-null parameter values.
@@ -105,22 +82,72 @@ class _$SignDataResponseCopyWithImpl<$Res, $Val extends SignDataResponse>
   $Res call({
     Object? id = null,
   }) {
-    return _then(_value.copyWith(
+    return _then(_self.copyWith(
       id: null == id
-          ? _value.id
+          ? _self.id
           : id // ignore: cast_nullable_to_non_nullable
               as String,
-    ) as $Val);
+    ));
   }
 }
 
 /// @nodoc
-abstract class _$$SignDataResponseSuccessImplCopyWith<$Res>
+@JsonSerializable()
+class SignDataResponseSuccess implements SignDataResponse {
+  const SignDataResponseSuccess(
+      {required this.id, required this.result, final String? $type})
+      : $type = $type ?? 'success';
+  factory SignDataResponseSuccess.fromJson(Map<String, dynamic> json) =>
+      _$SignDataResponseSuccessFromJson(json);
+
+  @override
+  final String id;
+  final SignDataResult result;
+
+  @JsonKey(name: 'runtimeType')
+  final String $type;
+
+  /// Create a copy of SignDataResponse
+  /// with the given fields replaced by the non-null parameter values.
+  @override
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @pragma('vm:prefer-inline')
+  $SignDataResponseSuccessCopyWith<SignDataResponseSuccess> get copyWith =>
+      _$SignDataResponseSuccessCopyWithImpl<SignDataResponseSuccess>(
+          this, _$identity);
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$SignDataResponseSuccessToJson(
+      this,
+    );
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is SignDataResponseSuccess &&
+            (identical(other.id, id) || other.id == id) &&
+            (identical(other.result, result) || other.result == result));
+  }
+
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @override
+  int get hashCode => Object.hash(runtimeType, id, result);
+
+  @override
+  String toString() {
+    return 'SignDataResponse.success(id: $id, result: $result)';
+  }
+}
+
+/// @nodoc
+abstract mixin class $SignDataResponseSuccessCopyWith<$Res>
     implements $SignDataResponseCopyWith<$Res> {
-  factory _$$SignDataResponseSuccessImplCopyWith(
-          _$SignDataResponseSuccessImpl value,
-          $Res Function(_$SignDataResponseSuccessImpl) then) =
-      __$$SignDataResponseSuccessImplCopyWithImpl<$Res>;
+  factory $SignDataResponseSuccessCopyWith(SignDataResponseSuccess value,
+          $Res Function(SignDataResponseSuccess) _then) =
+      _$SignDataResponseSuccessCopyWithImpl;
   @override
   @useResult
   $Res call({String id, SignDataResult result});
@@ -129,29 +156,28 @@ abstract class _$$SignDataResponseSuccessImplCopyWith<$Res>
 }
 
 /// @nodoc
-class __$$SignDataResponseSuccessImplCopyWithImpl<$Res>
-    extends _$SignDataResponseCopyWithImpl<$Res, _$SignDataResponseSuccessImpl>
-    implements _$$SignDataResponseSuccessImplCopyWith<$Res> {
-  __$$SignDataResponseSuccessImplCopyWithImpl(
-      _$SignDataResponseSuccessImpl _value,
-      $Res Function(_$SignDataResponseSuccessImpl) _then)
-      : super(_value, _then);
+class _$SignDataResponseSuccessCopyWithImpl<$Res>
+    implements $SignDataResponseSuccessCopyWith<$Res> {
+  _$SignDataResponseSuccessCopyWithImpl(this._self, this._then);
+
+  final SignDataResponseSuccess _self;
+  final $Res Function(SignDataResponseSuccess) _then;
 
   /// Create a copy of SignDataResponse
   /// with the given fields replaced by the non-null parameter values.
-  @pragma('vm:prefer-inline')
   @override
+  @pragma('vm:prefer-inline')
   $Res call({
     Object? id = null,
     Object? result = null,
   }) {
-    return _then(_$SignDataResponseSuccessImpl(
+    return _then(SignDataResponseSuccess(
       id: null == id
-          ? _value.id
+          ? _self.id
           : id // ignore: cast_nullable_to_non_nullable
               as String,
       result: null == result
-          ? _value.result
+          ? _self.result
           : result // ignore: cast_nullable_to_non_nullable
               as SignDataResult,
     ));
@@ -162,154 +188,69 @@ class __$$SignDataResponseSuccessImplCopyWithImpl<$Res>
   @override
   @pragma('vm:prefer-inline')
   $SignDataResultCopyWith<$Res> get result {
-    return $SignDataResultCopyWith<$Res>(_value.result, (value) {
-      return _then(_value.copyWith(result: value));
+    return $SignDataResultCopyWith<$Res>(_self.result, (value) {
+      return _then(_self.copyWith(result: value));
     });
   }
 }
 
 /// @nodoc
 @JsonSerializable()
-class _$SignDataResponseSuccessImpl implements SignDataResponseSuccess {
-  const _$SignDataResponseSuccessImpl(
-      {required this.id, required this.result, final String? $type})
-      : $type = $type ?? 'success';
-
-  factory _$SignDataResponseSuccessImpl.fromJson(Map<String, dynamic> json) =>
-      _$$SignDataResponseSuccessImplFromJson(json);
+class SignDataResponseError implements SignDataResponse {
+  const SignDataResponseError(
+      {required this.id, required this.error, final String? $type})
+      : $type = $type ?? 'error';
+  factory SignDataResponseError.fromJson(Map<String, dynamic> json) =>
+      _$SignDataResponseErrorFromJson(json);
 
   @override
   final String id;
-  @override
-  final SignDataResult result;
+  final TonConnectError error;
 
   @JsonKey(name: 'runtimeType')
   final String $type;
 
+  /// Create a copy of SignDataResponse
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  String toString() {
-    return 'SignDataResponse.success(id: $id, result: $result)';
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @pragma('vm:prefer-inline')
+  $SignDataResponseErrorCopyWith<SignDataResponseError> get copyWith =>
+      _$SignDataResponseErrorCopyWithImpl<SignDataResponseError>(
+          this, _$identity);
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$SignDataResponseErrorToJson(
+      this,
+    );
   }
 
   @override
   bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$SignDataResponseSuccessImpl &&
+            other is SignDataResponseError &&
             (identical(other.id, id) || other.id == id) &&
-            (identical(other.result, result) || other.result == result));
+            (identical(other.error, error) || other.error == error));
   }
 
   @JsonKey(includeFromJson: false, includeToJson: false)
   @override
-  int get hashCode => Object.hash(runtimeType, id, result);
-
-  /// Create a copy of SignDataResponse
-  /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
-  @override
-  @pragma('vm:prefer-inline')
-  _$$SignDataResponseSuccessImplCopyWith<_$SignDataResponseSuccessImpl>
-      get copyWith => __$$SignDataResponseSuccessImplCopyWithImpl<
-          _$SignDataResponseSuccessImpl>(this, _$identity);
+  int get hashCode => Object.hash(runtimeType, id, error);
 
   @override
-  @optionalTypeArgs
-  TResult when<TResult extends Object?>({
-    required TResult Function(String id, SignDataResult result) success,
-    required TResult Function(String id, TonConnectError error) error,
-  }) {
-    return success(id, result);
+  String toString() {
+    return 'SignDataResponse.error(id: $id, error: $error)';
   }
-
-  @override
-  @optionalTypeArgs
-  TResult? whenOrNull<TResult extends Object?>({
-    TResult? Function(String id, SignDataResult result)? success,
-    TResult? Function(String id, TonConnectError error)? error,
-  }) {
-    return success?.call(id, result);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult maybeWhen<TResult extends Object?>({
-    TResult Function(String id, SignDataResult result)? success,
-    TResult Function(String id, TonConnectError error)? error,
-    required TResult orElse(),
-  }) {
-    if (success != null) {
-      return success(id, result);
-    }
-    return orElse();
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult map<TResult extends Object?>({
-    required TResult Function(SignDataResponseSuccess value) success,
-    required TResult Function(SignDataResponseError value) error,
-  }) {
-    return success(this);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult? mapOrNull<TResult extends Object?>({
-    TResult? Function(SignDataResponseSuccess value)? success,
-    TResult? Function(SignDataResponseError value)? error,
-  }) {
-    return success?.call(this);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult maybeMap<TResult extends Object?>({
-    TResult Function(SignDataResponseSuccess value)? success,
-    TResult Function(SignDataResponseError value)? error,
-    required TResult orElse(),
-  }) {
-    if (success != null) {
-      return success(this);
-    }
-    return orElse();
-  }
-
-  @override
-  Map<String, dynamic> toJson() {
-    return _$$SignDataResponseSuccessImplToJson(
-      this,
-    );
-  }
-}
-
-abstract class SignDataResponseSuccess implements SignDataResponse {
-  const factory SignDataResponseSuccess(
-      {required final String id,
-      required final SignDataResult result}) = _$SignDataResponseSuccessImpl;
-
-  factory SignDataResponseSuccess.fromJson(Map<String, dynamic> json) =
-      _$SignDataResponseSuccessImpl.fromJson;
-
-  @override
-  String get id;
-  SignDataResult get result;
-
-  /// Create a copy of SignDataResponse
-  /// with the given fields replaced by the non-null parameter values.
-  @override
-  @JsonKey(includeFromJson: false, includeToJson: false)
-  _$$SignDataResponseSuccessImplCopyWith<_$SignDataResponseSuccessImpl>
-      get copyWith => throw _privateConstructorUsedError;
 }
 
 /// @nodoc
-abstract class _$$SignDataResponseErrorImplCopyWith<$Res>
+abstract mixin class $SignDataResponseErrorCopyWith<$Res>
     implements $SignDataResponseCopyWith<$Res> {
-  factory _$$SignDataResponseErrorImplCopyWith(
-          _$SignDataResponseErrorImpl value,
-          $Res Function(_$SignDataResponseErrorImpl) then) =
-      __$$SignDataResponseErrorImplCopyWithImpl<$Res>;
+  factory $SignDataResponseErrorCopyWith(SignDataResponseError value,
+          $Res Function(SignDataResponseError) _then) =
+      _$SignDataResponseErrorCopyWithImpl;
   @override
   @useResult
   $Res call({String id, TonConnectError error});
@@ -318,28 +259,28 @@ abstract class _$$SignDataResponseErrorImplCopyWith<$Res>
 }
 
 /// @nodoc
-class __$$SignDataResponseErrorImplCopyWithImpl<$Res>
-    extends _$SignDataResponseCopyWithImpl<$Res, _$SignDataResponseErrorImpl>
-    implements _$$SignDataResponseErrorImplCopyWith<$Res> {
-  __$$SignDataResponseErrorImplCopyWithImpl(_$SignDataResponseErrorImpl _value,
-      $Res Function(_$SignDataResponseErrorImpl) _then)
-      : super(_value, _then);
+class _$SignDataResponseErrorCopyWithImpl<$Res>
+    implements $SignDataResponseErrorCopyWith<$Res> {
+  _$SignDataResponseErrorCopyWithImpl(this._self, this._then);
+
+  final SignDataResponseError _self;
+  final $Res Function(SignDataResponseError) _then;
 
   /// Create a copy of SignDataResponse
   /// with the given fields replaced by the non-null parameter values.
-  @pragma('vm:prefer-inline')
   @override
+  @pragma('vm:prefer-inline')
   $Res call({
     Object? id = null,
     Object? error = null,
   }) {
-    return _then(_$SignDataResponseErrorImpl(
+    return _then(SignDataResponseError(
       id: null == id
-          ? _value.id
+          ? _self.id
           : id // ignore: cast_nullable_to_non_nullable
               as String,
       error: null == error
-          ? _value.error
+          ? _self.error
           : error // ignore: cast_nullable_to_non_nullable
               as TonConnectError,
     ));
@@ -350,143 +291,10 @@ class __$$SignDataResponseErrorImplCopyWithImpl<$Res>
   @override
   @pragma('vm:prefer-inline')
   $TonConnectErrorCopyWith<$Res> get error {
-    return $TonConnectErrorCopyWith<$Res>(_value.error, (value) {
-      return _then(_value.copyWith(error: value));
+    return $TonConnectErrorCopyWith<$Res>(_self.error, (value) {
+      return _then(_self.copyWith(error: value));
     });
   }
 }
 
-/// @nodoc
-@JsonSerializable()
-class _$SignDataResponseErrorImpl implements SignDataResponseError {
-  const _$SignDataResponseErrorImpl(
-      {required this.id, required this.error, final String? $type})
-      : $type = $type ?? 'error';
-
-  factory _$SignDataResponseErrorImpl.fromJson(Map<String, dynamic> json) =>
-      _$$SignDataResponseErrorImplFromJson(json);
-
-  @override
-  final String id;
-  @override
-  final TonConnectError error;
-
-  @JsonKey(name: 'runtimeType')
-  final String $type;
-
-  @override
-  String toString() {
-    return 'SignDataResponse.error(id: $id, error: $error)';
-  }
-
-  @override
-  bool operator ==(Object other) {
-    return identical(this, other) ||
-        (other.runtimeType == runtimeType &&
-            other is _$SignDataResponseErrorImpl &&
-            (identical(other.id, id) || other.id == id) &&
-            (identical(other.error, error) || other.error == error));
-  }
-
-  @JsonKey(includeFromJson: false, includeToJson: false)
-  @override
-  int get hashCode => Object.hash(runtimeType, id, error);
-
-  /// Create a copy of SignDataResponse
-  /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
-  @override
-  @pragma('vm:prefer-inline')
-  _$$SignDataResponseErrorImplCopyWith<_$SignDataResponseErrorImpl>
-      get copyWith => __$$SignDataResponseErrorImplCopyWithImpl<
-          _$SignDataResponseErrorImpl>(this, _$identity);
-
-  @override
-  @optionalTypeArgs
-  TResult when<TResult extends Object?>({
-    required TResult Function(String id, SignDataResult result) success,
-    required TResult Function(String id, TonConnectError error) error,
-  }) {
-    return error(id, this.error);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult? whenOrNull<TResult extends Object?>({
-    TResult? Function(String id, SignDataResult result)? success,
-    TResult? Function(String id, TonConnectError error)? error,
-  }) {
-    return error?.call(id, this.error);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult maybeWhen<TResult extends Object?>({
-    TResult Function(String id, SignDataResult result)? success,
-    TResult Function(String id, TonConnectError error)? error,
-    required TResult orElse(),
-  }) {
-    if (error != null) {
-      return error(id, this.error);
-    }
-    return orElse();
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult map<TResult extends Object?>({
-    required TResult Function(SignDataResponseSuccess value) success,
-    required TResult Function(SignDataResponseError value) error,
-  }) {
-    return error(this);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult? mapOrNull<TResult extends Object?>({
-    TResult? Function(SignDataResponseSuccess value)? success,
-    TResult? Function(SignDataResponseError value)? error,
-  }) {
-    return error?.call(this);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult maybeMap<TResult extends Object?>({
-    TResult Function(SignDataResponseSuccess value)? success,
-    TResult Function(SignDataResponseError value)? error,
-    required TResult orElse(),
-  }) {
-    if (error != null) {
-      return error(this);
-    }
-    return orElse();
-  }
-
-  @override
-  Map<String, dynamic> toJson() {
-    return _$$SignDataResponseErrorImplToJson(
-      this,
-    );
-  }
-}
-
-abstract class SignDataResponseError implements SignDataResponse {
-  const factory SignDataResponseError(
-      {required final String id,
-      required final TonConnectError error}) = _$SignDataResponseErrorImpl;
-
-  factory SignDataResponseError.fromJson(Map<String, dynamic> json) =
-      _$SignDataResponseErrorImpl.fromJson;
-
-  @override
-  String get id;
-  TonConnectError get error;
-
-  /// Create a copy of SignDataResponse
-  /// with the given fields replaced by the non-null parameter values.
-  @override
-  @JsonKey(includeFromJson: false, includeToJson: false)
-  _$$SignDataResponseErrorImplCopyWith<_$SignDataResponseErrorImpl>
-      get copyWith => throw _privateConstructorUsedError;
-}
+// dart format on

@@ -1,3 +1,4 @@
+// dart format width=80
 // coverage:ignore-file
 // GENERATED CODE - DO NOT MODIFY BY HAND
 // ignore_for_file: type=lint
@@ -9,39 +10,56 @@ part of 'transaction_payload.dart';
 // FreezedGenerator
 // **************************************************************************
 
+// dart format off
 T _$identity<T>(T value) => value;
-
-final _privateConstructorUsedError = UnsupportedError(
-    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models');
-
-TransactionPayload _$TransactionPayloadFromJson(Map<String, dynamic> json) {
-  return _TransactionPayload.fromJson(json);
-}
 
 /// @nodoc
 mixin _$TransactionPayload {
-  List<TransactionPayloadMessage> get messages =>
-      throw _privateConstructorUsedError;
+  List<TransactionPayloadMessage> get messages;
   @JsonKey(name: 'valid_until')
-  int? get validUntil => throw _privateConstructorUsedError;
-  TonNetwork? get network => throw _privateConstructorUsedError;
-  Address? get from => throw _privateConstructorUsedError;
-
-  /// Serializes this TransactionPayload to a JSON map.
-  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
+  int? get validUntil;
+  TonNetwork? get network;
+  Address? get from;
 
   /// Create a copy of TransactionPayload
   /// with the given fields replaced by the non-null parameter values.
   @JsonKey(includeFromJson: false, includeToJson: false)
+  @pragma('vm:prefer-inline')
   $TransactionPayloadCopyWith<TransactionPayload> get copyWith =>
-      throw _privateConstructorUsedError;
+      _$TransactionPayloadCopyWithImpl<TransactionPayload>(
+          this as TransactionPayload, _$identity);
+
+  /// Serializes this TransactionPayload to a JSON map.
+  Map<String, dynamic> toJson();
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is TransactionPayload &&
+            const DeepCollectionEquality().equals(other.messages, messages) &&
+            (identical(other.validUntil, validUntil) ||
+                other.validUntil == validUntil) &&
+            (identical(other.network, network) || other.network == network) &&
+            (identical(other.from, from) || other.from == from));
+  }
+
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @override
+  int get hashCode => Object.hash(runtimeType,
+      const DeepCollectionEquality().hash(messages), validUntil, network, from);
+
+  @override
+  String toString() {
+    return 'TransactionPayload(messages: $messages, validUntil: $validUntil, network: $network, from: $from)';
+  }
 }
 
 /// @nodoc
-abstract class $TransactionPayloadCopyWith<$Res> {
+abstract mixin class $TransactionPayloadCopyWith<$Res> {
   factory $TransactionPayloadCopyWith(
-          TransactionPayload value, $Res Function(TransactionPayload) then) =
-      _$TransactionPayloadCopyWithImpl<$Res, TransactionPayload>;
+          TransactionPayload value, $Res Function(TransactionPayload) _then) =
+      _$TransactionPayloadCopyWithImpl;
   @useResult
   $Res call(
       {List<TransactionPayloadMessage> messages,
@@ -53,14 +71,12 @@ abstract class $TransactionPayloadCopyWith<$Res> {
 }
 
 /// @nodoc
-class _$TransactionPayloadCopyWithImpl<$Res, $Val extends TransactionPayload>
+class _$TransactionPayloadCopyWithImpl<$Res>
     implements $TransactionPayloadCopyWith<$Res> {
-  _$TransactionPayloadCopyWithImpl(this._value, this._then);
+  _$TransactionPayloadCopyWithImpl(this._self, this._then);
 
-  // ignore: unused_field
-  final $Val _value;
-  // ignore: unused_field
-  final $Res Function($Val) _then;
+  final TransactionPayload _self;
+  final $Res Function(TransactionPayload) _then;
 
   /// Create a copy of TransactionPayload
   /// with the given fields replaced by the non-null parameter values.
@@ -72,24 +88,24 @@ class _$TransactionPayloadCopyWithImpl<$Res, $Val extends TransactionPayload>
     Object? network = freezed,
     Object? from = freezed,
   }) {
-    return _then(_value.copyWith(
+    return _then(_self.copyWith(
       messages: null == messages
-          ? _value.messages
+          ? _self.messages
           : messages // ignore: cast_nullable_to_non_nullable
               as List<TransactionPayloadMessage>,
       validUntil: freezed == validUntil
-          ? _value.validUntil
+          ? _self.validUntil
           : validUntil // ignore: cast_nullable_to_non_nullable
               as int?,
       network: freezed == network
-          ? _value.network
+          ? _self.network
           : network // ignore: cast_nullable_to_non_nullable
               as TonNetwork?,
       from: freezed == from
-          ? _value.from
+          ? _self.from
           : from // ignore: cast_nullable_to_non_nullable
               as Address?,
-    ) as $Val);
+    ));
   }
 
   /// Create a copy of TransactionPayload
@@ -97,85 +113,27 @@ class _$TransactionPayloadCopyWithImpl<$Res, $Val extends TransactionPayload>
   @override
   @pragma('vm:prefer-inline')
   $AddressCopyWith<$Res>? get from {
-    if (_value.from == null) {
+    if (_self.from == null) {
       return null;
     }
 
-    return $AddressCopyWith<$Res>(_value.from!, (value) {
-      return _then(_value.copyWith(from: value) as $Val);
+    return $AddressCopyWith<$Res>(_self.from!, (value) {
+      return _then(_self.copyWith(from: value));
     });
   }
 }
 
 /// @nodoc
-abstract class _$$TransactionPayloadImplCopyWith<$Res>
-    implements $TransactionPayloadCopyWith<$Res> {
-  factory _$$TransactionPayloadImplCopyWith(_$TransactionPayloadImpl value,
-          $Res Function(_$TransactionPayloadImpl) then) =
-      __$$TransactionPayloadImplCopyWithImpl<$Res>;
-  @override
-  @useResult
-  $Res call(
-      {List<TransactionPayloadMessage> messages,
-      @JsonKey(name: 'valid_until') int? validUntil,
-      TonNetwork? network,
-      Address? from});
-
-  @override
-  $AddressCopyWith<$Res>? get from;
-}
-
-/// @nodoc
-class __$$TransactionPayloadImplCopyWithImpl<$Res>
-    extends _$TransactionPayloadCopyWithImpl<$Res, _$TransactionPayloadImpl>
-    implements _$$TransactionPayloadImplCopyWith<$Res> {
-  __$$TransactionPayloadImplCopyWithImpl(_$TransactionPayloadImpl _value,
-      $Res Function(_$TransactionPayloadImpl) _then)
-      : super(_value, _then);
-
-  /// Create a copy of TransactionPayload
-  /// with the given fields replaced by the non-null parameter values.
-  @pragma('vm:prefer-inline')
-  @override
-  $Res call({
-    Object? messages = null,
-    Object? validUntil = freezed,
-    Object? network = freezed,
-    Object? from = freezed,
-  }) {
-    return _then(_$TransactionPayloadImpl(
-      messages: null == messages
-          ? _value._messages
-          : messages // ignore: cast_nullable_to_non_nullable
-              as List<TransactionPayloadMessage>,
-      validUntil: freezed == validUntil
-          ? _value.validUntil
-          : validUntil // ignore: cast_nullable_to_non_nullable
-              as int?,
-      network: freezed == network
-          ? _value.network
-          : network // ignore: cast_nullable_to_non_nullable
-              as TonNetwork?,
-      from: freezed == from
-          ? _value.from
-          : from // ignore: cast_nullable_to_non_nullable
-              as Address?,
-    ));
-  }
-}
-
-/// @nodoc
 @JsonSerializable()
-class _$TransactionPayloadImpl implements _TransactionPayload {
-  _$TransactionPayloadImpl(
+class _TransactionPayload implements TransactionPayload {
+  _TransactionPayload(
       {required final List<TransactionPayloadMessage> messages,
       @JsonKey(name: 'valid_until') this.validUntil,
       this.network,
       this.from})
       : _messages = messages;
-
-  factory _$TransactionPayloadImpl.fromJson(Map<String, dynamic> json) =>
-      _$$TransactionPayloadImplFromJson(json);
+  factory _TransactionPayload.fromJson(Map<String, dynamic> json) =>
+      _$TransactionPayloadFromJson(json);
 
   final List<TransactionPayloadMessage> _messages;
   @override
@@ -193,16 +151,26 @@ class _$TransactionPayloadImpl implements _TransactionPayload {
   @override
   final Address? from;
 
+  /// Create a copy of TransactionPayload
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  String toString() {
-    return 'TransactionPayload(messages: $messages, validUntil: $validUntil, network: $network, from: $from)';
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @pragma('vm:prefer-inline')
+  _$TransactionPayloadCopyWith<_TransactionPayload> get copyWith =>
+      __$TransactionPayloadCopyWithImpl<_TransactionPayload>(this, _$identity);
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$TransactionPayloadToJson(
+      this,
+    );
   }
 
   @override
   bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$TransactionPayloadImpl &&
+            other is _TransactionPayload &&
             const DeepCollectionEquality().equals(other._messages, _messages) &&
             (identical(other.validUntil, validUntil) ||
                 other.validUntil == validUntil) &&
@@ -219,47 +187,81 @@ class _$TransactionPayloadImpl implements _TransactionPayload {
       network,
       from);
 
-  /// Create a copy of TransactionPayload
-  /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
-  @pragma('vm:prefer-inline')
-  _$$TransactionPayloadImplCopyWith<_$TransactionPayloadImpl> get copyWith =>
-      __$$TransactionPayloadImplCopyWithImpl<_$TransactionPayloadImpl>(
-          this, _$identity);
-
-  @override
-  Map<String, dynamic> toJson() {
-    return _$$TransactionPayloadImplToJson(
-      this,
-    );
+  String toString() {
+    return 'TransactionPayload(messages: $messages, validUntil: $validUntil, network: $network, from: $from)';
   }
 }
 
-abstract class _TransactionPayload implements TransactionPayload {
-  factory _TransactionPayload(
-      {required final List<TransactionPayloadMessage> messages,
-      @JsonKey(name: 'valid_until') final int? validUntil,
-      final TonNetwork? network,
-      final Address? from}) = _$TransactionPayloadImpl;
+/// @nodoc
+abstract mixin class _$TransactionPayloadCopyWith<$Res>
+    implements $TransactionPayloadCopyWith<$Res> {
+  factory _$TransactionPayloadCopyWith(
+          _TransactionPayload value, $Res Function(_TransactionPayload) _then) =
+      __$TransactionPayloadCopyWithImpl;
+  @override
+  @useResult
+  $Res call(
+      {List<TransactionPayloadMessage> messages,
+      @JsonKey(name: 'valid_until') int? validUntil,
+      TonNetwork? network,
+      Address? from});
 
-  factory _TransactionPayload.fromJson(Map<String, dynamic> json) =
-      _$TransactionPayloadImpl.fromJson;
+  @override
+  $AddressCopyWith<$Res>? get from;
+}
 
-  @override
-  List<TransactionPayloadMessage> get messages;
-  @override
-  @JsonKey(name: 'valid_until')
-  int? get validUntil;
-  @override
-  TonNetwork? get network;
-  @override
-  Address? get from;
+/// @nodoc
+class __$TransactionPayloadCopyWithImpl<$Res>
+    implements _$TransactionPayloadCopyWith<$Res> {
+  __$TransactionPayloadCopyWithImpl(this._self, this._then);
+
+  final _TransactionPayload _self;
+  final $Res Function(_TransactionPayload) _then;
 
   /// Create a copy of TransactionPayload
   /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(includeFromJson: false, includeToJson: false)
-  _$$TransactionPayloadImplCopyWith<_$TransactionPayloadImpl> get copyWith =>
-      throw _privateConstructorUsedError;
+  @pragma('vm:prefer-inline')
+  $Res call({
+    Object? messages = null,
+    Object? validUntil = freezed,
+    Object? network = freezed,
+    Object? from = freezed,
+  }) {
+    return _then(_TransactionPayload(
+      messages: null == messages
+          ? _self._messages
+          : messages // ignore: cast_nullable_to_non_nullable
+              as List<TransactionPayloadMessage>,
+      validUntil: freezed == validUntil
+          ? _self.validUntil
+          : validUntil // ignore: cast_nullable_to_non_nullable
+              as int?,
+      network: freezed == network
+          ? _self.network
+          : network // ignore: cast_nullable_to_non_nullable
+              as TonNetwork?,
+      from: freezed == from
+          ? _self.from
+          : from // ignore: cast_nullable_to_non_nullable
+              as Address?,
+    ));
+  }
+
+  /// Create a copy of TransactionPayload
+  /// with the given fields replaced by the non-null parameter values.
+  @override
+  @pragma('vm:prefer-inline')
+  $AddressCopyWith<$Res>? get from {
+    if (_self.from == null) {
+      return null;
+    }
+
+    return $AddressCopyWith<$Res>(_self.from!, (value) {
+      return _then(_self.copyWith(from: value));
+    });
+  }
 }
+
+// dart format on

@@ -1,3 +1,4 @@
+// dart format width=80
 // coverage:ignore-file
 // GENERATED CODE - DO NOT MODIFY BY HAND
 // ignore_for_file: type=lint
@@ -9,11 +10,8 @@ part of 'rpc_request.dart';
 // FreezedGenerator
 // **************************************************************************
 
+// dart format off
 T _$identity<T>(T value) => value;
-
-final _privateConstructorUsedError = UnsupportedError(
-    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models');
-
 RpcRequest _$RpcRequestFromJson(Map<String, dynamic> json) {
   switch (json['method']) {
     case 'disconnect':
@@ -31,81 +29,54 @@ RpcRequest _$RpcRequestFromJson(Map<String, dynamic> json) {
 
 /// @nodoc
 mixin _$RpcRequest {
-  String get id => throw _privateConstructorUsedError;
-  List<dynamic> get params => throw _privateConstructorUsedError;
-  @optionalTypeArgs
-  TResult when<TResult extends Object?>({
-    required TResult Function(String id, List<dynamic> params) disconnect,
-    required TResult Function(String id, List<String> params) sendTransaction,
-    required TResult Function(String id, List<String> params) signData,
-  }) =>
-      throw _privateConstructorUsedError;
-  @optionalTypeArgs
-  TResult? whenOrNull<TResult extends Object?>({
-    TResult? Function(String id, List<dynamic> params)? disconnect,
-    TResult? Function(String id, List<String> params)? sendTransaction,
-    TResult? Function(String id, List<String> params)? signData,
-  }) =>
-      throw _privateConstructorUsedError;
-  @optionalTypeArgs
-  TResult maybeWhen<TResult extends Object?>({
-    TResult Function(String id, List<dynamic> params)? disconnect,
-    TResult Function(String id, List<String> params)? sendTransaction,
-    TResult Function(String id, List<String> params)? signData,
-    required TResult orElse(),
-  }) =>
-      throw _privateConstructorUsedError;
-  @optionalTypeArgs
-  TResult map<TResult extends Object?>({
-    required TResult Function(DisconnectRpcRequest value) disconnect,
-    required TResult Function(SendTransactionRpcRequest value) sendTransaction,
-    required TResult Function(SignDataRpcRequest value) signData,
-  }) =>
-      throw _privateConstructorUsedError;
-  @optionalTypeArgs
-  TResult? mapOrNull<TResult extends Object?>({
-    TResult? Function(DisconnectRpcRequest value)? disconnect,
-    TResult? Function(SendTransactionRpcRequest value)? sendTransaction,
-    TResult? Function(SignDataRpcRequest value)? signData,
-  }) =>
-      throw _privateConstructorUsedError;
-  @optionalTypeArgs
-  TResult maybeMap<TResult extends Object?>({
-    TResult Function(DisconnectRpcRequest value)? disconnect,
-    TResult Function(SendTransactionRpcRequest value)? sendTransaction,
-    TResult Function(SignDataRpcRequest value)? signData,
-    required TResult orElse(),
-  }) =>
-      throw _privateConstructorUsedError;
-
-  /// Serializes this RpcRequest to a JSON map.
-  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
+  String get id;
+  List<dynamic> get params;
 
   /// Create a copy of RpcRequest
   /// with the given fields replaced by the non-null parameter values.
   @JsonKey(includeFromJson: false, includeToJson: false)
+  @pragma('vm:prefer-inline')
   $RpcRequestCopyWith<RpcRequest> get copyWith =>
-      throw _privateConstructorUsedError;
+      _$RpcRequestCopyWithImpl<RpcRequest>(this as RpcRequest, _$identity);
+
+  /// Serializes this RpcRequest to a JSON map.
+  Map<String, dynamic> toJson();
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is RpcRequest &&
+            (identical(other.id, id) || other.id == id) &&
+            const DeepCollectionEquality().equals(other.params, params));
+  }
+
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @override
+  int get hashCode =>
+      Object.hash(runtimeType, id, const DeepCollectionEquality().hash(params));
+
+  @override
+  String toString() {
+    return 'RpcRequest(id: $id, params: $params)';
+  }
 }
 
 /// @nodoc
-abstract class $RpcRequestCopyWith<$Res> {
+abstract mixin class $RpcRequestCopyWith<$Res> {
   factory $RpcRequestCopyWith(
-          RpcRequest value, $Res Function(RpcRequest) then) =
-      _$RpcRequestCopyWithImpl<$Res, RpcRequest>;
+          RpcRequest value, $Res Function(RpcRequest) _then) =
+      _$RpcRequestCopyWithImpl;
   @useResult
   $Res call({String id});
 }
 
 /// @nodoc
-class _$RpcRequestCopyWithImpl<$Res, $Val extends RpcRequest>
-    implements $RpcRequestCopyWith<$Res> {
-  _$RpcRequestCopyWithImpl(this._value, this._then);
+class _$RpcRequestCopyWithImpl<$Res> implements $RpcRequestCopyWith<$Res> {
+  _$RpcRequestCopyWithImpl(this._self, this._then);
 
-  // ignore: unused_field
-  final $Val _value;
-  // ignore: unused_field
-  final $Res Function($Val) _then;
+  final RpcRequest _self;
+  final $Res Function(RpcRequest) _then;
 
   /// Create a copy of RpcRequest
   /// with the given fields replaced by the non-null parameter values.
@@ -114,67 +85,26 @@ class _$RpcRequestCopyWithImpl<$Res, $Val extends RpcRequest>
   $Res call({
     Object? id = null,
   }) {
-    return _then(_value.copyWith(
+    return _then(_self.copyWith(
       id: null == id
-          ? _value.id
+          ? _self.id
           : id // ignore: cast_nullable_to_non_nullable
               as String,
-    ) as $Val);
-  }
-}
-
-/// @nodoc
-abstract class _$$DisconnectRpcRequestImplCopyWith<$Res>
-    implements $RpcRequestCopyWith<$Res> {
-  factory _$$DisconnectRpcRequestImplCopyWith(_$DisconnectRpcRequestImpl value,
-          $Res Function(_$DisconnectRpcRequestImpl) then) =
-      __$$DisconnectRpcRequestImplCopyWithImpl<$Res>;
-  @override
-  @useResult
-  $Res call({String id, List<dynamic> params});
-}
-
-/// @nodoc
-class __$$DisconnectRpcRequestImplCopyWithImpl<$Res>
-    extends _$RpcRequestCopyWithImpl<$Res, _$DisconnectRpcRequestImpl>
-    implements _$$DisconnectRpcRequestImplCopyWith<$Res> {
-  __$$DisconnectRpcRequestImplCopyWithImpl(_$DisconnectRpcRequestImpl _value,
-      $Res Function(_$DisconnectRpcRequestImpl) _then)
-      : super(_value, _then);
-
-  /// Create a copy of RpcRequest
-  /// with the given fields replaced by the non-null parameter values.
-  @pragma('vm:prefer-inline')
-  @override
-  $Res call({
-    Object? id = null,
-    Object? params = null,
-  }) {
-    return _then(_$DisconnectRpcRequestImpl(
-      id: null == id
-          ? _value.id
-          : id // ignore: cast_nullable_to_non_nullable
-              as String,
-      params: null == params
-          ? _value._params
-          : params // ignore: cast_nullable_to_non_nullable
-              as List<dynamic>,
     ));
   }
 }
 
 /// @nodoc
 @JsonSerializable()
-class _$DisconnectRpcRequestImpl implements DisconnectRpcRequest {
-  const _$DisconnectRpcRequestImpl(
+class DisconnectRpcRequest implements RpcRequest {
+  const DisconnectRpcRequest(
       {required this.id,
       final List<dynamic> params = const [],
       final String? $type})
       : _params = params,
         $type = $type ?? 'disconnect';
-
-  factory _$DisconnectRpcRequestImpl.fromJson(Map<String, dynamic> json) =>
-      _$$DisconnectRpcRequestImplFromJson(json);
+  factory DisconnectRpcRequest.fromJson(Map<String, dynamic> json) =>
+      _$DisconnectRpcRequestFromJson(json);
 
   @override
   final String id;
@@ -190,16 +120,27 @@ class _$DisconnectRpcRequestImpl implements DisconnectRpcRequest {
   @JsonKey(name: 'method')
   final String $type;
 
+  /// Create a copy of RpcRequest
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  String toString() {
-    return 'RpcRequest.disconnect(id: $id, params: $params)';
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @pragma('vm:prefer-inline')
+  $DisconnectRpcRequestCopyWith<DisconnectRpcRequest> get copyWith =>
+      _$DisconnectRpcRequestCopyWithImpl<DisconnectRpcRequest>(
+          this, _$identity);
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$DisconnectRpcRequestToJson(
+      this,
+    );
   }
 
   @override
   bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$DisconnectRpcRequestImpl &&
+            other is DisconnectRpcRequest &&
             (identical(other.id, id) || other.id == id) &&
             const DeepCollectionEquality().equals(other._params, _params));
   }
@@ -209,167 +150,63 @@ class _$DisconnectRpcRequestImpl implements DisconnectRpcRequest {
   int get hashCode => Object.hash(
       runtimeType, id, const DeepCollectionEquality().hash(_params));
 
-  /// Create a copy of RpcRequest
-  /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
-  @pragma('vm:prefer-inline')
-  _$$DisconnectRpcRequestImplCopyWith<_$DisconnectRpcRequestImpl>
-      get copyWith =>
-          __$$DisconnectRpcRequestImplCopyWithImpl<_$DisconnectRpcRequestImpl>(
-              this, _$identity);
-
-  @override
-  @optionalTypeArgs
-  TResult when<TResult extends Object?>({
-    required TResult Function(String id, List<dynamic> params) disconnect,
-    required TResult Function(String id, List<String> params) sendTransaction,
-    required TResult Function(String id, List<String> params) signData,
-  }) {
-    return disconnect(id, params);
+  String toString() {
+    return 'RpcRequest.disconnect(id: $id, params: $params)';
   }
-
-  @override
-  @optionalTypeArgs
-  TResult? whenOrNull<TResult extends Object?>({
-    TResult? Function(String id, List<dynamic> params)? disconnect,
-    TResult? Function(String id, List<String> params)? sendTransaction,
-    TResult? Function(String id, List<String> params)? signData,
-  }) {
-    return disconnect?.call(id, params);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult maybeWhen<TResult extends Object?>({
-    TResult Function(String id, List<dynamic> params)? disconnect,
-    TResult Function(String id, List<String> params)? sendTransaction,
-    TResult Function(String id, List<String> params)? signData,
-    required TResult orElse(),
-  }) {
-    if (disconnect != null) {
-      return disconnect(id, params);
-    }
-    return orElse();
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult map<TResult extends Object?>({
-    required TResult Function(DisconnectRpcRequest value) disconnect,
-    required TResult Function(SendTransactionRpcRequest value) sendTransaction,
-    required TResult Function(SignDataRpcRequest value) signData,
-  }) {
-    return disconnect(this);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult? mapOrNull<TResult extends Object?>({
-    TResult? Function(DisconnectRpcRequest value)? disconnect,
-    TResult? Function(SendTransactionRpcRequest value)? sendTransaction,
-    TResult? Function(SignDataRpcRequest value)? signData,
-  }) {
-    return disconnect?.call(this);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult maybeMap<TResult extends Object?>({
-    TResult Function(DisconnectRpcRequest value)? disconnect,
-    TResult Function(SendTransactionRpcRequest value)? sendTransaction,
-    TResult Function(SignDataRpcRequest value)? signData,
-    required TResult orElse(),
-  }) {
-    if (disconnect != null) {
-      return disconnect(this);
-    }
-    return orElse();
-  }
-
-  @override
-  Map<String, dynamic> toJson() {
-    return _$$DisconnectRpcRequestImplToJson(
-      this,
-    );
-  }
-}
-
-abstract class DisconnectRpcRequest implements RpcRequest {
-  const factory DisconnectRpcRequest(
-      {required final String id,
-      final List<dynamic> params}) = _$DisconnectRpcRequestImpl;
-
-  factory DisconnectRpcRequest.fromJson(Map<String, dynamic> json) =
-      _$DisconnectRpcRequestImpl.fromJson;
-
-  @override
-  String get id;
-  @override
-  List<dynamic> get params;
-
-  /// Create a copy of RpcRequest
-  /// with the given fields replaced by the non-null parameter values.
-  @override
-  @JsonKey(includeFromJson: false, includeToJson: false)
-  _$$DisconnectRpcRequestImplCopyWith<_$DisconnectRpcRequestImpl>
-      get copyWith => throw _privateConstructorUsedError;
 }
 
 /// @nodoc
-abstract class _$$SendTransactionRpcRequestImplCopyWith<$Res>
+abstract mixin class $DisconnectRpcRequestCopyWith<$Res>
     implements $RpcRequestCopyWith<$Res> {
-  factory _$$SendTransactionRpcRequestImplCopyWith(
-          _$SendTransactionRpcRequestImpl value,
-          $Res Function(_$SendTransactionRpcRequestImpl) then) =
-      __$$SendTransactionRpcRequestImplCopyWithImpl<$Res>;
+  factory $DisconnectRpcRequestCopyWith(DisconnectRpcRequest value,
+          $Res Function(DisconnectRpcRequest) _then) =
+      _$DisconnectRpcRequestCopyWithImpl;
   @override
   @useResult
-  $Res call({String id, List<String> params});
+  $Res call({String id, List<dynamic> params});
 }
 
 /// @nodoc
-class __$$SendTransactionRpcRequestImplCopyWithImpl<$Res>
-    extends _$RpcRequestCopyWithImpl<$Res, _$SendTransactionRpcRequestImpl>
-    implements _$$SendTransactionRpcRequestImplCopyWith<$Res> {
-  __$$SendTransactionRpcRequestImplCopyWithImpl(
-      _$SendTransactionRpcRequestImpl _value,
-      $Res Function(_$SendTransactionRpcRequestImpl) _then)
-      : super(_value, _then);
+class _$DisconnectRpcRequestCopyWithImpl<$Res>
+    implements $DisconnectRpcRequestCopyWith<$Res> {
+  _$DisconnectRpcRequestCopyWithImpl(this._self, this._then);
+
+  final DisconnectRpcRequest _self;
+  final $Res Function(DisconnectRpcRequest) _then;
 
   /// Create a copy of RpcRequest
   /// with the given fields replaced by the non-null parameter values.
-  @pragma('vm:prefer-inline')
   @override
+  @pragma('vm:prefer-inline')
   $Res call({
     Object? id = null,
     Object? params = null,
   }) {
-    return _then(_$SendTransactionRpcRequestImpl(
+    return _then(DisconnectRpcRequest(
       id: null == id
-          ? _value.id
+          ? _self.id
           : id // ignore: cast_nullable_to_non_nullable
               as String,
       params: null == params
-          ? _value._params
+          ? _self._params
           : params // ignore: cast_nullable_to_non_nullable
-              as List<String>,
+              as List<dynamic>,
     ));
   }
 }
 
 /// @nodoc
 @JsonSerializable()
-class _$SendTransactionRpcRequestImpl implements SendTransactionRpcRequest {
-  const _$SendTransactionRpcRequestImpl(
+class SendTransactionRpcRequest implements RpcRequest {
+  const SendTransactionRpcRequest(
       {required this.id,
       required final List<String> params,
       final String? $type})
       : _params = params,
         $type = $type ?? 'sendTransaction';
-
-  factory _$SendTransactionRpcRequestImpl.fromJson(Map<String, dynamic> json) =>
-      _$$SendTransactionRpcRequestImplFromJson(json);
+  factory SendTransactionRpcRequest.fromJson(Map<String, dynamic> json) =>
+      _$SendTransactionRpcRequestFromJson(json);
 
   @override
   final String id;
@@ -384,16 +221,27 @@ class _$SendTransactionRpcRequestImpl implements SendTransactionRpcRequest {
   @JsonKey(name: 'method')
   final String $type;
 
+  /// Create a copy of RpcRequest
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  String toString() {
-    return 'RpcRequest.sendTransaction(id: $id, params: $params)';
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @pragma('vm:prefer-inline')
+  $SendTransactionRpcRequestCopyWith<SendTransactionRpcRequest> get copyWith =>
+      _$SendTransactionRpcRequestCopyWithImpl<SendTransactionRpcRequest>(
+          this, _$identity);
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$SendTransactionRpcRequestToJson(
+      this,
+    );
   }
 
   @override
   bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$SendTransactionRpcRequestImpl &&
+            other is SendTransactionRpcRequest &&
             (identical(other.id, id) || other.id == id) &&
             const DeepCollectionEquality().equals(other._params, _params));
   }
@@ -403,146 +251,46 @@ class _$SendTransactionRpcRequestImpl implements SendTransactionRpcRequest {
   int get hashCode => Object.hash(
       runtimeType, id, const DeepCollectionEquality().hash(_params));
 
-  /// Create a copy of RpcRequest
-  /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
-  @pragma('vm:prefer-inline')
-  _$$SendTransactionRpcRequestImplCopyWith<_$SendTransactionRpcRequestImpl>
-      get copyWith => __$$SendTransactionRpcRequestImplCopyWithImpl<
-          _$SendTransactionRpcRequestImpl>(this, _$identity);
-
-  @override
-  @optionalTypeArgs
-  TResult when<TResult extends Object?>({
-    required TResult Function(String id, List<dynamic> params) disconnect,
-    required TResult Function(String id, List<String> params) sendTransaction,
-    required TResult Function(String id, List<String> params) signData,
-  }) {
-    return sendTransaction(id, params);
+  String toString() {
+    return 'RpcRequest.sendTransaction(id: $id, params: $params)';
   }
-
-  @override
-  @optionalTypeArgs
-  TResult? whenOrNull<TResult extends Object?>({
-    TResult? Function(String id, List<dynamic> params)? disconnect,
-    TResult? Function(String id, List<String> params)? sendTransaction,
-    TResult? Function(String id, List<String> params)? signData,
-  }) {
-    return sendTransaction?.call(id, params);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult maybeWhen<TResult extends Object?>({
-    TResult Function(String id, List<dynamic> params)? disconnect,
-    TResult Function(String id, List<String> params)? sendTransaction,
-    TResult Function(String id, List<String> params)? signData,
-    required TResult orElse(),
-  }) {
-    if (sendTransaction != null) {
-      return sendTransaction(id, params);
-    }
-    return orElse();
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult map<TResult extends Object?>({
-    required TResult Function(DisconnectRpcRequest value) disconnect,
-    required TResult Function(SendTransactionRpcRequest value) sendTransaction,
-    required TResult Function(SignDataRpcRequest value) signData,
-  }) {
-    return sendTransaction(this);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult? mapOrNull<TResult extends Object?>({
-    TResult? Function(DisconnectRpcRequest value)? disconnect,
-    TResult? Function(SendTransactionRpcRequest value)? sendTransaction,
-    TResult? Function(SignDataRpcRequest value)? signData,
-  }) {
-    return sendTransaction?.call(this);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult maybeMap<TResult extends Object?>({
-    TResult Function(DisconnectRpcRequest value)? disconnect,
-    TResult Function(SendTransactionRpcRequest value)? sendTransaction,
-    TResult Function(SignDataRpcRequest value)? signData,
-    required TResult orElse(),
-  }) {
-    if (sendTransaction != null) {
-      return sendTransaction(this);
-    }
-    return orElse();
-  }
-
-  @override
-  Map<String, dynamic> toJson() {
-    return _$$SendTransactionRpcRequestImplToJson(
-      this,
-    );
-  }
-}
-
-abstract class SendTransactionRpcRequest implements RpcRequest {
-  const factory SendTransactionRpcRequest(
-      {required final String id,
-      required final List<String> params}) = _$SendTransactionRpcRequestImpl;
-
-  factory SendTransactionRpcRequest.fromJson(Map<String, dynamic> json) =
-      _$SendTransactionRpcRequestImpl.fromJson;
-
-  @override
-  String get id;
-  @override
-  List<String> get params;
-
-  /// Create a copy of RpcRequest
-  /// with the given fields replaced by the non-null parameter values.
-  @override
-  @JsonKey(includeFromJson: false, includeToJson: false)
-  _$$SendTransactionRpcRequestImplCopyWith<_$SendTransactionRpcRequestImpl>
-      get copyWith => throw _privateConstructorUsedError;
 }
 
 /// @nodoc
-abstract class _$$SignDataRpcRequestImplCopyWith<$Res>
+abstract mixin class $SendTransactionRpcRequestCopyWith<$Res>
     implements $RpcRequestCopyWith<$Res> {
-  factory _$$SignDataRpcRequestImplCopyWith(_$SignDataRpcRequestImpl value,
-          $Res Function(_$SignDataRpcRequestImpl) then) =
-      __$$SignDataRpcRequestImplCopyWithImpl<$Res>;
+  factory $SendTransactionRpcRequestCopyWith(SendTransactionRpcRequest value,
+          $Res Function(SendTransactionRpcRequest) _then) =
+      _$SendTransactionRpcRequestCopyWithImpl;
   @override
   @useResult
   $Res call({String id, List<String> params});
 }
 
 /// @nodoc
-class __$$SignDataRpcRequestImplCopyWithImpl<$Res>
-    extends _$RpcRequestCopyWithImpl<$Res, _$SignDataRpcRequestImpl>
-    implements _$$SignDataRpcRequestImplCopyWith<$Res> {
-  __$$SignDataRpcRequestImplCopyWithImpl(_$SignDataRpcRequestImpl _value,
-      $Res Function(_$SignDataRpcRequestImpl) _then)
-      : super(_value, _then);
+class _$SendTransactionRpcRequestCopyWithImpl<$Res>
+    implements $SendTransactionRpcRequestCopyWith<$Res> {
+  _$SendTransactionRpcRequestCopyWithImpl(this._self, this._then);
+
+  final SendTransactionRpcRequest _self;
+  final $Res Function(SendTransactionRpcRequest) _then;
 
   /// Create a copy of RpcRequest
   /// with the given fields replaced by the non-null parameter values.
-  @pragma('vm:prefer-inline')
   @override
+  @pragma('vm:prefer-inline')
   $Res call({
     Object? id = null,
     Object? params = null,
   }) {
-    return _then(_$SignDataRpcRequestImpl(
+    return _then(SendTransactionRpcRequest(
       id: null == id
-          ? _value.id
+          ? _self.id
           : id // ignore: cast_nullable_to_non_nullable
               as String,
       params: null == params
-          ? _value._params
+          ? _self._params
           : params // ignore: cast_nullable_to_non_nullable
               as List<String>,
     ));
@@ -551,16 +299,15 @@ class __$$SignDataRpcRequestImplCopyWithImpl<$Res>
 
 /// @nodoc
 @JsonSerializable()
-class _$SignDataRpcRequestImpl implements SignDataRpcRequest {
-  const _$SignDataRpcRequestImpl(
+class SignDataRpcRequest implements RpcRequest {
+  const SignDataRpcRequest(
       {required this.id,
       required final List<String> params,
       final String? $type})
       : _params = params,
         $type = $type ?? 'signData';
-
-  factory _$SignDataRpcRequestImpl.fromJson(Map<String, dynamic> json) =>
-      _$$SignDataRpcRequestImplFromJson(json);
+  factory SignDataRpcRequest.fromJson(Map<String, dynamic> json) =>
+      _$SignDataRpcRequestFromJson(json);
 
   @override
   final String id;
@@ -575,16 +322,26 @@ class _$SignDataRpcRequestImpl implements SignDataRpcRequest {
   @JsonKey(name: 'method')
   final String $type;
 
+  /// Create a copy of RpcRequest
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  String toString() {
-    return 'RpcRequest.signData(id: $id, params: $params)';
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @pragma('vm:prefer-inline')
+  $SignDataRpcRequestCopyWith<SignDataRpcRequest> get copyWith =>
+      _$SignDataRpcRequestCopyWithImpl<SignDataRpcRequest>(this, _$identity);
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$SignDataRpcRequestToJson(
+      this,
+    );
   }
 
   @override
   bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$SignDataRpcRequestImpl &&
+            other is SignDataRpcRequest &&
             (identical(other.id, id) || other.id == id) &&
             const DeepCollectionEquality().equals(other._params, _params));
   }
@@ -594,108 +351,50 @@ class _$SignDataRpcRequestImpl implements SignDataRpcRequest {
   int get hashCode => Object.hash(
       runtimeType, id, const DeepCollectionEquality().hash(_params));
 
+  @override
+  String toString() {
+    return 'RpcRequest.signData(id: $id, params: $params)';
+  }
+}
+
+/// @nodoc
+abstract mixin class $SignDataRpcRequestCopyWith<$Res>
+    implements $RpcRequestCopyWith<$Res> {
+  factory $SignDataRpcRequestCopyWith(
+          SignDataRpcRequest value, $Res Function(SignDataRpcRequest) _then) =
+      _$SignDataRpcRequestCopyWithImpl;
+  @override
+  @useResult
+  $Res call({String id, List<String> params});
+}
+
+/// @nodoc
+class _$SignDataRpcRequestCopyWithImpl<$Res>
+    implements $SignDataRpcRequestCopyWith<$Res> {
+  _$SignDataRpcRequestCopyWithImpl(this._self, this._then);
+
+  final SignDataRpcRequest _self;
+  final $Res Function(SignDataRpcRequest) _then;
+
   /// Create a copy of RpcRequest
   /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
-  _$$SignDataRpcRequestImplCopyWith<_$SignDataRpcRequestImpl> get copyWith =>
-      __$$SignDataRpcRequestImplCopyWithImpl<_$SignDataRpcRequestImpl>(
-          this, _$identity);
-
-  @override
-  @optionalTypeArgs
-  TResult when<TResult extends Object?>({
-    required TResult Function(String id, List<dynamic> params) disconnect,
-    required TResult Function(String id, List<String> params) sendTransaction,
-    required TResult Function(String id, List<String> params) signData,
+  $Res call({
+    Object? id = null,
+    Object? params = null,
   }) {
-    return signData(id, params);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult? whenOrNull<TResult extends Object?>({
-    TResult? Function(String id, List<dynamic> params)? disconnect,
-    TResult? Function(String id, List<String> params)? sendTransaction,
-    TResult? Function(String id, List<String> params)? signData,
-  }) {
-    return signData?.call(id, params);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult maybeWhen<TResult extends Object?>({
-    TResult Function(String id, List<dynamic> params)? disconnect,
-    TResult Function(String id, List<String> params)? sendTransaction,
-    TResult Function(String id, List<String> params)? signData,
-    required TResult orElse(),
-  }) {
-    if (signData != null) {
-      return signData(id, params);
-    }
-    return orElse();
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult map<TResult extends Object?>({
-    required TResult Function(DisconnectRpcRequest value) disconnect,
-    required TResult Function(SendTransactionRpcRequest value) sendTransaction,
-    required TResult Function(SignDataRpcRequest value) signData,
-  }) {
-    return signData(this);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult? mapOrNull<TResult extends Object?>({
-    TResult? Function(DisconnectRpcRequest value)? disconnect,
-    TResult? Function(SendTransactionRpcRequest value)? sendTransaction,
-    TResult? Function(SignDataRpcRequest value)? signData,
-  }) {
-    return signData?.call(this);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult maybeMap<TResult extends Object?>({
-    TResult Function(DisconnectRpcRequest value)? disconnect,
-    TResult Function(SendTransactionRpcRequest value)? sendTransaction,
-    TResult Function(SignDataRpcRequest value)? signData,
-    required TResult orElse(),
-  }) {
-    if (signData != null) {
-      return signData(this);
-    }
-    return orElse();
-  }
-
-  @override
-  Map<String, dynamic> toJson() {
-    return _$$SignDataRpcRequestImplToJson(
-      this,
-    );
+    return _then(SignDataRpcRequest(
+      id: null == id
+          ? _self.id
+          : id // ignore: cast_nullable_to_non_nullable
+              as String,
+      params: null == params
+          ? _self._params
+          : params // ignore: cast_nullable_to_non_nullable
+              as List<String>,
+    ));
   }
 }
 
-abstract class SignDataRpcRequest implements RpcRequest {
-  const factory SignDataRpcRequest(
-      {required final String id,
-      required final List<String> params}) = _$SignDataRpcRequestImpl;
-
-  factory SignDataRpcRequest.fromJson(Map<String, dynamic> json) =
-      _$SignDataRpcRequestImpl.fromJson;
-
-  @override
-  String get id;
-  @override
-  List<String> get params;
-
-  /// Create a copy of RpcRequest
-  /// with the given fields replaced by the non-null parameter values.
-  @override
-  @JsonKey(includeFromJson: false, includeToJson: false)
-  _$$SignDataRpcRequestImplCopyWith<_$SignDataRpcRequestImpl> get copyWith =>
-      throw _privateConstructorUsedError;
-}
+// dart format on

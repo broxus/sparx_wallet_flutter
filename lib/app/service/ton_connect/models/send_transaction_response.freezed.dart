@@ -1,3 +1,4 @@
+// dart format width=80
 // coverage:ignore-file
 // GENERATED CODE - DO NOT MODIFY BY HAND
 // ignore_for_file: type=lint
@@ -9,11 +10,8 @@ part of 'send_transaction_response.dart';
 // FreezedGenerator
 // **************************************************************************
 
+// dart format off
 T _$identity<T>(T value) => value;
-
-final _privateConstructorUsedError = UnsupportedError(
-    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models');
-
 SendTransactionResponse _$SendTransactionResponseFromJson(
     Map<String, dynamic> json) {
   switch (json['runtimeType']) {
@@ -33,75 +31,53 @@ SendTransactionResponse _$SendTransactionResponseFromJson(
 
 /// @nodoc
 mixin _$SendTransactionResponse {
-  String get id => throw _privateConstructorUsedError;
-  @optionalTypeArgs
-  TResult when<TResult extends Object?>({
-    required TResult Function(String id, String result) success,
-    required TResult Function(String id, TonConnectError error) error,
-  }) =>
-      throw _privateConstructorUsedError;
-  @optionalTypeArgs
-  TResult? whenOrNull<TResult extends Object?>({
-    TResult? Function(String id, String result)? success,
-    TResult? Function(String id, TonConnectError error)? error,
-  }) =>
-      throw _privateConstructorUsedError;
-  @optionalTypeArgs
-  TResult maybeWhen<TResult extends Object?>({
-    TResult Function(String id, String result)? success,
-    TResult Function(String id, TonConnectError error)? error,
-    required TResult orElse(),
-  }) =>
-      throw _privateConstructorUsedError;
-  @optionalTypeArgs
-  TResult map<TResult extends Object?>({
-    required TResult Function(SendTransactionResponseSuccess value) success,
-    required TResult Function(SendTransactionResponseError value) error,
-  }) =>
-      throw _privateConstructorUsedError;
-  @optionalTypeArgs
-  TResult? mapOrNull<TResult extends Object?>({
-    TResult? Function(SendTransactionResponseSuccess value)? success,
-    TResult? Function(SendTransactionResponseError value)? error,
-  }) =>
-      throw _privateConstructorUsedError;
-  @optionalTypeArgs
-  TResult maybeMap<TResult extends Object?>({
-    TResult Function(SendTransactionResponseSuccess value)? success,
-    TResult Function(SendTransactionResponseError value)? error,
-    required TResult orElse(),
-  }) =>
-      throw _privateConstructorUsedError;
-
-  /// Serializes this SendTransactionResponse to a JSON map.
-  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
+  String get id;
 
   /// Create a copy of SendTransactionResponse
   /// with the given fields replaced by the non-null parameter values.
   @JsonKey(includeFromJson: false, includeToJson: false)
+  @pragma('vm:prefer-inline')
   $SendTransactionResponseCopyWith<SendTransactionResponse> get copyWith =>
-      throw _privateConstructorUsedError;
+      _$SendTransactionResponseCopyWithImpl<SendTransactionResponse>(
+          this as SendTransactionResponse, _$identity);
+
+  /// Serializes this SendTransactionResponse to a JSON map.
+  Map<String, dynamic> toJson();
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is SendTransactionResponse &&
+            (identical(other.id, id) || other.id == id));
+  }
+
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @override
+  int get hashCode => Object.hash(runtimeType, id);
+
+  @override
+  String toString() {
+    return 'SendTransactionResponse(id: $id)';
+  }
 }
 
 /// @nodoc
-abstract class $SendTransactionResponseCopyWith<$Res> {
+abstract mixin class $SendTransactionResponseCopyWith<$Res> {
   factory $SendTransactionResponseCopyWith(SendTransactionResponse value,
-          $Res Function(SendTransactionResponse) then) =
-      _$SendTransactionResponseCopyWithImpl<$Res, SendTransactionResponse>;
+          $Res Function(SendTransactionResponse) _then) =
+      _$SendTransactionResponseCopyWithImpl;
   @useResult
   $Res call({String id});
 }
 
 /// @nodoc
-class _$SendTransactionResponseCopyWithImpl<$Res,
-        $Val extends SendTransactionResponse>
+class _$SendTransactionResponseCopyWithImpl<$Res>
     implements $SendTransactionResponseCopyWith<$Res> {
-  _$SendTransactionResponseCopyWithImpl(this._value, this._then);
+  _$SendTransactionResponseCopyWithImpl(this._self, this._then);
 
-  // ignore: unused_field
-  final $Val _value;
-  // ignore: unused_field
-  final $Res Function($Val) _then;
+  final SendTransactionResponse _self;
+  final $Res Function(SendTransactionResponse) _then;
 
   /// Create a copy of SendTransactionResponse
   /// with the given fields replaced by the non-null parameter values.
@@ -110,53 +86,10 @@ class _$SendTransactionResponseCopyWithImpl<$Res,
   $Res call({
     Object? id = null,
   }) {
-    return _then(_value.copyWith(
+    return _then(_self.copyWith(
       id: null == id
-          ? _value.id
+          ? _self.id
           : id // ignore: cast_nullable_to_non_nullable
-              as String,
-    ) as $Val);
-  }
-}
-
-/// @nodoc
-abstract class _$$SendTransactionResponseSuccessImplCopyWith<$Res>
-    implements $SendTransactionResponseCopyWith<$Res> {
-  factory _$$SendTransactionResponseSuccessImplCopyWith(
-          _$SendTransactionResponseSuccessImpl value,
-          $Res Function(_$SendTransactionResponseSuccessImpl) then) =
-      __$$SendTransactionResponseSuccessImplCopyWithImpl<$Res>;
-  @override
-  @useResult
-  $Res call({String id, String result});
-}
-
-/// @nodoc
-class __$$SendTransactionResponseSuccessImplCopyWithImpl<$Res>
-    extends _$SendTransactionResponseCopyWithImpl<$Res,
-        _$SendTransactionResponseSuccessImpl>
-    implements _$$SendTransactionResponseSuccessImplCopyWith<$Res> {
-  __$$SendTransactionResponseSuccessImplCopyWithImpl(
-      _$SendTransactionResponseSuccessImpl _value,
-      $Res Function(_$SendTransactionResponseSuccessImpl) _then)
-      : super(_value, _then);
-
-  /// Create a copy of SendTransactionResponse
-  /// with the given fields replaced by the non-null parameter values.
-  @pragma('vm:prefer-inline')
-  @override
-  $Res call({
-    Object? id = null,
-    Object? result = null,
-  }) {
-    return _then(_$SendTransactionResponseSuccessImpl(
-      id: null == id
-          ? _value.id
-          : id // ignore: cast_nullable_to_non_nullable
-              as String,
-      result: null == result
-          ? _value.result
-          : result // ignore: cast_nullable_to_non_nullable
               as String,
     ));
   }
@@ -164,34 +97,41 @@ class __$$SendTransactionResponseSuccessImplCopyWithImpl<$Res>
 
 /// @nodoc
 @JsonSerializable()
-class _$SendTransactionResponseSuccessImpl
-    implements SendTransactionResponseSuccess {
-  const _$SendTransactionResponseSuccessImpl(
+class SendTransactionResponseSuccess implements SendTransactionResponse {
+  const SendTransactionResponseSuccess(
       {required this.id, required this.result, final String? $type})
       : $type = $type ?? 'success';
-
-  factory _$SendTransactionResponseSuccessImpl.fromJson(
-          Map<String, dynamic> json) =>
-      _$$SendTransactionResponseSuccessImplFromJson(json);
+  factory SendTransactionResponseSuccess.fromJson(Map<String, dynamic> json) =>
+      _$SendTransactionResponseSuccessFromJson(json);
 
   @override
   final String id;
-  @override
   final String result;
 
   @JsonKey(name: 'runtimeType')
   final String $type;
 
+  /// Create a copy of SendTransactionResponse
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  String toString() {
-    return 'SendTransactionResponse.success(id: $id, result: $result)';
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @pragma('vm:prefer-inline')
+  $SendTransactionResponseSuccessCopyWith<SendTransactionResponseSuccess>
+      get copyWith => _$SendTransactionResponseSuccessCopyWithImpl<
+          SendTransactionResponseSuccess>(this, _$identity);
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$SendTransactionResponseSuccessToJson(
+      this,
+    );
   }
 
   @override
   bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$SendTransactionResponseSuccessImpl &&
+            other is SendTransactionResponseSuccess &&
             (identical(other.id, id) || other.id == id) &&
             (identical(other.result, result) || other.result == result));
   }
@@ -200,115 +140,111 @@ class _$SendTransactionResponseSuccessImpl
   @override
   int get hashCode => Object.hash(runtimeType, id, result);
 
-  /// Create a copy of SendTransactionResponse
-  /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
-  @pragma('vm:prefer-inline')
-  _$$SendTransactionResponseSuccessImplCopyWith<
-          _$SendTransactionResponseSuccessImpl>
-      get copyWith => __$$SendTransactionResponseSuccessImplCopyWithImpl<
-          _$SendTransactionResponseSuccessImpl>(this, _$identity);
-
-  @override
-  @optionalTypeArgs
-  TResult when<TResult extends Object?>({
-    required TResult Function(String id, String result) success,
-    required TResult Function(String id, TonConnectError error) error,
-  }) {
-    return success(id, result);
+  String toString() {
+    return 'SendTransactionResponse.success(id: $id, result: $result)';
   }
-
-  @override
-  @optionalTypeArgs
-  TResult? whenOrNull<TResult extends Object?>({
-    TResult? Function(String id, String result)? success,
-    TResult? Function(String id, TonConnectError error)? error,
-  }) {
-    return success?.call(id, result);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult maybeWhen<TResult extends Object?>({
-    TResult Function(String id, String result)? success,
-    TResult Function(String id, TonConnectError error)? error,
-    required TResult orElse(),
-  }) {
-    if (success != null) {
-      return success(id, result);
-    }
-    return orElse();
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult map<TResult extends Object?>({
-    required TResult Function(SendTransactionResponseSuccess value) success,
-    required TResult Function(SendTransactionResponseError value) error,
-  }) {
-    return success(this);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult? mapOrNull<TResult extends Object?>({
-    TResult? Function(SendTransactionResponseSuccess value)? success,
-    TResult? Function(SendTransactionResponseError value)? error,
-  }) {
-    return success?.call(this);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult maybeMap<TResult extends Object?>({
-    TResult Function(SendTransactionResponseSuccess value)? success,
-    TResult Function(SendTransactionResponseError value)? error,
-    required TResult orElse(),
-  }) {
-    if (success != null) {
-      return success(this);
-    }
-    return orElse();
-  }
-
-  @override
-  Map<String, dynamic> toJson() {
-    return _$$SendTransactionResponseSuccessImplToJson(
-      this,
-    );
-  }
-}
-
-abstract class SendTransactionResponseSuccess
-    implements SendTransactionResponse {
-  const factory SendTransactionResponseSuccess(
-      {required final String id,
-      required final String result}) = _$SendTransactionResponseSuccessImpl;
-
-  factory SendTransactionResponseSuccess.fromJson(Map<String, dynamic> json) =
-      _$SendTransactionResponseSuccessImpl.fromJson;
-
-  @override
-  String get id;
-  String get result;
-
-  /// Create a copy of SendTransactionResponse
-  /// with the given fields replaced by the non-null parameter values.
-  @override
-  @JsonKey(includeFromJson: false, includeToJson: false)
-  _$$SendTransactionResponseSuccessImplCopyWith<
-          _$SendTransactionResponseSuccessImpl>
-      get copyWith => throw _privateConstructorUsedError;
 }
 
 /// @nodoc
-abstract class _$$SendTransactionResponseErrorImplCopyWith<$Res>
+abstract mixin class $SendTransactionResponseSuccessCopyWith<$Res>
     implements $SendTransactionResponseCopyWith<$Res> {
-  factory _$$SendTransactionResponseErrorImplCopyWith(
-          _$SendTransactionResponseErrorImpl value,
-          $Res Function(_$SendTransactionResponseErrorImpl) then) =
-      __$$SendTransactionResponseErrorImplCopyWithImpl<$Res>;
+  factory $SendTransactionResponseSuccessCopyWith(
+          SendTransactionResponseSuccess value,
+          $Res Function(SendTransactionResponseSuccess) _then) =
+      _$SendTransactionResponseSuccessCopyWithImpl;
+  @override
+  @useResult
+  $Res call({String id, String result});
+}
+
+/// @nodoc
+class _$SendTransactionResponseSuccessCopyWithImpl<$Res>
+    implements $SendTransactionResponseSuccessCopyWith<$Res> {
+  _$SendTransactionResponseSuccessCopyWithImpl(this._self, this._then);
+
+  final SendTransactionResponseSuccess _self;
+  final $Res Function(SendTransactionResponseSuccess) _then;
+
+  /// Create a copy of SendTransactionResponse
+  /// with the given fields replaced by the non-null parameter values.
+  @override
+  @pragma('vm:prefer-inline')
+  $Res call({
+    Object? id = null,
+    Object? result = null,
+  }) {
+    return _then(SendTransactionResponseSuccess(
+      id: null == id
+          ? _self.id
+          : id // ignore: cast_nullable_to_non_nullable
+              as String,
+      result: null == result
+          ? _self.result
+          : result // ignore: cast_nullable_to_non_nullable
+              as String,
+    ));
+  }
+}
+
+/// @nodoc
+@JsonSerializable()
+class SendTransactionResponseError implements SendTransactionResponse {
+  const SendTransactionResponseError(
+      {required this.id, required this.error, final String? $type})
+      : $type = $type ?? 'error';
+  factory SendTransactionResponseError.fromJson(Map<String, dynamic> json) =>
+      _$SendTransactionResponseErrorFromJson(json);
+
+  @override
+  final String id;
+  final TonConnectError error;
+
+  @JsonKey(name: 'runtimeType')
+  final String $type;
+
+  /// Create a copy of SendTransactionResponse
+  /// with the given fields replaced by the non-null parameter values.
+  @override
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @pragma('vm:prefer-inline')
+  $SendTransactionResponseErrorCopyWith<SendTransactionResponseError>
+      get copyWith => _$SendTransactionResponseErrorCopyWithImpl<
+          SendTransactionResponseError>(this, _$identity);
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$SendTransactionResponseErrorToJson(
+      this,
+    );
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is SendTransactionResponseError &&
+            (identical(other.id, id) || other.id == id) &&
+            (identical(other.error, error) || other.error == error));
+  }
+
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @override
+  int get hashCode => Object.hash(runtimeType, id, error);
+
+  @override
+  String toString() {
+    return 'SendTransactionResponse.error(id: $id, error: $error)';
+  }
+}
+
+/// @nodoc
+abstract mixin class $SendTransactionResponseErrorCopyWith<$Res>
+    implements $SendTransactionResponseCopyWith<$Res> {
+  factory $SendTransactionResponseErrorCopyWith(
+          SendTransactionResponseError value,
+          $Res Function(SendTransactionResponseError) _then) =
+      _$SendTransactionResponseErrorCopyWithImpl;
   @override
   @useResult
   $Res call({String id, TonConnectError error});
@@ -317,30 +253,28 @@ abstract class _$$SendTransactionResponseErrorImplCopyWith<$Res>
 }
 
 /// @nodoc
-class __$$SendTransactionResponseErrorImplCopyWithImpl<$Res>
-    extends _$SendTransactionResponseCopyWithImpl<$Res,
-        _$SendTransactionResponseErrorImpl>
-    implements _$$SendTransactionResponseErrorImplCopyWith<$Res> {
-  __$$SendTransactionResponseErrorImplCopyWithImpl(
-      _$SendTransactionResponseErrorImpl _value,
-      $Res Function(_$SendTransactionResponseErrorImpl) _then)
-      : super(_value, _then);
+class _$SendTransactionResponseErrorCopyWithImpl<$Res>
+    implements $SendTransactionResponseErrorCopyWith<$Res> {
+  _$SendTransactionResponseErrorCopyWithImpl(this._self, this._then);
+
+  final SendTransactionResponseError _self;
+  final $Res Function(SendTransactionResponseError) _then;
 
   /// Create a copy of SendTransactionResponse
   /// with the given fields replaced by the non-null parameter values.
-  @pragma('vm:prefer-inline')
   @override
+  @pragma('vm:prefer-inline')
   $Res call({
     Object? id = null,
     Object? error = null,
   }) {
-    return _then(_$SendTransactionResponseErrorImpl(
+    return _then(SendTransactionResponseError(
       id: null == id
-          ? _value.id
+          ? _self.id
           : id // ignore: cast_nullable_to_non_nullable
               as String,
       error: null == error
-          ? _value.error
+          ? _self.error
           : error // ignore: cast_nullable_to_non_nullable
               as TonConnectError,
     ));
@@ -351,147 +285,10 @@ class __$$SendTransactionResponseErrorImplCopyWithImpl<$Res>
   @override
   @pragma('vm:prefer-inline')
   $TonConnectErrorCopyWith<$Res> get error {
-    return $TonConnectErrorCopyWith<$Res>(_value.error, (value) {
-      return _then(_value.copyWith(error: value));
+    return $TonConnectErrorCopyWith<$Res>(_self.error, (value) {
+      return _then(_self.copyWith(error: value));
     });
   }
 }
 
-/// @nodoc
-@JsonSerializable()
-class _$SendTransactionResponseErrorImpl
-    implements SendTransactionResponseError {
-  const _$SendTransactionResponseErrorImpl(
-      {required this.id, required this.error, final String? $type})
-      : $type = $type ?? 'error';
-
-  factory _$SendTransactionResponseErrorImpl.fromJson(
-          Map<String, dynamic> json) =>
-      _$$SendTransactionResponseErrorImplFromJson(json);
-
-  @override
-  final String id;
-  @override
-  final TonConnectError error;
-
-  @JsonKey(name: 'runtimeType')
-  final String $type;
-
-  @override
-  String toString() {
-    return 'SendTransactionResponse.error(id: $id, error: $error)';
-  }
-
-  @override
-  bool operator ==(Object other) {
-    return identical(this, other) ||
-        (other.runtimeType == runtimeType &&
-            other is _$SendTransactionResponseErrorImpl &&
-            (identical(other.id, id) || other.id == id) &&
-            (identical(other.error, error) || other.error == error));
-  }
-
-  @JsonKey(includeFromJson: false, includeToJson: false)
-  @override
-  int get hashCode => Object.hash(runtimeType, id, error);
-
-  /// Create a copy of SendTransactionResponse
-  /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
-  @override
-  @pragma('vm:prefer-inline')
-  _$$SendTransactionResponseErrorImplCopyWith<
-          _$SendTransactionResponseErrorImpl>
-      get copyWith => __$$SendTransactionResponseErrorImplCopyWithImpl<
-          _$SendTransactionResponseErrorImpl>(this, _$identity);
-
-  @override
-  @optionalTypeArgs
-  TResult when<TResult extends Object?>({
-    required TResult Function(String id, String result) success,
-    required TResult Function(String id, TonConnectError error) error,
-  }) {
-    return error(id, this.error);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult? whenOrNull<TResult extends Object?>({
-    TResult? Function(String id, String result)? success,
-    TResult? Function(String id, TonConnectError error)? error,
-  }) {
-    return error?.call(id, this.error);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult maybeWhen<TResult extends Object?>({
-    TResult Function(String id, String result)? success,
-    TResult Function(String id, TonConnectError error)? error,
-    required TResult orElse(),
-  }) {
-    if (error != null) {
-      return error(id, this.error);
-    }
-    return orElse();
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult map<TResult extends Object?>({
-    required TResult Function(SendTransactionResponseSuccess value) success,
-    required TResult Function(SendTransactionResponseError value) error,
-  }) {
-    return error(this);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult? mapOrNull<TResult extends Object?>({
-    TResult? Function(SendTransactionResponseSuccess value)? success,
-    TResult? Function(SendTransactionResponseError value)? error,
-  }) {
-    return error?.call(this);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult maybeMap<TResult extends Object?>({
-    TResult Function(SendTransactionResponseSuccess value)? success,
-    TResult Function(SendTransactionResponseError value)? error,
-    required TResult orElse(),
-  }) {
-    if (error != null) {
-      return error(this);
-    }
-    return orElse();
-  }
-
-  @override
-  Map<String, dynamic> toJson() {
-    return _$$SendTransactionResponseErrorImplToJson(
-      this,
-    );
-  }
-}
-
-abstract class SendTransactionResponseError implements SendTransactionResponse {
-  const factory SendTransactionResponseError(
-          {required final String id, required final TonConnectError error}) =
-      _$SendTransactionResponseErrorImpl;
-
-  factory SendTransactionResponseError.fromJson(Map<String, dynamic> json) =
-      _$SendTransactionResponseErrorImpl.fromJson;
-
-  @override
-  String get id;
-  TonConnectError get error;
-
-  /// Create a copy of SendTransactionResponse
-  /// with the given fields replaced by the non-null parameter values.
-  @override
-  @JsonKey(includeFromJson: false, includeToJson: false)
-  _$$SendTransactionResponseErrorImplCopyWith<
-          _$SendTransactionResponseErrorImpl>
-      get copyWith => throw _privateConstructorUsedError;
-}
+// dart format on

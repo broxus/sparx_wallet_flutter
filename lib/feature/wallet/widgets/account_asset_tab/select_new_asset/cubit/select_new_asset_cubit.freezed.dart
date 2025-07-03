@@ -1,3 +1,4 @@
+// dart format width=80
 // coverage:ignore-file
 // GENERATED CODE - DO NOT MODIFY BY HAND
 // ignore_for_file: type=lint
@@ -9,260 +10,57 @@ part of 'select_new_asset_cubit.dart';
 // FreezedGenerator
 // **************************************************************************
 
+// dart format off
 T _$identity<T>(T value) => value;
-
-final _privateConstructorUsedError = UnsupportedError(
-    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models');
 
 /// @nodoc
 mixin _$SelectNewAssetState {
-  @optionalTypeArgs
-  TResult when<TResult extends Object?>({
-    required TResult Function() completed,
-    required TResult Function(
-            SelectNewAssetTabs tab,
-            bool isLoading,
-            bool showButton,
-            KeyAccount? account,
-            List<(TokenContractAsset, bool)>? contracts)
-        data,
-  }) =>
-      throw _privateConstructorUsedError;
-  @optionalTypeArgs
-  TResult? whenOrNull<TResult extends Object?>({
-    TResult? Function()? completed,
-    TResult? Function(SelectNewAssetTabs tab, bool isLoading, bool showButton,
-            KeyAccount? account, List<(TokenContractAsset, bool)>? contracts)?
-        data,
-  }) =>
-      throw _privateConstructorUsedError;
-  @optionalTypeArgs
-  TResult maybeWhen<TResult extends Object?>({
-    TResult Function()? completed,
-    TResult Function(SelectNewAssetTabs tab, bool isLoading, bool showButton,
-            KeyAccount? account, List<(TokenContractAsset, bool)>? contracts)?
-        data,
-    required TResult orElse(),
-  }) =>
-      throw _privateConstructorUsedError;
-  @optionalTypeArgs
-  TResult map<TResult extends Object?>({
-    required TResult Function(_Completed value) completed,
-    required TResult Function(_Data value) data,
-  }) =>
-      throw _privateConstructorUsedError;
-  @optionalTypeArgs
-  TResult? mapOrNull<TResult extends Object?>({
-    TResult? Function(_Completed value)? completed,
-    TResult? Function(_Data value)? data,
-  }) =>
-      throw _privateConstructorUsedError;
-  @optionalTypeArgs
-  TResult maybeMap<TResult extends Object?>({
-    TResult Function(_Completed value)? completed,
-    TResult Function(_Data value)? data,
-    required TResult orElse(),
-  }) =>
-      throw _privateConstructorUsedError;
-}
-
-/// @nodoc
-abstract class $SelectNewAssetStateCopyWith<$Res> {
-  factory $SelectNewAssetStateCopyWith(
-          SelectNewAssetState value, $Res Function(SelectNewAssetState) then) =
-      _$SelectNewAssetStateCopyWithImpl<$Res, SelectNewAssetState>;
-}
-
-/// @nodoc
-class _$SelectNewAssetStateCopyWithImpl<$Res, $Val extends SelectNewAssetState>
-    implements $SelectNewAssetStateCopyWith<$Res> {
-  _$SelectNewAssetStateCopyWithImpl(this._value, this._then);
-
-  // ignore: unused_field
-  final $Val _value;
-  // ignore: unused_field
-  final $Res Function($Val) _then;
-
-  /// Create a copy of SelectNewAssetState
-  /// with the given fields replaced by the non-null parameter values.
-}
-
-/// @nodoc
-abstract class _$$CompletedImplCopyWith<$Res> {
-  factory _$$CompletedImplCopyWith(
-          _$CompletedImpl value, $Res Function(_$CompletedImpl) then) =
-      __$$CompletedImplCopyWithImpl<$Res>;
-}
-
-/// @nodoc
-class __$$CompletedImplCopyWithImpl<$Res>
-    extends _$SelectNewAssetStateCopyWithImpl<$Res, _$CompletedImpl>
-    implements _$$CompletedImplCopyWith<$Res> {
-  __$$CompletedImplCopyWithImpl(
-      _$CompletedImpl _value, $Res Function(_$CompletedImpl) _then)
-      : super(_value, _then);
-
-  /// Create a copy of SelectNewAssetState
-  /// with the given fields replaced by the non-null parameter values.
-}
-
-/// @nodoc
-
-class _$CompletedImpl implements _Completed {
-  const _$CompletedImpl();
-
-  @override
-  String toString() {
-    return 'SelectNewAssetState.completed()';
-  }
-
   @override
   bool operator ==(Object other) {
     return identical(this, other) ||
-        (other.runtimeType == runtimeType && other is _$CompletedImpl);
+        (other.runtimeType == runtimeType && other is SelectNewAssetState);
   }
 
   @override
   int get hashCode => runtimeType.hashCode;
 
   @override
-  @optionalTypeArgs
-  TResult when<TResult extends Object?>({
-    required TResult Function() completed,
-    required TResult Function(
-            SelectNewAssetTabs tab,
-            bool isLoading,
-            bool showButton,
-            KeyAccount? account,
-            List<(TokenContractAsset, bool)>? contracts)
-        data,
-  }) {
-    return completed();
+  String toString() {
+    return 'SelectNewAssetState()';
   }
-
-  @override
-  @optionalTypeArgs
-  TResult? whenOrNull<TResult extends Object?>({
-    TResult? Function()? completed,
-    TResult? Function(SelectNewAssetTabs tab, bool isLoading, bool showButton,
-            KeyAccount? account, List<(TokenContractAsset, bool)>? contracts)?
-        data,
-  }) {
-    return completed?.call();
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult maybeWhen<TResult extends Object?>({
-    TResult Function()? completed,
-    TResult Function(SelectNewAssetTabs tab, bool isLoading, bool showButton,
-            KeyAccount? account, List<(TokenContractAsset, bool)>? contracts)?
-        data,
-    required TResult orElse(),
-  }) {
-    if (completed != null) {
-      return completed();
-    }
-    return orElse();
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult map<TResult extends Object?>({
-    required TResult Function(_Completed value) completed,
-    required TResult Function(_Data value) data,
-  }) {
-    return completed(this);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult? mapOrNull<TResult extends Object?>({
-    TResult? Function(_Completed value)? completed,
-    TResult? Function(_Data value)? data,
-  }) {
-    return completed?.call(this);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult maybeMap<TResult extends Object?>({
-    TResult Function(_Completed value)? completed,
-    TResult Function(_Data value)? data,
-    required TResult orElse(),
-  }) {
-    if (completed != null) {
-      return completed(this);
-    }
-    return orElse();
-  }
-}
-
-abstract class _Completed implements SelectNewAssetState {
-  const factory _Completed() = _$CompletedImpl;
 }
 
 /// @nodoc
-abstract class _$$DataImplCopyWith<$Res> {
-  factory _$$DataImplCopyWith(
-          _$DataImpl value, $Res Function(_$DataImpl) then) =
-      __$$DataImplCopyWithImpl<$Res>;
-  @useResult
-  $Res call(
-      {SelectNewAssetTabs tab,
-      bool isLoading,
-      bool showButton,
-      KeyAccount? account,
-      List<(TokenContractAsset, bool)>? contracts});
+class $SelectNewAssetStateCopyWith<$Res> {
+  $SelectNewAssetStateCopyWith(
+      SelectNewAssetState _, $Res Function(SelectNewAssetState) __);
 }
 
 /// @nodoc
-class __$$DataImplCopyWithImpl<$Res>
-    extends _$SelectNewAssetStateCopyWithImpl<$Res, _$DataImpl>
-    implements _$$DataImplCopyWith<$Res> {
-  __$$DataImplCopyWithImpl(_$DataImpl _value, $Res Function(_$DataImpl) _then)
-      : super(_value, _then);
 
-  /// Create a copy of SelectNewAssetState
-  /// with the given fields replaced by the non-null parameter values.
-  @pragma('vm:prefer-inline')
+class SelectNewAssetStateCompleted implements SelectNewAssetState {
+  const SelectNewAssetStateCompleted();
+
   @override
-  $Res call({
-    Object? tab = null,
-    Object? isLoading = null,
-    Object? showButton = null,
-    Object? account = freezed,
-    Object? contracts = freezed,
-  }) {
-    return _then(_$DataImpl(
-      tab: null == tab
-          ? _value.tab
-          : tab // ignore: cast_nullable_to_non_nullable
-              as SelectNewAssetTabs,
-      isLoading: null == isLoading
-          ? _value.isLoading
-          : isLoading // ignore: cast_nullable_to_non_nullable
-              as bool,
-      showButton: null == showButton
-          ? _value.showButton
-          : showButton // ignore: cast_nullable_to_non_nullable
-              as bool,
-      account: freezed == account
-          ? _value.account
-          : account // ignore: cast_nullable_to_non_nullable
-              as KeyAccount?,
-      contracts: freezed == contracts
-          ? _value._contracts
-          : contracts // ignore: cast_nullable_to_non_nullable
-              as List<(TokenContractAsset, bool)>?,
-    ));
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is SelectNewAssetStateCompleted);
+  }
+
+  @override
+  int get hashCode => runtimeType.hashCode;
+
+  @override
+  String toString() {
+    return 'SelectNewAssetState.completed()';
   }
 }
 
 /// @nodoc
 
-class _$DataImpl implements _Data {
-  const _$DataImpl(
+class SelectNewAssetStateData implements SelectNewAssetState {
+  const SelectNewAssetStateData(
       {required this.tab,
       required this.isLoading,
       required this.showButton,
@@ -270,17 +68,12 @@ class _$DataImpl implements _Data {
       final List<(TokenContractAsset, bool)>? contracts})
       : _contracts = contracts;
 
-  @override
   final SelectNewAssetTabs tab;
 // loading blocks actions
-  @override
   final bool isLoading;
-  @override
   final bool showButton;
-  @override
   final KeyAccount? account;
   final List<(TokenContractAsset, bool)>? _contracts;
-  @override
   List<(TokenContractAsset, bool)>? get contracts {
     final value = _contracts;
     if (value == null) return null;
@@ -289,16 +82,19 @@ class _$DataImpl implements _Data {
     return EqualUnmodifiableListView(value);
   }
 
-  @override
-  String toString() {
-    return 'SelectNewAssetState.data(tab: $tab, isLoading: $isLoading, showButton: $showButton, account: $account, contracts: $contracts)';
-  }
+  /// Create a copy of SelectNewAssetState
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @pragma('vm:prefer-inline')
+  $SelectNewAssetStateDataCopyWith<SelectNewAssetStateData> get copyWith =>
+      _$SelectNewAssetStateDataCopyWithImpl<SelectNewAssetStateData>(
+          this, _$identity);
 
   @override
   bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$DataImpl &&
+            other is SelectNewAssetStateData &&
             (identical(other.tab, tab) || other.tab == tab) &&
             (identical(other.isLoading, isLoading) ||
                 other.isLoading == isLoading) &&
@@ -313,104 +109,68 @@ class _$DataImpl implements _Data {
   int get hashCode => Object.hash(runtimeType, tab, isLoading, showButton,
       account, const DeepCollectionEquality().hash(_contracts));
 
+  @override
+  String toString() {
+    return 'SelectNewAssetState.data(tab: $tab, isLoading: $isLoading, showButton: $showButton, account: $account, contracts: $contracts)';
+  }
+}
+
+/// @nodoc
+abstract mixin class $SelectNewAssetStateDataCopyWith<$Res>
+    implements $SelectNewAssetStateCopyWith<$Res> {
+  factory $SelectNewAssetStateDataCopyWith(SelectNewAssetStateData value,
+          $Res Function(SelectNewAssetStateData) _then) =
+      _$SelectNewAssetStateDataCopyWithImpl;
+  @useResult
+  $Res call(
+      {SelectNewAssetTabs tab,
+      bool isLoading,
+      bool showButton,
+      KeyAccount? account,
+      List<(TokenContractAsset, bool)>? contracts});
+}
+
+/// @nodoc
+class _$SelectNewAssetStateDataCopyWithImpl<$Res>
+    implements $SelectNewAssetStateDataCopyWith<$Res> {
+  _$SelectNewAssetStateDataCopyWithImpl(this._self, this._then);
+
+  final SelectNewAssetStateData _self;
+  final $Res Function(SelectNewAssetStateData) _then;
+
   /// Create a copy of SelectNewAssetState
   /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
-  @override
   @pragma('vm:prefer-inline')
-  _$$DataImplCopyWith<_$DataImpl> get copyWith =>
-      __$$DataImplCopyWithImpl<_$DataImpl>(this, _$identity);
-
-  @override
-  @optionalTypeArgs
-  TResult when<TResult extends Object?>({
-    required TResult Function() completed,
-    required TResult Function(
-            SelectNewAssetTabs tab,
-            bool isLoading,
-            bool showButton,
-            KeyAccount? account,
-            List<(TokenContractAsset, bool)>? contracts)
-        data,
+  $Res call({
+    Object? tab = null,
+    Object? isLoading = null,
+    Object? showButton = null,
+    Object? account = freezed,
+    Object? contracts = freezed,
   }) {
-    return data(tab, isLoading, showButton, account, contracts);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult? whenOrNull<TResult extends Object?>({
-    TResult? Function()? completed,
-    TResult? Function(SelectNewAssetTabs tab, bool isLoading, bool showButton,
-            KeyAccount? account, List<(TokenContractAsset, bool)>? contracts)?
-        data,
-  }) {
-    return data?.call(tab, isLoading, showButton, account, contracts);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult maybeWhen<TResult extends Object?>({
-    TResult Function()? completed,
-    TResult Function(SelectNewAssetTabs tab, bool isLoading, bool showButton,
-            KeyAccount? account, List<(TokenContractAsset, bool)>? contracts)?
-        data,
-    required TResult orElse(),
-  }) {
-    if (data != null) {
-      return data(tab, isLoading, showButton, account, contracts);
-    }
-    return orElse();
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult map<TResult extends Object?>({
-    required TResult Function(_Completed value) completed,
-    required TResult Function(_Data value) data,
-  }) {
-    return data(this);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult? mapOrNull<TResult extends Object?>({
-    TResult? Function(_Completed value)? completed,
-    TResult? Function(_Data value)? data,
-  }) {
-    return data?.call(this);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult maybeMap<TResult extends Object?>({
-    TResult Function(_Completed value)? completed,
-    TResult Function(_Data value)? data,
-    required TResult orElse(),
-  }) {
-    if (data != null) {
-      return data(this);
-    }
-    return orElse();
+    return _then(SelectNewAssetStateData(
+      tab: null == tab
+          ? _self.tab
+          : tab // ignore: cast_nullable_to_non_nullable
+              as SelectNewAssetTabs,
+      isLoading: null == isLoading
+          ? _self.isLoading
+          : isLoading // ignore: cast_nullable_to_non_nullable
+              as bool,
+      showButton: null == showButton
+          ? _self.showButton
+          : showButton // ignore: cast_nullable_to_non_nullable
+              as bool,
+      account: freezed == account
+          ? _self.account
+          : account // ignore: cast_nullable_to_non_nullable
+              as KeyAccount?,
+      contracts: freezed == contracts
+          ? _self._contracts
+          : contracts // ignore: cast_nullable_to_non_nullable
+              as List<(TokenContractAsset, bool)>?,
+    ));
   }
 }
 
-abstract class _Data implements SelectNewAssetState {
-  const factory _Data(
-      {required final SelectNewAssetTabs tab,
-      required final bool isLoading,
-      required final bool showButton,
-      final KeyAccount? account,
-      final List<(TokenContractAsset, bool)>? contracts}) = _$DataImpl;
-
-  SelectNewAssetTabs get tab; // loading blocks actions
-  bool get isLoading;
-  bool get showButton;
-  KeyAccount? get account;
-  List<(TokenContractAsset, bool)>? get contracts;
-
-  /// Create a copy of SelectNewAssetState
-  /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
-  _$$DataImplCopyWith<_$DataImpl> get copyWith =>
-      throw _privateConstructorUsedError;
-}
+// dart format on

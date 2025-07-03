@@ -1,13 +1,16 @@
 part of 'change_seed_password_cubit.dart';
 
 @freezed
-class ChangeSeedPasswordState with _$ChangeSeedPasswordState {
+sealed class ChangeSeedPasswordState with _$ChangeSeedPasswordState {
   /// Default state
-  const factory ChangeSeedPasswordState.initial() = _Initial;
+  const factory ChangeSeedPasswordState.initial() =
+      ChangeSeedPasswordStateInitial;
 
   /// Show error to user
-  const factory ChangeSeedPasswordState.error(String errorCode) = _Error;
+  const factory ChangeSeedPasswordState.error(String errorCode) =
+      ChangeSeedPasswordStateError;
 
   /// Password changed, close sheet
-  const factory ChangeSeedPasswordState.completed() = _Completed;
+  const factory ChangeSeedPasswordState.completed() =
+      ChangeSeedPasswordStateCompleted;
 }
