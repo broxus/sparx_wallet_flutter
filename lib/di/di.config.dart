@@ -113,6 +113,7 @@ import '../feature/browser_v2/domain/service/storages/browser_tabs_storage_servi
 import '../feature/browser_v2/screens/create_group/route.dart' as _i345;
 import '../feature/browser_v2/screens/main/route.dart' as _i1040;
 import '../feature/choose_network/route.dart' as _i805;
+import '../feature/ledger/domain/ledger_ble_scanner.dart' as _i328;
 import '../feature/messenger/domain/service/messenger_service.dart' as _i632;
 import '../feature/network/configure_networks/route.dart' as _i1004;
 import '../feature/network/edit_network/route.dart' as _i217;
@@ -235,6 +236,8 @@ extension GetItInjectableX on _i174.GetIt {
       () => _i33.NftSendRoute(),
       instanceName: 'NftSendRoute',
     );
+    gh.singleton<_i328.LedgerBleScanner>(
+        () => _i328.LedgerBleScanner(gh<_i128.AppPermissionsService>()));
     gh.singleton<_i82.CompassBaseRoute>(
       () => _i290.TokenWalletSendRoute(),
       instanceName: 'TokenWalletSendRoute',

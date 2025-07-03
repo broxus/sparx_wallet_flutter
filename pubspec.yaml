@@ -38,6 +38,7 @@ dependencies:
   flutter:
     sdk: flutter
   flutter_bloc: 9.1.1
+  flutter_blue_plus: 1.35.5
   flutter_email_sender: 7.0.0
   flutter_inappwebview: 6.1.5
   flutter_screenutil: 5.9.3
@@ -66,7 +67,9 @@ dependencies:
   money2: 5.4.6
   money2_fixer: 3.0.0
   native_dio_adapter: 1.4.0
-  nekoton_repository: 1.3.1
+  # nekoton_repository: 1.3.1
+  nekoton_repository:
+    path: ../nekoton_repository
   nekoton_webview: 0.1.11
   ntp: 2.0.0
   open_settings_plus: 0.4.0
