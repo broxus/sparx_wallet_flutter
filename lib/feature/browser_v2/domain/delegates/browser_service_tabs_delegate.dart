@@ -56,7 +56,7 @@ abstract interface class BrowserServiceTabs {
     required String name,
   });
 
-  void removeBrowserGroup(String groupId);
+  (BrowserGroup?, VoidCallback) removeBrowserGroup(String groupId);
 
   Future<void> backWeb();
 
@@ -567,16 +567,15 @@ class BrowserServiceTabsDelegate
   }
 
   @override
-  void removeBrowserGroup(String groupId) {
+  (BrowserGroup?, VoidCallback) removeBrowserGroup(String groupId) {
     final tabsIds = _groupsReactiveStore.getTabIds(groupId);
-    final removeIndex = _groupsReactiveStore.remove(groupId);
-    if (tabsIds != null) {
-      _tabsReactiveStore.removeList(tabsIds);
-    }
+    final (removedIndex, entity) = _groupsReactiveStore.remove(groupId);
+    final removedGroupTabs =
+        tabsIds == null ? null : _tabsReactiveStore.removeList(tabsIds);
 
     if (groupId == activeGroupId) {
-      if (removeIndex != null) {
-        _groupsReactiveStore.setActiveByIndex(removeIndex);
+      if (removedIndex != null) {
+        _groupsReactiveStore.setActiveByIndex(removedIndex);
         setActiveTab(null);
       } else {
         _groupsReactiveStore.setActiveById(tabsGroupId);
@@ -585,6 +584,24 @@ class BrowserServiceTabsDelegate
 
     _browserGroupsStorageService.saveGroups(_groupsReactiveStore.entities);
     _browserTabsStorageService.saveBrowserTabs(_tabsReactiveStore.entities);
+
+    return (
+      entity,
+      () {
+        if (entity == null) {
+          return;
+        }
+        _groupsReactiveStore.insert(entity, removedIndex);
+
+        _browserGroupsStorageService.saveGroups(_groupsReactiveStore.entities);
+
+        if (removedGroupTabs != null) {
+          _tabsReactiveStore.addList(removedGroupTabs);
+          _browserTabsStorageService
+              .saveBrowserTabs(_tabsReactiveStore.entities);
+        }
+      }
+    );
   }
 
   /// Put browser tabs to stream

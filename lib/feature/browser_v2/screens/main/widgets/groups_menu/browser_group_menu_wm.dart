@@ -21,6 +21,7 @@ BrowserGroupMenuWidgetModel defaultBrowserGroupMenuWidgetModelFactory(
     BrowserGroupMenuModel(
       createPrimaryErrorHandler(context),
       inject(),
+      inject(),
     ),
   );
 }
@@ -105,7 +106,14 @@ class BrowserGroupMenuWidgetModel
   }
 
   void onPressedRemoveGroup(String groupId) {
-    model.removeGroup(groupId);
+    // Проверить множественный undo
+    final (group, restoreCallback) = model.removeGroup(groupId);
+
+    if (group == null) {
+      return;
+    }
+
+    model.showUndoToast(group.title ?? '', restoreCallback);
   }
 
   Future<void> onPressedNewGroup() async {

@@ -239,6 +239,7 @@
   "browserBookmarkRename": "Rename",
   "browserBookmarkDelete": "Delete",
   "browserBookmarkDeleted": "Bookmark has been removed",
+  "browserGroupDeleted": "Group {} has been removed",
   "browserBookmarkRenameEnterName": "Enter new name",
   "browserBookmarkRenameName": "Name",
   "browserBookmarkRenameWord": "Rename",

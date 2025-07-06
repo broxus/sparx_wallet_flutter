@@ -62,8 +62,40 @@ class BrowserEntityReactiveStore<T extends BrowserEntity> {
       ..update();
   }
 
-  int? remove(String entityId) {
-    _notifiersMap.remove(entityId)?.dispose();
+  void insert(T entity, int? index) {
+    if (index == null || index >= _notifiersMap.length) {
+      add(entity);
+      return;
+    }
+
+    final resultNotifiers = <String, NotNullNotifier<T>>{};
+    final resultIds = <String>[];
+
+    var i = 0;
+    for (final entry in _notifiersMap.entries) {
+      if (i == index) {
+        resultNotifiers[entity.id] = NotNullNotifier(entity);
+        resultIds.add(entity.id);
+      }
+
+      resultNotifiers[entry.key] = entry.value;
+      resultIds.add(entry.value.value.id);
+
+      ++i;
+    }
+
+    _notifiersMap
+      ..clear()
+      ..addAll(resultNotifiers);
+    _entitiesIdsListState.value
+      ..clear()
+      ..addAll(resultIds);
+
+    _entitiesIdsListState.update();
+  }
+
+  (int?, T?) remove(String entityId) {
+    final removedEntity = (_notifiersMap.remove(entityId)?..dispose())?.value;
 
     final ids = _entitiesIdsListState.value;
     final count = ids.length;
@@ -78,14 +110,14 @@ class BrowserEntityReactiveStore<T extends BrowserEntity> {
     }
 
     if (removedIndex == null) {
-      return null;
+      return (null, null);
     }
 
     _entitiesIdsListState
       ..value.removeAt(removedIndex)
       ..update();
 
-    return removedIndex;
+    return (removedIndex, removedEntity);
   }
 
   NotNullListenableState<T>? getListenable(String entityId) =>
@@ -211,12 +243,19 @@ class TabsReactiveStore extends BrowserEntityReactiveStore<BrowserTab> {
       ..update();
   }
 
-  void removeList(List<String> ids) {
+  List<BrowserTab> removeList(List<String> ids) {
+    final removedList = <BrowserTab>[];
+
     for (final id in ids) {
-      _notifiersMap.remove(id)?.dispose();
+      final tab = (_notifiersMap.remove(id)?..dispose())?.value;
+
+      if (tab != null) {
+        removedList.add(tab);
+      }
     }
 
     _entitiesIdsListState.accept(_notifiersMap.keys.toList());
+    return removedList;
   }
 
   Uri? getCachedUrl(String tabId) => getNotifier(tabId)?.value.url;

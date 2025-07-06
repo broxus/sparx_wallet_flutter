@@ -244,6 +244,7 @@ abstract class LocaleKeys {
   static const browserBookmarkRename = 'browserBookmarkRename';
   static const browserBookmarkDelete = 'browserBookmarkDelete';
   static const browserBookmarkDeleted = 'browserBookmarkDeleted';
+  static const browserGroupDeleted = 'browserGroupDeleted';
   static const browserBookmarkRenameEnterName =
       'browserBookmarkRenameEnterName';
   static const browserBookmarkRenameName = 'browserBookmarkRenameName';
