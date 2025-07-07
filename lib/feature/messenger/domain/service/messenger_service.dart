@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:collection';
 
 import 'package:app/feature/messenger/data/message.dart';
+import 'package:app/feature/messenger/domain/service/messenger_value.dart';
 import 'package:app/generated/generated.dart';
 import 'package:flutter/material.dart';
 import 'package:injectable/injectable.dart';
@@ -14,9 +15,12 @@ import 'package:rxdart/subjects.dart';
 class MessengerService {
   final _messages = ListQueue<Message>();
 
-  final _messagesExistSubject = BehaviorSubject<bool>.seeded(false);
+  final _messagesExistSubject = BehaviorSubject<MessengerValue>.seeded(
+    MessengerValue.notReady,
+  );
 
-  Stream<bool> get messagesExistStream => _messagesExistSubject.stream;
+  Stream<MessengerValue> get messagesExistStream =>
+      _messagesExistSubject.stream;
 
   @disposeMethod
   void dispose() {
@@ -25,7 +29,14 @@ class MessengerService {
 
   void show(Message message) {
     _messages.add(message);
-    _messagesExistSubject.add(true);
+    _messagesExistSubject.add(MessengerValue.ready);
+  }
+
+  void showAndReplace(Message message) {
+    _messages
+      ..clear()
+      ..add(message);
+    _messagesExistSubject.add(MessengerValue.readyAndReplaceAll);
   }
 
   void showError(BuildContext context, String message) {
@@ -48,7 +59,7 @@ class MessengerService {
     final message = _removeFirstSafe();
 
     if (_messages.isEmpty) {
-      _messagesExistSubject.add(false);
+      _messagesExistSubject.add(MessengerValue.notReady);
     }
 
     return message;

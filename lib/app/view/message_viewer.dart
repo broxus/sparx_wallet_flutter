@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:app/feature/messenger/data/message.dart';
+import 'package:app/feature/messenger/domain/service/messenger_value.dart';
 import 'package:app/feature/messenger/widget/toast_message.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:in_app_notification/in_app_notification.dart';
@@ -13,12 +14,12 @@ class MessageViewer {
     required this.getMessage,
   });
 
-  Stream<bool> messagesExistStream;
+  Stream<MessengerValue> messagesExistStream;
   BuildContext? Function() getRootContext;
   Message? Function() getMessage;
   Timer? _messageTimer;
 
-  StreamSubscription<bool>? _messagesSubscription;
+  StreamSubscription<MessengerValue>? _messagesSubscription;
 
   bool _isRunShowMessages = false;
 
@@ -30,12 +31,19 @@ class MessageViewer {
     _messagesSubscription?.cancel();
   }
 
-  Future<void> _handleMessages(bool isReadyMessage) async {
-    if (!isReadyMessage || _isRunShowMessages) {
+  Future<void> _handleMessages(MessengerValue value) async {
+    if (_isRunShowMessages) {
       return;
     }
-    _isRunShowMessages = true;
-    _show();
+    switch (value) {
+      case MessengerValue.ready:
+        _isRunShowMessages = true;
+        _show();
+      case MessengerValue.readyAndReplaceAll:
+        await _dismissAndShowNext();
+      case MessengerValue.notReady:
+        return;
+    }
   }
 
   void _show() {
@@ -61,13 +69,13 @@ class MessageViewer {
           ),
           onPressedAction: () {
             message.onAction?.call();
-            _dismiss();
+            _dismissAndShowNext();
           },
-          onTapClosed: _dismiss,
+          onTapClosed: _dismissAndShowNext,
         ),
         // ignore: use_build_context_synchronously
         context: rootContext,
-        onTap: _dismiss,
+        onTap: _dismissAndShowNext,
         duration: message.duration,
       );
       _messageTimer = Timer(message.duration, () {
@@ -86,7 +94,14 @@ class MessageViewer {
 
     try {
       await InAppNotification.dismiss(context: rootContext);
-    } catch (_) {}
+    } catch (e, s) {
+      debugPrint('Error dismiss $e');
+      debugPrintStack(stackTrace: s);
+    }
+  }
+
+  Future<void> _dismissAndShowNext() async {
+    await _dismiss();
     _show();
   }
 

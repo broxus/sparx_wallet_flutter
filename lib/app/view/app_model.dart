@@ -6,6 +6,7 @@ import 'package:app/app/view/app.dart';
 import 'package:app/bootstrap/bootstrap.dart';
 import 'package:app/feature/messenger/data/message.dart';
 import 'package:app/feature/messenger/domain/service/messenger_service.dart';
+import 'package:app/feature/messenger/domain/service/messenger_value.dart';
 import 'package:app/feature/profile/route.dart';
 import 'package:app/generated/generated.dart';
 import 'package:elementary/elementary.dart';
@@ -31,7 +32,8 @@ class AppModel extends ElementaryModel with WidgetsBindingObserver {
   BuildContext? get navContext =>
       CompassRouter.navigatorKey.currentState?.context;
 
-  Stream<bool> get messagesExistStream => _messengerService.messagesExistStream;
+  Stream<MessengerValue> get messagesExistStream =>
+      _messengerService.messagesExistStream;
 
   AppLifecycleListener? _listener;
 

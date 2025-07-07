@@ -106,7 +106,6 @@ class BrowserGroupMenuWidgetModel
   }
 
   void onPressedRemoveGroup(String groupId) {
-    // Проверить множественный undo
     final (group, restoreCallback) = model.removeGroup(groupId);
 
     if (group == null) {

@@ -64,7 +64,7 @@ class BrowserGroupMenuModel extends ElementaryModel {
     String groupName,
     VoidCallback onAction,
   ) {
-    _messengerService.show(
+    _messengerService.showAndReplace(
       Message.info(
         message: LocaleKeys.browserGroupDeleted.tr(
           args: [groupName],

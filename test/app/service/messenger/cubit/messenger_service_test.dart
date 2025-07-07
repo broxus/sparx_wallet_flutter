@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:app/feature/messenger/data/message.dart';
 import 'package:app/feature/messenger/domain/service/messenger_service.dart';
+import 'package:app/feature/messenger/domain/service/messenger_value.dart';
 import 'package:test/test.dart';
 
 void main() {
@@ -28,33 +29,42 @@ void main() {
     });
 
     test('initial state is false', () async {
-      final events = <bool>[];
+      final events = <MessengerValue>[];
       final sub = messengerService.messagesExistStream.listen(events.add);
       await delay();
-      expect(events, equals([false]));
+      expect(events, equals([MessengerValue.notReady]));
       await sub.cancel();
     });
 
     test('emits false then true when one message is added', () async {
-      final events = <bool>[];
+      final events = <MessengerValue>[];
       final sub = messengerService.messagesExistStream.listen(events.add);
       await delay();
       messengerService.show(message0);
       await delay();
-      expect(events, equals([false, true]));
+      expect(events, equals([MessengerValue.notReady, MessengerValue.ready]));
       await sub.cancel();
     });
 
     test('emits false, true, then false when message is taken', () async {
-      final events = <bool>[];
+      final events = <MessengerValue>[];
       final sub = messengerService.messagesExistStream.listen(events.add);
       await delay();
       messengerService.show(message0);
       await delay();
-      expect(events.last, true);
+      expect(events.last, MessengerValue.ready);
       messengerService.takeMessage();
       await delay();
-      expect(events, equals([false, true, false]));
+      expect(
+        events,
+        equals(
+          [
+            MessengerValue.notReady,
+            MessengerValue.ready,
+            MessengerValue.notReady,
+          ],
+        ),
+      );
       await sub.cancel();
     });
   });
