@@ -724,5 +724,10 @@
   "nftTransferDescription": "Transferring the NFT also transfers ownership",
   "nftTransferSuccessMessage": "NFTs transferred successfully",
   "nftAttachedAmountNotification": "Most of the attached amount will be returned to your address. The exact commission amount depends on the smart contract.",
-  "unknown": "Unknown"
+  "unknown": "Unknown",
+  "settings": "Settings",
+  "faq": "FAQ",
+  "legal": "Legal",
+  "connectedDappsTitle": "Connected dApps",
+  "connectedDappsSubtitle": "Only for TON"
 }
