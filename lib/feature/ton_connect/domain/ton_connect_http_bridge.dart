@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:convert';
 
 import 'package:app/app/service/service.dart';
+import 'package:app/feature/ton_connect/ton_connect.dart';
 import 'package:app/utils/utils.dart';
 import 'package:collection/collection.dart';
 import 'package:dio/dio.dart';

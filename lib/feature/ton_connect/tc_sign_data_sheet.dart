@@ -1,4 +1,3 @@
-import 'package:app/app/service/ton_connect/models/models.dart';
 import 'package:app/feature/ton_connect/ton_connect.dart';
 import 'package:app/generated/generated.dart';
 import 'package:flutter/material.dart';
