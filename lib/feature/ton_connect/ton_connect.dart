@@ -1,6 +1,8 @@
 export 'data/data.dart';
 export 'domain/domain.dart';
 export 'tc_connect_sheet.dart';
+export 'tc_manage_dapps_sheet.dart';
 export 'tc_send_message_sheet.dart';
 export 'tc_sign_data_sheet.dart';
 export 'view/view.dart';
+export 'widgets/widgets.dart';

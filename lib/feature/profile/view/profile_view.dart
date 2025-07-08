@@ -18,6 +18,7 @@ class ProfileView extends StatelessWidget {
     required this.onLegal,
     required this.onLogout,
     required this.onBiomentryChanged,
+    required this.onManageDapps,
     this.isDarkThemeEnabled = false,
     super.key,
   });
@@ -32,6 +33,7 @@ class ProfileView extends StatelessWidget {
   final VoidCallback onFAQ;
   final VoidCallback onLegal;
   final VoidCallback onLogout;
+  final VoidCallback onManageDapps;
   final ValueChanged<bool> onBiomentryChanged;
 
   @override
@@ -72,7 +74,7 @@ class ProfileView extends StatelessWidget {
                           title: LocaleKeys.connectedDappsTitle.tr(),
                           subtitle: LocaleKeys.connectedDappsSubtitle.tr(),
                           icon: LucideIcons.plus,
-                          onPressed: () {},
+                          onPressed: onManageDapps,
                         ),
                       ],
                     ),

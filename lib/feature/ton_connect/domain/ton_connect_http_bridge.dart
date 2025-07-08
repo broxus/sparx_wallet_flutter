@@ -105,6 +105,20 @@ class TonConnectHttpBridge {
     await openSseConnection(); // reconnect to http bridge
   }
 
+  Future<void> disconnect({
+    required TonAppConnectionRemote connection,
+  }) async {
+    _tonConnectService.disconnect(connection: connection);
+
+    await _send(
+      clientId: connection.clientId,
+      sessionCrypto: connection.sessionCrypto,
+      data: jsonEncode(
+        WalletEvent.disconnect(id: _storageService.getEventId()).toJson(),
+      ),
+    );
+  }
+
   Future<void> _handleMessage(SseMessage message) async {
     if (message.event == 'heartbeat') return;
 
@@ -141,7 +155,7 @@ class TonConnectHttpBridge {
       _logger.finest('Received message: ${rpcRequest.toJson()}');
 
       await switch (rpcRequest) {
-        DisconnectRpcRequest() => _disconnect(connection: connection),
+        DisconnectRpcRequest() => disconnect(connection: connection),
         final SendTransactionRpcRequest request => _sendTransaction(
             request: request,
             connection: connection,
@@ -154,20 +168,6 @@ class TonConnectHttpBridge {
     } catch (e, s) {
       _logger.severe('Handle message failed', e, s);
     }
-  }
-
-  Future<void> _disconnect({
-    required TonAppConnectionRemote connection,
-  }) async {
-    _tonConnectService.disconnect(connection: connection);
-
-    await _send(
-      clientId: connection.clientId,
-      sessionCrypto: connection.sessionCrypto,
-      data: jsonEncode(
-        WalletEvent.disconnect(id: _storageService.getEventId()).toJson(),
-      ),
-    );
   }
 
   Future<void> _sendTransaction({
