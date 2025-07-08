@@ -1,4 +1,4 @@
-import 'package:app/app/service/service.dart';
+import 'package:app/feature/ton_connect/ton_connect.dart';
 
 sealed class AppLinksData {}
 

@@ -9,6 +9,7 @@ import 'package:app/feature/contact_support/contact_support.dart';
 import 'package:app/feature/profile/manage_seeds_accounts/route.dart';
 import 'package:app/feature/profile/profile.dart';
 import 'package:app/feature/profile/view/profile_page_model.dart';
+import 'package:app/feature/ton_connect/ton_connect.dart';
 import 'package:elementary_helper/elementary_helper.dart';
 import 'package:flutter/material.dart';
 
@@ -90,6 +91,8 @@ class ProfilePageWidgetModel
   void onFAQ() => openBrowserUrl(_faqUrl);
 
   void onLegal() => openBrowserUrl(_legalUrl);
+
+  void onManageDapps() => showTCManageDappsSheet(context);
 
   Future<void> _init() async {
     _appVersionState.accept(await model.appVersion);

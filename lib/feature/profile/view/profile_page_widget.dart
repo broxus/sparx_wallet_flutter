@@ -26,6 +26,7 @@ class ProfilePageWidget extends ElementaryWidget<ProfilePageWidgetModel> {
           onLegal: wm.onLegal,
           onLogout: wm.onLogout,
           onBiomentryChanged: wm.onBiomentryChanged,
+          onManageDapps: wm.onManageDapps,
         );
       },
     );
