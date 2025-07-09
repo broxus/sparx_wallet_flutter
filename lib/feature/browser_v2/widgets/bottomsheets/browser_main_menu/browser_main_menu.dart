@@ -93,9 +93,7 @@ class _Item extends StatelessWidget {
       title: data.title,
       icon: data.icon,
       iconColor: switch (data) {
-        BrowserMainMenuData.clearHistory =>
-          // TODO(knightforce): move to colors
-          const Color(0xFFFF2D55),
+        BrowserMainMenuData.clearHistory => ColorsResV2.vibrantRaspberry,
         _ => null
       },
       onPressed: () => onPressed(data),

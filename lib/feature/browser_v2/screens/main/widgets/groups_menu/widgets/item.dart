@@ -145,8 +145,7 @@ class _Content extends StatelessWidget {
                   DecoratedBox(
                     decoration: const BoxDecoration(
                       shape: BoxShape.circle,
-                      // TODO(knightforce): add to color palette
-                      color: Color(0xff353960),
+                      color: ColorsResV2.midnightBlue,
                     ),
                     child: SizedBox(
                       width: DimensSizeV2.d20,
