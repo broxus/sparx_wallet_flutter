@@ -129,7 +129,6 @@ class CheckPhraseWidgetModel
     if (hasError) {
       model.showValidateError(LocaleKeys.seedIsMissing.tr());
     } else {
-      // TODO(malochka): think about get rid of compassBack method
       address.value?.let(model.setShowingBackUpFlag);
       widget.finishedBackupCallback();
       context
