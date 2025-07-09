@@ -1,4 +1,3 @@
-import 'package:app/app/router/router.dart';
 import 'package:app/core/wm/custom_wm.dart';
 import 'package:app/feature/nft/nft.dart';
 import 'package:app/feature/wallet/wallet.dart';
@@ -30,7 +29,6 @@ class NftSendWidget extends InjectedElementaryWidget<NftSendWidgetModel> {
           NftSendStateError() =>
             DefaultAppBar(titleText: LocaleKeys.confirmTransaction.tr()),
           NftSendStateReady() => DefaultAppBar(
-              onClosePressed: (context) => context.compassBack(),
               titleText: LocaleKeys.confirmTransaction.tr(),
             ),
         };

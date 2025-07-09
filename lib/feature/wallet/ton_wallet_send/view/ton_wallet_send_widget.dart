@@ -1,4 +1,3 @@
-import 'package:app/app/router/router.dart';
 import 'package:app/core/wm/custom_wm.dart';
 import 'package:app/feature/wallet/ton_wallet_send/data/data.dart';
 import 'package:app/feature/wallet/ton_wallet_send/view/ton_wallet_send_confirm_view.dart';
@@ -29,7 +28,6 @@ class TonWalletSendWidget
           TonWalletSendStateError() =>
             DefaultAppBar(titleText: LocaleKeys.confirmTransaction.tr()),
           TonWalletSendStateReady() => DefaultAppBar(
-              onClosePressed: (context) => context.compassBack(),
               titleText: LocaleKeys.confirmTransaction.tr(),
             ),
         };

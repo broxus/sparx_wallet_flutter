@@ -32,9 +32,7 @@ class CreateSeedPasswordScreen
       child: Scaffold(
         resizeToAvoidBottomInset: true,
         backgroundColor: wm.themeStyle.colors.background0,
-        appBar: DefaultAppBar(
-          onClosePressed: (_) => wm.pop(),
-        ),
+        appBar: const DefaultAppBar(),
         body: DoubleSourceBuilder<bool, PasswordStatus>(
           firstSource: wm.loadState,
           secondSource: wm.passwordStatusState,

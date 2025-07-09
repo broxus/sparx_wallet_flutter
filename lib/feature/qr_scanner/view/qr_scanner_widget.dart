@@ -26,7 +26,6 @@ class QrScannerWidget extends InjectedElementaryWidget<QrScannerWidgetModel>
       backgroundColor: wm.theme.colors.background0,
       appBar: DefaultAppBar(
         titleText: LocaleKeys.scanQrCode.tr(),
-        onClosePressed: (_) => wm.onResult(),
       ),
       extendBodyBehindAppBar: true,
       body: MobileScanner(

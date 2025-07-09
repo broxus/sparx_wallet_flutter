@@ -121,8 +121,6 @@ class EnterSeedPhraseWidgetModel
 
   void onPressedResetFocus() => resetFocus(contextSafe);
 
-  void onClosePressed(BuildContext context) => context.compassBack();
-
   /// Callback for UI TextField widget
   List<String> onSuggestions(String text) {
     if (text.isEmpty) return [];

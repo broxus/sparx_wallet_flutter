@@ -15,7 +15,6 @@ class AddExternalAccountWidget
     return Scaffold(
       appBar: DefaultAppBar(
         titleText: LocaleKeys.addExternalAccount.tr(),
-        onClosePressed: wm.onClose,
       ),
       body: Padding(
         padding: const EdgeInsets.all(DimensSizeV2.d16),

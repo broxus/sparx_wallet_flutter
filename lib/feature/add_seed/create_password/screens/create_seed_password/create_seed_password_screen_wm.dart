@@ -62,10 +62,6 @@ class CreateSeedPasswordScreenWidgetModel extends CustomWidgetModel<
     super.initWidgetModel();
   }
 
-  void pop() {
-    context.compassBack();
-  }
-
   Future<void> onPressedNext() async {
     _loadState.accept(true);
 

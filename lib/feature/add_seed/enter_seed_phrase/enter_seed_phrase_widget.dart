@@ -29,9 +29,7 @@ class EnterSeedPhraseWidget
       child: Scaffold(
         backgroundColor: theme.colors.background0,
         resizeToAvoidBottomInset: false,
-        appBar: DefaultAppBar(
-          onClosePressed: wm.onClosePressed,
-        ),
+        appBar: const DefaultAppBar(),
         body: SafeArea(
           minimum: const EdgeInsets.only(bottom: DimensSizeV2.d16),
           child: Padding(

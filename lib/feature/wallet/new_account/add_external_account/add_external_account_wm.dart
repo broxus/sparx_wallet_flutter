@@ -25,8 +25,6 @@ class AddExternalAccountWidgetModel extends CustomWidgetModel<
 
   ThemeStyleV2 get theme => context.themeStyleV2;
 
-  void onClose(BuildContext _) => Navigator.of(context).pop();
-
   void onPaste(String text) {
     if (text.isEmpty) return;
 
