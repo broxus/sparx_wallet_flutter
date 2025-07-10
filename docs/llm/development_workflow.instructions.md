@@ -19,6 +19,8 @@ You are working on the SparX Wallet Flutter project. Follow these critical workf
 - **MUST** follow conventional commits format: `<type>[optional scope]: <description>`
 - **ALWAYS** include YouTrack ticket ID in scope: `feat(EWM-511): Add route navigation`
 - Valid types: `feat`, `fix`, `BREAKING CHANGE`, `build`, `chore`, `ci`, `docs`, `style`, `refactor`, `perf`, `test`
+- **NEVER** add co-authored blocks or Claude Code attribution in commit messages
+- Keep commit messages concise - for small changes, use short descriptive messages
 
 ### Merge Strategies
 
@@ -56,11 +58,13 @@ Follow this exact sequence:
 
 - Include YouTrack ticket ID in title
 - Use the comprehensive PR template with all sections:
-  - Description with bullet points
+  - Description with bullet points focusing on USER VALUE (what benefit users get)
   - Solution with implementation details
   - Type of change checklist
   - Testing instructions
   - QA testing results section
+- **NEVER** add co-authored blocks or Claude Code attribution in PR descriptions
+- In description section, focus only on the value and benefit to users, not technical implementation details
 
 ## Testing Instructions for QA
 

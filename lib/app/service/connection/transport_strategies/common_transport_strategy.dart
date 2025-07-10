@@ -133,7 +133,7 @@ class CommonTransportStrategy extends AppTransportStrategy {
   String? currencyApiBaseUrl;
 
   late final _subscriber = switch (genericTokenType) {
-    GenericTokenType.tip3 => Tip3TokenWalletSubscriber(),
+    GenericTokenType.tip3 => Tip3TokenWalletSubscriber(inject()),
     GenericTokenType.jetton => JettonTokenWalletSubscriber(inject()),
   };
 

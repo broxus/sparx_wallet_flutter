@@ -22,19 +22,11 @@ class _TextsStoryV2State extends State<TextsStoryV2> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             SizedBox(height: DimensSize.d20),
-            PrimaryText(
-              'TitleLarge',
-              type: PrimaryTextType.titleLarge,
-            ),
+            PrimaryText('TitleLarge', type: PrimaryTextType.titleLarge),
             SizedBox(height: DimensSize.d20),
-            PrimaryText(
-              'TitleSmall',
-              type: PrimaryTextType.titleSmall,
-            ),
+            PrimaryText('TitleSmall', type: PrimaryTextType.titleSmall),
             SizedBox(height: DimensSize.d20),
-            PrimaryText(
-              'DescriptionLarge',
-            ),
+            PrimaryText('DescriptionLarge'),
             SizedBox(height: DimensSize.d20),
             PrimaryText(
               'DescriptionSmall',

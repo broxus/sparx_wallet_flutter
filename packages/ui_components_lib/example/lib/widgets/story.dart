@@ -36,10 +36,7 @@ class _StoryWidgetState extends State<StoryWidget>
             TabBar(
               controller: _tabsController,
               onTap: _onPressedTap,
-              tabs: const [
-                _Tab(title: 'v1'),
-                _Tab(title: 'v2'),
-              ],
+              tabs: const [_Tab(title: 'v1'), _Tab(title: 'v2')],
             ),
             Flexible(
               child: switch (_currentIndex) {
@@ -62,17 +59,12 @@ class _StoryWidgetState extends State<StoryWidget>
 }
 
 class _Tab extends StatelessWidget {
-  const _Tab({
-    required this.title,
-  });
+  const _Tab({required this.title});
 
   final String title;
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.all(16),
-      child: Text(title),
-    );
+    return Padding(padding: const EdgeInsets.all(16), child: Text(title));
   }
 }

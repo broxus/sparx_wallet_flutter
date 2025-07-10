@@ -266,8 +266,8 @@ class StakingPageWidgetModel
             balance: info.tokenWallet.moneyBalance,
             logoURI: info.tokenContractAsset?.logoURI ??
                 Assets.images.tokenDefaultIcon.path,
-            title: info.tokenWallet.symbol.fullName,
-            tokenSymbol: info.tokenWallet.symbol.name,
+            title: info.tokenWallet.currency.name,
+            tokenSymbol: info.tokenWallet.currency.symbol,
             currency: info.tokenCurrency,
           ),
         ),

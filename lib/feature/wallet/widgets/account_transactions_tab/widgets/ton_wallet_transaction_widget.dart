@@ -103,18 +103,15 @@ class TonWalletTransactionWidget extends StatelessWidget {
           );
   }
 
+  // TODO(LevitskiyDaniil): Move to widget
   Widget _headerDate(ThemeStyleV2 theme) {
     return Builder(
       builder: (context) {
-        final now = NtpTime.now();
-        final formatter = transactionDateTime.year == now.year
-            ? DateFormat('MMMM dd', context.locale.languageCode)
-            : DateFormat('MMMM dd y', context.locale.languageCode);
-
         return Padding(
           padding: const EdgeInsets.only(top: DimensSize.d8),
           child: Text(
-            formatter.format(transactionDateTime),
+            // TODO(LevitskiyDaniil): Think about move logic to WM (notifier should subscribe on language changes)
+            DateTimeUtils.formatTransactionDate(transactionDateTime, context),
             style: theme.textStyles.headingXSmall,
           ),
         );
@@ -123,6 +120,7 @@ class TonWalletTransactionWidget extends StatelessWidget {
   }
 
   // ignore: long-method
+  // TODO(LevitskiyDaniil): Move to widget
   Widget _baseTransactionBody(ThemeStyleV2 theme) {
     return Builder(
       builder: (context) {
