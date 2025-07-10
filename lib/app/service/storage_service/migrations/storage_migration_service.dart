@@ -43,10 +43,6 @@ class StorageMigrationService {
 
   Future<void> migrate() async {
     await GetStorage.init();
-    print('!!! start');
-    _connectionsStorageService.connections.forEach((c) {
-      print('!!! ${c.group}');
-    });
 
     if (!needMigration) return;
 
