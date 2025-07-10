@@ -17,7 +17,7 @@ Future<void> showBrowserTabMenu(
     barrierColor: Colors.black.withAlpha(204),
     useRootNavigator: true,
     builder: (_) {
-      return const BrowserGroupMenu();
+      return const SafeArea(child: BrowserGroupMenu());
     },
   );
 }

@@ -82,6 +82,7 @@ class SelectAccountWidget
             ),
           ],
         ),
+        const SizedBox(height: DimensSizeV2.d8),
       ],
     );
   }

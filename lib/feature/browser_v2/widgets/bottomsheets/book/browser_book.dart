@@ -18,7 +18,7 @@ void showBookModal(BuildContext context) {
       useRootNavigator: true,
       barrierColor: Colors.black.withValues(alpha: .8),
       builder: (_) {
-        return const BrowserBook();
+        return const SafeArea(child: BrowserBook());
       },
     ),
   );
