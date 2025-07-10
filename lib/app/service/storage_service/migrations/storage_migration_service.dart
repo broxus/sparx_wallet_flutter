@@ -1,32 +1,41 @@
 import 'package:app/app/service/service.dart';
+import 'package:app/app/service/storage_service/migrations/storage_migrations/v5.dart';
 import 'package:encrypted_storage/encrypted_storage.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:logging/logging.dart';
 
 final _logger = Logger('StorageMigrationService');
 
-const _version = 4;
+const _version = 5;
 const _versionKey = 'version';
 
 class StorageMigrationService {
   StorageMigrationService(
     this._encryptedStorage,
     this._presetsConnectionService,
+    this._generalStorageService,
+    this._connectionsStorageService,
   ) : _storage = GetStorage();
 
   static Future<void> applyMigrations(
     EncryptedStorage encryptedStorage,
     PresetsConnectionService presetsConnectionService,
+    GeneralStorageService generalStorageService,
+    ConnectionsStorageService connectionsStorageService,
   ) async =>
       StorageMigrationService(
         encryptedStorage,
         presetsConnectionService,
+        generalStorageService,
+        connectionsStorageService,
       ).migrate();
 
   final GetStorage _storage;
   final EncryptedStorage _encryptedStorage;
 
   final PresetsConnectionService _presetsConnectionService;
+  final GeneralStorageService _generalStorageService;
+  final ConnectionsStorageService _connectionsStorageService;
 
   int get currentVersion => _storage.read<int>(_versionKey) ?? 0;
 
@@ -34,6 +43,10 @@ class StorageMigrationService {
 
   Future<void> migrate() async {
     await GetStorage.init();
+    print('!!! start');
+    _connectionsStorageService.connections.forEach((c) {
+      print('!!! ${c.group}');
+    });
 
     if (!needMigration) return;
 
@@ -64,6 +77,12 @@ class StorageMigrationService {
     if (currentVersion < StorageMigrationV4.version) {
       yield StorageMigrationV4(
         _presetsConnectionService,
+      );
+    }
+    if (currentVersion < StorageMigrationV5.version) {
+      yield StorageMigrationV5(
+        _generalStorageService,
+        _connectionsStorageService,
       );
     }
   }

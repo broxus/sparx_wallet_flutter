@@ -284,6 +284,42 @@ class GeneralStorageService extends AbstractStorageService {
     ).toList();
   }
 
+  List<dynamic> readRawCustomAssets(NetworkGroup group) {
+    return _customContractAssetsStorage.read<List<dynamic>>(group) ?? [];
+  }
+
+  List<dynamic> readRawSystemAssets(NetworkGroup group) {
+    return _systemContractAssetsStorage.read<List<dynamic>>(group) ?? [];
+  }
+
+  Future<void> removeRawCustomAssets(NetworkGroup group) {
+    return _customContractAssetsStorage.remove(group);
+  }
+
+  Future<void> removeRawSystemAssets(NetworkGroup group) {
+    return _systemContractAssetsStorage.remove(group);
+  }
+
+  Future<void> writeRawCustomAssets(
+    NetworkGroup group,
+    List<dynamic> customAssets,
+  ) {
+    return _customContractAssetsStorage.write(
+      group,
+      customAssets,
+    );
+  }
+
+  Future<void> writeRawSystemAssets(
+    NetworkGroup group,
+    List<dynamic> systemAssets,
+  ) {
+    return _systemContractAssetsStorage.write(
+      group,
+      systemAssets,
+    );
+  }
+
   /// Get if biometry is enabled in app
   bool readIsBiometryEnabled() {
     final value = _prefStorage.read<bool>(_biometryStatusKey);
