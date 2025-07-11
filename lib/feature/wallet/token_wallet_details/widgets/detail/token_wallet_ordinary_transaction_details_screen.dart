@@ -36,25 +36,27 @@ class TokenWalletOrdinaryTransactionDetailsScreen
         ),
       ),
       backgroundColor: wm.theme.colors.background0,
-      body: WalletTransactionDetailsBodyWithExplorerButton(
-        transactionHash: wm.transaction.hash,
-        body: SeparatedColumn(
-          spacing: DimensSize.d16,
-          children: [
-            WalletTransactionDetailsDefaultBody(
-              date: wm.transaction.date,
-              isIncoming: !wm.transaction.isOutgoing,
-              status: TonWalletTransactionStatus.completed,
-              fee: wm.moneyFee,
-              value: wm.moneyValue,
-              hash: wm.transaction.hash,
-              recipientOrSender: wm.transaction.address,
-              type: LocaleKeys.ordinaryWord.tr(),
-              price: wm.price,
-              tonIconPath: wm.tonIconPath,
-              tokenIconPath: wm.logoURI,
-            ),
-          ],
+      body: SafeArea(
+        child: WalletTransactionDetailsBodyWithExplorerButton(
+          transactionHash: wm.transaction.hash,
+          body: SeparatedColumn(
+            spacing: DimensSize.d16,
+            children: [
+              WalletTransactionDetailsDefaultBody(
+                date: wm.transaction.date,
+                isIncoming: !wm.transaction.isOutgoing,
+                status: TonWalletTransactionStatus.completed,
+                fee: wm.moneyFee,
+                value: wm.moneyValue,
+                hash: wm.transaction.hash,
+                recipientOrSender: wm.transaction.address,
+                type: LocaleKeys.ordinaryWord.tr(),
+                price: wm.price,
+                tonIconPath: wm.tonIconPath,
+                tokenIconPath: wm.logoURI,
+              ),
+            ],
+          ),
         ),
       ),
     );

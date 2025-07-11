@@ -34,48 +34,46 @@ class _TonWalletDetailsPageState extends State<TonWalletDetailsPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: SafeArea(
-        child: BlocProvider<TonWalletDetailsCubit>(
-          create: (_) => TonWalletDetailsCubit(
-            address: widget.address,
-            nekotonRepository: inject(),
-            currencyConvertService: inject(),
-            balanceService: inject(),
-          ),
-          child: BlocBuilder<TonWalletDetailsCubit, TonWalletDetailsState>(
-            builder: (context, state) {
-              return switch (state) {
-                TonWalletDetailsStateInitial() => const SizedBox.shrink(),
-                TonWalletDetailsStateEmpty() => const SizedBox.shrink(),
-                TonWalletDetailsStateSubscribeError(
-                  :final symbol,
-                  :final account,
-                  :final error,
-                  :final isLoading,
-                ) =>
-                  _Body(
-                    symbol: symbol,
-                    account: account,
-                    error: error,
-                    isLoadingError: isLoading,
-                    controller: controller,
-                  ),
-                TonWalletDetailsStateData(
-                  :final symbol,
-                  :final account,
-                  :final tokenBalance,
-                  :final fiatBalance
-                ) =>
-                  _Body(
-                    symbol: symbol,
-                    account: account,
-                    tokenBalance: tokenBalance,
-                    fiatBalance: fiatBalance,
-                    controller: controller,
-                  ),
-              };
-            },
-          ),
+      body: BlocProvider<TonWalletDetailsCubit>(
+        create: (_) => TonWalletDetailsCubit(
+          address: widget.address,
+          nekotonRepository: inject(),
+          currencyConvertService: inject(),
+          balanceService: inject(),
+        ),
+        child: BlocBuilder<TonWalletDetailsCubit, TonWalletDetailsState>(
+          builder: (context, state) {
+            return switch (state) {
+              TonWalletDetailsStateInitial() => const SizedBox.shrink(),
+              TonWalletDetailsStateEmpty() => const SizedBox.shrink(),
+              TonWalletDetailsStateSubscribeError(
+                :final symbol,
+                :final account,
+                :final error,
+                :final isLoading,
+              ) =>
+                _Body(
+                  symbol: symbol,
+                  account: account,
+                  error: error,
+                  isLoadingError: isLoading,
+                  controller: controller,
+                ),
+              TonWalletDetailsStateData(
+                :final symbol,
+                :final account,
+                :final tokenBalance,
+                :final fiatBalance
+              ) =>
+                _Body(
+                  symbol: symbol,
+                  account: account,
+                  tokenBalance: tokenBalance,
+                  fiatBalance: fiatBalance,
+                  controller: controller,
+                ),
+            };
+          },
         ),
       ),
     );
