@@ -41,6 +41,7 @@ class EditNetworkPageWidget
                         ),
                         if (wm.networkTypesOptions != null)
                           NetworkTypeField(
+                            editable: wm.isEditable,
                             types: wm.networkTypesOptions!,
                             selectedNetworkTypeState:
                                 wm.selectedNetworkTypeState,
