@@ -1,36 +1,33 @@
 import 'dart:io';
 
+import 'package:app/core/wm/custom_wm.dart';
 import 'package:app/feature/browser_v2/screens/main/widgets/tab_animated_view/tab_animated_view_wm.dart';
 import 'package:app/feature/browser_v2/screens/main/widgets/tab_animated_view/tab_animation_type.dart';
 import 'package:app/generated/generated.dart';
-import 'package:elementary/elementary.dart';
 import 'package:elementary_helper/elementary_helper.dart';
 import 'package:flutter/material.dart';
 import 'package:ui_components_lib/v2/ui_components_lib_v2.dart';
 
-class TabAnimatedView extends ElementaryWidget<TabAnimatedViewWidgetModel> {
+class TabAnimatedView
+    extends InjectedElementaryWidget<TabAnimatedViewWidgetModel> {
   TabAnimatedView({
-    required this.tabAnimationTypeState,
+    required ListenableState<TabAnimationType?> showAnimationState,
     required VoidCallback onAnimationStart,
     required ValueChanged<TabAnimationType?> onAnimationEnd,
-    WidgetModelFactory<TabAnimatedViewWidgetModel>? wmFactory,
     super.key,
   }) : super(
-          wmFactory ??
-              (ctx) => defaultTabAnimatedViewWidgetModelFactory(
-                    ctx,
-                    onAnimationStart: onAnimationStart,
-                    onAnimationEnd: onAnimationEnd,
-                  ),
+          wmFactoryParam: TabAnimatedViewWmParams(
+            showAnimationState: showAnimationState,
+            onAnimationStart: onAnimationStart,
+            onAnimationEnd: onAnimationEnd,
+          ),
         );
-
-  final ListenableState<TabAnimationType?> tabAnimationTypeState;
 
   @override
   Widget build(TabAnimatedViewWidgetModel wm) {
     return RepaintBoundary(
       child: StateNotifierBuilder<TabAnimationType?>(
-        listenableState: tabAnimationTypeState,
+        listenableState: wm.showAnimationState,
         builder: (_, TabAnimationType? type) {
           return Visibility(
             visible: type != null,

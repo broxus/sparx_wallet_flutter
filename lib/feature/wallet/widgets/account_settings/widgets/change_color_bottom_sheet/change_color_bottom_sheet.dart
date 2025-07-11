@@ -1,7 +1,7 @@
 import 'package:app/app/service/identify/identy_icon_data.dart';
+import 'package:app/core/wm/custom_wm.dart';
 import 'package:app/feature/wallet/widgets/account_settings/widgets/change_color_bottom_sheet/change_color_bottom_sheet_wm.dart';
 import 'package:app/generated/generated.dart';
-import 'package:elementary/elementary.dart';
 import 'package:elementary_helper/elementary_helper.dart';
 import 'package:flutter/material.dart';
 import 'package:ui_components_lib/components/button/app_bar_back_button.dart';
@@ -23,15 +23,13 @@ Future<void> showChangeColorBottomSheet({
 }
 
 class ChangeColorBottomSheet
-    extends ElementaryWidget<ChangeColorBottomSheetWidgetModel> {
+    extends InjectedElementaryWidget<ChangeColorBottomSheetWidgetModel> {
   const ChangeColorBottomSheet({
-    required this.address,
-    Key? key,
-    WidgetModelFactory wmFactory =
-        defaultChangeColorBottomSheetWidgetModelFactory,
-  }) : super(wmFactory, key: key);
-
-  final String address;
+    required String address,
+    super.key,
+  }) : super(
+          wmFactoryParam: address,
+        );
 
   @override
   Widget build(ChangeColorBottomSheetWidgetModel wm) {

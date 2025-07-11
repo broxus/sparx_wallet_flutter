@@ -1,7 +1,7 @@
+import 'package:app/core/wm/custom_wm.dart';
 import 'package:app/feature/wallet/widgets/account_info.dart';
 import 'package:app/feature/wallet/widgets/wallet_backup/wallet_backup.dart';
 import 'package:app/generated/generated.dart';
-import 'package:elementary/elementary.dart';
 import 'package:elementary_helper/elementary_helper.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:local_auth/local_auth.dart';
@@ -24,16 +24,18 @@ Future<void> showConfirmActionDialog(
   );
 }
 
-class ContentConfirmAction extends ElementaryWidget<ConfirmActionWidgetModel> {
-  const ContentConfirmAction({
-    required this.finishedBackupCallback,
-    this.account,
-    Key? key,
-    WidgetModelFactory wmFactory = defaultConfirmActionWidgetModelFactory,
-  }) : super(wmFactory, key: key);
-
-  final ValueChanged<bool> finishedBackupCallback;
-  final KeyAccount? account;
+class ContentConfirmAction
+    extends InjectedElementaryWidget<ConfirmActionWidgetModel> {
+  ContentConfirmAction({
+    required ValueChanged<bool> finishedBackupCallback,
+    KeyAccount? account,
+    super.key,
+  }) : super(
+          wmFactoryParam: ConfirmActionWmParams(
+            finishedBackupCallback: finishedBackupCallback,
+            account: account,
+          ),
+        );
 
   @override
   Widget build(ConfirmActionWidgetModel wm) {
@@ -48,9 +50,9 @@ class ContentConfirmAction extends ElementaryWidget<ConfirmActionWidgetModel> {
               style: theme.textStyles.headingMedium,
             ),
             const SizedBox(height: DimensSizeV2.d24),
-            if (account != null)
+            if (wm.account != null)
               AccountInfo(
-                account: account!,
+                account: wm.account!,
                 color: theme.colors.background2,
               ),
             const SizedBox(height: DimensSizeV2.d16),

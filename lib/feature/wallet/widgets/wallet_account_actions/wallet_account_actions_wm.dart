@@ -1,10 +1,8 @@
 import 'dart:async';
 
 import 'package:app/app/router/router.dart';
-import 'package:app/core/error_handler_factory.dart';
 import 'package:app/core/wm/custom_wm.dart';
 import 'package:app/data/models/models.dart';
-import 'package:app/di/di.dart';
 import 'package:app/feature/messenger/data/message.dart';
 import 'package:app/feature/profile/profile.dart';
 import 'package:app/feature/wallet/staking/view/staking_page/route.dart';
@@ -18,7 +16,7 @@ import 'package:app/generated/generated.dart';
 import 'package:app/v1/feature/add_seed/enter_seed_name/enter_seed_name.dart';
 import 'package:app/v1/feature/add_seed/enter_seed_name/route.dart';
 import 'package:elementary_helper/elementary_helper.dart';
-import 'package:flutter/material.dart';
+import 'package:injectable/injectable.dart';
 import 'package:logging/logging.dart';
 import 'package:nekoton_repository/nekoton_repository.dart' hide Message;
 import 'package:rxdart/rxdart.dart';
@@ -30,30 +28,37 @@ enum WalletAccountActionBehavior {
   sendLocalCustodiansNeeded, // send button but with showing snackbar
 }
 
-WalletAccountActionsWidgetModel defaultWalletAccountActionsWidgetModelFactory(
-  BuildContext context,
-) {
-  return WalletAccountActionsWidgetModel(
-    WalletAccountActionsModel(
-      createPrimaryErrorHandler(context),
-      inject(),
-      inject(),
-      inject(),
-    ),
-  );
+class WalletAccountActionsWmParams {
+  WalletAccountActionsWmParams({
+    required this.account,
+    required this.allowStake,
+    required this.sendSpecified,
+    required this.disableSensetiveActions,
+  });
+
+  final KeyAccount account;
+  final bool allowStake;
+  final bool sendSpecified;
+  final bool disableSensetiveActions;
 }
 
 /// Widget model for wallet account actions, handles state management
+@injectable
 class WalletAccountActionsWidgetModel
     extends CustomWidgetModel<WalletAccountActions, WalletAccountActionsModel> {
-  WalletAccountActionsWidgetModel(super.model);
+  WalletAccountActionsWidgetModel(
+    super.model,
+    @factoryParam this._wmParams,
+  );
+
+  final WalletAccountActionsWmParams _wmParams;
 
   static final _logger = Logger('WalletAccountActionsWidgetModel');
 
   late final _action = createNotifier<WalletAccountActionBehavior>(
     WalletAccountActionBehavior.send,
   );
-  late final _hasStake = createNotifier(model.hasStake && widget.allowStake);
+  late final _hasStake = createNotifier(model.hasStake && _wmParams.allowStake);
   late final _hasStakeActions = createNotifier(false);
 
   int _numberUnconfirmedTransactions = 0;
@@ -64,6 +69,9 @@ class WalletAccountActionsWidgetModel
   StreamSubscription<TonWallet>? _walletSubscription;
   StreamSubscription<List<StEverWithdrawRequest>>? _withdrawsSubscription;
 
+  bool get sendSpecified => _wmParams.sendSpecified;
+  bool get disableSensetiveActions => _wmParams.disableSensetiveActions;
+
   ListenableState<WalletAccountActionBehavior> get action => _action;
 
   ListenableState<bool> get hasStake => _hasStake;
@@ -73,7 +81,7 @@ class WalletAccountActionsWidgetModel
   @override
   void initWidgetModel() {
     _walletSubscription =
-        model.getWalletStateStream(widget.account.address).listen(_onWallet);
+        model.getWalletStateStream(_wmParams.account.address).listen(_onWallet);
     super.initWidgetModel();
   }
 
@@ -95,7 +103,7 @@ class WalletAccountActionsWidgetModel
     _withdrawsSubscription?.cancel();
     _withdrawsSubscription = Rx.combineLatest2(
       wallet.fieldUpdatesStream,
-      model.getWithdrawRequestsStream(widget.account.address),
+      model.getWithdrawRequestsStream(_wmParams.account.address),
       (_, withdraws) => withdraws,
     ).listen((withdraws) {
       _updateWalletData(
@@ -119,7 +127,7 @@ class WalletAccountActionsWidgetModel
         action = WalletAccountActionBehavior.send;
       } else if (contract.isDeployed) {
         final localCustodians = await model.getLocalCustodians(
-          widget.account.address,
+          _wmParams.account.address,
         );
         action = localCustodians != null && localCustodians.isNotEmpty
             ? WalletAccountActionBehavior.send
@@ -130,7 +138,7 @@ class WalletAccountActionsWidgetModel
 
       final hasStakeValue = action != WalletAccountActionBehavior.deploy &&
           model.hasStake &&
-          widget.allowStake;
+          _wmParams.allowStake;
 
       _action.accept(action);
       _hasStake.accept(hasStakeValue);
@@ -151,9 +159,9 @@ class WalletAccountActionsWidgetModel
 
   Future<void> _estimateFees() async {
     try {
-      final message = await model.prepareDeploy(widget.account.address);
+      final message = await model.prepareDeploy(_wmParams.account.address);
       final fees = await model.estimateDeploymentFees(
-        address: widget.account.address,
+        address: _wmParams.account.address,
         message: message,
       );
 
@@ -164,15 +172,15 @@ class WalletAccountActionsWidgetModel
   }
 
   void onReceive() {
-    if (widget.disableSensetiveActions) return;
+    if (_wmParams.disableSensetiveActions) return;
 
-    showReceiveFundsSheet(context, widget.account.address);
+    showReceiveFundsSheet(context, _wmParams.account.address);
   }
 
   void onMainAction() {
     final action = _action.value;
 
-    if (widget.disableSensetiveActions || action == null) {
+    if (_wmParams.disableSensetiveActions || action == null) {
       return;
     }
 
@@ -187,7 +195,7 @@ class WalletAccountActionsWidgetModel
   }
 
   void onStake() {
-    if (widget.disableSensetiveActions || _hasStake.value != true) {
+    if (_wmParams.disableSensetiveActions || _hasStake.value != true) {
       return;
     }
 
@@ -199,7 +207,7 @@ class WalletAccountActionsWidgetModel
       );
     } else {
       contextSafe?.compassContinue(
-        StakingRouteData(accountAddress: widget.account.address),
+        StakingRouteData(accountAddress: _wmParams.account.address),
       );
     }
   }
@@ -207,7 +215,7 @@ class WalletAccountActionsWidgetModel
   void onInfo() {
     showAccountSettingsModal(
       context: context,
-      account: widget.account,
+      account: _wmParams.account,
       custodians: _custodians,
     );
   }
@@ -222,10 +230,10 @@ class WalletAccountActionsWidgetModel
       return;
     }
 
-    if (widget.sendSpecified) {
+    if (_wmParams.sendSpecified) {
       contextSafe?.compassContinue(
         WalletPrepareSpecifiedTransferRouteData(
-          address: widget.account.address,
+          address: _wmParams.account.address,
           rootTokenContract: model.nativeTokenAddress,
           tokenSymbol: model.nativeTokenTicker,
         ),
@@ -233,7 +241,7 @@ class WalletAccountActionsWidgetModel
     } else {
       contextSafe?.compassContinue(
         WalletPrepareTransferRouteData(
-          address: widget.account.address,
+          address: _wmParams.account.address,
         ),
       );
     }
@@ -245,14 +253,14 @@ class WalletAccountActionsWidgetModel
     if (_balance >= _minBalance) {
       contextSafe?.compassContinue(
         WalletDeployRouteData(
-          address: widget.account.address,
-          publicKey: widget.account.publicKey,
+          address: _wmParams.account.address,
+          publicKey: _wmParams.account.publicKey,
         ),
       );
     } else {
       showDeployMinEverModal(
         context: contextSafe!,
-        account: widget.account,
+        account: _wmParams.account,
         minAmount: _minBalance,
         symbol: model.nativeTokenTicker,
       );

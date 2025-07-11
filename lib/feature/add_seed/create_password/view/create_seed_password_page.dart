@@ -52,9 +52,7 @@ class CreateSeedPasswordProfilePage extends StatelessWidget {
         onTap: () => FocusScope.of(context).unfocus(),
         child: Scaffold(
           resizeToAvoidBottomInset: true,
-          appBar: DefaultAppBar(
-            onClosePressed: (context) => context.compassBack(),
-          ),
+          appBar: const DefaultAppBar(),
           body: Builder(
             builder: (context) {
               final cubit = context.read<_Cubit>();

@@ -1,37 +1,40 @@
 import 'dart:math';
 
 import 'package:app/app/router/router.dart';
-import 'package:app/core/error_handler_factory.dart';
 import 'package:app/core/wm/custom_wm.dart';
-import 'package:app/di/di.dart';
 import 'package:app/feature/wallet/widgets/wallet_backup/wallet_backup.dart';
 import 'package:app/generated/generated.dart';
-import 'package:app/utils/common_utils.dart';
 import 'package:app/v1/feature/add_seed/check_seed_phrase/cubit/check_seed_correct_answer.dart';
 import 'package:flutter/widgets.dart';
+import 'package:injectable/injectable.dart';
 import 'package:nekoton_repository/nekoton_repository.dart';
 import 'package:ui_components_lib/v2/ui_components_lib_v2.dart';
+
+class CheckPhraseWmParams {
+  const CheckPhraseWmParams({
+    required this.words,
+    required this.address,
+    required this.finishedBackupCallback,
+  });
+
+  final List<String> words;
+  final String address;
+  final ValueChanged<bool> finishedBackupCallback;
+}
 
 const defaultWordsToCheckAmount = 3;
 const defaultCheckAnswersAmount = 9;
 
-CheckPhraseWidgetModel defaultCheckPhraseWidgetModelFactory(
-  BuildContext context,
-) {
-  return CheckPhraseWidgetModel(
-    CheckPhraseModel(
-      createPrimaryErrorHandler(context),
-      inject(),
-      inject(),
-      inject(),
-    ),
-  );
-}
-
 //logic in this class was moved from check_seed_phrase_cubit.dart
+@injectable
 class CheckPhraseWidgetModel
     extends CustomWidgetModel<ContentCheckPhrase, CheckPhraseModel> {
-  CheckPhraseWidgetModel(super.model);
+  CheckPhraseWidgetModel(
+    super.model,
+    @factoryParam this._wmParams,
+  );
+
+  final CheckPhraseWmParams _wmParams;
 
   ThemeStyleV2 get themeStyle => context.themeStyleV2;
 
@@ -47,9 +50,6 @@ class CheckPhraseWidgetModel
   List<CheckSeedCorrectAnswer>? userAnswers;
   int currentCheckIndex = 0;
   late List<CheckSeedCorrectAnswer> _correctAnswers;
-
-  late final words = createWidgetProperty((w) => w.words);
-  late final address = createWidgetProperty((w) => w.address);
 
   @override
   void initWidgetModel() {
@@ -78,22 +78,17 @@ class CheckPhraseWidgetModel
   }
 
   void clickSkip() {
-    address.value?.let(
-      (String address) => model.setShowingBackUpFlag(
-        address,
-        isSkipped: true,
-      ),
-    );
+    model.setShowingBackUpFlag(_wmParams.address, isSkipped: true);
 
     if (!isMounted) return;
-    widget.finishedBackupCallback(false);
+    _wmParams.finishedBackupCallback(false);
     context
       ..compassBack() //close manual backup dialog
       ..compassBack(); //close current dialog
   }
 
   void _init() {
-    _correctAnswers = _selectCorrectAnswers(words.value ?? []);
+    _correctAnswers = _selectCorrectAnswers(_wmParams.words);
     availableAnswers = _generateAnswerWords(_correctAnswers);
     userAnswers = _correctAnswers.map((e) => e.copyWith(word: '')).toList();
     screenState.content(
@@ -134,13 +129,8 @@ class CheckPhraseWidgetModel
       model.showValidateError(LocaleKeys.seedIsMissing.tr());
     } else {
       // TODO(malochka): think about get rid of compassBack method
-      address.value?.let(
-        (String address) => model.setShowingBackUpFlag(
-          address,
-          isSkipped: false,
-        ),
-      );
-      widget.finishedBackupCallback(true);
+      model.setShowingBackUpFlag(_wmParams.address, isSkipped: false);
+      _wmParams.finishedBackupCallback(true);
       context
         ..compassBack() //close manual backup
         ..compassBack(); //close check your seed phrase

@@ -3,8 +3,10 @@ import 'package:app/data/models/models.dart';
 import 'package:app/feature/wallet/staking/staking.dart';
 import 'package:collection/collection.dart';
 import 'package:elementary/elementary.dart';
+import 'package:injectable/injectable.dart';
 import 'package:nekoton_repository/nekoton_repository.dart' hide Message;
 
+@injectable
 class StakingPageModel extends ElementaryModel {
   StakingPageModel(
     ErrorHandler errorHandler,

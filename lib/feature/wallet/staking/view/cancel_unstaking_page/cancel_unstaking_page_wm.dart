@@ -1,35 +1,59 @@
 import 'dart:async';
 
 import 'package:app/app/router/router.dart';
-import 'package:app/core/error_handler_factory.dart';
 import 'package:app/core/wm/custom_wm.dart';
 import 'package:app/data/models/models.dart';
-import 'package:app/di/di.dart';
 import 'package:app/feature/wallet/route.dart';
 import 'package:app/feature/wallet/wallet.dart';
 import 'package:app/generated/generated.dart';
 import 'package:app/utils/utils.dart';
 import 'package:elementary_helper/elementary_helper.dart';
-import 'package:flutter/material.dart';
+import 'package:injectable/injectable.dart';
+import 'package:nekoton_repository/nekoton_repository.dart';
 import 'package:ui_components_lib/ui_components_lib.dart';
 
-CancelUnstakingPageWidgetModel defaultCancelUnstakingPageWidgetModelFactory(
-  BuildContext context,
-) =>
-    CancelUnstakingPageWidgetModel(
-      CancelUnstakingPageModel(
-        createPrimaryErrorHandler(context),
-        inject(),
-        inject(),
-        inject(),
-      ),
-    );
+class CancelUnstakingPageWmParams {
+  const CancelUnstakingPageWmParams({
+    required this.request,
+    required this.accountKey,
+    required this.exchangeRate,
+    required this.withdrawHours,
+    required this.stakeCurrency,
+    required this.attachedFee,
+    required this.tokenPrice,
+    required this.everPrice,
+  });
 
+  final StEverWithdrawRequest request;
+  final PublicKey accountKey;
+  final double exchangeRate;
+  final int withdrawHours;
+  final Currency stakeCurrency;
+  final BigInt attachedFee;
+  final Fixed? tokenPrice;
+  final Fixed? everPrice;
+}
+
+@injectable
 class CancelUnstakingPageWidgetModel extends CustomWidgetModel<
     CancelUnstakingPageWidget, CancelUnstakingPageModel> {
-  CancelUnstakingPageWidgetModel(super.model);
+  CancelUnstakingPageWidgetModel(
+    super.model,
+    @factoryParam this._wmParams,
+  );
+
+  final CancelUnstakingPageWmParams _wmParams;
 
   late final _asset = createNotifier<TokenContractAsset>();
+
+  StEverWithdrawRequest get request => _wmParams.request;
+  PublicKey get accountKey => _wmParams.accountKey;
+  double get exchangeRate => _wmParams.exchangeRate;
+  int get withdrawHours => _wmParams.withdrawHours;
+  Currency get stakeCurrency => _wmParams.stakeCurrency;
+  BigInt get attachedFee => _wmParams.attachedFee;
+  Fixed? get tokenPrice => _wmParams.tokenPrice;
+  Fixed? get everPrice => _wmParams.everPrice;
 
   ListenableState<TokenContractAsset> get asset => _asset;
 
@@ -54,12 +78,12 @@ class CancelUnstakingPageWidgetModel extends CustomWidgetModel<
   Future<void> tryCancelUnstaking() async {
     final agreed = await showVerifyCancelUnstakingSheet(
       context: context,
-      stakeCurrency: widget.stakeCurrency,
+      stakeCurrency: _wmParams.stakeCurrency,
     );
     if (!agreed) return;
 
     final (payload, fees) = await FutureExt.wait2(
-      model.getPayload(widget.request.nonce),
+      model.getPayload(_wmParams.request.nonce),
       model.computeFees(),
     );
 
@@ -67,20 +91,20 @@ class CancelUnstakingPageWidgetModel extends CustomWidgetModel<
 
     final result = await contextSafe?.compassPush<bool>(
       TonWalletSendRouteData(
-        address: widget.request.accountAddress,
+        address: _wmParams.request.accountAddress,
         amount: fees.removePendingWithdrawAttachedFee,
         payload: payload,
         destination: model.staking.stakingValutAddress,
-        publicKey: widget.accountKey,
+        publicKey: _wmParams.accountKey,
         resultMessage: LocaleKeys.stEverReturnInMinutes.tr(
-          args: [widget.stakeCurrency.symbol],
+          args: [_wmParams.stakeCurrency.symbol],
         ),
         popOnComplete: true,
       ),
     );
 
     if (result ?? false) {
-      model.acceptCancelledWithdraw(widget.request);
+      model.acceptCancelledWithdraw(_wmParams.request);
       contextSafe?.compassPointNamed(
         const WalletRouteData(),
       );

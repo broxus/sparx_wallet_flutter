@@ -1,22 +1,21 @@
+import 'package:app/core/wm/custom_wm.dart';
 import 'package:app/feature/browser_v2/widgets/favicon_view/favicon_view_wm.dart';
 import 'package:app/generated/generated.dart';
 import 'package:cached_network_image/cached_network_image.dart';
-import 'package:elementary/elementary.dart';
 import 'package:elementary_helper/elementary_helper.dart';
 import 'package:flutter/material.dart';
 import 'package:ui_components_lib/ui_components_lib.dart';
 
-class FaviconView extends ElementaryWidget<FaviconViewWidgetModel> {
+class FaviconView extends InjectedElementaryWidget<FaviconViewWidgetModel> {
   const FaviconView({
-    this.uri,
+    Uri? uri,
     this.height,
     this.width,
     super.key,
-    WidgetModelFactory<FaviconViewWidgetModel> wmFactory =
-        defaultFaviconViewWidgetModelFactory,
-  }) : super(wmFactory);
+  }) : super(
+          wmFactoryParam: uri,
+        );
 
-  final Uri? uri;
   final double? height;
   final double? width;
 

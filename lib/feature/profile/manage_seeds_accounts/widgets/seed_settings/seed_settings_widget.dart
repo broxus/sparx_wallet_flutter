@@ -1,20 +1,20 @@
+import 'package:app/core/wm/custom_wm.dart';
 import 'package:app/feature/profile/profile.dart';
 import 'package:app/generated/generated.dart';
-import 'package:elementary/elementary.dart';
 import 'package:flutter/material.dart';
 import 'package:lucide_icons_flutter/lucide_icons.dart';
 import 'package:nekoton_repository/nekoton_repository.dart' show PublicKey;
 import 'package:ui_components_lib/ui_components_lib.dart';
 
-class SeedSettingsWidget extends ElementaryWidget<SeedSettingsWidgetModel>
+class SeedSettingsWidget
+    extends InjectedElementaryWidget<SeedSettingsWidgetModel>
     with WidgetsBindingObserver {
   const SeedSettingsWidget({
-    required this.publicKey,
-    Key? key,
-    WidgetModelFactory wmFactory = defaultSeedSettingsWidgetModelFactory,
-  }) : super(wmFactory, key: key);
-
-  final PublicKey publicKey;
+    required PublicKey publicKey,
+    super.key,
+  }) : super(
+          wmFactoryParam: publicKey,
+        );
 
   @override
   Widget build(SeedSettingsWidgetModel wm) {
@@ -26,7 +26,7 @@ class SeedSettingsWidget extends ElementaryWidget<SeedSettingsWidgetModel>
       mainAxisSize: MainAxisSize.min,
       separator: const CommonDivider(),
       children: [
-        if (publicKey != wm.currentKey)
+        if (wm.publicKey != wm.currentKey)
           CommonListTile(
             titleText: LocaleKeys.useThisSeed.tr(),
             trailing: CommonIconWidget.svg(
@@ -68,7 +68,7 @@ class SeedSettingsWidget extends ElementaryWidget<SeedSettingsWidgetModel>
           ),
           onPressed: wm.onChangePassword,
         ),
-        if (publicKey != wm.currentKey)
+        if (wm.publicKey != wm.currentKey)
           CommonListTile(
             contentColor: colors.contentNegative,
             titleText: LocaleKeys.deleteWord.tr(),

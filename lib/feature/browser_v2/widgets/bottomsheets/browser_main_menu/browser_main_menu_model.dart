@@ -2,8 +2,10 @@ import 'package:app/feature/browser_v2/data/history_type.dart';
 import 'package:app/feature/browser_v2/domain/service/browser_service.dart';
 import 'package:app/feature/browser_v2/widgets/bottomsheets/browser_main_menu/browser_main_menu.dart';
 import 'package:elementary/elementary.dart';
+import 'package:injectable/injectable.dart';
 
 /// [ElementaryModel] for [BrowserMainMenu]
+@injectable
 class BrowserMainMenuModel extends ElementaryModel {
   BrowserMainMenuModel(
     ErrorHandler errorHandler,

@@ -4,8 +4,10 @@ import 'package:app/feature/messenger/domain/service/messenger_service.dart';
 import 'package:app/feature/qr_scanner/qr_scanner.dart';
 import 'package:elementary/elementary.dart';
 import 'package:flutter/widgets.dart';
+import 'package:injectable/injectable.dart';
 import 'package:nekoton_repository/nekoton_repository.dart' show Address;
 
+@injectable
 class QrScannerModel extends ElementaryModel {
   QrScannerModel(
     ErrorHandler errorHandler,
