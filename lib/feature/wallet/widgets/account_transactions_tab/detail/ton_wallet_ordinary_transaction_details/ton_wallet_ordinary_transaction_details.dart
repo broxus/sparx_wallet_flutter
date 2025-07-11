@@ -36,46 +36,48 @@ class TonWalletOrdinaryTransactionDetails extends InjectedElementaryWidget<
         ),
       ),
       backgroundColor: wm.colors.background0,
-      body: Column(
-        children: [
-          Expanded(
-            child: SingleChildScrollView(
-              child: SeparatedColumn(
-                spacing: DimensSize.d16,
-                children: [
-                  WalletTransactionDetailsDefaultBody(
-                    date: wm.date,
-                    isIncoming: wm.isIncoming,
-                    status: TonWalletTransactionStatus.completed,
-                    fee: wm.transactionFee,
-                    value: wm.transactionValue,
-                    hash: wm.transactionHash,
-                    recipientOrSender: wm.transactionAddress,
-                    comment: wm.transactionComment,
-                    info: wm.transactionInfo,
-                    type: LocaleKeys.ordinaryWord.tr(),
-                    tonIconPath: wm.tonIconPath,
-                    tokenIconPath: wm.tonIconPath,
-                    price: wm.price,
-                  ),
-                ],
+      body: SafeArea(
+        child: Column(
+          children: [
+            Expanded(
+              child: SingleChildScrollView(
+                child: SeparatedColumn(
+                  spacing: DimensSize.d16,
+                  children: [
+                    WalletTransactionDetailsDefaultBody(
+                      date: wm.date,
+                      isIncoming: wm.isIncoming,
+                      status: TonWalletTransactionStatus.completed,
+                      fee: wm.transactionFee,
+                      value: wm.transactionValue,
+                      hash: wm.transactionHash,
+                      recipientOrSender: wm.transactionAddress,
+                      comment: wm.transactionComment,
+                      info: wm.transactionInfo,
+                      type: LocaleKeys.ordinaryWord.tr(),
+                      tonIconPath: wm.tonIconPath,
+                      tokenIconPath: wm.tonIconPath,
+                      price: wm.price,
+                    ),
+                  ],
+                ),
               ),
             ),
-          ),
-          Padding(
-            padding: const EdgeInsets.symmetric(
-              horizontal: DimensSizeV2.d16,
+            Padding(
+              padding: const EdgeInsets.symmetric(
+                horizontal: DimensSizeV2.d16,
+              ),
+              child: PrimaryButton(
+                title: LocaleKeys.seeInExplorer.tr(),
+                icon: LucideIcons.globe,
+                onPressed: wm.onPressedSeeInExplorer,
+                buttonShape: ButtonShape.pill,
+              ),
             ),
-            child: PrimaryButton(
-              title: LocaleKeys.seeInExplorer.tr(),
-              icon: LucideIcons.globe,
-              onPressed: wm.onPressedSeeInExplorer,
-              buttonShape: ButtonShape.pill,
-            ),
-          ),
-          const SizedBox(height: DimensSizeV2.d24),
-          SizedBox(height: wm.bottomPadding),
-        ],
+            const SizedBox(height: DimensSizeV2.d24),
+            SizedBox(height: wm.bottomPadding),
+          ],
+        ),
       ),
     );
   }
