@@ -1,10 +1,10 @@
+import 'package:app/core/wm/custom_wm.dart';
 import 'package:app/data/models/models.dart';
 import 'package:app/feature/browser_v1/approvals_listener/actions/request_permissions/account_list_item.dart';
 import 'package:app/feature/browser_v1/approvals_listener/actions/request_permissions/request_permissions_wm.dart';
 import 'package:app/feature/browser_v1/approvals_listener/actions/widgets/widgets.dart';
 import 'package:app/feature/wallet/wallet.dart';
 import 'package:app/generated/generated.dart';
-import 'package:elementary/elementary.dart';
 import 'package:elementary_helper/elementary_helper.dart';
 import 'package:flutter/material.dart';
 import 'package:nekoton_repository/nekoton_repository.dart';
@@ -12,41 +12,39 @@ import 'package:ui_components_lib/ui_components_lib.dart';
 import 'package:ui_components_lib/v2/ui_components_lib_v2.dart';
 
 /// Widget that allows choose account that should be used for browser tab with
-/// url=[origin].
-/// This widget firstly asks to choose account via [_SelectAccountWidget]
-/// and then opens [_ConfirmPermissionsWidget] to check permissions.
+/// specified origin URL.
+/// This widget firstly asks to choose account and then confirms permissions.
 class RequestPermissionsWidget
-    extends ElementaryWidget<RequestPermissionsWidgetModel> {
-  const RequestPermissionsWidget({
-    required this.origin,
-    required this.permissions,
-    required this.scrollController,
-    required this.previousSelectedAccount,
-    Key? key,
-    WidgetModelFactory wmFactory = defaultRequestPermissionsWidgetModelFactory,
-  }) : super(wmFactory, key: key);
-
-  final Uri origin;
-  final List<Permission> permissions;
-  final ScrollController scrollController;
-  final Address? previousSelectedAccount;
+    extends InjectedElementaryWidget<RequestPermissionsWidgetModel> {
+  RequestPermissionsWidget({
+    required Uri origin,
+    required List<Permission> permissions,
+    required ScrollController scrollController,
+    required Address? previousSelectedAccount,
+    super.key,
+  }) : super(
+          wmFactoryParam: RequestPermissionsWmParams(
+            origin: origin,
+            permissions: permissions,
+            scrollController: scrollController,
+            previousSelectedAccount: previousSelectedAccount,
+          ),
+        );
 
   @override
   Widget build(RequestPermissionsWidgetModel wm) => ValueListenableBuilder(
         valueListenable: wm.step,
         builder: (context, value, child) => switch (value) {
-          RequestPermissionsStep.account =>
-            _SelectAccountWidget(wm, scrollController),
+          RequestPermissionsStep.account => _SelectAccountWidget(wm),
           RequestPermissionsStep.confirm => _ConfirmPermissionsWidget(wm),
         },
       );
 }
 
 class _SelectAccountWidget extends StatelessWidget {
-  const _SelectAccountWidget(this.wm, this.scrollController);
+  const _SelectAccountWidget(this.wm);
 
   final RequestPermissionsWidgetModel wm;
-  final ScrollController scrollController;
 
   @override
   Widget build(BuildContext context) {
@@ -85,7 +83,7 @@ class _SelectAccountWidget extends StatelessWidget {
                         _scrollToActiveAccount(accounts, selected);
                       });
                       return ListView.separated(
-                        controller: scrollController,
+                        controller: wm.scrollController,
                         physics: const ClampingScrollPhysics(),
                         itemCount: accounts?.length ?? 0,
                         itemBuilder: (_, index) {
@@ -133,7 +131,7 @@ class _SelectAccountWidget extends StatelessWidget {
       );
 
       if (index != -1) {
-        scrollController.animateTo(
+        wm.scrollController.animateTo(
           index * DimensSizeV2.d72,
           duration: const Duration(milliseconds: 300),
           curve: Curves.easeInOut,

@@ -1,7 +1,6 @@
 import 'package:app/app/router/router.dart';
 import 'package:app/app/service/connection/data/connection_data/connection_data.dart';
 import 'package:app/core/wm/custom_wm.dart';
-import 'package:app/di/di.dart';
 import 'package:app/feature/browser_v1/browser.dart';
 import 'package:app/feature/network/edit_network/validators.dart';
 import 'package:app/feature/network/network.dart';
@@ -9,20 +8,17 @@ import 'package:app/generated/generated.dart';
 import 'package:collection/collection.dart';
 import 'package:elementary_helper/elementary_helper.dart';
 import 'package:flutter/material.dart';
+import 'package:injectable/injectable.dart';
 
-EditNetworkWidgetModel defaultEditNetworkWidgetModelFactory(
-  BuildContext context,
-) =>
-    EditNetworkWidgetModel(
-      EditNetworkModel(
-        inject(),
-        inject(),
-      ),
-    );
-
+@injectable
 class EditNetworkWidgetModel
     extends CustomWidgetModel<EditNetworkPageWidget, EditNetworkModel> {
-  EditNetworkWidgetModel(super.model);
+  EditNetworkWidgetModel(
+    super.model,
+    @factoryParam this._connectionDataId,
+  );
+
+  final String? _connectionDataId;
 
   final formKey = GlobalKey<FormState>();
 
@@ -73,7 +69,7 @@ class EditNetworkWidgetModel
   );
 
   late final connection = model.connections.firstWhereOrNull(
-    (element) => element.id == widget.connectionDataId,
+    (element) => element.id == _connectionDataId,
   );
 
   ListenableState<String?> get selectedNetworkTypeState =>

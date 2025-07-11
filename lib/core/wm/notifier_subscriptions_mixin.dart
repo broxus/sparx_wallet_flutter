@@ -115,17 +115,6 @@ mixin NotifierSubscriptionsMixin<W extends ElementaryWidget,
     );
   }
 
-  /// Creates a [StateNotifier] and adds it to the notifier collection.
-  /// The notifier will be populated with data during [initWidgetModel]
-  /// and [didUpdateWidget].
-  @protected
-  ListenableState<T> createWidgetProperty<T>(T Function(W) reader) {
-    final initialValue = isMounted ? reader(widget) : null;
-    final notifier = createNotifier<T>(initialValue);
-    _widgetPropsReaders[notifier] = reader;
-    return notifier;
-  }
-
   /// Create [TextEditingController] and add to the informant collection
   @protected
   TextEditingController createTextEditingController([

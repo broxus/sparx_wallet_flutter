@@ -1,10 +1,10 @@
+import 'package:app/core/wm/custom_wm.dart';
 import 'package:app/data/models/models.dart';
 import 'package:app/feature/wallet/wallet.dart';
 import 'package:app/feature/wallet/widgets/account_transactions_tab/detail/details.dart';
 import 'package:app/feature/wallet/widgets/account_transactions_tab/widgets/widgets.dart';
 import 'package:app/generated/generated.dart';
 import 'package:app/utils/utils.dart';
-import 'package:elementary/elementary.dart';
 import 'package:elementary_helper/elementary_helper.dart';
 import 'package:flutter/material.dart';
 import 'package:nekoton_repository/nekoton_repository.dart';
@@ -12,39 +12,39 @@ import 'package:ui_components_lib/ui_components_lib.dart';
 import 'package:ui_components_lib/v2/widgets/widgets.dart';
 
 class CancelUnstakingPageWidget
-    extends ElementaryWidget<CancelUnstakingPageWidgetModel> {
-  const CancelUnstakingPageWidget({
-    required this.request,
-    required this.accountKey,
-    required this.exchangeRate,
-    required this.withdrawHours,
-    required this.stakeCurrency,
-    required this.attachedFee,
-    required this.tokenPrice,
-    required this.everPrice,
-    Key? key,
-    WidgetModelFactory wmFactory = defaultCancelUnstakingPageWidgetModelFactory,
-  }) : super(wmFactory, key: key);
-
-  /// Pending withdraw requests
-  final StEverWithdrawRequest request;
-  final PublicKey accountKey;
-  final double exchangeRate;
-  final int withdrawHours;
-  final Currency stakeCurrency;
-  final BigInt attachedFee;
-  final Fixed? tokenPrice;
-  final Fixed? everPrice;
+    extends InjectedElementaryWidget<CancelUnstakingPageWidgetModel> {
+  CancelUnstakingPageWidget({
+    required StEverWithdrawRequest request,
+    required PublicKey accountKey,
+    required double exchangeRate,
+    required int withdrawHours,
+    required Currency stakeCurrency,
+    required BigInt attachedFee,
+    required Fixed? tokenPrice,
+    required Fixed? everPrice,
+    super.key,
+  }) : super(
+          wmFactoryParam: CancelUnstakingPageWmParams(
+            request: request,
+            accountKey: accountKey,
+            exchangeRate: exchangeRate,
+            withdrawHours: withdrawHours,
+            stakeCurrency: stakeCurrency,
+            attachedFee: attachedFee,
+            tokenPrice: tokenPrice,
+            everPrice: everPrice,
+          ),
+        );
 
   @override
   Widget build(CancelUnstakingPageWidgetModel wm) {
     final theme = wm.theme;
     final tokenValue = Money.fromBigIntWithCurrency(
-      request.data.amount,
-      stakeCurrency,
+      wm.request.data.amount,
+      wm.stakeCurrency,
     );
     final everValue = Money.fromBigIntWithCurrency(
-      (tokenValue * exchangeRate).minorUnits,
+      (tokenValue * wm.exchangeRate).minorUnits,
       wm.nativeCurrency,
     );
 
@@ -72,10 +72,10 @@ class CancelUnstakingPageWidget
                   mainAxisSize: MainAxisSize.min,
                   children: [
                     const SizedBox.shrink(),
-                    _StatusDateRow(request: request),
+                    _StatusDateRow(request: wm.request),
                     Text(
                       LocaleKeys.withdrawHoursNote.tr(
-                        args: [withdrawHours.toString()],
+                        args: [wm.withdrawHours.toString()],
                       ),
                       style: StyleRes.secondaryRegular.copyWith(
                         color: theme.colors.content3,
@@ -96,9 +96,10 @@ class CancelUnstakingPageWidget
                         ),
                         iconPath: asset?.logoURI ??
                             Assets.images.tokenDefaultIcon.path,
-                        convertedValueWidget: tokenPrice != null
+                        convertedValueWidget: wm.tokenPrice != null
                             ? AmountWidget.dollars(
-                                amount: tokenValue.exchangeToUSD(tokenPrice!),
+                                amount:
+                                    tokenValue.exchangeToUSD(wm.tokenPrice!),
                                 style: theme.textStyles.labelXSmall.copyWith(
                                   color: theme.colors.content3,
                                 ),
@@ -110,7 +111,7 @@ class CancelUnstakingPageWidget
                       title: LocaleKeys.exchangeRate.tr(),
                       value:
                           // ignore: lines_longer_than_80_chars, no-magic-number, binary-expression-operand-order
-                          '1 ${wm.nativeCurrency.symbol} ≈ ${(1 * exchangeRate).toStringAsFixed(4)} ${stakeCurrency.isoCode}',
+                          '1 ${wm.nativeCurrency.symbol} ≈ ${(1 * wm.exchangeRate).toStringAsFixed(4)} ${wm.stakeCurrency.isoCode}',
                     ),
                     WalletTransactionDetailsItem(
                       title: LocaleKeys.receiveWord.tr(),
@@ -119,9 +120,9 @@ class CancelUnstakingPageWidget
                         includeSymbol: false,
                       ),
                       iconPath: wm.nativeTokenIcon,
-                      convertedValueWidget: everPrice != null
+                      convertedValueWidget: wm.everPrice != null
                           ? AmountWidget.fromMoney(
-                              amount: everValue.exchangeToUSD(everPrice!),
+                              amount: everValue.exchangeToUSD(wm.everPrice!),
                               style: theme.textStyles.labelXSmall.copyWith(
                                 color: theme.colors.content3,
                               ),

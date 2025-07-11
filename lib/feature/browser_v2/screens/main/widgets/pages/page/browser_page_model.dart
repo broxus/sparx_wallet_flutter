@@ -16,13 +16,14 @@ import 'package:app/feature/messenger/domain/service/messenger_service.dart';
 import 'package:elementary/elementary.dart';
 import 'package:elementary_helper/elementary_helper.dart';
 import 'package:flutter_inappwebview/flutter_inappwebview.dart';
+import 'package:injectable/injectable.dart';
 import 'package:nekoton_repository/nekoton_repository.dart';
 
 /// [ElementaryModel] for [BrowserPage]
+@injectable
 class BrowserPageModel extends ElementaryModel {
   BrowserPageModel(
     ErrorHandler errorHandler,
-    this._tabId,
     this._browserService,
     this._approvalsService,
     this._permissionsService,
@@ -32,6 +33,7 @@ class BrowserPageModel extends ElementaryModel {
     this._connectionsStorageService,
     this._connectionService,
     this._tonConnectJsBridge,
+    @factoryParam this._tabId,
   ) : super(errorHandler: errorHandler);
 
   final String _tabId;

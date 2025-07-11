@@ -1,35 +1,44 @@
 import 'dart:async';
 
-import 'package:app/core/error_handler_factory.dart';
 import 'package:app/core/wm/custom_wm.dart';
-import 'package:app/di/di.dart';
 import 'package:app/feature/browser_v1/approvals_listener/actions/add_network/add_network_model.dart';
 import 'package:app/feature/browser_v1/approvals_listener/actions/add_network/add_network_widget.dart';
 import 'package:app/feature/browser_v1/utils.dart';
 import 'package:app/generated/generated.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:injectable/injectable.dart';
+import 'package:nekoton_webview/nekoton_webview.dart';
 import 'package:ui_components_lib/v2/ui_components_lib_v2.dart';
 
-AddNetworkWidgetModel defaultAddNetworkWidgetModelFactory(
-  BuildContext context,
-) =>
-    AddNetworkWidgetModel(
-      AddNetworkModel(
-        createPrimaryErrorHandler(context),
-        inject(),
-        inject(),
-        inject(),
-        inject(),
-      ),
-    );
+class AddNetworkWmParams {
+  const AddNetworkWmParams({
+    required this.origin,
+    required this.network,
+    required this.switchNetwork,
+  });
 
+  final Uri origin;
+  final AddNetwork network;
+  final bool switchNetwork;
+}
+
+@injectable
 class AddNetworkWidgetModel
     extends CustomWidgetModel<AddNetworkWidget, AddNetworkModel> {
-  AddNetworkWidgetModel(super.model);
+  AddNetworkWidgetModel(
+    super.model,
+    @factoryParam this._wmParams,
+  );
+
+  final AddNetworkWmParams _wmParams;
 
   late final _loading = createValueNotifier(false);
-  late final _switchNetwork = createValueNotifier(widget.switchNetwork);
+  late final _switchNetwork = createValueNotifier(_wmParams.switchNetwork);
+
+  Uri get origin => _wmParams.origin;
+
+  AddNetwork get network => _wmParams.network;
 
   ValueListenable<bool> get loading => _loading;
 
@@ -40,7 +49,7 @@ class AddNetworkWidgetModel
   Future<void> onConfirm() async {
     _loading.value = true;
     try {
-      final connection = widget.network.getConnection();
+      final connection = _wmParams.network.getConnection();
       final network = await model.addConnection(connection);
 
       if (_switchNetwork.value) {

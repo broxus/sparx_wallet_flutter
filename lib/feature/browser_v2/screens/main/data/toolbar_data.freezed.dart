@@ -1,3 +1,4 @@
+// dart format width=80
 // coverage:ignore-file
 // GENERATED CODE - DO NOT MODIFY BY HAND
 // ignore_for_file: type=lint
@@ -9,124 +10,23 @@ part of 'toolbar_data.dart';
 // FreezedGenerator
 // **************************************************************************
 
+// dart format off
 T _$identity<T>(T value) => value;
 
-final _privateConstructorUsedError = UnsupportedError(
-    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models');
-
 /// @nodoc
-mixin _$ToolbarData {
-  bool get isCanGoBack => throw _privateConstructorUsedError;
-  bool get isCanGoForward => throw _privateConstructorUsedError;
+mixin _$ToolbarData implements DiagnosticableTreeMixin {
+  bool get isCanGoBack;
+  bool get isCanGoForward;
 
   /// Create a copy of ToolbarData
   /// with the given fields replaced by the non-null parameter values.
   @JsonKey(includeFromJson: false, includeToJson: false)
+  @pragma('vm:prefer-inline')
   $ToolbarDataCopyWith<ToolbarData> get copyWith =>
-      throw _privateConstructorUsedError;
-}
-
-/// @nodoc
-abstract class $ToolbarDataCopyWith<$Res> {
-  factory $ToolbarDataCopyWith(
-          ToolbarData value, $Res Function(ToolbarData) then) =
-      _$ToolbarDataCopyWithImpl<$Res, ToolbarData>;
-  @useResult
-  $Res call({bool isCanGoBack, bool isCanGoForward});
-}
-
-/// @nodoc
-class _$ToolbarDataCopyWithImpl<$Res, $Val extends ToolbarData>
-    implements $ToolbarDataCopyWith<$Res> {
-  _$ToolbarDataCopyWithImpl(this._value, this._then);
-
-  // ignore: unused_field
-  final $Val _value;
-  // ignore: unused_field
-  final $Res Function($Val) _then;
-
-  /// Create a copy of ToolbarData
-  /// with the given fields replaced by the non-null parameter values.
-  @pragma('vm:prefer-inline')
-  @override
-  $Res call({
-    Object? isCanGoBack = null,
-    Object? isCanGoForward = null,
-  }) {
-    return _then(_value.copyWith(
-      isCanGoBack: null == isCanGoBack
-          ? _value.isCanGoBack
-          : isCanGoBack // ignore: cast_nullable_to_non_nullable
-              as bool,
-      isCanGoForward: null == isCanGoForward
-          ? _value.isCanGoForward
-          : isCanGoForward // ignore: cast_nullable_to_non_nullable
-              as bool,
-    ) as $Val);
-  }
-}
-
-/// @nodoc
-abstract class _$$ToolbarDataImplCopyWith<$Res>
-    implements $ToolbarDataCopyWith<$Res> {
-  factory _$$ToolbarDataImplCopyWith(
-          _$ToolbarDataImpl value, $Res Function(_$ToolbarDataImpl) then) =
-      __$$ToolbarDataImplCopyWithImpl<$Res>;
-  @override
-  @useResult
-  $Res call({bool isCanGoBack, bool isCanGoForward});
-}
-
-/// @nodoc
-class __$$ToolbarDataImplCopyWithImpl<$Res>
-    extends _$ToolbarDataCopyWithImpl<$Res, _$ToolbarDataImpl>
-    implements _$$ToolbarDataImplCopyWith<$Res> {
-  __$$ToolbarDataImplCopyWithImpl(
-      _$ToolbarDataImpl _value, $Res Function(_$ToolbarDataImpl) _then)
-      : super(_value, _then);
-
-  /// Create a copy of ToolbarData
-  /// with the given fields replaced by the non-null parameter values.
-  @pragma('vm:prefer-inline')
-  @override
-  $Res call({
-    Object? isCanGoBack = null,
-    Object? isCanGoForward = null,
-  }) {
-    return _then(_$ToolbarDataImpl(
-      isCanGoBack: null == isCanGoBack
-          ? _value.isCanGoBack
-          : isCanGoBack // ignore: cast_nullable_to_non_nullable
-              as bool,
-      isCanGoForward: null == isCanGoForward
-          ? _value.isCanGoForward
-          : isCanGoForward // ignore: cast_nullable_to_non_nullable
-              as bool,
-    ));
-  }
-}
-
-/// @nodoc
-
-class _$ToolbarDataImpl with DiagnosticableTreeMixin implements _ToolbarData {
-  const _$ToolbarDataImpl(
-      {this.isCanGoBack = false, this.isCanGoForward = false});
-
-  @override
-  @JsonKey()
-  final bool isCanGoBack;
-  @override
-  @JsonKey()
-  final bool isCanGoForward;
-
-  @override
-  String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
-    return 'ToolbarData(isCanGoBack: $isCanGoBack, isCanGoForward: $isCanGoForward)';
-  }
+      _$ToolbarDataCopyWithImpl<ToolbarData>(this as ToolbarData, _$identity);
 
   @override
   void debugFillProperties(DiagnosticPropertiesBuilder properties) {
-    super.debugFillProperties(properties);
     properties
       ..add(DiagnosticsProperty('type', 'ToolbarData'))
       ..add(DiagnosticsProperty('isCanGoBack', isCanGoBack))
@@ -137,7 +37,7 @@ class _$ToolbarDataImpl with DiagnosticableTreeMixin implements _ToolbarData {
   bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$ToolbarDataImpl &&
+            other is ToolbarData &&
             (identical(other.isCanGoBack, isCanGoBack) ||
                 other.isCanGoBack == isCanGoBack) &&
             (identical(other.isCanGoForward, isCanGoForward) ||
@@ -147,28 +47,134 @@ class _$ToolbarDataImpl with DiagnosticableTreeMixin implements _ToolbarData {
   @override
   int get hashCode => Object.hash(runtimeType, isCanGoBack, isCanGoForward);
 
+  @override
+  String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
+    return 'ToolbarData(isCanGoBack: $isCanGoBack, isCanGoForward: $isCanGoForward)';
+  }
+}
+
+/// @nodoc
+abstract mixin class $ToolbarDataCopyWith<$Res> {
+  factory $ToolbarDataCopyWith(
+          ToolbarData value, $Res Function(ToolbarData) _then) =
+      _$ToolbarDataCopyWithImpl;
+  @useResult
+  $Res call({bool isCanGoBack, bool isCanGoForward});
+}
+
+/// @nodoc
+class _$ToolbarDataCopyWithImpl<$Res> implements $ToolbarDataCopyWith<$Res> {
+  _$ToolbarDataCopyWithImpl(this._self, this._then);
+
+  final ToolbarData _self;
+  final $Res Function(ToolbarData) _then;
+
   /// Create a copy of ToolbarData
   /// with the given fields replaced by the non-null parameter values.
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? isCanGoBack = null,
+    Object? isCanGoForward = null,
+  }) {
+    return _then(_self.copyWith(
+      isCanGoBack: null == isCanGoBack
+          ? _self.isCanGoBack
+          : isCanGoBack // ignore: cast_nullable_to_non_nullable
+              as bool,
+      isCanGoForward: null == isCanGoForward
+          ? _self.isCanGoForward
+          : isCanGoForward // ignore: cast_nullable_to_non_nullable
+              as bool,
+    ));
+  }
+}
+
+/// @nodoc
+
+class _ToolbarData with DiagnosticableTreeMixin implements ToolbarData {
+  const _ToolbarData({this.isCanGoBack = false, this.isCanGoForward = false});
+
+  @override
+  @JsonKey()
+  final bool isCanGoBack;
+  @override
+  @JsonKey()
+  final bool isCanGoForward;
+
+  /// Create a copy of ToolbarData
+  /// with the given fields replaced by the non-null parameter values.
+  @override
   @JsonKey(includeFromJson: false, includeToJson: false)
+  @pragma('vm:prefer-inline')
+  _$ToolbarDataCopyWith<_ToolbarData> get copyWith =>
+      __$ToolbarDataCopyWithImpl<_ToolbarData>(this, _$identity);
+
+  @override
+  void debugFillProperties(DiagnosticPropertiesBuilder properties) {
+    properties
+      ..add(DiagnosticsProperty('type', 'ToolbarData'))
+      ..add(DiagnosticsProperty('isCanGoBack', isCanGoBack))
+      ..add(DiagnosticsProperty('isCanGoForward', isCanGoForward));
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _ToolbarData &&
+            (identical(other.isCanGoBack, isCanGoBack) ||
+                other.isCanGoBack == isCanGoBack) &&
+            (identical(other.isCanGoForward, isCanGoForward) ||
+                other.isCanGoForward == isCanGoForward));
+  }
+
+  @override
+  int get hashCode => Object.hash(runtimeType, isCanGoBack, isCanGoForward);
+
+  @override
+  String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
+    return 'ToolbarData(isCanGoBack: $isCanGoBack, isCanGoForward: $isCanGoForward)';
+  }
+}
+
+/// @nodoc
+abstract mixin class _$ToolbarDataCopyWith<$Res>
+    implements $ToolbarDataCopyWith<$Res> {
+  factory _$ToolbarDataCopyWith(
+          _ToolbarData value, $Res Function(_ToolbarData) _then) =
+      __$ToolbarDataCopyWithImpl;
+  @override
+  @useResult
+  $Res call({bool isCanGoBack, bool isCanGoForward});
+}
+
+/// @nodoc
+class __$ToolbarDataCopyWithImpl<$Res> implements _$ToolbarDataCopyWith<$Res> {
+  __$ToolbarDataCopyWithImpl(this._self, this._then);
+
+  final _ToolbarData _self;
+  final $Res Function(_ToolbarData) _then;
+
+  /// Create a copy of ToolbarData
+  /// with the given fields replaced by the non-null parameter values.
   @override
   @pragma('vm:prefer-inline')
-  _$$ToolbarDataImplCopyWith<_$ToolbarDataImpl> get copyWith =>
-      __$$ToolbarDataImplCopyWithImpl<_$ToolbarDataImpl>(this, _$identity);
+  $Res call({
+    Object? isCanGoBack = null,
+    Object? isCanGoForward = null,
+  }) {
+    return _then(_ToolbarData(
+      isCanGoBack: null == isCanGoBack
+          ? _self.isCanGoBack
+          : isCanGoBack // ignore: cast_nullable_to_non_nullable
+              as bool,
+      isCanGoForward: null == isCanGoForward
+          ? _self.isCanGoForward
+          : isCanGoForward // ignore: cast_nullable_to_non_nullable
+              as bool,
+    ));
+  }
 }
 
-abstract class _ToolbarData implements ToolbarData {
-  const factory _ToolbarData(
-      {final bool isCanGoBack, final bool isCanGoForward}) = _$ToolbarDataImpl;
-
-  @override
-  bool get isCanGoBack;
-  @override
-  bool get isCanGoForward;
-
-  /// Create a copy of ToolbarData
-  /// with the given fields replaced by the non-null parameter values.
-  @override
-  @JsonKey(includeFromJson: false, includeToJson: false)
-  _$$ToolbarDataImplCopyWith<_$ToolbarDataImpl> get copyWith =>
-      throw _privateConstructorUsedError;
-}
+// dart format on

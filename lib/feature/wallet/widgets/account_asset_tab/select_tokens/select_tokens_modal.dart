@@ -1,11 +1,11 @@
 // ignore_for_file: invalid_use_of_protected_member
 // ignore_for_file: invalid_use_of_visible_for_testing_member
+import 'package:app/core/wm/custom_wm.dart';
 import 'package:app/feature/wallet/widgets/account_asset_tab/select_tokens/empty_tokens_body.dart';
 import 'package:app/feature/wallet/widgets/account_asset_tab/select_tokens/select_token_wm.dart';
 import 'package:app/feature/wallet/widgets/account_asset_tab/select_tokens/tokens_modal_body.dart';
 import 'package:app/generated/locale_keys.g.dart';
 import 'package:easy_localization/easy_localization.dart';
-import 'package:elementary/elementary.dart';
 import 'package:elementary_helper/elementary_helper.dart';
 import 'package:flutter/material.dart';
 import 'package:nekoton_repository/nekoton_repository.dart';
@@ -29,15 +29,14 @@ Future<void> showSelectTokesModal(
   );
 }
 
-class SelectTokenWidget extends ElementaryWidget<SelectTokenWidgetModel> {
+class SelectTokenWidget
+    extends InjectedElementaryWidget<SelectTokenWidgetModel> {
   const SelectTokenWidget({
-    required this.address,
+    required Address address,
     required this.confirmImportCallback,
-    Key? key,
-    WidgetModelFactory wmFactory = defaultSelectTokenWidgetModelFactory,
-  }) : super(wmFactory, key: key);
+    super.key,
+  }) : super(wmFactoryParam: address);
 
-  final Address address;
   final VoidCallback confirmImportCallback;
 
   @override
