@@ -1,24 +1,22 @@
+import 'package:app/core/wm/custom_wm.dart';
 import 'package:app/feature/add_seed/add_seed.dart';
 import 'package:app/generated/generated.dart';
-import 'package:elementary/elementary.dart';
 import 'package:elementary_helper/elementary_helper.dart';
 import 'package:flutter/material.dart';
 import 'package:ui_components_lib/ui_components_lib.dart';
 import 'package:ui_components_lib/v2/widgets/widgets.dart';
 
 class EnterSeedPhraseWidget
-    extends ElementaryWidget<EnterSeedPhraseWidgetModel> {
+    extends InjectedElementaryWidget<EnterSeedPhraseWidgetModel> {
   EnterSeedPhraseWidget({
     required bool isOnboarding,
     String? seedName,
-    Key? key,
+    super.key,
   }) : super(
-          (context) => enterSeedPhraseWidgetModelFactory(
-            context,
+          wmFactoryParam: EnterSeedWmParams(
             isOnboarding: isOnboarding,
             seedName: seedName,
           ),
-          key: key,
         );
 
   @override
@@ -31,9 +29,7 @@ class EnterSeedPhraseWidget
       child: Scaffold(
         backgroundColor: theme.colors.background0,
         resizeToAvoidBottomInset: false,
-        appBar: DefaultAppBar(
-          onClosePressed: wm.onClosePressed,
-        ),
+        appBar: const DefaultAppBar(),
         body: SafeArea(
           minimum: const EdgeInsets.only(bottom: DimensSizeV2.d16),
           child: Padding(

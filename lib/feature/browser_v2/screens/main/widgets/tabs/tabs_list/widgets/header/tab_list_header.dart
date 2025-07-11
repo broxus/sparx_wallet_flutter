@@ -1,26 +1,21 @@
+import 'package:app/core/wm/custom_wm.dart';
 import 'package:app/feature/browser_v2/screens/main/widgets/tabs/tabs_list/widgets/group_header_item.dart';
 import 'package:app/feature/browser_v2/screens/main/widgets/tabs/tabs_list/widgets/header/header_button.dart';
 import 'package:app/feature/browser_v2/screens/main/widgets/tabs/tabs_list/widgets/header/tab_list_header_wm.dart';
 import 'package:app/feature/browser_v2/screens/main/widgets/tabs/tabs_list/widgets/header/ui_models.dart';
 import 'package:app/generated/generated.dart';
-import 'package:elementary/elementary.dart';
 import 'package:elementary_helper/elementary_helper.dart';
 import 'package:flutter/material.dart';
 import 'package:ui_components_lib/v2/dimens_v2.dart';
 
-class TabListHeader extends ElementaryWidget<TabListHeaderWidgetModel> {
-  TabListHeader({
+class TabListHeader extends InjectedElementaryWidget<TabListHeaderWidgetModel> {
+  const TabListHeader({
     required ListenableState<String?> selectedGroupIdState,
     required this.onPressedGroup,
     required this.onPressedCreateNewGroup,
-    WidgetModelFactory<TabListHeaderWidgetModel>? wmFactory,
     super.key,
   }) : super(
-          wmFactory ??
-              (ctx) => defaultTabListHeaderWidgetModelFactory(
-                    ctx,
-                    selectedGroupIdState: selectedGroupIdState,
-                  ),
+          wmFactoryParam: selectedGroupIdState,
         );
 
   final ValueChanged<String> onPressedGroup;

@@ -64,9 +64,7 @@ class DefaultAppBar extends StatelessWidget implements PreferredSizeWidget {
   /// To change behavior, just set another callback in main.dart
   // ignore: avoid-global-state
   static DefaultAppBarCloseAction defaultPopAction = (context) {
-    try {
-      Navigator.of(context).pop();
-    } catch (_) {}
+    Navigator.of(context).maybePop();
   };
 
   /// This is a default action of [DefaultAppBar] to check if leading
@@ -164,6 +162,7 @@ class DefaultAppBar extends StatelessWidget implements PreferredSizeWidget {
             : null);
 
     return PopCapture(
+      canPop: onClosePressed == null,
       onPop: () => _onPressedBack(context),
       child: Padding(
         padding: const EdgeInsets.symmetric(horizontal: DimensSizeV2.d16),

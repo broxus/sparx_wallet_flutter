@@ -1,8 +1,6 @@
 import 'package:app/app/service/service.dart';
-import 'package:app/core/error_handler_factory.dart';
 import 'package:app/core/wm/custom_wm.dart';
 import 'package:app/data/models/models.dart';
-import 'package:app/di/di.dart';
 import 'package:app/feature/browser_v1/approvals_listener/actions/request_permissions/request_permissions_model.dart';
 import 'package:app/feature/browser_v1/approvals_listener/actions/request_permissions/request_permissions_widget.dart';
 import 'package:app/feature/browser_v1/browser.dart';
@@ -10,34 +8,43 @@ import 'package:collection/collection.dart';
 import 'package:elementary_helper/elementary_helper.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:injectable/injectable.dart';
 import 'package:nekoton_repository/nekoton_repository.dart';
 
 enum RequestPermissionsStep { account, confirm }
 
-RequestPermissionsWidgetModel defaultRequestPermissionsWidgetModelFactory(
-  BuildContext context,
-) =>
-    RequestPermissionsWidgetModel(
-      RequestPermissionsModel(
-        createPrimaryErrorHandler(context),
-        inject(),
-        inject(),
-        inject(),
-      ),
-    );
+class RequestPermissionsWmParams {
+  const RequestPermissionsWmParams({
+    required this.origin,
+    required this.permissions,
+    required this.scrollController,
+    required this.previousSelectedAccount,
+  });
 
+  final Uri origin;
+  final List<Permission> permissions;
+  final ScrollController scrollController;
+  final Address? previousSelectedAccount;
+}
+
+@injectable
 class RequestPermissionsWidgetModel extends CustomWidgetModel<
     RequestPermissionsWidget, RequestPermissionsModel> {
-  RequestPermissionsWidgetModel(super.model);
+  RequestPermissionsWidgetModel(
+    super.model,
+    @factoryParam this._wmParams,
+  );
 
-  late final Uri origin = widget.origin;
-  late final ScrollController scrollController = widget.scrollController;
+  final RequestPermissionsWmParams _wmParams;
+
+  late final Uri origin = _wmParams.origin;
+  late final ScrollController scrollController = _wmParams.scrollController;
 
   late final searchController = createTextEditingController();
   late final _step = createValueNotifier(RequestPermissionsStep.account);
   late final _selected = createNotifier(_initialSelectedAccount);
   late final _accounts = createNotifier(model.accounts);
-  late final _permissions = createNotifier(widget.permissions.toSet());
+  late final _permissions = createNotifier(_wmParams.permissions.toSet());
   late final _zeroBalance = Money.fromBigIntWithCurrency(
     BigInt.zero,
     Currencies()[model.symbol] ??
@@ -55,7 +62,7 @@ class RequestPermissionsWidgetModel extends CustomWidgetModel<
 
   KeyAccount? get _initialSelectedAccount =>
       model.accounts.firstWhereOrNull(
-        (a) => a.address == widget.previousSelectedAccount,
+        (a) => a.address == _wmParams.previousSelectedAccount,
       ) ??
       model.currentAccount ??
       model.accounts.firstOrNull;

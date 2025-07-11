@@ -1,6 +1,6 @@
+import 'package:app/core/wm/custom_wm.dart';
 import 'package:app/feature/wallet/widgets/wallet_backup/wallet_backup.dart';
 import 'package:app/generated/generated.dart';
-import 'package:elementary/elementary.dart';
 import 'package:elementary_helper/elementary_helper.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:lucide_icons_flutter/lucide_icons.dart';
@@ -25,18 +25,20 @@ Future<void> showManualBackupDialog(
   );
 }
 
-class ContentManualBackup extends ElementaryWidget<ManualBackUpWidgetModel> {
-  const ContentManualBackup({
-    required this.words,
-    required this.address,
-    required this.finishedBackupCallback,
-    Key? key,
-    WidgetModelFactory wmFactory = defaultManualBackUpWidgetModelFactory,
-  }) : super(wmFactory, key: key);
-
-  final List<String> words;
-  final String address;
-  final VoidCallback finishedBackupCallback;
+class ContentManualBackup
+    extends InjectedElementaryWidget<ManualBackUpWidgetModel> {
+  ContentManualBackup({
+    required List<String> words,
+    required String address,
+    required VoidCallback finishedBackupCallback,
+    super.key,
+  }) : super(
+          wmFactoryParam: ManualBackUpWmParams(
+            words: words,
+            address: address,
+            finishedBackupCallback: finishedBackupCallback,
+          ),
+        );
 
   @override
   Widget build(ManualBackUpWidgetModel wm) {

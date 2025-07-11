@@ -1,3 +1,4 @@
+// dart format width=80
 // coverage:ignore-file
 // GENERATED CODE - DO NOT MODIFY BY HAND
 // ignore_for_file: type=lint
@@ -9,184 +10,34 @@ part of 'custom_currency.dart';
 // FreezedGenerator
 // **************************************************************************
 
+// dart format off
 T _$identity<T>(T value) => value;
-
-final _privateConstructorUsedError = UnsupportedError(
-    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models');
-
-CustomCurrency _$CustomCurrencyFromJson(Map<String, dynamic> json) {
-  return _CustomCurrency.fromJson(json);
-}
 
 /// @nodoc
 mixin _$CustomCurrency {
-  Address get address => throw _privateConstructorUsedError;
+  Address get address;
 
   /// Price in USD
-  String get price => throw _privateConstructorUsedError;
-  String get networkType => throw _privateConstructorUsedError;
-  String get networkGroup => throw _privateConstructorUsedError;
-
-  /// Serializes this CustomCurrency to a JSON map.
-  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
+  String get price;
+  NetworkType get networkType;
+  NetworkType get networkGroup;
 
   /// Create a copy of CustomCurrency
   /// with the given fields replaced by the non-null parameter values.
   @JsonKey(includeFromJson: false, includeToJson: false)
+  @pragma('vm:prefer-inline')
   $CustomCurrencyCopyWith<CustomCurrency> get copyWith =>
-      throw _privateConstructorUsedError;
-}
+      _$CustomCurrencyCopyWithImpl<CustomCurrency>(
+          this as CustomCurrency, _$identity);
 
-/// @nodoc
-abstract class $CustomCurrencyCopyWith<$Res> {
-  factory $CustomCurrencyCopyWith(
-          CustomCurrency value, $Res Function(CustomCurrency) then) =
-      _$CustomCurrencyCopyWithImpl<$Res, CustomCurrency>;
-  @useResult
-  $Res call(
-      {Address address, String price, String networkType, String networkGroup});
-
-  $AddressCopyWith<$Res> get address;
-}
-
-/// @nodoc
-class _$CustomCurrencyCopyWithImpl<$Res, $Val extends CustomCurrency>
-    implements $CustomCurrencyCopyWith<$Res> {
-  _$CustomCurrencyCopyWithImpl(this._value, this._then);
-
-  // ignore: unused_field
-  final $Val _value;
-  // ignore: unused_field
-  final $Res Function($Val) _then;
-
-  /// Create a copy of CustomCurrency
-  /// with the given fields replaced by the non-null parameter values.
-  @pragma('vm:prefer-inline')
-  @override
-  $Res call({
-    Object? address = null,
-    Object? price = null,
-    Object? networkType = null,
-    Object? networkGroup = null,
-  }) {
-    return _then(_value.copyWith(
-      address: null == address
-          ? _value.address
-          : address // ignore: cast_nullable_to_non_nullable
-              as Address,
-      price: null == price
-          ? _value.price
-          : price // ignore: cast_nullable_to_non_nullable
-              as String,
-      networkType: null == networkType
-          ? _value.networkType
-          : networkType // ignore: cast_nullable_to_non_nullable
-              as String,
-      networkGroup: null == networkGroup
-          ? _value.networkGroup
-          : networkGroup // ignore: cast_nullable_to_non_nullable
-              as String,
-    ) as $Val);
-  }
-
-  /// Create a copy of CustomCurrency
-  /// with the given fields replaced by the non-null parameter values.
-  @override
-  @pragma('vm:prefer-inline')
-  $AddressCopyWith<$Res> get address {
-    return $AddressCopyWith<$Res>(_value.address, (value) {
-      return _then(_value.copyWith(address: value) as $Val);
-    });
-  }
-}
-
-/// @nodoc
-abstract class _$$CustomCurrencyImplCopyWith<$Res>
-    implements $CustomCurrencyCopyWith<$Res> {
-  factory _$$CustomCurrencyImplCopyWith(_$CustomCurrencyImpl value,
-          $Res Function(_$CustomCurrencyImpl) then) =
-      __$$CustomCurrencyImplCopyWithImpl<$Res>;
-  @override
-  @useResult
-  $Res call(
-      {Address address, String price, String networkType, String networkGroup});
-
-  @override
-  $AddressCopyWith<$Res> get address;
-}
-
-/// @nodoc
-class __$$CustomCurrencyImplCopyWithImpl<$Res>
-    extends _$CustomCurrencyCopyWithImpl<$Res, _$CustomCurrencyImpl>
-    implements _$$CustomCurrencyImplCopyWith<$Res> {
-  __$$CustomCurrencyImplCopyWithImpl(
-      _$CustomCurrencyImpl _value, $Res Function(_$CustomCurrencyImpl) _then)
-      : super(_value, _then);
-
-  /// Create a copy of CustomCurrency
-  /// with the given fields replaced by the non-null parameter values.
-  @pragma('vm:prefer-inline')
-  @override
-  $Res call({
-    Object? address = null,
-    Object? price = null,
-    Object? networkType = null,
-    Object? networkGroup = null,
-  }) {
-    return _then(_$CustomCurrencyImpl(
-      address: null == address
-          ? _value.address
-          : address // ignore: cast_nullable_to_non_nullable
-              as Address,
-      price: null == price
-          ? _value.price
-          : price // ignore: cast_nullable_to_non_nullable
-              as String,
-      networkType: null == networkType
-          ? _value.networkType
-          : networkType // ignore: cast_nullable_to_non_nullable
-              as String,
-      networkGroup: null == networkGroup
-          ? _value.networkGroup
-          : networkGroup // ignore: cast_nullable_to_non_nullable
-              as String,
-    ));
-  }
-}
-
-/// @nodoc
-@JsonSerializable()
-class _$CustomCurrencyImpl implements _CustomCurrency {
-  const _$CustomCurrencyImpl(
-      {required this.address,
-      required this.price,
-      required this.networkType,
-      required this.networkGroup});
-
-  factory _$CustomCurrencyImpl.fromJson(Map<String, dynamic> json) =>
-      _$$CustomCurrencyImplFromJson(json);
-
-  @override
-  final Address address;
-
-  /// Price in USD
-  @override
-  final String price;
-  @override
-  final String networkType;
-  @override
-  final String networkGroup;
-
-  @override
-  String toString() {
-    return 'CustomCurrency(address: $address, price: $price, networkType: $networkType, networkGroup: $networkGroup)';
-  }
+  /// Serializes this CustomCurrency to a JSON map.
+  Map<String, dynamic> toJson();
 
   @override
   bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$CustomCurrencyImpl &&
+            other is CustomCurrency &&
             (identical(other.address, address) || other.address == address) &&
             (identical(other.price, price) || other.price == price) &&
             (identical(other.networkType, networkType) ||
@@ -200,48 +51,202 @@ class _$CustomCurrencyImpl implements _CustomCurrency {
   int get hashCode =>
       Object.hash(runtimeType, address, price, networkType, networkGroup);
 
-  /// Create a copy of CustomCurrency
-  /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
-  @pragma('vm:prefer-inline')
-  _$$CustomCurrencyImplCopyWith<_$CustomCurrencyImpl> get copyWith =>
-      __$$CustomCurrencyImplCopyWithImpl<_$CustomCurrencyImpl>(
-          this, _$identity);
-
-  @override
-  Map<String, dynamic> toJson() {
-    return _$$CustomCurrencyImplToJson(
-      this,
-    );
+  String toString() {
+    return 'CustomCurrency(address: $address, price: $price, networkType: $networkType, networkGroup: $networkGroup)';
   }
 }
 
-abstract class _CustomCurrency implements CustomCurrency {
-  const factory _CustomCurrency(
-      {required final Address address,
-      required final String price,
-      required final String networkType,
-      required final String networkGroup}) = _$CustomCurrencyImpl;
+/// @nodoc
+abstract mixin class $CustomCurrencyCopyWith<$Res> {
+  factory $CustomCurrencyCopyWith(
+          CustomCurrency value, $Res Function(CustomCurrency) _then) =
+      _$CustomCurrencyCopyWithImpl;
+  @useResult
+  $Res call(
+      {Address address,
+      String price,
+      NetworkType networkType,
+      NetworkType networkGroup});
 
-  factory _CustomCurrency.fromJson(Map<String, dynamic> json) =
-      _$CustomCurrencyImpl.fromJson;
+  $AddressCopyWith<$Res> get address;
+}
+
+/// @nodoc
+class _$CustomCurrencyCopyWithImpl<$Res>
+    implements $CustomCurrencyCopyWith<$Res> {
+  _$CustomCurrencyCopyWithImpl(this._self, this._then);
+
+  final CustomCurrency _self;
+  final $Res Function(CustomCurrency) _then;
+
+  /// Create a copy of CustomCurrency
+  /// with the given fields replaced by the non-null parameter values.
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? address = null,
+    Object? price = null,
+    Object? networkType = null,
+    Object? networkGroup = null,
+  }) {
+    return _then(_self.copyWith(
+      address: null == address
+          ? _self.address
+          : address // ignore: cast_nullable_to_non_nullable
+              as Address,
+      price: null == price
+          ? _self.price
+          : price // ignore: cast_nullable_to_non_nullable
+              as String,
+      networkType: null == networkType
+          ? _self.networkType
+          : networkType // ignore: cast_nullable_to_non_nullable
+              as NetworkType,
+      networkGroup: null == networkGroup
+          ? _self.networkGroup
+          : networkGroup // ignore: cast_nullable_to_non_nullable
+              as NetworkType,
+    ));
+  }
+
+  /// Create a copy of CustomCurrency
+  /// with the given fields replaced by the non-null parameter values.
+  @override
+  @pragma('vm:prefer-inline')
+  $AddressCopyWith<$Res> get address {
+    return $AddressCopyWith<$Res>(_self.address, (value) {
+      return _then(_self.copyWith(address: value));
+    });
+  }
+}
+
+/// @nodoc
+@JsonSerializable()
+class _CustomCurrency implements CustomCurrency {
+  const _CustomCurrency(
+      {required this.address,
+      required this.price,
+      required this.networkType,
+      required this.networkGroup});
+  factory _CustomCurrency.fromJson(Map<String, dynamic> json) =>
+      _$CustomCurrencyFromJson(json);
 
   @override
-  Address get address;
+  final Address address;
 
   /// Price in USD
   @override
-  String get price;
+  final String price;
   @override
-  String get networkType;
+  final NetworkType networkType;
   @override
-  String get networkGroup;
+  final NetworkType networkGroup;
 
   /// Create a copy of CustomCurrency
   /// with the given fields replaced by the non-null parameter values.
   @override
   @JsonKey(includeFromJson: false, includeToJson: false)
-  _$$CustomCurrencyImplCopyWith<_$CustomCurrencyImpl> get copyWith =>
-      throw _privateConstructorUsedError;
+  @pragma('vm:prefer-inline')
+  _$CustomCurrencyCopyWith<_CustomCurrency> get copyWith =>
+      __$CustomCurrencyCopyWithImpl<_CustomCurrency>(this, _$identity);
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$CustomCurrencyToJson(
+      this,
+    );
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _CustomCurrency &&
+            (identical(other.address, address) || other.address == address) &&
+            (identical(other.price, price) || other.price == price) &&
+            (identical(other.networkType, networkType) ||
+                other.networkType == networkType) &&
+            (identical(other.networkGroup, networkGroup) ||
+                other.networkGroup == networkGroup));
+  }
+
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @override
+  int get hashCode =>
+      Object.hash(runtimeType, address, price, networkType, networkGroup);
+
+  @override
+  String toString() {
+    return 'CustomCurrency(address: $address, price: $price, networkType: $networkType, networkGroup: $networkGroup)';
+  }
 }
+
+/// @nodoc
+abstract mixin class _$CustomCurrencyCopyWith<$Res>
+    implements $CustomCurrencyCopyWith<$Res> {
+  factory _$CustomCurrencyCopyWith(
+          _CustomCurrency value, $Res Function(_CustomCurrency) _then) =
+      __$CustomCurrencyCopyWithImpl;
+  @override
+  @useResult
+  $Res call(
+      {Address address,
+      String price,
+      NetworkType networkType,
+      NetworkType networkGroup});
+
+  @override
+  $AddressCopyWith<$Res> get address;
+}
+
+/// @nodoc
+class __$CustomCurrencyCopyWithImpl<$Res>
+    implements _$CustomCurrencyCopyWith<$Res> {
+  __$CustomCurrencyCopyWithImpl(this._self, this._then);
+
+  final _CustomCurrency _self;
+  final $Res Function(_CustomCurrency) _then;
+
+  /// Create a copy of CustomCurrency
+  /// with the given fields replaced by the non-null parameter values.
+  @override
+  @pragma('vm:prefer-inline')
+  $Res call({
+    Object? address = null,
+    Object? price = null,
+    Object? networkType = null,
+    Object? networkGroup = null,
+  }) {
+    return _then(_CustomCurrency(
+      address: null == address
+          ? _self.address
+          : address // ignore: cast_nullable_to_non_nullable
+              as Address,
+      price: null == price
+          ? _self.price
+          : price // ignore: cast_nullable_to_non_nullable
+              as String,
+      networkType: null == networkType
+          ? _self.networkType
+          : networkType // ignore: cast_nullable_to_non_nullable
+              as NetworkType,
+      networkGroup: null == networkGroup
+          ? _self.networkGroup
+          : networkGroup // ignore: cast_nullable_to_non_nullable
+              as NetworkType,
+    ));
+  }
+
+  /// Create a copy of CustomCurrency
+  /// with the given fields replaced by the non-null parameter values.
+  @override
+  @pragma('vm:prefer-inline')
+  $AddressCopyWith<$Res> get address {
+    return $AddressCopyWith<$Res>(_self.address, (value) {
+      return _then(_self.copyWith(address: value));
+    });
+  }
+}
+
+// dart format on

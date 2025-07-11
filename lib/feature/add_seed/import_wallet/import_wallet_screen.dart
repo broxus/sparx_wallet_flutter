@@ -1,10 +1,9 @@
 // ignore_for_file: invalid_use_of_visible_for_testing_member
 // ignore_for_file: invalid_use_of_protected_member
 
-import 'package:app/app/router/router.dart';
+import 'package:app/core/wm/custom_wm.dart';
 import 'package:app/feature/add_seed/add_seed.dart';
 import 'package:app/generated/generated.dart';
-import 'package:elementary/elementary.dart';
 import 'package:elementary_helper/elementary_helper.dart';
 import 'package:flutter/material.dart';
 import 'package:lucide_icons_flutter/lucide_icons.dart';
@@ -12,11 +11,10 @@ import 'package:ui_components_lib/ui_components_lib.dart';
 import 'package:ui_components_lib/v2/ui_components_lib_v2.dart';
 
 class ImportWalletScreen
-    extends ElementaryWidget<ImportWalletScreenWidgetModel> {
+    extends InjectedElementaryWidget<ImportWalletScreenWidgetModel> {
   const ImportWalletScreen({
-    Key? key,
-    WidgetModelFactory wmFactory = defaultImportWalletWidgetModelFactory,
-  }) : super(wmFactory, key: key);
+    super.key,
+  });
 
   @override
   Widget build(ImportWalletScreenWidgetModel wm) {
@@ -26,9 +24,7 @@ class ImportWalletScreen
     return Scaffold(
       resizeToAvoidBottomInset: false,
       backgroundColor: theme.colors.background0,
-      appBar: DefaultAppBar(
-        onClosePressed: (context) => context.compassBack(),
-      ),
+      appBar: const DefaultAppBar(),
       body: EntityStateNotifierBuilder<ImportWalletData?>(
         listenableEntityState: wm.screenState,
         builder: (_, data) {

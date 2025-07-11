@@ -6,17 +6,15 @@ part of 'account_interaction.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-_$AccountInteractionImpl _$$AccountInteractionImplFromJson(
-        Map<String, dynamic> json) =>
-    _$AccountInteractionImpl(
+_AccountInteraction _$AccountInteractionFromJson(Map<String, dynamic> json) =>
+    _AccountInteraction(
       address: Address.fromJson(json['address'] as String),
       publicKey: PublicKey.fromJson(json['publicKey'] as String),
       contractType:
           $enumDecode(_$WalletContractTypeEnumMap, json['contractType']),
     );
 
-Map<String, dynamic> _$$AccountInteractionImplToJson(
-        _$AccountInteractionImpl instance) =>
+Map<String, dynamic> _$AccountInteractionToJson(_AccountInteraction instance) =>
     <String, dynamic>{
       'address': instance.address.toJson(),
       'publicKey': instance.publicKey.toJson(),

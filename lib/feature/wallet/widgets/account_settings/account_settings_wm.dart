@@ -1,7 +1,5 @@
 import 'package:app/app/router/router.dart';
-import 'package:app/core/error_handler_factory.dart';
 import 'package:app/core/wm/custom_wm.dart';
-import 'package:app/di/di.dart';
 import 'package:app/feature/browser_v1/browser.dart';
 import 'package:app/feature/profile/profile.dart';
 import 'package:app/feature/wallet/custodians_settings/route.dart';
@@ -9,26 +7,33 @@ import 'package:app/feature/wallet/widgets/account_settings/account_settings_mod
 import 'package:app/feature/wallet/widgets/account_settings/account_settings_widget.dart';
 import 'package:elementary_helper/elementary_helper.dart';
 import 'package:flutter/material.dart';
+import 'package:injectable/injectable.dart';
 import 'package:nekoton_repository/nekoton_repository.dart';
 
-AccountSettingsWidgetModel defaultAccountSettingsWidgetModelFactory(
-  BuildContext context,
-) =>
-    AccountSettingsWidgetModel(
-      AccountSettingsModel(
-        createPrimaryErrorHandler(context),
-        inject(),
-        inject(),
-        inject(),
-      ),
-    );
+class AccountSettingsWmParams {
+  const AccountSettingsWmParams({
+    required this.account,
+    required this.custodians,
+  });
 
+  final KeyAccount account;
+  final List<PublicKey>? custodians;
+}
+
+@injectable
 class AccountSettingsWidgetModel
     extends CustomWidgetModel<AccountSettingsWidget, AccountSettingsModel> {
-  AccountSettingsWidgetModel(super.model);
+  AccountSettingsWidgetModel(
+    super.model,
+    @factoryParam this._wmParams,
+  );
+
+  final AccountSettingsWmParams _wmParams;
 
   late final _displayAccounts = createNotifierFromStream(model.displayAccounts);
 
+  KeyAccount get account => _wmParams.account;
+  List<PublicKey>? get custodians => _wmParams.custodians;
   ListenableState<List<KeyAccount>> get displayAccounts => _displayAccounts;
 
   void onCustodiansSettings(List<PublicKey> custodians) {
@@ -46,22 +51,22 @@ class AccountSettingsWidgetModel
   void onViewInExplorer() {
     Navigator.of(context).pop();
     openBrowserUrl(
-      model.getAccountExplorerLink(widget.account.address),
+      model.getAccountExplorerLink(_wmParams.account.address),
     );
   }
 
   void onRename() {
     Navigator.of(context)
       ..pop()
-      ..push(getRenameAccountSheet(context, widget.account.address));
+      ..push(getRenameAccountSheet(context, _wmParams.account.address));
   }
 
   void onCopyAddress() {
-    model.copyAddress(context, widget.account.address);
+    model.copyAddress(context, _wmParams.account.address);
   }
 
   void onHideAccount() {
     Navigator.of(context).pop();
-    model.hideAccount(widget.account.address);
+    model.hideAccount(_wmParams.account.address);
   }
 }

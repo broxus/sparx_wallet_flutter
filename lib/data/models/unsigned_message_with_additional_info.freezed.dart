@@ -1,3 +1,4 @@
+// dart format width=80
 // coverage:ignore-file
 // GENERATED CODE - DO NOT MODIFY BY HAND
 // ignore_for_file: type=lint
@@ -9,84 +10,50 @@ part of 'unsigned_message_with_additional_info.dart';
 // FreezedGenerator
 // **************************************************************************
 
+// dart format off
 T _$identity<T>(T value) => value;
-
-final _privateConstructorUsedError = UnsupportedError(
-    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models');
 
 /// @nodoc
 mixin _$UnsignedMessageWithAdditionalInfo {
-  UnsignedMessage get message => throw _privateConstructorUsedError;
-  String? get dst => throw _privateConstructorUsedError;
+  UnsignedMessage get message;
+  String? get dst;
   @amountJsonConverter
-  BigInt? get amount => throw _privateConstructorUsedError;
+  BigInt? get amount;
 
   /// Create a copy of UnsignedMessageWithAdditionalInfo
   /// with the given fields replaced by the non-null parameter values.
   @JsonKey(includeFromJson: false, includeToJson: false)
-  $UnsignedMessageWithAdditionalInfoCopyWith<UnsignedMessageWithAdditionalInfo>
-      get copyWith => throw _privateConstructorUsedError;
-}
-
-/// @nodoc
-abstract class $UnsignedMessageWithAdditionalInfoCopyWith<$Res> {
-  factory $UnsignedMessageWithAdditionalInfoCopyWith(
-          UnsignedMessageWithAdditionalInfo value,
-          $Res Function(UnsignedMessageWithAdditionalInfo) then) =
-      _$UnsignedMessageWithAdditionalInfoCopyWithImpl<$Res,
-          UnsignedMessageWithAdditionalInfo>;
-  @useResult
-  $Res call(
-      {UnsignedMessage message,
-      String? dst,
-      @amountJsonConverter BigInt? amount});
-}
-
-/// @nodoc
-class _$UnsignedMessageWithAdditionalInfoCopyWithImpl<$Res,
-        $Val extends UnsignedMessageWithAdditionalInfo>
-    implements $UnsignedMessageWithAdditionalInfoCopyWith<$Res> {
-  _$UnsignedMessageWithAdditionalInfoCopyWithImpl(this._value, this._then);
-
-  // ignore: unused_field
-  final $Val _value;
-  // ignore: unused_field
-  final $Res Function($Val) _then;
-
-  /// Create a copy of UnsignedMessageWithAdditionalInfo
-  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
+  $UnsignedMessageWithAdditionalInfoCopyWith<UnsignedMessageWithAdditionalInfo>
+      get copyWith => _$UnsignedMessageWithAdditionalInfoCopyWithImpl<
+              UnsignedMessageWithAdditionalInfo>(
+          this as UnsignedMessageWithAdditionalInfo, _$identity);
+
   @override
-  $Res call({
-    Object? message = null,
-    Object? dst = freezed,
-    Object? amount = freezed,
-  }) {
-    return _then(_value.copyWith(
-      message: null == message
-          ? _value.message
-          : message // ignore: cast_nullable_to_non_nullable
-              as UnsignedMessage,
-      dst: freezed == dst
-          ? _value.dst
-          : dst // ignore: cast_nullable_to_non_nullable
-              as String?,
-      amount: freezed == amount
-          ? _value.amount
-          : amount // ignore: cast_nullable_to_non_nullable
-              as BigInt?,
-    ) as $Val);
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is UnsignedMessageWithAdditionalInfo &&
+            (identical(other.message, message) || other.message == message) &&
+            (identical(other.dst, dst) || other.dst == dst) &&
+            (identical(other.amount, amount) || other.amount == amount));
+  }
+
+  @override
+  int get hashCode => Object.hash(runtimeType, message, dst, amount);
+
+  @override
+  String toString() {
+    return 'UnsignedMessageWithAdditionalInfo(message: $message, dst: $dst, amount: $amount)';
   }
 }
 
 /// @nodoc
-abstract class _$$UnsignedMessageWithAdditionalInfoImplCopyWith<$Res>
-    implements $UnsignedMessageWithAdditionalInfoCopyWith<$Res> {
-  factory _$$UnsignedMessageWithAdditionalInfoImplCopyWith(
-          _$UnsignedMessageWithAdditionalInfoImpl value,
-          $Res Function(_$UnsignedMessageWithAdditionalInfoImpl) then) =
-      __$$UnsignedMessageWithAdditionalInfoImplCopyWithImpl<$Res>;
-  @override
+abstract mixin class $UnsignedMessageWithAdditionalInfoCopyWith<$Res> {
+  factory $UnsignedMessageWithAdditionalInfoCopyWith(
+          UnsignedMessageWithAdditionalInfo value,
+          $Res Function(UnsignedMessageWithAdditionalInfo) _then) =
+      _$UnsignedMessageWithAdditionalInfoCopyWithImpl;
   @useResult
   $Res call(
       {UnsignedMessage message,
@@ -95,14 +62,12 @@ abstract class _$$UnsignedMessageWithAdditionalInfoImplCopyWith<$Res>
 }
 
 /// @nodoc
-class __$$UnsignedMessageWithAdditionalInfoImplCopyWithImpl<$Res>
-    extends _$UnsignedMessageWithAdditionalInfoCopyWithImpl<$Res,
-        _$UnsignedMessageWithAdditionalInfoImpl>
-    implements _$$UnsignedMessageWithAdditionalInfoImplCopyWith<$Res> {
-  __$$UnsignedMessageWithAdditionalInfoImplCopyWithImpl(
-      _$UnsignedMessageWithAdditionalInfoImpl _value,
-      $Res Function(_$UnsignedMessageWithAdditionalInfoImpl) _then)
-      : super(_value, _then);
+class _$UnsignedMessageWithAdditionalInfoCopyWithImpl<$Res>
+    implements $UnsignedMessageWithAdditionalInfoCopyWith<$Res> {
+  _$UnsignedMessageWithAdditionalInfoCopyWithImpl(this._self, this._then);
+
+  final UnsignedMessageWithAdditionalInfo _self;
+  final $Res Function(UnsignedMessageWithAdditionalInfo) _then;
 
   /// Create a copy of UnsignedMessageWithAdditionalInfo
   /// with the given fields replaced by the non-null parameter values.
@@ -113,17 +78,17 @@ class __$$UnsignedMessageWithAdditionalInfoImplCopyWithImpl<$Res>
     Object? dst = freezed,
     Object? amount = freezed,
   }) {
-    return _then(_$UnsignedMessageWithAdditionalInfoImpl(
+    return _then(_self.copyWith(
       message: null == message
-          ? _value.message
+          ? _self.message
           : message // ignore: cast_nullable_to_non_nullable
               as UnsignedMessage,
       dst: freezed == dst
-          ? _value.dst
+          ? _self.dst
           : dst // ignore: cast_nullable_to_non_nullable
               as String?,
       amount: freezed == amount
-          ? _value.amount
+          ? _self.amount
           : amount // ignore: cast_nullable_to_non_nullable
               as BigInt?,
     ));
@@ -132,9 +97,9 @@ class __$$UnsignedMessageWithAdditionalInfoImplCopyWithImpl<$Res>
 
 /// @nodoc
 
-class _$UnsignedMessageWithAdditionalInfoImpl
-    implements _UnsignedMessageWithAdditionalInfo {
-  const _$UnsignedMessageWithAdditionalInfoImpl(
+class _UnsignedMessageWithAdditionalInfo
+    implements UnsignedMessageWithAdditionalInfo {
+  const _UnsignedMessageWithAdditionalInfo(
       {required this.message, this.dst, @amountJsonConverter this.amount});
 
   @override
@@ -145,16 +110,21 @@ class _$UnsignedMessageWithAdditionalInfoImpl
   @amountJsonConverter
   final BigInt? amount;
 
+  /// Create a copy of UnsignedMessageWithAdditionalInfo
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  String toString() {
-    return 'UnsignedMessageWithAdditionalInfo(message: $message, dst: $dst, amount: $amount)';
-  }
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @pragma('vm:prefer-inline')
+  _$UnsignedMessageWithAdditionalInfoCopyWith<
+          _UnsignedMessageWithAdditionalInfo>
+      get copyWith => __$UnsignedMessageWithAdditionalInfoCopyWithImpl<
+          _UnsignedMessageWithAdditionalInfo>(this, _$identity);
 
   @override
   bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$UnsignedMessageWithAdditionalInfoImpl &&
+            other is _UnsignedMessageWithAdditionalInfo &&
             (identical(other.message, message) || other.message == message) &&
             (identical(other.dst, dst) || other.dst == dst) &&
             (identical(other.amount, amount) || other.amount == amount));
@@ -163,38 +133,59 @@ class _$UnsignedMessageWithAdditionalInfoImpl
   @override
   int get hashCode => Object.hash(runtimeType, message, dst, amount);
 
+  @override
+  String toString() {
+    return 'UnsignedMessageWithAdditionalInfo(message: $message, dst: $dst, amount: $amount)';
+  }
+}
+
+/// @nodoc
+abstract mixin class _$UnsignedMessageWithAdditionalInfoCopyWith<$Res>
+    implements $UnsignedMessageWithAdditionalInfoCopyWith<$Res> {
+  factory _$UnsignedMessageWithAdditionalInfoCopyWith(
+          _UnsignedMessageWithAdditionalInfo value,
+          $Res Function(_UnsignedMessageWithAdditionalInfo) _then) =
+      __$UnsignedMessageWithAdditionalInfoCopyWithImpl;
+  @override
+  @useResult
+  $Res call(
+      {UnsignedMessage message,
+      String? dst,
+      @amountJsonConverter BigInt? amount});
+}
+
+/// @nodoc
+class __$UnsignedMessageWithAdditionalInfoCopyWithImpl<$Res>
+    implements _$UnsignedMessageWithAdditionalInfoCopyWith<$Res> {
+  __$UnsignedMessageWithAdditionalInfoCopyWithImpl(this._self, this._then);
+
+  final _UnsignedMessageWithAdditionalInfo _self;
+  final $Res Function(_UnsignedMessageWithAdditionalInfo) _then;
+
   /// Create a copy of UnsignedMessageWithAdditionalInfo
   /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
-  _$$UnsignedMessageWithAdditionalInfoImplCopyWith<
-          _$UnsignedMessageWithAdditionalInfoImpl>
-      get copyWith => __$$UnsignedMessageWithAdditionalInfoImplCopyWithImpl<
-          _$UnsignedMessageWithAdditionalInfoImpl>(this, _$identity);
+  $Res call({
+    Object? message = null,
+    Object? dst = freezed,
+    Object? amount = freezed,
+  }) {
+    return _then(_UnsignedMessageWithAdditionalInfo(
+      message: null == message
+          ? _self.message
+          : message // ignore: cast_nullable_to_non_nullable
+              as UnsignedMessage,
+      dst: freezed == dst
+          ? _self.dst
+          : dst // ignore: cast_nullable_to_non_nullable
+              as String?,
+      amount: freezed == amount
+          ? _self.amount
+          : amount // ignore: cast_nullable_to_non_nullable
+              as BigInt?,
+    ));
+  }
 }
 
-abstract class _UnsignedMessageWithAdditionalInfo
-    implements UnsignedMessageWithAdditionalInfo {
-  const factory _UnsignedMessageWithAdditionalInfo(
-          {required final UnsignedMessage message,
-          final String? dst,
-          @amountJsonConverter final BigInt? amount}) =
-      _$UnsignedMessageWithAdditionalInfoImpl;
-
-  @override
-  UnsignedMessage get message;
-  @override
-  String? get dst;
-  @override
-  @amountJsonConverter
-  BigInt? get amount;
-
-  /// Create a copy of UnsignedMessageWithAdditionalInfo
-  /// with the given fields replaced by the non-null parameter values.
-  @override
-  @JsonKey(includeFromJson: false, includeToJson: false)
-  _$$UnsignedMessageWithAdditionalInfoImplCopyWith<
-          _$UnsignedMessageWithAdditionalInfoImpl>
-      get copyWith => throw _privateConstructorUsedError;
-}
+// dart format on

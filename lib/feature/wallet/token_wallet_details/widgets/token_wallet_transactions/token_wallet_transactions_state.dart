@@ -2,10 +2,12 @@
 part of 'token_wallet_transactions_cubit.dart';
 
 @freezed
-class TokenWalletTransactionsState with _$TokenWalletTransactionsState {
-  const factory TokenWalletTransactionsState.empty() = _Empty;
+sealed class TokenWalletTransactionsState with _$TokenWalletTransactionsState {
+  const factory TokenWalletTransactionsState.empty() =
+      TokenWalletTransactionsStateEmpty;
 
-  const factory TokenWalletTransactionsState.loading() = _Loading;
+  const factory TokenWalletTransactionsState.loading() =
+      TokenWalletTransactionsStateLoading;
 
   const factory TokenWalletTransactionsState.transactions({
     required List<TokenWalletOrdinaryTransaction> transactions,
@@ -13,5 +15,5 @@ class TokenWalletTransactionsState with _$TokenWalletTransactionsState {
     required bool isLoading,
     required bool canLoadMore,
     required CustomCurrency? tokenCustomCurrency,
-  }) = _Transactions;
+  }) = TokenWalletTransactionsStateTransactions;
 }

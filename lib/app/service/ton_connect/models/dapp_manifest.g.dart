@@ -6,8 +6,8 @@ part of 'dapp_manifest.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-_$DappManifestImpl _$$DappManifestImplFromJson(Map<String, dynamic> json) =>
-    _$DappManifestImpl(
+_DappManifest _$DappManifestFromJson(Map<String, dynamic> json) =>
+    _DappManifest(
       url: json['url'] as String,
       name: json['name'] as String,
       iconUrl: json['iconUrl'] as String,
@@ -15,7 +15,7 @@ _$DappManifestImpl _$$DappManifestImplFromJson(Map<String, dynamic> json) =>
       privacyPolicyUrl: json['privacyPolicyUrl'] as String?,
     );
 
-Map<String, dynamic> _$$DappManifestImplToJson(_$DappManifestImpl instance) =>
+Map<String, dynamic> _$DappManifestToJson(_DappManifest instance) =>
     <String, dynamic>{
       'url': instance.url,
       'name': instance.name,

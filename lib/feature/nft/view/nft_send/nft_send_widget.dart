@@ -1,19 +1,19 @@
-import 'package:app/app/router/router.dart';
+import 'package:app/core/wm/custom_wm.dart';
 import 'package:app/feature/nft/nft.dart';
 import 'package:app/feature/wallet/wallet.dart';
 import 'package:app/generated/generated.dart';
-import 'package:elementary/elementary.dart';
 import 'package:elementary_helper/elementary_helper.dart';
 import 'package:flutter/material.dart';
 import 'package:ui_components_lib/ui_components_lib.dart';
 
 /// Page that allows send funds from TonWalelt (native token).
-class NftSendWidget extends ElementaryWidget<NftSendWidgetModel> {
+class NftSendWidget extends InjectedElementaryWidget<NftSendWidgetModel> {
   const NftSendWidget({
     required this.data,
-    Key? key,
-    WidgetModelFactory wmFactory = defaultNftSendWidgetModelFactory,
-  }) : super(wmFactory, key: key);
+    super.key,
+  }) : super(
+          wmFactoryParam: data,
+        );
 
   final NftSendRouteData data;
 
@@ -29,7 +29,6 @@ class NftSendWidget extends ElementaryWidget<NftSendWidgetModel> {
           NftSendStateError() =>
             DefaultAppBar(titleText: LocaleKeys.confirmTransaction.tr()),
           NftSendStateReady() => DefaultAppBar(
-              onClosePressed: (context) => context.compassBack(),
               titleText: LocaleKeys.confirmTransaction.tr(),
             ),
         };

@@ -1,3 +1,4 @@
+import 'package:app/app/router/compass/bottom_bar_state.dart';
 import 'package:app/app/router/compass/compass.dart';
 import 'package:app/feature/browser_v2/screens/create_group/create_browser_group_screen.dart';
 import 'package:injectable/injectable.dart';
@@ -12,7 +13,7 @@ class CreateBrowserGroupRoute
       : super(
           name: 'createBrowserGroup',
           path: '/createBrowserGroup',
-          isBottomNavigationBarVisible: false,
+          bottomBarState: BottomBarState.hidden,
           builder: (context, data, __) => CreateBrowserGroupScreen(
             tabId: data.tabId,
           ),

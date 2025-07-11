@@ -6,9 +6,9 @@ part of 'ton_app_connection.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-_$TonAppConnectionRemoteImpl _$$TonAppConnectionRemoteImplFromJson(
+TonAppConnectionRemote _$TonAppConnectionRemoteFromJson(
         Map<String, dynamic> json) =>
-    _$TonAppConnectionRemoteImpl(
+    TonAppConnectionRemote(
       clientId: json['clientId'] as String,
       sessionCrypto: SessionCrypto.fromJson(json['sessionCrypto'] as String),
       replyItems: (json['replyItems'] as List<dynamic>)
@@ -19,8 +19,8 @@ _$TonAppConnectionRemoteImpl _$$TonAppConnectionRemoteImplFromJson(
       $type: json['runtimeType'] as String?,
     );
 
-Map<String, dynamic> _$$TonAppConnectionRemoteImplToJson(
-        _$TonAppConnectionRemoteImpl instance) =>
+Map<String, dynamic> _$TonAppConnectionRemoteToJson(
+        TonAppConnectionRemote instance) =>
     <String, dynamic>{
       'clientId': instance.clientId,
       'sessionCrypto': instance.sessionCrypto.toJson(),
@@ -30,9 +30,9 @@ Map<String, dynamic> _$$TonAppConnectionRemoteImplToJson(
       'runtimeType': instance.$type,
     };
 
-_$TonAppConnectionInjectedImpl _$$TonAppConnectionInjectedImplFromJson(
+TonAppConnectionInjected _$TonAppConnectionInjectedFromJson(
         Map<String, dynamic> json) =>
-    _$TonAppConnectionInjectedImpl(
+    TonAppConnectionInjected(
       origin: json['origin'] as String,
       replyItems: (json['replyItems'] as List<dynamic>)
           .map((e) => ConnectItemReply.fromJson(e as Map<String, dynamic>))
@@ -42,8 +42,8 @@ _$TonAppConnectionInjectedImpl _$$TonAppConnectionInjectedImplFromJson(
       $type: json['runtimeType'] as String?,
     );
 
-Map<String, dynamic> _$$TonAppConnectionInjectedImplToJson(
-        _$TonAppConnectionInjectedImpl instance) =>
+Map<String, dynamic> _$TonAppConnectionInjectedToJson(
+        TonAppConnectionInjected instance) =>
     <String, dynamic>{
       'origin': instance.origin,
       'replyItems': instance.replyItems.map((e) => e.toJson()).toList(),

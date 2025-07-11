@@ -1,3 +1,4 @@
+// dart format width=80
 // coverage:ignore-file
 // GENERATED CODE - DO NOT MODIFY BY HAND
 // ignore_for_file: type=lint
@@ -9,173 +10,33 @@ part of 'browser_bookmark_item.dart';
 // FreezedGenerator
 // **************************************************************************
 
+// dart format off
 T _$identity<T>(T value) => value;
-
-final _privateConstructorUsedError = UnsupportedError(
-    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models');
-
-BrowserBookmarkItem _$BrowserBookmarkItemFromJson(Map<String, dynamic> json) {
-  return _BrowserBookmarkItem.fromJson(json);
-}
 
 /// @nodoc
 mixin _$BrowserBookmarkItem {
-  String get id => throw _privateConstructorUsedError;
-  String get title => throw _privateConstructorUsedError;
+  String get id;
+  String get title;
   @uriJsonConverter
-  Uri get url => throw _privateConstructorUsedError;
-  double get sortingOrder => throw _privateConstructorUsedError;
-
-  /// Serializes this BrowserBookmarkItem to a JSON map.
-  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
+  Uri get url;
+  double get sortingOrder;
 
   /// Create a copy of BrowserBookmarkItem
   /// with the given fields replaced by the non-null parameter values.
   @JsonKey(includeFromJson: false, includeToJson: false)
+  @pragma('vm:prefer-inline')
   $BrowserBookmarkItemCopyWith<BrowserBookmarkItem> get copyWith =>
-      throw _privateConstructorUsedError;
-}
+      _$BrowserBookmarkItemCopyWithImpl<BrowserBookmarkItem>(
+          this as BrowserBookmarkItem, _$identity);
 
-/// @nodoc
-abstract class $BrowserBookmarkItemCopyWith<$Res> {
-  factory $BrowserBookmarkItemCopyWith(
-          BrowserBookmarkItem value, $Res Function(BrowserBookmarkItem) then) =
-      _$BrowserBookmarkItemCopyWithImpl<$Res, BrowserBookmarkItem>;
-  @useResult
-  $Res call(
-      {String id,
-      String title,
-      @uriJsonConverter Uri url,
-      double sortingOrder});
-}
-
-/// @nodoc
-class _$BrowserBookmarkItemCopyWithImpl<$Res, $Val extends BrowserBookmarkItem>
-    implements $BrowserBookmarkItemCopyWith<$Res> {
-  _$BrowserBookmarkItemCopyWithImpl(this._value, this._then);
-
-  // ignore: unused_field
-  final $Val _value;
-  // ignore: unused_field
-  final $Res Function($Val) _then;
-
-  /// Create a copy of BrowserBookmarkItem
-  /// with the given fields replaced by the non-null parameter values.
-  @pragma('vm:prefer-inline')
-  @override
-  $Res call({
-    Object? id = null,
-    Object? title = null,
-    Object? url = null,
-    Object? sortingOrder = null,
-  }) {
-    return _then(_value.copyWith(
-      id: null == id
-          ? _value.id
-          : id // ignore: cast_nullable_to_non_nullable
-              as String,
-      title: null == title
-          ? _value.title
-          : title // ignore: cast_nullable_to_non_nullable
-              as String,
-      url: null == url
-          ? _value.url
-          : url // ignore: cast_nullable_to_non_nullable
-              as Uri,
-      sortingOrder: null == sortingOrder
-          ? _value.sortingOrder
-          : sortingOrder // ignore: cast_nullable_to_non_nullable
-              as double,
-    ) as $Val);
-  }
-}
-
-/// @nodoc
-abstract class _$$BrowserBookmarkItemImplCopyWith<$Res>
-    implements $BrowserBookmarkItemCopyWith<$Res> {
-  factory _$$BrowserBookmarkItemImplCopyWith(_$BrowserBookmarkItemImpl value,
-          $Res Function(_$BrowserBookmarkItemImpl) then) =
-      __$$BrowserBookmarkItemImplCopyWithImpl<$Res>;
-  @override
-  @useResult
-  $Res call(
-      {String id,
-      String title,
-      @uriJsonConverter Uri url,
-      double sortingOrder});
-}
-
-/// @nodoc
-class __$$BrowserBookmarkItemImplCopyWithImpl<$Res>
-    extends _$BrowserBookmarkItemCopyWithImpl<$Res, _$BrowserBookmarkItemImpl>
-    implements _$$BrowserBookmarkItemImplCopyWith<$Res> {
-  __$$BrowserBookmarkItemImplCopyWithImpl(_$BrowserBookmarkItemImpl _value,
-      $Res Function(_$BrowserBookmarkItemImpl) _then)
-      : super(_value, _then);
-
-  /// Create a copy of BrowserBookmarkItem
-  /// with the given fields replaced by the non-null parameter values.
-  @pragma('vm:prefer-inline')
-  @override
-  $Res call({
-    Object? id = null,
-    Object? title = null,
-    Object? url = null,
-    Object? sortingOrder = null,
-  }) {
-    return _then(_$BrowserBookmarkItemImpl(
-      id: null == id
-          ? _value.id
-          : id // ignore: cast_nullable_to_non_nullable
-              as String,
-      title: null == title
-          ? _value.title
-          : title // ignore: cast_nullable_to_non_nullable
-              as String,
-      url: null == url
-          ? _value.url
-          : url // ignore: cast_nullable_to_non_nullable
-              as Uri,
-      sortingOrder: null == sortingOrder
-          ? _value.sortingOrder
-          : sortingOrder // ignore: cast_nullable_to_non_nullable
-              as double,
-    ));
-  }
-}
-
-/// @nodoc
-@JsonSerializable()
-class _$BrowserBookmarkItemImpl implements _BrowserBookmarkItem {
-  const _$BrowserBookmarkItemImpl(
-      {required this.id,
-      required this.title,
-      @uriJsonConverter required this.url,
-      required this.sortingOrder});
-
-  factory _$BrowserBookmarkItemImpl.fromJson(Map<String, dynamic> json) =>
-      _$$BrowserBookmarkItemImplFromJson(json);
-
-  @override
-  final String id;
-  @override
-  final String title;
-  @override
-  @uriJsonConverter
-  final Uri url;
-  @override
-  final double sortingOrder;
-
-  @override
-  String toString() {
-    return 'BrowserBookmarkItem(id: $id, title: $title, url: $url, sortingOrder: $sortingOrder)';
-  }
+  /// Serializes this BrowserBookmarkItem to a JSON map.
+  Map<String, dynamic> toJson();
 
   @override
   bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$BrowserBookmarkItemImpl &&
+            other is BrowserBookmarkItem &&
             (identical(other.id, id) || other.id == id) &&
             (identical(other.title, title) || other.title == title) &&
             (identical(other.url, url) || other.url == url) &&
@@ -187,47 +48,175 @@ class _$BrowserBookmarkItemImpl implements _BrowserBookmarkItem {
   @override
   int get hashCode => Object.hash(runtimeType, id, title, url, sortingOrder);
 
+  @override
+  String toString() {
+    return 'BrowserBookmarkItem(id: $id, title: $title, url: $url, sortingOrder: $sortingOrder)';
+  }
+}
+
+/// @nodoc
+abstract mixin class $BrowserBookmarkItemCopyWith<$Res> {
+  factory $BrowserBookmarkItemCopyWith(
+          BrowserBookmarkItem value, $Res Function(BrowserBookmarkItem) _then) =
+      _$BrowserBookmarkItemCopyWithImpl;
+  @useResult
+  $Res call(
+      {String id,
+      String title,
+      @uriJsonConverter Uri url,
+      double sortingOrder});
+}
+
+/// @nodoc
+class _$BrowserBookmarkItemCopyWithImpl<$Res>
+    implements $BrowserBookmarkItemCopyWith<$Res> {
+  _$BrowserBookmarkItemCopyWithImpl(this._self, this._then);
+
+  final BrowserBookmarkItem _self;
+  final $Res Function(BrowserBookmarkItem) _then;
+
   /// Create a copy of BrowserBookmarkItem
   /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
-  @override
   @pragma('vm:prefer-inline')
-  _$$BrowserBookmarkItemImplCopyWith<_$BrowserBookmarkItemImpl> get copyWith =>
-      __$$BrowserBookmarkItemImplCopyWithImpl<_$BrowserBookmarkItemImpl>(
+  @override
+  $Res call({
+    Object? id = null,
+    Object? title = null,
+    Object? url = null,
+    Object? sortingOrder = null,
+  }) {
+    return _then(_self.copyWith(
+      id: null == id
+          ? _self.id
+          : id // ignore: cast_nullable_to_non_nullable
+              as String,
+      title: null == title
+          ? _self.title
+          : title // ignore: cast_nullable_to_non_nullable
+              as String,
+      url: null == url
+          ? _self.url
+          : url // ignore: cast_nullable_to_non_nullable
+              as Uri,
+      sortingOrder: null == sortingOrder
+          ? _self.sortingOrder
+          : sortingOrder // ignore: cast_nullable_to_non_nullable
+              as double,
+    ));
+  }
+}
+
+/// @nodoc
+@JsonSerializable()
+class _BrowserBookmarkItem implements BrowserBookmarkItem {
+  const _BrowserBookmarkItem(
+      {required this.id,
+      required this.title,
+      @uriJsonConverter required this.url,
+      required this.sortingOrder});
+  factory _BrowserBookmarkItem.fromJson(Map<String, dynamic> json) =>
+      _$BrowserBookmarkItemFromJson(json);
+
+  @override
+  final String id;
+  @override
+  final String title;
+  @override
+  @uriJsonConverter
+  final Uri url;
+  @override
+  final double sortingOrder;
+
+  /// Create a copy of BrowserBookmarkItem
+  /// with the given fields replaced by the non-null parameter values.
+  @override
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @pragma('vm:prefer-inline')
+  _$BrowserBookmarkItemCopyWith<_BrowserBookmarkItem> get copyWith =>
+      __$BrowserBookmarkItemCopyWithImpl<_BrowserBookmarkItem>(
           this, _$identity);
 
   @override
   Map<String, dynamic> toJson() {
-    return _$$BrowserBookmarkItemImplToJson(
+    return _$BrowserBookmarkItemToJson(
       this,
     );
   }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _BrowserBookmarkItem &&
+            (identical(other.id, id) || other.id == id) &&
+            (identical(other.title, title) || other.title == title) &&
+            (identical(other.url, url) || other.url == url) &&
+            (identical(other.sortingOrder, sortingOrder) ||
+                other.sortingOrder == sortingOrder));
+  }
+
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @override
+  int get hashCode => Object.hash(runtimeType, id, title, url, sortingOrder);
+
+  @override
+  String toString() {
+    return 'BrowserBookmarkItem(id: $id, title: $title, url: $url, sortingOrder: $sortingOrder)';
+  }
 }
 
-abstract class _BrowserBookmarkItem implements BrowserBookmarkItem {
-  const factory _BrowserBookmarkItem(
-      {required final String id,
-      required final String title,
-      @uriJsonConverter required final Uri url,
-      required final double sortingOrder}) = _$BrowserBookmarkItemImpl;
+/// @nodoc
+abstract mixin class _$BrowserBookmarkItemCopyWith<$Res>
+    implements $BrowserBookmarkItemCopyWith<$Res> {
+  factory _$BrowserBookmarkItemCopyWith(_BrowserBookmarkItem value,
+          $Res Function(_BrowserBookmarkItem) _then) =
+      __$BrowserBookmarkItemCopyWithImpl;
+  @override
+  @useResult
+  $Res call(
+      {String id,
+      String title,
+      @uriJsonConverter Uri url,
+      double sortingOrder});
+}
 
-  factory _BrowserBookmarkItem.fromJson(Map<String, dynamic> json) =
-      _$BrowserBookmarkItemImpl.fromJson;
+/// @nodoc
+class __$BrowserBookmarkItemCopyWithImpl<$Res>
+    implements _$BrowserBookmarkItemCopyWith<$Res> {
+  __$BrowserBookmarkItemCopyWithImpl(this._self, this._then);
 
-  @override
-  String get id;
-  @override
-  String get title;
-  @override
-  @uriJsonConverter
-  Uri get url;
-  @override
-  double get sortingOrder;
+  final _BrowserBookmarkItem _self;
+  final $Res Function(_BrowserBookmarkItem) _then;
 
   /// Create a copy of BrowserBookmarkItem
   /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(includeFromJson: false, includeToJson: false)
-  _$$BrowserBookmarkItemImplCopyWith<_$BrowserBookmarkItemImpl> get copyWith =>
-      throw _privateConstructorUsedError;
+  @pragma('vm:prefer-inline')
+  $Res call({
+    Object? id = null,
+    Object? title = null,
+    Object? url = null,
+    Object? sortingOrder = null,
+  }) {
+    return _then(_BrowserBookmarkItem(
+      id: null == id
+          ? _self.id
+          : id // ignore: cast_nullable_to_non_nullable
+              as String,
+      title: null == title
+          ? _self.title
+          : title // ignore: cast_nullable_to_non_nullable
+              as String,
+      url: null == url
+          ? _self.url
+          : url // ignore: cast_nullable_to_non_nullable
+              as Uri,
+      sortingOrder: null == sortingOrder
+          ? _self.sortingOrder
+          : sortingOrder // ignore: cast_nullable_to_non_nullable
+              as double,
+    ));
+  }
 }
+
+// dart format on

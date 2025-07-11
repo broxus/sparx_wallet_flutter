@@ -25,7 +25,7 @@ class CreateSeedCubit extends Cubit<CreateSeedCubitState> with BlocBaseMixin {
 
   Future<void> copySeed() async {
     final st = state;
-    if (st is _$GeneratedImpl) {
+    if (st is CreateSeedCubitStateGenerated) {
       emitSafe(st.copyWith(isCopied: true));
       await Clipboard.setData(
         ClipboardData(text: st.seed.phrase),

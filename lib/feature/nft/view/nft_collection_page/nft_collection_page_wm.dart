@@ -1,34 +1,24 @@
 import 'dart:async';
 
 import 'package:app/app/router/router.dart';
-import 'package:app/core/error_handler_factory.dart';
 import 'package:app/core/wm/custom_wm.dart';
-import 'package:app/di/di.dart';
 import 'package:app/feature/browser_v1/utils.dart';
 import 'package:app/feature/nft/nft.dart';
 import 'package:elementary_helper/elementary_helper.dart';
-import 'package:flutter/material.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
+import 'package:injectable/injectable.dart';
 import 'package:nekoton_repository/nekoton_repository.dart';
 import 'package:ui_components_lib/ui_components_lib.dart';
 
-NftCollectionPageWidgetModel defaultNftCollectionPageWidgetModelFactory(
-  BuildContext context,
-) =>
-    NftCollectionPageWidgetModel(
-      NftCollectionPageModel(
-        createPrimaryErrorHandler(context),
-        inject(),
-        inject(),
-        inject(),
-        inject(),
-        inject(),
-      ),
-    );
-
+@injectable
 class NftCollectionPageWidgetModel
     extends CustomWidgetModel<NftCollectionPageWidget, NftCollectionPageModel> {
-  NftCollectionPageWidgetModel(super.model);
+  NftCollectionPageWidgetModel(
+    super.model,
+    @factoryParam this._collection,
+  );
+
+  final Address _collection;
 
   late final _displayModeState =
       createNotifierFromStream(model.displayModeStream);
@@ -84,8 +74,8 @@ class NftCollectionPageWidgetModel
   }
 
   Future<void> _init() async {
-    final collection = await model.getCollection(widget.collection);
-    final pendingList = await model.removePendingNft(widget.collection);
+    final collection = await model.getCollection(_collection);
+    final pendingList = await model.removePendingNft(_collection);
 
     if (collection == null) {
       contextSafe?.compassBack();
@@ -106,17 +96,17 @@ class NftCollectionPageWidgetModel
 
   void _onViewInExplorer() {
     openBrowserUrl(
-      model.getAccountExplorerLink(widget.collection),
+      model.getAccountExplorerLink(_collection),
     );
   }
 
   Future<void> _onHideCollection() async {
-    await model.hideCollection(widget.collection);
+    await model.hideCollection(_collection);
     contextSafe?.compassBack();
   }
 
   Future<List<NftItem>> _fetchPage(String continuation) async {
-    final collection = await model.getCollection(widget.collection);
+    final collection = await model.getCollection(_collection);
     if (collection == null) {
       return [];
     }

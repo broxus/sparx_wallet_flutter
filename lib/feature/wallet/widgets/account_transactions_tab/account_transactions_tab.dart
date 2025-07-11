@@ -45,37 +45,41 @@ class AccountTransactionsTab extends StatelessWidget {
       ),
       child:
           BlocBuilder<AccountTransactionsTabCubit, AccountTransactionsTabState>(
-        builder: (context, state) => state.when(
-          empty: () => SliverToBoxAdapter(
-            child: Padding(
-              padding: const EdgeInsets.symmetric(vertical: DimensSizeV2.d24),
-              child: SeparatedColumn(
-                spacing: DimensSizeV2.d12,
-                children: [
-                  SvgPicture.asset(
-                    Assets.images.lightning.path,
-                    colorFilter: theme.colors.content3.colorFilter,
-                    width: DimensSizeV2.d56,
-                    height: DimensSizeV2.d56,
-                  ),
-                  Text(
-                    LocaleKeys.emptyHistoryTitle.tr(),
-                    style: theme.textStyles.paragraphSmall.copyWith(
-                      color: theme.colors.content1,
+        builder: (context, state) => switch (state) {
+          AccountTransactionsTabStateEmpty() => SliverToBoxAdapter(
+              child: Padding(
+                padding: const EdgeInsets.symmetric(vertical: DimensSizeV2.d24),
+                child: SeparatedColumn(
+                  spacing: DimensSizeV2.d12,
+                  children: [
+                    SvgPicture.asset(
+                      Assets.images.lightning.path,
+                      colorFilter: theme.colors.content3.colorFilter,
+                      width: DimensSizeV2.d56,
+                      height: DimensSizeV2.d56,
                     ),
-                  ),
-                ],
+                    Text(
+                      LocaleKeys.emptyHistoryTitle.tr(),
+                      style: theme.textStyles.paragraphSmall.copyWith(
+                        color: theme.colors.content1,
+                      ),
+                    ),
+                  ],
+                ),
               ),
             ),
-          ),
-          loading: () => SliverToBoxAdapter(
-            child: ProgressIndicatorWidget(
-              size: DimensSizeV2.d32,
-              color: theme.colors.content0,
+          AccountTransactionsTabStateLoading() => SliverToBoxAdapter(
+              child: ProgressIndicatorWidget(
+                size: DimensSizeV2.d32,
+                color: theme.colors.content0,
+              ),
             ),
-          ),
-          transactions: (transactions, isLoading, _, price) {
-            return ScrollControllerPreloadListener(
+          AccountTransactionsTabStateTransactions(
+            :final transactions,
+            :final isLoading,
+            :final price,
+          ) =>
+            ScrollControllerPreloadListener(
               preloadAction: () => context
                   .read<AccountTransactionsTabCubit>()
                   .tryPreloadTransactions(),
@@ -108,9 +112,8 @@ class AccountTransactionsTab extends StatelessWidget {
                   );
                 },
               ),
-            );
-          },
-        ),
+            ),
+        },
       ),
     );
   }

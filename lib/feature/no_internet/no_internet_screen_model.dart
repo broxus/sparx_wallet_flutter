@@ -1,8 +1,10 @@
 import 'package:app/app/service/network_connection/network_connection_service.dart';
 import 'package:app/feature/no_internet/no_internet_screen.dart';
 import 'package:elementary/elementary.dart';
+import 'package:injectable/injectable.dart';
 
 /// [ElementaryModel] for [NoInternetScreen]
+@injectable
 class NoInternetScreenModel extends ElementaryModel {
   NoInternetScreenModel(
     ErrorHandler errorHandler,
