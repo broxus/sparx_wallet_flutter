@@ -64,14 +64,12 @@ class ConfirmMultisigTransactionModel extends ElementaryModel {
     required PublicKey publicKey,
     required UnsignedMessage message,
     required BigInt amount,
-    required String password,
+    required SignInputAuth signInputAuth,
   }) async {
-    final hash = message.hash;
-
     final signature = await _nekotonRepository.seedList.sign(
-      data: hash,
+      message: message.message,
       publicKey: publicKey,
-      password: password,
+      signInputAuth: signInputAuth,
       signatureId: await transport.transport.getSignatureId(),
     );
 

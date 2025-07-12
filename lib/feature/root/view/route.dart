@@ -1,5 +1,6 @@
 import 'package:app/app/router/compass/compass.dart';
 import 'package:app/feature/browser_v2/screens/main/route.dart';
+import 'package:app/feature/ledger/ledger.dart';
 import 'package:app/feature/nft/nft.dart';
 import 'package:app/feature/profile/route.dart';
 import 'package:app/feature/root/view/root_page.dart';
@@ -14,6 +15,8 @@ class RootRoute extends CompassShellRoute {
     @Named.from(BrowserRoute) CompassBaseRoute browserRoute,
     @Named.from(ProfileRoute) CompassBaseRoute profileRoute,
     @Named.from(NftRoute) CompassBaseRoute nftRoute,
+    // TODO: remove test page
+    @Named.from(LedgerRoute) CompassBaseRoute ledgerRoute,
   ) : super(
           isTopLevel: true, // Mark as top-level route
           builder: (context, state, shell) => RootPage(
@@ -24,6 +27,7 @@ class RootRoute extends CompassShellRoute {
             browserRoute,
             profileRoute,
             nftRoute,
+            ledgerRoute,
           ],
         );
 }

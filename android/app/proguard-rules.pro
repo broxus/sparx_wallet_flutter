@@ -13,3 +13,5 @@
     public static class *;
 }
 -keep public class * extends android.os.Binder { public static *; }
+
+-keep class com.lib.flutter_blue_plus.* { *; }

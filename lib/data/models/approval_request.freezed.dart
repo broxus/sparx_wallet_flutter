@@ -452,7 +452,7 @@ class ApprovalRequestSignData implements ApprovalRequest {
   final PublicKey publicKey;
   final String data;
   @override
-  final Completer<String> completer;
+  final Completer<SignInputAuth> completer;
 
   /// Create a copy of ApprovalRequest
   /// with the given fields replaced by the non-null parameter values.
@@ -500,7 +500,7 @@ abstract mixin class $ApprovalRequestSignDataCopyWith<$Res>
       Address account,
       PublicKey publicKey,
       String data,
-      Completer<String> completer});
+      Completer<SignInputAuth> completer});
 
   $AddressCopyWith<$Res> get account;
   $PublicKeyCopyWith<$Res> get publicKey;
@@ -545,7 +545,7 @@ class _$ApprovalRequestSignDataCopyWithImpl<$Res>
       completer: null == completer
           ? _self.completer
           : completer // ignore: cast_nullable_to_non_nullable
-              as Completer<String>,
+              as Completer<SignInputAuth>,
     ));
   }
 
@@ -586,7 +586,7 @@ class ApprovalRequestEncryptData implements ApprovalRequest {
   final PublicKey publicKey;
   final String data;
   @override
-  final Completer<String> completer;
+  final Completer<SignInputAuth> completer;
 
   /// Create a copy of ApprovalRequest
   /// with the given fields replaced by the non-null parameter values.
@@ -635,7 +635,7 @@ abstract mixin class $ApprovalRequestEncryptDataCopyWith<$Res>
       Address account,
       PublicKey publicKey,
       String data,
-      Completer<String> completer});
+      Completer<SignInputAuth> completer});
 
   $AddressCopyWith<$Res> get account;
   $PublicKeyCopyWith<$Res> get publicKey;
@@ -680,7 +680,7 @@ class _$ApprovalRequestEncryptDataCopyWithImpl<$Res>
       completer: null == completer
           ? _self.completer
           : completer // ignore: cast_nullable_to_non_nullable
-              as Completer<String>,
+              as Completer<SignInputAuth>,
     ));
   }
 
@@ -721,7 +721,7 @@ class ApprovalRequestDecryptData implements ApprovalRequest {
   final PublicKey recipientPublicKey;
   final PublicKey sourcePublicKey;
   @override
-  final Completer<String> completer;
+  final Completer<SignInputAuth> completer;
 
   /// Create a copy of ApprovalRequest
   /// with the given fields replaced by the non-null parameter values.
@@ -771,7 +771,7 @@ abstract mixin class $ApprovalRequestDecryptDataCopyWith<$Res>
       Address account,
       PublicKey recipientPublicKey,
       PublicKey sourcePublicKey,
-      Completer<String> completer});
+      Completer<SignInputAuth> completer});
 
   $AddressCopyWith<$Res> get account;
   $PublicKeyCopyWith<$Res> get recipientPublicKey;
@@ -817,7 +817,7 @@ class _$ApprovalRequestDecryptDataCopyWithImpl<$Res>
       completer: null == completer
           ? _self.completer
           : completer // ignore: cast_nullable_to_non_nullable
-              as Completer<String>,
+              as Completer<SignInputAuth>,
     ));
   }
 
@@ -870,7 +870,7 @@ class ApprovalRequestCallContractMethod implements ApprovalRequest {
   final Address recipient;
   final FunctionCall payload;
   @override
-  final Completer<String> completer;
+  final Completer<SignInputAuth> completer;
 
   /// Create a copy of ApprovalRequest
   /// with the given fields replaced by the non-null parameter values.
@@ -922,7 +922,7 @@ abstract mixin class $ApprovalRequestCallContractMethodCopyWith<$Res>
       PublicKey publicKey,
       Address recipient,
       FunctionCall payload,
-      Completer<String> completer});
+      Completer<SignInputAuth> completer});
 
   $AddressCopyWith<$Res> get account;
   $PublicKeyCopyWith<$Res> get publicKey;
@@ -974,7 +974,7 @@ class _$ApprovalRequestCallContractMethodCopyWithImpl<$Res>
       completer: null == completer
           ? _self.completer
           : completer // ignore: cast_nullable_to_non_nullable
-              as Completer<String>,
+              as Completer<SignInputAuth>,
     ));
   }
 
@@ -1068,7 +1068,7 @@ class ApprovalRequestSendMessage implements ApprovalRequest {
   }
 
   @override
-  final Completer<(PublicKey, String)> completer;
+  final Completer<(PublicKey, SignInputAuth)> completer;
 
   /// Create a copy of ApprovalRequest
   /// with the given fields replaced by the non-null parameter values.
@@ -1140,7 +1140,7 @@ abstract mixin class $ApprovalRequestSendMessageCopyWith<$Res>
       KnownPayload? knownPayload,
       List<IgnoreTransactionTreeSimulationError>? ignoredComputePhaseCodes,
       List<IgnoreTransactionTreeSimulationError>? ignoredActionPhaseCodes,
-      Completer<(PublicKey, String)> completer});
+      Completer<(PublicKey, SignInputAuth)> completer});
 
   $AddressCopyWith<$Res> get sender;
   $AddressCopyWith<$Res> get recipient;
@@ -1212,7 +1212,7 @@ class _$ApprovalRequestSendMessageCopyWithImpl<$Res>
       completer: null == completer
           ? _self.completer
           : completer // ignore: cast_nullable_to_non_nullable
-              as Completer<(PublicKey, String)>,
+              as Completer<(PublicKey, SignInputAuth)>,
     ));
   }
 

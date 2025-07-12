@@ -22,6 +22,7 @@ TonWalletSendWidgetModel defaultTonWalletSendWidgetModelFactory(
         createPrimaryErrorHandler(context),
         inject(),
         inject(),
+        inject(),
       ),
     );
 
@@ -59,7 +60,7 @@ class TonWalletSendWidgetModel
     _init();
   }
 
-  Future<void> onPasswordEntered(String password) async {
+  Future<void> onConfirmed(SignInputAuth signInputAuth) async {
     UnsignedMessage? unsignedMessage;
     try {
       _isLoading.accept(true);
@@ -82,7 +83,7 @@ class TonWalletSendWidgetModel
         address: data.address,
         publicKey: data.publicKey,
         message: unsignedMessage,
-        password: password,
+        signInputAuth: signInputAuth,
         destination: data.destination,
         amount: totalAmount,
       );

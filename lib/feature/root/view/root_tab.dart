@@ -1,5 +1,6 @@
 import 'package:app/app/router/compass/compass.dart';
 import 'package:app/feature/browser_v2/screens/main/route.dart';
+import 'package:app/feature/ledger/ledger.dart';
 import 'package:app/feature/nft/nft.dart';
 import 'package:app/feature/profile/route.dart';
 import 'package:app/feature/wallet/route.dart';
@@ -41,7 +42,9 @@ enum RootTab {
       RootTab.wallet => const WalletRouteData(),
       RootTab.browser => const BrowserRouteData(),
       RootTab.profile => const ProfileRouteData(),
-      RootTab.nft => const NftRouteData(),
+      // RootTab.nft => const NftRouteData(),
+      // TODO: remove test page
+      RootTab.nft => const LedgerRouteData(),
     };
   }
 
@@ -50,7 +53,8 @@ enum RootTab {
       WalletRoute() => RootTab.wallet,
       BrowserRoute() => RootTab.browser,
       ProfileRoute() => RootTab.profile,
-      NftRoute() => RootTab.nft,
+      // NftRoute() => RootTab.nft,
+      LedgerRoute() => RootTab.nft,
       _ => RootTab.wallet,
     };
   }

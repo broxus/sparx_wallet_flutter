@@ -105,7 +105,7 @@ class TCSendMessageWidgetModel
 
   void onChangedCustodian(PublicKey custodian) => _publicKey.accept(custodian);
 
-  Future<void> onSubmit(String password) async {
+  Future<void> onSubmit(SignInputAuth signInputAuth) async {
     if (account == null) return;
 
     try {
@@ -114,7 +114,7 @@ class TCSendMessageWidgetModel
         address: sender,
         publicKey: account!.publicKey,
         messages: widget.payload.messages,
-        password: password,
+        signInputAuth: signInputAuth,
       );
 
       if (contextSafe != null) {

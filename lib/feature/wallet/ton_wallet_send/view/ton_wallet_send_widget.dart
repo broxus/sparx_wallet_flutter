@@ -63,7 +63,7 @@ class TonWalletSendWidget extends ElementaryWidget<TonWalletSendWidgetModel> {
                 error: wm.error,
                 txErrors: wm.txErrors,
                 isLoading: wm.isLoading,
-                onPasswordEntered: wm.onPasswordEntered,
+                onConfirmed: wm.onConfirmed,
               ),
             ),
         };

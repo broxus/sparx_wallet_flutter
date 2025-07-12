@@ -64,7 +64,7 @@ class TokenWalletSendWidgetModel
     _init();
   }
 
-  Future<void> onPasswordEntered(String password) async {
+  Future<void> onConfirmed(SignInputAuth signInputAuth) async {
     UnsignedMessage? unsignedMessage;
     InternalMessage? internalMessage;
     try {
@@ -88,7 +88,7 @@ class TokenWalletSendWidgetModel
         address: widget.owner,
         publicKey: widget.publicKey,
         message: unsignedMessage,
-        password: password,
+        signInputAuth: signInputAuth,
         destination: internalMessage.destination,
         amount: internalMessage.amount,
       );

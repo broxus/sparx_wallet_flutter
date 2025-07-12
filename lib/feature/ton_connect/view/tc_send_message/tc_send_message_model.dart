@@ -98,7 +98,7 @@ class TCSendMessageModel extends ElementaryModel {
     required List<TransactionPayloadMessage> messages,
     required Address address,
     required PublicKey publicKey,
-    required String password,
+    required SignInputAuth signInputAuth,
   }) async {
     UnsignedMessage? unsignedMessage;
     try {
@@ -108,7 +108,6 @@ class TCSendMessageModel extends ElementaryModel {
         messages: messages,
       );
 
-      final hash = unsignedMessage.hash;
       final transport = _nekotonRepository.currentTransport.transport;
       final destination = messages.first.address;
       final ampunt = messages.fold<BigInt>(
@@ -117,9 +116,9 @@ class TCSendMessageModel extends ElementaryModel {
       );
 
       final signature = await _nekotonRepository.seedList.sign(
-        data: hash,
+        message: unsignedMessage.message,
         publicKey: publicKey,
-        password: password,
+        signInputAuth: signInputAuth,
         signatureId: await transport.getSignatureId(),
       );
 

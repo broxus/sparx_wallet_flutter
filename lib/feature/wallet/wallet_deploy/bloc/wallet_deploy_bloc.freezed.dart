@@ -326,9 +326,9 @@ class __$DeployMultisigCopyWithImpl<$Res>
 /// @nodoc
 
 class _ConfirmDeploy implements WalletDeployEvent {
-  const _ConfirmDeploy(this.password);
+  const _ConfirmDeploy(this.signInputAuth);
 
-  final String password;
+  final SignInputAuth signInputAuth;
 
   /// Create a copy of WalletDeployEvent
   /// with the given fields replaced by the non-null parameter values.
@@ -342,16 +342,16 @@ class _ConfirmDeploy implements WalletDeployEvent {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _ConfirmDeploy &&
-            (identical(other.password, password) ||
-                other.password == password));
+            (identical(other.signInputAuth, signInputAuth) ||
+                other.signInputAuth == signInputAuth));
   }
 
   @override
-  int get hashCode => Object.hash(runtimeType, password);
+  int get hashCode => Object.hash(runtimeType, signInputAuth);
 
   @override
   String toString() {
-    return 'WalletDeployEvent.confirmDeploy(password: $password)';
+    return 'WalletDeployEvent.confirmDeploy(signInputAuth: $signInputAuth)';
   }
 }
 
@@ -362,7 +362,9 @@ abstract mixin class _$ConfirmDeployCopyWith<$Res>
           _ConfirmDeploy value, $Res Function(_ConfirmDeploy) _then) =
       __$ConfirmDeployCopyWithImpl;
   @useResult
-  $Res call({String password});
+  $Res call({SignInputAuth signInputAuth});
+
+  $SignInputAuthCopyWith<$Res> get signInputAuth;
 }
 
 /// @nodoc
@@ -377,14 +379,24 @@ class __$ConfirmDeployCopyWithImpl<$Res>
   /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   $Res call({
-    Object? password = null,
+    Object? signInputAuth = null,
   }) {
     return _then(_ConfirmDeploy(
-      null == password
-          ? _self.password
-          : password // ignore: cast_nullable_to_non_nullable
-              as String,
+      null == signInputAuth
+          ? _self.signInputAuth
+          : signInputAuth // ignore: cast_nullable_to_non_nullable
+              as SignInputAuth,
     ));
+  }
+
+  /// Create a copy of WalletDeployEvent
+  /// with the given fields replaced by the non-null parameter values.
+  @override
+  @pragma('vm:prefer-inline')
+  $SignInputAuthCopyWith<$Res> get signInputAuth {
+    return $SignInputAuthCopyWith<$Res>(_self.signInputAuth, (value) {
+      return _then(_self.copyWith(signInputAuth: value));
+    });
   }
 }
 

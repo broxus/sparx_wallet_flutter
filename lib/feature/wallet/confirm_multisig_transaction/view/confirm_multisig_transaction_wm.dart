@@ -128,7 +128,7 @@ class ConfirmMultisigTransactionWidgetModel extends CustomWidgetModel<
     }
   }
 
-  Future<void> onPasswordEntered(String password) async {
+  Future<void> onConfirmed(SignInputAuth signInputAuth) async {
     if (custodian == null) return;
 
     UnsignedMessage? unsignedMessage;
@@ -147,7 +147,7 @@ class ConfirmMultisigTransactionWidgetModel extends CustomWidgetModel<
         publicKey: custodian!,
         message: unsignedMessage,
         amount: widget.amount,
-        password: password,
+        signInputAuth: signInputAuth,
       );
 
       _state.accept(

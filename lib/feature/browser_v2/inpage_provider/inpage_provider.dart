@@ -282,7 +282,7 @@ class InpageProvider extends ProviderApi {
       publicKey: publicKey,
     );
 
-    final password = await approvalsService.decryptData(
+    final signInputAuth = await approvalsService.decryptData(
       origin: origin!,
       account: accountInteraction.address,
       recipientPublicKey: publicKey,
@@ -298,7 +298,7 @@ class InpageProvider extends ProviderApi {
 
     final decryptedData = await nekotonRepository.seedList.decrypt(
       publicKey: publicKey,
-      password: password,
+      signInputAuth: signInputAuth,
       data: nr.EncryptedData(
         algorithm: algorithm,
         data: input.encryptedData.data,
@@ -342,7 +342,7 @@ class InpageProvider extends ProviderApi {
       publicKey: publicKey,
     );
 
-    final password = await approvalsService.encryptData(
+    final signInputAuth = await approvalsService.encryptData(
       origin: origin!,
       account: accountInteraction.address,
       publicKey: publicKey,
@@ -358,7 +358,7 @@ class InpageProvider extends ProviderApi {
     final encryptedData = await nekotonRepository.seedList.encrypt(
       data: input.data,
       publicKey: publicKey,
-      password: password,
+      signInputAuth: signInputAuth,
       algorithm: algorithm,
       publicKeys: input.recipientPublicKeys
           .map((e) => nr.PublicKey(publicKey: e))
@@ -488,7 +488,7 @@ class InpageProvider extends ProviderApi {
           if (input.executorParams?.disableSignatureCheck ?? false) {
             message = (await unsignedMessage.signFake()).boc;
           } else {
-            final password = await approvalsService.callContractMethod(
+            final signInputAuth = await approvalsService.callContractMethod(
               origin: origin!,
               payload: nr.FunctionCall.fromJson(call.toJson()),
               publicKey: publicKey,
@@ -500,9 +500,9 @@ class InpageProvider extends ProviderApi {
             await unsignedMessage.refreshTimeout();
 
             final signature = await nekotonRepository.seedList.sign(
-              data: unsignedMessage.hash,
+              message: unsignedMessage.message,
               publicKey: publicKey,
-              password: password,
+              signInputAuth: signInputAuth,
               signatureId: await transport.getSignatureId(),
             );
 
@@ -899,7 +899,7 @@ class InpageProvider extends ProviderApi {
         timeout: defaultSendTimeoutDuration,
       );
 
-      final password = await approvalsService.callContractMethod(
+      final signInputAuth = await approvalsService.callContractMethod(
         origin: origin!,
         payload: nr.FunctionCall.fromJson(input.payload.toJson()),
         publicKey: publicKey,
@@ -911,9 +911,9 @@ class InpageProvider extends ProviderApi {
       await unsignedMessage.refreshTimeout();
 
       final signature = await nekotonRepository.seedList.sign(
-        data: unsignedMessage.hash,
+        message: unsignedMessage.message,
         publicKey: publicKey,
-        password: password,
+        signInputAuth: signInputAuth,
         signatureId: await transport.getSignatureId(),
       );
 
@@ -998,7 +998,7 @@ class InpageProvider extends ProviderApi {
         timeout: defaultSendTimeoutDuration,
       );
 
-      final password = await approvalsService.callContractMethod(
+      final signInputAuth = await approvalsService.callContractMethod(
         origin: origin!,
         payload: nr.FunctionCall.fromJson(input.payload.toJson()),
         publicKey: publicKey,
@@ -1010,9 +1010,9 @@ class InpageProvider extends ProviderApi {
       await unsignedMessage.refreshTimeout();
 
       final signature = await nekotonRepository.seedList.sign(
-        data: unsignedMessage.hash,
+        message: unsignedMessage.message,
         publicKey: publicKey,
-        password: password,
+        signInputAuth: signInputAuth,
         signatureId: await transport.getSignatureId(),
       );
 
@@ -1106,7 +1106,7 @@ class InpageProvider extends ProviderApi {
         subscribedNew = true;
       }
 
-      final (key, password) = await approvalsService.sendMessage(
+      final (key, signInputAuth) = await approvalsService.sendMessage(
         origin: origin!,
         sender: sender,
         recipient: repackedRecipient,
@@ -1140,13 +1140,12 @@ class InpageProvider extends ProviderApi {
 
       await unsignedMessage.message.refreshTimeout();
 
-      final hash = unsignedMessage.hash;
       final transport = nekotonRepository.currentTransport.transport;
 
       final signature = await nekotonRepository.seedList.sign(
-        data: hash,
+        message: unsignedMessage.message,
         publicKey: key,
-        password: password,
+        signInputAuth: signInputAuth,
         signatureId: await transport.getSignatureId(),
       );
 
@@ -1214,7 +1213,7 @@ class InpageProvider extends ProviderApi {
         subscribedNew = true;
       }
 
-      final (key, password) = await approvalsService.sendMessage(
+      final (key, signInputAuth) = await approvalsService.sendMessage(
         origin: origin!,
         sender: sender,
         recipient: repackedRecipient,
@@ -1248,13 +1247,12 @@ class InpageProvider extends ProviderApi {
 
       await unsignedMessage.message.refreshTimeout();
 
-      final hash = unsignedMessage.hash;
       final transport = nekotonRepository.currentTransport.transport;
 
       final signature = await nekotonRepository.seedList.sign(
-        data: hash,
+        message: unsignedMessage.message,
         publicKey: key,
-        password: password,
+        signInputAuth: signInputAuth,
         signatureId: await transport.getSignatureId(),
       );
 
@@ -1399,7 +1397,7 @@ class InpageProvider extends ProviderApi {
       publicKey: publicKey,
     );
 
-    final password = await approvalsService.signData(
+    final signInputAuth = await approvalsService.signData(
       origin: origin!,
       account: accountInteraction.address,
       publicKey: publicKey,
@@ -1410,7 +1408,7 @@ class InpageProvider extends ProviderApi {
     final signedData = await nekotonRepository.seedList.signData(
       data: input.data,
       publicKey: publicKey,
-      password: password,
+      signInputAuth: signInputAuth,
       signatureId: signatureId,
     );
 
@@ -1432,7 +1430,7 @@ class InpageProvider extends ProviderApi {
       publicKey: publicKey,
     );
 
-    final password = await approvalsService.signData(
+    final signInputAuth = await approvalsService.signData(
       origin: origin!,
       account: accountInteraction.address,
       publicKey: publicKey,
@@ -1444,7 +1442,7 @@ class InpageProvider extends ProviderApi {
     final signedData = await nekotonRepository.seedList.signRawData(
       data: input.data,
       publicKey: publicKey,
-      password: password,
+      signInputAuth: signInputAuth,
       signatureId: signatureId,
     );
 

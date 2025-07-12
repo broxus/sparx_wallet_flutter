@@ -1,4 +1,5 @@
 import 'package:app/app/service/service.dart';
+import 'package:app/feature/ledger/ledger.dart';
 import 'package:app/feature/messenger/data/message.dart';
 import 'package:app/feature/messenger/domain/service/messenger_service.dart';
 import 'package:app/utils/utils.dart';
@@ -11,10 +12,12 @@ class TonWalletSendModel extends ElementaryModel {
     ErrorHandler errorHandler,
     this._nekotonRepository,
     this._messengerService,
+    this._ledgerService,
   ) : super(errorHandler: errorHandler);
 
   final NekotonRepository _nekotonRepository;
   final MessengerService _messengerService;
+  final LedgerService _ledgerService;
 
   TransportStrategy get transport => _nekotonRepository.currentTransport;
 
@@ -73,17 +76,23 @@ class TonWalletSendModel extends ElementaryModel {
     required Address address,
     required PublicKey publicKey,
     required UnsignedMessage message,
-    required String password,
+    required SignInputAuth signInputAuth,
     required Address destination,
     required BigInt amount,
   }) async {
+    final walletState = await _nekotonRepository.getWallet(address);
     final signature = await _nekotonRepository.seedList.sign(
-      data: message.hash,
+      message: message.message,
       publicKey: publicKey,
-      password: password,
+      signInputAuth: _prepareAuth(
+        signInputAuth: signInputAuth,
+        publicKey: publicKey,
+        wallet: walletState.wallet!,
+      ),
       signatureId: await transport.transport.getSignatureId(),
     );
 
+    await message.refreshTimeout();
     final signedMessage = await message.sign(signature: signature);
 
     return _nekotonRepository.send(
@@ -95,4 +104,23 @@ class TonWalletSendModel extends ElementaryModel {
   }
 
   void showMessage(Message message) => _messengerService.show(message);
+
+  SignInputAuth _prepareAuth({
+    required SignInputAuth signInputAuth,
+    required PublicKey publicKey,
+    required TonWallet wallet,
+  }) =>
+      switch (signInputAuth) {
+        SignInputAuthPassword() => signInputAuth,
+        SignInputAuthLedger() => signInputAuth.copyWith(
+            context: _ledgerService.prepareSignatureContext(
+              PrepareSignatureContext.transfer(
+                wallet: wallet,
+                asset: currency.symbol,
+                decimals: currency.decimalDigits,
+                custodian: publicKey,
+              ),
+            ),
+          ),
+      };
 }

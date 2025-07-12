@@ -129,7 +129,7 @@ class WalletDeployBloc extends Bloc<WalletDeployEvent, WalletDeployState>
         event.hours,
       ),
     );
-    on<_ConfirmDeploy>((event, emit) => _handleSend(emit, event.password));
+    on<_ConfirmDeploy>((event, emit) => _handleSend(emit, event.signInputAuth));
     on<_AllowCloseDeploy>(
       (event, emit) =>
           emitSafe(const WalletDeployState.deploying(canClose: true)),
@@ -259,7 +259,7 @@ class WalletDeployBloc extends Bloc<WalletDeployEvent, WalletDeployState>
   // ignore: long-method
   Future<void> _handleSend(
     Emitter<WalletDeployState> emit,
-    String password,
+    SignInputAuth signInputAuth,
   ) async {
     final unsigned = unsignedMessage;
     if (unsigned == null) return;
@@ -268,13 +268,12 @@ class WalletDeployBloc extends Bloc<WalletDeployEvent, WalletDeployState>
       emitSafe(const WalletDeployState.deploying(canClose: false));
       await unsigned.refreshTimeout();
 
-      final hash = unsigned.hash;
       final transport = nekotonRepository.currentTransport.transport;
 
       final signature = await nekotonRepository.seedList.sign(
-        data: hash,
+        message: unsigned.message,
         publicKey: publicKey,
-        password: password,
+        signInputAuth: signInputAuth,
         signatureId: await transport.getSignatureId(),
       );
 

@@ -9,8 +9,9 @@ import 'package:ui_components_lib/ui_components_lib.dart';
 /// Is used by `executeLocal`, `sendExternalMessage`,
 /// and `sendExternalMessageDelayed` inpage-provider methods.
 ///
-/// Returns password if user entered it or null.
-Future<String?> showCallContractMethodSheet({
+/// Returns [SignInputAuth] if user confirmed action
+/// with password/ledger or null.
+Future<SignInputAuth?> showCallContractMethodSheet({
   required BuildContext context,
   required Uri origin,
   required Address account,
@@ -86,11 +87,10 @@ class _CallContractMethod extends StatelessWidget {
             ),
           ),
         ),
-        EnterPasswordWidgetV2(
+        EnterPasswordWidget(
           publicKey: publicKey,
           title: LocaleKeys.confirm.tr(),
-          onPasswordEntered: (String password) =>
-              Navigator.of(context).pop(password),
+          onConfirmed: (auth) => Navigator.of(context).pop(auth),
         ),
       ],
     );

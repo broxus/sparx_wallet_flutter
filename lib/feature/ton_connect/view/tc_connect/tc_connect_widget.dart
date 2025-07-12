@@ -169,10 +169,10 @@ class _ConfirmPermissionsWidget extends StatelessWidget {
             ),
           ),
         ),
-        EnterPasswordWidgetV2(
+        EnterPasswordWidget(
           publicKey: account.publicKey,
           title: LocaleKeys.allowWord.tr(),
-          onPasswordEntered: wm.onConfirm,
+          onConfirmed: wm.onConfirm,
         ),
       ],
     );

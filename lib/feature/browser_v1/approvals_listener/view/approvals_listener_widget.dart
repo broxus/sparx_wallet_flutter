@@ -297,7 +297,7 @@ class _ApprovalsListenerWidgetState extends State<ApprovalsListenerWidget> {
     required Address account,
     required PublicKey publicKey,
     required String data,
-    required Completer<String> completer,
+    required Completer<SignInputAuth> completer,
   }) async {
     try {
       final result = await showSignDataSheet(
@@ -323,7 +323,7 @@ class _ApprovalsListenerWidgetState extends State<ApprovalsListenerWidget> {
     required Address account,
     required PublicKey publicKey,
     required String data,
-    required Completer<String> completer,
+    required Completer<SignInputAuth> completer,
   }) async {
     try {
       final result = await showEncryptDataSheet(
@@ -349,7 +349,7 @@ class _ApprovalsListenerWidgetState extends State<ApprovalsListenerWidget> {
     required Address account,
     required PublicKey recipientPublicKey,
     required PublicKey sourcePublicKey,
-    required Completer<String> completer,
+    required Completer<SignInputAuth> completer,
   }) async {
     try {
       final result = await showDecryptDataSheet(
@@ -376,7 +376,7 @@ class _ApprovalsListenerWidgetState extends State<ApprovalsListenerWidget> {
     required PublicKey publicKey,
     required Address recipient,
     required FunctionCall payload,
-    required Completer<String> completer,
+    required Completer<SignInputAuth> completer,
   }) async {
     try {
       final result = await showCallContractMethodSheet(
@@ -410,7 +410,7 @@ class _ApprovalsListenerWidgetState extends State<ApprovalsListenerWidget> {
         ignoredComputePhaseCodes,
     required List<IgnoreTransactionTreeSimulationError>?
         ignoredActionPhaseCodes,
-    required Completer<(PublicKey, String)> completer,
+    required Completer<(PublicKey, SignInputAuth)> completer,
   }) async {
     try {
       final result = await showSendMessageSheet(

@@ -92,8 +92,8 @@ class SendMessageWidgetModel
 
   void onChangedCustodian(PublicKey custodian) => _publicKey.accept(custodian);
 
-  void onSubmit(String password) =>
-      Navigator.of(context).pop((publicKey.value, password));
+  void onSubmit(SignInputAuth auth) =>
+      Navigator.of(context).pop((publicKey.value, auth));
 
   // ignore: avoid_positional_boolean_parameters
   void onConfirmed(bool value) => _isConfirmed.accept(value);

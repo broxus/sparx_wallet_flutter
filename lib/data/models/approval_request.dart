@@ -35,7 +35,7 @@ sealed class ApprovalRequest with _$ApprovalRequest {
     required Address account,
     required PublicKey publicKey,
     required String data,
-    required Completer<String> completer,
+    required Completer<SignInputAuth> completer,
   }) = ApprovalRequestSignData;
 
   const factory ApprovalRequest.encryptData({
@@ -43,7 +43,7 @@ sealed class ApprovalRequest with _$ApprovalRequest {
     required Address account,
     required PublicKey publicKey,
     required String data,
-    required Completer<String> completer,
+    required Completer<SignInputAuth> completer,
   }) = ApprovalRequestEncryptData;
 
   const factory ApprovalRequest.decryptData({
@@ -51,7 +51,7 @@ sealed class ApprovalRequest with _$ApprovalRequest {
     required Address account,
     required PublicKey recipientPublicKey,
     required PublicKey sourcePublicKey,
-    required Completer<String> completer,
+    required Completer<SignInputAuth> completer,
   }) = ApprovalRequestDecryptData;
 
   const factory ApprovalRequest.callContractMethod({
@@ -60,7 +60,7 @@ sealed class ApprovalRequest with _$ApprovalRequest {
     required PublicKey publicKey,
     required Address recipient,
     required FunctionCall payload,
-    required Completer<String> completer,
+    required Completer<SignInputAuth> completer,
   }) = ApprovalRequestCallContractMethod;
 
   const factory ApprovalRequest.sendMessage({
@@ -75,7 +75,7 @@ sealed class ApprovalRequest with _$ApprovalRequest {
         ignoredComputePhaseCodes,
     required List<IgnoreTransactionTreeSimulationError>?
         ignoredActionPhaseCodes,
-    required Completer<(PublicKey, String)> completer,
+    required Completer<(PublicKey, SignInputAuth)> completer,
   }) = ApprovalRequestSendMessage;
 
   const factory ApprovalRequest.changeNetwork({
