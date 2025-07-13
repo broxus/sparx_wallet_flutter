@@ -112,3 +112,16 @@ const currencySymbolConfig = <String, String>{
 extension CurrencyExt on Currency {
   String get symbolFixed => currencySymbolConfig[isoCode] ?? symbol;
 }
+
+extension UriExt on Uri {
+  String get universalOrigin {
+    if (scheme == 'http' || scheme == 'https') {
+      return origin;
+    }
+    if (hasAuthority) {
+      return '$scheme://$authority';
+    }
+
+    return '$scheme:';
+  }
+}
