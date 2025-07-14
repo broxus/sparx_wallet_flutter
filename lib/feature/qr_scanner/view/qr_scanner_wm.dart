@@ -22,6 +22,7 @@ class QrScannerWidgetModel
   final List<QrScanType> _types;
 
   final MobileScannerController controller = MobileScannerController(
+    autoStart: false,
     formats: [BarcodeFormat.qrCode],
   );
 
