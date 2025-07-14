@@ -1,4 +1,3 @@
-// dart format width=80
 // coverage:ignore-file
 // GENERATED CODE - DO NOT MODIFY BY HAND
 // ignore_for_file: type=lint
@@ -10,65 +9,45 @@ part of 'update_rules.dart';
 // FreezedGenerator
 // **************************************************************************
 
-// dart format off
 T _$identity<T>(T value) => value;
+
+final _privateConstructorUsedError = UnsupportedError(
+    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models');
+
+UpdateRules _$UpdateRulesFromJson(Map<String, dynamic> json) {
+  return _UpdateRules.fromJson(json);
+}
 
 /// @nodoc
 mixin _$UpdateRules {
   /// Minimum version required - users below this version cannot use the app.
-  String get blockingVersion;
+  String get blockingVersion => throw _privateConstructorUsedError;
 
   /// Version that triggers warning - users below this should update but can
   /// continue.
-  String get warningVersion;
+  String get warningVersion => throw _privateConstructorUsedError;
 
   /// Maximum number of times to show the warning notification.
-  int get warningShowTimes;
+  int get warningShowTimes => throw _privateConstructorUsedError;
 
   /// Delay in seconds between showing warning notifications.
-  int get warningShowDelayS;
+  int get warningShowDelayS => throw _privateConstructorUsedError;
+
+  /// Serializes this UpdateRules to a JSON map.
+  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
 
   /// Create a copy of UpdateRules
   /// with the given fields replaced by the non-null parameter values.
   @JsonKey(includeFromJson: false, includeToJson: false)
-  @pragma('vm:prefer-inline')
   $UpdateRulesCopyWith<UpdateRules> get copyWith =>
-      _$UpdateRulesCopyWithImpl<UpdateRules>(this as UpdateRules, _$identity);
-
-  /// Serializes this UpdateRules to a JSON map.
-  Map<String, dynamic> toJson();
-
-  @override
-  bool operator ==(Object other) {
-    return identical(this, other) ||
-        (other.runtimeType == runtimeType &&
-            other is UpdateRules &&
-            (identical(other.blockingVersion, blockingVersion) ||
-                other.blockingVersion == blockingVersion) &&
-            (identical(other.warningVersion, warningVersion) ||
-                other.warningVersion == warningVersion) &&
-            (identical(other.warningShowTimes, warningShowTimes) ||
-                other.warningShowTimes == warningShowTimes) &&
-            (identical(other.warningShowDelayS, warningShowDelayS) ||
-                other.warningShowDelayS == warningShowDelayS));
-  }
-
-  @JsonKey(includeFromJson: false, includeToJson: false)
-  @override
-  int get hashCode => Object.hash(runtimeType, blockingVersion, warningVersion,
-      warningShowTimes, warningShowDelayS);
-
-  @override
-  String toString() {
-    return 'UpdateRules(blockingVersion: $blockingVersion, warningVersion: $warningVersion, warningShowTimes: $warningShowTimes, warningShowDelayS: $warningShowDelayS)';
-  }
+      throw _privateConstructorUsedError;
 }
 
 /// @nodoc
-abstract mixin class $UpdateRulesCopyWith<$Res> {
+abstract class $UpdateRulesCopyWith<$Res> {
   factory $UpdateRulesCopyWith(
-          UpdateRules value, $Res Function(UpdateRules) _then) =
-      _$UpdateRulesCopyWithImpl;
+          UpdateRules value, $Res Function(UpdateRules) then) =
+      _$UpdateRulesCopyWithImpl<$Res, UpdateRules>;
   @useResult
   $Res call(
       {String blockingVersion,
@@ -78,11 +57,14 @@ abstract mixin class $UpdateRulesCopyWith<$Res> {
 }
 
 /// @nodoc
-class _$UpdateRulesCopyWithImpl<$Res> implements $UpdateRulesCopyWith<$Res> {
-  _$UpdateRulesCopyWithImpl(this._self, this._then);
+class _$UpdateRulesCopyWithImpl<$Res, $Val extends UpdateRules>
+    implements $UpdateRulesCopyWith<$Res> {
+  _$UpdateRulesCopyWithImpl(this._value, this._then);
 
-  final UpdateRules _self;
-  final $Res Function(UpdateRules) _then;
+  // ignore: unused_field
+  final $Val _value;
+  // ignore: unused_field
+  final $Res Function($Val) _then;
 
   /// Create a copy of UpdateRules
   /// with the given fields replaced by the non-null parameter values.
@@ -94,21 +76,75 @@ class _$UpdateRulesCopyWithImpl<$Res> implements $UpdateRulesCopyWith<$Res> {
     Object? warningShowTimes = null,
     Object? warningShowDelayS = null,
   }) {
-    return _then(_self.copyWith(
+    return _then(_value.copyWith(
       blockingVersion: null == blockingVersion
-          ? _self.blockingVersion
+          ? _value.blockingVersion
           : blockingVersion // ignore: cast_nullable_to_non_nullable
               as String,
       warningVersion: null == warningVersion
-          ? _self.warningVersion
+          ? _value.warningVersion
           : warningVersion // ignore: cast_nullable_to_non_nullable
               as String,
       warningShowTimes: null == warningShowTimes
-          ? _self.warningShowTimes
+          ? _value.warningShowTimes
           : warningShowTimes // ignore: cast_nullable_to_non_nullable
               as int,
       warningShowDelayS: null == warningShowDelayS
-          ? _self.warningShowDelayS
+          ? _value.warningShowDelayS
+          : warningShowDelayS // ignore: cast_nullable_to_non_nullable
+              as int,
+    ) as $Val);
+  }
+}
+
+/// @nodoc
+abstract class _$$UpdateRulesImplCopyWith<$Res>
+    implements $UpdateRulesCopyWith<$Res> {
+  factory _$$UpdateRulesImplCopyWith(
+          _$UpdateRulesImpl value, $Res Function(_$UpdateRulesImpl) then) =
+      __$$UpdateRulesImplCopyWithImpl<$Res>;
+  @override
+  @useResult
+  $Res call(
+      {String blockingVersion,
+      String warningVersion,
+      int warningShowTimes,
+      int warningShowDelayS});
+}
+
+/// @nodoc
+class __$$UpdateRulesImplCopyWithImpl<$Res>
+    extends _$UpdateRulesCopyWithImpl<$Res, _$UpdateRulesImpl>
+    implements _$$UpdateRulesImplCopyWith<$Res> {
+  __$$UpdateRulesImplCopyWithImpl(
+      _$UpdateRulesImpl _value, $Res Function(_$UpdateRulesImpl) _then)
+      : super(_value, _then);
+
+  /// Create a copy of UpdateRules
+  /// with the given fields replaced by the non-null parameter values.
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? blockingVersion = null,
+    Object? warningVersion = null,
+    Object? warningShowTimes = null,
+    Object? warningShowDelayS = null,
+  }) {
+    return _then(_$UpdateRulesImpl(
+      blockingVersion: null == blockingVersion
+          ? _value.blockingVersion
+          : blockingVersion // ignore: cast_nullable_to_non_nullable
+              as String,
+      warningVersion: null == warningVersion
+          ? _value.warningVersion
+          : warningVersion // ignore: cast_nullable_to_non_nullable
+              as String,
+      warningShowTimes: null == warningShowTimes
+          ? _value.warningShowTimes
+          : warningShowTimes // ignore: cast_nullable_to_non_nullable
+              as int,
+      warningShowDelayS: null == warningShowDelayS
+          ? _value.warningShowDelayS
           : warningShowDelayS // ignore: cast_nullable_to_non_nullable
               as int,
     ));
@@ -117,14 +153,15 @@ class _$UpdateRulesCopyWithImpl<$Res> implements $UpdateRulesCopyWith<$Res> {
 
 /// @nodoc
 @JsonSerializable()
-class _UpdateRules implements UpdateRules {
-  const _UpdateRules(
+class _$UpdateRulesImpl implements _UpdateRules {
+  const _$UpdateRulesImpl(
       {required this.blockingVersion,
       required this.warningVersion,
       required this.warningShowTimes,
       required this.warningShowDelayS});
-  factory _UpdateRules.fromJson(Map<String, dynamic> json) =>
-      _$UpdateRulesFromJson(json);
+
+  factory _$UpdateRulesImpl.fromJson(Map<String, dynamic> json) =>
+      _$$UpdateRulesImplFromJson(json);
 
   /// Minimum version required - users below this version cannot use the app.
   @override
@@ -143,26 +180,16 @@ class _UpdateRules implements UpdateRules {
   @override
   final int warningShowDelayS;
 
-  /// Create a copy of UpdateRules
-  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(includeFromJson: false, includeToJson: false)
-  @pragma('vm:prefer-inline')
-  _$UpdateRulesCopyWith<_UpdateRules> get copyWith =>
-      __$UpdateRulesCopyWithImpl<_UpdateRules>(this, _$identity);
-
-  @override
-  Map<String, dynamic> toJson() {
-    return _$UpdateRulesToJson(
-      this,
-    );
+  String toString() {
+    return 'UpdateRules(blockingVersion: $blockingVersion, warningVersion: $warningVersion, warningShowTimes: $warningShowTimes, warningShowDelayS: $warningShowDelayS)';
   }
 
   @override
   bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _UpdateRules &&
+            other is _$UpdateRulesImpl &&
             (identical(other.blockingVersion, blockingVersion) ||
                 other.blockingVersion == blockingVersion) &&
             (identical(other.warningVersion, warningVersion) ||
@@ -178,63 +205,53 @@ class _UpdateRules implements UpdateRules {
   int get hashCode => Object.hash(runtimeType, blockingVersion, warningVersion,
       warningShowTimes, warningShowDelayS);
 
+  /// Create a copy of UpdateRules
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
-  String toString() {
-    return 'UpdateRules(blockingVersion: $blockingVersion, warningVersion: $warningVersion, warningShowTimes: $warningShowTimes, warningShowDelayS: $warningShowDelayS)';
+  @pragma('vm:prefer-inline')
+  _$$UpdateRulesImplCopyWith<_$UpdateRulesImpl> get copyWith =>
+      __$$UpdateRulesImplCopyWithImpl<_$UpdateRulesImpl>(this, _$identity);
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$$UpdateRulesImplToJson(
+      this,
+    );
   }
 }
 
-/// @nodoc
-abstract mixin class _$UpdateRulesCopyWith<$Res>
-    implements $UpdateRulesCopyWith<$Res> {
-  factory _$UpdateRulesCopyWith(
-          _UpdateRules value, $Res Function(_UpdateRules) _then) =
-      __$UpdateRulesCopyWithImpl;
+abstract class _UpdateRules implements UpdateRules {
+  const factory _UpdateRules(
+      {required final String blockingVersion,
+      required final String warningVersion,
+      required final int warningShowTimes,
+      required final int warningShowDelayS}) = _$UpdateRulesImpl;
+
+  factory _UpdateRules.fromJson(Map<String, dynamic> json) =
+      _$UpdateRulesImpl.fromJson;
+
+  /// Minimum version required - users below this version cannot use the app.
   @override
-  @useResult
-  $Res call(
-      {String blockingVersion,
-      String warningVersion,
-      int warningShowTimes,
-      int warningShowDelayS});
-}
+  String get blockingVersion;
 
-/// @nodoc
-class __$UpdateRulesCopyWithImpl<$Res> implements _$UpdateRulesCopyWith<$Res> {
-  __$UpdateRulesCopyWithImpl(this._self, this._then);
+  /// Version that triggers warning - users below this should update but can
+  /// continue.
+  @override
+  String get warningVersion;
 
-  final _UpdateRules _self;
-  final $Res Function(_UpdateRules) _then;
+  /// Maximum number of times to show the warning notification.
+  @override
+  int get warningShowTimes;
+
+  /// Delay in seconds between showing warning notifications.
+  @override
+  int get warningShowDelayS;
 
   /// Create a copy of UpdateRules
   /// with the given fields replaced by the non-null parameter values.
   @override
-  @pragma('vm:prefer-inline')
-  $Res call({
-    Object? blockingVersion = null,
-    Object? warningVersion = null,
-    Object? warningShowTimes = null,
-    Object? warningShowDelayS = null,
-  }) {
-    return _then(_UpdateRules(
-      blockingVersion: null == blockingVersion
-          ? _self.blockingVersion
-          : blockingVersion // ignore: cast_nullable_to_non_nullable
-              as String,
-      warningVersion: null == warningVersion
-          ? _self.warningVersion
-          : warningVersion // ignore: cast_nullable_to_non_nullable
-              as String,
-      warningShowTimes: null == warningShowTimes
-          ? _self.warningShowTimes
-          : warningShowTimes // ignore: cast_nullable_to_non_nullable
-              as int,
-      warningShowDelayS: null == warningShowDelayS
-          ? _self.warningShowDelayS
-          : warningShowDelayS // ignore: cast_nullable_to_non_nullable
-              as int,
-    ));
-  }
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  _$$UpdateRulesImplCopyWith<_$UpdateRulesImpl> get copyWith =>
+      throw _privateConstructorUsedError;
 }
-
-// dart format on

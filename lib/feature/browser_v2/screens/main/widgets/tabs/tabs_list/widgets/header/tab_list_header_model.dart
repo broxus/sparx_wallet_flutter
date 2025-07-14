@@ -4,10 +4,8 @@ import 'package:app/feature/browser_v2/domain/service/browser_service.dart';
 import 'package:app/feature/browser_v2/screens/main/widgets/tabs/tabs_list/widgets/header/tab_list_header.dart';
 
 import 'package:elementary/elementary.dart';
-import 'package:injectable/injectable.dart';
 
 /// [ElementaryModel] for [TabListHeader]
-@injectable
 class TabListHeaderModel extends ElementaryModel {
   TabListHeaderModel(
     ErrorHandler errorHandler,

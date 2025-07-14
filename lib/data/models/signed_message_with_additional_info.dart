@@ -4,8 +4,7 @@ import 'package:nekoton_repository/nekoton_repository.dart';
 part 'signed_message_with_additional_info.freezed.dart';
 
 @freezed
-abstract class SignedMessageWithAdditionalInfo
-    with _$SignedMessageWithAdditionalInfo {
+class SignedMessageWithAdditionalInfo with _$SignedMessageWithAdditionalInfo {
   const factory SignedMessageWithAdditionalInfo({
     required SignedMessage message,
     String? dst,

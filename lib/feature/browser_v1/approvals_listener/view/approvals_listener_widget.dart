@@ -38,150 +38,159 @@ class _ApprovalsListenerWidgetState extends State<ApprovalsListenerWidget> {
   // ignore: long-method
   void initState() {
     _streamSubscription = approvalsService.approvalsStream.listen(
-      (request) => switch (request) {
-        ApprovalRequestPermissions(
-          :final origin,
-          :final permissions,
-          :final completer,
+      (request) => request.when(
+        requestPermissions: (
+          origin,
+          permissions,
+          completer,
         ) =>
-          requestPermissions(
-            origin: origin,
-            permissions: permissions,
-            completer: completer,
-          ),
-        ApprovalRequestChangeAccount(
-          :final origin,
-          :final permissions,
-          :final previousSelectedAccount,
-          :final completer,
+            requestPermissions(
+          context: context,
+          origin: origin,
+          permissions: permissions,
+          completer: completer,
+        ),
+        changeAccount: (
+          origin,
+          permissions,
+          previousSelectedAccount,
+          completer,
         ) =>
-          changeAccount(
-            origin: origin,
-            permissions: permissions,
-            previousSelectedAccount: previousSelectedAccount,
-            completer: completer,
-          ),
-        ApprovalRequestAddTip3Token(
-          :final origin,
-          :final account,
-          :final details,
-          :final completer,
+            changeAccount(
+          context: context,
+          origin: origin,
+          permissions: permissions,
+          previousSelectedAccount: previousSelectedAccount,
+          completer: completer,
+        ),
+        addTip3Token: (
+          origin,
+          account,
+          details,
+          completer,
         ) =>
-          addTip3Token(
-            origin: origin,
-            account: account,
-            details: details,
-            completer: completer,
-          ),
-        ApprovalRequestSignData(
-          :final origin,
-          :final account,
-          :final publicKey,
-          :final data,
-          :final completer,
+            addTip3Token(
+          context: context,
+          origin: origin,
+          account: account,
+          details: details,
+          completer: completer,
+        ),
+        signData: (
+          origin,
+          account,
+          publicKey,
+          data,
+          completer,
         ) =>
-          signData(
-            origin: origin,
-            account: account,
-            publicKey: publicKey,
-            data: data,
-            completer: completer,
-          ),
-        ApprovalRequestEncryptData(
-          :final origin,
-          :final account,
-          :final publicKey,
-          :final data,
-          :final completer,
+            signData(
+          context: context,
+          origin: origin,
+          account: account,
+          publicKey: publicKey,
+          data: data,
+          completer: completer,
+        ),
+        encryptData: (
+          origin,
+          account,
+          publicKey,
+          data,
+          completer,
         ) =>
-          encryptData(
-            origin: origin,
-            account: account,
-            publicKey: publicKey,
-            data: data,
-            completer: completer,
-          ),
-        ApprovalRequestDecryptData(
-          :final origin,
-          :final account,
-          :final recipientPublicKey,
-          :final sourcePublicKey,
-          :final completer,
+            encryptData(
+          context: context,
+          origin: origin,
+          account: account,
+          publicKey: publicKey,
+          data: data,
+          completer: completer,
+        ),
+        decryptData: (
+          origin,
+          account,
+          recipientPublicKey,
+          sourcePublicKey,
+          completer,
         ) =>
-          decryptData(
-            origin: origin,
-            account: account,
-            recipientPublicKey: recipientPublicKey,
-            sourcePublicKey: sourcePublicKey,
-            completer: completer,
-          ),
-        ApprovalRequestCallContractMethod(
-          :final origin,
-          :final account,
-          :final publicKey,
-          :final recipient,
-          :final payload,
-          :final completer,
+            decryptData(
+          context: context,
+          origin: origin,
+          account: account,
+          recipientPublicKey: recipientPublicKey,
+          sourcePublicKey: sourcePublicKey,
+          completer: completer,
+        ),
+        callContractMethod: (
+          origin,
+          account,
+          publicKey,
+          recipient,
+          payload,
+          completer,
         ) =>
-          callContractMethod(
-            origin: origin,
-            account: account,
-            publicKey: publicKey,
-            recipient: recipient,
-            payload: payload,
-            completer: completer,
-          ),
-        ApprovalRequestSendMessage(
-          :final origin,
-          :final sender,
-          :final recipient,
-          :final amount,
-          :final bounce,
-          :final payload,
-          :final knownPayload,
-          :final ignoredComputePhaseCodes,
-          :final ignoredActionPhaseCodes,
-          :final completer,
+            callContractMethod(
+          context: context,
+          origin: origin,
+          account: account,
+          publicKey: publicKey,
+          recipient: recipient,
+          payload: payload,
+          completer: completer,
+        ),
+        sendMessage: (
+          origin,
+          sender,
+          recipient,
+          amount,
+          bounce,
+          payload,
+          knownPayload,
+          ignoredComputePhaseCodes,
+          ignoredActionPhaseCodes,
+          completer,
         ) =>
-          sendMessage(
-            origin: origin,
-            sender: sender,
-            recipient: recipient,
-            amount: amount,
-            bounce: bounce,
-            payload: payload,
-            knownPayload: knownPayload,
-            ignoredComputePhaseCodes: ignoredComputePhaseCodes,
-            ignoredActionPhaseCodes: ignoredActionPhaseCodes,
-            completer: completer,
-          ),
-        ApprovalRequestChangeNetwork(
-          :final origin,
-          :final networkId,
-          :final connections,
-          :final completer,
+            sendMessage(
+          context: context,
+          origin: origin,
+          sender: sender,
+          recipient: recipient,
+          amount: amount,
+          bounce: bounce,
+          payload: payload,
+          knownPayload: knownPayload,
+          ignoredComputePhaseCodes: ignoredComputePhaseCodes,
+          ignoredActionPhaseCodes: ignoredActionPhaseCodes,
+          completer: completer,
+        ),
+        changeNetwork: (
+          origin,
+          networkId,
+          connections,
+          completer,
         ) =>
-          changeNetwork(
-            origin: origin,
-            networkId: networkId,
-            connections: connections,
-            completer: completer,
-          ),
-        ApprovalRequestAddNetwork(
-          :final origin,
-          :final network,
-          :final switchNetwork,
-          :final completer,
+            changeNetwork(
+          context: context,
+          origin: origin,
+          networkId: networkId,
+          connections: connections,
+          completer: completer,
+        ),
+        addNetwork: (
+          Uri origin,
+          AddNetwork network,
+          bool switchNetwork,
+          Completer<Network?> completer,
         ) =>
-          addNetwork(
-            origin: origin,
-            network: network,
-            switchNetwork: switchNetwork,
-            completer: completer,
-          ),
-      },
+            addNetwork(
+          context: context,
+          origin: origin,
+          network: network,
+          switchNetwork: switchNetwork,
+          completer: completer,
+        ),
+      ),
     );
-
     super.initState();
   }
 
@@ -219,6 +228,7 @@ class _ApprovalsListenerWidgetState extends State<ApprovalsListenerWidget> {
   }
 
   Future<void> requestPermissions({
+    required BuildContext context,
     required Uri origin,
     required List<Permission> permissions,
     required Completer<Permissions> completer,
@@ -243,6 +253,7 @@ class _ApprovalsListenerWidgetState extends State<ApprovalsListenerWidget> {
   }
 
   Future<void> changeAccount({
+    required BuildContext context,
     required Uri origin,
     required List<Permission> permissions,
     required Address? previousSelectedAccount,
@@ -269,6 +280,7 @@ class _ApprovalsListenerWidgetState extends State<ApprovalsListenerWidget> {
   }
 
   Future<void> addTip3Token({
+    required BuildContext context,
     required Uri origin,
     required Address account,
     required TokenContractAsset details,
@@ -293,6 +305,7 @@ class _ApprovalsListenerWidgetState extends State<ApprovalsListenerWidget> {
   }
 
   Future<void> signData({
+    required BuildContext context,
     required Uri origin,
     required Address account,
     required PublicKey publicKey,
@@ -319,6 +332,7 @@ class _ApprovalsListenerWidgetState extends State<ApprovalsListenerWidget> {
   }
 
   Future<void> encryptData({
+    required BuildContext context,
     required Uri origin,
     required Address account,
     required PublicKey publicKey,
@@ -345,6 +359,7 @@ class _ApprovalsListenerWidgetState extends State<ApprovalsListenerWidget> {
   }
 
   Future<void> decryptData({
+    required BuildContext context,
     required Uri origin,
     required Address account,
     required PublicKey recipientPublicKey,
@@ -371,6 +386,7 @@ class _ApprovalsListenerWidgetState extends State<ApprovalsListenerWidget> {
   }
 
   Future<void> callContractMethod({
+    required BuildContext context,
     required Uri origin,
     required Address account,
     required PublicKey publicKey,
@@ -399,6 +415,7 @@ class _ApprovalsListenerWidgetState extends State<ApprovalsListenerWidget> {
   }
 
   Future<void> sendMessage({
+    required BuildContext context,
     required Uri origin,
     required Address sender,
     required Address recipient,
@@ -437,6 +454,7 @@ class _ApprovalsListenerWidgetState extends State<ApprovalsListenerWidget> {
   }
 
   Future<void> changeNetwork({
+    required BuildContext context,
     required Uri origin,
     required int networkId,
     required List<ConnectionData> connections,
@@ -457,6 +475,7 @@ class _ApprovalsListenerWidgetState extends State<ApprovalsListenerWidget> {
   }
 
   Future<void> addNetwork({
+    required BuildContext context,
     required Uri origin,
     required AddNetwork network,
     required bool switchNetwork,

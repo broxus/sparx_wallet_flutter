@@ -6,9 +6,9 @@ part of 'ton_app_connection.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-TonAppConnectionRemote _$TonAppConnectionRemoteFromJson(
+_$TonAppConnectionRemoteImpl _$$TonAppConnectionRemoteImplFromJson(
         Map<String, dynamic> json) =>
-    TonAppConnectionRemote(
+    _$TonAppConnectionRemoteImpl(
       clientId: json['clientId'] as String,
       sessionCrypto: SessionCrypto.fromJson(json['sessionCrypto'] as String),
       replyItems: (json['replyItems'] as List<dynamic>)
@@ -19,8 +19,8 @@ TonAppConnectionRemote _$TonAppConnectionRemoteFromJson(
       $type: json['runtimeType'] as String?,
     );
 
-Map<String, dynamic> _$TonAppConnectionRemoteToJson(
-        TonAppConnectionRemote instance) =>
+Map<String, dynamic> _$$TonAppConnectionRemoteImplToJson(
+        _$TonAppConnectionRemoteImpl instance) =>
     <String, dynamic>{
       'clientId': instance.clientId,
       'sessionCrypto': instance.sessionCrypto.toJson(),
@@ -30,9 +30,9 @@ Map<String, dynamic> _$TonAppConnectionRemoteToJson(
       'runtimeType': instance.$type,
     };
 
-TonAppConnectionInjected _$TonAppConnectionInjectedFromJson(
+_$TonAppConnectionInjectedImpl _$$TonAppConnectionInjectedImplFromJson(
         Map<String, dynamic> json) =>
-    TonAppConnectionInjected(
+    _$TonAppConnectionInjectedImpl(
       origin: json['origin'] as String,
       replyItems: (json['replyItems'] as List<dynamic>)
           .map((e) => ConnectItemReply.fromJson(e as Map<String, dynamic>))
@@ -42,8 +42,8 @@ TonAppConnectionInjected _$TonAppConnectionInjectedFromJson(
       $type: json['runtimeType'] as String?,
     );
 
-Map<String, dynamic> _$TonAppConnectionInjectedToJson(
-        TonAppConnectionInjected instance) =>
+Map<String, dynamic> _$$TonAppConnectionInjectedImplToJson(
+        _$TonAppConnectionInjectedImpl instance) =>
     <String, dynamic>{
       'origin': instance.origin,
       'replyItems': instance.replyItems.map((e) => e.toJson()).toList(),

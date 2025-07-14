@@ -72,18 +72,21 @@ class TokenWalletTransactionsCubit extends Cubit<TokenWalletTransactionsState>
   /// Called from UI when user scrolled to the end of the list.
   /// NOTE: this method may be called multiple times
   void tryPreloadTransactions() {
-    final lastPrevLt = switch (state) {
-      TokenWalletTransactionsStateTransactions() => _lastLt(_transactions),
-      _ => null,
-    };
-    final (isLoading, canLoadMore) = switch (state) {
-      TokenWalletTransactionsStateTransactions(
-        :final isLoading,
-        :final canLoadMore,
+    final lastPrevLt = state.whenOrNull(
+      transactions: (
+        transactions,
+        _,
+        __,
+        ___,
+        ____,
       ) =>
-        (isLoading, canLoadMore),
-      _ => (true, false),
-    };
+          _lastLt(_transactions),
+    );
+    final (isLoading, canLoadMore) = state.maybeWhen(
+      transactions: (_, __, isLoading, canLoadMore, ___) =>
+          (isLoading, canLoadMore),
+      orElse: () => (true, false),
+    );
 
     if (isLoading || !canLoadMore || lastPrevLt == null) {
       return;
@@ -172,11 +175,10 @@ class TokenWalletTransactionsCubit extends Cubit<TokenWalletTransactionsState>
     } else {
       final transactions = _ordinary;
 
-      var canLoadMore = switch (state) {
-        TokenWalletTransactionsStateTransactions(:final canLoadMore) =>
-          canLoadMore,
-        _ => true,
-      };
+      var canLoadMore = state.maybeWhen(
+        transactions: (_, __, ___, canLoadMore, ____) => canLoadMore,
+        orElse: () => true,
+      );
       final lastLt = _lastLt(_transactions);
       if (_lastLtWhenPreloaded != null && !isLoading && fromStream) {
         // we must check this state every time, because we may have multiple

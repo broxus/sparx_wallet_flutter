@@ -6,7 +6,7 @@ part 'account_interaction.freezed.dart';
 part 'account_interaction.g.dart';
 
 @freezed
-abstract class AccountInteraction with _$AccountInteraction {
+class AccountInteraction with _$AccountInteraction {
   const factory AccountInteraction({
     required Address address,
     required PublicKey publicKey,

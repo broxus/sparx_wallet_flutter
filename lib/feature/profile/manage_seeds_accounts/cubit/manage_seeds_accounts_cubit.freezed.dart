@@ -1,4 +1,3 @@
-// dart format width=80
 // coverage:ignore-file
 // GENERATED CODE - DO NOT MODIFY BY HAND
 // ignore_for_file: type=lint
@@ -10,58 +9,74 @@ part of 'manage_seeds_accounts_cubit.dart';
 // FreezedGenerator
 // **************************************************************************
 
-// dart format off
 T _$identity<T>(T value) => value;
+
+final _privateConstructorUsedError = UnsupportedError(
+    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models');
 
 /// @nodoc
 mixin _$ManageSeedsAccountsState {
-  Seed? get currentSeed;
-  List<Seed> get seeds;
+  Seed? get currentSeed => throw _privateConstructorUsedError;
+  List<Seed> get seeds => throw _privateConstructorUsedError;
+  @optionalTypeArgs
+  TResult when<TResult extends Object?>({
+    required TResult Function(Seed? currentSeed, List<Seed> seeds) data,
+  }) =>
+      throw _privateConstructorUsedError;
+  @optionalTypeArgs
+  TResult? whenOrNull<TResult extends Object?>({
+    TResult? Function(Seed? currentSeed, List<Seed> seeds)? data,
+  }) =>
+      throw _privateConstructorUsedError;
+  @optionalTypeArgs
+  TResult maybeWhen<TResult extends Object?>({
+    TResult Function(Seed? currentSeed, List<Seed> seeds)? data,
+    required TResult orElse(),
+  }) =>
+      throw _privateConstructorUsedError;
+  @optionalTypeArgs
+  TResult map<TResult extends Object?>({
+    required TResult Function(_Data value) data,
+  }) =>
+      throw _privateConstructorUsedError;
+  @optionalTypeArgs
+  TResult? mapOrNull<TResult extends Object?>({
+    TResult? Function(_Data value)? data,
+  }) =>
+      throw _privateConstructorUsedError;
+  @optionalTypeArgs
+  TResult maybeMap<TResult extends Object?>({
+    TResult Function(_Data value)? data,
+    required TResult orElse(),
+  }) =>
+      throw _privateConstructorUsedError;
 
   /// Create a copy of ManageSeedsAccountsState
   /// with the given fields replaced by the non-null parameter values.
   @JsonKey(includeFromJson: false, includeToJson: false)
-  @pragma('vm:prefer-inline')
   $ManageSeedsAccountsStateCopyWith<ManageSeedsAccountsState> get copyWith =>
-      _$ManageSeedsAccountsStateCopyWithImpl<ManageSeedsAccountsState>(
-          this as ManageSeedsAccountsState, _$identity);
-
-  @override
-  bool operator ==(Object other) {
-    return identical(this, other) ||
-        (other.runtimeType == runtimeType &&
-            other is ManageSeedsAccountsState &&
-            (identical(other.currentSeed, currentSeed) ||
-                other.currentSeed == currentSeed) &&
-            const DeepCollectionEquality().equals(other.seeds, seeds));
-  }
-
-  @override
-  int get hashCode => Object.hash(
-      runtimeType, currentSeed, const DeepCollectionEquality().hash(seeds));
-
-  @override
-  String toString() {
-    return 'ManageSeedsAccountsState(currentSeed: $currentSeed, seeds: $seeds)';
-  }
+      throw _privateConstructorUsedError;
 }
 
 /// @nodoc
-abstract mixin class $ManageSeedsAccountsStateCopyWith<$Res> {
+abstract class $ManageSeedsAccountsStateCopyWith<$Res> {
   factory $ManageSeedsAccountsStateCopyWith(ManageSeedsAccountsState value,
-          $Res Function(ManageSeedsAccountsState) _then) =
-      _$ManageSeedsAccountsStateCopyWithImpl;
+          $Res Function(ManageSeedsAccountsState) then) =
+      _$ManageSeedsAccountsStateCopyWithImpl<$Res, ManageSeedsAccountsState>;
   @useResult
   $Res call({Seed? currentSeed, List<Seed> seeds});
 }
 
 /// @nodoc
-class _$ManageSeedsAccountsStateCopyWithImpl<$Res>
+class _$ManageSeedsAccountsStateCopyWithImpl<$Res,
+        $Val extends ManageSeedsAccountsState>
     implements $ManageSeedsAccountsStateCopyWith<$Res> {
-  _$ManageSeedsAccountsStateCopyWithImpl(this._self, this._then);
+  _$ManageSeedsAccountsStateCopyWithImpl(this._value, this._then);
 
-  final ManageSeedsAccountsState _self;
-  final $Res Function(ManageSeedsAccountsState) _then;
+  // ignore: unused_field
+  final $Val _value;
+  // ignore: unused_field
+  final $Res Function($Val) _then;
 
   /// Create a copy of ManageSeedsAccountsState
   /// with the given fields replaced by the non-null parameter values.
@@ -71,13 +86,52 @@ class _$ManageSeedsAccountsStateCopyWithImpl<$Res>
     Object? currentSeed = freezed,
     Object? seeds = null,
   }) {
-    return _then(_self.copyWith(
+    return _then(_value.copyWith(
       currentSeed: freezed == currentSeed
-          ? _self.currentSeed
+          ? _value.currentSeed
           : currentSeed // ignore: cast_nullable_to_non_nullable
               as Seed?,
       seeds: null == seeds
-          ? _self.seeds
+          ? _value.seeds
+          : seeds // ignore: cast_nullable_to_non_nullable
+              as List<Seed>,
+    ) as $Val);
+  }
+}
+
+/// @nodoc
+abstract class _$$DataImplCopyWith<$Res>
+    implements $ManageSeedsAccountsStateCopyWith<$Res> {
+  factory _$$DataImplCopyWith(
+          _$DataImpl value, $Res Function(_$DataImpl) then) =
+      __$$DataImplCopyWithImpl<$Res>;
+  @override
+  @useResult
+  $Res call({Seed? currentSeed, List<Seed> seeds});
+}
+
+/// @nodoc
+class __$$DataImplCopyWithImpl<$Res>
+    extends _$ManageSeedsAccountsStateCopyWithImpl<$Res, _$DataImpl>
+    implements _$$DataImplCopyWith<$Res> {
+  __$$DataImplCopyWithImpl(_$DataImpl _value, $Res Function(_$DataImpl) _then)
+      : super(_value, _then);
+
+  /// Create a copy of ManageSeedsAccountsState
+  /// with the given fields replaced by the non-null parameter values.
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? currentSeed = freezed,
+    Object? seeds = null,
+  }) {
+    return _then(_$DataImpl(
+      currentSeed: freezed == currentSeed
+          ? _value.currentSeed
+          : currentSeed // ignore: cast_nullable_to_non_nullable
+              as Seed?,
+      seeds: null == seeds
+          ? _value._seeds
           : seeds // ignore: cast_nullable_to_non_nullable
               as List<Seed>,
     ));
@@ -86,8 +140,8 @@ class _$ManageSeedsAccountsStateCopyWithImpl<$Res>
 
 /// @nodoc
 
-class _Data implements ManageSeedsAccountsState {
-  const _Data({required this.currentSeed, required final List<Seed> seeds})
+class _$DataImpl implements _Data {
+  const _$DataImpl({required this.currentSeed, required final List<Seed> seeds})
       : _seeds = seeds;
 
   @override
@@ -100,19 +154,16 @@ class _Data implements ManageSeedsAccountsState {
     return EqualUnmodifiableListView(_seeds);
   }
 
-  /// Create a copy of ManageSeedsAccountsState
-  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(includeFromJson: false, includeToJson: false)
-  @pragma('vm:prefer-inline')
-  _$DataCopyWith<_Data> get copyWith =>
-      __$DataCopyWithImpl<_Data>(this, _$identity);
+  String toString() {
+    return 'ManageSeedsAccountsState.data(currentSeed: $currentSeed, seeds: $seeds)';
+  }
 
   @override
   bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _Data &&
+            other is _$DataImpl &&
             (identical(other.currentSeed, currentSeed) ||
                 other.currentSeed == currentSeed) &&
             const DeepCollectionEquality().equals(other._seeds, _seeds));
@@ -122,48 +173,85 @@ class _Data implements ManageSeedsAccountsState {
   int get hashCode => Object.hash(
       runtimeType, currentSeed, const DeepCollectionEquality().hash(_seeds));
 
+  /// Create a copy of ManageSeedsAccountsState
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
-  String toString() {
-    return 'ManageSeedsAccountsState.data(currentSeed: $currentSeed, seeds: $seeds)';
+  @pragma('vm:prefer-inline')
+  _$$DataImplCopyWith<_$DataImpl> get copyWith =>
+      __$$DataImplCopyWithImpl<_$DataImpl>(this, _$identity);
+
+  @override
+  @optionalTypeArgs
+  TResult when<TResult extends Object?>({
+    required TResult Function(Seed? currentSeed, List<Seed> seeds) data,
+  }) {
+    return data(currentSeed, seeds);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? whenOrNull<TResult extends Object?>({
+    TResult? Function(Seed? currentSeed, List<Seed> seeds)? data,
+  }) {
+    return data?.call(currentSeed, seeds);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeWhen<TResult extends Object?>({
+    TResult Function(Seed? currentSeed, List<Seed> seeds)? data,
+    required TResult orElse(),
+  }) {
+    if (data != null) {
+      return data(currentSeed, seeds);
+    }
+    return orElse();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult map<TResult extends Object?>({
+    required TResult Function(_Data value) data,
+  }) {
+    return data(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? mapOrNull<TResult extends Object?>({
+    TResult? Function(_Data value)? data,
+  }) {
+    return data?.call(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeMap<TResult extends Object?>({
+    TResult Function(_Data value)? data,
+    required TResult orElse(),
+  }) {
+    if (data != null) {
+      return data(this);
+    }
+    return orElse();
   }
 }
 
-/// @nodoc
-abstract mixin class _$DataCopyWith<$Res>
-    implements $ManageSeedsAccountsStateCopyWith<$Res> {
-  factory _$DataCopyWith(_Data value, $Res Function(_Data) _then) =
-      __$DataCopyWithImpl;
+abstract class _Data implements ManageSeedsAccountsState {
+  const factory _Data(
+      {required final Seed? currentSeed,
+      required final List<Seed> seeds}) = _$DataImpl;
+
   @override
-  @useResult
-  $Res call({Seed? currentSeed, List<Seed> seeds});
-}
-
-/// @nodoc
-class __$DataCopyWithImpl<$Res> implements _$DataCopyWith<$Res> {
-  __$DataCopyWithImpl(this._self, this._then);
-
-  final _Data _self;
-  final $Res Function(_Data) _then;
+  Seed? get currentSeed;
+  @override
+  List<Seed> get seeds;
 
   /// Create a copy of ManageSeedsAccountsState
   /// with the given fields replaced by the non-null parameter values.
   @override
-  @pragma('vm:prefer-inline')
-  $Res call({
-    Object? currentSeed = freezed,
-    Object? seeds = null,
-  }) {
-    return _then(_Data(
-      currentSeed: freezed == currentSeed
-          ? _self.currentSeed
-          : currentSeed // ignore: cast_nullable_to_non_nullable
-              as Seed?,
-      seeds: null == seeds
-          ? _self._seeds
-          : seeds // ignore: cast_nullable_to_non_nullable
-              as List<Seed>,
-    ));
-  }
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  _$$DataImplCopyWith<_$DataImpl> get copyWith =>
+      throw _privateConstructorUsedError;
 }
-
-// dart format on

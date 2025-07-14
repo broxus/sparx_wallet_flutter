@@ -4,12 +4,10 @@ import 'package:app/feature/messenger/data/message.dart';
 import 'package:app/feature/messenger/domain/service/messenger_service.dart';
 import 'package:elementary/elementary.dart';
 import 'package:flutter/material.dart';
-import 'package:injectable/injectable.dart';
 import 'package:nekoton_repository/nekoton_repository.dart' hide Message;
 
 const _timeLimit = Duration(seconds: 30);
 
-@injectable
 class ChangeNetworkModel extends ElementaryModel {
   ChangeNetworkModel(
     ErrorHandler errorHandler,

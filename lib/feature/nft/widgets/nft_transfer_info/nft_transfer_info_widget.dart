@@ -1,9 +1,9 @@
-import 'package:app/core/wm/custom_wm.dart';
 import 'package:app/feature/nft/nft.dart';
 import 'package:app/feature/wallet/wallet.dart';
 import 'package:app/feature/wallet/widgets/account_transactions_tab/detail/details.dart';
 import 'package:app/generated/generated.dart';
 import 'package:app/utils/utils.dart';
+import 'package:elementary/elementary.dart';
 import 'package:elementary_helper/elementary_helper.dart';
 import 'package:flutter/material.dart';
 import 'package:lucide_icons_flutter/lucide_icons.dart';
@@ -14,7 +14,7 @@ import 'package:ui_components_lib/v2/ui_components_lib_v2.dart';
 const _indicator = ProgressIndicatorWidget(size: DimensSizeV2.d20);
 
 class NftTransferInfoWidget
-    extends InjectedElementaryWidget<NftTransferInfoWidgetModel> {
+    extends ElementaryWidget<NftTransferInfoWidgetModel> {
   const NftTransferInfoWidget({
     required this.amount,
     required this.recipient,
@@ -23,8 +23,9 @@ class NftTransferInfoWidget
     required this.attachedAmount,
     required this.fees,
     required this.feeError,
-    super.key,
-  });
+    Key? key,
+    WidgetModelFactory wmFactory = defaultNftTransferInfoWidgetModelFactory,
+  }) : super(wmFactory, key: key);
 
   final BigInt? amount;
   final Address recipient;

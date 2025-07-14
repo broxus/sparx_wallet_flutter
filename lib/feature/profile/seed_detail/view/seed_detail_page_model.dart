@@ -1,9 +1,7 @@
 import 'package:app/app/service/service.dart';
 import 'package:elementary/elementary.dart';
-import 'package:injectable/injectable.dart';
 import 'package:nekoton_repository/nekoton_repository.dart' hide Message;
 
-@injectable
 class SeedDetailPageModel extends ElementaryModel {
   SeedDetailPageModel(
     ErrorHandler errorHandler,

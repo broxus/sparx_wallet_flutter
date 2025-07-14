@@ -6,14 +6,15 @@ part of 'update_rules.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-_UpdateRules _$UpdateRulesFromJson(Map<String, dynamic> json) => _UpdateRules(
+_$UpdateRulesImpl _$$UpdateRulesImplFromJson(Map<String, dynamic> json) =>
+    _$UpdateRulesImpl(
       blockingVersion: json['blockingVersion'] as String,
       warningVersion: json['warningVersion'] as String,
       warningShowTimes: (json['warningShowTimes'] as num).toInt(),
       warningShowDelayS: (json['warningShowDelayS'] as num).toInt(),
     );
 
-Map<String, dynamic> _$UpdateRulesToJson(_UpdateRules instance) =>
+Map<String, dynamic> _$$UpdateRulesImplToJson(_$UpdateRulesImpl instance) =>
     <String, dynamic>{
       'blockingVersion': instance.blockingVersion,
       'warningVersion': instance.warningVersion,

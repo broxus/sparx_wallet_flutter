@@ -1,7 +1,9 @@
 // ignore_for_file: use_build_context_synchronously
 
 import 'package:app/app/router/router.dart';
+import 'package:app/core/error_handler_factory.dart';
 import 'package:app/core/wm/custom_wm.dart';
+import 'package:app/di/di.dart';
 import 'package:app/feature/add_seed/add_existing_wallet/route.dart';
 import 'package:app/feature/add_seed/create_password/route.dart';
 import 'package:app/feature/choose_network/choose_network_screen.dart';
@@ -13,19 +15,30 @@ import 'package:elementary/elementary.dart';
 import 'package:elementary_helper/elementary_helper.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
-import 'package:injectable/injectable.dart';
 import 'package:ui_components_lib/v2/ui_components_lib_v2.dart';
 
+/// Factory method for creating [ChooseNetworkScreenWidgetModel]
+ChooseNetworkScreenWidgetModel defaultChooseNetworkScreenWidgetModelFactory(
+  BuildContext context,
+) {
+  return ChooseNetworkScreenWidgetModel(
+    ChooseNetworkScreenModel(
+      createPrimaryErrorHandler(context),
+      inject(),
+      inject(),
+      inject(),
+      inject(),
+      inject(),
+    ),
+  );
+}
+
 /// [WidgetModel] для [ChooseNetworkScreen]
-@injectable
 class ChooseNetworkScreenWidgetModel
     extends CustomWidgetModel<ChooseNetworkScreen, ChooseNetworkScreenModel> {
   ChooseNetworkScreenWidgetModel(
     super.model,
-    @factoryParam this._nextStep,
   );
-
-  final ChooseNetworkNextStep _nextStep;
 
   late final _loadingItemId = createNotifier<String?>();
 
@@ -55,7 +68,7 @@ class ChooseNetworkScreenWidgetModel
 
   ThemeStyleV2 get themeStyleV2 => context.themeStyleV2;
 
-  double get bottomPadding => MediaQuery.of(context).padding.bottom;
+  double get windowHeight => MediaQuery.of(context).size.height;
 
   @override
   void initWidgetModel() {
@@ -69,7 +82,7 @@ class ChooseNetworkScreenWidgetModel
     if (_loadingItemId.value != null) return;
 
     try {
-      final nextStep = _nextStep;
+      final nextStep = widget.nextStep;
 
       _loadingItemId.accept(id);
 

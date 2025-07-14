@@ -103,7 +103,7 @@ class TokenWalletAssetCubit extends Cubit<TokenWalletAssetState>
 
   Future<void> retry() async {
     final st = state;
-    if (st is TokenWalletAssetStateSubscribeError) {
+    if (st is _SubscribeError) {
       emitSafe(st.copyWith(isLoading: true));
       await nekotonRepository.retryTokenSubscription(owner, asset.address);
       emitSafe(st.copyWith(isLoading: false));

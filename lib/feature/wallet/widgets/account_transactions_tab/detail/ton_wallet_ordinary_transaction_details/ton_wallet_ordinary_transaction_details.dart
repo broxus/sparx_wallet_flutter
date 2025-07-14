@@ -1,8 +1,8 @@
-import 'package:app/core/wm/custom_wm.dart';
 import 'package:app/feature/wallet/widgets/account_transactions_tab/detail/details_body.dart';
 import 'package:app/feature/wallet/widgets/account_transactions_tab/detail/ton_wallet_ordinary_transaction_details/ton_wallet_ordinary_transaction_details_wm.dart';
 import 'package:app/feature/wallet/widgets/account_transactions_tab/widgets/ton_wallet_transaction_status_body.dart';
 import 'package:app/generated/generated.dart';
+import 'package:elementary/elementary.dart';
 import 'package:flutter/material.dart';
 import 'package:lucide_icons_flutter/lucide_icons.dart';
 import 'package:nekoton_repository/nekoton_repository.dart';
@@ -13,17 +13,22 @@ import 'package:ui_components_lib/v2/dimens_v2.dart';
 import 'package:ui_components_lib/v2/widgets/buttons/button_shape.dart';
 import 'package:ui_components_lib/v2/widgets/buttons/primary_button.dart';
 
-class TonWalletOrdinaryTransactionDetails extends InjectedElementaryWidget<
-    TonWalletOrdinaryTransactionDetailsWidgetModel> {
+class TonWalletOrdinaryTransactionDetails
+    extends ElementaryWidget<TonWalletOrdinaryTransactionDetailsWidgetModel> {
   TonWalletOrdinaryTransactionDetails({
     required TonWalletOrdinaryTransaction transaction,
     required Fixed price,
     super.key,
+    WidgetModelFactory<TonWalletOrdinaryTransactionDetailsWidgetModel>?
+        wmFactory,
   }) : super(
-          wmFactoryParam: TonWalletOrdinaryTransactionDetailsWmParams(
-            transaction: transaction,
-            price: price,
-          ),
+          wmFactory ??
+              (context) =>
+                  defaultTonWalletOrdinaryTransactionDetailsWidgetModelFactory(
+                    context,
+                    transaction: transaction,
+                    price: price,
+                  ),
         );
 
   @override
@@ -74,7 +79,6 @@ class TonWalletOrdinaryTransactionDetails extends InjectedElementaryWidget<
             ),
           ),
           const SizedBox(height: DimensSizeV2.d24),
-          SizedBox(height: wm.bottomPadding),
         ],
       ),
     );

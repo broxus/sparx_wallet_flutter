@@ -6,45 +6,50 @@ part of 'wallet_event.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-ConnectEventSuccess _$ConnectEventSuccessFromJson(Map<String, dynamic> json) =>
-    ConnectEventSuccess(
+_$ConnectEventSuccessImpl _$$ConnectEventSuccessImplFromJson(
+        Map<String, dynamic> json) =>
+    _$ConnectEventSuccessImpl(
       id: json['id'] as String,
       payload: ConnectEventSuccessPayload.fromJson(
           json['payload'] as Map<String, dynamic>),
       $type: json['event'] as String?,
     );
 
-Map<String, dynamic> _$ConnectEventSuccessToJson(
-        ConnectEventSuccess instance) =>
+Map<String, dynamic> _$$ConnectEventSuccessImplToJson(
+        _$ConnectEventSuccessImpl instance) =>
     <String, dynamic>{
       'id': instance.id,
       'payload': instance.payload.toJson(),
       'event': instance.$type,
     };
 
-ConnectEventError _$ConnectEventErrorFromJson(Map<String, dynamic> json) =>
-    ConnectEventError(
+_$ConnectEventErrorImpl _$$ConnectEventErrorImplFromJson(
+        Map<String, dynamic> json) =>
+    _$ConnectEventErrorImpl(
       id: json['id'] as String,
       payload:
           TonConnectError.fromJson(json['payload'] as Map<String, dynamic>),
       $type: json['event'] as String?,
     );
 
-Map<String, dynamic> _$ConnectEventErrorToJson(ConnectEventError instance) =>
+Map<String, dynamic> _$$ConnectEventErrorImplToJson(
+        _$ConnectEventErrorImpl instance) =>
     <String, dynamic>{
       'id': instance.id,
       'payload': instance.payload.toJson(),
       'event': instance.$type,
     };
 
-DisconnectEvent _$DisconnectEventFromJson(Map<String, dynamic> json) =>
-    DisconnectEvent(
+_$DisconnectEventImpl _$$DisconnectEventImplFromJson(
+        Map<String, dynamic> json) =>
+    _$DisconnectEventImpl(
       id: json['id'] as String,
       payload: json['payload'] as Map<String, dynamic>? ?? const {},
       $type: json['event'] as String?,
     );
 
-Map<String, dynamic> _$DisconnectEventToJson(DisconnectEvent instance) =>
+Map<String, dynamic> _$$DisconnectEventImplToJson(
+        _$DisconnectEventImpl instance) =>
     <String, dynamic>{
       'id': instance.id,
       'payload': instance.payload,

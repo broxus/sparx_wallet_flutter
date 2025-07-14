@@ -1,12 +1,11 @@
 part of 'export_seed_cubit.dart';
 
 @freezed
-sealed class ExportSeedState with _$ExportSeedState {
-  const factory ExportSeedState.initial() = ExportSeedStateInitial;
+class ExportSeedState with _$ExportSeedState {
+  const factory ExportSeedState.initial() = _Initial;
 
   /// [error] that should be get from localization.
-  const factory ExportSeedState.error(String error) = ExportSeedStateError;
+  const factory ExportSeedState.error(String error) = _Error;
 
-  const factory ExportSeedState.success(List<String> phrase) =
-      ExportSeedStateSuccess;
+  const factory ExportSeedState.success(List<String> phrase) = _Success;
 }

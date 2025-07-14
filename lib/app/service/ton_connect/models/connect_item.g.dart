@@ -6,22 +6,24 @@ part of 'connect_item.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-TonAddressItem _$TonAddressItemFromJson(Map<String, dynamic> json) =>
-    TonAddressItem(
+_$TonAddressItemImpl _$$TonAddressItemImplFromJson(Map<String, dynamic> json) =>
+    _$TonAddressItemImpl(
       $type: json['name'] as String?,
     );
 
-Map<String, dynamic> _$TonAddressItemToJson(TonAddressItem instance) =>
+Map<String, dynamic> _$$TonAddressItemImplToJson(
+        _$TonAddressItemImpl instance) =>
     <String, dynamic>{
       'name': instance.$type,
     };
 
-TonProofItem _$TonProofItemFromJson(Map<String, dynamic> json) => TonProofItem(
+_$TonProofItemImpl _$$TonProofItemImplFromJson(Map<String, dynamic> json) =>
+    _$TonProofItemImpl(
       payload: json['payload'] as String,
       $type: json['name'] as String?,
     );
 
-Map<String, dynamic> _$TonProofItemToJson(TonProofItem instance) =>
+Map<String, dynamic> _$$TonProofItemImplToJson(_$TonProofItemImpl instance) =>
     <String, dynamic>{
       'payload': instance.payload,
       'name': instance.$type,

@@ -1,4 +1,3 @@
-import 'package:app/app/router/compass/bottom_bar_state.dart';
 import 'package:app/app/router/router.dart';
 import 'package:app/feature/browser_v2/domain/service/browser_service.dart';
 import 'package:app/feature/browser_v2/screens/main/route.dart';
@@ -23,23 +22,18 @@ class RootTabService {
         (it) => RootTab.getByRoute(it.firstOrNull),
       );
 
-  Stream<BottomBarState> get bottomBarStateStream =>
+  Stream<bool> get isBottomBarVisibleStream =>
       _router.currentRoutesStream.flatMap(
         (it) {
           final currentRoute = it.lastOrNull;
 
           switch (currentRoute?.runtimeType) {
             case BrowserRoute:
-              return _browserService.isContentInteractedStream.map(
-                (isContentInteracted) => isContentInteracted
-                    ? BottomBarState.collapsed
-                    : BottomBarState.expanded,
-              );
+              return _browserService.isContentInteractedStream.map((it) => !it);
             default:
-              final state =
-                  currentRoute?.bottomBarState ?? BottomBarState.hidden;
-
-              return Stream.value(state);
+              return Stream.value(
+                currentRoute?.isBottomNavigationBarVisible ?? false,
+              );
           }
         },
       );

@@ -10,7 +10,7 @@ part 'account_balance.g.dart';
 /// to access balance before creating subscription.
 @immutable
 @freezed
-abstract class AccountBalanceModel with _$AccountBalanceModel {
+class AccountBalanceModel with _$AccountBalanceModel {
   const factory AccountBalanceModel({
     @NekotonAddressConverter() required Address rootTokenContract,
     @moneyFromStringJsonConverter required Money fiatBalance,

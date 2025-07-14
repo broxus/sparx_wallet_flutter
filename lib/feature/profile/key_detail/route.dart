@@ -1,4 +1,3 @@
-import 'package:app/app/router/compass/bottom_bar_state.dart';
 import 'package:app/app/router/compass/compass.dart';
 import 'package:app/feature/profile/account_detail/route.dart';
 import 'package:app/feature/profile/key_detail/view/key_detail_page.dart';
@@ -16,7 +15,7 @@ class KeyDetailRoute extends CompassRoute<KeyDetailRouteData> {
   ) : super(
           path: '/key-detail',
           isSaveLocation: true,
-          bottomBarState: BottomBarState.expanded,
+          isBottomNavigationBarVisible: true,
           builder: (context, data, _) => KeyDetailPage(
             publicKey: data.publicKey,
           ),

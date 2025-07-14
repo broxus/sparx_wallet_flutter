@@ -1,4 +1,3 @@
-// dart format width=80
 // coverage:ignore-file
 // GENERATED CODE - DO NOT MODIFY BY HAND
 // ignore_for_file: type=lint
@@ -10,65 +9,51 @@ part of 'sign_data_result.dart';
 // FreezedGenerator
 // **************************************************************************
 
-// dart format off
 T _$identity<T>(T value) => value;
+
+final _privateConstructorUsedError = UnsupportedError(
+    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models');
+
+SignDataResult _$SignDataResultFromJson(Map<String, dynamic> json) {
+  return _SignDataResult.fromJson(json);
+}
 
 /// @nodoc
 mixin _$SignDataResult {
   /// base64 encoded signature
-  String get signature;
+  String get signature => throw _privateConstructorUsedError;
 
   /// UNIX timestamp in seconds (UTC) at the moment on creating the signature
-  String get timestamp;
+  String get timestamp => throw _privateConstructorUsedError;
+
+  /// Serializes this SignDataResult to a JSON map.
+  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
 
   /// Create a copy of SignDataResult
   /// with the given fields replaced by the non-null parameter values.
   @JsonKey(includeFromJson: false, includeToJson: false)
-  @pragma('vm:prefer-inline')
   $SignDataResultCopyWith<SignDataResult> get copyWith =>
-      _$SignDataResultCopyWithImpl<SignDataResult>(
-          this as SignDataResult, _$identity);
-
-  /// Serializes this SignDataResult to a JSON map.
-  Map<String, dynamic> toJson();
-
-  @override
-  bool operator ==(Object other) {
-    return identical(this, other) ||
-        (other.runtimeType == runtimeType &&
-            other is SignDataResult &&
-            (identical(other.signature, signature) ||
-                other.signature == signature) &&
-            (identical(other.timestamp, timestamp) ||
-                other.timestamp == timestamp));
-  }
-
-  @JsonKey(includeFromJson: false, includeToJson: false)
-  @override
-  int get hashCode => Object.hash(runtimeType, signature, timestamp);
-
-  @override
-  String toString() {
-    return 'SignDataResult(signature: $signature, timestamp: $timestamp)';
-  }
+      throw _privateConstructorUsedError;
 }
 
 /// @nodoc
-abstract mixin class $SignDataResultCopyWith<$Res> {
+abstract class $SignDataResultCopyWith<$Res> {
   factory $SignDataResultCopyWith(
-          SignDataResult value, $Res Function(SignDataResult) _then) =
-      _$SignDataResultCopyWithImpl;
+          SignDataResult value, $Res Function(SignDataResult) then) =
+      _$SignDataResultCopyWithImpl<$Res, SignDataResult>;
   @useResult
   $Res call({String signature, String timestamp});
 }
 
 /// @nodoc
-class _$SignDataResultCopyWithImpl<$Res>
+class _$SignDataResultCopyWithImpl<$Res, $Val extends SignDataResult>
     implements $SignDataResultCopyWith<$Res> {
-  _$SignDataResultCopyWithImpl(this._self, this._then);
+  _$SignDataResultCopyWithImpl(this._value, this._then);
 
-  final SignDataResult _self;
-  final $Res Function(SignDataResult) _then;
+  // ignore: unused_field
+  final $Val _value;
+  // ignore: unused_field
+  final $Res Function($Val) _then;
 
   /// Create a copy of SignDataResult
   /// with the given fields replaced by the non-null parameter values.
@@ -78,13 +63,53 @@ class _$SignDataResultCopyWithImpl<$Res>
     Object? signature = null,
     Object? timestamp = null,
   }) {
-    return _then(_self.copyWith(
+    return _then(_value.copyWith(
       signature: null == signature
-          ? _self.signature
+          ? _value.signature
           : signature // ignore: cast_nullable_to_non_nullable
               as String,
       timestamp: null == timestamp
-          ? _self.timestamp
+          ? _value.timestamp
+          : timestamp // ignore: cast_nullable_to_non_nullable
+              as String,
+    ) as $Val);
+  }
+}
+
+/// @nodoc
+abstract class _$$SignDataResultImplCopyWith<$Res>
+    implements $SignDataResultCopyWith<$Res> {
+  factory _$$SignDataResultImplCopyWith(_$SignDataResultImpl value,
+          $Res Function(_$SignDataResultImpl) then) =
+      __$$SignDataResultImplCopyWithImpl<$Res>;
+  @override
+  @useResult
+  $Res call({String signature, String timestamp});
+}
+
+/// @nodoc
+class __$$SignDataResultImplCopyWithImpl<$Res>
+    extends _$SignDataResultCopyWithImpl<$Res, _$SignDataResultImpl>
+    implements _$$SignDataResultImplCopyWith<$Res> {
+  __$$SignDataResultImplCopyWithImpl(
+      _$SignDataResultImpl _value, $Res Function(_$SignDataResultImpl) _then)
+      : super(_value, _then);
+
+  /// Create a copy of SignDataResult
+  /// with the given fields replaced by the non-null parameter values.
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? signature = null,
+    Object? timestamp = null,
+  }) {
+    return _then(_$SignDataResultImpl(
+      signature: null == signature
+          ? _value.signature
+          : signature // ignore: cast_nullable_to_non_nullable
+              as String,
+      timestamp: null == timestamp
+          ? _value.timestamp
           : timestamp // ignore: cast_nullable_to_non_nullable
               as String,
     ));
@@ -93,10 +118,11 @@ class _$SignDataResultCopyWithImpl<$Res>
 
 /// @nodoc
 @JsonSerializable()
-class _SignDataResult implements SignDataResult {
-  _SignDataResult({required this.signature, required this.timestamp});
-  factory _SignDataResult.fromJson(Map<String, dynamic> json) =>
-      _$SignDataResultFromJson(json);
+class _$SignDataResultImpl implements _SignDataResult {
+  _$SignDataResultImpl({required this.signature, required this.timestamp});
+
+  factory _$SignDataResultImpl.fromJson(Map<String, dynamic> json) =>
+      _$$SignDataResultImplFromJson(json);
 
   /// base64 encoded signature
   @override
@@ -106,26 +132,16 @@ class _SignDataResult implements SignDataResult {
   @override
   final String timestamp;
 
-  /// Create a copy of SignDataResult
-  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(includeFromJson: false, includeToJson: false)
-  @pragma('vm:prefer-inline')
-  _$SignDataResultCopyWith<_SignDataResult> get copyWith =>
-      __$SignDataResultCopyWithImpl<_SignDataResult>(this, _$identity);
-
-  @override
-  Map<String, dynamic> toJson() {
-    return _$SignDataResultToJson(
-      this,
-    );
+  String toString() {
+    return 'SignDataResult(signature: $signature, timestamp: $timestamp)';
   }
 
   @override
   bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _SignDataResult &&
+            other is _$SignDataResultImpl &&
             (identical(other.signature, signature) ||
                 other.signature == signature) &&
             (identical(other.timestamp, timestamp) ||
@@ -136,50 +152,43 @@ class _SignDataResult implements SignDataResult {
   @override
   int get hashCode => Object.hash(runtimeType, signature, timestamp);
 
+  /// Create a copy of SignDataResult
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
-  String toString() {
-    return 'SignDataResult(signature: $signature, timestamp: $timestamp)';
+  @pragma('vm:prefer-inline')
+  _$$SignDataResultImplCopyWith<_$SignDataResultImpl> get copyWith =>
+      __$$SignDataResultImplCopyWithImpl<_$SignDataResultImpl>(
+          this, _$identity);
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$$SignDataResultImplToJson(
+      this,
+    );
   }
 }
 
-/// @nodoc
-abstract mixin class _$SignDataResultCopyWith<$Res>
-    implements $SignDataResultCopyWith<$Res> {
-  factory _$SignDataResultCopyWith(
-          _SignDataResult value, $Res Function(_SignDataResult) _then) =
-      __$SignDataResultCopyWithImpl;
+abstract class _SignDataResult implements SignDataResult {
+  factory _SignDataResult(
+      {required final String signature,
+      required final String timestamp}) = _$SignDataResultImpl;
+
+  factory _SignDataResult.fromJson(Map<String, dynamic> json) =
+      _$SignDataResultImpl.fromJson;
+
+  /// base64 encoded signature
   @override
-  @useResult
-  $Res call({String signature, String timestamp});
-}
+  String get signature;
 
-/// @nodoc
-class __$SignDataResultCopyWithImpl<$Res>
-    implements _$SignDataResultCopyWith<$Res> {
-  __$SignDataResultCopyWithImpl(this._self, this._then);
-
-  final _SignDataResult _self;
-  final $Res Function(_SignDataResult) _then;
+  /// UNIX timestamp in seconds (UTC) at the moment on creating the signature
+  @override
+  String get timestamp;
 
   /// Create a copy of SignDataResult
   /// with the given fields replaced by the non-null parameter values.
   @override
-  @pragma('vm:prefer-inline')
-  $Res call({
-    Object? signature = null,
-    Object? timestamp = null,
-  }) {
-    return _then(_SignDataResult(
-      signature: null == signature
-          ? _self.signature
-          : signature // ignore: cast_nullable_to_non_nullable
-              as String,
-      timestamp: null == timestamp
-          ? _self.timestamp
-          : timestamp // ignore: cast_nullable_to_non_nullable
-              as String,
-    ));
-  }
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  _$$SignDataResultImplCopyWith<_$SignDataResultImpl> get copyWith =>
+      throw _privateConstructorUsedError;
 }
-
-// dart format on

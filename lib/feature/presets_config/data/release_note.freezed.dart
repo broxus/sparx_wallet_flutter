@@ -1,4 +1,3 @@
-// dart format width=80
 // coverage:ignore-file
 // GENERATED CODE - DO NOT MODIFY BY HAND
 // ignore_for_file: type=lint
@@ -10,62 +9,51 @@ part of 'release_note.dart';
 // FreezedGenerator
 // **************************************************************************
 
-// dart format off
 T _$identity<T>(T value) => value;
+
+final _privateConstructorUsedError = UnsupportedError(
+    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models');
+
+ReleaseNote _$ReleaseNoteFromJson(Map<String, dynamic> json) {
+  return _ReleaseNote.fromJson(json);
+}
 
 /// @nodoc
 mixin _$ReleaseNote {
   /// Whether this release note information is available/active.
-  bool get available;
+  bool get available => throw _privateConstructorUsedError;
 
   /// Detailed information about the release shown to the user.
-  String get info;
+  String get info => throw _privateConstructorUsedError;
+
+  /// Serializes this ReleaseNote to a JSON map.
+  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
 
   /// Create a copy of ReleaseNote
   /// with the given fields replaced by the non-null parameter values.
   @JsonKey(includeFromJson: false, includeToJson: false)
-  @pragma('vm:prefer-inline')
   $ReleaseNoteCopyWith<ReleaseNote> get copyWith =>
-      _$ReleaseNoteCopyWithImpl<ReleaseNote>(this as ReleaseNote, _$identity);
-
-  /// Serializes this ReleaseNote to a JSON map.
-  Map<String, dynamic> toJson();
-
-  @override
-  bool operator ==(Object other) {
-    return identical(this, other) ||
-        (other.runtimeType == runtimeType &&
-            other is ReleaseNote &&
-            (identical(other.available, available) ||
-                other.available == available) &&
-            (identical(other.info, info) || other.info == info));
-  }
-
-  @JsonKey(includeFromJson: false, includeToJson: false)
-  @override
-  int get hashCode => Object.hash(runtimeType, available, info);
-
-  @override
-  String toString() {
-    return 'ReleaseNote(available: $available, info: $info)';
-  }
+      throw _privateConstructorUsedError;
 }
 
 /// @nodoc
-abstract mixin class $ReleaseNoteCopyWith<$Res> {
+abstract class $ReleaseNoteCopyWith<$Res> {
   factory $ReleaseNoteCopyWith(
-          ReleaseNote value, $Res Function(ReleaseNote) _then) =
-      _$ReleaseNoteCopyWithImpl;
+          ReleaseNote value, $Res Function(ReleaseNote) then) =
+      _$ReleaseNoteCopyWithImpl<$Res, ReleaseNote>;
   @useResult
   $Res call({bool available, String info});
 }
 
 /// @nodoc
-class _$ReleaseNoteCopyWithImpl<$Res> implements $ReleaseNoteCopyWith<$Res> {
-  _$ReleaseNoteCopyWithImpl(this._self, this._then);
+class _$ReleaseNoteCopyWithImpl<$Res, $Val extends ReleaseNote>
+    implements $ReleaseNoteCopyWith<$Res> {
+  _$ReleaseNoteCopyWithImpl(this._value, this._then);
 
-  final ReleaseNote _self;
-  final $Res Function(ReleaseNote) _then;
+  // ignore: unused_field
+  final $Val _value;
+  // ignore: unused_field
+  final $Res Function($Val) _then;
 
   /// Create a copy of ReleaseNote
   /// with the given fields replaced by the non-null parameter values.
@@ -75,13 +63,53 @@ class _$ReleaseNoteCopyWithImpl<$Res> implements $ReleaseNoteCopyWith<$Res> {
     Object? available = null,
     Object? info = null,
   }) {
-    return _then(_self.copyWith(
+    return _then(_value.copyWith(
       available: null == available
-          ? _self.available
+          ? _value.available
           : available // ignore: cast_nullable_to_non_nullable
               as bool,
       info: null == info
-          ? _self.info
+          ? _value.info
+          : info // ignore: cast_nullable_to_non_nullable
+              as String,
+    ) as $Val);
+  }
+}
+
+/// @nodoc
+abstract class _$$ReleaseNoteImplCopyWith<$Res>
+    implements $ReleaseNoteCopyWith<$Res> {
+  factory _$$ReleaseNoteImplCopyWith(
+          _$ReleaseNoteImpl value, $Res Function(_$ReleaseNoteImpl) then) =
+      __$$ReleaseNoteImplCopyWithImpl<$Res>;
+  @override
+  @useResult
+  $Res call({bool available, String info});
+}
+
+/// @nodoc
+class __$$ReleaseNoteImplCopyWithImpl<$Res>
+    extends _$ReleaseNoteCopyWithImpl<$Res, _$ReleaseNoteImpl>
+    implements _$$ReleaseNoteImplCopyWith<$Res> {
+  __$$ReleaseNoteImplCopyWithImpl(
+      _$ReleaseNoteImpl _value, $Res Function(_$ReleaseNoteImpl) _then)
+      : super(_value, _then);
+
+  /// Create a copy of ReleaseNote
+  /// with the given fields replaced by the non-null parameter values.
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? available = null,
+    Object? info = null,
+  }) {
+    return _then(_$ReleaseNoteImpl(
+      available: null == available
+          ? _value.available
+          : available // ignore: cast_nullable_to_non_nullable
+              as bool,
+      info: null == info
+          ? _value.info
           : info // ignore: cast_nullable_to_non_nullable
               as String,
     ));
@@ -90,10 +118,11 @@ class _$ReleaseNoteCopyWithImpl<$Res> implements $ReleaseNoteCopyWith<$Res> {
 
 /// @nodoc
 @JsonSerializable()
-class _ReleaseNote implements ReleaseNote {
-  const _ReleaseNote({required this.available, required this.info});
-  factory _ReleaseNote.fromJson(Map<String, dynamic> json) =>
-      _$ReleaseNoteFromJson(json);
+class _$ReleaseNoteImpl implements _ReleaseNote {
+  const _$ReleaseNoteImpl({required this.available, required this.info});
+
+  factory _$ReleaseNoteImpl.fromJson(Map<String, dynamic> json) =>
+      _$$ReleaseNoteImplFromJson(json);
 
   /// Whether this release note information is available/active.
   @override
@@ -103,26 +132,16 @@ class _ReleaseNote implements ReleaseNote {
   @override
   final String info;
 
-  /// Create a copy of ReleaseNote
-  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(includeFromJson: false, includeToJson: false)
-  @pragma('vm:prefer-inline')
-  _$ReleaseNoteCopyWith<_ReleaseNote> get copyWith =>
-      __$ReleaseNoteCopyWithImpl<_ReleaseNote>(this, _$identity);
-
-  @override
-  Map<String, dynamic> toJson() {
-    return _$ReleaseNoteToJson(
-      this,
-    );
+  String toString() {
+    return 'ReleaseNote(available: $available, info: $info)';
   }
 
   @override
   bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _ReleaseNote &&
+            other is _$ReleaseNoteImpl &&
             (identical(other.available, available) ||
                 other.available == available) &&
             (identical(other.info, info) || other.info == info));
@@ -132,49 +151,42 @@ class _ReleaseNote implements ReleaseNote {
   @override
   int get hashCode => Object.hash(runtimeType, available, info);
 
+  /// Create a copy of ReleaseNote
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
-  String toString() {
-    return 'ReleaseNote(available: $available, info: $info)';
+  @pragma('vm:prefer-inline')
+  _$$ReleaseNoteImplCopyWith<_$ReleaseNoteImpl> get copyWith =>
+      __$$ReleaseNoteImplCopyWithImpl<_$ReleaseNoteImpl>(this, _$identity);
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$$ReleaseNoteImplToJson(
+      this,
+    );
   }
 }
 
-/// @nodoc
-abstract mixin class _$ReleaseNoteCopyWith<$Res>
-    implements $ReleaseNoteCopyWith<$Res> {
-  factory _$ReleaseNoteCopyWith(
-          _ReleaseNote value, $Res Function(_ReleaseNote) _then) =
-      __$ReleaseNoteCopyWithImpl;
+abstract class _ReleaseNote implements ReleaseNote {
+  const factory _ReleaseNote(
+      {required final bool available,
+      required final String info}) = _$ReleaseNoteImpl;
+
+  factory _ReleaseNote.fromJson(Map<String, dynamic> json) =
+      _$ReleaseNoteImpl.fromJson;
+
+  /// Whether this release note information is available/active.
   @override
-  @useResult
-  $Res call({bool available, String info});
-}
+  bool get available;
 
-/// @nodoc
-class __$ReleaseNoteCopyWithImpl<$Res> implements _$ReleaseNoteCopyWith<$Res> {
-  __$ReleaseNoteCopyWithImpl(this._self, this._then);
-
-  final _ReleaseNote _self;
-  final $Res Function(_ReleaseNote) _then;
+  /// Detailed information about the release shown to the user.
+  @override
+  String get info;
 
   /// Create a copy of ReleaseNote
   /// with the given fields replaced by the non-null parameter values.
   @override
-  @pragma('vm:prefer-inline')
-  $Res call({
-    Object? available = null,
-    Object? info = null,
-  }) {
-    return _then(_ReleaseNote(
-      available: null == available
-          ? _self.available
-          : available // ignore: cast_nullable_to_non_nullable
-              as bool,
-      info: null == info
-          ? _self.info
-          : info // ignore: cast_nullable_to_non_nullable
-              as String,
-    ));
-  }
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  _$$ReleaseNoteImplCopyWith<_$ReleaseNoteImpl> get copyWith =>
+      throw _privateConstructorUsedError;
 }
-
-// dart format on

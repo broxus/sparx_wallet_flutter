@@ -42,8 +42,10 @@ class CheckSeedPhraseView extends StatelessWidget {
                     const SizedBox(height: DimensSizeV2.d24),
                     BlocConsumer<CheckSeedPhraseCubit,
                         CheckSeedPhraseCubitState>(
-                      listener: (context, state) {
-                        if (state is CheckSeedPhraseCubitStateError) {
+                      listener: (context, state) => state.maybeWhen<void>(
+                        // ignore: no-empty-block
+                        orElse: () {},
+                        error: (_, __) {
                           inject<MessengerService>().show(
                             Message.error(
                               message: LocaleKeys.seedIsWrong.tr(),
@@ -51,31 +53,18 @@ class CheckSeedPhraseView extends StatelessWidget {
                               debounceTime: _errorDelayDuration,
                             ),
                           );
-                        }
-                      },
-                      builder: (context, state) => switch (state) {
-                        CheckSeedPhraseCubitStateInitial() => Container(),
-                        CheckSeedPhraseCubitStateAnswer(
-                          :final availableAnswers,
-                          :final userAnswers,
-                          :final currentAnswerIndex
-                        ) =>
-                          _buildAnswers(
-                            availableAnswers,
-                            userAnswers,
-                            currentIndex: currentAnswerIndex,
-                          ),
-                        CheckSeedPhraseCubitStateCorrect(
-                          :final availableAnswers,
-                          :final userAnswers
-                        ) =>
-                          _buildAnswers(availableAnswers, userAnswers),
-                        CheckSeedPhraseCubitStateError(
-                          :final availableAnswers,
-                          :final userAnswers
-                        ) =>
-                          _buildAnswers(availableAnswers, userAnswers),
-                      },
+                        },
+                      ),
+                      builder: (context, state) => state.when(
+                        initial: Container.new,
+                        answer: (available, user, index) => _buildAnswers(
+                          available,
+                          user,
+                          currentIndex: index,
+                        ),
+                        correct: _buildAnswers,
+                        error: _buildAnswers,
+                      ),
                     ),
                   ],
                 ),
@@ -83,24 +72,13 @@ class CheckSeedPhraseView extends StatelessWidget {
             ),
             const SizedBox(height: DimensSizeV2.d12),
             BlocBuilder<CheckSeedPhraseCubit, CheckSeedPhraseCubitState>(
-              builder: (context, state) => switch (state) {
-                CheckSeedPhraseCubitStateInitial() => Container(),
-                CheckSeedPhraseCubitStateAnswer(
-                  :final availableAnswers,
-                  :final userAnswers,
-                ) =>
-                  _buildCheckAnswers(availableAnswers, userAnswers),
-                CheckSeedPhraseCubitStateCorrect(
-                  :final availableAnswers,
-                  :final userAnswers
-                ) =>
-                  _buildCheckAnswers(availableAnswers, userAnswers),
-                CheckSeedPhraseCubitStateError(
-                  :final availableAnswers,
-                  :final userAnswers
-                ) =>
-                  _buildCheckAnswers(availableAnswers, userAnswers),
-              },
+              builder: (context, state) => state.when(
+                initial: Container.new,
+                answer: (available, user, index) =>
+                    _buildCheckAnswers(available, user),
+                correct: _buildCheckAnswers,
+                error: _buildCheckAnswers,
+              ),
             ),
           ],
         ),

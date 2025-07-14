@@ -1,23 +1,27 @@
 import 'package:app/app/router/router.dart';
 import 'package:app/app/service/connection/data/connection_data/connection_data.dart';
+import 'package:app/core/error_handler_factory.dart';
 import 'package:app/core/wm/custom_wm.dart';
+import 'package:app/di/di.dart';
 import 'package:app/feature/network/bottom_sheets/select_network/select_network_model.dart';
 import 'package:app/feature/network/bottom_sheets/select_network/select_network_widget.dart';
 import 'package:app/feature/network/configure_networks/route.dart';
 import 'package:elementary_helper/elementary_helper.dart';
 import 'package:flutter/material.dart';
-import 'package:injectable/injectable.dart';
 
-@injectable
+SelectNetworkWidgetModel defaultSelectNetworkWidgetModelFactory(
+  BuildContext context,
+) =>
+    SelectNetworkWidgetModel(
+      SelectNetworkModel(
+        createPrimaryErrorHandler(context),
+        inject(),
+      ),
+    );
+
 class SelectNetworkWidgetModel
     extends CustomWidgetModel<SelectNetworkWidget, SelectNetworkModel> {
-  SelectNetworkWidgetModel(
-    super.model,
-    // ignore: avoid_positional_boolean_parameters
-    @factoryParam this._needPopAfterAction,
-  );
-
-  final bool _needPopAfterAction;
+  SelectNetworkWidgetModel(super.model);
 
   late final _currentConnectionId =
       createNotifierFromStream(model.currentConnectionId);
@@ -28,14 +32,14 @@ class SelectNetworkWidgetModel
   ListenableState<List<ConnectionData>> get connections => _connections;
 
   void onConfigure() {
-    if (_needPopAfterAction) Navigator.of(context).pop();
+    if (widget.needPopAfterAction) Navigator.of(context).pop();
     context.compassContinue(
       const ConfigureNetworksRouteData(),
     );
   }
 
   void onItemTap(ConnectionData data) {
-    if (_needPopAfterAction) Navigator.of(context).pop();
+    if (widget.needPopAfterAction) Navigator.of(context).pop();
     model.changeCurrentConnection(data.id);
   }
 }

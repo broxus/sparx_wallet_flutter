@@ -1,4 +1,3 @@
-// dart format width=80
 // coverage:ignore-file
 // GENERATED CODE - DO NOT MODIFY BY HAND
 // ignore_for_file: type=lint
@@ -10,62 +9,48 @@ part of 'connect_request.dart';
 // FreezedGenerator
 // **************************************************************************
 
-// dart format off
 T _$identity<T>(T value) => value;
+
+final _privateConstructorUsedError = UnsupportedError(
+    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models');
+
+ConnectRequest _$ConnectRequestFromJson(Map<String, dynamic> json) {
+  return _ConnectRequest.fromJson(json);
+}
 
 /// @nodoc
 mixin _$ConnectRequest {
-  String get manifestUrl;
-  List<ConnectItem> get items;
+  String get manifestUrl => throw _privateConstructorUsedError;
+  List<ConnectItem> get items => throw _privateConstructorUsedError;
+
+  /// Serializes this ConnectRequest to a JSON map.
+  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
 
   /// Create a copy of ConnectRequest
   /// with the given fields replaced by the non-null parameter values.
   @JsonKey(includeFromJson: false, includeToJson: false)
-  @pragma('vm:prefer-inline')
   $ConnectRequestCopyWith<ConnectRequest> get copyWith =>
-      _$ConnectRequestCopyWithImpl<ConnectRequest>(
-          this as ConnectRequest, _$identity);
-
-  /// Serializes this ConnectRequest to a JSON map.
-  Map<String, dynamic> toJson();
-
-  @override
-  bool operator ==(Object other) {
-    return identical(this, other) ||
-        (other.runtimeType == runtimeType &&
-            other is ConnectRequest &&
-            (identical(other.manifestUrl, manifestUrl) ||
-                other.manifestUrl == manifestUrl) &&
-            const DeepCollectionEquality().equals(other.items, items));
-  }
-
-  @JsonKey(includeFromJson: false, includeToJson: false)
-  @override
-  int get hashCode => Object.hash(
-      runtimeType, manifestUrl, const DeepCollectionEquality().hash(items));
-
-  @override
-  String toString() {
-    return 'ConnectRequest(manifestUrl: $manifestUrl, items: $items)';
-  }
+      throw _privateConstructorUsedError;
 }
 
 /// @nodoc
-abstract mixin class $ConnectRequestCopyWith<$Res> {
+abstract class $ConnectRequestCopyWith<$Res> {
   factory $ConnectRequestCopyWith(
-          ConnectRequest value, $Res Function(ConnectRequest) _then) =
-      _$ConnectRequestCopyWithImpl;
+          ConnectRequest value, $Res Function(ConnectRequest) then) =
+      _$ConnectRequestCopyWithImpl<$Res, ConnectRequest>;
   @useResult
   $Res call({String manifestUrl, List<ConnectItem> items});
 }
 
 /// @nodoc
-class _$ConnectRequestCopyWithImpl<$Res>
+class _$ConnectRequestCopyWithImpl<$Res, $Val extends ConnectRequest>
     implements $ConnectRequestCopyWith<$Res> {
-  _$ConnectRequestCopyWithImpl(this._self, this._then);
+  _$ConnectRequestCopyWithImpl(this._value, this._then);
 
-  final ConnectRequest _self;
-  final $Res Function(ConnectRequest) _then;
+  // ignore: unused_field
+  final $Val _value;
+  // ignore: unused_field
+  final $Res Function($Val) _then;
 
   /// Create a copy of ConnectRequest
   /// with the given fields replaced by the non-null parameter values.
@@ -75,13 +60,53 @@ class _$ConnectRequestCopyWithImpl<$Res>
     Object? manifestUrl = null,
     Object? items = null,
   }) {
-    return _then(_self.copyWith(
+    return _then(_value.copyWith(
       manifestUrl: null == manifestUrl
-          ? _self.manifestUrl
+          ? _value.manifestUrl
           : manifestUrl // ignore: cast_nullable_to_non_nullable
               as String,
       items: null == items
-          ? _self.items
+          ? _value.items
+          : items // ignore: cast_nullable_to_non_nullable
+              as List<ConnectItem>,
+    ) as $Val);
+  }
+}
+
+/// @nodoc
+abstract class _$$ConnectRequestImplCopyWith<$Res>
+    implements $ConnectRequestCopyWith<$Res> {
+  factory _$$ConnectRequestImplCopyWith(_$ConnectRequestImpl value,
+          $Res Function(_$ConnectRequestImpl) then) =
+      __$$ConnectRequestImplCopyWithImpl<$Res>;
+  @override
+  @useResult
+  $Res call({String manifestUrl, List<ConnectItem> items});
+}
+
+/// @nodoc
+class __$$ConnectRequestImplCopyWithImpl<$Res>
+    extends _$ConnectRequestCopyWithImpl<$Res, _$ConnectRequestImpl>
+    implements _$$ConnectRequestImplCopyWith<$Res> {
+  __$$ConnectRequestImplCopyWithImpl(
+      _$ConnectRequestImpl _value, $Res Function(_$ConnectRequestImpl) _then)
+      : super(_value, _then);
+
+  /// Create a copy of ConnectRequest
+  /// with the given fields replaced by the non-null parameter values.
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? manifestUrl = null,
+    Object? items = null,
+  }) {
+    return _then(_$ConnectRequestImpl(
+      manifestUrl: null == manifestUrl
+          ? _value.manifestUrl
+          : manifestUrl // ignore: cast_nullable_to_non_nullable
+              as String,
+      items: null == items
+          ? _value._items
           : items // ignore: cast_nullable_to_non_nullable
               as List<ConnectItem>,
     ));
@@ -90,12 +115,13 @@ class _$ConnectRequestCopyWithImpl<$Res>
 
 /// @nodoc
 @JsonSerializable()
-class _ConnectRequest implements ConnectRequest {
-  _ConnectRequest(
+class _$ConnectRequestImpl implements _ConnectRequest {
+  _$ConnectRequestImpl(
       {required this.manifestUrl, required final List<ConnectItem> items})
       : _items = items;
-  factory _ConnectRequest.fromJson(Map<String, dynamic> json) =>
-      _$ConnectRequestFromJson(json);
+
+  factory _$ConnectRequestImpl.fromJson(Map<String, dynamic> json) =>
+      _$$ConnectRequestImplFromJson(json);
 
   @override
   final String manifestUrl;
@@ -107,26 +133,16 @@ class _ConnectRequest implements ConnectRequest {
     return EqualUnmodifiableListView(_items);
   }
 
-  /// Create a copy of ConnectRequest
-  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(includeFromJson: false, includeToJson: false)
-  @pragma('vm:prefer-inline')
-  _$ConnectRequestCopyWith<_ConnectRequest> get copyWith =>
-      __$ConnectRequestCopyWithImpl<_ConnectRequest>(this, _$identity);
-
-  @override
-  Map<String, dynamic> toJson() {
-    return _$ConnectRequestToJson(
-      this,
-    );
+  String toString() {
+    return 'ConnectRequest(manifestUrl: $manifestUrl, items: $items)';
   }
 
   @override
   bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _ConnectRequest &&
+            other is _$ConnectRequestImpl &&
             (identical(other.manifestUrl, manifestUrl) ||
                 other.manifestUrl == manifestUrl) &&
             const DeepCollectionEquality().equals(other._items, _items));
@@ -137,50 +153,40 @@ class _ConnectRequest implements ConnectRequest {
   int get hashCode => Object.hash(
       runtimeType, manifestUrl, const DeepCollectionEquality().hash(_items));
 
+  /// Create a copy of ConnectRequest
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
-  String toString() {
-    return 'ConnectRequest(manifestUrl: $manifestUrl, items: $items)';
+  @pragma('vm:prefer-inline')
+  _$$ConnectRequestImplCopyWith<_$ConnectRequestImpl> get copyWith =>
+      __$$ConnectRequestImplCopyWithImpl<_$ConnectRequestImpl>(
+          this, _$identity);
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$$ConnectRequestImplToJson(
+      this,
+    );
   }
 }
 
-/// @nodoc
-abstract mixin class _$ConnectRequestCopyWith<$Res>
-    implements $ConnectRequestCopyWith<$Res> {
-  factory _$ConnectRequestCopyWith(
-          _ConnectRequest value, $Res Function(_ConnectRequest) _then) =
-      __$ConnectRequestCopyWithImpl;
+abstract class _ConnectRequest implements ConnectRequest {
+  factory _ConnectRequest(
+      {required final String manifestUrl,
+      required final List<ConnectItem> items}) = _$ConnectRequestImpl;
+
+  factory _ConnectRequest.fromJson(Map<String, dynamic> json) =
+      _$ConnectRequestImpl.fromJson;
+
   @override
-  @useResult
-  $Res call({String manifestUrl, List<ConnectItem> items});
-}
-
-/// @nodoc
-class __$ConnectRequestCopyWithImpl<$Res>
-    implements _$ConnectRequestCopyWith<$Res> {
-  __$ConnectRequestCopyWithImpl(this._self, this._then);
-
-  final _ConnectRequest _self;
-  final $Res Function(_ConnectRequest) _then;
+  String get manifestUrl;
+  @override
+  List<ConnectItem> get items;
 
   /// Create a copy of ConnectRequest
   /// with the given fields replaced by the non-null parameter values.
   @override
-  @pragma('vm:prefer-inline')
-  $Res call({
-    Object? manifestUrl = null,
-    Object? items = null,
-  }) {
-    return _then(_ConnectRequest(
-      manifestUrl: null == manifestUrl
-          ? _self.manifestUrl
-          : manifestUrl // ignore: cast_nullable_to_non_nullable
-              as String,
-      items: null == items
-          ? _self._items
-          : items // ignore: cast_nullable_to_non_nullable
-              as List<ConnectItem>,
-    ));
-  }
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  _$$ConnectRequestImplCopyWith<_$ConnectRequestImpl> get copyWith =>
+      throw _privateConstructorUsedError;
 }
-
-// dart format on

@@ -6,7 +6,7 @@ part 'sign_data_payload.g.dart';
 
 /// https://github.com/ton-blockchain/ton-connect/blob/main/requests-responses.md#sign-data-experimental
 @freezed
-abstract class SignDataPayload with _$SignDataPayload {
+class SignDataPayload with _$SignDataPayload {
   factory SignDataPayload({
     @JsonKey(name: 'schema_crc') required int schema,
     required String cell,

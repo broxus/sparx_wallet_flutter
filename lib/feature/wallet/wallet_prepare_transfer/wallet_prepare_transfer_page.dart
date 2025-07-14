@@ -1,31 +1,37 @@
-import 'package:app/core/wm/custom_wm.dart';
 import 'package:app/feature/wallet/wallet_prepare_transfer/data/wallet_prepare_transfer_asset.dart';
 import 'package:app/feature/wallet/wallet_prepare_transfer/data/wallet_prepare_transfer_data.dart';
 import 'package:app/feature/wallet/wallet_prepare_transfer/wallet_prepare_transfer_page_wm.dart';
 import 'package:app/feature/wallet/wallet_prepare_transfer/widgets/wallet_prepare_transfer_view.dart';
 import 'package:app/feature/wallet/widgets/wallet_subscribe_error_widget.dart';
 import 'package:app/generated/generated.dart';
+import 'package:elementary/elementary.dart';
 import 'package:elementary_helper/elementary_helper.dart';
 import 'package:flutter/material.dart';
 import 'package:nekoton_repository/nekoton_repository.dart' hide Message;
 import 'package:ui_components_lib/ui_components_lib.dart';
 
 class WalletPrepareTransferPage
-    extends InjectedElementaryWidget<WalletPrepareTransferPageWidgetModel> {
-  WalletPrepareTransferPage({
-    required Address address,
-    Address? destination,
-    Address? rootTokenContract,
-    String? tokenSymbol,
-    super.key,
-  }) : super(
-          wmFactoryParam: WalletPrepareTransferPageWmParams(
-            address: address,
-            destination: destination,
-            rootTokenContract: rootTokenContract,
-            tokenSymbol: tokenSymbol,
-          ),
-        );
+    extends ElementaryWidget<WalletPrepareTransferPageWidgetModel> {
+  const WalletPrepareTransferPage({
+    required this.address,
+    this.destination,
+    this.rootTokenContract,
+    this.tokenSymbol,
+    Key? key,
+    WidgetModelFactory wmFactory =
+        defaultWalletPrepareTransferPageWidgetModelFactory,
+  })  : assert(
+          rootTokenContract == null && tokenSymbol == null ||
+              rootTokenContract != null && tokenSymbol != null,
+          // ignore: lines_longer_than_80_chars
+          'rootTokenContract and tokenSymbol must be provided or not provided together',
+        ),
+        super(wmFactory, key: key);
+
+  final Address address;
+  final Address? destination;
+  final Address? rootTokenContract;
+  final String? tokenSymbol;
 
   @override
   Widget build(WalletPrepareTransferPageWidgetModel wm) {
@@ -42,10 +48,8 @@ class WalletPrepareTransferPage
           return StateNotifierBuilder(
             listenableState: wm.addressState,
             builder: (context, addressState) {
-              if (addressState == null) return const SizedBox();
-
               return _DefaultBody(
-                child: _EmptyText(address: addressState),
+                child: _EmptyText(address: addressState ?? address),
               );
             },
           );

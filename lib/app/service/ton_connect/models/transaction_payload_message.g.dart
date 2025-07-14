@@ -6,17 +6,17 @@ part of 'transaction_payload_message.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-_TransactionPayloadMessage _$TransactionPayloadMessageFromJson(
+_$TransactionPayloadMessageImpl _$$TransactionPayloadMessageImplFromJson(
         Map<String, dynamic> json) =>
-    _TransactionPayloadMessage(
+    _$TransactionPayloadMessageImpl(
       address: Address.fromJson(json['address'] as String),
       amount: json['amount'] as String,
       payload: json['payload'] as String?,
       stateInit: json['stateInit'] as String?,
     );
 
-Map<String, dynamic> _$TransactionPayloadMessageToJson(
-        _TransactionPayloadMessage instance) =>
+Map<String, dynamic> _$$TransactionPayloadMessageImplToJson(
+        _$TransactionPayloadMessageImpl instance) =>
     <String, dynamic>{
       'address': instance.address.toJson(),
       'amount': instance.amount,

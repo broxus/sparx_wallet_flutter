@@ -6,8 +6,9 @@ part of 'account_balance.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-_AccountBalanceModel _$AccountBalanceModelFromJson(Map<String, dynamic> json) =>
-    _AccountBalanceModel(
+_$AccountBalanceModelImpl _$$AccountBalanceModelImplFromJson(
+        Map<String, dynamic> json) =>
+    _$AccountBalanceModelImpl(
       rootTokenContract: const NekotonAddressConverter()
           .fromJson(json['rootTokenContract'] as String),
       fiatBalance: moneyFromStringJsonConverter
@@ -17,8 +18,8 @@ _AccountBalanceModel _$AccountBalanceModelFromJson(Map<String, dynamic> json) =>
       isNative: json['isNative'] as bool? ?? false,
     );
 
-Map<String, dynamic> _$AccountBalanceModelToJson(
-        _AccountBalanceModel instance) =>
+Map<String, dynamic> _$$AccountBalanceModelImplToJson(
+        _$AccountBalanceModelImpl instance) =>
     <String, dynamic>{
       'rootTokenContract':
           const NekotonAddressConverter().toJson(instance.rootTokenContract),

@@ -6,13 +6,14 @@ part of 'ton_proof_domain.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-_TonProofDomain _$TonProofDomainFromJson(Map<String, dynamic> json) =>
-    _TonProofDomain(
+_$TonProofDomainImpl _$$TonProofDomainImplFromJson(Map<String, dynamic> json) =>
+    _$TonProofDomainImpl(
       lengthBytes: json['lengthBytes'] as num,
       value: json['value'] as String,
     );
 
-Map<String, dynamic> _$TonProofDomainToJson(_TonProofDomain instance) =>
+Map<String, dynamic> _$$TonProofDomainImplToJson(
+        _$TonProofDomainImpl instance) =>
     <String, dynamic>{
       'lengthBytes': instance.lengthBytes,
       'value': instance.value,

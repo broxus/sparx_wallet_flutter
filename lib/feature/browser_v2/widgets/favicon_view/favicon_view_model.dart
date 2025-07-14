@@ -1,10 +1,8 @@
 import 'package:app/feature/browser_v2/domain/service/browser_service.dart';
 import 'package:app/feature/browser_v2/widgets/favicon_view/favicon_view.dart';
 import 'package:elementary/elementary.dart';
-import 'package:injectable/injectable.dart';
 
 /// [ElementaryModel] for [FaviconView]
-@injectable
 class FaviconViewModel extends ElementaryModel {
   FaviconViewModel(
     ErrorHandler errorHandler,

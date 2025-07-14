@@ -1,9 +1,7 @@
 import 'package:app/core/wm/context_wm_mixin.dart';
 import 'package:app/core/wm/notifier_subscriptions_mixin.dart';
-import 'package:app/di/di.dart';
 import 'package:elementary/elementary.dart';
-import 'package:flutter/widgets.dart';
-import 'package:logging/logging.dart';
+import 'package:flutter/foundation.dart';
 
 /// Custom WidgetModel with additional functionality
 ///
@@ -16,42 +14,4 @@ class CustomWidgetModel<W extends ElementaryWidget, M extends ElementaryModel>
   CustomWidgetModel(
     super.model,
   );
-}
-
-abstract class InjectedElementaryWidget<WM extends WidgetModel>
-    extends ElementaryWidget<WM> {
-  const InjectedElementaryWidget({
-    Key? key,
-    this.wmFactoryParam,
-    this.instanceName,
-  }) : super(
-          _getItFactory,
-          key: key,
-        );
-
-  final Object? wmFactoryParam;
-  final String? instanceName;
-  Type get wmType => WM;
-}
-
-final _factroryLogger = Logger('InjectedElementaryWidget');
-
-WM _getItFactory<WM extends WidgetModel>(
-  BuildContext context,
-) {
-  final injectedElementaryWidget = context.widget as InjectedElementaryWidget;
-
-  try {
-    return getIt.get(
-      param1: injectedElementaryWidget.wmFactoryParam,
-      instanceName: injectedElementaryWidget.instanceName,
-      type: injectedElementaryWidget.wmType,
-    ) as WM;
-  } catch (e, s) {
-    _factroryLogger.severe(
-      'Failed to create WM for type ${injectedElementaryWidget.wmType}, '
-      'by widget $injectedElementaryWidget',
-    );
-    Error.throwWithStackTrace(e, s);
-  }
 }

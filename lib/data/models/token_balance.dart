@@ -5,7 +5,7 @@ part 'token_balance.freezed.dart';
 part 'token_balance.g.dart';
 
 @freezed
-abstract class TokenBalanceModel with _$TokenBalanceModel {
+class TokenBalanceModel with _$TokenBalanceModel {
   const factory TokenBalanceModel({
     required String amount,
     required Address ownerAddress,

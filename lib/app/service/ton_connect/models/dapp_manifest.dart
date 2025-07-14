@@ -4,7 +4,7 @@ part 'dapp_manifest.freezed.dart';
 part 'dapp_manifest.g.dart';
 
 @freezed
-abstract class DappManifest with _$DappManifest {
+class DappManifest with _$DappManifest {
   const factory DappManifest({
     required String url,
     required String name,

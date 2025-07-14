@@ -70,12 +70,6 @@ Future<void> run(
       await SystemChrome.setPreferredOrientations([
         DeviceOrientation.portraitUp,
       ]);
-      await SystemChrome.setEnabledSystemUIMode(SystemUiMode.edgeToEdge);
-      SystemChrome.setSystemUIOverlayStyle(
-        const SystemUiOverlayStyle(
-          systemNavigationBarColor: Colors.transparent,
-        ),
-      );
 
       final imagePickerImplementation = ImagePickerPlatform.instance;
       if (imagePickerImplementation is ImagePickerAndroid) {

@@ -6,7 +6,7 @@ part 'pending_nft.freezed.dart';
 part 'pending_nft.g.dart';
 
 @freezed
-abstract class PendingNft with _$PendingNft {
+class PendingNft with _$PendingNft {
   factory PendingNft({
     required String id,
     required Address collection,

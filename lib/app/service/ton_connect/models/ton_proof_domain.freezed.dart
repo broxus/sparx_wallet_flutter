@@ -1,4 +1,3 @@
-// dart format width=80
 // coverage:ignore-file
 // GENERATED CODE - DO NOT MODIFY BY HAND
 // ignore_for_file: type=lint
@@ -10,61 +9,48 @@ part of 'ton_proof_domain.dart';
 // FreezedGenerator
 // **************************************************************************
 
-// dart format off
 T _$identity<T>(T value) => value;
+
+final _privateConstructorUsedError = UnsupportedError(
+    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models');
+
+TonProofDomain _$TonProofDomainFromJson(Map<String, dynamic> json) {
+  return _TonProofDomain.fromJson(json);
+}
 
 /// @nodoc
 mixin _$TonProofDomain {
-  num get lengthBytes;
-  String get value;
+  num get lengthBytes => throw _privateConstructorUsedError;
+  String get value => throw _privateConstructorUsedError;
+
+  /// Serializes this TonProofDomain to a JSON map.
+  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
 
   /// Create a copy of TonProofDomain
   /// with the given fields replaced by the non-null parameter values.
   @JsonKey(includeFromJson: false, includeToJson: false)
-  @pragma('vm:prefer-inline')
   $TonProofDomainCopyWith<TonProofDomain> get copyWith =>
-      _$TonProofDomainCopyWithImpl<TonProofDomain>(
-          this as TonProofDomain, _$identity);
-
-  /// Serializes this TonProofDomain to a JSON map.
-  Map<String, dynamic> toJson();
-
-  @override
-  bool operator ==(Object other) {
-    return identical(this, other) ||
-        (other.runtimeType == runtimeType &&
-            other is TonProofDomain &&
-            (identical(other.lengthBytes, lengthBytes) ||
-                other.lengthBytes == lengthBytes) &&
-            (identical(other.value, value) || other.value == value));
-  }
-
-  @JsonKey(includeFromJson: false, includeToJson: false)
-  @override
-  int get hashCode => Object.hash(runtimeType, lengthBytes, value);
-
-  @override
-  String toString() {
-    return 'TonProofDomain(lengthBytes: $lengthBytes, value: $value)';
-  }
+      throw _privateConstructorUsedError;
 }
 
 /// @nodoc
-abstract mixin class $TonProofDomainCopyWith<$Res> {
+abstract class $TonProofDomainCopyWith<$Res> {
   factory $TonProofDomainCopyWith(
-          TonProofDomain value, $Res Function(TonProofDomain) _then) =
-      _$TonProofDomainCopyWithImpl;
+          TonProofDomain value, $Res Function(TonProofDomain) then) =
+      _$TonProofDomainCopyWithImpl<$Res, TonProofDomain>;
   @useResult
   $Res call({num lengthBytes, String value});
 }
 
 /// @nodoc
-class _$TonProofDomainCopyWithImpl<$Res>
+class _$TonProofDomainCopyWithImpl<$Res, $Val extends TonProofDomain>
     implements $TonProofDomainCopyWith<$Res> {
-  _$TonProofDomainCopyWithImpl(this._self, this._then);
+  _$TonProofDomainCopyWithImpl(this._value, this._then);
 
-  final TonProofDomain _self;
-  final $Res Function(TonProofDomain) _then;
+  // ignore: unused_field
+  final $Val _value;
+  // ignore: unused_field
+  final $Res Function($Val) _then;
 
   /// Create a copy of TonProofDomain
   /// with the given fields replaced by the non-null parameter values.
@@ -74,13 +60,53 @@ class _$TonProofDomainCopyWithImpl<$Res>
     Object? lengthBytes = null,
     Object? value = null,
   }) {
-    return _then(_self.copyWith(
+    return _then(_value.copyWith(
       lengthBytes: null == lengthBytes
-          ? _self.lengthBytes
+          ? _value.lengthBytes
           : lengthBytes // ignore: cast_nullable_to_non_nullable
               as num,
       value: null == value
-          ? _self.value
+          ? _value.value
+          : value // ignore: cast_nullable_to_non_nullable
+              as String,
+    ) as $Val);
+  }
+}
+
+/// @nodoc
+abstract class _$$TonProofDomainImplCopyWith<$Res>
+    implements $TonProofDomainCopyWith<$Res> {
+  factory _$$TonProofDomainImplCopyWith(_$TonProofDomainImpl value,
+          $Res Function(_$TonProofDomainImpl) then) =
+      __$$TonProofDomainImplCopyWithImpl<$Res>;
+  @override
+  @useResult
+  $Res call({num lengthBytes, String value});
+}
+
+/// @nodoc
+class __$$TonProofDomainImplCopyWithImpl<$Res>
+    extends _$TonProofDomainCopyWithImpl<$Res, _$TonProofDomainImpl>
+    implements _$$TonProofDomainImplCopyWith<$Res> {
+  __$$TonProofDomainImplCopyWithImpl(
+      _$TonProofDomainImpl _value, $Res Function(_$TonProofDomainImpl) _then)
+      : super(_value, _then);
+
+  /// Create a copy of TonProofDomain
+  /// with the given fields replaced by the non-null parameter values.
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? lengthBytes = null,
+    Object? value = null,
+  }) {
+    return _then(_$TonProofDomainImpl(
+      lengthBytes: null == lengthBytes
+          ? _value.lengthBytes
+          : lengthBytes // ignore: cast_nullable_to_non_nullable
+              as num,
+      value: null == value
+          ? _value.value
           : value // ignore: cast_nullable_to_non_nullable
               as String,
     ));
@@ -89,36 +115,27 @@ class _$TonProofDomainCopyWithImpl<$Res>
 
 /// @nodoc
 @JsonSerializable()
-class _TonProofDomain implements TonProofDomain {
-  _TonProofDomain({required this.lengthBytes, required this.value});
-  factory _TonProofDomain.fromJson(Map<String, dynamic> json) =>
-      _$TonProofDomainFromJson(json);
+class _$TonProofDomainImpl implements _TonProofDomain {
+  _$TonProofDomainImpl({required this.lengthBytes, required this.value});
+
+  factory _$TonProofDomainImpl.fromJson(Map<String, dynamic> json) =>
+      _$$TonProofDomainImplFromJson(json);
 
   @override
   final num lengthBytes;
   @override
   final String value;
 
-  /// Create a copy of TonProofDomain
-  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(includeFromJson: false, includeToJson: false)
-  @pragma('vm:prefer-inline')
-  _$TonProofDomainCopyWith<_TonProofDomain> get copyWith =>
-      __$TonProofDomainCopyWithImpl<_TonProofDomain>(this, _$identity);
-
-  @override
-  Map<String, dynamic> toJson() {
-    return _$TonProofDomainToJson(
-      this,
-    );
+  String toString() {
+    return 'TonProofDomain(lengthBytes: $lengthBytes, value: $value)';
   }
 
   @override
   bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _TonProofDomain &&
+            other is _$TonProofDomainImpl &&
             (identical(other.lengthBytes, lengthBytes) ||
                 other.lengthBytes == lengthBytes) &&
             (identical(other.value, value) || other.value == value));
@@ -128,50 +145,40 @@ class _TonProofDomain implements TonProofDomain {
   @override
   int get hashCode => Object.hash(runtimeType, lengthBytes, value);
 
+  /// Create a copy of TonProofDomain
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
-  String toString() {
-    return 'TonProofDomain(lengthBytes: $lengthBytes, value: $value)';
+  @pragma('vm:prefer-inline')
+  _$$TonProofDomainImplCopyWith<_$TonProofDomainImpl> get copyWith =>
+      __$$TonProofDomainImplCopyWithImpl<_$TonProofDomainImpl>(
+          this, _$identity);
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$$TonProofDomainImplToJson(
+      this,
+    );
   }
 }
 
-/// @nodoc
-abstract mixin class _$TonProofDomainCopyWith<$Res>
-    implements $TonProofDomainCopyWith<$Res> {
-  factory _$TonProofDomainCopyWith(
-          _TonProofDomain value, $Res Function(_TonProofDomain) _then) =
-      __$TonProofDomainCopyWithImpl;
+abstract class _TonProofDomain implements TonProofDomain {
+  factory _TonProofDomain(
+      {required final num lengthBytes,
+      required final String value}) = _$TonProofDomainImpl;
+
+  factory _TonProofDomain.fromJson(Map<String, dynamic> json) =
+      _$TonProofDomainImpl.fromJson;
+
   @override
-  @useResult
-  $Res call({num lengthBytes, String value});
-}
-
-/// @nodoc
-class __$TonProofDomainCopyWithImpl<$Res>
-    implements _$TonProofDomainCopyWith<$Res> {
-  __$TonProofDomainCopyWithImpl(this._self, this._then);
-
-  final _TonProofDomain _self;
-  final $Res Function(_TonProofDomain) _then;
+  num get lengthBytes;
+  @override
+  String get value;
 
   /// Create a copy of TonProofDomain
   /// with the given fields replaced by the non-null parameter values.
   @override
-  @pragma('vm:prefer-inline')
-  $Res call({
-    Object? lengthBytes = null,
-    Object? value = null,
-  }) {
-    return _then(_TonProofDomain(
-      lengthBytes: null == lengthBytes
-          ? _self.lengthBytes
-          : lengthBytes // ignore: cast_nullable_to_non_nullable
-              as num,
-      value: null == value
-          ? _self.value
-          : value // ignore: cast_nullable_to_non_nullable
-              as String,
-    ));
-  }
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  _$$TonProofDomainImplCopyWith<_$TonProofDomainImpl> get copyWith =>
+      throw _privateConstructorUsedError;
 }
-
-// dart format on

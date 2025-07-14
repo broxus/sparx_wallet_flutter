@@ -97,7 +97,7 @@ class TonWalletDetailsCubit extends Cubit<TonWalletDetailsState>
 
   Future<void> retry() async {
     final st = state;
-    if (st is TonWalletDetailsStateSubscribeError) {
+    if (st is _SubscribeError) {
       emitSafe(st.copyWith(isLoading: true));
       await nekotonRepository.retrySubscriptions(address);
       emitSafe(st.copyWith(isLoading: false));

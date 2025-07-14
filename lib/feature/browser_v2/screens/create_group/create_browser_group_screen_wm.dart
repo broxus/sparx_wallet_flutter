@@ -1,8 +1,10 @@
 import 'dart:io';
 
 import 'package:app/app/router/router.dart';
+import 'package:app/core/error_handler_factory.dart';
 import 'package:app/core/wm/custom_wm.dart';
 import 'package:app/core/wm/not_null_listenable_state.dart';
+import 'package:app/di/di.dart';
 import 'package:app/feature/browser_v2/data/tabs/browser_tab.dart';
 import 'package:app/feature/browser_v2/data/tabs/tabs_data.dart';
 import 'package:app/feature/browser_v2/screens/create_group/create_browser_group_screen.dart';
@@ -11,17 +13,30 @@ import 'package:elementary/elementary.dart';
 import 'package:elementary_helper/elementary_helper.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
-import 'package:injectable/injectable.dart';
 import 'package:ui_components_lib/v2/colors_v2.dart';
 import 'package:ui_components_lib/v2/theme_style_v2.dart';
 
+/// Factory method for creating [CreateBrowserGroupScreenWidgetModel]
+CreateBrowserGroupScreenWidgetModel
+    defaultCreateBrowserGroupScreenWidgetModelFactory(
+  BuildContext context, {
+  String? tabId,
+}) {
+  return CreateBrowserGroupScreenWidgetModel(
+    CreateBrowserGroupScreenModel(
+      createPrimaryErrorHandler(context),
+      inject(),
+    ),
+    tabId,
+  );
+}
+
 /// [WidgetModel] для [CreateBrowserGroupScreen]
-@injectable
 class CreateBrowserGroupScreenWidgetModel extends CustomWidgetModel<
     CreateBrowserGroupScreen, CreateBrowserGroupScreenModel> {
   CreateBrowserGroupScreenWidgetModel(
     super.model,
-    @factoryParam this._tabId,
+    this._tabId,
   );
 
   late final screenHeight = MediaQuery.of(context).size.height;

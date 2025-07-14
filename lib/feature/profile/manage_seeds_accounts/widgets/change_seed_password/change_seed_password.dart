@@ -59,21 +59,19 @@ class _ChangeSeedPasswordSheetState extends State<ChangeSeedPasswordSheet> {
   Widget build(BuildContext context) {
     return BlocConsumer<ChangeSeedPasswordCubit, ChangeSeedPasswordState>(
       listener: (context, state) {
-        switch (state) {
-          case ChangeSeedPasswordStateError(:final errorCode):
-            inject<MessengerService>().show(
-              Message.error(message: errorCode.tr()),
-            );
-          case ChangeSeedPasswordStateCompleted():
+        state.whenOrNull(
+          error: (errorCode) => inject<MessengerService>().show(
+            Message.error(message: errorCode.tr()),
+          ),
+          completed: () {
             Navigator.of(context).pop();
             inject<MessengerService>().show(
               Message.successful(
                 message: LocaleKeys.passwordChanged.tr(),
               ),
             );
-          default:
-            return;
-        }
+          },
+        );
       },
       builder: (context, snapshot) {
         return Form(

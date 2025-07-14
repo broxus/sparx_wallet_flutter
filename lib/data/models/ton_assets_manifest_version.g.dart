@@ -6,16 +6,16 @@ part of 'ton_assets_manifest_version.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-_TonAssetsManifestVersion _$TonAssetsManifestVersionFromJson(
+_$TonAssetsManifestVersionImpl _$$TonAssetsManifestVersionImplFromJson(
         Map<String, dynamic> json) =>
-    _TonAssetsManifestVersion(
+    _$TonAssetsManifestVersionImpl(
       major: (json['major'] as num).toInt(),
       minor: (json['minor'] as num).toInt(),
       patch: (json['patch'] as num).toInt(),
     );
 
-Map<String, dynamic> _$TonAssetsManifestVersionToJson(
-        _TonAssetsManifestVersion instance) =>
+Map<String, dynamic> _$$TonAssetsManifestVersionImplToJson(
+        _$TonAssetsManifestVersionImpl instance) =>
     <String, dynamic>{
       'major': instance.major,
       'minor': instance.minor,

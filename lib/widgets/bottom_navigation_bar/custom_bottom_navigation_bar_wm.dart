@@ -1,17 +1,29 @@
-import 'package:app/app/router/compass/bottom_bar_state.dart';
 import 'package:app/app/router/router.dart';
+import 'package:app/core/error_handler_factory.dart';
 import 'package:app/core/wm/custom_wm.dart';
+import 'package:app/di/di.dart';
 import 'package:app/feature/root/view/root_tab.dart';
 import 'package:app/widgets/bottom_navigation_bar/custom_bottom_navigation_bar.dart';
 import 'package:app/widgets/bottom_navigation_bar/custom_bottom_navigation_bar_model.dart';
 import 'package:elementary/elementary.dart';
 import 'package:elementary_helper/elementary_helper.dart';
 import 'package:flutter/material.dart';
-import 'package:injectable/injectable.dart';
 import 'package:ui_components_lib/v2/ui_components_lib_v2.dart';
 
+/// Factory method for creating [CustomBottomNavigationBarWidgetModel]
+CustomBottomNavigationBarWidgetModel
+    defaultCustomBottomNavigationBarWidgetModelFactory(
+  BuildContext context,
+) {
+  return CustomBottomNavigationBarWidgetModel(
+    CustomBottomNavigationBarModel(
+      createPrimaryErrorHandler(context),
+      inject(),
+    ),
+  );
+}
+
 /// [WidgetModel] для [CustomBottomNavigationBar]
-@injectable
 class CustomBottomNavigationBarWidgetModel extends CustomWidgetModel<
     CustomBottomNavigationBar, CustomBottomNavigationBarModel> {
   CustomBottomNavigationBarWidgetModel(
@@ -19,17 +31,15 @@ class CustomBottomNavigationBarWidgetModel extends CustomWidgetModel<
   );
 
   late final _tabState = createNotifierFromStream<RootTab>(model.rootTabStream);
-  late final _visibleState = createNotifierFromStream(
-    model.bottomBarStateStream,
+  late final _visibleState = createNotifierFromStream<bool>(
+    model.isBottomBarVisibleStream,
   );
 
-  ListenableState<BottomBarState> get visibleState => _visibleState;
+  ListenableState<bool> get visibleState => _visibleState;
 
   ListenableState<RootTab> get tabState => _tabState;
 
   ColorsPaletteV2 get colors => _theme.colors;
-
-  double get bottomPadding => MediaQuery.of(context).padding.bottom;
 
   ThemeData get themeData => Theme.of(context).copyWith(
         splashColor: Colors.transparent,

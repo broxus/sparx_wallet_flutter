@@ -5,7 +5,7 @@ part 'connect_event_success_payload.freezed.dart';
 part 'connect_event_success_payload.g.dart';
 
 @freezed
-abstract class ConnectEventSuccessPayload with _$ConnectEventSuccessPayload {
+class ConnectEventSuccessPayload with _$ConnectEventSuccessPayload {
   const factory ConnectEventSuccessPayload({
     required List<ConnectItemReply> items,
     required DeviceInfo device,

@@ -1,4 +1,3 @@
-// dart format width=80
 // coverage:ignore-file
 // GENERATED CODE - DO NOT MODIFY BY HAND
 // ignore_for_file: type=lint
@@ -10,99 +9,59 @@ part of 'token_contract_asset.dart';
 // FreezedGenerator
 // **************************************************************************
 
-// dart format off
 T _$identity<T>(T value) => value;
+
+final _privateConstructorUsedError = UnsupportedError(
+    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models');
+
+TokenContractAsset _$TokenContractAssetFromJson(Map<String, dynamic> json) {
+  return _TokenContractAsset.fromJson(json);
+}
 
 /// @nodoc
 mixin _$TokenContractAsset {
-  String get name;
-  String get symbol;
-  int get decimals; // address of rootTokenContract
-  Address get address;
-  NetworkType get networkType;
-  NetworkGroup get networkGroup; // true if custom, false if system
-  bool get isCustom;
-  TokenWalletVersion? get version;
-  int? get chainId; // address of owner that could be set when loaded in
+  String get name => throw _privateConstructorUsedError;
+  String get symbol => throw _privateConstructorUsedError;
+  int get decimals =>
+      throw _privateConstructorUsedError; // address of rootTokenContract
+  Address get address => throw _privateConstructorUsedError;
+  String get networkType => throw _privateConstructorUsedError;
+  String get networkGroup =>
+      throw _privateConstructorUsedError; // true if custom, false if system
+  bool get isCustom => throw _privateConstructorUsedError;
+  TokenWalletVersion? get version => throw _privateConstructorUsedError;
+  int? get chainId =>
+      throw _privateConstructorUsedError; // address of owner that could be set when loaded in
 // <TonWallet.getTokenRootDetailsFromTokenWallet>, may be optional
   @JsonKey(includeToJson: false, includeFromJson: false)
-  Address? get ownerAddress;
+  Address? get ownerAddress => throw _privateConstructorUsedError;
   @JsonKey(includeToJson: false, includeFromJson: false)
-  String? get totalSupply;
-  String? get logoURI;
+  String? get totalSupply => throw _privateConstructorUsedError;
+  String? get logoURI => throw _privateConstructorUsedError;
+
+  /// Serializes this TokenContractAsset to a JSON map.
+  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
 
   /// Create a copy of TokenContractAsset
   /// with the given fields replaced by the non-null parameter values.
   @JsonKey(includeFromJson: false, includeToJson: false)
-  @pragma('vm:prefer-inline')
   $TokenContractAssetCopyWith<TokenContractAsset> get copyWith =>
-      _$TokenContractAssetCopyWithImpl<TokenContractAsset>(
-          this as TokenContractAsset, _$identity);
-
-  /// Serializes this TokenContractAsset to a JSON map.
-  Map<String, dynamic> toJson();
-
-  @override
-  bool operator ==(Object other) {
-    return identical(this, other) ||
-        (other.runtimeType == runtimeType &&
-            other is TokenContractAsset &&
-            (identical(other.name, name) || other.name == name) &&
-            (identical(other.symbol, symbol) || other.symbol == symbol) &&
-            (identical(other.decimals, decimals) ||
-                other.decimals == decimals) &&
-            (identical(other.address, address) || other.address == address) &&
-            (identical(other.networkType, networkType) ||
-                other.networkType == networkType) &&
-            (identical(other.networkGroup, networkGroup) ||
-                other.networkGroup == networkGroup) &&
-            (identical(other.isCustom, isCustom) ||
-                other.isCustom == isCustom) &&
-            (identical(other.version, version) || other.version == version) &&
-            (identical(other.chainId, chainId) || other.chainId == chainId) &&
-            (identical(other.ownerAddress, ownerAddress) ||
-                other.ownerAddress == ownerAddress) &&
-            (identical(other.totalSupply, totalSupply) ||
-                other.totalSupply == totalSupply) &&
-            (identical(other.logoURI, logoURI) || other.logoURI == logoURI));
-  }
-
-  @JsonKey(includeFromJson: false, includeToJson: false)
-  @override
-  int get hashCode => Object.hash(
-      runtimeType,
-      name,
-      symbol,
-      decimals,
-      address,
-      networkType,
-      networkGroup,
-      isCustom,
-      version,
-      chainId,
-      ownerAddress,
-      totalSupply,
-      logoURI);
-
-  @override
-  String toString() {
-    return 'TokenContractAsset(name: $name, symbol: $symbol, decimals: $decimals, address: $address, networkType: $networkType, networkGroup: $networkGroup, isCustom: $isCustom, version: $version, chainId: $chainId, ownerAddress: $ownerAddress, totalSupply: $totalSupply, logoURI: $logoURI)';
-  }
+      throw _privateConstructorUsedError;
 }
 
 /// @nodoc
-abstract mixin class $TokenContractAssetCopyWith<$Res> {
+abstract class $TokenContractAssetCopyWith<$Res> {
   factory $TokenContractAssetCopyWith(
-          TokenContractAsset value, $Res Function(TokenContractAsset) _then) =
-      _$TokenContractAssetCopyWithImpl;
+          TokenContractAsset value, $Res Function(TokenContractAsset) then) =
+      _$TokenContractAssetCopyWithImpl<$Res, TokenContractAsset>;
   @useResult
   $Res call(
       {String name,
       String symbol,
       int decimals,
       Address address,
-      NetworkType networkType,
-      NetworkGroup networkGroup,
+      String networkType,
+      String networkGroup,
       bool isCustom,
       TokenWalletVersion? version,
       int? chainId,
@@ -117,12 +76,14 @@ abstract mixin class $TokenContractAssetCopyWith<$Res> {
 }
 
 /// @nodoc
-class _$TokenContractAssetCopyWithImpl<$Res>
+class _$TokenContractAssetCopyWithImpl<$Res, $Val extends TokenContractAsset>
     implements $TokenContractAssetCopyWith<$Res> {
-  _$TokenContractAssetCopyWithImpl(this._self, this._then);
+  _$TokenContractAssetCopyWithImpl(this._value, this._then);
 
-  final TokenContractAsset _self;
-  final $Res Function(TokenContractAsset) _then;
+  // ignore: unused_field
+  final $Val _value;
+  // ignore: unused_field
+  final $Res Function($Val) _then;
 
   /// Create a copy of TokenContractAsset
   /// with the given fields replaced by the non-null parameter values.
@@ -142,56 +103,56 @@ class _$TokenContractAssetCopyWithImpl<$Res>
     Object? totalSupply = freezed,
     Object? logoURI = freezed,
   }) {
-    return _then(_self.copyWith(
+    return _then(_value.copyWith(
       name: null == name
-          ? _self.name
+          ? _value.name
           : name // ignore: cast_nullable_to_non_nullable
               as String,
       symbol: null == symbol
-          ? _self.symbol
+          ? _value.symbol
           : symbol // ignore: cast_nullable_to_non_nullable
               as String,
       decimals: null == decimals
-          ? _self.decimals
+          ? _value.decimals
           : decimals // ignore: cast_nullable_to_non_nullable
               as int,
       address: null == address
-          ? _self.address
+          ? _value.address
           : address // ignore: cast_nullable_to_non_nullable
               as Address,
       networkType: null == networkType
-          ? _self.networkType
+          ? _value.networkType
           : networkType // ignore: cast_nullable_to_non_nullable
-              as NetworkType,
+              as String,
       networkGroup: null == networkGroup
-          ? _self.networkGroup
+          ? _value.networkGroup
           : networkGroup // ignore: cast_nullable_to_non_nullable
-              as NetworkGroup,
+              as String,
       isCustom: null == isCustom
-          ? _self.isCustom
+          ? _value.isCustom
           : isCustom // ignore: cast_nullable_to_non_nullable
               as bool,
       version: freezed == version
-          ? _self.version
+          ? _value.version
           : version // ignore: cast_nullable_to_non_nullable
               as TokenWalletVersion?,
       chainId: freezed == chainId
-          ? _self.chainId
+          ? _value.chainId
           : chainId // ignore: cast_nullable_to_non_nullable
               as int?,
       ownerAddress: freezed == ownerAddress
-          ? _self.ownerAddress
+          ? _value.ownerAddress
           : ownerAddress // ignore: cast_nullable_to_non_nullable
               as Address?,
       totalSupply: freezed == totalSupply
-          ? _self.totalSupply
+          ? _value.totalSupply
           : totalSupply // ignore: cast_nullable_to_non_nullable
               as String?,
       logoURI: freezed == logoURI
-          ? _self.logoURI
+          ? _value.logoURI
           : logoURI // ignore: cast_nullable_to_non_nullable
               as String?,
-    ));
+    ) as $Val);
   }
 
   /// Create a copy of TokenContractAsset
@@ -199,8 +160,8 @@ class _$TokenContractAssetCopyWithImpl<$Res>
   @override
   @pragma('vm:prefer-inline')
   $AddressCopyWith<$Res> get address {
-    return $AddressCopyWith<$Res>(_self.address, (value) {
-      return _then(_self.copyWith(address: value));
+    return $AddressCopyWith<$Res>(_value.address, (value) {
+      return _then(_value.copyWith(address: value) as $Val);
     });
   }
 
@@ -209,20 +170,129 @@ class _$TokenContractAssetCopyWithImpl<$Res>
   @override
   @pragma('vm:prefer-inline')
   $AddressCopyWith<$Res>? get ownerAddress {
-    if (_self.ownerAddress == null) {
+    if (_value.ownerAddress == null) {
       return null;
     }
 
-    return $AddressCopyWith<$Res>(_self.ownerAddress!, (value) {
-      return _then(_self.copyWith(ownerAddress: value));
+    return $AddressCopyWith<$Res>(_value.ownerAddress!, (value) {
+      return _then(_value.copyWith(ownerAddress: value) as $Val);
     });
   }
 }
 
 /// @nodoc
+abstract class _$$TokenContractAssetImplCopyWith<$Res>
+    implements $TokenContractAssetCopyWith<$Res> {
+  factory _$$TokenContractAssetImplCopyWith(_$TokenContractAssetImpl value,
+          $Res Function(_$TokenContractAssetImpl) then) =
+      __$$TokenContractAssetImplCopyWithImpl<$Res>;
+  @override
+  @useResult
+  $Res call(
+      {String name,
+      String symbol,
+      int decimals,
+      Address address,
+      String networkType,
+      String networkGroup,
+      bool isCustom,
+      TokenWalletVersion? version,
+      int? chainId,
+      @JsonKey(includeToJson: false, includeFromJson: false)
+      Address? ownerAddress,
+      @JsonKey(includeToJson: false, includeFromJson: false)
+      String? totalSupply,
+      String? logoURI});
+
+  @override
+  $AddressCopyWith<$Res> get address;
+  @override
+  $AddressCopyWith<$Res>? get ownerAddress;
+}
+
+/// @nodoc
+class __$$TokenContractAssetImplCopyWithImpl<$Res>
+    extends _$TokenContractAssetCopyWithImpl<$Res, _$TokenContractAssetImpl>
+    implements _$$TokenContractAssetImplCopyWith<$Res> {
+  __$$TokenContractAssetImplCopyWithImpl(_$TokenContractAssetImpl _value,
+      $Res Function(_$TokenContractAssetImpl) _then)
+      : super(_value, _then);
+
+  /// Create a copy of TokenContractAsset
+  /// with the given fields replaced by the non-null parameter values.
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? name = null,
+    Object? symbol = null,
+    Object? decimals = null,
+    Object? address = null,
+    Object? networkType = null,
+    Object? networkGroup = null,
+    Object? isCustom = null,
+    Object? version = freezed,
+    Object? chainId = freezed,
+    Object? ownerAddress = freezed,
+    Object? totalSupply = freezed,
+    Object? logoURI = freezed,
+  }) {
+    return _then(_$TokenContractAssetImpl(
+      name: null == name
+          ? _value.name
+          : name // ignore: cast_nullable_to_non_nullable
+              as String,
+      symbol: null == symbol
+          ? _value.symbol
+          : symbol // ignore: cast_nullable_to_non_nullable
+              as String,
+      decimals: null == decimals
+          ? _value.decimals
+          : decimals // ignore: cast_nullable_to_non_nullable
+              as int,
+      address: null == address
+          ? _value.address
+          : address // ignore: cast_nullable_to_non_nullable
+              as Address,
+      networkType: null == networkType
+          ? _value.networkType
+          : networkType // ignore: cast_nullable_to_non_nullable
+              as String,
+      networkGroup: null == networkGroup
+          ? _value.networkGroup
+          : networkGroup // ignore: cast_nullable_to_non_nullable
+              as String,
+      isCustom: null == isCustom
+          ? _value.isCustom
+          : isCustom // ignore: cast_nullable_to_non_nullable
+              as bool,
+      version: freezed == version
+          ? _value.version
+          : version // ignore: cast_nullable_to_non_nullable
+              as TokenWalletVersion?,
+      chainId: freezed == chainId
+          ? _value.chainId
+          : chainId // ignore: cast_nullable_to_non_nullable
+              as int?,
+      ownerAddress: freezed == ownerAddress
+          ? _value.ownerAddress
+          : ownerAddress // ignore: cast_nullable_to_non_nullable
+              as Address?,
+      totalSupply: freezed == totalSupply
+          ? _value.totalSupply
+          : totalSupply // ignore: cast_nullable_to_non_nullable
+              as String?,
+      logoURI: freezed == logoURI
+          ? _value.logoURI
+          : logoURI // ignore: cast_nullable_to_non_nullable
+              as String?,
+    ));
+  }
+}
+
+/// @nodoc
 @JsonSerializable()
-class _TokenContractAsset implements TokenContractAsset {
-  const _TokenContractAsset(
+class _$TokenContractAssetImpl implements _TokenContractAsset {
+  const _$TokenContractAssetImpl(
       {required this.name,
       required this.symbol,
       required this.decimals,
@@ -235,8 +305,9 @@ class _TokenContractAsset implements TokenContractAsset {
       @JsonKey(includeToJson: false, includeFromJson: false) this.ownerAddress,
       @JsonKey(includeToJson: false, includeFromJson: false) this.totalSupply,
       this.logoURI});
-  factory _TokenContractAsset.fromJson(Map<String, dynamic> json) =>
-      _$TokenContractAssetFromJson(json);
+
+  factory _$TokenContractAssetImpl.fromJson(Map<String, dynamic> json) =>
+      _$$TokenContractAssetImplFromJson(json);
 
   @override
   final String name;
@@ -248,9 +319,9 @@ class _TokenContractAsset implements TokenContractAsset {
   @override
   final Address address;
   @override
-  final NetworkType networkType;
+  final String networkType;
   @override
-  final NetworkGroup networkGroup;
+  final String networkGroup;
 // true if custom, false if system
   @override
   final bool isCustom;
@@ -269,26 +340,16 @@ class _TokenContractAsset implements TokenContractAsset {
   @override
   final String? logoURI;
 
-  /// Create a copy of TokenContractAsset
-  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(includeFromJson: false, includeToJson: false)
-  @pragma('vm:prefer-inline')
-  _$TokenContractAssetCopyWith<_TokenContractAsset> get copyWith =>
-      __$TokenContractAssetCopyWithImpl<_TokenContractAsset>(this, _$identity);
-
-  @override
-  Map<String, dynamic> toJson() {
-    return _$TokenContractAssetToJson(
-      this,
-    );
+  String toString() {
+    return 'TokenContractAsset(name: $name, symbol: $symbol, decimals: $decimals, address: $address, networkType: $networkType, networkGroup: $networkGroup, isCustom: $isCustom, version: $version, chainId: $chainId, ownerAddress: $ownerAddress, totalSupply: $totalSupply, logoURI: $logoURI)';
   }
 
   @override
   bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _TokenContractAsset &&
+            other is _$TokenContractAssetImpl &&
             (identical(other.name, name) || other.name == name) &&
             (identical(other.symbol, symbol) || other.symbol == symbol) &&
             (identical(other.decimals, decimals) ||
@@ -326,143 +387,75 @@ class _TokenContractAsset implements TokenContractAsset {
       totalSupply,
       logoURI);
 
+  /// Create a copy of TokenContractAsset
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
-  String toString() {
-    return 'TokenContractAsset(name: $name, symbol: $symbol, decimals: $decimals, address: $address, networkType: $networkType, networkGroup: $networkGroup, isCustom: $isCustom, version: $version, chainId: $chainId, ownerAddress: $ownerAddress, totalSupply: $totalSupply, logoURI: $logoURI)';
+  @pragma('vm:prefer-inline')
+  _$$TokenContractAssetImplCopyWith<_$TokenContractAssetImpl> get copyWith =>
+      __$$TokenContractAssetImplCopyWithImpl<_$TokenContractAssetImpl>(
+          this, _$identity);
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$$TokenContractAssetImplToJson(
+      this,
+    );
   }
 }
 
-/// @nodoc
-abstract mixin class _$TokenContractAssetCopyWith<$Res>
-    implements $TokenContractAssetCopyWith<$Res> {
-  factory _$TokenContractAssetCopyWith(
-          _TokenContractAsset value, $Res Function(_TokenContractAsset) _then) =
-      __$TokenContractAssetCopyWithImpl;
-  @override
-  @useResult
-  $Res call(
-      {String name,
-      String symbol,
-      int decimals,
-      Address address,
-      NetworkType networkType,
-      NetworkGroup networkGroup,
-      bool isCustom,
-      TokenWalletVersion? version,
-      int? chainId,
+abstract class _TokenContractAsset implements TokenContractAsset {
+  const factory _TokenContractAsset(
+      {required final String name,
+      required final String symbol,
+      required final int decimals,
+      required final Address address,
+      required final String networkType,
+      required final String networkGroup,
+      required final bool isCustom,
+      final TokenWalletVersion? version,
+      final int? chainId,
       @JsonKey(includeToJson: false, includeFromJson: false)
-      Address? ownerAddress,
+      final Address? ownerAddress,
       @JsonKey(includeToJson: false, includeFromJson: false)
-      String? totalSupply,
-      String? logoURI});
+      final String? totalSupply,
+      final String? logoURI}) = _$TokenContractAssetImpl;
+
+  factory _TokenContractAsset.fromJson(Map<String, dynamic> json) =
+      _$TokenContractAssetImpl.fromJson;
 
   @override
-  $AddressCopyWith<$Res> get address;
+  String get name;
   @override
-  $AddressCopyWith<$Res>? get ownerAddress;
+  String get symbol;
+  @override
+  int get decimals; // address of rootTokenContract
+  @override
+  Address get address;
+  @override
+  String get networkType;
+  @override
+  String get networkGroup; // true if custom, false if system
+  @override
+  bool get isCustom;
+  @override
+  TokenWalletVersion? get version;
+  @override
+  int? get chainId; // address of owner that could be set when loaded in
+// <TonWallet.getTokenRootDetailsFromTokenWallet>, may be optional
+  @override
+  @JsonKey(includeToJson: false, includeFromJson: false)
+  Address? get ownerAddress;
+  @override
+  @JsonKey(includeToJson: false, includeFromJson: false)
+  String? get totalSupply;
+  @override
+  String? get logoURI;
+
+  /// Create a copy of TokenContractAsset
+  /// with the given fields replaced by the non-null parameter values.
+  @override
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  _$$TokenContractAssetImplCopyWith<_$TokenContractAssetImpl> get copyWith =>
+      throw _privateConstructorUsedError;
 }
-
-/// @nodoc
-class __$TokenContractAssetCopyWithImpl<$Res>
-    implements _$TokenContractAssetCopyWith<$Res> {
-  __$TokenContractAssetCopyWithImpl(this._self, this._then);
-
-  final _TokenContractAsset _self;
-  final $Res Function(_TokenContractAsset) _then;
-
-  /// Create a copy of TokenContractAsset
-  /// with the given fields replaced by the non-null parameter values.
-  @override
-  @pragma('vm:prefer-inline')
-  $Res call({
-    Object? name = null,
-    Object? symbol = null,
-    Object? decimals = null,
-    Object? address = null,
-    Object? networkType = null,
-    Object? networkGroup = null,
-    Object? isCustom = null,
-    Object? version = freezed,
-    Object? chainId = freezed,
-    Object? ownerAddress = freezed,
-    Object? totalSupply = freezed,
-    Object? logoURI = freezed,
-  }) {
-    return _then(_TokenContractAsset(
-      name: null == name
-          ? _self.name
-          : name // ignore: cast_nullable_to_non_nullable
-              as String,
-      symbol: null == symbol
-          ? _self.symbol
-          : symbol // ignore: cast_nullable_to_non_nullable
-              as String,
-      decimals: null == decimals
-          ? _self.decimals
-          : decimals // ignore: cast_nullable_to_non_nullable
-              as int,
-      address: null == address
-          ? _self.address
-          : address // ignore: cast_nullable_to_non_nullable
-              as Address,
-      networkType: null == networkType
-          ? _self.networkType
-          : networkType // ignore: cast_nullable_to_non_nullable
-              as NetworkType,
-      networkGroup: null == networkGroup
-          ? _self.networkGroup
-          : networkGroup // ignore: cast_nullable_to_non_nullable
-              as NetworkGroup,
-      isCustom: null == isCustom
-          ? _self.isCustom
-          : isCustom // ignore: cast_nullable_to_non_nullable
-              as bool,
-      version: freezed == version
-          ? _self.version
-          : version // ignore: cast_nullable_to_non_nullable
-              as TokenWalletVersion?,
-      chainId: freezed == chainId
-          ? _self.chainId
-          : chainId // ignore: cast_nullable_to_non_nullable
-              as int?,
-      ownerAddress: freezed == ownerAddress
-          ? _self.ownerAddress
-          : ownerAddress // ignore: cast_nullable_to_non_nullable
-              as Address?,
-      totalSupply: freezed == totalSupply
-          ? _self.totalSupply
-          : totalSupply // ignore: cast_nullable_to_non_nullable
-              as String?,
-      logoURI: freezed == logoURI
-          ? _self.logoURI
-          : logoURI // ignore: cast_nullable_to_non_nullable
-              as String?,
-    ));
-  }
-
-  /// Create a copy of TokenContractAsset
-  /// with the given fields replaced by the non-null parameter values.
-  @override
-  @pragma('vm:prefer-inline')
-  $AddressCopyWith<$Res> get address {
-    return $AddressCopyWith<$Res>(_self.address, (value) {
-      return _then(_self.copyWith(address: value));
-    });
-  }
-
-  /// Create a copy of TokenContractAsset
-  /// with the given fields replaced by the non-null parameter values.
-  @override
-  @pragma('vm:prefer-inline')
-  $AddressCopyWith<$Res>? get ownerAddress {
-    if (_self.ownerAddress == null) {
-      return null;
-    }
-
-    return $AddressCopyWith<$Res>(_self.ownerAddress!, (value) {
-      return _then(_self.copyWith(ownerAddress: value));
-    });
-  }
-}
-
-// dart format on

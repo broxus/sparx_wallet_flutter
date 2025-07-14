@@ -35,24 +35,22 @@ class BiometryScreen extends StatelessWidget {
             inject<NekotonRepository>(),
           )..init(),
           child: BlocConsumer<BiometryCubit, BiometryState>(
-            listener: (context, state) => switch (state) {
-              BiometryStateCompleted() => _openWallet(context),
-              _ => null
-            },
+            listener: (context, state) => state.whenOrNull(
+              completed: () => _openWallet(context),
+            ),
             builder: (context, state) {
-              return switch (state) {
-                BiometryStateCompleted() => const SizedBox.shrink(),
-                BiometryStateInit() => const SizedBox.shrink(),
-                BiometryStateAsk(:final isFaceBiometry) => Padding(
-                    padding: const EdgeInsets.symmetric(
-                      horizontal: DimensSize.d16,
-                    ),
-                    child: BiometryView(
-                      isFace: isFaceBiometry,
-                      onClose: () => _openWallet(context),
-                    ),
+              return state.when(
+                completed: () => const SizedBox.shrink(),
+                init: () => const SizedBox.shrink(),
+                ask: (isFace) => Padding(
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: DimensSize.d16),
+                  child: BiometryView(
+                    isFace: isFace,
+                    onClose: () => _openWallet(context),
                   ),
-              };
+                ),
+              );
             },
           ),
         ),

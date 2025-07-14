@@ -1,43 +1,49 @@
 import 'package:app/app/router/router.dart';
+import 'package:app/core/error_handler_factory.dart';
 import 'package:app/core/wm/custom_wm.dart';
+import 'package:app/di/di.dart';
 import 'package:app/feature/wallet/confirm_multisig_transaction/route.dart';
 import 'package:app/feature/wallet/widgets/account_transactions_tab/detail/details.dart';
 import 'package:app/feature/wallet/widgets/account_transactions_tab/detail/ton_wallet_multisig_pending_transaction_details/ton_wallet_multisig_pending_transaction_details_screen.dart';
 import 'package:app/feature/wallet/widgets/account_transactions_tab/detail/ton_wallet_multisig_pending_transaction_details/ton_wallet_multisig_pending_transaction_details_screen_model.dart';
 import 'package:elementary/elementary.dart';
 import 'package:flutter/widgets.dart';
-import 'package:injectable/injectable.dart';
 import 'package:nekoton_repository/nekoton_repository.dart';
 import 'package:ui_components_lib/ui_components_lib.dart';
 import 'package:ui_components_lib/v2/text_styles_v2.dart';
 
-class TonWalletMultisigPendingTransactionDetailsWmParams {
-  TonWalletMultisigPendingTransactionDetailsWmParams({
-    required this.transaction,
-    required this.price,
-    required this.account,
-  });
-
-  final TonWalletMultisigPendingTransaction transaction;
-  final Fixed price;
-  final KeyAccount account;
+TonWalletMultisigPendingTransactionDetailsScreenWidgetModel
+    tonWalletMultisigPendingTransactionDetailsWidgetModelFactory(
+  BuildContext context, {
+  required TonWalletMultisigPendingTransaction transaction,
+  required Fixed price,
+  required KeyAccount account,
+}) {
+  return TonWalletMultisigPendingTransactionDetailsScreenWidgetModel(
+    TonWalletMultisigPendingTransactionDetailsScreenModel(
+      createPrimaryErrorHandler(context),
+      inject(),
+    ),
+    transaction,
+    price,
+    account,
+  );
 }
 
 /// [WidgetModel] для [TonWalletMultisigPendingTransactionDetailsScreen]
-@injectable
 class TonWalletMultisigPendingTransactionDetailsScreenWidgetModel
     extends CustomWidgetModel<TonWalletMultisigPendingTransactionDetailsScreen,
         TonWalletMultisigPendingTransactionDetailsScreenModel> {
   TonWalletMultisigPendingTransactionDetailsScreenWidgetModel(
     super.model,
-    @factoryParam this._wmParams,
+    this._transaction,
+    this.price,
+    this.account,
   );
 
-  final TonWalletMultisigPendingTransactionDetailsWmParams _wmParams;
-  TonWalletMultisigPendingTransaction get _transaction => _wmParams.transaction;
-
-  KeyAccount get account => _wmParams.account;
-  Fixed get price => _wmParams.price;
+  final TonWalletMultisigPendingTransaction _transaction;
+  final Fixed price;
+  final KeyAccount account;
 
   late final safeHexString =
       int.tryParse(_transaction.transactionId)?.toRadixString(16);

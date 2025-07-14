@@ -6,48 +6,50 @@ part of 'rpc_request.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-DisconnectRpcRequest _$DisconnectRpcRequestFromJson(
+_$DisconnectRpcRequestImpl _$$DisconnectRpcRequestImplFromJson(
         Map<String, dynamic> json) =>
-    DisconnectRpcRequest(
+    _$DisconnectRpcRequestImpl(
       id: json['id'] as String,
       params: json['params'] as List<dynamic>? ?? const [],
       $type: json['method'] as String?,
     );
 
-Map<String, dynamic> _$DisconnectRpcRequestToJson(
-        DisconnectRpcRequest instance) =>
+Map<String, dynamic> _$$DisconnectRpcRequestImplToJson(
+        _$DisconnectRpcRequestImpl instance) =>
     <String, dynamic>{
       'id': instance.id,
       'params': instance.params,
       'method': instance.$type,
     };
 
-SendTransactionRpcRequest _$SendTransactionRpcRequestFromJson(
+_$SendTransactionRpcRequestImpl _$$SendTransactionRpcRequestImplFromJson(
         Map<String, dynamic> json) =>
-    SendTransactionRpcRequest(
+    _$SendTransactionRpcRequestImpl(
       id: json['id'] as String,
       params:
           (json['params'] as List<dynamic>).map((e) => e as String).toList(),
       $type: json['method'] as String?,
     );
 
-Map<String, dynamic> _$SendTransactionRpcRequestToJson(
-        SendTransactionRpcRequest instance) =>
+Map<String, dynamic> _$$SendTransactionRpcRequestImplToJson(
+        _$SendTransactionRpcRequestImpl instance) =>
     <String, dynamic>{
       'id': instance.id,
       'params': instance.params,
       'method': instance.$type,
     };
 
-SignDataRpcRequest _$SignDataRpcRequestFromJson(Map<String, dynamic> json) =>
-    SignDataRpcRequest(
+_$SignDataRpcRequestImpl _$$SignDataRpcRequestImplFromJson(
+        Map<String, dynamic> json) =>
+    _$SignDataRpcRequestImpl(
       id: json['id'] as String,
       params:
           (json['params'] as List<dynamic>).map((e) => e as String).toList(),
       $type: json['method'] as String?,
     );
 
-Map<String, dynamic> _$SignDataRpcRequestToJson(SignDataRpcRequest instance) =>
+Map<String, dynamic> _$$SignDataRpcRequestImplToJson(
+        _$SignDataRpcRequestImpl instance) =>
     <String, dynamic>{
       'id': instance.id,
       'params': instance.params,

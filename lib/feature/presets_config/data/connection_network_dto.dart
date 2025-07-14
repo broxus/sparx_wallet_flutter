@@ -8,7 +8,7 @@ part 'connection_network_dto.g.dart';
 /// Contains information about available networks, transports, and
 /// the default connection to use in the application.
 @freezed
-abstract class ConnectionNetworkDto with _$ConnectionNetworkDto {
+class ConnectionNetworkDto with _$ConnectionNetworkDto {
   const factory ConnectionNetworkDto({
     /// Identifier for the default network connection to use.
     required String defaultConnectionId,

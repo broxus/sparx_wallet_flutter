@@ -1,13 +1,14 @@
 import 'dart:async';
 
+import 'package:app/core/error_handler_factory.dart';
 import 'package:app/core/wm/custom_wm.dart';
 import 'package:app/data/models/models.dart';
+import 'package:app/di/di.dart';
 import 'package:app/feature/browser_v1/approvals_listener/actions/add_tip3_token/add_tip3_token_model.dart';
 import 'package:app/feature/browser_v1/approvals_listener/actions/add_tip3_token/add_tip3_token_widget.dart';
 import 'package:collection/collection.dart';
 import 'package:elementary_helper/elementary_helper.dart';
 import 'package:flutter/material.dart';
-import 'package:injectable/injectable.dart';
 import 'package:nekoton_repository/nekoton_repository.dart';
 import 'package:ui_components_lib/v2/ui_components_lib_v2.dart';
 
@@ -19,33 +20,20 @@ enum TokenStatus {
   suggestion,
 }
 
-class AddTip3TokenWmParams {
-  const AddTip3TokenWmParams({
-    required this.origin,
-    required this.account,
-    required this.details,
-  });
+AddTip3TokenWidgetModel defaultAddTip3TokenWidgetModelFactory(
+  BuildContext context,
+) =>
+    AddTip3TokenWidgetModel(
+      AddTip3TokenModel(
+        createPrimaryErrorHandler(context),
+        inject(),
+        inject(),
+      ),
+    );
 
-  final Uri origin;
-  final Address account;
-  final TokenContractAsset details;
-}
-
-@injectable
 class AddTip3TokenWidgetModel
     extends CustomWidgetModel<AddTip3TokenWidget, AddTip3TokenModel> {
-  AddTip3TokenWidgetModel(
-    super.model,
-    @factoryParam this._wmParams,
-  );
-
-  final AddTip3TokenWmParams _wmParams;
-
-  Uri get origin => _wmParams.origin;
-
-  Address get account => _wmParams.account;
-
-  TokenContractAsset get details => _wmParams.details;
+  AddTip3TokenWidgetModel(super.model);
 
   late final _balance = createNotifier<Money>();
   late final _asset = createNotifier<TokenContractAsset>();
@@ -64,9 +52,8 @@ class AddTip3TokenWidgetModel
   void initWidgetModel() {
     super.initWidgetModel();
 
-    _subscription = model
-        .allAvailableContractsForAccount(_wmParams.account)
-        .listen(_onData);
+    _subscription =
+        model.allAvailableContractsForAccount(widget.account).listen(_onData);
 
     _getBalance();
   }
@@ -81,8 +68,8 @@ class AddTip3TokenWidgetModel
 
   Future<void> _getBalance() async {
     final wallet = await model.getTokenWallet(
-      owner: _wmParams.account,
-      rootTokenContract: _wmParams.details.address,
+      owner: widget.account,
+      rootTokenContract: widget.details.address,
     );
 
     _balance.accept(wallet?.wallet?.moneyBalance);
@@ -91,8 +78,8 @@ class AddTip3TokenWidgetModel
   void _onData((List<TokenContractAsset>, List<TokenContractAsset>) value) {
     final (notAdded, added) = value;
     final assets = [...notAdded, ...added];
-    final address = _wmParams.details.address;
-    final symbol = _wmParams.details.symbol;
+    final address = widget.details.address;
+    final symbol = widget.details.symbol;
     final asset = assets.firstWhereOrNull((e) => e.address == address);
 
     _asset.accept(asset);

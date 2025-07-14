@@ -6,17 +6,17 @@ part of 'browser_history_item.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-_BrowserHistoryItemDto _$BrowserHistoryItemDtoFromJson(
+_$BrowserHistoryItemDtoImpl _$$BrowserHistoryItemDtoImplFromJson(
         Map<String, dynamic> json) =>
-    _BrowserHistoryItemDto(
+    _$BrowserHistoryItemDtoImpl(
       id: json['id'] as String,
       title: json['title'] as String,
       url: uriJsonConverter.fromJson(json['url'] as String),
       visitTime: DateTime.parse(json['visitTime'] as String),
     );
 
-Map<String, dynamic> _$BrowserHistoryItemDtoToJson(
-        _BrowserHistoryItemDto instance) =>
+Map<String, dynamic> _$$BrowserHistoryItemDtoImplToJson(
+        _$BrowserHistoryItemDtoImpl instance) =>
     <String, dynamic>{
       'id': instance.id,
       'title': instance.title,

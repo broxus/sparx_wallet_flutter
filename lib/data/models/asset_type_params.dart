@@ -4,7 +4,7 @@ part 'asset_type_params.freezed.dart';
 part 'asset_type_params.g.dart';
 
 @freezed
-abstract class AssetTypeParams with _$AssetTypeParams {
+class AssetTypeParams with _$AssetTypeParams {
   const factory AssetTypeParams({
     required String rootContract,
   }) = _AssetTypeParams;

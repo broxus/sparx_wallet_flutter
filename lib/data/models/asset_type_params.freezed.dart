@@ -1,4 +1,3 @@
-// dart format width=80
 // coverage:ignore-file
 // GENERATED CODE - DO NOT MODIFY BY HAND
 // ignore_for_file: type=lint
@@ -10,59 +9,47 @@ part of 'asset_type_params.dart';
 // FreezedGenerator
 // **************************************************************************
 
-// dart format off
 T _$identity<T>(T value) => value;
+
+final _privateConstructorUsedError = UnsupportedError(
+    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models');
+
+AssetTypeParams _$AssetTypeParamsFromJson(Map<String, dynamic> json) {
+  return _AssetTypeParams.fromJson(json);
+}
 
 /// @nodoc
 mixin _$AssetTypeParams {
-  String get rootContract;
+  String get rootContract => throw _privateConstructorUsedError;
+
+  /// Serializes this AssetTypeParams to a JSON map.
+  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
 
   /// Create a copy of AssetTypeParams
   /// with the given fields replaced by the non-null parameter values.
   @JsonKey(includeFromJson: false, includeToJson: false)
-  @pragma('vm:prefer-inline')
   $AssetTypeParamsCopyWith<AssetTypeParams> get copyWith =>
-      _$AssetTypeParamsCopyWithImpl<AssetTypeParams>(
-          this as AssetTypeParams, _$identity);
-
-  /// Serializes this AssetTypeParams to a JSON map.
-  Map<String, dynamic> toJson();
-
-  @override
-  bool operator ==(Object other) {
-    return identical(this, other) ||
-        (other.runtimeType == runtimeType &&
-            other is AssetTypeParams &&
-            (identical(other.rootContract, rootContract) ||
-                other.rootContract == rootContract));
-  }
-
-  @JsonKey(includeFromJson: false, includeToJson: false)
-  @override
-  int get hashCode => Object.hash(runtimeType, rootContract);
-
-  @override
-  String toString() {
-    return 'AssetTypeParams(rootContract: $rootContract)';
-  }
+      throw _privateConstructorUsedError;
 }
 
 /// @nodoc
-abstract mixin class $AssetTypeParamsCopyWith<$Res> {
+abstract class $AssetTypeParamsCopyWith<$Res> {
   factory $AssetTypeParamsCopyWith(
-          AssetTypeParams value, $Res Function(AssetTypeParams) _then) =
-      _$AssetTypeParamsCopyWithImpl;
+          AssetTypeParams value, $Res Function(AssetTypeParams) then) =
+      _$AssetTypeParamsCopyWithImpl<$Res, AssetTypeParams>;
   @useResult
   $Res call({String rootContract});
 }
 
 /// @nodoc
-class _$AssetTypeParamsCopyWithImpl<$Res>
+class _$AssetTypeParamsCopyWithImpl<$Res, $Val extends AssetTypeParams>
     implements $AssetTypeParamsCopyWith<$Res> {
-  _$AssetTypeParamsCopyWithImpl(this._self, this._then);
+  _$AssetTypeParamsCopyWithImpl(this._value, this._then);
 
-  final AssetTypeParams _self;
-  final $Res Function(AssetTypeParams) _then;
+  // ignore: unused_field
+  final $Val _value;
+  // ignore: unused_field
+  final $Res Function($Val) _then;
 
   /// Create a copy of AssetTypeParams
   /// with the given fields replaced by the non-null parameter values.
@@ -71,9 +58,44 @@ class _$AssetTypeParamsCopyWithImpl<$Res>
   $Res call({
     Object? rootContract = null,
   }) {
-    return _then(_self.copyWith(
+    return _then(_value.copyWith(
       rootContract: null == rootContract
-          ? _self.rootContract
+          ? _value.rootContract
+          : rootContract // ignore: cast_nullable_to_non_nullable
+              as String,
+    ) as $Val);
+  }
+}
+
+/// @nodoc
+abstract class _$$AssetTypeParamsImplCopyWith<$Res>
+    implements $AssetTypeParamsCopyWith<$Res> {
+  factory _$$AssetTypeParamsImplCopyWith(_$AssetTypeParamsImpl value,
+          $Res Function(_$AssetTypeParamsImpl) then) =
+      __$$AssetTypeParamsImplCopyWithImpl<$Res>;
+  @override
+  @useResult
+  $Res call({String rootContract});
+}
+
+/// @nodoc
+class __$$AssetTypeParamsImplCopyWithImpl<$Res>
+    extends _$AssetTypeParamsCopyWithImpl<$Res, _$AssetTypeParamsImpl>
+    implements _$$AssetTypeParamsImplCopyWith<$Res> {
+  __$$AssetTypeParamsImplCopyWithImpl(
+      _$AssetTypeParamsImpl _value, $Res Function(_$AssetTypeParamsImpl) _then)
+      : super(_value, _then);
+
+  /// Create a copy of AssetTypeParams
+  /// with the given fields replaced by the non-null parameter values.
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? rootContract = null,
+  }) {
+    return _then(_$AssetTypeParamsImpl(
+      rootContract: null == rootContract
+          ? _value.rootContract
           : rootContract // ignore: cast_nullable_to_non_nullable
               as String,
     ));
@@ -82,34 +104,25 @@ class _$AssetTypeParamsCopyWithImpl<$Res>
 
 /// @nodoc
 @JsonSerializable()
-class _AssetTypeParams implements AssetTypeParams {
-  const _AssetTypeParams({required this.rootContract});
-  factory _AssetTypeParams.fromJson(Map<String, dynamic> json) =>
-      _$AssetTypeParamsFromJson(json);
+class _$AssetTypeParamsImpl implements _AssetTypeParams {
+  const _$AssetTypeParamsImpl({required this.rootContract});
+
+  factory _$AssetTypeParamsImpl.fromJson(Map<String, dynamic> json) =>
+      _$$AssetTypeParamsImplFromJson(json);
 
   @override
   final String rootContract;
 
-  /// Create a copy of AssetTypeParams
-  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(includeFromJson: false, includeToJson: false)
-  @pragma('vm:prefer-inline')
-  _$AssetTypeParamsCopyWith<_AssetTypeParams> get copyWith =>
-      __$AssetTypeParamsCopyWithImpl<_AssetTypeParams>(this, _$identity);
-
-  @override
-  Map<String, dynamic> toJson() {
-    return _$AssetTypeParamsToJson(
-      this,
-    );
+  String toString() {
+    return 'AssetTypeParams(rootContract: $rootContract)';
   }
 
   @override
   bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _AssetTypeParams &&
+            other is _$AssetTypeParamsImpl &&
             (identical(other.rootContract, rootContract) ||
                 other.rootContract == rootContract));
   }
@@ -118,45 +131,37 @@ class _AssetTypeParams implements AssetTypeParams {
   @override
   int get hashCode => Object.hash(runtimeType, rootContract);
 
+  /// Create a copy of AssetTypeParams
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
-  String toString() {
-    return 'AssetTypeParams(rootContract: $rootContract)';
+  @pragma('vm:prefer-inline')
+  _$$AssetTypeParamsImplCopyWith<_$AssetTypeParamsImpl> get copyWith =>
+      __$$AssetTypeParamsImplCopyWithImpl<_$AssetTypeParamsImpl>(
+          this, _$identity);
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$$AssetTypeParamsImplToJson(
+      this,
+    );
   }
 }
 
-/// @nodoc
-abstract mixin class _$AssetTypeParamsCopyWith<$Res>
-    implements $AssetTypeParamsCopyWith<$Res> {
-  factory _$AssetTypeParamsCopyWith(
-          _AssetTypeParams value, $Res Function(_AssetTypeParams) _then) =
-      __$AssetTypeParamsCopyWithImpl;
+abstract class _AssetTypeParams implements AssetTypeParams {
+  const factory _AssetTypeParams({required final String rootContract}) =
+      _$AssetTypeParamsImpl;
+
+  factory _AssetTypeParams.fromJson(Map<String, dynamic> json) =
+      _$AssetTypeParamsImpl.fromJson;
+
   @override
-  @useResult
-  $Res call({String rootContract});
-}
-
-/// @nodoc
-class __$AssetTypeParamsCopyWithImpl<$Res>
-    implements _$AssetTypeParamsCopyWith<$Res> {
-  __$AssetTypeParamsCopyWithImpl(this._self, this._then);
-
-  final _AssetTypeParams _self;
-  final $Res Function(_AssetTypeParams) _then;
+  String get rootContract;
 
   /// Create a copy of AssetTypeParams
   /// with the given fields replaced by the non-null parameter values.
   @override
-  @pragma('vm:prefer-inline')
-  $Res call({
-    Object? rootContract = null,
-  }) {
-    return _then(_AssetTypeParams(
-      rootContract: null == rootContract
-          ? _self.rootContract
-          : rootContract // ignore: cast_nullable_to_non_nullable
-              as String,
-    ));
-  }
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  _$$AssetTypeParamsImplCopyWith<_$AssetTypeParamsImpl> get copyWith =>
+      throw _privateConstructorUsedError;
 }
-
-// dart format on

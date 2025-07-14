@@ -1,10 +1,10 @@
 import 'package:app/app/router/router.dart';
-import 'package:app/core/wm/custom_wm.dart';
 import 'package:app/di/di.dart';
 import 'package:app/feature/wallet/staking/models/models.dart';
 import 'package:app/feature/wallet/token_wallet_send/route.dart';
 import 'package:app/feature/wallet/wallet.dart';
 import 'package:app/generated/generated.dart';
+import 'package:elementary/elementary.dart';
 import 'package:elementary_helper/elementary_helper.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
@@ -14,12 +14,14 @@ import 'package:ui_components_lib/ui_components_lib.dart';
 import 'package:ui_components_lib/v2/widgets/widgets.dart';
 
 /// Page that allows user to stake his native token.
-class StakingPageWidget
-    extends InjectedElementaryWidget<StakingPageWidgetModel> {
+class StakingPageWidget extends ElementaryWidget<StakingPageWidgetModel> {
   const StakingPageWidget({
-    required Address accountAddress,
-    super.key,
-  }) : super(wmFactoryParam: accountAddress);
+    required this.accountAddress,
+    Key? key,
+    WidgetModelFactory wmFactory = defaultStakingPageWidgetModelFactory,
+  }) : super(wmFactory, key: key);
+
+  final Address accountAddress;
 
   @override
   Widget build(StakingPageWidgetModel wm) {
@@ -31,7 +33,7 @@ class StakingPageWidget
         appBar: const DefaultAppBar(),
         body: BlocProvider(
           create: (_) => ActionStakingBloc(
-            accountAddress: wm.accountAddress,
+            accountAddress: accountAddress,
             nekotonRepository: inject(),
             stakingService: inject(),
             storage: inject(),
@@ -168,49 +170,64 @@ class _ButtonWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocConsumer<ActionStakingBloc, ActionStakingBlocState>(
       listener: (context, state) {
-        switch (state) {
-          case ActionStakingBlocStateShowHowItWorks():
-            wm.showHowItWorksSheet();
-          case ActionStakingBlocStateGoStake():
+        state.whenOrNull(
+          showHowItWorksSheet: wm.showHowItWorksSheet,
+          goStake: (
+            payload,
+            amount,
+            destination,
+            sender,
+            accountKey,
+            attachedFee,
+          ) {
             context.compassContinue(
               TonWalletSendRouteData(
-                address: state.sender,
-                publicKey: state.accountKey,
-                payload: state.payload,
-                destination: state.destination,
-                amount: state.amount,
-                attachedAmount: state.attachedFee,
+                address: sender,
+                publicKey: accountKey,
+                payload: payload,
+                destination: destination,
+                amount: amount,
+                attachedAmount: attachedFee,
                 popOnComplete: false,
                 resultMessage: LocaleKeys.stEverAppearInMinutes.tr(
                   args: [wm.tokenCurrency?.symbol ?? ''],
                 ),
               ),
             );
-          case ActionStakingBlocStateGoUnstake():
+          },
+          goUnstake: (
+            payload,
+            amount,
+            destination,
+            sender,
+            accountKey,
+            attachedFee,
+            withdrawHours,
+            stakingRootContractAddress,
+          ) {
             context.compassContinue(
               TokenWalletSendRouteData(
-                owner: state.sender,
-                rootTokenContract: state.stakeContractAddress,
-                publicKey: state.accountKey,
-                comment: state.payload,
-                destination: state.destination,
-                amount: state.amount,
-                attachedAmount: state.attachedFee,
+                owner: sender,
+                rootTokenContract: stakingRootContractAddress,
+                publicKey: accountKey,
+                comment: payload,
+                destination: destination,
+                amount: amount,
+                attachedAmount: attachedFee,
                 resultMessage: LocaleKeys.withdrawHoursProgress.tr(
-                  args: [wm.currency.symbol, state.withdrawHours.toString()],
+                  args: [wm.currency.symbol, withdrawHours.toString()],
                 ),
                 notifyReceiver: true,
               ),
             );
-          default:
-            break;
-        }
+          },
+        );
       },
-      builder: (_, state) {
-        final isLoading = switch (state) {
-          ActionStakingBlocStateInProgress() => true,
-          _ => false,
-        };
+      builder: (_, actionState) {
+        final isLoading = actionState.maybeWhen(
+          inProgress: () => true,
+          orElse: () => false,
+        );
 
         return ValueListenableBuilder(
           valueListenable: wm.tab,

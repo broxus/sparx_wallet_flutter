@@ -4,6 +4,6 @@ import 'package:nekoton_repository/nekoton_repository.dart';
 part 'key_added_event.freezed.dart';
 
 @freezed
-abstract class KeyAddedEvent with _$KeyAddedEvent {
+class KeyAddedEvent with _$KeyAddedEvent {
   const factory KeyAddedEvent(KeyStoreEntry key) = _KeyAddedEvent;
 }

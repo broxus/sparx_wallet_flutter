@@ -1,38 +1,41 @@
 import 'dart:io';
 
+import 'package:app/core/error_handler_factory.dart';
 import 'package:app/core/wm/custom_wm.dart';
+import 'package:app/di/di.dart';
 import 'package:app/feature/browser_v2/screens/main/widgets/tab_animated_view/tab_animated_view.dart';
 import 'package:app/feature/browser_v2/screens/main/widgets/tab_animated_view/tab_animated_view_model.dart';
 import 'package:app/feature/browser_v2/screens/main/widgets/tab_animated_view/tab_animation_type.dart';
 import 'package:elementary/elementary.dart';
 import 'package:elementary_helper/elementary_helper.dart';
 import 'package:flutter/widgets.dart';
-import 'package:injectable/injectable.dart';
 import 'package:ui_components_lib/ui_components_lib.dart';
 
-class TabAnimatedViewWmParams {
-  const TabAnimatedViewWmParams({
-    required this.showAnimationState,
-    required this.onAnimationStart,
-    required this.onAnimationEnd,
-  });
-
-  final ListenableState<TabAnimationType?> showAnimationState;
-  final VoidCallback onAnimationStart;
-  final ValueChanged<TabAnimationType?> onAnimationEnd;
+/// Factory method for creating [TabAnimatedViewWidgetModel]
+TabAnimatedViewWidgetModel defaultTabAnimatedViewWidgetModelFactory(
+  BuildContext context, {
+  required VoidCallback onAnimationStart,
+  required ValueChanged<TabAnimationType?> onAnimationEnd,
+}) {
+  return TabAnimatedViewWidgetModel(
+    TabAnimatedViewModel(
+      createPrimaryErrorHandler(context),
+      inject(),
+    ),
+    onAnimationStart,
+    onAnimationEnd,
+  );
 }
 
 /// [WidgetModel] для [TabAnimatedView]
-@injectable
 class TabAnimatedViewWidgetModel
     extends CustomWidgetModel<TabAnimatedView, TabAnimatedViewModel>
     with SingleTickerProviderWidgetModelMixin {
   TabAnimatedViewWidgetModel(
     super.model,
-    @factoryParam this._wmParams,
+    this._onAnimationStart,
+    this._onAnimationEnd,
   );
-
-  final TabAnimatedViewWmParams _wmParams;
 
   late final widthAnimation = Tween<double>(
     begin: 168,
@@ -54,6 +57,9 @@ class TabAnimatedViewWidgetModel
     end: 1,
   ).animate(_animationController);
 
+  late final ListenableState<TabAnimationType?> showAnimationState =
+      widget.tabAnimationTypeState;
+
   final _positionXTween = Tween<double>(begin: 0, end: 0);
   final _positionYTween = Tween<double>(begin: 0, end: 0);
 
@@ -74,14 +80,14 @@ class TabAnimatedViewWidgetModel
 
   bool _isRunning = false;
 
+  final VoidCallback _onAnimationStart;
+  final ValueChanged<TabAnimationType?> _onAnimationEnd;
+
   Animation<double>? get topPositionAnimation => _topPositionAnimation;
 
   Animation<double>? get leftPositionAnimation => _leftPositionAnimation;
 
   Listenable get animationListenable => _animationController;
-
-  ListenableState<TabAnimationType?> get showAnimationState =>
-      _wmParams.showAnimationState;
 
   ListenableState<File?> get screenshotStateState => _screenshotStateState;
 
@@ -159,7 +165,7 @@ class TabAnimatedViewWidgetModel
 
   void _onStart() {
     _isRunning = true;
-    Future(_wmParams.onAnimationStart);
+    Future(_onAnimationStart);
   }
 
   void _onEnd() {
@@ -167,6 +173,6 @@ class TabAnimatedViewWidgetModel
       return;
     }
     _isRunning = false;
-    Future(() => _wmParams.onAnimationEnd(showAnimationState.value));
+    Future(() => _onAnimationEnd(showAnimationState.value));
   }
 }

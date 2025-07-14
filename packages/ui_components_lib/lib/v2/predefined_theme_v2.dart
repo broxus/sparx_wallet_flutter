@@ -57,12 +57,7 @@ ThemeData getPredefinedLightTheme() {
     brightness: Brightness.dark,
     scaffoldBackgroundColor: colors.background0,
     appBarTheme: const AppBarTheme(
-      systemOverlayStyle: SystemUiOverlayStyle(
-        systemNavigationBarColor: Colors.transparent,
-        systemNavigationBarIconBrightness: Brightness.light,
-        statusBarIconBrightness: Brightness.light,
-        statusBarBrightness: Brightness.dark,
-      ),
+      systemOverlayStyle: SystemUiOverlayStyle.light,
     ),
     switchTheme: SwitchThemeData(
       thumbColor: WidgetStatePropertyAll(colors.primaryA),
@@ -136,12 +131,7 @@ ThemeData getPredefinedDarkTheme() {
     brightness: Brightness.dark,
     scaffoldBackgroundColor: colors.background0,
     appBarTheme: const AppBarTheme(
-      systemOverlayStyle: SystemUiOverlayStyle(
-        systemNavigationBarColor: Colors.transparent,
-        systemNavigationBarIconBrightness: Brightness.light,
-        statusBarIconBrightness: Brightness.light,
-        statusBarBrightness: Brightness.dark,
-      ),
+      systemOverlayStyle: SystemUiOverlayStyle.light,
     ),
     switchTheme: SwitchThemeData(
       thumbColor: WidgetStatePropertyAll(colors.primaryA),

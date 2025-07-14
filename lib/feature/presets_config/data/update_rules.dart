@@ -8,7 +8,7 @@ part 'update_rules.g.dart';
 /// Defines which versions require updates (blocking/warning) and
 /// controls how update notifications are displayed to users.
 @freezed
-abstract class UpdateRules with _$UpdateRules {
+class UpdateRules with _$UpdateRules {
   const factory UpdateRules({
     /// Minimum version required - users below this version cannot use the app.
     required String blockingVersion,

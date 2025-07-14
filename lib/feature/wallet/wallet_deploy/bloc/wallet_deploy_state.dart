@@ -1,9 +1,9 @@
 part of 'wallet_deploy_bloc.dart';
 
 @freezed
-sealed class WalletDeployState with _$WalletDeployState {
+class WalletDeployState with _$WalletDeployState {
   /// Page that displays standard wallet deploy
-  const factory WalletDeployState.standard() = WalletDeployStateStandard;
+  const factory WalletDeployState.standard() = _Standard;
 
   /// Page that displays multisig wallet deploy.
   /// [custodians] and [requireConfirmations] is just a cache from bloc, and
@@ -13,7 +13,7 @@ sealed class WalletDeployState with _$WalletDeployState {
     int requireConfirmations,
     int hours,
     WalletType walletType,
-  ) = WalletDeployStateMultisig;
+  ) = _Multisig;
 
   /// Error during calculating fee process
   const factory WalletDeployState.calculatingError({
@@ -25,7 +25,7 @@ sealed class WalletDeployState with _$WalletDeployState {
     String? tonIconPath,
     String? ticker,
     CustomCurrency? currency,
-  }) = WalletDeployStateCalculatingError;
+  }) = _CalculatingError;
 
   /// Fee calculated, allow user subscribe transaction
   const factory WalletDeployState.readyToDeploy({
@@ -38,11 +38,11 @@ sealed class WalletDeployState with _$WalletDeployState {
     CustomCurrency? currency,
     KeyAccount? account,
     int? hours,
-  }) = WalletDeployStateReadyToDeploy;
+  }) = _ReadyToDeploy;
 
   const factory WalletDeployState.deploying({
     required bool canClose,
-  }) = WalletDeployStateDeploying;
+  }) = _Deploying;
 
   /// Transaction sent successfully
   const factory WalletDeployState.deployed({
@@ -52,8 +52,8 @@ sealed class WalletDeployState with _$WalletDeployState {
     List<PublicKey>? custodians,
     int? requireConfirmations,
     String? tonIconPath,
-  }) = WalletDeployStateDeployed;
+  }) = _Deployed;
 
   const factory WalletDeployState.subscribeError(Object error) =
-      WalletDeployStateSubscribeError;
+      _SubscribeError;
 }

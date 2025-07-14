@@ -7,7 +7,7 @@ part 'release_note.g.dart';
 ///
 /// Contains availability status and descriptive information about a release.
 @freezed
-abstract class ReleaseNote with _$ReleaseNote {
+class ReleaseNote with _$ReleaseNote {
   const factory ReleaseNote({
     /// Whether this release note information is available/active.
     required bool available,

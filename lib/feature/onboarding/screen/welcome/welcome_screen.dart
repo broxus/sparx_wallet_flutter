@@ -1,11 +1,11 @@
 // ignore_for_file: invalid_use_of_visible_for_testing_member
 // ignore_for_file: invalid_use_of_protected_member
-import 'package:app/core/wm/custom_wm.dart';
 import 'package:app/feature/localization/bloc/localization_bloc.dart';
 import 'package:app/feature/onboarding/screen/welcome/welcome_screen_wm.dart';
 import 'package:app/feature/onboarding/widgets/sliding_block_chains.dart';
 import 'package:app/generated/generated.dart';
 import 'package:app/utils/factories/bloc_factories/localization_bloc_factory.dart';
+import 'package:elementary/elementary.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -15,10 +15,11 @@ import 'package:ui_components_lib/v2/ui_components_lib_v2.dart';
 import 'package:ui_components_lib/v2/widgets/adaptive_footer_single_child_scroll_view.dart';
 
 /// Onboarding welcome screen
-class WelcomeScreen extends InjectedElementaryWidget<WelcomeScreenWidgetModel> {
+class WelcomeScreen extends ElementaryWidget<WelcomeScreenWidgetModel> {
   const WelcomeScreen({
-    super.key,
-  });
+    Key? key,
+    WidgetModelFactory wmFactory = defaultWelcomeScreenWidgetModelFactory,
+  }) : super(wmFactory, key: key);
 
   @override
   Widget build(WelcomeScreenWidgetModel wm) {

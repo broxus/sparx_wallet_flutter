@@ -6,9 +6,10 @@ part of 'pending_transaction_with_additional_info.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-_PendingTransactionWithAdditionalInfo
-    _$PendingTransactionWithAdditionalInfoFromJson(Map<String, dynamic> json) =>
-        _PendingTransactionWithAdditionalInfo(
+_$PendingTransactionWithAdditionalInfoImpl
+    _$$PendingTransactionWithAdditionalInfoImplFromJson(
+            Map<String, dynamic> json) =>
+        _$PendingTransactionWithAdditionalInfoImpl(
           transaction: PendingTransaction.fromJson(
               json['transaction'] as Map<String, dynamic>),
           amount: _$JsonConverterFromJson<String, BigInt>(
@@ -17,8 +18,8 @@ _PendingTransactionWithAdditionalInfo
           dst: json['dst'] as String?,
         );
 
-Map<String, dynamic> _$PendingTransactionWithAdditionalInfoToJson(
-        _PendingTransactionWithAdditionalInfo instance) =>
+Map<String, dynamic> _$$PendingTransactionWithAdditionalInfoImplToJson(
+        _$PendingTransactionWithAdditionalInfoImpl instance) =>
     <String, dynamic>{
       'transaction': instance.transaction.toJson(),
       'amount': _$JsonConverterToJson<String, BigInt>(

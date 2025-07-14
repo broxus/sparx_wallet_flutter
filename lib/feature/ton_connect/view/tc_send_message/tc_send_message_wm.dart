@@ -1,14 +1,15 @@
 import 'dart:async';
 
 import 'package:app/app/service/service.dart';
+import 'package:app/core/error_handler_factory.dart';
 import 'package:app/core/wm/custom_wm.dart';
+import 'package:app/di/di.dart';
 import 'package:app/feature/messenger/data/message.dart';
 import 'package:app/feature/ton_connect/ton_connect.dart';
 import 'package:app/generated/generated.dart';
 import 'package:app/utils/utils.dart';
 import 'package:elementary_helper/elementary_helper.dart';
 import 'package:flutter/material.dart';
-import 'package:injectable/injectable.dart';
 import 'package:nekoton_repository/nekoton_repository.dart' hide Message;
 import 'package:ui_components_lib/v2/ui_components_lib_v2.dart';
 
@@ -28,24 +29,23 @@ class TransferData {
   final Address? rootTokenContract;
 }
 
-class TCSendMessageWmParams {
-  TCSendMessageWmParams({required this.connection, required this.payload});
+TCSendMessageWidgetModel defaultTCSendMessageWidgetModelFactory(
+  BuildContext context,
+) =>
+    TCSendMessageWidgetModel(
+      TCSendMessageModel(
+        createPrimaryErrorHandler(context),
+        inject(),
+        inject(),
+        inject(),
+      ),
+    );
 
-  final TonAppConnection connection;
-  final TransactionPayload payload;
-}
-
-@injectable
 class TCSendMessageWidgetModel
     extends CustomWidgetModel<TCSendMessageWidget, TCSendMessageModel> {
-  TCSendMessageWidgetModel(
-    super.model,
-    @factoryParam this._wmParams,
-  );
+  TCSendMessageWidgetModel(super.model);
 
-  final TCSendMessageWmParams _wmParams;
-
-  late final account = model.getAccount(_wmParams.connection.walletAddress);
+  late final account = model.getAccount(widget.connection.walletAddress);
 
   late final _data = createNotifier<List<TransferData>>();
   late final _fee = createNotifier<BigInt>();
@@ -54,13 +54,11 @@ class TCSendMessageWidgetModel
   late final _publicKey = createNotifier(account?.publicKey);
   late final _custodians = createNotifier<List<PublicKey>>();
   late final _balance = createNotifierFromStream(
-    model.getBalanceStream(_wmParams.connection.walletAddress),
+    model.getBalanceStream(widget.connection.walletAddress),
   );
   late final _isLoading = createNotifier(true);
   late final _isConfirmed = createNotifier(false);
   int? numberUnconfirmedTransactions;
-
-  TonAppConnection get connection => _wmParams.connection;
 
   ListenableState<List<TransferData>> get data => _data;
 
@@ -87,7 +85,7 @@ class TCSendMessageWidgetModel
 
   ThemeStyleV2 get theme => context.themeStyleV2;
 
-  Address get sender => _wmParams.connection.walletAddress;
+  Address get sender => widget.connection.walletAddress;
 
   Money get totalAmount => Money.fromBigIntWithCurrency(
         (_data.value ?? []).fold(
@@ -115,7 +113,7 @@ class TCSendMessageWidgetModel
       final message = await model.send(
         address: sender,
         publicKey: account!.publicKey,
-        messages: _wmParams.payload.messages,
+        messages: widget.payload.messages,
         password: password,
       );
 
@@ -151,7 +149,7 @@ class TCSendMessageWidgetModel
       await _initWalletTon();
 
       final data = await Future.wait(
-        _wmParams.payload.messages.map(_initTransferData),
+        widget.payload.messages.map(_initTransferData),
       );
       _data.accept(data);
 
@@ -168,10 +166,9 @@ class TCSendMessageWidgetModel
     TransactionPayloadMessage message,
   ) async {
     final payload = message.payload?.let(parseKnownPayload);
-    final transfer = switch (payload) {
-      KnownPayloadJettonOutgoingTransfer(:final data) => data,
-      _ => null,
-    };
+    final transfer = payload?.whenOrNull(
+      jettonOutgoingTransfer: (data) => data,
+    );
 
     if (transfer == null) {
       // Native transfer
@@ -223,7 +220,7 @@ class TCSendMessageWidgetModel
       message = await model.prepareTransfer(
         address: sender,
         publicKey: account!.publicKey,
-        messages: _wmParams.payload.messages,
+        messages: widget.payload.messages,
       );
 
       await _estimateFees(message);

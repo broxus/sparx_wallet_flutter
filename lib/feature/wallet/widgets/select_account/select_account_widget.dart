@@ -1,10 +1,10 @@
 // ignore_for_file: inference_failure_on_function_return_type
-import 'package:app/core/wm/custom_wm.dart';
 import 'package:app/feature/wallet/widgets/select_account/select_account_data.dart';
 import 'package:app/feature/wallet/widgets/select_account/select_account_wm.dart';
 import 'package:app/feature/wallet/widgets/select_account/widgets/private_key_item_widget.dart';
 import 'package:app/feature/wallet/widgets/select_account/widgets/seed_phrase_item_widget.dart';
 import 'package:app/generated/generated.dart';
+import 'package:elementary/elementary.dart';
 import 'package:elementary_helper/elementary_helper.dart';
 import 'package:flutter/material.dart';
 import 'package:lucide_icons_flutter/lucide_icons.dart';
@@ -12,12 +12,12 @@ import 'package:nekoton_repository/nekoton_repository.dart';
 import 'package:ui_components_lib/ui_components_lib.dart';
 import 'package:ui_components_lib/v2/ui_components_lib_v2.dart';
 
-class SelectAccountWidget
-    extends InjectedElementaryWidget<SelectAccountWidgetModel> {
+class SelectAccountWidget extends ElementaryWidget<SelectAccountWidgetModel> {
   const SelectAccountWidget({
     required this.scrollController,
-    super.key,
-  });
+    Key? key,
+    WidgetModelFactory wmFactory = defaultSelectAccountWidgetModelFactory,
+  }) : super(wmFactory, key: key);
 
   final ScrollController scrollController;
 
@@ -82,7 +82,6 @@ class SelectAccountWidget
             ),
           ],
         ),
-        const SizedBox(height: DimensSizeV2.d8),
       ],
     );
   }

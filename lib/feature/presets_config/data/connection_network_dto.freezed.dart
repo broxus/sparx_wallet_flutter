@@ -1,4 +1,3 @@
-// dart format width=80
 // coverage:ignore-file
 // GENERATED CODE - DO NOT MODIFY BY HAND
 // ignore_for_file: type=lint
@@ -10,68 +9,46 @@ part of 'connection_network_dto.dart';
 // FreezedGenerator
 // **************************************************************************
 
-// dart format off
 T _$identity<T>(T value) => value;
+
+final _privateConstructorUsedError = UnsupportedError(
+    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models');
+
+ConnectionNetworkDto _$ConnectionNetworkDtoFromJson(Map<String, dynamic> json) {
+  return _ConnectionNetworkDto.fromJson(json);
+}
 
 /// @nodoc
 mixin _$ConnectionNetworkDto {
   /// Identifier for the default network connection to use.
-  String get defaultConnectionId;
+  String get defaultConnectionId => throw _privateConstructorUsedError;
 
   /// List of available networks with their configuration details.
-  List<Map<String, dynamic>> get networks;
+  List<Map<String, dynamic>> get networks => throw _privateConstructorUsedError;
 
   /// List of available transport methods for connections.
-  List<Map<String, dynamic>> get transports;
+  List<Map<String, dynamic>> get transports =>
+      throw _privateConstructorUsedError;
 
   /// Optional custom network configuration options.
-  List<Map<String, dynamic>>? get customNetworkOtions;
+  List<Map<String, dynamic>>? get customNetworkOtions =>
+      throw _privateConstructorUsedError;
+
+  /// Serializes this ConnectionNetworkDto to a JSON map.
+  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
 
   /// Create a copy of ConnectionNetworkDto
   /// with the given fields replaced by the non-null parameter values.
   @JsonKey(includeFromJson: false, includeToJson: false)
-  @pragma('vm:prefer-inline')
   $ConnectionNetworkDtoCopyWith<ConnectionNetworkDto> get copyWith =>
-      _$ConnectionNetworkDtoCopyWithImpl<ConnectionNetworkDto>(
-          this as ConnectionNetworkDto, _$identity);
-
-  /// Serializes this ConnectionNetworkDto to a JSON map.
-  Map<String, dynamic> toJson();
-
-  @override
-  bool operator ==(Object other) {
-    return identical(this, other) ||
-        (other.runtimeType == runtimeType &&
-            other is ConnectionNetworkDto &&
-            (identical(other.defaultConnectionId, defaultConnectionId) ||
-                other.defaultConnectionId == defaultConnectionId) &&
-            const DeepCollectionEquality().equals(other.networks, networks) &&
-            const DeepCollectionEquality()
-                .equals(other.transports, transports) &&
-            const DeepCollectionEquality()
-                .equals(other.customNetworkOtions, customNetworkOtions));
-  }
-
-  @JsonKey(includeFromJson: false, includeToJson: false)
-  @override
-  int get hashCode => Object.hash(
-      runtimeType,
-      defaultConnectionId,
-      const DeepCollectionEquality().hash(networks),
-      const DeepCollectionEquality().hash(transports),
-      const DeepCollectionEquality().hash(customNetworkOtions));
-
-  @override
-  String toString() {
-    return 'ConnectionNetworkDto(defaultConnectionId: $defaultConnectionId, networks: $networks, transports: $transports, customNetworkOtions: $customNetworkOtions)';
-  }
+      throw _privateConstructorUsedError;
 }
 
 /// @nodoc
-abstract mixin class $ConnectionNetworkDtoCopyWith<$Res> {
+abstract class $ConnectionNetworkDtoCopyWith<$Res> {
   factory $ConnectionNetworkDtoCopyWith(ConnectionNetworkDto value,
-          $Res Function(ConnectionNetworkDto) _then) =
-      _$ConnectionNetworkDtoCopyWithImpl;
+          $Res Function(ConnectionNetworkDto) then) =
+      _$ConnectionNetworkDtoCopyWithImpl<$Res, ConnectionNetworkDto>;
   @useResult
   $Res call(
       {String defaultConnectionId,
@@ -81,12 +58,15 @@ abstract mixin class $ConnectionNetworkDtoCopyWith<$Res> {
 }
 
 /// @nodoc
-class _$ConnectionNetworkDtoCopyWithImpl<$Res>
+class _$ConnectionNetworkDtoCopyWithImpl<$Res,
+        $Val extends ConnectionNetworkDto>
     implements $ConnectionNetworkDtoCopyWith<$Res> {
-  _$ConnectionNetworkDtoCopyWithImpl(this._self, this._then);
+  _$ConnectionNetworkDtoCopyWithImpl(this._value, this._then);
 
-  final ConnectionNetworkDto _self;
-  final $Res Function(ConnectionNetworkDto) _then;
+  // ignore: unused_field
+  final $Val _value;
+  // ignore: unused_field
+  final $Res Function($Val) _then;
 
   /// Create a copy of ConnectionNetworkDto
   /// with the given fields replaced by the non-null parameter values.
@@ -98,21 +78,75 @@ class _$ConnectionNetworkDtoCopyWithImpl<$Res>
     Object? transports = null,
     Object? customNetworkOtions = freezed,
   }) {
-    return _then(_self.copyWith(
+    return _then(_value.copyWith(
       defaultConnectionId: null == defaultConnectionId
-          ? _self.defaultConnectionId
+          ? _value.defaultConnectionId
           : defaultConnectionId // ignore: cast_nullable_to_non_nullable
               as String,
       networks: null == networks
-          ? _self.networks
+          ? _value.networks
           : networks // ignore: cast_nullable_to_non_nullable
               as List<Map<String, dynamic>>,
       transports: null == transports
-          ? _self.transports
+          ? _value.transports
           : transports // ignore: cast_nullable_to_non_nullable
               as List<Map<String, dynamic>>,
       customNetworkOtions: freezed == customNetworkOtions
-          ? _self.customNetworkOtions
+          ? _value.customNetworkOtions
+          : customNetworkOtions // ignore: cast_nullable_to_non_nullable
+              as List<Map<String, dynamic>>?,
+    ) as $Val);
+  }
+}
+
+/// @nodoc
+abstract class _$$ConnectionNetworkDtoImplCopyWith<$Res>
+    implements $ConnectionNetworkDtoCopyWith<$Res> {
+  factory _$$ConnectionNetworkDtoImplCopyWith(_$ConnectionNetworkDtoImpl value,
+          $Res Function(_$ConnectionNetworkDtoImpl) then) =
+      __$$ConnectionNetworkDtoImplCopyWithImpl<$Res>;
+  @override
+  @useResult
+  $Res call(
+      {String defaultConnectionId,
+      List<Map<String, dynamic>> networks,
+      List<Map<String, dynamic>> transports,
+      List<Map<String, dynamic>>? customNetworkOtions});
+}
+
+/// @nodoc
+class __$$ConnectionNetworkDtoImplCopyWithImpl<$Res>
+    extends _$ConnectionNetworkDtoCopyWithImpl<$Res, _$ConnectionNetworkDtoImpl>
+    implements _$$ConnectionNetworkDtoImplCopyWith<$Res> {
+  __$$ConnectionNetworkDtoImplCopyWithImpl(_$ConnectionNetworkDtoImpl _value,
+      $Res Function(_$ConnectionNetworkDtoImpl) _then)
+      : super(_value, _then);
+
+  /// Create a copy of ConnectionNetworkDto
+  /// with the given fields replaced by the non-null parameter values.
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? defaultConnectionId = null,
+    Object? networks = null,
+    Object? transports = null,
+    Object? customNetworkOtions = freezed,
+  }) {
+    return _then(_$ConnectionNetworkDtoImpl(
+      defaultConnectionId: null == defaultConnectionId
+          ? _value.defaultConnectionId
+          : defaultConnectionId // ignore: cast_nullable_to_non_nullable
+              as String,
+      networks: null == networks
+          ? _value._networks
+          : networks // ignore: cast_nullable_to_non_nullable
+              as List<Map<String, dynamic>>,
+      transports: null == transports
+          ? _value._transports
+          : transports // ignore: cast_nullable_to_non_nullable
+              as List<Map<String, dynamic>>,
+      customNetworkOtions: freezed == customNetworkOtions
+          ? _value._customNetworkOtions
           : customNetworkOtions // ignore: cast_nullable_to_non_nullable
               as List<Map<String, dynamic>>?,
     ));
@@ -121,8 +155,8 @@ class _$ConnectionNetworkDtoCopyWithImpl<$Res>
 
 /// @nodoc
 @JsonSerializable()
-class _ConnectionNetworkDto implements ConnectionNetworkDto {
-  const _ConnectionNetworkDto(
+class _$ConnectionNetworkDtoImpl implements _ConnectionNetworkDto {
+  const _$ConnectionNetworkDtoImpl(
       {required this.defaultConnectionId,
       required final List<Map<String, dynamic>> networks,
       required final List<Map<String, dynamic>> transports,
@@ -130,8 +164,9 @@ class _ConnectionNetworkDto implements ConnectionNetworkDto {
       : _networks = networks,
         _transports = transports,
         _customNetworkOtions = customNetworkOtions;
-  factory _ConnectionNetworkDto.fromJson(Map<String, dynamic> json) =>
-      _$ConnectionNetworkDtoFromJson(json);
+
+  factory _$ConnectionNetworkDtoImpl.fromJson(Map<String, dynamic> json) =>
+      _$$ConnectionNetworkDtoImplFromJson(json);
 
   /// Identifier for the default network connection to use.
   @override
@@ -173,27 +208,16 @@ class _ConnectionNetworkDto implements ConnectionNetworkDto {
     return EqualUnmodifiableListView(value);
   }
 
-  /// Create a copy of ConnectionNetworkDto
-  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(includeFromJson: false, includeToJson: false)
-  @pragma('vm:prefer-inline')
-  _$ConnectionNetworkDtoCopyWith<_ConnectionNetworkDto> get copyWith =>
-      __$ConnectionNetworkDtoCopyWithImpl<_ConnectionNetworkDto>(
-          this, _$identity);
-
-  @override
-  Map<String, dynamic> toJson() {
-    return _$ConnectionNetworkDtoToJson(
-      this,
-    );
+  String toString() {
+    return 'ConnectionNetworkDto(defaultConnectionId: $defaultConnectionId, networks: $networks, transports: $transports, customNetworkOtions: $customNetworkOtions)';
   }
 
   @override
   bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _ConnectionNetworkDto &&
+            other is _$ConnectionNetworkDtoImpl &&
             (identical(other.defaultConnectionId, defaultConnectionId) ||
                 other.defaultConnectionId == defaultConnectionId) &&
             const DeepCollectionEquality().equals(other._networks, _networks) &&
@@ -212,64 +236,55 @@ class _ConnectionNetworkDto implements ConnectionNetworkDto {
       const DeepCollectionEquality().hash(_transports),
       const DeepCollectionEquality().hash(_customNetworkOtions));
 
+  /// Create a copy of ConnectionNetworkDto
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
-  String toString() {
-    return 'ConnectionNetworkDto(defaultConnectionId: $defaultConnectionId, networks: $networks, transports: $transports, customNetworkOtions: $customNetworkOtions)';
+  @pragma('vm:prefer-inline')
+  _$$ConnectionNetworkDtoImplCopyWith<_$ConnectionNetworkDtoImpl>
+      get copyWith =>
+          __$$ConnectionNetworkDtoImplCopyWithImpl<_$ConnectionNetworkDtoImpl>(
+              this, _$identity);
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$$ConnectionNetworkDtoImplToJson(
+      this,
+    );
   }
 }
 
-/// @nodoc
-abstract mixin class _$ConnectionNetworkDtoCopyWith<$Res>
-    implements $ConnectionNetworkDtoCopyWith<$Res> {
-  factory _$ConnectionNetworkDtoCopyWith(_ConnectionNetworkDto value,
-          $Res Function(_ConnectionNetworkDto) _then) =
-      __$ConnectionNetworkDtoCopyWithImpl;
+abstract class _ConnectionNetworkDto implements ConnectionNetworkDto {
+  const factory _ConnectionNetworkDto(
+          {required final String defaultConnectionId,
+          required final List<Map<String, dynamic>> networks,
+          required final List<Map<String, dynamic>> transports,
+          final List<Map<String, dynamic>>? customNetworkOtions}) =
+      _$ConnectionNetworkDtoImpl;
+
+  factory _ConnectionNetworkDto.fromJson(Map<String, dynamic> json) =
+      _$ConnectionNetworkDtoImpl.fromJson;
+
+  /// Identifier for the default network connection to use.
   @override
-  @useResult
-  $Res call(
-      {String defaultConnectionId,
-      List<Map<String, dynamic>> networks,
-      List<Map<String, dynamic>> transports,
-      List<Map<String, dynamic>>? customNetworkOtions});
-}
+  String get defaultConnectionId;
 
-/// @nodoc
-class __$ConnectionNetworkDtoCopyWithImpl<$Res>
-    implements _$ConnectionNetworkDtoCopyWith<$Res> {
-  __$ConnectionNetworkDtoCopyWithImpl(this._self, this._then);
+  /// List of available networks with their configuration details.
+  @override
+  List<Map<String, dynamic>> get networks;
 
-  final _ConnectionNetworkDto _self;
-  final $Res Function(_ConnectionNetworkDto) _then;
+  /// List of available transport methods for connections.
+  @override
+  List<Map<String, dynamic>> get transports;
+
+  /// Optional custom network configuration options.
+  @override
+  List<Map<String, dynamic>>? get customNetworkOtions;
 
   /// Create a copy of ConnectionNetworkDto
   /// with the given fields replaced by the non-null parameter values.
   @override
-  @pragma('vm:prefer-inline')
-  $Res call({
-    Object? defaultConnectionId = null,
-    Object? networks = null,
-    Object? transports = null,
-    Object? customNetworkOtions = freezed,
-  }) {
-    return _then(_ConnectionNetworkDto(
-      defaultConnectionId: null == defaultConnectionId
-          ? _self.defaultConnectionId
-          : defaultConnectionId // ignore: cast_nullable_to_non_nullable
-              as String,
-      networks: null == networks
-          ? _self._networks
-          : networks // ignore: cast_nullable_to_non_nullable
-              as List<Map<String, dynamic>>,
-      transports: null == transports
-          ? _self._transports
-          : transports // ignore: cast_nullable_to_non_nullable
-              as List<Map<String, dynamic>>,
-      customNetworkOtions: freezed == customNetworkOtions
-          ? _self._customNetworkOtions
-          : customNetworkOtions // ignore: cast_nullable_to_non_nullable
-              as List<Map<String, dynamic>>?,
-    ));
-  }
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  _$$ConnectionNetworkDtoImplCopyWith<_$ConnectionNetworkDtoImpl>
+      get copyWith => throw _privateConstructorUsedError;
 }
-
-// dart format on

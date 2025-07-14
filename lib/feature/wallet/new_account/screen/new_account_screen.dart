@@ -1,23 +1,21 @@
-import 'package:app/core/wm/custom_wm.dart';
 import 'package:app/feature/wallet/new_account/new_account_type/new_account_type_widget.dart';
 import 'package:app/feature/wallet/new_account/screen/new_account_screen_wm.dart';
 import 'package:app/generated/generated.dart';
+import 'package:elementary/elementary.dart';
 import 'package:flutter/material.dart';
 import 'package:nekoton_repository/nekoton_repository.dart';
 import 'package:ui_components_lib/ui_components_lib.dart';
 
-class NewAccountScreen
-    extends InjectedElementaryWidget<NewAccountScreenWidgetModel> {
-  NewAccountScreen({
-    String? publicKey,
-    String? password,
-    super.key,
-  }) : super(
-          wmFactoryParam: NewAccountScreenWmParams(
-            publicKey: publicKey,
-            password: password,
-          ),
-        );
+class NewAccountScreen extends ElementaryWidget<NewAccountScreenWidgetModel> {
+  const NewAccountScreen({
+    this.publicKey,
+    this.password,
+    Key? key,
+    WidgetModelFactory wmFactory = defaultNewAccountScreenWidgetModelFactory,
+  }) : super(wmFactory, key: key);
+
+  final String? publicKey;
+  final String? password;
 
   @override
   Widget build(NewAccountScreenWidgetModel wm) {
@@ -30,8 +28,8 @@ class NewAccountScreen
           : Padding(
               padding: const EdgeInsets.all(DimensSizeV2.d16),
               child: NewAccountTypeWidget(
-                publicKey: PublicKey(publicKey: wm.publicKey!),
-                password: wm.password,
+                publicKey: PublicKey(publicKey: publicKey!),
+                password: password,
               ),
             ),
     );

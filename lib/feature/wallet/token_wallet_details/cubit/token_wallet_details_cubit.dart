@@ -115,7 +115,7 @@ class TokenWalletDetailsCubit extends Cubit<TokenWalletDetailsState>
 
   Future<void> retry() async {
     final st = state;
-    if (st is TokenWalletDetailsStateSubscribeError) {
+    if (st is _SubscribeError) {
       emitSafe(st.copyWith(isLoading: true));
       await nekotonRepository.retryTokenSubscription(owner, rootTokenContract);
       emitSafe(st.copyWith(isLoading: false));

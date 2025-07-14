@@ -6,8 +6,9 @@ part of 'transaction_payload.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-_TransactionPayload _$TransactionPayloadFromJson(Map<String, dynamic> json) =>
-    _TransactionPayload(
+_$TransactionPayloadImpl _$$TransactionPayloadImplFromJson(
+        Map<String, dynamic> json) =>
+    _$TransactionPayloadImpl(
       messages: (json['messages'] as List<dynamic>)
           .map((e) =>
               TransactionPayloadMessage.fromJson(e as Map<String, dynamic>))
@@ -19,7 +20,8 @@ _TransactionPayload _$TransactionPayloadFromJson(Map<String, dynamic> json) =>
           : Address.fromJson(json['from'] as String),
     );
 
-Map<String, dynamic> _$TransactionPayloadToJson(_TransactionPayload instance) =>
+Map<String, dynamic> _$$TransactionPayloadImplToJson(
+        _$TransactionPayloadImpl instance) =>
     <String, dynamic>{
       'messages': instance.messages.map((e) => e.toJson()).toList(),
       'valid_until': instance.validUntil,

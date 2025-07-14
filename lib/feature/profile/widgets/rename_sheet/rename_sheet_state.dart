@@ -1,16 +1,16 @@
 part of 'rename_sheet_cubit.dart';
 
 @freezed
-sealed class RenameSheetState with _$RenameSheetState {
+class RenameSheetState with _$RenameSheetState {
   /// State displays loading indicator
-  const factory RenameSheetState.loading() = RenameSheetStateLoading;
+  const factory RenameSheetState.loading() = _RenameSheetStateLoading;
 
   /// State displays nothing, default state
-  const factory RenameSheetState.init() = RenameSheetStateInit;
+  const factory RenameSheetState.init() = _RenameSheetStateInit;
 
   /// State displays nothing, should be closed sheet and display snackbar.
   /// [isSeed] means snackbar should contains text 'Seed renamed'.
   const factory RenameSheetState.completed({
     required bool isSeed,
-  }) = RenameSheetStateCompleted;
+  }) = _RenameSheetStateCompleted;
 }

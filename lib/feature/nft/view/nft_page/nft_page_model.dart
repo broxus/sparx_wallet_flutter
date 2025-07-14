@@ -1,11 +1,9 @@
 import 'package:app/app/service/service.dart';
 import 'package:app/feature/nft/nft.dart';
 import 'package:elementary/elementary.dart';
-import 'package:injectable/injectable.dart';
 import 'package:nekoton_repository/nekoton_repository.dart';
 import 'package:rxdart/rxdart.dart';
 
-@injectable
 class NftPageModel extends ElementaryModel {
   NftPageModel(
     ErrorHandler errorHandler,

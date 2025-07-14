@@ -9,26 +9,26 @@ import 'package:nekoton_webview/nekoton_webview.dart' show AddNetwork, Network;
 part 'approval_request.freezed.dart';
 
 @freezed
-sealed class ApprovalRequest with _$ApprovalRequest {
+class ApprovalRequest with _$ApprovalRequest {
   const factory ApprovalRequest.requestPermissions({
     required Uri origin,
     required List<Permission> permissions,
     required Completer<Permissions> completer,
-  }) = ApprovalRequestPermissions;
+  }) = _RequestPermissions;
 
   const factory ApprovalRequest.changeAccount({
     required Uri origin,
     required List<Permission> permissions,
     required Address? previousSelectedAccount,
     required Completer<Permissions> completer,
-  }) = ApprovalRequestChangeAccount;
+  }) = _ChangeAccount;
 
   const factory ApprovalRequest.addTip3Token({
     required Uri origin,
     required Address account,
     required TokenContractAsset details,
     required Completer<void> completer,
-  }) = ApprovalRequestAddTip3Token;
+  }) = _AddTip3Token;
 
   const factory ApprovalRequest.signData({
     required Uri origin,
@@ -36,7 +36,7 @@ sealed class ApprovalRequest with _$ApprovalRequest {
     required PublicKey publicKey,
     required String data,
     required Completer<String> completer,
-  }) = ApprovalRequestSignData;
+  }) = _SignData;
 
   const factory ApprovalRequest.encryptData({
     required Uri origin,
@@ -44,7 +44,7 @@ sealed class ApprovalRequest with _$ApprovalRequest {
     required PublicKey publicKey,
     required String data,
     required Completer<String> completer,
-  }) = ApprovalRequestEncryptData;
+  }) = _EncryptData;
 
   const factory ApprovalRequest.decryptData({
     required Uri origin,
@@ -52,7 +52,7 @@ sealed class ApprovalRequest with _$ApprovalRequest {
     required PublicKey recipientPublicKey,
     required PublicKey sourcePublicKey,
     required Completer<String> completer,
-  }) = ApprovalRequestDecryptData;
+  }) = _DecryptData;
 
   const factory ApprovalRequest.callContractMethod({
     required Uri origin,
@@ -61,7 +61,7 @@ sealed class ApprovalRequest with _$ApprovalRequest {
     required Address recipient,
     required FunctionCall payload,
     required Completer<String> completer,
-  }) = ApprovalRequestCallContractMethod;
+  }) = _CallContractMethod;
 
   const factory ApprovalRequest.sendMessage({
     required Uri origin,
@@ -76,19 +76,19 @@ sealed class ApprovalRequest with _$ApprovalRequest {
     required List<IgnoreTransactionTreeSimulationError>?
         ignoredActionPhaseCodes,
     required Completer<(PublicKey, String)> completer,
-  }) = ApprovalRequestSendMessage;
+  }) = _SendMessage;
 
   const factory ApprovalRequest.changeNetwork({
     required Uri origin,
     required int networkId,
     required List<ConnectionData> connections,
     required Completer<TransportStrategy?> completer,
-  }) = ApprovalRequestChangeNetwork;
+  }) = _ChangeNetwork;
 
   const factory ApprovalRequest.addNetwork({
     required Uri origin,
     required AddNetwork network,
     required bool switchNetwork,
     required Completer<Network?> completer,
-  }) = ApprovalRequestAddNetwork;
+  }) = _AddNetwork;
 }

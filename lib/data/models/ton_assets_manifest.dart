@@ -6,7 +6,7 @@ part 'ton_assets_manifest.freezed.dart';
 part 'ton_assets_manifest.g.dart';
 
 @freezed
-abstract class TonAssetsManifest with _$TonAssetsManifest {
+class TonAssetsManifest with _$TonAssetsManifest {
   const factory TonAssetsManifest({
     @JsonKey(name: r'$schema') required String schema,
     required String name,

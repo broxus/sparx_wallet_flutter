@@ -6,16 +6,17 @@ part of 'browser_bookmark_item.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-_BrowserBookmarkItem _$BrowserBookmarkItemFromJson(Map<String, dynamic> json) =>
-    _BrowserBookmarkItem(
+_$BrowserBookmarkItemImpl _$$BrowserBookmarkItemImplFromJson(
+        Map<String, dynamic> json) =>
+    _$BrowserBookmarkItemImpl(
       id: json['id'] as String,
       title: json['title'] as String,
       url: uriJsonConverter.fromJson(json['url'] as String),
       sortingOrder: (json['sortingOrder'] as num).toDouble(),
     );
 
-Map<String, dynamic> _$BrowserBookmarkItemToJson(
-        _BrowserBookmarkItem instance) =>
+Map<String, dynamic> _$$BrowserBookmarkItemImplToJson(
+        _$BrowserBookmarkItemImpl instance) =>
     <String, dynamic>{
       'id': instance.id,
       'title': instance.title,
