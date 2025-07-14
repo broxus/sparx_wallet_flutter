@@ -1,9 +1,9 @@
 part of 'select_new_asset_cubit.dart';
 
 @freezed
-sealed class SelectNewAssetState with _$SelectNewAssetState {
+class SelectNewAssetState with _$SelectNewAssetState {
   /// Screen should be closed
-  const factory SelectNewAssetState.completed() = SelectNewAssetStateCompleted;
+  const factory SelectNewAssetState.completed() = _Completed;
 
   const factory SelectNewAssetState.data({
     required SelectNewAssetTabs tab,
@@ -12,5 +12,5 @@ sealed class SelectNewAssetState with _$SelectNewAssetState {
     required bool showButton,
     KeyAccount? account,
     List<(TokenContractAsset, bool)>? contracts,
-  }) = SelectNewAssetStateData;
+  }) = _Data;
 }

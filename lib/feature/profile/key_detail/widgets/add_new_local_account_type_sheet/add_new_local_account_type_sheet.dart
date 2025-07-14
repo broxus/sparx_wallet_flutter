@@ -42,21 +42,26 @@ class AddNewLocalAccountTypeSheet extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocConsumer<AddNewLocalAccountTypeCubit,
         AddNewLocalAccountTypeState>(
-      listener: (context, state) => switch (state) {
-        AddNewLocalAccountTypeStateData(:final isCompleted) when isCompleted =>
-          Navigator.of(context).pop(),
-        _ => null,
+      listener: (context, state) {
+        state.whenOrNull(
+          data: (_, __, ___, ____, isCompleted) {
+            if (isCompleted) {
+              Navigator.of(context).pop();
+            }
+          },
+        );
       },
       builder: (context, state) {
-        return switch (state) {
-          AddNewLocalAccountTypeStateInitial() => const SizedBox.shrink(),
-          AddNewLocalAccountTypeStateData(
-            :final availableAccounts,
-            :final defaultAccount,
-            :final createdAccounts,
-            :final currentSelected,
-          ) =>
-            SeparatedColumn(
+        return state.when(
+          initial: () => const SizedBox.shrink(),
+          data: (
+            availableAccounts,
+            defaultAccount,
+            createdAccounts,
+            currentSelected,
+            _,
+          ) {
+            return SeparatedColumn(
               mainAxisSize: MainAxisSize.min,
               children: [
                 Flexible(
@@ -94,8 +99,9 @@ class AddNewLocalAccountTypeSheet extends StatelessWidget {
                       .createAccount(context),
                 ),
               ],
-            ),
-        };
+            );
+          },
+        );
       },
     );
   }

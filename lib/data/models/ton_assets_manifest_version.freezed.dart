@@ -1,4 +1,3 @@
-// dart format width=80
 // coverage:ignore-file
 // GENERATED CODE - DO NOT MODIFY BY HAND
 // ignore_for_file: type=lint
@@ -10,62 +9,51 @@ part of 'ton_assets_manifest_version.dart';
 // FreezedGenerator
 // **************************************************************************
 
-// dart format off
 T _$identity<T>(T value) => value;
+
+final _privateConstructorUsedError = UnsupportedError(
+    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models');
+
+TonAssetsManifestVersion _$TonAssetsManifestVersionFromJson(
+    Map<String, dynamic> json) {
+  return _TonAssetsManifestVersion.fromJson(json);
+}
 
 /// @nodoc
 mixin _$TonAssetsManifestVersion {
-  int get major;
-  int get minor;
-  int get patch;
+  int get major => throw _privateConstructorUsedError;
+  int get minor => throw _privateConstructorUsedError;
+  int get patch => throw _privateConstructorUsedError;
+
+  /// Serializes this TonAssetsManifestVersion to a JSON map.
+  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
 
   /// Create a copy of TonAssetsManifestVersion
   /// with the given fields replaced by the non-null parameter values.
   @JsonKey(includeFromJson: false, includeToJson: false)
-  @pragma('vm:prefer-inline')
   $TonAssetsManifestVersionCopyWith<TonAssetsManifestVersion> get copyWith =>
-      _$TonAssetsManifestVersionCopyWithImpl<TonAssetsManifestVersion>(
-          this as TonAssetsManifestVersion, _$identity);
-
-  /// Serializes this TonAssetsManifestVersion to a JSON map.
-  Map<String, dynamic> toJson();
-
-  @override
-  bool operator ==(Object other) {
-    return identical(this, other) ||
-        (other.runtimeType == runtimeType &&
-            other is TonAssetsManifestVersion &&
-            (identical(other.major, major) || other.major == major) &&
-            (identical(other.minor, minor) || other.minor == minor) &&
-            (identical(other.patch, patch) || other.patch == patch));
-  }
-
-  @JsonKey(includeFromJson: false, includeToJson: false)
-  @override
-  int get hashCode => Object.hash(runtimeType, major, minor, patch);
-
-  @override
-  String toString() {
-    return 'TonAssetsManifestVersion(major: $major, minor: $minor, patch: $patch)';
-  }
+      throw _privateConstructorUsedError;
 }
 
 /// @nodoc
-abstract mixin class $TonAssetsManifestVersionCopyWith<$Res> {
+abstract class $TonAssetsManifestVersionCopyWith<$Res> {
   factory $TonAssetsManifestVersionCopyWith(TonAssetsManifestVersion value,
-          $Res Function(TonAssetsManifestVersion) _then) =
-      _$TonAssetsManifestVersionCopyWithImpl;
+          $Res Function(TonAssetsManifestVersion) then) =
+      _$TonAssetsManifestVersionCopyWithImpl<$Res, TonAssetsManifestVersion>;
   @useResult
   $Res call({int major, int minor, int patch});
 }
 
 /// @nodoc
-class _$TonAssetsManifestVersionCopyWithImpl<$Res>
+class _$TonAssetsManifestVersionCopyWithImpl<$Res,
+        $Val extends TonAssetsManifestVersion>
     implements $TonAssetsManifestVersionCopyWith<$Res> {
-  _$TonAssetsManifestVersionCopyWithImpl(this._self, this._then);
+  _$TonAssetsManifestVersionCopyWithImpl(this._value, this._then);
 
-  final TonAssetsManifestVersion _self;
-  final $Res Function(TonAssetsManifestVersion) _then;
+  // ignore: unused_field
+  final $Val _value;
+  // ignore: unused_field
+  final $Res Function($Val) _then;
 
   /// Create a copy of TonAssetsManifestVersion
   /// with the given fields replaced by the non-null parameter values.
@@ -76,17 +64,65 @@ class _$TonAssetsManifestVersionCopyWithImpl<$Res>
     Object? minor = null,
     Object? patch = null,
   }) {
-    return _then(_self.copyWith(
+    return _then(_value.copyWith(
       major: null == major
-          ? _self.major
+          ? _value.major
           : major // ignore: cast_nullable_to_non_nullable
               as int,
       minor: null == minor
-          ? _self.minor
+          ? _value.minor
           : minor // ignore: cast_nullable_to_non_nullable
               as int,
       patch: null == patch
-          ? _self.patch
+          ? _value.patch
+          : patch // ignore: cast_nullable_to_non_nullable
+              as int,
+    ) as $Val);
+  }
+}
+
+/// @nodoc
+abstract class _$$TonAssetsManifestVersionImplCopyWith<$Res>
+    implements $TonAssetsManifestVersionCopyWith<$Res> {
+  factory _$$TonAssetsManifestVersionImplCopyWith(
+          _$TonAssetsManifestVersionImpl value,
+          $Res Function(_$TonAssetsManifestVersionImpl) then) =
+      __$$TonAssetsManifestVersionImplCopyWithImpl<$Res>;
+  @override
+  @useResult
+  $Res call({int major, int minor, int patch});
+}
+
+/// @nodoc
+class __$$TonAssetsManifestVersionImplCopyWithImpl<$Res>
+    extends _$TonAssetsManifestVersionCopyWithImpl<$Res,
+        _$TonAssetsManifestVersionImpl>
+    implements _$$TonAssetsManifestVersionImplCopyWith<$Res> {
+  __$$TonAssetsManifestVersionImplCopyWithImpl(
+      _$TonAssetsManifestVersionImpl _value,
+      $Res Function(_$TonAssetsManifestVersionImpl) _then)
+      : super(_value, _then);
+
+  /// Create a copy of TonAssetsManifestVersion
+  /// with the given fields replaced by the non-null parameter values.
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? major = null,
+    Object? minor = null,
+    Object? patch = null,
+  }) {
+    return _then(_$TonAssetsManifestVersionImpl(
+      major: null == major
+          ? _value.major
+          : major // ignore: cast_nullable_to_non_nullable
+              as int,
+      minor: null == minor
+          ? _value.minor
+          : minor // ignore: cast_nullable_to_non_nullable
+              as int,
+      patch: null == patch
+          ? _value.patch
           : patch // ignore: cast_nullable_to_non_nullable
               as int,
     ));
@@ -95,11 +131,12 @@ class _$TonAssetsManifestVersionCopyWithImpl<$Res>
 
 /// @nodoc
 @JsonSerializable()
-class _TonAssetsManifestVersion implements TonAssetsManifestVersion {
-  const _TonAssetsManifestVersion(
+class _$TonAssetsManifestVersionImpl implements _TonAssetsManifestVersion {
+  const _$TonAssetsManifestVersionImpl(
       {required this.major, required this.minor, required this.patch});
-  factory _TonAssetsManifestVersion.fromJson(Map<String, dynamic> json) =>
-      _$TonAssetsManifestVersionFromJson(json);
+
+  factory _$TonAssetsManifestVersionImpl.fromJson(Map<String, dynamic> json) =>
+      _$$TonAssetsManifestVersionImplFromJson(json);
 
   @override
   final int major;
@@ -108,27 +145,16 @@ class _TonAssetsManifestVersion implements TonAssetsManifestVersion {
   @override
   final int patch;
 
-  /// Create a copy of TonAssetsManifestVersion
-  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(includeFromJson: false, includeToJson: false)
-  @pragma('vm:prefer-inline')
-  _$TonAssetsManifestVersionCopyWith<_TonAssetsManifestVersion> get copyWith =>
-      __$TonAssetsManifestVersionCopyWithImpl<_TonAssetsManifestVersion>(
-          this, _$identity);
-
-  @override
-  Map<String, dynamic> toJson() {
-    return _$TonAssetsManifestVersionToJson(
-      this,
-    );
+  String toString() {
+    return 'TonAssetsManifestVersion(major: $major, minor: $minor, patch: $patch)';
   }
 
   @override
   bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _TonAssetsManifestVersion &&
+            other is _$TonAssetsManifestVersionImpl &&
             (identical(other.major, major) || other.major == major) &&
             (identical(other.minor, minor) || other.minor == minor) &&
             (identical(other.patch, patch) || other.patch == patch));
@@ -138,55 +164,43 @@ class _TonAssetsManifestVersion implements TonAssetsManifestVersion {
   @override
   int get hashCode => Object.hash(runtimeType, major, minor, patch);
 
+  /// Create a copy of TonAssetsManifestVersion
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
-  String toString() {
-    return 'TonAssetsManifestVersion(major: $major, minor: $minor, patch: $patch)';
+  @pragma('vm:prefer-inline')
+  _$$TonAssetsManifestVersionImplCopyWith<_$TonAssetsManifestVersionImpl>
+      get copyWith => __$$TonAssetsManifestVersionImplCopyWithImpl<
+          _$TonAssetsManifestVersionImpl>(this, _$identity);
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$$TonAssetsManifestVersionImplToJson(
+      this,
+    );
   }
 }
 
-/// @nodoc
-abstract mixin class _$TonAssetsManifestVersionCopyWith<$Res>
-    implements $TonAssetsManifestVersionCopyWith<$Res> {
-  factory _$TonAssetsManifestVersionCopyWith(_TonAssetsManifestVersion value,
-          $Res Function(_TonAssetsManifestVersion) _then) =
-      __$TonAssetsManifestVersionCopyWithImpl;
+abstract class _TonAssetsManifestVersion implements TonAssetsManifestVersion {
+  const factory _TonAssetsManifestVersion(
+      {required final int major,
+      required final int minor,
+      required final int patch}) = _$TonAssetsManifestVersionImpl;
+
+  factory _TonAssetsManifestVersion.fromJson(Map<String, dynamic> json) =
+      _$TonAssetsManifestVersionImpl.fromJson;
+
   @override
-  @useResult
-  $Res call({int major, int minor, int patch});
-}
-
-/// @nodoc
-class __$TonAssetsManifestVersionCopyWithImpl<$Res>
-    implements _$TonAssetsManifestVersionCopyWith<$Res> {
-  __$TonAssetsManifestVersionCopyWithImpl(this._self, this._then);
-
-  final _TonAssetsManifestVersion _self;
-  final $Res Function(_TonAssetsManifestVersion) _then;
+  int get major;
+  @override
+  int get minor;
+  @override
+  int get patch;
 
   /// Create a copy of TonAssetsManifestVersion
   /// with the given fields replaced by the non-null parameter values.
   @override
-  @pragma('vm:prefer-inline')
-  $Res call({
-    Object? major = null,
-    Object? minor = null,
-    Object? patch = null,
-  }) {
-    return _then(_TonAssetsManifestVersion(
-      major: null == major
-          ? _self.major
-          : major // ignore: cast_nullable_to_non_nullable
-              as int,
-      minor: null == minor
-          ? _self.minor
-          : minor // ignore: cast_nullable_to_non_nullable
-              as int,
-      patch: null == patch
-          ? _self.patch
-          : patch // ignore: cast_nullable_to_non_nullable
-              as int,
-    ));
-  }
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  _$$TonAssetsManifestVersionImplCopyWith<_$TonAssetsManifestVersionImpl>
+      get copyWith => throw _privateConstructorUsedError;
 }
-
-// dart format on

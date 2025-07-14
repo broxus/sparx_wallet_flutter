@@ -6,7 +6,7 @@ part 'gas_price_params.g.dart';
 
 @immutable
 @freezed
-abstract class GasPriceParams with _$GasPriceParams {
+class GasPriceParams with _$GasPriceParams {
   const factory GasPriceParams({
     /// Flat tag
     required String tag1,

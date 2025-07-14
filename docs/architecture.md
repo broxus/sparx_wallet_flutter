@@ -106,101 +106,24 @@ The following business object groups are stored in this layer:
 
 - `*Widget` (View) - A Flutter widget responsible for displaying data to the user. The widget receives data from the `WidgetModel` through state notifiers and renders the UI accordingly. It should not contain business logic beyond what's needed for display. Widgets handle UI events and delegate them to the WidgetModel through method calls. Additionally, widgets process one-time events like navigation, dialogs, or snackbars through handling messages from the WidgetModel.
 
-### New Architecture Pattern: InjectedElementaryWidget
-
-All new widgets should use the `InjectedElementaryWidget` pattern which provides automatic dependency injection:
+WidgetModel should provide (static method under class) factory method for creating instance, that based on injectable calls:
 
 ```dart
-// Widget extends InjectedElementaryWidget (no factory needed)
-class FeatureScreen extends InjectedElementaryWidget<FeatureScreenWidgetModel> {
-  const FeatureScreen({
-    super.key,
-    // Optional parameters can be passed via param1
-    String? optionalParam,
-  }) : super(param1: optionalParam);
-
-  @override
-  Widget build(FeatureScreenWidgetModel wm) {
-    // UI implementation
-  }
-}
-
-// WidgetModel MUST be @injectable
-@injectable
-class FeatureScreenWidgetModel extends CustomWidgetModel<FeatureScreen, FeatureScreenModel> {
-  FeatureScreenWidgetModel(
-    super.model,
-    // Use @factoryParam for parameters passed from widget
-    @factoryParam this.optionalParam,
-  );
-  
-  final String? optionalParam;
-}
-
-// Model MUST be @injectable
-@injectable
-class FeatureScreenModel extends ElementaryModel {
-  FeatureScreenModel(
-    ErrorHandler errorHandler,
-    // Inject services directly
-    this._yourService,
-  ) : super(errorHandler: errorHandler);
-  
-  final YourService _yourService;
+WalletPageWidgetModel defaultWalletPageWidgetModelFactory(
+  BuildContext context,
+) {
+    return WalletPageWidgetModel(
+      WalletPageModel(
+        createPrimaryErrorHandler(context),
+        inject(),
+        inject(),
+        inject(),
+        inject(),
+        inject(),
+      ),
+    );
 }
 ```
-
-### Complex Parameters
-
-For multiple or complex parameters, create a dedicated params class:
-
-```dart
-// Params class for complex data
-class WalletAccountActionsWmParams {
-  WalletAccountActionsWmParams({
-    required this.account,
-    required this.allowStake,
-    required this.sendSpecified,
-    required this.disableSensetiveActions,
-  });
-
-  final KeyAccount account;
-  final bool allowStake;
-  final bool sendSpecified;
-  final bool disableSensetiveActions;
-}
-
-// Widget usage
-class WalletAccountActionsWidget extends InjectedElementaryWidget<WalletAccountActionsWidgetModel> {
-  const WalletAccountActionsWidget({
-    super.key,
-    required KeyAccount account,
-    required bool allowStake,
-    required bool sendSpecified,
-    required bool disableSensetiveActions,
-  }) : super(
-    param1: WalletAccountActionsWmParams(
-      account: account,
-      allowStake: allowStake,
-      sendSpecified: sendSpecified,
-      disableSensetiveActions: disableSensetiveActions,
-    ),
-  );
-}
-
-// WidgetModel usage
-@injectable
-class WalletAccountActionsWidgetModel extends CustomWidgetModel<WalletAccountActionsWidget, WalletAccountActionsModel> {
-  WalletAccountActionsWidgetModel(
-    super.model,
-    @factoryParam this.params,
-  );
-  
-  final WalletAccountActionsWmParams params;
-}
-```
-
-**Legacy Pattern**: For existing code that hasn't been migrated, you may still see the manual factory pattern with `defaultFactory` methods.
 
 ### MVVM add-ons
 

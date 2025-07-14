@@ -3,18 +3,34 @@ import 'dart:io';
 import 'package:app/app/router/compass/compass.dart';
 import 'package:app/app/router/router.dart';
 import 'package:app/app/service/bootstrap/bootstrap_steps.dart';
+import 'package:app/core/error_handler_factory.dart';
 import 'package:app/core/wm/custom_wm.dart';
+import 'package:app/di/di.dart';
 import 'package:app/feature/bootstrap_failed/route.dart';
 import 'package:app/feature/no_internet/route.dart';
 import 'package:app/feature/splash/splash_screen.dart';
 import 'package:app/feature/splash/splash_screen_model.dart';
 import 'package:app/feature/wallet/route.dart';
 import 'package:elementary/elementary.dart';
-import 'package:injectable/injectable.dart';
+import 'package:flutter/widgets.dart';
 import 'package:logging/logging.dart';
 
+/// Factory method for creating [SplashScreenWidgetModel]
+SplashScreenWidgetModel defaultSplashScreenWidgetModelFactory(
+  BuildContext context,
+) {
+  return SplashScreenWidgetModel(
+    SplashScreenModel(
+      createPrimaryErrorHandler(context),
+      inject(),
+      inject(),
+      inject(),
+      inject(),
+    ),
+  );
+}
+
 /// [WidgetModel] для [SplashScreen]
-@injectable
 class SplashScreenWidgetModel
     extends CustomWidgetModel<SplashScreen, SplashScreenModel> {
   SplashScreenWidgetModel(

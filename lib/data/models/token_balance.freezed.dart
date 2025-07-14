@@ -1,4 +1,3 @@
-// dart format width=80
 // coverage:ignore-file
 // GENERATED CODE - DO NOT MODIFY BY HAND
 // ignore_for_file: type=lint
@@ -10,59 +9,38 @@ part of 'token_balance.dart';
 // FreezedGenerator
 // **************************************************************************
 
-// dart format off
 T _$identity<T>(T value) => value;
+
+final _privateConstructorUsedError = UnsupportedError(
+    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models');
+
+TokenBalanceModel _$TokenBalanceModelFromJson(Map<String, dynamic> json) {
+  return _TokenBalanceModel.fromJson(json);
+}
 
 /// @nodoc
 mixin _$TokenBalanceModel {
-  String get amount;
-  Address get ownerAddress;
-  Address get rootAddress;
-  Address get tokenWalletAddress;
-  String get token;
+  String get amount => throw _privateConstructorUsedError;
+  Address get ownerAddress => throw _privateConstructorUsedError;
+  Address get rootAddress => throw _privateConstructorUsedError;
+  Address get tokenWalletAddress => throw _privateConstructorUsedError;
+  String get token => throw _privateConstructorUsedError;
+
+  /// Serializes this TokenBalanceModel to a JSON map.
+  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
 
   /// Create a copy of TokenBalanceModel
   /// with the given fields replaced by the non-null parameter values.
   @JsonKey(includeFromJson: false, includeToJson: false)
-  @pragma('vm:prefer-inline')
   $TokenBalanceModelCopyWith<TokenBalanceModel> get copyWith =>
-      _$TokenBalanceModelCopyWithImpl<TokenBalanceModel>(
-          this as TokenBalanceModel, _$identity);
-
-  /// Serializes this TokenBalanceModel to a JSON map.
-  Map<String, dynamic> toJson();
-
-  @override
-  bool operator ==(Object other) {
-    return identical(this, other) ||
-        (other.runtimeType == runtimeType &&
-            other is TokenBalanceModel &&
-            (identical(other.amount, amount) || other.amount == amount) &&
-            (identical(other.ownerAddress, ownerAddress) ||
-                other.ownerAddress == ownerAddress) &&
-            (identical(other.rootAddress, rootAddress) ||
-                other.rootAddress == rootAddress) &&
-            (identical(other.tokenWalletAddress, tokenWalletAddress) ||
-                other.tokenWalletAddress == tokenWalletAddress) &&
-            (identical(other.token, token) || other.token == token));
-  }
-
-  @JsonKey(includeFromJson: false, includeToJson: false)
-  @override
-  int get hashCode => Object.hash(runtimeType, amount, ownerAddress,
-      rootAddress, tokenWalletAddress, token);
-
-  @override
-  String toString() {
-    return 'TokenBalanceModel(amount: $amount, ownerAddress: $ownerAddress, rootAddress: $rootAddress, tokenWalletAddress: $tokenWalletAddress, token: $token)';
-  }
+      throw _privateConstructorUsedError;
 }
 
 /// @nodoc
-abstract mixin class $TokenBalanceModelCopyWith<$Res> {
+abstract class $TokenBalanceModelCopyWith<$Res> {
   factory $TokenBalanceModelCopyWith(
-          TokenBalanceModel value, $Res Function(TokenBalanceModel) _then) =
-      _$TokenBalanceModelCopyWithImpl;
+          TokenBalanceModel value, $Res Function(TokenBalanceModel) then) =
+      _$TokenBalanceModelCopyWithImpl<$Res, TokenBalanceModel>;
   @useResult
   $Res call(
       {String amount,
@@ -77,12 +55,14 @@ abstract mixin class $TokenBalanceModelCopyWith<$Res> {
 }
 
 /// @nodoc
-class _$TokenBalanceModelCopyWithImpl<$Res>
+class _$TokenBalanceModelCopyWithImpl<$Res, $Val extends TokenBalanceModel>
     implements $TokenBalanceModelCopyWith<$Res> {
-  _$TokenBalanceModelCopyWithImpl(this._self, this._then);
+  _$TokenBalanceModelCopyWithImpl(this._value, this._then);
 
-  final TokenBalanceModel _self;
-  final $Res Function(TokenBalanceModel) _then;
+  // ignore: unused_field
+  final $Val _value;
+  // ignore: unused_field
+  final $Res Function($Val) _then;
 
   /// Create a copy of TokenBalanceModel
   /// with the given fields replaced by the non-null parameter values.
@@ -95,28 +75,28 @@ class _$TokenBalanceModelCopyWithImpl<$Res>
     Object? tokenWalletAddress = null,
     Object? token = null,
   }) {
-    return _then(_self.copyWith(
+    return _then(_value.copyWith(
       amount: null == amount
-          ? _self.amount
+          ? _value.amount
           : amount // ignore: cast_nullable_to_non_nullable
               as String,
       ownerAddress: null == ownerAddress
-          ? _self.ownerAddress
+          ? _value.ownerAddress
           : ownerAddress // ignore: cast_nullable_to_non_nullable
               as Address,
       rootAddress: null == rootAddress
-          ? _self.rootAddress
+          ? _value.rootAddress
           : rootAddress // ignore: cast_nullable_to_non_nullable
               as Address,
       tokenWalletAddress: null == tokenWalletAddress
-          ? _self.tokenWalletAddress
+          ? _value.tokenWalletAddress
           : tokenWalletAddress // ignore: cast_nullable_to_non_nullable
               as Address,
       token: null == token
-          ? _self.token
+          ? _value.token
           : token // ignore: cast_nullable_to_non_nullable
               as String,
-    ));
+    ) as $Val);
   }
 
   /// Create a copy of TokenBalanceModel
@@ -124,8 +104,8 @@ class _$TokenBalanceModelCopyWithImpl<$Res>
   @override
   @pragma('vm:prefer-inline')
   $AddressCopyWith<$Res> get ownerAddress {
-    return $AddressCopyWith<$Res>(_self.ownerAddress, (value) {
-      return _then(_self.copyWith(ownerAddress: value));
+    return $AddressCopyWith<$Res>(_value.ownerAddress, (value) {
+      return _then(_value.copyWith(ownerAddress: value) as $Val);
     });
   }
 
@@ -134,8 +114,8 @@ class _$TokenBalanceModelCopyWithImpl<$Res>
   @override
   @pragma('vm:prefer-inline')
   $AddressCopyWith<$Res> get rootAddress {
-    return $AddressCopyWith<$Res>(_self.rootAddress, (value) {
-      return _then(_self.copyWith(rootAddress: value));
+    return $AddressCopyWith<$Res>(_value.rootAddress, (value) {
+      return _then(_value.copyWith(rootAddress: value) as $Val);
     });
   }
 
@@ -144,23 +124,91 @@ class _$TokenBalanceModelCopyWithImpl<$Res>
   @override
   @pragma('vm:prefer-inline')
   $AddressCopyWith<$Res> get tokenWalletAddress {
-    return $AddressCopyWith<$Res>(_self.tokenWalletAddress, (value) {
-      return _then(_self.copyWith(tokenWalletAddress: value));
+    return $AddressCopyWith<$Res>(_value.tokenWalletAddress, (value) {
+      return _then(_value.copyWith(tokenWalletAddress: value) as $Val);
     });
   }
 }
 
 /// @nodoc
+abstract class _$$TokenBalanceModelImplCopyWith<$Res>
+    implements $TokenBalanceModelCopyWith<$Res> {
+  factory _$$TokenBalanceModelImplCopyWith(_$TokenBalanceModelImpl value,
+          $Res Function(_$TokenBalanceModelImpl) then) =
+      __$$TokenBalanceModelImplCopyWithImpl<$Res>;
+  @override
+  @useResult
+  $Res call(
+      {String amount,
+      Address ownerAddress,
+      Address rootAddress,
+      Address tokenWalletAddress,
+      String token});
+
+  @override
+  $AddressCopyWith<$Res> get ownerAddress;
+  @override
+  $AddressCopyWith<$Res> get rootAddress;
+  @override
+  $AddressCopyWith<$Res> get tokenWalletAddress;
+}
+
+/// @nodoc
+class __$$TokenBalanceModelImplCopyWithImpl<$Res>
+    extends _$TokenBalanceModelCopyWithImpl<$Res, _$TokenBalanceModelImpl>
+    implements _$$TokenBalanceModelImplCopyWith<$Res> {
+  __$$TokenBalanceModelImplCopyWithImpl(_$TokenBalanceModelImpl _value,
+      $Res Function(_$TokenBalanceModelImpl) _then)
+      : super(_value, _then);
+
+  /// Create a copy of TokenBalanceModel
+  /// with the given fields replaced by the non-null parameter values.
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? amount = null,
+    Object? ownerAddress = null,
+    Object? rootAddress = null,
+    Object? tokenWalletAddress = null,
+    Object? token = null,
+  }) {
+    return _then(_$TokenBalanceModelImpl(
+      amount: null == amount
+          ? _value.amount
+          : amount // ignore: cast_nullable_to_non_nullable
+              as String,
+      ownerAddress: null == ownerAddress
+          ? _value.ownerAddress
+          : ownerAddress // ignore: cast_nullable_to_non_nullable
+              as Address,
+      rootAddress: null == rootAddress
+          ? _value.rootAddress
+          : rootAddress // ignore: cast_nullable_to_non_nullable
+              as Address,
+      tokenWalletAddress: null == tokenWalletAddress
+          ? _value.tokenWalletAddress
+          : tokenWalletAddress // ignore: cast_nullable_to_non_nullable
+              as Address,
+      token: null == token
+          ? _value.token
+          : token // ignore: cast_nullable_to_non_nullable
+              as String,
+    ));
+  }
+}
+
+/// @nodoc
 @JsonSerializable()
-class _TokenBalanceModel implements TokenBalanceModel {
-  const _TokenBalanceModel(
+class _$TokenBalanceModelImpl implements _TokenBalanceModel {
+  const _$TokenBalanceModelImpl(
       {required this.amount,
       required this.ownerAddress,
       required this.rootAddress,
       required this.tokenWalletAddress,
       required this.token});
-  factory _TokenBalanceModel.fromJson(Map<String, dynamic> json) =>
-      _$TokenBalanceModelFromJson(json);
+
+  factory _$TokenBalanceModelImpl.fromJson(Map<String, dynamic> json) =>
+      _$$TokenBalanceModelImplFromJson(json);
 
   @override
   final String amount;
@@ -173,26 +221,16 @@ class _TokenBalanceModel implements TokenBalanceModel {
   @override
   final String token;
 
-  /// Create a copy of TokenBalanceModel
-  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(includeFromJson: false, includeToJson: false)
-  @pragma('vm:prefer-inline')
-  _$TokenBalanceModelCopyWith<_TokenBalanceModel> get copyWith =>
-      __$TokenBalanceModelCopyWithImpl<_TokenBalanceModel>(this, _$identity);
-
-  @override
-  Map<String, dynamic> toJson() {
-    return _$TokenBalanceModelToJson(
-      this,
-    );
+  String toString() {
+    return 'TokenBalanceModel(amount: $amount, ownerAddress: $ownerAddress, rootAddress: $rootAddress, tokenWalletAddress: $tokenWalletAddress, token: $token)';
   }
 
   @override
   bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _TokenBalanceModel &&
+            other is _$TokenBalanceModelImpl &&
             (identical(other.amount, amount) || other.amount == amount) &&
             (identical(other.ownerAddress, ownerAddress) ||
                 other.ownerAddress == ownerAddress) &&
@@ -208,107 +246,49 @@ class _TokenBalanceModel implements TokenBalanceModel {
   int get hashCode => Object.hash(runtimeType, amount, ownerAddress,
       rootAddress, tokenWalletAddress, token);
 
+  /// Create a copy of TokenBalanceModel
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
-  String toString() {
-    return 'TokenBalanceModel(amount: $amount, ownerAddress: $ownerAddress, rootAddress: $rootAddress, tokenWalletAddress: $tokenWalletAddress, token: $token)';
+  @pragma('vm:prefer-inline')
+  _$$TokenBalanceModelImplCopyWith<_$TokenBalanceModelImpl> get copyWith =>
+      __$$TokenBalanceModelImplCopyWithImpl<_$TokenBalanceModelImpl>(
+          this, _$identity);
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$$TokenBalanceModelImplToJson(
+      this,
+    );
   }
 }
 
-/// @nodoc
-abstract mixin class _$TokenBalanceModelCopyWith<$Res>
-    implements $TokenBalanceModelCopyWith<$Res> {
-  factory _$TokenBalanceModelCopyWith(
-          _TokenBalanceModel value, $Res Function(_TokenBalanceModel) _then) =
-      __$TokenBalanceModelCopyWithImpl;
-  @override
-  @useResult
-  $Res call(
-      {String amount,
-      Address ownerAddress,
-      Address rootAddress,
-      Address tokenWalletAddress,
-      String token});
+abstract class _TokenBalanceModel implements TokenBalanceModel {
+  const factory _TokenBalanceModel(
+      {required final String amount,
+      required final Address ownerAddress,
+      required final Address rootAddress,
+      required final Address tokenWalletAddress,
+      required final String token}) = _$TokenBalanceModelImpl;
+
+  factory _TokenBalanceModel.fromJson(Map<String, dynamic> json) =
+      _$TokenBalanceModelImpl.fromJson;
 
   @override
-  $AddressCopyWith<$Res> get ownerAddress;
+  String get amount;
   @override
-  $AddressCopyWith<$Res> get rootAddress;
+  Address get ownerAddress;
   @override
-  $AddressCopyWith<$Res> get tokenWalletAddress;
+  Address get rootAddress;
+  @override
+  Address get tokenWalletAddress;
+  @override
+  String get token;
+
+  /// Create a copy of TokenBalanceModel
+  /// with the given fields replaced by the non-null parameter values.
+  @override
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  _$$TokenBalanceModelImplCopyWith<_$TokenBalanceModelImpl> get copyWith =>
+      throw _privateConstructorUsedError;
 }
-
-/// @nodoc
-class __$TokenBalanceModelCopyWithImpl<$Res>
-    implements _$TokenBalanceModelCopyWith<$Res> {
-  __$TokenBalanceModelCopyWithImpl(this._self, this._then);
-
-  final _TokenBalanceModel _self;
-  final $Res Function(_TokenBalanceModel) _then;
-
-  /// Create a copy of TokenBalanceModel
-  /// with the given fields replaced by the non-null parameter values.
-  @override
-  @pragma('vm:prefer-inline')
-  $Res call({
-    Object? amount = null,
-    Object? ownerAddress = null,
-    Object? rootAddress = null,
-    Object? tokenWalletAddress = null,
-    Object? token = null,
-  }) {
-    return _then(_TokenBalanceModel(
-      amount: null == amount
-          ? _self.amount
-          : amount // ignore: cast_nullable_to_non_nullable
-              as String,
-      ownerAddress: null == ownerAddress
-          ? _self.ownerAddress
-          : ownerAddress // ignore: cast_nullable_to_non_nullable
-              as Address,
-      rootAddress: null == rootAddress
-          ? _self.rootAddress
-          : rootAddress // ignore: cast_nullable_to_non_nullable
-              as Address,
-      tokenWalletAddress: null == tokenWalletAddress
-          ? _self.tokenWalletAddress
-          : tokenWalletAddress // ignore: cast_nullable_to_non_nullable
-              as Address,
-      token: null == token
-          ? _self.token
-          : token // ignore: cast_nullable_to_non_nullable
-              as String,
-    ));
-  }
-
-  /// Create a copy of TokenBalanceModel
-  /// with the given fields replaced by the non-null parameter values.
-  @override
-  @pragma('vm:prefer-inline')
-  $AddressCopyWith<$Res> get ownerAddress {
-    return $AddressCopyWith<$Res>(_self.ownerAddress, (value) {
-      return _then(_self.copyWith(ownerAddress: value));
-    });
-  }
-
-  /// Create a copy of TokenBalanceModel
-  /// with the given fields replaced by the non-null parameter values.
-  @override
-  @pragma('vm:prefer-inline')
-  $AddressCopyWith<$Res> get rootAddress {
-    return $AddressCopyWith<$Res>(_self.rootAddress, (value) {
-      return _then(_self.copyWith(rootAddress: value));
-    });
-  }
-
-  /// Create a copy of TokenBalanceModel
-  /// with the given fields replaced by the non-null parameter values.
-  @override
-  @pragma('vm:prefer-inline')
-  $AddressCopyWith<$Res> get tokenWalletAddress {
-    return $AddressCopyWith<$Res>(_self.tokenWalletAddress, (value) {
-      return _then(_self.copyWith(tokenWalletAddress: value));
-    });
-  }
-}
-
-// dart format on

@@ -9,7 +9,7 @@ part 'token_contract_asset.freezed.dart';
 part 'token_contract_asset.g.dart';
 
 @freezed
-abstract class TokenContractAsset with _$TokenContractAsset {
+class TokenContractAsset with _$TokenContractAsset {
   const factory TokenContractAsset({
     required String name,
     required String symbol,

@@ -49,7 +49,5 @@ Future<void> contactSupportEmailSend(
 Future<void> contactSupportShareFile(
   String logFilePath,
 ) async {
-  await SharePlus.instance.share(
-    ShareParams(files: [XFile(logFilePath)]),
-  );
+  await Share.shareXFiles([XFile(logFilePath)]);
 }

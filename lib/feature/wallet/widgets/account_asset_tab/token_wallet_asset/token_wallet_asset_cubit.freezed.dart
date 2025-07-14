@@ -1,4 +1,3 @@
-// dart format width=80
 // coverage:ignore-file
 // GENERATED CODE - DO NOT MODIFY BY HAND
 // ignore_for_file: type=lint
@@ -10,53 +9,132 @@ part of 'token_wallet_asset_cubit.dart';
 // FreezedGenerator
 // **************************************************************************
 
-// dart format off
 T _$identity<T>(T value) => value;
+
+final _privateConstructorUsedError = UnsupportedError(
+    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models');
 
 /// @nodoc
 mixin _$TokenWalletAssetState {
-  @override
-  bool operator ==(Object other) {
-    return identical(this, other) ||
-        (other.runtimeType == runtimeType && other is TokenWalletAssetState);
-  }
-
-  @override
-  int get hashCode => runtimeType.hashCode;
-
-  @override
-  String toString() {
-    return 'TokenWalletAssetState()';
-  }
+  @optionalTypeArgs
+  TResult when<TResult extends Object?>({
+    required TResult Function(Money? fiatBalance, Money? tokenBalance) data,
+    required TResult Function(Object error, bool isLoading) subscribeError,
+  }) =>
+      throw _privateConstructorUsedError;
+  @optionalTypeArgs
+  TResult? whenOrNull<TResult extends Object?>({
+    TResult? Function(Money? fiatBalance, Money? tokenBalance)? data,
+    TResult? Function(Object error, bool isLoading)? subscribeError,
+  }) =>
+      throw _privateConstructorUsedError;
+  @optionalTypeArgs
+  TResult maybeWhen<TResult extends Object?>({
+    TResult Function(Money? fiatBalance, Money? tokenBalance)? data,
+    TResult Function(Object error, bool isLoading)? subscribeError,
+    required TResult orElse(),
+  }) =>
+      throw _privateConstructorUsedError;
+  @optionalTypeArgs
+  TResult map<TResult extends Object?>({
+    required TResult Function(_Data value) data,
+    required TResult Function(_SubscribeError value) subscribeError,
+  }) =>
+      throw _privateConstructorUsedError;
+  @optionalTypeArgs
+  TResult? mapOrNull<TResult extends Object?>({
+    TResult? Function(_Data value)? data,
+    TResult? Function(_SubscribeError value)? subscribeError,
+  }) =>
+      throw _privateConstructorUsedError;
+  @optionalTypeArgs
+  TResult maybeMap<TResult extends Object?>({
+    TResult Function(_Data value)? data,
+    TResult Function(_SubscribeError value)? subscribeError,
+    required TResult orElse(),
+  }) =>
+      throw _privateConstructorUsedError;
 }
 
 /// @nodoc
-class $TokenWalletAssetStateCopyWith<$Res> {
-  $TokenWalletAssetStateCopyWith(
-      TokenWalletAssetState _, $Res Function(TokenWalletAssetState) __);
+abstract class $TokenWalletAssetStateCopyWith<$Res> {
+  factory $TokenWalletAssetStateCopyWith(TokenWalletAssetState value,
+          $Res Function(TokenWalletAssetState) then) =
+      _$TokenWalletAssetStateCopyWithImpl<$Res, TokenWalletAssetState>;
 }
 
 /// @nodoc
+class _$TokenWalletAssetStateCopyWithImpl<$Res,
+        $Val extends TokenWalletAssetState>
+    implements $TokenWalletAssetStateCopyWith<$Res> {
+  _$TokenWalletAssetStateCopyWithImpl(this._value, this._then);
 
-class TokenWalletAssetStateData implements TokenWalletAssetState {
-  const TokenWalletAssetStateData({this.fiatBalance, this.tokenBalance});
-
-  final Money? fiatBalance;
-  final Money? tokenBalance;
+  // ignore: unused_field
+  final $Val _value;
+  // ignore: unused_field
+  final $Res Function($Val) _then;
 
   /// Create a copy of TokenWalletAssetState
   /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
+}
+
+/// @nodoc
+abstract class _$$DataImplCopyWith<$Res> {
+  factory _$$DataImplCopyWith(
+          _$DataImpl value, $Res Function(_$DataImpl) then) =
+      __$$DataImplCopyWithImpl<$Res>;
+  @useResult
+  $Res call({Money? fiatBalance, Money? tokenBalance});
+}
+
+/// @nodoc
+class __$$DataImplCopyWithImpl<$Res>
+    extends _$TokenWalletAssetStateCopyWithImpl<$Res, _$DataImpl>
+    implements _$$DataImplCopyWith<$Res> {
+  __$$DataImplCopyWithImpl(_$DataImpl _value, $Res Function(_$DataImpl) _then)
+      : super(_value, _then);
+
+  /// Create a copy of TokenWalletAssetState
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
-  $TokenWalletAssetStateDataCopyWith<TokenWalletAssetStateData> get copyWith =>
-      _$TokenWalletAssetStateDataCopyWithImpl<TokenWalletAssetStateData>(
-          this, _$identity);
+  @override
+  $Res call({
+    Object? fiatBalance = freezed,
+    Object? tokenBalance = freezed,
+  }) {
+    return _then(_$DataImpl(
+      fiatBalance: freezed == fiatBalance
+          ? _value.fiatBalance
+          : fiatBalance // ignore: cast_nullable_to_non_nullable
+              as Money?,
+      tokenBalance: freezed == tokenBalance
+          ? _value.tokenBalance
+          : tokenBalance // ignore: cast_nullable_to_non_nullable
+              as Money?,
+    ));
+  }
+}
+
+/// @nodoc
+
+class _$DataImpl implements _Data {
+  const _$DataImpl({this.fiatBalance, this.tokenBalance});
+
+  @override
+  final Money? fiatBalance;
+  @override
+  final Money? tokenBalance;
+
+  @override
+  String toString() {
+    return 'TokenWalletAssetState.data(fiatBalance: $fiatBalance, tokenBalance: $tokenBalance)';
+  }
 
   @override
   bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is TokenWalletAssetStateData &&
+            other is _$DataImpl &&
             (identical(other.fiatBalance, fiatBalance) ||
                 other.fiatBalance == fiatBalance) &&
             (identical(other.tokenBalance, tokenBalance) ||
@@ -66,73 +144,146 @@ class TokenWalletAssetStateData implements TokenWalletAssetState {
   @override
   int get hashCode => Object.hash(runtimeType, fiatBalance, tokenBalance);
 
+  /// Create a copy of TokenWalletAssetState
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
-  String toString() {
-    return 'TokenWalletAssetState.data(fiatBalance: $fiatBalance, tokenBalance: $tokenBalance)';
+  @pragma('vm:prefer-inline')
+  _$$DataImplCopyWith<_$DataImpl> get copyWith =>
+      __$$DataImplCopyWithImpl<_$DataImpl>(this, _$identity);
+
+  @override
+  @optionalTypeArgs
+  TResult when<TResult extends Object?>({
+    required TResult Function(Money? fiatBalance, Money? tokenBalance) data,
+    required TResult Function(Object error, bool isLoading) subscribeError,
+  }) {
+    return data(fiatBalance, tokenBalance);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? whenOrNull<TResult extends Object?>({
+    TResult? Function(Money? fiatBalance, Money? tokenBalance)? data,
+    TResult? Function(Object error, bool isLoading)? subscribeError,
+  }) {
+    return data?.call(fiatBalance, tokenBalance);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeWhen<TResult extends Object?>({
+    TResult Function(Money? fiatBalance, Money? tokenBalance)? data,
+    TResult Function(Object error, bool isLoading)? subscribeError,
+    required TResult orElse(),
+  }) {
+    if (data != null) {
+      return data(fiatBalance, tokenBalance);
+    }
+    return orElse();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult map<TResult extends Object?>({
+    required TResult Function(_Data value) data,
+    required TResult Function(_SubscribeError value) subscribeError,
+  }) {
+    return data(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? mapOrNull<TResult extends Object?>({
+    TResult? Function(_Data value)? data,
+    TResult? Function(_SubscribeError value)? subscribeError,
+  }) {
+    return data?.call(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeMap<TResult extends Object?>({
+    TResult Function(_Data value)? data,
+    TResult Function(_SubscribeError value)? subscribeError,
+    required TResult orElse(),
+  }) {
+    if (data != null) {
+      return data(this);
+    }
+    return orElse();
   }
 }
 
-/// @nodoc
-abstract mixin class $TokenWalletAssetStateDataCopyWith<$Res>
-    implements $TokenWalletAssetStateCopyWith<$Res> {
-  factory $TokenWalletAssetStateDataCopyWith(TokenWalletAssetStateData value,
-          $Res Function(TokenWalletAssetStateData) _then) =
-      _$TokenWalletAssetStateDataCopyWithImpl;
-  @useResult
-  $Res call({Money? fiatBalance, Money? tokenBalance});
+abstract class _Data implements TokenWalletAssetState {
+  const factory _Data({final Money? fiatBalance, final Money? tokenBalance}) =
+      _$DataImpl;
+
+  Money? get fiatBalance;
+  Money? get tokenBalance;
+
+  /// Create a copy of TokenWalletAssetState
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  _$$DataImplCopyWith<_$DataImpl> get copyWith =>
+      throw _privateConstructorUsedError;
 }
 
 /// @nodoc
-class _$TokenWalletAssetStateDataCopyWithImpl<$Res>
-    implements $TokenWalletAssetStateDataCopyWith<$Res> {
-  _$TokenWalletAssetStateDataCopyWithImpl(this._self, this._then);
+abstract class _$$SubscribeErrorImplCopyWith<$Res> {
+  factory _$$SubscribeErrorImplCopyWith(_$SubscribeErrorImpl value,
+          $Res Function(_$SubscribeErrorImpl) then) =
+      __$$SubscribeErrorImplCopyWithImpl<$Res>;
+  @useResult
+  $Res call({Object error, bool isLoading});
+}
 
-  final TokenWalletAssetStateData _self;
-  final $Res Function(TokenWalletAssetStateData) _then;
+/// @nodoc
+class __$$SubscribeErrorImplCopyWithImpl<$Res>
+    extends _$TokenWalletAssetStateCopyWithImpl<$Res, _$SubscribeErrorImpl>
+    implements _$$SubscribeErrorImplCopyWith<$Res> {
+  __$$SubscribeErrorImplCopyWithImpl(
+      _$SubscribeErrorImpl _value, $Res Function(_$SubscribeErrorImpl) _then)
+      : super(_value, _then);
 
   /// Create a copy of TokenWalletAssetState
   /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
+  @override
   $Res call({
-    Object? fiatBalance = freezed,
-    Object? tokenBalance = freezed,
+    Object? error = null,
+    Object? isLoading = null,
   }) {
-    return _then(TokenWalletAssetStateData(
-      fiatBalance: freezed == fiatBalance
-          ? _self.fiatBalance
-          : fiatBalance // ignore: cast_nullable_to_non_nullable
-              as Money?,
-      tokenBalance: freezed == tokenBalance
-          ? _self.tokenBalance
-          : tokenBalance // ignore: cast_nullable_to_non_nullable
-              as Money?,
+    return _then(_$SubscribeErrorImpl(
+      error: null == error ? _value.error : error,
+      isLoading: null == isLoading
+          ? _value.isLoading
+          : isLoading // ignore: cast_nullable_to_non_nullable
+              as bool,
     ));
   }
 }
 
 /// @nodoc
 
-class TokenWalletAssetStateSubscribeError implements TokenWalletAssetState {
-  const TokenWalletAssetStateSubscribeError(
-      {required this.error, required this.isLoading});
+class _$SubscribeErrorImpl implements _SubscribeError {
+  const _$SubscribeErrorImpl({required this.error, required this.isLoading});
 
+  @override
   final Object error;
+  @override
   final bool isLoading;
 
-  /// Create a copy of TokenWalletAssetState
-  /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
-  @pragma('vm:prefer-inline')
-  $TokenWalletAssetStateSubscribeErrorCopyWith<
-          TokenWalletAssetStateSubscribeError>
-      get copyWith => _$TokenWalletAssetStateSubscribeErrorCopyWithImpl<
-          TokenWalletAssetStateSubscribeError>(this, _$identity);
+  @override
+  String toString() {
+    return 'TokenWalletAssetState.subscribeError(error: $error, isLoading: $isLoading)';
+  }
 
   @override
   bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is TokenWalletAssetStateSubscribeError &&
+            other is _$SubscribeErrorImpl &&
             const DeepCollectionEquality().equals(other.error, error) &&
             (identical(other.isLoading, isLoading) ||
                 other.isLoading == isLoading));
@@ -142,46 +293,89 @@ class TokenWalletAssetStateSubscribeError implements TokenWalletAssetState {
   int get hashCode => Object.hash(
       runtimeType, const DeepCollectionEquality().hash(error), isLoading);
 
+  /// Create a copy of TokenWalletAssetState
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
-  String toString() {
-    return 'TokenWalletAssetState.subscribeError(error: $error, isLoading: $isLoading)';
+  @pragma('vm:prefer-inline')
+  _$$SubscribeErrorImplCopyWith<_$SubscribeErrorImpl> get copyWith =>
+      __$$SubscribeErrorImplCopyWithImpl<_$SubscribeErrorImpl>(
+          this, _$identity);
+
+  @override
+  @optionalTypeArgs
+  TResult when<TResult extends Object?>({
+    required TResult Function(Money? fiatBalance, Money? tokenBalance) data,
+    required TResult Function(Object error, bool isLoading) subscribeError,
+  }) {
+    return subscribeError(error, isLoading);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? whenOrNull<TResult extends Object?>({
+    TResult? Function(Money? fiatBalance, Money? tokenBalance)? data,
+    TResult? Function(Object error, bool isLoading)? subscribeError,
+  }) {
+    return subscribeError?.call(error, isLoading);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeWhen<TResult extends Object?>({
+    TResult Function(Money? fiatBalance, Money? tokenBalance)? data,
+    TResult Function(Object error, bool isLoading)? subscribeError,
+    required TResult orElse(),
+  }) {
+    if (subscribeError != null) {
+      return subscribeError(error, isLoading);
+    }
+    return orElse();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult map<TResult extends Object?>({
+    required TResult Function(_Data value) data,
+    required TResult Function(_SubscribeError value) subscribeError,
+  }) {
+    return subscribeError(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? mapOrNull<TResult extends Object?>({
+    TResult? Function(_Data value)? data,
+    TResult? Function(_SubscribeError value)? subscribeError,
+  }) {
+    return subscribeError?.call(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeMap<TResult extends Object?>({
+    TResult Function(_Data value)? data,
+    TResult Function(_SubscribeError value)? subscribeError,
+    required TResult orElse(),
+  }) {
+    if (subscribeError != null) {
+      return subscribeError(this);
+    }
+    return orElse();
   }
 }
 
-/// @nodoc
-abstract mixin class $TokenWalletAssetStateSubscribeErrorCopyWith<$Res>
-    implements $TokenWalletAssetStateCopyWith<$Res> {
-  factory $TokenWalletAssetStateSubscribeErrorCopyWith(
-          TokenWalletAssetStateSubscribeError value,
-          $Res Function(TokenWalletAssetStateSubscribeError) _then) =
-      _$TokenWalletAssetStateSubscribeErrorCopyWithImpl;
-  @useResult
-  $Res call({Object error, bool isLoading});
-}
+abstract class _SubscribeError implements TokenWalletAssetState {
+  const factory _SubscribeError(
+      {required final Object error,
+      required final bool isLoading}) = _$SubscribeErrorImpl;
 
-/// @nodoc
-class _$TokenWalletAssetStateSubscribeErrorCopyWithImpl<$Res>
-    implements $TokenWalletAssetStateSubscribeErrorCopyWith<$Res> {
-  _$TokenWalletAssetStateSubscribeErrorCopyWithImpl(this._self, this._then);
-
-  final TokenWalletAssetStateSubscribeError _self;
-  final $Res Function(TokenWalletAssetStateSubscribeError) _then;
+  Object get error;
+  bool get isLoading;
 
   /// Create a copy of TokenWalletAssetState
   /// with the given fields replaced by the non-null parameter values.
-  @pragma('vm:prefer-inline')
-  $Res call({
-    Object? error = null,
-    Object? isLoading = null,
-  }) {
-    return _then(TokenWalletAssetStateSubscribeError(
-      error: null == error ? _self.error : error,
-      isLoading: null == isLoading
-          ? _self.isLoading
-          : isLoading // ignore: cast_nullable_to_non_nullable
-              as bool,
-    ));
-  }
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  _$$SubscribeErrorImplCopyWith<_$SubscribeErrorImpl> get copyWith =>
+      throw _privateConstructorUsedError;
 }
-
-// dart format on

@@ -36,8 +36,8 @@ typedef DetailsTitleAndBody = (String, List<TonWalletTransactionDetailsItem>);
 
 extension KnownPayloadX on KnownPayload {
   // ignore: long-method
-  DetailsTitleAndBody? toRepresentableData() => switch (this) {
-        KnownPayloadComment(:final data) => data.isNotEmpty
+  DetailsTitleAndBody? toRepresentableData() => when(
+        comment: (data) => data.isNotEmpty
             ? (
                 LocaleKeys.commentWord.tr(),
                 [
@@ -48,222 +48,220 @@ extension KnownPayloadX on KnownPayload {
                 ]
               )
             : null,
-        KnownPayloadTokenOutgoingTransfer(:final data) => (
-            LocaleKeys.tokenIncomingTransfer.tr(),
-            [
-              switch (data.to) {
-                TransferRecipientOwnerWallet(:final data) =>
-                  TonWalletTransactionDetailsItem(
-                    title: LocaleKeys.ownerWallet.tr(),
-                    content: data.address,
-                    copyValue: data.address,
-                    copyMessage: LocaleKeys.valueCopiedExclamation.tr(
-                      args: [data.toEllipseString()],
-                    ),
-                  ),
-                TransferRecipientTokenWallet(:final data) =>
-                  TonWalletTransactionDetailsItem(
-                    title: LocaleKeys.tokenWallet.tr(),
-                    content: data.address,
-                    copyValue: data.address,
-                    copyMessage: LocaleKeys.valueCopiedExclamation.tr(
-                      args: [data.toEllipseString()],
-                    ),
-                  ),
-              },
-              TonWalletTransactionDetailsItem(
-                title: LocaleKeys.tokensWord.tr(),
-                contentChild: MoneyWidget(
-                  money: _getTokenMoney(
-                    data.tokens,
-                    switch (data.to) {
-                      TransferRecipientOwnerWallet(:final data) => data,
-                      TransferRecipientTokenWallet(:final data) => data,
-                    },
-                  ),
-                  style: MoneyWidgetStyle.primary,
-                  showSymbol: false,
-                ),
-              ),
-            ],
-          ),
-        KnownPayloadTokenSwapBack(:final data) => (
-            LocaleKeys.tokenSwapBack.tr(),
-            [
-              TonWalletTransactionDetailsItem(
-                title: LocaleKeys.tokensWord.tr(),
-                contentChild: MoneyWidget(
-                  money: _getTokenMoney(
-                    data.tokens,
-                    data.callbackAddress,
-                  ),
-                  style: MoneyWidgetStyle.primary,
-                  showSymbol: false,
-                ),
-              ),
-              TonWalletTransactionDetailsItem(
-                title: LocaleKeys.callbackAddress.tr(),
-                content: data.callbackAddress.address,
-                copyValue: data.callbackAddress.address,
+        tokenOutgoingTransfer: (data) => (
+          LocaleKeys.tokenIncomingTransfer.tr(),
+          [
+            data.to.when(
+              ownerWallet: (data) => TonWalletTransactionDetailsItem(
+                title: LocaleKeys.ownerWallet.tr(),
+                content: data.address,
+                copyValue: data.address,
                 copyMessage: LocaleKeys.valueCopiedExclamation.tr(
-                  args: [data.callbackAddress.toEllipseString()],
+                  args: [data.toEllipseString()],
                 ),
               ),
-              TonWalletTransactionDetailsItem(
-                title: LocaleKeys.callbackPayload.tr(),
-                content: data.callbackPayload,
-              ),
-            ],
-          ),
-        KnownPayloadJettonOutgoingTransfer(:final data) => (
-            LocaleKeys.tokenIncomingTransfer.tr(),
-            [
-              TonWalletTransactionDetailsItem(
+              tokenWallet: (data) => TonWalletTransactionDetailsItem(
                 title: LocaleKeys.tokenWallet.tr(),
-                content: data.to.address,
-                copyValue: data.to.address,
+                content: data.address,
+                copyValue: data.address,
                 copyMessage: LocaleKeys.valueCopiedExclamation.tr(
-                  args: [data.to.toEllipseString()],
+                  args: [data.toEllipseString()],
                 ),
               ),
-              TonWalletTransactionDetailsItem(
-                title: LocaleKeys.tokensWord.tr(),
-                contentChild: MoneyWidget(
-                  money: _getTokenMoney(data.tokens, data.to),
-                  style: MoneyWidgetStyle.primary,
-                  showSymbol: false,
+            ),
+            TonWalletTransactionDetailsItem(
+              title: LocaleKeys.tokensWord.tr(),
+              contentChild: MoneyWidget(
+                money: _getTokenMoney(
+                  data.tokens,
+                  data.to.when(
+                    ownerWallet: (data) => data,
+                    tokenWallet: (data) => data,
+                  ),
                 ),
+                style: MoneyWidgetStyle.primary,
+                showSymbol: false,
               ),
-            ],
-          ),
-      };
+            ),
+          ],
+        ),
+        tokenSwapBack: (data) => (
+          LocaleKeys.tokenSwapBack.tr(),
+          [
+            TonWalletTransactionDetailsItem(
+              title: LocaleKeys.tokensWord.tr(),
+              contentChild: MoneyWidget(
+                money: _getTokenMoney(
+                  data.tokens,
+                  data.callbackAddress,
+                ),
+                style: MoneyWidgetStyle.primary,
+                showSymbol: false,
+              ),
+            ),
+            TonWalletTransactionDetailsItem(
+              title: LocaleKeys.callbackAddress.tr(),
+              content: data.callbackAddress.address,
+              copyValue: data.callbackAddress.address,
+              copyMessage: LocaleKeys.valueCopiedExclamation.tr(
+                args: [data.callbackAddress.toEllipseString()],
+              ),
+            ),
+            TonWalletTransactionDetailsItem(
+              title: LocaleKeys.callbackPayload.tr(),
+              content: data.callbackPayload,
+            ),
+          ],
+        ),
+        jettonOutgoingTransfer: (data) => (
+          LocaleKeys.tokenIncomingTransfer.tr(),
+          [
+            TonWalletTransactionDetailsItem(
+              title: LocaleKeys.tokenWallet.tr(),
+              content: data.to.address,
+              copyValue: data.to.address,
+              copyMessage: LocaleKeys.valueCopiedExclamation.tr(
+                args: [data.to.toEllipseString()],
+              ),
+            ),
+            TonWalletTransactionDetailsItem(
+              title: LocaleKeys.tokensWord.tr(),
+              contentChild: MoneyWidget(
+                money: _getTokenMoney(data.tokens, data.to),
+                style: MoneyWidgetStyle.primary,
+                showSymbol: false,
+              ),
+            ),
+          ],
+        ),
+      );
 }
 
 extension WalletInteractionMethodX on WalletInteractionMethod {
   /// Returns pair, where 1-st item is title of section,
   /// 2-nd item list of content specified for interaction method
   // ignore: long-method
-  DetailsTitleAndBody toRepresentableData() => switch (this) {
-        WalletInteractionMethodWalletV3Transfer() => (
-            LocaleKeys.walletV3Transfer.tr(),
-            [],
+  DetailsTitleAndBody toRepresentableData() => when(
+        walletV3Transfer: () => (
+          LocaleKeys.walletV3Transfer.tr(),
+          [],
+        ),
+        tonWalletTransfer: () => (
+          LocaleKeys.tonWalletTransfer.tr(),
+          [],
+        ),
+        multisig: (data) => data.when(
+          send: (data) => (
+            LocaleKeys.multisigSendTransaction.tr(),
+            [
+              TonWalletTransactionDetailsItem(
+                title: LocaleKeys.destinationWord.tr(),
+                content: data.dest.address,
+                copyValue: data.dest.address,
+                copyMessage: LocaleKeys.valueCopiedExclamation.tr(
+                  args: [data.dest.toEllipseString()],
+                ),
+              ),
+              TonWalletTransactionDetailsItem(
+                title: LocaleKeys.valueWord.tr(),
+                contentChild: MoneyWidget(
+                  money: _getTokenMoney(data.value, data.dest),
+                  style: MoneyWidgetStyle.primary,
+                  showSymbol: false,
+                ),
+              ),
+              TonWalletTransactionDetailsItem(
+                title: LocaleKeys.bounceWord.tr(),
+                content: data.bounce
+                    ? LocaleKeys.yesWord.tr()
+                    : LocaleKeys.noWord.tr(),
+              ),
+              TonWalletTransactionDetailsItem(
+                title: LocaleKeys.flagsWord.tr(),
+                content: data.flags.toString(),
+              ),
+              TonWalletTransactionDetailsItem(
+                title: LocaleKeys.payloadWord.tr(),
+                content: data.payload,
+              ),
+            ],
           ),
-        WalletInteractionMethodTonWalletTransfer() => (
-            LocaleKeys.tonWalletTransfer.tr(),
-            [],
+          submit: (data) => (
+            LocaleKeys.multisigSubmitTransaction.tr(),
+            [
+              TonWalletTransactionDetailsItem(
+                title: LocaleKeys.custodianWord.tr(),
+                content: data.custodian.publicKey,
+                copyValue: data.custodian.publicKey,
+                copyMessage: LocaleKeys.valueCopiedExclamation.tr(
+                  args: [data.custodian.toEllipseString()],
+                ),
+              ),
+              TonWalletTransactionDetailsItem(
+                title: LocaleKeys.destinationWord.tr(),
+                content: data.dest.address,
+                copyValue: data.dest.address,
+                copyMessage: LocaleKeys.valueCopiedExclamation.tr(
+                  args: [data.dest.toEllipseString()],
+                ),
+              ),
+              TonWalletTransactionDetailsItem(
+                title: LocaleKeys.valueWord.tr(),
+                contentChild: MoneyWidget(
+                  money: _getTokenMoney(data.value, data.dest),
+                  style: MoneyWidgetStyle.primary,
+                  showSymbol: false,
+                ),
+              ),
+              TonWalletTransactionDetailsItem(
+                title: LocaleKeys.bounceWord.tr(),
+                content: data.bounce
+                    ? LocaleKeys.yesWord.tr()
+                    : LocaleKeys.noWord.tr(),
+              ),
+              TonWalletTransactionDetailsItem(
+                title: LocaleKeys.allBalance.tr(),
+                content: data.allBalance
+                    ? LocaleKeys.yesWord.tr()
+                    : LocaleKeys.noWord.tr(),
+              ),
+              TonWalletTransactionDetailsItem(
+                title: LocaleKeys.payloadWord.tr(),
+                content: data.payload,
+              ),
+              TonWalletTransactionDetailsItem(
+                title: LocaleKeys.transactionId.tr(),
+                content: data.transId,
+                copyValue: data.transId,
+                copyMessage: LocaleKeys.valueCopiedExclamation.tr(
+                  args: [data.transId],
+                ),
+              ),
+            ],
           ),
-        WalletInteractionMethodMultisig(:final data) => switch (data) {
-            MultisigTransactionSend(:final data) => (
-                LocaleKeys.multisigSendTransaction.tr(),
-                [
-                  TonWalletTransactionDetailsItem(
-                    title: LocaleKeys.destinationWord.tr(),
-                    content: data.dest.address,
-                    copyValue: data.dest.address,
-                    copyMessage: LocaleKeys.valueCopiedExclamation.tr(
-                      args: [data.dest.toEllipseString()],
-                    ),
-                  ),
-                  TonWalletTransactionDetailsItem(
-                    title: LocaleKeys.valueWord.tr(),
-                    contentChild: MoneyWidget(
-                      money: _getTokenMoney(data.value, data.dest),
-                      style: MoneyWidgetStyle.primary,
-                      showSymbol: false,
-                    ),
-                  ),
-                  TonWalletTransactionDetailsItem(
-                    title: LocaleKeys.bounceWord.tr(),
-                    content: data.bounce
-                        ? LocaleKeys.yesWord.tr()
-                        : LocaleKeys.noWord.tr(),
-                  ),
-                  TonWalletTransactionDetailsItem(
-                    title: LocaleKeys.flagsWord.tr(),
-                    content: data.flags.toString(),
-                  ),
-                  TonWalletTransactionDetailsItem(
-                    title: LocaleKeys.payloadWord.tr(),
-                    content: data.payload,
-                  ),
-                ],
+          confirm: (data) => (
+            LocaleKeys.multisigConfirmTransaction.tr(),
+            [
+              TonWalletTransactionDetailsItem(
+                title: LocaleKeys.custodianWord.tr(),
+                content: data.custodian.publicKey,
+                copyValue: data.custodian.publicKey,
+                copyMessage: LocaleKeys.valueCopiedExclamation.tr(
+                  args: [data.custodian.toEllipseString()],
+                ),
               ),
-            MultisigTransactionSubmit(:final data) => (
-                LocaleKeys.multisigSubmitTransaction.tr(),
-                [
-                  TonWalletTransactionDetailsItem(
-                    title: LocaleKeys.custodianWord.tr(),
-                    content: data.custodian.publicKey,
-                    copyValue: data.custodian.publicKey,
-                    copyMessage: LocaleKeys.valueCopiedExclamation.tr(
-                      args: [data.custodian.toEllipseString()],
-                    ),
-                  ),
-                  TonWalletTransactionDetailsItem(
-                    title: LocaleKeys.destinationWord.tr(),
-                    content: data.dest.address,
-                    copyValue: data.dest.address,
-                    copyMessage: LocaleKeys.valueCopiedExclamation.tr(
-                      args: [data.dest.toEllipseString()],
-                    ),
-                  ),
-                  TonWalletTransactionDetailsItem(
-                    title: LocaleKeys.valueWord.tr(),
-                    contentChild: MoneyWidget(
-                      money: _getTokenMoney(data.value, data.dest),
-                      style: MoneyWidgetStyle.primary,
-                      showSymbol: false,
-                    ),
-                  ),
-                  TonWalletTransactionDetailsItem(
-                    title: LocaleKeys.bounceWord.tr(),
-                    content: data.bounce
-                        ? LocaleKeys.yesWord.tr()
-                        : LocaleKeys.noWord.tr(),
-                  ),
-                  TonWalletTransactionDetailsItem(
-                    title: LocaleKeys.allBalance.tr(),
-                    content: data.allBalance
-                        ? LocaleKeys.yesWord.tr()
-                        : LocaleKeys.noWord.tr(),
-                  ),
-                  TonWalletTransactionDetailsItem(
-                    title: LocaleKeys.payloadWord.tr(),
-                    content: data.payload,
-                  ),
-                  TonWalletTransactionDetailsItem(
-                    title: LocaleKeys.transactionId.tr(),
-                    content: data.transId,
-                    copyValue: data.transId,
-                    copyMessage: LocaleKeys.valueCopiedExclamation.tr(
-                      args: [data.transId],
-                    ),
-                  ),
-                ],
+              TonWalletTransactionDetailsItem(
+                title: LocaleKeys.transactionId.tr(),
+                content: data.transactionId,
+                copyValue: data.transactionId,
+                copyMessage: LocaleKeys.valueCopiedExclamation.tr(
+                  args: [data.transactionId],
+                ),
               ),
-            MultisigTransactionConfirm(:final data) => (
-                LocaleKeys.multisigConfirmTransaction.tr(),
-                [
-                  TonWalletTransactionDetailsItem(
-                    title: LocaleKeys.custodianWord.tr(),
-                    content: data.custodian.publicKey,
-                    copyValue: data.custodian.publicKey,
-                    copyMessage: LocaleKeys.valueCopiedExclamation.tr(
-                      args: [data.custodian.toEllipseString()],
-                    ),
-                  ),
-                  TonWalletTransactionDetailsItem(
-                    title: LocaleKeys.transactionId.tr(),
-                    content: data.transactionId,
-                    copyValue: data.transactionId,
-                    copyMessage: LocaleKeys.valueCopiedExclamation.tr(
-                      args: [data.transactionId],
-                    ),
-                  ),
-                ],
-              ),
-          },
-      };
+            ],
+          ),
+        ),
+      );
 }
 
 extension WalletInteractionInfoX on WalletInteractionInfo {

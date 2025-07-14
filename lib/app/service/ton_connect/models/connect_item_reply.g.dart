@@ -6,8 +6,9 @@ part of 'connect_item_reply.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-TonAddressItemReply _$TonAddressItemReplyFromJson(Map<String, dynamic> json) =>
-    TonAddressItemReply(
+_$TonAddressItemReplyImpl _$$TonAddressItemReplyImplFromJson(
+        Map<String, dynamic> json) =>
+    _$TonAddressItemReplyImpl(
       address: Address.fromJson(json['address'] as String),
       network: $enumDecode(_$TonNetworkEnumMap, json['network']),
       publicKey: PublicKey.fromJson(json['publicKey'] as String),
@@ -15,8 +16,8 @@ TonAddressItemReply _$TonAddressItemReplyFromJson(Map<String, dynamic> json) =>
       $type: json['name'] as String?,
     );
 
-Map<String, dynamic> _$TonAddressItemReplyToJson(
-        TonAddressItemReply instance) =>
+Map<String, dynamic> _$$TonAddressItemReplyImplToJson(
+        _$TonAddressItemReplyImpl instance) =>
     <String, dynamic>{
       'address': instance.address.toJson(),
       'network': _$TonNetworkEnumMap[instance.network]!,
@@ -30,15 +31,15 @@ const _$TonNetworkEnumMap = {
   TonNetwork.testnet: '-3',
 };
 
-TonProofItemReplySuccess _$TonProofItemReplySuccessFromJson(
+_$TonProofItemReplySuccessImpl _$$TonProofItemReplySuccessImplFromJson(
         Map<String, dynamic> json) =>
-    TonProofItemReplySuccess(
+    _$TonProofItemReplySuccessImpl(
       proof: TonProof.fromJson(json['proof'] as Map<String, dynamic>),
       $type: json['name'] as String?,
     );
 
-Map<String, dynamic> _$TonProofItemReplySuccessToJson(
-        TonProofItemReplySuccess instance) =>
+Map<String, dynamic> _$$TonProofItemReplySuccessImplToJson(
+        _$TonProofItemReplySuccessImpl instance) =>
     <String, dynamic>{
       'proof': instance.proof.toJson(),
       'name': instance.$type,

@@ -1,4 +1,3 @@
-// dart format width=80
 // coverage:ignore-file
 // GENERATED CODE - DO NOT MODIFY BY HAND
 // ignore_for_file: type=lint
@@ -10,58 +9,38 @@ part of 'dapp_manifest.dart';
 // FreezedGenerator
 // **************************************************************************
 
-// dart format off
 T _$identity<T>(T value) => value;
+
+final _privateConstructorUsedError = UnsupportedError(
+    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models');
+
+DappManifest _$DappManifestFromJson(Map<String, dynamic> json) {
+  return _DappManifest.fromJson(json);
+}
 
 /// @nodoc
 mixin _$DappManifest {
-  String get url;
-  String get name;
-  String get iconUrl;
-  String? get termsOfUseUrl;
-  String? get privacyPolicyUrl;
+  String get url => throw _privateConstructorUsedError;
+  String get name => throw _privateConstructorUsedError;
+  String get iconUrl => throw _privateConstructorUsedError;
+  String? get termsOfUseUrl => throw _privateConstructorUsedError;
+  String? get privacyPolicyUrl => throw _privateConstructorUsedError;
+
+  /// Serializes this DappManifest to a JSON map.
+  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
 
   /// Create a copy of DappManifest
   /// with the given fields replaced by the non-null parameter values.
   @JsonKey(includeFromJson: false, includeToJson: false)
-  @pragma('vm:prefer-inline')
   $DappManifestCopyWith<DappManifest> get copyWith =>
-      _$DappManifestCopyWithImpl<DappManifest>(
-          this as DappManifest, _$identity);
-
-  /// Serializes this DappManifest to a JSON map.
-  Map<String, dynamic> toJson();
-
-  @override
-  bool operator ==(Object other) {
-    return identical(this, other) ||
-        (other.runtimeType == runtimeType &&
-            other is DappManifest &&
-            (identical(other.url, url) || other.url == url) &&
-            (identical(other.name, name) || other.name == name) &&
-            (identical(other.iconUrl, iconUrl) || other.iconUrl == iconUrl) &&
-            (identical(other.termsOfUseUrl, termsOfUseUrl) ||
-                other.termsOfUseUrl == termsOfUseUrl) &&
-            (identical(other.privacyPolicyUrl, privacyPolicyUrl) ||
-                other.privacyPolicyUrl == privacyPolicyUrl));
-  }
-
-  @JsonKey(includeFromJson: false, includeToJson: false)
-  @override
-  int get hashCode => Object.hash(
-      runtimeType, url, name, iconUrl, termsOfUseUrl, privacyPolicyUrl);
-
-  @override
-  String toString() {
-    return 'DappManifest(url: $url, name: $name, iconUrl: $iconUrl, termsOfUseUrl: $termsOfUseUrl, privacyPolicyUrl: $privacyPolicyUrl)';
-  }
+      throw _privateConstructorUsedError;
 }
 
 /// @nodoc
-abstract mixin class $DappManifestCopyWith<$Res> {
+abstract class $DappManifestCopyWith<$Res> {
   factory $DappManifestCopyWith(
-          DappManifest value, $Res Function(DappManifest) _then) =
-      _$DappManifestCopyWithImpl;
+          DappManifest value, $Res Function(DappManifest) then) =
+      _$DappManifestCopyWithImpl<$Res, DappManifest>;
   @useResult
   $Res call(
       {String url,
@@ -72,11 +51,14 @@ abstract mixin class $DappManifestCopyWith<$Res> {
 }
 
 /// @nodoc
-class _$DappManifestCopyWithImpl<$Res> implements $DappManifestCopyWith<$Res> {
-  _$DappManifestCopyWithImpl(this._self, this._then);
+class _$DappManifestCopyWithImpl<$Res, $Val extends DappManifest>
+    implements $DappManifestCopyWith<$Res> {
+  _$DappManifestCopyWithImpl(this._value, this._then);
 
-  final DappManifest _self;
-  final $Res Function(DappManifest) _then;
+  // ignore: unused_field
+  final $Val _value;
+  // ignore: unused_field
+  final $Res Function($Val) _then;
 
   /// Create a copy of DappManifest
   /// with the given fields replaced by the non-null parameter values.
@@ -89,25 +71,85 @@ class _$DappManifestCopyWithImpl<$Res> implements $DappManifestCopyWith<$Res> {
     Object? termsOfUseUrl = freezed,
     Object? privacyPolicyUrl = freezed,
   }) {
-    return _then(_self.copyWith(
+    return _then(_value.copyWith(
       url: null == url
-          ? _self.url
+          ? _value.url
           : url // ignore: cast_nullable_to_non_nullable
               as String,
       name: null == name
-          ? _self.name
+          ? _value.name
           : name // ignore: cast_nullable_to_non_nullable
               as String,
       iconUrl: null == iconUrl
-          ? _self.iconUrl
+          ? _value.iconUrl
           : iconUrl // ignore: cast_nullable_to_non_nullable
               as String,
       termsOfUseUrl: freezed == termsOfUseUrl
-          ? _self.termsOfUseUrl
+          ? _value.termsOfUseUrl
           : termsOfUseUrl // ignore: cast_nullable_to_non_nullable
               as String?,
       privacyPolicyUrl: freezed == privacyPolicyUrl
-          ? _self.privacyPolicyUrl
+          ? _value.privacyPolicyUrl
+          : privacyPolicyUrl // ignore: cast_nullable_to_non_nullable
+              as String?,
+    ) as $Val);
+  }
+}
+
+/// @nodoc
+abstract class _$$DappManifestImplCopyWith<$Res>
+    implements $DappManifestCopyWith<$Res> {
+  factory _$$DappManifestImplCopyWith(
+          _$DappManifestImpl value, $Res Function(_$DappManifestImpl) then) =
+      __$$DappManifestImplCopyWithImpl<$Res>;
+  @override
+  @useResult
+  $Res call(
+      {String url,
+      String name,
+      String iconUrl,
+      String? termsOfUseUrl,
+      String? privacyPolicyUrl});
+}
+
+/// @nodoc
+class __$$DappManifestImplCopyWithImpl<$Res>
+    extends _$DappManifestCopyWithImpl<$Res, _$DappManifestImpl>
+    implements _$$DappManifestImplCopyWith<$Res> {
+  __$$DappManifestImplCopyWithImpl(
+      _$DappManifestImpl _value, $Res Function(_$DappManifestImpl) _then)
+      : super(_value, _then);
+
+  /// Create a copy of DappManifest
+  /// with the given fields replaced by the non-null parameter values.
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? url = null,
+    Object? name = null,
+    Object? iconUrl = null,
+    Object? termsOfUseUrl = freezed,
+    Object? privacyPolicyUrl = freezed,
+  }) {
+    return _then(_$DappManifestImpl(
+      url: null == url
+          ? _value.url
+          : url // ignore: cast_nullable_to_non_nullable
+              as String,
+      name: null == name
+          ? _value.name
+          : name // ignore: cast_nullable_to_non_nullable
+              as String,
+      iconUrl: null == iconUrl
+          ? _value.iconUrl
+          : iconUrl // ignore: cast_nullable_to_non_nullable
+              as String,
+      termsOfUseUrl: freezed == termsOfUseUrl
+          ? _value.termsOfUseUrl
+          : termsOfUseUrl // ignore: cast_nullable_to_non_nullable
+              as String?,
+      privacyPolicyUrl: freezed == privacyPolicyUrl
+          ? _value.privacyPolicyUrl
           : privacyPolicyUrl // ignore: cast_nullable_to_non_nullable
               as String?,
     ));
@@ -116,15 +158,16 @@ class _$DappManifestCopyWithImpl<$Res> implements $DappManifestCopyWith<$Res> {
 
 /// @nodoc
 @JsonSerializable()
-class _DappManifest implements DappManifest {
-  const _DappManifest(
+class _$DappManifestImpl implements _DappManifest {
+  const _$DappManifestImpl(
       {required this.url,
       required this.name,
       required this.iconUrl,
       this.termsOfUseUrl,
       this.privacyPolicyUrl});
-  factory _DappManifest.fromJson(Map<String, dynamic> json) =>
-      _$DappManifestFromJson(json);
+
+  factory _$DappManifestImpl.fromJson(Map<String, dynamic> json) =>
+      _$$DappManifestImplFromJson(json);
 
   @override
   final String url;
@@ -137,26 +180,16 @@ class _DappManifest implements DappManifest {
   @override
   final String? privacyPolicyUrl;
 
-  /// Create a copy of DappManifest
-  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(includeFromJson: false, includeToJson: false)
-  @pragma('vm:prefer-inline')
-  _$DappManifestCopyWith<_DappManifest> get copyWith =>
-      __$DappManifestCopyWithImpl<_DappManifest>(this, _$identity);
-
-  @override
-  Map<String, dynamic> toJson() {
-    return _$DappManifestToJson(
-      this,
-    );
+  String toString() {
+    return 'DappManifest(url: $url, name: $name, iconUrl: $iconUrl, termsOfUseUrl: $termsOfUseUrl, privacyPolicyUrl: $privacyPolicyUrl)';
   }
 
   @override
   bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _DappManifest &&
+            other is _$DappManifestImpl &&
             (identical(other.url, url) || other.url == url) &&
             (identical(other.name, name) || other.name == name) &&
             (identical(other.iconUrl, iconUrl) || other.iconUrl == iconUrl) &&
@@ -171,70 +204,48 @@ class _DappManifest implements DappManifest {
   int get hashCode => Object.hash(
       runtimeType, url, name, iconUrl, termsOfUseUrl, privacyPolicyUrl);
 
+  /// Create a copy of DappManifest
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
-  String toString() {
-    return 'DappManifest(url: $url, name: $name, iconUrl: $iconUrl, termsOfUseUrl: $termsOfUseUrl, privacyPolicyUrl: $privacyPolicyUrl)';
+  @pragma('vm:prefer-inline')
+  _$$DappManifestImplCopyWith<_$DappManifestImpl> get copyWith =>
+      __$$DappManifestImplCopyWithImpl<_$DappManifestImpl>(this, _$identity);
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$$DappManifestImplToJson(
+      this,
+    );
   }
 }
 
-/// @nodoc
-abstract mixin class _$DappManifestCopyWith<$Res>
-    implements $DappManifestCopyWith<$Res> {
-  factory _$DappManifestCopyWith(
-          _DappManifest value, $Res Function(_DappManifest) _then) =
-      __$DappManifestCopyWithImpl;
+abstract class _DappManifest implements DappManifest {
+  const factory _DappManifest(
+      {required final String url,
+      required final String name,
+      required final String iconUrl,
+      final String? termsOfUseUrl,
+      final String? privacyPolicyUrl}) = _$DappManifestImpl;
+
+  factory _DappManifest.fromJson(Map<String, dynamic> json) =
+      _$DappManifestImpl.fromJson;
+
   @override
-  @useResult
-  $Res call(
-      {String url,
-      String name,
-      String iconUrl,
-      String? termsOfUseUrl,
-      String? privacyPolicyUrl});
-}
-
-/// @nodoc
-class __$DappManifestCopyWithImpl<$Res>
-    implements _$DappManifestCopyWith<$Res> {
-  __$DappManifestCopyWithImpl(this._self, this._then);
-
-  final _DappManifest _self;
-  final $Res Function(_DappManifest) _then;
+  String get url;
+  @override
+  String get name;
+  @override
+  String get iconUrl;
+  @override
+  String? get termsOfUseUrl;
+  @override
+  String? get privacyPolicyUrl;
 
   /// Create a copy of DappManifest
   /// with the given fields replaced by the non-null parameter values.
   @override
-  @pragma('vm:prefer-inline')
-  $Res call({
-    Object? url = null,
-    Object? name = null,
-    Object? iconUrl = null,
-    Object? termsOfUseUrl = freezed,
-    Object? privacyPolicyUrl = freezed,
-  }) {
-    return _then(_DappManifest(
-      url: null == url
-          ? _self.url
-          : url // ignore: cast_nullable_to_non_nullable
-              as String,
-      name: null == name
-          ? _self.name
-          : name // ignore: cast_nullable_to_non_nullable
-              as String,
-      iconUrl: null == iconUrl
-          ? _self.iconUrl
-          : iconUrl // ignore: cast_nullable_to_non_nullable
-              as String,
-      termsOfUseUrl: freezed == termsOfUseUrl
-          ? _self.termsOfUseUrl
-          : termsOfUseUrl // ignore: cast_nullable_to_non_nullable
-              as String?,
-      privacyPolicyUrl: freezed == privacyPolicyUrl
-          ? _self.privacyPolicyUrl
-          : privacyPolicyUrl // ignore: cast_nullable_to_non_nullable
-              as String?,
-    ));
-  }
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  _$$DappManifestImplCopyWith<_$DappManifestImpl> get copyWith =>
+      throw _privateConstructorUsedError;
 }
-
-// dart format on

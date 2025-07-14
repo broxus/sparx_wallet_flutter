@@ -1,4 +1,3 @@
-import 'package:app/core/wm/custom_wm.dart';
 import 'package:app/core/wm/not_null_listenable_state.dart';
 import 'package:app/feature/browser_v2/data/tabs/browser_tab.dart';
 import 'package:app/feature/browser_v2/screens/main/widgets/control_panels/tabs_list_action_bar.dart';
@@ -6,32 +5,37 @@ import 'package:app/feature/browser_v2/screens/main/widgets/tabs/item/browser_ta
 import 'package:app/feature/browser_v2/screens/main/widgets/tabs/tabs_list/tabs_list_wm.dart';
 import 'package:app/feature/browser_v2/screens/main/widgets/tabs/tabs_list/widgets/header/tab_list_header.dart';
 import 'package:app/generated/generated.dart';
+import 'package:elementary/elementary.dart';
 import 'package:elementary_helper/elementary_helper.dart';
 import 'package:flutter/material.dart';
 import 'package:render_metrics/render_metrics.dart';
 import 'package:ui_components_lib/ui_components_lib.dart';
 
-class BrowserTabsList
-    extends InjectedElementaryWidget<BrowserTabsListWidgetModel> {
-  const BrowserTabsList({
+class BrowserTabsList extends ElementaryWidget<BrowserTabsListWidgetModel> {
+  BrowserTabsList({
     required ListenableState<String?> selectedGroupIdState,
-    required this.onPressedTab,
-    required this.onPressedTabMenu,
+    required RenderManager<String> renderManager,
+    required ValueChanged<BrowserTab> onPressedTabMenu,
     required this.onPressedGroup,
-    required this.renderManager,
+    required ValueChanged<String> onPressedTab,
     required this.onPressedCreateNewGroup,
     required this.tabListScrollController,
     super.key,
+    WidgetModelFactory<BrowserTabsListWidgetModel>? wmFactory,
   }) : super(
-          wmFactoryParam: selectedGroupIdState,
+          wmFactory ??
+              (ctx) => defaultBrowserTabsListWidgetModelFactory(
+                    ctx,
+                    selectedGroupIdState: selectedGroupIdState,
+                    renderManager: renderManager,
+                    onPressedTabMenu: onPressedTabMenu,
+                    onPressedTab: onPressedTab,
+                  ),
         );
 
   final ScrollController tabListScrollController;
   final ValueChanged<String> onPressedGroup;
   final VoidCallback onPressedCreateNewGroup;
-  final ValueChanged<BrowserTab> onPressedTabMenu;
-  final RenderManager<String> renderManager;
-  final ValueChanged<String> onPressedTab;
 
   // TODO(nesquikm): We should calculate this value based on the screen size
   static const _cardAspectRatio = 0.9;
@@ -78,10 +82,11 @@ class BrowserTabsList
                   for (final notifiers in tabsNotifiers)
                     BrowserTabsListItem(
                       key: ValueKey(notifiers.value.id),
-                      renderManager: renderManager,
+                      renderManager: wm.renderManager,
                       tabNotifier: notifiers,
-                      onPressedTabMenu: () => onPressedTabMenu(notifiers.value),
-                      onPressed: () => onPressedTab(notifiers.value.id),
+                      onPressedTabMenu: () =>
+                          wm.onPressedTabMenu(notifiers.value),
+                      onPressed: () => wm.onPressedTab(notifiers.value.id),
                       onClosePressed: () => wm.onCloseTab(notifiers.value.id),
                     ),
                 ],

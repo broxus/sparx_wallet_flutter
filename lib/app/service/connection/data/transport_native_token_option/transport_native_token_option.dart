@@ -6,8 +6,8 @@ part 'transport_native_token_option.freezed.dart';
 sealed class TransportNativeTokenTickerOption
     with _$TransportNativeTokenTickerOption {
   const factory TransportNativeTokenTickerOption.fromConnection() =
-      TransportNativeTokenTickerOptionFromConnection;
+      _TransportNativeTokenTickerOptionFromConnection;
 
   const factory TransportNativeTokenTickerOption.byName(String name) =
-      TransportNativeTokenTickerOptionByName;
+      _TransportNativeTokenTickerOptionByName;
 }

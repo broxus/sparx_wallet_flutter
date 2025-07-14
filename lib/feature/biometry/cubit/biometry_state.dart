@@ -1,14 +1,14 @@
 part of 'biometry_cubit.dart';
 
 @freezed
-sealed class BiometryState with _$BiometryState {
-  const factory BiometryState.init() = BiometryStateInit;
+class BiometryState with _$BiometryState {
+  const factory BiometryState.init() = _Init;
 
   /// Display page to ask biometry with fingerprint or face
   const factory BiometryState.ask({
     required bool isFaceBiometry,
-  }) = BiometryStateAsk;
+  }) = _Ask;
 
   /// Close screen
-  const factory BiometryState.completed() = BiometryStateCompleted;
+  const factory BiometryState.completed() = _Completed;
 }

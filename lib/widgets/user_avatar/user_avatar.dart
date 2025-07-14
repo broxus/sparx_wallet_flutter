@@ -1,17 +1,19 @@
-import 'package:app/core/wm/custom_wm.dart';
 import 'package:app/widgets/user_avatar/user_avatar_wm.dart';
+import 'package:elementary/elementary.dart';
 import 'package:elementary_helper/elementary_helper.dart';
 import 'package:flutter/material.dart';
 import 'package:ui_components_lib/ui_components_lib.dart';
 
-class UserAvatar extends InjectedElementaryWidget<UserAvatarWidgetModel> {
+class UserAvatar extends ElementaryWidget<UserAvatarWidgetModel> {
   const UserAvatar({
-    required String? address,
+    this.address,
     this.size,
     this.borderRadius,
-    super.key,
-  }) : super(wmFactoryParam: address);
+    Key? key,
+    WidgetModelFactory wmFactory = defaultUserAvatarWidgetModelFactory,
+  }) : super(wmFactory, key: key);
 
+  final String? address;
   final double? size;
   final double? borderRadius;
 

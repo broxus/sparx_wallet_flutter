@@ -261,6 +261,7 @@ class __ContainerWidgetState extends State<_ContainerWidget> {
       child: MediaQuery.removePadding(
         context: context,
         removeTop: true,
+        removeBottom: true,
         child: widget.animated
             ? AnimatedSize(
                 duration: kThemeAnimationDuration,

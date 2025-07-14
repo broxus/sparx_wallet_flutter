@@ -2,11 +2,9 @@ import 'package:app/app/service/service.dart';
 import 'package:app/feature/root/domain/root_tab_service.dart';
 import 'package:app/feature/root/view/root_tab.dart';
 import 'package:elementary/elementary.dart';
-import 'package:injectable/injectable.dart';
 import 'package:nekoton_repository/nekoton_repository.dart';
 import 'package:rxdart/rxdart.dart';
 
-@injectable
 class WalletPageModel extends ElementaryModel {
   WalletPageModel(
     ErrorHandler errorHandler,

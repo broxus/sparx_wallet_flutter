@@ -1,14 +1,14 @@
 part of 'account_detail_cubit.dart';
 
 @freezed
-sealed class AccountDetailState with _$AccountDetailState {
-  const factory AccountDetailState.initial() = AccountDetailStateInitial;
+class AccountDetailState with _$AccountDetailState {
+  const factory AccountDetailState.initial() = _Initial;
 
-  const factory AccountDetailState.empty() = AccountDetailStateEmpty;
+  const factory AccountDetailState.empty() = _Empty;
 
   const factory AccountDetailState.data(
     KeyAccount account,
     Money balance,
     List<SeedKey> custodians,
-  ) = AccountDetailStateData;
+  ) = _Data;
 }

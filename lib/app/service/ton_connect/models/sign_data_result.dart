@@ -4,7 +4,7 @@ part 'sign_data_result.freezed.dart';
 part 'sign_data_result.g.dart';
 
 @freezed
-abstract class SignDataResult with _$SignDataResult {
+class SignDataResult with _$SignDataResult {
   factory SignDataResult({
     /// base64 encoded signature
     required String signature,

@@ -5,7 +5,7 @@ part 'device_info.freezed.dart';
 part 'device_info.g.dart';
 
 @freezed
-abstract class DeviceInfo with _$DeviceInfo {
+class DeviceInfo with _$DeviceInfo {
   const factory DeviceInfo({
     required String platform,
     required String appName,

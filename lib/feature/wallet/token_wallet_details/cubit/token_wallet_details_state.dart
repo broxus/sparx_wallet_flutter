@@ -1,22 +1,21 @@
 part of 'token_wallet_details_cubit.dart';
 
 @freezed
-sealed class TokenWalletDetailsState with _$TokenWalletDetailsState {
-  const factory TokenWalletDetailsState.initial() =
-      TokenWalletDetailsStateInitial;
+class TokenWalletDetailsState with _$TokenWalletDetailsState {
+  const factory TokenWalletDetailsState.initial() = _Initial;
 
-  const factory TokenWalletDetailsState.empty() = TokenWalletDetailsStateEmpty;
+  const factory TokenWalletDetailsState.empty() = _Empty;
 
   const factory TokenWalletDetailsState.subscribeError({
     required String contractName,
     required Object error,
     required bool isLoading,
-  }) = TokenWalletDetailsStateSubscribeError;
+  }) = _SubscribeError;
 
   const factory TokenWalletDetailsState.data({
     required String contractName,
     required Money tokenBalance,
     required Money fiatBalance,
     required bool canSend,
-  }) = TokenWalletDetailsStateData;
+  }) = _Data;
 }

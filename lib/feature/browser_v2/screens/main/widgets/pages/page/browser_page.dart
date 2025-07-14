@@ -1,15 +1,15 @@
-import 'package:app/core/wm/custom_wm.dart';
 import 'package:app/core/wm/not_null_listenable_state.dart';
 import 'package:app/feature/browser_v2/custom_web_controller.dart';
 import 'package:app/feature/browser_v2/data/tabs/browser_tab.dart';
 import 'package:app/feature/browser_v2/screens/main/widgets/pages/browser_start_view.dart';
 import 'package:app/feature/browser_v2/screens/main/widgets/pages/page/browser_page_wm.dart';
+import 'package:elementary/elementary.dart';
 import 'package:elementary_helper/elementary_helper.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_inappwebview/flutter_inappwebview.dart';
 import 'package:ui_components_lib/v2/ui_components_lib_v2.dart';
 
-class BrowserPage extends InjectedElementaryWidget<BrowserPageWidgetModel> {
+class BrowserPage extends ElementaryWidget<BrowserPageWidgetModel> {
   BrowserPage({
     required ValueChanged<CustomWebViewController> onCreate,
     required ValueChanged<int> onWebPageScrollChanged,
@@ -17,15 +17,19 @@ class BrowserPage extends InjectedElementaryWidget<BrowserPageWidgetModel> {
     required ValueChanged<int> onLoadingProgressChanged,
     required this.width,
     required NotNullListenableState<BrowserTab> listenable,
-    super.key,
+    Key? key,
+    WidgetModelFactory<BrowserPageWidgetModel>? wmFactory,
   }) : super(
-          wmFactoryParam: BrowserPageWmParams(
-            tabState: listenable,
-            onCreate: onCreate,
-            onWebPageScrollChanged: onWebPageScrollChanged,
-            onDispose: onDispose,
-            onLoadingProgressChanged: onLoadingProgressChanged,
-          ),
+          wmFactory ??
+              (ctx) => defaultBrowserPageWidgetModelFactory(
+                    ctx,
+                    listenable: listenable,
+                    onCreate: onCreate,
+                    onWebPageScrollChanged: onWebPageScrollChanged,
+                    onDispose: onDispose,
+                    onLoadingProgressChanged: onLoadingProgressChanged,
+                  ),
+          key: key,
         );
 
   final double width;

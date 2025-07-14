@@ -1,5 +1,7 @@
 import 'package:app/app/router/router.dart';
+import 'package:app/core/error_handler_factory.dart';
 import 'package:app/core/wm/custom_wm.dart';
+import 'package:app/di/di.dart';
 import 'package:app/feature/messenger/data/message.dart';
 import 'package:app/feature/wallet/confirm_multisig_transaction/data/data.dart';
 import 'package:app/feature/wallet/confirm_multisig_transaction/view/confirm_multisig_transaction_model.dart';
@@ -8,39 +10,25 @@ import 'package:app/feature/wallet/route.dart';
 import 'package:app/generated/generated.dart';
 import 'package:app/utils/utils.dart';
 import 'package:elementary_helper/elementary_helper.dart';
-import 'package:injectable/injectable.dart';
+import 'package:flutter/material.dart';
 import 'package:logging/logging.dart';
 import 'package:nekoton_repository/nekoton_repository.dart' hide Message;
 
-class ConfirmMultisigTransactionWmParams {
-  const ConfirmMultisigTransactionWmParams({
-    required this.walletAddress,
-    required this.localCustodians,
-    required this.transactionId,
-    required this.amount,
-    required this.destination,
-    required this.comment,
-    this.transactionIdHash,
-  });
+ConfirmMultisigTransactionWidgetModel
+    defaultConfirmMultisigTransactionWidgetModelFactory(
+  BuildContext context,
+) =>
+        ConfirmMultisigTransactionWidgetModel(
+          ConfirmMultisigTransactionModel(
+            createPrimaryErrorHandler(context),
+            inject(),
+            inject(),
+          ),
+        );
 
-  final Address walletAddress;
-  final List<PublicKey> localCustodians;
-  final String transactionId;
-  final String? transactionIdHash;
-  final BigInt amount;
-  final Address destination;
-  final String? comment;
-}
-
-@injectable
 class ConfirmMultisigTransactionWidgetModel extends CustomWidgetModel<
     ConfirmMultisigTransactionWidget, ConfirmMultisigTransactionModel> {
-  ConfirmMultisigTransactionWidgetModel(
-    super.model,
-    @factoryParam this._wmParams,
-  );
-
-  final ConfirmMultisigTransactionWmParams _wmParams;
+  ConfirmMultisigTransactionWidgetModel(super.model);
 
   static final _logger = Logger('ConfirmMultisigTransactionWidgetModel');
 
@@ -50,24 +38,16 @@ class ConfirmMultisigTransactionWidgetModel extends CustomWidgetModel<
   late final _error = createNotifier<String>();
   late final _state = createNotifier<ConfirmMultisigTransactionState>();
 
-  late final KeyAccount? account = model.getAccount(_wmParams.walletAddress);
+  late final KeyAccount? account = model.getAccount(widget.walletAddress);
   late final Map<PublicKey, String?> custodianNames = Map.fromEntries(
-    _wmParams.localCustodians
-        .map((c) => MapEntry(c, model.getSeedKey(c)?.name)),
+    widget.localCustodians.map((c) => MapEntry(c, model.getSeedKey(c)?.name)),
   );
   late final Money amount = Money.fromBigIntWithCurrency(
-    _wmParams.amount,
+    widget.amount,
     currency,
   );
 
   PublicKey? custodian;
-
-  Address get walletAddress => _wmParams.walletAddress;
-  List<PublicKey> get localCustodians => _wmParams.localCustodians;
-  String get transactionId => _wmParams.transactionId;
-  String? get transactionIdHash => _wmParams.transactionIdHash;
-  Address get destination => _wmParams.destination;
-  String? get comment => _wmParams.comment;
 
   ListenableState<bool> get isLoading => _isLoading;
 
@@ -85,8 +65,8 @@ class ConfirmMultisigTransactionWidgetModel extends CustomWidgetModel<
   void initWidgetModel() {
     super.initWidgetModel();
 
-    if (_wmParams.localCustodians.length == 1) {
-      onCustodianSelected(_wmParams.localCustodians.first);
+    if (widget.localCustodians.length == 1) {
+      onCustodianSelected(widget.localCustodians.first);
     } else {
       _state.accept(
         const ConfirmMultisigTransactionState.prepare(),
@@ -104,7 +84,7 @@ class ConfirmMultisigTransactionWidgetModel extends CustomWidgetModel<
         ConfirmMultisigTransactionState.ready(custodian: custodian),
       );
 
-      final walletState = await model.getWalletState(_wmParams.walletAddress);
+      final walletState = await model.getWalletState(widget.walletAddress);
       if (walletState.hasError) {
         _state.accept(
           ConfirmMultisigTransactionState.error(error: walletState.error!),
@@ -113,18 +93,18 @@ class ConfirmMultisigTransactionWidgetModel extends CustomWidgetModel<
       }
 
       unsignedMessage = await model.prepareConfirmTransaction(
-        address: _wmParams.walletAddress,
+        address: widget.walletAddress,
         publicKey: custodian,
-        transactionId: _wmParams.transactionId,
+        transactionId: widget.transactionId,
       );
 
       final (fees, txErrors) = await FutureExt.wait2(
         model.estimateFees(
-          address: _wmParams.walletAddress,
+          address: widget.walletAddress,
           message: unsignedMessage,
         ),
         model.simulateTransactionTree(
-          address: _wmParams.walletAddress,
+          address: widget.walletAddress,
           message: unsignedMessage,
         ),
       );
@@ -134,7 +114,7 @@ class ConfirmMultisigTransactionWidgetModel extends CustomWidgetModel<
 
       final wallet = walletState.wallet!;
       final balance = wallet.contractState.balance;
-      final isPossibleToSendMessage = balance > (fees + _wmParams.amount);
+      final isPossibleToSendMessage = balance > (fees + widget.amount);
 
       if (!isPossibleToSendMessage) {
         _error.accept(LocaleKeys.insufficientFunds.tr());
@@ -156,17 +136,17 @@ class ConfirmMultisigTransactionWidgetModel extends CustomWidgetModel<
       _isLoading.accept(true);
 
       unsignedMessage = await model.prepareConfirmTransaction(
-        address: _wmParams.walletAddress,
+        address: widget.walletAddress,
         publicKey: custodian!,
-        transactionId: _wmParams.transactionId,
+        transactionId: widget.transactionId,
       );
 
       final transactionCompleter = await model.sendMessage(
-        address: _wmParams.walletAddress,
-        destination: _wmParams.destination,
+        address: widget.walletAddress,
+        destination: widget.destination,
         publicKey: custodian!,
         message: unsignedMessage,
-        amount: _wmParams.amount,
+        amount: widget.amount,
         password: password,
       );
 

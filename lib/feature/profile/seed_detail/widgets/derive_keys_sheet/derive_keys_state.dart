@@ -1,8 +1,8 @@
 part of 'derive_keys_cubit.dart';
 
 @freezed
-sealed class DeriveKeysState with _$DeriveKeysState {
-  const factory DeriveKeysState.initial() = DeriveKeysStateInitial;
+class DeriveKeysState with _$DeriveKeysState {
+  const factory DeriveKeysState.initial() = _Initial;
 
   /// [displayDerivedKeys] contains small list of keys, that should be displayed
   /// on single page.
@@ -21,5 +21,5 @@ sealed class DeriveKeysState with _$DeriveKeysState {
     required Map<PublicKey, String> keyNames,
     required bool isLoading,
     required bool isCompleted,
-  }) = DeriveKeysStateData;
+  }) = _Data;
 }

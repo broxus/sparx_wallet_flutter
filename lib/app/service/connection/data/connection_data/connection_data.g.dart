@@ -6,8 +6,9 @@ part of 'connection_data.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-ConnectionDataGql _$ConnectionDataGqlFromJson(Map<String, dynamic> json) =>
-    ConnectionDataGql(
+_$ConnectionDataGqlImpl _$$ConnectionDataGqlImplFromJson(
+        Map<String, dynamic> json) =>
+    _$ConnectionDataGqlImpl(
       id: json['id'] as String,
       name: json['name'] as String,
       group: json['group'] as String,
@@ -31,7 +32,8 @@ ConnectionDataGql _$ConnectionDataGqlFromJson(Map<String, dynamic> json) =>
       $type: json['runtimeType'] as String?,
     );
 
-Map<String, dynamic> _$ConnectionDataGqlToJson(ConnectionDataGql instance) =>
+Map<String, dynamic> _$$ConnectionDataGqlImplToJson(
+        _$ConnectionDataGqlImpl instance) =>
     <String, dynamic>{
       'id': instance.id,
       'name': instance.name,
@@ -53,8 +55,9 @@ Map<String, dynamic> _$ConnectionDataGqlToJson(ConnectionDataGql instance) =>
       'runtimeType': instance.$type,
     };
 
-ConnectionDataProto _$ConnectionDataProtoFromJson(Map<String, dynamic> json) =>
-    ConnectionDataProto(
+_$ConnectionDataProtoImpl _$$ConnectionDataProtoImplFromJson(
+        Map<String, dynamic> json) =>
+    _$ConnectionDataProtoImpl(
       id: json['id'] as String,
       name: json['name'] as String,
       group: json['group'] as String,
@@ -71,8 +74,8 @@ ConnectionDataProto _$ConnectionDataProtoFromJson(Map<String, dynamic> json) =>
       $type: json['runtimeType'] as String?,
     );
 
-Map<String, dynamic> _$ConnectionDataProtoToJson(
-        ConnectionDataProto instance) =>
+Map<String, dynamic> _$$ConnectionDataProtoImplToJson(
+        _$ConnectionDataProtoImpl instance) =>
     <String, dynamic>{
       'id': instance.id,
       'name': instance.name,
@@ -90,8 +93,9 @@ Map<String, dynamic> _$ConnectionDataProtoToJson(
       'runtimeType': instance.$type,
     };
 
-ConnectionDataJrpc _$ConnectionDataJrpcFromJson(Map<String, dynamic> json) =>
-    ConnectionDataJrpc(
+_$ConnectionDataJrpcImpl _$$ConnectionDataJrpcImplFromJson(
+        Map<String, dynamic> json) =>
+    _$ConnectionDataJrpcImpl(
       id: json['id'] as String,
       name: json['name'] as String,
       group: json['group'] as String,
@@ -108,7 +112,8 @@ ConnectionDataJrpc _$ConnectionDataJrpcFromJson(Map<String, dynamic> json) =>
       $type: json['runtimeType'] as String?,
     );
 
-Map<String, dynamic> _$ConnectionDataJrpcToJson(ConnectionDataJrpc instance) =>
+Map<String, dynamic> _$$ConnectionDataJrpcImplToJson(
+        _$ConnectionDataJrpcImpl instance) =>
     <String, dynamic>{
       'id': instance.id,
       'name': instance.name,

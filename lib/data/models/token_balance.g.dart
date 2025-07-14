@@ -6,8 +6,9 @@ part of 'token_balance.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-_TokenBalanceModel _$TokenBalanceModelFromJson(Map<String, dynamic> json) =>
-    _TokenBalanceModel(
+_$TokenBalanceModelImpl _$$TokenBalanceModelImplFromJson(
+        Map<String, dynamic> json) =>
+    _$TokenBalanceModelImpl(
       amount: json['amount'] as String,
       ownerAddress: Address.fromJson(json['ownerAddress'] as String),
       rootAddress: Address.fromJson(json['rootAddress'] as String),
@@ -16,7 +17,8 @@ _TokenBalanceModel _$TokenBalanceModelFromJson(Map<String, dynamic> json) =>
       token: json['token'] as String,
     );
 
-Map<String, dynamic> _$TokenBalanceModelToJson(_TokenBalanceModel instance) =>
+Map<String, dynamic> _$$TokenBalanceModelImplToJson(
+        _$TokenBalanceModelImpl instance) =>
     <String, dynamic>{
       'amount': instance.amount,
       'ownerAddress': instance.ownerAddress.toJson(),

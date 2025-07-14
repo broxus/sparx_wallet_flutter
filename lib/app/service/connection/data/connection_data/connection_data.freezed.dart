@@ -1,4 +1,3 @@
-// dart format width=80
 // coverage:ignore-file
 // GENERATED CODE - DO NOT MODIFY BY HAND
 // ignore_for_file: type=lint
@@ -10,8 +9,11 @@ part of 'connection_data.dart';
 // FreezedGenerator
 // **************************************************************************
 
-// dart format off
 T _$identity<T>(T value) => value;
+
+final _privateConstructorUsedError = UnsupportedError(
+    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models');
+
 ConnectionData _$ConnectionDataFromJson(Map<String, dynamic> json) {
   switch (json['runtimeType']) {
     case 'gql':
@@ -29,86 +31,216 @@ ConnectionData _$ConnectionDataFromJson(Map<String, dynamic> json) {
 
 /// @nodoc
 mixin _$ConnectionData {
-  String get id;
-  String get name;
-  String get group;
-  NetworkType get networkType;
-  String get blockExplorerUrl;
-  String get nativeTokenTicker;
-  bool get isPreset;
-  bool get canBeEdited;
-  double get sortingOrder;
-  bool get isUsedOnStart;
-  String get manifestUrl;
-  int get nativeTokenDecimals;
+  String get id => throw _privateConstructorUsedError;
+  String get name => throw _privateConstructorUsedError;
+  String get group => throw _privateConstructorUsedError;
+  String get networkType => throw _privateConstructorUsedError;
+  String get blockExplorerUrl => throw _privateConstructorUsedError;
+  String get nativeTokenTicker => throw _privateConstructorUsedError;
+  bool get isPreset => throw _privateConstructorUsedError;
+  bool get canBeEdited => throw _privateConstructorUsedError;
+  double get sortingOrder => throw _privateConstructorUsedError;
+  bool get isUsedOnStart => throw _privateConstructorUsedError;
+  String get manifestUrl => throw _privateConstructorUsedError;
+  int get nativeTokenDecimals => throw _privateConstructorUsedError;
+  @optionalTypeArgs
+  TResult when<TResult extends Object?>({
+    required TResult Function(
+            String id,
+            String name,
+            String group,
+            List<String> endpoints,
+            String networkType,
+            bool isLocal,
+            String blockExplorerUrl,
+            String nativeTokenTicker,
+            bool isPreset,
+            bool canBeEdited,
+            double sortingOrder,
+            bool isUsedOnStart,
+            String manifestUrl,
+            int nativeTokenDecimals,
+            int? latencyDetectionInterval,
+            int? maxLatency,
+            int? endpointSelectionRetryCount)
+        gql,
+    required TResult Function(
+            String id,
+            String name,
+            String group,
+            String endpoint,
+            String networkType,
+            String blockExplorerUrl,
+            String nativeTokenTicker,
+            bool isPreset,
+            bool canBeEdited,
+            double sortingOrder,
+            bool isUsedOnStart,
+            String manifestUrl,
+            int nativeTokenDecimals)
+        proto,
+    required TResult Function(
+            String id,
+            String name,
+            String group,
+            String endpoint,
+            String networkType,
+            String blockExplorerUrl,
+            String nativeTokenTicker,
+            bool isPreset,
+            bool canBeEdited,
+            double sortingOrder,
+            bool isUsedOnStart,
+            String manifestUrl,
+            int nativeTokenDecimals)
+        jrpc,
+  }) =>
+      throw _privateConstructorUsedError;
+  @optionalTypeArgs
+  TResult? whenOrNull<TResult extends Object?>({
+    TResult? Function(
+            String id,
+            String name,
+            String group,
+            List<String> endpoints,
+            String networkType,
+            bool isLocal,
+            String blockExplorerUrl,
+            String nativeTokenTicker,
+            bool isPreset,
+            bool canBeEdited,
+            double sortingOrder,
+            bool isUsedOnStart,
+            String manifestUrl,
+            int nativeTokenDecimals,
+            int? latencyDetectionInterval,
+            int? maxLatency,
+            int? endpointSelectionRetryCount)?
+        gql,
+    TResult? Function(
+            String id,
+            String name,
+            String group,
+            String endpoint,
+            String networkType,
+            String blockExplorerUrl,
+            String nativeTokenTicker,
+            bool isPreset,
+            bool canBeEdited,
+            double sortingOrder,
+            bool isUsedOnStart,
+            String manifestUrl,
+            int nativeTokenDecimals)?
+        proto,
+    TResult? Function(
+            String id,
+            String name,
+            String group,
+            String endpoint,
+            String networkType,
+            String blockExplorerUrl,
+            String nativeTokenTicker,
+            bool isPreset,
+            bool canBeEdited,
+            double sortingOrder,
+            bool isUsedOnStart,
+            String manifestUrl,
+            int nativeTokenDecimals)?
+        jrpc,
+  }) =>
+      throw _privateConstructorUsedError;
+  @optionalTypeArgs
+  TResult maybeWhen<TResult extends Object?>({
+    TResult Function(
+            String id,
+            String name,
+            String group,
+            List<String> endpoints,
+            String networkType,
+            bool isLocal,
+            String blockExplorerUrl,
+            String nativeTokenTicker,
+            bool isPreset,
+            bool canBeEdited,
+            double sortingOrder,
+            bool isUsedOnStart,
+            String manifestUrl,
+            int nativeTokenDecimals,
+            int? latencyDetectionInterval,
+            int? maxLatency,
+            int? endpointSelectionRetryCount)?
+        gql,
+    TResult Function(
+            String id,
+            String name,
+            String group,
+            String endpoint,
+            String networkType,
+            String blockExplorerUrl,
+            String nativeTokenTicker,
+            bool isPreset,
+            bool canBeEdited,
+            double sortingOrder,
+            bool isUsedOnStart,
+            String manifestUrl,
+            int nativeTokenDecimals)?
+        proto,
+    TResult Function(
+            String id,
+            String name,
+            String group,
+            String endpoint,
+            String networkType,
+            String blockExplorerUrl,
+            String nativeTokenTicker,
+            bool isPreset,
+            bool canBeEdited,
+            double sortingOrder,
+            bool isUsedOnStart,
+            String manifestUrl,
+            int nativeTokenDecimals)?
+        jrpc,
+    required TResult orElse(),
+  }) =>
+      throw _privateConstructorUsedError;
+  @optionalTypeArgs
+  TResult map<TResult extends Object?>({
+    required TResult Function(ConnectionDataGql value) gql,
+    required TResult Function(ConnectionDataProto value) proto,
+    required TResult Function(ConnectionDataJrpc value) jrpc,
+  }) =>
+      throw _privateConstructorUsedError;
+  @optionalTypeArgs
+  TResult? mapOrNull<TResult extends Object?>({
+    TResult? Function(ConnectionDataGql value)? gql,
+    TResult? Function(ConnectionDataProto value)? proto,
+    TResult? Function(ConnectionDataJrpc value)? jrpc,
+  }) =>
+      throw _privateConstructorUsedError;
+  @optionalTypeArgs
+  TResult maybeMap<TResult extends Object?>({
+    TResult Function(ConnectionDataGql value)? gql,
+    TResult Function(ConnectionDataProto value)? proto,
+    TResult Function(ConnectionDataJrpc value)? jrpc,
+    required TResult orElse(),
+  }) =>
+      throw _privateConstructorUsedError;
+
+  /// Serializes this ConnectionData to a JSON map.
+  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
 
   /// Create a copy of ConnectionData
   /// with the given fields replaced by the non-null parameter values.
   @JsonKey(includeFromJson: false, includeToJson: false)
-  @pragma('vm:prefer-inline')
   $ConnectionDataCopyWith<ConnectionData> get copyWith =>
-      _$ConnectionDataCopyWithImpl<ConnectionData>(
-          this as ConnectionData, _$identity);
-
-  /// Serializes this ConnectionData to a JSON map.
-  Map<String, dynamic> toJson();
-
-  @override
-  bool operator ==(Object other) {
-    return identical(this, other) ||
-        (other.runtimeType == runtimeType &&
-            other is ConnectionData &&
-            (identical(other.id, id) || other.id == id) &&
-            (identical(other.name, name) || other.name == name) &&
-            (identical(other.group, group) || other.group == group) &&
-            (identical(other.networkType, networkType) ||
-                other.networkType == networkType) &&
-            (identical(other.blockExplorerUrl, blockExplorerUrl) ||
-                other.blockExplorerUrl == blockExplorerUrl) &&
-            (identical(other.nativeTokenTicker, nativeTokenTicker) ||
-                other.nativeTokenTicker == nativeTokenTicker) &&
-            (identical(other.isPreset, isPreset) ||
-                other.isPreset == isPreset) &&
-            (identical(other.canBeEdited, canBeEdited) ||
-                other.canBeEdited == canBeEdited) &&
-            (identical(other.sortingOrder, sortingOrder) ||
-                other.sortingOrder == sortingOrder) &&
-            (identical(other.isUsedOnStart, isUsedOnStart) ||
-                other.isUsedOnStart == isUsedOnStart) &&
-            (identical(other.manifestUrl, manifestUrl) ||
-                other.manifestUrl == manifestUrl) &&
-            (identical(other.nativeTokenDecimals, nativeTokenDecimals) ||
-                other.nativeTokenDecimals == nativeTokenDecimals));
-  }
-
-  @JsonKey(includeFromJson: false, includeToJson: false)
-  @override
-  int get hashCode => Object.hash(
-      runtimeType,
-      id,
-      name,
-      group,
-      networkType,
-      blockExplorerUrl,
-      nativeTokenTicker,
-      isPreset,
-      canBeEdited,
-      sortingOrder,
-      isUsedOnStart,
-      manifestUrl,
-      nativeTokenDecimals);
-
-  @override
-  String toString() {
-    return 'ConnectionData(id: $id, name: $name, group: $group, networkType: $networkType, blockExplorerUrl: $blockExplorerUrl, nativeTokenTicker: $nativeTokenTicker, isPreset: $isPreset, canBeEdited: $canBeEdited, sortingOrder: $sortingOrder, isUsedOnStart: $isUsedOnStart, manifestUrl: $manifestUrl, nativeTokenDecimals: $nativeTokenDecimals)';
-  }
+      throw _privateConstructorUsedError;
 }
 
 /// @nodoc
-abstract mixin class $ConnectionDataCopyWith<$Res> {
+abstract class $ConnectionDataCopyWith<$Res> {
   factory $ConnectionDataCopyWith(
-          ConnectionData value, $Res Function(ConnectionData) _then) =
-      _$ConnectionDataCopyWithImpl;
+          ConnectionData value, $Res Function(ConnectionData) then) =
+      _$ConnectionDataCopyWithImpl<$Res, ConnectionData>;
   @useResult
   $Res call(
       {String id,
@@ -126,12 +258,14 @@ abstract mixin class $ConnectionDataCopyWith<$Res> {
 }
 
 /// @nodoc
-class _$ConnectionDataCopyWithImpl<$Res>
+class _$ConnectionDataCopyWithImpl<$Res, $Val extends ConnectionData>
     implements $ConnectionDataCopyWith<$Res> {
-  _$ConnectionDataCopyWithImpl(this._self, this._then);
+  _$ConnectionDataCopyWithImpl(this._value, this._then);
 
-  final ConnectionData _self;
-  final $Res Function(ConnectionData) _then;
+  // ignore: unused_field
+  final $Val _value;
+  // ignore: unused_field
+  final $Res Function($Val) _then;
 
   /// Create a copy of ConnectionData
   /// with the given fields replaced by the non-null parameter values.
@@ -151,63 +285,195 @@ class _$ConnectionDataCopyWithImpl<$Res>
     Object? manifestUrl = null,
     Object? nativeTokenDecimals = null,
   }) {
-    return _then(_self.copyWith(
+    return _then(_value.copyWith(
       id: null == id
-          ? _self.id
+          ? _value.id
           : id // ignore: cast_nullable_to_non_nullable
               as String,
       name: null == name
-          ? _self.name
+          ? _value.name
           : name // ignore: cast_nullable_to_non_nullable
               as String,
       group: null == group
-          ? _self.group
+          ? _value.group
           : group // ignore: cast_nullable_to_non_nullable
               as String,
       networkType: null == networkType
-          ? _self.networkType
+          ? _value.networkType
           : networkType // ignore: cast_nullable_to_non_nullable
               as String,
       blockExplorerUrl: null == blockExplorerUrl
-          ? _self.blockExplorerUrl
+          ? _value.blockExplorerUrl
           : blockExplorerUrl // ignore: cast_nullable_to_non_nullable
               as String,
       nativeTokenTicker: null == nativeTokenTicker
-          ? _self.nativeTokenTicker
+          ? _value.nativeTokenTicker
           : nativeTokenTicker // ignore: cast_nullable_to_non_nullable
               as String,
       isPreset: null == isPreset
-          ? _self.isPreset
+          ? _value.isPreset
           : isPreset // ignore: cast_nullable_to_non_nullable
               as bool,
       canBeEdited: null == canBeEdited
-          ? _self.canBeEdited
+          ? _value.canBeEdited
           : canBeEdited // ignore: cast_nullable_to_non_nullable
               as bool,
       sortingOrder: null == sortingOrder
-          ? _self.sortingOrder
+          ? _value.sortingOrder
           : sortingOrder // ignore: cast_nullable_to_non_nullable
               as double,
       isUsedOnStart: null == isUsedOnStart
-          ? _self.isUsedOnStart
+          ? _value.isUsedOnStart
           : isUsedOnStart // ignore: cast_nullable_to_non_nullable
               as bool,
       manifestUrl: null == manifestUrl
-          ? _self.manifestUrl
+          ? _value.manifestUrl
           : manifestUrl // ignore: cast_nullable_to_non_nullable
               as String,
       nativeTokenDecimals: null == nativeTokenDecimals
-          ? _self.nativeTokenDecimals
+          ? _value.nativeTokenDecimals
           : nativeTokenDecimals // ignore: cast_nullable_to_non_nullable
               as int,
+    ) as $Val);
+  }
+}
+
+/// @nodoc
+abstract class _$$ConnectionDataGqlImplCopyWith<$Res>
+    implements $ConnectionDataCopyWith<$Res> {
+  factory _$$ConnectionDataGqlImplCopyWith(_$ConnectionDataGqlImpl value,
+          $Res Function(_$ConnectionDataGqlImpl) then) =
+      __$$ConnectionDataGqlImplCopyWithImpl<$Res>;
+  @override
+  @useResult
+  $Res call(
+      {String id,
+      String name,
+      String group,
+      List<String> endpoints,
+      String networkType,
+      bool isLocal,
+      String blockExplorerUrl,
+      String nativeTokenTicker,
+      bool isPreset,
+      bool canBeEdited,
+      double sortingOrder,
+      bool isUsedOnStart,
+      String manifestUrl,
+      int nativeTokenDecimals,
+      int? latencyDetectionInterval,
+      int? maxLatency,
+      int? endpointSelectionRetryCount});
+}
+
+/// @nodoc
+class __$$ConnectionDataGqlImplCopyWithImpl<$Res>
+    extends _$ConnectionDataCopyWithImpl<$Res, _$ConnectionDataGqlImpl>
+    implements _$$ConnectionDataGqlImplCopyWith<$Res> {
+  __$$ConnectionDataGqlImplCopyWithImpl(_$ConnectionDataGqlImpl _value,
+      $Res Function(_$ConnectionDataGqlImpl) _then)
+      : super(_value, _then);
+
+  /// Create a copy of ConnectionData
+  /// with the given fields replaced by the non-null parameter values.
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? id = null,
+    Object? name = null,
+    Object? group = null,
+    Object? endpoints = null,
+    Object? networkType = null,
+    Object? isLocal = null,
+    Object? blockExplorerUrl = null,
+    Object? nativeTokenTicker = null,
+    Object? isPreset = null,
+    Object? canBeEdited = null,
+    Object? sortingOrder = null,
+    Object? isUsedOnStart = null,
+    Object? manifestUrl = null,
+    Object? nativeTokenDecimals = null,
+    Object? latencyDetectionInterval = freezed,
+    Object? maxLatency = freezed,
+    Object? endpointSelectionRetryCount = freezed,
+  }) {
+    return _then(_$ConnectionDataGqlImpl(
+      id: null == id
+          ? _value.id
+          : id // ignore: cast_nullable_to_non_nullable
+              as String,
+      name: null == name
+          ? _value.name
+          : name // ignore: cast_nullable_to_non_nullable
+              as String,
+      group: null == group
+          ? _value.group
+          : group // ignore: cast_nullable_to_non_nullable
+              as String,
+      endpoints: null == endpoints
+          ? _value._endpoints
+          : endpoints // ignore: cast_nullable_to_non_nullable
+              as List<String>,
+      networkType: null == networkType
+          ? _value.networkType
+          : networkType // ignore: cast_nullable_to_non_nullable
+              as String,
+      isLocal: null == isLocal
+          ? _value.isLocal
+          : isLocal // ignore: cast_nullable_to_non_nullable
+              as bool,
+      blockExplorerUrl: null == blockExplorerUrl
+          ? _value.blockExplorerUrl
+          : blockExplorerUrl // ignore: cast_nullable_to_non_nullable
+              as String,
+      nativeTokenTicker: null == nativeTokenTicker
+          ? _value.nativeTokenTicker
+          : nativeTokenTicker // ignore: cast_nullable_to_non_nullable
+              as String,
+      isPreset: null == isPreset
+          ? _value.isPreset
+          : isPreset // ignore: cast_nullable_to_non_nullable
+              as bool,
+      canBeEdited: null == canBeEdited
+          ? _value.canBeEdited
+          : canBeEdited // ignore: cast_nullable_to_non_nullable
+              as bool,
+      sortingOrder: null == sortingOrder
+          ? _value.sortingOrder
+          : sortingOrder // ignore: cast_nullable_to_non_nullable
+              as double,
+      isUsedOnStart: null == isUsedOnStart
+          ? _value.isUsedOnStart
+          : isUsedOnStart // ignore: cast_nullable_to_non_nullable
+              as bool,
+      manifestUrl: null == manifestUrl
+          ? _value.manifestUrl
+          : manifestUrl // ignore: cast_nullable_to_non_nullable
+              as String,
+      nativeTokenDecimals: null == nativeTokenDecimals
+          ? _value.nativeTokenDecimals
+          : nativeTokenDecimals // ignore: cast_nullable_to_non_nullable
+              as int,
+      latencyDetectionInterval: freezed == latencyDetectionInterval
+          ? _value.latencyDetectionInterval
+          : latencyDetectionInterval // ignore: cast_nullable_to_non_nullable
+              as int?,
+      maxLatency: freezed == maxLatency
+          ? _value.maxLatency
+          : maxLatency // ignore: cast_nullable_to_non_nullable
+              as int?,
+      endpointSelectionRetryCount: freezed == endpointSelectionRetryCount
+          ? _value.endpointSelectionRetryCount
+          : endpointSelectionRetryCount // ignore: cast_nullable_to_non_nullable
+              as int?,
     ));
   }
 }
 
 /// @nodoc
 @JsonSerializable()
-class ConnectionDataGql implements ConnectionData {
-  const ConnectionDataGql(
+class _$ConnectionDataGqlImpl implements ConnectionDataGql {
+  const _$ConnectionDataGqlImpl(
       {required this.id,
       required this.name,
       required this.group,
@@ -228,8 +494,9 @@ class ConnectionDataGql implements ConnectionData {
       final String? $type})
       : _endpoints = endpoints,
         $type = $type ?? 'gql';
-  factory ConnectionDataGql.fromJson(Map<String, dynamic> json) =>
-      _$ConnectionDataGqlFromJson(json);
+
+  factory _$ConnectionDataGqlImpl.fromJson(Map<String, dynamic> json) =>
+      _$$ConnectionDataGqlImplFromJson(json);
 
   @override
   final String id;
@@ -238,6 +505,7 @@ class ConnectionDataGql implements ConnectionData {
   @override
   final String group;
   final List<String> _endpoints;
+  @override
   List<String> get endpoints {
     if (_endpoints is EqualUnmodifiableListView) return _endpoints;
     // ignore: implicit_dynamic_type
@@ -245,7 +513,8 @@ class ConnectionDataGql implements ConnectionData {
   }
 
   @override
-  final NetworkType networkType;
+  final String networkType;
+  @override
   final bool isLocal;
   @override
   final String blockExplorerUrl;
@@ -266,33 +535,26 @@ class ConnectionDataGql implements ConnectionData {
   @override
   @JsonKey()
   final int nativeTokenDecimals;
+  @override
   final int? latencyDetectionInterval;
+  @override
   final int? maxLatency;
+  @override
   final int? endpointSelectionRetryCount;
 
   @JsonKey(name: 'runtimeType')
   final String $type;
 
-  /// Create a copy of ConnectionData
-  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(includeFromJson: false, includeToJson: false)
-  @pragma('vm:prefer-inline')
-  $ConnectionDataGqlCopyWith<ConnectionDataGql> get copyWith =>
-      _$ConnectionDataGqlCopyWithImpl<ConnectionDataGql>(this, _$identity);
-
-  @override
-  Map<String, dynamic> toJson() {
-    return _$ConnectionDataGqlToJson(
-      this,
-    );
+  String toString() {
+    return 'ConnectionData.gql(id: $id, name: $name, group: $group, endpoints: $endpoints, networkType: $networkType, isLocal: $isLocal, blockExplorerUrl: $blockExplorerUrl, nativeTokenTicker: $nativeTokenTicker, isPreset: $isPreset, canBeEdited: $canBeEdited, sortingOrder: $sortingOrder, isUsedOnStart: $isUsedOnStart, manifestUrl: $manifestUrl, nativeTokenDecimals: $nativeTokenDecimals, latencyDetectionInterval: $latencyDetectionInterval, maxLatency: $maxLatency, endpointSelectionRetryCount: $endpointSelectionRetryCount)';
   }
 
   @override
   bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is ConnectionDataGql &&
+            other is _$ConnectionDataGqlImpl &&
             (identical(other.id, id) || other.id == id) &&
             (identical(other.name, name) || other.name == name) &&
             (identical(other.group, group) || other.group == group) &&
@@ -350,27 +612,355 @@ class ConnectionDataGql implements ConnectionData {
       maxLatency,
       endpointSelectionRetryCount);
 
+  /// Create a copy of ConnectionData
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
-  String toString() {
-    return 'ConnectionData.gql(id: $id, name: $name, group: $group, endpoints: $endpoints, networkType: $networkType, isLocal: $isLocal, blockExplorerUrl: $blockExplorerUrl, nativeTokenTicker: $nativeTokenTicker, isPreset: $isPreset, canBeEdited: $canBeEdited, sortingOrder: $sortingOrder, isUsedOnStart: $isUsedOnStart, manifestUrl: $manifestUrl, nativeTokenDecimals: $nativeTokenDecimals, latencyDetectionInterval: $latencyDetectionInterval, maxLatency: $maxLatency, endpointSelectionRetryCount: $endpointSelectionRetryCount)';
+  @pragma('vm:prefer-inline')
+  _$$ConnectionDataGqlImplCopyWith<_$ConnectionDataGqlImpl> get copyWith =>
+      __$$ConnectionDataGqlImplCopyWithImpl<_$ConnectionDataGqlImpl>(
+          this, _$identity);
+
+  @override
+  @optionalTypeArgs
+  TResult when<TResult extends Object?>({
+    required TResult Function(
+            String id,
+            String name,
+            String group,
+            List<String> endpoints,
+            String networkType,
+            bool isLocal,
+            String blockExplorerUrl,
+            String nativeTokenTicker,
+            bool isPreset,
+            bool canBeEdited,
+            double sortingOrder,
+            bool isUsedOnStart,
+            String manifestUrl,
+            int nativeTokenDecimals,
+            int? latencyDetectionInterval,
+            int? maxLatency,
+            int? endpointSelectionRetryCount)
+        gql,
+    required TResult Function(
+            String id,
+            String name,
+            String group,
+            String endpoint,
+            String networkType,
+            String blockExplorerUrl,
+            String nativeTokenTicker,
+            bool isPreset,
+            bool canBeEdited,
+            double sortingOrder,
+            bool isUsedOnStart,
+            String manifestUrl,
+            int nativeTokenDecimals)
+        proto,
+    required TResult Function(
+            String id,
+            String name,
+            String group,
+            String endpoint,
+            String networkType,
+            String blockExplorerUrl,
+            String nativeTokenTicker,
+            bool isPreset,
+            bool canBeEdited,
+            double sortingOrder,
+            bool isUsedOnStart,
+            String manifestUrl,
+            int nativeTokenDecimals)
+        jrpc,
+  }) {
+    return gql(
+        id,
+        name,
+        group,
+        endpoints,
+        networkType,
+        isLocal,
+        blockExplorerUrl,
+        nativeTokenTicker,
+        isPreset,
+        canBeEdited,
+        sortingOrder,
+        isUsedOnStart,
+        manifestUrl,
+        nativeTokenDecimals,
+        latencyDetectionInterval,
+        maxLatency,
+        endpointSelectionRetryCount);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? whenOrNull<TResult extends Object?>({
+    TResult? Function(
+            String id,
+            String name,
+            String group,
+            List<String> endpoints,
+            String networkType,
+            bool isLocal,
+            String blockExplorerUrl,
+            String nativeTokenTicker,
+            bool isPreset,
+            bool canBeEdited,
+            double sortingOrder,
+            bool isUsedOnStart,
+            String manifestUrl,
+            int nativeTokenDecimals,
+            int? latencyDetectionInterval,
+            int? maxLatency,
+            int? endpointSelectionRetryCount)?
+        gql,
+    TResult? Function(
+            String id,
+            String name,
+            String group,
+            String endpoint,
+            String networkType,
+            String blockExplorerUrl,
+            String nativeTokenTicker,
+            bool isPreset,
+            bool canBeEdited,
+            double sortingOrder,
+            bool isUsedOnStart,
+            String manifestUrl,
+            int nativeTokenDecimals)?
+        proto,
+    TResult? Function(
+            String id,
+            String name,
+            String group,
+            String endpoint,
+            String networkType,
+            String blockExplorerUrl,
+            String nativeTokenTicker,
+            bool isPreset,
+            bool canBeEdited,
+            double sortingOrder,
+            bool isUsedOnStart,
+            String manifestUrl,
+            int nativeTokenDecimals)?
+        jrpc,
+  }) {
+    return gql?.call(
+        id,
+        name,
+        group,
+        endpoints,
+        networkType,
+        isLocal,
+        blockExplorerUrl,
+        nativeTokenTicker,
+        isPreset,
+        canBeEdited,
+        sortingOrder,
+        isUsedOnStart,
+        manifestUrl,
+        nativeTokenDecimals,
+        latencyDetectionInterval,
+        maxLatency,
+        endpointSelectionRetryCount);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeWhen<TResult extends Object?>({
+    TResult Function(
+            String id,
+            String name,
+            String group,
+            List<String> endpoints,
+            String networkType,
+            bool isLocal,
+            String blockExplorerUrl,
+            String nativeTokenTicker,
+            bool isPreset,
+            bool canBeEdited,
+            double sortingOrder,
+            bool isUsedOnStart,
+            String manifestUrl,
+            int nativeTokenDecimals,
+            int? latencyDetectionInterval,
+            int? maxLatency,
+            int? endpointSelectionRetryCount)?
+        gql,
+    TResult Function(
+            String id,
+            String name,
+            String group,
+            String endpoint,
+            String networkType,
+            String blockExplorerUrl,
+            String nativeTokenTicker,
+            bool isPreset,
+            bool canBeEdited,
+            double sortingOrder,
+            bool isUsedOnStart,
+            String manifestUrl,
+            int nativeTokenDecimals)?
+        proto,
+    TResult Function(
+            String id,
+            String name,
+            String group,
+            String endpoint,
+            String networkType,
+            String blockExplorerUrl,
+            String nativeTokenTicker,
+            bool isPreset,
+            bool canBeEdited,
+            double sortingOrder,
+            bool isUsedOnStart,
+            String manifestUrl,
+            int nativeTokenDecimals)?
+        jrpc,
+    required TResult orElse(),
+  }) {
+    if (gql != null) {
+      return gql(
+          id,
+          name,
+          group,
+          endpoints,
+          networkType,
+          isLocal,
+          blockExplorerUrl,
+          nativeTokenTicker,
+          isPreset,
+          canBeEdited,
+          sortingOrder,
+          isUsedOnStart,
+          manifestUrl,
+          nativeTokenDecimals,
+          latencyDetectionInterval,
+          maxLatency,
+          endpointSelectionRetryCount);
+    }
+    return orElse();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult map<TResult extends Object?>({
+    required TResult Function(ConnectionDataGql value) gql,
+    required TResult Function(ConnectionDataProto value) proto,
+    required TResult Function(ConnectionDataJrpc value) jrpc,
+  }) {
+    return gql(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? mapOrNull<TResult extends Object?>({
+    TResult? Function(ConnectionDataGql value)? gql,
+    TResult? Function(ConnectionDataProto value)? proto,
+    TResult? Function(ConnectionDataJrpc value)? jrpc,
+  }) {
+    return gql?.call(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeMap<TResult extends Object?>({
+    TResult Function(ConnectionDataGql value)? gql,
+    TResult Function(ConnectionDataProto value)? proto,
+    TResult Function(ConnectionDataJrpc value)? jrpc,
+    required TResult orElse(),
+  }) {
+    if (gql != null) {
+      return gql(this);
+    }
+    return orElse();
+  }
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$$ConnectionDataGqlImplToJson(
+      this,
+    );
   }
 }
 
+abstract class ConnectionDataGql implements ConnectionData {
+  const factory ConnectionDataGql(
+      {required final String id,
+      required final String name,
+      required final String group,
+      required final List<String> endpoints,
+      required final String networkType,
+      required final bool isLocal,
+      required final String blockExplorerUrl,
+      required final String nativeTokenTicker,
+      required final bool isPreset,
+      required final bool canBeEdited,
+      required final double sortingOrder,
+      final bool isUsedOnStart,
+      final String manifestUrl,
+      final int nativeTokenDecimals,
+      final int? latencyDetectionInterval,
+      final int? maxLatency,
+      final int? endpointSelectionRetryCount}) = _$ConnectionDataGqlImpl;
+
+  factory ConnectionDataGql.fromJson(Map<String, dynamic> json) =
+      _$ConnectionDataGqlImpl.fromJson;
+
+  @override
+  String get id;
+  @override
+  String get name;
+  @override
+  String get group;
+  List<String> get endpoints;
+  @override
+  String get networkType;
+  bool get isLocal;
+  @override
+  String get blockExplorerUrl;
+  @override
+  String get nativeTokenTicker;
+  @override
+  bool get isPreset;
+  @override
+  bool get canBeEdited;
+  @override
+  double get sortingOrder;
+  @override
+  bool get isUsedOnStart;
+  @override
+  String get manifestUrl;
+  @override
+  int get nativeTokenDecimals;
+  int? get latencyDetectionInterval;
+  int? get maxLatency;
+  int? get endpointSelectionRetryCount;
+
+  /// Create a copy of ConnectionData
+  /// with the given fields replaced by the non-null parameter values.
+  @override
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  _$$ConnectionDataGqlImplCopyWith<_$ConnectionDataGqlImpl> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
 /// @nodoc
-abstract mixin class $ConnectionDataGqlCopyWith<$Res>
+abstract class _$$ConnectionDataProtoImplCopyWith<$Res>
     implements $ConnectionDataCopyWith<$Res> {
-  factory $ConnectionDataGqlCopyWith(
-          ConnectionDataGql value, $Res Function(ConnectionDataGql) _then) =
-      _$ConnectionDataGqlCopyWithImpl;
+  factory _$$ConnectionDataProtoImplCopyWith(_$ConnectionDataProtoImpl value,
+          $Res Function(_$ConnectionDataProtoImpl) then) =
+      __$$ConnectionDataProtoImplCopyWithImpl<$Res>;
   @override
   @useResult
   $Res call(
       {String id,
       String name,
       String group,
-      List<String> endpoints,
-      NetworkType networkType,
-      bool isLocal,
+      String endpoint,
+      String networkType,
       String blockExplorerUrl,
       String nativeTokenTicker,
       bool isPreset,
@@ -378,31 +968,27 @@ abstract mixin class $ConnectionDataGqlCopyWith<$Res>
       double sortingOrder,
       bool isUsedOnStart,
       String manifestUrl,
-      int nativeTokenDecimals,
-      int? latencyDetectionInterval,
-      int? maxLatency,
-      int? endpointSelectionRetryCount});
+      int nativeTokenDecimals});
 }
 
 /// @nodoc
-class _$ConnectionDataGqlCopyWithImpl<$Res>
-    implements $ConnectionDataGqlCopyWith<$Res> {
-  _$ConnectionDataGqlCopyWithImpl(this._self, this._then);
-
-  final ConnectionDataGql _self;
-  final $Res Function(ConnectionDataGql) _then;
+class __$$ConnectionDataProtoImplCopyWithImpl<$Res>
+    extends _$ConnectionDataCopyWithImpl<$Res, _$ConnectionDataProtoImpl>
+    implements _$$ConnectionDataProtoImplCopyWith<$Res> {
+  __$$ConnectionDataProtoImplCopyWithImpl(_$ConnectionDataProtoImpl _value,
+      $Res Function(_$ConnectionDataProtoImpl) _then)
+      : super(_value, _then);
 
   /// Create a copy of ConnectionData
   /// with the given fields replaced by the non-null parameter values.
-  @override
   @pragma('vm:prefer-inline')
+  @override
   $Res call({
     Object? id = null,
     Object? name = null,
     Object? group = null,
-    Object? endpoints = null,
+    Object? endpoint = null,
     Object? networkType = null,
-    Object? isLocal = null,
     Object? blockExplorerUrl = null,
     Object? nativeTokenTicker = null,
     Object? isPreset = null,
@@ -411,87 +997,68 @@ class _$ConnectionDataGqlCopyWithImpl<$Res>
     Object? isUsedOnStart = null,
     Object? manifestUrl = null,
     Object? nativeTokenDecimals = null,
-    Object? latencyDetectionInterval = freezed,
-    Object? maxLatency = freezed,
-    Object? endpointSelectionRetryCount = freezed,
   }) {
-    return _then(ConnectionDataGql(
+    return _then(_$ConnectionDataProtoImpl(
       id: null == id
-          ? _self.id
+          ? _value.id
           : id // ignore: cast_nullable_to_non_nullable
               as String,
       name: null == name
-          ? _self.name
+          ? _value.name
           : name // ignore: cast_nullable_to_non_nullable
               as String,
       group: null == group
-          ? _self.group
+          ? _value.group
           : group // ignore: cast_nullable_to_non_nullable
               as String,
-      endpoints: null == endpoints
-          ? _self._endpoints
-          : endpoints // ignore: cast_nullable_to_non_nullable
-              as List<String>,
+      endpoint: null == endpoint
+          ? _value.endpoint
+          : endpoint // ignore: cast_nullable_to_non_nullable
+              as String,
       networkType: null == networkType
-          ? _self.networkType
+          ? _value.networkType
           : networkType // ignore: cast_nullable_to_non_nullable
-              as NetworkType,
-      isLocal: null == isLocal
-          ? _self.isLocal
-          : isLocal // ignore: cast_nullable_to_non_nullable
-              as bool,
+              as String,
       blockExplorerUrl: null == blockExplorerUrl
-          ? _self.blockExplorerUrl
+          ? _value.blockExplorerUrl
           : blockExplorerUrl // ignore: cast_nullable_to_non_nullable
               as String,
       nativeTokenTicker: null == nativeTokenTicker
-          ? _self.nativeTokenTicker
+          ? _value.nativeTokenTicker
           : nativeTokenTicker // ignore: cast_nullable_to_non_nullable
               as String,
       isPreset: null == isPreset
-          ? _self.isPreset
+          ? _value.isPreset
           : isPreset // ignore: cast_nullable_to_non_nullable
               as bool,
       canBeEdited: null == canBeEdited
-          ? _self.canBeEdited
+          ? _value.canBeEdited
           : canBeEdited // ignore: cast_nullable_to_non_nullable
               as bool,
       sortingOrder: null == sortingOrder
-          ? _self.sortingOrder
+          ? _value.sortingOrder
           : sortingOrder // ignore: cast_nullable_to_non_nullable
               as double,
       isUsedOnStart: null == isUsedOnStart
-          ? _self.isUsedOnStart
+          ? _value.isUsedOnStart
           : isUsedOnStart // ignore: cast_nullable_to_non_nullable
               as bool,
       manifestUrl: null == manifestUrl
-          ? _self.manifestUrl
+          ? _value.manifestUrl
           : manifestUrl // ignore: cast_nullable_to_non_nullable
               as String,
       nativeTokenDecimals: null == nativeTokenDecimals
-          ? _self.nativeTokenDecimals
+          ? _value.nativeTokenDecimals
           : nativeTokenDecimals // ignore: cast_nullable_to_non_nullable
               as int,
-      latencyDetectionInterval: freezed == latencyDetectionInterval
-          ? _self.latencyDetectionInterval
-          : latencyDetectionInterval // ignore: cast_nullable_to_non_nullable
-              as int?,
-      maxLatency: freezed == maxLatency
-          ? _self.maxLatency
-          : maxLatency // ignore: cast_nullable_to_non_nullable
-              as int?,
-      endpointSelectionRetryCount: freezed == endpointSelectionRetryCount
-          ? _self.endpointSelectionRetryCount
-          : endpointSelectionRetryCount // ignore: cast_nullable_to_non_nullable
-              as int?,
     ));
   }
 }
 
 /// @nodoc
 @JsonSerializable()
-class ConnectionDataProto implements ConnectionData {
-  const ConnectionDataProto(
+class _$ConnectionDataProtoImpl implements ConnectionDataProto {
+  const _$ConnectionDataProtoImpl(
       {required this.id,
       required this.name,
       required this.group,
@@ -507,8 +1074,9 @@ class ConnectionDataProto implements ConnectionData {
       this.nativeTokenDecimals = 9,
       final String? $type})
       : $type = $type ?? 'proto';
-  factory ConnectionDataProto.fromJson(Map<String, dynamic> json) =>
-      _$ConnectionDataProtoFromJson(json);
+
+  factory _$ConnectionDataProtoImpl.fromJson(Map<String, dynamic> json) =>
+      _$$ConnectionDataProtoImplFromJson(json);
 
   @override
   final String id;
@@ -516,9 +1084,10 @@ class ConnectionDataProto implements ConnectionData {
   final String name;
   @override
   final String group;
+  @override
   final String endpoint;
   @override
-  final NetworkType networkType;
+  final String networkType;
   @override
   final String blockExplorerUrl;
   @override
@@ -542,26 +1111,16 @@ class ConnectionDataProto implements ConnectionData {
   @JsonKey(name: 'runtimeType')
   final String $type;
 
-  /// Create a copy of ConnectionData
-  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(includeFromJson: false, includeToJson: false)
-  @pragma('vm:prefer-inline')
-  $ConnectionDataProtoCopyWith<ConnectionDataProto> get copyWith =>
-      _$ConnectionDataProtoCopyWithImpl<ConnectionDataProto>(this, _$identity);
-
-  @override
-  Map<String, dynamic> toJson() {
-    return _$ConnectionDataProtoToJson(
-      this,
-    );
+  String toString() {
+    return 'ConnectionData.proto(id: $id, name: $name, group: $group, endpoint: $endpoint, networkType: $networkType, blockExplorerUrl: $blockExplorerUrl, nativeTokenTicker: $nativeTokenTicker, isPreset: $isPreset, canBeEdited: $canBeEdited, sortingOrder: $sortingOrder, isUsedOnStart: $isUsedOnStart, manifestUrl: $manifestUrl, nativeTokenDecimals: $nativeTokenDecimals)';
   }
 
   @override
   bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is ConnectionDataProto &&
+            other is _$ConnectionDataProtoImpl &&
             (identical(other.id, id) || other.id == id) &&
             (identical(other.name, name) || other.name == name) &&
             (identical(other.group, group) || other.group == group) &&
@@ -605,18 +1164,327 @@ class ConnectionDataProto implements ConnectionData {
       manifestUrl,
       nativeTokenDecimals);
 
+  /// Create a copy of ConnectionData
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
-  String toString() {
-    return 'ConnectionData.proto(id: $id, name: $name, group: $group, endpoint: $endpoint, networkType: $networkType, blockExplorerUrl: $blockExplorerUrl, nativeTokenTicker: $nativeTokenTicker, isPreset: $isPreset, canBeEdited: $canBeEdited, sortingOrder: $sortingOrder, isUsedOnStart: $isUsedOnStart, manifestUrl: $manifestUrl, nativeTokenDecimals: $nativeTokenDecimals)';
+  @pragma('vm:prefer-inline')
+  _$$ConnectionDataProtoImplCopyWith<_$ConnectionDataProtoImpl> get copyWith =>
+      __$$ConnectionDataProtoImplCopyWithImpl<_$ConnectionDataProtoImpl>(
+          this, _$identity);
+
+  @override
+  @optionalTypeArgs
+  TResult when<TResult extends Object?>({
+    required TResult Function(
+            String id,
+            String name,
+            String group,
+            List<String> endpoints,
+            String networkType,
+            bool isLocal,
+            String blockExplorerUrl,
+            String nativeTokenTicker,
+            bool isPreset,
+            bool canBeEdited,
+            double sortingOrder,
+            bool isUsedOnStart,
+            String manifestUrl,
+            int nativeTokenDecimals,
+            int? latencyDetectionInterval,
+            int? maxLatency,
+            int? endpointSelectionRetryCount)
+        gql,
+    required TResult Function(
+            String id,
+            String name,
+            String group,
+            String endpoint,
+            String networkType,
+            String blockExplorerUrl,
+            String nativeTokenTicker,
+            bool isPreset,
+            bool canBeEdited,
+            double sortingOrder,
+            bool isUsedOnStart,
+            String manifestUrl,
+            int nativeTokenDecimals)
+        proto,
+    required TResult Function(
+            String id,
+            String name,
+            String group,
+            String endpoint,
+            String networkType,
+            String blockExplorerUrl,
+            String nativeTokenTicker,
+            bool isPreset,
+            bool canBeEdited,
+            double sortingOrder,
+            bool isUsedOnStart,
+            String manifestUrl,
+            int nativeTokenDecimals)
+        jrpc,
+  }) {
+    return proto(
+        id,
+        name,
+        group,
+        endpoint,
+        networkType,
+        blockExplorerUrl,
+        nativeTokenTicker,
+        isPreset,
+        canBeEdited,
+        sortingOrder,
+        isUsedOnStart,
+        manifestUrl,
+        nativeTokenDecimals);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? whenOrNull<TResult extends Object?>({
+    TResult? Function(
+            String id,
+            String name,
+            String group,
+            List<String> endpoints,
+            String networkType,
+            bool isLocal,
+            String blockExplorerUrl,
+            String nativeTokenTicker,
+            bool isPreset,
+            bool canBeEdited,
+            double sortingOrder,
+            bool isUsedOnStart,
+            String manifestUrl,
+            int nativeTokenDecimals,
+            int? latencyDetectionInterval,
+            int? maxLatency,
+            int? endpointSelectionRetryCount)?
+        gql,
+    TResult? Function(
+            String id,
+            String name,
+            String group,
+            String endpoint,
+            String networkType,
+            String blockExplorerUrl,
+            String nativeTokenTicker,
+            bool isPreset,
+            bool canBeEdited,
+            double sortingOrder,
+            bool isUsedOnStart,
+            String manifestUrl,
+            int nativeTokenDecimals)?
+        proto,
+    TResult? Function(
+            String id,
+            String name,
+            String group,
+            String endpoint,
+            String networkType,
+            String blockExplorerUrl,
+            String nativeTokenTicker,
+            bool isPreset,
+            bool canBeEdited,
+            double sortingOrder,
+            bool isUsedOnStart,
+            String manifestUrl,
+            int nativeTokenDecimals)?
+        jrpc,
+  }) {
+    return proto?.call(
+        id,
+        name,
+        group,
+        endpoint,
+        networkType,
+        blockExplorerUrl,
+        nativeTokenTicker,
+        isPreset,
+        canBeEdited,
+        sortingOrder,
+        isUsedOnStart,
+        manifestUrl,
+        nativeTokenDecimals);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeWhen<TResult extends Object?>({
+    TResult Function(
+            String id,
+            String name,
+            String group,
+            List<String> endpoints,
+            String networkType,
+            bool isLocal,
+            String blockExplorerUrl,
+            String nativeTokenTicker,
+            bool isPreset,
+            bool canBeEdited,
+            double sortingOrder,
+            bool isUsedOnStart,
+            String manifestUrl,
+            int nativeTokenDecimals,
+            int? latencyDetectionInterval,
+            int? maxLatency,
+            int? endpointSelectionRetryCount)?
+        gql,
+    TResult Function(
+            String id,
+            String name,
+            String group,
+            String endpoint,
+            String networkType,
+            String blockExplorerUrl,
+            String nativeTokenTicker,
+            bool isPreset,
+            bool canBeEdited,
+            double sortingOrder,
+            bool isUsedOnStart,
+            String manifestUrl,
+            int nativeTokenDecimals)?
+        proto,
+    TResult Function(
+            String id,
+            String name,
+            String group,
+            String endpoint,
+            String networkType,
+            String blockExplorerUrl,
+            String nativeTokenTicker,
+            bool isPreset,
+            bool canBeEdited,
+            double sortingOrder,
+            bool isUsedOnStart,
+            String manifestUrl,
+            int nativeTokenDecimals)?
+        jrpc,
+    required TResult orElse(),
+  }) {
+    if (proto != null) {
+      return proto(
+          id,
+          name,
+          group,
+          endpoint,
+          networkType,
+          blockExplorerUrl,
+          nativeTokenTicker,
+          isPreset,
+          canBeEdited,
+          sortingOrder,
+          isUsedOnStart,
+          manifestUrl,
+          nativeTokenDecimals);
+    }
+    return orElse();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult map<TResult extends Object?>({
+    required TResult Function(ConnectionDataGql value) gql,
+    required TResult Function(ConnectionDataProto value) proto,
+    required TResult Function(ConnectionDataJrpc value) jrpc,
+  }) {
+    return proto(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? mapOrNull<TResult extends Object?>({
+    TResult? Function(ConnectionDataGql value)? gql,
+    TResult? Function(ConnectionDataProto value)? proto,
+    TResult? Function(ConnectionDataJrpc value)? jrpc,
+  }) {
+    return proto?.call(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeMap<TResult extends Object?>({
+    TResult Function(ConnectionDataGql value)? gql,
+    TResult Function(ConnectionDataProto value)? proto,
+    TResult Function(ConnectionDataJrpc value)? jrpc,
+    required TResult orElse(),
+  }) {
+    if (proto != null) {
+      return proto(this);
+    }
+    return orElse();
+  }
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$$ConnectionDataProtoImplToJson(
+      this,
+    );
   }
 }
 
+abstract class ConnectionDataProto implements ConnectionData {
+  const factory ConnectionDataProto(
+      {required final String id,
+      required final String name,
+      required final String group,
+      required final String endpoint,
+      required final String networkType,
+      required final String blockExplorerUrl,
+      required final String nativeTokenTicker,
+      required final bool isPreset,
+      required final bool canBeEdited,
+      required final double sortingOrder,
+      final bool isUsedOnStart,
+      final String manifestUrl,
+      final int nativeTokenDecimals}) = _$ConnectionDataProtoImpl;
+
+  factory ConnectionDataProto.fromJson(Map<String, dynamic> json) =
+      _$ConnectionDataProtoImpl.fromJson;
+
+  @override
+  String get id;
+  @override
+  String get name;
+  @override
+  String get group;
+  String get endpoint;
+  @override
+  String get networkType;
+  @override
+  String get blockExplorerUrl;
+  @override
+  String get nativeTokenTicker;
+  @override
+  bool get isPreset;
+  @override
+  bool get canBeEdited;
+  @override
+  double get sortingOrder;
+  @override
+  bool get isUsedOnStart;
+  @override
+  String get manifestUrl;
+  @override
+  int get nativeTokenDecimals;
+
+  /// Create a copy of ConnectionData
+  /// with the given fields replaced by the non-null parameter values.
+  @override
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  _$$ConnectionDataProtoImplCopyWith<_$ConnectionDataProtoImpl> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
 /// @nodoc
-abstract mixin class $ConnectionDataProtoCopyWith<$Res>
+abstract class _$$ConnectionDataJrpcImplCopyWith<$Res>
     implements $ConnectionDataCopyWith<$Res> {
-  factory $ConnectionDataProtoCopyWith(
-          ConnectionDataProto value, $Res Function(ConnectionDataProto) _then) =
-      _$ConnectionDataProtoCopyWithImpl;
+  factory _$$ConnectionDataJrpcImplCopyWith(_$ConnectionDataJrpcImpl value,
+          $Res Function(_$ConnectionDataJrpcImpl) then) =
+      __$$ConnectionDataJrpcImplCopyWithImpl<$Res>;
   @override
   @useResult
   $Res call(
@@ -624,7 +1492,7 @@ abstract mixin class $ConnectionDataProtoCopyWith<$Res>
       String name,
       String group,
       String endpoint,
-      NetworkType networkType,
+      String networkType,
       String blockExplorerUrl,
       String nativeTokenTicker,
       bool isPreset,
@@ -636,17 +1504,17 @@ abstract mixin class $ConnectionDataProtoCopyWith<$Res>
 }
 
 /// @nodoc
-class _$ConnectionDataProtoCopyWithImpl<$Res>
-    implements $ConnectionDataProtoCopyWith<$Res> {
-  _$ConnectionDataProtoCopyWithImpl(this._self, this._then);
-
-  final ConnectionDataProto _self;
-  final $Res Function(ConnectionDataProto) _then;
+class __$$ConnectionDataJrpcImplCopyWithImpl<$Res>
+    extends _$ConnectionDataCopyWithImpl<$Res, _$ConnectionDataJrpcImpl>
+    implements _$$ConnectionDataJrpcImplCopyWith<$Res> {
+  __$$ConnectionDataJrpcImplCopyWithImpl(_$ConnectionDataJrpcImpl _value,
+      $Res Function(_$ConnectionDataJrpcImpl) _then)
+      : super(_value, _then);
 
   /// Create a copy of ConnectionData
   /// with the given fields replaced by the non-null parameter values.
-  @override
   @pragma('vm:prefer-inline')
+  @override
   $Res call({
     Object? id = null,
     Object? name = null,
@@ -662,57 +1530,57 @@ class _$ConnectionDataProtoCopyWithImpl<$Res>
     Object? manifestUrl = null,
     Object? nativeTokenDecimals = null,
   }) {
-    return _then(ConnectionDataProto(
+    return _then(_$ConnectionDataJrpcImpl(
       id: null == id
-          ? _self.id
+          ? _value.id
           : id // ignore: cast_nullable_to_non_nullable
               as String,
       name: null == name
-          ? _self.name
+          ? _value.name
           : name // ignore: cast_nullable_to_non_nullable
               as String,
       group: null == group
-          ? _self.group
+          ? _value.group
           : group // ignore: cast_nullable_to_non_nullable
               as String,
       endpoint: null == endpoint
-          ? _self.endpoint
+          ? _value.endpoint
           : endpoint // ignore: cast_nullable_to_non_nullable
               as String,
       networkType: null == networkType
-          ? _self.networkType
+          ? _value.networkType
           : networkType // ignore: cast_nullable_to_non_nullable
-              as NetworkType,
+              as String,
       blockExplorerUrl: null == blockExplorerUrl
-          ? _self.blockExplorerUrl
+          ? _value.blockExplorerUrl
           : blockExplorerUrl // ignore: cast_nullable_to_non_nullable
               as String,
       nativeTokenTicker: null == nativeTokenTicker
-          ? _self.nativeTokenTicker
+          ? _value.nativeTokenTicker
           : nativeTokenTicker // ignore: cast_nullable_to_non_nullable
               as String,
       isPreset: null == isPreset
-          ? _self.isPreset
+          ? _value.isPreset
           : isPreset // ignore: cast_nullable_to_non_nullable
               as bool,
       canBeEdited: null == canBeEdited
-          ? _self.canBeEdited
+          ? _value.canBeEdited
           : canBeEdited // ignore: cast_nullable_to_non_nullable
               as bool,
       sortingOrder: null == sortingOrder
-          ? _self.sortingOrder
+          ? _value.sortingOrder
           : sortingOrder // ignore: cast_nullable_to_non_nullable
               as double,
       isUsedOnStart: null == isUsedOnStart
-          ? _self.isUsedOnStart
+          ? _value.isUsedOnStart
           : isUsedOnStart // ignore: cast_nullable_to_non_nullable
               as bool,
       manifestUrl: null == manifestUrl
-          ? _self.manifestUrl
+          ? _value.manifestUrl
           : manifestUrl // ignore: cast_nullable_to_non_nullable
               as String,
       nativeTokenDecimals: null == nativeTokenDecimals
-          ? _self.nativeTokenDecimals
+          ? _value.nativeTokenDecimals
           : nativeTokenDecimals // ignore: cast_nullable_to_non_nullable
               as int,
     ));
@@ -721,8 +1589,8 @@ class _$ConnectionDataProtoCopyWithImpl<$Res>
 
 /// @nodoc
 @JsonSerializable()
-class ConnectionDataJrpc implements ConnectionData {
-  const ConnectionDataJrpc(
+class _$ConnectionDataJrpcImpl implements ConnectionDataJrpc {
+  const _$ConnectionDataJrpcImpl(
       {required this.id,
       required this.name,
       required this.group,
@@ -738,8 +1606,9 @@ class ConnectionDataJrpc implements ConnectionData {
       this.nativeTokenDecimals = 9,
       final String? $type})
       : $type = $type ?? 'jrpc';
-  factory ConnectionDataJrpc.fromJson(Map<String, dynamic> json) =>
-      _$ConnectionDataJrpcFromJson(json);
+
+  factory _$ConnectionDataJrpcImpl.fromJson(Map<String, dynamic> json) =>
+      _$$ConnectionDataJrpcImplFromJson(json);
 
   @override
   final String id;
@@ -747,9 +1616,10 @@ class ConnectionDataJrpc implements ConnectionData {
   final String name;
   @override
   final String group;
+  @override
   final String endpoint;
   @override
-  final NetworkType networkType;
+  final String networkType;
   @override
   final String blockExplorerUrl;
   @override
@@ -773,26 +1643,16 @@ class ConnectionDataJrpc implements ConnectionData {
   @JsonKey(name: 'runtimeType')
   final String $type;
 
-  /// Create a copy of ConnectionData
-  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(includeFromJson: false, includeToJson: false)
-  @pragma('vm:prefer-inline')
-  $ConnectionDataJrpcCopyWith<ConnectionDataJrpc> get copyWith =>
-      _$ConnectionDataJrpcCopyWithImpl<ConnectionDataJrpc>(this, _$identity);
-
-  @override
-  Map<String, dynamic> toJson() {
-    return _$ConnectionDataJrpcToJson(
-      this,
-    );
+  String toString() {
+    return 'ConnectionData.jrpc(id: $id, name: $name, group: $group, endpoint: $endpoint, networkType: $networkType, blockExplorerUrl: $blockExplorerUrl, nativeTokenTicker: $nativeTokenTicker, isPreset: $isPreset, canBeEdited: $canBeEdited, sortingOrder: $sortingOrder, isUsedOnStart: $isUsedOnStart, manifestUrl: $manifestUrl, nativeTokenDecimals: $nativeTokenDecimals)';
   }
 
   @override
   bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is ConnectionDataJrpc &&
+            other is _$ConnectionDataJrpcImpl &&
             (identical(other.id, id) || other.id == id) &&
             (identical(other.name, name) || other.name == name) &&
             (identical(other.group, group) || other.group == group) &&
@@ -836,118 +1696,317 @@ class ConnectionDataJrpc implements ConnectionData {
       manifestUrl,
       nativeTokenDecimals);
 
+  /// Create a copy of ConnectionData
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
-  String toString() {
-    return 'ConnectionData.jrpc(id: $id, name: $name, group: $group, endpoint: $endpoint, networkType: $networkType, blockExplorerUrl: $blockExplorerUrl, nativeTokenTicker: $nativeTokenTicker, isPreset: $isPreset, canBeEdited: $canBeEdited, sortingOrder: $sortingOrder, isUsedOnStart: $isUsedOnStart, manifestUrl: $manifestUrl, nativeTokenDecimals: $nativeTokenDecimals)';
+  @pragma('vm:prefer-inline')
+  _$$ConnectionDataJrpcImplCopyWith<_$ConnectionDataJrpcImpl> get copyWith =>
+      __$$ConnectionDataJrpcImplCopyWithImpl<_$ConnectionDataJrpcImpl>(
+          this, _$identity);
+
+  @override
+  @optionalTypeArgs
+  TResult when<TResult extends Object?>({
+    required TResult Function(
+            String id,
+            String name,
+            String group,
+            List<String> endpoints,
+            String networkType,
+            bool isLocal,
+            String blockExplorerUrl,
+            String nativeTokenTicker,
+            bool isPreset,
+            bool canBeEdited,
+            double sortingOrder,
+            bool isUsedOnStart,
+            String manifestUrl,
+            int nativeTokenDecimals,
+            int? latencyDetectionInterval,
+            int? maxLatency,
+            int? endpointSelectionRetryCount)
+        gql,
+    required TResult Function(
+            String id,
+            String name,
+            String group,
+            String endpoint,
+            String networkType,
+            String blockExplorerUrl,
+            String nativeTokenTicker,
+            bool isPreset,
+            bool canBeEdited,
+            double sortingOrder,
+            bool isUsedOnStart,
+            String manifestUrl,
+            int nativeTokenDecimals)
+        proto,
+    required TResult Function(
+            String id,
+            String name,
+            String group,
+            String endpoint,
+            String networkType,
+            String blockExplorerUrl,
+            String nativeTokenTicker,
+            bool isPreset,
+            bool canBeEdited,
+            double sortingOrder,
+            bool isUsedOnStart,
+            String manifestUrl,
+            int nativeTokenDecimals)
+        jrpc,
+  }) {
+    return jrpc(
+        id,
+        name,
+        group,
+        endpoint,
+        networkType,
+        blockExplorerUrl,
+        nativeTokenTicker,
+        isPreset,
+        canBeEdited,
+        sortingOrder,
+        isUsedOnStart,
+        manifestUrl,
+        nativeTokenDecimals);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? whenOrNull<TResult extends Object?>({
+    TResult? Function(
+            String id,
+            String name,
+            String group,
+            List<String> endpoints,
+            String networkType,
+            bool isLocal,
+            String blockExplorerUrl,
+            String nativeTokenTicker,
+            bool isPreset,
+            bool canBeEdited,
+            double sortingOrder,
+            bool isUsedOnStart,
+            String manifestUrl,
+            int nativeTokenDecimals,
+            int? latencyDetectionInterval,
+            int? maxLatency,
+            int? endpointSelectionRetryCount)?
+        gql,
+    TResult? Function(
+            String id,
+            String name,
+            String group,
+            String endpoint,
+            String networkType,
+            String blockExplorerUrl,
+            String nativeTokenTicker,
+            bool isPreset,
+            bool canBeEdited,
+            double sortingOrder,
+            bool isUsedOnStart,
+            String manifestUrl,
+            int nativeTokenDecimals)?
+        proto,
+    TResult? Function(
+            String id,
+            String name,
+            String group,
+            String endpoint,
+            String networkType,
+            String blockExplorerUrl,
+            String nativeTokenTicker,
+            bool isPreset,
+            bool canBeEdited,
+            double sortingOrder,
+            bool isUsedOnStart,
+            String manifestUrl,
+            int nativeTokenDecimals)?
+        jrpc,
+  }) {
+    return jrpc?.call(
+        id,
+        name,
+        group,
+        endpoint,
+        networkType,
+        blockExplorerUrl,
+        nativeTokenTicker,
+        isPreset,
+        canBeEdited,
+        sortingOrder,
+        isUsedOnStart,
+        manifestUrl,
+        nativeTokenDecimals);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeWhen<TResult extends Object?>({
+    TResult Function(
+            String id,
+            String name,
+            String group,
+            List<String> endpoints,
+            String networkType,
+            bool isLocal,
+            String blockExplorerUrl,
+            String nativeTokenTicker,
+            bool isPreset,
+            bool canBeEdited,
+            double sortingOrder,
+            bool isUsedOnStart,
+            String manifestUrl,
+            int nativeTokenDecimals,
+            int? latencyDetectionInterval,
+            int? maxLatency,
+            int? endpointSelectionRetryCount)?
+        gql,
+    TResult Function(
+            String id,
+            String name,
+            String group,
+            String endpoint,
+            String networkType,
+            String blockExplorerUrl,
+            String nativeTokenTicker,
+            bool isPreset,
+            bool canBeEdited,
+            double sortingOrder,
+            bool isUsedOnStart,
+            String manifestUrl,
+            int nativeTokenDecimals)?
+        proto,
+    TResult Function(
+            String id,
+            String name,
+            String group,
+            String endpoint,
+            String networkType,
+            String blockExplorerUrl,
+            String nativeTokenTicker,
+            bool isPreset,
+            bool canBeEdited,
+            double sortingOrder,
+            bool isUsedOnStart,
+            String manifestUrl,
+            int nativeTokenDecimals)?
+        jrpc,
+    required TResult orElse(),
+  }) {
+    if (jrpc != null) {
+      return jrpc(
+          id,
+          name,
+          group,
+          endpoint,
+          networkType,
+          blockExplorerUrl,
+          nativeTokenTicker,
+          isPreset,
+          canBeEdited,
+          sortingOrder,
+          isUsedOnStart,
+          manifestUrl,
+          nativeTokenDecimals);
+    }
+    return orElse();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult map<TResult extends Object?>({
+    required TResult Function(ConnectionDataGql value) gql,
+    required TResult Function(ConnectionDataProto value) proto,
+    required TResult Function(ConnectionDataJrpc value) jrpc,
+  }) {
+    return jrpc(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? mapOrNull<TResult extends Object?>({
+    TResult? Function(ConnectionDataGql value)? gql,
+    TResult? Function(ConnectionDataProto value)? proto,
+    TResult? Function(ConnectionDataJrpc value)? jrpc,
+  }) {
+    return jrpc?.call(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeMap<TResult extends Object?>({
+    TResult Function(ConnectionDataGql value)? gql,
+    TResult Function(ConnectionDataProto value)? proto,
+    TResult Function(ConnectionDataJrpc value)? jrpc,
+    required TResult orElse(),
+  }) {
+    if (jrpc != null) {
+      return jrpc(this);
+    }
+    return orElse();
+  }
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$$ConnectionDataJrpcImplToJson(
+      this,
+    );
   }
 }
 
-/// @nodoc
-abstract mixin class $ConnectionDataJrpcCopyWith<$Res>
-    implements $ConnectionDataCopyWith<$Res> {
-  factory $ConnectionDataJrpcCopyWith(
-          ConnectionDataJrpc value, $Res Function(ConnectionDataJrpc) _then) =
-      _$ConnectionDataJrpcCopyWithImpl;
+abstract class ConnectionDataJrpc implements ConnectionData {
+  const factory ConnectionDataJrpc(
+      {required final String id,
+      required final String name,
+      required final String group,
+      required final String endpoint,
+      required final String networkType,
+      required final String blockExplorerUrl,
+      required final String nativeTokenTicker,
+      required final bool isPreset,
+      required final bool canBeEdited,
+      required final double sortingOrder,
+      final bool isUsedOnStart,
+      final String manifestUrl,
+      final int nativeTokenDecimals}) = _$ConnectionDataJrpcImpl;
+
+  factory ConnectionDataJrpc.fromJson(Map<String, dynamic> json) =
+      _$ConnectionDataJrpcImpl.fromJson;
+
   @override
-  @useResult
-  $Res call(
-      {String id,
-      String name,
-      String group,
-      String endpoint,
-      NetworkType networkType,
-      String blockExplorerUrl,
-      String nativeTokenTicker,
-      bool isPreset,
-      bool canBeEdited,
-      double sortingOrder,
-      bool isUsedOnStart,
-      String manifestUrl,
-      int nativeTokenDecimals});
-}
-
-/// @nodoc
-class _$ConnectionDataJrpcCopyWithImpl<$Res>
-    implements $ConnectionDataJrpcCopyWith<$Res> {
-  _$ConnectionDataJrpcCopyWithImpl(this._self, this._then);
-
-  final ConnectionDataJrpc _self;
-  final $Res Function(ConnectionDataJrpc) _then;
+  String get id;
+  @override
+  String get name;
+  @override
+  String get group;
+  String get endpoint;
+  @override
+  String get networkType;
+  @override
+  String get blockExplorerUrl;
+  @override
+  String get nativeTokenTicker;
+  @override
+  bool get isPreset;
+  @override
+  bool get canBeEdited;
+  @override
+  double get sortingOrder;
+  @override
+  bool get isUsedOnStart;
+  @override
+  String get manifestUrl;
+  @override
+  int get nativeTokenDecimals;
 
   /// Create a copy of ConnectionData
   /// with the given fields replaced by the non-null parameter values.
   @override
-  @pragma('vm:prefer-inline')
-  $Res call({
-    Object? id = null,
-    Object? name = null,
-    Object? group = null,
-    Object? endpoint = null,
-    Object? networkType = null,
-    Object? blockExplorerUrl = null,
-    Object? nativeTokenTicker = null,
-    Object? isPreset = null,
-    Object? canBeEdited = null,
-    Object? sortingOrder = null,
-    Object? isUsedOnStart = null,
-    Object? manifestUrl = null,
-    Object? nativeTokenDecimals = null,
-  }) {
-    return _then(ConnectionDataJrpc(
-      id: null == id
-          ? _self.id
-          : id // ignore: cast_nullable_to_non_nullable
-              as String,
-      name: null == name
-          ? _self.name
-          : name // ignore: cast_nullable_to_non_nullable
-              as String,
-      group: null == group
-          ? _self.group
-          : group // ignore: cast_nullable_to_non_nullable
-              as String,
-      endpoint: null == endpoint
-          ? _self.endpoint
-          : endpoint // ignore: cast_nullable_to_non_nullable
-              as String,
-      networkType: null == networkType
-          ? _self.networkType
-          : networkType // ignore: cast_nullable_to_non_nullable
-              as NetworkType,
-      blockExplorerUrl: null == blockExplorerUrl
-          ? _self.blockExplorerUrl
-          : blockExplorerUrl // ignore: cast_nullable_to_non_nullable
-              as String,
-      nativeTokenTicker: null == nativeTokenTicker
-          ? _self.nativeTokenTicker
-          : nativeTokenTicker // ignore: cast_nullable_to_non_nullable
-              as String,
-      isPreset: null == isPreset
-          ? _self.isPreset
-          : isPreset // ignore: cast_nullable_to_non_nullable
-              as bool,
-      canBeEdited: null == canBeEdited
-          ? _self.canBeEdited
-          : canBeEdited // ignore: cast_nullable_to_non_nullable
-              as bool,
-      sortingOrder: null == sortingOrder
-          ? _self.sortingOrder
-          : sortingOrder // ignore: cast_nullable_to_non_nullable
-              as double,
-      isUsedOnStart: null == isUsedOnStart
-          ? _self.isUsedOnStart
-          : isUsedOnStart // ignore: cast_nullable_to_non_nullable
-              as bool,
-      manifestUrl: null == manifestUrl
-          ? _self.manifestUrl
-          : manifestUrl // ignore: cast_nullable_to_non_nullable
-              as String,
-      nativeTokenDecimals: null == nativeTokenDecimals
-          ? _self.nativeTokenDecimals
-          : nativeTokenDecimals // ignore: cast_nullable_to_non_nullable
-              as int,
-    ));
-  }
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  _$$ConnectionDataJrpcImplCopyWith<_$ConnectionDataJrpcImpl> get copyWith =>
+      throw _privateConstructorUsedError;
 }
-
-// dart format on

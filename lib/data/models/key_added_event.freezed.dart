@@ -1,4 +1,3 @@
-// dart format width=80
 // coverage:ignore-file
 // GENERATED CODE - DO NOT MODIFY BY HAND
 // ignore_for_file: type=lint
@@ -10,43 +9,27 @@ part of 'key_added_event.dart';
 // FreezedGenerator
 // **************************************************************************
 
-// dart format off
 T _$identity<T>(T value) => value;
+
+final _privateConstructorUsedError = UnsupportedError(
+    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models');
 
 /// @nodoc
 mixin _$KeyAddedEvent {
-  KeyStoreEntry get key;
+  KeyStoreEntry get key => throw _privateConstructorUsedError;
 
   /// Create a copy of KeyAddedEvent
   /// with the given fields replaced by the non-null parameter values.
   @JsonKey(includeFromJson: false, includeToJson: false)
-  @pragma('vm:prefer-inline')
   $KeyAddedEventCopyWith<KeyAddedEvent> get copyWith =>
-      _$KeyAddedEventCopyWithImpl<KeyAddedEvent>(
-          this as KeyAddedEvent, _$identity);
-
-  @override
-  bool operator ==(Object other) {
-    return identical(this, other) ||
-        (other.runtimeType == runtimeType &&
-            other is KeyAddedEvent &&
-            (identical(other.key, key) || other.key == key));
-  }
-
-  @override
-  int get hashCode => Object.hash(runtimeType, key);
-
-  @override
-  String toString() {
-    return 'KeyAddedEvent(key: $key)';
-  }
+      throw _privateConstructorUsedError;
 }
 
 /// @nodoc
-abstract mixin class $KeyAddedEventCopyWith<$Res> {
+abstract class $KeyAddedEventCopyWith<$Res> {
   factory $KeyAddedEventCopyWith(
-          KeyAddedEvent value, $Res Function(KeyAddedEvent) _then) =
-      _$KeyAddedEventCopyWithImpl;
+          KeyAddedEvent value, $Res Function(KeyAddedEvent) then) =
+      _$KeyAddedEventCopyWithImpl<$Res, KeyAddedEvent>;
   @useResult
   $Res call({KeyStoreEntry key});
 
@@ -54,12 +37,14 @@ abstract mixin class $KeyAddedEventCopyWith<$Res> {
 }
 
 /// @nodoc
-class _$KeyAddedEventCopyWithImpl<$Res>
+class _$KeyAddedEventCopyWithImpl<$Res, $Val extends KeyAddedEvent>
     implements $KeyAddedEventCopyWith<$Res> {
-  _$KeyAddedEventCopyWithImpl(this._self, this._then);
+  _$KeyAddedEventCopyWithImpl(this._value, this._then);
 
-  final KeyAddedEvent _self;
-  final $Res Function(KeyAddedEvent) _then;
+  // ignore: unused_field
+  final $Val _value;
+  // ignore: unused_field
+  final $Res Function($Val) _then;
 
   /// Create a copy of KeyAddedEvent
   /// with the given fields replaced by the non-null parameter values.
@@ -68,12 +53,12 @@ class _$KeyAddedEventCopyWithImpl<$Res>
   $Res call({
     Object? key = null,
   }) {
-    return _then(_self.copyWith(
+    return _then(_value.copyWith(
       key: null == key
-          ? _self.key
+          ? _value.key
           : key // ignore: cast_nullable_to_non_nullable
               as KeyStoreEntry,
-    ));
+    ) as $Val);
   }
 
   /// Create a copy of KeyAddedEvent
@@ -81,91 +66,93 @@ class _$KeyAddedEventCopyWithImpl<$Res>
   @override
   @pragma('vm:prefer-inline')
   $KeyStoreEntryCopyWith<$Res> get key {
-    return $KeyStoreEntryCopyWith<$Res>(_self.key, (value) {
-      return _then(_self.copyWith(key: value));
+    return $KeyStoreEntryCopyWith<$Res>(_value.key, (value) {
+      return _then(_value.copyWith(key: value) as $Val);
     });
   }
 }
 
 /// @nodoc
+abstract class _$$KeyAddedEventImplCopyWith<$Res>
+    implements $KeyAddedEventCopyWith<$Res> {
+  factory _$$KeyAddedEventImplCopyWith(
+          _$KeyAddedEventImpl value, $Res Function(_$KeyAddedEventImpl) then) =
+      __$$KeyAddedEventImplCopyWithImpl<$Res>;
+  @override
+  @useResult
+  $Res call({KeyStoreEntry key});
 
-class _KeyAddedEvent implements KeyAddedEvent {
-  const _KeyAddedEvent(this.key);
+  @override
+  $KeyStoreEntryCopyWith<$Res> get key;
+}
+
+/// @nodoc
+class __$$KeyAddedEventImplCopyWithImpl<$Res>
+    extends _$KeyAddedEventCopyWithImpl<$Res, _$KeyAddedEventImpl>
+    implements _$$KeyAddedEventImplCopyWith<$Res> {
+  __$$KeyAddedEventImplCopyWithImpl(
+      _$KeyAddedEventImpl _value, $Res Function(_$KeyAddedEventImpl) _then)
+      : super(_value, _then);
+
+  /// Create a copy of KeyAddedEvent
+  /// with the given fields replaced by the non-null parameter values.
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? key = null,
+  }) {
+    return _then(_$KeyAddedEventImpl(
+      null == key
+          ? _value.key
+          : key // ignore: cast_nullable_to_non_nullable
+              as KeyStoreEntry,
+    ));
+  }
+}
+
+/// @nodoc
+
+class _$KeyAddedEventImpl implements _KeyAddedEvent {
+  const _$KeyAddedEventImpl(this.key);
 
   @override
   final KeyStoreEntry key;
 
-  /// Create a copy of KeyAddedEvent
-  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(includeFromJson: false, includeToJson: false)
-  @pragma('vm:prefer-inline')
-  _$KeyAddedEventCopyWith<_KeyAddedEvent> get copyWith =>
-      __$KeyAddedEventCopyWithImpl<_KeyAddedEvent>(this, _$identity);
+  String toString() {
+    return 'KeyAddedEvent(key: $key)';
+  }
 
   @override
   bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _KeyAddedEvent &&
+            other is _$KeyAddedEventImpl &&
             (identical(other.key, key) || other.key == key));
   }
 
   @override
   int get hashCode => Object.hash(runtimeType, key);
 
+  /// Create a copy of KeyAddedEvent
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
-  String toString() {
-    return 'KeyAddedEvent(key: $key)';
-  }
+  @pragma('vm:prefer-inline')
+  _$$KeyAddedEventImplCopyWith<_$KeyAddedEventImpl> get copyWith =>
+      __$$KeyAddedEventImplCopyWithImpl<_$KeyAddedEventImpl>(this, _$identity);
 }
 
-/// @nodoc
-abstract mixin class _$KeyAddedEventCopyWith<$Res>
-    implements $KeyAddedEventCopyWith<$Res> {
-  factory _$KeyAddedEventCopyWith(
-          _KeyAddedEvent value, $Res Function(_KeyAddedEvent) _then) =
-      __$KeyAddedEventCopyWithImpl;
-  @override
-  @useResult
-  $Res call({KeyStoreEntry key});
+abstract class _KeyAddedEvent implements KeyAddedEvent {
+  const factory _KeyAddedEvent(final KeyStoreEntry key) = _$KeyAddedEventImpl;
 
   @override
-  $KeyStoreEntryCopyWith<$Res> get key;
-}
-
-/// @nodoc
-class __$KeyAddedEventCopyWithImpl<$Res>
-    implements _$KeyAddedEventCopyWith<$Res> {
-  __$KeyAddedEventCopyWithImpl(this._self, this._then);
-
-  final _KeyAddedEvent _self;
-  final $Res Function(_KeyAddedEvent) _then;
+  KeyStoreEntry get key;
 
   /// Create a copy of KeyAddedEvent
   /// with the given fields replaced by the non-null parameter values.
   @override
-  @pragma('vm:prefer-inline')
-  $Res call({
-    Object? key = null,
-  }) {
-    return _then(_KeyAddedEvent(
-      null == key
-          ? _self.key
-          : key // ignore: cast_nullable_to_non_nullable
-              as KeyStoreEntry,
-    ));
-  }
-
-  /// Create a copy of KeyAddedEvent
-  /// with the given fields replaced by the non-null parameter values.
-  @override
-  @pragma('vm:prefer-inline')
-  $KeyStoreEntryCopyWith<$Res> get key {
-    return $KeyStoreEntryCopyWith<$Res>(_self.key, (value) {
-      return _then(_self.copyWith(key: value));
-    });
-  }
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  _$$KeyAddedEventImplCopyWith<_$KeyAddedEventImpl> get copyWith =>
+      throw _privateConstructorUsedError;
 }
-
-// dart format on

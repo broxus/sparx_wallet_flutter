@@ -44,9 +44,7 @@ class ReceiveFundsSheet extends StatelessWidget {
           buttonShape: ButtonShape.pill,
           icon: LucideIcons.share2,
           title: LocaleKeys.shareWord.tr(),
-          onPressed: () => SharePlus.instance.share(
-            ShareParams(text: address.address),
-          ),
+          onPressed: () => Share.share(address.address),
         ),
       ],
     );

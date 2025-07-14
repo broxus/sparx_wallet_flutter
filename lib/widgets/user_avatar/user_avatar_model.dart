@@ -5,10 +5,8 @@ import 'package:app/app/service/identify/i_identify_icons_service.dart';
 import 'package:app/app/service/identify/identy_icon_data.dart';
 import 'package:app/widgets/user_avatar/user_avatar.dart';
 import 'package:elementary/elementary.dart';
-import 'package:injectable/injectable.dart';
 
 /// [ElementaryModel] for [UserAvatar]
-@injectable
 class UserAvatarModel extends ElementaryModel {
   UserAvatarModel(
     ErrorHandler errorHandler,

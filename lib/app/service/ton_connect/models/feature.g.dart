@@ -6,22 +6,26 @@ part of 'feature.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-_SendTransaction _$SendTransactionFromJson(Map<String, dynamic> json) =>
-    _SendTransaction(
+_$SendTransactionImpl _$$SendTransactionImplFromJson(
+        Map<String, dynamic> json) =>
+    _$SendTransactionImpl(
       maxMessages: (json['maxMessages'] as num).toInt(),
       $type: json['name'] as String?,
     );
 
-Map<String, dynamic> _$SendTransactionToJson(_SendTransaction instance) =>
+Map<String, dynamic> _$$SendTransactionImplToJson(
+        _$SendTransactionImpl instance) =>
     <String, dynamic>{
       'maxMessages': instance.maxMessages,
       'name': instance.$type,
     };
 
-_SignData _$SignDataFromJson(Map<String, dynamic> json) => _SignData(
+_$SignDataImpl _$$SignDataImplFromJson(Map<String, dynamic> json) =>
+    _$SignDataImpl(
       $type: json['name'] as String?,
     );
 
-Map<String, dynamic> _$SignDataToJson(_SignData instance) => <String, dynamic>{
+Map<String, dynamic> _$$SignDataImplToJson(_$SignDataImpl instance) =>
+    <String, dynamic>{
       'name': instance.$type,
     };

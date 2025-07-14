@@ -1,4 +1,3 @@
-import 'package:app/app/router/compass/bottom_bar_state.dart';
 import 'package:app/app/router/compass/compass.dart';
 import 'package:app/feature/browser_v2/screens/create_group/route.dart';
 import 'package:app/feature/browser_v2/screens/main/browser_main_screen.dart';
@@ -14,7 +13,7 @@ class BrowserRoute extends CompassRouteParameterless<BrowserRouteData> {
           name: 'browser',
           path: '/browser',
           isSaveLocation: true,
-          bottomBarState: BottomBarState.expanded,
+          isBottomNavigationBarVisible: true,
           builder: (context, _, __) => const BrowserMainScreen(),
           compassBaseRoutes: [
             createBrowserGroupRoute,

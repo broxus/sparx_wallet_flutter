@@ -56,8 +56,17 @@ class DeleteAccountSheet extends StatelessWidget {
               )..init(),
               child: BlocBuilder<AccountDetailCubit, AccountDetailState>(
                 builder: (context, state) {
-                  return switch (state) {
-                    AccountDetailStateData(:final balance) => CommonListTile(
+                  return state.maybeWhen(
+                    orElse: () => CommonListTile(
+                      titleText: LocaleKeys.totalBalance.tr(),
+                      subtitleChild: const CommonLoader(
+                        width: DimensSizeV2.d64,
+                        height: DimensSizeV2.d24,
+                      ),
+                      padding: EdgeInsets.zero,
+                    ),
+                    data: (account, balance, _) {
+                      return CommonListTile(
                         invertTitleSubtitleStyles: true,
                         titleText: LocaleKeys.totalBalance.tr(),
                         subtitleChild: MoneyWidget(
@@ -65,16 +74,9 @@ class DeleteAccountSheet extends StatelessWidget {
                           style: MoneyWidgetStyle.primary,
                         ),
                         padding: EdgeInsets.zero,
-                      ),
-                    _ => CommonListTile(
-                        titleText: LocaleKeys.totalBalance.tr(),
-                        subtitleChild: const CommonLoader(
-                          width: DimensSizeV2.d64,
-                          height: DimensSizeV2.d24,
-                        ),
-                        padding: EdgeInsets.zero,
-                      ),
-                  };
+                      );
+                    },
+                  );
                 },
               ),
             ),

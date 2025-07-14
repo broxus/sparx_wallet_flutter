@@ -41,7 +41,7 @@ class SelectNewAssetCubit extends Cubit<SelectNewAssetState>
 
       // ignore if we are in progress
       final st = state;
-      if (st is SelectNewAssetStateData && !st.isLoading) _updateState();
+      if (st is _Data && !st.isLoading) _updateState();
     });
     _contractsSubscription = assetsService
         .allAvailableContractsForAccount(address)
@@ -70,7 +70,7 @@ class SelectNewAssetCubit extends Cubit<SelectNewAssetState>
 
       // ignore if we are in progress
       final st = state;
-      if (st is SelectNewAssetStateData && !st.isLoading) _updateState();
+      if (st is _Data && !st.isLoading) _updateState();
     });
   }
 
@@ -93,7 +93,7 @@ class SelectNewAssetCubit extends Cubit<SelectNewAssetState>
 
   void changeTab(SelectNewAssetTabs tab) {
     final st = state;
-    if (st is SelectNewAssetStateData) {
+    if (st is _Data) {
       if (tab == st.tab) return;
 
       emitSafe(st.copyWith(tab: tab));
@@ -168,7 +168,7 @@ class SelectNewAssetCubit extends Cubit<SelectNewAssetState>
 
   void _updateState([bool isLoading = false]) {
     final st = state;
-    if (st is SelectNewAssetStateData) {
+    if (st is _Data) {
       emitSafe(
         st.copyWith(
           isLoading: isLoading,

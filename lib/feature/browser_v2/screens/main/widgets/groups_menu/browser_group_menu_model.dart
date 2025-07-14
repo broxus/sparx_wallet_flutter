@@ -4,10 +4,8 @@ import 'package:app/feature/browser_v2/domain/service/browser_service.dart';
 import 'package:app/feature/browser_v2/screens/main/widgets/groups_menu/browser_group_menu.dart';
 import 'package:elementary/elementary.dart';
 import 'package:elementary_helper/elementary_helper.dart';
-import 'package:injectable/injectable.dart';
 
 /// [ElementaryModel] for [BrowserGroupMenu]
-@injectable
 class BrowserGroupMenuModel extends ElementaryModel {
   BrowserGroupMenuModel(
     ErrorHandler errorHandler,

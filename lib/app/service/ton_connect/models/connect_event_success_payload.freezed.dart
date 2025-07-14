@@ -1,4 +1,3 @@
-// dart format width=80
 // coverage:ignore-file
 // GENERATED CODE - DO NOT MODIFY BY HAND
 // ignore_for_file: type=lint
@@ -10,51 +9,37 @@ part of 'connect_event_success_payload.dart';
 // FreezedGenerator
 // **************************************************************************
 
-// dart format off
 T _$identity<T>(T value) => value;
+
+final _privateConstructorUsedError = UnsupportedError(
+    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models');
+
+ConnectEventSuccessPayload _$ConnectEventSuccessPayloadFromJson(
+    Map<String, dynamic> json) {
+  return _ConnectEventSuccessPayload.fromJson(json);
+}
 
 /// @nodoc
 mixin _$ConnectEventSuccessPayload {
-  List<ConnectItemReply> get items;
-  DeviceInfo get device;
+  List<ConnectItemReply> get items => throw _privateConstructorUsedError;
+  DeviceInfo get device => throw _privateConstructorUsedError;
+
+  /// Serializes this ConnectEventSuccessPayload to a JSON map.
+  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
 
   /// Create a copy of ConnectEventSuccessPayload
   /// with the given fields replaced by the non-null parameter values.
   @JsonKey(includeFromJson: false, includeToJson: false)
-  @pragma('vm:prefer-inline')
   $ConnectEventSuccessPayloadCopyWith<ConnectEventSuccessPayload>
-      get copyWith =>
-          _$ConnectEventSuccessPayloadCopyWithImpl<ConnectEventSuccessPayload>(
-              this as ConnectEventSuccessPayload, _$identity);
-
-  /// Serializes this ConnectEventSuccessPayload to a JSON map.
-  Map<String, dynamic> toJson();
-
-  @override
-  bool operator ==(Object other) {
-    return identical(this, other) ||
-        (other.runtimeType == runtimeType &&
-            other is ConnectEventSuccessPayload &&
-            const DeepCollectionEquality().equals(other.items, items) &&
-            (identical(other.device, device) || other.device == device));
-  }
-
-  @JsonKey(includeFromJson: false, includeToJson: false)
-  @override
-  int get hashCode => Object.hash(
-      runtimeType, const DeepCollectionEquality().hash(items), device);
-
-  @override
-  String toString() {
-    return 'ConnectEventSuccessPayload(items: $items, device: $device)';
-  }
+      get copyWith => throw _privateConstructorUsedError;
 }
 
 /// @nodoc
-abstract mixin class $ConnectEventSuccessPayloadCopyWith<$Res> {
+abstract class $ConnectEventSuccessPayloadCopyWith<$Res> {
   factory $ConnectEventSuccessPayloadCopyWith(ConnectEventSuccessPayload value,
-          $Res Function(ConnectEventSuccessPayload) _then) =
-      _$ConnectEventSuccessPayloadCopyWithImpl;
+          $Res Function(ConnectEventSuccessPayload) then) =
+      _$ConnectEventSuccessPayloadCopyWithImpl<$Res,
+          ConnectEventSuccessPayload>;
   @useResult
   $Res call({List<ConnectItemReply> items, DeviceInfo device});
 
@@ -62,12 +47,15 @@ abstract mixin class $ConnectEventSuccessPayloadCopyWith<$Res> {
 }
 
 /// @nodoc
-class _$ConnectEventSuccessPayloadCopyWithImpl<$Res>
+class _$ConnectEventSuccessPayloadCopyWithImpl<$Res,
+        $Val extends ConnectEventSuccessPayload>
     implements $ConnectEventSuccessPayloadCopyWith<$Res> {
-  _$ConnectEventSuccessPayloadCopyWithImpl(this._self, this._then);
+  _$ConnectEventSuccessPayloadCopyWithImpl(this._value, this._then);
 
-  final ConnectEventSuccessPayload _self;
-  final $Res Function(ConnectEventSuccessPayload) _then;
+  // ignore: unused_field
+  final $Val _value;
+  // ignore: unused_field
+  final $Res Function($Val) _then;
 
   /// Create a copy of ConnectEventSuccessPayload
   /// with the given fields replaced by the non-null parameter values.
@@ -77,16 +65,16 @@ class _$ConnectEventSuccessPayloadCopyWithImpl<$Res>
     Object? items = null,
     Object? device = null,
   }) {
-    return _then(_self.copyWith(
+    return _then(_value.copyWith(
       items: null == items
-          ? _self.items
+          ? _value.items
           : items // ignore: cast_nullable_to_non_nullable
               as List<ConnectItemReply>,
       device: null == device
-          ? _self.device
+          ? _value.device
           : device // ignore: cast_nullable_to_non_nullable
               as DeviceInfo,
-    ));
+    ) as $Val);
   }
 
   /// Create a copy of ConnectEventSuccessPayload
@@ -94,20 +82,68 @@ class _$ConnectEventSuccessPayloadCopyWithImpl<$Res>
   @override
   @pragma('vm:prefer-inline')
   $DeviceInfoCopyWith<$Res> get device {
-    return $DeviceInfoCopyWith<$Res>(_self.device, (value) {
-      return _then(_self.copyWith(device: value));
+    return $DeviceInfoCopyWith<$Res>(_value.device, (value) {
+      return _then(_value.copyWith(device: value) as $Val);
     });
   }
 }
 
 /// @nodoc
+abstract class _$$ConnectEventSuccessPayloadImplCopyWith<$Res>
+    implements $ConnectEventSuccessPayloadCopyWith<$Res> {
+  factory _$$ConnectEventSuccessPayloadImplCopyWith(
+          _$ConnectEventSuccessPayloadImpl value,
+          $Res Function(_$ConnectEventSuccessPayloadImpl) then) =
+      __$$ConnectEventSuccessPayloadImplCopyWithImpl<$Res>;
+  @override
+  @useResult
+  $Res call({List<ConnectItemReply> items, DeviceInfo device});
+
+  @override
+  $DeviceInfoCopyWith<$Res> get device;
+}
+
+/// @nodoc
+class __$$ConnectEventSuccessPayloadImplCopyWithImpl<$Res>
+    extends _$ConnectEventSuccessPayloadCopyWithImpl<$Res,
+        _$ConnectEventSuccessPayloadImpl>
+    implements _$$ConnectEventSuccessPayloadImplCopyWith<$Res> {
+  __$$ConnectEventSuccessPayloadImplCopyWithImpl(
+      _$ConnectEventSuccessPayloadImpl _value,
+      $Res Function(_$ConnectEventSuccessPayloadImpl) _then)
+      : super(_value, _then);
+
+  /// Create a copy of ConnectEventSuccessPayload
+  /// with the given fields replaced by the non-null parameter values.
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? items = null,
+    Object? device = null,
+  }) {
+    return _then(_$ConnectEventSuccessPayloadImpl(
+      items: null == items
+          ? _value._items
+          : items // ignore: cast_nullable_to_non_nullable
+              as List<ConnectItemReply>,
+      device: null == device
+          ? _value.device
+          : device // ignore: cast_nullable_to_non_nullable
+              as DeviceInfo,
+    ));
+  }
+}
+
+/// @nodoc
 @JsonSerializable()
-class _ConnectEventSuccessPayload implements ConnectEventSuccessPayload {
-  const _ConnectEventSuccessPayload(
+class _$ConnectEventSuccessPayloadImpl implements _ConnectEventSuccessPayload {
+  const _$ConnectEventSuccessPayloadImpl(
       {required final List<ConnectItemReply> items, required this.device})
       : _items = items;
-  factory _ConnectEventSuccessPayload.fromJson(Map<String, dynamic> json) =>
-      _$ConnectEventSuccessPayloadFromJson(json);
+
+  factory _$ConnectEventSuccessPayloadImpl.fromJson(
+          Map<String, dynamic> json) =>
+      _$$ConnectEventSuccessPayloadImplFromJson(json);
 
   final List<ConnectItemReply> _items;
   @override
@@ -120,27 +156,16 @@ class _ConnectEventSuccessPayload implements ConnectEventSuccessPayload {
   @override
   final DeviceInfo device;
 
-  /// Create a copy of ConnectEventSuccessPayload
-  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(includeFromJson: false, includeToJson: false)
-  @pragma('vm:prefer-inline')
-  _$ConnectEventSuccessPayloadCopyWith<_ConnectEventSuccessPayload>
-      get copyWith => __$ConnectEventSuccessPayloadCopyWithImpl<
-          _ConnectEventSuccessPayload>(this, _$identity);
-
-  @override
-  Map<String, dynamic> toJson() {
-    return _$ConnectEventSuccessPayloadToJson(
-      this,
-    );
+  String toString() {
+    return 'ConnectEventSuccessPayload(items: $items, device: $device)';
   }
 
   @override
   bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _ConnectEventSuccessPayload &&
+            other is _$ConnectEventSuccessPayloadImpl &&
             const DeepCollectionEquality().equals(other._items, _items) &&
             (identical(other.device, device) || other.device == device));
   }
@@ -150,64 +175,41 @@ class _ConnectEventSuccessPayload implements ConnectEventSuccessPayload {
   int get hashCode => Object.hash(
       runtimeType, const DeepCollectionEquality().hash(_items), device);
 
+  /// Create a copy of ConnectEventSuccessPayload
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
-  String toString() {
-    return 'ConnectEventSuccessPayload(items: $items, device: $device)';
+  @pragma('vm:prefer-inline')
+  _$$ConnectEventSuccessPayloadImplCopyWith<_$ConnectEventSuccessPayloadImpl>
+      get copyWith => __$$ConnectEventSuccessPayloadImplCopyWithImpl<
+          _$ConnectEventSuccessPayloadImpl>(this, _$identity);
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$$ConnectEventSuccessPayloadImplToJson(
+      this,
+    );
   }
 }
 
-/// @nodoc
-abstract mixin class _$ConnectEventSuccessPayloadCopyWith<$Res>
-    implements $ConnectEventSuccessPayloadCopyWith<$Res> {
-  factory _$ConnectEventSuccessPayloadCopyWith(
-          _ConnectEventSuccessPayload value,
-          $Res Function(_ConnectEventSuccessPayload) _then) =
-      __$ConnectEventSuccessPayloadCopyWithImpl;
-  @override
-  @useResult
-  $Res call({List<ConnectItemReply> items, DeviceInfo device});
+abstract class _ConnectEventSuccessPayload
+    implements ConnectEventSuccessPayload {
+  const factory _ConnectEventSuccessPayload(
+      {required final List<ConnectItemReply> items,
+      required final DeviceInfo device}) = _$ConnectEventSuccessPayloadImpl;
+
+  factory _ConnectEventSuccessPayload.fromJson(Map<String, dynamic> json) =
+      _$ConnectEventSuccessPayloadImpl.fromJson;
 
   @override
-  $DeviceInfoCopyWith<$Res> get device;
-}
-
-/// @nodoc
-class __$ConnectEventSuccessPayloadCopyWithImpl<$Res>
-    implements _$ConnectEventSuccessPayloadCopyWith<$Res> {
-  __$ConnectEventSuccessPayloadCopyWithImpl(this._self, this._then);
-
-  final _ConnectEventSuccessPayload _self;
-  final $Res Function(_ConnectEventSuccessPayload) _then;
+  List<ConnectItemReply> get items;
+  @override
+  DeviceInfo get device;
 
   /// Create a copy of ConnectEventSuccessPayload
   /// with the given fields replaced by the non-null parameter values.
   @override
-  @pragma('vm:prefer-inline')
-  $Res call({
-    Object? items = null,
-    Object? device = null,
-  }) {
-    return _then(_ConnectEventSuccessPayload(
-      items: null == items
-          ? _self._items
-          : items // ignore: cast_nullable_to_non_nullable
-              as List<ConnectItemReply>,
-      device: null == device
-          ? _self.device
-          : device // ignore: cast_nullable_to_non_nullable
-              as DeviceInfo,
-    ));
-  }
-
-  /// Create a copy of ConnectEventSuccessPayload
-  /// with the given fields replaced by the non-null parameter values.
-  @override
-  @pragma('vm:prefer-inline')
-  $DeviceInfoCopyWith<$Res> get device {
-    return $DeviceInfoCopyWith<$Res>(_self.device, (value) {
-      return _then(_self.copyWith(device: value));
-    });
-  }
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  _$$ConnectEventSuccessPayloadImplCopyWith<_$ConnectEventSuccessPayloadImpl>
+      get copyWith => throw _privateConstructorUsedError;
 }
-
-// dart format on

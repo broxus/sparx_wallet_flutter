@@ -50,24 +50,40 @@ class DeriveKeysSheet extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocConsumer<DeriveKeysCubit, DeriveKeysState>(
-      listener: (context, state) => switch (state) {
-        DeriveKeysStateData(:final isCompleted) when isCompleted =>
-          Navigator.of(context).pop(),
-        _ => null,
+      listener: (context, state) {
+        state.whenOrNull(
+          data: (
+            _,
+            __,
+            ___,
+            ____,
+            _____,
+            ______,
+            _______,
+            ________,
+            completed,
+          ) {
+            if (completed) {
+              Navigator.of(context).pop();
+            }
+          },
+        );
       },
       builder: (context, state) {
-        return switch (state) {
-          DeriveKeysStateInitial() => const SizedBox.shrink(),
-          DeriveKeysStateData(
-            :final canPrevPage,
-            :final canNextPage,
-            :final currentPageIndex,
-            :final displayDerivedKeys,
-            :final selectedKeys,
-            :final keyNames,
-            :final isLoading,
-          ) =>
-            SeparatedColumn(
+        return state.when(
+          initial: () => const SizedBox.shrink(),
+          data: (
+            canPrevPage,
+            canNextPage,
+            currentPageIndex,
+            pageCount,
+            displayDerivedKeys,
+            selectedKeys,
+            keyNames,
+            isLoading,
+            isCompleted,
+          ) {
+            return SeparatedColumn(
               mainAxisSize: MainAxisSize.min,
               children: [
                 Flexible(
@@ -113,8 +129,9 @@ class DeriveKeysSheet extends StatelessWidget {
                   child: _selectButton(isLoading),
                 ),
               ],
-            ),
-        };
+            );
+          },
+        );
       },
     );
   }

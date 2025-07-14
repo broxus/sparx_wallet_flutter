@@ -6,8 +6,8 @@ part of 'browser_group.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-_BrowserGroup _$BrowserGroupFromJson(Map<String, dynamic> json) =>
-    _BrowserGroup(
+_$BrowserGroupImpl _$$BrowserGroupImplFromJson(Map<String, dynamic> json) =>
+    _$BrowserGroupImpl(
       id: json['id'] as String,
       title: json['title'] as String?,
       sortingOrder: (json['sortingOrder'] as num).toDouble(),
@@ -18,7 +18,7 @@ _BrowserGroup _$BrowserGroupFromJson(Map<String, dynamic> json) =>
       isEditable: json['isEditable'] as bool? ?? true,
     );
 
-Map<String, dynamic> _$BrowserGroupToJson(_BrowserGroup instance) =>
+Map<String, dynamic> _$$BrowserGroupImplToJson(_$BrowserGroupImpl instance) =>
     <String, dynamic>{
       'id': instance.id,
       'title': instance.title,

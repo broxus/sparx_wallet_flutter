@@ -6,12 +6,14 @@ part of 'asset_type_params.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-_AssetTypeParams _$AssetTypeParamsFromJson(Map<String, dynamic> json) =>
-    _AssetTypeParams(
+_$AssetTypeParamsImpl _$$AssetTypeParamsImplFromJson(
+        Map<String, dynamic> json) =>
+    _$AssetTypeParamsImpl(
       rootContract: json['rootContract'] as String,
     );
 
-Map<String, dynamic> _$AssetTypeParamsToJson(_AssetTypeParams instance) =>
+Map<String, dynamic> _$$AssetTypeParamsImplToJson(
+        _$AssetTypeParamsImpl instance) =>
     <String, dynamic>{
       'rootContract': instance.rootContract,
     };

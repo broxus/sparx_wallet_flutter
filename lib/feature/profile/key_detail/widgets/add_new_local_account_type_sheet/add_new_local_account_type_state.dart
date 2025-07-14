@@ -1,9 +1,8 @@
 part of 'add_new_local_account_type_cubit.dart';
 
 @freezed
-sealed class AddNewLocalAccountTypeState with _$AddNewLocalAccountTypeState {
-  const factory AddNewLocalAccountTypeState.initial() =
-      AddNewLocalAccountTypeStateInitial;
+class AddNewLocalAccountTypeState with _$AddNewLocalAccountTypeState {
+  const factory AddNewLocalAccountTypeState.initial() = _Initial;
 
   const factory AddNewLocalAccountTypeState.data({
     required List<WalletType> availableAccounts,
@@ -11,5 +10,5 @@ sealed class AddNewLocalAccountTypeState with _$AddNewLocalAccountTypeState {
     required List<WalletType> createdAccounts,
     required WalletType? currentSelected,
     required bool isCompleted,
-  }) = AddNewLocalAccountTypeStateData;
+  }) = _Data;
 }

@@ -4,7 +4,7 @@ import 'package:nekoton_repository/nekoton_repository.dart';
 part 'nft_prepare_transfer_data.freezed.dart';
 
 @freezed
-abstract class NftPrepareTransferData with _$NftPrepareTransferData {
+class NftPrepareTransferData with _$NftPrepareTransferData {
   const factory NftPrepareTransferData({
     required KeyAccount account,
     required PublicKey custodian,

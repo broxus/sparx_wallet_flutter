@@ -1,4 +1,3 @@
-import 'package:app/app/router/compass/bottom_bar_state.dart';
 import 'package:app/app/router/compass/compass.dart';
 import 'package:app/feature/wallet/confirm_multisig_transaction/route.dart';
 import 'package:app/feature/wallet/ton_wallet_details/view/ton_wallet_details_page.dart';
@@ -25,7 +24,6 @@ class TonWalletDetailsRoute extends CompassRoute<TonWalletDetailsRouteData> {
           builder: (context, data, _) => TonWalletDetailsPage(
             address: data.address,
           ),
-          bottomBarState: BottomBarState.hidden,
           compassBaseRoutes: [
             walletDeployRoute,
             walletPrepareTransferRoute,

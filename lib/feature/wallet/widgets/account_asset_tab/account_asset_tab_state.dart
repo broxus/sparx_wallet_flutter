@@ -1,9 +1,9 @@
 part of 'account_asset_tab_cubit.dart';
 
 @freezed
-sealed class AccountAssetTabState with _$AccountAssetTabState {
+class AccountAssetTabState with _$AccountAssetTabState {
   /// No account found for selected address
-  const factory AccountAssetTabState.empty() = AccountAssetTabStateEmpty;
+  const factory AccountAssetTabState.empty() = _Empty;
 
   /// This state will produce new additionalAssets with account when it will
   /// change
@@ -11,5 +11,5 @@ sealed class AccountAssetTabState with _$AccountAssetTabState {
     TonWalletAsset tonWallet,
     List<TokenContractAsset>? tokens,
     int? numberNewTokens,
-  ) = AccountAssetTabStateAccounts;
+  ) = _Accounts;
 }

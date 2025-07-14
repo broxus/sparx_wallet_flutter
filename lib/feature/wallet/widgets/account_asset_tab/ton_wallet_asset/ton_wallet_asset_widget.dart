@@ -30,20 +30,20 @@ class TonWalletAssetWidget extends StatelessWidget {
       ),
       child: BlocBuilder<TonWalletAssetCubit, TonWalletAssetState>(
         builder: (context, state) {
-          return switch (state) {
-            TonWalletAssetStateSubscribeError() => _asset(
-                tokenName: state.tokenName,
-                iconPath: state.iconPath,
-                error: state.error,
-                isErrorLoading: state.isLoading,
-              ),
-            TonWalletAssetStateData() => _asset(
-                tokenName: state.tokenName,
-                iconPath: state.iconPath,
-                fiatBalance: state.fiatBalance,
-                tokenBalance: state.tokenBalance,
-              ),
-          };
+          return state.when(
+            subscribeError: (tokenName, iconPath, error, isLoading) => _asset(
+              tokenName: tokenName,
+              iconPath: iconPath,
+              error: error,
+              isErrorLoading: isLoading,
+            ),
+            data: (tokenName, iconPath, fiatBalance, tokenBalance) => _asset(
+              tokenName: tokenName,
+              iconPath: iconPath,
+              fiatBalance: fiatBalance,
+              tokenBalance: tokenBalance,
+            ),
+          );
         },
       ),
     );

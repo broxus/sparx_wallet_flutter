@@ -4,7 +4,7 @@ part 'ton_proof_domain.freezed.dart';
 part 'ton_proof_domain.g.dart';
 
 @freezed
-abstract class TonProofDomain with _$TonProofDomain {
+class TonProofDomain with _$TonProofDomain {
   factory TonProofDomain({
     required num lengthBytes,
     required String value,

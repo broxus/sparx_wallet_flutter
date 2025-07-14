@@ -1,4 +1,3 @@
-// dart format width=80
 // coverage:ignore-file
 // GENERATED CODE - DO NOT MODIFY BY HAND
 // ignore_for_file: type=lint
@@ -10,57 +9,42 @@ part of 'create_seed_password_cubit.dart';
 // FreezedGenerator
 // **************************************************************************
 
-// dart format off
 T _$identity<T>(T value) => value;
+
+final _privateConstructorUsedError = UnsupportedError(
+    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models');
 
 /// @nodoc
 mixin _$CreateSeedPasswordState {
-  bool get isLoading;
-  PasswordStatus get status;
+  bool get isLoading => throw _privateConstructorUsedError;
+  PasswordStatus get status => throw _privateConstructorUsedError;
 
   /// Create a copy of CreateSeedPasswordState
   /// with the given fields replaced by the non-null parameter values.
   @JsonKey(includeFromJson: false, includeToJson: false)
-  @pragma('vm:prefer-inline')
   $CreateSeedPasswordStateCopyWith<CreateSeedPasswordState> get copyWith =>
-      _$CreateSeedPasswordStateCopyWithImpl<CreateSeedPasswordState>(
-          this as CreateSeedPasswordState, _$identity);
-
-  @override
-  bool operator ==(Object other) {
-    return identical(this, other) ||
-        (other.runtimeType == runtimeType &&
-            other is CreateSeedPasswordState &&
-            (identical(other.isLoading, isLoading) ||
-                other.isLoading == isLoading) &&
-            (identical(other.status, status) || other.status == status));
-  }
-
-  @override
-  int get hashCode => Object.hash(runtimeType, isLoading, status);
-
-  @override
-  String toString() {
-    return 'CreateSeedPasswordState(isLoading: $isLoading, status: $status)';
-  }
+      throw _privateConstructorUsedError;
 }
 
 /// @nodoc
-abstract mixin class $CreateSeedPasswordStateCopyWith<$Res> {
+abstract class $CreateSeedPasswordStateCopyWith<$Res> {
   factory $CreateSeedPasswordStateCopyWith(CreateSeedPasswordState value,
-          $Res Function(CreateSeedPasswordState) _then) =
-      _$CreateSeedPasswordStateCopyWithImpl;
+          $Res Function(CreateSeedPasswordState) then) =
+      _$CreateSeedPasswordStateCopyWithImpl<$Res, CreateSeedPasswordState>;
   @useResult
   $Res call({bool isLoading, PasswordStatus status});
 }
 
 /// @nodoc
-class _$CreateSeedPasswordStateCopyWithImpl<$Res>
+class _$CreateSeedPasswordStateCopyWithImpl<$Res,
+        $Val extends CreateSeedPasswordState>
     implements $CreateSeedPasswordStateCopyWith<$Res> {
-  _$CreateSeedPasswordStateCopyWithImpl(this._self, this._then);
+  _$CreateSeedPasswordStateCopyWithImpl(this._value, this._then);
 
-  final CreateSeedPasswordState _self;
-  final $Res Function(CreateSeedPasswordState) _then;
+  // ignore: unused_field
+  final $Val _value;
+  // ignore: unused_field
+  final $Res Function($Val) _then;
 
   /// Create a copy of CreateSeedPasswordState
   /// with the given fields replaced by the non-null parameter values.
@@ -70,13 +54,56 @@ class _$CreateSeedPasswordStateCopyWithImpl<$Res>
     Object? isLoading = null,
     Object? status = null,
   }) {
-    return _then(_self.copyWith(
+    return _then(_value.copyWith(
       isLoading: null == isLoading
-          ? _self.isLoading
+          ? _value.isLoading
           : isLoading // ignore: cast_nullable_to_non_nullable
               as bool,
       status: null == status
-          ? _self.status
+          ? _value.status
+          : status // ignore: cast_nullable_to_non_nullable
+              as PasswordStatus,
+    ) as $Val);
+  }
+}
+
+/// @nodoc
+abstract class _$$CreateSeedPasswordStateImplCopyWith<$Res>
+    implements $CreateSeedPasswordStateCopyWith<$Res> {
+  factory _$$CreateSeedPasswordStateImplCopyWith(
+          _$CreateSeedPasswordStateImpl value,
+          $Res Function(_$CreateSeedPasswordStateImpl) then) =
+      __$$CreateSeedPasswordStateImplCopyWithImpl<$Res>;
+  @override
+  @useResult
+  $Res call({bool isLoading, PasswordStatus status});
+}
+
+/// @nodoc
+class __$$CreateSeedPasswordStateImplCopyWithImpl<$Res>
+    extends _$CreateSeedPasswordStateCopyWithImpl<$Res,
+        _$CreateSeedPasswordStateImpl>
+    implements _$$CreateSeedPasswordStateImplCopyWith<$Res> {
+  __$$CreateSeedPasswordStateImplCopyWithImpl(
+      _$CreateSeedPasswordStateImpl _value,
+      $Res Function(_$CreateSeedPasswordStateImpl) _then)
+      : super(_value, _then);
+
+  /// Create a copy of CreateSeedPasswordState
+  /// with the given fields replaced by the non-null parameter values.
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? isLoading = null,
+    Object? status = null,
+  }) {
+    return _then(_$CreateSeedPasswordStateImpl(
+      isLoading: null == isLoading
+          ? _value.isLoading
+          : isLoading // ignore: cast_nullable_to_non_nullable
+              as bool,
+      status: null == status
+          ? _value.status
           : status // ignore: cast_nullable_to_non_nullable
               as PasswordStatus,
     ));
@@ -85,8 +112,8 @@ class _$CreateSeedPasswordStateCopyWithImpl<$Res>
 
 /// @nodoc
 
-class _CreateSeedPasswordState implements CreateSeedPasswordState {
-  const _CreateSeedPasswordState(
+class _$CreateSeedPasswordStateImpl implements _CreateSeedPasswordState {
+  const _$CreateSeedPasswordStateImpl(
       {required this.isLoading, required this.status});
 
   @override
@@ -94,20 +121,16 @@ class _CreateSeedPasswordState implements CreateSeedPasswordState {
   @override
   final PasswordStatus status;
 
-  /// Create a copy of CreateSeedPasswordState
-  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(includeFromJson: false, includeToJson: false)
-  @pragma('vm:prefer-inline')
-  _$CreateSeedPasswordStateCopyWith<_CreateSeedPasswordState> get copyWith =>
-      __$CreateSeedPasswordStateCopyWithImpl<_CreateSeedPasswordState>(
-          this, _$identity);
+  String toString() {
+    return 'CreateSeedPasswordState(isLoading: $isLoading, status: $status)';
+  }
 
   @override
   bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _CreateSeedPasswordState &&
+            other is _$CreateSeedPasswordStateImpl &&
             (identical(other.isLoading, isLoading) ||
                 other.isLoading == isLoading) &&
             (identical(other.status, status) || other.status == status));
@@ -116,50 +139,30 @@ class _CreateSeedPasswordState implements CreateSeedPasswordState {
   @override
   int get hashCode => Object.hash(runtimeType, isLoading, status);
 
+  /// Create a copy of CreateSeedPasswordState
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
-  String toString() {
-    return 'CreateSeedPasswordState(isLoading: $isLoading, status: $status)';
-  }
+  @pragma('vm:prefer-inline')
+  _$$CreateSeedPasswordStateImplCopyWith<_$CreateSeedPasswordStateImpl>
+      get copyWith => __$$CreateSeedPasswordStateImplCopyWithImpl<
+          _$CreateSeedPasswordStateImpl>(this, _$identity);
 }
 
-/// @nodoc
-abstract mixin class _$CreateSeedPasswordStateCopyWith<$Res>
-    implements $CreateSeedPasswordStateCopyWith<$Res> {
-  factory _$CreateSeedPasswordStateCopyWith(_CreateSeedPasswordState value,
-          $Res Function(_CreateSeedPasswordState) _then) =
-      __$CreateSeedPasswordStateCopyWithImpl;
+abstract class _CreateSeedPasswordState implements CreateSeedPasswordState {
+  const factory _CreateSeedPasswordState(
+      {required final bool isLoading,
+      required final PasswordStatus status}) = _$CreateSeedPasswordStateImpl;
+
   @override
-  @useResult
-  $Res call({bool isLoading, PasswordStatus status});
-}
-
-/// @nodoc
-class __$CreateSeedPasswordStateCopyWithImpl<$Res>
-    implements _$CreateSeedPasswordStateCopyWith<$Res> {
-  __$CreateSeedPasswordStateCopyWithImpl(this._self, this._then);
-
-  final _CreateSeedPasswordState _self;
-  final $Res Function(_CreateSeedPasswordState) _then;
+  bool get isLoading;
+  @override
+  PasswordStatus get status;
 
   /// Create a copy of CreateSeedPasswordState
   /// with the given fields replaced by the non-null parameter values.
   @override
-  @pragma('vm:prefer-inline')
-  $Res call({
-    Object? isLoading = null,
-    Object? status = null,
-  }) {
-    return _then(_CreateSeedPasswordState(
-      isLoading: null == isLoading
-          ? _self.isLoading
-          : isLoading // ignore: cast_nullable_to_non_nullable
-              as bool,
-      status: null == status
-          ? _self.status
-          : status // ignore: cast_nullable_to_non_nullable
-              as PasswordStatus,
-    ));
-  }
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  _$$CreateSeedPasswordStateImplCopyWith<_$CreateSeedPasswordStateImpl>
+      get copyWith => throw _privateConstructorUsedError;
 }
-
-// dart format on

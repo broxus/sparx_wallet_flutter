@@ -10,7 +10,7 @@ part 'browser_group.g.dart';
 const tabsGroupId = 'mainTabsGroup';
 
 @unfreezed
-abstract class BrowserGroup with _$BrowserGroup implements BrowserEntity {
+class BrowserGroup with _$BrowserGroup implements BrowserEntity {
   factory BrowserGroup({
     required String id,
     required String? title,

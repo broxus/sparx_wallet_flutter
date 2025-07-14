@@ -1,8 +1,8 @@
-import 'package:app/core/wm/custom_wm.dart';
 import 'package:app/feature/browser_v2/screens/main/widgets/browser_text_button.dart';
 import 'package:app/feature/browser_v2/screens/main/widgets/groups_menu/browser_group_menu_wm.dart';
 import 'package:app/feature/browser_v2/screens/main/widgets/groups_menu/widgets/item.dart';
 import 'package:app/generated/generated.dart';
+import 'package:elementary/elementary.dart';
 import 'package:elementary_helper/elementary_helper.dart';
 import 'package:flutter/material.dart';
 import 'package:lucide_icons_flutter/lucide_icons.dart';
@@ -17,16 +17,19 @@ Future<void> showBrowserTabMenu(
     barrierColor: Colors.black.withAlpha(204),
     useRootNavigator: true,
     builder: (_) {
-      return const SafeArea(child: BrowserGroupMenu());
+      return const BrowserGroupMenu();
     },
   );
 }
 
-class BrowserGroupMenu
-    extends InjectedElementaryWidget<BrowserGroupMenuWidgetModel> {
+class BrowserGroupMenu extends ElementaryWidget<BrowserGroupMenuWidgetModel> {
   const BrowserGroupMenu({
     super.key,
-  });
+    WidgetModelFactory<BrowserGroupMenuWidgetModel> wmFactory =
+        defaultBrowserGroupMenuWidgetModelFactory,
+  }) : super(
+          wmFactory,
+        );
 
   @override
   Widget build(BrowserGroupMenuWidgetModel wm) {

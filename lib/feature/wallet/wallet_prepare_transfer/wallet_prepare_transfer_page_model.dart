@@ -10,7 +10,6 @@ import 'package:app/feature/wallet/wallet_prepare_transfer/wallet_prepare_transf
 import 'package:app/utils/utils.dart';
 import 'package:collection/collection.dart';
 import 'package:elementary/elementary.dart';
-import 'package:injectable/injectable.dart';
 import 'package:logging/logging.dart';
 import 'package:nekoton_repository/nekoton_repository.dart' hide Message;
 
@@ -19,7 +18,6 @@ typedef TokenContractsUpdateCallback = void Function(
 );
 
 /// [ElementaryModel] for [WalletPrepareTransferPage]
-@injectable
 class WalletPrepareTransferPageModel extends ElementaryModel {
   WalletPrepareTransferPageModel(
     ErrorHandler errorHandler,

@@ -1,4 +1,6 @@
+import 'package:app/core/error_handler_factory.dart';
 import 'package:app/core/wm/custom_wm.dart';
+import 'package:app/di/di.dart';
 import 'package:app/feature/messenger/data/message.dart';
 import 'package:app/feature/profile/key_detail/widgets/add_new_external_account_sheet/add_new_external_account_sheet.dart';
 import 'package:app/feature/profile/key_detail/widgets/add_new_external_account_sheet/add_new_external_account_sheet_model.dart';
@@ -7,19 +9,24 @@ import 'package:app/generated/generated.dart';
 import 'package:app/utils/utils.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:injectable/injectable.dart';
-import 'package:nekoton_repository/nekoton_repository.dart'
-    show Address, PublicKey;
+import 'package:nekoton_repository/nekoton_repository.dart' show Address;
 
-@injectable
+AddNewExternalAccountSheetWidgetModel
+    defaultAddNewExternalAccountSheetWidgetModelFactory(
+  BuildContext context,
+) {
+  return AddNewExternalAccountSheetWidgetModel(
+    AddNewExternalAccountSheetModel(
+      createPrimaryErrorHandler(context),
+      inject(),
+      inject(),
+    ),
+  );
+}
+
 class AddNewExternalAccountSheetWidgetModel extends CustomWidgetModel<
     AddNewExternalAccountSheet, AddNewExternalAccountSheetModel> {
-  AddNewExternalAccountSheetWidgetModel(
-    super.model,
-    @factoryParam this._publicKey,
-  );
-
-  final PublicKey _publicKey;
+  AddNewExternalAccountSheetWidgetModel(super.model);
 
   late final nameController = createTextEditingController();
   late final addressController = createTextEditingController();
@@ -61,7 +68,7 @@ class AddNewExternalAccountSheetWidgetModel extends CustomWidgetModel<
 
       await model.addExternalAccount(
         address: address,
-        publicKey: _publicKey,
+        publicKey: widget.publicKey,
         name: name.isEmpty ? null : name,
       );
 

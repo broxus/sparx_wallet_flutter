@@ -1,7 +1,9 @@
 import 'dart:async';
 
+import 'package:app/core/error_handler_factory.dart';
 import 'package:app/core/wm/custom_wm.dart';
 import 'package:app/data/models/models.dart';
+import 'package:app/di/di.dart';
 import 'package:app/feature/wallet/staking/models/models.dart';
 import 'package:app/feature/wallet/staking/staking.dart';
 import 'package:app/feature/wallet/wallet.dart';
@@ -11,7 +13,6 @@ import 'package:app/widgets/amount_input/amount_input_asset.dart';
 import 'package:elementary_helper/elementary_helper.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:injectable/injectable.dart';
 import 'package:logging/logging.dart';
 import 'package:nekoton_repository/nekoton_repository.dart';
 import 'package:rxdart/rxdart.dart';
@@ -19,15 +20,22 @@ import 'package:ui_components_lib/ui_components_lib.dart';
 
 const _maxFixedComission = 0.1; // 0.1 EVER
 
-@injectable
+StakingPageWidgetModel defaultStakingPageWidgetModelFactory(
+  BuildContext context,
+) =>
+    StakingPageWidgetModel(
+      StakingPageModel(
+        createPrimaryErrorHandler(context),
+        inject(),
+        inject(),
+        inject(),
+        inject(),
+      ),
+    );
+
 class StakingPageWidgetModel
     extends CustomWidgetModel<StakingPageWidget, StakingPageModel> {
-  StakingPageWidgetModel(
-    super.model,
-    @factoryParam this.accountAddress,
-  );
-
-  final Address accountAddress;
+  StakingPageWidgetModel(super.model);
 
   late final inputController = createTextEditingController();
 
@@ -36,7 +44,7 @@ class StakingPageWidgetModel
   late final _info = createEntityNotifier<StakingInfo>()..loading();
   late final _data = createNotifier<StakingData>();
   late final _requests = createNotifierFromStream(
-    model.getWithdrawRequests(accountAddress),
+    model.getWithdrawRequests(widget.accountAddress),
   );
   late final _receive = createNotifierFromStream(
     Rx.combineLatestList(
@@ -170,8 +178,8 @@ class StakingPageWidgetModel
   Future<void> _init() async {
     try {
       final (ever, token) = await FutureExt.wait2(
-        model.getWallet(accountAddress),
-        model.getTokenWallet(accountAddress),
+        model.getWallet(widget.accountAddress),
+        model.getTokenWallet(widget.accountAddress),
       );
 
       if (ever.hasError || token.hasError) {

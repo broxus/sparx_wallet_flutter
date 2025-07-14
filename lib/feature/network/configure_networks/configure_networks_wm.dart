@@ -1,14 +1,25 @@
 import 'package:app/app/router/router.dart';
 import 'package:app/app/service/connection/data/connection_data/connection_data.dart';
+import 'package:app/core/error_handler_factory.dart';
 import 'package:app/core/wm/custom_wm.dart';
+import 'package:app/di/di.dart';
 import 'package:app/feature/network/configure_networks/configure_networks_model.dart';
 import 'package:app/feature/network/configure_networks/configure_networks_widget.dart';
 import 'package:app/feature/network/edit_network/route.dart';
 import 'package:elementary_helper/elementary_helper.dart';
-import 'package:injectable/injectable.dart';
+import 'package:flutter/material.dart';
 import 'package:ui_components_lib/v2/ui_components_lib_v2.dart';
 
-@injectable
+ConfigureNetworksWidgetModel defaultConfigureNetworksWidgetModelFactory(
+  BuildContext context,
+) =>
+    ConfigureNetworksWidgetModel(
+      ConfigureNetworksModel(
+        createPrimaryErrorHandler(context),
+        inject(),
+      ),
+    );
+
 class ConfigureNetworksWidgetModel
     extends CustomWidgetModel<ConfigureNetworksWidget, ConfigureNetworksModel> {
   ConfigureNetworksWidgetModel(super.model);

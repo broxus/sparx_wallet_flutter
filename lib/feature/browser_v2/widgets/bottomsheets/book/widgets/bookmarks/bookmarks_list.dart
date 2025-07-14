@@ -1,18 +1,20 @@
-import 'package:app/core/wm/custom_wm.dart';
 import 'package:app/feature/browser_v2/widgets/bottomsheets/book/widgets/book_item/book_item.dart';
 import 'package:app/feature/browser_v2/widgets/bottomsheets/book/widgets/book_menu.dart';
 import 'package:app/feature/browser_v2/widgets/bottomsheets/book/widgets/bookmarks/bookmarks_list_wm.dart';
 import 'package:app/feature/browser_v2/widgets/bottomsheets/book/widgets/bookmarks/ui_models/book_mark_ui_model.dart';
 import 'package:app/feature/browser_v2/widgets/bottomsheets/book/widgets/bookmarks/widgets/bookmarks_empty.dart';
 import 'package:app/generated/generated.dart';
+import 'package:elementary/elementary.dart';
 import 'package:elementary_helper/elementary_helper.dart';
 import 'package:flutter/material.dart';
 import 'package:ui_components_lib/v2/ui_components_lib_v2.dart';
 
-class BookmarksList extends InjectedElementaryWidget<BookmarksListWidgetModel> {
+class BookmarksList extends ElementaryWidget<BookmarksListWidgetModel> {
   const BookmarksList({
     super.key,
-  });
+    WidgetModelFactory<BookmarksListWidgetModel> wmFactory =
+        defaultBookmarksListWidgetModelFactory,
+  }) : super(wmFactory);
 
   @override
   Widget build(BookmarksListWidgetModel wm) {

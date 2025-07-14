@@ -1,25 +1,32 @@
 import 'dart:async';
 
+import 'package:app/core/error_handler_factory.dart';
 import 'package:app/core/wm/custom_wm.dart';
+import 'package:app/di/di.dart';
 import 'package:app/feature/messenger/data/message.dart';
 import 'package:app/feature/qr_scanner/qr_scanner.dart';
 import 'package:app/generated/generated.dart';
 import 'package:app/utils/utils.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:injectable/injectable.dart';
 import 'package:mobile_scanner/mobile_scanner.dart';
 import 'package:ui_components_lib/ui_components_lib.dart';
 
-@injectable
+QrScannerWidgetModel defaultQrScannerWidgetModelFactory(
+  BuildContext context,
+) =>
+    QrScannerWidgetModel(
+      QrScannerModel(
+        createPrimaryErrorHandler(context),
+        inject(),
+        inject(),
+        inject(),
+      ),
+    );
+
 class QrScannerWidgetModel
     extends CustomWidgetModel<QrScannerWidget, QrScannerModel> {
-  QrScannerWidgetModel(
-    super.model,
-    @factoryParam this._types,
-  );
-
-  final List<QrScanType> _types;
+  QrScannerWidgetModel(super.model);
 
   final MobileScannerController controller = MobileScannerController(
     formats: [BarcodeFormat.qrCode],
@@ -110,7 +117,7 @@ class QrScannerWidgetModel
       final rawValue = barcode.rawValue;
       if (rawValue == null) return;
 
-      result = model.tryGetResult(value: rawValue, types: _types);
+      result = model.tryGetResult(value: rawValue, types: widget.types);
       if (result != null) break;
     }
 

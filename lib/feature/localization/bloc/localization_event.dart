@@ -1,7 +1,7 @@
 part of 'localization_bloc.dart';
 
 @freezed
-sealed class LocalizationEvent with _$LocalizationEvent {
+class LocalizationEvent with _$LocalizationEvent {
   const factory LocalizationEvent.setLocaleCodeFromService({
     required SupportedLocaleCodes code,
   }) = _SetLocaleCodeFromService;

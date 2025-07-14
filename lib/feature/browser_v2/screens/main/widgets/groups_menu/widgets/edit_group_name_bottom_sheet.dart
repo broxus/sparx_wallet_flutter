@@ -12,7 +12,7 @@ Future<String?> showBrowserEditNameMenu(
     useRootNavigator: true,
     isScrollControlled: true,
     builder: (_) {
-      return SafeArea(child: EditGroupNameBottomSheet(name));
+      return EditGroupNameBottomSheet(name);
     },
   );
 }

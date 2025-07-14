@@ -5,10 +5,8 @@ import 'package:app/feature/browser_v2/domain/service/browser_service.dart';
 import 'package:app/feature/browser_v2/screens/create_group/create_browser_group_screen.dart';
 import 'package:elementary/elementary.dart';
 import 'package:elementary_helper/elementary_helper.dart';
-import 'package:injectable/injectable.dart';
 
 /// [ElementaryModel] for [CreateBrowserGroupScreen]
-@injectable
 class CreateBrowserGroupScreenModel extends ElementaryModel {
   CreateBrowserGroupScreenModel(
     ErrorHandler errorHandler,

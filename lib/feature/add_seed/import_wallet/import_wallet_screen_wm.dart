@@ -3,6 +3,7 @@
 import 'package:app/app/router/router.dart';
 import 'package:app/core/wm/custom_wm.dart';
 import 'package:app/data/models/models.dart';
+import 'package:app/di/di.dart';
 import 'package:app/feature/add_seed/create_password/route.dart';
 import 'package:app/feature/add_seed/enter_seed_phrase/route.dart';
 import 'package:app/feature/add_seed/import_wallet/data/import_wallet_data.dart';
@@ -13,13 +14,22 @@ import 'package:app/generated/generated.dart';
 import 'package:app/utils/utils.dart';
 import 'package:elementary_helper/elementary_helper.dart';
 import 'package:flutter/material.dart';
-import 'package:injectable/injectable.dart';
 import 'package:logging/logging.dart';
 import 'package:nekoton_repository/nekoton_repository.dart' hide Message;
 
 final seedSplitRegExp = RegExp(r'[ |;,:\n.]');
 
-@injectable
+ImportWalletScreenWidgetModel defaultImportWalletWidgetModelFactory(
+  BuildContext context,
+) =>
+    ImportWalletScreenWidgetModel(
+      ImportWalletScreenModel(
+        inject(),
+        inject(),
+        inject(),
+      ),
+    );
+
 class ImportWalletScreenWidgetModel
     extends CustomWidgetModel<ImportWalletScreen, ImportWalletScreenModel> {
   ImportWalletScreenWidgetModel(super.model) {

@@ -1,28 +1,25 @@
 import 'package:app/app/service/connection/data/connection_data/connection_data.dart';
-import 'package:app/core/wm/custom_wm.dart';
 import 'package:app/feature/browser_v1/approvals_listener/actions/change_network/change_network_wm.dart';
 import 'package:app/feature/browser_v1/approvals_listener/actions/widgets/widgets.dart';
 import 'package:app/generated/generated.dart';
+import 'package:elementary/elementary.dart';
 import 'package:flutter/material.dart';
 import 'package:ui_components_lib/ui_components_lib.dart';
 import 'package:ui_components_lib/v2/ui_components_lib_v2.dart';
 
-class ChangeNetworkWidget
-    extends InjectedElementaryWidget<ChangeNetworkWidgetModel> {
-  ChangeNetworkWidget({
-    required Uri origin,
-    required int networkId,
-    required List<ConnectionData> connections,
+class ChangeNetworkWidget extends ElementaryWidget<ChangeNetworkWidgetModel> {
+  const ChangeNetworkWidget({
+    required this.origin,
+    required this.networkId,
+    required this.connections,
     required this.scrollController,
-    super.key,
-  }) : super(
-          wmFactoryParam: ChangeNetworkWmParams(
-            origin: origin,
-            networkId: networkId,
-            connections: connections,
-          ),
-        );
+    Key? key,
+    WidgetModelFactory wmFactory = defaultChangeNetworkWidgetModelFactory,
+  }) : super(wmFactory, key: key);
 
+  final Uri origin;
+  final int networkId;
+  final List<ConnectionData> connections;
   final ScrollController scrollController;
 
   @override
@@ -38,14 +35,14 @@ class ChangeNetworkWidget
             child: SeparatedColumn(
               spacing: DimensSizeV2.d12,
               children: [
-                WebsiteInfoWidget(uri: wm.origin),
-                if (wm.connections.length > 1)
+                WebsiteInfoWidget(uri: origin),
+                if (connections.length > 1)
                   ValueListenableBuilder(
                     valueListenable: wm.connection,
                     builder: (_, value, __) =>
                         CommonSelectDropdown<ConnectionData>(
                       values: [
-                        for (final connection in wm.connections)
+                        for (final connection in connections)
                           CommonSheetDropdownItem<ConnectionData>(
                             value: connection,
                             title: connection.name,
@@ -72,7 +69,7 @@ class ChangeNetworkWidget
                       children: [
                         _Param(
                           label: LocaleKeys.networkId.tr(),
-                          value: wm.networkId.toString(),
+                          value: networkId.toString(),
                         ),
                         _Param(
                           label: LocaleKeys.networkName.tr(),

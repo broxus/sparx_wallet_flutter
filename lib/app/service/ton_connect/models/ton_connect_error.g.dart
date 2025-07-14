@@ -6,13 +6,15 @@ part of 'ton_connect_error.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-_TonConnectError _$TonConnectErrorFromJson(Map<String, dynamic> json) =>
-    _TonConnectError(
+_$TonConnectErrorImpl _$$TonConnectErrorImplFromJson(
+        Map<String, dynamic> json) =>
+    _$TonConnectErrorImpl(
       code: $enumDecode(_$TonConnectErrorCodeEnumMap, json['code']),
       message: json['message'] as String,
     );
 
-Map<String, dynamic> _$TonConnectErrorToJson(_TonConnectError instance) =>
+Map<String, dynamic> _$$TonConnectErrorImplToJson(
+        _$TonConnectErrorImpl instance) =>
     <String, dynamic>{
       'code': _$TonConnectErrorCodeEnumMap[instance.code]!,
       'message': instance.message,

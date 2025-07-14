@@ -6,7 +6,7 @@ part 'st_ever_details.g.dart';
 
 /// This is not full contract info, but only used fields here
 @freezed
-abstract class StEverDetails with _$StEverDetails {
+class StEverDetails with _$StEverDetails {
   /// Total amount of assets in blockchain.
   /// Exchange rate calculates as totalAssets / stEverSupply
   const factory StEverDetails({
