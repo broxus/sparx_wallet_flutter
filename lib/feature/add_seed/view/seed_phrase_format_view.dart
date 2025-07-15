@@ -1,3 +1,4 @@
+import 'package:app/app/service/service.dart';
 import 'package:app/data/models/models.dart';
 import 'package:app/feature/constants.dart';
 import 'package:app/generated/generated.dart';
@@ -7,6 +8,7 @@ import 'package:ui_components_lib/ui_components_lib.dart';
 class SeedPhraseFormatView extends StatelessWidget {
   const SeedPhraseFormatView({
     required this.networkGroup,
+    required this.networkType,
     required this.wordsCount,
     required this.value,
     required this.onChanged,
@@ -14,6 +16,7 @@ class SeedPhraseFormatView extends StatelessWidget {
   });
 
   final String networkGroup;
+  final NetworkType networkType;
   final int? wordsCount;
   final SeedPhraseFormat? value;
   final ValueChanged<SeedPhraseFormat>? onChanged;
@@ -23,7 +26,7 @@ class SeedPhraseFormatView extends StatelessWidget {
     final theme = context.themeStyleV2;
 
     // Seed phrase format selector is available only for TON and HMSTR networks
-    if (networkGroup != 'ton' && networkGroup != 'hmstr_mainnet') {
+    if (!networkType.isTon && networkGroup != 'hmstr_mainnet') {
       return const SizedBox.shrink();
     }
 

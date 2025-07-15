@@ -94,35 +94,49 @@ class _RootViewState extends State<RootView> {
     }
   }
 
-  void _onUiEvent(TonConnectUiEvent event) {
-    event.when(
-      error: (message) => _messengerService.show(
-        Message.error(message: message),
-      ),
-      connect: (request, manifest, completer) async {
-        final result = await showTCConnectSheet(
-          context: context,
-          request: request,
-          manifest: manifest,
-        );
-        completer.complete(result);
-      },
-      sendTransaction: (connection, payload, completer) async {
-        final result = await showTCSendMessageSheet(
-          context: context,
-          connection: connection,
-          payload: payload,
-        );
-        completer.complete(result);
-      },
-      signData: (connection, payload, completer) async {
-        final result = await showTCSignDataSheet(
-          context: context,
-          connection: connection,
-          payload: payload,
-        );
-        completer.complete(result);
-      },
-    );
+  Future<void> _onUiEvent(TonConnectUiEvent event) async {
+    return switch (event) {
+      TonConnectUiEventError(:final message) => _messengerService.show(
+          Message.error(message: message),
+        ),
+      TonConnectUiEventConnect(
+        :final request,
+        :final manifest,
+        :final completer,
+      ) =>
+        completer.complete(
+          await showTCConnectSheet(
+            context: context,
+            request: request,
+            manifest: manifest,
+          ),
+        ),
+      TonConnectUiEventSendTransaction(
+        :final connection,
+        :final payload,
+        :final completer,
+      ) =>
+        completer.complete(
+          await showTCSendMessageSheet(
+            // ignore: use_build_context_synchronously
+            context: context,
+            connection: connection,
+            payload: payload,
+          ),
+        ),
+      TonConnectUiEventSignData(
+        :final connection,
+        :final payload,
+        :final completer,
+      ) =>
+        completer.complete(
+          await showTCSignDataSheet(
+            // ignore: use_build_context_synchronously
+            context: context,
+            connection: connection,
+            payload: payload,
+          ),
+        ),
+    };
   }
 }

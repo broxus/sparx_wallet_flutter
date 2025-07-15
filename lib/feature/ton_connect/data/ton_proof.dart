@@ -5,7 +5,7 @@ part 'ton_proof.freezed.dart';
 part 'ton_proof.g.dart';
 
 @freezed
-class TonProof with _$TonProof {
+abstract class TonProof with _$TonProof {
   const factory TonProof({
     /// 64-bit unix epoch time of the signing operation (seconds)
     required String timestamp,

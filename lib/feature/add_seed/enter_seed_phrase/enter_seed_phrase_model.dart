@@ -24,6 +24,9 @@ class EnterSeedPhraseModel extends ElementaryModel with ConnectionMixin {
 
   String get networkGroup => _nekotonRepository.currentTransport.networkGroup;
 
+  NetworkType get networkType =>
+      _nekotonRepository.currentTransport.networkType;
+
   List<int> get seedPhraseWordsCount =>
       _nekotonRepository.currentTransport.seedPhraseWordsCount;
 

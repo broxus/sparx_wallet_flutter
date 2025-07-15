@@ -5,7 +5,7 @@ part 'transaction_payload_message.freezed.dart';
 part 'transaction_payload_message.g.dart';
 
 @freezed
-class TransactionPayloadMessage with _$TransactionPayloadMessage {
+abstract class TransactionPayloadMessage with _$TransactionPayloadMessage {
   factory TransactionPayloadMessage({
     required Address address,
     required String amount,

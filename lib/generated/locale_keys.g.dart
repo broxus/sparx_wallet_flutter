@@ -457,8 +457,8 @@ abstract class LocaleKeys {
   static const stakeEverSubtitle = 'stakeEverSubtitle';
   static const receiveSteverTitle = 'receiveSteverTitle';
   static const receiveSteverSubtitle = 'receiveSteverSubtitle';
-  static const useSteverTitle = 'useSteverTitle';
-  static const useSteverSubtitle = 'useSteverSubtitle';
+  static const earnOnPriceIncreasesTitle = 'earnOnPriceIncreasesTitle';
+  static const earnOnPriceIncreasesSubtitle = 'earnOnPriceIncreasesSubtitle';
   static const gotIt = 'gotIt';
   static const howItWorks = 'howItWorks';
   static const simpleLiquidStaking = 'simpleLiquidStaking';
