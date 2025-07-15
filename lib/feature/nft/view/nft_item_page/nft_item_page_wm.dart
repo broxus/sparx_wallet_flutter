@@ -54,10 +54,9 @@ class NftItemPageWidgetModel
   }
 
   void onBackPressed() {
-
     final ctx = contextSafe;
 
-    if(ctx == null) {
+    if (ctx == null) {
       return;
     }
 
