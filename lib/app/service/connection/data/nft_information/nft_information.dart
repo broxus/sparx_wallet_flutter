@@ -5,7 +5,7 @@ part 'nft_information.freezed.dart';
 part 'nft_information.g.dart';
 
 @freezed
-class NftInformation with _$NftInformation {
+abstract class NftInformation with _$NftInformation {
   factory NftInformation({
     String? marketplaceUrl,
     List<Address>? defaultCollections,

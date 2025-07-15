@@ -35,13 +35,13 @@ class $AssetsAbiGen {
 
   /// List of all assets
   List<String> get values => [
-    stEverAccountAbiMin,
-    stEverAccountNewAbi,
-    stEverVaultAbiMin,
-    stEverVaultNewAbi,
-    tokenRootAbi,
-    tokenWalletAbi,
-  ];
+        stEverAccountAbiMin,
+        stEverAccountNewAbi,
+        stEverVaultAbiMin,
+        stEverVaultNewAbi,
+        tokenRootAbi,
+        tokenWalletAbi,
+      ];
 }
 
 class $AssetsAnimationsGen {
@@ -481,112 +481,112 @@ class $AssetsImagesGen {
 
   /// List of all assets
   List<dynamic> get values => [
-    accountType,
-    alarm,
-    alarmRounded,
-    alert,
-    alertRounded,
-    arrowDown,
-    arrowDownFlat,
-    arrowLeft,
-    arrowUp,
-    arrowUpFlat,
-    arrowsLeftRight,
-    bgConnection,
-    bgInternet,
-    bgNetwork,
-    blurBackground,
-    bookOpen,
-    browserCard01,
-    browserCard02,
-    burger,
-    camera,
-    caretDown,
-    caretDownSmall,
-    caretLeft,
-    caretLeft24,
-    caretRight,
-    caretRight24,
-    caretUp,
-    check,
-    checkEmpty,
-    checkRounded,
-    checkSquare,
-    choose,
-    circleCheck,
-    clear,
-    close,
-    closedEye,
-    copy,
-    copyOutlined,
-    currency,
-    deploy,
-    deploymentProgress,
-    dots,
-    edit,
-    ever,
-    exclamationMark,
-    exclamationMarkAlert,
-    exit,
-    export,
-    export2,
-    exportFill,
-    faceId,
-    finger,
-    fingerSmall,
-    history,
-    historyFill,
-    horizontalDots,
-    icExplamationMark,
-    icMatch,
-    icNotMatch,
-    icTooWeak,
-    import,
-    importFill,
-    key,
-    layers,
-    lightning,
-    lock,
-    lockBackup,
-    lockFill,
-    logo,
-    minus,
-    moon,
-    nativeTokenDefault,
-    navigateBack,
-    navigateForward,
-    navigation,
-    networkDefault,
-    networkEarth,
-    networkVectorDefault,
-    nftEmptyList,
-    openedEye,
-    paste,
-    person,
-    persons,
-    planetInner,
-    planetOuter,
-    plus,
-    refresh,
-    search,
-    searchEmpty,
-    searchX,
-    seedPhraseIcon,
-    settings,
-    share,
-    sparxLogoSmall,
-    stake,
-    star,
-    support,
-    tokenDefaultIcon,
-    tooltip,
-    transactionProgress,
-    trash,
-    versionUpdateIcon,
-    verticalDots,
-    wallet,
-    web,
-  ];
+        accountType,
+        alarm,
+        alarmRounded,
+        alert,
+        alertRounded,
+        arrowDown,
+        arrowDownFlat,
+        arrowLeft,
+        arrowUp,
+        arrowUpFlat,
+        arrowsLeftRight,
+        bgConnection,
+        bgInternet,
+        bgNetwork,
+        blurBackground,
+        bookOpen,
+        browserCard01,
+        browserCard02,
+        burger,
+        camera,
+        caretDown,
+        caretDownSmall,
+        caretLeft,
+        caretLeft24,
+        caretRight,
+        caretRight24,
+        caretUp,
+        check,
+        checkEmpty,
+        checkRounded,
+        checkSquare,
+        choose,
+        circleCheck,
+        clear,
+        close,
+        closedEye,
+        copy,
+        copyOutlined,
+        currency,
+        deploy,
+        deploymentProgress,
+        dots,
+        edit,
+        ever,
+        exclamationMark,
+        exclamationMarkAlert,
+        exit,
+        export,
+        export2,
+        exportFill,
+        faceId,
+        finger,
+        fingerSmall,
+        history,
+        historyFill,
+        horizontalDots,
+        icExplamationMark,
+        icMatch,
+        icNotMatch,
+        icTooWeak,
+        import,
+        importFill,
+        key,
+        layers,
+        lightning,
+        lock,
+        lockBackup,
+        lockFill,
+        logo,
+        minus,
+        moon,
+        nativeTokenDefault,
+        navigateBack,
+        navigateForward,
+        navigation,
+        networkDefault,
+        networkEarth,
+        networkVectorDefault,
+        nftEmptyList,
+        openedEye,
+        paste,
+        person,
+        persons,
+        planetInner,
+        planetOuter,
+        plus,
+        refresh,
+        search,
+        searchEmpty,
+        searchX,
+        seedPhraseIcon,
+        settings,
+        share,
+        sparxLogoSmall,
+        stake,
+        star,
+        support,
+        tokenDefaultIcon,
+        tooltip,
+        transactionProgress,
+        trash,
+        versionUpdateIcon,
+        verticalDots,
+        wallet,
+        web,
+      ];
 }
 
 class $AssetsSplashGen {
@@ -606,10 +606,10 @@ class $AssetsSplashGen {
 
   /// List of all assets
   List<AssetGenImage> get values => [
-    icSplashBanner,
-    icSplashLogo,
-    nativeSplash,
-  ];
+        icSplashBanner,
+        icSplashLogo,
+        nativeSplash,
+      ];
 }
 
 class $AssetsTranslationsGen {
@@ -630,8 +630,8 @@ class $AssetsImagesAlertOctagonFillGen {
 
   /// File path: assets/images/alert_octagon_fill/alert_octagon_fill.webp
   AssetGenImage get alertOctagonFill => const AssetGenImage(
-    'assets/images/alert_octagon_fill/alert_octagon_fill.webp',
-  );
+        'assets/images/alert_octagon_fill/alert_octagon_fill.webp',
+      );
 
   /// List of all assets
   List<AssetGenImage> get values => [alertOctagonFill];
@@ -653,8 +653,8 @@ class $AssetsImagesCheckCircleFillGen {
 
   /// File path: assets/images/check_circle_fill/check_circle_fill.webp
   AssetGenImage get checkCircleFill => const AssetGenImage(
-    'assets/images/check_circle_fill/check_circle_fill.webp',
-  );
+        'assets/images/check_circle_fill/check_circle_fill.webp',
+      );
 
   /// List of all assets
   List<AssetGenImage> get values => [checkCircleFill];
@@ -784,17 +784,17 @@ class $AssetsImagesOnboardingLayer1Gen {
 
   /// List of all assets
   List<SvgGenImage> get values => [
-    doge,
-    ever,
-    matic,
-    qube,
-    bridge,
-    btc,
-    dai,
-    dot,
-    eth,
-    usdt,
-  ];
+        doge,
+        ever,
+        matic,
+        qube,
+        bridge,
+        btc,
+        dai,
+        dot,
+        eth,
+        usdt,
+      ];
 }
 
 class $AssetsImagesOnboardingLayer2Gen {
@@ -842,17 +842,17 @@ class $AssetsImagesOnboardingLayer2Gen {
 
   /// List of all assets
   List<SvgGenImage> get values => [
-    ada,
-    avax,
-    cro,
-    luna,
-    near,
-    shib,
-    sol,
-    bnb,
-    usdc,
-    xrp,
-  ];
+        ada,
+        avax,
+        cro,
+        luna,
+        near,
+        shib,
+        sol,
+        bnb,
+        usdc,
+        xrp,
+      ];
 }
 
 class $AssetsImagesOnboardingLayer3Gen {
@@ -900,17 +900,17 @@ class $AssetsImagesOnboardingLayer3Gen {
 
   /// List of all assets
   List<SvgGenImage> get values => [
-    aave,
-    axs,
-    ftm,
-    hbar,
-    atom,
-    link,
-    ltc,
-    mana,
-    trx,
-    xlm,
-  ];
+        aave,
+        axs,
+        ftm,
+        hbar,
+        atom,
+        link,
+        ltc,
+        mana,
+        trx,
+        xlm,
+      ];
 }
 
 class Assets {
@@ -996,10 +996,10 @@ class AssetGenImage {
 
 class SvgGenImage {
   const SvgGenImage(this._assetName, {this.size, this.flavors = const {}})
-    : _isVecFormat = false;
+      : _isVecFormat = false;
 
   const SvgGenImage.vec(this._assetName, {this.size, this.flavors = const {}})
-    : _isVecFormat = true;
+      : _isVecFormat = true;
 
   final String _assetName;
   final Size? size;
@@ -1053,8 +1053,7 @@ class SvgGenImage {
       placeholderBuilder: placeholderBuilder,
       semanticsLabel: semanticsLabel,
       excludeFromSemantics: excludeFromSemantics,
-      colorFilter:
-          colorFilter ??
+      colorFilter: colorFilter ??
           (color == null ? null : ColorFilter.mode(color, colorBlendMode)),
       clipBehavior: clipBehavior,
       cacheColorFilter: cacheColorFilter,
