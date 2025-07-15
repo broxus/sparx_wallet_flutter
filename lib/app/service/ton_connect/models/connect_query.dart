@@ -4,7 +4,7 @@ part 'connect_query.freezed.dart';
 part 'connect_query.g.dart';
 
 @freezed
-class ConnectQuery with _$ConnectQuery {
+abstract class ConnectQuery with _$ConnectQuery {
   const factory ConnectQuery({
     required String v,
     required String r,

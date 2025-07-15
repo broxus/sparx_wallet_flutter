@@ -6,9 +6,8 @@ part of 'sign_data_payload.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-_$SignDataPayloadImpl _$$SignDataPayloadImplFromJson(
-        Map<String, dynamic> json) =>
-    _$SignDataPayloadImpl(
+_SignDataPayload _$SignDataPayloadFromJson(Map<String, dynamic> json) =>
+    _SignDataPayload(
       schema: (json['schema_crc'] as num).toInt(),
       cell: json['cell'] as String,
       publicKey: json['publicKey'] == null
@@ -16,8 +15,7 @@ _$SignDataPayloadImpl _$$SignDataPayloadImplFromJson(
           : PublicKey.fromJson(json['publicKey'] as String),
     );
 
-Map<String, dynamic> _$$SignDataPayloadImplToJson(
-        _$SignDataPayloadImpl instance) =>
+Map<String, dynamic> _$SignDataPayloadToJson(_SignDataPayload instance) =>
     <String, dynamic>{
       'schema_crc': instance.schema,
       'cell': instance.cell,

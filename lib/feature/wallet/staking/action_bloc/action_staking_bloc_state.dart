@@ -1,15 +1,18 @@
 part of 'action_staking_bloc.dart';
 
 @freezed
-class ActionStakingBlocState with _$ActionStakingBlocState {
+sealed class ActionStakingBlocState with _$ActionStakingBlocState {
   /// no any action in progress
-  const factory ActionStakingBlocState.nothing() = _Nothing;
+  const factory ActionStakingBlocState.nothing() =
+      ActionStakingBlocStateNothing;
 
   /// Means loading indicator should be displayed
-  const factory ActionStakingBlocState.inProgress() = _InProgress;
+  const factory ActionStakingBlocState.inProgress() =
+      ActionStakingBlocStateInProgress;
 
   /// Show sheet describing staking mechanism
-  const factory ActionStakingBlocState.showHowItWorksSheet() = _ShowHowItWorks;
+  const factory ActionStakingBlocState.showHowItWorksSheet() =
+      ActionStakingBlocStateShowHowItWorks;
 
   /// Navigate to stake confirm transaction in ui
   const factory ActionStakingBlocState.goStake({
@@ -20,7 +23,7 @@ class ActionStakingBlocState with _$ActionStakingBlocState {
     required Address sender,
     required PublicKey accountKey,
     required BigInt attachedFee,
-  }) = _GoStake;
+  }) = ActionStakingBlocStateGoStake;
 
   /// Navigate to stake confirm transaction in ui
   const factory ActionStakingBlocState.goUnstake({
@@ -33,5 +36,5 @@ class ActionStakingBlocState with _$ActionStakingBlocState {
     required BigInt attachedFee,
     required int withdrawHours,
     required Address stakeContractAddress,
-  }) = _GoUnstake;
+  }) = ActionStakingBlocStateGoUnstake;
 }

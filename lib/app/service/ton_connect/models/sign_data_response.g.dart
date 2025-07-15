@@ -6,32 +6,32 @@ part of 'sign_data_response.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-_$SignDataResponseSuccessImpl _$$SignDataResponseSuccessImplFromJson(
+SignDataResponseSuccess _$SignDataResponseSuccessFromJson(
         Map<String, dynamic> json) =>
-    _$SignDataResponseSuccessImpl(
+    SignDataResponseSuccess(
       id: json['id'] as String,
       result: SignDataResult.fromJson(json['result'] as Map<String, dynamic>),
       $type: json['runtimeType'] as String?,
     );
 
-Map<String, dynamic> _$$SignDataResponseSuccessImplToJson(
-        _$SignDataResponseSuccessImpl instance) =>
+Map<String, dynamic> _$SignDataResponseSuccessToJson(
+        SignDataResponseSuccess instance) =>
     <String, dynamic>{
       'id': instance.id,
       'result': instance.result.toJson(),
       'runtimeType': instance.$type,
     };
 
-_$SignDataResponseErrorImpl _$$SignDataResponseErrorImplFromJson(
+SignDataResponseError _$SignDataResponseErrorFromJson(
         Map<String, dynamic> json) =>
-    _$SignDataResponseErrorImpl(
+    SignDataResponseError(
       id: json['id'] as String,
       error: TonConnectError.fromJson(json['error'] as Map<String, dynamic>),
       $type: json['runtimeType'] as String?,
     );
 
-Map<String, dynamic> _$$SignDataResponseErrorImplToJson(
-        _$SignDataResponseErrorImpl instance) =>
+Map<String, dynamic> _$SignDataResponseErrorToJson(
+        SignDataResponseError instance) =>
     <String, dynamic>{
       'id': instance.id,
       'error': instance.error.toJson(),

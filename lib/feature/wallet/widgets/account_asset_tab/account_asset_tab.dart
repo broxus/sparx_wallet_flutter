@@ -43,21 +43,19 @@ class AccountAssetsTab extends StatelessWidget {
       ),
       child: BlocBuilder<AccountAssetTabCubit, AccountAssetTabState>(
         builder: (context, state) {
-          final assets = state.when(
-            empty: () => <Widget>[],
-            accounts: (tonWallet, contracts, _) {
-              return <Widget>[
+          final assets = switch (state) {
+            AccountAssetTabStateEmpty() => <Widget>[],
+            AccountAssetTabStateAccounts(:final tonWallet, :final tokens) => [
                 TonWalletAssetWidget(tonWallet: tonWallet),
-                ...?contracts?.map(
+                ...?tokens?.map(
                   (e) => TokenWalletAssetWidget(
                     key: ValueKey(e.address),
                     asset: e,
                     owner: tonWallet.address,
                   ),
                 ),
-              ];
-            },
-          );
+              ],
+          };
 
           final lastIndex = assets.length - 1;
 
@@ -111,10 +109,11 @@ class AccountAssetsTab extends StatelessWidget {
                   address: account.address,
                   isShowingNewTokens: isShowingNewTokens,
                   confirmImportCallback: confirmImportCallback,
-                  numberNewTokens: state.when(
-                    empty: () => null,
-                    accounts: (_, __, newTokens) => newTokens,
-                  ),
+                  numberNewTokens: switch (state) {
+                    AccountAssetTabStateEmpty() => null,
+                    AccountAssetTabStateAccounts(:final numberNewTokens) =>
+                      numberNewTokens,
+                  },
                 ),
               ),
             ],
