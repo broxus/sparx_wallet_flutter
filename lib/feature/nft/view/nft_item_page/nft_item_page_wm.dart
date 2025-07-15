@@ -1,35 +1,32 @@
 import 'dart:async';
 
 import 'package:app/app/router/router.dart';
+import 'package:app/core/error_handler_factory.dart';
 import 'package:app/core/wm/custom_wm.dart';
+import 'package:app/di/di.dart';
 import 'package:app/feature/browser_v1/utils.dart';
 import 'package:app/feature/nft/nft.dart';
 import 'package:app/utils/utils.dart';
 import 'package:elementary_helper/elementary_helper.dart';
 import 'package:flutter/material.dart';
-import 'package:injectable/injectable.dart';
 import 'package:nekoton_repository/nekoton_repository.dart';
 import 'package:ui_components_lib/ui_components_lib.dart';
 
-class NftItemWmParams {
-  NftItemWmParams({
-    required this.address,
-    required this.collection,
-  });
+NftItemPageWidgetModel defaultNftItemPageWidgetModelFactory(
+  BuildContext context,
+) =>
+    NftItemPageWidgetModel(
+      NftItemPageModel(
+        createPrimaryErrorHandler(context),
+        inject(),
+        inject(),
+        inject(),
+      ),
+    );
 
-  final Address address;
-  final Address collection;
-}
-
-@injectable
 class NftItemPageWidgetModel
     extends CustomWidgetModel<NftItemPageWidget, NftItemPageModel> {
-  NftItemPageWidgetModel(
-    super.model,
-    @factoryParam this._wmParams,
-  );
-
-  final NftItemWmParams _wmParams;
+  NftItemPageWidgetModel(super.model);
 
   late final _itemState = createNotifier<NftItem>();
   late final _collectionState = createNotifier<NftCollection>();
@@ -121,8 +118,8 @@ class NftItemPageWidgetModel
 
   Future<void> _init() async {
     final (item, collection) = await FutureExt.wait2(
-      model.getNftItem(_wmParams.address),
-      model.getCollection(_wmParams.collection),
+      model.getNftItem(widget.address),
+      model.getCollection(widget.collection),
     );
 
     if (item == null || collection == null) {

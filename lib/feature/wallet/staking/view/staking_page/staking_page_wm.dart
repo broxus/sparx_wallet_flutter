@@ -1,9 +1,11 @@
 import 'dart:async';
 
+import 'package:app/app/router/router.dart';
+import 'package:app/core/error_handler_factory.dart';
 import 'package:app/core/wm/custom_wm.dart';
 import 'package:app/data/models/models.dart';
-import 'package:app/feature/wallet/staking/models/models.dart';
-import 'package:app/feature/wallet/staking/staking.dart';
+import 'package:app/di/di.dart';
+import 'package:app/feature/wallet/token_wallet_send/route.dart';
 import 'package:app/feature/wallet/wallet.dart';
 import 'package:app/generated/generated.dart';
 import 'package:app/utils/utils.dart';
@@ -11,7 +13,6 @@ import 'package:app/widgets/amount_input/amount_input_asset.dart';
 import 'package:elementary_helper/elementary_helper.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:injectable/injectable.dart';
 import 'package:logging/logging.dart';
 import 'package:nekoton_repository/nekoton_repository.dart';
 import 'package:rxdart/rxdart.dart';
@@ -19,24 +20,34 @@ import 'package:ui_components_lib/ui_components_lib.dart';
 
 const _maxFixedComission = 0.1; // 0.1 EVER
 
-@injectable
+StakingPageWidgetModel defaultStakingPageWidgetModelFactory(
+  BuildContext context,
+) =>
+    StakingPageWidgetModel(
+      StakingPageModel(
+        createPrimaryErrorHandler(context),
+        inject(),
+        inject(),
+        inject(),
+        inject(),
+        inject(),
+      ),
+    );
+
 class StakingPageWidgetModel
     extends CustomWidgetModel<StakingPageWidget, StakingPageModel> {
-  StakingPageWidgetModel(
-    super.model,
-    @factoryParam this.accountAddress,
-  );
-
-  final Address accountAddress;
+  StakingPageWidgetModel(super.model);
 
   late final inputController = createTextEditingController();
 
   final _logger = Logger('StakingPageWidgetModel');
+
+  late final _isLoading = createValueNotifier(true);
   late final _tab = createValueNotifier(StakingTab.stake);
   late final _info = createEntityNotifier<StakingInfo>()..loading();
   late final _data = createNotifier<StakingData>();
   late final _requests = createNotifierFromStream(
-    model.getWithdrawRequests(accountAddress),
+    model.getWithdrawRequests(widget.accountAddress),
   );
   late final _receive = createNotifierFromStream(
     Rx.combineLatestList(
@@ -52,6 +63,8 @@ class StakingPageWidgetModel
       (_) => _validate(),
     ),
   );
+
+  ValueListenable<bool> get isLoading => _isLoading;
 
   ValueListenable<StakingTab> get tab => _tab;
 
@@ -83,23 +96,27 @@ class StakingPageWidgetModel
       ? currency
       : _info.value.data?.tokenWallet.currency;
 
-  Money get _comission => _tab.value == StakingTab.stake
-      ? Money.fromBigIntWithCurrency(
-          // around 2.1 EVER
-          model.staking.stakeDepositAttachedFee +
-              _maxFixedComission.toNativeToken(
-                model.transport.defaultNativeCurrencyDecimal,
-              ),
-          currency,
-        )
-      : Money.fromBigIntWithCurrency(
-          // around 3.1 EVER
-          model.staking.stakeWithdrawAttachedFee +
-              _maxFixedComission.toNativeToken(
-                model.transport.defaultNativeCurrencyDecimal,
-              ),
-          currency,
-        );
+  Money get _comission {
+    final fees = _info.value.data?.fees ?? StakingFees.empty();
+
+    return _tab.value == StakingTab.stake
+        ? Money.fromBigIntWithCurrency(
+            // around 2.1 EVER
+            fees.depositAttachedFee +
+                _maxFixedComission.toNativeToken(
+                  model.transport.defaultNativeCurrencyDecimal,
+                ),
+            currency,
+          )
+        : Money.fromBigIntWithCurrency(
+            // around 3.1 EVER
+            fees.withdrawAttachedFee +
+                _maxFixedComission.toNativeToken(
+                  model.transport.defaultNativeCurrencyDecimal,
+                ),
+            currency,
+          );
+  }
 
   @override
   void initWidgetModel() {
@@ -111,6 +128,8 @@ class StakingPageWidgetModel
 
   Future<void> showHowItWorksSheet() async {
     final info = await _info.asStream().firstWhere((e) => e.data != null);
+
+    model.saveWasStEverOpened();
     contextSafe?.let((context) {
       showStEverHowItWorksSheet(
         context: context,
@@ -140,27 +159,12 @@ class StakingPageWidgetModel
     inputController.text = max.positiveOrZero().formatImproved();
   }
 
-  void onSubmit(ActionStakingBloc bloc) {
-    final info = _info.value.data;
-
-    if (info == null) return;
-
+  void onSubmit() {
     switch (_tab.value) {
       case StakingTab.stake:
-        bloc.addSafe(
-          ActionStakingBlocEvent.stake(
-            amount: _currentValue.minorUnits,
-            accountKey: info.wallet.publicKey,
-          ),
-        );
+        _prepareStaking();
       case StakingTab.unstake:
-        bloc.addSafe(
-          ActionStakingBlocEvent.unstake(
-            amount: _currentValue.minorUnits,
-            accountKey: info.wallet.publicKey,
-            withdrawHours: info.withdrawHours,
-          ),
-        );
+        _prepareUntaking();
       case StakingTab.inProgress:
         // do nothing
         break;
@@ -169,9 +173,11 @@ class StakingPageWidgetModel
 
   Future<void> _init() async {
     try {
+      unawaited(model.tryAddTokenWallet(widget.accountAddress));
+
       final (ever, token) = await FutureExt.wait2(
-        model.getWallet(accountAddress),
-        model.getTokenWallet(accountAddress),
+        model.getWallet(widget.accountAddress),
+        model.getTokenWallet(widget.accountAddress),
       );
 
       if (ever.hasError || token.hasError) {
@@ -185,12 +191,14 @@ class StakingPageWidgetModel
         apyValue,
         details,
         tokenContractAsset,
-      ) = await FutureExt.wait5(
+        fees,
+      ) = await FutureExt.wait6(
         model.getTokenCurrency(),
         model.getEverCurrency(),
         model.getAverageAPYPercent(),
         model.getStEverDetails(),
         model.getTokenContractAsset(),
+        model.computeFees(),
       );
 
       final time = Duration(
@@ -207,13 +215,20 @@ class StakingPageWidgetModel
           apy: apyValue,
           withdrawHours: 0 <= time && time <= 24 ? time + 36 : time + 18,
           tokenContractAsset: tokenContractAsset,
+          fees: fees,
         ),
       );
 
       _updateData();
+
+      if (!model.getWasStEverOpened) {
+        unawaited(showHowItWorksSheet());
+      }
     } on Exception catch (e, t) {
       _logger.severe('init', e, t);
       _info.error(e);
+    } finally {
+      _isLoading.value = false;
     }
   }
 
@@ -226,7 +241,7 @@ class StakingPageWidgetModel
       StakingTab.stake => StakingData(
           tab: StakingTab.stake,
           attachedAmount: Money.fromBigIntWithCurrency(
-            model.staking.stakeDepositAttachedFee,
+            info.fees.depositAttachedFee,
             currency,
           ),
           exchangeRate: info.details.stEverSupply / info.details.totalAssets,
@@ -247,7 +262,7 @@ class StakingPageWidgetModel
       StakingTab.unstake => StakingData(
           tab: StakingTab.unstake,
           attachedAmount: Money.fromBigIntWithCurrency(
-            model.staking.stakeWithdrawAttachedFee,
+            info.fees.withdrawAttachedFee,
             currency,
           ),
           exchangeRate: info.details.totalAssets / info.details.stEverSupply,
@@ -258,15 +273,15 @@ class StakingPageWidgetModel
             balance: info.tokenWallet.moneyBalance,
             logoURI: info.tokenContractAsset?.logoURI ??
                 Assets.images.tokenDefaultIcon.path,
-            title: info.tokenWallet.symbol.fullName,
-            tokenSymbol: info.tokenWallet.symbol.name,
+            title: info.tokenWallet.currency.name,
+            tokenSymbol: info.tokenWallet.currency.symbol,
             currency: info.tokenCurrency,
           ),
         ),
       StakingTab.inProgress => StakingData(
           tab: StakingTab.inProgress,
           attachedAmount: Money.fromBigIntWithCurrency(
-            model.staking.stakeRemovePendingWithdrawAttachedFee,
+            info.fees.removePendingWithdrawAttachedFee,
             currency,
           ),
           exchangeRate: info.details.totalAssets / info.details.stEverSupply,
@@ -279,7 +294,9 @@ class StakingPageWidgetModel
 
   Future<Money?> _getReceive() async {
     final tab = _tab.value;
-    final currency = _currentCurrency;
+    final currency = tab == StakingTab.stake
+        ? _info.value.data?.tokenWallet.currency
+        : model.nativeCurrency;
     final value = _currentValue;
 
     if (currency == null) return null;
@@ -341,6 +358,64 @@ class StakingPageWidgetModel
     }
 
     return const ValidationState.valid();
+  }
+
+  Future<void> _prepareStaking() async {
+    final info = _info.value.data;
+    if (info == null) return;
+
+    final valutAddress = model.staking.stakingValutAddress;
+    final amount = _currentValue.minorUnits;
+
+    final (payload, fees) = await FutureExt.wait2(
+      model.depositEverBodyPayload(amount),
+      model.computeFees(),
+    );
+
+    contextSafe?.compassContinue(
+      TonWalletSendRouteData(
+        address: widget.accountAddress,
+        publicKey: info.wallet.publicKey,
+        payload: payload,
+        destination: valutAddress,
+        amount: amount,
+        attachedAmount: fees.depositAttachedFee,
+        popOnComplete: false,
+        resultMessage: LocaleKeys.stEverAppearInMinutes.tr(
+          args: [tokenCurrency?.symbol ?? ''],
+        ),
+      ),
+    );
+  }
+
+  Future<void> _prepareUntaking() async {
+    final info = _info.value.data;
+    if (info == null) return;
+
+    final valutAddress = model.staking.stakingValutAddress;
+    final rootContractAddress = model.staking.stakingRootContractAddress;
+    final amount = _currentValue.minorUnits;
+
+    final (payload, fees) = await FutureExt.wait2(
+      model.withdrawStEverPayload(),
+      model.computeFees(),
+    );
+
+    contextSafe?.compassContinue(
+      TokenWalletSendRouteData(
+        owner: widget.accountAddress,
+        rootTokenContract: rootContractAddress,
+        publicKey: info.wallet.publicKey,
+        comment: payload,
+        destination: valutAddress,
+        amount: amount,
+        attachedAmount: fees.withdrawAttachedFee,
+        resultMessage: LocaleKeys.withdrawHoursProgress.tr(
+          args: [currency.symbol, info.withdrawHours.toString()],
+        ),
+        notifyReceiver: true,
+      ),
+    );
   }
 }
 

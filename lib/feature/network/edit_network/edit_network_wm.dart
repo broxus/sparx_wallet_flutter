@@ -1,6 +1,8 @@
 import 'package:app/app/router/router.dart';
 import 'package:app/app/service/connection/data/connection_data/connection_data.dart';
+import 'package:app/app/service/connection/data/network_type.dart';
 import 'package:app/core/wm/custom_wm.dart';
+import 'package:app/di/di.dart';
 import 'package:app/feature/browser_v1/browser.dart';
 import 'package:app/feature/network/edit_network/validators.dart';
 import 'package:app/feature/network/network.dart';
@@ -8,17 +10,20 @@ import 'package:app/generated/generated.dart';
 import 'package:collection/collection.dart';
 import 'package:elementary_helper/elementary_helper.dart';
 import 'package:flutter/material.dart';
-import 'package:injectable/injectable.dart';
 
-@injectable
+EditNetworkWidgetModel defaultEditNetworkWidgetModelFactory(
+  BuildContext context,
+) =>
+    EditNetworkWidgetModel(
+      EditNetworkModel(
+        inject(),
+        inject(),
+      ),
+    );
+
 class EditNetworkWidgetModel
     extends CustomWidgetModel<EditNetworkPageWidget, EditNetworkModel> {
-  EditNetworkWidgetModel(
-    super.model,
-    @factoryParam this._connectionDataId,
-  );
-
-  final String? _connectionDataId;
+  EditNetworkWidgetModel(super.model);
 
   final formKey = GlobalKey<FormState>();
 
@@ -48,7 +53,7 @@ class EditNetworkWidgetModel
 
   late final validators = Validators();
 
-  late final _selectedNetworkTypeState = StateNotifier<String?>(
+  late final _selectedNetworkTypeState = StateNotifier<NetworkType?>(
     initValue:
         connection?.networkType ?? model.networkTypesOptions?.firstOrNull,
   );
@@ -69,10 +74,10 @@ class EditNetworkWidgetModel
   );
 
   late final connection = model.connections.firstWhereOrNull(
-    (element) => element.id == _connectionDataId,
+    (element) => element.id == widget.connectionDataId,
   );
 
-  ListenableState<String?> get selectedNetworkTypeState =>
+  ListenableState<NetworkType?> get selectedNetworkTypeState =>
       _selectedNetworkTypeState;
 
   ListenableState<bool> get isLocalState => _isLocalState;
@@ -83,9 +88,10 @@ class EditNetworkWidgetModel
   ListenableState<ConnectionType> get connectionTypeState =>
       _connectionTypeState;
 
-  List<String>? get networkTypesOptions => model.networkTypesOptions;
+  List<NetworkType>? get networkTypesOptions => model.networkTypesOptions;
 
-  String get selectedNetworkType => selectedNetworkTypeState.value ?? 'custom';
+  NetworkType get selectedNetworkType =>
+      selectedNetworkTypeState.value ?? NetworkType.custom;
 
   List<TextEditingController>? get _endpointsControllers =>
       _endpointsControllersState.value;
@@ -94,7 +100,7 @@ class EditNetworkWidgetModel
 
   bool get _isLocal => _isLocalState.value ?? connection != null;
 
-  void onChangedNetworkType(String value) {
+  void onChangedNetworkType(NetworkType value) {
     _selectedNetworkTypeState.accept(value);
   }
 

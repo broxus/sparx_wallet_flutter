@@ -1,15 +1,28 @@
 import 'package:app/app/router/router.dart';
+import 'package:app/core/error_handler_factory.dart';
 import 'package:app/core/wm/custom_wm.dart';
+import 'package:app/di/di.dart';
 import 'package:app/feature/nft/view/add_nft/add_nft_model.dart';
 import 'package:app/feature/nft/view/add_nft/add_nft_widget.dart';
 import 'package:app/generated/generated.dart';
 import 'package:elementary_helper/elementary_helper.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:injectable/injectable.dart';
+import 'package:flutter/widgets.dart';
 import 'package:nekoton_repository/nekoton_repository.dart' hide Message;
 import 'package:ui_components_lib/ui_components_lib.dart';
 
-@injectable
+AddNftWidgetModel defaultAddNftWidgetModelFactory(BuildContext context) {
+  return AddNftWidgetModel(
+    AddNftModel(
+      createPrimaryErrorHandler(context),
+      inject(),
+      inject(),
+      inject(),
+    ),
+  );
+}
+
 class AddNftWidgetModel extends CustomWidgetModel<AddNftWidget, AddNftModel> {
   AddNftWidgetModel(super.model);
 

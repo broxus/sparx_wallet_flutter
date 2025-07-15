@@ -1,8 +1,10 @@
 import 'dart:async';
 import 'dart:collection';
 
+import 'package:app/core/error_handler_factory.dart';
 import 'package:app/core/wm/custom_wm.dart';
 import 'package:app/data/models/browser_history_item.dart';
+import 'package:app/di/di.dart';
 import 'package:app/feature/browser_v2/widgets/bottomsheets/book/widgets/history/history_list.dart';
 import 'package:app/feature/browser_v2/widgets/bottomsheets/book/widgets/history/history_list_model.dart';
 import 'package:app/feature/browser_v2/widgets/bottomsheets/book/widgets/history/ui_models/history_ui_model.dart';
@@ -13,10 +15,21 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:elementary/elementary.dart';
 import 'package:elementary_helper/elementary_helper.dart';
 import 'package:flutter/widgets.dart';
-import 'package:injectable/injectable.dart';
+
+/// Factory method for creating [HistoryListWidgetModel]
+HistoryListWidgetModel defaultHistoryListWidgetModelFactory(
+  BuildContext context,
+) {
+  return HistoryListWidgetModel(
+    HistoryListModel(
+      createPrimaryErrorHandler(context),
+      inject(),
+      inject(),
+    ),
+  );
+}
 
 /// [WidgetModel] для [HistoryList]
-@injectable
 class HistoryListWidgetModel
     extends CustomWidgetModel<HistoryList, HistoryListModel> {
   HistoryListWidgetModel(

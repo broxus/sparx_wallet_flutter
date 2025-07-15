@@ -114,7 +114,7 @@ abstract mixin class $ConnectionDataCopyWith<$Res> {
       {String id,
       String name,
       String group,
-      String networkType,
+      NetworkType networkType,
       String blockExplorerUrl,
       String nativeTokenTicker,
       bool isPreset,
@@ -167,7 +167,7 @@ class _$ConnectionDataCopyWithImpl<$Res>
       networkType: null == networkType
           ? _self.networkType
           : networkType // ignore: cast_nullable_to_non_nullable
-              as String,
+              as NetworkType,
       blockExplorerUrl: null == blockExplorerUrl
           ? _self.blockExplorerUrl
           : blockExplorerUrl // ignore: cast_nullable_to_non_nullable

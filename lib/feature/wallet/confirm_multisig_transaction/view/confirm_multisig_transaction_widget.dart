@@ -1,10 +1,10 @@
-import 'package:app/core/wm/custom_wm.dart';
 import 'package:app/feature/wallet/confirm_multisig_transaction/data/data.dart';
 import 'package:app/feature/wallet/confirm_multisig_transaction/view/confirm_multisig_transaction_confirm.dart';
 import 'package:app/feature/wallet/confirm_multisig_transaction/view/confirm_multisig_transaction_prepare.dart';
 import 'package:app/feature/wallet/confirm_multisig_transaction/view/confirm_multisig_transaction_wm.dart';
 import 'package:app/feature/wallet/wallet.dart';
 import 'package:app/generated/generated.dart';
+import 'package:elementary/elementary.dart';
 import 'package:elementary_helper/elementary_helper.dart';
 import 'package:flutter/material.dart';
 import 'package:nekoton_repository/nekoton_repository.dart';
@@ -13,39 +13,40 @@ import 'package:ui_components_lib/ui_components_lib.dart';
 /// Page that allows confirm multisig transaction for [TonWallet].
 /// This pages displays only for outgoing transaction.
 class ConfirmMultisigTransactionWidget
-    extends InjectedElementaryWidget<ConfirmMultisigTransactionWidgetModel> {
-  ConfirmMultisigTransactionWidget({
-    /// Address of wallet which will be used to confirm transaction
-    required Address walletAddress,
+    extends ElementaryWidget<ConfirmMultisigTransactionWidgetModel> {
+  const ConfirmMultisigTransactionWidget({
+    required this.walletAddress,
+    required this.localCustodians,
+    required this.transactionId,
+    required this.amount,
+    required this.destination,
+    required this.comment,
+    this.transactionIdHash,
+    Key? key,
+    WidgetModelFactory wmFactory =
+        defaultConfirmMultisigTransactionWidgetModelFactory,
+  }) : super(wmFactory, key: key);
 
-    /// Local custodians that CAN CONFIRM transaction (not all local)
-    required List<PublicKey> localCustodians,
+  /// Address of wallet which will be used to confirm transaction
+  final Address walletAddress;
 
-    /// Transaction that should be confirmed
-    required String transactionId,
-    required String? transactionIdHash,
+  /// Local custodians that CAN CONFIRM transaction (not all local)
+  final List<PublicKey> localCustodians;
 
-    /// Amount of transaction
-    required BigInt amount,
+  /// Transaction that should be confirmed
+  final String transactionId;
 
-    /// Destination where funds should be sent (this page won't displayed for
-    /// incoming transaction)
-    required Address destination,
+  final String? transactionIdHash;
 
-    /// Comment of transaction
-    String? comment,
-    super.key,
-  }) : super(
-          wmFactoryParam: ConfirmMultisigTransactionWmParams(
-            walletAddress: walletAddress,
-            localCustodians: localCustodians,
-            transactionId: transactionId,
-            amount: amount,
-            destination: destination,
-            comment: comment,
-            transactionIdHash: transactionIdHash,
-          ),
-        );
+  /// Amount of transaction
+  final BigInt amount;
+
+  /// Destination where funds should be sent (this page won't displayed for
+  /// incoming transaction)
+  final Address destination;
+
+  /// Comment of transaction
+  final String? comment;
 
   @override
   Widget build(ConfirmMultisigTransactionWidgetModel wm) {
@@ -62,7 +63,7 @@ class ConfirmMultisigTransactionWidget
         final body = switch (state) {
           ConfirmMultisigTransactionStatePrepare() =>
             TonWalletConfirmTransactionPrepare(
-              localCustodians: wm.localCustodians,
+              localCustodians: localCustodians,
               custodianNames: wm.custodianNames,
               onCustodianSelected: wm.onCustodianSelected,
             ),
@@ -77,9 +78,9 @@ class ConfirmMultisigTransactionWidget
             ),
           ConfirmMultisigTransactionStateReady(:final custodian) =>
             TonWalletConfirmTransactionConfirmView(
-              transactionIdHash: wm.transactionIdHash,
-              recipient: wm.destination,
-              comment: wm.comment,
+              transactionIdHash: transactionIdHash,
+              recipient: destination,
+              comment: comment,
               publicKey: custodian,
               account: wm.account,
               amount: wm.amount,

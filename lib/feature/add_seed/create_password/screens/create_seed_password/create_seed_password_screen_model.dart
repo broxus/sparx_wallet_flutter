@@ -8,12 +8,10 @@ import 'package:app/feature/messenger/data/message.dart';
 import 'package:app/feature/messenger/domain/service/messenger_service.dart';
 import 'package:elementary/elementary.dart';
 import 'package:flutter/material.dart';
-import 'package:injectable/injectable.dart';
 import 'package:logging/logging.dart';
 import 'package:nekoton_repository/nekoton_repository.dart' hide Message;
 
 /// [ElementaryModel] for [CreateSeedPasswordScreen]
-@injectable
 class CreateSeedPasswordScreenModel extends ElementaryModel {
   CreateSeedPasswordScreenModel(
     ErrorHandler errorHandler,

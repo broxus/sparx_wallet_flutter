@@ -1,10 +1,10 @@
-import 'package:app/core/wm/custom_wm.dart';
 import 'package:app/feature/wallet/widgets/account_info.dart';
 import 'package:app/feature/wallet/widgets/account_transactions_tab/detail/details_body.dart';
 import 'package:app/feature/wallet/widgets/account_transactions_tab/detail/details_custodians.dart';
 import 'package:app/feature/wallet/widgets/account_transactions_tab/detail/ton_wallet_multisig_pending_transaction_details/ton_wallet_multisig_pending_transaction_details_screen_wm.dart';
 import 'package:app/feature/wallet/widgets/account_transactions_tab/widgets/ton_wallet_transaction_status_body.dart';
 import 'package:app/generated/generated.dart';
+import 'package:elementary/elementary.dart';
 import 'package:flutter/material.dart';
 import 'package:lucide_icons_flutter/lucide_icons.dart';
 import 'package:nekoton_repository/nekoton_repository.dart';
@@ -15,20 +15,25 @@ import 'package:ui_components_lib/v2/dimens_v2.dart';
 import 'package:ui_components_lib/v2/widgets/buttons/accent_button.dart';
 import 'package:ui_components_lib/v2/widgets/buttons/button_shape.dart';
 
-class TonWalletMultisigPendingTransactionDetailsScreen
-    extends InjectedElementaryWidget<
-        TonWalletMultisigPendingTransactionDetailsScreenWidgetModel> {
+class TonWalletMultisigPendingTransactionDetailsScreen extends ElementaryWidget<
+    TonWalletMultisigPendingTransactionDetailsScreenWidgetModel> {
   TonWalletMultisigPendingTransactionDetailsScreen({
     required TonWalletMultisigPendingTransaction transaction,
     required Fixed price,
     required KeyAccount account,
     super.key,
+    WidgetModelFactory<
+            TonWalletMultisigPendingTransactionDetailsScreenWidgetModel>?
+        wmFactory,
   }) : super(
-          wmFactoryParam: TonWalletMultisigPendingTransactionDetailsWmParams(
-            transaction: transaction,
-            price: price,
-            account: account,
-          ),
+          wmFactory ??
+              (context) =>
+                  tonWalletMultisigPendingTransactionDetailsWidgetModelFactory(
+                    context,
+                    transaction: transaction,
+                    price: price,
+                    account: account,
+                  ),
         );
 
   @override

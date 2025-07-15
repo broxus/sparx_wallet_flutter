@@ -1,24 +1,32 @@
 import 'package:app/app/router/router.dart';
+import 'package:app/core/error_handler_factory.dart';
 import 'package:app/core/wm/custom_wm.dart';
+import 'package:app/di/di.dart';
 import 'package:app/feature/messenger/data/message.dart';
 import 'package:app/feature/nft/nft.dart';
 import 'package:app/feature/wallet/route.dart';
 import 'package:app/generated/generated.dart';
 import 'package:app/utils/utils.dart';
 import 'package:elementary_helper/elementary_helper.dart';
-import 'package:injectable/injectable.dart';
+import 'package:flutter/material.dart';
 import 'package:logging/logging.dart';
 import 'package:nekoton_repository/nekoton_repository.dart' hide Message;
 
-@injectable
+NftSendWidgetModel defaultNftSendWidgetModelFactory(
+  BuildContext context,
+) =>
+    NftSendWidgetModel(
+      NftSendModel(
+        createPrimaryErrorHandler(context),
+        inject(),
+        inject(),
+        inject(),
+      ),
+    );
+
 class NftSendWidgetModel
     extends CustomWidgetModel<NftSendWidget, NftSendModel> {
-  NftSendWidgetModel(
-    super.model,
-    @factoryParam this._wmParams,
-  );
-
-  final NftSendRouteData _wmParams;
+  NftSendWidgetModel(super.model);
 
   static final _logger = Logger('NftSendWidgetModel');
 
@@ -31,7 +39,8 @@ class NftSendWidgetModel
   late final _errorState = createNotifier<String>();
   late final _sendState = createNotifier(const NftSendState.ready());
 
-  late final KeyAccount? account = model.getAccount(_wmParams.owner);
+  late final KeyAccount? account = model.getAccount(widget.data.owner);
+  late final routeData = createWidgetProperty((w) => w.data);
 
   Currency get currency => model.currency;
 
@@ -59,9 +68,10 @@ class NftSendWidgetModel
   }
 
   Future<void> onPasswordEntered(String password) async {
+    final routeData = this.routeData.value;
     final account = this.account;
     final nftItem = _itemState.value;
-    if (account == null || nftItem == null) return;
+    if (routeData == null || account == null || nftItem == null) return;
 
     UnsignedMessage? unsignedMessage;
     try {
@@ -69,21 +79,21 @@ class NftSendWidgetModel
 
       final resultMessage = LocaleKeys.nftTransferSuccessMessage.tr();
       final internalMessage = await _prepareTransfer(
-        data: _wmParams,
+        data: routeData,
         nftItem: nftItem,
       );
 
       unsignedMessage = await model.prepareMessage(
         address: account.address,
-        publicKey: _wmParams.publicKey,
+        publicKey: routeData.publicKey,
         destination: internalMessage.destination,
         amount: internalMessage.amount,
         payload: internalMessage.body,
       );
 
       final transactionCompleter = await model.sendMessage(
-        address: _wmParams.owner,
-        publicKey: _wmParams.publicKey,
+        address: routeData.owner,
+        publicKey: routeData.publicKey,
         message: unsignedMessage,
         password: password,
         destination: internalMessage.destination,
@@ -110,16 +120,17 @@ class NftSendWidgetModel
   }
 
   Future<void> _init() async {
+    final routeData = this.routeData.value;
     final account = this.account;
-    if (account == null) return;
+    if (routeData == null || account == null) return;
 
     UnsignedMessage? unsignedMessage;
     try {
       _loadingState.accept(true);
 
       final (nftItem, nftCollection) = await FutureExt.wait2(
-        model.getNftItem(address: _wmParams.address, owner: _wmParams.owner),
-        model.getCollection(_wmParams.collection),
+        model.getNftItem(address: routeData.address, owner: routeData.owner),
+        model.getCollection(routeData.collection),
       );
       if (nftItem == null || nftCollection == null) return;
 
@@ -133,7 +144,7 @@ class NftSendWidgetModel
       }
 
       final internalMessage = await _prepareTransfer(
-        data: _wmParams,
+        data: routeData,
         nftItem: nftItem,
       );
 
@@ -141,7 +152,7 @@ class NftSendWidgetModel
 
       unsignedMessage = await model.prepareMessage(
         address: account.address,
-        publicKey: _wmParams.publicKey,
+        publicKey: routeData.publicKey,
         destination: internalMessage.destination,
         amount: internalMessage.amount,
         payload: internalMessage.body,

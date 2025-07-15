@@ -1,6 +1,9 @@
 import 'package:app/app/router/router.dart';
+import 'package:app/app/service/service.dart';
+import 'package:app/core/error_handler_factory.dart';
 import 'package:app/core/wm/custom_wm.dart';
 import 'package:app/data/models/models.dart';
+import 'package:app/di/di.dart';
 import 'package:app/feature/add_seed/add_seed.dart';
 import 'package:app/feature/add_seed/create_password/route.dart';
 import 'package:app/feature/constants.dart';
@@ -10,7 +13,6 @@ import 'package:collection/collection.dart';
 import 'package:elementary/elementary.dart';
 import 'package:elementary_helper/elementary_helper.dart';
 import 'package:flutter/widgets.dart';
-import 'package:injectable/injectable.dart';
 import 'package:logging/logging.dart';
 import 'package:nekoton_repository/nekoton_repository.dart';
 import 'package:ui_components_lib/ui_components_lib.dart';
@@ -20,23 +22,35 @@ typedef SuggestionSelectedCallback = void Function(
   int index,
 );
 
-class EnterSeedWmParams {
-  EnterSeedWmParams({required this.isOnboarding, required this.seedName});
-
-  final bool isOnboarding;
-  final String? seedName;
+/// Factory method for creating [EnterSeedPhraseWidgetModel]
+EnterSeedPhraseWidgetModel enterSeedPhraseWidgetModelFactory(
+  BuildContext context, {
+  required bool isOnboarding,
+  String? seedName,
+}) {
+  return EnterSeedPhraseWidgetModel(
+    EnterSeedPhraseModel(
+      createPrimaryErrorHandler(context),
+      inject(),
+      inject(),
+      inject(),
+    ),
+    isOnboarding: isOnboarding,
+    seedName: seedName,
+  );
 }
 
 /// [WidgetModel] для [EnterSeedPhraseWidget]
-@injectable
 class EnterSeedPhraseWidgetModel
     extends CustomWidgetModel<EnterSeedPhraseWidget, EnterSeedPhraseModel> {
   EnterSeedPhraseWidgetModel(
-    super.model,
-    @factoryParam this._wmParams,
-  );
+    super.model, {
+    required this.isOnboarding,
+    required this.seedName,
+  });
 
-  final EnterSeedWmParams _wmParams;
+  final bool isOnboarding;
+  final String? seedName;
 
   static final _log = Logger('EnterSeedPhraseWidgetModel');
 
@@ -77,7 +91,7 @@ class EnterSeedPhraseWidgetModel
     }(),
   );
   late final _seedPhraseFormat = createNotifier(
-    networkGroup == 'ton' || networkGroup == 'hmstr_mainnet'
+    networkType.isTon || networkGroup == 'hmstr_mainnet'
         ? SeedPhraseFormat.ton
         : SeedPhraseFormat.standard,
   );
@@ -97,6 +111,8 @@ class EnterSeedPhraseWidgetModel
   EnterSeedPhraseTabData? get _tabData => _tabState.value;
 
   String get networkGroup => model.networkGroup;
+
+  NetworkType get networkType => model.networkType;
 
   ListenableState<SeedPhraseFormat> get seedPhraseFormat => _seedPhraseFormat;
 
@@ -120,6 +136,8 @@ class EnterSeedPhraseWidgetModel
   }
 
   void onPressedResetFocus() => resetFocus(contextSafe);
+
+  void onClosePressed(BuildContext context) => context.compassBack();
 
   /// Callback for UI TextField widget
   List<String> onSuggestions(String text) {
@@ -300,7 +318,7 @@ class EnterSeedPhraseWidgetModel
   }
 
   void _next(String phrase) {
-    if (_wmParams.isOnboarding) {
+    if (isOnboarding) {
       context.compassContinue(
         CreateSeedOnboardingPasswordRouteData(
           seedPhrase: phrase,
@@ -313,7 +331,7 @@ class EnterSeedPhraseWidgetModel
           seedPhrase: phrase,
           mnemonicType: _mnemonicType,
           type: SeedAddType.import,
-          name: _wmParams.seedName,
+          name: seedName,
         ),
       );
     }

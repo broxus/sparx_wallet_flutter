@@ -1,22 +1,37 @@
 import 'dart:io';
 
+import 'package:app/core/error_handler_factory.dart';
 import 'package:app/core/wm/custom_wm.dart';
 import 'package:app/core/wm/not_null_listenable_state.dart';
+import 'package:app/di/di.dart';
 import 'package:app/feature/browser_v2/data/tabs/browser_tab.dart';
 import 'package:app/feature/browser_v2/data/tabs/tabs_data.dart';
 import 'package:app/feature/browser_v2/screens/main/widgets/tabs/item/browser_tabs_list_item.dart';
 import 'package:app/feature/browser_v2/screens/main/widgets/tabs/item/browser_tabs_list_item_model.dart';
 import 'package:elementary/elementary.dart';
 import 'package:elementary_helper/elementary_helper.dart';
-import 'package:injectable/injectable.dart';
+import 'package:flutter/widgets.dart';
+
+/// Factory method for creating [BrowserTabsListItemWidgetModel]
+BrowserTabsListItemWidgetModel defaultBrowserTabsListItemWidgetModelFactory(
+  BuildContext context, {
+  required NotNullListenableState<BrowserTab> tabNotifier,
+}) {
+  return BrowserTabsListItemWidgetModel(
+    BrowserTabsListItemModel(
+      createPrimaryErrorHandler(context),
+      inject(),
+    ),
+    tabNotifier,
+  );
+}
 
 /// [WidgetModel] для [BrowserTabsListItem]
-@injectable
 class BrowserTabsListItemWidgetModel
     extends CustomWidgetModel<BrowserTabsListItem, BrowserTabsListItemModel> {
   BrowserTabsListItemWidgetModel(
     super.model,
-    @factoryParam this.tabNotifier,
+    this.tabNotifier,
   );
 
   final NotNullListenableState<BrowserTab> tabNotifier;

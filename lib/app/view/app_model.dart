@@ -10,10 +10,9 @@ import 'package:app/feature/profile/route.dart';
 import 'package:app/generated/generated.dart';
 import 'package:elementary/elementary.dart';
 import 'package:flutter/widgets.dart';
-import 'package:injectable/injectable.dart';
+import 'package:nekoton_repository/nekoton_repository.dart' hide Message;
 
 /// [ElementaryModel] for [App]
-@injectable
 class AppModel extends ElementaryModel with WidgetsBindingObserver {
   AppModel(
     ErrorHandler errorHandler,
@@ -22,6 +21,7 @@ class AppModel extends ElementaryModel with WidgetsBindingObserver {
     this._localizationService,
     this._biometryService,
     this._messengerService,
+    this._nekotonRepository,
   ) : super(errorHandler: errorHandler);
 
   final CompassRouter router;
@@ -29,6 +29,7 @@ class AppModel extends ElementaryModel with WidgetsBindingObserver {
   final LocalizationService _localizationService;
   final BiometryService _biometryService;
   final MessengerService _messengerService;
+  final NekotonRepository _nekotonRepository;
 
   BuildContext? get navContext =>
       CompassRouter.navigatorKey.currentState?.context;
@@ -68,8 +69,10 @@ class AppModel extends ElementaryModel with WidgetsBindingObserver {
       case AppLifecycleState.resumed:
         startLogSession();
         appStartSession(setCrashDetected: false);
+        _resumePolling();
       case AppLifecycleState.inactive:
         appStopSession();
+        _pausePolling();
       case AppLifecycleState.paused:
       case AppLifecycleState.detached:
       case AppLifecycleState.hidden:
@@ -89,5 +92,17 @@ class AppModel extends ElementaryModel with WidgetsBindingObserver {
         isEnabled: true,
       );
     }
+  }
+
+  void _pausePolling() {
+    _nekotonRepository
+      ..pausePolling()
+      ..pausePollingToken();
+  }
+
+  void _resumePolling() {
+    _nekotonRepository
+      ..resumePolling()
+      ..resumePollingToken();
   }
 }

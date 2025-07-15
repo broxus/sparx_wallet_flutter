@@ -3,11 +3,9 @@ import 'package:app/feature/add_seed/enter_seed_phrase/enter_seed_phrase_widget.
 import 'package:app/feature/messenger/domain/service/messenger_service.dart';
 import 'package:app/utils/mixins/connection_mixin.dart';
 import 'package:elementary/elementary.dart';
-import 'package:injectable/injectable.dart';
 import 'package:nekoton_repository/nekoton_repository.dart' as nt;
 
 /// [ElementaryModel] for [EnterSeedPhraseWidget]
-@injectable
 class EnterSeedPhraseModel extends ElementaryModel with ConnectionMixin {
   EnterSeedPhraseModel(
     ErrorHandler errorHandler,
@@ -25,6 +23,9 @@ class EnterSeedPhraseModel extends ElementaryModel with ConnectionMixin {
   Set<String>? _hints;
 
   String get networkGroup => _nekotonRepository.currentTransport.networkGroup;
+
+  NetworkType get networkType =>
+      _nekotonRepository.currentTransport.networkType;
 
   List<int> get seedPhraseWordsCount =>
       _nekotonRepository.currentTransport.seedPhraseWordsCount;

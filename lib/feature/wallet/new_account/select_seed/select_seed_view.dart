@@ -1,16 +1,17 @@
-import 'package:app/core/wm/custom_wm.dart';
 import 'package:app/feature/wallet/new_account/select_seed/select_seed_wm.dart';
 import 'package:app/generated/generated.dart';
+import 'package:elementary/elementary.dart';
 import 'package:elementary_helper/elementary_helper.dart';
 import 'package:flutter/material.dart';
 import 'package:lucide_icons_flutter/lucide_icons.dart';
 import 'package:ui_components_lib/components/common/common.dart';
 import 'package:ui_components_lib/v2/ui_components_lib_v2.dart';
 
-class SelectSeedWidget extends InjectedElementaryWidget<SelectSeedWidgetModel> {
+class SelectSeedWidget extends ElementaryWidget<SelectSeedWidgetModel> {
   const SelectSeedWidget({
-    super.key,
-  });
+    Key? key,
+    WidgetModelFactory wmFactory = defaultSelectSeedWidgetModelFactory,
+  }) : super(wmFactory, key: key);
 
   @override
   Widget build(SelectSeedWidgetModel wm) {

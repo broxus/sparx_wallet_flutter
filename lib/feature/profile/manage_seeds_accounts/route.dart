@@ -1,4 +1,3 @@
-import 'package:app/app/router/compass/bottom_bar_state.dart';
 import 'package:app/app/router/compass/compass.dart';
 import 'package:app/feature/profile/manage_seeds_accounts/view/manage_seeds_accounts_page.dart';
 import 'package:app/feature/profile/seed_detail/route.dart';
@@ -17,7 +16,7 @@ class ManageSeedsAccountsRoute
           name: 'manage-seeds-accounts',
           path: '/manage-seeds-accounts',
           isSaveLocation: true,
-          bottomBarState: BottomBarState.expanded,
+          isBottomNavigationBarVisible: true,
           builder: (context, _, __) => const ManageSeedsAccountsPage(),
           compassBaseRoutes: [
             seedDetailRoute,

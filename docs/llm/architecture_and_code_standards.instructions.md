@@ -32,9 +32,9 @@ For each feature screen, create exactly these 3 files:
 
 ### Implementation Rules
 
-- **Widget**: Pure UI, no business logic, extends `InjectedElementaryWidget<WidgetModel>`
-- **Model**: Data handling, state management, extends `ElementaryModel`, MUST be `@injectable`
-- **WidgetModel**: Business logic, user interactions, extends `WidgetModel<Widget, Model>`, MUST be `@injectable`
+- **Widget**: Pure UI, no business logic, extends `ElementaryWidget<WidgetModel>`
+- **Model**: Data handling, state management, extends `ElementaryModel`
+- **WidgetModel**: Business logic, user interactions, extends `WidgetModel<Widget, Model>`
 
 ### CustomWidgetModel Base Class
 
@@ -57,47 +57,22 @@ class YourService {
 }
 ```
 
-### InjectedElementaryWidget Pattern
+### Service Access in WidgetModels
 
-All Elementary widgets MUST use `InjectedElementaryWidget` base class which provides automatic dependency injection:
+Services should injected into Model through constructor not in WidgetModel. Widget model will call model methods.
+
+WidgetModel should provide factory method (static method under class) for creating instance, that creating Model by dependencies from injectable and WidgetModel.
 
 ```dart
-// Widget extends InjectedElementaryWidget
-class FeatureScreen extends InjectedElementaryWidget<FeatureScreenWidgetModel> {
-  const FeatureScreen({
-    super.key,
-    // Optional parameters can be passed via param1, param2, param3
-    String? optionalParam,
-  }) : super(param1: optionalParam);
-
-  @override
-  Widget build(FeatureScreenWidgetModel wm) {
-    // UI implementation
-  }
-}
-
-// WidgetModel MUST be @injectable
-@injectable
-class FeatureScreenWidgetModel extends CustomWidgetModel<FeatureScreen, FeatureScreenModel> {
-  FeatureScreenWidgetModel(
-    super.model,
-    // Should be used only for parametrized WM
-    // for complex params could be custom class with composition
-    // of parameter fields.
-    @factoryParam this.optionalParam,
-  );
-
-  final String? optionalParam;
-}
-
-// Model MUST be @injectable
-@injectable
-class FeatureScreenModel extends ElementaryModel {
-  FeatureScreenModel(
-    ErrorHandler errorHandler,
-    // Inject services directly
-    this._yourService,
-  ) : super(errorHandler: errorHandler);
+WalletPageWidgetModel defaultWalletPageWidgetModelFactory(
+  BuildContext context,
+) {
+    return WalletPageWidgetModel(
+      WalletPageModel(
+        createPrimaryErrorHandler(context),
+        inject(),
+      ),
+    );
 }
 ```
 
@@ -334,3 +309,4 @@ void main() {
 - Implement proper boundaries between modules
 - Use dependency injection for inter-module communication
 - Design for modularity and reusability
+

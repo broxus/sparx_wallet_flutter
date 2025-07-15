@@ -9,7 +9,7 @@ class StoryV1 extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Theme(
-      data: storyTheme(),
+      data: everPredefinedLightTheme(),
       child: Storybook(
         initialStory: 'Git log',
         wrapperBuilder: (_, Widget? child) {

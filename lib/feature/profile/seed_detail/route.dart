@@ -1,4 +1,3 @@
-import 'package:app/app/router/compass/bottom_bar_state.dart';
 import 'package:app/app/router/compass/compass.dart';
 import 'package:app/feature/profile/key_detail/route.dart';
 import 'package:app/feature/profile/seed_detail/view/seed_detail_page_widget.dart';
@@ -16,7 +15,7 @@ class SeedDetailRoute extends CompassRoute<SeedDetailRouteData> {
   ) : super(
           path: '/seed-detail',
           isSaveLocation: true,
-          bottomBarState: BottomBarState.expanded,
+          isBottomNavigationBarVisible: true,
           builder: (context, data, _) => SeedDetailPageWidget(
             publicKey: data.publicKey,
           ),

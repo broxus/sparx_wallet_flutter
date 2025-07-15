@@ -1,7 +1,7 @@
-import 'package:app/core/wm/custom_wm.dart';
 import 'package:app/feature/wallet/wallet.dart';
 import 'package:app/feature/wallet/widgets/wallet_backup/back_up_badge.dart';
 import 'package:carousel_slider/carousel_slider.dart';
+import 'package:elementary/elementary.dart';
 import 'package:elementary_helper/elementary_helper.dart';
 import 'package:flutter/material.dart';
 import 'package:nekoton_repository/nekoton_repository.dart';
@@ -9,11 +9,14 @@ import 'package:ui_components_lib/v2/ui_components_lib_v2.dart';
 
 /// Body of wallet, that displays information about account
 class WalletAccountBodyWidget
-    extends InjectedElementaryWidget<WalletAccountBodyWidgetModel> {
+    extends ElementaryWidget<WalletAccountBodyWidgetModel> {
   const WalletAccountBodyWidget({
-    required KeyAccount account,
-    super.key,
-  }) : super(wmFactoryParam: account);
+    required this.account,
+    Key? key,
+    WidgetModelFactory wmFactory = defaultWalletAccountBodyWidgetModelFactory,
+  }) : super(wmFactory, key: key);
+
+  final KeyAccount account;
 
   @override
   Widget build(WalletAccountBodyWidgetModel wm) {
@@ -27,11 +30,21 @@ class WalletAccountBodyWidget
               left: DimensSizeV2.d16,
               right: DimensSizeV2.d16,
             ),
-            child: AccountCard(account: wm.account),
+            child: StateNotifierBuilder(
+              listenableState: wm.keyAccount,
+              builder: (context, keyAccount) {
+                if (keyAccount == null) return const SizedBox.shrink();
+
+                return AccountCard(account: keyAccount);
+              },
+            ),
           ),
-          StateNotifierBuilder(
-            listenableState: wm.notifications,
-            builder: (_, notifications) {
+          DoubleSourceBuilder(
+            firstSource: wm.notifications,
+            secondSource: wm.keyAccount,
+            builder: (_, notifications, keyAccount) {
+              if (keyAccount == null) return const SizedBox.shrink();
+
               final items = notifications ?? [];
 
               return Column(
@@ -41,7 +54,7 @@ class WalletAccountBodyWidget
                       horizontal: DimensSizeV2.d16,
                     ),
                     child: WalletAccountActions(
-                      account: wm.account,
+                      account: keyAccount,
                       disableSensetiveActions: items.contains(
                         NotificationType.unsupportedWalletType,
                       ),
@@ -53,7 +66,7 @@ class WalletAccountBodyWidget
                       children: [
                         _Carousel(
                           items: items,
-                          account: wm.account,
+                          account: keyAccount,
                           onFinishedBackup: wm.onFinishedBackup,
                           onSwitchAccount: wm.onSwitchAccount,
                           onPageChanged: wm.onPageChanged,

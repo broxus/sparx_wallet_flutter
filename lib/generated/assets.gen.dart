@@ -15,17 +15,20 @@ import 'package:vector_graphics/vector_graphics.dart' as _vg;
 class $AssetsAbiGen {
   const $AssetsAbiGen();
 
-  /// File path: assets/abi/StEverAccount.abi.min.json
-  String get stEverAccountAbiMin => 'assets/abi/StEverAccount.abi.min.json';
+  /// File path: assets/abi/StEverAccount.abi.json
+  String get stEverAccountAbi => 'assets/abi/StEverAccount.abi.json';
 
   /// File path: assets/abi/StEverAccountNew.abi.json
   String get stEverAccountNewAbi => 'assets/abi/StEverAccountNew.abi.json';
 
-  /// File path: assets/abi/StEverVault.abi.min.json
-  String get stEverVaultAbiMin => 'assets/abi/StEverVault.abi.min.json';
+  /// File path: assets/abi/StEverVault.abi.json
+  String get stEverVaultAbi => 'assets/abi/StEverVault.abi.json';
 
   /// File path: assets/abi/StEverVaultNew.abi.json
   String get stEverVaultNewAbi => 'assets/abi/StEverVaultNew.abi.json';
+
+  /// File path: assets/abi/StEverVaultTycho.abi.json
+  String get stEverVaultTychoAbi => 'assets/abi/StEverVaultTycho.abi.json';
 
   /// File path: assets/abi/TokenRoot.abi.json
   String get tokenRootAbi => 'assets/abi/TokenRoot.abi.json';
@@ -35,10 +38,11 @@ class $AssetsAbiGen {
 
   /// List of all assets
   List<String> get values => [
-        stEverAccountAbiMin,
+        stEverAccountAbi,
         stEverAccountNewAbi,
-        stEverVaultAbiMin,
+        stEverVaultAbi,
         stEverVaultNewAbi,
+        stEverVaultTychoAbi,
         tokenRootAbi,
         tokenWalletAbi,
       ];
@@ -705,6 +709,9 @@ class $AssetsImagesOnboardingGen {
 class $AssetsImagesSteverGen {
   const $AssetsImagesSteverGen();
 
+  /// File path: assets/images/stever/coins.svg
+  SvgGenImage get coins => const SvgGenImage('assets/images/stever/coins.svg');
+
   /// File path: assets/images/stever/stever.svg
   SvgGenImage get stever =>
       const SvgGenImage('assets/images/stever/stever.svg');
@@ -714,7 +721,7 @@ class $AssetsImagesSteverGen {
       const SvgGenImage('assets/images/stever/steverDefi.svg');
 
   /// List of all assets
-  List<SvgGenImage> get values => [stever, steverDefi];
+  List<SvgGenImage> get values => [coins, stever, steverDefi];
 }
 
 class $AssetsImagesUserAvatarGen {

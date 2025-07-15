@@ -1,22 +1,24 @@
-import 'package:app/core/wm/custom_wm.dart';
 import 'package:app/feature/add_seed/add_seed.dart';
 import 'package:app/generated/generated.dart';
+import 'package:elementary/elementary.dart';
 import 'package:elementary_helper/elementary_helper.dart';
 import 'package:flutter/material.dart';
 import 'package:ui_components_lib/ui_components_lib.dart';
 import 'package:ui_components_lib/v2/widgets/widgets.dart';
 
 class EnterSeedPhraseWidget
-    extends InjectedElementaryWidget<EnterSeedPhraseWidgetModel> {
+    extends ElementaryWidget<EnterSeedPhraseWidgetModel> {
   EnterSeedPhraseWidget({
     required bool isOnboarding,
     String? seedName,
-    super.key,
+    Key? key,
   }) : super(
-          wmFactoryParam: EnterSeedWmParams(
+          (context) => enterSeedPhraseWidgetModelFactory(
+            context,
             isOnboarding: isOnboarding,
             seedName: seedName,
           ),
+          key: key,
         );
 
   @override
@@ -29,7 +31,9 @@ class EnterSeedPhraseWidget
       child: Scaffold(
         backgroundColor: theme.colors.background0,
         resizeToAvoidBottomInset: false,
-        appBar: const DefaultAppBar(),
+        appBar: DefaultAppBar(
+          onClosePressed: wm.onClosePressed,
+        ),
         body: SafeArea(
           minimum: const EdgeInsets.only(bottom: DimensSizeV2.d16),
           child: Padding(
@@ -97,6 +101,7 @@ class EnterSeedPhraseWidget
                   builder: (_, tabData, seedPhraseFormat) =>
                       SeedPhraseFormatView(
                     networkGroup: wm.networkGroup,
+                    networkType: wm.networkType,
                     wordsCount: tabData?.currentValue,
                     value: seedPhraseFormat,
                     onChanged: wm.onSeedPhraseFormatChanged,

@@ -1,3 +1,4 @@
+import 'package:app/app/router/router.dart';
 import 'package:app/feature/add_seed/add_existing_wallet/view/add_existing_wallet_view.dart';
 import 'package:app/generated/assets.gen.dart';
 import 'package:flutter/material.dart';
@@ -25,11 +26,13 @@ class AddExistingWalletPage extends StatelessWidget {
             child: const AddExistingWalletView(),
           ),
         ),
-        const Positioned(
+        Positioned(
           top: 0,
           left: 0,
           right: 0,
-          child: DefaultAppBar(),
+          child: DefaultAppBar(
+            onClosePressed: (context) => context.compassBack(),
+          ),
         ),
       ],
     );

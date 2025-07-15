@@ -1,70 +1,72 @@
-import 'package:app/core/wm/custom_wm.dart';
 import 'package:app/feature/wallet/widgets/wallet_app_bar/wallet_app_bar_wm.dart';
 import 'package:app/utils/utils.dart';
 import 'package:app/widgets/network_drop_item.dart';
 import 'package:app/widgets/user_avatar/user_avatar.dart';
+import 'package:elementary/elementary.dart';
 import 'package:elementary_helper/elementary_helper.dart';
 import 'package:flutter/material.dart';
 import 'package:lucide_icons_flutter/lucide_icons.dart';
 import 'package:nekoton_repository/nekoton_repository.dart';
 import 'package:ui_components_lib/ui_components_lib.dart';
 
-class WalletAppBarWidget
-    extends InjectedElementaryWidget<WalletAppBarWidgetModel>
+class WalletAppBarWidget extends ElementaryWidget<WalletAppBarWidgetModel>
     implements PreferredSizeWidget {
   const WalletAppBarWidget({
-    super.key,
-  });
+    Key? key,
+    WidgetModelFactory wmFactory = defaultWalletAppBarWidgetModelFactory,
+  }) : super(wmFactory, key: key);
 
   @override
   Size get preferredSize => const Size.fromHeight(DimensSizeV2.d68);
 
   @override
   Widget build(WalletAppBarWidgetModel wm) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(
-        vertical: DimensSizeV2.d12,
-        horizontal: DimensSizeV2.d16,
-      ),
-      child: SeparatedRow(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          Flexible(
-            child: DoubleSourceBuilder(
-              firstSource: wm.currentAccount,
-              secondSource: wm.walletState,
-              builder: (_, account, walletState) =>
-                  account?.let(
-                    (value) => _AccountInfo(
-                      account: value,
-                      walletState: walletState,
-                      walletTypeName: wm.getWalletTypeName(
-                        account.account.tonWallet.contract,
-                      ),
-                      onTap: wm.onSelectAccount,
-                    ),
-                  ) ??
-                  const SizedBox.shrink(),
-            ),
-          ),
-          Row(
-            spacing: DimensSizeV2.d12,
-            children: [
-              _QrButton(onTap: wm.onScanQr),
-              StateNotifierBuilder(
-                listenableState: wm.connection,
-                builder: (_, connection) =>
-                    connection?.let(
-                      (value) => GestureDetector(
-                        onTap: wm.onNetwork,
-                        child: NetworkDropItem(data: value),
+    return SafeArea(
+      child: Padding(
+        padding: const EdgeInsets.symmetric(
+          vertical: DimensSizeV2.d12,
+          horizontal: DimensSizeV2.d16,
+        ),
+        child: SeparatedRow(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Flexible(
+              child: DoubleSourceBuilder(
+                firstSource: wm.currentAccount,
+                secondSource: wm.walletState,
+                builder: (_, account, walletState) =>
+                    account?.let(
+                      (value) => _AccountInfo(
+                        account: value,
+                        walletState: walletState,
+                        walletTypeName: wm.getWalletTypeName(
+                          account.account.tonWallet.contract,
+                        ),
+                        onTap: wm.onSelectAccount,
                       ),
                     ) ??
                     const SizedBox.shrink(),
               ),
-            ],
-          ),
-        ],
+            ),
+            Row(
+              spacing: DimensSizeV2.d12,
+              children: [
+                _QrButton(onTap: wm.onScanQr),
+                StateNotifierBuilder(
+                  listenableState: wm.connection,
+                  builder: (_, connection) =>
+                      connection?.let(
+                        (value) => GestureDetector(
+                          onTap: wm.onNetwork,
+                          child: NetworkDropItem(data: value),
+                        ),
+                      ) ??
+                      const SizedBox.shrink(),
+                ),
+              ],
+            ),
+          ],
+        ),
       ),
     );
   }

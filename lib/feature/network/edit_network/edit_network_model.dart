@@ -1,8 +1,6 @@
 import 'package:app/app/service/service.dart';
 import 'package:elementary/elementary.dart';
-import 'package:injectable/injectable.dart';
 
-@injectable
 class EditNetworkModel extends ElementaryModel {
   EditNetworkModel(
     this._connectionsStorageService,
@@ -15,7 +13,7 @@ class EditNetworkModel extends ElementaryModel {
   List<ConnectionData> get connections =>
       _connectionsStorageService.connections;
 
-  List<String>? get networkTypesOptions =>
+  List<NetworkType>? get networkTypesOptions =>
       _presetsConnectionService.customNetworkOptions;
 
   void addConnection(ConnectionData connection) =>

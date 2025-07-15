@@ -2,10 +2,8 @@ import 'package:app/app/service/app_version_service.dart';
 import 'package:app/app/service/service.dart';
 import 'package:app/generated/generated.dart';
 import 'package:elementary/elementary.dart';
-import 'package:injectable/injectable.dart';
 import 'package:nekoton_repository/nekoton_repository.dart';
 
-@injectable
 class ProfilePageModel extends ElementaryModel {
   ProfilePageModel(
     ErrorHandler errorHandler,

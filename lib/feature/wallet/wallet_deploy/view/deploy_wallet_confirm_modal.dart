@@ -1,7 +1,7 @@
 // ignore_for_file: inference_failure_on_function_return_type
-import 'package:app/core/wm/custom_wm.dart';
 import 'package:app/feature/wallet/wallet_deploy/view/deploy_wallet_confirm_wm.dart';
 import 'package:app/generated/generated.dart';
+import 'package:elementary/elementary.dart';
 import 'package:elementary_helper/elementary_helper.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:local_auth/local_auth.dart';
@@ -22,13 +22,14 @@ Future<void> showDeployConfirmModal(
 }
 
 class DeployWalletConfirmModal
-    extends InjectedElementaryWidget<DeployWalletConfirmWidgetModel> {
+    extends ElementaryWidget<DeployWalletConfirmWidgetModel> {
   const DeployWalletConfirmModal({
-    required PasswordChangeCallback passwordCallback,
-    super.key,
-  }) : super(
-          wmFactoryParam: passwordCallback,
-        );
+    required this.passwordCallback,
+    Key? key,
+    WidgetModelFactory wmFactory = defaultDeployWalletConfirmWidgetModelFactory,
+  }) : super(wmFactory, key: key);
+
+  final Function(String) passwordCallback;
 
   @override
   Widget build(DeployWalletConfirmWidgetModel wm) {

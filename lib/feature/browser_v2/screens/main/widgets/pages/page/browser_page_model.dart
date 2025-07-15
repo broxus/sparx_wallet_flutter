@@ -5,7 +5,6 @@ import 'package:app/app/service/assets_service.dart';
 import 'package:app/app/service/connection/connection_service.dart';
 import 'package:app/app/service/permissions_service.dart';
 import 'package:app/app/service/storage_service/connections_storage_service.dart';
-import 'package:app/app/service/ton_connect/ton_connect_js_bridge.dart';
 import 'package:app/feature/browser_v2/custom_web_controller.dart';
 import 'package:app/feature/browser_v2/data/browser_basic_auth_creds.dart';
 import 'package:app/feature/browser_v2/domain/service/browser_service.dart';
@@ -13,17 +12,17 @@ import 'package:app/feature/browser_v2/inpage_provider/inpage_provider.dart';
 import 'package:app/feature/browser_v2/screens/main/widgets/pages/page/browser_page.dart';
 import 'package:app/feature/browser_v2/screens/main/widgets/pages/page/helpers/events_helper.dart';
 import 'package:app/feature/messenger/domain/service/messenger_service.dart';
+import 'package:app/feature/ton_connect/ton_connect.dart';
 import 'package:elementary/elementary.dart';
 import 'package:elementary_helper/elementary_helper.dart';
 import 'package:flutter_inappwebview/flutter_inappwebview.dart';
-import 'package:injectable/injectable.dart';
 import 'package:nekoton_repository/nekoton_repository.dart';
 
 /// [ElementaryModel] for [BrowserPage]
-@injectable
 class BrowserPageModel extends ElementaryModel {
   BrowserPageModel(
     ErrorHandler errorHandler,
+    this._tabId,
     this._browserService,
     this._approvalsService,
     this._permissionsService,
@@ -33,7 +32,6 @@ class BrowserPageModel extends ElementaryModel {
     this._connectionsStorageService,
     this._connectionService,
     this._tonConnectJsBridge,
-    @factoryParam this._tabId,
   ) : super(errorHandler: errorHandler);
 
   final String _tabId;

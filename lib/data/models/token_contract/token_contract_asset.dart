@@ -1,11 +1,10 @@
+import 'package:app/app/service/connection/data/network_type.dart';
 import 'package:app/app/service/connection/group.dart';
-import 'package:app/app/service/connection/network_type.dart';
 import 'package:app/utils/common_utils.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:nekoton_repository/nekoton_repository.dart';
 
 part 'token_contract_asset.freezed.dart';
-
 part 'token_contract_asset.g.dart';
 
 @freezed

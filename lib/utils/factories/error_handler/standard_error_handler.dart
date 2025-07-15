@@ -1,10 +1,9 @@
 import 'package:app/feature/messenger/data/message.dart';
 import 'package:app/feature/messenger/domain/service/messenger_service.dart';
 import 'package:elementary/elementary.dart';
-import 'package:injectable/injectable.dart';
 import 'package:ui_components_lib/ui_components_lib.dart';
 
-@Injectable(as: ErrorHandler)
+/// Customize if need
 class PrimaryErrorHandler extends DefaultDebugErrorHandler {
   PrimaryErrorHandler(
     this._messengerService,

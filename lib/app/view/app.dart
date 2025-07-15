@@ -3,17 +3,18 @@ import 'package:app/app/service/crash_detector/widget/crash_detector_service_wid
 import 'package:app/app/service/localization/service/supported_locale_codes.dart';
 import 'package:app/app/service/localization/widget/localization_service_widget.dart';
 import 'package:app/app/view/app_wm.dart';
-import 'package:app/core/wm/custom_wm.dart';
 import 'package:easy_localization/easy_localization.dart';
+import 'package:elementary/elementary.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:in_app_notification/in_app_notification.dart';
 import 'package:ui_components_lib/v2/ui_components_lib_v2.dart';
 
-class App extends InjectedElementaryWidget<AppWidgetModel> {
+class App extends ElementaryWidget<AppWidgetModel> {
   const App({
-    super.key,
-  });
+    Key? key,
+    WidgetModelFactory wmFactory = defaultAppWidgetModelFactory,
+  }) : super(wmFactory, key: key);
 
   @override
   Widget build(AppWidgetModel wm) {
