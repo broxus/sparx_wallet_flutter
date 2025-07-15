@@ -74,28 +74,29 @@ class _RenameSheetState extends State<RenameSheet> {
         ),
         BlocConsumer<RenameSheetCubit, RenameSheetState>(
           listener: (context, state) {
-            state.whenOrNull(
-              completed: (isSeed) {
-                inject<MessengerService>().show(
-                  Message.successful(
-                    message: isSeed
-                        ? LocaleKeys.valueRenamed.tr(
-                            args: [LocaleKeys.seedPhrase.tr()],
-                          )
-                        : widget.isCustodian
-                            ? LocaleKeys.custodianRenamed.tr()
-                            : LocaleKeys.valueRenamed.tr(
-                                args: [LocaleKeys.keyWord.tr()],
-                              ),
-                  ),
-                );
-                Navigator.of(context).pop();
-              },
-            );
+            if (state case RenameSheetStateCompleted(:final isSeed)
+                when isSeed) {
+              inject<MessengerService>().show(
+                Message.successful(
+                  message: isSeed
+                      ? LocaleKeys.valueRenamed.tr(
+                          args: [LocaleKeys.seedPhrase.tr()],
+                        )
+                      : widget.isCustodian
+                          ? LocaleKeys.custodianRenamed.tr()
+                          : LocaleKeys.valueRenamed.tr(
+                              args: [LocaleKeys.keyWord.tr()],
+                            ),
+                ),
+              );
+              Navigator.of(context).pop();
+            }
           },
           builder: (context, state) {
-            final isLoading =
-                state.maybeWhen(loading: () => true, orElse: () => false);
+            final isLoading = switch (state) {
+              RenameSheetStateLoading() => true,
+              _ => false,
+            };
 
             return PrimaryButton(
               buttonShape: ButtonShape.pill,

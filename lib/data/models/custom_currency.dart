@@ -9,7 +9,7 @@ part 'custom_currency.freezed.dart';
 part 'custom_currency.g.dart';
 
 @freezed
-class CustomCurrency with _$CustomCurrency {
+abstract class CustomCurrency with _$CustomCurrency {
   // TODO(nesquikm): refactor to use Currency and Money
   const factory CustomCurrency({
     required Address address,

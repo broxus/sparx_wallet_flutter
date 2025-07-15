@@ -6,16 +6,15 @@ part of 'custom_currency.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-_$CustomCurrencyImpl _$$CustomCurrencyImplFromJson(Map<String, dynamic> json) =>
-    _$CustomCurrencyImpl(
+_CustomCurrency _$CustomCurrencyFromJson(Map<String, dynamic> json) =>
+    _CustomCurrency(
       address: Address.fromJson(json['address'] as String),
       price: json['price'] as String,
       networkType: NetworkType.fromJson(json['networkType'] as String),
       networkGroup: json['networkGroup'] as String,
     );
 
-Map<String, dynamic> _$$CustomCurrencyImplToJson(
-        _$CustomCurrencyImpl instance) =>
+Map<String, dynamic> _$CustomCurrencyToJson(_CustomCurrency instance) =>
     <String, dynamic>{
       'address': instance.address.toJson(),
       'price': instance.price,

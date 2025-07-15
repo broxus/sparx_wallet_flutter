@@ -44,7 +44,7 @@ class $AssetsAbiGen {
         stEverVaultNewAbi,
         stEverVaultTychoAbi,
         tokenRootAbi,
-        tokenWalletAbi
+        tokenWalletAbi,
       ];
 }
 
@@ -589,7 +589,7 @@ class $AssetsImagesGen {
         versionUpdateIcon,
         verticalDots,
         wallet,
-        web
+        web,
       ];
 }
 
@@ -609,8 +609,11 @@ class $AssetsSplashGen {
       const AssetGenImage('assets/splash/native_splash.webp');
 
   /// List of all assets
-  List<AssetGenImage> get values =>
-      [icSplashBanner, icSplashLogo, nativeSplash];
+  List<AssetGenImage> get values => [
+        icSplashBanner,
+        icSplashLogo,
+        nativeSplash,
+      ];
 }
 
 class $AssetsTranslationsGen {
@@ -631,7 +634,8 @@ class $AssetsImagesAlertOctagonFillGen {
 
   /// File path: assets/images/alert_octagon_fill/alert_octagon_fill.webp
   AssetGenImage get alertOctagonFill => const AssetGenImage(
-      'assets/images/alert_octagon_fill/alert_octagon_fill.webp');
+        'assets/images/alert_octagon_fill/alert_octagon_fill.webp',
+      );
 
   /// List of all assets
   List<AssetGenImage> get values => [alertOctagonFill];
@@ -653,7 +657,8 @@ class $AssetsImagesCheckCircleFillGen {
 
   /// File path: assets/images/check_circle_fill/check_circle_fill.webp
   AssetGenImage get checkCircleFill => const AssetGenImage(
-      'assets/images/check_circle_fill/check_circle_fill.webp');
+        'assets/images/check_circle_fill/check_circle_fill.webp',
+      );
 
   /// List of all assets
   List<AssetGenImage> get values => [checkCircleFill];
@@ -785,8 +790,18 @@ class $AssetsImagesOnboardingLayer1Gen {
       const SvgGenImage('assets/images/onboarding/layer1/usdt.svg');
 
   /// List of all assets
-  List<SvgGenImage> get values =>
-      [doge, ever, matic, qube, bridge, btc, dai, dot, eth, usdt];
+  List<SvgGenImage> get values => [
+        doge,
+        ever,
+        matic,
+        qube,
+        bridge,
+        btc,
+        dai,
+        dot,
+        eth,
+        usdt,
+      ];
 }
 
 class $AssetsImagesOnboardingLayer2Gen {
@@ -833,8 +848,18 @@ class $AssetsImagesOnboardingLayer2Gen {
       const SvgGenImage('assets/images/onboarding/layer2/xrp.svg');
 
   /// List of all assets
-  List<SvgGenImage> get values =>
-      [ada, avax, cro, luna, near, shib, sol, bnb, usdc, xrp];
+  List<SvgGenImage> get values => [
+        ada,
+        avax,
+        cro,
+        luna,
+        near,
+        shib,
+        sol,
+        bnb,
+        usdc,
+        xrp,
+      ];
 }
 
 class $AssetsImagesOnboardingLayer3Gen {
@@ -881,8 +906,18 @@ class $AssetsImagesOnboardingLayer3Gen {
       const SvgGenImage('assets/images/onboarding/layer3/xlm.svg');
 
   /// List of all assets
-  List<SvgGenImage> get values =>
-      [aave, axs, ftm, hbar, atom, link, ltc, mana, trx, xlm];
+  List<SvgGenImage> get values => [
+        aave,
+        axs,
+        ftm,
+        hbar,
+        atom,
+        link,
+        ltc,
+        mana,
+        trx,
+        xlm,
+      ];
 }
 
 class Assets {
@@ -897,11 +932,7 @@ class Assets {
 }
 
 class AssetGenImage {
-  const AssetGenImage(
-    this._assetName, {
-    this.size,
-    this.flavors = const {},
-  });
+  const AssetGenImage(this._assetName, {this.size, this.flavors = const {}});
 
   final String _assetName;
 
@@ -961,15 +992,8 @@ class AssetGenImage {
     );
   }
 
-  ImageProvider provider({
-    AssetBundle? bundle,
-    String? package,
-  }) {
-    return AssetImage(
-      _assetName,
-      bundle: bundle,
-      package: package,
-    );
+  ImageProvider provider({AssetBundle? bundle, String? package}) {
+    return AssetImage(_assetName, bundle: bundle, package: package);
   }
 
   String get path => _assetName;
@@ -978,17 +1002,11 @@ class AssetGenImage {
 }
 
 class SvgGenImage {
-  const SvgGenImage(
-    this._assetName, {
-    this.size,
-    this.flavors = const {},
-  }) : _isVecFormat = false;
+  const SvgGenImage(this._assetName, {this.size, this.flavors = const {}})
+      : _isVecFormat = false;
 
-  const SvgGenImage.vec(
-    this._assetName, {
-    this.size,
-    this.flavors = const {},
-  }) : _isVecFormat = true;
+  const SvgGenImage.vec(this._assetName, {this.size, this.flavors = const {}})
+      : _isVecFormat = true;
 
   final String _assetName;
   final Size? size;

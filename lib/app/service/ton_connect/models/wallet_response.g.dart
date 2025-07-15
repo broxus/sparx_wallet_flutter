@@ -6,32 +6,31 @@ part of 'wallet_response.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-_$WalletResponseSuccessImpl _$$WalletResponseSuccessImplFromJson(
+WalletResponseSuccess _$WalletResponseSuccessFromJson(
         Map<String, dynamic> json) =>
-    _$WalletResponseSuccessImpl(
+    WalletResponseSuccess(
       id: json['id'] as String,
       result: json['result'] as String,
       $type: json['runtimeType'] as String?,
     );
 
-Map<String, dynamic> _$$WalletResponseSuccessImplToJson(
-        _$WalletResponseSuccessImpl instance) =>
+Map<String, dynamic> _$WalletResponseSuccessToJson(
+        WalletResponseSuccess instance) =>
     <String, dynamic>{
       'id': instance.id,
       'result': instance.result,
       'runtimeType': instance.$type,
     };
 
-_$WalletResponseErrorImpl _$$WalletResponseErrorImplFromJson(
-        Map<String, dynamic> json) =>
-    _$WalletResponseErrorImpl(
+WalletResponseError _$WalletResponseErrorFromJson(Map<String, dynamic> json) =>
+    WalletResponseError(
       id: json['id'] as String,
       error: TonConnectError.fromJson(json['error'] as Map<String, dynamic>),
       $type: json['runtimeType'] as String?,
     );
 
-Map<String, dynamic> _$$WalletResponseErrorImplToJson(
-        _$WalletResponseErrorImpl instance) =>
+Map<String, dynamic> _$WalletResponseErrorToJson(
+        WalletResponseError instance) =>
     <String, dynamic>{
       'id': instance.id,
       'error': instance.error.toJson(),

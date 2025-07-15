@@ -1,3 +1,4 @@
+// dart format width=80
 // coverage:ignore-file
 // GENERATED CODE - DO NOT MODIFY BY HAND
 // ignore_for_file: type=lint
@@ -9,11 +10,8 @@ part of 'browser_history_item.dart';
 // FreezedGenerator
 // **************************************************************************
 
+// dart format off
 T _$identity<T>(T value) => value;
-
-final _privateConstructorUsedError = UnsupportedError(
-    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models');
-
 BrowserHistoryItem _$BrowserHistoryItemFromJson(Map<String, dynamic> json) {
   return _BrowserHistoryItemDto.fromJson(json);
 }
@@ -21,93 +19,62 @@ BrowserHistoryItem _$BrowserHistoryItemFromJson(Map<String, dynamic> json) {
 /// @nodoc
 mixin _$BrowserHistoryItem {
   /// The id of the tab.
-  String get id => throw _privateConstructorUsedError;
-  String get title => throw _privateConstructorUsedError;
+  String get id;
+  String get title;
   @uriJsonConverter
-  Uri get url => throw _privateConstructorUsedError;
-  DateTime get visitTime => throw _privateConstructorUsedError;
-
-  /// Serializes this BrowserHistoryItem to a JSON map.
-  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
+  Uri get url;
+  DateTime get visitTime;
 
   /// Create a copy of BrowserHistoryItem
   /// with the given fields replaced by the non-null parameter values.
   @JsonKey(includeFromJson: false, includeToJson: false)
-  $BrowserHistoryItemCopyWith<BrowserHistoryItem> get copyWith =>
-      throw _privateConstructorUsedError;
-}
-
-/// @nodoc
-abstract class $BrowserHistoryItemCopyWith<$Res> {
-  factory $BrowserHistoryItemCopyWith(
-          BrowserHistoryItem value, $Res Function(BrowserHistoryItem) then) =
-      _$BrowserHistoryItemCopyWithImpl<$Res, BrowserHistoryItem>;
-  @useResult
-  $Res call(
-      {String id, String title, @uriJsonConverter Uri url, DateTime visitTime});
-}
-
-/// @nodoc
-class _$BrowserHistoryItemCopyWithImpl<$Res, $Val extends BrowserHistoryItem>
-    implements $BrowserHistoryItemCopyWith<$Res> {
-  _$BrowserHistoryItemCopyWithImpl(this._value, this._then);
-
-  // ignore: unused_field
-  final $Val _value;
-  // ignore: unused_field
-  final $Res Function($Val) _then;
-
-  /// Create a copy of BrowserHistoryItem
-  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
+  $BrowserHistoryItemCopyWith<BrowserHistoryItem> get copyWith =>
+      _$BrowserHistoryItemCopyWithImpl<BrowserHistoryItem>(
+          this as BrowserHistoryItem, _$identity);
+
+  /// Serializes this BrowserHistoryItem to a JSON map.
+  Map<String, dynamic> toJson();
+
   @override
-  $Res call({
-    Object? id = null,
-    Object? title = null,
-    Object? url = null,
-    Object? visitTime = null,
-  }) {
-    return _then(_value.copyWith(
-      id: null == id
-          ? _value.id
-          : id // ignore: cast_nullable_to_non_nullable
-              as String,
-      title: null == title
-          ? _value.title
-          : title // ignore: cast_nullable_to_non_nullable
-              as String,
-      url: null == url
-          ? _value.url
-          : url // ignore: cast_nullable_to_non_nullable
-              as Uri,
-      visitTime: null == visitTime
-          ? _value.visitTime
-          : visitTime // ignore: cast_nullable_to_non_nullable
-              as DateTime,
-    ) as $Val);
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is BrowserHistoryItem &&
+            (identical(other.id, id) || other.id == id) &&
+            (identical(other.title, title) || other.title == title) &&
+            (identical(other.url, url) || other.url == url) &&
+            (identical(other.visitTime, visitTime) ||
+                other.visitTime == visitTime));
+  }
+
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @override
+  int get hashCode => Object.hash(runtimeType, id, title, url, visitTime);
+
+  @override
+  String toString() {
+    return 'BrowserHistoryItem(id: $id, title: $title, url: $url, visitTime: $visitTime)';
   }
 }
 
 /// @nodoc
-abstract class _$$BrowserHistoryItemDtoImplCopyWith<$Res>
-    implements $BrowserHistoryItemCopyWith<$Res> {
-  factory _$$BrowserHistoryItemDtoImplCopyWith(
-          _$BrowserHistoryItemDtoImpl value,
-          $Res Function(_$BrowserHistoryItemDtoImpl) then) =
-      __$$BrowserHistoryItemDtoImplCopyWithImpl<$Res>;
-  @override
+abstract mixin class $BrowserHistoryItemCopyWith<$Res> {
+  factory $BrowserHistoryItemCopyWith(
+          BrowserHistoryItem value, $Res Function(BrowserHistoryItem) _then) =
+      _$BrowserHistoryItemCopyWithImpl;
   @useResult
   $Res call(
       {String id, String title, @uriJsonConverter Uri url, DateTime visitTime});
 }
 
 /// @nodoc
-class __$$BrowserHistoryItemDtoImplCopyWithImpl<$Res>
-    extends _$BrowserHistoryItemCopyWithImpl<$Res, _$BrowserHistoryItemDtoImpl>
-    implements _$$BrowserHistoryItemDtoImplCopyWith<$Res> {
-  __$$BrowserHistoryItemDtoImplCopyWithImpl(_$BrowserHistoryItemDtoImpl _value,
-      $Res Function(_$BrowserHistoryItemDtoImpl) _then)
-      : super(_value, _then);
+class _$BrowserHistoryItemCopyWithImpl<$Res>
+    implements $BrowserHistoryItemCopyWith<$Res> {
+  _$BrowserHistoryItemCopyWithImpl(this._self, this._then);
+
+  final BrowserHistoryItem _self;
+  final $Res Function(BrowserHistoryItem) _then;
 
   /// Create a copy of BrowserHistoryItem
   /// with the given fields replaced by the non-null parameter values.
@@ -119,21 +86,21 @@ class __$$BrowserHistoryItemDtoImplCopyWithImpl<$Res>
     Object? url = null,
     Object? visitTime = null,
   }) {
-    return _then(_$BrowserHistoryItemDtoImpl(
+    return _then(_self.copyWith(
       id: null == id
-          ? _value.id
+          ? _self.id
           : id // ignore: cast_nullable_to_non_nullable
               as String,
       title: null == title
-          ? _value.title
+          ? _self.title
           : title // ignore: cast_nullable_to_non_nullable
               as String,
       url: null == url
-          ? _value.url
+          ? _self.url
           : url // ignore: cast_nullable_to_non_nullable
               as Uri,
       visitTime: null == visitTime
-          ? _value.visitTime
+          ? _self.visitTime
           : visitTime // ignore: cast_nullable_to_non_nullable
               as DateTime,
     ));
@@ -142,16 +109,15 @@ class __$$BrowserHistoryItemDtoImplCopyWithImpl<$Res>
 
 /// @nodoc
 @JsonSerializable()
-class _$BrowserHistoryItemDtoImpl extends _BrowserHistoryItemDto {
-  const _$BrowserHistoryItemDtoImpl(
+class _BrowserHistoryItemDto extends BrowserHistoryItem {
+  const _BrowserHistoryItemDto(
       {required this.id,
       required this.title,
       @uriJsonConverter required this.url,
       required this.visitTime})
       : super._();
-
-  factory _$BrowserHistoryItemDtoImpl.fromJson(Map<String, dynamic> json) =>
-      _$$BrowserHistoryItemDtoImplFromJson(json);
+  factory _BrowserHistoryItemDto.fromJson(Map<String, dynamic> json) =>
+      _$BrowserHistoryItemDtoFromJson(json);
 
   /// The id of the tab.
   @override
@@ -164,16 +130,27 @@ class _$BrowserHistoryItemDtoImpl extends _BrowserHistoryItemDto {
   @override
   final DateTime visitTime;
 
+  /// Create a copy of BrowserHistoryItem
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  String toString() {
-    return 'BrowserHistoryItem(id: $id, title: $title, url: $url, visitTime: $visitTime)';
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @pragma('vm:prefer-inline')
+  _$BrowserHistoryItemDtoCopyWith<_BrowserHistoryItemDto> get copyWith =>
+      __$BrowserHistoryItemDtoCopyWithImpl<_BrowserHistoryItemDto>(
+          this, _$identity);
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$BrowserHistoryItemDtoToJson(
+      this,
+    );
   }
 
   @override
   bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$BrowserHistoryItemDtoImpl &&
+            other is _BrowserHistoryItemDto &&
             (identical(other.id, id) || other.id == id) &&
             (identical(other.title, title) || other.title == title) &&
             (identical(other.url, url) || other.url == url) &&
@@ -185,49 +162,61 @@ class _$BrowserHistoryItemDtoImpl extends _BrowserHistoryItemDto {
   @override
   int get hashCode => Object.hash(runtimeType, id, title, url, visitTime);
 
-  /// Create a copy of BrowserHistoryItem
-  /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
-  @pragma('vm:prefer-inline')
-  _$$BrowserHistoryItemDtoImplCopyWith<_$BrowserHistoryItemDtoImpl>
-      get copyWith => __$$BrowserHistoryItemDtoImplCopyWithImpl<
-          _$BrowserHistoryItemDtoImpl>(this, _$identity);
-
-  @override
-  Map<String, dynamic> toJson() {
-    return _$$BrowserHistoryItemDtoImplToJson(
-      this,
-    );
+  String toString() {
+    return 'BrowserHistoryItem(id: $id, title: $title, url: $url, visitTime: $visitTime)';
   }
 }
 
-abstract class _BrowserHistoryItemDto extends BrowserHistoryItem {
-  const factory _BrowserHistoryItemDto(
-      {required final String id,
-      required final String title,
-      @uriJsonConverter required final Uri url,
-      required final DateTime visitTime}) = _$BrowserHistoryItemDtoImpl;
-  const _BrowserHistoryItemDto._() : super._();
+/// @nodoc
+abstract mixin class _$BrowserHistoryItemDtoCopyWith<$Res>
+    implements $BrowserHistoryItemCopyWith<$Res> {
+  factory _$BrowserHistoryItemDtoCopyWith(_BrowserHistoryItemDto value,
+          $Res Function(_BrowserHistoryItemDto) _then) =
+      __$BrowserHistoryItemDtoCopyWithImpl;
+  @override
+  @useResult
+  $Res call(
+      {String id, String title, @uriJsonConverter Uri url, DateTime visitTime});
+}
 
-  factory _BrowserHistoryItemDto.fromJson(Map<String, dynamic> json) =
-      _$BrowserHistoryItemDtoImpl.fromJson;
+/// @nodoc
+class __$BrowserHistoryItemDtoCopyWithImpl<$Res>
+    implements _$BrowserHistoryItemDtoCopyWith<$Res> {
+  __$BrowserHistoryItemDtoCopyWithImpl(this._self, this._then);
 
-  /// The id of the tab.
-  @override
-  String get id;
-  @override
-  String get title;
-  @override
-  @uriJsonConverter
-  Uri get url;
-  @override
-  DateTime get visitTime;
+  final _BrowserHistoryItemDto _self;
+  final $Res Function(_BrowserHistoryItemDto) _then;
 
   /// Create a copy of BrowserHistoryItem
   /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(includeFromJson: false, includeToJson: false)
-  _$$BrowserHistoryItemDtoImplCopyWith<_$BrowserHistoryItemDtoImpl>
-      get copyWith => throw _privateConstructorUsedError;
+  @pragma('vm:prefer-inline')
+  $Res call({
+    Object? id = null,
+    Object? title = null,
+    Object? url = null,
+    Object? visitTime = null,
+  }) {
+    return _then(_BrowserHistoryItemDto(
+      id: null == id
+          ? _self.id
+          : id // ignore: cast_nullable_to_non_nullable
+              as String,
+      title: null == title
+          ? _self.title
+          : title // ignore: cast_nullable_to_non_nullable
+              as String,
+      url: null == url
+          ? _self.url
+          : url // ignore: cast_nullable_to_non_nullable
+              as Uri,
+      visitTime: null == visitTime
+          ? _self.visitTime
+          : visitTime // ignore: cast_nullable_to_non_nullable
+              as DateTime,
+    ));
+  }
 }
+
+// dart format on
