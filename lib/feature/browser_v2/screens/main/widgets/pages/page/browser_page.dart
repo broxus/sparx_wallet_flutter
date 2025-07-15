@@ -17,7 +17,7 @@ class BrowserPage extends ElementaryWidget<BrowserPageWidgetModel> {
     required ValueChanged<int> onLoadingProgressChanged,
     required this.width,
     required NotNullListenableState<BrowserTab> listenable,
-    Key? key,
+    super.key,
     WidgetModelFactory<BrowserPageWidgetModel>? wmFactory,
   }) : super(
           wmFactory ??
@@ -29,7 +29,6 @@ class BrowserPage extends ElementaryWidget<BrowserPageWidgetModel> {
                     onDispose: onDispose,
                     onLoadingProgressChanged: onLoadingProgressChanged,
                   ),
-          key: key,
         );
 
   final double width;
