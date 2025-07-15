@@ -20,7 +20,7 @@ mixin _$CustomCurrency {
   /// Price in USD
   String get price;
   NetworkType get networkType;
-  NetworkType get networkGroup;
+  NetworkGroup get networkGroup;
 
   /// Create a copy of CustomCurrency
   /// with the given fields replaced by the non-null parameter values.
@@ -67,7 +67,7 @@ abstract mixin class $CustomCurrencyCopyWith<$Res> {
       {Address address,
       String price,
       NetworkType networkType,
-      NetworkType networkGroup});
+      NetworkGroup networkGroup});
 
   $AddressCopyWith<$Res> get address;
 }
@@ -106,7 +106,7 @@ class _$CustomCurrencyCopyWithImpl<$Res>
       networkGroup: null == networkGroup
           ? _self.networkGroup
           : networkGroup // ignore: cast_nullable_to_non_nullable
-              as NetworkType,
+              as NetworkGroup,
     ));
   }
 
@@ -141,7 +141,7 @@ class _CustomCurrency implements CustomCurrency {
   @override
   final NetworkType networkType;
   @override
-  final NetworkType networkGroup;
+  final NetworkGroup networkGroup;
 
   /// Create a copy of CustomCurrency
   /// with the given fields replaced by the non-null parameter values.
@@ -194,7 +194,7 @@ abstract mixin class _$CustomCurrencyCopyWith<$Res>
       {Address address,
       String price,
       NetworkType networkType,
-      NetworkType networkGroup});
+      NetworkGroup networkGroup});
 
   @override
   $AddressCopyWith<$Res> get address;
@@ -234,7 +234,7 @@ class __$CustomCurrencyCopyWithImpl<$Res>
       networkGroup: null == networkGroup
           ? _self.networkGroup
           : networkGroup // ignore: cast_nullable_to_non_nullable
-              as NetworkType,
+              as NetworkGroup,
     ));
   }
 

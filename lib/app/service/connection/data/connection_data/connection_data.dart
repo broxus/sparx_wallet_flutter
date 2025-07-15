@@ -1,4 +1,4 @@
-import 'package:app/app/service/connection/network_type.dart';
+import 'package:app/app/service/connection/data/network_type.dart';
 import 'package:app/utils/utils.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:uuid/uuid.dart';

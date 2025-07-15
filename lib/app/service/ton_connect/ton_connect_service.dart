@@ -36,7 +36,7 @@ class TonConnectService {
   }) async {
     // TonConnect is only available for TON network
     final transport = _nekotonRepository.currentTransport;
-    if (transport.networkType != 'ton') {
+    if (!transport.networkType.isTon) {
       _uiEvents.add(
         TonConnectUiEvent.error(
           message: LocaleKeys.invalidNetworkError.tr(
@@ -124,8 +124,7 @@ class TonConnectService {
 
     final transport = _nekotonRepository.currentTransport;
     final networkId = transport.transport.networkId;
-    if (transport.networkType != 'ton' ||
-        payload.network?.toInt() != networkId) {
+    if (!transport.networkType.isTon || payload.network?.toInt() != networkId) {
       _uiEvents.add(
         TonConnectUiEvent.error(
           message: LocaleKeys.invalidNetworkError.tr(
@@ -215,7 +214,7 @@ class TonConnectService {
     required String requestId,
   }) async {
     final transport = _nekotonRepository.currentTransport;
-    if (transport.networkType != 'ton') {
+    if (!transport.networkType.isTon) {
       _uiEvents.add(
         TonConnectUiEvent.error(
           message: LocaleKeys.invalidNetworkError.tr(

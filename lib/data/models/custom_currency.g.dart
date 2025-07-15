@@ -10,7 +10,7 @@ _CustomCurrency _$CustomCurrencyFromJson(Map<String, dynamic> json) =>
     _CustomCurrency(
       address: Address.fromJson(json['address'] as String),
       price: json['price'] as String,
-      networkType: json['networkType'] as String,
+      networkType: NetworkType.fromJson(json['networkType'] as String),
       networkGroup: json['networkGroup'] as String,
     );
 
@@ -18,6 +18,6 @@ Map<String, dynamic> _$CustomCurrencyToJson(_CustomCurrency instance) =>
     <String, dynamic>{
       'address': instance.address.toJson(),
       'price': instance.price,
-      'networkType': instance.networkType,
+      'networkType': instance.networkType.toJson(),
       'networkGroup': instance.networkGroup,
     };
