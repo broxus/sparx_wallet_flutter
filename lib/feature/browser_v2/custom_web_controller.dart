@@ -69,16 +69,9 @@ class CustomWebViewController {
     ScreenshotConfiguration? screenshotConfiguration,
   }) {
     return _safeCall<Uint8List?>(
-      () async {
-        try {
-          return _nativeController.takeScreenshot(
-            screenshotConfiguration: screenshotConfiguration,
-          );
-        } catch (e, s) {
-          _log.severe('InAppWebViewController nativeController', e, s);
-          return null;
-        }
-      },
+      () => _nativeController.takeScreenshot(
+        screenshotConfiguration: screenshotConfiguration,
+      ),
     );
   }
 

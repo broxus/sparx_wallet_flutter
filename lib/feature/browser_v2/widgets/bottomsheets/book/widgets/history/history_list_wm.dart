@@ -92,35 +92,23 @@ class HistoryListWidgetModel
     _editState.accept(false);
   }
 
-  void onPressedClear() {
-    Future(
-      () async {
-        final ctx = contextSafe;
+  Future<void> onPressedClear() async {
+    _close();
+    final result = await showClearHistoryModal(context);
 
-        if (ctx == null) {
-          return;
-        }
+    if (result == null) {
+      return;
+    }
 
-        _close();
+    final period = result.$1;
+    final targets = result.$2;
 
-        // ignore: use_build_context_synchronously
-        final result = await showClearHistoryModal(ctx);
+    if (targets.isEmpty) {
+      return;
+    }
 
-        if (result == null) {
-          return;
-        }
-
-        final period = result.$1;
-        final targets = result.$2;
-
-        if (targets.isEmpty) {
-          return;
-        }
-
-        model.clearData(period, targets);
-        _close();
-      },
-    );
+    model.clearData(period, targets);
+    _close();
   }
 
   void onPressedRemove(String bookmarkId) {

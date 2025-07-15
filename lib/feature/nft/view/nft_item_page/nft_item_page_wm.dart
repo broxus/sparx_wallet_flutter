@@ -53,15 +53,7 @@ class NftItemPageWidgetModel
     _init();
   }
 
-  void onBackPressed() {
-    final ctx = contextSafe;
-
-    if (ctx == null) {
-      return;
-    }
-
-    Navigator.of(ctx).pop();
-  }
+  void onBackPressed() => Navigator.of(context).pop();
 
   void onViewInExplorer(Address address) {
     openBrowserUrl(
