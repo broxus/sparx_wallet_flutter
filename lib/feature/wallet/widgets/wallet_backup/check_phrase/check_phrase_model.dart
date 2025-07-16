@@ -28,7 +28,10 @@ class CheckPhraseModel extends ElementaryModel {
     );
   }
 
-  void setShowingBackUpFlag(String address) {
+  void setShowingBackUpFlag(
+    String address, {
+    bool isShowingBadge = false,
+  }) {
     final account = nekotonRepository.accountsStorage.accounts
         .firstWhereOrNull((item) => item.address.address == address);
     final masterPublicKey = account?.let(
@@ -41,7 +44,7 @@ class CheckPhraseModel extends ElementaryModel {
 
     storage.addValue(
       StorageKey.showingManualBackupBadge(masterPublicKey.publicKey),
-      false,
+      isShowingBadge,
     );
   }
 }

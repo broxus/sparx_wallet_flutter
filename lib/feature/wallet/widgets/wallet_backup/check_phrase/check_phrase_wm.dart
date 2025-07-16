@@ -78,7 +78,12 @@ class CheckPhraseWidgetModel
   }
 
   void clickSkip() {
-    address.value?.let(model.setShowingBackUpFlag);
+    address.value?.let(
+      (String address) => model.setShowingBackUpFlag(
+        address,
+        isShowingBadge: true,
+      ),
+    );
 
     if (!isMounted) return;
     widget.finishedBackupCallback();
