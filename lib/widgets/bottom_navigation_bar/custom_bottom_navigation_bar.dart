@@ -47,7 +47,7 @@ class CustomBottomNavigationBar
                         decoration: BoxDecoration(
                           color: wm.colors.background1,
                           borderRadius: switch (tab) {
-                            RootTab.browser => null,
+                            RootTab.browser || RootTab.profile => null,
                             _ => const BorderRadius.vertical(
                                 top: Radius.circular(DimensSizeV2.d16),
                               ),
