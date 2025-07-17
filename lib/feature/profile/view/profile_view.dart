@@ -41,7 +41,6 @@ class ProfileView extends StatelessWidget {
     final theme = context.themeStyleV2;
 
     return Scaffold(
-      backgroundColor: theme.colors.background1,
       body: SafeArea(
         child: SingleChildScrollView(
           child: Padding(
@@ -206,7 +205,7 @@ class _Container extends StatelessWidget {
     final theme = context.themeStyleV2;
 
     return ShapedContainerColumn(
-      color: theme.colors.background2,
+      color: theme.colors.background1,
       separator: const CommonDivider(
         margin: EdgeInsets.symmetric(
           vertical: DimensSizeV2.d16,
