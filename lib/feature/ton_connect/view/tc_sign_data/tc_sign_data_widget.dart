@@ -49,11 +49,12 @@ class TCSignDataWidget extends ElementaryWidget<TCSignDataWidgetModel> {
         if (wm.account != null)
           StateNotifierBuilder(
             listenableState: wm.isLoading,
-            builder: (_, isLoading) => EnterPasswordWidgetV2(
-              isLoading: isLoading,
+            builder: (_, isLoading) => EnterPasswordWidget.auth(
+              getLedgerAuthInput: wm.getLedgerAuthInput,
+              isLoading: isLoading ?? false,
               publicKey: wm.account!.publicKey,
               title: LocaleKeys.sign.tr(),
-              onPasswordEntered: wm.onSubmit,
+              onConfirmed: wm.onSubmit,
             ),
           ),
       ],

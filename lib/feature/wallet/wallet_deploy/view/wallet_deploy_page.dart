@@ -28,6 +28,7 @@ class WalletDeployPage extends StatelessWidget {
         publicKey: publicKey,
         nekotonRepository: inject(),
         currenciesService: inject(),
+        ledgerService: inject(),
       ),
       child: BlocConsumer<WalletDeployBloc, WalletDeployState>(
         listener: (context, state) {
@@ -75,6 +76,7 @@ class WalletDeployPage extends StatelessWidget {
                   currency: Currencies()[state.ticker ?? ''],
                   customCurrency: state.currency,
                   account: state.account,
+                  ledgerAuthInput: state.ledgerAuthInput,
                 ),
                 canPrev: true,
               ),

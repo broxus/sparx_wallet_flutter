@@ -22,6 +22,7 @@ TokenWalletSendWidgetModel defaultTokenWalletSendWidgetModelFactory(
         createPrimaryErrorHandler(context),
         inject(),
         inject(),
+        inject(),
       ),
     );
 
@@ -41,6 +42,9 @@ class TokenWalletSendWidgetModel
   late final _amount = createNotifier<Money>();
 
   late final KeyAccount? account = model.getAccount(widget.owner);
+
+  TonWallet? _wallet;
+  GenericTokenWallet? _tokenWallet;
 
   Currency get currency => model.currency;
 
@@ -64,7 +68,19 @@ class TokenWalletSendWidgetModel
     _init();
   }
 
-  Future<void> onPasswordEntered(String password) async {
+  SignInputAuthLedger getLedgerAuthInput() {
+    if (_wallet == null || _tokenWallet == null) {
+      throw StateError('Wallet or token wallet is not initialized');
+    }
+
+    return model.getLedgerAuthInput(
+      wallet: _wallet!,
+      tokenWallet: _tokenWallet!,
+      custodian: widget.publicKey,
+    );
+  }
+
+  Future<void> onConfirmed(SignInputAuth signInputAuth) async {
     UnsignedMessage? unsignedMessage;
     InternalMessage? internalMessage;
     try {
@@ -88,7 +104,7 @@ class TokenWalletSendWidgetModel
         address: widget.owner,
         publicKey: widget.publicKey,
         message: unsignedMessage,
-        password: password,
+        signInputAuth: signInputAuth,
         destination: internalMessage.destination,
         amount: internalMessage.amount,
       );
@@ -173,6 +189,8 @@ class TokenWalletSendWidgetModel
 
       _fees.accept(fees);
       _txErrors.accept(txErrors);
+      _wallet = walletState.wallet;
+      _tokenWallet = tokenWalletState.wallet;
 
       final wallet = walletState.wallet!;
       final balance = wallet.contractState.balance;

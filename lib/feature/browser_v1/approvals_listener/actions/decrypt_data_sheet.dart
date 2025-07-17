@@ -8,8 +8,9 @@ import 'package:ui_components_lib/v2/ui_components_lib_v2.dart';
 
 /// Helper function that shows sheet to decrypt data.
 ///
-/// Returns password if user entered it or null.
-Future<String?> showDecryptDataSheet({
+/// Returns [SignInputAuth] if user confirmed action
+/// with password/ledger or null.
+Future<SignInputAuth?> showDecryptDataSheet({
   required BuildContext context,
   required Uri origin,
   required Address account,
@@ -87,11 +88,12 @@ class _DecryptData extends StatelessWidget {
             ),
           ),
         ),
-        EnterPasswordWidgetV2(
+        // TODO(komarov): encrypt/decrypt is not supported by Ledger
+        EnterPasswordWidget.auth(
+          getLedgerAuthInput: null,
           publicKey: recipientPublicKey,
           title: LocaleKeys.decrypt.tr(),
-          onPasswordEntered: (String password) =>
-              Navigator.of(context).pop(password),
+          onConfirmed: (auth) => Navigator.of(context).pop(auth),
         ),
       ],
     );

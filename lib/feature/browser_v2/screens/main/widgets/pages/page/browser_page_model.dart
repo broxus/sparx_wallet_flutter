@@ -12,6 +12,7 @@ import 'package:app/feature/browser_v2/domain/service/browser_service.dart';
 import 'package:app/feature/browser_v2/inpage_provider/inpage_provider.dart';
 import 'package:app/feature/browser_v2/screens/main/widgets/pages/page/browser_page.dart';
 import 'package:app/feature/browser_v2/screens/main/widgets/pages/page/helpers/events_helper.dart';
+import 'package:app/feature/ledger/ledger.dart';
 import 'package:app/feature/messenger/domain/service/messenger_service.dart';
 import 'package:elementary/elementary.dart';
 import 'package:elementary_helper/elementary_helper.dart';
@@ -32,6 +33,7 @@ class BrowserPageModel extends ElementaryModel {
     this._connectionsStorageService,
     this._connectionService,
     this._tonConnectJsBridge,
+    this._ledgerService,
   ) : super(errorHandler: errorHandler);
 
   final String _tabId;
@@ -45,6 +47,7 @@ class BrowserPageModel extends ElementaryModel {
   final ConnectionsStorageService _connectionsStorageService;
   final ConnectionService _connectionService;
   final TonConnectJsBridge _tonConnectJsBridge;
+  final LedgerService _ledgerService;
 
   late final _inpageProvider = InpageProvider(
     tabId: _tabId,
@@ -55,6 +58,7 @@ class BrowserPageModel extends ElementaryModel {
     assetsService: _assetsService,
     connectionsStorageService: _connectionsStorageService,
     connectionService: _connectionService,
+    ledgerService: _ledgerService,
   );
 
   late final _eventsHelper = EventsHelper(

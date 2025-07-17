@@ -38,6 +38,7 @@ TCSendMessageWidgetModel defaultTCSendMessageWidgetModelFactory(
         inject(),
         inject(),
         inject(),
+        inject(),
       ),
     );
 
@@ -105,7 +106,7 @@ class TCSendMessageWidgetModel
 
   void onChangedCustodian(PublicKey custodian) => _publicKey.accept(custodian);
 
-  Future<void> onSubmit(String password) async {
+  Future<void> onSubmit(SignInputAuth signInputAuth) async {
     if (account == null) return;
 
     try {
@@ -114,7 +115,7 @@ class TCSendMessageWidgetModel
         address: sender,
         publicKey: account!.publicKey,
         messages: widget.payload.messages,
-        password: password,
+        signInputAuth: signInputAuth,
       );
 
       if (contextSafe != null) {
@@ -141,6 +142,23 @@ class TCSendMessageWidgetModel
 
   // ignore: avoid_positional_boolean_parameters
   void onConfirmed(bool value) => _isConfirmed.accept(value);
+
+  Future<SignInputAuthLedger> getLedgerAuthInput() {
+    final data = _data.value;
+    final custodian = _publicKey.value;
+    if (data == null || data.isEmpty) {
+      throw StateError('Invalid transfer data');
+    }
+    if (custodian == null) {
+      throw StateError('Public key is not set');
+    }
+
+    return model.getLedgerAuthInput(
+      address: sender,
+      custodian: custodian,
+      currency: data.singleOrNull?.amount.currency ?? nativeCurrency,
+    );
+  }
 
   Future<void> _init() async {
     try {
@@ -220,8 +238,8 @@ class TCSendMessageWidgetModel
     try {
       message = await model.prepareTransfer(
         address: sender,
-        publicKey: account!.publicKey,
         messages: widget.payload.messages,
+        publicKey: _publicKey.value,
       );
 
       await _estimateFees(message);

@@ -1,4 +1,5 @@
 import 'package:app/app/service/service.dart';
+import 'package:app/feature/ledger/ledger.dart';
 import 'package:app/feature/messenger/data/message.dart';
 import 'package:app/feature/messenger/domain/service/messenger_service.dart';
 import 'package:app/utils/utils.dart';
@@ -11,10 +12,12 @@ class TokenWalletSendModel extends ElementaryModel {
     ErrorHandler errorHandler,
     this._nekotonRepository,
     this._messengerService,
+    this._ledgerService,
   ) : super(errorHandler: errorHandler);
 
   final NekotonRepository _nekotonRepository;
   final MessengerService _messengerService;
+  final LedgerService _ledgerService;
 
   TransportStrategy get transport => _nekotonRepository.currentTransport;
 
@@ -97,17 +100,18 @@ class TokenWalletSendModel extends ElementaryModel {
     required Address address,
     required PublicKey publicKey,
     required UnsignedMessage message,
-    required String password,
+    required SignInputAuth signInputAuth,
     required Address destination,
     required BigInt amount,
   }) async {
     final signature = await _nekotonRepository.seedList.sign(
-      data: message.hash,
+      message: message.message,
       publicKey: publicKey,
-      password: password,
+      signInputAuth: signInputAuth,
       signatureId: await transport.transport.getSignatureId(),
     );
 
+    await message.refreshTimeout();
     final signedMessage = await message.sign(signature: signature);
 
     return _nekotonRepository.send(
@@ -119,4 +123,22 @@ class TokenWalletSendModel extends ElementaryModel {
   }
 
   void showMessage(Message message) => _messengerService.show(message);
+
+  SignInputAuthLedger getLedgerAuthInput({
+    required TonWallet wallet,
+    required GenericTokenWallet tokenWallet,
+    required PublicKey custodian,
+  }) {
+    return SignInputAuthLedger(
+      wallet: wallet.walletType,
+      context: _ledgerService.prepareSignatureContext(
+        PrepareSignatureContext.transfer(
+          wallet: wallet,
+          asset: tokenWallet.currency.symbol,
+          decimals: tokenWallet.currency.decimalDigits,
+          custodian: custodian,
+        ),
+      ),
+    );
+  }
 }

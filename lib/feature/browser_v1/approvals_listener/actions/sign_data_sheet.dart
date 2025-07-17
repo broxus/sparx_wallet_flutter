@@ -7,13 +7,15 @@ import 'package:ui_components_lib/ui_components_lib.dart';
 
 /// Helper function that shows sheet to sign data.
 ///
-/// Returns password if user entered it or null.
-Future<String?> showSignDataSheet({
+/// Returns [SignInputAuth] if user confirmed action
+/// with password/ledger or null.
+Future<SignInputAuth?> showSignDataSheet({
   required BuildContext context,
   required Uri origin,
   required Address account,
   required PublicKey publicKey,
   required String data,
+  required SignInputAuthLedger signInputAuthLedger,
 }) {
   return showCommonBottomSheet(
     context: context,
@@ -24,6 +26,7 @@ Future<String?> showSignDataSheet({
       account: account,
       publicKey: publicKey,
       data: data,
+      signInputAuthLedger: signInputAuthLedger,
       scrollController: controller,
     ),
   );
@@ -35,6 +38,7 @@ class _SignData extends StatelessWidget {
     required this.account,
     required this.publicKey,
     required this.data,
+    required this.signInputAuthLedger,
     required this.scrollController,
   });
 
@@ -42,6 +46,7 @@ class _SignData extends StatelessWidget {
   final Address account;
   final PublicKey publicKey;
   final String data;
+  final SignInputAuthLedger signInputAuthLedger;
   final ScrollController scrollController;
 
   @override
@@ -62,11 +67,11 @@ class _SignData extends StatelessWidget {
               ),
             ),
           ),
-          EnterPasswordWidgetV2(
+          EnterPasswordWidget.auth(
+            getLedgerAuthInput: () => signInputAuthLedger,
             publicKey: publicKey,
             title: LocaleKeys.sign.tr(),
-            onPasswordEntered: (String password) =>
-                Navigator.of(context).pop(password),
+            onConfirmed: (auth) => Navigator.of(context).pop(auth),
           ),
         ],
       );

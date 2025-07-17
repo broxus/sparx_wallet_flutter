@@ -1,3 +1,4 @@
+import 'package:app/feature/ledger/ledger.dart';
 import 'package:app/feature/messenger/data/message.dart';
 import 'package:app/feature/messenger/domain/service/messenger_service.dart';
 import 'package:app/feature/nft/nft.dart';
@@ -12,11 +13,13 @@ class NftSendModel extends ElementaryModel {
     this._nekotonRepository,
     this._messengerService,
     this._nftService,
+    this._ledgerService,
   ) : super(errorHandler: errorHandler);
 
   final NekotonRepository _nekotonRepository;
   final MessengerService _messengerService;
   final NftService _nftService;
+  final LedgerService _ledgerService;
 
   TransportStrategy get transport => _nekotonRepository.currentTransport;
 
@@ -101,17 +104,18 @@ class NftSendModel extends ElementaryModel {
     required Address address,
     required PublicKey publicKey,
     required UnsignedMessage message,
-    required String password,
+    required SignInputAuth auth,
     required Address destination,
     required BigInt amount,
   }) async {
     final signature = await _nekotonRepository.seedList.sign(
-      data: message.hash,
+      message: message.message,
       publicKey: publicKey,
-      password: password,
+      signInputAuth: auth,
       signatureId: await transport.transport.getSignatureId(),
     );
 
+    await message.refreshTimeout();
     final signedMessage = await message.sign(signature: signature);
 
     return _nekotonRepository.send(
@@ -132,4 +136,23 @@ class NftSendModel extends ElementaryModel {
       _nftService.getNftItem(address: address, owner: owner);
 
   void showMessage(Message message) => _messengerService.show(message);
+
+  Future<SignInputAuthLedger> getLedgerAuthInput({
+    required Address address,
+    required PublicKey custodian,
+  }) async {
+    final walletState = await _nekotonRepository.getWallet(address);
+
+    return SignInputAuthLedger(
+      wallet: walletState.wallet!.walletType,
+      context: _ledgerService.prepareSignatureContext(
+        PrepareSignatureContext.transfer(
+          wallet: walletState.wallet!,
+          asset: currency.symbol,
+          decimals: currency.decimalDigits,
+          custodian: custodian,
+        ),
+      ),
+    );
+  }
 }

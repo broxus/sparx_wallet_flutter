@@ -58,7 +58,15 @@ class DeriveKeysCubit extends Cubit<DeriveKeysState> with BlocBaseMixin {
     }
     checkedKeys.addAll(addedKeys);
 
-    final keys = await seed.getKeysToDerive(password);
+    // TODO(komarov): add ledger support
+    final keys = await seed.getKeysToDerive(
+      GetPublicKeysParams.derived(
+        masterKey: seed.masterPublicKey,
+        password: password,
+        limit: 0,
+        offset: 100,
+      ),
+    );
     derivePossibleKeys.addAll(keys);
 
     _emitDataState();

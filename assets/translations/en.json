@@ -724,5 +724,19 @@
   "nftTransferDescription": "Transferring the NFT also transfers ownership",
   "nftTransferSuccessMessage": "NFTs transferred successfully",
   "nftAttachedAmountNotification": "Most of the attached amount will be returned to your address. The exact commission amount depends on the smart contract.",
-  "unknown": "Unknown"
+  "unknown": "Unknown",
+  "submitOnLedger": "Submit on Ledger",
+  "importWalletButtonTitle": "Import wallet",
+  "importWalletButtonSubtitle": "with 12 or 24 secret recovery words",
+  "pairLedgerButtonTitle": "Pair with Ledger",
+  "pairLedgerButtonSubtitle": "Hardware module, Bluetooth",
+  "ledgerPermissionsError": "Bluetooth permissions are not granted. Please, allow Bluetooth permissions in the app settings.",
+  "bluetoothIsOff": "Bluetooth is turned off on device",
+  "availableDevices": "Available Devices",
+  "connectLedger": "Connect Ledger",
+  "ledgerStepConnectTitle": "Connect Ledger to your device",
+  "ledgerStepAppTitle": "Unlock and open Tycho App",
+  "ledgerStepConfirmTxTitle": "Confirm your transaction on Ledger",
+  "ledgerStepConfirmActionTitle": "Confirm action on Ledger",
+  "ledgerConnectedSuccessfully": "Ledger connected successfully"
 }

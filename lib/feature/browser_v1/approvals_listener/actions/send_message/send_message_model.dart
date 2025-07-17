@@ -1,3 +1,4 @@
+import 'package:app/feature/ledger/ledger.dart';
 import 'package:app/feature/messenger/data/message.dart';
 import 'package:app/feature/messenger/domain/service/messenger_service.dart';
 import 'package:app/utils/utils.dart';
@@ -11,10 +12,12 @@ class SendMessageModel extends ElementaryModel {
     ErrorHandler errorHandler,
     this._nekotonRepository,
     this._messengerService,
+    this._ledgerService,
   ) : super(errorHandler: errorHandler);
 
   final NekotonRepository _nekotonRepository;
   final MessengerService _messengerService;
+  final LedgerService _ledgerService;
 
   TransportStrategy get transport => _nekotonRepository.currentTransport;
 
@@ -112,6 +115,26 @@ class SendMessageModel extends ElementaryModel {
     _messengerService.show(
       Message.error(
         message: message,
+      ),
+    );
+  }
+
+  Future<SignInputAuthLedger> getLedgerAuthInput({
+    required Address address,
+    required PublicKey custodian,
+    required Currency currency,
+  }) async {
+    final walletState = await getTonWalletState(address);
+
+    return SignInputAuthLedger(
+      wallet: walletState.wallet!.walletType,
+      context: _ledgerService.prepareSignatureContext(
+        PrepareSignatureContext.transfer(
+          wallet: walletState.wallet!,
+          asset: currency.symbol,
+          decimals: currency.decimalDigits,
+          custodian: custodian,
+        ),
       ),
     );
   }

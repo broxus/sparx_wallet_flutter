@@ -21,6 +21,7 @@ NftSendWidgetModel defaultNftSendWidgetModelFactory(
         inject(),
         inject(),
         inject(),
+        inject(),
       ),
     );
 
@@ -67,7 +68,17 @@ class NftSendWidgetModel
     _init();
   }
 
-  Future<void> onPasswordEntered(String password) async {
+  Future<SignInputAuthLedger> getLedgerAuthInput() {
+    final data = routeData.value;
+    if (data == null) throw ArgumentError('Route data is null');
+
+    return model.getLedgerAuthInput(
+      address: data.owner,
+      custodian: data.publicKey,
+    );
+  }
+
+  Future<void> onConfirmed(SignInputAuth auth) async {
     final routeData = this.routeData.value;
     final account = this.account;
     final nftItem = _itemState.value;
@@ -95,7 +106,7 @@ class NftSendWidgetModel
         address: routeData.owner,
         publicKey: routeData.publicKey,
         message: unsignedMessage,
-        password: password,
+        auth: auth,
         destination: internalMessage.destination,
         amount: internalMessage.amount,
       );

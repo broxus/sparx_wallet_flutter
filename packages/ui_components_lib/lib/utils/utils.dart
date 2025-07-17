@@ -28,6 +28,14 @@ extension ListExtension<T> on Iterable<T> {
 
     return children;
   }
+
+  Map<K, T> toMap<K>(K Function(T) key) {
+    final map = <K, T>{};
+    for (final element in this) {
+      map[key(element)] = element;
+    }
+    return map;
+  }
 }
 
 String _moneyPattern(int decimal) => '0.${'#' * decimal}';

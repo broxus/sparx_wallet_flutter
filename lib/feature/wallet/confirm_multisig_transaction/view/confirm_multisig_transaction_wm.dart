@@ -23,6 +23,7 @@ ConfirmMultisigTransactionWidgetModel
             createPrimaryErrorHandler(context),
             inject(),
             inject(),
+            inject(),
           ),
         );
 
@@ -47,7 +48,8 @@ class ConfirmMultisigTransactionWidgetModel extends CustomWidgetModel<
     currency,
   );
 
-  PublicKey? custodian;
+  PublicKey? _custodian;
+  TonWallet? _wallet;
 
   ListenableState<bool> get isLoading => _isLoading;
 
@@ -74,8 +76,19 @@ class ConfirmMultisigTransactionWidgetModel extends CustomWidgetModel<
     }
   }
 
+  SignInputAuthLedger getLedgerAuthInput() {
+    if (_wallet == null) {
+      throw StateError('Wallet is not initialized');
+    }
+
+    return model.getLedgerAuthInput(
+      wallet: _wallet!,
+      currency: currency,
+    );
+  }
+
   Future<void> onCustodianSelected(PublicKey custodian) async {
-    this.custodian = custodian;
+    _custodian = custodian;
 
     UnsignedMessage? unsignedMessage;
     try {
@@ -111,6 +124,7 @@ class ConfirmMultisigTransactionWidgetModel extends CustomWidgetModel<
 
       _fees.accept(fees);
       _txErrors.accept(txErrors);
+      _wallet = walletState.wallet;
 
       final wallet = walletState.wallet!;
       final balance = wallet.contractState.balance;
@@ -128,8 +142,8 @@ class ConfirmMultisigTransactionWidgetModel extends CustomWidgetModel<
     }
   }
 
-  Future<void> onPasswordEntered(String password) async {
-    if (custodian == null) return;
+  Future<void> onConfirmed(SignInputAuth signInputAuth) async {
+    if (_custodian == null) return;
 
     UnsignedMessage? unsignedMessage;
     try {
@@ -137,17 +151,17 @@ class ConfirmMultisigTransactionWidgetModel extends CustomWidgetModel<
 
       unsignedMessage = await model.prepareConfirmTransaction(
         address: widget.walletAddress,
-        publicKey: custodian!,
+        publicKey: _custodian!,
         transactionId: widget.transactionId,
       );
 
       final transactionCompleter = await model.sendMessage(
         address: widget.walletAddress,
         destination: widget.destination,
-        publicKey: custodian!,
+        publicKey: _custodian!,
         message: unsignedMessage,
         amount: widget.amount,
-        password: password,
+        signInputAuth: signInputAuth,
       );
 
       _state.accept(
