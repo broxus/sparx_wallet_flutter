@@ -90,7 +90,6 @@ class CheckPhraseWidgetModel
     context
       ..compassBack() //close manual backup dialog
       ..compassBack(); //close current dialog
-    showGoodJobDialog(context);
   }
 
   void _init() {
