@@ -81,12 +81,12 @@ class CheckPhraseWidgetModel
     address.value?.let(
       (String address) => model.setShowingBackUpFlag(
         address,
-        isShowingBadge: true,
+        isSkipped: true,
       ),
     );
 
     if (!isMounted) return;
-    widget.finishedBackupCallback();
+    widget.finishedBackupCallback(false);
     context
       ..compassBack() //close manual backup dialog
       ..compassBack(); //close current dialog
@@ -135,8 +135,13 @@ class CheckPhraseWidgetModel
       model.showValidateError(LocaleKeys.seedIsMissing.tr());
     } else {
       // TODO(malochka): think about get rid of compassBack method
-      address.value?.let(model.setShowingBackUpFlag);
-      widget.finishedBackupCallback();
+      address.value?.let(
+        (String address) => model.setShowingBackUpFlag(
+          address,
+          isSkipped: false,
+        ),
+      );
+      widget.finishedBackupCallback(true);
       context
         ..compassBack() //close manual backup
         ..compassBack(); //close check your seed phrase
