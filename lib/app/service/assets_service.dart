@@ -405,6 +405,7 @@ class AssetsService {
             e.decimals,
             symbol: e.symbol,
             pattern: moneyPattern(e.decimals),
+            name: e.name,
           ),
         ),
       );

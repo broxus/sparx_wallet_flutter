@@ -12,7 +12,7 @@ Future<void> showCheckPhraseDialog(
   BuildContext context,
   List<String> words,
   String address,
-  VoidCallback finishedBackupCallback,
+  ValueChanged<bool> finishedBackupCallback,
 ) {
   return showPrimaryBottomSheet(
     context: context,
@@ -38,7 +38,7 @@ class ContentCheckPhrase extends ElementaryWidget<CheckPhraseWidgetModel> {
 
   final List<String> words;
   final String address;
-  final VoidCallback finishedBackupCallback;
+  final ValueChanged<bool> finishedBackupCallback;
 
   @override
   Widget build(CheckPhraseWidgetModel wm) {

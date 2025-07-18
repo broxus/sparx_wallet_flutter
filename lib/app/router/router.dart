@@ -361,11 +361,9 @@ class CompassRouter {
       return null;
     }
 
-    final originalLocation = _router.state.uri;
-
     final concatedUri = newLocation.replace(
       queryParameters: {
-        ...originalLocation.queryParameters, // Preserve original parameters
+        ...currentUri.queryParameters, // Preserve original parameters
         ...newLocation
             .queryParameters, // Add new parameters (overrides duplicates)
       },

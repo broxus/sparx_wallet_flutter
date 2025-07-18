@@ -32,9 +32,7 @@ class SegmentControlsV2 extends StatelessWidget {
                 ),
               ],
             ),
-            SizedBox(
-              height: 16,
-            ),
+            SizedBox(height: 16),
             Row(
               children: [
                 PrimarySegmentControl(

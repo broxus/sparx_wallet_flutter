@@ -76,20 +76,16 @@ class TokenWalletTransactionWidget extends StatelessWidget {
           );
   }
 
+  // TODO(LevitskiyDaniil): Move to widget
   Widget _headerDate(ThemeStyleV2 theme) {
     return Builder(
       builder: (context) {
-        final date = transaction.date;
-
-        final now = NtpTime.now();
-        final formatter = date.year == now.year
-            ? DateFormat('MMMM dd', context.locale.languageCode)
-            : DateFormat('MMMM dd y', context.locale.languageCode);
-
         return Padding(
           padding: const EdgeInsets.only(top: DimensSize.d8),
           child: Text(
-            formatter.format(date),
+            // TODO(LevitskiyDaniil): Think about move logic to WM
+            // (notifier should subscribe on language changes)
+            DateTimeUtils.formatTransactionDate(transaction.date, context),
             style: theme.textStyles.headingXSmall,
           ),
         );
@@ -97,6 +93,7 @@ class TokenWalletTransactionWidget extends StatelessWidget {
     );
   }
 
+  // TODO(LevitskiyDaniil): Move to widget
   Widget _baseTransactionBody(ThemeStyleV2 theme) {
     final isIncoming = !transaction.isOutgoing;
 

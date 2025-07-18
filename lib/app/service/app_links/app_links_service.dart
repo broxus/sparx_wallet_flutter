@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:app/app/service/service.dart';
+import 'package:app/feature/ton_connect/ton_connect.dart';
 import 'package:app_links/app_links.dart';
 import 'package:injectable/injectable.dart';
 import 'package:rxdart/rxdart.dart';

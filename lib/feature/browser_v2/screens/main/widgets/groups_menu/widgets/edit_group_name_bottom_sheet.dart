@@ -1,3 +1,4 @@
+import 'package:app/core/wm/context_wm_mixin.dart';
 import 'package:app/generated/generated.dart';
 import 'package:flutter/material.dart';
 import 'package:ui_components_lib/v2/ui_components_lib_v2.dart';
@@ -30,7 +31,8 @@ class EditGroupNameBottomSheet extends StatefulWidget {
       _EditGroupNameBottomSheetState();
 }
 
-class _EditGroupNameBottomSheetState extends State<EditGroupNameBottomSheet> {
+class _EditGroupNameBottomSheetState extends State<EditGroupNameBottomSheet>
+    with ContextMixin {
   late final _controller = TextEditingController(text: widget.name);
 
   @override
@@ -98,11 +100,23 @@ class _EditGroupNameBottomSheetState extends State<EditGroupNameBottomSheet> {
   }
 
   void _onPressedBack() {
-    Navigator.of(context).pop();
+    final ctx = contextSafe;
+
+    if (ctx == null) {
+      return;
+    }
+
+    Navigator.of(ctx).pop();
   }
 
   void _onPressedSave() {
-    Navigator.of(context).pop(
+    final ctx = contextSafe;
+
+    if (ctx == null) {
+      return;
+    }
+
+    Navigator.of(ctx).pop(
       _controller.text.isEmpty ? null : _controller.text,
     );
   }

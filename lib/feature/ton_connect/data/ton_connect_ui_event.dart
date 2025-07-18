@@ -1,6 +1,6 @@
 import 'dart:async';
 
-import 'package:app/app/service/service.dart';
+import 'package:app/feature/ton_connect/ton_connect.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:nekoton_repository/nekoton_repository.dart';
 

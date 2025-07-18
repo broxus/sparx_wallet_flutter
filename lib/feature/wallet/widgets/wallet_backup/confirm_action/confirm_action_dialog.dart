@@ -13,7 +13,7 @@ import 'package:ui_components_lib/v2/widgets/modals/primary_bottom_sheet.dart';
 Future<void> showConfirmActionDialog(
   BuildContext context,
   KeyAccount? currentAccount,
-  VoidCallback finishedBackupCallback,
+  ValueChanged<bool> finishedBackupCallback,
 ) {
   return showPrimaryBottomSheet(
     context: context,
@@ -32,7 +32,7 @@ class ContentConfirmAction extends ElementaryWidget<ConfirmActionWidgetModel> {
     WidgetModelFactory wmFactory = defaultConfirmActionWidgetModelFactory,
   }) : super(wmFactory, key: key);
 
-  final VoidCallback finishedBackupCallback;
+  final ValueChanged<bool> finishedBackupCallback;
   final KeyAccount? account;
 
   @override

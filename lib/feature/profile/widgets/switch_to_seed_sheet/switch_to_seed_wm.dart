@@ -1,9 +1,13 @@
+import 'dart:async';
+
+import 'package:app/app/router/router.dart';
 import 'package:app/core/error_handler_factory.dart';
 import 'package:app/core/wm/custom_wm.dart';
 import 'package:app/di/di.dart';
 import 'package:app/feature/profile/widgets/switch_to_seed_sheet/switch_to_seed_model.dart';
 import 'package:app/feature/profile/widgets/switch_to_seed_sheet/switch_to_seed_widget.dart';
-import 'package:app/utils/utils.dart';
+import 'package:app/feature/wallet/route.dart';
+import 'package:app/utils/common_utils.dart';
 import 'package:flutter/material.dart';
 import 'package:ui_components_lib/v2/ui_components_lib_v2.dart';
 
@@ -25,7 +29,16 @@ class SwitchToSeedWidgetModel
 
   Future<void> onSwitch() async {
     await model.changeCurrentAccount(widget.publicKey);
-    contextSafe?.let((context) => Navigator.of(context).pop());
+
+    contextSafe?.compassBack();
+    unawaited(
+      callWithDelay(
+        () {
+          contextSafe?.compassPointNamed(const WalletRouteData());
+        },
+        duration: const Duration(milliseconds: 10),
+      ),
+    );
   }
 
   void onContinue() {

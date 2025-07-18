@@ -26,7 +26,7 @@ class AddTip3TokenModel extends ElementaryModel {
           rootTokenContract: rootTokenContract,
         );
       } finally {
-        _nekotonRepository.unsubscribeToken(owner, rootTokenContract);
+        await _nekotonRepository.unsubscribeToken(owner, rootTokenContract);
       }
     }
 
