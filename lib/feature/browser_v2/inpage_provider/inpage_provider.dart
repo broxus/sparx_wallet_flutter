@@ -436,7 +436,7 @@ class InpageProvider extends ProviderApi {
       unsignedMessage?.dispose();
 
       if (subscribedNew) {
-        nekotonRepository.unsubscribe(sender);
+        await nekotonRepository.unsubscribe(sender);
       }
     }
   }
@@ -1195,7 +1195,7 @@ class InpageProvider extends ProviderApi {
       unsignedMessage?.dispose();
 
       if (subscribedNew) {
-        nekotonRepository.unsubscribe(sender);
+        await nekotonRepository.unsubscribe(sender);
       }
     }
   }
@@ -1288,8 +1288,8 @@ class InpageProvider extends ProviderApi {
       unawaited(
         nekotonRepository
             .waitSending(pending: transaction, address: sender)
-            .then((trans) {
-          controller?.messageStatusUpdated(
+            .then((trans) async {
+          await controller?.messageStatusUpdated(
             MessageStatusUpdatedEvent(
               sender.address,
               signedMessage.hash,
@@ -1297,7 +1297,7 @@ class InpageProvider extends ProviderApi {
             ),
           );
           if (subscribedNew) {
-            nekotonRepository.unsubscribe(sender);
+            await nekotonRepository.unsubscribe(sender);
           }
         }).catchError((Object? e, StackTrace? t) async {
           _logger.severe('sendMessageDelayed, waiting transaction', e, t);
@@ -1317,7 +1317,7 @@ class InpageProvider extends ProviderApi {
     } catch (_) {
       // error during send process, waiting won't be called
       if (subscribedNew) {
-        nekotonRepository.unsubscribe(sender);
+        await nekotonRepository.unsubscribe(sender);
       }
 
       rethrow;
