@@ -110,7 +110,8 @@ class TonWalletTransactionWidget extends StatelessWidget {
         return Padding(
           padding: const EdgeInsets.only(top: DimensSize.d8),
           child: Text(
-            // TODO(LevitskiyDaniil): Think about move logic to WM (notifier should subscribe on language changes)
+            // TODO(LevitskiyDaniil): Think about move logic to WM
+            // (notifier should subscribe on language changes)
             DateTimeUtils.formatTransactionDate(transactionDateTime, context),
             style: theme.textStyles.headingXSmall,
           ),
