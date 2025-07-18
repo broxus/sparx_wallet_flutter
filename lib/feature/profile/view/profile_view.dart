@@ -59,7 +59,7 @@ class ProfileView extends StatelessWidget {
                   ),
                 ),
                 Column(
-                  spacing: DimensSizeV2.d32,
+                  spacing: DimensSizeV2.d16,
                   mainAxisSize: MainAxisSize.min,
                   children: [
                     _Container(
@@ -120,24 +120,27 @@ class ProfileView extends StatelessWidget {
                         ),
                       ],
                     ),
-                    Column(
-                      mainAxisSize: MainAxisSize.min,
-                      spacing: DimensSizeV2.d16,
-                      children: [
-                        DestructiveButton(
-                          buttonShape: ButtonShape.pill,
-                          title: LocaleKeys.logOut.tr(),
-                          icon: LucideIcons.logOut,
-                          onPressed: onLogout,
-                        ),
-                        Text(
-                          '${LocaleKeys.versionWord.tr()} $appVersion',
-                          textAlign: TextAlign.center,
-                          style: theme.textStyles.labelXSmall.copyWith(
-                            color: theme.colors.content3,
+                    Padding(
+                      padding: const EdgeInsets.only(top: DimensSizeV2.d8),
+                      child: Column(
+                        mainAxisSize: MainAxisSize.min,
+                        spacing: DimensSizeV2.d8,
+                        children: [
+                          DestructiveButton(
+                            buttonShape: ButtonShape.pill,
+                            title: LocaleKeys.logOut.tr(),
+                            icon: LucideIcons.logOut,
+                            onPressed: onLogout,
                           ),
-                        ),
-                      ],
+                          Text(
+                            '${LocaleKeys.versionWord.tr()} $appVersion',
+                            textAlign: TextAlign.center,
+                            style: theme.textStyles.labelXSmall.copyWith(
+                              color: theme.colors.content3,
+                            ),
+                          ),
+                        ],
+                      ),
                     ),
                   ],
                 ),
