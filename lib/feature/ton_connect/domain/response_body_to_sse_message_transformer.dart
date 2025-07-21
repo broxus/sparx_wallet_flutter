@@ -1,7 +1,7 @@
 import 'dart:async';
 import 'dart:convert';
 import 'dart:typed_data';
-import 'package:app/app/service/ton_connect/models/models.dart';
+import 'package:app/feature/ton_connect/ton_connect.dart';
 
 StreamTransformer<Uint8List, List<int>> _unit8Transformer =
     StreamTransformer.fromHandlers(

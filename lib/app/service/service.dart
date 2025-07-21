@@ -24,4 +24,3 @@ export 'remote/remote.dart';
 export 'session/session.dart';
 export 'storage_service/storage_service.dart';
 export 'token_wallets_service.dart';
-export 'ton_connect/ton_connect.dart';
