@@ -64,7 +64,7 @@ class CheckSeedPhraseCubit extends Cubit<CheckSeedPhraseCubitState>
   }
 
   void answerQuestion(String answer) {
-    if (state is _Correct) return;
+    if (state is CheckSeedPhraseCubitStateCorrect) return;
     final index = currentCheckIndex;
     if (index == null) return;
     userAnswers[index] = userAnswers[index].copyWith(word: answer);
@@ -72,7 +72,7 @@ class CheckSeedPhraseCubit extends Cubit<CheckSeedPhraseCubitState>
   }
 
   void clearAnswer(String answer) {
-    if (state is _Correct) return;
+    if (state is CheckSeedPhraseCubitStateCorrect) return;
     final answerIndex = userAnswers.indexWhere((a) => a.word == answer);
     userAnswers[answerIndex] = userAnswers[answerIndex].copyWith(word: '');
     _goNextOrValidate();

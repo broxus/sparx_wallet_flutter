@@ -166,9 +166,10 @@ class TCSendMessageWidgetModel
     TransactionPayloadMessage message,
   ) async {
     final payload = message.payload?.let(parseKnownPayload);
-    final transfer = payload?.whenOrNull(
-      jettonOutgoingTransfer: (data) => data,
-    );
+    final transfer = switch (payload) {
+      KnownPayloadJettonOutgoingTransfer(:final data) => data,
+      _ => null,
+    };
 
     if (transfer == null) {
       // Native transfer
@@ -195,6 +196,7 @@ class TCSendMessageWidgetModel
       symbol.decimals,
       symbol: symbol.name,
       pattern: moneyPattern(symbol.decimals),
+      name: symbol.fullName,
     );
 
     Currencies().register(currency);

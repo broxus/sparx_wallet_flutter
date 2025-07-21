@@ -17,11 +17,16 @@ class ProfilePageWidget extends ElementaryWidget<ProfilePageWidgetModel> {
       builder: (_, String? appVersion) {
         return ProfileView(
           appVersion: appVersion ?? '',
-          currentSeed: wm.seed,
           isBiometryAvailable: wm.isBiometryAvailable,
           isBiometryEnabled: wm.isBiometryEnabled,
+          onManageSeeds: wm.onManageSeeds,
+          onExportSeed: wm.onExportSeed,
+          onContactSupport: wm.onContactSupport,
+          onFAQ: wm.onFAQ,
+          onLegal: wm.onLegal,
           onLogout: wm.onLogout,
           onBiomentryChanged: wm.onBiomentryChanged,
+          onManageDapps: wm.onManageDapps,
         );
       },
     );

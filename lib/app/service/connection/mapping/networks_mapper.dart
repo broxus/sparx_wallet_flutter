@@ -1,4 +1,5 @@
 import 'package:app/app/service/connection/data/connection_data/connection_data.dart';
+import 'package:app/app/service/connection/data/network_type.dart';
 import 'package:app/utils/json/json_utils.dart';
 import 'package:app/utils/parse_utils.dart';
 
@@ -29,7 +30,7 @@ List<ConnectionData> mapToConnectionDataList(
           name: name,
           group: group,
           endpoint: endpoints.first,
-          networkType: networkType,
+          networkType: NetworkType.fromJson(networkType),
           blockExplorerUrl: blockExplorerUrl,
           manifestUrl: manifestUrl,
           canBeEdited: false,
@@ -42,7 +43,7 @@ List<ConnectionData> mapToConnectionDataList(
           name: name,
           group: group,
           endpoints: endpoints,
-          networkType: networkType,
+          networkType: NetworkType.fromJson(networkType),
           blockExplorerUrl: blockExplorerUrl,
           manifestUrl: manifestUrl,
           canBeEdited: false,
@@ -60,7 +61,7 @@ List<ConnectionData> mapToConnectionDataList(
           name: name,
           group: group,
           endpoint: endpoints.first,
-          networkType: networkType,
+          networkType: NetworkType.fromJson(networkType),
           blockExplorerUrl: blockExplorerUrl,
           manifestUrl: manifestUrl,
           canBeEdited: false,
