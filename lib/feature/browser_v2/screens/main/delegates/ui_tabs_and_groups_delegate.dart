@@ -296,39 +296,37 @@ class BrowserTabsAndGroupsUiDelegate implements BrowserTabsAndGroupsUi {
           ),
         );
       }
-      return;
+    } else {
+      _selectedGroupIdState.accept(activeGroupId);
+
+      _viewTabsState.accept(model.getGroupTabs(activeGroupId));
+
+      onUpdateActiveTab();
+
+      final data = renderManager.getRenderData(activeTabId);
+
+      unawaited(
+        scrollToPage(
+          groupId: activeGroupId,
+          tabId: activeTabId,
+        ),
+      );
+
+      _tabAnimationTypeState.accept(
+        ShowViewAnimationType(
+          tabX: data?.xLeft,
+          tabY: data?.yTop,
+        ),
+      );
+
+      onChangeTab();
     }
-
-    _selectedGroupIdState.accept(activeGroupId);
-
-    _viewTabsState.accept(model.getGroupTabs(activeGroupId));
-
-    onUpdateActiveTab();
 
     if (_tabsCount != null &&
         _tabsPrevCount != null &&
         _tabsCount! < _tabsPrevCount!) {
       _updateCount();
-      return;
     }
-
-    final data = renderManager.getRenderData(activeTabId);
-
-    unawaited(
-      scrollToPage(
-        groupId: activeGroupId,
-        tabId: activeTabId,
-      ),
-    );
-
-    _tabAnimationTypeState.accept(
-      ShowViewAnimationType(
-        tabX: data?.xLeft,
-        tabY: data?.yTop,
-      ),
-    );
-
-    onChangeTab();
   }
 
   void _handleAllTabs() {
