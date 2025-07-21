@@ -60,7 +60,8 @@ class NftSendWidget extends ElementaryWidget<NftSendWidgetModel> {
                 error: wm.errorState,
                 txErrors: wm.txErrorsState,
                 isLoading: wm.loadingState,
-                onPasswordEntered: wm.onPasswordEntered,
+                getLedgerAuthInput: wm.getLedgerAuthInput,
+                onConfirmed: wm.onConfirmed,
               ),
             ),
         };

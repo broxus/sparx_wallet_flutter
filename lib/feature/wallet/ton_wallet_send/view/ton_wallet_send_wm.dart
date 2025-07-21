@@ -2,6 +2,7 @@ import 'package:app/app/router/router.dart';
 import 'package:app/core/error_handler_factory.dart';
 import 'package:app/core/wm/custom_wm.dart';
 import 'package:app/di/di.dart';
+import 'package:app/feature/ledger/ledger.dart';
 import 'package:app/feature/messenger/data/message.dart';
 import 'package:app/feature/wallet/route.dart';
 import 'package:app/feature/wallet/ton_wallet_send/data/ton_wallet_send_state.dart';
@@ -22,11 +23,14 @@ TonWalletSendWidgetModel defaultTonWalletSendWidgetModelFactory(
         createPrimaryErrorHandler(context),
         inject(),
         inject(),
+        inject(),
+        inject(),
       ),
     );
 
 class TonWalletSendWidgetModel
-    extends CustomWidgetModel<TonWalletSendWidget, TonWalletSendModel> {
+    extends CustomWidgetModel<TonWalletSendWidget, TonWalletSendModel>
+    with BleAvailabilityMixin {
   TonWalletSendWidgetModel(super.model);
 
   static final _logger = Logger('TonWalletSendWidgetModel');
@@ -37,9 +41,9 @@ class TonWalletSendWidgetModel
   late final _error = createNotifier<String>();
   late final _state = createNotifier(const TonWalletSendState.ready());
 
-  late final KeyAccount? account = model.getAccount(widget.data.address);
-  late final Money amount =
-      Money.fromBigIntWithCurrency(widget.data.amount, currency);
+  late final data = widget.data;
+  late final KeyAccount? account = model.getAccount(data.address);
+  late final Money amount = Money.fromBigIntWithCurrency(data.amount, currency);
 
   Currency get currency => model.currency;
 
@@ -59,11 +63,20 @@ class TonWalletSendWidgetModel
     _init();
   }
 
-  Future<void> onPasswordEntered(String password) async {
+  Future<SignInputAuthLedger> getLedgerAuthInput() => model.getLedgerAuthInput(
+        address: data.address,
+        custodian: data.publicKey,
+      );
+
+  Future<void> onConfirmed(SignInputAuth signInputAuth) async {
     UnsignedMessage? unsignedMessage;
     try {
       _isLoading.accept(true);
-      final data = widget.data;
+
+      if (signInputAuth.isLedger) {
+        final isAvailable = await checkBluetoothAvailability();
+        if (!isAvailable) return;
+      }
 
       final resultMessage =
           data.resultMessage ?? LocaleKeys.transactionSentSuccessfully.tr();
@@ -82,7 +95,7 @@ class TonWalletSendWidgetModel
         address: data.address,
         publicKey: data.publicKey,
         message: unsignedMessage,
-        password: password,
+        signInputAuth: signInputAuth,
         destination: data.destination,
         amount: totalAmount,
       );
@@ -117,7 +130,6 @@ class TonWalletSendWidgetModel
     UnsignedMessage? unsignedMessage;
     try {
       _isLoading.accept(true);
-      final data = widget.data;
 
       final walletState = await model.getWalletState(data.address);
       if (walletState.hasError) {

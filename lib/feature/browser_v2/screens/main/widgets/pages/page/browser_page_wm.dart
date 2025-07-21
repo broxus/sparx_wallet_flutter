@@ -41,6 +41,7 @@ BrowserPageWidgetModel defaultBrowserPageWidgetModelFactory(
       inject(),
       inject(),
       inject(),
+      inject(),
     ),
     listenable,
     onCreate,

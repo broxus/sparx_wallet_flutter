@@ -35,6 +35,7 @@ SendMessageWidgetModel defaultSendMessageWidgetModelFactory(
         createPrimaryErrorHandler(context),
         inject(),
         inject(),
+        inject(),
       ),
     );
 
@@ -92,11 +93,25 @@ class SendMessageWidgetModel
 
   void onChangedCustodian(PublicKey custodian) => _publicKey.accept(custodian);
 
-  void onSubmit(String password) =>
-      Navigator.of(context).pop((publicKey.value, password));
+  void onSubmit(SignInputAuth auth) =>
+      Navigator.of(context).pop((publicKey.value, auth));
 
   // ignore: avoid_positional_boolean_parameters
   void onConfirmed(bool value) => _isConfirmed.accept(value);
+
+  Future<SignInputAuthLedger> getLedgerAuthInput() {
+    final publicKey = _publicKey.value;
+    final currency = _data.value?.amount.currency;
+    if (publicKey == null || currency == null) {
+      throw StateError('Public key or currency is not set');
+    }
+
+    return model.getLedgerAuthInput(
+      address: widget.sender,
+      custodian: publicKey,
+      currency: currency,
+    );
+  }
 
   Future<void> _init() async {
     final tokens = switch (widget.knownPayload) {

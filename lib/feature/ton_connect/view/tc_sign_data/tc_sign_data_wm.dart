@@ -8,6 +8,8 @@ import 'package:app/feature/ton_connect/ton_connect.dart';
 import 'package:app/utils/utils.dart';
 import 'package:elementary_helper/elementary_helper.dart';
 import 'package:flutter/material.dart';
+import 'package:nekoton_repository/nekoton_repository.dart'
+    show SignInputAuth, SignInputAuthLedger;
 
 TCSignDataWidgetModel defaultTCSignDataWidgetModelFactory(
   BuildContext context,
@@ -30,7 +32,7 @@ class TCSignDataWidgetModel
 
   ListenableState<bool> get isLoading => _isLoading;
 
-  Future<void> onSubmit(String password) async {
+  Future<void> onSubmit(SignInputAuth signInputAuth) async {
     if (account == null) return;
 
     try {
@@ -40,7 +42,7 @@ class TCSignDataWidgetModel
         schema: widget.payload.schema,
         cell: widget.payload.cell,
         publicKey: account!.publicKey,
-        password: password,
+        signInputAuth: signInputAuth,
       );
 
       if (contextSafe != null) {
@@ -57,5 +59,13 @@ class TCSignDataWidgetModel
     } finally {
       _isLoading.accept(false);
     }
+  }
+
+  SignInputAuthLedger getLedgerAuthInput() {
+    if (account == null) throw StateError('Account is not initialized');
+
+    return SignInputAuthLedger(
+      wallet: account!.account.tonWallet.contract,
+    );
   }
 }

@@ -24,23 +24,20 @@ class WalletActionButton extends StatelessWidget {
       onTap: onPressed,
       child: Opacity(
         opacity: onPressed == null ? OpacV2.opac25 : OpacV2.opac100,
-        child: SizedBox(
-          width: 88,
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              Padding(
-                padding: const EdgeInsets.all(DimensSizeV2.d18),
-                child: Icon(icon, size: DimensSizeV2.d20),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Padding(
+              padding: const EdgeInsets.all(DimensSizeV2.d18),
+              child: Icon(icon, size: DimensSizeV2.d20),
+            ),
+            Text(
+              label,
+              style: theme.textStyles.labelXSmall.copyWith(
+                color: theme.colors.content3,
               ),
-              Text(
-                label,
-                style: theme.textStyles.labelXSmall.copyWith(
-                  color: theme.colors.content3,
-                ),
-              ),
-            ],
-          ),
+            ),
+          ],
         ),
       ),
     );

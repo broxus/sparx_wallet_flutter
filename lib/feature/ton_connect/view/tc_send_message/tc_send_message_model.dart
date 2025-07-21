@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:app/app/service/service.dart';
+import 'package:app/feature/ledger/ledger.dart';
 import 'package:app/feature/messenger/data/message.dart';
 import 'package:app/feature/messenger/domain/service/messenger_service.dart';
 import 'package:app/http/repository/repository.dart';
@@ -15,11 +16,13 @@ class TCSendMessageModel extends ElementaryModel {
     this._nekotonRepository,
     this._messengerService,
     this._tonRepository,
+    this._ledgerService,
   ) : super(errorHandler: errorHandler);
 
   final NekotonRepository _nekotonRepository;
   final MessengerService _messengerService;
   final TonRepository _tonRepository;
+  final LedgerService _ledgerService;
 
   TransportStrategy get transport => _nekotonRepository.currentTransport;
 
@@ -50,7 +53,7 @@ class TCSendMessageModel extends ElementaryModel {
   Future<UnsignedMessage> prepareTransfer({
     required List<TransactionPayloadMessage> messages,
     required Address address,
-    required PublicKey publicKey,
+    PublicKey? publicKey,
   }) =>
       _nekotonRepository.prepareTransfer(
         address: address,
@@ -98,7 +101,7 @@ class TCSendMessageModel extends ElementaryModel {
     required List<TransactionPayloadMessage> messages,
     required Address address,
     required PublicKey publicKey,
-    required String password,
+    required SignInputAuth signInputAuth,
   }) async {
     UnsignedMessage? unsignedMessage;
     try {
@@ -108,7 +111,6 @@ class TCSendMessageModel extends ElementaryModel {
         messages: messages,
       );
 
-      final hash = unsignedMessage.hash;
       final transport = _nekotonRepository.currentTransport.transport;
       final destination = messages.first.address;
       final ampunt = messages.fold<BigInt>(
@@ -117,12 +119,13 @@ class TCSendMessageModel extends ElementaryModel {
       );
 
       final signature = await _nekotonRepository.seedList.sign(
-        data: hash,
+        message: unsignedMessage.message,
         publicKey: publicKey,
-        password: password,
+        signInputAuth: signInputAuth,
         signatureId: await transport.getSignatureId(),
       );
 
+      await unsignedMessage.refreshTimeout();
       final signedMessage = await unsignedMessage.sign(signature: signature);
 
       await _nekotonRepository.sendUnawaited(
@@ -159,5 +162,25 @@ class TCSendMessageModel extends ElementaryModel {
     );
 
     return symbol;
+  }
+
+  Future<SignInputAuthLedger> getLedgerAuthInput({
+    required Address address,
+    required PublicKey custodian,
+    required Currency currency,
+  }) async {
+    final walletState = await getTonWalletState(address);
+
+    return SignInputAuthLedger(
+      wallet: walletState.wallet!.walletType,
+      context: _ledgerService.prepareSignatureContext(
+        PrepareSignatureContext.transfer(
+          wallet: walletState.wallet!,
+          asset: currency.symbol,
+          decimals: currency.decimalDigits,
+          custodian: custodian,
+        ),
+      ),
+    );
   }
 }

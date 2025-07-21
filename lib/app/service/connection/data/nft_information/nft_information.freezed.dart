@@ -92,7 +92,7 @@ class _$NftInformationCopyWithImpl<$Res>
 /// @nodoc
 @JsonSerializable()
 class _NftInformation implements NftInformation {
-  _NftInformation(
+  const _NftInformation(
       {this.marketplaceUrl, final List<Address>? defaultCollections})
       : _defaultCollections = defaultCollections;
   factory _NftInformation.fromJson(Map<String, dynamic> json) =>

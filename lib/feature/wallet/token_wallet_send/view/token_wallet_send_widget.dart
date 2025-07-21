@@ -102,7 +102,8 @@ class TokenWalletSendWidget
                 error: wm.error,
                 txErrors: wm.txErrors,
                 isLoading: wm.isLoading,
-                onPasswordEntered: wm.onPasswordEntered,
+                getLedgerAuthInput: wm.getLedgerAuthInput,
+                onConfirmed: wm.onConfirmed,
               ),
             ),
         };

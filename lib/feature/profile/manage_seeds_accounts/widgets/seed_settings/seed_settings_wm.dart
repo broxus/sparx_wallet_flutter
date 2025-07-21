@@ -69,6 +69,7 @@ class SeedSettingsWidgetModel
         return;
       }
 
+      // TODO(komarov): ledger support
       final password = await showEnterPasswordSheet(
         context: context,
         publicKey: widget.publicKey,

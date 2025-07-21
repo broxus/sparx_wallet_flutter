@@ -756,4 +756,18 @@ abstract class LocaleKeys {
   static const nftTransferSuccessMessage = 'nftTransferSuccessMessage';
   static const nftAttachedAmountNotification = 'nftAttachedAmountNotification';
   static const unknown = 'unknown';
+  static const submitOnLedger = 'submitOnLedger';
+  static const importWalletButtonTitle = 'importWalletButtonTitle';
+  static const importWalletButtonSubtitle = 'importWalletButtonSubtitle';
+  static const pairLedgerButtonTitle = 'pairLedgerButtonTitle';
+  static const pairLedgerButtonSubtitle = 'pairLedgerButtonSubtitle';
+  static const ledgerPermissionsError = 'ledgerPermissionsError';
+  static const bluetoothIsOff = 'bluetoothIsOff';
+  static const availableDevices = 'availableDevices';
+  static const connectLedger = 'connectLedger';
+  static const ledgerStepConnectTitle = 'ledgerStepConnectTitle';
+  static const ledgerStepAppTitle = 'ledgerStepAppTitle';
+  static const ledgerStepConfirmTxTitle = 'ledgerStepConfirmTxTitle';
+  static const ledgerStepConfirmActionTitle = 'ledgerStepConfirmActionTitle';
+  static const ledgerConnectedSuccessfully = 'ledgerConnectedSuccessfully';
 }

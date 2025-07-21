@@ -1,3 +1,4 @@
+import 'package:app/feature/ledger/ledger.dart';
 import 'package:app/feature/messenger/data/message.dart';
 import 'package:app/feature/messenger/domain/service/messenger_service.dart';
 import 'package:app/utils/utils.dart';
@@ -10,10 +11,12 @@ class ConfirmMultisigTransactionModel extends ElementaryModel {
     ErrorHandler errorHandler,
     this._nekotonRepository,
     this._messengerService,
+    this._ledgerService,
   ) : super(errorHandler: errorHandler);
 
   final NekotonRepository _nekotonRepository;
   final MessengerService _messengerService;
+  final LedgerService _ledgerService;
 
   TransportStrategy get transport => _nekotonRepository.currentTransport;
 
@@ -64,17 +67,16 @@ class ConfirmMultisigTransactionModel extends ElementaryModel {
     required PublicKey publicKey,
     required UnsignedMessage message,
     required BigInt amount,
-    required String password,
+    required SignInputAuth signInputAuth,
   }) async {
-    final hash = message.hash;
-
     final signature = await _nekotonRepository.seedList.sign(
-      data: hash,
+      message: message.message,
       publicKey: publicKey,
-      password: password,
+      signInputAuth: signInputAuth,
       signatureId: await transport.transport.getSignatureId(),
     );
 
+    await message.refreshTimeout();
     final signedMessage = await message.sign(signature: signature);
 
     return _nekotonRepository.send(
@@ -86,4 +88,20 @@ class ConfirmMultisigTransactionModel extends ElementaryModel {
   }
 
   void showMessage(Message message) => _messengerService.show(message);
+
+  SignInputAuthLedger getLedgerAuthInput({
+    required TonWallet wallet,
+    required Currency currency,
+  }) {
+    return SignInputAuthLedger(
+      wallet: wallet.walletType,
+      context: _ledgerService.prepareSignatureContext(
+        PrepareSignatureContext.confirm(
+          wallet: wallet,
+          asset: currency.symbol,
+          decimals: currency.decimalDigits,
+        ),
+      ),
+    );
+  }
 }

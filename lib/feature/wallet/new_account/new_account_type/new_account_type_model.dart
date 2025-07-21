@@ -76,7 +76,15 @@ class NewAccountTypeModel extends ElementaryModel {
 
     final addedKeys = seed.subKeys.map((item) => item.publicKey).toSet()
       ..add(seed.publicKey);
-    final keys = await seed.getKeysToDerive(password);
+    // TODO(komarov): add ledger support
+    final keys = await seed.getKeysToDerive(
+      GetPublicKeysParams.derived(
+        masterKey: seed.masterPublicKey,
+        password: password,
+        limit: 0,
+        offset: 100,
+      ),
+    );
     PublicKey? derivedKey;
 
     for (var i = 0; i < keys.length; i++) {

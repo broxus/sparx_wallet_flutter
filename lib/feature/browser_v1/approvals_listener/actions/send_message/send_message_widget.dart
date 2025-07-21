@@ -161,15 +161,16 @@ class SendMessageWidget extends ElementaryWidget<SendMessageWidgetModel> {
                     ),
                   StateNotifierBuilder(
                     listenableState: wm.isLoading,
-                    builder: (_, isLoading) => EnterPasswordWidgetV2(
-                      isLoading: isLoading,
+                    builder: (_, isLoading) => EnterPasswordWidget.auth(
+                      getLedgerAuthInput: wm.getLedgerAuthInput,
+                      isLoading: isLoading ?? false,
                       publicKey: wm.account!.publicKey,
                       title: LocaleKeys.sendWord.tr(),
                       isDisabled: wm.numberUnconfirmedTransactions == null ||
                           wm.numberUnconfirmedTransactions! >= 5 ||
                           feeError != null ||
                           (hasTxError && isConfirmed != true),
-                      onPasswordEntered: wm.onSubmit,
+                      onConfirmed: wm.onSubmit,
                     ),
                   ),
                 ],
