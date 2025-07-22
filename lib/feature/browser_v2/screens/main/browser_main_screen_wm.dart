@@ -124,11 +124,21 @@ class BrowserMainScreenWidgetModel
     renderManager: _renderManager,
     onEmptyTabs: _onEmptyTabs,
     onChangeTab: () => _menuState.accept(MenuType.view),
-    onUpdateActiveTab: () {
+    onUpdateActiveTab: ([bool isAnimated = false]) {
+      final activeGroupId = model.activeGroupIdState.value;
+      final activeTabId = model.activeTabId;
+
+      if (activeGroupId != null && activeTabId != null) {
+        _scrollToPage(
+          groupId: activeGroupId,
+          tabId: activeTabId,
+          isAnimated: isAnimated,
+        );
+      }
+
       _progressIndicatorDelegate.reset();
       _updatePastGo();
     },
-    scrollToPage: _scrollToPage,
     checkIsVisiblePages: () => _viewVisibleState.value,
   );
 

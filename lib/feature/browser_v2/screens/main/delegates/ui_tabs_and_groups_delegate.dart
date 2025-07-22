@@ -43,7 +43,6 @@ class BrowserTabsAndGroupsUiDelegate implements BrowserTabsAndGroupsUi {
     required this.onEmptyTabs,
     required this.onUpdateActiveTab,
     required this.onChangeTab,
-    required this.scrollToPage,
     required this.checkIsVisiblePages,
   }) {
     _init();
@@ -53,13 +52,8 @@ class BrowserTabsAndGroupsUiDelegate implements BrowserTabsAndGroupsUi {
   final BrowserMainScreenModel model;
   final BrowserRenderManager renderManager;
   final VoidCallback onEmptyTabs;
-  final VoidCallback onUpdateActiveTab;
+  final ValueChanged<bool> onUpdateActiveTab;
   final VoidCallback onChangeTab;
-  final Future<bool> Function({
-    required String groupId,
-    required String tabId,
-    bool isAnimated,
-  }) scrollToPage;
   final bool Function() checkIsVisiblePages;
 
   final _tabAnimationTypeState = StateNotifier<TabAnimationType?>();
@@ -280,37 +274,20 @@ class BrowserTabsAndGroupsUiDelegate implements BrowserTabsAndGroupsUi {
     final activeGroupId = model.activeGroupIdState.value;
     final activeTabId = model.activeTabId;
 
-    if (activeGroupId == null || activeTabId == null) {
-      return;
-    }
-
     if (checkIsVisiblePages()) {
       if (_tabsPrevCount != null &&
           _tabsCount != null &&
           _tabsPrevCount! < _tabsCount!) {
-        unawaited(
-          scrollToPage(
-            groupId: activeGroupId,
-            tabId: activeTabId,
-            isAnimated: true,
-          ),
-        );
+        onUpdateActiveTab(true);
       }
-    } else {
+    } else if (activeGroupId != null && activeTabId != null) {
       _selectedGroupIdState.accept(activeGroupId);
 
       _viewTabsState.accept(model.getGroupTabs(activeGroupId));
 
-      onUpdateActiveTab();
-
       final data = renderManager.getRenderData(activeTabId);
 
-      unawaited(
-        scrollToPage(
-          groupId: activeGroupId,
-          tabId: activeTabId,
-        ),
-      );
+      onUpdateActiveTab(false);
 
       _tabAnimationTypeState.accept(
         ShowViewAnimationType(
