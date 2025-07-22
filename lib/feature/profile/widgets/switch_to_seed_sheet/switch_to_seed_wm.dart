@@ -12,19 +12,16 @@ import 'package:nekoton_repository/nekoton_repository.dart';
 import 'package:ui_components_lib/v2/ui_components_lib_v2.dart';
 
 @injectable
-class SwitchToSeedWidgetModel
-    extends CustomWidgetModel<SwitchToSeedWidget, SwitchToSeedModel> {
+class SwitchToSeedWidgetModel extends CustomWidgetModelParametrized<
+    SwitchToSeedWidget, SwitchToSeedModel, PublicKey> {
   SwitchToSeedWidgetModel(
     super.model,
-    @factoryParam this._publicKey,
   );
-
-  final PublicKey _publicKey;
 
   ThemeStyleV2 get theme => context.themeStyleV2;
 
   Future<void> onSwitch() async {
-    await model.changeCurrentAccount(_publicKey);
+    await model.changeCurrentAccount(wmParams.value);
 
     contextSafe?.compassBack();
     unawaited(

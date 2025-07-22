@@ -11,14 +11,11 @@ import 'package:ui_components_lib/v2/text_styles_v2.dart';
 
 /// [WidgetModel] для [ChangeColorBottomSheet]
 @injectable
-class ChangeColorBottomSheetWidgetModel extends CustomWidgetModel<
-    ChangeColorBottomSheet, ChangeColorBottomSheetModel> {
+class ChangeColorBottomSheetWidgetModel extends CustomWidgetModelParametrized<
+    ChangeColorBottomSheet, ChangeColorBottomSheetModel, String> {
   ChangeColorBottomSheetWidgetModel(
     super.model,
-    @factoryParam this._address,
   );
-
-  final String _address;
 
   late final _selectedColorState = StateNotifier<IdentifyIconData?>();
 
@@ -38,8 +35,8 @@ class ChangeColorBottomSheetWidgetModel extends CustomWidgetModel<
 
   @override
   void initWidgetModel() {
-    _init();
     super.initWidgetModel();
+    _init();
   }
 
   void onPressedBack() {
@@ -57,12 +54,12 @@ class ChangeColorBottomSheetWidgetModel extends CustomWidgetModel<
       return;
     }
 
-    model.setData(_address, color);
+    model.setData(wmParams.value, color);
     _back();
   }
 
   Future<void> _init() async {
-    _selectedColorState.accept(await model.getData(_address));
+    _selectedColorState.accept(await model.getData(wmParams.value));
   }
 
   void _back() {

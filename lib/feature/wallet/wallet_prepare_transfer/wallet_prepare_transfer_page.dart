@@ -10,8 +10,8 @@ import 'package:flutter/material.dart';
 import 'package:nekoton_repository/nekoton_repository.dart' hide Message;
 import 'package:ui_components_lib/ui_components_lib.dart';
 
-class WalletPrepareTransferPage
-    extends InjectedElementaryWidget<WalletPrepareTransferPageWidgetModel> {
+class WalletPrepareTransferPage extends InjectedElementaryParametrizedWidget<
+    WalletPrepareTransferPageWidgetModel, WalletPrepareTransferPageWmParams> {
   WalletPrepareTransferPage({
     required Address address,
     Address? destination,
@@ -39,11 +39,9 @@ class WalletPrepareTransferPage
       },
       builder: (_, data) {
         if (data == null || data.isEmpty) {
-          return StateNotifierBuilder(
-            listenableState: wm.addressState,
-            builder: (context, addressState) {
-              if (addressState == null) return const SizedBox();
-
+          return ValueListenableBuilder(
+            valueListenable: wm.addressState,
+            builder: (_, addressState, __) {
               return _DefaultBody(
                 child: _EmptyText(address: addressState),
               );

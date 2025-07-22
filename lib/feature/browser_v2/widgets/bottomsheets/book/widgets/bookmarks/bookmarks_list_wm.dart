@@ -44,10 +44,10 @@ class BookmarksListWidgetModel
 
   @override
   void initWidgetModel() {
+    super.initWidgetModel();
     _bookmarksSubs = model.browserBookmarksStream.listen(_handleBookmarks);
     searchController.addListener(_handleSearch);
     _updateActiveMenu();
-    super.initWidgetModel();
   }
 
   @override

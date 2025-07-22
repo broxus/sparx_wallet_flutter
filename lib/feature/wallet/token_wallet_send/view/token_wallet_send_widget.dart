@@ -12,8 +12,8 @@ import 'package:ui_components_lib/ui_components_lib.dart';
 /// destination address.
 /// For correct work subscription for TokenWallet and TonWallet with
 /// the specified owner address must be created.
-class TokenWalletSendWidget
-    extends InjectedElementaryWidget<TokenWalletSendWidgetModel> {
+class TokenWalletSendWidget extends InjectedElementaryParametrizedWidget<
+    TokenWalletSendWidgetModel, TokenWalletSendWmParams> {
   TokenWalletSendWidget({
     required Address owner,
     required Address rootTokenContract,

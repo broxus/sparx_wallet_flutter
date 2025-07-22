@@ -11,8 +11,8 @@ import 'package:nekoton_repository/nekoton_repository.dart';
 import 'package:ui_components_lib/ui_components_lib.dart';
 import 'package:ui_components_lib/v2/ui_components_lib_v2.dart';
 
-class AddTip3TokenWidget
-    extends InjectedElementaryWidget<AddTip3TokenWidgetModel> {
+class AddTip3TokenWidget extends InjectedElementaryParametrizedWidget<
+    AddTip3TokenWidgetModel, AddTip3TokenWmParams> {
   AddTip3TokenWidget({
     required Uri origin,
     required Address account,
@@ -38,10 +38,6 @@ class AddTip3TokenWidget
     final textStyle = theme.textStyles.labelSmall.copyWith(
       color: theme.colors.content0,
     );
-    final zeroBalance = Money.fromIntWithCurrency(
-      0,
-      Currency.create(wm.details.symbol, 0),
-    );
 
     return SeparatedColumn(
       spacing: DimensSizeV2.d12,
@@ -52,8 +48,18 @@ class AddTip3TokenWidget
             child: SeparatedColumn(
               spacing: DimensSizeV2.d12,
               children: [
-                AccountInfoWidget(account: wm.account),
-                WebsiteInfoWidget(uri: wm.origin),
+                ValueListenableBuilder(
+                  valueListenable: wm.accountState,
+                  builder: (_, account, __) {
+                    return AccountInfoWidget(account: account);
+                  },
+                ),
+                ValueListenableBuilder(
+                  valueListenable: wm.originState,
+                  builder: (_, origin, __) {
+                    return WebsiteInfoWidget(uri: origin);
+                  },
+                ),
                 PrimaryCard(
                   color: theme.colors.background2,
                   borderRadius: BorderRadius.circular(DimensRadiusV2.radius12),
@@ -94,12 +100,17 @@ class AddTip3TokenWidget
                                         ),
                                 ),
                                 Flexible(
-                                  child: Text(
-                                    wm.details.name,
-                                    style: textStyle,
-                                    overflow: TextOverflow.ellipsis,
-                                    softWrap: false,
-                                    maxLines: 1,
+                                  child: ValueListenableBuilder(
+                                    valueListenable: wm.detailsState,
+                                    builder: (_, details, __) {
+                                      return Text(
+                                        details.name,
+                                        style: textStyle,
+                                        overflow: TextOverflow.ellipsis,
+                                        softWrap: false,
+                                        maxLines: 1,
+                                      );
+                                    },
                                   ),
                                 ),
                               ],
@@ -107,30 +118,46 @@ class AddTip3TokenWidget
                           ),
                         ],
                       ),
-                      _InfoRow(
-                        children: [
-                          Text(LocaleKeys.symbolWord.tr(), style: labelStyle),
-                          Flexible(
-                            child: Text(
-                              wm.details.symbol,
-                              style: textStyle,
-                              overflow: TextOverflow.ellipsis,
-                              softWrap: false,
-                              maxLines: 1,
-                            ),
-                          ),
-                        ],
+                      ValueListenableBuilder(
+                        valueListenable: wm.detailsState,
+                        builder: (_, details, __) {
+                          return _InfoRow(
+                            children: [
+                              Text(
+                                LocaleKeys.symbolWord.tr(),
+                                style: labelStyle,
+                              ),
+                              Flexible(
+                                child: Text(
+                                  details.symbol,
+                                  style: textStyle,
+                                  overflow: TextOverflow.ellipsis,
+                                  softWrap: false,
+                                  maxLines: 1,
+                                ),
+                              ),
+                            ],
+                          );
+                        },
                       ),
-                      _InfoRow(
-                        children: [
-                          Text(LocaleKeys.decimalsWord.tr(), style: labelStyle),
-                          Flexible(
-                            child: Text(
-                              wm.details.decimals.toString(),
-                              style: textStyle,
-                            ),
-                          ),
-                        ],
+                      ValueListenableBuilder(
+                        valueListenable: wm.detailsState,
+                        builder: (_, details, __) {
+                          return _InfoRow(
+                            children: [
+                              Text(
+                                LocaleKeys.decimalsWord.tr(),
+                                style: labelStyle,
+                              ),
+                              Flexible(
+                                child: Text(
+                                  details.decimals.toString(),
+                                  style: textStyle,
+                                ),
+                              ),
+                            ],
+                          );
+                        },
                       ),
                       _InfoRow(
                         children: [
@@ -139,12 +166,24 @@ class AddTip3TokenWidget
                             style: labelStyle,
                           ),
                           Flexible(
-                            child: StateNotifierBuilder(
-                              listenableState: wm.balance,
-                              builder: (_, value) => AmountWidget.fromMoney(
-                                amount: value ?? zeroBalance,
-                                style: textStyle,
-                              ),
+                            child: MultiListenerRebuilder(
+                              listenableList: [
+                                wm.detailsState,
+                                wm.balance,
+                              ],
+                              builder: (_) {
+                                final details = wm.detailsState.value;
+                                final balance = wm.balance.value;
+
+                                return AmountWidget.fromMoney(
+                                  amount: balance ??
+                                      Money.fromIntWithCurrency(
+                                        0,
+                                        Currency.create(details.symbol, 0),
+                                      ),
+                                  style: textStyle,
+                                );
+                              },
                             ),
                           ),
                         ],
@@ -154,7 +193,15 @@ class AddTip3TokenWidget
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(LocaleKeys.symbolWord.tr(), style: labelStyle),
-                          Text(wm.details.address.address, style: textStyle),
+                          ValueListenableBuilder(
+                            valueListenable: wm.detailsState,
+                            builder: (_, details, __) {
+                              return Text(
+                                details.address.address,
+                                style: textStyle,
+                              );
+                            },
+                          ),
                         ],
                       ),
                     ],

@@ -12,19 +12,16 @@ import 'package:jdenticon_dart/jdenticon_dart.dart';
 
 /// [WidgetModel] для [UserAvatar]
 @injectable
-class UserAvatarWidgetModel
-    extends CustomWidgetModel<UserAvatar, UserAvatarModel> {
+class UserAvatarWidgetModel extends CustomWidgetModelParametrized<UserAvatar,
+    UserAvatarModel, String?> {
   UserAvatarWidgetModel(
     super.model,
-    @factoryParam this._address,
   );
-
-  final String? _address;
 
   late final _avatarState = createNotifierFromStream(
     model
-        .getDataStream(_address)
-        .map((identify) => _getAvatarData(_address, identify)),
+        .getDataStream(wmParams.value)
+        .map((identify) => _getAvatarData(wmParams.value, identify)),
   );
 
   ListenableState<AvatarData?> get avatarState => _avatarState;

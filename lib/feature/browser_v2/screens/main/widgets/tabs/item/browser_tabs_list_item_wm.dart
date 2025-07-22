@@ -12,14 +12,13 @@ import 'package:injectable/injectable.dart';
 
 /// [WidgetModel] для [BrowserTabsListItem]
 @injectable
-class BrowserTabsListItemWidgetModel
-    extends CustomWidgetModel<BrowserTabsListItem, BrowserTabsListItemModel> {
+class BrowserTabsListItemWidgetModel extends CustomWidgetModelParametrized<
+    BrowserTabsListItem,
+    BrowserTabsListItemModel,
+    NotNullListenableState<BrowserTab>> {
   BrowserTabsListItemWidgetModel(
     super.model,
-    @factoryParam this.tabNotifier,
   );
-
-  final NotNullListenableState<BrowserTab> tabNotifier;
 
   String? _lastFilePath;
 
@@ -27,17 +26,17 @@ class BrowserTabsListItemWidgetModel
 
   late final _screenShotState = createNotifier<File?>();
 
+  NotNullListenableState<BrowserTab> get tabNotifier => wmParams.value;
+
   ListenableState<bool?> get activeState => _activeState;
 
   ListenableState<File?> get screenShotState => _screenShotState;
 
-  String get id => tabNotifier.value.id;
-
   @override
   void initWidgetModel() {
+    super.initWidgetModel();
     model.activeTabIdState.addListener(_handleActiveTab);
     model.screenshotsState.addListener(_handleScreenShots);
-    super.initWidgetModel();
   }
 
   @override
@@ -54,7 +53,9 @@ class BrowserTabsListItemWidgetModel
   }
 
   void _handleScreenShots() {
-    final filePath = model.screenshotsState.value?.get(tabNotifier.value.id);
+    final id = tabNotifier.value.id;
+
+    final filePath = model.screenshotsState.value?.get(id);
 
     if (filePath == null) {
       return;

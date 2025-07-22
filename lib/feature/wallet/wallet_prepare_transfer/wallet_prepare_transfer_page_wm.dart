@@ -43,14 +43,12 @@ class WalletPrepareTransferPageWmParams {
 
 /// [WidgetModel] для [WalletPrepareTransferPage]
 @injectable
-class WalletPrepareTransferPageWidgetModel extends CustomWidgetModel<
-    WalletPrepareTransferPage, WalletPrepareTransferPageModel> {
+class WalletPrepareTransferPageWidgetModel
+    extends CustomWidgetModelParametrized<WalletPrepareTransferPage,
+        WalletPrepareTransferPageModel, WalletPrepareTransferPageWmParams> {
   WalletPrepareTransferPageWidgetModel(
     super.model,
-    @factoryParam this._wmParams,
   );
-
-  final WalletPrepareTransferPageWmParams _wmParams;
 
   late final screenState = createEntityNotifier<WalletPrepareTransferData?>()
     ..loading(
@@ -63,7 +61,7 @@ class WalletPrepareTransferPageWidgetModel extends CustomWidgetModel<
   final formKey = GlobalKey<FormState>();
 
   late final receiverController =
-      createTextEditingController(_wmParams.destination?.address);
+      createTextEditingController(wmParams.value.destination?.address);
   late final receiverFocus = createFocusNode();
 
   late final amountController = createTextEditingController();
@@ -91,8 +89,9 @@ class WalletPrepareTransferPageWidgetModel extends CustomWidgetModel<
 
   ListenableState<bool> get isInitialDataLoaded => _isInitialDataLoaded;
 
-  late final ListenableState<Address> addressState =
-      createNotifier(_wmParams.address);
+  late final ValueListenable<Address> addressState = createWmParamsNotifier(
+    (it) => it.address,
+  );
 
   @override
   void initWidgetModel() {
@@ -114,11 +113,9 @@ class WalletPrepareTransferPageWidgetModel extends CustomWidgetModel<
     _updateState(selectedAsset: asset);
     unawaited(_updateAsset(asset));
 
-    final address = _wmParams.address;
-
     model.startListeningBalance(
       contract: _assets[asset.key],
-      address: address,
+      address: addressState.value,
     );
   }
 
@@ -226,9 +223,8 @@ class WalletPrepareTransferPageWidgetModel extends CustomWidgetModel<
       return LocaleKeys.addressIsEmpty.tr();
     }
 
-    final address = _wmParams.address;
-
-    if (_selectedAsset?.isNative != true && address.address == value) {
+    if (_selectedAsset?.isNative != true &&
+        addressState.value.address == value) {
       return LocaleKeys.invalidReceiverAddress.tr();
     }
     return null;
@@ -239,9 +235,7 @@ class WalletPrepareTransferPageWidgetModel extends CustomWidgetModel<
   }
 
   Future<void> _init() async {
-    final address = _wmParams.address;
-
-    final acc = model.findAccountByAddress(address);
+    final acc = model.findAccountByAddress(addressState.value);
     if (acc == null) {
       screenState.content(null);
       _sentry.captureException(
@@ -258,22 +252,23 @@ class WalletPrepareTransferPageWidgetModel extends CustomWidgetModel<
 
     // If default contract not specified, then native is default and load
     // all existed assets
-    final root = _wmParams.rootTokenContract;
+    final root = wmParams.value.rootTokenContract;
 
     _createNativeContract();
     model.findExistedContracts(
       onUpdate: _onUpdateContractsForAccount,
-      address: address,
+      address: addressState.value,
     );
 
-    if (root != null && _wmParams.tokenSymbol != _selectedAsset?.tokenSymbol) {
+    if (root != null &&
+        wmParams.value.tokenSymbol != _selectedAsset?.tokenSymbol) {
       unawaited(_findSpecifiedContract(root));
     }
 
     _updateState(
       account: acc,
       selectedCustodian: acc.publicKey,
-      localCustodians: await model.getLocalCustodiansAsync(address),
+      localCustodians: await model.getLocalCustodiansAsync(addressState.value),
     );
 
     _isInitialDataLoaded.accept(true);
@@ -300,8 +295,6 @@ class WalletPrepareTransferPageWidgetModel extends CustomWidgetModel<
       return;
     }
 
-    final address = _wmParams.address;
-    final accountAddress = address;
     final publicKey = _selectedCustodian;
 
     if (publicKey == null) {
@@ -319,7 +312,7 @@ class WalletPrepareTransferPageWidgetModel extends CustomWidgetModel<
 
     if (selectedAsset.isNative) {
       routeData = TonWalletSendRouteData(
-        address: accountAddress,
+        address: addressState.value,
         publicKey: publicKey,
         comment: comment,
         destination: receiveAddress,
@@ -328,7 +321,7 @@ class WalletPrepareTransferPageWidgetModel extends CustomWidgetModel<
       );
     } else {
       routeData = TokenWalletSendRouteData(
-        owner: accountAddress,
+        owner: addressState.value,
         rootTokenContract: selectedAsset.rootTokenContract,
         publicKey: publicKey,
         comment: comment,
@@ -346,10 +339,9 @@ class WalletPrepareTransferPageWidgetModel extends CustomWidgetModel<
           asset.rootTokenContract,
         );
 
-    final address = _wmParams.address;
-
-    final balance = await model.getBalance(asset: asset, address: address) ??
-        _zeroBalance(asset.tokenSymbol);
+    final balance =
+        await model.getBalance(asset: asset, address: addressState.value) ??
+            _zeroBalance(asset.tokenSymbol);
 
     final updatedAsset = asset.copyWith(
       currency: currency,
@@ -380,11 +372,9 @@ class WalletPrepareTransferPageWidgetModel extends CustomWidgetModel<
     _updateState(selectedAsset: selectedAsset);
     unawaited(_updateAsset(selectedAsset));
 
-    final address = _wmParams.address;
-
     model.startListeningBalance(
       contract: selectedAsset,
-      address: address,
+      address: addressState.value,
     );
   }
 
@@ -411,11 +401,9 @@ class WalletPrepareTransferPageWidgetModel extends CustomWidgetModel<
     _updateState(selectedAsset: selectedAsset);
     unawaited(_updateAsset(selectedAsset));
 
-    final address = _wmParams.address;
-
     model.startListeningBalance(
       contract: selectedAsset,
-      address: address,
+      address: addressState.value,
     );
   }
 

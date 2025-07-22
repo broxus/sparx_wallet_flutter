@@ -12,8 +12,8 @@ import 'package:nekoton_repository/nekoton_repository.dart';
 import 'package:ui_components_lib/ui_components_lib.dart';
 import 'package:ui_components_lib/v2/ui_components_lib_v2.dart';
 
-class TCSendMessageWidget
-    extends InjectedElementaryWidget<TCSendMessageWidgetModel> {
+class TCSendMessageWidget extends InjectedElementaryParametrizedWidget<
+    TCSendMessageWidgetModel, TCSendMessageWmParams> {
   TCSendMessageWidget({
     required TonAppConnection connection,
     required TransactionPayload payload,
@@ -42,11 +42,21 @@ class TCSendMessageWidget
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
-                if (wm.account != null)
-                  StateNotifierBuilder(
-                    listenableState: wm.balance,
-                    builder: (_, balance) => AccountInfo(
-                      account: wm.account!,
+                MultiListenerRebuilder(
+                  listenableList: [
+                    wm.accountState,
+                    wm.balance,
+                  ],
+                  builder: (_) {
+                    final account = wm.accountState.value;
+                    final balance = wm.balance.value;
+
+                    if (account == null) {
+                      return const SizedBox.shrink();
+                    }
+
+                    return AccountInfo(
+                      account: account,
                       color: theme.colors.background2,
                       subtitle: balance?.let(
                         (value) => AmountWidget.fromMoney(
@@ -57,35 +67,46 @@ class TCSendMessageWidget
                           useDefaultFormat: false,
                         ),
                       ),
-                    ),
-                  ),
+                    );
+                  },
+                ),
                 const SizedBox(height: DimensSizeV2.d12),
                 WebsiteInfoWidget(
                   uri: Uri.parse(wm.connection.manifest.url),
                   iconUrl: Uri.tryParse(wm.connection.manifest.iconUrl),
                 ),
-                DoubleSourceBuilder(
-                  firstSource: wm.publicKey,
-                  secondSource: wm.custodians,
-                  builder: (_, publicKey, custodians) => custodians == null ||
-                          custodians.length < 2
-                      ? const SizedBox.shrink()
-                      : Padding(
-                          padding: const EdgeInsets.only(top: DimensSizeV2.d12),
-                          child: CommonSelectDropdown<PublicKey>(
-                            values: [
-                              for (final c in custodians)
-                                CommonSheetDropdownItem<PublicKey>(
-                                  value: c,
-                                  title:
-                                      wm.getSeedName(c) ?? c.toEllipseString(),
-                                ),
-                            ],
-                            titleText: LocaleKeys.custodianWord.tr(),
-                            currentValue: publicKey,
-                            onChanged: wm.onChangedCustodian,
-                          ),
-                        ),
+                MultiListenerRebuilder(
+                  listenableList: [
+                    wm.accountState,
+                    wm.selectedPublicKey,
+                    wm.custodians,
+                  ],
+                  builder: (_) {
+                    final account = wm.accountState.value;
+                    final selectedPublicKey =
+                        wm.selectedPublicKey.value ?? account?.publicKey;
+                    final custodians = wm.custodians.value;
+
+                    if (custodians == null || custodians.length < 2) {
+                      return const SizedBox.shrink();
+                    }
+
+                    return Padding(
+                      padding: const EdgeInsets.only(top: DimensSizeV2.d12),
+                      child: CommonSelectDropdown<PublicKey>(
+                        values: [
+                          for (final c in custodians)
+                            CommonSheetDropdownItem<PublicKey>(
+                              value: c,
+                              title: wm.getSeedName(c) ?? c.toEllipseString(),
+                            ),
+                        ],
+                        titleText: LocaleKeys.custodianWord.tr(),
+                        currentValue: selectedPublicKey,
+                        onChanged: wm.onChangedCustodian,
+                      ),
+                    );
+                  },
                 ),
                 const SizedBox(height: DimensSizeV2.d12),
                 TripleSourceBuilder(
@@ -126,39 +147,48 @@ class TCSendMessageWidget
             ),
           ),
         ),
-        if (wm.account != null)
-          DoubleSourceBuilder(
-            firstSource: wm.txErrors,
-            secondSource: wm.isConfirmed,
-            builder: (_, txErrors, isConfirmed) {
-              final hasTxError = txErrors?.isNotEmpty ?? false;
+        MultiListenerRebuilder(
+          listenableList: [
+            wm.accountState,
+            wm.txErrors,
+            wm.isConfirmed,
+            wm.isLoading,
+          ],
+          builder: (_) {
+            final account = wm.accountState.value;
+            final txErrors = wm.txErrors.value;
+            final isConfirmed = wm.isConfirmed.value;
+            final isLoading = wm.isLoading.value;
+            final numberUnconfirmedTransactions =
+                wm.numberUnconfirmedTransactions;
 
-              return SeparatedColumn(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  if (hasTxError)
-                    TxTreeSimulationErrorWidget(
-                      txErrors: txErrors!,
-                      symbol: wm.symbol,
-                      isConfirmed: isConfirmed ?? false,
-                      onConfirm: wm.onConfirmed,
-                    ),
-                  StateNotifierBuilder(
-                    listenableState: wm.isLoading,
-                    builder: (_, isLoading) => EnterPasswordWidgetV2(
-                      isLoading: isLoading,
-                      publicKey: wm.account!.publicKey,
-                      title: LocaleKeys.sendWord.tr(),
-                      isDisabled: wm.numberUnconfirmedTransactions == null ||
-                          wm.numberUnconfirmedTransactions! >= 5 ||
-                          (hasTxError && isConfirmed != true),
-                      onPasswordEntered: wm.onSubmit,
-                    ),
+            if (account == null) return const SizedBox.shrink();
+
+            final hasTxError = txErrors?.isNotEmpty ?? false;
+
+            return SeparatedColumn(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                if (hasTxError)
+                  TxTreeSimulationErrorWidget(
+                    txErrors: txErrors!,
+                    symbol: wm.symbol,
+                    isConfirmed: isConfirmed ?? false,
+                    onConfirm: wm.onConfirmed,
                   ),
-                ],
-              );
-            },
-          ),
+                EnterPasswordWidgetV2(
+                  isLoading: isLoading,
+                  publicKey: account.publicKey,
+                  title: LocaleKeys.sendWord.tr(),
+                  isDisabled: numberUnconfirmedTransactions == null ||
+                      numberUnconfirmedTransactions >= 5 ||
+                      (hasTxError && isConfirmed != true),
+                  onPasswordEntered: wm.onSubmit,
+                ),
+              ],
+            );
+          },
+        ),
       ],
     );
   }

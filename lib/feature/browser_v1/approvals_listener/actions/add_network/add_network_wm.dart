@@ -24,35 +24,42 @@ class AddNetworkWmParams {
 }
 
 @injectable
-class AddNetworkWidgetModel
-    extends CustomWidgetModel<AddNetworkWidget, AddNetworkModel> {
+class AddNetworkWidgetModel extends CustomWidgetModelParametrized<
+    AddNetworkWidget, AddNetworkModel, AddNetworkWmParams> {
   AddNetworkWidgetModel(
     super.model,
-    @factoryParam this._wmParams,
   );
 
-  final AddNetworkWmParams _wmParams;
+  late final _loadingState = createValueNotifier(false);
+  late final _switchNetworkState = createWmParamsNotifier(
+    (it) => it.switchNetwork,
+  );
 
-  late final _loading = createValueNotifier(false);
-  late final _switchNetwork = createValueNotifier(_wmParams.switchNetwork);
+  late final _originState = createWmParamsNotifier(
+    (it) => it.origin,
+  );
 
-  Uri get origin => _wmParams.origin;
+  late final _networkState = createWmParamsNotifier(
+    (it) => it.network,
+  );
 
-  AddNetwork get network => _wmParams.network;
+  ValueListenable<Uri> get originState => _originState;
 
-  ValueListenable<bool> get loading => _loading;
+  ValueListenable<AddNetwork> get networkState => _networkState;
 
-  ValueListenable<bool> get switchNetwork => _switchNetwork;
+  ValueListenable<bool> get loadingState => _loadingState;
+
+  ValueListenable<bool> get switchNetworkState => _switchNetworkState;
 
   ThemeStyleV2 get theme => context.themeStyleV2;
 
   Future<void> onConfirm() async {
-    _loading.value = true;
+    _loadingState.value = true;
     try {
-      final connection = _wmParams.network.getConnection();
+      final connection = _networkState.value.getConnection();
       final network = await model.addConnection(connection);
 
-      if (_switchNetwork.value) {
+      if (_switchNetworkState.value) {
         await model.changeNetwork(connection.id);
       }
 
@@ -68,10 +75,10 @@ class AddNetworkWidgetModel
         model.showError(contextSafe!, e.toString());
       }
     } finally {
-      _loading.value = false;
+      _loadingState.value = false;
     }
   }
 
   // ignore: use_setters_to_change_properties, avoid_positional_boolean_parameters
-  void onSwitchChanged(bool value) => _switchNetwork.value = value;
+  void onSwitchChanged(bool value) => _switchNetworkState.value = value;
 }

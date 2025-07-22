@@ -25,14 +25,13 @@ class CreateSeedPasswordWmParams {
 
 /// [WidgetModel] для [CreateSeedPasswordScreen]
 @injectable
-class CreateSeedPasswordScreenWidgetModel extends CustomWidgetModel<
-    CreateSeedPasswordScreen, CreateSeedPasswordScreenModel> {
+class CreateSeedPasswordScreenWidgetModel extends CustomWidgetModelParametrized<
+    CreateSeedPasswordScreen,
+    CreateSeedPasswordScreenModel,
+    CreateSeedPasswordWmParams> {
   CreateSeedPasswordScreenWidgetModel(
     super.model,
-    @factoryParam this._wmParams,
   );
-
-  final CreateSeedPasswordWmParams _wmParams;
 
   late final passwordController = createTextEditingController();
   late final confirmController = createTextEditingController();
@@ -57,9 +56,9 @@ class CreateSeedPasswordScreenWidgetModel extends CustomWidgetModel<
 
   @override
   void initWidgetModel() {
+    super.initWidgetModel();
     passwordController.addListener(_validate);
     confirmController.addListener(_validate);
-    super.initWidgetModel();
   }
 
   Future<void> onPressedNext() async {
@@ -68,8 +67,8 @@ class CreateSeedPasswordScreenWidgetModel extends CustomWidgetModel<
     await model.next(
       context: context,
       password: passwordController.text,
-      phrase: _wmParams.phrase,
-      mnemonicType: _wmParams.mnemonicType,
+      phrase: wmParams.value.phrase,
+      mnemonicType: wmParams.value.mnemonicType,
     );
 
     if (model.isNeedBiometry) {

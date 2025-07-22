@@ -16,14 +16,13 @@ import 'package:ui_components_lib/v2/ui_components_lib_v2.dart';
 typedef PasswordChangeCallback = Function(String);
 
 @injectable
-class DeployWalletConfirmWidgetModel extends CustomWidgetModel<
-    DeployWalletConfirmModal, DeployWalletConfirmModel> {
+class DeployWalletConfirmWidgetModel extends CustomWidgetModelParametrized<
+    DeployWalletConfirmModal,
+    DeployWalletConfirmModel,
+    PasswordChangeCallback> {
   DeployWalletConfirmWidgetModel(
     super.model,
-    @factoryParam this._passwordCallback,
   );
-
-  final PasswordChangeCallback _passwordCallback;
 
   ThemeStyleV2 get themeStyle => context.themeStyleV2;
 
@@ -38,8 +37,8 @@ class DeployWalletConfirmWidgetModel extends CustomWidgetModel<
 
   @override
   void initWidgetModel() {
-    _getAvailableBiometry();
     super.initWidgetModel();
+    _getAvailableBiometry();
   }
 
   void onClickConfirm() {
@@ -74,7 +73,7 @@ class DeployWalletConfirmWidgetModel extends CustomWidgetModel<
       try {
         await seed.export(password);
         context.compassBack();
-        _passwordCallback(password);
+        wmParams.value(password);
       } catch (_) {
         model.showValidateError(LocaleKeys.passwordIsWrong.tr());
       }

@@ -27,8 +27,9 @@ ModalRoute<void> showBrowserBookmarkRenameSheet({
   );
 }
 
-class BrowserBookmarkRenameBottomSheet extends InjectedElementaryWidget<
-    BrowserBookmarkRenameBottomSheetWidgetModel> {
+class BrowserBookmarkRenameBottomSheet
+    extends InjectedElementaryParametrizedWidget<
+        BrowserBookmarkRenameBottomSheetWidgetModel, BrowserBookmarkItem> {
   const BrowserBookmarkRenameBottomSheet({
     required BrowserBookmarkItem item,
     super.key,

@@ -9,8 +9,8 @@ import 'package:ui_components_lib/ui_components_lib.dart';
 import 'package:ui_components_lib/v2/widgets/widgets.dart';
 
 /// Page that allows user to stake his native token.
-class StakingPageWidget
-    extends InjectedElementaryWidget<StakingPageWidgetModel> {
+class StakingPageWidget extends InjectedElementaryParametrizedWidget<
+    StakingPageWidgetModel, Address> {
   const StakingPageWidget({
     required Address accountAddress,
     super.key,

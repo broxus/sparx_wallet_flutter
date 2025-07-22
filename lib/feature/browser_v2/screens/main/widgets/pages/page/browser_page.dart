@@ -9,18 +9,19 @@ import 'package:flutter/material.dart';
 import 'package:flutter_inappwebview/flutter_inappwebview.dart';
 import 'package:ui_components_lib/v2/ui_components_lib_v2.dart';
 
-class BrowserPage extends InjectedElementaryWidget<BrowserPageWidgetModel> {
+class BrowserPage extends InjectedElementaryParametrizedWidget<
+    BrowserPageWidgetModel, BrowserPageWmParams> {
   BrowserPage({
     required ValueChanged<CustomWebViewController> onCreate,
     required ValueChanged<int> onWebPageScrollChanged,
     required VoidCallback onDispose,
     required ValueChanged<int> onLoadingProgressChanged,
     required this.width,
-    required NotNullListenableState<BrowserTab> listenable,
+    required NotNullListenableState<BrowserTab> tabState,
     super.key,
   }) : super(
           wmFactoryParam: BrowserPageWmParams(
-            tabState: listenable,
+            tabState: tabState,
             onCreate: onCreate,
             onWebPageScrollChanged: onWebPageScrollChanged,
             onDispose: onDispose,

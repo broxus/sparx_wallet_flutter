@@ -20,14 +20,13 @@ import 'package:ui_components_lib/ui_components_lib.dart';
 const _maxFixedComission = 0.1; // 0.1 EVER
 
 @injectable
-class StakingPageWidgetModel
-    extends CustomWidgetModel<StakingPageWidget, StakingPageModel> {
+class StakingPageWidgetModel extends CustomWidgetModelParametrized<
+    StakingPageWidget, StakingPageModel, Address> {
   StakingPageWidgetModel(
     super.model,
-    @factoryParam this.accountAddress,
   );
 
-  final Address accountAddress;
+  Address get accountAddress => wmParams.value;
 
   late final inputController = createTextEditingController();
 
@@ -167,8 +166,8 @@ class StakingPageWidgetModel
       unawaited(model.tryAddTokenWallet(accountAddress));
 
       final (ever, token) = await FutureExt.wait2(
-        model.getWallet(accountAddress),
-        model.getTokenWallet(accountAddress),
+        model.getWallet(wmParams.value),
+        model.getTokenWallet(wmParams.value),
       );
 
       if (ever.hasError || token.hasError) {

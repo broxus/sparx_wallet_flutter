@@ -23,36 +23,47 @@ class ChangeNetworkWmParams {
 }
 
 @injectable
-class ChangeNetworkWidgetModel
-    extends CustomWidgetModel<ChangeNetworkWidget, ChangeNetworkModel> {
+class ChangeNetworkWidgetModel extends CustomWidgetModelParametrized<
+    ChangeNetworkWidget, ChangeNetworkModel, ChangeNetworkWmParams> {
   ChangeNetworkWidgetModel(
     super.model,
-    @factoryParam this._wmParams,
   );
 
-  final ChangeNetworkWmParams _wmParams;
+  late final _originState = createWmParamsNotifier(
+    (it) => it.origin,
+  );
 
-  Uri get origin => _wmParams.origin;
+  late final _networkIdState = createWmParamsNotifier(
+    (it) => it.networkId,
+  );
 
-  int get networkId => _wmParams.networkId;
+  late final _connectionsState = createWmParamsNotifier(
+    (it) => it.connections,
+  );
 
-  List<ConnectionData> get connections => _wmParams.connections;
+  late final _connectionState = createWmParamsNotifier(
+    (it) => it.connections.first,
+  );
+
+  ValueListenable<Uri> get originState => _originState;
+
+  ValueListenable<int> get networkIdState => _networkIdState;
+
+  ValueListenable<List<ConnectionData>> get connectionsState =>
+      _connectionsState;
 
   late final _loading = createValueNotifier(false);
-  late final _connection = createValueNotifier<ConnectionData>(
-    _wmParams.connections.first,
-  );
 
   ValueListenable<bool> get loading => _loading;
 
-  ValueListenable<ConnectionData> get connection => _connection;
+  ValueListenable<ConnectionData> get connection => _connectionState;
 
   ThemeStyleV2 get theme => context.themeStyleV2;
 
   Future<void> onConfirm() async {
     _loading.value = true;
     try {
-      final strategy = await model.changeNetwork(_connection.value.id);
+      final strategy = await model.changeNetwork(_connectionState.value.id);
 
       if (contextSafe != null) {
         Navigator.of(contextSafe!).pop(strategy);
@@ -71,5 +82,6 @@ class ChangeNetworkWidgetModel
   }
 
   // ignore: use_setters_to_change_properties
-  void onConnectionChanged(ConnectionData value) => _connection.value = value;
+  void onConnectionChanged(ConnectionData value) =>
+      _connectionState.value = value;
 }

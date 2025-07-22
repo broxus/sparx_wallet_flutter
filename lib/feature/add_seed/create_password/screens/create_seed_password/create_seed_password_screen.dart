@@ -12,8 +12,8 @@ import 'package:ui_components_lib/ui_components_lib.dart';
 /// {@template create_seed_password_onboarding_page}
 /// Entry point to create seed password from onboarding.
 /// {@endtemplate}
-class CreateSeedPasswordScreen
-    extends InjectedElementaryWidget<CreateSeedPasswordScreenWidgetModel> {
+class CreateSeedPasswordScreen extends InjectedElementaryParametrizedWidget<
+    CreateSeedPasswordScreenWidgetModel, CreateSeedPasswordWmParams> {
   CreateSeedPasswordScreen({
     required SeedPhraseModel? phrase,
     required MnemonicType? mnemonicType,

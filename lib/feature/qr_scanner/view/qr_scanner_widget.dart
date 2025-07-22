@@ -9,8 +9,8 @@ import 'package:mobile_scanner/mobile_scanner.dart';
 import 'package:ui_components_lib/ui_components_lib.dart';
 import 'package:ui_components_lib/v2/ui_components_lib_v2.dart';
 
-class QrScannerWidget extends InjectedElementaryWidget<QrScannerWidgetModel>
-    with WidgetsBindingObserver {
+class QrScannerWidget extends InjectedElementaryParametrizedWidget<
+    QrScannerWidgetModel, List<QrScanType>> with WidgetsBindingObserver {
   const QrScannerWidget({
     required List<QrScanType> types,
     super.key,

@@ -27,8 +27,8 @@ Future<void> showCheckPhraseDialog(
   );
 }
 
-class ContentCheckPhrase
-    extends InjectedElementaryWidget<CheckPhraseWidgetModel> {
+class ContentCheckPhrase extends InjectedElementaryParametrizedWidget<
+    CheckPhraseWidgetModel, CheckPhraseWmParams> {
   ContentCheckPhrase({
     required List<String> words,
     required String address,

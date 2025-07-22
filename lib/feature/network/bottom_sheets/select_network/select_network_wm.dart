@@ -9,15 +9,11 @@ import 'package:flutter/material.dart';
 import 'package:injectable/injectable.dart';
 
 @injectable
-class SelectNetworkWidgetModel
-    extends CustomWidgetModel<SelectNetworkWidget, SelectNetworkModel> {
+class SelectNetworkWidgetModel extends CustomWidgetModelParametrized<
+    SelectNetworkWidget, SelectNetworkModel, bool> {
   SelectNetworkWidgetModel(
     super.model,
-    // ignore: avoid_positional_boolean_parameters
-    @factoryParam this._needPopAfterAction,
   );
-
-  final bool _needPopAfterAction;
 
   late final _currentConnectionId =
       createNotifierFromStream(model.currentConnectionId);
@@ -26,6 +22,8 @@ class SelectNetworkWidgetModel
   ListenableState<String> get currentConnectionId => _currentConnectionId;
 
   ListenableState<List<ConnectionData>> get connections => _connections;
+
+  bool get _needPopAfterAction => wmParams.value;
 
   void onConfigure() {
     if (_needPopAfterAction) Navigator.of(context).pop();

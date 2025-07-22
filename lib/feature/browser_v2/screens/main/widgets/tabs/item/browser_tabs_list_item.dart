@@ -10,8 +10,8 @@ import 'package:render_metrics/render_metrics.dart';
 import 'package:ui_components_lib/ui_components_lib.dart';
 
 @injectable
-class BrowserTabsListItem
-    extends InjectedElementaryWidget<BrowserTabsListItemWidgetModel> {
+class BrowserTabsListItem extends InjectedElementaryParametrizedWidget<
+    BrowserTabsListItemWidgetModel, NotNullListenableState<BrowserTab>> {
   const BrowserTabsListItem({
     required NotNullListenableState<BrowserTab> tabNotifier,
     required this.renderManager,
@@ -33,7 +33,7 @@ class BrowserTabsListItem
     return SizedBox(
       height: DimensSizeV2.d200,
       child: RenderMetricsObject(
-        id: wm.id,
+        id: wm.tabNotifier.value.id,
         manager: renderManager,
         child: Stack(
           children: [

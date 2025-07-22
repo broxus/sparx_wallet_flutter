@@ -48,27 +48,10 @@ mixin NotifierSubscriptionsMixin<W extends ElementaryWidget,
     M extends ElementaryModel> on WidgetModel<W, M> {
   late final _subscriptionsCollection = _NotifierSubscriptionsCollection();
   late final _streamSubscriptionsCollection = _StreamSubscriptionsCollection();
-  late final _widgetPropsReaders =
-      <StateNotifier<dynamic>, dynamic Function(W)>{};
-
-  void _readWidgetProps() {
-    for (final MapEntry(key: notifier, value: reader)
-        in _widgetPropsReaders.entries) {
-      notifier.accept(reader(widget));
-    }
-  }
-
-  @override
-  @mustCallSuper
-  void initWidgetModel() {
-    _readWidgetProps();
-    super.initWidgetModel();
-  }
 
   @override
   @mustCallSuper
   void didUpdateWidget(W oldWidget) {
-    _readWidgetProps();
     super.didUpdateWidget(oldWidget);
   }
 
@@ -77,7 +60,6 @@ mixin NotifierSubscriptionsMixin<W extends ElementaryWidget,
   void dispose() {
     _subscriptionsCollection.dispose();
     _streamSubscriptionsCollection.dispose();
-    _widgetPropsReaders.clear();
     super.dispose();
   }
 
@@ -147,6 +129,22 @@ mixin NotifierSubscriptionsMixin<W extends ElementaryWidget,
     );
 
     return _subscriptionsCollection.add(notifier);
+  }
+
+  /// Create [ValueNotifier] from [Stream] and initial value and
+  /// add to the notifier collection
+  @protected
+  ValueNotifier<T> createValueNotifierFromStream<T>(
+    T initialValue,
+    Stream<T> stream,
+  ) {
+    final notifier = createValueNotifier(initialValue);
+
+    _streamSubscriptionsCollection.add(
+      stream.listen((it) => notifier.value = it),
+    );
+
+    return notifier;
   }
 
   @protected

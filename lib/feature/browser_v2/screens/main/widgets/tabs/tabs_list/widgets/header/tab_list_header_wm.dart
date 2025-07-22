@@ -11,14 +11,13 @@ import 'package:injectable/injectable.dart';
 
 ////// [WidgetModel] для [TabListHeader]
 @injectable
-class TabListHeaderWidgetModel
-    extends CustomWidgetModel<TabListHeader, TabListHeaderModel> {
+class TabListHeaderWidgetModel extends CustomWidgetModelParametrized<
+    TabListHeader, TabListHeaderModel, ListenableState<String?>> {
   TabListHeaderWidgetModel(
     super.model,
-    @factoryParam this.selectedGroupIdState,
   );
 
-  final ListenableState<String?> selectedGroupIdState;
+  ListenableState<String?> get selectedGroupIdState => wmParams.value;
 
   final _bookmarksUiModel = TabListHeaderBookmarksUiModel();
   final _newGroupUiModel = TabListHeaderNewGroupUiModel();
@@ -33,10 +32,10 @@ class TabListHeaderWidgetModel
 
   @override
   void initWidgetModel() {
+    super.initWidgetModel();
     model.groupsIdsState.addListener(_handleGroupsIds);
     selectedGroupIdState.addListener(_handleSelectedId);
     WidgetsBinding.instance.addPostFrameCallback((_) => _scrollToGroup());
-    super.initWidgetModel();
   }
 
   @override

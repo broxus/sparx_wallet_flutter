@@ -29,8 +29,8 @@ Future<void> showSelectTokesModal(
   );
 }
 
-class SelectTokenWidget
-    extends InjectedElementaryWidget<SelectTokenWidgetModel> {
+class SelectTokenWidget extends InjectedElementaryParametrizedWidget<
+    SelectTokenWidgetModel, Address> {
   const SelectTokenWidget({
     required Address address,
     required this.confirmImportCallback,

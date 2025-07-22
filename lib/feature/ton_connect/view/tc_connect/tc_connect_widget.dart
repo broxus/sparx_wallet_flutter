@@ -10,7 +10,8 @@ import 'package:nekoton_repository/nekoton_repository.dart';
 import 'package:ui_components_lib/ui_components_lib.dart';
 import 'package:ui_components_lib/v2/ui_components_lib_v2.dart';
 
-class TCConnectWidget extends InjectedElementaryWidget<TCConnectWidgetModel> {
+class TCConnectWidget extends InjectedElementaryParametrizedWidget<
+    TCConnectWidgetModel, TCConnectWmParams> {
   TCConnectWidget({
     required ConnectRequest request,
     required DappManifest manifest,

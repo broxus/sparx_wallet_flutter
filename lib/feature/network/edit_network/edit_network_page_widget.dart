@@ -4,8 +4,8 @@ import 'package:app/generated/generated.dart';
 import 'package:flutter/material.dart';
 import 'package:ui_components_lib/ui_components_lib.dart';
 
-class EditNetworkPageWidget
-    extends InjectedElementaryWidget<EditNetworkWidgetModel> {
+class EditNetworkPageWidget extends InjectedElementaryParametrizedWidget<
+    EditNetworkWidgetModel, String?> {
   const EditNetworkPageWidget({
     String? connectionDataId,
     super.key,

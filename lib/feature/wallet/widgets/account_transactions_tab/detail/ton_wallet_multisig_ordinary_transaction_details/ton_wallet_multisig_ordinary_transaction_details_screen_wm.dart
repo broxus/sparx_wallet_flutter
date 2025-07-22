@@ -25,41 +25,74 @@ class TonWalletMultisigOrdinaryTransactionDetailsWmParams {
 /// [WidgetModel] для [TonWalletMultisigOrdinaryTransactionDetailsScreen]
 @injectable
 class TonWalletMultisigOrdinaryTransactionDetailsScreenWidgetModel
-    extends CustomWidgetModel<TonWalletMultisigOrdinaryTransactionDetailsScreen,
-        TonWalletMultisigOrdinaryTransactionDetailsScreenModel> {
+    extends CustomWidgetModelParametrized<
+        TonWalletMultisigOrdinaryTransactionDetailsScreen,
+        TonWalletMultisigOrdinaryTransactionDetailsScreenModel,
+        TonWalletMultisigOrdinaryTransactionDetailsWmParams> {
   TonWalletMultisigOrdinaryTransactionDetailsScreenWidgetModel(
     super.model,
-    @factoryParam this._wmParams,
   );
 
-  final TonWalletMultisigOrdinaryTransactionDetailsWmParams _wmParams;
-  TonWalletMultisigOrdinaryTransaction get _transaction =>
-      _wmParams.transaction;
-
-  KeyAccount get account => _wmParams.account;
-  Fixed get price => _wmParams.price;
-
-  late final date = _transaction.date;
-  late final isIncoming = !_transaction.isOutgoing;
-  late final transactionFee = Money.fromBigIntWithCurrency(
-    _transaction.fees,
-    Currencies()[model.ticker]!,
+  late final accountState = createWmParamsNotifier<KeyAccount>(
+    (it) => it.account,
   );
-  late final transactionValue = Money.fromBigIntWithCurrency(
-    _transaction.value,
-    Currencies()[model.ticker]!,
-  );
-  late final transactionHash = _transaction.hash;
-  late final transactionAddress = _transaction.address;
-  late final transactionComment = _transaction.comment;
-  late final info = _methodData?.$1;
-  late final tonIconPath = model.tonIconPath;
-  late final confirmations = _transaction.confirmations;
-  late final custodians = _transaction.custodians;
-  late final initiator = _transaction.creator;
 
-  late final _methodData =
-      _transaction.walletInteractionInfo?.method.toRepresentableData();
+  late final priceState = createWmParamsNotifier<Fixed>(
+    (it) => it.price,
+  );
+
+  late final dateState = createWmParamsNotifier<DateTime>(
+    (it) => it.transaction.date,
+  );
+
+  late final isIncomingState = createWmParamsNotifier<bool>(
+    (it) => !it.transaction.isOutgoing,
+  );
+
+  late final transactionFeeState = createWmParamsNotifier<Money>(
+    (it) => Money.fromBigIntWithCurrency(
+      it.transaction.fees,
+      Currencies()[model.ticker]!,
+    ),
+  );
+
+  late final transactionValueState = createWmParamsNotifier<Money>(
+    (it) => Money.fromBigIntWithCurrency(
+      it.transaction.value,
+      Currencies()[model.ticker]!,
+    ),
+  );
+
+  late final transactionHashState = createWmParamsNotifier<String>(
+    (it) => it.transaction.hash,
+  );
+
+  late final transactionAddressState = createWmParamsNotifier<Address>(
+    (it) => it.transaction.address,
+  );
+
+  late final transactionCommentState = createWmParamsNotifier<String?>(
+    (it) => it.transaction.comment,
+  );
+
+  late final infoState = createWmParamsNotifier<String?>(
+    (it) =>
+        it.transaction.walletInteractionInfo?.method.toRepresentableData().$1,
+  );
+
+  late final tonIconPathState = createNotifier<String>(model.tonIconPath);
+
+  late final confirmationsState = createWmParamsNotifier<List<PublicKey>>(
+    (it) => it.transaction.confirmations,
+  );
+
+  late final custodiansState = createWmParamsNotifier<List<PublicKey>>(
+    (it) => it.transaction.custodians,
+  );
+
+  late final initiatorState = createWmParamsNotifier<PublicKey>(
+    (it) => it.transaction.creator,
+  );
 
   TextStylesV2 get textStyles => _theme.textStyles;
 
@@ -70,7 +103,7 @@ class TonWalletMultisigOrdinaryTransactionDetailsScreenWidgetModel
   void onPressedSeeInExplorer() {
     Navigator.of(context).pop();
     openBrowserUrl(
-      model.getTransactionExplorerLink(_transaction.hash),
+      model.getTransactionExplorerLink(wmParams.value.transaction.hash),
     );
   }
 }

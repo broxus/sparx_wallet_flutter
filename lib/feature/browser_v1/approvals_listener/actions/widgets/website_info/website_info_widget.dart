@@ -2,13 +2,12 @@ import 'package:app/core/wm/custom_wm.dart';
 import 'package:app/feature/browser_v1/approvals_listener/actions/widgets/website_info/website_info_wm.dart';
 import 'package:app/generated/generated.dart';
 import 'package:cached_network_image/cached_network_image.dart';
-import 'package:elementary_helper/elementary_helper.dart';
 import 'package:flutter/material.dart';
 import 'package:ui_components_lib/ui_components_lib.dart';
 import 'package:ui_components_lib/v2/ui_components_lib_v2.dart';
 
-class WebsiteInfoWidget
-    extends InjectedElementaryWidget<WebsiteInfoWidgetModel> {
+class WebsiteInfoWidget extends InjectedElementaryParametrizedWidget<
+    WebsiteInfoWidgetModel, WebsiteInfoWmParams> {
   WebsiteInfoWidget({
     required Uri uri,
     Uri? iconUrl,
@@ -30,9 +29,9 @@ class WebsiteInfoWidget
         ),
         child: SeparatedRow(
           children: [
-            StateNotifierBuilder(
-              listenableState: wm.faviconUrl,
-              builder: (_, value) => value == null
+            ValueListenableBuilder(
+              valueListenable: wm.faviconUrlState,
+              builder: (_, faviconUrl, __) => faviconUrl == null
                   ? CommonIconWidget.svg(svg: Assets.images.web.path)
                   : ClipRRect(
                       borderRadius:
@@ -40,7 +39,7 @@ class WebsiteInfoWidget
                       child: CachedNetworkImage(
                         height: DimensSizeV2.d40,
                         width: DimensSizeV2.d40,
-                        imageUrl: value,
+                        imageUrl: faviconUrl,
                         placeholder: (_, __) =>
                             const CommonCircularProgressIndicator(),
                         errorWidget: (_, __, ___) => CommonIconWidget.svg(
@@ -60,12 +59,17 @@ class WebsiteInfoWidget
                       color: wm.theme.colors.content3,
                     ),
                   ),
-                  Text(
-                    wm.uri.origin,
-                    style: wm.theme.textStyles.labelSmall,
-                    overflow: TextOverflow.ellipsis,
-                    softWrap: false,
-                    maxLines: 1,
+                  ValueListenableBuilder(
+                    valueListenable: wm.uriState,
+                    builder: (_, uri, __) {
+                      return Text(
+                        uri.origin,
+                        style: wm.theme.textStyles.labelSmall,
+                        overflow: TextOverflow.ellipsis,
+                        softWrap: false,
+                        maxLines: 1,
+                      );
+                    },
                   ),
                 ],
               ),

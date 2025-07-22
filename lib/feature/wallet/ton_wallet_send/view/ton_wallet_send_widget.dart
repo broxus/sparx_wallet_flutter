@@ -9,8 +9,8 @@ import 'package:flutter/material.dart';
 import 'package:ui_components_lib/ui_components_lib.dart';
 
 /// Page that allows send funds from TonWalelt (native token).
-class TonWalletSendWidget
-    extends InjectedElementaryWidget<TonWalletSendWidgetModel> {
+class TonWalletSendWidget extends InjectedElementaryParametrizedWidget<
+    TonWalletSendWidgetModel, TonWalletSendRouteData> {
   const TonWalletSendWidget({
     required TonWalletSendRouteData data,
     super.key,

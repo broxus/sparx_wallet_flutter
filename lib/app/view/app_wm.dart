@@ -31,8 +31,8 @@ class AppWidgetModel extends CustomWidgetModel<App, AppModel> {
 
   @override
   void initWidgetModel() {
-    _messageViewer.init();
     super.initWidgetModel();
+    _messageViewer.init();
   }
 
   @override

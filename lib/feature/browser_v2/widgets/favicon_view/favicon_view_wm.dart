@@ -8,13 +8,10 @@ import 'package:injectable/injectable.dart';
 /// [WidgetModel] для [FaviconView]
 @injectable
 class FaviconViewWidgetModel
-    extends CustomWidgetModel<FaviconView, FaviconViewModel> {
+    extends CustomWidgetModelParametrized<FaviconView, FaviconViewModel, Uri?> {
   FaviconViewWidgetModel(
     super.model,
-    @factoryParam this._uri,
   );
-
-  final Uri? _uri;
 
   late final _faviconUrlState = createEntityNotifier<String?>()..loading();
 
@@ -22,12 +19,12 @@ class FaviconViewWidgetModel
 
   @override
   void initWidgetModel() {
-    _fetch();
     super.initWidgetModel();
+    _fetch();
   }
 
   Future<void> _fetch() async {
-    final url = await model.getFavicon(_uri);
+    final url = await model.getFavicon(wmParams.value);
 
     if (url == null) {
       _faviconUrlState.error();

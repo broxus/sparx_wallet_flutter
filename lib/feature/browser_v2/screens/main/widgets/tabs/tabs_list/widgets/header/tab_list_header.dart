@@ -8,7 +8,8 @@ import 'package:elementary_helper/elementary_helper.dart';
 import 'package:flutter/material.dart';
 import 'package:ui_components_lib/v2/dimens_v2.dart';
 
-class TabListHeader extends InjectedElementaryWidget<TabListHeaderWidgetModel> {
+class TabListHeader extends InjectedElementaryParametrizedWidget<
+    TabListHeaderWidgetModel, ListenableState<String?>> {
   const TabListHeader({
     required ListenableState<String?> selectedGroupIdState,
     required this.onPressedGroup,
@@ -58,7 +59,7 @@ class TabListHeader extends InjectedElementaryWidget<TabListHeaderWidgetModel> {
                       BrowserGroupHeaderItem(
                         key: ValueKey(id),
                         width: itemWidth,
-                        listenable: listenable,
+                        browserGroup: listenable,
                         selectedGroupIdListenable: wm.selectedGroupIdState,
                         onPressed: () => onPressedGroup(id),
                       ),

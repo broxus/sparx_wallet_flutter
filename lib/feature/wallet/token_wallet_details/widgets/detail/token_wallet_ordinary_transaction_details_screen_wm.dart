@@ -24,28 +24,27 @@ class TokenWalletOrdinaryTransactionDetailsScreenWmParams {
 /// [WidgetModel] для [TokenWalletOrdinaryTransactionDetailsScreen]
 @injectable
 class TokenWalletOrdinaryTransactionDetailsScreenWidgetModel
-    extends CustomWidgetModel<TokenWalletOrdinaryTransactionDetailsScreen,
-        TokenWalletOrdinaryTransactionDetailsScreenModel> {
+    extends CustomWidgetModelParametrized<
+        TokenWalletOrdinaryTransactionDetailsScreen,
+        TokenWalletOrdinaryTransactionDetailsScreenModel,
+        TokenWalletOrdinaryTransactionDetailsScreenWmParams> {
   TokenWalletOrdinaryTransactionDetailsScreenWidgetModel(
     super.model,
-    @factoryParam this._wmParams,
   );
 
-  final TokenWalletOrdinaryTransactionDetailsScreenWmParams _wmParams;
-
-  TokenWalletOrdinaryTransaction get transaction => _wmParams.transaction;
-  Currency get tokenCurrency => _wmParams.tokenCurrency;
-  Fixed get price => _wmParams.price;
-  Address get rootTokenContract => _wmParams.rootTokenContract;
+  TokenWalletOrdinaryTransaction get transaction => wmParams.value.transaction;
+  Currency get tokenCurrency => wmParams.value.tokenCurrency;
+  Fixed get price => wmParams.value.price;
+  Address get rootTokenContract => wmParams.value.rootTokenContract;
 
   late final moneyFee = Money.fromBigIntWithCurrency(
-    _wmParams.transaction.fees,
+    wmParams.value.transaction.fees,
     Currencies()[model.nativeTokenTicker]!,
   );
 
   late final moneyValue = Money.fromBigIntWithCurrency(
-    _wmParams.transaction.value,
-    _wmParams.tokenCurrency,
+    wmParams.value.transaction.value,
+    wmParams.value.tokenCurrency,
   );
 
   late final tonIconPath = model.nativeTokenIcon;
@@ -55,6 +54,6 @@ class TokenWalletOrdinaryTransactionDetailsScreenWidgetModel
   String? get logoURI => _asset?.logoURI;
 
   TokenContractAsset? get _asset => model.getMaybeGetTokenContract(
-        _wmParams.rootTokenContract,
+        wmParams.value.rootTokenContract,
       );
 }

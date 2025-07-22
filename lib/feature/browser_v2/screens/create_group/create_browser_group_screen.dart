@@ -9,8 +9,8 @@ import 'package:lucide_icons_flutter/lucide_icons.dart';
 import 'package:ui_components_lib/components/button/app_bar_back_button.dart';
 import 'package:ui_components_lib/ui_components_lib.dart';
 
-class CreateBrowserGroupScreen
-    extends InjectedElementaryWidget<CreateBrowserGroupScreenWidgetModel> {
+class CreateBrowserGroupScreen extends InjectedElementaryParametrizedWidget<
+    CreateBrowserGroupScreenWidgetModel, String?> {
   const CreateBrowserGroupScreen({
     String? tabId,
     super.key,

@@ -12,8 +12,8 @@ import 'package:nekoton_repository/nekoton_repository.dart';
 import 'package:ui_components_lib/ui_components_lib.dart';
 import 'package:ui_components_lib/v2/ui_components_lib_v2.dart';
 
-class SeedDetailPageWidget
-    extends InjectedElementaryWidget<SeedDetailPageWidgetModel> {
+class SeedDetailPageWidget extends InjectedElementaryParametrizedWidget<
+    SeedDetailPageWidgetModel, PublicKey> {
   const SeedDetailPageWidget({
     required PublicKey publicKey,
     super.key,

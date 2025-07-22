@@ -11,14 +11,11 @@ import 'package:logging/logging.dart';
 import 'package:nekoton_repository/nekoton_repository.dart' hide Message;
 
 @injectable
-class NftSendWidgetModel
-    extends CustomWidgetModel<NftSendWidget, NftSendModel> {
+class NftSendWidgetModel extends CustomWidgetModelParametrized<NftSendWidget,
+    NftSendModel, NftSendRouteData> {
   NftSendWidgetModel(
     super.model,
-    @factoryParam this._wmParams,
   );
-
-  final NftSendRouteData _wmParams;
 
   static final _logger = Logger('NftSendWidgetModel');
 
@@ -31,7 +28,7 @@ class NftSendWidgetModel
   late final _errorState = createNotifier<String>();
   late final _sendState = createNotifier(const NftSendState.ready());
 
-  late final KeyAccount? account = model.getAccount(_wmParams.owner);
+  late final KeyAccount? account = model.getAccount(wmParams.value.owner);
 
   Currency get currency => model.currency;
 
@@ -69,21 +66,21 @@ class NftSendWidgetModel
 
       final resultMessage = LocaleKeys.nftTransferSuccessMessage.tr();
       final internalMessage = await _prepareTransfer(
-        data: _wmParams,
+        data: wmParams.value,
         nftItem: nftItem,
       );
 
       unsignedMessage = await model.prepareMessage(
         address: account.address,
-        publicKey: _wmParams.publicKey,
+        publicKey: wmParams.value.publicKey,
         destination: internalMessage.destination,
         amount: internalMessage.amount,
         payload: internalMessage.body,
       );
 
       final transactionCompleter = await model.sendMessage(
-        address: _wmParams.owner,
-        publicKey: _wmParams.publicKey,
+        address: wmParams.value.owner,
+        publicKey: wmParams.value.publicKey,
         message: unsignedMessage,
         password: password,
         destination: internalMessage.destination,
@@ -118,8 +115,11 @@ class NftSendWidgetModel
       _loadingState.accept(true);
 
       final (nftItem, nftCollection) = await FutureExt.wait2(
-        model.getNftItem(address: _wmParams.address, owner: _wmParams.owner),
-        model.getCollection(_wmParams.collection),
+        model.getNftItem(
+          address: wmParams.value.address,
+          owner: wmParams.value.owner,
+        ),
+        model.getCollection(wmParams.value.collection),
       );
       if (nftItem == null || nftCollection == null) return;
 
@@ -133,7 +133,7 @@ class NftSendWidgetModel
       }
 
       final internalMessage = await _prepareTransfer(
-        data: _wmParams,
+        data: wmParams.value,
         nftItem: nftItem,
       );
 
@@ -141,7 +141,7 @@ class NftSendWidgetModel
 
       unsignedMessage = await model.prepareMessage(
         address: account.address,
-        publicKey: _wmParams.publicKey,
+        publicKey: wmParams.value.publicKey,
         destination: internalMessage.destination,
         amount: internalMessage.amount,
         payload: internalMessage.body,

@@ -25,8 +25,8 @@ Future<void> showManualBackupDialog(
   );
 }
 
-class ContentManualBackup
-    extends InjectedElementaryWidget<ManualBackUpWidgetModel> {
+class ContentManualBackup extends InjectedElementaryParametrizedWidget<
+    ManualBackUpWidgetModel, ManualBackUpWmParams> {
   ContentManualBackup({
     required List<String> words,
     required String address,
@@ -53,7 +53,10 @@ class ContentManualBackup
             ),
           ),
           padding: const EdgeInsets.all(DimensSizeV2.d32),
-          child: _ListWords(wm.words),
+          child: ValueListenableBuilder(
+            valueListenable: wm.wordsState,
+            builder: (_, words, __) => _ListWords(words),
+          ),
         ),
         const SizedBox(height: DimensSizeV2.d8),
         EntityStateNotifierBuilder<ManualBackUpData?>(

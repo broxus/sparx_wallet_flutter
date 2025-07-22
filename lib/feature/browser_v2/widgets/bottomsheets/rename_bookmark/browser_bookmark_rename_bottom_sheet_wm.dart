@@ -9,37 +9,35 @@ import 'package:injectable/injectable.dart';
 
 /// [WidgetModel] для [BrowserBookmarkRenameBottomSheet]
 @injectable
-class BrowserBookmarkRenameBottomSheetWidgetModel extends CustomWidgetModel<
-    BrowserBookmarkRenameBottomSheet, BrowserBookmarkRenameBottomSheetModel> {
+class BrowserBookmarkRenameBottomSheetWidgetModel
+    extends CustomWidgetModelParametrized<BrowserBookmarkRenameBottomSheet,
+        BrowserBookmarkRenameBottomSheetModel, BrowserBookmarkItem> {
   BrowserBookmarkRenameBottomSheetWidgetModel(
     super.model,
-    @factoryParam this._item,
   );
 
-  late final nameController = createTextEditingController(_item.title);
+  late final nameController = createTextEditingController(wmParams.value.title);
   late final _isCanEditedState = createNotifier<bool>(false);
-
-  final BrowserBookmarkItem _item;
 
   ListenableState<bool> get isCanEditedState => _isCanEditedState;
 
   String get _name => nameController.text.trim();
 
-  bool get _isNewName => _name != _item.title;
+  bool get _isNewName => _name != wmParams.value.title;
 
   bool get _isCanRename => _name.isNotEmpty && _isNewName;
 
   @override
   void initWidgetModel() {
-    nameController.addListener(() => _isCanEditedState.accept(_isCanRename));
     super.initWidgetModel();
+    nameController.addListener(() => _isCanEditedState.accept(_isCanRename));
   }
 
   void onRename() {
     if (!_isCanRename) {
       return;
     }
-    model.renameBookmark(_item.id, _name);
+    model.renameBookmark(wmParams.value.id, _name);
     Navigator.of(context).pop();
   }
 }

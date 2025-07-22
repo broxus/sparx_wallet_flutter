@@ -12,14 +12,11 @@ import 'package:mobile_scanner/mobile_scanner.dart';
 import 'package:ui_components_lib/ui_components_lib.dart';
 
 @injectable
-class QrScannerWidgetModel
-    extends CustomWidgetModel<QrScannerWidget, QrScannerModel> {
+class QrScannerWidgetModel extends CustomWidgetModelParametrized<
+    QrScannerWidget, QrScannerModel, List<QrScanType>> {
   QrScannerWidgetModel(
     super.model,
-    @factoryParam this._types,
   );
-
-  final List<QrScanType> _types;
 
   final MobileScannerController controller = MobileScannerController(
     autoStart: false,
@@ -111,7 +108,7 @@ class QrScannerWidgetModel
       final rawValue = barcode.rawValue;
       if (rawValue == null) return;
 
-      result = model.tryGetResult(value: rawValue, types: _types);
+      result = model.tryGetResult(value: rawValue, types: wmParams.value);
       if (result != null) break;
     }
 

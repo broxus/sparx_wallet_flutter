@@ -24,8 +24,8 @@ Future<void> showConfirmActionDialog(
   );
 }
 
-class ContentConfirmAction
-    extends InjectedElementaryWidget<ConfirmActionWidgetModel> {
+class ContentConfirmAction extends InjectedElementaryParametrizedWidget<
+    ConfirmActionWidgetModel, ConfirmActionWmParams> {
   ContentConfirmAction({
     required ValueChanged<bool> finishedBackupCallback,
     KeyAccount? account,
@@ -50,11 +50,15 @@ class ContentConfirmAction
               style: theme.textStyles.headingMedium,
             ),
             const SizedBox(height: DimensSizeV2.d24),
-            if (wm.account != null)
-              AccountInfo(
-                account: wm.account!,
-                color: theme.colors.background2,
-              ),
+            ValueListenableBuilder(
+              valueListenable: wm.accountState,
+              builder: (_, account, __) => account != null
+                  ? AccountInfo(
+                      account: account,
+                      color: theme.colors.background2,
+                    )
+                  : const SizedBox.shrink(),
+            ),
             const SizedBox(height: DimensSizeV2.d16),
             SecureTextField(
               textEditingController: wm.passwordController,
@@ -70,7 +74,7 @@ class ContentConfirmAction
               onPressed: wm.onClickConfirm,
             ),
             StateNotifierBuilder(
-              listenableState: wm.availableBiometry,
+              listenableState: wm.availableBiometryState,
               builder: (_, value) {
                 if (value?.contains(BiometricType.face) ?? false) {
                   return Padding(

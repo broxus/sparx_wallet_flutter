@@ -22,43 +22,59 @@ class TonWalletOrdinaryTransactionDetailsWmParams {
 
 /// [WidgetModel] для [TonWalletOrdinaryTransactionDetails]
 @injectable
-class TonWalletOrdinaryTransactionDetailsWidgetModel extends CustomWidgetModel<
-    TonWalletOrdinaryTransactionDetails,
-    TonWalletOrdinaryTransactionDetailsModel> {
+class TonWalletOrdinaryTransactionDetailsWidgetModel
+    extends CustomWidgetModelParametrized<
+        TonWalletOrdinaryTransactionDetails,
+        TonWalletOrdinaryTransactionDetailsModel,
+        TonWalletOrdinaryTransactionDetailsWmParams> {
   TonWalletOrdinaryTransactionDetailsWidgetModel(
     super.model,
-    @factoryParam this._wmParams,
   );
 
-  final TonWalletOrdinaryTransactionDetailsWmParams _wmParams;
-
-  Fixed get price => _wmParams.price;
-
-  late final date = _wmParams.transaction.date;
-  late final isIncoming = !_wmParams.transaction.isOutgoing;
-
-  late final Money transactionFee = Money.fromBigIntWithCurrency(
-    _wmParams.transaction.fees,
-    Currencies()[model.ticker]!,
+  late final priceState = createWmParamsNotifier<Fixed>(
+    (it) => it.price,
   );
 
-  late final Money transactionValue = Money.fromBigIntWithCurrency(
-    _wmParams.transaction.value,
-    Currencies()[model.ticker]!,
+  late final dateState = createWmParamsNotifier<DateTime>(
+    (it) => it.transaction.date,
   );
 
-  late final transactionHash = _wmParams.transaction.hash;
+  late final isIncomingState = createWmParamsNotifier<bool>(
+    (it) => !it.transaction.isOutgoing,
+  );
 
-  late final transactionAddress = _wmParams.transaction.address;
+  late final transactionFeeState = createWmParamsNotifier<Money>(
+    (it) => Money.fromBigIntWithCurrency(
+      it.transaction.fees,
+      Currencies()[model.ticker]!,
+    ),
+  );
 
-  late final transactionComment = _wmParams.transaction.comment;
+  late final transactionValueState = createWmParamsNotifier<Money>(
+    (it) => Money.fromBigIntWithCurrency(
+      it.transaction.value,
+      Currencies()[model.ticker]!,
+    ),
+  );
 
-  late final transactionInfo = _methodData?.$1;
+  late final transactionHashState = createWmParamsNotifier<String>(
+    (it) => it.transaction.hash,
+  );
 
-  late final tonIconPath = model.tonIconPath;
+  late final transactionAddressState = createWmParamsNotifier<Address>(
+    (it) => it.transaction.address,
+  );
 
-  late final _methodData =
-      _wmParams.transaction.walletInteractionInfo?.method.toRepresentableData();
+  late final transactionCommentState = createWmParamsNotifier<String?>(
+    (it) => it.transaction.comment,
+  );
+
+  late final transactionInfoState = createWmParamsNotifier<String?>(
+    (it) =>
+        it.transaction.walletInteractionInfo?.method.toRepresentableData().$1,
+  );
+
+  late final tonIconPathState = createNotifier<String>(model.tonIconPath);
 
   ColorsPaletteV2 get colors => _theme.colors;
 
@@ -71,7 +87,7 @@ class TonWalletOrdinaryTransactionDetailsWidgetModel extends CustomWidgetModel<
   void onPressedSeeInExplorer() {
     Navigator.of(context).pop();
     openBrowserUrl(
-      model.getTransactionExplorerLink(_wmParams.transaction.hash),
+      model.getTransactionExplorerLink(wmParams.value.transaction.hash),
     );
   }
 }

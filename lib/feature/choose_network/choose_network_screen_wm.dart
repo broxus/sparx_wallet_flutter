@@ -18,14 +18,11 @@ import 'package:ui_components_lib/v2/ui_components_lib_v2.dart';
 
 /// [WidgetModel] для [ChooseNetworkScreen]
 @injectable
-class ChooseNetworkScreenWidgetModel
-    extends CustomWidgetModel<ChooseNetworkScreen, ChooseNetworkScreenModel> {
+class ChooseNetworkScreenWidgetModel extends CustomWidgetModelParametrized<
+    ChooseNetworkScreen, ChooseNetworkScreenModel, ChooseNetworkNextStep> {
   ChooseNetworkScreenWidgetModel(
     super.model,
-    @factoryParam this._nextStep,
   );
-
-  final ChooseNetworkNextStep _nextStep;
 
   late final _loadingItemId = createNotifier<String?>();
 
@@ -59,17 +56,17 @@ class ChooseNetworkScreenWidgetModel
 
   @override
   void initWidgetModel() {
+    super.initWidgetModel();
+
     _connectionsState.accept(model.fetchNetworksData());
     _showSearchBar.accept(model.shouldShowSearch());
-
-    super.initWidgetModel();
   }
 
   Future<void> onPressedType(String id) async {
     if (_loadingItemId.value != null) return;
 
     try {
-      final nextStep = _nextStep;
+      final nextStep = wmParams.value;
 
       _loadingItemId.accept(id);
 

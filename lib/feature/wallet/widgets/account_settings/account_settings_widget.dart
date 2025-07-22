@@ -11,8 +11,8 @@ import 'package:nekoton_repository/nekoton_repository.dart';
 import 'package:ui_components_lib/ui_components_lib.dart';
 import 'package:ui_components_lib/v2/ui_components_lib_v2.dart';
 
-class AccountSettingsWidget
-    extends InjectedElementaryWidget<AccountSettingsWidgetModel> {
+class AccountSettingsWidget extends InjectedElementaryParametrizedWidget<
+    AccountSettingsWidgetModel, AccountSettingsWmParams> {
   AccountSettingsWidget({
     required KeyAccount account,
     required this.scrollController,
@@ -32,19 +32,35 @@ class AccountSettingsWidget
     return Column(
       mainAxisSize: MainAxisSize.min,
       children: [
-        AccountSettingsInfoCard(account: wm.account),
+        ValueListenableBuilder(
+          valueListenable: wm.accountState,
+          builder: (_, account, __) {
+            return AccountSettingsInfoCard(account: account);
+          },
+        ),
         const SizedBox(height: DimensSizeV2.d16),
-        StateNotifierBuilder(
-          listenableState: wm.displayAccounts,
-          builder: (_, list) => _ButtonsCard(
-            address: wm.account.address.address,
-            custodians: wm.custodians,
-            onCustodiansSettings: () =>
-                wm.onCustodiansSettings(wm.custodians ?? []),
-            onViewInExplorer: wm.onViewInExplorer,
-            onRename: wm.onRename,
-            onHideAccount: (list?.length ?? 0) > 1 ? wm.onHideAccount : null,
-          ),
+        MultiListenerRebuilder(
+          listenableList: [
+            wm.displayAccounts,
+            wm.accountState,
+            wm.custodiansState,
+          ],
+          builder: (_) {
+            final displayList = wm.displayAccounts.value;
+            final acc = wm.accountState.value;
+            final custodians = wm.custodiansState.value;
+
+            return _ButtonsCard(
+              address: acc.address.address,
+              custodians: custodians,
+              onCustodiansSettings: () =>
+                  wm.onCustodiansSettings(custodians ?? []),
+              onViewInExplorer: wm.onViewInExplorer,
+              onRename: wm.onRename,
+              onHideAccount:
+                  (displayList?.length ?? 0) > 1 ? wm.onHideAccount : null,
+            );
+          },
         ),
       ],
     );

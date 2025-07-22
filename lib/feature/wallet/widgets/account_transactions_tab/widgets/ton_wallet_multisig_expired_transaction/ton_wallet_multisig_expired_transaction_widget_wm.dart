@@ -30,36 +30,47 @@ class TonWalletMultisigExpiredTransactionWmParams {
 
 /// [WidgetModel] для [TonWalletMultisigExpiredTransactionWidget]
 @injectable
-class TonWalletMultisigExpiredTransactionWidgetModel extends CustomWidgetModel<
-    TonWalletMultisigExpiredTransactionWidget,
-    TonWalletMultisigExpiredTransactionModel> {
+class TonWalletMultisigExpiredTransactionWidgetModel
+    extends CustomWidgetModelParametrized<
+        TonWalletMultisigExpiredTransactionWidget,
+        TonWalletMultisigExpiredTransactionModel,
+        TonWalletMultisigExpiredTransactionWmParams> {
   TonWalletMultisigExpiredTransactionWidgetModel(
     super.model,
-    @factoryParam this._wmParams,
   );
 
-  final TonWalletMultisigExpiredTransactionWmParams _wmParams;
-
-  TonWalletMultisigExpiredTransaction get transaction => _wmParams.transaction;
-  bool get isFirst => _wmParams.isFirst;
-  bool get isLast => _wmParams.isLast;
+  late final transactionState =
+      createWmParamsNotifier<TonWalletMultisigExpiredTransaction>(
+    (it) => it.transaction,
+  );
+  late final isFirstState = createWmParamsNotifier<bool>(
+    (it) => it.isFirst,
+  );
+  late final isLastState = createWmParamsNotifier<bool>(
+    (it) => it.isLast,
+  );
 
   late final transactionTimeFormatter = DateFormat(
     'HH:mm',
     context.locale.languageCode,
   );
 
-  late final transactionText =
-      transactionTimeFormatter.format(_wmParams.transaction.date);
-
-  late final transactionFee = Money.fromBigIntWithCurrency(
-    _wmParams.transaction.fees,
-    Currencies()[_nativeTokenTicker]!,
+  late final transactionTextState = createWmParamsNotifier<String>(
+    (it) => transactionTimeFormatter.format(it.transaction.date),
   );
 
-  late final transactionValue = Money.fromBigIntWithCurrency(
-    _wmParams.transaction.value,
-    Currencies()[_nativeTokenTicker]!,
+  late final transactionFeeState = createWmParamsNotifier<Money>(
+    (it) => Money.fromBigIntWithCurrency(
+      it.transaction.fees,
+      Currencies()[_nativeTokenTicker]!,
+    ),
+  );
+
+  late final transactionValueState = createWmParamsNotifier<Money>(
+    (it) => Money.fromBigIntWithCurrency(
+      it.transaction.value,
+      Currencies()[_nativeTokenTicker]!,
+    ),
   );
 
   TextStylesV2 get textStyles => _theme.textStyles;
@@ -73,16 +84,20 @@ class TonWalletMultisigExpiredTransactionWidgetModel extends CustomWidgetModel<
   String get _tonIconPath => model.tonIconPath;
 
   void onPressedDetailed() {
+    final params = wmParams.value;
+    final fee = transactionFeeState.value;
+    final value = transactionValueState.value;
+
     Navigator.of(context, rootNavigator: true).push(
       MaterialPageRoute<void>(
         builder: (_) => TonWalletMultisigExpiredTransactionDetailsPage(
-          transaction: _wmParams.transaction,
-          price: _wmParams.price,
-          account: _wmParams.account,
-          transactionFee: transactionFee,
-          transactionValue: transactionValue,
+          transaction: params.transaction,
+          price: params.price,
+          account: params.account,
+          transactionFee: fee,
+          transactionValue: value,
           tonIconPath: _tonIconPath,
-          methodData: _wmParams.transaction.walletInteractionInfo?.method
+          methodData: params.transaction.walletInteractionInfo?.method
               .toRepresentableData(),
           onPressedSeeInExplorer: _openBrowserNewTab,
         ),
@@ -92,7 +107,7 @@ class TonWalletMultisigExpiredTransactionWidgetModel extends CustomWidgetModel<
 
   void _openBrowserNewTab() {
     openBrowserUrl(
-      model.getTransactionExplorerLink(_wmParams.transaction.hash),
+      model.getTransactionExplorerLink(wmParams.value.transaction.hash),
     );
   }
 }

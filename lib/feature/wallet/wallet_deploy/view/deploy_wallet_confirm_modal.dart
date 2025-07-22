@@ -21,8 +21,8 @@ Future<void> showDeployConfirmModal(
   );
 }
 
-class DeployWalletConfirmModal
-    extends InjectedElementaryWidget<DeployWalletConfirmWidgetModel> {
+class DeployWalletConfirmModal extends InjectedElementaryParametrizedWidget<
+    DeployWalletConfirmWidgetModel, PasswordChangeCallback> {
   const DeployWalletConfirmModal({
     required PasswordChangeCallback passwordCallback,
     super.key,

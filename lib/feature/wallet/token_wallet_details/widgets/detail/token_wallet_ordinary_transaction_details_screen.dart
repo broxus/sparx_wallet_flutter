@@ -9,8 +9,9 @@ import 'package:nekoton_repository/nekoton_repository.dart';
 import 'package:ui_components_lib/ui_components_lib.dart';
 
 class TokenWalletOrdinaryTransactionDetailsScreen
-    extends InjectedElementaryWidget<
-        TokenWalletOrdinaryTransactionDetailsScreenWidgetModel> {
+    extends InjectedElementaryParametrizedWidget<
+        TokenWalletOrdinaryTransactionDetailsScreenWidgetModel,
+        TokenWalletOrdinaryTransactionDetailsScreenWmParams> {
   TokenWalletOrdinaryTransactionDetailsScreen({
     required TokenWalletOrdinaryTransaction transaction,
     required Currency tokenCurrency,

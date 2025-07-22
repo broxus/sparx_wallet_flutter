@@ -6,8 +6,8 @@ import 'package:flutter/material.dart';
 import 'package:ui_components_lib/ui_components_lib.dart';
 import 'package:ui_components_lib/v2/widgets/widgets.dart';
 
-class EnterSeedPhraseWidget
-    extends InjectedElementaryWidget<EnterSeedPhraseWidgetModel> {
+class EnterSeedPhraseWidget extends InjectedElementaryParametrizedWidget<
+    EnterSeedPhraseWidgetModel, EnterSeedWmParams> {
   EnterSeedPhraseWidget({
     required bool isOnboarding,
     String? seedName,

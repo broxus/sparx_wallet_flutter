@@ -33,10 +33,7 @@ class BrowserPageModel extends ElementaryModel {
     this._connectionsStorageService,
     this._connectionService,
     this._tonConnectJsBridge,
-    @factoryParam this._tabId,
   ) : super(errorHandler: errorHandler);
-
-  final String _tabId;
 
   final BrowserService _browserService;
   final BrowserApprovalsService _approvalsService;
@@ -48,21 +45,11 @@ class BrowserPageModel extends ElementaryModel {
   final ConnectionService _connectionService;
   final TonConnectJsBridge _tonConnectJsBridge;
 
-  late final _inpageProvider = InpageProvider(
-    tabId: _tabId,
-    approvalsService: _approvalsService,
-    permissionsService: _permissionsService,
-    nekotonRepository: _nekotonRepository,
-    messengerService: _messengerService,
-    assetsService: _assetsService,
-    connectionsStorageService: _connectionsStorageService,
-    connectionService: _connectionService,
-  );
+  InpageProvider? _inpageProvider;
 
   late final _eventsHelper = EventsHelper(
     _nekotonRepository,
     _permissionsService,
-    _tabId,
   );
 
   ListenableState<String?> get activeGroupIdState =>
@@ -80,12 +67,26 @@ class BrowserPageModel extends ElementaryModel {
     return super.dispose();
   }
 
-  Future<void> initEvents(CustomWebViewController controller) async {
-    _eventsHelper.init(controller);
-    _inpageProvider.controller = controller;
+  Future<void> initEvents({
+    required String tabId,
+    required CustomWebViewController controller,
+  }) async {
+    _eventsHelper.init(tabId: tabId, controller: controller);
+    final inpageProvider = InpageProvider(
+      tabId: tabId,
+      approvalsService: _approvalsService,
+      permissionsService: _permissionsService,
+      nekotonRepository: _nekotonRepository,
+      messengerService: _messengerService,
+      assetsService: _assetsService,
+      connectionsStorageService: _connectionsStorageService,
+      connectionService: _connectionService,
+    );
+    _inpageProvider = inpageProvider;
+    inpageProvider.controller = controller;
 
     await controller.initNekotonProvider(
-      providerApi: _inpageProvider,
+      providerApi: inpageProvider,
     );
     await _tonConnectJsBridge.initJsBridge(controller);
   }
@@ -102,17 +103,23 @@ class BrowserPageModel extends ElementaryModel {
     _browserService.auth.setBasicAuthCreds(challenge, credits);
   }
 
-  void updateUrl(Uri? uri) {
+  void updateUrl({
+    required Uri? uri,
+    required String tabId,
+  }) {
     if (uri == null) {
       return;
     }
-    _inpageProvider.url = uri;
+    _inpageProvider?.url = uri;
     _tonConnectJsBridge.url = uri;
-    _browserService.tab.updateCachedUrl(_tabId, uri);
+    _browserService.tab.updateCachedUrl(tabId, uri);
   }
 
-  void updateTitle(String title) {
-    _browserService.tab.updateTabTitle(_tabId, title);
+  void updateTitle({
+    required String title,
+    required String tabId,
+  }) {
+    _browserService.tab.updateTabTitle(tabId, title);
   }
 
   void addHistory(Uri? uri) {
@@ -124,10 +131,11 @@ class BrowserPageModel extends ElementaryModel {
 
   Future<void> createScreenshot({
     required Future<Uint8List?> Function() takePictureCallback,
+    required String tabId,
     bool force = false,
   }) async {
     return _browserService.tab.createScreenshot(
-      tabId: _tabId,
+      tabId: tabId,
       takePictureCallback: takePictureCallback,
     );
   }

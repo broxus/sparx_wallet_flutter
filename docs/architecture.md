@@ -106,99 +106,143 @@ The following business object groups are stored in this layer:
 
 - `*Widget` (View) - A Flutter widget responsible for displaying data to the user. The widget receives data from the `WidgetModel` through state notifiers and renders the UI accordingly. It should not contain business logic beyond what's needed for display. Widgets handle UI events and delegate them to the WidgetModel through method calls. Additionally, widgets process one-time events like navigation, dialogs, or snackbars through handling messages from the WidgetModel.
 
-### New Architecture Pattern: InjectedElementaryWidget
+### Elementary Widget Patterns
 
-All new widgets should use the `InjectedElementaryWidget` pattern which provides automatic dependency injection:
+The project uses two patterns for implementing Elementary MVVM widgets, both providing automatic dependency injection:
+
+#### 1. Non-Parametrized Pattern (CustomWidgetModel + InjectedElementaryWidget)
+
+Use when widgets don't need parameters from parent widgets:
 
 ```dart
-// Widget extends InjectedElementaryWidget (no factory needed)
-class FeatureScreen extends InjectedElementaryWidget<FeatureScreenWidgetModel> {
-  const FeatureScreen({
-    super.key,
-    // Optional parameters can be passed via param1
-    String? optionalParam,
-  }) : super(param1: optionalParam);
+// Widget - extends InjectedElementaryWidget
+class SplashScreen extends InjectedElementaryWidget<SplashScreenWidgetModel> {
+  const SplashScreen({super.key});
 
   @override
-  Widget build(FeatureScreenWidgetModel wm) {
+  Widget build(SplashScreenWidgetModel wm) {
     // UI implementation
   }
 }
 
-// WidgetModel MUST be @injectable
+// WidgetModel - extends CustomWidgetModel
 @injectable
-class FeatureScreenWidgetModel extends CustomWidgetModel<FeatureScreen, FeatureScreenModel> {
-  FeatureScreenWidgetModel(
-    super.model,
-    // Use @factoryParam for parameters passed from widget
-    @factoryParam this.optionalParam,
-  );
-  
-  final String? optionalParam;
+class SplashScreenWidgetModel extends CustomWidgetModel<SplashScreen, SplashScreenModel> {
+  SplashScreenWidgetModel(super.model);
+  // Business logic implementation
 }
 
-// Model MUST be @injectable
+// Model - extends ElementaryModel
 @injectable
-class FeatureScreenModel extends ElementaryModel {
-  FeatureScreenModel(
+class SplashScreenModel extends ElementaryModel {
+  SplashScreenModel(
     ErrorHandler errorHandler,
-    // Inject services directly
-    this._yourService,
+    this._service,
   ) : super(errorHandler: errorHandler);
   
-  final YourService _yourService;
+  final YourService _service;
 }
 ```
 
-### Complex Parameters
+#### 2. Parametrized Pattern (CustomWidgetModelParametrized + InjectedElementaryParametrizedWidget)
 
-For multiple or complex parameters, create a dedicated params class:
+Use when widgets need parameters from parent widgets:
+
+```dart
+// Widget - extends InjectedElementaryParametrizedWidget
+class AccountCard extends InjectedElementaryParametrizedWidget<
+    AccountCardWidgetModel, KeyAccount> {
+  const AccountCard({
+    required KeyAccount account,
+    super.key,
+  }) : super(wmFactoryParam: account);
+
+  @override
+  Widget build(AccountCardWidgetModel wm) {
+    // UI implementation
+  }
+}
+
+// WidgetModel - extends CustomWidgetModelParametrized
+@injectable
+class AccountCardWidgetModel extends CustomWidgetModelParametrized<
+    AccountCard, AccountCardModel, KeyAccount> {
+  AccountCardWidgetModel(super.model);
+  
+  // Access parameter via reactive notifier
+  late final ValueListenable<String> accountName =
+      createWmParamsNotifier((account) => account.name);
+  
+  // Or access current value directly
+  KeyAccount get currentAccount => wmParams.value;
+}
+```
+
+##### Complex Parameters
+
+For multiple parameters, create a dedicated params class:
 
 ```dart
 // Params class for complex data
-class WalletAccountActionsWmParams {
-  WalletAccountActionsWmParams({
+class WalletActionsParams {
+  const WalletActionsParams({
     required this.account,
     required this.allowStake,
     required this.sendSpecified,
-    required this.disableSensetiveActions,
   });
 
   final KeyAccount account;
   final bool allowStake;
   final bool sendSpecified;
-  final bool disableSensetiveActions;
 }
 
 // Widget usage
-class WalletAccountActionsWidget extends InjectedElementaryWidget<WalletAccountActionsWidgetModel> {
-  const WalletAccountActionsWidget({
-    super.key,
+class WalletActionsWidget extends InjectedElementaryParametrizedWidget<
+    WalletActionsWidgetModel, WalletActionsParams> {
+  WalletActionsWidget({
     required KeyAccount account,
     required bool allowStake,
     required bool sendSpecified,
-    required bool disableSensetiveActions,
+    super.key,
   }) : super(
-    param1: WalletAccountActionsWmParams(
+    wmFactoryParam: WalletActionsParams(
       account: account,
       allowStake: allowStake,
       sendSpecified: sendSpecified,
-      disableSensetiveActions: disableSensetiveActions,
     ),
   );
 }
 
 // WidgetModel usage
 @injectable
-class WalletAccountActionsWidgetModel extends CustomWidgetModel<WalletAccountActionsWidget, WalletAccountActionsModel> {
-  WalletAccountActionsWidgetModel(
-    super.model,
-    @factoryParam this.params,
-  );
+class WalletActionsWidgetModel extends CustomWidgetModelParametrized<
+    WalletActionsWidget, WalletActionsModel, WalletActionsParams> {
+  WalletActionsWidgetModel(super.model);
   
-  final WalletAccountActionsWmParams params;
+  // React to parameter changes
+  @override
+  void initWidgetModel() {
+    super.initWidgetModel();
+    wmParams.listen((params) {
+      // Handle parameter updates
+    });
+  }
 }
 ```
+
+#### When to Use Each Pattern
+
+**Use Non-Parametrized Pattern when:**
+- Widget is self-contained
+- All data comes from injected services
+- No configuration from parent is needed
+- Examples: App root widget, feature entry points, modal sheets
+
+**Use Parametrized Pattern when:**
+- Widget needs data from parent
+- Widget behavior changes based on parameters
+- Widget is reusable with different configurations
+- Examples: List items, reusable components, widgets displaying entity details
 
 **Legacy Pattern**: For existing code that hasn't been migrated, you may still see the manual factory pattern with `defaultFactory` methods.
 
@@ -206,12 +250,28 @@ class WalletAccountActionsWidgetModel extends CustomWidgetModel<WalletAccountAct
 
 We use the [Elementary](https://pub.dev/packages/elementary) package as our implementation of the MVVM (Model-View-ViewModel) pattern. Elementary provides a clean separation of concerns and a structured approach to state management. More details can be found in the [Elementary documentation](https://pub.dev/packages/elementary).
 
-- `CustomWidgetModel` - A specialized extension of the standard `WidgetModel` that includes additional functionality through mixins. It's the base class for most WidgetModels in our application and includes `NotifierSubscriptionsMixin`, `ContextWmMixin`.
+- `CustomWidgetModel` - A specialized extension of the standard `WidgetModel` that includes additional functionality through mixins. It's the base class for non-parametrized WidgetModels in our application and includes `NotifierSubscriptionsMixin`, `ContextWmMixin`.
 
   ```dart
   class CustomWidgetModel<W extends ElementaryWidget, M extends ElementaryModel>
       extends WidgetModel<W, M> with NotifierSubscriptionsMixin, ContextWmMixin {
     CustomWidgetModel(super.model);
+  }
+  ```
+
+- `CustomWidgetModelParametrized` - An extension of `CustomWidgetModel` designed for widgets that need parameters from parent widgets. It provides reactive parameter handling through a `wmParams` BehaviorSubject that automatically updates when widget rebuilds with new parameters.
+
+  ```dart
+  class CustomWidgetModelParametrized<
+      W extends InjectedElementaryParametrizedWidget<WidgetModel, Param>,
+      M extends ElementaryModel,
+      Param> extends CustomWidgetModel<W, M> {
+    
+    // Access current parameter value
+    Param get currentParam => wmParams.value;
+    
+    // Create reactive notifier from parameter
+    ValueNotifier<T> createWmParamsNotifier<T>(T Function(Param param) convert);
   }
   ```
 

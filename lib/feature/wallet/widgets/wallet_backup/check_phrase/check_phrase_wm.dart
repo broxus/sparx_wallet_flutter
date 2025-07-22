@@ -27,14 +27,11 @@ const defaultCheckAnswersAmount = 9;
 
 //logic in this class was moved from check_seed_phrase_cubit.dart
 @injectable
-class CheckPhraseWidgetModel
-    extends CustomWidgetModel<ContentCheckPhrase, CheckPhraseModel> {
+class CheckPhraseWidgetModel extends CustomWidgetModelParametrized<
+    ContentCheckPhrase, CheckPhraseModel, CheckPhraseWmParams> {
   CheckPhraseWidgetModel(
     super.model,
-    @factoryParam this._wmParams,
   );
-
-  final CheckPhraseWmParams _wmParams;
 
   ThemeStyleV2 get themeStyle => context.themeStyleV2;
 
@@ -78,17 +75,21 @@ class CheckPhraseWidgetModel
   }
 
   void clickSkip() {
-    model.setShowingBackUpFlag(_wmParams.address, isSkipped: true);
+    final params = wmParams.value;
+    model.setShowingBackUpFlag(params.address, isSkipped: true);
 
     if (!isMounted) return;
-    _wmParams.finishedBackupCallback(false);
+
+    params.finishedBackupCallback(false);
+
     context
       ..compassBack() //close manual backup dialog
       ..compassBack(); //close current dialog
   }
 
   void _init() {
-    _correctAnswers = _selectCorrectAnswers(_wmParams.words);
+    final params = wmParams.value;
+    _correctAnswers = _selectCorrectAnswers(params.words);
     availableAnswers = _generateAnswerWords(_correctAnswers);
     userAnswers = _correctAnswers.map((e) => e.copyWith(word: '')).toList();
     screenState.content(
@@ -129,8 +130,11 @@ class CheckPhraseWidgetModel
       model.showValidateError(LocaleKeys.seedIsMissing.tr());
     } else {
       // TODO(malochka): think about get rid of compassBack method
-      model.setShowingBackUpFlag(_wmParams.address, isSkipped: false);
-      _wmParams.finishedBackupCallback(true);
+      final params = wmParams.value;
+
+      model.setShowingBackUpFlag(params.address, isSkipped: false);
+      params.finishedBackupCallback(true);
+
       context
         ..compassBack() //close manual backup
         ..compassBack(); //close check your seed phrase

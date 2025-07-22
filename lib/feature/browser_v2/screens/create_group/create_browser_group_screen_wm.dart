@@ -7,6 +7,7 @@ import 'package:app/feature/browser_v2/data/tabs/browser_tab.dart';
 import 'package:app/feature/browser_v2/data/tabs/tabs_data.dart';
 import 'package:app/feature/browser_v2/screens/create_group/create_browser_group_screen.dart';
 import 'package:app/feature/browser_v2/screens/create_group/create_browser_group_screen_model.dart';
+import 'package:app/utils/common_utils.dart';
 import 'package:elementary/elementary.dart';
 import 'package:elementary_helper/elementary_helper.dart';
 import 'package:flutter/material.dart';
@@ -17,16 +18,14 @@ import 'package:ui_components_lib/v2/theme_style_v2.dart';
 
 /// [WidgetModel] для [CreateBrowserGroupScreen]
 @injectable
-class CreateBrowserGroupScreenWidgetModel extends CustomWidgetModel<
-    CreateBrowserGroupScreen, CreateBrowserGroupScreenModel> {
+class CreateBrowserGroupScreenWidgetModel extends CustomWidgetModelParametrized<
+    CreateBrowserGroupScreen, CreateBrowserGroupScreenModel, String?> {
   CreateBrowserGroupScreenWidgetModel(
     super.model,
-    @factoryParam this._tabId,
   );
 
   late final screenHeight = MediaQuery.of(context).size.height;
 
-  final String? _tabId;
   final int _maxLength = 24;
   String? _lastFilePath;
 
@@ -38,7 +37,7 @@ class CreateBrowserGroupScreenWidgetModel extends CustomWidgetModel<
   ThemeStyleV2 get _themeStyleV2 => context.themeStyleV2;
 
   late final NotNullListenableState<BrowserTab>? tabNotifier =
-      model.getTabById(_tabId);
+      wmParams.value?.let(model.getTabById);
 
   ListenableState<File?> get screenShotState => _screenShotState;
 
@@ -48,15 +47,15 @@ class CreateBrowserGroupScreenWidgetModel extends CustomWidgetModel<
 
   @override
   void initWidgetModel() {
-    if (tabNotifier != null) {
+    super.initWidgetModel();
+    if (tabNotifier?.value != null) {
       model.screenshotsState.addListener(_handleScreenShots);
     }
-    super.initWidgetModel();
   }
 
   @override
   void dispose() {
-    if (tabNotifier != null) {
+    if (tabNotifier?.value != null) {
       model.screenshotsState.removeListener(_handleScreenShots);
     }
     super.dispose();
@@ -84,11 +83,12 @@ class CreateBrowserGroupScreenWidgetModel extends CustomWidgetModel<
   void onOverflowLength() => _errorState.accept(true);
 
   void _handleScreenShots() {
-    if (tabNotifier == null) {
+    final tabListenable = tabNotifier?.value;
+    if (tabListenable == null) {
       return;
     }
 
-    final filePath = model.screenshotsState.value?.get(tabNotifier!.value.id);
+    final filePath = model.screenshotsState.value?.get(tabListenable.id);
 
     if (filePath == null) {
       return;

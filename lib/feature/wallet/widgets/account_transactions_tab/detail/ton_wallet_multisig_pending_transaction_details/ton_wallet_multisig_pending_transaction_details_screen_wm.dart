@@ -26,48 +26,90 @@ class TonWalletMultisigPendingTransactionDetailsWmParams {
 /// [WidgetModel] для [TonWalletMultisigPendingTransactionDetailsScreen]
 @injectable
 class TonWalletMultisigPendingTransactionDetailsScreenWidgetModel
-    extends CustomWidgetModel<TonWalletMultisigPendingTransactionDetailsScreen,
-        TonWalletMultisigPendingTransactionDetailsScreenModel> {
+    extends CustomWidgetModelParametrized<
+        TonWalletMultisigPendingTransactionDetailsScreen,
+        TonWalletMultisigPendingTransactionDetailsScreenModel,
+        TonWalletMultisigPendingTransactionDetailsWmParams> {
   TonWalletMultisigPendingTransactionDetailsScreenWidgetModel(
     super.model,
-    @factoryParam this._wmParams,
   );
 
-  final TonWalletMultisigPendingTransactionDetailsWmParams _wmParams;
-  TonWalletMultisigPendingTransaction get _transaction => _wmParams.transaction;
-
-  KeyAccount get account => _wmParams.account;
-  Fixed get price => _wmParams.price;
-
-  late final safeHexString =
-      int.tryParse(_transaction.transactionId)?.toRadixString(16);
-
-  late final date = _transaction.date;
-  late final isIncoming = !_transaction.isOutgoing;
-  late final transactionFee = Money.fromBigIntWithCurrency(
-    _transaction.fees,
-    Currencies()[model.ticker]!,
+  late final accountState = createWmParamsNotifier<KeyAccount>(
+    (it) => it.account,
   );
-  late final transactionValue = Money.fromBigIntWithCurrency(
-    _transaction.value,
-    Currencies()[model.ticker]!,
+
+  late final priceState = createWmParamsNotifier<Fixed>(
+    (it) => it.price,
   );
-  late final transactionHash = _transaction.hash;
-  late final transactionAddress = _transaction.address;
-  late final transactionComment = _transaction.comment;
-  late final info = _methodData?.$1;
-  late final expiresAt = _transaction.expireAt;
-  late final transactionId = safeHexString;
-  late final confirmations = _transaction.confirmations;
-  late final requiredConfirmations = _transaction.signsRequired;
-  late final custodians = _transaction.custodians;
-  late final initiator = _transaction.creator;
-  late final isCanConfirm = _transaction.canConfirm;
 
-  late final _methodData =
-      _transaction.walletInteractionInfo?.method.toRepresentableData();
+  late final safeHexStringState = createWmParamsNotifier<String?>(
+    (it) => int.tryParse(it.transaction.transactionId)?.toRadixString(16),
+  );
 
-  late final tonIconPath = model.tonIconPath;
+  late final dateState = createWmParamsNotifier<DateTime>(
+    (it) => it.transaction.date,
+  );
+
+  late final isIncomingState = createWmParamsNotifier<bool>(
+    (it) => !it.transaction.isOutgoing,
+  );
+
+  late final transactionFeeState = createWmParamsNotifier<Money>(
+    (it) => Money.fromBigIntWithCurrency(
+      it.transaction.fees,
+      Currencies()[model.ticker]!,
+    ),
+  );
+
+  late final transactionValueState = createWmParamsNotifier<Money>(
+    (it) => Money.fromBigIntWithCurrency(
+      it.transaction.value,
+      Currencies()[model.ticker]!,
+    ),
+  );
+
+  late final transactionHashState = createWmParamsNotifier<String>(
+    (it) => it.transaction.hash,
+  );
+
+  late final transactionAddressState = createWmParamsNotifier<Address>(
+    (it) => it.transaction.address,
+  );
+
+  late final transactionCommentState = createWmParamsNotifier<String?>(
+    (it) => it.transaction.comment,
+  );
+
+  late final infoState = createWmParamsNotifier<String?>(
+    (it) =>
+        it.transaction.walletInteractionInfo?.method.toRepresentableData().$1,
+  );
+
+  late final expiresAtState = createWmParamsNotifier<DateTime>(
+    (it) => it.transaction.expireAt,
+  );
+
+  late final confirmationsState = createWmParamsNotifier<List<PublicKey>>(
+    (it) => it.transaction.confirmations,
+  );
+
+  late final requiredConfirmationsState = createWmParamsNotifier<int>(
+    (it) => it.transaction.signsRequired,
+  );
+
+  late final custodiansState = createWmParamsNotifier<List<PublicKey>>(
+    (it) => it.transaction.custodians,
+  );
+
+  late final initiatorState = createWmParamsNotifier<PublicKey>(
+    (it) => it.transaction.creator,
+  );
+
+  late final isCanConfirmState = createWmParamsNotifier<bool>(
+    (it) => it.transaction.canConfirm,
+  );
+
+  late final tonIconPathState = createNotifier<String>(model.tonIconPath);
 
   TextStylesV2 get textStyles => _theme.textStyles;
 
@@ -76,16 +118,20 @@ class TonWalletMultisigPendingTransactionDetailsScreenWidgetModel
   ThemeStyleV2 get _theme => context.themeStyleV2;
 
   void onPressedConfirm() {
+    final params = wmParams.value;
+    final transaction = params.transaction;
+    final hexString = safeHexStringState.value;
+
     Navigator.of(context).pop();
     context.compassContinue(
       ConfirmMultisigTransactionRouteData(
-        walletAddress: _transaction.walletAddress,
-        localCustodians: _transaction.nonConfirmedLocalCustodians,
-        transactionId: _transaction.transactionId,
-        transactionIdHash: safeHexString,
-        destination: _transaction.address,
-        amount: _transaction.value,
-        comment: _transaction.comment,
+        walletAddress: transaction.walletAddress,
+        localCustodians: transaction.nonConfirmedLocalCustodians,
+        transactionId: transaction.transactionId,
+        transactionIdHash: hexString,
+        destination: transaction.address,
+        amount: transaction.value,
+        comment: transaction.comment,
       ),
     );
   }
