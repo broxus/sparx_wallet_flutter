@@ -8,8 +8,8 @@ import 'package:nekoton_repository/nekoton_repository.dart';
 import 'package:ui_components_lib/v2/ui_components_lib_v2.dart';
 
 /// Body of wallet, that displays information about account
-class WalletAccountBodyWidget
-    extends InjectedElementaryWidget<WalletAccountBodyWidgetModel> {
+class WalletAccountBodyWidget extends InjectedElementaryParametrizedWidget<
+    WalletAccountBodyWidgetModel, KeyAccount> {
   const WalletAccountBodyWidget({
     required KeyAccount account,
     super.key,
@@ -27,12 +27,21 @@ class WalletAccountBodyWidget
               left: DimensSizeV2.d16,
               right: DimensSizeV2.d16,
             ),
-            child: AccountCard(account: wm.account),
+            child: ValueListenableBuilder(
+              valueListenable: wm.currentAccount,
+              builder: (_, currentAccount, __) {
+                return AccountCard(account: currentAccount);
+              },
+            ),
           ),
-          StateNotifierBuilder(
-            listenableState: wm.notifications,
-            builder: (_, notifications) {
-              final items = notifications ?? [];
+          MultiListenerRebuilder(
+            listenableList: [
+              wm.notifications,
+              wm.currentAccount,
+            ],
+            builder: (_) {
+              final currentAccount = wm.currentAccount.value;
+              final notifications = wm.notifications.value ?? [];
 
               return Column(
                 children: [
@@ -41,29 +50,29 @@ class WalletAccountBodyWidget
                       horizontal: DimensSizeV2.d16,
                     ),
                     child: WalletAccountActions(
-                      account: wm.account,
-                      disableSensetiveActions: items.contains(
+                      account: currentAccount,
+                      disableSensetiveActions: notifications.contains(
                         NotificationType.unsupportedWalletType,
                       ),
                     ),
                   ),
-                  if (items.isNotEmpty)
+                  if (notifications.isNotEmpty)
                     Column(
                       spacing: DimensSizeV2.d8,
                       children: [
                         _Carousel(
-                          items: items,
-                          account: wm.account,
+                          items: notifications,
+                          account: currentAccount,
                           onFinishedBackup: wm.onFinishedBackup,
                           onSwitchAccount: wm.onSwitchAccount,
                           onPageChanged: wm.onPageChanged,
                         ),
-                        if (items.length > 1)
+                        if (notifications.length > 1)
                           ValueListenableBuilder(
                             valueListenable: wm.carouselPage,
                             builder: (_, page, __) => _CarouselIndicator(
                               currentPage: page,
-                              itemCount: items.length,
+                              itemCount: notifications.length,
                             ),
                           ),
                       ],

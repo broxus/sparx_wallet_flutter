@@ -5,12 +5,14 @@ import 'package:app/feature/browser_v2/screens/main/widgets/tabs/tabs_list/widge
 import 'package:app/feature/browser_v2/screens/main/widgets/tabs/tabs_list/widgets/header/ui_models.dart';
 import 'package:app/generated/generated.dart';
 import 'package:elementary_helper/elementary_helper.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:ui_components_lib/v2/dimens_v2.dart';
 
-class TabListHeader extends InjectedElementaryWidget<TabListHeaderWidgetModel> {
+class TabListHeader extends InjectedElementaryParametrizedWidget<
+    TabListHeaderWidgetModel, ValueListenable<String?>> {
   const TabListHeader({
-    required ListenableState<String?> selectedGroupIdState,
+    required ValueListenable<String?> selectedGroupIdState,
     required this.onPressedGroup,
     required this.onPressedCreateNewGroup,
     super.key,
@@ -58,7 +60,7 @@ class TabListHeader extends InjectedElementaryWidget<TabListHeaderWidgetModel> {
                       BrowserGroupHeaderItem(
                         key: ValueKey(id),
                         width: itemWidth,
-                        listenable: listenable,
+                        browserGroup: listenable,
                         selectedGroupIdListenable: wm.selectedGroupIdState,
                         onPressed: () => onPressedGroup(id),
                       ),

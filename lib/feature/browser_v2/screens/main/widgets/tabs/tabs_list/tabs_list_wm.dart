@@ -1,22 +1,24 @@
 import 'package:app/core/wm/custom_wm.dart';
 import 'package:app/core/wm/not_null_listenable_state.dart';
+import 'package:app/core/wm/value_notifier_merge.dart';
 import 'package:app/feature/browser_v2/data/tabs/browser_tab.dart';
 import 'package:app/feature/browser_v2/screens/main/widgets/tabs/tabs_list/tabs_list.dart';
 import 'package:app/feature/browser_v2/screens/main/widgets/tabs/tabs_list/tabs_list_model.dart';
 import 'package:elementary/elementary.dart';
 import 'package:elementary_helper/elementary_helper.dart';
+import 'package:flutter/foundation.dart';
 import 'package:injectable/injectable.dart';
 
 /// [WidgetModel] для [BrowserTabsList]
 @injectable
-class BrowserTabsListWidgetModel
-    extends CustomWidgetModel<BrowserTabsList, BrowserTabsListModel> {
+class BrowserTabsListWidgetModel extends InjectedWidgetModel<BrowserTabsList,
+    BrowserTabsListModel, ListenableState<String?>> {
   BrowserTabsListWidgetModel(
     super.model,
-    @factoryParam this.selectedGroupIdState,
   );
 
-  final ListenableState<String?> selectedGroupIdState;
+  late final ValueListenable<String?> selectedGroupIdState =
+      createWmParamsNotifier((it) => it).asMerged();
 
   late final _selectedTabsState =
       createNotifier<List<NotNullListenableState<BrowserTab>>?>();
@@ -26,9 +28,9 @@ class BrowserTabsListWidgetModel
 
   @override
   void initWidgetModel() {
+    super.initWidgetModel();
     selectedGroupIdState.addListener(_handleSelectedGroup);
     model.allTabsIdsState.addListener(_handleAllTabs);
-    super.initWidgetModel();
   }
 
   @override

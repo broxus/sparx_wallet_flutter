@@ -21,17 +21,15 @@ class BrowserMainMenuWmParams {
 
 /// [WidgetModel] для [BrowserMainMenu]
 @injectable
-class BrowserMainMenuWidgetModel
-    extends CustomWidgetModel<BrowserMainMenu, BrowserMainMenuModel> {
+class BrowserMainMenuWidgetModel extends InjectedWidgetModel<BrowserMainMenu,
+    BrowserMainMenuModel, BrowserMainMenuWmParams> {
   BrowserMainMenuWidgetModel(
     super.model,
-    @factoryParam this._wmParams,
   );
 
-  final BrowserMainMenuWmParams _wmParams;
-  String get _groupId => _wmParams.groupId;
+  String get _groupId => wmParams.value.groupId;
   DoubleValueCallback<String, String> get _onPressedCreateTab =>
-      _wmParams.onPressedCreateTab;
+      wmParams.value.onPressedCreateTab;
 
   ColorsPaletteV2 get colors => _theme.colors;
 

@@ -18,11 +18,9 @@ import 'package:ui_components_lib/ui_components_lib.dart';
 
 /// [WidgetModel] для [NftPrepareTransfer]
 @injectable
-class NftPrepareTransferWidgetModel
-    extends CustomWidgetModel<NftPrepareTransfer, NftPrepareTransferModel> {
-  NftPrepareTransferWidgetModel(super.model, @factoryParam this._wmParams);
-
-  final NftPrepareTransferRouteData _wmParams;
+class NftPrepareTransferWidgetModel extends InjectedWidgetModel<
+    NftPrepareTransfer, NftPrepareTransferModel, NftPrepareTransferRouteData> {
+  NftPrepareTransferWidgetModel(super.model);
 
   late final _dataState = createEntityNotifier<NftPrepareTransferData>()
     ..loading();
@@ -36,7 +34,7 @@ class NftPrepareTransferWidgetModel
   );
 
   late final receiverController =
-      createTextEditingController(_wmParams.destination?.address);
+      createTextEditingController(wmParams.value.destination?.address);
   late final receiverFocus = createFocusNode();
 
   late final amountController = createTextEditingController();
@@ -45,7 +43,7 @@ class NftPrepareTransferWidgetModel
   ValueNotifier<EntityState<NftPrepareTransferData>> get dataState =>
       _dataState;
 
-  bool get tokenFlag => _wmParams.tokenFlag;
+  bool get tokenFlag => wmParams.value.tokenFlag;
 
   ThemeStyleV2 get theme => context.themeStyleV2;
 
@@ -97,7 +95,7 @@ class NftPrepareTransferWidgetModel
     }
 
     final amount = BigInt.tryParse(amountController.text.trim());
-    if (_wmParams.tokenFlag && amount == null) {
+    if (wmParams.value.tokenFlag && amount == null) {
       model.showError(LocaleKeys.amountIsWrong.tr());
       return;
     }
@@ -146,7 +144,7 @@ class NftPrepareTransferWidgetModel
   }
 
   void onSubmittedReceiverAddress(_) {
-    _wmParams.tokenFlag ? amountFocus.requestFocus() : onSubmit();
+    wmParams.value.tokenFlag ? amountFocus.requestFocus() : onSubmit();
   }
 
   void onMaxBalance() {
@@ -155,11 +153,14 @@ class NftPrepareTransferWidgetModel
   }
 
   Future<void> _init() async {
-    final account = model.findAccountByAddress(_wmParams.owner);
+    final account = model.findAccountByAddress(wmParams.value.owner);
     final (nftItem, nftCollection, localCustodians) = await FutureExt.wait3(
-      model.getNftItem(address: _wmParams.address, owner: _wmParams.owner),
-      model.getCollection(_wmParams.collection),
-      model.getLocalCustodiansAsync(_wmParams.owner),
+      model.getNftItem(
+        address: wmParams.value.address,
+        owner: wmParams.value.owner,
+      ),
+      model.getCollection(wmParams.value.collection),
+      model.getLocalCustodiansAsync(wmParams.value.owner),
     );
 
     if (account == null || nftItem == null || nftCollection == null) {

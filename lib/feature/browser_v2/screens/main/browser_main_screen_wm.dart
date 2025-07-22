@@ -160,6 +160,7 @@ class BrowserMainScreenWidgetModel
 
   @override
   void initWidgetModel() {
+    super.initWidgetModel();
     _menuState.addListener(_handleMenuState);
     _viewVisibleState.addListener(_updatePastGo);
     model.activeTabUrlHostState.addListener(_updatePastGo);
@@ -177,8 +178,6 @@ class BrowserMainScreenWidgetModel
         const Duration(milliseconds: 100),
       );
     });
-
-    super.initWidgetModel();
   }
 
   @override

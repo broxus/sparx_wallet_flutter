@@ -21,41 +21,43 @@ class ManualBackUpWmParams {
 }
 
 @injectable
-class ManualBackUpWidgetModel
-    extends CustomWidgetModel<ContentManualBackup, ManualBackUpModel> {
+class ManualBackUpWidgetModel extends InjectedWidgetModel<ContentManualBackup,
+    ManualBackUpModel, ManualBackUpWmParams> {
   ManualBackUpWidgetModel(
     super.model,
-    @factoryParam this._wmParams,
   );
-
-  final ManualBackUpWmParams _wmParams;
 
   ThemeStyleV2 get themeStyle => context.themeStyleV2;
 
   late final screenState = createEntityNotifier<ManualBackUpData>()
     ..loading(ManualBackUpData(isCopied: false));
 
-  late final List<String> words = _wmParams.words;
+  late final words = createWmParamsNotifier<List<String>>(
+    (it) => it.words,
+  );
 
   Future<void> copySeed() async {
     await Clipboard.setData(
-      ClipboardData(text: words.join(' ')),
+      ClipboardData(text: words.value.join(' ')),
     );
     model.showMessageAboutCopy();
   }
 
   void clickCheckPhrase(BuildContext context) {
+    final currentWords = words.value;
+
     showCheckPhraseDialog(
       context,
-      words,
-      _wmParams.address,
-      _wmParams.finishedBackupCallback,
+      currentWords,
+      wmParams.value.address,
+      wmParams.value.finishedBackupCallback,
     );
   }
 
   void clickSkip(BuildContext context) {
-    model.setShowingBackUpFlag(_wmParams.address);
-    _wmParams.finishedBackupCallback();
+    final params = wmParams.value;
+    model.setShowingBackUpFlag(params.address);
+    params.finishedBackupCallback();
     context.compassBack(); //close current dialog
     showGoodJobDialog(context);
   }

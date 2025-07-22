@@ -16,23 +16,20 @@ class AddAccountResultWmParams {
 }
 
 @injectable
-class AddAccountResultWidgetModel
-    extends CustomWidgetModel<AddAccountResultWidget, AddAccountResultModel> {
+class AddAccountResultWidgetModel extends InjectedWidgetModel<
+    AddAccountResultWidget, AddAccountResultModel, AddAccountResultWmParams> {
   AddAccountResultWidgetModel(
     super.model,
-    @factoryParam this._wmParams,
   );
-
-  final AddAccountResultWmParams _wmParams;
 
   ThemeStyleV2 get theme => context.themeStyleV2;
 
   Future<void> onSwitch() async {
-    final address = repackAddress(_wmParams.address);
+    final address = repackAddress(wmParams.value.address);
     model.changeCurrentAccount(address);
     // ignore: use_build_context_synchronously
     Navigator.of(context).pop();
-    if (_wmParams.isExternal) {
+    if (wmParams.value.isExternal) {
       contextSafe?.compassPointNamed(
         const WalletRouteData(),
       );
@@ -41,7 +38,7 @@ class AddAccountResultWidgetModel
 
   void onContinue() {
     Navigator.of(context).pop();
-    if (_wmParams.isExternal) {
+    if (wmParams.value.isExternal) {
       contextSafe?.compassPointNamed(
         const WalletRouteData(),
       );

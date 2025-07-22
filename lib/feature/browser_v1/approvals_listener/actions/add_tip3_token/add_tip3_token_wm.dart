@@ -6,6 +6,7 @@ import 'package:app/feature/browser_v1/approvals_listener/actions/add_tip3_token
 import 'package:app/feature/browser_v1/approvals_listener/actions/add_tip3_token/add_tip3_token_widget.dart';
 import 'package:collection/collection.dart';
 import 'package:elementary_helper/elementary_helper.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:injectable/injectable.dart';
 import 'package:nekoton_repository/nekoton_repository.dart';
@@ -32,20 +33,29 @@ class AddTip3TokenWmParams {
 }
 
 @injectable
-class AddTip3TokenWidgetModel
-    extends CustomWidgetModel<AddTip3TokenWidget, AddTip3TokenModel> {
+class AddTip3TokenWidgetModel extends InjectedWidgetModel<AddTip3TokenWidget,
+    AddTip3TokenModel, AddTip3TokenWmParams> {
   AddTip3TokenWidgetModel(
     super.model,
-    @factoryParam this._wmParams,
   );
 
-  final AddTip3TokenWmParams _wmParams;
+  late final _origin = createWmParamsNotifier(
+    (it) => it.origin,
+  );
 
-  Uri get origin => _wmParams.origin;
+  late final _account = createWmParamsNotifier(
+    (it) => it.account,
+  );
 
-  Address get account => _wmParams.account;
+  late final _details = createWmParamsNotifier(
+    (it) => it.details,
+  );
 
-  TokenContractAsset get details => _wmParams.details;
+  ValueListenable<Address> get accountState => _account;
+
+  ValueListenable<Uri> get origin => _origin;
+
+  ValueListenable<TokenContractAsset> get details => _details;
 
   late final _balance = createNotifier<Money>();
   late final _asset = createNotifier<TokenContractAsset>();
@@ -64,9 +74,8 @@ class AddTip3TokenWidgetModel
   void initWidgetModel() {
     super.initWidgetModel();
 
-    _subscription = model
-        .allAvailableContractsForAccount(_wmParams.account)
-        .listen(_onData);
+    _subscription =
+        model.allAvailableContractsForAccount(_account.value).listen(_onData);
 
     _getBalance();
   }
@@ -81,8 +90,8 @@ class AddTip3TokenWidgetModel
 
   Future<void> _getBalance() async {
     final wallet = await model.getTokenWallet(
-      owner: _wmParams.account,
-      rootTokenContract: _wmParams.details.address,
+      owner: _account.value,
+      rootTokenContract: _details.value.address,
     );
 
     _balance.accept(wallet?.wallet?.moneyBalance);
@@ -91,8 +100,8 @@ class AddTip3TokenWidgetModel
   void _onData((List<TokenContractAsset>, List<TokenContractAsset>) value) {
     final (notAdded, added) = value;
     final assets = [...notAdded, ...added];
-    final address = _wmParams.details.address;
-    final symbol = _wmParams.details.symbol;
+    final address = _details.value.address;
+    final symbol = _details.value.symbol;
     final asset = assets.firstWhereOrNull((e) => e.address == address);
 
     _asset.accept(asset);

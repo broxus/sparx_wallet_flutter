@@ -21,19 +21,21 @@ class AccountSettingsWmParams {
 }
 
 @injectable
-class AccountSettingsWidgetModel
-    extends CustomWidgetModel<AccountSettingsWidget, AccountSettingsModel> {
+class AccountSettingsWidgetModel extends InjectedWidgetModel<
+    AccountSettingsWidget, AccountSettingsModel, AccountSettingsWmParams> {
   AccountSettingsWidgetModel(
     super.model,
-    @factoryParam this._wmParams,
   );
-
-  final AccountSettingsWmParams _wmParams;
 
   late final _displayAccounts = createNotifierFromStream(model.displayAccounts);
 
-  KeyAccount get account => _wmParams.account;
-  List<PublicKey>? get custodians => _wmParams.custodians;
+  late final account = createWmParamsNotifier<KeyAccount>(
+    (it) => it.account,
+  );
+
+  late final custodians = createWmParamsNotifier<List<PublicKey>?>(
+    (it) => it.custodians,
+  );
   ListenableState<List<KeyAccount>> get displayAccounts => _displayAccounts;
 
   void onCustodiansSettings(List<PublicKey> custodians) {
@@ -51,22 +53,22 @@ class AccountSettingsWidgetModel
   void onViewInExplorer() {
     Navigator.of(context).pop();
     openBrowserUrl(
-      model.getAccountExplorerLink(_wmParams.account.address),
+      model.getAccountExplorerLink(account.value.address),
     );
   }
 
   void onRename() {
     Navigator.of(context)
       ..pop()
-      ..push(getRenameAccountSheet(context, _wmParams.account.address));
+      ..push(getRenameAccountSheet(context, account.value.address));
   }
 
   void onCopyAddress() {
-    model.copyAddress(context, _wmParams.account.address);
+    model.copyAddress(context, account.value.address);
   }
 
   void onHideAccount() {
     Navigator.of(context).pop();
-    model.hideAccount(_wmParams.account.address);
+    model.hideAccount(account.value.address);
   }
 }

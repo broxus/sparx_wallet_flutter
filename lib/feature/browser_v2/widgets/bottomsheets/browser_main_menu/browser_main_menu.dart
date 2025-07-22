@@ -22,8 +22,8 @@ Future<void> showBrowserMainMenu(
   );
 }
 
-class BrowserMainMenu
-    extends InjectedElementaryWidget<BrowserMainMenuWidgetModel> {
+class BrowserMainMenu extends InjectedElementaryParametrizedWidget<
+    BrowserMainMenuWidgetModel, BrowserMainMenuWmParams> {
   BrowserMainMenu({
     required String groupId,
     required DoubleValueCallback<String, String> onPressedCreateTab,

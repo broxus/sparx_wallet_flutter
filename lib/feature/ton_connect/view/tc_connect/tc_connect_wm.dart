@@ -21,14 +21,11 @@ class TCConnectWmParams {
 }
 
 @injectable
-class TCConnectWidgetModel
-    extends CustomWidgetModel<TCConnectWidget, TCConnectModel> {
+class TCConnectWidgetModel extends InjectedWidgetModel<TCConnectWidget,
+    TCConnectModel, TCConnectWmParams> {
   TCConnectWidgetModel(
     super.model,
-    @factoryParam this._wmParams,
   );
-
-  final TCConnectWmParams _wmParams;
 
   late final searchController = createTextEditingController();
   late final _step = createValueNotifier(TonConnectStep.account);
@@ -50,7 +47,7 @@ class TCConnectWidgetModel
   KeyAccount? get _initialSelectedAccount =>
       model.currentAccount ?? model.accounts.firstOrNull;
 
-  DappManifest get manifest => _wmParams.manifest;
+  DappManifest get manifest => wmParams.value.manifest;
 
   void onNext() {
     if (_selected.value == null) return;
@@ -86,7 +83,7 @@ class TCConnectWidgetModel
     final replyItems = await model.createReplyItems(
       password: password,
       account: account,
-      request: _wmParams.request,
+      request: wmParams.value.request,
       manifest: manifest,
     );
 

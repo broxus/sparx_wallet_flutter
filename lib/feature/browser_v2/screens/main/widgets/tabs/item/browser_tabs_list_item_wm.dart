@@ -2,24 +2,25 @@ import 'dart:io';
 
 import 'package:app/core/wm/custom_wm.dart';
 import 'package:app/core/wm/not_null_listenable_state.dart';
+import 'package:app/core/wm/value_notifier_merge.dart';
 import 'package:app/feature/browser_v2/data/tabs/browser_tab.dart';
 import 'package:app/feature/browser_v2/data/tabs/tabs_data.dart';
 import 'package:app/feature/browser_v2/screens/main/widgets/tabs/item/browser_tabs_list_item.dart';
 import 'package:app/feature/browser_v2/screens/main/widgets/tabs/item/browser_tabs_list_item_model.dart';
 import 'package:elementary/elementary.dart';
 import 'package:elementary_helper/elementary_helper.dart';
+import 'package:flutter/foundation.dart';
 import 'package:injectable/injectable.dart';
 
 /// [WidgetModel] для [BrowserTabsListItem]
 @injectable
-class BrowserTabsListItemWidgetModel
-    extends CustomWidgetModel<BrowserTabsListItem, BrowserTabsListItemModel> {
+class BrowserTabsListItemWidgetModel extends InjectedWidgetModel<
+    BrowserTabsListItem,
+    BrowserTabsListItemModel,
+    NotNullListenableState<BrowserTab>> {
   BrowserTabsListItemWidgetModel(
     super.model,
-    @factoryParam this.tabNotifier,
   );
-
-  final NotNullListenableState<BrowserTab> tabNotifier;
 
   String? _lastFilePath;
 
@@ -27,17 +28,18 @@ class BrowserTabsListItemWidgetModel
 
   late final _screenShotState = createNotifier<File?>();
 
+  late final ValueListenable<BrowserTab> tabNotifier =
+      createWmParamsNotifier((it) => it).asMerged();
+
   ListenableState<bool?> get activeState => _activeState;
 
   ListenableState<File?> get screenShotState => _screenShotState;
 
-  String get id => tabNotifier.value.id;
-
   @override
   void initWidgetModel() {
+    super.initWidgetModel();
     model.activeTabIdState.addListener(_handleActiveTab);
     model.screenshotsState.addListener(_handleScreenShots);
-    super.initWidgetModel();
   }
 
   @override
@@ -54,7 +56,9 @@ class BrowserTabsListItemWidgetModel
   }
 
   void _handleScreenShots() {
-    final filePath = model.screenshotsState.value?.get(tabNotifier.value.id);
+    final id = tabNotifier.value.id;
+
+    final filePath = model.screenshotsState.value?.get(id);
 
     if (filePath == null) {
       return;

@@ -12,14 +12,11 @@ import 'package:nekoton_repository/nekoton_repository.dart'
     show Address, PublicKey;
 
 @injectable
-class AddNewExternalAccountSheetWidgetModel extends CustomWidgetModel<
-    AddNewExternalAccountSheet, AddNewExternalAccountSheetModel> {
+class AddNewExternalAccountSheetWidgetModel extends InjectedWidgetModel<
+    AddNewExternalAccountSheet, AddNewExternalAccountSheetModel, PublicKey> {
   AddNewExternalAccountSheetWidgetModel(
     super.model,
-    @factoryParam this._publicKey,
   );
-
-  final PublicKey _publicKey;
 
   late final nameController = createTextEditingController();
   late final addressController = createTextEditingController();
@@ -61,7 +58,7 @@ class AddNewExternalAccountSheetWidgetModel extends CustomWidgetModel<
 
       await model.addExternalAccount(
         address: address,
-        publicKey: _publicKey,
+        publicKey: wmParams.value,
         name: name.isEmpty ? null : name,
       );
 

@@ -19,10 +19,10 @@ class QaWidgetModel extends CustomWidgetModel<QaSheet, QaModel> {
 
   @override
   Future<void> initWidgetModel() async {
+    super.initWidgetModel();
+
     _iv.accept(await model.readIv());
     _key.accept(await model.readKey());
-
-    super.initWidgetModel();
   }
 
   Future<void> clearEncryptedDb() async {

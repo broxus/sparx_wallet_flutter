@@ -17,34 +17,32 @@ class RequestPermissionsWmParams {
   const RequestPermissionsWmParams({
     required this.origin,
     required this.permissions,
-    required this.scrollController,
     required this.previousSelectedAccount,
   });
 
   final Uri origin;
   final List<Permission> permissions;
-  final ScrollController scrollController;
   final Address? previousSelectedAccount;
 }
 
 @injectable
-class RequestPermissionsWidgetModel extends CustomWidgetModel<
-    RequestPermissionsWidget, RequestPermissionsModel> {
+class RequestPermissionsWidgetModel extends InjectedWidgetModel<
+    RequestPermissionsWidget,
+    RequestPermissionsModel,
+    RequestPermissionsWmParams> {
   RequestPermissionsWidgetModel(
     super.model,
-    @factoryParam this._wmParams,
   );
 
-  final RequestPermissionsWmParams _wmParams;
-
-  late final Uri origin = _wmParams.origin;
-  late final ScrollController scrollController = _wmParams.scrollController;
+  late final ValueListenable<Uri> origin =
+      createWmParamsNotifier((it) => it.origin);
 
   late final searchController = createTextEditingController();
   late final _step = createValueNotifier(RequestPermissionsStep.account);
   late final _selected = createNotifier(_initialSelectedAccount);
   late final _accounts = createNotifier(model.accounts);
-  late final _permissions = createNotifier(_wmParams.permissions.toSet());
+  late final _permissions =
+      createWmParamsNotifier((it) => it.permissions.toSet());
   late final _zeroBalance = Money.fromBigIntWithCurrency(
     BigInt.zero,
     Currencies()[model.symbol] ??
@@ -58,11 +56,11 @@ class RequestPermissionsWidgetModel extends CustomWidgetModel<
 
   ListenableState<KeyAccount?> get selected => _selected;
 
-  ListenableState<Set<Permission>> get permissions => _permissions;
+  ValueListenable<Set<Permission>> get permissions => _permissions;
 
   KeyAccount? get _initialSelectedAccount =>
       model.accounts.firstWhereOrNull(
-        (a) => a.address == _wmParams.previousSelectedAccount,
+        (a) => a.address == wmParams.value.previousSelectedAccount,
       ) ??
       model.currentAccount ??
       model.accounts.firstOrNull;
@@ -99,23 +97,19 @@ class RequestPermissionsWidgetModel extends CustomWidgetModel<
     required bool checked,
   }) {
     if (checked) {
-      _permissions.accept(
-        _permissions.value!.toSet()..add(permission),
-      );
+      _permissions.value = _permissions.value.toSet()..add(permission);
     } else {
-      _permissions.accept(
-        _permissions.value!.toSet()..remove(permission),
-      );
+      _permissions.value = _permissions.value.toSet()..remove(permission);
     }
   }
 
   void onConfirm() {
-    if (_selected.value == null || _permissions.value == null) return;
+    if (_selected.value == null) return;
 
     final account = _selected.value!;
     var result = const Permissions();
 
-    for (final permission in _permissions.value!) {
+    for (final permission in _permissions.value) {
       switch (permission) {
         case Permission.basic:
           result = result.copyWith(basic: true);
@@ -130,7 +124,7 @@ class RequestPermissionsWidgetModel extends CustomWidgetModel<
       }
     }
 
-    model.setPermissions(origin, result);
+    model.setPermissions(wmParams.value.origin, result);
     Navigator.of(context).pop(result);
   }
 

@@ -1,9 +1,9 @@
 import 'dart:io';
 
-import 'package:app/core/wm/not_null_listenable_state.dart';
 import 'package:app/feature/browser_v2/data/tabs/browser_tab.dart';
 import 'package:app/generated/generated.dart';
 import 'package:elementary_helper/elementary_helper.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:lucide_icons_flutter/lucide_icons.dart';
@@ -22,7 +22,7 @@ class BrowserTabsListItemBody extends StatelessWidget {
   });
 
   final ListenableState<bool?>? activeState;
-  final NotNullListenableState<BrowserTab> tabNotifier;
+  final ValueListenable<BrowserTab?> tabNotifier;
   final ListenableState<File?> screenShotState;
 
   final VoidCallback? onPressed;
@@ -75,7 +75,7 @@ class _Header extends StatelessWidget {
     this.onPressedClose,
   });
 
-  final NotNullListenableState<BrowserTab> tabNotifier;
+  final ValueListenable<BrowserTab?> tabNotifier;
   final VoidCallback? onPressedClose;
 
   @override
@@ -94,9 +94,9 @@ class _Header extends StatelessWidget {
             Expanded(
               child: Padding(
                 padding: const EdgeInsets.only(left: DimensSizeV2.d12),
-                child: StateNotifierBuilder<BrowserTab>(
-                  listenableState: tabNotifier,
-                  builder: (_, BrowserTab? tab) {
+                child: ValueListenableBuilder(
+                  valueListenable: tabNotifier,
+                  builder: (_, tab, __) {
                     return Text(
                       tab?.title ?? LocaleKeys.startPage.tr(),
                       style: textStyles.labelXSmall.copyWith(

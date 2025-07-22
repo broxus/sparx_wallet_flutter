@@ -6,7 +6,7 @@ import 'package:app/core/wm/custom_wm.dart';
 import 'package:app/feature/wallet/widgets/wallet_backup/wallet_backup.dart';
 import 'package:app/generated/generated.dart';
 import 'package:elementary_helper/elementary_helper.dart';
-import 'package:flutter/widgets.dart';
+import 'package:flutter/foundation.dart';
 import 'package:injectable/injectable.dart';
 import 'package:local_auth/local_auth.dart';
 import 'package:nekoton_repository/nekoton_repository.dart';
@@ -23,21 +23,20 @@ class ConfirmActionWmParams {
 }
 
 @injectable
-class ConfirmActionWidgetModel
-    extends CustomWidgetModel<ContentConfirmAction, ConfirmActionModel> {
+class ConfirmActionWidgetModel extends InjectedWidgetModel<ContentConfirmAction,
+    ConfirmActionModel, ConfirmActionWmParams> {
   ConfirmActionWidgetModel(
     super.model,
-    @factoryParam this._wmParams,
   );
-
-  final ConfirmActionWmParams _wmParams;
 
   ThemeStyleV2 get themeStyle => context.themeStyleV2;
 
   ListenableState<List<BiometricType>> get availableBiometry =>
       _availableBiometry;
 
-  KeyAccount? get account => _wmParams.account;
+  late final ValueListenable<KeyAccount?> account = createWmParamsNotifier(
+    (it) => it.account,
+  );
 
   late final _availableBiometry = createNotifier<List<BiometricType>>();
 
@@ -48,9 +47,9 @@ class ConfirmActionWidgetModel
 
   @override
   void initWidgetModel() {
+    super.initWidgetModel();
     passwordController.addListener(_resetError);
     _getAvailableBiometry();
-    super.initWidgetModel();
   }
 
   void onClickConfirm() {
@@ -91,11 +90,12 @@ class ConfirmActionWidgetModel
         final phrase = await seed.export(password);
 
         context.compassBack();
+        final params = wmParams.value;
         await showManualBackupDialog(
           context,
           phrase,
-          _wmParams.account?.address.address ?? '',
-          _wmParams.finishedBackupCallback,
+          params.account?.address.address ?? '',
+          params.finishedBackupCallback,
         );
       } catch (_) {
         screenState

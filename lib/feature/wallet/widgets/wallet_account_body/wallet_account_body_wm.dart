@@ -13,18 +13,18 @@ enum NotificationType {
 }
 
 @injectable
-class WalletAccountBodyWidgetModel
-    extends CustomWidgetModel<WalletAccountBodyWidget, WalletAccountBodyModel> {
+class WalletAccountBodyWidgetModel extends InjectedWidgetModel<
+    WalletAccountBodyWidget, WalletAccountBodyModel, KeyAccount> {
   WalletAccountBodyWidgetModel(
     super.model,
-    @factoryParam this.account,
   );
-
-  final KeyAccount account;
 
   late final _notifications = createNotifierFromStream(_notificationsStream);
 
   late final _carouselPage = createValueNotifier(0);
+
+  late final ValueListenable<KeyAccount> currentAccount =
+      createWmParamsNotifier((it) => it);
 
   ListenableState<List<NotificationType>> get notifications => _notifications;
 
@@ -32,8 +32,8 @@ class WalletAccountBodyWidgetModel
 
   Stream<List<NotificationType>> get _notificationsStream {
     return Rx.combineLatest2(
-      model.getIsUnsupportedWalletTypeStram(account),
-      model.getShowingManualBackupBadgeStream(account),
+      model.getIsUnsupportedWalletTypeStram(wmParams.value),
+      model.getShowingManualBackupBadgeStream(wmParams.value),
       (bool isUnsupportedWalletType, bool isShowingBackup) =>
           <NotificationType>[
         if (isUnsupportedWalletType) NotificationType.unsupportedWalletType,
@@ -43,7 +43,7 @@ class WalletAccountBodyWidgetModel
   }
 
   void onFinishedBackup() {
-    model.hideBackupNotification(account);
+    model.hideBackupNotification(wmParams.value);
   }
 
   void onSwitchAccount() => showSelectAccountSheet(context);

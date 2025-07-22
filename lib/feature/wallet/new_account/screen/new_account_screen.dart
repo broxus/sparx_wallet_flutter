@@ -6,8 +6,8 @@ import 'package:flutter/material.dart';
 import 'package:nekoton_repository/nekoton_repository.dart';
 import 'package:ui_components_lib/ui_components_lib.dart';
 
-class NewAccountScreen
-    extends InjectedElementaryWidget<NewAccountScreenWidgetModel> {
+class NewAccountScreen extends InjectedElementaryParametrizedWidget<
+    NewAccountScreenWidgetModel, NewAccountScreenWmParams> {
   NewAccountScreen({
     String? publicKey,
     String? password,

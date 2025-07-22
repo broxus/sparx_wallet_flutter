@@ -11,14 +11,11 @@ import 'package:nekoton_repository/nekoton_repository.dart';
 import 'package:ui_components_lib/ui_components_lib.dart';
 
 @injectable
-class SeedDetailPageWidgetModel
-    extends CustomWidgetModel<SeedDetailPageWidget, SeedDetailPageModel> {
+class SeedDetailPageWidgetModel extends InjectedWidgetModel<
+    SeedDetailPageWidget, SeedDetailPageModel, PublicKey> {
   SeedDetailPageWidgetModel(
     super.model,
-    @factoryParam this._publicKey,
   );
-
-  final PublicKey _publicKey;
 
   late final _currentKey = createNotifierFromStream(model.currentKey);
   late final _currentSeed = createNotifierFromStream(model.currentSeed);
@@ -26,7 +23,7 @@ class SeedDetailPageWidgetModel
     model.findingExistingWallets,
   );
   late final _seed = createNotifierFromStream(
-    model.getSeedStream(_publicKey),
+    model.getSeedStream(wmParams.value),
   );
 
   StateNotifier<PublicKey?> get currentKey => _currentKey;
@@ -40,7 +37,7 @@ class SeedDetailPageWidgetModel
 
   ThemeStyleV2 get theme => context.themeStyleV2;
 
-  void onSeedSettings() => showSeedSettingsSheet(context, _publicKey);
+  void onSeedSettings() => showSeedSettingsSheet(context, wmParams.value);
 
-  void onAddkeys() => showDeriveKeysSheetPassword(context, _publicKey);
+  void onAddkeys() => showDeriveKeysSheetPassword(context, wmParams.value);
 }

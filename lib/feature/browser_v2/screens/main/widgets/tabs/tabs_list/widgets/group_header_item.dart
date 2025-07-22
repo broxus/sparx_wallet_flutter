@@ -3,20 +3,21 @@ import 'package:app/feature/browser_v2/data/groups/browser_group.dart';
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:elementary_helper/elementary_helper.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/foundation.dart';
 import 'package:ui_components_lib/ui_components_lib.dart';
 
 class BrowserGroupHeaderItem extends StatelessWidget {
   const BrowserGroupHeaderItem({
     required this.width,
-    required this.listenable,
+    required this.browserGroup,
     required this.selectedGroupIdListenable,
     required this.onPressed,
     super.key,
   });
 
   final double width;
-  final NotNullListenableState<BrowserGroup> listenable;
-  final ListenableState<String?> selectedGroupIdListenable;
+  final NotNullListenableState<BrowserGroup> browserGroup;
+  final ValueListenable<String?> selectedGroupIdListenable;
   final VoidCallback onPressed;
 
   @override
@@ -36,14 +37,19 @@ class BrowserGroupHeaderItem extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Flexible(
-              child: DoubleSourceBuilder<BrowserGroup?, String?>(
-                firstSource: listenable,
-                secondSource: selectedGroupIdListenable,
-                builder: (_, BrowserGroup? group, String? selectedId) {
+              child: MultiListenerRebuilder(
+                listenableList: [
+                  browserGroup,
+                  selectedGroupIdListenable,
+                ],
+                builder: (_) {
+                  final group = browserGroup.value;
+                  final selectedGroupId = selectedGroupIdListenable.value;
+
                   return Text(
-                    group?.title ?? '',
+                    group.title ?? '',
                     overflow: TextOverflow.ellipsis,
-                    style: group?.id == selectedId
+                    style: group.id == selectedGroupId
                         ? styles.labelMedium
                         : styles.labelSmall.copyWith(
                             color: colors.content2,
@@ -53,7 +59,7 @@ class BrowserGroupHeaderItem extends StatelessWidget {
               ),
             ),
             StateNotifierBuilder(
-              listenableState: listenable,
+              listenableState: browserGroup,
               builder: (_, BrowserGroup? group) {
                 if (group == null) {
                   return const SizedBox.shrink();

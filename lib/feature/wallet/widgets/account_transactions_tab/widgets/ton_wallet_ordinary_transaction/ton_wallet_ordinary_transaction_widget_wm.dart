@@ -23,37 +23,52 @@ class TonWalletOrdinaryTransactionWmParams {
 
 /// [WidgetModel] для [TonWalletOrdinaryTransactionWidget]
 @injectable
-class TonWalletOrdinaryTransactionWidgetWidgetModel extends CustomWidgetModel<
+class TonWalletOrdinaryTransactionWidgetWidgetModel extends InjectedWidgetModel<
     TonWalletOrdinaryTransactionWidget,
-    TonWalletOrdinaryTransactionWidgetModel> {
+    TonWalletOrdinaryTransactionWidgetModel,
+    TonWalletOrdinaryTransactionWmParams> {
   TonWalletOrdinaryTransactionWidgetWidgetModel(
     super.model,
-    @factoryParam this._wmParams,
   );
 
-  final TonWalletOrdinaryTransactionWmParams _wmParams;
-
-  late final bool isIncoming = !_wmParams.transaction.isOutgoing;
-  late final Address address = _wmParams.transaction.address;
-  late final transactionFee = Money.fromBigIntWithCurrency(
-    _wmParams.transaction.fees,
-    Currencies()[model.ticker]!,
+  late final isIncoming = createWmParamsNotifier<bool>(
+    (it) => !it.transaction.isOutgoing,
   );
-  late final transactionValue = Money.fromBigIntWithCurrency(
-    _wmParams.transaction.value,
-    Currencies()[model.ticker]!,
+  late final address = createWmParamsNotifier<Address>(
+    (it) => it.transaction.address,
   );
-  late final date = _wmParams.transaction.date;
+  late final transactionFee = createWmParamsNotifier<Money>(
+    (it) => Money.fromBigIntWithCurrency(
+      it.transaction.fees,
+      Currencies()[model.ticker]!,
+    ),
+  );
+  late final transactionValue = createWmParamsNotifier<Money>(
+    (it) => Money.fromBigIntWithCurrency(
+      it.transaction.value,
+      Currencies()[model.ticker]!,
+    ),
+  );
+  late final date = createWmParamsNotifier<DateTime>(
+    (it) => it.transaction.date,
+  );
 
-  bool get isFirst => _wmParams.isFirst;
-  bool get isLast => _wmParams.isLast;
+  late final isFirst = createWmParamsNotifier<bool>(
+    (it) => it.isFirst,
+  );
+  late final isLast = createWmParamsNotifier<bool>(
+    (it) => it.isLast,
+  );
 
-  void onPressed() => Navigator.of(context, rootNavigator: true).push(
-        MaterialPageRoute<void>(
-          builder: (_) => TonWalletOrdinaryTransactionDetails(
-            transaction: _wmParams.transaction,
-            price: _wmParams.price,
-          ),
+  void onPressed() {
+    final params = wmParams.value;
+    Navigator.of(context, rootNavigator: true).push(
+      MaterialPageRoute<void>(
+        builder: (_) => TonWalletOrdinaryTransactionDetails(
+          transaction: params.transaction,
+          price: params.price,
         ),
-      );
+      ),
+    );
+  }
 }

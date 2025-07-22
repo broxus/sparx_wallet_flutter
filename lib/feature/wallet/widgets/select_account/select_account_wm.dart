@@ -29,9 +29,8 @@ class SelectAccountWidgetModel
 
   @override
   void initWidgetModel() {
-    _accounts.addListener(onSearch);
-
     super.initWidgetModel();
+    _accounts.addListener(onSearch);
   }
 
   void onSearch() {

@@ -24,21 +24,28 @@ class AddNetworkWmParams {
 }
 
 @injectable
-class AddNetworkWidgetModel
-    extends CustomWidgetModel<AddNetworkWidget, AddNetworkModel> {
+class AddNetworkWidgetModel extends InjectedWidgetModel<AddNetworkWidget,
+    AddNetworkModel, AddNetworkWmParams> {
   AddNetworkWidgetModel(
     super.model,
-    @factoryParam this._wmParams,
   );
 
-  final AddNetworkWmParams _wmParams;
-
   late final _loading = createValueNotifier(false);
-  late final _switchNetwork = createValueNotifier(_wmParams.switchNetwork);
+  late final _switchNetwork = createWmParamsNotifier(
+    (it) => it.switchNetwork,
+  );
 
-  Uri get origin => _wmParams.origin;
+  late final _origin = createWmParamsNotifier(
+    (it) => it.origin,
+  );
 
-  AddNetwork get network => _wmParams.network;
+  late final _network = createWmParamsNotifier(
+    (it) => it.network,
+  );
+
+  ValueListenable<Uri> get origin => _origin;
+
+  ValueListenable<AddNetwork> get network => _network;
 
   ValueListenable<bool> get loading => _loading;
 
@@ -49,7 +56,7 @@ class AddNetworkWidgetModel
   Future<void> onConfirm() async {
     _loading.value = true;
     try {
-      final connection = _wmParams.network.getConnection();
+      final connection = _network.value.getConnection();
       final network = await model.addConnection(connection);
 
       if (_switchNetwork.value) {

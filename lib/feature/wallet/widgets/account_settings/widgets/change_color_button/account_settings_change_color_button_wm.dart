@@ -9,27 +9,26 @@ import 'package:injectable/injectable.dart';
 
 /// [WidgetModel] для [AccountSettingsChangeColorButton]
 @injectable
-class AccountSettingsChangeColorButtonWidgetModel extends CustomWidgetModel<
-    AccountSettingsChangeColorButton, AccountSettingsChangeColorButtonModel> {
+class AccountSettingsChangeColorButtonWidgetModel extends InjectedWidgetModel<
+    AccountSettingsChangeColorButton,
+    AccountSettingsChangeColorButtonModel,
+    String> {
   AccountSettingsChangeColorButtonWidgetModel(
     super.model,
-    @factoryParam this._address,
   );
-
-  final String _address;
 
   ListenableState<IdentifyIconData> get colorState => model.colorState;
 
   @override
   void initWidgetModel() {
     super.initWidgetModel();
-    model.initListener(_address);
+    model.initListener(wmParams.value);
   }
 
   void onPressed() {
     showChangeColorBottomSheet(
       context: context,
-      address: _address,
+      address: wmParams.value,
     );
   }
 }

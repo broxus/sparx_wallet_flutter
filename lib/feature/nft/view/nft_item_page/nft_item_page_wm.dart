@@ -22,14 +22,11 @@ class NftItemWmParams {
 }
 
 @injectable
-class NftItemPageWidgetModel
-    extends CustomWidgetModel<NftItemPageWidget, NftItemPageModel> {
+class NftItemPageWidgetModel extends InjectedWidgetModel<NftItemPageWidget,
+    NftItemPageModel, NftItemWmParams> {
   NftItemPageWidgetModel(
     super.model,
-    @factoryParam this._wmParams,
   );
-
-  final NftItemWmParams _wmParams;
 
   late final _itemState = createNotifier<NftItem>();
   late final _collectionState = createNotifier<NftCollection>();
@@ -112,8 +109,8 @@ class NftItemPageWidgetModel
 
   Future<void> _init() async {
     final (item, collection) = await FutureExt.wait2(
-      model.getNftItem(_wmParams.address),
-      model.getCollection(_wmParams.collection),
+      model.getNftItem(wmParams.value.address),
+      model.getCollection(wmParams.value.collection),
     );
 
     if (item == null || collection == null) {

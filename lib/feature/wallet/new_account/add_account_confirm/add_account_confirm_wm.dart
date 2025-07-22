@@ -21,14 +21,13 @@ class AddAccountConfirmWmParams {
 }
 
 @injectable
-class AddAccountConfirmWidgetModel
-    extends CustomWidgetModel<AddAccountConfirmWidget, AddAccountConfirmModel> {
+class AddAccountConfirmWidgetModel extends InjectedWidgetModel<
+    AddAccountConfirmWidget,
+    AddAccountConfirmModel,
+    AddAccountConfirmWmParams> {
   AddAccountConfirmWidgetModel(
     super.model,
-    @factoryParam this._wmParams,
   );
-
-  final AddAccountConfirmWmParams _wmParams;
 
   late final controller = createTextEditingController();
 
@@ -41,12 +40,12 @@ class AddAccountConfirmWidgetModel
 
   ThemeStyleV2 get theme => context.themeStyleV2;
 
-  String get seedName => _wmParams.seedName;
+  String get seedName => wmParams.value.seedName;
 
   @override
   void initWidgetModel() {
-    _getAvailableBiometry();
     super.initWidgetModel();
+    _getAvailableBiometry();
   }
 
   Future<void> onPasswordSubmit() async {
@@ -54,7 +53,7 @@ class AddAccountConfirmWidgetModel
   }
 
   Future<void> onUseBiometry() async {
-    final password = await model.requestBiometry(_wmParams.publicKey);
+    final password = await model.requestBiometry(wmParams.value.publicKey);
 
     if (password != null) {
       await _processPassword(password);
@@ -62,21 +61,22 @@ class AddAccountConfirmWidgetModel
   }
 
   Future<void> _getAvailableBiometry() async {
-    final available = await model.getAvailableBiometry(_wmParams.publicKey);
+    final available =
+        await model.getAvailableBiometry(wmParams.value.publicKey);
     _availableBiometry.accept(available);
   }
 
   Future<void> _processPassword(String password) async {
     final isCorrect = await model.checkPassword(
       password: password,
-      publicKey: _wmParams.publicKey,
+      publicKey: wmParams.value.publicKey,
     );
 
     if (!isCorrect) {
       model.showWrongPassword();
     } else if (contextSafe != null) {
       Navigator.of(contextSafe!).pop(
-        (_wmParams.publicKey, password),
+        (wmParams.value.publicKey, password),
       );
     }
   }

@@ -1,4 +1,5 @@
 import 'package:app/core/wm/custom_wm.dart';
+import 'package:app/core/wm/value_notifier_merge.dart';
 import 'package:app/feature/browser_v2/screens/main/widgets/tabs/tabs_list/widgets/header/physic.dart';
 import 'package:app/feature/browser_v2/screens/main/widgets/tabs/tabs_list/widgets/header/tab_list_header.dart';
 import 'package:app/feature/browser_v2/screens/main/widgets/tabs/tabs_list/widgets/header/tab_list_header_model.dart';
@@ -6,19 +7,20 @@ import 'package:app/feature/browser_v2/screens/main/widgets/tabs/tabs_list/widge
 import 'package:app/feature/browser_v2/widgets/bottomsheets/book/browser_book.dart';
 import 'package:elementary/elementary.dart';
 import 'package:elementary_helper/elementary_helper.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/widgets.dart';
 import 'package:injectable/injectable.dart';
 
 ////// [WidgetModel] для [TabListHeader]
 @injectable
-class TabListHeaderWidgetModel
-    extends CustomWidgetModel<TabListHeader, TabListHeaderModel> {
+class TabListHeaderWidgetModel extends InjectedWidgetModel<TabListHeader,
+    TabListHeaderModel, ValueListenable<String?>> {
   TabListHeaderWidgetModel(
     super.model,
-    @factoryParam this.selectedGroupIdState,
   );
 
-  final ListenableState<String?> selectedGroupIdState;
+  late final ValueListenable<String?> selectedGroupIdState =
+      createWmParamsNotifier((it) => it).asMerged();
 
   final _bookmarksUiModel = TabListHeaderBookmarksUiModel();
   final _newGroupUiModel = TabListHeaderNewGroupUiModel();
@@ -33,10 +35,10 @@ class TabListHeaderWidgetModel
 
   @override
   void initWidgetModel() {
+    super.initWidgetModel();
     model.groupsIdsState.addListener(_handleGroupsIds);
     selectedGroupIdState.addListener(_handleSelectedId);
     WidgetsBinding.instance.addPostFrameCallback((_) => _scrollToGroup());
-    super.initWidgetModel();
   }
 
   @override

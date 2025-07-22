@@ -24,8 +24,8 @@ Future<void> showAddNewExternalAccountSheet({
     );
 
 /// Sheet that allows to add new external account.
-class AddNewExternalAccountSheet
-    extends InjectedElementaryWidget<AddNewExternalAccountSheetWidgetModel> {
+class AddNewExternalAccountSheet extends InjectedElementaryParametrizedWidget<
+    AddNewExternalAccountSheetWidgetModel, PublicKey> {
   const AddNewExternalAccountSheet({
     required PublicKey publicKey,
     required this.controller,

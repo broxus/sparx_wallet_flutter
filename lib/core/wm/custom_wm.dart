@@ -4,6 +4,7 @@ import 'package:app/di/di.dart';
 import 'package:elementary/elementary.dart';
 import 'package:flutter/widgets.dart';
 import 'package:logging/logging.dart';
+import 'package:rxdart/rxdart.dart';
 
 /// Custom WidgetModel with additional functionality
 ///
@@ -22,16 +23,79 @@ abstract class InjectedElementaryWidget<WM extends WidgetModel>
     extends ElementaryWidget<WM> {
   const InjectedElementaryWidget({
     Key? key,
-    this.wmFactoryParam,
     this.instanceName,
   }) : super(
           _getItFactory,
           key: key,
         );
 
-  final Object? wmFactoryParam;
   final String? instanceName;
   Type get wmType => WM;
+}
+
+abstract class InjectedElementaryParametrizedWidget<
+    // ignore: strict_raw_type
+    WM extends WidgetModel,
+    Param> extends InjectedElementaryWidget<WM> {
+  const InjectedElementaryParametrizedWidget({
+    // ignore: deprecated_consistency
+    required this.wmFactoryParam,
+    super.key,
+    super.instanceName,
+  });
+
+  @Deprecated(
+    'Should be used only in WM',
+  )
+  final Param wmFactoryParam;
+}
+
+/// Base class for WidgetModels that work with InjectedElementaryWidget
+/// and need access to wmFactoryParam with specific type
+class InjectedWidgetModel<
+    W extends InjectedElementaryParametrizedWidget<WidgetModel, Param>,
+    M extends ElementaryModel,
+    Param> extends CustomWidgetModel<W, M> {
+  InjectedWidgetModel(
+    super.model,
+  );
+
+  @protected
+  final BehaviorSubject<Param> wmParams = BehaviorSubject();
+
+  // ignore: deprecated_member_use_from_same_package
+  Param get _widgetParam => widget.wmFactoryParam;
+
+  @override
+  void initWidgetModel() {
+    super.initWidgetModel();
+    wmParams.add(_widgetParam);
+  }
+
+  @override
+  void didUpdateWidget(W oldWidget) {
+    super.didUpdateWidget(oldWidget);
+
+    // ignore: deprecated_member_use_from_same_package
+    if (oldWidget.wmFactoryParam != _widgetParam) {
+      wmParams.add(_widgetParam);
+    }
+  }
+
+  @override
+  void dispose() {
+    wmParams.close();
+    super.dispose();
+  }
+
+  /// Create [ValueNotifier] from WM params stream.
+  @protected
+  ValueNotifier<T> createWmParamsNotifier<T>(T Function(Param param) convert) {
+    return createValueNotifierFromStream<T>(
+      convert(wmParams.value),
+      wmParams.map(convert).distinct(),
+    );
+  }
 }
 
 final _factroryLogger = Logger('InjectedElementaryWidget');
@@ -43,7 +107,6 @@ WM _getItFactory<WM extends WidgetModel>(
 
   try {
     return getIt.get(
-      param1: injectedElementaryWidget.wmFactoryParam,
       instanceName: injectedElementaryWidget.instanceName,
       type: injectedElementaryWidget.wmType,
     ) as WM;

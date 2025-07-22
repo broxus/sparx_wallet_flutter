@@ -12,8 +12,8 @@ import 'package:nekoton_repository/nekoton_repository.dart';
 import 'package:ui_components_lib/ui_components_lib.dart';
 import 'package:ui_components_lib/v2/ui_components_lib_v2.dart';
 
-class SendMessageWidget
-    extends InjectedElementaryWidget<SendMessageWidgetModel> {
+class SendMessageWidget extends InjectedElementaryParametrizedWidget<
+    SendMessageWidgetModel, SendMessageWmParams> {
   SendMessageWidget({
     required Uri origin,
     required Address sender,
@@ -73,7 +73,12 @@ class SendMessageWidget
                     ),
                   ),
                 const SizedBox(height: DimensSizeV2.d12),
-                WebsiteInfoWidget(uri: wm.origin),
+                ValueListenableBuilder(
+                  valueListenable: wm.origin,
+                  builder: (_, origin, __) {
+                    return WebsiteInfoWidget(uri: origin);
+                  },
+                ),
                 DoubleSourceBuilder(
                   firstSource: wm.publicKey,
                   secondSource: wm.custodians,
@@ -98,11 +103,19 @@ class SendMessageWidget
                         ),
                 ),
                 const SizedBox(height: DimensSizeV2.d12),
-                TripleSourceBuilder(
-                  firstSource: wm.data,
-                  secondSource: wm.fee,
-                  thirdSource: wm.feeError,
-                  builder: (_, data, fee, feeError) {
+                MultiListenerRebuilder(
+                  listenableList: [
+                    wm.data,
+                    wm.fee,
+                    wm.feeError,
+                    wm.recipient,
+                  ],
+                  builder: (_) {
+                    final data = wm.data.value;
+                    final fee = wm.fee.value;
+                    final feeError = wm.feeError.value;
+                    final recipient = wm.recipient.value;
+
                     return data?.let(
                           (data) => TokenTransferInfoWidget(
                             key: UniqueKey(),
@@ -110,7 +123,7 @@ class SendMessageWidget
                             amount: data.amount,
                             attachedAmount: data.attachedAmount,
                             rootTokenContract: data.rootTokenContract,
-                            recipient: wm.recipient,
+                            recipient: recipient,
                             fee: fee,
                             feeError: feeError,
                             numberUnconfirmedTransactions:
@@ -120,26 +133,32 @@ class SendMessageWidget
                         const SizedBox.shrink();
                   },
                 ),
-                if (wm.payload != null)
-                  Padding(
-                    padding: const EdgeInsets.only(top: DimensSizeV2.d12),
-                    child: ExpandableCard(
-                      collapsedHeight: DimensSizeV2.d256,
-                      child: SeparatedColumn(
-                        spacing: DimensSizeV2.d16,
-                        crossAxisAlignment: CrossAxisAlignment.stretch,
-                        children: [
-                          Text(
-                            LocaleKeys.metadata.tr(),
-                            style: theme.textStyles.labelSmall.copyWith(
-                              color: theme.colors.content3,
+                ValueListenableBuilder(
+                  valueListenable: wm.payload,
+                  builder: (_, payload, __) {
+                    if (payload == null) return const SizedBox.shrink();
+
+                    return Padding(
+                      padding: const EdgeInsets.only(top: DimensSizeV2.d12),
+                      child: ExpandableCard(
+                        collapsedHeight: DimensSizeV2.d256,
+                        child: SeparatedColumn(
+                          spacing: DimensSizeV2.d16,
+                          crossAxisAlignment: CrossAxisAlignment.stretch,
+                          children: [
+                            Text(
+                              LocaleKeys.metadata.tr(),
+                              style: theme.textStyles.labelSmall.copyWith(
+                                color: theme.colors.content3,
+                              ),
                             ),
-                          ),
-                          FunctionCallBody(payload: wm.payload!),
-                        ],
+                            FunctionCallBody(payload: payload),
+                          ],
+                        ),
                       ),
-                    ),
-                  ),
+                    );
+                  },
+                ),
               ],
             ),
           ),

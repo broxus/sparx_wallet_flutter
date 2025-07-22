@@ -12,8 +12,8 @@ import 'package:ui_components_lib/ui_components_lib.dart';
 
 /// Row with actions for current account.
 /// If account is null, then no actions available.
-class WalletAccountActions
-    extends InjectedElementaryWidget<WalletAccountActionsWidgetModel> {
+class WalletAccountActions extends InjectedElementaryParametrizedWidget<
+    WalletAccountActionsWidgetModel, WalletAccountActionsWmParams> {
   WalletAccountActions({
     required KeyAccount account,
     bool allowStake = true,
@@ -34,22 +34,41 @@ class WalletAccountActions
 
   @override
   Widget build(WalletAccountActionsWidgetModel wm) {
-    return TripleSourceBuilder(
-      firstSource: wm.action,
-      secondSource: wm.hasStake,
-      thirdSource: wm.hasStakeActions,
-      builder: (_, action, hasStake, hasStakeActions) => _ActionList(
-        action: action ?? WalletAccountActionBehavior.send,
-        hasStake: hasStake ?? false,
-        hasStakeActions: hasStakeActions ?? false,
-        sendSpecified: wm.sendSpecified,
-        padding: padding,
-        disableSensetiveActions: wm.disableSensetiveActions,
-        onReceivePressed: wm.onReceive,
-        onMainActionPressed: wm.onMainAction,
-        onStakePressed: wm.onStake,
-        onInfoPressed: wm.onInfo,
-      ),
+    return MultiListenerRebuilder(
+      listenableList: [
+        wm.action,
+        wm.hasStake,
+        wm.hasStakeActions,
+      ],
+      builder: (_) {
+        final action = wm.action.value;
+        final hasStake = wm.hasStake.value;
+        final hasStakeActions = wm.hasStakeActions.value;
+
+        return MultiListenerRebuilder(
+          listenableList: [
+            wm.sendSpecified,
+            wm.disableSensetiveActions,
+          ],
+          builder: (_) {
+            final sendSpecified = wm.sendSpecified.value;
+            final disableSensetiveActions = wm.disableSensetiveActions.value;
+
+            return _ActionList(
+              action: action ?? WalletAccountActionBehavior.send,
+              hasStake: hasStake,
+              hasStakeActions: hasStakeActions,
+              sendSpecified: sendSpecified,
+              padding: padding,
+              disableSensetiveActions: disableSensetiveActions,
+              onReceivePressed: wm.onReceive,
+              onMainActionPressed: wm.onMainAction,
+              onStakePressed: wm.onStake,
+              onInfoPressed: wm.onInfo,
+            );
+          },
+        );
+      },
     );
   }
 }

@@ -22,8 +22,8 @@ Future<void> showChangeColorBottomSheet({
   );
 }
 
-class ChangeColorBottomSheet
-    extends InjectedElementaryWidget<ChangeColorBottomSheetWidgetModel> {
+class ChangeColorBottomSheet extends InjectedElementaryParametrizedWidget<
+    ChangeColorBottomSheetWidgetModel, String> {
   const ChangeColorBottomSheet({
     required String address,
     super.key,

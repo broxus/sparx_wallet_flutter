@@ -11,14 +11,13 @@ import 'package:flutter/material.dart';
 import 'package:injectable/injectable.dart';
 
 @injectable
-class EditNetworkWidgetModel
-    extends CustomWidgetModel<EditNetworkPageWidget, EditNetworkModel> {
+class EditNetworkWidgetModel extends InjectedWidgetModel<EditNetworkPageWidget,
+    EditNetworkModel, String?> {
   EditNetworkWidgetModel(
     super.model,
-    @factoryParam this._connectionDataId,
   );
 
-  final String? _connectionDataId;
+  String? get _connectionDataId => wmParams.value;
 
   final formKey = GlobalKey<FormState>();
 

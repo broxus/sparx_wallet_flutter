@@ -24,15 +24,13 @@ class TabAnimatedViewWmParams {
 
 /// [WidgetModel] для [TabAnimatedView]
 @injectable
-class TabAnimatedViewWidgetModel
-    extends CustomWidgetModel<TabAnimatedView, TabAnimatedViewModel>
-    with SingleTickerProviderWidgetModelMixin {
+class TabAnimatedViewWidgetModel extends InjectedWidgetModel<
+    TabAnimatedView,
+    TabAnimatedViewModel,
+    TabAnimatedViewWmParams> with SingleTickerProviderWidgetModelMixin {
   TabAnimatedViewWidgetModel(
     super.model,
-    @factoryParam this._wmParams,
   );
-
-  final TabAnimatedViewWmParams _wmParams;
 
   late final widthAnimation = Tween<double>(
     begin: 168,
@@ -81,15 +79,15 @@ class TabAnimatedViewWidgetModel
   Listenable get animationListenable => _animationController;
 
   ListenableState<TabAnimationType?> get showAnimationState =>
-      _wmParams.showAnimationState;
+      wmParams.value.showAnimationState;
 
   ListenableState<File?> get screenshotStateState => _screenshotStateState;
 
   @override
   void initWidgetModel() {
+    super.initWidgetModel();
     showAnimationState.addListener(_handleTabAnimationType);
     _animationController.addStatusListener(_handleAnimationStatus);
-    super.initWidgetModel();
   }
 
   @override
@@ -159,7 +157,7 @@ class TabAnimatedViewWidgetModel
 
   void _onStart() {
     _isRunning = true;
-    Future(_wmParams.onAnimationStart);
+    Future(wmParams.value.onAnimationStart);
   }
 
   void _onEnd() {
@@ -167,6 +165,6 @@ class TabAnimatedViewWidgetModel
       return;
     }
     _isRunning = false;
-    Future(() => _wmParams.onAnimationEnd(showAnimationState.value));
+    Future(() => wmParams.value.onAnimationEnd(showAnimationState.value));
   }
 }

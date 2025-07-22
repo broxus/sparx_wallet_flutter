@@ -45,10 +45,10 @@ class HistoryListWidgetModel
 
   @override
   void initWidgetModel() {
+    super.initWidgetModel();
     _historySubs = model.originalBrowserHistoryStream.listen(_handleHistory);
     searchController.addListener(_handleSearch);
     _updateActiveMenu();
-    super.initWidgetModel();
   }
 
   @override

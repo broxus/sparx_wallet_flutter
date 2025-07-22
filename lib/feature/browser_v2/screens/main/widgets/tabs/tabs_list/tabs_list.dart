@@ -11,8 +11,8 @@ import 'package:flutter/material.dart';
 import 'package:render_metrics/render_metrics.dart';
 import 'package:ui_components_lib/ui_components_lib.dart';
 
-class BrowserTabsList
-    extends InjectedElementaryWidget<BrowserTabsListWidgetModel> {
+class BrowserTabsList extends InjectedElementaryParametrizedWidget<
+    BrowserTabsListWidgetModel, ListenableState<String?>> {
   const BrowserTabsList({
     required ListenableState<String?> selectedGroupIdState,
     required this.onPressedTab,

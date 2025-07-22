@@ -13,7 +13,9 @@ import 'package:ui_components_lib/ui_components_lib.dart';
 /// Page that allows confirm multisig transaction for [TonWallet].
 /// This pages displays only for outgoing transaction.
 class ConfirmMultisigTransactionWidget
-    extends InjectedElementaryWidget<ConfirmMultisigTransactionWidgetModel> {
+    extends InjectedElementaryParametrizedWidget<
+        ConfirmMultisigTransactionWidgetModel,
+        ConfirmMultisigTransactionWmParams> {
   ConfirmMultisigTransactionWidget({
     /// Address of wallet which will be used to confirm transaction
     required Address walletAddress,

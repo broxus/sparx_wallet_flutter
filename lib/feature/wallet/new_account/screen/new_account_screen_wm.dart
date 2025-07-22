@@ -14,28 +14,25 @@ class NewAccountScreenWmParams {
 
 /// [WidgetModel] для [NewAccountScreen]
 @injectable
-class NewAccountScreenWidgetModel
-    extends CustomWidgetModel<NewAccountScreen, NewAccountScreenModel> {
+class NewAccountScreenWidgetModel extends InjectedWidgetModel<NewAccountScreen,
+    NewAccountScreenModel, NewAccountScreenWmParams> {
   NewAccountScreenWidgetModel(
     super.model,
-    @factoryParam this._wmParams,
   );
 
-  final NewAccountScreenWmParams _wmParams;
+  bool get isError => wmParams.value.publicKey == null;
 
-  bool get isError => _wmParams.publicKey == null;
-
-  String? get publicKey => _wmParams.publicKey;
-  String? get password => _wmParams.password;
+  String? get publicKey => wmParams.value.publicKey;
+  String? get password => wmParams.value.password;
 
   @override
   void initWidgetModel() {
-    _init();
     super.initWidgetModel();
+    _init();
   }
 
   void _init() {
-    if (_wmParams.publicKey == null) {
+    if (wmParams.value.publicKey == null) {
       model.showError(context, LocaleKeys.publicKeyNull.tr());
     }
   }

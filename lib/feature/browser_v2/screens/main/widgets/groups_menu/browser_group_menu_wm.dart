@@ -31,8 +31,8 @@ class BrowserGroupMenuWidgetModel
 
   @override
   void initWidgetModel() {
-    model.allGroupsIdsState.addListener(_handleGroups);
     super.initWidgetModel();
+    model.allGroupsIdsState.addListener(_handleGroups);
   }
 
   @override

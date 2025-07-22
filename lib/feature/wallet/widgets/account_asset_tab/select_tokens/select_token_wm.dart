@@ -14,13 +14,10 @@ import 'package:ui_components_lib/v2/ui_components_lib_v2.dart';
 //logic in this class was moved from check_seed_phrase_cubit.dart
 @injectable
 class SelectTokenWidgetModel
-    extends CustomWidgetModel<SelectTokenWidget, SelectTokenModel> {
+    extends InjectedWidgetModel<SelectTokenWidget, SelectTokenModel, Address> {
   SelectTokenWidgetModel(
     super.model,
-    @factoryParam this.address,
   );
-
-  final Address address;
 
   late final _data = createNotifier<List<TokenDataElement>>([]);
   late final _loading = createNotifier(true);
@@ -36,7 +33,8 @@ class SelectTokenWidgetModel
 
   @override
   void initWidgetModel() {
-    model.getAssets(address).listen(
+    super.initWidgetModel();
+    model.getAssets(wmParams.value).listen(
       (value) {
         final data = [
           ...?_data.value,
@@ -54,8 +52,6 @@ class SelectTokenWidgetModel
       onDone: () => _loading.accept(false),
       onError: (_) => _loading.accept(false),
     );
-
-    super.initWidgetModel();
   }
 
   void checkTokenSelection(TokenDataElement token) {
@@ -88,7 +84,7 @@ class SelectTokenWidgetModel
   }
 
   Future<void> clickImport() async {
-    final account = model.getAccount(address);
+    final account = model.getAccount(wmParams.value);
 
     if (_data.value != null && account != null) {
       await showImportSelectedTokensModal(context, () async {

@@ -10,7 +10,8 @@ import 'package:elementary_helper/elementary_helper.dart';
 import 'package:flutter/material.dart';
 import 'package:ui_components_lib/ui_components_lib.dart';
 
-class TCSignDataWidget extends InjectedElementaryWidget<TCSignDataWidgetModel> {
+class TCSignDataWidget extends InjectedElementaryParametrizedWidget<
+    TCSignDataWidgetModel, TCSignDataWmParams> {
   TCSignDataWidget({
     required TonAppConnection connection,
     required SignDataPayload payload,
@@ -36,28 +37,52 @@ class TCSignDataWidget extends InjectedElementaryWidget<TCSignDataWidgetModel> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
-                AccountInfoWidget(account: wm.connection.walletAddress),
-                const SizedBox(height: DimensSizeV2.d12),
-                WebsiteInfoWidget(
-                  uri: Uri.parse(wm.connection.manifest.url),
-                  iconUrl: Uri.tryParse(wm.connection.manifest.iconUrl),
+                ValueListenableBuilder(
+                  valueListenable: wm.connection,
+                  builder: (_, connection, __) {
+                    return AccountInfoWidget(account: connection.walletAddress);
+                  },
                 ),
                 const SizedBox(height: DimensSizeV2.d12),
-                DataCard(data: wm.payload.cell),
+                ValueListenableBuilder(
+                  valueListenable: wm.connection,
+                  builder: (_, connection, __) {
+                    return WebsiteInfoWidget(
+                      uri: Uri.parse(connection.manifest.url),
+                      iconUrl: Uri.tryParse(connection.manifest.iconUrl),
+                    );
+                  },
+                ),
+                const SizedBox(height: DimensSizeV2.d12),
+                ValueListenableBuilder(
+                  valueListenable: wm.payload,
+                  builder: (_, payload, __) {
+                    return DataCard(data: payload.cell);
+                  },
+                ),
               ],
             ),
           ),
         ),
-        if (wm.account != null)
-          StateNotifierBuilder(
-            listenableState: wm.isLoading,
-            builder: (_, isLoading) => EnterPasswordWidgetV2(
+        MultiListenerRebuilder(
+          listenableList: [
+            wm.accountState,
+            wm.isLoading,
+          ],
+          builder: (_) {
+            final account = wm.accountState.value;
+            final isLoading = wm.isLoading.value;
+
+            if (account == null) return const SizedBox.shrink();
+
+            return EnterPasswordWidgetV2(
               isLoading: isLoading,
-              publicKey: wm.account!.publicKey,
+              publicKey: account.publicKey,
               title: LocaleKeys.sign.tr(),
               onPasswordEntered: wm.onSubmit,
-            ),
-          ),
+            );
+          },
+        ),
       ],
     );
   }

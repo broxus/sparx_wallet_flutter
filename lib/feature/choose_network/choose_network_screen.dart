@@ -15,8 +15,8 @@ import 'package:ui_components_lib/v2/ui_components_lib_v2.dart';
 
 const chooseNetworkScreenNextStepQuery = 'chooseNetworkNextStep';
 
-class ChooseNetworkScreen
-    extends InjectedElementaryWidget<ChooseNetworkScreenWidgetModel> {
+class ChooseNetworkScreen extends InjectedElementaryParametrizedWidget<
+    ChooseNetworkScreenWidgetModel, ChooseNetworkNextStep> {
   const ChooseNetworkScreen({
     required ChooseNetworkNextStep nextStep,
     super.key,

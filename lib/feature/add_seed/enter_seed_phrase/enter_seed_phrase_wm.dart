@@ -29,14 +29,11 @@ class EnterSeedWmParams {
 
 /// [WidgetModel] для [EnterSeedPhraseWidget]
 @injectable
-class EnterSeedPhraseWidgetModel
-    extends CustomWidgetModel<EnterSeedPhraseWidget, EnterSeedPhraseModel> {
+class EnterSeedPhraseWidgetModel extends InjectedWidgetModel<
+    EnterSeedPhraseWidget, EnterSeedPhraseModel, EnterSeedWmParams> {
   EnterSeedPhraseWidgetModel(
     super.model,
-    @factoryParam this._wmParams,
   );
-
-  final EnterSeedWmParams _wmParams;
 
   static final _log = Logger('EnterSeedPhraseWidgetModel');
 
@@ -300,7 +297,7 @@ class EnterSeedPhraseWidgetModel
   }
 
   void _next(String phrase) {
-    if (_wmParams.isOnboarding) {
+    if (wmParams.value.isOnboarding) {
       context.compassContinue(
         CreateSeedOnboardingPasswordRouteData(
           seedPhrase: phrase,
@@ -313,7 +310,7 @@ class EnterSeedPhraseWidgetModel
           seedPhrase: phrase,
           mnemonicType: _mnemonicType,
           type: SeedAddType.import,
-          name: _wmParams.seedName,
+          name: wmParams.value.seedName,
         ),
       );
     }

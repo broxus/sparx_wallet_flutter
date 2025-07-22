@@ -1,7 +1,7 @@
 import 'package:app/core/wm/custom_wm.dart';
 import 'package:app/feature/browser_v1/approvals_listener/actions/widgets/website_info/website_info_model.dart';
 import 'package:app/feature/browser_v1/approvals_listener/actions/widgets/website_info/website_info_widget.dart';
-import 'package:elementary_helper/elementary_helper.dart';
+import 'package:flutter/foundation.dart';
 import 'package:injectable/injectable.dart';
 import 'package:ui_components_lib/ui_components_lib.dart';
 
@@ -16,21 +16,23 @@ class WebsiteInfoWmParams {
 }
 
 @injectable
-class WebsiteInfoWidgetModel
-    extends CustomWidgetModel<WebsiteInfoWidget, WebsiteInfoModel> {
+class WebsiteInfoWidgetModel extends InjectedWidgetModel<WebsiteInfoWidget,
+    WebsiteInfoModel, WebsiteInfoWmParams> {
   WebsiteInfoWidgetModel(
     super.model,
-    @factoryParam this._wmParams,
   );
 
-  final WebsiteInfoWmParams _wmParams;
+  late final _uri = createWmParamsNotifier(
+    (it) => it.uri,
+  );
 
-  late final _faviconUrl =
-      createNotifier<String>(_wmParams.iconUrl?.toString());
+  late final _faviconUrl = createWmParamsNotifier(
+    (it) => it.iconUrl?.toString(),
+  );
 
-  Uri get uri => _wmParams.uri;
+  ValueListenable<Uri> get uri => _uri;
 
-  ListenableState<String> get faviconUrl => _faviconUrl;
+  ValueListenable<String?> get faviconUrl => _faviconUrl;
 
   ThemeStyleV2 get theme => context.themeStyleV2;
 
@@ -38,16 +40,16 @@ class WebsiteInfoWidgetModel
   void initWidgetModel() {
     super.initWidgetModel();
 
-    if (_wmParams.iconUrl == null) {
+    if (_faviconUrl.value == null) {
       _getFaviconUrl();
     }
   }
 
   Future<void> _getFaviconUrl() async {
-    final url = await model.getFaviconUrl(_wmParams.uri);
+    final url = await model.getFaviconUrl(_uri.value);
 
     if (url != null) {
-      _faviconUrl.accept(url);
+      _faviconUrl.value = url;
     }
   }
 }

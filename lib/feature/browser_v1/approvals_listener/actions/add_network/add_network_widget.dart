@@ -11,7 +11,8 @@ import 'package:ui_components_lib/v2/ui_components_lib_v2.dart';
 
 const _encoder = JsonEncoder.withIndent('  ');
 
-class AddNetworkWidget extends InjectedElementaryWidget<AddNetworkWidgetModel> {
+class AddNetworkWidget extends InjectedElementaryParametrizedWidget<
+    AddNetworkWidgetModel, AddNetworkWmParams> {
   AddNetworkWidget({
     required Uri origin,
     required AddNetwork network,
@@ -41,7 +42,12 @@ class AddNetworkWidget extends InjectedElementaryWidget<AddNetworkWidgetModel> {
             child: SeparatedColumn(
               spacing: DimensSizeV2.d12,
               children: [
-                WebsiteInfoWidget(uri: wm.origin),
+                ValueListenableBuilder(
+                  valueListenable: wm.origin,
+                  builder: (_, origin, __) {
+                    return WebsiteInfoWidget(uri: origin);
+                  },
+                ),
                 PrimaryCard(
                   color: theme.colors.background2,
                   borderRadius: BorderRadius.circular(
@@ -51,30 +57,35 @@ class AddNetworkWidget extends InjectedElementaryWidget<AddNetworkWidgetModel> {
                     vertical: DimensSizeV2.d24,
                     horizontal: DimensSizeV2.d16,
                   ),
-                  child: SeparatedColumn(
-                    spacing: DimensSizeV2.d16,
-                    crossAxisAlignment: CrossAxisAlignment.stretch,
-                    children: [
-                      _Param(
-                        label: LocaleKeys.networkId.tr(),
-                        value: wm.network.networkId.toString(),
-                      ),
-                      _Param(
-                        label: LocaleKeys.networkName.tr(),
-                        value: wm.network.name,
-                      ),
-                      _Param(
-                        label: LocaleKeys.connectionData.tr(),
-                        value: _encoder.convert(wm.network.connection),
-                        isColumn: true,
-                      ),
-                      if (wm.network.config != null)
-                        _Param(
-                          label: LocaleKeys.networkConfig.tr(),
-                          value: _encoder.convert(wm.network.config),
-                          isColumn: true,
-                        ),
-                    ],
+                  child: ValueListenableBuilder(
+                    valueListenable: wm.network,
+                    builder: (_, network, __) {
+                      return SeparatedColumn(
+                        spacing: DimensSizeV2.d16,
+                        crossAxisAlignment: CrossAxisAlignment.stretch,
+                        children: [
+                          _Param(
+                            label: LocaleKeys.networkId.tr(),
+                            value: network.networkId.toString(),
+                          ),
+                          _Param(
+                            label: LocaleKeys.networkName.tr(),
+                            value: network.name,
+                          ),
+                          _Param(
+                            label: LocaleKeys.connectionData.tr(),
+                            value: _encoder.convert(network.connection),
+                            isColumn: true,
+                          ),
+                          if (network.config != null)
+                            _Param(
+                              label: LocaleKeys.networkConfig.tr(),
+                              value: _encoder.convert(network.config),
+                              isColumn: true,
+                            ),
+                        ],
+                      );
+                    },
                   ),
                 ),
                 ValueListenableBuilder(

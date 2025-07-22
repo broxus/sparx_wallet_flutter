@@ -23,25 +23,35 @@ class ChangeNetworkWmParams {
 }
 
 @injectable
-class ChangeNetworkWidgetModel
-    extends CustomWidgetModel<ChangeNetworkWidget, ChangeNetworkModel> {
+class ChangeNetworkWidgetModel extends InjectedWidgetModel<ChangeNetworkWidget,
+    ChangeNetworkModel, ChangeNetworkWmParams> {
   ChangeNetworkWidgetModel(
     super.model,
-    @factoryParam this._wmParams,
   );
 
-  final ChangeNetworkWmParams _wmParams;
+  late final _origin = createWmParamsNotifier(
+    (it) => it.origin,
+  );
 
-  Uri get origin => _wmParams.origin;
+  late final _networkId = createWmParamsNotifier(
+    (it) => it.networkId,
+  );
 
-  int get networkId => _wmParams.networkId;
+  late final _connections = createWmParamsNotifier(
+    (it) => it.connections,
+  );
 
-  List<ConnectionData> get connections => _wmParams.connections;
+  late final _connection = createWmParamsNotifier(
+    (it) => it.connections.first,
+  );
+
+  ValueListenable<Uri> get origin => _origin;
+
+  ValueListenable<int> get networkId => _networkId;
+
+  ValueListenable<List<ConnectionData>> get connections => _connections;
 
   late final _loading = createValueNotifier(false);
-  late final _connection = createValueNotifier<ConnectionData>(
-    _wmParams.connections.first,
-  );
 
   ValueListenable<bool> get loading => _loading;
 

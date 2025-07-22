@@ -29,8 +29,8 @@ Future<void> showCheckPhraseDialog(
   );
 }
 
-class ContentCheckPhrase
-    extends InjectedElementaryWidget<CheckPhraseWidgetModel> {
+class ContentCheckPhrase extends InjectedElementaryParametrizedWidget<
+    CheckPhraseWidgetModel, CheckPhraseWmParams> {
   const ContentCheckPhrase({
     required CheckPhraseWmParams params,
     super.key,

@@ -26,8 +26,8 @@ class SplashScreenWidgetModel
 
   @override
   void initWidgetModel() {
-    _init();
     super.initWidgetModel();
+    _init();
   }
 
   Future<void> _init() async {

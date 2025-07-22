@@ -6,6 +6,7 @@ import 'package:app/feature/wallet/wallet.dart';
 import 'package:app/feature/wallet/widgets/account_card/account_card_model.dart';
 import 'package:app/generated/generated.dart';
 import 'package:elementary_helper/elementary_helper.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';
 import 'package:injectable/injectable.dart';
 import 'package:nekoton_repository/nekoton_repository.dart' hide Message;
@@ -13,41 +14,36 @@ import 'package:rxdart/rxdart.dart';
 
 const _withdrawUpdateDebounce = Duration(seconds: 3);
 
-class AccountCardWmParams {
-  const AccountCardWmParams({
-    required this.account,
-  });
-
-  final KeyAccount account;
-}
-
 @injectable
 class AccountCardWidgetModel
-    extends CustomWidgetModel<AccountCard, AccountCardModel> {
+    extends InjectedWidgetModel<AccountCard, AccountCardModel, KeyAccount> {
   AccountCardWidgetModel(
     super.model,
-    @factoryParam this.account,
   );
 
-  final KeyAccount account;
+  late final _error = createValueNotifier<Object?>(null);
+  late final _isLoading = createValueNotifier<bool>(false);
+  late final ValueListenable<KeyAccount> currentAccount =
+      createWmParamsNotifier((it) => it);
 
-  late final _error = createNotifier<Object>();
-  late final _isLoading = createNotifier<bool>(false);
   late final _balance = createNotifierFromStream(
-    model.getBalanceStream(account.address),
+    wmParams.flatMap(
+      (account) => model.getBalanceStream(account.address),
+    ),
   );
 
   StreamSubscription<TonWalletState?>? _walletSubscription;
   StreamSubscription<void>? _withdrawRequestSubscription;
   ListenableState<Money> get balance => _balance;
-  ListenableState<Object> get error => _error;
-  ListenableState<bool> get isLoading => _isLoading;
+  ValueListenable<Object?> get error => _error;
+  ValueListenable<bool> get isLoading => _isLoading;
 
   @override
   void initWidgetModel() {
     super.initWidgetModel();
-    _walletSubscription =
-        model.getWalletStateStream(account.address).listen(_onWalletState);
+    _walletSubscription = model
+        .getWalletStateStream(currentAccount.value.address)
+        .listen(_onWalletState);
   }
 
   @override
@@ -59,32 +55,32 @@ class AccountCardWidgetModel
 
   Future<void> retry() async {
     try {
-      _isLoading.accept(true);
-      await model.retrySubscriptions(account.address);
+      _isLoading.value = true;
+      await model.retrySubscriptions(currentAccount.value.address);
     } finally {
-      _isLoading.accept(false);
+      _isLoading.value = false;
     }
   }
 
   void onCopy() {
     Clipboard.setData(
-      ClipboardData(text: account.address.address),
+      ClipboardData(text: currentAccount.value.address.address),
     );
     model.showMessage(
       Message.successful(
         message: LocaleKeys.valueCopiedExclamation.tr(
-          args: [account.address.toEllipseString()],
+          args: [currentAccount.value.address.toEllipseString()],
         ),
       ),
     );
   }
 
   void _onWalletState(TonWalletState? walletState) {
-    _error.accept(walletState?.error);
+    _error.value = walletState?.error;
 
     _withdrawRequestSubscription?.cancel();
     _withdrawRequestSubscription = walletState?.wallet?.fieldUpdatesStream
         .debounceTime(_withdrawUpdateDebounce)
-        .listen((_) => model.tryUpdateWithdraws(account.address));
+        .listen((_) => model.tryUpdateWithdraws(currentAccount.value.address));
   }
 }

@@ -34,25 +34,24 @@ class CancelUnstakingPageWmParams {
 }
 
 @injectable
-class CancelUnstakingPageWidgetModel extends CustomWidgetModel<
-    CancelUnstakingPageWidget, CancelUnstakingPageModel> {
+class CancelUnstakingPageWidgetModel extends InjectedWidgetModel<
+    CancelUnstakingPageWidget,
+    CancelUnstakingPageModel,
+    CancelUnstakingPageWmParams> {
   CancelUnstakingPageWidgetModel(
     super.model,
-    @factoryParam this._wmParams,
   );
-
-  final CancelUnstakingPageWmParams _wmParams;
 
   late final _asset = createNotifier<TokenContractAsset>();
 
-  StEverWithdrawRequest get request => _wmParams.request;
-  PublicKey get accountKey => _wmParams.accountKey;
-  double get exchangeRate => _wmParams.exchangeRate;
-  int get withdrawHours => _wmParams.withdrawHours;
-  Currency get stakeCurrency => _wmParams.stakeCurrency;
-  BigInt get attachedFee => _wmParams.attachedFee;
-  Fixed? get tokenPrice => _wmParams.tokenPrice;
-  Fixed? get everPrice => _wmParams.everPrice;
+  StEverWithdrawRequest get request => wmParams.value.request;
+  PublicKey get accountKey => wmParams.value.accountKey;
+  double get exchangeRate => wmParams.value.exchangeRate;
+  int get withdrawHours => wmParams.value.withdrawHours;
+  Currency get stakeCurrency => wmParams.value.stakeCurrency;
+  BigInt get attachedFee => wmParams.value.attachedFee;
+  Fixed? get tokenPrice => wmParams.value.tokenPrice;
+  Fixed? get everPrice => wmParams.value.everPrice;
 
   ListenableState<TokenContractAsset> get asset => _asset;
 
@@ -77,30 +76,30 @@ class CancelUnstakingPageWidgetModel extends CustomWidgetModel<
   Future<void> tryCancelUnstaking() async {
     final agreed = await showVerifyCancelUnstakingSheet(
       context: context,
-      stakeCurrency: _wmParams.stakeCurrency,
+      stakeCurrency: wmParams.value.stakeCurrency,
     );
     if (!agreed) return;
 
-    final payload = await model.getPayload(_wmParams.request.nonce);
+    final payload = await model.getPayload(wmParams.value.request.nonce);
 
     if (!context.mounted) return;
 
     final result = await contextSafe?.compassPush<bool>(
       TonWalletSendRouteData(
-        address: _wmParams.request.accountAddress,
+        address: wmParams.value.request.accountAddress,
         amount: model.staking.stakeRemovePendingWithdrawAttachedFee,
         payload: payload,
         destination: model.staking.stakingValutAddress,
-        publicKey: _wmParams.accountKey,
+        publicKey: wmParams.value.accountKey,
         resultMessage: LocaleKeys.stEverReturnInMinutes.tr(
-          args: [_wmParams.stakeCurrency.symbol],
+          args: [wmParams.value.stakeCurrency.symbol],
         ),
         popOnComplete: true,
       ),
     );
 
     if (result ?? false) {
-      model.acceptCancelledWithdraw(_wmParams.request);
+      model.acceptCancelledWithdraw(wmParams.value.request);
       contextSafe?.compassPointNamed(
         const WalletRouteData(),
       );

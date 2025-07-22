@@ -11,8 +11,8 @@ import 'package:nekoton_repository/nekoton_repository.dart';
 import 'package:ui_components_lib/ui_components_lib.dart';
 import 'package:ui_components_lib/v2/widgets/widgets.dart';
 
-class CancelUnstakingPageWidget
-    extends InjectedElementaryWidget<CancelUnstakingPageWidgetModel> {
+class CancelUnstakingPageWidget extends InjectedElementaryParametrizedWidget<
+    CancelUnstakingPageWidgetModel, CancelUnstakingPageWmParams> {
   CancelUnstakingPageWidget({
     required StEverWithdrawRequest request,
     required PublicKey accountKey,

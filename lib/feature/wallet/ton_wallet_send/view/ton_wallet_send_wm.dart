@@ -6,23 +6,20 @@ import 'package:app/feature/wallet/ton_wallet_send/data/data.dart';
 import 'package:app/feature/wallet/ton_wallet_send/data/ton_wallet_send_state.dart';
 import 'package:app/feature/wallet/ton_wallet_send/route.dart';
 import 'package:app/feature/wallet/ton_wallet_send/view/ton_wallet_send_model.dart';
+import 'package:app/feature/wallet/ton_wallet_send/view/ton_wallet_send_widget.dart';
 import 'package:app/generated/generated.dart';
 import 'package:app/utils/utils.dart';
-import 'package:elementary/elementary.dart';
 import 'package:elementary_helper/elementary_helper.dart';
 import 'package:injectable/injectable.dart';
 import 'package:logging/logging.dart';
 import 'package:nekoton_repository/nekoton_repository.dart' hide Message;
 
 @injectable
-class TonWalletSendWidgetModel
-    extends CustomWidgetModel<ElementaryWidget, TonWalletSendModel> {
+class TonWalletSendWidgetModel extends InjectedWidgetModel<TonWalletSendWidget,
+    TonWalletSendModel, TonWalletSendRouteData> {
   TonWalletSendWidgetModel(
     super.model,
-    @factoryParam this._data,
   );
-
-  final TonWalletSendRouteData _data;
 
   static final _logger = Logger('TonWalletSendWidgetModel');
 
@@ -32,9 +29,9 @@ class TonWalletSendWidgetModel
   late final _error = createNotifier<String>();
   late final _state = createNotifier(const TonWalletSendState.ready());
 
-  late final KeyAccount? account = model.getAccount(_data.address);
+  late final KeyAccount? account = model.getAccount(wmParams.value.address);
   late final Money amount =
-      Money.fromBigIntWithCurrency(_data.amount, currency);
+      Money.fromBigIntWithCurrency(wmParams.value.amount, currency);
 
   Currency get currency => model.currency;
 
@@ -48,17 +45,17 @@ class TonWalletSendWidgetModel
 
   ListenableState<TonWalletSendState> get state => _state;
 
-  PublicKey get publicKey => _data.publicKey;
+  PublicKey get publicKey => wmParams.value.publicKey;
 
-  Address get destination => _data.destination;
+  Address get destination => wmParams.value.destination;
 
-  bool get popOnComplete => _data.popOnComplete;
+  bool get popOnComplete => wmParams.value.popOnComplete;
 
-  BigInt? get attachedAmount => _data.attachedAmount;
+  BigInt? get attachedAmount => wmParams.value.attachedAmount;
 
-  String? get comment => _data.comment;
+  String? get comment => wmParams.value.comment;
 
-  String? get payload => _data.payload;
+  String? get payload => wmParams.value.payload;
 
   @override
   void initWidgetModel() {
@@ -70,7 +67,7 @@ class TonWalletSendWidgetModel
     UnsignedMessage? unsignedMessage;
     try {
       _isLoading.accept(true);
-      final data = _data;
+      final data = wmParams.value;
 
       final resultMessage =
           data.resultMessage ?? LocaleKeys.transactionSentSuccessfully.tr();
@@ -124,7 +121,7 @@ class TonWalletSendWidgetModel
     UnsignedMessage? unsignedMessage;
     try {
       _isLoading.accept(true);
-      final data = _data;
+      final data = wmParams.value;
 
       final walletState = await model.getWalletState(data.address);
       if (walletState.hasError) {

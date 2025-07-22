@@ -9,8 +9,8 @@ import 'package:lucide_icons_flutter/lucide_icons.dart';
 import 'package:ui_components_lib/components/button/app_bar_back_button.dart';
 import 'package:ui_components_lib/ui_components_lib.dart';
 
-class CreateBrowserGroupScreen
-    extends InjectedElementaryWidget<CreateBrowserGroupScreenWidgetModel> {
+class CreateBrowserGroupScreen extends InjectedElementaryParametrizedWidget<
+    CreateBrowserGroupScreenWidgetModel, String?> {
   const CreateBrowserGroupScreen({
     String? tabId,
     super.key,
@@ -60,21 +60,20 @@ class CreateBrowserGroupScreen
                         ],
                       ),
                     ),
-                    if (wm.tabNotifier != null)
-                      Align(
-                        alignment: Alignment.topLeft,
-                        child: Padding(
-                          padding: const EdgeInsets.only(top: DimensSizeV2.d28),
-                          child: SizedBox(
-                            width: DimensSizeV2.d168,
-                            height: DimensSizeV2.d200,
-                            child: BrowserTabsListItemBody(
-                              tabNotifier: wm.tabNotifier!,
-                              screenShotState: wm.screenShotState,
-                            ),
+                    Align(
+                      alignment: Alignment.topLeft,
+                      child: Padding(
+                        padding: const EdgeInsets.only(top: DimensSizeV2.d28),
+                        child: SizedBox(
+                          width: DimensSizeV2.d168,
+                          height: DimensSizeV2.d200,
+                          child: BrowserTabsListItemBody(
+                            tabNotifier: wm.tabNotifier,
+                            screenShotState: wm.screenShotState,
                           ),
                         ),
                       ),
+                    ),
                   ],
                 ),
                 Positioned(

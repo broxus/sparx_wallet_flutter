@@ -9,7 +9,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_inappwebview/flutter_inappwebview.dart';
 import 'package:ui_components_lib/v2/ui_components_lib_v2.dart';
 
-class BrowserPage extends InjectedElementaryWidget<BrowserPageWidgetModel> {
+class BrowserPage extends InjectedElementaryParametrizedWidget<
+    BrowserPageWidgetModel, BrowserPageWmParams> {
   BrowserPage({
     required ValueChanged<CustomWebViewController> onCreate,
     required ValueChanged<int> onWebPageScrollChanged,

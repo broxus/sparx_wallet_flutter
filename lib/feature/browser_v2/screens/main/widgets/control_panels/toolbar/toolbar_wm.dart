@@ -22,8 +22,8 @@ class ToolbarWidgetModel extends CustomWidgetModel<Toolbar, ToolbarModel> {
 
   @override
   void initWidgetModel() {
-    model.controlState.addListener(_handleControlData);
     super.initWidgetModel();
+    model.controlState.addListener(_handleControlData);
   }
 
   @override

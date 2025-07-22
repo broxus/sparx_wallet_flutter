@@ -9,8 +9,8 @@ import 'package:nekoton_repository/nekoton_repository.dart';
 import 'package:ui_components_lib/ui_components_lib.dart';
 import 'package:ui_components_lib/v2/ui_components_lib_v2.dart';
 
-class NftItemPageWidget
-    extends InjectedElementaryWidget<NftItemPageWidgetModel> {
+class NftItemPageWidget extends InjectedElementaryParametrizedWidget<
+    NftItemPageWidgetModel, NftItemWmParams> {
   NftItemPageWidget({
     required Address address,
     required Address collection,

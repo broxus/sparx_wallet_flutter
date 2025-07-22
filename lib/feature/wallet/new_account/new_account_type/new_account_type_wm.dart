@@ -10,6 +10,7 @@ import 'package:app/feature/wallet/new_account/new_account_type/new_account_type
 import 'package:app/feature/wallet/route.dart';
 import 'package:collection/collection.dart';
 import 'package:elementary_helper/elementary_helper.dart';
+import 'package:flutter/foundation.dart';
 import 'package:injectable/injectable.dart';
 import 'package:nekoton_repository/nekoton_repository.dart';
 import 'package:ui_components_lib/v2/ui_components_lib_v2.dart';
@@ -25,14 +26,11 @@ class NewAccountTypeWmParams {
 }
 
 @injectable
-class NewAccountTypeWidgetModel
-    extends CustomWidgetModel<NewAccountTypeWidget, NewAccountTypeModel> {
+class NewAccountTypeWidgetModel extends InjectedWidgetModel<
+    NewAccountTypeWidget, NewAccountTypeModel, NewAccountTypeWmParams> {
   NewAccountTypeWidgetModel(
     super.model,
-    @factoryParam this._wmParams,
   );
-
-  final NewAccountTypeWmParams _wmParams;
 
   late final controller = createTextEditingController();
   late final availableTypes = List<WalletType>.from(
@@ -77,9 +75,12 @@ class NewAccountTypeWidgetModel
       model.transport.isHmstr ||
       model.transport.isTon;
 
-  Set<WalletType> get disabledWalletTypes => _wmParams.password == null
-      ? model.getCreatedAccountTypes(_wmParams.publicKey).toSet()
-      : {};
+  late final ValueListenable<Set<WalletType>> disabledWalletTypes =
+      createWmParamsNotifier(
+    (it) => it.password == null
+        ? model.getCreatedAccountTypes(it.publicKey).toSet()
+        : {},
+  );
 
   String getWalletName(WalletType walletType) =>
       model.transport.defaultAccountName(walletType);
@@ -93,16 +94,16 @@ class NewAccountTypeWidgetModel
     final walletType = selected.value!;
     final name = controller.text;
 
-    if (disabledWalletTypes.contains(walletType)) return;
+    if (disabledWalletTypes.value.contains(walletType)) return;
 
     try {
       _loading.accept(true);
 
       final accountAddress = await model.createAccount(
         walletType: walletType,
-        publicKey: _wmParams.publicKey,
+        publicKey: wmParams.value.publicKey,
         name: name.isEmpty ? null : name,
-        password: _wmParams.password,
+        password: wmParams.value.password,
       );
 
       if (contextSafe != null) {

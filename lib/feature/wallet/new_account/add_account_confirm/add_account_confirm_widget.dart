@@ -8,8 +8,8 @@ import 'package:lucide_icons_flutter/lucide_icons.dart';
 import 'package:nekoton_repository/nekoton_repository.dart';
 import 'package:ui_components_lib/v2/ui_components_lib_v2.dart';
 
-class AddAccountConfirmWidget
-    extends InjectedElementaryWidget<AddAccountConfirmWidgetModel> {
+class AddAccountConfirmWidget extends InjectedElementaryParametrizedWidget<
+    AddAccountConfirmWidgetModel, AddAccountConfirmWmParams> {
   AddAccountConfirmWidget({
     required PublicKey publicKey,
     required String seedName,

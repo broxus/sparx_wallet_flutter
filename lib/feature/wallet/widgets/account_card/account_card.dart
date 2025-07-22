@@ -10,7 +10,8 @@ import 'package:ui_components_lib/ui_components_lib.dart';
 import 'package:ui_components_lib/v2/ui_components_lib_v2.dart';
 
 /// Card widget that displays information about account.
-class AccountCard extends InjectedElementaryWidget<AccountCardWidgetModel> {
+class AccountCard extends InjectedElementaryParametrizedWidget<
+    AccountCardWidgetModel, KeyAccount> {
   const AccountCard({
     required KeyAccount account,
     super.key,
@@ -18,20 +19,27 @@ class AccountCard extends InjectedElementaryWidget<AccountCardWidgetModel> {
 
   @override
   Widget build(AccountCardWidgetModel wm) {
-    return DoubleSourceBuilder(
-      firstSource: wm.error,
-      secondSource: wm.isLoading,
-      builder: (_, error, isLoading) {
+    return MultiListenerRebuilder(
+      listenableList: [
+        wm.error,
+        wm.isLoading,
+        wm.currentAccount,
+      ],
+      builder: (_) {
+        final error = wm.error.value;
+        final isLoading = wm.isLoading.value;
+        final currentAccount = wm.currentAccount.value;
+
         if (error != null) {
           return WalletSubscribeErrorWidget(
             error: error,
-            isLoadingError: isLoading ?? false,
+            isLoadingError: isLoading,
             onRetryPressed: wm.retry,
           );
         }
 
         return _AccountCard(
-          account: wm.account,
+          account: currentAccount,
           balance: wm.balance,
           onCopy: wm.onCopy,
         );

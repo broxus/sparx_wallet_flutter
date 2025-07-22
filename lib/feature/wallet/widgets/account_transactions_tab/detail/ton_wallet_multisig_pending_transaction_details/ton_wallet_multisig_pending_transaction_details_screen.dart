@@ -5,6 +5,7 @@ import 'package:app/feature/wallet/widgets/account_transactions_tab/detail/detai
 import 'package:app/feature/wallet/widgets/account_transactions_tab/detail/ton_wallet_multisig_pending_transaction_details/ton_wallet_multisig_pending_transaction_details_screen_wm.dart';
 import 'package:app/feature/wallet/widgets/account_transactions_tab/widgets/ton_wallet_transaction_status_body.dart';
 import 'package:app/generated/generated.dart';
+import 'package:elementary_helper/elementary_helper.dart';
 import 'package:flutter/material.dart';
 import 'package:lucide_icons_flutter/lucide_icons.dart';
 import 'package:nekoton_repository/nekoton_repository.dart';
@@ -16,8 +17,9 @@ import 'package:ui_components_lib/v2/widgets/buttons/accent_button.dart';
 import 'package:ui_components_lib/v2/widgets/buttons/button_shape.dart';
 
 class TonWalletMultisigPendingTransactionDetailsScreen
-    extends InjectedElementaryWidget<
-        TonWalletMultisigPendingTransactionDetailsScreenWidgetModel> {
+    extends InjectedElementaryParametrizedWidget<
+        TonWalletMultisigPendingTransactionDetailsScreenWidgetModel,
+        TonWalletMultisigPendingTransactionDetailsWmParams> {
   TonWalletMultisigPendingTransactionDetailsScreen({
     required TonWalletMultisigPendingTransaction transaction,
     required Fixed price,
@@ -45,46 +47,103 @@ class TonWalletMultisigPendingTransactionDetailsScreen
         child: SeparatedColumn(
           spacing: DimensSize.d12,
           children: [
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: DimensSizeV2.d16),
-              child: AccountInfo(account: wm.account),
+            ValueListenableBuilder(
+              valueListenable: wm.account,
+              builder: (_, account, __) {
+                return Padding(
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: DimensSizeV2.d16,
+                  ),
+                  child: AccountInfo(account: account),
+                );
+              },
             ),
-            WalletTransactionDetailsDefaultBody(
-              date: wm.date,
-              isIncoming: wm.isIncoming,
-              status: TonWalletTransactionStatus.waitingConfirmation,
-              fee: wm.transactionFee,
-              value: wm.transactionValue,
-              hash: wm.transactionHash,
-              recipientOrSender: wm.transactionAddress,
-              comment: wm.transactionComment,
-              info: wm.info,
-              type: LocaleKeys.multisigWord.tr(),
-              tonIconPath: wm.tonIconPath,
-              tokenIconPath: wm.tonIconPath,
-              price: wm.price,
-              expiresAt: wm.expiresAt,
-              transactionId: wm.safeHexString,
+            MultiListenerRebuilder(
+              listenableList: [
+                wm.date,
+                wm.isIncoming,
+                wm.transactionFee,
+                wm.transactionValue,
+                wm.transactionHash,
+                wm.transactionAddress,
+                wm.transactionComment,
+                wm.info,
+                wm.tonIconPath,
+                wm.price,
+                wm.expiresAt,
+                wm.safeHexString,
+              ],
+              builder: (context) {
+                final date = wm.date.value;
+                final isIncoming = wm.isIncoming.value;
+                final fee = wm.transactionFee.value;
+                final value = wm.transactionValue.value;
+                final hash = wm.transactionHash.value;
+                final address = wm.transactionAddress.value;
+                final comment = wm.transactionComment.value;
+                final info = wm.info.value;
+                final tonIconPath = wm.tonIconPath.value;
+                final price = wm.price.value;
+                final expiresAt = wm.expiresAt.value;
+                final safeHexString = wm.safeHexString.value;
+
+                return WalletTransactionDetailsDefaultBody(
+                  date: date,
+                  isIncoming: isIncoming,
+                  status: TonWalletTransactionStatus.waitingConfirmation,
+                  fee: fee,
+                  value: value,
+                  hash: hash,
+                  recipientOrSender: address,
+                  comment: comment,
+                  info: info,
+                  type: LocaleKeys.multisigWord.tr(),
+                  tonIconPath: tonIconPath,
+                  tokenIconPath: tonIconPath,
+                  price: price,
+                  expiresAt: expiresAt,
+                  transactionId: safeHexString,
+                );
+              },
             ),
-            TonWalletTransactionCustodiansDetails(
-              confirmations: wm.confirmations,
-              requiredConfirmations: wm.requiredConfirmations,
-              custodians: wm.custodians,
-              initiator: wm.initiator,
+            MultiListenerRebuilder(
+              listenableList: [
+                wm.confirmations,
+                wm.requiredConfirmations,
+                wm.custodians,
+                wm.initiator,
+              ],
+              builder: (context) {
+                final confirmations = wm.confirmations.value;
+                final requiredConfirmations = wm.requiredConfirmations.value;
+                final custodians = wm.custodians.value;
+                final initiator = wm.initiator.value;
+
+                return TonWalletTransactionCustodiansDetails(
+                  confirmations: confirmations,
+                  requiredConfirmations: requiredConfirmations,
+                  custodians: custodians,
+                  initiator: initiator,
+                );
+              },
             ),
             const SizedBox.shrink(),
-            if (wm.isCanConfirm)
-              Padding(
-                padding: const EdgeInsets.symmetric(
-                  horizontal: DimensSizeV2.d16,
-                ),
-                child: AccentButton(
-                  buttonShape: ButtonShape.pill,
-                  onPressed: wm.onPressedConfirm,
-                  title: LocaleKeys.confirmTransaction.tr(),
-                  icon: LucideIcons.check,
-                ),
-              ),
+            ValueListenableBuilder(
+              valueListenable: wm.isCanConfirm,
+              builder: (_, isCanConfirm, __) => isCanConfirm == true
+                  ? Padding(
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: DimensSizeV2.d16,
+                      ),
+                      child: AccentButton(
+                        buttonShape: ButtonShape.pill,
+                        onPressed: wm.onPressedConfirm,
+                        title: LocaleKeys.confirmTransaction.tr(),
+                        icon: LucideIcons.check,
+                      ),
+                    )
+                  : const SizedBox.shrink(),
+            ),
             const SizedBox(height: DimensSizeV2.d24),
           ],
         ),
