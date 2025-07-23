@@ -154,8 +154,10 @@ StakingInformation? _mapToStakingInformation(Map<String, dynamic>? info) {
     stakingRootContractAddress: Address(
       address: info['stakingRootContractAddress'] as String,
     ),
-    stakingValutAddress: Address(
-      address: info['stakingValutAddress'] as String,
+    stakingVaultAddress: Address(
+      // config typo workaround (stakingValutAddress -> stakingVaultAddress)
+      address: (info['stakingValutAddress'] as String?) ??
+          info['stakingVaultAddress'] as String,
     ),
     stakeDepositAttachedFee: BigInt.parse(
       info['stakeDepositAttachedFee'] as String,
