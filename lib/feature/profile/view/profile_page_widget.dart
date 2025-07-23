@@ -19,6 +19,7 @@ class ProfilePageWidget extends ElementaryWidget<ProfilePageWidgetModel> {
           appVersion: appVersion ?? '',
           isBiometryAvailable: wm.isBiometryAvailable,
           isBiometryEnabled: wm.isBiometryEnabled,
+          seed: wm.seed,
           onManageSeeds: wm.onManageSeeds,
           onExportSeed: wm.onExportSeed,
           onContactSupport: wm.onContactSupport,

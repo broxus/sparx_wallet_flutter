@@ -515,17 +515,6 @@ extension GetItInjectableX on _i174.GetIt {
           gh<_i771.NekotonRepository>(),
           gh<_i128.AppPermissionsService>(),
         ));
-    gh.factory<_i186.TonConnectJsBridge>(() => _i186.TonConnectJsBridge(
-          gh<_i128.TonConnectService>(),
-          gh<_i128.TonConnectStorageService>(),
-        ));
-    gh.lazySingleton<_i770.TonConnectHttpBridge>(
-        () => _i770.TonConnectHttpBridge(
-              gh<_i128.TonConnectService>(),
-              gh<_i128.AppLifecycleService>(),
-              gh<_i128.TonConnectStorageService>(),
-              gh<_i361.Dio>(),
-            ));
     gh.singleton<_i575.BiometryService>(() => _i575.BiometryService(
           gh<_i128.GeneralStorageService>(),
           gh<_i128.SecureStorageService>(),

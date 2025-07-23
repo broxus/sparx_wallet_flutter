@@ -12,6 +12,7 @@ import 'package:app/feature/profile/view/profile_page_model.dart';
 import 'package:app/feature/ton_connect/ton_connect.dart';
 import 'package:elementary_helper/elementary_helper.dart';
 import 'package:flutter/material.dart';
+import 'package:nekoton_repository/nekoton_repository.dart';
 
 const _faqUrl = 'https://docs.sparxwallet.com';
 const _legalUrl = 'https://l1.broxus.com/sparx/terms';
@@ -45,6 +46,8 @@ class ProfilePageWidgetModel
   ListenableState<bool> get isBiometryEnabled => _biometryEnabled;
 
   ListenableState<String> get appVersionState => _appVersionState;
+
+  ListenableState<Seed?> get seed => _seed;
 
   @override
   void initWidgetModel() {
