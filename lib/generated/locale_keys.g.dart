@@ -770,4 +770,13 @@ abstract class LocaleKeys {
   static const ledgerStepConfirmTxTitle = 'ledgerStepConfirmTxTitle';
   static const ledgerStepConfirmActionTitle = 'ledgerStepConfirmActionTitle';
   static const ledgerConnectedSuccessfully = 'ledgerConnectedSuccessfully';
+  static const operationNotSupported = 'operationNotSupported';
+  static const verify = 'verify';
+  static const verifyOnLedger = 'verifyOnLedger';
+  static const ledgerVerifyTitle = 'ledgerVerifyTitle';
+  static const ledgerVerifySubtitle = 'ledgerVerifySubtitle';
+  static const ledgerVerifyConfirmed = 'ledgerVerifyConfirmed';
+  static const ledgerVerifyCancelled = 'ledgerVerifyCancelled';
+  static const ledgerVerifyWaiting = 'ledgerVerifyWaiting';
+  static const importFromLedger = 'importFromLedger';
 }

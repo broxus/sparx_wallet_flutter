@@ -1,6 +1,7 @@
 import 'package:app/core/error_handler_factory.dart';
 import 'package:app/core/wm/custom_wm.dart';
 import 'package:app/di/di.dart';
+import 'package:app/feature/ledger/ledger.dart';
 import 'package:app/feature/loader_screen/loader_screen.dart';
 import 'package:app/feature/messenger/data/message.dart';
 import 'package:app/feature/profile/profile.dart';
@@ -19,11 +20,14 @@ SeedSettingsWidgetModel defaultSeedSettingsWidgetModelFactory(
         inject(),
         inject(),
         inject(),
+        inject(),
+        inject(),
       ),
     );
 
 class SeedSettingsWidgetModel
-    extends CustomWidgetModel<SeedSettingsWidget, SeedSettingsModel> {
+    extends CustomWidgetModel<SeedSettingsWidget, SeedSettingsModel>
+    with BleAvailabilityMixin {
   SeedSettingsWidgetModel(super.model);
 
   ThemeStyleV2 get theme => context.themeStyleV2;
@@ -63,18 +67,28 @@ class SeedSettingsWidgetModel
     final key = model.getMasterKey(widget.publicKey);
     if (key == null) return;
 
+    if (key.isLedger) {
+      final isAvailable = await checkBluetoothAvailability();
+      if (!isAvailable) return;
+    }
+
     try {
       if (key.isLegacy) {
         await _triggerAddingAccounts(widget.publicKey);
         return;
       }
 
-      // TODO(komarov): ledger support
-      final password = await showEnterPasswordSheet(
-        context: context,
-        publicKey: widget.publicKey,
-      );
-      if (password == null) return;
+      String? password;
+      if (!key.isLedger) {
+        if (contextSafe == null) return;
+
+        password = await showEnterPasswordSheet(
+          context: contextSafe!,
+          publicKey: widget.publicKey,
+        );
+
+        if (password == null) return;
+      }
 
       await _triggerDerivingKeys(
         publicKey: widget.publicKey,
@@ -109,7 +123,7 @@ class SeedSettingsWidgetModel
 
   Future<void> _triggerDerivingKeys({
     required PublicKey publicKey,
-    required String password,
+    String? password,
   }) async {
     final hideLoader = showLoaderScreen(
       context,

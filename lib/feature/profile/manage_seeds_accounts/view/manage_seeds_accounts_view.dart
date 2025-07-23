@@ -1,8 +1,11 @@
 // ignore_for_file: deprecated_member_use_from_same_package
 
 import 'package:app/app/router/router.dart';
+import 'package:app/feature/ledger/ledger.dart';
 import 'package:app/feature/profile/manage_seeds_accounts/manage_seeds_accounts.dart';
+import 'package:app/feature/profile/manage_seeds_accounts/route.dart';
 import 'package:app/feature/profile/seed_detail/route.dart';
+import 'package:app/feature/profile/widgets/switch_to_seed_sheet/switch_to_seed_sheet.dart';
 import 'package:app/generated/generated.dart';
 import 'package:app/v1/feature/add_seed/enter_seed_name/enter_seed_name.dart';
 import 'package:app/v1/feature/add_seed/enter_seed_name/route.dart';
@@ -89,6 +92,19 @@ class ManageSeedsAccountsView extends StatelessWidget {
           context.compassContinue(
             const EnterSeedNameRouteData(command: EnterSeedNameCommand.import),
           );
+        case SelectAddSeedType.ledger:
+          final pk = await showImportLedgerSheet(context);
+          if (pk != null && context.mounted) {
+            await showSwitchToSeedSheet(context: context, publicKey: pk)
+                .whenComplete(() {
+              try {
+                if (!context.mounted) return;
+                context.compassPointNamed(
+                  const ManageSeedsAccountsRouteData(),
+                );
+              } catch (_) {}
+            });
+          }
       }
     }
   }

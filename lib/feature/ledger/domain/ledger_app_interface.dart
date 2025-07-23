@@ -258,7 +258,7 @@ class LedgerAppInterface {
 
       if (context.address != null) {
         if (context.address!.length != 64) {
-          throw LedgerException('Invalid address format');
+          throw const LedgerException('Invalid address format');
         }
 
         metadata |= _flagWithAddress;
@@ -298,7 +298,7 @@ class LedgerAppInterface {
       }
 
       if (response == null) {
-        throw LedgerException('No response received from Ledger');
+        throw const LedgerException('No response received from Ledger');
       }
 
       if (!response.isOk) {
@@ -324,7 +324,9 @@ class LedgerAppInterface {
       await device.tryConnect();
 
       if (!device.isConnected) {
-        completer.completeError(LedgerException('Device connection lost'));
+        completer.completeError(
+          const LedgerException('Device connection lost'),
+        );
         return;
       }
 

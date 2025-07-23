@@ -731,12 +731,21 @@
   "pairLedgerButtonTitle": "Pair with Ledger",
   "pairLedgerButtonSubtitle": "Hardware module, Bluetooth",
   "ledgerPermissionsError": "Bluetooth permissions are not granted. Please, allow Bluetooth permissions in the app settings.",
-  "bluetoothIsOff": "Bluetooth is turned off on device",
+  "bluetoothIsOff": "Bluetooth is turned off on the device",
   "availableDevices": "Available Devices",
   "connectLedger": "Connect Ledger",
   "ledgerStepConnectTitle": "Connect Ledger to your device",
   "ledgerStepAppTitle": "Unlock and open Tycho App",
   "ledgerStepConfirmTxTitle": "Confirm your transaction on Ledger",
   "ledgerStepConfirmActionTitle": "Confirm action on Ledger",
-  "ledgerConnectedSuccessfully": "Ledger connected successfully"
+  "ledgerConnectedSuccessfully": "Ledger connected successfully",
+  "operationNotSupported": "Operation is not supported",
+  "verify": "Verify",
+  "verifyOnLedger": "Verify on Ledger",
+  "ledgerVerifyTitle": "Verify account address",
+  "ledgerVerifySubtitle": "Compare the address below with the one shown on your Ledger and confirm its validity on your device",
+  "ledgerVerifyConfirmed": "Confirmed",
+  "ledgerVerifyCancelled": "Cancelled",
+  "ledgerVerifyWaiting": "Waiting for confirmation",
+  "importFromLedger": "Import from Ledger"
 }

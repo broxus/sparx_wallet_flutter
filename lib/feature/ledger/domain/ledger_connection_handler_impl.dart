@@ -22,7 +22,7 @@ class LedgerConnectionHandlerImpl implements LedgerConnectionHandler {
   @override
   Future<Uint8List> getPublicKey(int accountId) {
     if (_appInterface == null) {
-      throw LedgerException('Ledger app interface is not set');
+      throw const LedgerException('Ledger app interface is not set');
     }
 
     return _appInterface!.getPublicKey(accountId);
@@ -35,7 +35,7 @@ class LedgerConnectionHandlerImpl implements LedgerConnectionHandler {
     int? signatureId,
   }) {
     if (_appInterface == null) {
-      throw LedgerException('Ledger app interface is not set');
+      throw const LedgerException('Ledger app interface is not set');
     }
 
     return _appInterface!.sign(
@@ -54,7 +54,7 @@ class LedgerConnectionHandlerImpl implements LedgerConnectionHandler {
     int? signatureId,
   }) {
     if (_appInterface == null) {
-      throw LedgerException('Ledger app interface is not set');
+      throw const LedgerException('Ledger app interface is not set');
     }
 
     return _appInterface!.signTransaction(

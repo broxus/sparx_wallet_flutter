@@ -94,15 +94,17 @@ class TonWalletSendModel extends LedgerBaseModel {
     final signature = await _ledgerService.runWithLedger(
       interactionType: LedgerInteractionType.signTransaction,
       publicKey: publicKey,
-      action: () => _nekotonRepository.seedList.sign(
-        message: message.message,
-        publicKey: publicKey,
-        signInputAuth: signInputAuth,
-        signatureId: signatureId,
-      ),
+      action: () async {
+        await message.refreshTimeout();
+        return _nekotonRepository.seedList.sign(
+          message: message.message,
+          publicKey: publicKey,
+          signInputAuth: signInputAuth,
+          signatureId: signatureId,
+        );
+      },
     );
 
-    // await message.refreshTimeout();
     final signedMessage = await message.sign(signature: signature);
 
     return _nekotonRepository.send(

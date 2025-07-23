@@ -2,6 +2,7 @@ import 'package:app/app/router/router.dart';
 import 'package:app/core/error_handler_factory.dart';
 import 'package:app/core/wm/custom_wm.dart';
 import 'package:app/di/di.dart';
+import 'package:app/feature/ledger/ledger.dart';
 import 'package:app/feature/messenger/data/message.dart';
 import 'package:app/feature/wallet/route.dart';
 import 'package:app/feature/wallet/token_wallet_send/data/data.dart';
@@ -23,11 +24,13 @@ TokenWalletSendWidgetModel defaultTokenWalletSendWidgetModelFactory(
         inject(),
         inject(),
         inject(),
+        inject(),
       ),
     );
 
 class TokenWalletSendWidgetModel
-    extends CustomWidgetModel<TokenWalletSendWidget, TokenWalletSendModel> {
+    extends CustomWidgetModel<TokenWalletSendWidget, TokenWalletSendModel>
+    with BleAvailabilityMixin {
   TokenWalletSendWidgetModel(super.model);
 
   static final _logger = Logger('TokenWalletSendWidgetModel');
@@ -85,6 +88,11 @@ class TokenWalletSendWidgetModel
     InternalMessage? internalMessage;
     try {
       _isLoading.accept(true);
+
+      if (signInputAuth.isLedger) {
+        final isAvailable = await checkBluetoothAvailability();
+        if (!isAvailable) return;
+      }
 
       final resultMessage =
           widget.resultMessage ?? LocaleKeys.transactionSentSuccessfully.tr();

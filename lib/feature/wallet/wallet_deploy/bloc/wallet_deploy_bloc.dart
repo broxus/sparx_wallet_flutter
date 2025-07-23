@@ -11,6 +11,7 @@ import 'package:app/generated/generated.dart';
 import 'package:app/utils/constants.dart';
 import 'package:bloc/bloc.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_blue_plus/flutter_blue_plus.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:logging/logging.dart';
 import 'package:nekoton_repository/nekoton_repository.dart' hide Message;
@@ -38,6 +39,8 @@ class WalletDeployBloc extends Bloc<WalletDeployEvent, WalletDeployState>
     required this.nekotonRepository,
     required this.currenciesService,
     required this.ledgerService,
+    required this.messengerService,
+    required this.permissionsService,
     required this.address,
     required this.publicKey,
   }) : super(const WalletDeployState.standard()) {
@@ -50,6 +53,8 @@ class WalletDeployBloc extends Bloc<WalletDeployEvent, WalletDeployState>
   final NekotonRepository nekotonRepository;
   final CurrenciesService currenciesService;
   final LedgerService ledgerService;
+  final MessengerService messengerService;
+  final AppPermissionsService permissionsService;
 
   final Address address;
   final PublicKey publicKey;
@@ -261,7 +266,7 @@ class WalletDeployBloc extends Bloc<WalletDeployEvent, WalletDeployState>
     }
   }
 
-  // ignore: long-method
+  // TODO(komarov): refactor with elementary
   Future<void> _handleSend(
     Emitter<WalletDeployState> emit,
     SignInputAuth signInputAuth,
@@ -270,16 +275,27 @@ class WalletDeployBloc extends Bloc<WalletDeployEvent, WalletDeployState>
     if (unsigned == null) return;
 
     try {
+      if (signInputAuth.isLedger) {
+        final isAvailable = await _checkBluetoothAvailability();
+        if (!isAvailable) return;
+      }
+
       emitSafe(const WalletDeployState.deploying(canClose: false));
-      await unsigned.refreshTimeout();
 
       final transport = nekotonRepository.currentTransport.transport;
-
-      final signature = await nekotonRepository.seedList.sign(
-        message: unsigned.message,
+      final signatureId = await transport.getSignatureId();
+      final signature = await ledgerService.runWithLedger(
+        interactionType: LedgerInteractionType.signTransaction,
         publicKey: publicKey,
-        signInputAuth: signInputAuth,
-        signatureId: await transport.getSignatureId(),
+        action: () async {
+          await unsigned.refreshTimeout();
+          return nekotonRepository.seedList.sign(
+            message: unsigned.message,
+            publicKey: publicKey,
+            signInputAuth: signInputAuth,
+            signatureId: signatureId,
+          );
+        },
       );
 
       final signedMessage = await unsigned.sign(signature: signature);
@@ -372,5 +388,48 @@ class WalletDeployBloc extends Bloc<WalletDeployEvent, WalletDeployState>
         ),
       ),
     );
+  }
+
+  Future<bool> _checkBluetoothAvailability() async {
+    final hasPermissions = await _checkBluetoothPermissions();
+    if (!hasPermissions) return false;
+
+    final isBluetoothEnabled = await _checkBluetoothAdapter();
+    if (!isBluetoothEnabled) return false;
+
+    return true;
+  }
+
+  Future<bool> _checkBluetoothPermissions() async {
+    final hasPermissions = await ledgerService.checkPermissions();
+    if (!hasPermissions) {
+      messengerService.show(
+        Message.error(
+          message: LocaleKeys.ledgerPermissionsError.tr(),
+          actionText: LocaleKeys.giveWord.tr(),
+          onAction: permissionsService.openSettings,
+        ),
+      );
+      return false;
+    }
+
+    return true;
+  }
+
+  Future<bool> _checkBluetoothAdapter() async {
+    final state = await ledgerService.adapterState.firstWhere(
+      (e) => e != BluetoothAdapterState.unknown,
+    );
+    if (state != BluetoothAdapterState.on &&
+        state != BluetoothAdapterState.turningOn) {
+      messengerService.show(
+        Message.error(
+          message: LocaleKeys.bluetoothIsOff.tr(),
+        ),
+      );
+      return false;
+    }
+
+    return true;
   }
 }

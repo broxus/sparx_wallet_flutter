@@ -16,15 +16,6 @@ T _$identity<T>(T value) => value;
 /// @nodoc
 mixin _$DeriveKeysState {
   @override
-  bool operator ==(Object other) {
-    return identical(this, other) ||
-        (other.runtimeType == runtimeType && other is DeriveKeysState);
-  }
-
-  @override
-  int get hashCode => runtimeType.hashCode;
-
-  @override
   String toString() {
     return 'DeriveKeysState()';
   }
@@ -42,15 +33,6 @@ class DeriveKeysStateInitial implements DeriveKeysState {
   const DeriveKeysStateInitial();
 
   @override
-  bool operator ==(Object other) {
-    return identical(this, other) ||
-        (other.runtimeType == runtimeType && other is DeriveKeysStateInitial);
-  }
-
-  @override
-  int get hashCode => runtimeType.hashCode;
-
-  @override
   String toString() {
     return 'DeriveKeysState.initial()';
   }
@@ -64,8 +46,8 @@ class DeriveKeysStateData implements DeriveKeysState {
       required this.canNextPage,
       required this.currentPageIndex,
       required this.pageCount,
-      required final List<PublicKey> displayDerivedKeys,
-      required final List<PublicKey> selectedKeys,
+      required final List<DerivedKeyWithIndex> displayDerivedKeys,
+      required final Set<PublicKey> selectedKeys,
       required final Map<PublicKey, String> keyNames,
       required this.isLoading,
       required this.isCompleted})
@@ -77,19 +59,19 @@ class DeriveKeysStateData implements DeriveKeysState {
   final bool canNextPage;
   final int currentPageIndex;
   final int pageCount;
-  final List<PublicKey> _displayDerivedKeys;
-  List<PublicKey> get displayDerivedKeys {
+  final List<DerivedKeyWithIndex> _displayDerivedKeys;
+  List<DerivedKeyWithIndex> get displayDerivedKeys {
     if (_displayDerivedKeys is EqualUnmodifiableListView)
       return _displayDerivedKeys;
     // ignore: implicit_dynamic_type
     return EqualUnmodifiableListView(_displayDerivedKeys);
   }
 
-  final List<PublicKey> _selectedKeys;
-  List<PublicKey> get selectedKeys {
-    if (_selectedKeys is EqualUnmodifiableListView) return _selectedKeys;
+  final Set<PublicKey> _selectedKeys;
+  Set<PublicKey> get selectedKeys {
+    if (_selectedKeys is EqualUnmodifiableSetView) return _selectedKeys;
     // ignore: implicit_dynamic_type
-    return EqualUnmodifiableListView(_selectedKeys);
+    return EqualUnmodifiableSetView(_selectedKeys);
   }
 
   final Map<PublicKey, String> _keyNames;
@@ -110,43 +92,6 @@ class DeriveKeysStateData implements DeriveKeysState {
       _$DeriveKeysStateDataCopyWithImpl<DeriveKeysStateData>(this, _$identity);
 
   @override
-  bool operator ==(Object other) {
-    return identical(this, other) ||
-        (other.runtimeType == runtimeType &&
-            other is DeriveKeysStateData &&
-            (identical(other.canPrevPage, canPrevPage) ||
-                other.canPrevPage == canPrevPage) &&
-            (identical(other.canNextPage, canNextPage) ||
-                other.canNextPage == canNextPage) &&
-            (identical(other.currentPageIndex, currentPageIndex) ||
-                other.currentPageIndex == currentPageIndex) &&
-            (identical(other.pageCount, pageCount) ||
-                other.pageCount == pageCount) &&
-            const DeepCollectionEquality()
-                .equals(other._displayDerivedKeys, _displayDerivedKeys) &&
-            const DeepCollectionEquality()
-                .equals(other._selectedKeys, _selectedKeys) &&
-            const DeepCollectionEquality().equals(other._keyNames, _keyNames) &&
-            (identical(other.isLoading, isLoading) ||
-                other.isLoading == isLoading) &&
-            (identical(other.isCompleted, isCompleted) ||
-                other.isCompleted == isCompleted));
-  }
-
-  @override
-  int get hashCode => Object.hash(
-      runtimeType,
-      canPrevPage,
-      canNextPage,
-      currentPageIndex,
-      pageCount,
-      const DeepCollectionEquality().hash(_displayDerivedKeys),
-      const DeepCollectionEquality().hash(_selectedKeys),
-      const DeepCollectionEquality().hash(_keyNames),
-      isLoading,
-      isCompleted);
-
-  @override
   String toString() {
     return 'DeriveKeysState.data(canPrevPage: $canPrevPage, canNextPage: $canNextPage, currentPageIndex: $currentPageIndex, pageCount: $pageCount, displayDerivedKeys: $displayDerivedKeys, selectedKeys: $selectedKeys, keyNames: $keyNames, isLoading: $isLoading, isCompleted: $isCompleted)';
   }
@@ -164,8 +109,8 @@ abstract mixin class $DeriveKeysStateDataCopyWith<$Res>
       bool canNextPage,
       int currentPageIndex,
       int pageCount,
-      List<PublicKey> displayDerivedKeys,
-      List<PublicKey> selectedKeys,
+      List<DerivedKeyWithIndex> displayDerivedKeys,
+      Set<PublicKey> selectedKeys,
       Map<PublicKey, String> keyNames,
       bool isLoading,
       bool isCompleted});
@@ -213,11 +158,11 @@ class _$DeriveKeysStateDataCopyWithImpl<$Res>
       displayDerivedKeys: null == displayDerivedKeys
           ? _self._displayDerivedKeys
           : displayDerivedKeys // ignore: cast_nullable_to_non_nullable
-              as List<PublicKey>,
+              as List<DerivedKeyWithIndex>,
       selectedKeys: null == selectedKeys
           ? _self._selectedKeys
           : selectedKeys // ignore: cast_nullable_to_non_nullable
-              as List<PublicKey>,
+              as Set<PublicKey>,
       keyNames: null == keyNames
           ? _self._keyNames
           : keyNames // ignore: cast_nullable_to_non_nullable

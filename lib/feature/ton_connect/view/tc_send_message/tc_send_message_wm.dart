@@ -4,6 +4,7 @@ import 'package:app/app/service/service.dart';
 import 'package:app/core/error_handler_factory.dart';
 import 'package:app/core/wm/custom_wm.dart';
 import 'package:app/di/di.dart';
+import 'package:app/feature/ledger/ledger.dart';
 import 'package:app/feature/messenger/data/message.dart';
 import 'package:app/feature/ton_connect/ton_connect.dart';
 import 'package:app/generated/generated.dart';
@@ -39,11 +40,13 @@ TCSendMessageWidgetModel defaultTCSendMessageWidgetModelFactory(
         inject(),
         inject(),
         inject(),
+        inject(),
       ),
     );
 
 class TCSendMessageWidgetModel
-    extends CustomWidgetModel<TCSendMessageWidget, TCSendMessageModel> {
+    extends CustomWidgetModel<TCSendMessageWidget, TCSendMessageModel>
+    with BleAvailabilityMixin {
   TCSendMessageWidgetModel(super.model);
 
   late final account = model.getAccount(widget.connection.walletAddress);
@@ -111,6 +114,12 @@ class TCSendMessageWidgetModel
 
     try {
       _isLoading.accept(true);
+
+      if (signInputAuth.isLedger) {
+        final isAvailable = await checkBluetoothAvailability();
+        if (!isAvailable) return;
+      }
+
       final message = await model.send(
         address: sender,
         publicKey: account!.publicKey,

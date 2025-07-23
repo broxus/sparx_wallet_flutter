@@ -2,7 +2,6 @@ import 'dart:async';
 
 import 'package:app/app/service/service.dart';
 import 'package:app/feature/ledger/ledger.dart';
-import 'package:app/feature/messenger/data/message.dart';
 import 'package:app/feature/messenger/domain/service/messenger_service.dart';
 import 'package:app/http/repository/repository.dart';
 import 'package:app/utils/utils.dart';
@@ -10,17 +9,22 @@ import 'package:elementary/elementary.dart';
 import 'package:nekoton_repository/nekoton_repository.dart' hide Message;
 import 'package:rxdart/rxdart.dart';
 
-class TCSendMessageModel extends ElementaryModel {
+class TCSendMessageModel extends LedgerBaseModel {
   TCSendMessageModel(
     ErrorHandler errorHandler,
+    AppPermissionsService permissionsService,
+    MessengerService messengerService,
     this._nekotonRepository,
-    this._messengerService,
     this._tonRepository,
     this._ledgerService,
-  ) : super(errorHandler: errorHandler);
+  ) : super(
+          errorHandler: errorHandler,
+          ledgerService: _ledgerService,
+          permissionsService: permissionsService,
+          messengerService: messengerService,
+        );
 
   final NekotonRepository _nekotonRepository;
-  final MessengerService _messengerService;
   final TonRepository _tonRepository;
   final LedgerService _ledgerService;
 
@@ -93,19 +97,15 @@ class TCSendMessageModel extends ElementaryModel {
   String? getSeedName(PublicKey custodian) =>
       _nekotonRepository.seedList.findSeedKey(custodian)?.name;
 
-  void showMessage(Message message) {
-    _messengerService.show(message);
-  }
-
   Future<SignedMessage> send({
     required List<TransactionPayloadMessage> messages,
     required Address address,
     required PublicKey publicKey,
     required SignInputAuth signInputAuth,
   }) async {
-    UnsignedMessage? unsignedMessage;
+    UnsignedMessage? message;
     try {
-      unsignedMessage = await prepareTransfer(
+      message = await prepareTransfer(
         address: address,
         publicKey: publicKey,
         messages: messages,
@@ -118,15 +118,22 @@ class TCSendMessageModel extends ElementaryModel {
         (prev, e) => prev + BigInt.parse(e.amount),
       );
 
-      final signature = await _nekotonRepository.seedList.sign(
-        message: unsignedMessage.message,
+      final signatureId = await transport.getSignatureId();
+      final signature = await _ledgerService.runWithLedger(
+        interactionType: LedgerInteractionType.signTransaction,
         publicKey: publicKey,
-        signInputAuth: signInputAuth,
-        signatureId: await transport.getSignatureId(),
+        action: () async {
+          await message!.refreshTimeout();
+          return _nekotonRepository.seedList.sign(
+            message: message.message,
+            publicKey: publicKey,
+            signInputAuth: signInputAuth,
+            signatureId: signatureId,
+          );
+        },
       );
 
-      await unsignedMessage.refreshTimeout();
-      final signedMessage = await unsignedMessage.sign(signature: signature);
+      final signedMessage = await message.sign(signature: signature);
 
       await _nekotonRepository.sendUnawaited(
         address: address,
@@ -137,7 +144,7 @@ class TCSendMessageModel extends ElementaryModel {
 
       return signedMessage;
     } finally {
-      unsignedMessage?.dispose();
+      message?.dispose();
     }
   }
 

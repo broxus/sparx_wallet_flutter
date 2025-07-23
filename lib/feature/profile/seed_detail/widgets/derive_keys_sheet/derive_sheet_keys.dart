@@ -1,6 +1,7 @@
 import 'dart:math' as math;
 
 import 'package:app/di/di.dart';
+import 'package:app/feature/ledger/ledger.dart';
 import 'package:app/feature/profile/seed_detail/widgets/derive_keys_sheet/derive_keys_cubit.dart';
 import 'package:app/generated/generated.dart';
 import 'package:flutter/material.dart';
@@ -13,9 +14,9 @@ import 'package:ui_components_lib/v2/ui_components_lib_v2.dart';
 /// Showing this sheet means, that [password] is correct for [publicKey].
 ModalRoute<void> deriveKeysSheet(
   BuildContext context,
-  PublicKey publicKey,
-  String password,
-) {
+  PublicKey publicKey, [
+  String? password,
+]) {
   return commonBottomSheetRoute(
     titleTextStyle: context.themeStyleV2.textStyles.headingLarge,
     title: LocaleKeys.selectKeysYouNeed.tr(),
@@ -23,6 +24,7 @@ ModalRoute<void> deriveKeysSheet(
     body: (_, controller) => BlocProvider<DeriveKeysCubit>(
       create: (context) => DeriveKeysCubit(
         inject<NekotonRepository>(),
+        inject<LedgerService>(),
         publicKey,
         password,
       )..init(),
@@ -33,6 +35,10 @@ ModalRoute<void> deriveKeysSheet(
     ),
   );
 }
+
+const _itemHeight = DimensSizeV2.d56;
+const _containerHeight = _itemHeight * derivedKeysPerPage +
+    (DimensSizeV2.d4 * 2 + CommonDivider.size) * (derivedKeysPerPage - 1);
 
 /// Widget that shows keys that could be derived from publicKey of seed.
 class DeriveKeysSheet extends StatelessWidget {
@@ -74,23 +80,27 @@ class DeriveKeysSheet extends StatelessWidget {
                   child: SingleChildScrollView(
                     controller: controller,
                     padding: const EdgeInsets.symmetric(
-                      horizontal: DimensSize.d16,
+                      horizontal: DimensSizeV2.d16,
                     ),
-                    child: SeparatedColumn(
-                      mainAxisSize: MainAxisSize.min,
-                      separator: const Padding(
-                        padding: EdgeInsets.symmetric(vertical: DimensSize.d4),
-                        child: CommonDivider(),
+                    child: SizedBox(
+                      height: _containerHeight,
+                      child: SeparatedColumn(
+                        mainAxisSize: MainAxisSize.min,
+                        separator: const Padding(
+                          padding:
+                              EdgeInsets.symmetric(vertical: DimensSizeV2.d4),
+                          child: CommonDivider(),
+                        ),
+                        children: displayDerivedKeys
+                            .map(
+                              (k) => _keyItem(
+                                key: k,
+                                name: keyNames[k.publicKey],
+                                isSelected: selectedKeys.contains(k.publicKey),
+                              ),
+                            )
+                            .toList(),
                       ),
-                      children: displayDerivedKeys
-                          .map(
-                            (k) => _keyItem(
-                              key: k,
-                              name: keyNames[k],
-                              isSelected: selectedKeys.contains(k),
-                            ),
-                          )
-                          .toList(),
                     ),
                   ),
                 ),
@@ -103,12 +113,12 @@ class DeriveKeysSheet extends StatelessWidget {
                       canNextPage: canNextPage,
                     ),
                     const CommonDivider(),
-                    const SizedBox(height: DimensSize.d8),
+                    const SizedBox(height: DimensSizeV2.d8),
                   ],
                 ),
                 Padding(
                   padding: const EdgeInsets.symmetric(
-                    horizontal: DimensSize.d16,
+                    horizontal: DimensSizeV2.d16,
                   ),
                   child: _selectButton(isLoading),
                 ),
@@ -130,7 +140,7 @@ class DeriveKeysSheet extends StatelessWidget {
         final theme = context.themeStyleV2;
 
         return Container(
-          padding: const EdgeInsets.symmetric(horizontal: DimensSize.d16),
+          padding: const EdgeInsets.symmetric(horizontal: DimensSizeV2.d16),
           color: theme.colors.background1,
           child: SeparatedRow(
             children: [
@@ -149,7 +159,7 @@ class DeriveKeysSheet extends StatelessWidget {
                     // to 50% of this variable on the left side and
                     // up to 50% on the right side (we are trying to
                     // put current page in center if possible)
-                    var maxCount = constraints.maxWidth ~/ DimensSize.d40;
+                    var maxCount = constraints.maxWidth ~/ DimensSizeV2.d40;
                     maxCount = math.min(maxCount, derivePageCount);
 
                     // do not subtract 1 here trying to compensate
@@ -185,8 +195,8 @@ class DeriveKeysSheet extends StatelessWidget {
                           onPressed: () =>
                               context.read<DeriveKeysCubit>().selectPage(index),
                           child: Container(
-                            height: DimensSize.d40,
-                            width: DimensSize.d40,
+                            height: DimensSizeV2.d40,
+                            width: DimensSizeV2.d40,
                             alignment: Alignment.center,
                             child: Text(
                               '${index + 1}',
@@ -231,7 +241,7 @@ class DeriveKeysSheet extends StatelessWidget {
   }
 
   Widget _keyItem({
-    required PublicKey key,
+    required DerivedKeyWithIndex key,
     required bool isSelected,
     String? name,
   }) {
@@ -239,19 +249,16 @@ class DeriveKeysSheet extends StatelessWidget {
       builder: (context) {
         final colors = context.themeStyle.colors;
         final theme = context.themeStyleV2;
-        final disabled = key == masterKey;
+        final disabled = key.publicKey == masterKey;
 
         return CommonListTile(
-          onPressed: disabled
-              ? null
-              : () => isSelected
-                  ? context.read<DeriveKeysCubit>().uncheckKey(key)
-                  : context.read<DeriveKeysCubit>().checkKey(key),
+          // ignore: avoid_redundant_argument_values
+          height: _itemHeight,
           leading: CommonBackgroundedIconWidget.svg(
             svg: Assets.images.key.path,
             backgroundColor: theme.colors.backgroundAlpha,
           ),
-          titleText: name ?? key.toEllipseString(),
+          titleText: name ?? key.publicKey.toEllipseString(),
           trailing: CommonIconWidget.svg(
             svg: isSelected
                 ? Assets.images.checkSquare.path
@@ -262,6 +269,11 @@ class DeriveKeysSheet extends StatelessWidget {
                     ? colors.textPrimary
                     : colors.strokePrimary,
           ),
+          onPressed: disabled
+              ? null
+              : () => isSelected
+                  ? context.read<DeriveKeysCubit>().uncheckKey(key)
+                  : context.read<DeriveKeysCubit>().checkKey(key),
         );
       },
     );

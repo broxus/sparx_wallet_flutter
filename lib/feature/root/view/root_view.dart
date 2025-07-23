@@ -151,6 +151,8 @@ class _RootViewState extends State<RootView> {
   }
 
   Future<void> _onLedgerInteraction(LedgerInteraction interaction) async {
+    if (!interaction.showBottomSheet) return;
+
     try {
       await showLedgerInteractionSheet(
         context: context,

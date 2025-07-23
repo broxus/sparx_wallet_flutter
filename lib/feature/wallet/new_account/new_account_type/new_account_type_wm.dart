@@ -7,13 +7,15 @@ import 'package:app/app/service/connection/connection_service.dart';
 import 'package:app/core/error_handler_factory.dart';
 import 'package:app/core/wm/custom_wm.dart';
 import 'package:app/di/di.dart';
+import 'package:app/feature/ledger/ledger.dart';
+import 'package:app/feature/messenger/messenger.dart';
 import 'package:app/feature/wallet/new_account/add_account.dart';
 import 'package:app/feature/wallet/new_account/new_account_type/new_account_type_model.dart';
 import 'package:app/feature/wallet/route.dart';
 import 'package:collection/collection.dart';
 import 'package:elementary_helper/elementary_helper.dart';
 import 'package:flutter/material.dart';
-import 'package:nekoton_repository/nekoton_repository.dart';
+import 'package:nekoton_repository/nekoton_repository.dart' hide Message;
 import 'package:ui_components_lib/v2/ui_components_lib_v2.dart';
 
 NewAccountTypeWidgetModel defaultNewAccountTypeWidgetModelFactory(
@@ -24,11 +26,14 @@ NewAccountTypeWidgetModel defaultNewAccountTypeWidgetModelFactory(
         createPrimaryErrorHandler(context),
         inject(),
         inject(),
+        inject(),
+        inject(),
       ),
     );
 
 class NewAccountTypeWidgetModel
-    extends CustomWidgetModel<NewAccountTypeWidget, NewAccountTypeModel> {
+    extends CustomWidgetModel<NewAccountTypeWidget, NewAccountTypeModel>
+    with BleAvailabilityMixin {
   NewAccountTypeWidgetModel(super.model);
 
   late final controller = createTextEditingController();
@@ -74,9 +79,17 @@ class NewAccountTypeWidgetModel
       model.transport.isHmstr ||
       model.transport.isTon;
 
-  Set<WalletType> get disabledWalletTypes => widget.password == null
-      ? model.getCreatedAccountTypes(widget.publicKey).toSet()
-      : {};
+  Set<WalletType> getDisabledWalletTypes() {
+    if (widget.password == null) {
+      final key = model.getMasterKey(widget.publicKey);
+
+      if (key?.isLegacy ?? false) {
+        return model.getCreatedAccountTypes(widget.publicKey).toSet();
+      }
+    }
+
+    return {};
+  }
 
   String getWalletName(WalletType walletType) =>
       model.transport.defaultAccountName(walletType);
@@ -89,11 +102,18 @@ class NewAccountTypeWidgetModel
   Future<void> onSubmit() async {
     final walletType = selected.value!;
     final name = controller.text;
+    final key = model.getMasterKey(widget.publicKey);
 
-    if (disabledWalletTypes.contains(walletType)) return;
+    if (getDisabledWalletTypes().contains(walletType)) return;
+    if (key == null) return;
 
     try {
       _loading.accept(true);
+
+      if (key.isLedger) {
+        final isAvailable = await checkBluetoothAvailability();
+        if (!isAvailable) return;
+      }
 
       final accountAddress = await model.createAccount(
         walletType: walletType,
@@ -112,7 +132,7 @@ class NewAccountTypeWidgetModel
         );
       }
     } on Exception catch (e) {
-      model.showError(context, e.toString());
+      model.showMessage(Message.error(message: e.toString()));
     } finally {
       _loading.accept(false);
     }

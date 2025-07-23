@@ -29,6 +29,8 @@ class WalletDeployPage extends StatelessWidget {
         nekotonRepository: inject(),
         currenciesService: inject(),
         ledgerService: inject(),
+        messengerService: inject(),
+        permissionsService: inject(),
       ),
       child: BlocConsumer<WalletDeployBloc, WalletDeployState>(
         listener: (context, state) {

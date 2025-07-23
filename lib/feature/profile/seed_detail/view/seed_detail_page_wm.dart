@@ -1,12 +1,10 @@
-// ignore_for_file: use_build_context_synchronously
-
 import 'package:app/core/error_handler_factory.dart';
 import 'package:app/core/wm/custom_wm.dart';
 import 'package:app/di/di.dart';
-import 'package:app/feature/profile/manage_seeds_accounts/widgets/seed_settings_sheet.dart';
+import 'package:app/feature/ledger/ledger.dart';
+import 'package:app/feature/profile/profile.dart';
 import 'package:app/feature/profile/seed_detail/view/seed_detail_page_model.dart';
-import 'package:app/feature/profile/seed_detail/view/seed_detail_page_widget.dart';
-import 'package:app/feature/profile/seed_detail/widgets/derive_keys_sheet/derive_keys_sheet_password.dart';
+import 'package:app/utils/utils.dart';
 import 'package:elementary_helper/elementary_helper.dart';
 import 'package:flutter/material.dart';
 import 'package:nekoton_repository/nekoton_repository.dart';
@@ -21,11 +19,15 @@ SeedDetailPageWidgetModel defaultSeedDetailPageWidgetModelFactory(
         inject(),
         inject(),
         inject(),
+        inject(),
+        inject(),
+        inject(),
       ),
     );
 
 class SeedDetailPageWidgetModel
-    extends CustomWidgetModel<SeedDetailPageWidget, SeedDetailPageModel> {
+    extends CustomWidgetModel<SeedDetailPageWidget, SeedDetailPageModel>
+    with BleAvailabilityMixin {
   SeedDetailPageWidgetModel(super.model);
 
   late final _currentKey = createNotifierFromStream(model.currentKey);
@@ -50,5 +52,21 @@ class SeedDetailPageWidgetModel
 
   void onSeedSettings() => showSeedSettingsSheet(context, widget.publicKey);
 
-  void onAddkeys() => showDeriveKeysSheetPassword(context, widget.publicKey);
+  Future<void> onAddkeys() async {
+    final seed = _seed.value;
+    if (seed == null) return;
+
+    if (seed.masterKey.isLedger) {
+      final isAvailable = await checkBluetoothAvailability();
+      if (!isAvailable) return;
+
+      contextSafe?.let((context) {
+        Navigator.of(context, rootNavigator: true).push(
+          deriveKeysSheet(context, widget.publicKey),
+        );
+      });
+    } else {
+      showDeriveKeysSheetPassword(context, widget.publicKey);
+    }
+  }
 }

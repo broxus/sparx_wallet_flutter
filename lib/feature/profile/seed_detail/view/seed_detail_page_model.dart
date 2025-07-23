@@ -1,14 +1,24 @@
 import 'package:app/app/service/service.dart';
+import 'package:app/feature/ledger/ledger.dart';
+import 'package:app/feature/messenger/messenger.dart';
 import 'package:elementary/elementary.dart';
 import 'package:nekoton_repository/nekoton_repository.dart' hide Message;
 
-class SeedDetailPageModel extends ElementaryModel {
+class SeedDetailPageModel extends LedgerBaseModel {
   SeedDetailPageModel(
     ErrorHandler errorHandler,
+    AppPermissionsService permissionsService,
+    MessengerService messengerService,
+    LedgerService ledgerService,
     this._currentSeedService,
     this._currentKeyService,
     this._nekotonRepository,
-  ) : super(errorHandler: errorHandler);
+  ) : super(
+          errorHandler: errorHandler,
+          ledgerService: ledgerService,
+          permissionsService: permissionsService,
+          messengerService: messengerService,
+        );
 
   final CurrentSeedService _currentSeedService;
   final CurrentKeyService _currentKeyService;

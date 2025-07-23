@@ -26,7 +26,7 @@ class NewAccountTypeWidget extends ElementaryWidget<NewAccountTypeWidgetModel> {
   @override
   Widget build(NewAccountTypeWidgetModel wm) {
     final theme = wm.theme;
-    final disabledTypes = wm.disabledWalletTypes;
+    final disabledTypes = wm.getDisabledWalletTypes();
 
     return Column(
       mainAxisSize: MainAxisSize.min,

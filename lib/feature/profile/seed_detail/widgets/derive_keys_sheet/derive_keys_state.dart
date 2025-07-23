@@ -1,6 +1,6 @@
 part of 'derive_keys_cubit.dart';
 
-@freezed
+@Freezed(equal: false)
 sealed class DeriveKeysState with _$DeriveKeysState {
   const factory DeriveKeysState.initial() = DeriveKeysStateInitial;
 
@@ -16,8 +16,8 @@ sealed class DeriveKeysState with _$DeriveKeysState {
     required bool canNextPage,
     required int currentPageIndex,
     required int pageCount,
-    required List<PublicKey> displayDerivedKeys,
-    required List<PublicKey> selectedKeys,
+    required List<DerivedKeyWithIndex> displayDerivedKeys,
+    required Set<PublicKey> selectedKeys,
     required Map<PublicKey, String> keyNames,
     required bool isLoading,
     required bool isCompleted,

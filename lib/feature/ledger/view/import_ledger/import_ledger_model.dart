@@ -5,8 +5,8 @@ import 'package:elementary/elementary.dart';
 import 'package:flutter_blue_plus/flutter_blue_plus.dart';
 import 'package:nekoton_repository/nekoton_repository.dart' hide Message;
 
-class ConnectLedgerModel extends LedgerBaseModel {
-  ConnectLedgerModel(
+class ImportLedgerModel extends LedgerBaseModel {
+  ImportLedgerModel(
     ErrorHandler errorHandler,
     MessengerService messengerService,
     AppPermissionsService permissionsService,
@@ -48,7 +48,7 @@ class ConnectLedgerModel extends LedgerBaseModel {
     return app;
   }
 
-  Future<void> addConnectedLedger({
+  Future<PublicKey> addConnectedLedger({
     required BluetoothDevice device,
     required DeviceModelId deviceModelId,
   }) async {
@@ -60,6 +60,10 @@ class ConnectLedgerModel extends LedgerBaseModel {
       deviceModelId: deviceModelId,
     );
 
-    _currentKeyService.changeCurrentKey(masterKey);
+    if (_currentKeyService.currentKey == null) {
+      _currentKeyService.changeCurrentKey(masterKey);
+    }
+
+    return masterKey;
   }
 }

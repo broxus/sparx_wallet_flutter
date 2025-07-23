@@ -3,6 +3,7 @@ import 'package:app/core/error_handler_factory.dart';
 import 'package:app/core/wm/custom_wm.dart';
 import 'package:app/di/di.dart';
 import 'package:app/feature/browser_v1/browser.dart';
+import 'package:app/feature/ledger/ledger.dart';
 import 'package:app/feature/profile/profile.dart';
 import 'package:app/feature/wallet/custodians_settings/route.dart';
 import 'package:app/feature/wallet/widgets/account_settings/account_settings_model.dart';
@@ -63,5 +64,11 @@ class AccountSettingsWidgetModel
   void onHideAccount() {
     Navigator.of(context).pop();
     model.hideAccount(widget.account.address);
+  }
+
+  void onVerify() {
+    Navigator.of(context)
+      ..pop()
+      ..push(showVerifyLedgerSheet(widget.account));
   }
 }

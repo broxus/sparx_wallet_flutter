@@ -36,8 +36,8 @@ class AddExistingWalletWidgetModel
 
     if (contextSafe == null || !hasPermissions) return;
 
-    final result = await showConnectLedgerSheet(contextSafe!);
-    if (result ?? false) {
+    final result = await showImportLedgerSheet(contextSafe!);
+    if (result != null) {
       contextSafe?.let((context) {
         context.compassPointNamed(const WalletRouteData());
       });

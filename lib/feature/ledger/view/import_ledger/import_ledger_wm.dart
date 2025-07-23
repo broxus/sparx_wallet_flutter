@@ -12,11 +12,11 @@ import 'package:elementary_helper/elementary_helper.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_blue_plus/flutter_blue_plus.dart';
 
-ConnectLedgerWidgetModel defaultConnectLedgerWidgetModelFactory(
+ImportLedgerWidgetModel defaultImportLedgerWidgetModelFactory(
   BuildContext context,
 ) =>
-    ConnectLedgerWidgetModel(
-      ConnectLedgerModel(
+    ImportLedgerWidgetModel(
+      ImportLedgerModel(
         createPrimaryErrorHandler(context),
         inject(),
         inject(),
@@ -27,10 +27,10 @@ ConnectLedgerWidgetModel defaultConnectLedgerWidgetModelFactory(
       ),
     );
 
-class ConnectLedgerWidgetModel
-    extends CustomWidgetModel<ConnectLedgerWidget, ConnectLedgerModel>
+class ImportLedgerWidgetModel
+    extends CustomWidgetModel<ImportLedgerWidget, ImportLedgerModel>
     with BleAvailabilityMixin {
-  ConnectLedgerWidgetModel(super.model);
+  ImportLedgerWidgetModel(super.model);
 
   late final _scanResultState = createNotifierFromStream(model.scanResult);
   late final _bluetoothState = createNotifierFromStream(
@@ -86,7 +86,7 @@ class ConnectLedgerWidgetModel
     try {
       _loadingState.accept(true);
 
-      await model.addConnectedLedger(
+      final masterKey = await model.addConnectedLedger(
         device: appInterface.device,
         deviceModelId: appInterface.deviceModel.id,
       );
@@ -97,7 +97,7 @@ class ConnectLedgerWidgetModel
             message: LocaleKeys.ledgerConnectedSuccessfully.tr(),
           ),
         );
-        Navigator.of(context).pop(true);
+        Navigator.of(context).pop(masterKey);
       });
     } catch (e) {
       model.showMessage(Message.error(message: e.toString()));

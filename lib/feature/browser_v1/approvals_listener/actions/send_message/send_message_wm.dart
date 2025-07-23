@@ -6,11 +6,13 @@ import 'package:app/core/wm/custom_wm.dart';
 import 'package:app/di/di.dart';
 import 'package:app/feature/browser_v1/approvals_listener/actions/send_message/send_message_model.dart';
 import 'package:app/feature/browser_v1/approvals_listener/actions/send_message/send_message_widget.dart';
+import 'package:app/feature/ledger/ledger.dart';
+import 'package:app/feature/messenger/messenger.dart';
 import 'package:app/generated/generated.dart';
 import 'package:app/utils/utils.dart';
 import 'package:elementary_helper/elementary_helper.dart';
 import 'package:flutter/material.dart';
-import 'package:nekoton_repository/nekoton_repository.dart';
+import 'package:nekoton_repository/nekoton_repository.dart' hide Message;
 import 'package:ui_components_lib/v2/ui_components_lib_v2.dart';
 
 class TransferData {
@@ -36,11 +38,13 @@ SendMessageWidgetModel defaultSendMessageWidgetModelFactory(
         inject(),
         inject(),
         inject(),
+        inject(),
       ),
     );
 
 class SendMessageWidgetModel
-    extends CustomWidgetModel<SendMessageWidget, SendMessageModel> {
+    extends CustomWidgetModel<SendMessageWidget, SendMessageModel>
+    with BleAvailabilityMixin {
   SendMessageWidgetModel(super.model);
 
   late final account = model.getAccount(widget.sender);
@@ -93,8 +97,16 @@ class SendMessageWidgetModel
 
   void onChangedCustodian(PublicKey custodian) => _publicKey.accept(custodian);
 
-  void onSubmit(SignInputAuth auth) =>
-      Navigator.of(context).pop((publicKey.value, auth));
+  Future<void> onSubmit(SignInputAuth signInputAuth) async {
+    if (signInputAuth.isLedger) {
+      final isAvailable = await checkBluetoothAvailability();
+      if (!isAvailable) return;
+    }
+
+    contextSafe?.let(
+      (context) => Navigator.of(context).pop((publicKey.value, signInputAuth)),
+    );
+  }
 
   // ignore: avoid_positional_boolean_parameters
   void onConfirmed(bool value) => _isConfirmed.accept(value);
@@ -235,7 +247,9 @@ class SendMessageWidgetModel
       _txErrors.accept(errors);
     } catch (e) {
       contextSafe?.let(
-        (context) => model.showError(context, e.toString()),
+        (context) => model.showMessage(
+          Message.error(message: e.toString()),
+        ),
       );
     }
   }

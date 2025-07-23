@@ -77,7 +77,7 @@ class _LedgerInteractionSheetState extends State<_LedgerInteractionSheet> {
       spacing: DimensSizeV2.d16,
       children: [
         Text(
-          LocaleKeys.availableDevices.tr(),
+          LocaleKeys.confirmAction.tr(),
           style: theme.textStyles.headingMedium,
           textAlign: TextAlign.center,
         ),

@@ -2,6 +2,7 @@ import 'package:app/app/router/router.dart';
 import 'package:app/core/error_handler_factory.dart';
 import 'package:app/core/wm/custom_wm.dart';
 import 'package:app/di/di.dart';
+import 'package:app/feature/ledger/ledger.dart';
 import 'package:app/feature/messenger/data/message.dart';
 import 'package:app/feature/wallet/confirm_multisig_transaction/data/data.dart';
 import 'package:app/feature/wallet/confirm_multisig_transaction/view/confirm_multisig_transaction_model.dart';
@@ -24,11 +25,13 @@ ConfirmMultisigTransactionWidgetModel
             inject(),
             inject(),
             inject(),
+            inject(),
           ),
         );
 
 class ConfirmMultisigTransactionWidgetModel extends CustomWidgetModel<
-    ConfirmMultisigTransactionWidget, ConfirmMultisigTransactionModel> {
+    ConfirmMultisigTransactionWidget,
+    ConfirmMultisigTransactionModel> with BleAvailabilityMixin {
   ConfirmMultisigTransactionWidgetModel(super.model);
 
   static final _logger = Logger('ConfirmMultisigTransactionWidgetModel');
@@ -148,6 +151,11 @@ class ConfirmMultisigTransactionWidgetModel extends CustomWidgetModel<
     UnsignedMessage? unsignedMessage;
     try {
       _isLoading.accept(true);
+
+      if (signInputAuth.isLedger) {
+        final isAvailable = await checkBluetoothAvailability();
+        if (!isAvailable) return;
+      }
 
       unsignedMessage = await model.prepareConfirmTransaction(
         address: widget.walletAddress,

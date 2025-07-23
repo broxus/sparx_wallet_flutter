@@ -1,20 +1,27 @@
 import 'package:app/app/service/service.dart';
-import 'package:app/feature/messenger/data/message.dart';
+import 'package:app/feature/ledger/ledger.dart';
 import 'package:app/feature/messenger/domain/service/messenger_service.dart';
 import 'package:elementary/elementary.dart';
 import 'package:nekoton_repository/nekoton_repository.dart' hide Message;
 
-class SeedSettingsModel extends ElementaryModel {
+class SeedSettingsModel extends LedgerBaseModel {
   SeedSettingsModel(
     ErrorHandler errorHandler,
+    AppPermissionsService permissionsService,
+    MessengerService messengerService,
     this._nekotonRepository,
     this._currentKeyService,
-    this._messengerService,
-  ) : super(errorHandler: errorHandler);
+    this._ledgerService,
+  ) : super(
+          errorHandler: errorHandler,
+          ledgerService: _ledgerService,
+          permissionsService: permissionsService,
+          messengerService: messengerService,
+        );
 
   final NekotonRepository _nekotonRepository;
   final CurrentKeyService _currentKeyService;
-  final MessengerService _messengerService;
+  final LedgerService _ledgerService;
 
   PublicKey? get currentKey => _currentKeyService.currentKey;
 
@@ -29,12 +36,14 @@ class SeedSettingsModel extends ElementaryModel {
 
   Future<void> triggerDerivingKeys({
     required PublicKey masterKey,
-    required String password,
+    String? password,
   }) =>
-      _nekotonRepository.triggerDerivingKeys(
-        masterKey: masterKey,
-        password: password,
+      _ledgerService.runWithLedger(
+        interactionType: LedgerInteractionType.getPublicKey,
+        publicKey: masterKey,
+        action: () => _nekotonRepository.triggerDerivingKeys(
+          masterKey: masterKey,
+          password: password,
+        ),
       );
-
-  void showMessage(Message message) => _messengerService.show(message);
 }

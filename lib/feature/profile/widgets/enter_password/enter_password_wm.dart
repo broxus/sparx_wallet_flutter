@@ -32,7 +32,7 @@ class EnterPasswordWidgetModel
   late final _onPasswordEnteredProp = createWidgetProperty(
     (w) => w.onPasswordEntered,
   );
-  late final _providerProp = createWidgetProperty(
+  late final _getLedgerAuthProp = createWidgetProperty(
     (w) => w.getLedgerAuthInput,
   );
 
@@ -118,11 +118,15 @@ class EnterPasswordWidgetModel
 
   Future<void> onLedger() async {
     final onConfirmed = _onConfirmedProp.value;
-    final provider = _providerProp.value;
+    final getLedgerAuth = _getLedgerAuthProp.value;
 
-    if (onConfirmed == null || provider == null) return;
+    if (onConfirmed == null) return;
+    if (getLedgerAuth == null) {
+      model.showError(LocaleKeys.operationNotSupported.tr());
+      return;
+    }
 
-    onConfirmed(await provider());
+    onConfirmed(await getLedgerAuth());
   }
 
   Future<void> _init() async {

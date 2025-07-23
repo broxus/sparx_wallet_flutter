@@ -1,5 +1,6 @@
 enum LedgerInteractionType {
   getPublicKey,
+  getAddress(needsConfirmation: true),
   sign(needsConfirmation: true),
   signTransaction(needsConfirmation: true);
 

@@ -504,16 +504,21 @@ class InpageProvider extends ProviderApi {
               ),
             );
             final transport = nekotonRepository.currentTransport.transport;
-
-            await unsignedMessage.refreshTimeout();
-            final signature = await nekotonRepository.seedList.sign(
-              message: unsignedMessage.message,
+            final signatureId = await transport.getSignatureId();
+            final signature = await ledgerService.runWithLedger(
+              interactionType: LedgerInteractionType.signTransaction,
               publicKey: publicKey,
-              signInputAuth: signInputAuth,
-              signatureId: await transport.getSignatureId(),
+              action: () async {
+                await unsignedMessage.refreshTimeout();
+                return nekotonRepository.seedList.sign(
+                  message: unsignedMessage.message,
+                  publicKey: publicKey,
+                  signInputAuth: signInputAuth,
+                  signatureId: signatureId,
+                );
+              },
             );
 
-            await unsignedMessage.refreshTimeout();
             final signedMessage =
                 await unsignedMessage.sign(signature: signature);
             message = signedMessage.boc;
@@ -920,16 +925,21 @@ class InpageProvider extends ProviderApi {
         ),
       );
       final transport = nekotonRepository.currentTransport.transport;
-
-      await unsignedMessage.refreshTimeout();
-      final signature = await nekotonRepository.seedList.sign(
-        message: unsignedMessage.message,
+      final signatureId = await transport.getSignatureId();
+      final signature = await ledgerService.runWithLedger(
+        interactionType: LedgerInteractionType.signTransaction,
         publicKey: publicKey,
-        signInputAuth: signInputAuth,
-        signatureId: await transport.getSignatureId(),
+        action: () async {
+          await unsignedMessage!.refreshTimeout();
+          return nekotonRepository.seedList.sign(
+            message: unsignedMessage.message,
+            publicKey: publicKey,
+            signInputAuth: signInputAuth,
+            signatureId: signatureId,
+          );
+        },
       );
 
-      await unsignedMessage.refreshTimeout();
       final signedMessage = await unsignedMessage.sign(signature: signature);
 
       final transaction = input.local ?? false
@@ -1025,16 +1035,21 @@ class InpageProvider extends ProviderApi {
         ),
       );
       final transport = nekotonRepository.currentTransport.transport;
-
-      await unsignedMessage.refreshTimeout();
-      final signature = await nekotonRepository.seedList.sign(
-        message: unsignedMessage.message,
+      final signatureId = await transport.getSignatureId();
+      final signature = await ledgerService.runWithLedger(
+        interactionType: LedgerInteractionType.signTransaction,
         publicKey: publicKey,
-        signInputAuth: signInputAuth,
-        signatureId: await transport.getSignatureId(),
+        action: () async {
+          await unsignedMessage!.refreshTimeout();
+          return nekotonRepository.seedList.sign(
+            message: unsignedMessage.message,
+            publicKey: publicKey,
+            signInputAuth: signInputAuth,
+            signatureId: signatureId,
+          );
+        },
       );
 
-      await unsignedMessage.refreshTimeout();
       final signedMessage = await unsignedMessage.sign(signature: signature);
 
       final transaction = await nekotonRepository.sendContractUnawaited(
@@ -1160,15 +1175,21 @@ class InpageProvider extends ProviderApi {
       );
 
       final transport = nekotonRepository.currentTransport.transport;
-
-      final signature = await nekotonRepository.seedList.sign(
-        message: unsignedMessage.message,
+      final signatureId = await transport.getSignatureId();
+      final signature = await ledgerService.runWithLedger(
+        interactionType: LedgerInteractionType.signTransaction,
         publicKey: key,
-        signInputAuth: signInputAuth,
-        signatureId: await transport.getSignatureId(),
+        action: () async {
+          await unsignedMessage!.refreshTimeout();
+          return nekotonRepository.seedList.sign(
+            message: unsignedMessage.message,
+            publicKey: key,
+            signInputAuth: signInputAuth,
+            signatureId: signatureId,
+          );
+        },
       );
 
-      await unsignedMessage.refreshTimeout();
       final signedMessage = await unsignedMessage.sign(signature: signature);
 
       final transaction = await nekotonRepository.send(
@@ -1268,14 +1289,21 @@ class InpageProvider extends ProviderApi {
       );
 
       final transport = nekotonRepository.currentTransport.transport;
-      final signature = await nekotonRepository.seedList.sign(
-        message: unsignedMessage.message,
+      final signatureId = await transport.getSignatureId();
+      final signature = await ledgerService.runWithLedger(
+        interactionType: LedgerInteractionType.signTransaction,
         publicKey: key,
-        signInputAuth: signInputAuth,
-        signatureId: await transport.getSignatureId(),
+        action: () async {
+          await unsignedMessage!.refreshTimeout();
+          return nekotonRepository.seedList.sign(
+            message: unsignedMessage.message,
+            publicKey: key,
+            signInputAuth: signInputAuth,
+            signatureId: signatureId,
+          );
+        },
       );
 
-      await unsignedMessage.refreshTimeout();
       final signedMessage = await unsignedMessage.sign(signature: signature);
 
       final transaction = await nekotonRepository.sendUnawaited(
@@ -1430,12 +1458,15 @@ class InpageProvider extends ProviderApi {
       ),
     );
     final signatureId = await _computeSignatureId(input.withSignatureId);
-
-    final signedData = await nekotonRepository.seedList.signData(
-      data: input.data,
+    final signedData = await ledgerService.runWithLedger(
+      interactionType: LedgerInteractionType.sign,
       publicKey: publicKey,
-      signInputAuth: signInputAuth,
-      signatureId: signatureId,
+      action: () => nekotonRepository.seedList.signData(
+        data: input.data,
+        publicKey: publicKey,
+        signInputAuth: signInputAuth,
+        signatureId: signatureId,
+      ),
     );
 
     return SignDataOutput(
@@ -1467,14 +1498,16 @@ class InpageProvider extends ProviderApi {
         wallet: account.account.tonWallet.contract,
       ),
     );
-    final signatureId =
-        await nekotonRepository.currentTransport.transport.getSignatureId();
-
-    final signedData = await nekotonRepository.seedList.signRawData(
-      data: input.data,
+    final signatureId = await _computeSignatureId(input.withSignatureId);
+    final signedData = await ledgerService.runWithLedger(
+      interactionType: LedgerInteractionType.sign,
       publicKey: publicKey,
-      signInputAuth: signInputAuth,
-      signatureId: signatureId,
+      action: () => nekotonRepository.seedList.signRawData(
+        data: input.data,
+        publicKey: publicKey,
+        signInputAuth: signInputAuth,
+        signatureId: signatureId,
+      ),
     );
 
     return SignDataRawOutput(
@@ -1569,11 +1602,7 @@ class InpageProvider extends ProviderApi {
   ) async {
     _checkBasicPermission();
 
-    final signatureId = input.withSignatureId == true
-        ? await nekotonRepository.currentTransport.transport.getSignatureId()
-        : input.withSignatureId == false
-            ? null
-            : int.tryParse(input.withSignatureId.toString());
+    final signatureId = await _computeSignatureId(input.withSignatureId);
     final isValid = await nr.verifySignature(
       publicKey: nr.PublicKey(publicKey: input.publicKey),
       data: input.dataHash,
@@ -1813,7 +1842,7 @@ class InpageProvider extends ProviderApi {
       );
     } finally {
       if (shouldUnsubscribe) {
-        nekotonRepository.unsubscribe(address);
+        await nekotonRepository.unsubscribe(address);
       }
     }
   }

@@ -2,6 +2,7 @@ import 'package:app/app/router/router.dart';
 import 'package:app/core/error_handler_factory.dart';
 import 'package:app/core/wm/custom_wm.dart';
 import 'package:app/di/di.dart';
+import 'package:app/feature/ledger/ledger.dart';
 import 'package:app/feature/messenger/data/message.dart';
 import 'package:app/feature/nft/nft.dart';
 import 'package:app/feature/wallet/route.dart';
@@ -22,11 +23,12 @@ NftSendWidgetModel defaultNftSendWidgetModelFactory(
         inject(),
         inject(),
         inject(),
+        inject(),
       ),
     );
 
-class NftSendWidgetModel
-    extends CustomWidgetModel<NftSendWidget, NftSendModel> {
+class NftSendWidgetModel extends CustomWidgetModel<NftSendWidget, NftSendModel>
+    with BleAvailabilityMixin {
   NftSendWidgetModel(super.model);
 
   static final _logger = Logger('NftSendWidgetModel');
@@ -78,7 +80,7 @@ class NftSendWidgetModel
     );
   }
 
-  Future<void> onConfirmed(SignInputAuth auth) async {
+  Future<void> onConfirmed(SignInputAuth signInputAuth) async {
     final routeData = this.routeData.value;
     final account = this.account;
     final nftItem = _itemState.value;
@@ -87,6 +89,11 @@ class NftSendWidgetModel
     UnsignedMessage? unsignedMessage;
     try {
       _loadingState.accept(true);
+
+      if (signInputAuth.isLedger) {
+        final isAvailable = await checkBluetoothAvailability();
+        if (!isAvailable) return;
+      }
 
       final resultMessage = LocaleKeys.nftTransferSuccessMessage.tr();
       final internalMessage = await _prepareTransfer(
@@ -106,7 +113,7 @@ class NftSendWidgetModel
         address: routeData.owner,
         publicKey: routeData.publicKey,
         message: unsignedMessage,
-        auth: auth,
+        signInputAuth: signInputAuth,
         destination: internalMessage.destination,
         amount: internalMessage.amount,
       );

@@ -1,5 +1,5 @@
+import 'package:app/app/service/service.dart';
 import 'package:app/feature/ledger/ledger.dart';
-import 'package:app/feature/messenger/data/message.dart';
 import 'package:app/feature/messenger/domain/service/messenger_service.dart';
 import 'package:app/feature/nft/nft.dart';
 import 'package:app/utils/utils.dart';
@@ -7,17 +7,22 @@ import 'package:elementary/elementary.dart';
 import 'package:nekoton_repository/nekoton_repository.dart' hide Message;
 import 'package:rxdart/rxdart.dart';
 
-class NftSendModel extends ElementaryModel {
+class NftSendModel extends LedgerBaseModel {
   NftSendModel(
     ErrorHandler errorHandler,
+    AppPermissionsService permissionsService,
+    MessengerService messengerService,
     this._nekotonRepository,
-    this._messengerService,
     this._nftService,
     this._ledgerService,
-  ) : super(errorHandler: errorHandler);
+  ) : super(
+          errorHandler: errorHandler,
+          ledgerService: _ledgerService,
+          permissionsService: permissionsService,
+          messengerService: messengerService,
+        );
 
   final NekotonRepository _nekotonRepository;
-  final MessengerService _messengerService;
   final NftService _nftService;
   final LedgerService _ledgerService;
 
@@ -104,18 +109,25 @@ class NftSendModel extends ElementaryModel {
     required Address address,
     required PublicKey publicKey,
     required UnsignedMessage message,
-    required SignInputAuth auth,
+    required SignInputAuth signInputAuth,
     required Address destination,
     required BigInt amount,
   }) async {
-    final signature = await _nekotonRepository.seedList.sign(
-      message: message.message,
+    final signatureId = await transport.transport.getSignatureId();
+    final signature = await _ledgerService.runWithLedger(
+      interactionType: LedgerInteractionType.signTransaction,
       publicKey: publicKey,
-      signInputAuth: auth,
-      signatureId: await transport.transport.getSignatureId(),
+      action: () async {
+        await message.refreshTimeout();
+        return _nekotonRepository.seedList.sign(
+          message: message.message,
+          publicKey: publicKey,
+          signInputAuth: signInputAuth,
+          signatureId: signatureId,
+        );
+      },
     );
 
-    await message.refreshTimeout();
     final signedMessage = await message.sign(signature: signature);
 
     return _nekotonRepository.send(
@@ -134,8 +146,6 @@ class NftSendModel extends ElementaryModel {
     required Address owner,
   }) =>
       _nftService.getNftItem(address: address, owner: owner);
-
-  void showMessage(Message message) => _messengerService.show(message);
 
   Future<SignInputAuthLedger> getLedgerAuthInput({
     required Address address,

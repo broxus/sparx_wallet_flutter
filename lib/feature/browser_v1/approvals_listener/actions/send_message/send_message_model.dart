@@ -1,22 +1,26 @@
+import 'package:app/app/service/service.dart';
 import 'package:app/feature/ledger/ledger.dart';
-import 'package:app/feature/messenger/data/message.dart';
 import 'package:app/feature/messenger/domain/service/messenger_service.dart';
 import 'package:app/utils/utils.dart';
 import 'package:elementary/elementary.dart';
-import 'package:flutter/material.dart';
-import 'package:nekoton_repository/nekoton_repository.dart' hide Message;
+import 'package:nekoton_repository/nekoton_repository.dart';
 import 'package:rxdart/rxdart.dart';
 
-class SendMessageModel extends ElementaryModel {
+class SendMessageModel extends LedgerBaseModel {
   SendMessageModel(
     ErrorHandler errorHandler,
+    AppPermissionsService permissionsService,
+    MessengerService messengerService,
     this._nekotonRepository,
-    this._messengerService,
     this._ledgerService,
-  ) : super(errorHandler: errorHandler);
+  ) : super(
+          errorHandler: errorHandler,
+          ledgerService: _ledgerService,
+          permissionsService: permissionsService,
+          messengerService: messengerService,
+        );
 
   final NekotonRepository _nekotonRepository;
-  final MessengerService _messengerService;
   final LedgerService _ledgerService;
 
   TransportStrategy get transport => _nekotonRepository.currentTransport;
@@ -109,14 +113,6 @@ class SendMessageModel extends ElementaryModel {
     );
 
     return details;
-  }
-
-  void showError(BuildContext context, String message) {
-    _messengerService.show(
-      Message.error(
-        message: message,
-      ),
-    );
   }
 
   Future<SignInputAuthLedger> getLedgerAuthInput({

@@ -28,10 +28,12 @@ class LedgerService {
 
   Stream<LedgerInteraction> get interactionStream => _interactionSubject.stream;
 
+  LedgerInteraction? get currentInteraction => _interactionSubject.valueOrNull;
+
   Stream<BluetoothAdapterState> get adapterState =>
       FlutterBluePlus.adapterState;
 
-  LedgerAppInterface? get current => _connectionHandler.appInterface;
+  LedgerAppInterface? get appInterface => _connectionHandler.appInterface;
 
   Future<bool> checkPermissions() async {
     final isGranted = await _permissionsService.requestPermissions([
@@ -170,6 +172,7 @@ class LedgerService {
     required LedgerInteractionType interactionType,
     required PublicKey publicKey,
     required Future<T> Function() action,
+    bool showBottomSheet = true,
   }) async {
     LedgerInteraction? interaction;
     final masterKey = _nekotonRepository.seedList
@@ -186,16 +189,25 @@ class LedgerService {
         );
       }
 
-      interaction = LedgerInteraction(
-        interactionType: interactionType,
-        device: device,
-        connected: connected,
-      );
-      _interactionSubject.add(interaction);
+      // check if previous interaction was successful
+      // and device is still connected
+      if (currentInteraction == null ||
+          currentInteraction?.interactionType != interactionType ||
+          currentInteraction?.state != LedgerInteractionState.done ||
+          appInterface == null ||
+          appInterface?.device.isConnected == false) {
+        interaction = LedgerInteraction(
+          interactionType: interactionType,
+          device: device,
+          connected: connected,
+          showBottomSheet: showBottomSheet,
+        );
+        _interactionSubject.add(interaction);
 
-      await initLedgerConnection(
-        await interaction.prepare(),
-      );
+        await initLedgerConnection(
+          await interaction.prepare(),
+        );
+      }
     }
 
     try {

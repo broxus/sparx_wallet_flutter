@@ -41,6 +41,7 @@ class AccountSettingsWidget
                 wm.onCustodiansSettings(custodians ?? []),
             onViewInExplorer: wm.onViewInExplorer,
             onRename: wm.onRename,
+            onVerify: wm.onVerify,
             onHideAccount: (list?.length ?? 0) > 1 ? wm.onHideAccount : null,
           ),
         ),
@@ -56,6 +57,7 @@ class _ButtonsCard extends StatelessWidget {
     required this.onCustodiansSettings,
     required this.onViewInExplorer,
     required this.onRename,
+    required this.onVerify,
     required this.onHideAccount,
   });
 
@@ -64,6 +66,7 @@ class _ButtonsCard extends StatelessWidget {
   final VoidCallback onCustodiansSettings;
   final VoidCallback onViewInExplorer;
   final VoidCallback onRename;
+  final VoidCallback onVerify;
   final VoidCallback? onHideAccount;
 
   @override
@@ -92,6 +95,14 @@ class _ButtonsCard extends StatelessWidget {
             label: LocaleKeys.changeAccountName.tr(),
             icon: LucideIcons.pencilLine,
             onTap: onRename,
+          ),
+          AccountSettingsButton(
+            label: LocaleKeys.verifyOnLedger.tr(),
+            iconWidget: Assets.images.ledger.svg(
+              width: DimensSizeV2.d20,
+              height: DimensSizeV2.d20,
+            ),
+            onTap: onVerify,
           ),
           AccountSettingsChangeColorButton(
             address: address,

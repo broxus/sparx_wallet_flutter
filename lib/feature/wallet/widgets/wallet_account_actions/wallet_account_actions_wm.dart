@@ -5,8 +5,11 @@ import 'package:app/core/error_handler_factory.dart';
 import 'package:app/core/wm/custom_wm.dart';
 import 'package:app/data/models/models.dart';
 import 'package:app/di/di.dart';
+import 'package:app/feature/ledger/ledger.dart';
 import 'package:app/feature/messenger/data/message.dart';
+import 'package:app/feature/profile/manage_seeds_accounts/route.dart';
 import 'package:app/feature/profile/profile.dart';
+import 'package:app/feature/profile/widgets/switch_to_seed_sheet/switch_to_seed_sheet.dart';
 import 'package:app/feature/wallet/staking/view/staking_page/route.dart';
 import 'package:app/feature/wallet/wallet.dart';
 import 'package:app/feature/wallet/wallet_deploy/route.dart';
@@ -286,6 +289,18 @@ class WalletAccountActionsWidgetModel
               command: EnterSeedNameCommand.import,
             ),
           );
+        case SelectAddSeedType.ledger:
+          final pk = await showImportLedgerSheet(contextSafe!);
+          if (pk != null && contextSafe != null) {
+            await showSwitchToSeedSheet(context: contextSafe!, publicKey: pk)
+                .whenComplete(() {
+              try {
+                contextSafe?.compassPointNamed(
+                  const ManageSeedsAccountsRouteData(),
+                );
+              } catch (_) {}
+            });
+          }
       }
     }
   }

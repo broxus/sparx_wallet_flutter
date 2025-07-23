@@ -9,16 +9,20 @@ class LedgerInteraction {
     required this.interactionType,
     required this.device,
     required this.connected,
+    this.showBottomSheet = true,
   });
 
   final LedgerInteractionType interactionType;
   final BluetoothDevice device;
   final ConnectedLedger connected;
+  final bool showBottomSheet;
 
   final _subject = BehaviorSubject.seeded(LedgerInteractionState.connecting);
   CancelableOperation<bool>? _operation;
 
   Stream<LedgerInteractionState> get stateStream => _subject.stream;
+
+  LedgerInteractionState get state => _subject.value;
 
   bool get isFinalState =>
       _subject.value == LedgerInteractionState.done ||

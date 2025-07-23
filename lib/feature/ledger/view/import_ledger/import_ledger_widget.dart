@@ -8,14 +8,14 @@ import 'package:lucide_icons_flutter/lucide_icons.dart';
 import 'package:ui_components_lib/ui_components_lib.dart';
 import 'package:ui_components_lib/v2/ui_components_lib_v2.dart';
 
-class ConnectLedgerWidget extends ElementaryWidget<ConnectLedgerWidgetModel> {
-  const ConnectLedgerWidget({
+class ImportLedgerWidget extends ElementaryWidget<ImportLedgerWidgetModel> {
+  const ImportLedgerWidget({
     Key? key,
-    WidgetModelFactory wmFactory = defaultConnectLedgerWidgetModelFactory,
+    WidgetModelFactory wmFactory = defaultImportLedgerWidgetModelFactory,
   }) : super(wmFactory, key: key);
 
   @override
-  Widget build(ConnectLedgerWidgetModel wm) {
+  Widget build(ImportLedgerWidgetModel wm) {
     return SafeArea(
       minimum: const EdgeInsets.only(bottom: DimensSize.d24),
       child: StateNotifierBuilder(
@@ -172,7 +172,7 @@ class _Connect extends StatelessWidget {
       mainAxisSize: MainAxisSize.min,
       children: [
         Text(
-          LocaleKeys.availableDevices.tr(),
+          LocaleKeys.connectLedger.tr(),
           style: theme.textStyles.headingMedium,
         ),
         const SizedBox(height: DimensSizeV2.d16),

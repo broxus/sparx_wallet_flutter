@@ -50,9 +50,10 @@ class SelectAccountWidget extends ElementaryWidget<SelectAccountWidgetModel> {
                       return Padding(
                         padding: const EdgeInsets.only(bottom: DimensSizeV2.d8),
                         child: _SeedItem(
+                          key: ValueKey(data.name),
                           data: data,
                           isExpanded: isExpanded,
-                          key: ValueKey(data.name),
+                          isLedger: data.isLedger,
                           currentAccount: currentAccount,
                           onTapAccount: (item) => wm.onSelect(item),
                           getBalanceEntity: wm.getBalanceEntity,
@@ -91,6 +92,7 @@ class _SeedItem extends StatefulWidget {
   const _SeedItem({
     required this.data,
     required this.isExpanded,
+    required this.isLedger,
     required this.currentAccount,
     required this.onTapAccount,
     required this.getBalanceEntity,
@@ -100,6 +102,7 @@ class _SeedItem extends StatefulWidget {
 
   final SelectAccountData data;
   final bool isExpanded;
+  final bool isLedger;
   final KeyAccount? currentAccount;
   final Function(KeyAccount) onTapAccount;
   final ListenableState<Money?> Function(KeyAccount) getBalanceEntity;
@@ -133,6 +136,7 @@ class _SeedItemState extends State<_SeedItem> {
             SeedPhraseItemWidget(
               name: widget.data.name,
               isExpanded: _isExpanded,
+              isLedger: widget.isLedger,
             ),
             if (_isExpanded) const SizedBox(height: DimensSizeV2.d16),
             if (_isExpanded) const CommonDivider(),

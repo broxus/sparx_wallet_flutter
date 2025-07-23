@@ -1,21 +1,26 @@
+import 'package:app/app/service/service.dart';
 import 'package:app/feature/ledger/ledger.dart';
-import 'package:app/feature/messenger/data/message.dart';
 import 'package:app/feature/messenger/domain/service/messenger_service.dart';
 import 'package:app/utils/utils.dart';
 import 'package:elementary/elementary.dart';
 import 'package:nekoton_repository/nekoton_repository.dart' hide Message;
 import 'package:rxdart/rxdart.dart';
 
-class ConfirmMultisigTransactionModel extends ElementaryModel {
+class ConfirmMultisigTransactionModel extends LedgerBaseModel {
   ConfirmMultisigTransactionModel(
     ErrorHandler errorHandler,
+    AppPermissionsService permissionsService,
+    MessengerService messengerService,
     this._nekotonRepository,
-    this._messengerService,
     this._ledgerService,
-  ) : super(errorHandler: errorHandler);
+  ) : super(
+          errorHandler: errorHandler,
+          ledgerService: _ledgerService,
+          permissionsService: permissionsService,
+          messengerService: messengerService,
+        );
 
   final NekotonRepository _nekotonRepository;
-  final MessengerService _messengerService;
   final LedgerService _ledgerService;
 
   TransportStrategy get transport => _nekotonRepository.currentTransport;
@@ -69,14 +74,20 @@ class ConfirmMultisigTransactionModel extends ElementaryModel {
     required BigInt amount,
     required SignInputAuth signInputAuth,
   }) async {
-    final signature = await _nekotonRepository.seedList.sign(
-      message: message.message,
+    final signatureId = await transport.transport.getSignatureId();
+    final signature = await _ledgerService.runWithLedger(
+      interactionType: LedgerInteractionType.signTransaction,
       publicKey: publicKey,
-      signInputAuth: signInputAuth,
-      signatureId: await transport.transport.getSignatureId(),
+      action: () async {
+        return _nekotonRepository.seedList.sign(
+          message: message.message,
+          publicKey: publicKey,
+          signInputAuth: signInputAuth,
+          signatureId: signatureId,
+        );
+      },
     );
 
-    await message.refreshTimeout();
     final signedMessage = await message.sign(signature: signature);
 
     return _nekotonRepository.send(
@@ -86,8 +97,6 @@ class ConfirmMultisigTransactionModel extends ElementaryModel {
       destination: repackAddress(destination),
     );
   }
-
-  void showMessage(Message message) => _messengerService.show(message);
 
   SignInputAuthLedger getLedgerAuthInput({
     required TonWallet wallet,

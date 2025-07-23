@@ -23,6 +23,7 @@ class SelectAccountModel extends ElementaryModel {
         (seedList) {
           final seeds = seedList.seeds
             ..sort((a, b) => a.name.compareTo(b.name));
+
           return seeds.map((seed) {
             final privateKeys = seed.allKeys.map((key) {
               final accounts = key.accountList.allAccounts
@@ -34,9 +35,11 @@ class SelectAccountModel extends ElementaryModel {
                 accounts: accounts,
               );
             }).toList();
+
             return SelectAccountData(
               name: seed.name,
               privateKeys: privateKeys,
+              isLedger: seed.masterKey.isLedger,
             );
           }).toList();
         },
