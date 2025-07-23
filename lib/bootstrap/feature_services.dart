@@ -2,6 +2,7 @@ import 'package:app/app/service/service.dart';
 import 'package:app/di/di.dart';
 import 'package:app/feature/nft/nft.dart';
 import 'package:app/feature/update_version/update_version.dart';
+import 'package:app/feature/wallet/staking/staking.dart';
 import 'package:app/http/http.dart';
 import 'package:logging/logging.dart';
 

@@ -59,22 +59,30 @@ class ProfileView extends StatelessWidget {
             const SizedBox(height: DimensSizeV2.d16),
             StateNotifierBuilder(
               listenableState: currentSeed,
-              builder: (_, currentSeed) => PrimaryButton(
-                isFullWidth: false,
-                buttonShape: ButtonShape.pill,
-                title: LocaleKeys.exportSeedPhrase.tr(),
-                postfixIcon: LucideIcons.share,
-                onPressed: currentSeed == null
-                    ? null
-                    : () => Navigator.of(context, rootNavigator: true).push(
-                          exportSeedSheetRoute(
-                            context,
-                            currentSeed.publicKey,
-                          ),
+              builder: (_, currentSeed) {
+                if (currentSeed == null || currentSeed.masterKey.isLedger) {
+                  return const SizedBox.shrink();
+                }
+
+                return Padding(
+                  padding: const EdgeInsets.only(bottom: DimensSizeV2.d32),
+                  child: PrimaryButton(
+                    isFullWidth: false,
+                    buttonShape: ButtonShape.pill,
+                    title: LocaleKeys.exportSeedPhrase.tr(),
+                    postfixIcon: LucideIcons.share,
+                    onPressed: () {
+                      Navigator.of(context, rootNavigator: true).push(
+                        exportSeedSheetRoute(
+                          context,
+                          currentSeed.publicKey,
                         ),
-              ),
+                      );
+                    },
+                  ),
+                );
+              },
             ),
-            const SizedBox(height: DimensSizeV2.d32),
             ShapedContainerColumn(
               color: theme.colors.background1,
               separator: const CommonDivider(),

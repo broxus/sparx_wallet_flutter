@@ -4,5 +4,5 @@ class LedgerException implements Exception {
   final String message;
 
   @override
-  String toString() => 'LedgerException: $message';
+  String toString() => message;
 }

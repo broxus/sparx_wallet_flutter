@@ -1,9 +1,7 @@
 part of 'derive_keys_cubit.dart';
 
 @Freezed(equal: false)
-sealed class DeriveKeysState with _$DeriveKeysState {
-  const factory DeriveKeysState.initial() = DeriveKeysStateInitial;
-
+abstract class DeriveKeysState with _$DeriveKeysState {
   /// [displayDerivedKeys] contains small list of keys, that should be displayed
   /// on single page.
   ///
@@ -11,7 +9,7 @@ sealed class DeriveKeysState with _$DeriveKeysState {
   /// indicator.
   /// prev and next page buttons should be disabled.
   /// if [isCompleted] = true, then sheet must be closed.
-  const factory DeriveKeysState.data({
+  const factory DeriveKeysState({
     required bool canPrevPage,
     required bool canNextPage,
     required int currentPageIndex,
@@ -21,5 +19,5 @@ sealed class DeriveKeysState with _$DeriveKeysState {
     required Map<PublicKey, String> keyNames,
     required bool isLoading,
     required bool isCompleted,
-  }) = DeriveKeysStateData;
+  }) = _DeriveKeysState;
 }

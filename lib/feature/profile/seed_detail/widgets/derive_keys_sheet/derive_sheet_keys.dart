@@ -56,75 +56,70 @@ class DeriveKeysSheet extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocConsumer<DeriveKeysCubit, DeriveKeysState>(
-      listener: (context, state) => switch (state) {
-        DeriveKeysStateData(:final isCompleted) when isCompleted =>
-          Navigator.of(context).pop(),
-        _ => null,
+      listener: (context, state) {
+        if (state.isCompleted) {
+          Navigator.of(context).pop();
+        }
       },
       builder: (context, state) {
-        return switch (state) {
-          DeriveKeysStateInitial() => const SizedBox.shrink(),
-          DeriveKeysStateData(
-            :final canPrevPage,
-            :final canNextPage,
-            :final currentPageIndex,
-            :final displayDerivedKeys,
-            :final selectedKeys,
-            :final keyNames,
-            :final isLoading,
-          ) =>
-            SeparatedColumn(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                Flexible(
-                  child: SingleChildScrollView(
-                    controller: controller,
-                    padding: const EdgeInsets.symmetric(
-                      horizontal: DimensSizeV2.d16,
-                    ),
-                    child: SizedBox(
-                      height: _containerHeight,
-                      child: SeparatedColumn(
-                        mainAxisSize: MainAxisSize.min,
-                        separator: const Padding(
-                          padding:
-                              EdgeInsets.symmetric(vertical: DimensSizeV2.d4),
-                          child: CommonDivider(),
+        return SeparatedColumn(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Flexible(
+              child: SingleChildScrollView(
+                controller: controller,
+                padding: const EdgeInsets.symmetric(
+                  horizontal: DimensSizeV2.d16,
+                ),
+                child: SizedBox(
+                  height: _containerHeight,
+                  child: state.displayDerivedKeys.isEmpty && state.isLoading
+                      ? const Center(
+                          child: ProgressIndicatorWidget(
+                            size: DimensSizeV2.d40,
+                          ),
+                        )
+                      : SeparatedColumn(
+                          mainAxisSize: MainAxisSize.min,
+                          separator: const Padding(
+                            padding:
+                                EdgeInsets.symmetric(vertical: DimensSizeV2.d4),
+                            child: CommonDivider(),
+                          ),
+                          children: state.displayDerivedKeys
+                              .map(
+                                (k) => _keyItem(
+                                  key: k,
+                                  name: state.keyNames[k.publicKey],
+                                  isSelected:
+                                      state.selectedKeys.contains(k.publicKey),
+                                ),
+                              )
+                              .toList(),
                         ),
-                        children: displayDerivedKeys
-                            .map(
-                              (k) => _keyItem(
-                                key: k,
-                                name: keyNames[k.publicKey],
-                                isSelected: selectedKeys.contains(k.publicKey),
-                              ),
-                            )
-                            .toList(),
-                      ),
-                    ),
-                  ),
                 ),
-                Column(
-                  children: [
-                    const CommonDivider(),
-                    _pagesBuilder(
-                      currentPageIndex: currentPageIndex,
-                      canPrevPage: canPrevPage,
-                      canNextPage: canNextPage,
-                    ),
-                    const CommonDivider(),
-                    const SizedBox(height: DimensSizeV2.d8),
-                  ],
+              ),
+            ),
+            Column(
+              children: [
+                const CommonDivider(),
+                _pagesBuilder(
+                  currentPageIndex: state.currentPageIndex,
+                  canPrevPage: state.canPrevPage,
+                  canNextPage: state.canNextPage,
                 ),
-                Padding(
-                  padding: const EdgeInsets.symmetric(
-                    horizontal: DimensSizeV2.d16,
-                  ),
-                  child: _selectButton(isLoading),
-                ),
+                const CommonDivider(),
+                const SizedBox(height: DimensSizeV2.d8),
               ],
             ),
-        };
+            Padding(
+              padding: const EdgeInsets.symmetric(
+                horizontal: DimensSizeV2.d16,
+              ),
+              child: _selectButton(state.isLoading),
+            ),
+          ],
+        );
       },
     );
   }

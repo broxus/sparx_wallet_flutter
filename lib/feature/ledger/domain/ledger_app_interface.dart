@@ -14,6 +14,7 @@ import 'package:nekoton_repository/nekoton_repository.dart';
 
 const _cla = 0xe0;
 const _insOpenApp = 0xd8;
+const _insGetApp = 0x01;
 const _insGetConf = 0x01;
 const _insGetPk = 0x02;
 const _insSign = 0x03;
@@ -106,6 +107,40 @@ class LedgerAppInterface {
     } catch (e, st) {
       _logger.severe('Failed to open app: $e', e, st);
       throw LedgerException('Failed to open app: $e');
+    } finally {
+      _mutex.release();
+    }
+  }
+
+  Future<String> getAppName() async {
+    await _mutex.acquire();
+
+    try {
+      final writer = _getAPDUWriter(cla: 0xb0, ins: _insGetApp);
+      final response = await _write(writer.toBytes());
+
+      if (!response.isOk) {
+        throw LedgerException(
+          'Failed to get app: SW=${response.sw.toRadixString(16)}',
+        );
+      }
+
+      final reader = ByteDataReader()..add(response.data);
+      final tag = reader.readUint8();
+
+      if (tag != 0x01) {
+        throw LedgerException(
+          'Unexpected tag in app response: $tag',
+        );
+      }
+
+      final length = reader.readUint8();
+      final appName = ascii.decode(reader.read(length));
+
+      return appName;
+    } catch (e, st) {
+      _logger.severe('Failed to get app name: $e', e, st);
+      throw LedgerException('Failed to get app name: $e');
     } finally {
       _mutex.release();
     }
@@ -316,12 +351,9 @@ class LedgerAppInterface {
     }
   }
 
-  // TODO(komarov): implement using DMK commands
   Future<void> _waitForApp(CancelableCompleter<bool> completer) async {
-    Uint8List? data;
-
-    while (data == null && !completer.isCanceled) {
-      await device.tryConnect();
+    while (!completer.isCanceled) {
+      await device.tryConnect(const Duration(seconds: 5));
 
       if (!device.isConnected) {
         completer.completeError(
@@ -331,10 +363,11 @@ class LedgerAppInterface {
       }
 
       try {
-        data = await getPublicKey(0);
-      } catch (_) {
-        await Future<void>.delayed(const Duration(seconds: 1));
-      }
+        final appName = await getAppName();
+        if (_checkAppName(appName)) break;
+      } catch (_) {}
+
+      await Future<void>.delayed(const Duration(seconds: 1));
     }
 
     if (!completer.isCompleted && !completer.isCanceled) {
@@ -385,11 +418,11 @@ class LedgerAppInterface {
       device.cancelWhenDisconnected(subscription);
 
       if (!_notifyCharacteristic.isNotifying) {
-        await _notifyCharacteristic.setNotifyValue(true);
+        await _notifyCharacteristic.setNotifyValue(true, timeout: 5);
       }
 
       for (final packet in packets) {
-        await _writeCharacteristic.write(packet);
+        await _writeCharacteristic.write(packet, timeout: 5);
       }
 
       return completer.future;
@@ -426,13 +459,21 @@ class LedgerAppInterface {
 
   ByteDataWriter _getAPDUWriter({
     required int ins,
+    int cla = _cla,
     int p1 = 0x00,
     int p2 = 0x00,
   }) {
     return ByteDataWriter()
-      ..writeUint8(_cla) // CLA
+      ..writeUint8(cla) // CLA
       ..writeUint8(ins) // INS
       ..writeUint8(p1) // P1
       ..writeUint8(p2); // P2
+  }
+
+  bool _checkAppName(String appName) {
+    final lower = appName.toLowerCase();
+    return lower.startsWith('ever') ||
+        lower.startsWith('venom') ||
+        lower.startsWith('tycho');
   }
 }

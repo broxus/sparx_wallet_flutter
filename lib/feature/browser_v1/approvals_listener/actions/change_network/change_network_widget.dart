@@ -77,7 +77,7 @@ class ChangeNetworkWidget extends ElementaryWidget<ChangeNetworkWidgetModel> {
                         ),
                         _Param(
                           label: LocaleKeys.networkType.tr(),
-                          value: connection.networkType,
+                          value: connection.networkType.name,
                         ),
                       ],
                     ),

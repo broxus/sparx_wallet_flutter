@@ -53,7 +53,6 @@ import '../app/service/remote/dns_resolve_service.dart' as _i391;
 import '../app/service/resources_service.dart' as _i104;
 import '../app/service/service.dart' as _i128;
 import '../app/service/session/session_service.dart' as _i299;
-import '../app/service/staking_service.dart' as _i209;
 import '../app/service/storage_service/account_seed_storage_service.dart'
     as _i747;
 import '../app/service/storage_service/app_storage_service.dart' as _i184;
@@ -161,6 +160,9 @@ import '../feature/wallet/new_account/route.dart' as _i986;
 import '../feature/wallet/new_account/screen/route.dart' as _i229;
 import '../feature/wallet/new_account/select_seed/route.dart' as _i278;
 import '../feature/wallet/route.dart' as _i113;
+import '../feature/wallet/staking/domain/staking_abi_provider.dart' as _i1016;
+import '../feature/wallet/staking/domain/staking_service.dart' as _i811;
+import '../feature/wallet/staking/staking.dart' as _i948;
 import '../feature/wallet/staking/view/cancel_unstaking_page/route.dart'
     as _i420;
 import '../feature/wallet/staking/view/staking_page/route.dart' as _i450;
@@ -267,11 +269,6 @@ extension GetItInjectableX on _i174.GetIt {
       () => _i434.EnableBiometryRoute(),
       instanceName: 'EnableBiometryRoute',
     );
-    gh.singleton<_i209.StakingService>(() => _i209.StakingService(
-          gh<_i771.NekotonRepository>(),
-          gh<_i361.Dio>(),
-          gh<_i104.ResourcesService>(),
-        ));
     gh.singleton<_i82.CompassBaseRoute>(
       () => _i693.ConfirmMultisigTransactionRoute(),
       instanceName: 'ConfirmMultisigTransactionRoute',
@@ -346,6 +343,8 @@ extension GetItInjectableX on _i174.GetIt {
     );
     gh.lazySingleton<_i128.IIdentifyIconsService>(
         () => _i316.IdentifyIconsService(gh<_i128.AppStorageService>()));
+    gh.singleton<_i1016.StakingAbiProvider>(
+        () => _i1016.StakingAbiProvider(gh<_i104.ResourcesService>()));
     gh.singleton<_i1020.BalanceStorageService>(
         () => _i1020.BalanceStorageService(
               gh<_i792.GetStorage>(instanceName: 'overallBalancesDomain'),
@@ -519,6 +518,12 @@ extension GetItInjectableX on _i174.GetIt {
           gh<_i128.GeneralStorageService>(),
           gh<_i128.SecureStorageService>(),
           gh<_i128.AppLifecycleService>(),
+        ));
+    gh.singleton<_i811.StakingService>(() => _i811.StakingService(
+          gh<_i771.NekotonRepository>(),
+          gh<_i361.Dio>(),
+          gh<_i948.StakingAbiProvider>(),
+          gh<_i128.GasPriceService>(),
         ));
     gh.factory<_i169.BrowserServiceScreenshotsDelegate>(() =>
         _i169.BrowserServiceScreenshotsDelegate(

@@ -15,6 +15,18 @@ const derivedKeysPerPage = 5;
 /// Number of pages that we be able to select.
 const derivePageCount = 20;
 
+const _initial = DeriveKeysState(
+  canNextPage: false,
+  canPrevPage: false,
+  currentPageIndex: 0,
+  pageCount: derivePageCount,
+  keyNames: {},
+  displayDerivedKeys: [],
+  selectedKeys: {},
+  isLoading: true,
+  isCompleted: false,
+);
+
 class DerivedKeyWithIndex {
   const DerivedKeyWithIndex(this.index, this.publicKey);
 
@@ -31,7 +43,7 @@ class DeriveKeysCubit extends Cubit<DeriveKeysState> with BlocBaseMixin {
     this._ledgerService,
     this._publicKey,
     this._password,
-  ) : super(const DeriveKeysState.initial()) {
+  ) : super(_initial) {
     final seed = _nekotonRepository.seedList.findSeed(_publicKey);
     if (seed == null) {
       throw StateError('Seed with public key $_publicKey not found');
@@ -132,7 +144,7 @@ class DeriveKeysCubit extends Cubit<DeriveKeysState> with BlocBaseMixin {
     bool isLoading = false,
   }) {
     emitSafe(
-      DeriveKeysState.data(
+      DeriveKeysState(
         canNextPage: _canNextPage(),
         canPrevPage: _canPrevPage(),
         currentPageIndex: _currentPageIndex,
@@ -148,7 +160,7 @@ class DeriveKeysCubit extends Cubit<DeriveKeysState> with BlocBaseMixin {
 
   Future<void> select() async {
     emitSafe(
-      DeriveKeysState.data(
+      DeriveKeysState(
         canNextPage: false,
         canPrevPage: false,
         currentPageIndex: _currentPageIndex,
@@ -186,7 +198,7 @@ class DeriveKeysCubit extends Cubit<DeriveKeysState> with BlocBaseMixin {
     }
 
     emitSafe(
-      DeriveKeysState.data(
+      DeriveKeysState(
         canNextPage: false,
         canPrevPage: false,
         currentPageIndex: _currentPageIndex,

@@ -15,17 +15,20 @@ import 'package:vector_graphics/vector_graphics.dart' as _vg;
 class $AssetsAbiGen {
   const $AssetsAbiGen();
 
-  /// File path: assets/abi/StEverAccount.abi.min.json
-  String get stEverAccountAbiMin => 'assets/abi/StEverAccount.abi.min.json';
+  /// File path: assets/abi/StEverAccount.abi.json
+  String get stEverAccountAbi => 'assets/abi/StEverAccount.abi.json';
 
   /// File path: assets/abi/StEverAccountNew.abi.json
   String get stEverAccountNewAbi => 'assets/abi/StEverAccountNew.abi.json';
 
-  /// File path: assets/abi/StEverVault.abi.min.json
-  String get stEverVaultAbiMin => 'assets/abi/StEverVault.abi.min.json';
+  /// File path: assets/abi/StEverVault.abi.json
+  String get stEverVaultAbi => 'assets/abi/StEverVault.abi.json';
 
   /// File path: assets/abi/StEverVaultNew.abi.json
   String get stEverVaultNewAbi => 'assets/abi/StEverVaultNew.abi.json';
+
+  /// File path: assets/abi/StEverVaultTycho.abi.json
+  String get stEverVaultTychoAbi => 'assets/abi/StEverVaultTycho.abi.json';
 
   /// File path: assets/abi/TokenRoot.abi.json
   String get tokenRootAbi => 'assets/abi/TokenRoot.abi.json';
@@ -35,13 +38,14 @@ class $AssetsAbiGen {
 
   /// List of all assets
   List<String> get values => [
-        stEverAccountAbiMin,
-        stEverAccountNewAbi,
-        stEverVaultAbiMin,
-        stEverVaultNewAbi,
-        tokenRootAbi,
-        tokenWalletAbi,
-      ];
+    stEverAccountAbi,
+    stEverAccountNewAbi,
+    stEverVaultAbi,
+    stEverVaultNewAbi,
+    stEverVaultTychoAbi,
+    tokenRootAbi,
+    tokenWalletAbi,
+  ];
 }
 
 class $AssetsAnimationsGen {
@@ -484,113 +488,113 @@ class $AssetsImagesGen {
 
   /// List of all assets
   List<dynamic> get values => [
-        accountType,
-        alarm,
-        alarmRounded,
-        alert,
-        alertRounded,
-        arrowDown,
-        arrowDownFlat,
-        arrowLeft,
-        arrowUp,
-        arrowUpFlat,
-        arrowsLeftRight,
-        bgConnection,
-        bgInternet,
-        bgNetwork,
-        blurBackground,
-        bookOpen,
-        browserCard01,
-        browserCard02,
-        burger,
-        camera,
-        caretDown,
-        caretDownSmall,
-        caretLeft,
-        caretLeft24,
-        caretRight,
-        caretRight24,
-        caretUp,
-        check,
-        checkEmpty,
-        checkRounded,
-        checkSquare,
-        choose,
-        circleCheck,
-        clear,
-        close,
-        closedEye,
-        copy,
-        copyOutlined,
-        currency,
-        deploy,
-        deploymentProgress,
-        dots,
-        edit,
-        ever,
-        exclamationMark,
-        exclamationMarkAlert,
-        exit,
-        export,
-        export2,
-        exportFill,
-        faceId,
-        finger,
-        fingerSmall,
-        history,
-        historyFill,
-        horizontalDots,
-        icExplamationMark,
-        icMatch,
-        icNotMatch,
-        icTooWeak,
-        import,
-        importFill,
-        key,
-        layers,
-        ledger,
-        lightning,
-        lock,
-        lockBackup,
-        lockFill,
-        logo,
-        minus,
-        moon,
-        nativeTokenDefault,
-        navigateBack,
-        navigateForward,
-        navigation,
-        networkDefault,
-        networkEarth,
-        networkVectorDefault,
-        nftEmptyList,
-        openedEye,
-        paste,
-        person,
-        persons,
-        planetInner,
-        planetOuter,
-        plus,
-        refresh,
-        search,
-        searchEmpty,
-        searchX,
-        seedPhraseIcon,
-        settings,
-        share,
-        sparxLogoSmall,
-        stake,
-        star,
-        support,
-        tokenDefaultIcon,
-        tooltip,
-        transactionProgress,
-        trash,
-        versionUpdateIcon,
-        verticalDots,
-        wallet,
-        web,
-      ];
+    accountType,
+    alarm,
+    alarmRounded,
+    alert,
+    alertRounded,
+    arrowDown,
+    arrowDownFlat,
+    arrowLeft,
+    arrowUp,
+    arrowUpFlat,
+    arrowsLeftRight,
+    bgConnection,
+    bgInternet,
+    bgNetwork,
+    blurBackground,
+    bookOpen,
+    browserCard01,
+    browserCard02,
+    burger,
+    camera,
+    caretDown,
+    caretDownSmall,
+    caretLeft,
+    caretLeft24,
+    caretRight,
+    caretRight24,
+    caretUp,
+    check,
+    checkEmpty,
+    checkRounded,
+    checkSquare,
+    choose,
+    circleCheck,
+    clear,
+    close,
+    closedEye,
+    copy,
+    copyOutlined,
+    currency,
+    deploy,
+    deploymentProgress,
+    dots,
+    edit,
+    ever,
+    exclamationMark,
+    exclamationMarkAlert,
+    exit,
+    export,
+    export2,
+    exportFill,
+    faceId,
+    finger,
+    fingerSmall,
+    history,
+    historyFill,
+    horizontalDots,
+    icExplamationMark,
+    icMatch,
+    icNotMatch,
+    icTooWeak,
+    import,
+    importFill,
+    key,
+    layers,
+    ledger,
+    lightning,
+    lock,
+    lockBackup,
+    lockFill,
+    logo,
+    minus,
+    moon,
+    nativeTokenDefault,
+    navigateBack,
+    navigateForward,
+    navigation,
+    networkDefault,
+    networkEarth,
+    networkVectorDefault,
+    nftEmptyList,
+    openedEye,
+    paste,
+    person,
+    persons,
+    planetInner,
+    planetOuter,
+    plus,
+    refresh,
+    search,
+    searchEmpty,
+    searchX,
+    seedPhraseIcon,
+    settings,
+    share,
+    sparxLogoSmall,
+    stake,
+    star,
+    support,
+    tokenDefaultIcon,
+    tooltip,
+    transactionProgress,
+    trash,
+    versionUpdateIcon,
+    verticalDots,
+    wallet,
+    web,
+  ];
 }
 
 class $AssetsSplashGen {
@@ -610,10 +614,10 @@ class $AssetsSplashGen {
 
   /// List of all assets
   List<AssetGenImage> get values => [
-        icSplashBanner,
-        icSplashLogo,
-        nativeSplash,
-      ];
+    icSplashBanner,
+    icSplashLogo,
+    nativeSplash,
+  ];
 }
 
 class $AssetsTranslationsGen {
@@ -634,8 +638,8 @@ class $AssetsImagesAlertOctagonFillGen {
 
   /// File path: assets/images/alert_octagon_fill/alert_octagon_fill.webp
   AssetGenImage get alertOctagonFill => const AssetGenImage(
-        'assets/images/alert_octagon_fill/alert_octagon_fill.webp',
-      );
+    'assets/images/alert_octagon_fill/alert_octagon_fill.webp',
+  );
 
   /// List of all assets
   List<AssetGenImage> get values => [alertOctagonFill];
@@ -657,8 +661,8 @@ class $AssetsImagesCheckCircleFillGen {
 
   /// File path: assets/images/check_circle_fill/check_circle_fill.webp
   AssetGenImage get checkCircleFill => const AssetGenImage(
-        'assets/images/check_circle_fill/check_circle_fill.webp',
-      );
+    'assets/images/check_circle_fill/check_circle_fill.webp',
+  );
 
   /// List of all assets
   List<AssetGenImage> get values => [checkCircleFill];
@@ -709,6 +713,9 @@ class $AssetsImagesOnboardingGen {
 class $AssetsImagesSteverGen {
   const $AssetsImagesSteverGen();
 
+  /// File path: assets/images/stever/coins.svg
+  SvgGenImage get coins => const SvgGenImage('assets/images/stever/coins.svg');
+
   /// File path: assets/images/stever/stever.svg
   SvgGenImage get stever =>
       const SvgGenImage('assets/images/stever/stever.svg');
@@ -718,7 +725,7 @@ class $AssetsImagesSteverGen {
       const SvgGenImage('assets/images/stever/steverDefi.svg');
 
   /// List of all assets
-  List<SvgGenImage> get values => [stever, steverDefi];
+  List<SvgGenImage> get values => [coins, stever, steverDefi];
 }
 
 class $AssetsImagesUserAvatarGen {
@@ -788,17 +795,17 @@ class $AssetsImagesOnboardingLayer1Gen {
 
   /// List of all assets
   List<SvgGenImage> get values => [
-        doge,
-        ever,
-        matic,
-        qube,
-        bridge,
-        btc,
-        dai,
-        dot,
-        eth,
-        usdt,
-      ];
+    doge,
+    ever,
+    matic,
+    qube,
+    bridge,
+    btc,
+    dai,
+    dot,
+    eth,
+    usdt,
+  ];
 }
 
 class $AssetsImagesOnboardingLayer2Gen {
@@ -846,17 +853,17 @@ class $AssetsImagesOnboardingLayer2Gen {
 
   /// List of all assets
   List<SvgGenImage> get values => [
-        ada,
-        avax,
-        cro,
-        luna,
-        near,
-        shib,
-        sol,
-        bnb,
-        usdc,
-        xrp,
-      ];
+    ada,
+    avax,
+    cro,
+    luna,
+    near,
+    shib,
+    sol,
+    bnb,
+    usdc,
+    xrp,
+  ];
 }
 
 class $AssetsImagesOnboardingLayer3Gen {
@@ -904,17 +911,17 @@ class $AssetsImagesOnboardingLayer3Gen {
 
   /// List of all assets
   List<SvgGenImage> get values => [
-        aave,
-        axs,
-        ftm,
-        hbar,
-        atom,
-        link,
-        ltc,
-        mana,
-        trx,
-        xlm,
-      ];
+    aave,
+    axs,
+    ftm,
+    hbar,
+    atom,
+    link,
+    ltc,
+    mana,
+    trx,
+    xlm,
+  ];
 }
 
 class Assets {
@@ -1000,10 +1007,10 @@ class AssetGenImage {
 
 class SvgGenImage {
   const SvgGenImage(this._assetName, {this.size, this.flavors = const {}})
-      : _isVecFormat = false;
+    : _isVecFormat = false;
 
   const SvgGenImage.vec(this._assetName, {this.size, this.flavors = const {}})
-      : _isVecFormat = true;
+    : _isVecFormat = true;
 
   final String _assetName;
   final Size? size;
@@ -1057,7 +1064,8 @@ class SvgGenImage {
       placeholderBuilder: placeholderBuilder,
       semanticsLabel: semanticsLabel,
       excludeFromSemantics: excludeFromSemantics,
-      colorFilter: colorFilter ??
+      colorFilter:
+          colorFilter ??
           (color == null ? null : ColorFilter.mode(color, colorBlendMode)),
       clipBehavior: clipBehavior,
       cacheColorFilter: cacheColorFilter,

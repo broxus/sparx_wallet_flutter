@@ -12,7 +12,7 @@ _TokenContractAsset _$TokenContractAssetFromJson(Map<String, dynamic> json) =>
       symbol: json['symbol'] as String,
       decimals: (json['decimals'] as num).toInt(),
       address: Address.fromJson(json['address'] as String),
-      networkType: json['networkType'] as String,
+      networkType: NetworkType.fromJson(json['networkType'] as String),
       networkGroup: json['networkGroup'] as String,
       isCustom: json['isCustom'] as bool,
       version:
@@ -27,7 +27,7 @@ Map<String, dynamic> _$TokenContractAssetToJson(_TokenContractAsset instance) =>
       'symbol': instance.symbol,
       'decimals': instance.decimals,
       'address': instance.address.toJson(),
-      'networkType': instance.networkType,
+      'networkType': instance.networkType.toJson(),
       'networkGroup': instance.networkGroup,
       'isCustom': instance.isCustom,
       'version': _$TokenWalletVersionEnumMap[instance.version],
