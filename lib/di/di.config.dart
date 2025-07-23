@@ -71,9 +71,6 @@ import '../app/service/storage_service/ton_connect_storage_service.dart'
 import '../app/service/storage_service/ton_wallet_storage_service/ton_wallet_storage_service.dart'
     as _i139;
 import '../app/service/token_wallets_service.dart' as _i877;
-import '../app/service/ton_connect/ton_connect_http_bridge.dart' as _i770;
-import '../app/service/ton_connect/ton_connect_js_bridge.dart' as _i186;
-import '../app/service/ton_connect/ton_connect_service.dart' as _i175;
 import '../feature/add_seed/add_existing_wallet/route.dart' as _i852;
 import '../feature/add_seed/create_password/route.dart' as _i473;
 import '../feature/add_seed/enter_seed_phrase/route.dart' as _i741;
@@ -143,6 +140,10 @@ import '../feature/root/domain/root_tab_service.dart' as _i533;
 import '../feature/root/restore_subroutes_guard.dart' as _i331;
 import '../feature/root/view/route.dart' as _i786;
 import '../feature/splash/route.dart' as _i592;
+import '../feature/ton_connect/domain/ton_connect_http_bridge.dart' as _i1071;
+import '../feature/ton_connect/domain/ton_connect_js_bridge.dart' as _i269;
+import '../feature/ton_connect/domain/ton_connect_service.dart' as _i33;
+import '../feature/ton_connect/ton_connect.dart' as _i625;
 import '../feature/update_version/domain/latest_version_finder.dart' as _i803;
 import '../feature/update_version/domain/storage/update_version_storage_service.dart'
     as _i1030;
@@ -292,7 +293,7 @@ extension GetItInjectableX on _i174.GetIt {
       () => _i345.CreateBrowserGroupRoute(),
       instanceName: 'CreateBrowserGroupRoute',
     );
-    gh.lazySingleton<_i175.TonConnectService>(() => _i175.TonConnectService(
+    gh.lazySingleton<_i33.TonConnectService>(() => _i33.TonConnectService(
           gh<_i128.TonConnectStorageService>(),
           gh<_i771.NekotonRepository>(),
           gh<_i143.AppVersionService>(),
@@ -300,6 +301,13 @@ extension GetItInjectableX on _i174.GetIt {
         ));
     gh.factory<_i162.TonApi>(() => _i162.TonApi(gh<_i361.Dio>()));
     gh.factory<_i249.PresetsApi>(() => _i249.PresetsApi(gh<_i361.Dio>()));
+    gh.lazySingleton<_i1071.TonConnectHttpBridge>(
+        () => _i1071.TonConnectHttpBridge(
+              gh<_i625.TonConnectService>(),
+              gh<_i128.AppLifecycleService>(),
+              gh<_i128.TonConnectStorageService>(),
+              gh<_i361.Dio>(),
+            ));
     gh.singleton<_i82.CompassBaseRoute>(
       () => _i182.SelectNewAssetRoute(),
       instanceName: 'SelectNewAssetRoute',
@@ -372,6 +380,10 @@ extension GetItInjectableX on _i174.GetIt {
     gh.singleton<_i336.NftStorageService>(() => _i336.NftStorageService(
           gh<_i792.GetStorage>(instanceName: 'nft_storage_service_metadata'),
           gh<_i792.GetStorage>(instanceName: 'nft_storage_service_general'),
+        ));
+    gh.factory<_i269.TonConnectJsBridge>(() => _i269.TonConnectJsBridge(
+          gh<_i625.TonConnectService>(),
+          gh<_i128.TonConnectStorageService>(),
         ));
     gh.singleton<_i213.BrowserBookmarksStorageService>(() =>
         _i213.BrowserBookmarksStorageService(
@@ -732,7 +744,7 @@ extension GetItInjectableX on _i174.GetIt {
     gh.singleton<_i470.BrowserService>(
       () => _i470.BrowserService(
         gh<_i850.AppLinksService>(),
-        gh<_i175.TonConnectService>(),
+        gh<_i625.TonConnectService>(),
         gh<_i771.NekotonRepository>(),
         gh<_i309.CompassRouter>(),
         gh<_i931.BrowserServiceAuthDelegate>(),
@@ -744,10 +756,6 @@ extension GetItInjectableX on _i174.GetIt {
       ),
       dispose: (i) => i.dispose(),
     );
-    gh.singleton<_i533.RootTabService>(() => _i533.RootTabService(
-          gh<_i309.CompassRouter>(),
-          gh<_i470.BrowserService>(),
-        ));
     gh.singleton<_i82.CompassBaseRoute>(
       () => _i852.AddExistingWalletRoute(
           gh<_i82.CompassBaseRoute>(instanceName: 'ImportWalletRoute')),
@@ -778,6 +786,10 @@ extension GetItInjectableX on _i174.GetIt {
     gh.singleton<_i473.PermissionsService>(() => _i473.PermissionsService(
           gh<_i470.BrowserService>(),
           gh<_i771.NekotonRepository>(),
+        ));
+    gh.singleton<_i533.RootTabService>(() => _i533.RootTabService(
+          gh<_i309.CompassRouter>(),
+          gh<_i470.BrowserService>(),
         ));
     gh.singleton<_i82.CompassBaseRoute>(
       () => _i1010.OnBoardingRoute(

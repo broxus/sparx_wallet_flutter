@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:app/app/service/service.dart';
 import 'package:app/feature/ledger/ledger.dart';
 import 'package:app/feature/messenger/domain/service/messenger_service.dart';
+import 'package:app/feature/ton_connect/ton_connect.dart';
 import 'package:app/http/repository/repository.dart';
 import 'package:app/utils/utils.dart';
 import 'package:elementary/elementary.dart';

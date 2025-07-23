@@ -697,6 +697,7 @@ abstract class LocaleKeys {
   static const expiresInCustodians = 'expiresInCustodians';
   static const deploymentInProgress = 'deploymentInProgress';
   static const expirationTimeDetails = 'expirationTimeDetails';
+  static const today = 'today';
   static const errorMessageMaxUnconfirmedTransactions =
       'errorMessageMaxUnconfirmedTransactions';
   static const noRpcConnection = 'noRpcConnection';
@@ -779,4 +780,16 @@ abstract class LocaleKeys {
   static const ledgerVerifyCancelled = 'ledgerVerifyCancelled';
   static const ledgerVerifyWaiting = 'ledgerVerifyWaiting';
   static const importFromLedger = 'importFromLedger';
+  static const settings = 'settings';
+  static const faq = 'faq';
+  static const legal = 'legal';
+  static const connectedDappsTitle = 'connectedDappsTitle';
+  static const connectedDappsSubtitle = 'connectedDappsSubtitle';
+  static const connectedDappsSheetTitle = 'connectedDappsSheetTitle';
+  static const disconnectAll = 'disconnectAll';
+  static const disconnectDapp = 'disconnectDapp';
+  static const disconnectAllText = 'disconnectAllText';
+  static const disconnectDappText = 'disconnectDappText';
+  static const emptyConnectedDapps = 'emptyConnectedDapps';
+  static const disconnect = 'disconnect';
 }

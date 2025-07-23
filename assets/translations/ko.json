@@ -670,6 +670,7 @@
   "expiresInCustodians": "Expires in {}",
   "deploymentInProgress": "Deployment in progress",
   "expirationTimeDetails": "Expires in {} hours {} minutes ({} at {})",
+  "today": "Today",
   "errorMessageMaxUnconfirmedTransactions": "Unconfirmed transactions is limited by 5",
   "noRpcConnection": "No RPC connection",
   "tryAgainOrContact": "Please try again or contact technical support",
@@ -747,5 +748,17 @@
   "ledgerVerifyConfirmed": "Confirmed",
   "ledgerVerifyCancelled": "Cancelled",
   "ledgerVerifyWaiting": "Waiting for confirmation",
-  "importFromLedger": "Import from Ledger"
+  "importFromLedger": "Import from Ledger",
+  "settings": "Settings",
+  "faq": "FAQ",
+  "legal": "Legal",
+  "connectedDappsTitle": "Connected dApps",
+  "connectedDappsSubtitle": "Only for TON",
+  "connectedDappsSheetTitle": "Connected dApps",
+  "disconnectAll": "Disconnect All",
+  "disconnectDapp": "Disconnect dApp",
+  "disconnectAllText": "Are you sure you want to disconnect all dApps?",
+  "disconnectDappText": "Are you sure you want to disconnect this dApp?",
+  "emptyConnectedDapps": "No connected dApps yet",
+  "disconnect": "Disconnect"
 }

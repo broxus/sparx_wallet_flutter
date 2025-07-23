@@ -169,6 +169,7 @@ class SendMessageWidgetModel
       details.decimals,
       symbol: details.symbol,
       pattern: moneyPattern(details.decimals),
+      name: details.name,
     );
 
     Currencies().register(currency);

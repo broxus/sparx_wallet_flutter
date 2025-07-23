@@ -223,6 +223,7 @@ class TCSendMessageWidgetModel
       symbol.decimals,
       symbol: symbol.name,
       pattern: moneyPattern(symbol.decimals),
+      name: symbol.fullName,
     );
 
     Currencies().register(currency);

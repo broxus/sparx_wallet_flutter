@@ -1,219 +1,222 @@
-import 'package:app/app/router/router.dart';
-import 'package:app/feature/contact_support/contact_support.dart';
-import 'package:app/feature/profile/manage_seeds_accounts/route.dart';
-import 'package:app/feature/profile/profile.dart';
-import 'package:app/generated/assets.gen.dart';
 import 'package:app/generated/locale_keys.g.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:elementary_helper/elementary_helper.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:lucide_icons_flutter/lucide_icons.dart';
-import 'package:nekoton_repository/nekoton_repository.dart';
 import 'package:ui_components_lib/ui_components_lib.dart';
 import 'package:ui_components_lib/v2/ui_components_lib_v2.dart';
 
 class ProfileView extends StatelessWidget {
   const ProfileView({
     required this.appVersion,
-    required this.currentSeed,
     required this.isBiometryAvailable,
     required this.isBiometryEnabled,
+    required this.onManageSeeds,
+    required this.onExportSeed,
+    required this.onContactSupport,
+    required this.onFAQ,
+    required this.onLegal,
     required this.onLogout,
     required this.onBiomentryChanged,
+    required this.onManageDapps,
     this.isDarkThemeEnabled = false,
     super.key,
   });
 
-  final ListenableState<Seed?> currentSeed;
   final ListenableState<bool> isBiometryAvailable;
   final ListenableState<bool> isBiometryEnabled;
   final String appVersion;
   final bool isDarkThemeEnabled;
+  final VoidCallback onManageSeeds;
+  final VoidCallback onExportSeed;
+  final VoidCallback onContactSupport;
+  final VoidCallback onFAQ;
+  final VoidCallback onLegal;
   final VoidCallback onLogout;
+  final VoidCallback onManageDapps;
   final ValueChanged<bool> onBiomentryChanged;
 
   @override
   Widget build(BuildContext context) {
     final theme = context.themeStyleV2;
-    final mq = MediaQuery.of(context);
 
     return Scaffold(
-      backgroundColor: theme.colors.background0,
-      body: SingleChildScrollView(
-        child: Column(
-          children: [
-            SizedBox(height: mq.padding.top + DimensSizeV2.d32),
-            Text(
-              LocaleKeys.currentSeed.tr(),
-              style: theme.textStyles.labelXSmall,
-            ),
-            const SizedBox(height: DimensSizeV2.d4),
-            StateNotifierBuilder(
-              listenableState: currentSeed,
-              builder: (_, currentSeed) => Text(
-                currentSeed?.name ?? '',
-                style: theme.textStyles.headingLarge,
-              ),
-            ),
-            const SizedBox(height: DimensSizeV2.d16),
-            StateNotifierBuilder(
-              listenableState: currentSeed,
-              builder: (_, currentSeed) {
-                if (currentSeed == null || currentSeed.masterKey.isLedger) {
-                  return const SizedBox.shrink();
-                }
-
-                return Padding(
-                  padding: const EdgeInsets.only(bottom: DimensSizeV2.d32),
-                  child: PrimaryButton(
-                    isFullWidth: false,
-                    buttonShape: ButtonShape.pill,
-                    title: LocaleKeys.exportSeedPhrase.tr(),
-                    postfixIcon: LucideIcons.share,
-                    onPressed: () {
-                      Navigator.of(context, rootNavigator: true).push(
-                        exportSeedSheetRoute(
-                          context,
-                          currentSeed.publicKey,
-                        ),
-                      );
-                    },
-                  ),
-                );
-              },
-            ),
-            ShapedContainerColumn(
-              color: theme.colors.background1,
-              separator: const CommonDivider(),
+      body: SafeArea(
+        child: SingleChildScrollView(
+          child: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: DimensSizeV2.d16),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
               children: [
-                _profileTile(
-                  leadingIcon: Assets.images.settings.path,
-                  title: LocaleKeys.manageSeedsAndAccounts.tr(),
-                  trailing: const Icon(
-                    LucideIcons.chevronRight,
-                    size: DimensSizeV2.d20,
+                Padding(
+                  padding: const EdgeInsets.symmetric(
+                    vertical: DimensSizeV2.d24,
                   ),
-                  onPressed: () {
-                    context.compassContinue(
-                      const ManageSeedsAccountsRouteData(),
-                    );
-                  },
-                  backgroundColor: theme.colors.backgroundAlpha,
-                  iconColor: theme.colors.content0,
+                  child: Text(
+                    LocaleKeys.settings.tr(),
+                    style: theme.textStyles.headingMedium,
+                    textAlign: TextAlign.center,
+                  ),
                 ),
-                // TODO(knightforce): temp
-                // _profileTile(
-                //   leadingIcon: Assets.images.currency.path,
-                //   title: LocaleKeys.currencyWord.tr(),
-                //   trailing: CommonButtonIconWidget.svg(
-                //     svg: Assets.images.caretRight.path,
-                //   ),
-                //   // ignore: no-empty-block
-                //   onPressed: () {},
-                // ),
-                // TODO(knightforce): temp
-                // _profileTile(
-                //   leadingIcon: Assets.images.planetInner.path,
-                //   title: LocaleKeys.languageWord.tr(),
-                //   trailing: const Icon(
-                //     LucideIcons.chevronRight,
-                //     size: DimensSizeV2.d20,
-                //   ),
-                //   // ignore: no-empty-block
-                //   onPressed: () => showLocalizationSheet(
-                //     context: context,
-                //   ),
-                //   backgroundColor: theme.colors.backgroundAlpha,
-                //   iconColor: theme.colors.content0,
-                // ),
-                DoubleSourceBuilder(
-                  firstSource: isBiometryAvailable,
-                  secondSource: isBiometryEnabled,
-                  builder: (_, available, enabled) {
-                    if (available != true &&
-                        defaultTargetPlatform != TargetPlatform.iOS) {
-                      return const SizedBox.shrink();
-                    }
-                    return _profileTile(
-                      leadingIcon: Assets.images.fingerSmall.path,
-                      title: LocaleKeys.biometryWord.tr(),
-                      trailing: Switch(
-                        value: enabled ?? false,
-                        onChanged: onBiomentryChanged,
+                Column(
+                  spacing: DimensSizeV2.d16,
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    _Container(
+                      children: [
+                        _Item(
+                          title: LocaleKeys.manageSeedsAndAccounts.tr(),
+                          icon: LucideIcons.keyRound,
+                          onPressed: onManageSeeds,
+                        ),
+                        _Item(
+                          title: LocaleKeys.connectedDappsTitle.tr(),
+                          subtitle: LocaleKeys.connectedDappsSubtitle.tr(),
+                          icon: LucideIcons.plus,
+                          onPressed: onManageDapps,
+                        ),
+                      ],
+                    ),
+                    StateNotifierBuilder(
+                      listenableState: isBiometryAvailable,
+                      builder: (_, available) => _Container(
+                        children: [
+                          _Item(
+                            title: LocaleKeys.exportSeedPhrase.tr(),
+                            icon: LucideIcons.databaseBackup,
+                            onPressed: onExportSeed,
+                          ),
+                          if (available ?? false)
+                            StateNotifierBuilder(
+                              listenableState: isBiometryEnabled,
+                              builder: (_, enabled) => _Item(
+                                title: LocaleKeys.biometryWord.tr(),
+                                icon: LucideIcons.fingerprint,
+                                trailing: Switch(
+                                  value: enabled ?? false,
+                                  onChanged: onBiomentryChanged,
+                                ),
+                              ),
+                            ),
+                        ],
                       ),
-                      onPressed: null,
-                      backgroundColor: theme.colors.backgroundAlpha,
-                      iconColor: theme.colors.content0,
-                    );
-                  },
-                ),
-                _profileTile(
-                  leadingIcon: Assets.images.support.path,
-                  title: LocaleKeys.contactSupport.tr(),
-                  trailing: const Icon(
-                    LucideIcons.chevronRight,
-                    size: DimensSizeV2.d20,
-                  ),
-                  onPressed: () => showContactSupportSheet(
-                    context: context,
-                    mode: ContactSupportMode.initiatedByUser,
-                  ),
-                  backgroundColor: theme.colors.backgroundAlpha,
-                  iconColor: theme.colors.content0,
+                    ),
+                    _Container(
+                      children: [
+                        _Item(
+                          title: LocaleKeys.faq.tr(),
+                          icon: LucideIcons.messageCircleQuestion,
+                          onPressed: onFAQ,
+                        ),
+                        _Item(
+                          title: LocaleKeys.contactSupport.tr(),
+                          icon: LucideIcons.messagesSquare,
+                          onPressed: onContactSupport,
+                        ),
+                        _Item(
+                          title: LocaleKeys.legal.tr(),
+                          icon: LucideIcons.link,
+                          onPressed: onLegal,
+                        ),
+                      ],
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.only(top: DimensSizeV2.d8),
+                      child: Column(
+                        mainAxisSize: MainAxisSize.min,
+                        spacing: DimensSizeV2.d8,
+                        children: [
+                          DestructiveButton(
+                            buttonShape: ButtonShape.pill,
+                            title: LocaleKeys.logOut.tr(),
+                            icon: LucideIcons.logOut,
+                            onPressed: onLogout,
+                          ),
+                          Text(
+                            '${LocaleKeys.versionWord.tr()} $appVersion',
+                            textAlign: TextAlign.center,
+                            style: theme.textStyles.labelXSmall.copyWith(
+                              color: theme.colors.content3,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ],
                 ),
               ],
             ),
-            const SizedBox(height: DimensSizeV2.d40),
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: DimensSizeV2.d24),
-              child: DestructiveButton(
-                buttonShape: ButtonShape.pill,
-                onPressed: () => _logOutConfirm(context),
-                title: LocaleKeys.logOut.tr(),
-                icon: LucideIcons.logOut,
-              ),
-            ),
-            const SizedBox(height: DimensSizeV2.d16),
-            Text(
-              '${LocaleKeys.versionWord.tr()} $appVersion',
-              textAlign: TextAlign.center,
-              style: theme.textStyles.labelXSmall
-                  .copyWith(color: theme.colors.content3),
-            ),
-          ],
+          ),
         ),
       ),
     );
   }
+}
 
-  /// !!! Modifying this tile, change BiometryTile and other tiles with custom
-  /// logic in this screen.
-  Widget _profileTile({
-    required String leadingIcon,
-    required String title,
-    required Widget trailing,
-    required VoidCallback? onPressed,
-    required Color backgroundColor,
-    required Color iconColor,
-  }) {
+class _Item extends StatelessWidget {
+  const _Item({
+    required this.icon,
+    required this.title,
+    this.subtitle,
+    this.trailing,
+    this.onPressed,
+  });
+
+  final IconData icon;
+  final String title;
+  final String? subtitle;
+  final Widget? trailing;
+  final VoidCallback? onPressed;
+
+  @override
+  Widget build(BuildContext context) {
+    final theme = context.themeStyleV2;
+
     return CommonListTile(
+      padding: EdgeInsets.zero,
+      height: DimensSizeV2.d40,
       titleText: title,
-      leading: CommonBackgroundedIconWidget.svg(
-        svg: leadingIcon,
-        iconColor: iconColor,
-        backgroundColor: backgroundColor,
+      titleTextStyle: theme.textStyles.button,
+      subtitleText: subtitle,
+      subtitleTextStyle: theme.textStyles.labelXSmall.copyWith(
+        color: ColorsRes.grey898989,
       ),
-      trailing: trailing,
+      leading: CommonBackgroundedIconWidget.icon(
+        icon: icon,
+        iconColor: theme.colors.content0,
+        backgroundColor: theme.colors.backgroundAlpha,
+      ),
+      trailing: trailing ??
+          const Icon(
+            LucideIcons.chevronRight,
+            size: DimensSizeV2.d20,
+          ),
       onPressed: onPressed,
     );
   }
+}
 
-  Future<void> _logOutConfirm(BuildContext context) async {
-    final confirmed = await showLogOutConfirmSheet(context);
+class _Container extends StatelessWidget {
+  const _Container({
+    required this.children,
+  });
 
-    if (confirmed && context.mounted) {
-      onLogout();
-    }
+  final List<Widget> children;
+
+  @override
+  Widget build(BuildContext context) {
+    final theme = context.themeStyleV2;
+
+    return ShapedContainerColumn(
+      color: theme.colors.background1,
+      separator: const CommonDivider(
+        margin: EdgeInsets.symmetric(
+          vertical: DimensSizeV2.d16,
+        ),
+      ),
+      padding: const EdgeInsets.all(DimensSizeV2.d16),
+      margin: EdgeInsets.zero,
+      children: children,
+    );
   }
 }
