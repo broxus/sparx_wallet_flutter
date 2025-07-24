@@ -36,13 +36,19 @@ class LedgerService {
   LedgerAppInterface? get appInterface => _connectionHandler.appInterface;
 
   Future<bool> checkPermissions() async {
-    final isGranted = await _permissionsService.requestPermissions([
-      Permission.bluetooth,
-      Permission.bluetoothScan,
-      Permission.bluetoothConnect,
-    ]);
+    final state = await FlutterBluePlus.adapterState.firstWhere(
+      (state) => state != BluetoothAdapterState.unknown,
+    );
 
-    return isGranted;
+    return state != BluetoothAdapterState.unauthorized;
+
+    // final isGranted = await _permissionsService.requestPermissions([
+    //   Permission.bluetooth,
+    //   Permission.bluetoothScan,
+    //   Permission.bluetoothConnect,
+    // ]);
+
+    // return isGranted;
   }
 
   /// This method should be called before using any Ledger functionality.
