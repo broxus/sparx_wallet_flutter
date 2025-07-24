@@ -109,7 +109,7 @@ import '../feature/browser_v2/domain/service/storages/browser_tabs_storage_servi
 import '../feature/browser_v2/screens/create_group/route.dart' as _i345;
 import '../feature/browser_v2/screens/main/route.dart' as _i1040;
 import '../feature/choose_network/route.dart' as _i805;
-import '../feature/ledger/domain/ble_packer.dart' as _i71;
+import '../feature/ledger/domain/ledger_app/ble_packer.dart' as _i433;
 import '../feature/ledger/domain/ledger_ble_scanner.dart' as _i328;
 import '../feature/ledger/domain/ledger_connection_handler_impl.dart' as _i191;
 import '../feature/ledger/domain/ledger_service.dart' as _i91;
@@ -226,9 +226,9 @@ extension GetItInjectableX on _i174.GetIt {
     gh.singleton<_i391.DnsResolveService>(() => _i391.DnsResolveService());
     gh.singleton<_i654.BrowserApprovalsService>(
         () => _i654.BrowserApprovalsService());
+    gh.singleton<_i433.BlePacker>(() => _i433.BlePacker());
     gh.singleton<_i191.LedgerConnectionHandlerImpl>(
         () => _i191.LedgerConnectionHandlerImpl());
-    gh.singleton<_i71.BlePacker>(() => _i71.BlePacker());
     gh.lazySingleton<_i361.Dio>(() => dioModule.getDio());
     gh.lazySingleton<_i632.MessengerService>(
       () => _i632.MessengerService(),
