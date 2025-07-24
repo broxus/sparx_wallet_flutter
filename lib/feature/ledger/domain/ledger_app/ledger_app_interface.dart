@@ -12,14 +12,6 @@ import 'package:logging/logging.dart';
 import 'package:mutex/mutex.dart';
 import 'package:nekoton_repository/nekoton_repository.dart';
 
-const _cla = 0xe0;
-const _insOpenApp = 0xd8;
-const _insGetApp = 0x01;
-const _insGetConf = 0x01;
-const _insGetPk = 0x02;
-const _insSign = 0x03;
-const _insGetAddr = 0x04;
-const _insSignTransaction = 0x05;
 const _flagWithWalletId = 1 << 0;
 const _flagWithWorkchainId = 1 << 1;
 const _flagWithAddress = 1 << 2;
@@ -39,28 +31,7 @@ class LedgerAppInterface {
           'BluetoothDevice.discoverServices() has not been called',
         ) {
     deviceModel = ledgerDevices.firstWhere((d) => d.id == deviceModelId);
-    _bleService = device.servicesList.firstWhere(
-      (e) => e.uuid.toString() == deviceModel.bluetoothSpec.serviceUuid,
-    );
-    _writeCharacteristic = _bleService.characteristics.firstWhere(
-      (c) => c.uuid.toString() == deviceModel.bluetoothSpec.writeUuid,
-    );
-    _notifyCharacteristic = _bleService.characteristics.firstWhere(
-      (c) => c.uuid.toString() == deviceModel.bluetoothSpec.notifyUuid,
-    );
-
-    _mtu = device.mtuNow;
-    _mtuSubscription = device.mtu.listen((mtu) async {
-      if (_mtu == mtu) return;
-
-      await _mutex.acquire();
-      try {
-        _mtu = mtu;
-        _logger.info('MTU updated: $_mtu');
-      } finally {
-        _mutex.release();
-      }
-    });
+    _transport = BleTransport(device: device, deviceModel: deviceModel);
   }
 
   static final _logger = Logger('LedgerAppInterface');
@@ -69,17 +40,10 @@ class LedgerAppInterface {
   late final LedgerDeviceModel deviceModel;
 
   final _mutex = Mutex();
-  final _packer = BlePacker();
-  late final BluetoothService _bleService;
-  late final BluetoothCharacteristic _writeCharacteristic;
-  late final BluetoothCharacteristic _notifyCharacteristic;
-  late final StreamSubscription<int> _mtuSubscription;
-  late int _mtu;
-
-  int get mtu => _mtu;
+  late final BleTransport _transport;
 
   Future<void> dispose() => _mutex.protect(() async {
-        await _mtuSubscription.cancel();
+        await _transport.dispose();
 
         if (device.isConnected) {
           await device.disconnect();
@@ -97,11 +61,9 @@ class LedgerAppInterface {
 
     try {
       final data = utf8.encode(appName);
-      final writer = _getAPDUWriter(ins: _insOpenApp)
-        ..writeUint8(data.lengthInBytes) // Data length
-        ..write(data.buffer.asUint8List()); // Data
+      final writer = APDUWriter(ins: ApduIns.openApp)..writeData(data);
 
-      final response = await _write(writer.toBytes());
+      final response = await _transport.exchange(writer.toBytes());
 
       return response.isOk;
     } catch (e, st) {
@@ -116,8 +78,8 @@ class LedgerAppInterface {
     await _mutex.acquire();
 
     try {
-      final writer = _getAPDUWriter(cla: 0xb0, ins: _insGetApp);
-      final response = await _write(writer.toBytes());
+      final writer = APDUWriter(cla: 0xb0, ins: ApduIns.getApp);
+      final response = await _transport.exchange(writer.toBytes());
 
       if (!response.isOk) {
         throw LedgerException(
@@ -150,8 +112,8 @@ class LedgerAppInterface {
     await _mutex.acquire();
 
     try {
-      final writer = _getAPDUWriter(ins: _insGetConf);
-      final response = await _write(writer.toBytes());
+      final writer = APDUWriter(ins: ApduIns.getConf);
+      final response = await _transport.exchange(writer.toBytes());
 
       if (!response.isOk) {
         throw LedgerException(
@@ -174,11 +136,9 @@ class LedgerAppInterface {
 
     try {
       final data = ByteData(4)..setUint32(0, accountId);
-      final writer = _getAPDUWriter(ins: _insGetPk)
-        ..writeUint8(data.lengthInBytes) // Data length
-        ..write(data.buffer.asUint8List()); // Data
+      final writer = APDUWriter(ins: ApduIns.getPk)..writeByteData(data);
 
-      final response = await _write(writer.toBytes());
+      final response = await _transport.exchange(writer.toBytes());
 
       if (!response.isOk) {
         throw LedgerException(
@@ -205,11 +165,10 @@ class LedgerAppInterface {
       final data = ByteData(5)
         ..setUint32(0, accountId)
         ..setUint8(4, wallet);
-      final writer = _getAPDUWriter(ins: _insGetAddr, p1: 0x01)
-        ..writeUint8(data.lengthInBytes) // Data length
-        ..write(data.buffer.asUint8List()); // Data
+      final writer = APDUWriter(ins: ApduIns.getAddr, p1: 0x01)
+        ..writeByteData(data);
 
-      final response = await _write(writer.toBytes());
+      final response = await _transport.exchange(writer.toBytes());
 
       if (!response.isOk) {
         throw LedgerException(
@@ -234,12 +193,13 @@ class LedgerAppInterface {
     await _mutex.acquire();
 
     try {
-      final writer = _getAPDUWriter(ins: _insSign, p1: 0x01)
-        ..writeUint8(4 + message.length) // Data length
-        ..writeUint32(accountId)
-        ..write(message);
+      final data = (ByteDataWriter()
+            ..writeUint32(accountId)
+            ..write(message))
+          .toBytes();
+      final writer = APDUWriter(ins: ApduIns.sign, p1: 0x01)..writeData(data);
 
-      final response = await _write(writer.toBytes());
+      final response = await _transport.exchange(writer.toBytes());
 
       if (!response.isOk) {
         throw LedgerException(
@@ -312,7 +272,7 @@ class LedgerAppInterface {
 
       final data = writer.toBytes();
       final chunks = _split(data);
-      LedgerAppResponse? response;
+      LedgerResponse? response;
 
       for (var i = 0; i < chunks.length; i++) {
         final chunk = chunks[i];
@@ -322,12 +282,13 @@ class LedgerAppInterface {
           _ when i == chunks.length - 1 => 0x01, // last chunk
           _ => 0x03, // intermediate chunk
         };
-        final writer =
-            _getAPDUWriter(ins: _insSignTransaction, p1: 0x01, p2: p2)
-              ..writeUint8(chunk.length) // Data length
-              ..write(chunk); // Data
+        final writer = APDUWriter(
+          ins: ApduIns.signTransaction,
+          p1: 0x01,
+          p2: p2,
+        )..writeData(chunk);
 
-        response = await _write(writer.toBytes());
+        response = await _transport.exchange(writer.toBytes());
 
         if (!response.isOk) break;
       }
@@ -375,64 +336,6 @@ class LedgerAppInterface {
     }
   }
 
-  Future<LedgerAppResponse> _write(List<int> value) async {
-    StreamSubscription<List<int>>? subscription;
-    LedgerDataReader? reader;
-
-    try {
-      final completer = Completer<LedgerAppResponse>();
-      final packets = _packer.pack(Uint8List.fromList(value), mtu);
-
-      subscription = _notifyCharacteristic.onValueReceived.listen(
-        (value) {
-          try {
-            if (reader == null) {
-              reader = LedgerDataReader.fromBytes(value);
-            } else {
-              reader!.add(value);
-            }
-
-            if (reader!.isCompleted) {
-              subscription?.cancel();
-              completer.complete(reader!);
-            }
-          } catch (e, st) {
-            _logger.severe('Error processing received value: $e', e, st);
-            subscription?.cancel();
-            completer.completeError(
-              LedgerException('Error processing received value: $e'),
-              st,
-            );
-          }
-        },
-        onError: (Object e, StackTrace st) {
-          _logger.severe('Error in subscription: $e', e, st);
-          subscription?.cancel();
-          completer.completeError(
-            LedgerException('Error in subscription: $e'),
-            st,
-          );
-        },
-      );
-
-      device.cancelWhenDisconnected(subscription);
-
-      if (!_notifyCharacteristic.isNotifying) {
-        await _notifyCharacteristic.setNotifyValue(true, timeout: 5);
-      }
-
-      for (final packet in packets) {
-        await _writeCharacteristic.write(packet, timeout: 5);
-      }
-
-      return completer.future;
-    } catch (e, st) {
-      _logger.severe('Failed to write data: $e', e, st);
-      await subscription?.cancel();
-      throw LedgerException('Failed to write data: $e');
-    }
-  }
-
   Uint8List _getTicker(String asset) {
     var value = asset;
 
@@ -457,23 +360,11 @@ class LedgerAppInterface {
     return chunks;
   }
 
-  ByteDataWriter _getAPDUWriter({
-    required int ins,
-    int cla = _cla,
-    int p1 = 0x00,
-    int p2 = 0x00,
-  }) {
-    return ByteDataWriter()
-      ..writeUint8(cla) // CLA
-      ..writeUint8(ins) // INS
-      ..writeUint8(p1) // P1
-      ..writeUint8(p2); // P2
-  }
-
   bool _checkAppName(String appName) {
     final lower = appName.toLowerCase();
     return lower.startsWith('ever') ||
         lower.startsWith('venom') ||
+        lower.startsWith('hamster') ||
         lower.startsWith('tycho');
   }
 }

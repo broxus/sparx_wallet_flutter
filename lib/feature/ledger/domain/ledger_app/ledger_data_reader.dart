@@ -4,7 +4,7 @@ import 'package:buffer/buffer.dart';
 
 const _swOk = 0x9000;
 
-abstract class LedgerAppResponse {
+abstract class LedgerResponse {
   /// Status word indicating the result of the operation.
   /// A value of 0x9000 indicates success.
   int get sw;
@@ -22,7 +22,7 @@ abstract class LedgerAppResponse {
   Uint8List get dataWithOffset;
 }
 
-class LedgerDataReader extends LedgerAppResponse {
+class LedgerDataReader extends LedgerResponse {
   LedgerDataReader._(this._dataLength);
 
   factory LedgerDataReader.fromBytes(List<int> bytes) {
