@@ -493,6 +493,11 @@ extension GetItInjectableX on _i174.GetIt {
           gh<_i82.CompassBaseRoute>(instanceName: 'TonWalletSendRoute')),
       instanceName: 'CancelUnstakingRoute',
     );
+    gh.singleton<_i91.LedgerService>(() => _i91.LedgerService(
+          gh<_i865.LedgerStorageService>(),
+          gh<_i865.LedgerConnectionHandlerImpl>(),
+          gh<_i771.NekotonRepository>(),
+        ));
     gh.singleton<_i82.CompassGuard>(
       () => _i331.RestoreSubroutesGuard(gh<_i275.NavigationService>()),
       instanceName: 'RestoreSubroutesGuard',
@@ -508,12 +513,6 @@ extension GetItInjectableX on _i174.GetIt {
     gh.singleton<_i244.CurrentSeedService>(() => _i244.CurrentSeedService(
           gh<_i771.NekotonRepository>(),
           gh<_i403.CurrentKeyService>(),
-        ));
-    gh.singleton<_i91.LedgerService>(() => _i91.LedgerService(
-          gh<_i865.LedgerStorageService>(),
-          gh<_i865.LedgerConnectionHandlerImpl>(),
-          gh<_i771.NekotonRepository>(),
-          gh<_i128.AppPermissionsService>(),
         ));
     gh.singleton<_i575.BiometryService>(() => _i575.BiometryService(
           gh<_i128.GeneralStorageService>(),

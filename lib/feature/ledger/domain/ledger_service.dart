@@ -1,11 +1,9 @@
-import 'package:app/app/service/service.dart';
 import 'package:app/feature/ledger/ledger.dart';
 import 'package:collection/collection.dart';
 import 'package:flutter_blue_plus/flutter_blue_plus.dart';
 import 'package:injectable/injectable.dart';
 import 'package:logging/logging.dart';
 import 'package:nekoton_repository/nekoton_repository.dart';
-import 'package:permission_handler/permission_handler.dart';
 import 'package:rxdart/rxdart.dart';
 
 @singleton
@@ -14,7 +12,6 @@ class LedgerService {
     this._storageService,
     this._connectionHandler,
     this._nekotonRepository,
-    this._permissionsService,
   );
 
   static final _logger = Logger('LedgerService');
@@ -22,7 +19,6 @@ class LedgerService {
   final LedgerStorageService _storageService;
   final LedgerConnectionHandlerImpl _connectionHandler;
   final NekotonRepository _nekotonRepository;
-  final AppPermissionsService _permissionsService;
 
   final _interactionSubject = BehaviorSubject<LedgerInteraction>();
 
@@ -41,14 +37,6 @@ class LedgerService {
     );
 
     return state != BluetoothAdapterState.unauthorized;
-
-    // final isGranted = await _permissionsService.requestPermissions([
-    //   Permission.bluetooth,
-    //   Permission.bluetoothScan,
-    //   Permission.bluetoothConnect,
-    // ]);
-
-    // return isGranted;
   }
 
   /// This method should be called before using any Ledger functionality.
