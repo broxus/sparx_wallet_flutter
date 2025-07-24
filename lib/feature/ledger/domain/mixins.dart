@@ -42,6 +42,17 @@ mixin BleAvailabilityMixin<W extends ElementaryWidget,
   }
 
   Future<bool> checkBluetoothPermissions() async {
+    if (!await FlutterBluePlus.isSupported) {
+      model.showMessage(
+        Message.error(
+          message: LocaleKeys.ledgerPermissionsError.tr(),
+          actionText: LocaleKeys.giveWord.tr(),
+          onAction: model.openSettings,
+        ),
+      );
+      return false;
+    }
+
     final hasPermissions = await model.checkPermissions();
     if (!hasPermissions) {
       model.showMessage(

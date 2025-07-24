@@ -26,10 +26,10 @@ class LedgerBleScanner {
   /// **Note:** check if permissions are granted and bluetooth is enabled
   /// before calling this method.
   Future<void> startScan() async {
-    if (!await _ledgerService.checkPermissions()) return;
-
     if (!await FlutterBluePlus.isSupported) return;
     if (FlutterBluePlus.isScanningNow) return;
+
+    if (!await _ledgerService.checkPermissions()) return;
 
     await FlutterBluePlus.adapterState.firstWhere(
       (state) => state != BluetoothAdapterState.unknown,
