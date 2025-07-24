@@ -1,3 +1,0 @@
-enum PageScrollType {
-  manual,
-}
