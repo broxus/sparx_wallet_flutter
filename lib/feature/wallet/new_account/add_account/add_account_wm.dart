@@ -2,6 +2,7 @@ import 'package:app/app/router/router.dart';
 import 'package:app/core/error_handler_factory.dart';
 import 'package:app/core/wm/custom_wm.dart';
 import 'package:app/di/di.dart';
+import 'package:app/feature/ledger/ledger.dart';
 import 'package:app/feature/wallet/new_account/add_account/add_account_model.dart';
 import 'package:app/feature/wallet/new_account/add_account_confirm/add_new_account_confirm_sheet.dart';
 import 'package:app/feature/wallet/new_account/add_external_account/route.dart';
@@ -21,11 +22,15 @@ AddAccountWidgetModel defaultAddAccountWidgetModelFactory(
         createPrimaryErrorHandler(context),
         inject(),
         inject(),
+        inject(),
+        inject(),
+        inject(),
       ),
     );
 
 class AddAccountWidgetModel
-    extends CustomWidgetModel<ElementaryWidget, AddAccountModel> {
+    extends CustomWidgetModel<ElementaryWidget, AddAccountModel>
+    with BleAvailabilityMixin {
   AddAccountWidgetModel(super.model);
 
   late final _currentAccount = createNotifierFromStream(model.currentAccount);
@@ -50,6 +55,18 @@ class AddAccountWidgetModel
     }
 
     if (seed.masterKey.isLegacy) {
+      contextSafe?.compassContinue(
+        NewAccountRouteData(
+          publicKey: seed.publicKey.publicKey,
+        ),
+      );
+      return;
+    }
+
+    if (seed.masterKey.isLedger) {
+      final isAvailable = await checkBluetoothAvailability();
+      if (!isAvailable) return;
+
       contextSafe?.compassContinue(
         NewAccountRouteData(
           publicKey: seed.publicKey.publicKey,
