@@ -8,6 +8,7 @@ import 'package:app/di/di.dart';
 import 'package:app/feature/wallet/route.dart';
 import 'package:app/feature/wallet/wallet.dart';
 import 'package:app/generated/generated.dart';
+import 'package:app/utils/utils.dart';
 import 'package:elementary_helper/elementary_helper.dart';
 import 'package:flutter/material.dart';
 import 'package:ui_components_lib/ui_components_lib.dart';
@@ -57,14 +58,17 @@ class CancelUnstakingPageWidgetModel extends CustomWidgetModel<
     );
     if (!agreed) return;
 
-    final payload = await model.getPayload(widget.request.nonce);
+    final (payload, fees) = await FutureExt.wait2(
+      model.getPayload(widget.request.nonce),
+      model.computeFees(),
+    );
 
     if (!context.mounted) return;
 
     final result = await contextSafe?.compassPush<bool>(
       TonWalletSendRouteData(
         address: widget.request.accountAddress,
-        amount: model.staking.stakeRemovePendingWithdrawAttachedFee,
+        amount: fees.removePendingWithdrawAttachedFee,
         payload: payload,
         destination: model.staking.stakingValutAddress,
         publicKey: widget.accountKey,

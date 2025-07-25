@@ -1,6 +1,7 @@
 // ignore_for_file: use_build_context_synchronously
 
 import 'package:app/app/router/router.dart';
+import 'package:app/app/service/service.dart';
 import 'package:app/core/wm/custom_wm.dart';
 import 'package:app/data/models/models.dart';
 import 'package:app/di/di.dart';
@@ -39,7 +40,7 @@ class ImportWalletScreenWidgetModel
   late final screenState = createEntityNotifier<ImportWalletData?>()
     ..loading(ImportWalletData());
   late final _seedPhraseFormat = createNotifier(
-    networkGroup == 'ton' || networkGroup == 'hmstr_mainnet'
+    networkType.isTon || networkGroup == 'hmstr_mainnet'
         ? SeedPhraseFormat.ton
         : SeedPhraseFormat.standard,
   );
@@ -48,6 +49,8 @@ class ImportWalletScreenWidgetModel
   Set<String>? _hints;
 
   String get networkGroup => model.networkGroup;
+
+  NetworkType get networkType => model.networkType;
 
   ListenableState<SeedPhraseFormat> get seedPhraseFormat => _seedPhraseFormat;
 

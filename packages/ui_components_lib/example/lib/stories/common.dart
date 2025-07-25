@@ -116,8 +116,9 @@ class _CommonStoryState extends State<CommonStory> {
             const SizedBox(height: DimensSize.d8),
             CommonCard(
               titleText: 'Card Title',
-              leadingChild:
-                  CommonButtonIconWidget.icon(icon: Icons.access_alarm_sharp),
+              leadingChild: CommonButtonIconWidget.icon(
+                icon: Icons.access_alarm_sharp,
+              ),
               borderColor: colors.alert,
               trailingChild: CommonButtonIconWidget.icon(icon: Icons.delete),
             ),
@@ -131,8 +132,9 @@ class _CommonStoryState extends State<CommonStory> {
             CommonCard(
               titleText: 'Card Title',
               topSubtitleText: 'TopSubtitle',
-              leadingChild:
-                  CommonButtonIconWidget.icon(icon: Icons.access_alarm_sharp),
+              leadingChild: CommonButtonIconWidget.icon(
+                icon: Icons.access_alarm_sharp,
+              ),
               trailingChild: CommonButtonIconWidget.icon(icon: Icons.delete),
             ),
             const SizedBox(height: DimensSize.d32),
@@ -142,8 +144,9 @@ class _CommonStoryState extends State<CommonStory> {
               leading: CommonBackgroundedIconWidget.icon(icon: Icons.add),
               titleText: 'ListTile tite',
               subtitleText: 'ListTile subtitle',
-              trailing:
-                  CommonIconWidget.icon(icon: Icons.arrow_forward_ios_rounded),
+              trailing: CommonIconWidget.icon(
+                icon: Icons.arrow_forward_ios_rounded,
+              ),
             ),
             const SizedBox(height: DimensSize.d8),
             CommonListTile(
@@ -153,8 +156,9 @@ class _CommonStoryState extends State<CommonStory> {
               leading: CommonBackgroundedIconWidget.icon(icon: Icons.add),
               titleText: 'ListTile tite with color',
               subtitleText: 'ListTile subtitle',
-              trailing:
-                  CommonIconWidget.icon(icon: Icons.arrow_forward_ios_rounded),
+              trailing: CommonIconWidget.icon(
+                icon: Icons.arrow_forward_ios_rounded,
+              ),
             ),
             const SizedBox(height: DimensSize.d8),
             const Text('Icon with background'),

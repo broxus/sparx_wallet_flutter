@@ -6,14 +6,13 @@ part of 'token_contract_asset.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-_$TokenContractAssetImpl _$$TokenContractAssetImplFromJson(
-        Map<String, dynamic> json) =>
-    _$TokenContractAssetImpl(
+_TokenContractAsset _$TokenContractAssetFromJson(Map<String, dynamic> json) =>
+    _TokenContractAsset(
       name: json['name'] as String,
       symbol: json['symbol'] as String,
       decimals: (json['decimals'] as num).toInt(),
       address: Address.fromJson(json['address'] as String),
-      networkType: json['networkType'] as String,
+      networkType: NetworkType.fromJson(json['networkType'] as String),
       networkGroup: json['networkGroup'] as String,
       isCustom: json['isCustom'] as bool,
       version:
@@ -22,14 +21,13 @@ _$TokenContractAssetImpl _$$TokenContractAssetImplFromJson(
       logoURI: json['logoURI'] as String?,
     );
 
-Map<String, dynamic> _$$TokenContractAssetImplToJson(
-        _$TokenContractAssetImpl instance) =>
+Map<String, dynamic> _$TokenContractAssetToJson(_TokenContractAsset instance) =>
     <String, dynamic>{
       'name': instance.name,
       'symbol': instance.symbol,
       'decimals': instance.decimals,
       'address': instance.address.toJson(),
-      'networkType': instance.networkType,
+      'networkType': instance.networkType.toJson(),
       'networkGroup': instance.networkGroup,
       'isCustom': instance.isCustom,
       'version': _$TokenWalletVersionEnumMap[instance.version],

@@ -28,7 +28,7 @@ class ConnectionTransportData {
   }) : defaultActiveAssets = defaultActiveAssets ?? [];
 
   factory ConnectionTransportData.custom({
-    required String networkType,
+    required NetworkType networkType,
     required String networkName,
   }) =>
       ConnectionTransportData(
@@ -84,7 +84,7 @@ class ConnectionTransportData {
   final TransportManifestOption manifestOption;
   final Address nativeTokenAddress;
   final String networkName;
-  final String networkType;
+  final NetworkType networkType;
   final List<int> seedPhraseWordsCount;
   final GenericTokenType genericTokenType;
   final AccountExplorerLinkType accountExplorerLinkType;

@@ -35,16 +35,24 @@ class TokenWalletAssetWidget extends StatelessWidget {
       ),
       child: BlocBuilder<TokenWalletAssetCubit, TokenWalletAssetState>(
         builder: (context, state) {
-          return state.when(
-            subscribeError: (error, isLoading) => _asset(
-              error: error,
-              isErrorLoading: isLoading,
-            ),
-            data: (fiatBalance, tokenBalance) => _asset(
-              fiatBalance: fiatBalance,
-              tokenBalance: tokenBalance,
-            ),
-          );
+          return switch (state) {
+            TokenWalletAssetStateSubscribeError(
+              :final error,
+              :final isLoading,
+            ) =>
+              _asset(
+                error: error,
+                isErrorLoading: isLoading,
+              ),
+            TokenWalletAssetStateData(
+              :final fiatBalance,
+              :final tokenBalance,
+            ) =>
+              _asset(
+                fiatBalance: fiatBalance,
+                tokenBalance: tokenBalance,
+              ),
+          };
         },
       ),
     );

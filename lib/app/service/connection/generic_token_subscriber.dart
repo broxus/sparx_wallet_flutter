@@ -1,4 +1,7 @@
+import 'package:app/app/service/service.dart';
 import 'package:app/http/repository/ton_repository.dart';
+import 'package:app/utils/utils.dart';
+import 'package:collection/collection.dart';
 import 'package:nekoton_repository/nekoton_repository.dart';
 
 sealed class GenericTokenSubscriber {
@@ -10,6 +13,12 @@ sealed class GenericTokenSubscriber {
 }
 
 class Tip3TokenWalletSubscriber extends GenericTokenSubscriber {
+  Tip3TokenWalletSubscriber(
+    this._assetsService,
+  );
+
+  final AssetsService _assetsService;
+
   @override
   Future<GenericTokenWallet> subscribeToken({
     required Address owner,
@@ -20,7 +29,22 @@ class Tip3TokenWalletSubscriber extends GenericTokenSubscriber {
         transport: transport,
         owner: owner,
         rootTokenContract: rootTokenContract,
+        symbol: _getSymbol(rootTokenContract),
       );
+
+  Symbol? _getSymbol(Address rootTokenContract) {
+    final asset = _assetsService.currentSystemTokenContractAssets
+        .firstWhereOrNull((asset) => asset.address == rootTokenContract);
+
+    return asset?.let(
+      (asset) => Symbol(
+        name: asset.symbol,
+        fullName: asset.name,
+        decimals: asset.decimals,
+        rootTokenContract: asset.address,
+      ),
+    );
+  }
 }
 
 class JettonTokenWalletSubscriber extends GenericTokenSubscriber {

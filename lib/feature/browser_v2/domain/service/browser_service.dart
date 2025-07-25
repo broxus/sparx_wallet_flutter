@@ -3,7 +3,6 @@ import 'dart:collection';
 
 import 'package:app/app/router/router.dart';
 import 'package:app/app/service/app_links/app_links.dart';
-import 'package:app/app/service/ton_connect/ton_connect_service.dart';
 import 'package:app/feature/browser_v2/data/history_type.dart';
 import 'package:app/feature/browser_v2/domain/delegates/browser_anti_phishing_delegate.dart';
 import 'package:app/feature/browser_v2/domain/delegates/browser_service_auth_delegate.dart';
@@ -13,6 +12,7 @@ import 'package:app/feature/browser_v2/domain/delegates/browser_service_history_
 import 'package:app/feature/browser_v2/domain/delegates/browser_service_permissions_delegate.dart';
 import 'package:app/feature/browser_v2/domain/delegates/browser_service_tabs_delegate.dart';
 import 'package:app/feature/browser_v2/screens/main/route.dart';
+import 'package:app/feature/ton_connect/ton_connect.dart';
 import 'package:app/utils/common_utils.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_inappwebview/flutter_inappwebview.dart';
