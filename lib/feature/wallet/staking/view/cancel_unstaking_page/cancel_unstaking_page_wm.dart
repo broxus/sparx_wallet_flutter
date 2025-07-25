@@ -70,7 +70,7 @@ class CancelUnstakingPageWidgetModel extends CustomWidgetModel<
         address: widget.request.accountAddress,
         amount: fees.removePendingWithdrawAttachedFee,
         payload: payload,
-        destination: model.staking.stakingValutAddress,
+        destination: model.staking.stakingVaultAddress,
         publicKey: widget.accountKey,
         resultMessage: LocaleKeys.stEverReturnInMinutes.tr(
           args: [widget.stakeCurrency.symbol],

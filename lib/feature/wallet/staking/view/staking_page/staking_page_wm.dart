@@ -364,7 +364,7 @@ class StakingPageWidgetModel
     final info = _info.value.data;
     if (info == null) return;
 
-    final valutAddress = model.staking.stakingValutAddress;
+    final vaultAddress = model.staking.stakingVaultAddress;
     final amount = _currentValue.minorUnits;
 
     final (payload, fees) = await FutureExt.wait2(
@@ -377,7 +377,7 @@ class StakingPageWidgetModel
         address: widget.accountAddress,
         publicKey: info.wallet.publicKey,
         payload: payload,
-        destination: valutAddress,
+        destination: vaultAddress,
         amount: amount,
         attachedAmount: fees.depositAttachedFee,
         popOnComplete: false,
@@ -392,7 +392,7 @@ class StakingPageWidgetModel
     final info = _info.value.data;
     if (info == null) return;
 
-    final valutAddress = model.staking.stakingValutAddress;
+    final vaultAddress = model.staking.stakingVaultAddress;
     final rootContractAddress = model.staking.stakingRootContractAddress;
     final amount = _currentValue.minorUnits;
 
@@ -407,7 +407,7 @@ class StakingPageWidgetModel
         rootTokenContract: rootContractAddress,
         publicKey: info.wallet.publicKey,
         comment: payload,
-        destination: valutAddress,
+        destination: vaultAddress,
         amount: amount,
         attachedAmount: fees.withdrawAttachedFee,
         resultMessage: LocaleKeys.withdrawHoursProgress.tr(

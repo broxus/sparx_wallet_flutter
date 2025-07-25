@@ -219,7 +219,7 @@ class StakingService {
   /// methods with this contract.
   Future<FullContractState> getVaultContractState() async {
     return _cachedContractStateProvider.get(
-      address: stakingInformation.stakingValutAddress,
+      address: stakingInformation.stakingVaultAddress,
       transport: _nekotonRepository.currentTransport.transport,
     );
   }
