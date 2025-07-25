@@ -57,6 +57,8 @@ class BleTransport {
     StreamSubscription<List<int>>? subscription;
     LedgerDataReader? reader;
 
+    await _mutex.acquire();
+
     try {
       final completer = Completer<LedgerResponse>();
       final packets = _packer.pack(Uint8List.fromList(data), mtu);
@@ -108,6 +110,8 @@ class BleTransport {
       _logger.severe('Failed to write data: $e', e, st);
       await subscription?.cancel();
       throw LedgerException('Failed to write data: $e');
+    } finally {
+      _mutex.release();
     }
   }
 }
