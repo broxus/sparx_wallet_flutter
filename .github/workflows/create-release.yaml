@@ -30,7 +30,7 @@ jobs:
           curl -s https://raw.githubusercontent.com/broxus/ever-wallet-anti-phishing/master/blacklist.json -o temp/broxus_blacklist.json || exit 1
 
           echo "Downloading MetaMask blacklist..."
-          curl -s https://raw.githubusercontent.com/MetaMask/eth-phishing-detect/refs/heads/main/src/config.json -o temp/metamask_config.json
+          curl -s https://raw.githubusercontent.com/MetaMask/eth-phishing-detect/refs/heads/main/src/config.json -o temp/metamask_config.json || exit 1
 
           cat temp/broxus_blacklist.json | jq -r '.[]' > temp/broxus_entries.txt
 
