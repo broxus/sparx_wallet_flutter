@@ -9,7 +9,7 @@ part 'browser_history_item.freezed.dart';
 part 'browser_history_item.g.dart';
 
 @freezed
-class BrowserHistoryItem with _$BrowserHistoryItem implements BrowserItem {
+abstract class BrowserHistoryItem with _$BrowserHistoryItem implements BrowserItem {
   const factory BrowserHistoryItem({
     /// The id of the tab.
     required String id,

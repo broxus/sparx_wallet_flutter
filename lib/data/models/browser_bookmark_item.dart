@@ -9,7 +9,7 @@ part 'browser_bookmark_item.freezed.dart';
 part 'browser_bookmark_item.g.dart';
 
 @freezed
-class BrowserBookmarkItem with _$BrowserBookmarkItem implements BrowserItem {
+abstract class BrowserBookmarkItem with _$BrowserBookmarkItem implements BrowserItem {
   const factory BrowserBookmarkItem({
     required String id,
     required String title,
