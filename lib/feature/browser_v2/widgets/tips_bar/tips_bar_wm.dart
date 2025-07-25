@@ -5,7 +5,6 @@ import 'package:app/core/wm/custom_wm.dart';
 import 'package:app/core/wm/not_null_safe_notifier.dart';
 import 'package:app/data/models/browser_item.dart';
 import 'package:app/di/di.dart';
-import 'package:app/extensions/object_extension.dart';
 import 'package:app/extensions/string_extension.dart';
 import 'package:app/feature/browser_v2/domain/service/browser_service.dart';
 import 'package:app/feature/browser_v2/widgets/tips_bar/tips_bar.dart';
@@ -95,7 +94,7 @@ class TipsBarWidgetModel extends CustomWidgetModel<TipsBar, TipsBarModel> {
 
         await Future(
           () {
-            if (bookmark.url.str.low.contains(lowText) ||
+            if (bookmark.url.toString().low.contains(lowText) ||
                 bookmark.title.low.contains(lowText)) {
               _searchResult[bookmark.id] = bookmark;
               _urlsResult.add(bookmark.url.host);
