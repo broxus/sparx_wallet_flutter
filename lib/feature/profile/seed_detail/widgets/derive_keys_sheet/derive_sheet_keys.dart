@@ -62,6 +62,7 @@ class DeriveKeysSheet extends StatelessWidget {
         }
       },
       builder: (context, state) {
+        final cubit = context.read<DeriveKeysCubit>();
         return SeparatedColumn(
           mainAxisSize: MainAxisSize.min,
           children: [
@@ -86,16 +87,18 @@ class DeriveKeysSheet extends StatelessWidget {
                                 EdgeInsets.symmetric(vertical: DimensSizeV2.d4),
                             child: CommonDivider(),
                           ),
-                          children: state.displayDerivedKeys
-                              .map(
-                                (k) => _keyItem(
-                                  key: k,
-                                  name: state.keyNames[k.publicKey],
-                                  isSelected:
-                                      state.selectedKeys.contains(k.publicKey),
-                                ),
-                              )
-                              .toList(),
+                          children: [
+                            for (final k in state.displayDerivedKeys)
+                              _Item(
+                                masterKey: masterKey,
+                                derivedKey: k,
+                                name: state.keyNames[k.publicKey],
+                                isSelected:
+                                    state.selectedKeys.contains(k.publicKey),
+                                onChecked: cubit.checkKey,
+                                onUnchecked: cubit.uncheckKey,
+                              ),
+                          ],
                         ),
                 ),
               ),
@@ -103,10 +106,13 @@ class DeriveKeysSheet extends StatelessWidget {
             Column(
               children: [
                 const CommonDivider(),
-                _pagesBuilder(
+                _Pages(
                   currentPageIndex: state.currentPageIndex,
                   canPrevPage: state.canPrevPage,
                   canNextPage: state.canNextPage,
+                  onPrevPage: cubit.prevPage,
+                  onNextPage: cubit.nextPage,
+                  onPage: cubit.selectPage,
                 ),
                 const CommonDivider(),
                 const SizedBox(height: DimensSizeV2.d8),
@@ -116,161 +122,167 @@ class DeriveKeysSheet extends StatelessWidget {
               padding: const EdgeInsets.symmetric(
                 horizontal: DimensSizeV2.d16,
               ),
-              child: _selectButton(state.isLoading),
+              child: PrimaryButton(
+                isLoading: state.isLoading,
+                title: LocaleKeys.selectWord.tr(),
+                onPressed: () => context.read<DeriveKeysCubit>().select(),
+                buttonShape: ButtonShape.pill,
+              ),
             ),
           ],
         );
       },
     );
   }
+}
 
-  // ignore: long-method
-  Widget _pagesBuilder({
-    required int currentPageIndex,
-    required bool canPrevPage,
-    required bool canNextPage,
-  }) {
-    return Builder(
-      builder: (context) {
-        final theme = context.themeStyleV2;
+class _Pages extends StatelessWidget {
+  const _Pages({
+    required this.currentPageIndex,
+    required this.canPrevPage,
+    required this.canNextPage,
+    required this.onPrevPage,
+    required this.onNextPage,
+    required this.onPage,
+  });
 
-        return Container(
-          padding: const EdgeInsets.symmetric(horizontal: DimensSizeV2.d16),
-          color: theme.colors.background1,
-          child: SeparatedRow(
-            children: [
-              CommonIconButton.svg(
-                svg: Assets.images.caretLeft24.path,
-                buttonType: EverButtonType.ghost,
-                onPressed: canPrevPage
-                    ? () => context.read<DeriveKeysCubit>().prevPage()
-                    : null,
-              ),
-              Expanded(
-                child: LayoutBuilder(
-                  builder: (context, constraints) {
-                    // This count is a sliding window though
-                    // available pages, that allows us to display up
-                    // to 50% of this variable on the left side and
-                    // up to 50% on the right side (we are trying to
-                    // put current page in center if possible)
-                    var maxCount = constraints.maxWidth ~/ DimensSizeV2.d40;
-                    maxCount = math.min(maxCount, derivePageCount);
+  final int currentPageIndex;
+  final bool canPrevPage;
+  final bool canNextPage;
+  final VoidCallback onPrevPage;
+  final VoidCallback onNextPage;
+  final ValueChanged<int> onPage;
 
-                    // do not subtract 1 here trying to compensate
-                    // width if count is even
-                    final possibleLeftPadding = maxCount ~/ 2;
-                    final availableLeftWindowIndex = math.max(
-                      currentPageIndex - possibleLeftPadding,
-                      0,
-                    );
+  @override
+  Widget build(BuildContext context) {
+    final theme = context.themeStyleV2;
 
-                    // subtract one trying to get real 50%
-                    final possibleRightPadding = (maxCount - 1) ~/ 2;
-                    final availableRightWindowIndex = math.min(
-                      currentPageIndex + possibleRightPadding,
-                      derivePageCount - 1,
-                    );
-                    // Compensate right padding if window is close
-                    // to right side.
-                    // Left side will be compensated by window size.
-                    final compensateRightToLeft = availableRightWindowIndex -
-                        currentPageIndex -
-                        possibleRightPadding;
+    return Container(
+      padding: const EdgeInsets.symmetric(horizontal: DimensSizeV2.d16),
+      color: theme.colors.background1,
+      child: SeparatedRow(
+        children: [
+          CommonIconButton.svg(
+            svg: Assets.images.caretLeft24.path,
+            buttonType: EverButtonType.ghost,
+            onPressed: canPrevPage ? onPrevPage : null,
+          ),
+          Expanded(
+            child: LayoutBuilder(
+              builder: (context, constraints) {
+                // This count is a sliding window though
+                // available pages, that allows us to display up
+                // to 50% of this variable on the left side and
+                // up to 50% on the right side (we are trying to
+                // put current page in center if possible)
+                var maxCount = constraints.maxWidth ~/ DimensSizeV2.d40;
+                maxCount = math.min(maxCount, derivePageCount);
 
-                    final startIndexOffset =
-                        availableLeftWindowIndex + compensateRightToLeft;
+                // do not subtract 1 here trying to compensate
+                // width if count is even
+                final possibleLeftPadding = maxCount ~/ 2;
+                final availableLeftWindowIndex = math.max(
+                  currentPageIndex - possibleLeftPadding,
+                  0,
+                );
 
-                    return Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: List.generate(maxCount, (i) {
-                        final index = i + startIndexOffset;
+                // subtract one trying to get real 50%
+                final possibleRightPadding = (maxCount - 1) ~/ 2;
+                final availableRightWindowIndex = math.min(
+                  currentPageIndex + possibleRightPadding,
+                  derivePageCount - 1,
+                );
+                // Compensate right padding if window is close
+                // to right side.
+                // Left side will be compensated by window size.
+                final compensateRightToLeft = availableRightWindowIndex -
+                    currentPageIndex -
+                    possibleRightPadding;
 
-                        return PressScaleWidget(
-                          onPressed: () =>
-                              context.read<DeriveKeysCubit>().selectPage(index),
-                          child: Container(
-                            height: DimensSizeV2.d40,
-                            width: DimensSizeV2.d40,
-                            alignment: Alignment.center,
-                            child: Text(
-                              '${index + 1}',
-                              style: StyleRes.button.copyWith(
-                                color: index == currentPageIndex
-                                    ? theme.colors.content0
-                                    : theme.colors.content3,
-                              ),
-                            ),
+                final startIndexOffset =
+                    availableLeftWindowIndex + compensateRightToLeft;
+
+                return Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: List.generate(maxCount, (i) {
+                    final index = i + startIndexOffset;
+
+                    return PressScaleWidget(
+                      onPressed: () => onPage(index),
+                      child: Container(
+                        height: DimensSizeV2.d40,
+                        width: DimensSizeV2.d40,
+                        alignment: Alignment.center,
+                        child: Text(
+                          '${index + 1}',
+                          style: StyleRes.button.copyWith(
+                            color: index == currentPageIndex
+                                ? theme.colors.content0
+                                : theme.colors.content3,
                           ),
-                        );
-                      }),
+                        ),
+                      ),
                     );
-                  },
-                ),
-              ),
-              CommonIconButton.svg(
-                svg: Assets.images.caretRight24.path,
-                buttonType: EverButtonType.ghost,
-                onPressed: canNextPage
-                    ? () => context.read<DeriveKeysCubit>().nextPage()
-                    : null,
-              ),
-            ],
+                  }),
+                );
+              },
+            ),
           ),
-        );
-      },
+          CommonIconButton.svg(
+            svg: Assets.images.caretRight24.path,
+            buttonType: EverButtonType.ghost,
+            onPressed: canNextPage ? onNextPage : null,
+          ),
+        ],
+      ),
     );
   }
+}
 
-  Widget _selectButton(bool isLoading) {
-    return Builder(
-      builder: (context) {
-        return PrimaryButton(
-          isLoading: isLoading,
-          title: LocaleKeys.selectWord.tr(),
-          onPressed: () => context.read<DeriveKeysCubit>().select(),
-          buttonShape: ButtonShape.pill,
-        );
-      },
-    );
-  }
+class _Item extends StatelessWidget {
+  const _Item({
+    required this.masterKey,
+    required this.derivedKey,
+    required this.isSelected,
+    required this.name,
+    required this.onChecked,
+    required this.onUnchecked,
+  });
 
-  Widget _keyItem({
-    required DerivedKeyWithIndex key,
-    required bool isSelected,
-    String? name,
-  }) {
-    return Builder(
-      builder: (context) {
-        final colors = context.themeStyle.colors;
-        final theme = context.themeStyleV2;
-        final disabled = key.publicKey == masterKey;
+  final PublicKey masterKey;
+  final DerivedKeyWithIndex derivedKey;
+  final bool isSelected;
+  final String? name;
+  final ValueChanged<DerivedKeyWithIndex> onChecked;
+  final ValueChanged<DerivedKeyWithIndex> onUnchecked;
 
-        return CommonListTile(
-          // ignore: avoid_redundant_argument_values
-          height: _itemHeight,
-          leading: CommonBackgroundedIconWidget.svg(
-            svg: Assets.images.key.path,
-            backgroundColor: theme.colors.backgroundAlpha,
-          ),
-          titleText: name ?? key.publicKey.toEllipseString(),
-          trailing: CommonIconWidget.svg(
-            svg: isSelected
-                ? Assets.images.checkSquare.path
-                : Assets.images.checkEmpty.path,
-            color: disabled
-                ? colors.textSecondary
-                : isSelected
-                    ? colors.textPrimary
-                    : colors.strokePrimary,
-          ),
-          onPressed: disabled
-              ? null
-              : () => isSelected
-                  ? context.read<DeriveKeysCubit>().uncheckKey(key)
-                  : context.read<DeriveKeysCubit>().checkKey(key),
-        );
-      },
+  @override
+  Widget build(BuildContext context) {
+    final colors = context.themeStyle.colors;
+    final theme = context.themeStyleV2;
+    final disabled = derivedKey.publicKey == masterKey;
+
+    return CommonListTile(
+      // ignore: avoid_redundant_argument_values
+      height: _itemHeight,
+      leading: CommonBackgroundedIconWidget.svg(
+        svg: Assets.images.key.path,
+        backgroundColor: theme.colors.backgroundAlpha,
+      ),
+      titleText: name ?? derivedKey.publicKey.toEllipseString(),
+      trailing: CommonIconWidget.svg(
+        svg: isSelected
+            ? Assets.images.checkSquare.path
+            : Assets.images.checkEmpty.path,
+        color: disabled
+            ? colors.textSecondary
+            : isSelected
+                ? colors.textPrimary
+                : colors.strokePrimary,
+      ),
+      onPressed: disabled
+          ? null
+          : () => isSelected ? onUnchecked(derivedKey) : onChecked(derivedKey),
     );
   }
 }

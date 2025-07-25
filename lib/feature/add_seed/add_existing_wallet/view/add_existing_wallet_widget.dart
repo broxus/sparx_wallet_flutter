@@ -79,19 +79,6 @@ class _Button extends StatelessWidget {
               iconColor: theme.colors.content0,
               backgroundColor: theme.colors.background3,
             ),
-            // DecoratedBox(
-            //   decoration: BoxDecoration(
-            //     color: context.themeStyleV2.colors.background3,
-            //     borderRadius: BorderRadius.circular(DimensRadiusV2.radius12),
-            //   ),
-            //   child: SizedBox(
-            //     width: DimensSizeV2.d40,
-            //     height: DimensSizeV2.d40,
-            //     child: Center(
-            //       child: Icon(icon, size: DimensSizeV2.d20),
-            //     ),
-            //   ),
-            // ),
             Expanded(
               child: Column(
                 mainAxisSize: MainAxisSize.min,
