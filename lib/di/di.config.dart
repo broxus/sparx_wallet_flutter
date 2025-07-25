@@ -77,6 +77,8 @@ import '../feature/add_seed/enter_seed_phrase/route.dart' as _i741;
 import '../feature/add_seed/import_wallet/route.dart' as _i176;
 import '../feature/biometry/view/route.dart' as _i434;
 import '../feature/bootstrap_failed/route.dart' as _i501;
+import '../feature/browser_v2/domain/delegates/browser_anti_phishing_delegate.dart'
+    as _i106;
 import '../feature/browser_v2/domain/delegates/browser_service_auth_delegate.dart'
     as _i931;
 import '../feature/browser_v2/domain/delegates/browser_service_bookmarks_delegate.dart'
@@ -344,6 +346,8 @@ extension GetItInjectableX on _i174.GetIt {
         () => _i316.IdentifyIconsService(gh<_i128.AppStorageService>()));
     gh.singleton<_i1016.StakingAbiProvider>(
         () => _i1016.StakingAbiProvider(gh<_i104.ResourcesService>()));
+    gh.factory<_i106.BrowserAntiPhishingDelegate>(
+        () => _i106.BrowserAntiPhishingDelegate(gh<_i104.ResourcesService>()));
     gh.singleton<_i1020.BalanceStorageService>(
         () => _i1020.BalanceStorageService(
               gh<_i792.GetStorage>(instanceName: 'overallBalancesDomain'),
@@ -722,9 +726,18 @@ extension GetItInjectableX on _i174.GetIt {
         gh<_i617.BrowserServiceHistoryDelegate>(),
         gh<_i475.BrowserServicePermissionsDelegate>(),
         gh<_i77.BrowserServiceTabsDelegate>(),
+        gh<_i106.BrowserAntiPhishingDelegate>(),
       ),
       dispose: (i) => i.dispose(),
     );
+    gh.singleton<_i473.PermissionsService>(() => _i473.PermissionsService(
+          gh<_i470.BrowserService>(),
+          gh<_i771.NekotonRepository>(),
+        ));
+    gh.singleton<_i533.RootTabService>(() => _i533.RootTabService(
+          gh<_i309.CompassRouter>(),
+          gh<_i470.BrowserService>(),
+        ));
     gh.singleton<_i82.CompassBaseRoute>(
       () => _i852.AddExistingWalletRoute(
           gh<_i82.CompassBaseRoute>(instanceName: 'ImportWalletRoute')),
@@ -752,14 +765,6 @@ extension GetItInjectableX on _i174.GetIt {
       ),
       instanceName: 'ChooseNetworkRoute',
     );
-    gh.singleton<_i473.PermissionsService>(() => _i473.PermissionsService(
-          gh<_i470.BrowserService>(),
-          gh<_i771.NekotonRepository>(),
-        ));
-    gh.singleton<_i533.RootTabService>(() => _i533.RootTabService(
-          gh<_i309.CompassRouter>(),
-          gh<_i470.BrowserService>(),
-        ));
     gh.singleton<_i82.CompassBaseRoute>(
       () => _i1010.OnBoardingRoute(
           gh<_i82.CompassBaseRoute>(instanceName: 'ChooseNetworkRoute')),
