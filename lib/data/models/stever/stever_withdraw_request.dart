@@ -8,7 +8,7 @@ part 'stever_withdraw_request.g.dart';
 /// Request of stever withdraw. This request can be cancelled to return
 /// stever back
 @freezed
-class StEverWithdrawRequest with _$StEverWithdrawRequest {
+abstract class StEverWithdrawRequest with _$StEverWithdrawRequest {
   const factory StEverWithdrawRequest({
     required String nonce,
     required StEverWithdrawRequestData data,
@@ -20,7 +20,7 @@ class StEverWithdrawRequest with _$StEverWithdrawRequest {
 }
 
 @freezed
-class StEverWithdrawRequestData with _$StEverWithdrawRequestData {
+abstract class StEverWithdrawRequestData with _$StEverWithdrawRequestData {
   const factory StEverWithdrawRequestData({
     @amountJsonConverter required BigInt amount,
     @timestampFromStringJsonConverter required DateTime timestamp,

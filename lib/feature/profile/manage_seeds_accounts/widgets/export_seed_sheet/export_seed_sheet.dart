@@ -42,22 +42,19 @@ class ExportSeedSheet extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocConsumer<ExportSeedCubit, ExportSeedState>(
-      listener: (context, state) {
-        state.whenOrNull(
-          error: (error) => inject<MessengerService>().show(
+      listener: (context, state) => switch (state) {
+        ExportSeedStateError(:final error) => inject<MessengerService>().show(
             Message.error(message: error),
           ),
-          success: (phrase) {
-            Navigator.of(context)
-              ..pop()
-              ..push(
-                exportSeedSavePhraseRoute(
-                  context.themeStyleV2.textStyles.headingLarge,
-                  phrase,
-                ),
-              );
-          },
-        );
+        ExportSeedStateSuccess(:final phrase) => Navigator.of(context)
+          ..pop()
+          ..push(
+            exportSeedSavePhraseRoute(
+              context.themeStyleV2.textStyles.headingLarge,
+              phrase,
+            ),
+          ),
+        _ => null,
       },
       builder: (context, _) {
         return EnterPasswordWidget(

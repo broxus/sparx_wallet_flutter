@@ -18,7 +18,7 @@ class PresetsConnectionService {
 
   ConnectionNetwork? get _connectionNetwork => _presetsConnectionsSubj.value;
 
-  List<String>? get customNetworkOptions =>
+  List<NetworkType>? get customNetworkOptions =>
       _connectionNetwork?.customNetworkOptionTypes;
 
   ConnectionNetwork? get _data => _presetsConnectionsSubj.valueOrNull;

@@ -1,3 +1,4 @@
+// dart format width=80
 // coverage:ignore-file
 // GENERATED CODE - DO NOT MODIFY BY HAND
 // ignore_for_file: type=lint
@@ -9,88 +10,63 @@ part of 'nft_information.dart';
 // FreezedGenerator
 // **************************************************************************
 
+// dart format off
 T _$identity<T>(T value) => value;
-
-final _privateConstructorUsedError = UnsupportedError(
-    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models');
-
-NftInformation _$NftInformationFromJson(Map<String, dynamic> json) {
-  return _NftInformation.fromJson(json);
-}
 
 /// @nodoc
 mixin _$NftInformation {
-  String? get marketplaceUrl => throw _privateConstructorUsedError;
-  List<Address>? get defaultCollections => throw _privateConstructorUsedError;
-
-  /// Serializes this NftInformation to a JSON map.
-  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
+  String? get marketplaceUrl;
+  List<Address>? get defaultCollections;
 
   /// Create a copy of NftInformation
   /// with the given fields replaced by the non-null parameter values.
   @JsonKey(includeFromJson: false, includeToJson: false)
-  $NftInformationCopyWith<NftInformation> get copyWith =>
-      throw _privateConstructorUsedError;
-}
-
-/// @nodoc
-abstract class $NftInformationCopyWith<$Res> {
-  factory $NftInformationCopyWith(
-          NftInformation value, $Res Function(NftInformation) then) =
-      _$NftInformationCopyWithImpl<$Res, NftInformation>;
-  @useResult
-  $Res call({String? marketplaceUrl, List<Address>? defaultCollections});
-}
-
-/// @nodoc
-class _$NftInformationCopyWithImpl<$Res, $Val extends NftInformation>
-    implements $NftInformationCopyWith<$Res> {
-  _$NftInformationCopyWithImpl(this._value, this._then);
-
-  // ignore: unused_field
-  final $Val _value;
-  // ignore: unused_field
-  final $Res Function($Val) _then;
-
-  /// Create a copy of NftInformation
-  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
+  $NftInformationCopyWith<NftInformation> get copyWith =>
+      _$NftInformationCopyWithImpl<NftInformation>(
+          this as NftInformation, _$identity);
+
+  /// Serializes this NftInformation to a JSON map.
+  Map<String, dynamic> toJson();
+
   @override
-  $Res call({
-    Object? marketplaceUrl = freezed,
-    Object? defaultCollections = freezed,
-  }) {
-    return _then(_value.copyWith(
-      marketplaceUrl: freezed == marketplaceUrl
-          ? _value.marketplaceUrl
-          : marketplaceUrl // ignore: cast_nullable_to_non_nullable
-              as String?,
-      defaultCollections: freezed == defaultCollections
-          ? _value.defaultCollections
-          : defaultCollections // ignore: cast_nullable_to_non_nullable
-              as List<Address>?,
-    ) as $Val);
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is NftInformation &&
+            (identical(other.marketplaceUrl, marketplaceUrl) ||
+                other.marketplaceUrl == marketplaceUrl) &&
+            const DeepCollectionEquality()
+                .equals(other.defaultCollections, defaultCollections));
+  }
+
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @override
+  int get hashCode => Object.hash(runtimeType, marketplaceUrl,
+      const DeepCollectionEquality().hash(defaultCollections));
+
+  @override
+  String toString() {
+    return 'NftInformation(marketplaceUrl: $marketplaceUrl, defaultCollections: $defaultCollections)';
   }
 }
 
 /// @nodoc
-abstract class _$$NftInformationImplCopyWith<$Res>
-    implements $NftInformationCopyWith<$Res> {
-  factory _$$NftInformationImplCopyWith(_$NftInformationImpl value,
-          $Res Function(_$NftInformationImpl) then) =
-      __$$NftInformationImplCopyWithImpl<$Res>;
-  @override
+abstract mixin class $NftInformationCopyWith<$Res> {
+  factory $NftInformationCopyWith(
+          NftInformation value, $Res Function(NftInformation) _then) =
+      _$NftInformationCopyWithImpl;
   @useResult
   $Res call({String? marketplaceUrl, List<Address>? defaultCollections});
 }
 
 /// @nodoc
-class __$$NftInformationImplCopyWithImpl<$Res>
-    extends _$NftInformationCopyWithImpl<$Res, _$NftInformationImpl>
-    implements _$$NftInformationImplCopyWith<$Res> {
-  __$$NftInformationImplCopyWithImpl(
-      _$NftInformationImpl _value, $Res Function(_$NftInformationImpl) _then)
-      : super(_value, _then);
+class _$NftInformationCopyWithImpl<$Res>
+    implements $NftInformationCopyWith<$Res> {
+  _$NftInformationCopyWithImpl(this._self, this._then);
+
+  final NftInformation _self;
+  final $Res Function(NftInformation) _then;
 
   /// Create a copy of NftInformation
   /// with the given fields replaced by the non-null parameter values.
@@ -100,13 +76,13 @@ class __$$NftInformationImplCopyWithImpl<$Res>
     Object? marketplaceUrl = freezed,
     Object? defaultCollections = freezed,
   }) {
-    return _then(_$NftInformationImpl(
+    return _then(_self.copyWith(
       marketplaceUrl: freezed == marketplaceUrl
-          ? _value.marketplaceUrl
+          ? _self.marketplaceUrl
           : marketplaceUrl // ignore: cast_nullable_to_non_nullable
               as String?,
       defaultCollections: freezed == defaultCollections
-          ? _value._defaultCollections
+          ? _self.defaultCollections
           : defaultCollections // ignore: cast_nullable_to_non_nullable
               as List<Address>?,
     ));
@@ -115,13 +91,12 @@ class __$$NftInformationImplCopyWithImpl<$Res>
 
 /// @nodoc
 @JsonSerializable()
-class _$NftInformationImpl implements _NftInformation {
-  _$NftInformationImpl(
+class _NftInformation implements NftInformation {
+  _NftInformation(
       {this.marketplaceUrl, final List<Address>? defaultCollections})
       : _defaultCollections = defaultCollections;
-
-  factory _$NftInformationImpl.fromJson(Map<String, dynamic> json) =>
-      _$$NftInformationImplFromJson(json);
+  factory _NftInformation.fromJson(Map<String, dynamic> json) =>
+      _$NftInformationFromJson(json);
 
   @override
   final String? marketplaceUrl;
@@ -136,16 +111,26 @@ class _$NftInformationImpl implements _NftInformation {
     return EqualUnmodifiableListView(value);
   }
 
+  /// Create a copy of NftInformation
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  String toString() {
-    return 'NftInformation(marketplaceUrl: $marketplaceUrl, defaultCollections: $defaultCollections)';
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @pragma('vm:prefer-inline')
+  _$NftInformationCopyWith<_NftInformation> get copyWith =>
+      __$NftInformationCopyWithImpl<_NftInformation>(this, _$identity);
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$NftInformationToJson(
+      this,
+    );
   }
 
   @override
   bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$NftInformationImpl &&
+            other is _NftInformation &&
             (identical(other.marketplaceUrl, marketplaceUrl) ||
                 other.marketplaceUrl == marketplaceUrl) &&
             const DeepCollectionEquality()
@@ -157,40 +142,50 @@ class _$NftInformationImpl implements _NftInformation {
   int get hashCode => Object.hash(runtimeType, marketplaceUrl,
       const DeepCollectionEquality().hash(_defaultCollections));
 
-  /// Create a copy of NftInformation
-  /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
-  @pragma('vm:prefer-inline')
-  _$$NftInformationImplCopyWith<_$NftInformationImpl> get copyWith =>
-      __$$NftInformationImplCopyWithImpl<_$NftInformationImpl>(
-          this, _$identity);
-
-  @override
-  Map<String, dynamic> toJson() {
-    return _$$NftInformationImplToJson(
-      this,
-    );
+  String toString() {
+    return 'NftInformation(marketplaceUrl: $marketplaceUrl, defaultCollections: $defaultCollections)';
   }
 }
 
-abstract class _NftInformation implements NftInformation {
-  factory _NftInformation(
-      {final String? marketplaceUrl,
-      final List<Address>? defaultCollections}) = _$NftInformationImpl;
-
-  factory _NftInformation.fromJson(Map<String, dynamic> json) =
-      _$NftInformationImpl.fromJson;
-
+/// @nodoc
+abstract mixin class _$NftInformationCopyWith<$Res>
+    implements $NftInformationCopyWith<$Res> {
+  factory _$NftInformationCopyWith(
+          _NftInformation value, $Res Function(_NftInformation) _then) =
+      __$NftInformationCopyWithImpl;
   @override
-  String? get marketplaceUrl;
-  @override
-  List<Address>? get defaultCollections;
+  @useResult
+  $Res call({String? marketplaceUrl, List<Address>? defaultCollections});
+}
+
+/// @nodoc
+class __$NftInformationCopyWithImpl<$Res>
+    implements _$NftInformationCopyWith<$Res> {
+  __$NftInformationCopyWithImpl(this._self, this._then);
+
+  final _NftInformation _self;
+  final $Res Function(_NftInformation) _then;
 
   /// Create a copy of NftInformation
   /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(includeFromJson: false, includeToJson: false)
-  _$$NftInformationImplCopyWith<_$NftInformationImpl> get copyWith =>
-      throw _privateConstructorUsedError;
+  @pragma('vm:prefer-inline')
+  $Res call({
+    Object? marketplaceUrl = freezed,
+    Object? defaultCollections = freezed,
+  }) {
+    return _then(_NftInformation(
+      marketplaceUrl: freezed == marketplaceUrl
+          ? _self.marketplaceUrl
+          : marketplaceUrl // ignore: cast_nullable_to_non_nullable
+              as String?,
+      defaultCollections: freezed == defaultCollections
+          ? _self._defaultCollections
+          : defaultCollections // ignore: cast_nullable_to_non_nullable
+              as List<Address>?,
+    ));
+  }
 }
+
+// dart format on

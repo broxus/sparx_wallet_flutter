@@ -1,14 +1,9 @@
-import 'package:app/app/router/router.dart';
-import 'package:app/di/di.dart';
-import 'package:app/feature/wallet/staking/models/models.dart';
-import 'package:app/feature/wallet/token_wallet_send/route.dart';
 import 'package:app/feature/wallet/wallet.dart';
 import 'package:app/generated/generated.dart';
 import 'package:elementary/elementary.dart';
 import 'package:elementary_helper/elementary_helper.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:nekoton_repository/nekoton_repository.dart';
 import 'package:ui_components_lib/ui_components_lib.dart';
 import 'package:ui_components_lib/v2/widgets/widgets.dart';
@@ -31,31 +26,23 @@ class StakingPageWidget extends ElementaryWidget<StakingPageWidgetModel> {
       onTap: wm.unfocus,
       child: Scaffold(
         appBar: const DefaultAppBar(),
-        body: BlocProvider(
-          create: (_) => ActionStakingBloc(
-            accountAddress: accountAddress,
-            nekotonRepository: inject(),
-            stakingService: inject(),
-            storage: inject(),
-          )..add(const ActionStakingBlocEvent.init()),
-          child: Stack(
-            children: [
-              Positioned.fill(
-                bottom: DimensSizeV2.d90,
-                child: _StakingViewWidget(wm: wm),
+        body: Stack(
+          children: [
+            Positioned.fill(
+              bottom: DimensSizeV2.d90,
+              child: _StakingViewWidget(wm: wm),
+            ),
+            Positioned(
+              bottom: DimensSizeV2.d0,
+              right: DimensSizeV2.d0,
+              left: DimensSizeV2.d0,
+              child: Container(
+                padding: const EdgeInsets.all(DimensSizeV2.d16),
+                color: theme.colors.background0,
+                child: _ButtonWidget(wm: wm),
               ),
-              Positioned(
-                bottom: DimensSizeV2.d0,
-                right: DimensSizeV2.d0,
-                left: DimensSizeV2.d0,
-                child: Container(
-                  padding: const EdgeInsets.all(DimensSizeV2.d16),
-                  color: theme.colors.background0,
-                  child: _ButtonWidget(wm: wm),
-                ),
-              ),
-            ],
-          ),
+            ),
+          ],
         ),
       ),
     );
@@ -118,7 +105,7 @@ class _StakingViewWidget extends StatelessWidget {
                         text: LocaleKeys.stakeEverReceiverStever.tr(
                           args: [
                             wm.currency.symbol,
-                            info?.tokenWallet.symbol.name ?? '',
+                            info?.tokenWallet.currency.symbol ?? '',
                           ],
                         ),
                         style: theme.textStyles.paragraphMedium.copyWith(
@@ -168,80 +155,18 @@ class _ButtonWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocConsumer<ActionStakingBloc, ActionStakingBlocState>(
-      listener: (context, state) {
-        state.whenOrNull(
-          showHowItWorksSheet: wm.showHowItWorksSheet,
-          goStake: (
-            payload,
-            amount,
-            destination,
-            sender,
-            accountKey,
-            attachedFee,
-          ) {
-            context.compassContinue(
-              TonWalletSendRouteData(
-                address: sender,
-                publicKey: accountKey,
-                payload: payload,
-                destination: destination,
-                amount: amount,
-                attachedAmount: attachedFee,
-                popOnComplete: false,
-                resultMessage: LocaleKeys.stEverAppearInMinutes.tr(
-                  args: [wm.tokenCurrency?.symbol ?? ''],
-                ),
-              ),
-            );
-          },
-          goUnstake: (
-            payload,
-            amount,
-            destination,
-            sender,
-            accountKey,
-            attachedFee,
-            withdrawHours,
-            stakingRootContractAddress,
-          ) {
-            context.compassContinue(
-              TokenWalletSendRouteData(
-                owner: sender,
-                rootTokenContract: stakingRootContractAddress,
-                publicKey: accountKey,
-                comment: payload,
-                destination: destination,
-                amount: amount,
-                attachedAmount: attachedFee,
-                resultMessage: LocaleKeys.withdrawHoursProgress.tr(
-                  args: [wm.currency.symbol, withdrawHours.toString()],
-                ),
-                notifyReceiver: true,
-              ),
-            );
-          },
-        );
-      },
-      builder: (_, actionState) {
-        final isLoading = actionState.maybeWhen(
-          inProgress: () => true,
-          orElse: () => false,
-        );
-
-        return ValueListenableBuilder(
-          valueListenable: wm.tab,
-          builder: (_, tab, __) => StateNotifierBuilder(
-            listenableState: wm.validation,
-            builder: (_, validation) => _InnerButtonWidget(
-              tab: tab,
-              isLoading: isLoading,
-              validation: validation,
-              onSubmit: wm.onSubmit,
-            ),
-          ),
-        );
-      },
+    return DoubleValueListenableBuilder(
+      firstValue: wm.tab,
+      secondValue: wm.isLoading,
+      builder: (_, tab, isLoading) => StateNotifierBuilder(
+        listenableState: wm.validation,
+        builder: (_, validation) => _InnerButtonWidget(
+          tab: tab,
+          isLoading: isLoading,
+          validation: validation,
+          onSubmit: wm.onSubmit,
+        ),
+      ),
     );
   }
 }
@@ -257,7 +182,7 @@ class _InnerButtonWidget extends StatelessWidget {
   final StakingTab tab;
   final bool isLoading;
   final ValidationState? validation;
-  final void Function(ActionStakingBloc) onSubmit;
+  final VoidCallback onSubmit;
 
   @override
   Widget build(BuildContext context) {
@@ -295,9 +220,7 @@ class _InnerButtonWidget extends StatelessWidget {
           buttonShape: ButtonShape.pill,
           title: title,
           isLoading: isLoading,
-          onPressed: (validation?.isValid ?? false)
-              ? () => onSubmit(context.read<ActionStakingBloc>())
-              : null,
+          onPressed: (validation?.isValid ?? false) ? onSubmit : null,
         ),
       ],
     );

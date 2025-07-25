@@ -1,3 +1,4 @@
+// dart format width=80
 // coverage:ignore-file
 // GENERATED CODE - DO NOT MODIFY BY HAND
 // ignore_for_file: type=lint
@@ -9,77 +10,56 @@ part of 'release_notes.dart';
 // FreezedGenerator
 // **************************************************************************
 
+// dart format off
 T _$identity<T>(T value) => value;
-
-final _privateConstructorUsedError = UnsupportedError(
-    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models');
 
 /// @nodoc
 mixin _$ReleaseNotes {
   /// Map of version identifiers to their corresponding release notes.
   /// The key is typically a version string like "1.0.0".
-  Map<String, ReleaseNote> get notes => throw _privateConstructorUsedError;
+  Map<String, ReleaseNote> get notes;
 
   /// Create a copy of ReleaseNotes
   /// with the given fields replaced by the non-null parameter values.
   @JsonKey(includeFromJson: false, includeToJson: false)
-  $ReleaseNotesCopyWith<ReleaseNotes> get copyWith =>
-      throw _privateConstructorUsedError;
-}
-
-/// @nodoc
-abstract class $ReleaseNotesCopyWith<$Res> {
-  factory $ReleaseNotesCopyWith(
-          ReleaseNotes value, $Res Function(ReleaseNotes) then) =
-      _$ReleaseNotesCopyWithImpl<$Res, ReleaseNotes>;
-  @useResult
-  $Res call({Map<String, ReleaseNote> notes});
-}
-
-/// @nodoc
-class _$ReleaseNotesCopyWithImpl<$Res, $Val extends ReleaseNotes>
-    implements $ReleaseNotesCopyWith<$Res> {
-  _$ReleaseNotesCopyWithImpl(this._value, this._then);
-
-  // ignore: unused_field
-  final $Val _value;
-  // ignore: unused_field
-  final $Res Function($Val) _then;
-
-  /// Create a copy of ReleaseNotes
-  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
+  $ReleaseNotesCopyWith<ReleaseNotes> get copyWith =>
+      _$ReleaseNotesCopyWithImpl<ReleaseNotes>(
+          this as ReleaseNotes, _$identity);
+
   @override
-  $Res call({
-    Object? notes = null,
-  }) {
-    return _then(_value.copyWith(
-      notes: null == notes
-          ? _value.notes
-          : notes // ignore: cast_nullable_to_non_nullable
-              as Map<String, ReleaseNote>,
-    ) as $Val);
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is ReleaseNotes &&
+            const DeepCollectionEquality().equals(other.notes, notes));
+  }
+
+  @override
+  int get hashCode =>
+      Object.hash(runtimeType, const DeepCollectionEquality().hash(notes));
+
+  @override
+  String toString() {
+    return 'ReleaseNotes(notes: $notes)';
   }
 }
 
 /// @nodoc
-abstract class _$$ReleaseNotesImplCopyWith<$Res>
-    implements $ReleaseNotesCopyWith<$Res> {
-  factory _$$ReleaseNotesImplCopyWith(
-          _$ReleaseNotesImpl value, $Res Function(_$ReleaseNotesImpl) then) =
-      __$$ReleaseNotesImplCopyWithImpl<$Res>;
-  @override
+abstract mixin class $ReleaseNotesCopyWith<$Res> {
+  factory $ReleaseNotesCopyWith(
+          ReleaseNotes value, $Res Function(ReleaseNotes) _then) =
+      _$ReleaseNotesCopyWithImpl;
   @useResult
   $Res call({Map<String, ReleaseNote> notes});
 }
 
 /// @nodoc
-class __$$ReleaseNotesImplCopyWithImpl<$Res>
-    extends _$ReleaseNotesCopyWithImpl<$Res, _$ReleaseNotesImpl>
-    implements _$$ReleaseNotesImplCopyWith<$Res> {
-  __$$ReleaseNotesImplCopyWithImpl(
-      _$ReleaseNotesImpl _value, $Res Function(_$ReleaseNotesImpl) _then)
-      : super(_value, _then);
+class _$ReleaseNotesCopyWithImpl<$Res> implements $ReleaseNotesCopyWith<$Res> {
+  _$ReleaseNotesCopyWithImpl(this._self, this._then);
+
+  final ReleaseNotes _self;
+  final $Res Function(ReleaseNotes) _then;
 
   /// Create a copy of ReleaseNotes
   /// with the given fields replaced by the non-null parameter values.
@@ -88,9 +68,9 @@ class __$$ReleaseNotesImplCopyWithImpl<$Res>
   $Res call({
     Object? notes = null,
   }) {
-    return _then(_$ReleaseNotesImpl(
+    return _then(_self.copyWith(
       notes: null == notes
-          ? _value._notes
+          ? _self.notes
           : notes // ignore: cast_nullable_to_non_nullable
               as Map<String, ReleaseNote>,
     ));
@@ -99,8 +79,8 @@ class __$$ReleaseNotesImplCopyWithImpl<$Res>
 
 /// @nodoc
 
-class _$ReleaseNotesImpl extends _ReleaseNotes {
-  const _$ReleaseNotesImpl({required final Map<String, ReleaseNote> notes})
+class _ReleaseNotes extends ReleaseNotes {
+  const _ReleaseNotes({required final Map<String, ReleaseNote> notes})
       : _notes = notes,
         super._();
 
@@ -117,16 +97,19 @@ class _$ReleaseNotesImpl extends _ReleaseNotes {
     return EqualUnmodifiableMapView(_notes);
   }
 
+  /// Create a copy of ReleaseNotes
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  String toString() {
-    return 'ReleaseNotes(notes: $notes)';
-  }
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @pragma('vm:prefer-inline')
+  _$ReleaseNotesCopyWith<_ReleaseNotes> get copyWith =>
+      __$ReleaseNotesCopyWithImpl<_ReleaseNotes>(this, _$identity);
 
   @override
   bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$ReleaseNotesImpl &&
+            other is _ReleaseNotes &&
             const DeepCollectionEquality().equals(other._notes, _notes));
   }
 
@@ -134,29 +117,45 @@ class _$ReleaseNotesImpl extends _ReleaseNotes {
   int get hashCode =>
       Object.hash(runtimeType, const DeepCollectionEquality().hash(_notes));
 
+  @override
+  String toString() {
+    return 'ReleaseNotes(notes: $notes)';
+  }
+}
+
+/// @nodoc
+abstract mixin class _$ReleaseNotesCopyWith<$Res>
+    implements $ReleaseNotesCopyWith<$Res> {
+  factory _$ReleaseNotesCopyWith(
+          _ReleaseNotes value, $Res Function(_ReleaseNotes) _then) =
+      __$ReleaseNotesCopyWithImpl;
+  @override
+  @useResult
+  $Res call({Map<String, ReleaseNote> notes});
+}
+
+/// @nodoc
+class __$ReleaseNotesCopyWithImpl<$Res>
+    implements _$ReleaseNotesCopyWith<$Res> {
+  __$ReleaseNotesCopyWithImpl(this._self, this._then);
+
+  final _ReleaseNotes _self;
+  final $Res Function(_ReleaseNotes) _then;
+
   /// Create a copy of ReleaseNotes
   /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
-  _$$ReleaseNotesImplCopyWith<_$ReleaseNotesImpl> get copyWith =>
-      __$$ReleaseNotesImplCopyWithImpl<_$ReleaseNotesImpl>(this, _$identity);
+  $Res call({
+    Object? notes = null,
+  }) {
+    return _then(_ReleaseNotes(
+      notes: null == notes
+          ? _self._notes
+          : notes // ignore: cast_nullable_to_non_nullable
+              as Map<String, ReleaseNote>,
+    ));
+  }
 }
 
-abstract class _ReleaseNotes extends ReleaseNotes {
-  const factory _ReleaseNotes({required final Map<String, ReleaseNote> notes}) =
-      _$ReleaseNotesImpl;
-  const _ReleaseNotes._() : super._();
-
-  /// Map of version identifiers to their corresponding release notes.
-  /// The key is typically a version string like "1.0.0".
-  @override
-  Map<String, ReleaseNote> get notes;
-
-  /// Create a copy of ReleaseNotes
-  /// with the given fields replaced by the non-null parameter values.
-  @override
-  @JsonKey(includeFromJson: false, includeToJson: false)
-  _$$ReleaseNotesImplCopyWith<_$ReleaseNotesImpl> get copyWith =>
-      throw _privateConstructorUsedError;
-}
+// dart format on

@@ -1,3 +1,4 @@
+// dart format width=80
 // coverage:ignore-file
 // GENERATED CODE - DO NOT MODIFY BY HAND
 // ignore_for_file: type=lint
@@ -9,27 +10,43 @@ part of 'account_removed_event.dart';
 // FreezedGenerator
 // **************************************************************************
 
+// dart format off
 T _$identity<T>(T value) => value;
-
-final _privateConstructorUsedError = UnsupportedError(
-    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models');
 
 /// @nodoc
 mixin _$AccountRemovedEvent {
-  AssetsList get account => throw _privateConstructorUsedError;
+  AssetsList get account;
 
   /// Create a copy of AccountRemovedEvent
   /// with the given fields replaced by the non-null parameter values.
   @JsonKey(includeFromJson: false, includeToJson: false)
+  @pragma('vm:prefer-inline')
   $AccountRemovedEventCopyWith<AccountRemovedEvent> get copyWith =>
-      throw _privateConstructorUsedError;
+      _$AccountRemovedEventCopyWithImpl<AccountRemovedEvent>(
+          this as AccountRemovedEvent, _$identity);
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is AccountRemovedEvent &&
+            (identical(other.account, account) || other.account == account));
+  }
+
+  @override
+  int get hashCode => Object.hash(runtimeType, account);
+
+  @override
+  String toString() {
+    return 'AccountRemovedEvent(account: $account)';
+  }
 }
 
 /// @nodoc
-abstract class $AccountRemovedEventCopyWith<$Res> {
+abstract mixin class $AccountRemovedEventCopyWith<$Res> {
   factory $AccountRemovedEventCopyWith(
-          AccountRemovedEvent value, $Res Function(AccountRemovedEvent) then) =
-      _$AccountRemovedEventCopyWithImpl<$Res, AccountRemovedEvent>;
+          AccountRemovedEvent value, $Res Function(AccountRemovedEvent) _then) =
+      _$AccountRemovedEventCopyWithImpl;
   @useResult
   $Res call({AssetsList account});
 
@@ -37,14 +54,12 @@ abstract class $AccountRemovedEventCopyWith<$Res> {
 }
 
 /// @nodoc
-class _$AccountRemovedEventCopyWithImpl<$Res, $Val extends AccountRemovedEvent>
+class _$AccountRemovedEventCopyWithImpl<$Res>
     implements $AccountRemovedEventCopyWith<$Res> {
-  _$AccountRemovedEventCopyWithImpl(this._value, this._then);
+  _$AccountRemovedEventCopyWithImpl(this._self, this._then);
 
-  // ignore: unused_field
-  final $Val _value;
-  // ignore: unused_field
-  final $Res Function($Val) _then;
+  final AccountRemovedEvent _self;
+  final $Res Function(AccountRemovedEvent) _then;
 
   /// Create a copy of AccountRemovedEvent
   /// with the given fields replaced by the non-null parameter values.
@@ -53,12 +68,12 @@ class _$AccountRemovedEventCopyWithImpl<$Res, $Val extends AccountRemovedEvent>
   $Res call({
     Object? account = null,
   }) {
-    return _then(_value.copyWith(
+    return _then(_self.copyWith(
       account: null == account
-          ? _value.account
+          ? _self.account
           : account // ignore: cast_nullable_to_non_nullable
               as AssetsList,
-    ) as $Val);
+    ));
   }
 
   /// Create a copy of AccountRemovedEvent
@@ -66,18 +81,52 @@ class _$AccountRemovedEventCopyWithImpl<$Res, $Val extends AccountRemovedEvent>
   @override
   @pragma('vm:prefer-inline')
   $AssetsListCopyWith<$Res> get account {
-    return $AssetsListCopyWith<$Res>(_value.account, (value) {
-      return _then(_value.copyWith(account: value) as $Val);
+    return $AssetsListCopyWith<$Res>(_self.account, (value) {
+      return _then(_self.copyWith(account: value));
     });
   }
 }
 
 /// @nodoc
-abstract class _$$AccountRemovedEventImplCopyWith<$Res>
+
+class _AccountRemovedEvent implements AccountRemovedEvent {
+  const _AccountRemovedEvent(this.account);
+
+  @override
+  final AssetsList account;
+
+  /// Create a copy of AccountRemovedEvent
+  /// with the given fields replaced by the non-null parameter values.
+  @override
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @pragma('vm:prefer-inline')
+  _$AccountRemovedEventCopyWith<_AccountRemovedEvent> get copyWith =>
+      __$AccountRemovedEventCopyWithImpl<_AccountRemovedEvent>(
+          this, _$identity);
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _AccountRemovedEvent &&
+            (identical(other.account, account) || other.account == account));
+  }
+
+  @override
+  int get hashCode => Object.hash(runtimeType, account);
+
+  @override
+  String toString() {
+    return 'AccountRemovedEvent(account: $account)';
+  }
+}
+
+/// @nodoc
+abstract mixin class _$AccountRemovedEventCopyWith<$Res>
     implements $AccountRemovedEventCopyWith<$Res> {
-  factory _$$AccountRemovedEventImplCopyWith(_$AccountRemovedEventImpl value,
-          $Res Function(_$AccountRemovedEventImpl) then) =
-      __$$AccountRemovedEventImplCopyWithImpl<$Res>;
+  factory _$AccountRemovedEventCopyWith(_AccountRemovedEvent value,
+          $Res Function(_AccountRemovedEvent) _then) =
+      __$AccountRemovedEventCopyWithImpl;
   @override
   @useResult
   $Res call({AssetsList account});
@@ -87,74 +136,37 @@ abstract class _$$AccountRemovedEventImplCopyWith<$Res>
 }
 
 /// @nodoc
-class __$$AccountRemovedEventImplCopyWithImpl<$Res>
-    extends _$AccountRemovedEventCopyWithImpl<$Res, _$AccountRemovedEventImpl>
-    implements _$$AccountRemovedEventImplCopyWith<$Res> {
-  __$$AccountRemovedEventImplCopyWithImpl(_$AccountRemovedEventImpl _value,
-      $Res Function(_$AccountRemovedEventImpl) _then)
-      : super(_value, _then);
+class __$AccountRemovedEventCopyWithImpl<$Res>
+    implements _$AccountRemovedEventCopyWith<$Res> {
+  __$AccountRemovedEventCopyWithImpl(this._self, this._then);
+
+  final _AccountRemovedEvent _self;
+  final $Res Function(_AccountRemovedEvent) _then;
 
   /// Create a copy of AccountRemovedEvent
   /// with the given fields replaced by the non-null parameter values.
-  @pragma('vm:prefer-inline')
   @override
+  @pragma('vm:prefer-inline')
   $Res call({
     Object? account = null,
   }) {
-    return _then(_$AccountRemovedEventImpl(
+    return _then(_AccountRemovedEvent(
       null == account
-          ? _value.account
+          ? _self.account
           : account // ignore: cast_nullable_to_non_nullable
               as AssetsList,
     ));
   }
-}
-
-/// @nodoc
-
-class _$AccountRemovedEventImpl implements _AccountRemovedEvent {
-  const _$AccountRemovedEventImpl(this.account);
-
-  @override
-  final AssetsList account;
-
-  @override
-  String toString() {
-    return 'AccountRemovedEvent(account: $account)';
-  }
-
-  @override
-  bool operator ==(Object other) {
-    return identical(this, other) ||
-        (other.runtimeType == runtimeType &&
-            other is _$AccountRemovedEventImpl &&
-            (identical(other.account, account) || other.account == account));
-  }
-
-  @override
-  int get hashCode => Object.hash(runtimeType, account);
 
   /// Create a copy of AccountRemovedEvent
   /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
-  _$$AccountRemovedEventImplCopyWith<_$AccountRemovedEventImpl> get copyWith =>
-      __$$AccountRemovedEventImplCopyWithImpl<_$AccountRemovedEventImpl>(
-          this, _$identity);
+  $AssetsListCopyWith<$Res> get account {
+    return $AssetsListCopyWith<$Res>(_self.account, (value) {
+      return _then(_self.copyWith(account: value));
+    });
+  }
 }
 
-abstract class _AccountRemovedEvent implements AccountRemovedEvent {
-  const factory _AccountRemovedEvent(final AssetsList account) =
-      _$AccountRemovedEventImpl;
-
-  @override
-  AssetsList get account;
-
-  /// Create a copy of AccountRemovedEvent
-  /// with the given fields replaced by the non-null parameter values.
-  @override
-  @JsonKey(includeFromJson: false, includeToJson: false)
-  _$$AccountRemovedEventImplCopyWith<_$AccountRemovedEventImpl> get copyWith =>
-      throw _privateConstructorUsedError;
-}
+// dart format on

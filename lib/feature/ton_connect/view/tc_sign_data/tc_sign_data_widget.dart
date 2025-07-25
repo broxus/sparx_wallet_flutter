@@ -1,4 +1,3 @@
-import 'package:app/app/service/ton_connect/ton_connect.dart';
 import 'package:app/feature/browser_v1/approvals_listener/actions/widgets/account_info/account_info_widget.dart';
 import 'package:app/feature/browser_v1/approvals_listener/actions/widgets/data_card.dart';
 import 'package:app/feature/browser_v1/approvals_listener/actions/widgets/website_info/website_info_widget.dart';

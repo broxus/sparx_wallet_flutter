@@ -1,5 +1,6 @@
 import 'package:app/app/router/router.dart';
 import 'package:app/app/service/connection/data/connection_data/connection_data.dart';
+import 'package:app/app/service/connection/data/network_type.dart';
 import 'package:app/core/wm/custom_wm.dart';
 import 'package:app/di/di.dart';
 import 'package:app/feature/browser_v1/browser.dart';
@@ -52,7 +53,7 @@ class EditNetworkWidgetModel
 
   late final validators = Validators();
 
-  late final _selectedNetworkTypeState = StateNotifier<String?>(
+  late final _selectedNetworkTypeState = StateNotifier<NetworkType?>(
     initValue:
         connection?.networkType ?? model.networkTypesOptions?.firstOrNull,
   );
@@ -76,7 +77,7 @@ class EditNetworkWidgetModel
     (element) => element.id == widget.connectionDataId,
   );
 
-  ListenableState<String?> get selectedNetworkTypeState =>
+  ListenableState<NetworkType?> get selectedNetworkTypeState =>
       _selectedNetworkTypeState;
 
   ListenableState<bool> get isLocalState => _isLocalState;
@@ -87,9 +88,10 @@ class EditNetworkWidgetModel
   ListenableState<ConnectionType> get connectionTypeState =>
       _connectionTypeState;
 
-  List<String>? get networkTypesOptions => model.networkTypesOptions;
+  List<NetworkType>? get networkTypesOptions => model.networkTypesOptions;
 
-  String get selectedNetworkType => selectedNetworkTypeState.value ?? 'custom';
+  NetworkType get selectedNetworkType =>
+      selectedNetworkTypeState.value ?? NetworkType.custom;
 
   List<TextEditingController>? get _endpointsControllers =>
       _endpointsControllersState.value;
@@ -98,7 +100,7 @@ class EditNetworkWidgetModel
 
   bool get _isLocal => _isLocalState.value ?? connection != null;
 
-  void onChangedNetworkType(String value) {
+  void onChangedNetworkType(NetworkType value) {
     _selectedNetworkTypeState.accept(value);
   }
 
