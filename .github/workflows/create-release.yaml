@@ -24,7 +24,10 @@ jobs:
 
       - name: Download and merge anti-phishing blacklists
         run: |
+          set -euo pipefail
+          
           mkdir -p temp
+          mkdir -p assets/configs
 
           echo "Downloading Broxus blacklist..."
           curl -s https://raw.githubusercontent.com/broxus/ever-wallet-anti-phishing/master/blacklist.json -o temp/broxus_blacklist.json || exit 1
@@ -42,17 +45,8 @@ jobs:
           cat temp/broxus_entries.txt temp/metamask_entries.txt | sort -u > temp/merged_entries.txt
 
           final_count=$(wc -l < temp/merged_entries.txt)
-
-          echo "[" > assets/configs/anti_phishing.json
-          
-          while IFS= read -r line; do
-            # Escape special characters for JSON
-            escaped_line=$(echo "$line" | sed 's/\\/\\\\/g; s/"/\\"/g')
-            echo "  \"$escaped_line\"," >> assets/configs/anti_phishing.json
-          done < temp/merged_entries.txt
-          
-          sed -i '$s/,$//' assets/configs/anti_phishing.json
-          echo "]" >> assets/configs/anti_phishing.json
+  
+          jq -Rs 'split("\n")[:-1]' temp/merged_entries.txt > assets/configs/anti_phishing.json
 
           echo "Merged $broxus_count Broxus entries and $metamask_count MetaMask entries into $final_count unique entries"
 
