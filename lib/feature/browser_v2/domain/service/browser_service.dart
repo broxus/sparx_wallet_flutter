@@ -169,8 +169,10 @@ class BrowserService {
 
     for (final link in list) {
       if (uri.host == link ||
+          uri.path == link ||
+          uri.path.startsWith(link) ||
           uri.host.startsWith(link) ||
-          link.startsWith('*') && uri.host.endsWith(link.substring(1))) {
+          _checkPattern(uri, link)) {
         _phishingUrlCache.add(uri.host);
         return true;
       }
@@ -186,6 +188,12 @@ class BrowserService {
       tabId,
       html,
     );
+  }
+
+  bool _checkPattern(Uri uri, String link) {
+    return link.startsWith('*') &&
+        (uri.path.endsWith(link.substring(1)) ||
+            uri.host.endsWith(link.substring(1)));
   }
 
   void _listenAppLinks(BrowserAppLinksData event) {
