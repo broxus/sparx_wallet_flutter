@@ -6,15 +6,14 @@ part of 'connection_data.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-_$ConnectionDataGqlImpl _$$ConnectionDataGqlImplFromJson(
-        Map<String, dynamic> json) =>
-    _$ConnectionDataGqlImpl(
+ConnectionDataGql _$ConnectionDataGqlFromJson(Map<String, dynamic> json) =>
+    ConnectionDataGql(
       id: json['id'] as String,
       name: json['name'] as String,
       group: json['group'] as String,
       endpoints:
           (json['endpoints'] as List<dynamic>).map((e) => e as String).toList(),
-      networkType: json['networkType'] as String,
+      networkType: NetworkType.fromJson(json['networkType'] as String),
       isLocal: json['isLocal'] as bool,
       blockExplorerUrl: json['blockExplorerUrl'] as String,
       nativeTokenTicker: json['nativeTokenTicker'] as String,
@@ -32,14 +31,13 @@ _$ConnectionDataGqlImpl _$$ConnectionDataGqlImplFromJson(
       $type: json['runtimeType'] as String?,
     );
 
-Map<String, dynamic> _$$ConnectionDataGqlImplToJson(
-        _$ConnectionDataGqlImpl instance) =>
+Map<String, dynamic> _$ConnectionDataGqlToJson(ConnectionDataGql instance) =>
     <String, dynamic>{
       'id': instance.id,
       'name': instance.name,
       'group': instance.group,
       'endpoints': instance.endpoints,
-      'networkType': instance.networkType,
+      'networkType': instance.networkType.toJson(),
       'isLocal': instance.isLocal,
       'blockExplorerUrl': instance.blockExplorerUrl,
       'nativeTokenTicker': instance.nativeTokenTicker,
@@ -55,14 +53,13 @@ Map<String, dynamic> _$$ConnectionDataGqlImplToJson(
       'runtimeType': instance.$type,
     };
 
-_$ConnectionDataProtoImpl _$$ConnectionDataProtoImplFromJson(
-        Map<String, dynamic> json) =>
-    _$ConnectionDataProtoImpl(
+ConnectionDataProto _$ConnectionDataProtoFromJson(Map<String, dynamic> json) =>
+    ConnectionDataProto(
       id: json['id'] as String,
       name: json['name'] as String,
       group: json['group'] as String,
       endpoint: json['endpoint'] as String,
-      networkType: json['networkType'] as String,
+      networkType: NetworkType.fromJson(json['networkType'] as String),
       blockExplorerUrl: json['blockExplorerUrl'] as String,
       nativeTokenTicker: json['nativeTokenTicker'] as String,
       isPreset: json['isPreset'] as bool,
@@ -74,14 +71,14 @@ _$ConnectionDataProtoImpl _$$ConnectionDataProtoImplFromJson(
       $type: json['runtimeType'] as String?,
     );
 
-Map<String, dynamic> _$$ConnectionDataProtoImplToJson(
-        _$ConnectionDataProtoImpl instance) =>
+Map<String, dynamic> _$ConnectionDataProtoToJson(
+        ConnectionDataProto instance) =>
     <String, dynamic>{
       'id': instance.id,
       'name': instance.name,
       'group': instance.group,
       'endpoint': instance.endpoint,
-      'networkType': instance.networkType,
+      'networkType': instance.networkType.toJson(),
       'blockExplorerUrl': instance.blockExplorerUrl,
       'nativeTokenTicker': instance.nativeTokenTicker,
       'isPreset': instance.isPreset,
@@ -93,14 +90,13 @@ Map<String, dynamic> _$$ConnectionDataProtoImplToJson(
       'runtimeType': instance.$type,
     };
 
-_$ConnectionDataJrpcImpl _$$ConnectionDataJrpcImplFromJson(
-        Map<String, dynamic> json) =>
-    _$ConnectionDataJrpcImpl(
+ConnectionDataJrpc _$ConnectionDataJrpcFromJson(Map<String, dynamic> json) =>
+    ConnectionDataJrpc(
       id: json['id'] as String,
       name: json['name'] as String,
       group: json['group'] as String,
       endpoint: json['endpoint'] as String,
-      networkType: json['networkType'] as String,
+      networkType: NetworkType.fromJson(json['networkType'] as String),
       blockExplorerUrl: json['blockExplorerUrl'] as String,
       nativeTokenTicker: json['nativeTokenTicker'] as String,
       isPreset: json['isPreset'] as bool,
@@ -112,14 +108,13 @@ _$ConnectionDataJrpcImpl _$$ConnectionDataJrpcImplFromJson(
       $type: json['runtimeType'] as String?,
     );
 
-Map<String, dynamic> _$$ConnectionDataJrpcImplToJson(
-        _$ConnectionDataJrpcImpl instance) =>
+Map<String, dynamic> _$ConnectionDataJrpcToJson(ConnectionDataJrpc instance) =>
     <String, dynamic>{
       'id': instance.id,
       'name': instance.name,
       'group': instance.group,
       'endpoint': instance.endpoint,
-      'networkType': instance.networkType,
+      'networkType': instance.networkType.toJson(),
       'blockExplorerUrl': instance.blockExplorerUrl,
       'nativeTokenTicker': instance.nativeTokenTicker,
       'isPreset': instance.isPreset,

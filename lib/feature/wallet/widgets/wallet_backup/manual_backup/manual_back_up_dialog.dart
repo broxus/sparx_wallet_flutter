@@ -11,7 +11,7 @@ Future<void> showManualBackupDialog(
   BuildContext context,
   List<String> words,
   String address,
-  VoidCallback finishedBackupCallback,
+  ValueChanged<bool> finishedBackupCallback,
 ) {
   return showPrimaryBottomSheet(
     context: context,
@@ -36,7 +36,7 @@ class ContentManualBackup extends ElementaryWidget<ManualBackUpWidgetModel> {
 
   final List<String> words;
   final String address;
-  final VoidCallback finishedBackupCallback;
+  final ValueChanged<bool> finishedBackupCallback;
 
   @override
   Widget build(ManualBackUpWidgetModel wm) {

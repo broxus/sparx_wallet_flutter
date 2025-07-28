@@ -61,7 +61,6 @@ class WalletPrepareTransferPage
           selectedCustodian: data.selectedCustodian,
           localCustodians: data.localCustodians,
           selectedAsset: data.selectedAsset,
-          walletName: data.walletName,
         );
       },
     );
@@ -91,7 +90,6 @@ class _DataBody extends StatelessWidget {
     this.localCustodians,
     this.selectedCustodian,
     this.selectedAsset,
-    this.walletName,
   });
 
   final WalletPrepareTransferPageWidgetModel _wm;
@@ -99,7 +97,6 @@ class _DataBody extends StatelessWidget {
   final List<PublicKey>? localCustodians;
   final PublicKey? selectedCustodian;
   final WalletPrepareTransferAsset? selectedAsset;
-  final String? walletName;
 
   @override
   Widget build(BuildContext context) {

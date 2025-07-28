@@ -15,17 +15,20 @@ import 'package:vector_graphics/vector_graphics.dart' as _vg;
 class $AssetsAbiGen {
   const $AssetsAbiGen();
 
-  /// File path: assets/abi/StEverAccount.abi.min.json
-  String get stEverAccountAbiMin => 'assets/abi/StEverAccount.abi.min.json';
+  /// File path: assets/abi/StEverAccount.abi.json
+  String get stEverAccountAbi => 'assets/abi/StEverAccount.abi.json';
 
   /// File path: assets/abi/StEverAccountNew.abi.json
   String get stEverAccountNewAbi => 'assets/abi/StEverAccountNew.abi.json';
 
-  /// File path: assets/abi/StEverVault.abi.min.json
-  String get stEverVaultAbiMin => 'assets/abi/StEverVault.abi.min.json';
+  /// File path: assets/abi/StEverVault.abi.json
+  String get stEverVaultAbi => 'assets/abi/StEverVault.abi.json';
 
   /// File path: assets/abi/StEverVaultNew.abi.json
   String get stEverVaultNewAbi => 'assets/abi/StEverVaultNew.abi.json';
+
+  /// File path: assets/abi/StEverVaultTycho.abi.json
+  String get stEverVaultTychoAbi => 'assets/abi/StEverVaultTycho.abi.json';
 
   /// File path: assets/abi/TokenRoot.abi.json
   String get tokenRootAbi => 'assets/abi/TokenRoot.abi.json';
@@ -35,12 +38,13 @@ class $AssetsAbiGen {
 
   /// List of all assets
   List<String> get values => [
-        stEverAccountAbiMin,
+        stEverAccountAbi,
         stEverAccountNewAbi,
-        stEverVaultAbiMin,
+        stEverVaultAbi,
         stEverVaultNewAbi,
+        stEverVaultTychoAbi,
         tokenRootAbi,
-        tokenWalletAbi
+        tokenWalletAbi,
       ];
 }
 
@@ -75,9 +79,6 @@ class $AssetsConfigsGen {
 
 class $AssetsImagesGen {
   const $AssetsImagesGen();
-
-  /// File path: assets/images/NFT.svg
-  SvgGenImage get nft => const SvgGenImage('assets/images/NFT.svg');
 
   /// File path: assets/images/account_type.svg
   SvgGenImage get accountType =>
@@ -372,6 +373,14 @@ class $AssetsImagesGen {
   SvgGenImage get networkVectorDefault =>
       const SvgGenImage('assets/images/network_vector_default.svg');
 
+  /// File path: assets/images/nft_empty_list.png
+  AssetGenImage get nftEmptyList =>
+      const AssetGenImage('assets/images/nft_empty_list.png');
+
+  /// Directory path: assets/images/nft_placeholder
+  $AssetsImagesNftPlaceholderGen get nftPlaceholder =>
+      const $AssetsImagesNftPlaceholderGen();
+
   /// Directory path: assets/images/onboarding
   $AssetsImagesOnboardingGen get onboarding =>
       const $AssetsImagesOnboardingGen();
@@ -476,7 +485,6 @@ class $AssetsImagesGen {
 
   /// List of all assets
   List<dynamic> get values => [
-        nft,
         accountType,
         alarm,
         alarmRounded,
@@ -555,6 +563,7 @@ class $AssetsImagesGen {
         networkDefault,
         networkEarth,
         networkVectorDefault,
+        nftEmptyList,
         openedEye,
         paste,
         person,
@@ -580,7 +589,7 @@ class $AssetsImagesGen {
         versionUpdateIcon,
         verticalDots,
         wallet,
-        web
+        web,
       ];
 }
 
@@ -600,8 +609,11 @@ class $AssetsSplashGen {
       const AssetGenImage('assets/splash/native_splash.webp');
 
   /// List of all assets
-  List<AssetGenImage> get values =>
-      [icSplashBanner, icSplashLogo, nativeSplash];
+  List<AssetGenImage> get values => [
+        icSplashBanner,
+        icSplashLogo,
+        nativeSplash,
+      ];
 }
 
 class $AssetsTranslationsGen {
@@ -622,7 +634,8 @@ class $AssetsImagesAlertOctagonFillGen {
 
   /// File path: assets/images/alert_octagon_fill/alert_octagon_fill.webp
   AssetGenImage get alertOctagonFill => const AssetGenImage(
-      'assets/images/alert_octagon_fill/alert_octagon_fill.webp');
+        'assets/images/alert_octagon_fill/alert_octagon_fill.webp',
+      );
 
   /// List of all assets
   List<AssetGenImage> get values => [alertOctagonFill];
@@ -644,7 +657,8 @@ class $AssetsImagesCheckCircleFillGen {
 
   /// File path: assets/images/check_circle_fill/check_circle_fill.webp
   AssetGenImage get checkCircleFill => const AssetGenImage(
-      'assets/images/check_circle_fill/check_circle_fill.webp');
+        'assets/images/check_circle_fill/check_circle_fill.webp',
+      );
 
   /// List of all assets
   List<AssetGenImage> get values => [checkCircleFill];
@@ -663,6 +677,17 @@ class $AssetsImagesLangIconsGen {
 
   /// List of all assets
   List<SvgGenImage> get values => [english, korean];
+}
+
+class $AssetsImagesNftPlaceholderGen {
+  const $AssetsImagesNftPlaceholderGen();
+
+  /// File path: assets/images/nft_placeholder/nft_placeholder.webp
+  AssetGenImage get nftPlaceholder =>
+      const AssetGenImage('assets/images/nft_placeholder/nft_placeholder.webp');
+
+  /// List of all assets
+  List<AssetGenImage> get values => [nftPlaceholder];
 }
 
 class $AssetsImagesOnboardingGen {
@@ -684,6 +709,9 @@ class $AssetsImagesOnboardingGen {
 class $AssetsImagesSteverGen {
   const $AssetsImagesSteverGen();
 
+  /// File path: assets/images/stever/coins.svg
+  SvgGenImage get coins => const SvgGenImage('assets/images/stever/coins.svg');
+
   /// File path: assets/images/stever/stever.svg
   SvgGenImage get stever =>
       const SvgGenImage('assets/images/stever/stever.svg');
@@ -693,7 +721,7 @@ class $AssetsImagesSteverGen {
       const SvgGenImage('assets/images/stever/steverDefi.svg');
 
   /// List of all assets
-  List<SvgGenImage> get values => [stever, steverDefi];
+  List<SvgGenImage> get values => [coins, stever, steverDefi];
 }
 
 class $AssetsImagesUserAvatarGen {
@@ -762,8 +790,18 @@ class $AssetsImagesOnboardingLayer1Gen {
       const SvgGenImage('assets/images/onboarding/layer1/usdt.svg');
 
   /// List of all assets
-  List<SvgGenImage> get values =>
-      [doge, ever, matic, qube, bridge, btc, dai, dot, eth, usdt];
+  List<SvgGenImage> get values => [
+        doge,
+        ever,
+        matic,
+        qube,
+        bridge,
+        btc,
+        dai,
+        dot,
+        eth,
+        usdt,
+      ];
 }
 
 class $AssetsImagesOnboardingLayer2Gen {
@@ -810,8 +848,18 @@ class $AssetsImagesOnboardingLayer2Gen {
       const SvgGenImage('assets/images/onboarding/layer2/xrp.svg');
 
   /// List of all assets
-  List<SvgGenImage> get values =>
-      [ada, avax, cro, luna, near, shib, sol, bnb, usdc, xrp];
+  List<SvgGenImage> get values => [
+        ada,
+        avax,
+        cro,
+        luna,
+        near,
+        shib,
+        sol,
+        bnb,
+        usdc,
+        xrp,
+      ];
 }
 
 class $AssetsImagesOnboardingLayer3Gen {
@@ -858,8 +906,18 @@ class $AssetsImagesOnboardingLayer3Gen {
       const SvgGenImage('assets/images/onboarding/layer3/xlm.svg');
 
   /// List of all assets
-  List<SvgGenImage> get values =>
-      [aave, axs, ftm, hbar, atom, link, ltc, mana, trx, xlm];
+  List<SvgGenImage> get values => [
+        aave,
+        axs,
+        ftm,
+        hbar,
+        atom,
+        link,
+        ltc,
+        mana,
+        trx,
+        xlm,
+      ];
 }
 
 class Assets {
@@ -874,11 +932,7 @@ class Assets {
 }
 
 class AssetGenImage {
-  const AssetGenImage(
-    this._assetName, {
-    this.size,
-    this.flavors = const {},
-  });
+  const AssetGenImage(this._assetName, {this.size, this.flavors = const {}});
 
   final String _assetName;
 
@@ -938,15 +992,8 @@ class AssetGenImage {
     );
   }
 
-  ImageProvider provider({
-    AssetBundle? bundle,
-    String? package,
-  }) {
-    return AssetImage(
-      _assetName,
-      bundle: bundle,
-      package: package,
-    );
+  ImageProvider provider({AssetBundle? bundle, String? package}) {
+    return AssetImage(_assetName, bundle: bundle, package: package);
   }
 
   String get path => _assetName;
@@ -955,17 +1002,11 @@ class AssetGenImage {
 }
 
 class SvgGenImage {
-  const SvgGenImage(
-    this._assetName, {
-    this.size,
-    this.flavors = const {},
-  }) : _isVecFormat = false;
+  const SvgGenImage(this._assetName, {this.size, this.flavors = const {}})
+      : _isVecFormat = false;
 
-  const SvgGenImage.vec(
-    this._assetName, {
-    this.size,
-    this.flavors = const {},
-  }) : _isVecFormat = true;
+  const SvgGenImage.vec(this._assetName, {this.size, this.flavors = const {}})
+      : _isVecFormat = true;
 
   final String _assetName;
   final Size? size;

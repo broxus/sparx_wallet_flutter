@@ -216,6 +216,33 @@ extension FutureExt<T> on Future<T> {
 
     return (result1, result2, result3, result4, result5);
   }
+
+  static Future<(T1, T2, T3, T4, T5, T6)> wait6<T1, T2, T3, T4, T5, T6>(
+    Future<T1> future1,
+    Future<T2> future2,
+    Future<T3> future3,
+    Future<T4> future4,
+    Future<T5> future5,
+    Future<T6> future6,
+  ) async {
+    late T1 result1;
+    late T2 result2;
+    late T3 result3;
+    late T4 result4;
+    late T5 result5;
+    late T6 result6;
+
+    await Future.wait([
+      future1.then((value) => result1 = value),
+      future2.then((value) => result2 = value),
+      future3.then((value) => result3 = value),
+      future4.then((value) => result4 = value),
+      future5.then((value) => result5 = value),
+      future6.then((value) => result6 = value),
+    ]);
+
+    return (result1, result2, result3, result4, result5, result6);
+  }
 }
 
 extension MapExt<K, V> on Map<K, V> {

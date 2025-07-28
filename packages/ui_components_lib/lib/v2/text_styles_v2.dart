@@ -24,6 +24,7 @@ class TextStylesV2 {
     required this.paragraphMedium,
     required this.paragraphSmall,
     required this.paragraphXSmall,
+    required this.button,
   });
 
   factory TextStylesV2.defaultTextStyles(ColorsPaletteV2 colors) {
@@ -48,6 +49,7 @@ class TextStylesV2 {
   final TextStyle paragraphMedium;
   final TextStyle paragraphSmall;
   final TextStyle paragraphXSmall;
+  final TextStyle button;
 }
 
 TextStylesV2 _defaultTextStyles(ColorsPaletteV2 colors) => TextStylesV2(
@@ -193,5 +195,13 @@ TextStylesV2 _defaultTextStyles(ColorsPaletteV2 colors) => TextStylesV2(
         fontWeight: FontWeight.w400,
         height: 20 / 12,
         letterSpacing: 0,
+      ),
+      button: TextStyle(
+        color: colors.content0,
+        fontSize: 16.spp,
+        fontFamily: _interFamily,
+        fontWeight: FontWeight.w600,
+        height: 1,
+        letterSpacing: -0.64,
       ),
     );

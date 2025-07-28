@@ -50,9 +50,8 @@ class ManualBackUpWidgetModel
   }
 
   void clickSkip(BuildContext context) {
-    model.setShowingBackUpFlag(widget.address);
-    widget.finishedBackupCallback();
+    // Don't hide backup banner when skipping manual backup - user should
+    // verify seed phrase
     context.compassBack(); //close current dialog
-    showGoodJobDialog(context);
   }
 }

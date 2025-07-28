@@ -4,34 +4,29 @@ import 'package:nekoton_repository/nekoton_repository.dart';
 extension WalletTypeToContract on WalletType {
   /// Extension that allows convert [WalletType] to [WalletContractType] for
   /// browser usage.
-  WalletContractType toContractType() => when(
-        multisig: (multisigType) {
-          switch (multisigType) {
-            case MultisigType.safeMultisigWallet:
-              return WalletContractType.safeMultisigWallet;
-            case MultisigType.safeMultisigWallet24h:
-              return WalletContractType.safeMultisigWallet24h;
-            case MultisigType.setcodeMultisigWallet:
-              return WalletContractType.setcodeMultisigWallet;
-            case MultisigType.setcodeMultisigWallet24h:
-              return WalletContractType.setcodeMultisigWallet24h;
-            case MultisigType.bridgeMultisigWallet:
-              return WalletContractType.bridgeMultisigWallet;
-            case MultisigType.surfWallet:
-              return WalletContractType.surfWallet;
-            case MultisigType.multisig2:
-              return WalletContractType.multisig2;
-            case MultisigType.multisig2_1:
-              return WalletContractType.multisig2_1;
-          }
-        },
-        everWallet: () => WalletContractType.everWallet,
-        walletV3: () => WalletContractType.walletV3,
-        highloadWalletV2: () => WalletContractType.highloadWalletV2,
-        walletV3R1: () => WalletContractType.walletV3R1,
-        walletV3R2: () => WalletContractType.walletV3R2,
-        walletV4R1: () => WalletContractType.walletV4R1,
-        walletV4R2: () => WalletContractType.walletV4R2,
-        walletV5R1: () => WalletContractType.walletV5R1,
-      );
+  WalletContractType toContractType() => switch (this) {
+        WalletTypeMultisig(:final data) => switch (data) {
+            MultisigType.safeMultisigWallet =>
+              WalletContractType.safeMultisigWallet,
+            MultisigType.safeMultisigWallet24h =>
+              WalletContractType.safeMultisigWallet24h,
+            MultisigType.setcodeMultisigWallet =>
+              WalletContractType.setcodeMultisigWallet,
+            MultisigType.setcodeMultisigWallet24h =>
+              WalletContractType.setcodeMultisigWallet24h,
+            MultisigType.bridgeMultisigWallet =>
+              WalletContractType.bridgeMultisigWallet,
+            MultisigType.surfWallet => WalletContractType.surfWallet,
+            MultisigType.multisig2 => WalletContractType.multisig2,
+            MultisigType.multisig2_1 => WalletContractType.multisig2_1,
+          },
+        WalletTypeEverWallet() => WalletContractType.everWallet,
+        WalletTypeWalletV3() => WalletContractType.walletV3,
+        WalletTypeHighloadWalletV2() => WalletContractType.highloadWalletV2,
+        WalletTypeWalletV3R1() => WalletContractType.walletV3R1,
+        WalletTypeWalletV3R2() => WalletContractType.walletV3R2,
+        WalletTypeWalletV4R1() => WalletContractType.walletV4R1,
+        WalletTypeWalletV4R2() => WalletContractType.walletV4R2,
+        WalletTypeWalletV5R1() => WalletContractType.walletV5R1,
+      };
 }
