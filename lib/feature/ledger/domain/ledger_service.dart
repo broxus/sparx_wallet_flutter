@@ -162,46 +162,49 @@ class LedgerService {
   }
 
   // I don't like it, but it works for now
-  Future<T> runWithLedger<T>({
+  Future<T> runWithLedgerIfKeyIsLedger<T>({
     required LedgerInteractionType interactionType,
     required PublicKey publicKey,
     required Future<T> Function() action,
     bool showBottomSheet = true,
   }) async {
-    LedgerInteraction? interaction;
     final masterKey = _nekotonRepository.seedList
         .findSeedByAnyPublicKey(publicKey)!
         .masterKey;
 
-    if (masterKey.isLedger) {
-      final (connected, device) =
-          await getConnectedDevice(masterKey.publicKey) ?? (null, null);
+    if (!masterKey.isLedger) {
+      return action();
+    }
 
-      if (connected == null || device == null) {
-        throw LedgerException(
-          'No connected Ledger found for "${masterKey.name}" ($publicKey)',
-        );
-      }
+    final (connected, device) =
+        await getConnectedDevice(masterKey.publicKey) ?? (null, null);
 
-      // check if previous interaction was successful
-      // and device is still connected
-      if (currentInteraction == null ||
-          currentInteraction?.interactionType != interactionType ||
-          currentInteraction?.state != LedgerInteractionState.done ||
-          appInterface == null ||
-          appInterface?.device.isConnected == false) {
-        interaction = LedgerInteraction(
-          interactionType: interactionType,
-          device: device,
-          connected: connected,
-          showBottomSheet: showBottomSheet,
-        );
-        _interactionSubject.add(interaction);
+    if (connected == null || device == null) {
+      throw LedgerException(
+        'No connected Ledger found for "${masterKey.name}" ($publicKey)',
+      );
+    }
 
-        await initLedgerConnection(
-          await interaction.prepare(),
-        );
-      }
+    LedgerInteraction? interaction;
+
+    // check if previous interaction was successful
+    // and device is still connected
+    if (currentInteraction == null ||
+        currentInteraction?.interactionType != interactionType ||
+        currentInteraction?.state != LedgerInteractionState.done ||
+        appInterface == null ||
+        appInterface?.device.isConnected == false) {
+      interaction = LedgerInteraction(
+        interactionType: interactionType,
+        device: device,
+        connected: connected,
+        showBottomSheet: showBottomSheet,
+      );
+      _interactionSubject.add(interaction);
+
+      await initLedgerConnection(
+        await interaction.prepare(),
+      );
     }
 
     try {

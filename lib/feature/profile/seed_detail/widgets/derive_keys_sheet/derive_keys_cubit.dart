@@ -227,7 +227,7 @@ class DeriveKeysCubit extends Cubit<DeriveKeysState> with BlocBaseMixin {
             limit: derivedKeysPerPage,
             offset: offset,
           );
-    final keys = await _ledgerService.runWithLedger(
+    final keys = await _ledgerService.runWithLedgerIfKeyIsLedger(
       interactionType: LedgerInteractionType.getPublicKey,
       publicKey: _seed.masterPublicKey,
       action: () => _nekotonRepository.getKeysToDerive(params),

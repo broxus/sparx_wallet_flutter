@@ -36,7 +36,7 @@ class VerifyLedgerModel extends ElementaryModel with BleAvailabilityModelMixin {
       );
     }
 
-    return _ledgerService.runWithLedger(
+    return _ledgerService.runWithLedgerIfKeyIsLedger(
       showBottomSheet: false,
       interactionType: LedgerInteractionType.getAddress,
       publicKey: account.publicKey,

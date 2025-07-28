@@ -28,7 +28,7 @@ class NewAccountTypeModel extends ElementaryModel
     required String? password,
     required String? name,
   }) async {
-    final seedKey = await _ledgerService.runWithLedger(
+    final seedKey = await _ledgerService.runWithLedgerIfKeyIsLedger(
       interactionType: LedgerInteractionType.getPublicKey,
       publicKey: publicKey,
       action: () => _getSeedKey(

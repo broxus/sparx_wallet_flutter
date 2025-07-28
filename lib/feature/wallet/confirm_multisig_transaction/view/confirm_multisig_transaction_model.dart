@@ -72,7 +72,7 @@ class ConfirmMultisigTransactionModel extends ElementaryModel
     required SignInputAuth signInputAuth,
   }) async {
     final signatureId = await transport.transport.getSignatureId();
-    final signature = await _ledgerService.runWithLedger(
+    final signature = await _ledgerService.runWithLedgerIfKeyIsLedger(
       interactionType: LedgerInteractionType.signTransaction,
       publicKey: publicKey,
       action: () async {

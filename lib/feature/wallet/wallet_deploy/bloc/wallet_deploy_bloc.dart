@@ -284,7 +284,7 @@ class WalletDeployBloc extends Bloc<WalletDeployEvent, WalletDeployState>
 
       final transport = nekotonRepository.currentTransport.transport;
       final signatureId = await transport.getSignatureId();
-      final signature = await ledgerService.runWithLedger(
+      final signature = await ledgerService.runWithLedgerIfKeyIsLedger(
         interactionType: LedgerInteractionType.signTransaction,
         publicKey: publicKey,
         action: () async {

@@ -505,7 +505,7 @@ class InpageProvider extends ProviderApi {
             );
             final transport = nekotonRepository.currentTransport.transport;
             final signatureId = await transport.getSignatureId();
-            final signature = await ledgerService.runWithLedger(
+            final signature = await ledgerService.runWithLedgerIfKeyIsLedger(
               interactionType: LedgerInteractionType.signTransaction,
               publicKey: publicKey,
               action: () async {
@@ -926,7 +926,7 @@ class InpageProvider extends ProviderApi {
       );
       final transport = nekotonRepository.currentTransport.transport;
       final signatureId = await transport.getSignatureId();
-      final signature = await ledgerService.runWithLedger(
+      final signature = await ledgerService.runWithLedgerIfKeyIsLedger(
         interactionType: LedgerInteractionType.signTransaction,
         publicKey: publicKey,
         action: () async {
@@ -1036,7 +1036,7 @@ class InpageProvider extends ProviderApi {
       );
       final transport = nekotonRepository.currentTransport.transport;
       final signatureId = await transport.getSignatureId();
-      final signature = await ledgerService.runWithLedger(
+      final signature = await ledgerService.runWithLedgerIfKeyIsLedger(
         interactionType: LedgerInteractionType.signTransaction,
         publicKey: publicKey,
         action: () async {
@@ -1176,7 +1176,7 @@ class InpageProvider extends ProviderApi {
 
       final transport = nekotonRepository.currentTransport.transport;
       final signatureId = await transport.getSignatureId();
-      final signature = await ledgerService.runWithLedger(
+      final signature = await ledgerService.runWithLedgerIfKeyIsLedger(
         interactionType: LedgerInteractionType.signTransaction,
         publicKey: key,
         action: () async {
@@ -1290,7 +1290,7 @@ class InpageProvider extends ProviderApi {
 
       final transport = nekotonRepository.currentTransport.transport;
       final signatureId = await transport.getSignatureId();
-      final signature = await ledgerService.runWithLedger(
+      final signature = await ledgerService.runWithLedgerIfKeyIsLedger(
         interactionType: LedgerInteractionType.signTransaction,
         publicKey: key,
         action: () async {
@@ -1458,7 +1458,7 @@ class InpageProvider extends ProviderApi {
       ),
     );
     final signatureId = await _computeSignatureId(input.withSignatureId);
-    final signedData = await ledgerService.runWithLedger(
+    final signedData = await ledgerService.runWithLedgerIfKeyIsLedger(
       interactionType: LedgerInteractionType.sign,
       publicKey: publicKey,
       action: () => nekotonRepository.seedList.signData(
@@ -1499,7 +1499,7 @@ class InpageProvider extends ProviderApi {
       ),
     );
     final signatureId = await _computeSignatureId(input.withSignatureId);
-    final signedData = await ledgerService.runWithLedger(
+    final signedData = await ledgerService.runWithLedgerIfKeyIsLedger(
       interactionType: LedgerInteractionType.sign,
       publicKey: publicKey,
       action: () => nekotonRepository.seedList.signRawData(
