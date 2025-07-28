@@ -22,14 +22,12 @@ SelectSeedWidgetModel defaultSelectSeedWidgetModelFactory(
         inject(),
         inject(),
         inject(),
-        inject(),
-        inject(),
       ),
     );
 
 class SelectSeedWidgetModel
     extends CustomWidgetModel<SelectSeedWidget, SelectSeedModel>
-    with BleAvailabilityMixin {
+    with BleAvailabilityWmMixin {
   SelectSeedWidgetModel(super.model);
 
   late final _currentAccount = createNotifierFromStream(model.currentAccount);

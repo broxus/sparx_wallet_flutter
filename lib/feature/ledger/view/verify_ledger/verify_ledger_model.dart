@@ -1,25 +1,21 @@
-import 'package:app/app/service/service.dart';
 import 'package:app/feature/ledger/ledger.dart';
-import 'package:app/feature/messenger/messenger.dart';
 import 'package:elementary/elementary.dart';
 import 'package:nekoton_repository/nekoton_repository.dart';
 
-class VerifyLedgerModel extends LedgerBaseModel {
+class VerifyLedgerModel extends ElementaryModel with BleAvailabilityModelMixin {
   VerifyLedgerModel(
     ErrorHandler errorHandler,
-    MessengerService messengerService,
-    AppPermissionsService permissionsService,
     this._ledgerService,
     this._nekotonRepository,
-  ) : super(
-          errorHandler: errorHandler,
-          ledgerService: _ledgerService,
-          permissionsService: permissionsService,
-          messengerService: messengerService,
-        );
+    this._delegate,
+  ) : super(errorHandler: errorHandler);
 
   final LedgerService _ledgerService;
   final NekotonRepository _nekotonRepository;
+  final BleAvailabilityModelDelegate _delegate;
+
+  @override
+  BleAvailabilityModelDelegate get delegate => _delegate;
 
   @override
   void dispose() {

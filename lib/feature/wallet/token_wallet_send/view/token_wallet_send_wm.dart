@@ -24,13 +24,12 @@ TokenWalletSendWidgetModel defaultTokenWalletSendWidgetModelFactory(
         inject(),
         inject(),
         inject(),
-        inject(),
       ),
     );
 
 class TokenWalletSendWidgetModel
     extends CustomWidgetModel<TokenWalletSendWidget, TokenWalletSendModel>
-    with BleAvailabilityMixin {
+    with BleAvailabilityWmMixin {
   TokenWalletSendWidgetModel(super.model);
 
   static final _logger = Logger('TokenWalletSendWidgetModel');

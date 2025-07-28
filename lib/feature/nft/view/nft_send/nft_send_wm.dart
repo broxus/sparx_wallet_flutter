@@ -23,12 +23,11 @@ NftSendWidgetModel defaultNftSendWidgetModelFactory(
         inject(),
         inject(),
         inject(),
-        inject(),
       ),
     );
 
 class NftSendWidgetModel extends CustomWidgetModel<NftSendWidget, NftSendModel>
-    with BleAvailabilityMixin {
+    with BleAvailabilityWmMixin {
   NftSendWidgetModel(super.model);
 
   static final _logger = Logger('NftSendWidgetModel');

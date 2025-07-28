@@ -21,13 +21,12 @@ SeedSettingsWidgetModel defaultSeedSettingsWidgetModelFactory(
         inject(),
         inject(),
         inject(),
-        inject(),
       ),
     );
 
 class SeedSettingsWidgetModel
     extends CustomWidgetModel<SeedSettingsWidget, SeedSettingsModel>
-    with BleAvailabilityMixin {
+    with BleAvailabilityWmMixin {
   SeedSettingsWidgetModel(super.model);
 
   ThemeStyleV2 get theme => context.themeStyleV2;

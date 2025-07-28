@@ -23,14 +23,12 @@ AddAccountWidgetModel defaultAddAccountWidgetModelFactory(
         inject(),
         inject(),
         inject(),
-        inject(),
-        inject(),
       ),
     );
 
 class AddAccountWidgetModel
     extends CustomWidgetModel<ElementaryWidget, AddAccountModel>
-    with BleAvailabilityMixin {
+    with BleAvailabilityWmMixin {
   AddAccountWidgetModel(super.model);
 
   late final _currentAccount = createNotifierFromStream(model.currentAccount);

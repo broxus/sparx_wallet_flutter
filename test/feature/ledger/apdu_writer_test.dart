@@ -101,7 +101,9 @@ void main() {
 
         // Assert
         expect(
-            bytes.length, equals(260)); // Header (4) + length (1) + data (255)
+          bytes.length,
+          equals(260),
+        ); // Header (4) + length (1) + data (255)
         expect(bytes[4], equals(0xFF)); // Data length = 255
 
         // Verify data integrity
@@ -113,16 +115,15 @@ void main() {
       test('handles ByteData with different endianness', () {
         // Arrange
         final writer = APDUWriter(ins: ApduIns.getAddr);
-        final data = ByteData(8);
-
         // Write various data types
-        data.setUint16(0, 0x1234, Endian.big);
-        data.setUint16(2, 0x5678, Endian.little);
-        data.setUint32(4, 0x9ABCDEF0, Endian.big);
+        final data = ByteData(8)
+          ..setUint16(0, 0x1234)
+          ..setUint16(2, 0x5678, Endian.little)
+          ..setUint32(4, 0x9ABCDEF0);
 
         // Act
-        writer.writeByteData(data);
-        final bytes = writer.toBytes();
+        final bytes = (writer..writeByteData(data))
+            .toBytes(); // ignore: cascade_invocations
 
         // Assert
         expect(bytes.length, equals(13)); // Header (4) + length (1) + data (8)
@@ -202,7 +203,9 @@ void main() {
 
         // Assert
         expect(
-            bytes.length, equals(260)); // Header (4) + length (1) + data (255)
+          bytes.length,
+          equals(260),
+        ); // Header (4) + length (1) + data (255)
         expect(bytes[4], equals(0xFF)); // Data length = 255
         expect(bytes.sublist(5).every((b) => b == 0xAA), isTrue);
       });
@@ -216,15 +219,19 @@ void main() {
         final data2 = Uint8List.fromList([0x03, 0x04, 0x05]);
 
         // Act
-        writer.writeData(data1);
-        writer.writeData(data2);
+        writer
+          ..writeData(data1)
+          ..writeData(data2);
         final bytes = writer.toBytes();
 
         // Assert
         expect(
-            bytes.length,
-            equals(
-                11)); // Header (4) + len1 (1) + data1 (2) + len2 (1) + data2 (3)
+          bytes.length,
+          equals(
+            11,
+          ),
+        ); // Header (4) + len1 (1) + data1 (2) +
+        // len2 (1) + data2 (3)
 
         // First data block
         expect(bytes[4], equals(0x02)); // Length of first data
@@ -247,15 +254,19 @@ void main() {
         final uint8Data = Uint8List.fromList([0xCC, 0xDD]);
 
         // Act
-        writer.writeByteData(byteData);
-        writer.writeData(uint8Data);
+        writer
+          ..writeByteData(byteData)
+          ..writeData(uint8Data);
         final bytes = writer.toBytes();
 
         // Assert
         expect(
-            bytes.length,
-            equals(
-                10)); // Header (4) + len1 (1) + data1 (2) + len2 (1) + data2 (2)
+          bytes.length,
+          equals(
+            10,
+          ),
+        ); // Header (4) + len1 (1) + data1 (2) +
+        // len2 (1) + data2 (2)
 
         // ByteData block
         expect(bytes[4], equals(0x02)); // Length
@@ -279,8 +290,10 @@ void main() {
         final bytes = writer.toBytes();
 
         // Assert
-        expect(bytes.length,
-            equals(24)); // Header (4) + 10 * (length (1) + data (1))
+        expect(
+          bytes.length,
+          equals(24),
+        ); // Header (4) + 10 * (length (1) + data (1))
 
         for (var i = 0; i < 10; i++) {
           final offset = 4 + i * 2;
@@ -296,14 +309,17 @@ void main() {
         final writer = APDUWriter(ins: ApduIns.getConf);
 
         // Act: Use inherited methods
-        writer.writeUint8(0x12);
-        writer.writeUint16(0x3456);
-        writer.writeUint32(0x789ABCDE);
-        final bytes = writer.toBytes();
+        final bytes = (writer
+              ..writeUint8(0x12)
+              ..writeUint16(0x3456)
+              ..writeUint32(0x789ABCDE))
+            .toBytes();
 
         // Assert
-        expect(bytes.length,
-            equals(11)); // Header (4) + uint8 (1) + uint16 (2) + uint32 (4)
+        expect(
+          bytes.length,
+          equals(11),
+        ); // Header (4) + uint8 (1) + uint16 (2) + uint32 (4)
         expect(bytes[4], equals(0x12)); // uint8
         expect(bytes[5], equals(0x34)); // uint16 high byte
         expect(bytes[6], equals(0x56)); // uint16 low byte
@@ -318,14 +334,18 @@ void main() {
         final writer = APDUWriter(ins: ApduIns.sign);
 
         // Act
-        writer.writeUint8(0xFF);
-        writer.writeData(Uint8List.fromList([0x01, 0x02]));
-        writer.writeUint16(0x0304);
-        final bytes = writer.toBytes();
+        final bytes = (writer
+              ..writeUint8(0xFF)
+              ..writeData(Uint8List.fromList([0x01, 0x02]))
+              ..writeUint16(0x0304))
+            .toBytes();
 
         // Assert
-        expect(bytes.length,
-            equals(10)); // Header (4) + uint8 (1) + data block (3) + uint16 (2)
+        expect(
+          bytes.length,
+          equals(10),
+        ); // Header (4) + uint8 (1) + data block (3) +
+        // uint16 (2)
         expect(bytes[4], equals(0xFF)); // uint8
         expect(bytes[5], equals(0x02)); // Data length
         expect(bytes[6], equals(0x01)); // Data byte 0
@@ -337,20 +357,25 @@ void main() {
 
     group('edge cases', () {
       test('handles LC overflow gracefully', () {
-        // Arrange: This test verifies behavior when total data exceeds 255 bytes
+        // Arrange: This test verifies behavior when total data exceeds
+        // 255 bytes
         final writer = APDUWriter(ins: ApduIns.signTransaction);
         final largeData = Uint8List(200);
 
         // Act
-        writer.writeData(largeData);
-        writer.writeData(Uint8List(100)); // Total > 255
+        writer
+          ..writeData(largeData)
+          ..writeData(Uint8List(100)); // Total > 255
         final bytes = writer.toBytes();
 
         // Assert: LC should wrap around (implementation dependent)
         expect(
-            bytes.length,
-            equals(
-                306)); // Header (4) + len1 (1) + data1 (200) + len2 (1) + data2 (100)
+          bytes.length,
+          equals(
+            306,
+          ),
+        ); // Header (4) + len1 (1) + data1 (200) +
+        // len2 (1) + data2 (100)
         // LC behavior with overflow is implementation-specific
         expect(bytes[4], isA<int>()); // Should be some valid uint8 value
       });

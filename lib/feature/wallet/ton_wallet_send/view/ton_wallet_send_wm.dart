@@ -24,13 +24,12 @@ TonWalletSendWidgetModel defaultTonWalletSendWidgetModelFactory(
         inject(),
         inject(),
         inject(),
-        inject(),
       ),
     );
 
 class TonWalletSendWidgetModel
     extends CustomWidgetModel<TonWalletSendWidget, TonWalletSendModel>
-    with BleAvailabilityMixin {
+    with BleAvailabilityWmMixin {
   TonWalletSendWidgetModel(super.model);
 
   static final _logger = Logger('TonWalletSendWidgetModel');

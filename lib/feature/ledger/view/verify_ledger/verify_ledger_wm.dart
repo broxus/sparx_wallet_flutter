@@ -21,13 +21,12 @@ VerifyLedgerWidgetModel defaultVerifyLedgerWidgetModelFactory(
         inject(),
         inject(),
         inject(),
-        inject(),
       ),
     );
 
 class VerifyLedgerWidgetModel
     extends CustomWidgetModel<VerifyLedgerWidget, VerifyLedgerModel>
-    with BleAvailabilityMixin {
+    with BleAvailabilityWmMixin {
   VerifyLedgerWidgetModel(super.model);
 
   late final _verifyState = createNotifier(false);

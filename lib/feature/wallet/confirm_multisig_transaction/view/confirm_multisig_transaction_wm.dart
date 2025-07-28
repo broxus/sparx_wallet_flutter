@@ -25,13 +25,12 @@ ConfirmMultisigTransactionWidgetModel
             inject(),
             inject(),
             inject(),
-            inject(),
           ),
         );
 
 class ConfirmMultisigTransactionWidgetModel extends CustomWidgetModel<
     ConfirmMultisigTransactionWidget,
-    ConfirmMultisigTransactionModel> with BleAvailabilityMixin {
+    ConfirmMultisigTransactionModel> with BleAvailabilityWmMixin {
   ConfirmMultisigTransactionWidgetModel(super.model);
 
   static final _logger = Logger('ConfirmMultisigTransactionWidgetModel');

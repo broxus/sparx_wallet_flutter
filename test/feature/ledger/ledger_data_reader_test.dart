@@ -30,11 +30,13 @@ void main() {
         // Act & Assert
         expect(
           () => LedgerDataReader.fromBytes(bytes),
-          throwsA(isA<ArgumentError>().having(
-            (e) => e.message,
-            'message',
-            'Data must be at least 5 bytes long',
-          )),
+          throwsA(
+            isA<ArgumentError>().having(
+              (e) => e.message,
+              'message',
+              'Data must be at least 5 bytes long',
+            ),
+          ),
         );
       });
 
@@ -50,7 +52,8 @@ void main() {
         expect(reader.sw, equals(0x9000));
         expect(reader.isOk, isTrue);
         expect(reader.data, equals(Uint8List.fromList([])));
-        // dataWithOffset will throw RangeError for empty data, which is expected behavior
+        // dataWithOffset will throw RangeError for empty data,
+        // which is expected behavior
         expect(() => reader.dataWithOffset, throwsA(isA<RangeError>()));
       });
       test('handles error status word', () {
@@ -81,8 +84,10 @@ void main() {
         expect(reader.sw, equals(0x9000));
         expect(reader.isOk, isTrue);
         expect(reader.data, equals(Uint8List.fromList(dataBytes)));
-        expect(reader.dataWithOffset,
-            equals(Uint8List.fromList(dataBytes.skip(1).toList())));
+        expect(
+          reader.dataWithOffset,
+          equals(Uint8List.fromList(dataBytes.skip(1).toList())),
+        );
       });
     });
 
@@ -125,11 +130,13 @@ void main() {
         // Act & Assert
         expect(
           () => reader.add([0xAA, 0xBB, 0xCC, 0xDD]), // 4 bytes > 3 expected
-          throwsA(isA<ArgumentError>().having(
-            (e) => e.message,
-            'message',
-            'Bytes exceeds the expected data length',
-          )),
+          throwsA(
+            isA<ArgumentError>().having(
+              (e) => e.message,
+              'message',
+              'Bytes exceeds the expected data length',
+            ),
+          ),
         );
       });
 
@@ -141,11 +148,13 @@ void main() {
         // Act & Assert
         expect(
           () => reader.bytes,
-          throwsA(isA<StateError>().having(
-            (e) => e.message,
-            'message',
-            'Data is not complete yet',
-          )),
+          throwsA(
+            isA<StateError>().having(
+              (e) => e.message,
+              'message',
+              'Data is not complete yet',
+            ),
+          ),
         );
 
         expect(
@@ -202,7 +211,8 @@ void main() {
 
         expect(reader.isCompleted, isTrue);
         expect(reader.data, equals(Uint8List.fromList([])));
-        // dataWithOffset will throw RangeError for empty data, which is expected behavior
+        // dataWithOffset will throw RangeError for empty data,
+        // which is expected behavior
         expect(() => reader.dataWithOffset, throwsA(isA<RangeError>()));
       });
       test('handles maximum practical data length', () {

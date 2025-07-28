@@ -40,13 +40,12 @@ TCSendMessageWidgetModel defaultTCSendMessageWidgetModelFactory(
         inject(),
         inject(),
         inject(),
-        inject(),
       ),
     );
 
 class TCSendMessageWidgetModel
     extends CustomWidgetModel<TCSendMessageWidget, TCSendMessageModel>
-    with BleAvailabilityMixin {
+    with BleAvailabilityWmMixin {
   TCSendMessageWidgetModel(super.model);
 
   late final account = model.getAccount(widget.connection.walletAddress);

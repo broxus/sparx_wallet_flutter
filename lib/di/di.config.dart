@@ -114,8 +114,10 @@ import '../feature/ledger/domain/ledger_ble_scanner.dart' as _i328;
 import '../feature/ledger/domain/ledger_connection_handler_impl.dart' as _i191;
 import '../feature/ledger/domain/ledger_service.dart' as _i91;
 import '../feature/ledger/domain/ledger_storage_service.dart' as _i820;
+import '../feature/ledger/domain/mixins.dart' as _i213;
 import '../feature/ledger/ledger.dart' as _i865;
 import '../feature/messenger/domain/service/messenger_service.dart' as _i632;
+import '../feature/messenger/messenger.dart' as _i553;
 import '../feature/network/configure_networks/route.dart' as _i1004;
 import '../feature/network/edit_network/route.dart' as _i217;
 import '../feature/nft/domain/nft_service.dart' as _i263;
@@ -560,6 +562,12 @@ extension GetItInjectableX on _i174.GetIt {
               gh<_i988.BrowserGroupsStorageService>(),
               gh<_i318.BrowserServicePagesControllersDelegate>(),
               gh<_i169.BrowserServiceScreenshotsDelegate>(),
+            ));
+    gh.singleton<_i213.BleAvailabilityModelDelegate>(
+        () => _i213.BleAvailabilityModelDelegate(
+              ledgerService: gh<_i865.LedgerService>(),
+              messengerService: gh<_i553.MessengerService>(),
+              permissionsService: gh<_i128.AppPermissionsService>(),
             ));
     gh.singleton<_i82.CompassBaseRoute>(
       () => _i986.AddAccountRoute(

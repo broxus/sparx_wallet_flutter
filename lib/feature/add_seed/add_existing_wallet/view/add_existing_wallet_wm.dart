@@ -17,14 +17,12 @@ AddExistingWalletWidgetModel defaultAddExistingWalletWidgetModelFactory(
       AddExistingWalletModel(
         createPrimaryErrorHandler(context),
         inject(),
-        inject(),
-        inject(),
       ),
     );
 
 class AddExistingWalletWidgetModel
     extends CustomWidgetModel<AddExistingWalletWidget, AddExistingWalletModel>
-    with BleAvailabilityMixin {
+    with BleAvailabilityWmMixin {
   AddExistingWalletWidgetModel(super.model);
 
   ThemeStyleV2 get theme => context.themeStyleV2;

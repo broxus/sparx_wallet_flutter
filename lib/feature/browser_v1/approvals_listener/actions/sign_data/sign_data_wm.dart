@@ -16,14 +16,12 @@ SignDataWidgetModel defaultSignDataWidgetModelFactory(
       SignDataModel(
         createPrimaryErrorHandler(context),
         inject(),
-        inject(),
-        inject(),
       ),
     );
 
 class SignDataWidgetModel
     extends CustomWidgetModel<SignDataWidget, SignDataModel>
-    with BleAvailabilityMixin {
+    with BleAvailabilityWmMixin {
   SignDataWidgetModel(super.model);
 
   Future<void> onConfirmed(SignInputAuth signInputAuth) async {

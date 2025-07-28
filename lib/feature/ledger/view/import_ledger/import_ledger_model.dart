@@ -1,32 +1,29 @@
 import 'package:app/app/service/service.dart';
 import 'package:app/feature/ledger/ledger.dart';
-import 'package:app/feature/messenger/messenger.dart';
 import 'package:elementary/elementary.dart';
 import 'package:flutter_blue_plus/flutter_blue_plus.dart';
 import 'package:nekoton_repository/nekoton_repository.dart' hide Message;
 
-class ImportLedgerModel extends LedgerBaseModel {
+class ImportLedgerModel extends ElementaryModel with BleAvailabilityModelMixin {
   ImportLedgerModel(
     ErrorHandler errorHandler,
-    MessengerService messengerService,
-    AppPermissionsService permissionsService,
     this._ledgerService,
     this._ledgerBleScanner,
     this._currentKeyService,
     this._nekotonRepository,
-  ) : super(
-          errorHandler: errorHandler,
-          ledgerService: _ledgerService,
-          permissionsService: permissionsService,
-          messengerService: messengerService,
-        );
+    this._delegate,
+  ) : super(errorHandler: errorHandler);
 
   final LedgerService _ledgerService;
   final LedgerBleScanner _ledgerBleScanner;
   final CurrentKeyService _currentKeyService;
   final NekotonRepository _nekotonRepository;
+  final BleAvailabilityModelDelegate _delegate;
 
   Stream<List<ScanResult>> get scanResult => _ledgerBleScanner.scanResult;
+
+  @override
+  BleAvailabilityModelDelegate get delegate => _delegate;
 
   @override
   void dispose() {

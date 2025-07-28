@@ -1,30 +1,26 @@
-import 'package:app/app/service/service.dart';
 import 'package:app/feature/ledger/ledger.dart';
-import 'package:app/feature/messenger/domain/service/messenger_service.dart';
 import 'package:app/feature/nft/nft.dart';
 import 'package:app/utils/utils.dart';
 import 'package:elementary/elementary.dart';
 import 'package:nekoton_repository/nekoton_repository.dart' hide Message;
 import 'package:rxdart/rxdart.dart';
 
-class NftSendModel extends LedgerBaseModel {
+class NftSendModel extends ElementaryModel with BleAvailabilityModelMixin {
   NftSendModel(
     ErrorHandler errorHandler,
-    AppPermissionsService permissionsService,
-    MessengerService messengerService,
     this._nekotonRepository,
     this._nftService,
     this._ledgerService,
-  ) : super(
-          errorHandler: errorHandler,
-          ledgerService: _ledgerService,
-          permissionsService: permissionsService,
-          messengerService: messengerService,
-        );
+    this._delegate,
+  ) : super(errorHandler: errorHandler);
 
   final NekotonRepository _nekotonRepository;
   final NftService _nftService;
   final LedgerService _ledgerService;
+  final BleAvailabilityModelDelegate _delegate;
+
+  @override
+  BleAvailabilityModelDelegate get delegate => _delegate;
 
   TransportStrategy get transport => _nekotonRepository.currentTransport;
 

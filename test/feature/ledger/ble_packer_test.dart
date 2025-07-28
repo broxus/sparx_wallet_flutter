@@ -111,7 +111,8 @@ void main() {
         final payload = Uint8List.fromList([0x01, 0x02, 0x03, 0x04, 0x05]);
         const mtu = 6; // Very small MTU
 
-        // First packet: mtu(6) - 3 - 2(length) - 3 = -2 (bug causes negative, so 0)
+        // First packet: mtu(6) - 3 - 2(length) - 3 = -2
+        // (bug causes negative, so 0)
         // This will likely cause an error due to the bug
 
         // Act & Assert
@@ -148,8 +149,10 @@ void main() {
 
         for (var i = 0; i < packets.length; i++) {
           final packet = packets[i];
-          expect(packet[1],
-              equals(0x00)); // High byte should be 0 for small indices
+          expect(
+            packet[1],
+            equals(0x00),
+          ); // High byte should be 0 for small indices
           expect(packet[2], equals(i)); // Low byte should match packet index
         }
       });
@@ -175,11 +178,8 @@ void main() {
         // Act
         final packets = packer.pack(payload, mtu);
 
-        // Assert
-        final reconstructed = <int>[];
-
         // Extract data from first packet (skip header + length)
-        reconstructed.addAll(packets[0].sublist(5));
+        final reconstructed = <int>[...packets[0].sublist(5)];
 
         // Extract data from subsequent packets (skip header only)
         for (var i = 1; i < packets.length; i++) {
@@ -208,8 +208,7 @@ void main() {
         expect(firstPacket[4], equals(0xE8)); // Low byte of 1000
 
         // Verify all data is preserved
-        final reconstructed = <int>[];
-        reconstructed.addAll(firstPacket.sublist(5)); // First packet data
+        final reconstructed = <int>[...firstPacket.sublist(5)]; // First packet
 
         for (var i = 1; i < packets.length; i++) {
           reconstructed.addAll(packets[i].sublist(3)); // Subsequent packet data
@@ -248,10 +247,14 @@ void main() {
 
         // Assert
         expect(packets.length, equals(2));
-        expect(packets[0].length,
-            equals(17)); // First packet: Header(5) + data(12)
         expect(
-            packets[1].length, equals(4)); // Second packet: Header(3) + data(1)
+          packets[0].length,
+          equals(17),
+        ); // First packet: Header(5) + data(12)
+        expect(
+          packets[1].length,
+          equals(4),
+        ); // Second packet: Header(3) + data(1)
       });
     });
   });

@@ -4,17 +4,18 @@ import 'package:app/feature/messenger/messenger.dart';
 import 'package:app/generated/generated.dart';
 import 'package:elementary/elementary.dart';
 import 'package:flutter_blue_plus/flutter_blue_plus.dart';
+import 'package:freezed_annotation/freezed_annotation.dart';
+import 'package:injectable/injectable.dart';
 
-abstract class LedgerBaseModel extends ElementaryModel {
-  LedgerBaseModel({
-    required ErrorHandler errorHandler,
+@singleton
+class BleAvailabilityModelDelegate {
+  BleAvailabilityModelDelegate({
     required LedgerService ledgerService,
-    required AppPermissionsService permissionsService,
     required MessengerService messengerService,
+    required AppPermissionsService permissionsService,
   })  : _ledgerService = ledgerService,
         _messengerService = messengerService,
-        _permissionsService = permissionsService,
-        super(errorHandler: errorHandler);
+        _permissionsService = permissionsService;
 
   final LedgerService _ledgerService;
   final MessengerService _messengerService;
@@ -29,8 +30,21 @@ abstract class LedgerBaseModel extends ElementaryModel {
   void showMessage(Message message) => _messengerService.show(message);
 }
 
-mixin BleAvailabilityMixin<W extends ElementaryWidget,
-    M extends LedgerBaseModel> on WidgetModel<W, M> {
+mixin BleAvailabilityModelMixin on ElementaryModel {
+  @protected
+  BleAvailabilityModelDelegate get delegate;
+
+  Stream<BluetoothAdapterState> get adapterState => delegate.adapterState;
+
+  Future<bool> checkPermissions() => delegate.checkPermissions();
+
+  Future<void> openSettings() => delegate.openSettings();
+
+  void showMessage(Message message) => delegate.showMessage(message);
+}
+
+mixin BleAvailabilityWmMixin<W extends ElementaryWidget,
+    M extends BleAvailabilityModelMixin> on WidgetModel<W, M> {
   Future<bool> checkBluetoothAvailability() async {
     final hasPermissions = await checkBluetoothPermissions();
     if (!hasPermissions) return false;

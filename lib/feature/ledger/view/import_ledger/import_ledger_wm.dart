@@ -23,13 +23,12 @@ ImportLedgerWidgetModel defaultImportLedgerWidgetModelFactory(
         inject(),
         inject(),
         inject(),
-        inject(),
       ),
     );
 
 class ImportLedgerWidgetModel
     extends CustomWidgetModel<ImportLedgerWidget, ImportLedgerModel>
-    with BleAvailabilityMixin {
+    with BleAvailabilityWmMixin {
   ImportLedgerWidgetModel(super.model);
 
   late final _scanResultState = createNotifierFromStream(model.scanResult);

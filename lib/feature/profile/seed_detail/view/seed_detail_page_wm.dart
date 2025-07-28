@@ -20,14 +20,12 @@ SeedDetailPageWidgetModel defaultSeedDetailPageWidgetModelFactory(
         inject(),
         inject(),
         inject(),
-        inject(),
-        inject(),
       ),
     );
 
 class SeedDetailPageWidgetModel
     extends CustomWidgetModel<SeedDetailPageWidget, SeedDetailPageModel>
-    with BleAvailabilityMixin {
+    with BleAvailabilityWmMixin {
   SeedDetailPageWidgetModel(super.model);
 
   late final _currentKey = createNotifierFromStream(model.currentKey);

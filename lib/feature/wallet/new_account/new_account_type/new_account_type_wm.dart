@@ -27,13 +27,12 @@ NewAccountTypeWidgetModel defaultNewAccountTypeWidgetModelFactory(
         inject(),
         inject(),
         inject(),
-        inject(),
       ),
     );
 
 class NewAccountTypeWidgetModel
     extends CustomWidgetModel<NewAccountTypeWidget, NewAccountTypeModel>
-    with BleAvailabilityMixin {
+    with BleAvailabilityWmMixin {
   NewAccountTypeWidgetModel(super.model);
 
   late final controller = createTextEditingController();

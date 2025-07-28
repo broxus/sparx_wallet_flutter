@@ -38,13 +38,12 @@ SendMessageWidgetModel defaultSendMessageWidgetModelFactory(
         inject(),
         inject(),
         inject(),
-        inject(),
       ),
     );
 
 class SendMessageWidgetModel
     extends CustomWidgetModel<SendMessageWidget, SendMessageModel>
-    with BleAvailabilityMixin {
+    with BleAvailabilityWmMixin {
   SendMessageWidgetModel(super.model);
 
   late final account = model.getAccount(widget.sender);

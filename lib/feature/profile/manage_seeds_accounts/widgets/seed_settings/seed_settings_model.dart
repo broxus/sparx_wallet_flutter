@@ -1,27 +1,24 @@
 import 'package:app/app/service/service.dart';
 import 'package:app/feature/ledger/ledger.dart';
-import 'package:app/feature/messenger/domain/service/messenger_service.dart';
 import 'package:elementary/elementary.dart';
 import 'package:nekoton_repository/nekoton_repository.dart' hide Message;
 
-class SeedSettingsModel extends LedgerBaseModel {
+class SeedSettingsModel extends ElementaryModel with BleAvailabilityModelMixin {
   SeedSettingsModel(
     ErrorHandler errorHandler,
-    AppPermissionsService permissionsService,
-    MessengerService messengerService,
     this._nekotonRepository,
     this._currentKeyService,
     this._ledgerService,
-  ) : super(
-          errorHandler: errorHandler,
-          ledgerService: _ledgerService,
-          permissionsService: permissionsService,
-          messengerService: messengerService,
-        );
+    this._delegate,
+  ) : super(errorHandler: errorHandler);
 
   final NekotonRepository _nekotonRepository;
   final CurrentKeyService _currentKeyService;
   final LedgerService _ledgerService;
+  final BleAvailabilityModelDelegate _delegate;
+
+  @override
+  BleAvailabilityModelDelegate get delegate => _delegate;
 
   PublicKey? get currentKey => _currentKeyService.currentKey;
 

@@ -1,18 +1,15 @@
-import 'package:app/app/service/service.dart';
 import 'package:app/feature/ledger/ledger.dart';
-import 'package:app/feature/messenger/messenger.dart';
 import 'package:elementary/elementary.dart';
 
-class AddExistingWalletModel extends LedgerBaseModel {
+class AddExistingWalletModel extends ElementaryModel
+    with BleAvailabilityModelMixin {
   AddExistingWalletModel(
     ErrorHandler errorHandler,
-    LedgerService ledgerService,
-    MessengerService messengerService,
-    AppPermissionsService permissionsService,
-  ) : super(
-          errorHandler: errorHandler,
-          ledgerService: ledgerService,
-          permissionsService: permissionsService,
-          messengerService: messengerService,
-        );
+    this._delegate,
+  ) : super(errorHandler: errorHandler);
+
+  final BleAvailabilityModelDelegate _delegate;
+
+  @override
+  BleAvailabilityModelDelegate get delegate => _delegate;
 }
