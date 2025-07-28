@@ -13,24 +13,12 @@ class StoryV1 extends StatelessWidget {
       child: Storybook(
         initialStory: 'Git log',
         wrapperBuilder: (_, Widget? child) {
-          return Material(
-            type: MaterialType.transparency,
-            child: child,
-          );
+          return Material(type: MaterialType.transparency, child: child);
         },
         stories: [
-          Story(
-            name: 'Git log',
-            builder: (_) => const GitLog(),
-          ),
-          Story(
-            name: 'Widgets/Buttons',
-            builder: (_) => const ButtonsStory(),
-          ),
-          Story(
-            name: 'Widgets/Inputs',
-            builder: (_) => const InputsStory(),
-          ),
+          Story(name: 'Git log', builder: (_) => const GitLog()),
+          Story(name: 'Widgets/Buttons', builder: (_) => const ButtonsStory()),
+          Story(name: 'Widgets/Inputs', builder: (_) => const InputsStory()),
           Story(
             name: 'Widgets/Currency Inputs',
             builder: (_) => const CurrencyInputsStory(),
@@ -39,22 +27,13 @@ class StoryV1 extends StatelessWidget {
             name: 'Widgets/Snackbar',
             builder: (_) => const SnackbarStory(),
           ),
-          Story(
-            name: 'Widgets/Sheet',
-            builder: (_) => const SheetStory(),
-          ),
-          Story(
-            name: 'Widgets/Common',
-            builder: (_) => const CommonStory(),
-          ),
+          Story(name: 'Widgets/Sheet', builder: (_) => const SheetStory()),
+          Story(name: 'Widgets/Common', builder: (_) => const CommonStory()),
           Story(
             name: 'Widgets/Read Only',
             builder: (_) => const ReadOnlyStory(),
           ),
-          Story(
-            name: 'Colors',
-            builder: (_) => const ColorsStory(),
-          ),
+          Story(name: 'Colors', builder: (_) => const ColorsStory()),
         ],
       ),
     );

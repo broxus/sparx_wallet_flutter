@@ -46,6 +46,7 @@ class TonWalletAssetCubit extends Cubit<TonWalletAssetState>
       // wallet not iniaitlized or transport of wallet changed
       if (wallet != null &&
           (oldWallet == null ||
+              wallet != oldWallet ||
               oldWallet.transport.connectionParamsHash !=
                   wallet.transport.connectionParamsHash)) {
         _wallet = walletState;
@@ -109,7 +110,7 @@ class TonWalletAssetCubit extends Cubit<TonWalletAssetState>
 
   Future<void> retry() async {
     final st = state;
-    if (st is _SubscribeError) {
+    if (st is TonWalletAssetStateSubscribeError) {
       emitSafe(st.copyWith(isLoading: true));
       await nekotonRepository.retrySubscriptions(tonWallet.address);
       emitSafe(st.copyWith(isLoading: false));

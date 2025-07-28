@@ -122,7 +122,7 @@ class AccountDetailCubit extends Cubit<AccountDetailState> with BlocBaseMixin {
           (await nekotonRepository.subscribeByAddress(address)).wallet;
       // for cases, when screen was closed before sub completed
       if (isClosed) {
-        nekotonRepository.unsubscribe(address);
+        await nekotonRepository.unsubscribe(address);
       } else {
         _tonWallet = wallet;
       }
@@ -137,7 +137,7 @@ class AccountDetailCubit extends Cubit<AccountDetailState> with BlocBaseMixin {
 
     // for cases, when screen was closed before sub completed
     if (isClosed) {
-      nekotonRepository.unsubscribeToken(
+      await nekotonRepository.unsubscribeToken(
         token.owner,
         token.rootTokenContract,
       );
@@ -150,11 +150,11 @@ class AccountDetailCubit extends Cubit<AccountDetailState> with BlocBaseMixin {
     return convertService.convert(amount);
   }
 
-  void _closeBalanceSubs() {
-    _balanceSub?.cancel();
+  Future<void> _closeBalanceSubs() async {
+    await _balanceSub?.cancel();
     if (_subCreatedManually) {
       _tonWallet = null;
-      nekotonRepository.unsubscribe(address);
+      await nekotonRepository.unsubscribe(address);
       _tokenWallets.removeWhere((token) {
         nekotonRepository.unsubscribeToken(
           token.owner,
