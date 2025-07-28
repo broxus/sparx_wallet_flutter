@@ -11,5 +11,5 @@ class TabAnimatedViewModel extends ElementaryModel {
 
   final BrowserService _browserService;
 
-  String? get screenshotPath => _browserService.tM.activeTabScreenshotPath;
+  String? get screenshotPath => _browserService.tab.activeTabScreenshotPath;
 }

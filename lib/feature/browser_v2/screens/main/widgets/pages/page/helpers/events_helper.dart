@@ -1,31 +1,26 @@
 import 'dart:async';
 
-import 'package:app/app/service/js_servcie.dart';
 import 'package:app/app/service/permissions_service.dart';
 import 'package:app/feature/browser_v2/custom_web_controller.dart';
-import 'package:elementary_helper/elementary_helper.dart';
+import 'package:logging/logging.dart';
 import 'package:nekoton_repository/nekoton_repository.dart';
 import 'package:nekoton_webview/nekoton_webview.dart' as nwv;
+import 'package:ui_components_lib/ui_components_lib.dart';
 
 class EventsHelper {
   EventsHelper(
     this._nekotonRepository,
     this._permissionsService,
-    this._jsService,
     this._tabId,
-  ) {
-    _jsService.loadNekotonJs();
-  }
+  );
 
   final NekotonRepository _nekotonRepository;
   final PermissionsService _permissionsService;
-  final JsService _jsService;
   final String _tabId;
 
   final _subs = <StreamSubscription<dynamic>>[];
 
-  EntityValueListenable<String?> get nekotonJsState =>
-      _jsService.nekotonJsState;
+  final _log = Logger('EventsHelper');
 
   void init(CustomWebViewController controller) {
     _subs.addAll([
@@ -61,17 +56,21 @@ class EventsHelper {
       }),
       _permissionsService.permissionsStream.listen(
         (permissions) async {
-          final url = await controller.getUrl();
-          final currentPermissions =
-              url == null ? null : permissions[Uri.parse(url.origin)];
-
-          await controller.permissionsChanged(
-            nwv.PermissionsChangedEvent(
-              nwv.PermissionsPartial.fromJson(
-                currentPermissions?.toJson() ?? {},
+          try {
+            final url = await controller.getUrl();
+            final currentPermissions = url == null
+                ? null
+                : permissions[Uri.parse(url.universalOrigin)];
+            await controller.permissionsChanged(
+              nwv.PermissionsChangedEvent(
+                nwv.PermissionsPartial.fromJson(
+                  currentPermissions?.toJson() ?? {},
+                ),
               ),
-            ),
-          );
+            );
+          } catch (e, s) {
+            _log.severe('ERROR', e, s);
+          }
         },
       ),
     ]);

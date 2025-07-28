@@ -13,22 +13,22 @@ class BookmarksListModel extends ElementaryModel {
   final BrowserService _browserService;
 
   Stream<List<BrowserBookmarkItem>> get browserBookmarksStream =>
-      _browserService.bM.browserBookmarksStream;
+      _browserService.book.browserBookmarksStream;
 
   List<BrowserBookmarkItem> get browserBookmarks =>
-      _browserService.bM.browserBookmarks;
+      _browserService.book.browserBookmarks;
 
-  bool get isExistBookmarks => _browserService.bM.browserBookmarks.isNotEmpty;
+  bool get isExistBookmarks => _browserService.book.browserBookmarks.isNotEmpty;
 
   void requestUrl(Uri uri) {
-    _browserService.tM.requestUrlActiveTab(uri);
+    _browserService.tab.requestUrlActiveTab(uri);
   }
 
   void removeBookmark(String bookmarkId) {
-    _browserService.bM.removeBrowserBookmarkItem(bookmarkId);
+    _browserService.book.removeBrowserBookmarkItem(bookmarkId);
   }
 
   void reorder(int oldIndex, int newIndex) {
-    _browserService.bM.reorder(oldIndex, newIndex);
+    _browserService.book.reorder(oldIndex, newIndex);
   }
 }

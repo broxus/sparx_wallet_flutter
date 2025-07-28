@@ -14,13 +14,13 @@ class ToolbarModel extends ElementaryModel {
   final BrowserService _browserService;
 
   ListenableState<ToolbarData> get controlState =>
-      _browserService.tM.controlPanelState;
+      _browserService.tab.controlPanelState;
 
   void back() {
-    _browserService.tM.backWeb();
+    _browserService.tab.backWeb();
   }
 
   void forward() {
-    _browserService.tM.forwardWeb();
+    _browserService.tab.forwardWeb();
   }
 }

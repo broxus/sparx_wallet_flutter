@@ -50,13 +50,14 @@ class _SelectNewAssetPageState extends State<SelectNewAssetPage> {
           ),
           child: BlocConsumer<SelectNewAssetCubit, SelectNewAssetState>(
             listener: (context, state) {
-              state.whenOrNull(completed: () => context.compassBack());
+              if (state is SelectNewAssetStateCompleted) {
+                context.compassBack();
+              }
             },
             builder: (context, state) {
-              return state.when(
-                completed: () => const SizedBox.shrink(),
-                data: (tab, isLoading, showButton, account, contracts) {
-                  return Padding(
+              return switch (state) {
+                SelectNewAssetStateCompleted() => const SizedBox.shrink(),
+                SelectNewAssetStateData() => Padding(
                     padding: const EdgeInsets.only(
                       top: DimensSizeV2.d16,
                       left: DimensSizeV2.d16,
@@ -73,7 +74,7 @@ class _SelectNewAssetPageState extends State<SelectNewAssetPage> {
                             if (hasFocus) return const SizedBox.shrink();
 
                             return SwitcherSegmentControls<SelectNewAssetTabs>(
-                              currentValue: tab,
+                              currentValue: state.tab,
                               values: [
                                 PrimarySegmentControl(
                                   title: LocaleKeys.searchWord.tr(),
@@ -95,16 +96,16 @@ class _SelectNewAssetPageState extends State<SelectNewAssetPage> {
                         ),
                         const SizedBox(height: DimensSizeV2.d16),
                         Expanded(
-                          child: switch (tab) {
+                          child: switch (state.tab) {
                             SelectNewAssetTabs.select =>
                               SelectNewAssetSelectTab(
                                 focus: focus,
-                                contracts: contracts ?? [],
+                                contracts: state.contracts ?? [],
                               ),
                             SelectNewAssetTabs.custom =>
                               SelectNewAssetCustomEnter(
                                 focus: focus,
-                                contracts: (contracts ?? [])
+                                contracts: (state.contracts ?? [])
                                     .where((c) => c.$1.isCustom)
                                     .toList(),
                               ),
@@ -115,12 +116,12 @@ class _SelectNewAssetPageState extends State<SelectNewAssetPage> {
                           child: Container(
                             padding:
                                 const EdgeInsets.only(bottom: DimensSize.d16),
-                            height: showButton ? DimensSizeV2.d90 : 0.0,
+                            height: state.showButton ? DimensSizeV2.d90 : 0.0,
                             child: Center(
                               child: PrimaryButton(
                                 buttonShape: ButtonShape.pill,
                                 title: LocaleKeys.saveChanges.tr(),
-                                isLoading: isLoading,
+                                isLoading: state.isLoading,
                                 onPressed: () => context
                                     .read<SelectNewAssetCubit>()
                                     .saveChanges(),
@@ -130,9 +131,8 @@ class _SelectNewAssetPageState extends State<SelectNewAssetPage> {
                         ),
                       ],
                     ),
-                  );
-                },
-              );
+                  ),
+              };
             },
           ),
         ),

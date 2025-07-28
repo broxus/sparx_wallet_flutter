@@ -1,4 +1,5 @@
 import 'package:app/app/service/connection/data/custom_network/custom_network_option.dart';
+import 'package:app/app/service/connection/data/network_type.dart';
 import 'package:app/utils/json/json_utils.dart';
 
 List<CustomNetworkOption>? mapToCustomNetworkOptions(dynamic json) {
@@ -28,6 +29,6 @@ CustomNetworkOption? _mapToOption(Map<String, dynamic> json) {
   }
 
   return CustomNetworkOption(
-    networkType: networkType as String,
+    networkType: NetworkType.fromJson(networkType as String),
   );
 }

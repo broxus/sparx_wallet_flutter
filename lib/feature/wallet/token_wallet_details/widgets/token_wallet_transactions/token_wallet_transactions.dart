@@ -38,45 +38,45 @@ class TokenWalletTransactionsWidget extends StatelessWidget {
       child: BlocBuilder<TokenWalletTransactionsCubit,
           TokenWalletTransactionsState>(
         builder: (context, state) {
-          return state.when(
-            empty: () => SliverFillRemaining(
-              child: Padding(
-                padding: const EdgeInsets.symmetric(vertical: DimensSizeV2.d24),
-                child: SeparatedColumn(
-                  spacing: DimensSizeV2.d12,
-                  children: [
-                    SvgPicture.asset(
-                      Assets.images.lightning.path,
-                      colorFilter: theme.colors.content3.colorFilter,
-                      width: DimensSizeV2.d56,
-                      height: DimensSizeV2.d56,
-                    ),
-                    Text(
-                      LocaleKeys.emptyHistoryTitle.tr(),
-                      style: theme.textStyles.paragraphSmall.copyWith(
-                        color: theme.colors.content1,
+          return switch (state) {
+            TokenWalletTransactionsStateEmpty() => SliverFillRemaining(
+                child: Padding(
+                  padding:
+                      const EdgeInsets.symmetric(vertical: DimensSizeV2.d24),
+                  child: SeparatedColumn(
+                    spacing: DimensSizeV2.d12,
+                    children: [
+                      SvgPicture.asset(
+                        Assets.images.lightning.path,
+                        colorFilter: theme.colors.content3.colorFilter,
+                        width: DimensSizeV2.d56,
+                        height: DimensSizeV2.d56,
                       ),
-                    ),
-                  ],
+                      Text(
+                        LocaleKeys.emptyHistoryTitle.tr(),
+                        style: theme.textStyles.paragraphSmall.copyWith(
+                          color: theme.colors.content1,
+                        ),
+                      ),
+                    ],
+                  ),
                 ),
               ),
-            ),
-            loading: () => const SliverToBoxAdapter(
-              child: Padding(
-                padding: EdgeInsets.symmetric(
-                  vertical: DimensSizeV2.d16,
+            TokenWalletTransactionsStateLoading() => const SliverToBoxAdapter(
+                child: Padding(
+                  padding: EdgeInsets.symmetric(
+                    vertical: DimensSizeV2.d16,
+                  ),
+                  child: Center(child: CommonCircularProgressIndicator()),
                 ),
-                child: Center(child: CommonCircularProgressIndicator()),
               ),
-            ),
-            transactions: (
-              transactions,
-              currency,
-              isLoading,
-              _,
-              customCurrency,
-            ) {
-              return ScrollControllerPreloadListener(
+            TokenWalletTransactionsStateTransactions(
+              :final transactions,
+              :final tokenCurrency,
+              :final isLoading,
+              :final tokenCustomCurrency,
+            ) =>
+              ScrollControllerPreloadListener(
                 preloadAction: () => context
                     .read<TokenWalletTransactionsCubit>()
                     .tryPreloadTransactions(),
@@ -117,16 +117,15 @@ class TokenWalletTransactionsWidget extends StatelessWidget {
                       ),
                       transactionValue: Money.fromBigIntWithCurrency(
                         trans.value,
-                        currency,
+                        tokenCurrency,
                       ),
-                      price: Fixed.parse(customCurrency?.price ?? '0'),
+                      price: Fixed.parse(tokenCustomCurrency?.price ?? '0'),
                       rootTokenContract: rootTokenContract,
                     );
                   },
                 ),
-              );
-            },
-          );
+              ),
+          };
         },
       ),
     );

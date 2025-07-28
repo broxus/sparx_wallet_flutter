@@ -1,15 +1,17 @@
 import 'package:app/app/router/compass/compass.dart';
-import 'package:app/feature/browser_v2/route.dart';
+import 'package:app/feature/browser_v2/screens/main/route.dart';
+import 'package:app/feature/nft/nft.dart';
 import 'package:app/feature/profile/route.dart';
 import 'package:app/feature/wallet/route.dart';
 import 'package:app/generated/generated.dart';
 import 'package:flutter/material.dart';
 import 'package:lucide_icons_flutter/lucide_icons.dart';
-import 'package:ui_components_lib/v2/ui_components_lib_v2.dart';
+import 'package:ui_components_lib/ui_components_lib.dart';
 
 enum RootTab {
   wallet(),
   browser(),
+  nft(),
   profile();
 
   const RootTab();
@@ -18,12 +20,14 @@ enum RootTab {
         RootTab.wallet => LucideIcons.wallet,
         RootTab.browser => LucideIcons.compass,
         RootTab.profile => LucideIcons.circleUser,
+        RootTab.nft => LucideIcons.image,
       };
 
   String get title => switch (this) {
         RootTab.wallet => LocaleKeys.walletWord.tr(),
         RootTab.browser => LocaleKeys.browserWord.tr(),
         RootTab.profile => LocaleKeys.profileWord.tr(),
+        RootTab.nft => LocaleKeys.nftWord.tr(),
       };
 
   BottomNavigationBarItem item() => BottomNavigationBarItem(
@@ -37,6 +41,7 @@ enum RootTab {
       RootTab.wallet => const WalletRouteData(),
       RootTab.browser => const BrowserRouteData(),
       RootTab.profile => const ProfileRouteData(),
+      RootTab.nft => const NftRouteData(),
     };
   }
 
@@ -45,6 +50,7 @@ enum RootTab {
       WalletRoute() => RootTab.wallet,
       BrowserRoute() => RootTab.browser,
       ProfileRoute() => RootTab.profile,
+      NftRoute() => RootTab.nft,
       _ => RootTab.wallet,
     };
   }

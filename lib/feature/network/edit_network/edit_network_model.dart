@@ -16,7 +16,7 @@ class EditNetworkModel extends ElementaryModel {
   List<ConnectionData> get connections =>
       _connectionsStorageService.connections;
 
-  List<String>? get networkTypesOptions =>
+  List<NetworkType>? get networkTypesOptions =>
       _presetsConnectionService.customNetworkOptions;
 
   void addConnection(ConnectionData connection) =>

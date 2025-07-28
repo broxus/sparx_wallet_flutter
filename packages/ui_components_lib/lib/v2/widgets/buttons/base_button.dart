@@ -20,6 +20,7 @@ abstract class BaseButton extends StatelessWidget {
     this.isFullWidth = true,
     this.backgroundBlur,
     this.padding,
+    this.mainAxisAlignment = MainAxisAlignment.center,
     super.key,
   });
 
@@ -35,6 +36,7 @@ abstract class BaseButton extends StatelessWidget {
   final bool isFullWidth;
   final double? backgroundBlur;
   final EdgeInsetsGeometry? padding;
+  final MainAxisAlignment mainAxisAlignment;
 
   EdgeInsetsGeometry get _paddingByButtonSize {
     return padding ??
@@ -44,6 +46,10 @@ abstract class BaseButton extends StatelessWidget {
           ButtonSize.small => const EdgeInsets.symmetric(
               horizontal: DimensSizeV2.d24,
               vertical: DimensSizeV2.d8,
+            ),
+          ButtonSize.mini => const EdgeInsets.symmetric(
+              horizontal: DimensSizeV2.d12,
+              vertical: DimensSizeV2.d6,
             ),
         };
   }
@@ -56,6 +62,8 @@ abstract class BaseButton extends StatelessWidget {
         return DimensSizeV2.d16;
       case ButtonSize.small:
         return DimensSizeV2.d16;
+      case ButtonSize.mini:
+        return DimensSizeV2.d16;
     }
   }
 
@@ -67,6 +75,8 @@ abstract class BaseButton extends StatelessWidget {
         return DimensSizeV2.d48;
       case ButtonSize.small:
         return DimensSizeV2.d40;
+      case ButtonSize.mini:
+        return DimensSizeV2.d28;
     }
   }
 
@@ -80,6 +90,8 @@ abstract class BaseButton extends StatelessWidget {
           return DimensRadiusV2.radius12;
         case ButtonSize.small:
           return DimensRadiusV2.radius8;
+        case ButtonSize.mini:
+          return DimensRadiusV2.radius24;
       }
     } else {
       return DimensRadiusV2.theBiggest;
@@ -117,7 +129,7 @@ abstract class BaseButton extends StatelessWidget {
                       ],
                     )
                   : Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
+                      mainAxisAlignment: mainAxisAlignment,
                       mainAxisSize:
                           isFullWidth ? MainAxisSize.max : MainAxisSize.min,
                       children: [
@@ -214,6 +226,12 @@ abstract class BaseButton extends StatelessWidget {
         (_) => switch (buttonShape) {
           ButtonShape.circle || ButtonShape.square => EdgeInsets.zero,
           _ => _paddingByButtonSize,
+        },
+      ),
+      minimumSize: WidgetStateProperty.resolveWith(
+        (_) => switch (buttonSize) {
+          ButtonSize.mini => Size.zero,
+          _ => null,
         },
       ),
     );
@@ -317,6 +335,8 @@ abstract class BaseButton extends StatelessWidget {
         return styles.labelSmall;
       case ButtonSize.small:
         return styles.labelSmall;
+      case ButtonSize.mini:
+        return styles.labelXSmall;
     }
   }
 }

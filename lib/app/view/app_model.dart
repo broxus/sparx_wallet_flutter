@@ -15,6 +15,7 @@ import 'package:app/feature/profile/route.dart';
 import 'package:app/generated/generated.dart';
 import 'package:elementary/elementary.dart';
 import 'package:flutter/widgets.dart';
+import 'package:nekoton_repository/nekoton_repository.dart' hide Message;
 
 /// [ElementaryModel] for [App]
 class AppModel extends ElementaryModel with WidgetsBindingObserver {
@@ -29,6 +30,7 @@ class AppModel extends ElementaryModel with WidgetsBindingObserver {
     this._crashDetectorService,
     this._loggerConfigurator,
     this._browserLauncher,
+    this._nekotonRepository,
   ) : super(errorHandler: errorHandler);
 
   final CompassRouter router;
@@ -40,6 +42,7 @@ class AppModel extends ElementaryModel with WidgetsBindingObserver {
   final CrashDetectorService _crashDetectorService;
   final LoggerConfigurator _loggerConfigurator;
   final BrowserLauncher _browserLauncher;
+  final NekotonRepository _nekotonRepository;
 
   BuildContext? get navContext =>
       CompassRouter.navigatorKey.currentState?.context;
@@ -85,8 +88,10 @@ class AppModel extends ElementaryModel with WidgetsBindingObserver {
       case AppLifecycleState.resumed:
         _loggerConfigurator.startLogSession();
         _crashDetectorService.startSession(setCrashDetected: false);
+        _resumePolling();
       case AppLifecycleState.inactive:
         _crashDetectorService.stopSession();
+        _pausePolling();
       case AppLifecycleState.paused:
       case AppLifecycleState.detached:
       case AppLifecycleState.hidden:
@@ -112,5 +117,17 @@ class AppModel extends ElementaryModel with WidgetsBindingObserver {
     WidgetsBinding.instance.addPostFrameCallback((_) {
       _browserLauncher.openBrowserByUri(event.url);
     });
+  }
+
+  void _pausePolling() {
+    _nekotonRepository
+      ..pausePolling()
+      ..pausePollingToken();
+  }
+
+  void _resumePolling() {
+    _nekotonRepository
+      ..resumePolling()
+      ..resumePollingToken();
   }
 }

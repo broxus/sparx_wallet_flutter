@@ -1,14 +1,5 @@
-import 'package:app/app/service/connection/data/account_explorer/account_explorer_link_type.dart';
-import 'package:app/app/service/connection/data/connection_transport/connection_transport_data.dart';
-import 'package:app/app/service/connection/data/default_active_asset.dart';
-import 'package:app/app/service/connection/data/transaction_explorer/transaction_explorer_link_type.dart';
-import 'package:app/app/service/connection/data/transport_icons.dart';
-import 'package:app/app/service/connection/data/transport_manifest_option/transport_manifest_option.dart';
-import 'package:app/app/service/connection/data/transport_native_token_option/transport_native_token_option.dart';
-import 'package:app/app/service/connection/generic_token_subscriber.dart';
-import 'package:app/app/service/connection/group.dart';
-import 'package:app/utils/json/json_utils.dart';
-import 'package:app/utils/parse_utils.dart';
+import 'package:app/app/service/connection/connection.dart';
+import 'package:app/utils/utils.dart';
 import 'package:nekoton_repository/nekoton_repository.dart';
 
 Map<NetworkGroup, ConnectionTransportData>? mapToTransports(
@@ -43,7 +34,7 @@ Map<NetworkGroup, ConnectionTransportData>? mapToTransports(
         address: (transport['nativeTokenAddress'] as String?) ?? '',
       ),
       networkName: transport['networkName'] as String,
-      networkType: transport['networkType'] as String,
+      networkType: NetworkType.fromJson(transport['networkType'] as String),
       seedPhraseWordsCount: _mapToSeedPhraseWordsCount(
         transport['seedPhraseWordsCount'] as List<dynamic>,
       ),
@@ -64,6 +55,11 @@ Map<NetworkGroup, ConnectionTransportData>? mapToTransports(
       ),
       tokenApiBaseUrl: transport['tokenApiBaseUrl'] as String?,
       currencyApiBaseUrl: transport['currencyApiBaseUrl'] as String?,
+      nftInformation: (transport['nftInformation'] as Map<String, dynamic>?)
+          ?.let(NftInformation.fromJson),
+      pollingConfig: _mapToPollingConfig(
+        transport['pollingConfig'] as Map<String, dynamic>?,
+      ),
     );
   }
 
@@ -211,4 +207,21 @@ List<DefaultActiveAsset> _mapToDefaultActiveAssets(dynamic json) {
   } catch (_) {
     return [];
   }
+}
+
+PollingConfig? _mapToPollingConfig(Map<String, dynamic>? json) {
+  if (json == null) return null;
+
+  final ton = parseToInt(json['tonWalletRefreshInterval']);
+  final token = parseToInt(json['tokenWalletRefreshInterval']);
+  final intensive = parseToInt(json['intensivePollingInterval']);
+
+  return PollingConfig(
+    tonWalletRefreshInterval: ton?.let((it) => Duration(seconds: it)) ??
+        PollingConfig.defaultConfig.tonWalletRefreshInterval,
+    tokenWalletRefreshInterval: token?.let((it) => Duration(seconds: it)) ??
+        PollingConfig.defaultConfig.tokenWalletRefreshInterval,
+    intensivePollingInterval: intensive?.let((it) => Duration(seconds: it)) ??
+        PollingConfig.defaultConfig.intensivePollingInterval,
+  );
 }
