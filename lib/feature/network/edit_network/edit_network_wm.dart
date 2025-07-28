@@ -7,6 +7,7 @@ import 'package:app/feature/browser_v1/browser.dart';
 import 'package:app/feature/network/edit_network/validators.dart';
 import 'package:app/feature/network/network.dart';
 import 'package:app/generated/generated.dart';
+import 'package:app/utils/utils.dart';
 import 'package:collection/collection.dart';
 import 'package:elementary_helper/elementary_helper.dart';
 import 'package:flutter/material.dart';
@@ -209,6 +210,10 @@ class EditNetworkWidgetModel
 
   ConnectionData? _getConnection() {
     final id = connection?.id;
+    final nativeTokenTicker = currencySymbolController.text.trim().takeIf(
+              (it) => it.isNotEmpty,
+            ) ??
+        'EVER';
     final nativeTokenDecimals = int.tryParse(
           currencyDecimalsController.text.trim(),
         ) ??
@@ -223,7 +228,7 @@ class EditNetworkWidgetModel
           endpoint: _endpointsControllers![0].text,
           blockExplorerUrl: blockExplorerUrlController.text,
           manifestUrl: manifestUrlController.text,
-          nativeTokenTicker: currencySymbolController.text,
+          nativeTokenTicker: nativeTokenTicker,
           nativeTokenDecimals: nativeTokenDecimals,
         ),
       ConnectionType.gql => ConnectionData.gqlCustom(
@@ -237,7 +242,7 @@ class EditNetworkWidgetModel
           isLocal: _isLocal,
           blockExplorerUrl: blockExplorerUrlController.text,
           manifestUrl: manifestUrlController.text,
-          nativeTokenTicker: currencySymbolController.text,
+          nativeTokenTicker: nativeTokenTicker,
           nativeTokenDecimals: nativeTokenDecimals,
         ),
       ConnectionType.proto => ConnectionData.protoCustom(
@@ -248,7 +253,7 @@ class EditNetworkWidgetModel
           endpoint: _endpointsControllers![0].text,
           blockExplorerUrl: blockExplorerUrlController.text,
           manifestUrl: manifestUrlController.text,
-          nativeTokenTicker: currencySymbolController.text,
+          nativeTokenTicker: nativeTokenTicker,
           nativeTokenDecimals: nativeTokenDecimals,
         ),
       _ => null,
