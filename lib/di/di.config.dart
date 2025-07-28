@@ -32,7 +32,8 @@ import '../app/service/balance_service.dart' as _i637;
 import '../app/service/biometry_service.dart' as _i575;
 import '../app/service/bootstrap/bootstrap_service.dart' as _i468;
 import '../app/service/connection/connection_service.dart' as _i754;
-import '../app/service/currencies_service.dart' as _i308;
+import '../app/service/currencies/currencies_fetch_strategy.dart' as _i586;
+import '../app/service/currencies/currencies_service.dart' as _i1052;
 import '../app/service/currency_convert_service.dart' as _i27;
 import '../app/service/current_accounts_service.dart' as _i402;
 import '../app/service/current_seed_service.dart' as _i244;
@@ -303,6 +304,10 @@ extension GetItInjectableX on _i174.GetIt {
       () => _i182.SelectNewAssetRoute(),
       instanceName: 'SelectNewAssetRoute',
     );
+    gh.singleton<_i586.DefaultCurrenciesFetchStrategy>(
+        () => _i586.DefaultCurrenciesFetchStrategy(gh<_i361.Dio>()));
+    gh.singleton<_i586.TonCurrenciesFetchStrategy>(
+        () => _i586.TonCurrenciesFetchStrategy(gh<_i361.Dio>()));
     gh.singleton<_i82.CompassBaseRoute>(
       () => _i971.NewExternalAccountRoute(),
       instanceName: 'NewExternalAccountRoute',
@@ -531,13 +536,6 @@ extension GetItInjectableX on _i174.GetIt {
           gh<_i82.CompassBaseRoute>(instanceName: 'NftItemRoute')),
       instanceName: 'NftCollectionRoute',
     );
-    gh.singleton<_i308.CurrenciesService>(() => _i308.CurrenciesService(
-          dio: gh<_i361.Dio>(),
-          nekotonRepository: gh<_i771.NekotonRepository>(),
-          currentAccounts: gh<_i128.CurrentAccountsService>(),
-          storageService: gh<_i128.GeneralStorageService>(),
-          appLifecycle: gh<_i128.AppLifecycleService>(),
-        ));
     gh.factory<_i77.BrowserServiceTabsDelegate>(
         () => _i77.BrowserServiceTabsDelegate(
               gh<_i634.BrowserTabsStorageService>(),
@@ -553,6 +551,15 @@ extension GetItInjectableX on _i174.GetIt {
       ),
       instanceName: 'AddAccountRoute',
     );
+    gh.singleton<_i1052.CurrenciesService>(() => _i1052.CurrenciesService(
+          dio: gh<_i361.Dio>(),
+          nekotonRepository: gh<_i771.NekotonRepository>(),
+          currentAccounts: gh<_i128.CurrentAccountsService>(),
+          storageService: gh<_i128.GeneralStorageService>(),
+          appLifecycle: gh<_i128.AppLifecycleService>(),
+          defaultFetchStrategy: gh<_i128.DefaultCurrenciesFetchStrategy>(),
+          tonFetchStrategy: gh<_i128.TonCurrenciesFetchStrategy>(),
+        ));
     gh.singleton<_i720.UpdateService>(() => _i720.UpdateService(
           gh<_i130.PresetsConfigReader>(),
           gh<_i1008.UpdateStatusChecker>(),
@@ -598,11 +605,6 @@ extension GetItInjectableX on _i174.GetIt {
       ),
       instanceName: 'OnboardingGuard',
     );
-    gh.singleton<_i637.BalanceService>(() => _i637.BalanceService(
-          gh<_i771.NekotonRepository>(),
-          gh<_i128.CurrenciesService>(),
-          gh<_i128.BalanceStorageService>(),
-        ));
     gh.singleton<_i82.CompassBaseRoute>(
       () => _i512.TonWalletDetailsRoute(
         gh<_i82.CompassBaseRoute>(instanceName: 'WalletDeployRoute'),
@@ -674,6 +676,11 @@ extension GetItInjectableX on _i174.GetIt {
       ),
       instanceName: 'EnterSeedNameRoute',
     );
+    gh.singleton<_i637.BalanceService>(() => _i637.BalanceService(
+          gh<_i771.NekotonRepository>(),
+          gh<_i128.CurrenciesService>(),
+          gh<_i128.BalanceStorageService>(),
+        ));
     gh.singleton<_i877.TokenWalletsService>(() => _i877.TokenWalletsService(
           gh<_i771.NekotonRepository>(),
           gh<_i128.AssetsService>(),

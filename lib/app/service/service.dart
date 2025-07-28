@@ -8,7 +8,7 @@ export 'biometry_service.dart';
 export 'bootstrap/bootstrap.dart';
 export 'connection/connection.dart';
 export 'crash_detector/crash_detector.dart';
-export 'currencies_service.dart';
+export 'currencies/currencies.dart';
 export 'currency_convert_service.dart';
 export 'current_accounts_service.dart';
 export 'current_seed_service.dart';
