@@ -169,18 +169,19 @@ class CommonTransportStrategy extends AppTransportStrategy {
   @override
   String defaultAccountName(WalletType walletType) {
     return switch (walletType) {
-      WalletTypeMultisig(:final data) =>
-        walletDefaultAccountNames.multisig[data] ?? '',
-      WalletTypeWalletV3() => walletDefaultAccountNames.walletV3,
-      WalletTypeHighloadWalletV2() =>
-        walletDefaultAccountNames.highloadWalletV2,
-      WalletTypeEverWallet() => walletDefaultAccountNames.everWallet,
-      WalletTypeWalletV3R1() => walletDefaultAccountNames.walletV3R1,
-      WalletTypeWalletV3R2() => walletDefaultAccountNames.walletV3R2,
-      WalletTypeWalletV4R1() => walletDefaultAccountNames.walletV4R1,
-      WalletTypeWalletV4R2() => walletDefaultAccountNames.walletV4R2,
-      WalletTypeWalletV5R1() => walletDefaultAccountNames.walletV5R1,
-    };
+          WalletTypeMultisig(:final data) =>
+            walletDefaultAccountNames.multisig?[data] ?? '',
+          WalletTypeWalletV3() => walletDefaultAccountNames.walletV3,
+          WalletTypeHighloadWalletV2() =>
+            walletDefaultAccountNames.highloadWalletV2,
+          WalletTypeEverWallet() => walletDefaultAccountNames.everWallet,
+          WalletTypeWalletV3R1() => walletDefaultAccountNames.walletV3R1,
+          WalletTypeWalletV3R2() => walletDefaultAccountNames.walletV3R2,
+          WalletTypeWalletV4R1() => walletDefaultAccountNames.walletV4R1,
+          WalletTypeWalletV4R2() => walletDefaultAccountNames.walletV4R2,
+          WalletTypeWalletV5R1() => walletDefaultAccountNames.walletV5R1,
+        } ??
+        '';
   }
 
   @override
