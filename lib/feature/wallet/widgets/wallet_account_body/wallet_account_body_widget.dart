@@ -102,7 +102,7 @@ class _Carousel extends StatelessWidget {
 
   final List<NotificationType> items;
   final KeyAccount account;
-  final VoidCallback onFinishedBackup;
+  final ValueChanged<bool> onFinishedBackup;
   final VoidCallback onSwitchAccount;
   final void Function(
     int index,

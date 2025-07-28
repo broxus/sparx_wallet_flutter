@@ -78,14 +78,18 @@ class CheckPhraseWidgetModel
   }
 
   void clickSkip() {
-    address.value?.let(model.setShowingBackUpFlag);
+    address.value?.let(
+      (String address) => model.setShowingBackUpFlag(
+        address,
+        isSkipped: true,
+      ),
+    );
 
     if (!isMounted) return;
-    widget.finishedBackupCallback();
+    widget.finishedBackupCallback(false);
     context
       ..compassBack() //close manual backup dialog
       ..compassBack(); //close current dialog
-    showGoodJobDialog(context);
   }
 
   void _init() {
@@ -129,8 +133,14 @@ class CheckPhraseWidgetModel
     if (hasError) {
       model.showValidateError(LocaleKeys.seedIsMissing.tr());
     } else {
-      address.value?.let(model.setShowingBackUpFlag);
-      widget.finishedBackupCallback();
+      // TODO(malochka): think about get rid of compassBack method
+      address.value?.let(
+        (String address) => model.setShowingBackUpFlag(
+          address,
+          isSkipped: false,
+        ),
+      );
+      widget.finishedBackupCallback(true);
       context
         ..compassBack() //close manual backup
         ..compassBack(); //close check your seed phrase

@@ -1,3 +1,4 @@
+// dart format width=80
 // coverage:ignore-file
 // GENERATED CODE - DO NOT MODIFY BY HAND
 // ignore_for_file: type=lint
@@ -9,31 +10,55 @@ part of 'nft_prepare_transfer_data.dart';
 // FreezedGenerator
 // **************************************************************************
 
+// dart format off
 T _$identity<T>(T value) => value;
-
-final _privateConstructorUsedError = UnsupportedError(
-    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models');
 
 /// @nodoc
 mixin _$NftPrepareTransferData {
-  KeyAccount get account => throw _privateConstructorUsedError;
-  PublicKey get custodian => throw _privateConstructorUsedError;
-  NftItem get item => throw _privateConstructorUsedError;
-  NftCollection get collection => throw _privateConstructorUsedError;
-  List<PublicKey>? get localCustodians => throw _privateConstructorUsedError;
+  KeyAccount get account;
+  PublicKey get custodian;
+  NftItem get item;
+  NftCollection get collection;
+  List<PublicKey>? get localCustodians;
 
   /// Create a copy of NftPrepareTransferData
   /// with the given fields replaced by the non-null parameter values.
   @JsonKey(includeFromJson: false, includeToJson: false)
+  @pragma('vm:prefer-inline')
   $NftPrepareTransferDataCopyWith<NftPrepareTransferData> get copyWith =>
-      throw _privateConstructorUsedError;
+      _$NftPrepareTransferDataCopyWithImpl<NftPrepareTransferData>(
+          this as NftPrepareTransferData, _$identity);
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is NftPrepareTransferData &&
+            (identical(other.account, account) || other.account == account) &&
+            (identical(other.custodian, custodian) ||
+                other.custodian == custodian) &&
+            (identical(other.item, item) || other.item == item) &&
+            (identical(other.collection, collection) ||
+                other.collection == collection) &&
+            const DeepCollectionEquality()
+                .equals(other.localCustodians, localCustodians));
+  }
+
+  @override
+  int get hashCode => Object.hash(runtimeType, account, custodian, item,
+      collection, const DeepCollectionEquality().hash(localCustodians));
+
+  @override
+  String toString() {
+    return 'NftPrepareTransferData(account: $account, custodian: $custodian, item: $item, collection: $collection, localCustodians: $localCustodians)';
+  }
 }
 
 /// @nodoc
-abstract class $NftPrepareTransferDataCopyWith<$Res> {
+abstract mixin class $NftPrepareTransferDataCopyWith<$Res> {
   factory $NftPrepareTransferDataCopyWith(NftPrepareTransferData value,
-          $Res Function(NftPrepareTransferData) then) =
-      _$NftPrepareTransferDataCopyWithImpl<$Res, NftPrepareTransferData>;
+          $Res Function(NftPrepareTransferData) _then) =
+      _$NftPrepareTransferDataCopyWithImpl;
   @useResult
   $Res call(
       {KeyAccount account,
@@ -48,15 +73,12 @@ abstract class $NftPrepareTransferDataCopyWith<$Res> {
 }
 
 /// @nodoc
-class _$NftPrepareTransferDataCopyWithImpl<$Res,
-        $Val extends NftPrepareTransferData>
+class _$NftPrepareTransferDataCopyWithImpl<$Res>
     implements $NftPrepareTransferDataCopyWith<$Res> {
-  _$NftPrepareTransferDataCopyWithImpl(this._value, this._then);
+  _$NftPrepareTransferDataCopyWithImpl(this._self, this._then);
 
-  // ignore: unused_field
-  final $Val _value;
-  // ignore: unused_field
-  final $Res Function($Val) _then;
+  final NftPrepareTransferData _self;
+  final $Res Function(NftPrepareTransferData) _then;
 
   /// Create a copy of NftPrepareTransferData
   /// with the given fields replaced by the non-null parameter values.
@@ -69,28 +91,28 @@ class _$NftPrepareTransferDataCopyWithImpl<$Res,
     Object? collection = null,
     Object? localCustodians = freezed,
   }) {
-    return _then(_value.copyWith(
+    return _then(_self.copyWith(
       account: null == account
-          ? _value.account
+          ? _self.account
           : account // ignore: cast_nullable_to_non_nullable
               as KeyAccount,
       custodian: null == custodian
-          ? _value.custodian
+          ? _self.custodian
           : custodian // ignore: cast_nullable_to_non_nullable
               as PublicKey,
       item: null == item
-          ? _value.item
+          ? _self.item
           : item // ignore: cast_nullable_to_non_nullable
               as NftItem,
       collection: null == collection
-          ? _value.collection
+          ? _self.collection
           : collection // ignore: cast_nullable_to_non_nullable
               as NftCollection,
       localCustodians: freezed == localCustodians
-          ? _value.localCustodians
+          ? _self.localCustodians
           : localCustodians // ignore: cast_nullable_to_non_nullable
               as List<PublicKey>?,
-    ) as $Val);
+    ));
   }
 
   /// Create a copy of NftPrepareTransferData
@@ -98,8 +120,8 @@ class _$NftPrepareTransferDataCopyWithImpl<$Res,
   @override
   @pragma('vm:prefer-inline')
   $PublicKeyCopyWith<$Res> get custodian {
-    return $PublicKeyCopyWith<$Res>(_value.custodian, (value) {
-      return _then(_value.copyWith(custodian: value) as $Val);
+    return $PublicKeyCopyWith<$Res>(_self.custodian, (value) {
+      return _then(_self.copyWith(custodian: value));
     });
   }
 
@@ -108,8 +130,8 @@ class _$NftPrepareTransferDataCopyWithImpl<$Res,
   @override
   @pragma('vm:prefer-inline')
   $NftItemCopyWith<$Res> get item {
-    return $NftItemCopyWith<$Res>(_value.item, (value) {
-      return _then(_value.copyWith(item: value) as $Val);
+    return $NftItemCopyWith<$Res>(_self.item, (value) {
+      return _then(_self.copyWith(item: value));
     });
   }
 
@@ -118,86 +140,16 @@ class _$NftPrepareTransferDataCopyWithImpl<$Res,
   @override
   @pragma('vm:prefer-inline')
   $NftCollectionCopyWith<$Res> get collection {
-    return $NftCollectionCopyWith<$Res>(_value.collection, (value) {
-      return _then(_value.copyWith(collection: value) as $Val);
+    return $NftCollectionCopyWith<$Res>(_self.collection, (value) {
+      return _then(_self.copyWith(collection: value));
     });
   }
 }
 
 /// @nodoc
-abstract class _$$NftPrepareTransferDataImplCopyWith<$Res>
-    implements $NftPrepareTransferDataCopyWith<$Res> {
-  factory _$$NftPrepareTransferDataImplCopyWith(
-          _$NftPrepareTransferDataImpl value,
-          $Res Function(_$NftPrepareTransferDataImpl) then) =
-      __$$NftPrepareTransferDataImplCopyWithImpl<$Res>;
-  @override
-  @useResult
-  $Res call(
-      {KeyAccount account,
-      PublicKey custodian,
-      NftItem item,
-      NftCollection collection,
-      List<PublicKey>? localCustodians});
 
-  @override
-  $PublicKeyCopyWith<$Res> get custodian;
-  @override
-  $NftItemCopyWith<$Res> get item;
-  @override
-  $NftCollectionCopyWith<$Res> get collection;
-}
-
-/// @nodoc
-class __$$NftPrepareTransferDataImplCopyWithImpl<$Res>
-    extends _$NftPrepareTransferDataCopyWithImpl<$Res,
-        _$NftPrepareTransferDataImpl>
-    implements _$$NftPrepareTransferDataImplCopyWith<$Res> {
-  __$$NftPrepareTransferDataImplCopyWithImpl(
-      _$NftPrepareTransferDataImpl _value,
-      $Res Function(_$NftPrepareTransferDataImpl) _then)
-      : super(_value, _then);
-
-  /// Create a copy of NftPrepareTransferData
-  /// with the given fields replaced by the non-null parameter values.
-  @pragma('vm:prefer-inline')
-  @override
-  $Res call({
-    Object? account = null,
-    Object? custodian = null,
-    Object? item = null,
-    Object? collection = null,
-    Object? localCustodians = freezed,
-  }) {
-    return _then(_$NftPrepareTransferDataImpl(
-      account: null == account
-          ? _value.account
-          : account // ignore: cast_nullable_to_non_nullable
-              as KeyAccount,
-      custodian: null == custodian
-          ? _value.custodian
-          : custodian // ignore: cast_nullable_to_non_nullable
-              as PublicKey,
-      item: null == item
-          ? _value.item
-          : item // ignore: cast_nullable_to_non_nullable
-              as NftItem,
-      collection: null == collection
-          ? _value.collection
-          : collection // ignore: cast_nullable_to_non_nullable
-              as NftCollection,
-      localCustodians: freezed == localCustodians
-          ? _value._localCustodians
-          : localCustodians // ignore: cast_nullable_to_non_nullable
-              as List<PublicKey>?,
-    ));
-  }
-}
-
-/// @nodoc
-
-class _$NftPrepareTransferDataImpl implements _NftPrepareTransferData {
-  const _$NftPrepareTransferDataImpl(
+class _NftPrepareTransferData implements NftPrepareTransferData {
+  const _NftPrepareTransferData(
       {required this.account,
       required this.custodian,
       required this.item,
@@ -223,16 +175,20 @@ class _$NftPrepareTransferDataImpl implements _NftPrepareTransferData {
     return EqualUnmodifiableListView(value);
   }
 
+  /// Create a copy of NftPrepareTransferData
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  String toString() {
-    return 'NftPrepareTransferData(account: $account, custodian: $custodian, item: $item, collection: $collection, localCustodians: $localCustodians)';
-  }
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @pragma('vm:prefer-inline')
+  _$NftPrepareTransferDataCopyWith<_NftPrepareTransferData> get copyWith =>
+      __$NftPrepareTransferDataCopyWithImpl<_NftPrepareTransferData>(
+          this, _$identity);
 
   @override
   bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$NftPrepareTransferDataImpl &&
+            other is _NftPrepareTransferData &&
             (identical(other.account, account) || other.account == account) &&
             (identical(other.custodian, custodian) ||
                 other.custodian == custodian) &&
@@ -247,40 +203,107 @@ class _$NftPrepareTransferDataImpl implements _NftPrepareTransferData {
   int get hashCode => Object.hash(runtimeType, account, custodian, item,
       collection, const DeepCollectionEquality().hash(_localCustodians));
 
+  @override
+  String toString() {
+    return 'NftPrepareTransferData(account: $account, custodian: $custodian, item: $item, collection: $collection, localCustodians: $localCustodians)';
+  }
+}
+
+/// @nodoc
+abstract mixin class _$NftPrepareTransferDataCopyWith<$Res>
+    implements $NftPrepareTransferDataCopyWith<$Res> {
+  factory _$NftPrepareTransferDataCopyWith(_NftPrepareTransferData value,
+          $Res Function(_NftPrepareTransferData) _then) =
+      __$NftPrepareTransferDataCopyWithImpl;
+  @override
+  @useResult
+  $Res call(
+      {KeyAccount account,
+      PublicKey custodian,
+      NftItem item,
+      NftCollection collection,
+      List<PublicKey>? localCustodians});
+
+  @override
+  $PublicKeyCopyWith<$Res> get custodian;
+  @override
+  $NftItemCopyWith<$Res> get item;
+  @override
+  $NftCollectionCopyWith<$Res> get collection;
+}
+
+/// @nodoc
+class __$NftPrepareTransferDataCopyWithImpl<$Res>
+    implements _$NftPrepareTransferDataCopyWith<$Res> {
+  __$NftPrepareTransferDataCopyWithImpl(this._self, this._then);
+
+  final _NftPrepareTransferData _self;
+  final $Res Function(_NftPrepareTransferData) _then;
+
   /// Create a copy of NftPrepareTransferData
   /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
-  _$$NftPrepareTransferDataImplCopyWith<_$NftPrepareTransferDataImpl>
-      get copyWith => __$$NftPrepareTransferDataImplCopyWithImpl<
-          _$NftPrepareTransferDataImpl>(this, _$identity);
-}
-
-abstract class _NftPrepareTransferData implements NftPrepareTransferData {
-  const factory _NftPrepareTransferData(
-          {required final KeyAccount account,
-          required final PublicKey custodian,
-          required final NftItem item,
-          required final NftCollection collection,
-          required final List<PublicKey>? localCustodians}) =
-      _$NftPrepareTransferDataImpl;
-
-  @override
-  KeyAccount get account;
-  @override
-  PublicKey get custodian;
-  @override
-  NftItem get item;
-  @override
-  NftCollection get collection;
-  @override
-  List<PublicKey>? get localCustodians;
+  $Res call({
+    Object? account = null,
+    Object? custodian = null,
+    Object? item = null,
+    Object? collection = null,
+    Object? localCustodians = freezed,
+  }) {
+    return _then(_NftPrepareTransferData(
+      account: null == account
+          ? _self.account
+          : account // ignore: cast_nullable_to_non_nullable
+              as KeyAccount,
+      custodian: null == custodian
+          ? _self.custodian
+          : custodian // ignore: cast_nullable_to_non_nullable
+              as PublicKey,
+      item: null == item
+          ? _self.item
+          : item // ignore: cast_nullable_to_non_nullable
+              as NftItem,
+      collection: null == collection
+          ? _self.collection
+          : collection // ignore: cast_nullable_to_non_nullable
+              as NftCollection,
+      localCustodians: freezed == localCustodians
+          ? _self._localCustodians
+          : localCustodians // ignore: cast_nullable_to_non_nullable
+              as List<PublicKey>?,
+    ));
+  }
 
   /// Create a copy of NftPrepareTransferData
   /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(includeFromJson: false, includeToJson: false)
-  _$$NftPrepareTransferDataImplCopyWith<_$NftPrepareTransferDataImpl>
-      get copyWith => throw _privateConstructorUsedError;
+  @pragma('vm:prefer-inline')
+  $PublicKeyCopyWith<$Res> get custodian {
+    return $PublicKeyCopyWith<$Res>(_self.custodian, (value) {
+      return _then(_self.copyWith(custodian: value));
+    });
+  }
+
+  /// Create a copy of NftPrepareTransferData
+  /// with the given fields replaced by the non-null parameter values.
+  @override
+  @pragma('vm:prefer-inline')
+  $NftItemCopyWith<$Res> get item {
+    return $NftItemCopyWith<$Res>(_self.item, (value) {
+      return _then(_self.copyWith(item: value));
+    });
+  }
+
+  /// Create a copy of NftPrepareTransferData
+  /// with the given fields replaced by the non-null parameter values.
+  @override
+  @pragma('vm:prefer-inline')
+  $NftCollectionCopyWith<$Res> get collection {
+    return $NftCollectionCopyWith<$Res>(_self.collection, (value) {
+      return _then(_self.copyWith(collection: value));
+    });
+  }
 }
+
+// dart format on

@@ -234,7 +234,7 @@ class AssetsService {
     try {
       if (transport.transport.disposed) return null;
 
-      if (transport.networkType == 'ton') {
+      if (transport.networkType == NetworkType.ton) {
         final details = await JettonWallet.getJettonRootDetails(
           transport: transport.transport,
           tokenRoot: rootTokenContract,
@@ -405,6 +405,7 @@ class AssetsService {
             e.decimals,
             symbol: e.symbol,
             pattern: moneyPattern(e.decimals),
+            name: e.name,
           ),
         ),
       );

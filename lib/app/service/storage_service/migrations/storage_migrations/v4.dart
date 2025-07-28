@@ -38,7 +38,7 @@ class StorageMigrationV4 implements StorageMigration {
       final networksMap = <String, String>{};
 
       for (final network in networks) {
-        networksMap[network.networkType] = network.group;
+        networksMap[network.networkType.name] = network.group;
       }
       for (final entry in encoded.entries) {
         try {

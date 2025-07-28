@@ -18,20 +18,14 @@ class StoryV2 extends StatelessWidget {
       child: Storybook(
         initialStory: 'Widgets',
         wrapperBuilder: (_, Widget? child) {
-          return Material(
-            type: MaterialType.transparency,
-            child: child,
-          );
+          return Material(type: MaterialType.transparency, child: child);
         },
         stories: [
           Story(
             name: 'Widgets/TextFields',
             builder: (_) => const TextFieldsStoryV2(),
           ),
-          Story(
-            name: 'Widgets/Texts',
-            builder: (_) => const TextsStoryV2(),
-          ),
+          Story(name: 'Widgets/Texts', builder: (_) => const TextsStoryV2()),
           Story(
             name: 'Widgets/Buttons',
             builder: (_) => const ButtonsStoryV2(),
@@ -40,14 +34,8 @@ class StoryV2 extends StatelessWidget {
             name: 'Widgets/Segment-Controls',
             builder: (_) => const SegmentControlsV2(),
           ),
-          Story(
-            name: 'Widgets/Toasts',
-            builder: (_) => const ToastsV2(),
-          ),
-          Story(
-            name: 'Widgets/Chips',
-            builder: (_) => const ChipsV2(),
-          ),
+          Story(name: 'Widgets/Toasts', builder: (_) => const ToastsV2()),
+          Story(name: 'Widgets/Chips', builder: (_) => const ChipsV2()),
         ],
       ),
     );

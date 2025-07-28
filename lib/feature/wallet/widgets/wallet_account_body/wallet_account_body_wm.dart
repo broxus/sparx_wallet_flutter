@@ -57,8 +57,14 @@ class WalletAccountBodyWidgetModel
     });
   }
 
-  void onFinishedBackup() {
-    keyAccount.value?.let(model.hideBackupNotification);
+  // ignore: avoid_positional_boolean_parameters
+  void onFinishedBackup(bool isCompleted) {
+    keyAccount.value?.let(
+      (KeyAccount account) => model.hideBackupNotification(
+        account,
+        isCompleted: isCompleted,
+      ),
+    );
   }
 
   void onSwitchAccount() => showSelectAccountSheet(context);

@@ -30,48 +30,47 @@ class ContactSupportBloc extends Bloc<ContactSupportEvent, ContactSupportState>
           ),
         ) {
     on<ContactSupportEvent>((event, emit) async {
-      await event.map(
-        sendEmail: (event) async {
-          emitSafe(state.copyWith(isBusy: true));
-          String? logFilePath;
-          try {
-            logFilePath = await contactSupportCreateLogfile();
-          } catch (e, s) {
-            _log.severe(e, null, s);
-            emitSafe(state.copyWith(isBusy: false));
-            inject<MessengerService>().show(
-              Message.error(
-                message: LocaleKeys.contactSupportCantCreateFile.tr(),
-              ),
-            );
-          }
-
-          if (logFilePath != null) {
-            try {
-              await contactSupportEmailSend(event.mode, logFilePath);
-            } catch (e, s) {
-              _log.severe(e, null, s);
-              emitSafe(state.copyWith(isBusy: false));
-              inject<MessengerService>().show(
-                Message.error(
-                  message: LocaleKeys.contactSupportCantFindEmailClient.tr(),
-                  actionText:
-                      LocaleKeys.contactSupportCantFindEmailClientShare.tr(),
-                  onAction: () => contactSupportShareFile(logFilePath!),
-                ),
-              );
-            }
-          }
-
-          emitSafe(state.copyWith(isBusy: false));
-        },
-        openQaScreen: (event) async {
-          await showQaSheet(context: context);
-        },
-      );
+      await switch (event) {
+        _OpenQaScreen() => showQaSheet(context: context),
+        _SendEmail() => _sendEmail(event),
+      };
     });
   }
 
   final BuildContext context;
   final _log = Logger('ContactSupportBloc');
+
+  Future<void> _sendEmail(_SendEmail event) async {
+    emitSafe(state.copyWith(isBusy: true));
+    String? logFilePath;
+    try {
+      logFilePath = await contactSupportCreateLogfile();
+    } catch (e, s) {
+      _log.severe(e, null, s);
+      emitSafe(state.copyWith(isBusy: false));
+      inject<MessengerService>().show(
+        Message.error(
+          message: LocaleKeys.contactSupportCantCreateFile.tr(),
+        ),
+      );
+    }
+
+    if (logFilePath != null) {
+      try {
+        await contactSupportEmailSend(event.mode, logFilePath);
+      } catch (e, s) {
+        _log.severe(e, null, s);
+        emitSafe(state.copyWith(isBusy: false));
+        inject<MessengerService>().show(
+          Message.error(
+            message: LocaleKeys.contactSupportCantFindEmailClient.tr(),
+            actionText: LocaleKeys.contactSupportCantFindEmailClientShare.tr(),
+            onAction: () => contactSupportShareFile(logFilePath!),
+          ),
+        );
+      }
+    }
+
+    emitSafe(state.copyWith(isBusy: false));
+  }
 }

@@ -111,7 +111,7 @@ class TokenWalletsService {
           subject.add([(asset, wallet.wallet!.moneyBalance)]);
         }
       } finally {
-        unsubscribeToken(asset.address, root);
+        await unsubscribeToken(asset.address, root);
       }
     }
   }
@@ -205,12 +205,11 @@ class TokenWalletsService {
     );
   }
 
-  void unsubscribeToken(Address address, Address rootTokenContract) {
-    nekotonRepository.unsubscribeToken(
-      rootTokenContract,
-      address,
-    );
-  }
+  Future<void> unsubscribeToken(Address address, Address rootTokenContract) =>
+      nekotonRepository.unsubscribeToken(
+        rootTokenContract,
+        address,
+      );
 
   Currency _getCurrency(TokenContractAsset contract) => Currency.create(
         contract.symbol,

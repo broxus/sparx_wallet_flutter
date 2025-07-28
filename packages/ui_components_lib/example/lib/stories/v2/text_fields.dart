@@ -34,10 +34,7 @@ class _TextFieldsStoryV2State extends State<TextFieldsStoryV2> {
           children: [
             const PrimaryTextField(),
             const SizedBox(height: DimensSize.d20),
-            const PrimaryTextField(
-              labelText: 'Label:',
-              hintText: 'Hint text',
-            ),
+            const PrimaryTextField(labelText: 'Label:', hintText: 'Hint text'),
             const SizedBox(height: DimensSize.d20),
             const PrimaryTextField(
               labelText: 'Label:',
