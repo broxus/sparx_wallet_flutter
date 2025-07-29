@@ -22,7 +22,6 @@ import '../app/router/compass/compass.dart' as _i82;
 import '../app/router/guard.dart' as _i484;
 import '../app/router/router.dart' as _i309;
 import '../app/service/app_lifecycle_service.dart' as _i830;
-import '../app/service/app_links/app_links.dart' as _i850;
 import '../app/service/app_links/app_links_service.dart' as _i746;
 import '../app/service/app_permissions_service.dart' as _i1070;
 import '../app/service/app_version_service.dart' as _i143;
@@ -31,7 +30,19 @@ import '../app/service/assets_service.dart' as _i964;
 import '../app/service/balance_service.dart' as _i637;
 import '../app/service/biometry_service.dart' as _i575;
 import '../app/service/bootstrap/bootstrap_service.dart' as _i468;
+import '../app/service/bootstrap/configurators/biometry.dart' as _i728;
+import '../app/service/bootstrap/configurators/connection.dart' as _i159;
+import '../app/service/bootstrap/configurators/encrypted_storage.dart' as _i569;
+import '../app/service/bootstrap/configurators/features.dart' as _i690;
+import '../app/service/bootstrap/configurators/localization.dart' as _i440;
+import '../app/service/bootstrap/configurators/logger.dart' as _i335;
+import '../app/service/bootstrap/configurators/migrate_storage.dart' as _i962;
+import '../app/service/bootstrap/configurators/nekoton.dart' as _i388;
+import '../app/service/bootstrap/configurators/ntp.dart' as _i231;
+import '../app/service/bootstrap/configurators/storage_services.dart' as _i634;
 import '../app/service/connection/connection_service.dart' as _i754;
+import '../app/service/crash_detector/domain/service/crash_detector_service.dart'
+    as _i47;
 import '../app/service/currencies_service.dart' as _i308;
 import '../app/service/currency_convert_service.dart' as _i27;
 import '../app/service/current_accounts_service.dart' as _i402;
@@ -77,6 +88,7 @@ import '../feature/add_seed/enter_seed_phrase/route.dart' as _i741;
 import '../feature/add_seed/import_wallet/route.dart' as _i176;
 import '../feature/biometry/view/route.dart' as _i434;
 import '../feature/bootstrap_failed/route.dart' as _i501;
+import '../feature/browser_v2/domain/browser_launcher.dart' as _i70;
 import '../feature/browser_v2/domain/delegates/browser_service_auth_delegate.dart'
     as _i931;
 import '../feature/browser_v2/domain/delegates/browser_service_bookmarks_delegate.dart'
@@ -194,6 +206,8 @@ extension GetItInjectableX on _i174.GetIt {
     await _i171.EncryptedStoragePackageModule().init(gh);
     await _i1067.NekotonRepositoryPackageModule().init(gh);
     final dioModule = _$DioModule();
+    gh.factory<_i440.LocalizationConfigurator>(
+        () => _i440.LocalizationConfigurator());
     gh.factory<_i728.VersionComparator>(() => _i728.VersionComparator());
     gh.factory<_i318.BrowserServicePagesControllersDelegate>(
         () => _i318.BrowserServicePagesControllersDelegate());
@@ -208,6 +222,7 @@ extension GetItInjectableX on _i174.GetIt {
       () => _i746.AppLinksService(),
       dispose: (i) => i.dispose(),
     );
+    gh.singleton<_i47.CrashDetectorService>(() => _i47.CrashDetectorService());
     gh.singleton<_i104.ResourcesService>(() => _i104.ResourcesService());
     gh.singleton<_i830.AppLifecycleService>(() => _i830.AppLifecycleService());
     gh.singleton<_i1070.AppPermissionsService>(
@@ -247,10 +262,16 @@ extension GetItInjectableX on _i174.GetIt {
     gh.lazySingleton<_i1030.UpdateVersionStorageService>(() =>
         _i1030.UpdateVersionStorageService(gh<_i792.GetStorage>(
             instanceName: 'update_version_storage_service')));
+    gh.factory<_i335.LoggerConfigurator>(() => _i335.LoggerConfigurator(
+          gh<_i143.AppVersionService>(),
+          gh<_i771.NekotonRepository>(),
+        ));
     gh.singleton<_i82.CompassBaseRoute>(
       () => _i229.NewAccountRoute(),
       instanceName: 'NewAccountRoute',
     );
+    gh.factory<_i569.EncryptedStorageConfigurator>(
+        () => _i569.EncryptedStorageConfigurator(gh<_i426.EncryptedStorage>()));
     gh.singleton<_i275.NavigationService>(
         () => _i275.NavigationService(gh<_i426.EncryptedStorage>()));
     gh.singleton<_i82.CompassBaseRoute>(
@@ -467,11 +488,22 @@ extension GetItInjectableX on _i174.GetIt {
           gh<_i82.CompassBaseRoute>(instanceName: 'NftSendRoute')),
       instanceName: 'NftPrepareTransferRoute',
     );
+    gh.factory<_i962.MigrateConfigurator>(() => _i962.MigrateConfigurator(
+          gh<_i426.EncryptedStorage>(),
+          gh<_i128.PresetsConnectionService>(),
+        ));
     gh.singleton<_i82.CompassBaseRoute>(
       () => _i278.SelectSeedRoute(
           gh<_i82.CompassBaseRoute>(instanceName: 'NewAccountRoute')),
       instanceName: 'SelectSeedRoute',
     );
+    gh.factory<_i388.NekotonConfigurator>(() => _i388.NekotonConfigurator(
+          gh<_i771.NekotonRepository>(),
+          gh<_i128.NekotonStorageService>(),
+          gh<_i128.TonWalletStorageService>(),
+          gh<_i128.TokenWalletStorageService>(),
+          gh<_i128.NtpService>(),
+        ));
     gh.singleton<_i82.CompassBaseRoute>(
       () => _i32.NftItemRoute(
           gh<_i82.CompassBaseRoute>(instanceName: 'NftPrepareTransferRoute')),
@@ -503,6 +535,8 @@ extension GetItInjectableX on _i174.GetIt {
           gh<_i128.SecureStorageService>(),
           gh<_i128.AppLifecycleService>(),
         ));
+    gh.factory<_i231.NtpConfigurator>(
+        () => _i231.NtpConfigurator(gh<_i128.NtpService>()));
     gh.singleton<_i811.StakingService>(() => _i811.StakingService(
           gh<_i771.NekotonRepository>(),
           gh<_i361.Dio>(),
@@ -566,8 +600,6 @@ extension GetItInjectableX on _i174.GetIt {
               gh<_i128.PresetsConnectionService>(),
               gh<_i632.MessengerService>(),
             ));
-    gh.singleton<_i468.BootstrapService>(
-        () => _i468.BootstrapService(gh<_i116.PresetsConnectionService>()));
     gh.singleton<_i82.CompassBaseRoute>(
       () => _i450.StakingRoute(
         gh<_i82.CompassBaseRoute>(instanceName: 'TonWalletSendRoute'),
@@ -591,13 +623,6 @@ extension GetItInjectableX on _i174.GetIt {
           gh<_i128.AppStorageService>(),
           gh<_i128.CurrentAccountsService>(),
         ));
-    gh.singleton<_i82.CompassGuard>(
-      () => _i13.OnboardingGuard(
-        gh<_i468.BootstrapService>(),
-        gh<_i771.NekotonRepository>(),
-      ),
-      instanceName: 'OnboardingGuard',
-    );
     gh.singleton<_i637.BalanceService>(() => _i637.BalanceService(
           gh<_i771.NekotonRepository>(),
           gh<_i128.CurrenciesService>(),
@@ -622,6 +647,8 @@ extension GetItInjectableX on _i174.GetIt {
       ),
       instanceName: 'EnterSeedPhraseRoute',
     );
+    gh.factory<_i728.BiometryConfigurator>(
+        () => _i728.BiometryConfigurator(gh<_i128.BiometryService>()));
     gh.singleton<_i82.CompassBaseRoute>(
       () => _i4.NftRoute(
         gh<_i82.CompassBaseRoute>(instanceName: 'AddNftRoute'),
@@ -635,6 +662,23 @@ extension GetItInjectableX on _i174.GetIt {
           gh<_i128.PresetsConnectionService>(),
           gh<_i361.Dio>(),
         ));
+    gh.factory<_i159.ConnectionConfigurator>(() => _i159.ConnectionConfigurator(
+          gh<_i754.ConnectionService>(),
+          gh<_i771.NekotonRepository>(),
+        ));
+    gh.singleton<_i470.BrowserService>(
+      () => _i470.BrowserService(
+        gh<_i625.TonConnectService>(),
+        gh<_i771.NekotonRepository>(),
+        gh<_i931.BrowserServiceAuthDelegate>(),
+        gh<_i773.BrowserServiceBookmarksDelegate>(),
+        gh<_i181.BrowserServiceFaviconDelegate>(),
+        gh<_i617.BrowserServiceHistoryDelegate>(),
+        gh<_i475.BrowserServicePermissionsDelegate>(),
+        gh<_i77.BrowserServiceTabsDelegate>(),
+      ),
+      dispose: (i) => i.dispose(),
+    );
     gh.singleton<_i725.StorageManagerService>(() => _i725.StorageManagerService(
           gh<_i128.SecureStorageService>(),
           gh<_i128.GeneralStorageService>(),
@@ -667,6 +711,8 @@ extension GetItInjectableX on _i174.GetIt {
       ),
       dispose: (i) => i.dispose(),
     );
+    gh.factory<_i634.StorageConfigurator>(
+        () => _i634.StorageConfigurator(gh<_i128.StorageManagerService>()));
     gh.singleton<_i82.CompassBaseRoute>(
       () => _i643.EnterSeedNameRoute(
         gh<_i82.CompassBaseRoute>(instanceName: 'CreateSeedRoute'),
@@ -700,8 +746,6 @@ extension GetItInjectableX on _i174.GetIt {
       ),
       instanceName: 'WalletRoute',
     );
-    gh.singleton<_i309.CompassRouter>(
-        () => _i309.CompassRouter(gh<_i128.BootstrapService>()));
     gh.singleton<_i82.CompassBaseRoute>(
       () => _i176.ImportWalletRoute(
         gh<_i82.CompassBaseRoute>(instanceName: 'EnterSeedPhraseRoute'),
@@ -710,26 +754,40 @@ extension GetItInjectableX on _i174.GetIt {
       ),
       instanceName: 'ImportWalletRoute',
     );
-    gh.singleton<_i470.BrowserService>(
-      () => _i470.BrowserService(
-        gh<_i850.AppLinksService>(),
-        gh<_i625.TonConnectService>(),
-        gh<_i771.NekotonRepository>(),
-        gh<_i309.CompassRouter>(),
-        gh<_i931.BrowserServiceAuthDelegate>(),
-        gh<_i773.BrowserServiceBookmarksDelegate>(),
-        gh<_i181.BrowserServiceFaviconDelegate>(),
-        gh<_i617.BrowserServiceHistoryDelegate>(),
-        gh<_i475.BrowserServicePermissionsDelegate>(),
-        gh<_i77.BrowserServiceTabsDelegate>(),
-      ),
-      dispose: (i) => i.dispose(),
-    );
+    gh.singleton<_i473.PermissionsService>(() => _i473.PermissionsService(
+          gh<_i470.BrowserService>(),
+          gh<_i771.NekotonRepository>(),
+        ));
+    gh.factory<_i690.FeatureServicesConfigurator>(
+        () => _i690.FeatureServicesConfigurator(
+              gh<_i484.UpdateService>(),
+              gh<_i128.CurrentSeedService>(),
+              gh<_i128.CurrentAccountsService>(),
+              gh<_i128.CurrenciesService>(),
+              gh<_i128.AssetsService>(),
+              gh<_i128.PermissionsService>(),
+              gh<_i811.StakingService>(),
+              gh<_i128.TokenWalletsService>(),
+              gh<_i1071.TonConnectHttpBridge>(),
+              gh<_i188.TokenRepository>(),
+              gh<_i263.NftService>(),
+            ));
     gh.singleton<_i82.CompassBaseRoute>(
       () => _i852.AddExistingWalletRoute(
           gh<_i82.CompassBaseRoute>(instanceName: 'ImportWalletRoute')),
       instanceName: 'AddExistingWalletRoute',
     );
+    gh.singleton<_i468.BootstrapService>(() => _i468.BootstrapService(
+          gh<_i116.PresetsConnectionService>(),
+          gh<_i728.BiometryConfigurator>(),
+          gh<_i159.ConnectionConfigurator>(),
+          gh<_i569.EncryptedStorageConfigurator>(),
+          gh<_i690.FeatureServicesConfigurator>(),
+          gh<_i962.MigrateConfigurator>(),
+          gh<_i634.StorageConfigurator>(),
+          gh<_i388.NekotonConfigurator>(),
+          gh<_i231.NtpConfigurator>(),
+        ));
     gh.singleton<_i299.SessionService>(() => _i299.SessionService(
           gh<_i771.NekotonRepository>(),
           gh<_i725.StorageManagerService>(),
@@ -752,11 +810,20 @@ extension GetItInjectableX on _i174.GetIt {
       ),
       instanceName: 'ChooseNetworkRoute',
     );
-    gh.singleton<_i473.PermissionsService>(() => _i473.PermissionsService(
-          gh<_i470.BrowserService>(),
-          gh<_i771.NekotonRepository>(),
-        ));
+    gh.singleton<_i309.CompassRouter>(
+        () => _i309.CompassRouter(gh<_i468.BootstrapService>()));
     gh.singleton<_i533.RootTabService>(() => _i533.RootTabService(
+          gh<_i309.CompassRouter>(),
+          gh<_i470.BrowserService>(),
+        ));
+    gh.singleton<_i82.CompassGuard>(
+      () => _i13.OnboardingGuard(
+        gh<_i468.BootstrapService>(),
+        gh<_i771.NekotonRepository>(),
+      ),
+      instanceName: 'OnboardingGuard',
+    );
+    gh.factory<_i70.BrowserLauncher>(() => _i70.BrowserLauncher(
           gh<_i309.CompassRouter>(),
           gh<_i470.BrowserService>(),
         ));

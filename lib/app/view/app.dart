@@ -1,5 +1,5 @@
 import 'package:app/app/router/router.dart';
-import 'package:app/app/service/crash_detector/widget/crash_detector_service_widget.dart';
+import 'package:app/app/service/crash_detector/widget/crash_detector_widget.dart';
 import 'package:app/app/service/localization/service/supported_locale_codes.dart';
 import 'package:app/app/service/localization/widget/localization_service_widget.dart';
 import 'package:app/app/view/app_wm.dart';
@@ -28,6 +28,7 @@ class App extends ElementaryWidget<AppWidgetModel> {
         minTextAdapt: true,
         child: _AppContent(
           router: wm.router,
+          checkCrashDetected: wm.checkCrashDetected,
         ),
       ),
     );
@@ -37,9 +38,11 @@ class App extends ElementaryWidget<AppWidgetModel> {
 class _AppContent extends StatelessWidget {
   const _AppContent({
     required this.router,
+    required this.checkCrashDetected,
   });
 
   final CompassRouter router;
+  final Future<bool> Function() checkCrashDetected;
 
   @override
   Widget build(BuildContext context) {
@@ -59,7 +62,8 @@ class _AppContent extends StatelessWidget {
         child: CompassRouterProvider(
           router: router,
           child: InAppNotification(
-            child: CrashDetectorServiceWidget(
+            child: CrashDetectorWidget(
+              checkCrashDetected: checkCrashDetected,
               child: LocalizationServiceWidget(
                 child: child ?? Container(),
               ),

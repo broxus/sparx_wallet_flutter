@@ -3,7 +3,6 @@ import 'package:app/app/service/connection/data/connection_data/connection_data.
 import 'package:app/app/service/connection/data/network_type.dart';
 import 'package:app/core/wm/custom_wm.dart';
 import 'package:app/di/di.dart';
-import 'package:app/feature/browser_v1/browser.dart';
 import 'package:app/feature/network/edit_network/validators.dart';
 import 'package:app/feature/network/network.dart';
 import 'package:app/generated/generated.dart';
@@ -16,6 +15,7 @@ EditNetworkWidgetModel defaultEditNetworkWidgetModelFactory(
 ) =>
     EditNetworkWidgetModel(
       EditNetworkModel(
+        inject(),
         inject(),
         inject(),
       ),
@@ -136,7 +136,7 @@ class EditNetworkWidgetModel
   }
 
   void onTokenListTextLinkTap() =>
-      openBrowserUrl(LocaleKeys.networkTokenListTextLinkUrl.tr());
+      model.openBrowserUrl(LocaleKeys.networkTokenListTextLinkUrl.tr());
 
   Future<void> onDelete() async {
     final result = await showDeleteNetworkConfirmationSheet(

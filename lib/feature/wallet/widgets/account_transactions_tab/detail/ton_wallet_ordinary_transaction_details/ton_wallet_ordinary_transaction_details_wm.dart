@@ -1,7 +1,6 @@
 import 'package:app/core/error_handler_factory.dart';
 import 'package:app/core/wm/custom_wm.dart';
 import 'package:app/di/di.dart';
-import 'package:app/feature/browser_v1/utils.dart';
 import 'package:app/feature/wallet/widgets/account_transactions_tab/detail/details.dart';
 import 'package:app/feature/wallet/widgets/account_transactions_tab/detail/ton_wallet_ordinary_transaction_details/ton_wallet_ordinary_transaction_details.dart';
 import 'package:app/feature/wallet/widgets/account_transactions_tab/detail/ton_wallet_ordinary_transaction_details/ton_wallet_ordinary_transaction_details_model.dart';
@@ -21,6 +20,7 @@ TonWalletOrdinaryTransactionDetailsWidgetModel
   return TonWalletOrdinaryTransactionDetailsWidgetModel(
     TonWalletOrdinaryTransactionDetailsModel(
       createPrimaryErrorHandler(context),
+      inject(),
       inject(),
     ),
     transaction,
@@ -76,8 +76,6 @@ class TonWalletOrdinaryTransactionDetailsWidgetModel extends CustomWidgetModel<
 
   void onPressedSeeInExplorer() {
     Navigator.of(context).pop();
-    openBrowserUrl(
-      model.getTransactionExplorerLink(_transaction.hash),
-    );
+    model.openBrowserUrl(_transaction.hash);
   }
 }
