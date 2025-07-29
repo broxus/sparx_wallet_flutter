@@ -109,6 +109,7 @@ class TokenTransferInfoWidget
                           amount: amount,
                           icon: icon,
                           includeSymbol: false,
+                          useDefaultFormat: false,
                         );
                       },
                     ),
@@ -252,7 +253,7 @@ class TokenTransferInfoWidget
                 ],
               ),
             ),
-          if (comment != null)
+          if (comment != null && comment!.isNotEmpty)
             Padding(
               padding: const EdgeInsets.only(top: DimensSizeV2.d16),
               child: SeparatedColumn(

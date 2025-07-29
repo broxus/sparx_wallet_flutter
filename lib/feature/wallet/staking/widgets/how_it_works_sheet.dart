@@ -1,4 +1,4 @@
-import 'package:app/feature/wallet/staking/models/models.dart';
+import 'package:app/feature/wallet/staking/staking.dart';
 import 'package:app/feature/wallet/widgets/widgets.dart';
 import 'package:app/generated/generated.dart';
 import 'package:flutter/material.dart';
@@ -73,22 +73,23 @@ class StEverHowItWorksSheet extends StatelessWidget {
                           Assets.images.tokenDefaultIcon.path,
                     ),
                     title: LocaleKeys.receiveSteverTitle.tr(
-                      args: [info.tokenWallet.symbol.name],
+                      args: [info.tokenWallet.currency.symbol],
                     ),
                     subtitle: LocaleKeys.receiveSteverSubtitle.tr(
-                      args: [info.tokenWallet.symbol.name],
+                      args: [info.tokenWallet.currency.symbol],
                     ),
                   ),
                   _step(
-                    icon: Assets.images.stever.steverDefi.svg(
+                    icon: Assets.images.stever.coins.svg(
                       width: DimensSizeV2.d40,
                       height: DimensSizeV2.d40,
                     ),
-                    title: LocaleKeys.useSteverTitle.tr(
-                      args: [info.tokenWallet.symbol.name],
-                    ),
-                    subtitle: LocaleKeys.useSteverSubtitle.tr(
-                      args: [info.tokenWallet.symbol.name],
+                    title: LocaleKeys.earnOnPriceIncreasesTitle.tr(),
+                    subtitle: LocaleKeys.earnOnPriceIncreasesSubtitle.tr(
+                      args: [
+                        info.tokenWallet.symbol.name,
+                        info.apy.toStringAsFixed(2),
+                      ],
                     ),
                   ),
                 ],

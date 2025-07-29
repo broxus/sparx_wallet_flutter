@@ -1,6 +1,7 @@
 import 'dart:io';
 
-import 'package:app/feature/browser_v2/data/tabs_data.dart';
+import 'package:app/core/wm/not_null_listenable_state.dart';
+import 'package:app/feature/browser_v2/data/tabs/browser_tab.dart';
 import 'package:app/feature/browser_v2/screens/main/widgets/control_panels/background_blur.dart';
 import 'package:app/feature/browser_v2/screens/main/widgets/control_panels/navigation_panel/navigation_panel.dart';
 import 'package:app/feature/browser_v2/screens/main/widgets/control_panels/toolbar/toolbar.dart';
@@ -14,24 +15,26 @@ class BrowserPageControlPanel extends StatelessWidget {
     required this.menuUrlPanelWidth,
     required this.urlWidth,
     required this.onPressedTabs,
+    required this.onPressedDotsPressed,
     required this.onPressedCurrentUrlMenu,
     required this.onPressedRefresh,
     required this.onEditingCompleteUrl,
-    required this.urlSliderController,
+    required this.urlSliderPageController,
     required this.tabsState,
-    required this.navigationScrollModeState,
+    required this.onPageChanged,
     super.key,
   });
 
   final double menuUrlPanelWidth;
   final double urlWidth;
   final VoidCallback onPressedTabs;
+  final VoidCallback onPressedDotsPressed;
   final ValueChanged<String> onPressedCurrentUrlMenu;
   final ValueChanged<String> onPressedRefresh;
   final DoubleValueCallback<String, String> onEditingCompleteUrl;
-  final ScrollController urlSliderController;
-  final ListenableState<BrowserTabsCollection> tabsState;
-  final ListenableState<NavigationUrlPhysicMode> navigationScrollModeState;
+  final PageController urlSliderPageController;
+  final ListenableState<List<NotNullListenableState<BrowserTab>>?> tabsState;
+  final ValueChanged<int> onPageChanged;
 
   static const minHeight =
       BrowserNavigationPanel.height + Toolbar.height + DimensSizeV2.d8;
@@ -48,16 +51,17 @@ class BrowserPageControlPanel extends StatelessWidget {
             BrowserNavigationPanel(
               panelWidth: menuUrlPanelWidth,
               urlWidth: urlWidth,
-              controller: urlSliderController,
+              urlSliderController: urlSliderPageController,
               tabsState: tabsState,
-              scrollModeState: navigationScrollModeState,
               onPressedCurrentUrlMenu: onPressedCurrentUrlMenu,
               onPressedRefresh: onPressedRefresh,
               onEditingCompleteUrl: onEditingCompleteUrl,
+              onPageChanged: onPageChanged,
             ),
             const _Space(),
             Toolbar(
               onPressedTabs: onPressedTabs,
+              onPressedDotsPressed: onPressedDotsPressed,
             ),
           ],
         ),

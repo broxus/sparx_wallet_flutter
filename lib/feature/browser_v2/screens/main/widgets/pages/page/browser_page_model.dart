@@ -3,18 +3,16 @@ import 'dart:typed_data';
 import 'package:app/app/service/approvals_service.dart';
 import 'package:app/app/service/assets_service.dart';
 import 'package:app/app/service/connection/connection_service.dart';
-import 'package:app/app/service/js_servcie.dart';
 import 'package:app/app/service/permissions_service.dart';
 import 'package:app/app/service/storage_service/connections_storage_service.dart';
-import 'package:app/app/service/ton_connect/ton_connect_js_bridge.dart';
 import 'package:app/feature/browser_v2/custom_web_controller.dart';
 import 'package:app/feature/browser_v2/data/browser_basic_auth_creds.dart';
-import 'package:app/feature/browser_v2/data/browser_tab.dart';
 import 'package:app/feature/browser_v2/domain/service/browser_service.dart';
 import 'package:app/feature/browser_v2/inpage_provider/inpage_provider.dart';
 import 'package:app/feature/browser_v2/screens/main/widgets/pages/page/browser_page.dart';
 import 'package:app/feature/browser_v2/screens/main/widgets/pages/page/helpers/events_helper.dart';
 import 'package:app/feature/messenger/domain/service/messenger_service.dart';
+import 'package:app/feature/ton_connect/ton_connect.dart';
 import 'package:elementary/elementary.dart';
 import 'package:elementary_helper/elementary_helper.dart';
 import 'package:flutter_inappwebview/flutter_inappwebview.dart';
@@ -33,7 +31,6 @@ class BrowserPageModel extends ElementaryModel {
     this._assetsService,
     this._connectionsStorageService,
     this._connectionService,
-    this._jsService,
     this._tonConnectJsBridge,
   ) : super(errorHandler: errorHandler);
 
@@ -47,7 +44,6 @@ class BrowserPageModel extends ElementaryModel {
   final AssetsService _assetsService;
   final ConnectionsStorageService _connectionsStorageService;
   final ConnectionService _connectionService;
-  final JsService _jsService;
   final TonConnectJsBridge _tonConnectJsBridge;
 
   late final _inpageProvider = InpageProvider(
@@ -64,17 +60,16 @@ class BrowserPageModel extends ElementaryModel {
   late final _eventsHelper = EventsHelper(
     _nekotonRepository,
     _permissionsService,
-    _jsService,
     _tabId,
   );
 
-  EntityValueListenable<String?> get nekotonJsState =>
-      _jsService.nekotonJsState;
+  ListenableState<String?> get activeGroupIdState =>
+      _browserService.tab.activeGroupIdState;
 
-  ListenableState<BrowserTab?> get activeTabState =>
-      _browserService.tM.activeTabState;
+  ListenableState<String?> get activeTabIdState =>
+      _browserService.tab.activeTabIdState;
 
-  String? get _activeTabId => _browserService.tM.activeTabId;
+  String? get _activeTabId => activeTabIdState.value;
 
   @override
   void dispose() {
@@ -96,7 +91,7 @@ class BrowserPageModel extends ElementaryModel {
   BrowserBasicAuthCreds? getBasicAuthCreds(
     URLAuthenticationChallenge challenge,
   ) =>
-      _browserService.aM.getBasicAuthCreds(challenge);
+      _browserService.auth.getBasicAuthCreds(challenge);
 
   void updateAuthCreds(
     URLAuthenticationChallenge challenge,
@@ -111,25 +106,25 @@ class BrowserPageModel extends ElementaryModel {
     }
     _inpageProvider.url = uri;
     _tonConnectJsBridge.url = uri;
-    _browserService.tM.updateCachedUrl(_tabId, uri);
+    _browserService.tab.updateCachedUrl(_tabId, uri);
   }
 
   void updateTitle(String title) {
-    _browserService.tM.updateTitle(_tabId, title);
+    _browserService.tab.updateTabTitle(_tabId, title);
   }
 
   void addHistory(Uri? uri) {
     if (uri == null) {
       return;
     }
-    _browserService.hM.createHistoryItem(uri);
+    _browserService.hist.createHistoryItem(uri);
   }
 
   Future<void> createScreenshot({
     required Future<Uint8List?> Function() takePictureCallback,
     bool force = false,
   }) async {
-    return _browserService.tabs.createScreenshot(
+    return _browserService.tab.createScreenshot(
       tabId: _tabId,
       takePictureCallback: takePictureCallback,
     );

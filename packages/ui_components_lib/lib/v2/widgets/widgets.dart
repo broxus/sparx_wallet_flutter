@@ -1,6 +1,7 @@
 export 'amount_widget.dart';
-export 'buttons/button.dart';
+export 'buttons/buttons.dart';
 export 'cards/cards.dart';
+export 'expandable_text.dart';
 export 'modals/primary_bottom_sheet_container.dart';
 export 'progress_indicator_widget.dart';
 export 'segment_control/segment_control.dart';

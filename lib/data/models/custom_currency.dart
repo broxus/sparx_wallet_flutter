@@ -1,4 +1,5 @@
-import 'package:app/app/service/connection/network_type.dart';
+import 'package:app/app/service/connection/data/network_type.dart';
+import 'package:app/app/service/connection/group.dart';
 import 'package:app/utils/common_utils.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:nekoton_repository/nekoton_repository.dart';
@@ -8,7 +9,7 @@ part 'custom_currency.freezed.dart';
 part 'custom_currency.g.dart';
 
 @freezed
-class CustomCurrency with _$CustomCurrency {
+abstract class CustomCurrency with _$CustomCurrency {
   // TODO(nesquikm): refactor to use Currency and Money
   const factory CustomCurrency({
     required Address address,
@@ -16,7 +17,7 @@ class CustomCurrency with _$CustomCurrency {
     /// Price in USD
     required String price,
     required NetworkType networkType,
-    required NetworkType networkGroup,
+    required NetworkGroup networkGroup,
   }) = _CustomCurrency;
 
   factory CustomCurrency.fromJson(Map<String, dynamic> json) =>

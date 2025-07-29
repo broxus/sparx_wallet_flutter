@@ -26,6 +26,8 @@ class ImportWalletScreenModel extends ElementaryModel with ConnectionMixin {
 
   String get networkGroup => nekotonRepository.currentTransport.networkGroup;
 
+  NetworkType get networkType => nekotonRepository.currentTransport.networkType;
+
   void showValidateError(BuildContext context, String message) {
     messengerService.show(
       Message.error(

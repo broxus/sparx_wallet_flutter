@@ -1,10 +1,9 @@
 import 'package:app/app/service/service.dart';
-import 'package:app/feature/browser_v2/data/browser_tab.dart';
+import 'package:app/feature/browser_v2/data/tabs/browser_tab.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:injectable/injectable.dart';
 
 const _browserTabsDomain = 'browser_tabs';
-const _browserTabsKey = 'browser_tabs_key';
 const _browserTabsActiveTabIdKey = 'browser_tabs_active_tab_id_key';
 
 /// This is a wrapper-class above [GetStorage] that provides methods
@@ -16,6 +15,7 @@ class BrowserTabsStorageService extends AbstractStorageService {
   );
 
   static const container = _browserTabsDomain;
+  static const browserTabsKey = 'browser_tabs_key';
 
   final GetStorage _storage;
 
@@ -24,7 +24,7 @@ class BrowserTabsStorageService extends AbstractStorageService {
 
   /// Read list of browser tabs from storage
   List<BrowserTab> getTabs() {
-    final list = _storage.read<List<dynamic>>(_browserTabsKey);
+    final list = _storage.read<List<dynamic>>(browserTabsKey);
     if (list == null) {
       return [];
     }
@@ -43,7 +43,7 @@ class BrowserTabsStorageService extends AbstractStorageService {
   /// Save list of browser tabs to storage
   void saveBrowserTabs(List<BrowserTab> tabs) {
     _storage.write(
-      _browserTabsKey,
+      browserTabsKey,
       tabs.map((e) => e.toJson()).toList(),
     );
   }

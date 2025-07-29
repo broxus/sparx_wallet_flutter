@@ -2,9 +2,11 @@ import 'package:app/app/service/service.dart';
 import 'package:app/di/di.config.dart';
 import 'package:app/feature/browser_v2/domain/service/storages/browser_bookmarks_storage_service.dart';
 import 'package:app/feature/browser_v2/domain/service/storages/browser_favicon_url_storage_service.dart';
+import 'package:app/feature/browser_v2/domain/service/storages/browser_groups_storage_service.dart';
 import 'package:app/feature/browser_v2/domain/service/storages/browser_history_storage_service.dart';
 import 'package:app/feature/browser_v2/domain/service/storages/browser_permissions_storage_service.dart';
 import 'package:app/feature/browser_v2/domain/service/storages/browser_tabs_storage_service.dart';
+import 'package:app/feature/nft/nft.dart';
 import 'package:app/feature/update_version/domain/storage/update_version_storage_service.dart';
 import 'package:encrypted_storage/encrypted_storage.module.dart';
 import 'package:get_it/get_it.dart';
@@ -39,9 +41,11 @@ Future<void> configureDi() async {
     BrowserFaviconURLStorageService.container,
     BrowserHistoryStorageService.container,
     BrowserPermissionsStorageService.container,
+    BrowserGroupsStorageService.container,
     BrowserTabsStorageService.container,
     TonConnectStorageService.container,
     UpdateVersionStorageService.container,
+    ...NftStorageService.containers,
   ];
   for (final container in containers) {
     getIt.registerSingleton(GetStorage(container), instanceName: container);

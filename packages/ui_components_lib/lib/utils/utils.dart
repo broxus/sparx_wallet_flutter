@@ -78,7 +78,9 @@ extension MoneyFormat on Money {
       );
     }
 
-    if (d < 1) {
+    if (d < 0.00000001) {
+      return formatImproved(pattern: _moneyPattern(decimalDigits));
+    } else if (d < 1) {
       return formatImproved(pattern: _moneyPattern(8));
     } else if (d < 1000) {
       return formatImproved(pattern: _moneyPattern(4));
@@ -109,4 +111,17 @@ const currencySymbolConfig = <String, String>{
 
 extension CurrencyExt on Currency {
   String get symbolFixed => currencySymbolConfig[isoCode] ?? symbol;
+}
+
+extension UriExt on Uri {
+  String get universalOrigin {
+    if (scheme == 'http' || scheme == 'https') {
+      return origin;
+    }
+    if (hasAuthority) {
+      return '$scheme://$authority';
+    }
+
+    return '$scheme:';
+  }
 }
