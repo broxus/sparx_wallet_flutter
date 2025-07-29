@@ -4,7 +4,6 @@ import 'package:app/app/router/router.dart';
 import 'package:app/core/error_handler_factory.dart';
 import 'package:app/core/wm/custom_wm.dart';
 import 'package:app/di/di.dart';
-import 'package:app/feature/browser_v1/utils.dart';
 import 'package:app/feature/nft/nft.dart';
 import 'package:elementary_helper/elementary_helper.dart';
 import 'package:flutter/material.dart';
@@ -18,6 +17,7 @@ NftCollectionPageWidgetModel defaultNftCollectionPageWidgetModelFactory(
     NftCollectionPageWidgetModel(
       NftCollectionPageModel(
         createPrimaryErrorHandler(context),
+        inject(),
         inject(),
         inject(),
         inject(),
@@ -105,9 +105,7 @@ class NftCollectionPageWidgetModel
   }
 
   void _onViewInExplorer() {
-    openBrowserUrl(
-      model.getAccountExplorerLink(widget.collection),
-    );
+    model.openExplorerLinkByBrowser(widget.collection);
   }
 
   Future<void> _onHideCollection() async {

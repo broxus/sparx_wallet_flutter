@@ -1,5 +1,8 @@
 import 'package:app/app/service/service.dart';
+import 'package:app/feature/nft/domain/nft_service.dart';
+import 'package:app/feature/ton_connect/domain/ton_connect_http_bridge.dart';
 import 'package:app/feature/update_version/update_version.dart';
+import 'package:app/feature/wallet/staking/domain/staking_service.dart';
 import 'package:app/http/http.dart';
 import 'package:injectable/injectable.dart';
 import 'package:logging/logging.dart';
@@ -17,6 +20,7 @@ class FeatureServicesConfigurator {
     this._tokenWalletsService,
     this._tonConnectHttpBridge,
     this._tokenRepository,
+    this._nftService,
   );
 
   final UpdateService _updateService;
@@ -29,6 +33,7 @@ class FeatureServicesConfigurator {
   final TokenWalletsService _tokenWalletsService;
   final TonConnectHttpBridge _tonConnectHttpBridge;
   final TokenRepository _tokenRepository;
+  final NftService _nftService;
 
   final _log = Logger('bootstrap');
 
@@ -80,5 +85,8 @@ class FeatureServicesConfigurator {
 
     _tokenRepository.init();
     _log.finest('TokenRepository initialized');
+
+    _nftService.init();
+    _log.finest('NftService initialized');
   }
 }

@@ -1,6 +1,6 @@
 import 'package:app/app/router/router.dart';
 import 'package:app/feature/browser_v2/domain/service/browser_service.dart';
-import 'package:app/feature/browser_v2/route.dart';
+import 'package:app/feature/browser_v2/screens/main/route.dart';
 import 'package:flutter_inappwebview/flutter_inappwebview.dart';
 import 'package:injectable/injectable.dart';
 
@@ -25,7 +25,7 @@ class BrowserLauncher {
   void _openBrowserByWebUri(WebUri webUri) {
     _showBrowserIfNeed();
 
-    _browserService.tM.openUrl(webUri);
+    _browserService.tab.openUrl(webUri);
   }
 
   void _showBrowserIfNeed() {
