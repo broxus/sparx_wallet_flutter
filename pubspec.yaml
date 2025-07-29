@@ -14,10 +14,6 @@ dependencies:
   auto_size_text_field: 2.2.4
   barcode_widget: 2.0.4
   bloc: 9.0.0
-  broxus_app_links:
-    git:
-      url: https://github.com/broxus/broxus-flutter-app-link
-      ref: v1.0.0
   cached_network_image: 3.4.1
   cached_network_svg_image: 1.2.0
   carousel_slider: 5.0.0

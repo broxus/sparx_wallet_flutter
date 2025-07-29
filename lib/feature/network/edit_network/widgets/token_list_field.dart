@@ -1,6 +1,7 @@
 import 'package:app/feature/network/edit_network/widgets/widgets.dart';
 import 'package:app/generated/generated.dart';
 import 'package:app/widgets/widgets.dart';
+import 'package:elementary_helper/elementary_helper.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:ui_components_lib/ui_components_lib.dart';
@@ -11,6 +12,8 @@ class TokenListField extends StatelessWidget {
     required this.editable,
     required this.controller,
     required this.validator,
+    required this.errorText,
+    required this.isLoading,
     required this.onTap,
     super.key,
   });
@@ -18,6 +21,8 @@ class TokenListField extends StatelessWidget {
   final bool editable;
   final TextEditingController controller;
   final UrlTextValidator validator;
+  final ListenableState<String> errorText;
+  final ListenableState<bool> isLoading;
   final VoidCallback onTap;
 
   @override
@@ -28,18 +33,31 @@ class TokenListField extends StatelessWidget {
       label: LocaleKeys.networkTokenList.tr(),
       child: SeparatedColumn(
         children: [
-          PrimaryTextField(
-            textEditingController: controller,
-            hintText: LocaleKeys.networkTokenListHint.tr(),
-            isEnabled: editable,
-            validator: validator.validate,
-            suffixes: [
-              ClipboardPasteButton(
-                value: controller,
-                onClear: controller.clear,
-                onPaste: (String text) => controller.text = text,
-              ),
-            ],
+          DoubleSourceBuilder(
+            firstSource: errorText,
+            secondSource: isLoading,
+            builder: (_, errorText, isLoading) {
+              return PrimaryTextField(
+                textEditingController: controller,
+                errorText: errorText,
+                hintText: LocaleKeys.networkTokenListHint.tr(),
+                isEnabled: editable,
+                validator: validator.validate,
+                suffixes: [
+                  if (isLoading ?? false)
+                    const Padding(
+                      padding: EdgeInsets.only(right: DimensSizeV2.d20),
+                      child: ProgressIndicatorWidget(size: DimensSizeV2.d16),
+                    )
+                  else
+                    ClipboardPasteButton(
+                      value: controller,
+                      onClear: controller.clear,
+                      onPaste: (String text) => controller.text = text,
+                    ),
+                ],
+              );
+            },
           ),
           Text.rich(
             TextSpan(

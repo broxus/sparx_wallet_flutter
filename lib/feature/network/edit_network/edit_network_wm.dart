@@ -19,6 +19,7 @@ EditNetworkWidgetModel defaultEditNetworkWidgetModelFactory(
       EditNetworkModel(
         inject(),
         inject(),
+        inject(),
       ),
     );
 
@@ -48,6 +49,9 @@ class EditNetworkWidgetModel
   late final manifestUrlController = createTextEditingController(
     connection?.manifestUrl ?? '',
   );
+
+  late final _manifestLoadingState = createNotifier(false);
+  late final _manifestErrorState = createNotifier<String>();
 
   late final bool isDeleteEnabled = connection != null && isEditable;
   late final bool isSaveEnabled = isEditable;
@@ -94,12 +98,23 @@ class EditNetworkWidgetModel
   NetworkType get selectedNetworkType =>
       selectedNetworkTypeState.value ?? NetworkType.custom;
 
+  ListenableState<bool> get isManifestLoading => _manifestLoadingState;
+
+  ListenableState<String> get manifestError => _manifestErrorState;
+
   List<TextEditingController>? get _endpointsControllers =>
       _endpointsControllersState.value;
 
   ConnectionType? get _connectionType => _connectionTypeState.value;
 
   bool get _isLocal => _isLocalState.value ?? connection != null;
+
+  @override
+  void initWidgetModel() {
+    super.initWidgetModel();
+
+    manifestUrlController.addListener(_validateManifestUrl);
+  }
 
   void onChangedNetworkType(NetworkType value) {
     _selectedNetworkTypeState.accept(value);
@@ -153,6 +168,11 @@ class EditNetworkWidgetModel
 
   Future<void> onSave() async {
     if (!formKey.currentState!.validate()) {
+      return;
+    }
+
+    if (_manifestErrorState.value != null ||
+        (_manifestLoadingState.value ?? false)) {
       return;
     }
 
@@ -258,5 +278,25 @@ class EditNetworkWidgetModel
         ),
       _ => null,
     };
+  }
+
+  Future<void> _validateManifestUrl() async {
+    _manifestErrorState.accept(null);
+
+    final manifestUrl = manifestUrlController.text.trim();
+    if (manifestUrl.isEmpty) return;
+
+    final error = validators.nonOptionalUrlValidator.validate(manifestUrl);
+    if (error != null) return;
+
+    _manifestLoadingState.accept(true);
+
+    try {
+      await model.fetchManifest(manifestUrl);
+    } catch (e) {
+      _manifestErrorState.accept(LocaleKeys.tokenListValidationError.tr());
+    } finally {
+      _manifestLoadingState.accept(false);
+    }
   }
 }

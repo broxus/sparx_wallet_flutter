@@ -80,6 +80,8 @@ class EditNetworkPageWidget extends ElementaryWidget<EditNetworkWidgetModel> {
                           editable: wm.isEditable,
                           controller: wm.manifestUrlController,
                           validator: wm.validators.optionalUrlValidator,
+                          errorText: wm.manifestError,
+                          isLoading: wm.isManifestLoading,
                           onTap: wm.onTokenListTextLinkTap,
                         ),
                       ],
