@@ -54,9 +54,16 @@ class SentryWorker {
           ..ignoreErrors = [
             'AnyhowException(Account not exists)',
             'AnyhowException(Network error)',
-            'Account not exists',
-            'Network error',
-          ];
+          ]
+          ..beforeSend = (event, hint) {
+            final error = event.throwable.toString();
+            if (error == 'AnyhowException(Account not exists)' ||
+                error == 'AnyhowException(Network error)') {
+              return null; // Ignore these errors
+            }
+
+            return event;
+          };
       },
     );
   }
