@@ -1,23 +1,22 @@
 import 'dart:math' show pi;
 
+import 'package:app/core/wm/custom_wm.dart';
 import 'package:app/feature/qr_scanner/qr_scanner.dart';
 import 'package:app/generated/generated.dart';
-import 'package:elementary/elementary.dart';
 import 'package:flutter/material.dart';
 import 'package:lucide_icons_flutter/lucide_icons.dart';
 import 'package:mobile_scanner/mobile_scanner.dart';
 import 'package:ui_components_lib/ui_components_lib.dart';
 import 'package:ui_components_lib/v2/ui_components_lib_v2.dart';
 
-class QrScannerWidget extends ElementaryWidget<QrScannerWidgetModel>
-    with WidgetsBindingObserver {
+class QrScannerWidget extends InjectedElementaryParametrizedWidget<
+    QrScannerWidgetModel, List<QrScanType>> with WidgetsBindingObserver {
   const QrScannerWidget({
-    required this.types,
-    Key? key,
-    WidgetModelFactory wmFactory = defaultQrScannerWidgetModelFactory,
-  }) : super(wmFactory, key: key);
-
-  final List<QrScanType> types;
+    required List<QrScanType> types,
+    super.key,
+  }) : super(
+          wmFactoryParam: types,
+        );
 
   @override
   Widget build(QrScannerWidgetModel wm) {
@@ -27,7 +26,6 @@ class QrScannerWidget extends ElementaryWidget<QrScannerWidgetModel>
       backgroundColor: wm.theme.colors.background0,
       appBar: DefaultAppBar(
         titleText: LocaleKeys.scanQrCode.tr(),
-        onClosePressed: (_) => wm.onResult(),
       ),
       extendBodyBehindAppBar: true,
       body: MobileScanner(

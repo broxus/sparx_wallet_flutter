@@ -11,20 +11,21 @@ class EventsHelper {
   EventsHelper(
     this._nekotonRepository,
     this._permissionsService,
-    this._tabId,
   );
 
   final NekotonRepository _nekotonRepository;
   final PermissionsService _permissionsService;
-  final String _tabId;
 
   final _subs = <StreamSubscription<dynamic>>[];
 
   final _log = Logger('EventsHelper');
 
-  void init(CustomWebViewController controller) {
+  void init({
+    required String tabId,
+    required CustomWebViewController controller,
+  }) {
     _subs.addAll([
-      _nekotonRepository.tabTransactionsStream(_tabId).listen(
+      _nekotonRepository.tabTransactionsStream(tabId).listen(
             (event) => controller.transactionsFound(
               nwv.TransactionsFoundEvent(
                 event.address.address,
@@ -35,7 +36,7 @@ class EventsHelper {
               ),
             ),
           ),
-      _nekotonRepository.tabStateChangesStream(_tabId).listen(
+      _nekotonRepository.tabStateChangesStream(tabId).listen(
             (state) => controller.contractStateChanged(
               nwv.ContractStateChangedEvent(
                 state.address.address,
