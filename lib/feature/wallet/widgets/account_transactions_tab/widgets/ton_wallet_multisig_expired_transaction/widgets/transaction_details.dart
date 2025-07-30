@@ -36,6 +36,7 @@ class TonWalletMultisigExpiredTransactionDetailsPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final theme = context.themeStyleV2;
+    final bottomPadding = MediaQuery.of(context).padding.bottom;
 
     return Scaffold(
       appBar: DefaultAppBar(
@@ -89,6 +90,7 @@ class TonWalletMultisigExpiredTransactionDetailsPage extends StatelessWidget {
               ),
             ),
             const SizedBox(height: DimensSizeV2.d24),
+            SizedBox(height: bottomPadding),
           ],
         ),
       ),

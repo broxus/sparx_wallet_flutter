@@ -4,29 +4,31 @@ import 'package:app/feature/messenger/domain/service/messenger_service.dart';
 import 'package:app/feature/wallet/custodians_settings/custodian_data.dart';
 import 'package:app/generated/generated.dart';
 import 'package:elementary/elementary.dart';
+import 'package:injectable/injectable.dart';
 import 'package:nekoton_repository/nekoton_repository.dart' hide Message;
 
+@injectable
 class CustodiansSettingsModel extends ElementaryModel {
   CustodiansSettingsModel(
     ErrorHandler errorHandler,
     this._storageService,
     this._messengerService,
-    this._custodians,
   ) : super(errorHandler: errorHandler);
 
   final AppStorageService _storageService;
   final MessengerService _messengerService;
-  final List<String> _custodians;
 
   Future<String?> getString(String publicKey) async {
     return _storageService
         .getValue<String>(StorageKey.nameCustodian(publicKey));
   }
 
-  Future<List<CustodianData>> initializeCustodians() async {
+  Future<List<CustodianData>> initializeCustodians(
+    List<String> custodianKeys,
+  ) async {
     final custodians = <CustodianData>[];
 
-    for (final key in _custodians) {
+    for (final key in custodianKeys) {
       final name =
           await getString(key) ?? PublicKey(publicKey: key).toEllipseString();
       custodians.add(

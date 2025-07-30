@@ -1,49 +1,65 @@
 import 'dart:async';
 
-import 'package:app/core/error_handler_factory.dart';
 import 'package:app/core/wm/custom_wm.dart';
-import 'package:app/di/di.dart';
 import 'package:app/feature/browser_v1/approvals_listener/actions/add_network/add_network_model.dart';
 import 'package:app/feature/browser_v1/approvals_listener/actions/add_network/add_network_widget.dart';
 import 'package:app/feature/browser_v1/utils.dart';
 import 'package:app/generated/generated.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:injectable/injectable.dart';
+import 'package:nekoton_webview/nekoton_webview.dart';
 import 'package:ui_components_lib/v2/ui_components_lib_v2.dart';
 
-AddNetworkWidgetModel defaultAddNetworkWidgetModelFactory(
-  BuildContext context,
-) =>
-    AddNetworkWidgetModel(
-      AddNetworkModel(
-        createPrimaryErrorHandler(context),
-        inject(),
-        inject(),
-        inject(),
-        inject(),
-      ),
-    );
+class AddNetworkWmParams {
+  const AddNetworkWmParams({
+    required this.origin,
+    required this.network,
+    required this.switchNetwork,
+  });
 
-class AddNetworkWidgetModel
-    extends CustomWidgetModel<AddNetworkWidget, AddNetworkModel> {
-  AddNetworkWidgetModel(super.model);
+  final Uri origin;
+  final AddNetwork network;
+  final bool switchNetwork;
+}
 
-  late final _loading = createValueNotifier(false);
-  late final _switchNetwork = createValueNotifier(widget.switchNetwork);
+@injectable
+class AddNetworkWidgetModel extends CustomWidgetModelParametrized<
+    AddNetworkWidget, AddNetworkModel, AddNetworkWmParams> {
+  AddNetworkWidgetModel(
+    super.model,
+  );
 
-  ValueListenable<bool> get loading => _loading;
+  late final _loadingState = createValueNotifier(false);
+  late final _switchNetworkState = createWmParamsNotifier(
+    (it) => it.switchNetwork,
+  );
 
-  ValueListenable<bool> get switchNetwork => _switchNetwork;
+  late final _originState = createWmParamsNotifier(
+    (it) => it.origin,
+  );
+
+  late final _networkState = createWmParamsNotifier(
+    (it) => it.network,
+  );
+
+  ValueListenable<Uri> get originState => _originState;
+
+  ValueListenable<AddNetwork> get networkState => _networkState;
+
+  ValueListenable<bool> get loadingState => _loadingState;
+
+  ValueListenable<bool> get switchNetworkState => _switchNetworkState;
 
   ThemeStyleV2 get theme => context.themeStyleV2;
 
   Future<void> onConfirm() async {
-    _loading.value = true;
+    _loadingState.value = true;
     try {
-      final connection = widget.network.getConnection();
+      final connection = _networkState.value.getConnection();
       final network = await model.addConnection(connection);
 
-      if (_switchNetwork.value) {
+      if (_switchNetworkState.value) {
         await model.changeNetwork(connection.id);
       }
 
@@ -59,10 +75,10 @@ class AddNetworkWidgetModel
         model.showError(contextSafe!, e.toString());
       }
     } finally {
-      _loading.value = false;
+      _loadingState.value = false;
     }
   }
 
   // ignore: use_setters_to_change_properties, avoid_positional_boolean_parameters
-  void onSwitchChanged(bool value) => _switchNetwork.value = value;
+  void onSwitchChanged(bool value) => _switchNetworkState.value = value;
 }

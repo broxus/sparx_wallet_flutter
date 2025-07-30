@@ -8,8 +8,10 @@ import 'package:app/feature/ton_connect/ton_connect.dart';
 import 'package:app/utils/utils.dart';
 import 'package:crypto/crypto.dart';
 import 'package:elementary/elementary.dart';
+import 'package:injectable/injectable.dart';
 import 'package:nekoton_repository/nekoton_repository.dart' hide Message;
 
+@injectable
 class TCSignDataModel extends ElementaryModel {
   TCSignDataModel(
     ErrorHandler errorHandler,

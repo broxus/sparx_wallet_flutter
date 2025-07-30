@@ -4,7 +4,9 @@ import 'package:app/app/service/service.dart';
 import 'package:app/feature/ton_connect/ton_connect.dart';
 import 'package:collection/collection.dart';
 import 'package:elementary/elementary.dart';
+import 'package:injectable/injectable.dart';
 
+@injectable
 class TCManageDappsModel extends ElementaryModel {
   TCManageDappsModel(
     ErrorHandler errorHandler,

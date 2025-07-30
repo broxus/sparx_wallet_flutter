@@ -2,41 +2,43 @@
 import 'dart:async';
 
 import 'package:app/app/router/router.dart';
-import 'package:app/core/error_handler_factory.dart';
 import 'package:app/core/wm/custom_wm.dart';
-import 'package:app/di/di.dart';
 import 'package:app/feature/wallet/widgets/wallet_backup/wallet_backup.dart';
 import 'package:app/generated/generated.dart';
 import 'package:elementary_helper/elementary_helper.dart';
-import 'package:flutter/widgets.dart';
+import 'package:flutter/foundation.dart';
+import 'package:injectable/injectable.dart';
 import 'package:local_auth/local_auth.dart';
 import 'package:nekoton_repository/nekoton_repository.dart';
 import 'package:ui_components_lib/v2/ui_components_lib_v2.dart';
 
-ConfirmActionWidgetModel defaultConfirmActionWidgetModelFactory(
-  BuildContext context,
-) {
-  return ConfirmActionWidgetModel(
-    ConfirmActionModel(
-      createPrimaryErrorHandler(context),
-      inject(),
-      inject(),
-      inject(),
-      inject(),
-    ),
-  );
+class ConfirmActionWmParams {
+  const ConfirmActionWmParams({
+    required this.finishedBackupCallback,
+    this.account,
+  });
+
+  final ValueChanged<bool> finishedBackupCallback;
+  final KeyAccount? account;
 }
 
-class ConfirmActionWidgetModel
-    extends CustomWidgetModel<ContentConfirmAction, ConfirmActionModel> {
-  ConfirmActionWidgetModel(super.model);
+@injectable
+class ConfirmActionWidgetModel extends CustomWidgetModelParametrized<
+    ContentConfirmAction, ConfirmActionModel, ConfirmActionWmParams> {
+  ConfirmActionWidgetModel(
+    super.model,
+  );
 
   ThemeStyleV2 get themeStyle => context.themeStyleV2;
 
-  ListenableState<List<BiometricType>> get availableBiometry =>
-      _availableBiometry;
+  ListenableState<List<BiometricType>> get availableBiometryState =>
+      _availableBiometryState;
 
-  late final _availableBiometry = createNotifier<List<BiometricType>>();
+  late final ValueListenable<KeyAccount?> accountState = createWmParamsNotifier(
+    (it) => it.account,
+  );
+
+  late final _availableBiometryState = createNotifier<List<BiometricType>>();
 
   late final screenState = createEntityNotifier<ConfirmActionData>()
     ..loading(ConfirmActionData());
@@ -45,9 +47,9 @@ class ConfirmActionWidgetModel
 
   @override
   void initWidgetModel() {
+    super.initWidgetModel();
     passwordController.addListener(_resetError);
     _getAvailableBiometry();
-    super.initWidgetModel();
   }
 
   void onClickConfirm() {
@@ -73,7 +75,7 @@ class ConfirmActionWidgetModel
     final publicKey = model.currentSeed?.publicKey;
     if (publicKey != null) {
       final available = await model.getAvailableBiometry(publicKey);
-      _availableBiometry.accept(available);
+      _availableBiometryState.accept(available);
     }
   }
 
@@ -88,11 +90,12 @@ class ConfirmActionWidgetModel
         final phrase = await seed.export(password);
 
         context.compassBack();
+        final params = wmParams.value;
         await showManualBackupDialog(
           context,
           phrase,
-          widget.account?.address.address ?? '',
-          widget.finishedBackupCallback,
+          params.account?.address.address ?? '',
+          params.finishedBackupCallback,
         );
       } catch (_) {
         screenState

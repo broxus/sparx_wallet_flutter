@@ -1,7 +1,7 @@
+import 'package:app/core/wm/custom_wm.dart';
 import 'package:app/feature/nft/nft.dart';
 import 'package:app/generated/generated.dart';
 import 'package:app/utils/utils.dart';
-import 'package:elementary/elementary.dart';
 import 'package:elementary_helper/elementary_helper.dart';
 import 'package:flutter/material.dart';
 import 'package:lucide_icons_flutter/lucide_icons.dart';
@@ -9,16 +9,18 @@ import 'package:nekoton_repository/nekoton_repository.dart';
 import 'package:ui_components_lib/ui_components_lib.dart';
 import 'package:ui_components_lib/v2/ui_components_lib_v2.dart';
 
-class NftItemPageWidget extends ElementaryWidget<NftItemPageWidgetModel> {
-  const NftItemPageWidget({
-    required this.address,
-    required this.collection,
-    Key? key,
-    WidgetModelFactory wmFactory = defaultNftItemPageWidgetModelFactory,
-  }) : super(wmFactory, key: key);
-
-  final Address address;
-  final Address collection;
+class NftItemPageWidget extends InjectedElementaryParametrizedWidget<
+    NftItemPageWidgetModel, NftItemWmParams> {
+  NftItemPageWidget({
+    required Address address,
+    required Address collection,
+    super.key,
+  }) : super(
+          wmFactoryParam: NftItemWmParams(
+            address: address,
+            collection: collection,
+          ),
+        );
 
   @override
   Widget build(NftItemPageWidgetModel wm) {
