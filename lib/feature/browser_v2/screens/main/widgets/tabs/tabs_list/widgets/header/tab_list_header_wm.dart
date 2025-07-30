@@ -1,6 +1,4 @@
-import 'package:app/core/error_handler_factory.dart';
 import 'package:app/core/wm/custom_wm.dart';
-import 'package:app/di/di.dart';
 import 'package:app/feature/browser_v2/screens/main/widgets/tabs/tabs_list/widgets/header/physic.dart';
 import 'package:app/feature/browser_v2/screens/main/widgets/tabs/tabs_list/widgets/header/tab_list_header.dart';
 import 'package:app/feature/browser_v2/screens/main/widgets/tabs/tabs_list/widgets/header/tab_list_header_model.dart';
@@ -9,30 +7,17 @@ import 'package:app/feature/browser_v2/widgets/bottomsheets/book/browser_book.da
 import 'package:elementary/elementary.dart';
 import 'package:elementary_helper/elementary_helper.dart';
 import 'package:flutter/widgets.dart';
+import 'package:injectable/injectable.dart';
 
-/// Factory method for creating [TabListHeaderWidgetModel]
-TabListHeaderWidgetModel defaultTabListHeaderWidgetModelFactory(
-  BuildContext context, {
-  required ListenableState<String?> selectedGroupIdState,
-}) {
-  return TabListHeaderWidgetModel(
-    TabListHeaderModel(
-      createPrimaryErrorHandler(context),
-      inject(),
-    ),
-    selectedGroupIdState,
-  );
-}
-
-/// [WidgetModel] для [TabListHeader]
-class TabListHeaderWidgetModel
-    extends CustomWidgetModel<TabListHeader, TabListHeaderModel> {
+////// [WidgetModel] для [TabListHeader]
+@injectable
+class TabListHeaderWidgetModel extends CustomWidgetModelParametrized<
+    TabListHeader, TabListHeaderModel, ListenableState<String?>> {
   TabListHeaderWidgetModel(
     super.model,
-    this.selectedGroupIdState,
   );
 
-  final ListenableState<String?> selectedGroupIdState;
+  ListenableState<String?> get selectedGroupIdState => wmParams.value;
 
   final _bookmarksUiModel = TabListHeaderBookmarksUiModel();
   final _newGroupUiModel = TabListHeaderNewGroupUiModel();
@@ -47,10 +32,10 @@ class TabListHeaderWidgetModel
 
   @override
   void initWidgetModel() {
+    super.initWidgetModel();
     model.groupsIdsState.addListener(_handleGroupsIds);
     selectedGroupIdState.addListener(_handleSelectedId);
     WidgetsBinding.instance.addPostFrameCallback((_) => _scrollToGroup());
-    super.initWidgetModel();
   }
 
   @override

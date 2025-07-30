@@ -3,9 +3,7 @@
 import 'dart:async';
 
 import 'package:app/app/router/router.dart';
-import 'package:app/core/error_handler_factory.dart';
 import 'package:app/core/wm/custom_wm.dart';
-import 'package:app/di/di.dart';
 import 'package:app/feature/nft/nft.dart';
 import 'package:app/feature/qr_scanner/qr_scanner.dart';
 import 'package:app/generated/generated.dart';
@@ -14,28 +12,15 @@ import 'package:elementary/elementary.dart';
 import 'package:elementary_helper/elementary_helper.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
+import 'package:injectable/injectable.dart';
 import 'package:nekoton_repository/nekoton_repository.dart';
 import 'package:ui_components_lib/ui_components_lib.dart';
 
-NftPrepareTransferWidgetModel defaultNftPrepareTransferWidgetModelFactory(
-  BuildContext context,
-) {
-  return NftPrepareTransferWidgetModel(
-    NftPrepareTransferModel(
-      createPrimaryErrorHandler(context),
-      inject(),
-      inject(),
-      inject(),
-    ),
-  );
-}
-
 /// [WidgetModel] для [NftPrepareTransfer]
-class NftPrepareTransferWidgetModel
-    extends CustomWidgetModel<NftPrepareTransfer, NftPrepareTransferModel> {
-  NftPrepareTransferWidgetModel(
-    super.model,
-  );
+@injectable
+class NftPrepareTransferWidgetModel extends CustomWidgetModelParametrized<
+    NftPrepareTransfer, NftPrepareTransferModel, NftPrepareTransferRouteData> {
+  NftPrepareTransferWidgetModel(super.model);
 
   late final _dataState = createEntityNotifier<NftPrepareTransferData>()
     ..loading();
@@ -49,16 +34,16 @@ class NftPrepareTransferWidgetModel
   );
 
   late final receiverController =
-      createTextEditingController(routeData.value?.destination?.address);
+      createTextEditingController(wmParams.value.destination?.address);
   late final receiverFocus = createFocusNode();
 
   late final amountController = createTextEditingController();
   late final amountFocus = createFocusNode();
 
-  late final routeData = createWidgetProperty((w) => w.routeData);
-
   ValueNotifier<EntityState<NftPrepareTransferData>> get dataState =>
       _dataState;
+
+  bool get tokenFlag => wmParams.value.tokenFlag;
 
   ThemeStyleV2 get theme => context.themeStyleV2;
 
@@ -110,7 +95,7 @@ class NftPrepareTransferWidgetModel
     }
 
     final amount = BigInt.tryParse(amountController.text.trim());
-    if ((routeData.value?.tokenFlag ?? false) && amount == null) {
+    if (wmParams.value.tokenFlag && amount == null) {
       model.showError(LocaleKeys.amountIsWrong.tr());
       return;
     }
@@ -158,9 +143,9 @@ class NftPrepareTransferWidgetModel
     }
   }
 
-  void onSubmittedReceiverAddress(_) => (routeData.value?.tokenFlag ?? false)
-      ? amountFocus.requestFocus()
-      : onSubmit();
+  void onSubmittedReceiverAddress(_) {
+    wmParams.value.tokenFlag ? amountFocus.requestFocus() : onSubmit();
+  }
 
   void onMaxBalance() {
     amountController.text =
@@ -168,15 +153,14 @@ class NftPrepareTransferWidgetModel
   }
 
   Future<void> _init() async {
-    final routeData = this.routeData.value;
-
-    if (routeData == null) return;
-
-    final account = model.findAccountByAddress(routeData.owner);
+    final account = model.findAccountByAddress(wmParams.value.owner);
     final (nftItem, nftCollection, localCustodians) = await FutureExt.wait3(
-      model.getNftItem(address: routeData.address, owner: routeData.owner),
-      model.getCollection(routeData.collection),
-      model.getLocalCustodiansAsync(routeData.owner),
+      model.getNftItem(
+        address: wmParams.value.address,
+        owner: wmParams.value.owner,
+      ),
+      model.getCollection(wmParams.value.collection),
+      model.getLocalCustodiansAsync(wmParams.value.owner),
     );
 
     if (account == null || nftItem == null || nftCollection == null) {

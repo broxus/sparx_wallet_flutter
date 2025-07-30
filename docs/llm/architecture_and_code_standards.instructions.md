@@ -32,18 +32,124 @@ For each feature screen, create exactly these 3 files:
 
 ### Implementation Rules
 
-- **Widget**: Pure UI, no business logic, extends `ElementaryWidget<WidgetModel>`
-- **Model**: Data handling, state management, extends `ElementaryModel`
-- **WidgetModel**: Business logic, user interactions, extends `WidgetModel<Widget, Model>`
+- **Widget**: Pure UI, no business logic
+- **Model**: Data handling, state management, extends `ElementaryModel`, MUST be `@injectable`
+- **WidgetModel**: Business logic, user interactions, MUST be `@injectable`
 
-### CustomWidgetModel Base Class
+### Base Class Patterns
 
-All WidgetModels MUST extend `CustomWidgetModel` which provides:
+The project uses two patterns for Elementary MVVM implementation:
+
+#### 1. Non-Parametrized Pattern (CustomWidgetModel + InjectedElementaryWidget)
+
+Use when widgets don't need parameters from parent widgets:
+
+```dart
+// Widget - extends InjectedElementaryWidget
+class SplashScreen extends InjectedElementaryWidget<SplashScreenWidgetModel> {
+  const SplashScreen({super.key});
+
+  @override
+  Widget build(SplashScreenWidgetModel wm) {
+    // UI implementation
+  }
+}
+
+// WidgetModel - extends CustomWidgetModel
+@injectable
+class SplashScreenWidgetModel extends CustomWidgetModel<SplashScreen, SplashScreenModel> {
+  SplashScreenWidgetModel(super.model);
+  // Business logic implementation
+}
+
+// Model - extends ElementaryModel
+@injectable
+class SplashScreenModel extends ElementaryModel {
+  SplashScreenModel(
+    ErrorHandler errorHandler,
+    this._service,
+  ) : super(errorHandler: errorHandler);
+  
+  final YourService _service;
+}
+```
+
+#### 2. Parametrized Pattern (CustomWidgetModelParametrized + InjectedElementaryParametrizedWidget)
+
+Use when widgets need parameters from parent widgets:
+
+```dart
+// Widget - extends InjectedElementaryParametrizedWidget
+class AccountCard extends InjectedElementaryParametrizedWidget<
+    AccountCardWidgetModel, KeyAccount> {
+  const AccountCard({
+    required KeyAccount account,
+    super.key,
+  }) : super(wmFactoryParam: account);
+
+  @override
+  Widget build(AccountCardWidgetModel wm) {
+    // UI implementation
+  }
+}
+
+// WidgetModel - extends CustomWidgetModelParametrized
+@injectable
+class AccountCardWidgetModel extends CustomWidgetModelParametrized<
+    AccountCard, AccountCardModel, KeyAccount> {
+  AccountCardWidgetModel(super.model);
+  
+  // Access parameter via reactive notifier
+  late final ValueListenable<String> accountName =
+      createWmParamsNotifier((account) => account.name);
+  
+  // Or access current value directly
+  KeyAccount get currentAccount => wmParams.value;
+}
+
+// For multiple parameters, create a params class
+class MyWidgetParams {
+  final String title;
+  final VoidCallback onTap;
+  const MyWidgetParams({required this.title, required this.onTap});
+}
+
+// Widget with multiple parameters
+class MyWidget extends InjectedElementaryParametrizedWidget<
+    MyWidgetModel, MyWidgetParams> {
+  MyWidget({
+    required String title,
+    required VoidCallback onTap,
+    super.key,
+  }) : super(wmFactoryParam: MyWidgetParams(title: title, onTap: onTap));
+}
+```
+
+### CustomWidgetModel Features
+
+Both base WidgetModel classes provide:
 
 - Error handling through `PrimaryErrorHandler`
 - Loading state management
 - Navigation helpers
-- Common mixins
+- Common mixins (`NotifierSubscriptionsMixin`, `ContextWmMixin`)
+- Automatic dependency injection via GetIt
+
+### When to Use Each Pattern
+
+**Use Non-Parametrized Pattern when:**
+
+- Widget is self-contained
+- All data comes from injected services
+- No configuration from parent is needed
+- Examples: App root widget, feature entry points, modal sheets
+
+**Use Parametrized Pattern when:**
+
+- Widget needs data from parent
+- Widget behavior changes based on parameters
+- Widget is reusable with different configurations
+- Examples: List items, reusable components, widgets displaying entity details
 
 ## Dependency Injection
 
@@ -54,25 +160,6 @@ All WidgetModels MUST extend `CustomWidgetModel` which provides:
 @injectable
 class YourService {
   // Implementation
-}
-```
-
-### Service Access in WidgetModels
-
-Services should injected into Model through constructor not in WidgetModel. Widget model will call model methods.
-
-WidgetModel should provide factory method (static method under class) for creating instance, that creating Model by dependencies from injectable and WidgetModel.
-
-```dart
-WalletPageWidgetModel defaultWalletPageWidgetModelFactory(
-  BuildContext context,
-) {
-    return WalletPageWidgetModel(
-      WalletPageModel(
-        createPrimaryErrorHandler(context),
-        inject(),
-      ),
-    );
 }
 ```
 
@@ -309,4 +396,3 @@ void main() {
 - Implement proper boundaries between modules
 - Use dependency injection for inter-module communication
 - Design for modularity and reusability
-
