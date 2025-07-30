@@ -100,6 +100,8 @@ class TonWalletMultisigOrdinaryTransactionDetailsScreenWidgetModel
 
   ThemeStyleV2 get _theme => context.themeStyleV2;
 
+  double get bottomPadding => MediaQuery.of(context).padding.bottom;
+
   void onPressedSeeInExplorer() {
     Navigator.of(context).pop();
     openBrowserUrl(

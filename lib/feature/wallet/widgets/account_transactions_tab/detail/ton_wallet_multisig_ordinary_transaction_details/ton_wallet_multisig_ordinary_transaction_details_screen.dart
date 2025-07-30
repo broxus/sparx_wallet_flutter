@@ -131,7 +131,7 @@ class TonWalletMultisigOrdinaryTransactionDetailsScreen
                 buttonShape: ButtonShape.pill,
               ),
             ),
-            const SizedBox(height: DimensSizeV2.d24),
+            SizedBox(height: wm.bottomPadding),
           ],
         ),
       ),
