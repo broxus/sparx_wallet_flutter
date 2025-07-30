@@ -1,25 +1,18 @@
+import 'package:app/core/wm/custom_wm.dart';
 import 'package:app/feature/wallet/custodians_settings/custodian_data.dart';
 import 'package:app/feature/wallet/custodians_settings/custodians_settings_view_model.dart';
 import 'package:app/generated/generated.dart';
-import 'package:elementary/elementary.dart';
 import 'package:elementary_helper/elementary_helper.dart';
 import 'package:flutter/material.dart';
 import 'package:lucide_icons_flutter/lucide_icons.dart';
 import 'package:ui_components_lib/ui_components_lib.dart';
 
-class CustodiansSettingsView
-    extends ElementaryWidget<CustodianSettingsWidgetModel> {
-  CustodiansSettingsView({
+class CustodiansSettingsView extends InjectedElementaryParametrizedWidget<
+    CustodianSettingsWidgetModel, List<String>> {
+  const CustodiansSettingsView({
     required List<String> custodians,
     super.key,
-    WidgetModelFactory? wmFactory,
-  }) : super(
-          wmFactory ??
-              (context) => defaultCustodianSettingsWidgetModelFactory(
-                    context,
-                    custodians: custodians,
-                  ),
-        );
+  }) : super(wmFactoryParam: custodians);
 
   @override
   Widget build(CustodianSettingsWidgetModel wm) {

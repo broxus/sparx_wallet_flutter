@@ -3,35 +3,26 @@
 import 'dart:async';
 
 import 'package:app/app/router/router.dart';
-import 'package:app/core/error_handler_factory.dart';
 import 'package:app/core/wm/custom_wm.dart';
-import 'package:app/di/di.dart';
 import 'package:app/feature/wallet/wallet_deploy/view/deploy_wallet_confirm_modal.dart';
 import 'package:app/feature/wallet/wallet_deploy/view/deploy_wallet_confirm_model.dart';
 import 'package:app/generated/generated.dart';
 import 'package:elementary_helper/elementary_helper.dart';
-import 'package:flutter/widgets.dart';
+import 'package:injectable/injectable.dart';
 import 'package:local_auth/local_auth.dart';
 import 'package:nekoton_repository/nekoton_repository.dart';
 import 'package:ui_components_lib/v2/ui_components_lib_v2.dart';
 
-DeployWalletConfirmWidgetModel defaultDeployWalletConfirmWidgetModelFactory(
-  BuildContext context,
-) {
-  return DeployWalletConfirmWidgetModel(
-    DeployWalletConfirmModel(
-      createPrimaryErrorHandler(context),
-      inject(),
-      inject(),
-      inject(),
-      inject(),
-    ),
-  );
-}
+typedef PasswordChangeCallback = Function(String);
 
-class DeployWalletConfirmWidgetModel extends CustomWidgetModel<
-    DeployWalletConfirmModal, DeployWalletConfirmModel> {
-  DeployWalletConfirmWidgetModel(super.model);
+@injectable
+class DeployWalletConfirmWidgetModel extends CustomWidgetModelParametrized<
+    DeployWalletConfirmModal,
+    DeployWalletConfirmModel,
+    PasswordChangeCallback> {
+  DeployWalletConfirmWidgetModel(
+    super.model,
+  );
 
   ThemeStyleV2 get themeStyle => context.themeStyleV2;
 
@@ -46,8 +37,8 @@ class DeployWalletConfirmWidgetModel extends CustomWidgetModel<
 
   @override
   void initWidgetModel() {
-    _getAvailableBiometry();
     super.initWidgetModel();
+    _getAvailableBiometry();
   }
 
   void onClickConfirm() {
@@ -82,7 +73,7 @@ class DeployWalletConfirmWidgetModel extends CustomWidgetModel<
       try {
         await seed.export(password);
         context.compassBack();
-        widget.passwordCallback(password);
+        wmParams.value(password);
       } catch (_) {
         model.showValidateError(LocaleKeys.passwordIsWrong.tr());
       }

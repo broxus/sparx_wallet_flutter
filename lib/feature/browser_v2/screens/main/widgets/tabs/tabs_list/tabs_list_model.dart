@@ -3,8 +3,10 @@ import 'package:app/feature/browser_v2/data/tabs/browser_tab.dart';
 import 'package:app/feature/browser_v2/domain/service/browser_service.dart';
 import 'package:app/feature/browser_v2/screens/main/widgets/tabs/tabs_list/tabs_list.dart';
 import 'package:elementary/elementary.dart';
+import 'package:injectable/injectable.dart';
 
 /// [ElementaryModel] for [BrowserTabsList]
+@injectable
 class BrowserTabsListModel extends ElementaryModel {
   BrowserTabsListModel(
     ErrorHandler errorHandler,

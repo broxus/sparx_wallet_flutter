@@ -1,7 +1,7 @@
+import 'package:app/core/wm/custom_wm.dart';
 import 'package:app/feature/wallet/wallet.dart';
 import 'package:app/feature/wallet/widgets/account_card/account_card_wm.dart';
 import 'package:app/utils/utils.dart';
-import 'package:elementary/elementary.dart';
 import 'package:elementary_helper/elementary_helper.dart';
 import 'package:flutter/material.dart';
 import 'package:lucide_icons_flutter/lucide_icons.dart';
@@ -10,31 +10,36 @@ import 'package:ui_components_lib/ui_components_lib.dart';
 import 'package:ui_components_lib/v2/ui_components_lib_v2.dart';
 
 /// Card widget that displays information about account.
-class AccountCard extends ElementaryWidget<AccountCardWidgetModel> {
+class AccountCard extends InjectedElementaryParametrizedWidget<
+    AccountCardWidgetModel, KeyAccount> {
   const AccountCard({
-    required this.account,
-    Key? key,
-    WidgetModelFactory wmFactory = defaultAccountCardWidgetModelFactory,
-  }) : super(wmFactory, key: key);
-
-  final KeyAccount account;
+    required KeyAccount account,
+    super.key,
+  }) : super(wmFactoryParam: account);
 
   @override
   Widget build(AccountCardWidgetModel wm) {
-    return DoubleSourceBuilder(
-      firstSource: wm.error,
-      secondSource: wm.isLoading,
-      builder: (_, error, isLoading) {
+    return MultiListenerRebuilder(
+      listenableList: [
+        wm.error,
+        wm.isLoading,
+        wm.currentAccountState,
+      ],
+      builder: (_) {
+        final error = wm.error.value;
+        final isLoading = wm.isLoading.value;
+        final currentAccount = wm.currentAccountState.value;
+
         if (error != null) {
           return WalletSubscribeErrorWidget(
             error: error,
-            isLoadingError: isLoading ?? false,
+            isLoadingError: isLoading,
             onRetryPressed: wm.retry,
           );
         }
 
         return _AccountCard(
-          account: account,
+          account: currentAccount,
           balance: wm.balance,
           onCopy: wm.onCopy,
         );

@@ -1,16 +1,15 @@
+import 'package:app/core/wm/custom_wm.dart';
 import 'package:app/feature/splash/splash_screen_wm.dart';
 import 'package:app/generated/generated.dart';
-import 'package:elementary/elementary.dart';
 import 'package:flutter/material.dart';
 
 // Color does not depend on the theme
 const _splashColor = Color(0xFF11142B);
 
-class SplashScreen extends ElementaryWidget<SplashScreenWidgetModel> {
+class SplashScreen extends InjectedElementaryWidget<SplashScreenWidgetModel> {
   const SplashScreen({
-    Key? key,
-    WidgetModelFactory wmFactory = defaultSplashScreenWidgetModelFactory,
-  }) : super(wmFactory, key: key);
+    super.key,
+  });
 
   @override
   Widget build(SplashScreenWidgetModel wm) {

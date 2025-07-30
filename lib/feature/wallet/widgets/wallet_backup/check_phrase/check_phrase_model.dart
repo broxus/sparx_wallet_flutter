@@ -4,9 +4,11 @@ import 'package:app/feature/messenger/domain/service/messenger_service.dart';
 import 'package:app/utils/utils.dart';
 import 'package:collection/collection.dart';
 import 'package:elementary/elementary.dart';
+import 'package:injectable/injectable.dart';
 import 'package:nekoton_repository/nekoton_repository.dart' hide Message;
 import 'package:ui_components_lib/constants.dart';
 
+@injectable
 class CheckPhraseModel extends ElementaryModel {
   CheckPhraseModel(
     ErrorHandler errorHandler,
