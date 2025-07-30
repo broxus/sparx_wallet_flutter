@@ -1,7 +1,7 @@
+import 'package:app/core/wm/custom_wm.dart';
 import 'package:app/feature/profile/key_detail/widgets/add_new_external_account_sheet/add_new_external_account_sheet_wm.dart';
 import 'package:app/generated/generated.dart';
 import 'package:app/widgets/widgets.dart';
-import 'package:elementary/elementary.dart';
 import 'package:flutter/material.dart';
 import 'package:nekoton_repository/nekoton_repository.dart';
 import 'package:ui_components_lib/ui_components_lib.dart';
@@ -24,17 +24,16 @@ Future<void> showAddNewExternalAccountSheet({
     );
 
 /// Sheet that allows to add new external account.
-class AddNewExternalAccountSheet
-    extends ElementaryWidget<AddNewExternalAccountSheetWidgetModel> {
+class AddNewExternalAccountSheet extends InjectedElementaryParametrizedWidget<
+    AddNewExternalAccountSheetWidgetModel, PublicKey> {
   const AddNewExternalAccountSheet({
-    required this.publicKey,
+    required PublicKey publicKey,
     required this.controller,
-    Key? key,
-    WidgetModelFactory wmFactory =
-        defaultAddNewExternalAccountSheetWidgetModelFactory,
-  }) : super(wmFactory, key: key);
+    super.key,
+  }) : super(
+          wmFactoryParam: publicKey,
+        );
 
-  final PublicKey publicKey;
   final ScrollController controller;
 
   @override

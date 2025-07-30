@@ -1,3 +1,4 @@
+import 'package:app/app/router/compass/bottom_bar_state.dart';
 import 'package:app/app/router/compass/route.dart';
 import 'package:flutter/widgets.dart';
 import 'package:go_router/go_router.dart';
@@ -17,7 +18,7 @@ abstract class CompassBaseGoRoute<T extends CompassRouteData>
     this.isInitial = false,
     this.isSaveLocation = false,
     this.isSaveSubroutes = false,
-    this.isBottomNavigationBarVisible = false,
+    this.bottomBarState = BottomBarState.collapsed,
     super.isTopLevel,
     this.routes = const <RouteBase>[],
     this.redirect,
@@ -80,11 +81,13 @@ abstract class CompassBaseGoRoute<T extends CompassRouteData>
   /// This is used to preserve nested navigation state.
   final bool isSaveSubroutes;
 
-  /// Whether to show the bottom navigation bar on this route.
+  /// Controls the bottom navigation bar state for this route.
   ///
-  /// Defaults to false. Set to true for routes that should display
-  /// the bottom navigation bar.
-  final bool isBottomNavigationBarVisible;
+  /// Defaults to [BottomBarState.collapsed]. Can be set to:
+  /// - [BottomBarState.expanded] to show the bottom bar
+  /// - [BottomBarState.collapsed] to show the bottom bar but collapsed
+  /// - [BottomBarState.hidden] to completely hide the bottom bar
+  final BottomBarState bottomBarState;
 
   /// Converts route data to a URI location.
   ///

@@ -1,6 +1,8 @@
 import 'package:elementary/elementary.dart';
+import 'package:injectable/injectable.dart';
 import 'package:nekoton_repository/nekoton_repository.dart';
 
+@injectable
 class AccountInfoModel extends ElementaryModel {
   AccountInfoModel(
     ErrorHandler errorHandler,

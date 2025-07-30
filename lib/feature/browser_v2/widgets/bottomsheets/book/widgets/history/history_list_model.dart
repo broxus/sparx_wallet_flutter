@@ -4,8 +4,10 @@ import 'package:app/feature/browser_v2/data/history_type.dart';
 import 'package:app/feature/browser_v2/domain/service/browser_service.dart';
 import 'package:app/feature/browser_v2/widgets/bottomsheets/book/widgets/history/history_list.dart';
 import 'package:elementary/elementary.dart';
+import 'package:injectable/injectable.dart';
 
 /// [ElementaryModel] for [HistoryList]
+@injectable
 class HistoryListModel extends ElementaryModel {
   HistoryListModel(
     ErrorHandler errorHandler,

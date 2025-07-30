@@ -8,14 +8,14 @@ import 'package:ui_components_lib/ui_components_lib.dart';
 class BrowserGroupHeaderItem extends StatelessWidget {
   const BrowserGroupHeaderItem({
     required this.width,
-    required this.listenable,
+    required this.browserGroup,
     required this.selectedGroupIdListenable,
     required this.onPressed,
     super.key,
   });
 
   final double width;
-  final NotNullListenableState<BrowserGroup> listenable;
+  final NotNullListenableState<BrowserGroup> browserGroup;
   final ListenableState<String?> selectedGroupIdListenable;
   final VoidCallback onPressed;
 
@@ -37,7 +37,7 @@ class BrowserGroupHeaderItem extends StatelessWidget {
           children: [
             Flexible(
               child: DoubleSourceBuilder<BrowserGroup?, String?>(
-                firstSource: listenable,
+                firstSource: browserGroup,
                 secondSource: selectedGroupIdListenable,
                 builder: (_, BrowserGroup? group, String? selectedId) {
                   return Text(
@@ -53,7 +53,7 @@ class BrowserGroupHeaderItem extends StatelessWidget {
               ),
             ),
             StateNotifierBuilder(
-              listenableState: listenable,
+              listenableState: browserGroup,
               builder: (_, BrowserGroup? group) {
                 if (group == null) {
                   return const SizedBox.shrink();

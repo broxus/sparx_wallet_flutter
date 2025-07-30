@@ -1,3 +1,4 @@
+import 'package:app/core/wm/custom_wm.dart';
 import 'package:app/feature/choose_network/choose_network_screen_const.dart';
 import 'package:app/feature/choose_network/choose_network_screen_wm.dart';
 import 'package:app/feature/choose_network/data/choose_network_item_data.dart';
@@ -6,7 +7,6 @@ import 'package:app/feature/choose_network/widgets/choose_network_item.dart';
 import 'package:app/generated/generated.dart';
 import 'package:app/widgets/search/nothing_found.dart';
 import 'package:app/widgets/search/search_bar_header_delegate.dart';
-import 'package:elementary/elementary.dart';
 import 'package:elementary_helper/elementary_helper.dart';
 import 'package:flutter/material.dart';
 import 'package:ui_components_lib/components/button/app_bar_back_button.dart';
@@ -15,15 +15,12 @@ import 'package:ui_components_lib/v2/ui_components_lib_v2.dart';
 
 const chooseNetworkScreenNextStepQuery = 'chooseNetworkNextStep';
 
-class ChooseNetworkScreen
-    extends ElementaryWidget<ChooseNetworkScreenWidgetModel> {
+class ChooseNetworkScreen extends InjectedElementaryParametrizedWidget<
+    ChooseNetworkScreenWidgetModel, ChooseNetworkNextStep> {
   const ChooseNetworkScreen({
-    required this.nextStep,
-    Key? key,
-    WidgetModelFactory wmFactory = defaultChooseNetworkScreenWidgetModelFactory,
-  }) : super(wmFactory, key: key);
-
-  final ChooseNetworkNextStep nextStep;
+    required ChooseNetworkNextStep nextStep,
+    super.key,
+  }) : super(wmFactoryParam: nextStep);
 
   @override
   Widget build(ChooseNetworkScreenWidgetModel wm) {
@@ -64,6 +61,7 @@ class ChooseNetworkScreen
               onNetworkPressed: wm.onPressedType,
               scrollController: wm.scrollController,
             ),
+            SliverToBoxAdapter(child: SizedBox(height: wm.bottomPadding)),
           ],
         ),
       ),

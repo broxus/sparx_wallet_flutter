@@ -69,7 +69,7 @@ class BrowserPagesView extends StatelessWidget {
                             key: ValueKey(list[index].value.id),
                             onLoadingProgressChanged: onLoadingProgressChanged,
                             width: width,
-                            listenable: list[index],
+                            tabState: list[index],
                             onCreate: (controller) => onCreateWebViewController(
                               list[index].value.id,
                               controller,
