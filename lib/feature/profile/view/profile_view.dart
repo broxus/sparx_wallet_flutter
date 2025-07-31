@@ -46,6 +46,7 @@ class ProfileView extends StatelessWidget {
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
+            SizedBox(height: MediaQuery.paddingOf(context).top),
             Padding(
               padding: const EdgeInsets.symmetric(
                 vertical: DimensSizeV2.d24,

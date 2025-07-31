@@ -37,52 +37,50 @@ class _TokenWalletDetailsPageState extends State<TokenWalletDetailsPage> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: BlocProvider<TokenWalletDetailsCubit>(
-        create: (_) => TokenWalletDetailsCubit(
-          owner: widget.owner,
-          rootTokenContract: widget.rootTokenContract,
-          nekotonRepository: inject(),
-          currencyConvertService: inject(),
-          balanceService: inject(),
-          assetsService: inject(),
-        ),
-        child: BlocBuilder<TokenWalletDetailsCubit, TokenWalletDetailsState>(
-          builder: (context, state) {
-            return switch (state) {
-              TokenWalletDetailsStateInitial() => const SizedBox.shrink(),
-              TokenWalletDetailsStateEmpty() => const SizedBox.shrink(),
-              TokenWalletDetailsStateSubscribeError(
-                :final contractName,
-                :final error,
-                :final isLoading,
-              ) =>
-                _Body(
-                  owner: widget.owner,
-                  rootTokenContract: widget.rootTokenContract,
-                  contractName: contractName,
-                  error: error,
-                  isLoadingError: isLoading,
-                  controller: controller,
-                ),
-              TokenWalletDetailsStateData(
-                :final contractName,
-                :final tokenBalance,
-                :final fiatBalance,
-                :final canSend,
-              ) =>
-                _Body(
-                  owner: widget.owner,
-                  rootTokenContract: widget.rootTokenContract,
-                  contractName: contractName,
-                  tokenBalance: tokenBalance,
-                  fiatBalance: fiatBalance,
-                  canSend: canSend,
-                  controller: controller,
-                ),
-            };
-          },
-        ),
+    return BlocProvider<TokenWalletDetailsCubit>(
+      create: (_) => TokenWalletDetailsCubit(
+        owner: widget.owner,
+        rootTokenContract: widget.rootTokenContract,
+        nekotonRepository: inject(),
+        currencyConvertService: inject(),
+        balanceService: inject(),
+        assetsService: inject(),
+      ),
+      child: BlocBuilder<TokenWalletDetailsCubit, TokenWalletDetailsState>(
+        builder: (context, state) {
+          return switch (state) {
+            TokenWalletDetailsStateInitial() => const SizedBox.shrink(),
+            TokenWalletDetailsStateEmpty() => const SizedBox.shrink(),
+            TokenWalletDetailsStateSubscribeError(
+              :final contractName,
+              :final error,
+              :final isLoading,
+            ) =>
+              _Body(
+                owner: widget.owner,
+                rootTokenContract: widget.rootTokenContract,
+                contractName: contractName,
+                error: error,
+                isLoadingError: isLoading,
+                controller: controller,
+              ),
+            TokenWalletDetailsStateData(
+              :final contractName,
+              :final tokenBalance,
+              :final fiatBalance,
+              :final canSend,
+            ) =>
+              _Body(
+                owner: widget.owner,
+                rootTokenContract: widget.rootTokenContract,
+                contractName: contractName,
+                tokenBalance: tokenBalance,
+                fiatBalance: fiatBalance,
+                canSend: canSend,
+                controller: controller,
+              ),
+          };
+        },
       ),
     );
   }
@@ -113,6 +111,7 @@ class _Body extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final bottomPadding = MediaQuery.of(context).systemGestureInsets.bottom;
     final theme = context.themeStyleV2;
 
     return CustomScrollView(
@@ -186,7 +185,12 @@ class _Body extends StatelessWidget {
             ),
           ),
           sliver: SliverPadding(
-            padding: const EdgeInsets.all(DimensSizeV2.d16),
+            padding: EdgeInsets.only(
+              top: DimensSizeV2.d16,
+              bottom: bottomPadding + DimensSizeV2.d16,
+              left: DimensSizeV2.d16,
+              right: DimensSizeV2.d16,
+            ),
             sliver: error == null
                 ? TokenWalletTransactionsWidget(
                     rootTokenContract: rootTokenContract,
