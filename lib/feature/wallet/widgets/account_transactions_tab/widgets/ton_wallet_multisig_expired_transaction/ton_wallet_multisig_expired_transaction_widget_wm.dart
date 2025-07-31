@@ -1,5 +1,4 @@
 import 'package:app/core/wm/custom_wm.dart';
-import 'package:app/feature/browser_v1/browser.dart';
 import 'package:app/feature/wallet/widgets/account_transactions_tab/detail/details.dart';
 import 'package:app/feature/wallet/widgets/account_transactions_tab/widgets/ton_wallet_multisig_expired_transaction/ton_wallet_multisig_expired_transaction_model.dart';
 import 'package:app/feature/wallet/widgets/account_transactions_tab/widgets/ton_wallet_multisig_expired_transaction/ton_wallet_multisig_expired_transaction_widget.dart';
@@ -106,8 +105,6 @@ class TonWalletMultisigExpiredTransactionWidgetModel
   }
 
   void _openBrowserNewTab() {
-    model.openBrowserUrl(
-      model.getTransactionExplorerLink(wmParams.value.transaction.hash),
-    );
+    model.openBrowserUrl(wmParams.value.transaction.hash);
   }
 }

@@ -2,7 +2,6 @@ import 'dart:async';
 
 import 'package:app/app/router/router.dart';
 import 'package:app/core/wm/custom_wm.dart';
-import 'package:app/feature/browser_v1/browser.dart';
 import 'package:app/feature/contact_support/contact_support.dart';
 import 'package:app/feature/profile/manage_seeds_accounts/route.dart';
 import 'package:app/feature/profile/profile.dart';

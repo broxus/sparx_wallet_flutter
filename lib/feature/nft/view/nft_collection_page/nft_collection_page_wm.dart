@@ -2,7 +2,6 @@ import 'dart:async';
 
 import 'package:app/app/router/router.dart';
 import 'package:app/core/wm/custom_wm.dart';
-import 'package:app/feature/browser_v1/utils.dart';
 import 'package:app/feature/nft/nft.dart';
 import 'package:elementary_helper/elementary_helper.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
@@ -94,9 +93,7 @@ class NftCollectionPageWidgetModel extends CustomWidgetModelParametrized<
   }
 
   void _onViewInExplorer() {
-    model.openExplorerLinkByBrowser(
-      model.getAccountExplorerLink(_collection),
-    );
+    model.openExplorerLinkByBrowser(_collection);
   }
 
   Future<void> _onHideCollection() async {

@@ -2,7 +2,6 @@ import 'package:app/app/router/router.dart';
 import 'package:app/app/service/connection/data/connection_data/connection_data.dart';
 import 'package:app/app/service/connection/data/network_type.dart';
 import 'package:app/core/wm/custom_wm.dart';
-import 'package:app/feature/browser_v1/browser.dart';
 import 'package:app/feature/network/edit_network/validators.dart';
 import 'package:app/feature/network/network.dart';
 import 'package:app/generated/generated.dart';

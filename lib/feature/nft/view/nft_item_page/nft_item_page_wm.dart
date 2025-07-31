@@ -2,7 +2,6 @@ import 'dart:async';
 
 import 'package:app/app/router/router.dart';
 import 'package:app/core/wm/custom_wm.dart';
-import 'package:app/feature/browser_v1/utils.dart';
 import 'package:app/feature/nft/nft.dart';
 import 'package:app/utils/utils.dart';
 import 'package:elementary_helper/elementary_helper.dart';
