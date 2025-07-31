@@ -1,41 +1,38 @@
-import 'package:app/core/error_handler_factory.dart';
 import 'package:app/core/wm/custom_wm.dart';
-import 'package:app/di/di.dart';
 import 'package:app/feature/wallet/new_account/screen/new_account_screen.dart';
 import 'package:app/feature/wallet/new_account/screen/new_account_screen_model.dart';
 import 'package:app/generated/generated.dart';
 import 'package:elementary/elementary.dart';
-import 'package:flutter/widgets.dart';
+import 'package:injectable/injectable.dart';
 
-/// Factory method for creating [NewAccountScreenWidgetModel]
-NewAccountScreenWidgetModel defaultNewAccountScreenWidgetModelFactory(
-  BuildContext context,
-) {
-  return NewAccountScreenWidgetModel(
-    NewAccountScreenModel(
-      createPrimaryErrorHandler(context),
-      inject(),
-    ),
-  );
+class NewAccountScreenWmParams {
+  NewAccountScreenWmParams({required this.publicKey, required this.password});
+
+  final String? publicKey;
+  final String? password;
 }
 
 /// [WidgetModel] для [NewAccountScreen]
-class NewAccountScreenWidgetModel
-    extends CustomWidgetModel<NewAccountScreen, NewAccountScreenModel> {
+@injectable
+class NewAccountScreenWidgetModel extends CustomWidgetModelParametrized<
+    NewAccountScreen, NewAccountScreenModel, NewAccountScreenWmParams> {
   NewAccountScreenWidgetModel(
     super.model,
   );
 
-  bool get isError => widget.publicKey == null;
+  bool get isError => wmParams.value.publicKey == null;
+
+  String? get publicKey => wmParams.value.publicKey;
+  String? get password => wmParams.value.password;
 
   @override
   void initWidgetModel() {
-    _init();
     super.initWidgetModel();
+    _init();
   }
 
   void _init() {
-    if (widget.publicKey == null) {
+    if (wmParams.value.publicKey == null) {
       model.showError(context, LocaleKeys.publicKeyNull.tr());
     }
   }

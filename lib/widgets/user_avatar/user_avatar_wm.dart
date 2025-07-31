@@ -1,42 +1,27 @@
-import 'package:app/app/service/service.dart';
-import 'package:app/core/error_handler_factory.dart';
+import 'package:app/app/service/identify/identy_icon_data.dart';
 import 'package:app/core/wm/custom_wm.dart';
-import 'package:app/di/di.dart';
 import 'package:app/generated/generated.dart';
-import 'package:app/utils/utils.dart';
 import 'package:app/widgets/user_avatar/user_avatar.dart';
 import 'package:app/widgets/user_avatar/user_avatar_model.dart';
 import 'package:elementary/elementary.dart';
 import 'package:elementary_helper/elementary_helper.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:injectable/injectable.dart';
 import 'package:jdenticon_dart/jdenticon_dart.dart';
-import 'package:rxdart/rxdart.dart';
-
-/// Factory method for creating [UserAvatarWidgetModel]
-UserAvatarWidgetModel defaultUserAvatarWidgetModelFactory(
-  BuildContext context,
-) {
-  return UserAvatarWidgetModel(
-    UserAvatarModel(
-      createPrimaryErrorHandler(context),
-      inject(),
-    ),
-  );
-}
 
 /// [WidgetModel] для [UserAvatar]
-class UserAvatarWidgetModel
-    extends CustomWidgetModel<UserAvatar, UserAvatarModel> {
-  UserAvatarWidgetModel(super.model);
+@injectable
+class UserAvatarWidgetModel extends CustomWidgetModelParametrized<UserAvatar,
+    UserAvatarModel, String?> {
+  UserAvatarWidgetModel(
+    super.model,
+  );
 
-  late final _address = createWidgetProperty((w) => w.address);
   late final _avatarState = createNotifierFromStream(
-    _address.asStream().switchMap(
-          (address) => model
-              .getDataStream(address)
-              .map((identify) => _getAvatarData(address, identify)),
-        ),
+    model
+        .getDataStream(wmParams.value)
+        .map((identify) => _getAvatarData(wmParams.value, identify)),
   );
 
   ListenableState<AvatarData?> get avatarState => _avatarState;

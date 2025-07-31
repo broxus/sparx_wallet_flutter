@@ -32,7 +32,15 @@ targets:
           - lib/app/service/*.dart
           - lib/app/service/**/*.dart
           - lib/http/*.dart
+          - lib/bootstrap/*.dart
           - lib/http/**/*.dart
+          - lib/feature/**/*_wm.dart
+          - lib/feature/**/*_model.dart
+          - lib/app/**/*_wm.dart
+          - lib/app/**/*_model.dart
+          - lib/widgets/**/*_wm.dart
+          - lib/widgets/**/*_model.dart
+          - lib/feature/**/domain/*.dart
           - lib/feature/**/domain/*.dart
           - lib/feature/**/domain/**/*.dart
           - lib/feature/**/*route.dart
@@ -41,6 +49,7 @@ targets:
           - lib/app/router/guard.dart
           - lib/v1/**/*route.dart
           - lib/v1/**/*guard.dart
+          - lib/utils/factories/error_handler/standard_error_handler.dart
       freezed:
         generate_for:
           - lib/app/service/*.dart

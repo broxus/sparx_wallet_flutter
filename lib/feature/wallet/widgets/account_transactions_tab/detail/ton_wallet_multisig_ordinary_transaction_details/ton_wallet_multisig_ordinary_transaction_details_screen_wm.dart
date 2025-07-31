@@ -1,70 +1,98 @@
-import 'package:app/core/error_handler_factory.dart';
 import 'package:app/core/wm/custom_wm.dart';
-import 'package:app/di/di.dart';
 import 'package:app/feature/browser_v1/utils.dart';
 import 'package:app/feature/wallet/widgets/account_transactions_tab/detail/details.dart';
 import 'package:app/feature/wallet/widgets/account_transactions_tab/detail/ton_wallet_multisig_ordinary_transaction_details/ton_wallet_multisig_ordinary_transaction_details_screen_model.dart';
 import 'package:elementary/elementary.dart';
 import 'package:flutter/widgets.dart';
+import 'package:injectable/injectable.dart';
 import 'package:nekoton_repository/nekoton_repository.dart';
 import 'package:ui_components_lib/v2/colors_v2.dart';
 import 'package:ui_components_lib/v2/text_styles_v2.dart';
 import 'package:ui_components_lib/v2/theme_style_v2.dart';
 
-TonWalletMultisigOrdinaryTransactionDetailsScreenWidgetModel
-    tonWalletMultisigOrdinaryTransactionDetailsnWMFactory(
-  BuildContext context, {
-  required TonWalletMultisigOrdinaryTransaction transaction,
-  required Fixed price,
-  required KeyAccount account,
-}) {
-  return TonWalletMultisigOrdinaryTransactionDetailsScreenWidgetModel(
-    TonWalletMultisigOrdinaryTransactionDetailsScreenModel(
-      createPrimaryErrorHandler(context),
-      inject(),
-    ),
-    transaction,
-    price,
-    account,
-  );
-}
-
-/// [WidgetModel] для [TonWalletMultisigOrdinaryTransactionDetailsScreen]
-class TonWalletMultisigOrdinaryTransactionDetailsScreenWidgetModel
-    extends CustomWidgetModel<TonWalletMultisigOrdinaryTransactionDetailsScreen,
-        TonWalletMultisigOrdinaryTransactionDetailsScreenModel> {
-  TonWalletMultisigOrdinaryTransactionDetailsScreenWidgetModel(
-    super.model,
-    this._transaction,
-    this.price,
-    this.account,
-  );
+class TonWalletMultisigOrdinaryTransactionDetailsWmParams {
+  TonWalletMultisigOrdinaryTransactionDetailsWmParams({
+    required this.price,
+    required this.account,
+    required this.transaction,
+  });
 
   final Fixed price;
   final KeyAccount account;
-  final TonWalletMultisigOrdinaryTransaction _transaction;
+  final TonWalletMultisigOrdinaryTransaction transaction;
+}
 
-  late final date = _transaction.date;
-  late final isIncoming = !_transaction.isOutgoing;
-  late final transactionFee = Money.fromBigIntWithCurrency(
-    _transaction.fees,
-    Currencies()[model.ticker]!,
+/// [WidgetModel] для [TonWalletMultisigOrdinaryTransactionDetailsScreen]
+@injectable
+class TonWalletMultisigOrdinaryTransactionDetailsScreenWidgetModel
+    extends CustomWidgetModelParametrized<
+        TonWalletMultisigOrdinaryTransactionDetailsScreen,
+        TonWalletMultisigOrdinaryTransactionDetailsScreenModel,
+        TonWalletMultisigOrdinaryTransactionDetailsWmParams> {
+  TonWalletMultisigOrdinaryTransactionDetailsScreenWidgetModel(
+    super.model,
   );
-  late final transactionValue = Money.fromBigIntWithCurrency(
-    _transaction.value,
-    Currencies()[model.ticker]!,
-  );
-  late final transactionHash = _transaction.hash;
-  late final transactionAddress = _transaction.address;
-  late final transactionComment = _transaction.comment;
-  late final info = _methodData?.$1;
-  late final tonIconPath = model.tonIconPath;
-  late final confirmations = _transaction.confirmations;
-  late final custodians = _transaction.custodians;
-  late final initiator = _transaction.creator;
 
-  late final _methodData =
-      _transaction.walletInteractionInfo?.method.toRepresentableData();
+  late final accountState = createWmParamsNotifier<KeyAccount>(
+    (it) => it.account,
+  );
+
+  late final priceState = createWmParamsNotifier<Fixed>(
+    (it) => it.price,
+  );
+
+  late final dateState = createWmParamsNotifier<DateTime>(
+    (it) => it.transaction.date,
+  );
+
+  late final isIncomingState = createWmParamsNotifier<bool>(
+    (it) => !it.transaction.isOutgoing,
+  );
+
+  late final transactionFeeState = createWmParamsNotifier<Money>(
+    (it) => Money.fromBigIntWithCurrency(
+      it.transaction.fees,
+      Currencies()[model.ticker]!,
+    ),
+  );
+
+  late final transactionValueState = createWmParamsNotifier<Money>(
+    (it) => Money.fromBigIntWithCurrency(
+      it.transaction.value,
+      Currencies()[model.ticker]!,
+    ),
+  );
+
+  late final transactionHashState = createWmParamsNotifier<String>(
+    (it) => it.transaction.hash,
+  );
+
+  late final transactionAddressState = createWmParamsNotifier<Address>(
+    (it) => it.transaction.address,
+  );
+
+  late final transactionCommentState = createWmParamsNotifier<String?>(
+    (it) => it.transaction.comment,
+  );
+
+  late final infoState = createWmParamsNotifier<String?>(
+    (it) =>
+        it.transaction.walletInteractionInfo?.method.toRepresentableData().$1,
+  );
+
+  late final tonIconPathState = createNotifier<String>(model.tonIconPath);
+
+  late final confirmationsState = createWmParamsNotifier<List<PublicKey>>(
+    (it) => it.transaction.confirmations,
+  );
+
+  late final custodiansState = createWmParamsNotifier<List<PublicKey>>(
+    (it) => it.transaction.custodians,
+  );
+
+  late final initiatorState = createWmParamsNotifier<PublicKey>(
+    (it) => it.transaction.creator,
+  );
 
   TextStylesV2 get textStyles => _theme.textStyles;
 
@@ -72,10 +100,12 @@ class TonWalletMultisigOrdinaryTransactionDetailsScreenWidgetModel
 
   ThemeStyleV2 get _theme => context.themeStyleV2;
 
+  double get bottomPadding => MediaQuery.of(context).padding.bottom;
+
   void onPressedSeeInExplorer() {
     Navigator.of(context).pop();
     openBrowserUrl(
-      model.getTransactionExplorerLink(_transaction.hash),
+      model.getTransactionExplorerLink(wmParams.value.transaction.hash),
     );
   }
 }

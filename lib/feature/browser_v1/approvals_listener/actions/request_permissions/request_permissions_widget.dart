@@ -1,10 +1,10 @@
+import 'package:app/core/wm/custom_wm.dart';
 import 'package:app/data/models/models.dart';
 import 'package:app/feature/browser_v1/approvals_listener/actions/request_permissions/account_list_item.dart';
 import 'package:app/feature/browser_v1/approvals_listener/actions/request_permissions/request_permissions_wm.dart';
 import 'package:app/feature/browser_v1/approvals_listener/actions/widgets/widgets.dart';
 import 'package:app/feature/wallet/wallet.dart';
 import 'package:app/generated/generated.dart';
-import 'package:elementary/elementary.dart';
 import 'package:elementary_helper/elementary_helper.dart';
 import 'package:flutter/material.dart';
 import 'package:nekoton_repository/nekoton_repository.dart';
@@ -12,32 +12,34 @@ import 'package:ui_components_lib/ui_components_lib.dart';
 import 'package:ui_components_lib/v2/ui_components_lib_v2.dart';
 
 /// Widget that allows choose account that should be used for browser tab with
-/// url=[origin].
-/// This widget firstly asks to choose account via [_SelectAccountWidget]
-/// and then opens [_ConfirmPermissionsWidget] to check permissions.
-class RequestPermissionsWidget
-    extends ElementaryWidget<RequestPermissionsWidgetModel> {
-  const RequestPermissionsWidget({
-    required this.origin,
-    required this.permissions,
+/// specified origin URL.
+/// This widget firstly asks to choose account and then confirms permissions.
+class RequestPermissionsWidget extends InjectedElementaryParametrizedWidget<
+    RequestPermissionsWidgetModel, RequestPermissionsWmParams> {
+  RequestPermissionsWidget({
+    required Uri origin,
+    required List<Permission> permissions,
     required this.scrollController,
-    required this.previousSelectedAccount,
-    Key? key,
-    WidgetModelFactory wmFactory = defaultRequestPermissionsWidgetModelFactory,
-  }) : super(wmFactory, key: key);
+    required Address? previousSelectedAccount,
+    super.key,
+  }) : super(
+          wmFactoryParam: RequestPermissionsWmParams(
+            origin: origin,
+            permissions: permissions,
+            previousSelectedAccount: previousSelectedAccount,
+          ),
+        );
 
-  final Uri origin;
-  final List<Permission> permissions;
   final ScrollController scrollController;
-  final Address? previousSelectedAccount;
 
   @override
   Widget build(RequestPermissionsWidgetModel wm) => ValueListenableBuilder(
-        valueListenable: wm.step,
+        valueListenable: wm.stepState,
         builder: (context, value, child) => switch (value) {
           RequestPermissionsStep.account =>
             _SelectAccountWidget(wm, scrollController),
-          RequestPermissionsStep.confirm => _ConfirmPermissionsWidget(wm),
+          RequestPermissionsStep.confirm =>
+            _ConfirmPermissionsWidget(wm, scrollController),
         },
       );
 }
@@ -59,7 +61,14 @@ class _SelectAccountWidget extends StatelessWidget {
           child: SeparatedColumn(
             spacing: DimensSizeV2.d12,
             children: [
-              WebsiteInfoWidget(uri: wm.origin),
+              ValueListenableBuilder(
+                valueListenable: wm.originState,
+                builder: (_, uri, __) {
+                  return WebsiteInfoWidget(
+                    uri: uri,
+                  );
+                },
+              ),
               PrimaryTextField(
                 textEditingController: wm.searchController,
                 hintText: LocaleKeys.searchWord.tr(),
@@ -78,8 +87,8 @@ class _SelectAccountWidget extends StatelessWidget {
                     color: theme.colors.background1,
                   ),
                   child: DoubleSourceBuilder(
-                    firstSource: wm.accounts,
-                    secondSource: wm.selected,
+                    firstSource: wm.accountsState,
+                    secondSource: wm.selectedState,
                     builder: (_, accounts, selected) {
                       WidgetsBinding.instance.addPostFrameCallback((_) {
                         _scrollToActiveAccount(accounts, selected);
@@ -112,7 +121,7 @@ class _SelectAccountWidget extends StatelessWidget {
           ),
         ),
         StateNotifierBuilder(
-          listenableState: wm.selected,
+          listenableState: wm.selectedState,
           builder: (_, value) => AccentButton(
             buttonShape: ButtonShape.pill,
             title: LocaleKeys.nextWord.tr(),
@@ -144,21 +153,22 @@ class _SelectAccountWidget extends StatelessWidget {
 }
 
 class _ConfirmPermissionsWidget extends StatelessWidget {
-  const _ConfirmPermissionsWidget(this.wm);
+  const _ConfirmPermissionsWidget(this.wm, this.scrollController);
 
   final RequestPermissionsWidgetModel wm;
+  final ScrollController scrollController;
 
   @override
   Widget build(BuildContext context) {
     final theme = context.themeStyleV2;
-    final account = wm.selected.value!;
+    final account = wm.selectedState.value!;
 
     return SeparatedColumn(
       spacing: DimensSizeV2.d12,
       children: [
         Expanded(
           child: SingleChildScrollView(
-            controller: wm.scrollController,
+            controller: scrollController,
             child: SeparatedColumn(
               spacing: DimensSizeV2.d12,
               children: [
@@ -166,7 +176,14 @@ class _ConfirmPermissionsWidget extends StatelessWidget {
                   account: account,
                   color: theme.colors.background2,
                 ),
-                WebsiteInfoWidget(uri: wm.origin),
+                ValueListenableBuilder(
+                  valueListenable: wm.originState,
+                  builder: (_, uri, __) {
+                    return WebsiteInfoWidget(
+                      uri: uri,
+                    );
+                  },
+                ),
                 PrimaryCard(
                   color: theme.colors.background2,
                   borderRadius: BorderRadius.circular(DimensRadiusV2.radius12),
@@ -181,11 +198,11 @@ class _ConfirmPermissionsWidget extends StatelessWidget {
                         ),
                       ),
                       const SizedBox(height: DimensSizeV2.d16),
-                      StateNotifierBuilder(
-                        listenableState: wm.permissions,
-                        builder: (_, value) {
-                          final basic = value?.contains(Permission.basic);
-                          final accountInteraction = value?.contains(
+                      ValueListenableBuilder(
+                        valueListenable: wm.permissionsState,
+                        builder: (_, value, __) {
+                          final basic = value.contains(Permission.basic);
+                          final accountInteraction = value.contains(
                             Permission.accountInteraction,
                           );
 
@@ -200,7 +217,7 @@ class _ConfirmPermissionsWidget extends StatelessWidget {
                                   ),
                                   const Spacer(),
                                   Switch(
-                                    value: basic ?? false,
+                                    value: basic,
                                     onChanged: (value) => wm.onPermissionSwitch(
                                       permission: Permission.basic,
                                       checked: value,
@@ -216,7 +233,7 @@ class _ConfirmPermissionsWidget extends StatelessWidget {
                                   ),
                                   const Spacer(),
                                   Switch(
-                                    value: accountInteraction ?? false,
+                                    value: accountInteraction,
                                     onChanged: (value) => wm.onPermissionSwitch(
                                       permission: Permission.accountInteraction,
                                       checked: value,
