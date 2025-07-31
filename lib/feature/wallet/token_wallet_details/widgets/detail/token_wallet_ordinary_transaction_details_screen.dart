@@ -58,8 +58,8 @@ class TokenWalletOrdinaryTransactionDetailsScreen
               ),
             ],
           ),
+          onPressed: wm.onPressedDetails,
         ),
-        onPressed: wm.onPressedDetails,
       ),
     );
   }
