@@ -1401,10 +1401,6 @@ extension GetItInjectableX on _i174.GetIt {
       ),
       dispose: (i) => i.dispose(),
     );
-    gh.factory<_i328.EditNetworkModel>(() => _i328.EditNetworkModel(
-          gh<_i128.ConnectionsStorageService>(),
-          gh<_i128.PresetsConnectionService>(),
-        ));
     gh.factory<_i338.SelectSeedWidgetModel>(
         () => _i338.SelectSeedWidgetModel(gh<_i479.SelectSeedModel>()));
     gh.factory<_i857.NftCollectionPageModel>(() => _i857.NftCollectionPageModel(
@@ -1489,8 +1485,6 @@ extension GetItInjectableX on _i174.GetIt {
           gh<_i128.CurrentAccountsService>(),
           gh<_i771.NekotonRepository>(),
         ));
-    gh.factory<_i942.EditNetworkWidgetModel>(
-        () => _i942.EditNetworkWidgetModel(gh<_i393.EditNetworkModel>()));
     gh.factory<_i385.ConfigureNetworksModel>(() => _i385.ConfigureNetworksModel(
           gh<_i83.ErrorHandler>(),
           gh<_i128.ConnectionsStorageService>(),
@@ -1503,6 +1497,11 @@ extension GetItInjectableX on _i174.GetIt {
         () => _i309.CompassRouter(gh<_i128.BootstrapService>()));
     gh.factory<_i596.UpdateVersionWidgetModel>(
         () => _i596.UpdateVersionWidgetModel(gh<_i482.UpdateVersionModel>()));
+    gh.factory<_i328.EditNetworkModel>(() => _i328.EditNetworkModel(
+          gh<_i128.ConnectionsStorageService>(),
+          gh<_i128.PresetsConnectionService>(),
+          gh<_i128.AssetsService>(),
+        ));
     gh.singleton<_i82.CompassBaseRoute>(
       () => _i176.ImportWalletRoute(
         gh<_i82.CompassBaseRoute>(instanceName: 'EnterSeedPhraseRoute'),
@@ -1663,6 +1662,8 @@ extension GetItInjectableX on _i174.GetIt {
     gh.factory<_i516.CancelUnstakingPageWidgetModel>(() =>
         _i516.CancelUnstakingPageWidgetModel(
             gh<_i0.CancelUnstakingPageModel>()));
+    gh.factory<_i942.EditNetworkWidgetModel>(
+        () => _i942.EditNetworkWidgetModel(gh<_i393.EditNetworkModel>()));
     gh.singleton<_i82.CompassBaseRoute>(
       () => _i805.ChooseNetworkRoute(
         gh<_i82.CompassBaseRoute>(

@@ -58,7 +58,10 @@ class _ExpandableCardState extends State<ExpandableCard> {
                         gradient: LinearGradient(
                           begin: Alignment.bottomCenter,
                           end: Alignment.topCenter,
-                          colors: [Color(0xff353960), Color(0x00353960)],
+                          colors: [
+                            ColorsResV2.midnightBlue,
+                            ColorsResV2.transparentDeepIndigo,
+                          ],
                         ),
                       ),
                     ),
