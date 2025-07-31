@@ -5,8 +5,10 @@ import 'package:app/feature/browser_v2/domain/service/browser_service.dart';
 import 'package:app/feature/splash/splash_screen.dart';
 import 'package:app/runner.dart';
 import 'package:elementary/elementary.dart';
+import 'package:injectable/injectable.dart';
 
 /// [ElementaryModel] for [SplashScreen]
+@injectable
 class SplashScreenModel extends ElementaryModel {
   SplashScreenModel(
     ErrorHandler errorHandler,

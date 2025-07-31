@@ -35,6 +35,56 @@ class NekotonStorageService extends NekotonStorageRepository
     }
   }
 
+  @override
+  Future<void> clear() async {
+    try {
+      return await clearSensitiveData();
+    } catch (_) {}
+  }
+
+  @override
+  Future<String?> getStorageData(String key) {
+    try {
+      return super.getStorageData(key);
+    } catch (e, s) {
+      _logger.severe('Failed to get storage data for key: $key', e, s);
+      rethrow;
+    }
+  }
+
+  @override
+  Future<void> setStorageData({
+    required String key,
+    required String value,
+  }) {
+    try {
+      return super.setStorageData(key: key, value: value);
+    } catch (e, s) {
+      _logger.severe('Failed to set storage data for key: $key', e, s);
+      rethrow;
+    }
+  }
+
+  @override
+  Future<void> removeStorageData(String key) {
+    try {
+      return super.removeStorageData(key);
+    } catch (e, s) {
+      _logger.severe('Failed to remove storage data for key: $key', e, s);
+      rethrow;
+    }
+  }
+
+  @override
+  Future<void> clearStorageData() {
+    try {
+      return super.clearStorageData();
+    } catch (e, s) {
+      _logger.severe('Failed to clear storage data', e, s);
+      rethrow;
+    }
+  }
+
   bool _isEcnryptionError(Object e, StackTrace s) {
     final errorString = e.toString();
     final stackTraceString = s.toString();
@@ -43,12 +93,5 @@ class NekotonStorageService extends NekotonStorageRepository
         stackTraceString.contains('PKCS7Padding.padCount') ||
         stackTraceString.contains('AES.decrypt') ||
         stackTraceString.contains('Encrypter.decrypt');
-  }
-
-  @override
-  Future<void> clear() async {
-    try {
-      return await clearSensitiveData();
-    } catch (_) {}
   }
 }

@@ -1,9 +1,7 @@
 import 'dart:async';
 
-import 'package:app/core/error_handler_factory.dart';
 import 'package:app/core/wm/custom_wm.dart';
 import 'package:app/core/wm/not_null_listenable_state.dart';
-import 'package:app/di/di.dart';
 import 'package:app/feature/browser_v1/bottom_sheets/browser_enter_basic_auth_creds_sheet.dart';
 import 'package:app/feature/browser_v2/custom_web_controller.dart';
 import 'package:app/feature/browser_v2/data/browser_basic_auth_creds.dart';
@@ -15,53 +13,34 @@ import 'package:elementary_helper/elementary_helper.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_inappwebview/flutter_inappwebview.dart';
+import 'package:injectable/injectable.dart';
 import 'package:logging/logging.dart';
 import 'package:ui_components_lib/ui_components_lib.dart';
 import 'package:url_launcher/url_launcher.dart';
 
-/// Factory method for creating [BrowserPageWidgetModel]
-BrowserPageWidgetModel defaultBrowserPageWidgetModelFactory(
-  BuildContext context, {
-  required NotNullListenableState<BrowserTab> listenable,
-  required ValueChanged<CustomWebViewController> onCreate,
-  required ValueChanged<int> onWebPageScrollChanged,
-  required VoidCallback onDispose,
-  required ValueChanged<int> onLoadingProgressChanged,
-}) {
-  return BrowserPageWidgetModel(
-    BrowserPageModel(
-      createPrimaryErrorHandler(context),
-      listenable.value.id,
-      inject(),
-      inject(),
-      inject(),
-      inject(),
-      inject(),
-      inject(),
-      inject(),
-      inject(),
-      inject(),
-    ),
-    listenable,
-    onCreate,
-    onWebPageScrollChanged,
-    onDispose,
-    onLoadingProgressChanged,
-  );
+class BrowserPageWmParams {
+  const BrowserPageWmParams({
+    required this.tabState,
+    required this.onCreate,
+    required this.onWebPageScrollChanged,
+    required this.onDispose,
+    required this.onLoadingProgressChanged,
+  });
+
+  final NotNullListenableState<BrowserTab> tabState;
+  final ValueChanged<CustomWebViewController> onCreate;
+  final ValueChanged<int> onWebPageScrollChanged;
+  final VoidCallback onDispose;
+  final ValueChanged<int> onLoadingProgressChanged;
 }
 
 /// [WidgetModel] для [BrowserPage]
-class BrowserPageWidgetModel
-    extends CustomWidgetModel<BrowserPage, BrowserPageModel>
-    with AutomaticKeepAliveWidgetModelMixin {
-  BrowserPageWidgetModel(
-    super.model,
-    this._listenable,
-    this._onCreate,
-    this._onWebPageScrollChanged,
-    this._onDispose,
-    this._onLoadingProgressChanged,
-  );
+@injectable
+class BrowserPageWidgetModel extends CustomWidgetModelParametrized<
+    BrowserPage,
+    BrowserPageModel,
+    BrowserPageWmParams> with AutomaticKeepAliveWidgetModelMixin {
+  BrowserPageWidgetModel(super.model);
 
   static const _allowSchemes = [
     'http',
@@ -79,12 +58,6 @@ class BrowserPageWidgetModel
   ];
 
   static final _log = Logger('BrowserTabView');
-
-  final NotNullListenableState<BrowserTab> _listenable;
-  final ValueChanged<CustomWebViewController> _onCreate;
-  final ValueChanged<int> _onWebPageScrollChanged;
-  final VoidCallback _onDispose;
-  final ValueChanged<int> _onLoadingProgressChanged;
 
   final initialSettings = InAppWebViewSettings(
     applicationNameForUserAgent: 'SparXWalletBrowser',
@@ -106,7 +79,8 @@ class BrowserPageWidgetModel
   );
 
   late final _isNeedCreateWebViewState = createNotifier<bool>(false);
-  late final _isShowStartViewState = createNotifier<bool>(_url.isEmpty);
+  late final _isShowStartViewState =
+      createNotifier<bool>(_url.toString().isEmpty);
 
   CustomWebViewController? _webViewController;
 
@@ -121,25 +95,27 @@ class BrowserPageWidgetModel
 
   ThemeStyle get _theme => context.themeStyle;
 
-  BrowserTab get _tab => _listenable.value;
+  NotNullListenableState<BrowserTab> get _tabState => wmParams.value.tabState;
 
-  String get _url => _tab.url.toString();
+  String get _tabId => _tabState.value.id;
+
+  Uri get _url => _tabState.value.url;
 
   bool get _isCreate => _isNeedCreateWebViewState.value ?? false;
 
   @override
   void initWidgetModel() {
-    model.activeTabIdState.addListener(_handleActiveTab);
-    _listenable.addListener(_handleTabState);
     super.initWidgetModel();
+    model.activeTabIdState.addListener(_handleActiveTab);
+    _tabState.addListener(_handleTabState);
   }
 
   @override
   void dispose() {
-    _onDispose();
+    wmParams.value.onDispose();
     _webViewController?.dispose();
     model.activeTabIdState.removeListener(_handleActiveTab);
-    _listenable.removeListener(_handleTabState);
+    _tabState.removeListener(_handleTabState);
     super.dispose();
   }
 
@@ -149,12 +125,19 @@ class BrowserPageWidgetModel
   ) async {
     final customController = CustomWebViewController(controller);
 
-    _onCreate(customController);
+    wmParams.value.onCreate(customController);
     _webViewController = customController;
-    await model.initEvents(customController);
+    await model.initEvents(
+      tabId: _tabId,
+      controller: customController,
+    );
 
-    if (_url.isNotEmpty) {
-      unawaited(model.initUri(_tab.url));
+    if (_url.toString().isNotEmpty) {
+      await customController.loadUrl(
+        urlRequest: URLRequest(
+          url: WebUri.uri(_url),
+        ),
+      );
     }
   }
 
@@ -165,7 +148,10 @@ class BrowserPageWidgetModel
   ) {
     _createScreenshot();
     model
-      ..updateUrl(uri)
+      ..updateUrl(
+        tabId: _tabId,
+        uri: uri,
+      )
       ..addHistory(uri);
   }
 
@@ -176,7 +162,10 @@ class BrowserPageWidgetModel
   ) {
     pullToRefreshController.endRefreshing();
     _createScreenshot();
-    model.updateUrl(uri);
+    model.updateUrl(
+      tabId: _tabId,
+      uri: uri,
+    );
   }
 
   // Load any resource on the page. JS, CSS, images, etc.
@@ -189,8 +178,8 @@ class BrowserPageWidgetModel
     if (progress == 100) {
       unawaited(pullToRefreshController.endRefreshing());
     }
-    if (progress != null && model.checkIsActiveTab(_tab.id)) {
-      _onLoadingProgressChanged(progress);
+    if (progress != null && model.checkIsActiveTab(_tabId)) {
+      wmParams.value.onLoadingProgressChanged(progress);
     }
   }
 
@@ -226,11 +215,14 @@ class BrowserPageWidgetModel
     if (title?.trim().isEmpty ?? true) {
       return;
     }
-    model.updateTitle(title!);
+    model.updateTitle(
+      tabId: _tabId,
+      title: title!,
+    );
   }
 
   void onWebPageScrollChanged(_, __, int y) {
-    _onWebPageScrollChanged(y);
+    wmParams.value.onWebPageScrollChanged(y);
   }
 
   // Called during HTTP authorization if the site requires login/password
@@ -330,7 +322,7 @@ class BrowserPageWidgetModel
   }
 
   void _createWebView() {
-    if (_isCreate || !model.checkIsActiveTab(_tab.id)) {
+    if (_isCreate || !model.checkIsActiveTab(_tabId)) {
       return;
     }
 
@@ -342,6 +334,7 @@ class BrowserPageWidgetModel
       return;
     }
     model.createScreenshot(
+      tabId: _tabId,
       takePictureCallback: () async {
         try {
           return await _webViewController!.takeScreenshot(
@@ -355,12 +348,10 @@ class BrowserPageWidgetModel
   }
 
   void _handleTabState() {
-    final uri = _listenable.value.url;
-
-    if (_prevUri != uri) {
-      _isShowStartViewState.accept(_url.isEmpty);
+    if (_prevUri != _url) {
+      _isShowStartViewState.accept(_url.toString().isEmpty);
     }
 
-    _prevUri = uri;
+    _prevUri = _url;
   }
 }

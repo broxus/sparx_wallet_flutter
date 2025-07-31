@@ -1,14 +1,14 @@
 import 'dart:async';
 
-import 'package:app/core/error_handler_factory.dart';
 import 'package:app/core/wm/custom_wm.dart';
 import 'package:app/data/models/models.dart';
-import 'package:app/di/di.dart';
 import 'package:app/feature/browser_v1/approvals_listener/actions/add_tip3_token/add_tip3_token_model.dart';
 import 'package:app/feature/browser_v1/approvals_listener/actions/add_tip3_token/add_tip3_token_widget.dart';
 import 'package:collection/collection.dart';
 import 'package:elementary_helper/elementary_helper.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:injectable/injectable.dart';
 import 'package:nekoton_repository/nekoton_repository.dart';
 import 'package:ui_components_lib/v2/ui_components_lib_v2.dart';
 
@@ -20,20 +20,42 @@ enum TokenStatus {
   suggestion,
 }
 
-AddTip3TokenWidgetModel defaultAddTip3TokenWidgetModelFactory(
-  BuildContext context,
-) =>
-    AddTip3TokenWidgetModel(
-      AddTip3TokenModel(
-        createPrimaryErrorHandler(context),
-        inject(),
-        inject(),
-      ),
-    );
+class AddTip3TokenWmParams {
+  const AddTip3TokenWmParams({
+    required this.origin,
+    required this.account,
+    required this.details,
+  });
 
-class AddTip3TokenWidgetModel
-    extends CustomWidgetModel<AddTip3TokenWidget, AddTip3TokenModel> {
-  AddTip3TokenWidgetModel(super.model);
+  final Uri origin;
+  final Address account;
+  final TokenContractAsset details;
+}
+
+@injectable
+class AddTip3TokenWidgetModel extends CustomWidgetModelParametrized<
+    AddTip3TokenWidget, AddTip3TokenModel, AddTip3TokenWmParams> {
+  AddTip3TokenWidgetModel(
+    super.model,
+  );
+
+  late final _originState = createWmParamsNotifier(
+    (it) => it.origin,
+  );
+
+  late final _accountState = createWmParamsNotifier(
+    (it) => it.account,
+  );
+
+  late final _detailsState = createWmParamsNotifier(
+    (it) => it.details,
+  );
+
+  ValueListenable<Address> get accountState => _accountState;
+
+  ValueListenable<Uri> get originState => _originState;
+
+  ValueListenable<TokenContractAsset> get detailsState => _detailsState;
 
   late final _balance = createNotifier<Money>();
   late final _asset = createNotifier<TokenContractAsset>();
@@ -52,8 +74,9 @@ class AddTip3TokenWidgetModel
   void initWidgetModel() {
     super.initWidgetModel();
 
-    _subscription =
-        model.allAvailableContractsForAccount(widget.account).listen(_onData);
+    _subscription = model
+        .allAvailableContractsForAccount(_accountState.value)
+        .listen(_onData);
 
     _getBalance();
   }
@@ -68,8 +91,8 @@ class AddTip3TokenWidgetModel
 
   Future<void> _getBalance() async {
     final wallet = await model.getTokenWallet(
-      owner: widget.account,
-      rootTokenContract: widget.details.address,
+      owner: _accountState.value,
+      rootTokenContract: _detailsState.value.address,
     );
 
     _balance.accept(wallet?.wallet?.moneyBalance);
@@ -78,8 +101,8 @@ class AddTip3TokenWidgetModel
   void _onData((List<TokenContractAsset>, List<TokenContractAsset>) value) {
     final (notAdded, added) = value;
     final assets = [...notAdded, ...added];
-    final address = widget.details.address;
-    final symbol = widget.details.symbol;
+    final address = _detailsState.value.address;
+    final symbol = _detailsState.value.symbol;
     final asset = assets.firstWhereOrNull((e) => e.address == address);
 
     _asset.accept(asset);

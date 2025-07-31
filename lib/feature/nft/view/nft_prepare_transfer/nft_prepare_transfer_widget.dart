@@ -1,8 +1,8 @@
+import 'package:app/core/wm/custom_wm.dart';
 import 'package:app/feature/nft/nft.dart';
 import 'package:app/feature/wallet/wallet.dart';
 import 'package:app/generated/generated.dart';
 import 'package:app/widgets/widgets.dart';
-import 'package:elementary/elementary.dart';
 import 'package:elementary_helper/elementary_helper.dart';
 import 'package:flutter/material.dart';
 import 'package:lucide_icons_flutter/lucide_icons.dart';
@@ -10,15 +10,12 @@ import 'package:nekoton_repository/nekoton_repository.dart' hide Message;
 import 'package:ui_components_lib/ui_components_lib.dart';
 import 'package:ui_components_lib/v2/ui_components_lib_v2.dart';
 
-class NftPrepareTransfer
-    extends ElementaryWidget<NftPrepareTransferWidgetModel> {
+class NftPrepareTransfer extends InjectedElementaryParametrizedWidget<
+    NftPrepareTransferWidgetModel, NftPrepareTransferRouteData> {
   const NftPrepareTransfer({
-    required this.routeData,
-    Key? key,
-    WidgetModelFactory wmFactory = defaultNftPrepareTransferWidgetModelFactory,
-  }) : super(wmFactory, key: key);
-
-  final NftPrepareTransferRouteData routeData;
+    required NftPrepareTransferRouteData routeData,
+    super.key,
+  }) : super(wmFactoryParam: routeData);
 
   @override
   Widget build(NftPrepareTransferWidgetModel wm) {
@@ -60,7 +57,7 @@ class NftPrepareTransfer
                         crossAxisAlignment: CrossAxisAlignment.start,
                         spacing: DimensSize.d12,
                         children: [
-                          if (!routeData.tokenFlag)
+                          if (!wm.tokenFlag)
                             Padding(
                               padding: const EdgeInsets.symmetric(
                                 vertical: DimensSizeV2.d4,
@@ -114,7 +111,7 @@ class NftPrepareTransfer
                               ),
                             ],
                           ),
-                          if (data.item.wallet != null && routeData.tokenFlag)
+                          if (data.item.wallet != null && wm.tokenFlag)
                             Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               mainAxisSize: MainAxisSize.min,

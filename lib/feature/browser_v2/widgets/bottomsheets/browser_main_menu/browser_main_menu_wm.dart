@@ -1,6 +1,4 @@
-import 'package:app/core/error_handler_factory.dart';
 import 'package:app/core/wm/custom_wm.dart';
-import 'package:app/di/di.dart';
 import 'package:app/feature/browser_v2/widgets/bottomsheets/book/widgets/history/widgets/clear_history_modal.dart';
 import 'package:app/feature/browser_v2/widgets/bottomsheets/browser_main_menu/browser_main_menu.dart';
 import 'package:app/feature/browser_v2/widgets/bottomsheets/browser_main_menu/browser_main_menu_model.dart';
@@ -8,35 +6,30 @@ import 'package:app/feature/browser_v2/widgets/bottomsheets/browser_main_menu/da
 import 'package:app/utils/types/fuction_types.dart';
 import 'package:elementary/elementary.dart';
 import 'package:flutter/widgets.dart';
+import 'package:injectable/injectable.dart';
 import 'package:ui_components_lib/ui_components_lib.dart';
 
-/// Factory method for creating [BrowserMainMenuWidgetModel]
-BrowserMainMenuWidgetModel defaultBrowserMainMenuWidgetModelFactory(
-  BuildContext context, {
-  required String groupId,
-  required DoubleValueCallback<String, String> onPressedCreateTab,
-}) {
-  return BrowserMainMenuWidgetModel(
-    BrowserMainMenuModel(
-      createPrimaryErrorHandler(context),
-      inject(),
-    ),
-    groupId,
-    onPressedCreateTab,
-  );
+class BrowserMainMenuWmParams {
+  BrowserMainMenuWmParams({
+    required this.groupId,
+    required this.onPressedCreateTab,
+  });
+
+  final String groupId;
+  final DoubleValueCallback<String, String> onPressedCreateTab;
 }
 
 /// [WidgetModel] для [BrowserMainMenu]
-class BrowserMainMenuWidgetModel
-    extends CustomWidgetModel<BrowserMainMenu, BrowserMainMenuModel> {
+@injectable
+class BrowserMainMenuWidgetModel extends CustomWidgetModelParametrized<
+    BrowserMainMenu, BrowserMainMenuModel, BrowserMainMenuWmParams> {
   BrowserMainMenuWidgetModel(
     super.model,
-    this._groupId,
-    this._onPressedCreateTab,
   );
 
-  final String _groupId;
-  final DoubleValueCallback<String, String> _onPressedCreateTab;
+  String get _groupId => wmParams.value.groupId;
+  DoubleValueCallback<String, String> get _onPressedCreateTab =>
+      wmParams.value.onPressedCreateTab;
 
   ColorsPaletteV2 get colors => _theme.colors;
 
