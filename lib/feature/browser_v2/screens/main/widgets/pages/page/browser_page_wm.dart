@@ -133,10 +133,8 @@ class BrowserPageWidgetModel extends CustomWidgetModelParametrized<
     );
 
     if (_url.toString().isNotEmpty) {
-      await customController.loadUrl(
-        urlRequest: URLRequest(
-          url: WebUri.uri(_url),
-        ),
+      unawaited(
+        model.initUri(_tabId, _url),
       );
     }
   }
@@ -277,7 +275,7 @@ class BrowserPageWidgetModel extends CustomWidgetModelParametrized<
 
     if (isGuardPhishing) {
       unawaited(
-        model.loadPhishingGuard(url),
+        model.loadPhishingGuard(_tabId, url),
       );
       return NavigationActionPolicy.CANCEL;
     }
