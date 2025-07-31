@@ -10,6 +10,8 @@ Future<void> migrateStorage() async {
   await StorageMigrationService.applyMigrations(
     inject<EncryptedStorage>(),
     inject<PresetsConnectionService>(),
+    inject<GeneralStorageService>(),
+    inject<ConnectionsStorageService>(),
   );
   log.finest('StorageMigrationService finished');
 }

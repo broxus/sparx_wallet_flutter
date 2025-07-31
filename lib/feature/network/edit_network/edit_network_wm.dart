@@ -238,11 +238,13 @@ class EditNetworkWidgetModel extends CustomWidgetModelParametrized<
         ) ??
         9;
 
+    final groupName = 'custom-${model.lastNetworkGroupNumber + 1}';
+
     return switch (_connectionType) {
       ConnectionType.jrpc => ConnectionData.jrpcCustom(
           id: id,
           name: nameController.text,
-          group: 'custom',
+          group: groupName,
           networkType: selectedNetworkType,
           endpoint: _endpointsControllers![0].text,
           blockExplorerUrl: blockExplorerUrlController.text,
@@ -253,7 +255,7 @@ class EditNetworkWidgetModel extends CustomWidgetModelParametrized<
       ConnectionType.gql => ConnectionData.gqlCustom(
           id: id,
           name: nameController.text,
-          group: 'custom',
+          group: groupName,
           networkType: selectedNetworkType,
           endpoints: [
             for (final controller in _endpointsControllers!) controller.text,
@@ -267,7 +269,7 @@ class EditNetworkWidgetModel extends CustomWidgetModelParametrized<
       ConnectionType.proto => ConnectionData.protoCustom(
           id: id,
           name: nameController.text,
-          group: 'custom',
+          group: groupName,
           networkType: selectedNetworkType,
           endpoint: _endpointsControllers![0].text,
           blockExplorerUrl: blockExplorerUrlController.text,
