@@ -1,31 +1,20 @@
 import 'dart:async';
 
-import 'package:app/core/error_handler_factory.dart';
 import 'package:app/core/wm/custom_wm.dart';
-import 'package:app/di/di.dart';
 import 'package:app/feature/wallet/widgets/account_asset_tab/select_tokens/import_selected_tokens_modal.dart';
 import 'package:app/feature/wallet/widgets/account_asset_tab/select_tokens/select_token_model.dart';
 import 'package:app/feature/wallet/widgets/account_asset_tab/select_tokens/select_tokens_modal.dart';
 import 'package:app/feature/wallet/widgets/account_asset_tab/select_tokens/token_data_element.dart';
 import 'package:elementary_helper/elementary_helper.dart';
 import 'package:flutter/widgets.dart';
+import 'package:injectable/injectable.dart';
+import 'package:nekoton_repository/nekoton_repository.dart';
 import 'package:ui_components_lib/v2/ui_components_lib_v2.dart';
 
-SelectTokenWidgetModel defaultSelectTokenWidgetModelFactory(
-  BuildContext context,
-) {
-  return SelectTokenWidgetModel(
-    SelectTokenModel(
-      createPrimaryErrorHandler(context),
-      inject(),
-      inject(),
-    ),
-  );
-}
-
 //logic in this class was moved from check_seed_phrase_cubit.dart
-class SelectTokenWidgetModel
-    extends CustomWidgetModel<SelectTokenWidget, SelectTokenModel> {
+@injectable
+class SelectTokenWidgetModel extends CustomWidgetModelParametrized<
+    SelectTokenWidget, SelectTokenModel, Address> {
   SelectTokenWidgetModel(
     super.model,
   );
@@ -44,7 +33,8 @@ class SelectTokenWidgetModel
 
   @override
   void initWidgetModel() {
-    model.getAssets(widget.address).listen(
+    super.initWidgetModel();
+    model.getAssets(wmParams.value).listen(
       (value) {
         final data = [
           ...?_data.value,
@@ -62,8 +52,6 @@ class SelectTokenWidgetModel
       onDone: () => _loading.accept(false),
       onError: (_) => _loading.accept(false),
     );
-
-    super.initWidgetModel();
   }
 
   void checkTokenSelection(TokenDataElement token) {
@@ -96,7 +84,7 @@ class SelectTokenWidgetModel
   }
 
   Future<void> clickImport() async {
-    final account = model.getAccount(widget.address);
+    final account = model.getAccount(wmParams.value);
 
     if (_data.value != null && account != null) {
       await showImportSelectedTokensModal(context, () async {

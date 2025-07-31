@@ -1,4 +1,4 @@
-import 'package:app/app/service/ton_connect/ton_connect.dart';
+import 'package:app/core/wm/custom_wm.dart';
 import 'package:app/feature/browser_v1/approvals_listener/actions/widgets/website_info/website_info_widget.dart';
 import 'package:app/feature/profile/profile.dart';
 import 'package:app/feature/ton_connect/ton_connect.dart';
@@ -6,24 +6,26 @@ import 'package:app/feature/wallet/wallet.dart';
 import 'package:app/generated/generated.dart';
 import 'package:app/utils/utils.dart';
 import 'package:app/widgets/widgets.dart';
-import 'package:elementary/elementary.dart';
 import 'package:elementary_helper/elementary_helper.dart';
 import 'package:flutter/material.dart';
 import 'package:nekoton_repository/nekoton_repository.dart';
 import 'package:ui_components_lib/ui_components_lib.dart';
 import 'package:ui_components_lib/v2/ui_components_lib_v2.dart';
 
-class TCSendMessageWidget extends ElementaryWidget<TCSendMessageWidgetModel> {
-  const TCSendMessageWidget({
-    required this.connection,
-    required this.payload,
+class TCSendMessageWidget extends InjectedElementaryParametrizedWidget<
+    TCSendMessageWidgetModel, TCSendMessageWmParams> {
+  TCSendMessageWidget({
+    required TonAppConnection connection,
+    required TransactionPayload payload,
     required this.scrollController,
-    Key? key,
-    WidgetModelFactory wmFactory = defaultTCSendMessageWidgetModelFactory,
-  }) : super(wmFactory, key: key);
+    super.key,
+  }) : super(
+          wmFactoryParam: TCSendMessageWmParams(
+            connection: connection,
+            payload: payload,
+          ),
+        );
 
-  final TonAppConnection connection;
-  final TransactionPayload payload;
   final ScrollController scrollController;
 
   @override
@@ -40,11 +42,21 @@ class TCSendMessageWidget extends ElementaryWidget<TCSendMessageWidgetModel> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
-                if (wm.account != null)
-                  StateNotifierBuilder(
-                    listenableState: wm.balance,
-                    builder: (_, balance) => AccountInfo(
-                      account: wm.account!,
+                MultiListenerRebuilder(
+                  listenableList: [
+                    wm.accountState,
+                    wm.balance,
+                  ],
+                  builder: (_) {
+                    final account = wm.accountState.value;
+                    final balance = wm.balance.value;
+
+                    if (account == null) {
+                      return const SizedBox.shrink();
+                    }
+
+                    return AccountInfo(
+                      account: account,
                       color: theme.colors.background2,
                       subtitle: balance?.let(
                         (value) => AmountWidget.fromMoney(
@@ -55,35 +67,46 @@ class TCSendMessageWidget extends ElementaryWidget<TCSendMessageWidgetModel> {
                           useDefaultFormat: false,
                         ),
                       ),
-                    ),
-                  ),
+                    );
+                  },
+                ),
                 const SizedBox(height: DimensSizeV2.d12),
                 WebsiteInfoWidget(
-                  uri: Uri.parse(connection.manifest.url),
-                  iconUrl: Uri.tryParse(connection.manifest.iconUrl),
+                  uri: Uri.parse(wm.connection.manifest.url),
+                  iconUrl: Uri.tryParse(wm.connection.manifest.iconUrl),
                 ),
-                DoubleSourceBuilder(
-                  firstSource: wm.publicKey,
-                  secondSource: wm.custodians,
-                  builder: (_, publicKey, custodians) => custodians == null ||
-                          custodians.length < 2
-                      ? const SizedBox.shrink()
-                      : Padding(
-                          padding: const EdgeInsets.only(top: DimensSizeV2.d12),
-                          child: CommonSelectDropdown<PublicKey>(
-                            values: [
-                              for (final c in custodians)
-                                CommonSheetDropdownItem<PublicKey>(
-                                  value: c,
-                                  title:
-                                      wm.getSeedName(c) ?? c.toEllipseString(),
-                                ),
-                            ],
-                            titleText: LocaleKeys.custodianWord.tr(),
-                            currentValue: publicKey,
-                            onChanged: wm.onChangedCustodian,
-                          ),
-                        ),
+                MultiListenerRebuilder(
+                  listenableList: [
+                    wm.accountState,
+                    wm.selectedPublicKey,
+                    wm.custodians,
+                  ],
+                  builder: (_) {
+                    final account = wm.accountState.value;
+                    final selectedPublicKey =
+                        wm.selectedPublicKey.value ?? account?.publicKey;
+                    final custodians = wm.custodians.value;
+
+                    if (custodians == null || custodians.length < 2) {
+                      return const SizedBox.shrink();
+                    }
+
+                    return Padding(
+                      padding: const EdgeInsets.only(top: DimensSizeV2.d12),
+                      child: CommonSelectDropdown<PublicKey>(
+                        values: [
+                          for (final c in custodians)
+                            CommonSheetDropdownItem<PublicKey>(
+                              value: c,
+                              title: wm.getSeedName(c) ?? c.toEllipseString(),
+                            ),
+                        ],
+                        titleText: LocaleKeys.custodianWord.tr(),
+                        currentValue: selectedPublicKey,
+                        onChanged: wm.onChangedCustodian,
+                      ),
+                    );
+                  },
                 ),
                 const SizedBox(height: DimensSizeV2.d12),
                 TripleSourceBuilder(
@@ -124,39 +147,48 @@ class TCSendMessageWidget extends ElementaryWidget<TCSendMessageWidgetModel> {
             ),
           ),
         ),
-        if (wm.account != null)
-          DoubleSourceBuilder(
-            firstSource: wm.txErrors,
-            secondSource: wm.isConfirmed,
-            builder: (_, txErrors, isConfirmed) {
-              final hasTxError = txErrors?.isNotEmpty ?? false;
+        MultiListenerRebuilder(
+          listenableList: [
+            wm.accountState,
+            wm.txErrors,
+            wm.isConfirmed,
+            wm.isLoading,
+          ],
+          builder: (_) {
+            final account = wm.accountState.value;
+            final txErrors = wm.txErrors.value;
+            final isConfirmed = wm.isConfirmed.value;
+            final isLoading = wm.isLoading.value;
+            final numberUnconfirmedTransactions =
+                wm.numberUnconfirmedTransactions;
 
-              return SeparatedColumn(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  if (hasTxError)
-                    TxTreeSimulationErrorWidget(
-                      txErrors: txErrors!,
-                      symbol: wm.symbol,
-                      isConfirmed: isConfirmed ?? false,
-                      onConfirm: wm.onConfirmed,
-                    ),
-                  StateNotifierBuilder(
-                    listenableState: wm.isLoading,
-                    builder: (_, isLoading) => EnterPasswordWidgetV2(
-                      isLoading: isLoading,
-                      publicKey: wm.account!.publicKey,
-                      title: LocaleKeys.sendWord.tr(),
-                      isDisabled: wm.numberUnconfirmedTransactions == null ||
-                          wm.numberUnconfirmedTransactions! >= 5 ||
-                          (hasTxError && isConfirmed != true),
-                      onPasswordEntered: wm.onSubmit,
-                    ),
+            if (account == null) return const SizedBox.shrink();
+
+            final hasTxError = txErrors?.isNotEmpty ?? false;
+
+            return SeparatedColumn(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                if (hasTxError)
+                  TxTreeSimulationErrorWidget(
+                    txErrors: txErrors!,
+                    symbol: wm.symbol,
+                    isConfirmed: isConfirmed ?? false,
+                    onConfirm: wm.onConfirmed,
                   ),
-                ],
-              );
-            },
-          ),
+                EnterPasswordWidgetV2(
+                  isLoading: isLoading,
+                  publicKey: account.publicKey,
+                  title: LocaleKeys.sendWord.tr(),
+                  isDisabled: numberUnconfirmedTransactions == null ||
+                      numberUnconfirmedTransactions >= 5 ||
+                      (hasTxError && isConfirmed != true),
+                  onPasswordEntered: wm.onSubmit,
+                ),
+              ],
+            );
+          },
+        ),
       ],
     );
   }

@@ -1,10 +1,8 @@
 import 'dart:async';
 import 'dart:collection';
 
-import 'package:app/core/error_handler_factory.dart';
 import 'package:app/core/wm/custom_wm.dart';
 import 'package:app/data/models/browser_history_item.dart';
-import 'package:app/di/di.dart';
 import 'package:app/feature/browser_v2/widgets/bottomsheets/book/widgets/history/history_list.dart';
 import 'package:app/feature/browser_v2/widgets/bottomsheets/book/widgets/history/history_list_model.dart';
 import 'package:app/feature/browser_v2/widgets/bottomsheets/book/widgets/history/ui_models/history_ui_model.dart';
@@ -15,21 +13,10 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:elementary/elementary.dart';
 import 'package:elementary_helper/elementary_helper.dart';
 import 'package:flutter/widgets.dart';
-
-/// Factory method for creating [HistoryListWidgetModel]
-HistoryListWidgetModel defaultHistoryListWidgetModelFactory(
-  BuildContext context,
-) {
-  return HistoryListWidgetModel(
-    HistoryListModel(
-      createPrimaryErrorHandler(context),
-      inject(),
-      inject(),
-    ),
-  );
-}
+import 'package:injectable/injectable.dart';
 
 /// [WidgetModel] для [HistoryList]
+@injectable
 class HistoryListWidgetModel
     extends CustomWidgetModel<HistoryList, HistoryListModel> {
   HistoryListWidgetModel(
@@ -58,10 +45,10 @@ class HistoryListWidgetModel
 
   @override
   void initWidgetModel() {
+    super.initWidgetModel();
     _historySubs = model.originalBrowserHistoryStream.listen(_handleHistory);
     searchController.addListener(_handleSearch);
     _updateActiveMenu();
-    super.initWidgetModel();
   }
 
   @override
@@ -92,23 +79,35 @@ class HistoryListWidgetModel
     _editState.accept(false);
   }
 
-  Future<void> onPressedClear() async {
-    _close();
-    final result = await showClearHistoryModal(context);
+  void onPressedClear() {
+    Future(
+      () async {
+        final ctx = contextSafe;
 
-    if (result == null) {
-      return;
-    }
+        if (ctx == null) {
+          return;
+        }
 
-    final period = result.$1;
-    final targets = result.$2;
+        _close();
 
-    if (targets.isEmpty) {
-      return;
-    }
+        // ignore: use_build_context_synchronously
+        final result = await showClearHistoryModal(ctx);
 
-    model.clearData(period, targets);
-    _close();
+        if (result == null) {
+          return;
+        }
+
+        final period = result.$1;
+        final targets = result.$2;
+
+        if (targets.isEmpty) {
+          return;
+        }
+
+        model.clearData(period, targets);
+        _close();
+      },
+    );
   }
 
   void onPressedRemove(String bookmarkId) {

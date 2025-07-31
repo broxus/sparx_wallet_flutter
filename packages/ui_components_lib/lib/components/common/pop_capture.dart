@@ -4,9 +4,9 @@ class PopCapture extends PopScope {
   PopCapture({
     required super.child,
     VoidCallback? onPop,
+    super.canPop,
     super.key,
   }) : super(
-          canPop: false,
           onPopInvokedWithResult: (didPop, result) {
             if (didPop || onPop == null) {
               return;

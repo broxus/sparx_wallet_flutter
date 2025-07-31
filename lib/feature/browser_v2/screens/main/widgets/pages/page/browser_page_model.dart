@@ -5,7 +5,6 @@ import 'package:app/app/service/assets_service.dart';
 import 'package:app/app/service/connection/connection_service.dart';
 import 'package:app/app/service/permissions_service.dart';
 import 'package:app/app/service/storage_service/connections_storage_service.dart';
-import 'package:app/app/service/ton_connect/ton_connect_js_bridge.dart';
 import 'package:app/feature/browser_v2/custom_web_controller.dart';
 import 'package:app/feature/browser_v2/data/browser_basic_auth_creds.dart';
 import 'package:app/feature/browser_v2/domain/service/browser_service.dart';
@@ -13,16 +12,18 @@ import 'package:app/feature/browser_v2/inpage_provider/inpage_provider.dart';
 import 'package:app/feature/browser_v2/screens/main/widgets/pages/page/browser_page.dart';
 import 'package:app/feature/browser_v2/screens/main/widgets/pages/page/helpers/events_helper.dart';
 import 'package:app/feature/messenger/domain/service/messenger_service.dart';
+import 'package:app/feature/ton_connect/ton_connect.dart';
 import 'package:elementary/elementary.dart';
 import 'package:elementary_helper/elementary_helper.dart';
 import 'package:flutter_inappwebview/flutter_inappwebview.dart';
+import 'package:injectable/injectable.dart';
 import 'package:nekoton_repository/nekoton_repository.dart';
 
 /// [ElementaryModel] for [BrowserPage]
+@injectable
 class BrowserPageModel extends ElementaryModel {
   BrowserPageModel(
     ErrorHandler errorHandler,
-    this._tabId,
     this._browserService,
     this._approvalsService,
     this._permissionsService,
@@ -34,8 +35,6 @@ class BrowserPageModel extends ElementaryModel {
     this._tonConnectJsBridge,
   ) : super(errorHandler: errorHandler);
 
-  final String _tabId;
-
   final BrowserService _browserService;
   final BrowserApprovalsService _approvalsService;
   final PermissionsService _permissionsService;
@@ -46,21 +45,11 @@ class BrowserPageModel extends ElementaryModel {
   final ConnectionService _connectionService;
   final TonConnectJsBridge _tonConnectJsBridge;
 
-  late final _inpageProvider = InpageProvider(
-    tabId: _tabId,
-    approvalsService: _approvalsService,
-    permissionsService: _permissionsService,
-    nekotonRepository: _nekotonRepository,
-    messengerService: _messengerService,
-    assetsService: _assetsService,
-    connectionsStorageService: _connectionsStorageService,
-    connectionService: _connectionService,
-  );
+  InpageProvider? _inpageProvider;
 
   late final _eventsHelper = EventsHelper(
     _nekotonRepository,
     _permissionsService,
-    _tabId,
   );
 
   ListenableState<String?> get activeGroupIdState =>
@@ -78,12 +67,26 @@ class BrowserPageModel extends ElementaryModel {
     return super.dispose();
   }
 
-  Future<void> initEvents(CustomWebViewController controller) async {
-    _eventsHelper.init(controller);
-    _inpageProvider.controller = controller;
+  Future<void> initEvents({
+    required String tabId,
+    required CustomWebViewController controller,
+  }) async {
+    _eventsHelper.init(tabId: tabId, controller: controller);
+    final inpageProvider = InpageProvider(
+      tabId: tabId,
+      approvalsService: _approvalsService,
+      permissionsService: _permissionsService,
+      nekotonRepository: _nekotonRepository,
+      messengerService: _messengerService,
+      assetsService: _assetsService,
+      connectionsStorageService: _connectionsStorageService,
+      connectionService: _connectionService,
+    );
+    _inpageProvider = inpageProvider;
+    inpageProvider.controller = controller;
 
     await controller.initNekotonProvider(
-      providerApi: _inpageProvider,
+      providerApi: inpageProvider,
     );
     await _tonConnectJsBridge.initJsBridge(controller);
   }
@@ -100,17 +103,23 @@ class BrowserPageModel extends ElementaryModel {
     _browserService.auth.setBasicAuthCreds(challenge, credits);
   }
 
-  void updateUrl(Uri? uri) {
+  void updateUrl({
+    required Uri? uri,
+    required String tabId,
+  }) {
     if (uri == null) {
       return;
     }
-    _inpageProvider.url = uri;
+    _inpageProvider?.url = uri;
     _tonConnectJsBridge.url = uri;
-    _browserService.tab.updateCachedUrl(_tabId, uri);
+    _browserService.tab.updateCachedUrl(tabId, uri);
   }
 
-  void updateTitle(String title) {
-    _browserService.tab.updateTabTitle(_tabId, title);
+  void updateTitle({
+    required String title,
+    required String tabId,
+  }) {
+    _browserService.tab.updateTabTitle(tabId, title);
   }
 
   void addHistory(Uri? uri) {
@@ -122,10 +131,11 @@ class BrowserPageModel extends ElementaryModel {
 
   Future<void> createScreenshot({
     required Future<Uint8List?> Function() takePictureCallback,
+    required String tabId,
     bool force = false,
   }) async {
     return _browserService.tab.createScreenshot(
-      tabId: _tabId,
+      tabId: tabId,
       takePictureCallback: takePictureCallback,
     );
   }

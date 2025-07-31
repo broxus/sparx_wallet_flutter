@@ -1,6 +1,6 @@
+import 'package:app/core/wm/custom_wm.dart';
 import 'package:app/feature/wallet/widgets/wallet_backup/wallet_backup.dart';
 import 'package:app/generated/generated.dart';
-import 'package:elementary/elementary.dart';
 import 'package:elementary_helper/elementary_helper.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:lucide_icons_flutter/lucide_icons.dart';
@@ -11,7 +11,7 @@ Future<void> showManualBackupDialog(
   BuildContext context,
   List<String> words,
   String address,
-  VoidCallback finishedBackupCallback,
+  ValueChanged<bool> finishedBackupCallback,
 ) {
   return showPrimaryBottomSheet(
     context: context,
@@ -25,18 +25,20 @@ Future<void> showManualBackupDialog(
   );
 }
 
-class ContentManualBackup extends ElementaryWidget<ManualBackUpWidgetModel> {
-  const ContentManualBackup({
-    required this.words,
-    required this.address,
-    required this.finishedBackupCallback,
-    Key? key,
-    WidgetModelFactory wmFactory = defaultManualBackUpWidgetModelFactory,
-  }) : super(wmFactory, key: key);
-
-  final List<String> words;
-  final String address;
-  final VoidCallback finishedBackupCallback;
+class ContentManualBackup extends InjectedElementaryParametrizedWidget<
+    ManualBackUpWidgetModel, ManualBackUpWmParams> {
+  ContentManualBackup({
+    required List<String> words,
+    required String address,
+    required ValueChanged<bool> finishedBackupCallback,
+    super.key,
+  }) : super(
+          wmFactoryParam: ManualBackUpWmParams(
+            words: words,
+            address: address,
+            finishedBackupCallback: finishedBackupCallback,
+          ),
+        );
 
   @override
   Widget build(ManualBackUpWidgetModel wm) {
@@ -51,7 +53,10 @@ class ContentManualBackup extends ElementaryWidget<ManualBackUpWidgetModel> {
             ),
           ),
           padding: const EdgeInsets.all(DimensSizeV2.d32),
-          child: _ListWords(wm.words),
+          child: ValueListenableBuilder(
+            valueListenable: wm.wordsState,
+            builder: (_, words, __) => _ListWords(words),
+          ),
         ),
         const SizedBox(height: DimensSizeV2.d8),
         EntityStateNotifierBuilder<ManualBackUpData?>(

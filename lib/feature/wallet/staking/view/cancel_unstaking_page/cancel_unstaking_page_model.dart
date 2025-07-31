@@ -2,8 +2,10 @@ import 'package:app/app/service/service.dart';
 import 'package:app/data/models/models.dart';
 import 'package:app/feature/wallet/staking/staking.dart';
 import 'package:elementary/elementary.dart';
+import 'package:injectable/injectable.dart';
 import 'package:nekoton_repository/nekoton_repository.dart';
 
+@injectable
 class CancelUnstakingPageModel extends ElementaryModel {
   CancelUnstakingPageModel(
     ErrorHandler errorHandler,

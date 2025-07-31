@@ -13,7 +13,7 @@ class BackUpBadge extends StatelessWidget {
   });
 
   final KeyAccount currentAccount;
-  final VoidCallback finishedBackupCallback;
+  final ValueChanged<bool> finishedBackupCallback;
 
   @override
   Widget build(BuildContext context) {

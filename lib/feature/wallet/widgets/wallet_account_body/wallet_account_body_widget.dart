@@ -1,22 +1,19 @@
+import 'package:app/core/wm/custom_wm.dart';
 import 'package:app/feature/wallet/wallet.dart';
 import 'package:app/feature/wallet/widgets/wallet_backup/back_up_badge.dart';
 import 'package:carousel_slider/carousel_slider.dart';
-import 'package:elementary/elementary.dart';
 import 'package:elementary_helper/elementary_helper.dart';
 import 'package:flutter/material.dart';
 import 'package:nekoton_repository/nekoton_repository.dart';
 import 'package:ui_components_lib/v2/ui_components_lib_v2.dart';
 
 /// Body of wallet, that displays information about account
-class WalletAccountBodyWidget
-    extends ElementaryWidget<WalletAccountBodyWidgetModel> {
+class WalletAccountBodyWidget extends InjectedElementaryParametrizedWidget<
+    WalletAccountBodyWidgetModel, KeyAccount> {
   const WalletAccountBodyWidget({
-    required this.account,
-    Key? key,
-    WidgetModelFactory wmFactory = defaultWalletAccountBodyWidgetModelFactory,
-  }) : super(wmFactory, key: key);
-
-  final KeyAccount account;
+    required KeyAccount account,
+    super.key,
+  }) : super(wmFactoryParam: account);
 
   @override
   Widget build(WalletAccountBodyWidgetModel wm) {
@@ -30,22 +27,21 @@ class WalletAccountBodyWidget
               left: DimensSizeV2.d16,
               right: DimensSizeV2.d16,
             ),
-            child: StateNotifierBuilder(
-              listenableState: wm.keyAccount,
-              builder: (context, keyAccount) {
-                if (keyAccount == null) return const SizedBox.shrink();
-
-                return AccountCard(account: keyAccount);
+            child: ValueListenableBuilder(
+              valueListenable: wm.currentAccountState,
+              builder: (_, currentAccount, __) {
+                return AccountCard(account: currentAccount);
               },
             ),
           ),
-          DoubleSourceBuilder(
-            firstSource: wm.notifications,
-            secondSource: wm.keyAccount,
-            builder: (_, notifications, keyAccount) {
-              if (keyAccount == null) return const SizedBox.shrink();
-
-              final items = notifications ?? [];
+          MultiListenerRebuilder(
+            listenableList: [
+              wm.notifications,
+              wm.currentAccountState,
+            ],
+            builder: (_) {
+              final currentAccount = wm.currentAccountState.value;
+              final notifications = wm.notifications.value ?? [];
 
               return Column(
                 children: [
@@ -54,29 +50,29 @@ class WalletAccountBodyWidget
                       horizontal: DimensSizeV2.d16,
                     ),
                     child: WalletAccountActions(
-                      account: keyAccount,
-                      disableSensetiveActions: items.contains(
+                      account: currentAccount,
+                      disableSensetiveActions: notifications.contains(
                         NotificationType.unsupportedWalletType,
                       ),
                     ),
                   ),
-                  if (items.isNotEmpty)
+                  if (notifications.isNotEmpty)
                     Column(
                       spacing: DimensSizeV2.d8,
                       children: [
                         _Carousel(
-                          items: items,
-                          account: keyAccount,
+                          items: notifications,
+                          account: currentAccount,
                           onFinishedBackup: wm.onFinishedBackup,
                           onSwitchAccount: wm.onSwitchAccount,
                           onPageChanged: wm.onPageChanged,
                         ),
-                        if (items.length > 1)
+                        if (notifications.length > 1)
                           ValueListenableBuilder(
                             valueListenable: wm.carouselPage,
                             builder: (_, page, __) => _CarouselIndicator(
                               currentPage: page,
-                              itemCount: items.length,
+                              itemCount: notifications.length,
                             ),
                           ),
                       ],
@@ -102,7 +98,7 @@ class _Carousel extends StatelessWidget {
 
   final List<NotificationType> items;
   final KeyAccount account;
-  final VoidCallback onFinishedBackup;
+  final ValueChanged<bool> onFinishedBackup;
   final VoidCallback onSwitchAccount;
   final void Function(
     int index,

@@ -1,6 +1,6 @@
+import 'package:app/core/wm/custom_wm.dart';
 import 'package:app/feature/wallet/wallet.dart';
 import 'package:app/generated/generated.dart';
-import 'package:elementary/elementary.dart';
 import 'package:elementary_helper/elementary_helper.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
@@ -9,14 +9,12 @@ import 'package:ui_components_lib/ui_components_lib.dart';
 import 'package:ui_components_lib/v2/widgets/widgets.dart';
 
 /// Page that allows user to stake his native token.
-class StakingPageWidget extends ElementaryWidget<StakingPageWidgetModel> {
+class StakingPageWidget extends InjectedElementaryParametrizedWidget<
+    StakingPageWidgetModel, Address> {
   const StakingPageWidget({
-    required this.accountAddress,
-    Key? key,
-    WidgetModelFactory wmFactory = defaultStakingPageWidgetModelFactory,
-  }) : super(wmFactory, key: key);
-
-  final Address accountAddress;
+    required Address accountAddress,
+    super.key,
+  }) : super(wmFactoryParam: accountAddress);
 
   @override
   Widget build(StakingPageWidgetModel wm) {
@@ -105,7 +103,7 @@ class _StakingViewWidget extends StatelessWidget {
                         text: LocaleKeys.stakeEverReceiverStever.tr(
                           args: [
                             wm.currency.symbol,
-                            info?.tokenWallet.symbol.name ?? '',
+                            info?.tokenWallet.currency.symbol ?? '',
                           ],
                         ),
                         style: theme.textStyles.paragraphMedium.copyWith(

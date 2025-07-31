@@ -1,5 +1,4 @@
-import 'package:app/app/service/ton_connect/models/models.dart';
-import 'package:app/app/service/ton_connect/session_crypto.dart';
+import 'package:app/feature/ton_connect/ton_connect.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:nekoton_repository/nekoton_repository.dart';
 

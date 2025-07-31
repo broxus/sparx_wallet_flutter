@@ -2,25 +2,30 @@ import 'dart:async';
 
 import 'package:app/app/service/permissions_service.dart';
 import 'package:app/feature/browser_v2/custom_web_controller.dart';
+import 'package:logging/logging.dart';
 import 'package:nekoton_repository/nekoton_repository.dart';
 import 'package:nekoton_webview/nekoton_webview.dart' as nwv;
+import 'package:ui_components_lib/ui_components_lib.dart';
 
 class EventsHelper {
   EventsHelper(
     this._nekotonRepository,
     this._permissionsService,
-    this._tabId,
   );
 
   final NekotonRepository _nekotonRepository;
   final PermissionsService _permissionsService;
-  final String _tabId;
 
   final _subs = <StreamSubscription<dynamic>>[];
 
-  void init(CustomWebViewController controller) {
+  final _log = Logger('EventsHelper');
+
+  void init({
+    required String tabId,
+    required CustomWebViewController controller,
+  }) {
     _subs.addAll([
-      _nekotonRepository.tabTransactionsStream(_tabId).listen(
+      _nekotonRepository.tabTransactionsStream(tabId).listen(
             (event) => controller.transactionsFound(
               nwv.TransactionsFoundEvent(
                 event.address.address,
@@ -31,7 +36,7 @@ class EventsHelper {
               ),
             ),
           ),
-      _nekotonRepository.tabStateChangesStream(_tabId).listen(
+      _nekotonRepository.tabStateChangesStream(tabId).listen(
             (state) => controller.contractStateChanged(
               nwv.ContractStateChangedEvent(
                 state.address.address,
@@ -52,17 +57,21 @@ class EventsHelper {
       }),
       _permissionsService.permissionsStream.listen(
         (permissions) async {
-          final url = await controller.getUrl();
-          final currentPermissions =
-              url == null ? null : permissions[Uri.parse(url.origin)];
-
-          await controller.permissionsChanged(
-            nwv.PermissionsChangedEvent(
-              nwv.PermissionsPartial.fromJson(
-                currentPermissions?.toJson() ?? {},
+          try {
+            final url = await controller.getUrl();
+            final currentPermissions = url == null
+                ? null
+                : permissions[Uri.parse(url.universalOrigin)];
+            await controller.permissionsChanged(
+              nwv.PermissionsChangedEvent(
+                nwv.PermissionsPartial.fromJson(
+                  currentPermissions?.toJson() ?? {},
+                ),
               ),
-            ),
-          );
+            );
+          } catch (e, s) {
+            _log.severe('ERROR', e, s);
+          }
         },
       ),
     ]);

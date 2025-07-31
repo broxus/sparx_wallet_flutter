@@ -1,10 +1,8 @@
 import 'dart:async';
 
 import 'package:app/app/router/router.dart';
-import 'package:app/core/error_handler_factory.dart';
 import 'package:app/core/wm/custom_wm.dart';
 import 'package:app/data/models/models.dart';
-import 'package:app/di/di.dart';
 import 'package:app/feature/wallet/token_wallet_send/route.dart';
 import 'package:app/feature/wallet/wallet.dart';
 import 'package:app/generated/generated.dart';
@@ -13,6 +11,7 @@ import 'package:app/widgets/amount_input/amount_input_asset.dart';
 import 'package:elementary_helper/elementary_helper.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:injectable/injectable.dart';
 import 'package:logging/logging.dart';
 import 'package:nekoton_repository/nekoton_repository.dart';
 import 'package:rxdart/rxdart.dart';
@@ -20,23 +19,14 @@ import 'package:ui_components_lib/ui_components_lib.dart';
 
 const _maxFixedComission = 0.1; // 0.1 EVER
 
-StakingPageWidgetModel defaultStakingPageWidgetModelFactory(
-  BuildContext context,
-) =>
-    StakingPageWidgetModel(
-      StakingPageModel(
-        createPrimaryErrorHandler(context),
-        inject(),
-        inject(),
-        inject(),
-        inject(),
-        inject(),
-      ),
-    );
+@injectable
+class StakingPageWidgetModel extends CustomWidgetModelParametrized<
+    StakingPageWidget, StakingPageModel, Address> {
+  StakingPageWidgetModel(
+    super.model,
+  );
 
-class StakingPageWidgetModel
-    extends CustomWidgetModel<StakingPageWidget, StakingPageModel> {
-  StakingPageWidgetModel(super.model);
+  Address get accountAddress => wmParams.value;
 
   late final inputController = createTextEditingController();
 
@@ -47,7 +37,7 @@ class StakingPageWidgetModel
   late final _info = createEntityNotifier<StakingInfo>()..loading();
   late final _data = createNotifier<StakingData>();
   late final _requests = createNotifierFromStream(
-    model.getWithdrawRequests(widget.accountAddress),
+    model.getWithdrawRequests(accountAddress),
   );
   late final _receive = createNotifierFromStream(
     Rx.combineLatestList(
@@ -173,11 +163,11 @@ class StakingPageWidgetModel
 
   Future<void> _init() async {
     try {
-      unawaited(model.tryAddTokenWallet(widget.accountAddress));
+      unawaited(model.tryAddTokenWallet(accountAddress));
 
       final (ever, token) = await FutureExt.wait2(
-        model.getWallet(widget.accountAddress),
-        model.getTokenWallet(widget.accountAddress),
+        model.getWallet(wmParams.value),
+        model.getTokenWallet(wmParams.value),
       );
 
       if (ever.hasError || token.hasError) {
@@ -273,8 +263,8 @@ class StakingPageWidgetModel
             balance: info.tokenWallet.moneyBalance,
             logoURI: info.tokenContractAsset?.logoURI ??
                 Assets.images.tokenDefaultIcon.path,
-            title: info.tokenWallet.symbol.fullName,
-            tokenSymbol: info.tokenWallet.symbol.name,
+            title: info.tokenWallet.currency.name,
+            tokenSymbol: info.tokenWallet.currency.symbol,
             currency: info.tokenCurrency,
           ),
         ),
@@ -374,7 +364,7 @@ class StakingPageWidgetModel
 
     contextSafe?.compassContinue(
       TonWalletSendRouteData(
-        address: widget.accountAddress,
+        address: accountAddress,
         publicKey: info.wallet.publicKey,
         payload: payload,
         destination: valutAddress,
@@ -403,7 +393,7 @@ class StakingPageWidgetModel
 
     contextSafe?.compassContinue(
       TokenWalletSendRouteData(
-        owner: widget.accountAddress,
+        owner: accountAddress,
         rootTokenContract: rootContractAddress,
         publicKey: info.wallet.publicKey,
         comment: payload,

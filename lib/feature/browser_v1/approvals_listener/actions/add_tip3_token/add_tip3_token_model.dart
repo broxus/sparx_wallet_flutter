@@ -1,8 +1,10 @@
 import 'package:app/app/service/service.dart';
 import 'package:app/data/models/models.dart';
 import 'package:elementary/elementary.dart';
+import 'package:injectable/injectable.dart';
 import 'package:nekoton_repository/nekoton_repository.dart';
 
+@injectable
 class AddTip3TokenModel extends ElementaryModel {
   AddTip3TokenModel(
     ErrorHandler errorHandler,
@@ -26,7 +28,7 @@ class AddTip3TokenModel extends ElementaryModel {
           rootTokenContract: rootTokenContract,
         );
       } finally {
-        _nekotonRepository.unsubscribeToken(owner, rootTokenContract);
+        await _nekotonRepository.unsubscribeToken(owner, rootTokenContract);
       }
     }
 

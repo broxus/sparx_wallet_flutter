@@ -1,9 +1,11 @@
 import 'package:app/app/service/service.dart';
 import 'package:elementary/elementary.dart';
+import 'package:injectable/injectable.dart';
 import 'package:nekoton_repository/nekoton_repository.dart' hide Message;
 
 const _walletV5R1 = WalletType.walletV5R1();
 
+@injectable
 class WalletAccountBodyModel extends ElementaryModel {
   WalletAccountBodyModel(
     ErrorHandler errorHandler,
@@ -55,12 +57,15 @@ class WalletAccountBodyModel extends ElementaryModel {
     );
   }
 
-  void hideBackupNotification(KeyAccount account) {
+  void hideBackupNotification(
+    KeyAccount account, {
+    required bool isCompleted,
+  }) {
     final masterPublicKey = getMasterPublicKey(account);
 
     return _storageService.addValue(
       StorageKey.showingManualBackupBadge(masterPublicKey.publicKey),
-      false,
+      !isCompleted,
     );
   }
 }
