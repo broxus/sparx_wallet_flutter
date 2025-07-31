@@ -1,21 +1,21 @@
 import 'dart:ui';
 
+import 'package:app/core/wm/custom_wm.dart';
 import 'package:app/feature/update_version/data/update_request.dart';
 import 'package:app/feature/update_version/data/update_status.dart';
 import 'package:app/feature/update_version/view/update_version_wm.dart';
 import 'package:app/generated/generated.dart';
-import 'package:elementary/elementary.dart';
 import 'package:elementary_helper/elementary_helper.dart';
 import 'package:flutter/material.dart';
 import 'package:ui_components_lib/ui_components_lib.dart';
 import 'package:ui_components_lib/v2/ui_components_lib_v2.dart';
 
 /// Screen for displaying update version notification
-class UpdateVersionScreen extends ElementaryWidget<UpdateVersionWidgetModel> {
+class UpdateVersionScreen
+    extends InjectedElementaryWidget<UpdateVersionWidgetModel> {
   const UpdateVersionScreen({
-    WidgetModelFactory wmFactory = updateVersionWidgetModelFactory,
     super.key,
-  }) : super(wmFactory);
+  });
 
   @override
   Widget build(UpdateVersionWidgetModel wm) {

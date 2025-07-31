@@ -1,18 +1,32 @@
-import 'package:app/feature/bootstrap_failed/cubit/rerun_cubit/rerun_cubit.dart';
+import 'package:app/app/service/bootstrap/bootstrap_service.dart';
 import 'package:app/feature/connection_fail/connection_fail_screen.dart';
+import 'package:app/feature/messenger/data/message.dart';
+import 'package:app/feature/messenger/domain/service/messenger_service.dart';
+import 'package:app/generated/generated.dart';
 import 'package:elementary/elementary.dart';
-import 'package:flutter/cupertino.dart';
+import 'package:injectable/injectable.dart';
 
 /// [ElementaryModel] for [ConnectionFailScreen]
+@injectable
 class ConnectionFailModel extends ElementaryModel {
   ConnectionFailModel(
     ErrorHandler errorHandler,
-    this._cubit,
+    this.bootstrapService,
+    this.messengerService,
   ) : super(errorHandler: errorHandler);
 
-  final BootstrapRerunCubit _cubit;
+  final BootstrapService bootstrapService;
+  final MessengerService messengerService;
 
-  void tryAgain(BuildContext context) {
-    _cubit.rerun(context);
+  Future<void> tryAgain() async {
+    try {
+      await bootstrapService.rerunFailedSteps();
+    } catch (e) {
+      messengerService.show(
+        Message.error(
+          message: LocaleKeys.initializationRerunFailed.tr(),
+        ),
+      );
+    }
   }
 }

@@ -1,9 +1,11 @@
 import 'package:app/feature/browser_v2/domain/browser_launcher.dart';
 import 'package:app/feature/wallet/widgets/account_transactions_tab/widgets/ton_wallet_multisig_expired_transaction/ton_wallet_multisig_expired_transaction_widget.dart';
 import 'package:elementary/elementary.dart';
+import 'package:injectable/injectable.dart';
 import 'package:nekoton_repository/nekoton_repository.dart';
 
 /// [ElementaryModel] for [TonWalletMultisigExpiredTransactionWidget]
+@injectable
 class TonWalletMultisigExpiredTransactionModel extends ElementaryModel {
   TonWalletMultisigExpiredTransactionModel(
     ErrorHandler errorHandler,

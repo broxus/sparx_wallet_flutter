@@ -6,11 +6,9 @@ import 'dart:math';
 import 'package:app/app/router/compass/compass.dart';
 import 'package:app/app/router/router.dart';
 import 'package:app/app/service/currency_convert_service.dart';
-import 'package:app/core/error_handler_factory.dart';
-import 'package:app/core/sentry.dart';
+import 'package:app/bootstrap/sentry.dart';
 import 'package:app/core/wm/custom_wm.dart';
 import 'package:app/data/models/token_contract/token_contract_asset.dart';
-import 'package:app/di/di.dart';
 import 'package:app/feature/qr_scanner/qr_scanner.dart';
 import 'package:app/feature/wallet/token_wallet_send/route.dart';
 import 'package:app/feature/wallet/ton_wallet_send/route.dart';
@@ -26,27 +24,28 @@ import 'package:elementary_helper/elementary_helper.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
+import 'package:injectable/injectable.dart';
 import 'package:nekoton_repository/nekoton_repository.dart';
 
-/// Factory method for creating [WalletPrepareTransferPageWidgetModel]
-WalletPrepareTransferPageWidgetModel
-    defaultWalletPrepareTransferPageWidgetModelFactory(
-  BuildContext context,
-) {
-  return WalletPrepareTransferPageWidgetModel(
-    WalletPrepareTransferPageModel(
-      createPrimaryErrorHandler(context),
-      inject(),
-      inject(),
-      inject(),
-      inject(),
-    ),
-  );
+class WalletPrepareTransferPageWmParams {
+  const WalletPrepareTransferPageWmParams({
+    required this.address,
+    this.destination,
+    this.rootTokenContract,
+    this.tokenSymbol,
+  });
+
+  final Address address;
+  final Address? destination;
+  final Address? rootTokenContract;
+  final String? tokenSymbol;
 }
 
 /// [WidgetModel] для [WalletPrepareTransferPage]
-class WalletPrepareTransferPageWidgetModel extends CustomWidgetModel<
-    WalletPrepareTransferPage, WalletPrepareTransferPageModel> {
+@injectable
+class WalletPrepareTransferPageWidgetModel
+    extends CustomWidgetModelParametrized<WalletPrepareTransferPage,
+        WalletPrepareTransferPageModel, WalletPrepareTransferPageWmParams> {
   WalletPrepareTransferPageWidgetModel(
     super.model,
   );
@@ -62,7 +61,7 @@ class WalletPrepareTransferPageWidgetModel extends CustomWidgetModel<
   final formKey = GlobalKey<FormState>();
 
   late final receiverController =
-      createTextEditingController(destinationState.value?.address);
+      createTextEditingController(wmParams.value.destination?.address);
   late final receiverFocus = createFocusNode();
 
   late final amountController = createTextEditingController();
@@ -80,20 +79,6 @@ class WalletPrepareTransferPageWidgetModel extends CustomWidgetModel<
 
   late final _sentry = SentryWorker.instance;
 
-  late final ListenableState<Address> addressState = createWidgetProperty(
-    (w) => w.address,
-  );
-  late final ListenableState<Address?> destinationState = createWidgetProperty(
-    (w) => w.destination,
-  );
-  late final ListenableState<Address?> rootTokenContractState =
-      createWidgetProperty(
-    (w) => w.rootTokenContract,
-  );
-  late final ListenableState<String?> tokenSymbolState = createWidgetProperty(
-    (w) => w.tokenSymbol,
-  );
-
   WalletPrepareTransferData? get _data => screenState.value.data;
 
   WalletPrepareTransferAsset? get _selectedAsset => _data?.selectedAsset;
@@ -103,6 +88,10 @@ class WalletPrepareTransferPageWidgetModel extends CustomWidgetModel<
   ValueListenable<List<WalletPrepareTransferAsset>> get assets => _assetsList;
 
   ListenableState<bool> get isInitialDataLoaded => _isInitialDataLoaded;
+
+  late final ValueListenable<Address> addressState = createWmParamsNotifier(
+    (it) => it.address,
+  );
 
   @override
   void initWidgetModel() {
@@ -124,12 +113,9 @@ class WalletPrepareTransferPageWidgetModel extends CustomWidgetModel<
     _updateState(selectedAsset: asset);
     unawaited(_updateAsset(asset));
 
-    final address = addressState.value;
-    if (address == null) return;
-
     model.startListeningBalance(
       contract: _assets[asset.key],
-      address: address,
+      address: addressState.value,
     );
   }
 
@@ -237,10 +223,8 @@ class WalletPrepareTransferPageWidgetModel extends CustomWidgetModel<
       return LocaleKeys.addressIsEmpty.tr();
     }
 
-    final address = addressState.value;
-    if (address == null) return LocaleKeys.addressIsEmpty.tr();
-
-    if (_selectedAsset?.isNative != true && address.address == value) {
+    if (_selectedAsset?.isNative != true &&
+        addressState.value.address == value) {
       return LocaleKeys.invalidReceiverAddress.tr();
     }
     return null;
@@ -251,10 +235,7 @@ class WalletPrepareTransferPageWidgetModel extends CustomWidgetModel<
   }
 
   Future<void> _init() async {
-    final address = addressState.value;
-    if (address == null) return;
-
-    final acc = model.findAccountByAddress(address);
+    final acc = model.findAccountByAddress(addressState.value);
     if (acc == null) {
       screenState.content(null);
       _sentry.captureException(
@@ -271,22 +252,23 @@ class WalletPrepareTransferPageWidgetModel extends CustomWidgetModel<
 
     // If default contract not specified, then native is default and load
     // all existed assets
-    final root = rootTokenContractState.value;
+    final root = wmParams.value.rootTokenContract;
 
     _createNativeContract();
     model.findExistedContracts(
       onUpdate: _onUpdateContractsForAccount,
-      address: address,
+      address: addressState.value,
     );
 
-    if (root != null && tokenSymbolState.value != _selectedAsset?.tokenSymbol) {
+    if (root != null &&
+        wmParams.value.tokenSymbol != _selectedAsset?.tokenSymbol) {
       unawaited(_findSpecifiedContract(root));
     }
 
     _updateState(
       account: acc,
       selectedCustodian: acc.publicKey,
-      localCustodians: await model.getLocalCustodiansAsync(address),
+      localCustodians: await model.getLocalCustodiansAsync(addressState.value),
     );
 
     _isInitialDataLoaded.accept(true);
@@ -313,10 +295,6 @@ class WalletPrepareTransferPageWidgetModel extends CustomWidgetModel<
       return;
     }
 
-    final address = addressState.value;
-    if (address == null) return;
-
-    final accountAddress = address;
     final publicKey = _selectedCustodian;
 
     if (publicKey == null) {
@@ -334,7 +312,7 @@ class WalletPrepareTransferPageWidgetModel extends CustomWidgetModel<
 
     if (selectedAsset.isNative) {
       routeData = TonWalletSendRouteData(
-        address: accountAddress,
+        address: addressState.value,
         publicKey: publicKey,
         comment: comment,
         destination: receiveAddress,
@@ -343,7 +321,7 @@ class WalletPrepareTransferPageWidgetModel extends CustomWidgetModel<
       );
     } else {
       routeData = TokenWalletSendRouteData(
-        owner: accountAddress,
+        owner: addressState.value,
         rootTokenContract: selectedAsset.rootTokenContract,
         publicKey: publicKey,
         comment: comment,
@@ -361,11 +339,9 @@ class WalletPrepareTransferPageWidgetModel extends CustomWidgetModel<
           asset.rootTokenContract,
         );
 
-    final address = addressState.value;
-    if (address == null) return;
-
-    final balance = await model.getBalance(asset: asset, address: address) ??
-        _zeroBalance(asset.tokenSymbol);
+    final balance =
+        await model.getBalance(asset: asset, address: addressState.value) ??
+            _zeroBalance(asset.tokenSymbol);
 
     final updatedAsset = asset.copyWith(
       currency: currency,
@@ -396,12 +372,9 @@ class WalletPrepareTransferPageWidgetModel extends CustomWidgetModel<
     _updateState(selectedAsset: selectedAsset);
     unawaited(_updateAsset(selectedAsset));
 
-    final address = addressState.value;
-    if (address == null) return;
-
     model.startListeningBalance(
       contract: selectedAsset,
-      address: address,
+      address: addressState.value,
     );
   }
 
@@ -428,12 +401,9 @@ class WalletPrepareTransferPageWidgetModel extends CustomWidgetModel<
     _updateState(selectedAsset: selectedAsset);
     unawaited(_updateAsset(selectedAsset));
 
-    final address = addressState.value;
-    if (address == null) return;
-
     model.startListeningBalance(
       contract: selectedAsset,
-      address: address,
+      address: addressState.value,
     );
   }
 

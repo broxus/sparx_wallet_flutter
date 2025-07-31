@@ -44,7 +44,6 @@ class CheckSeedPhrasePage extends StatelessWidget {
       )..initAnswers(),
       child: Scaffold(
         appBar: DefaultAppBar(
-          onClosePressed: (context) => context.compassBack(),
           actions: [
             CommonButton.ghost(
               padding: EdgeInsets.zero,

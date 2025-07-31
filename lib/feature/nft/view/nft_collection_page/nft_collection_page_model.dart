@@ -4,11 +4,13 @@ import 'package:app/feature/messenger/messenger.dart';
 import 'package:app/feature/nft/nft.dart';
 import 'package:app/generated/generated.dart';
 import 'package:elementary/elementary.dart';
+import 'package:injectable/injectable.dart';
 import 'package:nekoton_repository/nekoton_repository.dart' hide Message;
 import 'package:rxdart/rxdart.dart';
 
 const _limit = 8;
 
+@injectable
 class NftCollectionPageModel extends ElementaryModel {
   NftCollectionPageModel(
     ErrorHandler errorHandler,

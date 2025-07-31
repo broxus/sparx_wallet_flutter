@@ -1,8 +1,6 @@
 import 'dart:async';
 
-import 'package:app/core/error_handler_factory.dart';
 import 'package:app/core/wm/custom_wm.dart';
-import 'package:app/di/di.dart';
 import 'package:app/feature/browser_v2/custom_web_controller.dart';
 import 'package:app/feature/browser_v2/screens/main/browser_main_screen.dart';
 import 'package:app/feature/browser_v2/screens/main/browser_main_screen_model.dart';
@@ -27,22 +25,13 @@ import 'package:app/utils/focus_utils.dart';
 import 'package:elementary/elementary.dart';
 import 'package:elementary_helper/elementary_helper.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
+import 'package:injectable/injectable.dart';
 import 'package:render_metrics/render_metrics.dart';
 import 'package:ui_components_lib/v2/ui_components_lib_v2.dart';
 
-/// Factory method for creating [BrowserMainScreenWidgetModel]
-BrowserMainScreenWidgetModel defaultBrowserMainScreenWidgetModelFactory(
-  BuildContext context,
-) {
-  return BrowserMainScreenWidgetModel(
-    BrowserMainScreenModel(
-      createPrimaryErrorHandler(context),
-      inject(),
-    ),
-  );
-}
-
 /// [WidgetModel] для [BrowserMainScreen]
+@injectable
 class BrowserMainScreenWidgetModel
     extends CustomWidgetModel<BrowserMainScreen, BrowserMainScreenModel>
     with TickerProviderWidgetModelMixin {
@@ -171,6 +160,7 @@ class BrowserMainScreenWidgetModel
 
   @override
   void initWidgetModel() {
+    super.initWidgetModel();
     _menuState.addListener(_handleMenuState);
     _viewVisibleState.addListener(_updatePastGo);
     model.activeTabUrlHostState.addListener(_updatePastGo);
@@ -188,8 +178,6 @@ class BrowserMainScreenWidgetModel
         const Duration(milliseconds: 100),
       );
     });
-
-    super.initWidgetModel();
   }
 
   @override

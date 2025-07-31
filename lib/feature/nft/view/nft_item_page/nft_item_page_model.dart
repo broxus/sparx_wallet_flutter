@@ -2,9 +2,11 @@ import 'package:app/app/service/service.dart';
 import 'package:app/feature/browser_v2/domain/browser_launcher.dart';
 import 'package:app/feature/nft/nft.dart';
 import 'package:elementary/elementary.dart';
+import 'package:injectable/injectable.dart';
 import 'package:nekoton_repository/nekoton_repository.dart' hide Message;
 import 'package:rxdart/rxdart.dart';
 
+@injectable
 class NftItemPageModel extends ElementaryModel {
   NftItemPageModel(
     ErrorHandler errorHandler,

@@ -1,3 +1,4 @@
+import 'package:app/app/router/compass/bottom_bar_state.dart';
 import 'package:app/app/router/compass/compass.dart';
 import 'package:app/feature/profile/manage_seeds_accounts/route.dart';
 import 'package:app/feature/profile/view/profile_page_widget.dart';
@@ -14,7 +15,7 @@ class ProfileRoute extends CompassRouteParameterless<ProfileRouteData> {
           path: '/profile',
           isSaveLocation: true,
           isSaveSubroutes: true,
-          isBottomNavigationBarVisible: true,
+          bottomBarState: BottomBarState.expanded,
           builder: (context, _, __) => const ProfilePageWidget(),
           compassBaseRoutes: [
             manageSeedsAccountsRoute,

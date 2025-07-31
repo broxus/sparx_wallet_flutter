@@ -3,8 +3,10 @@ import 'package:app/app/service/service.dart';
 import 'package:app/feature/browser_v2/domain/browser_launcher.dart';
 import 'package:app/generated/generated.dart';
 import 'package:elementary/elementary.dart';
+import 'package:injectable/injectable.dart';
 import 'package:nekoton_repository/nekoton_repository.dart';
 
+@injectable
 class ProfilePageModel extends ElementaryModel {
   ProfilePageModel(
     ErrorHandler errorHandler,

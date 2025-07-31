@@ -1,7 +1,9 @@
 import 'package:app/app/service/service.dart';
 import 'package:app/feature/browser_v2/domain/browser_launcher.dart';
 import 'package:elementary/elementary.dart';
+import 'package:injectable/injectable.dart';
 
+@injectable
 class EditNetworkModel extends ElementaryModel {
   EditNetworkModel(
     this._connectionsStorageService,

@@ -15,9 +15,11 @@ import 'package:app/feature/profile/route.dart';
 import 'package:app/generated/generated.dart';
 import 'package:elementary/elementary.dart';
 import 'package:flutter/widgets.dart';
+import 'package:injectable/injectable.dart';
 import 'package:nekoton_repository/nekoton_repository.dart' hide Message;
 
 /// [ElementaryModel] for [App]
+@injectable
 class AppModel extends ElementaryModel with WidgetsBindingObserver {
   AppModel(
     ErrorHandler errorHandler,
