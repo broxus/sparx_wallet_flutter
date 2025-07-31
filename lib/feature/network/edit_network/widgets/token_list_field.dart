@@ -9,7 +9,7 @@ import 'package:ui_components_lib/v2/ui_components_lib_v2.dart';
 
 class TokenListField extends StatelessWidget {
   const TokenListField({
-    required this.editable,
+    required this.isEditable,
     required this.controller,
     required this.validator,
     required this.errorText,
@@ -18,7 +18,7 @@ class TokenListField extends StatelessWidget {
     super.key,
   });
 
-  final bool editable;
+  final bool isEditable;
   final TextEditingController controller;
   final UrlTextValidator validator;
   final ListenableState<String> errorText;
@@ -41,7 +41,7 @@ class TokenListField extends StatelessWidget {
                 textEditingController: controller,
                 errorText: errorText,
                 hintText: LocaleKeys.networkTokenListHint.tr(),
-                isEnabled: editable,
+                isEnabled: isEditable,
                 validator: validator.validate,
                 suffixes: [
                   if (isLoading ?? false)

@@ -50,22 +50,18 @@ class EditNetworkWidgetModel extends CustomWidgetModelParametrized<
 
   late final validators = Validators();
 
-  late final _selectedNetworkTypeState = StateNotifier<NetworkType?>(
-    initValue:
-        connection?.networkType ?? model.networkTypesOptions?.firstOrNull,
+  late final _selectedNetworkTypeState = createNotifier(
+    connection?.networkType ?? model.networkTypesOptions?.firstOrNull,
   );
 
-  late final _isLocalState = StateNotifier<bool>(
-    initValue: _getIsLocal(),
+  late final _isLocalState = createNotifier(_getIsLocal());
+
+  late final _endpointsControllersState = createNotifier(
+    _getEndpointsControllers(),
   );
 
-  late final _endpointsControllersState =
-      StateNotifier<List<TextEditingController>>(
-    initValue: _getEndpointsControllers(),
-  );
-
-  late final _connectionTypeState = StateNotifier<ConnectionType>(
-    initValue: connection == null
+  late final _connectionTypeState = createNotifier(
+    connection == null
         ? ConnectionType.jrpc
         : ConnectionType.fromConnection(connection!),
   );
@@ -85,7 +81,18 @@ class EditNetworkWidgetModel extends CustomWidgetModelParametrized<
   ListenableState<ConnectionType> get connectionTypeState =>
       _connectionTypeState;
 
-  List<NetworkType>? get networkTypesOptions => model.networkTypesOptions;
+  List<NetworkType>? get networkTypesOptions {
+    final networkType = connection?.networkType;
+    final networkTypesOptions = model.networkTypesOptions;
+
+    if (networkType != null &&
+        networkTypesOptions != null &&
+        !networkTypesOptions.contains(networkType)) {
+      return [networkType, ...networkTypesOptions];
+    }
+
+    return networkTypesOptions;
+  }
 
   NetworkType get selectedNetworkType =>
       selectedNetworkTypeState.value ?? NetworkType.custom;
