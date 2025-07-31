@@ -81,6 +81,8 @@ class EditNetworkPageWidget extends InjectedElementaryParametrizedWidget<
                           isEditable: wm.isEditable,
                           controller: wm.manifestUrlController,
                           validator: wm.validators.optionalUrlValidator,
+                          errorText: wm.manifestError,
+                          isLoading: wm.isManifestLoading,
                           onTap: wm.onTokenListTextLinkTap,
                         ),
                       ],

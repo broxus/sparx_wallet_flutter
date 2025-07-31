@@ -6,6 +6,7 @@ import 'package:app/feature/browser_v1/browser.dart';
 import 'package:app/feature/network/edit_network/validators.dart';
 import 'package:app/feature/network/network.dart';
 import 'package:app/generated/generated.dart';
+import 'package:app/utils/utils.dart';
 import 'package:collection/collection.dart';
 import 'package:elementary_helper/elementary_helper.dart';
 import 'package:flutter/material.dart';
@@ -14,9 +15,7 @@ import 'package:injectable/injectable.dart';
 @injectable
 class EditNetworkWidgetModel extends CustomWidgetModelParametrized<
     EditNetworkPageWidget, EditNetworkModel, String?> {
-  EditNetworkWidgetModel(
-    super.model,
-  );
+  EditNetworkWidgetModel(super.model);
 
   String? get _connectionDataId => wmParams.value;
 
@@ -42,6 +41,9 @@ class EditNetworkWidgetModel extends CustomWidgetModelParametrized<
   late final manifestUrlController = createTextEditingController(
     connection?.manifestUrl ?? '',
   );
+
+  late final _manifestLoadingState = createNotifier(false);
+  late final _manifestErrorState = createNotifier<String>();
 
   late final bool isDeleteEnabled = connection != null && isEditable;
   late final bool isSaveEnabled = isEditable;
@@ -95,12 +97,23 @@ class EditNetworkWidgetModel extends CustomWidgetModelParametrized<
   NetworkType get selectedNetworkType =>
       selectedNetworkTypeState.value ?? NetworkType.custom;
 
+  ListenableState<bool> get isManifestLoading => _manifestLoadingState;
+
+  ListenableState<String> get manifestError => _manifestErrorState;
+
   List<TextEditingController>? get _endpointsControllers =>
       _endpointsControllersState.value;
 
   ConnectionType? get _connectionType => _connectionTypeState.value;
 
   bool get _isLocal => _isLocalState.value ?? connection != null;
+
+  @override
+  void initWidgetModel() {
+    super.initWidgetModel();
+
+    manifestUrlController.addListener(_validateManifestUrl);
+  }
 
   void onChangedNetworkType(NetworkType value) {
     _selectedNetworkTypeState.accept(value);
@@ -154,6 +167,11 @@ class EditNetworkWidgetModel extends CustomWidgetModelParametrized<
 
   Future<void> onSave() async {
     if (!formKey.currentState!.validate()) {
+      return;
+    }
+
+    if (_manifestErrorState.value != null ||
+        (_manifestLoadingState.value ?? false)) {
       return;
     }
 
@@ -211,6 +229,10 @@ class EditNetworkWidgetModel extends CustomWidgetModelParametrized<
 
   ConnectionData? _getConnection() {
     final id = connection?.id;
+    final nativeTokenTicker = currencySymbolController.text.trim().takeIf(
+              (it) => it.isNotEmpty,
+            ) ??
+        'EVER';
     final nativeTokenDecimals = int.tryParse(
           currencyDecimalsController.text.trim(),
         ) ??
@@ -225,7 +247,7 @@ class EditNetworkWidgetModel extends CustomWidgetModelParametrized<
           endpoint: _endpointsControllers![0].text,
           blockExplorerUrl: blockExplorerUrlController.text,
           manifestUrl: manifestUrlController.text,
-          nativeTokenTicker: currencySymbolController.text,
+          nativeTokenTicker: nativeTokenTicker,
           nativeTokenDecimals: nativeTokenDecimals,
         ),
       ConnectionType.gql => ConnectionData.gqlCustom(
@@ -239,7 +261,7 @@ class EditNetworkWidgetModel extends CustomWidgetModelParametrized<
           isLocal: _isLocal,
           blockExplorerUrl: blockExplorerUrlController.text,
           manifestUrl: manifestUrlController.text,
-          nativeTokenTicker: currencySymbolController.text,
+          nativeTokenTicker: nativeTokenTicker,
           nativeTokenDecimals: nativeTokenDecimals,
         ),
       ConnectionType.proto => ConnectionData.protoCustom(
@@ -250,10 +272,30 @@ class EditNetworkWidgetModel extends CustomWidgetModelParametrized<
           endpoint: _endpointsControllers![0].text,
           blockExplorerUrl: blockExplorerUrlController.text,
           manifestUrl: manifestUrlController.text,
-          nativeTokenTicker: currencySymbolController.text,
+          nativeTokenTicker: nativeTokenTicker,
           nativeTokenDecimals: nativeTokenDecimals,
         ),
       _ => null,
     };
+  }
+
+  Future<void> _validateManifestUrl() async {
+    _manifestErrorState.accept(null);
+
+    final manifestUrl = manifestUrlController.text.trim();
+    if (manifestUrl.isEmpty) return;
+
+    final error = validators.nonOptionalUrlValidator.validate(manifestUrl);
+    if (error != null) return;
+
+    _manifestLoadingState.accept(true);
+
+    try {
+      await model.fetchManifest(manifestUrl);
+    } catch (e) {
+      _manifestErrorState.accept(LocaleKeys.tokenListValidationError.tr());
+    } finally {
+      _manifestLoadingState.accept(false);
+    }
   }
 }
