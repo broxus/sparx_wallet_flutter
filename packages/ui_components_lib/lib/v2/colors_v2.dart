@@ -106,7 +106,7 @@ class ColorsResV2 {
 
   static const black = Color(0xFF000000);
   static const transparent = Color(0x00000000);
-  static final backgroundOverlay = const Color(0xFF11142B).withAlpha(204);
+  static final backgroundOverlay = n10.withAlpha(204);
 
   ///primary
   static const p10 = Color(0xFF110A33);
@@ -207,4 +207,12 @@ class ColorsResV2 {
   static const m85 = Color(0xFFDBDBDB);
   static const m90 = Color(0xFFEDEDED);
   static const m100 = Color(0xFFFFFFFF);
+
+  ///other
+  static const midnightBlue = Color(0xff353960);
+  static const transparentDeepIndigo = Color(0x00353960);
+  static const vibrantRaspberry = Color(0xFFFF2D55);
+  static const vibrantStrawberry = Color(0xFFFF395F);
+  static const raspberryRed = Color(0xFFD92346);
+  static const electricIndigo = Color(0xFF4C5AF5);
 }

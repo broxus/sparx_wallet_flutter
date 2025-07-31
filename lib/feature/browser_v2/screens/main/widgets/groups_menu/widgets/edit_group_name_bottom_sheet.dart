@@ -13,7 +13,7 @@ Future<String?> showBrowserEditNameMenu(
     useRootNavigator: true,
     isScrollControlled: true,
     builder: (_) {
-      return EditGroupNameBottomSheet(name);
+      return SafeArea(child: EditGroupNameBottomSheet(name));
     },
   );
 }
@@ -75,8 +75,7 @@ class _EditGroupNameBottomSheetState extends State<EditGroupNameBottomSheet>
                     Expanded(
                       child: CustomButton(
                         buttonShape: ButtonShape.pill,
-                        // TODO(knightforce): add to color palette
-                        backgroundColor: const Color(0xff353960),
+                        backgroundColor: ColorsResV2.midnightBlue,
                         title: LocaleKeys.backWord.tr(),
                         onPressed: _onPressedBack,
                       ),

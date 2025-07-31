@@ -1,29 +1,26 @@
+import 'package:app/core/wm/custom_wm.dart';
 import 'package:app/core/wm/not_null_listenable_state.dart';
 import 'package:app/feature/browser_v2/data/tabs/browser_tab.dart';
 import 'package:app/feature/browser_v2/screens/main/widgets/tabs/item/browser_tabs_list_item_wm.dart';
 import 'package:app/feature/browser_v2/screens/main/widgets/tabs/item/widgets/browser_tabs_list_item_body.dart';
-import 'package:elementary/elementary.dart';
 import 'package:flutter/material.dart';
+import 'package:injectable/injectable.dart';
 import 'package:lucide_icons_flutter/lucide_icons.dart';
 import 'package:render_metrics/render_metrics.dart';
 import 'package:ui_components_lib/ui_components_lib.dart';
 
-class BrowserTabsListItem
-    extends ElementaryWidget<BrowserTabsListItemWidgetModel> {
-  BrowserTabsListItem({
+@injectable
+class BrowserTabsListItem extends InjectedElementaryParametrizedWidget<
+    BrowserTabsListItemWidgetModel, NotNullListenableState<BrowserTab>> {
+  const BrowserTabsListItem({
     required NotNullListenableState<BrowserTab> tabNotifier,
     required this.renderManager,
     required this.onPressedTabMenu,
     this.onPressed,
     this.onClosePressed,
     super.key,
-    WidgetModelFactory<BrowserTabsListItemWidgetModel>? wmFactory,
   }) : super(
-          wmFactory ??
-              (ctx) => defaultBrowserTabsListItemWidgetModelFactory(
-                    ctx,
-                    tabNotifier: tabNotifier,
-                  ),
+          wmFactoryParam: tabNotifier,
         );
 
   final RenderManager<String> renderManager;
@@ -36,7 +33,7 @@ class BrowserTabsListItem
     return SizedBox(
       height: DimensSizeV2.d200,
       child: RenderMetricsObject(
-        id: wm.id,
+        id: wm.tabNotifier.value.id,
         manager: renderManager,
         child: Stack(
           children: [
@@ -80,8 +77,7 @@ class _Menu extends StatelessWidget {
         child: DecoratedBox(
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(DimensRadiusV2.radius8),
-            // TODO(knightforce): add to color palette
-            color: const Color(0xff353960),
+            color: ColorsResV2.midnightBlue,
           ),
           child: Padding(
             padding: const EdgeInsets.all(DimensSizeV2.d4),

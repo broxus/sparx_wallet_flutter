@@ -1,19 +1,17 @@
+import 'package:app/core/wm/custom_wm.dart';
 import 'package:app/feature/browser_v2/screens/main/widgets/control_panels/toolbar/toolbar_wm.dart';
 import 'package:app/generated/generated.dart';
-import 'package:elementary/elementary.dart';
 import 'package:elementary_helper/elementary_helper.dart';
 import 'package:flutter/material.dart';
 import 'package:ui_components_lib/v2/extensions/extensions.dart';
 import 'package:ui_components_lib/v2/ui_components_lib_v2.dart';
 
-class Toolbar extends ElementaryWidget<ToolbarWidgetModel> {
+class Toolbar extends InjectedElementaryWidget<ToolbarWidgetModel> {
   const Toolbar({
     required this.onPressedTabs,
     required this.onPressedDotsPressed,
     super.key,
-    WidgetModelFactory<ToolbarWidgetModel> wmFactory =
-        defaultToolbarWidgetModelFactory,
-  }) : super(wmFactory);
+  });
 
   static const height = DimensSizeV2.d48;
 

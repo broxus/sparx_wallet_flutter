@@ -8,13 +8,13 @@ import 'package:ui_components_lib/v2/ui_components_lib_v2.dart';
 class TypeField extends StatelessWidget {
   const TypeField({
     required this.connectionTypeState,
-    required this.editable,
+    required this.isEditable,
     required this.onChangeType,
     super.key,
   });
 
   final ListenableState<ConnectionType> connectionTypeState;
-  final bool editable;
+  final bool isEditable;
   final ValueChanged<ConnectionType> onChangeType;
 
   @override
@@ -36,21 +36,21 @@ class TypeField extends StatelessWidget {
               separator: const CommonDivider(),
               children: [
                 TypeComponent(
-                  editable: editable,
+                  isEditable: isEditable,
                   currentConnectionType: connectionType,
                   title: LocaleKeys.networkTypeJRPC.tr(),
                   type: ConnectionType.jrpc,
                   onChanged: onChangeType,
                 ),
                 TypeComponent(
-                  editable: editable,
+                  isEditable: isEditable,
                   currentConnectionType: connectionType,
                   title: LocaleKeys.networkTypeGraphQL.tr(),
                   type: ConnectionType.gql,
                   onChanged: onChangeType,
                 ),
                 TypeComponent(
-                  editable: editable,
+                  isEditable: isEditable,
                   currentConnectionType: connectionType,
                   title: LocaleKeys.networkTypeProto.tr(),
                   type: ConnectionType.proto,
