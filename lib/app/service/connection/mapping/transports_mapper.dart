@@ -68,7 +68,6 @@ Map<NetworkGroup, ConnectionTransportData>? mapToTransports(
           TransactionExplorerLinkType.values.byNameOrNull(
         castToString(transport['transactionExplorerLinkType']),
       ),
-      baseCurrencyUrl: castToString(transport['baseCurrencyUrl']),
       stakeInformation: _mapToStakingInformation(
         castJsonMap(transport['stakeInformation']),
       ),

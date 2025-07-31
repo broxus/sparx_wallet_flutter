@@ -28,8 +28,7 @@ class CommonTransportStrategy extends AppTransportStrategy {
     this.tokenApiBaseUrl,
     this.currencyApiBaseUrl,
     this.nftInformation,
-    String? baseCurrencyUrl,
-  }) : baseCurrencyUrl = baseCurrencyUrl ?? '';
+  });
 
   factory CommonTransportStrategy.fromData({
     required Dio dio,
@@ -60,7 +59,6 @@ class CommonTransportStrategy extends AppTransportStrategy {
       stakeInformation: transportData.stakeInformation,
       tokenApiBaseUrl: transportData.tokenApiBaseUrl,
       currencyApiBaseUrl: transportData.currencyApiBaseUrl,
-      baseCurrencyUrl: transportData.baseCurrencyUrl,
       nftInformation: transportData.nftInformation,
       pollingConfig: transportData.pollingConfig ?? PollingConfig.defaultConfig,
     );
@@ -116,8 +114,6 @@ class CommonTransportStrategy extends AppTransportStrategy {
 
   final TransactionExplorerLinkType? transactionExplorerLinkType;
 
-  final String baseCurrencyUrl;
-
   final NftInformation? nftInformation;
 
   @override
@@ -161,10 +157,6 @@ class CommonTransportStrategy extends AppTransportStrategy {
         '${connection.blockExplorerUrl}/${packAddress(accountAddress)}',
     };
   }
-
-  @override
-  String currencyUrl(String currencyAddress) =>
-      baseCurrencyUrl.isNotEmpty ? '$baseCurrencyUrl/$currencyAddress' : '';
 
   @override
   String defaultAccountName(WalletType walletType) {
