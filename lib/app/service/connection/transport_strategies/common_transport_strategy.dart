@@ -9,7 +9,6 @@ class CommonTransportStrategy extends AppTransportStrategy {
     required this.dio,
     required this.transport,
     required this.connection,
-    required this.icons,
     required this.availableWalletTypes,
     required this.walletDefaultAccountNames,
     required this.defaultWalletType,
@@ -17,13 +16,14 @@ class CommonTransportStrategy extends AppTransportStrategy {
     required this.manifestOption,
     required this.nativeTokenAddress,
     required this.networkName,
-    required this.networkType,
     required this.seedPhraseWordsCount,
     required this.defaultNativeCurrencyDecimal,
     required this.genericTokenType,
     required this.accountExplorerLinkType,
-    required this.transactionExplorerLinkType,
+    required this.networkType,
     required this.pollingConfig,
+    this.icons,
+    this.transactionExplorerLinkType,
     this.stakeInformation,
     this.tokenApiBaseUrl,
     this.currencyApiBaseUrl,
@@ -73,7 +73,7 @@ class CommonTransportStrategy extends AppTransportStrategy {
 
   final ConnectionData connection;
 
-  final TransportIcons icons;
+  final TransportIcons? icons;
 
   @override
   final List<WalletType> availableWalletTypes;
@@ -90,7 +90,7 @@ class CommonTransportStrategy extends AppTransportStrategy {
 
   @override
   String get nativeTokenIcon =>
-      icons.nativeToken ?? Assets.images.nativeTokenDefault.path;
+      icons?.nativeToken ?? Assets.images.nativeTokenDefault.path;
 
   final TransportNativeTokenTickerOption nativeTokenTickerOption;
 
@@ -114,7 +114,7 @@ class CommonTransportStrategy extends AppTransportStrategy {
 
   final AccountExplorerLinkType accountExplorerLinkType;
 
-  final TransactionExplorerLinkType transactionExplorerLinkType;
+  final TransactionExplorerLinkType? transactionExplorerLinkType;
 
   final String baseCurrencyUrl;
 
@@ -169,18 +169,19 @@ class CommonTransportStrategy extends AppTransportStrategy {
   @override
   String defaultAccountName(WalletType walletType) {
     return switch (walletType) {
-      WalletTypeMultisig(:final data) =>
-        walletDefaultAccountNames.multisig[data] ?? '',
-      WalletTypeWalletV3() => walletDefaultAccountNames.walletV3,
-      WalletTypeHighloadWalletV2() =>
-        walletDefaultAccountNames.highloadWalletV2,
-      WalletTypeEverWallet() => walletDefaultAccountNames.everWallet,
-      WalletTypeWalletV3R1() => walletDefaultAccountNames.walletV3R1,
-      WalletTypeWalletV3R2() => walletDefaultAccountNames.walletV3R2,
-      WalletTypeWalletV4R1() => walletDefaultAccountNames.walletV4R1,
-      WalletTypeWalletV4R2() => walletDefaultAccountNames.walletV4R2,
-      WalletTypeWalletV5R1() => walletDefaultAccountNames.walletV5R1,
-    };
+          WalletTypeMultisig(:final data) =>
+            walletDefaultAccountNames.multisig?[data] ?? '',
+          WalletTypeWalletV3() => walletDefaultAccountNames.walletV3,
+          WalletTypeHighloadWalletV2() =>
+            walletDefaultAccountNames.highloadWalletV2,
+          WalletTypeEverWallet() => walletDefaultAccountNames.everWallet,
+          WalletTypeWalletV3R1() => walletDefaultAccountNames.walletV3R1,
+          WalletTypeWalletV3R2() => walletDefaultAccountNames.walletV3R2,
+          WalletTypeWalletV4R1() => walletDefaultAccountNames.walletV4R1,
+          WalletTypeWalletV4R2() => walletDefaultAccountNames.walletV4R2,
+          WalletTypeWalletV5R1() => walletDefaultAccountNames.walletV5R1,
+        } ??
+        '';
   }
 
   @override
@@ -196,6 +197,7 @@ class CommonTransportStrategy extends AppTransportStrategy {
         '${connection.blockExplorerUrl}/transactions/$transactionHash',
       TransactionExplorerLinkType.transactionDetails =>
         '${connection.blockExplorerUrl}/transactions/transactionDetails?id=$transactionHash',
+      _ => '',
     };
   }
 
