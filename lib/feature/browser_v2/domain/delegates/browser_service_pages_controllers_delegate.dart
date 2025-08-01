@@ -37,6 +37,19 @@ class BrowserServicePagesControllersDelegate implements BrowserDelegate {
     );
   }
 
+  Future<void> loadData(
+    String tabId,
+    String html, {
+    WebUri? baseUrl,
+    WebUri? historyUrl,
+  }) async {
+    return _controllers[tabId]?.loadData(
+      data: html,
+      baseUrl: baseUrl,
+      historyUrl: historyUrl,
+    );
+  }
+
   Future<void> goBack(String tabId) async => _controllers[tabId]?.goBack();
 
   Future<void> goForward(String tabId) async =>
