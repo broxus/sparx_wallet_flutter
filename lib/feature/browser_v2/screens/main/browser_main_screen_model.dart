@@ -12,8 +12,6 @@ import 'package:elementary_helper/elementary_helper.dart';
 import 'package:flutter/services.dart';
 import 'package:injectable/injectable.dart';
 
-const _searchEngineUri = 'https://duckduckgo.com/?q=';
-
 /// [ElementaryModel] for [BrowserMainScreen]
 @injectable
 class BrowserMainScreenModel extends ElementaryModel {
@@ -84,7 +82,7 @@ class BrowserMainScreenModel extends ElementaryModel {
     unawaited(
       _browserService.tab.requestUrl(
         tabId,
-        isUrl ? Uri.parse(text) : Uri.parse('$_searchEngineUri$text'),
+        isUrl ? Uri.parse(text) : Uri.parse('${BrowserService.searchUrl}$text'),
       ),
     );
   }
