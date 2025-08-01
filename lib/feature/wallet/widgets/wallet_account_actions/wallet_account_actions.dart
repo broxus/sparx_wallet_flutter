@@ -126,30 +126,52 @@ class _ActionList extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
-            WalletActionButton(
-              label: LocaleKeys.receiveWord.tr(),
-              icon: LucideIcons.arrowDown,
-              onPressed: !disableSensetiveActions ? onReceivePressed : null,
+            Flexible(
+              child: SizedBox(
+                width: DimensSizeV2.d90,
+                child: WalletActionButton(
+                  label: LocaleKeys.receiveWord.tr(),
+                  icon: LucideIcons.arrowDown,
+                  onPressed: !disableSensetiveActions ? onReceivePressed : null,
+                ),
+              ),
             ),
-            WalletActionButton(
-              label: _actionTitle,
-              icon: _actionIcon,
-              onPressed:
-                  disableSensetiveActions == false ? onMainActionPressed : null,
+            Flexible(
+              child: SizedBox(
+                width: DimensSizeV2.d90,
+                child: WalletActionButton(
+                  label: _actionTitle,
+                  icon: _actionIcon,
+                  onPressed: disableSensetiveActions == false
+                      ? onMainActionPressed
+                      : null,
+                ),
+              ),
             ),
             if (hasStake)
-              WalletActionButton(
-                label: LocaleKeys.stakeWord.tr(),
-                icon: LucideIcons.layers2,
-                badge: hasStakeActions,
-                onPressed:
-                    disableSensetiveActions == false ? onStakePressed : null,
+              Flexible(
+                child: SizedBox(
+                  width: DimensSizeV2.d90,
+                  child: WalletActionButton(
+                    label: LocaleKeys.stakeWord.tr(),
+                    icon: LucideIcons.layers2,
+                    badge: hasStakeActions,
+                    onPressed: disableSensetiveActions == false
+                        ? onStakePressed
+                        : null,
+                  ),
+                ),
               ),
             if (!sendSpecified)
-              WalletActionButton(
-                label: LocaleKeys.info.tr(),
-                icon: LucideIcons.ellipsis,
-                onPressed: onInfoPressed,
+              Flexible(
+                child: SizedBox(
+                  width: DimensSizeV2.d90,
+                  child: WalletActionButton(
+                    label: LocaleKeys.info.tr(),
+                    icon: LucideIcons.ellipsis,
+                    onPressed: onInfoPressed,
+                  ),
+                ),
               ),
           ],
         ),

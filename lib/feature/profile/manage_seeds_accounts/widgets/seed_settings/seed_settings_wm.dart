@@ -1,4 +1,5 @@
 import 'package:app/core/wm/custom_wm.dart';
+import 'package:app/feature/ledger/ledger.dart';
 import 'package:app/feature/loader_screen/loader_screen.dart';
 import 'package:app/feature/messenger/data/message.dart';
 import 'package:app/feature/profile/profile.dart';
@@ -12,7 +13,9 @@ import 'package:ui_components_lib/ui_components_lib.dart';
 
 @injectable
 class SeedSettingsWidgetModel extends CustomWidgetModelParametrized<
-    SeedSettingsWidget, SeedSettingsModel, PublicKey> {
+    SeedSettingsWidget,
+    SeedSettingsModel,
+    PublicKey> with BleAvailabilityWmMixin {
   SeedSettingsWidgetModel(
     super.model,
   );
@@ -57,17 +60,28 @@ class SeedSettingsWidgetModel extends CustomWidgetModelParametrized<
     final key = model.getMasterKey(publicKeyState.value);
     if (key == null) return;
 
+    if (key.isLedger) {
+      final isAvailable = await checkBluetoothAvailability();
+      if (!isAvailable) return;
+    }
+
     try {
       if (key.isLegacy) {
         await _triggerAddingAccounts(publicKeyState.value);
         return;
       }
 
-      final password = await showEnterPasswordSheet(
-        context: context,
-        publicKey: publicKeyState.value,
-      );
-      if (password == null) return;
+      String? password;
+      if (!key.isLedger) {
+        if (contextSafe == null) return;
+
+        password = await showEnterPasswordSheet(
+          context: contextSafe!,
+          publicKey: publicKeyState.value,
+        );
+
+        if (password == null) return;
+      }
 
       await _triggerDerivingKeys(
         publicKey: publicKeyState.value,
@@ -102,7 +116,7 @@ class SeedSettingsWidgetModel extends CustomWidgetModelParametrized<
 
   Future<void> _triggerDerivingKeys({
     required PublicKey publicKey,
-    required String password,
+    String? password,
   }) async {
     final hideLoader = showLoaderScreen(
       context,

@@ -52,7 +52,7 @@ class TCConnectModel extends ElementaryModel {
       (await _nekotonRepository.subscribe(keyAccount.account.tonWallet)).wallet;
 
   Future<List<ConnectItemReply>> createReplyItems({
-    required String password,
+    required SignInputAuth signInputAuth,
     required ConnectRequest request,
     required KeyAccount account,
     required DappManifest manifest,
@@ -71,7 +71,7 @@ class TCConnectModel extends ElementaryModel {
           ),
         TonProofItem(:final payload) => ConnectItemReply.tonProofSuccess(
             proof: await _createProof(
-              password: password,
+              signInputAuth: signInputAuth,
               payload: payload,
               account: account,
               manifest: manifest,
@@ -86,7 +86,7 @@ class TCConnectModel extends ElementaryModel {
   }
 
   Future<TonProof> _createProof({
-    required String password,
+    required SignInputAuth signInputAuth,
     required String payload,
     required KeyAccount account,
     required DappManifest manifest,
@@ -133,7 +133,7 @@ class TCConnectModel extends ElementaryModel {
     final signedData = await _nekotonRepository.seedList.signRawData(
       data: base64Encode(bufferToSign),
       publicKey: account.publicKey,
-      password: password,
+      signInputAuth: signInputAuth,
       signatureId: null,
     );
 
@@ -145,6 +145,14 @@ class TCConnectModel extends ElementaryModel {
         lengthBytes: domainBytes.lengthInBytes,
         value: domain,
       ),
+    );
+  }
+
+  Future<SignInputAuthLedger> getLedgerAuthInput(KeyAccount account) async {
+    final wallet = await _getWallet(account);
+
+    return SignInputAuthLedger(
+      wallet: wallet!.walletType,
     );
   }
 }

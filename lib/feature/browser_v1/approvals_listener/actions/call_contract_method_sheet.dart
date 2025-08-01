@@ -9,14 +9,16 @@ import 'package:ui_components_lib/ui_components_lib.dart';
 /// Is used by `executeLocal`, `sendExternalMessage`,
 /// and `sendExternalMessageDelayed` inpage-provider methods.
 ///
-/// Returns password if user entered it or null.
-Future<String?> showCallContractMethodSheet({
+/// Returns [SignInputAuth] if user confirmed action
+/// with password/ledger or null.
+Future<SignInputAuth?> showCallContractMethodSheet({
   required BuildContext context,
   required Uri origin,
   required Address account,
   required PublicKey publicKey,
   required Address recipient,
   required FunctionCall payload,
+  required SignInputAuthLedger signInputAuthLedger,
 }) {
   return showCommonBottomSheet(
     context: context,
@@ -28,6 +30,7 @@ Future<String?> showCallContractMethodSheet({
       publicKey: publicKey,
       recipient: recipient,
       payload: payload,
+      signInputAuthLedger: signInputAuthLedger,
       scrollController: controller,
     ),
   );
@@ -40,6 +43,7 @@ class _CallContractMethod extends StatelessWidget {
     required this.publicKey,
     required this.recipient,
     required this.payload,
+    required this.signInputAuthLedger,
     required this.scrollController,
   });
 
@@ -48,6 +52,7 @@ class _CallContractMethod extends StatelessWidget {
   final PublicKey publicKey;
   final Address recipient;
   final FunctionCall payload;
+  final SignInputAuthLedger signInputAuthLedger;
   final ScrollController scrollController;
 
   @override
@@ -86,11 +91,11 @@ class _CallContractMethod extends StatelessWidget {
             ),
           ),
         ),
-        EnterPasswordWidgetV2(
+        EnterPasswordWidget.auth(
+          getLedgerAuthInput: () => signInputAuthLedger,
           publicKey: publicKey,
           title: LocaleKeys.confirm.tr(),
-          onPasswordEntered: (String password) =>
-              Navigator.of(context).pop(password),
+          onConfirmed: (auth) => Navigator.of(context).pop(auth),
         ),
       ],
     );

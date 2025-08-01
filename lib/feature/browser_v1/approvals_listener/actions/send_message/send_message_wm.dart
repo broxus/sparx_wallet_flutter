@@ -4,13 +4,15 @@ import 'package:app/app/service/service.dart';
 import 'package:app/core/wm/custom_wm.dart';
 import 'package:app/feature/browser_v1/approvals_listener/actions/send_message/send_message_model.dart';
 import 'package:app/feature/browser_v1/approvals_listener/actions/send_message/send_message_widget.dart';
+import 'package:app/feature/ledger/ledger.dart';
+import 'package:app/feature/messenger/messenger.dart';
 import 'package:app/generated/generated.dart';
 import 'package:app/utils/utils.dart';
 import 'package:elementary_helper/elementary_helper.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:injectable/injectable.dart';
-import 'package:nekoton_repository/nekoton_repository.dart';
+import 'package:nekoton_repository/nekoton_repository.dart' hide Message;
 import 'package:ui_components_lib/v2/ui_components_lib_v2.dart';
 
 class SendMessageWmParams {
@@ -53,7 +55,9 @@ class TransferData {
 
 @injectable
 class SendMessageWidgetModel extends CustomWidgetModelParametrized<
-    SendMessageWidget, SendMessageModel, SendMessageWmParams> {
+    SendMessageWidget,
+    SendMessageModel,
+    SendMessageWmParams> with BleAvailabilityWmMixin {
   SendMessageWidgetModel(
     super.model,
   );
@@ -124,11 +128,33 @@ class SendMessageWidgetModel extends CustomWidgetModelParametrized<
 
   void onChangedCustodian(PublicKey custodian) => _publicKey.accept(custodian);
 
-  void onSubmit(String password) =>
-      Navigator.of(context).pop((publicKey.value, password));
+  Future<void> onSubmit(SignInputAuth signInputAuth) async {
+    if (signInputAuth.isLedger) {
+      final isAvailable = await checkBluetoothAvailability();
+      if (!isAvailable) return;
+    }
+
+    contextSafe?.let(
+      (context) => Navigator.of(context).pop((publicKey.value, signInputAuth)),
+    );
+  }
 
   // ignore: avoid_positional_boolean_parameters
   void onConfirmed(bool value) => _isConfirmed.accept(value);
+
+  Future<SignInputAuthLedger> getLedgerAuthInput() {
+    final publicKey = _publicKey.value;
+    final currency = _data.value?.amount.currency;
+    if (publicKey == null || currency == null) {
+      throw StateError('Public key or currency is not set');
+    }
+
+    return model.getLedgerAuthInput(
+      address: wmParams.value.sender,
+      custodian: publicKey,
+      currency: currency,
+    );
+  }
 
   Future<void> _init() async {
     final tokens = switch (wmParams.value.knownPayload) {
@@ -254,7 +280,9 @@ class SendMessageWidgetModel extends CustomWidgetModelParametrized<
       _txErrors.accept(errors);
     } catch (e) {
       contextSafe?.let(
-        (context) => model.showError(context, e.toString()),
+        (context) => model.showMessage(
+          Message.error(message: e.toString()),
+        ),
       );
     }
   }

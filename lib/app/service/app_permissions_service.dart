@@ -18,6 +18,11 @@ class AppPermissionsService {
     return _check(permission);
   }
 
+  Future<bool> requestPermissions(List<Permission> permissions) async {
+    final statuses = await permissions.request();
+    return statuses.values.every(_isGoodStatus);
+  }
+
   /// If permission was fully denied or not.
   /// For android we must additionally ask for requesting.
   /// Before next request, check result of this method. If this is false, then

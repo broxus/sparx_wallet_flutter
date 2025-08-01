@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:app/app/service/app_links/app_links_data.dart';
 import 'package:app/app/service/app_links/app_links_service.dart';
 import 'package:app/di/di.dart';
+import 'package:app/feature/ledger/ledger.dart';
 import 'package:app/feature/messenger/data/message.dart';
 import 'package:app/feature/messenger/domain/service/messenger_service.dart';
 import 'package:app/feature/ton_connect/ton_connect.dart';
@@ -26,9 +27,11 @@ class _RootViewState extends State<RootView> {
   late final _tonConnectHttpBridge = inject<TonConnectHttpBridge>();
   late final _tonConnectService = inject<TonConnectService>();
   late final _messengerService = inject<MessengerService>();
+  late final _ledgerService = inject<LedgerService>();
 
   StreamSubscription<TonConnectAppLinksData>? _tonConnectLinkSubs;
   StreamSubscription<TonConnectUiEvent>? _uiEventsSubscription;
+  StreamSubscription<LedgerInteraction>? _ledgerInteractionSubscription;
 
   @override
   void initState() {
@@ -41,12 +44,16 @@ class _RootViewState extends State<RootView> {
 
     _uiEventsSubscription =
         _tonConnectService.uiEventsStream.listen(_onUiEvent);
+
+    _ledgerInteractionSubscription =
+        _ledgerService.interactionStream.listen(_onLedgerInteraction);
   }
 
   @override
   void dispose() {
     _tonConnectLinkSubs?.cancel();
     _uiEventsSubscription?.cancel();
+    _ledgerInteractionSubscription?.cancel();
     super.dispose();
   }
 
@@ -114,5 +121,20 @@ class _RootViewState extends State<RootView> {
           ),
         ),
     };
+  }
+
+  Future<void> _onLedgerInteraction(LedgerInteraction interaction) async {
+    if (!interaction.showBottomSheet) return;
+
+    try {
+      await showLedgerInteractionSheet(
+        context: context,
+        interactionType: interaction.interactionType,
+        stateStream: interaction.stateStream,
+      );
+    } finally {
+      // dispose in case of cancelation by user
+      await interaction.dispose();
+    }
   }
 }
