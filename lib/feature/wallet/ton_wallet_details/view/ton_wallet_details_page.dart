@@ -33,48 +33,46 @@ class _TonWalletDetailsPageState extends State<TonWalletDetailsPage> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: BlocProvider<TonWalletDetailsCubit>(
-        create: (_) => TonWalletDetailsCubit(
-          address: widget.address,
-          nekotonRepository: inject(),
-          currencyConvertService: inject(),
-          balanceService: inject(),
-        ),
-        child: BlocBuilder<TonWalletDetailsCubit, TonWalletDetailsState>(
-          builder: (context, state) {
-            return switch (state) {
-              TonWalletDetailsStateInitial() => const SizedBox.shrink(),
-              TonWalletDetailsStateEmpty() => const SizedBox.shrink(),
-              TonWalletDetailsStateSubscribeError(
-                :final symbol,
-                :final account,
-                :final error,
-                :final isLoading,
-              ) =>
-                _Body(
-                  symbol: symbol,
-                  account: account,
-                  error: error,
-                  isLoadingError: isLoading,
-                  controller: controller,
-                ),
-              TonWalletDetailsStateData(
-                :final symbol,
-                :final account,
-                :final tokenBalance,
-                :final fiatBalance
-              ) =>
-                _Body(
-                  symbol: symbol,
-                  account: account,
-                  tokenBalance: tokenBalance,
-                  fiatBalance: fiatBalance,
-                  controller: controller,
-                ),
-            };
-          },
-        ),
+    return BlocProvider<TonWalletDetailsCubit>(
+      create: (_) => TonWalletDetailsCubit(
+        address: widget.address,
+        nekotonRepository: inject(),
+        currencyConvertService: inject(),
+        balanceService: inject(),
+      ),
+      child: BlocBuilder<TonWalletDetailsCubit, TonWalletDetailsState>(
+        builder: (context, state) {
+          return switch (state) {
+            TonWalletDetailsStateInitial() => const SizedBox.shrink(),
+            TonWalletDetailsStateEmpty() => const SizedBox.shrink(),
+            TonWalletDetailsStateSubscribeError(
+              :final symbol,
+              :final account,
+              :final error,
+              :final isLoading,
+            ) =>
+              _Body(
+                symbol: symbol,
+                account: account,
+                error: error,
+                isLoadingError: isLoading,
+                controller: controller,
+              ),
+            TonWalletDetailsStateData(
+              :final symbol,
+              :final account,
+              :final tokenBalance,
+              :final fiatBalance
+            ) =>
+              _Body(
+                symbol: symbol,
+                account: account,
+                tokenBalance: tokenBalance,
+                fiatBalance: fiatBalance,
+                controller: controller,
+              ),
+          };
+        },
       ),
     );
   }
@@ -101,6 +99,7 @@ class _Body extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final bottomPadding = MediaQuery.of(context).systemGestureInsets.bottom;
     final theme = context.themeStyleV2;
 
     return CustomScrollView(
@@ -155,7 +154,12 @@ class _Body extends StatelessWidget {
             ),
           ),
           sliver: SliverPadding(
-            padding: const EdgeInsets.all(DimensSizeV2.d16),
+            padding: EdgeInsets.only(
+              top: DimensSizeV2.d16,
+              bottom: bottomPadding + DimensSizeV2.d16,
+              left: DimensSizeV2.d16,
+              right: DimensSizeV2.d16,
+            ),
             sliver: error == null
                 ? AccountTransactionsTab(
                     account: account,
