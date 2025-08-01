@@ -1,43 +1,48 @@
-import 'package:app/core/error_handler_factory.dart';
 import 'package:app/core/wm/custom_wm.dart';
-import 'package:app/di/di.dart';
 import 'package:app/feature/profile/widgets/enter_password/data/data.dart';
 import 'package:app/feature/profile/widgets/enter_password/enter_password.dart';
 import 'package:app/feature/profile/widgets/enter_password/enter_password_model.dart';
 import 'package:app/generated/generated.dart';
-import 'package:elementary_helper/elementary_helper.dart';
-import 'package:flutter/material.dart';
+import 'package:flutter/foundation.dart';
+import 'package:injectable/injectable.dart';
 import 'package:nekoton_repository/nekoton_repository.dart';
 import 'package:ui_components_lib/v2/ui_components_lib_v2.dart';
 
-EnterPasswordWidgetModel defaultEnterPasswordWidgetModelFactory(
-  BuildContext context,
-) =>
-    EnterPasswordWidgetModel(
-      EnterPasswordModel(
-        createPrimaryErrorHandler(context),
-        inject(),
-        inject(),
-        inject(),
-      ),
-    );
+class EnterPasswordWmParams {
+  const EnterPasswordWmParams({
+    required this.publicKey,
+    required this.title,
+    required this.isLoading,
+    required this.isDisabled,
+    required this.isAutofocus,
+    required this.getLedgerAuthInput,
+    required this.onConfirmed,
+    required this.onPasswordEntered,
+  });
 
-class EnterPasswordWidgetModel
-    extends CustomWidgetModel<EnterPasswordWidget, EnterPasswordModel> {
+  /// Key for which password must be entered.
+  final PublicKey publicKey;
+  final String? title;
+  final bool isLoading;
+  final bool isDisabled;
+  final bool isAutofocus;
+  final GetLedgerAuthInput? getLedgerAuthInput;
+
+  /// Callback that will be called when user confirmed action via password
+  /// or Ledger.
+  final ValueChanged<SignInputAuth>? onConfirmed;
+  final ValueChanged<String>? onPasswordEntered;
+}
+
+@injectable
+class EnterPasswordWidgetModel extends CustomWidgetModelParametrized<
+    EnterPasswordWidget, EnterPasswordModel, EnterPasswordWmParams> {
   EnterPasswordWidgetModel(super.model);
 
-  late final _state = createNotifier<EnterPasswordState>();
-  late final _publicKeyProp = createWidgetProperty((w) => w.publicKey);
-  late final _onConfirmedProp = createWidgetProperty((w) => w.onConfirmed);
-  late final _onPasswordEnteredProp = createWidgetProperty(
-    (w) => w.onPasswordEntered,
-  );
-  late final _getLedgerAuthProp = createWidgetProperty(
-    (w) => w.getLedgerAuthInput,
-  );
+  late final _state = createValueNotifier<EnterPasswordState?>(null);
 
   late final passwordController = createTextEditingController();
-  late final props = createWidgetProperty(
+  late final props = createWmParamsNotifier(
     (w) => EnterPasswordProps(
       title: w.title,
       isLoading: w.isLoading,
@@ -46,7 +51,7 @@ class EnterPasswordWidgetModel
     ),
   );
 
-  ListenableState<EnterPasswordState> get state => _state;
+  ValueListenable<EnterPasswordState?> get state => _state;
 
   ThemeStyleV2 get theme => context.themeStyleV2;
 
@@ -58,11 +63,9 @@ class EnterPasswordWidgetModel
 
   // ignore: avoid_positional_boolean_parameters
   Future<void> onBiometry(bool isFace) async {
-    final publicKey = _publicKeyProp.value;
-    final onConfirmed = _onConfirmedProp.value;
-    final onPasswordEntered = _onPasswordEnteredProp.value;
-
-    if (publicKey == null) return;
+    final publicKey = wmParams.value.publicKey;
+    final onConfirmed = wmParams.value.onConfirmed;
+    final onPasswordEntered = wmParams.value.onPasswordEntered;
 
     try {
       // If we get password from biometry, we suppose it is always valid.
@@ -78,18 +81,16 @@ class EnterPasswordWidgetModel
         onConfirmed(SignInputAuth.password(password));
       }
     } catch (_) {
-      _state.accept(const EnterPasswordState.password());
+      _state.value = const EnterPasswordState.password();
     }
   }
 
   /// User entered password, validate it and emit do next action.
   /// If biometry is enabled, save password to storage.
   Future<void> onPassword(String password) async {
-    final publicKey = _publicKeyProp.value;
-    final onConfirmed = _onConfirmedProp.value;
-    final onPasswordEntered = _onPasswordEnteredProp.value;
-
-    if (publicKey == null) return;
+    final publicKey = wmParams.value.publicKey;
+    final onConfirmed = wmParams.value.onConfirmed;
+    final onPasswordEntered = wmParams.value.onPasswordEntered;
 
     if (password.isEmpty) {
       _showWrongPassword();
@@ -117,8 +118,8 @@ class EnterPasswordWidgetModel
   }
 
   Future<void> onLedger() async {
-    final onConfirmed = _onConfirmedProp.value;
-    final getLedgerAuth = _getLedgerAuthProp.value;
+    final onConfirmed = wmParams.value.onConfirmed;
+    final getLedgerAuth = wmParams.value.getLedgerAuthInput;
 
     if (onConfirmed == null) return;
     if (getLedgerAuth == null) {
@@ -130,20 +131,20 @@ class EnterPasswordWidgetModel
   }
 
   Future<void> _init() async {
-    final seed = model.findSeedByAnyPublicKey(widget.publicKey);
+    final seed = model.findSeedByAnyPublicKey(wmParams.value.publicKey);
     if (seed != null &&
         seed.masterKey.isLedger &&
-        widget.getLedgerAuthInput != null) {
-      _state.accept(const EnterPasswordState.ledger());
+        wmParams.value.getLedgerAuthInput != null) {
+      _state.value = const EnterPasswordState.ledger();
       return;
     }
 
-    final hasKeyPassword = await model.hasKeyPassword(widget.publicKey);
+    final hasKeyPassword = await model.hasKeyPassword(wmParams.value.publicKey);
     if (model.isBiometryEnabled && hasKeyPassword) {
       final isFace = await model.isFaceBiometry();
-      _state.accept(EnterPasswordState.biometry(isFace: isFace));
+      _state.value = EnterPasswordState.biometry(isFace: isFace);
     } else {
-      _state.accept(const EnterPasswordState.password());
+      _state.value = const EnterPasswordState.password();
     }
   }
 

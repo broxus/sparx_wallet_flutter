@@ -1,9 +1,11 @@
 import 'package:app/feature/ledger/ledger.dart';
 import 'package:app/generated/generated.dart';
 import 'package:elementary/elementary.dart';
+import 'package:injectable/injectable.dart';
 import 'package:nekoton_repository/nekoton_repository.dart' hide Message;
 import 'package:rxdart/rxdart.dart';
 
+@injectable
 class NewAccountTypeModel extends ElementaryModel
     with BleAvailabilityModelMixin {
   NewAccountTypeModel(

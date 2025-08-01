@@ -1,7 +1,5 @@
 import 'package:app/app/router/router.dart';
-import 'package:app/core/error_handler_factory.dart';
 import 'package:app/core/wm/custom_wm.dart';
-import 'package:app/di/di.dart';
 import 'package:app/feature/ledger/ledger.dart';
 import 'package:app/feature/wallet/new_account/add_account/add_account_model.dart';
 import 'package:app/feature/wallet/new_account/add_account_confirm/add_new_account_confirm_sheet.dart';
@@ -10,22 +8,11 @@ import 'package:app/feature/wallet/new_account/screen/route.dart';
 import 'package:app/feature/wallet/new_account/select_seed/route.dart';
 import 'package:elementary/elementary.dart';
 import 'package:elementary_helper/elementary_helper.dart';
-import 'package:flutter/material.dart';
+import 'package:injectable/injectable.dart';
 import 'package:nekoton_repository/nekoton_repository.dart';
 import 'package:ui_components_lib/v2/theme_style_v2.dart';
 
-AddAccountWidgetModel defaultAddAccountWidgetModelFactory(
-  BuildContext context,
-) =>
-    AddAccountWidgetModel(
-      AddAccountModel(
-        createPrimaryErrorHandler(context),
-        inject(),
-        inject(),
-        inject(),
-      ),
-    );
-
+@injectable
 class AddAccountWidgetModel
     extends CustomWidgetModel<ElementaryWidget, AddAccountModel>
     with BleAvailabilityWmMixin {

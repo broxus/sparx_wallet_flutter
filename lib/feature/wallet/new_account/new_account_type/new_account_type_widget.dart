@@ -1,8 +1,8 @@
+import 'package:app/core/wm/custom_wm.dart';
 import 'package:app/feature/wallet/new_account/new_account_type'
     '/new_account_type_wm.dart';
 import 'package:app/generated/generated.dart';
 import 'package:app/utils/constants.dart';
-import 'package:elementary/elementary.dart';
 import 'package:elementary_helper/elementary_helper.dart';
 import 'package:flutter/material.dart';
 import 'package:lucide_icons_flutter/lucide_icons.dart';
@@ -12,16 +12,18 @@ import 'package:ui_components_lib/v2/ui_components_lib_v2.dart';
 
 const _walletV5R1 = WalletType.walletV5R1();
 
-class NewAccountTypeWidget extends ElementaryWidget<NewAccountTypeWidgetModel> {
-  const NewAccountTypeWidget({
-    required this.publicKey,
-    required this.password,
-    Key? key,
-    WidgetModelFactory wmFactory = defaultNewAccountTypeWidgetModelFactory,
-  }) : super(wmFactory, key: key);
-
-  final PublicKey publicKey;
-  final String? password;
+class NewAccountTypeWidget extends InjectedElementaryParametrizedWidget<
+    NewAccountTypeWidgetModel, NewAccountTypeWmParams> {
+  NewAccountTypeWidget({
+    required PublicKey publicKey,
+    required String? password,
+    super.key,
+  }) : super(
+          wmFactoryParam: NewAccountTypeWmParams(
+            publicKey: publicKey,
+            password: password,
+          ),
+        );
 
   @override
   Widget build(NewAccountTypeWidgetModel wm) {
@@ -124,10 +126,15 @@ class NewAccountTypeWidget extends ElementaryWidget<NewAccountTypeWidgetModel> {
                         ],
                       ),
                       const SizedBox(height: DimensSizeV2.d12),
-                      DoubleSourceBuilder(
-                        firstSource: wm.selected,
-                        secondSource: wm.showDeprecated,
-                        builder: (_, selected, showDeprecated) {
+                      MultiListenerRebuilder(
+                        listenableList: [
+                          wm.selected,
+                          wm.showDeprecated,
+                        ],
+                        builder: (_) {
+                          final selected = wm.selected.value;
+                          final showDeprecated = wm.showDeprecated.value;
+
                           if (showDeprecated != true) {
                             return const SizedBox.shrink();
                           }
@@ -160,21 +167,28 @@ class NewAccountTypeWidget extends ElementaryWidget<NewAccountTypeWidgetModel> {
             ),
           ),
         ),
-        DoubleSourceBuilder(
-          firstSource: wm.loading,
-          secondSource: wm.selected,
-          builder: (_, isLoading, selected) => Padding(
-            padding: const EdgeInsets.only(top: DimensSizeV2.d12),
-            child: AccentButton(
-              buttonShape: ButtonShape.pill,
-              title: LocaleKeys.addAccount.tr(),
-              postfixIcon: LucideIcons.plus,
-              isLoading: isLoading ?? false,
-              onPressed: selected != null && !disabledTypes.contains(selected)
-                  ? wm.onSubmit
-                  : null,
-            ),
-          ),
+        MultiListenerRebuilder(
+          listenableList: [
+            wm.loading,
+            wm.selected,
+          ],
+          builder: (_) {
+            final isLoading = wm.loading.value;
+            final selected = wm.selected.value;
+
+            return Padding(
+              padding: const EdgeInsets.only(top: DimensSizeV2.d12),
+              child: AccentButton(
+                buttonShape: ButtonShape.pill,
+                title: LocaleKeys.addAccount.tr(),
+                postfixIcon: LucideIcons.plus,
+                isLoading: isLoading ?? false,
+                onPressed: selected != null && !disabledTypes.contains(selected)
+                    ? wm.onSubmit
+                    : null,
+              ),
+            );
+          },
         ),
       ],
     );

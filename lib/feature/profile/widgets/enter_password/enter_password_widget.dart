@@ -1,9 +1,9 @@
 import 'dart:async';
 
+import 'package:app/core/wm/custom_wm.dart';
 import 'package:app/feature/profile/widgets/enter_password/data/data.dart';
 import 'package:app/feature/profile/widgets/enter_password/enter_password_wm.dart';
 import 'package:app/generated/generated.dart';
-import 'package:elementary/elementary.dart';
 import 'package:elementary_helper/elementary_helper.dart';
 import 'package:flutter/material.dart';
 import 'package:lucide_icons_flutter/lucide_icons.dart';
@@ -22,55 +22,58 @@ typedef GetLedgerAuthInput = FutureOr<SignInputAuthLedger> Function();
 ///
 /// !!! This widget must be an entry point for entering any password, because
 /// this widget contains internal logic for checking biometry.
-///
-/// !!! Widget only valid [SignInputAuth] via [onConfirmed].
-class EnterPasswordWidget extends ElementaryWidget<EnterPasswordWidgetModel> {
-  const EnterPasswordWidget({
-    required this.publicKey,
-    required this.onPasswordEntered,
-    this.title,
-    this.isLoading = false,
-    this.isDisabled = false,
-    this.isAutofocus = true,
-    Key? key,
-    WidgetModelFactory wmFactory = defaultEnterPasswordWidgetModelFactory,
-  })  : onConfirmed = null,
-        getLedgerAuthInput = null,
-        super(wmFactory, key: key);
+class EnterPasswordWidget extends InjectedElementaryParametrizedWidget<
+    EnterPasswordWidgetModel, EnterPasswordWmParams> {
+  EnterPasswordWidget({
+    required PublicKey publicKey,
+    required ValueChanged<String> onPasswordEntered,
+    String? title,
+    bool isLoading = false,
+    bool isDisabled = false,
+    bool isAutofocus = true,
+    super.key,
+  }) : super(
+          wmFactoryParam: EnterPasswordWmParams(
+            publicKey: publicKey,
+            title: title,
+            isLoading: isLoading,
+            isDisabled: isDisabled,
+            isAutofocus: isAutofocus,
+            getLedgerAuthInput: null,
+            onConfirmed: null,
+            onPasswordEntered: onPasswordEntered,
+          ),
+        );
 
-  const EnterPasswordWidget.auth({
-    required this.publicKey,
-    required this.getLedgerAuthInput,
-    required this.onConfirmed,
-    this.title,
-    this.isLoading = false,
-    this.isDisabled = false,
-    this.isAutofocus = true,
-    Key? key,
-    WidgetModelFactory wmFactory = defaultEnterPasswordWidgetModelFactory,
-  })  : onPasswordEntered = null,
-        super(wmFactory, key: key);
-
-  /// Callback that will be called when user confirmed action via password
-  /// or Ledger.
-  final ValueChanged<SignInputAuth>? onConfirmed;
-  final ValueChanged<String>? onPasswordEntered;
-
-  /// Key for which password must be entered.
-  final PublicKey publicKey;
-  final String? title;
-  final bool isLoading;
-  final bool isDisabled;
-  final bool isAutofocus;
-  final GetLedgerAuthInput? getLedgerAuthInput;
+  EnterPasswordWidget.auth({
+    required PublicKey publicKey,
+    required ValueChanged<SignInputAuth> onConfirmed,
+    GetLedgerAuthInput? getLedgerAuthInput,
+    String? title,
+    bool isLoading = false,
+    bool isDisabled = false,
+    bool isAutofocus = true,
+    super.key,
+  }) : super(
+          wmFactoryParam: EnterPasswordWmParams(
+            publicKey: publicKey,
+            title: title,
+            isLoading: isLoading,
+            isDisabled: isDisabled,
+            isAutofocus: isAutofocus,
+            getLedgerAuthInput: getLedgerAuthInput,
+            onConfirmed: onConfirmed,
+            onPasswordEntered: null,
+          ),
+        );
 
   @override
   Widget build(EnterPasswordWidgetModel wm) {
-    return DoubleSourceBuilder(
-      firstSource: wm.state,
-      secondSource: wm.props,
+    return DoubleValueListenableBuilder(
+      firstValue: wm.state,
+      secondValue: wm.props,
       builder: (_, state, props) {
-        if (state == null || props == null) {
+        if (state == null) {
           return const SizedBox.shrink();
         }
 

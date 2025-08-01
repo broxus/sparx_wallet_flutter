@@ -1,32 +1,24 @@
-import 'package:app/core/error_handler_factory.dart';
+// ignore_for_file: use_build_context_synchronously
+
 import 'package:app/core/wm/custom_wm.dart';
-import 'package:app/di/di.dart';
 import 'package:app/feature/ledger/ledger.dart';
 import 'package:app/feature/profile/profile.dart';
 import 'package:app/feature/profile/seed_detail/view/seed_detail_page_model.dart';
 import 'package:app/utils/utils.dart';
 import 'package:elementary_helper/elementary_helper.dart';
-import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
+import 'package:injectable/injectable.dart';
 import 'package:nekoton_repository/nekoton_repository.dart';
 import 'package:ui_components_lib/ui_components_lib.dart';
 
-SeedDetailPageWidgetModel defaultSeedDetailPageWidgetModelFactory(
-  BuildContext context,
-) =>
-    SeedDetailPageWidgetModel(
-      SeedDetailPageModel(
-        createPrimaryErrorHandler(context),
-        inject(),
-        inject(),
-        inject(),
-        inject(),
-      ),
-    );
-
-class SeedDetailPageWidgetModel
-    extends CustomWidgetModel<SeedDetailPageWidget, SeedDetailPageModel>
-    with BleAvailabilityWmMixin {
-  SeedDetailPageWidgetModel(super.model);
+@injectable
+class SeedDetailPageWidgetModel extends CustomWidgetModelParametrized<
+    SeedDetailPageWidget,
+    SeedDetailPageModel,
+    PublicKey> with BleAvailabilityWmMixin {
+  SeedDetailPageWidgetModel(
+    super.model,
+  );
 
   late final _currentKey = createNotifierFromStream(model.currentKey);
   late final _currentSeed = createNotifierFromStream(model.currentSeed);
@@ -34,7 +26,7 @@ class SeedDetailPageWidgetModel
     model.findingExistingWallets,
   );
   late final _seed = createNotifierFromStream(
-    model.getSeedStream(widget.publicKey),
+    model.getSeedStream(wmParams.value),
   );
 
   StateNotifier<PublicKey?> get currentKey => _currentKey;
@@ -48,7 +40,7 @@ class SeedDetailPageWidgetModel
 
   ThemeStyleV2 get theme => context.themeStyleV2;
 
-  void onSeedSettings() => showSeedSettingsSheet(context, widget.publicKey);
+  void onSeedSettings() => showSeedSettingsSheet(context, wmParams.value);
 
   Future<void> onAddkeys() async {
     final seed = _seed.value;
@@ -60,11 +52,11 @@ class SeedDetailPageWidgetModel
 
       contextSafe?.let((context) {
         Navigator.of(context, rootNavigator: true).push(
-          deriveKeysSheet(context, widget.publicKey),
+          deriveKeysSheet(context, wmParams.value),
         );
       });
     } else {
-      showDeriveKeysSheetPassword(context, widget.publicKey);
+      showDeriveKeysSheetPassword(context, wmParams.value);
     }
   }
 }

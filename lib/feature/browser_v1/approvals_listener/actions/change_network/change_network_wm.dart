@@ -1,47 +1,69 @@
 import 'dart:async';
 
 import 'package:app/app/service/connection/data/connection_data/connection_data.dart';
-import 'package:app/core/error_handler_factory.dart';
 import 'package:app/core/wm/custom_wm.dart';
-import 'package:app/di/di.dart';
 import 'package:app/feature/browser_v1/approvals_listener/actions/change_network/change_network_model.dart';
 import 'package:app/feature/browser_v1/approvals_listener/actions/change_network/change_network_widget.dart';
 import 'package:app/generated/generated.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:injectable/injectable.dart';
 import 'package:ui_components_lib/v2/ui_components_lib_v2.dart';
 
-ChangeNetworkWidgetModel defaultChangeNetworkWidgetModelFactory(
-  BuildContext context,
-) =>
-    ChangeNetworkWidgetModel(
-      ChangeNetworkModel(
-        createPrimaryErrorHandler(context),
-        inject(),
-        inject(),
-        inject(),
-      ),
-    );
+class ChangeNetworkWmParams {
+  const ChangeNetworkWmParams({
+    required this.origin,
+    required this.networkId,
+    required this.connections,
+  });
 
-class ChangeNetworkWidgetModel
-    extends CustomWidgetModel<ChangeNetworkWidget, ChangeNetworkModel> {
-  ChangeNetworkWidgetModel(super.model);
+  final Uri origin;
+  final int networkId;
+  final List<ConnectionData> connections;
+}
+
+@injectable
+class ChangeNetworkWidgetModel extends CustomWidgetModelParametrized<
+    ChangeNetworkWidget, ChangeNetworkModel, ChangeNetworkWmParams> {
+  ChangeNetworkWidgetModel(
+    super.model,
+  );
+
+  late final _originState = createWmParamsNotifier(
+    (it) => it.origin,
+  );
+
+  late final _networkIdState = createWmParamsNotifier(
+    (it) => it.networkId,
+  );
+
+  late final _connectionsState = createWmParamsNotifier(
+    (it) => it.connections,
+  );
+
+  late final _connectionState = createWmParamsNotifier(
+    (it) => it.connections.first,
+  );
+
+  ValueListenable<Uri> get originState => _originState;
+
+  ValueListenable<int> get networkIdState => _networkIdState;
+
+  ValueListenable<List<ConnectionData>> get connectionsState =>
+      _connectionsState;
 
   late final _loading = createValueNotifier(false);
-  late final _connection = createValueNotifier<ConnectionData>(
-    widget.connections.first,
-  );
 
   ValueListenable<bool> get loading => _loading;
 
-  ValueListenable<ConnectionData> get connection => _connection;
+  ValueListenable<ConnectionData> get connection => _connectionState;
 
   ThemeStyleV2 get theme => context.themeStyleV2;
 
   Future<void> onConfirm() async {
     _loading.value = true;
     try {
-      final strategy = await model.changeNetwork(_connection.value.id);
+      final strategy = await model.changeNetwork(_connectionState.value.id);
 
       if (contextSafe != null) {
         Navigator.of(contextSafe!).pop(strategy);
@@ -60,5 +82,6 @@ class ChangeNetworkWidgetModel
   }
 
   // ignore: use_setters_to_change_properties
-  void onConnectionChanged(ConnectionData value) => _connection.value = value;
+  void onConnectionChanged(ConnectionData value) =>
+      _connectionState.value = value;
 }

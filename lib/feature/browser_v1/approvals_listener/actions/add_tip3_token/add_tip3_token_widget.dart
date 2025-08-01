@@ -1,9 +1,9 @@
+import 'package:app/core/wm/custom_wm.dart';
 import 'package:app/data/models/models.dart';
 import 'package:app/feature/browser_v1/approvals_listener/actions/add_tip3_token/add_tip3_token_wm.dart';
 import 'package:app/feature/browser_v1/approvals_listener/actions/widgets/widgets.dart';
 import 'package:app/feature/wallet/wallet.dart';
 import 'package:app/generated/generated.dart';
-import 'package:elementary/elementary.dart';
 import 'package:elementary_helper/elementary_helper.dart';
 import 'package:flutter/material.dart';
 import 'package:lucide_icons_flutter/lucide_icons.dart';
@@ -11,19 +11,22 @@ import 'package:nekoton_repository/nekoton_repository.dart';
 import 'package:ui_components_lib/ui_components_lib.dart';
 import 'package:ui_components_lib/v2/ui_components_lib_v2.dart';
 
-class AddTip3TokenWidget extends ElementaryWidget<AddTip3TokenWidgetModel> {
-  const AddTip3TokenWidget({
-    required this.origin,
-    required this.account,
-    required this.details,
+class AddTip3TokenWidget extends InjectedElementaryParametrizedWidget<
+    AddTip3TokenWidgetModel, AddTip3TokenWmParams> {
+  AddTip3TokenWidget({
+    required Uri origin,
+    required Address account,
+    required TokenContractAsset details,
     required this.scrollController,
-    Key? key,
-    WidgetModelFactory wmFactory = defaultAddTip3TokenWidgetModelFactory,
-  }) : super(wmFactory, key: key);
+    super.key,
+  }) : super(
+          wmFactoryParam: AddTip3TokenWmParams(
+            origin: origin,
+            account: account,
+            details: details,
+          ),
+        );
 
-  final Uri origin;
-  final Address account;
-  final TokenContractAsset details;
   final ScrollController scrollController;
 
   @override
@@ -35,10 +38,6 @@ class AddTip3TokenWidget extends ElementaryWidget<AddTip3TokenWidgetModel> {
     final textStyle = theme.textStyles.labelSmall.copyWith(
       color: theme.colors.content0,
     );
-    final zeroBalance = Money.fromIntWithCurrency(
-      0,
-      Currency.create(details.symbol, 0),
-    );
 
     return SeparatedColumn(
       spacing: DimensSizeV2.d12,
@@ -49,8 +48,18 @@ class AddTip3TokenWidget extends ElementaryWidget<AddTip3TokenWidgetModel> {
             child: SeparatedColumn(
               spacing: DimensSizeV2.d12,
               children: [
-                AccountInfoWidget(account: account),
-                WebsiteInfoWidget(uri: origin),
+                ValueListenableBuilder(
+                  valueListenable: wm.accountState,
+                  builder: (_, account, __) {
+                    return AccountInfoWidget(account: account);
+                  },
+                ),
+                ValueListenableBuilder(
+                  valueListenable: wm.originState,
+                  builder: (_, origin, __) {
+                    return WebsiteInfoWidget(uri: origin);
+                  },
+                ),
                 PrimaryCard(
                   color: theme.colors.background2,
                   borderRadius: BorderRadius.circular(DimensRadiusV2.radius12),
@@ -91,12 +100,17 @@ class AddTip3TokenWidget extends ElementaryWidget<AddTip3TokenWidgetModel> {
                                         ),
                                 ),
                                 Flexible(
-                                  child: Text(
-                                    details.name,
-                                    style: textStyle,
-                                    overflow: TextOverflow.ellipsis,
-                                    softWrap: false,
-                                    maxLines: 1,
+                                  child: ValueListenableBuilder(
+                                    valueListenable: wm.detailsState,
+                                    builder: (_, details, __) {
+                                      return Text(
+                                        details.name,
+                                        style: textStyle,
+                                        overflow: TextOverflow.ellipsis,
+                                        softWrap: false,
+                                        maxLines: 1,
+                                      );
+                                    },
                                   ),
                                 ),
                               ],
@@ -104,30 +118,46 @@ class AddTip3TokenWidget extends ElementaryWidget<AddTip3TokenWidgetModel> {
                           ),
                         ],
                       ),
-                      _InfoRow(
-                        children: [
-                          Text(LocaleKeys.symbolWord.tr(), style: labelStyle),
-                          Flexible(
-                            child: Text(
-                              details.symbol,
-                              style: textStyle,
-                              overflow: TextOverflow.ellipsis,
-                              softWrap: false,
-                              maxLines: 1,
-                            ),
-                          ),
-                        ],
+                      ValueListenableBuilder(
+                        valueListenable: wm.detailsState,
+                        builder: (_, details, __) {
+                          return _InfoRow(
+                            children: [
+                              Text(
+                                LocaleKeys.symbolWord.tr(),
+                                style: labelStyle,
+                              ),
+                              Flexible(
+                                child: Text(
+                                  details.symbol,
+                                  style: textStyle,
+                                  overflow: TextOverflow.ellipsis,
+                                  softWrap: false,
+                                  maxLines: 1,
+                                ),
+                              ),
+                            ],
+                          );
+                        },
                       ),
-                      _InfoRow(
-                        children: [
-                          Text(LocaleKeys.decimalsWord.tr(), style: labelStyle),
-                          Flexible(
-                            child: Text(
-                              details.decimals.toString(),
-                              style: textStyle,
-                            ),
-                          ),
-                        ],
+                      ValueListenableBuilder(
+                        valueListenable: wm.detailsState,
+                        builder: (_, details, __) {
+                          return _InfoRow(
+                            children: [
+                              Text(
+                                LocaleKeys.decimalsWord.tr(),
+                                style: labelStyle,
+                              ),
+                              Flexible(
+                                child: Text(
+                                  details.decimals.toString(),
+                                  style: textStyle,
+                                ),
+                              ),
+                            ],
+                          );
+                        },
                       ),
                       _InfoRow(
                         children: [
@@ -136,12 +166,24 @@ class AddTip3TokenWidget extends ElementaryWidget<AddTip3TokenWidgetModel> {
                             style: labelStyle,
                           ),
                           Flexible(
-                            child: StateNotifierBuilder(
-                              listenableState: wm.balance,
-                              builder: (_, value) => AmountWidget.fromMoney(
-                                amount: value ?? zeroBalance,
-                                style: textStyle,
-                              ),
+                            child: MultiListenerRebuilder(
+                              listenableList: [
+                                wm.detailsState,
+                                wm.balance,
+                              ],
+                              builder: (_) {
+                                final details = wm.detailsState.value;
+                                final balance = wm.balance.value;
+
+                                return AmountWidget.fromMoney(
+                                  amount: balance ??
+                                      Money.fromIntWithCurrency(
+                                        0,
+                                        Currency.create(details.symbol, 0),
+                                      ),
+                                  style: textStyle,
+                                );
+                              },
                             ),
                           ),
                         ],
@@ -151,7 +193,15 @@ class AddTip3TokenWidget extends ElementaryWidget<AddTip3TokenWidgetModel> {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(LocaleKeys.symbolWord.tr(), style: labelStyle),
-                          Text(details.address.address, style: textStyle),
+                          ValueListenableBuilder(
+                            valueListenable: wm.detailsState,
+                            builder: (_, details, __) {
+                              return Text(
+                                details.address.address,
+                                style: textStyle,
+                              );
+                            },
+                          ),
                         ],
                       ),
                     ],

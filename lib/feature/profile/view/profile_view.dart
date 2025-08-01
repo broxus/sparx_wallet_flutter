@@ -43,127 +43,123 @@ class ProfileView extends StatelessWidget {
   Widget build(BuildContext context) {
     final theme = context.themeStyleV2;
 
-    return Scaffold(
-      body: SafeArea(
-        child: SingleChildScrollView(
-          child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: DimensSizeV2.d16),
-            child: Column(
+    return SingleChildScrollView(
+      child: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: DimensSizeV2.d16),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            SizedBox(height: MediaQuery.paddingOf(context).top),
+            Padding(
+              padding: const EdgeInsets.symmetric(
+                vertical: DimensSizeV2.d24,
+              ),
+              child: Text(
+                LocaleKeys.settings.tr(),
+                style: theme.textStyles.headingMedium,
+                textAlign: TextAlign.center,
+              ),
+            ),
+            Column(
               mainAxisSize: MainAxisSize.min,
               children: [
-                Padding(
-                  padding: const EdgeInsets.symmetric(
-                    vertical: DimensSizeV2.d24,
-                  ),
-                  child: Text(
-                    LocaleKeys.settings.tr(),
-                    style: theme.textStyles.headingMedium,
-                    textAlign: TextAlign.center,
-                  ),
-                ),
-                Column(
-                  mainAxisSize: MainAxisSize.min,
+                _Container(
                   children: [
-                    _Container(
-                      children: [
-                        _Item(
-                          title: LocaleKeys.manageSeedsAndAccounts.tr(),
-                          icon: LucideIcons.keyRound,
-                          onPressed: onManageSeeds,
-                        ),
-                        _Item(
-                          title: LocaleKeys.connectedDappsTitle.tr(),
-                          subtitle: LocaleKeys.connectedDappsSubtitle.tr(),
-                          icon: LucideIcons.plus,
-                          onPressed: onManageDapps,
-                        ),
-                      ],
+                    _Item(
+                      title: LocaleKeys.manageSeedsAndAccounts.tr(),
+                      icon: LucideIcons.keyRound,
+                      onPressed: onManageSeeds,
                     ),
-                    DoubleSourceBuilder(
-                      firstSource: isBiometryAvailable,
-                      secondSource: seed,
-                      builder: (_, available, seed) {
-                        if ((seed == null || seed.masterKey.isLedger) &&
-                            (available == null || !available)) {
-                          return const SizedBox.shrink();
-                        }
-
-                        return Padding(
-                          padding: const EdgeInsets.symmetric(
-                            vertical: DimensSizeV2.d16,
-                          ),
-                          child: _Container(
-                            children: [
-                              if (seed != null && !seed.masterKey.isLedger)
-                                _Item(
-                                  title: LocaleKeys.exportSeedPhrase.tr(),
-                                  icon: LucideIcons.databaseBackup,
-                                  onPressed: onExportSeed,
-                                ),
-                              if (available ?? false)
-                                StateNotifierBuilder(
-                                  listenableState: isBiometryEnabled,
-                                  builder: (_, enabled) => _Item(
-                                    title: LocaleKeys.biometryWord.tr(),
-                                    icon: LucideIcons.fingerprint,
-                                    trailing: Switch(
-                                      value: enabled ?? false,
-                                      onChanged: onBiomentryChanged,
-                                    ),
-                                  ),
-                                ),
-                            ],
-                          ),
-                        );
-                      },
-                    ),
-                    _Container(
-                      children: [
-                        _Item(
-                          title: LocaleKeys.faq.tr(),
-                          icon: LucideIcons.messageCircleQuestion,
-                          onPressed: onFAQ,
-                        ),
-                        _Item(
-                          title: LocaleKeys.contactSupport.tr(),
-                          icon: LucideIcons.messagesSquare,
-                          onPressed: onContactSupport,
-                        ),
-                        _Item(
-                          title: LocaleKeys.legal.tr(),
-                          icon: LucideIcons.link,
-                          onPressed: onLegal,
-                        ),
-                      ],
-                    ),
-                    const SizedBox(height: DimensSizeV2.d16),
-                    Padding(
-                      padding: const EdgeInsets.only(top: DimensSizeV2.d8),
-                      child: Column(
-                        mainAxisSize: MainAxisSize.min,
-                        spacing: DimensSizeV2.d8,
-                        children: [
-                          DestructiveButton(
-                            buttonShape: ButtonShape.pill,
-                            title: LocaleKeys.logOut.tr(),
-                            icon: LucideIcons.logOut,
-                            onPressed: onLogout,
-                          ),
-                          Text(
-                            '${LocaleKeys.versionWord.tr()} $appVersion',
-                            textAlign: TextAlign.center,
-                            style: theme.textStyles.labelXSmall.copyWith(
-                              color: theme.colors.content3,
-                            ),
-                          ),
-                        ],
-                      ),
+                    _Item(
+                      title: LocaleKeys.connectedDappsTitle.tr(),
+                      subtitle: LocaleKeys.connectedDappsSubtitle.tr(),
+                      icon: LucideIcons.plus,
+                      onPressed: onManageDapps,
                     ),
                   ],
                 ),
+                DoubleSourceBuilder(
+                  firstSource: isBiometryAvailable,
+                  secondSource: seed,
+                  builder: (_, available, seed) {
+                    if ((seed == null || seed.masterKey.isLedger) &&
+                        (available == null || !available)) {
+                      return const SizedBox.shrink();
+                    }
+
+                    return Padding(
+                      padding: const EdgeInsets.symmetric(
+                        vertical: DimensSizeV2.d16,
+                      ),
+                      child: _Container(
+                        children: [
+                          if (seed != null && !seed.masterKey.isLedger)
+                            _Item(
+                              title: LocaleKeys.exportSeedPhrase.tr(),
+                              icon: LucideIcons.databaseBackup,
+                              onPressed: onExportSeed,
+                            ),
+                          if (available ?? false)
+                            StateNotifierBuilder(
+                              listenableState: isBiometryEnabled,
+                              builder: (_, enabled) => _Item(
+                                title: LocaleKeys.biometryWord.tr(),
+                                icon: LucideIcons.fingerprint,
+                                trailing: Switch(
+                                  value: enabled ?? false,
+                                  onChanged: onBiomentryChanged,
+                                ),
+                              ),
+                            ),
+                        ],
+                      ),
+                    );
+                  },
+                ),
+                _Container(
+                  children: [
+                    _Item(
+                      title: LocaleKeys.faq.tr(),
+                      icon: LucideIcons.messageCircleQuestion,
+                      onPressed: onFAQ,
+                    ),
+                    _Item(
+                      title: LocaleKeys.contactSupport.tr(),
+                      icon: LucideIcons.messagesSquare,
+                      onPressed: onContactSupport,
+                    ),
+                    _Item(
+                      title: LocaleKeys.legal.tr(),
+                      icon: LucideIcons.link,
+                      onPressed: onLegal,
+                    ),
+                  ],
+                ),
+                Padding(
+                  padding: const EdgeInsets.only(top: DimensSizeV2.d24),
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    spacing: DimensSizeV2.d8,
+                    children: [
+                      DestructiveButton(
+                        buttonShape: ButtonShape.pill,
+                        title: LocaleKeys.logOut.tr(),
+                        icon: LucideIcons.logOut,
+                        onPressed: onLogout,
+                      ),
+                      Text(
+                        '${LocaleKeys.versionWord.tr()} $appVersion',
+                        textAlign: TextAlign.center,
+                        style: theme.textStyles.labelXSmall.copyWith(
+                          color: theme.colors.content3,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
               ],
             ),
-          ),
+          ],
         ),
       ),
     );

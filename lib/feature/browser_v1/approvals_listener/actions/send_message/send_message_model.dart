@@ -1,9 +1,12 @@
 import 'package:app/feature/ledger/ledger.dart';
 import 'package:app/utils/utils.dart';
 import 'package:elementary/elementary.dart';
+import 'package:injectable/injectable.dart';
+import 'package:nekoton_repository/nekoton_repository.dart' hide Message;
 import 'package:nekoton_repository/nekoton_repository.dart';
 import 'package:rxdart/rxdart.dart';
 
+@injectable
 class SendMessageModel extends ElementaryModel with BleAvailabilityModelMixin {
   SendMessageModel(
     ErrorHandler errorHandler,

@@ -1,23 +1,10 @@
-import 'package:app/core/error_handler_factory.dart';
 import 'package:app/core/wm/custom_wm.dart';
-import 'package:app/di/di.dart';
 import 'package:app/feature/ton_connect/ton_connect.dart';
 import 'package:elementary_helper/elementary_helper.dart';
-import 'package:flutter/material.dart';
+import 'package:injectable/injectable.dart';
 import 'package:ui_components_lib/ui_components_lib.dart';
 
-TCManageDappsWidgetModel defaultTCManageDappsWidgetModelFactory(
-  BuildContext context,
-) =>
-    TCManageDappsWidgetModel(
-      TCManageDappsModel(
-        createPrimaryErrorHandler(context),
-        inject(),
-        inject(),
-        inject(),
-      ),
-    );
-
+@injectable
 class TCManageDappsWidgetModel
     extends CustomWidgetModel<TCManageDappsWidget, TCManageDappsModel> {
   TCManageDappsWidgetModel(super.model);
