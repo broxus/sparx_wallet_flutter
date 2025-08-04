@@ -9,6 +9,7 @@ import 'package:app/feature/browser_v2/screens/main/data/menu_data.dart';
 import 'package:app/feature/browser_v2/screens/main/delegates/ui_animation_delegate.dart';
 import 'package:app/feature/browser_v2/screens/main/delegates/ui_browser_keys_delegate.dart';
 import 'package:app/feature/browser_v2/screens/main/delegates/ui_group_menu_delegate.dart';
+import 'package:app/feature/browser_v2/screens/main/delegates/ui_overlay_delegate.dart';
 import 'package:app/feature/browser_v2/screens/main/delegates/ui_page_slide_delegate.dart';
 import 'package:app/feature/browser_v2/screens/main/delegates/ui_past_go_delegate.dart';
 import 'package:app/feature/browser_v2/screens/main/delegates/ui_progress_indicator_delegate.dart';
@@ -16,7 +17,13 @@ import 'package:app/feature/browser_v2/screens/main/delegates/ui_scroll_page_del
 import 'package:app/feature/browser_v2/screens/main/delegates/ui_size_delegate.dart';
 import 'package:app/feature/browser_v2/screens/main/delegates/ui_tab_menu_delegate.dart';
 import 'package:app/feature/browser_v2/screens/main/delegates/ui_tabs_and_groups_delegate.dart';
+import 'package:app/feature/browser_v2/screens/main/widgets/browser_progress_indicator.dart';
+import 'package:app/feature/browser_v2/screens/main/widgets/control_panels/navigation_panel/host_panel.dart';
 import 'package:app/feature/browser_v2/screens/main/widgets/control_panels/navigation_panel/url_action_sheet.dart';
+import 'package:app/feature/browser_v2/screens/main/widgets/control_panels/page_control_panel.dart';
+import 'package:app/feature/browser_v2/screens/main/widgets/control_panels/tabs_list_action_bar.dart';
+import 'package:app/feature/browser_v2/screens/main/widgets/menu_animation.dart';
+import 'package:app/feature/browser_v2/screens/main/widgets/past_go.dart';
 import 'package:app/feature/browser_v2/screens/main/widgets/tab_animated_view/tab_animation_type.dart';
 import 'package:app/feature/browser_v2/widgets/bottomsheets/browser_main_menu/browser_main_menu.dart';
 import 'package:app/utils/clipboard_utils.dart';
@@ -121,6 +128,8 @@ class BrowserMainScreenWidgetModel
     checkIsVisiblePages: () => _viewVisibleState.value,
   );
 
+  final _overlayDelegate = BrowserOverlayUiDelegate();
+
   late final _viewVisibleState = createNotNullNotifier<bool>(
     model.activeTabId != null,
   );
@@ -133,8 +142,6 @@ class BrowserMainScreenWidgetModel
 
   BrowserTabsAndGroupsUi get tabs => _tabsDelegate;
 
-  BrowserPastGoUi get pastGo => _pastGoDelegate;
-
   BrowserAnimationUi get animations => _animationDelegate;
 
   BrowserProgressIndicatorUi get progressIndicator =>
@@ -145,8 +152,6 @@ class BrowserMainScreenWidgetModel
   BrowserPageScrollUi get page => _pageDelegate;
 
   RenderParametersManager<String> get renderManager => _renderManager;
-
-  ListenableState<MenuType> get menuState => _menuState;
 
   ListenableState<bool> get viewVisibleState => _viewVisibleState;
 
@@ -168,6 +173,8 @@ class BrowserMainScreenWidgetModel
     WidgetsBinding.instance.addPostFrameCallback((_) {
       final groupId = model.activeGroupIdState.value;
       final tabId = _tabsDelegate.activeTabId;
+      _initOverlay();
+
       if (groupId != null && tabId != null) {
         _scrollToPage(
           groupId: groupId,
@@ -190,6 +197,7 @@ class BrowserMainScreenWidgetModel
     _renderManager.dispose();
     _pastGoDelegate.dispose();
     _pageSlideDelegate.dispose();
+    _overlayDelegate.dispose();
     model.activeTabUrlHostState.removeListener(_updatePastGo);
     super.dispose();
   }
@@ -288,6 +296,65 @@ class BrowserMainScreenWidgetModel
 
   void onPressedCreateNewGroup() {
     _tabsDelegate.createGroup(context);
+  }
+
+  void _initOverlay() {
+    _overlayDelegate.init(
+      context,
+      indicatorBuilder: (_) => BrowserProgressIndicator(
+        animation: progressIndicator.animation,
+        menuState: _menuState,
+      ),
+      menuListBuilder: (_) => MenuAnimation(
+        controller: animations.listMenuAnimation,
+        offsetAnimation: animations.listMenuOffsetAnimation,
+        opacityAnimation: animations.listMenuOpacityAnimation,
+        child: BrowserTabsListActionBar(
+          key: keys.listKey,
+          allTabsIdsState: allTabsIdsState,
+          activeTabIdState: activeTabIdState,
+          onCloseAllPressed: tabs.onCloseAllPressed,
+          onGroupsMenuPressed: onGroupsMenuPressed,
+          onPlusPressed: tabs.addTab,
+          onDonePressed: onDonePressed,
+        ),
+      ),
+      menuPageBuilder: (_) => MenuAnimation(
+        controller: animations.viewMenuAnimation,
+        offsetAnimation: animations.viewMenuOffsetAnimation,
+        opacityAnimation: animations.viewMenuOpacityAnimation,
+        child: NotificationListener<ScrollNotification>(
+          onNotification: pageSlider.onScrollNotification,
+          child: BrowserPageControlPanel(
+            key: keys.viewKey,
+            menuUrlPanelWidth: sizes.screenWidth,
+            urlWidth: sizes.urlWidth,
+            onPressedDotsPressed: onPressedDotsPressed,
+            onPressedTabs: onPressedTabs,
+            onPressedCurrentUrlMenu: onPressedCurrentUrlMenu,
+            onPressedRefresh: onPressedRefresh,
+            onEditingCompleteUrl: onEditingCompleteUrl,
+            urlSliderPageController: pageSlider.urlSliderPageController,
+            tabsState: tabs.viewTabsState,
+            onPageChanged: pageSlider.onPageChanged,
+          ),
+        ),
+      ),
+      menuHostBuilder: (_) => MenuAnimation(
+        controller: animations.urlMenuAnimation,
+        offsetAnimation: animations.urlMenuOffsetAnimation,
+        opacityAnimation: animations.urlMenuOpacityAnimation,
+        child: HostPanel(
+          tabs.hostState,
+          key: keys.urlKey,
+          onPressed: onPressedViewUrlPanel,
+        ),
+      ),
+      pastGoBuilder: (_) => PastGoView(
+        showState: _pastGoDelegate.showPastGoState,
+        onPressed: _pastGoDelegate.onPastGoPressed,
+      ),
+    );
   }
 
   void _onEmptyTabs() {
