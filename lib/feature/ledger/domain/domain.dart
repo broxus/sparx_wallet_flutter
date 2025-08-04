@@ -1,5 +1,4 @@
 export 'constants.dart';
-export 'exceptions.dart';
 export 'extensions.dart';
 export 'ledger_app/ledger_app.dart';
 export 'ledger_ble_scanner.dart';

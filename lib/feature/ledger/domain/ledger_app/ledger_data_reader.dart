@@ -3,6 +3,7 @@ import 'dart:typed_data';
 import 'package:buffer/buffer.dart';
 
 const _swOk = 0x9000;
+const _swCanceled = 0x6985; // Operation cancelled by user
 
 abstract class LedgerResponse {
   /// Status word indicating the result of the operation.
@@ -12,6 +13,10 @@ abstract class LedgerResponse {
   /// Indicates whether the operation was successful.
   /// Returns true if the status word is 0x9000, false otherwise.
   bool get isOk => sw == _swOk;
+
+  /// Indicates whether the operation was cancelled by the user.
+  /// Returns true if the status word is 0x6985, false otherwise.
+  bool get isCanceled => sw == _swCanceled;
 
   /// The data returned by the Ledger app.
   Uint8List get data;

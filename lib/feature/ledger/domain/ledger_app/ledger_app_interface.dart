@@ -201,6 +201,10 @@ class LedgerAppInterface {
 
       final response = await _transport.exchange(writer.toBytes());
 
+      if (response.isCanceled) {
+        throw const LedgerOperationCancelledException();
+      }
+
       if (!response.isOk) {
         throw LedgerException(
           'Failed to sign message: SW=${response.sw.toRadixString(16)}',
@@ -297,6 +301,10 @@ class LedgerAppInterface {
         throw const LedgerException('No response received from Ledger');
       }
 
+      if (response.isCanceled) {
+        throw const LedgerOperationCancelledException();
+      }
+
       if (!response.isOk) {
         throw LedgerException(
           'Failed to sign transaction: SW=${response.sw.toRadixString(16)}',
@@ -304,6 +312,8 @@ class LedgerAppInterface {
       }
 
       return response.dataWithOffset;
+    } on LedgerException {
+      rethrow;
     } catch (e, st) {
       _logger.severe('Failed to sign transaction: $e', e, st);
       throw LedgerException('Failed to sign transaction: $e');

@@ -5,6 +5,8 @@ import 'package:app/feature/ledger/ledger.dart';
 import 'package:flutter_blue_plus/flutter_blue_plus.dart';
 import 'package:logging/logging.dart';
 import 'package:mutex/mutex.dart';
+import 'package:nekoton_repository/nekoton_repository.dart'
+    show LedgerException;
 
 class BleTransport {
   BleTransport({

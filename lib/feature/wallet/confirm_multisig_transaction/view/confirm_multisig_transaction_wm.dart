@@ -206,6 +206,7 @@ class ConfirmMultisigTransactionWidgetModel
       );
     } on OperationCanceledException catch (_) {
     } on Exception catch (e, t) {
+      if (e is AnyhowException && e.isCancelled) return;
       _logger.severe('onPasswordEntered', e, t);
       model.showMessage(Message.error(message: e.toString()));
     } finally {

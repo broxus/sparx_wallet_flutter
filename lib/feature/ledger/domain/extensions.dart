@@ -3,6 +3,8 @@ import 'package:async/async.dart';
 import 'package:collection/collection.dart';
 import 'package:flutter_blue_plus/flutter_blue_plus.dart';
 import 'package:logging/logging.dart';
+import 'package:nekoton_repository/nekoton_repository.dart'
+    show AnyhowException, LedgerException;
 
 extension ScanResultX on ScanResult {
   LedgerDeviceModel? getLedgerDeviceModel() {
@@ -56,5 +58,11 @@ extension BluetoothDeviceX on BluetoothDevice {
     if (!completer.isCompleted && !completer.isCanceled) {
       completer.complete(true);
     }
+  }
+}
+
+extension AnyhowExceptionX on AnyhowException {
+  bool get isCancelled {
+    return message == 'Operation cancelled';
   }
 }

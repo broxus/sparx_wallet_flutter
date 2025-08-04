@@ -319,6 +319,7 @@ class WalletDeployBloc extends Bloc<WalletDeployEvent, WalletDeployState>
       }
     } on OperationCanceledException catch (_) {
     } on Exception catch (e, t) {
+      if (e is AnyhowException && e.isCancelled) return;
       _logger.severe('_handleSend', e, t);
       inject<MessengerService>().show(
         Message.error(
