@@ -173,6 +173,7 @@ class BrowserMainScreenWidgetModel
     WidgetsBinding.instance.addPostFrameCallback((_) {
       final groupId = model.activeGroupIdState.value;
       final tabId = _tabsDelegate.activeTabId;
+
       _initOverlay();
 
       if (groupId != null && tabId != null) {
