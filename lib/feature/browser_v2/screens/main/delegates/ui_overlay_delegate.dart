@@ -11,12 +11,16 @@ class BrowserOverlayUiDelegate {
     required WidgetBuilder menuPageBuilder,
     required WidgetBuilder menuHostBuilder,
     required WidgetBuilder pastGoBuilder,
+    required WidgetBuilder tabAnimatedViewBuilder,
   }) {
     _entries
       ..add(_createEntry(indicatorBuilder))
       ..add(_createEntry(menuListBuilder))
       ..add(_createEntry(menuPageBuilder))
       ..add(_createEntry(menuHostBuilder))
+      ..add(
+        OverlayEntry(builder: tabAnimatedViewBuilder),
+      )
       ..add(
         _createEntry(
           pastGoBuilder,

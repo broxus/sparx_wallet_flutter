@@ -24,6 +24,7 @@ import 'package:app/feature/browser_v2/screens/main/widgets/control_panels/page_
 import 'package:app/feature/browser_v2/screens/main/widgets/control_panels/tabs_list_action_bar.dart';
 import 'package:app/feature/browser_v2/screens/main/widgets/menu_animation.dart';
 import 'package:app/feature/browser_v2/screens/main/widgets/past_go.dart';
+import 'package:app/feature/browser_v2/screens/main/widgets/tab_animated_view/tab_animated_view.dart';
 import 'package:app/feature/browser_v2/screens/main/widgets/tab_animated_view/tab_animation_type.dart';
 import 'package:app/feature/browser_v2/widgets/bottomsheets/browser_main_menu/browser_main_menu.dart';
 import 'package:app/utils/clipboard_utils.dart';
@@ -354,6 +355,11 @@ class BrowserMainScreenWidgetModel
       pastGoBuilder: (_) => PastGoView(
         showState: _pastGoDelegate.showPastGoState,
         onPressed: _pastGoDelegate.onPastGoPressed,
+      ),
+      tabAnimatedViewBuilder: (_) => TabAnimatedView(
+        onAnimationStart: onTabAnimationStart,
+        onAnimationEnd: onTabAnimationEnd,
+        showAnimationState: tabs.tabAnimationTypeState,
       ),
     );
   }
