@@ -4,11 +4,11 @@ import 'package:app/feature/loader_screen/loader_screen.dart';
 import 'package:app/feature/messenger/data/message.dart';
 import 'package:app/feature/profile/profile.dart';
 import 'package:app/generated/generated.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:injectable/injectable.dart';
-import 'package:nekoton_repository/nekoton_repository.dart' show PublicKey;
+import 'package:nekoton_repository/nekoton_repository.dart'
+    show PublicKey, SeedKey;
 import 'package:ui_components_lib/ui_components_lib.dart';
 
 @injectable
@@ -20,8 +20,9 @@ class SeedSettingsWidgetModel extends CustomWidgetModelParametrized<
     super.model,
   );
 
-  late final ValueListenable<PublicKey> publicKeyState =
-      createWmParamsNotifier((it) => it);
+  late final publicKeyState = createWmParamsNotifier((it) => it);
+
+  SeedKey? get seedKey => model.getMasterKey(publicKeyState.value);
 
   ThemeStyleV2 get theme => context.themeStyleV2;
 
