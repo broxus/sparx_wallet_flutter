@@ -7,8 +7,7 @@ import 'package:app/generated/generated.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:injectable/injectable.dart';
-import 'package:nekoton_repository/nekoton_repository.dart'
-    show PublicKey, SeedKey;
+import 'package:nekoton_repository/nekoton_repository.dart' hide Message;
 import 'package:ui_components_lib/ui_components_lib.dart';
 
 @injectable
@@ -95,6 +94,8 @@ class SeedSettingsWidgetModel extends CustomWidgetModelParametrized<
           duration: const Duration(seconds: 2),
         ),
       );
+    } on OperationCanceledException {
+      // User canceled the operation, do nothing
     } catch (e) {
       model.showMessage(Message.error(message: e.toString()));
     } finally {

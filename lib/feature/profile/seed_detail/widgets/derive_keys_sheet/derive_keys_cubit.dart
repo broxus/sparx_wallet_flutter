@@ -6,7 +6,6 @@ import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:nekoton_repository/nekoton_repository.dart';
 
 part 'derive_keys_cubit.freezed.dart';
-
 part 'derive_keys_state.dart';
 
 /// How many keys should be displayed on one page
@@ -227,14 +226,20 @@ class DeriveKeysCubit extends Cubit<DeriveKeysState> with BlocBaseMixin {
             limit: derivedKeysPerPage,
             offset: offset,
           );
-    final keys = await _ledgerService.runWithLedgerIfKeyIsLedger(
-      interactionType: LedgerInteractionType.getPublicKey,
-      publicKey: _seed.masterPublicKey,
-      action: () => _nekotonRepository.getKeysToDerive(params),
-    );
 
-    _pages[pageIndex] = keys
-        .mapIndexed((index, key) => DerivedKeyWithIndex(offset + index, key))
-        .toList();
+    try {
+      final keys = await _ledgerService.runWithLedgerIfKeyIsLedger(
+        interactionType: LedgerInteractionType.getPublicKey,
+        publicKey: _seed.masterPublicKey,
+        action: () => _nekotonRepository.getKeysToDerive(params),
+      );
+
+      _pages[pageIndex] = keys
+          .mapIndexed((index, key) => DerivedKeyWithIndex(offset + index, key))
+          .toList();
+    } on OperationCanceledException {
+      // User canceled the operation, close the sheet
+      emitSafe(state.copyWith(isCompleted: true));
+    }
   }
 }
