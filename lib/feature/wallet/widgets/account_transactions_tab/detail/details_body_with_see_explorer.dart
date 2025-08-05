@@ -1,5 +1,3 @@
-import 'package:app/di/di.dart';
-import 'package:app/feature/browser_v2/domain/browser_launcher.dart';
 import 'package:app/generated/generated.dart';
 import 'package:flutter/material.dart';
 import 'package:lucide_icons_flutter/lucide_icons.dart';
