@@ -90,8 +90,7 @@ class _Item extends StatelessWidget {
           child: AnimatedContainer(
             duration: _duration,
             decoration: BoxDecoration(
-              // TODO(knightforce): add to color palette
-              color: isActive ? const Color(0xff353960) : colors.background2,
+              color: isActive ? ColorsResV2.midnightBlue : colors.background2,
               borderRadius: BorderRadius.circular(DimensRadiusV2.radius8),
             ),
             child: Row(

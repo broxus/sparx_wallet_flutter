@@ -3,7 +3,6 @@ import 'package:app/feature/browser_v2/domain/browser_launcher.dart';
 import 'package:app/generated/generated.dart';
 import 'package:flutter/material.dart';
 import 'package:lucide_icons_flutter/lucide_icons.dart';
-import 'package:nekoton_repository/nekoton_repository.dart';
 import 'package:ui_components_lib/ui_components_lib.dart';
 import 'package:ui_components_lib/v2/ui_components_lib_v2.dart';
 
@@ -11,6 +10,7 @@ class WalletTransactionDetailsBodyWithExplorerButton extends StatelessWidget {
   const WalletTransactionDetailsBodyWithExplorerButton({
     required this.body,
     required this.transactionHash,
+    required this.onPressed,
     this.action,
     super.key,
   });
@@ -23,6 +23,8 @@ class WalletTransactionDetailsBodyWithExplorerButton extends StatelessWidget {
 
   /// Action that can add behavior for transaction
   final Widget? action;
+
+  final VoidCallback onPressed;
 
   @override
   Widget build(BuildContext context) {
@@ -52,15 +54,7 @@ class WalletTransactionDetailsBodyWithExplorerButton extends StatelessWidget {
               PrimaryButton(
                 title: LocaleKeys.seeInExplorer.tr(),
                 icon: LucideIcons.globe,
-                onPressed: () {
-                  Navigator.of(context).pop();
-                  // TODO(oldVersion): extract inject from widget
-                  inject<BrowserLauncher>().openBrowserByString(
-                    inject<NekotonRepository>()
-                        .currentTransport
-                        .transactionExplorerLink(transactionHash),
-                  );
-                },
+                onPressed: onPressed,
                 buttonShape: ButtonShape.pill,
               ),
             ],

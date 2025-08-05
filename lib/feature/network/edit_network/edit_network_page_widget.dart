@@ -36,23 +36,24 @@ class EditNetworkPageWidget extends InjectedElementaryParametrizedWidget<
                       children: [
                         TypeField(
                           connectionTypeState: wm.connectionTypeState,
-                          editable: wm.isEditable,
+                          isEditable: wm.isEditable,
                           onChangeType: wm.onChangeType,
                         ),
                         if (wm.networkTypesOptions != null)
                           NetworkTypeField(
+                            isEditable: wm.isEditable,
                             types: wm.networkTypesOptions!,
                             selectedNetworkTypeState:
                                 wm.selectedNetworkTypeState,
                             onChanged: wm.onChangedNetworkType,
                           ),
                         NameField(
-                          editable: wm.isEditable,
+                          isEditable: wm.isEditable,
                           controller: wm.nameController,
                           validator: wm.validators.nameValidator,
                         ),
                         EndpointsField(
-                          editable: wm.isEditable,
+                          isEditable: wm.isEditable,
                           endpointsControllersState:
                               wm.endpointsControllersState,
                           connectionTypeState: wm.connectionTypeState,
@@ -63,23 +64,25 @@ class EditNetworkPageWidget extends InjectedElementaryParametrizedWidget<
                           onRemove: wm.onRemove,
                         ),
                         CurrencyField(
-                          editable: wm.isEditable,
+                          isEditable: wm.isEditable,
                           controller: wm.currencySymbolController,
                           validator: wm.validators.currencySymbolValidator,
                         ),
                         DecimalsField(
-                          editable: wm.isEditable,
+                          isEditable: wm.isEditable,
                           controller: wm.currencyDecimalsController,
                         ),
                         BlockExplorerField(
                           validator: wm.validators.optionalUrlValidator,
-                          editable: wm.isEditable,
+                          isEditable: wm.isEditable,
                           controller: wm.blockExplorerUrlController,
                         ),
                         TokenListField(
-                          editable: wm.isEditable,
+                          isEditable: wm.isEditable,
                           controller: wm.manifestUrlController,
                           validator: wm.validators.optionalUrlValidator,
+                          errorText: wm.manifestError,
+                          isLoading: wm.isManifestLoading,
                           onTap: wm.onTokenListTextLinkTap,
                         ),
                       ],

@@ -97,6 +97,12 @@ jobs:
 
       - uses: bluefireteam/melos-action@v3
 
+      - name: Run melos analyze
+        run: melos analyze
+
+      - name: Run melos check-format
+        run: melos check-format
+
       # Secrets
       - name: Decrypt secrets
         run: melos decrypt-secrets
