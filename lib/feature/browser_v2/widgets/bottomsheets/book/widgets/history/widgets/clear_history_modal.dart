@@ -100,8 +100,7 @@ class _ClearHistoryModalContentState extends State<ClearHistoryModalContent> {
             //D92346
             buttonShape: ButtonShape.rectangle,
             title: LocaleKeys.clearWord.tr(),
-            // TODO(knightforce): move to colors
-            backgroundColor: const Color(0xFFD92346),
+            backgroundColor: ColorsResV2.raspberryRed,
             onPressed: () {
               Navigator.of(context).pop((_timePeriod, _selectedTypes));
             },

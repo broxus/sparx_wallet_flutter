@@ -58,6 +58,7 @@ class TokenWalletOrdinaryTransactionDetailsScreen
               ),
             ],
           ),
+          onPressed: wm.onPressedDetails,
         ),
       ),
     );

@@ -42,6 +42,8 @@ class CurrenciesService {
     required this.currentAccounts,
     required this.storageService,
     required this.appLifecycle,
+    required this.defaultFetchStrategy,
+    required this.tonFetchStrategy,
   });
 
   static final _logger = Logger('CurrenciesService');
@@ -51,6 +53,15 @@ class CurrenciesService {
   final CurrentAccountsService currentAccounts;
   final GeneralStorageService storageService;
   final AppLifecycleService appLifecycle;
+  final DefaultCurrenciesFetchStrategy defaultFetchStrategy;
+  final TonCurrenciesFetchStrategy tonFetchStrategy;
+
+  CurrenciesFetchStrategy get fetchStrategy =>
+      // TODO(komarov): change to network type
+      switch (nekotonRepository.currentTransport.networkGroup) {
+        'ton' => tonFetchStrategy,
+        _ => defaultFetchStrategy,
+      };
 
   /// Get stream of currencies from storage for [group] of network.
   Stream<List<CustomCurrency>> currenciesStream(NetworkGroup group) =>
@@ -112,11 +123,12 @@ class CurrenciesService {
     Address rootTokenContract,
   ) async {
     try {
-      final endpoint = transport.currencyUrl(rootTokenContract.address);
+      final abiBaseUrl = transport.currencyApiBaseUrl;
 
-      if (endpoint.isNotEmpty) {
-        final currency = await _fetchCurrency(
-          endpoint: endpoint,
+      if (abiBaseUrl != null && abiBaseUrl.isNotEmpty) {
+        final currency = await fetchStrategy.fetchCurrency(
+          apiBaseUrl: abiBaseUrl,
+          address: rootTokenContract,
           networkType: transport.networkType,
           networkGroup: transport.transport.group,
         );
@@ -160,166 +172,29 @@ class CurrenciesService {
     List<KeyAccount>? assets,
     TransportStrategy transport,
   ) async {
-    if (assets == null) return;
-    final rootTokenContracts = [
-      ...{
-        transport.nativeTokenAddress.address,
-        ...assets
-            .map(
-              (e) =>
-                  e.additionalAssets[transport.transport.group]?.tokenWallets ??
-                  [],
-            )
-            .expand((e) => e)
-            .map((e) => e.rootTokenContract.address),
-      },
-    ];
+    final abiBaseUrl = transport.currencyApiBaseUrl;
+    if (assets == null || abiBaseUrl == null || abiBaseUrl.isEmpty) return;
 
-    if (transport.currencyApiBaseUrl != null) {
-      final endpoint = transport.currencyApiBaseUrl!;
-      final currencies = await _fetchCurrencies(
-        endpoint: endpoint,
-        currencyAddresses: rootTokenContracts,
-        networkType: transport.networkType,
-        networkGroup: transport.transport.group,
-      );
-
-      storageService.saveOrUpdateCurrencies(
-        currencies: currencies,
-        group: transport.transport.group,
-      );
-    } else {
-      for (final rootTokenContract in rootTokenContracts) {
-        try {
-          final endpoint = transport.currencyUrl(rootTokenContract);
-
-          if (endpoint.isNotEmpty) {
-            final currency = await _fetchCurrency(
-              endpoint: endpoint,
-              networkType: transport.networkType,
-              networkGroup: transport.transport.group,
-            );
-
-            storageService.saveOrUpdateCurrency(currency: currency);
-          }
-        } catch (e, st) {
-          _logger.severe('_currencyChangedMapper', e, st);
-        }
-      }
-    }
-  }
-
-  Future<List<CustomCurrency>> _fetchCurrencies({
-    required String endpoint,
-    required List<String> currencyAddresses,
-    required NetworkType networkType,
-    required NetworkGroup networkGroup,
-  }) =>
-      switch (networkType) {
-        NetworkType.ton => _fetchCurrenciesTon(
-            endpoint: endpoint,
-            currencyAddresses: currencyAddresses,
-            networkType: networkType,
-            networkGroup: networkGroup,
-          ),
-        _ => _fetchCurrenciesDefault(
-            endpoint: endpoint,
-            currencyAddresses: currencyAddresses,
-            networkType: networkType,
-            networkGroup: networkGroup,
-          ),
-      };
-
-  Future<List<CustomCurrency>> _fetchCurrenciesDefault({
-    required String endpoint,
-    required List<String> currencyAddresses,
-    required NetworkType networkType,
-    required NetworkGroup networkGroup,
-  }) async {
-    final response = await dio.post<Map<String, dynamic>>(
-      endpoint,
-      data: {
-        'currencyAddresses': currencyAddresses,
-        'limit': currencyAddresses.length,
-        'offset': 0,
-      },
-      options: Options(
-        headers: {
-          'Content-Type': 'application/json',
-        },
-      ),
-    );
-    final data = response.data ?? {};
-    final currencies = data['currencies'] as List<dynamic>;
-
-    return currencies
+    final rootTokenContracts = assets
         .map(
-          (element) => CustomCurrency.fromJson(
-            (element as Map<String, dynamic>)
-              ..putIfAbsent(
-                'networkType',
-                () => networkType,
-              )
-              ..putIfAbsent(
-                'networkGroup',
-                () => networkGroup,
-              ),
-          ),
+          (e) =>
+              e.additionalAssets[transport.transport.group]?.tokenWallets ?? [],
         )
+        .expand((e) => e)
+        .map((e) => e.rootTokenContract)
         .toList();
-  }
 
-  Future<List<CustomCurrency>> _fetchCurrenciesTon({
-    required String endpoint,
-    required List<String> currencyAddresses,
-    required NetworkType networkType,
-    required NetworkGroup networkGroup,
-  }) async {
-    final nativeTokenAddress =
-        nekotonRepository.currentTransport.nativeTokenAddress;
-    final addresses = [...currencyAddresses, 'TON'];
-    final response = await dio.get<Map<String, dynamic>>(
-      '$endpoint/rates?tokens=${addresses.join(',')}&currencies=USD',
+    final currencies = await fetchStrategy.fetchCurrencies(
+      nativeTokenAddress: transport.nativeTokenAddress,
+      currencyAddresses: rootTokenContracts,
+      apiBaseUrl: abiBaseUrl,
+      networkType: transport.networkType,
+      networkGroup: transport.transport.group,
     );
-    final data = response.data ?? {};
-    final rates = data['rates'] as Map<String, dynamic>;
 
-    rates[nativeTokenAddress.toRaw()] = rates['TON'];
-    rates.remove('TON');
-
-    return rates.entries.map((element) {
-      final address = element.key;
-      final prices = (element.value as Map<String, dynamic>)['prices'];
-      final price =
-          (prices as Map<String, dynamic>?)?['USD']?.toString() ?? '0';
-
-      return CustomCurrency(
-        address: Address(address: address),
-        price: price,
-        networkGroup: networkGroup,
-        networkType: networkType,
-      );
-    }).toList();
-  }
-
-  Future<CustomCurrency> _fetchCurrency({
-    required String endpoint,
-    required NetworkType networkType,
-    required NetworkGroup networkGroup,
-  }) async {
-    final response = await dio.post<Map<String, dynamic>>(endpoint);
-    final data = response.data ?? {};
-
-    return CustomCurrency.fromJson(
-      data
-        ..putIfAbsent(
-          'networkType',
-          () => networkType,
-        )
-        ..putIfAbsent(
-          'networkGroup',
-          () => networkGroup,
-        ),
+    storageService.saveOrUpdateCurrencies(
+      currencies: currencies,
+      group: transport.transport.group,
     );
   }
 }
