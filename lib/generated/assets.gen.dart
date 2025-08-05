@@ -323,6 +323,9 @@ class $AssetsImagesGen {
   /// File path: assets/images/layers.svg
   SvgGenImage get layers => const SvgGenImage('assets/images/layers.svg');
 
+  /// File path: assets/images/ledger.svg
+  SvgGenImage get ledger => const SvgGenImage('assets/images/ledger.svg');
+
   /// File path: assets/images/lightning.svg
   SvgGenImage get lightning => const SvgGenImage('assets/images/lightning.svg');
 
@@ -549,6 +552,7 @@ class $AssetsImagesGen {
         importFill,
         key,
         layers,
+        ledger,
         lightning,
         lock,
         lockBackup,

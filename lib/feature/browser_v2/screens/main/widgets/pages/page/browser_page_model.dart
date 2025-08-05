@@ -11,6 +11,7 @@ import 'package:app/feature/browser_v2/domain/service/browser_service.dart';
 import 'package:app/feature/browser_v2/inpage_provider/inpage_provider.dart';
 import 'package:app/feature/browser_v2/screens/main/widgets/pages/page/browser_page.dart';
 import 'package:app/feature/browser_v2/screens/main/widgets/pages/page/helpers/events_helper.dart';
+import 'package:app/feature/ledger/ledger.dart';
 import 'package:app/feature/messenger/domain/service/messenger_service.dart';
 import 'package:app/feature/ton_connect/ton_connect.dart';
 import 'package:elementary/elementary.dart';
@@ -33,6 +34,7 @@ class BrowserPageModel extends ElementaryModel {
     this._connectionsStorageService,
     this._connectionService,
     this._tonConnectJsBridge,
+    this._ledgerService,
   ) : super(errorHandler: errorHandler);
 
   final BrowserService _browserService;
@@ -44,6 +46,7 @@ class BrowserPageModel extends ElementaryModel {
   final ConnectionsStorageService _connectionsStorageService;
   final ConnectionService _connectionService;
   final TonConnectJsBridge _tonConnectJsBridge;
+  final LedgerService _ledgerService;
 
   InpageProvider? _inpageProvider;
 
@@ -81,6 +84,7 @@ class BrowserPageModel extends ElementaryModel {
       assetsService: _assetsService,
       connectionsStorageService: _connectionsStorageService,
       connectionService: _connectionService,
+      ledgerService: _ledgerService,
     );
     _inpageProvider = inpageProvider;
     inpageProvider.controller = controller;

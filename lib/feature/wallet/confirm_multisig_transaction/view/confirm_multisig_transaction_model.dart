@@ -1,5 +1,4 @@
-import 'package:app/feature/messenger/data/message.dart';
-import 'package:app/feature/messenger/domain/service/messenger_service.dart';
+import 'package:app/feature/ledger/ledger.dart';
 import 'package:app/utils/utils.dart';
 import 'package:elementary/elementary.dart';
 import 'package:injectable/injectable.dart';
@@ -7,15 +6,21 @@ import 'package:nekoton_repository/nekoton_repository.dart' hide Message;
 import 'package:rxdart/rxdart.dart';
 
 @injectable
-class ConfirmMultisigTransactionModel extends ElementaryModel {
+class ConfirmMultisigTransactionModel extends ElementaryModel
+    with BleAvailabilityModelMixin {
   ConfirmMultisigTransactionModel(
     ErrorHandler errorHandler,
     this._nekotonRepository,
-    this._messengerService,
+    this._ledgerService,
+    this._delegate,
   ) : super(errorHandler: errorHandler);
 
   final NekotonRepository _nekotonRepository;
-  final MessengerService _messengerService;
+  final LedgerService _ledgerService;
+  final BleAvailabilityModelDelegate _delegate;
+
+  @override
+  BleAvailabilityModelDelegate get delegate => _delegate;
 
   TransportStrategy get transport => _nekotonRepository.currentTransport;
 
@@ -66,15 +71,20 @@ class ConfirmMultisigTransactionModel extends ElementaryModel {
     required PublicKey publicKey,
     required UnsignedMessage message,
     required BigInt amount,
-    required String password,
+    required SignInputAuth signInputAuth,
   }) async {
-    final hash = message.hash;
-
-    final signature = await _nekotonRepository.seedList.sign(
-      data: hash,
+    final signatureId = await transport.transport.getSignatureId();
+    final signature = await _ledgerService.runWithLedgerIfKeyIsLedger(
+      interactionType: LedgerInteractionType.signTransaction,
       publicKey: publicKey,
-      password: password,
-      signatureId: await transport.transport.getSignatureId(),
+      action: () async {
+        return _nekotonRepository.seedList.sign(
+          message: message.message,
+          publicKey: publicKey,
+          signInputAuth: signInputAuth,
+          signatureId: signatureId,
+        );
+      },
     );
 
     final signedMessage = await message.sign(signature: signature);
@@ -87,5 +97,19 @@ class ConfirmMultisigTransactionModel extends ElementaryModel {
     );
   }
 
-  void showMessage(Message message) => _messengerService.show(message);
+  SignInputAuthLedger getLedgerAuthInput({
+    required TonWallet wallet,
+    required Currency currency,
+  }) {
+    return SignInputAuthLedger(
+      wallet: wallet.walletType,
+      context: _ledgerService.prepareSignatureContext(
+        PrepareSignatureContext.confirm(
+          wallet: wallet,
+          asset: currency.symbol,
+          decimals: currency.decimalDigits,
+        ),
+      ),
+    );
+  }
 }

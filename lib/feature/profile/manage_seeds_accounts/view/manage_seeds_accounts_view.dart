@@ -89,6 +89,10 @@ class ManageSeedsAccountsView extends StatelessWidget {
           context.compassContinue(
             const EnterSeedNameRouteData(command: EnterSeedNameCommand.import),
           );
+        case SelectAddSeedType.ledger:
+          context.compassContinue(
+            const EnterSeedNameRouteData(command: EnterSeedNameCommand.ledger),
+          );
       }
     }
   }

@@ -326,9 +326,9 @@ class __$DeployMultisigCopyWithImpl<$Res>
 /// @nodoc
 
 class _ConfirmDeploy implements WalletDeployEvent {
-  const _ConfirmDeploy(this.password);
+  const _ConfirmDeploy(this.signInputAuth);
 
-  final String password;
+  final SignInputAuth signInputAuth;
 
   /// Create a copy of WalletDeployEvent
   /// with the given fields replaced by the non-null parameter values.
@@ -342,16 +342,16 @@ class _ConfirmDeploy implements WalletDeployEvent {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _ConfirmDeploy &&
-            (identical(other.password, password) ||
-                other.password == password));
+            (identical(other.signInputAuth, signInputAuth) ||
+                other.signInputAuth == signInputAuth));
   }
 
   @override
-  int get hashCode => Object.hash(runtimeType, password);
+  int get hashCode => Object.hash(runtimeType, signInputAuth);
 
   @override
   String toString() {
-    return 'WalletDeployEvent.confirmDeploy(password: $password)';
+    return 'WalletDeployEvent.confirmDeploy(signInputAuth: $signInputAuth)';
   }
 }
 
@@ -362,7 +362,9 @@ abstract mixin class _$ConfirmDeployCopyWith<$Res>
           _ConfirmDeploy value, $Res Function(_ConfirmDeploy) _then) =
       __$ConfirmDeployCopyWithImpl;
   @useResult
-  $Res call({String password});
+  $Res call({SignInputAuth signInputAuth});
+
+  $SignInputAuthCopyWith<$Res> get signInputAuth;
 }
 
 /// @nodoc
@@ -377,14 +379,24 @@ class __$ConfirmDeployCopyWithImpl<$Res>
   /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   $Res call({
-    Object? password = null,
+    Object? signInputAuth = null,
   }) {
     return _then(_ConfirmDeploy(
-      null == password
-          ? _self.password
-          : password // ignore: cast_nullable_to_non_nullable
-              as String,
+      null == signInputAuth
+          ? _self.signInputAuth
+          : signInputAuth // ignore: cast_nullable_to_non_nullable
+              as SignInputAuth,
     ));
+  }
+
+  /// Create a copy of WalletDeployEvent
+  /// with the given fields replaced by the non-null parameter values.
+  @override
+  @pragma('vm:prefer-inline')
+  $SignInputAuthCopyWith<$Res> get signInputAuth {
+    return $SignInputAuthCopyWith<$Res>(_self.signInputAuth, (value) {
+      return _then(_self.copyWith(signInputAuth: value));
+    });
   }
 }
 
@@ -822,6 +834,7 @@ class WalletDeployStateReadyToDeploy implements WalletDeployState {
   const WalletDeployStateReadyToDeploy(
       {required this.fee,
       required this.balance,
+      required this.ledgerAuthInput,
       final List<PublicKey>? custodians,
       this.requireConfirmations,
       this.tonIconPath,
@@ -833,6 +846,7 @@ class WalletDeployStateReadyToDeploy implements WalletDeployState {
 
   final BigInt fee;
   final BigInt balance;
+  final SignInputAuthLedger ledgerAuthInput;
   final List<PublicKey>? _custodians;
   List<PublicKey>? get custodians {
     final value = _custodians;
@@ -864,6 +878,8 @@ class WalletDeployStateReadyToDeploy implements WalletDeployState {
             other is WalletDeployStateReadyToDeploy &&
             (identical(other.fee, fee) || other.fee == fee) &&
             (identical(other.balance, balance) || other.balance == balance) &&
+            (identical(other.ledgerAuthInput, ledgerAuthInput) ||
+                other.ledgerAuthInput == ledgerAuthInput) &&
             const DeepCollectionEquality()
                 .equals(other._custodians, _custodians) &&
             (identical(other.requireConfirmations, requireConfirmations) ||
@@ -882,6 +898,7 @@ class WalletDeployStateReadyToDeploy implements WalletDeployState {
       runtimeType,
       fee,
       balance,
+      ledgerAuthInput,
       const DeepCollectionEquality().hash(_custodians),
       requireConfirmations,
       tonIconPath,
@@ -892,7 +909,7 @@ class WalletDeployStateReadyToDeploy implements WalletDeployState {
 
   @override
   String toString() {
-    return 'WalletDeployState.readyToDeploy(fee: $fee, balance: $balance, custodians: $custodians, requireConfirmations: $requireConfirmations, tonIconPath: $tonIconPath, ticker: $ticker, currency: $currency, account: $account, hours: $hours)';
+    return 'WalletDeployState.readyToDeploy(fee: $fee, balance: $balance, ledgerAuthInput: $ledgerAuthInput, custodians: $custodians, requireConfirmations: $requireConfirmations, tonIconPath: $tonIconPath, ticker: $ticker, currency: $currency, account: $account, hours: $hours)';
   }
 }
 
@@ -907,6 +924,7 @@ abstract mixin class $WalletDeployStateReadyToDeployCopyWith<$Res>
   $Res call(
       {BigInt fee,
       BigInt balance,
+      SignInputAuthLedger ledgerAuthInput,
       List<PublicKey>? custodians,
       int? requireConfirmations,
       String? tonIconPath,
@@ -932,6 +950,7 @@ class _$WalletDeployStateReadyToDeployCopyWithImpl<$Res>
   $Res call({
     Object? fee = null,
     Object? balance = null,
+    Object? ledgerAuthInput = null,
     Object? custodians = freezed,
     Object? requireConfirmations = freezed,
     Object? tonIconPath = freezed,
@@ -949,6 +968,10 @@ class _$WalletDeployStateReadyToDeployCopyWithImpl<$Res>
           ? _self.balance
           : balance // ignore: cast_nullable_to_non_nullable
               as BigInt,
+      ledgerAuthInput: null == ledgerAuthInput
+          ? _self.ledgerAuthInput
+          : ledgerAuthInput // ignore: cast_nullable_to_non_nullable
+              as SignInputAuthLedger,
       custodians: freezed == custodians
           ? _self._custodians
           : custodians // ignore: cast_nullable_to_non_nullable

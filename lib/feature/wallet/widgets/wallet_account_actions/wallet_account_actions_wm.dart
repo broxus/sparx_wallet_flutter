@@ -307,6 +307,12 @@ class WalletAccountActionsWidgetModel extends CustomWidgetModelParametrized<
               command: EnterSeedNameCommand.import,
             ),
           );
+        case SelectAddSeedType.ledger:
+          contextSafe?.compassContinue(
+            const EnterSeedNameRouteData(
+              command: EnterSeedNameCommand.ledger,
+            ),
+          );
       }
     }
   }

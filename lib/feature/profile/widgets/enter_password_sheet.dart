@@ -4,8 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:nekoton_repository/nekoton_repository.dart';
 import 'package:ui_components_lib/ui_components_lib.dart';
 
-/// Helper function that shows [EnterPasswordWidgetV2]
-/// with [publicKey] and returns the entered password
+/// Helper function that shows [EnterPasswordWidget]
+/// with [publicKey] and returns the [SignInputAuth]
 /// or null if the user canceled the action.
 Future<String?> showEnterPasswordSheet({
   required BuildContext context,
@@ -29,10 +29,9 @@ class _EnterPassword extends StatelessWidget {
   final PublicKey publicKey;
 
   @override
-  Widget build(BuildContext context) => EnterPasswordWidgetV2(
+  Widget build(BuildContext context) => EnterPasswordWidget(
         publicKey: publicKey,
         title: LocaleKeys.confirm.tr(),
-        onPasswordEntered: (String password) =>
-            Navigator.of(context).pop(password),
+        onPasswordEntered: (password) => Navigator.of(context).pop(password),
       );
 }

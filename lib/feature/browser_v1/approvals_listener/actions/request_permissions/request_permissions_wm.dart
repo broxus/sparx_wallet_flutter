@@ -1,8 +1,6 @@
 import 'package:app/app/service/service.dart';
 import 'package:app/core/wm/custom_wm.dart';
 import 'package:app/data/models/models.dart';
-import 'package:app/feature/browser_v1/approvals_listener/actions/request_permissions/request_permissions_model.dart';
-import 'package:app/feature/browser_v1/approvals_listener/actions/request_permissions/request_permissions_widget.dart';
 import 'package:app/feature/browser_v1/browser.dart';
 import 'package:collection/collection.dart';
 import 'package:elementary_helper/elementary_helper.dart';

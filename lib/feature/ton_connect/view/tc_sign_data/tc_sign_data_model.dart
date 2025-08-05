@@ -31,7 +31,7 @@ class TCSignDataModel extends ElementaryModel {
     required int schema,
     required String cell,
     required PublicKey publicKey,
-    required String password,
+    required SignInputAuth signInputAuth,
   }) async {
     final timestamp = NtpTime.now().millisecondsSinceEpoch ~/ 1000;
     final data = <int>[
@@ -43,7 +43,7 @@ class TCSignDataModel extends ElementaryModel {
     final signedData = await _nekotonRepository.seedList.signData(
       data: base64Encode(data),
       publicKey: publicKey,
-      password: password,
+      signInputAuth: signInputAuth,
       signatureId: null, // signatureId is not used in this context
     );
 
