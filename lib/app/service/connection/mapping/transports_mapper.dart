@@ -1,5 +1,5 @@
 import 'package:app/app/service/connection/connection.dart';
-import 'package:app/bootstrap/sentry.dart';
+import 'package:app/core/sentry.dart';
 import 'package:app/utils/utils.dart';
 import 'package:nekoton_repository/nekoton_repository.dart';
 

@@ -1,6 +1,5 @@
 import 'package:app/core/wm/custom_wm.dart';
 import 'package:app/data/models/token_contract/token_contract_asset.dart';
-import 'package:app/feature/browser_v1/utils.dart';
 import 'package:app/feature/wallet/token_wallet_details/widgets/detail/token_wallet_ordinary_transaction_details_screen.dart';
 import 'package:app/feature/wallet/token_wallet_details/widgets/detail/token_wallet_ordinary_transaction_details_screen_model.dart';
 import 'package:elementary/elementary.dart';
@@ -64,8 +63,6 @@ class TokenWalletOrdinaryTransactionDetailsScreenWidgetModel
 
   void onPressedDetails() {
     Navigator.of(context).pop();
-    openBrowserUrl(
-      model.getTransactionExplorerLink(transaction.hash),
-    );
+    model.openUrlByExplorerLink(transaction.hash);
   }
 }

@@ -8,10 +8,14 @@ class MigrateConfigurator {
   MigrateConfigurator(
     this._encryptedStorage,
     this._presetsConnectionService,
+    this._generalStorageService,
+    this._connectionsStorageService,
   );
 
   final EncryptedStorage _encryptedStorage;
   final PresetsConnectionService _presetsConnectionService;
+  final GeneralStorageService _generalStorageService;
+  final ConnectionsStorageService _connectionsStorageService;
 
   final _log = Logger('bootstrap');
 
@@ -20,6 +24,8 @@ class MigrateConfigurator {
     await StorageMigrationService.applyMigrations(
       _encryptedStorage,
       _presetsConnectionService,
+      _generalStorageService,
+      _connectionsStorageService,
     );
     _log.finest('StorageMigrationService finished');
   }
