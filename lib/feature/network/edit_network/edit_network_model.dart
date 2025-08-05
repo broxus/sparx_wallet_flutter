@@ -1,5 +1,6 @@
 import 'package:app/app/service/service.dart';
 import 'package:app/data/models/models.dart';
+import 'package:app/feature/browser_v2/domain/browser_launcher.dart';
 import 'package:elementary/elementary.dart';
 import 'package:injectable/injectable.dart';
 
@@ -9,11 +10,13 @@ class EditNetworkModel extends ElementaryModel {
     this._connectionsStorageService,
     this._presetsConnectionService,
     this._assetsService,
+    this._browserLauncher,
   );
 
   final ConnectionsStorageService _connectionsStorageService;
   final PresetsConnectionService _presetsConnectionService;
   final AssetsService _assetsService;
+  final BrowserLauncher _browserLauncher;
 
   List<ConnectionData> get connections =>
       _connectionsStorageService.connections;
@@ -42,4 +45,6 @@ class EditNetworkModel extends ElementaryModel {
         networkType: NetworkType.custom,
         networkGroup: 'custom',
       );
+
+  void openBrowserUrl(String url) => _browserLauncher.openBrowserByString(url);
 }

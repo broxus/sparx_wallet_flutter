@@ -1,6 +1,5 @@
 import 'dart:async';
 
-import 'package:app/app/router/router.dart';
 import 'package:app/app/service/app_links/app_links.dart';
 import 'package:app/feature/browser_v2/data/history_type.dart';
 import 'package:app/feature/browser_v2/domain/delegates/browser_service_auth_delegate.dart';
@@ -9,10 +8,8 @@ import 'package:app/feature/browser_v2/domain/delegates/browser_service_favicon_
 import 'package:app/feature/browser_v2/domain/delegates/browser_service_history_delegate.dart';
 import 'package:app/feature/browser_v2/domain/delegates/browser_service_permissions_delegate.dart';
 import 'package:app/feature/browser_v2/domain/delegates/browser_service_tabs_delegate.dart';
-import 'package:app/feature/browser_v2/screens/main/route.dart';
 import 'package:app/feature/ton_connect/ton_connect.dart';
 import 'package:app/utils/common_utils.dart';
-import 'package:flutter/material.dart';
 import 'package:flutter_inappwebview/flutter_inappwebview.dart';
 import 'package:injectable/injectable.dart';
 import 'package:nekoton_repository/nekoton_repository.dart';
@@ -22,10 +19,8 @@ import 'package:rxdart/rxdart.dart';
 @singleton
 class BrowserService {
   BrowserService(
-    this._appLinksService,
     this._tonConnectService,
     this._nekotonRepository,
-    this._compassRouter,
     this._authDelegate,
     this._bookmarksDelegate,
     this._faviconDelegate,
@@ -34,10 +29,8 @@ class BrowserService {
     this._tabsDelegate,
   );
 
-  final AppLinksService _appLinksService;
   final TonConnectService _tonConnectService;
   final NekotonRepository _nekotonRepository;
-  final CompassRouter _compassRouter;
 
   final BrowserServiceAuthDelegate _authDelegate;
   final BrowserServiceBookmarksDelegate _bookmarksDelegate;
@@ -69,10 +62,6 @@ class BrowserService {
     _historyDelegate.init();
     _permissionsDelegate.init();
     _tabsDelegate.init();
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      _appLinksNavSubs =
-          _appLinksService.browserLinksStream.listen(_listenAppLinks);
-    });
   }
 
   Future<void> clear() async {
@@ -86,13 +75,6 @@ class BrowserService {
   void dispose() {
     _tabsDelegate.dispose();
     _appLinksNavSubs?.cancel();
-  }
-
-  void openUrl(Uri uri) {
-    if (_compassRouter.currentRoutes.lastOrNull is! BrowserRoute) {
-      _compassRouter.compassPointNamed(const BrowserRouteData());
-    }
-    _tabsDelegate.openUrl(uri);
   }
 
   void createTabBookMark(String tabId) {
@@ -150,9 +132,5 @@ class BrowserService {
         );
       }
     });
-  }
-
-  void _listenAppLinks(BrowserAppLinksData event) {
-    _tabsDelegate.openUrl(event.url);
   }
 }

@@ -1,7 +1,7 @@
 import 'dart:async';
 
 import 'package:app/app/router/compass/compass.dart';
-import 'package:app/app/service/service.dart';
+import 'package:app/app/service/bootstrap/bootstrap_service.dart';
 import 'package:app/feature/error/error.dart';
 import 'package:app/feature/onboarding/route.dart';
 import 'package:app/utils/common_utils.dart';
