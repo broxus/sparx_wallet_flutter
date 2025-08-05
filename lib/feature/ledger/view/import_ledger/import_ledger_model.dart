@@ -48,8 +48,12 @@ class ImportLedgerModel extends ElementaryModel with BleAvailabilityModelMixin {
   Future<PublicKey> addConnectedLedger({
     required BluetoothDevice device,
     required DeviceModelId deviceModelId,
+    String? name,
   }) async {
-    final masterKey = await _nekotonRepository.addLedgerKey(accountId: 0);
+    final masterKey = await _nekotonRepository.addLedgerKey(
+      accountId: 0,
+      name: name,
+    );
 
     await _ledgerService.connect(
       masterKey: masterKey,

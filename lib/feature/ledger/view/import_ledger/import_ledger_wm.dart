@@ -88,6 +88,7 @@ class ImportLedgerWidgetModel
       final masterKey = await model.addConnectedLedger(
         device: appInterface.device,
         deviceModelId: appInterface.deviceModel.id,
+        name: widget.name,
       );
 
       contextSafe?.let((context) {

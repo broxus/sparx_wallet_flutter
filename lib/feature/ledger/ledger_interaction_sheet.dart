@@ -25,6 +25,7 @@ Future<void> showLedgerInteractionSheet({
     body: (_, scrollController) => _LedgerInteractionSheet(
       interactionType: interactionType,
       stateStream: stateStream,
+      navigator: Navigator.of(context),
     ),
   );
 }
@@ -35,10 +36,12 @@ class _LedgerInteractionSheet extends StatefulWidget {
   const _LedgerInteractionSheet({
     required this.interactionType,
     required this.stateStream,
+    required this.navigator,
   });
 
   final LedgerInteractionType interactionType;
   final Stream<LedgerInteractionState> stateStream;
+  final NavigatorState navigator;
 
   @override
   State<_LedgerInteractionSheet> createState() =>
@@ -48,10 +51,16 @@ class _LedgerInteractionSheet extends StatefulWidget {
 class _LedgerInteractionSheetState extends State<_LedgerInteractionSheet> {
   StreamSubscription<LedgerInteractionState>? _stateSubscription;
   var _currentState = LedgerInteractionState.connecting;
+  Route<dynamic>? _currentRoute;
 
   @override
   void initState() {
     super.initState();
+
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      _currentRoute = ModalRoute.of(context);
+    });
+
     _stateSubscription = widget.stateStream.listen((state) {
       if (state == LedgerInteractionState.done ||
           state == LedgerInteractionState.cancelled) {
@@ -155,8 +164,8 @@ class _LedgerInteractionSheetState extends State<_LedgerInteractionSheet> {
   Future<void> _close() async {
     await Future<void>.delayed(_closeDelay);
 
-    if (mounted) {
-      Navigator.of(context).pop();
+    if (mounted && _currentRoute != null) {
+      widget.navigator.removeRoute(_currentRoute!);
     }
   }
 }

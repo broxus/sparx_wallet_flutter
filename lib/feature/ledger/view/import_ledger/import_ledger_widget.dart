@@ -10,9 +10,12 @@ import 'package:ui_components_lib/v2/ui_components_lib_v2.dart';
 
 class ImportLedgerWidget extends ElementaryWidget<ImportLedgerWidgetModel> {
   const ImportLedgerWidget({
+    this.name,
     Key? key,
     WidgetModelFactory wmFactory = defaultImportLedgerWidgetModelFactory,
   }) : super(wmFactory, key: key);
+
+  final String? name;
 
   @override
   Widget build(ImportLedgerWidgetModel wm) {
