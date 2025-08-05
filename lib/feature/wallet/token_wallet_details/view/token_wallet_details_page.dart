@@ -37,8 +37,9 @@ class _TokenWalletDetailsPageState extends State<TokenWalletDetailsPage> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: BlocProvider<TokenWalletDetailsCubit>(
+    return ColoredBox(
+      color: context.themeStyleV2.colors.background0,
+      child: BlocProvider<TokenWalletDetailsCubit>(
         create: (_) => TokenWalletDetailsCubit(
           owner: widget.owner,
           rootTokenContract: widget.rootTokenContract,
@@ -113,6 +114,7 @@ class _Body extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final bottomPadding = MediaQuery.of(context).systemGestureInsets.bottom;
     final theme = context.themeStyleV2;
 
     return CustomScrollView(
@@ -186,7 +188,12 @@ class _Body extends StatelessWidget {
             ),
           ),
           sliver: SliverPadding(
-            padding: const EdgeInsets.all(DimensSizeV2.d16),
+            padding: EdgeInsets.only(
+              top: DimensSizeV2.d16,
+              bottom: bottomPadding + DimensSizeV2.d16,
+              left: DimensSizeV2.d16,
+              right: DimensSizeV2.d16,
+            ),
             sliver: error == null
                 ? TokenWalletTransactionsWidget(
                     rootTokenContract: rootTokenContract,

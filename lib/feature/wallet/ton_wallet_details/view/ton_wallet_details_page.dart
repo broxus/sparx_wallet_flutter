@@ -33,8 +33,9 @@ class _TonWalletDetailsPageState extends State<TonWalletDetailsPage> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: BlocProvider<TonWalletDetailsCubit>(
+    return ColoredBox(
+      color: context.themeStyleV2.colors.background0,
+      child: BlocProvider<TonWalletDetailsCubit>(
         create: (_) => TonWalletDetailsCubit(
           address: widget.address,
           nekotonRepository: inject(),
@@ -101,6 +102,7 @@ class _Body extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final bottomPadding = MediaQuery.of(context).systemGestureInsets.bottom;
     final theme = context.themeStyleV2;
 
     return CustomScrollView(
@@ -155,7 +157,12 @@ class _Body extends StatelessWidget {
             ),
           ),
           sliver: SliverPadding(
-            padding: const EdgeInsets.all(DimensSizeV2.d16),
+            padding: EdgeInsets.only(
+              top: DimensSizeV2.d16,
+              bottom: bottomPadding + DimensSizeV2.d16,
+              left: DimensSizeV2.d16,
+              right: DimensSizeV2.d16,
+            ),
             sliver: error == null
                 ? AccountTransactionsTab(
                     account: account,
