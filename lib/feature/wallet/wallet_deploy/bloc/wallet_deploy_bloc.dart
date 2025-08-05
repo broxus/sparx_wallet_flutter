@@ -3,7 +3,6 @@
 import 'package:app/app/service/service.dart';
 import 'package:app/core/bloc/bloc_mixin.dart';
 import 'package:app/data/models/custom_currency.dart';
-import 'package:app/di/di.dart';
 import 'package:app/feature/ledger/ledger.dart';
 import 'package:app/feature/messenger/data/message.dart';
 import 'package:app/feature/messenger/domain/service/messenger_service.dart';
@@ -15,7 +14,6 @@ import 'package:flutter_blue_plus/flutter_blue_plus.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:logging/logging.dart';
 import 'package:nekoton_repository/nekoton_repository.dart' hide Message;
-import 'package:rxdart/rxdart.dart';
 
 part 'wallet_deploy_bloc.freezed.dart';
 part 'wallet_deploy_event.dart';
@@ -67,7 +65,6 @@ class WalletDeployBloc extends Bloc<WalletDeployEvent, WalletDeployState>
   CustomCurrency? tokenCustomCurrency;
   WalletType? walletType;
   UnsignedMessage? unsignedMessage;
-  TonWallet? wallet;
 
   /// Last selected type of deploying.
   /// For [WalletDeployType.multisig] [_cachedRequireConfirmations] and
@@ -170,9 +167,7 @@ class WalletDeployBloc extends Bloc<WalletDeployEvent, WalletDeployState>
       await _handlePrepareDeploy(emit);
     } on Exception catch (e, t) {
       _logger.severe('_handlePrepareStandard', e, t);
-      inject<MessengerService>().show(
-        Message.error(message: e.toString()),
-      );
+      messengerService.show(Message.error(message: e.toString()));
     }
   }
 
@@ -190,7 +185,7 @@ class WalletDeployBloc extends Bloc<WalletDeployEvent, WalletDeployState>
       await _handlePrepareDeploy(emit, custodians, requireConfirmations);
     } on Exception catch (e, t) {
       _logger.severe('_handlePrepareMultisig', e, t);
-      inject<MessengerService>().show(Message.error(message: e.toString()));
+      messengerService.show(Message.error(message: e.toString()));
     }
   }
 
@@ -202,17 +197,15 @@ class WalletDeployBloc extends Bloc<WalletDeployEvent, WalletDeployState>
   ]) async {
     try {
       final account = nekotonRepository.seedList.findAccountByAddress(address);
-      final wallet = await nekotonRepository.walletsMapStream
-          .mapNotNull((wallets) => wallets[address])
-          .first;
+      final walletState = await nekotonRepository.getWallet(address);
+      final wallet = walletState.wallet;
 
-      if (wallet.hasError) {
-        emitSafe(WalletDeployState.subscribeError(wallet.error!));
-
+      if (wallet == null) {
+        emitSafe(WalletDeployState.subscribeError(walletState.error!));
         return;
       }
 
-      balance = wallet.wallet!.contractState.balance;
+      balance = wallet.contractState.balance;
       unsignedMessage = await _prepareDeploy();
       fees = await estimateFees(unsignedMessage!);
 
@@ -246,7 +239,7 @@ class WalletDeployBloc extends Bloc<WalletDeployEvent, WalletDeployState>
           currency: tokenCustomCurrency,
           account: account,
           hours: _cachedHoursConfirmation,
-          ledgerAuthInput: _getLedgerAuthInput(),
+          ledgerAuthInput: _getLedgerAuthInput(wallet),
         ),
       );
     } on Exception catch (e, t) {
@@ -273,6 +266,14 @@ class WalletDeployBloc extends Bloc<WalletDeployEvent, WalletDeployState>
   ) async {
     final unsigned = unsignedMessage;
     if (unsigned == null) return;
+
+    final walletState = await nekotonRepository.getWallet(address);
+    final wallet = walletState.wallet;
+
+    if (wallet == null) {
+      emitSafe(WalletDeployState.subscribeError(walletState.error!));
+      return;
+    }
 
     try {
       if (signInputAuth.isLedger) {
@@ -309,7 +310,7 @@ class WalletDeployBloc extends Bloc<WalletDeployEvent, WalletDeployState>
         destination: address,
       );
 
-      inject<MessengerService>().show(
+      messengerService.show(
         Message.successful(
           message: LocaleKeys.walletDeployedSuccessfully.tr(),
         ),
@@ -321,7 +322,7 @@ class WalletDeployBloc extends Bloc<WalletDeployEvent, WalletDeployState>
     } on Exception catch (e, t) {
       if (e is AnyhowException && e.isCancelled) return;
       _logger.severe('_handleSend', e, t);
-      inject<MessengerService>().show(
+      messengerService.show(
         Message.error(
           message: e.toString(),
         ),
@@ -339,7 +340,7 @@ class WalletDeployBloc extends Bloc<WalletDeployEvent, WalletDeployState>
           ticker: ticker,
           currency: tokenCustomCurrency,
           hours: _cachedHoursConfirmation,
-          ledgerAuthInput: _getLedgerAuthInput(),
+          ledgerAuthInput: _getLedgerAuthInput(wallet),
         ),
       );
     }
@@ -376,14 +377,14 @@ class WalletDeployBloc extends Bloc<WalletDeployEvent, WalletDeployState>
     return super.close();
   }
 
-  SignInputAuthLedger _getLedgerAuthInput() {
+  SignInputAuthLedger _getLedgerAuthInput(TonWallet wallet) {
     final transport = nekotonRepository.currentTransport;
 
     return SignInputAuthLedger(
-      wallet: wallet!.walletType,
+      wallet: wallet.walletType,
       context: ledgerService.prepareSignatureContext(
         PrepareSignatureContext.deploy(
-          wallet: wallet!,
+          wallet: wallet,
           asset: transport.nativeTokenTicker,
           decimals: transport.defaultNativeCurrencyDecimal,
         ),
