@@ -44,7 +44,7 @@ class BrowserPagesView extends StatelessWidget {
           maintainSize: true,
           maintainAnimation: true,
           child: ColoredBox(
-            color: context.themeStyleV2.colors.background1,
+            color: context.themeStyleV2.colors.background0,
             child: Column(
               children: [
                 Flexible(
