@@ -1,28 +1,26 @@
-import 'package:app/di/di.dart';
-import 'package:app/feature/messenger/data/message.dart';
-import 'package:app/feature/messenger/domain/service/messenger_service.dart';
+import 'package:app/core/wm/custom_wm.dart';
 import 'package:app/generated/generated.dart';
+import 'package:app/widgets/barcode_address/barcode_address_wm.dart';
 import 'package:barcode_widget/barcode_widget.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:lucide_icons_flutter/lucide_icons.dart';
 import 'package:nekoton_repository/nekoton_repository.dart' hide Message;
-import 'package:ui_components_lib/ui_components_lib.dart';
+import 'package:ui_components_lib/components/common/container/shaped_container_column.dart';
+import 'package:ui_components_lib/dimens.dart';
 import 'package:ui_components_lib/v2/ui_components_lib_v2.dart';
 
-class BarcodeAddress extends StatelessWidget {
-  const BarcodeAddress({
-    required this.address,
+class BarcodeAddress extends InjectedElementaryParametrizedWidget<
+    BarcodeAddressWidgetModel, BarcodeAddressWmParams> {
+  BarcodeAddress({
+    required Address address,
     super.key,
-  });
-
-  final Address address;
+  }) : super(
+          wmFactoryParam: BarcodeAddressWmParams(address),
+        );
 
   @override
-  Widget build(BuildContext context) {
-    final theme = context.themeStyleV2;
-    final colors = theme.colors;
-    final textStyles = theme.textStyles;
+  Widget build(BarcodeAddressWidgetModel wm) {
+
 
     return ShapedContainerColumn(
       mainAxisSize: MainAxisSize.min,
@@ -32,7 +30,7 @@ class BarcodeAddress extends StatelessWidget {
       padding: const EdgeInsets.symmetric(
         horizontal: DimensSizeV2.d32,
       ),
-      color: colors.background2,
+      color: wm.colors.background2,
       children: [
         BarcodeWidget(
           margin: const EdgeInsets.symmetric(
@@ -40,28 +38,28 @@ class BarcodeAddress extends StatelessWidget {
           ),
           width: DimensSize.d148,
           height: DimensSize.d148,
-          data: address.address,
+          data: wm.address,
           barcode: Barcode.qrCode(),
-          color: colors.primaryA,
+          color: wm.colors.primaryA,
         ),
         Text(
           LocaleKeys.addressWord.tr(),
-          style: textStyles.labelXSmall.copyWith(
-            color: colors.content3,
+          style: wm.textStyles.labelXSmall.copyWith(
+            color: wm.colors.content3,
           ),
         ),
         const SizedBox(height: DimensSizeV2.d4),
         Text(
-          address.address,
-          style: textStyles.labelXSmall.copyWith(
-            color: colors.content0,
+          wm.address,
+          style: wm.textStyles.labelXSmall.copyWith(
+            color: wm.colors.content0,
           ),
           textAlign: TextAlign.center,
         ),
         const SizedBox(height: DimensSize.d12),
         PrimaryButton(
           buttonShape: ButtonShape.pill,
-          onPressed: () => _copyAddress(context),
+          onPressed: wm.copyAddress,
           title: LocaleKeys.copyWord.tr(),
           postfixIcon: LucideIcons.copy,
           isFullWidth: false,
@@ -75,14 +73,5 @@ class BarcodeAddress extends StatelessWidget {
     );
   }
 
-  void _copyAddress(BuildContext context) {
-    Clipboard.setData(ClipboardData(text: address.address));
-    inject<MessengerService>().show(
-      Message.successful(
-        message: LocaleKeys.valueCopiedExclamation.tr(
-          args: [address.toEllipseString()],
-        ),
-      ),
-    );
-  }
+
 }
