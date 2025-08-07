@@ -1,4 +1,5 @@
-import 'package:app/di/di.dart';
+import 'package:app/core/wm/custom_wm.dart';
+import 'package:app/feature/profile/manage_seeds_accounts/widgets/delete_seed_sheet/delete_seed_sheet_wm.dart';
 import 'package:app/generated/generated.dart';
 import 'package:flutter/material.dart';
 import 'package:nekoton_repository/nekoton_repository.dart';
@@ -19,26 +20,24 @@ ModalRoute<void> deleteSeedSheetRoute(
 }
 
 /// Widget that allows to delete seed.
-class DeleteSeedSheet extends StatelessWidget {
-  const DeleteSeedSheet({
-    required this.publicKey,
+class DeleteSeedSheet extends InjectedElementaryParametrizedWidget<
+    DeleteSeedSheetWidgetModel, DeleteSeedSheetParams> {
+  DeleteSeedSheet({
+    required PublicKey publicKey,
     super.key,
-  });
-
-  final PublicKey publicKey;
+  }) : super(
+          wmFactoryParam: DeleteSeedSheetParams(publicKey),
+        );
 
   @override
-  Widget build(BuildContext context) {
-    final theme = context.themeStyleV2;
-    final seed = inject<NekotonRepository>().seedList.findSeed(publicKey);
-
+  Widget build(DeleteSeedSheetWidgetModel wm) {
     return SeparatedColumn(
       children: [
-        if (seed != null)
+        if (wm.seed != null)
           Expanded(
             child: SingleChildScrollView(
               child: ShapedContainerColumn(
-                color: theme.colors.background2,
+                color: wm.colors.background2,
                 margin: EdgeInsets.zero,
                 spacing: DimensSize.d16,
                 mainAxisSize: MainAxisSize.min,
@@ -50,10 +49,10 @@ class DeleteSeedSheet extends StatelessWidget {
                         leading: CommonBackgroundedIconWidget.svg(
                           svg: Assets.images.sparxLogoSmall.path,
                         ),
-                        titleText: seed.name,
+                        titleText: wm.seed!.name,
                         subtitleText: LocaleKeys.publicKeysWithData.plural(
-                          seed.allKeys.length,
-                          args: ['${seed.allKeys.length}'],
+                          wm.seed!.allKeys.length,
+                          args: ['${wm.seed!.allKeys.length}'],
                         ),
                         padding: EdgeInsets.zero,
                       ),
@@ -61,7 +60,7 @@ class DeleteSeedSheet extends StatelessWidget {
                   ),
                   _sectionItem(
                     LocaleKeys.keysWord.tr(),
-                    [seed.masterKey, ...seed.subKeys]
+                    [wm.seed!.masterKey, ...wm.seed!.subKeys]
                         .map(
                           (key) => CommonListTile(
                             leading: CommonBackgroundedIconWidget.svg(
@@ -81,22 +80,16 @@ class DeleteSeedSheet extends StatelessWidget {
               ),
             ),
           ),
-        if (seed != null)
+        if (wm.seed != null)
           DestructiveButton(
             buttonShape: ButtonShape.pill,
             title: LocaleKeys.deleteWord.tr(),
-            onPressed: () {
-              inject<NekotonRepository>()
-                  .seedList
-                  .findSeed(publicKey)
-                  ?.remove();
-              Navigator.of(context).pop();
-            },
+            onPressed: wm.onPressedDeleteWord,
           ),
         PrimaryButton(
           buttonShape: ButtonShape.pill,
           title: LocaleKeys.cancelWord.tr(),
-          onPressed: () => Navigator.of(context).pop(),
+          onPressed: wm.onPressedCancelWord,
         ),
       ],
     );
