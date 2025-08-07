@@ -1,6 +1,5 @@
 import 'package:app/generated/generated.dart';
 import 'package:app/utils/utils.dart';
-import 'package:flutter/material.dart';
 
 class DateTimeUtils {
   static String formatExpirationDate(DateTime dateTime) {
@@ -25,7 +24,7 @@ class DateTimeUtils {
 
   /// Formats transaction date, showing 'Today' for current date or formatted
   /// date otherwise
-  static String formatTransactionDate(DateTime dateTime, BuildContext context) {
+  static String formatTransactionDate(DateTime dateTime, String languageCode) {
     final now = NtpTime.now();
 
     // Check if transaction date is today
@@ -35,8 +34,8 @@ class DateTimeUtils {
 
     // Format date based on year comparison
     final formatter = dateTime.year == now.year
-        ? DateFormat('MMMM dd', context.locale.languageCode)
-        : DateFormat('MMMM dd y', context.locale.languageCode);
+        ? DateFormat('MMMM dd', languageCode)
+        : DateFormat('MMMM dd y', languageCode);
 
     return formatter.format(dateTime);
   }
