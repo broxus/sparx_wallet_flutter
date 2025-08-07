@@ -1,5 +1,5 @@
 import 'package:app/app/service/service.dart';
-import 'package:app/bootstrap/sentry.dart';
+import 'package:app/core/sentry.dart';
 import 'package:app/data/models/models.dart';
 import 'package:app/utils/common_utils.dart';
 import 'package:get_storage/get_storage.dart';

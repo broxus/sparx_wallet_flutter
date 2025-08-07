@@ -1,5 +1,4 @@
 import 'package:app/core/wm/custom_wm.dart';
-import 'package:app/feature/browser_v1/utils.dart';
 import 'package:app/feature/wallet/widgets/account_transactions_tab/detail/details.dart';
 import 'package:app/feature/wallet/widgets/account_transactions_tab/detail/ton_wallet_ordinary_transaction_details/ton_wallet_ordinary_transaction_details.dart';
 import 'package:app/feature/wallet/widgets/account_transactions_tab/detail/ton_wallet_ordinary_transaction_details/ton_wallet_ordinary_transaction_details_model.dart';
@@ -86,8 +85,6 @@ class TonWalletOrdinaryTransactionDetailsWidgetModel
 
   void onPressedSeeInExplorer() {
     Navigator.of(context).pop();
-    openBrowserUrl(
-      model.getTransactionExplorerLink(wmParams.value.transaction.hash),
-    );
+    model.openBrowserUrl(wmParams.value.transaction.hash);
   }
 }

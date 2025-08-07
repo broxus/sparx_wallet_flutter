@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:app/app/service/bootstrap/bootstrap_service.dart';
 import 'package:app/app/service/service.dart';
 import 'package:bloc/bloc.dart';
 import 'package:logging/logging.dart';
