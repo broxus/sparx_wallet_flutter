@@ -26,6 +26,7 @@ const _minPasswordLength = 8;
 class CreateSeedPasswordCubit extends Cubit<CreateSeedPasswordState>
     with ConnectionMixin, BlocBaseMixin {
   CreateSeedPasswordCubit({
+    required this.nekoton,
     required this.completeCallback,
     required this.seedPhrase,
     required this.type,
@@ -36,6 +37,8 @@ class CreateSeedPasswordCubit extends Cubit<CreateSeedPasswordState>
     passwordController.addListener(_validate);
     confirmController.addListener(_validate);
   }
+
+  final NekotonRepository nekoton;
 
   /// Callback that calls when seed is created
   final void Function(PublicKey) completeCallback;
@@ -84,7 +87,6 @@ class CreateSeedPasswordCubit extends Cubit<CreateSeedPasswordState>
 
     emitSafe(state.copyWith(isLoading: true));
 
-    final nekoton = inject<NekotonRepository>();
     final currentKeyService = inject<CurrentKeyService>();
 
     try {

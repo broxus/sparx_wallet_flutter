@@ -18,6 +18,7 @@ class ConnectionService {
     this._storageService,
     this._nekotonRepository,
     this._presetsConnectionService,
+    this._messengerService,
     this._dio,
   );
 
@@ -26,6 +27,7 @@ class ConnectionService {
   final ConnectionsStorageService _storageService;
   final NekotonRepository _nekotonRepository;
   final PresetsConnectionService _presetsConnectionService;
+  final MessengerService _messengerService;
   final Dio _dio;
 
   /// Set up selected connection.
@@ -107,7 +109,7 @@ class ConnectionService {
 
       _log.finest('updateTransportByConnection completed!');
     } catch (e, t) {
-      inject<MessengerService>().showConnectionError(null);
+      _messengerService.showConnectionError(null);
       _log.severe('updateTransportByConnection', e, t);
 
       final base = _storageService.baseConnection;

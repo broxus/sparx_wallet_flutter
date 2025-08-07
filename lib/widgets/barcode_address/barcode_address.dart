@@ -20,8 +20,6 @@ class BarcodeAddress extends InjectedElementaryParametrizedWidget<
 
   @override
   Widget build(BarcodeAddressWidgetModel wm) {
-
-
     return ShapedContainerColumn(
       mainAxisSize: MainAxisSize.min,
       crossAxisAlignment: CrossAxisAlignment.center,
@@ -72,6 +70,4 @@ class BarcodeAddress extends InjectedElementaryParametrizedWidget<
       ],
     );
   }
-
-
 }

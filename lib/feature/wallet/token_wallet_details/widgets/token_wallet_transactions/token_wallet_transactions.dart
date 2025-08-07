@@ -103,6 +103,7 @@ class TokenWalletTransactionsWidget extends StatelessWidget {
                     final isLast =
                         next == null || !next.date.isSameDay(trans.date);
 
+                    // TODO(knightforce): refactor after replaceBloc to Elementary
                     final ticker = inject<NekotonRepository>()
                         .currentTransport
                         .nativeTokenTicker;

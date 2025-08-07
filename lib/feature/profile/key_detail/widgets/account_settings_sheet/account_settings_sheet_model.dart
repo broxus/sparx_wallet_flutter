@@ -39,9 +39,7 @@ class AccountSettingsSheetModel extends ElementaryModel {
 
   void openBrowserByString(Address address) {
     _browserLauncher.openBrowserByString(
-      _nekotonRepository
-          .currentTransport
-          .accountExplorerLink(address),
+      _nekotonRepository.currentTransport.accountExplorerLink(address),
     );
   }
 }

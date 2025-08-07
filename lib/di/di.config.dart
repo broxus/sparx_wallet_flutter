@@ -287,11 +287,23 @@ import '../feature/presets_config/domain/presets_config_reader.dart' as _i130;
 import '../feature/presets_config/presets_config.dart' as _i418;
 import '../feature/profile/account_detail/route.dart' as _i303;
 import '../feature/profile/key_detail/route.dart' as _i171;
+import '../feature/profile/key_detail/widgets/account_rename_sheet/account_rename_sheet_model.dart'
+    as _i210;
+import '../feature/profile/key_detail/widgets/account_rename_sheet/account_rename_sheet_wm.dart'
+    as _i787;
+import '../feature/profile/key_detail/widgets/account_settings_sheet/account_settings_sheet_model.dart'
+    as _i1031;
+import '../feature/profile/key_detail/widgets/account_settings_sheet/account_settings_sheet_wm.dart'
+    as _i541;
 import '../feature/profile/key_detail/widgets/add_new_external_account_sheet/add_new_external_account_sheet_model.dart'
     as _i964;
 import '../feature/profile/key_detail/widgets/add_new_external_account_sheet/add_new_external_account_sheet_wm.dart'
     as _i199;
 import '../feature/profile/manage_seeds_accounts/route.dart' as _i45;
+import '../feature/profile/manage_seeds_accounts/widgets/delete_seed_sheet/delete_seed_sheet_model.dart'
+    as _i976;
+import '../feature/profile/manage_seeds_accounts/widgets/delete_seed_sheet/delete_seed_sheet_wm.dart'
+    as _i241;
 import '../feature/profile/manage_seeds_accounts/widgets/seed_settings/seed_settings_model.dart'
     as _i955;
 import '../feature/profile/manage_seeds_accounts/widgets/seed_settings/seed_settings_wm.dart'
@@ -405,6 +417,10 @@ import '../feature/wallet/staking/view/staking_page/staking_page_model.dart'
     as _i251;
 import '../feature/wallet/staking/view/staking_page/staking_page_wm.dart'
     as _i904;
+import '../feature/wallet/staking/widgets/staking_in_progress/staking_in_progress_model.dart'
+    as _i402;
+import '../feature/wallet/staking/widgets/staking_in_progress/staking_in_progress_wm.dart'
+    as _i180;
 import '../feature/wallet/token_wallet_details/route.dart' as _i750;
 import '../feature/wallet/token_wallet_details/widgets/detail/token_wallet_ordinary_transaction_details_screen_model.dart'
     as _i311;
@@ -467,14 +483,30 @@ import '../feature/wallet/widgets/account_transactions_tab/detail/ton_wallet_ord
     as _i562;
 import '../feature/wallet/widgets/account_transactions_tab/detail/ton_wallet_ordinary_transaction_details/ton_wallet_ordinary_transaction_details_wm.dart'
     as _i408;
+import '../feature/wallet/widgets/account_transactions_tab/widgets/ton_wallet_expired_transaction_widget/ton_wallet_expired_transaction_widget_model.dart'
+    as _i365;
+import '../feature/wallet/widgets/account_transactions_tab/widgets/ton_wallet_expired_transaction_widget/ton_wallet_expired_transaction_widget_wm.dart'
+    as _i783;
 import '../feature/wallet/widgets/account_transactions_tab/widgets/ton_wallet_multisig_expired_transaction/ton_wallet_multisig_expired_transaction_model.dart'
     as _i938;
 import '../feature/wallet/widgets/account_transactions_tab/widgets/ton_wallet_multisig_expired_transaction/ton_wallet_multisig_expired_transaction_widget_wm.dart'
     as _i765;
+import '../feature/wallet/widgets/account_transactions_tab/widgets/ton_wallet_multisig_ordinary_transaction_widget/ton_wallet_multisig_ordinary_transaction_widget_model.dart'
+    as _i63;
+import '../feature/wallet/widgets/account_transactions_tab/widgets/ton_wallet_multisig_ordinary_transaction_widget/ton_wallet_multisig_ordinary_transaction_widget_wm.dart'
+    as _i772;
+import '../feature/wallet/widgets/account_transactions_tab/widgets/ton_wallet_multisig_pending_transaction_widget/ton_wallet_multisig_pending_transaction_widget_model.dart'
+    as _i222;
+import '../feature/wallet/widgets/account_transactions_tab/widgets/ton_wallet_multisig_pending_transaction_widget/ton_wallet_multisig_pending_transaction_widget_wm.dart'
+    as _i359;
 import '../feature/wallet/widgets/account_transactions_tab/widgets/ton_wallet_ordinary_transaction/ton_wallet_ordinary_transaction_widget_model.dart'
     as _i680;
 import '../feature/wallet/widgets/account_transactions_tab/widgets/ton_wallet_ordinary_transaction/ton_wallet_ordinary_transaction_widget_wm.dart'
     as _i399;
+import '../feature/wallet/widgets/account_transactions_tab/widgets/ton_wallet_pending_transaction_widget/ton_wallet_pending_transaction_widget_model.dart'
+    as _i205;
+import '../feature/wallet/widgets/account_transactions_tab/widgets/ton_wallet_pending_transaction_widget/ton_wallet_pending_transaction_widget_wm.dart'
+    as _i504;
 import '../feature/wallet/widgets/select_account/select_account_model.dart'
     as _i1035;
 import '../feature/wallet/widgets/select_account/select_account_wm.dart'
@@ -521,6 +553,8 @@ import '../utils/factories/error_handler/standard_error_handler.dart' as _i290;
 import '../v1/feature/add_seed/check_seed_phrase/route.dart' as _i118;
 import '../v1/feature/add_seed/create_seed/route.dart' as _i646;
 import '../v1/feature/add_seed/enter_seed_name/route.dart' as _i643;
+import '../widgets/barcode_address/barcode_address_model.dart' as _i257;
+import '../widgets/barcode_address/barcode_address_wm.dart' as _i798;
 import '../widgets/bottom_navigation_bar/custom_bottom_navigation_bar_model.dart'
     as _i278;
 import '../widgets/bottom_navigation_bar/custom_bottom_navigation_bar_wm.dart'
@@ -594,8 +628,14 @@ extension GetItInjectableX on _i174.GetIt {
       () => _i290.TokenWalletSendRoute(),
       instanceName: 'TokenWalletSendRoute',
     );
+    gh.factory<_i257.BarcodeAddressModel>(() => _i257.BarcodeAddressModel(
+          gh<_i83.ErrorHandler>(),
+          gh<_i632.MessengerService>(),
+        ));
     gh.singleton<_i679.SecureStorageService>(
         () => _i679.SecureStorageService(gh<_i426.EncryptedStorage>()));
+    gh.factory<_i798.BarcodeAddressWidgetModel>(
+        () => _i798.BarcodeAddressWidgetModel(gh<_i257.BarcodeAddressModel>()));
     gh.lazySingleton<_i1030.UpdateVersionStorageService>(() =>
         _i1030.UpdateVersionStorageService(gh<_i792.GetStorage>(
             instanceName: 'update_version_storage_service')));
@@ -741,8 +781,36 @@ extension GetItInjectableX on _i174.GetIt {
           gh<_i83.ErrorHandler>(),
           gh<_i771.NekotonRepository>(),
         ));
+    gh.factory<_i976.DeleteSeedSheetModel>(() => _i976.DeleteSeedSheetModel(
+          gh<_i83.ErrorHandler>(),
+          gh<_i771.NekotonRepository>(),
+        ));
+    gh.factory<_i402.StakingInProgressModel>(() => _i402.StakingInProgressModel(
+          gh<_i83.ErrorHandler>(),
+          gh<_i771.NekotonRepository>(),
+        ));
     gh.factory<_i772.TonWalletMultisigPendingTransactionDetailsScreenModel>(
         () => _i772.TonWalletMultisigPendingTransactionDetailsScreenModel(
+              gh<_i83.ErrorHandler>(),
+              gh<_i771.NekotonRepository>(),
+            ));
+    gh.factory<_i222.TonWalletMultisigPendingTransactionWidgetModel>(
+        () => _i222.TonWalletMultisigPendingTransactionWidgetModel(
+              gh<_i83.ErrorHandler>(),
+              gh<_i771.NekotonRepository>(),
+            ));
+    gh.factory<_i365.TonWalletExpiredTransactionWidgetModel>(
+        () => _i365.TonWalletExpiredTransactionWidgetModel(
+              gh<_i83.ErrorHandler>(),
+              gh<_i771.NekotonRepository>(),
+            ));
+    gh.factory<_i205.TonWalletPendingTransactionWidgetModel>(
+        () => _i205.TonWalletPendingTransactionWidgetModel(
+              gh<_i83.ErrorHandler>(),
+              gh<_i771.NekotonRepository>(),
+            ));
+    gh.factory<_i63.TonWalletMultisigOrdinaryTransactionWidgetModel>(
+        () => _i63.TonWalletMultisigOrdinaryTransactionWidgetModel(
               gh<_i83.ErrorHandler>(),
               gh<_i771.NekotonRepository>(),
             ));
@@ -777,6 +845,9 @@ extension GetItInjectableX on _i174.GetIt {
           gh<_i83.ErrorHandler>(),
           gh<_i33.NetworkConnectionService>(),
         ));
+    gh.factory<_i359.TonWalletMultisigPendingTransactionWidgetWidgetModel>(() =>
+        _i359.TonWalletMultisigPendingTransactionWidgetWidgetModel(
+            gh<_i222.TonWalletMultisigPendingTransactionWidgetModel>()));
     gh.singleton<_i82.CompassBaseRoute>(
       () => _i649.SeedDetailRoute(
           gh<_i82.CompassBaseRoute>(instanceName: 'KeyDetailRoute')),
@@ -788,6 +859,8 @@ extension GetItInjectableX on _i174.GetIt {
           gh<_i128.AppLifecycleService>(),
           gh<_i632.MessengerService>(),
         ));
+    gh.factory<_i241.DeleteSeedSheetWidgetModel>(() =>
+        _i241.DeleteSeedSheetWidgetModel(gh<_i976.DeleteSeedSheetModel>()));
     gh.factory<_i9.EnterSeedPhraseModel>(() => _i9.EnterSeedPhraseModel(
           gh<_i83.ErrorHandler>(),
           gh<_i128.NetworkConnectionService>(),
@@ -838,6 +911,12 @@ extension GetItInjectableX on _i174.GetIt {
           gh<_i771.NekotonRepository>(),
           gh<_i632.MessengerService>(),
         ));
+    gh.factory<_i210.AccountRenameSheetModel>(
+        () => _i210.AccountRenameSheetModel(
+              gh<_i83.ErrorHandler>(),
+              gh<_i771.NekotonRepository>(),
+              gh<_i632.MessengerService>(),
+            ));
     gh.factory<_i523.TokenWalletSendModel>(() => _i523.TokenWalletSendModel(
           gh<_i83.ErrorHandler>(),
           gh<_i771.NekotonRepository>(),
@@ -876,6 +955,9 @@ extension GetItInjectableX on _i174.GetIt {
         ));
     gh.factory<_i301.QaWidgetModel>(
         () => _i301.QaWidgetModel(gh<_i1046.QaModel>()));
+    gh.factory<_i783.TonWalletExpiredTransactionWidgetWidgetModel>(() =>
+        _i783.TonWalletExpiredTransactionWidgetWidgetModel(
+            gh<_i365.TonWalletExpiredTransactionWidgetModel>()));
     gh.factory<_i803.LatestVersionFinder>(
         () => _i803.LatestVersionFinder(gh<_i728.VersionComparator>()));
     gh.factory<_i1008.UpdateStatusChecker>(
@@ -1014,6 +1096,9 @@ extension GetItInjectableX on _i174.GetIt {
             _i743.TonWalletMultisigPendingTransactionDetailsScreenWidgetModel>(
         () => _i743.TonWalletMultisigPendingTransactionDetailsScreenWidgetModel(
             gh<_i772.TonWalletMultisigPendingTransactionDetailsScreenModel>()));
+    gh.factory<_i787.AccountRenameSheetWidgetModel>(() =>
+        _i787.AccountRenameSheetWidgetModel(
+            gh<_i210.AccountRenameSheetModel>()));
     gh.factory<_i399.TonWalletOrdinaryTransactionWidgetWidgetModel>(() =>
         _i399.TonWalletOrdinaryTransactionWidgetWidgetModel(
             gh<_i680.TonWalletOrdinaryTransactionWidgetModel>()));
@@ -1039,6 +1124,12 @@ extension GetItInjectableX on _i174.GetIt {
         () => _i634.WelcomeScreenWidgetModel(gh<_i437.WelcomeScreenModel>()));
     gh.factory<_i371.SelectAccountWidgetModel>(
         () => _i371.SelectAccountWidgetModel(gh<_i1035.SelectAccountModel>()));
+    gh.factory<_i772.TonWalletMultisigOrdinaryTransactionWidgetWidgetModel>(
+        () => _i772.TonWalletMultisigOrdinaryTransactionWidgetWidgetModel(
+            gh<_i63.TonWalletMultisigOrdinaryTransactionWidgetModel>()));
+    gh.factory<_i504.TonWalletPendingTransactionWidgetWidgetModel>(() =>
+        _i504.TonWalletPendingTransactionWidgetWidgetModel(
+            gh<_i205.TonWalletPendingTransactionWidgetModel>()));
     gh.factory<_i169.BrowserServiceScreenshotsDelegate>(() =>
         _i169.BrowserServiceScreenshotsDelegate(
             gh<_i747.GeneralStorageService>()));
@@ -1084,6 +1175,8 @@ extension GetItInjectableX on _i174.GetIt {
             ));
     gh.factory<_i522.TCConnectWidgetModel>(
         () => _i522.TCConnectWidgetModel(gh<_i625.TCConnectModel>()));
+    gh.factory<_i180.StakingInProgressWidgetModel>(() =>
+        _i180.StakingInProgressWidgetModel(gh<_i402.StakingInProgressModel>()));
     gh.factory<_i268.AccountSettingsChangeColorButtonWidgetModel>(() =>
         _i268.AccountSettingsChangeColorButtonWidgetModel(
             gh<_i611.AccountSettingsChangeColorButtonModel>()));
@@ -1520,19 +1613,9 @@ extension GetItInjectableX on _i174.GetIt {
         ));
     gh.factory<_i73.TCSendMessageWidgetModel>(
         () => _i73.TCSendMessageWidgetModel(gh<_i625.TCSendMessageModel>()));
-    gh.singleton<_i754.ConnectionService>(() => _i754.ConnectionService(
-          gh<_i128.ConnectionsStorageService>(),
-          gh<_i771.NekotonRepository>(),
-          gh<_i128.PresetsConnectionService>(),
-          gh<_i361.Dio>(),
-        ));
     gh.factory<_i848.BrowserBookmarkRenameBottomSheetWidgetModel>(() =>
         _i848.BrowserBookmarkRenameBottomSheetWidgetModel(
             gh<_i706.BrowserBookmarkRenameBottomSheetModel>()));
-    gh.factory<_i159.ConnectionConfigurator>(() => _i159.ConnectionConfigurator(
-          gh<_i754.ConnectionService>(),
-          gh<_i771.NekotonRepository>(),
-        ));
     gh.factory<_i968.WebsiteInfoWidgetModel>(
         () => _i968.WebsiteInfoWidgetModel(gh<_i378.WebsiteInfoModel>()));
     gh.factory<_i792.BrowserMainScreenWidgetModel>(() =>
@@ -1614,6 +1697,13 @@ extension GetItInjectableX on _i174.GetIt {
       ),
       dispose: (i) => i.dispose(),
     );
+    gh.singleton<_i754.ConnectionService>(() => _i754.ConnectionService(
+          gh<_i128.ConnectionsStorageService>(),
+          gh<_i771.NekotonRepository>(),
+          gh<_i128.PresetsConnectionService>(),
+          gh<_i632.MessengerService>(),
+          gh<_i361.Dio>(),
+        ));
     gh.factory<_i634.StorageConfigurator>(
         () => _i634.StorageConfigurator(gh<_i128.StorageManagerService>()));
     gh.factory<_i518.BrowserTabsListItemWidgetModel>(() =>
@@ -1715,6 +1805,10 @@ extension GetItInjectableX on _i174.GetIt {
         () => _i639.ChangeNetworkWidgetModel(gh<_i710.ChangeNetworkModel>()));
     gh.factory<_i317.AddNetworkWidgetModel>(
         () => _i317.AddNetworkWidgetModel(gh<_i561.AddNetworkModel>()));
+    gh.factory<_i159.ConnectionConfigurator>(() => _i159.ConnectionConfigurator(
+          gh<_i754.ConnectionService>(),
+          gh<_i771.NekotonRepository>(),
+        ));
     gh.factory<_i690.FeatureServicesConfigurator>(
         () => _i690.FeatureServicesConfigurator(
               gh<_i484.UpdateService>(),
@@ -1863,6 +1957,13 @@ extension GetItInjectableX on _i174.GetIt {
     gh.factory<_i212.NftCollectionPageWidgetModel>(() =>
         _i212.NftCollectionPageWidgetModel(
             gh<_i1015.NftCollectionPageModel>()));
+    gh.factory<_i1031.AccountSettingsSheetModel>(
+        () => _i1031.AccountSettingsSheetModel(
+              gh<_i83.ErrorHandler>(),
+              gh<_i771.NekotonRepository>(),
+              gh<_i632.MessengerService>(),
+              gh<_i70.BrowserLauncher>(),
+            ));
     gh.factory<_i996.TokenWalletOrdinaryTransactionDetailsScreenWidgetModel>(
         () => _i996.TokenWalletOrdinaryTransactionDetailsScreenWidgetModel(
             gh<_i311.TokenWalletOrdinaryTransactionDetailsScreenModel>()));
@@ -1930,6 +2031,9 @@ extension GetItInjectableX on _i174.GetIt {
         () => _i962.AccountSettingsWidgetModel(gh<_i8.AccountSettingsModel>()));
     gh.factory<_i942.EditNetworkWidgetModel>(
         () => _i942.EditNetworkWidgetModel(gh<_i393.EditNetworkModel>()));
+    gh.factory<_i541.AccountSettingsSheetWidgetModel>(() =>
+        _i541.AccountSettingsSheetWidgetModel(
+            gh<_i1031.AccountSettingsSheetModel>()));
     gh.factory<_i408.TonWalletOrdinaryTransactionDetailsWidgetModel>(() =>
         _i408.TonWalletOrdinaryTransactionDetailsWidgetModel(
             gh<_i562.TonWalletOrdinaryTransactionDetailsModel>()));
