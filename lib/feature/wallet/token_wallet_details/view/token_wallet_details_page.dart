@@ -8,6 +8,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:lucide_icons_flutter/lucide_icons.dart';
 import 'package:nekoton_repository/nekoton_repository.dart';
+import 'package:ui_components_lib/components/common/default_sliver_app_bar.dart';
 import 'package:ui_components_lib/ui_components_lib.dart';
 import 'package:ui_components_lib/v2/ui_components_lib_v2.dart';
 
@@ -82,62 +83,110 @@ class _Body extends StatelessWidget {
     return CustomScrollView(
       controller: controller,
       slivers: [
-        SliverToBoxAdapter(
-          child: Stack(
-            children: [
-              const _Background(),
-              Column(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  const DefaultAppBar(),
-                  ValueListenableBuilder(
-                    valueListenable: contractName,
-                    builder: (_, contractName, __) => Text(
-                      contractName,
-                      style: theme.textStyles.labelSmall.copyWith(
-                        color: theme.colors.content3,
+        ValueListenableBuilder(
+          valueListenable: contractName,
+          builder: (_, contractName, __) {
+            return DefaultSliverAppBar(
+              title: contractName,
+              flexibleSpace: FlexibleSpaceBar(
+                background: Stack(
+                  fit: StackFit.expand,
+                  children: [
+                    const _Background(),
+                    SafeArea(
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          const SizedBox(height: 72), // Space for AppBar
+                          const SizedBox(height: DimensSizeV2.d12),
+                          Text(
+                            contractName,
+                            style: theme.textStyles.labelSmall.copyWith(
+                              color: theme.colors.content3,
+                            ),
+                          ),
+                          const SizedBox(height: DimensSizeV2.d12),
+                          StateNotifierBuilder(
+                            listenableState: tokenBalance,
+                            builder: (_, tokenBalance) {
+                              if (tokenBalance == null) {
+                                return const SizedBox.shrink();
+                              }
+
+                              return AmountWidget.fromMoney(
+                                amount: tokenBalance,
+                                includeSymbol: false,
+                                style: theme.textStyles.headingXLarge,
+                              );
+                            },
+                          ),
+                          const SizedBox(height: DimensSizeV2.d4),
+                          StateNotifierBuilder(
+                            listenableState: fiatBalance,
+                            builder: (_, fiatBalance) {
+                              if (fiatBalance == null)
+                                return const SizedBox.shrink();
+                              return AmountWidget.dollars(
+                                amount: fiatBalance,
+                                style: theme.textStyles.labelXSmall,
+                              );
+                            },
+                          ),
+                          const SizedBox(height: DimensSizeV2.d16),
+                          SizedBox(
+                            height: DimensSizeV2.d74,
+                            child: SeparatedRow(
+                              separator: VerticalDivider(
+                                width: DimensStroke.small,
+                                thickness: DimensStroke.small,
+                                color: theme.colors.borderAlpha,
+                              ),
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              crossAxisAlignment: CrossAxisAlignment.stretch,
+                              children: [
+                                Flexible(
+                                  child: SizedBox(
+                                    width: DimensSizeV2.d90,
+                                    child: WalletActionButton(
+                                      label: LocaleKeys.receiveWord.tr(),
+                                      icon: LucideIcons.arrowDown,
+                                      onPressed: () =>
+                                          showReceiveFundsSheet(context, owner),
+                                    ),
+                                  ),
+                                ),
+                                DoubleSourceBuilder(
+                                  firstSource: canSend,
+                                  secondSource: tokenBalance,
+                                  builder: (_, canSend, tokenBalance) {
+                                    if (canSend != true ||
+                                        tokenBalance == null) {
+                                      return const SizedBox.shrink();
+                                    }
+
+                                    return Flexible(
+                                      child: SizedBox(
+                                        width: DimensSizeV2.d90,
+                                        child: WalletActionButton(
+                                          label: LocaleKeys.sendWord.tr(),
+                                          icon: LucideIcons.arrowUp,
+                                          onPressed: onSend,
+                                        ),
+                                      ),
+                                    );
+                                  },
+                                ),
+                              ],
+                            ),
+                          ),
+                        ],
                       ),
                     ),
-                  ),
-                  const SizedBox(height: DimensSizeV2.d12),
-                  StateNotifierBuilder(
-                    listenableState: tokenBalance,
-                    builder: (_, tokenBalance) {
-                      if (tokenBalance == null) return const SizedBox.shrink();
-                      return AmountWidget.fromMoney(
-                        amount: tokenBalance,
-                        includeSymbol: false,
-                        style: theme.textStyles.headingXLarge,
-                      );
-                    },
-                  ),
-                  const SizedBox(height: DimensSizeV2.d4),
-                  StateNotifierBuilder(
-                    listenableState: fiatBalance,
-                    builder: (_, fiatBalance) {
-                      if (fiatBalance == null) return const SizedBox.shrink();
-                      return AmountWidget.dollars(
-                        amount: fiatBalance,
-                        style: theme.textStyles.labelXSmall,
-                      );
-                    },
-                  ),
-                  const SizedBox(height: DimensSizeV2.d16),
-                  DoubleSourceBuilder(
-                    firstSource: canSend,
-                    secondSource: tokenBalance,
-                    builder: (context, canSend, tokenBalance) => _Actions(
-                      canSend: canSend ?? false,
-                      tokenBalance: tokenBalance,
-                      onReceive: () => showReceiveFundsSheet(context, owner),
-                      onSend: onSend,
-                    ),
-                  ),
-                  const SizedBox(height: DimensSizeV2.d48),
-                ],
+                  ],
+                ),
               ),
-            ],
-          ),
+            );
+          },
         ),
         DecoratedSliver(
           decoration: BoxDecoration(
@@ -188,61 +237,6 @@ class _Body extends StatelessWidget {
           ),
         ),
       ],
-    );
-  }
-}
-
-class _Actions extends StatelessWidget {
-  const _Actions({
-    required this.canSend,
-    required this.tokenBalance,
-    required this.onReceive,
-    required this.onSend,
-  });
-
-  final bool canSend;
-  final Money? tokenBalance;
-  final VoidCallback onReceive;
-  final VoidCallback onSend;
-
-  @override
-  Widget build(BuildContext context) {
-    final theme = context.themeStyleV2;
-
-    return SizedBox(
-      height: DimensSizeV2.d74,
-      child: SeparatedRow(
-        separator: VerticalDivider(
-          width: DimensStroke.small,
-          thickness: DimensStroke.small,
-          color: theme.colors.borderAlpha,
-        ),
-        mainAxisAlignment: MainAxisAlignment.center,
-        crossAxisAlignment: CrossAxisAlignment.stretch,
-        children: [
-          Flexible(
-            child: SizedBox(
-              width: DimensSizeV2.d90,
-              child: WalletActionButton(
-                label: LocaleKeys.receiveWord.tr(),
-                icon: LucideIcons.arrowDown,
-                onPressed: onReceive,
-              ),
-            ),
-          ),
-          if (canSend && tokenBalance != null)
-            Flexible(
-              child: SizedBox(
-                width: DimensSizeV2.d90,
-                child: WalletActionButton(
-                  label: LocaleKeys.sendWord.tr(),
-                  icon: LucideIcons.arrowUp,
-                  onPressed: onSend,
-                ),
-              ),
-            ),
-        ],
-      ),
     );
   }
 }
