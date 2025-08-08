@@ -6,6 +6,7 @@ import 'package:app/utils/utils.dart';
 import 'package:elementary_helper/elementary_helper.dart';
 import 'package:flutter/material.dart';
 import 'package:nekoton_repository/nekoton_repository.dart';
+import 'package:ui_components_lib/components/common/default_sliver_app_bar.dart';
 import 'package:ui_components_lib/ui_components_lib.dart';
 import 'package:ui_components_lib/v2/ui_components_lib_v2.dart';
 
@@ -73,55 +74,63 @@ class _Body extends StatelessWidget {
     return CustomScrollView(
       controller: controller,
       slivers: [
-        SliverToBoxAdapter(
-          child: Stack(
-            children: [
-              const _Background(),
-              Column(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  const DefaultAppBar(),
-                  Text(
-                    symbol,
-                    style: theme.textStyles.labelSmall.copyWith(
-                      color: theme.colors.content3,
-                    ),
+        DefaultSliverAppBar(
+          title: symbol,
+          flexibleSpace: FlexibleSpaceBar(
+            background: Stack(
+              fit: StackFit.expand,
+              children: [
+                const _Background(),
+                SafeArea(
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      const SizedBox(height: 72),
+                      Text(
+                        symbol,
+                        style: theme.textStyles.labelSmall.copyWith(
+                          color: theme.colors.content3,
+                        ),
+                      ),
+                      const SizedBox(height: DimensSizeV2.d12),
+                      StateNotifierBuilder(
+                        listenableState: tokenBalanceState,
+                        builder: (_, tokenBalance) {
+                          if (tokenBalance == null)
+                            return const SizedBox.shrink();
+                          return AmountWidget.fromMoney(
+                            amount: tokenBalance,
+                            includeSymbol: false,
+                            style: theme.textStyles.headingXLarge,
+                          );
+                        },
+                      ),
+                      const SizedBox(height: DimensSizeV2.d4),
+                      StateNotifierBuilder(
+                        listenableState: fiatBalanceState,
+                        builder: (_, fiatBalance) {
+                          if (fiatBalance == null)
+                            return const SizedBox.shrink();
+                          return AmountWidget.dollars(
+                            amount: fiatBalance,
+                            style: theme.textStyles.labelXSmall,
+                          );
+                        },
+                      ),
+                      const SizedBox(height: DimensSizeV2.d16),
+                      if (error == null)
+                        WalletAccountActions(
+                          account: account,
+                          allowStake: false,
+                          sendSpecified: true,
+                          padding: EdgeInsets.zero,
+                        ),
+                      const SizedBox(height: DimensSizeV2.d48),
+                    ],
                   ),
-                  const SizedBox(height: DimensSizeV2.d12),
-                  StateNotifierBuilder(
-                    listenableState: tokenBalanceState,
-                    builder: (_, tokenBalance) {
-                      if (tokenBalance == null) return const SizedBox.shrink();
-                      return AmountWidget.fromMoney(
-                        amount: tokenBalance,
-                        includeSymbol: false,
-                        style: theme.textStyles.headingXLarge,
-                      );
-                    },
-                  ),
-                  const SizedBox(height: DimensSizeV2.d4),
-                  StateNotifierBuilder(
-                    listenableState: fiatBalanceState,
-                    builder: (_, fiatBalance) {
-                      if (fiatBalance == null) return const SizedBox.shrink();
-                      return AmountWidget.dollars(
-                        amount: fiatBalance,
-                        style: theme.textStyles.labelXSmall,
-                      );
-                    },
-                  ),
-                  const SizedBox(height: DimensSizeV2.d16),
-                  if (error == null)
-                    WalletAccountActions(
-                      account: account,
-                      allowStake: false,
-                      sendSpecified: true,
-                      padding: EdgeInsets.zero,
-                    ),
-                  const SizedBox(height: DimensSizeV2.d48),
-                ],
-              ),
-            ],
+                ),
+              ],
+            ),
           ),
         ),
         DecoratedSliver(
