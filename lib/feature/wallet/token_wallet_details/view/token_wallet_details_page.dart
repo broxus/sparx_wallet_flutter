@@ -7,6 +7,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:lucide_icons_flutter/lucide_icons.dart';
 import 'package:nekoton_repository/nekoton_repository.dart';
+import 'package:ui_components_lib/components/common/default_sliver_app_bar.dart';
 import 'package:ui_components_lib/ui_components_lib.dart';
 import 'package:ui_components_lib/v2/ui_components_lib_v2.dart';
 
@@ -37,50 +38,53 @@ class _TokenWalletDetailsPageState extends State<TokenWalletDetailsPage> {
 
   @override
   Widget build(BuildContext context) {
-    return BlocProvider<TokenWalletDetailsCubit>(
-      create: (_) => TokenWalletDetailsCubit(
-        owner: widget.owner,
-        rootTokenContract: widget.rootTokenContract,
-        nekotonRepository: inject(),
-        currencyConvertService: inject(),
-        balanceService: inject(),
-        assetsService: inject(),
-      ),
-      child: BlocBuilder<TokenWalletDetailsCubit, TokenWalletDetailsState>(
-        builder: (context, state) {
-          return switch (state) {
-            TokenWalletDetailsStateInitial() => const SizedBox.shrink(),
-            TokenWalletDetailsStateEmpty() => const SizedBox.shrink(),
-            TokenWalletDetailsStateSubscribeError(
-              :final contractName,
-              :final error,
-              :final isLoading,
-            ) =>
-              _Body(
-                owner: widget.owner,
-                rootTokenContract: widget.rootTokenContract,
-                contractName: contractName,
-                error: error,
-                isLoadingError: isLoading,
-                controller: controller,
-              ),
-            TokenWalletDetailsStateData(
-              :final contractName,
-              :final tokenBalance,
-              :final fiatBalance,
-              :final canSend,
-            ) =>
-              _Body(
-                owner: widget.owner,
-                rootTokenContract: widget.rootTokenContract,
-                contractName: contractName,
-                tokenBalance: tokenBalance,
-                fiatBalance: fiatBalance,
-                canSend: canSend,
-                controller: controller,
-              ),
-          };
-        },
+    return ColoredBox(
+      color: context.themeStyleV2.colors.background0,
+      child: BlocProvider<TokenWalletDetailsCubit>(
+        create: (_) => TokenWalletDetailsCubit(
+          owner: widget.owner,
+          rootTokenContract: widget.rootTokenContract,
+          nekotonRepository: inject(),
+          currencyConvertService: inject(),
+          balanceService: inject(),
+          assetsService: inject(),
+        ),
+        child: BlocBuilder<TokenWalletDetailsCubit, TokenWalletDetailsState>(
+          builder: (context, state) {
+            return switch (state) {
+              TokenWalletDetailsStateInitial() => const SizedBox.shrink(),
+              TokenWalletDetailsStateEmpty() => const SizedBox.shrink(),
+              TokenWalletDetailsStateSubscribeError(
+                :final contractName,
+                :final error,
+                :final isLoading,
+              ) =>
+                _Body(
+                  owner: widget.owner,
+                  rootTokenContract: widget.rootTokenContract,
+                  contractName: contractName,
+                  error: error,
+                  isLoadingError: isLoading,
+                  controller: controller,
+                ),
+              TokenWalletDetailsStateData(
+                :final contractName,
+                :final tokenBalance,
+                :final fiatBalance,
+                :final canSend,
+              ) =>
+                _Body(
+                  owner: widget.owner,
+                  rootTokenContract: widget.rootTokenContract,
+                  contractName: contractName,
+                  tokenBalance: tokenBalance,
+                  fiatBalance: fiatBalance,
+                  canSend: canSend,
+                  controller: controller,
+                ),
+            };
+          },
+        ),
       ),
     );
   }
@@ -117,64 +121,69 @@ class _Body extends StatelessWidget {
     return CustomScrollView(
       controller: controller,
       slivers: [
-        SliverToBoxAdapter(
-          child: Stack(
-            children: [
-              const _Background(),
-              Column(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  const DefaultAppBar(),
-                  Text(
-                    contractName,
-                    style: theme.textStyles.labelSmall.copyWith(
-                      color: theme.colors.content3,
-                    ),
-                  ),
-                  const SizedBox(height: DimensSizeV2.d12),
-                  if (tokenBalance != null)
-                    AmountWidget.fromMoney(
-                      amount: tokenBalance!,
-                      includeSymbol: false,
-                      style: theme.textStyles.headingXLarge,
-                    ),
-                  const SizedBox(height: DimensSizeV2.d4),
-                  if (fiatBalance != null)
-                    AmountWidget.dollars(
-                      amount: fiatBalance!,
-                      style: theme.textStyles.labelXSmall,
-                    ),
-                  const SizedBox(height: DimensSizeV2.d16),
-                  SizedBox(
-                    height: DimensSizeV2.d74,
-                    child: SeparatedRow(
-                      separator: VerticalDivider(
-                        width: DimensStroke.small,
-                        thickness: DimensStroke.small,
-                        color: theme.colors.borderAlpha,
-                      ),
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      crossAxisAlignment: CrossAxisAlignment.stretch,
-                      children: [
-                        WalletActionButton(
-                          label: LocaleKeys.receiveWord.tr(),
-                          icon: LucideIcons.arrowDown,
-                          onPressed: () =>
-                              showReceiveFundsSheet(context, owner),
+        DefaultSliverAppBar(
+          title: contractName,
+          flexibleSpace: FlexibleSpaceBar(
+            background: Stack(
+              fit: StackFit.expand,
+              children: [
+                const _Background(),
+                SafeArea(
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      const SizedBox(height: 72), // Space for AppBar
+                      Text(
+                        contractName,
+                        style: theme.textStyles.labelSmall.copyWith(
+                          color: theme.colors.content3,
                         ),
-                        if (canSend && tokenBalance != null)
-                          WalletActionButton(
-                            label: LocaleKeys.sendWord.tr(),
-                            icon: LucideIcons.arrowUp,
-                            onPressed: () => _onSend(context),
+                      ),
+                      const SizedBox(height: DimensSizeV2.d12),
+                      if (tokenBalance != null)
+                        AmountWidget.fromMoney(
+                          amount: tokenBalance!,
+                          includeSymbol: false,
+                          style: theme.textStyles.headingXLarge,
+                        ),
+                      const SizedBox(height: DimensSizeV2.d4),
+                      if (fiatBalance != null)
+                        AmountWidget.dollars(
+                          amount: fiatBalance!,
+                          style: theme.textStyles.labelXSmall,
+                        ),
+                      const SizedBox(height: DimensSizeV2.d16),
+                      SizedBox(
+                        height: DimensSizeV2.d74,
+                        child: SeparatedRow(
+                          separator: VerticalDivider(
+                            width: DimensStroke.small,
+                            thickness: DimensStroke.small,
+                            color: theme.colors.borderAlpha,
                           ),
-                      ],
-                    ),
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          crossAxisAlignment: CrossAxisAlignment.stretch,
+                          children: [
+                            WalletActionButton(
+                              label: LocaleKeys.receiveWord.tr(),
+                              icon: LucideIcons.arrowDown,
+                              onPressed: () =>
+                                  showReceiveFundsSheet(context, owner),
+                            ),
+                            if (canSend && tokenBalance != null)
+                              WalletActionButton(
+                                label: LocaleKeys.sendWord.tr(),
+                                icon: LucideIcons.arrowUp,
+                                onPressed: () => _onSend(context),
+                              ),
+                          ],
+                        ),
+                      ),
+                    ],
                   ),
-                  const SizedBox(height: DimensSizeV2.d48),
-                ],
-              ),
-            ],
+                ),
+              ],
+            ),
           ),
         ),
         DecoratedSliver(
