@@ -5,9 +5,8 @@ class SafeStateNotifier<T> extends StateNotifier<T> {
 
   bool _disposed = false;
 
-  @override
-
   /// Accepts a new value and notifies listeners if not disposed.
+  @override
   void accept(T? newValue) {
     if (_disposed) return;
     super.accept(newValue);
@@ -17,5 +16,11 @@ class SafeStateNotifier<T> extends StateNotifier<T> {
   void dispose() {
     _disposed = true;
     super.dispose();
+  }
+
+  @override
+  void notifyListeners() {
+    if (_disposed) return;
+    super.notifyListeners();
   }
 }
