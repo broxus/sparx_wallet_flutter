@@ -28,6 +28,7 @@ dependencies:
   cupertino_http: 2.2.0
   device_info_plus: 11.5.0
   dio: 5.8.0+1
+  drift: 2.25.0
   easy_localization: 3.0.7+1
   easy_logger: 0.0.2
   elementary: 3.2.0
@@ -71,6 +72,7 @@ dependencies:
   ntp: 2.0.0
   open_settings_plus: 0.4.0
   package_info_plus: 8.3.0
+  path: 1.9.1
   path_provider: 2.1.5
   permission_handler: 12.0.0+1
   pinenacl: 0.6.0
@@ -105,6 +107,7 @@ dev_dependencies:
       url: https://github.com/broxus/flutter_templates.git
       ref: main
   build_runner: 2.4.15
+  drift_dev: 2.25.2
   flutter_gen_runner: 5.10.0
   flutter_native_splash: 2.4.6
   flutter_test:
