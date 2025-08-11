@@ -14,10 +14,6 @@ dependencies:
   auto_size_text_field: 2.2.4
   barcode_widget: 2.0.4
   bloc: 9.0.0
-  broxus_app_links:
-    git:
-      url: https://github.com/broxus/broxus-flutter-app-link
-      ref: v1.0.0
   cached_network_image: 3.4.1
   cached_network_svg_image: 1.2.0
   carousel_slider: 5.0.0
@@ -67,7 +63,11 @@ dependencies:
   money2: 5.4.6
   money2_fixer: 3.0.0
   native_dio_adapter: 1.4.0
-  nekoton_repository: 1.3.3
+  # nekoton_repository: 1.3.3
+  nekoton_repository:
+    git:
+      url: https://github.com/broxus/nekoton_repository.git
+      ref: refactor/EWM-493
   nekoton_webview: 0.1.11
   ntp: 2.0.0
   open_settings_plus: 0.4.0

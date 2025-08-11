@@ -2,9 +2,7 @@ import 'package:app/core/wm/custom_wm.dart';
 import 'package:app/feature/splash/splash_screen_wm.dart';
 import 'package:app/generated/generated.dart';
 import 'package:flutter/material.dart';
-
-// Color does not depend on the theme
-const _splashColor = Color(0xFF11142B);
+import 'package:ui_components_lib/v2/colors_v2.dart';
 
 class SplashScreen extends InjectedElementaryWidget<SplashScreenWidgetModel> {
   const SplashScreen({
@@ -14,9 +12,7 @@ class SplashScreen extends InjectedElementaryWidget<SplashScreenWidgetModel> {
   @override
   Widget build(SplashScreenWidgetModel wm) {
     return DecoratedBox(
-      decoration: const BoxDecoration(
-        color: _splashColor,
-      ),
+      decoration: const BoxDecoration(color: ColorsResV2.n10),
       child: Center(
         child: wm.isIos ? const _IosLogo() : const _AndroidLogo(),
       ),

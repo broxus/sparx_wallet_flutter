@@ -6,13 +6,13 @@ import 'package:ui_components_lib/v2/ui_components_lib_v2.dart';
 
 class NameField extends StatelessWidget {
   const NameField({
-    required this.editable,
+    required this.isEditable,
     required this.controller,
     required this.validator,
     super.key,
   });
 
-  final bool editable;
+  final bool isEditable;
   final TextEditingController controller;
   final CommonTextValidator validator;
 
@@ -23,7 +23,7 @@ class NameField extends StatelessWidget {
       child: PrimaryTextField(
         textEditingController: controller,
         hintText: LocaleKeys.networkNameHint.tr(),
-        isEnabled: editable,
+        isEnabled: isEditable,
         validator: validator.validate,
       ),
     );
