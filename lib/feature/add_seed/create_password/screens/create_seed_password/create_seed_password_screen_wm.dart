@@ -4,7 +4,7 @@ import 'package:app/data/models/models.dart';
 import 'package:app/feature/add_seed/create_password/model/password_status.dart';
 import 'package:app/feature/add_seed/create_password/screens/create_seed_password/create_seed_password_screen.dart';
 import 'package:app/feature/add_seed/create_password/screens/create_seed_password/create_seed_password_screen_model.dart';
-import 'package:app/feature/biometry/view/route.dart';
+import 'package:app/feature/biometry/route.dart';
 import 'package:app/feature/wallet/route.dart';
 import 'package:elementary/elementary.dart';
 import 'package:elementary_helper/elementary_helper.dart';

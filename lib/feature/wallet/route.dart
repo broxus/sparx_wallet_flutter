@@ -1,6 +1,6 @@
 import 'package:app/app/router/compass/bottom_bar_state.dart';
 import 'package:app/app/router/compass/compass.dart';
-import 'package:app/feature/biometry/view/route.dart';
+import 'package:app/feature/biometry/route.dart';
 import 'package:app/feature/network/configure_networks/route.dart';
 import 'package:app/feature/wallet/confirm_multisig_transaction/route.dart';
 import 'package:app/feature/wallet/custodians_settings/route.dart';

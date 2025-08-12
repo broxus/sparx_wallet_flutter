@@ -1,5 +1,5 @@
 import 'package:app/app/router/compass/compass.dart';
-import 'package:app/feature/biometry/view/biometry_screen.dart';
+import 'package:app/feature/biometry/view/view.dart';
 import 'package:injectable/injectable.dart';
 
 @named

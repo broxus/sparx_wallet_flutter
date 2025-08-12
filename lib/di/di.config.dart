@@ -105,7 +105,9 @@ import '../feature/add_seed/import_wallet/import_wallet_screen_model.dart'
 import '../feature/add_seed/import_wallet/import_wallet_screen_wm.dart'
     as _i542;
 import '../feature/add_seed/import_wallet/route.dart' as _i176;
-import '../feature/biometry/view/route.dart' as _i434;
+import '../feature/biometry/route.dart' as _i459;
+import '../feature/biometry/view/biometry_screen_model.dart' as _i700;
+import '../feature/biometry/view/biometry_screen_wm.dart' as _i801;
 import '../feature/bootstrap_failed/route.dart' as _i501;
 import '../feature/browser_v1/approvals_listener/actions/add_network/add_network_model.dart'
     as _i561;
@@ -659,10 +661,6 @@ extension GetItInjectableX on _i174.GetIt {
       () => _i1052.CustodiansSettingsRoute(),
       instanceName: 'CustodiansSettingsRoute',
     );
-    gh.singleton<_i82.CompassBaseRoute>(
-      () => _i434.EnableBiometryRoute(),
-      instanceName: 'EnableBiometryRoute',
-    );
     gh.factory<_i966.ImportWalletScreenModel>(
         () => _i966.ImportWalletScreenModel(
               gh<_i632.MessengerService>(),
@@ -705,6 +703,10 @@ extension GetItInjectableX on _i174.GetIt {
     gh.singleton<_i82.CompassBaseRoute>(
       () => _i562.UpdateVersionRoute(),
       instanceName: 'UpdateVersionRoute',
+    );
+    gh.singleton<_i82.CompassBaseRoute>(
+      () => _i459.EnableBiometryRoute(),
+      instanceName: 'EnableBiometryRoute',
     );
     gh.singleton<_i82.CompassBaseRoute>(
       () => _i4.AddNftRoute(),
@@ -1271,8 +1273,17 @@ extension GetItInjectableX on _i174.GetIt {
       ),
       instanceName: 'EnterSeedPhraseRoute',
     );
-    gh.factory<_i728.BiometryConfigurator>(
-        () => _i728.BiometryConfigurator(gh<_i128.BiometryService>()));
+    gh.factory<_i700.BiometryScreenModel>(
+        () => _i700.BiometryScreenModel(gh<_i128.BiometryService>()));
+    gh.factory<_i173.ChooseNetworkScreenModel>(
+        () => _i173.ChooseNetworkScreenModel(
+              gh<_i83.ErrorHandler>(),
+              gh<_i632.MessengerService>(),
+              gh<_i128.NetworkConnectionService>(),
+              gh<_i128.PresetsConnectionService>(),
+              gh<_i128.ConnectionsStorageService>(),
+              gh<_i771.NekotonRepository>(),
+            ));
     gh.factory<_i632.DeployWalletConfirmModel>(
         () => _i632.DeployWalletConfirmModel(
               gh<_i83.ErrorHandler>(),
@@ -1356,10 +1367,23 @@ extension GetItInjectableX on _i174.GetIt {
           gh<_i128.TonConnectStorageService>(),
           gh<_i625.TonConnectHttpBridge>(),
         ));
-    gh.singleton<_i130.PresetsConfigReader>(() => _i130.PresetsConfigReader(
-          gh<_i249.PresetsApi>(),
-          gh<_i679.SecureStorageService>(),
-          gh<_i104.ResourcesService>(),
+    gh.factory<_i801.BiometryScreenWidgetModel>(
+        () => _i801.BiometryScreenWidgetModel(gh<_i700.BiometryScreenModel>()));
+    gh.singleton<_i964.AssetsService>(
+      () => _i964.AssetsService(
+        gh<_i771.NekotonRepository>(),
+        gh<_i128.ConnectionsStorageService>(),
+        gh<_i128.CurrentAccountsService>(),
+        gh<_i128.PresetsConnectionService>(),
+        gh<_i361.Dio>(),
+        gh<_i128.GeneralStorageService>(),
+        gh<_i495.TonRepository>(),
+      ),
+      dispose: (i) => i.dispose(),
+    );
+    gh.factory<_i328.EditNetworkModel>(() => _i328.EditNetworkModel(
+          gh<_i128.ConnectionsStorageService>(),
+          gh<_i128.PresetsConnectionService>(),
         ));
     gh.factory<_i338.SelectSeedWidgetModel>(
         () => _i338.SelectSeedWidgetModel(gh<_i479.SelectSeedModel>()));

@@ -4,7 +4,7 @@ import 'package:app/app/router/compass/compass.dart';
 import 'package:app/data/models/seed/seed_phrase_model.dart';
 import 'package:app/feature/add_seed/create_password/screens/create_seed_password/create_seed_password_screen.dart';
 import 'package:app/feature/add_seed/create_password/view/create_seed_password_page.dart';
-import 'package:app/feature/biometry/view/route.dart';
+import 'package:app/feature/biometry/route.dart';
 import 'package:app/utils/utils.dart';
 import 'package:injectable/injectable.dart';
 import 'package:nekoton_repository/nekoton_repository.dart';
