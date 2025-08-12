@@ -44,9 +44,9 @@ class NewAccountTypeWidgetModel extends CustomWidgetModelParametrized<
     (item) => !_standardTypes.contains(item),
   );
 
-  late final _loading = createNotifier(false);
-  late final _selected = createNotifier(defaultType);
-  late final _showDeprecated = createNotifier(false);
+  late final _isLoadingState = createNotifier(false);
+  late final _selectedState = createNotifier(defaultType);
+  late final _showDeprecatedState = createNotifier(false);
 
   // Hamster network workaround
   late final Set<WalletType> _standardTypes = isHmstr
@@ -60,11 +60,11 @@ class NewAccountTypeWidgetModel extends CustomWidgetModelParametrized<
           if (defaultMultisigType != null) defaultMultisigType!,
         };
 
-  ListenableState<bool> get loading => _loading;
+  ListenableState<bool> get loadingState => _isLoadingState;
 
-  ListenableState<WalletType> get selected => _selected;
+  ListenableState<WalletType> get selectedState => _selectedState;
 
-  ListenableState<bool> get showDeprecated => _showDeprecated;
+  ListenableState<bool> get showDeprecatedState => _showDeprecatedState;
 
   ThemeStyleV2 get theme => context.themeStyleV2;
 
@@ -85,19 +85,19 @@ class NewAccountTypeWidgetModel extends CustomWidgetModelParametrized<
   String getWalletName(WalletType walletType) =>
       model.transport.defaultAccountName(walletType);
 
-  void onSelect(WalletType walletType) => _selected.accept(walletType);
+  void onSelect(WalletType walletType) => _selectedState.accept(walletType);
 
   // ignore: avoid_positional_boolean_parameters
-  void onShowDeprecatedChanged(bool value) => _showDeprecated.accept(value);
+  void onShowDeprecatedChanged(bool value) => _showDeprecatedState.accept(value);
 
   Future<void> onSubmit() async {
-    final walletType = selected.value!;
+    final walletType = selectedState.value!;
     final name = controller.text;
 
     if (disabledWalletTypesState.value.contains(walletType)) return;
 
     try {
-      _loading.accept(true);
+      _isLoadingState.accept(true);
 
       final accountAddress = await model.createAccount(
         walletType: walletType,
@@ -118,7 +118,7 @@ class NewAccountTypeWidgetModel extends CustomWidgetModelParametrized<
     } on Exception catch (e) {
       model.showError(context, e.toString());
     } finally {
-      _loading.accept(false);
+      _isLoadingState.accept(false);
     }
   }
 }

@@ -26,10 +26,10 @@ class DeployWalletConfirmWidgetModel extends CustomWidgetModelParametrized<
 
   ThemeStyleV2 get themeStyle => context.themeStyleV2;
 
-  ListenableState<List<BiometricType>> get availableBiometry =>
-      _availableBiometry;
+  ListenableState<List<BiometricType>> get availableBiometryState =>
+      _availableBiometryState;
 
-  late final _availableBiometry = createNotifier<List<BiometricType>>();
+  late final _availableBiometryState = createNotifier<List<BiometricType>>();
 
   late final passwordState = createEntityNotifier<String>();
 
@@ -63,7 +63,7 @@ class DeployWalletConfirmWidgetModel extends CustomWidgetModelParametrized<
     final publicKey = model.currentSeed?.publicKey;
     if (publicKey != null) {
       final available = await model.getAvailableBiometry(publicKey);
-      _availableBiometry.accept(available);
+      _availableBiometryState.accept(available);
     }
   }
 

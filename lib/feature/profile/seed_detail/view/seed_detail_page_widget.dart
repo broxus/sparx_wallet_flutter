@@ -37,9 +37,9 @@ class SeedDetailPageWidget extends InjectedElementaryParametrizedWidget<
         ],
       ),
       body: TripleSourceBuilder(
-        firstSource: wm.seed,
-        secondSource: wm.currentSeed,
-        thirdSource: wm.currentKey,
+        firstSource: wm.seedNotifier,
+        secondSource: wm.currentSeedNotifier,
+        thirdSource: wm.currentKeyNotifier,
         builder: (_, seed, currentSeed, currentKey) => ContainerColumn(
           spacing: DimensSizeV2.d16,
           padding: const EdgeInsets.all(DimensSizeV2.d16),
@@ -62,7 +62,7 @@ class SeedDetailPageWidget extends InjectedElementaryParametrizedWidget<
             Expanded(
               child: SingleChildScrollView(
                 child: StateNotifierBuilder(
-                  listenableState: wm.findingExistingWallets,
+                  listenableState: wm.findingExistingWalletsNotifier,
                   builder: (_, findingExistingWallets) {
                     final items = seed?.allKeys.mapIndexed(
                       (i, seedKey) => _KeyItem(

@@ -9,9 +9,9 @@ class TCManageDappsWidgetModel
     extends CustomWidgetModel<TCManageDappsWidget, TCManageDappsModel> {
   TCManageDappsWidgetModel(super.model);
 
-  late final _connections = createNotifierFromStream(model.connections);
+  late final _connectionsState = createNotifierFromStream(model.connections);
 
-  ListenableState<List<TonAppConnection>> get connections => _connections;
+  ListenableState<List<TonAppConnection>> get connectionsState => _connectionsState;
 
   ThemeStyleV2 get theme => context.themeStyleV2;
 

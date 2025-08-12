@@ -17,15 +17,15 @@ class WalletAppBarWidgetModel
     extends CustomWidgetModel<WalletAppBarWidget, WalletAppBarModel> {
   WalletAppBarWidgetModel(super.model);
 
-  late final _currentAccount = createNotifierFromStream(model.currentAccount);
+  late final _currentAccountState = createNotifierFromStream(model.currentAccount);
   late final _walletState = createNotifierFromStream(model.walletState);
-  late final _connection = createNotifierFromStream(model.connectionStream);
+  late final _connectionState = createNotifierFromStream(model.connectionStream);
 
-  ListenableState<KeyAccount?> get currentAccount => _currentAccount;
+  ListenableState<KeyAccount?> get currentAccountState => _currentAccountState;
 
   ListenableState<TonWalletState?> get walletState => _walletState;
 
-  ListenableState<ConnectionData?> get connection => _connection;
+  ListenableState<ConnectionData?> get connectionState => _connectionState;
 
   ThemeStyleV2 get theme => context.themeStyleV2;
 
@@ -37,10 +37,10 @@ class WalletAppBarWidgetModel
   }
 
   void onSettings() {
-    if (currentAccount.value == null) return;
+    if (currentAccountState.value == null) return;
     showAccountSettingsModal(
       context: context,
-      account: currentAccount.value!,
+      account: currentAccountState.value!,
       custodians: walletState.value?.wallet?.custodians,
     );
   }
@@ -59,7 +59,7 @@ class WalletAppBarWidgetModel
   }
 
   void _handleAddress(Address address) {
-    final account = currentAccount.value;
+    final account = currentAccountState.value;
     if (account == null) return;
 
     context.compassContinue(

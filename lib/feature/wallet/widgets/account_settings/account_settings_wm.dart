@@ -27,7 +27,7 @@ class AccountSettingsWidgetModel extends CustomWidgetModelParametrized<
     super.model,
   );
 
-  late final _displayAccounts = createNotifierFromStream(model.displayAccounts);
+  late final _displayAccountsState = createNotifierFromStream(model.displayAccounts);
 
   late final accountState = createWmParamsNotifier<KeyAccount>(
     (it) => it.account,
@@ -36,7 +36,7 @@ class AccountSettingsWidgetModel extends CustomWidgetModelParametrized<
   late final custodiansState = createWmParamsNotifier<List<PublicKey>?>(
     (it) => it.custodians,
   );
-  ListenableState<List<KeyAccount>> get displayAccounts => _displayAccounts;
+  ListenableState<List<KeyAccount>> get displayAccountsState => _displayAccountsState;
 
   void onCustodiansSettings(List<PublicKey> custodians) {
     Navigator.of(context).pop();
