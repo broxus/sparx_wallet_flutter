@@ -12,6 +12,7 @@ import 'package:get_it/get_it.dart';
 import 'package:go_router/go_router.dart';
 import 'package:injectable/injectable.dart';
 import 'package:logging/logging.dart';
+import 'package:sentry_flutter/sentry_flutter.dart';
 
 /// Router implementation based on Compass navigation system.
 ///
@@ -260,44 +261,16 @@ class CompassRouter {
     _validateRoutesDataIntersection();
 
     final initalRoute = _routsByType.values.firstWhere((it) => it.isInitial);
-
     final topLevelRoutes = _routs.where((it) => it.isTopLevel).toList();
 
     final router = GoRouter(
       restorationScopeId: 'app',
       navigatorKey: navigatorKey,
-      redirect: (context, state) {
-        if (!_bootstrapService.isConfigured) {
-          return null;
-        }
-
-        // Process redirects through all interceptors in order
-        // Return the first non-null redirect found
-        final location = _locationByUri(state.uri).toList();
-
-        for (final guard in _guards) {
-          final redirectData = guard.protect(context, location);
-          if (redirectData != null) {
-            final location = _routeDataToLocation(redirectData);
-            if (location != null) {
-              return location.toString();
-            }
-          }
-        }
-
-        // No redirection needed
-        return null;
-      },
       initialLocation: initalRoute.path,
       routes: topLevelRoutes.map((it) => it.route).toList(),
-      errorBuilder: (context, state) {
-        // Something went wrong, clear saved subroutes
-        _log.severe('GoRouter error: ${state.error}');
-
-        final isOnboarding = currentRoutes.lastOrNull is OnBoardingRoute;
-
-        return ErrorPage(isOnboarding: isOnboarding);
-      },
+      observers: [SentryNavigatorObserver()],
+      redirect: _routerRedirect,
+      errorBuilder: _routerErrorBuilder,
     );
 
     // Attach interceptors to the router
@@ -310,6 +283,38 @@ class CompassRouter {
     );
 
     return router;
+  }
+
+  String? _routerRedirect(BuildContext context, GoRouterState state) {
+    if (!_bootstrapService.isConfigured) {
+      return null;
+    }
+
+    // Process redirects through all interceptors in order
+    // Return the first non-null redirect found
+    final location = _locationByUri(state.uri).toList();
+
+    for (final guard in _guards) {
+      final redirectData = guard.protect(context, location);
+      if (redirectData != null) {
+        final location = _routeDataToLocation(redirectData);
+        if (location != null) {
+          return location.toString();
+        }
+      }
+    }
+
+    // No redirection needed
+    return null;
+  }
+
+  Widget _routerErrorBuilder(BuildContext context, GoRouterState state) {
+    // Something went wrong, clear saved subroutes
+    _log.severe('GoRouter error: ${state.error}');
+
+    final isOnboarding = currentRoutes.lastOrNull is OnBoardingRoute;
+
+    return ErrorPage(isOnboarding: isOnboarding);
   }
 
   void _validateRoutesDataIntersection() {
