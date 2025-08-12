@@ -72,7 +72,7 @@ class AddTip3TokenWidget extends InjectedElementaryParametrizedWidget<
                     children: [
                       _InfoRow(
                         hint: StateNotifierBuilder(
-                          listenableState: wm.status,
+                          listenableState: wm.statusState,
                           builder: (_, v) => _StatusText(status: v),
                         ),
                         children: [
@@ -80,7 +80,7 @@ class AddTip3TokenWidget extends InjectedElementaryParametrizedWidget<
                             spacing: DimensSizeV2.d4,
                             children: [
                               StateNotifierBuilder(
-                                listenableState: wm.status,
+                                listenableState: wm.statusState,
                                 builder: (_, v) => _StatusIcon(status: v),
                               ),
                               Text(LocaleKeys.nameWord.tr(), style: labelStyle),
@@ -91,7 +91,7 @@ class AddTip3TokenWidget extends InjectedElementaryParametrizedWidget<
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
                                 StateNotifierBuilder(
-                                  listenableState: wm.asset,
+                                  listenableState: wm.assetState,
                                   builder: (_, value) => value?.logoURI == null
                                       ? const SizedBox.shrink()
                                       : TonWalletIconWidget(
@@ -169,11 +169,11 @@ class AddTip3TokenWidget extends InjectedElementaryParametrizedWidget<
                             child: MultiListenerRebuilder(
                               listenableList: [
                                 wm.detailsState,
-                                wm.balance,
+                                wm.balanceState,
                               ],
                               builder: (_) {
                                 final details = wm.detailsState.value;
-                                final balance = wm.balance.value;
+                                final balance = wm.balanceState.value;
 
                                 return AmountWidget.fromMoney(
                                   amount: balance ??

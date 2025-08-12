@@ -55,7 +55,7 @@ class WalletAccountActionsWidgetModel extends CustomWidgetModelParametrized<
 
   static final _logger = Logger('WalletAccountActionsWidgetModel');
 
-  late final _action = createNotifier<WalletAccountActionBehavior>(
+  late final _actionState = createNotifier<WalletAccountActionBehavior>(
     WalletAccountActionBehavior.send,
   );
   late final _hasStakeState = createWmParamsNotifier<bool>(
@@ -80,7 +80,7 @@ class WalletAccountActionsWidgetModel extends CustomWidgetModelParametrized<
   ValueListenable<bool> get disableSensetiveActionsState =>
       _disableSensetiveActionsState;
 
-  ListenableState<WalletAccountActionBehavior> get action => _action;
+  ListenableState<WalletAccountActionBehavior> get actionState => _actionState;
 
   ValueListenable<bool> get hasStakeState => _hasStakeState;
 
@@ -151,7 +151,7 @@ class WalletAccountActionsWidgetModel extends CustomWidgetModelParametrized<
           model.hasStake &&
           wmParams.value.allowStake;
 
-      _action.accept(action);
+      _actionState.accept(action);
       _hasStakeState.value = hasStakeValue;
       _hasStakeActionsState.value = hasStakeValue && withdraws.isNotEmpty;
 
@@ -189,7 +189,7 @@ class WalletAccountActionsWidgetModel extends CustomWidgetModelParametrized<
   }
 
   void onMainAction() {
-    final action = _action.value;
+    final action = _actionState.value;
 
     if (wmParams.value.disableSensetiveActions || action == null) {
       return;

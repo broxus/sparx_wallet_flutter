@@ -18,29 +18,29 @@ class SelectAccountWidgetModel
   );
 
   late final searchController = createTextEditingController();
-  late final _accounts = createNotifierFromStream(model.seedWithAccounts);
-  late final _currentAccount = createNotifierFromStream(model.currentAccount);
-  late final _list = createNotifier(_accounts.value);
+  late final _accountsState = createNotifierFromStream(model.seedWithAccounts);
+  late final _currentAccountState = createNotifierFromStream(model.currentAccount);
+  late final _listState = createNotifier(_accountsState.value);
   final _balances = <Address, ListenableState<Money?>>{};
 
-  ListenableState<List<SelectAccountData>> get list => _list;
+  ListenableState<List<SelectAccountData>> get listState => _listState;
 
-  ListenableState<KeyAccount?> get currentAccount => _currentAccount;
+  ListenableState<KeyAccount?> get currentAccountState => _currentAccountState;
 
   @override
   void initWidgetModel() {
     super.initWidgetModel();
-    _accounts.addListener(onSearch);
+    _accountsState.addListener(onSearch);
   }
 
   void onSearch() {
     final value = searchController.value.text.trim().toLowerCase();
 
     if (value.isEmpty) {
-      _list.accept(_accounts.value);
+      _listState.accept(_accountsState.value);
     } else {
-      _list.accept(
-        _accounts.value
+      _listState.accept(
+        _accountsState.value
             ?.map((selectAccountData) {
               final filteredPrivateKeys = selectAccountData.privateKeys
                   .map((keyInfo) {

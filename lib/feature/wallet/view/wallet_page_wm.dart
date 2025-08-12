@@ -17,8 +17,8 @@ class WalletPageWidgetModel
 
   late final scrollController = createScrollController();
 
-  late final _currentAccount = createNotifierFromStream(model.currentAccount);
-  late final _transportStrategy =
+  late final _currentAccountState = createNotifierFromStream(model.currentAccount);
+  late final _transportStrategyState =
       createNotifierFromStream(model.transportStrategy);
   late final _isShowingNewTokensNotifier = createNotifier<bool>();
   late final _hasUnconfirmedTransactionsNotifier = createNotifier<bool>();
@@ -29,15 +29,15 @@ class WalletPageWidgetModel
 
   StreamSubscription<KeyAccount>? _currentAccountSubscribtion;
 
-  ListenableState<KeyAccount?> get currentAccount => _currentAccount;
+  ListenableState<KeyAccount?> get currentAccountState => _currentAccountState;
 
-  ListenableState<bool?> get hasUnconfirmedTransactions =>
+  ListenableState<bool?> get hasUnconfirmedTransactionsState =>
       _hasUnconfirmedTransactionsNotifier;
 
-  ListenableState<TransportStrategy> get transportStrategy =>
-      _transportStrategy;
+  ListenableState<TransportStrategy> get transportStrategyState =>
+      _transportStrategyState;
 
-  ListenableState<bool> get isShowingNewTokens => _isShowingNewTokensNotifier;
+  ListenableState<bool> get isShowingNewTokensState => _isShowingNewTokensNotifier;
   int? _numberUnconfirmedTransactions;
 
   @override
@@ -65,7 +65,7 @@ class WalletPageWidgetModel
   }
 
   void hideNewTokensLabel() {
-    final account = currentAccount.value;
+    final account = currentAccountState.value;
     _isShowingNewTokensNotifier.accept(false);
     if (account != null) {
       model.hideNewTokenLabels(account);
