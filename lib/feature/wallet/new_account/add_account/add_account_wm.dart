@@ -18,22 +18,22 @@ class AddAccountWidgetModel
     with BleAvailabilityWmMixin {
   AddAccountWidgetModel(super.model);
 
-  late final _currentAccount = createNotifierFromStream(model.currentAccount);
-  late final _list = createNotifierFromStream(model.seedWithAccounts);
+  late final _currentAccountState = createNotifierFromStream(model.currentAccount);
+  late final _listStateState = createNotifierFromStream(model.seedWithAccounts);
 
-  ListenableState<List<Seed>> get list => _list;
+  ListenableState<List<Seed>> get listState => _listStateState;
 
-  ListenableState<Seed?> get currentAccount => _currentAccount;
+  ListenableState<Seed?> get currentAccountState => _currentAccountState;
 
   ThemeStyleV2 get theme => context.themeStyleV2;
 
   Future<void> onSelect() async {
-    if ((list.value?.length ?? 0) > 1) {
+    if ((listState.value?.length ?? 0) > 1) {
       contextSafe?.compassContinue(const SelectSeedRouteData());
       return;
     }
 
-    final seed = _currentAccount.value;
+    final seed = _currentAccountState.value;
 
     if (contextSafe == null || seed == null) {
       return;

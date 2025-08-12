@@ -74,7 +74,7 @@ class EnterSeedPhraseWidgetModel extends CustomWidgetModelParametrized<
       );
     }(),
   );
-  late final _seedPhraseFormat = createNotifier(
+  late final _seedPhraseFormatState = createNotifier(
     networkType.isTon || networkGroup == 'hmstr_mainnet'
         ? SeedPhraseFormat.ton
         : SeedPhraseFormat.standard,
@@ -98,7 +98,7 @@ class EnterSeedPhraseWidgetModel extends CustomWidgetModelParametrized<
 
   NetworkType get networkType => model.networkType;
 
-  ListenableState<SeedPhraseFormat> get seedPhraseFormat => _seedPhraseFormat;
+  ListenableState<SeedPhraseFormat> get seedPhraseFormatState => _seedPhraseFormatState;
 
   List<int> get seedPhraseWordsCount => model.seedPhraseWordsCount;
 
@@ -106,7 +106,7 @@ class EnterSeedPhraseWidgetModel extends CustomWidgetModelParametrized<
       _tabState.value?.currentValue ?? model.seedPhraseWordsCount.first;
 
   MnemonicType get _mnemonicType => getMnemonicType(
-        format: _seedPhraseFormat.value,
+        format: _seedPhraseFormatState.value,
         wordsCount: _currentValue,
       );
 
@@ -265,7 +265,7 @@ class EnterSeedPhraseWidgetModel extends CustomWidgetModelParametrized<
   }
 
   void onSeedPhraseFormatChanged(SeedPhraseFormat format) =>
-      _seedPhraseFormat.accept(format);
+      _seedPhraseFormatState.accept(format);
 
   /// Check if debug phrase is entered in any text field
   void _checkDebugPhraseGenerating() {
@@ -409,7 +409,7 @@ class EnterSeedPhraseWidgetModel extends CustomWidgetModelParametrized<
   void _tryCheckMnemonicType() {
     // don't check if 12 words or MnemonicType.legacy()
     if (_currentValue == actualSeedPhraseLength ||
-        _seedPhraseFormat.value == SeedPhraseFormat.standard) {
+        _seedPhraseFormatState.value == SeedPhraseFormat.standard) {
       return;
     }
 
@@ -427,7 +427,7 @@ class EnterSeedPhraseWidgetModel extends CustomWidgetModelParametrized<
           mnemonicType: const MnemonicType.legacy(),
         );
         // if no exception, then it's legacy
-        _seedPhraseFormat.accept(SeedPhraseFormat.standard);
+        _seedPhraseFormatState.accept(SeedPhraseFormat.standard);
       } catch (_) {}
     }
   }

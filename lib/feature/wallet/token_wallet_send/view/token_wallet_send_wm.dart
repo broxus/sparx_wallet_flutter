@@ -49,14 +49,14 @@ class TokenWalletSendWidgetModel extends CustomWidgetModelParametrized<
 
   static final _logger = Logger('TokenWalletSendWidgetModel');
 
-  late final _isLoading = createNotifier(false);
-  late final _fees = createNotifier<BigInt>();
-  late final _txErrors = createNotifier<List<TxTreeSimulationErrorItem>>();
-  late final _error = createNotifier<String>();
-  late final _state = createNotifier(const TokenWalletSendState.ready());
-  late final _attachedAmount =
+  late final _isLoadingState = createNotifier(false);
+  late final _feesState = createNotifier<BigInt>();
+  late final _txErrorsState = createNotifier<List<TxTreeSimulationErrorItem>>();
+  late final _errorState = createNotifier<String>();
+  late final _sendState = createNotifier(const TokenWalletSendState.ready());
+  late final _attachedAmountState =
       createNotifier(wmParams.value.attachedAmount ?? BigInt.zero);
-  late final _amount = createNotifier<Money>();
+  late final _amountState = createNotifier<Money>();
 
   late final KeyAccount? account = model.getAccount(wmParams.value.owner);
 
@@ -70,19 +70,19 @@ class TokenWalletSendWidgetModel extends CustomWidgetModelParametrized<
   String? get comment => wmParams.value.comment;
   Currency get currency => model.currency;
 
-  ListenableState<bool> get isLoading => _isLoading;
+  ListenableState<bool> get isLoadingState => _isLoadingState;
 
-  ListenableState<BigInt> get fees => _fees;
+  ListenableState<BigInt> get feesState => _feesState;
 
-  ListenableState<List<TxTreeSimulationErrorItem>> get txErrors => _txErrors;
+  ListenableState<List<TxTreeSimulationErrorItem>> get txErrorsState => _txErrorsState;
 
-  ListenableState<String> get error => _error;
+  ListenableState<String> get errorState => _errorState;
 
-  ListenableState<TokenWalletSendState> get state => _state;
+  ListenableState<TokenWalletSendState> get sendState => _sendState;
 
-  ListenableState<BigInt> get attachedAmount => _attachedAmount;
+  ListenableState<BigInt> get attachedAmountState => _attachedAmountState;
 
-  ListenableState<Money> get amount => _amount;
+  ListenableState<Money> get amountState => _amountState;
 
   @override
   void initWidgetModel() {
@@ -106,7 +106,7 @@ class TokenWalletSendWidgetModel extends CustomWidgetModelParametrized<
     UnsignedMessage? unsignedMessage;
     InternalMessage? internalMessage;
     try {
-      _isLoading.accept(true);
+      _isLoadingState.accept(true);
 
       if (signInputAuth.isLedger) {
         final isAvailable = await checkBluetoothAvailability();
@@ -136,7 +136,7 @@ class TokenWalletSendWidgetModel extends CustomWidgetModelParametrized<
         amount: internalMessage.amount,
       );
 
-      _state.accept(const TokenWalletSendState.sending(canClose: true));
+      _sendState.accept(const TokenWalletSendState.sending(canClose: true));
 
       await transactionCompleter;
 
@@ -155,7 +155,7 @@ class TokenWalletSendWidgetModel extends CustomWidgetModelParametrized<
       model.showMessage(Message.error(message: e.toString()));
     } finally {
       unsignedMessage?.dispose();
-      _isLoading.accept(false);
+      _isLoadingState.accept(false);
     }
   }
 
@@ -163,7 +163,7 @@ class TokenWalletSendWidgetModel extends CustomWidgetModelParametrized<
     UnsignedMessage? unsignedMessage;
     InternalMessage? internalMessage;
     try {
-      _isLoading.accept(true);
+      _isLoadingState.accept(true);
 
       final (tokenWalletState, walletState) = await FutureExt.wait2(
         model.getTokenWalletState(
@@ -174,17 +174,17 @@ class TokenWalletSendWidgetModel extends CustomWidgetModelParametrized<
       );
 
       if (tokenWalletState.hasError) {
-        _state.accept(
+        _sendState.accept(
           TokenWalletSendState.error(error: tokenWalletState.error!),
         );
         return;
       }
       if (walletState.hasError) {
-        _state.accept(TokenWalletSendState.error(error: walletState.error!));
+        _sendState.accept(TokenWalletSendState.error(error: walletState.error!));
         return;
       }
 
-      _amount.accept(
+      _amountState.accept(
         Money.fromBigIntWithCurrency(
           wmParams.value.amount,
           tokenWalletState.wallet!.currency,
@@ -202,7 +202,7 @@ class TokenWalletSendWidgetModel extends CustomWidgetModelParametrized<
         notifyReceiver: wmParams.value.notifyReceiver,
       );
 
-      _attachedAmount.accept(internalMessage.amount);
+      _attachedAmountState.accept(internalMessage.amount);
 
       final (fees, txErrors) = await FutureExt.wait2(
         model.estimateFees(
@@ -215,8 +215,8 @@ class TokenWalletSendWidgetModel extends CustomWidgetModelParametrized<
         ),
       );
 
-      _fees.accept(fees);
-      _txErrors.accept(txErrors);
+      _feesState.accept(fees);
+      _txErrorsState.accept(txErrors);
       _wallet = walletState.wallet;
       _tokenWallet = tokenWalletState.wallet;
 
@@ -225,17 +225,17 @@ class TokenWalletSendWidgetModel extends CustomWidgetModelParametrized<
       final isPossibleToSendMessage = balance > (fees + internalMessage.amount);
 
       if (!isPossibleToSendMessage) {
-        _error.accept(LocaleKeys.insufficientFunds.tr());
+        _errorState.accept(LocaleKeys.insufficientFunds.tr());
       }
     } on ContractNotExistsException catch (e, s) {
       _logger.severe('Failed to prepare transaction', e, s);
-      _error.accept(LocaleKeys.insufficientFunds.tr());
+      _errorState.accept(LocaleKeys.insufficientFunds.tr());
     } on Exception catch (e, s) {
       _logger.severe('Failed to prepare transaction', e, s);
-      _error.accept(e.toString());
+      _errorState.accept(e.toString());
     } finally {
       unsignedMessage?.dispose();
-      _isLoading.accept(false);
+      _isLoadingState.accept(false);
     }
   }
 }

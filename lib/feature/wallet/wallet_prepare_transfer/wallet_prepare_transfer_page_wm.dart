@@ -56,7 +56,7 @@ class WalletPrepareTransferPageWidgetModel
     );
 
   late final commentState = createNotifier(false);
-  late final _isInitialDataLoaded = createNotifier(false);
+  late final _isInitialDataLoadedState = createNotifier(false);
 
   final formKey = GlobalKey<FormState>();
 
@@ -75,7 +75,7 @@ class WalletPrepareTransferPageWidgetModel
   );
 
   final _assets = <(Address, String), WalletPrepareTransferAsset>{};
-  late final _assetsList = createValueNotifier(_assets.values.toList());
+  late final _assetsState = createValueNotifier(_assets.values.toList());
 
   late final _sentry = SentryWorker.instance;
 
@@ -85,9 +85,9 @@ class WalletPrepareTransferPageWidgetModel
 
   PublicKey? get _selectedCustodian => _data?.selectedCustodian;
 
-  ValueListenable<List<WalletPrepareTransferAsset>> get assets => _assetsList;
+  ValueListenable<List<WalletPrepareTransferAsset>> get assetsState => _assetsState;
 
-  ListenableState<bool> get isInitialDataLoaded => _isInitialDataLoaded;
+  ListenableState<bool> get isInitialDataLoadedState => _isInitialDataLoadedState;
 
   late final ValueListenable<Address> addressState = createWmParamsNotifier(
     (it) => it.address,
@@ -274,7 +274,7 @@ class WalletPrepareTransferPageWidgetModel
       localCustodians: localCustodians,
     );
 
-    _isInitialDataLoaded.accept(true);
+    _isInitialDataLoadedState.accept(true);
   }
 
   void _initListeners() {
@@ -495,7 +495,7 @@ class WalletPrepareTransferPageWidgetModel
         updater,
   ) {
     updater(_assets);
-    _assetsList.value = _assets.values.toList();
+    _assetsState.value = _assets.values.toList();
   }
 
   Money _zeroBalance(String symbol) {
