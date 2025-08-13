@@ -6,6 +6,7 @@ import 'package:app/feature/add_seed/create_password/screens/create_seed_passwor
 import 'package:app/feature/add_seed/create_password/screens/create_seed_password/create_seed_password_screen_model.dart';
 import 'package:app/feature/biometry/route.dart';
 import 'package:app/feature/wallet/route.dart';
+import 'package:app/utils/utils.dart';
 import 'package:elementary/elementary.dart';
 import 'package:elementary_helper/elementary_helper.dart';
 import 'package:flutter/widgets.dart';
@@ -45,8 +46,6 @@ class CreateSeedPasswordScreenWidgetModel extends CustomWidgetModelParametrized<
   late final _passwordStatusState =
       createNotifier<PasswordStatus>(PasswordStatus.initial);
 
-  final _minPasswordLength = 8;
-
   ThemeStyleV2 get themeStyle => context.themeStyleV2;
 
   ListenableState<bool> get loadState => _loadState;
@@ -79,7 +78,7 @@ class CreateSeedPasswordScreenWidgetModel extends CustomWidgetModelParametrized<
   }
 
   void _validate() {
-    if (passwordController.text.length < _minPasswordLength) {
+    if (passwordController.text.length < minPasswordLength) {
       _passwordStatusState.accept(PasswordStatus.tooWeak);
     } else {
       if (passwordController.text != confirmController.text) {

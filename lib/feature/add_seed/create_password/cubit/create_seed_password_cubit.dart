@@ -17,10 +17,7 @@ import 'package:logging/logging.dart';
 import 'package:nekoton_repository/nekoton_repository.dart' hide Message;
 
 part 'create_seed_password_cubit.freezed.dart';
-
 part 'create_seed_password_state.dart';
-
-const _minPasswordLength = 8;
 
 /// Cubit for creating seed password.
 class CreateSeedPasswordCubit extends Cubit<CreateSeedPasswordState>
@@ -146,7 +143,7 @@ class CreateSeedPasswordCubit extends Cubit<CreateSeedPasswordState>
   }
 
   void _validate() {
-    if (passwordController.text.length < _minPasswordLength) {
+    if (passwordController.text.length < minPasswordLength) {
       emitSafe(state.copyWith(status: PasswordStatus.tooWeak));
     } else {
       if (passwordController.text != confirmController.text) {
