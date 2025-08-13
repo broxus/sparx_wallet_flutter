@@ -56,11 +56,11 @@
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
 	<key>NSCameraUsageDescription</key>
-	<string>We need access to camera to scan QR-codes</string>
+	<string>To scan a QR code, SparX Wallet needs access to your camera. The camera is used only for scanning, no images are stored or sent anywhere.</string>
 	<key>NSFaceIDUsageDescription</key>
 	<string>This will simplify authentication and make it faster.</string>
 	<key>NSPhotoLibraryUsageDescription</key>
-	<string>We need photos access to get QR code from photo library</string>
+	<string>To scan a QR code from an image in your device, SparX Wallet needs access to your photo library.</string>
 	<key>UIApplicationSupportsIndirectInputEvents</key>
 	<true/>
 	<key>UIBackgroundModes</key>
