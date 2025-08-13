@@ -108,6 +108,7 @@ import '../feature/add_seed/import_wallet/route.dart' as _i176;
 import '../feature/biometry/route.dart' as _i459;
 import '../feature/biometry/view/biometry_screen_model.dart' as _i700;
 import '../feature/biometry/view/biometry_screen_wm.dart' as _i801;
+import '../feature/bootstrap_failed/bootstrap_failed.dart' as _i9;
 import '../feature/bootstrap_failed/route.dart' as _i501;
 import '../feature/bootstrap_failed/view/bootstrap_failed_rerun_model.dart'
     as _i884;
@@ -238,6 +239,8 @@ import '../feature/choose_network/choose_network_screen_wm.dart' as _i124;
 import '../feature/choose_network/route.dart' as _i805;
 import '../feature/connection_fail/connection_fail_screen_model.dart' as _i1007;
 import '../feature/connection_fail/connection_fail_screen_wm.dart' as _i459;
+import '../feature/contact_support/view/contact_support_model.dart' as _i915;
+import '../feature/contact_support/view/contact_support_wm.dart' as _i894;
 import '../feature/messenger/domain/service/messenger_service.dart' as _i632;
 import '../feature/messenger/messenger.dart' as _i553;
 import '../feature/network/bottom_sheets/select_network/select_network_model.dart'
@@ -634,7 +637,7 @@ extension GetItInjectableX on _i174.GetIt {
       () => _i290.TokenWalletSendRoute(),
       instanceName: 'TokenWalletSendRoute',
     );
-    gh.factory<_i257.BarcodeAddressModel>(() => _i257.BarcodeAddressModel(
+    gh.factory<_i915.ContactSupportModel>(() => _i915.ContactSupportModel(
           gh<_i83.ErrorHandler>(),
           gh<_i632.MessengerService>(),
         ));
@@ -732,6 +735,8 @@ extension GetItInjectableX on _i174.GetIt {
           gh<_i83.ErrorHandler>(),
           gh<_i632.MessengerService>(),
         ));
+    gh.factory<_i894.ContactSupportWidgetModel>(
+        () => _i894.ContactSupportWidgetModel(gh<_i915.ContactSupportModel>()));
     gh.factory<_i934.StoreUrlGenerator>(
         () => _i934.StoreUrlGenerator(gh<_i143.AppVersionService>()));
     gh.singleton<_i82.CompassBaseRoute>(
@@ -959,11 +964,6 @@ extension GetItInjectableX on _i174.GetIt {
           gh<_i771.NekotonRepository>(),
           gh<_i128.CurrentAccountsService>(),
         ));
-    gh.factory<_i301.QaWidgetModel>(
-        () => _i301.QaWidgetModel(gh<_i1046.QaModel>()));
-    gh.factory<_i783.TonWalletExpiredTransactionWidgetWidgetModel>(() =>
-        _i783.TonWalletExpiredTransactionWidgetWidgetModel(
-            gh<_i365.TonWalletExpiredTransactionWidgetModel>()));
     gh.factory<_i803.LatestVersionFinder>(
         () => _i803.LatestVersionFinder(gh<_i728.VersionComparator>()));
     gh.factory<_i1008.UpdateStatusChecker>(
@@ -1004,6 +1004,8 @@ extension GetItInjectableX on _i174.GetIt {
           gh<_i771.NekotonRepository>(),
           gh<_i128.AppStorageService>(),
         ));
+    gh.factory<_i301.QaWidgetModel>(
+        () => _i301.QaWidgetModel(gh<_i1046.QaModel>()));
     gh.singleton<_i82.CompassBaseRoute>(
       () => _i278.SelectSeedRoute(
           gh<_i82.CompassBaseRoute>(instanceName: 'NewAccountRoute')),
@@ -1365,6 +1367,9 @@ extension GetItInjectableX on _i174.GetIt {
       ),
       dispose: (i) => i.dispose(),
     );
+    gh.factory<_i926.BootstrapFailedRerunWidgetModel>(() =>
+        _i926.BootstrapFailedRerunWidgetModel(
+            gh<_i9.BootstrapFailedRerunModel>()));
     gh.factory<_i328.EditNetworkModel>(() => _i328.EditNetworkModel(
           gh<_i128.ConnectionsStorageService>(),
           gh<_i128.PresetsConnectionService>(),
@@ -1378,9 +1383,6 @@ extension GetItInjectableX on _i174.GetIt {
       ),
       instanceName: 'EnterSeedNameRoute',
     );
-    gh.factory<_i926.BootstrapFailedRerunWidgetModel>(() =>
-        _i926.BootstrapFailedRerunWidgetModel(
-            gh<_i884.BootstrapFailedRerunModel>()));
     gh.factory<_i62.ConfirmActionWidgetModel>(
         () => _i62.ConfirmActionWidgetModel(gh<_i217.ConfirmActionModel>()));
     gh.singleton<_i82.CompassBaseRoute>(

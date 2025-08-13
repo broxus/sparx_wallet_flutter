@@ -1,8 +1,6 @@
 import 'package:app/core/wm/custom_wm.dart';
-import 'package:app/feature/bootstrap_failed/view/bootstrap_failed_rerun_model.dart';
-import 'package:app/feature/bootstrap_failed/view/bootstrap_failed_rerun_view.dart';
-import 'package:app/feature/contact_support/widgets/contact_support/contact_support_mode.dart';
-import 'package:app/feature/contact_support/widgets/contact_support/contact_support_sheet.dart';
+import 'package:app/feature/bootstrap_failed/bootstrap_failed.dart';
+import 'package:app/feature/contact_support/contact_support.dart';
 import 'package:elementary_helper/elementary_helper.dart';
 import 'package:injectable/injectable.dart';
 
