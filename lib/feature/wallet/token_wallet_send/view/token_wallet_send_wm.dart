@@ -74,7 +74,8 @@ class TokenWalletSendWidgetModel extends CustomWidgetModelParametrized<
 
   ListenableState<BigInt> get feesState => _feesState;
 
-  ListenableState<List<TxTreeSimulationErrorItem>> get txErrorsState => _txErrorsState;
+  ListenableState<List<TxTreeSimulationErrorItem>> get txErrorsState =>
+      _txErrorsState;
 
   ListenableState<String> get errorState => _errorState;
 
@@ -180,7 +181,8 @@ class TokenWalletSendWidgetModel extends CustomWidgetModelParametrized<
         return;
       }
       if (walletState.hasError) {
-        _sendState.accept(TokenWalletSendState.error(error: walletState.error!));
+        _sendState
+            .accept(TokenWalletSendState.error(error: walletState.error!));
         return;
       }
 

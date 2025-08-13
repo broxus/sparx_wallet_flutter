@@ -41,7 +41,8 @@ class TonWalletSendWidgetModel extends CustomWidgetModelParametrized<
 
   ListenableState<BigInt> get feesState => _feesState;
 
-  ListenableState<List<TxTreeSimulationErrorItem>> get txErrorsState => _txErrorsState;
+  ListenableState<List<TxTreeSimulationErrorItem>> get txErrorsState =>
+      _txErrorsState;
 
   ListenableState<String> get errorState => _errorState;
 

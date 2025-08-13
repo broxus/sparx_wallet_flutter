@@ -13,26 +13,26 @@ PluginBase createPlugin() => _WmStatePropertiesLinter();
 class _WmStatePropertiesLinter extends PluginBase {
   @override
   List<LintRule> getLintRules(CustomLintConfigs configs) => [
-        WmPublicGetterNamingRule(),
-        WmPrivateFieldNamingRule(),
-      ];
+    WmPublicGetterNamingRule(),
+    WmPrivateFieldNamingRule(),
+  ];
 }
 
 /// Mixin that provides common functionality for reactive type checking
 mixin ReactiveTypeCheckerMixin {
   bool isNotifierOrListenableType(String type) {
     return type.contains('ValueNotifier') ||
-           type.contains('ValueListenable') ||
-           type.contains('StateNotifier') ||
-           type.contains('ListenableState') ||
-           type.contains('EntityStateNotifier') ||
-           type.contains('Listenable') && !type.contains('ValueListenable');
+        type.contains('ValueListenable') ||
+        type.contains('StateNotifier') ||
+        type.contains('ListenableState') ||
+        type.contains('EntityStateNotifier') ||
+        type.contains('Listenable') && !type.contains('ValueListenable');
   }
 
   bool isStreamType(String type) {
     return type.contains('Stream') ||
-           type.contains('StreamController') ||
-           type.contains('BehaviorSubject');
+        type.contains('StreamController') ||
+        type.contains('BehaviorSubject');
   }
 
   bool isReactiveType(String type) {
@@ -41,8 +41,8 @@ mixin ReactiveTypeCheckerMixin {
 
   bool hasValidStateSuffix(String name) {
     return name.endsWith('State') ||
-           name.endsWith('Notifier') ||
-           name.endsWith('Stream');
+        name.endsWith('Notifier') ||
+        name.endsWith('Stream');
   }
 
   String suggestStateName(String name) {
@@ -72,14 +72,16 @@ class WmPublicGetterNamingRule extends DartLintRule
 
   static const _code = LintCode(
     name: 'wm_public_getter_naming',
-    problemMessage: 'Public getter {0} of type {1} must end with "State" suffix',
+    problemMessage:
+        'Public getter {0} of type {1} must end with "State" suffix',
     correctionMessage: 'Consider renaming to {2}',
     errorSeverity: ErrorSeverity.WARNING,
   );
 
   static const _streamCode = LintCode(
     name: 'wm_public_getter_naming',
-    problemMessage: 'Public getter {0} of type {1} must end with "Stream" suffix',
+    problemMessage:
+        'Public getter {0} of type {1} must end with "Stream" suffix',
     correctionMessage: 'Consider renaming to {2}',
     errorSeverity: ErrorSeverity.WARNING,
   );
@@ -108,7 +110,8 @@ class WmPublicGetterNamingRule extends DartLintRule
       final typeString = returnType.toSource();
 
       // Check if it's a reactive type that needs State suffix
-      if (isNotifierOrListenableType(typeString) && !hasValidStateSuffix(name)) {
+      if (isNotifierOrListenableType(typeString) &&
+          !hasValidStateSuffix(name)) {
         final suggestedName = suggestStateName(name);
         reporter.atNode(
           node,
@@ -228,7 +231,8 @@ class WmNamingAssist extends DartAssist
 
       // Suggest fixes for public getters
       if (!name.startsWith('_')) {
-        if (isNotifierOrListenableType(returnType) && !hasValidStateSuffix(name)) {
+        if (isNotifierOrListenableType(returnType) &&
+            !hasValidStateSuffix(name)) {
           final newName = suggestStateName(name);
           final changeBuilder = reporter.createChangeBuilder(
             message: 'Rename to $newName',
@@ -236,10 +240,7 @@ class WmNamingAssist extends DartAssist
           );
 
           changeBuilder.addDartFileEdit((builder) {
-            builder.addSimpleReplacement(
-              node.name.sourceRange,
-              newName,
-            );
+            builder.addSimpleReplacement(node.name.sourceRange, newName);
           });
         } else if (isStreamType(returnType) && !name.endsWith('Stream')) {
           final newName = suggestStreamName(name);
@@ -249,10 +250,7 @@ class WmNamingAssist extends DartAssist
           );
 
           changeBuilder.addDartFileEdit((builder) {
-            builder.addSimpleReplacement(
-              node.name.sourceRange,
-              newName,
-            );
+            builder.addSimpleReplacement(node.name.sourceRange, newName);
           });
         }
       }

@@ -15,7 +15,8 @@ class ConfigureNetworksWidgetModel
 
   late final _connectionsState = createNotifierFromStream(model.connections);
 
-  ListenableState<List<ConnectionData>> get connectionsState => _connectionsState;
+  ListenableState<List<ConnectionData>> get connectionsState =>
+      _connectionsState;
 
   ThemeStyleV2 get theme => context.themeStyleV2;
 

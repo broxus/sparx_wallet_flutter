@@ -42,7 +42,8 @@ class ImportWalletScreenWidgetModel
 
   NetworkType get networkType => model.networkType;
 
-  ListenableState<SeedPhraseFormat> get seedPhraseFormatState => _seedPhraseFormatState;
+  ListenableState<SeedPhraseFormat> get seedPhraseFormatState =>
+      _seedPhraseFormatState;
 
   ImportWalletData? get _data => screenState.value.data;
 

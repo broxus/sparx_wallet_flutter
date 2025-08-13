@@ -85,9 +85,11 @@ class WalletPrepareTransferPageWidgetModel
 
   PublicKey? get _selectedCustodian => _data?.selectedCustodian;
 
-  ValueListenable<List<WalletPrepareTransferAsset>> get assetsState => _assetsState;
+  ValueListenable<List<WalletPrepareTransferAsset>> get assetsState =>
+      _assetsState;
 
-  ListenableState<bool> get isInitialDataLoadedState => _isInitialDataLoadedState;
+  ListenableState<bool> get isInitialDataLoadedState =>
+      _isInitialDataLoadedState;
 
   late final ValueListenable<Address> addressState = createWmParamsNotifier(
     (it) => it.address,

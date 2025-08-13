@@ -17,7 +17,8 @@ class WalletPageWidgetModel
 
   late final scrollController = createScrollController();
 
-  late final _currentAccountState = createNotifierFromStream(model.currentAccount);
+  late final _currentAccountState =
+      createNotifierFromStream(model.currentAccount);
   late final _transportStrategyState =
       createNotifierFromStream(model.transportStrategy);
   late final _isShowingNewTokensNotifier = createNotifier<bool>();
@@ -37,7 +38,8 @@ class WalletPageWidgetModel
   ListenableState<TransportStrategy> get transportStrategyState =>
       _transportStrategyState;
 
-  ListenableState<bool> get isShowingNewTokensState => _isShowingNewTokensNotifier;
+  ListenableState<bool> get isShowingNewTokensState =>
+      _isShowingNewTokensNotifier;
   int? _numberUnconfirmedTransactions;
 
   @override

@@ -96,7 +96,8 @@ class NewAccountTypeWidgetModel extends CustomWidgetModelParametrized<
   void onSelect(WalletType walletType) => _selectedState.accept(walletType);
 
   // ignore: avoid_positional_boolean_parameters
-  void onShowDeprecatedChanged(bool value) => _showDeprecatedState.accept(value);
+  void onShowDeprecatedChanged(bool value) =>
+      _showDeprecatedState.accept(value);
 
   Future<void> onSubmit() async {
     final walletType = selectedState.value!;
