@@ -95,6 +95,10 @@ import '../feature/add_seed/create_password/screens/create_seed_password/create_
     as _i905;
 import '../feature/add_seed/create_password/screens/create_seed_password/create_seed_password_screen_wm.dart'
     as _i762;
+import '../feature/add_seed/create_password/view/create_seed_password_profile_model.dart'
+    as _i81;
+import '../feature/add_seed/create_password/view/create_seed_password_profile_wm.dart'
+    as _i445;
 import '../feature/add_seed/enter_seed_phrase/enter_seed_phrase_model.dart'
     as _i9;
 import '../feature/add_seed/enter_seed_phrase/enter_seed_phrase_wm.dart'
@@ -1283,6 +1287,14 @@ extension GetItInjectableX on _i174.GetIt {
     );
     gh.factory<_i700.BiometryScreenModel>(
         () => _i700.BiometryScreenModel(gh<_i128.BiometryService>()));
+    gh.factory<_i81.CreateSeedPasswordProfileModel>(
+        () => _i81.CreateSeedPasswordProfileModel(
+              gh<_i83.ErrorHandler>(),
+              gh<_i128.NetworkConnectionService>(),
+              gh<_i632.MessengerService>(),
+              gh<_i771.NekotonRepository>(),
+              gh<_i128.BiometryService>(),
+            ));
     gh.factory<_i173.ChooseNetworkScreenModel>(
         () => _i173.ChooseNetworkScreenModel(
               gh<_i83.ErrorHandler>(),
@@ -1502,7 +1514,12 @@ extension GetItInjectableX on _i174.GetIt {
       ),
       instanceName: 'ImportWalletRoute',
     );
-    gh.factory<_i125.NftTransferInfoModel>(() => _i125.NftTransferInfoModel(
+    gh.factory<_i693.WalletAppBarWidgetModel>(
+        () => _i693.WalletAppBarWidgetModel(gh<_i622.WalletAppBarModel>()));
+    gh.factory<_i445.CreateSeedPasswordProfileWidgetModel>(() =>
+        _i445.CreateSeedPasswordProfileWidgetModel(
+            gh<_i81.CreateSeedPasswordProfileModel>()));
+    gh.factory<_i207.TokenTransferInfoModel>(() => _i207.TokenTransferInfoModel(
           gh<_i83.ErrorHandler>(),
           gh<_i771.NekotonRepository>(),
           gh<_i128.CurrenciesService>(),
