@@ -8,18 +8,34 @@ class BrowserHistoryDatabaseDelegate {
   final MainDatabase _db;
 
   Future<void> addHistoryItem(BrowserHistoryItem item) async {
-    await _db.into(_db.browserHistory).insertOnConflictUpdate(
-          BrowserHistoryCompanion.insert(
+    await _db.into(_db.browserHistoryTable).insertOnConflictUpdate(
+          BrowserHistoryTableCompanion.insert(
             id: item.id,
             title: item.title,
-            url: item.url.toString(),
+            url: item.url,
             visitTime: item.visitTime,
           ),
         );
   }
 
+  Future<void> addHistoryItemsList(List<BrowserHistoryItem> items) async {
+    await _db.batch((batch) {
+      batch.insertAllOnConflictUpdate(
+        _db.browserHistoryTable,
+        items.map((item) {
+          return BrowserHistoryTableCompanion.insert(
+            id: item.id,
+            title: item.title,
+            url: item.url,
+            visitTime: item.visitTime,
+          );
+        }).toList(),
+      );
+    });
+  }
+
   Future<void> deleteHistoryItem(String id) async {
-    await (_db.delete(_db.browserHistory)
+    await (_db.delete(_db.browserHistoryTable)
           ..where(
             (t) => t.id.equals(id),
           ))
@@ -27,25 +43,25 @@ class BrowserHistoryDatabaseDelegate {
   }
 
   Future<void> clearHistory() async {
-    await _db.delete(_db.browserHistory).go();
+    await _db.delete(_db.browserHistoryTable).go();
   }
 
   Future<List<BrowserHistoryItem>> getHistory({
     required int limit,
     int offset = 0,
   }) async {
-    final q = _db.select(_db.browserHistory)
+    final q = _db.select(_db.browserHistoryTable)
       ..orderBy([(t) => OrderingTerm.desc(t.visitTime)])
       ..limit(limit, offset: offset);
     final rows = await q.get();
     return rows.map(_toHistoryDomain).toList();
   }
 
-  BrowserHistoryItem _toHistoryDomain(BrowserHistoryData r) {
+  BrowserHistoryItem _toHistoryDomain(BrowserHistoryTableData r) {
     return BrowserHistoryItem(
       id: r.id,
       title: r.title,
-      url: Uri.parse(r.url),
+      url: r.url,
       visitTime: r.visitTime,
     );
   }

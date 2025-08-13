@@ -3,8 +3,8 @@ import 'package:app/data/models/models.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:injectable/injectable.dart';
 
+const browserHistoryKey = 'browser_history_key';
 const _browserHistoryDomain = 'browser_history';
-const _browserHistoryKey = 'browser_history_key';
 
 /// This is a wrapper-class above [GetStorage] that provides methods
 /// to interact with all browser history - related data.
@@ -20,7 +20,7 @@ class BrowserHistoryStorageService extends AbstractStorageService {
 
   /// Read list of browser history items from storage
   List<BrowserHistoryItem> getBrowserHistory() {
-    final list = _storage.read<List<dynamic>>(_browserHistoryKey);
+    final list = _storage.read<List<dynamic>>(browserHistoryKey);
     if (list == null) {
       return [];
     }
@@ -36,7 +36,7 @@ class BrowserHistoryStorageService extends AbstractStorageService {
   /// Save list of browser history items to storage
   void saveBrowserHistory(Iterable<BrowserHistoryItem> history) {
     _storage.write(
-      _browserHistoryKey,
+      browserHistoryKey,
       history.map((e) => e.toJson()).toList(),
     );
   }

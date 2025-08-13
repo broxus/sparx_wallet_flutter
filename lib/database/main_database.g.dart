@@ -3,12 +3,12 @@
 part of 'main_database.dart';
 
 // ignore_for_file: type=lint
-class $DevTableTable extends DevTable
-    with TableInfo<$DevTableTable, DevTableData> {
+class $MigrationTableTable extends MigrationTable
+    with TableInfo<$MigrationTableTable, MigrationTableData> {
   @override
   final GeneratedDatabase attachedDatabase;
   final String? _alias;
-  $DevTableTable(this.attachedDatabase, [this._alias]);
+  $MigrationTableTable(this.attachedDatabase, [this._alias]);
   static const VerificationMeta _keyMeta = const VerificationMeta('key');
   @override
   late final GeneratedColumn<String> key = GeneratedColumn<String>(
@@ -25,9 +25,9 @@ class $DevTableTable extends DevTable
   String get aliasedName => _alias ?? actualTableName;
   @override
   String get actualTableName => $name;
-  static const String $name = 'dev_table';
+  static const String $name = 'migration_table';
   @override
-  VerificationContext validateIntegrity(Insertable<DevTableData> instance,
+  VerificationContext validateIntegrity(Insertable<MigrationTableData> instance,
       {bool isInserting = false}) {
     final context = VerificationContext();
     final data = instance.toColumns(true);
@@ -49,9 +49,9 @@ class $DevTableTable extends DevTable
   @override
   Set<GeneratedColumn> get $primaryKey => {key};
   @override
-  DevTableData map(Map<String, dynamic> data, {String? tablePrefix}) {
+  MigrationTableData map(Map<String, dynamic> data, {String? tablePrefix}) {
     final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : '';
-    return DevTableData(
+    return MigrationTableData(
       key: attachedDatabase.typeMapping
           .read(DriftSqlType.string, data['${effectivePrefix}key'])!,
       value: attachedDatabase.typeMapping
@@ -60,15 +60,16 @@ class $DevTableTable extends DevTable
   }
 
   @override
-  $DevTableTable createAlias(String alias) {
-    return $DevTableTable(attachedDatabase, alias);
+  $MigrationTableTable createAlias(String alias) {
+    return $MigrationTableTable(attachedDatabase, alias);
   }
 }
 
-class DevTableData extends DataClass implements Insertable<DevTableData> {
+class MigrationTableData extends DataClass
+    implements Insertable<MigrationTableData> {
   final String key;
   final String value;
-  const DevTableData({required this.key, required this.value});
+  const MigrationTableData({required this.key, required this.value});
   @override
   Map<String, Expression> toColumns(bool nullToAbsent) {
     final map = <String, Expression>{};
@@ -77,17 +78,17 @@ class DevTableData extends DataClass implements Insertable<DevTableData> {
     return map;
   }
 
-  DevTableCompanion toCompanion(bool nullToAbsent) {
-    return DevTableCompanion(
+  MigrationTableCompanion toCompanion(bool nullToAbsent) {
+    return MigrationTableCompanion(
       key: Value(key),
       value: Value(value),
     );
   }
 
-  factory DevTableData.fromJson(Map<String, dynamic> json,
+  factory MigrationTableData.fromJson(Map<String, dynamic> json,
       {ValueSerializer? serializer}) {
     serializer ??= driftRuntimeOptions.defaultSerializer;
-    return DevTableData(
+    return MigrationTableData(
       key: serializer.fromJson<String>(json['key']),
       value: serializer.fromJson<String>(json['value']),
     );
@@ -101,12 +102,13 @@ class DevTableData extends DataClass implements Insertable<DevTableData> {
     };
   }
 
-  DevTableData copyWith({String? key, String? value}) => DevTableData(
+  MigrationTableData copyWith({String? key, String? value}) =>
+      MigrationTableData(
         key: key ?? this.key,
         value: value ?? this.value,
       );
-  DevTableData copyWithCompanion(DevTableCompanion data) {
-    return DevTableData(
+  MigrationTableData copyWithCompanion(MigrationTableCompanion data) {
+    return MigrationTableData(
       key: data.key.present ? data.key.value : this.key,
       value: data.value.present ? data.value.value : this.value,
     );
@@ -114,7 +116,7 @@ class DevTableData extends DataClass implements Insertable<DevTableData> {
 
   @override
   String toString() {
-    return (StringBuffer('DevTableData(')
+    return (StringBuffer('MigrationTableData(')
           ..write('key: $key, ')
           ..write('value: $value')
           ..write(')'))
@@ -126,27 +128,27 @@ class DevTableData extends DataClass implements Insertable<DevTableData> {
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
-      (other is DevTableData &&
+      (other is MigrationTableData &&
           other.key == this.key &&
           other.value == this.value);
 }
 
-class DevTableCompanion extends UpdateCompanion<DevTableData> {
+class MigrationTableCompanion extends UpdateCompanion<MigrationTableData> {
   final Value<String> key;
   final Value<String> value;
   final Value<int> rowid;
-  const DevTableCompanion({
+  const MigrationTableCompanion({
     this.key = const Value.absent(),
     this.value = const Value.absent(),
     this.rowid = const Value.absent(),
   });
-  DevTableCompanion.insert({
+  MigrationTableCompanion.insert({
     required String key,
     required String value,
     this.rowid = const Value.absent(),
   })  : key = Value(key),
         value = Value(value);
-  static Insertable<DevTableData> custom({
+  static Insertable<MigrationTableData> custom({
     Expression<String>? key,
     Expression<String>? value,
     Expression<int>? rowid,
@@ -158,9 +160,9 @@ class DevTableCompanion extends UpdateCompanion<DevTableData> {
     });
   }
 
-  DevTableCompanion copyWith(
+  MigrationTableCompanion copyWith(
       {Value<String>? key, Value<String>? value, Value<int>? rowid}) {
-    return DevTableCompanion(
+    return MigrationTableCompanion(
       key: key ?? this.key,
       value: value ?? this.value,
       rowid: rowid ?? this.rowid,
@@ -184,7 +186,7 @@ class DevTableCompanion extends UpdateCompanion<DevTableData> {
 
   @override
   String toString() {
-    return (StringBuffer('DevTableCompanion(')
+    return (StringBuffer('MigrationTableCompanion(')
           ..write('key: $key, ')
           ..write('value: $value, ')
           ..write('rowid: $rowid')
@@ -193,12 +195,12 @@ class DevTableCompanion extends UpdateCompanion<DevTableData> {
   }
 }
 
-class $BrowserBookmarksTable extends BrowserBookmarks
-    with TableInfo<$BrowserBookmarksTable, BrowserBookmark> {
+class $BrowserHistoryTableTable extends BrowserHistoryTable
+    with TableInfo<$BrowserHistoryTableTable, BrowserHistoryTableData> {
   @override
   final GeneratedDatabase attachedDatabase;
   final String? _alias;
-  $BrowserBookmarksTable(this.attachedDatabase, [this._alias]);
+  $BrowserHistoryTableTable(this.attachedDatabase, [this._alias]);
   static const VerificationMeta _idMeta = const VerificationMeta('id');
   @override
   late final GeneratedColumn<String> id = GeneratedColumn<String>(
@@ -211,279 +213,10 @@ class $BrowserBookmarksTable extends BrowserBookmarks
       type: DriftSqlType.string, requiredDuringInsert: true);
   static const VerificationMeta _urlMeta = const VerificationMeta('url');
   @override
-  late final GeneratedColumn<String> url = GeneratedColumn<String>(
-      'url', aliasedName, false,
-      type: DriftSqlType.string, requiredDuringInsert: true);
-  static const VerificationMeta _sortingOrderMeta =
-      const VerificationMeta('sortingOrder');
-  @override
-  late final GeneratedColumn<double> sortingOrder = GeneratedColumn<double>(
-      'sorting_order', aliasedName, false,
-      type: DriftSqlType.double, requiredDuringInsert: true);
-  @override
-  List<GeneratedColumn> get $columns => [id, title, url, sortingOrder];
-  @override
-  String get aliasedName => _alias ?? actualTableName;
-  @override
-  String get actualTableName => $name;
-  static const String $name = 'browser_bookmarks';
-  @override
-  VerificationContext validateIntegrity(Insertable<BrowserBookmark> instance,
-      {bool isInserting = false}) {
-    final context = VerificationContext();
-    final data = instance.toColumns(true);
-    if (data.containsKey('id')) {
-      context.handle(_idMeta, id.isAcceptableOrUnknown(data['id']!, _idMeta));
-    } else if (isInserting) {
-      context.missing(_idMeta);
-    }
-    if (data.containsKey('title')) {
-      context.handle(
-          _titleMeta, title.isAcceptableOrUnknown(data['title']!, _titleMeta));
-    } else if (isInserting) {
-      context.missing(_titleMeta);
-    }
-    if (data.containsKey('url')) {
-      context.handle(
-          _urlMeta, url.isAcceptableOrUnknown(data['url']!, _urlMeta));
-    } else if (isInserting) {
-      context.missing(_urlMeta);
-    }
-    if (data.containsKey('sorting_order')) {
-      context.handle(
-          _sortingOrderMeta,
-          sortingOrder.isAcceptableOrUnknown(
-              data['sorting_order']!, _sortingOrderMeta));
-    } else if (isInserting) {
-      context.missing(_sortingOrderMeta);
-    }
-    return context;
-  }
-
-  @override
-  Set<GeneratedColumn> get $primaryKey => {id};
-  @override
-  BrowserBookmark map(Map<String, dynamic> data, {String? tablePrefix}) {
-    final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : '';
-    return BrowserBookmark(
-      id: attachedDatabase.typeMapping
-          .read(DriftSqlType.string, data['${effectivePrefix}id'])!,
-      title: attachedDatabase.typeMapping
-          .read(DriftSqlType.string, data['${effectivePrefix}title'])!,
-      url: attachedDatabase.typeMapping
-          .read(DriftSqlType.string, data['${effectivePrefix}url'])!,
-      sortingOrder: attachedDatabase.typeMapping
-          .read(DriftSqlType.double, data['${effectivePrefix}sorting_order'])!,
-    );
-  }
-
-  @override
-  $BrowserBookmarksTable createAlias(String alias) {
-    return $BrowserBookmarksTable(attachedDatabase, alias);
-  }
-}
-
-class BrowserBookmark extends DataClass implements Insertable<BrowserBookmark> {
-  final String id;
-  final String title;
-  final String url;
-  final double sortingOrder;
-  const BrowserBookmark(
-      {required this.id,
-      required this.title,
-      required this.url,
-      required this.sortingOrder});
-  @override
-  Map<String, Expression> toColumns(bool nullToAbsent) {
-    final map = <String, Expression>{};
-    map['id'] = Variable<String>(id);
-    map['title'] = Variable<String>(title);
-    map['url'] = Variable<String>(url);
-    map['sorting_order'] = Variable<double>(sortingOrder);
-    return map;
-  }
-
-  BrowserBookmarksCompanion toCompanion(bool nullToAbsent) {
-    return BrowserBookmarksCompanion(
-      id: Value(id),
-      title: Value(title),
-      url: Value(url),
-      sortingOrder: Value(sortingOrder),
-    );
-  }
-
-  factory BrowserBookmark.fromJson(Map<String, dynamic> json,
-      {ValueSerializer? serializer}) {
-    serializer ??= driftRuntimeOptions.defaultSerializer;
-    return BrowserBookmark(
-      id: serializer.fromJson<String>(json['id']),
-      title: serializer.fromJson<String>(json['title']),
-      url: serializer.fromJson<String>(json['url']),
-      sortingOrder: serializer.fromJson<double>(json['sortingOrder']),
-    );
-  }
-  @override
-  Map<String, dynamic> toJson({ValueSerializer? serializer}) {
-    serializer ??= driftRuntimeOptions.defaultSerializer;
-    return <String, dynamic>{
-      'id': serializer.toJson<String>(id),
-      'title': serializer.toJson<String>(title),
-      'url': serializer.toJson<String>(url),
-      'sortingOrder': serializer.toJson<double>(sortingOrder),
-    };
-  }
-
-  BrowserBookmark copyWith(
-          {String? id, String? title, String? url, double? sortingOrder}) =>
-      BrowserBookmark(
-        id: id ?? this.id,
-        title: title ?? this.title,
-        url: url ?? this.url,
-        sortingOrder: sortingOrder ?? this.sortingOrder,
-      );
-  BrowserBookmark copyWithCompanion(BrowserBookmarksCompanion data) {
-    return BrowserBookmark(
-      id: data.id.present ? data.id.value : this.id,
-      title: data.title.present ? data.title.value : this.title,
-      url: data.url.present ? data.url.value : this.url,
-      sortingOrder: data.sortingOrder.present
-          ? data.sortingOrder.value
-          : this.sortingOrder,
-    );
-  }
-
-  @override
-  String toString() {
-    return (StringBuffer('BrowserBookmark(')
-          ..write('id: $id, ')
-          ..write('title: $title, ')
-          ..write('url: $url, ')
-          ..write('sortingOrder: $sortingOrder')
-          ..write(')'))
-        .toString();
-  }
-
-  @override
-  int get hashCode => Object.hash(id, title, url, sortingOrder);
-  @override
-  bool operator ==(Object other) =>
-      identical(this, other) ||
-      (other is BrowserBookmark &&
-          other.id == this.id &&
-          other.title == this.title &&
-          other.url == this.url &&
-          other.sortingOrder == this.sortingOrder);
-}
-
-class BrowserBookmarksCompanion extends UpdateCompanion<BrowserBookmark> {
-  final Value<String> id;
-  final Value<String> title;
-  final Value<String> url;
-  final Value<double> sortingOrder;
-  final Value<int> rowid;
-  const BrowserBookmarksCompanion({
-    this.id = const Value.absent(),
-    this.title = const Value.absent(),
-    this.url = const Value.absent(),
-    this.sortingOrder = const Value.absent(),
-    this.rowid = const Value.absent(),
-  });
-  BrowserBookmarksCompanion.insert({
-    required String id,
-    required String title,
-    required String url,
-    required double sortingOrder,
-    this.rowid = const Value.absent(),
-  })  : id = Value(id),
-        title = Value(title),
-        url = Value(url),
-        sortingOrder = Value(sortingOrder);
-  static Insertable<BrowserBookmark> custom({
-    Expression<String>? id,
-    Expression<String>? title,
-    Expression<String>? url,
-    Expression<double>? sortingOrder,
-    Expression<int>? rowid,
-  }) {
-    return RawValuesInsertable({
-      if (id != null) 'id': id,
-      if (title != null) 'title': title,
-      if (url != null) 'url': url,
-      if (sortingOrder != null) 'sorting_order': sortingOrder,
-      if (rowid != null) 'rowid': rowid,
-    });
-  }
-
-  BrowserBookmarksCompanion copyWith(
-      {Value<String>? id,
-      Value<String>? title,
-      Value<String>? url,
-      Value<double>? sortingOrder,
-      Value<int>? rowid}) {
-    return BrowserBookmarksCompanion(
-      id: id ?? this.id,
-      title: title ?? this.title,
-      url: url ?? this.url,
-      sortingOrder: sortingOrder ?? this.sortingOrder,
-      rowid: rowid ?? this.rowid,
-    );
-  }
-
-  @override
-  Map<String, Expression> toColumns(bool nullToAbsent) {
-    final map = <String, Expression>{};
-    if (id.present) {
-      map['id'] = Variable<String>(id.value);
-    }
-    if (title.present) {
-      map['title'] = Variable<String>(title.value);
-    }
-    if (url.present) {
-      map['url'] = Variable<String>(url.value);
-    }
-    if (sortingOrder.present) {
-      map['sorting_order'] = Variable<double>(sortingOrder.value);
-    }
-    if (rowid.present) {
-      map['rowid'] = Variable<int>(rowid.value);
-    }
-    return map;
-  }
-
-  @override
-  String toString() {
-    return (StringBuffer('BrowserBookmarksCompanion(')
-          ..write('id: $id, ')
-          ..write('title: $title, ')
-          ..write('url: $url, ')
-          ..write('sortingOrder: $sortingOrder, ')
-          ..write('rowid: $rowid')
-          ..write(')'))
-        .toString();
-  }
-}
-
-class $BrowserHistoryTable extends BrowserHistory
-    with TableInfo<$BrowserHistoryTable, BrowserHistoryData> {
-  @override
-  final GeneratedDatabase attachedDatabase;
-  final String? _alias;
-  $BrowserHistoryTable(this.attachedDatabase, [this._alias]);
-  static const VerificationMeta _idMeta = const VerificationMeta('id');
-  @override
-  late final GeneratedColumn<String> id = GeneratedColumn<String>(
-      'id', aliasedName, false,
-      type: DriftSqlType.string, requiredDuringInsert: true);
-  static const VerificationMeta _titleMeta = const VerificationMeta('title');
-  @override
-  late final GeneratedColumn<String> title = GeneratedColumn<String>(
-      'title', aliasedName, false,
-      type: DriftSqlType.string, requiredDuringInsert: true);
-  static const VerificationMeta _urlMeta = const VerificationMeta('url');
-  @override
-  late final GeneratedColumn<String> url = GeneratedColumn<String>(
-      'url', aliasedName, false,
-      type: DriftSqlType.string, requiredDuringInsert: true);
+  late final GeneratedColumnWithTypeConverter<Uri, String> url =
+      GeneratedColumn<String>('url', aliasedName, false,
+              type: DriftSqlType.string, requiredDuringInsert: true)
+          .withConverter<Uri>($BrowserHistoryTableTable.$converterurl);
   static const VerificationMeta _visitTimeMeta =
       const VerificationMeta('visitTime');
   @override
@@ -496,9 +229,10 @@ class $BrowserHistoryTable extends BrowserHistory
   String get aliasedName => _alias ?? actualTableName;
   @override
   String get actualTableName => $name;
-  static const String $name = 'browser_history';
+  static const String $name = 'browser_history_table';
   @override
-  VerificationContext validateIntegrity(Insertable<BrowserHistoryData> instance,
+  VerificationContext validateIntegrity(
+      Insertable<BrowserHistoryTableData> instance,
       {bool isInserting = false}) {
     final context = VerificationContext();
     final data = instance.toColumns(true);
@@ -513,12 +247,7 @@ class $BrowserHistoryTable extends BrowserHistory
     } else if (isInserting) {
       context.missing(_titleMeta);
     }
-    if (data.containsKey('url')) {
-      context.handle(
-          _urlMeta, url.isAcceptableOrUnknown(data['url']!, _urlMeta));
-    } else if (isInserting) {
-      context.missing(_urlMeta);
-    }
+    context.handle(_urlMeta, const VerificationResult.success());
     if (data.containsKey('visit_time')) {
       context.handle(_visitTimeMeta,
           visitTime.isAcceptableOrUnknown(data['visit_time']!, _visitTimeMeta));
@@ -531,33 +260,37 @@ class $BrowserHistoryTable extends BrowserHistory
   @override
   Set<GeneratedColumn> get $primaryKey => {id};
   @override
-  BrowserHistoryData map(Map<String, dynamic> data, {String? tablePrefix}) {
+  BrowserHistoryTableData map(Map<String, dynamic> data,
+      {String? tablePrefix}) {
     final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : '';
-    return BrowserHistoryData(
+    return BrowserHistoryTableData(
       id: attachedDatabase.typeMapping
           .read(DriftSqlType.string, data['${effectivePrefix}id'])!,
       title: attachedDatabase.typeMapping
           .read(DriftSqlType.string, data['${effectivePrefix}title'])!,
-      url: attachedDatabase.typeMapping
-          .read(DriftSqlType.string, data['${effectivePrefix}url'])!,
+      url: $BrowserHistoryTableTable.$converterurl.fromSql(attachedDatabase
+          .typeMapping
+          .read(DriftSqlType.string, data['${effectivePrefix}url'])!),
       visitTime: attachedDatabase.typeMapping
           .read(DriftSqlType.dateTime, data['${effectivePrefix}visit_time'])!,
     );
   }
 
   @override
-  $BrowserHistoryTable createAlias(String alias) {
-    return $BrowserHistoryTable(attachedDatabase, alias);
+  $BrowserHistoryTableTable createAlias(String alias) {
+    return $BrowserHistoryTableTable(attachedDatabase, alias);
   }
+
+  static TypeConverter<Uri, String> $converterurl = const UriConverter();
 }
 
-class BrowserHistoryData extends DataClass
-    implements Insertable<BrowserHistoryData> {
+class BrowserHistoryTableData extends DataClass
+    implements Insertable<BrowserHistoryTableData> {
   final String id;
   final String title;
-  final String url;
+  final Uri url;
   final DateTime visitTime;
-  const BrowserHistoryData(
+  const BrowserHistoryTableData(
       {required this.id,
       required this.title,
       required this.url,
@@ -567,13 +300,16 @@ class BrowserHistoryData extends DataClass
     final map = <String, Expression>{};
     map['id'] = Variable<String>(id);
     map['title'] = Variable<String>(title);
-    map['url'] = Variable<String>(url);
+    {
+      map['url'] =
+          Variable<String>($BrowserHistoryTableTable.$converterurl.toSql(url));
+    }
     map['visit_time'] = Variable<DateTime>(visitTime);
     return map;
   }
 
-  BrowserHistoryCompanion toCompanion(bool nullToAbsent) {
-    return BrowserHistoryCompanion(
+  BrowserHistoryTableCompanion toCompanion(bool nullToAbsent) {
+    return BrowserHistoryTableCompanion(
       id: Value(id),
       title: Value(title),
       url: Value(url),
@@ -581,13 +317,13 @@ class BrowserHistoryData extends DataClass
     );
   }
 
-  factory BrowserHistoryData.fromJson(Map<String, dynamic> json,
+  factory BrowserHistoryTableData.fromJson(Map<String, dynamic> json,
       {ValueSerializer? serializer}) {
     serializer ??= driftRuntimeOptions.defaultSerializer;
-    return BrowserHistoryData(
+    return BrowserHistoryTableData(
       id: serializer.fromJson<String>(json['id']),
       title: serializer.fromJson<String>(json['title']),
-      url: serializer.fromJson<String>(json['url']),
+      url: serializer.fromJson<Uri>(json['url']),
       visitTime: serializer.fromJson<DateTime>(json['visitTime']),
     );
   }
@@ -597,21 +333,21 @@ class BrowserHistoryData extends DataClass
     return <String, dynamic>{
       'id': serializer.toJson<String>(id),
       'title': serializer.toJson<String>(title),
-      'url': serializer.toJson<String>(url),
+      'url': serializer.toJson<Uri>(url),
       'visitTime': serializer.toJson<DateTime>(visitTime),
     };
   }
 
-  BrowserHistoryData copyWith(
-          {String? id, String? title, String? url, DateTime? visitTime}) =>
-      BrowserHistoryData(
+  BrowserHistoryTableData copyWith(
+          {String? id, String? title, Uri? url, DateTime? visitTime}) =>
+      BrowserHistoryTableData(
         id: id ?? this.id,
         title: title ?? this.title,
         url: url ?? this.url,
         visitTime: visitTime ?? this.visitTime,
       );
-  BrowserHistoryData copyWithCompanion(BrowserHistoryCompanion data) {
-    return BrowserHistoryData(
+  BrowserHistoryTableData copyWithCompanion(BrowserHistoryTableCompanion data) {
+    return BrowserHistoryTableData(
       id: data.id.present ? data.id.value : this.id,
       title: data.title.present ? data.title.value : this.title,
       url: data.url.present ? data.url.value : this.url,
@@ -621,7 +357,7 @@ class BrowserHistoryData extends DataClass
 
   @override
   String toString() {
-    return (StringBuffer('BrowserHistoryData(')
+    return (StringBuffer('BrowserHistoryTableData(')
           ..write('id: $id, ')
           ..write('title: $title, ')
           ..write('url: $url, ')
@@ -635,37 +371,38 @@ class BrowserHistoryData extends DataClass
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
-      (other is BrowserHistoryData &&
+      (other is BrowserHistoryTableData &&
           other.id == this.id &&
           other.title == this.title &&
           other.url == this.url &&
           other.visitTime == this.visitTime);
 }
 
-class BrowserHistoryCompanion extends UpdateCompanion<BrowserHistoryData> {
+class BrowserHistoryTableCompanion
+    extends UpdateCompanion<BrowserHistoryTableData> {
   final Value<String> id;
   final Value<String> title;
-  final Value<String> url;
+  final Value<Uri> url;
   final Value<DateTime> visitTime;
   final Value<int> rowid;
-  const BrowserHistoryCompanion({
+  const BrowserHistoryTableCompanion({
     this.id = const Value.absent(),
     this.title = const Value.absent(),
     this.url = const Value.absent(),
     this.visitTime = const Value.absent(),
     this.rowid = const Value.absent(),
   });
-  BrowserHistoryCompanion.insert({
+  BrowserHistoryTableCompanion.insert({
     required String id,
     required String title,
-    required String url,
+    required Uri url,
     required DateTime visitTime,
     this.rowid = const Value.absent(),
   })  : id = Value(id),
         title = Value(title),
         url = Value(url),
         visitTime = Value(visitTime);
-  static Insertable<BrowserHistoryData> custom({
+  static Insertable<BrowserHistoryTableData> custom({
     Expression<String>? id,
     Expression<String>? title,
     Expression<String>? url,
@@ -681,13 +418,13 @@ class BrowserHistoryCompanion extends UpdateCompanion<BrowserHistoryData> {
     });
   }
 
-  BrowserHistoryCompanion copyWith(
+  BrowserHistoryTableCompanion copyWith(
       {Value<String>? id,
       Value<String>? title,
-      Value<String>? url,
+      Value<Uri>? url,
       Value<DateTime>? visitTime,
       Value<int>? rowid}) {
-    return BrowserHistoryCompanion(
+    return BrowserHistoryTableCompanion(
       id: id ?? this.id,
       title: title ?? this.title,
       url: url ?? this.url,
@@ -706,7 +443,8 @@ class BrowserHistoryCompanion extends UpdateCompanion<BrowserHistoryData> {
       map['title'] = Variable<String>(title.value);
     }
     if (url.present) {
-      map['url'] = Variable<String>(url.value);
+      map['url'] = Variable<String>(
+          $BrowserHistoryTableTable.$converterurl.toSql(url.value));
     }
     if (visitTime.present) {
       map['visit_time'] = Variable<DateTime>(visitTime.value);
@@ -719,7 +457,7 @@ class BrowserHistoryCompanion extends UpdateCompanion<BrowserHistoryData> {
 
   @override
   String toString() {
-    return (StringBuffer('BrowserHistoryCompanion(')
+    return (StringBuffer('BrowserHistoryTableCompanion(')
           ..write('id: $id, ')
           ..write('title: $title, ')
           ..write('url: $url, ')
@@ -733,32 +471,33 @@ class BrowserHistoryCompanion extends UpdateCompanion<BrowserHistoryData> {
 abstract class _$MainDatabase extends GeneratedDatabase {
   _$MainDatabase(QueryExecutor e) : super(e);
   $MainDatabaseManager get managers => $MainDatabaseManager(this);
-  late final $DevTableTable devTable = $DevTableTable(this);
-  late final $BrowserBookmarksTable browserBookmarks =
-      $BrowserBookmarksTable(this);
-  late final $BrowserHistoryTable browserHistory = $BrowserHistoryTable(this);
+  late final $MigrationTableTable migrationTable = $MigrationTableTable(this);
+  late final $BrowserHistoryTableTable browserHistoryTable =
+      $BrowserHistoryTableTable(this);
   @override
   Iterable<TableInfo<Table, Object?>> get allTables =>
       allSchemaEntities.whereType<TableInfo<Table, Object?>>();
   @override
   List<DatabaseSchemaEntity> get allSchemaEntities =>
-      [devTable, browserBookmarks, browserHistory];
+      [migrationTable, browserHistoryTable];
 }
 
-typedef $$DevTableTableCreateCompanionBuilder = DevTableCompanion Function({
+typedef $$MigrationTableTableCreateCompanionBuilder = MigrationTableCompanion
+    Function({
   required String key,
   required String value,
   Value<int> rowid,
 });
-typedef $$DevTableTableUpdateCompanionBuilder = DevTableCompanion Function({
+typedef $$MigrationTableTableUpdateCompanionBuilder = MigrationTableCompanion
+    Function({
   Value<String> key,
   Value<String> value,
   Value<int> rowid,
 });
 
-class $$DevTableTableFilterComposer
-    extends Composer<_$MainDatabase, $DevTableTable> {
-  $$DevTableTableFilterComposer({
+class $$MigrationTableTableFilterComposer
+    extends Composer<_$MainDatabase, $MigrationTableTable> {
+  $$MigrationTableTableFilterComposer({
     required super.$db,
     required super.$table,
     super.joinBuilder,
@@ -772,9 +511,9 @@ class $$DevTableTableFilterComposer
       column: $table.value, builder: (column) => ColumnFilters(column));
 }
 
-class $$DevTableTableOrderingComposer
-    extends Composer<_$MainDatabase, $DevTableTable> {
-  $$DevTableTableOrderingComposer({
+class $$MigrationTableTableOrderingComposer
+    extends Composer<_$MainDatabase, $MigrationTableTable> {
+  $$MigrationTableTableOrderingComposer({
     required super.$db,
     required super.$table,
     super.joinBuilder,
@@ -788,9 +527,9 @@ class $$DevTableTableOrderingComposer
       column: $table.value, builder: (column) => ColumnOrderings(column));
 }
 
-class $$DevTableTableAnnotationComposer
-    extends Composer<_$MainDatabase, $DevTableTable> {
-  $$DevTableTableAnnotationComposer({
+class $$MigrationTableTableAnnotationComposer
+    extends Composer<_$MainDatabase, $MigrationTableTable> {
+  $$MigrationTableTableAnnotationComposer({
     required super.$db,
     required super.$table,
     super.joinBuilder,
@@ -804,37 +543,38 @@ class $$DevTableTableAnnotationComposer
       $composableBuilder(column: $table.value, builder: (column) => column);
 }
 
-class $$DevTableTableTableManager extends RootTableManager<
+class $$MigrationTableTableTableManager extends RootTableManager<
     _$MainDatabase,
-    $DevTableTable,
-    DevTableData,
-    $$DevTableTableFilterComposer,
-    $$DevTableTableOrderingComposer,
-    $$DevTableTableAnnotationComposer,
-    $$DevTableTableCreateCompanionBuilder,
-    $$DevTableTableUpdateCompanionBuilder,
+    $MigrationTableTable,
+    MigrationTableData,
+    $$MigrationTableTableFilterComposer,
+    $$MigrationTableTableOrderingComposer,
+    $$MigrationTableTableAnnotationComposer,
+    $$MigrationTableTableCreateCompanionBuilder,
+    $$MigrationTableTableUpdateCompanionBuilder,
     (
-      DevTableData,
-      BaseReferences<_$MainDatabase, $DevTableTable, DevTableData>
+      MigrationTableData,
+      BaseReferences<_$MainDatabase, $MigrationTableTable, MigrationTableData>
     ),
-    DevTableData,
+    MigrationTableData,
     PrefetchHooks Function()> {
-  $$DevTableTableTableManager(_$MainDatabase db, $DevTableTable table)
+  $$MigrationTableTableTableManager(
+      _$MainDatabase db, $MigrationTableTable table)
       : super(TableManagerState(
           db: db,
           table: table,
           createFilteringComposer: () =>
-              $$DevTableTableFilterComposer($db: db, $table: table),
+              $$MigrationTableTableFilterComposer($db: db, $table: table),
           createOrderingComposer: () =>
-              $$DevTableTableOrderingComposer($db: db, $table: table),
+              $$MigrationTableTableOrderingComposer($db: db, $table: table),
           createComputedFieldComposer: () =>
-              $$DevTableTableAnnotationComposer($db: db, $table: table),
+              $$MigrationTableTableAnnotationComposer($db: db, $table: table),
           updateCompanionCallback: ({
             Value<String> key = const Value.absent(),
             Value<String> value = const Value.absent(),
             Value<int> rowid = const Value.absent(),
           }) =>
-              DevTableCompanion(
+              MigrationTableCompanion(
             key: key,
             value: value,
             rowid: rowid,
@@ -844,7 +584,7 @@ class $$DevTableTableTableManager extends RootTableManager<
             required String value,
             Value<int> rowid = const Value.absent(),
           }) =>
-              DevTableCompanion.insert(
+              MigrationTableCompanion.insert(
             key: key,
             value: value,
             rowid: rowid,
@@ -856,201 +596,41 @@ class $$DevTableTableTableManager extends RootTableManager<
         ));
 }
 
-typedef $$DevTableTableProcessedTableManager = ProcessedTableManager<
+typedef $$MigrationTableTableProcessedTableManager = ProcessedTableManager<
     _$MainDatabase,
-    $DevTableTable,
-    DevTableData,
-    $$DevTableTableFilterComposer,
-    $$DevTableTableOrderingComposer,
-    $$DevTableTableAnnotationComposer,
-    $$DevTableTableCreateCompanionBuilder,
-    $$DevTableTableUpdateCompanionBuilder,
+    $MigrationTableTable,
+    MigrationTableData,
+    $$MigrationTableTableFilterComposer,
+    $$MigrationTableTableOrderingComposer,
+    $$MigrationTableTableAnnotationComposer,
+    $$MigrationTableTableCreateCompanionBuilder,
+    $$MigrationTableTableUpdateCompanionBuilder,
     (
-      DevTableData,
-      BaseReferences<_$MainDatabase, $DevTableTable, DevTableData>
+      MigrationTableData,
+      BaseReferences<_$MainDatabase, $MigrationTableTable, MigrationTableData>
     ),
-    DevTableData,
+    MigrationTableData,
     PrefetchHooks Function()>;
-typedef $$BrowserBookmarksTableCreateCompanionBuilder
-    = BrowserBookmarksCompanion Function({
+typedef $$BrowserHistoryTableTableCreateCompanionBuilder
+    = BrowserHistoryTableCompanion Function({
   required String id,
   required String title,
-  required String url,
-  required double sortingOrder,
-  Value<int> rowid,
-});
-typedef $$BrowserBookmarksTableUpdateCompanionBuilder
-    = BrowserBookmarksCompanion Function({
-  Value<String> id,
-  Value<String> title,
-  Value<String> url,
-  Value<double> sortingOrder,
-  Value<int> rowid,
-});
-
-class $$BrowserBookmarksTableFilterComposer
-    extends Composer<_$MainDatabase, $BrowserBookmarksTable> {
-  $$BrowserBookmarksTableFilterComposer({
-    required super.$db,
-    required super.$table,
-    super.joinBuilder,
-    super.$addJoinBuilderToRootComposer,
-    super.$removeJoinBuilderFromRootComposer,
-  });
-  ColumnFilters<String> get id => $composableBuilder(
-      column: $table.id, builder: (column) => ColumnFilters(column));
-
-  ColumnFilters<String> get title => $composableBuilder(
-      column: $table.title, builder: (column) => ColumnFilters(column));
-
-  ColumnFilters<String> get url => $composableBuilder(
-      column: $table.url, builder: (column) => ColumnFilters(column));
-
-  ColumnFilters<double> get sortingOrder => $composableBuilder(
-      column: $table.sortingOrder, builder: (column) => ColumnFilters(column));
-}
-
-class $$BrowserBookmarksTableOrderingComposer
-    extends Composer<_$MainDatabase, $BrowserBookmarksTable> {
-  $$BrowserBookmarksTableOrderingComposer({
-    required super.$db,
-    required super.$table,
-    super.joinBuilder,
-    super.$addJoinBuilderToRootComposer,
-    super.$removeJoinBuilderFromRootComposer,
-  });
-  ColumnOrderings<String> get id => $composableBuilder(
-      column: $table.id, builder: (column) => ColumnOrderings(column));
-
-  ColumnOrderings<String> get title => $composableBuilder(
-      column: $table.title, builder: (column) => ColumnOrderings(column));
-
-  ColumnOrderings<String> get url => $composableBuilder(
-      column: $table.url, builder: (column) => ColumnOrderings(column));
-
-  ColumnOrderings<double> get sortingOrder => $composableBuilder(
-      column: $table.sortingOrder,
-      builder: (column) => ColumnOrderings(column));
-}
-
-class $$BrowserBookmarksTableAnnotationComposer
-    extends Composer<_$MainDatabase, $BrowserBookmarksTable> {
-  $$BrowserBookmarksTableAnnotationComposer({
-    required super.$db,
-    required super.$table,
-    super.joinBuilder,
-    super.$addJoinBuilderToRootComposer,
-    super.$removeJoinBuilderFromRootComposer,
-  });
-  GeneratedColumn<String> get id =>
-      $composableBuilder(column: $table.id, builder: (column) => column);
-
-  GeneratedColumn<String> get title =>
-      $composableBuilder(column: $table.title, builder: (column) => column);
-
-  GeneratedColumn<String> get url =>
-      $composableBuilder(column: $table.url, builder: (column) => column);
-
-  GeneratedColumn<double> get sortingOrder => $composableBuilder(
-      column: $table.sortingOrder, builder: (column) => column);
-}
-
-class $$BrowserBookmarksTableTableManager extends RootTableManager<
-    _$MainDatabase,
-    $BrowserBookmarksTable,
-    BrowserBookmark,
-    $$BrowserBookmarksTableFilterComposer,
-    $$BrowserBookmarksTableOrderingComposer,
-    $$BrowserBookmarksTableAnnotationComposer,
-    $$BrowserBookmarksTableCreateCompanionBuilder,
-    $$BrowserBookmarksTableUpdateCompanionBuilder,
-    (
-      BrowserBookmark,
-      BaseReferences<_$MainDatabase, $BrowserBookmarksTable, BrowserBookmark>
-    ),
-    BrowserBookmark,
-    PrefetchHooks Function()> {
-  $$BrowserBookmarksTableTableManager(
-      _$MainDatabase db, $BrowserBookmarksTable table)
-      : super(TableManagerState(
-          db: db,
-          table: table,
-          createFilteringComposer: () =>
-              $$BrowserBookmarksTableFilterComposer($db: db, $table: table),
-          createOrderingComposer: () =>
-              $$BrowserBookmarksTableOrderingComposer($db: db, $table: table),
-          createComputedFieldComposer: () =>
-              $$BrowserBookmarksTableAnnotationComposer($db: db, $table: table),
-          updateCompanionCallback: ({
-            Value<String> id = const Value.absent(),
-            Value<String> title = const Value.absent(),
-            Value<String> url = const Value.absent(),
-            Value<double> sortingOrder = const Value.absent(),
-            Value<int> rowid = const Value.absent(),
-          }) =>
-              BrowserBookmarksCompanion(
-            id: id,
-            title: title,
-            url: url,
-            sortingOrder: sortingOrder,
-            rowid: rowid,
-          ),
-          createCompanionCallback: ({
-            required String id,
-            required String title,
-            required String url,
-            required double sortingOrder,
-            Value<int> rowid = const Value.absent(),
-          }) =>
-              BrowserBookmarksCompanion.insert(
-            id: id,
-            title: title,
-            url: url,
-            sortingOrder: sortingOrder,
-            rowid: rowid,
-          ),
-          withReferenceMapper: (p0) => p0
-              .map((e) => (e.readTable(table), BaseReferences(db, table, e)))
-              .toList(),
-          prefetchHooksCallback: null,
-        ));
-}
-
-typedef $$BrowserBookmarksTableProcessedTableManager = ProcessedTableManager<
-    _$MainDatabase,
-    $BrowserBookmarksTable,
-    BrowserBookmark,
-    $$BrowserBookmarksTableFilterComposer,
-    $$BrowserBookmarksTableOrderingComposer,
-    $$BrowserBookmarksTableAnnotationComposer,
-    $$BrowserBookmarksTableCreateCompanionBuilder,
-    $$BrowserBookmarksTableUpdateCompanionBuilder,
-    (
-      BrowserBookmark,
-      BaseReferences<_$MainDatabase, $BrowserBookmarksTable, BrowserBookmark>
-    ),
-    BrowserBookmark,
-    PrefetchHooks Function()>;
-typedef $$BrowserHistoryTableCreateCompanionBuilder = BrowserHistoryCompanion
-    Function({
-  required String id,
-  required String title,
-  required String url,
+  required Uri url,
   required DateTime visitTime,
   Value<int> rowid,
 });
-typedef $$BrowserHistoryTableUpdateCompanionBuilder = BrowserHistoryCompanion
-    Function({
+typedef $$BrowserHistoryTableTableUpdateCompanionBuilder
+    = BrowserHistoryTableCompanion Function({
   Value<String> id,
   Value<String> title,
-  Value<String> url,
+  Value<Uri> url,
   Value<DateTime> visitTime,
   Value<int> rowid,
 });
 
-class $$BrowserHistoryTableFilterComposer
-    extends Composer<_$MainDatabase, $BrowserHistoryTable> {
-  $$BrowserHistoryTableFilterComposer({
+class $$BrowserHistoryTableTableFilterComposer
+    extends Composer<_$MainDatabase, $BrowserHistoryTableTable> {
+  $$BrowserHistoryTableTableFilterComposer({
     required super.$db,
     required super.$table,
     super.joinBuilder,
@@ -1063,16 +643,18 @@ class $$BrowserHistoryTableFilterComposer
   ColumnFilters<String> get title => $composableBuilder(
       column: $table.title, builder: (column) => ColumnFilters(column));
 
-  ColumnFilters<String> get url => $composableBuilder(
-      column: $table.url, builder: (column) => ColumnFilters(column));
+  ColumnWithTypeConverterFilters<Uri, Uri, String> get url =>
+      $composableBuilder(
+          column: $table.url,
+          builder: (column) => ColumnWithTypeConverterFilters(column));
 
   ColumnFilters<DateTime> get visitTime => $composableBuilder(
       column: $table.visitTime, builder: (column) => ColumnFilters(column));
 }
 
-class $$BrowserHistoryTableOrderingComposer
-    extends Composer<_$MainDatabase, $BrowserHistoryTable> {
-  $$BrowserHistoryTableOrderingComposer({
+class $$BrowserHistoryTableTableOrderingComposer
+    extends Composer<_$MainDatabase, $BrowserHistoryTableTable> {
+  $$BrowserHistoryTableTableOrderingComposer({
     required super.$db,
     required super.$table,
     super.joinBuilder,
@@ -1092,9 +674,9 @@ class $$BrowserHistoryTableOrderingComposer
       column: $table.visitTime, builder: (column) => ColumnOrderings(column));
 }
 
-class $$BrowserHistoryTableAnnotationComposer
-    extends Composer<_$MainDatabase, $BrowserHistoryTable> {
-  $$BrowserHistoryTableAnnotationComposer({
+class $$BrowserHistoryTableTableAnnotationComposer
+    extends Composer<_$MainDatabase, $BrowserHistoryTableTable> {
+  $$BrowserHistoryTableTableAnnotationComposer({
     required super.$db,
     required super.$table,
     super.joinBuilder,
@@ -1107,47 +689,50 @@ class $$BrowserHistoryTableAnnotationComposer
   GeneratedColumn<String> get title =>
       $composableBuilder(column: $table.title, builder: (column) => column);
 
-  GeneratedColumn<String> get url =>
+  GeneratedColumnWithTypeConverter<Uri, String> get url =>
       $composableBuilder(column: $table.url, builder: (column) => column);
 
   GeneratedColumn<DateTime> get visitTime =>
       $composableBuilder(column: $table.visitTime, builder: (column) => column);
 }
 
-class $$BrowserHistoryTableTableManager extends RootTableManager<
+class $$BrowserHistoryTableTableTableManager extends RootTableManager<
     _$MainDatabase,
-    $BrowserHistoryTable,
-    BrowserHistoryData,
-    $$BrowserHistoryTableFilterComposer,
-    $$BrowserHistoryTableOrderingComposer,
-    $$BrowserHistoryTableAnnotationComposer,
-    $$BrowserHistoryTableCreateCompanionBuilder,
-    $$BrowserHistoryTableUpdateCompanionBuilder,
+    $BrowserHistoryTableTable,
+    BrowserHistoryTableData,
+    $$BrowserHistoryTableTableFilterComposer,
+    $$BrowserHistoryTableTableOrderingComposer,
+    $$BrowserHistoryTableTableAnnotationComposer,
+    $$BrowserHistoryTableTableCreateCompanionBuilder,
+    $$BrowserHistoryTableTableUpdateCompanionBuilder,
     (
-      BrowserHistoryData,
-      BaseReferences<_$MainDatabase, $BrowserHistoryTable, BrowserHistoryData>
+      BrowserHistoryTableData,
+      BaseReferences<_$MainDatabase, $BrowserHistoryTableTable,
+          BrowserHistoryTableData>
     ),
-    BrowserHistoryData,
+    BrowserHistoryTableData,
     PrefetchHooks Function()> {
-  $$BrowserHistoryTableTableManager(
-      _$MainDatabase db, $BrowserHistoryTable table)
+  $$BrowserHistoryTableTableTableManager(
+      _$MainDatabase db, $BrowserHistoryTableTable table)
       : super(TableManagerState(
           db: db,
           table: table,
           createFilteringComposer: () =>
-              $$BrowserHistoryTableFilterComposer($db: db, $table: table),
+              $$BrowserHistoryTableTableFilterComposer($db: db, $table: table),
           createOrderingComposer: () =>
-              $$BrowserHistoryTableOrderingComposer($db: db, $table: table),
+              $$BrowserHistoryTableTableOrderingComposer(
+                  $db: db, $table: table),
           createComputedFieldComposer: () =>
-              $$BrowserHistoryTableAnnotationComposer($db: db, $table: table),
+              $$BrowserHistoryTableTableAnnotationComposer(
+                  $db: db, $table: table),
           updateCompanionCallback: ({
             Value<String> id = const Value.absent(),
             Value<String> title = const Value.absent(),
-            Value<String> url = const Value.absent(),
+            Value<Uri> url = const Value.absent(),
             Value<DateTime> visitTime = const Value.absent(),
             Value<int> rowid = const Value.absent(),
           }) =>
-              BrowserHistoryCompanion(
+              BrowserHistoryTableCompanion(
             id: id,
             title: title,
             url: url,
@@ -1157,11 +742,11 @@ class $$BrowserHistoryTableTableManager extends RootTableManager<
           createCompanionCallback: ({
             required String id,
             required String title,
-            required String url,
+            required Uri url,
             required DateTime visitTime,
             Value<int> rowid = const Value.absent(),
           }) =>
-              BrowserHistoryCompanion.insert(
+              BrowserHistoryTableCompanion.insert(
             id: id,
             title: title,
             url: url,
@@ -1175,29 +760,28 @@ class $$BrowserHistoryTableTableManager extends RootTableManager<
         ));
 }
 
-typedef $$BrowserHistoryTableProcessedTableManager = ProcessedTableManager<
+typedef $$BrowserHistoryTableTableProcessedTableManager = ProcessedTableManager<
     _$MainDatabase,
-    $BrowserHistoryTable,
-    BrowserHistoryData,
-    $$BrowserHistoryTableFilterComposer,
-    $$BrowserHistoryTableOrderingComposer,
-    $$BrowserHistoryTableAnnotationComposer,
-    $$BrowserHistoryTableCreateCompanionBuilder,
-    $$BrowserHistoryTableUpdateCompanionBuilder,
+    $BrowserHistoryTableTable,
+    BrowserHistoryTableData,
+    $$BrowserHistoryTableTableFilterComposer,
+    $$BrowserHistoryTableTableOrderingComposer,
+    $$BrowserHistoryTableTableAnnotationComposer,
+    $$BrowserHistoryTableTableCreateCompanionBuilder,
+    $$BrowserHistoryTableTableUpdateCompanionBuilder,
     (
-      BrowserHistoryData,
-      BaseReferences<_$MainDatabase, $BrowserHistoryTable, BrowserHistoryData>
+      BrowserHistoryTableData,
+      BaseReferences<_$MainDatabase, $BrowserHistoryTableTable,
+          BrowserHistoryTableData>
     ),
-    BrowserHistoryData,
+    BrowserHistoryTableData,
     PrefetchHooks Function()>;
 
 class $MainDatabaseManager {
   final _$MainDatabase _db;
   $MainDatabaseManager(this._db);
-  $$DevTableTableTableManager get devTable =>
-      $$DevTableTableTableManager(_db, _db.devTable);
-  $$BrowserBookmarksTableTableManager get browserBookmarks =>
-      $$BrowserBookmarksTableTableManager(_db, _db.browserBookmarks);
-  $$BrowserHistoryTableTableManager get browserHistory =>
-      $$BrowserHistoryTableTableManager(_db, _db.browserHistory);
+  $$MigrationTableTableTableManager get migrationTable =>
+      $$MigrationTableTableTableManager(_db, _db.migrationTable);
+  $$BrowserHistoryTableTableTableManager get browserHistoryTable =>
+      $$BrowserHistoryTableTableTableManager(_db, _db.browserHistoryTable);
 }

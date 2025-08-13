@@ -1,11 +1,12 @@
+import 'package:app/database/converters/uri_converter.dart';
 import 'package:drift/drift.dart';
 
-class BrowserHistory extends Table {
+class BrowserHistoryTable extends Table {
   TextColumn get id => text()();
 
   TextColumn get title => text()();
 
-  TextColumn get url => text()();
+  TextColumn get url => text().map(const UriConverter())();
 
   DateTimeColumn get visitTime => dateTime()();
 
