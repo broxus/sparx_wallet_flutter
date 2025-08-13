@@ -19,14 +19,16 @@ class WalletAccountBodyWidgetModel extends CustomWidgetModelParametrized<
     super.model,
   );
 
-  late final _notificationsState = createNotifierFromStream(_notificationsStream);
+  late final _notificationsState =
+      createNotifierFromStream(_notificationsStream);
 
   late final _carouselPageState = createValueNotifier(0);
 
   late final ValueListenable<KeyAccount> currentAccountState =
       createWmParamsNotifier((it) => it);
 
-  ListenableState<List<NotificationType>> get notificationsState => _notificationsState;
+  ListenableState<List<NotificationType>> get notificationsState =>
+      _notificationsState;
 
   ValueListenable<int> get carouselPageState => _carouselPageState;
 

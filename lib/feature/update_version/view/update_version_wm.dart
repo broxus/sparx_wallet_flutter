@@ -18,7 +18,8 @@ class UpdateVersionWidgetModel
   late final _updateRequestsState =
       createNotifierFromStream(model.updateRequests.whereNotNull());
 
-  ListenableState<UpdateRequest?> get updateRequestsState => _updateRequestsState;
+  ListenableState<UpdateRequest?> get updateRequestsState =>
+      _updateRequestsState;
 
   ThemeStyleV2 get theme => context.themeStyleV2;
 

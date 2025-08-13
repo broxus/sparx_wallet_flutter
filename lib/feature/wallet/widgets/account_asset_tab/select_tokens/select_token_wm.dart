@@ -23,7 +23,8 @@ class SelectTokenWidgetModel extends CustomWidgetModelParametrized<
   late final _loadingState = createNotifier(true);
   late final _isAllSelectedState = createNotifier(false);
 
-  ListenableState<List<TokenDataElement>> get tokenContractState => _tokenContractState;
+  ListenableState<List<TokenDataElement>> get tokenContractState =>
+      _tokenContractState;
 
   ListenableState<bool> get isAllSelectedState => _isAllSelectedState;
 
@@ -102,7 +103,8 @@ class SelectTokenWidgetModel extends CustomWidgetModelParametrized<
   }
 
   void _checkIfAllSelected() {
-    final allChecked = _tokenContractState.value?.every((entry) => entry.isSelected) ?? false;
+    final allChecked =
+        _tokenContractState.value?.every((entry) => entry.isSelected) ?? false;
     if (allChecked != _isAllSelectedState.value) {
       _isAllSelectedState.accept(allChecked);
     }

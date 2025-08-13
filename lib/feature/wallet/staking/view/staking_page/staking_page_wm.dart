@@ -58,7 +58,8 @@ class StakingPageWidgetModel extends CustomWidgetModelParametrized<
 
   ValueListenable<StakingTab> get tabState => _tabState;
 
-  ListenableState<List<StEverWithdrawRequest>> get requestsState => _requestsState;
+  ListenableState<List<StEverWithdrawRequest>> get requestsState =>
+      _requestsState;
 
   ListenableState<Money> get receiveState => _receiveState;
 

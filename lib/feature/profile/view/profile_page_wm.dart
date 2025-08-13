@@ -27,7 +27,8 @@ class ProfilePageWidgetModel
       createNotifierFromStream(model.biometryEnabledStream);
   late final _appVersionState = createNotifier('');
 
-  ListenableState<bool> get isBiometryAvailableState => _biometryAvailabilityState;
+  ListenableState<bool> get isBiometryAvailableState =>
+      _biometryAvailabilityState;
 
   ListenableState<bool> get isBiometryEnabledState => _biometryEnabledState;
 

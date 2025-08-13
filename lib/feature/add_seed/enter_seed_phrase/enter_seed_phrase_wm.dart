@@ -98,7 +98,8 @@ class EnterSeedPhraseWidgetModel extends CustomWidgetModelParametrized<
 
   NetworkType get networkType => model.networkType;
 
-  ListenableState<SeedPhraseFormat> get seedPhraseFormatState => _seedPhraseFormatState;
+  ListenableState<SeedPhraseFormat> get seedPhraseFormatState =>
+      _seedPhraseFormatState;
 
   List<int> get seedPhraseWordsCount => model.seedPhraseWordsCount;
 

@@ -17,9 +17,11 @@ class WalletAppBarWidgetModel
     extends CustomWidgetModel<WalletAppBarWidget, WalletAppBarModel> {
   WalletAppBarWidgetModel(super.model);
 
-  late final _currentAccountState = createNotifierFromStream(model.currentAccount);
+  late final _currentAccountState =
+      createNotifierFromStream(model.currentAccount);
   late final _walletState = createNotifierFromStream(model.walletState);
-  late final _connectionState = createNotifierFromStream(model.connectionStream);
+  late final _connectionState =
+      createNotifierFromStream(model.connectionStream);
 
   ListenableState<KeyAccount?> get currentAccountState => _currentAccountState;
 

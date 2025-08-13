@@ -19,7 +19,8 @@ class SelectAccountWidgetModel
 
   late final searchController = createTextEditingController();
   late final _accountsState = createNotifierFromStream(model.seedWithAccounts);
-  late final _currentAccountState = createNotifierFromStream(model.currentAccount);
+  late final _currentAccountState =
+      createNotifierFromStream(model.currentAccount);
   late final _listState = createNotifier(_accountsState.value);
   final _balances = <Address, ListenableState<Money?>>{};
 
