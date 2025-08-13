@@ -109,6 +109,10 @@ import '../feature/biometry/route.dart' as _i459;
 import '../feature/biometry/view/biometry_screen_model.dart' as _i700;
 import '../feature/biometry/view/biometry_screen_wm.dart' as _i801;
 import '../feature/bootstrap_failed/route.dart' as _i501;
+import '../feature/bootstrap_failed/view/bootstrap_failed_rerun_model.dart'
+    as _i884;
+import '../feature/bootstrap_failed/view/bootstrap_failed_rerun_wm.dart'
+    as _i926;
 import '../feature/browser_v1/approvals_listener/actions/add_network/add_network_model.dart'
     as _i561;
 import '../feature/browser_v1/approvals_listener/actions/add_network/add_network_wm.dart'
@@ -1332,32 +1336,12 @@ extension GetItInjectableX on _i174.GetIt {
           gh<_i143.AppVersionService>(),
           gh<_i361.Dio>(),
         ));
-    gh.singleton<_i811.StakingService>(() => _i811.StakingService(
-          gh<_i771.NekotonRepository>(),
-          gh<_i361.Dio>(),
-          gh<_i948.StakingAbiProvider>(),
-          gh<_i128.GasPriceService>(),
-        ));
-    gh.factory<_i162.TonApi>(() => _i162.TonApi(gh<_i361.Dio>()));
-    gh.factory<_i249.PresetsApi>(() => _i249.PresetsApi(gh<_i361.Dio>()));
-    gh.lazySingleton<_i1071.TonConnectHttpBridge>(
-        () => _i1071.TonConnectHttpBridge(
-              gh<_i625.TonConnectService>(),
-              gh<_i128.AppLifecycleService>(),
-              gh<_i128.TonConnectStorageService>(),
-              gh<_i361.Dio>(),
-            ));
-    gh.factory<_i801.WalletAccountActionsModel>(
-        () => _i801.WalletAccountActionsModel(
+    gh.factory<_i884.BootstrapFailedRerunModel>(
+        () => _i884.BootstrapFailedRerunModel(
               gh<_i83.ErrorHandler>(),
-              gh<_i771.NekotonRepository>(),
-              gh<_i948.StakingService>(),
+              gh<_i468.BootstrapService>(),
               gh<_i632.MessengerService>(),
             ));
-    gh.singleton<_i586.DefaultCurrenciesFetchStrategy>(
-        () => _i586.DefaultCurrenciesFetchStrategy(gh<_i361.Dio>()));
-    gh.singleton<_i586.TonCurrenciesFetchStrategy>(
-        () => _i586.TonCurrenciesFetchStrategy(gh<_i361.Dio>()));
     gh.factory<_i718.DeployWalletConfirmWidgetModel>(() =>
         _i718.DeployWalletConfirmWidgetModel(
             gh<_i632.DeployWalletConfirmModel>()));
@@ -1394,6 +1378,9 @@ extension GetItInjectableX on _i174.GetIt {
       ),
       instanceName: 'EnterSeedNameRoute',
     );
+    gh.factory<_i926.BootstrapFailedRerunWidgetModel>(() =>
+        _i926.BootstrapFailedRerunWidgetModel(
+            gh<_i884.BootstrapFailedRerunModel>()));
     gh.factory<_i62.ConfirmActionWidgetModel>(
         () => _i62.ConfirmActionWidgetModel(gh<_i217.ConfirmActionModel>()));
     gh.singleton<_i82.CompassBaseRoute>(
