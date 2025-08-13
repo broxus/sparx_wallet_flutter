@@ -11,7 +11,8 @@ class TCManageDappsWidgetModel
 
   late final _connectionsState = createNotifierFromStream(model.connections);
 
-  ListenableState<List<TonAppConnection>> get connectionsState => _connectionsState;
+  ListenableState<List<TonAppConnection>> get connectionsState =>
+      _connectionsState;
 
   ThemeStyleV2 get theme => context.themeStyleV2;
 

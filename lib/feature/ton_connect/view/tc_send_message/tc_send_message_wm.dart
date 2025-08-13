@@ -74,7 +74,8 @@ class TCSendMessageWidgetModel extends CustomWidgetModelParametrized<
 
   ListenableState<String> get feeErrorState => _feeErrorState;
 
-  ListenableState<List<TxTreeSimulationErrorItem>> get txErrorsState => _txErrorsState;
+  ListenableState<List<TxTreeSimulationErrorItem>> get txErrorsState =>
+      _txErrorsState;
 
   ValueListenable<PublicKey?> get selectedPublicKey => _publicKeyState;
 

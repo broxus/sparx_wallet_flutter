@@ -99,7 +99,8 @@ class SendMessageWidgetModel extends CustomWidgetModelParametrized<
 
   ListenableState<String> get feeErrorState => _feeErrorState;
 
-  ListenableState<List<TxTreeSimulationErrorItem>> get txErrorsState => _txErrorsState;
+  ListenableState<List<TxTreeSimulationErrorItem>> get txErrorsState =>
+      _txErrorsState;
 
   ListenableState<PublicKey> get publicKeyState => _publicKeyState;
 
@@ -126,7 +127,8 @@ class SendMessageWidgetModel extends CustomWidgetModelParametrized<
 
   String? getSeedName(PublicKey custodian) => model.getSeedName(custodian);
 
-  void onChangedCustodian(PublicKey custodian) => _publicKeyState.accept(custodian);
+  void onChangedCustodian(PublicKey custodian) =>
+      _publicKeyState.accept(custodian);
 
   Future<void> onSubmit(SignInputAuth signInputAuth) async {
     if (signInputAuth.isLedger) {

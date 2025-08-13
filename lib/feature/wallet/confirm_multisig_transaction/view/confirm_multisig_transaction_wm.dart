@@ -75,11 +75,13 @@ class ConfirmMultisigTransactionWidgetModel
 
   ListenableState<BigInt> get feesState => _feesState;
 
-  ListenableState<List<TxTreeSimulationErrorItem>> get txErrorsState => _txErrorsState;
+  ListenableState<List<TxTreeSimulationErrorItem>> get txErrorsState =>
+      _txErrorsState;
 
   ListenableState<String> get errorState => _errorState;
 
-  ListenableState<ConfirmMultisigTransactionState> get confirmState => _confirmState;
+  ListenableState<ConfirmMultisigTransactionState> get confirmState =>
+      _confirmState;
 
   Currency get currency => Currencies()[model.transport.nativeTokenTicker]!;
 

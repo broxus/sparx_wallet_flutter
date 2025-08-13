@@ -16,7 +16,8 @@ class SelectSeedWidgetModel
     with BleAvailabilityWmMixin {
   SelectSeedWidgetModel(super.model);
 
-  late final _currentAccountState = createNotifierFromStream(model.currentAccount);
+  late final _currentAccountState =
+      createNotifierFromStream(model.currentAccount);
   late final _listState = createNotifierFromStream(model.seedWithAccounts);
 
   ListenableState<List<Seed>> get listState => _listState;
