@@ -1,11 +1,11 @@
 // ignore_for_file: deprecated_member_use_from_same_package
 
 import 'package:app/app/router/router.dart';
+import 'package:app/feature/add_seed/enter_seed_name/enter_seed_name.dart';
+import 'package:app/feature/add_seed/enter_seed_name/route.dart';
 import 'package:app/feature/profile/manage_seeds_accounts/manage_seeds_accounts.dart';
 import 'package:app/feature/profile/seed_detail/route.dart';
 import 'package:app/generated/generated.dart';
-import 'package:app/v1/feature/add_seed/enter_seed_name/enter_seed_name.dart';
-import 'package:app/v1/feature/add_seed/enter_seed_name/route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:lucide_icons_flutter/lucide_icons.dart';

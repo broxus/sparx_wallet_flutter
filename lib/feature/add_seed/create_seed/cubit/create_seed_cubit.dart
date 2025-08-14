@@ -1,6 +1,6 @@
 import 'package:app/core/bloc/bloc_mixin.dart';
 import 'package:app/data/models/seed/seed_phrase_model.dart';
-import 'package:app/v1/feature/add_seed/constants.dart';
+import 'package:app/feature/constants.dart';
 import 'package:bloc/bloc.dart';
 import 'package:flutter/services.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';

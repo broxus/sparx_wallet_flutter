@@ -1,7 +1,7 @@
 import 'package:app/app/router/compass/compass.dart';
+import 'package:app/feature/add_seed/check_seed_phrase/route.dart';
 import 'package:app/feature/add_seed/create_password/route.dart';
-import 'package:app/v1/feature/add_seed/check_seed_phrase/route.dart';
-import 'package:app/v1/feature/add_seed/create_seed/view/create_seed_page.dart';
+import 'package:app/feature/add_seed/create_seed/view/create_seed_page.dart';
 import 'package:injectable/injectable.dart';
 
 const _seedNameQueryParam = 'seedName';
@@ -9,9 +9,7 @@ const _seedNameQueryParam = 'seedName';
 /// Route that allows to create a seed phrase with/without entering name.
 @named
 @Singleton(as: CompassBaseRoute)
-@Deprecated('Use v2 version')
 class CreateSeedRoute extends CompassRoute<CreateSeedRouteData> {
-  @Deprecated('Use v2 version')
   CreateSeedRoute(
     @Named.from(CheckSeedPhraseRoute) CompassBaseRoute checkSeedPhraseRoute,
     @Named.from(CreateSeedPasswordRoute)

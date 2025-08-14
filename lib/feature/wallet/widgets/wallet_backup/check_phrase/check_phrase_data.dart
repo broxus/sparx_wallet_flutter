@@ -1,4 +1,4 @@
-import 'package:app/v1/feature/add_seed/check_seed_phrase/cubit/check_seed_correct_answer.dart';
+import 'package:app/feature/add_seed/check_seed_phrase/check_seed_phrase.dart';
 
 class CheckPhraseData {
   CheckPhraseData({

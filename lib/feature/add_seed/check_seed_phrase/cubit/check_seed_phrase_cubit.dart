@@ -2,7 +2,7 @@ import 'dart:math';
 
 import 'package:app/core/bloc/bloc_mixin.dart';
 import 'package:app/data/models/seed/seed_phrase_model.dart';
-import 'package:app/v1/feature/add_seed/check_seed_phrase/cubit/cubit.dart';
+import 'package:app/feature/add_seed/check_seed_phrase/data/data.dart';
 import 'package:bloc/bloc.dart';
 import 'package:collection/collection.dart';
 import 'package:flutter/foundation.dart';

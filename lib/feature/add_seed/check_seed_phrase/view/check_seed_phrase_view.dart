@@ -1,8 +1,8 @@
 import 'package:app/di/di.dart';
+import 'package:app/feature/add_seed/check_seed_phrase/check_seed_phrase.dart';
 import 'package:app/feature/messenger/data/message.dart';
 import 'package:app/feature/messenger/domain/service/messenger_service.dart';
 import 'package:app/generated/generated.dart';
-import 'package:app/v1/feature/add_seed/check_seed_phrase/check_seed_phrase.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:ui_components_lib/v2/ui_components_lib_v2.dart';

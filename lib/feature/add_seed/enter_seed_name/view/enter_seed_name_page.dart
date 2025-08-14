@@ -1,7 +1,7 @@
 import 'package:app/app/router/router.dart';
+import 'package:app/feature/add_seed/create_seed/route.dart';
+import 'package:app/feature/add_seed/enter_seed_name/view/enter_seed_name_view.dart';
 import 'package:app/feature/add_seed/enter_seed_phrase/route.dart';
-import 'package:app/v1/feature/add_seed/create_seed/route.dart';
-import 'package:app/v1/feature/add_seed/enter_seed_name/view/enter_seed_name_view.dart';
 import 'package:flutter/material.dart';
 import 'package:ui_components_lib/ui_components_lib.dart';
 

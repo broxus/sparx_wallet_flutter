@@ -1,8 +1,8 @@
 import 'package:app/app/router/compass/bottom_bar_state.dart';
 import 'package:app/app/router/compass/compass.dart';
+import 'package:app/feature/add_seed/enter_seed_name/route.dart';
 import 'package:app/feature/profile/manage_seeds_accounts/view/manage_seeds_accounts_page.dart';
 import 'package:app/feature/profile/seed_detail/route.dart';
-import 'package:app/v1/feature/add_seed/enter_seed_name/route.dart';
 import 'package:injectable/injectable.dart';
 
 @named

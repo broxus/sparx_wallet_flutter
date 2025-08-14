@@ -1,8 +1,8 @@
 import 'package:app/app/router/router.dart';
 import 'package:app/data/models/seed/seed_phrase_model.dart';
+import 'package:app/feature/add_seed/check_seed_phrase/route.dart';
 import 'package:app/feature/add_seed/create_password/route.dart';
-import 'package:app/v1/feature/add_seed/check_seed_phrase/route.dart';
-import 'package:app/v1/feature/add_seed/create_seed/create_seed.dart';
+import 'package:app/feature/add_seed/create_seed/create_seed.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:nekoton_repository/nekoton_repository.dart';

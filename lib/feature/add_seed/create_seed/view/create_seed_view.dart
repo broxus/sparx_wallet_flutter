@@ -1,6 +1,6 @@
 import 'package:app/data/models/seed/seed_phrase_model.dart';
+import 'package:app/feature/add_seed/create_seed/create_seed.dart';
 import 'package:app/generated/generated.dart';
-import 'package:app/v1/feature/add_seed/create_seed/create_seed.dart';
 import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';

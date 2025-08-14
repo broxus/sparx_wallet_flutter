@@ -1,7 +1,7 @@
 import 'package:app/app/router/compass/compass.dart';
 import 'package:app/data/models/models.dart';
+import 'package:app/feature/add_seed/check_seed_phrase/view/view.dart';
 import 'package:app/feature/add_seed/create_password/route.dart';
-import 'package:app/v1/feature/add_seed/check_seed_phrase/view/view.dart';
 import 'package:injectable/injectable.dart';
 
 const _seedPhraseQueryParam = 'seed';

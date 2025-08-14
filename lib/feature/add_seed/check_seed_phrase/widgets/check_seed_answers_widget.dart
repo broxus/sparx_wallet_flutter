@@ -1,5 +1,5 @@
+import 'package:app/feature/add_seed/check_seed_phrase/check_seed_phrase.dart';
 import 'package:app/generated/generated.dart';
-import 'package:app/v1/feature/add_seed/check_seed_phrase/check_seed_phrase.dart';
 import 'package:flutter/material.dart';
 import 'package:ui_components_lib/ui_components_lib.dart';
 
