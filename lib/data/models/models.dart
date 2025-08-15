@@ -21,7 +21,6 @@ export 'stever/st_ever_details.dart';
 export 'stever/stever_withdraw_request.dart';
 export 'token_balance.dart';
 export 'token_contract/token_contract_asset.dart';
-export 'token_wallet_ordinary_transaction.dart';
 export 'ton_assets_manifest.dart';
 export 'ton_assets_manifest_version.dart';
 export 'unsigned_message_with_additional_info.dart';
