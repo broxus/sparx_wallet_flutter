@@ -1,9 +1,14 @@
+import 'dart:async';
+
 import 'package:app/app/router/router.dart';
 import 'package:app/app/service/app_lifecycle_service.dart';
+import 'package:app/app/service/app_links/app_links.dart';
 import 'package:app/app/service/biometry_service.dart';
+import 'package:app/app/service/bootstrap/configurators/logger.dart';
+import 'package:app/app/service/crash_detector/domain/service/crash_detector_service.dart';
 import 'package:app/app/service/localization/service/localization_service.dart';
 import 'package:app/app/view/app.dart';
-import 'package:app/bootstrap/bootstrap.dart';
+import 'package:app/feature/browser_v2/domain/browser_launcher.dart';
 import 'package:app/feature/messenger/data/message.dart';
 import 'package:app/feature/messenger/domain/service/messenger_service.dart';
 import 'package:app/feature/profile/route.dart';
@@ -19,18 +24,26 @@ class AppModel extends ElementaryModel with WidgetsBindingObserver {
   AppModel(
     ErrorHandler errorHandler,
     this.router,
+    this._appLinksService,
     this._appLifecycleService,
     this._localizationService,
     this._biometryService,
     this._messengerService,
+    this._crashDetectorService,
+    this._loggerConfigurator,
+    this._browserLauncher,
     this._nekotonRepository,
   ) : super(errorHandler: errorHandler);
 
   final CompassRouter router;
+  final AppLinksService _appLinksService;
   final AppLifecycleService _appLifecycleService;
   final LocalizationService _localizationService;
   final BiometryService _biometryService;
   final MessengerService _messengerService;
+  final CrashDetectorService _crashDetectorService;
+  final LoggerConfigurator _loggerConfigurator;
+  final BrowserLauncher _browserLauncher;
   final NekotonRepository _nekotonRepository;
 
   BuildContext? get navContext =>
@@ -39,14 +52,16 @@ class AppModel extends ElementaryModel with WidgetsBindingObserver {
   Stream<bool> get messagesExistStream => _messengerService.messagesExistStream;
 
   AppLifecycleListener? _listener;
+  StreamSubscription<BrowserAppLinksData>? _appLinksSubs;
 
   @override
   void init() {
     _listener = AppLifecycleListener(
       onStateChange: _onStateChanged,
     );
-    appStartSession(setCrashDetected: true);
+    _crashDetectorService.startSession(setCrashDetected: true);
     _checkBiometry();
+    _appLinksSubs = _appLinksService.browserLinksStream.listen(_listenAppLinks);
     super.init();
   }
 
@@ -54,6 +69,7 @@ class AppModel extends ElementaryModel with WidgetsBindingObserver {
   void dispose() {
     router.dispose();
     _listener?.dispose();
+    _appLinksSubs?.cancel();
     super.dispose();
   }
 
@@ -66,14 +82,17 @@ class AppModel extends ElementaryModel with WidgetsBindingObserver {
 
   Message? getMessage() => _messengerService.takeMessage();
 
+  Future<bool> checkCrashDetected() =>
+      _crashDetectorService.checkCrashDetected();
+
   void _onStateChanged(AppLifecycleState state) {
     switch (state) {
       case AppLifecycleState.resumed:
-        startLogSession();
-        appStartSession(setCrashDetected: false);
+        _loggerConfigurator.startLogSession();
+        _crashDetectorService.startSession(setCrashDetected: false);
         _resumePolling();
       case AppLifecycleState.inactive:
-        appStopSession();
+        _crashDetectorService.stopSession();
         _pausePolling();
       case AppLifecycleState.paused:
       case AppLifecycleState.detached:
@@ -94,6 +113,12 @@ class AppModel extends ElementaryModel with WidgetsBindingObserver {
         isEnabled: true,
       );
     }
+  }
+
+  void _listenAppLinks(BrowserAppLinksData event) {
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      _browserLauncher.openBrowserByUri(event.url);
+    });
   }
 
   void _pausePolling() {

@@ -20,13 +20,13 @@ class HistoryListModel extends ElementaryModel {
   final BrowserService _browserService;
   final LocalizationService _localizationService;
 
-  Stream<List<BrowserHistoryItem>> get originalBrowserHistoryStream =>
-      _browserService.hist.browserHistoryStream;
+  Stream<List<BrowserHistoryItem>> watchHistory([String? text]) =>
+      _browserService.hist.watchHistory(text);
 
-  List<BrowserHistoryItem> get originalBrowserHistoryItems =>
-      _browserService.hist.browserHistoryItems;
+  Stream<int> watchHistoryCount() => _browserService.hist.watchHistoryCount();
 
-  bool get isExistHistory => originalBrowserHistoryItems.isNotEmpty;
+  Future<BrowserHistoryItem?> getHistoryItemById(String id) =>
+      _browserService.hist.getHistoryItemById(id);
 
   void requestUrl(Uri uri) {
     _browserService.tab.requestUrlActiveTab(uri);
