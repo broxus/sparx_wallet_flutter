@@ -1,4 +1,4 @@
-import 'package:app/database/main_database.dart';
+import 'package:app/app/service/database/main_database.dart';
 
 class MigrationDelegate {
   MigrationDelegate(this._db);

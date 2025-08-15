@@ -1,4 +1,4 @@
-import 'package:app/database/converters/uri_converter.dart';
+import 'package:app/app/service/database/converters/uri_converter.dart';
 import 'package:drift/drift.dart';
 
 class BrowserHistoryTable extends Table {

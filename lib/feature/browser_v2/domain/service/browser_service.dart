@@ -57,9 +57,8 @@ class BrowserService {
 
   ValueStream<bool> get isContentInteractedStream => _isContentInteractedStream;
 
-  void init() {
+  Future<void> init() async {
     _bookmarksDelegate.init();
-    _historyDelegate.init();
     _permissionsDelegate.init();
     _tabsDelegate.init();
   }

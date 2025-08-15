@@ -1,7 +1,6 @@
 import 'package:app/app/service/bootstrap/bootstrap_steps.dart';
 import 'package:app/app/service/bootstrap/configurators/biometry.dart';
 import 'package:app/app/service/bootstrap/configurators/connection.dart';
-import 'package:app/app/service/bootstrap/configurators/database.dart';
 import 'package:app/app/service/bootstrap/configurators/encrypted_storage.dart';
 import 'package:app/app/service/bootstrap/configurators/features.dart';
 import 'package:app/app/service/bootstrap/configurators/migrate_storage.dart';
@@ -26,7 +25,6 @@ class BootstrapService {
     this._presetsConnectionService,
     this._biometryConfigurator,
     this._connectionConfigurator,
-    this._databaseConfigurator,
     this._encryptedStorageConfigurator,
     this._featureServicesConfigurator,
     this._migrateConfigurator,
@@ -38,7 +36,6 @@ class BootstrapService {
   final PresetsConnectionService _presetsConnectionService;
   final BiometryConfigurator _biometryConfigurator;
   final ConnectionConfigurator _connectionConfigurator;
-  final DatabaseConfigurator _databaseConfigurator;
   final EncryptedStorageConfigurator _encryptedStorageConfigurator;
   final FeatureServicesConfigurator _featureServicesConfigurator;
   final MigrateConfigurator _migrateConfigurator;
@@ -121,7 +118,6 @@ class BootstrapService {
   /// This step can not be failed during initialization, so we do not let
   /// it to be re-runed (if failed - that's gg).
   Future<void> _coreStep(AppBuildType appBuildType) async {
-    await _databaseConfigurator.configure();
     await _encryptedStorageConfigurator.configure();
   }
 

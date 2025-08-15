@@ -1,11 +1,9 @@
+import 'package:app/app/service/database/database_service.dart';
 import 'package:app/app/service/service.dart';
 import 'package:app/app/service/storage_service/migrations/storage_migrations/v5.dart';
 import 'package:app/app/service/storage_service/migrations/storage_migrations/v6.dart';
-import 'package:app/database/database_service.dart';
-import 'package:app/feature/browser_v2/domain/service/storages/browser_history_storage_service.dart';
 import 'package:encrypted_storage/encrypted_storage.dart';
 import 'package:get_storage/get_storage.dart';
-import 'package:injectable/injectable.dart';
 import 'package:logging/logging.dart';
 
 final _logger = Logger('StorageMigrationService');
@@ -19,7 +17,6 @@ class StorageMigrationService {
     this._presetsConnectionService,
     this._generalStorageService,
     this._connectionsStorageService,
-    @Named(BrowserHistoryStorageService.container) this._historyStorage,
     this._databaseService,
   ) : _storage = GetStorage();
 
@@ -28,7 +25,6 @@ class StorageMigrationService {
     PresetsConnectionService presetsConnectionService,
     GeneralStorageService generalStorageService,
     ConnectionsStorageService connectionsStorageService,
-    @Named(BrowserHistoryStorageService.container) GetStorage historyStorage,
     DatabaseService databaseService,
   ) async =>
       StorageMigrationService(
@@ -36,12 +32,10 @@ class StorageMigrationService {
         presetsConnectionService,
         generalStorageService,
         connectionsStorageService,
-        historyStorage,
         databaseService,
       ).migrate();
 
   final GetStorage _storage;
-  final GetStorage _historyStorage;
   final EncryptedStorage _encryptedStorage;
 
   final PresetsConnectionService _presetsConnectionService;
@@ -95,7 +89,6 @@ class StorageMigrationService {
     }
     if (currentVersion < StorageMigrationV6.version) {
       yield StorageMigrationV6(
-        _historyStorage,
         _databaseService,
       );
     }
