@@ -22,6 +22,10 @@ class HistoryList extends InjectedElementaryWidget<HistoryListWidgetModel> {
         StateNotifierBuilder(
           listenableState: wm.isShowSearchState,
           builder: (_, bool? isShowSearch) {
+            isShowSearch ??= true;
+            if (!isShowSearch) {
+              return const SizedBox.shrink();
+            }
             return Padding(
               padding: const EdgeInsets.only(
                 bottom: DimensSizeV2.d16,
