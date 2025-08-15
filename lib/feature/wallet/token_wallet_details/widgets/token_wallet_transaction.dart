@@ -42,7 +42,7 @@ class TokenWalletTransactionWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final theme = context.themeStyleV2;
-    final date = isFirst ? _headerDate(theme) : null;
+    final date = isFirst ? _Date(transaction.date) : null;
 
     final body = PressScaleWidget(
       onPressed: () => Navigator.of(context, rootNavigator: true).push(
@@ -63,122 +63,131 @@ class TokenWalletTransactionWidget extends StatelessWidget {
             bottom: Radius.circular(isLast ? DimensRadiusV2.radius16 : 0),
           ),
         ),
-        child: _baseTransactionBody(theme),
+        child: _Body(
+          transaction: transaction,
+          transactionValue: transactionValue,
+        ),
       ),
     );
 
     return date == null
         ? body
-        : SeparatedColumn(
+        : Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             mainAxisSize: MainAxisSize.min,
+            spacing: DimensSizeV2.d8,
             children: [date, body],
           );
   }
+}
 
-  // TODO(LevitskiyDaniil): Move to widget
-  Widget _headerDate(ThemeStyleV2 theme) {
-    return Builder(
-      builder: (context) {
-        return Padding(
-          padding: const EdgeInsets.only(top: DimensSize.d8),
-          child: Text(
-            // TODO(LevitskiyDaniil): Think about move logic to WM
-            // (notifier should subscribe on language changes)
-            DateTimeUtils.formatTransactionDate(transaction.date, context),
-            style: theme.textStyles.headingXSmall,
-          ),
-        );
-      },
+class _Date extends StatelessWidget {
+  const _Date(this.date);
+
+  final DateTime date;
+
+  @override
+  Widget build(BuildContext context) {
+    final theme = context.themeStyleV2;
+
+    return Padding(
+      padding: const EdgeInsets.only(top: DimensSize.d8),
+      child: Text(
+        DateTimeUtils.formatTransactionDate(date, context.locale.languageCode),
+        style: theme.textStyles.headingXSmall,
+      ),
     );
   }
+}
 
-  // TODO(LevitskiyDaniil): Move to widget
-  Widget _baseTransactionBody(ThemeStyleV2 theme) {
+class _Body extends StatelessWidget {
+  const _Body({
+    required this.transaction,
+    required this.transactionValue,
+  });
+
+  final TokenWalletOrdinaryTransaction transaction;
+  final Money transactionValue;
+
+  @override
+  Widget build(BuildContext context) {
+    final theme = context.themeStyleV2;
     final isIncoming = !transaction.isOutgoing;
+    final transactionTimeFormatter = DateFormat(
+      'HH:mm',
+      context.locale.languageCode,
+    );
 
-    return Builder(
-      builder: (context) {
-        final transactionTimeFormatter = DateFormat(
-          'HH:mm',
-          context.locale.languageCode,
-        );
-
-        return Padding(
-          padding: const EdgeInsets.all(DimensSize.d16),
-          child: SeparatedRow(
-            children: [
-              Expanded(
-                child: Column(
+    return Padding(
+      padding: const EdgeInsets.all(DimensSize.d16),
+      child: Row(
+        spacing: DimensSizeV2.d8,
+        children: [
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                // amount
+                Row(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    // amount
-                    Row(
+                    TransactionIcon(
+                      isIncoming: isIncoming,
+                      icon: isIncoming
+                          ? LucideIcons.arrowDownLeft
+                          : LucideIcons.arrowUpRight,
+                    ),
+                    const SizedBox(width: DimensSizeV2.d8),
+                    Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        TransactionIcon(
-                          isIncoming: isIncoming,
-                          icon: isIncoming
-                              ? LucideIcons.arrowDownLeft
-                              : LucideIcons.arrowUpRight,
+                        AmountWidget.fromMoney(
+                          amount: transactionValue,
+                          includeSymbol: false,
+                          sign: isIncoming
+                              ? LocaleKeys.plusSign.tr()
+                              : LocaleKeys.minusSign.tr(),
+                          style: theme.textStyles.labelXSmall.copyWith(
+                            color: isIncoming
+                                ? theme.colors.contentPositive
+                                : theme.colors.content0,
+                          ),
                         ),
-                        const SizedBox(width: DimensSizeV2.d8),
-                        Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            AmountWidget.fromMoney(
-                              amount: transactionValue,
-                              includeSymbol: false,
-                              sign: isIncoming
-                                  ? LocaleKeys.plusSign.tr()
-                                  : LocaleKeys.minusSign.tr(),
-                              style: theme.textStyles.labelXSmall.copyWith(
-                                color: isIncoming
-                                    ? theme.colors.contentPositive
-                                    : theme.colors.content0,
-                              ),
-                            ),
-                            const SizedBox(height: DimensSizeV2.d4),
-                            Text(
-                              isIncoming
-                                  ? LocaleKeys.fromWord.tr(
-                                      args: [
-                                        transaction.address.toEllipseString(),
-                                      ],
-                                    )
-                                  : LocaleKeys.toWord.tr(
-                                      args: [
-                                        transaction.address.toEllipseString(),
-                                      ],
-                                    ),
-                              style: theme.textStyles.labelXSmall.copyWith(
-                                color: theme.colors.content3,
-                              ),
-                            ),
-                          ],
+                        const SizedBox(height: DimensSizeV2.d4),
+                        Text(
+                          isIncoming
+                              ? LocaleKeys.fromWord.tr(
+                                  args: [transaction.address.toEllipseString()],
+                                )
+                              : LocaleKeys.toWord.tr(
+                                  args: [transaction.address.toEllipseString()],
+                                ),
+                          style: theme.textStyles.labelXSmall.copyWith(
+                            color: theme.colors.content3,
+                          ),
                         ),
                       ],
                     ),
-                    const SizedBox(height: DimensSizeV2.d4),
                   ],
                 ),
-              ),
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.end,
-                children: [
-                  const SizedBox(height: DimensSizeV2.d14),
-                  Text(
-                    transactionTimeFormatter.format(transaction.date),
-                    style: theme.textStyles.labelXSmall.copyWith(
-                      color: theme.colors.content3,
-                    ),
-                  ),
-                ],
+                const SizedBox(height: DimensSizeV2.d4),
+              ],
+            ),
+          ),
+          Column(
+            crossAxisAlignment: CrossAxisAlignment.end,
+            children: [
+              const SizedBox(height: DimensSizeV2.d14),
+              Text(
+                transactionTimeFormatter.format(transaction.date),
+                style: theme.textStyles.labelXSmall.copyWith(
+                  color: theme.colors.content3,
+                ),
               ),
             ],
           ),
-        );
-      },
+        ],
+      ),
     );
   }
 }

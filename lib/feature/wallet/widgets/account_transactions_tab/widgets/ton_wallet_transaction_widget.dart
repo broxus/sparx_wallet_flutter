@@ -20,8 +20,8 @@ class TonWalletTransactionWidget extends StatelessWidget {
     required this.onPressed,
     required this.address,
     required this.icon,
-    super.key,
     this.additionalInformation,
+    super.key,
   });
 
   /// Date and time of transaction creation
@@ -63,7 +63,7 @@ class TonWalletTransactionWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final theme = context.themeStyleV2;
-    final date = isFirst ? _headerDate(theme) : null;
+    final date = isFirst ? _Date(transactionDateTime) : null;
 
     final body = Container(
       decoration: BoxDecoration(
@@ -83,11 +83,20 @@ class TonWalletTransactionWidget extends StatelessWidget {
               bottom: Radius.circular(isLast ? DimensRadiusV2.radius16 : 0),
             ),
           ),
-          child: SeparatedColumn(
+          child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             mainAxisSize: MainAxisSize.min,
+            spacing: DimensSizeV2.d8,
             children: [
-              _baseTransactionBody(theme),
+              _Body(
+                icon: icon,
+                isIncoming: isIncoming,
+                transactionValue: transactionValue,
+                status: status,
+                address: address,
+                date: transactionDateTime,
+                additionalInformation: additionalInformation,
+              ),
             ],
           ),
         ),
@@ -96,139 +105,143 @@ class TonWalletTransactionWidget extends StatelessWidget {
 
     return date == null
         ? body
-        : SeparatedColumn(
+        : Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             mainAxisSize: MainAxisSize.min,
+            spacing: DimensSizeV2.d8,
             children: [date, body],
           );
   }
+}
 
-  // TODO(LevitskiyDaniil): Move to widget
-  Widget _headerDate(ThemeStyleV2 theme) {
-    return Builder(
-      builder: (context) {
-        return Padding(
-          padding: const EdgeInsets.only(top: DimensSize.d8),
-          child: Text(
-            // TODO(LevitskiyDaniil): Think about move logic to WM
-            // (notifier should subscribe on language changes)
-            DateTimeUtils.formatTransactionDate(transactionDateTime, context),
-            style: theme.textStyles.headingXSmall,
-          ),
-        );
-      },
+class _Date extends StatelessWidget {
+  const _Date(this.date);
+
+  final DateTime date;
+
+  @override
+  Widget build(BuildContext context) {
+    final theme = context.themeStyleV2;
+
+    return Padding(
+      padding: const EdgeInsets.only(top: DimensSize.d8),
+      child: Text(
+        DateTimeUtils.formatTransactionDate(date, context.locale.languageCode),
+        style: theme.textStyles.headingXSmall,
+      ),
     );
   }
+}
 
-  // ignore: long-method
-  // TODO(LevitskiyDaniil): Move to widget
-  Widget _baseTransactionBody(ThemeStyleV2 theme) {
-    return Builder(
-      builder: (context) {
-        final transactionTimeFormatter = DateFormat(
-          'HH:mm',
-          context.locale.languageCode,
-        );
+class _Body extends StatelessWidget {
+  const _Body({
+    required this.icon,
+    required this.isIncoming,
+    required this.transactionValue,
+    required this.status,
+    required this.address,
+    required this.date,
+    required this.additionalInformation,
+  });
 
-        return Padding(
-          padding: const EdgeInsets.all(DimensSize.d16),
-          child: SeparatedRow(
-            children: [
-              Expanded(
-                child: Column(
+  final IconData icon;
+  final bool isIncoming;
+  final Money transactionValue;
+  final TonWalletTransactionStatus status;
+  final Address address;
+  final DateTime date;
+  final Widget? additionalInformation;
+
+  @override
+  Widget build(BuildContext context) {
+    final theme = context.themeStyleV2;
+    final transactionTimeFormatter = DateFormat(
+      'HH:mm',
+      context.locale.languageCode,
+    );
+    final color = switch (status) {
+      TonWalletTransactionStatus.waitingConfirmation =>
+        theme.colors.contentWarning,
+      TonWalletTransactionStatus.expired ||
+      TonWalletTransactionStatus.pending =>
+        theme.colors.content3,
+      _ => isIncoming ? theme.colors.contentPositive : theme.colors.content0,
+    };
+
+    return Padding(
+      padding: const EdgeInsets.all(DimensSize.d16),
+      child: Row(
+        spacing: DimensSizeV2.d8,
+        children: [
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                // amount
+                Row(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    // amount
-                    Row(
+                    TransactionIcon(
+                      icon: icon,
+                      isIncoming: isIncoming,
+                      status: status,
+                    ),
+                    const SizedBox(width: DimensSizeV2.d12),
+                    Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        TransactionIcon(
-                          icon: icon,
-                          isIncoming: isIncoming,
-                          status: status,
+                        AmountWidget.fromMoney(
+                          amount: transactionValue,
+                          includeSymbol: false,
+                          sign: isIncoming
+                              ? LocaleKeys.plusSign.tr()
+                              : LocaleKeys.minusSign.tr(),
+                          style: theme.textStyles.labelXSmall.copyWith(
+                            color: color,
+                          ),
                         ),
-                        const SizedBox(width: DimensSizeV2.d12),
-                        Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            AmountWidget.fromMoney(
-                              amount: transactionValue,
-                              includeSymbol: false,
-                              sign: isIncoming
-                                  ? LocaleKeys.plusSign.tr()
-                                  : LocaleKeys.minusSign.tr(),
-                              style: theme.textStyles.labelXSmall.copyWith(
-                                color: _getColorValue(
-                                  theme,
-                                  status,
-                                  isIncoming,
-                                ),
-                              ),
-                            ),
-                            const SizedBox(height: DimensSizeV2.d4),
-                            Text(
-                              isIncoming
-                                  ? LocaleKeys.fromWord
-                                      .tr(args: [address.toEllipseString()])
-                                  : LocaleKeys.toWord
-                                      .tr(args: [address.toEllipseString()]),
-                              style: theme.textStyles.labelXSmall.copyWith(
-                                color: theme.colors.content3,
-                              ),
-                            ),
-                          ],
+                        const SizedBox(height: DimensSizeV2.d4),
+                        Text(
+                          isIncoming
+                              ? LocaleKeys.fromWord
+                                  .tr(args: [address.toEllipseString()])
+                              : LocaleKeys.toWord
+                                  .tr(args: [address.toEllipseString()]),
+                          style: theme.textStyles.labelXSmall.copyWith(
+                            color: theme.colors.content3,
+                          ),
                         ),
                       ],
                     ),
-                    const SizedBox(height: DimensSizeV2.d4),
                   ],
                 ),
-              ),
-              if (additionalInformation != null)
-                additionalInformation!
-              else
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.end,
-                  children: [
-                    if (status == TonWalletTransactionStatus.pending ||
-                        status ==
-                            TonWalletTransactionStatus.unstakingInProgress)
-                      Text(
-                        status.title,
-                        style: theme.textStyles.labelXSmall
-                            .copyWith(color: theme.colors.content3),
-                      )
-                    else
-                      Text('', style: theme.textStyles.labelXSmall),
-                    Text(
-                      transactionTimeFormatter.format(transactionDateTime),
-                      style: theme.textStyles.labelXSmall.copyWith(
-                        color: theme.colors.content3,
-                      ),
-                    ),
-                  ],
-                ),
-            ],
+                const SizedBox(height: DimensSizeV2.d4),
+              ],
+            ),
           ),
-        );
-      },
+          additionalInformation ??
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.end,
+                children: [
+                  if (status == TonWalletTransactionStatus.pending ||
+                      status == TonWalletTransactionStatus.unstakingInProgress)
+                    Text(
+                      status.title,
+                      style: theme.textStyles.labelXSmall
+                          .copyWith(color: theme.colors.content3),
+                    )
+                  else
+                    Text('', style: theme.textStyles.labelXSmall),
+                  Text(
+                    transactionTimeFormatter.format(date),
+                    style: theme.textStyles.labelXSmall.copyWith(
+                      color: theme.colors.content3,
+                    ),
+                  ),
+                ],
+              ),
+        ],
+      ),
     );
-  }
-
-  Color _getColorValue(
-    ThemeStyleV2 theme,
-    TonWalletTransactionStatus status,
-    bool isIncoming,
-  ) {
-    if (status == TonWalletTransactionStatus.waitingConfirmation) {
-      return theme.colors.contentWarning;
-    } else if (status == TonWalletTransactionStatus.expired ||
-        status == TonWalletTransactionStatus.pending) {
-      return theme.colors.content3;
-    } else if (isIncoming) {
-      return theme.colors.contentPositive;
-    } else {
-      return theme.colors.content0;
-    }
   }
 }
