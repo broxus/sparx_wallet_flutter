@@ -1,10 +1,14 @@
+import 'package:app/app/router/router.dart';
 import 'package:app/di/di.dart';
 import 'package:app/feature/wallet/wallet.dart';
+import 'package:app/feature/wallet/wallet_prepare_transfer/route.dart';
 import 'package:app/feature/wallet/widgets/account_transactions_tab/account_transactions_tab.dart';
 import 'package:app/generated/generated.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:lucide_icons_flutter/lucide_icons.dart';
 import 'package:nekoton_repository/nekoton_repository.dart';
+import 'package:ui_components_lib/components/common/default_sliver_app_bar.dart';
 import 'package:ui_components_lib/ui_components_lib.dart';
 import 'package:ui_components_lib/v2/ui_components_lib_v2.dart';
 
@@ -108,45 +112,50 @@ class _Body extends StatelessWidget {
     return CustomScrollView(
       controller: controller,
       slivers: [
-        SliverToBoxAdapter(
-          child: Stack(
-            children: [
-              const _Background(),
-              Column(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  const DefaultAppBar(),
-                  Text(
-                    symbol,
-                    style: theme.textStyles.labelSmall.copyWith(
-                      color: theme.colors.content3,
-                    ),
+        DefaultSliverAppBar(
+          title: symbol,
+          flexibleSpace: FlexibleSpaceBar(
+            background: Stack(
+              fit: StackFit.expand,
+              children: [
+                const _Background(),
+                SafeArea(
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      const SizedBox(height: 72),
+                      Text(
+                        symbol,
+                        style: theme.textStyles.labelSmall.copyWith(
+                          color: theme.colors.content3,
+                        ),
+                      ),
+                      const SizedBox(height: DimensSizeV2.d12),
+                      if (tokenBalance != null)
+                        AmountWidget.fromMoney(
+                          amount: tokenBalance!,
+                          includeSymbol: false,
+                          style: theme.textStyles.headingXLarge,
+                        ),
+                      const SizedBox(height: DimensSizeV2.d4),
+                      if (fiatBalance != null)
+                        AmountWidget.dollars(
+                          amount: fiatBalance!,
+                          style: theme.textStyles.labelXSmall,
+                        ),
+                      const SizedBox(height: DimensSizeV2.d16),
+                      if (error == null)
+                        WalletAccountActions(
+                          account: account,
+                          allowStake: false,
+                          sendSpecified: true,
+                          padding: EdgeInsets.zero,
+                        ),
+                    ],
                   ),
-                  const SizedBox(height: DimensSizeV2.d12),
-                  if (tokenBalance != null)
-                    AmountWidget.fromMoney(
-                      amount: tokenBalance!,
-                      includeSymbol: false,
-                      style: theme.textStyles.headingXLarge,
-                    ),
-                  const SizedBox(height: DimensSizeV2.d4),
-                  if (fiatBalance != null)
-                    AmountWidget.dollars(
-                      amount: fiatBalance!,
-                      style: theme.textStyles.labelXSmall,
-                    ),
-                  const SizedBox(height: DimensSizeV2.d16),
-                  if (error == null)
-                    WalletAccountActions(
-                      account: account,
-                      allowStake: false,
-                      sendSpecified: true,
-                      padding: EdgeInsets.zero,
-                    ),
-                  const SizedBox(height: DimensSizeV2.d48),
-                ],
-              ),
-            ],
+                ),
+              ],
+            ),
           ),
         ),
         DecoratedSliver(
@@ -210,4 +219,46 @@ class _Background extends StatelessWidget {
           ),
         ),
       );
+}
+
+class _CompactActionButtons extends StatelessWidget {
+  const _CompactActionButtons({
+    required this.account,
+    required this.isCollapsed,
+  });
+
+  final KeyAccount account;
+  final bool isCollapsed;
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      margin: const EdgeInsets.only(right: DimensSizeV2.d8),
+      child: Row(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          _CompactActionButton(
+            icon: LucideIcons.arrowDown,
+            onPressed: isCollapsed
+                ? () => showReceiveFundsSheet(context, account.address)
+                : null,
+          ),
+          const SizedBox(width: DimensSizeV2.d8),
+          _CompactActionButton(
+            icon: LucideIcons.arrowUp,
+            onPressed: isCollapsed ? () => _onSend(context, account) : null,
+          ),
+        ],
+      ),
+    );
+  }
+
+  void _onSend(BuildContext context, KeyAccount account) {
+    // Implementation for sending - TON wallet transfer
+    context.compassContinue(
+      WalletPrepareTransferRouteData(
+        address: account.address,
+      ),
+    );
+  }
 }
