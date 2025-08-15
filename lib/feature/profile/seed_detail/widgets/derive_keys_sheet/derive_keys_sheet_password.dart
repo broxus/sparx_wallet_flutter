@@ -7,6 +7,8 @@ import 'package:ui_components_lib/ui_components_lib.dart';
 
 /// Helper function that shows [DeriveKeysEnterPasswordSheet] to enter
 /// password before deriving keys.
+///
+/// **Hint:** do not call for Ledger.
 void showDeriveKeysSheetPassword(
   BuildContext context,
   PublicKey publicKey,

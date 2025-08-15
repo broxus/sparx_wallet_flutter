@@ -6,7 +6,7 @@ import 'package:ui_components_lib/ui_components_lib.dart';
 
 /// Helper function that allows show sheet to ask user password and initiator
 /// publicKey to make [TonWallet.send] action.
-Future<(PublicKey, String)?> showSendMessageSheet({
+Future<(PublicKey, SignInputAuth)?> showSendMessageSheet({
   required BuildContext context,
   required Uri origin,
   required Address sender,
