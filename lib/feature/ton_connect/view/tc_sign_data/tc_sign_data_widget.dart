@@ -74,11 +74,12 @@ class TCSignDataWidget extends InjectedElementaryParametrizedWidget<
 
             if (account == null) return const SizedBox.shrink();
 
-            return EnterPasswordWidgetV2(
-              isLoading: isLoading,
+            return EnterPasswordWidget.auth(
+              getLedgerAuthInput: wm.getLedgerAuthInput,
+              isLoading: isLoading ?? false,
               publicKey: account.publicKey,
               title: LocaleKeys.sign.tr(),
-              onPasswordEntered: wm.onSubmit,
+              onConfirmed: wm.onSubmit,
             );
           },
         ),

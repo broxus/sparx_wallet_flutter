@@ -16,7 +16,7 @@ import 'package:nekoton_webview/nekoton_webview.dart' show AddNetwork, Network;
 /// This widget listen for events from all browser-tabs.
 ///
 /// This listener handles requests and returns result to the completer, that
-/// comes for request, sending this data to the caller function.
+/// comes for r, sending this data to the caller function.
 class ApprovalsListenerWidget extends StatefulWidget {
   const ApprovalsListenerWidget({
     required this.child,
@@ -38,146 +38,78 @@ class _ApprovalsListenerWidgetState extends State<ApprovalsListenerWidget> {
   // ignore: long-method
   void initState() {
     _streamSubscription = approvalsService.approvalsStream.listen(
-      (request) => switch (request) {
-        ApprovalRequestPermissions(
-          :final origin,
-          :final permissions,
-          :final completer,
-        ) =>
-          requestPermissions(
-            origin: origin,
-            permissions: permissions,
-            completer: completer,
+      (r) => switch (r) {
+        ApprovalRequestPermissions() => requestPermissions(
+            origin: r.origin,
+            permissions: r.permissions,
+            completer: r.completer,
           ),
-        ApprovalRequestChangeAccount(
-          :final origin,
-          :final permissions,
-          :final previousSelectedAccount,
-          :final completer,
-        ) =>
-          changeAccount(
-            origin: origin,
-            permissions: permissions,
-            previousSelectedAccount: previousSelectedAccount,
-            completer: completer,
+        ApprovalRequestChangeAccount() => changeAccount(
+            origin: r.origin,
+            permissions: r.permissions,
+            previousSelectedAccount: r.previousSelectedAccount,
+            completer: r.completer,
           ),
-        ApprovalRequestAddTip3Token(
-          :final origin,
-          :final account,
-          :final details,
-          :final completer,
-        ) =>
-          addTip3Token(
-            origin: origin,
-            account: account,
-            details: details,
-            completer: completer,
+        ApprovalRequestAddTip3Token() => addTip3Token(
+            origin: r.origin,
+            account: r.account,
+            details: r.details,
+            completer: r.completer,
           ),
-        ApprovalRequestSignData(
-          :final origin,
-          :final account,
-          :final publicKey,
-          :final data,
-          :final completer,
-        ) =>
-          signData(
-            origin: origin,
-            account: account,
-            publicKey: publicKey,
-            data: data,
-            completer: completer,
+        ApprovalRequestSignData() => signData(
+            origin: r.origin,
+            account: r.account,
+            publicKey: r.publicKey,
+            data: r.data,
+            signInputAuthLedger: r.signInputAuthLedger,
+            completer: r.completer,
           ),
-        ApprovalRequestEncryptData(
-          :final origin,
-          :final account,
-          :final publicKey,
-          :final data,
-          :final completer,
-        ) =>
-          encryptData(
-            origin: origin,
-            account: account,
-            publicKey: publicKey,
-            data: data,
-            completer: completer,
+        ApprovalRequestEncryptData() => encryptData(
+            origin: r.origin,
+            account: r.account,
+            publicKey: r.publicKey,
+            data: r.data,
+            completer: r.completer,
           ),
-        ApprovalRequestDecryptData(
-          :final origin,
-          :final account,
-          :final recipientPublicKey,
-          :final sourcePublicKey,
-          :final completer,
-        ) =>
-          decryptData(
-            origin: origin,
-            account: account,
-            recipientPublicKey: recipientPublicKey,
-            sourcePublicKey: sourcePublicKey,
-            completer: completer,
+        ApprovalRequestDecryptData() => decryptData(
+            origin: r.origin,
+            account: r.account,
+            recipientPublicKey: r.recipientPublicKey,
+            sourcePublicKey: r.sourcePublicKey,
+            completer: r.completer,
           ),
-        ApprovalRequestCallContractMethod(
-          :final origin,
-          :final account,
-          :final publicKey,
-          :final recipient,
-          :final payload,
-          :final completer,
-        ) =>
-          callContractMethod(
-            origin: origin,
-            account: account,
-            publicKey: publicKey,
-            recipient: recipient,
-            payload: payload,
-            completer: completer,
+        ApprovalRequestCallContractMethod() => callContractMethod(
+            origin: r.origin,
+            account: r.account,
+            publicKey: r.publicKey,
+            recipient: r.recipient,
+            payload: r.payload,
+            signInputAuthLedger: r.signInputAuthLedger,
+            completer: r.completer,
           ),
-        ApprovalRequestSendMessage(
-          :final origin,
-          :final sender,
-          :final recipient,
-          :final amount,
-          :final bounce,
-          :final payload,
-          :final knownPayload,
-          :final ignoredComputePhaseCodes,
-          :final ignoredActionPhaseCodes,
-          :final completer,
-        ) =>
-          sendMessage(
-            origin: origin,
-            sender: sender,
-            recipient: recipient,
-            amount: amount,
-            bounce: bounce,
-            payload: payload,
-            knownPayload: knownPayload,
-            ignoredComputePhaseCodes: ignoredComputePhaseCodes,
-            ignoredActionPhaseCodes: ignoredActionPhaseCodes,
-            completer: completer,
+        ApprovalRequestSendMessage() => sendMessage(
+            origin: r.origin,
+            sender: r.sender,
+            recipient: r.recipient,
+            amount: r.amount,
+            bounce: r.bounce,
+            payload: r.payload,
+            knownPayload: r.knownPayload,
+            ignoredComputePhaseCodes: r.ignoredComputePhaseCodes,
+            ignoredActionPhaseCodes: r.ignoredActionPhaseCodes,
+            completer: r.completer,
           ),
-        ApprovalRequestChangeNetwork(
-          :final origin,
-          :final networkId,
-          :final connections,
-          :final completer,
-        ) =>
-          changeNetwork(
-            origin: origin,
-            networkId: networkId,
-            connections: connections,
-            completer: completer,
+        ApprovalRequestChangeNetwork() => changeNetwork(
+            origin: r.origin,
+            networkId: r.networkId,
+            connections: r.connections,
+            completer: r.completer,
           ),
-        ApprovalRequestAddNetwork(
-          :final origin,
-          :final network,
-          :final switchNetwork,
-          :final completer,
-        ) =>
-          addNetwork(
-            origin: origin,
-            network: network,
-            switchNetwork: switchNetwork,
-            completer: completer,
+        ApprovalRequestAddNetwork() => addNetwork(
+            origin: r.origin,
+            network: r.network,
+            switchNetwork: r.switchNetwork,
+            completer: r.completer,
           ),
       },
     );
@@ -297,7 +229,8 @@ class _ApprovalsListenerWidgetState extends State<ApprovalsListenerWidget> {
     required Address account,
     required PublicKey publicKey,
     required String data,
-    required Completer<String> completer,
+    required SignInputAuthLedger signInputAuthLedger,
+    required Completer<SignInputAuth> completer,
   }) async {
     try {
       final result = await showSignDataSheet(
@@ -306,6 +239,7 @@ class _ApprovalsListenerWidgetState extends State<ApprovalsListenerWidget> {
         account: account,
         publicKey: publicKey,
         data: data,
+        signInputAuthLedger: signInputAuthLedger,
       );
 
       if (result != null) {
@@ -323,7 +257,7 @@ class _ApprovalsListenerWidgetState extends State<ApprovalsListenerWidget> {
     required Address account,
     required PublicKey publicKey,
     required String data,
-    required Completer<String> completer,
+    required Completer<SignInputAuth> completer,
   }) async {
     try {
       final result = await showEncryptDataSheet(
@@ -349,7 +283,7 @@ class _ApprovalsListenerWidgetState extends State<ApprovalsListenerWidget> {
     required Address account,
     required PublicKey recipientPublicKey,
     required PublicKey sourcePublicKey,
-    required Completer<String> completer,
+    required Completer<SignInputAuth> completer,
   }) async {
     try {
       final result = await showDecryptDataSheet(
@@ -376,7 +310,8 @@ class _ApprovalsListenerWidgetState extends State<ApprovalsListenerWidget> {
     required PublicKey publicKey,
     required Address recipient,
     required FunctionCall payload,
-    required Completer<String> completer,
+    required SignInputAuthLedger signInputAuthLedger,
+    required Completer<SignInputAuth> completer,
   }) async {
     try {
       final result = await showCallContractMethodSheet(
@@ -386,6 +321,7 @@ class _ApprovalsListenerWidgetState extends State<ApprovalsListenerWidget> {
         publicKey: publicKey,
         recipient: recipient,
         payload: payload,
+        signInputAuthLedger: signInputAuthLedger,
       );
 
       if (result != null) {
@@ -410,7 +346,7 @@ class _ApprovalsListenerWidgetState extends State<ApprovalsListenerWidget> {
         ignoredComputePhaseCodes,
     required List<IgnoreTransactionTreeSimulationError>?
         ignoredActionPhaseCodes,
-    required Completer<(PublicKey, String)> completer,
+    required Completer<(PublicKey, SignInputAuth)> completer,
   }) async {
     try {
       final result = await showSendMessageSheet(

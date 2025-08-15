@@ -10,6 +10,7 @@ environment:
 
 dependencies:
   app_links: 6.4.0
+  async: ^2.12.0
   auto_size_text: 3.0.0
   auto_size_text_field: 2.2.4
   barcode_widget: 2.0.4
@@ -18,6 +19,7 @@ dependencies:
     git:
       url: https://github.com/broxus/broxus-flutter-app-link
       ref: v1.0.0
+  buffer: ^1.2.3
   cached_network_image: 3.4.1
   cached_network_svg_image: 1.2.0
   carousel_slider: 5.0.0
@@ -38,6 +40,7 @@ dependencies:
   flutter:
     sdk: flutter
   flutter_bloc: 9.1.1
+  flutter_blue_plus: 1.35.5
   flutter_email_sender: 7.0.0
   flutter_inappwebview: 6.1.5
   flutter_screenutil: 5.9.3
@@ -47,7 +50,7 @@ dependencies:
   freezed_annotation: 3.0.0
   get_it: 8.0.3
   get_storage: 2.1.1
-  go_router: 15.2.3
+  go_router: 15.1.3
   hex: 0.2.0
   image_picker: 1.1.2
   image_picker_android: 0.8.12+23
@@ -65,8 +68,9 @@ dependencies:
   mobile_scanner: 7.0.1
   money2: 5.4.6
   money2_fixer: 3.0.0
+  mutex: ^3.1.0
   native_dio_adapter: 1.4.0
-  nekoton_repository: 1.3.3
+  nekoton_repository: 1.4.0
   nekoton_webview: 0.1.11
   ntp: 2.0.0
   open_settings_plus: 0.4.0
