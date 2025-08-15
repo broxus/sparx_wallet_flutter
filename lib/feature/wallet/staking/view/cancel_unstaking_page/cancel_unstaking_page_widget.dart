@@ -87,7 +87,7 @@ class CancelUnstakingPageWidget extends InjectedElementaryParametrizedWidget<
                       value: LocaleKeys.liquidStaking.tr(),
                     ),
                     StateNotifierBuilder(
-                      listenableState: wm.asset,
+                      listenableState: wm.assetState,
                       builder: (_, asset) => WalletTransactionDetailsItem(
                         title: LocaleKeys.unstakeAmount.tr(),
                         valueWidget: AmountWidget.fromMoney(

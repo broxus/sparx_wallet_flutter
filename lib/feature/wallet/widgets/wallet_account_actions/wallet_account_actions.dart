@@ -36,12 +36,12 @@ class WalletAccountActions extends InjectedElementaryParametrizedWidget<
   Widget build(WalletAccountActionsWidgetModel wm) {
     return MultiListenerRebuilder(
       listenableList: [
-        wm.action,
+        wm.actionState,
         wm.hasStakeState,
         wm.hasStakeActionsState,
       ],
       builder: (_) {
-        final action = wm.action.value;
+        final action = wm.actionState.value;
         final hasStake = wm.hasStakeState.value;
         final hasStakeActions = wm.hasStakeActionsState.value;
 

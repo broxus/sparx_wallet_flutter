@@ -42,9 +42,9 @@ class SelectTokenWidget extends InjectedElementaryParametrizedWidget<
   @override
   Widget build(SelectTokenWidgetModel wm) {
     return TripleSourceBuilder(
-      firstSource: wm.tokenContract,
-      secondSource: wm.isAllSelected,
-      thirdSource: wm.loading,
+      firstSource: wm.tokenContractState,
+      secondSource: wm.isAllSelectedState,
+      thirdSource: wm.loadingState,
       builder: (_, value, allSelected, loading) {
         final isEmpty = (value?.isEmpty ?? false) && loading == false;
         final isButtonEnabled =

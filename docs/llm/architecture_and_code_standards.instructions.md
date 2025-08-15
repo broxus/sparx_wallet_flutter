@@ -36,6 +36,29 @@ For each feature screen, create exactly these 3 files:
 - **Model**: Data handling, state management, extends `ElementaryModel`, MUST be `@injectable`
 - **WidgetModel**: Business logic, user interactions, MUST be `@injectable`
 
+### Reactive Field Naming Convention
+
+In WidgetModel files, ALL reactive fields must use proper suffixes:
+
+- **All Notifier/Listenable types**: Must end with `State` suffix
+  - Includes: `ValueNotifier`, `ValueListenable`, `StateNotifier`, `ListenableState`, `EntityStateNotifier`
+  - Example: `isLoadingState`, `selectedTabState`, `userDataState`
+- **Stream types**: Must end with `Stream` suffix
+  - Includes: `Stream`, `StreamController`, `BehaviorSubject`
+  - Example: `eventsStream`, `dataStream`
+
+**Private fields must match public getters:**
+
+```dart
+// CORRECT
+late final _isLoadingState = createValueNotifier(false);
+ValueListenable<bool> get isLoadingState => _isLoadingState;
+
+// WRONG - Private field name doesn't match getter
+late final _isLoading = createValueNotifier(false);
+ValueListenable<bool> get isLoadingState => _isLoading;
+```
+
 ### Base Class Patterns
 
 The project uses two patterns for Elementary MVVM implementation:

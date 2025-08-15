@@ -58,7 +58,7 @@ class DeployWalletConfirmModal extends InjectedElementaryParametrizedWidget<
           onPressed: wm.onClickConfirm,
         ),
         StateNotifierBuilder(
-          listenableState: wm.availableBiometry,
+          listenableState: wm.availableBiometryState,
           builder: (_, value) {
             if (value == null) return const SizedBox.shrink();
             if (value.contains(BiometricType.face)) {

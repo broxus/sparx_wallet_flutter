@@ -44,7 +44,7 @@ class NewAccountTypeWidget extends InjectedElementaryParametrizedWidget<
                 ),
                 const SizedBox(height: DimensSizeV2.d12),
                 StateNotifierBuilder(
-                  listenableState: wm.selected,
+                  listenableState: wm.selectedState,
                   builder: (_, selected) => PrimaryCard(
                     padding: EdgeInsets.zero,
                     color: theme.colors.background1,
@@ -103,7 +103,7 @@ class NewAccountTypeWidget extends InjectedElementaryParametrizedWidget<
                             style: theme.textStyles.labelSmall,
                           ),
                           StateNotifierBuilder(
-                            listenableState: wm.showDeprecated,
+                            listenableState: wm.showDeprecatedState,
                             builder: (_, value) => Switch(
                               value: value ?? false,
                               onChanged: wm.onShowDeprecatedChanged,
@@ -133,13 +133,13 @@ class NewAccountTypeWidget extends InjectedElementaryParametrizedWidget<
                       const SizedBox(height: DimensSizeV2.d12),
                       MultiListenerRebuilder(
                         listenableList: [
-                          wm.selected,
-                          wm.showDeprecated,
+                          wm.selectedState,
+                          wm.showDeprecatedState,
                           wm.disabledWalletTypesState,
                         ],
                         builder: (_) {
-                          final selected = wm.selected.value;
-                          final showDeprecated = wm.showDeprecated.value;
+                          final selected = wm.selectedState.value;
+                          final showDeprecated = wm.showDeprecatedState.value;
                           final disabledTypes =
                               wm.disabledWalletTypesState.value;
 
@@ -178,12 +178,12 @@ class NewAccountTypeWidget extends InjectedElementaryParametrizedWidget<
         MultiListenerRebuilder(
           listenableList: [
             wm.disabledWalletTypesState,
-            wm.loading,
-            wm.selected,
+            wm.loadingState,
+            wm.selectedState,
           ],
           builder: (_) {
-            final isLoading = wm.loading.value;
-            final selected = wm.selected.value;
+            final isLoading = wm.loadingState.value;
+            final selected = wm.selectedState.value;
             final disabledTypes = wm.disabledWalletTypesState.value;
 
             return Padding(

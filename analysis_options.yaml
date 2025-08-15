@@ -3,3 +3,6 @@ analyzer:
   exclude:
     - lib/di/di.config.dart
     - "**.reflectable.dart"
+  # TODO: Enable when dependency conflict with reflectable (used in bridge) is resolved
+  # plugins:
+  #   - custom_lint
