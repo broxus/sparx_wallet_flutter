@@ -24,6 +24,7 @@ ModalRoute<void> showAddNewLocalAccountTypeSheet({
       )..init(),
       child: AddNewLocalAccountTypeSheet(
         controller: scrollController,
+        nekotonRepository: inject<NekotonRepository>(),
       ),
     ),
   );
@@ -33,10 +34,12 @@ ModalRoute<void> showAddNewLocalAccountTypeSheet({
 class AddNewLocalAccountTypeSheet extends StatelessWidget {
   const AddNewLocalAccountTypeSheet({
     required this.controller,
+    required this.nekotonRepository,
     super.key,
   });
 
   final ScrollController controller;
+  final NekotonRepository nekotonRepository;
 
   @override
   Widget build(BuildContext context) {
@@ -109,8 +112,7 @@ class AddNewLocalAccountTypeSheet extends StatelessWidget {
     required bool isCreated,
     bool isDefault = false,
   }) {
-    final name =
-        inject<NekotonRepository>().currentTransport.defaultAccountName(type);
+    final name = nekotonRepository.currentTransport.defaultAccountName(type);
 
     return Builder(
       builder: (context) {

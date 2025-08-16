@@ -9,7 +9,7 @@ import 'package:ui_components_lib/v2/ui_components_lib_v2.dart';
 
 class EndpointsField extends StatelessWidget {
   const EndpointsField({
-    required this.editable,
+    required this.isEditable,
     required this.endpointsControllersState,
     required this.onAdd,
     required this.onLocalChanged,
@@ -20,7 +20,7 @@ class EndpointsField extends StatelessWidget {
     super.key,
   });
 
-  final bool editable;
+  final bool isEditable;
   final ListenableState<List<TextEditingController>> endpointsControllersState;
   final VoidCallback onAdd;
   final ValueChanged<bool> onLocalChanged;
@@ -45,7 +45,7 @@ class EndpointsField extends StatelessWidget {
 
         return NetworkFormField(
           label: LocaleKeys.networkEndpoint.plural(controllers.length),
-          trailing: editable && connectionType.enableMultipleEndpoints
+          trailing: isEditable && connectionType.enableMultipleEndpoints
               ? GhostButton(
                   buttonShape: ButtonShape.square,
                   buttonSize: ButtonSize.small,
@@ -58,7 +58,7 @@ class EndpointsField extends StatelessWidget {
               ...controllers.mapIndexed(
                 (index, controller) => EndpointItem(
                   key: ObjectKey(controller),
-                  editable: editable,
+                  isEditable: isEditable,
                   index: index,
                   controller: controller,
                   validator: validator,
