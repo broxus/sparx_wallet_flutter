@@ -344,6 +344,9 @@ import '../feature/profile/seed_detail/view/seed_detail_page_model.dart'
 import '../feature/profile/seed_detail/view/seed_detail_page_wm.dart' as _i420;
 import '../feature/profile/view/profile_page_model.dart' as _i342;
 import '../feature/profile/view/profile_page_wm.dart' as _i700;
+import '../feature/profile/widgets/rename_sheet/rename_sheet_model.dart'
+    as _i815;
+import '../feature/profile/widgets/rename_sheet/rename_sheet_wm.dart' as _i313;
 import '../feature/profile/widgets/switch_to_seed_sheet/switch_to_seed_model.dart'
     as _i644;
 import '../feature/profile/widgets/switch_to_seed_sheet/switch_to_seed_wm.dart'
@@ -747,6 +750,11 @@ extension GetItInjectableX on _i174.GetIt {
               gh<_i771.NekotonRepository>(),
               gh<_i632.MessengerService>(),
             ));
+    gh.factory<_i815.RenameSheetModel>(() => _i815.RenameSheetModel(
+          gh<_i83.ErrorHandler>(),
+          gh<_i771.NekotonRepository>(),
+          gh<_i632.MessengerService>(),
+        ));
     gh.factory<_i716.AddExternalAccountModel>(
         () => _i716.AddExternalAccountModel(
               gh<_i83.ErrorHandler>(),
@@ -799,6 +807,8 @@ extension GetItInjectableX on _i174.GetIt {
     gh.singleton<_i581.BrowserHistoryStorageService>(() =>
         _i581.BrowserHistoryStorageService(
             gh<_i792.GetStorage>(instanceName: 'browser_history')));
+    gh.factory<_i313.RenameSheetWidgetModel>(
+        () => _i313.RenameSheetWidgetModel(gh<_i815.RenameSheetModel>()));
     gh.singleton<_i82.CompassBaseRoute>(
       () => _i1004.ConfigureNetworksRoute(
           gh<_i82.CompassBaseRoute>(instanceName: 'EditNetworkRoute')),
