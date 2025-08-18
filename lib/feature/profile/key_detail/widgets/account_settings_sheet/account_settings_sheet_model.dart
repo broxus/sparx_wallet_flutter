@@ -7,7 +7,6 @@ import 'package:flutter/services.dart';
 import 'package:injectable/injectable.dart';
 import 'package:nekoton_repository/nekoton_repository.dart' hide Message;
 
-/// [ElementaryModel] for [AccountSettingsSheet]
 @injectable
 class AccountSettingsSheetModel extends ElementaryModel {
   AccountSettingsSheetModel(

@@ -17,9 +17,7 @@ class CreateSeedRoute extends CompassRoute<CreateSeedRouteData> {
   ) : super(
           path: '/create-seed',
           isSaveLocation: true,
-          builder: (_, data, ___) => CreateSeedPage(
-            name: data.seedName,
-          ),
+          builder: (_, data, ___) => CreateSeedPage(name: data.seedName),
           compassBaseRoutes: [
             checkSeedPhraseRoute,
             createSeedPasswordRoute,
