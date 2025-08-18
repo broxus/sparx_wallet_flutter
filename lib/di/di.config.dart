@@ -463,6 +463,10 @@ import '../feature/wallet/token_wallet_send/view/token_wallet_send_model.dart'
 import '../feature/wallet/token_wallet_send/view/token_wallet_send_wm.dart'
     as _i312;
 import '../feature/wallet/ton_wallet_details/route.dart' as _i512;
+import '../feature/wallet/ton_wallet_details/view/ton_wallet_details_page_model.dart'
+    as _i71;
+import '../feature/wallet/ton_wallet_details/view/ton_wallet_details_page_wm.dart'
+    as _i397;
 import '../feature/wallet/ton_wallet_send/route.dart' as _i72;
 import '../feature/wallet/ton_wallet_send/view/ton_wallet_send_model.dart'
     as _i946;
@@ -1585,6 +1589,13 @@ extension GetItInjectableX on _i174.GetIt {
       ),
       instanceName: 'WalletRoute',
     );
+    gh.factory<_i71.TonWalletDetailsPageModel>(
+        () => _i71.TonWalletDetailsPageModel(
+              gh<_i83.ErrorHandler>(),
+              gh<_i771.NekotonRepository>(),
+              gh<_i27.CurrencyConvertService>(),
+              gh<_i637.BalanceService>(),
+            ));
     gh.factory<_i596.UpdateVersionWidgetModel>(
         () => _i596.UpdateVersionWidgetModel(gh<_i482.UpdateVersionModel>()));
     gh.singleton<_i82.CompassBaseRoute>(
@@ -1751,6 +1762,9 @@ extension GetItInjectableX on _i174.GetIt {
           gh<_i1030.UpdateVersionStorageService>(),
           gh<_i1015.NftStorageService>(),
         ));
+    gh.factory<_i397.TonWalletDetailsPageWidgetModel>(() =>
+        _i397.TonWalletDetailsPageWidgetModel(
+            gh<_i71.TonWalletDetailsPageModel>()));
     gh.factory<_i399.TabAnimatedViewWidgetModel>(() =>
         _i399.TabAnimatedViewWidgetModel(gh<_i865.TabAnimatedViewModel>()));
     gh.factory<_i627.BrowserGroupMenuWidgetModel>(() =>
