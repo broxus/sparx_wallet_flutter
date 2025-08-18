@@ -155,7 +155,7 @@ class _Body extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final theme = context.themeStyleV2;
-    final transactionTimeFormatter = DateFormat(
+    final transactionTimeFormatter = DateTimeUtils.getDateFormat(
       'HH:mm',
       context.locale.languageCode,
     );
