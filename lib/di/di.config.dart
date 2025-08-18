@@ -328,6 +328,10 @@ import '../feature/profile/manage_seeds_accounts/widgets/delete_seed_sheet/delet
     as _i976;
 import '../feature/profile/manage_seeds_accounts/widgets/delete_seed_sheet/delete_seed_sheet_wm.dart'
     as _i241;
+import '../feature/profile/manage_seeds_accounts/widgets/export_seed_sheet/export_seed_sheet_model.dart'
+    as _i508;
+import '../feature/profile/manage_seeds_accounts/widgets/export_seed_sheet/export_seed_sheet_wm.dart'
+    as _i1070;
 import '../feature/profile/manage_seeds_accounts/widgets/seed_settings/seed_settings_model.dart'
     as _i955;
 import '../feature/profile/manage_seeds_accounts/widgets/seed_settings/seed_settings_wm.dart'
@@ -814,6 +818,10 @@ extension GetItInjectableX on _i174.GetIt {
           gh<_i83.ErrorHandler>(),
           gh<_i771.NekotonRepository>(),
         ));
+    gh.factory<_i508.ExportSeedSheetModel>(() => _i508.ExportSeedSheetModel(
+          gh<_i83.ErrorHandler>(),
+          gh<_i771.NekotonRepository>(),
+        ));
     gh.factory<_i402.StakingInProgressModel>(() => _i402.StakingInProgressModel(
           gh<_i83.ErrorHandler>(),
           gh<_i771.NekotonRepository>(),
@@ -1137,6 +1145,8 @@ extension GetItInjectableX on _i174.GetIt {
         ));
     gh.factory<_i903.UserAvatarWidgetModel>(
         () => _i903.UserAvatarWidgetModel(gh<_i45.UserAvatarModel>()));
+    gh.factory<_i1070.ExportSeedSheetWidgetModel>(() =>
+        _i1070.ExportSeedSheetWidgetModel(gh<_i508.ExportSeedSheetModel>()));
     gh.factory<_i231.NtpConfigurator>(
         () => _i231.NtpConfigurator(gh<_i128.NtpService>()));
     gh.factory<_i374.AddNftWidgetModel>(
