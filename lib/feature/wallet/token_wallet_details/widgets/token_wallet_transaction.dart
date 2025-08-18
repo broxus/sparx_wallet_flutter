@@ -113,7 +113,7 @@ class _Body extends StatelessWidget {
   Widget build(BuildContext context) {
     final theme = context.themeStyleV2;
     final isIncoming = !transaction.isOutgoing;
-    final transactionTimeFormatter = DateFormat(
+    final transactionTimeFormatter = DateTimeUtils.getDateFormat(
       'HH:mm',
       context.locale.languageCode,
     );
