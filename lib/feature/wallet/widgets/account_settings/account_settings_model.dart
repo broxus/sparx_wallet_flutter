@@ -1,4 +1,5 @@
 import 'package:app/app/service/service.dart';
+import 'package:app/feature/browser_v2/domain/browser_launcher.dart';
 import 'package:app/feature/messenger/data/message.dart';
 import 'package:app/feature/messenger/domain/service/messenger_service.dart';
 import 'package:app/generated/generated.dart';
@@ -16,11 +17,13 @@ class AccountSettingsModel extends ElementaryModel {
     this._nekotonRepository,
     this._messengerService,
     this._currentAccountsService,
+    this._browserLauncher,
   ) : super(errorHandler: errorHandler);
 
   final NekotonRepository _nekotonRepository;
   final MessengerService _messengerService;
   final CurrentAccountsService _currentAccountsService;
+  final BrowserLauncher _browserLauncher;
 
   Stream<List<KeyAccount>> get displayAccounts =>
       _currentAccountsService.currentAccountsStream.map(
@@ -54,4 +57,6 @@ class AccountSettingsModel extends ElementaryModel {
       _currentAccountsService.updateCurrentActiveAccount(nextAccount.address);
     }
   }
+
+  void openBrowserUrl(String url) => _browserLauncher.openBrowserByString(url);
 }

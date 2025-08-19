@@ -9,7 +9,7 @@ class TypeComponent extends StatelessWidget {
     required this.currentConnectionType,
     required this.type,
     required this.onChanged,
-    required this.editable,
+    required this.isEditable,
     super.key,
   });
 
@@ -17,12 +17,12 @@ class TypeComponent extends StatelessWidget {
   final ConnectionType currentConnectionType;
   final ConnectionType type;
   final ValueChanged<ConnectionType> onChanged;
-  final bool editable;
+  final bool isEditable;
 
   @override
   Widget build(BuildContext context) {
     final theme = context.themeStyleV2;
-    final onPressed = editable
+    final onPressed = isEditable
         ? () {
             onChanged(type);
           }

@@ -3,7 +3,7 @@ import 'dart:convert';
 
 import 'package:app/app/service/resources_service.dart';
 import 'package:app/app/service/storage_service/secure_storage_service.dart';
-import 'package:app/bootstrap/sentry.dart';
+import 'package:app/core/sentry.dart';
 import 'package:app/feature/presets_config/data/preset_config_type.dart';
 import 'package:app/feature/presets_config/data/presets_config_exceptions.dart';
 import 'package:app/http/api/presets/presets_api.dart';

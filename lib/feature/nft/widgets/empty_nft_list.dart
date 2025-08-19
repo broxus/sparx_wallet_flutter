@@ -1,4 +1,5 @@
-import 'package:app/feature/browser_v1/browser.dart';
+import 'package:app/di/di.dart';
+import 'package:app/feature/browser_v2/domain/browser_launcher.dart';
 import 'package:app/generated/generated.dart';
 import 'package:flutter/material.dart';
 import 'package:ui_components_lib/v2/ui_components_lib_v2.dart';
@@ -59,7 +60,11 @@ class EmptyNftList extends StatelessWidget {
                   padding: const EdgeInsets.only(top: DimensSizeV2.d16),
                   child: AccentButton(
                     buttonShape: ButtonShape.pill,
-                    onPressed: () => openBrowserUrl(marketplaceUrl!),
+                    onPressed: () {
+                      // TODO(knightforce): refactor
+                      inject<BrowserLauncher>()
+                          .openBrowserByString(marketplaceUrl!);
+                    },
                     title: LocaleKeys.visitMarketplace.tr(),
                   ),
                 ),

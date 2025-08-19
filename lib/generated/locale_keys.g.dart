@@ -769,4 +769,5 @@ abstract class LocaleKeys {
   static const disconnectDappText = 'disconnectDappText';
   static const emptyConnectedDapps = 'emptyConnectedDapps';
   static const disconnect = 'disconnect';
+  static const tokenListValidationError = 'tokenListValidationError';
 }

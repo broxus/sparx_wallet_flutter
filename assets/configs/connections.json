@@ -249,7 +249,6 @@
         24
       ],
       "defaultNativeCurrencyDecimal": 9,
-      "baseCurrencyUrl": "https://api.hamsterdex.io/v1/currencies",
       "tokenApiBaseUrl": "https://tokens.hamsterscan.io/v1",
       "currencyApiBaseUrl": "https://api.hamsterdex.io/v1/currencies",
       "genericTokenType": "tip3",
@@ -312,7 +311,6 @@
         12
       ],
       "defaultNativeCurrencyDecimal": 9,
-      "baseCurrencyUrl": "https://humo-dex-api.broxus.com/v1/currencies",
       "tokenApiBaseUrl": "",
       "currencyApiBaseUrl": "https://humo-dex-api.broxus.com/v1/currencies",
       "genericTokenType": "tip3",
@@ -379,7 +377,6 @@
         24
       ],
       "defaultNativeCurrencyDecimal": 9,
-      "baseCurrencyUrl": "https://api-test-tycho.flatqube.io/v1/currencies",
       "tokenApiBaseUrl": "https://e-tokens-api-tycho.broxus.com/v1",
       "currencyApiBaseUrl": "https://api-test-tycho.flatqube.io/v1/currencies",
       "genericTokenType": "tip3",
@@ -474,7 +471,6 @@
         24
       ],
       "defaultNativeCurrencyDecimal": 9,
-      "baseCurrencyUrl": "https://api.flatqube.io/v1/currencies",
       "stakeInformation": {
         "stakingAPYLink": "https://staking.everwallet.net/v1/strategies/main",
         "stakingValutAddress": "0:675a6d63f27e3f24d41d286043a9286b2e3eb6b84fa4c3308cc2833ef6f54d68",
@@ -540,7 +536,6 @@
         12
       ],
       "defaultNativeCurrencyDecimal": 9,
-      "baseCurrencyUrl": "https://api.web3.world/v1/currencies",
       "stakeInformation": {
         "stakingAPYLink": "https://api.venomstake.com/v1/strategies/main",
         "stakingValutAddress": "0:9df94dffc0ca1768647f819c04b2cf00c484b3b756ba6ecde68d5fb62de1dfc7",

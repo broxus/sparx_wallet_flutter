@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:collection';
 
 import 'package:app/app/service/service.dart';
 import 'package:app/data/models/custom_currency.dart';
@@ -283,6 +284,42 @@ class GeneralStorageService extends AbstractStorageService {
     ).toList();
   }
 
+  List<dynamic> readRawCustomAssets(NetworkGroup group) {
+    return _customContractAssetsStorage.read<List<dynamic>>(group) ?? [];
+  }
+
+  List<dynamic> readRawSystemAssets(NetworkGroup group) {
+    return _systemContractAssetsStorage.read<List<dynamic>>(group) ?? [];
+  }
+
+  Future<void> removeRawCustomAssets(NetworkGroup group) {
+    return _customContractAssetsStorage.remove(group);
+  }
+
+  Future<void> removeRawSystemAssets(NetworkGroup group) {
+    return _systemContractAssetsStorage.remove(group);
+  }
+
+  Future<void> writeRawCustomAssets(
+    NetworkGroup group,
+    List<dynamic> customAssets,
+  ) {
+    return _customContractAssetsStorage.write(
+      group,
+      customAssets,
+    );
+  }
+
+  Future<void> writeRawSystemAssets(
+    NetworkGroup group,
+    List<dynamic> systemAssets,
+  ) {
+    return _systemContractAssetsStorage.write(
+      group,
+      systemAssets,
+    );
+  }
+
   /// Get if biometry is enabled in app
   bool readIsBiometryEnabled() {
     final value = _prefStorage.read<bool>(_biometryStatusKey);
@@ -419,19 +456,25 @@ class GeneralStorageService extends AbstractStorageService {
   Future<void> updateSystemTokenContractAssets(
     List<TokenContractAsset> assets,
   ) async {
-    // TODO(knightforce): refactor by multiple networktype
-    assert(
-      assets.every((asset) => asset.networkGroup == assets.first.networkGroup),
-      'All system assets must have the same type',
-    );
-    await _systemContractAssetsStorage.remove(
-      assets.first.networkGroup,
-    );
+    final assetsMap = HashMap<String, List<TokenContractAsset>>();
 
-    await _systemContractAssetsStorage.write(
-      assets.first.networkGroup,
-      assets.map((e) => e.toJson()).toList(),
-    );
+    for (final asset in assets) {
+      (assetsMap[asset.networkGroup] ??= []).add(asset);
+    }
+
+    for (final networkGroup in assetsMap.keys) {
+      await _systemContractAssetsStorage.remove(networkGroup);
+
+      final list = assetsMap[networkGroup]?.map((e) => e.toJson()).toList();
+
+      if (list != null) {
+        await _systemContractAssetsStorage.write(
+          networkGroup,
+          list,
+        );
+      }
+    }
+
     _streamedSystemContractAssets();
   }
 

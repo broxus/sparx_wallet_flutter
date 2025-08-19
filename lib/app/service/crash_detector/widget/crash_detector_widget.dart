@@ -1,24 +1,28 @@
 import 'package:app/app/router/router.dart';
-import 'package:app/bootstrap/bootstrap.dart';
 import 'package:app/feature/contact_support/contact_support.dart';
 import 'package:flutter/widgets.dart';
 
 // Delay after app start to show contact support sheet
 const _showContactSupportSheetDelay = Duration(seconds: 5);
 
-class CrashDetectorServiceWidget extends StatefulWidget {
-  const CrashDetectorServiceWidget({required this.child, super.key});
+class CrashDetectorWidget extends StatefulWidget {
+  const CrashDetectorWidget({
+    required this.child,
+    required this.checkCrashDetected,
+    super.key,
+  });
 
   final Widget child;
+  final Future<bool> Function() checkCrashDetected;
 
   @override
-  State<CrashDetectorServiceWidget> createState() =>
+  State<CrashDetectorWidget> createState() =>
       _CrashDetectorServiceWidgetState();
 }
 
-class _CrashDetectorServiceWidgetState
-    extends State<CrashDetectorServiceWidget> {
+class _CrashDetectorServiceWidgetState extends State<CrashDetectorWidget> {
   bool crashDetected = false;
+  late final _checkCrashDetected = widget.checkCrashDetected;
 
   @override
   void initState() {
@@ -32,7 +36,7 @@ class _CrashDetectorServiceWidgetState
   }
 
   Future<void> _detectCrashDelayed() async {
-    crashDetected = await appGetCrashDetected();
+    crashDetected = await _checkCrashDetected();
 
     if (crashDetected) {
       setState(() {

@@ -1,4 +1,5 @@
 import 'package:app/core/app_build_type.dart';
+import 'package:app/http/interceptors/app_lifecycle_interceptor.dart';
 import 'package:app/runner.dart';
 import 'package:dio/dio.dart';
 import 'package:injectable/injectable.dart';
@@ -8,7 +9,7 @@ import 'package:pretty_dio_logger/pretty_dio_logger.dart';
 @module
 abstract class DioModule {
   @lazySingleton
-  Dio getDio() {
+  Dio getDio(AppLifecycleInterceptor appLifecycleInterceptor) {
     const timeoutMinutes = 3;
 
     final dio = Dio()
@@ -16,6 +17,7 @@ abstract class DioModule {
       ..options.sendTimeout = const Duration(minutes: timeoutMinutes)
       ..options.receiveTimeout = const Duration(minutes: timeoutMinutes)
       ..interceptors.addAll([
+        appLifecycleInterceptor,
         PrettyDioLogger(
           requestBody: true,
           filter: (options, args) {
