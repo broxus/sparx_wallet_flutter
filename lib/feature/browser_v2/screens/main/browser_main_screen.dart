@@ -116,7 +116,7 @@ class BrowserMainScreen
                     offsetAnimation: wm.animations.urlMenuOffsetAnimation,
                     opacityAnimation: wm.animations.urlMenuOpacityAnimation,
                     child: HostPanel(
-                      wm.tabs.hostState,
+                      wm.tabs.activeTabUriState,
                       key: wm.keys.urlKey,
                       onPressed: wm.onPressedViewUrlPanel,
                     ),

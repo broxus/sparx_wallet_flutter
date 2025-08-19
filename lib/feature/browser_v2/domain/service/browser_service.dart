@@ -1,8 +1,10 @@
 import 'dart:async';
+import 'dart:collection';
 
 import 'package:app/app/router/router.dart';
 import 'package:app/app/service/app_links/app_links.dart';
 import 'package:app/feature/browser_v2/data/history_type.dart';
+import 'package:app/feature/browser_v2/domain/delegates/browser_anti_phishing_delegate.dart';
 import 'package:app/feature/browser_v2/domain/delegates/browser_service_auth_delegate.dart';
 import 'package:app/feature/browser_v2/domain/delegates/browser_service_bookmarks_delegate.dart';
 import 'package:app/feature/browser_v2/domain/delegates/browser_service_favicon_delegate.dart';
@@ -32,6 +34,7 @@ class BrowserService {
     this._historyDelegate,
     this._permissionsDelegate,
     this._tabsDelegate,
+    this._antiPhishingDelegate,
   );
 
   final AppLinksService _appLinksService;
@@ -45,6 +48,7 @@ class BrowserService {
   final BrowserServiceHistoryDelegate _historyDelegate;
   final BrowserServicePermissionsDelegate _permissionsDelegate;
   final BrowserServiceTabsDelegate _tabsDelegate;
+  final BrowserAntiPhishingDelegate _antiPhishingDelegate;
 
   final _isContentInteractedStream = BehaviorSubject.seeded(false);
 
@@ -62,13 +66,16 @@ class BrowserService {
 
   BrowserServiceTabs get tab => _tabsDelegate;
 
+  BrowserAntiPhishing get antiPhishing => _antiPhishingDelegate;
+
   ValueStream<bool> get isContentInteractedStream => _isContentInteractedStream;
 
-  void init() {
+  Future<void> init() async {
     _bookmarksDelegate.init();
     _historyDelegate.init();
     _permissionsDelegate.init();
     _tabsDelegate.init();
+    await _antiPhishingDelegate.init();
     WidgetsBinding.instance.addPostFrameCallback((_) {
       _appLinksNavSubs =
           _appLinksService.browserLinksStream.listen(_listenAppLinks);
@@ -86,6 +93,7 @@ class BrowserService {
   void dispose() {
     _tabsDelegate.dispose();
     _appLinksNavSubs?.cancel();
+    _antiPhishingDelegate.dispose();
   }
 
   void openUrl(Uri uri) {
@@ -150,6 +158,15 @@ class BrowserService {
         );
       }
     });
+  }
+
+  Future<void> loadPhishingGuard(String tabId, Uri uri) async {
+    final html = await _antiPhishingDelegate.getPhishingGuardHtml(uri);
+
+    return _tabsDelegate.loadData(
+      tabId,
+      html,
+    );
   }
 
   void _listenAppLinks(BrowserAppLinksData event) {

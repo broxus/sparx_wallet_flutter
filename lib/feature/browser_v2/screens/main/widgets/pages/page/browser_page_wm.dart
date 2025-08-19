@@ -133,12 +133,14 @@ class BrowserPageWidgetModel extends CustomWidgetModelParametrized<
     );
 
     if (_url.toString().isNotEmpty) {
-      await customController.loadUrl(
-        urlRequest: URLRequest(
-          url: WebUri.uri(_url),
-        ),
+      unawaited(
+        model.initUri(_tabId, _url),
       );
     }
+    controller.addJavaScriptHandler(
+      handlerName: 'phishClick',
+      callback: (args) => model.addUrlToWhiteList(args.first as String),
+    );
   }
 
   // Start loading page
@@ -271,6 +273,19 @@ class BrowserPageWidgetModel extends CustomWidgetModelParametrized<
 
     if (url == null) {
       return NavigationActionPolicy.ALLOW;
+    }
+
+    final isGuardPhishing = model.checkIsPhishingUri(url);
+
+    if (isGuardPhishing) {
+      unawaited(
+        model.loadPhishingGuard(_tabId, url),
+      );
+      return NavigationActionPolicy.CANCEL;
+    }
+
+    if (isGuardPhishing) {
+      return NavigationActionPolicy.CANCEL;
     }
 
     final scheme = navigationAction.request.url?.scheme;
