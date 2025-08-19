@@ -453,6 +453,10 @@ import '../feature/wallet/staking/widgets/staking_in_progress/staking_in_progres
 import '../feature/wallet/staking/widgets/staking_in_progress/staking_in_progress_wm.dart'
     as _i180;
 import '../feature/wallet/token_wallet_details/route.dart' as _i750;
+import '../feature/wallet/token_wallet_details/view/token_wallet_details_model.dart'
+    as _i941;
+import '../feature/wallet/token_wallet_details/view/token_wallet_details_wm.dart'
+    as _i209;
 import '../feature/wallet/token_wallet_details/widgets/detail/token_wallet_ordinary_transaction_details_screen_model.dart'
     as _i311;
 import '../feature/wallet/token_wallet_details/widgets/detail/token_wallet_ordinary_transaction_details_screen_wm.dart'
@@ -1852,6 +1856,14 @@ extension GetItInjectableX on _i174.GetIt {
           gh<_i771.NekotonRepository>(),
           gh<_i128.AssetsService>(),
         ));
+    gh.factory<_i941.TokenWalletDetailsModel>(
+        () => _i941.TokenWalletDetailsModel(
+              gh<_i83.ErrorHandler>(),
+              gh<_i771.NekotonRepository>(),
+              gh<_i128.CurrencyConvertService>(),
+              gh<_i128.BalanceService>(),
+              gh<_i128.AssetsService>(),
+            ));
     gh.factory<_i154.BrowserPageModel>(() => _i154.BrowserPageModel(
           gh<_i83.ErrorHandler>(),
           gh<_i470.BrowserService>(),
@@ -1964,6 +1976,9 @@ extension GetItInjectableX on _i174.GetIt {
     gh.factory<_i926.BootstrapFailedRerunWidgetModel>(() =>
         _i926.BootstrapFailedRerunWidgetModel(
             gh<_i9.BootstrapFailedRerunModel>()));
+    gh.factory<_i209.TokenWalletDetailsWidgetModel>(() =>
+        _i209.TokenWalletDetailsWidgetModel(
+            gh<_i941.TokenWalletDetailsModel>()));
     gh.factory<_i718.SelectTokenWidgetModel>(
         () => _i718.SelectTokenWidgetModel(gh<_i289.SelectTokenModel>()));
     gh.factory<_i1055.ConfigureNetworksWidgetModel>(() =>
