@@ -305,6 +305,8 @@ import '../feature/presets_config/domain/presets_config_reader.dart' as _i130;
 import '../feature/presets_config/presets_config.dart' as _i418;
 import '../feature/profile/account_detail/route.dart' as _i303;
 import '../feature/profile/key_detail/route.dart' as _i171;
+import '../feature/profile/key_detail/view/key_detail_page_model.dart' as _i974;
+import '../feature/profile/key_detail/view/key_detail_page_wm.dart' as _i37;
 import '../feature/profile/key_detail/widgets/account_rename_sheet/account_rename_sheet_model.dart'
     as _i210;
 import '../feature/profile/key_detail/widgets/account_rename_sheet/account_rename_sheet_wm.dart'
@@ -832,6 +834,10 @@ extension GetItInjectableX on _i174.GetIt {
           gh<_i83.ErrorHandler>(),
           gh<_i771.NekotonRepository>(),
         ));
+    gh.factory<_i974.KeyDetailPageModel>(() => _i974.KeyDetailPageModel(
+          gh<_i83.ErrorHandler>(),
+          gh<_i771.NekotonRepository>(),
+        ));
     gh.factory<_i976.DeleteSeedSheetModel>(() => _i976.DeleteSeedSheetModel(
           gh<_i83.ErrorHandler>(),
           gh<_i771.NekotonRepository>(),
@@ -1132,6 +1138,8 @@ extension GetItInjectableX on _i174.GetIt {
           gh<_i632.MessengerService>(),
           gh<_i771.NekotonRepository>(),
         ));
+    gh.factory<_i37.KeyDetailPageWidgetModel>(
+        () => _i37.KeyDetailPageWidgetModel(gh<_i974.KeyDetailPageModel>()));
     gh.factory<_i1035.SelectAccountModel>(() => _i1035.SelectAccountModel(
           gh<_i83.ErrorHandler>(),
           gh<_i771.NekotonRepository>(),
