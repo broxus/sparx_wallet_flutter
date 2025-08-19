@@ -495,6 +495,10 @@ import '../feature/wallet/wallet_prepare_transfer/wallet_prepare_transfer_page_m
     as _i149;
 import '../feature/wallet/wallet_prepare_transfer/wallet_prepare_transfer_page_wm.dart'
     as _i236;
+import '../feature/wallet/widgets/account_asset_tab/account_asset_tab_model.dart'
+    as _i343;
+import '../feature/wallet/widgets/account_asset_tab/account_asset_tab_wm.dart'
+    as _i695;
 import '../feature/wallet/widgets/account_asset_tab/select_new_asset/route.dart'
     as _i182;
 import '../feature/wallet/widgets/account_asset_tab/select_tokens/select_token_model.dart'
@@ -1839,6 +1843,11 @@ extension GetItInjectableX on _i174.GetIt {
           gh<_i128.ConnectionService>(),
           gh<_i771.NekotonRepository>(),
         ));
+    gh.factory<_i343.AccountAssetsTabModel>(() => _i343.AccountAssetsTabModel(
+          gh<_i83.ErrorHandler>(),
+          gh<_i128.AssetsService>(),
+          gh<_i128.TokenWalletsService>(),
+        ));
     gh.factory<_i877.CreateBrowserGroupScreenWidgetModel>(() =>
         _i877.CreateBrowserGroupScreenWidgetModel(
             gh<_i907.CreateBrowserGroupScreenModel>()));
@@ -1872,6 +1881,8 @@ extension GetItInjectableX on _i174.GetIt {
       ),
       instanceName: 'RootRoute',
     );
+    gh.factory<_i695.AccountAssetsTabWidgetModel>(() =>
+        _i695.AccountAssetsTabWidgetModel(gh<_i343.AccountAssetsTabModel>()));
     gh.factory<_i588.AddTip3TokenModel>(() => _i588.AddTip3TokenModel(
           gh<_i83.ErrorHandler>(),
           gh<_i771.NekotonRepository>(),
