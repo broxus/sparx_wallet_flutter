@@ -27,6 +27,7 @@ targets:
           - lib/feature/**/data/**/*.dart
       injectable_generator:injectable_builder:
         generate_for:
+          - lib/core/*.dart
           - lib/di/*.dart
           - lib/di/**/*.dart
           - lib/app/service/*.dart
