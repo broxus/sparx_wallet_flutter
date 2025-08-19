@@ -52,7 +52,6 @@ import '../app/service/current_accounts_service.dart' as _i402;
 import '../app/service/current_seed_service.dart' as _i244;
 import '../app/service/identify/i_identify_icons_service.dart' as _i958;
 import '../app/service/identify/identify_icons_service.dart' as _i316;
-import '../app/service/localization/service/localization_service.dart' as _i5;
 import '../app/service/navigation_service.dart' as _i275;
 import '../app/service/nekoton_related/current_key_service.dart' as _i272;
 import '../app/service/nekoton_related/gas_price_service.dart' as _i818;
@@ -250,6 +249,12 @@ import '../feature/connection_fail/connection_fail_screen_model.dart' as _i1007;
 import '../feature/connection_fail/connection_fail_screen_wm.dart' as _i459;
 import '../feature/contact_support/view/contact_support_model.dart' as _i915;
 import '../feature/contact_support/view/contact_support_wm.dart' as _i894;
+import '../feature/localization/domain/localization_service.dart' as _i221;
+import '../feature/localization/localization.dart' as _i1071;
+import '../feature/localization/widgets/localization/localization_sheet_model.dart'
+    as _i893;
+import '../feature/localization/widgets/localization/localization_sheet_wm.dart'
+    as _i910;
 import '../feature/messenger/domain/service/messenger_service.dart' as _i632;
 import '../feature/messenger/messenger.dart' as _i553;
 import '../feature/network/bottom_sheets/select_network/select_network_model.dart'
@@ -644,7 +649,6 @@ extension GetItInjectableX on _i174.GetIt {
     gh.singleton<_i830.AppLifecycleService>(() => _i830.AppLifecycleService());
     gh.singleton<_i1070.AppPermissionsService>(
         () => _i1070.AppPermissionsService());
-    gh.singleton<_i5.LocalizationService>(() => _i5.LocalizationService());
     gh.singleton<_i33.NetworkConnectionService>(
         () => _i33.NetworkConnectionService());
     gh.singleton<_i27.CurrencyConvertService>(
@@ -652,6 +656,7 @@ extension GetItInjectableX on _i174.GetIt {
     gh.singleton<_i391.DnsResolveService>(() => _i391.DnsResolveService());
     gh.singleton<_i654.BrowserApprovalsService>(
         () => _i654.BrowserApprovalsService());
+    gh.singleton<_i221.LocalizationService>(() => _i221.LocalizationService());
     gh.lazySingleton<_i438.SentryWorker>(() => sentryModule.getSentryWorker());
     gh.lazySingleton<_i632.MessengerService>(
       () => _i632.MessengerService(),
@@ -740,6 +745,10 @@ extension GetItInjectableX on _i174.GetIt {
       () => _i345.CreateBrowserGroupRoute(),
       instanceName: 'CreateBrowserGroupRoute',
     );
+    gh.factory<_i893.LocalizationSheetModel>(() => _i893.LocalizationSheetModel(
+          gh<_i83.ErrorHandler>(),
+          gh<_i1071.LocalizationService>(),
+        ));
     gh.singleton<_i82.CompassBaseRoute>(
       () => _i182.SelectNewAssetRoute(),
       instanceName: 'SelectNewAssetRoute',
@@ -1131,6 +1140,9 @@ extension GetItInjectableX on _i174.GetIt {
     gh.factory<_i181.BrowserServiceFaviconDelegate>(() =>
         _i181.BrowserServiceFaviconDelegate(
             gh<_i234.BrowserFaviconURLStorageService>()));
+    gh.factory<_i910.LocalizationSheetWidgetModel>(() =>
+        _i910.LocalizationSheetWidgetModel(
+            gh<_i1071.LocalizationSheetModel>()));
     gh.singleton<_i82.CompassBaseRoute>(
       () => _i473.CreateSeedOnboardingPasswordRoute(
           gh<_i82.CompassBaseRoute>(instanceName: 'EnableBiometryRoute')),
@@ -1647,14 +1659,14 @@ extension GetItInjectableX on _i174.GetIt {
               gh<_i128.PresetsConnectionService>(),
               gh<_i632.MessengerService>(),
             ));
-    gh.singleton<_i473.PermissionsService>(() => _i473.PermissionsService(
-          gh<_i470.BrowserService>(),
-          gh<_i771.NekotonRepository>(),
-        ));
     gh.factory<_i985.HistoryListModel>(() => _i985.HistoryListModel(
           gh<_i83.ErrorHandler>(),
           gh<_i470.BrowserService>(),
-          gh<_i5.LocalizationService>(),
+          gh<_i1071.LocalizationService>(),
+        ));
+    gh.singleton<_i473.PermissionsService>(() => _i473.PermissionsService(
+          gh<_i470.BrowserService>(),
+          gh<_i771.NekotonRepository>(),
         ));
     gh.factory<_i378.WebsiteInfoModel>(() => _i378.WebsiteInfoModel(
           gh<_i83.ErrorHandler>(),
@@ -2083,6 +2095,19 @@ extension GetItInjectableX on _i174.GetIt {
           gh<_i771.NekotonRepository>(),
           gh<_i533.RootTabService>(),
         ));
+    gh.factory<_i425.AppModel>(() => _i425.AppModel(
+          gh<_i83.ErrorHandler>(),
+          gh<_i309.CompassRouter>(),
+          gh<_i850.AppLinksService>(),
+          gh<_i830.AppLifecycleService>(),
+          gh<_i1071.LocalizationService>(),
+          gh<_i575.BiometryService>(),
+          gh<_i632.MessengerService>(),
+          gh<_i47.CrashDetectorService>(),
+          gh<_i335.LoggerConfigurator>(),
+          gh<_i70.BrowserLauncher>(),
+          gh<_i771.NekotonRepository>(),
+        ));
     gh.factory<_i278.CustomBottomNavigationBarModel>(
         () => _i278.CustomBottomNavigationBarModel(
               gh<_i83.ErrorHandler>(),
@@ -2119,19 +2144,6 @@ extension GetItInjectableX on _i174.GetIt {
         () => _i348.NftItemPageWidgetModel(gh<_i1015.NftItemPageModel>()));
     gh.factory<_i659.SplashScreenWidgetModel>(
         () => _i659.SplashScreenWidgetModel(gh<_i582.SplashScreenModel>()));
-    gh.factory<_i425.AppModel>(() => _i425.AppModel(
-          gh<_i83.ErrorHandler>(),
-          gh<_i309.CompassRouter>(),
-          gh<_i850.AppLinksService>(),
-          gh<_i830.AppLifecycleService>(),
-          gh<_i5.LocalizationService>(),
-          gh<_i575.BiometryService>(),
-          gh<_i632.MessengerService>(),
-          gh<_i47.CrashDetectorService>(),
-          gh<_i335.LoggerConfigurator>(),
-          gh<_i70.BrowserLauncher>(),
-          gh<_i771.NekotonRepository>(),
-        ));
     gh.factory<_i328.EditNetworkModel>(() => _i328.EditNetworkModel(
           gh<_i128.ConnectionsStorageService>(),
           gh<_i128.PresetsConnectionService>(),

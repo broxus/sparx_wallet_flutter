@@ -1,6 +1,6 @@
 import 'dart:async';
 
-import 'package:app/app/service/localization/localization.dart';
+import 'package:app/feature/localization/localization.dart';
 import 'package:injectable/injectable.dart';
 import 'package:logging/logging.dart';
 import 'package:rxdart/rxdart.dart';

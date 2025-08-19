@@ -1,7 +1,7 @@
 import 'dart:async';
 
-import 'package:app/app/service/localization/localization.dart';
 import 'package:app/di/di.dart';
+import 'package:app/feature/localization/localization.dart';
 import 'package:app/generated/generated.dart';
 import 'package:flutter/widgets.dart';
 import 'package:logging/logging.dart';
