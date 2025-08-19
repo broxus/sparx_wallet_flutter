@@ -319,6 +319,10 @@ import '../feature/profile/key_detail/widgets/add_new_external_account_sheet/add
     as _i964;
 import '../feature/profile/key_detail/widgets/add_new_external_account_sheet/add_new_external_account_sheet_wm.dart'
     as _i199;
+import '../feature/profile/key_detail/widgets/add_new_local_account_type_sheet/add_new_local_account_type_sheet_model.dart'
+    as _i6;
+import '../feature/profile/key_detail/widgets/add_new_local_account_type_sheet/add_new_local_account_type_sheet_wm.dart'
+    as _i865;
 import '../feature/profile/manage_seeds_accounts/route.dart' as _i45;
 import '../feature/profile/manage_seeds_accounts/widgets/change_seed_password/change_seed_password.dart'
     as _i56;
@@ -760,6 +764,12 @@ extension GetItInjectableX on _i174.GetIt {
               gh<_i771.NekotonRepository>(),
               gh<_i632.MessengerService>(),
             ));
+    gh.factory<_i6.AddNewLocalAccountTypeSheetModel>(
+        () => _i6.AddNewLocalAccountTypeSheetModel(
+              gh<_i83.ErrorHandler>(),
+              gh<_i771.NekotonRepository>(),
+              gh<_i632.MessengerService>(),
+            ));
     gh.factory<_i815.RenameSheetModel>(() => _i815.RenameSheetModel(
           gh<_i83.ErrorHandler>(),
           gh<_i771.NekotonRepository>(),
@@ -808,6 +818,9 @@ extension GetItInjectableX on _i174.GetIt {
               gh<_i792.GetStorage>(instanceName: 'overallBalancesDomain'),
               gh<_i792.GetStorage>(instanceName: 'balancesDomain'),
             ));
+    gh.factory<_i865.AddNewLocalAccountTypeSheetWidgetModel>(() =>
+        _i865.AddNewLocalAccountTypeSheetWidgetModel(
+            gh<_i6.AddNewLocalAccountTypeSheetModel>()));
     gh.factory<_i199.AddNewExternalAccountSheetWidgetModel>(() =>
         _i199.AddNewExternalAccountSheetWidgetModel(
             gh<_i964.AddNewExternalAccountSheetModel>()));
