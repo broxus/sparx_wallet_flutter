@@ -45,11 +45,11 @@ class TCSendMessageWidget extends InjectedElementaryParametrizedWidget<
                 MultiListenerRebuilder(
                   listenableList: [
                     wm.accountState,
-                    wm.balance,
+                    wm.balanceState,
                   ],
                   builder: (_) {
                     final account = wm.accountState.value;
-                    final balance = wm.balance.value;
+                    final balance = wm.balanceState.value;
 
                     if (account == null) {
                       return const SizedBox.shrink();
@@ -79,13 +79,13 @@ class TCSendMessageWidget extends InjectedElementaryParametrizedWidget<
                   listenableList: [
                     wm.accountState,
                     wm.selectedPublicKey,
-                    wm.custodians,
+                    wm.custodiansState,
                   ],
                   builder: (_) {
                     final account = wm.accountState.value;
                     final selectedPublicKey =
                         wm.selectedPublicKey.value ?? account?.publicKey;
-                    final custodians = wm.custodians.value;
+                    final custodians = wm.custodiansState.value;
 
                     if (custodians == null || custodians.length < 2) {
                       return const SizedBox.shrink();
@@ -110,9 +110,9 @@ class TCSendMessageWidget extends InjectedElementaryParametrizedWidget<
                 ),
                 const SizedBox(height: DimensSizeV2.d12),
                 TripleSourceBuilder(
-                  firstSource: wm.data,
-                  secondSource: wm.fee,
-                  thirdSource: wm.feeError,
+                  firstSource: wm.dataState,
+                  secondSource: wm.feeState,
+                  thirdSource: wm.feeErrorState,
                   builder: (_, data, fee, feeError) {
                     if (data == null) return const SizedBox.shrink();
 
@@ -150,15 +150,15 @@ class TCSendMessageWidget extends InjectedElementaryParametrizedWidget<
         MultiListenerRebuilder(
           listenableList: [
             wm.accountState,
-            wm.txErrors,
-            wm.isConfirmed,
-            wm.isLoading,
+            wm.txErrorsState,
+            wm.isConfirmedState,
+            wm.isLoadingState,
           ],
           builder: (_) {
             final account = wm.accountState.value;
-            final txErrors = wm.txErrors.value;
-            final isConfirmed = wm.isConfirmed.value;
-            final isLoading = wm.isLoading.value;
+            final txErrors = wm.txErrorsState.value;
+            final isConfirmed = wm.isConfirmedState.value;
+            final isLoading = wm.isLoadingState.value;
             final numberUnconfirmedTransactions =
                 wm.numberUnconfirmedTransactions;
 

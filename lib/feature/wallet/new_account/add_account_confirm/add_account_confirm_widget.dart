@@ -65,7 +65,7 @@ class AddAccountConfirmWidget extends InjectedElementaryParametrizedWidget<
           onPressed: wm.onPasswordSubmit,
         ),
         StateNotifierBuilder(
-          listenableState: wm.availableBiometry,
+          listenableState: wm.availableBiometryState,
           builder: (_, value) {
             if (value?.contains(BiometricType.face) ?? false) {
               return Padding(

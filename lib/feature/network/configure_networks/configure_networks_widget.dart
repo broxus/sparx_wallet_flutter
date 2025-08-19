@@ -20,7 +20,7 @@ class ConfigureNetworksWidget
       spacing: DimensSizeV2.d16,
       children: [
         StateNotifierBuilder(
-          listenableState: wm.connections,
+          listenableState: wm.connectionsState,
           builder: (_, connections) => Flexible(
             child: ListView.separated(
               itemCount: connections?.length ?? 0,

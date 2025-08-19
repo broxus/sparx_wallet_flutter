@@ -21,13 +21,13 @@ class AccountCard extends InjectedElementaryParametrizedWidget<
   Widget build(AccountCardWidgetModel wm) {
     return MultiListenerRebuilder(
       listenableList: [
-        wm.error,
-        wm.isLoading,
+        wm.errorState,
+        wm.isLoadingState,
         wm.currentAccountState,
       ],
       builder: (_) {
-        final error = wm.error.value;
-        final isLoading = wm.isLoading.value;
+        final error = wm.errorState.value;
+        final isLoading = wm.isLoadingState.value;
         final currentAccount = wm.currentAccountState.value;
 
         if (error != null) {
@@ -40,7 +40,7 @@ class AccountCard extends InjectedElementaryParametrizedWidget<
 
         return _AccountCard(
           account: currentAccount,
-          balance: wm.balance,
+          balance: wm.balanceState,
           onCopy: wm.onCopy,
         );
       },

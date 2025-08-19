@@ -19,15 +19,16 @@ class SelectTokenWidgetModel extends CustomWidgetModelParametrized<
     super.model,
   );
 
-  late final _data = createNotifier<List<TokenDataElement>>([]);
-  late final _loading = createNotifier(true);
-  late final _isAllSelected = createNotifier(false);
+  late final _tokenContractState = createNotifier<List<TokenDataElement>>([]);
+  late final _loadingState = createNotifier(true);
+  late final _isAllSelectedState = createNotifier(false);
 
-  ListenableState<List<TokenDataElement>> get tokenContract => _data;
+  ListenableState<List<TokenDataElement>> get tokenContractState =>
+      _tokenContractState;
 
-  ListenableState<bool> get isAllSelected => _isAllSelected;
+  ListenableState<bool> get isAllSelectedState => _isAllSelectedState;
 
-  ListenableState<bool> get loading => _loading;
+  ListenableState<bool> get loadingState => _loadingState;
 
   ThemeStyleV2 get themeStyle => context.themeStyleV2;
 
@@ -37,7 +38,7 @@ class SelectTokenWidgetModel extends CustomWidgetModelParametrized<
     model.getAssets(wmParams.value).listen(
       (value) {
         final data = [
-          ...?_data.value,
+          ...?_tokenContractState.value,
           for (final item in value)
             if (!item.$1.isCustom)
               TokenDataElement(
@@ -47,15 +48,15 @@ class SelectTokenWidgetModel extends CustomWidgetModelParametrized<
               ),
         ];
 
-        _data.accept(data);
+        _tokenContractState.accept(data);
       },
-      onDone: () => _loading.accept(false),
-      onError: (_) => _loading.accept(false),
+      onDone: () => _loadingState.accept(false),
+      onError: (_) => _loadingState.accept(false),
     );
   }
 
   void checkTokenSelection(TokenDataElement token) {
-    final updatedTokens = _data.value?.map((entry) {
+    final updatedTokens = _tokenContractState.value?.map((entry) {
       if (entry.asset == token.asset) {
         return TokenDataElement(
           asset: entry.asset,
@@ -65,13 +66,13 @@ class SelectTokenWidgetModel extends CustomWidgetModelParametrized<
       }
       return entry;
     }).toList();
-    _data.accept(updatedTokens);
+    _tokenContractState.accept(updatedTokens);
     _checkIfAllSelected();
   }
 
   void clickAll() {
-    final allSelected = _isAllSelected.value ?? false;
-    final updatedTokens = _data.value?.map((entry) {
+    final allSelected = _isAllSelectedState.value ?? false;
+    final updatedTokens = _tokenContractState.value?.map((entry) {
       return TokenDataElement(
         asset: entry.asset,
         isSelected: !allSelected,
@@ -79,18 +80,18 @@ class SelectTokenWidgetModel extends CustomWidgetModelParametrized<
       );
     }).toList();
 
-    _isAllSelected.accept(!allSelected);
-    _data.accept(updatedTokens);
+    _isAllSelectedState.accept(!allSelected);
+    _tokenContractState.accept(updatedTokens);
   }
 
   Future<void> clickImport() async {
     final account = model.getAccount(wmParams.value);
 
-    if (_data.value != null && account != null) {
+    if (_tokenContractState.value != null && account != null) {
       await showImportSelectedTokensModal(context, () async {
         Navigator.of(context).pop();
         await account.addTokenWallets(
-          _data.value!
+          _tokenContractState.value!
               .where((entry) => entry.isSelected)
               .map((entry) => entry.asset.address)
               .toList(),
@@ -102,9 +103,10 @@ class SelectTokenWidgetModel extends CustomWidgetModelParametrized<
   }
 
   void _checkIfAllSelected() {
-    final allChecked = _data.value?.every((entry) => entry.isSelected) ?? false;
-    if (allChecked != _isAllSelected.value) {
-      _isAllSelected.accept(allChecked);
+    final allChecked =
+        _tokenContractState.value?.every((entry) => entry.isSelected) ?? false;
+    if (allChecked != _isAllSelectedState.value) {
+      _isAllSelectedState.accept(allChecked);
     }
   }
 }

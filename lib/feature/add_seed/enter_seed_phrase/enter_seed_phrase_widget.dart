@@ -93,7 +93,7 @@ class EnterSeedPhraseWidget extends InjectedElementaryParametrizedWidget<
                 ),
                 DoubleSourceBuilder(
                   firstSource: wm.tabState,
-                  secondSource: wm.seedPhraseFormat,
+                  secondSource: wm.seedPhraseFormatState,
                   builder: (_, tabData, seedPhraseFormat) =>
                       SeedPhraseFormatView(
                     networkGroup: wm.networkGroup,
