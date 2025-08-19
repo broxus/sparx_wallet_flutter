@@ -84,7 +84,7 @@ class BrowserMainScreenModel extends ElementaryModel {
     final url = isUrl ? Uri.parse(text) : Uri.parse('$_searchEngineUri$text');
 
     if (isUrl) {
-      final isPhishing = _browserService.checkIsPhishingUri(url);
+      final isPhishing = _browserService.antiPhishing.checkIsPhishingUri(url);
 
       if (isPhishing) {
         _browserService.loadPhishingGuard(tabId, url);

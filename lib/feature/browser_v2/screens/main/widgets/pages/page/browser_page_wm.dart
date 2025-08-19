@@ -137,6 +137,10 @@ class BrowserPageWidgetModel extends CustomWidgetModelParametrized<
         model.initUri(_tabId, _url),
       );
     }
+    controller.addJavaScriptHandler(
+      handlerName: 'phishClick',
+      callback: (args) => model.addUrlToWhiteList(args.first as String),
+    );
   }
 
   // Start loading page

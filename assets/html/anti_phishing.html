@@ -67,9 +67,20 @@
         not an implicit guarantee of that domain's safety. As always, your transactions
         are your own responsibility. If you wish to interact with any domain on our
         warning list, you can do so by
-        <a href="{PHISHING_ORIGINAL_SITE}">
-            continuing at your own risk
-        </a>.
+        <span role="button" tabindex="0"
+              style="text-decoration:underline;cursor:pointer"
+              onclick="
+                (function(u){
+                  if (window.flutter_inappwebview) {
+                    window.flutter_inappwebview.callHandler('phishClick', u);
+                  } else if (window.phishChannel) {
+                    phishChannel.postMessage(u);
+                  }
+                })(this.textContent.trim())
+              "
+        >
+            {PHISHING_ORIGINAL_SITE}
+        </span>.
     </p>
 </div>
 </body>

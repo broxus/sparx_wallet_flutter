@@ -158,9 +158,17 @@ class BrowserPageModel extends ElementaryModel {
     );
   }
 
-  bool checkIsPhishingUri(Uri uri) => _browserService.checkIsPhishingUri(uri);
+  bool checkIsPhishingUri(Uri uri) =>
+      _browserService.antiPhishing.checkIsPhishingUri(uri);
 
   Future<void> loadPhishingGuard(String tabId, Uri uri) {
     return _browserService.loadPhishingGuard(tabId, uri);
+  }
+
+  void addUrlToWhiteList(String path) {
+    _browserService.antiPhishing.addToWhiteList(path);
+    Future.delayed(const Duration(milliseconds: 100), () {
+      _browserService.tab.requestUrlActiveTab(Uri.parse(path));
+    });
   }
 }

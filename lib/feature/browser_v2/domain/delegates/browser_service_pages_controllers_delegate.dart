@@ -31,10 +31,12 @@ class BrowserServicePagesControllersDelegate implements BrowserDelegate {
     return _controllers[tabId]?.permissionsChanged(event);
   }
 
-  Future<void> loadUrl(String tabId, Uri uri) async {
-    return _controllers[tabId]?.loadUrl(
-      urlRequest: URLRequest(url: WebUri.uri(uri)),
-    );
+  Future<void> loadUrl(String tabId, Uri uri) {
+    return Future(() {
+      _controllers[tabId]?.loadUrl(
+        urlRequest: URLRequest(url: WebUri.uri(uri)),
+      );
+    });
   }
 
   Future<void> loadData(
@@ -42,12 +44,14 @@ class BrowserServicePagesControllersDelegate implements BrowserDelegate {
     String html, {
     WebUri? baseUrl,
     WebUri? historyUrl,
-  }) async {
-    return _controllers[tabId]?.loadData(
-      data: html,
-      baseUrl: baseUrl,
-      historyUrl: historyUrl,
-    );
+  }) {
+    return Future(() {
+      _controllers[tabId]?.loadData(
+        data: html,
+        baseUrl: baseUrl,
+        historyUrl: historyUrl,
+      );
+    });
   }
 
   Future<void> goBack(String tabId) async => _controllers[tabId]?.goBack();

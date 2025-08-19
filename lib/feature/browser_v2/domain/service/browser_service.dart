@@ -52,8 +52,6 @@ class BrowserService {
 
   final _isContentInteractedStream = BehaviorSubject.seeded(false);
 
-  final _phishingUrlCache = HashSet<String>();
-
   StreamSubscription<BrowserAppLinksData>? _appLinksNavSubs;
 
   BrowserServiceAuth get auth => _authDelegate;
@@ -67,6 +65,8 @@ class BrowserService {
   BrowserServicePermissions get perm => _permissionsDelegate;
 
   BrowserServiceTabs get tab => _tabsDelegate;
+
+  BrowserAntiPhishing get antiPhishing => _antiPhishingDelegate;
 
   ValueStream<bool> get isContentInteractedStream => _isContentInteractedStream;
 
@@ -160,40 +160,13 @@ class BrowserService {
     });
   }
 
-  bool checkIsPhishingUri(Uri uri) {
-    final list = _antiPhishingDelegate.blackList;
-
-    if (_phishingUrlCache.contains(uri.host)) {
-      return true;
-    }
-
-    for (final link in list) {
-      if (uri.host == link ||
-          uri.path == link ||
-          uri.path.startsWith(link) ||
-          uri.host.startsWith(link) ||
-          _checkPattern(uri, link)) {
-        _phishingUrlCache.add(uri.host);
-        return true;
-      }
-    }
-
-    return false;
-  }
-
   Future<void> loadPhishingGuard(String tabId, Uri uri) async {
-    final html = await _antiPhishingDelegate.getPhishingGuardHtml(uri.path);
+    final html = await _antiPhishingDelegate.getPhishingGuardHtml(uri);
 
     return _tabsDelegate.loadData(
       tabId,
       html,
     );
-  }
-
-  bool _checkPattern(Uri uri, String link) {
-    return link.startsWith('*') &&
-        (uri.path.endsWith(link.substring(1)) ||
-            uri.host.endsWith(link.substring(1)));
   }
 
   void _listenAppLinks(BrowserAppLinksData event) {
