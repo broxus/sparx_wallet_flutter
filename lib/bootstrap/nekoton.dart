@@ -1,5 +1,6 @@
 import 'package:app/app/service/service.dart';
 import 'package:app/di/di.dart';
+import 'package:app/feature/ledger/ledger.dart';
 import 'package:logging/logging.dart';
 import 'package:nekoton_repository/nekoton_repository.dart';
 
@@ -17,6 +18,7 @@ Future<void> configureNekoton() async {
     storage: inject<NekotonStorageService>(),
     tonWalletStorage: inject<TonWalletStorageService>(),
     tokenWalletStorage: inject<TokenWalletStorageService>(),
+    ledgerConnectionHandler: inject<LedgerConnectionHandlerImpl>(),
   );
 
   inject<NtpService>().offsetStream.listen(nekotonRepository.updateClockOffset);

@@ -4,7 +4,7 @@
 // ignore_for_file: type=lint
 // ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target, unnecessary_question_mark
 
-part of 'enter_password_cubit.dart';
+part of 'enter_password_state.dart';
 
 // **************************************************************************
 // FreezedGenerator
@@ -34,27 +34,6 @@ mixin _$EnterPasswordState {
 class $EnterPasswordStateCopyWith<$Res> {
   $EnterPasswordStateCopyWith(
       EnterPasswordState _, $Res Function(EnterPasswordState) __);
-}
-
-/// @nodoc
-
-class EnterPasswordStateInitial implements EnterPasswordState {
-  const EnterPasswordStateInitial();
-
-  @override
-  bool operator ==(Object other) {
-    return identical(this, other) ||
-        (other.runtimeType == runtimeType &&
-            other is EnterPasswordStateInitial);
-  }
-
-  @override
-  int get hashCode => runtimeType.hashCode;
-
-  @override
-  String toString() {
-    return 'EnterPasswordState.initial()';
-  }
 }
 
 /// @nodoc
@@ -146,87 +125,21 @@ class EnterPasswordStatePassword implements EnterPasswordState {
 
 /// @nodoc
 
-class EnterPasswordStateEntered implements EnterPasswordState {
-  const EnterPasswordStateEntered(
-      {required this.password,
-      required this.fromBiometry,
-      required this.isFaceBiometry});
-
-  final String password;
-  final bool fromBiometry;
-  final bool isFaceBiometry;
-
-  /// Create a copy of EnterPasswordState
-  /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
-  @pragma('vm:prefer-inline')
-  $EnterPasswordStateEnteredCopyWith<EnterPasswordStateEntered> get copyWith =>
-      _$EnterPasswordStateEnteredCopyWithImpl<EnterPasswordStateEntered>(
-          this, _$identity);
+class EnterPasswordStateLedger implements EnterPasswordState {
+  const EnterPasswordStateLedger();
 
   @override
   bool operator ==(Object other) {
     return identical(this, other) ||
-        (other.runtimeType == runtimeType &&
-            other is EnterPasswordStateEntered &&
-            (identical(other.password, password) ||
-                other.password == password) &&
-            (identical(other.fromBiometry, fromBiometry) ||
-                other.fromBiometry == fromBiometry) &&
-            (identical(other.isFaceBiometry, isFaceBiometry) ||
-                other.isFaceBiometry == isFaceBiometry));
+        (other.runtimeType == runtimeType && other is EnterPasswordStateLedger);
   }
 
   @override
-  int get hashCode =>
-      Object.hash(runtimeType, password, fromBiometry, isFaceBiometry);
+  int get hashCode => runtimeType.hashCode;
 
   @override
   String toString() {
-    return 'EnterPasswordState.entered(password: $password, fromBiometry: $fromBiometry, isFaceBiometry: $isFaceBiometry)';
-  }
-}
-
-/// @nodoc
-abstract mixin class $EnterPasswordStateEnteredCopyWith<$Res>
-    implements $EnterPasswordStateCopyWith<$Res> {
-  factory $EnterPasswordStateEnteredCopyWith(EnterPasswordStateEntered value,
-          $Res Function(EnterPasswordStateEntered) _then) =
-      _$EnterPasswordStateEnteredCopyWithImpl;
-  @useResult
-  $Res call({String password, bool fromBiometry, bool isFaceBiometry});
-}
-
-/// @nodoc
-class _$EnterPasswordStateEnteredCopyWithImpl<$Res>
-    implements $EnterPasswordStateEnteredCopyWith<$Res> {
-  _$EnterPasswordStateEnteredCopyWithImpl(this._self, this._then);
-
-  final EnterPasswordStateEntered _self;
-  final $Res Function(EnterPasswordStateEntered) _then;
-
-  /// Create a copy of EnterPasswordState
-  /// with the given fields replaced by the non-null parameter values.
-  @pragma('vm:prefer-inline')
-  $Res call({
-    Object? password = null,
-    Object? fromBiometry = null,
-    Object? isFaceBiometry = null,
-  }) {
-    return _then(EnterPasswordStateEntered(
-      password: null == password
-          ? _self.password
-          : password // ignore: cast_nullable_to_non_nullable
-              as String,
-      fromBiometry: null == fromBiometry
-          ? _self.fromBiometry
-          : fromBiometry // ignore: cast_nullable_to_non_nullable
-              as bool,
-      isFaceBiometry: null == isFaceBiometry
-          ? _self.isFaceBiometry
-          : isFaceBiometry // ignore: cast_nullable_to_non_nullable
-              as bool,
-    ));
+    return 'EnterPasswordState.ledger()';
   }
 }
 

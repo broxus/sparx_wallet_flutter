@@ -8,6 +8,8 @@ import 'package:elementary_helper/elementary_helper.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:injectable/injectable.dart';
+import 'package:nekoton_repository/nekoton_repository.dart'
+    show SignInputAuth, SignInputAuthLedger;
 import 'package:nekoton_repository/nekoton_repository.dart' show KeyAccount;
 
 class TCSignDataWmParams {
@@ -41,9 +43,8 @@ class TCSignDataWidgetModel extends CustomWidgetModelParametrized<
 
   ListenableState<bool> get isLoadingState => _isLoadingState;
 
-  Future<void> onSubmit(String password) async {
+  Future<void> onSubmit(SignInputAuth signInputAuth) async {
     final account = accountState.value;
-
     if (account == null) return;
 
     try {
@@ -53,7 +54,7 @@ class TCSignDataWidgetModel extends CustomWidgetModelParametrized<
         schema: wmParams.value.payload.schema,
         cell: wmParams.value.payload.cell,
         publicKey: account.publicKey,
-        password: password,
+        signInputAuth: signInputAuth,
       );
 
       if (contextSafe != null) {
@@ -70,5 +71,14 @@ class TCSignDataWidgetModel extends CustomWidgetModelParametrized<
     } finally {
       _isLoadingState.accept(false);
     }
+  }
+
+  SignInputAuthLedger getLedgerAuthInput() {
+    final account = accountState.value;
+    if (account == null) throw StateError('Account is not initialized');
+
+    return SignInputAuthLedger(
+      wallet: account.account.tonWallet.contract,
+    );
   }
 }
