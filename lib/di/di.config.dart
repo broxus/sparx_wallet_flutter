@@ -329,6 +329,10 @@ import '../feature/profile/key_detail/widgets/add_new_local_account_type_sheet/a
 import '../feature/profile/key_detail/widgets/add_new_local_account_type_sheet/add_new_local_account_type_sheet_wm.dart'
     as _i865;
 import '../feature/profile/manage_seeds_accounts/route.dart' as _i45;
+import '../feature/profile/manage_seeds_accounts/view/manage_seeds_accounts_page_model.dart'
+    as _i321;
+import '../feature/profile/manage_seeds_accounts/view/manage_seeds_accounts_page_wm.dart'
+    as _i667;
 import '../feature/profile/manage_seeds_accounts/widgets/change_seed_password/change_seed_password.dart'
     as _i56;
 import '../feature/profile/manage_seeds_accounts/widgets/change_seed_password/change_seed_password_model.dart'
@@ -1359,6 +1363,13 @@ extension GetItInjectableX on _i174.GetIt {
     );
     gh.factory<_i760.CheckPhraseWidgetModel>(
         () => _i760.CheckPhraseWidgetModel(gh<_i217.CheckPhraseModel>()));
+    gh.factory<_i321.ManageSeedsAccountsPageModel>(
+        () => _i321.ManageSeedsAccountsPageModel(
+              gh<_i83.ErrorHandler>(),
+              gh<_i771.NekotonRepository>(),
+              gh<_i128.CurrentSeedService>(),
+              gh<_i128.AppStorageService>(),
+            ));
     gh.factory<_i420.SeedDetailPageWidgetModel>(
         () => _i420.SeedDetailPageWidgetModel(gh<_i708.SeedDetailPageModel>()));
     gh.singleton<_i82.CompassBaseRoute>(
@@ -1485,6 +1496,9 @@ extension GetItInjectableX on _i174.GetIt {
     gh.factory<_i1004.ChangeSeedPasswordWidgetModel>(() =>
         _i1004.ChangeSeedPasswordWidgetModel(
             gh<_i56.ChangeSeedPasswordModel>()));
+    gh.factory<_i667.ManageSeedsAccountsPageWidgetModel>(() =>
+        _i667.ManageSeedsAccountsPageWidgetModel(
+            gh<_i321.ManageSeedsAccountsPageModel>()));
     gh.factory<_i57.AddAccountResultWidgetModel>(() =>
         _i57.AddAccountResultWidgetModel(gh<_i459.AddAccountResultModel>()));
     gh.factory<_i1038.NftPrepareTransferModel>(
