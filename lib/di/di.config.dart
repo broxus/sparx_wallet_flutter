@@ -514,6 +514,14 @@ import '../feature/wallet/widgets/account_asset_tab/select_tokens/select_token_m
     as _i289;
 import '../feature/wallet/widgets/account_asset_tab/select_tokens/select_token_wm.dart'
     as _i718;
+import '../feature/wallet/widgets/account_asset_tab/token_wallet_asset/token_wallet_asset_model.dart'
+    as _i869;
+import '../feature/wallet/widgets/account_asset_tab/token_wallet_asset/token_wallet_asset_wm.dart'
+    as _i771;
+import '../feature/wallet/widgets/account_asset_tab/ton_wallet_asset/ton_wallet_asset_model.dart'
+    as _i719;
+import '../feature/wallet/widgets/account_asset_tab/ton_wallet_asset/ton_wallet_asset_wm.dart'
+    as _i526;
 import '../feature/wallet/widgets/account_card/account_card_model.dart'
     as _i615;
 import '../feature/wallet/widgets/account_card/account_card_wm.dart' as _i645;
@@ -1644,6 +1652,20 @@ extension GetItInjectableX on _i174.GetIt {
       ),
       instanceName: 'WalletRoute',
     );
+    gh.factory<_i869.TokenWalletAssetModel>(() => _i869.TokenWalletAssetModel(
+          gh<_i83.ErrorHandler>(),
+          gh<_i128.BalanceStorageService>(),
+          gh<_i128.BalanceService>(),
+          gh<_i128.CurrencyConvertService>(),
+          gh<_i771.NekotonRepository>(),
+        ));
+    gh.factory<_i719.TonWalletAssetModel>(() => _i719.TonWalletAssetModel(
+          gh<_i83.ErrorHandler>(),
+          gh<_i128.BalanceStorageService>(),
+          gh<_i128.BalanceService>(),
+          gh<_i128.CurrencyConvertService>(),
+          gh<_i771.NekotonRepository>(),
+        ));
     gh.factory<_i71.TonWalletDetailsPageModel>(
         () => _i71.TonWalletDetailsPageModel(
               gh<_i83.ErrorHandler>(),
@@ -1673,11 +1695,15 @@ extension GetItInjectableX on _i174.GetIt {
               gh<_i128.PresetsConnectionService>(),
               gh<_i632.MessengerService>(),
             ));
+    gh.factory<_i771.TokenWalletAssetWidgetModel>(() =>
+        _i771.TokenWalletAssetWidgetModel(gh<_i869.TokenWalletAssetModel>()));
     gh.factory<_i985.HistoryListModel>(() => _i985.HistoryListModel(
           gh<_i83.ErrorHandler>(),
           gh<_i470.BrowserService>(),
           gh<_i1071.LocalizationService>(),
         ));
+    gh.factory<_i526.TonWalletAssetWidgetModel>(
+        () => _i526.TonWalletAssetWidgetModel(gh<_i719.TonWalletAssetModel>()));
     gh.singleton<_i473.PermissionsService>(() => _i473.PermissionsService(
           gh<_i470.BrowserService>(),
           gh<_i771.NekotonRepository>(),
