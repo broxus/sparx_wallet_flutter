@@ -15,57 +15,122 @@ T _$identity<T>(T value) => value;
 
 /// @nodoc
 mixin _$DeriveKeysState {
-  @override
-  bool operator ==(Object other) {
-    return identical(this, other) ||
-        (other.runtimeType == runtimeType && other is DeriveKeysState);
-  }
+  bool get canPrevPage;
+  bool get canNextPage;
+  int get currentPageIndex;
+  int get pageCount;
+  List<DerivedKeyWithIndex> get displayDerivedKeys;
+  Set<PublicKey> get selectedKeys;
+  Map<PublicKey, String> get keyNames;
+  bool get isLoading;
+  bool get isCompleted;
 
-  @override
-  int get hashCode => runtimeType.hashCode;
-
-  @override
-  String toString() {
-    return 'DeriveKeysState()';
-  }
-}
-
-/// @nodoc
-class $DeriveKeysStateCopyWith<$Res> {
-  $DeriveKeysStateCopyWith(
-      DeriveKeysState _, $Res Function(DeriveKeysState) __);
-}
-
-/// @nodoc
-
-class DeriveKeysStateInitial implements DeriveKeysState {
-  const DeriveKeysStateInitial();
-
-  @override
-  bool operator ==(Object other) {
-    return identical(this, other) ||
-        (other.runtimeType == runtimeType && other is DeriveKeysStateInitial);
-  }
-
-  @override
-  int get hashCode => runtimeType.hashCode;
+  /// Create a copy of DeriveKeysState
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @pragma('vm:prefer-inline')
+  $DeriveKeysStateCopyWith<DeriveKeysState> get copyWith =>
+      _$DeriveKeysStateCopyWithImpl<DeriveKeysState>(
+          this as DeriveKeysState, _$identity);
 
   @override
   String toString() {
-    return 'DeriveKeysState.initial()';
+    return 'DeriveKeysState(canPrevPage: $canPrevPage, canNextPage: $canNextPage, currentPageIndex: $currentPageIndex, pageCount: $pageCount, displayDerivedKeys: $displayDerivedKeys, selectedKeys: $selectedKeys, keyNames: $keyNames, isLoading: $isLoading, isCompleted: $isCompleted)';
+  }
+}
+
+/// @nodoc
+abstract mixin class $DeriveKeysStateCopyWith<$Res> {
+  factory $DeriveKeysStateCopyWith(
+          DeriveKeysState value, $Res Function(DeriveKeysState) _then) =
+      _$DeriveKeysStateCopyWithImpl;
+  @useResult
+  $Res call(
+      {bool canPrevPage,
+      bool canNextPage,
+      int currentPageIndex,
+      int pageCount,
+      List<DerivedKeyWithIndex> displayDerivedKeys,
+      Set<PublicKey> selectedKeys,
+      Map<PublicKey, String> keyNames,
+      bool isLoading,
+      bool isCompleted});
+}
+
+/// @nodoc
+class _$DeriveKeysStateCopyWithImpl<$Res>
+    implements $DeriveKeysStateCopyWith<$Res> {
+  _$DeriveKeysStateCopyWithImpl(this._self, this._then);
+
+  final DeriveKeysState _self;
+  final $Res Function(DeriveKeysState) _then;
+
+  /// Create a copy of DeriveKeysState
+  /// with the given fields replaced by the non-null parameter values.
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? canPrevPage = null,
+    Object? canNextPage = null,
+    Object? currentPageIndex = null,
+    Object? pageCount = null,
+    Object? displayDerivedKeys = null,
+    Object? selectedKeys = null,
+    Object? keyNames = null,
+    Object? isLoading = null,
+    Object? isCompleted = null,
+  }) {
+    return _then(_self.copyWith(
+      canPrevPage: null == canPrevPage
+          ? _self.canPrevPage
+          : canPrevPage // ignore: cast_nullable_to_non_nullable
+              as bool,
+      canNextPage: null == canNextPage
+          ? _self.canNextPage
+          : canNextPage // ignore: cast_nullable_to_non_nullable
+              as bool,
+      currentPageIndex: null == currentPageIndex
+          ? _self.currentPageIndex
+          : currentPageIndex // ignore: cast_nullable_to_non_nullable
+              as int,
+      pageCount: null == pageCount
+          ? _self.pageCount
+          : pageCount // ignore: cast_nullable_to_non_nullable
+              as int,
+      displayDerivedKeys: null == displayDerivedKeys
+          ? _self.displayDerivedKeys
+          : displayDerivedKeys // ignore: cast_nullable_to_non_nullable
+              as List<DerivedKeyWithIndex>,
+      selectedKeys: null == selectedKeys
+          ? _self.selectedKeys
+          : selectedKeys // ignore: cast_nullable_to_non_nullable
+              as Set<PublicKey>,
+      keyNames: null == keyNames
+          ? _self.keyNames
+          : keyNames // ignore: cast_nullable_to_non_nullable
+              as Map<PublicKey, String>,
+      isLoading: null == isLoading
+          ? _self.isLoading
+          : isLoading // ignore: cast_nullable_to_non_nullable
+              as bool,
+      isCompleted: null == isCompleted
+          ? _self.isCompleted
+          : isCompleted // ignore: cast_nullable_to_non_nullable
+              as bool,
+    ));
   }
 }
 
 /// @nodoc
 
-class DeriveKeysStateData implements DeriveKeysState {
-  const DeriveKeysStateData(
+class _DeriveKeysState implements DeriveKeysState {
+  const _DeriveKeysState(
       {required this.canPrevPage,
       required this.canNextPage,
       required this.currentPageIndex,
       required this.pageCount,
-      required final List<PublicKey> displayDerivedKeys,
-      required final List<PublicKey> selectedKeys,
+      required final List<DerivedKeyWithIndex> displayDerivedKeys,
+      required final Set<PublicKey> selectedKeys,
       required final Map<PublicKey, String> keyNames,
       required this.isLoading,
       required this.isCompleted})
@@ -73,114 +138,89 @@ class DeriveKeysStateData implements DeriveKeysState {
         _selectedKeys = selectedKeys,
         _keyNames = keyNames;
 
+  @override
   final bool canPrevPage;
+  @override
   final bool canNextPage;
+  @override
   final int currentPageIndex;
+  @override
   final int pageCount;
-  final List<PublicKey> _displayDerivedKeys;
-  List<PublicKey> get displayDerivedKeys {
+  final List<DerivedKeyWithIndex> _displayDerivedKeys;
+  @override
+  List<DerivedKeyWithIndex> get displayDerivedKeys {
     if (_displayDerivedKeys is EqualUnmodifiableListView)
       return _displayDerivedKeys;
     // ignore: implicit_dynamic_type
     return EqualUnmodifiableListView(_displayDerivedKeys);
   }
 
-  final List<PublicKey> _selectedKeys;
-  List<PublicKey> get selectedKeys {
-    if (_selectedKeys is EqualUnmodifiableListView) return _selectedKeys;
+  final Set<PublicKey> _selectedKeys;
+  @override
+  Set<PublicKey> get selectedKeys {
+    if (_selectedKeys is EqualUnmodifiableSetView) return _selectedKeys;
     // ignore: implicit_dynamic_type
-    return EqualUnmodifiableListView(_selectedKeys);
+    return EqualUnmodifiableSetView(_selectedKeys);
   }
 
   final Map<PublicKey, String> _keyNames;
+  @override
   Map<PublicKey, String> get keyNames {
     if (_keyNames is EqualUnmodifiableMapView) return _keyNames;
     // ignore: implicit_dynamic_type
     return EqualUnmodifiableMapView(_keyNames);
   }
 
+  @override
   final bool isLoading;
+  @override
   final bool isCompleted;
 
   /// Create a copy of DeriveKeysState
   /// with the given fields replaced by the non-null parameter values.
+  @override
   @JsonKey(includeFromJson: false, includeToJson: false)
   @pragma('vm:prefer-inline')
-  $DeriveKeysStateDataCopyWith<DeriveKeysStateData> get copyWith =>
-      _$DeriveKeysStateDataCopyWithImpl<DeriveKeysStateData>(this, _$identity);
-
-  @override
-  bool operator ==(Object other) {
-    return identical(this, other) ||
-        (other.runtimeType == runtimeType &&
-            other is DeriveKeysStateData &&
-            (identical(other.canPrevPage, canPrevPage) ||
-                other.canPrevPage == canPrevPage) &&
-            (identical(other.canNextPage, canNextPage) ||
-                other.canNextPage == canNextPage) &&
-            (identical(other.currentPageIndex, currentPageIndex) ||
-                other.currentPageIndex == currentPageIndex) &&
-            (identical(other.pageCount, pageCount) ||
-                other.pageCount == pageCount) &&
-            const DeepCollectionEquality()
-                .equals(other._displayDerivedKeys, _displayDerivedKeys) &&
-            const DeepCollectionEquality()
-                .equals(other._selectedKeys, _selectedKeys) &&
-            const DeepCollectionEquality().equals(other._keyNames, _keyNames) &&
-            (identical(other.isLoading, isLoading) ||
-                other.isLoading == isLoading) &&
-            (identical(other.isCompleted, isCompleted) ||
-                other.isCompleted == isCompleted));
-  }
-
-  @override
-  int get hashCode => Object.hash(
-      runtimeType,
-      canPrevPage,
-      canNextPage,
-      currentPageIndex,
-      pageCount,
-      const DeepCollectionEquality().hash(_displayDerivedKeys),
-      const DeepCollectionEquality().hash(_selectedKeys),
-      const DeepCollectionEquality().hash(_keyNames),
-      isLoading,
-      isCompleted);
+  _$DeriveKeysStateCopyWith<_DeriveKeysState> get copyWith =>
+      __$DeriveKeysStateCopyWithImpl<_DeriveKeysState>(this, _$identity);
 
   @override
   String toString() {
-    return 'DeriveKeysState.data(canPrevPage: $canPrevPage, canNextPage: $canNextPage, currentPageIndex: $currentPageIndex, pageCount: $pageCount, displayDerivedKeys: $displayDerivedKeys, selectedKeys: $selectedKeys, keyNames: $keyNames, isLoading: $isLoading, isCompleted: $isCompleted)';
+    return 'DeriveKeysState(canPrevPage: $canPrevPage, canNextPage: $canNextPage, currentPageIndex: $currentPageIndex, pageCount: $pageCount, displayDerivedKeys: $displayDerivedKeys, selectedKeys: $selectedKeys, keyNames: $keyNames, isLoading: $isLoading, isCompleted: $isCompleted)';
   }
 }
 
 /// @nodoc
-abstract mixin class $DeriveKeysStateDataCopyWith<$Res>
+abstract mixin class _$DeriveKeysStateCopyWith<$Res>
     implements $DeriveKeysStateCopyWith<$Res> {
-  factory $DeriveKeysStateDataCopyWith(
-          DeriveKeysStateData value, $Res Function(DeriveKeysStateData) _then) =
-      _$DeriveKeysStateDataCopyWithImpl;
+  factory _$DeriveKeysStateCopyWith(
+          _DeriveKeysState value, $Res Function(_DeriveKeysState) _then) =
+      __$DeriveKeysStateCopyWithImpl;
+  @override
   @useResult
   $Res call(
       {bool canPrevPage,
       bool canNextPage,
       int currentPageIndex,
       int pageCount,
-      List<PublicKey> displayDerivedKeys,
-      List<PublicKey> selectedKeys,
+      List<DerivedKeyWithIndex> displayDerivedKeys,
+      Set<PublicKey> selectedKeys,
       Map<PublicKey, String> keyNames,
       bool isLoading,
       bool isCompleted});
 }
 
 /// @nodoc
-class _$DeriveKeysStateDataCopyWithImpl<$Res>
-    implements $DeriveKeysStateDataCopyWith<$Res> {
-  _$DeriveKeysStateDataCopyWithImpl(this._self, this._then);
+class __$DeriveKeysStateCopyWithImpl<$Res>
+    implements _$DeriveKeysStateCopyWith<$Res> {
+  __$DeriveKeysStateCopyWithImpl(this._self, this._then);
 
-  final DeriveKeysStateData _self;
-  final $Res Function(DeriveKeysStateData) _then;
+  final _DeriveKeysState _self;
+  final $Res Function(_DeriveKeysState) _then;
 
   /// Create a copy of DeriveKeysState
   /// with the given fields replaced by the non-null parameter values.
+  @override
   @pragma('vm:prefer-inline')
   $Res call({
     Object? canPrevPage = null,
@@ -193,7 +233,7 @@ class _$DeriveKeysStateDataCopyWithImpl<$Res>
     Object? isLoading = null,
     Object? isCompleted = null,
   }) {
-    return _then(DeriveKeysStateData(
+    return _then(_DeriveKeysState(
       canPrevPage: null == canPrevPage
           ? _self.canPrevPage
           : canPrevPage // ignore: cast_nullable_to_non_nullable
@@ -213,11 +253,11 @@ class _$DeriveKeysStateDataCopyWithImpl<$Res>
       displayDerivedKeys: null == displayDerivedKeys
           ? _self._displayDerivedKeys
           : displayDerivedKeys // ignore: cast_nullable_to_non_nullable
-              as List<PublicKey>,
+              as List<DerivedKeyWithIndex>,
       selectedKeys: null == selectedKeys
           ? _self._selectedKeys
           : selectedKeys // ignore: cast_nullable_to_non_nullable
-              as List<PublicKey>,
+              as Set<PublicKey>,
       keyNames: null == keyNames
           ? _self._keyNames
           : keyNames // ignore: cast_nullable_to_non_nullable
