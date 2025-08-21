@@ -541,6 +541,7 @@ extension GetItInjectableX on _i174.GetIt {
     );
     await _i171.EncryptedStoragePackageModule().init(gh);
     await _i1067.NekotonRepositoryPackageModule().init(gh);
+    final sentryModule = _$SentryModule();
     final dioModule = _$DioModule();
     gh.factory<_i440.LocalizationConfigurator>(
         () => _i440.LocalizationConfigurator());
@@ -571,6 +572,7 @@ extension GetItInjectableX on _i174.GetIt {
     gh.singleton<_i391.DnsResolveService>(() => _i391.DnsResolveService());
     gh.singleton<_i654.BrowserApprovalsService>(
         () => _i654.BrowserApprovalsService());
+    gh.lazySingleton<_i438.SentryWorker>(() => sentryModule.getSentryWorker());
     gh.lazySingleton<_i632.MessengerService>(
       () => _i632.MessengerService(),
       dispose: (i) => i.dispose(),
@@ -1936,5 +1938,7 @@ extension GetItInjectableX on _i174.GetIt {
     return this;
   }
 }
+
+class _$SentryModule extends _i438.SentryModule {}
 
 class _$DioModule extends _i720.DioModule {}
