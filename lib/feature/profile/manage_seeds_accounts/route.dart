@@ -11,7 +11,6 @@ class ManageSeedsAccountsRoute
     extends CompassRouteParameterless<ManageSeedsAccountsRouteData> {
   ManageSeedsAccountsRoute(
     @Named.from(SeedDetailRoute) CompassBaseRoute seedDetailRoute,
-    // ignore: deprecated_member_use_from_same_package
     @Named.from(EnterSeedNameRoute) CompassBaseRoute enterSeedNameRoute,
   ) : super(
           name: 'manage-seeds-accounts',

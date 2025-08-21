@@ -89,7 +89,12 @@ import '../app/view/app_wm.dart' as _i1017;
 import '../core/sentry.dart' as _i438;
 import '../feature/add_seed/add_existing_wallet/route.dart' as _i852;
 import '../feature/add_seed/add_seed.dart' as _i1056;
+import '../feature/add_seed/check_seed_phrase/check_seed_phrase.dart' as _i199;
 import '../feature/add_seed/check_seed_phrase/route.dart' as _i850;
+import '../feature/add_seed/check_seed_phrase/view/check_seed_phrase_page_model.dart'
+    as _i1030;
+import '../feature/add_seed/check_seed_phrase/view/check_seed_phrase_page_wm.dart'
+    as _i708;
 import '../feature/add_seed/create_password/route.dart' as _i473;
 import '../feature/add_seed/create_password/screens/create_seed_password/create_seed_password_screen_model.dart'
     as _i905;
@@ -1029,6 +1034,11 @@ extension GetItInjectableX on _i174.GetIt {
         ));
     gh.factory<_i312.TokenWalletSendWidgetModel>(() =>
         _i312.TokenWalletSendWidgetModel(gh<_i523.TokenWalletSendModel>()));
+    gh.factory<_i1030.CheckSeedPhrasePageModel>(
+        () => _i1030.CheckSeedPhrasePageModel(
+              gh<_i83.ErrorHandler>(),
+              gh<_i632.MessengerService>(),
+            ));
     gh.singleton<_i402.CurrentAccountsService>(
         () => _i402.CurrentAccountsService(
               gh<_i771.NekotonRepository>(),
@@ -1321,6 +1331,9 @@ extension GetItInjectableX on _i174.GetIt {
           gh<_i128.CurrentKeyService>(),
           gh<_i128.CurrentSeedService>(),
         ));
+    gh.factory<_i708.CheckSeedPhrasePageWidgetModel>(() =>
+        _i708.CheckSeedPhrasePageWidgetModel(
+            gh<_i199.CheckSeedPhrasePageModel>()));
     gh.factory<_i913.BrowserBookWidgetModel>(
         () => _i913.BrowserBookWidgetModel(gh<_i250.BrowserBookModel>()));
     gh.factory<_i708.SeedDetailPageModel>(() => _i708.SeedDetailPageModel(

@@ -36,7 +36,6 @@ class WalletRoute extends CompassRouteParameterless<WalletRouteData> {
     CompassBaseRoute confirmMultisigTransactionRoute,
     @Named.from(ConfigureNetworksRoute) CompassBaseRoute configureNetworksRoute,
     @Named.from(StakingRoute) CompassBaseRoute walletStakeRoute,
-    // ignore: deprecated_member_use_from_same_package
     @Named.from(EnterSeedNameRoute) CompassBaseRoute enterSeedNameRoute,
   ) : super(
           name: 'wallet',
