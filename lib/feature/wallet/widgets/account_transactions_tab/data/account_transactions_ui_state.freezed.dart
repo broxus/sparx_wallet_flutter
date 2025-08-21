@@ -4,7 +4,7 @@
 // ignore_for_file: type=lint
 // ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target, unnecessary_question_mark
 
-part of 'account_transactions_tab_cubit.dart';
+part of 'account_transactions_ui_state.dart';
 
 // **************************************************************************
 // FreezedGenerator
@@ -14,12 +14,12 @@ part of 'account_transactions_tab_cubit.dart';
 T _$identity<T>(T value) => value;
 
 /// @nodoc
-mixin _$AccountTransactionsTabState {
+mixin _$AccountTransactionsUiState {
   @override
   bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is AccountTransactionsTabState);
+            other is AccountTransactionsUiState);
   }
 
   @override
@@ -27,26 +27,26 @@ mixin _$AccountTransactionsTabState {
 
   @override
   String toString() {
-    return 'AccountTransactionsTabState()';
+    return 'AccountTransactionsUiState()';
   }
 }
 
 /// @nodoc
-class $AccountTransactionsTabStateCopyWith<$Res> {
-  $AccountTransactionsTabStateCopyWith(AccountTransactionsTabState _,
-      $Res Function(AccountTransactionsTabState) __);
+class $AccountTransactionsUiStateCopyWith<$Res> {
+  $AccountTransactionsUiStateCopyWith(AccountTransactionsUiState _,
+      $Res Function(AccountTransactionsUiState) __);
 }
 
 /// @nodoc
 
-class AccountTransactionsTabStateEmpty implements AccountTransactionsTabState {
-  const AccountTransactionsTabStateEmpty();
+class AccountTransactionsUiLoading implements AccountTransactionsUiState {
+  const AccountTransactionsUiLoading();
 
   @override
   bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is AccountTransactionsTabStateEmpty);
+            other is AccountTransactionsUiLoading);
   }
 
   @override
@@ -54,21 +54,20 @@ class AccountTransactionsTabStateEmpty implements AccountTransactionsTabState {
 
   @override
   String toString() {
-    return 'AccountTransactionsTabState.empty()';
+    return 'AccountTransactionsUiState.loading()';
   }
 }
 
 /// @nodoc
 
-class AccountTransactionsTabStateLoading
-    implements AccountTransactionsTabState {
-  const AccountTransactionsTabStateLoading();
+class AccountTransactionsUiEmpty implements AccountTransactionsUiState {
+  const AccountTransactionsUiEmpty();
 
   @override
   bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is AccountTransactionsTabStateLoading);
+            other is AccountTransactionsUiEmpty);
   }
 
   @override
@@ -76,15 +75,14 @@ class AccountTransactionsTabStateLoading
 
   @override
   String toString() {
-    return 'AccountTransactionsTabState.loading()';
+    return 'AccountTransactionsUiState.empty()';
   }
 }
 
 /// @nodoc
 
-class AccountTransactionsTabStateTransactions
-    implements AccountTransactionsTabState {
-  const AccountTransactionsTabStateTransactions(
+class AccountTransactionsUiData implements AccountTransactionsUiState {
+  const AccountTransactionsUiData(
       {required final List<AccountTransactionItem<Object>> transactions,
       required this.isLoading,
       required this.canLoadMore,
@@ -102,20 +100,19 @@ class AccountTransactionsTabStateTransactions
   final bool canLoadMore;
   final Fixed price;
 
-  /// Create a copy of AccountTransactionsTabState
+  /// Create a copy of AccountTransactionsUiState
   /// with the given fields replaced by the non-null parameter values.
   @JsonKey(includeFromJson: false, includeToJson: false)
   @pragma('vm:prefer-inline')
-  $AccountTransactionsTabStateTransactionsCopyWith<
-          AccountTransactionsTabStateTransactions>
-      get copyWith => _$AccountTransactionsTabStateTransactionsCopyWithImpl<
-          AccountTransactionsTabStateTransactions>(this, _$identity);
+  $AccountTransactionsUiDataCopyWith<AccountTransactionsUiData> get copyWith =>
+      _$AccountTransactionsUiDataCopyWithImpl<AccountTransactionsUiData>(
+          this, _$identity);
 
   @override
   bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is AccountTransactionsTabStateTransactions &&
+            other is AccountTransactionsUiData &&
             const DeepCollectionEquality()
                 .equals(other._transactions, _transactions) &&
             (identical(other.isLoading, isLoading) ||
@@ -135,17 +132,16 @@ class AccountTransactionsTabStateTransactions
 
   @override
   String toString() {
-    return 'AccountTransactionsTabState.transactions(transactions: $transactions, isLoading: $isLoading, canLoadMore: $canLoadMore, price: $price)';
+    return 'AccountTransactionsUiState.data(transactions: $transactions, isLoading: $isLoading, canLoadMore: $canLoadMore, price: $price)';
   }
 }
 
 /// @nodoc
-abstract mixin class $AccountTransactionsTabStateTransactionsCopyWith<$Res>
-    implements $AccountTransactionsTabStateCopyWith<$Res> {
-  factory $AccountTransactionsTabStateTransactionsCopyWith(
-          AccountTransactionsTabStateTransactions value,
-          $Res Function(AccountTransactionsTabStateTransactions) _then) =
-      _$AccountTransactionsTabStateTransactionsCopyWithImpl;
+abstract mixin class $AccountTransactionsUiDataCopyWith<$Res>
+    implements $AccountTransactionsUiStateCopyWith<$Res> {
+  factory $AccountTransactionsUiDataCopyWith(AccountTransactionsUiData value,
+          $Res Function(AccountTransactionsUiData) _then) =
+      _$AccountTransactionsUiDataCopyWithImpl;
   @useResult
   $Res call(
       {List<AccountTransactionItem<Object>> transactions,
@@ -155,14 +151,14 @@ abstract mixin class $AccountTransactionsTabStateTransactionsCopyWith<$Res>
 }
 
 /// @nodoc
-class _$AccountTransactionsTabStateTransactionsCopyWithImpl<$Res>
-    implements $AccountTransactionsTabStateTransactionsCopyWith<$Res> {
-  _$AccountTransactionsTabStateTransactionsCopyWithImpl(this._self, this._then);
+class _$AccountTransactionsUiDataCopyWithImpl<$Res>
+    implements $AccountTransactionsUiDataCopyWith<$Res> {
+  _$AccountTransactionsUiDataCopyWithImpl(this._self, this._then);
 
-  final AccountTransactionsTabStateTransactions _self;
-  final $Res Function(AccountTransactionsTabStateTransactions) _then;
+  final AccountTransactionsUiData _self;
+  final $Res Function(AccountTransactionsUiData) _then;
 
-  /// Create a copy of AccountTransactionsTabState
+  /// Create a copy of AccountTransactionsUiState
   /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   $Res call({
@@ -171,7 +167,7 @@ class _$AccountTransactionsTabStateTransactionsCopyWithImpl<$Res>
     Object? canLoadMore = null,
     Object? price = null,
   }) {
-    return _then(AccountTransactionsTabStateTransactions(
+    return _then(AccountTransactionsUiData(
       transactions: null == transactions
           ? _self._transactions
           : transactions // ignore: cast_nullable_to_non_nullable

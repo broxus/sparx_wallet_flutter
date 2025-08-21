@@ -548,6 +548,8 @@ import '../feature/wallet/widgets/account_settings/widgets/change_color_button/a
     as _i611;
 import '../feature/wallet/widgets/account_settings/widgets/change_color_button/account_settings_change_color_button_wm.dart'
     as _i268;
+import '../feature/wallet/widgets/account_transactions_tab/account_transactions_tab.dart'
+    as _i1034;
 import '../feature/wallet/widgets/account_transactions_tab/detail/ton_wallet_multisig_ordinary_transaction_details/ton_wallet_multisig_ordinary_transaction_details_screen_model.dart'
     as _i161;
 import '../feature/wallet/widgets/account_transactions_tab/detail/ton_wallet_multisig_ordinary_transaction_details/ton_wallet_multisig_ordinary_transaction_details_screen_wm.dart'
@@ -560,6 +562,10 @@ import '../feature/wallet/widgets/account_transactions_tab/detail/ton_wallet_ord
     as _i562;
 import '../feature/wallet/widgets/account_transactions_tab/detail/ton_wallet_ordinary_transaction_details/ton_wallet_ordinary_transaction_details_wm.dart'
     as _i408;
+import '../feature/wallet/widgets/account_transactions_tab/view/account_transactions_tab_model.dart'
+    as _i330;
+import '../feature/wallet/widgets/account_transactions_tab/view/account_transactions_tab_wm.dart'
+    as _i793;
 import '../feature/wallet/widgets/account_transactions_tab/widgets/ton_wallet_expired_transaction_widget/ton_wallet_expired_transaction_widget_model.dart'
     as _i365;
 import '../feature/wallet/widgets/account_transactions_tab/widgets/ton_wallet_expired_transaction_widget/ton_wallet_expired_transaction_widget_wm.dart'
@@ -1596,6 +1602,13 @@ extension GetItInjectableX on _i174.GetIt {
       () => _i169.UpdateVersionGuard(gh<_i484.UpdateService>()),
       instanceName: 'UpdateVersionGuard',
     );
+    gh.factory<_i330.AccountTransactionsTabModel>(
+        () => _i330.AccountTransactionsTabModel(
+              gh<_i83.ErrorHandler>(),
+              gh<_i128.TonWalletStorageService>(),
+              gh<_i771.NekotonRepository>(),
+              gh<_i128.CurrenciesService>(),
+            ));
     gh.singleton<_i116.PresetsConnectionService>(
         () => _i116.PresetsConnectionService(gh<_i418.PresetsConfigReader>()));
     gh.factory<_i833.NftTransferInfoWidgetModel>(() =>
@@ -1714,6 +1727,9 @@ extension GetItInjectableX on _i174.GetIt {
               gh<_i128.PresetsConnectionService>(),
               gh<_i632.MessengerService>(),
             ));
+    gh.factory<_i793.AccountTransactionsTabWidgetModel>(() =>
+        _i793.AccountTransactionsTabWidgetModel(
+            gh<_i1034.AccountTransactionsTabModel>()));
     gh.factory<_i771.TokenWalletAssetWidgetModel>(() =>
         _i771.TokenWalletAssetWidgetModel(gh<_i869.TokenWalletAssetModel>()));
     gh.factory<_i985.HistoryListModel>(() => _i985.HistoryListModel(
