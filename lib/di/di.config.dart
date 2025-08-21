@@ -515,6 +515,12 @@ import '../feature/wallet/widgets/account_asset_tab/account_asset_tab_wm.dart'
     as _i695;
 import '../feature/wallet/widgets/account_asset_tab/select_new_asset/route.dart'
     as _i182;
+import '../feature/wallet/widgets/account_asset_tab/select_new_asset/select_new_asset.dart'
+    as _i158;
+import '../feature/wallet/widgets/account_asset_tab/select_new_asset/view/select_new_asset_page_model.dart'
+    as _i1024;
+import '../feature/wallet/widgets/account_asset_tab/select_new_asset/view/select_new_asset_page_wm.dart'
+    as _i483;
 import '../feature/wallet/widgets/account_asset_tab/select_tokens/select_token_model.dart'
     as _i289;
 import '../feature/wallet/widgets/account_asset_tab/select_tokens/select_token_wm.dart'
@@ -1883,6 +1889,13 @@ extension GetItInjectableX on _i174.GetIt {
       ),
       dispose: (i) => i.dispose(),
     );
+    gh.factory<_i1024.SelectNewAssetPageModel>(
+        () => _i1024.SelectNewAssetPageModel(
+              gh<_i83.ErrorHandler>(),
+              gh<_i128.AssetsService>(),
+              gh<_i771.NekotonRepository>(),
+              gh<_i632.MessengerService>(),
+            ));
     gh.singleton<_i754.ConnectionService>(() => _i754.ConnectionService(
           gh<_i128.ConnectionsStorageService>(),
           gh<_i771.NekotonRepository>(),
@@ -2065,6 +2078,9 @@ extension GetItInjectableX on _i174.GetIt {
               gh<_i468.BootstrapService>(),
               gh<_i632.MessengerService>(),
             ));
+    gh.factory<_i483.SelectNewAssetPageWidgetModel>(() =>
+        _i483.SelectNewAssetPageWidgetModel(
+            gh<_i158.SelectNewAssetPageModel>()));
     gh.factory<_i1007.ConnectionFailModel>(() => _i1007.ConnectionFailModel(
           gh<_i83.ErrorHandler>(),
           gh<_i468.BootstrapService>(),
