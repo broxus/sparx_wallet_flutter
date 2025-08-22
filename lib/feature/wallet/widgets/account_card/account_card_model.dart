@@ -28,24 +28,26 @@ class AccountCardModel extends ElementaryModel {
 
   Stream<Money> getBalanceStream(Address address) {
     return _nekotonRepository.currentTransportStream.switchMap(
-      (transport) => _balanceService.accountOverallBalance(address).map(
-        (fiatBalance) {
-          if (fiatBalance != null) {
-            _balanceStorage.setOverallBalance(
-              group: transport.transport.group,
-              accountAddress: address,
-              balance: fiatBalance,
-            );
-          }
+      (transport) {
+        return _balanceService.accountOverallBalance(address).distinct().map(
+          (fiatBalance) {
+            if (fiatBalance != null) {
+              _balanceStorage.setOverallBalance(
+                group: transport.transport.group,
+                accountAddress: address,
+                balance: fiatBalance,
+              );
+            }
 
-          fiatBalance ??= _balanceStorage.getOverallBalance(
-                transport.transport.group,
-              )[address] ??
-              Fixed.zero;
+            fiatBalance ??= _balanceStorage.getOverallBalance(
+                  transport.transport.group,
+                )[address] ??
+                Fixed.zero;
 
-          return _currencyConvertService.convert(fiatBalance);
-        },
-      ),
+            return _currencyConvertService.convert(fiatBalance);
+          },
+        );
+      },
     );
   }
 
