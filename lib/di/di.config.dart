@@ -367,9 +367,14 @@ import '../feature/profile/manage_seeds_accounts/widgets/seed_settings/seed_sett
 import '../feature/profile/profile.dart' as _i767;
 import '../feature/profile/route.dart' as _i302;
 import '../feature/profile/seed_detail/route.dart' as _i649;
+import '../feature/profile/seed_detail/seed_detail.dart' as _i450;
 import '../feature/profile/seed_detail/view/seed_detail_page_model.dart'
     as _i708;
 import '../feature/profile/seed_detail/view/seed_detail_page_wm.dart' as _i420;
+import '../feature/profile/seed_detail/widgets/derive_keys_sheet/derive_keys_sheet_model.dart'
+    as _i616;
+import '../feature/profile/seed_detail/widgets/derive_keys_sheet/derive_keys_sheet_wm.dart'
+    as _i240;
 import '../feature/profile/view/profile_page_model.dart' as _i342;
 import '../feature/profile/view/profile_page_wm.dart' as _i700;
 import '../feature/profile/widgets/enter_password/enter_password_model.dart'
@@ -1181,6 +1186,11 @@ extension GetItInjectableX on _i174.GetIt {
           gh<_i632.MessengerService>(),
           gh<_i771.NekotonRepository>(),
         ));
+    gh.factory<_i616.DeriveKeysSheetModel>(() => _i616.DeriveKeysSheetModel(
+          gh<_i83.ErrorHandler>(),
+          gh<_i771.NekotonRepository>(),
+          gh<_i865.LedgerService>(),
+        ));
     gh.factory<_i37.KeyDetailPageWidgetModel>(
         () => _i37.KeyDetailPageWidgetModel(gh<_i974.KeyDetailPageModel>()));
     gh.factory<_i1035.SelectAccountModel>(() => _i1035.SelectAccountModel(
@@ -1220,6 +1230,8 @@ extension GetItInjectableX on _i174.GetIt {
         () => _i231.NtpConfigurator(gh<_i128.NtpService>()));
     gh.factory<_i374.AddNftWidgetModel>(
         () => _i374.AddNftWidgetModel(gh<_i321.AddNftModel>()));
+    gh.factory<_i240.DeriveKeysSheetWidgetModel>(() =>
+        _i240.DeriveKeysSheetWidgetModel(gh<_i450.DeriveKeysSheetModel>()));
     gh.factory<_i727.AddExternalAccountWidgetModel>(() =>
         _i727.AddExternalAccountWidgetModel(
             gh<_i231.AddExternalAccountModel>()));
