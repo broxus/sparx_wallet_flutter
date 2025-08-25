@@ -1,7 +1,7 @@
 import 'package:app/app/router/router.dart';
 import 'package:app/core/wm/custom_wm.dart';
 import 'package:app/feature/choose_network/route.dart';
-import 'package:app/feature/contact_support/widgets/widgets.dart';
+import 'package:app/feature/contact_support/contact_support.dart';
 import 'package:app/feature/onboarding/screen/welcome/welcome_screen.dart';
 import 'package:app/feature/onboarding/screen/welcome/welcome_screen_model.dart';
 import 'package:elementary/elementary.dart';

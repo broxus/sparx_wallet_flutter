@@ -1,11 +1,9 @@
 import 'dart:math' as math;
 
-import 'package:app/di/di.dart';
-import 'package:app/feature/ledger/ledger.dart';
-import 'package:app/feature/profile/seed_detail/widgets/derive_keys_sheet/derive_keys_cubit.dart';
+import 'package:app/core/wm/custom_wm.dart';
+import 'package:app/feature/profile/seed_detail/seed_detail.dart';
 import 'package:app/generated/generated.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:nekoton_repository/nekoton_repository.dart';
 import 'package:ui_components_lib/ui_components_lib.dart';
 import 'package:ui_components_lib/v2/ui_components_lib_v2.dart';
@@ -21,17 +19,10 @@ ModalRoute<void> deriveKeysSheet(
     titleTextStyle: context.themeStyleV2.textStyles.headingLarge,
     title: LocaleKeys.selectKeysYouNeed.tr(),
     padding: EdgeInsets.zero,
-    body: (_, controller) => BlocProvider<DeriveKeysCubit>(
-      create: (context) => DeriveKeysCubit(
-        inject<NekotonRepository>(),
-        inject<LedgerService>(),
-        publicKey,
-        password,
-      )..init(),
-      child: DeriveKeysSheet(
-        controller: controller,
-        masterKey: publicKey,
-      ),
+    body: (_, controller) => DeriveKeysSheet(
+      controller: controller,
+      masterKey: publicKey,
+      password: password,
     ),
   );
 }
@@ -41,28 +32,36 @@ const _containerHeight = _itemHeight * derivedKeysPerPage +
     (DimensSizeV2.d4 * 2 + CommonDivider.size) * (derivedKeysPerPage - 1);
 
 /// Widget that shows keys that could be derived from publicKey of seed.
-class DeriveKeysSheet extends StatelessWidget {
-  const DeriveKeysSheet({
+class DeriveKeysSheet extends InjectedElementaryParametrizedWidget<
+    DeriveKeysSheetWidgetModel, DeriveKeysSheetParams> {
+  DeriveKeysSheet({
     required this.controller,
     required this.masterKey,
+    this.password,
     super.key,
-  });
+  }) : super(
+          wmFactoryParam: DeriveKeysSheetParams(
+            publicKey: masterKey,
+            password: password,
+          ),
+        );
 
   final ScrollController controller;
-
-  /// For master key changing its state must be disabled (it's always checked)
   final PublicKey masterKey;
+  final String? password;
 
   @override
-  Widget build(BuildContext context) {
-    return BlocConsumer<DeriveKeysCubit, DeriveKeysState>(
-      listener: (context, state) {
-        if (state.isCompleted) {
-          Navigator.of(context).pop();
+  Widget build(DeriveKeysSheetWidgetModel wm) {
+    return ValueListenableBuilder<DeriveKeysState>(
+      valueListenable: wm.state,
+      builder: (context, s, _) {
+        if (s.isCompleted) {
+          WidgetsBinding.instance.addPostFrameCallback((_) {
+            if (Navigator.of(context).canPop()) {
+              Navigator.of(context).pop();
+            }
+          });
         }
-      },
-      builder: (context, state) {
-        final cubit = context.read<DeriveKeysCubit>();
         return SeparatedColumn(
           mainAxisSize: MainAxisSize.min,
           children: [
@@ -74,7 +73,7 @@ class DeriveKeysSheet extends StatelessWidget {
                 ),
                 child: SizedBox(
                   height: _containerHeight,
-                  child: state.displayDerivedKeys.isEmpty && state.isLoading
+                  child: s.displayDerivedKeys.isEmpty && s.isLoading
                       ? const Center(
                           child: ProgressIndicatorWidget(
                             size: DimensSizeV2.d40,
@@ -88,15 +87,15 @@ class DeriveKeysSheet extends StatelessWidget {
                             child: CommonDivider(),
                           ),
                           children: [
-                            for (final k in state.displayDerivedKeys)
+                            for (final k in s.displayDerivedKeys)
                               _Item(
                                 masterKey: masterKey,
                                 derivedKey: k,
-                                name: state.keyNames[k.publicKey],
+                                name: s.keyNames[k.publicKey],
                                 isSelected:
-                                    state.selectedKeys.contains(k.publicKey),
-                                onChecked: cubit.checkKey,
-                                onUnchecked: cubit.uncheckKey,
+                                    s.selectedKeys.contains(k.publicKey),
+                                onChecked: wm.checkKey,
+                                onUnchecked: wm.uncheckKey,
                               ),
                           ],
                         ),
@@ -107,12 +106,12 @@ class DeriveKeysSheet extends StatelessWidget {
               children: [
                 const CommonDivider(),
                 _Pages(
-                  currentPageIndex: state.currentPageIndex,
-                  canPrevPage: state.canPrevPage,
-                  canNextPage: state.canNextPage,
-                  onPrevPage: cubit.prevPage,
-                  onNextPage: cubit.nextPage,
-                  onPage: cubit.selectPage,
+                  currentPageIndex: s.currentPageIndex,
+                  canPrevPage: s.canPrevPage,
+                  canNextPage: s.canNextPage,
+                  onPrevPage: () => wm.prevPage(),
+                  onNextPage: () => wm.nextPage(),
+                  onPage: (i) => wm.selectPage(i),
                 ),
                 const CommonDivider(),
                 const SizedBox(height: DimensSizeV2.d8),
@@ -123,9 +122,9 @@ class DeriveKeysSheet extends StatelessWidget {
                 horizontal: DimensSizeV2.d16,
               ),
               child: PrimaryButton(
-                isLoading: state.isLoading,
+                isLoading: s.isLoading,
                 title: LocaleKeys.selectWord.tr(),
-                onPressed: () => context.read<DeriveKeysCubit>().select(),
+                onPressed: wm.select,
                 buttonShape: ButtonShape.pill,
               ),
             ),
