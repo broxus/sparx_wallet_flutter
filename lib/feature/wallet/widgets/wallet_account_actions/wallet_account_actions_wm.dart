@@ -90,7 +90,7 @@ class WalletAccountActionsWidgetModel extends CustomWidgetModelParametrized<
   void initWidgetModel() {
     super.initWidgetModel();
     _walletSubscription = wmParams
-        .flatMap(
+        .switchMap(
           (params) => model.getWalletStateStream(params.account.address),
         )
         .listen(_onWallet);
@@ -305,6 +305,12 @@ class WalletAccountActionsWidgetModel extends CustomWidgetModelParametrized<
           contextSafe?.compassContinue(
             const EnterSeedNameRouteData(
               command: EnterSeedNameCommand.import,
+            ),
+          );
+        case SelectAddSeedType.ledger:
+          contextSafe?.compassContinue(
+            const EnterSeedNameRouteData(
+              command: EnterSeedNameCommand.ledger,
             ),
           );
       }

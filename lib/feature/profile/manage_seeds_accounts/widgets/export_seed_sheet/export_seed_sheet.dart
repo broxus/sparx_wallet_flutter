@@ -31,9 +31,9 @@ class ExportSeedSheet extends InjectedElementaryParametrizedWidget<
   @override
   Widget build(ExportSeedSheetWidgetModel wm) {
     return EnterPasswordWidget(
-      onPasswordEntered: wm.onPasswordEntered,
       publicKey: wm.publicKey,
-      buttonText: LocaleKeys.exportWord.tr(),
+      title: LocaleKeys.exportWord.tr(),
+      onPasswordEntered: wm.onPasswordEntered,
     );
   }
 }

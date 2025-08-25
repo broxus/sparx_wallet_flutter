@@ -20,9 +20,10 @@ class NftSendConfirm extends StatefulWidget {
     required this.error,
     required this.txErrors,
     required this.isLoading,
-    required this.onPasswordEntered,
+    required this.onConfirmed,
     required this.attachedAmount,
     required this.account,
+    required this.getLedgerAuthInput,
     super.key,
   });
 
@@ -38,7 +39,8 @@ class NftSendConfirm extends StatefulWidget {
   final ListenableState<String> error;
   final ListenableState<BigInt> fees;
   final ListenableState<List<TxTreeSimulationErrorItem>> txErrors;
-  final void Function(String) onPasswordEntered;
+  final GetLedgerAuthInput getLedgerAuthInput;
+  final void Function(SignInputAuth) onConfirmed;
 
   @override
   State<NftSendConfirm> createState() => _NftSendConfirmState();
@@ -90,13 +92,14 @@ class _NftSendConfirmState extends State<NftSendConfirm> {
                       () => isConfirmed = value,
                     ),
                   ),
-                EnterPasswordWidgetV2(
+                EnterPasswordWidget.auth(
+                  getLedgerAuthInput: widget.getLedgerAuthInput,
                   publicKey: widget.publicKey,
                   title: LocaleKeys.confirm.tr(),
-                  isLoading: isLoading,
+                  isLoading: isLoading ?? false,
                   isDisabled: error != null ||
                       ((txErrors?.isNotEmpty ?? false) && !isConfirmed),
-                  onPasswordEntered: widget.onPasswordEntered,
+                  onConfirmed: widget.onConfirmed,
                 ),
               ],
             );

@@ -39,7 +39,7 @@ class NftStorageService extends AbstractStorageService {
 
   @override
   Future<void> init() async {
-    await GetStorage.init(metadataContainer);
+    await Future.wait(containers.map(GetStorage.init));
     _streamedMetadata();
     _streamedPendingNfts();
   }
@@ -48,6 +48,7 @@ class NftStorageService extends AbstractStorageService {
   Future<void> clear() async {
     try {
       await _metadataStorage.erase();
+      await _generalStorage.erase();
     } catch (_) {}
   }
 
