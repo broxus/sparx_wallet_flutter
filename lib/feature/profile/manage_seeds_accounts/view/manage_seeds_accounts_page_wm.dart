@@ -35,6 +35,10 @@ class ManageSeedsAccountsPageWidgetModel extends CustomWidgetModel<
           contextSafe?.compassContinue(
             const EnterSeedNameRouteData(command: EnterSeedNameCommand.import),
           );
+        case SelectAddSeedType.ledger:
+          contextSafe?.compassContinue(
+            const EnterSeedNameRouteData(command: EnterSeedNameCommand.ledger),
+          );
       }
     }
   }
