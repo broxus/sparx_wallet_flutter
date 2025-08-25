@@ -28,6 +28,7 @@ class NewAccountTypeWidget extends InjectedElementaryParametrizedWidget<
   @override
   Widget build(NewAccountTypeWidgetModel wm) {
     final theme = wm.theme;
+    final disabledTypes = wm.getDisabledWalletTypes();
 
     return Column(
       mainAxisSize: MainAxisSize.min,
@@ -50,43 +51,37 @@ class NewAccountTypeWidget extends InjectedElementaryParametrizedWidget<
                     color: theme.colors.background1,
                     borderRadius:
                         BorderRadius.circular(DimensRadiusV2.radius12),
-                    child: ValueListenableBuilder(
-                      valueListenable: wm.disabledWalletTypesState,
-                      builder: (_, disabledTypes, __) {
-                        return SeparatedColumn(
-                          mainAxisSize: MainAxisSize.min,
-                          separator: const CommonDivider(),
-                          children: [
-                            _WalletType(
-                              name: LocaleKeys.defaultWord.tr(),
-                              description: _getDescription(wm.defaultType),
-                              checked: wm.defaultType == selected,
-                              disabled: disabledTypes.contains(wm.defaultType),
-                              onTap: () => wm.onSelect(wm.defaultType),
+                    child: SeparatedColumn(
+                      mainAxisSize: MainAxisSize.min,
+                      separator: const CommonDivider(),
+                      children: [
+                        _WalletType(
+                          name: LocaleKeys.defaultWord.tr(),
+                          description: _getDescription(wm.defaultType),
+                          checked: wm.defaultType == selected,
+                          disabled: disabledTypes.contains(wm.defaultType),
+                          onTap: () => wm.onSelect(wm.defaultType),
+                        ),
+                        if (wm.isHmstr)
+                          _WalletType(
+                            name: wm.getWalletName(_walletV5R1),
+                            description: _getDescription(_walletV5R1),
+                            checked: selected == _walletV5R1,
+                            disabled: disabledTypes.contains(_walletV5R1),
+                            onTap: () => wm.onSelect(_walletV5R1),
+                          ),
+                        if (wm.defaultMultisigType != null)
+                          _WalletType(
+                            name: LocaleKeys.multisignatureWord.tr(),
+                            description:
+                                _getDescription(wm.defaultMultisigType!),
+                            checked: wm.defaultMultisigType == selected,
+                            disabled: disabledTypes.contains(
+                              wm.defaultMultisigType,
                             ),
-                            if (wm.isHmstr)
-                              _WalletType(
-                                name: wm.getWalletName(_walletV5R1),
-                                description: _getDescription(_walletV5R1),
-                                checked: selected == _walletV5R1,
-                                disabled: disabledTypes.contains(_walletV5R1),
-                                onTap: () => wm.onSelect(_walletV5R1),
-                              ),
-                            if (wm.defaultMultisigType != null)
-                              _WalletType(
-                                name: LocaleKeys.multisignatureWord.tr(),
-                                description:
-                                    _getDescription(wm.defaultMultisigType!),
-                                checked: wm.defaultMultisigType == selected,
-                                disabled: disabledTypes.contains(
-                                  wm.defaultMultisigType,
-                                ),
-                                onTap: () =>
-                                    wm.onSelect(wm.defaultMultisigType!),
-                              ),
-                          ],
-                        );
-                      },
+                            onTap: () => wm.onSelect(wm.defaultMultisigType!),
+                          ),
+                      ],
                     ),
                   ),
                 ),
@@ -135,13 +130,10 @@ class NewAccountTypeWidget extends InjectedElementaryParametrizedWidget<
                         listenableList: [
                           wm.selected,
                           wm.showDeprecated,
-                          wm.disabledWalletTypesState,
                         ],
                         builder: (_) {
                           final selected = wm.selected.value;
                           final showDeprecated = wm.showDeprecated.value;
-                          final disabledTypes =
-                              wm.disabledWalletTypesState.value;
 
                           if (showDeprecated != true) {
                             return const SizedBox.shrink();
@@ -177,14 +169,12 @@ class NewAccountTypeWidget extends InjectedElementaryParametrizedWidget<
         ),
         MultiListenerRebuilder(
           listenableList: [
-            wm.disabledWalletTypesState,
             wm.loading,
             wm.selected,
           ],
           builder: (_) {
             final isLoading = wm.loading.value;
             final selected = wm.selected.value;
-            final disabledTypes = wm.disabledWalletTypesState.value;
 
             return Padding(
               padding: const EdgeInsets.only(top: DimensSizeV2.d12),

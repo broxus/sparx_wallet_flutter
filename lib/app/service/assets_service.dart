@@ -48,7 +48,7 @@ class AssetsService {
         nekotonRepository.currentTransportStream.listen(_updateSystemContracts);
 
     _combineSubscription =
-        nekotonRepository.currentTransportStream.flatMap((transport) {
+        nekotonRepository.currentTransportStream.switchMap((transport) {
       return Rx.combineLatest2<List<TokenContractAsset>,
           List<TokenContractAsset>, void>(
         storage.systemTokenContractAssetsStream(transport.transport.group),
@@ -58,7 +58,6 @@ class AssetsService {
       // listen needs to enable stream api
       // ignore: no-empty-block
     }).listen((_) {});
-
     _connectionsSubscription =
         connectionsStorageService.currentConnectionIdStream.listen(
       (_) => updateDefaultAssets(),
@@ -84,7 +83,7 @@ class AssetsService {
   /// [_contractsUpdateListener] and [_updateSystemContracts] or by calling
   /// [contractsForAccount] where new contract will be detected.
   Stream<List<TokenContractAsset>> get contractsStream =>
-      nekotonRepository.currentTransportStream.flatMap(
+      nekotonRepository.currentTransportStream.switchMap(
         (transport) {
           return Rx.combineLatest2<List<TokenContractAsset>,
               List<TokenContractAsset>, List<TokenContractAsset>>(

@@ -58,10 +58,12 @@ class ExportSeedSheet extends StatelessWidget {
       },
       builder: (context, _) {
         return EnterPasswordWidget(
-          onPasswordEntered: (password) =>
-              context.read<ExportSeedCubit>().export(password),
           publicKey: publicKey,
-          buttonText: LocaleKeys.exportWord.tr(),
+          title: LocaleKeys.exportWord.tr(),
+          onPasswordEntered: (password) => context
+              .read<ExportSeedCubit>()
+              // export is not available for Ledger
+              .export(password),
         );
       },
     );

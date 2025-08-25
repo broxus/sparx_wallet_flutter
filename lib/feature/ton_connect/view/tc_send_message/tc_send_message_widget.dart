@@ -176,14 +176,15 @@ class TCSendMessageWidget extends InjectedElementaryParametrizedWidget<
                     isConfirmed: isConfirmed ?? false,
                     onConfirm: wm.onConfirmed,
                   ),
-                EnterPasswordWidgetV2(
-                  isLoading: isLoading,
+                EnterPasswordWidget.auth(
+                  getLedgerAuthInput: wm.getLedgerAuthInput,
+                  isLoading: isLoading ?? false,
                   publicKey: account.publicKey,
                   title: LocaleKeys.sendWord.tr(),
                   isDisabled: numberUnconfirmedTransactions == null ||
                       numberUnconfirmedTransactions >= 5 ||
                       (hasTxError && isConfirmed != true),
-                  onPasswordEntered: wm.onSubmit,
+                  onConfirmed: wm.onSubmit,
                 ),
               ],
             );

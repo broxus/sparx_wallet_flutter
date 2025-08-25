@@ -1,5 +1,6 @@
 import 'package:app/app/router/router.dart';
 import 'package:app/core/wm/custom_wm.dart';
+import 'package:app/feature/ledger/ledger.dart';
 import 'package:app/feature/messenger/data/message.dart';
 import 'package:app/feature/wallet/confirm_multisig_transaction/data/data.dart';
 import 'package:app/feature/wallet/confirm_multisig_transaction/view/confirm_multisig_transaction_model.dart';
@@ -34,8 +35,10 @@ class ConfirmMultisigTransactionWmParams {
 
 @injectable
 class ConfirmMultisigTransactionWidgetModel
-    extends CustomWidgetModelParametrized<ConfirmMultisigTransactionWidget,
-        ConfirmMultisigTransactionModel, ConfirmMultisigTransactionWmParams> {
+    extends CustomWidgetModelParametrized<
+        ConfirmMultisigTransactionWidget,
+        ConfirmMultisigTransactionModel,
+        ConfirmMultisigTransactionWmParams> with BleAvailabilityWmMixin {
   ConfirmMultisigTransactionWidgetModel(
     super.model,
   );
@@ -58,7 +61,8 @@ class ConfirmMultisigTransactionWidgetModel
     currency,
   );
 
-  PublicKey? custodian;
+  PublicKey? _custodian;
+  TonWallet? _wallet;
 
   Address get _walletAddress => wmParams.value.walletAddress;
   List<PublicKey> get localCustodians => wmParams.value.localCustodians;
@@ -92,8 +96,19 @@ class ConfirmMultisigTransactionWidgetModel
     }
   }
 
+  SignInputAuthLedger getLedgerAuthInput() {
+    if (_wallet == null) {
+      throw StateError('Wallet is not initialized');
+    }
+
+    return model.getLedgerAuthInput(
+      wallet: _wallet!,
+      currency: currency,
+    );
+  }
+
   Future<void> onCustodianSelected(PublicKey custodian) async {
-    this.custodian = custodian;
+    _custodian = custodian;
 
     UnsignedMessage? unsignedMessage;
     try {
@@ -129,6 +144,7 @@ class ConfirmMultisigTransactionWidgetModel
 
       _fees.accept(fees);
       _txErrors.accept(txErrors);
+      _wallet = walletState.wallet;
 
       final wallet = walletState.wallet!;
       final balance = wallet.contractState.balance;
@@ -146,26 +162,31 @@ class ConfirmMultisigTransactionWidgetModel
     }
   }
 
-  Future<void> onPasswordEntered(String password) async {
-    if (custodian == null) return;
+  Future<void> onConfirmed(SignInputAuth signInputAuth) async {
+    if (_custodian == null) return;
 
     UnsignedMessage? unsignedMessage;
     try {
       _isLoading.accept(true);
 
+      if (signInputAuth.isLedger) {
+        final isAvailable = await checkBluetoothAvailability();
+        if (!isAvailable) return;
+      }
+
       unsignedMessage = await model.prepareConfirmTransaction(
         address: _walletAddress,
-        publicKey: custodian!,
+        publicKey: _custodian!,
         transactionId: wmParams.value.transactionId,
       );
 
       final transactionCompleter = await model.sendMessage(
         address: _walletAddress,
         destination: wmParams.value.destination,
-        publicKey: custodian!,
+        publicKey: _custodian!,
         message: unsignedMessage,
         amount: wmParams.value.amount,
-        password: password,
+        signInputAuth: signInputAuth,
       );
 
       _state.accept(
@@ -185,6 +206,7 @@ class ConfirmMultisigTransactionWidgetModel
       );
     } on OperationCanceledException catch (_) {
     } on Exception catch (e, t) {
+      if (e is AnyhowException && e.isCancelled) return;
       _logger.severe('onPasswordEntered', e, t);
       model.showMessage(Message.error(message: e.toString()));
     } finally {
