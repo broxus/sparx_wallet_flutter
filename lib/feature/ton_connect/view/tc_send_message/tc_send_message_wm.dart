@@ -58,7 +58,7 @@ class TCSendMessageWidgetModel extends CustomWidgetModelParametrized<
   late final _publicKey = createValueNotifier<PublicKey?>(null);
   late final _custodians = createNotifier<List<PublicKey>>();
   late final _balance = createNotifierFromStream(
-    wmParams.flatMap(
+    wmParams.switchMap(
       (it) => model.getBalanceStream(it.connection.walletAddress),
     ),
   );

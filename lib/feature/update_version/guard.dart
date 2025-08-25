@@ -1,7 +1,7 @@
 import 'dart:async';
 import 'package:app/app/router/compass/compass.dart';
 import 'package:app/app/router/router.dart';
-import 'package:app/bootstrap/sentry.dart';
+import 'package:app/core/sentry.dart';
 import 'package:app/feature/update_version/route.dart';
 import 'package:app/feature/update_version/update_version.dart';
 import 'package:app/feature/wallet/route.dart';

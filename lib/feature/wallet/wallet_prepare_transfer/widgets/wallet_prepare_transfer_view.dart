@@ -31,6 +31,11 @@ class WalletPrepareTransferView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final isCustodianSelectionVisible = localCustodians != null &&
+        localCustodians!.isNotEmpty &&
+        (localCustodians!.length > 1 ||
+            localCustodians!.first != account?.publicKey);
+
     return Form(
       key: _wm.formKey,
       child: Column(
@@ -41,7 +46,7 @@ class WalletPrepareTransferView extends StatelessWidget {
                 spacing: DimensSize.d16,
                 children: [
                   if (account != null) AccountInfo(account: account!),
-                  if (localCustodians != null && localCustodians!.length > 1)
+                  if (isCustodianSelectionVisible)
                     CommonSelectDropdown<PublicKey>(
                       values: [
                         for (final c in localCustodians!)

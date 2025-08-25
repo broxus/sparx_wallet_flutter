@@ -2,6 +2,7 @@ import 'package:app/app/service/service.dart';
 import 'package:app/feature/messenger/data/message.dart';
 import 'package:app/feature/messenger/domain/service/messenger_service.dart';
 import 'package:app/generated/generated.dart';
+import 'package:app/utils/parse_utils.dart';
 import 'package:collection/collection.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:injectable/injectable.dart';
@@ -53,6 +54,18 @@ class ConnectionsStorageService extends AbstractStorageService {
 
   /// Get last cached [ConnectionData] items
   List<ConnectionData> get connections => _connectionsSubject.valueOrNull ?? [];
+
+  int get lastNetworkGroupNumber {
+    var number = 10000;
+
+    for (final connection in connections) {
+      final connectionNumber = parseToInt(connection.group.split('-').last);
+      if (connectionNumber != null && connectionNumber > number) {
+        number = connectionNumber;
+      }
+    }
+    return 10000;
+  }
 
   ConnectionData? get baseConnection {
     final list = [...connections];
@@ -203,7 +216,7 @@ class ConnectionsStorageService extends AbstractStorageService {
   }
 
   /// Save list of [ConnectionData] items to storage
-  void _saveConnections(List<ConnectionData> connections) {
+  void saveConnections(List<ConnectionData> connections) {
     _storage.write(
       _connectionsKey,
       connections.map((e) => e.toJson()).toList(),
@@ -250,7 +263,7 @@ class ConnectionsStorageService extends AbstractStorageService {
 
   /// Add [ConnectionData] item
   void addConnection(ConnectionData item) {
-    _saveConnections([...connections, item]);
+    saveConnections([...connections, item]);
   }
 
   /// Remove [ConnectionData] item by id
@@ -269,13 +282,13 @@ class ConnectionsStorageService extends AbstractStorageService {
     final savedConnections = connections;
     final items = [...savedConnections]..removeWhere((item) => item.id == id);
 
-    _saveConnections(items);
+    saveConnections(items);
 
     _messengerService.show(
       Message.info(
         message: LocaleKeys.networkDeleted.tr(),
         actionText: LocaleKeys.undo.tr(),
-        onAction: () => _saveConnections(savedConnections),
+        onAction: () => saveConnections(savedConnections),
       ),
     );
   }
@@ -292,7 +305,7 @@ class ConnectionsStorageService extends AbstractStorageService {
     final newConnections = [...connections];
     newConnections[index] = item;
 
-    _saveConnections(newConnections);
+    saveConnections(newConnections);
 
     _messengerService.show(
       Message.info(

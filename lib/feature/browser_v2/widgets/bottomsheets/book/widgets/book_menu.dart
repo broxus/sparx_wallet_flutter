@@ -195,8 +195,7 @@ class _ClearButton extends StatelessWidget {
     return _ActionButton(
       text: LocaleKeys.clearWord.tr(),
       textStyle: theme.textStyles.labelSmall.copyWith(
-        // TODO(knightforce): e50 color
-        color: const Color(0xFFFF395F),
+        color: ColorsResV2.vibrantStrawberry,
       ),
       onPressed: onPressed,
     );

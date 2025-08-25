@@ -760,5 +760,6 @@
   "disconnectAllText": "Are you sure you want to disconnect all dApps?",
   "disconnectDappText": "Are you sure you want to disconnect this dApp?",
   "emptyConnectedDapps": "No connected dApps yet",
-  "disconnect": "Disconnect"
+  "disconnect": "Disconnect",
+  "tokenListValidationError": "Invalid token list format"
 }

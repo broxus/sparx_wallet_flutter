@@ -90,7 +90,7 @@ class WalletAccountActionsWidgetModel extends CustomWidgetModelParametrized<
   void initWidgetModel() {
     super.initWidgetModel();
     _walletSubscription = wmParams
-        .flatMap(
+        .switchMap(
           (params) => model.getWalletStateStream(params.account.address),
         )
         .listen(_onWallet);
