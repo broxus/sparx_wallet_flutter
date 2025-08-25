@@ -1,6 +1,5 @@
 import 'package:app/app/router/router.dart';
 import 'package:app/core/wm/custom_wm.dart';
-import 'package:app/feature/browser_v1/browser.dart';
 import 'package:app/feature/ledger/ledger.dart';
 import 'package:app/feature/profile/profile.dart';
 import 'package:app/feature/wallet/custodians_settings/route.dart';
@@ -53,7 +52,7 @@ class AccountSettingsWidgetModel extends CustomWidgetModelParametrized<
 
   void onViewInExplorer() {
     Navigator.of(context).pop();
-    openBrowserUrl(
+    model.openBrowserUrl(
       model.getAccountExplorerLink(accountState.value.address),
     );
   }

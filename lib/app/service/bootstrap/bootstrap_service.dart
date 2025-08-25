@@ -1,8 +1,16 @@
 import 'package:app/app/service/bootstrap/bootstrap_steps.dart';
+import 'package:app/app/service/bootstrap/configurators/biometry.dart';
+import 'package:app/app/service/bootstrap/configurators/connection.dart';
+import 'package:app/app/service/bootstrap/configurators/encrypted_storage.dart';
+import 'package:app/app/service/bootstrap/configurators/features.dart';
+import 'package:app/app/service/bootstrap/configurators/migrate_storage.dart';
+import 'package:app/app/service/bootstrap/configurators/nekoton.dart';
+import 'package:app/app/service/bootstrap/configurators/ntp.dart';
+import 'package:app/app/service/bootstrap/configurators/storage_services.dart';
 import 'package:app/app/service/presets_connection/presets_connection_service.dart';
-import 'package:app/bootstrap/bootstrap.dart';
-import 'package:app/bootstrap/sentry.dart';
 import 'package:app/core/app_build_type.dart';
+import 'package:app/core/sentry.dart';
+
 import 'package:injectable/injectable.dart';
 import 'package:logging/logging.dart';
 import 'package:rxdart/rxdart.dart';
@@ -15,9 +23,25 @@ typedef AsyncFunc = Future<void> Function();
 class BootstrapService {
   BootstrapService(
     this._presetsConnectionService,
+    this._biometryConfigurator,
+    this._connectionConfigurator,
+    this._encryptedStorageConfigurator,
+    this._featureServicesConfigurator,
+    this._migrateConfigurator,
+    this._storageServicesConfigurator,
+    this._nekotonConfigurator,
+    this._ntpConfigurator,
   );
 
   final PresetsConnectionService _presetsConnectionService;
+  final BiometryConfigurator _biometryConfigurator;
+  final ConnectionConfigurator _connectionConfigurator;
+  final EncryptedStorageConfigurator _encryptedStorageConfigurator;
+  final FeatureServicesConfigurator _featureServicesConfigurator;
+  final MigrateConfigurator _migrateConfigurator;
+  final StorageConfigurator _storageServicesConfigurator;
+  final NekotonConfigurator _nekotonConfigurator;
+  final NtpConfigurator _ntpConfigurator;
 
   final _log = Logger('bootstrap');
 
@@ -30,7 +54,6 @@ class BootstrapService {
 
   bool get isConfigured => bootstrapStep == BootstrapSteps.completed;
 
-  // TODO(knightforce): refactoring
   Future<bool> init(AppBuildType appBuildType) async {
     try {
       await _coreStep(appBuildType);
@@ -73,10 +96,8 @@ class BootstrapService {
     };
 
     try {
-      for (var index = failedStepIndex;
-          index < BootstrapSteps.completed.index;
-          index++) {
-        final currentStep = BootstrapSteps.values[index];
+      for (var i = failedStepIndex; i < BootstrapSteps.completed.index; i++) {
+        final currentStep = BootstrapSteps.values[i];
         // we do not update step during initialization to avoid changing page
         // in ui
         failedStep = currentStep;
@@ -97,7 +118,7 @@ class BootstrapService {
   /// This step can not be failed during initialization, so we do not let
   /// it to be re-runed (if failed - that's gg).
   Future<void> _coreStep(AppBuildType appBuildType) async {
-    await configureEncryptedStorage();
+    await _encryptedStorageConfigurator.configure();
   }
 
   Future<void> _remoteNetworksStep() async {
@@ -105,19 +126,18 @@ class BootstrapService {
   }
 
   Future<void> _storageStep() async {
-    await migrateStorage();
-    await configureStorageServices();
-    await configureNtpService();
-    // SetUp nekoton after storage migrations
-    await configureNekoton();
-    await configureBiometry();
+    await _migrateConfigurator.configure();
+    await _storageServicesConfigurator.configure();
+    await _ntpConfigurator.configure();
+    await _nekotonConfigurator.configure();
+    await _biometryConfigurator.configure();
   }
 
   Future<void> _connectionStep() async {
-    await configureConnectionService();
+    await _connectionConfigurator.configure();
   }
 
   Future<void> _featureStep() async {
-    await configureFeatureServices();
+    await _featureServicesConfigurator.configure();
   }
 }

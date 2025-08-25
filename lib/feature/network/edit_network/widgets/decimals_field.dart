@@ -6,12 +6,12 @@ import 'package:ui_components_lib/v2/ui_components_lib_v2.dart';
 
 class DecimalsField extends StatelessWidget {
   const DecimalsField({
-    required this.editable,
+    required this.isEditable,
     required this.controller,
     super.key,
   });
 
-  final bool editable;
+  final bool isEditable;
   final TextEditingController controller;
 
   @override
@@ -21,7 +21,7 @@ class DecimalsField extends StatelessWidget {
       child: PrimaryTextField(
         textEditingController: controller,
         hintText: LocaleKeys.networkCurrencyDecimalsHint.tr(),
-        isEnabled: editable,
+        isEnabled: isEditable,
         keyboardType: TextInputType.number,
         inputFormatters: [
           InputFormatters.noSpacesFormatter,

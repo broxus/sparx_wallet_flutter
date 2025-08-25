@@ -5,8 +5,6 @@ abstract interface class BrowserPageSlideUi {
 
   PageController get urlSliderPageController;
 
-  bool onScrollNotification(ScrollNotification notification);
-
   void onPageChanged(int index);
 }
 
@@ -53,15 +51,6 @@ class BrowserPageSlideUiDelegate implements BrowserPageSlideUi {
   }
 
   @override
-  bool onScrollNotification(ScrollNotification notification) {
-    if (notification is ScrollEndNotification) {
-      _snapViewScroll();
-    }
-
-    return false;
-  }
-
-  @override
   void onPageChanged(int index) {
     onChangeSlideIndex(index);
   }
@@ -86,17 +75,5 @@ class BrowserPageSlideUiDelegate implements BrowserPageSlideUi {
     } else if (!x.isNaN) {
       viewTabScrollController.jumpTo(x);
     }
-  }
-
-  void _snapViewScroll() {
-    final urlOffset = urlSliderPageController.offset;
-    final tabIndex = (urlOffset / urlWidth).round();
-    final targetOffset = tabIndex * screenWidth;
-
-    viewTabScrollController.jumpTo(
-      targetOffset,
-    );
-
-    onChangeSlideIndex(tabIndex);
   }
 }
