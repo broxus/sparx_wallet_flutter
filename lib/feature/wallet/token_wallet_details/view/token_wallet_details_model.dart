@@ -39,8 +39,13 @@ class TokenWalletDetailsModel extends ElementaryModel {
   ) =>
       _nekotonRepository.retryTokenSubscription(owner, rootTokenContract);
 
-  Future<List<PublicKey>?> getLocalCustodians(Address owner) =>
-      _nekotonRepository.getLocalCustodians(owner);
+  Future<List<PublicKey>?> getLocalCustodians(Address owner) async {
+    try {
+      return await _nekotonRepository.getLocalCustodians(owner);
+    } catch (_) {
+      return null;
+    }
+  }
 
   Money convertFiat(Fixed usdAmount, {Currency? currency}) =>
       _currencyConvertService.convert(usdAmount, currency: currency);
