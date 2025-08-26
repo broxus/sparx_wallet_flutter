@@ -128,7 +128,8 @@ class DeriveKeysSheetWidgetModel extends CustomWidgetModelParametrized<
       if (_keysToRemove.isNotEmpty) {
         final toRemove = _seed.subKeys
             .where(
-                (key) => _keysToRemove.any((e) => e.publicKey == key.publicKey))
+              (key) => _keysToRemove.any((e) => e.publicKey == key.publicKey),
+            )
             .toList();
         await model.removeKeys(toRemove);
       }
