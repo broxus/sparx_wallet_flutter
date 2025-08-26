@@ -14,6 +14,10 @@ class ApprovalsHandleException implements Exception {
   final String message;
 }
 
+class PermissionsNotGrantedException extends ApprovalsHandleException {
+  PermissionsNotGrantedException(super.message);
+}
+
 /// Service that is a middleware between browser callbacks and UI actions.
 ///
 /// This methods must be called during handling browser events in

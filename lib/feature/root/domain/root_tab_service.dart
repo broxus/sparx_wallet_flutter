@@ -24,7 +24,7 @@ class RootTabService {
       );
 
   Stream<BottomBarState> get bottomBarStateStream =>
-      _router.currentRoutesStream.flatMap(
+      _router.currentRoutesStream.switchMap(
         (it) {
           final currentRoute = it.lastOrNull;
 
