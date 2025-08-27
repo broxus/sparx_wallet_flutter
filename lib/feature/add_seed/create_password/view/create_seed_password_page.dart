@@ -2,6 +2,7 @@
 
 import 'package:app/app/router/router.dart';
 import 'package:app/data/models/seed/seed_phrase_model.dart';
+import 'package:app/di/di.dart';
 import 'package:app/feature/add_seed/create_password/create_password.dart';
 import 'package:app/feature/profile/manage_seeds_accounts/route.dart';
 import 'package:app/feature/profile/widgets/switch_to_seed_sheet/switch_to_seed_sheet.dart';
@@ -47,6 +48,7 @@ class CreateSeedPasswordProfilePage extends StatelessWidget {
         },
         type: type,
         mnemonicType: mnemonicType,
+        nekoton: inject<NekotonRepository>(),
       ),
       child: GestureDetector(
         onTap: () => FocusScope.of(context).unfocus(),
