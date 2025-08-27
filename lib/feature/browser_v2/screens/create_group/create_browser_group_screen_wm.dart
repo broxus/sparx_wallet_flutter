@@ -4,7 +4,6 @@ import 'package:app/app/router/router.dart';
 import 'package:app/core/wm/custom_wm.dart';
 import 'package:app/core/wm/not_null_listenable_state.dart';
 import 'package:app/feature/browser_v2/data/tabs/browser_tab.dart';
-import 'package:app/feature/browser_v2/data/tabs/tabs_data.dart';
 import 'package:app/feature/browser_v2/screens/create_group/create_browser_group_screen.dart';
 import 'package:app/feature/browser_v2/screens/create_group/create_browser_group_screen_model.dart';
 import 'package:app/utils/common_utils.dart';
@@ -88,14 +87,20 @@ class CreateBrowserGroupScreenWidgetModel extends CustomWidgetModelParametrized<
       return;
     }
 
-    final filePath = model.screenshotsState.value?.get(tabListenable.id);
+    final filePath = model.screenshotsState.value?[tabListenable.id];
 
     if (filePath == null) {
       return;
     }
 
     if (filePath != _lastFilePath) {
-      _screenShotState.accept(File(filePath));
+      final file = File(filePath);
+
+      if (file.existsSync()) {
+        _screenShotState.accept(file);
+      } else {
+        _screenShotState.accept(null);
+      }
     }
 
     _lastFilePath = filePath;
