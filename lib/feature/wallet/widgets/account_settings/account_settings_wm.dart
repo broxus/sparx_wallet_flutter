@@ -1,6 +1,6 @@
 import 'package:app/app/router/router.dart';
 import 'package:app/core/wm/custom_wm.dart';
-import 'package:app/feature/browser_v1/browser.dart';
+import 'package:app/feature/ledger/ledger.dart';
 import 'package:app/feature/profile/profile.dart';
 import 'package:app/feature/wallet/custodians_settings/route.dart';
 import 'package:app/feature/wallet/widgets/account_settings/account_settings_model.dart';
@@ -52,7 +52,7 @@ class AccountSettingsWidgetModel extends CustomWidgetModelParametrized<
 
   void onViewInExplorer() {
     Navigator.of(context).pop();
-    openBrowserUrl(
+    model.openBrowserUrl(
       model.getAccountExplorerLink(accountState.value.address),
     );
   }
@@ -70,5 +70,11 @@ class AccountSettingsWidgetModel extends CustomWidgetModelParametrized<
   void onHideAccount() {
     Navigator.of(context).pop();
     model.hideAccount(accountState.value.address);
+  }
+
+  void onVerify() {
+    Navigator.of(context)
+      ..pop()
+      ..push(showVerifyLedgerSheet(accountState.value));
   }
 }

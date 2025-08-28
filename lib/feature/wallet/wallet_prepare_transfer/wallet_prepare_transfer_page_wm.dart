@@ -6,7 +6,7 @@ import 'dart:math';
 import 'package:app/app/router/compass/compass.dart';
 import 'package:app/app/router/router.dart';
 import 'package:app/app/service/currency_convert_service.dart';
-import 'package:app/bootstrap/sentry.dart';
+import 'package:app/core/sentry.dart';
 import 'package:app/core/wm/custom_wm.dart';
 import 'package:app/data/models/token_contract/token_contract_asset.dart';
 import 'package:app/feature/qr_scanner/qr_scanner.dart';
@@ -265,10 +265,13 @@ class WalletPrepareTransferPageWidgetModel
       unawaited(_findSpecifiedContract(root));
     }
 
+    final localCustodians =
+        await model.getLocalCustodiansAsync(addressState.value);
+
     _updateState(
       account: acc,
-      selectedCustodian: acc.publicKey,
-      localCustodians: await model.getLocalCustodiansAsync(addressState.value),
+      selectedCustodian: localCustodians?.firstOrNull ?? acc.publicKey,
+      localCustodians: localCustodians,
     );
 
     _isInitialDataLoaded.accept(true);

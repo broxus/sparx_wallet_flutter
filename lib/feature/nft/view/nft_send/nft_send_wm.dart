@@ -1,5 +1,6 @@
 import 'package:app/app/router/router.dart';
 import 'package:app/core/wm/custom_wm.dart';
+import 'package:app/feature/ledger/ledger.dart';
 import 'package:app/feature/messenger/data/message.dart';
 import 'package:app/feature/nft/nft.dart';
 import 'package:app/feature/wallet/route.dart';
@@ -12,7 +13,7 @@ import 'package:nekoton_repository/nekoton_repository.dart' hide Message;
 
 @injectable
 class NftSendWidgetModel extends CustomWidgetModelParametrized<NftSendWidget,
-    NftSendModel, NftSendRouteData> {
+    NftSendModel, NftSendRouteData> with BleAvailabilityWmMixin {
   NftSendWidgetModel(
     super.model,
   );
@@ -55,7 +56,14 @@ class NftSendWidgetModel extends CustomWidgetModelParametrized<NftSendWidget,
     _init();
   }
 
-  Future<void> onPasswordEntered(String password) async {
+  Future<SignInputAuthLedger> getLedgerAuthInput() {
+    return model.getLedgerAuthInput(
+      address: wmParams.value.owner,
+      custodian: wmParams.value.publicKey,
+    );
+  }
+
+  Future<void> onConfirmed(SignInputAuth signInputAuth) async {
     final account = this.account;
     final nftItem = _itemState.value;
     if (account == null || nftItem == null) return;
@@ -63,6 +71,11 @@ class NftSendWidgetModel extends CustomWidgetModelParametrized<NftSendWidget,
     UnsignedMessage? unsignedMessage;
     try {
       _loadingState.accept(true);
+
+      if (signInputAuth.isLedger) {
+        final isAvailable = await checkBluetoothAvailability();
+        if (!isAvailable) return;
+      }
 
       final resultMessage = LocaleKeys.nftTransferSuccessMessage.tr();
       final internalMessage = await _prepareTransfer(
@@ -82,7 +95,7 @@ class NftSendWidgetModel extends CustomWidgetModelParametrized<NftSendWidget,
         address: wmParams.value.owner,
         publicKey: wmParams.value.publicKey,
         message: unsignedMessage,
-        password: password,
+        signInputAuth: signInputAuth,
         destination: internalMessage.destination,
         amount: internalMessage.amount,
       );
@@ -98,6 +111,7 @@ class NftSendWidgetModel extends CustomWidgetModelParametrized<NftSendWidget,
       contextSafe?.compassPointNamed(const WalletRouteData());
     } on OperationCanceledException catch (_) {
     } on Exception catch (e, s) {
+      if (e is AnyhowException && e.isCancelled) return;
       _logger.severe('Failed to send transaction', e, s);
       model.showMessage(Message.error(message: e.toString()));
     } finally {

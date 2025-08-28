@@ -89,7 +89,7 @@ class BalanceService {
             ),
           ),
         )
-                .flatMap(
+                .switchMap(
           (value) {
             final contract = value.$1;
             final wallet = value.$2?.wallet;

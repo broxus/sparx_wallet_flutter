@@ -31,6 +31,7 @@ sealed class WalletDeployState with _$WalletDeployState {
   const factory WalletDeployState.readyToDeploy({
     required BigInt fee,
     required BigInt balance,
+    required SignInputAuthLedger ledgerAuthInput,
     List<PublicKey>? custodians,
     int? requireConfirmations,
     String? tonIconPath,

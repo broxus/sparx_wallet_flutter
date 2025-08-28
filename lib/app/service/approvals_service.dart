@@ -14,6 +14,10 @@ class ApprovalsHandleException implements Exception {
   final String message;
 }
 
+class PermissionsNotGrantedException extends ApprovalsHandleException {
+  PermissionsNotGrantedException(super.message);
+}
+
 /// Service that is a middleware between browser callbacks and UI actions.
 ///
 /// This methods must be called during handling browser events in
@@ -98,21 +102,23 @@ class BrowserApprovalsService {
 
   /// Ask user for password to make [SeedList.signData] for specified
   /// [publicKey].
-  /// Returns password for [publicKey] or throw error.
+  /// Returns [SignInputAuth] for [publicKey] or throw error.
   /// Typically, exception must be [ApprovalsHandleException] or [FrbException]
-  Future<String> signData({
+  Future<SignInputAuth> signData({
     required Uri origin,
     required Address account,
     required PublicKey publicKey,
     required String data,
+    required SignInputAuthLedger signInputAuthLedger,
   }) async {
-    final completer = Completer<String>();
+    final completer = Completer<SignInputAuth>();
 
     final request = ApprovalRequest.signData(
       origin: origin,
       account: account,
       publicKey: publicKey,
       data: data,
+      signInputAuthLedger: signInputAuthLedger,
       completer: completer,
     );
 
@@ -123,15 +129,15 @@ class BrowserApprovalsService {
 
   /// Ask user for password to make [SeedList.encrypt] for specified
   /// [publicKey].
-  /// Returns password for [publicKey] or throw error.
+  /// Returns [SignInputAuth] for [publicKey] or throw error.
   /// Typically, exception must be [ApprovalsHandleException] or [FrbException]
-  Future<String> encryptData({
+  Future<SignInputAuth> encryptData({
     required Uri origin,
     required Address account,
     required PublicKey publicKey,
     required String data,
   }) async {
-    final completer = Completer<String>();
+    final completer = Completer<SignInputAuth>();
 
     final request = ApprovalRequest.encryptData(
       origin: origin,
@@ -148,15 +154,15 @@ class BrowserApprovalsService {
 
   /// Ask user for password to make [SeedList.decrypt] for specified
   /// [recipientPublicKey].
-  /// Returns password for [recipientPublicKey] or throw error.
+  /// Returns [SignInputAuth] for [recipientPublicKey] or throw error.
   /// Typically, exception must be [ApprovalsHandleException] or [FrbException]
-  Future<String> decryptData({
+  Future<SignInputAuth> decryptData({
     required Uri origin,
     required Address account,
     required PublicKey recipientPublicKey,
     required PublicKey sourcePublicKey,
   }) async {
-    final completer = Completer<String>();
+    final completer = Completer<SignInputAuth>();
 
     final request = ApprovalRequest.decryptData(
       origin: origin,
@@ -173,16 +179,17 @@ class BrowserApprovalsService {
 
   /// Ask user for password to make contract action for specified [publicKey]
   /// and [recipient].
-  /// Returns password for [publicKey].
+  /// Returns [SignInputAuth] for [publicKey].
   /// Typically, exception must be [ApprovalsHandleException] or [FrbException]
-  Future<String> callContractMethod({
+  Future<SignInputAuth> callContractMethod({
     required Uri origin,
     required Address account,
     required PublicKey publicKey,
     required Address recipient,
     required FunctionCall payload,
+    required SignInputAuthLedger signInputAuthLedger,
   }) async {
-    final completer = Completer<String>();
+    final completer = Completer<SignInputAuth>();
 
     final request = ApprovalRequest.callContractMethod(
       origin: origin,
@@ -190,6 +197,7 @@ class BrowserApprovalsService {
       publicKey: publicKey,
       recipient: recipient,
       payload: payload,
+      signInputAuthLedger: signInputAuthLedger,
       completer: completer,
     );
 
@@ -200,9 +208,9 @@ class BrowserApprovalsService {
 
   /// Asks user to select publicKey and enter password to send funds from
   /// account [sender] to [recipient].
-  /// Returns selected publicKey and password for it or throw error.
+  /// Returns selected publicKey and [SignInputAuth] for it or throw error.
   /// Typically, exception must be [ApprovalsHandleException] or [FrbException]
-  Future<(PublicKey, String)> sendMessage({
+  Future<(PublicKey, SignInputAuth)> sendMessage({
     required Uri origin,
     required Address sender,
     required Address recipient,
@@ -215,7 +223,7 @@ class BrowserApprovalsService {
     required List<IgnoreTransactionTreeSimulationError>?
         ignoredActionPhaseCodes,
   }) async {
-    final completer = Completer<(PublicKey, String)>();
+    final completer = Completer<(PublicKey, SignInputAuth)>();
 
     final request = ApprovalRequest.sendMessage(
       origin: origin,

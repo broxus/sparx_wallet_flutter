@@ -1,24 +1,27 @@
 import 'package:app/core/wm/custom_wm.dart';
+import 'package:app/feature/ledger/ledger.dart';
 import 'package:app/feature/loader_screen/loader_screen.dart';
 import 'package:app/feature/messenger/data/message.dart';
 import 'package:app/feature/profile/profile.dart';
 import 'package:app/generated/generated.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:injectable/injectable.dart';
-import 'package:nekoton_repository/nekoton_repository.dart' show PublicKey;
+import 'package:nekoton_repository/nekoton_repository.dart' hide Message;
 import 'package:ui_components_lib/ui_components_lib.dart';
 
 @injectable
 class SeedSettingsWidgetModel extends CustomWidgetModelParametrized<
-    SeedSettingsWidget, SeedSettingsModel, PublicKey> {
+    SeedSettingsWidget,
+    SeedSettingsModel,
+    PublicKey> with BleAvailabilityWmMixin {
   SeedSettingsWidgetModel(
     super.model,
   );
 
-  late final ValueListenable<PublicKey> publicKeyState =
-      createWmParamsNotifier((it) => it);
+  late final publicKeyState = createWmParamsNotifier((it) => it);
+
+  SeedKey? get seedKey => model.getMasterKey(publicKeyState.value);
 
   ThemeStyleV2 get theme => context.themeStyleV2;
 
@@ -57,17 +60,28 @@ class SeedSettingsWidgetModel extends CustomWidgetModelParametrized<
     final key = model.getMasterKey(publicKeyState.value);
     if (key == null) return;
 
+    if (key.isLedger) {
+      final isAvailable = await checkBluetoothAvailability();
+      if (!isAvailable) return;
+    }
+
     try {
       if (key.isLegacy) {
         await _triggerAddingAccounts(publicKeyState.value);
         return;
       }
 
-      final password = await showEnterPasswordSheet(
-        context: context,
-        publicKey: publicKeyState.value,
-      );
-      if (password == null) return;
+      String? password;
+      if (!key.isLedger) {
+        if (contextSafe == null) return;
+
+        password = await showEnterPasswordSheet(
+          context: contextSafe!,
+          publicKey: publicKeyState.value,
+        );
+
+        if (password == null) return;
+      }
 
       await _triggerDerivingKeys(
         publicKey: publicKeyState.value,
@@ -80,6 +94,8 @@ class SeedSettingsWidgetModel extends CustomWidgetModelParametrized<
           duration: const Duration(seconds: 2),
         ),
       );
+    } on OperationCanceledException {
+      // User canceled the operation, do nothing
     } catch (e) {
       model.showMessage(Message.error(message: e.toString()));
     } finally {
@@ -102,7 +118,7 @@ class SeedSettingsWidgetModel extends CustomWidgetModelParametrized<
 
   Future<void> _triggerDerivingKeys({
     required PublicKey publicKey,
-    required String password,
+    String? password,
   }) async {
     final hideLoader = showLoaderScreen(
       context,

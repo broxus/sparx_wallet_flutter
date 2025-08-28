@@ -1,20 +1,27 @@
 import 'package:app/app/service/service.dart';
+import 'package:app/feature/ledger/ledger.dart';
 import 'package:elementary/elementary.dart';
 import 'package:injectable/injectable.dart';
 import 'package:nekoton_repository/nekoton_repository.dart' hide Message;
 
 @injectable
-class SeedDetailPageModel extends ElementaryModel {
+class SeedDetailPageModel extends ElementaryModel
+    with BleAvailabilityModelMixin {
   SeedDetailPageModel(
     ErrorHandler errorHandler,
     this._currentSeedService,
     this._currentKeyService,
     this._nekotonRepository,
+    this._delegate,
   ) : super(errorHandler: errorHandler);
 
   final CurrentSeedService _currentSeedService;
   final CurrentKeyService _currentKeyService;
   final NekotonRepository _nekotonRepository;
+  final BleAvailabilityModelDelegate _delegate;
+
+  @override
+  BleAvailabilityModelDelegate get delegate => _delegate;
 
   Stream<Seed?> get currentSeed => _currentSeedService.currentSeedStream;
 

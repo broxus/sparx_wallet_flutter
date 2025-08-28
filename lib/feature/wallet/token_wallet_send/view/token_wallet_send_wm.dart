@@ -1,5 +1,6 @@
 import 'package:app/app/router/router.dart';
 import 'package:app/core/wm/custom_wm.dart';
+import 'package:app/feature/ledger/ledger.dart';
 import 'package:app/feature/messenger/data/message.dart';
 import 'package:app/feature/wallet/route.dart';
 import 'package:app/feature/wallet/token_wallet_send/data/data.dart';
@@ -40,7 +41,7 @@ class TokenWalletSendWidgetModel extends CustomWidgetModelParametrized<
     InjectedElementaryParametrizedWidget<TokenWalletSendWidgetModel,
         TokenWalletSendWmParams>,
     TokenWalletSendModel,
-    TokenWalletSendWmParams> {
+    TokenWalletSendWmParams> with BleAvailabilityWmMixin {
   // extends CustomWidgetModel<ElementaryWidget, TokenWalletSendModel> {
   TokenWalletSendWidgetModel(
     super.model,
@@ -58,6 +59,9 @@ class TokenWalletSendWidgetModel extends CustomWidgetModelParametrized<
   late final _amount = createNotifier<Money>();
 
   late final KeyAccount? account = model.getAccount(wmParams.value.owner);
+
+  TonWallet? _wallet;
+  GenericTokenWallet? _tokenWallet;
 
   Address get owner => wmParams.value.owner;
   Address get rootTokenContract => wmParams.value.rootTokenContract;
@@ -86,11 +90,28 @@ class TokenWalletSendWidgetModel extends CustomWidgetModelParametrized<
     _init();
   }
 
-  Future<void> onPasswordEntered(String password) async {
+  SignInputAuthLedger getLedgerAuthInput() {
+    if (_wallet == null || _tokenWallet == null) {
+      throw StateError('Wallet or token wallet is not initialized');
+    }
+
+    return model.getLedgerAuthInput(
+      wallet: _wallet!,
+      tokenWallet: _tokenWallet!,
+      custodian: publicKey,
+    );
+  }
+
+  Future<void> onConfirmed(SignInputAuth signInputAuth) async {
     UnsignedMessage? unsignedMessage;
     InternalMessage? internalMessage;
     try {
       _isLoading.accept(true);
+
+      if (signInputAuth.isLedger) {
+        final isAvailable = await checkBluetoothAvailability();
+        if (!isAvailable) return;
+      }
 
       final resultMessage = wmParams.value.resultMessage ??
           LocaleKeys.transactionSentSuccessfully.tr();
@@ -110,7 +131,7 @@ class TokenWalletSendWidgetModel extends CustomWidgetModelParametrized<
         address: wmParams.value.owner,
         publicKey: wmParams.value.publicKey,
         message: unsignedMessage,
-        password: password,
+        signInputAuth: signInputAuth,
         destination: internalMessage.destination,
         amount: internalMessage.amount,
       );
@@ -129,6 +150,7 @@ class TokenWalletSendWidgetModel extends CustomWidgetModelParametrized<
       // _nekotonRepository could be improved, to graceful
       // handle account change.
     } on Exception catch (e, s) {
+      if (e is AnyhowException && e.isCancelled) return;
       _logger.severe('Failed to send transaction', e, s);
       model.showMessage(Message.error(message: e.toString()));
     } finally {
@@ -195,6 +217,8 @@ class TokenWalletSendWidgetModel extends CustomWidgetModelParametrized<
 
       _fees.accept(fees);
       _txErrors.accept(txErrors);
+      _wallet = walletState.wallet;
+      _tokenWallet = tokenWalletState.wallet;
 
       final wallet = walletState.wallet!;
       final balance = wallet.contractState.balance;

@@ -1,6 +1,6 @@
 import 'package:app/data/models/custom_currency.dart';
+import 'package:app/feature/profile/profile.dart';
 import 'package:app/feature/wallet/wallet.dart';
-import 'package:app/feature/wallet/wallet_deploy/view/deploy_wallet_confirm_modal.dart';
 import 'package:app/feature/wallet/widgets/account_transactions_tab/detail/details_item.dart';
 import 'package:app/generated/generated.dart';
 import 'package:app/utils/utils.dart';
@@ -25,6 +25,7 @@ class WalletDeployConfirmView extends StatelessWidget {
     this.currency,
     this.customCurrency,
     this.account,
+    this.ledgerAuthInput,
     super.key,
   });
 
@@ -38,6 +39,7 @@ class WalletDeployConfirmView extends StatelessWidget {
   final Currency? currency;
   final CustomCurrency? customCurrency;
   final KeyAccount? account;
+  final SignInputAuthLedger? ledgerAuthInput;
 
   @override
   Widget build(BuildContext context) {
@@ -165,22 +167,18 @@ class WalletDeployConfirmView extends StatelessWidget {
             right: DimensSize.d16,
             top: DimensSize.d16,
           ),
-          child: AccentButton(
-            isLoading: isLoading,
+          child: EnterPasswordWidget.auth(
+            getLedgerAuthInput:
+                ledgerAuthInput != null ? () => ledgerAuthInput! : null,
             title: LocaleKeys.deployWord.tr(),
-            onPressed: feeError != null || fee == null
-                ? null
-                : () {
-                    showDeployConfirmModal(
-                      context,
-                      (password) {
-                        context
-                            .read<WalletDeployBloc>()
-                            .add(WalletDeployEvent.confirmDeploy(password));
-                      },
-                    );
-                  },
-            buttonShape: ButtonShape.pill,
+            publicKey: publicKey,
+            isLoading: isLoading,
+            isDisabled: feeError != null || fee == null,
+            onConfirmed: (auth) {
+              context
+                  .read<WalletDeployBloc>()
+                  .add(WalletDeployEvent.confirmDeploy(auth));
+            },
           ),
         ),
       ],

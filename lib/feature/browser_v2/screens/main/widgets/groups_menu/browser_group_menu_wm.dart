@@ -71,6 +71,7 @@ class BrowserGroupMenuWidgetModel
 
   void onPressedItem(String groupId) {
     model.setActiveGroup(groupId);
+    Navigator.of(context).pop();
   }
 
   Future<void> onPressedEditGroup(String groupId) async {

@@ -13,6 +13,7 @@ import 'package:nekoton_repository/nekoton_repository.dart' hide Message;
 import 'package:rxdart/rxdart.dart';
 
 const _withdrawUpdateDebounce = Duration(seconds: 3);
+const _balanceThrottleTime = Duration(seconds: 1);
 
 @injectable
 class AccountCardWidgetModel extends CustomWidgetModelParametrized<AccountCard,
@@ -27,9 +28,9 @@ class AccountCardWidgetModel extends CustomWidgetModelParametrized<AccountCard,
       createWmParamsNotifier((it) => it);
 
   late final _balance = createNotifierFromStream(
-    wmParams.flatMap(
-      (account) => model.getBalanceStream(account.address),
-    ),
+    wmParams
+        .switchMap((account) => model.getBalanceStream(account.address))
+        .throttleTime(_balanceThrottleTime, trailing: true),
   );
 
   StreamSubscription<TonWalletState?>? _walletSubscription;
