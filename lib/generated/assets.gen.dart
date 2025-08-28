@@ -1,3 +1,5 @@
+// dart format width=80
+
 /// GENERATED CODE - DO NOT MODIFY BY HAND
 /// *****************************************************
 ///  FlutterGen
@@ -5,7 +7,7 @@
 
 // coverage:ignore-file
 // ignore_for_file: type=lint
-// ignore_for_file: directives_ordering,unnecessary_import,implicit_dynamic_list_literal,deprecated_member_use
+// ignore_for_file: deprecated_member_use,directives_ordering,implicit_dynamic_list_literal,unnecessary_import
 
 import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
@@ -44,7 +46,7 @@ class $AssetsAbiGen {
         stEverVaultNewAbi,
         stEverVaultTychoAbi,
         tokenRootAbi,
-        tokenWalletAbi,
+        tokenWalletAbi
       ];
 }
 
@@ -593,7 +595,7 @@ class $AssetsImagesGen {
         versionUpdateIcon,
         verticalDots,
         wallet,
-        web,
+        web
       ];
 }
 
@@ -613,11 +615,8 @@ class $AssetsSplashGen {
       const AssetGenImage('assets/splash/native_splash.webp');
 
   /// List of all assets
-  List<AssetGenImage> get values => [
-        icSplashBanner,
-        icSplashLogo,
-        nativeSplash,
-      ];
+  List<AssetGenImage> get values =>
+      [icSplashBanner, icSplashLogo, nativeSplash];
 }
 
 class $AssetsTranslationsGen {
@@ -638,8 +637,7 @@ class $AssetsImagesAlertOctagonFillGen {
 
   /// File path: assets/images/alert_octagon_fill/alert_octagon_fill.webp
   AssetGenImage get alertOctagonFill => const AssetGenImage(
-        'assets/images/alert_octagon_fill/alert_octagon_fill.webp',
-      );
+      'assets/images/alert_octagon_fill/alert_octagon_fill.webp');
 
   /// List of all assets
   List<AssetGenImage> get values => [alertOctagonFill];
@@ -661,8 +659,7 @@ class $AssetsImagesCheckCircleFillGen {
 
   /// File path: assets/images/check_circle_fill/check_circle_fill.webp
   AssetGenImage get checkCircleFill => const AssetGenImage(
-        'assets/images/check_circle_fill/check_circle_fill.webp',
-      );
+      'assets/images/check_circle_fill/check_circle_fill.webp');
 
   /// List of all assets
   List<AssetGenImage> get values => [checkCircleFill];
@@ -794,18 +791,8 @@ class $AssetsImagesOnboardingLayer1Gen {
       const SvgGenImage('assets/images/onboarding/layer1/usdt.svg');
 
   /// List of all assets
-  List<SvgGenImage> get values => [
-        doge,
-        ever,
-        matic,
-        qube,
-        bridge,
-        btc,
-        dai,
-        dot,
-        eth,
-        usdt,
-      ];
+  List<SvgGenImage> get values =>
+      [doge, ever, matic, qube, bridge, btc, dai, dot, eth, usdt];
 }
 
 class $AssetsImagesOnboardingLayer2Gen {
@@ -852,18 +839,8 @@ class $AssetsImagesOnboardingLayer2Gen {
       const SvgGenImage('assets/images/onboarding/layer2/xrp.svg');
 
   /// List of all assets
-  List<SvgGenImage> get values => [
-        ada,
-        avax,
-        cro,
-        luna,
-        near,
-        shib,
-        sol,
-        bnb,
-        usdc,
-        xrp,
-      ];
+  List<SvgGenImage> get values =>
+      [ada, avax, cro, luna, near, shib, sol, bnb, usdc, xrp];
 }
 
 class $AssetsImagesOnboardingLayer3Gen {
@@ -910,18 +887,8 @@ class $AssetsImagesOnboardingLayer3Gen {
       const SvgGenImage('assets/images/onboarding/layer3/xlm.svg');
 
   /// List of all assets
-  List<SvgGenImage> get values => [
-        aave,
-        axs,
-        ftm,
-        hbar,
-        atom,
-        link,
-        ltc,
-        mana,
-        trx,
-        xlm,
-      ];
+  List<SvgGenImage> get values =>
+      [aave, axs, ftm, hbar, atom, link, ltc, mana, trx, xlm];
 }
 
 class Assets {
@@ -936,12 +903,18 @@ class Assets {
 }
 
 class AssetGenImage {
-  const AssetGenImage(this._assetName, {this.size, this.flavors = const {}});
+  const AssetGenImage(
+    this._assetName, {
+    this.size,
+    this.flavors = const {},
+    this.animation,
+  });
 
   final String _assetName;
 
   final Size? size;
   final Set<String> flavors;
+  final AssetGenImageAnimation? animation;
 
   Image image({
     Key? key,
@@ -996,8 +969,15 @@ class AssetGenImage {
     );
   }
 
-  ImageProvider provider({AssetBundle? bundle, String? package}) {
-    return AssetImage(_assetName, bundle: bundle, package: package);
+  ImageProvider provider({
+    AssetBundle? bundle,
+    String? package,
+  }) {
+    return AssetImage(
+      _assetName,
+      bundle: bundle,
+      package: package,
+    );
   }
 
   String get path => _assetName;
@@ -1005,12 +985,30 @@ class AssetGenImage {
   String get keyName => _assetName;
 }
 
-class SvgGenImage {
-  const SvgGenImage(this._assetName, {this.size, this.flavors = const {}})
-      : _isVecFormat = false;
+class AssetGenImageAnimation {
+  const AssetGenImageAnimation({
+    required this.isAnimation,
+    required this.duration,
+    required this.frames,
+  });
 
-  const SvgGenImage.vec(this._assetName, {this.size, this.flavors = const {}})
-      : _isVecFormat = true;
+  final bool isAnimation;
+  final Duration duration;
+  final int frames;
+}
+
+class SvgGenImage {
+  const SvgGenImage(
+    this._assetName, {
+    this.size,
+    this.flavors = const {},
+  }) : _isVecFormat = false;
+
+  const SvgGenImage.vec(
+    this._assetName, {
+    this.size,
+    this.flavors = const {},
+  }) : _isVecFormat = true;
 
   final String _assetName;
   final Size? size;
@@ -1031,6 +1029,7 @@ class SvgGenImage {
     String? semanticsLabel,
     bool excludeFromSemantics = false,
     _svg.SvgTheme? theme,
+    _svg.ColorMapper? colorMapper,
     ColorFilter? colorFilter,
     Clip clipBehavior = Clip.hardEdge,
     @deprecated Color? color,
@@ -1050,6 +1049,7 @@ class SvgGenImage {
         assetBundle: bundle,
         packageName: package,
         theme: theme,
+        colorMapper: colorMapper,
       );
     }
     return _svg.SvgPicture(

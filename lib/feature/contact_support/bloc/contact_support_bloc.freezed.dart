@@ -1,6 +1,5 @@
-// dart format width=80
-// coverage:ignore-file
 // GENERATED CODE - DO NOT MODIFY BY HAND
+// coverage:ignore-file
 // ignore_for_file: type=lint
 // ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target, unnecessary_question_mark
 
@@ -34,6 +33,177 @@ mixin _$ContactSupportEvent {
 class $ContactSupportEventCopyWith<$Res> {
   $ContactSupportEventCopyWith(
       ContactSupportEvent _, $Res Function(ContactSupportEvent) __);
+}
+
+/// Adds pattern-matching-related methods to [ContactSupportEvent].
+extension ContactSupportEventPatterns on ContactSupportEvent {
+  /// A variant of `map` that fallback to returning `orElse`.
+  ///
+  /// It is equivalent to doing:
+  /// ```dart
+  /// switch (sealedClass) {
+  ///   case final Subclass value:
+  ///     return ...;
+  ///   case _:
+  ///     return orElse();
+  /// }
+  /// ```
+
+  @optionalTypeArgs
+  TResult maybeMap<TResult extends Object?>({
+    TResult Function(_SendEmail value)? sendEmail,
+    TResult Function(_OpenQaScreen value)? openQaScreen,
+    required TResult orElse(),
+  }) {
+    final _that = this;
+    switch (_that) {
+      case _SendEmail() when sendEmail != null:
+        return sendEmail(_that);
+      case _OpenQaScreen() when openQaScreen != null:
+        return openQaScreen(_that);
+      case _:
+        return orElse();
+    }
+  }
+
+  /// A `switch`-like method, using callbacks.
+  ///
+  /// Callbacks receives the raw object, upcasted.
+  /// It is equivalent to doing:
+  /// ```dart
+  /// switch (sealedClass) {
+  ///   case final Subclass value:
+  ///     return ...;
+  ///   case final Subclass2 value:
+  ///     return ...;
+  /// }
+  /// ```
+
+  @optionalTypeArgs
+  TResult map<TResult extends Object?>({
+    required TResult Function(_SendEmail value) sendEmail,
+    required TResult Function(_OpenQaScreen value) openQaScreen,
+  }) {
+    final _that = this;
+    switch (_that) {
+      case _SendEmail():
+        return sendEmail(_that);
+      case _OpenQaScreen():
+        return openQaScreen(_that);
+    }
+  }
+
+  /// A variant of `map` that fallback to returning `null`.
+  ///
+  /// It is equivalent to doing:
+  /// ```dart
+  /// switch (sealedClass) {
+  ///   case final Subclass value:
+  ///     return ...;
+  ///   case _:
+  ///     return null;
+  /// }
+  /// ```
+
+  @optionalTypeArgs
+  TResult? mapOrNull<TResult extends Object?>({
+    TResult? Function(_SendEmail value)? sendEmail,
+    TResult? Function(_OpenQaScreen value)? openQaScreen,
+  }) {
+    final _that = this;
+    switch (_that) {
+      case _SendEmail() when sendEmail != null:
+        return sendEmail(_that);
+      case _OpenQaScreen() when openQaScreen != null:
+        return openQaScreen(_that);
+      case _:
+        return null;
+    }
+  }
+
+  /// A variant of `when` that fallback to an `orElse` callback.
+  ///
+  /// It is equivalent to doing:
+  /// ```dart
+  /// switch (sealedClass) {
+  ///   case Subclass(:final field):
+  ///     return ...;
+  ///   case _:
+  ///     return orElse();
+  /// }
+  /// ```
+
+  @optionalTypeArgs
+  TResult maybeWhen<TResult extends Object?>({
+    TResult Function(ContactSupportMode mode)? sendEmail,
+    TResult Function()? openQaScreen,
+    required TResult orElse(),
+  }) {
+    final _that = this;
+    switch (_that) {
+      case _SendEmail() when sendEmail != null:
+        return sendEmail(_that.mode);
+      case _OpenQaScreen() when openQaScreen != null:
+        return openQaScreen();
+      case _:
+        return orElse();
+    }
+  }
+
+  /// A `switch`-like method, using callbacks.
+  ///
+  /// As opposed to `map`, this offers destructuring.
+  /// It is equivalent to doing:
+  /// ```dart
+  /// switch (sealedClass) {
+  ///   case Subclass(:final field):
+  ///     return ...;
+  ///   case Subclass2(:final field2):
+  ///     return ...;
+  /// }
+  /// ```
+
+  @optionalTypeArgs
+  TResult when<TResult extends Object?>({
+    required TResult Function(ContactSupportMode mode) sendEmail,
+    required TResult Function() openQaScreen,
+  }) {
+    final _that = this;
+    switch (_that) {
+      case _SendEmail():
+        return sendEmail(_that.mode);
+      case _OpenQaScreen():
+        return openQaScreen();
+    }
+  }
+
+  /// A variant of `when` that fallback to returning `null`
+  ///
+  /// It is equivalent to doing:
+  /// ```dart
+  /// switch (sealedClass) {
+  ///   case Subclass(:final field):
+  ///     return ...;
+  ///   case _:
+  ///     return null;
+  /// }
+  /// ```
+
+  @optionalTypeArgs
+  TResult? whenOrNull<TResult extends Object?>({
+    TResult? Function(ContactSupportMode mode)? sendEmail,
+    TResult? Function()? openQaScreen,
+  }) {
+    final _that = this;
+    switch (_that) {
+      case _SendEmail() when sendEmail != null:
+        return sendEmail(_that.mode);
+      case _OpenQaScreen() when openQaScreen != null:
+        return openQaScreen();
+      case _:
+        return null;
+    }
+  }
 }
 
 /// @nodoc
@@ -186,6 +356,163 @@ class _$ContactSupportStateCopyWithImpl<$Res>
           : isQaEnabled // ignore: cast_nullable_to_non_nullable
               as bool,
     ));
+  }
+}
+
+/// Adds pattern-matching-related methods to [ContactSupportState].
+extension ContactSupportStatePatterns on ContactSupportState {
+  /// A variant of `map` that fallback to returning `orElse`.
+  ///
+  /// It is equivalent to doing:
+  /// ```dart
+  /// switch (sealedClass) {
+  ///   case final Subclass value:
+  ///     return ...;
+  ///   case _:
+  ///     return orElse();
+  /// }
+  /// ```
+
+  @optionalTypeArgs
+  TResult maybeMap<TResult extends Object?>(
+    TResult Function(_ContactSupportState value)? $default, {
+    required TResult orElse(),
+  }) {
+    final _that = this;
+    switch (_that) {
+      case _ContactSupportState() when $default != null:
+        return $default(_that);
+      case _:
+        return orElse();
+    }
+  }
+
+  /// A `switch`-like method, using callbacks.
+  ///
+  /// Callbacks receives the raw object, upcasted.
+  /// It is equivalent to doing:
+  /// ```dart
+  /// switch (sealedClass) {
+  ///   case final Subclass value:
+  ///     return ...;
+  ///   case final Subclass2 value:
+  ///     return ...;
+  /// }
+  /// ```
+
+  @optionalTypeArgs
+  TResult map<TResult extends Object?>(
+    TResult Function(_ContactSupportState value) $default,
+  ) {
+    final _that = this;
+    switch (_that) {
+      case _ContactSupportState():
+        return $default(_that);
+      case _:
+        throw StateError('Unexpected subclass');
+    }
+  }
+
+  /// A variant of `map` that fallback to returning `null`.
+  ///
+  /// It is equivalent to doing:
+  /// ```dart
+  /// switch (sealedClass) {
+  ///   case final Subclass value:
+  ///     return ...;
+  ///   case _:
+  ///     return null;
+  /// }
+  /// ```
+
+  @optionalTypeArgs
+  TResult? mapOrNull<TResult extends Object?>(
+    TResult? Function(_ContactSupportState value)? $default,
+  ) {
+    final _that = this;
+    switch (_that) {
+      case _ContactSupportState() when $default != null:
+        return $default(_that);
+      case _:
+        return null;
+    }
+  }
+
+  /// A variant of `when` that fallback to an `orElse` callback.
+  ///
+  /// It is equivalent to doing:
+  /// ```dart
+  /// switch (sealedClass) {
+  ///   case Subclass(:final field):
+  ///     return ...;
+  ///   case _:
+  ///     return orElse();
+  /// }
+  /// ```
+
+  @optionalTypeArgs
+  TResult maybeWhen<TResult extends Object?>(
+    TResult Function(bool isBusy, bool isQaEnabled)? $default, {
+    required TResult orElse(),
+  }) {
+    final _that = this;
+    switch (_that) {
+      case _ContactSupportState() when $default != null:
+        return $default(_that.isBusy, _that.isQaEnabled);
+      case _:
+        return orElse();
+    }
+  }
+
+  /// A `switch`-like method, using callbacks.
+  ///
+  /// As opposed to `map`, this offers destructuring.
+  /// It is equivalent to doing:
+  /// ```dart
+  /// switch (sealedClass) {
+  ///   case Subclass(:final field):
+  ///     return ...;
+  ///   case Subclass2(:final field2):
+  ///     return ...;
+  /// }
+  /// ```
+
+  @optionalTypeArgs
+  TResult when<TResult extends Object?>(
+    TResult Function(bool isBusy, bool isQaEnabled) $default,
+  ) {
+    final _that = this;
+    switch (_that) {
+      case _ContactSupportState():
+        return $default(_that.isBusy, _that.isQaEnabled);
+      case _:
+        throw StateError('Unexpected subclass');
+    }
+  }
+
+  /// A variant of `when` that fallback to returning `null`
+  ///
+  /// It is equivalent to doing:
+  /// ```dart
+  /// switch (sealedClass) {
+  ///   case Subclass(:final field):
+  ///     return ...;
+  ///   case _:
+  ///     return null;
+  /// }
+  /// ```
+
+  @optionalTypeArgs
+  TResult? whenOrNull<TResult extends Object?>(
+    TResult? Function(bool isBusy, bool isQaEnabled)? $default,
+  ) {
+    final _that = this;
+    switch (_that) {
+      case _ContactSupportState() when $default != null:
+        return $default(_that.isBusy, _that.isQaEnabled);
+      case _:
+        return null;
+    }
   }
 }
 
