@@ -1,6 +1,5 @@
-// dart format width=80
-// coverage:ignore-file
 // GENERATED CODE - DO NOT MODIFY BY HAND
+// coverage:ignore-file
 // ignore_for_file: type=lint
 // ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target, unnecessary_question_mark
 
@@ -34,6 +33,307 @@ mixin _$WalletDeployEvent {
 class $WalletDeployEventCopyWith<$Res> {
   $WalletDeployEventCopyWith(
       WalletDeployEvent _, $Res Function(WalletDeployEvent) __);
+}
+
+/// Adds pattern-matching-related methods to [WalletDeployEvent].
+extension WalletDeployEventPatterns on WalletDeployEvent {
+  /// A variant of `map` that fallback to returning `orElse`.
+  ///
+  /// It is equivalent to doing:
+  /// ```dart
+  /// switch (sealedClass) {
+  ///   case final Subclass value:
+  ///     return ...;
+  ///   case _:
+  ///     return orElse();
+  /// }
+  /// ```
+
+  @optionalTypeArgs
+  TResult maybeMap<TResult extends Object?>({
+    TResult Function(_PrevStep value)? goPrevStep,
+    TResult Function(_ChangeType value)? changeType,
+    TResult Function(_UpdateMultisigData value)? updateMultisigData,
+    TResult Function(_DeployStandard value)? deployStandard,
+    TResult Function(_DeployMultisig value)? deployMultisig,
+    TResult Function(_ConfirmDeploy value)? confirmDeploy,
+    TResult Function(_AllowCloseDeploy value)? allowCloseDeploy,
+    TResult Function(_CompleteDeploy value)? completeDeploy,
+    required TResult orElse(),
+  }) {
+    final _that = this;
+    switch (_that) {
+      case _PrevStep() when goPrevStep != null:
+        return goPrevStep(_that);
+      case _ChangeType() when changeType != null:
+        return changeType(_that);
+      case _UpdateMultisigData() when updateMultisigData != null:
+        return updateMultisigData(_that);
+      case _DeployStandard() when deployStandard != null:
+        return deployStandard(_that);
+      case _DeployMultisig() when deployMultisig != null:
+        return deployMultisig(_that);
+      case _ConfirmDeploy() when confirmDeploy != null:
+        return confirmDeploy(_that);
+      case _AllowCloseDeploy() when allowCloseDeploy != null:
+        return allowCloseDeploy(_that);
+      case _CompleteDeploy() when completeDeploy != null:
+        return completeDeploy(_that);
+      case _:
+        return orElse();
+    }
+  }
+
+  /// A `switch`-like method, using callbacks.
+  ///
+  /// Callbacks receives the raw object, upcasted.
+  /// It is equivalent to doing:
+  /// ```dart
+  /// switch (sealedClass) {
+  ///   case final Subclass value:
+  ///     return ...;
+  ///   case final Subclass2 value:
+  ///     return ...;
+  /// }
+  /// ```
+
+  @optionalTypeArgs
+  TResult map<TResult extends Object?>({
+    required TResult Function(_PrevStep value) goPrevStep,
+    required TResult Function(_ChangeType value) changeType,
+    required TResult Function(_UpdateMultisigData value) updateMultisigData,
+    required TResult Function(_DeployStandard value) deployStandard,
+    required TResult Function(_DeployMultisig value) deployMultisig,
+    required TResult Function(_ConfirmDeploy value) confirmDeploy,
+    required TResult Function(_AllowCloseDeploy value) allowCloseDeploy,
+    required TResult Function(_CompleteDeploy value) completeDeploy,
+  }) {
+    final _that = this;
+    switch (_that) {
+      case _PrevStep():
+        return goPrevStep(_that);
+      case _ChangeType():
+        return changeType(_that);
+      case _UpdateMultisigData():
+        return updateMultisigData(_that);
+      case _DeployStandard():
+        return deployStandard(_that);
+      case _DeployMultisig():
+        return deployMultisig(_that);
+      case _ConfirmDeploy():
+        return confirmDeploy(_that);
+      case _AllowCloseDeploy():
+        return allowCloseDeploy(_that);
+      case _CompleteDeploy():
+        return completeDeploy(_that);
+      case _:
+        throw StateError('Unexpected subclass');
+    }
+  }
+
+  /// A variant of `map` that fallback to returning `null`.
+  ///
+  /// It is equivalent to doing:
+  /// ```dart
+  /// switch (sealedClass) {
+  ///   case final Subclass value:
+  ///     return ...;
+  ///   case _:
+  ///     return null;
+  /// }
+  /// ```
+
+  @optionalTypeArgs
+  TResult? mapOrNull<TResult extends Object?>({
+    TResult? Function(_PrevStep value)? goPrevStep,
+    TResult? Function(_ChangeType value)? changeType,
+    TResult? Function(_UpdateMultisigData value)? updateMultisigData,
+    TResult? Function(_DeployStandard value)? deployStandard,
+    TResult? Function(_DeployMultisig value)? deployMultisig,
+    TResult? Function(_ConfirmDeploy value)? confirmDeploy,
+    TResult? Function(_AllowCloseDeploy value)? allowCloseDeploy,
+    TResult? Function(_CompleteDeploy value)? completeDeploy,
+  }) {
+    final _that = this;
+    switch (_that) {
+      case _PrevStep() when goPrevStep != null:
+        return goPrevStep(_that);
+      case _ChangeType() when changeType != null:
+        return changeType(_that);
+      case _UpdateMultisigData() when updateMultisigData != null:
+        return updateMultisigData(_that);
+      case _DeployStandard() when deployStandard != null:
+        return deployStandard(_that);
+      case _DeployMultisig() when deployMultisig != null:
+        return deployMultisig(_that);
+      case _ConfirmDeploy() when confirmDeploy != null:
+        return confirmDeploy(_that);
+      case _AllowCloseDeploy() when allowCloseDeploy != null:
+        return allowCloseDeploy(_that);
+      case _CompleteDeploy() when completeDeploy != null:
+        return completeDeploy(_that);
+      case _:
+        return null;
+    }
+  }
+
+  /// A variant of `when` that fallback to an `orElse` callback.
+  ///
+  /// It is equivalent to doing:
+  /// ```dart
+  /// switch (sealedClass) {
+  ///   case Subclass(:final field):
+  ///     return ...;
+  ///   case _:
+  ///     return orElse();
+  /// }
+  /// ```
+
+  @optionalTypeArgs
+  TResult maybeWhen<TResult extends Object?>({
+    TResult Function()? goPrevStep,
+    TResult Function(WalletDeployType type)? changeType,
+    TResult Function(
+            List<PublicKey> custodians, int requireConfirmations, int? hours)?
+        updateMultisigData,
+    TResult Function()? deployStandard,
+    TResult Function(
+            List<PublicKey> custodians, int requireConfirmations, int? hours)?
+        deployMultisig,
+    TResult Function(SignInputAuth signInputAuth)? confirmDeploy,
+    TResult Function()? allowCloseDeploy,
+    TResult Function(Transaction transaction)? completeDeploy,
+    required TResult orElse(),
+  }) {
+    final _that = this;
+    switch (_that) {
+      case _PrevStep() when goPrevStep != null:
+        return goPrevStep();
+      case _ChangeType() when changeType != null:
+        return changeType(_that.type);
+      case _UpdateMultisigData() when updateMultisigData != null:
+        return updateMultisigData(
+            _that.custodians, _that.requireConfirmations, _that.hours);
+      case _DeployStandard() when deployStandard != null:
+        return deployStandard();
+      case _DeployMultisig() when deployMultisig != null:
+        return deployMultisig(
+            _that.custodians, _that.requireConfirmations, _that.hours);
+      case _ConfirmDeploy() when confirmDeploy != null:
+        return confirmDeploy(_that.signInputAuth);
+      case _AllowCloseDeploy() when allowCloseDeploy != null:
+        return allowCloseDeploy();
+      case _CompleteDeploy() when completeDeploy != null:
+        return completeDeploy(_that.transaction);
+      case _:
+        return orElse();
+    }
+  }
+
+  /// A `switch`-like method, using callbacks.
+  ///
+  /// As opposed to `map`, this offers destructuring.
+  /// It is equivalent to doing:
+  /// ```dart
+  /// switch (sealedClass) {
+  ///   case Subclass(:final field):
+  ///     return ...;
+  ///   case Subclass2(:final field2):
+  ///     return ...;
+  /// }
+  /// ```
+
+  @optionalTypeArgs
+  TResult when<TResult extends Object?>({
+    required TResult Function() goPrevStep,
+    required TResult Function(WalletDeployType type) changeType,
+    required TResult Function(
+            List<PublicKey> custodians, int requireConfirmations, int? hours)
+        updateMultisigData,
+    required TResult Function() deployStandard,
+    required TResult Function(
+            List<PublicKey> custodians, int requireConfirmations, int? hours)
+        deployMultisig,
+    required TResult Function(SignInputAuth signInputAuth) confirmDeploy,
+    required TResult Function() allowCloseDeploy,
+    required TResult Function(Transaction transaction) completeDeploy,
+  }) {
+    final _that = this;
+    switch (_that) {
+      case _PrevStep():
+        return goPrevStep();
+      case _ChangeType():
+        return changeType(_that.type);
+      case _UpdateMultisigData():
+        return updateMultisigData(
+            _that.custodians, _that.requireConfirmations, _that.hours);
+      case _DeployStandard():
+        return deployStandard();
+      case _DeployMultisig():
+        return deployMultisig(
+            _that.custodians, _that.requireConfirmations, _that.hours);
+      case _ConfirmDeploy():
+        return confirmDeploy(_that.signInputAuth);
+      case _AllowCloseDeploy():
+        return allowCloseDeploy();
+      case _CompleteDeploy():
+        return completeDeploy(_that.transaction);
+      case _:
+        throw StateError('Unexpected subclass');
+    }
+  }
+
+  /// A variant of `when` that fallback to returning `null`
+  ///
+  /// It is equivalent to doing:
+  /// ```dart
+  /// switch (sealedClass) {
+  ///   case Subclass(:final field):
+  ///     return ...;
+  ///   case _:
+  ///     return null;
+  /// }
+  /// ```
+
+  @optionalTypeArgs
+  TResult? whenOrNull<TResult extends Object?>({
+    TResult? Function()? goPrevStep,
+    TResult? Function(WalletDeployType type)? changeType,
+    TResult? Function(
+            List<PublicKey> custodians, int requireConfirmations, int? hours)?
+        updateMultisigData,
+    TResult? Function()? deployStandard,
+    TResult? Function(
+            List<PublicKey> custodians, int requireConfirmations, int? hours)?
+        deployMultisig,
+    TResult? Function(SignInputAuth signInputAuth)? confirmDeploy,
+    TResult? Function()? allowCloseDeploy,
+    TResult? Function(Transaction transaction)? completeDeploy,
+  }) {
+    final _that = this;
+    switch (_that) {
+      case _PrevStep() when goPrevStep != null:
+        return goPrevStep();
+      case _ChangeType() when changeType != null:
+        return changeType(_that.type);
+      case _UpdateMultisigData() when updateMultisigData != null:
+        return updateMultisigData(
+            _that.custodians, _that.requireConfirmations, _that.hours);
+      case _DeployStandard() when deployStandard != null:
+        return deployStandard();
+      case _DeployMultisig() when deployMultisig != null:
+        return deployMultisig(
+            _that.custodians, _that.requireConfirmations, _that.hours);
+      case _ConfirmDeploy() when confirmDeploy != null:
+        return confirmDeploy(_that.signInputAuth);
+      case _AllowCloseDeploy() when allowCloseDeploy != null:
+        return allowCloseDeploy();
+      case _CompleteDeploy() when completeDeploy != null:
+        return completeDeploy(_that.transaction);
+      case _:
+        return null;
+    }
+  }
 }
 
 /// @nodoc
@@ -518,6 +818,418 @@ mixin _$WalletDeployState {
 class $WalletDeployStateCopyWith<$Res> {
   $WalletDeployStateCopyWith(
       WalletDeployState _, $Res Function(WalletDeployState) __);
+}
+
+/// Adds pattern-matching-related methods to [WalletDeployState].
+extension WalletDeployStatePatterns on WalletDeployState {
+  /// A variant of `map` that fallback to returning `orElse`.
+  ///
+  /// It is equivalent to doing:
+  /// ```dart
+  /// switch (sealedClass) {
+  ///   case final Subclass value:
+  ///     return ...;
+  ///   case _:
+  ///     return orElse();
+  /// }
+  /// ```
+
+  @optionalTypeArgs
+  TResult maybeMap<TResult extends Object?>({
+    TResult Function(WalletDeployStateStandard value)? standard,
+    TResult Function(WalletDeployStateMultisig value)? multisig,
+    TResult Function(WalletDeployStateCalculatingError value)? calculatingError,
+    TResult Function(WalletDeployStateReadyToDeploy value)? readyToDeploy,
+    TResult Function(WalletDeployStateDeploying value)? deploying,
+    TResult Function(WalletDeployStateDeployed value)? deployed,
+    TResult Function(WalletDeployStateSubscribeError value)? subscribeError,
+    required TResult orElse(),
+  }) {
+    final _that = this;
+    switch (_that) {
+      case WalletDeployStateStandard() when standard != null:
+        return standard(_that);
+      case WalletDeployStateMultisig() when multisig != null:
+        return multisig(_that);
+      case WalletDeployStateCalculatingError() when calculatingError != null:
+        return calculatingError(_that);
+      case WalletDeployStateReadyToDeploy() when readyToDeploy != null:
+        return readyToDeploy(_that);
+      case WalletDeployStateDeploying() when deploying != null:
+        return deploying(_that);
+      case WalletDeployStateDeployed() when deployed != null:
+        return deployed(_that);
+      case WalletDeployStateSubscribeError() when subscribeError != null:
+        return subscribeError(_that);
+      case _:
+        return orElse();
+    }
+  }
+
+  /// A `switch`-like method, using callbacks.
+  ///
+  /// Callbacks receives the raw object, upcasted.
+  /// It is equivalent to doing:
+  /// ```dart
+  /// switch (sealedClass) {
+  ///   case final Subclass value:
+  ///     return ...;
+  ///   case final Subclass2 value:
+  ///     return ...;
+  /// }
+  /// ```
+
+  @optionalTypeArgs
+  TResult map<TResult extends Object?>({
+    required TResult Function(WalletDeployStateStandard value) standard,
+    required TResult Function(WalletDeployStateMultisig value) multisig,
+    required TResult Function(WalletDeployStateCalculatingError value)
+        calculatingError,
+    required TResult Function(WalletDeployStateReadyToDeploy value)
+        readyToDeploy,
+    required TResult Function(WalletDeployStateDeploying value) deploying,
+    required TResult Function(WalletDeployStateDeployed value) deployed,
+    required TResult Function(WalletDeployStateSubscribeError value)
+        subscribeError,
+  }) {
+    final _that = this;
+    switch (_that) {
+      case WalletDeployStateStandard():
+        return standard(_that);
+      case WalletDeployStateMultisig():
+        return multisig(_that);
+      case WalletDeployStateCalculatingError():
+        return calculatingError(_that);
+      case WalletDeployStateReadyToDeploy():
+        return readyToDeploy(_that);
+      case WalletDeployStateDeploying():
+        return deploying(_that);
+      case WalletDeployStateDeployed():
+        return deployed(_that);
+      case WalletDeployStateSubscribeError():
+        return subscribeError(_that);
+    }
+  }
+
+  /// A variant of `map` that fallback to returning `null`.
+  ///
+  /// It is equivalent to doing:
+  /// ```dart
+  /// switch (sealedClass) {
+  ///   case final Subclass value:
+  ///     return ...;
+  ///   case _:
+  ///     return null;
+  /// }
+  /// ```
+
+  @optionalTypeArgs
+  TResult? mapOrNull<TResult extends Object?>({
+    TResult? Function(WalletDeployStateStandard value)? standard,
+    TResult? Function(WalletDeployStateMultisig value)? multisig,
+    TResult? Function(WalletDeployStateCalculatingError value)?
+        calculatingError,
+    TResult? Function(WalletDeployStateReadyToDeploy value)? readyToDeploy,
+    TResult? Function(WalletDeployStateDeploying value)? deploying,
+    TResult? Function(WalletDeployStateDeployed value)? deployed,
+    TResult? Function(WalletDeployStateSubscribeError value)? subscribeError,
+  }) {
+    final _that = this;
+    switch (_that) {
+      case WalletDeployStateStandard() when standard != null:
+        return standard(_that);
+      case WalletDeployStateMultisig() when multisig != null:
+        return multisig(_that);
+      case WalletDeployStateCalculatingError() when calculatingError != null:
+        return calculatingError(_that);
+      case WalletDeployStateReadyToDeploy() when readyToDeploy != null:
+        return readyToDeploy(_that);
+      case WalletDeployStateDeploying() when deploying != null:
+        return deploying(_that);
+      case WalletDeployStateDeployed() when deployed != null:
+        return deployed(_that);
+      case WalletDeployStateSubscribeError() when subscribeError != null:
+        return subscribeError(_that);
+      case _:
+        return null;
+    }
+  }
+
+  /// A variant of `when` that fallback to an `orElse` callback.
+  ///
+  /// It is equivalent to doing:
+  /// ```dart
+  /// switch (sealedClass) {
+  ///   case Subclass(:final field):
+  ///     return ...;
+  ///   case _:
+  ///     return orElse();
+  /// }
+  /// ```
+
+  @optionalTypeArgs
+  TResult maybeWhen<TResult extends Object?>({
+    TResult Function()? standard,
+    TResult Function(List<PublicKey> custodians, int requireConfirmations,
+            int hours, WalletType walletType)?
+        multisig,
+    TResult Function(
+            String error,
+            BigInt? fee,
+            BigInt? balance,
+            List<PublicKey>? custodians,
+            int? requireConfirmations,
+            String? tonIconPath,
+            String? ticker,
+            CustomCurrency? currency)?
+        calculatingError,
+    TResult Function(
+            BigInt fee,
+            BigInt balance,
+            SignInputAuthLedger ledgerAuthInput,
+            List<PublicKey>? custodians,
+            int? requireConfirmations,
+            String? tonIconPath,
+            String? ticker,
+            CustomCurrency? currency,
+            KeyAccount? account,
+            int? hours)?
+        readyToDeploy,
+    TResult Function(bool canClose)? deploying,
+    TResult Function(
+            BigInt fee,
+            BigInt balance,
+            Transaction transaction,
+            List<PublicKey>? custodians,
+            int? requireConfirmations,
+            String? tonIconPath)?
+        deployed,
+    TResult Function(Object error)? subscribeError,
+    required TResult orElse(),
+  }) {
+    final _that = this;
+    switch (_that) {
+      case WalletDeployStateStandard() when standard != null:
+        return standard();
+      case WalletDeployStateMultisig() when multisig != null:
+        return multisig(_that.custodians, _that.requireConfirmations,
+            _that.hours, _that.walletType);
+      case WalletDeployStateCalculatingError() when calculatingError != null:
+        return calculatingError(
+            _that.error,
+            _that.fee,
+            _that.balance,
+            _that.custodians,
+            _that.requireConfirmations,
+            _that.tonIconPath,
+            _that.ticker,
+            _that.currency);
+      case WalletDeployStateReadyToDeploy() when readyToDeploy != null:
+        return readyToDeploy(
+            _that.fee,
+            _that.balance,
+            _that.ledgerAuthInput,
+            _that.custodians,
+            _that.requireConfirmations,
+            _that.tonIconPath,
+            _that.ticker,
+            _that.currency,
+            _that.account,
+            _that.hours);
+      case WalletDeployStateDeploying() when deploying != null:
+        return deploying(_that.canClose);
+      case WalletDeployStateDeployed() when deployed != null:
+        return deployed(_that.fee, _that.balance, _that.transaction,
+            _that.custodians, _that.requireConfirmations, _that.tonIconPath);
+      case WalletDeployStateSubscribeError() when subscribeError != null:
+        return subscribeError(_that.error);
+      case _:
+        return orElse();
+    }
+  }
+
+  /// A `switch`-like method, using callbacks.
+  ///
+  /// As opposed to `map`, this offers destructuring.
+  /// It is equivalent to doing:
+  /// ```dart
+  /// switch (sealedClass) {
+  ///   case Subclass(:final field):
+  ///     return ...;
+  ///   case Subclass2(:final field2):
+  ///     return ...;
+  /// }
+  /// ```
+
+  @optionalTypeArgs
+  TResult when<TResult extends Object?>({
+    required TResult Function() standard,
+    required TResult Function(List<PublicKey> custodians,
+            int requireConfirmations, int hours, WalletType walletType)
+        multisig,
+    required TResult Function(
+            String error,
+            BigInt? fee,
+            BigInt? balance,
+            List<PublicKey>? custodians,
+            int? requireConfirmations,
+            String? tonIconPath,
+            String? ticker,
+            CustomCurrency? currency)
+        calculatingError,
+    required TResult Function(
+            BigInt fee,
+            BigInt balance,
+            SignInputAuthLedger ledgerAuthInput,
+            List<PublicKey>? custodians,
+            int? requireConfirmations,
+            String? tonIconPath,
+            String? ticker,
+            CustomCurrency? currency,
+            KeyAccount? account,
+            int? hours)
+        readyToDeploy,
+    required TResult Function(bool canClose) deploying,
+    required TResult Function(
+            BigInt fee,
+            BigInt balance,
+            Transaction transaction,
+            List<PublicKey>? custodians,
+            int? requireConfirmations,
+            String? tonIconPath)
+        deployed,
+    required TResult Function(Object error) subscribeError,
+  }) {
+    final _that = this;
+    switch (_that) {
+      case WalletDeployStateStandard():
+        return standard();
+      case WalletDeployStateMultisig():
+        return multisig(_that.custodians, _that.requireConfirmations,
+            _that.hours, _that.walletType);
+      case WalletDeployStateCalculatingError():
+        return calculatingError(
+            _that.error,
+            _that.fee,
+            _that.balance,
+            _that.custodians,
+            _that.requireConfirmations,
+            _that.tonIconPath,
+            _that.ticker,
+            _that.currency);
+      case WalletDeployStateReadyToDeploy():
+        return readyToDeploy(
+            _that.fee,
+            _that.balance,
+            _that.ledgerAuthInput,
+            _that.custodians,
+            _that.requireConfirmations,
+            _that.tonIconPath,
+            _that.ticker,
+            _that.currency,
+            _that.account,
+            _that.hours);
+      case WalletDeployStateDeploying():
+        return deploying(_that.canClose);
+      case WalletDeployStateDeployed():
+        return deployed(_that.fee, _that.balance, _that.transaction,
+            _that.custodians, _that.requireConfirmations, _that.tonIconPath);
+      case WalletDeployStateSubscribeError():
+        return subscribeError(_that.error);
+    }
+  }
+
+  /// A variant of `when` that fallback to returning `null`
+  ///
+  /// It is equivalent to doing:
+  /// ```dart
+  /// switch (sealedClass) {
+  ///   case Subclass(:final field):
+  ///     return ...;
+  ///   case _:
+  ///     return null;
+  /// }
+  /// ```
+
+  @optionalTypeArgs
+  TResult? whenOrNull<TResult extends Object?>({
+    TResult? Function()? standard,
+    TResult? Function(List<PublicKey> custodians, int requireConfirmations,
+            int hours, WalletType walletType)?
+        multisig,
+    TResult? Function(
+            String error,
+            BigInt? fee,
+            BigInt? balance,
+            List<PublicKey>? custodians,
+            int? requireConfirmations,
+            String? tonIconPath,
+            String? ticker,
+            CustomCurrency? currency)?
+        calculatingError,
+    TResult? Function(
+            BigInt fee,
+            BigInt balance,
+            SignInputAuthLedger ledgerAuthInput,
+            List<PublicKey>? custodians,
+            int? requireConfirmations,
+            String? tonIconPath,
+            String? ticker,
+            CustomCurrency? currency,
+            KeyAccount? account,
+            int? hours)?
+        readyToDeploy,
+    TResult? Function(bool canClose)? deploying,
+    TResult? Function(
+            BigInt fee,
+            BigInt balance,
+            Transaction transaction,
+            List<PublicKey>? custodians,
+            int? requireConfirmations,
+            String? tonIconPath)?
+        deployed,
+    TResult? Function(Object error)? subscribeError,
+  }) {
+    final _that = this;
+    switch (_that) {
+      case WalletDeployStateStandard() when standard != null:
+        return standard();
+      case WalletDeployStateMultisig() when multisig != null:
+        return multisig(_that.custodians, _that.requireConfirmations,
+            _that.hours, _that.walletType);
+      case WalletDeployStateCalculatingError() when calculatingError != null:
+        return calculatingError(
+            _that.error,
+            _that.fee,
+            _that.balance,
+            _that.custodians,
+            _that.requireConfirmations,
+            _that.tonIconPath,
+            _that.ticker,
+            _that.currency);
+      case WalletDeployStateReadyToDeploy() when readyToDeploy != null:
+        return readyToDeploy(
+            _that.fee,
+            _that.balance,
+            _that.ledgerAuthInput,
+            _that.custodians,
+            _that.requireConfirmations,
+            _that.tonIconPath,
+            _that.ticker,
+            _that.currency,
+            _that.account,
+            _that.hours);
+      case WalletDeployStateDeploying() when deploying != null:
+        return deploying(_that.canClose);
+      case WalletDeployStateDeployed() when deployed != null:
+        return deployed(_that.fee, _that.balance, _that.transaction,
+            _that.custodians, _that.requireConfirmations, _that.tonIconPath);
+      case WalletDeployStateSubscribeError() when subscribeError != null:
+        return subscribeError(_that.error);
+      case _:
+        return null;
+    }
+  }
 }
 
 /// @nodoc

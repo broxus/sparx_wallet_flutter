@@ -1,6 +1,5 @@
-// dart format width=80
-// coverage:ignore-file
 // GENERATED CODE - DO NOT MODIFY BY HAND
+// coverage:ignore-file
 // ignore_for_file: type=lint
 // ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target, unnecessary_question_mark
 
@@ -201,6 +200,462 @@ class _$ConnectionDataCopyWithImpl<$Res>
           : nativeTokenDecimals // ignore: cast_nullable_to_non_nullable
               as int,
     ));
+  }
+}
+
+/// Adds pattern-matching-related methods to [ConnectionData].
+extension ConnectionDataPatterns on ConnectionData {
+  /// A variant of `map` that fallback to returning `orElse`.
+  ///
+  /// It is equivalent to doing:
+  /// ```dart
+  /// switch (sealedClass) {
+  ///   case final Subclass value:
+  ///     return ...;
+  ///   case _:
+  ///     return orElse();
+  /// }
+  /// ```
+
+  @optionalTypeArgs
+  TResult maybeMap<TResult extends Object?>({
+    TResult Function(ConnectionDataGql value)? gql,
+    TResult Function(ConnectionDataProto value)? proto,
+    TResult Function(ConnectionDataJrpc value)? jrpc,
+    required TResult orElse(),
+  }) {
+    final _that = this;
+    switch (_that) {
+      case ConnectionDataGql() when gql != null:
+        return gql(_that);
+      case ConnectionDataProto() when proto != null:
+        return proto(_that);
+      case ConnectionDataJrpc() when jrpc != null:
+        return jrpc(_that);
+      case _:
+        return orElse();
+    }
+  }
+
+  /// A `switch`-like method, using callbacks.
+  ///
+  /// Callbacks receives the raw object, upcasted.
+  /// It is equivalent to doing:
+  /// ```dart
+  /// switch (sealedClass) {
+  ///   case final Subclass value:
+  ///     return ...;
+  ///   case final Subclass2 value:
+  ///     return ...;
+  /// }
+  /// ```
+
+  @optionalTypeArgs
+  TResult map<TResult extends Object?>({
+    required TResult Function(ConnectionDataGql value) gql,
+    required TResult Function(ConnectionDataProto value) proto,
+    required TResult Function(ConnectionDataJrpc value) jrpc,
+  }) {
+    final _that = this;
+    switch (_that) {
+      case ConnectionDataGql():
+        return gql(_that);
+      case ConnectionDataProto():
+        return proto(_that);
+      case ConnectionDataJrpc():
+        return jrpc(_that);
+    }
+  }
+
+  /// A variant of `map` that fallback to returning `null`.
+  ///
+  /// It is equivalent to doing:
+  /// ```dart
+  /// switch (sealedClass) {
+  ///   case final Subclass value:
+  ///     return ...;
+  ///   case _:
+  ///     return null;
+  /// }
+  /// ```
+
+  @optionalTypeArgs
+  TResult? mapOrNull<TResult extends Object?>({
+    TResult? Function(ConnectionDataGql value)? gql,
+    TResult? Function(ConnectionDataProto value)? proto,
+    TResult? Function(ConnectionDataJrpc value)? jrpc,
+  }) {
+    final _that = this;
+    switch (_that) {
+      case ConnectionDataGql() when gql != null:
+        return gql(_that);
+      case ConnectionDataProto() when proto != null:
+        return proto(_that);
+      case ConnectionDataJrpc() when jrpc != null:
+        return jrpc(_that);
+      case _:
+        return null;
+    }
+  }
+
+  /// A variant of `when` that fallback to an `orElse` callback.
+  ///
+  /// It is equivalent to doing:
+  /// ```dart
+  /// switch (sealedClass) {
+  ///   case Subclass(:final field):
+  ///     return ...;
+  ///   case _:
+  ///     return orElse();
+  /// }
+  /// ```
+
+  @optionalTypeArgs
+  TResult maybeWhen<TResult extends Object?>({
+    TResult Function(
+            String id,
+            String name,
+            String group,
+            List<String> endpoints,
+            NetworkType networkType,
+            bool isLocal,
+            String blockExplorerUrl,
+            String nativeTokenTicker,
+            bool isPreset,
+            bool canBeEdited,
+            double sortingOrder,
+            bool isUsedOnStart,
+            String manifestUrl,
+            int nativeTokenDecimals,
+            int? latencyDetectionInterval,
+            int? maxLatency,
+            int? endpointSelectionRetryCount)?
+        gql,
+    TResult Function(
+            String id,
+            String name,
+            String group,
+            String endpoint,
+            NetworkType networkType,
+            String blockExplorerUrl,
+            String nativeTokenTicker,
+            bool isPreset,
+            bool canBeEdited,
+            double sortingOrder,
+            bool isUsedOnStart,
+            String manifestUrl,
+            int nativeTokenDecimals)?
+        proto,
+    TResult Function(
+            String id,
+            String name,
+            String group,
+            String endpoint,
+            NetworkType networkType,
+            String blockExplorerUrl,
+            String nativeTokenTicker,
+            bool isPreset,
+            bool canBeEdited,
+            double sortingOrder,
+            bool isUsedOnStart,
+            String manifestUrl,
+            int nativeTokenDecimals)?
+        jrpc,
+    required TResult orElse(),
+  }) {
+    final _that = this;
+    switch (_that) {
+      case ConnectionDataGql() when gql != null:
+        return gql(
+            _that.id,
+            _that.name,
+            _that.group,
+            _that.endpoints,
+            _that.networkType,
+            _that.isLocal,
+            _that.blockExplorerUrl,
+            _that.nativeTokenTicker,
+            _that.isPreset,
+            _that.canBeEdited,
+            _that.sortingOrder,
+            _that.isUsedOnStart,
+            _that.manifestUrl,
+            _that.nativeTokenDecimals,
+            _that.latencyDetectionInterval,
+            _that.maxLatency,
+            _that.endpointSelectionRetryCount);
+      case ConnectionDataProto() when proto != null:
+        return proto(
+            _that.id,
+            _that.name,
+            _that.group,
+            _that.endpoint,
+            _that.networkType,
+            _that.blockExplorerUrl,
+            _that.nativeTokenTicker,
+            _that.isPreset,
+            _that.canBeEdited,
+            _that.sortingOrder,
+            _that.isUsedOnStart,
+            _that.manifestUrl,
+            _that.nativeTokenDecimals);
+      case ConnectionDataJrpc() when jrpc != null:
+        return jrpc(
+            _that.id,
+            _that.name,
+            _that.group,
+            _that.endpoint,
+            _that.networkType,
+            _that.blockExplorerUrl,
+            _that.nativeTokenTicker,
+            _that.isPreset,
+            _that.canBeEdited,
+            _that.sortingOrder,
+            _that.isUsedOnStart,
+            _that.manifestUrl,
+            _that.nativeTokenDecimals);
+      case _:
+        return orElse();
+    }
+  }
+
+  /// A `switch`-like method, using callbacks.
+  ///
+  /// As opposed to `map`, this offers destructuring.
+  /// It is equivalent to doing:
+  /// ```dart
+  /// switch (sealedClass) {
+  ///   case Subclass(:final field):
+  ///     return ...;
+  ///   case Subclass2(:final field2):
+  ///     return ...;
+  /// }
+  /// ```
+
+  @optionalTypeArgs
+  TResult when<TResult extends Object?>({
+    required TResult Function(
+            String id,
+            String name,
+            String group,
+            List<String> endpoints,
+            NetworkType networkType,
+            bool isLocal,
+            String blockExplorerUrl,
+            String nativeTokenTicker,
+            bool isPreset,
+            bool canBeEdited,
+            double sortingOrder,
+            bool isUsedOnStart,
+            String manifestUrl,
+            int nativeTokenDecimals,
+            int? latencyDetectionInterval,
+            int? maxLatency,
+            int? endpointSelectionRetryCount)
+        gql,
+    required TResult Function(
+            String id,
+            String name,
+            String group,
+            String endpoint,
+            NetworkType networkType,
+            String blockExplorerUrl,
+            String nativeTokenTicker,
+            bool isPreset,
+            bool canBeEdited,
+            double sortingOrder,
+            bool isUsedOnStart,
+            String manifestUrl,
+            int nativeTokenDecimals)
+        proto,
+    required TResult Function(
+            String id,
+            String name,
+            String group,
+            String endpoint,
+            NetworkType networkType,
+            String blockExplorerUrl,
+            String nativeTokenTicker,
+            bool isPreset,
+            bool canBeEdited,
+            double sortingOrder,
+            bool isUsedOnStart,
+            String manifestUrl,
+            int nativeTokenDecimals)
+        jrpc,
+  }) {
+    final _that = this;
+    switch (_that) {
+      case ConnectionDataGql():
+        return gql(
+            _that.id,
+            _that.name,
+            _that.group,
+            _that.endpoints,
+            _that.networkType,
+            _that.isLocal,
+            _that.blockExplorerUrl,
+            _that.nativeTokenTicker,
+            _that.isPreset,
+            _that.canBeEdited,
+            _that.sortingOrder,
+            _that.isUsedOnStart,
+            _that.manifestUrl,
+            _that.nativeTokenDecimals,
+            _that.latencyDetectionInterval,
+            _that.maxLatency,
+            _that.endpointSelectionRetryCount);
+      case ConnectionDataProto():
+        return proto(
+            _that.id,
+            _that.name,
+            _that.group,
+            _that.endpoint,
+            _that.networkType,
+            _that.blockExplorerUrl,
+            _that.nativeTokenTicker,
+            _that.isPreset,
+            _that.canBeEdited,
+            _that.sortingOrder,
+            _that.isUsedOnStart,
+            _that.manifestUrl,
+            _that.nativeTokenDecimals);
+      case ConnectionDataJrpc():
+        return jrpc(
+            _that.id,
+            _that.name,
+            _that.group,
+            _that.endpoint,
+            _that.networkType,
+            _that.blockExplorerUrl,
+            _that.nativeTokenTicker,
+            _that.isPreset,
+            _that.canBeEdited,
+            _that.sortingOrder,
+            _that.isUsedOnStart,
+            _that.manifestUrl,
+            _that.nativeTokenDecimals);
+    }
+  }
+
+  /// A variant of `when` that fallback to returning `null`
+  ///
+  /// It is equivalent to doing:
+  /// ```dart
+  /// switch (sealedClass) {
+  ///   case Subclass(:final field):
+  ///     return ...;
+  ///   case _:
+  ///     return null;
+  /// }
+  /// ```
+
+  @optionalTypeArgs
+  TResult? whenOrNull<TResult extends Object?>({
+    TResult? Function(
+            String id,
+            String name,
+            String group,
+            List<String> endpoints,
+            NetworkType networkType,
+            bool isLocal,
+            String blockExplorerUrl,
+            String nativeTokenTicker,
+            bool isPreset,
+            bool canBeEdited,
+            double sortingOrder,
+            bool isUsedOnStart,
+            String manifestUrl,
+            int nativeTokenDecimals,
+            int? latencyDetectionInterval,
+            int? maxLatency,
+            int? endpointSelectionRetryCount)?
+        gql,
+    TResult? Function(
+            String id,
+            String name,
+            String group,
+            String endpoint,
+            NetworkType networkType,
+            String blockExplorerUrl,
+            String nativeTokenTicker,
+            bool isPreset,
+            bool canBeEdited,
+            double sortingOrder,
+            bool isUsedOnStart,
+            String manifestUrl,
+            int nativeTokenDecimals)?
+        proto,
+    TResult? Function(
+            String id,
+            String name,
+            String group,
+            String endpoint,
+            NetworkType networkType,
+            String blockExplorerUrl,
+            String nativeTokenTicker,
+            bool isPreset,
+            bool canBeEdited,
+            double sortingOrder,
+            bool isUsedOnStart,
+            String manifestUrl,
+            int nativeTokenDecimals)?
+        jrpc,
+  }) {
+    final _that = this;
+    switch (_that) {
+      case ConnectionDataGql() when gql != null:
+        return gql(
+            _that.id,
+            _that.name,
+            _that.group,
+            _that.endpoints,
+            _that.networkType,
+            _that.isLocal,
+            _that.blockExplorerUrl,
+            _that.nativeTokenTicker,
+            _that.isPreset,
+            _that.canBeEdited,
+            _that.sortingOrder,
+            _that.isUsedOnStart,
+            _that.manifestUrl,
+            _that.nativeTokenDecimals,
+            _that.latencyDetectionInterval,
+            _that.maxLatency,
+            _that.endpointSelectionRetryCount);
+      case ConnectionDataProto() when proto != null:
+        return proto(
+            _that.id,
+            _that.name,
+            _that.group,
+            _that.endpoint,
+            _that.networkType,
+            _that.blockExplorerUrl,
+            _that.nativeTokenTicker,
+            _that.isPreset,
+            _that.canBeEdited,
+            _that.sortingOrder,
+            _that.isUsedOnStart,
+            _that.manifestUrl,
+            _that.nativeTokenDecimals);
+      case ConnectionDataJrpc() when jrpc != null:
+        return jrpc(
+            _that.id,
+            _that.name,
+            _that.group,
+            _that.endpoint,
+            _that.networkType,
+            _that.blockExplorerUrl,
+            _that.nativeTokenTicker,
+            _that.isPreset,
+            _that.canBeEdited,
+            _that.sortingOrder,
+            _that.isUsedOnStart,
+            _that.manifestUrl,
+            _that.nativeTokenDecimals);
+      case _:
+        return null;
+    }
   }
 }
 

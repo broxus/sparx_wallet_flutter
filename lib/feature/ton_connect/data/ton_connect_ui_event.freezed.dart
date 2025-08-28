@@ -1,6 +1,5 @@
-// dart format width=80
-// coverage:ignore-file
 // GENERATED CODE - DO NOT MODIFY BY HAND
+// coverage:ignore-file
 // ignore_for_file: type=lint
 // ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target, unnecessary_question_mark
 
@@ -34,6 +33,235 @@ mixin _$TonConnectUiEvent {
 class $TonConnectUiEventCopyWith<$Res> {
   $TonConnectUiEventCopyWith(
       TonConnectUiEvent _, $Res Function(TonConnectUiEvent) __);
+}
+
+/// Adds pattern-matching-related methods to [TonConnectUiEvent].
+extension TonConnectUiEventPatterns on TonConnectUiEvent {
+  /// A variant of `map` that fallback to returning `orElse`.
+  ///
+  /// It is equivalent to doing:
+  /// ```dart
+  /// switch (sealedClass) {
+  ///   case final Subclass value:
+  ///     return ...;
+  ///   case _:
+  ///     return orElse();
+  /// }
+  /// ```
+
+  @optionalTypeArgs
+  TResult maybeMap<TResult extends Object?>({
+    TResult Function(TonConnectUiEventError value)? error,
+    TResult Function(TonConnectUiEventConnect value)? connect,
+    TResult Function(TonConnectUiEventSendTransaction value)? sendTransaction,
+    TResult Function(TonConnectUiEventSignData value)? signData,
+    required TResult orElse(),
+  }) {
+    final _that = this;
+    switch (_that) {
+      case TonConnectUiEventError() when error != null:
+        return error(_that);
+      case TonConnectUiEventConnect() when connect != null:
+        return connect(_that);
+      case TonConnectUiEventSendTransaction() when sendTransaction != null:
+        return sendTransaction(_that);
+      case TonConnectUiEventSignData() when signData != null:
+        return signData(_that);
+      case _:
+        return orElse();
+    }
+  }
+
+  /// A `switch`-like method, using callbacks.
+  ///
+  /// Callbacks receives the raw object, upcasted.
+  /// It is equivalent to doing:
+  /// ```dart
+  /// switch (sealedClass) {
+  ///   case final Subclass value:
+  ///     return ...;
+  ///   case final Subclass2 value:
+  ///     return ...;
+  /// }
+  /// ```
+
+  @optionalTypeArgs
+  TResult map<TResult extends Object?>({
+    required TResult Function(TonConnectUiEventError value) error,
+    required TResult Function(TonConnectUiEventConnect value) connect,
+    required TResult Function(TonConnectUiEventSendTransaction value)
+        sendTransaction,
+    required TResult Function(TonConnectUiEventSignData value) signData,
+  }) {
+    final _that = this;
+    switch (_that) {
+      case TonConnectUiEventError():
+        return error(_that);
+      case TonConnectUiEventConnect():
+        return connect(_that);
+      case TonConnectUiEventSendTransaction():
+        return sendTransaction(_that);
+      case TonConnectUiEventSignData():
+        return signData(_that);
+    }
+  }
+
+  /// A variant of `map` that fallback to returning `null`.
+  ///
+  /// It is equivalent to doing:
+  /// ```dart
+  /// switch (sealedClass) {
+  ///   case final Subclass value:
+  ///     return ...;
+  ///   case _:
+  ///     return null;
+  /// }
+  /// ```
+
+  @optionalTypeArgs
+  TResult? mapOrNull<TResult extends Object?>({
+    TResult? Function(TonConnectUiEventError value)? error,
+    TResult? Function(TonConnectUiEventConnect value)? connect,
+    TResult? Function(TonConnectUiEventSendTransaction value)? sendTransaction,
+    TResult? Function(TonConnectUiEventSignData value)? signData,
+  }) {
+    final _that = this;
+    switch (_that) {
+      case TonConnectUiEventError() when error != null:
+        return error(_that);
+      case TonConnectUiEventConnect() when connect != null:
+        return connect(_that);
+      case TonConnectUiEventSendTransaction() when sendTransaction != null:
+        return sendTransaction(_that);
+      case TonConnectUiEventSignData() when signData != null:
+        return signData(_that);
+      case _:
+        return null;
+    }
+  }
+
+  /// A variant of `when` that fallback to an `orElse` callback.
+  ///
+  /// It is equivalent to doing:
+  /// ```dart
+  /// switch (sealedClass) {
+  ///   case Subclass(:final field):
+  ///     return ...;
+  ///   case _:
+  ///     return orElse();
+  /// }
+  /// ```
+
+  @optionalTypeArgs
+  TResult maybeWhen<TResult extends Object?>({
+    TResult Function(String message)? error,
+    TResult Function(ConnectRequest request, DappManifest manifest,
+            Completer<(KeyAccount, List<ConnectItemReply>)?> completer)?
+        connect,
+    TResult Function(TonAppConnection connection, TransactionPayload payload,
+            Completer<SignedMessage?> completer)?
+        sendTransaction,
+    TResult Function(TonAppConnection connection, SignDataPayload payload,
+            Completer<SignDataResult?> completer)?
+        signData,
+    required TResult orElse(),
+  }) {
+    final _that = this;
+    switch (_that) {
+      case TonConnectUiEventError() when error != null:
+        return error(_that.message);
+      case TonConnectUiEventConnect() when connect != null:
+        return connect(_that.request, _that.manifest, _that.completer);
+      case TonConnectUiEventSendTransaction() when sendTransaction != null:
+        return sendTransaction(
+            _that.connection, _that.payload, _that.completer);
+      case TonConnectUiEventSignData() when signData != null:
+        return signData(_that.connection, _that.payload, _that.completer);
+      case _:
+        return orElse();
+    }
+  }
+
+  /// A `switch`-like method, using callbacks.
+  ///
+  /// As opposed to `map`, this offers destructuring.
+  /// It is equivalent to doing:
+  /// ```dart
+  /// switch (sealedClass) {
+  ///   case Subclass(:final field):
+  ///     return ...;
+  ///   case Subclass2(:final field2):
+  ///     return ...;
+  /// }
+  /// ```
+
+  @optionalTypeArgs
+  TResult when<TResult extends Object?>({
+    required TResult Function(String message) error,
+    required TResult Function(ConnectRequest request, DappManifest manifest,
+            Completer<(KeyAccount, List<ConnectItemReply>)?> completer)
+        connect,
+    required TResult Function(TonAppConnection connection,
+            TransactionPayload payload, Completer<SignedMessage?> completer)
+        sendTransaction,
+    required TResult Function(TonAppConnection connection,
+            SignDataPayload payload, Completer<SignDataResult?> completer)
+        signData,
+  }) {
+    final _that = this;
+    switch (_that) {
+      case TonConnectUiEventError():
+        return error(_that.message);
+      case TonConnectUiEventConnect():
+        return connect(_that.request, _that.manifest, _that.completer);
+      case TonConnectUiEventSendTransaction():
+        return sendTransaction(
+            _that.connection, _that.payload, _that.completer);
+      case TonConnectUiEventSignData():
+        return signData(_that.connection, _that.payload, _that.completer);
+    }
+  }
+
+  /// A variant of `when` that fallback to returning `null`
+  ///
+  /// It is equivalent to doing:
+  /// ```dart
+  /// switch (sealedClass) {
+  ///   case Subclass(:final field):
+  ///     return ...;
+  ///   case _:
+  ///     return null;
+  /// }
+  /// ```
+
+  @optionalTypeArgs
+  TResult? whenOrNull<TResult extends Object?>({
+    TResult? Function(String message)? error,
+    TResult? Function(ConnectRequest request, DappManifest manifest,
+            Completer<(KeyAccount, List<ConnectItemReply>)?> completer)?
+        connect,
+    TResult? Function(TonAppConnection connection, TransactionPayload payload,
+            Completer<SignedMessage?> completer)?
+        sendTransaction,
+    TResult? Function(TonAppConnection connection, SignDataPayload payload,
+            Completer<SignDataResult?> completer)?
+        signData,
+  }) {
+    final _that = this;
+    switch (_that) {
+      case TonConnectUiEventError() when error != null:
+        return error(_that.message);
+      case TonConnectUiEventConnect() when connect != null:
+        return connect(_that.request, _that.manifest, _that.completer);
+      case TonConnectUiEventSendTransaction() when sendTransaction != null:
+        return sendTransaction(
+            _that.connection, _that.payload, _that.completer);
+      case TonConnectUiEventSignData() when signData != null:
+        return signData(_that.connection, _that.payload, _that.completer);
+      case _:
+        return null;
+    }
+  }
 }
 
 /// @nodoc
