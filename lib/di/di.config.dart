@@ -1360,6 +1360,15 @@ extension GetItInjectableX on _i174.GetIt {
         ));
     gh.singleton<_i328.LedgerBleScanner>(
         () => _i328.LedgerBleScanner(gh<_i865.LedgerService>()));
+    gh.factory<_i81.CreateSeedPasswordProfileModel>(
+        () => _i81.CreateSeedPasswordProfileModel(
+              gh<_i83.ErrorHandler>(),
+              gh<_i128.NetworkConnectionService>(),
+              gh<_i632.MessengerService>(),
+              gh<_i771.NekotonRepository>(),
+              gh<_i128.BiometryService>(),
+              gh<_i128.AppStorageService>(),
+            ));
     gh.singleton<_i82.CompassBaseRoute>(
       () => _i512.TonWalletDetailsRoute(
         gh<_i82.CompassBaseRoute>(instanceName: 'WalletDeployRoute'),
@@ -1432,14 +1441,6 @@ extension GetItInjectableX on _i174.GetIt {
           gh<_i632.MessengerService>(),
           gh<_i128.BiometryService>(),
         ));
-    gh.factory<_i81.CreateSeedPasswordProfileModel>(
-        () => _i81.CreateSeedPasswordProfileModel(
-              gh<_i83.ErrorHandler>(),
-              gh<_i128.NetworkConnectionService>(),
-              gh<_i632.MessengerService>(),
-              gh<_i771.NekotonRepository>(),
-              gh<_i128.BiometryService>(),
-            ));
     gh.factory<_i352.ConfirmActionModel>(() => _i352.ConfirmActionModel(
           gh<_i83.ErrorHandler>(),
           gh<_i575.BiometryService>(),

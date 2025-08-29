@@ -23,6 +23,7 @@ class CreateSeedPasswordProfileModel extends ElementaryModel
     this.messengerService,
     this._nekotonRepository,
     this._biometryService,
+    this._storage,
   ) : super(errorHandler: errorHandler);
 
   @override
@@ -33,6 +34,7 @@ class CreateSeedPasswordProfileModel extends ElementaryModel
 
   final NekotonRepository _nekotonRepository;
   final BiometryService _biometryService;
+  final AppStorageService _storage;
 
   Future<PublicKey?> addSeed({
     required BuildContext context,
@@ -41,6 +43,7 @@ class CreateSeedPasswordProfileModel extends ElementaryModel
     required String password,
     required SeedAddType type,
     required MnemonicType? mnemonicType,
+    required bool isChecked,
   }) async {
     if (seedPhrase.isEmpty || !await checkConnection(context)) {
       return null;
@@ -65,6 +68,11 @@ class CreateSeedPasswordProfileModel extends ElementaryModel
           addType: type,
           mnemonicType: mnemonicType,
         );
+
+        if (type == SeedAddType.create && isChecked) {
+          final key = StorageKey.showingManualBackupBadge(publicKey.publicKey);
+          _storage.addValue(key, false);
+        }
 
         await _nekotonRepository.seedScanCompleter(publicKey);
 

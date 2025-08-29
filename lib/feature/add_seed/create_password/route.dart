@@ -14,6 +14,7 @@ const _seedQueryParam = 'seed';
 const _mnemonicTypeQueryParam = 'mnemonicType';
 const _namePathParam = 'name';
 const _typeQueryParam = 'type';
+const _isCheckedQueryParam = 'isChecked';
 
 @named
 @Singleton(as: CompassBaseRoute)
@@ -84,6 +85,7 @@ class CreateSeedPasswordRoute
             name: data.name,
             type: data.type,
             mnemonicType: data.mnemonicType,
+            isChecked: data.isChecked,
           ),
         );
 
@@ -95,12 +97,14 @@ class CreateSeedPasswordRoute
             jsonDecode(mnemonicTypeStr) as Map<String, dynamic>,
           )
         : null;
+    final isChecked = bool.tryParse(queryParams[_isCheckedQueryParam] ?? '');
 
     return CreateSeedPasswordRouteData(
       type: SeedAddType.values.byName(queryParams[_typeQueryParam]!),
       seedPhrase: queryParams[_seedQueryParam],
       mnemonicType: mnemonicType,
       name: queryParams[_namePathParam],
+      isChecked: isChecked ?? false,
     );
   }
 }
@@ -111,6 +115,7 @@ class CreateSeedPasswordRouteData implements CompassRouteDataQuery {
     this.seedPhrase,
     this.mnemonicType,
     this.name,
+    this.isChecked = false,
   });
 
   final SeedAddType type;
@@ -118,15 +123,20 @@ class CreateSeedPasswordRouteData implements CompassRouteDataQuery {
   final MnemonicType? mnemonicType;
   final String? name;
 
+  /// Indicates whether the seed phrase has been checked
+  final bool isChecked;
+
   @override
   Map<String, String> toQueryParams() {
     final type = this.type;
     final seedPhrase = this.seedPhrase;
     final name = this.name;
     final mnemonicType = this.mnemonicType;
+    final isChecked = this.isChecked;
 
     return {
       _typeQueryParam: type.name,
+      _isCheckedQueryParam: isChecked.toString(),
       if (seedPhrase != null) _seedQueryParam: seedPhrase,
       if (name != null) _namePathParam: name,
       if (mnemonicType != null)

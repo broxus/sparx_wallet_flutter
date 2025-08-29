@@ -122,6 +122,7 @@ class CheckSeedPhrasePageWidgetModel extends CustomWidgetModelParametrized<
           seedPhrase: params.seed.phrase,
           name: params.name,
           type: SeedAddType.create,
+          isChecked: true,
         ),
       );
     }

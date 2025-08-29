@@ -19,9 +19,11 @@ class CreateSeedPasswordProfileWmParams {
     required this.name,
     required this.type,
     required this.mnemonicType,
+    required this.isChecked,
   });
 
   final SeedPhraseModel seedPhrase;
+  final bool isChecked;
   final String? name;
   final SeedAddType type;
   final MnemonicType? mnemonicType;
@@ -62,6 +64,7 @@ class CreateSeedPasswordProfileWidgetModel
       password: passwordController.text,
       type: params.type,
       mnemonicType: params.mnemonicType,
+      isChecked: params.isChecked,
     );
 
     _loadingState.accept(false);
