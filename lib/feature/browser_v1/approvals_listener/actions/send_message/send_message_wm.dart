@@ -137,7 +137,8 @@ class SendMessageWidgetModel extends CustomWidgetModelParametrized<
     }
 
     contextSafe?.let(
-      (context) => Navigator.of(context).pop((publicKeyState.value, signInputAuth)),
+      (context) =>
+          Navigator.of(context).pop((publicKeyState.value, signInputAuth)),
     );
   }
 
