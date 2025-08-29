@@ -249,6 +249,10 @@ class SendMessageWidgetModel extends CustomWidgetModelParametrized<
           _feeError.accept(LocaleKeys.insufficientFunds.tr());
         }
       }
+    } catch (e) {
+      model.showMessage(
+        Message.error(message: e.toString()),
+      );
     } finally {
       message?.dispose();
       _isLoading.accept(false);
@@ -279,10 +283,8 @@ class SendMessageWidgetModel extends CustomWidgetModelParametrized<
 
       _txErrors.accept(errors);
     } catch (e) {
-      contextSafe?.let(
-        (context) => model.showMessage(
-          Message.error(message: e.toString()),
-        ),
+      model.showMessage(
+        Message.error(message: e.toString()),
       );
     }
   }

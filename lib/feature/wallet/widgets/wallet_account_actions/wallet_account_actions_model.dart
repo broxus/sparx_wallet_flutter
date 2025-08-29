@@ -41,8 +41,13 @@ class WalletAccountActionsModel extends ElementaryModel {
   ) =>
       _stakingService.withdrawRequestsStream(address);
 
-  Future<List<PublicKey>?> getLocalCustodians(Address address) =>
-      _nekotonRepository.getLocalCustodians(address);
+  Future<List<PublicKey>?> getLocalCustodians(Address address) async {
+    try {
+      return await _nekotonRepository.getLocalCustodians(address);
+    } catch (_) {
+      return null;
+    }
+  }
 
   Future<UnsignedMessage> prepareDeploy(Address address) =>
       _nekotonRepository.prepareDeploy(address, defaultSendTimeout);

@@ -1,75 +1,52 @@
-// ignore_for_file: use_build_context_synchronously
-
-import 'package:app/app/router/router.dart';
+import 'package:app/core/wm/custom_wm.dart';
 import 'package:app/data/models/seed/seed_phrase_model.dart';
-import 'package:app/feature/add_seed/create_password/create_password.dart';
-import 'package:app/feature/profile/manage_seeds_accounts/route.dart';
-import 'package:app/feature/profile/widgets/switch_to_seed_sheet/switch_to_seed_sheet.dart';
+import 'package:app/feature/add_seed/create_password/view/create_seed_password_profile_wm.dart';
+import 'package:app/feature/add_seed/create_password/view/create_seed_password_view.dart';
+import 'package:app/utils/focus_utils.dart';
+import 'package:elementary_helper/elementary_helper.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:nekoton_repository/nekoton_repository.dart';
 import 'package:ui_components_lib/ui_components_lib.dart';
 
-typedef _Cubit = CreateSeedPasswordCubit;
-
-/// {@template create_seed_password_profile_page}
-/// Entry point to create seed password from profile.
-/// {@endtemplate}
-class CreateSeedPasswordProfilePage extends StatelessWidget {
-  /// {@macro create_seed_password_profile_page}
-  const CreateSeedPasswordProfilePage({
-    required this.name,
-    required this.seedPhrase,
-    required this.type,
-    required this.mnemonicType,
+/// Entry point to create/import seed password from profile (Elementary implementation).
+class CreateSeedPasswordProfilePage
+    extends InjectedElementaryParametrizedWidget<
+        CreateSeedPasswordProfileWidgetModel,
+        CreateSeedPasswordProfileWmParams> {
+  CreateSeedPasswordProfilePage({
+    required SeedPhraseModel seedPhrase,
+    required String? name,
+    required SeedAddType type,
+    required MnemonicType? mnemonicType,
+    required bool isChecked,
     super.key,
-  });
-
-  final SeedPhraseModel seedPhrase;
-  final String? name;
-  final SeedAddType type;
-  final MnemonicType? mnemonicType;
+  }) : super(
+          wmFactoryParam: CreateSeedPasswordProfileWmParams(
+            seedPhrase: seedPhrase,
+            name: name,
+            type: type,
+            mnemonicType: mnemonicType,
+            isChecked: isChecked,
+          ),
+        );
 
   @override
-  Widget build(BuildContext context) {
-    return BlocProvider<CreateSeedPasswordCubit>(
-      create: (context) => CreateSeedPasswordCubit(
-        seedPhrase: seedPhrase,
-        name: name,
-        // When we do this flow from profile, navigate to profile root
-        completeCallback: (publicKey) {
-          showSwitchToSeedSheet(context: context, publicKey: publicKey)
-              .whenComplete(() {
-            try {
-              context.compassPointNamed(const ManageSeedsAccountsRouteData());
-            } catch (_) {}
-          });
-        },
-        type: type,
-        mnemonicType: mnemonicType,
-      ),
-      child: GestureDetector(
-        onTap: () => FocusScope.of(context).unfocus(),
-        child: Scaffold(
-          resizeToAvoidBottomInset: true,
-          appBar: const DefaultAppBar(),
-          body: Builder(
-            builder: (context) {
-              final cubit = context.read<_Cubit>();
-
-              return BlocBuilder<_Cubit, CreateSeedPasswordState>(
-                builder: (context, state) {
-                  return CreateSeedPasswordView(
-                    needBiometryIfPossible: false,
-                    passwordController: cubit.passwordController,
-                    confirmController: cubit.confirmController,
-                    onPressedNext: () => cubit.nextAction(context),
-                    passwordStatus: state.status,
-                    isLoading: state.isLoading,
-                  );
-                },
-              );
-            },
+  Widget build(CreateSeedPasswordProfileWidgetModel wm) {
+    return GestureDetector(
+      onTap: resetFocus,
+      child: Scaffold(
+        resizeToAvoidBottomInset: true,
+        appBar: const DefaultAppBar(),
+        body: DoubleSourceBuilder(
+          firstSource: wm.loadingState,
+          secondSource: wm.passwordStatusState,
+          builder: (_, isLoading, passwordStatus) => CreateSeedPasswordView(
+            needBiometryIfPossible: false,
+            passwordController: wm.passwordController,
+            confirmController: wm.confirmController,
+            onPressedNext: wm.onPressedNext,
+            passwordStatus: passwordStatus,
+            isLoading: isLoading ?? false,
           ),
         ),
       ),

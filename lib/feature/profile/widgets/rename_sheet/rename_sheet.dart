@@ -1,16 +1,12 @@
-import 'package:app/di/di.dart';
-import 'package:app/feature/messenger/data/message.dart';
-import 'package:app/feature/messenger/domain/service/messenger_service.dart';
-import 'package:app/feature/profile/widgets/rename_sheet/rename_sheet_cubit.dart';
+import 'package:app/core/wm/custom_wm.dart';
+import 'package:app/feature/profile/widgets/rename_sheet/rename_sheet_wm.dart';
 import 'package:app/generated/generated.dart';
 import 'package:app/utils/constants.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:nekoton_repository/nekoton_repository.dart' hide Message;
 import 'package:ui_components_lib/ui_components_lib.dart';
 import 'package:ui_components_lib/v2/widgets/widgets.dart';
-
-export 'rename_sheet_cubit.dart';
+// Cubit removed in favor of Elementary
 
 /// Helper method to show the [RenameSheet] widget as a bottom sheet.
 ///
@@ -26,90 +22,49 @@ ModalRoute<void> showRenameSheet(
   return commonBottomSheetRoute(
     titleTextStyle: context.themeStyleV2.textStyles.headingLarge,
     title: LocaleKeys.enterNewName.tr(),
-    body: (_, __) => BlocProvider<RenameSheetCubit>(
-      create: (_) => RenameSheetCubit(
-        nekotonRepository: inject<NekotonRepository>(),
-        publicKey: publicKey,
-        renameSeed: renameSeed,
-      ),
-      child: RenameSheet(isCustodian: isCustodian),
+    body: (_, __) => RenameSheet(
+      publicKey: publicKey,
+      renameSeed: renameSeed,
+      isCustodian: isCustodian,
     ),
   );
 }
 
 /// Sheet that allows enter new name of the seed or public key.
 /// This sheet automatically calls rename method for key/seed.
-class RenameSheet extends StatefulWidget {
-  const RenameSheet({
-    required this.isCustodian,
+class RenameSheet extends InjectedElementaryParametrizedWidget<
+    RenameSheetWidgetModel, RenameSheetParams> {
+  RenameSheet({
+    required PublicKey publicKey,
+    required bool renameSeed,
+    required bool isCustodian,
     super.key,
-  });
-
-  final bool isCustodian;
-
-  @override
-  State<RenameSheet> createState() => _RenameSheetState();
-}
-
-class _RenameSheetState extends State<RenameSheet> {
-  final _nameController = TextEditingController();
+  }) : super(
+          wmFactoryParam: RenameSheetParams(
+            publicKey: publicKey,
+            renameSeed: renameSeed,
+            isCustodian: isCustodian,
+          ),
+        );
 
   @override
-  void dispose() {
-    _nameController.dispose();
-    super.dispose();
-  }
-
-  @override
-  Widget build(BuildContext context) {
+  Widget build(RenameSheetWidgetModel wm) {
     return SeparatedColumn(
       mainAxisSize: MainAxisSize.min,
       spacing: DimensSize.d24,
       children: [
         PrimaryTextField(
           maxLength: maxLengthForMainEntities,
-          textEditingController: _nameController,
+          textEditingController: wm.nameController,
           hintText: LocaleKeys.nameWord.tr(),
-          onSubmit: (_) => _rename(context),
+          onSubmit: wm.rename,
         ),
-        BlocConsumer<RenameSheetCubit, RenameSheetState>(
-          listener: (context, state) {
-            if (state case RenameSheetStateCompleted(:final isSeed)
-                when isSeed) {
-              inject<MessengerService>().show(
-                Message.successful(
-                  message: isSeed
-                      ? LocaleKeys.valueRenamed.tr(
-                          args: [LocaleKeys.seedPhrase.tr()],
-                        )
-                      : widget.isCustodian
-                          ? LocaleKeys.custodianRenamed.tr()
-                          : LocaleKeys.valueRenamed.tr(
-                              args: [LocaleKeys.keyWord.tr()],
-                            ),
-                ),
-              );
-              Navigator.of(context).pop();
-            }
-          },
-          builder: (context, state) {
-            final isLoading = switch (state) {
-              RenameSheetStateLoading() => true,
-              _ => false,
-            };
-
-            return PrimaryButton(
-              buttonShape: ButtonShape.pill,
-              isLoading: isLoading,
-              onPressed: () => _rename(context),
-              title: LocaleKeys.renameWord.tr(),
-            );
-          },
+        PrimaryButton(
+          buttonShape: ButtonShape.pill,
+          onPressed: wm.rename,
+          title: LocaleKeys.renameWord.tr(),
         ),
       ],
     );
   }
-
-  void _rename(BuildContext context) =>
-      context.read<RenameSheetCubit>().rename(_nameController.text);
 }

@@ -1,3 +1,4 @@
+import 'package:elementary_helper/elementary_helper.dart';
 import 'package:flutter/material.dart';
 import 'package:lucide_icons_flutter/lucide_icons.dart';
 import 'package:ui_components_lib/ui_components_lib.dart';
@@ -11,33 +12,34 @@ class WalletAssetWidget extends StatelessWidget {
     required this.tokenBalance,
     required this.fiatBalance,
     required this.icon,
+    required this.error,
+    required this.isRetryLoading,
     required this.onPressed,
-    this.isRetryLoading = false,
     this.onRetryPressed,
-    this.error,
     super.key,
   });
 
   /// Token name
   final String name;
 
+  final Widget icon;
+
   /// Balance of token
-  final Money? tokenBalance;
+  final ListenableState<Money> tokenBalance;
 
   /// Balance of token in real-world currency
-  final Money? fiatBalance;
-
-  final Widget icon;
-  final VoidCallback onPressed;
+  final ListenableState<Money> fiatBalance;
 
   /// The error that happened during wallet subscription
-  final Object? error;
-
-  /// Callback that helps retry subscribe process
-  final ValueChanged<BuildContext>? onRetryPressed;
+  final ListenableState<Object> error;
 
   /// If [onRetryPressed] was called and retry action in progress
-  final bool isRetryLoading;
+  final ListenableState<bool> isRetryLoading;
+
+  /// Callback that helps retry subscribe process
+  final VoidCallback? onRetryPressed;
+
+  final VoidCallback onPressed;
 
   @override
   Widget build(BuildContext context) {
@@ -56,17 +58,22 @@ class WalletAssetWidget extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                if (tokenBalance == null)
-                  ProgressIndicatorWidget(
-                    size: DimensSizeV2.d18,
-                    color: theme.colors.content3,
-                  )
-                else
-                  AmountWidget.fromMoney(
-                    amount: tokenBalance!,
-                    includeSymbol: false,
-                    style: theme.textStyles.labelSmall,
-                  ),
+                StateNotifierBuilder(
+                  listenableState: tokenBalance,
+                  builder: (_, tokenBalance) {
+                    if (tokenBalance == null) {
+                      return ProgressIndicatorWidget(
+                        size: DimensSizeV2.d18,
+                        color: theme.colors.content3,
+                      );
+                    }
+                    return AmountWidget.fromMoney(
+                      amount: tokenBalance,
+                      includeSymbol: false,
+                      style: theme.textStyles.labelSmall,
+                    );
+                  },
+                ),
                 Text(
                   name,
                   style: theme.textStyles.labelXSmall.copyWith(
@@ -81,27 +88,43 @@ class WalletAssetWidget extends StatelessWidget {
           ),
           Flexible(
             fit: FlexFit.tight,
-            child: fiatBalance == null
-                ? Center(
+            child: StateNotifierBuilder(
+              listenableState: fiatBalance,
+              builder: (_, fiatBalance) {
+                if (fiatBalance == null) {
+                  return Center(
                     child: ProgressIndicatorWidget(
                       size: DimensSizeV2.d16,
                       color: theme.colors.content0,
                     ),
-                  )
-                : AmountWidget.dollars(
-                    mainAxisAlignment: MainAxisAlignment.end,
-                    amount: fiatBalance!,
-                    style: theme.textStyles.headingXSmall,
-                  ),
-          ),
-          if (error != null && onRetryPressed != null)
-            GhostButton(
-              buttonShape: ButtonShape.circle,
-              buttonSize: ButtonSize.small,
-              icon: LucideIcons.refreshCw,
-              isLoading: isRetryLoading,
-              onPressed: () => onRetryPressed!(context),
+                  );
+                }
+
+                return AmountWidget.dollars(
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  amount: fiatBalance,
+                  style: theme.textStyles.headingXSmall,
+                );
+              },
             ),
+          ),
+          DoubleSourceBuilder(
+            firstSource: error,
+            secondSource: isRetryLoading,
+            builder: (_, error, isRetryLoading) {
+              if (error == null || onRetryPressed == null) {
+                return const SizedBox.shrink();
+              }
+
+              return GhostButton(
+                buttonShape: ButtonShape.circle,
+                buttonSize: ButtonSize.small,
+                icon: LucideIcons.refreshCw,
+                isLoading: isRetryLoading ?? false,
+                onPressed: onRetryPressed,
+              );
+            },
+          ),
           const SizedBox(width: DimensSizeV2.d4),
         ],
       ),

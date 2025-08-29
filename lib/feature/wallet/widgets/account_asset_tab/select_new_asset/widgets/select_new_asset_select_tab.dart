@@ -1,10 +1,9 @@
 import 'package:app/data/models/models.dart';
-import 'package:app/feature/wallet/widgets/account_asset_tab/select_new_asset/select_new_asset.dart';
 import 'package:app/feature/wallet/widgets/account_asset_tab/token_wallet_asset/token_wallet_icon.dart';
 import 'package:app/generated/generated.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:lucide_icons_flutter/lucide_icons.dart';
+import 'package:nekoton_repository/nekoton_repository.dart';
 import 'package:ui_components_lib/ui_components_lib.dart';
 import 'package:ui_components_lib/v2/ui_components_lib_v2.dart';
 
@@ -13,11 +12,15 @@ class SelectNewAssetSelectTab extends StatefulWidget {
   const SelectNewAssetSelectTab({
     required this.contracts,
     required this.focus,
+    required this.onEnableAsset,
+    required this.onDisableAsset,
     super.key,
   });
 
   final List<(TokenContractAsset, bool)> contracts;
   final FocusNode focus;
+  final void Function(Address) onEnableAsset;
+  final void Function(Address) onDisableAsset;
 
   @override
   State<SelectNewAssetSelectTab> createState() =>
@@ -35,8 +38,14 @@ class _SelectNewAssetSelectTabState extends State<SelectNewAssetSelectTab> {
 
   @override
   Widget build(BuildContext context) {
-    final assetsWidgets = widget.contracts
-        .map((pair) => SelectNewAssetItem(asset: pair.$1, isSelected: pair.$2));
+    final assetsWidgets = widget.contracts.map(
+      (pair) => SelectNewAssetItem(
+        asset: pair.$1,
+        isSelected: pair.$2,
+        onEnable: widget.onEnableAsset,
+        onDisable: widget.onDisableAsset,
+      ),
+    );
 
     return ValueListenableBuilder<TextEditingValue>(
       valueListenable: searchController,
@@ -127,12 +136,16 @@ class _SelectNewAssetSelectTabState extends State<SelectNewAssetSelectTab> {
 class SelectNewAssetItem extends StatelessWidget {
   const SelectNewAssetItem({
     required this.asset,
+    required this.onEnable,
+    required this.onDisable,
     this.isSelected = false,
     super.key,
   });
 
   final TokenContractAsset asset;
   final bool isSelected;
+  final void Function(Address) onEnable;
+  final void Function(Address) onDisable;
 
   @override
   Widget build(BuildContext context) {
@@ -141,11 +154,10 @@ class SelectNewAssetItem extends StatelessWidget {
     return GestureDetector(
       behavior: HitTestBehavior.translucent,
       onTap: () {
-        final cubit = context.read<SelectNewAssetCubit>();
         if (!isSelected) {
-          cubit.enableAsset(asset.address);
+          onEnable(asset.address);
         } else {
-          cubit.disableAsset(asset.address);
+          onDisable(asset.address);
         }
       },
       child: Padding(
@@ -185,11 +197,10 @@ class SelectNewAssetItem extends StatelessWidget {
             Switch(
               value: isSelected,
               onChanged: (v) {
-                final cubit = context.read<SelectNewAssetCubit>();
                 if (v) {
-                  cubit.enableAsset(asset.address);
+                  onEnable(asset.address);
                 } else {
-                  cubit.disableAsset(asset.address);
+                  onDisable(asset.address);
                 }
               },
             ),

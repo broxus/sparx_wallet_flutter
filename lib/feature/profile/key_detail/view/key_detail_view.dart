@@ -8,7 +8,6 @@ import 'package:app/generated/generated.dart';
 import 'package:app/widgets/user_avatar/user_avatar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:lucide_icons_flutter/lucide_icons.dart';
 import 'package:nekoton_repository/nekoton_repository.dart' hide Message;
 import 'package:ui_components_lib/ui_components_lib.dart';
@@ -19,12 +18,14 @@ class KeyDetailView extends StatelessWidget {
     required this.seedName,
     required this.seedKey,
     required this.tab,
+    required this.onTabChanged,
     super.key,
   });
 
   final String seedName;
   final SeedKey seedKey;
   final KeyDetailAccountsTab tab;
+  final void Function(KeyDetailAccountsTab tab) onTabChanged;
 
   late final accountTabItems = [
     PrimarySegmentControl(
@@ -122,7 +123,7 @@ class KeyDetailView extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
                     SwitcherSegmentControls(
-                      onTabChanged: context.read<KeyDetailCubit>().changeTab,
+                      onTabChanged: onTabChanged,
                       values: accountTabItems,
                       currentValue: tab,
                     ),

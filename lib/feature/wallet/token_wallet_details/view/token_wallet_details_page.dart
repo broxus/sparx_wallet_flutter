@@ -1,10 +1,11 @@
-import 'package:app/app/router/router.dart';
-import 'package:app/di/di.dart';
+import 'package:app/core/wm/custom_wm.dart';
+import 'package:app/feature/wallet/token_wallet_details/view/token_wallet_details_wm.dart';
 import 'package:app/feature/wallet/wallet.dart';
-import 'package:app/feature/wallet/wallet_prepare_transfer/route.dart';
 import 'package:app/generated/generated.dart';
+import 'package:app/utils/utils.dart';
+import 'package:elementary_helper/elementary_helper.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:lucide_icons_flutter/lucide_icons.dart';
 import 'package:nekoton_repository/nekoton_repository.dart';
 import 'package:ui_components_lib/ui_components_lib.dart';
@@ -12,78 +13,35 @@ import 'package:ui_components_lib/v2/ui_components_lib_v2.dart';
 
 /// Details page of the [TokenWallet], that is used to look though transactions
 /// history and to send/receive tokens.
-class TokenWalletDetailsPage extends StatefulWidget {
-  const TokenWalletDetailsPage({
-    required this.owner,
-    required this.rootTokenContract,
+class TokenWalletDetailsPage extends InjectedElementaryParametrizedWidget<
+    TokenWalletDetailsWidgetModel, TokenWalletDetailsWmParams> {
+  TokenWalletDetailsPage({
+    required Address owner,
+    required Address rootTokenContract,
     super.key,
-  });
-
-  final Address owner;
-  final Address rootTokenContract;
-
-  @override
-  State<TokenWalletDetailsPage> createState() => _TokenWalletDetailsPageState();
-}
-
-class _TokenWalletDetailsPageState extends State<TokenWalletDetailsPage> {
-  final controller = ScrollController();
+  }) : super(
+          wmFactoryParam: TokenWalletDetailsWmParams(
+            owner: owner,
+            rootTokenContract: rootTokenContract,
+          ),
+        );
 
   @override
-  void dispose() {
-    controller.dispose();
-    super.dispose();
-  }
-
-  @override
-  Widget build(BuildContext context) {
+  Widget build(TokenWalletDetailsWidgetModel wm) {
     return ColoredBox(
-      color: context.themeStyleV2.colors.background0,
-      child: BlocProvider<TokenWalletDetailsCubit>(
-        create: (_) => TokenWalletDetailsCubit(
-          owner: widget.owner,
-          rootTokenContract: widget.rootTokenContract,
-          nekotonRepository: inject(),
-          currencyConvertService: inject(),
-          balanceService: inject(),
-          assetsService: inject(),
-        ),
-        child: BlocBuilder<TokenWalletDetailsCubit, TokenWalletDetailsState>(
-          builder: (context, state) {
-            return switch (state) {
-              TokenWalletDetailsStateInitial() => const SizedBox.shrink(),
-              TokenWalletDetailsStateEmpty() => const SizedBox.shrink(),
-              TokenWalletDetailsStateSubscribeError(
-                :final contractName,
-                :final error,
-                :final isLoading,
-              ) =>
-                _Body(
-                  owner: widget.owner,
-                  rootTokenContract: widget.rootTokenContract,
-                  contractName: contractName,
-                  error: error,
-                  isLoadingError: isLoading,
-                  controller: controller,
-                ),
-              TokenWalletDetailsStateData(
-                :final contractName,
-                :final tokenBalance,
-                :final fiatBalance,
-                :final canSend,
-              ) =>
-                _Body(
-                  owner: widget.owner,
-                  rootTokenContract: widget.rootTokenContract,
-                  contractName: contractName,
-                  tokenBalance: tokenBalance,
-                  fiatBalance: fiatBalance,
-                  canSend: canSend,
-                  controller: controller,
-                ),
-            };
-          },
-        ),
+      color: wm.theme.colors.background0,
+      child: _Body(
+        owner: wm.owner,
+        rootTokenContract: wm.rootTokenContract,
+        contractName: wm.contractNameState,
+        tokenBalance: wm.tokenBalanceState,
+        fiatBalance: wm.fiatBalanceState,
+        canSend: wm.canSendState,
+        error: wm.errorState,
+        isLoadingError: wm.loadingErrorState,
+        controller: wm.scrollController,
+        onRetry: wm.onRetry,
+        onSend: wm.onSend,
       ),
     );
   }
@@ -95,22 +53,26 @@ class _Body extends StatelessWidget {
     required this.rootTokenContract,
     required this.contractName,
     required this.controller,
-    this.tokenBalance,
-    this.fiatBalance,
-    this.canSend = false,
-    this.error,
-    this.isLoadingError = false,
+    required this.tokenBalance,
+    required this.fiatBalance,
+    required this.canSend,
+    required this.error,
+    required this.isLoadingError,
+    required this.onRetry,
+    required this.onSend,
   });
 
   final Address owner;
   final Address rootTokenContract;
-  final String contractName;
-  final Money? tokenBalance;
-  final Money? fiatBalance;
-  final bool canSend;
-  final Object? error;
-  final bool isLoadingError;
+  final ValueListenable<String> contractName;
+  final ListenableState<Money> tokenBalance;
+  final ListenableState<Money> fiatBalance;
+  final ListenableState<bool> canSend;
+  final ListenableState<Object> error;
+  final ListenableState<bool> isLoadingError;
   final ScrollController controller;
+  final VoidCallback onRetry;
+  final VoidCallback onSend;
 
   @override
   Widget build(BuildContext context) {
@@ -128,25 +90,38 @@ class _Body extends StatelessWidget {
                 mainAxisSize: MainAxisSize.min,
                 children: [
                   const DefaultAppBar(),
-                  Text(
-                    contractName,
-                    style: theme.textStyles.labelSmall.copyWith(
-                      color: theme.colors.content3,
+                  ValueListenableBuilder(
+                    valueListenable: contractName,
+                    builder: (_, contractName, __) => Text(
+                      contractName,
+                      style: theme.textStyles.labelSmall.copyWith(
+                        color: theme.colors.content3,
+                      ),
                     ),
                   ),
                   const SizedBox(height: DimensSizeV2.d12),
-                  if (tokenBalance != null)
-                    AmountWidget.fromMoney(
-                      amount: tokenBalance!,
-                      includeSymbol: false,
-                      style: theme.textStyles.headingXLarge,
-                    ),
+                  StateNotifierBuilder(
+                    listenableState: tokenBalance,
+                    builder: (_, tokenBalance) {
+                      if (tokenBalance == null) return const SizedBox.shrink();
+                      return AmountWidget.fromMoney(
+                        amount: tokenBalance,
+                        includeSymbol: false,
+                        style: theme.textStyles.headingXLarge,
+                      );
+                    },
+                  ),
                   const SizedBox(height: DimensSizeV2.d4),
-                  if (fiatBalance != null)
-                    AmountWidget.dollars(
-                      amount: fiatBalance!,
-                      style: theme.textStyles.labelXSmall,
-                    ),
+                  StateNotifierBuilder(
+                    listenableState: fiatBalance,
+                    builder: (_, fiatBalance) {
+                      if (fiatBalance == null) return const SizedBox.shrink();
+                      return AmountWidget.dollars(
+                        amount: fiatBalance,
+                        style: theme.textStyles.labelXSmall,
+                      );
+                    },
+                  ),
                   const SizedBox(height: DimensSizeV2.d16),
                   SizedBox(
                     height: DimensSizeV2.d74,
@@ -165,12 +140,21 @@ class _Body extends StatelessWidget {
                           onPressed: () =>
                               showReceiveFundsSheet(context, owner),
                         ),
-                        if (canSend && tokenBalance != null)
-                          WalletActionButton(
-                            label: LocaleKeys.sendWord.tr(),
-                            icon: LucideIcons.arrowUp,
-                            onPressed: () => _onSend(context),
-                          ),
+                        DoubleSourceBuilder(
+                          firstSource: canSend,
+                          secondSource: tokenBalance,
+                          builder: (_, canSend, tokenBalance) {
+                            if (canSend != true || tokenBalance == null) {
+                              return const SizedBox.shrink();
+                            }
+
+                            return WalletActionButton(
+                              label: LocaleKeys.sendWord.tr(),
+                              icon: LucideIcons.arrowUp,
+                              onPressed: onSend,
+                            );
+                          },
+                        ),
                       ],
                     ),
                   ),
@@ -187,52 +171,48 @@ class _Body extends StatelessWidget {
               top: Radius.circular(DimensRadiusV2.radius24),
             ),
           ),
-          sliver: SliverPadding(
-            padding: EdgeInsets.only(
-              top: DimensSizeV2.d16,
-              bottom: bottomPadding + DimensSizeV2.d16,
-              left: DimensSizeV2.d16,
-              right: DimensSizeV2.d16,
+          sliver: StateNotifierBuilder(
+            listenableState: error,
+            builder: (_, error) => SliverPadding(
+              padding: EdgeInsets.only(
+                top: DimensSizeV2.d16,
+                bottom: bottomPadding + DimensSizeV2.d16,
+                left: DimensSizeV2.d16,
+                right: DimensSizeV2.d16,
+              ),
+              sliver: error == null
+                  ? TokenWalletTransactionsWidget(
+                      rootTokenContract: rootTokenContract,
+                      owner: owner,
+                      scrollController: controller,
+                    )
+                  : null,
             ),
-            sliver: error == null
-                ? TokenWalletTransactionsWidget(
-                    rootTokenContract: rootTokenContract,
-                    owner: owner,
-                    scrollController: controller,
-                  )
-                : null,
           ),
         ),
         SliverFillRemaining(
           hasScrollBody: false,
-          child: Container(
-            color: theme.colors.background0,
-            padding: const EdgeInsets.symmetric(
-              horizontal: DimensSizeV2.d16,
+          child: DoubleSourceBuilder(
+            firstSource: error,
+            secondSource: isLoadingError,
+            builder: (_, error, isLoadingError) => Container(
+              color: theme.colors.background0,
+              padding: const EdgeInsets.symmetric(
+                horizontal: DimensSizeV2.d16,
+              ),
+              child: error?.let(
+                (error) => Center(
+                  child: WalletSubscribeErrorWidget(
+                    error: error,
+                    isLoadingError: isLoadingError ?? false,
+                    onRetryPressed: onRetry,
+                  ),
+                ),
+              ),
             ),
-            child: error != null
-                ? Center(
-                    child: WalletSubscribeErrorWidget(
-                      error: error!,
-                      isLoadingError: isLoadingError,
-                      onRetryPressed: () =>
-                          context.read<TokenWalletDetailsCubit>().retry(),
-                    ),
-                  )
-                : null,
           ),
         ),
       ],
-    );
-  }
-
-  void _onSend(BuildContext context) {
-    context.compassContinue(
-      WalletPrepareSpecifiedTransferRouteData(
-        address: owner,
-        rootTokenContract: rootTokenContract,
-        tokenSymbol: tokenBalance!.currency.isoCode,
-      ),
     );
   }
 }
