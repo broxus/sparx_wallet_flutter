@@ -42,7 +42,7 @@ class TokenWalletSendWidget extends InjectedElementaryParametrizedWidget<
   @override
   Widget build(TokenWalletSendWidgetModel wm) {
     return StateNotifierBuilder(
-      listenableState: wm.state,
+      listenableState: wm.sendState,
       builder: (_, state) {
         if (state == null) return const SizedBox.shrink();
 
@@ -74,14 +74,14 @@ class TokenWalletSendWidget extends InjectedElementaryParametrizedWidget<
                 rootTokenContract: wm.rootTokenContract,
                 comment: wm.comment,
                 publicKey: wm.publicKey,
-                attachedAmount: wm.attachedAmount,
+                attachedAmount: wm.attachedAmountState,
                 currency: wm.currency,
                 account: wm.account,
-                amount: wm.amount,
-                fees: wm.fees,
-                error: wm.error,
-                txErrors: wm.txErrors,
-                isLoading: wm.isLoading,
+                amount: wm.amountState,
+                fees: wm.feesState,
+                error: wm.errorState,
+                txErrors: wm.txErrorsState,
+                isLoading: wm.isLoadingState,
                 getLedgerAuthInput: wm.getLedgerAuthInput,
                 onConfirmed: wm.onConfirmed,
               ),

@@ -43,7 +43,7 @@ class CancelUnstakingPageWidgetModel extends CustomWidgetModelParametrized<
     super.model,
   );
 
-  late final _asset = createNotifier<TokenContractAsset>();
+  late final _assetState = createNotifier<TokenContractAsset>();
 
   StEverWithdrawRequest get request => wmParams.value.request;
   PublicKey get accountKey => wmParams.value.accountKey;
@@ -54,7 +54,7 @@ class CancelUnstakingPageWidgetModel extends CustomWidgetModelParametrized<
   Fixed? get tokenPrice => wmParams.value.tokenPrice;
   Fixed? get everPrice => wmParams.value.everPrice;
 
-  ListenableState<TokenContractAsset> get asset => _asset;
+  ListenableState<TokenContractAsset> get assetState => _assetState;
 
   ThemeStyleV2 get theme => context.themeStyleV2;
 
@@ -69,7 +69,7 @@ class CancelUnstakingPageWidgetModel extends CustomWidgetModelParametrized<
   }
 
   Future<void> _init() async {
-    _asset.accept(
+    _assetState.accept(
       await model.getTokenContractAsset(),
     );
   }

@@ -28,9 +28,9 @@ class TCConnectWidgetModel extends CustomWidgetModelParametrized<
   );
 
   late final searchController = createTextEditingController();
-  late final _step = createValueNotifier(TonConnectStep.account);
-  late final _selected = createNotifier(_initialSelectedAccount);
-  late final _accounts = createNotifier(model.accounts);
+  late final _stepState = createValueNotifier(TonConnectStep.account);
+  late final _selectedState = createNotifier(_initialSelectedAccount);
+  late final _accountsState = createNotifier(model.accounts);
   late final _zeroBalance = Money.fromBigIntWithCurrency(
     BigInt.zero,
     Currencies()[model.symbol] ??
@@ -38,11 +38,11 @@ class TCConnectWidgetModel extends CustomWidgetModelParametrized<
   );
   final _balances = <Address, ListenableState<Money>>{};
 
-  ValueListenable<TonConnectStep> get step => _step;
+  ValueListenable<TonConnectStep> get stepState => _stepState;
 
-  ListenableState<List<KeyAccount>> get accounts => _accounts;
+  ListenableState<List<KeyAccount>> get accountsState => _accountsState;
 
-  ListenableState<KeyAccount?> get selected => _selected;
+  ListenableState<KeyAccount?> get selectedState => _selectedState;
 
   KeyAccount? get _initialSelectedAccount =>
       model.currentAccount ?? model.accounts.firstOrNull;
@@ -50,17 +50,17 @@ class TCConnectWidgetModel extends CustomWidgetModelParametrized<
   DappManifest get manifest => wmParams.value.manifest;
 
   void onNext() {
-    if (_selected.value == null) return;
-    _step.value = TonConnectStep.confirm;
+    if (selectedState.value == null) return;
+    _stepState.value = TonConnectStep.confirm;
   }
 
   void onSearch() {
     final value = searchController.value.text.trim().toLowerCase();
 
     if (value.isEmpty) {
-      _accounts.accept(model.accounts);
+      _accountsState.accept(model.accounts);
     } else {
-      _accounts.accept(
+      _accountsState.accept(
         model.accounts
             .where(
               (account) =>
@@ -73,13 +73,13 @@ class TCConnectWidgetModel extends CustomWidgetModelParametrized<
   }
 
   void onSelectedChanged(KeyAccount? account) {
-    _selected.accept(account);
+    _selectedState.accept(account);
   }
 
   Future<void> onConfirm(SignInputAuth signInputAuth) async {
-    if (_selected.value == null) return;
+    if (selectedState.value == null) return;
 
-    final account = _selected.value!;
+    final account = selectedState.value!;
     final replyItems = await model.createReplyItems(
       signInputAuth: signInputAuth,
       account: account,

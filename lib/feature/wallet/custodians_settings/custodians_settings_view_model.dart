@@ -15,11 +15,11 @@ class CustodianSettingsWidgetModel extends CustomWidgetModelParametrized<
     super.model,
   );
 
-  late final _custodians = createNotifier<List<CustodianData>>();
+  late final _custodiansState = createNotifier<List<CustodianData>>();
 
   ThemeStyleV2 get theme => context.themeStyleV2;
 
-  ListenableState<List<CustodianData>> get custodians => _custodians;
+  ListenableState<List<CustodianData>> get custodiansState => _custodiansState;
 
   @override
   void initWidgetModel() {
@@ -29,7 +29,7 @@ class CustodianSettingsWidgetModel extends CustomWidgetModelParametrized<
 
   Future<void> _loadCustodians() async {
     final custodians = await model.initializeCustodians(wmParams.value);
-    _custodians.accept(custodians);
+    _custodiansState.accept(custodians);
   }
 
   Future<void> renameCustodian(PublicKey key) async {
@@ -38,14 +38,14 @@ class CustodianSettingsWidgetModel extends CustomWidgetModelParametrized<
 
     await model.rename(key, newName);
 
-    final updatedCustodians = _custodians.value?.map((custodian) {
+    final updatedCustodians = _custodiansState.value?.map((custodian) {
       if (custodian.key.publicKey == key.publicKey) {
         return CustodianData(name: newName, key: key);
       }
       return custodian;
     }).toList();
 
-    _custodians.accept(updatedCustodians ?? []);
+    _custodiansState.accept(updatedCustodians ?? []);
 
     model.showSuccessfulMessage();
   }

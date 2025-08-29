@@ -16,12 +16,13 @@ class SelectSeedWidgetModel
     with BleAvailabilityWmMixin {
   SelectSeedWidgetModel(super.model);
 
-  late final _currentAccount = createNotifierFromStream(model.currentAccount);
-  late final _list = createNotifierFromStream(model.seedWithAccounts);
+  late final _currentAccountState =
+      createNotifierFromStream(model.currentAccount);
+  late final _listState = createNotifierFromStream(model.seedWithAccounts);
 
-  ListenableState<List<Seed>> get list => _list;
+  ListenableState<List<Seed>> get listState => _listState;
 
-  ListenableState<Seed?> get currentAccount => _currentAccount;
+  ListenableState<Seed?> get currentAccountState => _currentAccountState;
 
   ThemeStyleV2 get theme => context.themeStyleV2;
 
@@ -30,11 +31,11 @@ class SelectSeedWidgetModel
   }
 
   void selectSeed(Seed seed) {
-    _currentAccount.accept(seed);
+    _currentAccountState.accept(seed);
   }
 
   Future<void> onSelect() async {
-    final seed = _currentAccount.value;
+    final seed = _currentAccountState.value;
 
     if (contextSafe == null || seed == null) {
       return;
