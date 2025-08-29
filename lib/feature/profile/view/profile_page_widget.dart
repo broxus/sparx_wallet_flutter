@@ -17,7 +17,7 @@ class ProfilePageWidget
       builder: (_, String? appVersion) {
         return ProfileView(
           appVersion: appVersion ?? '',
-          seed: wm.seed,
+          seed: wm.seedState,
           isBiometryAvailable: wm.isBiometryAvailableState,
           isBiometryEnabled: wm.isBiometryEnabledState,
           onManageSeeds: wm.onManageSeeds,

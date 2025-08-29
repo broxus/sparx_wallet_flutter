@@ -43,7 +43,7 @@ class SeedDetailPageWidgetModel extends CustomWidgetModelParametrized<
   void onSeedSettings() => showSeedSettingsSheet(context, wmParams.value);
 
   Future<void> onAddkeys() async {
-    final seed = _seed.value;
+    final seed = _seedNotifier.value;
     if (seed == null) return;
 
     if (seed.masterKey.isLedger) {

@@ -162,8 +162,8 @@ class TCSendMessageWidgetModel extends CustomWidgetModelParametrized<
   void onConfirmed(bool value) => _isConfirmedState.accept(value);
 
   Future<SignInputAuthLedger> getLedgerAuthInput() {
-    final data = _data.value;
-    final custodian = _publicKey.value;
+    final data = _dataState.value;
+    final custodian = _publicKeyState.value;
     if (data == null || data.isEmpty) {
       throw StateError('Invalid transfer data');
     }

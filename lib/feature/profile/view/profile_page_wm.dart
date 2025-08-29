@@ -34,7 +34,7 @@ class ProfilePageWidgetModel
 
   ListenableState<String> get appVersionState => _appVersionState;
 
-  ListenableState<Seed?> get seed => _seed;
+  ListenableState<Seed?> get seedState => _seedState;
 
   @override
   void initWidgetModel() {

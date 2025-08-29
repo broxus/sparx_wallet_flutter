@@ -137,7 +137,8 @@ class SendMessageWidgetModel extends CustomWidgetModelParametrized<
     }
 
     contextSafe?.let(
-      (context) => Navigator.of(context).pop((publicKeyState.value, signInputAuth)),
+      (context) =>
+          Navigator.of(context).pop((publicKeyState.value, signInputAuth)),
     );
   }
 
@@ -145,8 +146,8 @@ class SendMessageWidgetModel extends CustomWidgetModelParametrized<
   void onConfirmed(bool value) => _isConfirmedState.accept(value);
 
   Future<SignInputAuthLedger> getLedgerAuthInput() {
-    final publicKey = _publicKey.value;
-    final currency = _data.value?.amount.currency;
+    final publicKey = _publicKeyState.value;
+    final currency = _dataState.value?.amount.currency;
     if (publicKey == null || currency == null) {
       throw StateError('Public key or currency is not set');
     }

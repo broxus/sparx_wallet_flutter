@@ -109,7 +109,7 @@ class TCConnectWidgetModel extends CustomWidgetModelParametrized<
   }
 
   Future<SignInputAuthLedger> getLedgerAuthInput() {
-    final account = _selected.value;
+    final account = _selectedState.value;
     if (account == null) {
       throw StateError('No account selected for Ledger auth input');
     }
