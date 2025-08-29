@@ -19,7 +19,7 @@ class TonWalletSendWidget extends InjectedElementaryParametrizedWidget<
   @override
   Widget build(TonWalletSendWidgetModel wm) {
     return StateNotifierBuilder(
-      listenableState: wm.state,
+      listenableState: wm.sendState,
       builder: (_, state) {
         if (state == null) return const SizedBox.shrink();
 
@@ -55,10 +55,10 @@ class TonWalletSendWidget extends InjectedElementaryParametrizedWidget<
                 currency: wm.currency,
                 account: wm.account,
                 amount: wm.amount,
-                fees: wm.fees,
-                error: wm.error,
-                txErrors: wm.txErrors,
-                isLoading: wm.isLoading,
+                fees: wm.feesState,
+                error: wm.errorState,
+                txErrors: wm.txErrorsState,
+                isLoading: wm.isLoadingState,
                 getLedgerAuthInput: wm.getLedgerAuthInput,
                 onConfirmed: wm.onConfirmed,
               ),

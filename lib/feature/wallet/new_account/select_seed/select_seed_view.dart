@@ -16,8 +16,8 @@ class SelectSeedWidget extends InjectedElementaryWidget<SelectSeedWidgetModel> {
   Widget build(SelectSeedWidgetModel wm) {
     final theme = wm.theme;
     return DoubleSourceBuilder(
-      firstSource: wm.list,
-      secondSource: wm.currentAccount,
+      firstSource: wm.listState,
+      secondSource: wm.currentAccountState,
       builder: (context, list, currentSeed) {
         if (list?.isNotEmpty ?? false) {
           return Column(

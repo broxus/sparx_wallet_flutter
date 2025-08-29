@@ -18,8 +18,8 @@ class AddAccountView extends InjectedElementaryWidget<AddAccountWidgetModel> {
   Widget build(AddAccountWidgetModel wm) {
     final theme = wm.theme;
     return DoubleSourceBuilder(
-      firstSource: wm.list,
-      secondSource: wm.currentAccount,
+      firstSource: wm.listState,
+      secondSource: wm.currentAccountState,
       builder: (context, list, currentSeed) {
         return PrimaryCard(
           color: theme.colors.background2,

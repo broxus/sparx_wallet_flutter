@@ -31,7 +31,7 @@ class WalletAppBarWidget
         children: [
           Flexible(
             child: DoubleSourceBuilder(
-              firstSource: wm.currentAccount,
+              firstSource: wm.currentAccountState,
               secondSource: wm.walletState,
               builder: (_, account, walletState) =>
                   account?.let(
@@ -52,7 +52,7 @@ class WalletAppBarWidget
             children: [
               _QrButton(onTap: wm.onScanQr),
               StateNotifierBuilder(
-                listenableState: wm.connection,
+                listenableState: wm.connectionState,
                 builder: (_, connection) =>
                     connection?.let(
                       (value) => GestureDetector(
