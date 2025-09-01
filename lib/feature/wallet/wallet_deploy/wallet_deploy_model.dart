@@ -46,7 +46,7 @@ class WalletDeployModel extends ElementaryModel {
   }
 
   Future<Transaction> sendTransaction(
-    UnsignedMessage unsigned ,
+    UnsignedMessage unsigned,
     BigInt fees,
     Address address,
     PublicKey publicKey,

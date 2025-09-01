@@ -500,6 +500,10 @@ import '../feature/wallet/token_wallet_details/widgets/detail/token_wallet_ordin
     as _i311;
 import '../feature/wallet/token_wallet_details/widgets/detail/token_wallet_ordinary_transaction_details_screen_wm.dart'
     as _i996;
+import '../feature/wallet/token_wallet_details/widgets/token_wallet_transactions/token_wallet_transactions_model.dart'
+    as _i178;
+import '../feature/wallet/token_wallet_details/widgets/token_wallet_transactions/token_wallet_transactions_wm.dart'
+    as _i127;
 import '../feature/wallet/token_wallet_send/route.dart' as _i290;
 import '../feature/wallet/token_wallet_send/view/token_wallet_send_model.dart'
     as _i523;
@@ -1716,6 +1720,13 @@ extension GetItInjectableX on _i174.GetIt {
         () => _i425.NftSendWidgetModel(gh<_i1015.NftSendModel>()));
     gh.factory<_i935.TCManageDappsWidgetModel>(
         () => _i935.TCManageDappsWidgetModel(gh<_i625.TCManageDappsModel>()));
+    gh.factory<_i178.TokenWalletTransactionsModel>(
+        () => _i178.TokenWalletTransactionsModel(
+              gh<_i83.ErrorHandler>(),
+              gh<_i771.NekotonRepository>(),
+              gh<_i128.CurrenciesService>(),
+              gh<_i128.TokenWalletStorageService>(),
+            ));
     gh.factory<_i202.WalletDeployWidgetModel>(
         () => _i202.WalletDeployWidgetModel(gh<_i519.WalletDeployModel>()));
     gh.singleton<_i82.CompassBaseRoute>(
@@ -1923,6 +1934,9 @@ extension GetItInjectableX on _i174.GetIt {
         _i970.BrowserMainMenuWidgetModel(gh<_i966.BrowserMainMenuModel>()));
     gh.factory<_i785.HistoryListWidgetModel>(
         () => _i785.HistoryListWidgetModel(gh<_i985.HistoryListModel>()));
+    gh.factory<_i127.TokenWalletTransactionsWidgetModel>(() =>
+        _i127.TokenWalletTransactionsWidgetModel(
+            gh<_i178.TokenWalletTransactionsModel>()));
     gh.factory<_i397.TonWalletDetailsPageWidgetModel>(() =>
         _i397.TonWalletDetailsPageWidgetModel(
             gh<_i71.TonWalletDetailsPageModel>()));

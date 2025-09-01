@@ -91,6 +91,7 @@ class WalletDeployWidgetModel extends CustomWidgetModelParametrized<
 
   @override
   void dispose() {
+    super.dispose();
     _unsignedMessage?.dispose();
   }
 
