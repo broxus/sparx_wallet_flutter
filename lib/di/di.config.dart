@@ -321,6 +321,8 @@ import '../feature/onboarding/screen/welcome/welcome_screen_model.dart'
 import '../feature/onboarding/screen/welcome/welcome_screen_wm.dart' as _i634;
 import '../feature/presets_config/domain/presets_config_reader.dart' as _i130;
 import '../feature/presets_config/presets_config.dart' as _i418;
+import '../feature/profile/account_detail/account_detail_model.dart' as _i78;
+import '../feature/profile/account_detail/account_detail_wm.dart' as _i963;
 import '../feature/profile/account_detail/route.dart' as _i303;
 import '../feature/profile/key_detail/route.dart' as _i171;
 import '../feature/profile/key_detail/view/key_detail_page_model.dart' as _i974;
@@ -822,6 +824,12 @@ extension GetItInjectableX on _i174.GetIt {
               gh<_i771.NekotonRepository>(),
               gh<_i632.MessengerService>(),
             ));
+    gh.factory<_i716.AddExternalAccountModel>(
+        () => _i716.AddExternalAccountModel(
+              gh<_i83.ErrorHandler>(),
+              gh<_i771.NekotonRepository>(),
+              gh<_i632.MessengerService>(),
+            ));
     gh.factory<_i6.AddNewLocalAccountTypeSheetModel>(
         () => _i6.AddNewLocalAccountTypeSheetModel(
               gh<_i83.ErrorHandler>(),
@@ -833,12 +841,6 @@ extension GetItInjectableX on _i174.GetIt {
           gh<_i771.NekotonRepository>(),
           gh<_i632.MessengerService>(),
         ));
-    gh.factory<_i716.AddExternalAccountModel>(
-        () => _i716.AddExternalAccountModel(
-              gh<_i83.ErrorHandler>(),
-              gh<_i771.NekotonRepository>(),
-              gh<_i632.MessengerService>(),
-            ));
     gh.factory<_i175.NewAccountScreenModel>(() => _i175.NewAccountScreenModel(
           gh<_i83.ErrorHandler>(),
           gh<_i632.MessengerService>(),
@@ -905,6 +907,16 @@ extension GetItInjectableX on _i174.GetIt {
           gh<_i83.ErrorHandler>(),
           gh<_i771.NekotonRepository>(),
         ));
+    gh.factory<_i772.TonWalletMultisigPendingTransactionDetailsScreenModel>(
+        () => _i772.TonWalletMultisigPendingTransactionDetailsScreenModel(
+              gh<_i83.ErrorHandler>(),
+              gh<_i771.NekotonRepository>(),
+            ));
+    gh.factory<_i680.TonWalletOrdinaryTransactionWidgetModel>(
+        () => _i680.TonWalletOrdinaryTransactionWidgetModel(
+              gh<_i83.ErrorHandler>(),
+              gh<_i771.NekotonRepository>(),
+            ));
     gh.factory<_i974.KeyDetailPageModel>(() => _i974.KeyDetailPageModel(
           gh<_i83.ErrorHandler>(),
           gh<_i771.NekotonRepository>(),
@@ -921,11 +933,6 @@ extension GetItInjectableX on _i174.GetIt {
           gh<_i83.ErrorHandler>(),
           gh<_i771.NekotonRepository>(),
         ));
-    gh.factory<_i772.TonWalletMultisigPendingTransactionDetailsScreenModel>(
-        () => _i772.TonWalletMultisigPendingTransactionDetailsScreenModel(
-              gh<_i83.ErrorHandler>(),
-              gh<_i771.NekotonRepository>(),
-            ));
     gh.factory<_i222.TonWalletMultisigPendingTransactionWidgetModel>(
         () => _i222.TonWalletMultisigPendingTransactionWidgetModel(
               gh<_i83.ErrorHandler>(),
@@ -943,11 +950,6 @@ extension GetItInjectableX on _i174.GetIt {
             ));
     gh.factory<_i63.TonWalletMultisigOrdinaryTransactionWidgetModel>(
         () => _i63.TonWalletMultisigOrdinaryTransactionWidgetModel(
-              gh<_i83.ErrorHandler>(),
-              gh<_i771.NekotonRepository>(),
-            ));
-    gh.factory<_i680.TonWalletOrdinaryTransactionWidgetModel>(
-        () => _i680.TonWalletOrdinaryTransactionWidgetModel(
               gh<_i83.ErrorHandler>(),
               gh<_i771.NekotonRepository>(),
             ));
@@ -996,10 +998,10 @@ extension GetItInjectableX on _i174.GetIt {
           gh<_i632.MessengerService>(),
           gh<_i771.NekotonRepository>(),
         ));
-    gh.factory<_i484.CreateSeedModel>(
-        () => _i484.CreateSeedModel(gh<_i83.ErrorHandler>()));
     gh.factory<_i250.BrowserBookModel>(
         () => _i250.BrowserBookModel(gh<_i83.ErrorHandler>()));
+    gh.factory<_i484.CreateSeedModel>(
+        () => _i484.CreateSeedModel(gh<_i83.ErrorHandler>()));
     gh.singleton<_i82.CompassBaseRoute>(
       () => _i1040.BrowserRoute(
           gh<_i82.CompassBaseRoute>(instanceName: 'CreateBrowserGroupRoute')),
@@ -1025,17 +1027,17 @@ extension GetItInjectableX on _i174.GetIt {
           gh<_i128.GeneralStorageService>(),
           gh<_i771.NekotonRepository>(),
         ));
+    gh.factory<_i845.TCSignDataModel>(() => _i845.TCSignDataModel(
+          gh<_i83.ErrorHandler>(),
+          gh<_i771.NekotonRepository>(),
+          gh<_i632.MessengerService>(),
+        ));
     gh.factory<_i210.AccountRenameSheetModel>(
         () => _i210.AccountRenameSheetModel(
               gh<_i83.ErrorHandler>(),
               gh<_i771.NekotonRepository>(),
               gh<_i632.MessengerService>(),
             ));
-    gh.factory<_i845.TCSignDataModel>(() => _i845.TCSignDataModel(
-          gh<_i83.ErrorHandler>(),
-          gh<_i771.NekotonRepository>(),
-          gh<_i632.MessengerService>(),
-        ));
     gh.factory<_i1030.CheckSeedPhrasePageModel>(
         () => _i1030.CheckSeedPhrasePageModel(
               gh<_i83.ErrorHandler>(),
@@ -1868,6 +1870,12 @@ extension GetItInjectableX on _i174.GetIt {
     gh.factory<_i848.BrowserBookmarkRenameBottomSheetWidgetModel>(() =>
         _i848.BrowserBookmarkRenameBottomSheetWidgetModel(
             gh<_i706.BrowserBookmarkRenameBottomSheetModel>()));
+    gh.factory<_i78.AccountDetailModel>(() => _i78.AccountDetailModel(
+          errorHandler: gh<_i83.ErrorHandler>(),
+          nekotonRepository: gh<_i771.NekotonRepository>(),
+          balanceService: gh<_i128.BalanceService>(),
+          convertService: gh<_i128.CurrencyConvertService>(),
+        ));
     gh.factory<_i792.BrowserMainScreenWidgetModel>(() =>
         _i792.BrowserMainScreenWidgetModel(gh<_i933.BrowserMainScreenModel>()));
     gh.singleton<_i82.CompassBaseRoute>(
@@ -1948,6 +1956,8 @@ extension GetItInjectableX on _i174.GetIt {
         ));
     gh.factory<_i639.ChangeNetworkWidgetModel>(
         () => _i639.ChangeNetworkWidgetModel(gh<_i710.ChangeNetworkModel>()));
+    gh.factory<_i963.AccountDetailWidgetModel>(
+        () => _i963.AccountDetailWidgetModel(gh<_i78.AccountDetailModel>()));
     gh.factory<_i518.BrowserTabsListItemWidgetModel>(() =>
         _i518.BrowserTabsListItemWidgetModel(
             gh<_i413.BrowserTabsListItemModel>()));
