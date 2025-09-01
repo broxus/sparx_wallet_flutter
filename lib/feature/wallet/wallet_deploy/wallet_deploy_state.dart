@@ -1,4 +1,8 @@
-part of 'wallet_deploy_bloc.dart';
+import 'package:app/data/models/custom_currency.dart';
+import 'package:freezed_annotation/freezed_annotation.dart';
+import 'package:nekoton_repository/nekoton_repository.dart';
+
+part 'wallet_deploy_state.freezed.dart';
 
 @freezed
 sealed class WalletDeployState with _$WalletDeployState {
@@ -6,7 +10,7 @@ sealed class WalletDeployState with _$WalletDeployState {
   const factory WalletDeployState.standard() = WalletDeployStateStandard;
 
   /// Page that displays multisig wallet deploy.
-  /// [custodians] and [requireConfirmations] is just a cache from bloc, and
+  /// [custodians] and [requireConfirmations] is just a cache from wm, and
   /// its data validated only in UI.
   const factory WalletDeployState.multisig(
     List<PublicKey> custodians,

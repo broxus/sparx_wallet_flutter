@@ -22,16 +22,16 @@ class AccountDetailModel extends ElementaryModel {
   final CurrencyConvertService convertService;
 
   Stream<SeedList> get seedListStream => nekotonRepository.seedListStream;
-  
+
   SeedList get seedList => nekotonRepository.seedList;
-  
+
   Transport get currentTransport =>
       nekotonRepository.currentTransport.transport;
 
   Stream<Money?> accountOverallBalance(Address address) =>
       balanceService.accountOverallBalance(address).map(
-        (fixed) => fixed != null ? convertBalance(fixed) : null,
-      );
+            (fixed) => fixed != null ? convertBalance(fixed) : null,
+          );
 
   Money convertBalance(Fixed amount) {
     return convertService.convert(amount);

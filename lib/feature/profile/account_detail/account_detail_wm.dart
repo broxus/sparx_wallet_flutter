@@ -56,7 +56,7 @@ class AccountDetailWidgetModel extends CustomWidgetModelParametrized<
   void openSettings() {
     final context = contextSafe;
     final account = _accountState.value;
-    if(context == null || account == null) return;
+    if (context == null || account == null) return;
 
     showAccountSettingsSheet(
       context: context,

@@ -519,6 +519,8 @@ import '../feature/wallet/view/wallet_page_model.dart' as _i348;
 import '../feature/wallet/view/wallet_page_wm.dart' as _i938;
 import '../feature/wallet/wallet.dart' as _i0;
 import '../feature/wallet/wallet_deploy/route.dart' as _i211;
+import '../feature/wallet/wallet_deploy/wallet_deploy_model.dart' as _i519;
+import '../feature/wallet/wallet_deploy/wallet_deploy_wm.dart' as _i202;
 import '../feature/wallet/wallet_prepare_transfer/route.dart' as _i650;
 import '../feature/wallet/wallet_prepare_transfer/wallet_prepare_transfer_page_model.dart'
     as _i149;
@@ -1675,6 +1677,14 @@ extension GetItInjectableX on _i174.GetIt {
     gh.factory<_i762.CreateSeedPasswordScreenWidgetModel>(() =>
         _i762.CreateSeedPasswordScreenWidgetModel(
             gh<_i905.CreateSeedPasswordScreenModel>()));
+    gh.factory<_i519.WalletDeployModel>(() => _i519.WalletDeployModel(
+          gh<_i83.ErrorHandler>(),
+          gh<_i771.NekotonRepository>(),
+          gh<_i128.CurrenciesService>(),
+          gh<_i865.LedgerService>(),
+          gh<_i632.MessengerService>(),
+          gh<_i128.AppPermissionsService>(),
+        ));
     gh.factory<_i532.WalletAccountActionsWidgetModel>(() =>
         _i532.WalletAccountActionsWidgetModel(
             gh<_i801.WalletAccountActionsModel>()));
@@ -1706,6 +1716,8 @@ extension GetItInjectableX on _i174.GetIt {
         () => _i425.NftSendWidgetModel(gh<_i1015.NftSendModel>()));
     gh.factory<_i935.TCManageDappsWidgetModel>(
         () => _i935.TCManageDappsWidgetModel(gh<_i625.TCManageDappsModel>()));
+    gh.factory<_i202.WalletDeployWidgetModel>(
+        () => _i202.WalletDeployWidgetModel(gh<_i519.WalletDeployModel>()));
     gh.singleton<_i82.CompassBaseRoute>(
       () => _i45.ManageSeedsAccountsRoute(
         gh<_i82.CompassBaseRoute>(instanceName: 'SeedDetailRoute'),
