@@ -36,12 +36,12 @@ class WalletAccountBodyWidget extends InjectedElementaryParametrizedWidget<
           ),
           MultiListenerRebuilder(
             listenableList: [
-              wm.notifications,
+              wm.notificationsState,
               wm.currentAccountState,
             ],
             builder: (_) {
               final currentAccount = wm.currentAccountState.value;
-              final notifications = wm.notifications.value ?? [];
+              final notifications = wm.notificationsState.value ?? [];
 
               return Column(
                 children: [
@@ -69,7 +69,7 @@ class WalletAccountBodyWidget extends InjectedElementaryParametrizedWidget<
                         ),
                         if (notifications.length > 1)
                           ValueListenableBuilder(
-                            valueListenable: wm.carouselPage,
+                            valueListenable: wm.carouselPageState,
                             builder: (_, page, __) => _CarouselIndicator(
                               currentPage: page,
                               itemCount: notifications.length,

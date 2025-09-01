@@ -13,9 +13,10 @@ class ConfigureNetworksWidgetModel
     extends CustomWidgetModel<ConfigureNetworksWidget, ConfigureNetworksModel> {
   ConfigureNetworksWidgetModel(super.model);
 
-  late final _connections = createNotifierFromStream(model.connections);
+  late final _connectionsState = createNotifierFromStream(model.connections);
 
-  ListenableState<List<ConnectionData>> get connections => _connections;
+  ListenableState<List<ConnectionData>> get connectionsState =>
+      _connectionsState;
 
   ThemeStyleV2 get theme => context.themeStyleV2;
 
