@@ -1,4 +1,4 @@
-import 'package:app/feature/browser_v2/widgets/bottomsheets/book/widgets/bookmarks/bookmarks_list_wm.dart';
+import 'package:app/feature/browser_v2/widgets/bottomsheets/book/delegates/ui_bookmarks_delegate.dart';
 import 'package:app/generated/generated.dart';
 import 'package:elementary_helper/elementary_helper.dart';
 import 'package:flutter/material.dart';
@@ -79,6 +79,7 @@ class HistoryBookmarksMenu extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           _ClearButton(
+            activeState: activeState,
             onPressed: onPressedClear,
           ),
           StateNotifierBuilder(
@@ -184,20 +185,30 @@ class _DoneButton extends StatelessWidget {
 
 class _ClearButton extends StatelessWidget {
   const _ClearButton({
+    required this.activeState,
     this.onPressed,
   });
 
+  final ListenableState<bool> activeState;
   final VoidCallback? onPressed;
 
   @override
   Widget build(BuildContext context) {
     final theme = context.themeStyleV2;
-    return _ActionButton(
-      text: LocaleKeys.clearWord.tr(),
-      textStyle: theme.textStyles.labelSmall.copyWith(
-        color: ColorsResV2.vibrantStrawberry,
-      ),
-      onPressed: onPressed,
+
+    return StateNotifierBuilder(
+      listenableState: activeState,
+      builder: (_, bool? isActive) {
+        isActive ??= false;
+
+        return _ActionButton(
+          text: LocaleKeys.clearWord.tr(),
+          textStyle: theme.textStyles.labelSmall.copyWith(
+            color: ColorsResV2.vibrantStrawberry,
+          ),
+          onPressed: isActive ? onPressed : null,
+        );
+      },
     );
   }
 }

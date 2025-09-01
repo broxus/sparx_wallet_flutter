@@ -1,4 +1,4 @@
-import 'package:app/feature/browser_v2/widgets/bottomsheets/book/widgets/bookmarks/bookmarks_list_wm.dart';
+import 'package:app/feature/browser_v2/widgets/bottomsheets/book/delegates/ui_bookmarks_delegate.dart';
 import 'package:app/feature/browser_v2/widgets/favicon_view/favicon_view.dart';
 import 'package:elementary_helper/elementary_helper.dart';
 import 'package:flutter/material.dart';
@@ -135,7 +135,11 @@ class _Content extends StatelessWidget {
       behavior: HitTestBehavior.opaque,
       onTap: onPressed,
       child: Padding(
-        padding: const EdgeInsets.only(bottom: DimensSizeV2.d8),
+        padding: const EdgeInsets.only(
+          left: DimensSizeV2.d24,
+          right: DimensSizeV2.d24,
+          bottom: DimensSizeV2.d8,
+        ),
         child: SizedBox(
           width: double.infinity,
           height: DimensSizeV2.d58,

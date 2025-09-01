@@ -2,7 +2,7 @@ import 'package:app/data/models/browser_history_item.dart';
 import 'package:app/feature/browser_v2/data/history_type.dart';
 import 'package:app/feature/browser_v2/domain/delegates/browser_base_delegate.dart';
 import 'package:app/feature/browser_v2/domain/service/storages/browser_history_storage_service.dart';
-import 'package:app/feature/browser_v2/widgets/bottomsheets/book/widgets/history/ui_models/time_period_ui.dart';
+import 'package:app/feature/browser_v2/widgets/bottomsheets/book/ui_models/time_period_ui.dart';
 import 'package:injectable/injectable.dart';
 import 'package:rxdart/rxdart.dart';
 
