@@ -1,82 +1,87 @@
 import 'dart:async';
 
-import 'package:app/app/service/service.dart';
-import 'package:app/core/bloc/bloc_mixin.dart';
+import 'package:app/core/wm/custom_wm.dart';
 import 'package:app/data/models/custom_currency.dart';
-import 'package:bloc/bloc.dart';
+import 'package:app/feature/wallet/token_wallet_details/widgets/token_wallet_transactions/token_wallet_transactions.dart';
+import 'package:app/feature/wallet/token_wallet_details/widgets/token_wallet_transactions/token_wallet_transactions_model.dart';
+import 'package:app/feature/wallet/token_wallet_details/widgets/token_wallet_transactions/token_wallet_transactions_state.dart';
 import 'package:collection/collection.dart';
-import 'package:freezed_annotation/freezed_annotation.dart';
+import 'package:elementary_helper/elementary_helper.dart';
+import 'package:injectable/injectable.dart';
 import 'package:logging/logging.dart';
 import 'package:nekoton_repository/nekoton_repository.dart';
 import 'package:rxdart/rxdart.dart';
 
-part 'token_wallet_transactions_cubit.freezed.dart';
-
-part 'token_wallet_transactions_state.dart';
-
-/// Cubit that allows mapping transactions for [TokenWallet] from storage to UI
-/// elements.
-class TokenWalletTransactionsCubit extends Cubit<TokenWalletTransactionsState>
-    with BlocBaseMixin {
-  TokenWalletTransactionsCubit({
+class TokenWalletTransactionsParams {
+  const TokenWalletTransactionsParams({
     required this.owner,
     required this.rootTokenContract,
-    required this.nekotonRepository,
-    required this.currenciesService,
-    required this.walletStorage,
-  }) : super(const TokenWalletTransactionsState.loading()) {
-    _init();
-    _walletSubscription = Rx.combineLatest2<TokenWalletState?,
-        TransportStrategy, (TokenWalletState?, TransportStrategy)>(
-      nekotonRepository.tokenWalletsStream.map(
-        (wallets) => wallets.firstWhereOrNull(
-          (w) => w.owner == owner && w.rootTokenContract == rootTokenContract,
-        ),
-      ),
-      nekotonRepository.currentTransportStream,
-      (a, b) => (a, b),
-    ).listen(
-      (value) async {
-        final wallet = value.$1?.wallet;
-        final transport = value.$2.transport;
-
-        if (wallet == null) {
-          _closeSubs();
-          return;
-        }
-
-        if (!wallet.isTransactionsPreloaded) {
-          await wallet.preloadTransactions();
-        }
-
-        _createSubs(wallet, transport);
-      },
-    );
-  }
-
-  final _logger = Logger('TokenWalletTransactionsCubit');
+  });
 
   final Address owner;
   final Address rootTokenContract;
-  final NekotonRepository nekotonRepository;
-  final CurrenciesService currenciesService;
-  final TokenWalletStorageService walletStorage;
+}
 
-  TransportStrategy get _transport => nekotonRepository.currentTransport;
+@injectable
+class TokenWalletTransactionsWidgetModel extends CustomWidgetModelParametrized<
+    TokenWalletTransactionsWidget,
+    TokenWalletTransactionsModel,
+    TokenWalletTransactionsParams> {
+  TokenWalletTransactionsWidgetModel(super.model);
 
-  /// If not null, then [_transactionsState] will check for coming new
+  static final _logger = Logger('TokenWalletTransactionsWidgetModel');
+
+  // Single state notifier following the unified state pattern
+  late final _state = createNotifier<TokenWalletTransactionsState>(
+    const TokenWalletTransactionsState.loading(),
+  );
+
+  // State getter
+  StateNotifier<TokenWalletTransactionsState> get state => _state;
+
+  Address get owner => wmParams.value.owner;
+  Address get rootTokenContract => wmParams.value.rootTokenContract;
+
+  /// If not null, then state will check for coming new
   /// transactions and there is no new, then canLoadMore will be false.
   String? _lastLtWhenPreloaded;
   CustomCurrency? _tokenCustomCurrency;
 
+  // ignore: use_late_for_private_fields_and_variables
+  Currency? _cachedCurrency;
+
+  /// List of ordinary transactions and flag that sign that transactions was
+  /// loaded and mapped.
+  bool _ordinaryLoaded = false;
+  bool _isPreloading = false;
+  List<TokenWalletOrdinaryTransaction> _ordinary = [];
+  List<TransactionWithData<TokenWalletTransaction?>> _transactions = [];
+
+  StreamSubscription<dynamic>? _ordinaryTransactionsSub;
+  StreamSubscription<dynamic>? _walletSubscription;
+
+  @override
+  void initWidgetModel() {
+    super.initWidgetModel();
+    _init();
+    _initWalletSubscription();
+  }
+
+  @override
+  void dispose() {
+    _closeSubs();
+    _walletSubscription?.cancel();
+    super.dispose();
+  }
+
   /// Called from UI when user scrolled to the end of the list.
   /// NOTE: this method may be called multiple times
   void tryPreloadTransactions() {
-    final lastPrevLt = switch (state) {
+    final lastPrevLt = switch (_state.value) {
       TokenWalletTransactionsStateTransactions() => _lastLt(_transactions),
       _ => null,
     };
-    final (isLoading, canLoadMore) = switch (state) {
+    final (isLoading, canLoadMore) = switch (_state.value) {
       TokenWalletTransactionsStateTransactions(
         :final isLoading,
         :final canLoadMore,
@@ -92,36 +97,32 @@ class TokenWalletTransactionsCubit extends Cubit<TokenWalletTransactionsState>
     _preloadTransactions(lastPrevLt);
   }
 
-  // ignore: use_late_for_private_fields_and_variables
-  Currency? _cachedCurrency;
+  Future<void> _init() async {
+    _tokenCustomCurrency =
+        await model.fetchTokenCustomCurrency(rootTokenContract);
+  }
 
-  /// List of ordinary transactions and flag that sign that transactions was
-  /// loaded and mapped.
-  bool _ordinaryLoaded = false;
-  bool _isPreloading = false;
-  List<TokenWalletOrdinaryTransaction> _ordinary = [];
-  List<TransactionWithData<TokenWalletTransaction?>> _transactions = [];
+  void _initWalletSubscription() {
+    _walletSubscription =
+        model.getWalletStream(owner, rootTokenContract).listen((value) async {
+      final wallet = value.$1?.wallet;
+      final transport = value.$2.transport;
 
-  StreamSubscription<dynamic>? _ordinaryTransactionsSub;
-  late StreamSubscription<dynamic> _walletSubscription;
+      if (wallet == null) {
+        _closeSubs();
+        return;
+      }
 
-  @override
-  Future<void> close() {
-    _closeSubs();
-    _walletSubscription.cancel();
+      if (!wallet.isTransactionsPreloaded) {
+        await wallet.preloadTransactions();
+      }
 
-    return super.close();
+      _createSubs(wallet, transport);
+    });
   }
 
   void _closeSubs() {
     _ordinaryTransactionsSub?.cancel();
-  }
-
-  Future<void> _init() async {
-    _tokenCustomCurrency = await currenciesService.getOrFetchCurrency(
-      _transport,
-      rootTokenContract,
-    );
   }
 
   void _createSubs(GenericTokenWallet wallet, Transport transport) {
@@ -129,20 +130,15 @@ class TokenWalletTransactionsCubit extends Cubit<TokenWalletTransactionsState>
 
     _ordinaryTransactionsSub = Rx.combineLatest2<
         void,
-        List<TransactionWithData<TokenWalletTransaction?>>?,
+        List<TransactionWithData<TokenWalletTransaction?>>,
         List<TransactionWithData<TokenWalletTransaction?>>>(
       wallet.fieldUpdatesStream,
-      walletStorage.transactionsStream(
-        networkId: transport.networkId,
-        group: transport.group,
-        owner: owner,
-        rootTokenContract: rootTokenContract,
-      ),
-      (_, b) => b ?? [],
+      model.getTransactionsStream(transport, owner, rootTokenContract),
+      (_, b) => b,
     ).listen(
       (transactions) {
         _transactions = transactions;
-        _ordinary = nekotonRepository.mapOrdinaryTokenTransactions(
+        _ordinary = model.mapOrdinaryTokenTransactions(
           rootTokenContract: rootTokenContract,
           transactions: transactions,
         );
@@ -159,7 +155,7 @@ class TokenWalletTransactionsCubit extends Cubit<TokenWalletTransactionsState>
       _cachedCurrency = currency;
       _transactionsState(fromStream: true);
     } else {
-      emitSafe(const TokenWalletTransactionsState.loading());
+      _state.accept(const TokenWalletTransactionsState.loading());
     }
   }
 
@@ -168,11 +164,11 @@ class TokenWalletTransactionsCubit extends Cubit<TokenWalletTransactionsState>
     bool isLoading = false,
   }) {
     if (_ordinary.isEmpty) {
-      emitSafe(const TokenWalletTransactionsState.empty());
+      _state.accept(const TokenWalletTransactionsState.empty());
     } else {
       final transactions = _ordinary;
 
-      var canLoadMore = switch (state) {
+      var canLoadMore = switch (_state.value) {
         TokenWalletTransactionsStateTransactions(:final canLoadMore) =>
           canLoadMore,
         _ => true,
@@ -186,7 +182,7 @@ class TokenWalletTransactionsCubit extends Cubit<TokenWalletTransactionsState>
         canLoadMore = lastLt != _lastLtWhenPreloaded;
       }
 
-      emitSafe(
+      _state.accept(
         TokenWalletTransactionsState.transactions(
           transactions: transactions,
           tokenCurrency: _cachedCurrency!,
@@ -216,7 +212,7 @@ class TokenWalletTransactionsCubit extends Cubit<TokenWalletTransactionsState>
     _lastLtWhenPreloaded = lastPrevLt;
 
     try {
-      await nekotonRepository.preloadTokenTransactions(
+      await model.preloadTokenTransactions(
         owner: owner,
         rootTokenContract: rootTokenContract,
         fromLt: lastPrevLt,
