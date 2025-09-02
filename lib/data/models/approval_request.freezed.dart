@@ -1,6 +1,5 @@
-// dart format width=80
-// coverage:ignore-file
 // GENERATED CODE - DO NOT MODIFY BY HAND
+// coverage:ignore-file
 // ignore_for_file: type=lint
 // ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target, unnecessary_question_mark
 
@@ -75,6 +74,536 @@ class _$ApprovalRequestCopyWithImpl<$Res>
           : origin // ignore: cast_nullable_to_non_nullable
               as Uri,
     ));
+  }
+}
+
+/// Adds pattern-matching-related methods to [ApprovalRequest].
+extension ApprovalRequestPatterns on ApprovalRequest {
+  /// A variant of `map` that fallback to returning `orElse`.
+  ///
+  /// It is equivalent to doing:
+  /// ```dart
+  /// switch (sealedClass) {
+  ///   case final Subclass value:
+  ///     return ...;
+  ///   case _:
+  ///     return orElse();
+  /// }
+  /// ```
+
+  @optionalTypeArgs
+  TResult maybeMap<TResult extends Object?>({
+    TResult Function(ApprovalRequestPermissions value)? requestPermissions,
+    TResult Function(ApprovalRequestChangeAccount value)? changeAccount,
+    TResult Function(ApprovalRequestAddTip3Token value)? addTip3Token,
+    TResult Function(ApprovalRequestSignData value)? signData,
+    TResult Function(ApprovalRequestEncryptData value)? encryptData,
+    TResult Function(ApprovalRequestDecryptData value)? decryptData,
+    TResult Function(ApprovalRequestCallContractMethod value)?
+        callContractMethod,
+    TResult Function(ApprovalRequestSendMessage value)? sendMessage,
+    TResult Function(ApprovalRequestChangeNetwork value)? changeNetwork,
+    TResult Function(ApprovalRequestAddNetwork value)? addNetwork,
+    required TResult orElse(),
+  }) {
+    final _that = this;
+    switch (_that) {
+      case ApprovalRequestPermissions() when requestPermissions != null:
+        return requestPermissions(_that);
+      case ApprovalRequestChangeAccount() when changeAccount != null:
+        return changeAccount(_that);
+      case ApprovalRequestAddTip3Token() when addTip3Token != null:
+        return addTip3Token(_that);
+      case ApprovalRequestSignData() when signData != null:
+        return signData(_that);
+      case ApprovalRequestEncryptData() when encryptData != null:
+        return encryptData(_that);
+      case ApprovalRequestDecryptData() when decryptData != null:
+        return decryptData(_that);
+      case ApprovalRequestCallContractMethod() when callContractMethod != null:
+        return callContractMethod(_that);
+      case ApprovalRequestSendMessage() when sendMessage != null:
+        return sendMessage(_that);
+      case ApprovalRequestChangeNetwork() when changeNetwork != null:
+        return changeNetwork(_that);
+      case ApprovalRequestAddNetwork() when addNetwork != null:
+        return addNetwork(_that);
+      case _:
+        return orElse();
+    }
+  }
+
+  /// A `switch`-like method, using callbacks.
+  ///
+  /// Callbacks receives the raw object, upcasted.
+  /// It is equivalent to doing:
+  /// ```dart
+  /// switch (sealedClass) {
+  ///   case final Subclass value:
+  ///     return ...;
+  ///   case final Subclass2 value:
+  ///     return ...;
+  /// }
+  /// ```
+
+  @optionalTypeArgs
+  TResult map<TResult extends Object?>({
+    required TResult Function(ApprovalRequestPermissions value)
+        requestPermissions,
+    required TResult Function(ApprovalRequestChangeAccount value) changeAccount,
+    required TResult Function(ApprovalRequestAddTip3Token value) addTip3Token,
+    required TResult Function(ApprovalRequestSignData value) signData,
+    required TResult Function(ApprovalRequestEncryptData value) encryptData,
+    required TResult Function(ApprovalRequestDecryptData value) decryptData,
+    required TResult Function(ApprovalRequestCallContractMethod value)
+        callContractMethod,
+    required TResult Function(ApprovalRequestSendMessage value) sendMessage,
+    required TResult Function(ApprovalRequestChangeNetwork value) changeNetwork,
+    required TResult Function(ApprovalRequestAddNetwork value) addNetwork,
+  }) {
+    final _that = this;
+    switch (_that) {
+      case ApprovalRequestPermissions():
+        return requestPermissions(_that);
+      case ApprovalRequestChangeAccount():
+        return changeAccount(_that);
+      case ApprovalRequestAddTip3Token():
+        return addTip3Token(_that);
+      case ApprovalRequestSignData():
+        return signData(_that);
+      case ApprovalRequestEncryptData():
+        return encryptData(_that);
+      case ApprovalRequestDecryptData():
+        return decryptData(_that);
+      case ApprovalRequestCallContractMethod():
+        return callContractMethod(_that);
+      case ApprovalRequestSendMessage():
+        return sendMessage(_that);
+      case ApprovalRequestChangeNetwork():
+        return changeNetwork(_that);
+      case ApprovalRequestAddNetwork():
+        return addNetwork(_that);
+    }
+  }
+
+  /// A variant of `map` that fallback to returning `null`.
+  ///
+  /// It is equivalent to doing:
+  /// ```dart
+  /// switch (sealedClass) {
+  ///   case final Subclass value:
+  ///     return ...;
+  ///   case _:
+  ///     return null;
+  /// }
+  /// ```
+
+  @optionalTypeArgs
+  TResult? mapOrNull<TResult extends Object?>({
+    TResult? Function(ApprovalRequestPermissions value)? requestPermissions,
+    TResult? Function(ApprovalRequestChangeAccount value)? changeAccount,
+    TResult? Function(ApprovalRequestAddTip3Token value)? addTip3Token,
+    TResult? Function(ApprovalRequestSignData value)? signData,
+    TResult? Function(ApprovalRequestEncryptData value)? encryptData,
+    TResult? Function(ApprovalRequestDecryptData value)? decryptData,
+    TResult? Function(ApprovalRequestCallContractMethod value)?
+        callContractMethod,
+    TResult? Function(ApprovalRequestSendMessage value)? sendMessage,
+    TResult? Function(ApprovalRequestChangeNetwork value)? changeNetwork,
+    TResult? Function(ApprovalRequestAddNetwork value)? addNetwork,
+  }) {
+    final _that = this;
+    switch (_that) {
+      case ApprovalRequestPermissions() when requestPermissions != null:
+        return requestPermissions(_that);
+      case ApprovalRequestChangeAccount() when changeAccount != null:
+        return changeAccount(_that);
+      case ApprovalRequestAddTip3Token() when addTip3Token != null:
+        return addTip3Token(_that);
+      case ApprovalRequestSignData() when signData != null:
+        return signData(_that);
+      case ApprovalRequestEncryptData() when encryptData != null:
+        return encryptData(_that);
+      case ApprovalRequestDecryptData() when decryptData != null:
+        return decryptData(_that);
+      case ApprovalRequestCallContractMethod() when callContractMethod != null:
+        return callContractMethod(_that);
+      case ApprovalRequestSendMessage() when sendMessage != null:
+        return sendMessage(_that);
+      case ApprovalRequestChangeNetwork() when changeNetwork != null:
+        return changeNetwork(_that);
+      case ApprovalRequestAddNetwork() when addNetwork != null:
+        return addNetwork(_that);
+      case _:
+        return null;
+    }
+  }
+
+  /// A variant of `when` that fallback to an `orElse` callback.
+  ///
+  /// It is equivalent to doing:
+  /// ```dart
+  /// switch (sealedClass) {
+  ///   case Subclass(:final field):
+  ///     return ...;
+  ///   case _:
+  ///     return orElse();
+  /// }
+  /// ```
+
+  @optionalTypeArgs
+  TResult maybeWhen<TResult extends Object?>({
+    TResult Function(Uri origin, List<Permission> permissions,
+            Completer<Permissions> completer)?
+        requestPermissions,
+    TResult Function(Uri origin, List<Permission> permissions,
+            Address? previousSelectedAccount, Completer<Permissions> completer)?
+        changeAccount,
+    TResult Function(Uri origin, Address account, TokenContractAsset details,
+            Completer<void> completer)?
+        addTip3Token,
+    TResult Function(
+            Uri origin,
+            Address account,
+            PublicKey publicKey,
+            String data,
+            SignInputAuthLedger signInputAuthLedger,
+            Completer<SignInputAuth> completer)?
+        signData,
+    TResult Function(Uri origin, Address account, PublicKey publicKey,
+            String data, Completer<SignInputAuth> completer)?
+        encryptData,
+    TResult Function(Uri origin, Address account, PublicKey recipientPublicKey,
+            PublicKey sourcePublicKey, Completer<SignInputAuth> completer)?
+        decryptData,
+    TResult Function(
+            Uri origin,
+            Address account,
+            PublicKey publicKey,
+            Address recipient,
+            FunctionCall payload,
+            SignInputAuthLedger signInputAuthLedger,
+            Completer<SignInputAuth> completer)?
+        callContractMethod,
+    TResult Function(
+            Uri origin,
+            Address sender,
+            Address recipient,
+            @amountJsonConverter BigInt amount,
+            bool bounce,
+            FunctionCall? payload,
+            KnownPayload? knownPayload,
+            List<IgnoreTransactionTreeSimulationError>?
+                ignoredComputePhaseCodes,
+            List<IgnoreTransactionTreeSimulationError>? ignoredActionPhaseCodes,
+            Completer<(PublicKey, SignInputAuth)> completer)?
+        sendMessage,
+    TResult Function(
+            Uri origin,
+            int networkId,
+            List<ConnectionData> connections,
+            Completer<TransportStrategy?> completer)?
+        changeNetwork,
+    TResult Function(Uri origin, AddNetwork network, bool switchNetwork,
+            Completer<Network?> completer)?
+        addNetwork,
+    required TResult orElse(),
+  }) {
+    final _that = this;
+    switch (_that) {
+      case ApprovalRequestPermissions() when requestPermissions != null:
+        return requestPermissions(
+            _that.origin, _that.permissions, _that.completer);
+      case ApprovalRequestChangeAccount() when changeAccount != null:
+        return changeAccount(_that.origin, _that.permissions,
+            _that.previousSelectedAccount, _that.completer);
+      case ApprovalRequestAddTip3Token() when addTip3Token != null:
+        return addTip3Token(
+            _that.origin, _that.account, _that.details, _that.completer);
+      case ApprovalRequestSignData() when signData != null:
+        return signData(_that.origin, _that.account, _that.publicKey,
+            _that.data, _that.signInputAuthLedger, _that.completer);
+      case ApprovalRequestEncryptData() when encryptData != null:
+        return encryptData(_that.origin, _that.account, _that.publicKey,
+            _that.data, _that.completer);
+      case ApprovalRequestDecryptData() when decryptData != null:
+        return decryptData(_that.origin, _that.account,
+            _that.recipientPublicKey, _that.sourcePublicKey, _that.completer);
+      case ApprovalRequestCallContractMethod() when callContractMethod != null:
+        return callContractMethod(
+            _that.origin,
+            _that.account,
+            _that.publicKey,
+            _that.recipient,
+            _that.payload,
+            _that.signInputAuthLedger,
+            _that.completer);
+      case ApprovalRequestSendMessage() when sendMessage != null:
+        return sendMessage(
+            _that.origin,
+            _that.sender,
+            _that.recipient,
+            _that.amount,
+            _that.bounce,
+            _that.payload,
+            _that.knownPayload,
+            _that.ignoredComputePhaseCodes,
+            _that.ignoredActionPhaseCodes,
+            _that.completer);
+      case ApprovalRequestChangeNetwork() when changeNetwork != null:
+        return changeNetwork(
+            _that.origin, _that.networkId, _that.connections, _that.completer);
+      case ApprovalRequestAddNetwork() when addNetwork != null:
+        return addNetwork(
+            _that.origin, _that.network, _that.switchNetwork, _that.completer);
+      case _:
+        return orElse();
+    }
+  }
+
+  /// A `switch`-like method, using callbacks.
+  ///
+  /// As opposed to `map`, this offers destructuring.
+  /// It is equivalent to doing:
+  /// ```dart
+  /// switch (sealedClass) {
+  ///   case Subclass(:final field):
+  ///     return ...;
+  ///   case Subclass2(:final field2):
+  ///     return ...;
+  /// }
+  /// ```
+
+  @optionalTypeArgs
+  TResult when<TResult extends Object?>({
+    required TResult Function(Uri origin, List<Permission> permissions,
+            Completer<Permissions> completer)
+        requestPermissions,
+    required TResult Function(Uri origin, List<Permission> permissions,
+            Address? previousSelectedAccount, Completer<Permissions> completer)
+        changeAccount,
+    required TResult Function(Uri origin, Address account,
+            TokenContractAsset details, Completer<void> completer)
+        addTip3Token,
+    required TResult Function(
+            Uri origin,
+            Address account,
+            PublicKey publicKey,
+            String data,
+            SignInputAuthLedger signInputAuthLedger,
+            Completer<SignInputAuth> completer)
+        signData,
+    required TResult Function(Uri origin, Address account, PublicKey publicKey,
+            String data, Completer<SignInputAuth> completer)
+        encryptData,
+    required TResult Function(
+            Uri origin,
+            Address account,
+            PublicKey recipientPublicKey,
+            PublicKey sourcePublicKey,
+            Completer<SignInputAuth> completer)
+        decryptData,
+    required TResult Function(
+            Uri origin,
+            Address account,
+            PublicKey publicKey,
+            Address recipient,
+            FunctionCall payload,
+            SignInputAuthLedger signInputAuthLedger,
+            Completer<SignInputAuth> completer)
+        callContractMethod,
+    required TResult Function(
+            Uri origin,
+            Address sender,
+            Address recipient,
+            @amountJsonConverter BigInt amount,
+            bool bounce,
+            FunctionCall? payload,
+            KnownPayload? knownPayload,
+            List<IgnoreTransactionTreeSimulationError>?
+                ignoredComputePhaseCodes,
+            List<IgnoreTransactionTreeSimulationError>? ignoredActionPhaseCodes,
+            Completer<(PublicKey, SignInputAuth)> completer)
+        sendMessage,
+    required TResult Function(
+            Uri origin,
+            int networkId,
+            List<ConnectionData> connections,
+            Completer<TransportStrategy?> completer)
+        changeNetwork,
+    required TResult Function(Uri origin, AddNetwork network,
+            bool switchNetwork, Completer<Network?> completer)
+        addNetwork,
+  }) {
+    final _that = this;
+    switch (_that) {
+      case ApprovalRequestPermissions():
+        return requestPermissions(
+            _that.origin, _that.permissions, _that.completer);
+      case ApprovalRequestChangeAccount():
+        return changeAccount(_that.origin, _that.permissions,
+            _that.previousSelectedAccount, _that.completer);
+      case ApprovalRequestAddTip3Token():
+        return addTip3Token(
+            _that.origin, _that.account, _that.details, _that.completer);
+      case ApprovalRequestSignData():
+        return signData(_that.origin, _that.account, _that.publicKey,
+            _that.data, _that.signInputAuthLedger, _that.completer);
+      case ApprovalRequestEncryptData():
+        return encryptData(_that.origin, _that.account, _that.publicKey,
+            _that.data, _that.completer);
+      case ApprovalRequestDecryptData():
+        return decryptData(_that.origin, _that.account,
+            _that.recipientPublicKey, _that.sourcePublicKey, _that.completer);
+      case ApprovalRequestCallContractMethod():
+        return callContractMethod(
+            _that.origin,
+            _that.account,
+            _that.publicKey,
+            _that.recipient,
+            _that.payload,
+            _that.signInputAuthLedger,
+            _that.completer);
+      case ApprovalRequestSendMessage():
+        return sendMessage(
+            _that.origin,
+            _that.sender,
+            _that.recipient,
+            _that.amount,
+            _that.bounce,
+            _that.payload,
+            _that.knownPayload,
+            _that.ignoredComputePhaseCodes,
+            _that.ignoredActionPhaseCodes,
+            _that.completer);
+      case ApprovalRequestChangeNetwork():
+        return changeNetwork(
+            _that.origin, _that.networkId, _that.connections, _that.completer);
+      case ApprovalRequestAddNetwork():
+        return addNetwork(
+            _that.origin, _that.network, _that.switchNetwork, _that.completer);
+    }
+  }
+
+  /// A variant of `when` that fallback to returning `null`
+  ///
+  /// It is equivalent to doing:
+  /// ```dart
+  /// switch (sealedClass) {
+  ///   case Subclass(:final field):
+  ///     return ...;
+  ///   case _:
+  ///     return null;
+  /// }
+  /// ```
+
+  @optionalTypeArgs
+  TResult? whenOrNull<TResult extends Object?>({
+    TResult? Function(Uri origin, List<Permission> permissions,
+            Completer<Permissions> completer)?
+        requestPermissions,
+    TResult? Function(Uri origin, List<Permission> permissions,
+            Address? previousSelectedAccount, Completer<Permissions> completer)?
+        changeAccount,
+    TResult? Function(Uri origin, Address account, TokenContractAsset details,
+            Completer<void> completer)?
+        addTip3Token,
+    TResult? Function(
+            Uri origin,
+            Address account,
+            PublicKey publicKey,
+            String data,
+            SignInputAuthLedger signInputAuthLedger,
+            Completer<SignInputAuth> completer)?
+        signData,
+    TResult? Function(Uri origin, Address account, PublicKey publicKey,
+            String data, Completer<SignInputAuth> completer)?
+        encryptData,
+    TResult? Function(Uri origin, Address account, PublicKey recipientPublicKey,
+            PublicKey sourcePublicKey, Completer<SignInputAuth> completer)?
+        decryptData,
+    TResult? Function(
+            Uri origin,
+            Address account,
+            PublicKey publicKey,
+            Address recipient,
+            FunctionCall payload,
+            SignInputAuthLedger signInputAuthLedger,
+            Completer<SignInputAuth> completer)?
+        callContractMethod,
+    TResult? Function(
+            Uri origin,
+            Address sender,
+            Address recipient,
+            @amountJsonConverter BigInt amount,
+            bool bounce,
+            FunctionCall? payload,
+            KnownPayload? knownPayload,
+            List<IgnoreTransactionTreeSimulationError>?
+                ignoredComputePhaseCodes,
+            List<IgnoreTransactionTreeSimulationError>? ignoredActionPhaseCodes,
+            Completer<(PublicKey, SignInputAuth)> completer)?
+        sendMessage,
+    TResult? Function(
+            Uri origin,
+            int networkId,
+            List<ConnectionData> connections,
+            Completer<TransportStrategy?> completer)?
+        changeNetwork,
+    TResult? Function(Uri origin, AddNetwork network, bool switchNetwork,
+            Completer<Network?> completer)?
+        addNetwork,
+  }) {
+    final _that = this;
+    switch (_that) {
+      case ApprovalRequestPermissions() when requestPermissions != null:
+        return requestPermissions(
+            _that.origin, _that.permissions, _that.completer);
+      case ApprovalRequestChangeAccount() when changeAccount != null:
+        return changeAccount(_that.origin, _that.permissions,
+            _that.previousSelectedAccount, _that.completer);
+      case ApprovalRequestAddTip3Token() when addTip3Token != null:
+        return addTip3Token(
+            _that.origin, _that.account, _that.details, _that.completer);
+      case ApprovalRequestSignData() when signData != null:
+        return signData(_that.origin, _that.account, _that.publicKey,
+            _that.data, _that.signInputAuthLedger, _that.completer);
+      case ApprovalRequestEncryptData() when encryptData != null:
+        return encryptData(_that.origin, _that.account, _that.publicKey,
+            _that.data, _that.completer);
+      case ApprovalRequestDecryptData() when decryptData != null:
+        return decryptData(_that.origin, _that.account,
+            _that.recipientPublicKey, _that.sourcePublicKey, _that.completer);
+      case ApprovalRequestCallContractMethod() when callContractMethod != null:
+        return callContractMethod(
+            _that.origin,
+            _that.account,
+            _that.publicKey,
+            _that.recipient,
+            _that.payload,
+            _that.signInputAuthLedger,
+            _that.completer);
+      case ApprovalRequestSendMessage() when sendMessage != null:
+        return sendMessage(
+            _that.origin,
+            _that.sender,
+            _that.recipient,
+            _that.amount,
+            _that.bounce,
+            _that.payload,
+            _that.knownPayload,
+            _that.ignoredComputePhaseCodes,
+            _that.ignoredActionPhaseCodes,
+            _that.completer);
+      case ApprovalRequestChangeNetwork() when changeNetwork != null:
+        return changeNetwork(
+            _that.origin, _that.networkId, _that.connections, _that.completer);
+      case ApprovalRequestAddNetwork() when addNetwork != null:
+        return addNetwork(
+            _that.origin, _that.network, _that.switchNetwork, _that.completer);
+      case _:
+        return null;
+    }
   }
 }
 
