@@ -18,6 +18,7 @@ class PrimaryTextField extends StatelessWidget {
     this.errorType = TextFieldErrorType.outline,
     this.height,
     this.sizeType = PrimaryTextFieldSizeType.large,
+    this.isAutocorrect = true,
     this.isAutofocus = false,
     this.textEditingController,
     this.inputFormatters,
@@ -50,6 +51,7 @@ class PrimaryTextField extends StatelessWidget {
   final TextFieldErrorType errorType;
   final double? height;
   final PrimaryTextFieldSizeType sizeType;
+  final bool isAutocorrect;
   final bool isAutofocus;
   final TextEditingController? textEditingController;
   final List<TextInputFormatter>? inputFormatters;
@@ -122,6 +124,7 @@ class PrimaryTextField extends StatelessWidget {
                 ),
               ),
             ),
+      autocorrect: isAutocorrect,
       isAutofocus: isAutofocus,
       textStyle: textStyle ??
           themeStyle.textStyles.labelSmall.copyWith(
