@@ -14,7 +14,6 @@ dependencies:
   auto_size_text: 3.0.0
   auto_size_text_field: 2.2.4
   barcode_widget: 2.0.4
-  bloc: 9.0.0
   buffer: ^1.2.3
   cached_network_image: 3.4.1
   cached_network_svg_image: 1.2.0
@@ -35,7 +34,6 @@ dependencies:
   favicon: 1.1.2
   flutter:
     sdk: flutter
-  flutter_bloc: 9.1.1
   flutter_blue_plus: 1.35.5
   flutter_email_sender: 7.0.0
   flutter_inappwebview: 6.1.5
@@ -99,7 +97,6 @@ dependency_overrides:
   flutter_plugin_android_lifecycle: 2.0.24
 
 dev_dependencies:
-  bloc_test: 10.0.0
   broxus_flutter_analysis:
     git:
       url: https://github.com/broxus/flutter_templates.git
