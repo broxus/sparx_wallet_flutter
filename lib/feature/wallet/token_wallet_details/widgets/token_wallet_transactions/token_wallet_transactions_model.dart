@@ -19,6 +19,7 @@ class TokenWalletTransactionsModel extends ElementaryModel {
   ) : super(errorHandler: errorHandler);
 
   final _logger = Logger('TokenWalletTransactionsModel');
+  
   final NekotonRepository _nekotonRepository;
   final CurrenciesService _currenciesService;
   final TokenWalletStorageService _walletStorage;
@@ -33,8 +34,7 @@ class TokenWalletTransactionsModel extends ElementaryModel {
         (TokenWalletState?, TransportStrategy)>(
       _nekotonRepository.tokenWalletsStream.map(
         (wallets) => wallets.firstWhereOrNull(
-          (TokenWalletState w) =>
-              w.owner == owner && w.rootTokenContract == rootTokenContract,
+          (w) => w.owner == owner && w.rootTokenContract == rootTokenContract,
         ),
       ),
       _nekotonRepository.currentTransportStream,
@@ -58,6 +58,20 @@ class TokenWalletTransactionsModel extends ElementaryModel {
         .map((transactions) => transactions ?? []);
   }
 
+  Future<CustomCurrency?> fetchTokenCustomCurrency(
+    Address rootTokenContract,
+  ) async {
+    try {
+      return await _currenciesService.getOrFetchCurrency(
+        currentTransport,
+        rootTokenContract,
+      );
+    } catch (e, t) {
+      _logger.severe('fetchTokenCustomCurrency', e, t);
+      return null;
+    }
+  }
+
   List<TokenWalletOrdinaryTransaction> mapOrdinaryTokenTransactions({
     required Address rootTokenContract,
     required List<TransactionWithData<TokenWalletTransaction?>> transactions,
@@ -68,29 +82,25 @@ class TokenWalletTransactionsModel extends ElementaryModel {
     );
   }
 
-  Future<CustomCurrency?> getOrFetchCurrency(
-    Address rootTokenContract,
-  ) async {
-    return _currenciesService.getOrFetchCurrency(
-      currentTransport,
-      rootTokenContract,
-    );
-  }
-
   Future<void> preloadTokenTransactions({
     required Address owner,
     required Address rootTokenContract,
     required String fromLt,
   }) async {
-    try {
-      await _nekotonRepository.preloadTokenTransactions(
-        owner: owner,
-        rootTokenContract: rootTokenContract,
-        fromLt: fromLt,
-      );
-    } catch (e, t) {
-      _logger.severe('preloadTokenTransactions', e, t);
-      rethrow;
+    await _nekotonRepository.preloadTokenTransactions(
+      owner: owner,
+      rootTokenContract: rootTokenContract,
+      fromLt: fromLt,
+    );
+  }
+
+  Future<void> preloadWalletTransactions(GenericTokenWallet wallet) async {
+    if (!wallet.isTransactionsPreloaded) {
+      await wallet.preloadTransactions();
     }
+  }
+
+  Stream<void> getWalletFieldUpdatesStream(GenericTokenWallet wallet) {
+    return wallet.fieldUpdatesStream;
   }
 }

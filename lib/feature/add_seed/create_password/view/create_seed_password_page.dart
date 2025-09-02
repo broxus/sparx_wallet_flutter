@@ -18,6 +18,7 @@ class CreateSeedPasswordProfilePage
     required String? name,
     required SeedAddType type,
     required MnemonicType? mnemonicType,
+    required bool isChecked,
     super.key,
   }) : super(
           wmFactoryParam: CreateSeedPasswordProfileWmParams(
@@ -25,6 +26,7 @@ class CreateSeedPasswordProfilePage
             name: name,
             type: type,
             mnemonicType: mnemonicType,
+            isChecked: isChecked,
           ),
         );
 
