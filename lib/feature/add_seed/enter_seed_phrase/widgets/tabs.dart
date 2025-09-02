@@ -26,9 +26,13 @@ class EnterSeedPhraseTabs extends StatelessWidget {
   Widget build(BuildContext context) {
     return Row(
       children: [
-        Expanded(
-          child: SingleChildScrollView(
-            scrollDirection: Axis.horizontal,
+        DecoratedBox(
+          decoration: BoxDecoration(
+            color: context.themeStyleV2.colors.background1,
+            borderRadius: BorderRadius.circular(DimensSizeV2.d12),
+          ),
+          child: Padding(
+            padding: const EdgeInsets.all(DimensSizeV2.d4),
             child: Row(
               children: [
                 for (final value in allowedValues)
@@ -47,6 +51,7 @@ class EnterSeedPhraseTabs extends StatelessWidget {
             ),
           ),
         ),
+        const Spacer(),
         StateNotifierBuilder(
           listenableState: displayPasteButtonState,
           builder: (_, bool? isDisplay) {
