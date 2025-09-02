@@ -830,12 +830,6 @@ extension GetItInjectableX on _i174.GetIt {
               gh<_i771.NekotonRepository>(),
               gh<_i632.MessengerService>(),
             ));
-    gh.factory<_i716.AddExternalAccountModel>(
-        () => _i716.AddExternalAccountModel(
-              gh<_i83.ErrorHandler>(),
-              gh<_i771.NekotonRepository>(),
-              gh<_i632.MessengerService>(),
-            ));
     gh.factory<_i6.AddNewLocalAccountTypeSheetModel>(
         () => _i6.AddNewLocalAccountTypeSheetModel(
               gh<_i83.ErrorHandler>(),
@@ -847,6 +841,12 @@ extension GetItInjectableX on _i174.GetIt {
           gh<_i771.NekotonRepository>(),
           gh<_i632.MessengerService>(),
         ));
+    gh.factory<_i716.AddExternalAccountModel>(
+        () => _i716.AddExternalAccountModel(
+              gh<_i83.ErrorHandler>(),
+              gh<_i771.NekotonRepository>(),
+              gh<_i632.MessengerService>(),
+            ));
     gh.factory<_i175.NewAccountScreenModel>(() => _i175.NewAccountScreenModel(
           gh<_i83.ErrorHandler>(),
           gh<_i632.MessengerService>(),
@@ -913,16 +913,6 @@ extension GetItInjectableX on _i174.GetIt {
           gh<_i83.ErrorHandler>(),
           gh<_i771.NekotonRepository>(),
         ));
-    gh.factory<_i772.TonWalletMultisigPendingTransactionDetailsScreenModel>(
-        () => _i772.TonWalletMultisigPendingTransactionDetailsScreenModel(
-              gh<_i83.ErrorHandler>(),
-              gh<_i771.NekotonRepository>(),
-            ));
-    gh.factory<_i680.TonWalletOrdinaryTransactionWidgetModel>(
-        () => _i680.TonWalletOrdinaryTransactionWidgetModel(
-              gh<_i83.ErrorHandler>(),
-              gh<_i771.NekotonRepository>(),
-            ));
     gh.factory<_i974.KeyDetailPageModel>(() => _i974.KeyDetailPageModel(
           gh<_i83.ErrorHandler>(),
           gh<_i771.NekotonRepository>(),
@@ -939,6 +929,11 @@ extension GetItInjectableX on _i174.GetIt {
           gh<_i83.ErrorHandler>(),
           gh<_i771.NekotonRepository>(),
         ));
+    gh.factory<_i772.TonWalletMultisigPendingTransactionDetailsScreenModel>(
+        () => _i772.TonWalletMultisigPendingTransactionDetailsScreenModel(
+              gh<_i83.ErrorHandler>(),
+              gh<_i771.NekotonRepository>(),
+            ));
     gh.factory<_i222.TonWalletMultisigPendingTransactionWidgetModel>(
         () => _i222.TonWalletMultisigPendingTransactionWidgetModel(
               gh<_i83.ErrorHandler>(),
@@ -956,6 +951,11 @@ extension GetItInjectableX on _i174.GetIt {
             ));
     gh.factory<_i63.TonWalletMultisigOrdinaryTransactionWidgetModel>(
         () => _i63.TonWalletMultisigOrdinaryTransactionWidgetModel(
+              gh<_i83.ErrorHandler>(),
+              gh<_i771.NekotonRepository>(),
+            ));
+    gh.factory<_i680.TonWalletOrdinaryTransactionWidgetModel>(
+        () => _i680.TonWalletOrdinaryTransactionWidgetModel(
               gh<_i83.ErrorHandler>(),
               gh<_i771.NekotonRepository>(),
             ));
@@ -1004,10 +1004,10 @@ extension GetItInjectableX on _i174.GetIt {
           gh<_i632.MessengerService>(),
           gh<_i771.NekotonRepository>(),
         ));
-    gh.factory<_i250.BrowserBookModel>(
-        () => _i250.BrowserBookModel(gh<_i83.ErrorHandler>()));
     gh.factory<_i484.CreateSeedModel>(
         () => _i484.CreateSeedModel(gh<_i83.ErrorHandler>()));
+    gh.factory<_i250.BrowserBookModel>(
+        () => _i250.BrowserBookModel(gh<_i83.ErrorHandler>()));
     gh.singleton<_i82.CompassBaseRoute>(
       () => _i1040.BrowserRoute(
           gh<_i82.CompassBaseRoute>(instanceName: 'CreateBrowserGroupRoute')),
@@ -1033,17 +1033,17 @@ extension GetItInjectableX on _i174.GetIt {
           gh<_i128.GeneralStorageService>(),
           gh<_i771.NekotonRepository>(),
         ));
-    gh.factory<_i845.TCSignDataModel>(() => _i845.TCSignDataModel(
-          gh<_i83.ErrorHandler>(),
-          gh<_i771.NekotonRepository>(),
-          gh<_i632.MessengerService>(),
-        ));
     gh.factory<_i210.AccountRenameSheetModel>(
         () => _i210.AccountRenameSheetModel(
               gh<_i83.ErrorHandler>(),
               gh<_i771.NekotonRepository>(),
               gh<_i632.MessengerService>(),
             ));
+    gh.factory<_i845.TCSignDataModel>(() => _i845.TCSignDataModel(
+          gh<_i83.ErrorHandler>(),
+          gh<_i771.NekotonRepository>(),
+          gh<_i632.MessengerService>(),
+        ));
     gh.factory<_i1030.CheckSeedPhrasePageModel>(
         () => _i1030.CheckSeedPhrasePageModel(
               gh<_i83.ErrorHandler>(),

@@ -19,7 +19,7 @@ class TokenWalletTransactionsModel extends ElementaryModel {
   ) : super(errorHandler: errorHandler);
 
   final _logger = Logger('TokenWalletTransactionsModel');
-  
+
   final NekotonRepository _nekotonRepository;
   final CurrenciesService _currenciesService;
   final TokenWalletStorageService _walletStorage;

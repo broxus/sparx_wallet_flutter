@@ -98,7 +98,8 @@ class TokenWalletTransactionsWidgetModel extends CustomWidgetModelParametrized<
   }
 
   Future<void> _init() async {
-    _tokenCustomCurrency = await model.getOrFetchCurrency(rootTokenContract);
+    _tokenCustomCurrency =
+        await model.fetchTokenCustomCurrency(rootTokenContract);
   }
 
   void _initWalletSubscription() {
