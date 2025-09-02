@@ -1160,10 +1160,6 @@ extension GetItInjectableX on _i174.GetIt {
           gh<_i865.LedgerConnectionHandlerImpl>(),
           gh<_i771.NekotonRepository>(),
         ));
-    gh.singleton<_i82.CompassGuard>(
-      () => _i331.RestoreSubroutesGuard(gh<_i275.NavigationService>()),
-      instanceName: 'RestoreSubroutesGuard',
-    );
     gh.factory<_i181.BrowserServiceFaviconDelegate>(() =>
         _i181.BrowserServiceFaviconDelegate(
             gh<_i234.BrowserFaviconURLStorageService>()));
@@ -2208,6 +2204,13 @@ extension GetItInjectableX on _i174.GetIt {
     gh.factory<_i926.BootstrapFailedRerunWidgetModel>(() =>
         _i926.BootstrapFailedRerunWidgetModel(
             gh<_i9.BootstrapFailedRerunModel>()));
+    gh.singleton<_i82.CompassGuard>(
+      () => _i331.RestoreSubroutesGuard(
+        gh<_i275.NavigationService>(),
+        gh<_i468.BootstrapService>(),
+      ),
+      instanceName: 'RestoreSubroutesGuard',
+    );
     gh.factory<_i459.ConnectionFailWidgetModel>(() =>
         _i459.ConnectionFailWidgetModel(gh<_i1007.ConnectionFailModel>()));
     gh.singleton<_i309.CompassRouter>(
