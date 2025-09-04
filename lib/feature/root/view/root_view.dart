@@ -1,4 +1,3 @@
-
 import 'dart:async';
 
 import 'package:app/app/service/app_links/app_links_data.dart';
