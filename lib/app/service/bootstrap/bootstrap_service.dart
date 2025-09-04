@@ -75,8 +75,9 @@ class BootstrapService {
       _bootstrapStepSubject.add(BootstrapSteps.completed);
 
       return true;
-    } catch (e, t) {
-      _log.severe('init', e, t);
+    } catch (e, st) {
+      _log.severe('init', e, st);
+      SentryWorker.instance.captureException(e, stackTrace: st);
       return false;
     }
   }

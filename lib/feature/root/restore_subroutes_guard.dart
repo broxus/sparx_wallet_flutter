@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:app/app/router/compass/compass.dart';
 import 'package:app/app/router/router.dart';
+import 'package:app/app/service/bootstrap/bootstrap_service.dart';
 import 'package:app/app/service/navigation_service.dart';
 import 'package:flutter/material.dart';
 import 'package:injectable/injectable.dart';
@@ -13,9 +14,11 @@ import 'package:logging/logging.dart';
 class RestoreSubroutesGuard extends CompassGuard {
   RestoreSubroutesGuard(
     this._navigationService,
+    this._bootstrapService,
   ) : super(priority: priorityMedium);
 
   final NavigationService _navigationService;
+  final BootstrapService _bootstrapService;
   final _log = Logger('RestoreSubroutesGuard');
 
   // Last saved root app route
@@ -86,7 +89,9 @@ class RestoreSubroutesGuard extends CompassGuard {
     final rootRoute = currentRoutes.firstOrNull;
 
     _log.info('$currentRoutes -> isSaveLocation: $isSaveLocation');
-    if (isSaveLocation) {
+    if (isSaveLocation && _bootstrapService.isConfigured) {
+      /// Ensures that the application's bootstrap sequence has fully completed
+      /// before proceeding. It guarantees that EncryptedStorage is ready.
       _navigationService.saveLastLocation(location);
     }
 
