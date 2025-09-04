@@ -39,6 +39,13 @@ class BrowserPermissionsStorageService extends AbstractStorageService {
     _storage.write(origin, permissions.toJson());
   }
 
+  void setPagePermission({
+    required String origin,
+    required List<String> resources,
+  }) {
+    /// TODO(knightforce): await drift merge
+  }
+
   /// Delete permissions for specified url
   void deletePermissionsForOrigin(String origin) {
     _storage.remove(origin);

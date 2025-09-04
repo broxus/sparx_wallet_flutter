@@ -8,6 +8,7 @@ import 'package:app/feature/browser_v2/data/browser_basic_auth_creds.dart';
 import 'package:app/feature/browser_v2/data/tabs/browser_tab.dart';
 import 'package:app/feature/browser_v2/screens/main/widgets/pages/page/browser_page.dart';
 import 'package:app/feature/browser_v2/screens/main/widgets/pages/page/browser_page_model.dart';
+import 'package:app/feature/browser_v2/screens/main/widgets/permission_bottom_sheet/browser_permission_bottom_sheet.dart';
 import 'package:elementary/elementary.dart';
 import 'package:elementary_helper/elementary_helper.dart';
 import 'package:flutter/foundation.dart';
@@ -284,6 +285,17 @@ class BrowserPageWidgetModel extends CustomWidgetModelParametrized<
     }
 
     return NavigationActionPolicy.ALLOW;
+  }
+
+  Future<PermissionResponse?> onPermissionRequest(
+    InAppWebViewController controller,
+    PermissionRequest permissionRequest,
+  ) async {
+    return showBrowserPermissionBottomSheet(
+      context,
+      uri: permissionRequest.origin,
+      resources: permissionRequest.resources,
+    );
   }
 
   Future<void> _onRefresh() async {

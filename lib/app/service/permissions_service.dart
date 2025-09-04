@@ -1,5 +1,6 @@
 import 'package:app/data/models/models.dart';
 import 'package:app/feature/browser_v2/domain/service/browser_service.dart';
+import 'package:flutter_inappwebview/flutter_inappwebview.dart';
 import 'package:injectable/injectable.dart';
 import 'package:nekoton_repository/nekoton_repository.dart';
 
@@ -57,6 +58,13 @@ class PermissionsService {
   /// Delete permissions for specified account
   void deletePermissionsForAccount(Address address) =>
       _browserService.perm.deletePermissionsForAccount(address);
+
+  void setPagePermissions(Uri uri, List<String> resources) {
+    _browserService.perm.setPagePermissions(
+      origin: uri.origin,
+      resources: resources,
+    );
+  }
 
 // we do not save stream sub, because it must stay all app life-time
   void _listenAccountsDeletion() {

@@ -248,6 +248,24 @@ abstract class LocaleKeys {
       'browserBookmarkRenameEnterName';
   static const browserBookmarkRenameName = 'browserBookmarkRenameName';
   static const browserBookmarkRenameWord = 'browserBookmarkRenameWord';
+  static const browserRequestPermissionTitle = 'browserRequestPermissionTitle';
+  static const browserRequestPermissionDescription =
+      'browserRequestPermissionDescription';
+  static const autoplay = 'autoplay';
+  static const camera = 'camera';
+  static const cameraAndMicrophone = 'cameraAndMicrophone';
+  static const clipboardRead = 'clipboardRead';
+  static const deviceOrientationAndMotion = 'deviceOrientationAndMotion';
+  static const fileReadWrite = 'fileReadWrite';
+  static const geolocation = 'geolocation';
+  static const localFonts = 'localFonts';
+  static const microphone = 'microphone';
+  static const midiSysEx = 'midiSysEx';
+  static const multipleAutomaticDownloads = 'multipleAutomaticDownloads';
+  static const notifications = 'notifications';
+  static const otherSensors = 'otherSensors';
+  static const protectedMediaId = 'protectedMediaId';
+  static const windowManagement = 'windowManagement';
   static const edit = 'edit';
   static const editName = 'editName';
   static const browserBookmarkAdded = 'browserBookmarkAdded';

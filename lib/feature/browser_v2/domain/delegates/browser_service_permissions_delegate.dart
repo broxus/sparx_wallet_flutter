@@ -13,6 +13,11 @@ abstract interface class BrowserServicePermissions {
     required Permissions permissions,
   });
 
+  void setPagePermissions({
+    required String origin,
+    required List<String> resources,
+  });
+
   void deletePermissionsForOrigin(String origin);
 
   void deletePermissionsForAccount(Address address);
@@ -56,6 +61,17 @@ class BrowserServicePermissionsDelegate
     );
 
     _fetchPermissions();
+  }
+
+  @override
+  void setPagePermissions({
+    required String origin,
+    required List<String> resources,
+  }) {
+    _browserPermissionsStorageService.setPagePermission(
+      origin: origin,
+      resources: resources,
+    );
   }
 
   @override

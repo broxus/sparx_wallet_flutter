@@ -188,6 +188,10 @@ import '../feature/browser_v2/screens/main/widgets/pages/page/browser_page_model
     as _i154;
 import '../feature/browser_v2/screens/main/widgets/pages/page/browser_page_wm.dart'
     as _i307;
+import '../feature/browser_v2/screens/main/widgets/permission_bottom_sheet/browser_permission_bottom_sheet_model.dart'
+    as _i933;
+import '../feature/browser_v2/screens/main/widgets/permission_bottom_sheet/browser_permission_bottom_sheet_wm.dart'
+    as _i411;
 import '../feature/browser_v2/screens/main/widgets/tab_animated_view/tab_animated_view_model.dart'
     as _i865;
 import '../feature/browser_v2/screens/main/widgets/tab_animated_view/tab_animated_view_wm.dart'
@@ -811,6 +815,8 @@ extension GetItInjectableX on _i174.GetIt {
         ));
     gh.factory<_i250.BrowserBookModel>(
         () => _i250.BrowserBookModel(gh<_i83.ErrorHandler>()));
+    gh.factory<_i933.BrowserPermissionBottomSheetModel>(
+        () => _i933.BrowserPermissionBottomSheetModel(gh<_i83.ErrorHandler>()));
     gh.singleton<_i82.CompassBaseRoute>(
       () => _i1040.BrowserRoute(
           gh<_i82.CompassBaseRoute>(instanceName: 'CreateBrowserGroupRoute')),
@@ -970,6 +976,9 @@ extension GetItInjectableX on _i174.GetIt {
           gh<_i771.NekotonRepository>(),
           gh<_i403.CurrentKeyService>(),
         ));
+    gh.factory<_i411.BrowserPermissionBottomSheetWidgetModel>(() =>
+        _i411.BrowserPermissionBottomSheetWidgetModel(
+            gh<_i933.BrowserPermissionBottomSheetModel>()));
     gh.factory<_i644.SwitchToSeedModel>(() => _i644.SwitchToSeedModel(
           gh<_i83.ErrorHandler>(),
           gh<_i128.CurrentKeyService>(),
