@@ -40,4 +40,6 @@ class AppWidgetModel extends CustomWidgetModel<App, AppModel> {
     _messageViewer.dispose();
     super.dispose();
   }
+
+  Future<bool> checkCrashDetected() => model.checkCrashDetected();
 }

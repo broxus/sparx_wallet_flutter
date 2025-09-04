@@ -2,7 +2,7 @@ import 'package:app/generated/generated.dart';
 import 'package:flutter/material.dart';
 import 'package:ui_components_lib/ui_components_lib.dart';
 
-enum SelectAddSeedType { create, import }
+enum SelectAddSeedType { create, import, ledger }
 
 /// Helper function that shows [SelectAddSeedTypeSheet]
 Future<SelectAddSeedType?> showSelectAddSeedTypeSheet(BuildContext context) {
@@ -42,6 +42,14 @@ class SelectAddSeedTypeSheet extends StatelessWidget {
           titleText: LocaleKeys.importSeed.tr(),
           trailing: CommonIconWidget.svg(
             svg: Assets.images.import.path,
+            color: colors.content0,
+          ),
+        ),
+        CommonListTile(
+          onPressed: () => Navigator.of(context).pop(SelectAddSeedType.ledger),
+          titleText: LocaleKeys.importFromLedger.tr(),
+          trailing: CommonIconWidget.svg(
+            svg: Assets.images.ledger.path,
             color: colors.content0,
           ),
         ),

@@ -59,18 +59,16 @@ class SelectAccountWidgetModel
                       accounts: filteredAccounts,
                     );
                   })
-                  .where(
-                    (keyInfo) => keyInfo.accounts.isNotEmpty,
-                  )
+                  .where((keyInfo) => keyInfo.accounts.isNotEmpty)
                   .toList();
+
               return SelectAccountData(
                 name: selectAccountData.name,
                 privateKeys: filteredPrivateKeys,
+                isLedger: selectAccountData.isLedger,
               );
             })
-            .where(
-              (selectAccountData) => selectAccountData.privateKeys.isNotEmpty,
-            )
+            .where((item) => item.privateKeys.isNotEmpty)
             .toList(),
       );
     }

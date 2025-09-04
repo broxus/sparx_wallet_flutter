@@ -3,6 +3,7 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:elementary_helper/elementary_helper.dart';
 import 'package:flutter/material.dart';
 import 'package:lucide_icons_flutter/lucide_icons.dart';
+import 'package:nekoton_repository/nekoton_repository.dart';
 import 'package:ui_components_lib/ui_components_lib.dart';
 import 'package:ui_components_lib/v2/ui_components_lib_v2.dart';
 
@@ -11,6 +12,7 @@ class ProfileView extends StatelessWidget {
     required this.appVersion,
     required this.isBiometryAvailable,
     required this.isBiometryEnabled,
+    required this.seed,
     required this.onManageSeeds,
     required this.onExportSeed,
     required this.onContactSupport,
@@ -25,6 +27,7 @@ class ProfileView extends StatelessWidget {
 
   final ListenableState<bool> isBiometryAvailable;
   final ListenableState<bool> isBiometryEnabled;
+  final ListenableState<Seed?> seed;
   final String appVersion;
   final bool isDarkThemeEnabled;
   final VoidCallback onManageSeeds;
@@ -46,6 +49,7 @@ class ProfileView extends StatelessWidget {
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
+            SizedBox(height: MediaQuery.paddingOf(context).top),
             Padding(
               padding: const EdgeInsets.symmetric(
                 vertical: DimensSizeV2.d24,
@@ -57,7 +61,6 @@ class ProfileView extends StatelessWidget {
               ),
             ),
             Column(
-              spacing: DimensSizeV2.d16,
               mainAxisSize: MainAxisSize.min,
               children: [
                 _Container(
@@ -75,29 +78,43 @@ class ProfileView extends StatelessWidget {
                     ),
                   ],
                 ),
-                StateNotifierBuilder(
-                  listenableState: isBiometryAvailable,
-                  builder: (_, available) => _Container(
-                    children: [
-                      _Item(
-                        title: LocaleKeys.exportSeedPhrase.tr(),
-                        icon: LucideIcons.databaseBackup,
-                        onPressed: onExportSeed,
+                DoubleSourceBuilder(
+                  firstSource: isBiometryAvailable,
+                  secondSource: seed,
+                  builder: (_, available, seed) {
+                    if ((seed == null || seed.masterKey.isLedger) &&
+                        (available == null || !available)) {
+                      return const SizedBox.shrink();
+                    }
+
+                    return Padding(
+                      padding: const EdgeInsets.symmetric(
+                        vertical: DimensSizeV2.d16,
                       ),
-                      if (available ?? false)
-                        StateNotifierBuilder(
-                          listenableState: isBiometryEnabled,
-                          builder: (_, enabled) => _Item(
-                            title: LocaleKeys.biometryWord.tr(),
-                            icon: LucideIcons.fingerprint,
-                            trailing: Switch(
-                              value: enabled ?? false,
-                              onChanged: onBiomentryChanged,
+                      child: _Container(
+                        children: [
+                          if (seed != null && !seed.masterKey.isLedger)
+                            _Item(
+                              title: LocaleKeys.exportSeedPhrase.tr(),
+                              icon: LucideIcons.databaseBackup,
+                              onPressed: onExportSeed,
                             ),
-                          ),
-                        ),
-                    ],
-                  ),
+                          if (available ?? false)
+                            StateNotifierBuilder(
+                              listenableState: isBiometryEnabled,
+                              builder: (_, enabled) => _Item(
+                                title: LocaleKeys.biometryWord.tr(),
+                                icon: LucideIcons.fingerprint,
+                                trailing: Switch(
+                                  value: enabled ?? false,
+                                  onChanged: onBiomentryChanged,
+                                ),
+                              ),
+                            ),
+                        ],
+                      ),
+                    );
+                  },
                 ),
                 _Container(
                   children: [
@@ -119,7 +136,7 @@ class ProfileView extends StatelessWidget {
                   ],
                 ),
                 Padding(
-                  padding: const EdgeInsets.only(top: DimensSizeV2.d8),
+                  padding: const EdgeInsets.only(top: DimensSizeV2.d24),
                   child: Column(
                     mainAxisSize: MainAxisSize.min,
                     spacing: DimensSizeV2.d8,

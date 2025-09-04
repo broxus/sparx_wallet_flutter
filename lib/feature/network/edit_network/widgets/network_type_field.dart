@@ -7,12 +7,14 @@ import 'package:ui_components_lib/ui_components_lib.dart';
 
 class NetworkTypeField extends StatelessWidget {
   const NetworkTypeField({
+    required this.isEditable,
     required this.types,
     required this.selectedNetworkTypeState,
     required this.onChanged,
     super.key,
   });
 
+  final bool isEditable;
   final List<NetworkType> types;
   final ListenableState<NetworkType?> selectedNetworkTypeState;
   final ValueChanged<NetworkType> onChanged;
@@ -20,6 +22,7 @@ class NetworkTypeField extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final theme = context.themeStyleV2;
+
     return NetworkFormField(
       label: LocaleKeys.networkTypeWord.tr(),
       child: StateNotifierBuilder(
@@ -32,7 +35,7 @@ class NetworkTypeField extends StatelessWidget {
               for (final type in types)
                 GestureDetector(
                   behavior: HitTestBehavior.opaque,
-                  onTap: () => onChanged(type),
+                  onTap: isEditable ? () => onChanged(type) : null,
                   child: Row(
                     mainAxisSize: MainAxisSize.min,
                     children: [
@@ -40,7 +43,7 @@ class NetworkTypeField extends StatelessWidget {
                         child: CommonRadioInput(
                           value: type,
                           groupValue: selectedValue,
-                          onChanged: (_) {},
+                          onChanged: isEditable ? (_) {} : null,
                         ),
                       ),
                       const SizedBox(width: DimensSize.d8),
