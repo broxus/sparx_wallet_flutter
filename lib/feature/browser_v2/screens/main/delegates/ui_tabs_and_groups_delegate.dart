@@ -15,7 +15,7 @@ import 'package:flutter/material.dart';
 abstract interface class BrowserTabsAndGroupsUi {
   ListenableState<List<NotNullListenableState<BrowserTab>>?> get viewTabsState;
 
-  ListenableState<String?> get hostState;
+  ListenableState<Uri?> get activeTabUriState;
 
   ListenableState<String?> get selectedGroupIdState;
 
@@ -81,7 +81,7 @@ class BrowserTabsAndGroupsUiDelegate implements BrowserTabsAndGroupsUi {
       get viewTabsState => _viewTabsState;
 
   @override
-  ListenableState<String?> get hostState => model.activeTabUrlHostState;
+  ListenableState<Uri?> get activeTabUriState => model.activeTabUriState;
 
   @override
   ListenableState<TabAnimationType?> get tabAnimationTypeState =>
