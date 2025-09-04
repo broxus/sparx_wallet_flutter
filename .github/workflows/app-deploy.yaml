@@ -22,13 +22,13 @@ on:
         required: true
         default: release
         type: choice
-        options: [release, debug]
+        options: [ release, debug ]
       flavor:
         description: 'Target flavor:'
         required: true
         default: staging
         type: choice
-        options: [development, staging, production]
+        options: [ development, staging, production ]
 
 jobs:
   setup:
@@ -171,6 +171,16 @@ jobs:
           echo "ios_target is set to = ${{ env.ios_target }}"
           echo "build_mode is set to = ${{ inputs.build_mode }}"
 
+      - name: Remove default anti_phishing.json
+        run: |
+          rm -f assets/config/anti_phishing.json
+
+      - name: Download anti-phishing file
+        uses: actions/download-artifact@v4
+        with:
+          name: anti-phishing-json
+          path: assets/config
+
       - name: Setup Flutter
         uses: subosito/flutter-action@v2
         with:
@@ -296,6 +306,25 @@ jobs:
 
       - name: Display flavor target
         run: echo "Flavor target is = ${{ inputs.flavor }}"
+
+      - name: Fetch & merge anti-phishing lists
+        run: |
+          curl -s https://raw.githubusercontent.com/broxus/ever-wallet-anti-phishing/master/blacklist.json \
+            -o /tmp/blacklist1.json
+          curl -s https://raw.githubusercontent.com/MetaMask/eth-phishing-detect/refs/heads/main/src/config.json \
+            -o /tmp/config.json
+          mkdir -p assets/config
+          jq -s '(.[0] + .[1].blacklist) | unique | { blacklist: . }' \
+            /tmp/blacklist1.json /tmp/config.json \
+            > assets/config/anti_phishing.json
+          echo "→ New anti_phishing.json:"
+          head -n 5 assets/config/anti_phishing.json
+
+      - name: Flutter clean
+        run: flutter clean
+
+      - name: Get Flutter packages
+        run: dart pub get
 
       - name: Build and deploy
         run: |

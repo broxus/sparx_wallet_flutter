@@ -36,7 +36,7 @@ abstract interface class BrowserServiceTabs {
 
   NotNullListenableState<List<String>> get allTabsIdsState;
 
-  ListenableState<String?> get activeTabUrlHostState;
+  ListenableState<Uri?> get activeTabUriState;
 
   NotNullListenableState<BrowserTab>? getTabListenableById(String id);
 
@@ -141,7 +141,7 @@ class BrowserServiceTabsDelegate
     initValue: const ToolbarData(),
   );
 
-  late final _activeTabUrlHostState = StateNotifier<String?>();
+  late final _activeTabUriState = StateNotifier<Uri?>();
 
   final _groupsReactiveStore = GroupsReactiveStore();
   final _tabsReactiveStore = TabsReactiveStore();
@@ -163,7 +163,7 @@ class BrowserServiceTabsDelegate
       _tabsReactiveStore.entitiesIdsListState;
 
   @override
-  ListenableState<String?> get activeTabUrlHostState => _activeTabUrlHostState;
+  ListenableState<Uri?> get activeTabUriState => _activeTabUriState;
 
   @override
   ListenableState<ImageCache?> get screenshotsState =>
@@ -278,12 +278,25 @@ class BrowserServiceTabsDelegate
 
   @override
   void updateCachedUrl(String tabId, Uri uri) {
-    if (tabId == activeTabId) {
-      _activeTabUrlHostState.accept(uri.host);
-    }
+    _updateUriState(tabId, uri);
     _tabsReactiveStore.updateUrl(tabId: tabId, uri: uri);
     _browserTabsStorageService.saveBrowserTabs(_tabsReactiveStore.entities);
     _updateControlPanel();
+  }
+
+  void loadData(
+    String tabId,
+    String html, {
+    WebUri? baseUrl,
+    WebUri? historyUrl,
+  }) {
+    _updateUriState(tabId, null);
+    _controllersDelegate.loadData(
+      tabId,
+      html,
+      baseUrl: baseUrl,
+      historyUrl: historyUrl,
+    );
   }
 
   @override
@@ -593,6 +606,11 @@ class BrowserServiceTabsDelegate
   /// Put browser tabs to stream
   void _fetchDataFromCache() {
     final tabs = _browserTabsStorageService.getTabs()
+      ..forEach((tab) {
+        if (tab.url.hasEmptyPath || tab.url.path == 'blank') {
+          tab.url = Uri.parse('');
+        }
+      })
       ..sort(
         (a, b) => a.sortingOrder.compareTo(b.sortingOrder),
       );
@@ -642,8 +660,8 @@ class BrowserServiceTabsDelegate
     _updateControlPanel();
 
     if (activeTabId != null) {
-      _activeTabUrlHostState.accept(
-        _tabsReactiveStore.getCachedUrl(activeTabId!)?.host,
+      _activeTabUriState.accept(
+        _tabsReactiveStore.getCachedUrl(activeTabId!),
       );
     }
   }
@@ -659,5 +677,11 @@ class BrowserServiceTabsDelegate
               isCanGoForward: await _controllersDelegate.checkCanGoForward(id),
             ),
     );
+  }
+
+  void _updateUriState(String tabId, Uri? uri) {
+    if (tabId == activeTabId && uri != _activeTabUriState.value) {
+      _activeTabUriState.accept(uri);
+    }
   }
 }

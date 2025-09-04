@@ -196,9 +196,13 @@ class _BrowserAddressBarState extends State<BrowserAddressBar> {
 
   void _handleTab() {
     final urlText = _url.toString();
-    if (_controller.text != urlText) {
-      _controller.text = urlText;
+    if (_controller.text == urlText) {
+      return;
+    } else if (urlText == 'about:blank') {
+      _controller.text = '';
+      return;
     }
+    _controller.text = urlText;
   }
 }
 
