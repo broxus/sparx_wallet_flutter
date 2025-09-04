@@ -29,6 +29,9 @@ class BrowserService {
     this._tabsDelegate,
   );
 
+  static const searchEngineHost = 'duckduckgo.com';
+  static const searchUrl = 'https://$searchEngineHost/?q=';
+
   final TonConnectService _tonConnectService;
   final NekotonRepository _nekotonRepository;
 

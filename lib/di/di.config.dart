@@ -228,6 +228,8 @@ import '../feature/browser_v2/widgets/favicon_view/favicon_view_model.dart'
     as _i306;
 import '../feature/browser_v2/widgets/favicon_view/favicon_view_wm.dart'
     as _i312;
+import '../feature/browser_v2/widgets/tips_bar/tips_bar_model.dart' as _i476;
+import '../feature/browser_v2/widgets/tips_bar/tips_bar_wm.dart' as _i704;
 import '../feature/choose_network/choose_network_screen_model.dart' as _i173;
 import '../feature/choose_network/choose_network_screen_wm.dart' as _i124;
 import '../feature/choose_network/route.dart' as _i805;
@@ -1535,6 +1537,10 @@ extension GetItInjectableX on _i174.GetIt {
           gh<_i83.ErrorHandler>(),
           gh<_i470.BrowserService>(),
         ));
+    gh.factory<_i476.TipsBarModel>(() => _i476.TipsBarModel(
+          gh<_i83.ErrorHandler>(),
+          gh<_i470.BrowserService>(),
+        ));
     gh.factory<_i1045.TabListHeaderWidgetModel>(
         () => _i1045.TabListHeaderWidgetModel(gh<_i762.TabListHeaderModel>()));
     gh.factory<_i173.ChooseNetworkScreenModel>(
@@ -1559,6 +1565,8 @@ extension GetItInjectableX on _i174.GetIt {
           gh<_i128.PresetsConnectionService>(),
           gh<_i361.Dio>(),
         ));
+    gh.factory<_i704.TipsBarWidgetModel>(
+        () => _i704.TipsBarWidgetModel(gh<_i476.TipsBarModel>()));
     gh.factory<_i848.BrowserBookmarkRenameBottomSheetWidgetModel>(() =>
         _i848.BrowserBookmarkRenameBottomSheetWidgetModel(
             gh<_i706.BrowserBookmarkRenameBottomSheetModel>()));
