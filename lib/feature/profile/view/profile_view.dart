@@ -3,6 +3,7 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:elementary_helper/elementary_helper.dart';
 import 'package:flutter/material.dart';
 import 'package:lucide_icons_flutter/lucide_icons.dart';
+import 'package:nekoton_repository/nekoton_repository.dart';
 import 'package:ui_components_lib/ui_components_lib.dart';
 import 'package:ui_components_lib/v2/ui_components_lib_v2.dart';
 
@@ -11,6 +12,7 @@ class ProfileView extends StatelessWidget {
     required this.appVersion,
     required this.isBiometryAvailable,
     required this.isBiometryEnabled,
+    required this.seed,
     required this.onManageSeeds,
     required this.onExportSeed,
     required this.onContactSupport,
@@ -25,6 +27,7 @@ class ProfileView extends StatelessWidget {
 
   final ListenableState<bool> isBiometryAvailable;
   final ListenableState<bool> isBiometryEnabled;
+  final ListenableState<Seed?> seed;
   final String appVersion;
   final bool isDarkThemeEnabled;
   final VoidCallback onManageSeeds;
@@ -40,52 +43,62 @@ class ProfileView extends StatelessWidget {
   Widget build(BuildContext context) {
     final theme = context.themeStyleV2;
 
-    return Scaffold(
-      body: SafeArea(
-        child: SingleChildScrollView(
-          child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: DimensSizeV2.d16),
-            child: Column(
+    return SingleChildScrollView(
+      child: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: DimensSizeV2.d16),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            SizedBox(height: MediaQuery.paddingOf(context).top),
+            Padding(
+              padding: const EdgeInsets.symmetric(
+                vertical: DimensSizeV2.d24,
+              ),
+              child: Text(
+                LocaleKeys.settings.tr(),
+                style: theme.textStyles.headingMedium,
+                textAlign: TextAlign.center,
+              ),
+            ),
+            Column(
               mainAxisSize: MainAxisSize.min,
               children: [
-                Padding(
-                  padding: const EdgeInsets.symmetric(
-                    vertical: DimensSizeV2.d24,
-                  ),
-                  child: Text(
-                    LocaleKeys.settings.tr(),
-                    style: theme.textStyles.headingMedium,
-                    textAlign: TextAlign.center,
-                  ),
-                ),
-                Column(
-                  spacing: DimensSizeV2.d16,
-                  mainAxisSize: MainAxisSize.min,
+                _Container(
                   children: [
-                    _Container(
-                      children: [
-                        _Item(
-                          title: LocaleKeys.manageSeedsAndAccounts.tr(),
-                          icon: LucideIcons.keyRound,
-                          onPressed: onManageSeeds,
-                        ),
-                        _Item(
-                          title: LocaleKeys.connectedDappsTitle.tr(),
-                          subtitle: LocaleKeys.connectedDappsSubtitle.tr(),
-                          icon: LucideIcons.plus,
-                          onPressed: onManageDapps,
-                        ),
-                      ],
+                    _Item(
+                      title: LocaleKeys.manageSeedsAndAccounts.tr(),
+                      icon: LucideIcons.keyRound,
+                      onPressed: onManageSeeds,
                     ),
-                    StateNotifierBuilder(
-                      listenableState: isBiometryAvailable,
-                      builder: (_, available) => _Container(
+                    _Item(
+                      title: LocaleKeys.connectedDappsTitle.tr(),
+                      subtitle: LocaleKeys.connectedDappsSubtitle.tr(),
+                      icon: LucideIcons.plus,
+                      onPressed: onManageDapps,
+                    ),
+                  ],
+                ),
+                DoubleSourceBuilder(
+                  firstSource: isBiometryAvailable,
+                  secondSource: seed,
+                  builder: (_, available, seed) {
+                    if ((seed == null || seed.masterKey.isLedger) &&
+                        (available == null || !available)) {
+                      return const SizedBox.shrink();
+                    }
+
+                    return Padding(
+                      padding: const EdgeInsets.symmetric(
+                        vertical: DimensSizeV2.d16,
+                      ),
+                      child: _Container(
                         children: [
-                          _Item(
-                            title: LocaleKeys.exportSeedPhrase.tr(),
-                            icon: LucideIcons.databaseBackup,
-                            onPressed: onExportSeed,
-                          ),
+                          if (seed != null && !seed.masterKey.isLedger)
+                            _Item(
+                              title: LocaleKeys.exportSeedPhrase.tr(),
+                              icon: LucideIcons.databaseBackup,
+                              onPressed: onExportSeed,
+                            ),
                           if (available ?? false)
                             StateNotifierBuilder(
                               listenableState: isBiometryEnabled,
@@ -100,53 +113,53 @@ class ProfileView extends StatelessWidget {
                             ),
                         ],
                       ),
+                    );
+                  },
+                ),
+                _Container(
+                  children: [
+                    _Item(
+                      title: LocaleKeys.faq.tr(),
+                      icon: LucideIcons.messageCircleQuestion,
+                      onPressed: onFAQ,
                     ),
-                    _Container(
-                      children: [
-                        _Item(
-                          title: LocaleKeys.faq.tr(),
-                          icon: LucideIcons.messageCircleQuestion,
-                          onPressed: onFAQ,
-                        ),
-                        _Item(
-                          title: LocaleKeys.contactSupport.tr(),
-                          icon: LucideIcons.messagesSquare,
-                          onPressed: onContactSupport,
-                        ),
-                        _Item(
-                          title: LocaleKeys.legal.tr(),
-                          icon: LucideIcons.link,
-                          onPressed: onLegal,
-                        ),
-                      ],
+                    _Item(
+                      title: LocaleKeys.contactSupport.tr(),
+                      icon: LucideIcons.messagesSquare,
+                      onPressed: onContactSupport,
                     ),
-                    Padding(
-                      padding: const EdgeInsets.only(top: DimensSizeV2.d8),
-                      child: Column(
-                        mainAxisSize: MainAxisSize.min,
-                        spacing: DimensSizeV2.d8,
-                        children: [
-                          DestructiveButton(
-                            buttonShape: ButtonShape.pill,
-                            title: LocaleKeys.logOut.tr(),
-                            icon: LucideIcons.logOut,
-                            onPressed: onLogout,
-                          ),
-                          Text(
-                            '${LocaleKeys.versionWord.tr()} $appVersion',
-                            textAlign: TextAlign.center,
-                            style: theme.textStyles.labelXSmall.copyWith(
-                              color: theme.colors.content3,
-                            ),
-                          ),
-                        ],
-                      ),
+                    _Item(
+                      title: LocaleKeys.legal.tr(),
+                      icon: LucideIcons.link,
+                      onPressed: onLegal,
                     ),
                   ],
                 ),
+                Padding(
+                  padding: const EdgeInsets.only(top: DimensSizeV2.d24),
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    spacing: DimensSizeV2.d8,
+                    children: [
+                      DestructiveButton(
+                        buttonShape: ButtonShape.pill,
+                        title: LocaleKeys.logOut.tr(),
+                        icon: LucideIcons.logOut,
+                        onPressed: onLogout,
+                      ),
+                      Text(
+                        '${LocaleKeys.versionWord.tr()} $appVersion',
+                        textAlign: TextAlign.center,
+                        style: theme.textStyles.labelXSmall.copyWith(
+                          color: theme.colors.content3,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
               ],
             ),
-          ),
+          ],
         ),
       ),
     );

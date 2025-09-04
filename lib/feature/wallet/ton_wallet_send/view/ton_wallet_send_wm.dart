@@ -1,33 +1,28 @@
 import 'package:app/app/router/router.dart';
-import 'package:app/core/error_handler_factory.dart';
 import 'package:app/core/wm/custom_wm.dart';
-import 'package:app/di/di.dart';
+import 'package:app/feature/ledger/ledger.dart';
 import 'package:app/feature/messenger/data/message.dart';
 import 'package:app/feature/wallet/route.dart';
+import 'package:app/feature/wallet/ton_wallet_send/data/data.dart';
 import 'package:app/feature/wallet/ton_wallet_send/data/ton_wallet_send_state.dart';
+import 'package:app/feature/wallet/ton_wallet_send/route.dart';
 import 'package:app/feature/wallet/ton_wallet_send/view/ton_wallet_send_model.dart';
 import 'package:app/feature/wallet/ton_wallet_send/view/ton_wallet_send_widget.dart';
 import 'package:app/generated/generated.dart';
 import 'package:app/utils/utils.dart';
 import 'package:elementary_helper/elementary_helper.dart';
-import 'package:flutter/material.dart';
+import 'package:injectable/injectable.dart';
 import 'package:logging/logging.dart';
 import 'package:nekoton_repository/nekoton_repository.dart' hide Message;
 
-TonWalletSendWidgetModel defaultTonWalletSendWidgetModelFactory(
-  BuildContext context,
-) =>
-    TonWalletSendWidgetModel(
-      TonWalletSendModel(
-        createPrimaryErrorHandler(context),
-        inject(),
-        inject(),
-      ),
-    );
-
-class TonWalletSendWidgetModel
-    extends CustomWidgetModel<TonWalletSendWidget, TonWalletSendModel> {
-  TonWalletSendWidgetModel(super.model);
+@injectable
+class TonWalletSendWidgetModel extends CustomWidgetModelParametrized<
+    TonWalletSendWidget,
+    TonWalletSendModel,
+    TonWalletSendRouteData> with BleAvailabilityWmMixin {
+  TonWalletSendWidgetModel(
+    super.model,
+  );
 
   static final _logger = Logger('TonWalletSendWidgetModel');
 
@@ -37,9 +32,9 @@ class TonWalletSendWidgetModel
   late final _error = createNotifier<String>();
   late final _state = createNotifier(const TonWalletSendState.ready());
 
-  late final KeyAccount? account = model.getAccount(widget.data.address);
+  late final KeyAccount? account = model.getAccount(wmParams.value.address);
   late final Money amount =
-      Money.fromBigIntWithCurrency(widget.data.amount, currency);
+      Money.fromBigIntWithCurrency(wmParams.value.amount, currency);
 
   Currency get currency => model.currency;
 
@@ -53,18 +48,40 @@ class TonWalletSendWidgetModel
 
   ListenableState<TonWalletSendState> get state => _state;
 
+  PublicKey get publicKey => wmParams.value.publicKey;
+
+  Address get destination => wmParams.value.destination;
+
+  bool get popOnComplete => wmParams.value.popOnComplete;
+
+  BigInt? get attachedAmount => wmParams.value.attachedAmount;
+
+  String? get comment => wmParams.value.comment;
+
+  String? get payload => wmParams.value.payload;
+
   @override
   void initWidgetModel() {
     super.initWidgetModel();
     _init();
   }
 
-  Future<void> onPasswordEntered(String password) async {
+  Future<SignInputAuthLedger> getLedgerAuthInput() => model.getLedgerAuthInput(
+        address: wmParams.value.address,
+        custodian: wmParams.value.publicKey,
+      );
+
+  Future<void> onConfirmed(SignInputAuth signInputAuth) async {
     UnsignedMessage? unsignedMessage;
     try {
       _isLoading.accept(true);
-      final data = widget.data;
 
+      if (signInputAuth.isLedger) {
+        final isAvailable = await checkBluetoothAvailability();
+        if (!isAvailable) return;
+      }
+
+      final data = wmParams.value;
       final resultMessage =
           data.resultMessage ?? LocaleKeys.transactionSentSuccessfully.tr();
       final totalAmount = data.amount + (data.attachedAmount ?? BigInt.zero);
@@ -82,7 +99,7 @@ class TonWalletSendWidgetModel
         address: data.address,
         publicKey: data.publicKey,
         message: unsignedMessage,
-        password: password,
+        signInputAuth: signInputAuth,
         destination: data.destination,
         amount: totalAmount,
       );
@@ -100,11 +117,12 @@ class TonWalletSendWidgetModel
       } else {
         contextSafe?.compassPointNamed(const WalletRouteData());
       }
-    } on OperationCanceledException catch (_) {
+    } on OperationCanceledException {
       // TODO(Levitsky): Now exception is muted, but in future
       // _nekotonRepository could be improved, to graceful
       // handle account change.
     } on Exception catch (e, s) {
+      if (e is AnyhowException && e.isCancelled) return;
       _logger.severe('Failed to send transaction', e, s);
       model.showMessage(Message.error(message: e.toString()));
     } finally {
@@ -117,8 +135,8 @@ class TonWalletSendWidgetModel
     UnsignedMessage? unsignedMessage;
     try {
       _isLoading.accept(true);
-      final data = widget.data;
 
+      final data = wmParams.value;
       final walletState = await model.getWalletState(data.address);
       if (walletState.hasError) {
         _state.accept(TonWalletSendState.error(error: walletState.error!));

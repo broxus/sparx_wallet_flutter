@@ -1,9 +1,12 @@
 import 'package:app/app/service/app_version_service.dart';
 import 'package:app/app/service/service.dart';
+import 'package:app/feature/browser_v2/domain/browser_launcher.dart';
 import 'package:app/generated/generated.dart';
 import 'package:elementary/elementary.dart';
+import 'package:injectable/injectable.dart';
 import 'package:nekoton_repository/nekoton_repository.dart';
 
+@injectable
 class ProfilePageModel extends ElementaryModel {
   ProfilePageModel(
     ErrorHandler errorHandler,
@@ -11,12 +14,14 @@ class ProfilePageModel extends ElementaryModel {
     this._biometryService,
     this._sessionService,
     this._appVersionService,
+    this._browserLauncher,
   ) : super(errorHandler: errorHandler);
 
   final CurrentSeedService _currentSeedService;
   final BiometryService _biometryService;
   final SessionService _sessionService;
   final AppVersionService _appVersionService;
+  final BrowserLauncher _browserLauncher;
 
   Future<String> get appVersion async {
     final appVersion = await _appVersionService.appVersion();
@@ -43,4 +48,6 @@ class ProfilePageModel extends ElementaryModel {
       isEnabled: enabled,
     );
   }
+
+  void openBrowserUrl(String url) => _browserLauncher.openBrowserByString(url);
 }

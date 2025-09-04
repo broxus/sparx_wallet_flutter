@@ -1,31 +1,14 @@
 import 'package:app/app/view/app.dart';
 import 'package:app/app/view/app_model.dart';
 import 'package:app/app/view/message_viewer.dart';
-import 'package:app/core/error_handler_factory.dart';
 import 'package:app/core/wm/custom_wm.dart';
-import 'package:app/di/di.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:elementary/elementary.dart';
 import 'package:flutter/widgets.dart';
-
-/// Factory method for creating [AppWidgetModel]
-AppWidgetModel defaultAppWidgetModelFactory(
-  BuildContext context,
-) {
-  return AppWidgetModel(
-    AppModel(
-      createPrimaryErrorHandler(context),
-      inject(),
-      inject(),
-      inject(),
-      inject(),
-      inject(),
-      inject(),
-    ),
-  );
-}
+import 'package:injectable/injectable.dart';
 
 /// [WidgetModel] для [App]
+@injectable
 class AppWidgetModel extends CustomWidgetModel<App, AppModel> {
   AppWidgetModel(
     super.model,
@@ -48,8 +31,8 @@ class AppWidgetModel extends CustomWidgetModel<App, AppModel> {
 
   @override
   void initWidgetModel() {
-    _messageViewer.init();
     super.initWidgetModel();
+    _messageViewer.init();
   }
 
   @override
@@ -57,4 +40,6 @@ class AppWidgetModel extends CustomWidgetModel<App, AppModel> {
     _messageViewer.dispose();
     super.dispose();
   }
+
+  Future<bool> checkCrashDetected() => model.checkCrashDetected();
 }

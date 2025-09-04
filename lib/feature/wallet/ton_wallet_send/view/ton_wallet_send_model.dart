@@ -1,24 +1,37 @@
-import 'package:app/app/service/service.dart';
-import 'package:app/feature/messenger/data/message.dart';
-import 'package:app/feature/messenger/domain/service/messenger_service.dart';
+import 'package:app/app/service/connection/connection_service.dart';
+import 'package:app/feature/ledger/ledger.dart';
 import 'package:app/utils/utils.dart';
 import 'package:elementary/elementary.dart';
+import 'package:injectable/injectable.dart';
 import 'package:nekoton_repository/nekoton_repository.dart' hide Message;
 import 'package:rxdart/rxdart.dart';
 
-class TonWalletSendModel extends ElementaryModel {
+@injectable
+class TonWalletSendModel extends ElementaryModel
+    with BleAvailabilityModelMixin {
   TonWalletSendModel(
     ErrorHandler errorHandler,
     this._nekotonRepository,
-    this._messengerService,
+    this._ledgerService,
+    this._delegate,
   ) : super(errorHandler: errorHandler);
 
   final NekotonRepository _nekotonRepository;
-  final MessengerService _messengerService;
+  final LedgerService _ledgerService;
+  final BleAvailabilityModelDelegate _delegate;
+
+  @override
+  BleAvailabilityModelDelegate get delegate => _delegate;
 
   TransportStrategy get transport => _nekotonRepository.currentTransport;
 
   Currency get currency => Currencies()[transport.nativeTokenTicker]!;
+
+  @override
+  void dispose() {
+    _ledgerService.closeLedgerConnection();
+    super.dispose();
+  }
 
   KeyAccount? getAccount(Address address) =>
       _nekotonRepository.seedList.findAccountByAddress(address);
@@ -73,15 +86,23 @@ class TonWalletSendModel extends ElementaryModel {
     required Address address,
     required PublicKey publicKey,
     required UnsignedMessage message,
-    required String password,
+    required SignInputAuth signInputAuth,
     required Address destination,
     required BigInt amount,
   }) async {
-    final signature = await _nekotonRepository.seedList.sign(
-      data: message.hash,
+    final signatureId = await transport.transport.getSignatureId();
+    final signature = await _ledgerService.runWithLedgerIfKeyIsLedger(
+      interactionType: LedgerInteractionType.signTransaction,
       publicKey: publicKey,
-      password: password,
-      signatureId: await transport.transport.getSignatureId(),
+      action: () async {
+        await message.refreshTimeout();
+        return _nekotonRepository.seedList.sign(
+          message: message.message,
+          publicKey: publicKey,
+          signInputAuth: signInputAuth,
+          signatureId: signatureId,
+        );
+      },
     );
 
     final signedMessage = await message.sign(signature: signature);
@@ -94,5 +115,22 @@ class TonWalletSendModel extends ElementaryModel {
     );
   }
 
-  void showMessage(Message message) => _messengerService.show(message);
+  Future<SignInputAuthLedger> getLedgerAuthInput({
+    required Address address,
+    required PublicKey custodian,
+  }) async {
+    final walletState = await _nekotonRepository.getWallet(address);
+
+    return SignInputAuthLedger(
+      wallet: walletState.wallet!.walletType,
+      context: _ledgerService.prepareSignatureContext(
+        PrepareSignatureContext.transfer(
+          wallet: walletState.wallet!,
+          asset: currency.symbol,
+          decimals: currency.decimalDigits,
+          custodian: custodian,
+        ),
+      ),
+    );
+  }
 }

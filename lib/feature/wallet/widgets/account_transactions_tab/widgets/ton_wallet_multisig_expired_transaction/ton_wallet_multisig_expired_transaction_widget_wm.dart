@@ -1,7 +1,4 @@
-import 'package:app/core/error_handler_factory.dart';
 import 'package:app/core/wm/custom_wm.dart';
-import 'package:app/di/di.dart';
-import 'package:app/feature/browser_v1/browser.dart';
 import 'package:app/feature/wallet/widgets/account_transactions_tab/detail/details.dart';
 import 'package:app/feature/wallet/widgets/account_transactions_tab/widgets/ton_wallet_multisig_expired_transaction/ton_wallet_multisig_expired_transaction_model.dart';
 import 'package:app/feature/wallet/widgets/account_transactions_tab/widgets/ton_wallet_multisig_expired_transaction/ton_wallet_multisig_expired_transaction_widget.dart';
@@ -9,28 +6,47 @@ import 'package:app/feature/wallet/widgets/account_transactions_tab/widgets/ton_
 import 'package:app/generated/generated.dart';
 import 'package:elementary/elementary.dart';
 import 'package:flutter/material.dart';
+import 'package:injectable/injectable.dart';
+import 'package:nekoton_repository/nekoton_repository.dart';
 import 'package:ui_components_lib/ui_components_lib.dart';
 import 'package:ui_components_lib/v2/ui_components_lib_v2.dart';
 
-/// Factory method for creating [TonWalletMultisigExpiredTransactionWidgetModel]
-TonWalletMultisigExpiredTransactionWidgetModel
-    defaultTonWalletMultisigExpiredTransactionWidgetModelFactory(
-  BuildContext context,
-) {
-  return TonWalletMultisigExpiredTransactionWidgetModel(
-    TonWalletMultisigExpiredTransactionModel(
-      createPrimaryErrorHandler(context),
-      inject(),
-    ),
-  );
+class TonWalletMultisigExpiredTransactionWmParams {
+  TonWalletMultisigExpiredTransactionWmParams({
+    required this.transaction,
+    required this.price,
+    required this.isFirst,
+    required this.isLast,
+    required this.account,
+  });
+
+  final TonWalletMultisigExpiredTransaction transaction;
+  final Fixed price;
+  final bool isFirst;
+  final bool isLast;
+  final KeyAccount account;
 }
 
 /// [WidgetModel] для [TonWalletMultisigExpiredTransactionWidget]
-class TonWalletMultisigExpiredTransactionWidgetModel extends CustomWidgetModel<
-    TonWalletMultisigExpiredTransactionWidget,
-    TonWalletMultisigExpiredTransactionModel> {
+@injectable
+class TonWalletMultisigExpiredTransactionWidgetModel
+    extends CustomWidgetModelParametrized<
+        TonWalletMultisigExpiredTransactionWidget,
+        TonWalletMultisigExpiredTransactionModel,
+        TonWalletMultisigExpiredTransactionWmParams> {
   TonWalletMultisigExpiredTransactionWidgetModel(
     super.model,
+  );
+
+  late final transactionState =
+      createWmParamsNotifier<TonWalletMultisigExpiredTransaction>(
+    (it) => it.transaction,
+  );
+  late final isFirstState = createWmParamsNotifier<bool>(
+    (it) => it.isFirst,
+  );
+  late final isLastState = createWmParamsNotifier<bool>(
+    (it) => it.isLast,
   );
 
   late final transactionTimeFormatter = DateFormat(
@@ -38,17 +54,22 @@ class TonWalletMultisigExpiredTransactionWidgetModel extends CustomWidgetModel<
     context.locale.languageCode,
   );
 
-  late final transactionText =
-      transactionTimeFormatter.format(widget.transaction.date);
-
-  late final transactionFee = Money.fromBigIntWithCurrency(
-    widget.transaction.fees,
-    Currencies()[_nativeTokenTicker]!,
+  late final transactionTextState = createWmParamsNotifier<String>(
+    (it) => transactionTimeFormatter.format(it.transaction.date),
   );
 
-  late final transactionValue = Money.fromBigIntWithCurrency(
-    widget.transaction.value,
-    Currencies()[_nativeTokenTicker]!,
+  late final transactionFeeState = createWmParamsNotifier<Money>(
+    (it) => Money.fromBigIntWithCurrency(
+      it.transaction.fees,
+      Currencies()[_nativeTokenTicker]!,
+    ),
+  );
+
+  late final transactionValueState = createWmParamsNotifier<Money>(
+    (it) => Money.fromBigIntWithCurrency(
+      it.transaction.value,
+      Currencies()[_nativeTokenTicker]!,
+    ),
   );
 
   TextStylesV2 get textStyles => _theme.textStyles;
@@ -62,16 +83,20 @@ class TonWalletMultisigExpiredTransactionWidgetModel extends CustomWidgetModel<
   String get _tonIconPath => model.tonIconPath;
 
   void onPressedDetailed() {
+    final params = wmParams.value;
+    final fee = transactionFeeState.value;
+    final value = transactionValueState.value;
+
     Navigator.of(context, rootNavigator: true).push(
       MaterialPageRoute<void>(
         builder: (_) => TonWalletMultisigExpiredTransactionDetailsPage(
-          transaction: widget.transaction,
-          price: widget.price,
-          account: widget.account,
-          transactionFee: transactionFee,
-          transactionValue: transactionValue,
+          transaction: params.transaction,
+          price: params.price,
+          account: params.account,
+          transactionFee: fee,
+          transactionValue: value,
           tonIconPath: _tonIconPath,
-          methodData: widget.transaction.walletInteractionInfo?.method
+          methodData: params.transaction.walletInteractionInfo?.method
               .toRepresentableData(),
           onPressedSeeInExplorer: _openBrowserNewTab,
         ),
@@ -80,8 +105,6 @@ class TonWalletMultisigExpiredTransactionWidgetModel extends CustomWidgetModel<
   }
 
   void _openBrowserNewTab() {
-    openBrowserUrl(
-      model.getTransactionExplorerLink(widget.transaction.hash),
-    );
+    model.openBrowserUrl(wmParams.value.transaction.hash);
   }
 }

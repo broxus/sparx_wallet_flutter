@@ -1,20 +1,26 @@
-import 'package:app/feature/messenger/data/message.dart';
-import 'package:app/feature/messenger/domain/service/messenger_service.dart';
+import 'package:app/feature/ledger/ledger.dart';
 import 'package:app/generated/generated.dart';
 import 'package:elementary/elementary.dart';
-import 'package:flutter/material.dart';
+import 'package:injectable/injectable.dart';
 import 'package:nekoton_repository/nekoton_repository.dart' hide Message;
 import 'package:rxdart/rxdart.dart';
 
-class NewAccountTypeModel extends ElementaryModel {
+@injectable
+class NewAccountTypeModel extends ElementaryModel
+    with BleAvailabilityModelMixin {
   NewAccountTypeModel(
     ErrorHandler errorHandler,
-    this._messengerService,
     this._nekotonRepository,
+    this._ledgerService,
+    this._delegate,
   ) : super(errorHandler: errorHandler);
 
-  final MessengerService _messengerService;
   final NekotonRepository _nekotonRepository;
+  final LedgerService _ledgerService;
+  final BleAvailabilityModelDelegate _delegate;
+
+  @override
+  BleAvailabilityModelDelegate get delegate => _delegate;
 
   TransportStrategy get transport => _nekotonRepository.currentTransport;
 
@@ -24,10 +30,14 @@ class NewAccountTypeModel extends ElementaryModel {
     required String? password,
     required String? name,
   }) async {
-    final seedKey = await _getSeedKey(
+    final seedKey = await _ledgerService.runWithLedgerIfKeyIsLedger(
+      interactionType: LedgerInteractionType.getPublicKey,
       publicKey: publicKey,
-      walletType: walletType,
-      password: password,
+      action: () => _getSeedKey(
+        publicKey: publicKey,
+        walletType: walletType,
+        password: password,
+      ),
     );
 
     if (seedKey == null) throw Exception(LocaleKeys.createAccountError.tr());
@@ -39,18 +49,15 @@ class NewAccountTypeModel extends ElementaryModel {
     );
   }
 
-  void showError(BuildContext context, String message) {
-    _messengerService.show(
-      Message.error(message: message),
-    );
-  }
-
   List<WalletType> getCreatedAccountTypes(PublicKey publicKey) =>
       _nekotonRepository.seedList
           .findSeedByAnyPublicKey(publicKey)
           ?.masterKey
           .createdAccountTypes ??
       [];
+
+  SeedKey? getMasterKey(PublicKey publicKey) =>
+      _nekotonRepository.seedList.findSeedByAnyPublicKey(publicKey)?.masterKey;
 
   Future<SeedKey?> _getSeedKey({
     required WalletType walletType,
@@ -64,7 +71,7 @@ class NewAccountTypeModel extends ElementaryModel {
     }
 
     // legacy 24 words seed
-    if (password == null) {
+    if (seed.masterKey.isLegacy) {
       return seed.masterKey;
     }
 
@@ -76,11 +83,25 @@ class NewAccountTypeModel extends ElementaryModel {
 
     final addedKeys = seed.subKeys.map((item) => item.publicKey).toSet()
       ..add(seed.publicKey);
-    final keys = await seed.getKeysToDerive(password);
-    PublicKey? derivedKey;
+    final stream = _nekotonRepository.getKeysToDeriveStream(
+      password != null
+          ? GetPublicKeysParams.derived(
+              masterKey: seed.masterPublicKey,
+              password: password,
+              limit: 100,
+              offset: 0,
+            )
+          : const GetPublicKeysParams.ledger(
+              limit: 100,
+              offset: 0,
+            ),
+    );
 
-    for (var i = 0; i < keys.length; i++) {
-      final key = keys[i];
+    PublicKey? derivedKey;
+    var accountId = -1;
+
+    await for (final key in stream) {
+      accountId++;
 
       if (addedKeys.contains(key)) continue;
 
@@ -93,7 +114,14 @@ class NewAccountTypeModel extends ElementaryModel {
 
       if (found.any((item) => item.isActive)) continue;
 
-      derivedKey = await seed.deriveKey(accountId: i, password: password);
+      final params = password != null
+          ? DeriveKeysParams.derived(
+              masterKey: seed.masterPublicKey,
+              password: password,
+              accountId: accountId,
+            )
+          : DeriveKeysParams.ledger(accountId: accountId);
+      derivedKey = await _nekotonRepository.deriveKey(params: params);
       break;
     }
 

@@ -6,18 +6,17 @@ class ConnectionTransportData {
   ConnectionTransportData({
     required this.icons,
     required this.availableWalletTypes,
-    required this.walletDefaultAccountNames,
     required this.defaultWalletType,
     required this.nativeTokenTickerOption,
     required this.manifestOption,
     required this.nativeTokenAddress,
-    required this.networkName,
-    required this.networkType,
     required this.seedPhraseWordsCount,
+    required this.walletDefaultAccountNames,
+    required this.networkName,
     required this.genericTokenType,
     required this.accountExplorerLinkType,
-    required this.transactionExplorerLinkType,
-    this.baseCurrencyUrl,
+    required this.networkType,
+    this.transactionExplorerLinkType,
     this.stakeInformation,
     this.tokenApiBaseUrl,
     this.currencyApiBaseUrl,
@@ -79,7 +78,6 @@ class ConnectionTransportData {
   final List<WalletType> availableWalletTypes;
   final WalletDefaultAccountNames walletDefaultAccountNames;
   final WalletType defaultWalletType;
-  final String? baseCurrencyUrl;
   final TransportNativeTokenTickerOption nativeTokenTickerOption;
   final TransportManifestOption manifestOption;
   final Address nativeTokenAddress;
@@ -88,7 +86,7 @@ class ConnectionTransportData {
   final List<int> seedPhraseWordsCount;
   final GenericTokenType genericTokenType;
   final AccountExplorerLinkType accountExplorerLinkType;
-  final TransactionExplorerLinkType transactionExplorerLinkType;
+  final TransactionExplorerLinkType? transactionExplorerLinkType;
   final StakingInformation? stakeInformation;
   final String? tokenApiBaseUrl;
   final String? currencyApiBaseUrl;
@@ -99,24 +97,24 @@ class ConnectionTransportData {
 
 class WalletDefaultAccountNames {
   WalletDefaultAccountNames({
-    required this.multisig,
-    required this.walletV3,
-    required this.highloadWalletV2,
-    required this.everWallet,
-    required this.walletV3R1,
-    required this.walletV3R2,
-    required this.walletV4R1,
-    required this.walletV4R2,
-    required this.walletV5R1,
+    this.multisig,
+    this.walletV3,
+    this.highloadWalletV2,
+    this.everWallet,
+    this.walletV3R1,
+    this.walletV3R2,
+    this.walletV4R1,
+    this.walletV4R2,
+    this.walletV5R1,
   });
 
-  final Map<MultisigType, String> multisig;
-  final String walletV3;
-  final String highloadWalletV2;
-  final String everWallet;
-  final String walletV3R1;
-  final String walletV3R2;
-  final String walletV4R1;
-  final String walletV4R2;
-  final String walletV5R1;
+  final Map<MultisigType, String>? multisig;
+  final String? walletV3;
+  final String? highloadWalletV2;
+  final String? everWallet;
+  final String? walletV3R1;
+  final String? walletV3R2;
+  final String? walletV4R1;
+  final String? walletV4R2;
+  final String? walletV5R1;
 }

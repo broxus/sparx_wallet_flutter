@@ -3,6 +3,7 @@ import 'package:app/di/di.dart';
 import 'package:app/feature/wallet/route.dart';
 import 'package:app/feature/wallet/wallet.dart';
 import 'package:app/generated/generated.dart';
+import 'package:app/utils/common_utils.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:nekoton_repository/nekoton_repository.dart';
@@ -28,6 +29,9 @@ class WalletDeployPage extends StatelessWidget {
         publicKey: publicKey,
         nekotonRepository: inject(),
         currenciesService: inject(),
+        ledgerService: inject(),
+        messengerService: inject(),
+        permissionsService: inject(),
       ),
       child: BlocConsumer<WalletDeployBloc, WalletDeployState>(
         listener: (context, state) {
@@ -75,6 +79,7 @@ class WalletDeployPage extends StatelessWidget {
                   currency: Currencies()[state.ticker ?? ''],
                   customCurrency: state.currency,
                   account: state.account,
+                  ledgerAuthInput: state.ledgerAuthInput,
                 ),
                 canPrev: true,
               ),
@@ -116,15 +121,11 @@ class WalletDeployPage extends StatelessWidget {
               titleText: canPrev
                   ? LocaleKeys.deployWallet.tr()
                   : LocaleKeys.selectWalletType.tr(),
-              onClosePressed: (context) {
-                if (canPrev) {
-                  context
-                      .read<WalletDeployBloc>()
-                      .add(const WalletDeployEvent.goPrevStep());
-                } else {
-                  context.compassBack();
-                }
-              },
+              onClosePressed: ((BuildContext context) {
+                context
+                    .read<WalletDeployBloc>()
+                    .add(const WalletDeployEvent.goPrevStep());
+              }).takeIf((_) => canPrev),
             ),
             body: body,
           ),

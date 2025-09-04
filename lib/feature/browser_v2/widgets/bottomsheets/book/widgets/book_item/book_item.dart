@@ -237,8 +237,7 @@ class _RemoveLabel extends StatelessWidget {
             child: Icon(
               LucideIcons.trash2,
               size: DimensSizeV2.d16,
-              // TODO(knightforce): e50 color
-              color: Color(0xFFFF395F),
+              color: ColorsResV2.vibrantStrawberry,
             ),
           ),
         ),

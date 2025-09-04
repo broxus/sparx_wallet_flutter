@@ -1,3 +1,4 @@
+import 'package:app/core/wm/custom_wm.dart';
 import 'package:app/feature/browser_v1/approvals_listener/actions/send_message/send_message_wm.dart';
 import 'package:app/feature/browser_v1/approvals_listener/actions/widgets/widgets.dart';
 import 'package:app/feature/profile/profile.dart';
@@ -5,38 +6,40 @@ import 'package:app/feature/wallet/wallet.dart';
 import 'package:app/generated/generated.dart';
 import 'package:app/utils/utils.dart';
 import 'package:app/widgets/widgets.dart';
-import 'package:elementary/elementary.dart';
 import 'package:elementary_helper/elementary_helper.dart';
 import 'package:flutter/material.dart';
 import 'package:nekoton_repository/nekoton_repository.dart';
 import 'package:ui_components_lib/ui_components_lib.dart';
 import 'package:ui_components_lib/v2/ui_components_lib_v2.dart';
 
-class SendMessageWidget extends ElementaryWidget<SendMessageWidgetModel> {
-  const SendMessageWidget({
-    required this.origin,
-    required this.sender,
-    required this.recipient,
-    required this.amount,
-    required this.bounce,
-    required this.payload,
-    required this.knownPayload,
+class SendMessageWidget extends InjectedElementaryParametrizedWidget<
+    SendMessageWidgetModel, SendMessageWmParams> {
+  SendMessageWidget({
+    required Uri origin,
+    required Address sender,
+    required Address recipient,
+    required BigInt amount,
+    required bool bounce,
+    required FunctionCall? payload,
+    required KnownPayload? knownPayload,
     required this.scrollController,
-    this.ignoredComputePhaseCodes,
-    this.ignoredActionPhaseCodes,
-    Key? key,
-    WidgetModelFactory wmFactory = defaultSendMessageWidgetModelFactory,
-  }) : super(wmFactory, key: key);
+    List<IgnoreTransactionTreeSimulationError>? ignoredComputePhaseCodes,
+    List<IgnoreTransactionTreeSimulationError>? ignoredActionPhaseCodes,
+    super.key,
+  }) : super(
+          wmFactoryParam: SendMessageWmParams(
+            origin: origin,
+            sender: sender,
+            recipient: recipient,
+            amount: amount,
+            bounce: bounce,
+            payload: payload,
+            knownPayload: knownPayload,
+            ignoredComputePhaseCodes: ignoredComputePhaseCodes,
+            ignoredActionPhaseCodes: ignoredActionPhaseCodes,
+          ),
+        );
 
-  final Uri origin;
-  final Address sender;
-  final Address recipient;
-  final BigInt amount;
-  final bool bounce;
-  final FunctionCall? payload;
-  final KnownPayload? knownPayload;
-  final List<IgnoreTransactionTreeSimulationError>? ignoredComputePhaseCodes;
-  final List<IgnoreTransactionTreeSimulationError>? ignoredActionPhaseCodes;
   final ScrollController scrollController;
 
   @override
@@ -70,7 +73,12 @@ class SendMessageWidget extends ElementaryWidget<SendMessageWidgetModel> {
                     ),
                   ),
                 const SizedBox(height: DimensSizeV2.d12),
-                WebsiteInfoWidget(uri: origin),
+                ValueListenableBuilder(
+                  valueListenable: wm.originState,
+                  builder: (_, origin, __) {
+                    return WebsiteInfoWidget(uri: origin);
+                  },
+                ),
                 DoubleSourceBuilder(
                   firstSource: wm.publicKey,
                   secondSource: wm.custodians,
@@ -95,11 +103,19 @@ class SendMessageWidget extends ElementaryWidget<SendMessageWidgetModel> {
                         ),
                 ),
                 const SizedBox(height: DimensSizeV2.d12),
-                TripleSourceBuilder(
-                  firstSource: wm.data,
-                  secondSource: wm.fee,
-                  thirdSource: wm.feeError,
-                  builder: (_, data, fee, feeError) {
+                MultiListenerRebuilder(
+                  listenableList: [
+                    wm.data,
+                    wm.fee,
+                    wm.feeError,
+                    wm.recipientState,
+                  ],
+                  builder: (_) {
+                    final data = wm.data.value;
+                    final fee = wm.fee.value;
+                    final feeError = wm.feeError.value;
+                    final recipient = wm.recipientState.value;
+
                     return data?.let(
                           (data) => TokenTransferInfoWidget(
                             key: UniqueKey(),
@@ -117,26 +133,32 @@ class SendMessageWidget extends ElementaryWidget<SendMessageWidgetModel> {
                         const SizedBox.shrink();
                   },
                 ),
-                if (payload != null)
-                  Padding(
-                    padding: const EdgeInsets.only(top: DimensSizeV2.d12),
-                    child: ExpandableCard(
-                      collapsedHeight: DimensSizeV2.d256,
-                      child: SeparatedColumn(
-                        spacing: DimensSizeV2.d16,
-                        crossAxisAlignment: CrossAxisAlignment.stretch,
-                        children: [
-                          Text(
-                            LocaleKeys.metadata.tr(),
-                            style: theme.textStyles.labelSmall.copyWith(
-                              color: theme.colors.content3,
+                ValueListenableBuilder(
+                  valueListenable: wm.payloadState,
+                  builder: (_, payload, __) {
+                    if (payload == null) return const SizedBox.shrink();
+
+                    return Padding(
+                      padding: const EdgeInsets.only(top: DimensSizeV2.d12),
+                      child: ExpandableCard(
+                        collapsedHeight: DimensSizeV2.d256,
+                        child: SeparatedColumn(
+                          spacing: DimensSizeV2.d16,
+                          crossAxisAlignment: CrossAxisAlignment.stretch,
+                          children: [
+                            Text(
+                              LocaleKeys.metadata.tr(),
+                              style: theme.textStyles.labelSmall.copyWith(
+                                color: theme.colors.content3,
+                              ),
                             ),
-                          ),
-                          FunctionCallBody(payload: payload!),
-                        ],
+                            FunctionCallBody(payload: payload),
+                          ],
+                        ),
                       ),
-                    ),
-                  ),
+                    );
+                  },
+                ),
               ],
             ),
           ),
@@ -161,15 +183,16 @@ class SendMessageWidget extends ElementaryWidget<SendMessageWidgetModel> {
                     ),
                   StateNotifierBuilder(
                     listenableState: wm.isLoading,
-                    builder: (_, isLoading) => EnterPasswordWidgetV2(
-                      isLoading: isLoading,
+                    builder: (_, isLoading) => EnterPasswordWidget.auth(
+                      getLedgerAuthInput: wm.getLedgerAuthInput,
+                      isLoading: isLoading ?? false,
                       publicKey: wm.account!.publicKey,
                       title: LocaleKeys.sendWord.tr(),
                       isDisabled: wm.numberUnconfirmedTransactions == null ||
                           wm.numberUnconfirmedTransactions! >= 5 ||
                           feeError != null ||
                           (hasTxError && isConfirmed != true),
-                      onPasswordEntered: wm.onSubmit,
+                      onConfirmed: wm.onSubmit,
                     ),
                   ),
                 ],

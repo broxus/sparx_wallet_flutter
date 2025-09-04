@@ -1,10 +1,7 @@
 import 'dart:async';
 
 import 'package:app/app/router/router.dart';
-import 'package:app/core/error_handler_factory.dart';
 import 'package:app/core/wm/custom_wm.dart';
-import 'package:app/di/di.dart';
-import 'package:app/feature/browser_v1/browser.dart';
 import 'package:app/feature/contact_support/contact_support.dart';
 import 'package:app/feature/profile/manage_seeds_accounts/route.dart';
 import 'package:app/feature/profile/profile.dart';
@@ -12,23 +9,13 @@ import 'package:app/feature/profile/view/profile_page_model.dart';
 import 'package:app/feature/ton_connect/ton_connect.dart';
 import 'package:elementary_helper/elementary_helper.dart';
 import 'package:flutter/material.dart';
+import 'package:injectable/injectable.dart';
+import 'package:nekoton_repository/nekoton_repository.dart';
 
 const _faqUrl = 'https://docs.sparxwallet.com';
 const _legalUrl = 'https://l1.broxus.com/sparx/terms';
 
-ProfilePageWidgetModel defaultProfilePageWidgetModelFactory(
-  BuildContext context,
-) =>
-    ProfilePageWidgetModel(
-      ProfilePageModel(
-        createPrimaryErrorHandler(context),
-        inject(),
-        inject(),
-        inject(),
-        inject(),
-      ),
-    );
-
+@injectable
 class ProfilePageWidgetModel
     extends CustomWidgetModel<ProfilePageWidget, ProfilePageModel> {
   ProfilePageWidgetModel(super.model);
@@ -45,6 +32,8 @@ class ProfilePageWidgetModel
   ListenableState<bool> get isBiometryEnabled => _biometryEnabled;
 
   ListenableState<String> get appVersionState => _appVersionState;
+
+  ListenableState<Seed?> get seed => _seed;
 
   @override
   void initWidgetModel() {
@@ -88,9 +77,9 @@ class ProfilePageWidgetModel
     );
   }
 
-  void onFAQ() => openBrowserUrl(_faqUrl);
+  void onFAQ() => model.openBrowserUrl(_faqUrl);
 
-  void onLegal() => openBrowserUrl(_legalUrl);
+  void onLegal() => model.openBrowserUrl(_legalUrl);
 
   void onManageDapps() => showTCManageDappsSheet(context);
 

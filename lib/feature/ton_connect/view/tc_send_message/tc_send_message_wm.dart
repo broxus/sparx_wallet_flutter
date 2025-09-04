@@ -1,16 +1,18 @@
 import 'dart:async';
 
 import 'package:app/app/service/service.dart';
-import 'package:app/core/error_handler_factory.dart';
 import 'package:app/core/wm/custom_wm.dart';
-import 'package:app/di/di.dart';
+import 'package:app/feature/ledger/ledger.dart';
 import 'package:app/feature/messenger/data/message.dart';
 import 'package:app/feature/ton_connect/ton_connect.dart';
 import 'package:app/generated/generated.dart';
 import 'package:app/utils/utils.dart';
 import 'package:elementary_helper/elementary_helper.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:injectable/injectable.dart';
 import 'package:nekoton_repository/nekoton_repository.dart' hide Message;
+import 'package:rxdart/rxdart.dart';
 import 'package:ui_components_lib/v2/ui_components_lib_v2.dart';
 
 class TransferData {
@@ -29,36 +31,42 @@ class TransferData {
   final Address? rootTokenContract;
 }
 
-TCSendMessageWidgetModel defaultTCSendMessageWidgetModelFactory(
-  BuildContext context,
-) =>
-    TCSendMessageWidgetModel(
-      TCSendMessageModel(
-        createPrimaryErrorHandler(context),
-        inject(),
-        inject(),
-        inject(),
-      ),
-    );
+class TCSendMessageWmParams {
+  TCSendMessageWmParams({required this.connection, required this.payload});
 
-class TCSendMessageWidgetModel
-    extends CustomWidgetModel<TCSendMessageWidget, TCSendMessageModel> {
-  TCSendMessageWidgetModel(super.model);
+  final TonAppConnection connection;
+  final TransactionPayload payload;
+}
 
-  late final account = model.getAccount(widget.connection.walletAddress);
+@injectable
+class TCSendMessageWidgetModel extends CustomWidgetModelParametrized<
+    TCSendMessageWidget,
+    TCSendMessageModel,
+    TCSendMessageWmParams> with BleAvailabilityWmMixin {
+  TCSendMessageWidgetModel(
+    super.model,
+  );
+
+  late final ValueListenable<KeyAccount?> accountState = createWmParamsNotifier(
+    (it) => model.getAccount(it.connection.walletAddress),
+  );
 
   late final _data = createNotifier<List<TransferData>>();
   late final _fee = createNotifier<BigInt>();
   late final _feeError = createNotifier<String>();
   late final _txErrors = createNotifier<List<TxTreeSimulationErrorItem>>();
-  late final _publicKey = createNotifier(account?.publicKey);
+  late final _publicKey = createValueNotifier<PublicKey?>(null);
   late final _custodians = createNotifier<List<PublicKey>>();
   late final _balance = createNotifierFromStream(
-    model.getBalanceStream(widget.connection.walletAddress),
+    wmParams.switchMap(
+      (it) => model.getBalanceStream(it.connection.walletAddress),
+    ),
   );
   late final _isLoading = createNotifier(true);
   late final _isConfirmed = createNotifier(false);
   int? numberUnconfirmedTransactions;
+
+  TonAppConnection get connection => wmParams.value.connection;
 
   ListenableState<List<TransferData>> get data => _data;
 
@@ -68,7 +76,7 @@ class TCSendMessageWidgetModel
 
   ListenableState<List<TxTreeSimulationErrorItem>> get txErrors => _txErrors;
 
-  ListenableState<PublicKey> get publicKey => _publicKey;
+  ValueListenable<PublicKey?> get selectedPublicKey => _publicKey;
 
   ListenableState<List<PublicKey>> get custodians => _custodians;
 
@@ -85,7 +93,7 @@ class TCSendMessageWidgetModel
 
   ThemeStyleV2 get theme => context.themeStyleV2;
 
-  Address get sender => widget.connection.walletAddress;
+  Address get sender => wmParams.value.connection.walletAddress;
 
   Money get totalAmount => Money.fromBigIntWithCurrency(
         (_data.value ?? []).fold(
@@ -103,18 +111,28 @@ class TCSendMessageWidgetModel
 
   String? getSeedName(PublicKey custodian) => model.getSeedName(custodian);
 
-  void onChangedCustodian(PublicKey custodian) => _publicKey.accept(custodian);
+  // ignore: use_setters_to_change_properties
+  void onChangedCustodian(PublicKey custodian) {
+    _publicKey.value = custodian;
+  }
 
-  Future<void> onSubmit(String password) async {
+  Future<void> onSubmit(SignInputAuth signInputAuth) async {
+    final account = accountState.value;
     if (account == null) return;
 
     try {
       _isLoading.accept(true);
+
+      if (signInputAuth.isLedger) {
+        final isAvailable = await checkBluetoothAvailability();
+        if (!isAvailable) return;
+      }
+
       final message = await model.send(
         address: sender,
-        publicKey: account!.publicKey,
-        messages: widget.payload.messages,
-        password: password,
+        publicKey: account.publicKey,
+        messages: wmParams.value.payload.messages,
+        signInputAuth: signInputAuth,
       );
 
       if (contextSafe != null) {
@@ -142,6 +160,23 @@ class TCSendMessageWidgetModel
   // ignore: avoid_positional_boolean_parameters
   void onConfirmed(bool value) => _isConfirmed.accept(value);
 
+  Future<SignInputAuthLedger> getLedgerAuthInput() {
+    final data = _data.value;
+    final custodian = _publicKey.value;
+    if (data == null || data.isEmpty) {
+      throw StateError('Invalid transfer data');
+    }
+    if (custodian == null) {
+      throw StateError('Public key is not set');
+    }
+
+    return model.getLedgerAuthInput(
+      address: sender,
+      custodian: custodian,
+      currency: data.singleOrNull?.amount.currency ?? nativeCurrency,
+    );
+  }
+
   Future<void> _init() async {
     try {
       _isLoading.accept(true);
@@ -149,7 +184,7 @@ class TCSendMessageWidgetModel
       await _initWalletTon();
 
       final data = await Future.wait(
-        widget.payload.messages.map(_initTransferData),
+        wmParams.value.payload.messages.map(_initTransferData),
       );
       _data.accept(data);
 
@@ -221,8 +256,8 @@ class TCSendMessageWidgetModel
     try {
       message = await model.prepareTransfer(
         address: sender,
-        publicKey: account!.publicKey,
-        messages: widget.payload.messages,
+        publicKey: accountState.value!.publicKey,
+        messages: wmParams.value.payload.messages,
       );
 
       await _estimateFees(message);

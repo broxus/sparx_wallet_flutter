@@ -1,14 +1,14 @@
+import 'package:app/core/wm/custom_wm.dart';
 import 'package:app/feature/profile/view/profile_page_wm.dart';
 import 'package:app/feature/profile/view/profile_view.dart';
-import 'package:elementary/elementary.dart';
 import 'package:elementary_helper/elementary_helper.dart';
 import 'package:flutter/material.dart';
 
-class ProfilePageWidget extends ElementaryWidget<ProfilePageWidgetModel> {
+class ProfilePageWidget
+    extends InjectedElementaryWidget<ProfilePageWidgetModel> {
   const ProfilePageWidget({
-    Key? key,
-    WidgetModelFactory wmFactory = defaultProfilePageWidgetModelFactory,
-  }) : super(wmFactory, key: key);
+    super.key,
+  });
 
   @override
   Widget build(ProfilePageWidgetModel wm) {
@@ -19,6 +19,7 @@ class ProfilePageWidget extends ElementaryWidget<ProfilePageWidgetModel> {
           appVersion: appVersion ?? '',
           isBiometryAvailable: wm.isBiometryAvailable,
           isBiometryEnabled: wm.isBiometryEnabled,
+          seed: wm.seed,
           onManageSeeds: wm.onManageSeeds,
           onExportSeed: wm.onExportSeed,
           onContactSupport: wm.onContactSupport,

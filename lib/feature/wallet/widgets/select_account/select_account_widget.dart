@@ -1,10 +1,10 @@
 // ignore_for_file: inference_failure_on_function_return_type
+import 'package:app/core/wm/custom_wm.dart';
 import 'package:app/feature/wallet/widgets/select_account/select_account_data.dart';
 import 'package:app/feature/wallet/widgets/select_account/select_account_wm.dart';
 import 'package:app/feature/wallet/widgets/select_account/widgets/private_key_item_widget.dart';
 import 'package:app/feature/wallet/widgets/select_account/widgets/seed_phrase_item_widget.dart';
 import 'package:app/generated/generated.dart';
-import 'package:elementary/elementary.dart';
 import 'package:elementary_helper/elementary_helper.dart';
 import 'package:flutter/material.dart';
 import 'package:lucide_icons_flutter/lucide_icons.dart';
@@ -12,12 +12,12 @@ import 'package:nekoton_repository/nekoton_repository.dart';
 import 'package:ui_components_lib/ui_components_lib.dart';
 import 'package:ui_components_lib/v2/ui_components_lib_v2.dart';
 
-class SelectAccountWidget extends ElementaryWidget<SelectAccountWidgetModel> {
+class SelectAccountWidget
+    extends InjectedElementaryWidget<SelectAccountWidgetModel> {
   const SelectAccountWidget({
     required this.scrollController,
-    Key? key,
-    WidgetModelFactory wmFactory = defaultSelectAccountWidgetModelFactory,
-  }) : super(wmFactory, key: key);
+    super.key,
+  });
 
   final ScrollController scrollController;
 
@@ -50,9 +50,10 @@ class SelectAccountWidget extends ElementaryWidget<SelectAccountWidgetModel> {
                       return Padding(
                         padding: const EdgeInsets.only(bottom: DimensSizeV2.d8),
                         child: _SeedItem(
+                          key: ValueKey(data.name),
                           data: data,
                           isExpanded: isExpanded,
-                          key: ValueKey(data.name),
+                          isLedger: data.isLedger,
                           currentAccount: currentAccount,
                           onTapAccount: (item) => wm.onSelect(item),
                           getBalanceEntity: wm.getBalanceEntity,
@@ -82,6 +83,7 @@ class SelectAccountWidget extends ElementaryWidget<SelectAccountWidgetModel> {
             ),
           ],
         ),
+        const SizedBox(height: DimensSizeV2.d8),
       ],
     );
   }
@@ -91,6 +93,7 @@ class _SeedItem extends StatefulWidget {
   const _SeedItem({
     required this.data,
     required this.isExpanded,
+    required this.isLedger,
     required this.currentAccount,
     required this.onTapAccount,
     required this.getBalanceEntity,
@@ -100,6 +103,7 @@ class _SeedItem extends StatefulWidget {
 
   final SelectAccountData data;
   final bool isExpanded;
+  final bool isLedger;
   final KeyAccount? currentAccount;
   final Function(KeyAccount) onTapAccount;
   final ListenableState<Money?> Function(KeyAccount) getBalanceEntity;
@@ -133,6 +137,7 @@ class _SeedItemState extends State<_SeedItem> {
             SeedPhraseItemWidget(
               name: widget.data.name,
               isExpanded: _isExpanded,
+              isLedger: widget.isLedger,
             ),
             if (_isExpanded) const SizedBox(height: DimensSizeV2.d16),
             if (_isExpanded) const CommonDivider(),

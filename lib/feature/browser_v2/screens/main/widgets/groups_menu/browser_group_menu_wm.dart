@@ -1,7 +1,5 @@
-import 'package:app/core/error_handler_factory.dart';
 import 'package:app/core/wm/custom_wm.dart';
 import 'package:app/core/wm/not_null_listenable_state.dart';
-import 'package:app/di/di.dart';
 import 'package:app/feature/browser_v2/data/groups/browser_group.dart';
 import 'package:app/feature/browser_v2/screens/create_group/create_browser_group_screen.dart';
 import 'package:app/feature/browser_v2/screens/main/widgets/groups_menu/browser_group_menu.dart';
@@ -10,22 +8,12 @@ import 'package:app/feature/browser_v2/screens/main/widgets/groups_menu/widgets/
 import 'package:elementary/elementary.dart';
 import 'package:elementary_helper/elementary_helper.dart';
 import 'package:flutter/material.dart';
+import 'package:injectable/injectable.dart';
 
 typedef GroupData = NotNullListenableState<BrowserGroup>;
 
-/// Factory method for creating [BrowserGroupMenuWidgetModel]
-BrowserGroupMenuWidgetModel defaultBrowserGroupMenuWidgetModelFactory(
-  BuildContext context,
-) {
-  return BrowserGroupMenuWidgetModel(
-    BrowserGroupMenuModel(
-      createPrimaryErrorHandler(context),
-      inject(),
-    ),
-  );
-}
-
 /// [WidgetModel] для [BrowserGroupMenu]
+@injectable
 class BrowserGroupMenuWidgetModel
     extends CustomWidgetModel<BrowserGroupMenu, BrowserGroupMenuModel> {
   BrowserGroupMenuWidgetModel(
@@ -43,8 +31,8 @@ class BrowserGroupMenuWidgetModel
 
   @override
   void initWidgetModel() {
-    model.allGroupsIdsState.addListener(_handleGroups);
     super.initWidgetModel();
+    model.allGroupsIdsState.addListener(_handleGroups);
   }
 
   @override
@@ -83,6 +71,7 @@ class BrowserGroupMenuWidgetModel
 
   void onPressedItem(String groupId) {
     model.setActiveGroup(groupId);
+    Navigator.of(context).pop();
   }
 
   Future<void> onPressedEditGroup(String groupId) async {
@@ -115,7 +104,7 @@ class BrowserGroupMenuWidgetModel
         await Navigator.of(context, rootNavigator: true).push<String>(
       MaterialPageRoute(
         builder: (_) {
-          return CreateBrowserGroupScreen();
+          return const CreateBrowserGroupScreen();
         },
       ),
     );

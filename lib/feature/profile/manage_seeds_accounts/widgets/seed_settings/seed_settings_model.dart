@@ -1,20 +1,26 @@
 import 'package:app/app/service/service.dart';
-import 'package:app/feature/messenger/data/message.dart';
-import 'package:app/feature/messenger/domain/service/messenger_service.dart';
+import 'package:app/feature/ledger/ledger.dart';
 import 'package:elementary/elementary.dart';
+import 'package:injectable/injectable.dart';
 import 'package:nekoton_repository/nekoton_repository.dart' hide Message;
 
-class SeedSettingsModel extends ElementaryModel {
+@injectable
+class SeedSettingsModel extends ElementaryModel with BleAvailabilityModelMixin {
   SeedSettingsModel(
     ErrorHandler errorHandler,
     this._nekotonRepository,
     this._currentKeyService,
-    this._messengerService,
+    this._ledgerService,
+    this._delegate,
   ) : super(errorHandler: errorHandler);
 
   final NekotonRepository _nekotonRepository;
   final CurrentKeyService _currentKeyService;
-  final MessengerService _messengerService;
+  final LedgerService _ledgerService;
+  final BleAvailabilityModelDelegate _delegate;
+
+  @override
+  BleAvailabilityModelDelegate get delegate => _delegate;
 
   PublicKey? get currentKey => _currentKeyService.currentKey;
 
@@ -29,12 +35,14 @@ class SeedSettingsModel extends ElementaryModel {
 
   Future<void> triggerDerivingKeys({
     required PublicKey masterKey,
-    required String password,
+    String? password,
   }) =>
-      _nekotonRepository.triggerDerivingKeys(
-        masterKey: masterKey,
-        password: password,
+      _ledgerService.runWithLedgerIfKeyIsLedger(
+        interactionType: LedgerInteractionType.getPublicKey,
+        publicKey: masterKey,
+        action: () => _nekotonRepository.triggerDerivingKeys(
+          masterKey: masterKey,
+          password: password,
+        ),
       );
-
-  void showMessage(Message message) => _messengerService.show(message);
 }

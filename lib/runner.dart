@@ -1,12 +1,12 @@
 import 'dart:async';
 
 import 'package:app/app/router/router.dart';
+import 'package:app/app/service/bootstrap/configurators/localization.dart';
+import 'package:app/app/service/bootstrap/configurators/logger.dart';
 import 'package:app/app/view/app.dart';
-import 'package:app/bootstrap/localization.dart';
-import 'package:app/bootstrap/logger.dart';
-import 'package:app/bootstrap/sentry.dart';
 import 'package:app/core/app_build_type.dart';
 import 'package:app/core/bloc/app_bloc_observer.dart';
+import 'package:app/core/sentry.dart';
 import 'package:app/di/di.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -36,11 +36,11 @@ Future<void> run(
 
       await configureDi();
 
-      await configureLogger(appBuildType);
+      await inject<LoggerConfigurator>().configure(appBuildType);
 
       log = Logger('bootstrap');
 
-      await configureLocalization();
+      await inject<LocalizationConfigurator>().configure();
 
       await SentryWorker.instance.init(
         appBuildType: appBuildType,
@@ -70,6 +70,12 @@ Future<void> run(
       await SystemChrome.setPreferredOrientations([
         DeviceOrientation.portraitUp,
       ]);
+      await SystemChrome.setEnabledSystemUIMode(SystemUiMode.edgeToEdge);
+      SystemChrome.setSystemUIOverlayStyle(
+        const SystemUiOverlayStyle(
+          systemNavigationBarColor: Colors.transparent,
+        ),
+      );
 
       final imagePickerImplementation = ImagePickerPlatform.instance;
       if (imagePickerImplementation is ImagePickerAndroid) {

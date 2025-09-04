@@ -1,4 +1,4 @@
-import 'package:app/bootstrap/sentry.dart';
+import 'package:app/core/sentry.dart';
 import 'package:app/feature/update_version/data/update_request.dart';
 import 'package:app/feature/update_version/data/update_status.dart';
 import 'package:app/feature/update_version/domain/store_url_generator.dart';
@@ -6,10 +6,12 @@ import 'package:app/feature/update_version/domain/update_service.dart';
 import 'package:elementary/elementary.dart';
 import 'package:flutter/foundation.dart';
 import 'package:in_app_update/in_app_update.dart';
+import 'package:injectable/injectable.dart';
 import 'package:logging/logging.dart';
 import 'package:rxdart/rxdart.dart';
 import 'package:url_launcher/url_launcher.dart';
 
+@injectable
 class UpdateVersionModel extends ElementaryModel {
   UpdateVersionModel(
     ErrorHandler errorHandler,

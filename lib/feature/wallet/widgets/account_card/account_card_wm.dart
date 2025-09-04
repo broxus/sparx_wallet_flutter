@@ -1,57 +1,49 @@
 import 'dart:async';
 
-import 'package:app/core/error_handler_factory.dart';
 import 'package:app/core/wm/custom_wm.dart';
-import 'package:app/di/di.dart';
 import 'package:app/feature/messenger/data/message.dart';
 import 'package:app/feature/wallet/wallet.dart';
 import 'package:app/feature/wallet/widgets/account_card/account_card_model.dart';
 import 'package:app/generated/generated.dart';
 import 'package:elementary_helper/elementary_helper.dart';
-import 'package:flutter/material.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';
+import 'package:injectable/injectable.dart';
 import 'package:nekoton_repository/nekoton_repository.dart' hide Message;
 import 'package:rxdart/rxdart.dart';
 
 const _withdrawUpdateDebounce = Duration(seconds: 3);
+const _balanceThrottleTime = Duration(seconds: 1);
 
-AccountCardWidgetModel defaultAccountCardWidgetModelFactory(
-  BuildContext context,
-) =>
-    AccountCardWidgetModel(
-      AccountCardModel(
-        createPrimaryErrorHandler(context),
-        inject(),
-        inject(),
-        inject(),
-        inject(),
-        inject(),
-        inject(),
-      ),
-    );
+@injectable
+class AccountCardWidgetModel extends CustomWidgetModelParametrized<AccountCard,
+    AccountCardModel, KeyAccount> {
+  AccountCardWidgetModel(
+    super.model,
+  );
 
-class AccountCardWidgetModel
-    extends CustomWidgetModel<AccountCard, AccountCardModel> {
-  AccountCardWidgetModel(super.model);
+  late final _error = createValueNotifier<Object?>(null);
+  late final _isLoading = createValueNotifier<bool>(false);
+  late final ValueListenable<KeyAccount> currentAccountState =
+      createWmParamsNotifier((it) => it);
 
-  late final _error = createNotifier<Object>();
-  late final _isLoading = createNotifier<bool>(false);
   late final _balance = createNotifierFromStream(
-    model.getBalanceStream(widget.account.address),
+    wmParams
+        .switchMap((account) => model.getBalanceStream(account.address))
+        .throttleTime(_balanceThrottleTime, trailing: true),
   );
 
   StreamSubscription<TonWalletState?>? _walletSubscription;
   StreamSubscription<void>? _withdrawRequestSubscription;
-
   ListenableState<Money> get balance => _balance;
-  ListenableState<Object> get error => _error;
-  ListenableState<bool> get isLoading => _isLoading;
+  ValueListenable<Object?> get error => _error;
+  ValueListenable<bool> get isLoading => _isLoading;
 
   @override
   void initWidgetModel() {
     super.initWidgetModel();
     _walletSubscription = model
-        .getWalletStateStream(widget.account.address)
+        .getWalletStateStream(currentAccountState.value.address)
         .listen(_onWalletState);
   }
 
@@ -64,35 +56,37 @@ class AccountCardWidgetModel
 
   Future<void> retry() async {
     try {
-      _isLoading.accept(true);
-      await model.retrySubscriptions(widget.account.address);
+      _isLoading.value = true;
+      await model.retrySubscriptions(currentAccountState.value.address);
     } finally {
-      _isLoading.accept(false);
+      _isLoading.value = false;
     }
   }
 
   void onCopy() {
     Clipboard.setData(
-      ClipboardData(text: widget.account.address.address),
+      ClipboardData(text: currentAccountState.value.address.address),
     );
     model.showMessage(
       Message.successful(
         message: LocaleKeys.valueCopiedExclamation.tr(
-          args: [widget.account.address.toEllipseString()],
+          args: [currentAccountState.value.address.toEllipseString()],
         ),
       ),
     );
   }
 
   void _onWalletState(TonWalletState? walletState) {
-    _error.accept(walletState?.error);
+    _error.value = walletState?.error;
 
     _withdrawRequestSubscription?.cancel();
     _withdrawRequestSubscription = walletState?.wallet?.fieldUpdatesStream
         .skip(1) // Skip the initial value to run tryUpdateWithdraws immediately
         .debounceTime(_withdrawUpdateDebounce)
-        .listen((_) => model.tryUpdateWithdraws(widget.account.address));
+        .listen(
+          (_) => model.tryUpdateWithdraws(currentAccountState.value.address),
+        );
 
-    model.tryUpdateWithdraws(widget.account.address);
+    model.tryUpdateWithdraws(currentAccountState.value.address);
   }
 }

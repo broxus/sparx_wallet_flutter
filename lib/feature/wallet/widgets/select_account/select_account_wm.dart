@@ -1,7 +1,5 @@
 import 'package:app/app/router/router.dart';
-import 'package:app/core/error_handler_factory.dart';
 import 'package:app/core/wm/custom_wm.dart';
-import 'package:app/di/di.dart';
 import 'package:app/feature/profile/manage_seeds_accounts/route.dart';
 import 'package:app/feature/wallet/new_account/route.dart';
 import 'package:app/feature/wallet/widgets/select_account/select_account_data.dart';
@@ -9,24 +7,15 @@ import 'package:app/feature/wallet/widgets/select_account/select_account_model.d
 import 'package:app/feature/wallet/widgets/select_account/select_account_widget.dart';
 import 'package:elementary_helper/elementary_helper.dart';
 import 'package:flutter/material.dart';
+import 'package:injectable/injectable.dart';
 import 'package:nekoton_repository/nekoton_repository.dart';
 
-SelectAccountWidgetModel defaultSelectAccountWidgetModelFactory(
-  BuildContext context,
-) =>
-    SelectAccountWidgetModel(
-      SelectAccountModel(
-        createPrimaryErrorHandler(context),
-        inject(),
-        inject(),
-        inject(),
-        inject(),
-      ),
-    );
-
+@injectable
 class SelectAccountWidgetModel
     extends CustomWidgetModel<SelectAccountWidget, SelectAccountModel> {
-  SelectAccountWidgetModel(super.model);
+  SelectAccountWidgetModel(
+    super.model,
+  );
 
   late final searchController = createTextEditingController();
   late final _accounts = createNotifierFromStream(model.seedWithAccounts);
@@ -40,9 +29,8 @@ class SelectAccountWidgetModel
 
   @override
   void initWidgetModel() {
-    _accounts.addListener(onSearch);
-
     super.initWidgetModel();
+    _accounts.addListener(onSearch);
   }
 
   void onSearch() {
@@ -71,18 +59,16 @@ class SelectAccountWidgetModel
                       accounts: filteredAccounts,
                     );
                   })
-                  .where(
-                    (keyInfo) => keyInfo.accounts.isNotEmpty,
-                  )
+                  .where((keyInfo) => keyInfo.accounts.isNotEmpty)
                   .toList();
+
               return SelectAccountData(
                 name: selectAccountData.name,
                 privateKeys: filteredPrivateKeys,
+                isLedger: selectAccountData.isLedger,
               );
             })
-            .where(
-              (selectAccountData) => selectAccountData.privateKeys.isNotEmpty,
-            )
+            .where((item) => item.privateKeys.isNotEmpty)
             .toList(),
       );
     }

@@ -1,9 +1,9 @@
 // ignore_for_file: lines_longer_than_80_chars, unused_element
 
+import 'package:app/core/wm/custom_wm.dart';
 import 'package:app/feature/wallet/wallet.dart';
 import 'package:app/feature/wallet/widgets/wallet_account_actions/wallet_account_actions_wm.dart';
 import 'package:app/generated/generated.dart';
-import 'package:elementary/elementary.dart';
 import 'package:elementary_helper/elementary_helper.dart';
 import 'package:flutter/material.dart';
 import 'package:lucide_icons_flutter/lucide_icons.dart';
@@ -12,43 +12,64 @@ import 'package:ui_components_lib/ui_components_lib.dart';
 
 /// Row with actions for current account.
 /// If account is null, then no actions available.
-class WalletAccountActions
-    extends ElementaryWidget<WalletAccountActionsWidgetModel> {
-  const WalletAccountActions({
-    required this.account,
-    this.allowStake = true,
-    this.sendSpecified = false,
-    this.disableSensetiveActions = false,
+class WalletAccountActions extends InjectedElementaryParametrizedWidget<
+    WalletAccountActionsWidgetModel, WalletAccountActionsWmParams> {
+  WalletAccountActions({
+    required KeyAccount account,
+    bool allowStake = true,
+    bool sendSpecified = false,
+    bool disableSensetiveActions = false,
     this.padding = const EdgeInsets.symmetric(vertical: DimensSizeV2.d32),
-    Key? key,
-    WidgetModelFactory wmFactory =
-        defaultWalletAccountActionsWidgetModelFactory,
-  }) : super(wmFactory, key: key);
+    super.key,
+  }) : super(
+          wmFactoryParam: WalletAccountActionsWmParams(
+            account: account,
+            allowStake: allowStake,
+            sendSpecified: sendSpecified,
+            disableSensetiveActions: disableSensetiveActions,
+          ),
+        );
 
-  final KeyAccount account;
-  final bool allowStake;
-  final bool sendSpecified;
-  final bool disableSensetiveActions;
   final EdgeInsetsGeometry padding;
 
   @override
   Widget build(WalletAccountActionsWidgetModel wm) {
-    return TripleSourceBuilder(
-      firstSource: wm.action,
-      secondSource: wm.hasStake,
-      thirdSource: wm.hasStakeActions,
-      builder: (_, action, hasStake, hasStakeActions) => _ActionList(
-        action: action ?? WalletAccountActionBehavior.send,
-        hasStake: hasStake ?? false,
-        hasStakeActions: hasStakeActions ?? false,
-        sendSpecified: sendSpecified,
-        padding: padding,
-        disableSensetiveActions: disableSensetiveActions,
-        onReceivePressed: wm.onReceive,
-        onMainActionPressed: wm.onMainAction,
-        onStakePressed: wm.onStake,
-        onInfoPressed: wm.onInfo,
-      ),
+    return MultiListenerRebuilder(
+      listenableList: [
+        wm.action,
+        wm.hasStakeState,
+        wm.hasStakeActionsState,
+      ],
+      builder: (_) {
+        final action = wm.action.value;
+        final hasStake = wm.hasStakeState.value;
+        final hasStakeActions = wm.hasStakeActionsState.value;
+
+        return MultiListenerRebuilder(
+          listenableList: [
+            wm.sendSpecifiedState,
+            wm.disableSensetiveActionsState,
+          ],
+          builder: (_) {
+            final sendSpecified = wm.sendSpecifiedState.value;
+            final disableSensetiveActions =
+                wm.disableSensetiveActionsState.value;
+
+            return _ActionList(
+              action: action ?? WalletAccountActionBehavior.send,
+              hasStake: hasStake,
+              hasStakeActions: hasStakeActions,
+              sendSpecified: sendSpecified,
+              padding: padding,
+              disableSensetiveActions: disableSensetiveActions,
+              onReceivePressed: wm.onReceive,
+              onMainActionPressed: wm.onMainAction,
+              onStakePressed: wm.onStake,
+              onInfoPressed: wm.onInfo,
+            );
+          },
+        );
+      },
     );
   }
 }
@@ -105,30 +126,52 @@ class _ActionList extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
-            WalletActionButton(
-              label: LocaleKeys.receiveWord.tr(),
-              icon: LucideIcons.arrowDown,
-              onPressed: !disableSensetiveActions ? onReceivePressed : null,
+            Flexible(
+              child: SizedBox(
+                width: DimensSizeV2.d90,
+                child: WalletActionButton(
+                  label: LocaleKeys.receiveWord.tr(),
+                  icon: LucideIcons.arrowDown,
+                  onPressed: !disableSensetiveActions ? onReceivePressed : null,
+                ),
+              ),
             ),
-            WalletActionButton(
-              label: _actionTitle,
-              icon: _actionIcon,
-              onPressed:
-                  disableSensetiveActions == false ? onMainActionPressed : null,
+            Flexible(
+              child: SizedBox(
+                width: DimensSizeV2.d90,
+                child: WalletActionButton(
+                  label: _actionTitle,
+                  icon: _actionIcon,
+                  onPressed: disableSensetiveActions == false
+                      ? onMainActionPressed
+                      : null,
+                ),
+              ),
             ),
             if (hasStake)
-              WalletActionButton(
-                label: LocaleKeys.stakeWord.tr(),
-                icon: LucideIcons.layers2,
-                badge: hasStakeActions,
-                onPressed:
-                    disableSensetiveActions == false ? onStakePressed : null,
+              Flexible(
+                child: SizedBox(
+                  width: DimensSizeV2.d90,
+                  child: WalletActionButton(
+                    label: LocaleKeys.stakeWord.tr(),
+                    icon: LucideIcons.layers2,
+                    badge: hasStakeActions,
+                    onPressed: disableSensetiveActions == false
+                        ? onStakePressed
+                        : null,
+                  ),
+                ),
               ),
             if (!sendSpecified)
-              WalletActionButton(
-                label: LocaleKeys.info.tr(),
-                icon: LucideIcons.ellipsis,
-                onPressed: onInfoPressed,
+              Flexible(
+                child: SizedBox(
+                  width: DimensSizeV2.d90,
+                  child: WalletActionButton(
+                    label: LocaleKeys.info.tr(),
+                    icon: LucideIcons.ellipsis,
+                    onPressed: onInfoPressed,
+                  ),
+                ),
               ),
           ],
         ),

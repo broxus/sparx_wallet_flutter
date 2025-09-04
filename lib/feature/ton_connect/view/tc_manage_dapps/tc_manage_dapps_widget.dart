@@ -1,7 +1,7 @@
+import 'package:app/core/wm/custom_wm.dart';
 import 'package:app/feature/ton_connect/ton_connect.dart';
 import 'package:app/generated/generated.dart';
 import 'package:cached_network_image/cached_network_image.dart';
-import 'package:elementary/elementary.dart';
 import 'package:elementary_helper/elementary_helper.dart';
 import 'package:flutter/material.dart';
 import 'package:lucide_icons_flutter/lucide_icons.dart';
@@ -10,12 +10,12 @@ import 'package:ui_components_lib/v2/ui_components_lib_v2.dart';
 
 // LocaleKeys.connectedDappsSheetTitle.tr()
 
-class TCManageDappsWidget extends ElementaryWidget<TCManageDappsWidgetModel> {
+class TCManageDappsWidget
+    extends InjectedElementaryWidget<TCManageDappsWidgetModel> {
   const TCManageDappsWidget({
     required this.scrollController,
-    Key? key,
-    WidgetModelFactory wmFactory = defaultTCManageDappsWidgetModelFactory,
-  }) : super(wmFactory, key: key);
+    super.key,
+  }) : super();
 
   final ScrollController scrollController;
 

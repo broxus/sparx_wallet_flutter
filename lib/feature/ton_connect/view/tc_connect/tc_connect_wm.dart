@@ -1,32 +1,31 @@
 import 'package:app/app/service/service.dart';
-import 'package:app/core/error_handler_factory.dart';
 import 'package:app/core/wm/custom_wm.dart';
-import 'package:app/di/di.dart';
 import 'package:app/feature/ton_connect/ton_connect.dart';
 import 'package:collection/collection.dart';
 import 'package:elementary_helper/elementary_helper.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:injectable/injectable.dart';
 import 'package:nekoton_repository/nekoton_repository.dart';
 
 enum TonConnectStep { account, confirm }
 
-TCConnectWidgetModel defaultTCConnectWidgetModelFactory(
-  BuildContext context,
-) =>
-    TCConnectWidgetModel(
-      TCConnectModel(
-        createPrimaryErrorHandler(context),
-        inject(),
-        inject(),
-      ),
-    );
+class TCConnectWmParams {
+  const TCConnectWmParams({
+    required this.request,
+    required this.manifest,
+  });
 
-class TCConnectWidgetModel
-    extends CustomWidgetModel<TCConnectWidget, TCConnectModel> {
-  TCConnectWidgetModel(super.model);
+  final ConnectRequest request;
+  final DappManifest manifest;
+}
 
-  late final ScrollController scrollController = widget.scrollController;
+@injectable
+class TCConnectWidgetModel extends CustomWidgetModelParametrized<
+    TCConnectWidget, TCConnectModel, TCConnectWmParams> {
+  TCConnectWidgetModel(
+    super.model,
+  );
 
   late final searchController = createTextEditingController();
   late final _step = createValueNotifier(TonConnectStep.account);
@@ -48,7 +47,7 @@ class TCConnectWidgetModel
   KeyAccount? get _initialSelectedAccount =>
       model.currentAccount ?? model.accounts.firstOrNull;
 
-  DappManifest get manifest => widget.manifest;
+  DappManifest get manifest => wmParams.value.manifest;
 
   void onNext() {
     if (_selected.value == null) return;
@@ -77,14 +76,14 @@ class TCConnectWidgetModel
     _selected.accept(account);
   }
 
-  Future<void> onConfirm(String password) async {
+  Future<void> onConfirm(SignInputAuth signInputAuth) async {
     if (_selected.value == null) return;
 
     final account = _selected.value!;
     final replyItems = await model.createReplyItems(
-      password: password,
+      signInputAuth: signInputAuth,
       account: account,
-      request: widget.request,
+      request: wmParams.value.request,
       manifest: manifest,
     );
 
@@ -107,5 +106,14 @@ class TCConnectWidgetModel
     }
 
     return entity;
+  }
+
+  Future<SignInputAuthLedger> getLedgerAuthInput() {
+    final account = _selected.value;
+    if (account == null) {
+      throw StateError('No account selected for Ledger auth input');
+    }
+
+    return model.getLedgerAuthInput(account);
   }
 }

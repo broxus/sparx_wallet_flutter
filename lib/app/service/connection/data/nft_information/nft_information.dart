@@ -6,7 +6,7 @@ part 'nft_information.g.dart';
 
 @freezed
 abstract class NftInformation with _$NftInformation {
-  factory NftInformation({
+  const factory NftInformation({
     String? marketplaceUrl,
     List<Address>? defaultCollections,
   }) = _NftInformation;

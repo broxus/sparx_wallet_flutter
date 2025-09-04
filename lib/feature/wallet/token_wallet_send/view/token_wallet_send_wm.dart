@@ -1,33 +1,51 @@
 import 'package:app/app/router/router.dart';
-import 'package:app/core/error_handler_factory.dart';
 import 'package:app/core/wm/custom_wm.dart';
-import 'package:app/di/di.dart';
+import 'package:app/feature/ledger/ledger.dart';
 import 'package:app/feature/messenger/data/message.dart';
 import 'package:app/feature/wallet/route.dart';
 import 'package:app/feature/wallet/token_wallet_send/data/data.dart';
 import 'package:app/feature/wallet/token_wallet_send/view/token_wallet_send_model.dart';
-import 'package:app/feature/wallet/token_wallet_send/view/token_wallet_send_widget.dart';
 import 'package:app/generated/generated.dart';
 import 'package:app/utils/utils.dart';
 import 'package:elementary_helper/elementary_helper.dart';
-import 'package:flutter/material.dart';
+import 'package:injectable/injectable.dart';
 import 'package:logging/logging.dart';
 import 'package:nekoton_repository/nekoton_repository.dart' hide Message;
 
-TokenWalletSendWidgetModel defaultTokenWalletSendWidgetModelFactory(
-  BuildContext context,
-) =>
-    TokenWalletSendWidgetModel(
-      TokenWalletSendModel(
-        createPrimaryErrorHandler(context),
-        inject(),
-        inject(),
-      ),
-    );
+class TokenWalletSendWmParams {
+  const TokenWalletSendWmParams({
+    required this.owner,
+    required this.rootTokenContract,
+    required this.publicKey,
+    required this.destination,
+    required this.amount,
+    required this.attachedAmount,
+    required this.comment,
+    required this.resultMessage,
+    required this.notifyReceiver,
+  });
 
-class TokenWalletSendWidgetModel
-    extends CustomWidgetModel<TokenWalletSendWidget, TokenWalletSendModel> {
-  TokenWalletSendWidgetModel(super.model);
+  final Address owner;
+  final Address rootTokenContract;
+  final PublicKey publicKey;
+  final Address destination;
+  final BigInt amount;
+  final BigInt? attachedAmount;
+  final String? comment;
+  final String? resultMessage;
+  final bool? notifyReceiver;
+}
+
+@injectable
+class TokenWalletSendWidgetModel extends CustomWidgetModelParametrized<
+    InjectedElementaryParametrizedWidget<TokenWalletSendWidgetModel,
+        TokenWalletSendWmParams>,
+    TokenWalletSendModel,
+    TokenWalletSendWmParams> with BleAvailabilityWmMixin {
+  // extends CustomWidgetModel<ElementaryWidget, TokenWalletSendModel> {
+  TokenWalletSendWidgetModel(
+    super.model,
+  );
 
   static final _logger = Logger('TokenWalletSendWidgetModel');
 
@@ -37,11 +55,19 @@ class TokenWalletSendWidgetModel
   late final _error = createNotifier<String>();
   late final _state = createNotifier(const TokenWalletSendState.ready());
   late final _attachedAmount =
-      createNotifier(widget.attachedAmount ?? BigInt.zero);
+      createNotifier(wmParams.value.attachedAmount ?? BigInt.zero);
   late final _amount = createNotifier<Money>();
 
-  late final KeyAccount? account = model.getAccount(widget.owner);
+  late final KeyAccount? account = model.getAccount(wmParams.value.owner);
 
+  TonWallet? _wallet;
+  GenericTokenWallet? _tokenWallet;
+
+  Address get owner => wmParams.value.owner;
+  Address get rootTokenContract => wmParams.value.rootTokenContract;
+  PublicKey get publicKey => wmParams.value.publicKey;
+  Address get destination => wmParams.value.destination;
+  String? get comment => wmParams.value.comment;
   Currency get currency => model.currency;
 
   ListenableState<bool> get isLoading => _isLoading;
@@ -64,31 +90,48 @@ class TokenWalletSendWidgetModel
     _init();
   }
 
-  Future<void> onPasswordEntered(String password) async {
+  SignInputAuthLedger getLedgerAuthInput() {
+    if (_wallet == null || _tokenWallet == null) {
+      throw StateError('Wallet or token wallet is not initialized');
+    }
+
+    return model.getLedgerAuthInput(
+      wallet: _wallet!,
+      tokenWallet: _tokenWallet!,
+      custodian: publicKey,
+    );
+  }
+
+  Future<void> onConfirmed(SignInputAuth signInputAuth) async {
     UnsignedMessage? unsignedMessage;
     InternalMessage? internalMessage;
     try {
       _isLoading.accept(true);
 
-      final resultMessage =
-          widget.resultMessage ?? LocaleKeys.transactionSentSuccessfully.tr();
+      if (signInputAuth.isLedger) {
+        final isAvailable = await checkBluetoothAvailability();
+        if (!isAvailable) return;
+      }
+
+      final resultMessage = wmParams.value.resultMessage ??
+          LocaleKeys.transactionSentSuccessfully.tr();
 
       (internalMessage, unsignedMessage) = await model.prepareTransfer(
-        owner: widget.owner,
-        rootTokenContract: widget.rootTokenContract,
-        publicKey: widget.publicKey,
-        destination: widget.destination,
-        amount: widget.amount,
-        comment: widget.comment,
-        attachedAmount: widget.attachedAmount,
-        notifyReceiver: widget.notifyReceiver,
+        owner: wmParams.value.owner,
+        rootTokenContract: wmParams.value.rootTokenContract,
+        publicKey: wmParams.value.publicKey,
+        destination: wmParams.value.destination,
+        amount: wmParams.value.amount,
+        comment: wmParams.value.comment,
+        attachedAmount: wmParams.value.attachedAmount,
+        notifyReceiver: wmParams.value.notifyReceiver,
       );
 
       final transactionCompleter = await model.sendMessage(
-        address: widget.owner,
-        publicKey: widget.publicKey,
+        address: wmParams.value.owner,
+        publicKey: wmParams.value.publicKey,
         message: unsignedMessage,
-        password: password,
+        signInputAuth: signInputAuth,
         destination: internalMessage.destination,
         amount: internalMessage.amount,
       );
@@ -107,6 +150,7 @@ class TokenWalletSendWidgetModel
       // _nekotonRepository could be improved, to graceful
       // handle account change.
     } on Exception catch (e, s) {
+      if (e is AnyhowException && e.isCancelled) return;
       _logger.severe('Failed to send transaction', e, s);
       model.showMessage(Message.error(message: e.toString()));
     } finally {
@@ -123,10 +167,10 @@ class TokenWalletSendWidgetModel
 
       final (tokenWalletState, walletState) = await FutureExt.wait2(
         model.getTokenWalletState(
-          owner: widget.owner,
-          rootTokenContract: widget.rootTokenContract,
+          owner: wmParams.value.owner,
+          rootTokenContract: wmParams.value.rootTokenContract,
         ),
-        model.getWalletState(widget.owner),
+        model.getWalletState(wmParams.value.owner),
       );
 
       if (tokenWalletState.hasError) {
@@ -142,37 +186,39 @@ class TokenWalletSendWidgetModel
 
       _amount.accept(
         Money.fromBigIntWithCurrency(
-          widget.amount,
+          wmParams.value.amount,
           tokenWalletState.wallet!.currency,
         ),
       );
 
       (internalMessage, unsignedMessage) = await model.prepareTransfer(
-        owner: widget.owner,
-        rootTokenContract: widget.rootTokenContract,
-        publicKey: widget.publicKey,
-        destination: widget.destination,
-        amount: widget.amount,
-        comment: widget.comment,
-        attachedAmount: widget.attachedAmount,
-        notifyReceiver: widget.notifyReceiver,
+        owner: wmParams.value.owner,
+        rootTokenContract: wmParams.value.rootTokenContract,
+        publicKey: wmParams.value.publicKey,
+        destination: wmParams.value.destination,
+        amount: wmParams.value.amount,
+        comment: wmParams.value.comment,
+        attachedAmount: wmParams.value.attachedAmount,
+        notifyReceiver: wmParams.value.notifyReceiver,
       );
 
       _attachedAmount.accept(internalMessage.amount);
 
       final (fees, txErrors) = await FutureExt.wait2(
         model.estimateFees(
-          address: widget.owner,
+          address: wmParams.value.owner,
           message: unsignedMessage,
         ),
         model.simulateTransactionTree(
-          address: widget.owner,
+          address: wmParams.value.owner,
           message: unsignedMessage,
         ),
       );
 
       _fees.accept(fees);
       _txErrors.accept(txErrors);
+      _wallet = walletState.wallet;
+      _tokenWallet = tokenWalletState.wallet;
 
       final wallet = walletState.wallet!;
       final balance = wallet.contractState.balance;

@@ -2,8 +2,10 @@ import 'package:app/app/service/service.dart';
 import 'package:app/data/models/models.dart';
 import 'package:app/feature/wallet/widgets/select_account/select_account_data.dart';
 import 'package:elementary/elementary.dart';
+import 'package:injectable/injectable.dart';
 import 'package:nekoton_repository/nekoton_repository.dart';
 
+@injectable
 class SelectAccountModel extends ElementaryModel {
   SelectAccountModel(
     ErrorHandler errorHandler,
@@ -23,6 +25,7 @@ class SelectAccountModel extends ElementaryModel {
         (seedList) {
           final seeds = seedList.seeds
             ..sort((a, b) => a.name.compareTo(b.name));
+
           return seeds.map((seed) {
             final privateKeys = seed.allKeys.map((key) {
               final accounts = key.accountList.allAccounts
@@ -34,9 +37,11 @@ class SelectAccountModel extends ElementaryModel {
                 accounts: accounts,
               );
             }).toList();
+
             return SelectAccountData(
               name: seed.name,
               privateKeys: privateKeys,
+              isLedger: seed.masterKey.isLedger,
             );
           }).toList();
         },

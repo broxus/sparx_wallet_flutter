@@ -8,8 +8,10 @@ import 'package:app/feature/ton_connect/ton_connect.dart';
 import 'package:app/utils/utils.dart';
 import 'package:crypto/crypto.dart';
 import 'package:elementary/elementary.dart';
+import 'package:injectable/injectable.dart';
 import 'package:nekoton_repository/nekoton_repository.dart' hide Message;
 
+@injectable
 class TCSignDataModel extends ElementaryModel {
   TCSignDataModel(
     ErrorHandler errorHandler,
@@ -29,7 +31,7 @@ class TCSignDataModel extends ElementaryModel {
     required int schema,
     required String cell,
     required PublicKey publicKey,
-    required String password,
+    required SignInputAuth signInputAuth,
   }) async {
     final timestamp = NtpTime.now().millisecondsSinceEpoch ~/ 1000;
     final data = <int>[
@@ -41,7 +43,7 @@ class TCSignDataModel extends ElementaryModel {
     final signedData = await _nekotonRepository.seedList.signData(
       data: base64Encode(data),
       publicKey: publicKey,
-      password: password,
+      signInputAuth: signInputAuth,
       signatureId: null, // signatureId is not used in this context
     );
 

@@ -1,20 +1,19 @@
 import 'package:app/app/router/router.dart';
-import 'package:app/app/service/crash_detector/widget/crash_detector_service_widget.dart';
+import 'package:app/app/service/crash_detector/widget/crash_detector_widget.dart';
 import 'package:app/app/service/localization/service/supported_locale_codes.dart';
 import 'package:app/app/service/localization/widget/localization_service_widget.dart';
 import 'package:app/app/view/app_wm.dart';
+import 'package:app/core/wm/custom_wm.dart';
 import 'package:easy_localization/easy_localization.dart';
-import 'package:elementary/elementary.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:in_app_notification/in_app_notification.dart';
 import 'package:ui_components_lib/v2/ui_components_lib_v2.dart';
 
-class App extends ElementaryWidget<AppWidgetModel> {
+class App extends InjectedElementaryWidget<AppWidgetModel> {
   const App({
-    Key? key,
-    WidgetModelFactory wmFactory = defaultAppWidgetModelFactory,
-  }) : super(wmFactory, key: key);
+    super.key,
+  });
 
   @override
   Widget build(AppWidgetModel wm) {
@@ -28,6 +27,7 @@ class App extends ElementaryWidget<AppWidgetModel> {
         minTextAdapt: true,
         child: _AppContent(
           router: wm.router,
+          checkCrashDetected: wm.checkCrashDetected,
         ),
       ),
     );
@@ -37,9 +37,11 @@ class App extends ElementaryWidget<AppWidgetModel> {
 class _AppContent extends StatelessWidget {
   const _AppContent({
     required this.router,
+    required this.checkCrashDetected,
   });
 
   final CompassRouter router;
+  final Future<bool> Function() checkCrashDetected;
 
   @override
   Widget build(BuildContext context) {
@@ -59,7 +61,8 @@ class _AppContent extends StatelessWidget {
         child: CompassRouterProvider(
           router: router,
           child: InAppNotification(
-            child: CrashDetectorServiceWidget(
+            child: CrashDetectorWidget(
+              checkCrashDetected: checkCrashDetected,
               child: LocalizationServiceWidget(
                 child: child ?? Container(),
               ),

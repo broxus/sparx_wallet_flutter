@@ -31,7 +31,7 @@ class WalletDeployEvent with _$WalletDeployEvent {
 
   /// Run deploying process by subscribing transaction
   const factory WalletDeployEvent.confirmDeploy(
-    String password,
+    SignInputAuth signInputAuth,
   ) = _ConfirmDeploy;
 
   /// Allow user to close deploy page
