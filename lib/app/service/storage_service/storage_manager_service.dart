@@ -4,6 +4,7 @@ import 'package:app/feature/browser_v2/domain/service/storages/browser_favicon_u
 import 'package:app/feature/browser_v2/domain/service/storages/browser_groups_storage_service.dart';
 import 'package:app/feature/browser_v2/domain/service/storages/browser_permissions_storage_service.dart';
 import 'package:app/feature/browser_v2/domain/service/storages/browser_tabs_storage_service.dart';
+import 'package:app/feature/ledger/ledger.dart';
 import 'package:app/feature/nft/nft.dart';
 import 'package:app/feature/update_version/domain/storage/update_version_storage_service.dart';
 import 'package:injectable/injectable.dart';
@@ -29,6 +30,7 @@ class StorageManagerService {
     TonConnectStorageService tonConnectStorageService,
     UpdateVersionStorageService updateVersionStorageService,
     NftStorageService nftStorageService,
+    LedgerStorageService ledgerStorageService,
   ) : _storages = [
           secure,
           general,
@@ -47,6 +49,7 @@ class StorageManagerService {
           tonConnectStorageService,
           updateVersionStorageService,
           nftStorageService,
+          ledgerStorageService,
         ];
 
   final List<AbstractStorageService> _storages;

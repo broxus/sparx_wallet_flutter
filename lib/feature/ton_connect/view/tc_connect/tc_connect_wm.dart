@@ -76,12 +76,12 @@ class TCConnectWidgetModel extends CustomWidgetModelParametrized<
     _selected.accept(account);
   }
 
-  Future<void> onConfirm(String password) async {
+  Future<void> onConfirm(SignInputAuth signInputAuth) async {
     if (_selected.value == null) return;
 
     final account = _selected.value!;
     final replyItems = await model.createReplyItems(
-      password: password,
+      signInputAuth: signInputAuth,
       account: account,
       request: wmParams.value.request,
       manifest: manifest,
@@ -106,5 +106,14 @@ class TCConnectWidgetModel extends CustomWidgetModelParametrized<
     }
 
     return entity;
+  }
+
+  Future<SignInputAuthLedger> getLedgerAuthInput() {
+    final account = _selected.value;
+    if (account == null) {
+      throw StateError('No account selected for Ledger auth input');
+    }
+
+    return model.getLedgerAuthInput(account);
   }
 }

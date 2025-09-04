@@ -265,10 +265,13 @@ class WalletPrepareTransferPageWidgetModel
       unawaited(_findSpecifiedContract(root));
     }
 
+    final localCustodians =
+        await model.getLocalCustodiansAsync(addressState.value);
+
     _updateState(
       account: acc,
-      selectedCustodian: acc.publicKey,
-      localCustodians: await model.getLocalCustodiansAsync(addressState.value),
+      selectedCustodian: localCustodians?.firstOrNull ?? acc.publicKey,
+      localCustodians: localCustodians,
     );
 
     _isInitialDataLoaded.accept(true);

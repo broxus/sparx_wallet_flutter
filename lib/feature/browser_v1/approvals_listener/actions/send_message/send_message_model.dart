@@ -1,22 +1,26 @@
-import 'package:app/feature/messenger/data/message.dart';
-import 'package:app/feature/messenger/domain/service/messenger_service.dart';
+import 'package:app/feature/ledger/ledger.dart';
 import 'package:app/utils/utils.dart';
 import 'package:elementary/elementary.dart';
-import 'package:flutter/material.dart';
 import 'package:injectable/injectable.dart';
 import 'package:nekoton_repository/nekoton_repository.dart' hide Message;
+import 'package:nekoton_repository/nekoton_repository.dart';
 import 'package:rxdart/rxdart.dart';
 
 @injectable
-class SendMessageModel extends ElementaryModel {
+class SendMessageModel extends ElementaryModel with BleAvailabilityModelMixin {
   SendMessageModel(
     ErrorHandler errorHandler,
     this._nekotonRepository,
-    this._messengerService,
+    this._ledgerService,
+    this._delegate,
   ) : super(errorHandler: errorHandler);
 
   final NekotonRepository _nekotonRepository;
-  final MessengerService _messengerService;
+  final LedgerService _ledgerService;
+  final BleAvailabilityModelDelegate _delegate;
+
+  @override
+  BleAvailabilityModelDelegate get delegate => _delegate;
 
   TransportStrategy get transport => _nekotonRepository.currentTransport;
 
@@ -110,10 +114,22 @@ class SendMessageModel extends ElementaryModel {
     return details;
   }
 
-  void showError(BuildContext context, String message) {
-    _messengerService.show(
-      Message.error(
-        message: message,
+  Future<SignInputAuthLedger> getLedgerAuthInput({
+    required Address address,
+    required PublicKey custodian,
+    required Currency currency,
+  }) async {
+    final walletState = await getTonWalletState(address);
+
+    return SignInputAuthLedger(
+      wallet: walletState.wallet!.walletType,
+      context: _ledgerService.prepareSignatureContext(
+        PrepareSignatureContext.transfer(
+          wallet: walletState.wallet!,
+          asset: currency.symbol,
+          decimals: currency.decimalDigits,
+          custodian: custodian,
+        ),
       ),
     );
   }
