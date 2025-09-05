@@ -26,8 +26,6 @@ class StakingPageWidgetModel extends CustomWidgetModelParametrized<
     super.model,
   );
 
-  Address get accountAddress => wmParams.value;
-
   late final inputController = createTextEditingController();
 
   final _logger = Logger('StakingPageWidgetModel');
@@ -53,6 +51,10 @@ class StakingPageWidgetModel extends CustomWidgetModelParametrized<
       (_) => _validate(),
     ),
   );
+
+  TonWallet? _wallet;
+
+  Address get accountAddress => wmParams.value;
 
   ValueListenable<bool> get isLoading => _isLoading;
 
@@ -174,6 +176,8 @@ class StakingPageWidgetModel extends CustomWidgetModelParametrized<
         _info.error();
         return;
       }
+
+      _wallet = ever.wallet;
 
       final (
         tokenCurrency,
@@ -362,6 +366,8 @@ class StakingPageWidgetModel extends CustomWidgetModelParametrized<
       model.computeFees(),
     );
 
+    final isMultisig = (_wallet?.custodians?.length ?? 0) > 1;
+
     contextSafe?.compassContinue(
       TonWalletSendRouteData(
         address: accountAddress,
@@ -371,9 +377,11 @@ class StakingPageWidgetModel extends CustomWidgetModelParametrized<
         amount: amount,
         attachedAmount: fees.depositAttachedFee,
         popOnComplete: false,
-        resultMessage: LocaleKeys.stEverAppearInMinutes.tr(
-          args: [tokenCurrency?.symbol ?? ''],
-        ),
+        resultMessage: !isMultisig
+            ? LocaleKeys.stEverAppearInMinutes.tr(
+                args: [tokenCurrency?.symbol ?? ''],
+              )
+            : null,
       ),
     );
   }
