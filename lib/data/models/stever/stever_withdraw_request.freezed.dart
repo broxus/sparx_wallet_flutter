@@ -243,7 +243,6 @@ class __$StEverWithdrawRequestCopyWithImpl<$Res>
 
 /// @nodoc
 mixin _$StEverWithdrawRequestData {
-  @amountJsonConverter
   BigInt get amount;
   @timestampFromStringJsonConverter
   DateTime get timestamp;
@@ -286,8 +285,7 @@ abstract mixin class $StEverWithdrawRequestDataCopyWith<$Res> {
       _$StEverWithdrawRequestDataCopyWithImpl;
   @useResult
   $Res call(
-      {@amountJsonConverter BigInt amount,
-      @timestampFromStringJsonConverter DateTime timestamp});
+      {BigInt amount, @timestampFromStringJsonConverter DateTime timestamp});
 }
 
 /// @nodoc
@@ -323,13 +321,12 @@ class _$StEverWithdrawRequestDataCopyWithImpl<$Res>
 @JsonSerializable()
 class _StEverWithdrawRequestData implements StEverWithdrawRequestData {
   const _StEverWithdrawRequestData(
-      {@amountJsonConverter required this.amount,
+      {required this.amount,
       @timestampFromStringJsonConverter required this.timestamp});
   factory _StEverWithdrawRequestData.fromJson(Map<String, dynamic> json) =>
       _$StEverWithdrawRequestDataFromJson(json);
 
   @override
-  @amountJsonConverter
   final BigInt amount;
   @override
   @timestampFromStringJsonConverter
@@ -381,8 +378,7 @@ abstract mixin class _$StEverWithdrawRequestDataCopyWith<$Res>
   @override
   @useResult
   $Res call(
-      {@amountJsonConverter BigInt amount,
-      @timestampFromStringJsonConverter DateTime timestamp});
+      {BigInt amount, @timestampFromStringJsonConverter DateTime timestamp});
 }
 
 /// @nodoc

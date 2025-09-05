@@ -26,7 +26,7 @@ Map<String, dynamic> _$StEverWithdrawRequestToJson(
 _StEverWithdrawRequestData _$StEverWithdrawRequestDataFromJson(
         Map<String, dynamic> json) =>
     _StEverWithdrawRequestData(
-      amount: amountJsonConverter.fromJson(json['amount'] as String),
+      amount: BigInt.parse(json['amount'] as String),
       timestamp: timestampFromStringJsonConverter
           .fromJson(json['timestamp'] as String),
     );
@@ -34,6 +34,6 @@ _StEverWithdrawRequestData _$StEverWithdrawRequestDataFromJson(
 Map<String, dynamic> _$StEverWithdrawRequestDataToJson(
         _StEverWithdrawRequestData instance) =>
     <String, dynamic>{
-      'amount': amountJsonConverter.toJson(instance.amount),
+      'amount': instance.amount.toString(),
       'timestamp': timestampFromStringJsonConverter.toJson(instance.timestamp),
     };
