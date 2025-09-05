@@ -516,6 +516,7 @@ import '../feature/wallet/widgets/wallet_backup/manual_backup/manual_back_up_mod
 import '../feature/wallet/widgets/wallet_backup/manual_backup/manual_back_up_wm.dart'
     as _i830;
 import '../feature/wallet/widgets/wallet_backup/wallet_backup.dart' as _i217;
+import '../http/api/gasless/gasless_api.dart' as _i528;
 import '../http/api/presets/presets_api.dart' as _i249;
 import '../http/api/token/token_api.dart' as _i639;
 import '../http/api/ton/ton_api.dart' as _i162;
@@ -1081,6 +1082,10 @@ extension GetItInjectableX on _i174.GetIt {
           gh<_i361.Dio>(),
           baseUrl: gh<String>(),
         ));
+    gh.factory<_i528.GaslessApi>(() => _i528.GaslessApi(
+          gh<_i361.Dio>(),
+          baseUrl: gh<String>(),
+        ));
     gh.singleton<_i82.CompassBaseRoute>(
       () => _i986.AddAccountRoute(
         gh<_i82.CompassBaseRoute>(instanceName: 'SelectSeedRoute'),
@@ -1271,11 +1276,6 @@ extension GetItInjectableX on _i174.GetIt {
           gh<_i128.TonConnectStorageService>(),
           gh<_i625.TonConnectHttpBridge>(),
         ));
-    gh.singleton<_i130.PresetsConfigReader>(() => _i130.PresetsConfigReader(
-          gh<_i249.PresetsApi>(),
-          gh<_i679.SecureStorageService>(),
-          gh<_i104.ResourcesService>(),
-        ));
     gh.factory<_i955.SeedSettingsModel>(() => _i955.SeedSettingsModel(
           gh<_i83.ErrorHandler>(),
           gh<_i771.NekotonRepository>(),
@@ -1343,6 +1343,11 @@ extension GetItInjectableX on _i174.GetIt {
     gh.factory<_i269.TonConnectJsBridge>(() => _i269.TonConnectJsBridge(
           gh<_i625.TonConnectService>(),
           gh<_i128.TonConnectStorageService>(),
+        ));
+    gh.singleton<_i130.PresetsConfigReader>(() => _i130.PresetsConfigReader(
+          gh<_i249.PresetsApi>(),
+          gh<_i679.SecureStorageService>(),
+          gh<_i104.ResourcesService>(),
         ));
     gh.singleton<_i1052.CurrenciesService>(() => _i1052.CurrenciesService(
           dio: gh<_i361.Dio>(),

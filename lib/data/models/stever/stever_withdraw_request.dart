@@ -12,7 +12,7 @@ abstract class StEverWithdrawRequest with _$StEverWithdrawRequest {
   const factory StEverWithdrawRequest({
     required String nonce,
     required StEverWithdrawRequestData data,
-    @NekotonAddressConverter() required Address accountAddress,
+    required Address accountAddress,
   }) = _StEverWithdrawRequest;
 
   factory StEverWithdrawRequest.fromJson(Map<String, dynamic> json) =>

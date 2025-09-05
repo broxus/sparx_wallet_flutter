@@ -17,7 +17,6 @@ T _$identity<T>(T value) => value;
 mixin _$StEverWithdrawRequest {
   String get nonce;
   StEverWithdrawRequestData get data;
-  @NekotonAddressConverter()
   Address get accountAddress;
 
   /// Create a copy of StEverWithdrawRequest
@@ -59,9 +58,7 @@ abstract mixin class $StEverWithdrawRequestCopyWith<$Res> {
       _$StEverWithdrawRequestCopyWithImpl;
   @useResult
   $Res call(
-      {String nonce,
-      StEverWithdrawRequestData data,
-      @NekotonAddressConverter() Address accountAddress});
+      {String nonce, StEverWithdrawRequestData data, Address accountAddress});
 
   $StEverWithdrawRequestDataCopyWith<$Res> get data;
   $AddressCopyWith<$Res> get accountAddress;
@@ -125,9 +122,7 @@ class _$StEverWithdrawRequestCopyWithImpl<$Res>
 @JsonSerializable()
 class _StEverWithdrawRequest implements StEverWithdrawRequest {
   const _StEverWithdrawRequest(
-      {required this.nonce,
-      required this.data,
-      @NekotonAddressConverter() required this.accountAddress});
+      {required this.nonce, required this.data, required this.accountAddress});
   factory _StEverWithdrawRequest.fromJson(Map<String, dynamic> json) =>
       _$StEverWithdrawRequestFromJson(json);
 
@@ -136,7 +131,6 @@ class _StEverWithdrawRequest implements StEverWithdrawRequest {
   @override
   final StEverWithdrawRequestData data;
   @override
-  @NekotonAddressConverter()
   final Address accountAddress;
 
   /// Create a copy of StEverWithdrawRequest
@@ -185,9 +179,7 @@ abstract mixin class _$StEverWithdrawRequestCopyWith<$Res>
   @override
   @useResult
   $Res call(
-      {String nonce,
-      StEverWithdrawRequestData data,
-      @NekotonAddressConverter() Address accountAddress});
+      {String nonce, StEverWithdrawRequestData data, Address accountAddress});
 
   @override
   $StEverWithdrawRequestDataCopyWith<$Res> get data;

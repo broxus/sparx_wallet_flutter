@@ -12,8 +12,7 @@ _StEverWithdrawRequest _$StEverWithdrawRequestFromJson(
       nonce: json['nonce'] as String,
       data: StEverWithdrawRequestData.fromJson(
           json['data'] as Map<String, dynamic>),
-      accountAddress: const NekotonAddressConverter()
-          .fromJson(json['accountAddress'] as String),
+      accountAddress: Address.fromJson(json['accountAddress'] as String),
     );
 
 Map<String, dynamic> _$StEverWithdrawRequestToJson(
@@ -21,8 +20,7 @@ Map<String, dynamic> _$StEverWithdrawRequestToJson(
     <String, dynamic>{
       'nonce': instance.nonce,
       'data': instance.data.toJson(),
-      'accountAddress':
-          const NekotonAddressConverter().toJson(instance.accountAddress),
+      'accountAddress': instance.accountAddress.toJson(),
     };
 
 _StEverWithdrawRequestData _$StEverWithdrawRequestDataFromJson(
