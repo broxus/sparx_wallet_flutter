@@ -19,18 +19,26 @@ class HistoryList extends InjectedElementaryWidget<HistoryListWidgetModel> {
   Widget build(HistoryListWidgetModel wm) {
     return Column(
       children: [
-        if (wm.isShowSearch)
-          Padding(
-            padding: const EdgeInsets.only(
-              bottom: DimensSizeV2.d16,
-              left: DimensSizeV2.d24,
-              right: DimensSizeV2.d24,
-            ),
-            child: PrimaryTextField(
-              hintText: LocaleKeys.browserSearch.tr(),
-              textEditingController: wm.searchController,
-            ),
-          ),
+        StateNotifierBuilder(
+          listenableState: wm.isShowSearchState,
+          builder: (_, bool? isShowSearch) {
+            isShowSearch ??= true;
+            if (!isShowSearch) {
+              return const SizedBox.shrink();
+            }
+            return Padding(
+              padding: const EdgeInsets.only(
+                bottom: DimensSizeV2.d16,
+                left: DimensSizeV2.d24,
+                right: DimensSizeV2.d24,
+              ),
+              child: PrimaryTextField(
+                hintText: LocaleKeys.browserSearch.tr(),
+                textEditingController: wm.searchController,
+              ),
+            );
+          },
+        ),
         Flexible(
           child: StateNotifierBuilder<List<HistoryUiModel>>(
             listenableState: wm.historyState,
