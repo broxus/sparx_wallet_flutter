@@ -67,7 +67,6 @@ class BrowserService {
 
   Future<void> init() async {
     _bookmarksDelegate.init();
-    _historyDelegate.init();
     _permissionsDelegate.init();
     _tabsDelegate.init();
     await _antiPhishingDelegate.init();

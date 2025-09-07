@@ -95,7 +95,9 @@ class TipsBarWidgetModel
         );
       }
 
-      for (final history in model.browserHistoryItems) {
+      final items = await model.getHistoryItems();
+
+      for (final history in items) {
         if (_urlsResult.contains(history.url.host) ||
             history.url.host.contains(BrowserService.searchEngineHost)) {
           continue;
