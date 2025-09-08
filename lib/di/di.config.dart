@@ -209,14 +209,6 @@ import '../feature/browser_v2/widgets/bottomsheets/book/browser_book_model.dart'
     as _i250;
 import '../feature/browser_v2/widgets/bottomsheets/book/browser_book_wm.dart'
     as _i913;
-import '../feature/browser_v2/widgets/bottomsheets/book/widgets/bookmarks/bookmarks_list_model.dart'
-    as _i507;
-import '../feature/browser_v2/widgets/bottomsheets/book/widgets/bookmarks/bookmarks_list_wm.dart'
-    as _i951;
-import '../feature/browser_v2/widgets/bottomsheets/book/widgets/history/history_list_model.dart'
-    as _i985;
-import '../feature/browser_v2/widgets/bottomsheets/book/widgets/history/history_list_wm.dart'
-    as _i785;
 import '../feature/browser_v2/widgets/bottomsheets/browser_main_menu/browser_main_menu_model.dart'
     as _i966;
 import '../feature/browser_v2/widgets/bottomsheets/browser_main_menu/browser_main_menu_wm.dart'
@@ -814,8 +806,6 @@ extension GetItInjectableX on _i174.GetIt {
           gh<_i632.MessengerService>(),
           gh<_i771.NekotonRepository>(),
         ));
-    gh.factory<_i250.BrowserBookModel>(
-        () => _i250.BrowserBookModel(gh<_i83.ErrorHandler>()));
     gh.singleton<_i82.CompassBaseRoute>(
       () => _i1040.BrowserRoute(
           gh<_i82.CompassBaseRoute>(instanceName: 'CreateBrowserGroupRoute')),
@@ -1094,8 +1084,6 @@ extension GetItInjectableX on _i174.GetIt {
       ),
       instanceName: 'AddAccountRoute',
     );
-    gh.factory<_i913.BrowserBookWidgetModel>(
-        () => _i913.BrowserBookWidgetModel(gh<_i250.BrowserBookModel>()));
     gh.singleton<_i82.CompassBaseRoute>(
       () => _i450.StakingRoute(
         gh<_i82.CompassBaseRoute>(instanceName: 'TonWalletSendRoute'),
@@ -1417,7 +1405,7 @@ extension GetItInjectableX on _i174.GetIt {
         ));
     gh.singleton<_i116.PresetsConnectionService>(
         () => _i116.PresetsConnectionService(gh<_i418.PresetsConfigReader>()));
-    gh.factory<_i985.HistoryListModel>(() => _i985.HistoryListModel(
+    gh.factory<_i250.BrowserBookModel>(() => _i250.BrowserBookModel(
           gh<_i83.ErrorHandler>(),
           gh<_i470.BrowserService>(),
           gh<_i5.LocalizationService>(),
@@ -1473,10 +1461,6 @@ extension GetItInjectableX on _i174.GetIt {
           gh<_i83.ErrorHandler>(),
           gh<_i470.BrowserService>(),
         ));
-    gh.factory<_i507.BookmarksListModel>(() => _i507.BookmarksListModel(
-          gh<_i83.ErrorHandler>(),
-          gh<_i470.BrowserService>(),
-        ));
     gh.factory<_i476.TipsBarModel>(() => _i476.TipsBarModel(
           gh<_i83.ErrorHandler>(),
           gh<_i470.BrowserService>(),
@@ -1519,8 +1503,6 @@ extension GetItInjectableX on _i174.GetIt {
           gh<_i128.PermissionsService>(),
           gh<_i128.CurrentAccountsService>(),
         ));
-    gh.factory<_i951.BookmarksListWidgetModel>(
-        () => _i951.BookmarksListWidgetModel(gh<_i507.BookmarksListModel>()));
     gh.factory<_i312.FaviconViewWidgetModel>(
         () => _i312.FaviconViewWidgetModel(gh<_i306.FaviconViewModel>()));
     gh.factory<_i482.UpdateVersionModel>(() => _i482.UpdateVersionModel(
@@ -1533,8 +1515,6 @@ extension GetItInjectableX on _i174.GetIt {
         () => _i425.NftSendWidgetModel(gh<_i1015.NftSendModel>()));
     gh.factory<_i970.BrowserMainMenuWidgetModel>(() =>
         _i970.BrowserMainMenuWidgetModel(gh<_i966.BrowserMainMenuModel>()));
-    gh.factory<_i785.HistoryListWidgetModel>(
-        () => _i785.HistoryListWidgetModel(gh<_i985.HistoryListModel>()));
     gh.factory<_i935.TCManageDappsWidgetModel>(
         () => _i935.TCManageDappsWidgetModel(gh<_i625.TCManageDappsModel>()));
     gh.factory<_i399.TabAnimatedViewWidgetModel>(() =>
@@ -1566,6 +1546,8 @@ extension GetItInjectableX on _i174.GetIt {
     gh.factory<_i877.CreateBrowserGroupScreenWidgetModel>(() =>
         _i877.CreateBrowserGroupScreenWidgetModel(
             gh<_i907.CreateBrowserGroupScreenModel>()));
+    gh.factory<_i913.BrowserBookWidgetModel>(
+        () => _i913.BrowserBookWidgetModel(gh<_i250.BrowserBookModel>()));
     gh.factory<_i596.UpdateVersionWidgetModel>(
         () => _i596.UpdateVersionWidgetModel(gh<_i482.UpdateVersionModel>()));
     gh.singleton<_i82.CompassBaseRoute>(

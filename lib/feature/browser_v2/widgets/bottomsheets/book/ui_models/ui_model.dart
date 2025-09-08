@@ -1,4 +1,19 @@
-sealed class HistoryUiModel {}
+sealed class BaseBookUiModel {}
+
+class BookMarkUiModel extends BaseBookUiModel {
+  BookMarkUiModel({
+    required this.bookmarkId,
+    required this.uri,
+    required this.title,
+  });
+
+  final String bookmarkId;
+  final Uri uri;
+  final String title;
+  late final String subTitle = uri.host;
+}
+
+sealed class HistoryUiModel extends BaseBookUiModel {}
 
 class DateUiModel extends HistoryUiModel {
   DateUiModel(this.dateText);
