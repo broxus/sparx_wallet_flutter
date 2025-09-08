@@ -1,4 +1,3 @@
-import 'package:app/feature/browser_v2/widgets/bottomsheets/book/widgets/bookmarks/bookmarks_list_wm.dart';
 import 'package:app/feature/browser_v2/widgets/favicon_view/favicon_view.dart';
 import 'package:elementary_helper/elementary_helper.dart';
 import 'package:flutter/material.dart';
@@ -21,7 +20,7 @@ class BookmarkListItem extends StatelessWidget {
   final String? title;
   final String? subTitle;
   final Uri? uri;
-  final ListenableState<EditValue> editState;
+  final ListenableState<bool> editState;
   final VoidCallback onPressed;
   final VoidCallback onPressedRemove;
 
@@ -29,7 +28,9 @@ class BookmarkListItem extends StatelessWidget {
   Widget build(BuildContext context) {
     return StateNotifierBuilder(
       listenableState: editState,
-      builder: (_, EditValue? editValue) {
+      builder: (_, bool? editValue) {
+        editValue ??= false;
+
         return _Content(
           title: title,
           subTitle: subTitle,
@@ -41,7 +42,7 @@ class BookmarkListItem extends StatelessWidget {
                 onPressed: onPressedRemove,
               ),
               second: const SizedBox.shrink(),
-              isShowFirst: editValue != EditValue.none,
+              isShowFirst: editValue,
             ),
           ),
           suffix: Padding(
@@ -52,10 +53,10 @@ class BookmarkListItem extends StatelessWidget {
                 child: const _DragLabel(),
               ),
               second: const SizedBox.shrink(),
-              isShowFirst: editValue == EditValue.edit,
+              isShowFirst: editValue,
             ),
           ),
-          onPressed: editValue == EditValue.none ? onPressed : null,
+          onPressed: !editValue ? onPressed : null,
         );
       },
     );
@@ -135,7 +136,11 @@ class _Content extends StatelessWidget {
       behavior: HitTestBehavior.opaque,
       onTap: onPressed,
       child: Padding(
-        padding: const EdgeInsets.only(bottom: DimensSizeV2.d8),
+        padding: const EdgeInsets.only(
+          left: DimensSizeV2.d24,
+          right: DimensSizeV2.d24,
+          bottom: DimensSizeV2.d8,
+        ),
         child: SizedBox(
           width: double.infinity,
           height: DimensSizeV2.d58,

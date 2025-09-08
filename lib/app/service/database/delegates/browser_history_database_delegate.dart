@@ -48,7 +48,7 @@ class BrowserHistoryDatabaseDelegate {
           .map((row) => t.map(row.data, tablePrefix: prefix))
           .map(_toHistoryDomain)
           .toList(growable: false);
-    });
+    }).asBroadcastStream();
   }
 
   Stream<int> watchHistoryCount() {
@@ -57,7 +57,10 @@ class BrowserHistoryDatabaseDelegate {
 
     final q = _db.selectOnly(t)..addColumns([countExp]);
 
-    return q.watchSingle().map((row) => row.read(countExp) ?? 0);
+    return q
+        .watchSingle()
+        .map((row) => row.read(countExp) ?? 0)
+        .asBroadcastStream();
   }
 
   Future<BrowserHistoryItem?> getHistoryItemById(String id) async {
