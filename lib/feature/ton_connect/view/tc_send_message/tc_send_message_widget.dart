@@ -1,4 +1,5 @@
 import 'package:app/core/wm/custom_wm.dart';
+import 'package:app/data/models/models.dart';
 import 'package:app/feature/browser_v1/approvals_listener/actions/widgets/website_info/website_info_widget.dart';
 import 'package:app/feature/profile/profile.dart';
 import 'package:app/feature/ton_connect/ton_connect.dart';
@@ -206,7 +207,7 @@ class _MultitransferInfo extends StatelessWidget {
 
   final List<TransferData> data;
   final Money totalAmount;
-  final BigInt? fee;
+  final Fee? fee;
   final String? feeError;
   final int? numberUnconfirmedTransactions;
 
@@ -232,7 +233,6 @@ class _MultitransferInfo extends StatelessWidget {
             attachedAmount: item.attachedAmount,
             rootTokenContract: item.rootTokenContract,
             payload: item.message.payload,
-            hasFee: false,
           ),
       ],
     );

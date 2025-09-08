@@ -16,7 +16,7 @@ class GaslessEstimateRequestDto {
 
   final Address walletAddress;
   final PublicKey walletPublicKey;
-  final List<String> messages;
+  final List<MessageDto> messages;
 
   Map<String, dynamic> toJson() => _$GaslessEstimateRequestDtoToJson(this);
 }

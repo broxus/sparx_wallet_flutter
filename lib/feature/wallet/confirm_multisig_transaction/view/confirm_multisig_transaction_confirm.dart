@@ -1,3 +1,4 @@
+import 'package:app/data/models/models.dart';
 import 'package:app/feature/profile/profile.dart';
 import 'package:app/feature/wallet/widgets/account_info.dart';
 import 'package:app/feature/wallet/widgets/token_transfer_info/token_transfer_info_widget.dart';
@@ -38,7 +39,7 @@ class TonWalletConfirmTransactionConfirmView extends StatefulWidget {
   final String? transactionIdHash;
   final ListenableState<bool> isLoading;
   final ListenableState<String> error;
-  final ListenableState<BigInt> fees;
+  final ListenableState<Fee> fees;
   final ListenableState<List<TxTreeSimulationErrorItem>> txErrors;
   final GetLedgerAuthInput getLedgerAuthInput;
   final void Function(SignInputAuth) onConfirmed;

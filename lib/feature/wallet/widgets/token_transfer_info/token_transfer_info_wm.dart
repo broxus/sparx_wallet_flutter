@@ -7,6 +7,7 @@ import 'package:elementary_helper/elementary_helper.dart';
 import 'package:flutter/foundation.dart';
 import 'package:injectable/injectable.dart';
 import 'package:nekoton_repository/nekoton_repository.dart';
+import 'package:rxdart/rxdart.dart';
 import 'package:ui_components_lib/v2/ui_components_lib_v2.dart';
 
 class TokenTransferInfoWmParams {
@@ -21,7 +22,6 @@ class TokenTransferInfoWmParams {
     this.fee,
     this.feeError,
     this.numberUnconfirmedTransactions,
-    this.hasFee = true,
   });
 
   final Address? recipient;
@@ -31,10 +31,9 @@ class TokenTransferInfoWmParams {
   final String? transactionIdHash;
   final String? comment;
   final String? payload;
-  final BigInt? fee;
+  final Fee? fee;
   final String? feeError;
   final int? numberUnconfirmedTransactions;
-  final bool hasFee;
 }
 
 @injectable
@@ -45,7 +44,35 @@ class TokenTransferInfoWidgetModel extends CustomWidgetModelParametrized<
   TokenTransferInfoWidgetModel(
     super.model,
   );
-  late final _amountUSDPriceState = createWmParamsNotifier<Fixed?>(
+
+  late final feeState = createWmParamsNotifier((it) => it.fee);
+  late final recipientState = createWmParamsNotifier((it) => it.recipient);
+
+  late final transactionIdHashState =
+      createWmParamsNotifier((it) => it.transactionIdHash);
+
+  late final feeErrorState = createWmParamsNotifier((it) => it.feeError);
+
+  late final commentState = createWmParamsNotifier((it) => it.comment);
+
+  late final payloadState = createWmParamsNotifier((it) => it.payload);
+
+  late final numberUnconfirmedTransactionsState =
+      createWmParamsNotifier((it) => it.numberUnconfirmedTransactions);
+
+  late final attachedAmountState = createWmParamsNotifier(
+    (it) => it.attachedAmount?.let(
+      (value) => Money.fromBigIntWithCurrency(value, nativeCurrency),
+    ),
+  );
+
+  late final isNativeState = createWmParamsNotifier(
+    (it) => it.rootTokenContract == null,
+  );
+
+  late final amountState = createWmParamsNotifier((it) => it.amount);
+
+  late final _amountUSDPriceState = createWmParamsNotifier(
     (it) => it.rootTokenContract == null
         ? model.getCurrencyForNativeToken()?.price.let(Fixed.tryParse)
         : model
@@ -53,57 +80,43 @@ class TokenTransferInfoWidgetModel extends CustomWidgetModelParametrized<
             ?.price
             .let(Fixed.tryParse),
   );
-
-  late final _nativeUSDPriceState = createNotifier<Fixed>(
+  late final _nativeUSDPriceState = createNotifier(
     model.getCurrencyForNativeToken()?.price.let(Fixed.tryParse),
   );
+  late final _feeUSDPriceState = createNotifierFromStream(
+    wmParams.switchMap((wmParams) {
+      return switch (wmParams.fee) {
+        FeeNative() => _nativeUSDPriceState.asStream(),
+        FeeToken(:final tokenRootAddress) =>
+          wmParams.rootTokenContract == tokenRootAddress
+              ? _amountUSDPriceState.asStream()
+              : _getTokenPrice(tokenRootAddress).asStream(),
+        _ => Stream.value(null),
+      };
+    }),
+  );
   late final _tokenAssetState = createNotifier<TokenContractAsset>();
-  late final ValueListenable<Money?> feeState = createWmParamsNotifier(
-    (it) => it.hasFee
-        ? Money.fromBigIntWithCurrency(
-            it.fee ?? BigInt.zero,
-            nativeCurrency,
-          )
-        : null,
+  late final _feeAssetState = createNotifierFromStream(
+    wmParams.switchMap((wmParams) {
+      return switch (wmParams.fee) {
+        FeeToken(:final tokenRootAddress) =>
+          wmParams.rootTokenContract == tokenRootAddress
+              ? _tokenAssetState.asStream()
+              : _getTokenAsset(tokenRootAddress).asStream(),
+        _ => Stream.value(null),
+      };
+    }),
   );
-
-  late final ValueListenable<Address?> recipientState =
-      createWmParamsNotifier((it) => it.recipient);
-
-  late final ValueListenable<String?> transactionIdHashState =
-      createWmParamsNotifier((it) => it.transactionIdHash);
-
-  late final ValueListenable<String?> feeErrorState =
-      createWmParamsNotifier((it) => it.feeError);
-
-  late final ValueListenable<String?> commentState =
-      createWmParamsNotifier((it) => it.comment);
-
-  late final ValueListenable<String?> payloadState =
-      createWmParamsNotifier((it) => it.payload);
-
-  late final ValueListenable<int?> numberUnconfirmedTransactionsState =
-      createWmParamsNotifier((it) => it.numberUnconfirmedTransactions);
-
-  late final ValueListenable<Money?> attachedAmountState =
-      createWmParamsNotifier(
-    (it) => it.attachedAmount?.let(
-      (value) => Money.fromBigIntWithCurrency(value, nativeCurrency),
-    ),
-  );
-
-  late final ValueListenable<bool> isNativeState = createWmParamsNotifier(
-    (it) => it.rootTokenContract == null,
-  );
-
-  late final ValueListenable<Money?> amountState =
-      createWmParamsNotifier((it) => it.amount);
 
   ValueListenable<Fixed?> get amountUSDPriceState => _amountUSDPriceState;
 
   ListenableState<Fixed?> get nativeUSDPriceState => _nativeUSDPriceState;
 
+  ListenableState<Fixed?> get feeUSDPriceState => _feeUSDPriceState;
+
   ListenableState<TokenContractAsset?> get tokenAssetState => _tokenAssetState;
+
+  ListenableState<TokenContractAsset?> get feeAssetState => _feeAssetState;
 
   Currency get nativeCurrency =>
       Currencies()[model.transport.nativeTokenTicker]!;
@@ -117,8 +130,16 @@ class TokenTransferInfoWidgetModel extends CustomWidgetModelParametrized<
     super.initWidgetModel();
 
     _getNativePrice();
-    _getTokenPrice();
-    _getTokenAsset();
+
+    final rootTokenContract = wmParams.value.rootTokenContract;
+    if (rootTokenContract != null) {
+      _getTokenPrice(rootTokenContract).then((price) {
+        _amountUSDPriceState.value = price;
+      });
+      _getTokenAsset(rootTokenContract).then((asset) {
+        _tokenAssetState.accept(asset);
+      });
+    }
   }
 
   Future<void> _getNativePrice() async {
@@ -128,32 +149,18 @@ class TokenTransferInfoWidgetModel extends CustomWidgetModelParametrized<
       final price = Fixed.parse(currency.price);
       _nativeUSDPriceState.accept(price);
 
-      if (wmParams.value.rootTokenContract == null &&
-          wmParams.value.amount != null) {
+      if (wmParams.value.rootTokenContract == null) {
         _amountUSDPriceState.value = price;
       }
     }
   }
 
-  Future<void> _getTokenPrice() async {
-    if (wmParams.value.rootTokenContract == null) return;
-
-    final currency = await model.fetchCurrencyForContract(
-      wmParams.value.rootTokenContract!,
-    );
-
-    if (currency != null && wmParams.value.amount != null) {
-      final price = Fixed.parse(currency.price);
-      _amountUSDPriceState.value = price;
-    }
+  Future<Fixed?> _getTokenPrice(Address rootTokenContract) async {
+    final currency = await model.fetchCurrencyForContract(rootTokenContract);
+    return currency?.let((it) => Fixed.parse(it.price));
   }
 
-  Future<void> _getTokenAsset() async {
-    if (wmParams.value.rootTokenContract == null) return;
-
-    final tokenAsset =
-        await model.getTokenAsset(wmParams.value.rootTokenContract!);
-
-    _tokenAssetState.accept(tokenAsset);
+  Future<TokenContractAsset?> _getTokenAsset(Address rootTokenContract) {
+    return model.getTokenAsset(rootTokenContract);
   }
 }

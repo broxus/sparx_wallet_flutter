@@ -1,3 +1,4 @@
+import 'package:app/data/models/models.dart';
 import 'package:app/feature/profile/profile.dart';
 import 'package:app/feature/wallet/wallet.dart';
 import 'package:app/generated/generated.dart';
@@ -37,7 +38,7 @@ class TonWalletSendConfirmView extends StatefulWidget {
   final KeyAccount? account;
   final ListenableState<bool> isLoading;
   final ListenableState<String> error;
-  final ListenableState<BigInt> fees;
+  final ListenableState<Fee> fees;
   final ListenableState<List<TxTreeSimulationErrorItem>> txErrors;
   final GetLedgerAuthInput getLedgerAuthInput;
   final void Function(SignInputAuth) onConfirmed;

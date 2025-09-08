@@ -523,6 +523,7 @@ import '../http/api/ton/ton_api.dart' as _i162;
 import '../http/dio_module.dart' as _i720;
 import '../http/http.dart' as _i188;
 import '../http/interceptors/app_lifecycle_interceptor.dart' as _i164;
+import '../http/repository/gasless_repository.dart' as _i487;
 import '../http/repository/repository.dart' as _i593;
 import '../http/repository/token_repository.dart' as _i700;
 import '../http/repository/ton_repository.dart' as _i495;
@@ -1225,6 +1226,10 @@ extension GetItInjectableX on _i174.GetIt {
         ));
     gh.factory<_i920.AddAccountConfirmWidgetModel>(() =>
         _i920.AddAccountConfirmWidgetModel(gh<_i513.AddAccountConfirmModel>()));
+    gh.singleton<_i487.GaslessRepository>(() => _i487.GaslessRepository(
+          gh<_i771.NekotonRepository>(),
+          gh<_i361.Dio>(),
+        ));
     gh.lazySingleton<_i33.TonConnectService>(() => _i33.TonConnectService(
           gh<_i128.TonConnectStorageService>(),
           gh<_i771.NekotonRepository>(),

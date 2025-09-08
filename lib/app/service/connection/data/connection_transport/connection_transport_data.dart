@@ -20,6 +20,7 @@ class ConnectionTransportData {
     this.stakeInformation,
     this.tokenApiBaseUrl,
     this.currencyApiBaseUrl,
+    this.gaslessApiBaseUrl,
     this.defaultNativeCurrencyDecimal,
     this.nftInformation,
     this.pollingConfig,
@@ -90,6 +91,7 @@ class ConnectionTransportData {
   final StakingInformation? stakeInformation;
   final String? tokenApiBaseUrl;
   final String? currencyApiBaseUrl;
+  final String? gaslessApiBaseUrl;
   final int? defaultNativeCurrencyDecimal;
   final NftInformation? nftInformation;
   final PollingConfig? pollingConfig;

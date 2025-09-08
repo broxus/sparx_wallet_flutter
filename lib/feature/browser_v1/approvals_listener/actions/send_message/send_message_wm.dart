@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:app/app/service/service.dart';
 import 'package:app/core/wm/custom_wm.dart';
+import 'package:app/data/models/models.dart';
 import 'package:app/feature/browser_v1/approvals_listener/actions/send_message/send_message_model.dart';
 import 'package:app/feature/browser_v1/approvals_listener/actions/send_message/send_message_widget.dart';
 import 'package:app/feature/ledger/ledger.dart';
@@ -81,7 +82,7 @@ class SendMessageWidgetModel extends CustomWidgetModelParametrized<
   ValueListenable<FunctionCall?> get payloadState => _payloadState;
 
   late final _data = createNotifier<TransferData>();
-  late final _fee = createNotifier<BigInt>();
+  late final _fee = createNotifier(const Fee.estimating());
   late final _feeError = createNotifier<String>();
   late final _txErrors = createNotifier<List<TxTreeSimulationErrorItem>>();
   late final _publicKey = createNotifier(account?.publicKey);
@@ -95,7 +96,7 @@ class SendMessageWidgetModel extends CustomWidgetModelParametrized<
 
   ListenableState<TransferData> get data => _data;
 
-  ListenableState<BigInt> get fee => _fee;
+  ListenableState<Fee> get fee => _fee;
 
   ListenableState<String> get feeError => _feeError;
 
@@ -242,7 +243,7 @@ class SendMessageWidgetModel extends CustomWidgetModelParametrized<
       if (data != null) {
         final balance = _balance.value ??
             await model.getBalanceStream(wmParams.value.sender).first;
-        final fee = _fee.value ?? BigInt.zero;
+        final fee = _fee.value?.minorUnits ?? BigInt.zero;
         final amount = data.attachedAmount ?? data.amount.amount.minorUnits;
 
         if (balance.amount.minorUnits < (fee + amount)) {
@@ -262,7 +263,11 @@ class SendMessageWidgetModel extends CustomWidgetModelParametrized<
         message: message,
       );
 
-      _fee.accept(fee);
+      _fee.accept(
+        Fee.native(
+          Money.fromBigIntWithCurrency(fee, nativeCurrency!),
+        ),
+      );
     } catch (e) {
       _feeError.accept(e.toString());
     }

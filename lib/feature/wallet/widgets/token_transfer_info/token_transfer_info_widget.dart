@@ -1,6 +1,6 @@
 import 'package:app/core/wm/custom_wm.dart';
+import 'package:app/data/models/models.dart';
 import 'package:app/feature/wallet/wallet.dart';
-import 'package:app/feature/wallet/widgets/account_transactions_tab/detail/details_item.dart';
 import 'package:app/feature/wallet/widgets/token_transfer_info/token_transfer_info_wm.dart';
 import 'package:app/generated/generated.dart';
 import 'package:app/utils/utils.dart';
@@ -15,7 +15,7 @@ class TokenTransferInfoWidget extends InjectedElementaryParametrizedWidget<
   TokenTransferInfoWidget({
     Money? amount,
     Address? recipient,
-    BigInt? fee,
+    Fee? fee,
     BigInt? attachedAmount,
     Address? rootTokenContract,
     String? transactionIdHash,
@@ -23,7 +23,6 @@ class TokenTransferInfoWidget extends InjectedElementaryParametrizedWidget<
     String? payload,
     String? feeError,
     int? numberUnconfirmedTransactions,
-    bool hasFee = true,
     this.color,
     this.margin = EdgeInsets.zero,
     super.key,
@@ -39,7 +38,6 @@ class TokenTransferInfoWidget extends InjectedElementaryParametrizedWidget<
             fee: fee,
             feeError: feeError,
             numberUnconfirmedTransactions: numberUnconfirmedTransactions,
-            hasFee: hasFee,
           ),
         );
 
@@ -109,6 +107,7 @@ class TokenTransferInfoWidget extends InjectedElementaryParametrizedWidget<
                 margin: const EdgeInsets.only(top: DimensSizeV2.d16),
                 label: LocaleKeys.amountWord.tr(),
                 child: Column(
+                  spacing: DimensSize.d4,
                   crossAxisAlignment: CrossAxisAlignment.end,
                   children: [
                     AmountWidget.fromMoney(
@@ -118,13 +117,10 @@ class TokenTransferInfoWidget extends InjectedElementaryParametrizedWidget<
                       useDefaultFormat: false,
                     ),
                     if (price != null)
-                      Padding(
-                        padding: const EdgeInsets.only(top: DimensSizeV2.d4),
-                        child: AmountWidget.dollars(
-                          amount: amount.exchangeToUSD(price),
-                          style: theme.textStyles.labelXSmall.copyWith(
-                            color: theme.colors.content3,
-                          ),
+                      AmountWidget.dollars(
+                        amount: amount.exchangeToUSD(price),
+                        style: theme.textStyles.labelXSmall.copyWith(
+                          color: theme.colors.content3,
                         ),
                       ),
                   ],
@@ -146,7 +142,7 @@ class TokenTransferInfoWidget extends InjectedElementaryParametrizedWidget<
               return _InfoRow(
                 margin: const EdgeInsets.only(top: DimensSizeV2.d16),
                 label: LocaleKeys.attachedAmount.tr(),
-                child: SeparatedColumn(
+                child: Column(
                   spacing: DimensSize.d4,
                   crossAxisAlignment: CrossAxisAlignment.end,
                   children: [
@@ -174,13 +170,15 @@ class TokenTransferInfoWidget extends InjectedElementaryParametrizedWidget<
             listenableList: [
               wm.feeState,
               wm.feeErrorState,
-              wm.nativeUSDPriceState,
+              wm.feeUSDPriceState,
               wm.numberUnconfirmedTransactionsState,
+              wm.feeAssetState,
             ],
             builder: (_) {
               final fee = wm.feeState.value;
               final feeError = wm.feeErrorState.value;
-              final nativeUSDPrice = wm.nativeUSDPriceState.value;
+              final feeUSDPrice = wm.feeUSDPriceState.value;
+              final feeAsset = wm.feeAssetState.value;
               final numberUnconfirmedTransactions =
                   wm.numberUnconfirmedTransactionsState.value;
 
@@ -188,26 +186,15 @@ class TokenTransferInfoWidget extends InjectedElementaryParametrizedWidget<
 
               return Padding(
                 padding: const EdgeInsets.only(top: DimensSizeV2.d16),
-                child: SeparatedColumn(
+                child: Column(
                   crossAxisAlignment: CrossAxisAlignment.end,
                   spacing: DimensSizeV2.d4,
                   children: [
-                    WalletTransactionDetailsItem(
-                      title: LocaleKeys.networkFee.tr(),
-                      valueWidget: AmountWidget.fromMoney(
-                        amount: fee,
-                        sign: '~ ',
-                        includeSymbol: false,
-                      ),
-                      iconPath: wm.nativeTokenIcon,
-                      convertedValueWidget: nativeUSDPrice?.let(
-                        (price) => AmountWidget.dollars(
-                          amount: fee.exchangeToUSD(price, 5),
-                          style: theme.textStyles.labelXSmall.copyWith(
-                            color: theme.colors.content3,
-                          ),
-                        ),
-                      ),
+                    _FeeItem(
+                      fee: fee,
+                      usdPrice: feeUSDPrice,
+                      asset: feeAsset,
+                      nativeTokenIcon: wm.nativeTokenIcon,
                     ),
                     if ((numberUnconfirmedTransactions ?? 0) >= 5)
                       Text(
@@ -235,7 +222,7 @@ class TokenTransferInfoWidget extends InjectedElementaryParametrizedWidget<
 
               return Padding(
                 padding: const EdgeInsets.only(top: DimensSizeV2.d16),
-                child: SeparatedColumn(
+                child: Column(
                   spacing: DimensSizeV2.d2,
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
@@ -259,7 +246,7 @@ class TokenTransferInfoWidget extends InjectedElementaryParametrizedWidget<
 
               return Padding(
                 padding: const EdgeInsets.only(top: DimensSizeV2.d16),
-                child: SeparatedColumn(
+                child: Column(
                   spacing: DimensSizeV2.d2,
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
@@ -285,7 +272,7 @@ class TokenTransferInfoWidget extends InjectedElementaryParametrizedWidget<
 
               return Padding(
                 padding: const EdgeInsets.only(top: DimensSizeV2.d16),
-                child: SeparatedColumn(
+                child: Column(
                   spacing: DimensSizeV2.d2,
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
@@ -311,7 +298,7 @@ class TokenTransferInfoWidget extends InjectedElementaryParametrizedWidget<
 
               return Padding(
                 padding: const EdgeInsets.only(top: DimensSizeV2.d16),
-                child: SeparatedColumn(
+                child: Column(
                   spacing: DimensSizeV2.d2,
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
@@ -366,5 +353,90 @@ class _InfoRow extends StatelessWidget {
         ],
       ),
     );
+  }
+}
+
+class _FeeItem extends StatelessWidget {
+  const _FeeItem({
+    required this.fee,
+    required this.usdPrice,
+    required this.asset,
+    required this.nativeTokenIcon,
+  });
+
+  final Fee fee;
+  final Fixed? usdPrice;
+  final TokenContractAsset? asset;
+  final String nativeTokenIcon;
+
+  @override
+  Widget build(BuildContext context) {
+    final theme = context.themeStyleV2;
+    final priceWidget = switch (fee) {
+      FeeNative(:final amount) || FeeToken(:final amount) => usdPrice?.let(
+          (price) => AmountWidget.dollars(
+            amount: amount.exchangeToUSD(price, 5),
+            style: theme.textStyles.labelXSmall.copyWith(
+              color: theme.colors.content3,
+            ),
+          ),
+        ),
+      _ => null,
+    };
+
+    return switch (fee) {
+      FeeEstimating() => _InfoRow(
+          label: LocaleKeys.networkFee.tr(),
+          child: ProgressIndicatorWidget(
+            size: DimensSizeV2.d20,
+            color: theme.colors.content3,
+          ),
+        ),
+      FeeNative(:final amount) => _InfoRow(
+          label: LocaleKeys.networkFee.tr(),
+          child: Column(
+            spacing: DimensSize.d4,
+            crossAxisAlignment: CrossAxisAlignment.end,
+            children: [
+              AmountWidget.fromMoney(
+                amount: amount,
+                icon: TonWalletIconWidget(
+                  path: nativeTokenIcon,
+                  size: DimensSizeV2.d20,
+                ),
+                sign: '~ ',
+                includeSymbol: false,
+              ),
+              if (priceWidget != null) priceWidget,
+            ],
+          ),
+        ),
+      FeeToken(:final amount) => _InfoRow(
+          label: LocaleKeys.networkFee.tr(),
+          child: Column(
+            spacing: DimensSize.d4,
+            crossAxisAlignment: CrossAxisAlignment.end,
+            children: [
+              AmountWidget.fromMoney(
+                amount: amount,
+                includeSymbol: false,
+                icon: asset?.let(
+                      (asset) => TokenWalletIconWidget(
+                        address: asset.address,
+                        logoURI: asset.logoURI,
+                        version: asset.version,
+                        size: DimensSizeV2.d20,
+                      ),
+                    ) ??
+                    TonWalletIconWidget(
+                      path: Assets.images.tokenDefaultIcon.path,
+                      size: DimensSizeV2.d20,
+                    ),
+              ),
+              if (priceWidget != null) priceWidget,
+            ],
+          ),
+        ),
+    };
   }
 }

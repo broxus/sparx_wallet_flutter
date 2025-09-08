@@ -11,8 +11,9 @@ GaslessEstimateRequestDto _$GaslessEstimateRequestDtoFromJson(
     GaslessEstimateRequestDto(
       walletAddress: Address.fromJson(json['walletAddress'] as String),
       walletPublicKey: PublicKey.fromJson(json['walletPublicKey'] as String),
-      messages:
-          (json['messages'] as List<dynamic>).map((e) => e as String).toList(),
+      messages: (json['messages'] as List<dynamic>)
+          .map((e) => MessageDto.fromJson(e as Map<String, dynamic>))
+          .toList(),
     );
 
 Map<String, dynamic> _$GaslessEstimateRequestDtoToJson(
@@ -20,7 +21,7 @@ Map<String, dynamic> _$GaslessEstimateRequestDtoToJson(
     <String, dynamic>{
       'walletAddress': instance.walletAddress.toJson(),
       'walletPublicKey': instance.walletPublicKey.toJson(),
-      'messages': instance.messages,
+      'messages': instance.messages.map((e) => e.toJson()).toList(),
     };
 
 MessageDto _$MessageDtoFromJson(Map<String, dynamic> json) => MessageDto(

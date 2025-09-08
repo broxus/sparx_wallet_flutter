@@ -1,5 +1,6 @@
 import 'package:app/app/router/router.dart';
 import 'package:app/core/wm/custom_wm.dart';
+import 'package:app/data/models/models.dart';
 import 'package:app/feature/ledger/ledger.dart';
 import 'package:app/feature/messenger/data/message.dart';
 import 'package:app/feature/wallet/route.dart';
@@ -50,7 +51,7 @@ class TokenWalletSendWidgetModel extends CustomWidgetModelParametrized<
   static final _logger = Logger('TokenWalletSendWidgetModel');
 
   late final _isLoading = createNotifier(false);
-  late final _fees = createNotifier<BigInt>();
+  late final _fees = createNotifier(const Fee.estimating());
   late final _txErrors = createNotifier<List<TxTreeSimulationErrorItem>>();
   late final _error = createNotifier<String>();
   late final _state = createNotifier(const TokenWalletSendState.ready());
@@ -72,7 +73,7 @@ class TokenWalletSendWidgetModel extends CustomWidgetModelParametrized<
 
   ListenableState<bool> get isLoading => _isLoading;
 
-  ListenableState<BigInt> get fees => _fees;
+  ListenableState<Fee> get fees => _fees;
 
   ListenableState<List<TxTreeSimulationErrorItem>> get txErrors => _txErrors;
 
@@ -215,7 +216,11 @@ class TokenWalletSendWidgetModel extends CustomWidgetModelParametrized<
         ),
       );
 
-      _fees.accept(fees);
+      _fees.accept(
+        Fee.native(
+          Money.fromBigIntWithCurrency(fees, currency),
+        ),
+      );
       _txErrors.accept(txErrors);
       _wallet = walletState.wallet;
       _tokenWallet = tokenWalletState.wallet;
