@@ -1,21 +1,19 @@
-import 'package:app/app/router/router.dart';
-import 'package:app/feature/biometry/cubit/biometry_cubit.dart';
 import 'package:app/generated/generated.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:ui_components_lib/ui_components_lib.dart';
 import 'package:ui_components_lib/v2/ui_components_lib_v2.dart';
 
 class BiometryView extends StatelessWidget {
   const BiometryView({
     required this.isFace,
-    this.onClose,
+    required this.onEnable,
+    required this.onSkip,
     super.key,
   });
 
-  final VoidCallback? onClose;
-
   final bool isFace;
+  final VoidCallback onEnable;
+  final VoidCallback onSkip;
 
   @override
   Widget build(BuildContext context) {
@@ -65,14 +63,14 @@ class BiometryView extends StatelessWidget {
                 if (isFace) LocaleKeys.faceId.tr() else LocaleKeys.touchId.tr(),
               ],
             ),
-            onPressed: () => context.read<BiometryCubit>().requestBiometry(),
+            onPressed: onEnable,
             buttonShape: ButtonShape.pill,
           ),
           const SizedBox(height: DimensSize.d8),
           PrimaryButton(
             title: LocaleKeys.noThanks.tr(),
             buttonShape: ButtonShape.pill,
-            onPressed: onClose ?? () => context.compassBack(),
+            onPressed: onSkip,
           ),
         ],
       ),

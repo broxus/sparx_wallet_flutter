@@ -41,12 +41,12 @@ class AccountSettingsWidget extends InjectedElementaryParametrizedWidget<
         const SizedBox(height: DimensSizeV2.d16),
         MultiListenerRebuilder(
           listenableList: [
-            wm.displayAccounts,
+            wm.displayAccountsState,
             wm.accountState,
             wm.custodiansState,
           ],
           builder: (_) {
-            final displayList = wm.displayAccounts.value;
+            final displayList = wm.displayAccountsState.value;
             final acc = wm.accountState.value;
             final custodians = wm.custodiansState.value;
 

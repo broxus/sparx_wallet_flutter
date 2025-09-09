@@ -3,8 +3,7 @@
 import 'package:app/core/wm/custom_wm.dart';
 import 'package:app/feature/connection_fail/connection_fail_screen.dart';
 import 'package:app/feature/connection_fail/connection_fail_screen_model.dart';
-import 'package:app/feature/contact_support/widgets/contact_support/contact_support_mode.dart';
-import 'package:app/feature/contact_support/widgets/contact_support/contact_support_sheet.dart';
+import 'package:app/feature/contact_support/contact_support.dart';
 import 'package:elementary/elementary.dart';
 import 'package:injectable/injectable.dart';
 import 'package:ui_components_lib/ui_components_lib.dart';

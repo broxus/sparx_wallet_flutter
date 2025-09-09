@@ -1,2 +1,2 @@
-export 'cubit/cubit.dart';
+export 'route.dart';
 export 'view/view.dart';

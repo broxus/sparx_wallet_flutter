@@ -1,8 +1,8 @@
-import 'package:app/di/di.dart';
-import 'package:app/feature/profile/key_detail/widgets/add_new_local_account_type_sheet/add_new_local_account_type_cubit.dart';
+import 'package:app/core/wm/custom_wm.dart';
+import 'package:app/feature/profile/key_detail/widgets/add_new_local_account_type_sheet/add_new_local_account_type_sheet_wm.dart';
 import 'package:app/generated/generated.dart';
+import 'package:elementary_helper/elementary_helper.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:nekoton_repository/nekoton_repository.dart';
 import 'package:ui_components_lib/ui_components_lib.dart';
 import 'package:ui_components_lib/v2/ui_components_lib_v2.dart';
@@ -16,127 +16,126 @@ ModalRoute<void> showAddNewLocalAccountTypeSheet({
   return commonBottomSheetRoute(
     titleTextStyle: context.themeStyleV2.textStyles.headingLarge,
     title: LocaleKeys.newAccountType.tr(),
-    body: (_, scrollController) => BlocProvider<AddNewLocalAccountTypeCubit>(
-      create: (_) => AddNewLocalAccountTypeCubit(
-        publicKey,
-        name,
-        inject<NekotonRepository>(),
-      )..init(),
-      child: AddNewLocalAccountTypeSheet(
-        controller: scrollController,
-        nekotonRepository: inject<NekotonRepository>(),
-      ),
+    body: (_, scrollController) => AddNewLocalAccountTypeSheet(
+      controller: scrollController,
+      publicKey: publicKey,
+      name: name,
     ),
   );
 }
 
 /// Sheet to select type of local account, that user can select for creation.
-class AddNewLocalAccountTypeSheet extends StatelessWidget {
-  const AddNewLocalAccountTypeSheet({
+class AddNewLocalAccountTypeSheet extends InjectedElementaryParametrizedWidget<
+    AddNewLocalAccountTypeSheetWidgetModel, AddNewLocalAccountTypeSheetParams> {
+  AddNewLocalAccountTypeSheet({
     required this.controller,
-    required this.nekotonRepository,
+    required PublicKey publicKey,
+    required String name,
     super.key,
-  });
+  }) : super(
+          wmFactoryParam: AddNewLocalAccountTypeSheetParams(
+            publicKey: publicKey,
+            name: name,
+          ),
+        );
 
   final ScrollController controller;
-  final NekotonRepository nekotonRepository;
 
   @override
-  Widget build(BuildContext context) {
-    return BlocConsumer<AddNewLocalAccountTypeCubit,
-        AddNewLocalAccountTypeState>(
-      listener: (context, state) => switch (state) {
-        AddNewLocalAccountTypeStateData(:final isCompleted) when isCompleted =>
-          Navigator.of(context).pop(),
-        _ => null,
-      },
-      builder: (context, state) {
-        return switch (state) {
-          AddNewLocalAccountTypeStateInitial() => const SizedBox.shrink(),
-          AddNewLocalAccountTypeStateData(
-            :final availableAccounts,
-            :final defaultAccount,
-            :final createdAccounts,
-            :final currentSelected,
-          ) =>
-            SeparatedColumn(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                Flexible(
-                  child: SingleChildScrollView(
-                    controller: controller,
-                    child: SeparatedColumn(
-                      mainAxisSize: MainAxisSize.min,
-                      separator: const Padding(
-                        padding: EdgeInsets.symmetric(vertical: DimensSize.d8),
-                        child: CommonDivider(),
-                      ),
-                      children: [
-                        _accountItem(
-                          type: defaultAccount,
-                          isSelected: currentSelected == defaultAccount,
-                          isCreated: createdAccounts.contains(defaultAccount),
-                          isDefault: true,
-                        ),
-                        ...availableAccounts.map(
-                          (a) => _accountItem(
-                            type: a,
-                            isSelected: currentSelected == a,
-                            isCreated: createdAccounts.contains(a),
-                          ),
-                        ),
-                      ],
-                    ),
+  Widget build(AddNewLocalAccountTypeSheetWidgetModel wm) {
+    return StateNotifierBuilder(
+      listenableState: wm.currentSelectedState,
+      builder: (_, currentSelected) {
+        final defaultWalletType = wm.defaultWalletType;
+        final createdWalletTypes = wm.createdWalletTypes;
+
+        return SeparatedColumn(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Flexible(
+              child: SingleChildScrollView(
+                controller: controller,
+                child: SeparatedColumn(
+                  mainAxisSize: MainAxisSize.min,
+                  separator: const Padding(
+                    padding: EdgeInsets.symmetric(vertical: DimensSize.d8),
+                    child: CommonDivider(),
                   ),
+                  children: [
+                    _Item(
+                      key: ValueKey(defaultWalletType),
+                      type: defaultWalletType,
+                      defaultAccountName:
+                          wm.defaultAccountName(defaultWalletType),
+                      isSelected: currentSelected == defaultWalletType,
+                      isCreated: createdWalletTypes.contains(defaultWalletType),
+                      isDefault: true,
+                      onChangeType: wm.changeType,
+                    ),
+                    ...wm.availableWalletTypes.map(
+                      (WalletType type) => _Item(
+                        key: ValueKey(type),
+                        type: type,
+                        defaultAccountName: wm.defaultAccountName(type),
+                        isSelected: currentSelected == type,
+                        isCreated: createdWalletTypes.contains(type),
+                        onChangeType: wm.changeType,
+                      ),
+                    ),
+                  ],
                 ),
-                PrimaryButton(
-                  buttonShape: ButtonShape.pill,
-                  title: LocaleKeys.confirm.tr(),
-                  onPressed: () => context
-                      .read<AddNewLocalAccountTypeCubit>()
-                      .createAccount(context),
-                ),
-              ],
+              ),
             ),
-        };
+            PrimaryButton(
+              buttonShape: ButtonShape.pill,
+              title: LocaleKeys.confirm.tr(),
+              onPressed: wm.createAccount,
+            ),
+          ],
+        );
       },
     );
   }
+}
 
-  /// [isSelected] means that account is selected during this adding.
-  /// [isCreated] means that account was already created before and it can't be
-  /// selected or unselected.
-  Widget _accountItem({
-    required WalletType type,
-    required bool isSelected,
-    required bool isCreated,
-    bool isDefault = false,
-  }) {
-    final name = nekotonRepository.currentTransport.defaultAccountName(type);
+class _Item extends StatelessWidget {
+  const _Item({
+    required this.type,
+    required this.defaultAccountName,
+    required this.isSelected,
+    required this.isCreated,
+    required this.onChangeType,
+    this.isDefault = false,
+    super.key,
+  });
 
-    return Builder(
-      builder: (context) {
-        final theme = context.themeStyleV2;
+  final WalletType type;
+  final String defaultAccountName;
+  final bool isSelected;
+  final bool isCreated;
+  final bool isDefault;
+  final ValueChanged<WalletType> onChangeType;
 
-        return CommonListTile(
-          height: DimensSize.d40,
-          titleChild: Text(
-            isDefault ? LocaleKeys.accountDefault.tr(args: [name]) : name,
-            style: theme.textStyles.labelMedium.copyWith(
-              color: isDefault ? theme.colors.content3 : theme.colors.content0,
-            ),
-          ),
-          onPressed: isCreated
-              ? null
-              : () =>
-                  context.read<AddNewLocalAccountTypeCubit>().changeType(type),
-          trailing: CommonRadio<WalletType>(
-            value: type,
-            groupValue: isCreated || isSelected ? type : null,
-            enabled: !isCreated,
-          ),
-        );
-      },
+  @override
+  Widget build(BuildContext context) {
+    final theme = context.themeStyleV2;
+
+    return CommonListTile(
+      height: DimensSize.d40,
+      titleChild: Text(
+        isDefault
+            ? LocaleKeys.accountDefault.tr(args: [defaultAccountName])
+            : defaultAccountName,
+        style: theme.textStyles.labelMedium.copyWith(
+          color: isDefault ? theme.colors.content3 : theme.colors.content0,
+        ),
+      ),
+      onPressed: isCreated ? null : () => onChangeType(type),
+      trailing: CommonRadio<WalletType>(
+        value: type,
+        groupValue: isCreated || isSelected ? type : null,
+        enabled: !isCreated,
+      ),
     );
   }
 }

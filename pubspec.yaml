@@ -1,7 +1,7 @@
 ---
 name: app
 description: SparX Wallet Flutter app
-version: 1.15.0
+version: 1.15.1
 publish_to: none
 
 environment:
@@ -14,7 +14,6 @@ dependencies:
   auto_size_text: 3.0.0
   auto_size_text_field: 2.2.4
   barcode_widget: 2.0.4
-  bloc: 9.0.0
   buffer: ^1.2.3
   cached_network_image: 3.4.1
   cached_network_svg_image: 1.2.0
@@ -35,7 +34,6 @@ dependencies:
   favicon: 1.1.2
   flutter:
     sdk: flutter
-  flutter_bloc: 9.1.1
   flutter_blue_plus: 1.35.5
   flutter_email_sender: 7.0.0
   flutter_inappwebview: 6.1.5
@@ -99,12 +97,13 @@ dependency_overrides:
   flutter_plugin_android_lifecycle: 2.0.24
 
 dev_dependencies:
-  bloc_test: 10.0.0
   broxus_flutter_analysis:
     git:
       url: https://github.com/broxus/flutter_templates.git
       ref: main
   build_runner: 2.4.15
+  # TODO: Enable when dependency conflict with reflectable (used in bridge) is resolved
+  # custom_lint: ^0.6.0
   flutter_gen_runner: 5.10.0
   flutter_native_splash: 2.4.6
   flutter_test:
@@ -120,6 +119,9 @@ dev_dependencies:
   mocktail: 1.0.4
   retrofit_generator: 9.2.0
   test: 1.25.15
+  # TODO: Enable when dependency conflict with reflectable (used in bridge) is resolved  
+  # wm_state_properties_lint:
+  #   path: packages/wm_state_properties_lint
 
 flutter_gen:
   output: lib/generated/
