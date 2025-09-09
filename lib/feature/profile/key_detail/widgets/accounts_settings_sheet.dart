@@ -1,5 +1,5 @@
 import 'package:app/di/di.dart';
-import 'package:app/feature/browser_v1/browser.dart';
+import 'package:app/feature/browser_v2/domain/browser_launcher.dart';
 import 'package:app/feature/messenger/data/message.dart';
 import 'package:app/feature/messenger/domain/service/messenger_service.dart';
 import 'package:app/feature/profile/profile.dart';
@@ -28,6 +28,7 @@ Future<void> showAccountSettingsSheet({
       showHiding: showHiding,
       seeInExplorer: seeInExplorer,
       showCopyAddress: showCopyAddress,
+      browserLauncher: inject<BrowserLauncher>(),
     ),
   );
 }
@@ -39,6 +40,7 @@ class AccountSettingsSheet extends StatelessWidget {
     required this.showHiding,
     required this.seeInExplorer,
     required this.showCopyAddress,
+    required this.browserLauncher,
     super.key,
   });
 
@@ -53,6 +55,8 @@ class AccountSettingsSheet extends StatelessWidget {
 
   /// Flag to copy address to clipboard
   final bool showCopyAddress;
+
+  final BrowserLauncher browserLauncher;
 
   @override
   Widget build(BuildContext context) {
@@ -126,7 +130,7 @@ class AccountSettingsSheet extends StatelessWidget {
                   titleText: LocaleKeys.seeInExplorer.tr(),
                   onPressed: () {
                     Navigator.of(context).pop();
-                    openBrowserUrl(
+                    browserLauncher.openBrowserByString(
                       inject<NekotonRepository>()
                           .currentTransport
                           .accountExplorerLink(account.address),

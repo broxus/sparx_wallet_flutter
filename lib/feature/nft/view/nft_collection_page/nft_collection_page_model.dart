@@ -1,4 +1,5 @@
 import 'package:app/app/service/service.dart';
+import 'package:app/feature/browser_v2/domain/browser_launcher.dart';
 import 'package:app/feature/messenger/messenger.dart';
 import 'package:app/feature/nft/nft.dart';
 import 'package:app/generated/generated.dart';
@@ -18,6 +19,7 @@ class NftCollectionPageModel extends ElementaryModel {
     this._currentAccountsService,
     this._nekotonRepository,
     this._messengerService,
+    this._browserLauncher,
   ) : super(errorHandler: errorHandler);
 
   final NftService _nftService;
@@ -25,6 +27,7 @@ class NftCollectionPageModel extends ElementaryModel {
   final CurrentAccountsService _currentAccountsService;
   final NekotonRepository _nekotonRepository;
   final MessengerService _messengerService;
+  final BrowserLauncher _browserLauncher;
 
   Stream<KeyAccount?> get currentAccountStream =>
       _currentAccountsService.currentActiveAccountStream;
@@ -70,14 +73,17 @@ class NftCollectionPageModel extends ElementaryModel {
     );
   }
 
-  String getAccountExplorerLink(Address address) =>
-      _nekotonRepository.currentTransport.accountExplorerLink(address);
-
   Future<List<PendingNft>> removePendingNft(Address collection) async {
     return _nftStorageService.removePendingNftByCollection(
       owner: await _owner,
       collection: collection,
       networkGroup: _nekotonRepository.currentTransport.networkGroup,
+    );
+  }
+
+  void openExplorerLinkByBrowser(Address address) {
+    _browserLauncher.openBrowserByString(
+      _nekotonRepository.currentTransport.accountExplorerLink(address),
     );
   }
 }

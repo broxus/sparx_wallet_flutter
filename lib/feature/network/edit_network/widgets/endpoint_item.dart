@@ -7,7 +7,7 @@ import 'package:ui_components_lib/v2/ui_components_lib_v2.dart';
 
 class EndpointItem extends StatelessWidget {
   const EndpointItem({
-    required this.editable,
+    required this.isEditable,
     required this.index,
     required this.controller,
     required this.validator,
@@ -15,7 +15,7 @@ class EndpointItem extends StatelessWidget {
     super.key,
   });
 
-  final bool editable;
+  final bool isEditable;
   final int index;
   final TextEditingController controller;
   final UrlTextValidator validator;
@@ -28,7 +28,7 @@ class EndpointItem extends StatelessWidget {
       hintText: index == 0
           ? LocaleKeys.networkEndpointHint.tr()
           : LocaleKeys.networkAdditionalEndpointHint.tr(),
-      isEnabled: editable,
+      isEnabled: isEditable,
       validator: validator.validate,
       suffixes: [
         ClipboardPasteButton(
@@ -36,7 +36,7 @@ class EndpointItem extends StatelessWidget {
           onClear: controller.clear,
           onPaste: (String text) => controller.text = text,
         ),
-        if (index > 0 && editable)
+        if (index > 0 && isEditable)
           Padding(
             padding: const EdgeInsets.only(right: DimensSizeV2.d8),
             child: PrimaryButton(

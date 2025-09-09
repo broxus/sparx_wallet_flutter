@@ -92,7 +92,7 @@ class ShapedContainerColumn extends StatelessWidget {
       squircleRadius: squircleRadius,
       child: titleText == null && subtitleText == null
           ? body
-          : SeparatedColumn(
+          : Column(
               mainAxisSize: mainAxisSize,
               crossAxisAlignment: CrossAxisAlignment.start,
               spacing: DimensSize.d16,

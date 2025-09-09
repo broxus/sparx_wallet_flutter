@@ -41,6 +41,8 @@ abstract interface class BrowserServiceTabs {
 
   NotNullListenableState<BrowserGroup>? getGroupListenableById(String id);
 
+  void openUrl(Uri url);
+
   void setActiveGroup(String groupId);
 
   BrowserGroup createBrowserGroup({
@@ -388,6 +390,7 @@ class BrowserServiceTabsDelegate
     return (groupId, tab.id);
   }
 
+  @override
   void openUrl(Uri url) {
     final lastTabId = _groupsReactiveStore.getTabIds(tabsGroupId)?.lastOrNull;
 

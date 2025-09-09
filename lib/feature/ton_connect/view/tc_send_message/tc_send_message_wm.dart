@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:app/app/service/service.dart';
 import 'package:app/core/wm/custom_wm.dart';
+import 'package:app/feature/ledger/ledger.dart';
 import 'package:app/feature/messenger/data/message.dart';
 import 'package:app/feature/ton_connect/ton_connect.dart';
 import 'package:app/generated/generated.dart';
@@ -39,7 +40,9 @@ class TCSendMessageWmParams {
 
 @injectable
 class TCSendMessageWidgetModel extends CustomWidgetModelParametrized<
-    TCSendMessageWidget, TCSendMessageModel, TCSendMessageWmParams> {
+    TCSendMessageWidget,
+    TCSendMessageModel,
+    TCSendMessageWmParams> with BleAvailabilityWmMixin {
   TCSendMessageWidgetModel(
     super.model,
   );
@@ -55,7 +58,7 @@ class TCSendMessageWidgetModel extends CustomWidgetModelParametrized<
   late final _publicKey = createValueNotifier<PublicKey?>(null);
   late final _custodians = createNotifier<List<PublicKey>>();
   late final _balance = createNotifierFromStream(
-    wmParams.flatMap(
+    wmParams.switchMap(
       (it) => model.getBalanceStream(it.connection.walletAddress),
     ),
   );
@@ -113,17 +116,23 @@ class TCSendMessageWidgetModel extends CustomWidgetModelParametrized<
     _publicKey.value = custodian;
   }
 
-  Future<void> onSubmit(String password) async {
+  Future<void> onSubmit(SignInputAuth signInputAuth) async {
     final account = accountState.value;
     if (account == null) return;
 
     try {
       _isLoading.accept(true);
+
+      if (signInputAuth.isLedger) {
+        final isAvailable = await checkBluetoothAvailability();
+        if (!isAvailable) return;
+      }
+
       final message = await model.send(
         address: sender,
         publicKey: account.publicKey,
         messages: wmParams.value.payload.messages,
-        password: password,
+        signInputAuth: signInputAuth,
       );
 
       if (contextSafe != null) {
@@ -150,6 +159,23 @@ class TCSendMessageWidgetModel extends CustomWidgetModelParametrized<
 
   // ignore: avoid_positional_boolean_parameters
   void onConfirmed(bool value) => _isConfirmed.accept(value);
+
+  Future<SignInputAuthLedger> getLedgerAuthInput() {
+    final data = _data.value;
+    final custodian = _publicKey.value;
+    if (data == null || data.isEmpty) {
+      throw StateError('Invalid transfer data');
+    }
+    if (custodian == null) {
+      throw StateError('Public key is not set');
+    }
+
+    return model.getLedgerAuthInput(
+      address: sender,
+      custodian: custodian,
+      currency: data.singleOrNull?.amount.currency ?? nativeCurrency,
+    );
+  }
 
   Future<void> _init() async {
     try {

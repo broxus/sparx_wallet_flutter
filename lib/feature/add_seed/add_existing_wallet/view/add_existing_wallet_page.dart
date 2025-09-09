@@ -1,4 +1,4 @@
-import 'package:app/feature/add_seed/add_existing_wallet/view/add_existing_wallet_view.dart';
+import 'package:app/feature/add_seed/add_existing_wallet/view/add_existing_wallet_widget.dart';
 import 'package:app/generated/assets.gen.dart';
 import 'package:flutter/material.dart';
 import 'package:ui_components_lib/ui_components_lib.dart';
@@ -22,7 +22,7 @@ class AddExistingWalletPage extends StatelessWidget {
                 fit: BoxFit.cover,
               ),
             ),
-            child: const AddExistingWalletView(),
+            child: const AddExistingWalletWidget(),
           ),
         ),
         const Positioned(

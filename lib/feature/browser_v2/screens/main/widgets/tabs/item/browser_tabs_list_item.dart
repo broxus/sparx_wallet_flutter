@@ -77,8 +77,7 @@ class _Menu extends StatelessWidget {
         child: DecoratedBox(
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(DimensRadiusV2.radius8),
-            // TODO(knightforce): add to color palette
-            color: const Color(0xff353960),
+            color: ColorsResV2.midnightBlue,
           ),
           child: Padding(
             padding: const EdgeInsets.all(DimensSizeV2.d4),

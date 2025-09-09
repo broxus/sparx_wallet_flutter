@@ -4,10 +4,12 @@ class SelectAccountData {
   SelectAccountData({
     required this.name,
     required this.privateKeys,
+    required this.isLedger,
   });
 
   final String name;
   final List<SeedWithInfo> privateKeys;
+  final bool isLedger;
 
   bool hasCurrentAccount(KeyAccount? account) {
     for (final seed in privateKeys) {

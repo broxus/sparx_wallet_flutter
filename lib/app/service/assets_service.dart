@@ -48,7 +48,7 @@ class AssetsService {
         nekotonRepository.currentTransportStream.listen(_updateSystemContracts);
 
     _combineSubscription =
-        nekotonRepository.currentTransportStream.flatMap((transport) {
+        nekotonRepository.currentTransportStream.switchMap((transport) {
       return Rx.combineLatest2<List<TokenContractAsset>,
           List<TokenContractAsset>, void>(
         storage.systemTokenContractAssetsStream(transport.transport.group),
@@ -58,7 +58,6 @@ class AssetsService {
       // listen needs to enable stream api
       // ignore: no-empty-block
     }).listen((_) {});
-
     _connectionsSubscription =
         connectionsStorageService.currentConnectionIdStream.listen(
       (_) => updateDefaultAssets(),
@@ -84,7 +83,7 @@ class AssetsService {
   /// [_contractsUpdateListener] and [_updateSystemContracts] or by calling
   /// [contractsForAccount] where new contract will be detected.
   Stream<List<TokenContractAsset>> get contractsStream =>
-      nekotonRepository.currentTransportStream.flatMap(
+      nekotonRepository.currentTransportStream.switchMap(
         (transport) {
           return Rx.combineLatest2<List<TokenContractAsset>,
               List<TokenContractAsset>, List<TokenContractAsset>>(
@@ -370,6 +369,29 @@ class AssetsService {
     });
   }
 
+  Future<TonAssetsManifest> fetchManifest({
+    required String manifestUrl,
+    required NetworkType networkType,
+    required NetworkGroup networkGroup,
+  }) async {
+    final response = await dio.get<String>(
+      manifestUrl,
+      options: Options(responseType: ResponseType.plain),
+    );
+    final data = jsonDecode(response.data ?? '') as Map<String, dynamic>;
+
+    for (final token
+        in (data['tokens'] as List<dynamic>).cast<Map<String, dynamic>>()) {
+      token['networkType'] = networkType;
+      token['networkGroup'] = networkGroup;
+      token['version'] =
+          intToWalletContractConvert(token['version'] as int).toString();
+      token['isCustom'] = false;
+    }
+
+    return TonAssetsManifest.fromJson(data);
+  }
+
   /// Load manifest specified for transport and update system contracts that
   /// user can add to list of its contracts.
   Future<void> _updateSystemContracts(TransportStrategy transport) async {
@@ -379,24 +401,11 @@ class AssetsService {
         return;
       }
 
-      final response = await dio.get<String>(
-        transport.manifestUrl,
-        options: Options(
-          responseType: ResponseType.plain,
-        ),
+      final manifest = await fetchManifest(
+        manifestUrl: transport.manifestUrl,
+        networkType: transport.networkType,
+        networkGroup: transport.networkGroup,
       );
-      final data = jsonDecode(response.data ?? '') as Map<String, dynamic>;
-
-      for (final token
-          in (data['tokens'] as List<dynamic>).cast<Map<String, dynamic>>()) {
-        token['networkType'] = transport.networkType;
-        token['networkGroup'] = transport.networkGroup;
-        token['version'] =
-            intToWalletContractConvert(token['version'] as int).toString();
-        token['isCustom'] = false;
-      }
-
-      final manifest = TonAssetsManifest.fromJson(data);
 
       Currencies().registerList(
         manifest.tokens.map(
