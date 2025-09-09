@@ -1,9 +1,9 @@
 import 'dart:collection';
-import 'dart:ui';
 
 import 'package:app/core/core.dart';
 import 'package:app/feature/browser_v2/data/tabs/browser_tab.dart';
 import 'package:elementary_helper/elementary_helper.dart';
+import 'package:flutter/foundation.dart';
 
 // typedef ImageCache = HashMap<String, String>;
 
@@ -28,46 +28,57 @@ extension BrowserTabsCollectionExtension on List<BrowserTab> {
 class ImageCache implements ListenableState<Map<String, String>> {
   ImageCache() {
     _cache = HashMap<String, String>();
-    _state = SafeStateNotifier(initValue: _cache);
+    _notifier = _ImmutableStateNotifier(_cache);
   }
 
   late final Map<String, String> _cache;
-  late final SafeStateNotifier<Map<String, String>> _state;
+  late final _ImmutableStateNotifier<Map<String, String>> _notifier;
 
   @override
-  Map<String, String>? get value => _state.value;
+  Map<String, String>? get value => _notifier.value;
 
   @override
-  void addListener(VoidCallback listener) => _state.addListener(listener);
+  void addListener(VoidCallback listener) => _notifier.addListener(listener);
 
   @override
-  void removeListener(VoidCallback listener) => _state.removeListener(listener);
+  void removeListener(VoidCallback listener) =>
+      _notifier.removeListener(listener);
 
   void clear() {
     _cache.clear();
-    _state.notifyListeners();
+    _notifier.notifyListeners();
   }
 
   void add(String key, String value) {
     _cache[key] = value;
-    _state.notifyListeners();
+    _notifier.notifyListeners();
   }
 
   void addAll(Map<String, String> other) {
     _cache.addAll(other);
-    _state.notifyListeners();
+    _notifier.notifyListeners();
   }
 
   void remove(String key) {
     final removedValue = _cache.remove(key);
     if (removedValue != null) {
-      _state.notifyListeners();
+      _notifier.notifyListeners();
     }
   }
 
   String? get(String key) => _cache[key];
 
   void dispose() {
-    _state.dispose();
+    _notifier.dispose();
   }
+}
+
+class _ImmutableStateNotifier<T> extends SafeStateNotifier<T> {
+  _ImmutableStateNotifier(T initValue) : super(initValue: initValue);
+
+  @override
+  @protected
+  void accept(T? newValue) => throw UnsupportedError(
+        'This StateNotifier is immutable and cannot accept new values.',
+      );
 }
