@@ -30,6 +30,8 @@ class WalletPageWidgetModel
 
   StreamSubscription<KeyAccount>? _currentAccountSubscribtion;
 
+  StreamSubscription<TonWalletState?>? _walletSubscribtion;
+
   ListenableState<KeyAccount?> get currentAccountState => _currentAccountState;
 
   ListenableState<bool?> get hasUnconfirmedTransactionsState =>
@@ -40,7 +42,6 @@ class WalletPageWidgetModel
 
   ListenableState<bool> get isShowingNewTokensState =>
       _isShowingNewTokensNotifier;
-  int? _numberUnconfirmedTransactions;
 
   @override
   void initWidgetModel() {
@@ -63,6 +64,7 @@ class WalletPageWidgetModel
     _pressWalletSubscribtion?.cancel();
     _changeTransactions?.cancel();
     _currentAccountSubscribtion?.cancel();
+    _walletSubscribtion?.cancel();
     super.dispose();
   }
 
@@ -76,7 +78,7 @@ class WalletPageWidgetModel
 
   void _onAccountChanged(KeyAccount account) {
     _checkBadge(account);
-    _checkUnconfirmedTransactions(account);
+    _subscribeWallet(account);
   }
 
   void _checkBadge(KeyAccount account) {
@@ -99,21 +101,30 @@ class WalletPageWidgetModel
     model.resetValueNewUser();
   }
 
-  Future<void> _checkUnconfirmedTransactions(KeyAccount account) async {
-    final walletTonState = await model.getTonWalletState(account.address);
-    _numberUnconfirmedTransactions =
-        walletTonState.wallet?.unconfirmedTransactions.length ?? 0;
-    _hasUnconfirmedTransactionsNotifier.accept(
-      (_numberUnconfirmedTransactions ?? 0) > 0,
-    );
-    _changeTransactions = walletTonState.wallet?.fieldUpdatesStream.listen((_) {
-      final newNumber = walletTonState.wallet?.unconfirmedTransactions.length;
-      if (_numberUnconfirmedTransactions != newNumber) {
-        _numberUnconfirmedTransactions = newNumber;
-        _hasUnconfirmedTransactionsNotifier.accept(
-          (_numberUnconfirmedTransactions ?? 0) > 0,
-        );
+  Future<void> _subscribeWallet(KeyAccount account) async {
+    await _walletSubscribtion?.cancel();
+    await _changeTransactions?.cancel();
+
+    _walletSubscribtion =
+        model.getWalletStream(account.address).listen((walletState) async {
+      final wallet = walletState?.wallet;
+
+      if (wallet != null) {
+        await _changeTransactions?.cancel();
+        _changeTransactions = wallet.fieldUpdatesStream.listen((_) {
+          _checkUnconfirmedTransactions(wallet);
+        });
       }
+
+      _checkUnconfirmedTransactions(wallet);
     });
+  }
+
+  void _checkUnconfirmedTransactions(TonWallet? wallet) {
+    final unconfirmedTransactionsCount =
+        wallet?.unconfirmedTransactions.length ?? 0;
+    _hasUnconfirmedTransactionsNotifier.accept(
+      unconfirmedTransactionsCount > 0,
+    );
   }
 }

@@ -11,16 +11,16 @@ class WalletPageWidget extends InjectedElementaryWidget<WalletPageWidgetModel> {
 
   @override
   Widget build(WalletPageWidgetModel wm) {
-    return DoubleSourceBuilder(
-      firstSource: wm.currentAccountState,
-      secondSource: wm.hasUnconfirmedTransactionsState,
-      builder: (_, account, hasUnconfirmed) {
+    return StateNotifierBuilder(
+      listenableState: wm.currentAccountState,
+      builder: (_, account) {
         if (account == null) return const SizedBox.shrink();
 
-        return DoubleSourceBuilder(
+        return TripleSourceBuilder(
           firstSource: wm.isShowingNewTokensState,
           secondSource: wm.transportStrategyState,
-          builder: (_, isShowingNewTokens, transport) {
+          thirdSource: wm.hasUnconfirmedTransactionsState,
+          builder: (_, isShowingNewTokens, transport, hasUnconfirmed) {
             return WalletView(
               key: ValueKey(account),
               currentAccount: account,
