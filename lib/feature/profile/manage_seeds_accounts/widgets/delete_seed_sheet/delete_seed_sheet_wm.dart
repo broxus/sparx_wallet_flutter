@@ -1,6 +1,7 @@
 import 'package:app/core/wm/custom_wm.dart';
 import 'package:app/feature/profile/manage_seeds_accounts/widgets/delete_seed_sheet/delete_seed_sheet.dart';
 import 'package:app/feature/profile/manage_seeds_accounts/widgets/delete_seed_sheet/delete_seed_sheet_model.dart';
+import 'package:app/generated/generated.dart';
 import 'package:elementary/elementary.dart';
 import 'package:flutter/material.dart';
 import 'package:injectable/injectable.dart';
@@ -18,6 +19,13 @@ class DeleteSeedSheetWidgetModel extends CustomWidgetModelParametrized<
   ColorsPaletteV2 get colors => context.themeStyleV2.colors;
 
   Seed? get seed => model.getSeedByKey(wmParams.value.publicKey);
+
+  String get subtitleText => seed == null
+      ? ''
+      : LocaleKeys.publicKeysWithData.plural(
+          seed!.allKeys.length,
+          args: ['${seed!.allKeys.length}'],
+        );
 
   void onPressedDeleteWord() {
     model.removeSeed(wmParams.value.publicKey);

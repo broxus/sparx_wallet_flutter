@@ -50,10 +50,7 @@ class DeleteSeedSheet extends InjectedElementaryParametrizedWidget<
                           svg: Assets.images.sparxLogoSmall.path,
                         ),
                         titleText: wm.seed!.name,
-                        subtitleText: LocaleKeys.publicKeysWithData.plural(
-                          wm.seed!.allKeys.length,
-                          args: ['${wm.seed!.allKeys.length}'],
-                        ),
+                        subtitleText: wm.subtitleText,
                         padding: EdgeInsets.zero,
                       ),
                     ],
