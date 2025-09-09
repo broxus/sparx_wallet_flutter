@@ -110,7 +110,6 @@ class _SelectNewAssetCustomEnterState extends State<SelectNewAssetCustomEnter> {
 
   void _enable() {
     widget.focus.unfocus();
-
     widget.onAddCustom(Address(address: addressController.text.trim()));
   }
 

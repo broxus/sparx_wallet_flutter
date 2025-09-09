@@ -62,10 +62,7 @@ class SelectNewAssetPageWidgetModel extends CustomWidgetModelParametrized<
     super.dispose();
   }
 
-  void changeTab(SelectNewAssetTabs tab) {
-    if (_tab.value == tab) return;
-    _tab.accept(tab);
-  }
+  void changeTab(SelectNewAssetTabs tab) => _tab.accept(tab);
 
   Future<void> enableAsset(Address address) async {
     if (_originalEnabled(address)) {
@@ -93,8 +90,9 @@ class SelectNewAssetPageWidgetModel extends CustomWidgetModelParametrized<
     final isValid = validateAddress(address);
     final isToken = await model.getTokenContractAsset(address);
     if (isValid && isToken != null) {
-      final acc = _cachedAccount;
-      if (acc != null) await model.addTokenWallet(acc, address);
+      final account = _cachedAccount;
+      await account?.addTokenWallet(repackAddress(address));
+      _tab.accept(SelectNewAssetTabs.select);
     } else {
       model.showInvalidRootTokenContractError();
     }
@@ -102,14 +100,13 @@ class SelectNewAssetPageWidgetModel extends CustomWidgetModelParametrized<
 
   Future<void> saveChanges() async {
     _isLoading.accept(true);
-    final acc = _cachedAccount;
-    if (acc != null) {
-      if (_contractsToEnable.isNotEmpty) {
-        await model.addTokenWallets(acc, _contractsToEnable);
-      }
-      if (_contractsToDisable.isNotEmpty) {
-        await model.removeTokenWallets(acc, _contractsToDisable);
-      }
+    final account = _cachedAccount;
+
+    if (_contractsToEnable.isNotEmpty) {
+      await account?.addTokenWallets(_contractsToEnable);
+    }
+    if (_contractsToDisable.isNotEmpty) {
+      await account?.removeTokenWallets(_contractsToDisable);
     }
 
     _isLoading.accept(false);

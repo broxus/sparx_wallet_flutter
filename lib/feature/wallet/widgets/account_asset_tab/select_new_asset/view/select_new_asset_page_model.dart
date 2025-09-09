@@ -63,19 +63,4 @@ class SelectNewAssetPageModel extends ElementaryModel {
       Message.error(message: LocaleKeys.invalidRootTokenContract.tr()),
     );
   }
-
-  Future<void> addTokenWallet(KeyAccount account, Address address) =>
-      account.addTokenWallet(repackAddress(address));
-
-  Future<void> addTokenWallets(
-    KeyAccount account,
-    List<Address> addresses,
-  ) =>
-      account.addTokenWallets(addresses);
-
-  Future<void> removeTokenWallets(
-    KeyAccount account,
-    List<Address> addresses,
-  ) =>
-      account.removeTokenWallets(addresses);
 }
