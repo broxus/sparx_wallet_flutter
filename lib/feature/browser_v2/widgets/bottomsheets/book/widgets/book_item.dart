@@ -36,7 +36,7 @@ class BookmarkListItem extends StatelessWidget {
           subTitle: subTitle,
           uri: uri,
           prefix: Padding(
-            padding: const EdgeInsets.only(right: DimensSizeV2.d20),
+            padding: const EdgeInsets.only(right: DimensSizeV2.d16),
             child: _CrossAnimation(
               first: _RemoveLabel(
                 onPressed: onPressedRemove,
@@ -46,7 +46,7 @@ class BookmarkListItem extends StatelessWidget {
             ),
           ),
           suffix: Padding(
-            padding: const EdgeInsets.only(left: DimensSizeV2.d20),
+            padding: const EdgeInsets.only(left: DimensSizeV2.d16),
             child: _CrossAnimation(
               first: ReorderableDragStartListener(
                 index: index,
@@ -93,7 +93,7 @@ class HistoryListItem extends StatelessWidget {
           subTitle: subTitle,
           uri: uri,
           prefix: Padding(
-            padding: const EdgeInsets.only(right: DimensSizeV2.d20),
+            padding: const EdgeInsets.only(right: DimensSizeV2.d16),
             child: _CrossAnimation(
               first: _RemoveLabel(
                 onPressed: onPressedRemove,
@@ -102,6 +102,7 @@ class HistoryListItem extends StatelessWidget {
               isShowFirst: isEdit,
             ),
           ),
+          suffix: const SizedBox(width: DimensSizeV2.d16),
           onPressed: isEdit ? null : onPressed,
         );
       },
@@ -153,16 +154,19 @@ class _Content extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 if (prefix != null) prefix!,
-                Expanded(
+                Flexible(
                   child: Row(
                     mainAxisSize: MainAxisSize.min,
                     children: [
                       Padding(
                         padding: const EdgeInsets.only(right: DimensSizeV2.d8),
-                        child: FaviconView(
-                          uri: uri,
-                          height: DimensSize.d32,
-                          width: DimensSize.d32,
+                        child: ClipRRect(
+                          borderRadius: BorderRadius.circular(DimensSize.d32),
+                          child: FaviconView(
+                            uri: uri,
+                            height: DimensSize.d32,
+                            width: DimensSize.d32,
+                          ),
                         ),
                       ),
                       Expanded(
