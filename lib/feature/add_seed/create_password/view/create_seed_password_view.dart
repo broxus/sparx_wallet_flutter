@@ -78,6 +78,7 @@ class _CreateSeedPasswordViewState extends State<CreateSeedPasswordView> {
                       textEditingController: widget.passwordController,
                       textInputAction: TextInputAction.next,
                       isAutofocus: true,
+                      isEnabled: !widget.isLoading,
                       onSubmit: _onPwd1Submit,
                     ),
                     const SizedBox(height: DimensSize.d8),
@@ -86,6 +87,7 @@ class _CreateSeedPasswordViewState extends State<CreateSeedPasswordView> {
                       hintText: LocaleKeys.confirmRepeatPasswordHint.tr(),
                       textEditingController: widget.confirmController,
                       textInputAction: TextInputAction.done,
+                      isEnabled: !widget.isLoading,
                       onSubmit: _onPwd2Submit,
                     ),
                     const SizedBox(height: DimensSize.d24),
@@ -101,7 +103,7 @@ class _CreateSeedPasswordViewState extends State<CreateSeedPasswordView> {
             AccentButton(
               title: LocaleKeys.continueWord.tr(),
               onPressed: widget.passwordStatus == PasswordStatus.match
-                  ? widget.onPressedNext
+                  ? _onSubmit
                   : null,
               isLoading: widget.isLoading,
               buttonShape: ButtonShape.pill,
@@ -138,8 +140,12 @@ class _CreateSeedPasswordViewState extends State<CreateSeedPasswordView> {
 
   void _onPwd1Submit(String? _) => requestFocus(context, _pwd2focusNode);
 
-  void _onPwd2Submit(String? _) {
+  void _onPwd2Submit(String? _) => _onSubmit();
+
+  void _onSubmit() {
     if (widget.passwordStatus == PasswordStatus.match) {
+      _pwd1focusNode.unfocus();
+      _pwd2focusNode.unfocus();
       widget.onPressedNext();
     }
   }

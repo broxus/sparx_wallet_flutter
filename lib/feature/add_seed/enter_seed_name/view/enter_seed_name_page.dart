@@ -4,6 +4,7 @@ import 'package:app/feature/add_seed/enter_seed_name/view/enter_seed_name_view.d
 import 'package:app/feature/add_seed/enter_seed_phrase/route.dart';
 import 'package:app/feature/ledger/ledger.dart';
 import 'package:app/feature/profile/manage_seeds_accounts/route.dart';
+import 'package:app/feature/profile/route.dart';
 import 'package:app/feature/profile/widgets/switch_to_seed_sheet/switch_to_seed_sheet.dart';
 import 'package:flutter/material.dart';
 import 'package:ui_components_lib/ui_components_lib.dart';
@@ -65,15 +66,18 @@ class EnterSeedNamePage extends StatelessWidget {
                   name: name,
                 );
                 if (pk != null && context.mounted) {
-                  await showSwitchToSeedSheet(context: context, publicKey: pk)
-                      .whenComplete(() {
-                    try {
-                      if (!context.mounted) return;
-                      context.compassPointNamed(
-                        const ManageSeedsAccountsRouteData(),
+                  final routeData = await showSwitchToSeedSheet(
+                    context: context,
+                    publicKey: pk,
+                  );
+                  try {
+                    if (!context.mounted) return;
+                    context
+                      ..compassPointNamed(const ProfileRouteData())
+                      ..compassPointNamed(
+                        routeData ?? const ManageSeedsAccountsRouteData(),
                       );
-                    } catch (_) {}
-                  });
+                  } catch (_) {}
                 }
             }
           },

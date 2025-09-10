@@ -7,6 +7,7 @@ import 'package:app/feature/add_seed/create_password/model/password_status.dart'
 import 'package:app/feature/add_seed/create_password/view/create_seed_password_page.dart';
 import 'package:app/feature/add_seed/create_password/view/create_seed_password_profile_model.dart';
 import 'package:app/feature/profile/manage_seeds_accounts/route.dart';
+import 'package:app/feature/profile/route.dart';
 import 'package:app/feature/profile/widgets/switch_to_seed_sheet/switch_to_seed_sheet.dart';
 import 'package:app/utils/utils.dart';
 import 'package:elementary_helper/elementary_helper.dart';
@@ -67,16 +68,24 @@ class CreateSeedPasswordProfileWidgetModel
       isChecked: params.isChecked,
     );
 
-    _loadingState.accept(false);
+    if (publicKey == null) {
+      _loadingState.accept(false);
+      return;
+    }
 
-    if (publicKey == null) return;
-
-    await showSwitchToSeedSheet(
+    final routeData = await showSwitchToSeedSheet(
       context: context,
       publicKey: publicKey,
     );
     try {
-      contextSafe?.compassPointNamed(const ManageSeedsAccountsRouteData());
+      contextSafe
+        ?..compassPointNamed(const ProfileRouteData())
+        ..compassPointNamed(
+          routeData ?? const ManageSeedsAccountsRouteData(),
+        );
+      // contextSafe?.compassPointNamed(
+      //   routeData ?? const ManageSeedsAccountsRouteData(),
+      // );
     } catch (_) {}
   }
 
