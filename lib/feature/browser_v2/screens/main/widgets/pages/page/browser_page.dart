@@ -57,6 +57,7 @@ class BrowserPage extends InjectedElementaryParametrizedWidget<
                 onTitleChanged: wm.onWebPageTitleChanged,
                 onReceivedHttpAuthRequest: wm.onWebPageReceivedHttpAuthRequest,
                 shouldOverrideUrlLoading: wm.onWebPageShouldOverrideUrlLoading,
+                onPermissionRequest: wm.onPermissionRequest,
               );
             },
           ),

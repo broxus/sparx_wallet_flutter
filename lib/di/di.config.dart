@@ -737,6 +737,11 @@ extension GetItInjectableX on _i174.GetIt {
     gh.singleton<_i634.BrowserTabsStorageService>(() =>
         _i634.BrowserTabsStorageService(
             gh<_i792.GetStorage>(instanceName: 'browser_tabs')));
+    gh.factory<_i475.BrowserServicePermissionsDelegate>(
+        () => _i475.BrowserServicePermissionsDelegate(
+              gh<_i229.BrowserPermissionsStorageService>(),
+              gh<_i940.DatabaseService>(),
+            ));
     gh.singleton<_i82.CompassBaseRoute>(
       () => _i1004.ConfigureNetworksRoute(
           gh<_i82.CompassBaseRoute>(instanceName: 'EditNetworkRoute')),
@@ -862,9 +867,6 @@ extension GetItInjectableX on _i174.GetIt {
         () => _i803.LatestVersionFinder(gh<_i728.VersionComparator>()));
     gh.factory<_i1008.UpdateStatusChecker>(
         () => _i1008.UpdateStatusChecker(gh<_i728.VersionComparator>()));
-    gh.factory<_i475.BrowserServicePermissionsDelegate>(() =>
-        _i475.BrowserServicePermissionsDelegate(
-            gh<_i229.BrowserPermissionsStorageService>()));
     gh.factory<_i773.BrowserServiceBookmarksDelegate>(
         () => _i773.BrowserServiceBookmarksDelegate(
               gh<_i213.BrowserBookmarksStorageService>(),
@@ -1693,6 +1695,17 @@ extension GetItInjectableX on _i174.GetIt {
           gh<_i83.ErrorHandler>(),
           gh<_i128.ConnectionsStorageService>(),
         ));
+    gh.factory<_i693.WalletAppBarWidgetModel>(
+        () => _i693.WalletAppBarWidgetModel(gh<_i622.WalletAppBarModel>()));
+    gh.singleton<_i82.CompassBaseRoute>(
+      () => _i786.RootRoute(
+        gh<_i82.CompassBaseRoute>(instanceName: 'WalletRoute'),
+        gh<_i82.CompassBaseRoute>(instanceName: 'BrowserRoute'),
+        gh<_i82.CompassBaseRoute>(instanceName: 'ProfileRoute'),
+        gh<_i82.CompassBaseRoute>(instanceName: 'NftRoute'),
+      ),
+      instanceName: 'RootRoute',
+    );
     gh.factory<_i154.BrowserPageModel>(() => _i154.BrowserPageModel(
           gh<_i83.ErrorHandler>(),
           gh<_i470.BrowserService>(),
@@ -1705,18 +1718,8 @@ extension GetItInjectableX on _i174.GetIt {
           gh<_i754.ConnectionService>(),
           gh<_i625.TonConnectJsBridge>(),
           gh<_i865.LedgerService>(),
+          gh<_i1070.AppPermissionsService>(),
         ));
-    gh.factory<_i693.WalletAppBarWidgetModel>(
-        () => _i693.WalletAppBarWidgetModel(gh<_i622.WalletAppBarModel>()));
-    gh.singleton<_i82.CompassBaseRoute>(
-      () => _i786.RootRoute(
-        gh<_i82.CompassBaseRoute>(instanceName: 'WalletRoute'),
-        gh<_i82.CompassBaseRoute>(instanceName: 'BrowserRoute'),
-        gh<_i82.CompassBaseRoute>(instanceName: 'ProfileRoute'),
-        gh<_i82.CompassBaseRoute>(instanceName: 'NftRoute'),
-      ),
-      instanceName: 'RootRoute',
-    );
     gh.factory<_i588.AddTip3TokenModel>(() => _i588.AddTip3TokenModel(
           gh<_i83.ErrorHandler>(),
           gh<_i771.NekotonRepository>(),

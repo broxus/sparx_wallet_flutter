@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:app/app/service/database/converters/uri_converter.dart';
 import 'package:app/app/service/database/tables/browser_history_table.dart';
 import 'package:app/app/service/database/tables/migration_table.dart';
+import 'package:app/app/service/database/tables/permissions_table.dart';
 import 'package:drift/drift.dart';
 import 'package:drift/native.dart';
 import 'package:path/path.dart' as path;
@@ -14,6 +15,7 @@ part 'main_database.g.dart';
 @DriftDatabase(tables: [
   MigrationTable,
   BrowserHistoryTable,
+  PermissionsTable,
 ])
 class MainDatabase extends _$MainDatabase {
   MainDatabase() : super(_openConnection());
