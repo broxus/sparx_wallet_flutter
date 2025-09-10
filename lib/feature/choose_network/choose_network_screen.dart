@@ -47,17 +47,17 @@ class ChooseNetworkScreen extends InjectedElementaryParametrizedWidget<
           controller: wm.scrollController,
           slivers: [
             _AppBar(
-              showAppBarTitle: wm.showAppBarTitle,
+              showAppBarTitle: wm.showAppBarTitleState,
               onBackPressed: wm.onBackPressed,
               expandedHeight: expandedHeight,
             ),
             _SearchBar(
-              showSearchBar: wm.showSearchBar,
+              showSearchBar: wm.showSearchBarState,
               searchController: wm.searchController,
             ),
             _NetworksListContent(
               connectionsState: wm.connectionsState,
-              loadingItemId: wm.loadingItemId,
+              loadingItemId: wm.loadingItemIdState,
               onNetworkPressed: wm.onPressedType,
               scrollController: wm.scrollController,
             ),

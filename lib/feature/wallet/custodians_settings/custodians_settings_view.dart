@@ -27,7 +27,7 @@ class CustodiansSettingsView extends InjectedElementaryParametrizedWidget<
           ),
           const SizedBox(height: DimensSizeV2.d24),
           StateNotifierBuilder<List<CustodianData>>(
-            listenableState: wm.custodians,
+            listenableState: wm.custodiansState,
             builder: (_, custodians) {
               if (custodians == null) return const SizedBox.shrink();
 

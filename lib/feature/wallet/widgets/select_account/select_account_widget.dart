@@ -34,8 +34,8 @@ class SelectAccountWidget
         const SizedBox(height: DimensSizeV2.d24),
         Expanded(
           child: DoubleSourceBuilder(
-            firstSource: wm.list,
-            secondSource: wm.currentAccount,
+            firstSource: wm.listState,
+            secondSource: wm.currentAccountState,
             builder: (_, list, currentAccount) {
               return SingleChildScrollView(
                 controller: scrollController,

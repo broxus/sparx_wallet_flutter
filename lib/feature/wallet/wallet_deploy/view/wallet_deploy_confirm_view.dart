@@ -1,12 +1,11 @@
 import 'package:app/data/models/custom_currency.dart';
 import 'package:app/feature/profile/profile.dart';
-import 'package:app/feature/wallet/wallet.dart';
+import 'package:app/feature/wallet/widgets/account_info.dart';
 import 'package:app/feature/wallet/widgets/account_transactions_tab/detail/details_item.dart';
 import 'package:app/generated/generated.dart';
 import 'package:app/utils/utils.dart';
 import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:nekoton_repository/nekoton_repository.dart';
 import 'package:ui_components_lib/ui_components_lib.dart';
 import 'package:ui_components_lib/v2/ui_components_lib_v2.dart';
@@ -26,6 +25,8 @@ class WalletDeployConfirmView extends StatelessWidget {
     this.customCurrency,
     this.account,
     this.ledgerAuthInput,
+    this.transaction,
+    this.onConfirmed,
     super.key,
   });
 
@@ -40,6 +41,8 @@ class WalletDeployConfirmView extends StatelessWidget {
   final CustomCurrency? customCurrency;
   final KeyAccount? account;
   final SignInputAuthLedger? ledgerAuthInput;
+  final Transaction? transaction;
+  final ValueChanged<SignInputAuth>? onConfirmed;
 
   @override
   Widget build(BuildContext context) {
@@ -174,11 +177,7 @@ class WalletDeployConfirmView extends StatelessWidget {
             publicKey: publicKey,
             isLoading: isLoading,
             isDisabled: feeError != null || fee == null,
-            onConfirmed: (auth) {
-              context
-                  .read<WalletDeployBloc>()
-                  .add(WalletDeployEvent.confirmDeploy(auth));
-            },
+            onConfirmed: onConfirmed ?? (_) {},
           ),
         ),
       ],

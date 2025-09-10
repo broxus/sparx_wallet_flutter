@@ -24,7 +24,7 @@ class ChooseNetworkScreenWidgetModel extends CustomWidgetModelParametrized<
     super.model,
   );
 
-  late final _loadingItemId = createNotifier<String?>();
+  late final _loadingItemIdState = createNotifier<String?>();
 
   late final scrollController = createScrollController()
     ..addListener(_handleScroll);
@@ -32,21 +32,21 @@ class ChooseNetworkScreenWidgetModel extends CustomWidgetModelParametrized<
   late final searchController = createTextEditingController()
     ..addListener(_handleSearchInput);
 
-  late final _showAppBarTitle = createNotifier<bool>(false);
+  late final _showAppBarTitleState = createNotifier<bool>(false);
 
-  late final _showSearchBar = createNotifier<bool>(false);
+  late final _showSearchBarState = createNotifier<bool>(false);
 
   late final _connectionsState =
       createNotifier<List<ChooseNetworkItemData>>([]);
 
-  StateNotifier<bool> get showAppBarTitle => _showAppBarTitle;
+  StateNotifier<bool> get showAppBarTitleState => _showAppBarTitleState;
 
-  StateNotifier<bool> get showSearchBar => _showSearchBar;
+  StateNotifier<bool> get showSearchBarState => _showSearchBarState;
 
   StateNotifier<List<ChooseNetworkItemData>> get connectionsState =>
       _connectionsState;
 
-  StateNotifier<String?> get loadingItemId => _loadingItemId;
+  StateNotifier<String?> get loadingItemIdState => _loadingItemIdState;
 
   Size get screenSize => MediaQuery.sizeOf(context);
 
@@ -59,16 +59,16 @@ class ChooseNetworkScreenWidgetModel extends CustomWidgetModelParametrized<
     super.initWidgetModel();
 
     _connectionsState.accept(model.fetchNetworksData());
-    _showSearchBar.accept(model.shouldShowSearch());
+    _showSearchBarState.accept(model.shouldShowSearch());
   }
 
   Future<void> onPressedType(String id) async {
-    if (_loadingItemId.value != null) return;
+    if (_loadingItemIdState.value != null) return;
 
     try {
       final nextStep = wmParams.value;
 
-      _loadingItemId.accept(id);
+      _loadingItemIdState.accept(id);
 
       final context = contextSafe;
       if (context == null) return;
@@ -92,7 +92,7 @@ class ChooseNetworkScreenWidgetModel extends CustomWidgetModelParametrized<
           );
       }
     } finally {
-      _loadingItemId.accept(null);
+      _loadingItemIdState.accept(null);
     }
   }
 
@@ -107,7 +107,7 @@ class ChooseNetworkScreenWidgetModel extends CustomWidgetModelParametrized<
       final scrollOffset = scrollController.offset;
       final shouldShowTitle = scrollOffset > threshold;
 
-      _showAppBarTitle.accept(shouldShowTitle);
+      _showAppBarTitleState.accept(shouldShowTitle);
     }
   }
 

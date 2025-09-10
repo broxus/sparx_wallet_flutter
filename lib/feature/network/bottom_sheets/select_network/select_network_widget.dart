@@ -27,8 +27,8 @@ class SelectNetworkWidget extends InjectedElementaryParametrizedWidget<
       mainAxisSize: MainAxisSize.min,
       children: [
         DoubleSourceBuilder(
-          firstSource: wm.currentConnectionId,
-          secondSource: wm.connections,
+          firstSource: wm.currentConnectionIdState,
+          secondSource: wm.connectionsState,
           builder: (_, currentConnectionId, connections) => Flexible(
             child: ListView.builder(
               shrinkWrap: true,

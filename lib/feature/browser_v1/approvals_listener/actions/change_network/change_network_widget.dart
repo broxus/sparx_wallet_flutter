@@ -105,7 +105,7 @@ class ChangeNetworkWidget extends InjectedElementaryParametrizedWidget<
           ),
         ),
         ValueListenableBuilder(
-          valueListenable: wm.loading,
+          valueListenable: wm.loadingState,
           builder: (_, loading, __) => AccentButton(
             buttonShape: ButtonShape.pill,
             title: LocaleKeys.confirm.tr(),

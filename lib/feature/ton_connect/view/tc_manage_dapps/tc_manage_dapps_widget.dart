@@ -22,7 +22,7 @@ class TCManageDappsWidget
   @override
   Widget build(TCManageDappsWidgetModel wm) {
     return StateNotifierBuilder(
-      listenableState: wm.connections,
+      listenableState: wm.connectionsState,
       builder: (_, connections) {
         if (connections == null || connections.isEmpty) {
           return const _EmptyPlaceholder();

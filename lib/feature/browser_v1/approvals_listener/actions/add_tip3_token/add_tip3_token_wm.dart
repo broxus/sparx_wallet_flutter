@@ -57,16 +57,16 @@ class AddTip3TokenWidgetModel extends CustomWidgetModelParametrized<
 
   ValueListenable<TokenContractAsset> get detailsState => _detailsState;
 
-  late final _balance = createNotifier<Money>();
-  late final _asset = createNotifier<TokenContractAsset>();
-  late final _status = createNotifier<TokenStatus>();
+  late final _balanceState = createNotifier<Money>();
+  late final _assetState = createNotifier<TokenContractAsset>();
+  late final _statusState = createNotifier<TokenStatus>();
   StreamSubscription<dynamic>? _subscription;
 
-  ListenableState<Money> get balance => _balance;
+  ListenableState<Money> get balanceState => _balanceState;
 
-  ListenableState<TokenContractAsset> get asset => _asset;
+  ListenableState<TokenContractAsset> get assetState => _assetState;
 
-  ListenableState<TokenStatus> get status => _status;
+  ListenableState<TokenStatus> get statusState => _statusState;
 
   ThemeStyleV2 get theme => context.themeStyleV2;
 
@@ -95,7 +95,7 @@ class AddTip3TokenWidgetModel extends CustomWidgetModelParametrized<
       rootTokenContract: _detailsState.value.address,
     );
 
-    _balance.accept(wallet?.wallet?.moneyBalance);
+    _balanceState.accept(wallet?.wallet?.moneyBalance);
   }
 
   void _onData((List<TokenContractAsset>, List<TokenContractAsset>) value) {
@@ -105,7 +105,7 @@ class AddTip3TokenWidgetModel extends CustomWidgetModelParametrized<
     final symbol = _detailsState.value.symbol;
     final asset = assets.firstWhereOrNull((e) => e.address == address);
 
-    _asset.accept(asset);
+    _assetState.accept(asset);
 
     if (asset?.isCustom == false) {
       // found trusted asset
@@ -113,9 +113,9 @@ class AddTip3TokenWidgetModel extends CustomWidgetModelParametrized<
 
       if (hasCustom) {
         // has asset with the same symbol but it's custom
-        _status.accept(TokenStatus.suggestion);
+        _statusState.accept(TokenStatus.suggestion);
       } else {
-        _status.accept(TokenStatus.trusted);
+        _statusState.accept(TokenStatus.trusted);
       }
 
       return;
@@ -126,7 +126,7 @@ class AddTip3TokenWidgetModel extends CustomWidgetModelParametrized<
     );
     if (explicit) {
       // has trusted asset with the same symbol but different address
-      _status.accept(TokenStatus.explicit);
+      _statusState.accept(TokenStatus.explicit);
       return;
     }
 
@@ -135,10 +135,10 @@ class AddTip3TokenWidgetModel extends CustomWidgetModelParametrized<
     );
     if (sameSymbol) {
       // has untrusted asset with the same symbol but different address
-      _status.accept(TokenStatus.sameSymbol);
+      _statusState.accept(TokenStatus.sameSymbol);
       return;
     }
 
-    _status.accept(TokenStatus.untrasted);
+    _statusState.accept(TokenStatus.untrasted);
   }
 }
