@@ -195,10 +195,11 @@ class BrowserPageModel extends ElementaryModel {
         for (final resource in resources) resource.toValue(),
       ]);
 
-  void requestCameraPermissionIfNeed(List<PermissionResourceType> resources) {
+  Future<void> requestCameraPermissionIfNeed(
+      List<PermissionResourceType> resources) async {
     if (resources.contains(PermissionResourceType.CAMERA) ||
         resources.contains(PermissionResourceType.CAMERA_AND_MICROPHONE)) {
-      _appPermissionsService.requestCamera();
+      await _appPermissionsService.requestCamera();
     }
   }
 }

@@ -314,7 +314,7 @@ class BrowserPageWidgetModel extends CustomWidgetModelParametrized<
       }
 
       if (await model.checkPermission(url.host, permissionRequest.resources)) {
-        model.requestCameraPermissionIfNeed(permissionRequest.resources);
+        await model.requestCameraPermissionIfNeed(permissionRequest.resources);
         return PermissionResponse(
           action: PermissionResponseAction.GRANT,
           resources: permissionRequest.resources,
@@ -338,7 +338,7 @@ class BrowserPageWidgetModel extends CustomWidgetModelParametrized<
           url.host,
           permissionRequest.resources,
         );
-        model.requestCameraPermissionIfNeed(permissionRequest.resources);
+        await model.requestCameraPermissionIfNeed(permissionRequest.resources);
         return PermissionResponse(
           action: PermissionResponseAction.GRANT,
           resources: permissionRequest.resources,
@@ -347,6 +347,8 @@ class BrowserPageWidgetModel extends CustomWidgetModelParametrized<
     } catch (_) {
       return null;
     }
+
+    return null;
   }
 
   Future<void> _onRefresh() async {
