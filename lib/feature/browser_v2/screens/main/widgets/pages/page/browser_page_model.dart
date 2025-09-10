@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'dart:typed_data';
 
+import 'package:app/app/service/app_permissions_service.dart';
 import 'package:app/app/service/approvals_service.dart';
 import 'package:app/app/service/assets_service.dart';
 import 'package:app/app/service/connection/connection_service.dart';
@@ -36,6 +37,7 @@ class BrowserPageModel extends ElementaryModel {
     this._connectionService,
     this._tonConnectJsBridge,
     this._ledgerService,
+    this._appPermissionsService,
   ) : super(errorHandler: errorHandler);
 
   final BrowserService _browserService;
@@ -48,6 +50,7 @@ class BrowserPageModel extends ElementaryModel {
   final ConnectionService _connectionService;
   final TonConnectJsBridge _tonConnectJsBridge;
   final LedgerService _ledgerService;
+  final AppPermissionsService _appPermissionsService;
 
   InpageProvider? _inpageProvider;
 
@@ -174,5 +177,28 @@ class BrowserPageModel extends ElementaryModel {
     Future.delayed(const Duration(milliseconds: 100), () {
       _browserService.tab.requestUrlActiveTab(Uri.parse(path));
     });
+  }
+
+  Future<bool> checkPermission(
+    String host,
+    List<PermissionResourceType> resources,
+  ) =>
+      _browserService.perm.checkHostPermissions(host, [
+        for (final resource in resources) resource.toValue(),
+      ]);
+
+  Future<void> saveHostPermissions(
+    String host,
+    List<PermissionResourceType> resources,
+  ) =>
+      _browserService.perm.saveHostPermissions(host, [
+        for (final resource in resources) resource.toValue(),
+      ]);
+
+  void requestCameraPermissionIfNeed(List<PermissionResourceType> resources) {
+    if (resources.contains(PermissionResourceType.CAMERA) ||
+        resources.contains(PermissionResourceType.CAMERA_AND_MICROPHONE)) {
+      _appPermissionsService.requestCamera();
+    }
   }
 }

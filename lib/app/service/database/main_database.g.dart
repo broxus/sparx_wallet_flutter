@@ -468,18 +468,255 @@ class BrowserHistoryTableCompanion
   }
 }
 
+class $PermissionsTableTable extends PermissionsTable
+    with TableInfo<$PermissionsTableTable, PermissionsTableData> {
+  @override
+  final GeneratedDatabase attachedDatabase;
+  final String? _alias;
+  $PermissionsTableTable(this.attachedDatabase, [this._alias]);
+  static const VerificationMeta _hostMeta = const VerificationMeta('host');
+  @override
+  late final GeneratedColumn<String> host = GeneratedColumn<String>(
+      'host', aliasedName, false,
+      type: DriftSqlType.string, requiredDuringInsert: true);
+  static const VerificationMeta _permissionMeta =
+      const VerificationMeta('permission');
+  @override
+  late final GeneratedColumn<String> permission = GeneratedColumn<String>(
+      'permission', aliasedName, false,
+      type: DriftSqlType.string, requiredDuringInsert: true);
+  static const VerificationMeta _createdAtMeta =
+      const VerificationMeta('createdAt');
+  @override
+  late final GeneratedColumn<DateTime> createdAt = GeneratedColumn<DateTime>(
+      'created_at', aliasedName, false,
+      type: DriftSqlType.dateTime,
+      requiredDuringInsert: false,
+      defaultValue: currentDateAndTime);
+  @override
+  List<GeneratedColumn> get $columns => [host, permission, createdAt];
+  @override
+  String get aliasedName => _alias ?? actualTableName;
+  @override
+  String get actualTableName => $name;
+  static const String $name = 'permissions_table';
+  @override
+  VerificationContext validateIntegrity(
+      Insertable<PermissionsTableData> instance,
+      {bool isInserting = false}) {
+    final context = VerificationContext();
+    final data = instance.toColumns(true);
+    if (data.containsKey('host')) {
+      context.handle(
+          _hostMeta, host.isAcceptableOrUnknown(data['host']!, _hostMeta));
+    } else if (isInserting) {
+      context.missing(_hostMeta);
+    }
+    if (data.containsKey('permission')) {
+      context.handle(
+          _permissionMeta,
+          permission.isAcceptableOrUnknown(
+              data['permission']!, _permissionMeta));
+    } else if (isInserting) {
+      context.missing(_permissionMeta);
+    }
+    if (data.containsKey('created_at')) {
+      context.handle(_createdAtMeta,
+          createdAt.isAcceptableOrUnknown(data['created_at']!, _createdAtMeta));
+    }
+    return context;
+  }
+
+  @override
+  Set<GeneratedColumn> get $primaryKey => {host, permission};
+  @override
+  PermissionsTableData map(Map<String, dynamic> data, {String? tablePrefix}) {
+    final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : '';
+    return PermissionsTableData(
+      host: attachedDatabase.typeMapping
+          .read(DriftSqlType.string, data['${effectivePrefix}host'])!,
+      permission: attachedDatabase.typeMapping
+          .read(DriftSqlType.string, data['${effectivePrefix}permission'])!,
+      createdAt: attachedDatabase.typeMapping
+          .read(DriftSqlType.dateTime, data['${effectivePrefix}created_at'])!,
+    );
+  }
+
+  @override
+  $PermissionsTableTable createAlias(String alias) {
+    return $PermissionsTableTable(attachedDatabase, alias);
+  }
+}
+
+class PermissionsTableData extends DataClass
+    implements Insertable<PermissionsTableData> {
+  final String host;
+  final String permission;
+  final DateTime createdAt;
+  const PermissionsTableData(
+      {required this.host, required this.permission, required this.createdAt});
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    map['host'] = Variable<String>(host);
+    map['permission'] = Variable<String>(permission);
+    map['created_at'] = Variable<DateTime>(createdAt);
+    return map;
+  }
+
+  PermissionsTableCompanion toCompanion(bool nullToAbsent) {
+    return PermissionsTableCompanion(
+      host: Value(host),
+      permission: Value(permission),
+      createdAt: Value(createdAt),
+    );
+  }
+
+  factory PermissionsTableData.fromJson(Map<String, dynamic> json,
+      {ValueSerializer? serializer}) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return PermissionsTableData(
+      host: serializer.fromJson<String>(json['host']),
+      permission: serializer.fromJson<String>(json['permission']),
+      createdAt: serializer.fromJson<DateTime>(json['createdAt']),
+    );
+  }
+  @override
+  Map<String, dynamic> toJson({ValueSerializer? serializer}) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return <String, dynamic>{
+      'host': serializer.toJson<String>(host),
+      'permission': serializer.toJson<String>(permission),
+      'createdAt': serializer.toJson<DateTime>(createdAt),
+    };
+  }
+
+  PermissionsTableData copyWith(
+          {String? host, String? permission, DateTime? createdAt}) =>
+      PermissionsTableData(
+        host: host ?? this.host,
+        permission: permission ?? this.permission,
+        createdAt: createdAt ?? this.createdAt,
+      );
+  PermissionsTableData copyWithCompanion(PermissionsTableCompanion data) {
+    return PermissionsTableData(
+      host: data.host.present ? data.host.value : this.host,
+      permission:
+          data.permission.present ? data.permission.value : this.permission,
+      createdAt: data.createdAt.present ? data.createdAt.value : this.createdAt,
+    );
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('PermissionsTableData(')
+          ..write('host: $host, ')
+          ..write('permission: $permission, ')
+          ..write('createdAt: $createdAt')
+          ..write(')'))
+        .toString();
+  }
+
+  @override
+  int get hashCode => Object.hash(host, permission, createdAt);
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      (other is PermissionsTableData &&
+          other.host == this.host &&
+          other.permission == this.permission &&
+          other.createdAt == this.createdAt);
+}
+
+class PermissionsTableCompanion extends UpdateCompanion<PermissionsTableData> {
+  final Value<String> host;
+  final Value<String> permission;
+  final Value<DateTime> createdAt;
+  final Value<int> rowid;
+  const PermissionsTableCompanion({
+    this.host = const Value.absent(),
+    this.permission = const Value.absent(),
+    this.createdAt = const Value.absent(),
+    this.rowid = const Value.absent(),
+  });
+  PermissionsTableCompanion.insert({
+    required String host,
+    required String permission,
+    this.createdAt = const Value.absent(),
+    this.rowid = const Value.absent(),
+  })  : host = Value(host),
+        permission = Value(permission);
+  static Insertable<PermissionsTableData> custom({
+    Expression<String>? host,
+    Expression<String>? permission,
+    Expression<DateTime>? createdAt,
+    Expression<int>? rowid,
+  }) {
+    return RawValuesInsertable({
+      if (host != null) 'host': host,
+      if (permission != null) 'permission': permission,
+      if (createdAt != null) 'created_at': createdAt,
+      if (rowid != null) 'rowid': rowid,
+    });
+  }
+
+  PermissionsTableCompanion copyWith(
+      {Value<String>? host,
+      Value<String>? permission,
+      Value<DateTime>? createdAt,
+      Value<int>? rowid}) {
+    return PermissionsTableCompanion(
+      host: host ?? this.host,
+      permission: permission ?? this.permission,
+      createdAt: createdAt ?? this.createdAt,
+      rowid: rowid ?? this.rowid,
+    );
+  }
+
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    if (host.present) {
+      map['host'] = Variable<String>(host.value);
+    }
+    if (permission.present) {
+      map['permission'] = Variable<String>(permission.value);
+    }
+    if (createdAt.present) {
+      map['created_at'] = Variable<DateTime>(createdAt.value);
+    }
+    if (rowid.present) {
+      map['rowid'] = Variable<int>(rowid.value);
+    }
+    return map;
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('PermissionsTableCompanion(')
+          ..write('host: $host, ')
+          ..write('permission: $permission, ')
+          ..write('createdAt: $createdAt, ')
+          ..write('rowid: $rowid')
+          ..write(')'))
+        .toString();
+  }
+}
+
 abstract class _$MainDatabase extends GeneratedDatabase {
   _$MainDatabase(QueryExecutor e) : super(e);
   $MainDatabaseManager get managers => $MainDatabaseManager(this);
   late final $MigrationTableTable migrationTable = $MigrationTableTable(this);
   late final $BrowserHistoryTableTable browserHistoryTable =
       $BrowserHistoryTableTable(this);
+  late final $PermissionsTableTable permissionsTable =
+      $PermissionsTableTable(this);
   @override
   Iterable<TableInfo<Table, Object?>> get allTables =>
       allSchemaEntities.whereType<TableInfo<Table, Object?>>();
   @override
   List<DatabaseSchemaEntity> get allSchemaEntities =>
-      [migrationTable, browserHistoryTable];
+      [migrationTable, browserHistoryTable, permissionsTable];
 }
 
 typedef $$MigrationTableTableCreateCompanionBuilder = MigrationTableCompanion
@@ -776,6 +1013,152 @@ typedef $$BrowserHistoryTableTableProcessedTableManager = ProcessedTableManager<
     ),
     BrowserHistoryTableData,
     PrefetchHooks Function()>;
+typedef $$PermissionsTableTableCreateCompanionBuilder
+    = PermissionsTableCompanion Function({
+  required String host,
+  required String permission,
+  Value<DateTime> createdAt,
+  Value<int> rowid,
+});
+typedef $$PermissionsTableTableUpdateCompanionBuilder
+    = PermissionsTableCompanion Function({
+  Value<String> host,
+  Value<String> permission,
+  Value<DateTime> createdAt,
+  Value<int> rowid,
+});
+
+class $$PermissionsTableTableFilterComposer
+    extends Composer<_$MainDatabase, $PermissionsTableTable> {
+  $$PermissionsTableTableFilterComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnFilters<String> get host => $composableBuilder(
+      column: $table.host, builder: (column) => ColumnFilters(column));
+
+  ColumnFilters<String> get permission => $composableBuilder(
+      column: $table.permission, builder: (column) => ColumnFilters(column));
+
+  ColumnFilters<DateTime> get createdAt => $composableBuilder(
+      column: $table.createdAt, builder: (column) => ColumnFilters(column));
+}
+
+class $$PermissionsTableTableOrderingComposer
+    extends Composer<_$MainDatabase, $PermissionsTableTable> {
+  $$PermissionsTableTableOrderingComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnOrderings<String> get host => $composableBuilder(
+      column: $table.host, builder: (column) => ColumnOrderings(column));
+
+  ColumnOrderings<String> get permission => $composableBuilder(
+      column: $table.permission, builder: (column) => ColumnOrderings(column));
+
+  ColumnOrderings<DateTime> get createdAt => $composableBuilder(
+      column: $table.createdAt, builder: (column) => ColumnOrderings(column));
+}
+
+class $$PermissionsTableTableAnnotationComposer
+    extends Composer<_$MainDatabase, $PermissionsTableTable> {
+  $$PermissionsTableTableAnnotationComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  GeneratedColumn<String> get host =>
+      $composableBuilder(column: $table.host, builder: (column) => column);
+
+  GeneratedColumn<String> get permission => $composableBuilder(
+      column: $table.permission, builder: (column) => column);
+
+  GeneratedColumn<DateTime> get createdAt =>
+      $composableBuilder(column: $table.createdAt, builder: (column) => column);
+}
+
+class $$PermissionsTableTableTableManager extends RootTableManager<
+    _$MainDatabase,
+    $PermissionsTableTable,
+    PermissionsTableData,
+    $$PermissionsTableTableFilterComposer,
+    $$PermissionsTableTableOrderingComposer,
+    $$PermissionsTableTableAnnotationComposer,
+    $$PermissionsTableTableCreateCompanionBuilder,
+    $$PermissionsTableTableUpdateCompanionBuilder,
+    (
+      PermissionsTableData,
+      BaseReferences<_$MainDatabase, $PermissionsTableTable,
+          PermissionsTableData>
+    ),
+    PermissionsTableData,
+    PrefetchHooks Function()> {
+  $$PermissionsTableTableTableManager(
+      _$MainDatabase db, $PermissionsTableTable table)
+      : super(TableManagerState(
+          db: db,
+          table: table,
+          createFilteringComposer: () =>
+              $$PermissionsTableTableFilterComposer($db: db, $table: table),
+          createOrderingComposer: () =>
+              $$PermissionsTableTableOrderingComposer($db: db, $table: table),
+          createComputedFieldComposer: () =>
+              $$PermissionsTableTableAnnotationComposer($db: db, $table: table),
+          updateCompanionCallback: ({
+            Value<String> host = const Value.absent(),
+            Value<String> permission = const Value.absent(),
+            Value<DateTime> createdAt = const Value.absent(),
+            Value<int> rowid = const Value.absent(),
+          }) =>
+              PermissionsTableCompanion(
+            host: host,
+            permission: permission,
+            createdAt: createdAt,
+            rowid: rowid,
+          ),
+          createCompanionCallback: ({
+            required String host,
+            required String permission,
+            Value<DateTime> createdAt = const Value.absent(),
+            Value<int> rowid = const Value.absent(),
+          }) =>
+              PermissionsTableCompanion.insert(
+            host: host,
+            permission: permission,
+            createdAt: createdAt,
+            rowid: rowid,
+          ),
+          withReferenceMapper: (p0) => p0
+              .map((e) => (e.readTable(table), BaseReferences(db, table, e)))
+              .toList(),
+          prefetchHooksCallback: null,
+        ));
+}
+
+typedef $$PermissionsTableTableProcessedTableManager = ProcessedTableManager<
+    _$MainDatabase,
+    $PermissionsTableTable,
+    PermissionsTableData,
+    $$PermissionsTableTableFilterComposer,
+    $$PermissionsTableTableOrderingComposer,
+    $$PermissionsTableTableAnnotationComposer,
+    $$PermissionsTableTableCreateCompanionBuilder,
+    $$PermissionsTableTableUpdateCompanionBuilder,
+    (
+      PermissionsTableData,
+      BaseReferences<_$MainDatabase, $PermissionsTableTable,
+          PermissionsTableData>
+    ),
+    PermissionsTableData,
+    PrefetchHooks Function()>;
 
 class $MainDatabaseManager {
   final _$MainDatabase _db;
@@ -784,4 +1167,6 @@ class $MainDatabaseManager {
       $$MigrationTableTableTableManager(_db, _db.migrationTable);
   $$BrowserHistoryTableTableTableManager get browserHistoryTable =>
       $$BrowserHistoryTableTableTableManager(_db, _db.browserHistoryTable);
+  $$PermissionsTableTableTableManager get permissionsTable =>
+      $$PermissionsTableTableTableManager(_db, _db.permissionsTable);
 }
