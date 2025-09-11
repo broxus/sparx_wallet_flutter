@@ -42,7 +42,6 @@ class BrowserTabsAndGroupsUiDelegate implements BrowserTabsAndGroupsUi {
     required this.renderManager,
     required this.onEmptyTabs,
     required this.onUpdateActiveTab,
-    required this.onChangeTab,
     required this.checkIsVisiblePages,
   }) {
     _init();
@@ -53,7 +52,6 @@ class BrowserTabsAndGroupsUiDelegate implements BrowserTabsAndGroupsUi {
   final BrowserRenderManager renderManager;
   final VoidCallback onEmptyTabs;
   final ValueChanged<bool> onUpdateActiveTab;
-  final VoidCallback onChangeTab;
   final bool Function() checkIsVisiblePages;
 
   final _tabAnimationTypeState = StateNotifier<TabAnimationType?>();
@@ -123,7 +121,6 @@ class BrowserTabsAndGroupsUiDelegate implements BrowserTabsAndGroupsUi {
         ..setActiveGroup(groupId)
         ..setActiveTab(tabId);
     }
-    onChangeTab();
   }
 
   @override
@@ -137,22 +134,26 @@ class BrowserTabsAndGroupsUiDelegate implements BrowserTabsAndGroupsUi {
     _selectedGroupIdState.accept(groupId);
   }
 
-  void onTabAnimationStart(ValueChanged<bool> onComplete) {
+  void onTabAnimationStart({
+    VoidCallback? onCompleteTabs,
+  }) {
     if (_tabAnimationTypeState.value == null) {
       return;
     }
     if (_tabAnimationTypeState.value is ShowTabsAnimationType) {
-      onComplete(false);
+      onCompleteTabs?.call();
     }
   }
 
-  void onTabAnimationEnd(ValueChanged<bool> onComplete) {
+  void onTabAnimationEnd({
+    VoidCallback? onCompleteView,
+  }) {
     if (_tabAnimationTypeState.value == null) {
       return;
     }
 
     if (_tabAnimationTypeState.value is ShowViewAnimationType) {
-      onComplete(true);
+      onCompleteView?.call();
     }
 
     _tabAnimationTypeState.accept(null);
@@ -295,8 +296,6 @@ class BrowserTabsAndGroupsUiDelegate implements BrowserTabsAndGroupsUi {
           tabY: data?.yTop,
         ),
       );
-
-      onChangeTab();
     }
 
     if (_tabsCount != null &&
