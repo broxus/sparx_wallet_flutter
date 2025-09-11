@@ -120,7 +120,6 @@ class BrowserMainScreenWidgetModel
     model,
     renderManager: _renderManager,
     onEmptyTabs: _onEmptyTabs,
-    onChangeTab: () => _menuState.accept(MenuType.view),
     onUpdateActiveTab: ([bool isAnimated = false]) {
       final activeGroupId = model.activeGroupIdState.value;
       final activeTabId = model.activeTabId;
@@ -226,7 +225,6 @@ class BrowserMainScreenWidgetModel
 
   void onDonePressed() {
     _tabsDelegate.animateShowView();
-    _menuState.accept(MenuType.view);
   }
 
   void onPressedTabs() {
@@ -269,12 +267,18 @@ class BrowserMainScreenWidgetModel
   }
 
   void onTabAnimationStart() => _tabsDelegate.onTabAnimationStart(
-        _onTabAnimationComplete,
+        onCompleteTabs: () {
+          _viewVisibleState.accept(false);
+          _scrollToActiveTabInList();
+        },
       );
 
   void onTabAnimationEnd(TabAnimationType? animationType) {
     _tabsDelegate.onTabAnimationEnd(
-      _onTabAnimationComplete,
+      onCompleteView: () {
+        _viewVisibleState.accept(true);
+        _menuState.accept(MenuType.view);
+      },
     );
   }
 
@@ -373,13 +377,6 @@ class BrowserMainScreenWidgetModel
   void _onEmptyTabs() {
     _pageDelegate.reset();
     _pageSlideDelegate.slideToPage(0);
-  }
-
-  void _onTabAnimationComplete(bool isVisible) {
-    _viewVisibleState.accept(isVisible);
-    if (!isVisible) {
-      _scrollToActiveTabInList();
-    }
   }
 
   Future<bool> _scrollToPage({
