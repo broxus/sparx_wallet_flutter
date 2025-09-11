@@ -25,7 +25,7 @@ class AddNewExternalAccountSheetWidgetModel
 
   late final _isLoading = createValueNotifier(false);
 
-  ValueListenable<bool> get isLoading => _isLoading;
+  ValueListenable<bool> get isLoadingState => _isLoading;
 
   void onPaste(String text) {
     if (text.isEmpty) return;

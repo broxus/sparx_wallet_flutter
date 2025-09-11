@@ -19,16 +19,18 @@ class WalletAccountBodyWidgetModel extends CustomWidgetModelParametrized<
     super.model,
   );
 
-  late final _notifications = createNotifierFromStream(_notificationsStream);
+  late final _notificationsState =
+      createNotifierFromStream(_notificationsStream);
 
-  late final _carouselPage = createValueNotifier(0);
+  late final _carouselPageState = createValueNotifier(0);
 
   late final ValueListenable<KeyAccount> currentAccountState =
       createWmParamsNotifier((it) => it);
 
-  ListenableState<List<NotificationType>> get notifications => _notifications;
+  ListenableState<List<NotificationType>> get notificationsState =>
+      _notificationsState;
 
-  ValueListenable<int> get carouselPage => _carouselPage;
+  ValueListenable<int> get carouselPageState => _carouselPageState;
 
   Stream<List<NotificationType>> get _notificationsStream {
     return Rx.combineLatest2(
@@ -53,5 +55,5 @@ class WalletAccountBodyWidgetModel extends CustomWidgetModelParametrized<
   void onSwitchAccount() => showSelectAccountSheet(context);
 
   void onPageChanged(int index, CarouselPageChangedReason _) =>
-      _carouselPage.value = index;
+      _carouselPageState.value = index;
 }

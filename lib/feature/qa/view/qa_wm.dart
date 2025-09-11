@@ -9,20 +9,20 @@ import 'package:ui_components_lib/v2/theme_style_v2.dart';
 class QaWidgetModel extends CustomWidgetModel<QaSheet, QaModel> {
   QaWidgetModel(super.model);
 
-  late final _key = createNotifier('');
-  late final _iv = createNotifier('');
+  late final _keyState = createNotifier('');
+  late final _ivState = createNotifier('');
 
   ThemeStyleV2 get theme => context.themeStyleV2;
 
-  ListenableState<String> get iv => _iv;
-  ListenableState<String> get key => _key;
+  ListenableState<String> get ivState => _ivState;
+  ListenableState<String> get keyState => _keyState;
 
   @override
   Future<void> initWidgetModel() async {
     super.initWidgetModel();
 
-    _iv.accept(await model.readIv());
-    _key.accept(await model.readKey());
+    _ivState.accept(await model.readIv());
+    _keyState.accept(await model.readKey());
   }
 
   Future<void> clearEncryptedDb() async {

@@ -72,7 +72,7 @@ class _StakingViewWidget extends StatelessWidget {
           ),
           const SizedBox(height: DimensSizeV2.d12),
           EntityStateNotifierBuilder(
-            listenableEntityState: wm.info,
+            listenableEntityState: wm.infoState,
             loadingBuilder: (_, __) => const Center(
               child: Padding(
                 padding: EdgeInsets.all(DimensSizeV2.d16),
@@ -124,12 +124,12 @@ class _StakingViewWidget extends StatelessWidget {
                 ),
                 const SizedBox(height: DimensSizeV2.d24),
                 StateNotifierBuilder(
-                  listenableState: wm.data,
+                  listenableState: wm.dataState,
                   builder: (_, data) => StakingView(
                     info: info!,
                     data: data!,
-                    receive: wm.receive,
-                    requests: wm.requests,
+                    receive: wm.receiveState,
+                    requests: wm.requestsState,
                     inputController: wm.inputController,
                     onMaxAmount: wm.onMaxAmount,
                     onTabChanged: wm.onTabChanged,
@@ -154,10 +154,10 @@ class _ButtonWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return DoubleValueListenableBuilder(
-      firstValue: wm.tab,
-      secondValue: wm.isLoading,
+      firstValue: wm.tabState,
+      secondValue: wm.isLoadingState,
       builder: (_, tab, isLoading) => StateNotifierBuilder(
-        listenableState: wm.validation,
+        listenableState: wm.validationState,
         builder: (_, validation) => _InnerButtonWidget(
           tab: tab,
           isLoading: isLoading,

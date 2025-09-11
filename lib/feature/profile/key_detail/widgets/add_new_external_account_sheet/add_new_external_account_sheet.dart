@@ -63,7 +63,7 @@ class AddNewExternalAccountSheet extends InjectedElementaryParametrizedWidget<
             onSubmit: wm.onSubmit,
           ),
           ValueListenableBuilder(
-            valueListenable: wm.isLoading,
+            valueListenable: wm.isLoadingState,
             builder: (_, isLoading, __) => PrimaryButton(
               buttonShape: ButtonShape.pill,
               title: LocaleKeys.confirm.tr(),

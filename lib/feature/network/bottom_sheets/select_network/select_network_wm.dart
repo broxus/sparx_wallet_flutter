@@ -15,13 +15,15 @@ class SelectNetworkWidgetModel extends CustomWidgetModelParametrized<
     super.model,
   );
 
-  late final _currentConnectionId =
+  late final _currentConnectionIdState =
       createNotifierFromStream(model.currentConnectionId);
-  late final _connections = createNotifierFromStream(model.connections);
+  late final _connectionsState = createNotifierFromStream(model.connections);
 
-  ListenableState<String> get currentConnectionId => _currentConnectionId;
+  ListenableState<String> get currentConnectionIdState =>
+      _currentConnectionIdState;
 
-  ListenableState<List<ConnectionData>> get connections => _connections;
+  ListenableState<List<ConnectionData>> get connectionsState =>
+      _connectionsState;
 
   bool get _needPopAfterAction => wmParams.value;
 
