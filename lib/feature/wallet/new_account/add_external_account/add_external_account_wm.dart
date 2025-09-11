@@ -21,7 +21,7 @@ class AddExternalAccountWidgetModel extends CustomWidgetModel<
 
   late final _isLoading = createValueNotifier(false);
 
-  ValueListenable<bool> get isLoading => _isLoading;
+  ValueListenable<bool> get isLoadingState => _isLoading;
 
   ThemeStyleV2 get theme => context.themeStyleV2;
 

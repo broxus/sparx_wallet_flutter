@@ -5,7 +5,6 @@ import 'package:app/feature/ledger/ledger.dart';
 import 'package:app/feature/messenger/data/message.dart';
 import 'package:app/feature/wallet/route.dart';
 import 'package:app/feature/wallet/ton_wallet_send/data/data.dart';
-import 'package:app/feature/wallet/ton_wallet_send/data/ton_wallet_send_state.dart';
 import 'package:app/feature/wallet/ton_wallet_send/route.dart';
 import 'package:app/feature/wallet/ton_wallet_send/view/ton_wallet_send_model.dart';
 import 'package:app/feature/wallet/ton_wallet_send/view/ton_wallet_send_widget.dart';
@@ -27,11 +26,11 @@ class TonWalletSendWidgetModel extends CustomWidgetModelParametrized<
 
   static final _logger = Logger('TonWalletSendWidgetModel');
 
-  late final _isLoading = createNotifier(false);
-  late final _fees = createNotifier(const Fee.estimating());
-  late final _txErrors = createNotifier<List<TxTreeSimulationErrorItem>>();
-  late final _error = createNotifier<String>();
-  late final _state = createNotifier(const TonWalletSendState.ready());
+  late final _isLoadingState = createNotifier(false);
+  late final _feesState = createNotifier(const Fee.estimating());
+  late final _txErrorsState = createNotifier<List<TxTreeSimulationErrorItem>>();
+  late final _errorState = createNotifier<String>();
+  late final _sendState = createNotifier(const TonWalletSendState.ready());
 
   late final KeyAccount? account = model.getAccount(wmParams.value.address);
   late final Money amount =
@@ -39,15 +38,16 @@ class TonWalletSendWidgetModel extends CustomWidgetModelParametrized<
 
   Currency get currency => model.currency;
 
-  ListenableState<bool> get isLoading => _isLoading;
+  ListenableState<bool> get isLoadingState => _isLoadingState;
 
-  ListenableState<Fee> get fees => _fees;
+  ListenableState<Fee> get feesState => _feesState;
 
-  ListenableState<List<TxTreeSimulationErrorItem>> get txErrors => _txErrors;
+  ListenableState<List<TxTreeSimulationErrorItem>> get txErrorsState =>
+      _txErrorsState;
 
-  ListenableState<String> get error => _error;
+  ListenableState<String> get errorState => _errorState;
 
-  ListenableState<TonWalletSendState> get state => _state;
+  ListenableState<TonWalletSendState> get sendState => _sendState;
 
   PublicKey get publicKey => wmParams.value.publicKey;
 
@@ -75,7 +75,7 @@ class TonWalletSendWidgetModel extends CustomWidgetModelParametrized<
   Future<void> onConfirmed(SignInputAuth signInputAuth) async {
     UnsignedMessage? unsignedMessage;
     try {
-      _isLoading.accept(true);
+      _isLoadingState.accept(true);
 
       if (signInputAuth.isLedger) {
         final isAvailable = await checkBluetoothAvailability();
@@ -105,7 +105,7 @@ class TonWalletSendWidgetModel extends CustomWidgetModelParametrized<
         amount: totalAmount,
       );
 
-      _state.accept(const TonWalletSendState.sending(canClose: true));
+      _sendState.accept(const TonWalletSendState.sending(canClose: true));
 
       await transactionCompleter;
 
@@ -128,19 +128,19 @@ class TonWalletSendWidgetModel extends CustomWidgetModelParametrized<
       model.showMessage(Message.error(message: e.toString()));
     } finally {
       unsignedMessage?.dispose();
-      _isLoading.accept(false);
+      _isLoadingState.accept(false);
     }
   }
 
   Future<void> _init() async {
     UnsignedMessage? unsignedMessage;
     try {
-      _isLoading.accept(true);
+      _isLoadingState.accept(true);
 
       final data = wmParams.value;
       final walletState = await model.getWalletState(data.address);
       if (walletState.hasError) {
-        _state.accept(TonWalletSendState.error(error: walletState.error!));
+        _sendState.accept(TonWalletSendState.error(error: walletState.error!));
         return;
       }
 
@@ -166,29 +166,29 @@ class TonWalletSendWidgetModel extends CustomWidgetModelParametrized<
         ),
       );
 
-      _fees.accept(
+      _feesState.accept(
         Fee.native(
           Money.fromBigIntWithCurrency(fees, currency),
         ),
       );
-      _txErrors.accept(txErrors);
+      _txErrorsState.accept(txErrors);
 
       final wallet = walletState.wallet!;
       final balance = wallet.contractState.balance;
       final isPossibleToSendMessage = balance > (fees + totalAmount);
 
       if (!isPossibleToSendMessage) {
-        _error.accept(LocaleKeys.insufficientFunds.tr());
+        _errorState.accept(LocaleKeys.insufficientFunds.tr());
       }
     } on ContractNotExistsException catch (e, s) {
       _logger.severe('Failed to prepare transaction', e, s);
-      _error.accept(LocaleKeys.insufficientFunds.tr());
+      _errorState.accept(LocaleKeys.insufficientFunds.tr());
     } on Exception catch (e, s) {
       _logger.severe('Failed to prepare transaction', e, s);
-      _error.accept(e.toString());
+      _errorState.accept(e.toString());
     } finally {
       unsignedMessage?.dispose();
-      _isLoading.accept(false);
+      _isLoadingState.accept(false);
     }
   }
 }

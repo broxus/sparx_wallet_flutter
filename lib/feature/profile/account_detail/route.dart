@@ -1,6 +1,6 @@
 import 'package:app/app/router/compass/bottom_bar_state.dart';
 import 'package:app/app/router/compass/compass.dart';
-import 'package:app/feature/profile/account_detail/view/account_detail_page.dart';
+import 'package:app/feature/profile/account_detail/account_detail_page.dart';
 import 'package:injectable/injectable.dart';
 import 'package:nekoton_repository/nekoton_repository.dart';
 

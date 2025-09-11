@@ -1,8 +1,8 @@
 import 'package:app/core/wm/custom_wm.dart';
+import 'package:app/feature/add_seed/check_seed_phrase/widgets/check_seed_answers_widget.dart';
+import 'package:app/feature/add_seed/check_seed_phrase/widgets/check_seed_available_answers_widget.dart';
 import 'package:app/feature/wallet/widgets/wallet_backup/wallet_backup.dart';
 import 'package:app/generated/generated.dart';
-import 'package:app/v1/feature/add_seed/check_seed_phrase/widgets/check_seed_answers_widget.dart';
-import 'package:app/v1/feature/add_seed/check_seed_phrase/widgets/check_seed_available_answers_widget.dart';
 import 'package:elementary_helper/elementary_helper.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:ui_components_lib/v2/ui_components_lib_v2.dart';

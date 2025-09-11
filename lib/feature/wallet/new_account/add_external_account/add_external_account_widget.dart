@@ -47,7 +47,7 @@ class AddExternalAccountWidget
             ),
             const Spacer(),
             ValueListenableBuilder(
-              valueListenable: wm.isLoading,
+              valueListenable: wm.isLoadingState,
               builder: (_, isLoading, __) => AccentButton(
                 buttonShape: ButtonShape.pill,
                 title: LocaleKeys.addAccount.tr(),
