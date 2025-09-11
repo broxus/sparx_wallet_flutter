@@ -89,7 +89,7 @@ class BrowserBook extends InjectedElementaryWidget<BrowserBookWidgetModel> {
                         return SliverToBoxAdapter(
                           child: Padding(
                             padding: const EdgeInsets.only(
-                              top: DimensSizeV2.d92,
+                              top: DimensSizeV2.d40,
                             ),
                             child: switch (wm.tabBarState.value) {
                               BrowserBookTabBarValue.bookMarks =>
