@@ -135,25 +135,25 @@ class BrowserTabsAndGroupsUiDelegate implements BrowserTabsAndGroupsUi {
   }
 
   void onTabAnimationStart({
-    VoidCallback? onCompleteTabs,
+    VoidCallback? onCompleteShowTabs,
   }) {
     if (_tabAnimationTypeState.value == null) {
       return;
     }
     if (_tabAnimationTypeState.value is ShowTabsAnimationType) {
-      onCompleteTabs?.call();
+      onCompleteShowTabs?.call();
     }
   }
 
   void onTabAnimationEnd({
-    VoidCallback? onCompleteView,
+    VoidCallback? onCompleteShowView,
   }) {
     if (_tabAnimationTypeState.value == null) {
       return;
     }
 
     if (_tabAnimationTypeState.value is ShowViewAnimationType) {
-      onCompleteView?.call();
+      onCompleteShowView?.call();
     }
 
     _tabAnimationTypeState.accept(null);

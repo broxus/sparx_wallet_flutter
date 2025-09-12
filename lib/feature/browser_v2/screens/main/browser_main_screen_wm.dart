@@ -191,9 +191,7 @@ class BrowserMainScreenWidgetModel
           tabId: tabId,
         );
       }
-      _scrollToActiveTabInList(
-        const Duration(milliseconds: 100),
-      );
+      _scrollToActiveTabInList();
     });
   }
 
@@ -267,7 +265,7 @@ class BrowserMainScreenWidgetModel
   }
 
   void onTabAnimationStart() => _tabsDelegate.onTabAnimationStart(
-        onCompleteTabs: () {
+        onCompleteShowTabs: () {
           _viewVisibleState.accept(false);
           _scrollToActiveTabInList();
         },
@@ -275,7 +273,7 @@ class BrowserMainScreenWidgetModel
 
   void onTabAnimationEnd(TabAnimationType? animationType) {
     _tabsDelegate.onTabAnimationEnd(
-      onCompleteView: () {
+      onCompleteShowView: () {
         _viewVisibleState.accept(true);
         _menuState.accept(MenuType.view);
       },
@@ -427,7 +425,7 @@ class BrowserMainScreenWidgetModel
     );
   }
 
-  void _scrollToActiveTabInList([Duration delay = Duration.zero]) {
+  void _scrollToActiveTabInList() {
     try {
       final activeTabId = model.activeTabIdState.value;
       final tabsItems = tabs.viewTabsState.value;
