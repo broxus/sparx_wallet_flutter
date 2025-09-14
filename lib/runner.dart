@@ -5,13 +5,11 @@ import 'package:app/app/service/bootstrap/configurators/localization.dart';
 import 'package:app/app/service/bootstrap/configurators/logger.dart';
 import 'package:app/app/view/app.dart';
 import 'package:app/core/app_build_type.dart';
-import 'package:app/core/bloc/app_bloc_observer.dart';
 import 'package:app/core/sentry.dart';
 import 'package:app/di/di.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:image_picker_android/image_picker_android.dart';
 import 'package:image_picker_platform_interface/image_picker_platform_interface.dart';
@@ -61,8 +59,6 @@ Future<void> run(
         SentryWorker.instance.captureException(error, stackTrace: stack);
         return true;
       };
-
-      Bloc.observer = AppBlocObserver();
 
       DefaultAppBar.defaultPopAction = (context) => context.compassBack();
       DefaultAppBar.defaultCanPopAction = (context) => context.canPop();

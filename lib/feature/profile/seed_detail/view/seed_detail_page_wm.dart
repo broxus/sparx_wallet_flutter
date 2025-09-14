@@ -20,30 +20,30 @@ class SeedDetailPageWidgetModel extends CustomWidgetModelParametrized<
     super.model,
   );
 
-  late final _currentKey = createNotifierFromStream(model.currentKey);
-  late final _currentSeed = createNotifierFromStream(model.currentSeed);
-  late final _findingExistingWallets = createNotifierFromStream(
+  late final _currentKeyNotifier = createNotifierFromStream(model.currentKey);
+  late final _currentSeedNotifier = createNotifierFromStream(model.currentSeed);
+  late final _findingExistingWalletsNotifier = createNotifierFromStream(
     model.findingExistingWallets,
   );
-  late final _seed = createNotifierFromStream(
+  late final _seedNotifier = createNotifierFromStream(
     model.getSeedStream(wmParams.value),
   );
 
-  StateNotifier<PublicKey?> get currentKey => _currentKey;
+  StateNotifier<PublicKey?> get currentKeyNotifier => _currentKeyNotifier;
 
-  StateNotifier<Seed?> get currentSeed => _currentSeed;
+  StateNotifier<Seed?> get currentSeedNotifier => _currentSeedNotifier;
 
-  StateNotifier<Set<String>> get findingExistingWallets =>
-      _findingExistingWallets;
+  StateNotifier<Set<String>> get findingExistingWalletsNotifier =>
+      _findingExistingWalletsNotifier;
 
-  StateNotifier<Seed?> get seed => _seed;
+  StateNotifier<Seed?> get seedNotifier => _seedNotifier;
 
   ThemeStyleV2 get theme => context.themeStyleV2;
 
   void onSeedSettings() => showSeedSettingsSheet(context, wmParams.value);
 
   Future<void> onAddkeys() async {
-    final seed = _seed.value;
+    final seed = _seedNotifier.value;
     if (seed == null) return;
 
     if (seed.masterKey.isLedger) {

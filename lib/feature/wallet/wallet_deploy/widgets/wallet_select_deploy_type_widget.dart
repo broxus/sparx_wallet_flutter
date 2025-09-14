@@ -1,7 +1,6 @@
-import 'package:app/feature/wallet/wallet.dart';
+import 'package:app/feature/wallet/wallet_deploy/wallet_deploy_model.dart';
 import 'package:app/generated/generated.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:ui_components_lib/ui_components_lib.dart';
 
 extension on WalletDeployType {
@@ -18,12 +17,16 @@ class WalletSelectDeployTypeWidget extends StatelessWidget {
   const WalletSelectDeployTypeWidget({
     required this.type,
     this.onChangeAction,
+    this.onChangeType,
     super.key,
   });
 
   /// Additional action that will be called before changing type.
   /// This can be helpful to update multisig data
   final ValueChanged<BuildContext>? onChangeAction;
+
+  /// Callback when type changes
+  final ValueChanged<WalletDeployType>? onChangeType;
 
   final WalletDeployType type;
 
@@ -43,7 +46,7 @@ class WalletSelectDeployTypeWidget extends StatelessWidget {
       currentValue: type,
       onChanged: (t) {
         onChangeAction?.call(context);
-        context.read<WalletDeployBloc>().add(WalletDeployEvent.changeType(t));
+        onChangeType?.call(t);
       },
     );
   }

@@ -57,7 +57,7 @@ class SendMessageWidget extends InjectedElementaryParametrizedWidget<
               children: [
                 if (wm.account != null)
                   StateNotifierBuilder(
-                    listenableState: wm.balance,
+                    listenableState: wm.balanceState,
                     builder: (_, balance) => AccountInfo(
                       account: wm.account!,
                       color: theme.colors.background2,
@@ -80,8 +80,8 @@ class SendMessageWidget extends InjectedElementaryParametrizedWidget<
                   },
                 ),
                 DoubleSourceBuilder(
-                  firstSource: wm.publicKey,
-                  secondSource: wm.custodians,
+                  firstSource: wm.publicKeyState,
+                  secondSource: wm.custodiansState,
                   builder: (_, publicKey, custodians) => custodians == null ||
                           custodians.length < 2
                       ? const SizedBox.shrink()
@@ -105,15 +105,15 @@ class SendMessageWidget extends InjectedElementaryParametrizedWidget<
                 const SizedBox(height: DimensSizeV2.d12),
                 MultiListenerRebuilder(
                   listenableList: [
-                    wm.data,
-                    wm.fee,
-                    wm.feeError,
+                    wm.dataState,
+                    wm.feeState,
+                    wm.feeErrorState,
                     wm.recipientState,
                   ],
                   builder: (_) {
-                    final data = wm.data.value;
-                    final fee = wm.fee.value;
-                    final feeError = wm.feeError.value;
+                    final data = wm.dataState.value;
+                    final fee = wm.feeState.value;
+                    final feeError = wm.feeErrorState.value;
                     final recipient = wm.recipientState.value;
 
                     return data?.let(
@@ -165,9 +165,9 @@ class SendMessageWidget extends InjectedElementaryParametrizedWidget<
         ),
         if (wm.account != null)
           TripleSourceBuilder(
-            firstSource: wm.feeError,
-            secondSource: wm.txErrors,
-            thirdSource: wm.isConfirmed,
+            firstSource: wm.feeErrorState,
+            secondSource: wm.txErrorsState,
+            thirdSource: wm.isConfirmedState,
             builder: (_, feeError, txErrors, isConfirmed) {
               final hasTxError = txErrors?.isNotEmpty ?? false;
 
@@ -182,7 +182,7 @@ class SendMessageWidget extends InjectedElementaryParametrizedWidget<
                       onConfirm: wm.onConfirmed,
                     ),
                   StateNotifierBuilder(
-                    listenableState: wm.isLoading,
+                    listenableState: wm.isLoadingState,
                     builder: (_, isLoading) => EnterPasswordWidget.auth(
                       getLedgerAuthInput: wm.getLedgerAuthInput,
                       isLoading: isLoading ?? false,

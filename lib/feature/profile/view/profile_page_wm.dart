@@ -20,20 +20,21 @@ class ProfilePageWidgetModel
     extends CustomWidgetModel<ProfilePageWidget, ProfilePageModel> {
   ProfilePageWidgetModel(super.model);
 
-  late final _seed = createNotifierFromStream(model.currentSeedStream);
-  late final _biometryAvailability =
+  late final _seedState = createNotifierFromStream(model.currentSeedStream);
+  late final _biometryAvailabilityState =
       createNotifierFromStream(model.biometryAvailabilityStream);
-  late final _biometryEnabled =
+  late final _biometryEnabledState =
       createNotifierFromStream(model.biometryEnabledStream);
   late final _appVersionState = createNotifier('');
 
-  ListenableState<bool> get isBiometryAvailable => _biometryAvailability;
+  ListenableState<bool> get isBiometryAvailableState =>
+      _biometryAvailabilityState;
 
-  ListenableState<bool> get isBiometryEnabled => _biometryEnabled;
+  ListenableState<bool> get isBiometryEnabledState => _biometryEnabledState;
 
   ListenableState<String> get appVersionState => _appVersionState;
 
-  ListenableState<Seed?> get seed => _seed;
+  ListenableState<Seed?> get seedState => _seedState;
 
   @override
   void initWidgetModel() {
@@ -59,7 +60,7 @@ class ProfilePageWidgetModel
   }
 
   void onExportSeed() {
-    final currentSeed = _seed.value;
+    final currentSeed = _seedState.value;
     if (currentSeed == null) return;
 
     Navigator.of(context, rootNavigator: true).push(

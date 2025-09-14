@@ -1,125 +1,112 @@
 import 'package:app/app/router/router.dart';
-import 'package:app/app/service/service.dart';
-import 'package:app/di/di.dart';
-import 'package:app/feature/wallet/widgets/account_asset_tab/account_asset_tab_cubit.dart';
+import 'package:app/core/wm/custom_wm.dart';
+import 'package:app/feature/wallet/widgets/account_asset_tab/account_asset_tab_wm.dart';
 import 'package:app/feature/wallet/widgets/account_asset_tab/select_new_asset/route.dart';
 import 'package:app/feature/wallet/widgets/account_asset_tab/select_tokens/select_tokens_modal.dart';
 import 'package:app/feature/wallet/widgets/account_asset_tab/token_wallet_asset/token_wallet_asset_widget.dart';
 import 'package:app/feature/wallet/widgets/account_asset_tab/ton_wallet_asset/ton_wallet_asset_widget.dart';
 import 'package:app/generated/generated.dart';
+import 'package:elementary_helper/elementary_helper.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:nekoton_repository/nekoton_repository.dart';
 import 'package:ui_components_lib/ui_components_lib.dart';
 import 'package:ui_components_lib/v2/ui_components_lib_v2.dart';
 
-/// Tab from <WalletBottomPanel> that allows display list of assets(tokens)
-/// related to [account] and manage them.
-class AccountAssetsTab extends StatelessWidget {
-  const AccountAssetsTab({
-    required this.account,
-    required this.isShowingNewTokens,
+class AccountAssetsTab extends InjectedElementaryParametrizedWidget<
+    AccountAssetsTabWidgetModel, AccountAssetsTabParams> {
+  AccountAssetsTab({
     required this.confirmImportCallback,
-    required this.manifestUrl,
+    required KeyAccount account,
+    required bool isShowingNewTokens,
+    required String manifestUrl,
     super.key,
-  });
+  }) : super(
+          wmFactoryParam: AccountAssetsTabParams(
+            account: account,
+            isShowingNewTokens: isShowingNewTokens,
+            manifestUrl: manifestUrl,
+          ),
+        );
 
-  final KeyAccount account;
-  final bool isShowingNewTokens;
   final VoidCallback confirmImportCallback;
-  final String manifestUrl;
 
   @override
-  Widget build(BuildContext context) {
-    final theme = context.themeStyleV2;
-    return BlocProvider<AccountAssetTabCubit>(
-      key: ValueKey(manifestUrl),
-      create: (_) => AccountAssetTabCubit(
-        account,
-        inject<TokenWalletsService>(),
-        inject<AssetsService>(),
-        isShowingNewTokens: isShowingNewTokens,
-      ),
-      child: BlocBuilder<AccountAssetTabCubit, AccountAssetTabState>(
-        builder: (context, state) {
-          final assets = switch (state) {
-            AccountAssetTabStateEmpty() => <Widget>[],
-            AccountAssetTabStateAccounts(:final tonWallet, :final tokens) => [
-                TonWalletAssetWidget(tonWallet: tonWallet),
-                ...?tokens?.map(
-                  (e) => TokenWalletAssetWidget(
-                    key: ValueKey(e.address),
-                    asset: e,
-                    owner: tonWallet.address,
-                  ),
-                ),
-              ],
-          };
+  Widget build(AccountAssetsTabWidgetModel wm) {
+    return SliverMainAxisGroup(
+      slivers: [
+        DecoratedSliver(
+          decoration: BoxDecoration(
+            color: wm.theme.colors.background1,
+            borderRadius: const BorderRadius.vertical(
+              top: Radius.circular(DimensRadiusV2.radius16),
+              bottom: Radius.circular(DimensRadiusV2.radius16),
+            ),
+          ),
+          sliver: StateNotifierBuilder(
+            listenableState: wm.assetsState,
+            builder: (_, assetsState) {
+              final list = assetsState ?? [];
+              final itemCount = list.length + 1;
+              final lastIndex = itemCount - 1;
 
-          final lastIndex = assets.length - 1;
+              return SliverList.separated(
+                itemCount: itemCount,
+                separatorBuilder: (_, index) {
+                  if (index == lastIndex) {
+                    return const SizedBox(height: DimensSizeV2.d12);
+                  }
+                  return Container(
+                    height: DimensSize.d24,
+                    color: wm.theme.colors.background1,
+                  );
+                },
+                itemBuilder: (_, index) {
+                  final asset = index == 0
+                      ? TonWalletAssetWidget(tonWallet: wm.tonWallet)
+                      : TokenWalletAssetWidget(
+                          key: ValueKey(list[index - 1].address),
+                          asset: list[index - 1],
+                          owner: wm.tonWallet.address,
+                        );
 
-          return SliverMainAxisGroup(
-            slivers: [
-              DecoratedSliver(
-                decoration: BoxDecoration(
-                  color: theme.colors.background1,
-                  borderRadius: const BorderRadius.vertical(
-                    top: Radius.circular(DimensRadiusV2.radius16),
-                    bottom: Radius.circular(DimensRadiusV2.radius16),
-                  ),
-                ),
-                sliver: SliverList.separated(
-                  itemCount: assets.length,
-                  separatorBuilder: (_, index) {
-                    if (index == lastIndex) {
-                      return const SizedBox(height: DimensSizeV2.d12);
-                    }
-                    return Container(
-                      height: DimensSize.d24,
-                      color: theme.colors.background1,
-                    );
-                  },
-                  itemBuilder: (context, index) {
-                    return DecoratedBox(
-                      decoration: BoxDecoration(
-                        color: theme.colors.background1,
-                        borderRadius: BorderRadius.vertical(
-                          top: index == 0
-                              ? const Radius.circular(DimensRadiusV2.radius16)
-                              : Radius.zero,
-                          bottom: index == lastIndex
-                              ? const Radius.circular(DimensRadiusV2.radius16)
-                              : Radius.zero,
-                        ),
+                  return DecoratedBox(
+                    decoration: BoxDecoration(
+                      color: wm.theme.colors.background1,
+                      borderRadius: BorderRadius.vertical(
+                        top: index == 0
+                            ? const Radius.circular(DimensRadiusV2.radius16)
+                            : Radius.zero,
+                        bottom: index == lastIndex
+                            ? const Radius.circular(DimensRadiusV2.radius16)
+                            : Radius.zero,
                       ),
-                      child: Padding(
-                        padding: EdgeInsets.only(
-                          top: index == 0 ? DimensSizeV2.d16 : 0,
-                          bottom: index == lastIndex ? DimensSizeV2.d16 : 0,
-                        ),
-                        child: assets[index],
+                    ),
+                    child: Padding(
+                      padding: EdgeInsets.only(
+                        top: index == 0 ? DimensSizeV2.d16 : 0,
+                        bottom: index == lastIndex ? DimensSizeV2.d16 : 0,
                       ),
-                    );
-                  },
-                ),
-              ),
-              SliverToBoxAdapter(
-                child: _FooterAssetsWidget(
-                  address: account.address,
-                  isShowingNewTokens: isShowingNewTokens,
-                  confirmImportCallback: confirmImportCallback,
-                  numberNewTokens: switch (state) {
-                    AccountAssetTabStateEmpty() => null,
-                    AccountAssetTabStateAccounts(:final numberNewTokens) =>
-                      numberNewTokens,
-                  },
-                ),
-              ),
-            ],
-          );
-        },
-      ),
+                      child: asset,
+                    ),
+                  );
+                },
+              );
+            },
+          ),
+        ),
+        SliverToBoxAdapter(
+          child: StateNotifierBuilder(
+            listenableState: wm.numberNewTokensState,
+            builder: (_, newTokensCount) => _FooterAssetsWidget(
+              address: wm.address,
+              isShowingNewTokens: wm.isShowingNewTokens,
+              confirmImportCallback: confirmImportCallback,
+              numberNewTokens: newTokensCount,
+            ),
+          ),
+        ),
+      ],
     );
   }
 }

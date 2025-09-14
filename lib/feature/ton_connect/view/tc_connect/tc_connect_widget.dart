@@ -29,7 +29,7 @@ class TCConnectWidget extends InjectedElementaryParametrizedWidget<
   @override
   Widget build(TCConnectWidgetModel wm) {
     return ValueListenableBuilder(
-      valueListenable: wm.step,
+      valueListenable: wm.stepState,
       builder: (context, value, child) => switch (value) {
         TonConnectStep.account => _SelectAccountWidget(
             wm,
@@ -83,8 +83,8 @@ class _SelectAccountWidget extends StatelessWidget {
                     color: theme.colors.background1,
                   ),
                   child: DoubleSourceBuilder(
-                    firstSource: wm.accounts,
-                    secondSource: wm.selected,
+                    firstSource: wm.accountsState,
+                    secondSource: wm.selectedState,
                     builder: (_, accounts, selected) {
                       WidgetsBinding.instance.addPostFrameCallback((_) {
                         _scrollToActiveAccount(accounts, selected);
@@ -117,7 +117,7 @@ class _SelectAccountWidget extends StatelessWidget {
           ),
         ),
         StateNotifierBuilder(
-          listenableState: wm.selected,
+          listenableState: wm.selectedState,
           builder: (_, value) => AccentButton(
             buttonShape: ButtonShape.pill,
             title: LocaleKeys.nextWord.tr(),
@@ -157,7 +157,7 @@ class _ConfirmPermissionsWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final theme = context.themeStyleV2;
-    final account = wm.selected.value!;
+    final account = wm.selectedState.value!;
 
     return SeparatedColumn(
       spacing: DimensSizeV2.d12,

@@ -29,7 +29,7 @@ class ImportWalletScreenWidgetModel
 
   late final screenState = createEntityNotifier<ImportWalletData?>()
     ..loading(ImportWalletData());
-  late final _seedPhraseFormat = createNotifier(
+  late final _seedPhraseFormatState = createNotifier(
     networkType.isTon || networkGroup == 'hmstr_mainnet'
         ? SeedPhraseFormat.ton
         : SeedPhraseFormat.standard,
@@ -42,7 +42,8 @@ class ImportWalletScreenWidgetModel
 
   NetworkType get networkType => model.networkType;
 
-  ListenableState<SeedPhraseFormat> get seedPhraseFormat => _seedPhraseFormat;
+  ListenableState<SeedPhraseFormat> get seedPhraseFormatState =>
+      _seedPhraseFormatState;
 
   ImportWalletData? get _data => screenState.value.data;
 
@@ -50,7 +51,7 @@ class ImportWalletScreenWidgetModel
       screenState.value.data?.selectedValue ?? model.allowedValues.first;
 
   MnemonicType get _mnemonicType => getMnemonicType(
-        format: _seedPhraseFormat.value,
+        format: _seedPhraseFormatState.value,
         wordsCount: _currentValue,
       );
 
@@ -154,7 +155,7 @@ class ImportWalletScreenWidgetModel
   }
 
   void onSeedPhraseFormatChanged(SeedPhraseFormat format) =>
-      _seedPhraseFormat.accept(format);
+      _seedPhraseFormatState.accept(format);
 
   void _init() {
     final allowedValues = model.allowedValues;
@@ -194,7 +195,7 @@ class ImportWalletScreenWidgetModel
   void _tryCheckMnemonicType(SeedPhraseModel seed) {
     // don't check if 12 words or MnemonicType.legacy()
     if (seed.wordsCount == actualSeedPhraseLength ||
-        _seedPhraseFormat.value == SeedPhraseFormat.standard) {
+        _seedPhraseFormatState.value == SeedPhraseFormat.standard) {
       return;
     }
 
@@ -210,7 +211,7 @@ class ImportWalletScreenWidgetModel
           mnemonicType: const MnemonicType.legacy(),
         );
         // if no exception, then it's legacy
-        _seedPhraseFormat.accept(SeedPhraseFormat.standard);
+        _seedPhraseFormatState.accept(SeedPhraseFormat.standard);
       } catch (_) {}
     }
   }

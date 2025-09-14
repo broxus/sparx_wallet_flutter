@@ -11,11 +11,11 @@ class NftTransferInfoWidgetModel
     extends CustomWidgetModel<NftTransferInfoWidget, NftTransferInfoModel> {
   NftTransferInfoWidgetModel(super.model);
 
-  late final _nativeUSDPrice = createNotifier<Fixed>(
+  late final _nativeUSDPriceState = createNotifier<Fixed>(
     model.getCurrencyForNativeToken()?.price.let(Fixed.tryParse),
   );
 
-  ListenableState<Fixed> get nativeUSDPrice => _nativeUSDPrice;
+  ListenableState<Fixed> get nativeUSDPriceState => _nativeUSDPriceState;
 
   Currency get nativeCurrency =>
       Currencies()[model.transport.nativeTokenTicker]!;
@@ -35,7 +35,7 @@ class NftTransferInfoWidgetModel
 
     if (currency != null) {
       final price = Fixed.parse(currency.price);
-      _nativeUSDPrice.accept(price);
+      _nativeUSDPriceState.accept(price);
     }
   }
 }

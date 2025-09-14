@@ -14,23 +14,28 @@ ModalRoute<void> deleteKeySheetRoute(
     title: LocaleKeys.deleteKey.tr(),
     subtitle: LocaleKeys.deleteKeyDescription.tr(),
     titleTextStyle: context.themeStyleV2.textStyles.headingLarge,
-    body: (_, __) => DeleteKeySheet(publicKey: publicKey),
+    body: (_, __) => DeleteKeySheet(
+      inject<NekotonRepository>(),
+      publicKey: publicKey,
+    ),
   );
 }
 
 /// Widget that allows to delete key.
 class DeleteKeySheet extends StatelessWidget {
-  const DeleteKeySheet({
+  const DeleteKeySheet(
+    this._nekotonRepository, {
     required this.publicKey,
     super.key,
   });
 
+  final NekotonRepository _nekotonRepository;
   final PublicKey publicKey;
 
   @override
   Widget build(BuildContext context) {
     final colors = context.themeStyleV2.colors;
-    final key = inject<NekotonRepository>().seedList.findSeedKey(publicKey);
+    final key = _nekotonRepository.seedList.findSeedKey(publicKey);
 
     return SeparatedColumn(
       children: [
@@ -87,10 +92,7 @@ class DeleteKeySheet extends StatelessWidget {
             buttonShape: ButtonShape.pill,
             title: LocaleKeys.deleteWord.tr(),
             onPressed: () {
-              inject<NekotonRepository>()
-                  .seedList
-                  .findSeedKey(publicKey)
-                  ?.remove();
+              _nekotonRepository.seedList.findSeedKey(publicKey)?.remove();
               Navigator.of(context).pop();
             },
           ),

@@ -265,9 +265,10 @@ Future<T?> tryWrapper<T>(
 
 extension ChangeNotifierStreamExt on ChangeNotifier {
   BehaviorSubject<T> asBehaviourSubject<T>(
-    ValueGetter<T> value,
-  ) {
-    final subject = BehaviorSubject<T>.seeded(value());
+    ValueGetter<T> value, {
+    bool sync = false,
+  }) {
+    final subject = BehaviorSubject<T>.seeded(value(), sync: sync);
     void listener() => subject.add(value());
 
     subject.onListen = () => addListener(listener);

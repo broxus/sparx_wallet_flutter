@@ -4,7 +4,6 @@ import 'package:app/feature/root/view/root_tab.dart';
 import 'package:elementary/elementary.dart';
 import 'package:injectable/injectable.dart';
 import 'package:nekoton_repository/nekoton_repository.dart';
-import 'package:rxdart/rxdart.dart';
 
 @injectable
 class WalletPageModel extends ElementaryModel {
@@ -78,10 +77,8 @@ class WalletPageModel extends ElementaryModel {
     );
   }
 
-  Future<TonWalletState> getTonWalletState(Address? address) async {
-    final wallet = await _nekotonRepository.walletsMapStream
-        .mapNotNull((wallets) => wallets[address])
-        .first;
-    return wallet;
-  }
+  Stream<TonWalletState?> getWalletStream(Address address) =>
+      _nekotonRepository.walletsMapStream
+          .map((wallets) => wallets[address])
+          .distinct();
 }

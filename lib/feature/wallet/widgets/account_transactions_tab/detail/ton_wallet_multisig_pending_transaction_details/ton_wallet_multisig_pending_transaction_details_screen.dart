@@ -145,7 +145,7 @@ class TonWalletMultisigPendingTransactionDetailsScreen
                     )
                   : const SizedBox.shrink(),
             ),
-            const SizedBox(height: DimensSizeV2.d24),
+            SizedBox(height: wm.bottomPadding),
           ],
         ),
       ),

@@ -80,36 +80,37 @@ class SendMessageWidgetModel extends CustomWidgetModelParametrized<
   ValueListenable<Address> get recipientState => _recipientState;
   ValueListenable<FunctionCall?> get payloadState => _payloadState;
 
-  late final _data = createNotifier<TransferData>();
-  late final _fee = createNotifier<BigInt>();
-  late final _feeError = createNotifier<String>();
-  late final _txErrors = createNotifier<List<TxTreeSimulationErrorItem>>();
-  late final _publicKey = createNotifier(account?.publicKey);
-  late final _custodians = createNotifier<List<PublicKey>>();
-  late final _balance = createNotifierFromStream(
+  late final _dataState = createNotifier<TransferData>();
+  late final _feeState = createNotifier<BigInt>();
+  late final _feeErrorState = createNotifier<String>();
+  late final _txErrorsState = createNotifier<List<TxTreeSimulationErrorItem>>();
+  late final _publicKeyState = createNotifier(account?.publicKey);
+  late final _custodiansState = createNotifier<List<PublicKey>>();
+  late final _balanceState = createNotifierFromStream(
     model.getBalanceStream(wmParams.value.sender),
   );
-  late final _isLoading = createNotifier(true);
-  late final _isConfirmed = createNotifier(false);
+  late final _isLoadingState = createNotifier(true);
+  late final _isConfirmedState = createNotifier(false);
   int? numberUnconfirmedTransactions;
 
-  ListenableState<TransferData> get data => _data;
+  ListenableState<TransferData> get dataState => _dataState;
 
-  ListenableState<BigInt> get fee => _fee;
+  ListenableState<BigInt> get feeState => _feeState;
 
-  ListenableState<String> get feeError => _feeError;
+  ListenableState<String> get feeErrorState => _feeErrorState;
 
-  ListenableState<List<TxTreeSimulationErrorItem>> get txErrors => _txErrors;
+  ListenableState<List<TxTreeSimulationErrorItem>> get txErrorsState =>
+      _txErrorsState;
 
-  ListenableState<PublicKey> get publicKey => _publicKey;
+  ListenableState<PublicKey> get publicKeyState => _publicKeyState;
 
-  ListenableState<List<PublicKey>> get custodians => _custodians;
+  ListenableState<List<PublicKey>> get custodiansState => _custodiansState;
 
-  ListenableState<Money?> get balance => _balance;
+  ListenableState<Money?> get balanceState => _balanceState;
 
-  ListenableState<bool> get isLoading => _isLoading;
+  ListenableState<bool> get isLoadingState => _isLoadingState;
 
-  ListenableState<bool> get isConfirmed => _isConfirmed;
+  ListenableState<bool> get isConfirmedState => _isConfirmedState;
 
   Currency? get nativeCurrency =>
       Currencies()[model.transport.nativeTokenTicker];
@@ -126,7 +127,8 @@ class SendMessageWidgetModel extends CustomWidgetModelParametrized<
 
   String? getSeedName(PublicKey custodian) => model.getSeedName(custodian);
 
-  void onChangedCustodian(PublicKey custodian) => _publicKey.accept(custodian);
+  void onChangedCustodian(PublicKey custodian) =>
+      _publicKeyState.accept(custodian);
 
   Future<void> onSubmit(SignInputAuth signInputAuth) async {
     if (signInputAuth.isLedger) {
@@ -135,16 +137,17 @@ class SendMessageWidgetModel extends CustomWidgetModelParametrized<
     }
 
     contextSafe?.let(
-      (context) => Navigator.of(context).pop((publicKey.value, signInputAuth)),
+      (context) =>
+          Navigator.of(context).pop((publicKeyState.value, signInputAuth)),
     );
   }
 
   // ignore: avoid_positional_boolean_parameters
-  void onConfirmed(bool value) => _isConfirmed.accept(value);
+  void onConfirmed(bool value) => _isConfirmedState.accept(value);
 
   Future<SignInputAuthLedger> getLedgerAuthInput() {
-    final publicKey = _publicKey.value;
-    final currency = _data.value?.amount.currency;
+    final publicKey = _publicKeyState.value;
+    final currency = _dataState.value?.amount.currency;
     if (publicKey == null || currency == null) {
       throw StateError('Public key or currency is not set');
     }
@@ -167,7 +170,7 @@ class SendMessageWidgetModel extends CustomWidgetModelParametrized<
       await _initWalletTon(tokens);
 
       if (nativeCurrency != null) {
-        _data.accept(
+        _dataState.accept(
           TransferData(
             amount: Money.fromBigIntWithCurrency(
               wmParams.value.amount,
@@ -205,7 +208,7 @@ class SendMessageWidgetModel extends CustomWidgetModelParametrized<
 
     Currencies().register(currency);
 
-    _data.accept(
+    _dataState.accept(
       TransferData(
         amount: Money.fromBigIntWithCurrency(tokens, currency),
         attachedAmount: wmParams.value.amount,
@@ -218,14 +221,14 @@ class SendMessageWidgetModel extends CustomWidgetModelParametrized<
   Future<void> _getCustodians() async {
     final custodians =
         await model.getLocalCustodiansAsync(wmParams.value.sender);
-    _custodians.accept(custodians);
+    _custodiansState.accept(custodians);
   }
 
   Future<void> _prepareTransfer() async {
     UnsignedMessage? message;
 
     try {
-      _isLoading.accept(true);
+      _isLoadingState.accept(true);
       message = await model.prepareTransfer(
         address: wmParams.value.sender,
         destination: wmParams.value.recipient,
@@ -238,20 +241,24 @@ class SendMessageWidgetModel extends CustomWidgetModelParametrized<
       await _estimateFees(message);
       await _simulateTransactionTree(message);
 
-      final data = _data.value;
+      final data = _dataState.value;
       if (data != null) {
-        final balance = _balance.value ??
+        final balance = _balanceState.value ??
             await model.getBalanceStream(wmParams.value.sender).first;
-        final fee = _fee.value ?? BigInt.zero;
+        final fee = _feeState.value ?? BigInt.zero;
         final amount = data.attachedAmount ?? data.amount.amount.minorUnits;
 
         if (balance.amount.minorUnits < (fee + amount)) {
-          _feeError.accept(LocaleKeys.insufficientFunds.tr());
+          _feeErrorState.accept(LocaleKeys.insufficientFunds.tr());
         }
       }
+    } catch (e) {
+      model.showMessage(
+        Message.error(message: e.toString()),
+      );
     } finally {
       message?.dispose();
-      _isLoading.accept(false);
+      _isLoadingState.accept(false);
     }
   }
 
@@ -262,9 +269,9 @@ class SendMessageWidgetModel extends CustomWidgetModelParametrized<
         message: message,
       );
 
-      _fee.accept(fee);
+      _feeState.accept(fee);
     } catch (e) {
-      _feeError.accept(e.toString());
+      _feeErrorState.accept(e.toString());
     }
   }
 
@@ -277,12 +284,10 @@ class SendMessageWidgetModel extends CustomWidgetModelParametrized<
         ignoredActionPhaseCodes: wmParams.value.ignoredActionPhaseCodes,
       );
 
-      _txErrors.accept(errors);
+      _txErrorsState.accept(errors);
     } catch (e) {
-      contextSafe?.let(
-        (context) => model.showMessage(
-          Message.error(message: e.toString()),
-        ),
+      model.showMessage(
+        Message.error(message: e.toString()),
       );
     }
   }
@@ -293,7 +298,7 @@ class SendMessageWidgetModel extends CustomWidgetModelParametrized<
         (walletTonState.wallet?.unconfirmedTransactions.length ?? 0) +
             (walletTonState.wallet?.pendingTransactions.length ?? 0);
     if (tokens == null && nativeCurrency != null) {
-      _data.accept(
+      _dataState.accept(
         TransferData(
           amount: Money.fromBigIntWithCurrency(
             wmParams.value.amount,
