@@ -31,10 +31,10 @@ class AddAccountConfirmWidgetModel extends CustomWidgetModelParametrized<
 
   late final controller = createTextEditingController();
 
-  late final _availableBiometry = createNotifier<List<BiometricType>>();
+  late final _availableBiometryState = createNotifier<List<BiometricType>>();
 
-  ListenableState<List<BiometricType>> get availableBiometry =>
-      _availableBiometry;
+  ListenableState<List<BiometricType>> get availableBiometryState =>
+      _availableBiometryState;
 
   KeyAccount? get account => model.account;
 
@@ -63,7 +63,7 @@ class AddAccountConfirmWidgetModel extends CustomWidgetModelParametrized<
   Future<void> _getAvailableBiometry() async {
     final available =
         await model.getAvailableBiometry(wmParams.value.publicKey);
-    _availableBiometry.accept(available);
+    _availableBiometryState.accept(available);
   }
 
   Future<void> _processPassword(String password) async {

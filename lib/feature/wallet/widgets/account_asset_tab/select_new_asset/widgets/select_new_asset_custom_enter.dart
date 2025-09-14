@@ -1,14 +1,10 @@
 import 'package:app/data/models/models.dart';
-import 'package:app/di/di.dart';
-import 'package:app/feature/messenger/data/message.dart';
-import 'package:app/feature/messenger/domain/service/messenger_service.dart';
 import 'package:app/feature/wallet/widgets/account_asset_tab/select_new_asset/select_new_asset.dart';
 import 'package:app/generated/generated.dart';
 import 'package:app/utils/input_formatters.dart';
 import 'package:app/widgets/widgets.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:nekoton_repository/nekoton_repository.dart' hide Message;
+import 'package:nekoton_repository/nekoton_repository.dart';
 import 'package:ui_components_lib/ui_components_lib.dart';
 import 'package:ui_components_lib/v2/ui_components_lib_v2.dart';
 
@@ -18,11 +14,19 @@ class SelectNewAssetCustomEnter extends StatefulWidget {
   const SelectNewAssetCustomEnter({
     required this.focus,
     required this.contracts,
+    required this.onAddCustom,
+    required this.onInvalidPaste,
+    required this.onEnableAsset,
+    required this.onDisableAsset,
     super.key,
   });
 
   final FocusNode focus;
   final List<(TokenContractAsset, bool)> contracts;
+  final void Function(Address) onAddCustom;
+  final VoidCallback onInvalidPaste;
+  final void Function(Address) onEnableAsset;
+  final void Function(Address) onDisableAsset;
 
   @override
   State<SelectNewAssetCustomEnter> createState() =>
@@ -69,6 +73,8 @@ class _SelectNewAssetCustomEnterState extends State<SelectNewAssetCustomEnter> {
                       (pair) => SelectNewAssetItem(
                         asset: pair.$1,
                         isSelected: pair.$2,
+                        onEnable: widget.onEnableAsset,
+                        onDisable: widget.onDisableAsset,
                       ),
                     ),
                   ],
@@ -104,10 +110,7 @@ class _SelectNewAssetCustomEnterState extends State<SelectNewAssetCustomEnter> {
 
   void _enable() {
     widget.focus.unfocus();
-
-    context
-        .read<SelectNewAssetCubit>()
-        .addCustom(context, Address(address: addressController.text.trim()));
+    widget.onAddCustom(Address(address: addressController.text.trim()));
   }
 
   void _paste(String text) {
@@ -117,11 +120,7 @@ class _SelectNewAssetCustomEnterState extends State<SelectNewAssetCustomEnter> {
     if (isValid) {
       addressController.text = text;
     } else {
-      inject<MessengerService>().show(
-        Message.error(
-          message: LocaleKeys.invalidRootTokenContract.tr(),
-        ),
-      );
+      widget.onInvalidPaste();
     }
   }
 }
