@@ -78,11 +78,11 @@ class $AssetsConfigsGen {
 
   /// List of all assets
   List<String> get values => [
-    antiPhishing,
-    connections,
-    releaseNotes,
-    updateRules,
-  ];
+        antiPhishing,
+        connections,
+        releaseNotes,
+        updateRules,
+      ];
 }
 
 class $AssetsHtmlGen {
