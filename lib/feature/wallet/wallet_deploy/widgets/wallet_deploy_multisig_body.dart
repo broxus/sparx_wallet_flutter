@@ -1,12 +1,12 @@
 // ignore_for_file: lines_longer_than_80_chars
 
-import 'package:app/feature/wallet/wallet.dart';
+import 'package:app/feature/wallet/wallet_deploy/wallet_deploy_model.dart';
+import 'package:app/feature/wallet/wallet_deploy/widgets/wallet_select_deploy_type_widget.dart';
 import 'package:app/generated/generated.dart';
 import 'package:app/utils/input_formatters.dart';
 import 'package:app/widgets/widgets.dart';
 import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:lucide_icons_flutter/lucide_icons.dart';
 import 'package:nekoton_repository/nekoton_repository.dart';
 import 'package:string_extensions/string_extensions.dart';
@@ -27,6 +27,9 @@ class WalletDeployMultisigBody extends StatefulWidget {
     required this.requireConfirmations,
     required this.hours,
     required this.walletType,
+    this.onUpdateMultisigData,
+    this.onChangeType,
+    this.onDeploy,
     super.key,
   });
 
@@ -35,6 +38,9 @@ class WalletDeployMultisigBody extends StatefulWidget {
   final int requireConfirmations;
   final int hours;
   final WalletType walletType;
+  final void Function(List<PublicKey>, int, int?)? onUpdateMultisigData;
+  final ValueChanged<WalletDeployType>? onChangeType;
+  final void Function(List<PublicKey>, int, int?)? onDeploy;
 
   @override
   State<WalletDeployMultisigBody> createState() =>
@@ -124,13 +130,12 @@ class _WalletDeployMultisigBodyState extends State<WalletDeployMultisigBody> {
                           WalletSelectDeployTypeWidget(
                             type: WalletDeployType.multisig,
                             onChangeAction: (context) =>
-                                context.read<WalletDeployBloc>().add(
-                                      WalletDeployEvent.updateMultisigData(
-                                        _collectValidKeys(),
-                                        _collectRequireConfirmations(),
-                                        waitingTimeController.text.toInt(),
-                                      ),
-                                    ),
+                                widget.onUpdateMultisigData?.call(
+                              _collectValidKeys(),
+                              _collectRequireConfirmations(),
+                              waitingTimeController.text.toInt(),
+                            ),
+                            onChangeType: widget.onChangeType,
                           ),
                           Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
@@ -333,13 +338,11 @@ class _WalletDeployMultisigBodyState extends State<WalletDeployMultisigBody> {
 
     WidgetsBinding.instance.addPostFrameCallback((_) {
       if (_formKey.currentState?.validate() ?? false) {
-        context.read<WalletDeployBloc>().add(
-              WalletDeployEvent.deployMultisig(
-                _collectValidKeys(),
-                _collectRequireConfirmations(),
-                waitingTimeController.text.toInt(),
-              ),
-            );
+        widget.onDeploy?.call(
+          _collectValidKeys(),
+          _collectRequireConfirmations(),
+          waitingTimeController.text.toInt(),
+        );
       }
     });
   }

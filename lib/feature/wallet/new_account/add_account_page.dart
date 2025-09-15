@@ -23,8 +23,8 @@ class AddAccountPage extends InjectedElementaryWidget<AddAccountWidgetModel> {
       body: Padding(
         padding: const EdgeInsets.symmetric(horizontal: DimensSize.d16),
         child: DoubleSourceBuilder(
-          firstSource: wm.list,
-          secondSource: wm.currentAccount,
+          firstSource: wm.listState,
+          secondSource: wm.currentAccountState,
           builder: (context, list, currentSeed) {
             return PrimaryCard(
               color: theme.colors.background2,

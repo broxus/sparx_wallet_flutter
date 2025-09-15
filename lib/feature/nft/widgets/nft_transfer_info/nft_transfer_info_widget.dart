@@ -99,7 +99,7 @@ class NftTransferInfoWidget
                         ) ??
                         _indicator,
                     StateNotifierBuilder(
-                      listenableState: wm.nativeUSDPrice,
+                      listenableState: wm.nativeUSDPriceState,
                       builder: (_, nativeUSDPrice) {
                         if (nativeUSDPrice == null || amount == null) {
                           return const SizedBox.shrink();
@@ -123,7 +123,7 @@ class NftTransferInfoWidget
           ),
           DoubleSourceBuilder(
             firstSource: fees,
-            secondSource: wm.nativeUSDPrice,
+            secondSource: wm.nativeUSDPriceState,
             builder: (_, fees, nativeUSDPrice) {
               final amount = fees?.let(
                 (fees) => Money.fromBigIntWithCurrency(

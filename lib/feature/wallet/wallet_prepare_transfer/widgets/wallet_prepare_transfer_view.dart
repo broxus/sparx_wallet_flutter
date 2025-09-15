@@ -82,7 +82,7 @@ class WalletPrepareTransferView extends StatelessWidget {
                   AmountInput(
                     controller: _wm.amountController,
                     focusNode: _wm.amountFocus,
-                    assets: _wm.assets,
+                    assets: _wm.assetsState,
                     selectedAsset: selectedAsset,
                     onSelectedAssetChanged: _wm.onChangeAsset,
                     onMaxAmount: _wm.setMaxBalance,
@@ -94,7 +94,7 @@ class WalletPrepareTransferView extends StatelessWidget {
             ),
           ),
           StateNotifierBuilder(
-            listenableState: _wm.isInitialDataLoaded,
+            listenableState: _wm.isInitialDataLoadedState,
             builder: (context, isInitialDataLoaded) {
               return AccentButton(
                 buttonShape: ButtonShape.pill,

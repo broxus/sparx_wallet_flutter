@@ -12,7 +12,6 @@ export 'current_accounts_service.dart';
 export 'current_seed_service.dart';
 export 'http_clients.dart';
 export 'identify/identify.dart';
-export 'localization/localization.dart';
 export 'nekoton_related/nekoton_related.dart';
 export 'network_connection/network_connection.dart';
 export 'ntp_service.dart';

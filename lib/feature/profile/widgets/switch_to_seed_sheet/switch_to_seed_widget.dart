@@ -10,9 +10,7 @@ class SwitchToSeedWidget extends InjectedElementaryParametrizedWidget<
   const SwitchToSeedWidget({
     required PublicKey publicKey,
     super.key,
-  }) : super(
-          wmFactoryParam: publicKey,
-        );
+  }) : super(wmFactoryParam: publicKey);
 
   @override
   Widget build(SwitchToSeedWidgetModel wm) {

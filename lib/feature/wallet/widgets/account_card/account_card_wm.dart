@@ -22,12 +22,12 @@ class AccountCardWidgetModel extends CustomWidgetModelParametrized<AccountCard,
     super.model,
   );
 
-  late final _error = createValueNotifier<Object?>(null);
-  late final _isLoading = createValueNotifier<bool>(false);
+  late final _errorState = createValueNotifier<Object?>(null);
+  late final _isLoadingState = createValueNotifier<bool>(false);
   late final ValueListenable<KeyAccount> currentAccountState =
       createWmParamsNotifier((it) => it);
 
-  late final _balance = createNotifierFromStream(
+  late final _balanceState = createNotifierFromStream(
     wmParams
         .switchMap((account) => model.getBalanceStream(account.address))
         .throttleTime(_balanceThrottleTime, trailing: true),
@@ -35,9 +35,9 @@ class AccountCardWidgetModel extends CustomWidgetModelParametrized<AccountCard,
 
   StreamSubscription<TonWalletState?>? _walletSubscription;
   StreamSubscription<void>? _withdrawRequestSubscription;
-  ListenableState<Money> get balance => _balance;
-  ValueListenable<Object?> get error => _error;
-  ValueListenable<bool> get isLoading => _isLoading;
+  ListenableState<Money> get balanceState => _balanceState;
+  ValueListenable<Object?> get errorState => _errorState;
+  ValueListenable<bool> get isLoadingState => _isLoadingState;
 
   @override
   void initWidgetModel() {
@@ -56,10 +56,10 @@ class AccountCardWidgetModel extends CustomWidgetModelParametrized<AccountCard,
 
   Future<void> retry() async {
     try {
-      _isLoading.value = true;
+      _isLoadingState.value = true;
       await model.retrySubscriptions(currentAccountState.value.address);
     } finally {
-      _isLoading.value = false;
+      _isLoadingState.value = false;
     }
   }
 
@@ -77,7 +77,7 @@ class AccountCardWidgetModel extends CustomWidgetModelParametrized<AccountCard,
   }
 
   void _onWalletState(TonWalletState? walletState) {
-    _error.value = walletState?.error;
+    _errorState.value = walletState?.error;
 
     _withdrawRequestSubscription?.cancel();
     _withdrawRequestSubscription = walletState?.wallet?.fieldUpdatesStream
