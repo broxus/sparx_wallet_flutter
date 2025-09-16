@@ -1,3 +1,4 @@
+import 'package:app/app/router/compass/bottom_bar_state.dart';
 import 'package:app/app/router/compass/compass.dart';
 import 'package:app/feature/wallet/wallet_deploy/data/wallet_deploy_type.dart';
 import 'package:app/feature/wallet/wallet_deploy/wallet_deploy_confirm/wallet_deploy_confirm_screen.dart';
@@ -22,18 +23,20 @@ class WalletDeployConfirmRoute
     @Named.from(WalletDeployStatusRoute)
     CompassBaseRoute walletDeployStatusRoute,
   ) : super(
-          path: '/wallet-deploy/confirm',
+          path: '/wallet-deploy-confirm',
           builder: (context, data, _) => WalletDeployConfirmScreen(
             deploymentData: data,
           ),
           compassBaseRoutes: [
             walletDeployStatusRoute,
           ],
+          bottomBarState: BottomBarState.hidden,
         );
 
   @override
   WalletDeployConfirmRouteData fromQueryParams(
-      Map<String, String> queryParams) {
+    Map<String, String> queryParams,
+  ) {
     final deployTypeStr = queryParams[_deployTypeQueryParam];
     final deployType = WalletDeployType.values.byNameOrNull(deployTypeStr) ??
         WalletDeployType.standard;

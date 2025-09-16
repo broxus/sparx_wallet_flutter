@@ -35,7 +35,8 @@ class WalletDeploymentService {
   TransportStrategy get currentTransport => _nekotonRepository.currentTransport;
   SeedList get seedList => _nekotonRepository.seedList;
 
-  /// Temporarily stores SignInputAuth for deployment (auto-expires after 5 minutes)
+  /// Temporarily stores SignInputAuth for deployment
+  /// (auto-expires after 5 minutes)
   void storeTemporaryAuth(SignInputAuth auth) {
     _temporaryAuth = auth;
     _authStoredAt = DateTime.now();
@@ -47,7 +48,6 @@ class WalletDeploymentService {
     _clearTemporaryAuth();
     return auth;
   }
-
 
   Future<TonWalletState> getWallet(Address address) {
     return _nekotonRepository.getWallet(address);
@@ -245,7 +245,6 @@ class WalletDeploymentService {
     _authStoredAt = null;
   }
 
-
   Future<UnsignedMessage> _createUnsignedMessage({
     required Address address,
     required WalletDeployType deployType,
@@ -259,7 +258,9 @@ class WalletDeploymentService {
     }
 
     if (custodians == null || requireConfirmations == null || hours == null) {
-      throw Exception('Multisig configuration required for multisig deployment');
+      throw Exception(
+          'Multisig configuration required for multisig deployment',
+      );
     }
 
     return _nekotonRepository.prepareDeployWithMultipleOwners(
@@ -267,9 +268,10 @@ class WalletDeploymentService {
       custodians: custodians,
       reqConfirms: requireConfirmations,
       expiration: defaultSendTimeout,
-      expirationTime: walletType == const WalletType.multisig(MultisigType.multisig2_1)
-          ? hours * 3600
-          : null,
+      expirationTime:
+          walletType == const WalletType.multisig(MultisigType.multisig2_1)
+              ? hours * 3600
+              : null,
     );
   }
 

@@ -57,7 +57,7 @@ class WalletDeployStatusWidgetModel extends CustomWidgetModelParametrized<
       _isDeployingState.value = false;
 
       await Future<void>.delayed(const Duration(seconds: 2));
-      _navigateToWallet();
+      navigateToWallet();
     } catch (e, s) {
       _isDeployingState.value = false;
       _canCloseState.value = true;
@@ -69,7 +69,7 @@ class WalletDeployStatusWidgetModel extends CustomWidgetModelParametrized<
     await _initializeAndDeploy();
   }
 
-  void _navigateToWallet() {
+  void navigateToWallet() {
     model.clearDeploymentData();
     context.compassPoint(
       const WalletRouteData(),
