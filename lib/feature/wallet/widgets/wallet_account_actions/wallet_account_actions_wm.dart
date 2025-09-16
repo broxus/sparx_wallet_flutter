@@ -9,7 +9,7 @@ import 'package:app/feature/messenger/data/message.dart';
 import 'package:app/feature/profile/profile.dart';
 import 'package:app/feature/wallet/staking/view/staking_page/route.dart';
 import 'package:app/feature/wallet/wallet.dart';
-import 'package:app/feature/wallet/wallet_deploy/route.dart';
+import 'package:app/feature/wallet/wallet_deploy/wallet_type_selection/wallet_type_selection_sheet.dart';
 import 'package:app/feature/wallet/wallet_deploy/widgets/deploy_wallet_min_ever_modal.dart';
 import 'package:app/feature/wallet/wallet_prepare_transfer/route.dart';
 import 'package:app/feature/wallet/widgets/account_settings/account_settings.dart';
@@ -264,11 +264,11 @@ class WalletAccountActionsWidgetModel extends CustomWidgetModelParametrized<
     if (contextSafe == null) return;
 
     if (_balance >= _minBalance) {
-      contextSafe?.compassContinue(
-        WalletDeployRouteData(
-          address: wmParams.value.account.address,
-          publicKey: wmParams.value.account.publicKey,
-        ),
+      // Show wallet type selection bottom sheet
+      showWalletTypeSelectionSheet(
+        context: contextSafe!,
+        address: wmParams.value.account.address,
+        publicKey: wmParams.value.account.publicKey,
       );
     } else {
       showDeployMinEverModal(
