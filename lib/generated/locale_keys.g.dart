@@ -385,11 +385,39 @@ abstract class LocaleKeys {
   static const transactionSentSuccessfully = 'transactionSentSuccessfully';
   static const attachedAmount = 'attachedAmount';
   static const selectWalletType = 'selectWalletType';
+  static const selectWalletTypeDescription = 'selectWalletTypeDescription';
   static const standardWallet = 'standardWallet';
+  static const standardWalletDescription = 'standardWalletDescription';
   static const multisigWallet = 'multisigWallet';
+  static const multisigWalletDescription = 'multisigWalletDescription';
+  static const multisigConfiguration = 'multisigConfiguration';
+  static const multisigConfigurationDescription =
+      'multisigConfigurationDescription';
+  static const confirmDeployment = 'confirmDeployment';
+  static const deployingWallet = 'deployingWallet';
+  static const pleaseWaitDeployment = 'pleaseWaitDeployment';
+  static const deploymentFailed = 'deploymentFailed';
+  static const walletDeployed = 'walletDeployed';
+  static const walletDeploymentSuccessDescription =
+      'walletDeploymentSuccessDescription';
+  static const deploymentDetails = 'deploymentDetails';
+  static const walletType = 'walletType';
+  static const walletAddress = 'walletAddress';
+  static const transactionDetails = 'transactionDetails';
+  static const transactionHash = 'transactionHash';
+  static const enterPublicKey = 'enterPublicKey';
+  static const expirationHours = 'expirationHours';
+  static const expirationHoursDescription = 'expirationHoursDescription';
   static const evaluationConfirmation = 'evaluationConfirmation';
   static const outOfNumber = 'outOfNumber';
   static const custodiansWord = 'custodiansWord';
+  static const custodians = 'custodians';
+  static const custodiansDescription = 'custodiansDescription';
+  static const addCustodian = 'addCustodian';
+  static const requiredConfirmations = 'requiredConfirmations';
+  static const requiredConfirmationsDescription =
+      'requiredConfirmationsDescription';
+  static const hoursWord = 'hoursWord';
   static const publicKeyOfCustodianNumber = 'publicKeyOfCustodianNumber';
   static const custodianRenamed = 'custodianRenamed';
   static const addOneMorePublicKey = 'addOneMorePublicKey';
@@ -504,6 +532,8 @@ abstract class LocaleKeys {
   static const initializationFailedDescription =
       'initializationFailedDescription';
   static const tryAgain = 'tryAgain';
+  static const errorOccurred = 'errorOccurred';
+  static const closeWord = 'closeWord';
   static const connectingNetworkFailed = 'connectingNetworkFailed';
   static const creatingSubscriptionFailed = 'creatingSubscriptionFailed';
   static const suchTokenCannotBeSubscribed = 'suchTokenCannotBeSubscribed';
