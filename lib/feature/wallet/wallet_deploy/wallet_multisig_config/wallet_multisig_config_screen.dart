@@ -1,4 +1,5 @@
 import 'package:app/core/wm/custom_wm.dart';
+import 'package:app/feature/wallet/wallet_deploy/constants.dart';
 import 'package:app/feature/wallet/wallet_deploy/data/wallet_deploy_type.dart';
 import 'package:app/feature/wallet/wallet_deploy/wallet_multisig_config/wallet_multisig_config_wm.dart';
 import 'package:app/generated/generated.dart';
@@ -69,14 +70,17 @@ class _WalletMultisigConfigBody extends StatefulWidget {
     required this.requireConfirmations,
     required this.hours,
     required this.onNext,
-    super.key,
   });
 
   /// This data is just initial data and not used during lifecycle.
   final List<PublicKey> custodians;
   final int requireConfirmations;
   final int hours;
-  final void Function(List<PublicKey> custodians, int requireConfirmations, int hours) onNext;
+  final void Function(
+    List<PublicKey> custodians,
+    int requireConfirmations,
+    int hours,
+  ) onNext;
 
   @override
   State<_WalletMultisigConfigBody> createState() =>
@@ -229,9 +233,7 @@ class _WalletMultisigConfigBodyState extends State<_WalletMultisigConfigBody> {
                               return LocaleKeys.invalidValue.tr();
                             }
                             final number = int.tryParse(value);
-                            if (number == null ||
-                                number > 24 ||
-                                number == 0) {
+                            if (number == null || number > 24 || number == 0) {
                               return LocaleKeys.invalidValue.tr();
                             }
                             return null;
@@ -312,7 +314,8 @@ class _WalletMultisigConfigBodyState extends State<_WalletMultisigConfigBody> {
         child: Text(
           '${hours}h',
           style: theme.textStyles.labelSmall.copyWith(
-            color: isSelected ? theme.colors.background0 : theme.colors.content1,
+            color:
+                isSelected ? theme.colors.background0 : theme.colors.content1,
           ),
         ),
       ),

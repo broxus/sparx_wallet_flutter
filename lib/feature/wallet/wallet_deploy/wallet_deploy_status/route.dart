@@ -1,3 +1,4 @@
+import 'package:app/app/router/compass/bottom_bar_state.dart';
 import 'package:app/app/router/compass/compass.dart';
 import 'package:app/feature/wallet/wallet_deploy/data/wallet_deploy_type.dart';
 import 'package:app/feature/wallet/wallet_deploy/wallet_deploy_status/wallet_deploy_status_screen.dart';
@@ -10,7 +11,8 @@ class WalletDeployStatusRoute
     extends CompassRoute<WalletDeployStatusRouteData> {
   WalletDeployStatusRoute()
       : super(
-          path: '/wallet-deploy/status',
+          bottomBarState: BottomBarState.hidden,
+          path: '/wallet-deploy-status',
           builder: (context, data, _) {
             return WalletDeployStatusScreen(
               routeData: data,

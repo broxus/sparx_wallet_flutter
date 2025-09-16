@@ -76,6 +76,10 @@ class WalletDeployConfirmWidgetModel extends CustomWidgetModelParametrized<
     _loadInitialData();
   }
 
+  Future<void> onBack() async {
+    contextSafe?.compassBack();
+  }
+
   Future<void> _loadInitialData() async {
     try {
       _isLoadingState.value = true;
@@ -153,8 +157,7 @@ class WalletDeployConfirmWidgetModel extends CustomWidgetModelParametrized<
           address: _address.address,
           publicKey: publicKeyState.value.publicKey,
           deployType: deployTypeState.value,
-          custodians:
-              custodiansState.value?.map((e) => e.publicKey).join(','),
+          custodians: custodiansState.value?.map((e) => e.publicKey).join(','),
           requireConfirmations: requireConfirmationsState.value,
           hours: _hours,
         ),

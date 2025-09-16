@@ -1,3 +1,4 @@
+import 'package:app/app/router/compass/bottom_bar_state.dart';
 import 'package:app/app/router/compass/compass.dart';
 import 'package:app/feature/wallet/wallet_deploy/wallet_deploy_confirm/route.dart';
 import 'package:app/feature/wallet/wallet_deploy/wallet_multisig_config/wallet_multisig_config_screen.dart';
@@ -16,9 +17,11 @@ const _hoursQueryParam = 'hours';
 class WalletMultisigConfigRoute
     extends CompassRoute<WalletMultisigConfigRouteData> {
   WalletMultisigConfigRoute(
-    @Named.from(WalletDeployConfirmRoute) CompassBaseRoute walletDeployConfirmRoute,
+    @Named.from(WalletDeployConfirmRoute)
+    CompassBaseRoute walletDeployConfirmRoute,
   ) : super(
-          path: '/wallet-deploy/multisig-config',
+          path: '/wallet-deploy-multisig-config',
+          bottomBarState: BottomBarState.hidden,
           builder: (context, data, _) => WalletMultisigConfigScreen(
             address: data.address,
             publicKey: data.publicKey,
@@ -33,7 +36,8 @@ class WalletMultisigConfigRoute
 
   @override
   WalletMultisigConfigRouteData fromQueryParams(
-      Map<String, String> queryParams) {
+    Map<String, String> queryParams,
+  ) {
     final custodiansStr = queryParams[_custodiansQueryParam];
     final custodians = custodiansStr != null && custodiansStr.isNotEmpty
         ? custodiansStr.split(',').map((e) => PublicKey(publicKey: e)).toList()
@@ -86,4 +90,3 @@ class WalletMultisigConfigRouteData implements CompassRouteDataQuery {
     };
   }
 }
-

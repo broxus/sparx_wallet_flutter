@@ -10,7 +10,9 @@ class WalletMultisigConfigModel extends ElementaryModel {
 
   /// Validates the number of required confirmations
   bool validateRequireConfirmations(
-      int requireConfirmations, int custodiansCount) {
+    int requireConfirmations,
+    int custodiansCount,
+  ) {
     return requireConfirmations > 0 && requireConfirmations <= custodiansCount;
   }
 
@@ -30,4 +32,3 @@ class WalletMultisigConfigModel extends ElementaryModel {
         validateHours(hours);
   }
 }
-

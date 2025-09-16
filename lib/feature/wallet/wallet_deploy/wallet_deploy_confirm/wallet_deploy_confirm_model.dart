@@ -62,4 +62,3 @@ class WalletDeployConfirmModel extends ElementaryModel {
     _walletDeploymentService.storeTemporaryAuth(auth);
   }
 }
-

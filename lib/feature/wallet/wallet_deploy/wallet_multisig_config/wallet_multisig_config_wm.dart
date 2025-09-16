@@ -1,5 +1,6 @@
 import 'package:app/app/router/router.dart';
 import 'package:app/core/wm/custom_wm.dart';
+import 'package:app/feature/wallet/wallet_deploy/constants.dart';
 import 'package:app/feature/wallet/wallet_deploy/data/wallet_deploy_type.dart';
 import 'package:app/feature/wallet/wallet_deploy/wallet_deploy_confirm/route.dart';
 import 'package:app/feature/wallet/wallet_deploy/wallet_multisig_config/wallet_multisig_config_model.dart';
@@ -78,7 +79,9 @@ class WalletMultisigConfigWidgetModel extends CustomWidgetModelParametrized<
 
     if (!isValid) {
       if (!model.validateRequireConfirmations(
-          _requireConfirmationsState.value, _custodiansState.value.length)) {
+        _requireConfirmationsState.value,
+        _custodiansState.value.length,
+      )) {
         _errorMessageState.value = LocaleKeys.invalidValue.tr();
       } else if (!model.validateHours(_hoursState.value)) {
         _errorMessageState.value = LocaleKeys.invalidValue.tr();
