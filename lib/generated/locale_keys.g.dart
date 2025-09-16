@@ -391,24 +391,7 @@ abstract class LocaleKeys {
   static const multisigWallet = 'multisigWallet';
   static const multisigWalletDescription = 'multisigWalletDescription';
   static const multisigConfiguration = 'multisigConfiguration';
-  static const multisigConfigurationDescription =
-      'multisigConfigurationDescription';
   static const confirmDeployment = 'confirmDeployment';
-  static const deployingWallet = 'deployingWallet';
-  static const pleaseWaitDeployment = 'pleaseWaitDeployment';
-  static const deploymentFailed = 'deploymentFailed';
-  static const walletDeployed = 'walletDeployed';
-  static const walletDeploymentSuccessDescription =
-      'walletDeploymentSuccessDescription';
-  static const deploymentDetails = 'deploymentDetails';
-  static const walletType = 'walletType';
-  static const walletAddress = 'walletAddress';
-  static const transactionDetails = 'transactionDetails';
-  static const transactionHash = 'transactionHash';
-  static const enterPublicKey = 'enterPublicKey';
-  static const expirationHours = 'expirationHours';
-  static const expirationHoursDescription = 'expirationHoursDescription';
-  static const evaluationConfirmation = 'evaluationConfirmation';
   static const outOfNumber = 'outOfNumber';
   static const custodiansWord = 'custodiansWord';
   static const custodians = 'custodians';
