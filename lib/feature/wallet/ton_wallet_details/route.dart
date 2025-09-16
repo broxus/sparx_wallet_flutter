@@ -2,7 +2,8 @@ import 'package:app/app/router/compass/bottom_bar_state.dart';
 import 'package:app/app/router/compass/compass.dart';
 import 'package:app/feature/wallet/confirm_multisig_transaction/route.dart';
 import 'package:app/feature/wallet/ton_wallet_details/view/ton_wallet_details_page.dart';
-import 'package:app/feature/wallet/wallet_deploy/route.dart';
+import 'package:app/feature/wallet/wallet_deploy/wallet_multisig_config/route.dart';
+import 'package:app/feature/wallet/wallet_deploy/wallet_deploy_confirm/route.dart';
 import 'package:app/feature/wallet/wallet_prepare_transfer/route.dart';
 import 'package:injectable/injectable.dart';
 import 'package:nekoton_repository/nekoton_repository.dart';
@@ -13,7 +14,10 @@ const _addressQueryParam = 'address';
 @Singleton(as: CompassBaseRoute)
 class TonWalletDetailsRoute extends CompassRoute<TonWalletDetailsRouteData> {
   TonWalletDetailsRoute(
-    @Named.from(WalletDeployRoute) CompassBaseRoute walletDeployRoute,
+    @Named.from(WalletMultisigConfigRoute)
+    CompassBaseRoute walletMultisigConfigRoute,
+    @Named.from(WalletDeployConfirmRoute)
+    CompassBaseRoute walletDeployConfirmRoute,
     @Named.from(WalletPrepareTransferRoute)
     CompassBaseRoute walletPrepareTransferRoute,
     @Named.from(WalletPrepareSpecifiedTransferRoute)
@@ -27,7 +31,8 @@ class TonWalletDetailsRoute extends CompassRoute<TonWalletDetailsRouteData> {
           ),
           bottomBarState: BottomBarState.hidden,
           compassBaseRoutes: [
-            walletDeployRoute,
+            walletMultisigConfigRoute,
+            walletDeployConfirmRoute,
             walletPrepareTransferRoute,
             walletPrepareSpecifiedTransferRoute,
             confirmMultisigTransactionRoute,

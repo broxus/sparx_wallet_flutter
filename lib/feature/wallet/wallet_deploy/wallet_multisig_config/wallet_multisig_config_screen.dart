@@ -1,7 +1,6 @@
-// ignore_for_file: lines_longer_than_80_chars
-
-import 'package:app/feature/wallet/wallet_deploy/wallet_deploy_model.dart';
-import 'package:app/feature/wallet/wallet_deploy/widgets/wallet_select_deploy_type_widget.dart';
+import 'package:app/core/wm/custom_wm.dart';
+import 'package:app/feature/wallet/wallet_deploy/data/wallet_deploy_type.dart';
+import 'package:app/feature/wallet/wallet_deploy/wallet_multisig_config/wallet_multisig_config_wm.dart';
 import 'package:app/generated/generated.dart';
 import 'package:app/utils/input_formatters.dart';
 import 'package:app/widgets/widgets.dart';
@@ -20,16 +19,56 @@ const publicKeyLength = 64;
 /// Minimum quantity of custodians for [WalletDeployType.multisig]
 const minConfirmationsCount = 2;
 
+class WalletMultisigConfigScreen extends InjectedElementaryParametrizedWidget<
+    WalletMultisigConfigWidgetModel, WalletMultisigConfigWmParams> {
+  WalletMultisigConfigScreen({
+    required Address address,
+    required PublicKey publicKey,
+    List<PublicKey>? initialCustodians,
+    int? initialRequireConfirmations,
+    int? initialHours,
+    super.key,
+  }) : super(
+          wmFactoryParam: WalletMultisigConfigWmParams(
+            address: address,
+            publicKey: publicKey,
+            initialCustodians: initialCustodians,
+            initialRequireConfirmations: initialRequireConfirmations,
+            initialHours: initialHours,
+          ),
+        );
+
+  @override
+  Widget build(WalletMultisigConfigWidgetModel wm) {
+    return Scaffold(
+      backgroundColor: wm.colors.background0,
+      appBar: DefaultAppBar(
+        titleText: LocaleKeys.multisigConfiguration.tr(),
+        backgroundColor: wm.colors.background0,
+      ),
+      body: _WalletMultisigConfigBody(
+        custodians: wm.custodiansState.value,
+        requireConfirmations: wm.requireConfirmationsState.value,
+        hours: wm.hoursState.value,
+        onNext: (custodians, requireConfirmations, hours) {
+          wm.onNext(
+            custodians: custodians,
+            requireConfirmations: requireConfirmations,
+            hours: hours,
+          );
+        },
+      ),
+    );
+  }
+}
+
 /// Widget that allows prepare data for multisig deploy.
-class WalletDeployMultisigBody extends StatefulWidget {
-  const WalletDeployMultisigBody({
+class _WalletMultisigConfigBody extends StatefulWidget {
+  const _WalletMultisigConfigBody({
     required this.custodians,
     required this.requireConfirmations,
     required this.hours,
-    required this.walletType,
-    this.onUpdateMultisigData,
-    this.onChangeType,
-    this.onDeploy,
+    required this.onNext,
     super.key,
   });
 
@@ -37,17 +76,14 @@ class WalletDeployMultisigBody extends StatefulWidget {
   final List<PublicKey> custodians;
   final int requireConfirmations;
   final int hours;
-  final WalletType walletType;
-  final void Function(List<PublicKey>, int, int?)? onUpdateMultisigData;
-  final ValueChanged<WalletDeployType>? onChangeType;
-  final void Function(List<PublicKey>, int, int?)? onDeploy;
+  final void Function(List<PublicKey> custodians, int requireConfirmations, int hours) onNext;
 
   @override
-  State<WalletDeployMultisigBody> createState() =>
-      _WalletDeployMultisigBodyState();
+  State<_WalletMultisigConfigBody> createState() =>
+      _WalletMultisigConfigBodyState();
 }
 
-class _WalletDeployMultisigBodyState extends State<WalletDeployMultisigBody> {
+class _WalletMultisigConfigBodyState extends State<_WalletMultisigConfigBody> {
   final _formKey = GlobalKey<FormState>();
 
   late List<TextEditingController> custodianControllers = List.generate(
@@ -70,9 +106,6 @@ class _WalletDeployMultisigBodyState extends State<WalletDeployMultisigBody> {
 
   /// If true, then some of custodian focuses has focus
   final focusNotifier = ValueNotifier<bool>(false);
-
-  bool get isMultisig2_1 =>
-      widget.walletType == const WalletType.multisig(MultisigType.multisig2_1);
 
   @override
   void initState() {
@@ -127,16 +160,6 @@ class _WalletDeployMultisigBodyState extends State<WalletDeployMultisigBody> {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         spacing: DimensSize.d12,
                         children: [
-                          WalletSelectDeployTypeWidget(
-                            type: WalletDeployType.multisig,
-                            onChangeAction: (context) =>
-                                widget.onUpdateMultisigData?.call(
-                              _collectValidKeys(),
-                              _collectRequireConfirmations(),
-                              waitingTimeController.text.toInt(),
-                            ),
-                            onChangeType: widget.onChangeType,
-                          ),
                           Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
@@ -181,52 +204,51 @@ class _WalletDeployMultisigBodyState extends State<WalletDeployMultisigBody> {
                       );
                     },
                   ),
-                  if (isMultisig2_1)
-                    Padding(
-                      padding: const EdgeInsets.only(
-                        top: DimensSizeV2.d8,
-                      ),
-                      child: Column(
-                        mainAxisSize: MainAxisSize.min,
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            LocaleKeys.deployWalletWaitingTime.tr(),
-                            style: textStyles.labelSmall,
-                          ),
-                          const SizedBox(height: DimensSizeV2.d8),
-                          PrimaryTextField(
-                            focusNode: waitingTimeNode,
-                            textEditingController: waitingTimeController,
-                            keyboardType: TextInputType.number,
-                            textInputAction: TextInputAction.next,
-                            onSubmit: (_) =>
-                                custodianFocuses.first.requestFocus(),
-                            validator: (value) {
-                              if (value == null) {
-                                return LocaleKeys.invalidValue.tr();
-                              }
-                              final number = int.tryParse(value);
-                              if (number == null ||
-                                  number > 24 ||
-                                  number == 0) {
-                                return LocaleKeys.invalidValue.tr();
-                              }
-                              return null;
-                            },
-                            inputFormatters: [
-                              InputFormatters.onlyDigitsFormatter,
-                            ],
-                            suffixes: [
-                              _buildMiniButton(1),
-                              _buildMiniButton(2),
-                              _buildMiniButton(12),
-                              _buildMiniButton(24),
-                            ],
-                          ),
-                        ],
-                      ),
+                  Padding(
+                    padding: const EdgeInsets.only(
+                      top: DimensSizeV2.d8,
                     ),
+                    child: Column(
+                      mainAxisSize: MainAxisSize.min,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          LocaleKeys.deployWalletWaitingTime.tr(),
+                          style: textStyles.labelSmall,
+                        ),
+                        const SizedBox(height: DimensSizeV2.d8),
+                        PrimaryTextField(
+                          focusNode: waitingTimeNode,
+                          textEditingController: waitingTimeController,
+                          keyboardType: TextInputType.number,
+                          textInputAction: TextInputAction.next,
+                          onSubmit: (_) =>
+                              custodianFocuses.first.requestFocus(),
+                          validator: (value) {
+                            if (value == null) {
+                              return LocaleKeys.invalidValue.tr();
+                            }
+                            final number = int.tryParse(value);
+                            if (number == null ||
+                                number > 24 ||
+                                number == 0) {
+                              return LocaleKeys.invalidValue.tr();
+                            }
+                            return null;
+                          },
+                          inputFormatters: [
+                            InputFormatters.onlyDigitsFormatter,
+                          ],
+                          suffixes: [
+                            _buildMiniButton(1),
+                            _buildMiniButton(2),
+                            _buildMiniButton(12),
+                            _buildMiniButton(24),
+                          ],
+                        ),
+                      ],
+                    ),
+                  ),
                   const SizedBox(height: DimensSizeV2.d12),
                   Text(
                     LocaleKeys.custodiansWord.tr(),
@@ -264,15 +286,36 @@ class _WalletDeployMultisigBodyState extends State<WalletDeployMultisigBody> {
   }
 
   Widget _buildMiniButton(int hours) {
-    return MiniButton(
-      currentValue: waitingTimeController.text.toInt(),
-      value: hours,
-      title: '${hours}h',
+    final currentValue = waitingTimeController.text.toInt();
+    final theme = context.themeStyleV2;
+    final isSelected = currentValue == hours;
+
+    return GestureDetector(
       onTap: () {
         setState(() {
           waitingTimeController.text = hours.toString();
         });
       },
+      child: Container(
+        margin: const EdgeInsets.only(right: DimensSizeV2.d4),
+        padding: const EdgeInsets.symmetric(
+          horizontal: DimensSizeV2.d12,
+          vertical: DimensSizeV2.d6,
+        ),
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(DimensRadiusV2.radius16),
+          border: Border.all(
+            color: isSelected ? theme.colors.accent : theme.colors.border0,
+          ),
+          color: isSelected ? theme.colors.accent : Colors.transparent,
+        ),
+        child: Text(
+          '${hours}h',
+          style: theme.textStyles.labelSmall.copyWith(
+            color: isSelected ? theme.colors.background0 : theme.colors.content1,
+          ),
+        ),
+      ),
     );
   }
 
@@ -338,10 +381,11 @@ class _WalletDeployMultisigBodyState extends State<WalletDeployMultisigBody> {
 
     WidgetsBinding.instance.addPostFrameCallback((_) {
       if (_formKey.currentState?.validate() ?? false) {
-        widget.onDeploy?.call(
+        final hours = int.tryParse(waitingTimeController.text) ?? widget.hours;
+        widget.onNext(
           _collectValidKeys(),
           _collectRequireConfirmations(),
-          waitingTimeController.text.toInt(),
+          hours,
         );
       }
     });

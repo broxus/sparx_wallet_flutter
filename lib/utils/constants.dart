@@ -12,3 +12,4 @@ const defaultSendTimeoutDuration = Duration(seconds: 60);
 const maxLengthForMainEntities = 64;
 
 const minPasswordLength = 8;
+
