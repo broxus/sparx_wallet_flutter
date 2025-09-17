@@ -34,14 +34,8 @@ class SelectAccountWidget
         const SizedBox(height: DimensSizeV2.d24),
         Expanded(
           child: DoubleSourceBuilder(
-<<<<<<< HEAD
             firstSource: wm.listState,
             secondSource: wm.currentAccountState,
-            builder: (_, list, currentAccount) {
-              return SingleChildScrollView(
-=======
-            firstSource: wm.list,
-            secondSource: wm.currentAccount,
             builder: (context, list, currentAccount) {
               if (list == null) return const SizedBox.shrink();
 
@@ -65,7 +59,6 @@ class SelectAccountWidget
               }
 
               return CustomScrollView(
->>>>>>> def1eab6 (feat(EWM-373): add sticky header for seed groups in account selector)
                 controller: scrollController,
                 physics: const ClampingScrollPhysics(),
                 slivers: slivers,
