@@ -15,13 +15,12 @@ class TokenTransferInfoWidget extends InjectedElementaryParametrizedWidget<
   TokenTransferInfoWidget({
     Money? amount,
     Address? recipient,
-    Fee? fee,
+    EntityValueListenable<Fee>? fee,
     BigInt? attachedAmount,
     Address? rootTokenContract,
     String? transactionIdHash,
     String? comment,
     String? payload,
-    String? feeError,
     int? numberUnconfirmedTransactions,
     this.color,
     this.margin = EdgeInsets.zero,
@@ -36,7 +35,6 @@ class TokenTransferInfoWidget extends InjectedElementaryParametrizedWidget<
             comment: comment,
             payload: payload,
             fee: fee,
-            feeError: feeError,
             numberUnconfirmedTransactions: numberUnconfirmedTransactions,
           ),
         );
@@ -169,14 +167,12 @@ class TokenTransferInfoWidget extends InjectedElementaryParametrizedWidget<
           MultiListenerRebuilder(
             listenableList: [
               wm.feeState,
-              wm.feeErrorState,
               wm.feeUSDPriceState,
               wm.numberUnconfirmedTransactionsState,
               wm.feeAssetState,
             ],
             builder: (_) {
               final fee = wm.feeState.value;
-              final feeError = wm.feeErrorState.value;
               final feeUSDPrice = wm.feeUSDPriceState.value;
               final feeAsset = wm.feeAssetState.value;
               final numberUnconfirmedTransactions =
@@ -190,11 +186,14 @@ class TokenTransferInfoWidget extends InjectedElementaryParametrizedWidget<
                   crossAxisAlignment: CrossAxisAlignment.end,
                   spacing: DimensSizeV2.d4,
                   children: [
-                    _FeeItem(
-                      fee: fee,
-                      usdPrice: feeUSDPrice,
-                      asset: feeAsset,
-                      nativeTokenIcon: wm.nativeTokenIcon,
+                    ValueListenableBuilder(
+                      valueListenable: fee,
+                      builder: (_, fee, __) => _FeeItem(
+                        fee: fee,
+                        usdPrice: feeUSDPrice,
+                        asset: feeAsset,
+                        nativeTokenIcon: wm.nativeTokenIcon,
+                      ),
                     ),
                     if ((numberUnconfirmedTransactions ?? 0) >= 5)
                       Text(
@@ -203,9 +202,9 @@ class TokenTransferInfoWidget extends InjectedElementaryParametrizedWidget<
                           color: theme.colors.negative,
                         ),
                       )
-                    else if (feeError != null)
+                    else if (fee.value.isErrorState)
                       Text(
-                        feeError,
+                        fee.value.errorOrNull?.toString() ?? '',
                         style: theme.textStyles.labelSmall.copyWith(
                           color: theme.colors.negative,
                         ),
@@ -364,7 +363,7 @@ class _FeeItem extends StatelessWidget {
     required this.nativeTokenIcon,
   });
 
-  final Fee fee;
+  final EntityState<Fee> fee;
   final Fixed? usdPrice;
   final TokenContractAsset? asset;
   final String nativeTokenIcon;
@@ -372,7 +371,18 @@ class _FeeItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final theme = context.themeStyleV2;
-    final priceWidget = switch (fee) {
+
+    if (fee.isLoadingState) {
+      return _InfoRow(
+        label: LocaleKeys.networkFee.tr(),
+        child: ProgressIndicatorWidget(
+          size: DimensSizeV2.d20,
+          color: theme.colors.content3,
+        ),
+      );
+    }
+
+    final priceWidget = switch (fee.data) {
       FeeNative(:final amount) || FeeToken(:final amount) => usdPrice?.let(
           (price) => AmountWidget.dollars(
             amount: amount.exchangeToUSD(price, 5),
@@ -384,14 +394,7 @@ class _FeeItem extends StatelessWidget {
       _ => null,
     };
 
-    return switch (fee) {
-      FeeEstimating() => _InfoRow(
-          label: LocaleKeys.networkFee.tr(),
-          child: ProgressIndicatorWidget(
-            size: DimensSizeV2.d20,
-            color: theme.colors.content3,
-          ),
-        ),
+    return switch (fee.data) {
       FeeNative(:final amount) => _InfoRow(
           label: LocaleKeys.networkFee.tr(),
           child: Column(
@@ -437,6 +440,7 @@ class _FeeItem extends StatelessWidget {
             ],
           ),
         ),
+      _ => const SizedBox.shrink(),
     };
   }
 }

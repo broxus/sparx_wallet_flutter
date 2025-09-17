@@ -27,7 +27,7 @@ class _GaslessApi implements GaslessApi {
       Options(method: 'GET', headers: _headers, extra: _extra)
           .compose(
             _dio.options,
-            '/v2/gasless/config',
+            '/config',
             queryParameters: queryParameters,
             data: _data,
           )
@@ -58,7 +58,7 @@ class _GaslessApi implements GaslessApi {
       Options(method: 'POST', headers: _headers, extra: _extra)
           .compose(
             _dio.options,
-            '/v2/gasless/estimate/${masterId}',
+            '/estimate/${masterId}',
             queryParameters: queryParameters,
             data: _data,
           )
@@ -76,23 +76,31 @@ class _GaslessApi implements GaslessApi {
   }
 
   @override
-  Future<void> send(GaslessSendRequestDto body) async {
+  Future<GaslessSendResponseDto> send(GaslessSendRequestDto body) async {
     final _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
     final _headers = <String, dynamic>{};
     final _data = <String, dynamic>{};
     _data.addAll(body.toJson());
-    final _options = _setStreamType<void>(
+    final _options = _setStreamType<GaslessSendResponseDto>(
       Options(method: 'POST', headers: _headers, extra: _extra)
           .compose(
             _dio.options,
-            '/v2/gasless/send',
+            '/send',
             queryParameters: queryParameters,
             data: _data,
           )
           .copyWith(baseUrl: _combineBaseUrls(_dio.options.baseUrl, baseUrl)),
     );
-    await _dio.fetch<void>(_options);
+    final _result = await _dio.fetch<Map<String, dynamic>>(_options);
+    late GaslessSendResponseDto _value;
+    try {
+      _value = GaslessSendResponseDto.fromJson(_result.data!);
+    } on Object catch (e, s) {
+      errorLogger?.logError(e, s, _options);
+      rethrow;
+    }
+    return _value;
   }
 
   RequestOptions _setStreamType<T>(RequestOptions requestOptions) {

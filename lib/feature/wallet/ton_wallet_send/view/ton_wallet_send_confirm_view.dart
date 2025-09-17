@@ -16,7 +16,6 @@ class TonWalletSendConfirmView extends StatefulWidget {
     required this.publicKey,
     required this.currency,
     required this.fees,
-    required this.error,
     required this.txErrors,
     required this.isLoading,
     required this.getLedgerAuthInput,
@@ -37,8 +36,7 @@ class TonWalletSendConfirmView extends StatefulWidget {
   final PublicKey publicKey;
   final KeyAccount? account;
   final ListenableState<bool> isLoading;
-  final ListenableState<String> error;
-  final ListenableState<Fee> fees;
+  final EntityValueListenable<Fee> fees;
   final ListenableState<List<TxTreeSimulationErrorItem>> txErrors;
   final GetLedgerAuthInput getLedgerAuthInput;
   final void Function(SignInputAuth) onConfirmed;
@@ -64,28 +62,29 @@ class _TonWalletSendConfirmViewState extends State<TonWalletSendConfirmView> {
               children: [
                 if (widget.account != null)
                   AccountInfo(account: widget.account!),
-                DoubleSourceBuilder(
-                  firstSource: widget.fees,
-                  secondSource: widget.error,
-                  builder: (_, fees, error) => TokenTransferInfoWidget(
-                    amount: widget.amount,
-                    recipient: widget.recipient,
-                    fee: fees,
-                    feeError: error,
-                    attachedAmount: widget.attachedAmount,
-                    comment: widget.comment,
-                    payload: widget.payload,
-                  ),
+                TokenTransferInfoWidget(
+                  amount: widget.amount,
+                  recipient: widget.recipient,
+                  fee: widget.fees,
+                  attachedAmount: widget.attachedAmount,
+                  comment: widget.comment,
+                  payload: widget.payload,
                 ),
               ],
             ),
           ),
         ),
-        TripleSourceBuilder(
-          firstSource: widget.isLoading,
-          secondSource: widget.txErrors,
-          thirdSource: widget.error,
-          builder: (_, isLoading, txErrors, error) {
+        MultiListenerRebuilder(
+          listenableList: [
+            widget.isLoading,
+            widget.txErrors,
+            widget.fees,
+          ],
+          builder: (_) {
+            final isLoading = widget.isLoading.value;
+            final txErrors = widget.txErrors.value;
+            final fees = widget.fees.value;
+
             return Column(
               spacing: DimensSizeV2.d8,
               children: [
@@ -103,7 +102,7 @@ class _TonWalletSendConfirmViewState extends State<TonWalletSendConfirmView> {
                   publicKey: widget.publicKey,
                   title: LocaleKeys.confirm.tr(),
                   isLoading: isLoading ?? false,
-                  isDisabled: error != null ||
+                  isDisabled: fees.isErrorState ||
                       ((txErrors?.isNotEmpty ?? false) && !isConfirmed),
                   onConfirmed: widget.onConfirmed,
                 ),

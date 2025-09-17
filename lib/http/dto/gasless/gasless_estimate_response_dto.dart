@@ -1,10 +1,9 @@
-import 'package:app/utils/utils.dart';
 import 'package:json_annotation/json_annotation.dart';
 import 'package:nekoton_repository/nekoton_repository.dart';
 
 part 'gasless_estimate_response_dto.g.dart';
 
-@JsonSerializable()
+@JsonSerializable(fieldRename: FieldRename.snake)
 class GaslessEstimateResponseDto {
   const GaslessEstimateResponseDto({
     required this.protocolName,
@@ -22,8 +21,7 @@ class GaslessEstimateResponseDto {
   final Address relayAddress;
   final BigInt commission;
   final Address from;
-  @timestampFromStringJsonConverter
-  final DateTime validUntil;
+  final int validUntil;
   final List<SignRawMessageDto> messages;
 
   Map<String, dynamic> toJson() => _$GaslessEstimateResponseDtoToJson(this);

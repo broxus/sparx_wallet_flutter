@@ -5,8 +5,6 @@ part 'fee.freezed.dart';
 
 @freezed
 sealed class Fee with _$Fee {
-  const factory Fee.estimating() = FeeEstimating;
-
   const factory Fee.native(Money amount) = FeeNative;
 
   const factory Fee.token({
@@ -16,10 +14,5 @@ sealed class Fee with _$Fee {
 
   const Fee._();
 
-  BigInt get minorUnits {
-    return switch (this) {
-      FeeEstimating() => BigInt.zero,
-      FeeNative(:final amount) || FeeToken(:final amount) => amount.minorUnits,
-    };
-  }
+  BigInt get minorUnits => amount.minorUnits;
 }

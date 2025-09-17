@@ -9,26 +9,24 @@ part of 'gasless_estimate_response_dto.dart';
 GaslessEstimateResponseDto _$GaslessEstimateResponseDtoFromJson(
         Map<String, dynamic> json) =>
     GaslessEstimateResponseDto(
-      protocolName: json['protocolName'] as String,
-      relayAddress: Address.fromJson(json['relayAddress'] as String),
+      protocolName: json['protocol_name'] as String,
+      relayAddress: Address.fromJson(json['relay_address'] as String),
       from: Address.fromJson(json['from'] as String),
       messages: (json['messages'] as List<dynamic>)
           .map((e) => SignRawMessageDto.fromJson(e as Map<String, dynamic>))
           .toList(),
       commission: BigInt.parse(json['commission'] as String),
-      validUntil: timestampFromStringJsonConverter
-          .fromJson(json['validUntil'] as String),
+      validUntil: (json['valid_until'] as num).toInt(),
     );
 
 Map<String, dynamic> _$GaslessEstimateResponseDtoToJson(
         GaslessEstimateResponseDto instance) =>
     <String, dynamic>{
-      'protocolName': instance.protocolName,
-      'relayAddress': instance.relayAddress.toJson(),
+      'protocol_name': instance.protocolName,
+      'relay_address': instance.relayAddress.toJson(),
       'commission': instance.commission.toString(),
       'from': instance.from.toJson(),
-      'validUntil':
-          timestampFromStringJsonConverter.toJson(instance.validUntil),
+      'valid_until': instance.validUntil,
       'messages': instance.messages.map((e) => e.toJson()).toList(),
     };
 

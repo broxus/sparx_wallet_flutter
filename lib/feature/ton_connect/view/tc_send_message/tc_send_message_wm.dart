@@ -53,8 +53,7 @@ class TCSendMessageWidgetModel extends CustomWidgetModelParametrized<
   );
 
   late final _dataState = createNotifier<List<TransferData>>();
-  late final _feeState = createNotifier(const Fee.estimating());
-  late final _feeErrorState = createNotifier<String>();
+  late final _feeState = createEntityNotifier<Fee>()..loading();
   late final _txErrorsState = createNotifier<List<TxTreeSimulationErrorItem>>();
   late final _publicKeyState = createValueNotifier<PublicKey?>(null);
   late final _custodiansState = createNotifier<List<PublicKey>>();
@@ -71,9 +70,7 @@ class TCSendMessageWidgetModel extends CustomWidgetModelParametrized<
 
   ListenableState<List<TransferData>> get dataState => _dataState;
 
-  ListenableState<Fee> get feeState => _feeState;
-
-  ListenableState<String> get feeErrorState => _feeErrorState;
+  EntityValueListenable<Fee> get feeState => _feeState;
 
   ListenableState<List<TxTreeSimulationErrorItem>> get txErrorsState =>
       _txErrorsState;
@@ -269,11 +266,14 @@ class TCSendMessageWidgetModel extends CustomWidgetModelParametrized<
       if (data != null) {
         final balance =
             balanceState.value ?? await model.getBalanceStream(sender).first;
-        final fee = feeState.value?.minorUnits ?? BigInt.zero;
+        final fee = feeState.value.data?.minorUnits ?? BigInt.zero;
         final amount = totalAmount.amount.minorUnits;
 
         if (balance.amount.minorUnits < (fee + amount)) {
-          _feeErrorState.accept(LocaleKeys.insufficientFunds.tr());
+          _feeState.error(
+            Exception(LocaleKeys.insufficientFunds.tr()),
+            _feeState.value.data,
+          );
         }
       }
     } finally {
@@ -288,13 +288,16 @@ class TCSendMessageWidgetModel extends CustomWidgetModelParametrized<
         message: message,
       );
 
-      _feeState.accept(
+      _feeState.content(
         Fee.native(
           Money.fromBigIntWithCurrency(fee, nativeCurrency),
         ),
       );
     } catch (e) {
-      _feeErrorState.accept(e.toString());
+      _feeState.error(
+        Exception(e.toString()),
+        _feeState.value.data,
+      );
     }
   }
 

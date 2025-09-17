@@ -47,9 +47,8 @@ class ConfirmMultisigTransactionWidgetModel
   static final _logger = Logger('ConfirmMultisigTransactionWidgetModel');
 
   late final _isLoadingState = createNotifier(false);
-  late final _feesState = createNotifier(const Fee.estimating());
+  late final _feesState = createEntityNotifier<Fee>()..loading();
   late final _txErrorsState = createNotifier<List<TxTreeSimulationErrorItem>>();
-  late final _errorState = createNotifier<String>();
   late final _confirmState = createNotifier<ConfirmMultisigTransactionState>();
 
   late final KeyAccount? account = model.getAccount(_walletAddress);
@@ -74,12 +73,10 @@ class ConfirmMultisigTransactionWidgetModel
 
   ListenableState<bool> get isLoadingState => _isLoadingState;
 
-  ListenableState<Fee> get feesState => _feesState;
+  EntityValueListenable<Fee> get feesState => _feesState;
 
   ListenableState<List<TxTreeSimulationErrorItem>> get txErrorsState =>
       _txErrorsState;
-
-  ListenableState<String> get errorState => _errorState;
 
   ListenableState<ConfirmMultisigTransactionState> get confirmState =>
       _confirmState;
@@ -145,7 +142,7 @@ class ConfirmMultisigTransactionWidgetModel
         ),
       );
 
-      _feesState.accept(
+      _feesState.content(
         Fee.native(
           Money.fromBigIntWithCurrency(fees, currency),
         ),
@@ -158,11 +155,17 @@ class ConfirmMultisigTransactionWidgetModel
       final isPossibleToSendMessage = balance > (fees + wmParams.value.amount);
 
       if (!isPossibleToSendMessage) {
-        _errorState.accept(LocaleKeys.insufficientFunds.tr());
+        _feesState.error(
+          Exception(LocaleKeys.insufficientFunds.tr()),
+          _feesState.value.data,
+        );
       }
     } on Exception catch (e, t) {
       _logger.severe('onCustodianSelected', e, t);
-      _errorState.accept(e.toString());
+      _feesState.error(
+        Exception(e.toString()),
+        _feesState.value.data,
+      );
     } finally {
       unsignedMessage?.dispose();
       _isLoadingState.accept(false);

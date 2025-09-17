@@ -3,7 +3,7 @@ import 'package:nekoton_repository/nekoton_repository.dart';
 
 part 'gasless_config_dto.g.dart';
 
-@JsonSerializable()
+@JsonSerializable(fieldRename: FieldRename.snake)
 class GaslessConfigDto {
   const GaslessConfigDto({
     required this.relayAddress,
@@ -19,7 +19,7 @@ class GaslessConfigDto {
   Map<String, dynamic> toJson() => _$GaslessConfigDtoToJson(this);
 }
 
-@JsonSerializable()
+@JsonSerializable(fieldRename: FieldRename.snake)
 class GasJettonDto {
   const GasJettonDto({
     required this.masterId,

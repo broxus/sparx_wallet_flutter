@@ -82,8 +82,7 @@ class SendMessageWidgetModel extends CustomWidgetModelParametrized<
   ValueListenable<FunctionCall?> get payloadState => _payloadState;
 
   late final _dataState = createNotifier<TransferData>();
-  late final _feeState = createNotifier(const Fee.estimating());
-  late final _feeErrorState = createNotifier<String>();
+  late final _feeState = createEntityNotifier<Fee>()..loading();
   late final _txErrorsState = createNotifier<List<TxTreeSimulationErrorItem>>();
   late final _publicKeyState = createNotifier(account?.publicKey);
   late final _custodiansState = createNotifier<List<PublicKey>>();
@@ -96,9 +95,7 @@ class SendMessageWidgetModel extends CustomWidgetModelParametrized<
 
   ListenableState<TransferData> get dataState => _dataState;
 
-  ListenableState<Fee> get feeState => _feeState;
-
-  ListenableState<String> get feeErrorState => _feeErrorState;
+  EntityValueListenable<Fee> get feeState => _feeState;
 
   ListenableState<List<TxTreeSimulationErrorItem>> get txErrorsState =>
       _txErrorsState;
@@ -246,11 +243,14 @@ class SendMessageWidgetModel extends CustomWidgetModelParametrized<
       if (data != null) {
         final balance = _balanceState.value ??
             await model.getBalanceStream(wmParams.value.sender).first;
-        final fee = _feeState.value?.minorUnits ?? BigInt.zero;
+        final fee = _feeState.value.data?.minorUnits ?? BigInt.zero;
         final amount = data.attachedAmount ?? data.amount.amount.minorUnits;
 
         if (balance.amount.minorUnits < (fee + amount)) {
-          _feeErrorState.accept(LocaleKeys.insufficientFunds.tr());
+          _feeState.error(
+            Exception(LocaleKeys.insufficientFunds.tr()),
+            _feeState.value.data,
+          );
         }
       }
     } catch (e) {
@@ -270,13 +270,16 @@ class SendMessageWidgetModel extends CustomWidgetModelParametrized<
         message: message,
       );
 
-      _feeState.accept(
+      _feeState.content(
         Fee.native(
           Money.fromBigIntWithCurrency(fee, nativeCurrency!),
         ),
       );
     } catch (e) {
-      _feeErrorState.accept(e.toString());
+      _feeState.error(
+        Exception(e.toString()),
+        _feeState.value.data,
+      );
     }
   }
 

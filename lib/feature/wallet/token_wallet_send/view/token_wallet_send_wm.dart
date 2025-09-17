@@ -51,9 +51,8 @@ class TokenWalletSendWidgetModel extends CustomWidgetModelParametrized<
   static final _logger = Logger('TokenWalletSendWidgetModel');
 
   late final _isLoadingState = createNotifier(false);
-  late final _feesState = createNotifier(const Fee.estimating());
+  late final _feesState = createEntityNotifier<Fee>()..loading();
   late final _txErrorsState = createNotifier<List<TxTreeSimulationErrorItem>>();
-  late final _errorState = createNotifier<String>();
   late final _sendState = createNotifier(const TokenWalletSendState.ready());
   late final _attachedAmountState =
       createNotifier(wmParams.value.attachedAmount ?? BigInt.zero);
@@ -63,6 +62,7 @@ class TokenWalletSendWidgetModel extends CustomWidgetModelParametrized<
 
   TonWallet? _wallet;
   GenericTokenWallet? _tokenWallet;
+  PreparedTokenTransfer? _transfer;
 
   Address get owner => wmParams.value.owner;
   Address get rootTokenContract => wmParams.value.rootTokenContract;
@@ -73,12 +73,10 @@ class TokenWalletSendWidgetModel extends CustomWidgetModelParametrized<
 
   ListenableState<bool> get isLoadingState => _isLoadingState;
 
-  ListenableState<Fee> get feesState => _feesState;
+  EntityValueListenable<Fee> get feesState => _feesState;
 
   ListenableState<List<TxTreeSimulationErrorItem>> get txErrorsState =>
       _txErrorsState;
-
-  ListenableState<String> get errorState => _errorState;
 
   ListenableState<TokenWalletSendState> get sendState => _sendState;
 
@@ -105,8 +103,8 @@ class TokenWalletSendWidgetModel extends CustomWidgetModelParametrized<
   }
 
   Future<void> onConfirmed(SignInputAuth signInputAuth) async {
-    UnsignedMessage? unsignedMessage;
-    InternalMessage? internalMessage;
+    if (_transfer == null) return;
+
     try {
       _isLoadingState.accept(true);
 
@@ -118,29 +116,15 @@ class TokenWalletSendWidgetModel extends CustomWidgetModelParametrized<
       final resultMessage = wmParams.value.resultMessage ??
           LocaleKeys.transactionSentSuccessfully.tr();
 
-      (internalMessage, unsignedMessage) = await model.prepareTransfer(
-        owner: wmParams.value.owner,
-        rootTokenContract: wmParams.value.rootTokenContract,
-        publicKey: wmParams.value.publicKey,
-        destination: wmParams.value.destination,
-        amount: wmParams.value.amount,
-        comment: wmParams.value.comment,
-        attachedAmount: wmParams.value.attachedAmount,
-        notifyReceiver: wmParams.value.notifyReceiver,
-      );
-
       final transactionCompleter = await model.sendMessage(
-        address: wmParams.value.owner,
+        transfer: _transfer!,
         publicKey: wmParams.value.publicKey,
-        message: unsignedMessage,
         signInputAuth: signInputAuth,
-        destination: internalMessage.destination,
-        amount: internalMessage.amount,
       );
 
       _sendState.accept(const TokenWalletSendState.sending(canClose: true));
 
-      await transactionCompleter;
+      await transactionCompleter.future;
 
       model.showMessage(Message.successful(message: resultMessage));
 
@@ -156,16 +140,18 @@ class TokenWalletSendWidgetModel extends CustomWidgetModelParametrized<
       _logger.severe('Failed to send transaction', e, s);
       model.showMessage(Message.error(message: e.toString()));
     } finally {
-      unsignedMessage?.dispose();
       _isLoadingState.accept(false);
     }
   }
 
   Future<void> _init() async {
-    UnsignedMessage? unsignedMessage;
-    InternalMessage? internalMessage;
     try {
       _isLoadingState.accept(true);
+
+      await model.initTransfer(
+        owner: wmParams.value.owner,
+        rootTokenContract: wmParams.value.rootTokenContract,
+      );
 
       final (tokenWalletState, walletState) = await FutureExt.wait2(
         model.getTokenWalletState(
@@ -194,7 +180,7 @@ class TokenWalletSendWidgetModel extends CustomWidgetModelParametrized<
         ),
       );
 
-      (internalMessage, unsignedMessage) = await model.prepareTransfer(
+      final transfer = await model.prepareTransfer(
         owner: wmParams.value.owner,
         rootTokenContract: wmParams.value.rootTokenContract,
         publicKey: wmParams.value.publicKey,
@@ -205,44 +191,65 @@ class TokenWalletSendWidgetModel extends CustomWidgetModelParametrized<
         notifyReceiver: wmParams.value.notifyReceiver,
       );
 
-      _attachedAmountState.accept(internalMessage.amount);
-
-      final (fees, txErrors) = await FutureExt.wait2(
-        model.estimateFees(
-          address: wmParams.value.owner,
-          message: unsignedMessage,
-        ),
-        model.simulateTransactionTree(
-          address: wmParams.value.owner,
-          message: unsignedMessage,
-        ),
+      _transfer = transfer;
+      _attachedAmountState.accept(
+        (transfer is PreparedTokenTransferBasic)
+            ? transfer.attachedAmount
+            : null,
       );
 
-      _feesState.accept(
-        Fee.native(
-          Money.fromBigIntWithCurrency(fees, currency),
-        ),
+      final (fee, txErrors) = await FutureExt.wait2(
+        model.estimateFees(transfer),
+        model.simulateTransactionTree(transfer),
       );
+
+      _feesState.content(fee);
       _txErrorsState.accept(txErrors);
       _wallet = walletState.wallet;
       _tokenWallet = tokenWalletState.wallet;
 
-      final wallet = walletState.wallet!;
-      final balance = wallet.contractState.balance;
-      final isPossibleToSendMessage = balance > (fees + internalMessage.amount);
+      final canSend = _canSend(transfer: transfer, fee: fee);
 
-      if (!isPossibleToSendMessage) {
-        _errorState.accept(LocaleKeys.insufficientFunds.tr());
+      if (!canSend) {
+        _feesState.error(
+          Exception(LocaleKeys.insufficientFunds.tr()),
+          _feesState.value.data,
+        );
       }
     } on ContractNotExistsException catch (e, s) {
       _logger.severe('Failed to prepare transaction', e, s);
-      _errorState.accept(LocaleKeys.insufficientFunds.tr());
+      _feesState.error(
+        Exception(LocaleKeys.insufficientFunds.tr()),
+        _feesState.value.data,
+      );
     } on Exception catch (e, s) {
       _logger.severe('Failed to prepare transaction', e, s);
-      _errorState.accept(e.toString());
+      _feesState.error(
+        Exception(e.toString()),
+        _feesState.value.data,
+      );
     } finally {
-      unsignedMessage?.dispose();
       _isLoadingState.accept(false);
     }
+  }
+
+  bool _canSend({
+    required PreparedTokenTransfer transfer,
+    required Fee fee,
+  }) {
+    if (_wallet == null || _tokenWallet == null) return false;
+
+    return switch (transfer) {
+      PreparedTokenTransferBasic(:final attachedAmount) when fee is FeeNative =>
+        _wallet!.contractState.balance > (attachedAmount + fee.minorUnits),
+      PreparedTokenTransferGasless(:final rootTokenContract)
+          when fee is FeeToken =>
+        // ignore: avoid_bool_literals_in_conditional_expressions
+        fee.tokenRootAddress == rootTokenContract
+            ? _tokenWallet!.balance >= (fee.minorUnits + transfer.amount)
+            // comission token is not same as transfer token (not supported)
+            : false,
+      _ => false, // invalid state
+    };
   }
 }

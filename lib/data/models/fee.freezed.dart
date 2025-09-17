@@ -15,43 +15,59 @@ T _$identity<T>(T value) => value;
 
 /// @nodoc
 mixin _$Fee {
-  @override
-  bool operator ==(Object other) {
-    return identical(this, other) ||
-        (other.runtimeType == runtimeType && other is Fee);
-  }
+  Money get amount;
 
-  @override
-  int get hashCode => runtimeType.hashCode;
-
-  @override
-  String toString() {
-    return 'Fee()';
-  }
-}
-
-/// @nodoc
-class $FeeCopyWith<$Res> {
-  $FeeCopyWith(Fee _, $Res Function(Fee) __);
-}
-
-/// @nodoc
-
-class FeeEstimating extends Fee {
-  const FeeEstimating() : super._();
+  /// Create a copy of Fee
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @pragma('vm:prefer-inline')
+  $FeeCopyWith<Fee> get copyWith =>
+      _$FeeCopyWithImpl<Fee>(this as Fee, _$identity);
 
   @override
   bool operator ==(Object other) {
     return identical(this, other) ||
-        (other.runtimeType == runtimeType && other is FeeEstimating);
+        (other.runtimeType == runtimeType &&
+            other is Fee &&
+            (identical(other.amount, amount) || other.amount == amount));
   }
 
   @override
-  int get hashCode => runtimeType.hashCode;
+  int get hashCode => Object.hash(runtimeType, amount);
 
   @override
   String toString() {
-    return 'Fee.estimating()';
+    return 'Fee(amount: $amount)';
+  }
+}
+
+/// @nodoc
+abstract mixin class $FeeCopyWith<$Res> {
+  factory $FeeCopyWith(Fee value, $Res Function(Fee) _then) = _$FeeCopyWithImpl;
+  @useResult
+  $Res call({Money amount});
+}
+
+/// @nodoc
+class _$FeeCopyWithImpl<$Res> implements $FeeCopyWith<$Res> {
+  _$FeeCopyWithImpl(this._self, this._then);
+
+  final Fee _self;
+  final $Res Function(Fee) _then;
+
+  /// Create a copy of Fee
+  /// with the given fields replaced by the non-null parameter values.
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? amount = null,
+  }) {
+    return _then(_self.copyWith(
+      amount: null == amount
+          ? _self.amount
+          : amount // ignore: cast_nullable_to_non_nullable
+              as Money,
+    ));
   }
 }
 
@@ -60,10 +76,12 @@ class FeeEstimating extends Fee {
 class FeeNative extends Fee {
   const FeeNative(this.amount) : super._();
 
+  @override
   final Money amount;
 
   /// Create a copy of Fee
   /// with the given fields replaced by the non-null parameter values.
+  @override
   @JsonKey(includeFromJson: false, includeToJson: false)
   @pragma('vm:prefer-inline')
   $FeeNativeCopyWith<FeeNative> get copyWith =>
@@ -90,6 +108,7 @@ class FeeNative extends Fee {
 abstract mixin class $FeeNativeCopyWith<$Res> implements $FeeCopyWith<$Res> {
   factory $FeeNativeCopyWith(FeeNative value, $Res Function(FeeNative) _then) =
       _$FeeNativeCopyWithImpl;
+  @override
   @useResult
   $Res call({Money amount});
 }
@@ -103,6 +122,7 @@ class _$FeeNativeCopyWithImpl<$Res> implements $FeeNativeCopyWith<$Res> {
 
   /// Create a copy of Fee
   /// with the given fields replaced by the non-null parameter values.
+  @override
   @pragma('vm:prefer-inline')
   $Res call({
     Object? amount = null,
@@ -122,11 +142,13 @@ class FeeToken extends Fee {
   const FeeToken({required this.amount, required this.tokenRootAddress})
       : super._();
 
+  @override
   final Money amount;
   final Address tokenRootAddress;
 
   /// Create a copy of Fee
   /// with the given fields replaced by the non-null parameter values.
+  @override
   @JsonKey(includeFromJson: false, includeToJson: false)
   @pragma('vm:prefer-inline')
   $FeeTokenCopyWith<FeeToken> get copyWith =>
@@ -155,6 +177,7 @@ class FeeToken extends Fee {
 abstract mixin class $FeeTokenCopyWith<$Res> implements $FeeCopyWith<$Res> {
   factory $FeeTokenCopyWith(FeeToken value, $Res Function(FeeToken) _then) =
       _$FeeTokenCopyWithImpl;
+  @override
   @useResult
   $Res call({Money amount, Address tokenRootAddress});
 
@@ -170,6 +193,7 @@ class _$FeeTokenCopyWithImpl<$Res> implements $FeeTokenCopyWith<$Res> {
 
   /// Create a copy of Fee
   /// with the given fields replaced by the non-null parameter values.
+  @override
   @pragma('vm:prefer-inline')
   $Res call({
     Object? amount = null,

@@ -504,6 +504,12 @@ import '../feature/wallet/token_wallet_details/widgets/token_wallet_transactions
     as _i178;
 import '../feature/wallet/token_wallet_details/widgets/token_wallet_transactions/token_wallet_transactions_wm.dart'
     as _i127;
+import '../feature/wallet/token_wallet_send/domain/basic_token_transfer_delegate.dart'
+    as _i74;
+import '../feature/wallet/token_wallet_send/domain/gasless_token_transfer_delegate.dart'
+    as _i591;
+import '../feature/wallet/token_wallet_send/domain/token_transfer_delegate_provider.dart'
+    as _i132;
 import '../feature/wallet/token_wallet_send/route.dart' as _i290;
 import '../feature/wallet/token_wallet_send/view/token_wallet_send_model.dart'
     as _i523;
@@ -1027,6 +1033,8 @@ extension GetItInjectableX on _i174.GetIt {
       () => _i68.NtpService(gh<_i128.AppLifecycleService>()),
       dispose: (i) => i.dispose(),
     );
+    gh.factory<_i74.BasicTokenTransferDelegate>(
+        () => _i74.BasicTokenTransferDelegate(gh<_i771.NekotonRepository>()));
     gh.singleton<_i386.NekotonRepositoryStorageService>(() =>
         _i386.NekotonRepositoryStorageService(gh<_i771.NekotonRepository>()));
     gh.singleton<_i818.GasPriceService>(
@@ -1396,12 +1404,6 @@ extension GetItInjectableX on _i174.GetIt {
           gh<_i865.LedgerService>(),
           gh<_i865.BleAvailabilityModelDelegate>(),
         ));
-    gh.factory<_i523.TokenWalletSendModel>(() => _i523.TokenWalletSendModel(
-          gh<_i83.ErrorHandler>(),
-          gh<_i771.NekotonRepository>(),
-          gh<_i865.LedgerService>(),
-          gh<_i865.BleAvailabilityModelDelegate>(),
-        ));
     gh.factory<_i946.TonWalletSendModel>(() => _i946.TonWalletSendModel(
           gh<_i83.ErrorHandler>(),
           gh<_i771.NekotonRepository>(),
@@ -1660,8 +1662,6 @@ extension GetItInjectableX on _i174.GetIt {
               gh<_i771.NekotonRepository>(),
               gh<_i128.CurrenciesService>(),
             ));
-    gh.factory<_i312.TokenWalletSendWidgetModel>(() =>
-        _i312.TokenWalletSendWidgetModel(gh<_i523.TokenWalletSendModel>()));
     gh.factory<_i252.TonWalletSendWidgetModel>(
         () => _i252.TonWalletSendWidgetModel(gh<_i946.TonWalletSendModel>()));
     gh.factory<_i446.TCSendMessageModel>(() => _i446.TCSendMessageModel(
@@ -1671,8 +1671,20 @@ extension GetItInjectableX on _i174.GetIt {
           gh<_i865.LedgerService>(),
           gh<_i865.BleAvailabilityModelDelegate>(),
         ));
+    gh.factory<_i591.GaslessTokenTransferDelegate>(
+        () => _i591.GaslessTokenTransferDelegate(
+              gh<_i771.NekotonRepository>(),
+              gh<_i487.GaslessRepository>(),
+            ));
     gh.singleton<_i116.PresetsConnectionService>(
         () => _i116.PresetsConnectionService(gh<_i418.PresetsConfigReader>()));
+    gh.singleton<_i132.TokenTransferDelegateProvider>(
+        () => _i132.TokenTransferDelegateProvider(
+              gh<_i771.NekotonRepository>(),
+              gh<_i487.GaslessRepository>(),
+              gh<_i0.GaslessTokenTransferDelegate>(),
+              gh<_i0.BasicTokenTransferDelegate>(),
+            ));
     gh.factory<_i506.EnterPasswordWidgetModel>(
         () => _i506.EnterPasswordWidgetModel(gh<_i322.EnterPasswordModel>()));
     gh.factory<_i420.SeedDetailPageWidgetModel>(
@@ -1771,6 +1783,13 @@ extension GetItInjectableX on _i174.GetIt {
       ),
       instanceName: 'WalletRoute',
     );
+    gh.factory<_i523.TokenWalletSendModel>(() => _i523.TokenWalletSendModel(
+          gh<_i83.ErrorHandler>(),
+          gh<_i771.NekotonRepository>(),
+          gh<_i865.LedgerService>(),
+          gh<_i865.BleAvailabilityModelDelegate>(),
+          gh<_i0.TokenTransferDelegateProvider>(),
+        ));
     gh.factory<_i869.TokenWalletAssetModel>(() => _i869.TokenWalletAssetModel(
           gh<_i83.ErrorHandler>(),
           gh<_i128.BalanceStorageService>(),
@@ -1944,6 +1963,8 @@ extension GetItInjectableX on _i174.GetIt {
     gh.factory<_i127.TokenWalletTransactionsWidgetModel>(() =>
         _i127.TokenWalletTransactionsWidgetModel(
             gh<_i178.TokenWalletTransactionsModel>()));
+    gh.factory<_i312.TokenWalletSendWidgetModel>(() =>
+        _i312.TokenWalletSendWidgetModel(gh<_i523.TokenWalletSendModel>()));
     gh.factory<_i397.TonWalletDetailsPageWidgetModel>(() =>
         _i397.TonWalletDetailsPageWidgetModel(
             gh<_i71.TonWalletDetailsPageModel>()));
@@ -2127,20 +2148,6 @@ extension GetItInjectableX on _i174.GetIt {
           gh<_i754.ConnectionService>(),
           gh<_i771.NekotonRepository>(),
         ));
-    gh.factory<_i690.FeatureServicesConfigurator>(
-        () => _i690.FeatureServicesConfigurator(
-              gh<_i484.UpdateService>(),
-              gh<_i128.CurrentSeedService>(),
-              gh<_i128.CurrentAccountsService>(),
-              gh<_i128.CurrenciesService>(),
-              gh<_i128.AssetsService>(),
-              gh<_i128.PermissionsService>(),
-              gh<_i811.StakingService>(),
-              gh<_i128.TokenWalletsService>(),
-              gh<_i1071.TonConnectHttpBridge>(),
-              gh<_i188.TokenRepository>(),
-              gh<_i263.NftService>(),
-            ));
     gh.factory<_i645.AccountCardWidgetModel>(
         () => _i645.AccountCardWidgetModel(gh<_i615.AccountCardModel>()));
     gh.factory<_i450.CancelUnstakingPageModel>(
@@ -2170,6 +2177,21 @@ extension GetItInjectableX on _i174.GetIt {
             gh<_i158.SelectNewAssetPageModel>()));
     gh.factory<_i668.AddTip3TokenWidgetModel>(
         () => _i668.AddTip3TokenWidgetModel(gh<_i588.AddTip3TokenModel>()));
+    gh.factory<_i690.FeatureServicesConfigurator>(
+        () => _i690.FeatureServicesConfigurator(
+              gh<_i484.UpdateService>(),
+              gh<_i128.CurrentSeedService>(),
+              gh<_i128.CurrentAccountsService>(),
+              gh<_i128.CurrenciesService>(),
+              gh<_i128.AssetsService>(),
+              gh<_i128.PermissionsService>(),
+              gh<_i811.StakingService>(),
+              gh<_i128.TokenWalletsService>(),
+              gh<_i1071.TonConnectHttpBridge>(),
+              gh<_i188.TokenRepository>(),
+              gh<_i263.NftService>(),
+              gh<_i188.GaslessRepository>(),
+            ));
     gh.factory<_i209.TokenWalletDetailsWidgetModel>(() =>
         _i209.TokenWalletDetailsWidgetModel(
             gh<_i941.TokenWalletDetailsModel>()));

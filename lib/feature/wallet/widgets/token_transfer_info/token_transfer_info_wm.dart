@@ -20,7 +20,6 @@ class TokenTransferInfoWmParams {
     this.comment,
     this.payload,
     this.fee,
-    this.feeError,
     this.numberUnconfirmedTransactions,
   });
 
@@ -31,8 +30,7 @@ class TokenTransferInfoWmParams {
   final String? transactionIdHash;
   final String? comment;
   final String? payload;
-  final Fee? fee;
-  final String? feeError;
+  final EntityValueListenable<Fee>? fee;
   final int? numberUnconfirmedTransactions;
 }
 
@@ -50,8 +48,6 @@ class TokenTransferInfoWidgetModel extends CustomWidgetModelParametrized<
 
   late final transactionIdHashState =
       createWmParamsNotifier((it) => it.transactionIdHash);
-
-  late final feeErrorState = createWmParamsNotifier((it) => it.feeError);
 
   late final commentState = createWmParamsNotifier((it) => it.comment);
 

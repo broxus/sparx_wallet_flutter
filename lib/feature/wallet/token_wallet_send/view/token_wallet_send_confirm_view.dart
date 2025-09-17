@@ -19,7 +19,6 @@ class TokenWalletSendConfirmView extends StatefulWidget {
     required this.publicKey,
     required this.account,
     required this.fees,
-    required this.error,
     required this.txErrors,
     required this.isLoading,
     required this.attachedAmount,
@@ -37,8 +36,7 @@ class TokenWalletSendConfirmView extends StatefulWidget {
   final ListenableState<Money> amount;
   final ListenableState<BigInt> attachedAmount;
   final ListenableState<bool> isLoading;
-  final ListenableState<String> error;
-  final ListenableState<Fee> fees;
+  final EntityValueListenable<Fee> fees;
   final ListenableState<List<TxTreeSimulationErrorItem>> txErrors;
   final GetLedgerAuthInput getLedgerAuthInput;
   final void Function(SignInputAuth) onConfirmed;
@@ -69,15 +67,13 @@ class _TokenWalletSendConfirmViewState
                 MultiListenerRebuilder(
                   listenableList: [
                     widget.fees,
-                    widget.error,
                     widget.attachedAmount,
                     widget.amount,
                   ],
                   builder: (_) => TokenTransferInfoWidget(
                     amount: widget.amount.value,
                     recipient: widget.recipient,
-                    fee: widget.fees.value,
-                    feeError: widget.error.value,
+                    fee: widget.fees,
                     attachedAmount: widget.attachedAmount.value,
                     comment: widget.comment,
                     rootTokenContract: widget.rootTokenContract,
@@ -87,11 +83,17 @@ class _TokenWalletSendConfirmViewState
             ),
           ),
         ),
-        TripleSourceBuilder(
-          firstSource: widget.isLoading,
-          secondSource: widget.txErrors,
-          thirdSource: widget.error,
-          builder: (_, isLoading, txErrors, error) {
+        MultiListenerRebuilder(
+          listenableList: [
+            widget.isLoading,
+            widget.txErrors,
+            widget.fees,
+          ],
+          builder: (_) {
+            final isLoading = widget.isLoading.value;
+            final txErrors = widget.txErrors.value;
+            final fees = widget.fees.value;
+
             return Column(
               spacing: DimensSizeV2.d8,
               children: [
@@ -109,7 +111,7 @@ class _TokenWalletSendConfirmViewState
                   publicKey: widget.publicKey,
                   title: LocaleKeys.confirm.tr(),
                   isLoading: isLoading ?? false,
-                  isDisabled: error != null ||
+                  isDisabled: fees.isErrorState ||
                       ((txErrors?.isNotEmpty ?? false) && !isConfirmed),
                   onConfirmed: widget.onConfirmed,
                 ),

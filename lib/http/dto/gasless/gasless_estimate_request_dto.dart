@@ -3,7 +3,7 @@ import 'package:nekoton_repository/nekoton_repository.dart';
 
 part 'gasless_estimate_request_dto.g.dart';
 
-@JsonSerializable()
+@JsonSerializable(fieldRename: FieldRename.snake)
 class GaslessEstimateRequestDto {
   const GaslessEstimateRequestDto({
     required this.walletAddress,

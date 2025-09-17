@@ -37,6 +37,7 @@ class GaslessRepository {
 
     try {
       final response = await _api!.getConfig();
+
       return GaslessConfig(
         relayAddress: response.relayAddress,
         gasJettons: response.gasJettons
@@ -49,13 +50,13 @@ class GaslessRepository {
     }
   }
 
-  Future<GaslessEstimateResponseDto?> estimate({
+  Future<GaslessEstimateResponseDto> estimate({
     required String masterId,
     required Address walletAddress,
     required PublicKey walletPublicKey,
     required List<String> messages,
   }) async {
-    if (_api == null) return null;
+    if (_api == null) throw Exception('API client was not initialized');
 
     try {
       return await _api!.estimate(
@@ -68,18 +69,18 @@ class GaslessRepository {
       );
     } catch (e, st) {
       _log.severe('Failed to estimate gasless request', e, st);
-      return null;
+      rethrow;
     }
   }
 
-  Future<void> send({
+  Future<GaslessSendResponseDto> send({
     required PublicKey walletPublicKey,
     required String boc,
   }) async {
     if (_api == null) throw Exception('API client was not initialized');
 
     try {
-      await _api!.send(
+      return await _api!.send(
         GaslessSendRequestDto(
           walletPublicKey: walletPublicKey,
           boc: boc,

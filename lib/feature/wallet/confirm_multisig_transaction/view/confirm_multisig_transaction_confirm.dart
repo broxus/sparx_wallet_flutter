@@ -20,7 +20,6 @@ class TonWalletConfirmTransactionConfirmView extends StatefulWidget {
     required this.publicKey,
     required this.currency,
     required this.fees,
-    required this.error,
     required this.txErrors,
     required this.isLoading,
     required this.getLedgerAuthInput,
@@ -38,8 +37,7 @@ class TonWalletConfirmTransactionConfirmView extends StatefulWidget {
   final String? comment;
   final String? transactionIdHash;
   final ListenableState<bool> isLoading;
-  final ListenableState<String> error;
-  final ListenableState<Fee> fees;
+  final EntityValueListenable<Fee> fees;
   final ListenableState<List<TxTreeSimulationErrorItem>> txErrors;
   final GetLedgerAuthInput getLedgerAuthInput;
   final void Function(SignInputAuth) onConfirmed;
@@ -66,11 +64,17 @@ class _TonWalletConfirmTransactionConfirmViewState
               right: DimensSizeV2.d16,
               bottom: DimensSize.d16,
             ),
-            child: TripleSourceBuilder(
-              firstSource: widget.isLoading,
-              secondSource: widget.txErrors,
-              thirdSource: widget.error,
-              builder: (_, isLoading, txErrors, error) {
+            child: MultiListenerRebuilder(
+              listenableList: [
+                widget.isLoading,
+                widget.txErrors,
+                widget.fees,
+              ],
+              builder: (_) {
+                final isLoading = widget.isLoading.value;
+                final txErrors = widget.txErrors.value;
+                final fees = widget.fees.value;
+
                 return Column(
                   spacing: DimensSizeV2.d8,
                   children: [
@@ -88,7 +92,7 @@ class _TonWalletConfirmTransactionConfirmViewState
                       publicKey: widget.publicKey,
                       title: LocaleKeys.confirm.tr(),
                       isLoading: isLoading ?? false,
-                      isDisabled: error != null ||
+                      isDisabled: fees.isErrorState ||
                           ((txErrors?.isNotEmpty ?? false) && !isConfirmed),
                       onConfirmed: widget.onConfirmed,
                     ),
@@ -116,21 +120,16 @@ class _TonWalletConfirmTransactionConfirmViewState
                 ),
                 child: AccountInfo(account: widget.account!),
               ),
-            DoubleSourceBuilder(
-              firstSource: widget.fees,
-              secondSource: widget.error,
-              builder: (_, fees, error) => TokenTransferInfoWidget(
-                margin: const EdgeInsets.only(
-                  left: DimensSizeV2.d16,
-                  right: DimensSizeV2.d16,
-                ),
-                amount: widget.amount,
-                recipient: widget.recipient,
-                fee: fees,
-                feeError: error,
-                comment: widget.comment,
-                transactionIdHash: widget.transactionIdHash,
+            TokenTransferInfoWidget(
+              margin: const EdgeInsets.only(
+                left: DimensSizeV2.d16,
+                right: DimensSizeV2.d16,
               ),
+              amount: widget.amount,
+              recipient: widget.recipient,
+              fee: widget.fees,
+              comment: widget.comment,
+              transactionIdHash: widget.transactionIdHash,
             ),
           ],
         ),

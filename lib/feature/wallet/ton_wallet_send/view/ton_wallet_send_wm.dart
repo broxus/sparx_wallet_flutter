@@ -27,9 +27,8 @@ class TonWalletSendWidgetModel extends CustomWidgetModelParametrized<
   static final _logger = Logger('TonWalletSendWidgetModel');
 
   late final _isLoadingState = createNotifier(false);
-  late final _feesState = createNotifier(const Fee.estimating());
+  late final _feesState = createEntityNotifier<Fee>()..loading();
   late final _txErrorsState = createNotifier<List<TxTreeSimulationErrorItem>>();
-  late final _errorState = createNotifier<String>();
   late final _sendState = createNotifier(const TonWalletSendState.ready());
 
   late final KeyAccount? account = model.getAccount(wmParams.value.address);
@@ -40,12 +39,10 @@ class TonWalletSendWidgetModel extends CustomWidgetModelParametrized<
 
   ListenableState<bool> get isLoadingState => _isLoadingState;
 
-  ListenableState<Fee> get feesState => _feesState;
+  EntityValueListenable<Fee> get feesState => _feesState;
 
   ListenableState<List<TxTreeSimulationErrorItem>> get txErrorsState =>
       _txErrorsState;
-
-  ListenableState<String> get errorState => _errorState;
 
   ListenableState<TonWalletSendState> get sendState => _sendState;
 
@@ -166,7 +163,7 @@ class TonWalletSendWidgetModel extends CustomWidgetModelParametrized<
         ),
       );
 
-      _feesState.accept(
+      _feesState.content(
         Fee.native(
           Money.fromBigIntWithCurrency(fees, currency),
         ),
@@ -178,14 +175,23 @@ class TonWalletSendWidgetModel extends CustomWidgetModelParametrized<
       final isPossibleToSendMessage = balance > (fees + totalAmount);
 
       if (!isPossibleToSendMessage) {
-        _errorState.accept(LocaleKeys.insufficientFunds.tr());
+        _feesState.error(
+          Exception(LocaleKeys.insufficientFunds.tr()),
+          _feesState.value.data,
+        );
       }
     } on ContractNotExistsException catch (e, s) {
       _logger.severe('Failed to prepare transaction', e, s);
-      _errorState.accept(LocaleKeys.insufficientFunds.tr());
+      _feesState.error(
+        Exception(LocaleKeys.insufficientFunds.tr()),
+        _feesState.value.data,
+      );
     } on Exception catch (e, s) {
       _logger.severe('Failed to prepare transaction', e, s);
-      _errorState.accept(e.toString());
+      _feesState.error(
+        Exception(e.toString()),
+        _feesState.value.data,
+      );
     } finally {
       unsignedMessage?.dispose();
       _isLoadingState.accept(false);
