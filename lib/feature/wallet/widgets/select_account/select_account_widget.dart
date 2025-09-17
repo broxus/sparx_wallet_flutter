@@ -123,13 +123,13 @@ class _SeedItemStickyDelegate extends SliverPersistentHeaderDelegate {
     bool overlapsContent,
   ) {
     final theme = context.themeStyleV2;
-    return Container(
-      decoration: BoxDecoration(
-        color: theme.colors.background2,
-        borderRadius: BorderRadius.circular(DimensRadiusV2.radius12),
-      ),
-      child: GestureDetector(
-        onTap: onToggleExpand,
+    return GestureDetector(
+      onTap: onToggleExpand,
+      child: Container(
+        decoration: BoxDecoration(
+          color: theme.colors.background2,
+          borderRadius: BorderRadius.circular(DimensRadiusV2.radius12),
+        ),
         child: Container(
           padding: const EdgeInsets.symmetric(vertical: DimensSizeV2.d16),
           child: SeedPhraseItemWidget(
@@ -152,8 +152,7 @@ class _SeedItemStickyDelegate extends SliverPersistentHeaderDelegate {
   bool shouldRebuild(_SeedItemStickyDelegate oldDelegate) {
     return data != oldDelegate.data ||
         isExpanded != oldDelegate.isExpanded ||
-        currentAccount != oldDelegate.currentAccount ||
-        onToggleExpand != oldDelegate.onToggleExpand;
+        currentAccount != oldDelegate.currentAccount;
   }
 }
 
@@ -178,8 +177,13 @@ class _SeedItemSliverSection extends StatefulWidget {
   State<_SeedItemSliverSection> createState() => _SeedItemSliverSectionState();
 }
 
-class _SeedItemSliverSectionState extends State<_SeedItemSliverSection> {
-  late bool _isExpanded;
+class _SeedItemSliverSectionState extends State<_SeedItemSliverSection>
+    with AutomaticKeepAliveClientMixin {
+  bool _isExpanded = false;
+  Widget? _cachedExpandedContent;
+
+  @override
+  bool get wantKeepAlive => _isExpanded;
 
   @override
   void initState() {
@@ -191,12 +195,20 @@ class _SeedItemSliverSectionState extends State<_SeedItemSliverSection> {
   void didUpdateWidget(_SeedItemSliverSection oldWidget) {
     super.didUpdateWidget(oldWidget);
     if (widget.shouldAutoExpand && !_isExpanded) {
-      _isExpanded = true;
+      setState(() {
+        _isExpanded = true;
+      });
+    }
+    if (widget.data != oldWidget.data ||
+        widget.currentAccount != oldWidget.currentAccount) {
+      _cachedExpandedContent = null;
     }
   }
 
   @override
   Widget build(BuildContext context) {
+    super.build(context);
+
     return SliverMainAxisGroup(
       slivers: [
         SliverPersistentHeader(
@@ -214,33 +226,7 @@ class _SeedItemSliverSectionState extends State<_SeedItemSliverSection> {
         ),
         if (_isExpanded)
           SliverToBoxAdapter(
-            child: Container(
-              margin: const EdgeInsets.only(
-                bottom: DimensSizeV2.d8,
-                left: DimensSizeV2.d8,
-                right: DimensSizeV2.d8,
-              ),
-              decoration: BoxDecoration(
-                color: context.themeStyleV2.colors.background2,
-                borderRadius: const BorderRadius.only(
-                  bottomLeft: Radius.circular(DimensRadiusV2.radius12),
-                  bottomRight: Radius.circular(DimensRadiusV2.radius12),
-                ),
-              ),
-              child: Column(
-                children: [
-                  const CommonDivider(),
-                  PrivateKeyItemWidget(
-                    seedWithInfo: widget.data.privateKeys,
-                    currentAccount: widget.currentAccount,
-                    onTap: widget.onTapAccount,
-                    getBalanceEntity: widget.getBalanceEntity,
-                    scrollController: widget.scrollController,
-                    isScrollToAccount: widget.shouldAutoExpand,
-                  ),
-                ],
-              ),
-            ),
+            child: _getExpandedContent(context),
           ),
         if (!_isExpanded)
           const SliverToBoxAdapter(
@@ -252,9 +238,43 @@ class _SeedItemSliverSectionState extends State<_SeedItemSliverSection> {
     );
   }
 
+  Widget _getExpandedContent(BuildContext context) {
+    _cachedExpandedContent ??= Container(
+      margin: const EdgeInsets.only(
+        bottom: DimensSizeV2.d8,
+        left: DimensSizeV2.d8,
+        right: DimensSizeV2.d8,
+      ),
+      decoration: BoxDecoration(
+        color: context.themeStyleV2.colors.background2,
+        borderRadius: const BorderRadius.only(
+          bottomLeft: Radius.circular(DimensRadiusV2.radius12),
+          bottomRight: Radius.circular(DimensRadiusV2.radius12),
+        ),
+      ),
+      child: Column(
+        children: [
+          const CommonDivider(),
+          PrivateKeyItemWidget(
+            seedWithInfo: widget.data.privateKeys,
+            currentAccount: widget.currentAccount,
+            onTap: widget.onTapAccount,
+            getBalanceEntity: widget.getBalanceEntity,
+            scrollController: widget.scrollController,
+            isScrollToAccount: widget.shouldAutoExpand && _isExpanded,
+          ),
+        ],
+      ),
+    );
+    return _cachedExpandedContent!;
+  }
+
   void _toggleExpand() {
     setState(() {
       _isExpanded = !_isExpanded;
+      if (!_isExpanded) {
+        _cachedExpandedContent = null;
+      }
     });
   }
 }
