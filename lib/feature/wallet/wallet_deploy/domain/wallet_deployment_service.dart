@@ -259,7 +259,7 @@ class WalletDeploymentService {
 
     if (custodians == null || requireConfirmations == null || hours == null) {
       throw Exception(
-          'Multisig configuration required for multisig deployment',
+        'Multisig configuration required for multisig deployment',
       );
     }
 

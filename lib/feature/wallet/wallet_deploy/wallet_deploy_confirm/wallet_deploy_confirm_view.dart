@@ -178,9 +178,8 @@ class WalletDeployConfirmView extends StatelessWidget {
             publicKey: publicKey,
             isLoading: isLoading,
             isDisabled: feeError != null || fee == null,
-            onConfirmed: onConfirmed != null
-                ? (auth) => onConfirmed!(auth)
-                : (_) {},
+            onConfirmed:
+                onConfirmed != null ? (auth) => onConfirmed!(auth) : (_) {},
           ),
         ),
       ],
