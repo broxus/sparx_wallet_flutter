@@ -30,7 +30,6 @@ class WalletDeployConfirmRoute
           compassBaseRoutes: [
             walletDeployStatusRoute,
           ],
-          bottomBarState: BottomBarState.hidden,
         );
 
   @override

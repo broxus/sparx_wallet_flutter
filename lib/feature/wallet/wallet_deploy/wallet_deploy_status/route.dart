@@ -11,7 +11,6 @@ class WalletDeployStatusRoute
     extends CompassRoute<WalletDeployStatusRouteData> {
   WalletDeployStatusRoute()
       : super(
-          bottomBarState: BottomBarState.hidden,
           path: '/wallet-deploy-status',
           builder: (context, data, _) {
             return WalletDeployStatusScreen(
