@@ -124,8 +124,9 @@ class _Body extends StatelessWidget {
                           StateNotifierBuilder(
                             listenableState: fiatBalance,
                             builder: (_, fiatBalance) {
-                              if (fiatBalance == null)
+                              if (fiatBalance == null) {
                                 return const SizedBox.shrink();
+                              }
                               return AmountWidget.dollars(
                                 amount: fiatBalance,
                                 style: theme.textStyles.labelXSmall,
