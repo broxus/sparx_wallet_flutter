@@ -96,8 +96,9 @@ class _Body extends StatelessWidget {
                       StateNotifierBuilder(
                         listenableState: tokenBalanceState,
                         builder: (_, tokenBalance) {
-                          if (tokenBalance == null)
+                          if (tokenBalance == null) {
                             return const SizedBox.shrink();
+                          }
                           return AmountWidget.fromMoney(
                             amount: tokenBalance,
                             includeSymbol: false,
@@ -109,8 +110,9 @@ class _Body extends StatelessWidget {
                       StateNotifierBuilder(
                         listenableState: fiatBalanceState,
                         builder: (_, fiatBalance) {
-                          if (fiatBalance == null)
+                          if (fiatBalance == null) {
                             return const SizedBox.shrink();
+                          }
                           return AmountWidget.dollars(
                             amount: fiatBalance,
                             style: theme.textStyles.labelXSmall,
