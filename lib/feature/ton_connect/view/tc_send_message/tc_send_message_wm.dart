@@ -55,7 +55,7 @@ class TCSendMessageWidgetModel extends CustomWidgetModelParametrized<
   late final _dataState = createNotifier<List<TransferData>>();
   late final _feeState = createEntityNotifier<Fee>()..loading();
   late final _txErrorsState = createNotifier<List<TxTreeSimulationErrorItem>>();
-  late final _publicKeyState = createValueNotifier<PublicKey?>(null);
+  late final _selectedPublicKeyState = createValueNotifier<PublicKey?>(null);
   late final _custodiansState = createNotifier<List<PublicKey>>();
   late final _balanceState = createNotifierFromStream(
     wmParams.switchMap(
@@ -75,7 +75,8 @@ class TCSendMessageWidgetModel extends CustomWidgetModelParametrized<
   ListenableState<List<TxTreeSimulationErrorItem>> get txErrorsState =>
       _txErrorsState;
 
-  ValueListenable<PublicKey?> get selectedPublicKey => _publicKeyState;
+  ValueListenable<PublicKey?> get selectedPublicKeyState =>
+      _selectedPublicKeyState;
 
   ListenableState<List<PublicKey>> get custodiansState => _custodiansState;
 
@@ -112,7 +113,7 @@ class TCSendMessageWidgetModel extends CustomWidgetModelParametrized<
 
   // ignore: use_setters_to_change_properties
   void onChangedCustodian(PublicKey custodian) {
-    _publicKeyState.value = custodian;
+    _selectedPublicKeyState.value = custodian;
   }
 
   Future<void> onSubmit(SignInputAuth signInputAuth) async {
@@ -161,7 +162,7 @@ class TCSendMessageWidgetModel extends CustomWidgetModelParametrized<
 
   Future<SignInputAuthLedger> getLedgerAuthInput() {
     final data = _dataState.value;
-    final custodian = _publicKeyState.value;
+    final custodian = _selectedPublicKeyState.value;
     if (data == null || data.isEmpty) {
       throw StateError('Invalid transfer data');
     }

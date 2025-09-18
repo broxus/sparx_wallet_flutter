@@ -44,8 +44,8 @@ class ManageSeedsAccountsPage
             Expanded(
               child: SingleChildScrollView(
                 child: DoubleSourceBuilder(
-                  firstSource: wm.currentSeed,
-                  secondSource: wm.seeds,
+                  firstSource: wm.currentSeedState,
+                  secondSource: wm.seedsState,
                   builder: (_, current, seeds) {
                     final list = seeds ?? [];
 

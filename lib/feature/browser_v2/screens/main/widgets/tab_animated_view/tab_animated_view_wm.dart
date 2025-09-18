@@ -35,22 +35,22 @@ class TabAnimatedViewWidgetModel extends CustomWidgetModelParametrized<
   late final widthAnimation = Tween<double>(
     begin: 168,
     end: _screenSize.width,
-  ).animate(_animationController);
+  ).animate(_animationState);
 
   late final heightAnimation = Tween<double>(
     begin: 200,
     end: _screenSize.height,
-  ).animate(_animationController);
+  ).animate(_animationState);
 
   late final borderRadiusAnimation = Tween<double>(
     begin: 0,
     end: DimensRadiusV2.radius16,
-  ).animate(_animationController);
+  ).animate(_animationState);
 
   late final opacityAnimation = Tween<double>(
     begin: 0,
     end: 1,
-  ).animate(_animationController);
+  ).animate(_animationState);
 
   final _positionXTween = Tween<double>(begin: 0, end: 0);
   final _positionYTween = Tween<double>(begin: 0, end: 0);
@@ -63,7 +63,7 @@ class TabAnimatedViewWidgetModel extends CustomWidgetModelParametrized<
 
   late final _screenshotStateState = createNotifier<File?>();
 
-  late final _animationController = AnimationController(
+  late final _animationState = AnimationController(
     vsync: this,
     duration: const Duration(milliseconds: 250),
   )..value = 1;
@@ -76,7 +76,7 @@ class TabAnimatedViewWidgetModel extends CustomWidgetModelParametrized<
 
   Animation<double>? get leftPositionAnimation => _leftPositionAnimation;
 
-  Listenable get animationListenable => _animationController;
+  Listenable get animationState => _animationState;
 
   ListenableState<TabAnimationType?> get showAnimationState =>
       wmParams.value.showAnimationState;
@@ -87,13 +87,13 @@ class TabAnimatedViewWidgetModel extends CustomWidgetModelParametrized<
   void initWidgetModel() {
     super.initWidgetModel();
     showAnimationState.addListener(_handleTabAnimationType);
-    _animationController.addStatusListener(_handleAnimationStatus);
+    _animationState.addStatusListener(_handleAnimationStatus);
   }
 
   @override
   void dispose() {
     showAnimationState.removeListener(_handleTabAnimationType);
-    _animationController.dispose();
+    _animationState.dispose();
     super.dispose();
   }
 
@@ -115,15 +115,15 @@ class TabAnimatedViewWidgetModel extends CustomWidgetModelParametrized<
 
     switch (animationType) {
       case ShowTabsAnimationType():
-        _animationController.value = 1;
+        _animationState.value = 1;
         _updateScreenshotFile();
         _updateAnimationPosition(tabX, tabY);
-        _animationController.reverse();
+        _animationState.reverse();
       case ShowViewAnimationType():
-        _animationController.value = 0;
+        _animationState.value = 0;
         _updateScreenshotFile();
         _updateAnimationPosition(tabX, tabY);
-        _animationController.forward();
+        _animationState.forward();
     }
 
     _prevAnimationType = animationType;
@@ -151,8 +151,8 @@ class TabAnimatedViewWidgetModel extends CustomWidgetModelParametrized<
   void _updateAnimationPosition(double tabX, double tabY) {
     _positionXTween.begin = tabX;
     _positionYTween.begin = tabY;
-    _topPositionAnimation = _positionYTween.animate(_animationController);
-    _leftPositionAnimation = _positionXTween.animate(_animationController);
+    _topPositionAnimation = _positionYTween.animate(_animationState);
+    _leftPositionAnimation = _positionXTween.animate(_animationState);
   }
 
   void _onStart() {

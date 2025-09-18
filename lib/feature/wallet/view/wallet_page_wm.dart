@@ -21,8 +21,8 @@ class WalletPageWidgetModel
       createNotifierFromStream(model.currentAccount);
   late final _transportStrategyState =
       createNotifierFromStream(model.transportStrategy);
-  late final _isShowingNewTokensNotifier = createNotifier<bool>();
-  late final _hasUnconfirmedTransactionsNotifier = createNotifier<bool>();
+  late final _isShowingNewTokensState = createNotifier<bool>();
+  late final _hasUnconfirmedTransactionsState = createNotifier<bool>();
 
   StreamSubscription<RootTab>? _pressWalletSubscribtion;
 
@@ -35,13 +35,13 @@ class WalletPageWidgetModel
   ListenableState<KeyAccount?> get currentAccountState => _currentAccountState;
 
   ListenableState<bool?> get hasUnconfirmedTransactionsState =>
-      _hasUnconfirmedTransactionsNotifier;
+      _hasUnconfirmedTransactionsState;
 
   ListenableState<TransportStrategy> get transportStrategyState =>
       _transportStrategyState;
 
   ListenableState<bool> get isShowingNewTokensState =>
-      _isShowingNewTokensNotifier;
+      _isShowingNewTokensState;
 
   @override
   void initWidgetModel() {
@@ -70,7 +70,7 @@ class WalletPageWidgetModel
 
   void hideNewTokensLabel() {
     final account = currentAccountState.value;
-    _isShowingNewTokensNotifier.accept(false);
+    _isShowingNewTokensState.accept(false);
     if (account != null) {
       model.hideNewTokenLabels(account);
     }
@@ -86,13 +86,13 @@ class WalletPageWidgetModel
     final isNewUser = model.isNewUser();
 
     if (isNewUser == null) {
-      _isShowingNewTokensNotifier.accept(
+      _isShowingNewTokensState.accept(
         model.isShowingNewTokens(account) ?? true,
       );
       return;
     }
 
-    _isShowingNewTokensNotifier.accept(true);
+    _isShowingNewTokensState.accept(true);
 
     if (!isNewUser) {
       model.hideShowingBadge(account);
@@ -123,7 +123,7 @@ class WalletPageWidgetModel
   void _checkUnconfirmedTransactions(TonWallet? wallet) {
     final unconfirmedTransactionsCount =
         wallet?.unconfirmedTransactions.length ?? 0;
-    _hasUnconfirmedTransactionsNotifier.accept(
+    _hasUnconfirmedTransactionsState.accept(
       unconfirmedTransactionsCount > 0,
     );
   }
