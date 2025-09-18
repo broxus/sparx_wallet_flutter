@@ -134,11 +134,16 @@ class _Body extends StatelessWidget {
                       mainAxisAlignment: MainAxisAlignment.center,
                       crossAxisAlignment: CrossAxisAlignment.stretch,
                       children: [
-                        WalletActionButton(
-                          label: LocaleKeys.receiveWord.tr(),
-                          icon: LucideIcons.arrowDown,
-                          onPressed: () =>
-                              showReceiveFundsSheet(context, owner),
+                        Flexible(
+                          child: SizedBox(
+                            width: DimensSizeV2.d90,
+                            child: WalletActionButton(
+                              label: LocaleKeys.receiveWord.tr(),
+                              icon: LucideIcons.arrowDown,
+                              onPressed: () =>
+                                  showReceiveFundsSheet(context, owner),
+                            ),
+                          ),
                         ),
                         DoubleSourceBuilder(
                           firstSource: canSend,
@@ -148,10 +153,15 @@ class _Body extends StatelessWidget {
                               return const SizedBox.shrink();
                             }
 
-                            return WalletActionButton(
-                              label: LocaleKeys.sendWord.tr(),
-                              icon: LucideIcons.arrowUp,
-                              onPressed: onSend,
+                            return Flexible(
+                              child: SizedBox(
+                                width: DimensSizeV2.d90,
+                                child: WalletActionButton(
+                                  label: LocaleKeys.sendWord.tr(),
+                                  icon: LucideIcons.arrowUp,
+                                  onPressed: onSend,
+                                ),
+                              ),
                             );
                           },
                         ),
