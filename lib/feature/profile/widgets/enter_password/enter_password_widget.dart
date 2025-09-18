@@ -183,6 +183,7 @@ class _Password extends StatelessWidget {
           hintText: LocaleKeys.password.tr(),
           textEditingController: controller,
           isAutofocus: isAutofocus && !isDisabled,
+          isEnabled: !isDisabled,
           onSubmit: isDisabled ? null : (_) => onSubmit(controller.text),
         ),
         AccentButton(

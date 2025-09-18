@@ -212,20 +212,20 @@ class TokenWalletSendWidgetModel extends CustomWidgetModelParametrized<
 
       if (!canSend) {
         _feesState.error(
-          Exception(LocaleKeys.insufficientFunds.tr()),
+          UiException(LocaleKeys.insufficientFunds.tr()),
           _feesState.value.data,
         );
       }
     } on ContractNotExistsException catch (e, s) {
       _logger.severe('Failed to prepare transaction', e, s);
       _feesState.error(
-        Exception(LocaleKeys.insufficientFunds.tr()),
+        UiException(LocaleKeys.insufficientFunds.tr()),
         _feesState.value.data,
       );
     } on Exception catch (e, s) {
       _logger.severe('Failed to prepare transaction', e, s);
       _feesState.error(
-        Exception(e.toString()),
+        UiException(e.toString()),
         _feesState.value.data,
       );
     } finally {

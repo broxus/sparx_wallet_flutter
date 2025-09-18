@@ -248,7 +248,7 @@ class SendMessageWidgetModel extends CustomWidgetModelParametrized<
 
         if (balance.amount.minorUnits < (fee + amount)) {
           _feeState.error(
-            Exception(LocaleKeys.insufficientFunds.tr()),
+            UiException(LocaleKeys.insufficientFunds.tr()),
             _feeState.value.data,
           );
         }
@@ -277,7 +277,7 @@ class SendMessageWidgetModel extends CustomWidgetModelParametrized<
       );
     } catch (e) {
       _feeState.error(
-        Exception(e.toString()),
+        UiException(e.toString()),
         _feeState.value.data,
       );
     }

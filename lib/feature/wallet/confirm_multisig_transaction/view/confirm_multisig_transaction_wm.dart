@@ -156,14 +156,14 @@ class ConfirmMultisigTransactionWidgetModel
 
       if (!isPossibleToSendMessage) {
         _feesState.error(
-          Exception(LocaleKeys.insufficientFunds.tr()),
+          UiException(LocaleKeys.insufficientFunds.tr()),
           _feesState.value.data,
         );
       }
     } on Exception catch (e, t) {
       _logger.severe('onCustodianSelected', e, t);
       _feesState.error(
-        Exception(e.toString()),
+        UiException(e.toString()),
         _feesState.value.data,
       );
     } finally {

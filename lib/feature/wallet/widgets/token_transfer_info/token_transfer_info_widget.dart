@@ -180,36 +180,37 @@ class TokenTransferInfoWidget extends InjectedElementaryParametrizedWidget<
 
               if (fee == null) return const SizedBox.shrink();
 
-              return Padding(
-                padding: const EdgeInsets.only(top: DimensSizeV2.d16),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.end,
-                  spacing: DimensSizeV2.d4,
-                  children: [
-                    ValueListenableBuilder(
-                      valueListenable: fee,
-                      builder: (_, fee, __) => _FeeItem(
+              return ValueListenableBuilder(
+                valueListenable: fee,
+                builder: (_, fee, __) => Padding(
+                  padding: const EdgeInsets.only(top: DimensSizeV2.d16),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.end,
+                    spacing: DimensSizeV2.d4,
+                    children: [
+                      _FeeItem(
                         fee: fee,
                         usdPrice: feeUSDPrice,
                         asset: feeAsset,
                         nativeTokenIcon: wm.nativeTokenIcon,
                       ),
-                    ),
-                    if ((numberUnconfirmedTransactions ?? 0) >= 5)
-                      Text(
-                        LocaleKeys.errorMessageMaxUnconfirmedTransactions.tr(),
-                        style: theme.textStyles.labelSmall.copyWith(
-                          color: theme.colors.negative,
+                      if ((numberUnconfirmedTransactions ?? 0) >= 5)
+                        Text(
+                          LocaleKeys.errorMessageMaxUnconfirmedTransactions
+                              .tr(),
+                          style: theme.textStyles.labelSmall.copyWith(
+                            color: theme.colors.negative,
+                          ),
+                        )
+                      else if (fee.isErrorState)
+                        Text(
+                          fee.errorOrNull?.toString() ?? '',
+                          style: theme.textStyles.labelSmall.copyWith(
+                            color: theme.colors.negative,
+                          ),
                         ),
-                      )
-                    else if (fee.value.isErrorState)
-                      Text(
-                        fee.value.errorOrNull?.toString() ?? '',
-                        style: theme.textStyles.labelSmall.copyWith(
-                          color: theme.colors.negative,
-                        ),
-                      ),
-                  ],
+                    ],
+                  ),
                 ),
               );
             },
