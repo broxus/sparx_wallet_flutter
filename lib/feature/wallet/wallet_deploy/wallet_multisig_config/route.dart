@@ -1,4 +1,3 @@
-import 'package:app/app/router/compass/bottom_bar_state.dart';
 import 'package:app/app/router/compass/compass.dart';
 import 'package:app/feature/wallet/wallet_deploy/wallet_deploy_confirm/route.dart';
 import 'package:app/feature/wallet/wallet_deploy/wallet_multisig_config/wallet_multisig_config_screen.dart';
