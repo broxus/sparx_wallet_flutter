@@ -42,12 +42,12 @@ class WalletDeployWidgetModel extends CustomWidgetModelParametrized<
   static final _logger = Logger('WalletDeployWidgetModel');
 
   // Single state notifier following the original BLoC pattern
-  late final _state = createNotifier<WalletDeployState>(
+  late final _walletDeployState = createNotifier<WalletDeployState>(
     const WalletDeployState.standard(),
   );
 
   // State getter
-  StateNotifier<WalletDeployState> get state => _state;
+  StateNotifier<WalletDeployState> get walletDeployState => _walletDeployState;
 
   Address get addressState => wmParams.value.address;
   PublicKey get publicKeyState => wmParams.value.publicKey;
@@ -99,7 +99,7 @@ class WalletDeployWidgetModel extends CustomWidgetModelParametrized<
     // Reset fees when going back
     _fees = null;
 
-    final currentState = _state.value;
+    final currentState = _walletDeployState.value;
 
     // Navigate to appropriate step based on current type
     switch (currentState!) {
@@ -112,9 +112,9 @@ class WalletDeployWidgetModel extends CustomWidgetModelParametrized<
       case WalletDeployStateDeployed():
         // Go back to selection based on cached deploy type
         if (_deployType == WalletDeployType.standard) {
-          _state.accept(const WalletDeployState.standard());
+          _walletDeployState.accept(const WalletDeployState.standard());
         } else {
-          _state.accept(
+          _walletDeployState.accept(
             WalletDeployState.multisig(
               _cachedCustodians,
               _cachedRequireConfirmations,
@@ -139,9 +139,9 @@ class WalletDeployWidgetModel extends CustomWidgetModelParametrized<
     // Navigate to appropriate state
     switch (type) {
       case WalletDeployType.standard:
-        _state.accept(const WalletDeployState.standard());
+        _walletDeployState.accept(const WalletDeployState.standard());
       case WalletDeployType.multisig:
-        _state.accept(
+        _walletDeployState.accept(
           WalletDeployState.multisig(
             _cachedCustodians,
             _cachedRequireConfirmations,
@@ -202,7 +202,7 @@ class WalletDeployWidgetModel extends CustomWidgetModelParametrized<
       final wallet = walletState.wallet;
 
       if (wallet == null) {
-        _state.accept(
+        _walletDeployState.accept(
           WalletDeployState.subscribeError(walletState.error!),
         );
         return;
@@ -221,7 +221,7 @@ class WalletDeployWidgetModel extends CustomWidgetModelParametrized<
       final isPossibleToSendMessage = _balance! > _fees!;
 
       if (!isPossibleToSendMessage) {
-        _state.accept(
+        _walletDeployState.accept(
           WalletDeployState.calculatingError(
             error: LocaleKeys.insufficientFunds.tr(),
             fee: _fees,
@@ -237,7 +237,7 @@ class WalletDeployWidgetModel extends CustomWidgetModelParametrized<
         return;
       }
 
-      _state.accept(
+      _walletDeployState.accept(
         WalletDeployState.readyToDeploy(
           fee: _fees!,
           balance: _balance!,
@@ -253,7 +253,7 @@ class WalletDeployWidgetModel extends CustomWidgetModelParametrized<
       );
     } on Exception catch (e, t) {
       _logger.severe('_handlePrepareDeploy', e, t);
-      _state.accept(
+      _walletDeployState.accept(
         WalletDeployState.calculatingError(
           error: e.toString(),
           fee: _fees,
@@ -270,7 +270,8 @@ class WalletDeployWidgetModel extends CustomWidgetModelParametrized<
 
   Future<void> confirmDeploy(SignInputAuth signInputAuth) async {
     try {
-      _state.accept(const WalletDeployState.deploying(canClose: false));
+      _walletDeployState
+          .accept(const WalletDeployState.deploying(canClose: false));
 
       final transaction = await model.sendTransaction(
         _unsignedMessage!,
@@ -280,7 +281,7 @@ class WalletDeployWidgetModel extends CustomWidgetModelParametrized<
         signInputAuth,
       );
 
-      _state.accept(
+      _walletDeployState.accept(
         WalletDeployState.deployed(
           fee: _fees!,
           balance: _balance!,
@@ -307,11 +308,12 @@ class WalletDeployWidgetModel extends CustomWidgetModelParametrized<
   }
 
   void allowCloseDeploy() {
-    _state.accept(const WalletDeployState.deploying(canClose: true));
+    _walletDeployState
+        .accept(const WalletDeployState.deploying(canClose: true));
   }
 
   void completeDeploy(Transaction transaction) {
-    _state.accept(
+    _walletDeployState.accept(
       WalletDeployState.deployed(
         fee: _fees!,
         balance: _balance!,
@@ -331,7 +333,7 @@ class WalletDeployWidgetModel extends CustomWidgetModelParametrized<
       (state) {
         final wallet = state.wallet;
         if (wallet != null) {
-          _state.accept(
+          _walletDeployState.accept(
             WalletDeployState.readyToDeploy(
               fee: _fees!,
               balance: _balance!,

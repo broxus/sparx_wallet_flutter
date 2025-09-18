@@ -28,7 +28,7 @@ class WalletDeployScreen extends InjectedElementaryParametrizedWidget<
   @override
   Widget build(WalletDeployWidgetModel wm) {
     return StateNotifierBuilder<WalletDeployState>(
-      listenableState: wm.state,
+      listenableState: wm.walletDeployState,
       builder: (context, state) {
         return switch (state!) {
           WalletDeployStateSubscribeError(:final error) => _scaffold(

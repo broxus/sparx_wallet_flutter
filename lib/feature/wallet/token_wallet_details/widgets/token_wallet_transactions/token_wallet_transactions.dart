@@ -33,7 +33,7 @@ class TokenWalletTransactionsWidget
   @override
   Widget build(TokenWalletTransactionsWidgetModel wm) {
     return StateNotifierBuilder<TokenWalletTransactionsState>(
-      listenableState: wm.state,
+      listenableState: wm.walletTransactionsState,
       builder: (context, state) {
         final theme = context.themeStyleV2;
         return switch (state!) {

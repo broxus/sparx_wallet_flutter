@@ -78,13 +78,13 @@ class TCSendMessageWidget extends InjectedElementaryParametrizedWidget<
                 MultiListenerRebuilder(
                   listenableList: [
                     wm.accountState,
-                    wm.selectedPublicKey,
+                    wm.selectedPublicKeyState,
                     wm.custodiansState,
                   ],
                   builder: (_) {
                     final account = wm.accountState.value;
                     final selectedPublicKey =
-                        wm.selectedPublicKey.value ?? account?.publicKey;
+                        wm.selectedPublicKeyState.value ?? account?.publicKey;
                     final custodians = wm.custodiansState.value;
 
                     if (custodians == null || custodians.length < 2) {
