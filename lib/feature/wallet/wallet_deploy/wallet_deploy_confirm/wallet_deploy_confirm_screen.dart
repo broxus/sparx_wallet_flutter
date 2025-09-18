@@ -28,74 +28,72 @@ class WalletDeployConfirmScreen extends InjectedElementaryParametrizedWidget<
         backgroundColor: wm.colors.background0,
         onClosePressed: (context) => context.compassBack(),
       ),
-      body: Expanded(
-        child: ValueListenableBuilder<bool>(
-          valueListenable: wm.isLoadingState,
-          builder: (context, isLoading, _) {
-            if (isLoading) {
-              return const Center(
-                child: ProgressIndicatorWidget(size: DimensSizeV2.d16),
-              );
-            }
-
-            return ValueListenableBuilder<String?>(
-              valueListenable: wm.errorMessageState,
-              builder: (context, errorMessage, _) {
-                if (errorMessage != null) {
-                  return _ErrorState(
-                    errorMessage: errorMessage,
-                    onRetry: wm.onRetry,
-                    colors: wm.colors,
-                    textStyles: wm.textStyles,
-                  );
-                }
-
-                return MultiListenerRebuilder(
-                  listenableList: [
-                    wm.accountState,
-                    wm.balanceState,
-                    wm.feeState,
-                    wm.currencyState,
-                    wm.deployTypeState,
-                    wm.requireConfirmationsState,
-                    wm.custodiansState,
-                    wm.publicKeyState,
-                  ],
-                  builder: (_) {
-                    final account = wm.accountState.value;
-                    final balance = wm.balanceState.value;
-                    final fee = wm.feeState.value;
-                    final currency = wm.currencyState.value;
-                    final deployType = wm.deployTypeState.value;
-                    final requireConfirmations =
-                        wm.requireConfirmationsState.value;
-                    final custodians = wm.custodiansState.value;
-                    final publicKey = wm.publicKeyState.value;
-
-                    return WalletDeployConfirmView(
-                      publicKey: publicKey,
-                      balance: balance,
-                      fee: fee,
-                      custodians: deployType == WalletDeployType.standard
-                          ? null
-                          : custodians,
-                      requireConfirmations:
-                          deployType == WalletDeployType.standard
-                              ? null
-                              : requireConfirmations,
-                      tonIconPath: wm.tonIconPath,
-                      currency: Currencies()[wm.ticker],
-                      customCurrency: currency,
-                      account: account,
-                      ledgerAuthInput: wm.ledgerAuthInput,
-                      onConfirmed: wm.onConfirmDeploy,
-                    );
-                  },
-                );
-              },
+      body: ValueListenableBuilder<bool>(
+        valueListenable: wm.isLoadingState,
+        builder: (context, isLoading, _) {
+          if (isLoading) {
+            return const Center(
+              child: ProgressIndicatorWidget(size: DimensSizeV2.d16),
             );
-          },
-        ),
+          }
+
+          return ValueListenableBuilder<String?>(
+            valueListenable: wm.errorMessageState,
+            builder: (context, errorMessage, _) {
+              if (errorMessage != null) {
+                return _ErrorState(
+                  errorMessage: errorMessage,
+                  onRetry: wm.onRetry,
+                  colors: wm.colors,
+                  textStyles: wm.textStyles,
+                );
+              }
+
+              return MultiListenerRebuilder(
+                listenableList: [
+                  wm.accountState,
+                  wm.balanceState,
+                  wm.feeState,
+                  wm.currencyState,
+                  wm.deployTypeState,
+                  wm.requireConfirmationsState,
+                  wm.custodiansState,
+                  wm.publicKeyState,
+                ],
+                builder: (_) {
+                  final account = wm.accountState.value;
+                  final balance = wm.balanceState.value;
+                  final fee = wm.feeState.value;
+                  final currency = wm.currencyState.value;
+                  final deployType = wm.deployTypeState.value;
+                  final requireConfirmations =
+                      wm.requireConfirmationsState.value;
+                  final custodians = wm.custodiansState.value;
+                  final publicKey = wm.publicKeyState.value;
+
+                  return WalletDeployConfirmView(
+                    publicKey: publicKey,
+                    balance: balance,
+                    fee: fee,
+                    custodians: deployType == WalletDeployType.standard
+                        ? null
+                        : custodians,
+                    requireConfirmations:
+                        deployType == WalletDeployType.standard
+                            ? null
+                            : requireConfirmations,
+                    tonIconPath: wm.tonIconPath,
+                    currency: Currencies()[wm.ticker],
+                    customCurrency: currency,
+                    account: account,
+                    ledgerAuthInput: wm.ledgerAuthInput,
+                    onConfirmed: wm.onConfirmDeploy,
+                  );
+                },
+              );
+            },
+          );
+        },
       ),
     );
   }

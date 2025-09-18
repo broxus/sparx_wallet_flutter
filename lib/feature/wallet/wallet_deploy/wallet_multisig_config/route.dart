@@ -21,7 +21,6 @@ class WalletMultisigConfigRoute
     CompassBaseRoute walletDeployConfirmRoute,
   ) : super(
           path: '/wallet-deploy-multisig-config',
-          bottomBarState: BottomBarState.hidden,
           builder: (context, data, _) => WalletMultisigConfigScreen(
             address: data.address,
             publicKey: data.publicKey,
