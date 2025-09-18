@@ -2046,6 +2046,15 @@ extension GetItInjectableX on _i174.GetIt {
           gh<_i83.ErrorHandler>(),
           gh<_i128.ConnectionsStorageService>(),
         ));
+    gh.factory<_i941.TokenWalletDetailsModel>(
+        () => _i941.TokenWalletDetailsModel(
+              gh<_i83.ErrorHandler>(),
+              gh<_i771.NekotonRepository>(),
+              gh<_i128.CurrencyConvertService>(),
+              gh<_i128.BalanceService>(),
+              gh<_i128.AssetsService>(),
+              gh<_i188.GaslessRepository>(),
+            ));
     gh.singleton<_i725.StorageManagerService>(() => _i725.StorageManagerService(
           gh<_i128.SecureStorageService>(),
           gh<_i128.GeneralStorageService>(),
@@ -2109,14 +2118,6 @@ extension GetItInjectableX on _i174.GetIt {
           gh<_i771.NekotonRepository>(),
           gh<_i128.AssetsService>(),
         ));
-    gh.factory<_i941.TokenWalletDetailsModel>(
-        () => _i941.TokenWalletDetailsModel(
-              gh<_i83.ErrorHandler>(),
-              gh<_i771.NekotonRepository>(),
-              gh<_i128.CurrencyConvertService>(),
-              gh<_i128.BalanceService>(),
-              gh<_i128.AssetsService>(),
-            ));
     gh.factory<_i124.ChooseNetworkScreenWidgetModel>(() =>
         _i124.ChooseNetworkScreenWidgetModel(
             gh<_i173.ChooseNetworkScreenModel>()));

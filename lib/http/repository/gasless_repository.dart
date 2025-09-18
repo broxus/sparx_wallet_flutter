@@ -19,6 +19,7 @@ class GaslessRepository {
   final NekotonRepository _nekotonRepository;
   final Dio _dio;
   GaslessApi? _api;
+  GaslessConfig? _config;
 
   void init() {
     _nekotonRepository.currentTransportStream
@@ -26,19 +27,23 @@ class GaslessRepository {
         .map((transport) => transport.gaslessApiBaseUrl)
         .distinct()
         .listen(
-          (baseUrl) => _api = baseUrl?.let(
-            (baseUrl) => GaslessApi(_dio, baseUrl: baseUrl),
-          ),
+      (baseUrl) {
+        _config = null;
+        _api = baseUrl?.let(
+          (baseUrl) => GaslessApi(_dio, baseUrl: baseUrl),
         );
+      },
+    );
   }
 
   Future<GaslessConfig?> getConfig() async {
     if (_api == null) return null;
+    if (_config != null) return _config;
 
     try {
       final response = await _api!.getConfig();
 
-      return GaslessConfig(
+      return _config = GaslessConfig(
         relayAddress: response.relayAddress,
         gasJettons: response.gasJettons
             .map((jetton) => GasJetton(masterId: jetton.masterId))

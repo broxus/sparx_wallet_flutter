@@ -123,49 +123,14 @@ class _Body extends StatelessWidget {
                     },
                   ),
                   const SizedBox(height: DimensSizeV2.d16),
-                  SizedBox(
-                    height: DimensSizeV2.d74,
-                    child: SeparatedRow(
-                      separator: VerticalDivider(
-                        width: DimensStroke.small,
-                        thickness: DimensStroke.small,
-                        color: theme.colors.borderAlpha,
-                      ),
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      crossAxisAlignment: CrossAxisAlignment.stretch,
-                      children: [
-                        Flexible(
-                          child: SizedBox(
-                            width: DimensSizeV2.d90,
-                            child: WalletActionButton(
-                              label: LocaleKeys.receiveWord.tr(),
-                              icon: LucideIcons.arrowDown,
-                              onPressed: () =>
-                                  showReceiveFundsSheet(context, owner),
-                            ),
-                          ),
-                        ),
-                        DoubleSourceBuilder(
-                          firstSource: canSend,
-                          secondSource: tokenBalance,
-                          builder: (_, canSend, tokenBalance) {
-                            if (canSend != true || tokenBalance == null) {
-                              return const SizedBox.shrink();
-                            }
-
-                            return Flexible(
-                              child: SizedBox(
-                                width: DimensSizeV2.d90,
-                                child: WalletActionButton(
-                                  label: LocaleKeys.sendWord.tr(),
-                                  icon: LucideIcons.arrowUp,
-                                  onPressed: onSend,
-                                ),
-                              ),
-                            );
-                          },
-                        ),
-                      ],
+                  DoubleSourceBuilder(
+                    firstSource: canSend,
+                    secondSource: tokenBalance,
+                    builder: (context, canSend, tokenBalance) => _Actions(
+                      canSend: canSend ?? false,
+                      tokenBalance: tokenBalance,
+                      onReceive: () => showReceiveFundsSheet(context, owner),
+                      onSend: onSend,
                     ),
                   ),
                   const SizedBox(height: DimensSizeV2.d48),
@@ -223,6 +188,61 @@ class _Body extends StatelessWidget {
           ),
         ),
       ],
+    );
+  }
+}
+
+class _Actions extends StatelessWidget {
+  const _Actions({
+    required this.canSend,
+    required this.tokenBalance,
+    required this.onReceive,
+    required this.onSend,
+  });
+
+  final bool canSend;
+  final Money? tokenBalance;
+  final VoidCallback onReceive;
+  final VoidCallback onSend;
+
+  @override
+  Widget build(BuildContext context) {
+    final theme = context.themeStyleV2;
+
+    return SizedBox(
+      height: DimensSizeV2.d74,
+      child: SeparatedRow(
+        separator: VerticalDivider(
+          width: DimensStroke.small,
+          thickness: DimensStroke.small,
+          color: theme.colors.borderAlpha,
+        ),
+        mainAxisAlignment: MainAxisAlignment.center,
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: [
+          Flexible(
+            child: SizedBox(
+              width: DimensSizeV2.d90,
+              child: WalletActionButton(
+                label: LocaleKeys.receiveWord.tr(),
+                icon: LucideIcons.arrowDown,
+                onPressed: onReceive,
+              ),
+            ),
+          ),
+          if (canSend && tokenBalance != null)
+            Flexible(
+              child: SizedBox(
+                width: DimensSizeV2.d90,
+                child: WalletActionButton(
+                  label: LocaleKeys.sendWord.tr(),
+                  icon: LucideIcons.arrowUp,
+                  onPressed: onSend,
+                ),
+              ),
+            ),
+        ],
+      ),
     );
   }
 }
