@@ -79,8 +79,9 @@ final class GaslessTokenTransferDelegate extends TokenTransferDelegate {
       owner,
       rootTokenContract,
     );
-    // ignore: only_throw_errors
-    if (walletState.error != null) throw walletState.error!;
+    if (walletState.error != null) {
+      throw UiException(walletState.error!.toString());
+    }
 
     return PreparedTokenTransfer.gasless(
       amount: amount,
