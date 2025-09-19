@@ -138,7 +138,9 @@ class TokenWalletSendWidgetModel extends CustomWidgetModelParametrized<
     } on Exception catch (e, s) {
       if (e is AnyhowException && e.isCancelled) return;
       _logger.severe('Failed to send transaction', e, s);
-      model.showMessage(Message.error(message: e.toString()));
+      model.showMessage(
+        Message.error(message: LocaleKeys.failedToSendTransaction.tr()),
+      );
     } finally {
       _isLoadingState.accept(false);
     }
@@ -225,7 +227,7 @@ class TokenWalletSendWidgetModel extends CustomWidgetModelParametrized<
     } on Exception catch (e, s) {
       _logger.severe('Failed to prepare transaction', e, s);
       _feesState.error(
-        UiException(e.toString()),
+        UiException(LocaleKeys.failedToPrepareTransaction.tr()),
         _feesState.value.data,
       );
     } finally {

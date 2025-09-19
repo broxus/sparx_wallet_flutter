@@ -1,6 +1,6 @@
 import 'package:app/app/service/service.dart';
 import 'package:app/data/models/models.dart';
-import 'package:app/http/http.dart';
+import 'package:app/feature/wallet/token_wallet_send/token_wallet_send.dart';
 import 'package:elementary/elementary.dart';
 import 'package:injectable/injectable.dart';
 import 'package:nekoton_repository/nekoton_repository.dart' hide Message;
@@ -13,14 +13,14 @@ class TokenWalletDetailsModel extends ElementaryModel {
     this._currencyConvertService,
     this._balanceService,
     this._assetsService,
-    this._gaslessRepository,
+    this._tokenTransferDelegateProvider,
   ) : super(errorHandler: errorHandler);
 
   final NekotonRepository _nekotonRepository;
   final CurrencyConvertService _currencyConvertService;
   final BalanceService _balanceService;
   final AssetsService _assetsService;
-  final GaslessRepository _gaslessRepository;
+  final TokenTransferDelegateProvider _tokenTransferDelegateProvider;
 
   TransportStrategy get currentTransport => _nekotonRepository.currentTransport;
 
@@ -67,5 +67,12 @@ class TokenWalletDetailsModel extends ElementaryModel {
         rootTokenContract: rootTokenContract,
       );
 
-  Future<GaslessConfig?> getGaslessConfig() => _gaslessRepository.getConfig();
+  Future<bool> isGaslessAvailable({
+    required KeyAccount keyAccount,
+    required Address rootTokenContract,
+  }) =>
+      _tokenTransferDelegateProvider.isGaslessAvailable(
+        keyAccount: keyAccount,
+        rootTokenContract: rootTokenContract,
+      );
 }

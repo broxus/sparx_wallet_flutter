@@ -511,6 +511,7 @@ import '../feature/wallet/token_wallet_send/domain/gasless_token_transfer_delega
 import '../feature/wallet/token_wallet_send/domain/token_transfer_delegate_provider.dart'
     as _i132;
 import '../feature/wallet/token_wallet_send/route.dart' as _i290;
+import '../feature/wallet/token_wallet_send/token_wallet_send.dart' as _i201;
 import '../feature/wallet/token_wallet_send/view/token_wallet_send_model.dart'
     as _i523;
 import '../feature/wallet/token_wallet_send/view/token_wallet_send_wm.dart'
@@ -2041,15 +2042,6 @@ extension GetItInjectableX on _i174.GetIt {
           gh<_i83.ErrorHandler>(),
           gh<_i128.ConnectionsStorageService>(),
         ));
-    gh.factory<_i941.TokenWalletDetailsModel>(
-        () => _i941.TokenWalletDetailsModel(
-              gh<_i83.ErrorHandler>(),
-              gh<_i771.NekotonRepository>(),
-              gh<_i128.CurrencyConvertService>(),
-              gh<_i128.BalanceService>(),
-              gh<_i128.AssetsService>(),
-              gh<_i188.GaslessRepository>(),
-            ));
     gh.singleton<_i725.StorageManagerService>(() => _i725.StorageManagerService(
           gh<_i128.SecureStorageService>(),
           gh<_i128.GeneralStorageService>(),
@@ -2111,17 +2103,18 @@ extension GetItInjectableX on _i174.GetIt {
           gh<_i771.NekotonRepository>(),
           gh<_i128.AssetsService>(),
         ));
+    gh.factory<_i941.TokenWalletDetailsModel>(
+        () => _i941.TokenWalletDetailsModel(
+              gh<_i83.ErrorHandler>(),
+              gh<_i771.NekotonRepository>(),
+              gh<_i128.CurrencyConvertService>(),
+              gh<_i128.BalanceService>(),
+              gh<_i128.AssetsService>(),
+              gh<_i201.TokenTransferDelegateProvider>(),
+            ));
     gh.factory<_i124.ChooseNetworkScreenWidgetModel>(() =>
         _i124.ChooseNetworkScreenWidgetModel(
             gh<_i173.ChooseNetworkScreenModel>()));
-    gh.factory<_i149.WalletPrepareTransferPageModel>(
-        () => _i149.WalletPrepareTransferPageModel(
-              gh<_i83.ErrorHandler>(),
-              gh<_i128.AssetsService>(),
-              gh<_i771.NekotonRepository>(),
-              gh<_i632.MessengerService>(),
-              gh<_i128.CurrenciesService>(),
-            ));
     gh.factory<_i251.StakingPageModel>(() => _i251.StakingPageModel(
           gh<_i83.ErrorHandler>(),
           gh<_i771.NekotonRepository>(),
@@ -2130,9 +2123,6 @@ extension GetItInjectableX on _i174.GetIt {
           gh<_i128.AssetsService>(),
           gh<_i128.GeneralStorageService>(),
         ));
-    gh.factory<_i236.WalletPrepareTransferPageWidgetModel>(() =>
-        _i236.WalletPrepareTransferPageWidgetModel(
-            gh<_i149.WalletPrepareTransferPageModel>()));
     gh.factory<_i289.SelectTokenModel>(() => _i289.SelectTokenModel(
           gh<_i83.ErrorHandler>(),
           gh<_i771.NekotonRepository>(),
@@ -2175,6 +2165,15 @@ extension GetItInjectableX on _i174.GetIt {
     gh.factory<_i483.SelectNewAssetPageWidgetModel>(() =>
         _i483.SelectNewAssetPageWidgetModel(
             gh<_i158.SelectNewAssetPageModel>()));
+    gh.factory<_i149.WalletPrepareTransferPageModel>(
+        () => _i149.WalletPrepareTransferPageModel(
+              gh<_i83.ErrorHandler>(),
+              gh<_i128.AssetsService>(),
+              gh<_i771.NekotonRepository>(),
+              gh<_i632.MessengerService>(),
+              gh<_i128.CurrenciesService>(),
+              gh<_i201.TokenTransferDelegateProvider>(),
+            ));
     gh.factory<_i668.AddTip3TokenWidgetModel>(
         () => _i668.AddTip3TokenWidgetModel(gh<_i588.AddTip3TokenModel>()));
     gh.factory<_i690.FeatureServicesConfigurator>(
@@ -2211,6 +2210,9 @@ extension GetItInjectableX on _i174.GetIt {
         () => _i307.BrowserPageWidgetModel(gh<_i154.BrowserPageModel>()));
     gh.factory<_i695.AccountAssetsTabWidgetModel>(() =>
         _i695.AccountAssetsTabWidgetModel(gh<_i343.AccountAssetsTabModel>()));
+    gh.factory<_i236.WalletPrepareTransferPageWidgetModel>(() =>
+        _i236.WalletPrepareTransferPageWidgetModel(
+            gh<_i149.WalletPrepareTransferPageModel>()));
     gh.factory<_i111.TokenTransferInfoWidgetModel>(() =>
         _i111.TokenTransferInfoWidgetModel(gh<_i207.TokenTransferInfoModel>()));
     gh.singleton<_i468.BootstrapService>(() => _i468.BootstrapService(

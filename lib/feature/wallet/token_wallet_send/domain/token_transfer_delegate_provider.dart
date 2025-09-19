@@ -17,7 +17,7 @@ final class TokenTransferDelegateProvider {
   final GaslessTokenTransferDelegate _gaslessTokenTransferDelegate;
   final BasicTokenTransferDelegate _basicTokenTransferDelegate;
 
-  Future<TokenTransferDelegate> provide({
+  Future<bool> isGaslessAvailable({
     required KeyAccount keyAccount,
     required Address rootTokenContract,
   }) async {
@@ -29,11 +29,25 @@ final class TokenTransferDelegateProvider {
         keyAccount.account.tonWallet.contract ==
             const WalletType.walletV5R1()) {
       final config = await _gaslessRepository.getConfig();
-      final isGaslessAvailable = config != null &&
-          config.gasJettons
-              .any((jetton) => jetton.masterId == rootTokenContract);
 
-      if (isGaslessAvailable) return _gaslessTokenTransferDelegate;
+      return config != null &&
+          config.gasJettons.any(
+            (jetton) => jetton.masterId == rootTokenContract,
+          );
+    }
+
+    return false;
+  }
+
+  Future<TokenTransferDelegate> provide({
+    required KeyAccount keyAccount,
+    required Address rootTokenContract,
+  }) async {
+    if (await isGaslessAvailable(
+      keyAccount: keyAccount,
+      rootTokenContract: rootTokenContract,
+    )) {
+      return _gaslessTokenTransferDelegate;
     }
 
     return _basicTokenTransferDelegate;

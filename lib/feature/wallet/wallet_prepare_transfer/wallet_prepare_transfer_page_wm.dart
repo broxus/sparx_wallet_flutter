@@ -27,6 +27,10 @@ import 'package:flutter/widgets.dart';
 import 'package:injectable/injectable.dart';
 import 'package:nekoton_repository/nekoton_repository.dart';
 
+const _zeroAddress = Address(
+  address: '0:0000000000000000000000000000000000000000000000000000000000000000',
+);
+
 class WalletPrepareTransferPageWmParams {
   const WalletPrepareTransferPageWmParams({
     required this.address,
@@ -140,7 +144,7 @@ class WalletPrepareTransferPageWidgetModel
       address: receiverController.text.trim(),
     );
 
-    if (!validateAddress(addr)) {
+    if (!addr.isValid) {
       model.showError(LocaleKeys.addressIsWrong.tr());
 
       return;
@@ -157,6 +161,7 @@ class WalletPrepareTransferPageWidgetModel
   Future<void> setMaxBalance() async {
     final asset = _selectedAsset;
     var available = asset?.balance;
+    Money? comission;
 
     if (asset == null || available == null) {
       return;
@@ -166,10 +171,27 @@ class WalletPrepareTransferPageWidgetModel
       // subtract approximate comission
       final gas = await model.getFeeFactor();
       final valueComission = gas == null ? 0.01 : gas / pow(2, 16) * 0.01;
-      final comission = Money.fromFixedWithCurrency(
+
+      comission = Money.fromFixedWithCurrency(
         Fixed.fromNum(valueComission),
         available.currency,
       );
+    } else {
+      final keyAccount = _data?.account;
+      final publicKey = _data?.selectedCustodian;
+      final address = Address(address: receiverController.text.trim());
+
+      comission = keyAccount != null && publicKey != null
+          ? await model.estimateGaslessCommission(
+              keyAccount: keyAccount,
+              rootTokenContract: asset.rootTokenContract,
+              publicKey: publicKey,
+              destination: address.isValid ? address : _zeroAddress,
+            )
+          : null;
+    }
+
+    if (comission != null) {
       final amountMinusComission = available - comission;
       if (amountMinusComission.amount < Fixed.zero) {
         model.showError(
@@ -197,7 +219,7 @@ class WalletPrepareTransferPageWidgetModel
       return;
     }
 
-    if (validateAddress(Address(address: text))) {
+    if (Address(address: text).isValid) {
       receiverController.text = text;
       receiverFocus.unfocus();
     } else {
@@ -248,9 +270,7 @@ class WalletPrepareTransferPageWidgetModel
       return;
     }
 
-    _updateState(
-      account: acc,
-    );
+    _updateState(account: acc);
 
     // If default contract not specified, then native is default and load
     // all existed assets

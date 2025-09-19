@@ -152,19 +152,13 @@ class TokenWalletDetailsWidgetModel extends CustomWidgetModelParametrized<
   Future<void> _checkIfCanSend() async {
     if (_keyAccount == null) return;
 
-    final gaslessConfig = await model.getGaslessConfig();
-    if (gaslessConfig != null) {
-      final masterKey = model.findMasterKeyByAccount(_keyAccount!);
-      final isGaslessSupported = gaslessConfig.gasJettons
-          .any((jetton) => jetton.masterId == rootTokenContract);
-
-      if (!masterKey.isLedger &&
-          isGaslessSupported &&
-          _keyAccount!.account.tonWallet.contract ==
-              const WalletType.walletV5R1()) {
-        _canSendState.accept(true);
-        return;
-      }
+    final isGaslessAvailable = await model.isGaslessAvailable(
+      keyAccount: _keyAccount!,
+      rootTokenContract: rootTokenContract,
+    );
+    if (isGaslessAvailable) {
+      _canSendState.accept(true);
+      return;
     }
 
     final local = await model.getLocalCustodians(owner);

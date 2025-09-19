@@ -6,14 +6,14 @@ part 'gasless_send_response_dto.g.dart';
 class GaslessSendResponseDto {
   const GaslessSendResponseDto({
     required this.protocolName,
-    required this.transactionHash,
+    required this.messageHash,
   });
 
   factory GaslessSendResponseDto.fromJson(Map<String, dynamic> json) =>
       _$GaslessSendResponseDtoFromJson(json);
 
   final String protocolName;
-  final String transactionHash;
+  final String messageHash;
 
   Map<String, dynamic> toJson() => _$GaslessSendResponseDtoToJson(this);
 }

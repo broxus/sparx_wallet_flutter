@@ -793,4 +793,6 @@ abstract class LocaleKeys {
   static const emptyConnectedDapps = 'emptyConnectedDapps';
   static const disconnect = 'disconnect';
   static const tokenListValidationError = 'tokenListValidationError';
+  static const failedToPrepareTransaction = 'failedToPrepareTransaction';
+  static const failedToSendTransaction = 'failedToSendTransaction';
 }
