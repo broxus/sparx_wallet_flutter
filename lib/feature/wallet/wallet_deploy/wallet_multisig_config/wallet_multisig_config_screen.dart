@@ -145,15 +145,17 @@ class _WalletMultisigConfigBodyState extends State<_WalletMultisigConfigBody> {
   Widget build(BuildContext context) {
     final textStyles = context.themeStyleV2.textStyles;
 
-    return Stack(
-      children: [
-        Positioned.fill(
-          bottom: commonButtonHeight,
-          child: SingleChildScrollView(
-            padding: const EdgeInsets.all(DimensSize.d16),
-            child: Form(
-              key: _formKey,
-              child: SeparatedColumn(
+    return GestureDetector(
+      onTap: () => FocusScope.of(context).unfocus(),
+      child: Stack(
+        children: [
+          Positioned.fill(
+            bottom: commonButtonHeight,
+            child: SingleChildScrollView(
+              padding: const EdgeInsets.all(DimensSize.d16),
+              child: Form(
+                key: _formKey,
+                child: SeparatedColumn(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   ValueListenableBuilder<bool>(
@@ -270,24 +272,25 @@ class _WalletMultisigConfigBodyState extends State<_WalletMultisigConfigBody> {
                       buttonShape: ButtonShape.pill,
                     ),
                 ],
+                ),
               ),
             ),
           ),
-        ),
-        Positioned(
-          bottom: DimensSize.d16,
-          left: DimensSize.d16,
-          right: DimensSize.d16,
-          child: Padding(
-            padding: const EdgeInsets.only(bottom: DimensSizeV2.d8),
-            child: AccentButton(
-              buttonShape: ButtonShape.pill,
-              title: LocaleKeys.nextWord.tr(),
-              onPressed: () => _next(context),
+          Positioned(
+            bottom: DimensSize.d16,
+            left: DimensSize.d16,
+            right: DimensSize.d16,
+            child: Padding(
+              padding: const EdgeInsets.only(bottom: DimensSizeV2.d8),
+              child: AccentButton(
+                buttonShape: ButtonShape.pill,
+                title: LocaleKeys.nextWord.tr(),
+                onPressed: () => _next(context),
+              ),
             ),
           ),
-        ),
-      ],
+        ],
+      ),
     );
   }
 
