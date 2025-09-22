@@ -33,6 +33,9 @@ final class GaslessTokenTransferDelegate extends TokenTransferDelegate {
     String? comment,
     bool? notifyReceiver,
   }) async {
+    final config = await _gaslessRepository.getConfig();
+    if (config == null) throw StateError('Gasless config is not available');
+
     final internalMessage = await _nekotonRepository.prepareTokenTransfer(
       owner: owner,
       rootTokenContract: rootTokenContract,
@@ -41,6 +44,7 @@ final class GaslessTokenTransferDelegate extends TokenTransferDelegate {
       payload: comment?.let((it) => encodeComment(it, plain: _transport.isTon)),
       attachedAmount: attachedAmount,
       notifyReceiver: notifyReceiver ?? false,
+      remainingGasTo: config.relayAddress,
     );
 
     final boc = await encodeInternalMessage(
