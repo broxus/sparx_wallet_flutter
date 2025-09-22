@@ -5,8 +5,11 @@ import 'package:nekoton_repository/nekoton_repository.dart';
 @injectable
 class WalletMultisigConfigModel extends ElementaryModel {
   WalletMultisigConfigModel(
+    this._nekotonRepository,
     ErrorHandler errorHandler,
   ) : super(errorHandler: errorHandler);
+
+  final NekotonRepository _nekotonRepository;
 
   /// Validates the number of required confirmations
   bool validateRequireConfirmations(
@@ -18,6 +21,15 @@ class WalletMultisigConfigModel extends ElementaryModel {
 
   bool validateHours(int hours) {
     return hours > 0 && hours <= 24;
+  }
+
+  WalletType walletType(Address address) {
+    return _nekotonRepository.seedList
+            .findAccountByAddress(address)
+            ?.account
+            .tonWallet
+            .contract ??
+        const WalletType.multisig(MultisigType.multisig2_1);
   }
 
   bool validateConfig({

@@ -41,6 +41,11 @@ class WalletDeployConfirmWidgetModel extends CustomWidgetModelParametrized<
       createValueNotifier(null);
   ValueNotifier<String?> get errorMessageState => _errorMessageState;
 
+  late final ValueNotifier<bool> _hasSufficientBalanceState =
+      createValueNotifier(true);
+  ValueNotifier<bool> get hasSufficientBalanceState =>
+      _hasSufficientBalanceState;
+
   late final StateNotifier<CustomCurrency> _currencyState =
       createNotifier<CustomCurrency>();
   StateNotifier<CustomCurrency> get currencyState => _currencyState;
@@ -65,6 +70,7 @@ class WalletDeployConfirmWidgetModel extends CustomWidgetModelParametrized<
       createWmParamsNotifier((params) => params.publicKey);
 
   Address get _address => wmParams.value.address;
+  Address get address => _address;
   int? get _hours => wmParams.value.hours;
 
   String get ticker => model.currentTransport.nativeTokenTicker;
@@ -126,9 +132,13 @@ class WalletDeployConfirmWidgetModel extends CustomWidgetModelParametrized<
       _feeState.accept(fees.fee);
       _balanceState.accept(fees.balance);
 
+      _hasSufficientBalanceState.value = fees.hasSufficientBalance;
+
       // Check if balance is sufficient
       if (!fees.hasSufficientBalance) {
-        _errorMessageState.value = LocaleKeys.insufficientFunds.tr();
+        _errorMessageState.value = LocaleKeys.deployWalletModalSubtitle.tr(
+          args: [(fees.fee / BigInt.from(1000000000)).toString(), ticker],
+        );
       }
     } on Exception catch (e, s) {
       _errorMessageState.value = e.toString();

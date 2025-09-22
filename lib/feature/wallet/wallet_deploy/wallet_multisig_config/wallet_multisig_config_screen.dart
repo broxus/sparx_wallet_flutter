@@ -51,6 +51,7 @@ class WalletMultisigConfigScreen extends InjectedElementaryParametrizedWidget<
         custodians: wm.custodiansState.value,
         requireConfirmations: wm.requireConfirmationsState.value,
         hours: wm.hoursState.value,
+        isWaitingTimeSelectionEnabled: wm.isWaitingTimeSelectionEnabled,
         onNext: (custodians, requireConfirmations, hours) {
           wm.onNext(
             custodians: custodians,
@@ -69,6 +70,7 @@ class _WalletMultisigConfigBody extends StatefulWidget {
     required this.custodians,
     required this.requireConfirmations,
     required this.hours,
+    required this.isWaitingTimeSelectionEnabled,
     required this.onNext,
   });
 
@@ -76,6 +78,7 @@ class _WalletMultisigConfigBody extends StatefulWidget {
   final List<PublicKey> custodians;
   final int requireConfirmations;
   final int hours;
+  final bool isWaitingTimeSelectionEnabled;
   final void Function(
     List<PublicKey> custodians,
     int requireConfirmations,
@@ -208,49 +211,50 @@ class _WalletMultisigConfigBodyState extends State<_WalletMultisigConfigBody> {
                       );
                     },
                   ),
-                  Padding(
-                    padding: const EdgeInsets.only(
-                      top: DimensSizeV2.d8,
+                  if (widget.isWaitingTimeSelectionEnabled)
+                    Padding(
+                      padding: const EdgeInsets.only(
+                        top: DimensSizeV2.d8,
+                      ),
+                      child: Column(
+                        mainAxisSize: MainAxisSize.min,
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            LocaleKeys.deployWalletWaitingTime.tr(),
+                            style: textStyles.labelSmall,
+                          ),
+                          const SizedBox(height: DimensSizeV2.d8),
+                          PrimaryTextField(
+                            focusNode: waitingTimeNode,
+                            textEditingController: waitingTimeController,
+                            keyboardType: TextInputType.number,
+                            textInputAction: TextInputAction.next,
+                            onSubmit: (_) =>
+                                custodianFocuses.first.requestFocus(),
+                            validator: (value) {
+                              if (value == null) {
+                                return LocaleKeys.invalidValue.tr();
+                              }
+                              final number = int.tryParse(value);
+                              if (number == null || number > 24 || number == 0) {
+                                return LocaleKeys.invalidValue.tr();
+                              }
+                              return null;
+                            },
+                            inputFormatters: [
+                              InputFormatters.onlyDigitsFormatter,
+                            ],
+                            suffixes: [
+                              _buildMiniButton(1),
+                              _buildMiniButton(2),
+                              _buildMiniButton(12),
+                              _buildMiniButton(24),
+                            ],
+                          ),
+                        ],
+                      ),
                     ),
-                    child: Column(
-                      mainAxisSize: MainAxisSize.min,
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          LocaleKeys.deployWalletWaitingTime.tr(),
-                          style: textStyles.labelSmall,
-                        ),
-                        const SizedBox(height: DimensSizeV2.d8),
-                        PrimaryTextField(
-                          focusNode: waitingTimeNode,
-                          textEditingController: waitingTimeController,
-                          keyboardType: TextInputType.number,
-                          textInputAction: TextInputAction.next,
-                          onSubmit: (_) =>
-                              custodianFocuses.first.requestFocus(),
-                          validator: (value) {
-                            if (value == null) {
-                              return LocaleKeys.invalidValue.tr();
-                            }
-                            final number = int.tryParse(value);
-                            if (number == null || number > 24 || number == 0) {
-                              return LocaleKeys.invalidValue.tr();
-                            }
-                            return null;
-                          },
-                          inputFormatters: [
-                            InputFormatters.onlyDigitsFormatter,
-                          ],
-                          suffixes: [
-                            _buildMiniButton(1),
-                            _buildMiniButton(2),
-                            _buildMiniButton(12),
-                            _buildMiniButton(24),
-                          ],
-                        ),
-                      ],
-                    ),
-                  ),
                   const SizedBox(height: DimensSizeV2.d12),
                   Text(
                     LocaleKeys.custodiansWord.tr(),

@@ -53,6 +53,11 @@ class WalletMultisigConfigWidgetModel extends CustomWidgetModelParametrized<
   int get requireConfirmations => _requireConfirmationsState.value;
   int get hours => _hoursState.value;
 
+  bool get isWaitingTimeSelectionEnabled {
+    return model.walletType(_address) ==
+        const WalletType.multisig(MultisigType.multisig2_1);
+  }
+
   @override
   void initWidgetModel() {
     super.initWidgetModel();
