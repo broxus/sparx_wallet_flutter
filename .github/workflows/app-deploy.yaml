@@ -173,13 +173,13 @@ jobs:
 
       - name: Remove default anti_phishing.json
         run: |
-          rm -f assets/config/anti_phishing.json
+          rm -f assets/configs/anti_phishing.json
 
       - name: Download anti-phishing file
         uses: actions/download-artifact@v4
         with:
           name: anti-phishing-json
-          path: assets/config
+          path: assets/configs
 
       - name: Setup Flutter
         uses: subosito/flutter-action@v2
@@ -313,12 +313,12 @@ jobs:
             -o /tmp/blacklist1.json
           curl -s https://raw.githubusercontent.com/MetaMask/eth-phishing-detect/refs/heads/main/src/config.json \
             -o /tmp/config.json
-          mkdir -p assets/config
+          mkdir -p assets/configs
           jq -s '(.[0] + .[1].blacklist) | unique | { blacklist: . }' \
             /tmp/blacklist1.json /tmp/config.json \
-            > assets/config/anti_phishing.json
+            > assets/configs/anti_phishing.json
           echo "→ New anti_phishing.json:"
-          head -n 5 assets/config/anti_phishing.json
+          head -n 5 assets/configs/anti_phishing.json
 
       - name: Flutter clean
         run: flutter clean
