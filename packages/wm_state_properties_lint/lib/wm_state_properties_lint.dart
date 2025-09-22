@@ -11,10 +11,7 @@ PluginBase createPlugin() => _WmStatePropertiesLinter();
 class _WmStatePropertiesLinter extends PluginBase {
   @override
   List<LintRule> getLintRules(CustomLintConfigs configs) {
-    return [
-      WmPublicGetterNamingRule(),
-      WmPrivateFieldNamingRule(),
-    ];
+    return [WmPublicGetterNamingRule(), WmPrivateFieldNamingRule()];
   }
 }
 
@@ -25,8 +22,7 @@ mixin ReactiveTypeCheckerMixin {
         type.contains('ValueListenable') ||
         type.contains('StateNotifier') ||
         type.contains('ListenableState') ||
-        type.contains('EntityStateNotifier') ||
-        type.contains('Listenable') && !type.contains('ValueListenable');
+        type.contains('EntityStateNotifier');
   }
 
   bool isStreamType(String type) {
