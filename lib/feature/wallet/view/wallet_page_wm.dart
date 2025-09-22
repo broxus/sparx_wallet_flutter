@@ -40,8 +40,7 @@ class WalletPageWidgetModel
   ListenableState<TransportStrategy> get transportStrategyState =>
       _transportStrategyState;
 
-  ListenableState<bool> get isShowingNewTokensState =>
-      _isShowingNewTokensState;
+  ListenableState<bool> get isShowingNewTokensState => _isShowingNewTokensState;
 
   @override
   void initWidgetModel() {
