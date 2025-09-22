@@ -8,7 +8,6 @@ import 'package:app/feature/browser_v2/screens/main/widgets/tab_animated_view/ta
 import 'package:elementary/elementary.dart';
 import 'package:elementary_helper/elementary_helper.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:injectable/injectable.dart';
 import 'package:ui_components_lib/ui_components_lib.dart';
 
@@ -56,7 +55,7 @@ class TabAnimatedViewWidgetModel extends CustomWidgetModelParametrized<
   ).animate(_animationController);
 
   final _positionXTween = Tween<double>(begin: 0, end: 0);
-  final _positionYTween = Tween<double>(begin: 0, end: kToolbarHeight/2);
+  final _positionYTween = Tween<double>(begin: 0, end: kToolbarHeight / 2);
 
   Animation<double>? _topPositionAnimation;
 

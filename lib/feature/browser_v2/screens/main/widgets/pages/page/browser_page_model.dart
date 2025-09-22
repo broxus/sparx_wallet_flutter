@@ -196,7 +196,8 @@ class BrowserPageModel extends ElementaryModel {
       ]);
 
   Future<void> requestCameraPermissionIfNeed(
-      List<PermissionResourceType> resources) async {
+    List<PermissionResourceType> resources,
+  ) async {
     if (resources.contains(PermissionResourceType.CAMERA) ||
         resources.contains(PermissionResourceType.CAMERA_AND_MICROPHONE)) {
       await _appPermissionsService.requestCamera();

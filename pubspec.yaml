@@ -85,10 +85,10 @@ dependencies:
   rive: 0.13.20
   rxdart: 0.28.0
   sentry_flutter: 8.14.2
-  sqlite3: 2.9.0
-  sqlite3_flutter_libs: ^0.5.0
   share_plus: 11.0.0
   shared_preferences: 2.5.3
+  sqlite3: 2.9.0
+  sqlite3_flutter_libs: ^0.5.0
   string_extensions: 0.7.3
   the_logger: 0.0.18
   ui_components_lib:

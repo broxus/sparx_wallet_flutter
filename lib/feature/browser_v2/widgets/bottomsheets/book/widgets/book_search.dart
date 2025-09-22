@@ -1,4 +1,3 @@
-import 'package:app/feature/browser_v2/widgets/bottomsheets/book/widgets/tab_data.dart';
 import 'package:app/generated/generated.dart';
 import 'package:elementary_helper/elementary_helper.dart';
 import 'package:flutter/material.dart';
