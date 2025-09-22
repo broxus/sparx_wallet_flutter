@@ -27,11 +27,10 @@ extension BrowserTabsCollectionExtension on List<BrowserTab> {
 /// Mutate via add / addAll / remove / clear; listeners are notified on change.
 class ImageCache implements ListenableState<Map<String, String>> {
   ImageCache() {
-    _cache = HashMap<String, String>();
     _notifier = _ImmutableStateNotifier(_cache);
   }
 
-  late final Map<String, String> _cache;
+  final _cache = HashMap<String, String>();
   late final _ImmutableStateNotifier<Map<String, String>> _notifier;
 
   @override
