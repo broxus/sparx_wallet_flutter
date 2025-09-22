@@ -55,7 +55,7 @@ class StakingPageWidgetModel extends CustomWidgetModelParametrized<
 
   Address get accountAddress => wmParams.value;
 
-  ValueListenable<bool> get isLoadingState => _isLoading;
+  ValueListenable<bool> get isLoadingState => _isLoadingState;
 
   ValueListenable<StakingTab> get tabState => _tabState;
 

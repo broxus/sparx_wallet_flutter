@@ -1,7 +1,7 @@
 import 'package:app/generated/generated.dart';
 import 'package:app/utils/utils.dart';
 
-const _dtf = <(String, String?), DateFormat>{};
+final _dtf = <(String, String?), DateFormat>{};
 
 class DateTimeUtils {
   static DateFormat getDateFormat(String pattern, [String? locale]) {
