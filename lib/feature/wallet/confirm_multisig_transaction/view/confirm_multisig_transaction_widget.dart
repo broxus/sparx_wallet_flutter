@@ -54,7 +54,7 @@ class ConfirmMultisigTransactionWidget
   @override
   Widget build(ConfirmMultisigTransactionWidgetModel wm) {
     return StateNotifierBuilder(
-      listenableState: wm.state,
+      listenableState: wm.confirmState,
       builder: (_, state) {
         if (state == null) return const SizedBox.shrink();
 
@@ -88,10 +88,10 @@ class ConfirmMultisigTransactionWidget
               account: wm.account,
               amount: wm.amount,
               currency: wm.currency,
-              fees: wm.fees,
-              error: wm.error,
-              txErrors: wm.txErrors,
-              isLoading: wm.isLoading,
+              fees: wm.feesState,
+              error: wm.errorState,
+              txErrors: wm.txErrorsState,
+              isLoading: wm.isLoadingState,
               getLedgerAuthInput: wm.getLedgerAuthInput,
               onConfirmed: wm.onConfirmed,
             ),

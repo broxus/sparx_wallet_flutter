@@ -1,8 +1,10 @@
+import 'package:app/core/wm/custom_wm.dart';
 import 'package:app/di/di.dart';
+import 'package:app/feature/profile/account_detail/account_detail_wm.dart';
 import 'package:app/feature/profile/profile.dart';
 import 'package:app/generated/generated.dart';
+import 'package:elementary_helper/elementary_helper.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:nekoton_repository/nekoton_repository.dart';
 import 'package:ui_components_lib/ui_components_lib.dart';
 import 'package:ui_components_lib/v2/ui_components_lib_v2.dart';
@@ -25,39 +27,40 @@ ModalRoute<void> deleteAccountSheetRoute(
 }
 
 /// Widget that allows to delete account.
-class DeleteAccountSheet extends StatelessWidget {
-  const DeleteAccountSheet({
-    required this.account,
+class DeleteAccountSheet extends InjectedElementaryParametrizedWidget<
+    AccountDetailWidgetModel, AccountDetailWmParams> {
+  DeleteAccountSheet({
+    required KeyAccount account,
     super.key,
-  });
+  }) : super(
+          wmFactoryParam: AccountDetailWmParams(account.address),
+        ) {
+    _account = account;
+  }
 
   /// Account that should be deleted
-  final KeyAccount account;
+  late final KeyAccount _account;
 
   @override
-  Widget build(BuildContext context) {
-    final colors = context.themeStyleV2.colors;
+  Widget build(AccountDetailWidgetModel wm) {
+    return Builder(
+      builder: (context) {
+        final colors = context.themeStyleV2.colors;
 
-    return SeparatedColumn(
-      mainAxisSize: MainAxisSize.min,
-      children: [
-        ShapedContainerColumn(
-          margin: EdgeInsets.zero,
-          color: colors.background2,
+        return SeparatedColumn(
           mainAxisSize: MainAxisSize.min,
-          separator: const CommonDivider(),
           children: [
-            BlocProvider<AccountDetailCubit>(
-              create: (_) => AccountDetailCubit(
-                address: account.address,
-                nekotonRepository: inject<NekotonRepository>(),
-                balanceService: inject(),
-                convertService: inject(),
-              )..init(),
-              child: BlocBuilder<AccountDetailCubit, AccountDetailState>(
-                builder: (context, state) {
-                  return switch (state) {
-                    AccountDetailStateData(:final balance) => CommonListTile(
+            ShapedContainerColumn(
+              margin: EdgeInsets.zero,
+              color: colors.background2,
+              mainAxisSize: MainAxisSize.min,
+              separator: const CommonDivider(),
+              children: [
+                StateNotifierBuilder<Money?>(
+                  listenableState: wm.balanceState,
+                  builder: (context, balance) {
+                    if (balance != null) {
+                      return CommonListTile(
                         invertTitleSubtitleStyles: true,
                         titleText: LocaleKeys.totalBalance.tr(),
                         subtitleChild: MoneyWidget(
@@ -65,44 +68,45 @@ class DeleteAccountSheet extends StatelessWidget {
                           style: MoneyWidgetStyle.primary,
                         ),
                         padding: EdgeInsets.zero,
+                      );
+                    }
+                    return CommonListTile(
+                      titleText: LocaleKeys.totalBalance.tr(),
+                      subtitleChild: const CommonLoader(
+                        width: DimensSizeV2.d64,
+                        height: DimensSizeV2.d24,
                       ),
-                    _ => CommonListTile(
-                        titleText: LocaleKeys.totalBalance.tr(),
-                        subtitleChild: const CommonLoader(
-                          width: DimensSizeV2.d64,
-                          height: DimensSizeV2.d24,
-                        ),
-                        padding: EdgeInsets.zero,
-                      ),
-                  };
-                },
-              ),
+                      padding: EdgeInsets.zero,
+                    );
+                  },
+                ),
+                CommonListTile(
+                  height: DimensSizeV2.d80,
+                  invertTitleSubtitleStyles: true,
+                  subtitleChild: Text(_account.address.address),
+                  titleText: LocaleKeys.addressWord.tr(),
+                  subtitleText: _account.address.address,
+                  padding: EdgeInsets.zero,
+                ),
+              ],
             ),
-            CommonListTile(
-              height: DimensSizeV2.d80,
-              invertTitleSubtitleStyles: true,
-              subtitleChild: Text(account.address.address),
-              titleText: LocaleKeys.addressWord.tr(),
-              subtitleText: account.address.address,
-              padding: EdgeInsets.zero,
+            const SizedBox(height: DimensSizeV2.d8),
+            DestructiveButton(
+              buttonShape: ButtonShape.pill,
+              title: LocaleKeys.deleteWord.tr(),
+              onPressed: () {
+                Navigator.of(context).pop();
+                _account.remove();
+              },
+            ),
+            PrimaryButton(
+              buttonShape: ButtonShape.pill,
+              title: LocaleKeys.cancelWord.tr(),
+              onPressed: () => Navigator.of(context).pop(),
             ),
           ],
-        ),
-        const SizedBox(height: DimensSizeV2.d8),
-        DestructiveButton(
-          buttonShape: ButtonShape.pill,
-          title: LocaleKeys.deleteWord.tr(),
-          onPressed: () {
-            Navigator.of(context).pop();
-            account.remove();
-          },
-        ),
-        PrimaryButton(
-          buttonShape: ButtonShape.pill,
-          title: LocaleKeys.cancelWord.tr(),
-          onPressed: () => Navigator.of(context).pop(),
-        ),
-      ],
+        );
+      },
     );
   }
 }

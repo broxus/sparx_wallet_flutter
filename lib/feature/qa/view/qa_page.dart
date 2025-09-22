@@ -74,7 +74,7 @@ class QaSheet extends InjectedElementaryWidget<QaWidgetModel> {
             ),
             const SizedBox(height: DimensSizeV2.d24),
             StateNotifierBuilder<String>(
-              listenableState: wm.key,
+              listenableState: wm.keyState,
               builder: (context, keyValue) {
                 return _InfoRow(
                   subtitle: 'Key',
@@ -83,7 +83,7 @@ class QaSheet extends InjectedElementaryWidget<QaWidgetModel> {
               },
             ),
             StateNotifierBuilder<String>(
-              listenableState: wm.iv,
+              listenableState: wm.ivState,
               builder: (context, ivValue) {
                 return _InfoRow(
                   subtitle: 'IV',

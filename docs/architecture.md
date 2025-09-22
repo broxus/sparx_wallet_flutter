@@ -281,19 +281,27 @@ We use the [Elementary](https://pub.dev/packages/elementary) package as our impl
   - Management of stream subscriptions
   - Automatic disposal of all managed resources
   
+  **Important Naming Convention for Reactive Fields:**
+  
+  All reactive fields in WidgetModel must follow strict naming conventions:
+  - **All Notifier/Listenable types** must end with `State` suffix (ValueNotifier, ValueListenable, StateNotifier, ListenableState, EntityStateNotifier)
+  - **Stream types** must end with `Stream` suffix (Stream, StreamController, BehaviorSubject)
+  - **Private fields must match public getter names** (e.g., `_isLoadingState` for getter `isLoadingState`)
+  
   ```dart
-  // Creating notifiers with automatic disposal
-  final _dataState = createNotifier<MyData>();
-  final _loadingState = createEntityNotifier<MyData>();
-  final _textController = createTextEditingController();
+  // CORRECT - Following naming conventions
+  late final _dataState = createNotifier<MyData>();
+  StateNotifier<MyData> get dataState => _dataState;
   
-  // Creating a notifier from a stream
-  final _streamData = createNotifierFromStream<MyData>(model.dataStream);
+  late final _isLoadingState = createValueNotifier(false);
+  ValueListenable<bool> get isLoadingState => _isLoadingState;
   
-  // Listening to a stream with automatic disposal
-  disposableListen(model.events, (event) {
-    // Handle event
-  });
+  late final _eventsStream = StreamController<Event>.broadcast();
+  Stream<Event> get eventsStream => _eventsStream.stream;
+  
+  // WRONG - Missing proper suffixes
+  late final _data = createNotifier<MyData>();  // Should be _dataState
+  late final _isLoading = createValueNotifier(false);  // Should be _isLoadingState
   ```
 
 - `EntityStateNotifier` - A specialized StateNotifier that encapsulates a three-state model for UI data: loading, error, and content. It's designed for handling async operations and their UI states:

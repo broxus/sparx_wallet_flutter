@@ -20,7 +20,7 @@ class UpdateVersionScreen
   @override
   Widget build(UpdateVersionWidgetModel wm) {
     return StateNotifierBuilder<UpdateRequest?>(
-      listenableState: wm.updateRequests,
+      listenableState: wm.updateRequestsState,
       builder: (context, request) {
         final targetVersion = request?.targetVersion;
         final noteText = request?.releaseNote?.info;

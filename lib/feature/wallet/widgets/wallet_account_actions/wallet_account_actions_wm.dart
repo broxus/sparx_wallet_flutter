@@ -3,6 +3,8 @@ import 'dart:async';
 import 'package:app/app/router/router.dart';
 import 'package:app/core/wm/custom_wm.dart';
 import 'package:app/data/models/models.dart';
+import 'package:app/feature/add_seed/enter_seed_name/enter_seed_name.dart';
+import 'package:app/feature/add_seed/enter_seed_name/route.dart';
 import 'package:app/feature/messenger/data/message.dart';
 import 'package:app/feature/profile/profile.dart';
 import 'package:app/feature/wallet/staking/view/staking_page/route.dart';
@@ -13,8 +15,6 @@ import 'package:app/feature/wallet/wallet_prepare_transfer/route.dart';
 import 'package:app/feature/wallet/widgets/account_settings/account_settings.dart';
 import 'package:app/feature/wallet/widgets/wallet_account_actions/wallet_account_actions_model.dart';
 import 'package:app/generated/generated.dart';
-import 'package:app/v1/feature/add_seed/enter_seed_name/enter_seed_name.dart';
-import 'package:app/v1/feature/add_seed/enter_seed_name/route.dart';
 import 'package:elementary_helper/elementary_helper.dart';
 import 'package:flutter/foundation.dart';
 import 'package:injectable/injectable.dart';
@@ -55,7 +55,7 @@ class WalletAccountActionsWidgetModel extends CustomWidgetModelParametrized<
 
   static final _logger = Logger('WalletAccountActionsWidgetModel');
 
-  late final _action = createNotifier<WalletAccountActionBehavior>(
+  late final _actionState = createNotifier<WalletAccountActionBehavior>(
     WalletAccountActionBehavior.send,
   );
   late final _hasStakeState = createWmParamsNotifier<bool>(
@@ -80,7 +80,7 @@ class WalletAccountActionsWidgetModel extends CustomWidgetModelParametrized<
   ValueListenable<bool> get disableSensetiveActionsState =>
       _disableSensetiveActionsState;
 
-  ListenableState<WalletAccountActionBehavior> get action => _action;
+  ListenableState<WalletAccountActionBehavior> get actionState => _actionState;
 
   ValueListenable<bool> get hasStakeState => _hasStakeState;
 
@@ -151,7 +151,7 @@ class WalletAccountActionsWidgetModel extends CustomWidgetModelParametrized<
           model.hasStake &&
           wmParams.value.allowStake;
 
-      _action.accept(action);
+      _actionState.accept(action);
       _hasStakeState.value = hasStakeValue;
       _hasStakeActionsState.value = hasStakeValue && withdraws.isNotEmpty;
 
@@ -189,7 +189,7 @@ class WalletAccountActionsWidgetModel extends CustomWidgetModelParametrized<
   }
 
   void onMainAction() {
-    final action = _action.value;
+    final action = _actionState.value;
 
     if (wmParams.value.disableSensetiveActions || action == null) {
       return;

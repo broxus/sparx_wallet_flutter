@@ -138,7 +138,7 @@ class ImportWalletScreen
                     mainAxisSize: MainAxisSize.min,
                     children: [
                       StateNotifierBuilder(
-                        listenableState: wm.seedPhraseFormat,
+                        listenableState: wm.seedPhraseFormatState,
                         builder: (_, seedPhraseFormat) => SeedPhraseFormatView(
                           networkGroup: wm.networkGroup,
                           networkType: wm.networkType,

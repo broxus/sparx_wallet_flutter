@@ -116,6 +116,8 @@ class TonWalletMultisigPendingTransactionDetailsScreenWidgetModel
 
   ColorsPaletteV2 get colors => _theme.colors;
 
+  double get bottomPadding => MediaQuery.of(context).padding.bottom;
+
   ThemeStyleV2 get _theme => context.themeStyleV2;
 
   Future<void> onPressedConfirm() async {

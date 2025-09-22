@@ -47,11 +47,11 @@ class ConfirmMultisigTransactionWidgetModel
 
   static final _logger = Logger('ConfirmMultisigTransactionWidgetModel');
 
-  late final _isLoading = createNotifier(false);
-  late final _fees = createNotifier<BigInt>();
-  late final _txErrors = createNotifier<List<TxTreeSimulationErrorItem>>();
-  late final _error = createNotifier<String>();
-  late final _state = createNotifier<ConfirmMultisigTransactionState>();
+  late final _isLoadingState = createNotifier(false);
+  late final _feesState = createNotifier<BigInt>();
+  late final _txErrorsState = createNotifier<List<TxTreeSimulationErrorItem>>();
+  late final _errorState = createNotifier<String>();
+  late final _confirmState = createNotifier<ConfirmMultisigTransactionState>();
 
   late final KeyAccount? account = model.getAccount(_walletAddress);
   late final Map<PublicKey, String?> custodianNames = Map.fromEntries(
@@ -73,15 +73,17 @@ class ConfirmMultisigTransactionWidgetModel
   Address get destination => wmParams.value.destination;
   String? get comment => wmParams.value.comment;
 
-  ListenableState<bool> get isLoading => _isLoading;
+  ListenableState<bool> get isLoadingState => _isLoadingState;
 
-  ListenableState<BigInt> get fees => _fees;
+  ListenableState<BigInt> get feesState => _feesState;
 
-  ListenableState<List<TxTreeSimulationErrorItem>> get txErrors => _txErrors;
+  ListenableState<List<TxTreeSimulationErrorItem>> get txErrorsState =>
+      _txErrorsState;
 
-  ListenableState<String> get error => _error;
+  ListenableState<String> get errorState => _errorState;
 
-  ListenableState<ConfirmMultisigTransactionState> get state => _state;
+  ListenableState<ConfirmMultisigTransactionState> get confirmState =>
+      _confirmState;
 
   Currency get currency => Currencies()[model.transport.nativeTokenTicker]!;
 
@@ -92,7 +94,7 @@ class ConfirmMultisigTransactionWidgetModel
     if (wmParams.value.localCustodians.length == 1) {
       onCustodianSelected(wmParams.value.localCustodians.first);
     } else {
-      _state.accept(
+      _confirmState.accept(
         const ConfirmMultisigTransactionState.prepare(),
       );
     }
@@ -114,14 +116,14 @@ class ConfirmMultisigTransactionWidgetModel
 
     UnsignedMessage? unsignedMessage;
     try {
-      _isLoading.accept(true);
-      _state.accept(
+      _isLoadingState.accept(true);
+      _confirmState.accept(
         ConfirmMultisigTransactionState.ready(custodian: custodian),
       );
 
       final walletState = await model.getWalletState(_walletAddress);
       if (walletState.hasError) {
-        _state.accept(
+        _confirmState.accept(
           ConfirmMultisigTransactionState.error(error: walletState.error!),
         );
         return;
@@ -144,8 +146,8 @@ class ConfirmMultisigTransactionWidgetModel
         ),
       );
 
-      _fees.accept(fees);
-      _txErrors.accept(txErrors);
+      _feesState.accept(fees);
+      _txErrorsState.accept(txErrors);
       _wallet = walletState.wallet;
 
       final wallet = walletState.wallet!;
@@ -153,14 +155,14 @@ class ConfirmMultisigTransactionWidgetModel
       final isPossibleToSendMessage = balance > (fees + wmParams.value.amount);
 
       if (!isPossibleToSendMessage) {
-        _error.accept(LocaleKeys.insufficientFunds.tr());
+        _errorState.accept(LocaleKeys.insufficientFunds.tr());
       }
     } on Exception catch (e, t) {
       _logger.severe('onCustodianSelected', e, t);
-      _error.accept(e.toString());
+      _errorState.accept(e.toString());
     } finally {
       unsignedMessage?.dispose();
-      _isLoading.accept(false);
+      _isLoadingState.accept(false);
     }
   }
 
@@ -169,7 +171,7 @@ class ConfirmMultisigTransactionWidgetModel
 
     UnsignedMessage? unsignedMessage;
     try {
-      _isLoading.accept(true);
+      _isLoadingState.accept(true);
 
       if (signInputAuth.isLedger) {
         final isAvailable = await checkBluetoothAvailability();
@@ -194,7 +196,7 @@ class ConfirmMultisigTransactionWidgetModel
         signInputAuth: signInputAuth,
       );
 
-      _state.accept(
+      _confirmState.accept(
         const ConfirmMultisigTransactionState.sending(canClose: true),
       );
 
@@ -212,7 +214,7 @@ class ConfirmMultisigTransactionWidgetModel
       model.showMessage(Message.error(message: e.toString()));
     } finally {
       unsignedMessage?.dispose();
-      _isLoading.accept(false);
+      _isLoadingState.accept(false);
     }
   }
 }

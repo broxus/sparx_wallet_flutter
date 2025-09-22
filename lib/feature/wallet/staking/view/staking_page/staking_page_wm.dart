@@ -30,23 +30,23 @@ class StakingPageWidgetModel extends CustomWidgetModelParametrized<
 
   final _logger = Logger('StakingPageWidgetModel');
 
-  late final _isLoading = createValueNotifier(true);
-  late final _tab = createValueNotifier(StakingTab.stake);
-  late final _info = createEntityNotifier<StakingInfo>()..loading();
-  late final _data = createNotifier<StakingData>();
-  late final _requests = createNotifierFromStream(
+  late final _isLoadingState = createValueNotifier(true);
+  late final _tabState = createValueNotifier(StakingTab.stake);
+  late final _infoState = createEntityNotifier<StakingInfo>()..loading();
+  late final _dataState = createNotifier<StakingData>();
+  late final _requestsState = createNotifierFromStream(
     model.getWithdrawRequests(accountAddress),
   );
-  late final _receive = createNotifierFromStream(
+  late final _receiveState = createNotifierFromStream(
     Rx.combineLatestList(
-      [_tab.asStream(), inputController.asStream()],
+      [_tabState.asStream(), inputController.asStream()],
     ).switchMap(
       (_) => _getReceive().asStream().whereNotNull(),
     ),
   );
-  late final _validation = createNotifierFromStream(
+  late final _validationState = createNotifierFromStream(
     Rx.combineLatestList(
-      [_tab.asStream(), _info.asStream(), inputController.asStream()],
+      [_tabState.asStream(), _infoState.asStream(), inputController.asStream()],
     ).map(
       (_) => _validate(),
     ),
@@ -56,26 +56,27 @@ class StakingPageWidgetModel extends CustomWidgetModelParametrized<
 
   Address get accountAddress => wmParams.value;
 
-  ValueListenable<bool> get isLoading => _isLoading;
+  ValueListenable<bool> get isLoadingState => _isLoadingState;
 
-  ValueListenable<StakingTab> get tab => _tab;
+  ValueListenable<StakingTab> get tabState => _tabState;
 
-  ListenableState<List<StEverWithdrawRequest>> get requests => _requests;
+  ListenableState<List<StEverWithdrawRequest>> get requestsState =>
+      _requestsState;
 
-  ListenableState<Money> get receive => _receive;
+  ListenableState<Money> get receiveState => _receiveState;
 
-  ListenableState<ValidationState> get validation => _validation;
+  ListenableState<ValidationState> get validationState => _validationState;
 
-  EntityValueListenable<StakingInfo> get info => _info;
+  EntityValueListenable<StakingInfo> get infoState => _infoState;
 
-  ListenableState<StakingData> get data => _data;
+  ListenableState<StakingData> get dataState => _dataState;
 
   ThemeStyleV2 get theme => context.themeStyleV2;
 
   /// Native currency
   Currency get currency => model.nativeCurrency;
 
-  Currency? get tokenCurrency => _info.value.data?.tokenWallet.currency;
+  Currency? get tokenCurrency => _infoState.value.data?.tokenWallet.currency;
 
   Fixed get _currentValue =>
       Fixed.tryParse(
@@ -84,14 +85,14 @@ class StakingPageWidgetModel extends CustomWidgetModelParametrized<
       ) ??
       Fixed.zero;
 
-  Currency? get _currentCurrency => _tab.value == StakingTab.stake
+  Currency? get _currentCurrency => _tabState.value == StakingTab.stake
       ? currency
-      : _info.value.data?.tokenWallet.currency;
+      : _infoState.value.data?.tokenWallet.currency;
 
   Money get _comission {
-    final fees = _info.value.data?.fees ?? StakingFees.empty();
+    final fees = _infoState.value.data?.fees ?? StakingFees.empty();
 
-    return _tab.value == StakingTab.stake
+    return _tabState.value == StakingTab.stake
         ? Money.fromBigIntWithCurrency(
             // around 2.1 EVER
             fees.depositAttachedFee +
@@ -119,7 +120,7 @@ class StakingPageWidgetModel extends CustomWidgetModelParametrized<
   void unfocus() => FocusScope.of(context).unfocus();
 
   Future<void> showHowItWorksSheet() async {
-    final info = await _info.asStream().firstWhere((e) => e.data != null);
+    final info = await _infoState.asStream().firstWhere((e) => e.data != null);
 
     model.saveWasStEverOpened();
     contextSafe?.let((context) {
@@ -134,17 +135,17 @@ class StakingPageWidgetModel extends CustomWidgetModelParametrized<
 
   // ignore: use_setters_to_change_properties
   void onTabChanged(StakingTab value) {
-    _tab.value = value;
+    _tabState.value = value;
     inputController.clear();
     _updateData();
   }
 
   void onMaxAmount() {
-    var max = _data.value?.asset?.balance;
+    var max = _dataState.value?.asset?.balance;
 
     if (max == null) return;
 
-    if (_tab.value == StakingTab.stake) {
+    if (_tabState.value == StakingTab.stake) {
       max = max - _comission;
     }
 
@@ -152,7 +153,7 @@ class StakingPageWidgetModel extends CustomWidgetModelParametrized<
   }
 
   void onSubmit() {
-    switch (_tab.value) {
+    switch (_tabState.value) {
       case StakingTab.stake:
         _prepareStaking();
       case StakingTab.unstake:
@@ -173,7 +174,7 @@ class StakingPageWidgetModel extends CustomWidgetModelParametrized<
       );
 
       if (ever.hasError || token.hasError) {
-        _info.error();
+        _infoState.error();
         return;
       }
 
@@ -199,7 +200,7 @@ class StakingPageWidgetModel extends CustomWidgetModelParametrized<
         seconds: int.tryParse(details.withdrawHoldTime) ?? 0,
       ).inHours;
 
-      _info.content(
+      _infoState.content(
         StakingInfo(
           wallet: ever.wallet!,
           tokenWallet: token.wallet!,
@@ -220,18 +221,18 @@ class StakingPageWidgetModel extends CustomWidgetModelParametrized<
       }
     } on Exception catch (e, t) {
       _logger.severe('init', e, t);
-      _info.error(e);
+      _infoState.error(e);
     } finally {
-      _isLoading.value = false;
+      _isLoadingState.value = false;
     }
   }
 
   void _updateData() {
-    final info = _info.value.data;
+    final info = _infoState.value.data;
 
     if (info == null) return;
 
-    final data = switch (_tab.value) {
+    final data = switch (_tabState.value) {
       StakingTab.stake => StakingData(
           tab: StakingTab.stake,
           attachedAmount: Money.fromBigIntWithCurrency(
@@ -283,13 +284,13 @@ class StakingPageWidgetModel extends CustomWidgetModelParametrized<
         ),
     };
 
-    _data.accept(data);
+    _dataState.accept(data);
   }
 
   Future<Money?> _getReceive() async {
-    final tab = _tab.value;
+    final tab = _tabState.value;
     final currency = tab == StakingTab.stake
-        ? _info.value.data?.tokenWallet.currency
+        ? _infoState.value.data?.tokenWallet.currency
         : model.nativeCurrency;
     final value = _currentValue;
 
@@ -307,7 +308,7 @@ class StakingPageWidgetModel extends CustomWidgetModelParametrized<
   }
 
   ValidationState _validate() {
-    final info = _info.value.data;
+    final info = _infoState.value.data;
     final value = _currentValue;
 
     if (info == null) return const ValidationState.invalid();
@@ -317,13 +318,13 @@ class StakingPageWidgetModel extends CustomWidgetModelParametrized<
       info.wallet.contractState.balance,
       currency,
     );
-    final balance = switch (_tab.value) {
+    final balance = switch (_tabState.value) {
       StakingTab.stake => nativeBalance,
       StakingTab.unstake => info.tokenWallet.moneyBalance,
       StakingTab.inProgress => Money.fromInt(0, isoCode: currency.isoCode),
     };
 
-    if (_tab.value == StakingTab.stake &&
+    if (_tabState.value == StakingTab.stake &&
         balance.amount < _comission.amount + value) {
       final max = balance - _comission;
 
@@ -336,7 +337,7 @@ class StakingPageWidgetModel extends CustomWidgetModelParametrized<
         ),
       );
     }
-    if (_tab.value == StakingTab.unstake &&
+    if (_tabState.value == StakingTab.unstake &&
         nativeBalance.amount < _comission.amount) {
       return ValidationState.invalid(
         LocaleKeys.stakingNotEnoughBalanceToUnstake.tr(
@@ -355,7 +356,7 @@ class StakingPageWidgetModel extends CustomWidgetModelParametrized<
   }
 
   Future<void> _prepareStaking() async {
-    final info = _info.value.data;
+    final info = _infoState.value.data;
     if (info == null) return;
 
     final valutAddress = model.staking.stakingValutAddress;
@@ -387,7 +388,7 @@ class StakingPageWidgetModel extends CustomWidgetModelParametrized<
   }
 
   Future<void> _prepareUntaking() async {
-    final info = _info.value.data;
+    final info = _infoState.value.data;
     if (info == null) return;
 
     final valutAddress = model.staking.stakingValutAddress;
