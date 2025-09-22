@@ -1,0 +1,16 @@
+{
+  "blacklist": [
+    "everscan.com",
+    "octsubridge.io",
+    "octus-bridge.com",
+    "protocoloctusbridge.com",
+    "octlusbridge.com",
+    "bridge-octus.org",
+    "internal-meeting.online",
+    "pancake-ever.com",
+    "gravixguard.github.io",
+    "gravixguard.web.app",
+    "broxus.net",
+    "chainconnect.app"
+  ]
+}
