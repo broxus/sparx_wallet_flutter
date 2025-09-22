@@ -171,16 +171,6 @@ jobs:
           echo "ios_target is set to = ${{ env.ios_target }}"
           echo "build_mode is set to = ${{ inputs.build_mode }}"
 
-      - name: Remove default anti_phishing.json
-        run: |
-          rm -f assets/configs/anti_phishing.json
-
-      - name: Download anti-phishing file
-        uses: actions/download-artifact@v4
-        with:
-          name: anti-phishing-json
-          path: assets/configs
-
       - name: Setup Flutter
         uses: subosito/flutter-action@v2
         with:
@@ -211,6 +201,26 @@ jobs:
 
       - name: Display flavor target
         run: echo "Flavor target is = ${{ inputs.flavor }}"
+
+      - name: Ensure jq is installed (macOS)
+        run: |
+          if ! command_v=$(command -v jq); then
+            brew update
+            brew install jq
+          fi
+
+      - name: Fetch & merge anti-phishing lists
+        run: |
+          curl -s https://raw.githubusercontent.com/broxus/ever-wallet-anti-phishing/master/blacklist.json \
+            -o /tmp/blacklist1.json
+          curl -s https://raw.githubusercontent.com/MetaMask/eth-phishing-detect/refs/heads/main/src/config.json \
+            -o /tmp/config.json
+          mkdir -p assets/configs
+          jq -s '(.[0] + .[1].blacklist) | unique | { blacklist: . }' \
+            /tmp/blacklist1.json /tmp/config.json \
+            > assets/configs/anti_phishing.json
+          echo "→ New anti_phishing.json:"
+          head -n 5 assets/configs/anti_phishing.json
 
       - name: Build and deploy
         run: |
