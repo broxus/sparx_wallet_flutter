@@ -1030,8 +1030,6 @@ extension GetItInjectableX on _i174.GetIt {
         () => _i484.CreateSeedModel(gh<_i83.ErrorHandler>()));
     gh.factory<_i250.BrowserBookModel>(
         () => _i250.BrowserBookModel(gh<_i83.ErrorHandler>()));
-    gh.factory<_i335.WalletMultisigConfigModel>(
-        () => _i335.WalletMultisigConfigModel(gh<_i83.ErrorHandler>()));
     gh.singleton<_i82.CompassBaseRoute>(
       () => _i1040.BrowserRoute(
           gh<_i82.CompassBaseRoute>(instanceName: 'CreateBrowserGroupRoute')),
@@ -1084,11 +1082,13 @@ extension GetItInjectableX on _i174.GetIt {
               gh<_i128.CurrentKeyService>(),
               gh<_i128.GeneralStorageService>(),
             ));
-    gh.factory<_i826.WalletMultisigConfigWidgetModel>(() =>
-        _i826.WalletMultisigConfigWidgetModel(
-            gh<_i335.WalletMultisigConfigModel>()));
     gh.factory<_i446.AccountInfoWidgetModel>(
         () => _i446.AccountInfoWidgetModel(gh<_i662.AccountInfoModel>()));
+    gh.factory<_i335.WalletMultisigConfigModel>(
+        () => _i335.WalletMultisigConfigModel(
+              gh<_i771.NekotonRepository>(),
+              gh<_i83.ErrorHandler>(),
+            ));
     gh.factory<_i88.TCConnectModel>(() => _i88.TCConnectModel(
           gh<_i83.ErrorHandler>(),
           gh<_i771.NekotonRepository>(),
@@ -1406,6 +1406,9 @@ extension GetItInjectableX on _i174.GetIt {
           gh<_i128.AppStorageService>(),
           gh<_i128.CurrentAccountsService>(),
         ));
+    gh.factory<_i826.WalletMultisigConfigWidgetModel>(() =>
+        _i826.WalletMultisigConfigWidgetModel(
+            gh<_i335.WalletMultisigConfigModel>()));
     gh.singleton<_i328.LedgerBleScanner>(
         () => _i328.LedgerBleScanner(gh<_i865.LedgerService>()));
     gh.factory<_i81.CreateSeedPasswordProfileModel>(

@@ -17,6 +17,7 @@ Future<void> showWalletTypeSelectionSheet({
     context: context,
     title: LocaleKeys.selectWalletType.tr(),
     titleTextStyle: context.themeStyleV2.textStyles.headingLarge,
+    centerTitle: true,
     body: (context, __) => WalletTypeSelectionSheet(
       address: address,
       publicKey: publicKey,
@@ -42,13 +43,6 @@ class WalletTypeSelectionSheet extends StatelessWidget {
       mainAxisSize: MainAxisSize.min,
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
-        Text(
-          LocaleKeys.selectWalletTypeDescription.tr(),
-          style: theme.textStyles.paragraphMedium.copyWith(
-            color: theme.colors.content1,
-          ),
-        ),
-        const SizedBox(height: DimensSizeV2.d24),
         _WalletTypeOption(
           title: LocaleKeys.standardWallet.tr(),
           description: LocaleKeys.standardWalletDescription.tr(),

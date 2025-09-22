@@ -5,8 +5,10 @@ import 'package:app/feature/wallet/wallet_deploy/wallet_deploy_confirm/route.dar
 import 'package:app/feature/wallet/wallet_deploy/wallet_deploy_confirm/wallet_deploy_confirm_view.dart';
 import 'package:app/feature/wallet/wallet_deploy/wallet_deploy_confirm/wallet_deploy_confirm_wm.dart';
 import 'package:app/generated/generated.dart';
+import 'package:app/widgets/barcode_address/barcode_address.dart';
 import 'package:elementary_helper/elementary_helper.dart';
 import 'package:flutter/material.dart';
+import 'package:nekoton_repository/nekoton_repository.dart';
 import 'package:ui_components_lib/components/common/common.dart';
 import 'package:ui_components_lib/v2/ui_components_lib_v2.dart';
 
@@ -37,12 +39,15 @@ class WalletDeployConfirmScreen extends InjectedElementaryParametrizedWidget<
             );
           }
 
-          return ValueListenableBuilder<String?>(
-            valueListenable: wm.errorMessageState,
-            builder: (context, errorMessage, _) {
+          return DoubleValueListenableBuilder(
+            firstValue: wm.errorMessageState,
+            secondValue: wm.hasSufficientBalanceState,
+            builder: (context, errorMessage, hasSufficientBalance) {
               if (errorMessage != null) {
                 return _ErrorState(
                   errorMessage: errorMessage,
+                  hasSufficientBalance: hasSufficientBalance,
+                  address: wm.address,
                   onRetry: wm.onRetry,
                   colors: wm.colors,
                   textStyles: wm.textStyles,
@@ -102,12 +107,16 @@ class WalletDeployConfirmScreen extends InjectedElementaryParametrizedWidget<
 class _ErrorState extends StatelessWidget {
   const _ErrorState({
     required this.errorMessage,
+    required this.hasSufficientBalance,
+    required this.address,
     required this.onRetry,
     required this.colors,
     required this.textStyles,
   });
 
   final String errorMessage;
+  final bool hasSufficientBalance;
+  final Address address;
   final VoidCallback onRetry;
   final ColorsPaletteV2 colors;
   final TextStylesV2 textStyles;
@@ -126,7 +135,9 @@ class _ErrorState extends StatelessWidget {
           ),
           const SizedBox(height: DimensSizeV2.d16),
           Text(
-            LocaleKeys.errorOccurred.tr(),
+            hasSufficientBalance
+                ? LocaleKeys.errorOccurred.tr()
+                : LocaleKeys.insufficientFunds.tr(),
             style: textStyles.headingMedium.copyWith(
               color: colors.content0,
             ),
@@ -141,11 +152,14 @@ class _ErrorState extends StatelessWidget {
             textAlign: TextAlign.center,
           ),
           const SizedBox(height: DimensSizeV2.d24),
-          PrimaryButton(
-            buttonShape: ButtonShape.pill,
-            onPressed: onRetry,
-            title: LocaleKeys.tryAgain.tr(),
-          ),
+          if (!hasSufficientBalance)
+            BarcodeAddress(address: address)
+          else
+            PrimaryButton(
+              buttonShape: ButtonShape.pill,
+              onPressed: onRetry,
+              title: LocaleKeys.tryAgain.tr(),
+            ),
         ],
       ),
     );
