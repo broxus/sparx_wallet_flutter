@@ -111,7 +111,6 @@ class BrowserAnimationUiDelegate implements BrowserAnimationUi {
     MenuType? type, {
     Duration? duration,
   }) {
-
     switch (type) {
       case MenuType.list:
         _listMenuController.animateTo(0, duration: duration);
