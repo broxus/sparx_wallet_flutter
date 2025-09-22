@@ -156,122 +156,125 @@ class _WalletMultisigConfigBodyState extends State<_WalletMultisigConfigBody> {
               child: Form(
                 key: _formKey,
                 child: SeparatedColumn(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  ValueListenableBuilder<bool>(
-                    valueListenable: focusNotifier,
-                    builder: (context, value, _) {
-                      if (value) {
-                        return const CommonDivider();
-                      }
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    ValueListenableBuilder<bool>(
+                      valueListenable: focusNotifier,
+                      builder: (context, value, _) {
+                        if (value) {
+                          return const CommonDivider();
+                        }
 
-                      return SeparatedColumn(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        spacing: DimensSize.d12,
-                        children: [
-                          Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              const SizedBox(height: DimensSizeV2.d8),
-                              SeparatedRow(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Flexible(
-                                    child: PrimaryTextField(
-                                      textEditingController:
-                                          requireConfirmationController,
-                                      keyboardType: TextInputType.number,
-                                      textInputAction: TextInputAction.next,
-                                      onSubmit: (_) =>
-                                          custodianFocuses.first.requestFocus(),
-                                      inputFormatters: [
-                                        InputFormatters.noSpacesFormatter,
-                                        InputFormatters.onlyDigitsFormatter,
-                                      ],
-                                      validator: _validateRequireConfirmations,
-                                    ),
-                                  ),
-                                  Padding(
-                                    padding: const EdgeInsets.only(
-                                      top: DimensSizeV2.d18,
-                                    ),
-                                    child: Text(
-                                      LocaleKeys.outOfNumber.tr(
-                                        args: [
-                                          custodianControllers.length
-                                              .toString(),
+                        return SeparatedColumn(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          spacing: DimensSize.d12,
+                          children: [
+                            Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                const SizedBox(height: DimensSizeV2.d8),
+                                SeparatedRow(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Flexible(
+                                      child: PrimaryTextField(
+                                        textEditingController:
+                                            requireConfirmationController,
+                                        keyboardType: TextInputType.number,
+                                        textInputAction: TextInputAction.next,
+                                        onSubmit: (_) => custodianFocuses.first
+                                            .requestFocus(),
+                                        inputFormatters: [
+                                          InputFormatters.noSpacesFormatter,
+                                          InputFormatters.onlyDigitsFormatter,
                                         ],
+                                        validator:
+                                            _validateRequireConfirmations,
                                       ),
-                                      style: textStyles.labelSmall,
                                     ),
-                                  ),
-                                ],
-                              ),
-                            ],
-                          ),
-                        ],
-                      );
-                    },
-                  ),
-                  if (widget.isWaitingTimeSelectionEnabled)
-                    Padding(
-                      padding: const EdgeInsets.only(
-                        top: DimensSizeV2.d8,
-                      ),
-                      child: Column(
-                        mainAxisSize: MainAxisSize.min,
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            LocaleKeys.deployWalletWaitingTime.tr(),
-                            style: textStyles.labelSmall,
-                          ),
-                          const SizedBox(height: DimensSizeV2.d8),
-                          PrimaryTextField(
-                            focusNode: waitingTimeNode,
-                            textEditingController: waitingTimeController,
-                            keyboardType: TextInputType.number,
-                            textInputAction: TextInputAction.next,
-                            onSubmit: (_) =>
-                                custodianFocuses.first.requestFocus(),
-                            validator: (value) {
-                              if (value == null) {
-                                return LocaleKeys.invalidValue.tr();
-                              }
-                              final number = int.tryParse(value);
-                              if (number == null || number > 24 || number == 0) {
-                                return LocaleKeys.invalidValue.tr();
-                              }
-                              return null;
-                            },
-                            inputFormatters: [
-                              InputFormatters.onlyDigitsFormatter,
-                            ],
-                            suffixes: [
-                              _buildMiniButton(1),
-                              _buildMiniButton(2),
-                              _buildMiniButton(12),
-                              _buildMiniButton(24),
-                            ],
-                          ),
-                        ],
-                      ),
+                                    Padding(
+                                      padding: const EdgeInsets.only(
+                                        top: DimensSizeV2.d18,
+                                      ),
+                                      child: Text(
+                                        LocaleKeys.outOfNumber.tr(
+                                          args: [
+                                            custodianControllers.length
+                                                .toString(),
+                                          ],
+                                        ),
+                                        style: textStyles.labelSmall,
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ],
+                            ),
+                          ],
+                        );
+                      },
                     ),
-                  const SizedBox(height: DimensSizeV2.d12),
-                  Text(
-                    LocaleKeys.custodiansWord.tr(),
-                    style: textStyles.labelSmall,
-                  ),
-                  ...custodianControllers.mapIndexed(_custodianItem),
-                  const SizedBox(height: DimensSizeV2.d8),
-                  if (custodianControllers.length < 32)
-                    GhostButton(
-                      icon: LucideIcons.plus,
-                      title: LocaleKeys.addOneMorePublicKey.tr(),
-                      onPressed: _addOneCustodian,
-                      buttonShape: ButtonShape.pill,
+                    if (widget.isWaitingTimeSelectionEnabled)
+                      Padding(
+                        padding: const EdgeInsets.only(
+                          top: DimensSizeV2.d8,
+                        ),
+                        child: Column(
+                          mainAxisSize: MainAxisSize.min,
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              LocaleKeys.deployWalletWaitingTime.tr(),
+                              style: textStyles.labelSmall,
+                            ),
+                            const SizedBox(height: DimensSizeV2.d8),
+                            PrimaryTextField(
+                              focusNode: waitingTimeNode,
+                              textEditingController: waitingTimeController,
+                              keyboardType: TextInputType.number,
+                              textInputAction: TextInputAction.next,
+                              onSubmit: (_) =>
+                                  custodianFocuses.first.requestFocus(),
+                              validator: (value) {
+                                if (value == null) {
+                                  return LocaleKeys.invalidValue.tr();
+                                }
+                                final number = int.tryParse(value);
+                                if (number == null ||
+                                    number > 24 ||
+                                    number == 0) {
+                                  return LocaleKeys.invalidValue.tr();
+                                }
+                                return null;
+                              },
+                              inputFormatters: [
+                                InputFormatters.onlyDigitsFormatter,
+                              ],
+                              suffixes: [
+                                _buildMiniButton(1),
+                                _buildMiniButton(2),
+                                _buildMiniButton(12),
+                                _buildMiniButton(24),
+                              ],
+                            ),
+                          ],
+                        ),
+                      ),
+                    const SizedBox(height: DimensSizeV2.d12),
+                    Text(
+                      LocaleKeys.custodiansWord.tr(),
+                      style: textStyles.labelSmall,
                     ),
-                ],
+                    ...custodianControllers.mapIndexed(_custodianItem),
+                    const SizedBox(height: DimensSizeV2.d8),
+                    if (custodianControllers.length < 32)
+                      GhostButton(
+                        icon: LucideIcons.plus,
+                        title: LocaleKeys.addOneMorePublicKey.tr(),
+                        onPressed: _addOneCustodian,
+                        buttonShape: ButtonShape.pill,
+                      ),
+                  ],
                 ),
               ),
             ),
