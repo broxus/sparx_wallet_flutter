@@ -33,7 +33,7 @@ class ConnectionsStorageService extends AbstractStorageService {
   final MessengerService _messengerService;
 
   /// Subject of [ConnectionData] items
-  final _connectionsSubject = BehaviorSubject<List<ConnectionData>>.seeded([]);
+  final _networksSubject = BehaviorSubject<List<ConnectionNetwork>>.seeded([]);
 
   /// Subject of current connection id
   final _currentConnectionIdSubject = BehaviorSubject<String>();
@@ -44,7 +44,7 @@ class ConnectionsStorageService extends AbstractStorageService {
   final _networksIdsSubject = BehaviorSubject<Map<String, int>>();
 
   /// Stream of [ConnectionData] items
-  Stream<List<ConnectionData>> get connectionsStream => _connectionsSubject;
+  Stream<List<ConnectionNetwork>> get networksStream => _networksSubject;
 
   /// Stream of currect connection id
   Stream<String> get currentConnectionIdStream => _currentConnectionIdSubject;
@@ -53,13 +53,15 @@ class ConnectionsStorageService extends AbstractStorageService {
   Stream<Map<String, int>> get networksIdsStream => _networksIdsSubject;
 
   /// Get last cached [ConnectionData] items
-  List<ConnectionData> get connections => _connectionsSubject.valueOrNull ?? [];
+  List<ConnectionNetwork> get networks => _networksSubject.valueOrNull ?? [];
 
   int get lastNetworkGroupNumber {
     var number = 10000;
 
-    for (final connection in connections) {
-      final connectionNumber = parseToInt(connection.group.split('-').last);
+    for (final network in networks) {
+      // TODO(knightforce): temp use first
+      final connectionNumber =
+          parseToInt(network.workChains.first.connection.group.split('-').last);
       if (connectionNumber != null && connectionNumber > number) {
         number = connectionNumber;
       }
@@ -68,8 +70,9 @@ class ConnectionsStorageService extends AbstractStorageService {
   }
 
   ConnectionData? get baseConnection {
-    final list = [...connections];
-    final first = list.firstOrNull;
+    // TODO(knightforce): temp use first
+    final list = [...networks];
+    final first = list.firstOrNull?.workChains.firstOrNull?.connection;
 
     if (first == null) {
       return null;
@@ -77,9 +80,16 @@ class ConnectionsStorageService extends AbstractStorageService {
 
     final defaultNetworkType = _defaultNetwork.networkType;
 
-    return list.firstWhereOrNull(
-          (el) => el.networkType == defaultNetworkType,
-        ) ??
+    // TODO(knightforce): temp use first
+    return list
+            .firstWhereOrNull(
+              (el) =>
+                  el.workChains.firstOrNull?.connection.networkType ==
+                  defaultNetworkType,
+            )
+            ?.workChains
+            .firstOrNull
+            ?.connection ??
         first;
   }
 
@@ -91,23 +101,37 @@ class ConnectionsStorageService extends AbstractStorageService {
 
   /// Stream of currect connection id
   Stream<ConnectionData> get currentConnectionStream => Rx.combineLatest2(
-        connectionsStream,
+        networksStream,
         currentConnectionIdStream,
         (connections, currentConnectionId) =>
-            connections.firstWhereOrNull(
-              (connection) => connection.id == currentConnectionId,
-            ) ??
+            // TODO(knightforce): temp use first
+            networks
+                .firstWhereOrNull(
+                  (network) =>
+                      network.workChains.firstOrNull?.connection.id ==
+                      currentConnectionId,
+                )
+                ?.workChains
+                .first
+                .connection ??
             _defaultNetwork,
       );
 
   // Get last cached currect connection
   ConnectionData get currentConnection {
-    final connections = this.connections;
+    final networks = this.networks;
     final currentConnectionId = this.currentConnectionId;
 
-    final connection = connections.firstWhereOrNull(
-      (connection) => connection.id == currentConnectionId,
-    );
+    // TODO(knightforce): temp use first
+    final connection = networks
+        .firstWhereOrNull(
+          (network) =>
+              network.workChains.firstOrNull?.connection.id ==
+              currentConnectionId,
+        )
+        ?.workChains
+        .firstOrNull
+        ?.connection;
 
     if (connection == null) {
       _log.warning(
@@ -131,7 +155,7 @@ class ConnectionsStorageService extends AbstractStorageService {
       _presetsConnectionService.defaultConnectionId;
 
   /// Put [ConnectionData] items to stream
-  void _streamedConnections() => _connectionsSubject.add(
+  void _streamedConnections() => _networksSubject.add(
         [...readConnections()]..sort(
             (a, b) => (a.sortingOrder - b.sortingOrder).sign.toInt(),
           ),
@@ -149,7 +173,7 @@ class ConnectionsStorageService extends AbstractStorageService {
   void _streamedNetworksIds() => _networksIdsSubject.add(readNetworksIds());
 
   /// Read list of [ConnectionData] items from presets and storage
-  List<ConnectionData> readConnections() {
+  List<ConnectionNetwork> readConnections() {
     final list = _storage.read<List<dynamic>>(_connectionsKey);
     var connections = <ConnectionData>[];
 
@@ -182,7 +206,8 @@ class ConnectionsStorageService extends AbstractStorageService {
 
     final connectionsText = connections
         .map(
-          (connection) => 'name: ${connection.name}; '
+          (connection) => ''
+              // 'name: ${connection.name}; '
               'networkType: ${connection.networkType}; '
               'isPreset: ${connection.isPreset}; '
               'id: ${connection.id}',

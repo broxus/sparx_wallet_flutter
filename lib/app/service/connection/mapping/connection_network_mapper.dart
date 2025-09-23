@@ -12,7 +12,7 @@ ConnectionConfig mapToConnectionNetworkFromJson(ConnectionNetworkDto json) {
     customNetworkOptions: mapToCustomNetworkOptions(
       json.customNetworkOtions,
     ),
-    networks: mapToConnectionDataList(
+    networks: mapToNetworkList(
       castJsonList<Map<String, dynamic>>(json.networks),
     ),
   );

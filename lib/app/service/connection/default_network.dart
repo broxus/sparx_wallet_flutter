@@ -1,7 +1,8 @@
 import 'package:app/app/service/connection/data/connection_data/connection_data.dart';
+import 'package:app/app/service/connection/data/connection_network/connection_network.dart';
 import 'package:app/app/service/connection/data/network_type.dart';
 
-final defaultPresetNetwork = ConnectionData.protoPreset(
+final defaultPresetNetwork = ConnectionNetwork.protoPreset(
   id: 'preset_ever_mainnet_proto',
   name: 'Everscale',
   group: 'mainnet',

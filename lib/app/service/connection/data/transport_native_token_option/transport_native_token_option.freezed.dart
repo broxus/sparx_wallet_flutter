@@ -12,9 +12,22 @@ part of 'transport_native_token_option.dart';
 
 // dart format off
 T _$identity<T>(T value) => value;
+TransportNativeTokenTickerOption _$TransportNativeTokenTickerOptionFromJson(
+    Map<String, dynamic> json) {
+  switch (json['type']) {
+    case 'byName':
+      return TransportNativeTokenTickerOptionByName.fromJson(json);
+
+    default:
+      return TransportNativeTokenTickerOptionFromConnection.fromJson(json);
+  }
+}
 
 /// @nodoc
 mixin _$TransportNativeTokenTickerOption {
+  /// Serializes this TransportNativeTokenTickerOption to a JSON map.
+  Map<String, dynamic> toJson();
+
   @override
   bool operator ==(Object other) {
     return identical(this, other) ||
@@ -22,6 +35,7 @@ mixin _$TransportNativeTokenTickerOption {
             other is TransportNativeTokenTickerOption);
   }
 
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode => runtimeType.hashCode;
 
@@ -38,10 +52,24 @@ class $TransportNativeTokenTickerOptionCopyWith<$Res> {
 }
 
 /// @nodoc
-
+@JsonSerializable()
 class TransportNativeTokenTickerOptionFromConnection
     implements TransportNativeTokenTickerOption {
-  const TransportNativeTokenTickerOptionFromConnection();
+  const TransportNativeTokenTickerOptionFromConnection({final String? $type})
+      : $type = $type ?? 'fromConnection';
+  factory TransportNativeTokenTickerOptionFromConnection.fromJson(
+          Map<String, dynamic> json) =>
+      _$TransportNativeTokenTickerOptionFromConnectionFromJson(json);
+
+  @JsonKey(name: 'type')
+  final String $type;
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$TransportNativeTokenTickerOptionFromConnectionToJson(
+      this,
+    );
+  }
 
   @override
   bool operator ==(Object other) {
@@ -50,6 +78,7 @@ class TransportNativeTokenTickerOptionFromConnection
             other is TransportNativeTokenTickerOptionFromConnection);
   }
 
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode => runtimeType.hashCode;
 
@@ -60,12 +89,19 @@ class TransportNativeTokenTickerOptionFromConnection
 }
 
 /// @nodoc
-
+@JsonSerializable()
 class TransportNativeTokenTickerOptionByName
     implements TransportNativeTokenTickerOption {
-  const TransportNativeTokenTickerOptionByName(this.name);
+  const TransportNativeTokenTickerOptionByName(this.name, {final String? $type})
+      : $type = $type ?? 'byName';
+  factory TransportNativeTokenTickerOptionByName.fromJson(
+          Map<String, dynamic> json) =>
+      _$TransportNativeTokenTickerOptionByNameFromJson(json);
 
   final String name;
+
+  @JsonKey(name: 'type')
+  final String $type;
 
   /// Create a copy of TransportNativeTokenTickerOption
   /// with the given fields replaced by the non-null parameter values.
@@ -77,6 +113,13 @@ class TransportNativeTokenTickerOptionByName
           TransportNativeTokenTickerOptionByName>(this, _$identity);
 
   @override
+  Map<String, dynamic> toJson() {
+    return _$TransportNativeTokenTickerOptionByNameToJson(
+      this,
+    );
+  }
+
+  @override
   bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
@@ -84,6 +127,7 @@ class TransportNativeTokenTickerOptionByName
             (identical(other.name, name) || other.name == name));
   }
 
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode => Object.hash(runtimeType, name);
 

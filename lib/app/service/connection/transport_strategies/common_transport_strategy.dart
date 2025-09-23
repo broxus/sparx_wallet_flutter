@@ -1,4 +1,5 @@
 import 'package:app/app/service/connection/connection.dart';
+import 'package:app/app/service/connection/data/wallet_default_account_names.dart';
 import 'package:app/di/di.dart';
 import 'package:app/generated/generated.dart';
 import 'package:dio/dio.dart';
