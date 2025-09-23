@@ -343,6 +343,10 @@ import '../feature/profile/key_detail/widgets/add_new_local_account_type_sheet/a
     as _i6;
 import '../feature/profile/key_detail/widgets/add_new_local_account_type_sheet/add_new_local_account_type_sheet_wm.dart'
     as _i865;
+import '../feature/profile/key_detail/widgets/delete_account_sheet/delete_account_sheet_model.dart'
+    as _i549;
+import '../feature/profile/key_detail/widgets/delete_account_sheet/delete_account_sheet_wm.dart'
+    as _i11;
 import '../feature/profile/manage_seeds_accounts/route.dart' as _i45;
 import '../feature/profile/manage_seeds_accounts/view/manage_seeds_accounts_page_model.dart'
     as _i321;
@@ -1810,6 +1814,12 @@ extension GetItInjectableX on _i174.GetIt {
         ));
     gh.factory<_i526.TonWalletAssetWidgetModel>(
         () => _i526.TonWalletAssetWidgetModel(gh<_i719.TonWalletAssetModel>()));
+    gh.factory<_i549.DeleteAccountSheetModel>(
+        () => _i549.DeleteAccountSheetModel(
+              errorHandler: gh<_i83.ErrorHandler>(),
+              balanceService: gh<_i128.BalanceService>(),
+              convertService: gh<_i128.CurrencyConvertService>(),
+            ));
     gh.singleton<_i473.PermissionsService>(() => _i473.PermissionsService(
           gh<_i470.BrowserService>(),
           gh<_i771.NekotonRepository>(),
@@ -1880,6 +1890,9 @@ extension GetItInjectableX on _i174.GetIt {
               gh<_i128.ConnectionsStorageService>(),
               gh<_i771.NekotonRepository>(),
             ));
+    gh.factory<_i11.DeleteAccountSheetWidgetModel>(() =>
+        _i11.DeleteAccountSheetWidgetModel(
+            gh<_i549.DeleteAccountSheetModel>()));
     gh.factory<_i622.WalletAppBarModel>(() => _i622.WalletAppBarModel(
           gh<_i83.ErrorHandler>(),
           gh<_i771.NekotonRepository>(),
