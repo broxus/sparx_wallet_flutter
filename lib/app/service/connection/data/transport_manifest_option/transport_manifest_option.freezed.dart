@@ -12,15 +12,23 @@ part of 'transport_manifest_option.dart';
 
 // dart format off
 T _$identity<T>(T value) => value;
+TransportManifestOption _$TransportManifestOptionFromJson(
+    Map<String, dynamic> json) {
+  return TransportManifestOptionFromConnection.fromJson(json);
+}
 
 /// @nodoc
 mixin _$TransportManifestOption {
+  /// Serializes this TransportManifestOption to a JSON map.
+  Map<String, dynamic> toJson();
+
   @override
   bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType && other is TransportManifestOption);
   }
 
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode => runtimeType.hashCode;
 
@@ -37,9 +45,19 @@ class $TransportManifestOptionCopyWith<$Res> {
 }
 
 /// @nodoc
-
+@JsonSerializable()
 class TransportManifestOptionFromConnection implements TransportManifestOption {
   const TransportManifestOptionFromConnection();
+  factory TransportManifestOptionFromConnection.fromJson(
+          Map<String, dynamic> json) =>
+      _$TransportManifestOptionFromConnectionFromJson(json);
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$TransportManifestOptionFromConnectionToJson(
+      this,
+    );
+  }
 
   @override
   bool operator ==(Object other) {
@@ -48,6 +66,7 @@ class TransportManifestOptionFromConnection implements TransportManifestOption {
             other is TransportManifestOptionFromConnection);
   }
 
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode => runtimeType.hashCode;
 

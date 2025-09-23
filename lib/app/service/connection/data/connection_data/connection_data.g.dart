@@ -8,7 +8,6 @@ part of 'connection_data.dart';
 
 ConnectionDataGql _$ConnectionDataGqlFromJson(Map<String, dynamic> json) =>
     ConnectionDataGql(
-      id: json['id'] as String,
       name: json['name'] as String,
       group: json['group'] as String,
       endpoints:
@@ -19,7 +18,6 @@ ConnectionDataGql _$ConnectionDataGqlFromJson(Map<String, dynamic> json) =>
       nativeTokenTicker: json['nativeTokenTicker'] as String,
       isPreset: json['isPreset'] as bool,
       canBeEdited: json['canBeEdited'] as bool,
-      sortingOrder: (json['sortingOrder'] as num).toDouble(),
       isUsedOnStart: json['isUsedOnStart'] as bool? ?? true,
       manifestUrl: json['manifestUrl'] as String? ?? '',
       nativeTokenDecimals: (json['nativeTokenDecimals'] as num?)?.toInt() ?? 9,
@@ -33,7 +31,6 @@ ConnectionDataGql _$ConnectionDataGqlFromJson(Map<String, dynamic> json) =>
 
 Map<String, dynamic> _$ConnectionDataGqlToJson(ConnectionDataGql instance) =>
     <String, dynamic>{
-      'id': instance.id,
       'name': instance.name,
       'group': instance.group,
       'endpoints': instance.endpoints,
@@ -43,7 +40,6 @@ Map<String, dynamic> _$ConnectionDataGqlToJson(ConnectionDataGql instance) =>
       'nativeTokenTicker': instance.nativeTokenTicker,
       'isPreset': instance.isPreset,
       'canBeEdited': instance.canBeEdited,
-      'sortingOrder': instance.sortingOrder,
       'isUsedOnStart': instance.isUsedOnStart,
       'manifestUrl': instance.manifestUrl,
       'nativeTokenDecimals': instance.nativeTokenDecimals,
@@ -55,7 +51,6 @@ Map<String, dynamic> _$ConnectionDataGqlToJson(ConnectionDataGql instance) =>
 
 ConnectionDataProto _$ConnectionDataProtoFromJson(Map<String, dynamic> json) =>
     ConnectionDataProto(
-      id: json['id'] as String,
       name: json['name'] as String,
       group: json['group'] as String,
       endpoint: json['endpoint'] as String,
@@ -64,7 +59,6 @@ ConnectionDataProto _$ConnectionDataProtoFromJson(Map<String, dynamic> json) =>
       nativeTokenTicker: json['nativeTokenTicker'] as String,
       isPreset: json['isPreset'] as bool,
       canBeEdited: json['canBeEdited'] as bool,
-      sortingOrder: (json['sortingOrder'] as num).toDouble(),
       isUsedOnStart: json['isUsedOnStart'] as bool? ?? true,
       manifestUrl: json['manifestUrl'] as String? ?? '',
       nativeTokenDecimals: (json['nativeTokenDecimals'] as num?)?.toInt() ?? 9,
@@ -74,7 +68,6 @@ ConnectionDataProto _$ConnectionDataProtoFromJson(Map<String, dynamic> json) =>
 Map<String, dynamic> _$ConnectionDataProtoToJson(
         ConnectionDataProto instance) =>
     <String, dynamic>{
-      'id': instance.id,
       'name': instance.name,
       'group': instance.group,
       'endpoint': instance.endpoint,
@@ -83,7 +76,6 @@ Map<String, dynamic> _$ConnectionDataProtoToJson(
       'nativeTokenTicker': instance.nativeTokenTicker,
       'isPreset': instance.isPreset,
       'canBeEdited': instance.canBeEdited,
-      'sortingOrder': instance.sortingOrder,
       'isUsedOnStart': instance.isUsedOnStart,
       'manifestUrl': instance.manifestUrl,
       'nativeTokenDecimals': instance.nativeTokenDecimals,
@@ -92,7 +84,6 @@ Map<String, dynamic> _$ConnectionDataProtoToJson(
 
 ConnectionDataJrpc _$ConnectionDataJrpcFromJson(Map<String, dynamic> json) =>
     ConnectionDataJrpc(
-      id: json['id'] as String,
       name: json['name'] as String,
       group: json['group'] as String,
       endpoint: json['endpoint'] as String,
@@ -101,7 +92,6 @@ ConnectionDataJrpc _$ConnectionDataJrpcFromJson(Map<String, dynamic> json) =>
       nativeTokenTicker: json['nativeTokenTicker'] as String,
       isPreset: json['isPreset'] as bool,
       canBeEdited: json['canBeEdited'] as bool,
-      sortingOrder: (json['sortingOrder'] as num).toDouble(),
       isUsedOnStart: json['isUsedOnStart'] as bool? ?? true,
       manifestUrl: json['manifestUrl'] as String? ?? '',
       nativeTokenDecimals: (json['nativeTokenDecimals'] as num?)?.toInt() ?? 9,
@@ -110,7 +100,6 @@ ConnectionDataJrpc _$ConnectionDataJrpcFromJson(Map<String, dynamic> json) =>
 
 Map<String, dynamic> _$ConnectionDataJrpcToJson(ConnectionDataJrpc instance) =>
     <String, dynamic>{
-      'id': instance.id,
       'name': instance.name,
       'group': instance.group,
       'endpoint': instance.endpoint,
@@ -119,7 +108,6 @@ Map<String, dynamic> _$ConnectionDataJrpcToJson(ConnectionDataJrpc instance) =>
       'nativeTokenTicker': instance.nativeTokenTicker,
       'isPreset': instance.isPreset,
       'canBeEdited': instance.canBeEdited,
-      'sortingOrder': instance.sortingOrder,
       'isUsedOnStart': instance.isUsedOnStart,
       'manifestUrl': instance.manifestUrl,
       'nativeTokenDecimals': instance.nativeTokenDecimals,

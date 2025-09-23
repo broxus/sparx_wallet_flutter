@@ -1,5 +1,5 @@
 import 'package:app/app/router/router.dart';
-import 'package:app/app/service/connection/data/connection_data/connection_data.dart';
+import 'package:app/app/service/connection/data/work_chain/connection_work_chain_data.dart';
 import 'package:app/core/wm/custom_wm.dart';
 import 'package:app/feature/network/bottom_sheets/bottom_sheets.dart';
 import 'package:app/feature/qr_scanner/qr_scanner.dart';
@@ -20,14 +20,14 @@ class WalletAppBarWidgetModel
   late final _currentAccountState =
       createNotifierFromStream(model.currentAccount);
   late final _walletState = createNotifierFromStream(model.walletState);
-  late final _connectionState =
-      createNotifierFromStream(model.connectionStream);
+  late final _workchainState = createNotifierFromStream(model.connectionStream);
 
   ListenableState<KeyAccount?> get currentAccountState => _currentAccountState;
 
   ListenableState<TonWalletState?> get walletState => _walletState;
 
-  ListenableState<ConnectionData?> get connectionState => _connectionState;
+  ListenableState<ConnectionWorkchainData?> get workchainState =>
+      _workchainState;
 
   ThemeStyleV2 get theme => context.themeStyleV2;
 

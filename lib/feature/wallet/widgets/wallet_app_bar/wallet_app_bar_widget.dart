@@ -52,12 +52,12 @@ class WalletAppBarWidget
             children: [
               _QrButton(onTap: wm.onScanQr),
               StateNotifierBuilder(
-                listenableState: wm.connectionState,
-                builder: (_, connection) =>
-                    connection?.let(
+                listenableState: wm.workchainState,
+                builder: (_, workchain) =>
+                    workchain?.let(
                       (value) => GestureDetector(
                         onTap: wm.onNetwork,
-                        child: NetworkDropItem(data: value),
+                        child: NetworkDropItem(data: workchain),
                       ),
                     ) ??
                     const SizedBox.shrink(),

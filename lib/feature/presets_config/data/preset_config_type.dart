@@ -1,3 +1,4 @@
+import 'package:app/app/service/connection/data/connection_config/connection_config.dart';
 import 'package:app/core/app_build_type.dart';
 import 'package:app/feature/presets_config/data/connection_network_dto.dart';
 import 'package:app/feature/presets_config/data/release_notes.dart';
@@ -9,10 +10,10 @@ import 'package:app/generated/generated.dart';
 /// This enum represents the different configuration types that can be loaded
 /// from remote sources, cached storage, or bundled assets.
 enum PresetConfigType<T> {
-  connections<ConnectionNetworkDto>(
+  connections<ConnectionConfig>(
     name: 'connections',
     storageKey: 'connections_config',
-    mapper: ConnectionNetworkDto.fromJson,
+    mapper: ConnectionConfig.fromJson,
   ),
   updateRules<UpdateRules>(
     name: 'update_rules',

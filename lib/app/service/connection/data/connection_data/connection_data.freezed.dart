@@ -29,7 +29,6 @@ ConnectionData _$ConnectionDataFromJson(Map<String, dynamic> json) {
 
 /// @nodoc
 mixin _$ConnectionData {
-  String get id;
   String get name;
   String get group;
   NetworkType get networkType;
@@ -37,7 +36,6 @@ mixin _$ConnectionData {
   String get nativeTokenTicker;
   bool get isPreset;
   bool get canBeEdited;
-  double get sortingOrder;
   bool get isUsedOnStart;
   String get manifestUrl;
   int get nativeTokenDecimals;
@@ -58,7 +56,6 @@ mixin _$ConnectionData {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is ConnectionData &&
-            (identical(other.id, id) || other.id == id) &&
             (identical(other.name, name) || other.name == name) &&
             (identical(other.group, group) || other.group == group) &&
             (identical(other.networkType, networkType) ||
@@ -71,8 +68,6 @@ mixin _$ConnectionData {
                 other.isPreset == isPreset) &&
             (identical(other.canBeEdited, canBeEdited) ||
                 other.canBeEdited == canBeEdited) &&
-            (identical(other.sortingOrder, sortingOrder) ||
-                other.sortingOrder == sortingOrder) &&
             (identical(other.isUsedOnStart, isUsedOnStart) ||
                 other.isUsedOnStart == isUsedOnStart) &&
             (identical(other.manifestUrl, manifestUrl) ||
@@ -85,7 +80,6 @@ mixin _$ConnectionData {
   @override
   int get hashCode => Object.hash(
       runtimeType,
-      id,
       name,
       group,
       networkType,
@@ -93,14 +87,13 @@ mixin _$ConnectionData {
       nativeTokenTicker,
       isPreset,
       canBeEdited,
-      sortingOrder,
       isUsedOnStart,
       manifestUrl,
       nativeTokenDecimals);
 
   @override
   String toString() {
-    return 'ConnectionData(id: $id, name: $name, group: $group, networkType: $networkType, blockExplorerUrl: $blockExplorerUrl, nativeTokenTicker: $nativeTokenTicker, isPreset: $isPreset, canBeEdited: $canBeEdited, sortingOrder: $sortingOrder, isUsedOnStart: $isUsedOnStart, manifestUrl: $manifestUrl, nativeTokenDecimals: $nativeTokenDecimals)';
+    return 'ConnectionData(name: $name, group: $group, networkType: $networkType, blockExplorerUrl: $blockExplorerUrl, nativeTokenTicker: $nativeTokenTicker, isPreset: $isPreset, canBeEdited: $canBeEdited, isUsedOnStart: $isUsedOnStart, manifestUrl: $manifestUrl, nativeTokenDecimals: $nativeTokenDecimals)';
   }
 }
 
@@ -111,15 +104,13 @@ abstract mixin class $ConnectionDataCopyWith<$Res> {
       _$ConnectionDataCopyWithImpl;
   @useResult
   $Res call(
-      {String id,
-      String name,
+      {String name,
       String group,
       NetworkType networkType,
       String blockExplorerUrl,
       String nativeTokenTicker,
       bool isPreset,
       bool canBeEdited,
-      double sortingOrder,
       bool isUsedOnStart,
       String manifestUrl,
       int nativeTokenDecimals});
@@ -138,7 +129,6 @@ class _$ConnectionDataCopyWithImpl<$Res>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? id = null,
     Object? name = null,
     Object? group = null,
     Object? networkType = null,
@@ -146,16 +136,11 @@ class _$ConnectionDataCopyWithImpl<$Res>
     Object? nativeTokenTicker = null,
     Object? isPreset = null,
     Object? canBeEdited = null,
-    Object? sortingOrder = null,
     Object? isUsedOnStart = null,
     Object? manifestUrl = null,
     Object? nativeTokenDecimals = null,
   }) {
     return _then(_self.copyWith(
-      id: null == id
-          ? _self.id
-          : id // ignore: cast_nullable_to_non_nullable
-              as String,
       name: null == name
           ? _self.name
           : name // ignore: cast_nullable_to_non_nullable
@@ -184,10 +169,6 @@ class _$ConnectionDataCopyWithImpl<$Res>
           ? _self.canBeEdited
           : canBeEdited // ignore: cast_nullable_to_non_nullable
               as bool,
-      sortingOrder: null == sortingOrder
-          ? _self.sortingOrder
-          : sortingOrder // ignore: cast_nullable_to_non_nullable
-              as double,
       isUsedOnStart: null == isUsedOnStart
           ? _self.isUsedOnStart
           : isUsedOnStart // ignore: cast_nullable_to_non_nullable
@@ -208,8 +189,7 @@ class _$ConnectionDataCopyWithImpl<$Res>
 @JsonSerializable()
 class ConnectionDataGql implements ConnectionData {
   const ConnectionDataGql(
-      {required this.id,
-      required this.name,
+      {required this.name,
       required this.group,
       required final List<String> endpoints,
       required this.networkType,
@@ -218,7 +198,6 @@ class ConnectionDataGql implements ConnectionData {
       required this.nativeTokenTicker,
       required this.isPreset,
       required this.canBeEdited,
-      required this.sortingOrder,
       this.isUsedOnStart = true,
       this.manifestUrl = '',
       this.nativeTokenDecimals = 9,
@@ -231,8 +210,6 @@ class ConnectionDataGql implements ConnectionData {
   factory ConnectionDataGql.fromJson(Map<String, dynamic> json) =>
       _$ConnectionDataGqlFromJson(json);
 
-  @override
-  final String id;
   @override
   final String name;
   @override
@@ -255,8 +232,6 @@ class ConnectionDataGql implements ConnectionData {
   final bool isPreset;
   @override
   final bool canBeEdited;
-  @override
-  final double sortingOrder;
   @override
   @JsonKey()
   final bool isUsedOnStart;
@@ -293,7 +268,6 @@ class ConnectionDataGql implements ConnectionData {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is ConnectionDataGql &&
-            (identical(other.id, id) || other.id == id) &&
             (identical(other.name, name) || other.name == name) &&
             (identical(other.group, group) || other.group == group) &&
             const DeepCollectionEquality()
@@ -309,8 +283,6 @@ class ConnectionDataGql implements ConnectionData {
                 other.isPreset == isPreset) &&
             (identical(other.canBeEdited, canBeEdited) ||
                 other.canBeEdited == canBeEdited) &&
-            (identical(other.sortingOrder, sortingOrder) ||
-                other.sortingOrder == sortingOrder) &&
             (identical(other.isUsedOnStart, isUsedOnStart) ||
                 other.isUsedOnStart == isUsedOnStart) &&
             (identical(other.manifestUrl, manifestUrl) ||
@@ -332,7 +304,6 @@ class ConnectionDataGql implements ConnectionData {
   @override
   int get hashCode => Object.hash(
       runtimeType,
-      id,
       name,
       group,
       const DeepCollectionEquality().hash(_endpoints),
@@ -342,7 +313,6 @@ class ConnectionDataGql implements ConnectionData {
       nativeTokenTicker,
       isPreset,
       canBeEdited,
-      sortingOrder,
       isUsedOnStart,
       manifestUrl,
       nativeTokenDecimals,
@@ -352,7 +322,7 @@ class ConnectionDataGql implements ConnectionData {
 
   @override
   String toString() {
-    return 'ConnectionData.gql(id: $id, name: $name, group: $group, endpoints: $endpoints, networkType: $networkType, isLocal: $isLocal, blockExplorerUrl: $blockExplorerUrl, nativeTokenTicker: $nativeTokenTicker, isPreset: $isPreset, canBeEdited: $canBeEdited, sortingOrder: $sortingOrder, isUsedOnStart: $isUsedOnStart, manifestUrl: $manifestUrl, nativeTokenDecimals: $nativeTokenDecimals, latencyDetectionInterval: $latencyDetectionInterval, maxLatency: $maxLatency, endpointSelectionRetryCount: $endpointSelectionRetryCount)';
+    return 'ConnectionData.gql(name: $name, group: $group, endpoints: $endpoints, networkType: $networkType, isLocal: $isLocal, blockExplorerUrl: $blockExplorerUrl, nativeTokenTicker: $nativeTokenTicker, isPreset: $isPreset, canBeEdited: $canBeEdited, isUsedOnStart: $isUsedOnStart, manifestUrl: $manifestUrl, nativeTokenDecimals: $nativeTokenDecimals, latencyDetectionInterval: $latencyDetectionInterval, maxLatency: $maxLatency, endpointSelectionRetryCount: $endpointSelectionRetryCount)';
   }
 }
 
@@ -365,8 +335,7 @@ abstract mixin class $ConnectionDataGqlCopyWith<$Res>
   @override
   @useResult
   $Res call(
-      {String id,
-      String name,
+      {String name,
       String group,
       List<String> endpoints,
       NetworkType networkType,
@@ -375,7 +344,6 @@ abstract mixin class $ConnectionDataGqlCopyWith<$Res>
       String nativeTokenTicker,
       bool isPreset,
       bool canBeEdited,
-      double sortingOrder,
       bool isUsedOnStart,
       String manifestUrl,
       int nativeTokenDecimals,
@@ -397,7 +365,6 @@ class _$ConnectionDataGqlCopyWithImpl<$Res>
   @override
   @pragma('vm:prefer-inline')
   $Res call({
-    Object? id = null,
     Object? name = null,
     Object? group = null,
     Object? endpoints = null,
@@ -407,7 +374,6 @@ class _$ConnectionDataGqlCopyWithImpl<$Res>
     Object? nativeTokenTicker = null,
     Object? isPreset = null,
     Object? canBeEdited = null,
-    Object? sortingOrder = null,
     Object? isUsedOnStart = null,
     Object? manifestUrl = null,
     Object? nativeTokenDecimals = null,
@@ -416,10 +382,6 @@ class _$ConnectionDataGqlCopyWithImpl<$Res>
     Object? endpointSelectionRetryCount = freezed,
   }) {
     return _then(ConnectionDataGql(
-      id: null == id
-          ? _self.id
-          : id // ignore: cast_nullable_to_non_nullable
-              as String,
       name: null == name
           ? _self.name
           : name // ignore: cast_nullable_to_non_nullable
@@ -456,10 +418,6 @@ class _$ConnectionDataGqlCopyWithImpl<$Res>
           ? _self.canBeEdited
           : canBeEdited // ignore: cast_nullable_to_non_nullable
               as bool,
-      sortingOrder: null == sortingOrder
-          ? _self.sortingOrder
-          : sortingOrder // ignore: cast_nullable_to_non_nullable
-              as double,
       isUsedOnStart: null == isUsedOnStart
           ? _self.isUsedOnStart
           : isUsedOnStart // ignore: cast_nullable_to_non_nullable
@@ -492,8 +450,7 @@ class _$ConnectionDataGqlCopyWithImpl<$Res>
 @JsonSerializable()
 class ConnectionDataProto implements ConnectionData {
   const ConnectionDataProto(
-      {required this.id,
-      required this.name,
+      {required this.name,
       required this.group,
       required this.endpoint,
       required this.networkType,
@@ -501,7 +458,6 @@ class ConnectionDataProto implements ConnectionData {
       required this.nativeTokenTicker,
       required this.isPreset,
       required this.canBeEdited,
-      required this.sortingOrder,
       this.isUsedOnStart = true,
       this.manifestUrl = '',
       this.nativeTokenDecimals = 9,
@@ -510,8 +466,6 @@ class ConnectionDataProto implements ConnectionData {
   factory ConnectionDataProto.fromJson(Map<String, dynamic> json) =>
       _$ConnectionDataProtoFromJson(json);
 
-  @override
-  final String id;
   @override
   final String name;
   @override
@@ -527,8 +481,6 @@ class ConnectionDataProto implements ConnectionData {
   final bool isPreset;
   @override
   final bool canBeEdited;
-  @override
-  final double sortingOrder;
   @override
   @JsonKey()
   final bool isUsedOnStart;
@@ -562,7 +514,6 @@ class ConnectionDataProto implements ConnectionData {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is ConnectionDataProto &&
-            (identical(other.id, id) || other.id == id) &&
             (identical(other.name, name) || other.name == name) &&
             (identical(other.group, group) || other.group == group) &&
             (identical(other.endpoint, endpoint) ||
@@ -577,8 +528,6 @@ class ConnectionDataProto implements ConnectionData {
                 other.isPreset == isPreset) &&
             (identical(other.canBeEdited, canBeEdited) ||
                 other.canBeEdited == canBeEdited) &&
-            (identical(other.sortingOrder, sortingOrder) ||
-                other.sortingOrder == sortingOrder) &&
             (identical(other.isUsedOnStart, isUsedOnStart) ||
                 other.isUsedOnStart == isUsedOnStart) &&
             (identical(other.manifestUrl, manifestUrl) ||
@@ -591,7 +540,6 @@ class ConnectionDataProto implements ConnectionData {
   @override
   int get hashCode => Object.hash(
       runtimeType,
-      id,
       name,
       group,
       endpoint,
@@ -600,14 +548,13 @@ class ConnectionDataProto implements ConnectionData {
       nativeTokenTicker,
       isPreset,
       canBeEdited,
-      sortingOrder,
       isUsedOnStart,
       manifestUrl,
       nativeTokenDecimals);
 
   @override
   String toString() {
-    return 'ConnectionData.proto(id: $id, name: $name, group: $group, endpoint: $endpoint, networkType: $networkType, blockExplorerUrl: $blockExplorerUrl, nativeTokenTicker: $nativeTokenTicker, isPreset: $isPreset, canBeEdited: $canBeEdited, sortingOrder: $sortingOrder, isUsedOnStart: $isUsedOnStart, manifestUrl: $manifestUrl, nativeTokenDecimals: $nativeTokenDecimals)';
+    return 'ConnectionData.proto(name: $name, group: $group, endpoint: $endpoint, networkType: $networkType, blockExplorerUrl: $blockExplorerUrl, nativeTokenTicker: $nativeTokenTicker, isPreset: $isPreset, canBeEdited: $canBeEdited, isUsedOnStart: $isUsedOnStart, manifestUrl: $manifestUrl, nativeTokenDecimals: $nativeTokenDecimals)';
   }
 }
 
@@ -620,8 +567,7 @@ abstract mixin class $ConnectionDataProtoCopyWith<$Res>
   @override
   @useResult
   $Res call(
-      {String id,
-      String name,
+      {String name,
       String group,
       String endpoint,
       NetworkType networkType,
@@ -629,7 +575,6 @@ abstract mixin class $ConnectionDataProtoCopyWith<$Res>
       String nativeTokenTicker,
       bool isPreset,
       bool canBeEdited,
-      double sortingOrder,
       bool isUsedOnStart,
       String manifestUrl,
       int nativeTokenDecimals});
@@ -648,7 +593,6 @@ class _$ConnectionDataProtoCopyWithImpl<$Res>
   @override
   @pragma('vm:prefer-inline')
   $Res call({
-    Object? id = null,
     Object? name = null,
     Object? group = null,
     Object? endpoint = null,
@@ -657,16 +601,11 @@ class _$ConnectionDataProtoCopyWithImpl<$Res>
     Object? nativeTokenTicker = null,
     Object? isPreset = null,
     Object? canBeEdited = null,
-    Object? sortingOrder = null,
     Object? isUsedOnStart = null,
     Object? manifestUrl = null,
     Object? nativeTokenDecimals = null,
   }) {
     return _then(ConnectionDataProto(
-      id: null == id
-          ? _self.id
-          : id // ignore: cast_nullable_to_non_nullable
-              as String,
       name: null == name
           ? _self.name
           : name // ignore: cast_nullable_to_non_nullable
@@ -699,10 +638,6 @@ class _$ConnectionDataProtoCopyWithImpl<$Res>
           ? _self.canBeEdited
           : canBeEdited // ignore: cast_nullable_to_non_nullable
               as bool,
-      sortingOrder: null == sortingOrder
-          ? _self.sortingOrder
-          : sortingOrder // ignore: cast_nullable_to_non_nullable
-              as double,
       isUsedOnStart: null == isUsedOnStart
           ? _self.isUsedOnStart
           : isUsedOnStart // ignore: cast_nullable_to_non_nullable
@@ -723,8 +658,7 @@ class _$ConnectionDataProtoCopyWithImpl<$Res>
 @JsonSerializable()
 class ConnectionDataJrpc implements ConnectionData {
   const ConnectionDataJrpc(
-      {required this.id,
-      required this.name,
+      {required this.name,
       required this.group,
       required this.endpoint,
       required this.networkType,
@@ -732,7 +666,6 @@ class ConnectionDataJrpc implements ConnectionData {
       required this.nativeTokenTicker,
       required this.isPreset,
       required this.canBeEdited,
-      required this.sortingOrder,
       this.isUsedOnStart = true,
       this.manifestUrl = '',
       this.nativeTokenDecimals = 9,
@@ -741,8 +674,6 @@ class ConnectionDataJrpc implements ConnectionData {
   factory ConnectionDataJrpc.fromJson(Map<String, dynamic> json) =>
       _$ConnectionDataJrpcFromJson(json);
 
-  @override
-  final String id;
   @override
   final String name;
   @override
@@ -758,8 +689,6 @@ class ConnectionDataJrpc implements ConnectionData {
   final bool isPreset;
   @override
   final bool canBeEdited;
-  @override
-  final double sortingOrder;
   @override
   @JsonKey()
   final bool isUsedOnStart;
@@ -793,7 +722,6 @@ class ConnectionDataJrpc implements ConnectionData {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is ConnectionDataJrpc &&
-            (identical(other.id, id) || other.id == id) &&
             (identical(other.name, name) || other.name == name) &&
             (identical(other.group, group) || other.group == group) &&
             (identical(other.endpoint, endpoint) ||
@@ -808,8 +736,6 @@ class ConnectionDataJrpc implements ConnectionData {
                 other.isPreset == isPreset) &&
             (identical(other.canBeEdited, canBeEdited) ||
                 other.canBeEdited == canBeEdited) &&
-            (identical(other.sortingOrder, sortingOrder) ||
-                other.sortingOrder == sortingOrder) &&
             (identical(other.isUsedOnStart, isUsedOnStart) ||
                 other.isUsedOnStart == isUsedOnStart) &&
             (identical(other.manifestUrl, manifestUrl) ||
@@ -822,7 +748,6 @@ class ConnectionDataJrpc implements ConnectionData {
   @override
   int get hashCode => Object.hash(
       runtimeType,
-      id,
       name,
       group,
       endpoint,
@@ -831,14 +756,13 @@ class ConnectionDataJrpc implements ConnectionData {
       nativeTokenTicker,
       isPreset,
       canBeEdited,
-      sortingOrder,
       isUsedOnStart,
       manifestUrl,
       nativeTokenDecimals);
 
   @override
   String toString() {
-    return 'ConnectionData.jrpc(id: $id, name: $name, group: $group, endpoint: $endpoint, networkType: $networkType, blockExplorerUrl: $blockExplorerUrl, nativeTokenTicker: $nativeTokenTicker, isPreset: $isPreset, canBeEdited: $canBeEdited, sortingOrder: $sortingOrder, isUsedOnStart: $isUsedOnStart, manifestUrl: $manifestUrl, nativeTokenDecimals: $nativeTokenDecimals)';
+    return 'ConnectionData.jrpc(name: $name, group: $group, endpoint: $endpoint, networkType: $networkType, blockExplorerUrl: $blockExplorerUrl, nativeTokenTicker: $nativeTokenTicker, isPreset: $isPreset, canBeEdited: $canBeEdited, isUsedOnStart: $isUsedOnStart, manifestUrl: $manifestUrl, nativeTokenDecimals: $nativeTokenDecimals)';
   }
 }
 
@@ -851,8 +775,7 @@ abstract mixin class $ConnectionDataJrpcCopyWith<$Res>
   @override
   @useResult
   $Res call(
-      {String id,
-      String name,
+      {String name,
       String group,
       String endpoint,
       NetworkType networkType,
@@ -860,7 +783,6 @@ abstract mixin class $ConnectionDataJrpcCopyWith<$Res>
       String nativeTokenTicker,
       bool isPreset,
       bool canBeEdited,
-      double sortingOrder,
       bool isUsedOnStart,
       String manifestUrl,
       int nativeTokenDecimals});
@@ -879,7 +801,6 @@ class _$ConnectionDataJrpcCopyWithImpl<$Res>
   @override
   @pragma('vm:prefer-inline')
   $Res call({
-    Object? id = null,
     Object? name = null,
     Object? group = null,
     Object? endpoint = null,
@@ -888,16 +809,11 @@ class _$ConnectionDataJrpcCopyWithImpl<$Res>
     Object? nativeTokenTicker = null,
     Object? isPreset = null,
     Object? canBeEdited = null,
-    Object? sortingOrder = null,
     Object? isUsedOnStart = null,
     Object? manifestUrl = null,
     Object? nativeTokenDecimals = null,
   }) {
     return _then(ConnectionDataJrpc(
-      id: null == id
-          ? _self.id
-          : id // ignore: cast_nullable_to_non_nullable
-              as String,
       name: null == name
           ? _self.name
           : name // ignore: cast_nullable_to_non_nullable
@@ -930,10 +846,6 @@ class _$ConnectionDataJrpcCopyWithImpl<$Res>
           ? _self.canBeEdited
           : canBeEdited // ignore: cast_nullable_to_non_nullable
               as bool,
-      sortingOrder: null == sortingOrder
-          ? _self.sortingOrder
-          : sortingOrder // ignore: cast_nullable_to_non_nullable
-              as double,
       isUsedOnStart: null == isUsedOnStart
           ? _self.isUsedOnStart
           : isUsedOnStart // ignore: cast_nullable_to_non_nullable

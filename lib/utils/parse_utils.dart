@@ -26,14 +26,14 @@ int? parseToInt(dynamic input) {
   }
 }
 
-BigInt? parseBigIntOrNull(String? source, {int? radix}) {
+BigInt? parseBigIntOrNull(dynamic source, {int? radix}) {
   try {
-    return source == null
-        ? null
-        : BigInt.parse(
-            source,
-            radix: radix,
-          );
+    if (source == null) return null;
+    if (source is BigInt) return source;
+    if (source is int) return BigInt.from(source);
+    if (source is num) return BigInt.from(source.toInt());
+    if (source is String) return BigInt.tryParse(source);
+    return null;
   } catch (e, s) {
     debugPrint(e.toString());
     debugPrintStack(stackTrace: s);
