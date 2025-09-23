@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:app/app/service/connection/data/connection_config/connection_config.dart';
 import 'package:app/app/service/service.dart';
 import 'package:app/feature/presets_config/presets_config.dart';
 import 'package:app/utils/utils.dart';
@@ -14,16 +15,16 @@ class PresetsConnectionService {
 
   final PresetsConfigReader _presetsConfigReader;
 
-  final _presetsConnectionsSubj = BehaviorSubject<ConnectionNetwork?>();
+  final _presetsConnectionsSubj = BehaviorSubject<ConnectionConfig?>();
 
-  ConnectionNetwork? get _connectionNetwork => _presetsConnectionsSubj.value;
+  ConnectionConfig? get _connectionNetwork => _presetsConnectionsSubj.value;
 
   List<NetworkType>? get customNetworkOptions =>
       _connectionNetwork?.customNetworkOptionTypes;
 
-  ConnectionNetwork? get _data => _presetsConnectionsSubj.valueOrNull;
+  ConnectionConfig? get _data => _presetsConnectionsSubj.valueOrNull;
 
-  List<ConnectionData> get networks => _data?.networks ?? [];
+  List<ConnectionData> get networks => _data?.connections ?? [];
 
   Map<NetworkGroup, ConnectionTransportData> get transports =>
       _data?.transports ?? {};
@@ -31,7 +32,7 @@ class PresetsConnectionService {
   String? get defaultConnectionId => _data?.defaultConnectionId;
 
   ConnectionData get defaultNetwork =>
-      _data?.defaultNetwork ?? defaultPresetNetwork;
+      _data?.defaultConnection ?? defaultPresetNetwork;
 
   String? currentPresetId;
 

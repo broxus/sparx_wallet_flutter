@@ -1,6 +1,7 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
 
 part 'connection_network_dto.freezed.dart';
+
 part 'connection_network_dto.g.dart';
 
 /// Network connection configuration data transfer object.
@@ -15,9 +16,6 @@ abstract class ConnectionNetworkDto with _$ConnectionNetworkDto {
 
     /// List of available networks with their configuration details.
     required List<Map<String, dynamic>> networks,
-
-    /// List of available transport methods for connections.
-    required List<Map<String, dynamic>> transports,
 
     /// Optional custom network configuration options.
     List<Map<String, dynamic>>? customNetworkOtions,

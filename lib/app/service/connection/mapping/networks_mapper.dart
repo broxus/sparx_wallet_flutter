@@ -1,33 +1,42 @@
 import 'package:app/app/service/connection/data/connection_data/connection_data.dart';
+import 'package:app/app/service/connection/data/connection_network/connection_network.dart';
 import 'package:app/app/service/connection/data/network_type.dart';
+import 'package:app/app/service/connection/mapping/transports_mapper.dart';
 import 'package:app/utils/json/json_utils.dart';
 import 'package:app/utils/parse_utils.dart';
 
-List<ConnectionData> mapToConnectionDataList(
+List<ConnectionNetwork> mapToConnectionDataList(
   List<Map<String, dynamic>> list,
 ) {
-  final result = <ConnectionData>[];
+  final result = <ConnectionNetwork>[];
 
   for (final network in list) {
-    final type = network['type'] as String;
+    print('!!! $network');
+    final connection = network['connection'] as Map<String, dynamic>;
+    final transport = mapToTransport(
+      network['transport'] as Map<String, dynamic>,
+    );
+
+    final type = connection['type'] as String;
 
     ConnectionData? data;
 
-    final id = castToString(network['id']);
-    final name = castToString(network['name']);
-    final group = castToString(network['group']);
-    final isUsedOnStart = castTo<bool>(network['isUsedOnStart']) ?? true;
-    final endpoints = castJsonList<String>(network['endpoints']);
-    final networkType = castToString(network['networkType']);
-    final blockExplorerUrl = castToString(network['blockExplorerUrl']);
-    final manifestUrl = castTo<String?>(network['manifestUrl']);
-    final sortingOrder = parseToDouble(network['sortingOrder']) ?? 1;
+    final id = castToString(connection['id']);
+    final name = castToString(connection['name']);
+    final group = castToString(connection['group']);
+    final isUsedOnStart = castTo<bool>(connection['isUsedOnStart']) ?? true;
+    final endpoints = castJsonList<String>(connection['endpoints']);
+    final networkType = castToString(connection['networkType']);
+    final blockExplorerUrl = castToString(connection['blockExplorerUrl']);
+    final manifestUrl = castTo<String?>(connection['manifestUrl']);
+    final sortingOrder = parseToDouble(connection['sortingOrder']) ?? 1;
 
     if (id == null ||
         name == null ||
         group == null ||
         networkType == null ||
-        blockExplorerUrl == null) {
+        blockExplorerUrl == null ||
+        transport == null) {
       continue;
     }
 
@@ -80,7 +89,12 @@ List<ConnectionData> mapToConnectionDataList(
         continue;
     }
 
-    result.add(data);
+    result.add(
+      ConnectionNetwork(
+        connection: data,
+        transport: transport,
+      ),
+    );
   }
 
   return result;

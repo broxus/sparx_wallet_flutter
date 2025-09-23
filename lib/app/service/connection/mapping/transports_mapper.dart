@@ -3,85 +3,79 @@ import 'package:app/core/sentry.dart';
 import 'package:app/utils/utils.dart';
 import 'package:nekoton_repository/nekoton_repository.dart';
 
-Map<NetworkGroup, ConnectionTransportData>? mapToTransports(
-  List<Map<String, dynamic>> list,
+ConnectionTransportData? mapToTransport(
+  Map<String, dynamic> transport,
 ) {
-  final result = <NetworkGroup, ConnectionTransportData>{};
+  final networkGroup = castToString(transport['networkGroup']);
+  final defaultWalletType = _mapToWalletType(
+    castJsonMap(transport['defaultWalletType']),
+  );
 
-  for (final transport in list) {
-    final networkGroup = castToString(transport['networkGroup']);
-    final defaultWalletType = _mapToWalletType(
-      castJsonMap(transport['defaultWalletType']),
-    );
+  final genericTokenType = GenericTokenType.values.byNameOrNull(
+    castToString(transport['genericTokenType']),
+  );
 
-    final genericTokenType = GenericTokenType.values.byNameOrNull(
-      castToString(transport['genericTokenType']),
-    );
+  final accountExplorerLinkType = AccountExplorerLinkType.values.byNameOrNull(
+    castToString(transport['accountExplorerLinkType']),
+  );
 
-    final accountExplorerLinkType = AccountExplorerLinkType.values.byNameOrNull(
-      castToString(transport['accountExplorerLinkType']),
-    );
+  final networkType = castToString(transport['networkType']);
 
-    final networkType = castToString(transport['networkType']);
-
-    if (networkGroup == null ||
-        defaultWalletType == null ||
-        genericTokenType == null ||
-        accountExplorerLinkType == null ||
-        networkType == null) {
-      continue;
-    }
-
-    result[networkGroup] = ConnectionTransportData(
-      defaultActiveAssets: _mapToDefaultActiveAssets(
-        transport['defaultActiveAssets'],
-      ),
-      icons: _mapToTransportIcons(
-        castJsonMap(transport['icons']),
-      ),
-      availableWalletTypes: _mapToAvailableWalletTypes(
-        castJsonList<Map<String, dynamic>>(transport['availableWalletTypes']),
-      ),
-      walletDefaultAccountNames: _mapRoWalletDefaultAccountNames(
-        castJsonMap(transport['walletDefaultAccountNames']),
-      ),
-      defaultWalletType: defaultWalletType,
-      nativeTokenTickerOption: _mapToNativeTokenTickerOption(
-        castJsonMap(transport['nativeTokenTickerOption']),
-      ),
-      manifestOption: _mapToManifestOption(
-        castJsonMap(transport['manifestOption']),
-      ),
-      nativeTokenAddress: Address(
-        address: castTo<String?>(transport['nativeTokenAddress']) ?? '',
-      ),
-      networkName: castToString(transport['networkName']) ?? 'Unknown',
-      networkType: NetworkType.fromJson(transport['networkType'] as String),
-      seedPhraseWordsCount: _mapToSeedPhraseWordsCount(
-        castTo<List<dynamic>>(transport['seedPhraseWordsCount']),
-      ),
-      defaultNativeCurrencyDecimal:
-          parseToInt(transport['defaultNativeCurrencyDecimal']),
-      genericTokenType: genericTokenType,
-      accountExplorerLinkType: accountExplorerLinkType,
-      transactionExplorerLinkType:
-          TransactionExplorerLinkType.values.byNameOrNull(
-        castToString(transport['transactionExplorerLinkType']),
-      ),
-      stakeInformation: _mapToStakingInformation(
-        castJsonMap(transport['stakeInformation']),
-      ),
-      tokenApiBaseUrl: castToString(transport['tokenApiBaseUrl']),
-      currencyApiBaseUrl: castToString(transport['currencyApiBaseUrl']),
-      nftInformation: (transport['nftInformation'] as Map<String, dynamic>?)
-          ?.let(NftInformation.fromJson),
-      pollingConfig: _mapToPollingConfig(
-        castJsonMap(transport['pollingConfig']),
-      ),
-    );
+  if (networkGroup == null ||
+      defaultWalletType == null ||
+      genericTokenType == null ||
+      accountExplorerLinkType == null ||
+      networkType == null) {
+    return null;
   }
 
-  return result;
+  return ConnectionTransportData(
+    defaultActiveAssets: _mapToDefaultActiveAssets(
+      transport['defaultActiveAssets'],
+    ),
+    icons: _mapToTransportIcons(
+      castJsonMap(transport['icons']),
+    ),
+    availableWalletTypes: _mapToAvailableWalletTypes(
+      castJsonList<Map<String, dynamic>>(transport['availableWalletTypes']),
+    ),
+    walletDefaultAccountNames: _mapRoWalletDefaultAccountNames(
+      castJsonMap(transport['walletDefaultAccountNames']),
+    ),
+    defaultWalletType: defaultWalletType,
+    nativeTokenTickerOption: _mapToNativeTokenTickerOption(
+      castJsonMap(transport['nativeTokenTickerOption']),
+    ),
+    manifestOption: _mapToManifestOption(
+      castJsonMap(transport['manifestOption']),
+    ),
+    nativeTokenAddress: Address(
+      address: castTo<String?>(transport['nativeTokenAddress']) ?? '',
+    ),
+    networkName: castToString(transport['networkName']) ?? 'Unknown',
+    networkType: NetworkType.fromJson(transport['networkType'] as String),
+    seedPhraseWordsCount: _mapToSeedPhraseWordsCount(
+      castTo<List<dynamic>>(transport['seedPhraseWordsCount']),
+    ),
+    defaultNativeCurrencyDecimal:
+        parseToInt(transport['defaultNativeCurrencyDecimal']),
+    genericTokenType: genericTokenType,
+    accountExplorerLinkType: accountExplorerLinkType,
+    transactionExplorerLinkType:
+        TransactionExplorerLinkType.values.byNameOrNull(
+      castToString(transport['transactionExplorerLinkType']),
+    ),
+    stakeInformation: _mapToStakingInformation(
+      castJsonMap(transport['stakeInformation']),
+    ),
+    tokenApiBaseUrl: castToString(transport['tokenApiBaseUrl']),
+    currencyApiBaseUrl: castToString(transport['currencyApiBaseUrl']),
+    nftInformation: (transport['nftInformation'] as Map<String, dynamic>?)
+        ?.let(NftInformation.fromJson),
+    pollingConfig: _mapToPollingConfig(
+      castJsonMap(transport['pollingConfig']),
+    ),
+  );
 }
 
 TransportIcons _mapToTransportIcons(Map<String, dynamic> json) {

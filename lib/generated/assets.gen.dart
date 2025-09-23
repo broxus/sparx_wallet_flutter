@@ -64,8 +64,8 @@ class $AssetsAnimationsGen {
 class $AssetsConfigsGen {
   const $AssetsConfigsGen();
 
-  /// File path: assets/configs/connections.json
-  String get connections => 'assets/configs/connections.json';
+  /// File path: assets/configs/connections_v2.json
+  String get connectionsV2 => 'assets/configs/connections_v2.json';
 
   /// File path: assets/configs/release_notes.json
   String get releaseNotes => 'assets/configs/release_notes.json';
@@ -74,7 +74,7 @@ class $AssetsConfigsGen {
   String get updateRules => 'assets/configs/update_rules.json';
 
   /// List of all assets
-  List<String> get values => [connections, releaseNotes, updateRules];
+  List<String> get values => [connectionsV2, releaseNotes, updateRules];
 }
 
 class $AssetsImagesGen {

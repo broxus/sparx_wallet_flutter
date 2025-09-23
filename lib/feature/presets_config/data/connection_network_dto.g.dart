@@ -13,9 +13,6 @@ _ConnectionNetworkDto _$ConnectionNetworkDtoFromJson(
       networks: (json['networks'] as List<dynamic>)
           .map((e) => e as Map<String, dynamic>)
           .toList(),
-      transports: (json['transports'] as List<dynamic>)
-          .map((e) => e as Map<String, dynamic>)
-          .toList(),
       customNetworkOtions: (json['customNetworkOtions'] as List<dynamic>?)
           ?.map((e) => e as Map<String, dynamic>)
           .toList(),
@@ -26,6 +23,5 @@ Map<String, dynamic> _$ConnectionNetworkDtoToJson(
     <String, dynamic>{
       'defaultConnectionId': instance.defaultConnectionId,
       'networks': instance.networks,
-      'transports': instance.transports,
       'customNetworkOtions': instance.customNetworkOtions,
     };

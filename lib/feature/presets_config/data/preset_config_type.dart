@@ -51,7 +51,7 @@ enum PresetConfigType<T> {
 
   /// The key used for loading the configuration from local assets.
   String getLocalFileName() => switch (this) {
-        PresetConfigType.connections => Assets.configs.connections,
+        PresetConfigType.connections => Assets.configs.connectionsV2,
         PresetConfigType.updateRules => Assets.configs.updateRules,
         PresetConfigType.releaseNotes => Assets.configs.releaseNotes,
       };

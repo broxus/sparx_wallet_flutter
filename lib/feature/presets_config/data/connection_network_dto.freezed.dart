@@ -21,9 +21,6 @@ mixin _$ConnectionNetworkDto {
   /// List of available networks with their configuration details.
   List<Map<String, dynamic>> get networks;
 
-  /// List of available transport methods for connections.
-  List<Map<String, dynamic>> get transports;
-
   /// Optional custom network configuration options.
   List<Map<String, dynamic>>? get customNetworkOtions;
 
@@ -47,8 +44,6 @@ mixin _$ConnectionNetworkDto {
                 other.defaultConnectionId == defaultConnectionId) &&
             const DeepCollectionEquality().equals(other.networks, networks) &&
             const DeepCollectionEquality()
-                .equals(other.transports, transports) &&
-            const DeepCollectionEquality()
                 .equals(other.customNetworkOtions, customNetworkOtions));
   }
 
@@ -58,12 +53,11 @@ mixin _$ConnectionNetworkDto {
       runtimeType,
       defaultConnectionId,
       const DeepCollectionEquality().hash(networks),
-      const DeepCollectionEquality().hash(transports),
       const DeepCollectionEquality().hash(customNetworkOtions));
 
   @override
   String toString() {
-    return 'ConnectionNetworkDto(defaultConnectionId: $defaultConnectionId, networks: $networks, transports: $transports, customNetworkOtions: $customNetworkOtions)';
+    return 'ConnectionNetworkDto(defaultConnectionId: $defaultConnectionId, networks: $networks, customNetworkOtions: $customNetworkOtions)';
   }
 }
 
@@ -76,7 +70,6 @@ abstract mixin class $ConnectionNetworkDtoCopyWith<$Res> {
   $Res call(
       {String defaultConnectionId,
       List<Map<String, dynamic>> networks,
-      List<Map<String, dynamic>> transports,
       List<Map<String, dynamic>>? customNetworkOtions});
 }
 
@@ -95,7 +88,6 @@ class _$ConnectionNetworkDtoCopyWithImpl<$Res>
   $Res call({
     Object? defaultConnectionId = null,
     Object? networks = null,
-    Object? transports = null,
     Object? customNetworkOtions = freezed,
   }) {
     return _then(_self.copyWith(
@@ -106,10 +98,6 @@ class _$ConnectionNetworkDtoCopyWithImpl<$Res>
       networks: null == networks
           ? _self.networks
           : networks // ignore: cast_nullable_to_non_nullable
-              as List<Map<String, dynamic>>,
-      transports: null == transports
-          ? _self.transports
-          : transports // ignore: cast_nullable_to_non_nullable
               as List<Map<String, dynamic>>,
       customNetworkOtions: freezed == customNetworkOtions
           ? _self.customNetworkOtions
@@ -125,10 +113,8 @@ class _ConnectionNetworkDto implements ConnectionNetworkDto {
   const _ConnectionNetworkDto(
       {required this.defaultConnectionId,
       required final List<Map<String, dynamic>> networks,
-      required final List<Map<String, dynamic>> transports,
       final List<Map<String, dynamic>>? customNetworkOtions})
       : _networks = networks,
-        _transports = transports,
         _customNetworkOtions = customNetworkOtions;
   factory _ConnectionNetworkDto.fromJson(Map<String, dynamic> json) =>
       _$ConnectionNetworkDtoFromJson(json);
@@ -146,17 +132,6 @@ class _ConnectionNetworkDto implements ConnectionNetworkDto {
     if (_networks is EqualUnmodifiableListView) return _networks;
     // ignore: implicit_dynamic_type
     return EqualUnmodifiableListView(_networks);
-  }
-
-  /// List of available transport methods for connections.
-  final List<Map<String, dynamic>> _transports;
-
-  /// List of available transport methods for connections.
-  @override
-  List<Map<String, dynamic>> get transports {
-    if (_transports is EqualUnmodifiableListView) return _transports;
-    // ignore: implicit_dynamic_type
-    return EqualUnmodifiableListView(_transports);
   }
 
   /// Optional custom network configuration options.
@@ -198,8 +173,6 @@ class _ConnectionNetworkDto implements ConnectionNetworkDto {
                 other.defaultConnectionId == defaultConnectionId) &&
             const DeepCollectionEquality().equals(other._networks, _networks) &&
             const DeepCollectionEquality()
-                .equals(other._transports, _transports) &&
-            const DeepCollectionEquality()
                 .equals(other._customNetworkOtions, _customNetworkOtions));
   }
 
@@ -209,12 +182,11 @@ class _ConnectionNetworkDto implements ConnectionNetworkDto {
       runtimeType,
       defaultConnectionId,
       const DeepCollectionEquality().hash(_networks),
-      const DeepCollectionEquality().hash(_transports),
       const DeepCollectionEquality().hash(_customNetworkOtions));
 
   @override
   String toString() {
-    return 'ConnectionNetworkDto(defaultConnectionId: $defaultConnectionId, networks: $networks, transports: $transports, customNetworkOtions: $customNetworkOtions)';
+    return 'ConnectionNetworkDto(defaultConnectionId: $defaultConnectionId, networks: $networks, customNetworkOtions: $customNetworkOtions)';
   }
 }
 
@@ -229,7 +201,6 @@ abstract mixin class _$ConnectionNetworkDtoCopyWith<$Res>
   $Res call(
       {String defaultConnectionId,
       List<Map<String, dynamic>> networks,
-      List<Map<String, dynamic>> transports,
       List<Map<String, dynamic>>? customNetworkOtions});
 }
 
@@ -248,7 +219,6 @@ class __$ConnectionNetworkDtoCopyWithImpl<$Res>
   $Res call({
     Object? defaultConnectionId = null,
     Object? networks = null,
-    Object? transports = null,
     Object? customNetworkOtions = freezed,
   }) {
     return _then(_ConnectionNetworkDto(
@@ -259,10 +229,6 @@ class __$ConnectionNetworkDtoCopyWithImpl<$Res>
       networks: null == networks
           ? _self._networks
           : networks // ignore: cast_nullable_to_non_nullable
-              as List<Map<String, dynamic>>,
-      transports: null == transports
-          ? _self._transports
-          : transports // ignore: cast_nullable_to_non_nullable
               as List<Map<String, dynamic>>,
       customNetworkOtions: freezed == customNetworkOtions
           ? _self._customNetworkOtions
