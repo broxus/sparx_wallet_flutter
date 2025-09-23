@@ -1,5 +1,8 @@
-// ignore_for_file: type=lint
-part of 'token_wallet_transactions_cubit.dart';
+import 'package:app/data/models/custom_currency.dart';
+import 'package:freezed_annotation/freezed_annotation.dart';
+import 'package:nekoton_repository/nekoton_repository.dart';
+
+part 'token_wallet_transactions_state.freezed.dart';
 
 @freezed
 sealed class TokenWalletTransactionsState with _$TokenWalletTransactionsState {

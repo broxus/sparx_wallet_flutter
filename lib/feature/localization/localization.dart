@@ -1,2 +1,2 @@
-export 'bloc/bloc.dart';
+export 'domain/domain.dart';
 export 'widgets/widgets.dart';
