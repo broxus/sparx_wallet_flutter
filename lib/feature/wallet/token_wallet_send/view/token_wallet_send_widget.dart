@@ -1,6 +1,4 @@
 import 'package:app/core/wm/custom_wm.dart';
-import 'package:app/feature/wallet/token_wallet_send/data/data.dart';
-import 'package:app/feature/wallet/token_wallet_send/view/token_wallet_send_wm.dart';
 import 'package:app/feature/wallet/wallet.dart';
 import 'package:app/generated/generated.dart';
 import 'package:elementary_helper/elementary_helper.dart';
@@ -79,7 +77,6 @@ class TokenWalletSendWidget extends InjectedElementaryParametrizedWidget<
                 account: wm.account,
                 amount: wm.amountState,
                 fees: wm.feesState,
-                error: wm.errorState,
                 txErrors: wm.txErrorsState,
                 isLoading: wm.isLoadingState,
                 getLedgerAuthInput: wm.getLedgerAuthInput,

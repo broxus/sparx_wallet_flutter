@@ -8,7 +8,7 @@ part of 'browser_tab.dart';
 
 _BrowserTab _$BrowserTabFromJson(Map<String, dynamic> json) => _BrowserTab(
       id: json['id'] as String,
-      url: uriJsonConverter.fromJson(json['url'] as String),
+      url: Uri.parse(json['url'] as String),
       title: json['title'] as String?,
       sortingOrder: (json['sortingOrder'] as num).toDouble(),
     );
@@ -16,7 +16,7 @@ _BrowserTab _$BrowserTabFromJson(Map<String, dynamic> json) => _BrowserTab(
 Map<String, dynamic> _$BrowserTabToJson(_BrowserTab instance) =>
     <String, dynamic>{
       'id': instance.id,
-      'url': uriJsonConverter.toJson(instance.url),
+      'url': instance.url.toString(),
       'title': instance.title,
       'sortingOrder': instance.sortingOrder,
     };

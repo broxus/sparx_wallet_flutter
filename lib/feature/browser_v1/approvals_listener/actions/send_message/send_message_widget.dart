@@ -106,14 +106,10 @@ class SendMessageWidget extends InjectedElementaryParametrizedWidget<
                 MultiListenerRebuilder(
                   listenableList: [
                     wm.dataState,
-                    wm.feeState,
-                    wm.feeErrorState,
                     wm.recipientState,
                   ],
                   builder: (_) {
                     final data = wm.dataState.value;
-                    final fee = wm.feeState.value;
-                    final feeError = wm.feeErrorState.value;
                     final recipient = wm.recipientState.value;
 
                     return data?.let(
@@ -124,8 +120,7 @@ class SendMessageWidget extends InjectedElementaryParametrizedWidget<
                             attachedAmount: data.attachedAmount,
                             rootTokenContract: data.rootTokenContract,
                             recipient: recipient,
-                            fee: fee,
-                            feeError: feeError,
+                            fee: wm.feeState,
                             numberUnconfirmedTransactions:
                                 data.numberUnconfirmedTransactions,
                           ),
@@ -164,11 +159,16 @@ class SendMessageWidget extends InjectedElementaryParametrizedWidget<
           ),
         ),
         if (wm.account != null)
-          TripleSourceBuilder(
-            firstSource: wm.feeErrorState,
-            secondSource: wm.txErrorsState,
-            thirdSource: wm.isConfirmedState,
-            builder: (_, feeError, txErrors, isConfirmed) {
+          MultiListenerRebuilder(
+            listenableList: [
+              wm.feeState,
+              wm.txErrorsState,
+              wm.isConfirmedState,
+            ],
+            builder: (_) {
+              final isConfirmed = wm.isConfirmedState.value;
+              final txErrors = wm.txErrorsState.value;
+              final fees = wm.feeState.value;
               final hasTxError = txErrors?.isNotEmpty ?? false;
 
               return SeparatedColumn(
@@ -190,7 +190,7 @@ class SendMessageWidget extends InjectedElementaryParametrizedWidget<
                       title: LocaleKeys.sendWord.tr(),
                       isDisabled: wm.numberUnconfirmedTransactions == null ||
                           wm.numberUnconfirmedTransactions! >= 5 ||
-                          feeError != null ||
+                          fees.isErrorState ||
                           (hasTxError && isConfirmed != true),
                       onConfirmed: wm.onSubmit,
                     ),

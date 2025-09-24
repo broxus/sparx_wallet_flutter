@@ -1,5 +1,6 @@
 import 'package:app/app/router/router.dart';
 import 'package:app/core/wm/custom_wm.dart';
+import 'package:app/data/models/models.dart';
 import 'package:app/feature/ledger/ledger.dart';
 import 'package:app/feature/messenger/data/message.dart';
 import 'package:app/feature/wallet/confirm_multisig_transaction/data/data.dart';
@@ -46,9 +47,8 @@ class ConfirmMultisigTransactionWidgetModel
   static final _logger = Logger('ConfirmMultisigTransactionWidgetModel');
 
   late final _isLoadingState = createNotifier(false);
-  late final _feesState = createNotifier<BigInt>();
+  late final _feesState = createEntityNotifier<Fee>()..loading();
   late final _txErrorsState = createNotifier<List<TxTreeSimulationErrorItem>>();
-  late final _errorState = createNotifier<String>();
   late final _confirmState = createNotifier<ConfirmMultisigTransactionState>();
 
   late final KeyAccount? account = model.getAccount(_walletAddress);
@@ -73,12 +73,10 @@ class ConfirmMultisigTransactionWidgetModel
 
   ListenableState<bool> get isLoadingState => _isLoadingState;
 
-  ListenableState<BigInt> get feesState => _feesState;
+  EntityValueListenable<Fee> get feesState => _feesState;
 
   ListenableState<List<TxTreeSimulationErrorItem>> get txErrorsState =>
       _txErrorsState;
-
-  ListenableState<String> get errorState => _errorState;
 
   ListenableState<ConfirmMultisigTransactionState> get confirmState =>
       _confirmState;
@@ -144,7 +142,11 @@ class ConfirmMultisigTransactionWidgetModel
         ),
       );
 
-      _feesState.accept(fees);
+      _feesState.content(
+        Fee.native(
+          Money.fromBigIntWithCurrency(fees, currency),
+        ),
+      );
       _txErrorsState.accept(txErrors);
       _wallet = walletState.wallet;
 
@@ -153,11 +155,17 @@ class ConfirmMultisigTransactionWidgetModel
       final isPossibleToSendMessage = balance > (fees + wmParams.value.amount);
 
       if (!isPossibleToSendMessage) {
-        _errorState.accept(LocaleKeys.insufficientFunds.tr());
+        _feesState.error(
+          UiException(LocaleKeys.insufficientFunds.tr()),
+          _feesState.value.data,
+        );
       }
     } on Exception catch (e, t) {
       _logger.severe('onCustodianSelected', e, t);
-      _errorState.accept(e.toString());
+      _feesState.error(
+        UiException(e.toString()),
+        _feesState.value.data,
+      );
     } finally {
       unsignedMessage?.dispose();
       _isLoadingState.accept(false);

@@ -69,7 +69,7 @@ sealed class ApprovalRequest with _$ApprovalRequest {
     required Uri origin,
     required Address sender,
     required Address recipient,
-    @amountJsonConverter required BigInt amount,
+    required BigInt amount,
     required bool bounce,
     required FunctionCall? payload,
     required KnownPayload? knownPayload,
