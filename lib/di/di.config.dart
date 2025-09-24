@@ -441,8 +441,8 @@ import '../feature/wallet/confirm_multisig_transaction/view/confirm_multisig_tra
     as _i1029;
 import '../feature/wallet/custodians_settings/custodians_settings_model.dart'
     as _i313;
-import '../feature/wallet/custodians_settings/custodians_settings_view_model.dart'
-    as _i729;
+import '../feature/wallet/custodians_settings/custodians_settings_wm.dart'
+    as _i94;
 import '../feature/wallet/custodians_settings/route.dart' as _i1052;
 import '../feature/wallet/new_account/add_account/add_account_model.dart'
     as _i715;
@@ -963,12 +963,6 @@ extension GetItInjectableX on _i174.GetIt {
               gh<_i83.ErrorHandler>(),
               gh<_i771.NekotonRepository>(),
             ));
-    gh.factory<_i313.CustodiansSettingsModel>(
-        () => _i313.CustodiansSettingsModel(
-              gh<_i83.ErrorHandler>(),
-              gh<_i128.AppStorageService>(),
-              gh<_i632.MessengerService>(),
-            ));
     gh.singleton<_i213.BrowserBookmarksStorageService>(() =>
         _i213.BrowserBookmarksStorageService(
             gh<_i792.GetStorage>(instanceName: 'browser_bookmarks')));
@@ -1208,9 +1202,6 @@ extension GetItInjectableX on _i174.GetIt {
           gh<_i128.CurrentAccountsService>(),
           gh<_i128.BalanceStorageService>(),
         ));
-    gh.factory<_i729.CustodianSettingsWidgetModel>(() =>
-        _i729.CustodianSettingsWidgetModel(
-            gh<_i313.CustodiansSettingsModel>()));
     gh.factory<_i569.QrScannerWidgetModel>(
         () => _i569.QrScannerWidgetModel(gh<_i686.QrScannerModel>()));
     gh.factory<
@@ -1260,6 +1251,13 @@ extension GetItInjectableX on _i174.GetIt {
     gh.factory<_i772.TonWalletMultisigOrdinaryTransactionWidgetWidgetModel>(
         () => _i772.TonWalletMultisigOrdinaryTransactionWidgetWidgetModel(
             gh<_i63.TonWalletMultisigOrdinaryTransactionWidgetModel>()));
+    gh.factory<_i313.CustodiansSettingsModel>(
+        () => _i313.CustodiansSettingsModel(
+              gh<_i83.ErrorHandler>(),
+              gh<_i128.AppStorageService>(),
+              gh<_i632.MessengerService>(),
+              gh<_i771.NekotonRepository>(),
+            ));
     gh.factory<_i504.TonWalletPendingTransactionWidgetWidgetModel>(() =>
         _i504.TonWalletPendingTransactionWidgetWidgetModel(
             gh<_i205.TonWalletPendingTransactionWidgetModel>()));
@@ -1477,6 +1475,8 @@ extension GetItInjectableX on _i174.GetIt {
               gh<_i128.BiometryService>(),
               gh<_i632.MessengerService>(),
             ));
+    gh.factory<_i94.CustodianSettingsWidgetModel>(() =>
+        _i94.CustodianSettingsWidgetModel(gh<_i313.CustodiansSettingsModel>()));
     gh.factory<_i905.CreateSeedPasswordScreenModel>(
         () => _i905.CreateSeedPasswordScreenModel(
               gh<_i83.ErrorHandler>(),
