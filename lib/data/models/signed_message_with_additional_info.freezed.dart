@@ -17,7 +17,6 @@ T _$identity<T>(T value) => value;
 mixin _$SignedMessageWithAdditionalInfo {
   SignedMessage get message;
   String? get dst;
-  @amountJsonConverter
   BigInt? get amount;
 
   /// Create a copy of SignedMessageWithAdditionalInfo
@@ -55,10 +54,7 @@ abstract mixin class $SignedMessageWithAdditionalInfoCopyWith<$Res> {
           $Res Function(SignedMessageWithAdditionalInfo) _then) =
       _$SignedMessageWithAdditionalInfoCopyWithImpl;
   @useResult
-  $Res call(
-      {SignedMessage message,
-      String? dst,
-      @amountJsonConverter BigInt? amount});
+  $Res call({SignedMessage message, String? dst, BigInt? amount});
 
   $SignedMessageCopyWith<$Res> get message;
 }
@@ -112,14 +108,13 @@ class _$SignedMessageWithAdditionalInfoCopyWithImpl<$Res>
 class _SignedMessageWithAdditionalInfo
     implements SignedMessageWithAdditionalInfo {
   const _SignedMessageWithAdditionalInfo(
-      {required this.message, this.dst, @amountJsonConverter this.amount});
+      {required this.message, this.dst, this.amount});
 
   @override
   final SignedMessage message;
   @override
   final String? dst;
   @override
-  @amountJsonConverter
   final BigInt? amount;
 
   /// Create a copy of SignedMessageWithAdditionalInfo
@@ -159,10 +154,7 @@ abstract mixin class _$SignedMessageWithAdditionalInfoCopyWith<$Res>
       __$SignedMessageWithAdditionalInfoCopyWithImpl;
   @override
   @useResult
-  $Res call(
-      {SignedMessage message,
-      String? dst,
-      @amountJsonConverter BigInt? amount});
+  $Res call({SignedMessage message, String? dst, BigInt? amount});
 
   @override
   $SignedMessageCopyWith<$Res> get message;
