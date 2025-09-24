@@ -17,4 +17,13 @@ class TonWalletMultisigPendingTransactionDetailsScreenModel
   late final ticker = _nekotonRepository.currentTransport.nativeTokenTicker;
 
   late final tonIconPath = _nekotonRepository.currentTransport.nativeTokenIcon;
+
+  StakingInformation? get staking =>
+      _nekotonRepository.currentTransport.stakeInformation;
+
+  Future<TokenWalletState> getTokenWallet({
+    required Address owner,
+    required Address tokenRootContract,
+  }) =>
+      _nekotonRepository.getTokenWallet(owner, tokenRootContract);
 }

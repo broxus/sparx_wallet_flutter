@@ -22,6 +22,7 @@ class ConfirmMultisigTransactionWmParams {
     required this.amount,
     required this.destination,
     required this.comment,
+    required this.resultMessage,
     this.transactionIdHash,
   });
 
@@ -32,6 +33,7 @@ class ConfirmMultisigTransactionWmParams {
   final BigInt amount;
   final Address destination;
   final String? comment;
+  final String? resultMessage;
 }
 
 @injectable
@@ -184,6 +186,9 @@ class ConfirmMultisigTransactionWidgetModel
         if (!isAvailable) return;
       }
 
+      final resultMessage = wmParams.value.resultMessage ??
+          LocaleKeys.transactionSentSuccessfully.tr();
+
       unsignedMessage = await model.prepareConfirmTransaction(
         address: _walletAddress,
         publicKey: _custodian!,
@@ -205,11 +210,7 @@ class ConfirmMultisigTransactionWidgetModel
 
       await transactionCompleter;
 
-      model.showMessage(
-        Message.successful(
-          message: LocaleKeys.transactionSentSuccessfully.tr(),
-        ),
-      );
+      model.showMessage(Message.successful(message: resultMessage));
 
       contextSafe?.compassPointNamed(
         const WalletRouteData(),
