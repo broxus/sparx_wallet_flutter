@@ -32,7 +32,7 @@ class TabAnimatedView extends InjectedElementaryParametrizedWidget<
           return Visibility(
             visible: type != null,
             child: AnimatedBuilder(
-              animation: wm.animationListenable,
+              animation: wm.animationState,
               builder: (_, Widget? child) {
                 return Stack(
                   children: [

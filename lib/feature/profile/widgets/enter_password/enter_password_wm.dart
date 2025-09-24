@@ -39,7 +39,8 @@ class EnterPasswordWidgetModel extends CustomWidgetModelParametrized<
     EnterPasswordWidget, EnterPasswordModel, EnterPasswordWmParams> {
   EnterPasswordWidgetModel(super.model);
 
-  late final _state = createValueNotifier<EnterPasswordState?>(null);
+  late final _enterPasswordState =
+      createValueNotifier<EnterPasswordState?>(null);
 
   late final passwordController = createTextEditingController();
   late final props = createWmParamsNotifier(
@@ -51,7 +52,8 @@ class EnterPasswordWidgetModel extends CustomWidgetModelParametrized<
     ),
   );
 
-  ValueListenable<EnterPasswordState?> get state => _state;
+  ValueListenable<EnterPasswordState?> get enterPasswordState =>
+      _enterPasswordState;
 
   ThemeStyleV2 get theme => context.themeStyleV2;
 
@@ -81,7 +83,7 @@ class EnterPasswordWidgetModel extends CustomWidgetModelParametrized<
         onConfirmed(SignInputAuth.password(password));
       }
     } catch (_) {
-      _state.value = const EnterPasswordState.password();
+      _enterPasswordState.value = const EnterPasswordState.password();
     }
   }
 
@@ -135,16 +137,16 @@ class EnterPasswordWidgetModel extends CustomWidgetModelParametrized<
     if (seed != null &&
         seed.masterKey.isLedger &&
         wmParams.value.getLedgerAuthInput != null) {
-      _state.value = const EnterPasswordState.ledger();
+      _enterPasswordState.value = const EnterPasswordState.ledger();
       return;
     }
 
     final hasKeyPassword = await model.hasKeyPassword(wmParams.value.publicKey);
     if (model.isBiometryEnabled && hasKeyPassword) {
       final isFace = await model.isFaceBiometry();
-      _state.value = EnterPasswordState.biometry(isFace: isFace);
+      _enterPasswordState.value = EnterPasswordState.biometry(isFace: isFace);
     } else {
-      _state.value = const EnterPasswordState.password();
+      _enterPasswordState.value = const EnterPasswordState.password();
     }
   }
 

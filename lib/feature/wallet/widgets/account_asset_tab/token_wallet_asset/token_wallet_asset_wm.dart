@@ -29,7 +29,7 @@ class TokenWalletAssetWidgetModel extends CustomWidgetModelParametrized<
 
   // Outputs
   late final _errorState = createNotifier<Object>();
-  late final _retryLoadingState = createNotifier<bool>(false);
+  late final _isRetryLoadingState = createNotifier<bool>(false);
   late final _fiatBalanceState = createNotifier<Money>();
   late final _tokenBalanceState = createNotifier<Money>();
 
@@ -46,10 +46,10 @@ class TokenWalletAssetWidgetModel extends CustomWidgetModelParametrized<
   TokenContractAsset get asset => wmParams.value.asset;
   Address get owner => wmParams.value.owner;
 
-  ListenableState<Money> get fiatBalance => _fiatBalanceState;
-  ListenableState<Money> get tokenBalance => _tokenBalanceState;
-  ListenableState<Object> get error => _errorState;
-  ListenableState<bool> get isRetryLoading => _retryLoadingState;
+  ListenableState<Money> get fiatBalanceState => _fiatBalanceState;
+  ListenableState<Money> get tokenBalanceState => _tokenBalanceState;
+  ListenableState<Object> get errorState => _errorState;
+  ListenableState<bool> get isRetryLoadingState => _isRetryLoadingState;
 
   @override
   void initWidgetModel() {
@@ -89,7 +89,7 @@ class TokenWalletAssetWidgetModel extends CustomWidgetModelParametrized<
           _errorState.accept(null);
         } else if ((walletState?.hasError ?? false) == true) {
           _errorState.accept(walletState!.error);
-          _retryLoadingState.accept(false);
+          _isRetryLoadingState.accept(false);
         }
       },
     );
@@ -117,10 +117,10 @@ class TokenWalletAssetWidgetModel extends CustomWidgetModelParametrized<
     if (err == null) return;
 
     try {
-      _retryLoadingState.accept(true);
+      _isRetryLoadingState.accept(true);
       await model.retrySubscription(owner, asset.address);
     } finally {
-      _retryLoadingState.accept(false);
+      _isRetryLoadingState.accept(false);
     }
   }
 
