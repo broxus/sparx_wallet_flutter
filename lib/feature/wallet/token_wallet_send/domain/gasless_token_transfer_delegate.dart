@@ -44,7 +44,7 @@ final class GaslessTokenTransferDelegate extends TokenTransferDelegate {
       payload: comment?.let((it) => encodeComment(it, plain: _transport.isTon)),
       attachedAmount: attachedAmount,
       notifyReceiver: notifyReceiver ?? false,
-      remainingGasTo: config.relayAddress,
+      // remainingGasTo: config.relayAddress,
     );
 
     final boc = await encodeInternalMessage(
