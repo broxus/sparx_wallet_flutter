@@ -40,14 +40,12 @@ class SelectTokenWidgetModel extends CustomWidgetModelParametrized<
         final data = [
           ...?_tokenContractState.value,
           for (final item in value)
-            if (!item.$1.isCustom)
-              TokenDataElement(
-                asset: item.$1,
-                isSelected: false,
-                value: item.$2,
-              ),
+            TokenDataElement(
+              asset: item.$1,
+              isSelected: false,
+              value: item.$2,
+            ),
         ];
-
         _tokenContractState.accept(data);
       },
       onDone: () => _loadingState.accept(false),
