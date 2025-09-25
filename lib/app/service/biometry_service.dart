@@ -219,5 +219,5 @@ class BiometryService {
           .findSeedByAnyPublicKey(publicKey)
           ?.masterKey
           .publicKey ??
-      publicKey; // this should never happen since the public key is valid
+      publicKey; // fallback to original key if seed not found in repository
 }
