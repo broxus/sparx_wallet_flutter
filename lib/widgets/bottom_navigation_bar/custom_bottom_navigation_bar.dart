@@ -24,62 +24,65 @@ class CustomBottomNavigationBar
       builder: (_, BottomBarState? visibleState) {
         visibleState ??= BottomBarState.hidden;
 
-        return AnimatedOpacity(
-          duration: animateDuration,
-          opacity: visibleState == BottomBarState.expanded ? 1.0 : 0.0,
-          child: AnimatedSize(
+        return IgnorePointer(
+          ignoring: visibleState != BottomBarState.expanded,
+          child: AnimatedOpacity(
             duration: animateDuration,
-            child: SizedBox(
-              height: switch (visibleState) {
-                BottomBarState.expanded => height + bottomPadding,
-                BottomBarState.collapsed => bottomPadding,
-                BottomBarState.hidden => 0,
-              },
-              child: Theme(
-                data: wm.themeData,
-                child: OverflowBox(
-                  maxHeight: double.infinity,
-                  alignment: Alignment.topCenter,
-                  child: StateNotifierBuilder<RootTab>(
-                    listenableState: wm.tabState,
-                    builder: (_, RootTab? tab) {
-                      return Container(
-                        padding: const EdgeInsets.symmetric(
-                          horizontal: DimensSizeV2.d48,
-                        ),
-                        decoration: BoxDecoration(
-                          color: wm.colors.background1,
-                          borderRadius: switch (tab) {
-                            RootTab.browser => null,
-                            _ => const BorderRadius.vertical(
-                                top: Radius.circular(DimensSizeV2.d16),
+            opacity: visibleState == BottomBarState.expanded ? 1.0 : 0.0,
+            child: AnimatedSize(
+              duration: animateDuration,
+              child: SizedBox(
+                height: switch (visibleState) {
+                  BottomBarState.expanded => height + bottomPadding,
+                  BottomBarState.collapsed => bottomPadding,
+                  BottomBarState.hidden => 0,
+                },
+                child: Theme(
+                  data: wm.themeData,
+                  child: OverflowBox(
+                    maxHeight: double.infinity,
+                    alignment: Alignment.topCenter,
+                    child: StateNotifierBuilder<RootTab>(
+                      listenableState: wm.tabState,
+                      builder: (_, RootTab? tab) {
+                        return Container(
+                          padding: const EdgeInsets.symmetric(
+                            horizontal: DimensSizeV2.d48,
+                          ),
+                          decoration: BoxDecoration(
+                            color: wm.colors.background1,
+                            borderRadius: switch (tab) {
+                              RootTab.browser => null,
+                              _ => const BorderRadius.vertical(
+                                  top: Radius.circular(DimensSizeV2.d16),
+                                ),
+                            },
+                            border: Border(
+                              top: BorderSide(
+                                color: switch (tab) {
+                                  RootTab.browser => ColorsResV2.midnightBlue,
+                                  _ => wm.colors.background1,
+                                },
                               ),
-                          },
-                          border: Border(
-                            top: BorderSide(
-                              color: switch (tab) {
-                                RootTab.browser => ColorsResV2.midnightBlue,
-                                _ => wm.colors.background1,
-                              },
                             ),
                           ),
-                        ),
-                        child: BottomNavigationBar(
-                          landscapeLayout:
-                              BottomNavigationBarLandscapeLayout.centered,
-                          showSelectedLabels: false,
-                          showUnselectedLabels: false,
-                          elevation: DimensSizeV2.d0,
-                          type: BottomNavigationBarType.fixed,
-                          backgroundColor: wm.colors.background1,
-                          selectedItemColor: wm.colors.content0,
-                          unselectedItemColor: wm.colors.content3,
-                          items: wm.items,
-                          currentIndex: tab?.index ?? 0,
-                          onTap: wm.onTap,
-                        ),
-                      );
-                    },
+                          child: BottomNavigationBar(
+                            landscapeLayout:
+                                BottomNavigationBarLandscapeLayout.centered,
+                            showSelectedLabels: false,
+                            showUnselectedLabels: false,
+                            elevation: DimensSizeV2.d0,
+                            type: BottomNavigationBarType.fixed,
+                            backgroundColor: wm.colors.background1,
+                            selectedItemColor: wm.colors.content0,
+                            unselectedItemColor: wm.colors.content3,
+                            items: wm.items,
+                            currentIndex: tab?.index ?? 0,
+                            onTap: wm.onTap,
+                          ),
+                        );
+                      },
+                    ),
                   ),
                 ),
               ),
