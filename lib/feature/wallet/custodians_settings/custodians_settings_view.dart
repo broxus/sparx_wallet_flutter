@@ -7,6 +7,7 @@ import 'package:flutter/material.dart';
 import 'package:lucide_icons_flutter/lucide_icons.dart';
 import 'package:nekoton_repository/nekoton_repository.dart';
 import 'package:ui_components_lib/ui_components_lib.dart';
+import 'package:ui_components_lib/v2/ui_components_lib_v2.dart';
 
 class CustodiansSettingsView extends InjectedElementaryParametrizedWidget<
     CustodianSettingsWidgetModel, Address> {
@@ -27,7 +28,14 @@ class CustodiansSettingsView extends InjectedElementaryParametrizedWidget<
             secondSource: wm.requiredState,
             builder: (_, custodians, requiredConfirmations) {
               if (custodians == null || requiredConfirmations == null) {
-                return const SizedBox.shrink();
+                return const Center(
+                  child: Padding(
+                    padding: EdgeInsets.symmetric(vertical: DimensSizeV2.d24),
+                    child: ProgressIndicatorWidget(
+                      size: DimensSizeV2.d40,
+                    ),
+                  ),
+                );
               }
 
               return Text(
