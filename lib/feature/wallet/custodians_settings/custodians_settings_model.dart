@@ -13,34 +13,29 @@ class CustodiansSettingsModel extends ElementaryModel {
     ErrorHandler errorHandler,
     this._storageService,
     this._messengerService,
+    this._nekotonRepository,
   ) : super(errorHandler: errorHandler);
 
   final AppStorageService _storageService;
   final MessengerService _messengerService;
+  final NekotonRepository _nekotonRepository;
 
-  Future<String?> getString(String publicKey) async {
-    return _storageService
-        .getValue<String>(StorageKey.nameCustodian(publicKey));
-  }
+  Future<TonWalletState> getWallet(Address address) =>
+      _nekotonRepository.getWallet(address);
 
-  Future<List<CustodianData>> initializeCustodians(
-    List<String> custodianKeys,
-  ) async {
-    final custodians = <CustodianData>[];
-
-    for (final key in custodianKeys) {
-      final name =
-          await getString(key) ?? PublicKey(publicKey: key).toEllipseString();
-      custodians.add(
-        CustodianData(
-          name: name,
-          key: PublicKey(publicKey: key),
-        ),
-      );
-    }
-
-    return custodians;
-  }
+  List<CustodianData> getCustodiansForAccount(TonWallet wallet) =>
+      wallet.custodians
+          ?.map(
+            (key) => CustodianData(
+              name: _storageService.getValue<String>(
+                    StorageKey.nameCustodian(key.toString()),
+                  ) ??
+                  key.toEllipseString(),
+              key: key,
+            ),
+          )
+          .toList() ??
+      [];
 
   void showSuccessfulMessage() {
     _messengerService.show(

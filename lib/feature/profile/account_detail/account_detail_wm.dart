@@ -9,15 +9,9 @@ import 'package:elementary_helper/elementary_helper.dart';
 import 'package:injectable/injectable.dart';
 import 'package:nekoton_repository/nekoton_repository.dart';
 
-class AccountDetailWmParams {
-  const AccountDetailWmParams(this.address);
-
-  final Address address;
-}
-
 @injectable
 class AccountDetailWidgetModel extends CustomWidgetModelParametrized<
-    AccountDetailPage, AccountDetailModel, AccountDetailWmParams> {
+    AccountDetailPage, AccountDetailModel, Address> {
   AccountDetailWidgetModel(super.model);
 
   late StreamSubscription<SeedList> _seedListSubscription;
@@ -35,7 +29,7 @@ class AccountDetailWidgetModel extends CustomWidgetModelParametrized<
   StateNotifier<List<SeedKey>> get custodiansState => _custodiansState;
   StateNotifier<bool> get isLoadingState => _isLoadingState;
 
-  Address get address => wmParams.value.address;
+  Address get address => wmParams.value;
 
   Transport? _lastTransport;
   KeyAccount? _cachedAccount;

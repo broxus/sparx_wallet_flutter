@@ -1,7 +1,6 @@
 import 'package:app/core/wm/custom_wm.dart';
 import 'package:app/di/di.dart';
-import 'package:app/feature/profile/account_detail/account_detail_wm.dart';
-import 'package:app/feature/profile/profile.dart';
+import 'package:app/feature/profile/key_detail/widgets/delete_account_sheet/delete_account_sheet_wm.dart';
 import 'package:app/generated/generated.dart';
 import 'package:elementary_helper/elementary_helper.dart';
 import 'package:flutter/material.dart';
@@ -28,21 +27,14 @@ ModalRoute<void> deleteAccountSheetRoute(
 
 /// Widget that allows to delete account.
 class DeleteAccountSheet extends InjectedElementaryParametrizedWidget<
-    AccountDetailWidgetModel, AccountDetailWmParams> {
-  DeleteAccountSheet({
+    DeleteAccountSheetWidgetModel, KeyAccount> {
+  const DeleteAccountSheet({
     required KeyAccount account,
     super.key,
-  }) : super(
-          wmFactoryParam: AccountDetailWmParams(account.address),
-        ) {
-    _account = account;
-  }
-
-  /// Account that should be deleted
-  late final KeyAccount _account;
+  }) : super(wmFactoryParam: account);
 
   @override
-  Widget build(AccountDetailWidgetModel wm) {
+  Widget build(DeleteAccountSheetWidgetModel wm) {
     return Builder(
       builder: (context) {
         final colors = context.themeStyleV2.colors;
@@ -56,7 +48,7 @@ class DeleteAccountSheet extends InjectedElementaryParametrizedWidget<
               mainAxisSize: MainAxisSize.min,
               separator: const CommonDivider(),
               children: [
-                StateNotifierBuilder<Money?>(
+                StateNotifierBuilder(
                   listenableState: wm.balanceState,
                   builder: (context, balance) {
                     if (balance != null) {
@@ -70,6 +62,7 @@ class DeleteAccountSheet extends InjectedElementaryParametrizedWidget<
                         padding: EdgeInsets.zero,
                       );
                     }
+
                     return CommonListTile(
                       titleText: LocaleKeys.totalBalance.tr(),
                       subtitleChild: const CommonLoader(
@@ -83,9 +76,9 @@ class DeleteAccountSheet extends InjectedElementaryParametrizedWidget<
                 CommonListTile(
                   height: DimensSizeV2.d80,
                   invertTitleSubtitleStyles: true,
-                  subtitleChild: Text(_account.address.address),
+                  subtitleChild: Text(wm.address.address),
                   titleText: LocaleKeys.addressWord.tr(),
-                  subtitleText: _account.address.address,
+                  subtitleText: wm.address.address,
                   padding: EdgeInsets.zero,
                 ),
               ],
@@ -94,15 +87,12 @@ class DeleteAccountSheet extends InjectedElementaryParametrizedWidget<
             DestructiveButton(
               buttonShape: ButtonShape.pill,
               title: LocaleKeys.deleteWord.tr(),
-              onPressed: () {
-                Navigator.of(context).pop();
-                _account.remove();
-              },
+              onPressed: wm.onRemove,
             ),
             PrimaryButton(
               buttonShape: ButtonShape.pill,
               title: LocaleKeys.cancelWord.tr(),
-              onPressed: () => Navigator.of(context).pop(),
+              onPressed: wm.onCancel,
             ),
           ],
         );

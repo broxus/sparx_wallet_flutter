@@ -10,26 +10,34 @@ import 'package:ui_components_lib/v2/ui_components_lib_v2.dart';
 
 @injectable
 class CustodianSettingsWidgetModel extends CustomWidgetModelParametrized<
-    CustodiansSettingsView, CustodiansSettingsModel, List<String>> {
+    CustodiansSettingsView, CustodiansSettingsModel, Address> {
   CustodianSettingsWidgetModel(
     super.model,
   );
 
   late final _custodiansState = createNotifier<List<CustodianData>>();
+  late final _requiredState = createNotifier<int>();
 
   ThemeStyleV2 get theme => context.themeStyleV2;
 
   ListenableState<List<CustodianData>> get custodiansState => _custodiansState;
 
+  ListenableState<int> get requiredState => _requiredState;
+
   @override
   void initWidgetModel() {
     super.initWidgetModel();
-    _loadCustodians();
+    _init();
   }
 
-  Future<void> _loadCustodians() async {
-    final custodians = await model.initializeCustodians(wmParams.value);
+  Future<void> _init() async {
+    final walletState = await model.getWallet(wmParams.value);
+    final wallet = walletState.wallet;
+    if (wallet == null) return;
+
+    final custodians = model.getCustodiansForAccount(wallet);
     _custodiansState.accept(custodians);
+    _requiredState.accept(wallet.details.requiredConfirmations);
   }
 
   Future<void> renameCustodian(PublicKey key) async {

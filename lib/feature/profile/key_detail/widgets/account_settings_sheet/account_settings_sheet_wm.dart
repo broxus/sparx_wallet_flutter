@@ -3,7 +3,7 @@ import 'package:app/feature/browser_v2/domain/browser_launcher.dart';
 import 'package:app/feature/profile/key_detail/widgets/account_rename_sheet/account_rename_sheet.dart';
 import 'package:app/feature/profile/key_detail/widgets/account_settings_sheet/account_settings_sheet.dart';
 import 'package:app/feature/profile/key_detail/widgets/account_settings_sheet/account_settings_sheet_model.dart';
-import 'package:app/feature/profile/key_detail/widgets/delete_account_sheet.dart';
+import 'package:app/feature/profile/key_detail/widgets/delete_account_sheet/delete_account_sheet.dart';
 import 'package:elementary/elementary.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:injectable/injectable.dart';
