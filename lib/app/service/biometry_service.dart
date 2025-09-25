@@ -22,11 +22,13 @@ class BiometryService {
     this.storage,
     this.secureStorage,
     this.appLifecycleService,
+    this.nekotonRepository,
   );
 
   final GeneralStorageService storage;
   final SecureStorageService secureStorage;
   final AppLifecycleService appLifecycleService;
+  final NekotonRepository nekotonRepository;
 
   final _localAuth = LocalAuthentication();
   final _availabilitySubject = BehaviorSubject<bool>.seeded(false);
@@ -138,7 +140,7 @@ class BiometryService {
   }) async {
     if (isAvailable) {
       return secureStorage.setKeyPassword(
-        publicKey: publicKey,
+        publicKey: _getMasterKey(publicKey),
         password: password,
       );
     }
@@ -151,7 +153,8 @@ class BiometryService {
     required String localizedReason,
     required PublicKey publicKey,
   }) async {
-    final password = await secureStorage.getKeyPassword(publicKey);
+    final masterKey = _getMasterKey(publicKey);
+    final password = await secureStorage.getKeyPassword(masterKey);
 
     if (password != null) {
       if (await _authenticate(localizedReason)) {
@@ -167,7 +170,8 @@ class BiometryService {
   /// Check if password of [publicKey] was stored before.
   Future<bool> hasKeyPassword(PublicKey publicKey) async {
     try {
-      final password = await secureStorage.getKeyPassword(publicKey);
+      final masterKey = _getMasterKey(publicKey);
+      final password = await secureStorage.getKeyPassword(masterKey);
       return password != null;
     } catch (_) {
       return false;
@@ -209,4 +213,11 @@ class BiometryService {
 
     return [];
   }
+
+  PublicKey _getMasterKey(PublicKey publicKey) =>
+      nekotonRepository.seedList
+          .findSeedByAnyPublicKey(publicKey)
+          ?.masterKey
+          .publicKey ??
+      publicKey; // this should never happen since the public key is valid
 }
