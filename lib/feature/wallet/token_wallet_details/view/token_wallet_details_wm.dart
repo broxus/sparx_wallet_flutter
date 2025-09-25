@@ -53,6 +53,7 @@ class TokenWalletDetailsWidgetModel extends CustomWidgetModelParametrized<
   StreamSubscription<dynamic>? _walletsSubscription;
   StreamSubscription<dynamic>? _thisWalletSubscription;
   StreamSubscription<dynamic>? _balanceSubscription;
+  KeyAccount? _keyAccount;
 
   @override
   void initWidgetModel() {
@@ -93,8 +94,8 @@ class TokenWalletDetailsWidgetModel extends CustomWidgetModelParametrized<
   Future<void> _init() async {
     _errorState.accept(null);
 
-    final acc = model.findAccountByAddress(owner);
-    if (acc == null) return;
+    _keyAccount = model.findAccountByAddress(owner);
+    if (_keyAccount == null) return;
 
     final contract = model.maybeGetTokenContract(
       rootTokenContract,
@@ -144,11 +145,22 @@ class TokenWalletDetailsWidgetModel extends CustomWidgetModelParametrized<
         _fiatBalanceState.accept(model.convertFiat(balance));
       });
 
-      _checkLocalCustodians();
+      _checkIfCanSend();
     });
   }
 
-  Future<void> _checkLocalCustodians() async {
+  Future<void> _checkIfCanSend() async {
+    if (_keyAccount == null) return;
+
+    final isGaslessAvailable = await model.isGaslessAvailable(
+      keyAccount: _keyAccount!,
+      rootTokenContract: rootTokenContract,
+    );
+    if (isGaslessAvailable) {
+      _canSendState.accept(true);
+      return;
+    }
+
     final local = await model.getLocalCustodians(owner);
     _canSendState.accept(local != null && local.isNotEmpty);
   }

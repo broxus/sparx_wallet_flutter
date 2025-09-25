@@ -11,7 +11,7 @@ _BrowserHistoryItemDto _$BrowserHistoryItemDtoFromJson(
     _BrowserHistoryItemDto(
       id: json['id'] as String,
       title: json['title'] as String,
-      url: uriJsonConverter.fromJson(json['url'] as String),
+      url: Uri.parse(json['url'] as String),
       visitTime: DateTime.parse(json['visitTime'] as String),
     );
 
@@ -20,6 +20,6 @@ Map<String, dynamic> _$BrowserHistoryItemDtoToJson(
     <String, dynamic>{
       'id': instance.id,
       'title': instance.title,
-      'url': uriJsonConverter.toJson(instance.url),
+      'url': instance.url.toString(),
       'visitTime': instance.visitTime.toIso8601String(),
     };

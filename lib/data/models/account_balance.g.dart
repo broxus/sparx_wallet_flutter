@@ -8,8 +8,7 @@ part of 'account_balance.dart';
 
 _AccountBalanceModel _$AccountBalanceModelFromJson(Map<String, dynamic> json) =>
     _AccountBalanceModel(
-      rootTokenContract: const NekotonAddressConverter()
-          .fromJson(json['rootTokenContract'] as String),
+      rootTokenContract: Address.fromJson(json['rootTokenContract'] as String),
       fiatBalance: moneyFromStringJsonConverter
           .fromJson(json['fiatBalance'] as Map<String, dynamic>),
       tokenBalance: moneyFromStringJsonConverter
@@ -20,8 +19,7 @@ _AccountBalanceModel _$AccountBalanceModelFromJson(Map<String, dynamic> json) =>
 Map<String, dynamic> _$AccountBalanceModelToJson(
         _AccountBalanceModel instance) =>
     <String, dynamic>{
-      'rootTokenContract':
-          const NekotonAddressConverter().toJson(instance.rootTokenContract),
+      'rootTokenContract': instance.rootTokenContract.toJson(),
       'fiatBalance': moneyFromStringJsonConverter.toJson(instance.fiatBalance),
       'tokenBalance':
           moneyFromStringJsonConverter.toJson(instance.tokenBalance),

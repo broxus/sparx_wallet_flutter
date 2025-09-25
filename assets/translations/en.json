@@ -761,5 +761,7 @@
   "disconnectDappText": "Are you sure you want to disconnect this dApp?",
   "emptyConnectedDapps": "No connected dApps yet",
   "disconnect": "Disconnect",
-  "tokenListValidationError": "Invalid token list format"
+  "tokenListValidationError": "Invalid token list format",
+  "failedToPrepareTransaction": "Failed to prepare transaction",
+  "failedToSendTransaction": "Failed to send transaction"
 }
