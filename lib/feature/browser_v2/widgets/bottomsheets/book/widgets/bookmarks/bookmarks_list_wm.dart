@@ -89,7 +89,11 @@ class BookmarksListWidgetModel
   }
 
   void _close() {
-    Navigator.of(context).pop();
+    final ctx = contextSafe;
+    if (ctx == null) {
+      return;
+    }
+    Navigator.of(ctx).pop();
   }
 
   void _handleBookmarks(_) {
