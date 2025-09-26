@@ -26,7 +26,10 @@ class NoInternetScreenWidgetModel
 
   Future<void> onPressedTryAgain() async {
     final isExistInternet = await model.isExistInternet;
-    if (isExistInternet) {
+
+    final ctx = contextSafe;
+
+    if (ctx != null && isExistInternet) {
       contextSafe?.compassPoint(const SplashScreenRouteData());
     }
   }

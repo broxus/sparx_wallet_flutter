@@ -3,7 +3,6 @@ import 'dart:io';
 import 'package:app/core/wm/custom_wm.dart';
 import 'package:app/core/wm/not_null_listenable_state.dart';
 import 'package:app/feature/browser_v2/data/tabs/browser_tab.dart';
-import 'package:app/feature/browser_v2/data/tabs/tabs_data.dart';
 import 'package:app/feature/browser_v2/screens/main/widgets/tabs/item/browser_tabs_list_item.dart';
 import 'package:app/feature/browser_v2/screens/main/widgets/tabs/item/browser_tabs_list_item_model.dart';
 import 'package:elementary/elementary.dart';
@@ -55,14 +54,20 @@ class BrowserTabsListItemWidgetModel extends CustomWidgetModelParametrized<
   void _handleScreenShots() {
     final id = tabNotifier.value.id;
 
-    final filePath = model.screenshotsState.value?.get(id);
+    final filePath = model.screenshotsState.value?[id];
 
     if (filePath == null) {
       return;
     }
 
     if (filePath != _lastFilePath) {
-      _screenShotState.accept(File(filePath));
+      final file = File(filePath);
+
+      if (file.existsSync()) {
+        _screenShotState.accept(file);
+      } else {
+        _screenShotState.accept(null);
+      }
     }
 
     _lastFilePath = filePath;

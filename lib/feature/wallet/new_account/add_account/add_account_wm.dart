@@ -20,9 +20,9 @@ class AddAccountWidgetModel
 
   late final _currentAccountState =
       createNotifierFromStream(model.currentAccount);
-  late final _listStateState = createNotifierFromStream(model.seedWithAccounts);
+  late final _listState = createNotifierFromStream(model.seedWithAccounts);
 
-  ListenableState<List<Seed>> get listState => _listStateState;
+  ListenableState<List<Seed>> get listState => _listState;
 
   ListenableState<Seed?> get currentAccountState => _currentAccountState;
 

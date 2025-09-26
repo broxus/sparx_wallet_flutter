@@ -22,21 +22,21 @@ class ImportLedgerWidget extends ElementaryWidget<ImportLedgerWidgetModel> {
     return SafeArea(
       minimum: const EdgeInsets.only(bottom: DimensSize.d24),
       child: StateNotifierBuilder(
-        listenableState: wm.isSelected,
+        listenableState: wm.isSelectedState,
         builder: (_, isSelected) {
           if (isSelected ?? false) {
             return _Connect(
-              isConnected: wm.isConnected,
-              isInitialized: wm.isInitialized,
-              isLoading: wm.isLoading,
+              isConnected: wm.isConnectedState,
+              isInitialized: wm.isInitializedState,
+              isLoading: wm.isLoadingState,
               onContinue: wm.onContinue,
               onCancel: wm.onCancel,
             );
           }
 
           return _BleList(
-            scanResult: wm.scanResult,
-            isBluetoothEnabled: wm.isBluetoothEnabled,
+            scanResult: wm.scanResultState,
+            isBluetoothEnabled: wm.isBluetoothEnabledState,
             onSelect: wm.onScanResultSelected,
             onCancel: wm.onCancel,
           );

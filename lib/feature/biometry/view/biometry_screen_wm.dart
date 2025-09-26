@@ -13,9 +13,9 @@ class BiometryScreenWidgetModel
     extends CustomWidgetModel<BiometryScreen, BiometryScreenModel> {
   BiometryScreenWidgetModel(super.model);
 
-  late final _faceBiometryState = createNotifier<bool>();
+  late final _isFaceBiometryState = createNotifier<bool>();
 
-  StateNotifier<bool> get isFaceBiometryState => _faceBiometryState;
+  StateNotifier<bool> get isFaceBiometryState => _isFaceBiometryState;
   ThemeStyleV2 get theme => context.themeStyleV2;
 
   @override
@@ -25,7 +25,7 @@ class BiometryScreenWidgetModel
   }
 
   Future<void> _init() async {
-    _faceBiometryState.accept(await model.checkFaceBiometry());
+    _isFaceBiometryState.accept(await model.checkFaceBiometry());
   }
 
   Future<void> onEnableBiometry() async {

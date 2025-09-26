@@ -27,8 +27,8 @@ class SelectNewAssetPage extends InjectedElementaryParametrizedWidget<
           titleText: LocaleKeys.selectNewAssets.tr(),
         ),
         body: DoubleSourceBuilder(
-          firstSource: wm.contracts,
-          secondSource: wm.tab,
+          firstSource: wm.contractsState,
+          secondSource: wm.tabState,
           builder: (context, contracts, tab) {
             final list = contracts ?? [];
             return Padding(
@@ -87,7 +87,7 @@ class SelectNewAssetPage extends InjectedElementaryParametrizedWidget<
                     },
                   ),
                   StateNotifierBuilder(
-                    listenableState: wm.showButton,
+                    listenableState: wm.showButtonState,
                     builder: (_, showButton) => AnimatedSize(
                       duration: defaultAnimationDuration,
                       child: Container(
@@ -95,7 +95,7 @@ class SelectNewAssetPage extends InjectedElementaryParametrizedWidget<
                         height: (showButton ?? false) ? DimensSizeV2.d90 : 0.0,
                         child: Center(
                           child: StateNotifierBuilder(
-                            listenableState: wm.isLoading,
+                            listenableState: wm.isLoadingState,
                             builder: (_, isLoading) => PrimaryButton(
                               buttonShape: ButtonShape.pill,
                               title: LocaleKeys.saveChanges.tr(),
