@@ -32,7 +32,7 @@ class ImportLedgerWidgetModel
   ImportLedgerWidgetModel(super.model);
 
   late final _scanResultState = createNotifierFromStream(model.scanResult);
-  late final _bluetoothState = createNotifierFromStream(
+  late final _isBluetoothEnabledState = createNotifierFromStream(
     model.adapterState.map(
       (state) => switch (state) {
         BluetoothAdapterState.on => true,
@@ -40,26 +40,26 @@ class ImportLedgerWidgetModel
       },
     ),
   );
-  late final _selectedState = createNotifier(false);
-  late final _connectedState = createNotifier(false);
-  late final _initializedState = createNotifier(false);
-  late final _loadingState = createNotifier(false);
+  late final _isSelectedState = createNotifier(false);
+  late final _isConnectedState = createNotifier(false);
+  late final _isInitializedState = createNotifier(false);
+  late final _isLoadingState = createNotifier(false);
 
   StreamSubscription<BluetoothAdapterState>? _adapterStateSubscription;
   LedgerAppInterface? _appInterface;
   CancelableOperation<bool>? _operation;
 
-  ListenableState<List<ScanResult>> get scanResult => _scanResultState;
+  ListenableState<List<ScanResult>> get scanResultState => _scanResultState;
 
-  ListenableState<bool> get isSelected => _selectedState;
+  ListenableState<bool> get isSelectedState => _isSelectedState;
 
-  ListenableState<bool> get isConnected => _connectedState;
+  ListenableState<bool> get isConnectedState => _isConnectedState;
 
-  ListenableState<bool> get isInitialized => _initializedState;
+  ListenableState<bool> get isInitializedState => _isInitializedState;
 
-  ListenableState<bool> get isBluetoothEnabled => _bluetoothState;
+  ListenableState<bool> get isBluetoothEnabledState => _isBluetoothEnabledState;
 
-  ListenableState<bool> get isLoading => _loadingState;
+  ListenableState<bool> get isLoadingState => _isLoadingState;
 
   @override
   void initWidgetModel() {
@@ -83,7 +83,7 @@ class ImportLedgerWidgetModel
     if (appInterface == null) return;
 
     try {
-      _loadingState.accept(true);
+      _isLoadingState.accept(true);
 
       final masterKey = await model.addConnectedLedger(
         device: appInterface.device,
@@ -102,22 +102,22 @@ class ImportLedgerWidgetModel
     } catch (e) {
       model.showMessage(Message.error(message: e.toString()));
     } finally {
-      _loadingState.accept(false);
+      _isLoadingState.accept(false);
     }
   }
 
   Future<void> onScanResultSelected(ScanResult item) async {
     try {
-      _selectedState.accept(true);
+      _isSelectedState.accept(true);
 
       _appInterface = await model.getAppInterface(item);
-      _connectedState.accept(true);
+      _isConnectedState.accept(true);
 
       _operation = _appInterface!.waitForApp();
       final result = await _operation!.valueOrCancellation(false);
 
       if (result ?? false) {
-        _initializedState.accept(true);
+        _isInitializedState.accept(true);
       }
     } catch (e) {
       model.showMessage(Message.error(message: e.toString()));

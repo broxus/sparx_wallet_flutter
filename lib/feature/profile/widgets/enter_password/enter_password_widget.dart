@@ -70,7 +70,7 @@ class EnterPasswordWidget extends InjectedElementaryParametrizedWidget<
   @override
   Widget build(EnterPasswordWidgetModel wm) {
     return DoubleValueListenableBuilder(
-      firstValue: wm.state,
+      firstValue: wm.enterPasswordState,
       secondValue: wm.props,
       builder: (_, state, props) {
         if (state == null) {

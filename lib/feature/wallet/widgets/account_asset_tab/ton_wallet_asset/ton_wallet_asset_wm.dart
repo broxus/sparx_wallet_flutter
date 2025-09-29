@@ -19,7 +19,7 @@ class TonWalletAssetWidgetModel extends CustomWidgetModelParametrized<
 
   // Outputs
   late final _errorState = createNotifier<Object>();
-  late final _retryLoadingState = createNotifier<bool>(false);
+  late final _isRetryLoadingState = createNotifier<bool>(false);
   late final _fiatBalanceState = createNotifier<Money>();
   late final _tokenBalanceState = createNotifier<Money>();
   late final _tokenNameState = createNotifier(
@@ -39,12 +39,12 @@ class TonWalletAssetWidgetModel extends CustomWidgetModelParametrized<
 
   Address get _nativeTokenContract => model.currentTransport.nativeTokenAddress;
 
-  ListenableState<Money> get fiatBalance => _fiatBalanceState;
-  ListenableState<Money> get tokenBalance => _tokenBalanceState;
-  ListenableState<String> get tokenName => _tokenNameState;
-  ListenableState<String> get iconPath => _iconPathState;
-  ListenableState<Object> get error => _errorState;
-  ListenableState<bool> get isRetryLoading => _retryLoadingState;
+  ListenableState<Money> get fiatBalanceState => _fiatBalanceState;
+  ListenableState<Money> get tokenBalanceState => _tokenBalanceState;
+  ListenableState<String> get tokenNameState => _tokenNameState;
+  ListenableState<String> get iconPathState => _iconPathState;
+  ListenableState<Object> get errorState => _errorState;
+  ListenableState<bool> get isRetryLoadingState => _isRetryLoadingState;
 
   @override
   void initWidgetModel() {
@@ -102,7 +102,7 @@ class TonWalletAssetWidgetModel extends CustomWidgetModelParametrized<
       } else if ((walletState?.hasError ?? false) == true) {
         final ws = walletState!;
         _errorState.accept(ws.error);
-        _retryLoadingState.accept(false);
+        _isRetryLoadingState.accept(false);
       }
     });
   }
@@ -119,10 +119,10 @@ class TonWalletAssetWidgetModel extends CustomWidgetModelParametrized<
     if (err == null) return;
 
     try {
-      _retryLoadingState.accept(true);
+      _isRetryLoadingState.accept(true);
       await model.retrySubscriptions(wmParams.value.address);
     } finally {
-      _retryLoadingState.accept(false);
+      _isRetryLoadingState.accept(false);
     }
   }
 

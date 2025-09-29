@@ -13,14 +13,14 @@ class KeyDetailPageWidgetModel extends CustomWidgetModelParametrized<
     KeyDetailPage, KeyDetailPageModel, PublicKey> {
   KeyDetailPageWidgetModel(super.model);
 
-  late final _accountsTab = createNotifier(KeyDetailAccountsTab.local);
-  late final _data = createNotifier<KeyDetailData>();
+  late final _accountsTabState = createNotifier(KeyDetailAccountsTab.local);
+  late final _dataState = createNotifier<KeyDetailData>();
 
   StreamSubscription<Seed?>? _seedSub;
 
-  StateNotifier<KeyDetailAccountsTab> get accountsTab => _accountsTab;
+  StateNotifier<KeyDetailAccountsTab> get accountsTabState => _accountsTabState;
 
-  StateNotifier<KeyDetailData?> get data => _data;
+  StateNotifier<KeyDetailData?> get dataState => _dataState;
 
   @override
   void initWidgetModel() {
@@ -48,13 +48,13 @@ class KeyDetailPageWidgetModel extends CustomWidgetModelParametrized<
       return;
     }
 
-    _data.accept(KeyDetailData(key: key, ownerSeedName: seed.name));
+    _dataState.accept(KeyDetailData(key: key, ownerSeedName: seed.name));
   }
 
-  void changeTab(KeyDetailAccountsTab tab) => _accountsTab.accept(tab);
+  void changeTab(KeyDetailAccountsTab tab) => _accountsTabState.accept(tab);
 
   void showKeySettings() {
-    final current = _data.value;
+    final current = _dataState.value;
     if (current == null) return;
 
     showKeySettingsSheet(
