@@ -162,7 +162,7 @@ class BrowserHistoryDatabaseDelegate {
         .go();
   }
 
-  Future<int> deleteHistoryByPeriod(DateTime date) async {
+  Future<int> deleteHistoryByPeriod(DateTime date) {
     return (_db.delete(_db.browserHistoryTable)
           ..where((tbl) => tbl.visitTime.isBiggerThanValue(date)))
         .go();

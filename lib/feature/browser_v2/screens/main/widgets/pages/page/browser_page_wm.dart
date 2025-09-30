@@ -285,10 +285,6 @@ class BrowserPageWidgetModel extends CustomWidgetModelParametrized<
       return NavigationActionPolicy.CANCEL;
     }
 
-    if (isGuardPhishing) {
-      return NavigationActionPolicy.CANCEL;
-    }
-
     final scheme = navigationAction.request.url?.scheme;
 
     if (!_allowSchemes.contains(scheme) || _checkIsCustomAppLink(url)) {
