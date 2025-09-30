@@ -66,7 +66,6 @@ class WalletAccountActionsWidgetModel extends CustomWidgetModelParametrized<
   int _numberUnconfirmedTransactions = 0;
   BigInt _balance = BigInt.zero;
   BigInt _minBalance = BigInt.zero;
-  List<PublicKey>? _custodians;
   TonWallet? _wallet;
   StreamSubscription<TonWallet>? _walletSubscription;
   StreamSubscription<List<StEverWithdrawRequest>>? _withdrawsSubscription;
@@ -156,7 +155,6 @@ class WalletAccountActionsWidgetModel extends CustomWidgetModelParametrized<
       _hasStakeActionsState.value = hasStakeValue && withdraws.isNotEmpty;
 
       _balance = contract.balance;
-      _custodians = wallet.custodians;
       _numberUnconfirmedTransactions = (wallet.unconfirmedTransactions.length) +
           (wallet.pendingTransactions.length);
 
@@ -228,7 +226,6 @@ class WalletAccountActionsWidgetModel extends CustomWidgetModelParametrized<
     showAccountSettingsModal(
       context: context,
       account: wmParams.value.account,
-      custodians: _custodians,
     );
   }
 

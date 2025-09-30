@@ -343,6 +343,10 @@ import '../feature/profile/key_detail/widgets/add_new_local_account_type_sheet/a
     as _i6;
 import '../feature/profile/key_detail/widgets/add_new_local_account_type_sheet/add_new_local_account_type_sheet_wm.dart'
     as _i865;
+import '../feature/profile/key_detail/widgets/delete_account_sheet/delete_account_sheet_model.dart'
+    as _i549;
+import '../feature/profile/key_detail/widgets/delete_account_sheet/delete_account_sheet_wm.dart'
+    as _i11;
 import '../feature/profile/manage_seeds_accounts/route.dart' as _i45;
 import '../feature/profile/manage_seeds_accounts/view/manage_seeds_accounts_page_model.dart'
     as _i321;
@@ -437,8 +441,8 @@ import '../feature/wallet/confirm_multisig_transaction/view/confirm_multisig_tra
     as _i1029;
 import '../feature/wallet/custodians_settings/custodians_settings_model.dart'
     as _i313;
-import '../feature/wallet/custodians_settings/custodians_settings_view_model.dart'
-    as _i729;
+import '../feature/wallet/custodians_settings/custodians_settings_wm.dart'
+    as _i94;
 import '../feature/wallet/custodians_settings/route.dart' as _i1052;
 import '../feature/wallet/new_account/add_account/add_account_model.dart'
     as _i715;
@@ -990,12 +994,6 @@ extension GetItInjectableX on _i174.GetIt {
               gh<_i83.ErrorHandler>(),
               gh<_i771.NekotonRepository>(),
             ));
-    gh.factory<_i313.CustodiansSettingsModel>(
-        () => _i313.CustodiansSettingsModel(
-              gh<_i83.ErrorHandler>(),
-              gh<_i128.AppStorageService>(),
-              gh<_i632.MessengerService>(),
-            ));
     gh.singleton<_i213.BrowserBookmarksStorageService>(() =>
         _i213.BrowserBookmarksStorageService(
             gh<_i792.GetStorage>(instanceName: 'browser_bookmarks')));
@@ -1247,9 +1245,6 @@ extension GetItInjectableX on _i174.GetIt {
           gh<_i128.CurrentAccountsService>(),
           gh<_i128.BalanceStorageService>(),
         ));
-    gh.factory<_i729.CustodianSettingsWidgetModel>(() =>
-        _i729.CustodianSettingsWidgetModel(
-            gh<_i313.CustodiansSettingsModel>()));
     gh.factory<_i569.QrScannerWidgetModel>(
         () => _i569.QrScannerWidgetModel(gh<_i686.QrScannerModel>()));
     gh.factory<
@@ -1299,6 +1294,13 @@ extension GetItInjectableX on _i174.GetIt {
     gh.factory<_i772.TonWalletMultisigOrdinaryTransactionWidgetWidgetModel>(
         () => _i772.TonWalletMultisigOrdinaryTransactionWidgetWidgetModel(
             gh<_i63.TonWalletMultisigOrdinaryTransactionWidgetModel>()));
+    gh.factory<_i313.CustodiansSettingsModel>(
+        () => _i313.CustodiansSettingsModel(
+              gh<_i83.ErrorHandler>(),
+              gh<_i128.AppStorageService>(),
+              gh<_i632.MessengerService>(),
+              gh<_i771.NekotonRepository>(),
+            ));
     gh.factory<_i504.TonWalletPendingTransactionWidgetWidgetModel>(() =>
         _i504.TonWalletPendingTransactionWidgetWidgetModel(
             gh<_i205.TonWalletPendingTransactionWidgetModel>()));
@@ -1518,6 +1520,8 @@ extension GetItInjectableX on _i174.GetIt {
               gh<_i128.BiometryService>(),
               gh<_i632.MessengerService>(),
             ));
+    gh.factory<_i94.CustodianSettingsWidgetModel>(() =>
+        _i94.CustodianSettingsWidgetModel(gh<_i313.CustodiansSettingsModel>()));
     gh.factory<_i905.CreateSeedPasswordScreenModel>(
         () => _i905.CreateSeedPasswordScreenModel(
               gh<_i83.ErrorHandler>(),
@@ -1885,6 +1889,12 @@ extension GetItInjectableX on _i174.GetIt {
         ));
     gh.factory<_i526.TonWalletAssetWidgetModel>(
         () => _i526.TonWalletAssetWidgetModel(gh<_i719.TonWalletAssetModel>()));
+    gh.factory<_i549.DeleteAccountSheetModel>(
+        () => _i549.DeleteAccountSheetModel(
+              errorHandler: gh<_i83.ErrorHandler>(),
+              balanceService: gh<_i128.BalanceService>(),
+              convertService: gh<_i128.CurrencyConvertService>(),
+            ));
     gh.singleton<_i473.PermissionsService>(() => _i473.PermissionsService(
           gh<_i470.BrowserService>(),
           gh<_i771.NekotonRepository>(),
@@ -1955,6 +1965,9 @@ extension GetItInjectableX on _i174.GetIt {
               gh<_i128.ConnectionsStorageService>(),
               gh<_i771.NekotonRepository>(),
             ));
+    gh.factory<_i11.DeleteAccountSheetWidgetModel>(() =>
+        _i11.DeleteAccountSheetWidgetModel(
+            gh<_i549.DeleteAccountSheetModel>()));
     gh.factory<_i622.WalletAppBarModel>(() => _i622.WalletAppBarModel(
           gh<_i83.ErrorHandler>(),
           gh<_i771.NekotonRepository>(),
