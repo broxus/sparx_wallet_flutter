@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:app/app/router/router.dart';
 import 'package:app/core/wm/custom_wm.dart';
 import 'package:app/data/models/custom_currency.dart';
+import 'package:app/feature/ledger/ledger.dart';
 import 'package:app/feature/messenger/data/message.dart' show Message;
 import 'package:app/feature/wallet/route.dart';
 import 'package:app/feature/wallet/wallet_deploy/wallet_deploy_model.dart';
@@ -13,16 +14,7 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:elementary_helper/elementary_helper.dart';
 import 'package:injectable/injectable.dart';
 import 'package:logging/logging.dart';
-import 'package:nekoton_repository/nekoton_repository.dart'
-    show
-        Address,
-        MultisigType,
-        OperationCanceledException,
-        PublicKey,
-        SignInputAuth,
-        Transaction,
-        UnsignedMessage,
-        WalletType;
+import 'package:nekoton_repository/nekoton_repository.dart' hide Message;
 
 class WalletDeployParams {
   const WalletDeployParams({
@@ -36,7 +28,9 @@ class WalletDeployParams {
 
 @injectable
 class WalletDeployWidgetModel extends CustomWidgetModelParametrized<
-    WalletDeployScreen, WalletDeployModel, WalletDeployParams> {
+    WalletDeployScreen,
+    WalletDeployModel,
+    WalletDeployParams> with BleAvailabilityWmMixin {
   WalletDeployWidgetModel(super.model);
 
   static final _logger = Logger('WalletDeployWidgetModel');
@@ -109,7 +103,6 @@ class WalletDeployWidgetModel extends CustomWidgetModelParametrized<
         break;
       case WalletDeployStateCalculatingError():
       case WalletDeployStateReadyToDeploy():
-      case WalletDeployStateDeployed():
         // Go back to selection based on cached deploy type
         if (_deployType == WalletDeployType.standard) {
           _state.accept(const WalletDeployState.standard());
@@ -216,7 +209,10 @@ class WalletDeployWidgetModel extends CustomWidgetModelParametrized<
         walletType: wallet.walletType,
         hoursConfirmation: _cachedHoursConfirmation,
       );
-      _fees = await model.estimateFees(_unsignedMessage!, addressState);
+      _fees = await model.estimateFees(
+        address: addressState,
+        message: _unsignedMessage!,
+      );
 
       final isPossibleToSendMessage = _balance! > _fees!;
 
@@ -269,29 +265,33 @@ class WalletDeployWidgetModel extends CustomWidgetModelParametrized<
   }
 
   Future<void> confirmDeploy(SignInputAuth signInputAuth) async {
+    final unsigned = _unsignedMessage;
+    final fees = _fees;
+    if (unsigned == null || fees == null) return;
+
     try {
+      if (signInputAuth.isLedger) {
+        final isAvailable = await checkBluetoothAvailability();
+        if (!isAvailable) return;
+      }
+
       _state.accept(const WalletDeployState.deploying(canClose: false));
 
-      final transaction = await model.sendTransaction(
-        _unsignedMessage!,
-        _fees!,
-        addressState,
-        publicKeyState,
-        signInputAuth,
+      final transactionCompleter = await model.sendTransaction(
+        unsigned: unsigned,
+        fees: fees,
+        address: addressState,
+        publicKey: publicKeyState,
+        signInputAuth: signInputAuth,
       );
 
-      _state.accept(
-        WalletDeployState.deployed(
-          fee: _fees!,
-          balance: _balance!,
-          transaction: transaction,
-          custodians: _deployType == WalletDeployType.multisig
-              ? _cachedCustodians
-              : null,
-          requireConfirmations: _deployType == WalletDeployType.multisig
-              ? _cachedRequireConfirmations
-              : null,
-          tonIconPath: _tonIconPath,
+      _state.accept(const WalletDeployState.deploying(canClose: true));
+
+      await transactionCompleter;
+
+      model.showMessage(
+        Message.successful(
+          message: LocaleKeys.walletDeployedSuccessfully.tr(),
         ),
       );
 
@@ -299,57 +299,45 @@ class WalletDeployWidgetModel extends CustomWidgetModelParametrized<
       contextSafe?.compassPointNamed(const WalletRouteData());
     } on OperationCanceledException {
       // User cancelled, go back to ready state
-      _goBackToReady();
-    } on Exception {
-      // Error handled in model, go back to ready state
-      _goBackToReady();
+      unawaited(_goBackToReady());
+    } on Exception catch (e, t) {
+      if (e is! AnyhowException || !e.isCancelled) {
+        _logger.severe('sendTransaction', e, t);
+        model.showMessage(
+          Message.error(message: e.toString()),
+        );
+      }
+
+      unawaited(_goBackToReady());
     }
   }
 
-  void allowCloseDeploy() {
-    _state.accept(const WalletDeployState.deploying(canClose: true));
-  }
+  Future<void> _goBackToReady() async {
+    final walletState = await model.getWallet(addressState);
+    final wallet = walletState.wallet;
 
-  void completeDeploy(Transaction transaction) {
+    if (wallet == null) {
+      _state.accept(
+        WalletDeployState.subscribeError(walletState.error!),
+      );
+      return;
+    }
+
     _state.accept(
-      WalletDeployState.deployed(
+      WalletDeployState.readyToDeploy(
         fee: _fees!,
         balance: _balance!,
-        transaction: transaction,
+        ledgerAuthInput: model.getLedgerAuthInput(wallet),
         custodians:
             _deployType == WalletDeployType.multisig ? _cachedCustodians : null,
         requireConfirmations: _deployType == WalletDeployType.multisig
             ? _cachedRequireConfirmations
             : null,
         tonIconPath: _tonIconPath,
+        ticker: _ticker,
+        currency: _tokenCustomCurrency,
+        hours: _cachedHoursConfirmation,
       ),
-    );
-  }
-
-  void _goBackToReady() {
-    model.getWallet(addressState).then(
-      (state) {
-        final wallet = state.wallet;
-        if (wallet != null) {
-          _state.accept(
-            WalletDeployState.readyToDeploy(
-              fee: _fees!,
-              balance: _balance!,
-              ledgerAuthInput: model.getLedgerAuthInput(wallet),
-              custodians: _deployType == WalletDeployType.multisig
-                  ? _cachedCustodians
-                  : null,
-              requireConfirmations: _deployType == WalletDeployType.multisig
-                  ? _cachedRequireConfirmations
-                  : null,
-              tonIconPath: _tonIconPath,
-              ticker: _ticker,
-              currency: _tokenCustomCurrency,
-              hours: _cachedHoursConfirmation,
-            ),
-          );
-        }
-      },
     );
   }
 }

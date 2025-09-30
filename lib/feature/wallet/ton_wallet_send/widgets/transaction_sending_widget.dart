@@ -34,18 +34,17 @@ class TransactionSendingWidget extends StatelessWidget {
             child: Column(
               mainAxisSize: MainAxisSize.min,
               children: [
-                if (isDeploying)
-                  Assets.images.deploymentProgress.image()
-                else
-                  ClipRect(
-                    child: AspectRatio(
-                      aspectRatio: 1,
-                      child: RiveAnimation.asset(
-                        Assets.animations.rocket,
-                        fit: BoxFit.cover,
-                      ),
+                ClipRect(
+                  child: AspectRatio(
+                    aspectRatio: 1,
+                    child: RiveAnimation.asset(
+                      isDeploying
+                          ? Assets.animations.deploy
+                          : Assets.animations.rocket,
+                      fit: BoxFit.cover,
                     ),
                   ),
+                ),
                 Column(
                   spacing: DimensSizeV2.d32,
                   children: [

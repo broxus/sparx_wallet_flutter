@@ -51,6 +51,9 @@ class $AssetsAbiGen {
 class $AssetsAnimationsGen {
   const $AssetsAnimationsGen();
 
+  /// File path: assets/animations/deploy.riv
+  String get deploy => 'assets/animations/deploy.riv';
+
   /// File path: assets/animations/loader.riv
   String get loader => 'assets/animations/loader.riv';
 
@@ -58,7 +61,7 @@ class $AssetsAnimationsGen {
   String get rocket => 'assets/animations/rocket.riv';
 
   /// List of all assets
-  List<String> get values => [loader, rocket];
+  List<String> get values => [deploy, loader, rocket];
 }
 
 class $AssetsConfigsGen {
