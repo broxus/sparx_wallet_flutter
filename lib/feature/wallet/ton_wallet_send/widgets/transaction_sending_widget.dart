@@ -15,12 +15,14 @@ class TransactionSendingWidget extends StatelessWidget {
     required this.popOnComplete,
     this.routeData = const WalletRouteData(),
     this.isDeploying = false,
+    this.onClose,
     super.key,
   });
 
   final bool canClose;
   final bool isDeploying;
   final bool popOnComplete;
+  final VoidCallback? onClose;
   final CompassRouteData routeData;
 
   @override
@@ -74,6 +76,7 @@ class TransactionSendingWidget extends StatelessWidget {
               buttonShape: ButtonShape.pill,
               title: LocaleKeys.okayWord.tr(),
               onPressed: () {
+                onClose?.call();
                 if (popOnComplete) {
                   context.compassBack(true);
                 } else {

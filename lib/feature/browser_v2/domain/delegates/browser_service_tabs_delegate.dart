@@ -6,7 +6,6 @@ import 'package:app/feature/browser_v2/browser_collection.dart';
 import 'package:app/feature/browser_v2/custom_web_controller.dart';
 import 'package:app/feature/browser_v2/data/groups/browser_group.dart';
 import 'package:app/feature/browser_v2/data/tabs/browser_tab.dart';
-import 'package:app/feature/browser_v2/data/tabs/tabs_data.dart';
 import 'package:app/feature/browser_v2/domain/delegates/browser_base_delegate.dart';
 import 'package:app/feature/browser_v2/domain/delegates/browser_service_pages_controllers_delegate.dart';
 import 'package:app/feature/browser_v2/domain/delegates/browser_service_screenshots_delegate.dart';
@@ -22,7 +21,7 @@ import 'package:injectable/injectable.dart';
 import 'package:nekoton_webview/nekoton_webview.dart';
 
 abstract interface class BrowserServiceTabs {
-  ListenableState<ImageCache?> get screenshotsState;
+  ListenableState<Map<String, String>> get screenshotsState;
 
   ListenableState<ToolbarData> get controlPanelState;
 
@@ -166,7 +165,7 @@ class BrowserServiceTabsDelegate
   ListenableState<String?> get activeTabUrlHostState => _activeTabUrlHostState;
 
   @override
-  ListenableState<ImageCache?> get screenshotsState =>
+  ListenableState<Map<String, String>> get screenshotsState =>
       _screenShooter.screenshotsState;
 
   @override

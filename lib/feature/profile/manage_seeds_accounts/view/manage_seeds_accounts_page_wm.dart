@@ -14,11 +14,12 @@ class ManageSeedsAccountsPageWidgetModel extends CustomWidgetModel<
     ManageSeedsAccountsPage, ManageSeedsAccountsPageModel> {
   ManageSeedsAccountsPageWidgetModel(super.model);
 
-  late final _currentSeed = createNotifierFromStream(model.currentSeedStream);
-  late final _seeds = createNotifierFromStream(model.seedsStream);
+  late final _currentSeedState =
+      createNotifierFromStream(model.currentSeedStream);
+  late final _seedsState = createNotifierFromStream(model.seedsStream);
 
-  ListenableState<Seed?> get currentSeed => _currentSeed;
-  ListenableState<List<Seed>> get seeds => _seeds;
+  ListenableState<Seed?> get currentSeedState => _currentSeedState;
+  ListenableState<List<Seed>> get seedsState => _seedsState;
 
   ThemeStyleV2 get theme => context.themeStyleV2;
 

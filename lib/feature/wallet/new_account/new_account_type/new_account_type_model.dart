@@ -121,7 +121,10 @@ class NewAccountTypeModel extends ElementaryModel
               accountId: accountId,
             )
           : DeriveKeysParams.ledger(accountId: accountId);
-      derivedKey = await _nekotonRepository.deriveKey(params: params);
+      derivedKey = await _nekotonRepository.deriveKey(
+        params: params,
+        addActiveAccounts: false,
+      );
       break;
     }
 

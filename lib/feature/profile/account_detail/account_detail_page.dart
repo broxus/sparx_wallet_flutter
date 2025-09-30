@@ -9,13 +9,11 @@ import 'package:ui_components_lib/v2/ui_components_lib_v2.dart';
 
 /// Entry point for screen with information about account
 class AccountDetailPage extends InjectedElementaryParametrizedWidget<
-    AccountDetailWidgetModel, AccountDetailWmParams> {
-  AccountDetailPage({
+    AccountDetailWidgetModel, Address> {
+  const AccountDetailPage({
     required Address address,
     super.key,
-  }) : super(
-          wmFactoryParam: AccountDetailWmParams(address),
-        );
+  }) : super(wmFactoryParam: address);
 
   @override
   Widget build(AccountDetailWidgetModel wm) {

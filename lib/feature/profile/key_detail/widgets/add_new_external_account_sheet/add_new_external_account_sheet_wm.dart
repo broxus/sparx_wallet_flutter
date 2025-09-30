@@ -23,9 +23,9 @@ class AddNewExternalAccountSheetWidgetModel
   late final addressController = createTextEditingController();
   late final focusNode = createFocusNode();
 
-  late final _isLoading = createValueNotifier(false);
+  late final _isLoadingState = createValueNotifier(false);
 
-  ValueListenable<bool> get isLoadingState => _isLoading;
+  ValueListenable<bool> get isLoadingState => _isLoadingState;
 
   void onPaste(String text) {
     if (text.isEmpty) return;
@@ -42,7 +42,7 @@ class AddNewExternalAccountSheetWidgetModel
   }
 
   Future<void> onSubmit([String? _]) async {
-    if (_isLoading.value) return;
+    if (_isLoadingState.value) return;
 
     final name = nameController.value.text.trim();
     final address = Address(address: addressController.value.text);
@@ -55,7 +55,7 @@ class AddNewExternalAccountSheetWidgetModel
         return;
       }
 
-      _isLoading.value = true;
+      _isLoadingState.value = true;
 
       await model.addExternalAccount(
         address: address,
@@ -76,7 +76,7 @@ class AddNewExternalAccountSheetWidgetModel
         Message.error(message: LocaleKeys.keyIsNotCustodian.tr()),
       );
     } finally {
-      _isLoading.value = false;
+      _isLoadingState.value = false;
     }
   }
 }

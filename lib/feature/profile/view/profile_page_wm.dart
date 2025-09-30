@@ -21,16 +21,16 @@ class ProfilePageWidgetModel
   ProfilePageWidgetModel(super.model);
 
   late final _seedState = createNotifierFromStream(model.currentSeedStream);
-  late final _biometryAvailabilityState =
+  late final _isBiometryAvailableState =
       createNotifierFromStream(model.biometryAvailabilityStream);
-  late final _biometryEnabledState =
+  late final _isBiometryEnabledState =
       createNotifierFromStream(model.biometryEnabledStream);
   late final _appVersionState = createNotifier('');
 
   ListenableState<bool> get isBiometryAvailableState =>
-      _biometryAvailabilityState;
+      _isBiometryAvailableState;
 
-  ListenableState<bool> get isBiometryEnabledState => _biometryEnabledState;
+  ListenableState<bool> get isBiometryEnabledState => _isBiometryEnabledState;
 
   ListenableState<String> get appVersionState => _appVersionState;
 

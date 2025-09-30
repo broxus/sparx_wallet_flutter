@@ -27,10 +27,10 @@ class TokenWalletAssetWidget extends InjectedElementaryParametrizedWidget<
 
     return WalletAssetWidget(
       name: asset.name,
-      tokenBalance: wm.tokenBalance,
-      fiatBalance: wm.fiatBalance,
-      error: wm.error,
-      isRetryLoading: wm.isRetryLoading,
+      tokenBalance: wm.tokenBalanceState,
+      fiatBalance: wm.fiatBalanceState,
+      error: wm.errorState,
+      isRetryLoading: wm.isRetryLoadingState,
       icon: TokenWalletIconWidget(
         logoURI: asset.logoURI,
         address: asset.address,

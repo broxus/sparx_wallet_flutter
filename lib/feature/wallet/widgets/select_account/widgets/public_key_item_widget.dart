@@ -41,7 +41,9 @@ class _PublicKeyItemWidgetState extends State<PublicKeyItemWidget> {
     super.initState();
     if (widget.isScrollToAccount) {
       WidgetsBinding.instance.addPostFrameCallback((_) {
-        _scrollToCurrentAccount(itemKeys);
+        if (mounted) {
+          _scrollToCurrentAccount(itemKeys);
+        }
       });
     }
   }
@@ -140,27 +142,36 @@ class _PublicKeyItemWidgetState extends State<PublicKeyItemWidget> {
 
   void _scrollToCurrentAccount(Map<KeyAccount, GlobalKey> itemKeys) {
     if (widget.currentAccount == null ||
-        !itemKeys.containsKey(widget.currentAccount)) {
+        !itemKeys.containsKey(widget.currentAccount) ||
+        !widget.scrollController.hasClients) {
       return;
     }
 
     final currentKey = itemKeys[widget.currentAccount]!;
     final context = currentKey.currentContext;
+    if (context == null) return;
 
-    final renderBox = context?.findRenderObject();
-    if (renderBox is RenderBox) {
-      final ancestorRenderObject = widget
-          .scrollController.position.context.storageContext
-          .findRenderObject();
-      final offset = renderBox
-          .localToGlobal(Offset.zero, ancestor: ancestorRenderObject)
-          .dy;
+    final renderBox = context.findRenderObject();
+    if (renderBox is RenderBox && renderBox.attached) {
+      try {
+        final ancestorRenderObject = widget
+            .scrollController.position.context.storageContext
+            .findRenderObject();
+        if (ancestorRenderObject == null) return;
 
-      widget.scrollController.animateTo(
-        offset - DimensSizeV2.d16,
-        duration: const Duration(milliseconds: 200),
-        curve: Curves.easeInOut,
-      );
+        final offset = renderBox
+            .localToGlobal(Offset.zero, ancestor: ancestorRenderObject)
+            .dy;
+
+        widget.scrollController.animateTo(
+          (widget.scrollController.offset + offset - DimensSizeV2.d16)
+              .clamp(0.0, widget.scrollController.position.maxScrollExtent),
+          duration: const Duration(milliseconds: 200),
+          curve: Curves.easeInOut,
+        );
+      } catch (_) {
+        // Ignore scroll errors
+      }
     }
   }
 }
