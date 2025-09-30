@@ -18,6 +18,11 @@ class AccountRenameSheetModel extends ElementaryModel {
   final NekotonRepository _nekotonRepository;
   final MessengerService _messengerService;
 
+  String getAccountName(Address address) {
+    final account = _nekotonRepository.seedList.findAccountByAddress(address);
+    return account?.name ?? '';
+  }
+
   void rename(
     Address address,
     String name,
