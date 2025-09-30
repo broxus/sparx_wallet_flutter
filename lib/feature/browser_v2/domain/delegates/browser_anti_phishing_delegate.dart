@@ -118,7 +118,7 @@ class BrowserAntiPhishingDelegate
   }
 
   bool _checkPattern(String url, String link) {
-    return link.startsWith('*') && link.endsWith(link.substring(1));
+    return link.startsWith('*') && url.endsWith(link.substring(1));
   }
 
   static Map<String, dynamic> _parse(String json) {

@@ -279,7 +279,9 @@ class BrowserTabsAndGroupsUiDelegate implements BrowserTabsAndGroupsUi {
       if (_tabsPrevCount != null &&
           _tabsCount != null &&
           _tabsPrevCount! < _tabsCount!) {
-        onUpdateActiveTab(true);
+        WidgetsBinding.instance.addPostFrameCallback((_) {
+          onUpdateActiveTab(true);
+        });
       }
     } else if (activeGroupId != null && activeTabId != null) {
       _selectedGroupIdState.accept(activeGroupId);
@@ -288,7 +290,9 @@ class BrowserTabsAndGroupsUiDelegate implements BrowserTabsAndGroupsUi {
 
       final data = renderManager.getRenderData(activeTabId);
 
-      onUpdateActiveTab(false);
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        onUpdateActiveTab(false);
+      });
 
       _tabAnimationTypeState.accept(
         ShowViewAnimationType(
