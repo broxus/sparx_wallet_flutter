@@ -4,6 +4,7 @@ import 'package:app/app/service/service.dart';
 import 'package:app/data/models/models.dart';
 import 'package:app/feature/messenger/data/message.dart';
 import 'package:app/feature/messenger/domain/service/messenger_service.dart';
+import 'package:app/feature/wallet/token_wallet_send/token_wallet_send.dart';
 import 'package:app/feature/wallet/wallet_prepare_transfer/data/wallet_prepare_balance_data.dart';
 import 'package:app/feature/wallet/wallet_prepare_transfer/data/wallet_prepare_transfer_asset.dart';
 import 'package:app/feature/wallet/wallet_prepare_transfer/wallet_prepare_transfer_page.dart';
@@ -27,12 +28,14 @@ class WalletPrepareTransferPageModel extends ElementaryModel {
     this._nekotonRepository,
     this._messengerService,
     this._currenciesService,
+    this._tokenTransferDelegateProvider,
   ) : super(errorHandler: errorHandler);
 
   final AssetsService _assetsService;
   final NekotonRepository _nekotonRepository;
   final MessengerService _messengerService;
   final CurrenciesService _currenciesService;
+  final TokenTransferDelegateProvider _tokenTransferDelegateProvider;
 
   final _balanceDataSc = StreamController<WalletPrepareBalanceData>();
 
@@ -175,6 +178,32 @@ class WalletPrepareTransferPageModel extends ElementaryModel {
     }
 
     return balance;
+  }
+
+  Future<Money?> estimateGaslessCommission({
+    required KeyAccount keyAccount,
+    required Address rootTokenContract,
+    required PublicKey publicKey,
+    required Address destination,
+  }) async {
+    final delegate = await _tokenTransferDelegateProvider.provide(
+      keyAccount: keyAccount,
+      rootTokenContract: rootTokenContract,
+    );
+
+    if (delegate is! GaslessTokenTransferDelegate) return null;
+
+    final transfer = await delegate.prepareTransfer(
+      owner: keyAccount.account.address,
+      rootTokenContract: rootTokenContract,
+      publicKey: publicKey,
+      destination: destination,
+      amount: BigInt.one,
+    );
+    final fee = await delegate.estimateFees(transfer);
+
+    // Fee is garanteed to be FeeToken here
+    return fee.amount * 1.2;
   }
 
   /// Subscription for native token to find balance

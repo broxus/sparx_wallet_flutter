@@ -22,41 +22,32 @@ mixin _$GasPriceParams {
   String get tag2;
 
   /// The price of gas unit
-  @amountJsonConverter
   BigInt get gasPrice;
 
   /// The maximum amount of gas available for a compute phase of
   /// an ordinary transaction
-  @amountJsonConverter
   BigInt get gasLimit;
 
   /// The maximum amount of gas available for a compute phase of
   /// a special transaction
-  @amountJsonConverter
   BigInt get specialGasLimit;
 
   /// The maximum amount of gas available before `ACCEPT`
-  @amountJsonConverter
   BigInt get gasCredit;
 
   /// The maximum amount of gas units per block
-  @amountJsonConverter
   BigInt get blockGasLimit;
 
   /// Amount of debt (in tokens) after which the account will be frozen
-  @amountJsonConverter
   BigInt get freezeDueLimit;
 
   /// Amount of debt (in tokens) after which the contract will be deleted
-  @amountJsonConverter
   BigInt get deleteDueLimit;
 
   /// Size of the first portion of gas with different price
-  @amountJsonConverter
   BigInt get flatGasLimit;
 
   /// The gas price for the first portion determinted by flatGasLimit
-  @amountJsonConverter
   BigInt get flatGasPrice;
 
   /// Create a copy of GasPriceParams
@@ -128,15 +119,15 @@ abstract mixin class $GasPriceParamsCopyWith<$Res> {
   $Res call(
       {String tag1,
       String tag2,
-      @amountJsonConverter BigInt gasPrice,
-      @amountJsonConverter BigInt gasLimit,
-      @amountJsonConverter BigInt specialGasLimit,
-      @amountJsonConverter BigInt gasCredit,
-      @amountJsonConverter BigInt blockGasLimit,
-      @amountJsonConverter BigInt freezeDueLimit,
-      @amountJsonConverter BigInt deleteDueLimit,
-      @amountJsonConverter BigInt flatGasLimit,
-      @amountJsonConverter BigInt flatGasPrice});
+      BigInt gasPrice,
+      BigInt gasLimit,
+      BigInt specialGasLimit,
+      BigInt gasCredit,
+      BigInt blockGasLimit,
+      BigInt freezeDueLimit,
+      BigInt deleteDueLimit,
+      BigInt flatGasLimit,
+      BigInt flatGasPrice});
 }
 
 /// @nodoc
@@ -219,15 +210,15 @@ class _GasPriceParams implements GasPriceParams {
   const _GasPriceParams(
       {required this.tag1,
       required this.tag2,
-      @amountJsonConverter required this.gasPrice,
-      @amountJsonConverter required this.gasLimit,
-      @amountJsonConverter required this.specialGasLimit,
-      @amountJsonConverter required this.gasCredit,
-      @amountJsonConverter required this.blockGasLimit,
-      @amountJsonConverter required this.freezeDueLimit,
-      @amountJsonConverter required this.deleteDueLimit,
-      @amountJsonConverter required this.flatGasLimit,
-      @amountJsonConverter required this.flatGasPrice});
+      required this.gasPrice,
+      required this.gasLimit,
+      required this.specialGasLimit,
+      required this.gasCredit,
+      required this.blockGasLimit,
+      required this.freezeDueLimit,
+      required this.deleteDueLimit,
+      required this.flatGasLimit,
+      required this.flatGasPrice});
   factory _GasPriceParams.fromJson(Map<String, dynamic> json) =>
       _$GasPriceParamsFromJson(json);
 
@@ -241,49 +232,40 @@ class _GasPriceParams implements GasPriceParams {
 
   /// The price of gas unit
   @override
-  @amountJsonConverter
   final BigInt gasPrice;
 
   /// The maximum amount of gas available for a compute phase of
   /// an ordinary transaction
   @override
-  @amountJsonConverter
   final BigInt gasLimit;
 
   /// The maximum amount of gas available for a compute phase of
   /// a special transaction
   @override
-  @amountJsonConverter
   final BigInt specialGasLimit;
 
   /// The maximum amount of gas available before `ACCEPT`
   @override
-  @amountJsonConverter
   final BigInt gasCredit;
 
   /// The maximum amount of gas units per block
   @override
-  @amountJsonConverter
   final BigInt blockGasLimit;
 
   /// Amount of debt (in tokens) after which the account will be frozen
   @override
-  @amountJsonConverter
   final BigInt freezeDueLimit;
 
   /// Amount of debt (in tokens) after which the contract will be deleted
   @override
-  @amountJsonConverter
   final BigInt deleteDueLimit;
 
   /// Size of the first portion of gas with different price
   @override
-  @amountJsonConverter
   final BigInt flatGasLimit;
 
   /// The gas price for the first portion determinted by flatGasLimit
   @override
-  @amountJsonConverter
   final BigInt flatGasPrice;
 
   /// Create a copy of GasPriceParams
@@ -361,15 +343,15 @@ abstract mixin class _$GasPriceParamsCopyWith<$Res>
   $Res call(
       {String tag1,
       String tag2,
-      @amountJsonConverter BigInt gasPrice,
-      @amountJsonConverter BigInt gasLimit,
-      @amountJsonConverter BigInt specialGasLimit,
-      @amountJsonConverter BigInt gasCredit,
-      @amountJsonConverter BigInt blockGasLimit,
-      @amountJsonConverter BigInt freezeDueLimit,
-      @amountJsonConverter BigInt deleteDueLimit,
-      @amountJsonConverter BigInt flatGasLimit,
-      @amountJsonConverter BigInt flatGasPrice});
+      BigInt gasPrice,
+      BigInt gasLimit,
+      BigInt specialGasLimit,
+      BigInt gasCredit,
+      BigInt blockGasLimit,
+      BigInt freezeDueLimit,
+      BigInt deleteDueLimit,
+      BigInt flatGasLimit,
+      BigInt flatGasPrice});
 }
 
 /// @nodoc

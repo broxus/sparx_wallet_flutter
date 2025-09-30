@@ -87,7 +87,6 @@ class ConfirmMultisigTransactionWidget
               amount: wm.amount,
               currency: wm.currency,
               fees: wm.feesState,
-              error: wm.errorState,
               txErrors: wm.txErrorsState,
               isLoading: wm.isLoadingState,
               getLedgerAuthInput: wm.getLedgerAuthInput,

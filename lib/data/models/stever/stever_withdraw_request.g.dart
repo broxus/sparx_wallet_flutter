@@ -12,8 +12,7 @@ _StEverWithdrawRequest _$StEverWithdrawRequestFromJson(
       nonce: json['nonce'] as String,
       data: StEverWithdrawRequestData.fromJson(
           json['data'] as Map<String, dynamic>),
-      accountAddress: const NekotonAddressConverter()
-          .fromJson(json['accountAddress'] as String),
+      accountAddress: Address.fromJson(json['accountAddress'] as String),
     );
 
 Map<String, dynamic> _$StEverWithdrawRequestToJson(
@@ -21,14 +20,13 @@ Map<String, dynamic> _$StEverWithdrawRequestToJson(
     <String, dynamic>{
       'nonce': instance.nonce,
       'data': instance.data.toJson(),
-      'accountAddress':
-          const NekotonAddressConverter().toJson(instance.accountAddress),
+      'accountAddress': instance.accountAddress.toJson(),
     };
 
 _StEverWithdrawRequestData _$StEverWithdrawRequestDataFromJson(
         Map<String, dynamic> json) =>
     _StEverWithdrawRequestData(
-      amount: amountJsonConverter.fromJson(json['amount'] as String),
+      amount: BigInt.parse(json['amount'] as String),
       timestamp: timestampFromStringJsonConverter
           .fromJson(json['timestamp'] as String),
     );
@@ -36,6 +34,6 @@ _StEverWithdrawRequestData _$StEverWithdrawRequestDataFromJson(
 Map<String, dynamic> _$StEverWithdrawRequestDataToJson(
         _StEverWithdrawRequestData instance) =>
     <String, dynamic>{
-      'amount': amountJsonConverter.toJson(instance.amount),
+      'amount': instance.amount.toString(),
       'timestamp': timestampFromStringJsonConverter.toJson(instance.timestamp),
     };

@@ -9,6 +9,6 @@ abstract class SignedMessageWithAdditionalInfo
   const factory SignedMessageWithAdditionalInfo({
     required SignedMessage message,
     String? dst,
-    @amountJsonConverter BigInt? amount,
+    BigInt? amount,
   }) = _SignedMessageWithAdditionalInfo;
 }

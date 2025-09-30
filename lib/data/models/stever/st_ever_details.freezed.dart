@@ -15,9 +15,7 @@ T _$identity<T>(T value) => value;
 
 /// @nodoc
 mixin _$StEverDetails {
-  @amountJsonConverter
   BigInt get stEverSupply;
-  @amountJsonConverter
   BigInt get totalAssets; // Time before withdrawing in secodns
   String get withdrawHoldTime;
 
@@ -62,10 +60,7 @@ abstract mixin class $StEverDetailsCopyWith<$Res> {
           StEverDetails value, $Res Function(StEverDetails) _then) =
       _$StEverDetailsCopyWithImpl;
   @useResult
-  $Res call(
-      {@amountJsonConverter BigInt stEverSupply,
-      @amountJsonConverter BigInt totalAssets,
-      String withdrawHoldTime});
+  $Res call({BigInt stEverSupply, BigInt totalAssets, String withdrawHoldTime});
 }
 
 /// @nodoc
@@ -106,17 +101,15 @@ class _$StEverDetailsCopyWithImpl<$Res>
 @JsonSerializable()
 class _StEverDetails implements StEverDetails {
   const _StEverDetails(
-      {@amountJsonConverter required this.stEverSupply,
-      @amountJsonConverter required this.totalAssets,
+      {required this.stEverSupply,
+      required this.totalAssets,
       required this.withdrawHoldTime});
   factory _StEverDetails.fromJson(Map<String, dynamic> json) =>
       _$StEverDetailsFromJson(json);
 
   @override
-  @amountJsonConverter
   final BigInt stEverSupply;
   @override
-  @amountJsonConverter
   final BigInt totalAssets;
 // Time before withdrawing in secodns
   @override
@@ -169,10 +162,7 @@ abstract mixin class _$StEverDetailsCopyWith<$Res>
       __$StEverDetailsCopyWithImpl;
   @override
   @useResult
-  $Res call(
-      {@amountJsonConverter BigInt stEverSupply,
-      @amountJsonConverter BigInt totalAssets,
-      String withdrawHoldTime});
+  $Res call({BigInt stEverSupply, BigInt totalAssets, String withdrawHoldTime});
 }
 
 /// @nodoc

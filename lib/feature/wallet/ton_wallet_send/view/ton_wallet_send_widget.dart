@@ -56,7 +56,6 @@ class TonWalletSendWidget extends InjectedElementaryParametrizedWidget<
                 account: wm.account,
                 amount: wm.amount,
                 fees: wm.feesState,
-                error: wm.errorState,
                 txErrors: wm.txErrorsState,
                 isLoading: wm.isLoadingState,
                 getLedgerAuthInput: wm.getLedgerAuthInput,

@@ -15,7 +15,6 @@ T _$identity<T>(T value) => value;
 
 /// @nodoc
 mixin _$AccountBalanceModel {
-  @NekotonAddressConverter()
   Address get rootTokenContract;
   @moneyFromStringJsonConverter
   Money get fiatBalance;
@@ -68,7 +67,7 @@ abstract mixin class $AccountBalanceModelCopyWith<$Res> {
       _$AccountBalanceModelCopyWithImpl;
   @useResult
   $Res call(
-      {@NekotonAddressConverter() Address rootTokenContract,
+      {Address rootTokenContract,
       @moneyFromStringJsonConverter Money fiatBalance,
       @moneyFromStringJsonConverter Money tokenBalance,
       @JsonKey(defaultValue: false) bool isNative});
@@ -129,7 +128,7 @@ class _$AccountBalanceModelCopyWithImpl<$Res>
 @JsonSerializable()
 class _AccountBalanceModel implements AccountBalanceModel {
   const _AccountBalanceModel(
-      {@NekotonAddressConverter() required this.rootTokenContract,
+      {required this.rootTokenContract,
       @moneyFromStringJsonConverter required this.fiatBalance,
       @moneyFromStringJsonConverter required this.tokenBalance,
       @JsonKey(defaultValue: false) required this.isNative});
@@ -137,7 +136,6 @@ class _AccountBalanceModel implements AccountBalanceModel {
       _$AccountBalanceModelFromJson(json);
 
   @override
-  @NekotonAddressConverter()
   final Address rootTokenContract;
   @override
   @moneyFromStringJsonConverter
@@ -200,7 +198,7 @@ abstract mixin class _$AccountBalanceModelCopyWith<$Res>
   @override
   @useResult
   $Res call(
-      {@NekotonAddressConverter() Address rootTokenContract,
+      {Address rootTokenContract,
       @moneyFromStringJsonConverter Money fiatBalance,
       @moneyFromStringJsonConverter Money tokenBalance,
       @JsonKey(defaultValue: false) bool isNative});

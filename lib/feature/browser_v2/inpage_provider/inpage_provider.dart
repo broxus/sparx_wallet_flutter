@@ -1506,7 +1506,7 @@ class InpageProvider extends ProviderApi {
     final signedData = await ledgerService.runWithLedgerIfKeyIsLedger(
       interactionType: LedgerInteractionType.sign,
       publicKey: publicKey,
-      action: () => nekotonRepository.seedList.signRawData(
+      action: () => nekotonRepository.seedList.signDataRaw(
         data: input.data,
         publicKey: publicKey,
         signInputAuth: signInputAuth,

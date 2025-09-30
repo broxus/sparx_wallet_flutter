@@ -1,11 +1,9 @@
 import 'package:app/data/models/browser_item.dart';
 import 'package:app/utils/utils.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
-import 'package:nekoton_repository/nekoton_repository.dart';
 import 'package:uuid/uuid.dart';
 
 part 'browser_history_item.freezed.dart';
-
 part 'browser_history_item.g.dart';
 
 @freezed
@@ -16,12 +14,12 @@ abstract class BrowserHistoryItem
     /// The id of the tab.
     required String id,
     required String title,
-    @uriJsonConverter required Uri url,
+    required Uri url,
     required DateTime visitTime,
   }) = _BrowserHistoryItemDto;
 
   factory BrowserHistoryItem.create({
-    @uriJsonConverter required Uri url,
+    required Uri url,
   }) =>
       BrowserHistoryItem(
         id: const Uuid().v4(),

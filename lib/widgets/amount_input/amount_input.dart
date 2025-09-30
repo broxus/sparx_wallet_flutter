@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:app/generated/generated.dart';
 import 'package:app/utils/utils.dart';
 import 'package:app/widgets/amount_input/amount_input_asset.dart';
@@ -26,7 +28,7 @@ class AmountInput extends StatefulWidget {
   final ValueListenable<List<AmountInputAsset>>? assets;
   final AmountInputAsset? selectedAsset;
   final ValueChanged<AmountInputAsset>? onSelectedAssetChanged;
-  final VoidCallback onMaxAmount;
+  final FutureOr<void> Function() onMaxAmount;
   final ValueChanged<String> onSubmitted;
 
   @override
@@ -39,6 +41,7 @@ class _AmountInputState extends State<AmountInput> {
   CurrencyTextInputFormatter? _formatter;
   CurrencyTextInputValidator? _validator;
   FocusNode? _focusNode;
+  bool _isMaxCalculating = false;
 
   FocusNode? get focusNode => widget.focusNode ?? (_focusNode ??= FocusNode());
 
@@ -112,7 +115,8 @@ class _AmountInputState extends State<AmountInput> {
                   title: LocaleKeys.maxWord.tr(),
                   buttonShape: ButtonShape.rectangle,
                   buttonSize: ButtonSize.small,
-                  onPressed: widget.onMaxAmount,
+                  isLoading: _isMaxCalculating,
+                  onPressed: _onMaxAmount,
                 ),
               ],
             ),
@@ -222,6 +226,22 @@ class _AmountInputState extends State<AmountInput> {
   void _notifyFieldChanged() {
     if (_formFieldKey.currentState?.value != widget.controller.text) {
       _formFieldKey.currentState?.didChange(widget.controller.text);
+    }
+  }
+
+  Future<void> _onMaxAmount() async {
+    setState(() {
+      _isMaxCalculating = true;
+    });
+
+    try {
+      await widget.onMaxAmount();
+    } finally {
+      if (mounted) {
+        setState(() {
+          _isMaxCalculating = false;
+        });
+      }
     }
   }
 }

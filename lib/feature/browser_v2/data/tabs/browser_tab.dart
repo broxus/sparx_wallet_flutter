@@ -1,11 +1,9 @@
 import 'package:app/feature/browser_v2/data/broser_entity.dart';
 import 'package:app/utils/utils.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
-import 'package:nekoton_repository/nekoton_repository.dart';
 import 'package:uuid/uuid.dart';
 
 part 'browser_tab.freezed.dart';
-
 part 'browser_tab.g.dart';
 
 /// Browser tab class.
@@ -20,7 +18,7 @@ abstract class BrowserTab with _$BrowserTab implements BrowserEntity {
     required final String id,
 
     /// Initial url of the tab.
-    @uriJsonConverter required Uri url,
+    required Uri url,
 
     /// The title of the tab.
     required String? title,

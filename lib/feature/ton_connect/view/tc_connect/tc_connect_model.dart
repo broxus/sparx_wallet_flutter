@@ -130,7 +130,7 @@ class TCConnectModel extends ElementaryModel {
       ...messageHash,
     ];
 
-    final signedData = await _nekotonRepository.seedList.signRawData(
+    final signedData = await _nekotonRepository.seedList.signDataRaw(
       data: base64Encode(bufferToSign),
       publicKey: account.publicKey,
       signInputAuth: signInputAuth,

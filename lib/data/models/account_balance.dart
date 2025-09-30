@@ -12,7 +12,7 @@ part 'account_balance.g.dart';
 @freezed
 abstract class AccountBalanceModel with _$AccountBalanceModel {
   const factory AccountBalanceModel({
-    @NekotonAddressConverter() required Address rootTokenContract,
+    required Address rootTokenContract,
     @moneyFromStringJsonConverter required Money fiatBalance,
     @moneyFromStringJsonConverter required Money tokenBalance,
     @JsonKey(defaultValue: false) required bool isNative,

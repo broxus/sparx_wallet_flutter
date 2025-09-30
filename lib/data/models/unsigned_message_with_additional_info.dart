@@ -9,6 +9,6 @@ abstract class UnsignedMessageWithAdditionalInfo
   const factory UnsignedMessageWithAdditionalInfo({
     required UnsignedMessage message,
     String? dst,
-    @amountJsonConverter BigInt? amount,
+    BigInt? amount,
   }) = _UnsignedMessageWithAdditionalInfo;
 }

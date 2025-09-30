@@ -1,8 +1,9 @@
 import 'package:app/app/service/service.dart';
-import 'package:app/data/models/token_contract/token_contract_asset.dart';
+import 'package:app/data/models/models.dart';
+import 'package:app/feature/wallet/token_wallet_send/token_wallet_send.dart';
 import 'package:elementary/elementary.dart';
 import 'package:injectable/injectable.dart';
-import 'package:nekoton_repository/nekoton_repository.dart';
+import 'package:nekoton_repository/nekoton_repository.dart' hide Message;
 
 @injectable
 class TokenWalletDetailsModel extends ElementaryModel {
@@ -12,17 +13,24 @@ class TokenWalletDetailsModel extends ElementaryModel {
     this._currencyConvertService,
     this._balanceService,
     this._assetsService,
+    this._tokenTransferDelegateProvider,
   ) : super(errorHandler: errorHandler);
 
   final NekotonRepository _nekotonRepository;
   final CurrencyConvertService _currencyConvertService;
   final BalanceService _balanceService;
   final AssetsService _assetsService;
+  final TokenTransferDelegateProvider _tokenTransferDelegateProvider;
 
   TransportStrategy get currentTransport => _nekotonRepository.currentTransport;
 
   KeyAccount? findAccountByAddress(Address owner) =>
       _nekotonRepository.seedList.findAccountByAddress(owner);
+
+  SeedKey findMasterKeyByAccount(KeyAccount keyAccount) =>
+      _nekotonRepository.seedList
+          .findSeedByAnyPublicKey(keyAccount.publicKey)!
+          .masterKey;
 
   TokenContractAsset? maybeGetTokenContract(
     Address rootTokenContract,
@@ -56,6 +64,15 @@ class TokenWalletDetailsModel extends ElementaryModel {
   }) =>
       _balanceService.tokenWalletBalanceStream(
         owner: owner,
+        rootTokenContract: rootTokenContract,
+      );
+
+  Future<bool> isGaslessAvailable({
+    required KeyAccount keyAccount,
+    required Address rootTokenContract,
+  }) =>
+      _tokenTransferDelegateProvider.isGaslessAvailable(
+        keyAccount: keyAccount,
         rootTokenContract: rootTokenContract,
       );
 }
