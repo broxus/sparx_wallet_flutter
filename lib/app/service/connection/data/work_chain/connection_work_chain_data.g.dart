@@ -10,7 +10,9 @@ _ConnectionWorkchainData _$ConnectionWorkchainDataFromJson(
         Map<String, dynamic> json) =>
     _ConnectionWorkchainData(
       id: (json['id'] as num).toInt(),
+      parentNetworkId: json['parentNetworkId'] as String,
       networkType: NetworkType.fromJson(json['networkType'] as String),
+      networkName: json['networkName'] as String,
       networkGroup: json['networkGroup'] as String,
       endpoints:
           (json['endpoints'] as List<dynamic>).map((e) => e as String).toList(),
@@ -73,7 +75,9 @@ Map<String, dynamic> _$ConnectionWorkchainDataToJson(
         _ConnectionWorkchainData instance) =>
     <String, dynamic>{
       'id': instance.id,
+      'parentNetworkId': instance.parentNetworkId,
       'networkType': instance.networkType.toJson(),
+      'networkName': instance.networkName,
       'networkGroup': instance.networkGroup,
       'endpoints': instance.endpoints,
       'blockExplorerUrl': instance.blockExplorerUrl,

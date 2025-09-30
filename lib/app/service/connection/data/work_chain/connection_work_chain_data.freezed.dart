@@ -16,7 +16,9 @@ T _$identity<T>(T value) => value;
 /// @nodoc
 mixin _$ConnectionWorkchainData {
   int get id;
+  String get parentNetworkId;
   NetworkType get networkType;
+  String get networkName;
   String get networkGroup;
   List<String> get endpoints;
   String get blockExplorerUrl;
@@ -71,8 +73,12 @@ mixin _$ConnectionWorkchainData {
         (other.runtimeType == runtimeType &&
             other is ConnectionWorkchainData &&
             (identical(other.id, id) || other.id == id) &&
+            (identical(other.parentNetworkId, parentNetworkId) ||
+                other.parentNetworkId == parentNetworkId) &&
             (identical(other.networkType, networkType) ||
                 other.networkType == networkType) &&
+            (identical(other.networkName, networkName) ||
+                other.networkName == networkName) &&
             (identical(other.networkGroup, networkGroup) ||
                 other.networkGroup == networkGroup) &&
             const DeepCollectionEquality().equals(other.endpoints, endpoints) &&
@@ -127,8 +133,7 @@ mixin _$ConnectionWorkchainData {
                     endpointSelectionRetryCount) &&
             (identical(other.tokenApiBaseUrl, tokenApiBaseUrl) ||
                 other.tokenApiBaseUrl == tokenApiBaseUrl) &&
-            (identical(other.currencyApiBaseUrl, currencyApiBaseUrl) ||
-                other.currencyApiBaseUrl == currencyApiBaseUrl) &&
+            (identical(other.currencyApiBaseUrl, currencyApiBaseUrl) || other.currencyApiBaseUrl == currencyApiBaseUrl) &&
             (identical(other.pollingConfig, pollingConfig) || other.pollingConfig == pollingConfig) &&
             (identical(other.stakeInformation, stakeInformation) || other.stakeInformation == stakeInformation) &&
             (identical(other.nftInformation, nftInformation) || other.nftInformation == nftInformation));
@@ -139,7 +144,9 @@ mixin _$ConnectionWorkchainData {
   int get hashCode => Object.hashAll([
         runtimeType,
         id,
+        parentNetworkId,
         networkType,
+        networkName,
         networkGroup,
         const DeepCollectionEquality().hash(endpoints),
         blockExplorerUrl,
@@ -175,7 +182,7 @@ mixin _$ConnectionWorkchainData {
 
   @override
   String toString() {
-    return 'ConnectionWorkchainData(id: $id, networkType: $networkType, networkGroup: $networkGroup, endpoints: $endpoints, blockExplorerUrl: $blockExplorerUrl, isLocal: $isLocal, nativeTokenTicker: $nativeTokenTicker, isPreset: $isPreset, canBeEdited: $canBeEdited, icons: $icons, availableWalletTypes: $availableWalletTypes, defaultWalletType: $defaultWalletType, nativeTokenTickerOption: $nativeTokenTickerOption, manifestOption: $manifestOption, nativeTokenAddress: $nativeTokenAddress, seedPhraseWordsCount: $seedPhraseWordsCount, defaultNativeCurrencyDecimal: $defaultNativeCurrencyDecimal, genericTokenType: $genericTokenType, accountExplorerLinkType: $accountExplorerLinkType, transactionExplorerLinkType: $transactionExplorerLinkType, walletDefaultAccountNames: $walletDefaultAccountNames, isUsedOnStart: $isUsedOnStart, manifestUrl: $manifestUrl, nativeTokenDecimals: $nativeTokenDecimals, defaultActiveAssets: $defaultActiveAssets, latencyDetectionInterval: $latencyDetectionInterval, maxLatency: $maxLatency, endpointSelectionRetryCount: $endpointSelectionRetryCount, tokenApiBaseUrl: $tokenApiBaseUrl, currencyApiBaseUrl: $currencyApiBaseUrl, pollingConfig: $pollingConfig, stakeInformation: $stakeInformation, nftInformation: $nftInformation)';
+    return 'ConnectionWorkchainData(id: $id, parentNetworkId: $parentNetworkId, networkType: $networkType, networkName: $networkName, networkGroup: $networkGroup, endpoints: $endpoints, blockExplorerUrl: $blockExplorerUrl, isLocal: $isLocal, nativeTokenTicker: $nativeTokenTicker, isPreset: $isPreset, canBeEdited: $canBeEdited, icons: $icons, availableWalletTypes: $availableWalletTypes, defaultWalletType: $defaultWalletType, nativeTokenTickerOption: $nativeTokenTickerOption, manifestOption: $manifestOption, nativeTokenAddress: $nativeTokenAddress, seedPhraseWordsCount: $seedPhraseWordsCount, defaultNativeCurrencyDecimal: $defaultNativeCurrencyDecimal, genericTokenType: $genericTokenType, accountExplorerLinkType: $accountExplorerLinkType, transactionExplorerLinkType: $transactionExplorerLinkType, walletDefaultAccountNames: $walletDefaultAccountNames, isUsedOnStart: $isUsedOnStart, manifestUrl: $manifestUrl, nativeTokenDecimals: $nativeTokenDecimals, defaultActiveAssets: $defaultActiveAssets, latencyDetectionInterval: $latencyDetectionInterval, maxLatency: $maxLatency, endpointSelectionRetryCount: $endpointSelectionRetryCount, tokenApiBaseUrl: $tokenApiBaseUrl, currencyApiBaseUrl: $currencyApiBaseUrl, pollingConfig: $pollingConfig, stakeInformation: $stakeInformation, nftInformation: $nftInformation)';
   }
 }
 
@@ -187,7 +194,9 @@ abstract mixin class $ConnectionWorkchainDataCopyWith<$Res> {
   @useResult
   $Res call(
       {int id,
+      String parentNetworkId,
       NetworkType networkType,
+      String networkName,
       String networkGroup,
       List<String> endpoints,
       String blockExplorerUrl,
@@ -243,7 +252,9 @@ class _$ConnectionWorkchainDataCopyWithImpl<$Res>
   @override
   $Res call({
     Object? id = null,
+    Object? parentNetworkId = null,
     Object? networkType = null,
+    Object? networkName = null,
     Object? networkGroup = null,
     Object? endpoints = null,
     Object? blockExplorerUrl = null,
@@ -281,10 +292,18 @@ class _$ConnectionWorkchainDataCopyWithImpl<$Res>
           ? _self.id
           : id // ignore: cast_nullable_to_non_nullable
               as int,
+      parentNetworkId: null == parentNetworkId
+          ? _self.parentNetworkId
+          : parentNetworkId // ignore: cast_nullable_to_non_nullable
+              as String,
       networkType: null == networkType
           ? _self.networkType
           : networkType // ignore: cast_nullable_to_non_nullable
               as NetworkType,
+      networkName: null == networkName
+          ? _self.networkName
+          : networkName // ignore: cast_nullable_to_non_nullable
+              as String,
       networkGroup: null == networkGroup
           ? _self.networkGroup
           : networkGroup // ignore: cast_nullable_to_non_nullable
@@ -495,7 +514,9 @@ class _$ConnectionWorkchainDataCopyWithImpl<$Res>
 class _ConnectionWorkchainData implements ConnectionWorkchainData {
   _ConnectionWorkchainData(
       {required this.id,
+      required this.parentNetworkId,
       required this.networkType,
+      required this.networkName,
       required this.networkGroup,
       required final List<String> endpoints,
       required this.blockExplorerUrl,
@@ -538,7 +559,11 @@ class _ConnectionWorkchainData implements ConnectionWorkchainData {
   @override
   final int id;
   @override
+  final String parentNetworkId;
+  @override
   final NetworkType networkType;
+  @override
+  final String networkName;
   @override
   final String networkGroup;
   final List<String> _endpoints;
@@ -660,8 +685,12 @@ class _ConnectionWorkchainData implements ConnectionWorkchainData {
         (other.runtimeType == runtimeType &&
             other is _ConnectionWorkchainData &&
             (identical(other.id, id) || other.id == id) &&
+            (identical(other.parentNetworkId, parentNetworkId) ||
+                other.parentNetworkId == parentNetworkId) &&
             (identical(other.networkType, networkType) ||
                 other.networkType == networkType) &&
+            (identical(other.networkName, networkName) ||
+                other.networkName == networkName) &&
             (identical(other.networkGroup, networkGroup) ||
                 other.networkGroup == networkGroup) &&
             const DeepCollectionEquality()
@@ -728,7 +757,9 @@ class _ConnectionWorkchainData implements ConnectionWorkchainData {
   int get hashCode => Object.hashAll([
         runtimeType,
         id,
+        parentNetworkId,
         networkType,
+        networkName,
         networkGroup,
         const DeepCollectionEquality().hash(_endpoints),
         blockExplorerUrl,
@@ -764,7 +795,7 @@ class _ConnectionWorkchainData implements ConnectionWorkchainData {
 
   @override
   String toString() {
-    return 'ConnectionWorkchainData(id: $id, networkType: $networkType, networkGroup: $networkGroup, endpoints: $endpoints, blockExplorerUrl: $blockExplorerUrl, isLocal: $isLocal, nativeTokenTicker: $nativeTokenTicker, isPreset: $isPreset, canBeEdited: $canBeEdited, icons: $icons, availableWalletTypes: $availableWalletTypes, defaultWalletType: $defaultWalletType, nativeTokenTickerOption: $nativeTokenTickerOption, manifestOption: $manifestOption, nativeTokenAddress: $nativeTokenAddress, seedPhraseWordsCount: $seedPhraseWordsCount, defaultNativeCurrencyDecimal: $defaultNativeCurrencyDecimal, genericTokenType: $genericTokenType, accountExplorerLinkType: $accountExplorerLinkType, transactionExplorerLinkType: $transactionExplorerLinkType, walletDefaultAccountNames: $walletDefaultAccountNames, isUsedOnStart: $isUsedOnStart, manifestUrl: $manifestUrl, nativeTokenDecimals: $nativeTokenDecimals, defaultActiveAssets: $defaultActiveAssets, latencyDetectionInterval: $latencyDetectionInterval, maxLatency: $maxLatency, endpointSelectionRetryCount: $endpointSelectionRetryCount, tokenApiBaseUrl: $tokenApiBaseUrl, currencyApiBaseUrl: $currencyApiBaseUrl, pollingConfig: $pollingConfig, stakeInformation: $stakeInformation, nftInformation: $nftInformation)';
+    return 'ConnectionWorkchainData(id: $id, parentNetworkId: $parentNetworkId, networkType: $networkType, networkName: $networkName, networkGroup: $networkGroup, endpoints: $endpoints, blockExplorerUrl: $blockExplorerUrl, isLocal: $isLocal, nativeTokenTicker: $nativeTokenTicker, isPreset: $isPreset, canBeEdited: $canBeEdited, icons: $icons, availableWalletTypes: $availableWalletTypes, defaultWalletType: $defaultWalletType, nativeTokenTickerOption: $nativeTokenTickerOption, manifestOption: $manifestOption, nativeTokenAddress: $nativeTokenAddress, seedPhraseWordsCount: $seedPhraseWordsCount, defaultNativeCurrencyDecimal: $defaultNativeCurrencyDecimal, genericTokenType: $genericTokenType, accountExplorerLinkType: $accountExplorerLinkType, transactionExplorerLinkType: $transactionExplorerLinkType, walletDefaultAccountNames: $walletDefaultAccountNames, isUsedOnStart: $isUsedOnStart, manifestUrl: $manifestUrl, nativeTokenDecimals: $nativeTokenDecimals, defaultActiveAssets: $defaultActiveAssets, latencyDetectionInterval: $latencyDetectionInterval, maxLatency: $maxLatency, endpointSelectionRetryCount: $endpointSelectionRetryCount, tokenApiBaseUrl: $tokenApiBaseUrl, currencyApiBaseUrl: $currencyApiBaseUrl, pollingConfig: $pollingConfig, stakeInformation: $stakeInformation, nftInformation: $nftInformation)';
   }
 }
 
@@ -778,7 +809,9 @@ abstract mixin class _$ConnectionWorkchainDataCopyWith<$Res>
   @useResult
   $Res call(
       {int id,
+      String parentNetworkId,
       NetworkType networkType,
+      String networkName,
       String networkGroup,
       List<String> endpoints,
       String blockExplorerUrl,
@@ -841,7 +874,9 @@ class __$ConnectionWorkchainDataCopyWithImpl<$Res>
   @pragma('vm:prefer-inline')
   $Res call({
     Object? id = null,
+    Object? parentNetworkId = null,
     Object? networkType = null,
+    Object? networkName = null,
     Object? networkGroup = null,
     Object? endpoints = null,
     Object? blockExplorerUrl = null,
@@ -879,10 +914,18 @@ class __$ConnectionWorkchainDataCopyWithImpl<$Res>
           ? _self.id
           : id // ignore: cast_nullable_to_non_nullable
               as int,
+      parentNetworkId: null == parentNetworkId
+          ? _self.parentNetworkId
+          : parentNetworkId // ignore: cast_nullable_to_non_nullable
+              as String,
       networkType: null == networkType
           ? _self.networkType
           : networkType // ignore: cast_nullable_to_non_nullable
               as NetworkType,
+      networkName: null == networkName
+          ? _self.networkName
+          : networkName // ignore: cast_nullable_to_non_nullable
+              as String,
       networkGroup: null == networkGroup
           ? _self.networkGroup
           : networkGroup // ignore: cast_nullable_to_non_nullable

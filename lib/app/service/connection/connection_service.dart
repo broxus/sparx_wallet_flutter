@@ -1,3 +1,5 @@
+import 'package:app/app/service/connection/data/connection_network/connection_network.dart';
+import 'package:app/app/service/connection/transport_strategies/app_transport_strategy.dart';
 import 'package:app/app/service/service.dart';
 import 'package:app/feature/messenger/domain/service/messenger_service.dart';
 import 'package:dio/dio.dart';
@@ -31,26 +33,26 @@ class ConnectionService {
 
   /// Set up selected connection.
   Future<void> setUp() async {
-    final connection = _storageService.currentConnection;
+    final network = _storageService.currentNetwork;
 
-    _log.info('setUp: starting with ${connection.name}');
-    await _updateTransportByConnection(connection);
+    _log.info('setUp: starting with ${network.networkName}');
+    await _updateTransportByNetwork(network);
 
     // skip 1 due to duplicate events
-    _storageService.currentConnectionStream.skip(1).listen((connection) async {
-      _log.info('setUp: switching to ${connection.name}');
+    _storageService.currentConnectionStream.skip(1).listen((network) async {
+      _log.info('setUp: switching to ${network.networkName}');
 
-      await _updateTransportByConnection(connection);
+      await _updateTransportByNetwork(network);
     });
   }
 
   /// Create TransportStrategy based on [ConnectionData.group] of
-  /// [connection] data.
+  /// [network] data.
   AppTransportStrategy createStrategyByConnection(
     Transport transport,
-    ConnectionData connection,
+    ConnectionNetwork network,
   ) {
-    final data = _presetsConnectionService.transports[connection.group] ??
+    final data = _presetsConnectionService.transports[network.group] ??
         ConnectionTransportData.custom(
           networkType: connection.networkType,
           networkName: connection.name,
@@ -64,7 +66,7 @@ class ConnectionService {
     );
   }
 
-  Future<Transport> createTransportByConnection(ConnectionData connection) =>
+  Future<Transport> createTransportByNetwork(ConnectionNetwork network) =>
       switch (connection) {
         final ConnectionDataGql data => _nekotonRepository.createGqlTransport(
             client: GqlHttpClient(_dio),
@@ -95,15 +97,16 @@ class ConnectionService {
   /// Create nekoton's transport by connection, create transport's strategy
   /// by its type and put it in nekoton.
   // ignore: long-method
-  Future<void> _updateTransportByConnection(ConnectionData connection) async {
-    _log.finest('updateTransportByConnection: ${connection.name}');
+  Future<void> _updateTransportByNetwork(ConnectionNetwork network) async {
+    _log.finest('updateTransportByConnection: ${network.networkName}');
     try {
-      final transport = await createTransportByConnection(connection);
-      final strategy = createStrategyByConnection(transport, connection);
+      //
+      final transport = await createTransportByNetwork(network);
+      final strategy = createStrategyByConnection(transport, network);
 
       await _nekotonRepository.updateTransport(strategy);
       _storageService.updateNetworksIds(
-        [(connection.id, transport.networkId)],
+        [(network.id, transport.networkId)],
       );
 
       _log.finest('updateTransportByConnection completed!');
@@ -114,7 +117,7 @@ class ConnectionService {
       final base = _storageService.baseConnection;
 
       if (base != null && base.id != connection.id) {
-        _storageService.saveCurrentConnectionId(base.id);
+        _storageService.saveCurrentConnectionData(base.id);
         return;
       }
 

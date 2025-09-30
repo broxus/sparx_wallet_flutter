@@ -1,6 +1,5 @@
 import 'package:app/app/service/connection/data/connection_config/connection_config.dart';
 import 'package:app/core/app_build_type.dart';
-import 'package:app/feature/presets_config/data/connection_network_dto.dart';
 import 'package:app/feature/presets_config/data/release_notes.dart';
 import 'package:app/feature/presets_config/data/update_rules.dart';
 import 'package:app/generated/generated.dart';

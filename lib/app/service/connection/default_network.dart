@@ -14,7 +14,8 @@ import 'package:uuid/uuid.dart';
 
 final ConnectionNetwork defaultPresetNetwork = (() {
   final networkId = const Uuid().v4();
-  final networkName = 'Everscale';
+  const networkName = 'Everscale';
+
   return ConnectionNetwork(
     id: networkId,
     networkName: networkName,

@@ -18,7 +18,7 @@ mixin _$ConnectionNetwork {
   String get id;
   String get networkName;
   int get defaultWorkchainId;
-  List<ConnectionWorkChainData> get workchains;
+  List<ConnectionWorkchainData> get workchains;
   double get sortingOrder;
 
   /// Create a copy of ConnectionNetwork
@@ -28,9 +28,6 @@ mixin _$ConnectionNetwork {
   $ConnectionNetworkCopyWith<ConnectionNetwork> get copyWith =>
       _$ConnectionNetworkCopyWithImpl<ConnectionNetwork>(
           this as ConnectionNetwork, _$identity);
-
-  /// Serializes this ConnectionNetwork to a JSON map.
-  Map<String, dynamic> toJson();
 
   @override
   bool operator ==(Object other) {
@@ -48,7 +45,6 @@ mixin _$ConnectionNetwork {
                 other.sortingOrder == sortingOrder));
   }
 
-  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode => Object.hash(
       runtimeType,
@@ -74,7 +70,7 @@ abstract mixin class $ConnectionNetworkCopyWith<$Res> {
       {String id,
       String networkName,
       int defaultWorkchainId,
-      List<ConnectionWorkChainData> workchains,
+      List<ConnectionWorkchainData> workchains,
       double sortingOrder});
 }
 
@@ -113,7 +109,7 @@ class _$ConnectionNetworkCopyWithImpl<$Res>
       workchains: null == workchains
           ? _self.workchains
           : workchains // ignore: cast_nullable_to_non_nullable
-              as List<ConnectionWorkChainData>,
+              as List<ConnectionWorkchainData>,
       sortingOrder: null == sortingOrder
           ? _self.sortingOrder
           : sortingOrder // ignore: cast_nullable_to_non_nullable
@@ -123,18 +119,16 @@ class _$ConnectionNetworkCopyWithImpl<$Res>
 }
 
 /// @nodoc
-@JsonSerializable()
+
 class _ConnectionNetwork extends ConnectionNetwork {
   _ConnectionNetwork(
       {required this.id,
       required this.networkName,
       required this.defaultWorkchainId,
-      required final List<ConnectionWorkChainData> workchains,
+      required final List<ConnectionWorkchainData> workchains,
       required this.sortingOrder})
       : _workchains = workchains,
         super._();
-  factory _ConnectionNetwork.fromJson(Map<String, dynamic> json) =>
-      _$ConnectionNetworkFromJson(json);
 
   @override
   final String id;
@@ -142,9 +136,9 @@ class _ConnectionNetwork extends ConnectionNetwork {
   final String networkName;
   @override
   final int defaultWorkchainId;
-  final List<ConnectionWorkChainData> _workchains;
+  final List<ConnectionWorkchainData> _workchains;
   @override
-  List<ConnectionWorkChainData> get workchains {
+  List<ConnectionWorkchainData> get workchains {
     if (_workchains is EqualUnmodifiableListView) return _workchains;
     // ignore: implicit_dynamic_type
     return EqualUnmodifiableListView(_workchains);
@@ -162,13 +156,6 @@ class _ConnectionNetwork extends ConnectionNetwork {
       __$ConnectionNetworkCopyWithImpl<_ConnectionNetwork>(this, _$identity);
 
   @override
-  Map<String, dynamic> toJson() {
-    return _$ConnectionNetworkToJson(
-      this,
-    );
-  }
-
-  @override
   bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
@@ -184,7 +171,6 @@ class _ConnectionNetwork extends ConnectionNetwork {
                 other.sortingOrder == sortingOrder));
   }
 
-  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode => Object.hash(
       runtimeType,
@@ -212,7 +198,7 @@ abstract mixin class _$ConnectionNetworkCopyWith<$Res>
       {String id,
       String networkName,
       int defaultWorkchainId,
-      List<ConnectionWorkChainData> workchains,
+      List<ConnectionWorkchainData> workchains,
       double sortingOrder});
 }
 
@@ -251,7 +237,7 @@ class __$ConnectionNetworkCopyWithImpl<$Res>
       workchains: null == workchains
           ? _self._workchains
           : workchains // ignore: cast_nullable_to_non_nullable
-              as List<ConnectionWorkChainData>,
+              as List<ConnectionWorkchainData>,
       sortingOrder: null == sortingOrder
           ? _self.sortingOrder
           : sortingOrder // ignore: cast_nullable_to_non_nullable
