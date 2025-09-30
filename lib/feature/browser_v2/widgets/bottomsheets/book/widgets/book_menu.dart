@@ -1,4 +1,3 @@
-import 'package:app/feature/browser_v2/widgets/bottomsheets/book/widgets/bookmarks/bookmarks_list_wm.dart';
 import 'package:app/generated/generated.dart';
 import 'package:elementary_helper/elementary_helper.dart';
 import 'package:flutter/material.dart';
@@ -13,7 +12,7 @@ class BrowserBookmarksMenu extends StatelessWidget {
     super.key,
   });
 
-  final ListenableState<EditValue> editState;
+  final ListenableState<bool> editState;
   final ListenableState<bool> activeState;
 
   final VoidCallback onPressedEdit;
@@ -28,7 +27,8 @@ class BrowserBookmarksMenu extends StatelessWidget {
         alignment: Alignment.topRight,
         child: StateNotifierBuilder(
           listenableState: editState,
-          builder: (_, EditValue? editValue) {
+          builder: (_, bool? editValue) {
+            editValue ??= false;
             return AnimatedCrossFade(
               firstChild: _DoneButton(
                 onPressed: onPressedDone,
@@ -41,7 +41,7 @@ class BrowserBookmarksMenu extends StatelessWidget {
                   );
                 },
               ),
-              crossFadeState: editValue != EditValue.none
+              crossFadeState: editValue
                   ? CrossFadeState.showFirst
                   : CrossFadeState.showSecond,
               duration: const Duration(milliseconds: 250),
@@ -56,7 +56,8 @@ class BrowserBookmarksMenu extends StatelessWidget {
 class HistoryBookmarksMenu extends StatelessWidget {
   const HistoryBookmarksMenu({
     required this.editState,
-    required this.activeState,
+    required this.activeEditState,
+    required this.activeClearState,
     required this.onPressedEdit,
     required this.onPressedDone,
     required this.onPressedClear,
@@ -64,7 +65,8 @@ class HistoryBookmarksMenu extends StatelessWidget {
   });
 
   final ListenableState<bool> editState;
-  final ListenableState<bool> activeState;
+  final ListenableState<bool> activeEditState;
+  final ListenableState<bool> activeClearState;
 
   final VoidCallback onPressedEdit;
   final VoidCallback onPressedDone;
@@ -79,6 +81,7 @@ class HistoryBookmarksMenu extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           _ClearButton(
+            activeState: activeClearState,
             onPressed: onPressedClear,
           ),
           StateNotifierBuilder(
@@ -91,7 +94,7 @@ class HistoryBookmarksMenu extends StatelessWidget {
                   onPressed: onPressedDone,
                 ),
                 secondChild: StateNotifierBuilder(
-                  listenableState: activeState,
+                  listenableState: activeEditState,
                   builder: (_, bool? isActive) {
                     return _EditButton(
                       onPressed: isActive ?? false ? onPressedEdit : null,
@@ -184,20 +187,30 @@ class _DoneButton extends StatelessWidget {
 
 class _ClearButton extends StatelessWidget {
   const _ClearButton({
+    required this.activeState,
     this.onPressed,
   });
 
+  final ListenableState<bool> activeState;
   final VoidCallback? onPressed;
 
   @override
   Widget build(BuildContext context) {
     final theme = context.themeStyleV2;
-    return _ActionButton(
-      text: LocaleKeys.clearWord.tr(),
-      textStyle: theme.textStyles.labelSmall.copyWith(
-        color: ColorsResV2.vibrantStrawberry,
-      ),
-      onPressed: onPressed,
+
+    return StateNotifierBuilder(
+      listenableState: activeState,
+      builder: (_, bool? isActive) {
+        isActive ??= false;
+
+        return _ActionButton(
+          text: LocaleKeys.clearWord.tr(),
+          textStyle: theme.textStyles.labelSmall.copyWith(
+            color: ColorsResV2.vibrantStrawberry,
+          ),
+          onPressed: isActive ? onPressed : null,
+        );
+      },
     );
   }
 }

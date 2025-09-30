@@ -32,7 +32,7 @@ The application follows a modular and layered architecture that includes the fol
 
 ## Feature Structure (Elementary Pattern)
 
-New features follow the Elementary architecture pattern, which consists of three main components:
+All features follow the Elementary architecture pattern, which consists of three main components:
 
 1. **Screen/Widget**: The UI component that displays data and handles user interactions  
    - `feature_screen.dart`: Extends `ElementaryWidget`  
@@ -58,33 +58,6 @@ New features follow the Elementary architecture pattern, which consists of three
 ├── feature_name_model.dart       # Business Logic
 ├── feature_name_wm.dart          # Widget Model
 └── widgets/                      # Feature-specific widgets
-```
-
-## Legacy Feature Structure (Bloc Pattern)
-
-Legacy features use the BLoC pattern with:
-
-1. **View**: The UI component  
-   - `feature_view.dart`: The screen  
-   - `feature_page.dart`: Page container  
-
-2. **Cubit/Bloc**: State management  
-   - `feature_cubit.dart`: Extends `Cubit`  
-   - `feature_state.dart`: Freezed state class  
-
-3. **Widgets**: Feature-specific components  
-
-**Example structure:**
-
-```
-/feature/feature_name/
-├── cubit/
-│   ├── feature_cubit.dart
-│   └── feature_state.dart
-├── view/
-│   ├── feature_page.dart
-│   └── feature_view.dart
-└── widgets/
 ```
 
 ## Domain Layer

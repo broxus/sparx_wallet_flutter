@@ -214,6 +214,7 @@ abstract class LocaleKeys {
   static const browserCloseAll = 'browserCloseAll';
   static const browserCloseAllTabsDescription =
       'browserCloseAllTabsDescription';
+  static const browserPermissionsHeader = 'browserPermissionsHeader';
   static const done = 'done';
   static const browserSearchURL = 'browserSearchURL';
   static const browserSearchURLCancel = 'browserSearchURLCancel';

@@ -1,0 +1,136 @@
+name: Create release branch
+
+on:
+  workflow_dispatch:
+    inputs:
+      version_type:
+        description: 'Version bump'
+        required: true
+        default: 'patch'
+        type: choice
+        options:
+          - patch
+          - minor
+          - major
+
+jobs:
+  start-release:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Download and merge anti-phishing blacklists
+        run: |
+          set -euo pipefail
+          
+          mkdir -p temp
+          mkdir -p assets/configs
+
+          echo "Downloading Broxus blacklist..."
+          curl -s https://raw.githubusercontent.com/broxus/ever-wallet-anti-phishing/master/blacklist.json -o temp/broxus_blacklist.json || exit 1
+
+          echo "Downloading MetaMask blacklist..."
+          curl -s https://raw.githubusercontent.com/MetaMask/eth-phishing-detect/refs/heads/main/src/config.json -o temp/metamask_config.json || exit 1
+
+          cat temp/broxus_blacklist.json | jq -r '.[]' > temp/broxus_entries.txt
+
+          cat temp/metamask_config.json | jq -r '.blacklist[]' > temp/metamask_entries.txt
+
+          broxus_count=$(wc -l < temp/broxus_entries.txt)
+          metamask_count=$(wc -l < temp/metamask_entries.txt)
+
+          cat temp/broxus_entries.txt temp/metamask_entries.txt | sort -u > temp/merged_entries.txt
+
+          final_count=$(wc -l < temp/merged_entries.txt)
+          
+          jq -Rs 'split("\n")[:-1]' temp/merged_entries.txt > assets/configs/anti_phishing.json
+
+          echo "Merged $broxus_count Broxus entries and $metamask_count MetaMask entries into $final_count unique entries"
+
+          rm -rf temp
+
+      - name: Update version in pubspec.yaml
+        run: |
+          current_version=$(grep '^version:' pubspec.yaml | sed 's/version: //')
+          echo "Current version: $current_version"
+
+          IFS='.' read -r major minor patch <<< "$current_version"
+          
+          case "${{ github.event.inputs.version_type }}" in
+            major)
+              major=$((major + 1))
+              minor=0
+              patch=0
+              ;;
+            minor)
+              minor=$((minor + 1))
+              patch=0
+              ;;
+            patch)
+              patch=$((patch + 1))
+              ;;
+          esac
+
+          new_version="$major.$minor.$patch"
+          echo "New version: $new_version"
+
+          sed -i "s/^version: .*/version: $new_version/" pubspec.yaml
+
+          # Store version for next steps
+          echo "NEW_VERSION=$new_version" >> $GITHUB_ENV
+
+      - name: Create release branch and commit
+        run: |
+          branch_name="release/v${{ env.NEW_VERSION }}"
+          git checkout -b "$branch_name"
+          
+          git config --local user.email "action@github.com"
+          git config --local user.name "GitHub Action"
+          
+          git add assets/configs/anti_phishing.json pubspec.yaml
+          
+          git commit -m "chore(release): start release v${{ env.NEW_VERSION }}
+
+          - Update anti-phishing blacklist from upstream sources
+          - Bump version to ${{ env.NEW_VERSION }} (${{ github.event.inputs.version_type }})
+          
+          Sources:
+          - Broxus ever-wallet-anti-phishing
+          - MetaMask eth-phishing-detect"
+          
+          git push origin "$branch_name"
+
+      - name: Create Pull Request
+        run: |
+          gh pr create \
+            --title "chore(release): start release v${{ env.NEW_VERSION }}" \
+            --body "$(cat <<EOF
+          
+          - Start release process for version ${{ env.NEW_VERSION }}
+          - Updated anti-phishing blacklist from upstream sources
+          - Bumped version (${{ github.event.inputs.version_type }}) in pubspec.yaml
+
+          - \`assets/configs/anti_phishing.json\`: Updated with latest blacklist entries
+          - \`pubspec.yaml\`: Version bumped to ${{ env.NEW_VERSION }}
+
+          - Type: **${{ github.event.inputs.version_type }}**
+          - New version: **${{ env.NEW_VERSION }}**
+
+          - [Broxus ever-wallet-anti-phishing](https://github.com/broxus/ever-wallet-anti-phishing)
+          - [MetaMask eth-phishing-detect](https://github.com/MetaMask/eth-phishing-detect)
+
+          - [ ] Review and test changes
+          - [ ] Merge to dev when ready
+          - [ ] Create release tag and deploy
+
+          🤖 This release PR was created manually via GitHub Actions
+          EOF
+          )" \
+            --base dev \
+            --head "release/v${{ env.NEW_VERSION }}" \
+            --label "🚀 release"
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

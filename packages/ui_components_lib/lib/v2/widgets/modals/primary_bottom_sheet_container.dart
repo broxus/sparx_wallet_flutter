@@ -13,18 +13,10 @@ class PrimaryBottomSheetContainer extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final colors = context.themeStyleV2.colors;
-    return DecoratedBox(
-      decoration: BoxDecoration(
-        color: backgroundColor ?? colors.background1,
-        borderRadius: const BorderRadius.only(
-          topLeft: Radius.circular(DimensRadiusV2.radius16),
-          topRight: Radius.circular(DimensRadiusV2.radius16),
-        ),
-      ),
+    return PrimaryBottomSheetContainerBox(
       child: Column(
         children: [
-          const _Label(),
+          const PrimaryBottomSheetLabel(),
           Flexible(
             child: child,
           ),
@@ -34,8 +26,36 @@ class PrimaryBottomSheetContainer extends StatelessWidget {
   }
 }
 
-class _Label extends StatelessWidget {
-  const _Label();
+class PrimaryBottomSheetContainerBox extends StatelessWidget {
+  const PrimaryBottomSheetContainerBox({
+    required this.child,
+    this.backgroundColor,
+    super.key,
+  });
+
+  final Widget child;
+  final Color? backgroundColor;
+
+  @override
+  Widget build(BuildContext context) {
+    final colors = context.themeStyleV2.colors;
+    return DecoratedBox(
+      decoration: BoxDecoration(
+        color: backgroundColor ?? colors.background1,
+        borderRadius: const BorderRadius.only(
+          topLeft: Radius.circular(DimensRadiusV2.radius16),
+          topRight: Radius.circular(DimensRadiusV2.radius16),
+        ),
+      ),
+      child: child,
+    );
+  }
+}
+
+class PrimaryBottomSheetLabel extends StatelessWidget {
+  const PrimaryBottomSheetLabel({
+    super.key,
+  });
 
   @override
   Widget build(BuildContext context) {

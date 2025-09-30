@@ -53,6 +53,26 @@ class CustomWebViewController {
     );
   }
 
+  Future<void> loadData({
+    required String data,
+    String mimeType = 'text/html',
+    String encoding = 'utf8',
+    WebUri? baseUrl,
+    WebUri? historyUrl,
+    WebUri? allowingReadAccessTo,
+  }) {
+    return _safeCall(
+      () => _nativeController.loadData(
+        data: data,
+        mimeType: mimeType,
+        encoding: encoding,
+        baseUrl: baseUrl,
+        historyUrl: historyUrl,
+        allowingReadAccessTo: allowingReadAccessTo,
+      ),
+    );
+  }
+
   void loggedOut() {
     _safeCall(_nativeController.loggedOut);
   }
