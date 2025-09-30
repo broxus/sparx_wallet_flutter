@@ -7,9 +7,6 @@ import 'package:lucide_icons_flutter/lucide_icons.dart';
 import 'package:nekoton_repository/nekoton_repository.dart' hide Message;
 import 'package:ui_components_lib/ui_components_lib.dart';
 import 'package:ui_components_lib/v2/ui_components_lib_v2.dart';
-import 'package:ui_components_lib/v2/widgets/buttons/button_shape.dart';
-import 'package:ui_components_lib/v2/widgets/buttons/primary_button.dart';
-import 'package:ui_components_lib/v2/widgets/text_fields/primary_text_field.dart';
 
 /// Helper function to show [AccountRenameSheet].
 ModalRoute<void> getRenameAccountSheet(BuildContext context, Address address) {
