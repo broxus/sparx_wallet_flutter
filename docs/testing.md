@@ -246,27 +246,29 @@ test('fetches data asynchronously', () async {
 });
 ```
 
-## Testing Streams and BLoC Pattern
+## Testing Streams
 
-For testing streams and BLoC components:
+For testing stream-based components:
 
 ```dart
-test('emits the correct sequence of states', () {
+test('emits the correct sequence of values', () {
   // Arrange
+  final controller = StreamController<DataState>();
   when(() => mockRepository.getData())
       .thenAnswer((_) async => 'test data');
 
   // Assert
   expectLater(
-    bloc.stream,
+    controller.stream,
     emitsInOrder([
       isA<LoadingState>(),
       isA<LoadedState>(),
     ]),
   );
 
-  // Act - trigger the event after setting up the expectation
-  bloc.add(LoadDataEvent());
+  // Act - trigger the stream after setting up the expectation
+  controller.add(LoadingState());
+  controller.add(LoadedState('test data'));
 });
 ```
 
