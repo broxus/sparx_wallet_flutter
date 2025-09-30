@@ -49,16 +49,6 @@ sealed class WalletDeployState with _$WalletDeployState {
     required bool canClose,
   }) = WalletDeployStateDeploying;
 
-  /// Transaction sent successfully
-  const factory WalletDeployState.deployed({
-    required BigInt fee,
-    required BigInt balance,
-    required Transaction transaction,
-    List<PublicKey>? custodians,
-    int? requireConfirmations,
-    String? tonIconPath,
-  }) = WalletDeployStateDeployed;
-
   const factory WalletDeployState.subscribeError(Object error) =
       WalletDeployStateSubscribeError;
 }

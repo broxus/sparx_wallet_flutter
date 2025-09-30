@@ -31,16 +31,14 @@ class WalletDeployScreen extends InjectedElementaryParametrizedWidget<
       listenableState: wm.state,
       builder: (context, state) {
         return switch (state!) {
-          WalletDeployStateSubscribeError(:final error) => _scaffold(
-              WalletSubscribeErrorWidget(error: error),
-              wm: wm,
+          WalletDeployStateSubscribeError(:final error) => _Body(
+              child: WalletSubscribeErrorWidget(error: error),
             ),
-          WalletDeployStateStandard() => _scaffold(
-              WalletDeployStandardBody(
+          WalletDeployStateStandard() => _Body(
+              child: WalletDeployStandardBody(
                 onDeploy: wm.handlePrepareStandard,
                 onChangeType: wm.changeDeployType,
               ),
-              wm: wm,
             ),
           WalletDeployStateMultisig(
             :final custodians,
@@ -48,8 +46,8 @@ class WalletDeployScreen extends InjectedElementaryParametrizedWidget<
             :final hours,
             :final walletType,
           ) =>
-            _scaffold(
-              WalletDeployMultisigBody(
+            _Body(
+              child: WalletDeployMultisigBody(
                 custodians: custodians,
                 requireConfirmations: requireConfirmations,
                 hours: hours,
@@ -58,7 +56,6 @@ class WalletDeployScreen extends InjectedElementaryParametrizedWidget<
                 onChangeType: wm.changeDeployType,
                 onDeploy: wm.handlePrepareMultisig,
               ),
-              wm: wm,
             ),
           WalletDeployStateCalculatingError(
             :final error,
@@ -70,8 +67,9 @@ class WalletDeployScreen extends InjectedElementaryParametrizedWidget<
             :final ticker,
             :final currency,
           ) =>
-            _scaffold(
-              WalletDeployConfirmView(
+            _Body(
+              onPrev: wm.goPrevStep,
+              child: WalletDeployConfirmView(
                 publicKey: wm.publicKeyState,
                 balance: balance,
                 feeError: error,
@@ -83,8 +81,6 @@ class WalletDeployScreen extends InjectedElementaryParametrizedWidget<
                 customCurrency: currency,
                 onConfirmed: wm.confirmDeploy,
               ),
-              canPrev: true,
-              wm: wm,
             ),
           WalletDeployStateReadyToDeploy(
             :final balance,
@@ -97,8 +93,9 @@ class WalletDeployScreen extends InjectedElementaryParametrizedWidget<
             :final account,
             :final ledgerAuthInput,
           ) =>
-            _scaffold(
-              WalletDeployConfirmView(
+            _Body(
+              onPrev: wm.goPrevStep,
+              child: WalletDeployConfirmView(
                 publicKey: wm.publicKeyState,
                 balance: balance,
                 fee: fee,
@@ -111,26 +108,6 @@ class WalletDeployScreen extends InjectedElementaryParametrizedWidget<
                 ledgerAuthInput: ledgerAuthInput,
                 onConfirmed: wm.confirmDeploy,
               ),
-              canPrev: true,
-              wm: wm,
-            ),
-          WalletDeployStateDeployed(
-            :final balance,
-            :final fee,
-            :final custodians,
-            :final requireConfirmations,
-            :final tonIconPath,
-          ) =>
-            _scaffold(
-              WalletDeployConfirmView(
-                publicKey: wm.publicKeyState,
-                balance: balance,
-                fee: fee,
-                custodians: custodians,
-                requireConfirmations: requireConfirmations,
-                tonIconPath: tonIconPath,
-              ),
-              wm: wm,
             ),
           WalletDeployStateDeploying(:final canClose) => Scaffold(
               body: Padding(
@@ -146,29 +123,32 @@ class WalletDeployScreen extends InjectedElementaryParametrizedWidget<
       },
     );
   }
+}
 
-  Widget _scaffold(
-    Widget body, {
-    required WalletDeployWidgetModel wm,
-    bool canPrev = false,
-  }) {
-    return Builder(
-      builder: (context) {
-        final colors = context.themeStyleV2.colors;
-        return GestureDetector(
-          onTap: () => FocusScope.of(context).unfocus(),
-          child: Scaffold(
-            backgroundColor: colors.background0,
-            appBar: DefaultAppBar(
-              titleText: canPrev
-                  ? LocaleKeys.deployWallet.tr()
-                  : LocaleKeys.selectWalletType.tr(),
-              onClosePressed: canPrev ? (_) => wm.goPrevStep() : null,
-            ),
-            body: body,
-          ),
-        );
-      },
+class _Body extends StatelessWidget {
+  const _Body({
+    required this.child,
+    this.onPrev,
+  });
+
+  final Widget child;
+  final VoidCallback? onPrev;
+
+  @override
+  Widget build(BuildContext context) {
+    final colors = context.themeStyleV2.colors;
+    return GestureDetector(
+      onTap: () => FocusScope.of(context).unfocus(),
+      child: Scaffold(
+        backgroundColor: colors.background0,
+        appBar: DefaultAppBar(
+          titleText: onPrev != null
+              ? LocaleKeys.deployWallet.tr()
+              : LocaleKeys.selectWalletType.tr(),
+          onClosePressed: onPrev != null ? (_) => onPrev!() : null,
+        ),
+        body: child,
+      ),
     );
   }
 }
