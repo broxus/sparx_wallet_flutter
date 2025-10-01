@@ -1,5 +1,6 @@
 import 'package:app/data/models/custom_currency.dart';
 import 'package:app/feature/profile/profile.dart';
+import 'package:app/feature/profile/widgets/enter_password/enter_password_widget.dart';
 import 'package:app/feature/wallet/widgets/account_info.dart';
 import 'package:app/feature/wallet/widgets/account_transactions_tab/detail/details_item.dart';
 import 'package:app/generated/generated.dart';
@@ -177,7 +178,8 @@ class WalletDeployConfirmView extends StatelessWidget {
             publicKey: publicKey,
             isLoading: isLoading,
             isDisabled: feeError != null || fee == null,
-            onConfirmed: onConfirmed ?? (_) {},
+            onConfirmed:
+                onConfirmed != null ? (auth) => onConfirmed!(auth) : (_) {},
           ),
         ),
       ],

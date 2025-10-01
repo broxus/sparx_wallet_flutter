@@ -36,33 +36,32 @@ class SelectAccountWidget
           child: DoubleSourceBuilder(
             firstSource: wm.listState,
             secondSource: wm.currentAccountState,
-            builder: (_, list, currentAccount) {
-              return SingleChildScrollView(
+            builder: (context, list, currentAccount) {
+              if (list == null) return const SizedBox.shrink();
+
+              final slivers = <Widget>[];
+
+              for (var index = 0; index < list.length; index++) {
+                final data = list[index];
+                final shouldAutoExpand = data.hasCurrentAccount(currentAccount);
+
+                // Add each seed as a sticky section
+                slivers.add(
+                  _SeedItemSliverSection(
+                    data: data,
+                    shouldAutoExpand: shouldAutoExpand,
+                    currentAccount: currentAccount,
+                    onTapAccount: (item) => wm.onSelect(item),
+                    getBalanceEntity: wm.getBalanceEntity,
+                    scrollController: scrollController,
+                  ),
+                );
+              }
+
+              return CustomScrollView(
                 controller: scrollController,
                 physics: const ClampingScrollPhysics(),
-                child: Column(
-                  mainAxisSize: MainAxisSize.min,
-                  children: List.generate(
-                    list?.length ?? 0,
-                    (index) {
-                      final data = list![index];
-                      final isExpanded = data.hasCurrentAccount(currentAccount);
-                      return Padding(
-                        padding: const EdgeInsets.only(bottom: DimensSizeV2.d8),
-                        child: _SeedItem(
-                          key: ValueKey(data.name),
-                          data: data,
-                          isExpanded: isExpanded,
-                          isLedger: data.isLedger,
-                          currentAccount: currentAccount,
-                          onTapAccount: (item) => wm.onSelect(item),
-                          getBalanceEntity: wm.getBalanceEntity,
-                          scrollController: scrollController,
-                        ),
-                      );
-                    },
-                  ),
-                ),
+                slivers: slivers,
               );
             },
           ),
@@ -89,8 +88,8 @@ class SelectAccountWidget
   }
 }
 
-class _SeedItem extends StatefulWidget {
-  const _SeedItem({
+class _SeedItemStickyDelegate extends SliverPersistentHeaderDelegate {
+  const _SeedItemStickyDelegate({
     required this.data,
     required this.isExpanded,
     required this.isLedger,
@@ -98,7 +97,7 @@ class _SeedItem extends StatefulWidget {
     required this.onTapAccount,
     required this.getBalanceEntity,
     required this.scrollController,
-    super.key,
+    required this.onToggleExpand,
   });
 
   final SelectAccountData data;
@@ -108,65 +107,167 @@ class _SeedItem extends StatefulWidget {
   final Function(KeyAccount) onTapAccount;
   final ListenableState<Money?> Function(KeyAccount) getBalanceEntity;
   final ScrollController scrollController;
+  final VoidCallback onToggleExpand;
 
   @override
-  State<_SeedItem> createState() => _SeedItemState();
-}
-
-class _SeedItemState extends State<_SeedItem> {
-  late bool _isExpanded = widget.isExpanded;
-  late bool _isScrollToAccount = true;
-
-  @override
-  Widget build(BuildContext context) {
+  Widget build(
+    BuildContext context,
+    double shrinkOffset,
+    bool overlapsContent,
+  ) {
     final theme = context.themeStyleV2;
     return GestureDetector(
-      onTap: _toggleExpand,
+      onTap: onToggleExpand,
       child: Container(
-        padding: EdgeInsets.only(
-          top: DimensSizeV2.d16,
-          bottom: _isExpanded ? 0 : DimensSize.d16,
-        ),
         decoration: BoxDecoration(
           color: theme.colors.background2,
           borderRadius: BorderRadius.circular(DimensRadiusV2.radius12),
         ),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            SeedPhraseItemWidget(
-              name: widget.data.name,
-              isExpanded: _isExpanded,
-              isLedger: widget.isLedger,
-            ),
-            if (_isExpanded) const SizedBox(height: DimensSizeV2.d16),
-            if (_isExpanded) const CommonDivider(),
-            AnimatedSize(
-              duration: const Duration(milliseconds: 300),
-              curve: Curves.easeInOut,
-              child: _isExpanded
-                  ? PrivateKeyItemWidget(
-                      seedWithInfo: widget.data.privateKeys,
-                      currentAccount: widget.currentAccount,
-                      onTap: widget.onTapAccount,
-                      getBalanceEntity: widget.getBalanceEntity,
-                      scrollController: widget.scrollController,
-                      isScrollToAccount: _isScrollToAccount,
-                    )
-                  : const SizedBox.shrink(),
-            ),
-          ],
+        child: Container(
+          padding: const EdgeInsets.symmetric(vertical: DimensSizeV2.d16),
+          child: SeedPhraseItemWidget(
+            name: data.name,
+            isExpanded: isExpanded,
+            isLedger: isLedger,
+          ),
         ),
       ),
     );
   }
 
-  void _toggleExpand() {
-    if (!_isExpanded && _isScrollToAccount) {
-      _isScrollToAccount = false;
+  @override
+  double get maxExtent => 56;
+
+  @override
+  double get minExtent => 56;
+
+  @override
+  bool shouldRebuild(_SeedItemStickyDelegate oldDelegate) {
+    return data != oldDelegate.data ||
+        isExpanded != oldDelegate.isExpanded ||
+        currentAccount != oldDelegate.currentAccount;
+  }
+}
+
+class _SeedItemSliverSection extends StatefulWidget {
+  const _SeedItemSliverSection({
+    required this.data,
+    required this.shouldAutoExpand,
+    required this.currentAccount,
+    required this.onTapAccount,
+    required this.getBalanceEntity,
+    required this.scrollController,
+  });
+
+  final SelectAccountData data;
+  final bool shouldAutoExpand;
+  final KeyAccount? currentAccount;
+  final Function(KeyAccount) onTapAccount;
+  final ListenableState<Money?> Function(KeyAccount) getBalanceEntity;
+  final ScrollController scrollController;
+
+  @override
+  State<_SeedItemSliverSection> createState() => _SeedItemSliverSectionState();
+}
+
+class _SeedItemSliverSectionState extends State<_SeedItemSliverSection>
+    with AutomaticKeepAliveClientMixin {
+  bool _isExpanded = false;
+  Widget? _cachedExpandedContent;
+
+  @override
+  bool get wantKeepAlive => _isExpanded;
+
+  @override
+  void initState() {
+    super.initState();
+    _isExpanded = widget.shouldAutoExpand;
+  }
+
+  @override
+  void didUpdateWidget(_SeedItemSliverSection oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    if (widget.shouldAutoExpand && !_isExpanded) {
+      setState(() {
+        _isExpanded = true;
+      });
     }
+    if (widget.data != oldWidget.data ||
+        widget.currentAccount != oldWidget.currentAccount) {
+      _cachedExpandedContent = null;
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    super.build(context);
+
+    return SliverMainAxisGroup(
+      slivers: [
+        SliverPersistentHeader(
+          pinned: true,
+          delegate: _SeedItemStickyDelegate(
+            data: widget.data,
+            isExpanded: _isExpanded,
+            isLedger: widget.data.isLedger,
+            currentAccount: widget.currentAccount,
+            onTapAccount: widget.onTapAccount,
+            getBalanceEntity: widget.getBalanceEntity,
+            scrollController: widget.scrollController,
+            onToggleExpand: _toggleExpand,
+          ),
+        ),
+        if (_isExpanded)
+          SliverToBoxAdapter(
+            child: _getExpandedContent(context),
+          ),
+        if (!_isExpanded)
+          const SliverToBoxAdapter(
+            child: SizedBox(
+              height: 8,
+            ),
+          ),
+      ],
+    );
+  }
+
+  Widget _getExpandedContent(BuildContext context) {
+    _cachedExpandedContent ??= Container(
+      margin: const EdgeInsets.only(
+        bottom: DimensSizeV2.d8,
+        left: DimensSizeV2.d8,
+        right: DimensSizeV2.d8,
+      ),
+      decoration: BoxDecoration(
+        color: context.themeStyleV2.colors.background2,
+        borderRadius: const BorderRadius.only(
+          bottomLeft: Radius.circular(DimensRadiusV2.radius12),
+          bottomRight: Radius.circular(DimensRadiusV2.radius12),
+        ),
+      ),
+      child: Column(
+        children: [
+          const CommonDivider(),
+          PrivateKeyItemWidget(
+            seedWithInfo: widget.data.privateKeys,
+            currentAccount: widget.currentAccount,
+            onTap: widget.onTapAccount,
+            getBalanceEntity: widget.getBalanceEntity,
+            scrollController: widget.scrollController,
+            isScrollToAccount: widget.shouldAutoExpand && _isExpanded,
+          ),
+        ],
+      ),
+    );
+    return _cachedExpandedContent!;
+  }
+
+  void _toggleExpand() {
     setState(() {
       _isExpanded = !_isExpanded;
+      if (!_isExpanded) {
+        _cachedExpandedContent = null;
+      }
     });
   }
 }

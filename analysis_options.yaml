@@ -1,8 +1,5 @@
+---
 include: package:broxus_flutter_analysis/analysis_options.yaml
 analyzer:
-  exclude:
-    - lib/di/di.config.dart
-    - "**.reflectable.dart"
-  # TODO: Enable when dependency conflict with reflectable (used in bridge) is resolved
-  # plugins:
-  #   - custom_lint
+  exclude: [lib/di/di.config.dart, '**.reflectable.dart']
+  plugins: [custom_lint]

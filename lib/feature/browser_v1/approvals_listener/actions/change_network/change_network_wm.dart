@@ -56,7 +56,7 @@ class ChangeNetworkWidgetModel extends CustomWidgetModelParametrized<
 
   ValueListenable<bool> get loadingState => _loadingState;
 
-  ValueListenable<ConnectionData> get connection => _connectionState;
+  ValueListenable<ConnectionData> get connectionState => _connectionState;
 
   ThemeStyleV2 get theme => context.themeStyleV2;
 

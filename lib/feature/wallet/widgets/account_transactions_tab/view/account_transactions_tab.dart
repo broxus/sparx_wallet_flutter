@@ -27,7 +27,7 @@ class AccountTransactionsTab extends InjectedElementaryParametrizedWidget<
   @override
   Widget build(AccountTransactionsTabWidgetModel wm) {
     return StateNotifierBuilder<AccountTransactionsUiState>(
-      listenableState: wm.state,
+      listenableState: wm.transactionsState,
       builder: (context, state) {
         final theme = context.themeStyleV2;
 

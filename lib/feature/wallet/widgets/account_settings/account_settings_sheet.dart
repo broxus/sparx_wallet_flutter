@@ -7,7 +7,6 @@ import 'package:ui_components_lib/ui_components_lib.dart';
 Future<void> showAccountSettingsModal({
   required BuildContext context,
   required KeyAccount account,
-  required List<PublicKey>? custodians,
 }) {
   return showCommonBottomSheet<void>(
     context: context,
@@ -20,7 +19,6 @@ Future<void> showAccountSettingsModal({
     body: (_, scrollController) => AccountSettingsWidget(
       account: account,
       scrollController: scrollController,
-      custodians: custodians,
     ),
   );
 }

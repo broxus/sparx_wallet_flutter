@@ -41,7 +41,7 @@ class EditNetworkWidgetModel extends CustomWidgetModelParametrized<
     connection?.manifestUrl ?? '',
   );
 
-  late final _manifestLoadingState = createNotifier(false);
+  late final _isManifestLoadingState = createNotifier(false);
   late final _manifestErrorState = createNotifier<String>();
 
   late final bool isDeleteEnabled = connection != null && isEditable;
@@ -96,9 +96,9 @@ class EditNetworkWidgetModel extends CustomWidgetModelParametrized<
   NetworkType get selectedNetworkType =>
       selectedNetworkTypeState.value ?? NetworkType.custom;
 
-  ListenableState<bool> get isManifestLoading => _manifestLoadingState;
+  ListenableState<bool> get isManifestLoadingState => _isManifestLoadingState;
 
-  ListenableState<String> get manifestError => _manifestErrorState;
+  ListenableState<String> get manifestErrorState => _manifestErrorState;
 
   List<TextEditingController>? get _endpointsControllers =>
       _endpointsControllersState.value;
@@ -170,7 +170,7 @@ class EditNetworkWidgetModel extends CustomWidgetModelParametrized<
     }
 
     if (_manifestErrorState.value != null ||
-        (_manifestLoadingState.value ?? false)) {
+        (_isManifestLoadingState.value ?? false)) {
       return;
     }
 
@@ -289,14 +289,14 @@ class EditNetworkWidgetModel extends CustomWidgetModelParametrized<
     final error = validators.nonOptionalUrlValidator.validate(manifestUrl);
     if (error != null) return;
 
-    _manifestLoadingState.accept(true);
+    _isManifestLoadingState.accept(true);
 
     try {
       await model.fetchManifest(manifestUrl);
     } catch (e) {
       _manifestErrorState.accept(LocaleKeys.tokenListValidationError.tr());
     } finally {
-      _manifestLoadingState.accept(false);
+      _isManifestLoadingState.accept(false);
     }
   }
 }
