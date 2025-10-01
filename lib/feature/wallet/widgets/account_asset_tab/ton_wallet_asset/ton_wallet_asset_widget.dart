@@ -17,8 +17,8 @@ class TonWalletAssetWidget extends InjectedElementaryParametrizedWidget<
   @override
   Widget build(TonWalletAssetWidgetModel wm) {
     return DoubleSourceBuilder(
-      firstSource: wm.tokenName,
-      secondSource: wm.iconPath,
+      firstSource: wm.tokenNameState,
+      secondSource: wm.iconPathState,
       builder: (_, tokenName, iconPath) {
         if (tokenName == null || iconPath == null) {
           return const SizedBox.shrink();
@@ -26,10 +26,10 @@ class TonWalletAssetWidget extends InjectedElementaryParametrizedWidget<
 
         return WalletAssetWidget(
           name: tokenName,
-          tokenBalance: wm.tokenBalance,
-          fiatBalance: wm.fiatBalance,
-          error: wm.error,
-          isRetryLoading: wm.isRetryLoading,
+          tokenBalance: wm.tokenBalanceState,
+          fiatBalance: wm.fiatBalanceState,
+          error: wm.errorState,
+          isRetryLoading: wm.isRetryLoadingState,
           icon: TonWalletIconWidget(path: iconPath),
           onRetryPressed: wm.retry,
           onPressed: wm.openDetails,

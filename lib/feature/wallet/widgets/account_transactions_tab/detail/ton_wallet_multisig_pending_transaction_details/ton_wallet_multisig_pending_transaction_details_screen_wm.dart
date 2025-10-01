@@ -4,6 +4,7 @@ import 'package:app/feature/wallet/confirm_multisig_transaction/route.dart';
 import 'package:app/feature/wallet/widgets/account_transactions_tab/detail/details.dart';
 import 'package:app/feature/wallet/widgets/account_transactions_tab/detail/ton_wallet_multisig_pending_transaction_details/ton_wallet_multisig_pending_transaction_details_screen.dart';
 import 'package:app/feature/wallet/widgets/account_transactions_tab/detail/ton_wallet_multisig_pending_transaction_details/ton_wallet_multisig_pending_transaction_details_screen_model.dart';
+import 'package:app/generated/generated.dart';
 import 'package:elementary/elementary.dart';
 import 'package:flutter/widgets.dart';
 import 'package:injectable/injectable.dart';
@@ -119,13 +120,16 @@ class TonWalletMultisigPendingTransactionDetailsScreenWidgetModel
 
   ThemeStyleV2 get _theme => context.themeStyleV2;
 
-  void onPressedConfirm() {
+  Future<void> onPressedConfirm() async {
     final params = wmParams.value;
     final transaction = params.transaction;
     final hexString = safeHexStringState.value;
+    final resultMessage = await _getResultMessage();
 
-    Navigator.of(context).pop();
-    context.compassContinue(
+    if (contextSafe == null) return;
+
+    Navigator.of(contextSafe!).pop();
+    contextSafe?.compassContinue(
       ConfirmMultisigTransactionRouteData(
         walletAddress: transaction.walletAddress,
         localCustodians: transaction.nonConfirmedLocalCustodians,
@@ -134,7 +138,34 @@ class TonWalletMultisigPendingTransactionDetailsScreenWidgetModel
         destination: transaction.address,
         amount: transaction.value,
         comment: transaction.comment,
+        resultMessage: resultMessage,
       ),
+    );
+  }
+
+  Future<String?> _getResultMessage() async {
+    final transaction = wmParams.value.transaction;
+    final staking = model.staking;
+
+    if (transaction.confirmations.length + 1 != transaction.signsRequired) {
+      // Not final confirmation
+      return null;
+    }
+    if (staking?.stakingValutAddress != transaction.address) {
+      // Not staking transaction
+      return null;
+    }
+
+    final tokenWallet = await model.getTokenWallet(
+      owner: transaction.walletAddress,
+      tokenRootContract: staking!.stakingRootContractAddress,
+    );
+    final wallet = tokenWallet.wallet;
+
+    if (wallet == null) return null;
+
+    return LocaleKeys.stEverAppearInMinutes.tr(
+      args: [wallet.currency.symbol],
     );
   }
 }

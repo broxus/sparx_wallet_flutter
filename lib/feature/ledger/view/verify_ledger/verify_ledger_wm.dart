@@ -29,12 +29,12 @@ class VerifyLedgerWidgetModel
     with BleAvailabilityWmMixin {
   VerifyLedgerWidgetModel(super.model);
 
-  late final _verifyState = createNotifier(false);
+  late final _isVerifyingState = createNotifier(false);
   late final _interactionState = createNotifierFromStream(
     model.interactionStream.switchMap((e) => e.stateStream),
   );
 
-  ListenableState<bool> get isVerifying => _verifyState;
+  ListenableState<bool> get isVerifyingState => _isVerifyingState;
 
   ListenableState<LedgerInteractionState> get interactionState =>
       _interactionState;
@@ -59,11 +59,11 @@ class VerifyLedgerWidgetModel
     if (!isAvailable) return;
 
     try {
-      _verifyState.accept(true);
+      _isVerifyingState.accept(true);
 
       await model.verify(widget.account);
     } catch (_) {
-      _verifyState.accept(false);
+      _isVerifyingState.accept(false);
     }
   }
 }

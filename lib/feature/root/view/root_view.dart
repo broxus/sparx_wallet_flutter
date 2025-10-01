@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:app/app/service/app_links/app_links_data.dart';
 import 'package:app/app/service/app_links/app_links_service.dart';
 import 'package:app/di/di.dart';
+import 'package:app/extensions/completer_extension.dart';
 import 'package:app/feature/ledger/ledger.dart';
 import 'package:app/feature/messenger/data/message.dart';
 import 'package:app/feature/messenger/domain/service/messenger_service.dart';
@@ -87,7 +88,7 @@ class _RootViewState extends State<RootView> {
         :final manifest,
         :final completer,
       ) =>
-        completer.complete(
+        completer.completeSafe(
           await showTCConnectSheet(
             context: context,
             request: request,
@@ -99,7 +100,7 @@ class _RootViewState extends State<RootView> {
         :final payload,
         :final completer,
       ) =>
-        completer.complete(
+        completer.completeSafe(
           await showTCSendMessageSheet(
             // ignore: use_build_context_synchronously
             context: context,
@@ -112,7 +113,7 @@ class _RootViewState extends State<RootView> {
         :final payload,
         :final completer,
       ) =>
-        completer.complete(
+        completer.completeSafe(
           await showTCSignDataSheet(
             // ignore: use_build_context_synchronously
             context: context,
