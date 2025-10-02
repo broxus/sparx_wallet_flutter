@@ -4,6 +4,7 @@ import 'package:app/app/router/router.dart';
 import 'package:app/app/service/app_lifecycle_service.dart';
 import 'package:app/app/service/app_links/app_links.dart';
 import 'package:app/app/service/biometry_service.dart';
+import 'package:app/app/service/bootstrap/bootstrap_service.dart';
 import 'package:app/app/service/bootstrap/configurators/logger.dart';
 import 'package:app/app/service/crash_detector/domain/service/crash_detector_service.dart';
 import 'package:app/app/view/app.dart';
@@ -33,6 +34,7 @@ class AppModel extends ElementaryModel with WidgetsBindingObserver {
     this._loggerConfigurator,
     this._browserLauncher,
     this._nekotonRepository,
+    this._bootstrapService,
   ) : super(errorHandler: errorHandler);
 
   final CompassRouter router;
@@ -45,6 +47,7 @@ class AppModel extends ElementaryModel with WidgetsBindingObserver {
   final LoggerConfigurator _loggerConfigurator;
   final BrowserLauncher _browserLauncher;
   final NekotonRepository _nekotonRepository;
+  final BootstrapService _bootstrapService;
 
   BuildContext? get navContext =>
       CompassRouter.navigatorKey.currentState?.context;
@@ -62,7 +65,19 @@ class AppModel extends ElementaryModel with WidgetsBindingObserver {
     _crashDetectorService.startSession(setCrashDetected: true);
     _checkBiometry();
     _appLinksSubs = _appLinksService.browserLinksStream.listen(_listenAppLinks);
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      _handleInitialLinkWhenReady();
+    });
     super.init();
+  }
+
+  Future<void> _handleInitialLinkWhenReady() async {
+    // Wait for bootstrap to complete
+    await _bootstrapService.bootstrapStepStream
+        .firstWhere((step) => _bootstrapService.isConfigured);
+
+    // Now safe to handle initial link
+    await _appLinksService.handleInitialLink();
   }
 
   @override
@@ -116,7 +131,11 @@ class AppModel extends ElementaryModel with WidgetsBindingObserver {
   }
 
   void _listenAppLinks(BrowserAppLinksData event) {
-    WidgetsBinding.instance.addPostFrameCallback((_) {
+    WidgetsBinding.instance.addPostFrameCallback((_) async {
+      // Wait for bootstrap to complete before handling deeplink
+      await _bootstrapService.bootstrapStepStream
+          .firstWhere((step) => _bootstrapService.isConfigured);
+
       _browserLauncher.openBrowserByUri(event.url);
     });
   }
