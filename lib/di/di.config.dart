@@ -2302,6 +2302,11 @@ extension GetItInjectableX on _i174.GetIt {
           gh<_i771.NekotonRepository>(),
           gh<_i533.RootTabService>(),
         ));
+    gh.factory<_i278.CustomBottomNavigationBarModel>(
+        () => _i278.CustomBottomNavigationBarModel(
+              gh<_i83.ErrorHandler>(),
+              gh<_i533.RootTabService>(),
+            ));
     gh.factory<_i425.AppModel>(() => _i425.AppModel(
           gh<_i83.ErrorHandler>(),
           gh<_i309.CompassRouter>(),
@@ -2314,12 +2319,8 @@ extension GetItInjectableX on _i174.GetIt {
           gh<_i335.LoggerConfigurator>(),
           gh<_i70.BrowserLauncher>(),
           gh<_i771.NekotonRepository>(),
+          gh<_i468.BootstrapService>(),
         ));
-    gh.factory<_i278.CustomBottomNavigationBarModel>(
-        () => _i278.CustomBottomNavigationBarModel(
-              gh<_i83.ErrorHandler>(),
-              gh<_i533.RootTabService>(),
-            ));
     gh.factory<_i8.AccountSettingsModel>(() => _i8.AccountSettingsModel(
           gh<_i83.ErrorHandler>(),
           gh<_i771.NekotonRepository>(),
