@@ -22,7 +22,7 @@ class ChangeNetworkModel extends ElementaryModel {
   final ConnectionsStorageService _connectionsStorageService;
   final NekotonRepository _nekotonRepository;
 
-  Future<TransportStrategy> changeNetwork(String id) async {
+  Future<TransportStrategy> changeConnection(String id) async {
     _connectionsStorageService.saveCurrentConnectionId(id);
     return _nekotonRepository.currentTransportStream
         .firstWhere(

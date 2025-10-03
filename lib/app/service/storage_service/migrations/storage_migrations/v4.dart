@@ -33,12 +33,13 @@ class StorageMigrationV4 implements StorageMigration {
       final storage = GetStorage(container);
       final encoded = storage.getEntries();
 
-      final networks = _presetsConnectionService.networks;
+      final connections = _presetsConnectionService.connections;
 
       final networksMap = <String, String>{};
 
-      for (final network in networks) {
-        networksMap[network.networkType.name] = network.group;
+      for (final network in connections) {
+        networksMap[network.defaultWorkchain.networkType.name] =
+            network.defaultWorkchain.networkGroup;
       }
       for (final entry in encoded.entries) {
         try {

@@ -1,3 +1,4 @@
+import 'package:app/app/service/connection/data/connection/connection.dart';
 import 'package:app/app/service/service.dart';
 import 'package:elementary/elementary.dart';
 import 'package:injectable/injectable.dart';
@@ -11,6 +12,6 @@ class ConfigureNetworksModel extends ElementaryModel {
 
   final ConnectionsStorageService _storageService;
 
-  Stream<List<ConnectionData>> get connections =>
+  Stream<List<Connection>> get connections =>
       _storageService.connectionsStream;
 }

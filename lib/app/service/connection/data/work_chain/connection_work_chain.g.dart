@@ -1,26 +1,21 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'connection_work_chain_data.dart';
+part of 'connection_work_chain.dart';
 
 // **************************************************************************
 // JsonSerializableGenerator
 // **************************************************************************
 
-_ConnectionWorkchainData _$ConnectionWorkchainDataFromJson(
-        Map<String, dynamic> json) =>
-    _ConnectionWorkchainData(
+_ConnectionWorkchain _$ConnectionWorkchainFromJson(Map<String, dynamic> json) =>
+    _ConnectionWorkchain(
       id: (json['id'] as num).toInt(),
-      parentNetworkId: json['parentNetworkId'] as String,
+      parentConnectionId: json['parentConnectionId'] as String,
       networkType: NetworkType.fromJson(json['networkType'] as String),
       networkName: json['networkName'] as String,
       networkGroup: json['networkGroup'] as String,
+      type: $enumDecode(_$WorkchainTypeEnumMap, json['type']),
       endpoints:
           (json['endpoints'] as List<dynamic>).map((e) => e as String).toList(),
-      blockExplorerUrl: json['blockExplorerUrl'] as String,
-      isLocal: json['isLocal'] as bool,
-      nativeTokenTicker: json['nativeTokenTicker'] as String,
-      isPreset: json['isPreset'] as bool,
-      canBeEdited: json['canBeEdited'] as bool,
       icons: TransportIcons.fromJson(json['icons'] as Map<String, dynamic>),
       availableWalletTypes: const WalletTypeListConverter()
           .fromJson(json['availableWalletTypes'] as List),
@@ -46,6 +41,11 @@ _ConnectionWorkchainData _$ConnectionWorkchainDataFromJson(
           json['transactionExplorerLinkType']),
       walletDefaultAccountNames: WalletDefaultAccountNames.fromJson(
           json['walletDefaultAccountNames'] as Map<String, dynamic>),
+      blockExplorerUrl: json['blockExplorerUrl'] as String? ?? '',
+      nativeTokenTicker: json['nativeTokenTicker'] as String? ?? '',
+      isLocal: json['isLocal'] as bool? ?? false,
+      isPreset: json['isPreset'] as bool? ?? true,
+      canBeEdited: json['canBeEdited'] as bool? ?? false,
       isUsedOnStart: json['isUsedOnStart'] as bool? ?? true,
       manifestUrl: json['manifestUrl'] as String? ?? '',
       nativeTokenDecimals: (json['nativeTokenDecimals'] as num?)?.toInt() ?? 9,
@@ -71,20 +71,16 @@ _ConnectionWorkchainData _$ConnectionWorkchainDataFromJson(
               json['nftInformation'] as Map<String, dynamic>),
     );
 
-Map<String, dynamic> _$ConnectionWorkchainDataToJson(
-        _ConnectionWorkchainData instance) =>
+Map<String, dynamic> _$ConnectionWorkchainToJson(
+        _ConnectionWorkchain instance) =>
     <String, dynamic>{
       'id': instance.id,
-      'parentNetworkId': instance.parentNetworkId,
+      'parentConnectionId': instance.parentConnectionId,
       'networkType': instance.networkType.toJson(),
       'networkName': instance.networkName,
       'networkGroup': instance.networkGroup,
+      'type': _$WorkchainTypeEnumMap[instance.type]!,
       'endpoints': instance.endpoints,
-      'blockExplorerUrl': instance.blockExplorerUrl,
-      'isLocal': instance.isLocal,
-      'nativeTokenTicker': instance.nativeTokenTicker,
-      'isPreset': instance.isPreset,
-      'canBeEdited': instance.canBeEdited,
       'icons': instance.icons.toJson(),
       'availableWalletTypes':
           const WalletTypeListConverter().toJson(instance.availableWalletTypes),
@@ -102,6 +98,11 @@ Map<String, dynamic> _$ConnectionWorkchainDataToJson(
       'transactionExplorerLinkType': _$TransactionExplorerLinkTypeEnumMap[
           instance.transactionExplorerLinkType],
       'walletDefaultAccountNames': instance.walletDefaultAccountNames.toJson(),
+      'blockExplorerUrl': instance.blockExplorerUrl,
+      'nativeTokenTicker': instance.nativeTokenTicker,
+      'isLocal': instance.isLocal,
+      'isPreset': instance.isPreset,
+      'canBeEdited': instance.canBeEdited,
       'isUsedOnStart': instance.isUsedOnStart,
       'manifestUrl': instance.manifestUrl,
       'nativeTokenDecimals': instance.nativeTokenDecimals,
@@ -118,6 +119,12 @@ Map<String, dynamic> _$ConnectionWorkchainDataToJson(
           const StakingInformationConverter().toJson(instance.stakeInformation),
       'nftInformation': instance.nftInformation?.toJson(),
     };
+
+const _$WorkchainTypeEnumMap = {
+  WorkchainType.proto: 'proto',
+  WorkchainType.jrpc: 'jrpc',
+  WorkchainType.gql: 'gql',
+};
 
 const _$GenericTokenTypeEnumMap = {
   GenericTokenType.tip3: 'tip3',

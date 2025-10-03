@@ -1,7 +1,5 @@
 export 'account_explorer/account_explorer.dart';
-export 'connection_data/connection_data.dart';
-export 'connection_network/connection_network.dart';
-export 'connection_transport/connection_transport.dart';
+export 'connection/connection.dart';
 export 'custom_network/custom_network.dart';
 export 'default_active_asset.dart';
 export 'network_type.dart';

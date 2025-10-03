@@ -1,6 +1,5 @@
-
 import 'package:app/app/service/connection/data/account_explorer/account_explorer_link_type.dart';
-import 'package:app/app/service/connection/data/connection_network/connection_network.dart';
+import 'package:app/app/service/connection/data/connection/connection.dart';
 import 'package:app/app/service/connection/data/network_type.dart';
 import 'package:app/app/service/connection/data/nft_information/nft_information.dart';
 import 'package:app/app/service/connection/data/transaction_explorer/transaction_explorer_link_type.dart';
@@ -8,7 +7,6 @@ import 'package:app/app/service/connection/data/transport_icons.dart';
 import 'package:app/app/service/connection/data/transport_manifest_option/transport_manifest_option.dart';
 import 'package:app/app/service/connection/data/transport_native_token_option/transport_native_token_option.dart';
 import 'package:app/app/service/connection/data/wallet_default_account_names.dart';
-import 'package:app/app/service/connection/data/work_chain/connection_work_chain_data.dart';
 import 'package:app/app/service/connection/generic_token_subscriber.dart';
 import 'package:app/app/service/connection/group.dart';
 import 'package:app/app/service/connection/transport_strategies/app_transport_strategy.dart';
@@ -21,7 +19,7 @@ class CommonTransportStrategy extends AppTransportStrategy {
   CommonTransportStrategy({
     required this.dio,
     required this.transport,
-    required this.workchain,
+    required this.connection,
     required this.availableWalletTypes,
     required this.walletDefaultAccountNames,
     required this.defaultWalletType,
@@ -48,7 +46,7 @@ class CommonTransportStrategy extends AppTransportStrategy {
   @override
   final Transport transport;
 
-  final ConnectionWorkchainData workchain;
+  final Connection connection;
 
   final TransportIcons? icons;
 
@@ -62,7 +60,8 @@ class CommonTransportStrategy extends AppTransportStrategy {
 
   @override
   String get manifestUrl => switch (manifestOption) {
-        TransportManifestOptionFromConnection() => workchain.manifestUrl,
+        TransportManifestOptionFromConnection() =>
+          connection.defaultWorkchain.manifestUrl,
       };
 
   @override
@@ -117,25 +116,21 @@ class CommonTransportStrategy extends AppTransportStrategy {
   @override
   String get nativeTokenTicker => switch (nativeTokenTickerOption) {
         TransportNativeTokenTickerOptionFromConnection() =>
-          workchain.nativeTokenTicker,
+          connection.defaultWorkchain.nativeTokenTicker,
         TransportNativeTokenTickerOptionByName(:final name) => name,
       };
 
-  static CommonTransportStrategy? fromData({
+  static CommonTransportStrategy fromData({
     required Dio dio,
     required Transport transport,
-    required ConnectionNetwork network,
+    required Connection connection,
   }) {
-    final workchain = network.workchains.firstOrNull;
-
-    if (workchain == null) {
-      return null;
-    }
+    final workchain = connection.defaultWorkchain;
 
     return CommonTransportStrategy(
       dio: dio,
       transport: transport,
-      workchain: workchain,
+      connection: connection,
       icons: workchain.icons,
       availableWalletTypes: workchain.availableWalletTypes,
       walletDefaultAccountNames: workchain.walletDefaultAccountNames,
@@ -143,7 +138,7 @@ class CommonTransportStrategy extends AppTransportStrategy {
       nativeTokenTickerOption: workchain.nativeTokenTickerOption,
       manifestOption: workchain.manifestOption,
       nativeTokenAddress: workchain.nativeTokenAddress,
-      networkName: network.networkName,
+      networkName: workchain.networkName,
       networkType: workchain.networkType,
       seedPhraseWordsCount: workchain.seedPhraseWordsCount,
       defaultNativeCurrencyDecimal: workchain.defaultNativeCurrencyDecimal ??
@@ -161,17 +156,17 @@ class CommonTransportStrategy extends AppTransportStrategy {
 
   @override
   String accountExplorerLink(Address accountAddress) {
-    if (workchain.blockExplorerUrl.isEmpty) {
+    if (connection.defaultWorkchain.blockExplorerUrl.isEmpty) {
       return '';
     }
 
     return switch (accountExplorerLinkType) {
       AccountExplorerLinkType.accounts =>
-        '${workchain.blockExplorerUrl}/accounts/${accountAddress.address}',
+        '${connection.defaultWorkchain.blockExplorerUrl}/accounts/${accountAddress.address}',
       AccountExplorerLinkType.accountDetails =>
-        '${workchain.blockExplorerUrl}/accounts/accountDetails?id=${accountAddress.address}',
+        '${connection.defaultWorkchain.blockExplorerUrl}/accounts/accountDetails?id=${accountAddress.address}',
       AccountExplorerLinkType.packAddress =>
-        '${workchain.blockExplorerUrl}/${packAddress(accountAddress)}',
+        '${connection.defaultWorkchain.blockExplorerUrl}/${packAddress(accountAddress)}',
     };
   }
 
@@ -194,17 +189,17 @@ class CommonTransportStrategy extends AppTransportStrategy {
 
   @override
   String transactionExplorerLink(String transactionHash) {
-    if (workchain.blockExplorerUrl.isEmpty) {
+    if (connection.defaultWorkchain.blockExplorerUrl.isEmpty) {
       return '';
     }
 
     return switch (transactionExplorerLinkType) {
       TransactionExplorerLinkType.transaction =>
-        '${workchain.blockExplorerUrl}/transaction/$transactionHash',
+        '${connection.defaultWorkchain.blockExplorerUrl}/transaction/$transactionHash',
       TransactionExplorerLinkType.transactions =>
-        '${workchain.blockExplorerUrl}/transactions/$transactionHash',
+        '${connection.defaultWorkchain.blockExplorerUrl}/transactions/$transactionHash',
       TransactionExplorerLinkType.transactionDetails =>
-        '${workchain.blockExplorerUrl}/transactions/transactionDetails?id=$transactionHash',
+        '${connection.defaultWorkchain.blockExplorerUrl}/transactions/transactionDetails?id=$transactionHash',
       _ => '',
     };
   }

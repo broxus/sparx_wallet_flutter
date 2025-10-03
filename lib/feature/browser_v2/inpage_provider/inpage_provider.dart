@@ -1,7 +1,7 @@
 import 'dart:async';
 
 import 'package:app/app/service/connection/connection_service.dart' as s;
-import 'package:app/app/service/connection/data/connection_data/connection_data.dart';
+import 'package:app/app/service/connection/data/connection/connection.dart';
 import 'package:app/app/service/service.dart' as s;
 import 'package:app/data/models/models.dart';
 import 'package:app/feature/browser_v1/utils.dart';
@@ -1769,10 +1769,10 @@ class InpageProvider extends ProviderApi {
     return RunGetterOutput(executionOutput.output, executionOutput.code);
   }
 
-  Future<List<ConnectionData>> _getConnections(int networkId) async {
+  Future<List<Connection>> _getConnections(int networkId) async {
     final connections = connectionsStorageService.connections;
-    final networksIds = connectionsStorageService.networksIds;
-    final list = <ConnectionData>[];
+    final networksIds = connectionsStorageService.connectionsIds;
+    final list = <Connection>[];
     final update = <(String, int)>[];
 
     for (final connection in connections) {
@@ -1796,14 +1796,14 @@ class InpageProvider extends ProviderApi {
         }
       } catch (e) {
         _logger.severe('Error getting network id for connection: '
-            '${connection.name} (${connection.id})');
+            '${connection.networkName} (${connection.id})');
       } finally {
         await transport?.dispose();
       }
     }
 
     if (update.isNotEmpty) {
-      connectionsStorageService.updateNetworksIds(update);
+      connectionsStorageService.updateConnectionsIds(update);
     }
 
     return list;

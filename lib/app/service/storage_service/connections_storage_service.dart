@@ -1,11 +1,8 @@
-import 'package:app/app/service/connection/data/connection_network/connection_network.dart';
-import 'package:app/app/service/connection/data/current_connection_data.dart';
-import 'package:app/app/service/connection/data/work_chain/connection_work_chain_data.dart';
+import 'package:app/app/service/connection/data/connection/connection.dart';
 import 'package:app/app/service/service.dart';
 import 'package:app/feature/messenger/data/message.dart';
 import 'package:app/feature/messenger/domain/service/messenger_service.dart';
 import 'package:app/generated/generated.dart';
-import 'package:app/utils/json/json.dart';
 import 'package:app/utils/parse_utils.dart';
 import 'package:collection/collection.dart';
 import 'package:get_storage/get_storage.dart';
@@ -14,9 +11,9 @@ import 'package:logging/logging.dart';
 import 'package:rxdart/rxdart.dart';
 
 const _connectionsDomain = 'connections';
-const _networksKey = 'networks';
+const _connectionsKey = 'connections';
 const _currentConnectionIdKey = 'current_connection_id';
-const _networksIdsKey = 'networks_ids';
+const _connectionsIdsKey = 'connections_ids';
 
 /// This is a wrapper-class above [GetStorage] that provides methods
 /// to interact with custom connection - related data.
@@ -36,36 +33,31 @@ class ConnectionsStorageService extends AbstractStorageService {
   final PresetsConnectionService _presetsConnectionService;
   final MessengerService _messengerService;
 
-  /// Subject of [ConnectionNetwork] items
-  final _networksSubject = BehaviorSubject<List<ConnectionNetwork>>.seeded([]);
+  /// Subject of [Connection] items
+  final _connectionsSubject = BehaviorSubject<List<Connection>>.seeded([]);
 
   /// Subject of current connection id
-  final _currentConnectionDataSubject =
-      BehaviorSubject<CurrentConnectionData>();
+  final _currentConnectionIdSubject = BehaviorSubject<String>();
 
   /// Subject of conntection id to network id (global id) map
   /// This map is used to cache network id, which can only be obtained
   /// only from network
-  final _networksIdsSubject = BehaviorSubject<Map<String, int>>();
+  final _connectionsIdsSubject = BehaviorSubject<Map<String, int>>();
 
-  /// Stream of [ConnectionNetwork] items
-  Stream<List<ConnectionNetwork>> get networksStream => _networksSubject;
+  /// Stream of [Connection] items
+  Stream<List<Connection>> get connectionsStream => _connectionsSubject;
 
   /// Stream of currect connection id
-  Stream<CurrentConnectionData> get currentConnectionDataStream =>
-      _currentConnectionDataSubject;
+  Stream<String> get currentConnectionIdStream => _currentConnectionIdSubject;
 
-  /// Stream of conntection id to network id map
-  Stream<Map<String, int>> get networksIdsStream => _networksIdsSubject;
-
-  /// Get last cached [ConnectionNetwork] items
-  List<ConnectionNetwork> get networks => _networksSubject.valueOrNull ?? [];
+  /// Get last cached [Connection] items
+  List<Connection> get connections => _connectionsSubject.valueOrNull ?? [];
 
   int get lastNetworkGroupNumber {
     var number = 10000;
 
-    for (final network in networks) {
-      for (final workchain in network.workchains) {
+    for (final connection in connections) {
+      for (final workchain in connection.workchains) {
         final connectionNumber = parseToInt(
           workchain.networkGroup.split('-').last,
         );
@@ -77,21 +69,21 @@ class ConnectionsStorageService extends AbstractStorageService {
     return 10000;
   }
 
-  ConnectionNetwork? get baseNetwork {
-    final list = [...networks];
+  Connection? get baseNetwork {
+    final list = [...connections];
     final first = list.firstOrNull;
 
     if (first == null) {
       return null;
     }
 
-    final defaultWorkchainId = _defaultNetwork.defaultWorkchainId;
+    final defaultWorkchainId = _defaultConnection.defaultWorkchainId;
 
-    final defaultNetworkType = _defaultNetwork.workchains
+    final defaultNetworkType = _defaultConnection.workchains
         .firstWhereOrNull((w) => w.id == defaultWorkchainId)
         ?.networkType;
 
-    for (final network in networks) {
+    for (final network in connections) {
       for (final workchain in network.workchains) {
         if (workchain.networkType == defaultNetworkType) {
           return network;
@@ -103,70 +95,62 @@ class ConnectionsStorageService extends AbstractStorageService {
   }
 
   /// Get last cached current connection id
-  CurrentConnectionData? get currentConnectionData =>
-      _currentConnectionDataSubject.valueOrNull;
+  String? get currentConnectionId => _currentConnectionIdSubject.valueOrNull;
 
   /// Get last cached conntection id to network id map
-  Map<String, int> get networksIds => _networksIdsSubject.value;
+  Map<String, int> get connectionsIds => _connectionsIdsSubject.value;
 
   /// Stream of currect connection id
-  Stream<ConnectionNetwork> get currentConnectionStream => Rx.combineLatest2(
-        networksStream,
-        currentConnectionDataStream,
-        (networks, CurrentConnectionData data) {
-          for (final network in networks) {
-            if (network.id != data.networkId) continue;
-            for (final workchain in network.workchains) {
-              if (workchain.id == data.workchainId) {
-                return network;
-              }
-            }
+  Stream<Connection> get currentConnectionStream => Rx.combineLatest2(
+        connectionsStream,
+        currentConnectionIdStream,
+        (connections, String currentNetworkId) {
+          for (final connection in connections) {
+            if (connection.id == currentConnectionId) return connection;
           }
 
-          return _defaultNetwork;
+          return _defaultConnection;
         },
       );
 
-  // Get last cached currect network
-  ConnectionNetwork get currentNetwork {
-    final networks = this.networks;
-    final currentConnectionData = this.currentConnectionData;
+  // Get last cached currect connection
+  Connection get currentConnection {
+    final connections = this.connections;
+    final currentConnectionId = this.currentConnectionId;
 
-    ConnectionNetwork? network;
+    Connection? connection;
 
-    for (final n in networks) {
-      if (n.id != currentConnectionData.networkId) continue;
-      for (final workchain in n.workchains) {
-        if (workchain.id == data.workchainId) {
-          network = n;
-        }
-      }
+    for (final c in connections) {
+      if (c.id != currentConnectionId) continue;
+      connection = c;
+      break;
     }
 
-    if (network == null) {
+    if (connection == null) {
       _log.warning(
-        'Current network with id ${currentConnectionData.networkId}'
-        'and workchain with id ${currentConnectionData.workchainId} not found. '
+        'Current connection with id $currentConnectionId '
+        'not found. '
         'Returning default connection',
       );
 
-      return _defaultNetwork;
+      return _defaultConnection;
     }
 
-    return network;
+    return connection;
   }
 
-  ConnectionNetwork get _defaultNetwork =>
-      _presetsConnectionService.defaultNetwork;
+  Connection get _defaultConnection =>
+      _presetsConnectionService.defaultConnection;
 
-  List<ConnectionNetwork> get _networkPresets =>
-      _presetsConnectionService.networks;
+  List<Connection> get _connectionPresets =>
+      _presetsConnectionService.connections;
 
-  String? get _defaultNetworkId => _presetsConnectionService.defaultNetworkId;
+  String? get _defaultConnectionId =>
+      _presetsConnectionService.defaultConnectionId;
 
-  /// Put [ConnectionNetwork] items to stream
-  void _streamedNetworks() => _networksSubject.add(
-        [...readNetworks()]..sort(
+  /// Put [Connection] items to stream
+  void _streamedConnections() => _connectionsSubject.add(
+        [...readConnections()]..sort(
             (a, b) => (a.sortingOrder - b.sortingOrder).sign.toInt(),
           ),
       );
@@ -176,29 +160,26 @@ class ConnectionsStorageService extends AbstractStorageService {
     final id = readCurrentConnectionId();
 
     if (id != null) {
-      _currentConnectionDataSubject.add(id);
+      _currentConnectionIdSubject.add(id);
     }
   }
 
-  void _streamedNetworksIds() => _networksIdsSubject.add(readNetworksIds());
+  void _streamedConnectionsIds() =>
+      _connectionsIdsSubject.add(readConnectionsIds());
 
-  /// Read list of [ConnectionNetwork] items from presets and storage
-  List<ConnectionNetwork> readNetworks() {
-    final list = _storage.read<List<dynamic>>(_networksKey);
-    var networks = <ConnectionNetwork>[];
+  /// Read list of [Connection] items from presets and storage
+  List<Connection> readConnections() {
+    final list = _storage.read<List<dynamic>>(_connectionsKey);
+    var connections = <Connection>[];
 
     if (list != null) {
-      final customNetworks = list
+      final customConnections = list
           .map(
-            (entry) =>
-                ConnectionNetwork.fromJson(entry as Map<String, dynamic>),
+            (entry) => Connection.fromJson(entry as Map<String, dynamic>),
           )
           .toList();
 
-      if (customNetworks.isNotEmpty) {
-        final persistentPresets = _networkPresets.where(
-          (preset) => !preset.canBeEdited,
-        );
+      if (customConnections.isNotEmpty) {
         // Remove persistent presets from custom connections
         customConnections.removeWhere(
           (connection) =>
@@ -206,19 +187,18 @@ class ConnectionsStorageService extends AbstractStorageService {
         );
         // And add them from presets because we want to update them from
         // code
-        connections = [...persistentPresets, ...customConnections];
+        connections = [..._connectionPresets, ...customConnections];
       }
     }
 
     if (connections.isEmpty) {
       _log.info('Connections not found. Using presets.');
-      connections = _networkPresets;
+      connections = _connectionPresets;
     }
 
     final connectionsText = connections
         .map(
-          (connection) => 'name: ${connection.name}; '
-              'networkType: ${connection.networkType}; '
+          (connection) => 'name: ${connection.networkName}; '
               'isPreset: ${connection.isPreset}; '
               'id: ${connection.id}',
         )
@@ -229,33 +209,19 @@ class ConnectionsStorageService extends AbstractStorageService {
   }
 
   /// Read current connection id from storage
-  CurrentConnectionData? readCurrentConnectionId() {
-    final json = _storage.read<dynamic>(_currentConnectionIdKey);
+  String? readCurrentConnectionId() {
+    final connectionId =
+        (_storage.read<dynamic>(_currentConnectionIdKey) as String?) ??
+            _defaultConnectionId;
 
-    CurrentConnectionData? data;
+    _log.info('Current connection connection id: $connectionId');
 
-    if (json != null) {
-      data = CurrentConnectionData.fromJson(
-        castJsonMap(json),
-      );
-    } else if (_defaultNetworkId != null) {
-      data = CurrentConnectionData(
-        networkId: _defaultNetworkId!,
-        workchainId: _defaultNetwork.defaultWorkchainId,
-      );
-    }
-
-    _log.info('Current connection '
-        'networkid: ${data.networkId}; '
-        'workchain id: ${data.workchainId}'
-        '');
-
-    return data;
+    return connectionId;
   }
 
-  /// Read networks ids from storage
-  Map<String, int> readNetworksIds() {
-    final encoded = _storage.read<Map<String, dynamic>>(_networksIdsKey);
+  /// Read connections ids from storage
+  Map<String, int> readConnectionsIds() {
+    final encoded = _storage.read<Map<String, dynamic>>(_connectionsIdsKey);
     var map = <String, int>{};
 
     if (encoded != null) {
@@ -265,111 +231,100 @@ class ConnectionsStorageService extends AbstractStorageService {
     return map;
   }
 
-  /// Save list of [ConnectionNetwork] items to storage
-  void saveNetworks(List<ConnectionNetwork> networks) {
+  /// Save list of [Connection] items to storage
+  void saveConnections(List<Connection> connections) {
     _storage.write(
-      _networksKey,
-      networks.map((e) => e.toJson()).toList(),
+      _connectionsKey,
+      connections.map((e) => e.toJson()).toList(),
     );
-    _streamedNetworks();
+    _streamedConnections();
   }
 
   /// Save current connection id to storage
-  void saveCurrentConnectionData(CurrentConnectionData data) {
-    var newData = data;
-    if (networks.firstWhereOrNull((n) => n.id == data.networkId) == null) {
+  void saveCurrentConnectionId(String connectionId) {
+    String? id = connectionId;
+
+    if (connections.firstWhereOrNull((n) => n.id == connectionId) == null) {
       _log.warning(
-        'Trying to set current network with id '
-        '${data.networkId} that not exists. '
+        'Trying to set current connection with id '
+        '$connectionId that not exists. '
         'Setting default connection as current',
       );
 
-      if (_defaultNetworkId != null) {
-        newData = CurrentConnectionData(
-          networkId: _defaultNetworkId!,
-          workchainId: _defaultNetwork.defaultWorkchainId,
-        );
-      }
+      id = _defaultConnectionId;
     }
 
-    _storage.write(_currentConnectionIdKey, newData.toJson());
+    _storage.write(_currentConnectionIdKey, id);
     _streamedCurrentConnectionId();
   }
 
-  void updateNetworksIds(Iterable<(String, int)> values) {
-    final map = Map<String, int>.from(networksIds)
+  void updateConnectionsIds(Iterable<(String, int)> values) {
+    final map = Map<String, int>.from(connectionsIds)
       ..addEntries(
         values.map((value) => MapEntry(value.$1, value.$2)),
       );
 
-    _storage.write(_networksIdsKey, map);
-    _streamedNetworksIds();
+    _storage.write(_connectionsIdsKey, map);
+    _streamedConnectionsIds();
   }
 
-  /// Clear [ConnectionNetwork] list
+  /// Clear [Connection] list
   @override
   Future<void> clear() async {
     await _storage.erase();
 
-    _streamedNetworks();
+    _streamedConnections();
     _streamedCurrentConnectionId();
-    _streamedNetworksIds();
+    _streamedConnectionsIds();
   }
 
-  /// Add [ConnectionNetwork] item
-  void addNetwork(ConnectionNetwork item) {
-    saveNetworks([...networks, item]);
+  /// Add [Connection] item
+  void addConnection(Connection item) {
+    saveConnections([...connections, item]);
   }
 
-  /// Remove [ConnectionNetwork] item by id
-  void removeConnection({
-    required String networkId,
-    required String workchainId,
-  }) {
-    if (networkId == currentConnectionData.networkId &&
-        workchainId == currentConnectionData.workchainId) {
+  /// Remove [Connection] item by id
+  void removeConnection(String id) {
+    if (id == currentConnectionId) {
       _log.info(
         'Trying to remove current connection. '
         'Setting default connection as current',
       );
 
-      if (_defaultNetworkId != null) {
-        saveCurrentConnectionData(
-          CurrentConnectionData(
-            networkId: _defaultNetworkId!,
-            workchainId: _defaultNetwork.defaultWorkchainId,
-          ),
-        );
+      if (_defaultConnectionId != null) {
+        saveCurrentConnectionId(_defaultConnectionId!);
       }
     }
 
-    final savedNetworks = networks;
-    final items = [...savedNetworks]..removeWhere((item) => item.id == id);
+    final savedConnections = connections;
+    final items = [...savedConnections]..removeWhere(
+        (item) => item.id == id,
+      );
 
-    saveNetworks(items);
+    saveConnections(items);
 
     _messengerService.show(
       Message.info(
         message: LocaleKeys.networkDeleted.tr(),
         actionText: LocaleKeys.undo.tr(),
-        onAction: () => saveNetworks(savedNetworks),
+        onAction: () => saveConnections(savedConnections),
       ),
     );
   }
 
-  /// Update [ConnectionNetwork] item
-  void updateConnection(ConnectionNetwork item) {
-    final index = networks.indexWhere((element) => element.id == item.id);
+  /// Update [Connection] item
+  void updateConnection(Connection item) {
+    final index = connections.indexWhere((element) => element.id == item.id);
     if (index < 0) {
       _log.warning('Unable to update connection with id ${item.id}. '
           'Connection not found.');
 
       return;
     }
-    final newNetworks = [...networks];
-    newNetworks[index] = item;
+    final newConnections = [...connections];
+    newConnections[index] = item;
 
-    saveNetworks(newNetworks);
+    saveConnections(newConnections);
 
     _messengerService.show(
       Message.info(
@@ -381,7 +336,7 @@ class ConnectionsStorageService extends AbstractStorageService {
   /// Revert item to defaults from preset
   void revertConnection(String id) {
     final preset =
-        _networkPresets.firstWhereOrNull((element) => element.id == id);
+        _connectionPresets.firstWhereOrNull((element) => element.id == id);
     if (preset == null) {
       _log.warning('Unable to revert connection from preset with id $id. '
           'Connection not found');
@@ -395,8 +350,8 @@ class ConnectionsStorageService extends AbstractStorageService {
   @override
   Future<void> init() async {
     await GetStorage.init(container);
-    _streamedNetworks();
+    _streamedConnections();
     _streamedCurrentConnectionId();
-    _streamedNetworksIds();
+    _streamedConnectionsIds();
   }
 }

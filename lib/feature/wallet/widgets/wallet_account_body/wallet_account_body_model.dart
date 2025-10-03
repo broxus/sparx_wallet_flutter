@@ -1,3 +1,4 @@
+import 'package:app/app/service/connection/connection.dart';
 import 'package:app/app/service/service.dart';
 import 'package:elementary/elementary.dart';
 import 'package:injectable/injectable.dart';

@@ -1,4 +1,4 @@
-import 'package:app/app/service/connection/data/connection_data/connection_data.dart';
+import 'package:app/app/service/connection/data/connection/connection.dart';
 import 'package:app/core/wm/custom_wm.dart';
 import 'package:app/feature/browser_v1/approvals_listener/actions/change_network/change_network_wm.dart';
 import 'package:app/feature/browser_v1/approvals_listener/actions/widgets/widgets.dart';
@@ -13,7 +13,7 @@ class ChangeNetworkWidget extends InjectedElementaryParametrizedWidget<
   ChangeNetworkWidget({
     required Uri origin,
     required int networkId,
-    required List<ConnectionData> connections,
+    required List<Connection> connections,
     required this.scrollController,
     super.key,
   }) : super(
@@ -48,20 +48,20 @@ class ChangeNetworkWidget extends InjectedElementaryParametrizedWidget<
                 MultiListenerRebuilder(
                   listenableList: [
                     wm.connectionsState,
-                    wm.connection,
+                    wm.connectionState,
                   ],
                   builder: (_) {
-                    final currentConnection = wm.connection.value;
+                    final currentConnection = wm.connectionState.value;
                     final connections = wm.connectionsState.value;
 
                     if (connections.length < 2) return const SizedBox.shrink();
 
-                    return CommonSelectDropdown<ConnectionData>(
+                    return CommonSelectDropdown<Connection>(
                       values: [
                         for (final connection in connections)
-                          CommonSheetDropdownItem<ConnectionData>(
+                          CommonSheetDropdownItem<Connection>(
                             value: connection,
-                            title: connection.name,
+                            title: connection.networkName,
                           ),
                       ],
                       titleText: LocaleKeys.networkWord.tr(),
@@ -71,7 +71,7 @@ class ChangeNetworkWidget extends InjectedElementaryParametrizedWidget<
                   },
                 ),
                 ValueListenableBuilder(
-                  valueListenable: wm.connection,
+                  valueListenable: wm.connectionState,
                   builder: (_, connection, __) => PrimaryCard(
                     color: theme.colors.background2,
                     borderRadius: BorderRadius.circular(
@@ -90,11 +90,11 @@ class ChangeNetworkWidget extends InjectedElementaryParametrizedWidget<
                         ),
                         _Param(
                           label: LocaleKeys.networkName.tr(),
-                          value: connection.name,
+                          value: connection.networkName,
                         ),
                         _Param(
                           label: LocaleKeys.networkType.tr(),
-                          value: connection.networkType.name,
+                          value: connection.defaultWorkchain.networkType.name,
                         ),
                       ],
                     ),

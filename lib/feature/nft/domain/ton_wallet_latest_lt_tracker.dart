@@ -1,4 +1,4 @@
-import 'package:app/app/service/service.dart';
+import 'package:app/app/service/connection/group.dart';
 import 'package:app/feature/nft/nft.dart';
 import 'package:nekoton_repository/nekoton_repository.dart';
 

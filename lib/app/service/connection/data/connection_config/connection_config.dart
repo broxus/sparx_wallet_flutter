@@ -1,4 +1,4 @@
-import 'package:app/app/service/connection/data/connection_network/connection_network.dart';
+import 'package:app/app/service/connection/data/connection/connection.dart';
 import 'package:app/app/service/connection/data/custom_network/custom_network_option.dart';
 import 'package:app/app/service/connection/data/network_type.dart';
 import 'package:app/app/service/connection/default_network.dart';
@@ -8,23 +8,25 @@ import 'package:freezed_annotation/freezed_annotation.dart';
 
 part 'connection_config.freezed.dart';
 
+part 'connection_config.g.dart';
+
 @Freezed(fromJson: false, toJson: true)
 abstract class ConnectionConfig with _$ConnectionConfig {
   factory ConnectionConfig({
-    required String defaultNetworkId,
-    List<ConnectionNetwork>? networks,
+    required String defaultConnectionId,
+    List<Connection>? connections,
     List<CustomNetworkOption>? customNetworkOptions,
   }) {
-    final defaultNetwork = networks?.firstWhereOrNull(
-          (network) => network.id == defaultNetworkId,
+    final defaultConnection = connections?.firstWhereOrNull(
+          (connection) => connection.id == defaultConnectionId,
         ) ??
-        defaultPresetNetwork;
+        defaultPresetConnection;
 
     return ConnectionConfig._(
-      defaultNetworkId: defaultNetwork.id,
-      networks: networks,
+      defaultConnectionId: defaultConnection.id,
+      connections: connections,
       customNetworkOptions: customNetworkOptions,
-      defaultNetwork: defaultNetwork,
+      defaultConnection: defaultConnection,
       customNetworkOptionTypes: customNetworkOptions == null
           ? [NetworkType.ever, NetworkType.tycho, NetworkType.custom]
           : [
@@ -38,26 +40,26 @@ abstract class ConnectionConfig with _$ConnectionConfig {
     createFactory: false,
   )
   const factory ConnectionConfig._({
-    required String defaultNetworkId,
+    required String defaultConnectionId,
     @JsonKey(includeFromJson: false, includeToJson: false)
-    required ConnectionNetwork defaultNetwork,
-    List<ConnectionNetwork>? networks,
+    required Connection defaultConnection,
+    List<Connection>? connections,
     List<CustomNetworkOption>? customNetworkOptions,
     @JsonKey(includeFromJson: false, includeToJson: false)
     List<NetworkType>? customNetworkOptionTypes,
   }) = _ConnectionConfig;
 
   factory ConnectionConfig.fromJson(Map<String, dynamic> json) {
-    final networks = castJsonList<dynamic>(json['networks']);
+    final connections = castJsonList<dynamic>(json['connections']);
 
     final customNetworkOptions =
         castJsonList<dynamic>(json['customNetworkOptions']);
 
     return ConnectionConfig(
-      defaultNetworkId: json['defaultNetworkId'] as String,
-      networks: [
-        for (final network in networks)
-          ConnectionNetwork.fromJson(castJsonMap(network)),
+      defaultConnectionId: json['defaultConnectionId'] as String,
+      connections: [
+        for (final connection in connections)
+          Connection.fromJson(castJsonMap(connection)),
       ],
       customNetworkOptions: [
         for (final option in customNetworkOptions)

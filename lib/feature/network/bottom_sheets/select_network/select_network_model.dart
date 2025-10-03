@@ -1,3 +1,4 @@
+import 'package:app/app/service/connection/data/connection/connection.dart';
 import 'package:app/app/service/service.dart';
 import 'package:elementary/elementary.dart';
 import 'package:injectable/injectable.dart';
@@ -14,7 +15,7 @@ class SelectNetworkModel extends ElementaryModel {
   Stream<String> get currentConnectionId =>
       _storageService.currentConnectionIdStream;
 
-  Stream<List<ConnectionData>> get connections =>
+  Stream<List<Connection>> get connections =>
       _storageService.connectionsStream;
 
   void changeCurrentConnection(String id) {

@@ -6,7 +6,14 @@ class WalletTypeConverter
   const WalletTypeConverter();
 
   @override
-  WalletType fromJson(Map<String, dynamic> json) => WalletType.fromJson(json);
+  WalletType fromJson(Map<String, dynamic> json) {
+    if (json['type'] == 'multisig') {
+      return WalletType.multisig(
+        MultisigType.values.byName(json['value'] as String),
+      );
+    }
+    return WalletType.fromJson(json);
+  }
 
   @override
   Map<String, dynamic> toJson(WalletType object) => object.toJson();
@@ -17,8 +24,13 @@ class WalletTypeListConverter
   const WalletTypeListConverter();
 
   @override
-  List<WalletType> fromJson(List<dynamic> json) =>
-      json.map((e) => WalletType.fromJson(e as Map<String, dynamic>)).toList();
+  List<WalletType> fromJson(List<dynamic> json) {
+    const singleConverter = WalletTypeConverter();
+
+    return json.map((e) {
+      return singleConverter.fromJson(e as Map<String, dynamic>);
+    }).toList();
+  }
 
   @override
   List<dynamic> toJson(List<WalletType> object) =>
