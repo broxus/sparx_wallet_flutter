@@ -1,3 +1,5 @@
+import 'package:app/app/service/connection/data/connection/connection.dart';
+import 'package:app/app/service/connection/data/network_type.dart';
 import 'package:app/app/service/service.dart';
 import 'package:app/data/models/models.dart';
 import 'package:app/feature/browser_v2/domain/browser_launcher.dart';
@@ -18,8 +20,7 @@ class EditNetworkModel extends ElementaryModel {
   final AssetsService _assetsService;
   final BrowserLauncher _browserLauncher;
 
-  List<ConnectionData> get connections =>
-      _connectionsStorageService.connections;
+  List<Connection> get connections => _connectionsStorageService.connections;
 
   List<NetworkType>? get networkTypesOptions =>
       _presetsConnectionService.customNetworkOptions;
@@ -27,10 +28,10 @@ class EditNetworkModel extends ElementaryModel {
   int get lastNetworkGroupNumber =>
       _connectionsStorageService.lastNetworkGroupNumber;
 
-  void addConnection(ConnectionData connection) =>
+  void addConnection(Connection connection) =>
       _connectionsStorageService.addConnection(connection);
 
-  void updateConnection(ConnectionData connection) =>
+  void updateConnection(Connection connection) =>
       _connectionsStorageService.updateConnection(connection);
 
   void removeConnection(String id) =>

@@ -1291,15 +1291,15 @@ class ApprovalRequestChangeNetwork implements ApprovalRequest {
   const ApprovalRequestChangeNetwork(
       {required this.origin,
       required this.networkId,
-      required final List<ConnectionData> connections,
+      required final List<Connection> connections,
       required this.completer})
       : _connections = connections;
 
   @override
   final Uri origin;
   final int networkId;
-  final List<ConnectionData> _connections;
-  List<ConnectionData> get connections {
+  final List<Connection> _connections;
+  List<Connection> get connections {
     if (_connections is EqualUnmodifiableListView) return _connections;
     // ignore: implicit_dynamic_type
     return EqualUnmodifiableListView(_connections);
@@ -1353,7 +1353,7 @@ abstract mixin class $ApprovalRequestChangeNetworkCopyWith<$Res>
   $Res call(
       {Uri origin,
       int networkId,
-      List<ConnectionData> connections,
+      List<Connection> connections,
       Completer<TransportStrategy?> completer});
 }
 
@@ -1387,7 +1387,7 @@ class _$ApprovalRequestChangeNetworkCopyWithImpl<$Res>
       connections: null == connections
           ? _self._connections
           : connections // ignore: cast_nullable_to_non_nullable
-              as List<ConnectionData>,
+              as List<Connection>,
       completer: null == completer
           ? _self.completer
           : completer // ignore: cast_nullable_to_non_nullable

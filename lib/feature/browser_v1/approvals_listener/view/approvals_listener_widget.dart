@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:app/app/service/connection/data/connection/connection.dart';
 import 'package:app/app/service/service.dart';
 import 'package:app/data/models/models.dart';
 import 'package:app/di/di.dart';
@@ -375,7 +376,7 @@ class _ApprovalsListenerWidgetState extends State<ApprovalsListenerWidget> {
   Future<void> changeNetwork({
     required Uri origin,
     required int networkId,
-    required List<ConnectionData> connections,
+    required List<Connection> connections,
     required Completer<TransportStrategy?> completer,
   }) async {
     try {

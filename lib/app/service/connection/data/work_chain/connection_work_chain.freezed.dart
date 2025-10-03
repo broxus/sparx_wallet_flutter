@@ -4,7 +4,7 @@
 // ignore_for_file: type=lint
 // ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target, unnecessary_question_mark
 
-part of 'connection_work_chain_data.dart';
+part of 'connection_work_chain.dart';
 
 // **************************************************************************
 // FreezedGenerator
@@ -14,16 +14,14 @@ part of 'connection_work_chain_data.dart';
 T _$identity<T>(T value) => value;
 
 /// @nodoc
-mixin _$ConnectionWorkchainData {
+mixin _$ConnectionWorkchain {
   int get id;
+  String get parentConnectionId;
   NetworkType get networkType;
+  String get networkName;
   String get networkGroup;
+  WorkchainType get type;
   List<String> get endpoints;
-  String get blockExplorerUrl;
-  bool get isLocal;
-  String get nativeTokenTicker;
-  bool get isPreset;
-  bool get canBeEdited;
   TransportIcons get icons;
   @WalletTypeListConverter()
   List<WalletType> get availableWalletTypes;
@@ -39,6 +37,11 @@ mixin _$ConnectionWorkchainData {
   AccountExplorerLinkType get accountExplorerLinkType;
   TransactionExplorerLinkType? get transactionExplorerLinkType;
   WalletDefaultAccountNames get walletDefaultAccountNames;
+  String get blockExplorerUrl;
+  String get nativeTokenTicker;
+  bool get isLocal;
+  bool get isPreset;
+  bool get canBeEdited;
   bool get isUsedOnStart;
   String get manifestUrl;
   int get nativeTokenDecimals;
@@ -54,37 +57,33 @@ mixin _$ConnectionWorkchainData {
   StakingInformation? get stakeInformation;
   NftInformation? get nftInformation;
 
-  /// Create a copy of ConnectionWorkchainData
+  /// Create a copy of ConnectionWorkchain
   /// with the given fields replaced by the non-null parameter values.
   @JsonKey(includeFromJson: false, includeToJson: false)
   @pragma('vm:prefer-inline')
-  $ConnectionWorkchainDataCopyWith<ConnectionWorkchainData> get copyWith =>
-      _$ConnectionWorkchainDataCopyWithImpl<ConnectionWorkchainData>(
-          this as ConnectionWorkchainData, _$identity);
+  $ConnectionWorkchainCopyWith<ConnectionWorkchain> get copyWith =>
+      _$ConnectionWorkchainCopyWithImpl<ConnectionWorkchain>(
+          this as ConnectionWorkchain, _$identity);
 
-  /// Serializes this ConnectionWorkchainData to a JSON map.
+  /// Serializes this ConnectionWorkchain to a JSON map.
   Map<String, dynamic> toJson();
 
   @override
   bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is ConnectionWorkchainData &&
+            other is ConnectionWorkchain &&
             (identical(other.id, id) || other.id == id) &&
+            (identical(other.parentConnectionId, parentConnectionId) ||
+                other.parentConnectionId == parentConnectionId) &&
             (identical(other.networkType, networkType) ||
                 other.networkType == networkType) &&
+            (identical(other.networkName, networkName) ||
+                other.networkName == networkName) &&
             (identical(other.networkGroup, networkGroup) ||
                 other.networkGroup == networkGroup) &&
+            (identical(other.type, type) || other.type == type) &&
             const DeepCollectionEquality().equals(other.endpoints, endpoints) &&
-            (identical(other.blockExplorerUrl, blockExplorerUrl) ||
-                other.blockExplorerUrl == blockExplorerUrl) &&
-            (identical(other.isLocal, isLocal) || other.isLocal == isLocal) &&
-            (identical(other.nativeTokenTicker, nativeTokenTicker) ||
-                other.nativeTokenTicker == nativeTokenTicker) &&
-            (identical(other.isPreset, isPreset) ||
-                other.isPreset == isPreset) &&
-            (identical(other.canBeEdited, canBeEdited) ||
-                other.canBeEdited == canBeEdited) &&
             (identical(other.icons, icons) || other.icons == icons) &&
             const DeepCollectionEquality()
                 .equals(other.availableWalletTypes, availableWalletTypes) &&
@@ -110,6 +109,15 @@ mixin _$ConnectionWorkchainData {
                     transactionExplorerLinkType) &&
             (identical(other.walletDefaultAccountNames, walletDefaultAccountNames) ||
                 other.walletDefaultAccountNames == walletDefaultAccountNames) &&
+            (identical(other.blockExplorerUrl, blockExplorerUrl) ||
+                other.blockExplorerUrl == blockExplorerUrl) &&
+            (identical(other.nativeTokenTicker, nativeTokenTicker) ||
+                other.nativeTokenTicker == nativeTokenTicker) &&
+            (identical(other.isLocal, isLocal) || other.isLocal == isLocal) &&
+            (identical(other.isPreset, isPreset) ||
+                other.isPreset == isPreset) &&
+            (identical(other.canBeEdited, canBeEdited) ||
+                other.canBeEdited == canBeEdited) &&
             (identical(other.isUsedOnStart, isUsedOnStart) ||
                 other.isUsedOnStart == isUsedOnStart) &&
             (identical(other.manifestUrl, manifestUrl) ||
@@ -122,13 +130,9 @@ mixin _$ConnectionWorkchainData {
                 other.latencyDetectionInterval == latencyDetectionInterval) &&
             (identical(other.maxLatency, maxLatency) ||
                 other.maxLatency == maxLatency) &&
-            (identical(other.endpointSelectionRetryCount, endpointSelectionRetryCount) ||
-                other.endpointSelectionRetryCount ==
-                    endpointSelectionRetryCount) &&
-            (identical(other.tokenApiBaseUrl, tokenApiBaseUrl) ||
-                other.tokenApiBaseUrl == tokenApiBaseUrl) &&
-            (identical(other.currencyApiBaseUrl, currencyApiBaseUrl) ||
-                other.currencyApiBaseUrl == currencyApiBaseUrl) &&
+            (identical(other.endpointSelectionRetryCount, endpointSelectionRetryCount) || other.endpointSelectionRetryCount == endpointSelectionRetryCount) &&
+            (identical(other.tokenApiBaseUrl, tokenApiBaseUrl) || other.tokenApiBaseUrl == tokenApiBaseUrl) &&
+            (identical(other.currencyApiBaseUrl, currencyApiBaseUrl) || other.currencyApiBaseUrl == currencyApiBaseUrl) &&
             (identical(other.pollingConfig, pollingConfig) || other.pollingConfig == pollingConfig) &&
             (identical(other.stakeInformation, stakeInformation) || other.stakeInformation == stakeInformation) &&
             (identical(other.nftInformation, nftInformation) || other.nftInformation == nftInformation));
@@ -139,14 +143,12 @@ mixin _$ConnectionWorkchainData {
   int get hashCode => Object.hashAll([
         runtimeType,
         id,
+        parentConnectionId,
         networkType,
+        networkName,
         networkGroup,
+        type,
         const DeepCollectionEquality().hash(endpoints),
-        blockExplorerUrl,
-        isLocal,
-        nativeTokenTicker,
-        isPreset,
-        canBeEdited,
         icons,
         const DeepCollectionEquality().hash(availableWalletTypes),
         defaultWalletType,
@@ -159,6 +161,11 @@ mixin _$ConnectionWorkchainData {
         accountExplorerLinkType,
         transactionExplorerLinkType,
         walletDefaultAccountNames,
+        blockExplorerUrl,
+        nativeTokenTicker,
+        isLocal,
+        isPreset,
+        canBeEdited,
         isUsedOnStart,
         manifestUrl,
         nativeTokenDecimals,
@@ -175,26 +182,24 @@ mixin _$ConnectionWorkchainData {
 
   @override
   String toString() {
-    return 'ConnectionWorkchainData(id: $id, networkType: $networkType, networkGroup: $networkGroup, endpoints: $endpoints, blockExplorerUrl: $blockExplorerUrl, isLocal: $isLocal, nativeTokenTicker: $nativeTokenTicker, isPreset: $isPreset, canBeEdited: $canBeEdited, icons: $icons, availableWalletTypes: $availableWalletTypes, defaultWalletType: $defaultWalletType, nativeTokenTickerOption: $nativeTokenTickerOption, manifestOption: $manifestOption, nativeTokenAddress: $nativeTokenAddress, seedPhraseWordsCount: $seedPhraseWordsCount, defaultNativeCurrencyDecimal: $defaultNativeCurrencyDecimal, genericTokenType: $genericTokenType, accountExplorerLinkType: $accountExplorerLinkType, transactionExplorerLinkType: $transactionExplorerLinkType, walletDefaultAccountNames: $walletDefaultAccountNames, isUsedOnStart: $isUsedOnStart, manifestUrl: $manifestUrl, nativeTokenDecimals: $nativeTokenDecimals, defaultActiveAssets: $defaultActiveAssets, latencyDetectionInterval: $latencyDetectionInterval, maxLatency: $maxLatency, endpointSelectionRetryCount: $endpointSelectionRetryCount, tokenApiBaseUrl: $tokenApiBaseUrl, currencyApiBaseUrl: $currencyApiBaseUrl, pollingConfig: $pollingConfig, stakeInformation: $stakeInformation, nftInformation: $nftInformation)';
+    return 'ConnectionWorkchain(id: $id, parentConnectionId: $parentConnectionId, networkType: $networkType, networkName: $networkName, networkGroup: $networkGroup, type: $type, endpoints: $endpoints, icons: $icons, availableWalletTypes: $availableWalletTypes, defaultWalletType: $defaultWalletType, nativeTokenTickerOption: $nativeTokenTickerOption, manifestOption: $manifestOption, nativeTokenAddress: $nativeTokenAddress, seedPhraseWordsCount: $seedPhraseWordsCount, defaultNativeCurrencyDecimal: $defaultNativeCurrencyDecimal, genericTokenType: $genericTokenType, accountExplorerLinkType: $accountExplorerLinkType, transactionExplorerLinkType: $transactionExplorerLinkType, walletDefaultAccountNames: $walletDefaultAccountNames, blockExplorerUrl: $blockExplorerUrl, nativeTokenTicker: $nativeTokenTicker, isLocal: $isLocal, isPreset: $isPreset, canBeEdited: $canBeEdited, isUsedOnStart: $isUsedOnStart, manifestUrl: $manifestUrl, nativeTokenDecimals: $nativeTokenDecimals, defaultActiveAssets: $defaultActiveAssets, latencyDetectionInterval: $latencyDetectionInterval, maxLatency: $maxLatency, endpointSelectionRetryCount: $endpointSelectionRetryCount, tokenApiBaseUrl: $tokenApiBaseUrl, currencyApiBaseUrl: $currencyApiBaseUrl, pollingConfig: $pollingConfig, stakeInformation: $stakeInformation, nftInformation: $nftInformation)';
   }
 }
 
 /// @nodoc
-abstract mixin class $ConnectionWorkchainDataCopyWith<$Res> {
-  factory $ConnectionWorkchainDataCopyWith(ConnectionWorkchainData value,
-          $Res Function(ConnectionWorkchainData) _then) =
-      _$ConnectionWorkchainDataCopyWithImpl;
+abstract mixin class $ConnectionWorkchainCopyWith<$Res> {
+  factory $ConnectionWorkchainCopyWith(
+          ConnectionWorkchain value, $Res Function(ConnectionWorkchain) _then) =
+      _$ConnectionWorkchainCopyWithImpl;
   @useResult
   $Res call(
       {int id,
+      String parentConnectionId,
       NetworkType networkType,
+      String networkName,
       String networkGroup,
+      WorkchainType type,
       List<String> endpoints,
-      String blockExplorerUrl,
-      bool isLocal,
-      String nativeTokenTicker,
-      bool isPreset,
-      bool canBeEdited,
       TransportIcons icons,
       @WalletTypeListConverter() List<WalletType> availableWalletTypes,
       @WalletTypeConverter() WalletType defaultWalletType,
@@ -207,6 +212,11 @@ abstract mixin class $ConnectionWorkchainDataCopyWith<$Res> {
       AccountExplorerLinkType accountExplorerLinkType,
       TransactionExplorerLinkType? transactionExplorerLinkType,
       WalletDefaultAccountNames walletDefaultAccountNames,
+      String blockExplorerUrl,
+      String nativeTokenTicker,
+      bool isLocal,
+      bool isPreset,
+      bool canBeEdited,
       bool isUsedOnStart,
       String manifestUrl,
       int nativeTokenDecimals,
@@ -230,27 +240,25 @@ abstract mixin class $ConnectionWorkchainDataCopyWith<$Res> {
 }
 
 /// @nodoc
-class _$ConnectionWorkchainDataCopyWithImpl<$Res>
-    implements $ConnectionWorkchainDataCopyWith<$Res> {
-  _$ConnectionWorkchainDataCopyWithImpl(this._self, this._then);
+class _$ConnectionWorkchainCopyWithImpl<$Res>
+    implements $ConnectionWorkchainCopyWith<$Res> {
+  _$ConnectionWorkchainCopyWithImpl(this._self, this._then);
 
-  final ConnectionWorkchainData _self;
-  final $Res Function(ConnectionWorkchainData) _then;
+  final ConnectionWorkchain _self;
+  final $Res Function(ConnectionWorkchain) _then;
 
-  /// Create a copy of ConnectionWorkchainData
+  /// Create a copy of ConnectionWorkchain
   /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
     Object? id = null,
+    Object? parentConnectionId = null,
     Object? networkType = null,
+    Object? networkName = null,
     Object? networkGroup = null,
+    Object? type = null,
     Object? endpoints = null,
-    Object? blockExplorerUrl = null,
-    Object? isLocal = null,
-    Object? nativeTokenTicker = null,
-    Object? isPreset = null,
-    Object? canBeEdited = null,
     Object? icons = null,
     Object? availableWalletTypes = null,
     Object? defaultWalletType = null,
@@ -263,6 +271,11 @@ class _$ConnectionWorkchainDataCopyWithImpl<$Res>
     Object? accountExplorerLinkType = null,
     Object? transactionExplorerLinkType = freezed,
     Object? walletDefaultAccountNames = null,
+    Object? blockExplorerUrl = null,
+    Object? nativeTokenTicker = null,
+    Object? isLocal = null,
+    Object? isPreset = null,
+    Object? canBeEdited = null,
     Object? isUsedOnStart = null,
     Object? manifestUrl = null,
     Object? nativeTokenDecimals = null,
@@ -281,38 +294,30 @@ class _$ConnectionWorkchainDataCopyWithImpl<$Res>
           ? _self.id
           : id // ignore: cast_nullable_to_non_nullable
               as int,
+      parentConnectionId: null == parentConnectionId
+          ? _self.parentConnectionId
+          : parentConnectionId // ignore: cast_nullable_to_non_nullable
+              as String,
       networkType: null == networkType
           ? _self.networkType
           : networkType // ignore: cast_nullable_to_non_nullable
               as NetworkType,
+      networkName: null == networkName
+          ? _self.networkName
+          : networkName // ignore: cast_nullable_to_non_nullable
+              as String,
       networkGroup: null == networkGroup
           ? _self.networkGroup
           : networkGroup // ignore: cast_nullable_to_non_nullable
               as String,
+      type: null == type
+          ? _self.type
+          : type // ignore: cast_nullable_to_non_nullable
+              as WorkchainType,
       endpoints: null == endpoints
           ? _self.endpoints
           : endpoints // ignore: cast_nullable_to_non_nullable
               as List<String>,
-      blockExplorerUrl: null == blockExplorerUrl
-          ? _self.blockExplorerUrl
-          : blockExplorerUrl // ignore: cast_nullable_to_non_nullable
-              as String,
-      isLocal: null == isLocal
-          ? _self.isLocal
-          : isLocal // ignore: cast_nullable_to_non_nullable
-              as bool,
-      nativeTokenTicker: null == nativeTokenTicker
-          ? _self.nativeTokenTicker
-          : nativeTokenTicker // ignore: cast_nullable_to_non_nullable
-              as String,
-      isPreset: null == isPreset
-          ? _self.isPreset
-          : isPreset // ignore: cast_nullable_to_non_nullable
-              as bool,
-      canBeEdited: null == canBeEdited
-          ? _self.canBeEdited
-          : canBeEdited // ignore: cast_nullable_to_non_nullable
-              as bool,
       icons: null == icons
           ? _self.icons
           : icons // ignore: cast_nullable_to_non_nullable
@@ -361,6 +366,26 @@ class _$ConnectionWorkchainDataCopyWithImpl<$Res>
           ? _self.walletDefaultAccountNames
           : walletDefaultAccountNames // ignore: cast_nullable_to_non_nullable
               as WalletDefaultAccountNames,
+      blockExplorerUrl: null == blockExplorerUrl
+          ? _self.blockExplorerUrl
+          : blockExplorerUrl // ignore: cast_nullable_to_non_nullable
+              as String,
+      nativeTokenTicker: null == nativeTokenTicker
+          ? _self.nativeTokenTicker
+          : nativeTokenTicker // ignore: cast_nullable_to_non_nullable
+              as String,
+      isLocal: null == isLocal
+          ? _self.isLocal
+          : isLocal // ignore: cast_nullable_to_non_nullable
+              as bool,
+      isPreset: null == isPreset
+          ? _self.isPreset
+          : isPreset // ignore: cast_nullable_to_non_nullable
+              as bool,
+      canBeEdited: null == canBeEdited
+          ? _self.canBeEdited
+          : canBeEdited // ignore: cast_nullable_to_non_nullable
+              as bool,
       isUsedOnStart: null == isUsedOnStart
           ? _self.isUsedOnStart
           : isUsedOnStart // ignore: cast_nullable_to_non_nullable
@@ -412,7 +437,7 @@ class _$ConnectionWorkchainDataCopyWithImpl<$Res>
     ));
   }
 
-  /// Create a copy of ConnectionWorkchainData
+  /// Create a copy of ConnectionWorkchain
   /// with the given fields replaced by the non-null parameter values.
   @override
   @pragma('vm:prefer-inline')
@@ -422,7 +447,7 @@ class _$ConnectionWorkchainDataCopyWithImpl<$Res>
     });
   }
 
-  /// Create a copy of ConnectionWorkchainData
+  /// Create a copy of ConnectionWorkchain
   /// with the given fields replaced by the non-null parameter values.
   @override
   @pragma('vm:prefer-inline')
@@ -432,7 +457,7 @@ class _$ConnectionWorkchainDataCopyWithImpl<$Res>
     });
   }
 
-  /// Create a copy of ConnectionWorkchainData
+  /// Create a copy of ConnectionWorkchain
   /// with the given fields replaced by the non-null parameter values.
   @override
   @pragma('vm:prefer-inline')
@@ -443,7 +468,7 @@ class _$ConnectionWorkchainDataCopyWithImpl<$Res>
     });
   }
 
-  /// Create a copy of ConnectionWorkchainData
+  /// Create a copy of ConnectionWorkchain
   /// with the given fields replaced by the non-null parameter values.
   @override
   @pragma('vm:prefer-inline')
@@ -454,7 +479,7 @@ class _$ConnectionWorkchainDataCopyWithImpl<$Res>
     });
   }
 
-  /// Create a copy of ConnectionWorkchainData
+  /// Create a copy of ConnectionWorkchain
   /// with the given fields replaced by the non-null parameter values.
   @override
   @pragma('vm:prefer-inline')
@@ -464,7 +489,7 @@ class _$ConnectionWorkchainDataCopyWithImpl<$Res>
     });
   }
 
-  /// Create a copy of ConnectionWorkchainData
+  /// Create a copy of ConnectionWorkchain
   /// with the given fields replaced by the non-null parameter values.
   @override
   @pragma('vm:prefer-inline')
@@ -475,7 +500,7 @@ class _$ConnectionWorkchainDataCopyWithImpl<$Res>
     });
   }
 
-  /// Create a copy of ConnectionWorkchainData
+  /// Create a copy of ConnectionWorkchain
   /// with the given fields replaced by the non-null parameter values.
   @override
   @pragma('vm:prefer-inline')
@@ -492,17 +517,15 @@ class _$ConnectionWorkchainDataCopyWithImpl<$Res>
 
 /// @nodoc
 @JsonSerializable()
-class _ConnectionWorkchainData implements ConnectionWorkchainData {
-  _ConnectionWorkchainData(
+class _ConnectionWorkchain implements ConnectionWorkchain {
+  _ConnectionWorkchain(
       {required this.id,
+      required this.parentConnectionId,
       required this.networkType,
+      required this.networkName,
       required this.networkGroup,
+      required this.type,
       required final List<String> endpoints,
-      required this.blockExplorerUrl,
-      required this.isLocal,
-      required this.nativeTokenTicker,
-      required this.isPreset,
-      required this.canBeEdited,
       required this.icons,
       @WalletTypeListConverter()
       required final List<WalletType> availableWalletTypes,
@@ -516,6 +539,11 @@ class _ConnectionWorkchainData implements ConnectionWorkchainData {
       required this.accountExplorerLinkType,
       required this.transactionExplorerLinkType,
       required this.walletDefaultAccountNames,
+      this.blockExplorerUrl = '',
+      this.nativeTokenTicker = '',
+      this.isLocal = false,
+      this.isPreset = true,
+      this.canBeEdited = false,
       this.isUsedOnStart = true,
       this.manifestUrl = '',
       this.nativeTokenDecimals = 9,
@@ -532,15 +560,21 @@ class _ConnectionWorkchainData implements ConnectionWorkchainData {
         _availableWalletTypes = availableWalletTypes,
         _seedPhraseWordsCount = seedPhraseWordsCount,
         _defaultActiveAssets = defaultActiveAssets;
-  factory _ConnectionWorkchainData.fromJson(Map<String, dynamic> json) =>
-      _$ConnectionWorkchainDataFromJson(json);
+  factory _ConnectionWorkchain.fromJson(Map<String, dynamic> json) =>
+      _$ConnectionWorkchainFromJson(json);
 
   @override
   final int id;
   @override
+  final String parentConnectionId;
+  @override
   final NetworkType networkType;
   @override
+  final String networkName;
+  @override
   final String networkGroup;
+  @override
+  final WorkchainType type;
   final List<String> _endpoints;
   @override
   List<String> get endpoints {
@@ -549,16 +583,6 @@ class _ConnectionWorkchainData implements ConnectionWorkchainData {
     return EqualUnmodifiableListView(_endpoints);
   }
 
-  @override
-  final String blockExplorerUrl;
-  @override
-  final bool isLocal;
-  @override
-  final String nativeTokenTicker;
-  @override
-  final bool isPreset;
-  @override
-  final bool canBeEdited;
   @override
   final TransportIcons icons;
   final List<WalletType> _availableWalletTypes;
@@ -602,6 +626,21 @@ class _ConnectionWorkchainData implements ConnectionWorkchainData {
   final WalletDefaultAccountNames walletDefaultAccountNames;
   @override
   @JsonKey()
+  final String blockExplorerUrl;
+  @override
+  @JsonKey()
+  final String nativeTokenTicker;
+  @override
+  @JsonKey()
+  final bool isLocal;
+  @override
+  @JsonKey()
+  final bool isPreset;
+  @override
+  @JsonKey()
+  final bool canBeEdited;
+  @override
+  @JsonKey()
   final bool isUsedOnStart;
   @override
   @JsonKey()
@@ -638,18 +677,18 @@ class _ConnectionWorkchainData implements ConnectionWorkchainData {
   @override
   final NftInformation? nftInformation;
 
-  /// Create a copy of ConnectionWorkchainData
+  /// Create a copy of ConnectionWorkchain
   /// with the given fields replaced by the non-null parameter values.
   @override
   @JsonKey(includeFromJson: false, includeToJson: false)
   @pragma('vm:prefer-inline')
-  _$ConnectionWorkchainDataCopyWith<_ConnectionWorkchainData> get copyWith =>
-      __$ConnectionWorkchainDataCopyWithImpl<_ConnectionWorkchainData>(
+  _$ConnectionWorkchainCopyWith<_ConnectionWorkchain> get copyWith =>
+      __$ConnectionWorkchainCopyWithImpl<_ConnectionWorkchain>(
           this, _$identity);
 
   @override
   Map<String, dynamic> toJson() {
-    return _$ConnectionWorkchainDataToJson(
+    return _$ConnectionWorkchainToJson(
       this,
     );
   }
@@ -658,23 +697,19 @@ class _ConnectionWorkchainData implements ConnectionWorkchainData {
   bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _ConnectionWorkchainData &&
+            other is _ConnectionWorkchain &&
             (identical(other.id, id) || other.id == id) &&
+            (identical(other.parentConnectionId, parentConnectionId) ||
+                other.parentConnectionId == parentConnectionId) &&
             (identical(other.networkType, networkType) ||
                 other.networkType == networkType) &&
+            (identical(other.networkName, networkName) ||
+                other.networkName == networkName) &&
             (identical(other.networkGroup, networkGroup) ||
                 other.networkGroup == networkGroup) &&
+            (identical(other.type, type) || other.type == type) &&
             const DeepCollectionEquality()
                 .equals(other._endpoints, _endpoints) &&
-            (identical(other.blockExplorerUrl, blockExplorerUrl) ||
-                other.blockExplorerUrl == blockExplorerUrl) &&
-            (identical(other.isLocal, isLocal) || other.isLocal == isLocal) &&
-            (identical(other.nativeTokenTicker, nativeTokenTicker) ||
-                other.nativeTokenTicker == nativeTokenTicker) &&
-            (identical(other.isPreset, isPreset) ||
-                other.isPreset == isPreset) &&
-            (identical(other.canBeEdited, canBeEdited) ||
-                other.canBeEdited == canBeEdited) &&
             (identical(other.icons, icons) || other.icons == icons) &&
             const DeepCollectionEquality()
                 .equals(other._availableWalletTypes, _availableWalletTypes) &&
@@ -700,6 +735,15 @@ class _ConnectionWorkchainData implements ConnectionWorkchainData {
                     transactionExplorerLinkType) &&
             (identical(other.walletDefaultAccountNames, walletDefaultAccountNames) ||
                 other.walletDefaultAccountNames == walletDefaultAccountNames) &&
+            (identical(other.blockExplorerUrl, blockExplorerUrl) ||
+                other.blockExplorerUrl == blockExplorerUrl) &&
+            (identical(other.nativeTokenTicker, nativeTokenTicker) ||
+                other.nativeTokenTicker == nativeTokenTicker) &&
+            (identical(other.isLocal, isLocal) || other.isLocal == isLocal) &&
+            (identical(other.isPreset, isPreset) ||
+                other.isPreset == isPreset) &&
+            (identical(other.canBeEdited, canBeEdited) ||
+                other.canBeEdited == canBeEdited) &&
             (identical(other.isUsedOnStart, isUsedOnStart) ||
                 other.isUsedOnStart == isUsedOnStart) &&
             (identical(other.manifestUrl, manifestUrl) ||
@@ -712,11 +756,8 @@ class _ConnectionWorkchainData implements ConnectionWorkchainData {
                 other.latencyDetectionInterval == latencyDetectionInterval) &&
             (identical(other.maxLatency, maxLatency) ||
                 other.maxLatency == maxLatency) &&
-            (identical(other.endpointSelectionRetryCount, endpointSelectionRetryCount) ||
-                other.endpointSelectionRetryCount ==
-                    endpointSelectionRetryCount) &&
-            (identical(other.tokenApiBaseUrl, tokenApiBaseUrl) ||
-                other.tokenApiBaseUrl == tokenApiBaseUrl) &&
+            (identical(other.endpointSelectionRetryCount, endpointSelectionRetryCount) || other.endpointSelectionRetryCount == endpointSelectionRetryCount) &&
+            (identical(other.tokenApiBaseUrl, tokenApiBaseUrl) || other.tokenApiBaseUrl == tokenApiBaseUrl) &&
             (identical(other.currencyApiBaseUrl, currencyApiBaseUrl) || other.currencyApiBaseUrl == currencyApiBaseUrl) &&
             (identical(other.pollingConfig, pollingConfig) || other.pollingConfig == pollingConfig) &&
             (identical(other.stakeInformation, stakeInformation) || other.stakeInformation == stakeInformation) &&
@@ -728,14 +769,12 @@ class _ConnectionWorkchainData implements ConnectionWorkchainData {
   int get hashCode => Object.hashAll([
         runtimeType,
         id,
+        parentConnectionId,
         networkType,
+        networkName,
         networkGroup,
+        type,
         const DeepCollectionEquality().hash(_endpoints),
-        blockExplorerUrl,
-        isLocal,
-        nativeTokenTicker,
-        isPreset,
-        canBeEdited,
         icons,
         const DeepCollectionEquality().hash(_availableWalletTypes),
         defaultWalletType,
@@ -748,6 +787,11 @@ class _ConnectionWorkchainData implements ConnectionWorkchainData {
         accountExplorerLinkType,
         transactionExplorerLinkType,
         walletDefaultAccountNames,
+        blockExplorerUrl,
+        nativeTokenTicker,
+        isLocal,
+        isPreset,
+        canBeEdited,
         isUsedOnStart,
         manifestUrl,
         nativeTokenDecimals,
@@ -764,28 +808,26 @@ class _ConnectionWorkchainData implements ConnectionWorkchainData {
 
   @override
   String toString() {
-    return 'ConnectionWorkchainData(id: $id, networkType: $networkType, networkGroup: $networkGroup, endpoints: $endpoints, blockExplorerUrl: $blockExplorerUrl, isLocal: $isLocal, nativeTokenTicker: $nativeTokenTicker, isPreset: $isPreset, canBeEdited: $canBeEdited, icons: $icons, availableWalletTypes: $availableWalletTypes, defaultWalletType: $defaultWalletType, nativeTokenTickerOption: $nativeTokenTickerOption, manifestOption: $manifestOption, nativeTokenAddress: $nativeTokenAddress, seedPhraseWordsCount: $seedPhraseWordsCount, defaultNativeCurrencyDecimal: $defaultNativeCurrencyDecimal, genericTokenType: $genericTokenType, accountExplorerLinkType: $accountExplorerLinkType, transactionExplorerLinkType: $transactionExplorerLinkType, walletDefaultAccountNames: $walletDefaultAccountNames, isUsedOnStart: $isUsedOnStart, manifestUrl: $manifestUrl, nativeTokenDecimals: $nativeTokenDecimals, defaultActiveAssets: $defaultActiveAssets, latencyDetectionInterval: $latencyDetectionInterval, maxLatency: $maxLatency, endpointSelectionRetryCount: $endpointSelectionRetryCount, tokenApiBaseUrl: $tokenApiBaseUrl, currencyApiBaseUrl: $currencyApiBaseUrl, pollingConfig: $pollingConfig, stakeInformation: $stakeInformation, nftInformation: $nftInformation)';
+    return 'ConnectionWorkchain(id: $id, parentConnectionId: $parentConnectionId, networkType: $networkType, networkName: $networkName, networkGroup: $networkGroup, type: $type, endpoints: $endpoints, icons: $icons, availableWalletTypes: $availableWalletTypes, defaultWalletType: $defaultWalletType, nativeTokenTickerOption: $nativeTokenTickerOption, manifestOption: $manifestOption, nativeTokenAddress: $nativeTokenAddress, seedPhraseWordsCount: $seedPhraseWordsCount, defaultNativeCurrencyDecimal: $defaultNativeCurrencyDecimal, genericTokenType: $genericTokenType, accountExplorerLinkType: $accountExplorerLinkType, transactionExplorerLinkType: $transactionExplorerLinkType, walletDefaultAccountNames: $walletDefaultAccountNames, blockExplorerUrl: $blockExplorerUrl, nativeTokenTicker: $nativeTokenTicker, isLocal: $isLocal, isPreset: $isPreset, canBeEdited: $canBeEdited, isUsedOnStart: $isUsedOnStart, manifestUrl: $manifestUrl, nativeTokenDecimals: $nativeTokenDecimals, defaultActiveAssets: $defaultActiveAssets, latencyDetectionInterval: $latencyDetectionInterval, maxLatency: $maxLatency, endpointSelectionRetryCount: $endpointSelectionRetryCount, tokenApiBaseUrl: $tokenApiBaseUrl, currencyApiBaseUrl: $currencyApiBaseUrl, pollingConfig: $pollingConfig, stakeInformation: $stakeInformation, nftInformation: $nftInformation)';
   }
 }
 
 /// @nodoc
-abstract mixin class _$ConnectionWorkchainDataCopyWith<$Res>
-    implements $ConnectionWorkchainDataCopyWith<$Res> {
-  factory _$ConnectionWorkchainDataCopyWith(_ConnectionWorkchainData value,
-          $Res Function(_ConnectionWorkchainData) _then) =
-      __$ConnectionWorkchainDataCopyWithImpl;
+abstract mixin class _$ConnectionWorkchainCopyWith<$Res>
+    implements $ConnectionWorkchainCopyWith<$Res> {
+  factory _$ConnectionWorkchainCopyWith(_ConnectionWorkchain value,
+          $Res Function(_ConnectionWorkchain) _then) =
+      __$ConnectionWorkchainCopyWithImpl;
   @override
   @useResult
   $Res call(
       {int id,
+      String parentConnectionId,
       NetworkType networkType,
+      String networkName,
       String networkGroup,
+      WorkchainType type,
       List<String> endpoints,
-      String blockExplorerUrl,
-      bool isLocal,
-      String nativeTokenTicker,
-      bool isPreset,
-      bool canBeEdited,
       TransportIcons icons,
       @WalletTypeListConverter() List<WalletType> availableWalletTypes,
       @WalletTypeConverter() WalletType defaultWalletType,
@@ -798,6 +840,11 @@ abstract mixin class _$ConnectionWorkchainDataCopyWith<$Res>
       AccountExplorerLinkType accountExplorerLinkType,
       TransactionExplorerLinkType? transactionExplorerLinkType,
       WalletDefaultAccountNames walletDefaultAccountNames,
+      String blockExplorerUrl,
+      String nativeTokenTicker,
+      bool isLocal,
+      bool isPreset,
+      bool canBeEdited,
       bool isUsedOnStart,
       String manifestUrl,
       int nativeTokenDecimals,
@@ -828,27 +875,25 @@ abstract mixin class _$ConnectionWorkchainDataCopyWith<$Res>
 }
 
 /// @nodoc
-class __$ConnectionWorkchainDataCopyWithImpl<$Res>
-    implements _$ConnectionWorkchainDataCopyWith<$Res> {
-  __$ConnectionWorkchainDataCopyWithImpl(this._self, this._then);
+class __$ConnectionWorkchainCopyWithImpl<$Res>
+    implements _$ConnectionWorkchainCopyWith<$Res> {
+  __$ConnectionWorkchainCopyWithImpl(this._self, this._then);
 
-  final _ConnectionWorkchainData _self;
-  final $Res Function(_ConnectionWorkchainData) _then;
+  final _ConnectionWorkchain _self;
+  final $Res Function(_ConnectionWorkchain) _then;
 
-  /// Create a copy of ConnectionWorkchainData
+  /// Create a copy of ConnectionWorkchain
   /// with the given fields replaced by the non-null parameter values.
   @override
   @pragma('vm:prefer-inline')
   $Res call({
     Object? id = null,
+    Object? parentConnectionId = null,
     Object? networkType = null,
+    Object? networkName = null,
     Object? networkGroup = null,
+    Object? type = null,
     Object? endpoints = null,
-    Object? blockExplorerUrl = null,
-    Object? isLocal = null,
-    Object? nativeTokenTicker = null,
-    Object? isPreset = null,
-    Object? canBeEdited = null,
     Object? icons = null,
     Object? availableWalletTypes = null,
     Object? defaultWalletType = null,
@@ -861,6 +906,11 @@ class __$ConnectionWorkchainDataCopyWithImpl<$Res>
     Object? accountExplorerLinkType = null,
     Object? transactionExplorerLinkType = freezed,
     Object? walletDefaultAccountNames = null,
+    Object? blockExplorerUrl = null,
+    Object? nativeTokenTicker = null,
+    Object? isLocal = null,
+    Object? isPreset = null,
+    Object? canBeEdited = null,
     Object? isUsedOnStart = null,
     Object? manifestUrl = null,
     Object? nativeTokenDecimals = null,
@@ -874,43 +924,35 @@ class __$ConnectionWorkchainDataCopyWithImpl<$Res>
     Object? stakeInformation = freezed,
     Object? nftInformation = freezed,
   }) {
-    return _then(_ConnectionWorkchainData(
+    return _then(_ConnectionWorkchain(
       id: null == id
           ? _self.id
           : id // ignore: cast_nullable_to_non_nullable
               as int,
+      parentConnectionId: null == parentConnectionId
+          ? _self.parentConnectionId
+          : parentConnectionId // ignore: cast_nullable_to_non_nullable
+              as String,
       networkType: null == networkType
           ? _self.networkType
           : networkType // ignore: cast_nullable_to_non_nullable
               as NetworkType,
+      networkName: null == networkName
+          ? _self.networkName
+          : networkName // ignore: cast_nullable_to_non_nullable
+              as String,
       networkGroup: null == networkGroup
           ? _self.networkGroup
           : networkGroup // ignore: cast_nullable_to_non_nullable
               as String,
+      type: null == type
+          ? _self.type
+          : type // ignore: cast_nullable_to_non_nullable
+              as WorkchainType,
       endpoints: null == endpoints
           ? _self._endpoints
           : endpoints // ignore: cast_nullable_to_non_nullable
               as List<String>,
-      blockExplorerUrl: null == blockExplorerUrl
-          ? _self.blockExplorerUrl
-          : blockExplorerUrl // ignore: cast_nullable_to_non_nullable
-              as String,
-      isLocal: null == isLocal
-          ? _self.isLocal
-          : isLocal // ignore: cast_nullable_to_non_nullable
-              as bool,
-      nativeTokenTicker: null == nativeTokenTicker
-          ? _self.nativeTokenTicker
-          : nativeTokenTicker // ignore: cast_nullable_to_non_nullable
-              as String,
-      isPreset: null == isPreset
-          ? _self.isPreset
-          : isPreset // ignore: cast_nullable_to_non_nullable
-              as bool,
-      canBeEdited: null == canBeEdited
-          ? _self.canBeEdited
-          : canBeEdited // ignore: cast_nullable_to_non_nullable
-              as bool,
       icons: null == icons
           ? _self.icons
           : icons // ignore: cast_nullable_to_non_nullable
@@ -959,6 +1001,26 @@ class __$ConnectionWorkchainDataCopyWithImpl<$Res>
           ? _self.walletDefaultAccountNames
           : walletDefaultAccountNames // ignore: cast_nullable_to_non_nullable
               as WalletDefaultAccountNames,
+      blockExplorerUrl: null == blockExplorerUrl
+          ? _self.blockExplorerUrl
+          : blockExplorerUrl // ignore: cast_nullable_to_non_nullable
+              as String,
+      nativeTokenTicker: null == nativeTokenTicker
+          ? _self.nativeTokenTicker
+          : nativeTokenTicker // ignore: cast_nullable_to_non_nullable
+              as String,
+      isLocal: null == isLocal
+          ? _self.isLocal
+          : isLocal // ignore: cast_nullable_to_non_nullable
+              as bool,
+      isPreset: null == isPreset
+          ? _self.isPreset
+          : isPreset // ignore: cast_nullable_to_non_nullable
+              as bool,
+      canBeEdited: null == canBeEdited
+          ? _self.canBeEdited
+          : canBeEdited // ignore: cast_nullable_to_non_nullable
+              as bool,
       isUsedOnStart: null == isUsedOnStart
           ? _self.isUsedOnStart
           : isUsedOnStart // ignore: cast_nullable_to_non_nullable
@@ -1010,7 +1072,7 @@ class __$ConnectionWorkchainDataCopyWithImpl<$Res>
     ));
   }
 
-  /// Create a copy of ConnectionWorkchainData
+  /// Create a copy of ConnectionWorkchain
   /// with the given fields replaced by the non-null parameter values.
   @override
   @pragma('vm:prefer-inline')
@@ -1020,7 +1082,7 @@ class __$ConnectionWorkchainDataCopyWithImpl<$Res>
     });
   }
 
-  /// Create a copy of ConnectionWorkchainData
+  /// Create a copy of ConnectionWorkchain
   /// with the given fields replaced by the non-null parameter values.
   @override
   @pragma('vm:prefer-inline')
@@ -1030,7 +1092,7 @@ class __$ConnectionWorkchainDataCopyWithImpl<$Res>
     });
   }
 
-  /// Create a copy of ConnectionWorkchainData
+  /// Create a copy of ConnectionWorkchain
   /// with the given fields replaced by the non-null parameter values.
   @override
   @pragma('vm:prefer-inline')
@@ -1041,7 +1103,7 @@ class __$ConnectionWorkchainDataCopyWithImpl<$Res>
     });
   }
 
-  /// Create a copy of ConnectionWorkchainData
+  /// Create a copy of ConnectionWorkchain
   /// with the given fields replaced by the non-null parameter values.
   @override
   @pragma('vm:prefer-inline')
@@ -1052,7 +1114,7 @@ class __$ConnectionWorkchainDataCopyWithImpl<$Res>
     });
   }
 
-  /// Create a copy of ConnectionWorkchainData
+  /// Create a copy of ConnectionWorkchain
   /// with the given fields replaced by the non-null parameter values.
   @override
   @pragma('vm:prefer-inline')
@@ -1062,7 +1124,7 @@ class __$ConnectionWorkchainDataCopyWithImpl<$Res>
     });
   }
 
-  /// Create a copy of ConnectionWorkchainData
+  /// Create a copy of ConnectionWorkchain
   /// with the given fields replaced by the non-null parameter values.
   @override
   @pragma('vm:prefer-inline')
@@ -1073,7 +1135,7 @@ class __$ConnectionWorkchainDataCopyWithImpl<$Res>
     });
   }
 
-  /// Create a copy of ConnectionWorkchainData
+  /// Create a copy of ConnectionWorkchain
   /// with the given fields replaced by the non-null parameter values.
   @override
   @pragma('vm:prefer-inline')

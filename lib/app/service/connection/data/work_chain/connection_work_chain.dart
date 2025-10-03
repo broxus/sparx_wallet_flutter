@@ -7,6 +7,7 @@ import 'package:app/app/service/connection/data/transport_icons.dart';
 import 'package:app/app/service/connection/data/transport_manifest_option/transport_manifest_option.dart';
 import 'package:app/app/service/connection/data/transport_native_token_option/transport_native_token_option.dart';
 import 'package:app/app/service/connection/data/wallet_default_account_names.dart';
+import 'package:app/app/service/connection/data/work_chain/workchain_type.dart';
 import 'package:app/app/service/connection/generic_token_subscriber.dart';
 import 'package:app/app/service/connection/json_converters/address_converter.dart';
 import 'package:app/app/service/connection/json_converters/polling_config_converter.dart';
@@ -17,24 +18,20 @@ import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:nekoton_repository/nekoton_repository.dart';
 import 'package:uuid/uuid.dart';
 
-part 'connection_work_chain_data.freezed.dart';
+part 'connection_work_chain.freezed.dart';
 
-part 'connection_work_chain_data.g.dart';
+part 'connection_work_chain.g.dart';
 
 @freezed
-abstract class ConnectionWorkchainData with _$ConnectionWorkchainData {
-  factory ConnectionWorkchainData({
+abstract class ConnectionWorkchain with _$ConnectionWorkchain {
+  factory ConnectionWorkchain({
     required int id,
-    required String parentNetworkId,
+    required String parentConnectionId,
     required NetworkType networkType,
     required String networkName,
     required String networkGroup,
+    required WorkchainType type,
     required List<String> endpoints,
-    required String blockExplorerUrl,
-    required bool isLocal,
-    required String nativeTokenTicker,
-    required bool isPreset,
-    required bool canBeEdited,
     required TransportIcons icons,
     @WalletTypeListConverter() required List<WalletType> availableWalletTypes,
     @WalletTypeConverter() required WalletType defaultWalletType,
@@ -47,6 +44,11 @@ abstract class ConnectionWorkchainData with _$ConnectionWorkchainData {
     required AccountExplorerLinkType accountExplorerLinkType,
     required TransactionExplorerLinkType? transactionExplorerLinkType,
     required WalletDefaultAccountNames walletDefaultAccountNames,
+    @Default('') String blockExplorerUrl,
+    @Default('') String nativeTokenTicker,
+    @Default(false) bool isLocal,
+    @Default(true) bool isPreset,
+    @Default(false) bool canBeEdited,
     @Default(true) bool isUsedOnStart,
     @Default('') String manifestUrl,
     @Default(9) int nativeTokenDecimals,
@@ -59,27 +61,33 @@ abstract class ConnectionWorkchainData with _$ConnectionWorkchainData {
     @PollingConfigSecondsConverter() PollingConfig? pollingConfig,
     @StakingInformationConverter() StakingInformation? stakeInformation,
     NftInformation? nftInformation,
-  }) = _ConnectionWorkchainData;
+  }) = _ConnectionWorkchain;
 
-  factory ConnectionWorkchainData.custom({
+  factory ConnectionWorkchain.custom({
     required int id,
-    required String parentNetworkId,
+    required String parentConnectionId,
     required NetworkType networkType,
     required String networkName,
     required List<String> endpoints,
     required String blockExplorerUrl,
-    required bool isLocal,
-    required bool isPreset,
-    required bool canBeEdited,
+    required String manifestUrl,
     required int defaultNativeCurrencyDecimal,
+    bool canBeEdited = true,
+    bool isLocal = true,
+    bool isPreset = false,
+    String? networkGroup,
+    int? latencyDetectionInterval,
+    int? maxLatency,
     String nativeTokenTicker = '',
+    int nativeTokenDecimals = 9,
   }) {
-    return ConnectionWorkchainData(
+    return ConnectionWorkchain(
       id: id,
-      parentNetworkId: parentNetworkId,
+      parentConnectionId: parentConnectionId,
       networkType: networkType,
       networkName: networkName,
-      networkGroup: const Uuid().v4(),
+      type: WorkchainType.proto,
+      networkGroup: networkGroup ?? const Uuid().v4(),
       icons: TransportIcons(
         nativeToken: Assets.images.tokenDefaultIcon.path,
         network: Assets.images.networkDefault.path,
@@ -121,24 +129,28 @@ abstract class ConnectionWorkchainData with _$ConnectionWorkchainData {
       blockExplorerUrl: blockExplorerUrl,
       isLocal: isLocal,
       nativeTokenTicker: nativeTokenTicker,
+      nativeTokenDecimals: nativeTokenDecimals,
       isPreset: isPreset,
       canBeEdited: canBeEdited,
       defaultNativeCurrencyDecimal: defaultNativeCurrencyDecimal,
+      manifestUrl: manifestUrl,
+      latencyDetectionInterval: latencyDetectionInterval,
+      maxLatency: maxLatency,
     );
   }
 
-  factory ConnectionWorkchainData.fromJson(Map<String, dynamic> json) =>
-      _$ConnectionWorkchainDataFromJson(json);
+  factory ConnectionWorkchain.fromJson(Map<String, dynamic> json) =>
+      _$ConnectionWorkchainFromJson(json);
 
-  factory ConnectionWorkchainData.fromJsonCustom({
+  factory ConnectionWorkchain.fromJsonCustom({
     required Map<String, dynamic> json,
     required String parentId,
     required String networkName,
   }) {
     final map = Map<String, dynamic>.from(json)
-      ..['parentNetworkId'] = parentId
+      ..['parentConnectionId'] = parentId
       ..['networkName'] = networkName;
 
-    return _$ConnectionWorkchainDataFromJson(map);
+    return _$ConnectionWorkchainFromJson(map);
   }
 }

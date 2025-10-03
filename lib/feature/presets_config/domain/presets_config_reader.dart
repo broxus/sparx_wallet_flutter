@@ -50,10 +50,6 @@ class PresetsConfigReader {
   Future<T?> getConfig<T>(PresetConfigType<T> configType) async {
     await awaitPendingUpdate(configType);
 
-    // TODO
-    return await _getConfigFromSource(configType, _ConfigSource.local);
-
-
     return await _getConfigFromSource(configType, _ConfigSource.remote) ??
         await _getConfigFromSource(configType, _ConfigSource.cache) ??
         await _getConfigFromSource(configType, _ConfigSource.local);

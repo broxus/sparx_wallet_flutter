@@ -1,31 +1,37 @@
 import 'package:app/app/service/connection/data/account_explorer/account_explorer_link_type.dart';
-import 'package:app/app/service/connection/data/connection_network/connection_network.dart';
+import 'package:app/app/service/connection/data/connection/connection.dart';
 import 'package:app/app/service/connection/data/network_type.dart';
 import 'package:app/app/service/connection/data/transaction_explorer/transaction_explorer_link_type.dart';
 import 'package:app/app/service/connection/data/transport_icons.dart';
 import 'package:app/app/service/connection/data/transport_manifest_option/transport_manifest_option.dart';
 import 'package:app/app/service/connection/data/transport_native_token_option/transport_native_token_option.dart';
 import 'package:app/app/service/connection/data/wallet_default_account_names.dart';
-import 'package:app/app/service/connection/data/work_chain/connection_work_chain_data.dart';
+import 'package:app/app/service/connection/data/work_chain/connection_work_chain.dart';
+import 'package:app/app/service/connection/data/work_chain/workchain_type.dart';
 import 'package:app/app/service/connection/generic_token_subscriber.dart';
 import 'package:app/generated/assets.gen.dart';
 import 'package:nekoton_repository/nekoton_repository.dart';
 import 'package:uuid/uuid.dart';
 
-final ConnectionNetwork defaultPresetNetwork = (() {
-  final networkId = const Uuid().v4();
-  final networkName = 'Everscale';
-  return ConnectionNetwork(
-    id: networkId,
+final Connection defaultPresetConnection = (() {
+  final connectionId = const Uuid().v4();
+  const networkName = 'Everscale';
+
+  return Connection(
+    id: connectionId,
     networkName: networkName,
     defaultWorkchainId: 0,
+    isPreset: true,
+    canBeEdited: false,
+    isUsedOnStart: true,
     workchains: [
-      ConnectionWorkchainData(
+      ConnectionWorkchain(
         id: 0,
-        parentNetworkId: networkId,
+        parentConnectionId: connectionId,
         networkName: networkName,
         networkType: NetworkType.ever,
         networkGroup: 'mainnet',
+        type: WorkchainType.proto,
         manifestUrl:
             'https://raw.githubusercontent.com/broxus/ton-assets/master/manifest.json',
         icons: TransportIcons(
@@ -70,9 +76,6 @@ final ConnectionNetwork defaultPresetNetwork = (() {
         ],
         blockExplorerUrl: 'https://everscan.io',
         isLocal: true,
-        nativeTokenTicker: '',
-        isPreset: true,
-        canBeEdited: false,
         defaultNativeCurrencyDecimal: 9,
       ),
     ],

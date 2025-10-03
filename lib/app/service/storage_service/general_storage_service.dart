@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'dart:collection';
 
+import 'package:app/app/service/connection/group.dart';
 import 'package:app/app/service/service.dart';
 import 'package:app/data/models/custom_currency.dart';
 import 'package:app/data/models/token_contract/token_contract_asset.dart';

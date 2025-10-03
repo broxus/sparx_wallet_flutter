@@ -1,5 +1,5 @@
 {
-  "defaultNetworkId": "preset_hmstr_mainnet_proto",
+  "defaultConnectionId": "preset_hmstr_mainnet_proto",
   "customNetworkOptions": [
     {
       "networkType": "ever"
@@ -11,16 +11,18 @@
       "networkType": "custom"
     }
   ],
-  "networks": [
+  "connections": [
     {
       "id": "preset_ton_mainnet_proto",
       "networkName": "TON",
       "defaultWorkchainId": 0,
+      "isUsedOnStart": true,
       "workchains": [
         {
           "id": 0,
           "networkType": "ton",
           "networkGroup": "ton",
+          "type": "proto",
           "isUsedOnStart": true,
           "endpoints": [
             "https://jrpc-ton.broxus.com"
@@ -101,11 +103,13 @@
       "id": "preset_hmstr_mainnet_proto",
       "networkName": "Hamster Network",
       "defaultWorkchainId": 0,
+      "isUsedOnStart": true,
       "workchains": [
         {
           "id": 0,
           "networkType": "tycho",
           "networkGroup": "hmstr_mainnet",
+          "type": "proto",
           "isUsedOnStart": true,
           "endpoints": [
             "https://rpc.hamster.network"
@@ -192,11 +196,13 @@
       "id": "preset_humo_testnet_proto",
       "networkName": "Humo",
       "defaultWorkchainId": 0,
+      "isUsedOnStart": true,
       "workchains": [
         {
           "id": 0,
           "networkType": "tycho",
           "networkGroup": "humo_testnet",
+          "type": "proto",
           "isUsedOnStart": true,
           "endpoints": [
             "https://rpc.humonetwork.com"
@@ -268,11 +274,13 @@
       "id": "preset_tycho_testnet_proto",
       "networkName": "Tycho Testnet",
       "defaultWorkchainId": 0,
+      "isUsedOnStart": true,
       "workchains": [
         {
           "id": 0,
           "networkType": "tycho",
           "networkGroup": "tycho_testnet",
+          "type": "proto",
           "isUsedOnStart": true,
           "endpoints": [
             "https://rpc-testnet.tychoprotocol.com"
@@ -348,11 +356,13 @@
       "id": "preset_ever_mainnet_proto",
       "networkName": "Everscale",
       "defaultWorkchainId": 0,
+      "isUsedOnStart": true,
       "workchains": [
         {
           "id": 0,
           "networkType": "ever",
           "networkGroup": "mainnet",
+          "type": "proto",
           "isUsedOnStart": true,
           "endpoints": [
             "https://jrpc.everwallet.net"
@@ -459,11 +469,13 @@
       "id": "preset_venom_mainnet_proto",
       "networkName": "Venom",
       "defaultWorkchainId": 0,
+      "isUsedOnStart": true,
       "workchains": [
         {
           "id": 0,
           "networkType": "venom",
           "networkGroup": "venom_mainnet",
+          "type": "proto",
           "isUsedOnStart": true,
           "endpoints": [
             "https://jrpc.venom.foundation"

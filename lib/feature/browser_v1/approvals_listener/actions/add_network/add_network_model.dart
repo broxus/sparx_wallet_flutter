@@ -1,3 +1,5 @@
+import 'package:app/app/service/connection/connection_service.dart';
+import 'package:app/app/service/connection/data/connection/connection.dart';
 import 'package:app/app/service/service.dart';
 import 'package:app/feature/browser_v1/utils.dart';
 import 'package:app/feature/messenger/data/message.dart';
@@ -25,18 +27,21 @@ class AddNetworkModel extends ElementaryModel {
   final ConnectionService _connectionService;
   final NekotonRepository _nekotonRepository;
 
-  Future<Network?> addConnection(ConnectionData connection) async {
+  Future<Network?> addNetwork(Connection network) async {
     Transport? transport;
 
     try {
-      _connectionsStorageService.addConnection(connection);
+      _connectionsStorageService.addConnection(network);
 
       transport = await _connectionService.createTransportByConnection(
-        connection,
+        network,
       );
 
       return await _connectionService
-          .createStrategyByConnection(transport, connection)
+          .createStrategyByConnection(
+            transport,
+            network,
+          )
           .toNetwork();
     } finally {
       await transport?.dispose();

@@ -34,15 +34,21 @@ class StorageMigrationV5 implements StorageMigration {
     await _generalStorageService.removeRawSystemAssets('custom');
 
     for (final connection in connections) {
-      if (connection.group != 'custom') {
+      if (connection.defaultWorkchain.networkGroup != 'custom') {
         continue;
       }
 
-      final groupName = '${connection.group}-${lastNetworkGroupNumber++}';
+      final groupName = '${connection.defaultWorkchain.networkGroup}'
+          '-'
+          '${lastNetworkGroupNumber++}';
 
       _connectionsStorageService.updateConnection(
         connection.copyWith(
-          group: groupName,
+          workchains: [
+            connection.defaultWorkchain.copyWith(
+              networkGroup: groupName,
+            ),
+          ],
         ),
       );
 

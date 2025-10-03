@@ -1,3 +1,4 @@
+import 'package:app/app/service/connection/connection.dart';
 import 'package:app/app/service/service.dart';
 import 'package:app/data/models/models.dart';
 import 'package:collection/collection.dart';

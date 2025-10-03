@@ -1,4 +1,4 @@
-import 'package:app/app/service/connection/data/connection_data/connection_data.dart';
+import 'package:app/app/service/connection/data/connection/connection.dart';
 import 'package:app/widgets/network_icon.dart';
 import 'package:flutter/material.dart';
 import 'package:ui_components_lib/ui_components_lib.dart';
@@ -14,7 +14,7 @@ class NetworkItem extends StatelessWidget {
     super.key,
   });
 
-  final ConnectionData data;
+  final Connection data;
   final Widget? trailing;
   final EdgeInsetsGeometry padding;
   final VoidCallback? onTap;
@@ -30,10 +30,10 @@ class NetworkItem extends StatelessWidget {
         padding: padding,
         child: SeparatedRow(
           children: [
-            NetworkIcon(group: data.group),
+            NetworkIcon(group: data.defaultWorkchain.networkGroup),
             Expanded(
               child: Text(
-                data.name,
+                data.networkName,
                 style: theme.textStyles.labelMedium.copyWith(
                   color: theme.colors.content0,
                 ),

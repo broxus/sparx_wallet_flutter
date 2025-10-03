@@ -1,7 +1,7 @@
 // ignore_for_file: use_build_context_synchronously
 
 import 'package:app/app/router/router.dart';
-import 'package:app/app/service/service.dart';
+import 'package:app/app/service/connection/data/network_type.dart';
 import 'package:app/core/wm/custom_wm.dart';
 import 'package:app/data/models/models.dart';
 import 'package:app/feature/add_seed/create_password/route.dart';

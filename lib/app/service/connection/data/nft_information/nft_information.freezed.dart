@@ -15,7 +15,7 @@ T _$identity<T>(T value) => value;
 
 /// @nodoc
 mixin _$NftInformation {
-  String? get marketplaceUrl; // TODO проверить ок ли конвертер
+  String? get marketplaceUrl;
   @AddressListConverter()
   List<Address>? get defaultCollections;
 
@@ -104,9 +104,7 @@ class _NftInformation implements NftInformation {
 
   @override
   final String? marketplaceUrl;
-// TODO проверить ок ли конвертер
   final List<Address>? _defaultCollections;
-// TODO проверить ок ли конвертер
   @override
   @AddressListConverter()
   List<Address>? get defaultCollections {
