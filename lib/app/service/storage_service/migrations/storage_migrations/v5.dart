@@ -43,11 +43,13 @@ class StorageMigrationV5 implements StorageMigration {
           '${lastNetworkGroupNumber++}';
 
       _connectionsStorageService.updateConnection(
-        connection.copyWith(workchains: [
-          connection.defaultWorkchain.copyWith(
-            networkGroup: groupName,
-          )
-        ]),
+        connection.copyWith(
+          workchains: [
+            connection.defaultWorkchain.copyWith(
+              networkGroup: groupName,
+            ),
+          ],
+        ),
       );
 
       await _generalStorageService.writeRawCustomAssets(

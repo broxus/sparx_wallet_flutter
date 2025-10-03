@@ -15,8 +15,7 @@ class SelectNetworkModel extends ElementaryModel {
   Stream<String> get currentConnectionId =>
       _storageService.currentConnectionIdStream;
 
-  Stream<List<Connection>> get connections =>
-      _storageService.connectionsStream;
+  Stream<List<Connection>> get connections => _storageService.connectionsStream;
 
   void changeCurrentConnection(String id) {
     if (_storageService.currentConnectionId == id) return;

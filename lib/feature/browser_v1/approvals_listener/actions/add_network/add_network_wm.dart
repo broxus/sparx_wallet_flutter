@@ -1,8 +1,6 @@
 import 'dart:async';
 
 import 'package:app/core/wm/custom_wm.dart';
-import 'package:app/feature/browser_v1/approvals_listener/actions/add_network/add_network_model.dart';
-import 'package:app/feature/browser_v1/approvals_listener/actions/add_network/add_network_widget.dart';
 import 'package:app/feature/browser_v1/browser.dart';
 import 'package:app/generated/generated.dart';
 import 'package:flutter/foundation.dart';

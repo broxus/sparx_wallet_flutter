@@ -41,6 +41,40 @@ class CommonTransportStrategy extends AppTransportStrategy {
     this.nftInformation,
   });
 
+  factory CommonTransportStrategy.fromData({
+    required Dio dio,
+    required Transport transport,
+    required Connection connection,
+  }) {
+    final workchain = connection.defaultWorkchain;
+
+    return CommonTransportStrategy(
+      dio: dio,
+      transport: transport,
+      connection: connection,
+      icons: workchain.icons,
+      availableWalletTypes: workchain.availableWalletTypes,
+      walletDefaultAccountNames: workchain.walletDefaultAccountNames,
+      defaultWalletType: workchain.defaultWalletType,
+      nativeTokenTickerOption: workchain.nativeTokenTickerOption,
+      manifestOption: workchain.manifestOption,
+      nativeTokenAddress: workchain.nativeTokenAddress,
+      networkName: workchain.networkName,
+      networkType: workchain.networkType,
+      seedPhraseWordsCount: workchain.seedPhraseWordsCount,
+      defaultNativeCurrencyDecimal: workchain.defaultNativeCurrencyDecimal ??
+          workchain.nativeTokenDecimals,
+      genericTokenType: workchain.genericTokenType,
+      accountExplorerLinkType: workchain.accountExplorerLinkType,
+      transactionExplorerLinkType: workchain.transactionExplorerLinkType,
+      stakeInformation: workchain.stakeInformation,
+      tokenApiBaseUrl: workchain.tokenApiBaseUrl,
+      currencyApiBaseUrl: workchain.currencyApiBaseUrl,
+      nftInformation: workchain.nftInformation,
+      pollingConfig: workchain.pollingConfig ?? PollingConfig.defaultConfig,
+    );
+  }
+
   final Dio dio;
 
   @override
@@ -119,40 +153,6 @@ class CommonTransportStrategy extends AppTransportStrategy {
           connection.defaultWorkchain.nativeTokenTicker,
         TransportNativeTokenTickerOptionByName(:final name) => name,
       };
-
-  static CommonTransportStrategy fromData({
-    required Dio dio,
-    required Transport transport,
-    required Connection connection,
-  }) {
-    final workchain = connection.defaultWorkchain;
-
-    return CommonTransportStrategy(
-      dio: dio,
-      transport: transport,
-      connection: connection,
-      icons: workchain.icons,
-      availableWalletTypes: workchain.availableWalletTypes,
-      walletDefaultAccountNames: workchain.walletDefaultAccountNames,
-      defaultWalletType: workchain.defaultWalletType,
-      nativeTokenTickerOption: workchain.nativeTokenTickerOption,
-      manifestOption: workchain.manifestOption,
-      nativeTokenAddress: workchain.nativeTokenAddress,
-      networkName: workchain.networkName,
-      networkType: workchain.networkType,
-      seedPhraseWordsCount: workchain.seedPhraseWordsCount,
-      defaultNativeCurrencyDecimal: workchain.defaultNativeCurrencyDecimal ??
-          workchain.nativeTokenDecimals,
-      genericTokenType: workchain.genericTokenType,
-      accountExplorerLinkType: workchain.accountExplorerLinkType,
-      transactionExplorerLinkType: workchain.transactionExplorerLinkType,
-      stakeInformation: workchain.stakeInformation,
-      tokenApiBaseUrl: workchain.tokenApiBaseUrl,
-      currencyApiBaseUrl: workchain.currencyApiBaseUrl,
-      nftInformation: workchain.nftInformation,
-      pollingConfig: workchain.pollingConfig ?? PollingConfig.defaultConfig,
-    );
-  }
 
   @override
   String accountExplorerLink(Address accountAddress) {

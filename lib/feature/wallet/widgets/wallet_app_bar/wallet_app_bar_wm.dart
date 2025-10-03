@@ -20,14 +20,14 @@ class WalletAppBarWidgetModel
   late final _currentAccountState =
       createNotifierFromStream(model.currentAccount);
   late final _walletState = createNotifierFromStream(model.walletState);
-  late final _connectionState = createNotifierFromStream(model.connectionStream);
+  late final _connectionState =
+      createNotifierFromStream(model.connectionStream);
 
   ListenableState<KeyAccount?> get currentAccountState => _currentAccountState;
 
   ListenableState<TonWalletState?> get walletState => _walletState;
 
-  ListenableState<Connection?> get connectionState =>
-      _connectionState;
+  ListenableState<Connection?> get connectionState => _connectionState;
 
   ThemeStyleV2 get theme => context.themeStyleV2;
 

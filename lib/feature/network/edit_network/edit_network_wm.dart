@@ -204,7 +204,7 @@ class EditNetworkWidgetModel extends CustomWidgetModelParametrized<
 
     return [
       for (final endpoint in connection!.defaultWorkchain.endpoints)
-        TextEditingController(text: endpoint)
+        TextEditingController(text: endpoint),
     ];
   }
 

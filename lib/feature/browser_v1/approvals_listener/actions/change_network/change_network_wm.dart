@@ -49,8 +49,7 @@ class ChangeNetworkWidgetModel extends CustomWidgetModelParametrized<
 
   ValueListenable<int> get networkIdState => _networkIdState;
 
-  ValueListenable<List<Connection>> get connectionsState =>
-      _connectionsState;
+  ValueListenable<List<Connection>> get connectionsState => _connectionsState;
 
   late final _loadingState = createValueNotifier(false);
 
@@ -82,6 +81,5 @@ class ChangeNetworkWidgetModel extends CustomWidgetModelParametrized<
   }
 
   // ignore: use_setters_to_change_properties
-  void onConnectionChanged(Connection value) =>
-      _connectionState.value = value;
+  void onConnectionChanged(Connection value) => _connectionState.value = value;
 }
