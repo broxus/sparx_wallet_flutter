@@ -12,8 +12,12 @@ class RenameSheetWidgetModel extends CustomWidgetModelParametrized<RenameSheet,
     RenameSheetModel, RenameSheetParams> {
   RenameSheetWidgetModel(super.model);
 
-  late final TextEditingController nameController =
-      createTextEditingController();
+  late final nameController = createTextEditingController(
+    model.getName(
+      publicKey: wmParams.value.publicKey,
+      isSeed: wmParams.value.isSeed,
+    ),
+  );
 
   void rename([String? _]) {
     final name = nameController.text.trim();
@@ -23,13 +27,12 @@ class RenameSheetWidgetModel extends CustomWidgetModelParametrized<RenameSheet,
 
     model.rename(
       publicKey: params.publicKey,
-      renameSeed: params.renameSeed,
+      isSeed: params.isSeed,
       name: name,
-      isCustodian: params.isCustodian,
     );
     model.showMessage(
       Message.successful(
-        message: params.renameSeed
+        message: params.isSeed
             ? LocaleKeys.valueRenamed.tr(
                 args: [LocaleKeys.seedPhrase.tr()],
               )
@@ -48,11 +51,11 @@ class RenameSheetWidgetModel extends CustomWidgetModelParametrized<RenameSheet,
 class RenameSheetParams {
   const RenameSheetParams({
     required this.publicKey,
-    required this.renameSeed,
+    required this.isSeed,
     required this.isCustodian,
   });
 
   final PublicKey publicKey;
-  final bool renameSeed;
+  final bool isSeed;
   final bool isCustodian;
 }
