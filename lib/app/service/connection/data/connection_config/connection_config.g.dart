@@ -9,6 +9,7 @@ part of 'connection_config.dart';
 Map<String, dynamic> _$ConnectionConfigToJson(_ConnectionConfig instance) =>
     <String, dynamic>{
       'defaultConnectionId': instance.defaultConnectionId,
+      'rawDefaultSettings': instance.rawDefaultSettings,
       'connections': instance.connections?.map((e) => e.toJson()).toList(),
       'customNetworkOptions':
           instance.customNetworkOptions?.map((e) => e.toJson()).toList(),

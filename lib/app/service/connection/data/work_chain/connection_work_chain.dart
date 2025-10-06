@@ -13,6 +13,8 @@ import 'package:app/app/service/connection/json_converters/polling_config_conver
 import 'package:app/app/service/connection/json_converters/staking_information_converter.dart';
 import 'package:app/app/service/connection/json_converters/wallet_type_converter.dart';
 import 'package:app/generated/assets.gen.dart';
+import 'package:app/utils/json/json.dart';
+import 'package:app/utils/map_utils.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:nekoton_repository/nekoton_repository.dart';
 import 'package:uuid/uuid.dart';
@@ -140,11 +142,25 @@ abstract class ConnectionWorkchain with _$ConnectionWorkchain {
     required Map<String, dynamic> json,
     required String parentId,
     required String networkName,
+    required Map<String, dynamic> commonWalletDefaultAccountNames,
   }) {
-    final map = Map<String, dynamic>.from(json)
-      ..['parentConnectionId'] = parentId
-      ..['networkName'] = networkName;
+    final workchainWalletDefaultAccountNames =
+        json['walletDefaultAccountNames'];
 
-    return _$ConnectionWorkchainFromJson(map);
+    var resultWalletDefaultAccountNames = commonWalletDefaultAccountNames;
+
+    if (workchainWalletDefaultAccountNames != null) {
+      resultWalletDefaultAccountNames = mergeMaps(
+        commonWalletDefaultAccountNames,
+        castJsonMap(workchainWalletDefaultAccountNames),
+      );
+    }
+
+    return _$ConnectionWorkchainFromJson(
+      Map<String, dynamic>.from(json)
+        ..['parentConnectionId'] = parentId
+        ..['networkName'] = networkName
+        ..['walletDefaultAccountNames'] = resultWalletDefaultAccountNames,
+    );
   }
 }

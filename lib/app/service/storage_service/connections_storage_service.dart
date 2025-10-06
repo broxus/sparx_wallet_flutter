@@ -175,7 +175,11 @@ class ConnectionsStorageService extends AbstractStorageService {
     if (list != null) {
       final customConnections = list
           .map(
-            (entry) => Connection.fromJson(entry as Map<String, dynamic>),
+            (entry) => Connection.fromJson(
+              json: entry as Map<String, dynamic>,
+              commonWalletDefaultAccountNames:
+                  _presetsConnectionService.rawDefaultSettings,
+            ),
           )
           .toList();
 

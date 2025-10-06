@@ -11,6 +11,26 @@
       "networkType": "custom"
     }
   ],
+  "defaultSettings": {
+    "walletAccountNames": {
+      "multisig": {
+        "safeMultisigWallet": "SafeMultisig",
+        "safeMultisigWallet24h": "SafeMultisig24h",
+        "setcodeMultisigWallet": "SetcodeMultisig",
+        "setcodeMultisigWallet24h": "SetcodeMultisig24h",
+        "bridgeMultisigWallet": "BridgeMultisig",
+        "surfWallet": "Surf Wallet",
+        "multisig2": "Legacy Multi-sig",
+        "multisig2_1": "Multi-sig"
+      },
+      "walletV3": "WalletV3",
+      "highloadWalletV2": "HighloadWallet",
+      "everWallet": "Default",
+      "walletV4R1": "WalletV4R1",
+      "walletV4R2": "WalletV4R2",
+      "walletV5R1": "WalletV5R1"
+    }
+  },
   "connections": [
     {
       "id": "preset_ton_mainnet_proto",
@@ -59,21 +79,9 @@
           ],
           "walletDefaultAccountNames": {
             "multisig": {
-              "safeMultisigWallet": "SafeMultisig24h",
-              "safeMultisigWallet24h": "SafeMultisig24h",
-              "setcodeMultisigWallet": "SetcodeMultisig",
-              "setcodeMultisigWallet24h": "SetcodeMultisig24h",
-              "bridgeMultisigWallet": "BridgeMultisig",
-              "surfWallet": "Surf Wallet",
-              "multisig2": "Legacy Multi-sig",
-              "multisig2_1": "Multi-sig"
+              "safeMultisigWallet": "SafeMultisig24h"
             },
-            "walletV3": "Legacy",
-            "highloadWalletV2": "HighloadWallet",
-            "everWallet": "Default",
-            "walletV4R1": "WalletV4R1",
-            "walletV4R2": "WalletV4R2",
-            "walletV5R1": "WalletV5R1"
+            "walletV3": "Legacy"
           },
           "defaultWalletType": {
             "type": "everWallet"
@@ -140,24 +148,6 @@
               "address": "0:fddc005ddffcc9c5cc8e2d684c1338d3fa5548426602b04b2cfd2a1a3504be80"
             }
           ],
-          "walletDefaultAccountNames": {
-            "multisig": {
-              "safeMultisigWallet": "SafeMultisig",
-              "safeMultisigWallet24h": "SafeMultisig24h",
-              "setcodeMultisigWallet": "SetcodeMultisig",
-              "setcodeMultisigWallet24h": "SetcodeMultisig24h",
-              "bridgeMultisigWallet": "BridgeMultisig",
-              "surfWallet": "Surf Wallet",
-              "multisig2": "Legacy Multi-sig",
-              "multisig2_1": "Multi-sig"
-            },
-            "walletV3": "WalletV3",
-            "highloadWalletV2": "HighloadWallet",
-            "everWallet": "Default",
-            "walletV4R1": "WalletV4R1",
-            "walletV4R2": "WalletV4R2",
-            "walletV5R1": "WalletV5R1"
-          },
           "defaultWalletType": {
             "type": "everWallet"
           },
@@ -215,24 +205,6 @@
               "value": "multisig2_1"
             }
           ],
-          "walletDefaultAccountNames": {
-            "multisig": {
-              "safeMultisigWallet": "SafeMultisig",
-              "safeMultisigWallet24h": "SafeMultisig24h",
-              "setcodeMultisigWallet": "SetcodeMultisig",
-              "setcodeMultisigWallet24h": "SetcodeMultisig24h",
-              "bridgeMultisigWallet": "BridgeMultisig",
-              "surfWallet": "Surf Wallet",
-              "multisig2": "Legacy Multi-sig",
-              "multisig2_1": "Multi-sig"
-            },
-            "walletV3": "WalletV3",
-            "highloadWalletV2": "HighloadWallet",
-            "everWallet": "Default",
-            "walletV4R1": "WalletV4R1",
-            "walletV4R2": "WalletV4R2",
-            "walletV5R1": "WalletV5R1"
-          },
           "defaultWalletType": {
             "type": "everWallet"
           },
@@ -292,24 +264,6 @@
               "type": "walletV5R1"
             }
           ],
-          "walletDefaultAccountNames": {
-            "multisig": {
-              "safeMultisigWallet": "SafeMultisig",
-              "safeMultisigWallet24h": "SafeMultisig24h",
-              "setcodeMultisigWallet": "SetcodeMultisig",
-              "setcodeMultisigWallet24h": "SetcodeMultisig24h",
-              "bridgeMultisigWallet": "BridgeMultisig",
-              "surfWallet": "Surf Wallet",
-              "multisig2": "Legacy Multi-sig",
-              "multisig2_1": "Multi-sig"
-            },
-            "walletV3": "WalletV3",
-            "highloadWalletV2": "HighloadWallet",
-            "everWallet": "Default",
-            "walletV4R1": "WalletV4R1",
-            "walletV4R2": "WalletV4R2",
-            "walletV5R1": "WalletV5R1"
-          },
           "defaultWalletType": {
             "type": "everWallet"
           },
@@ -399,22 +353,7 @@
             }
           ],
           "walletDefaultAccountNames": {
-            "multisig": {
-              "safeMultisigWallet": "SafeMultisig",
-              "safeMultisigWallet24h": "SafeMultisig24h",
-              "setcodeMultisigWallet": "SetcodeMultisig",
-              "setcodeMultisigWallet24h": "SetcodeMultisig24h",
-              "bridgeMultisigWallet": "BridgeMultisig",
-              "surfWallet": "Surf Wallet",
-              "multisig2": "Legacy Multi-sig",
-              "multisig2_1": "Multi-sig"
-            },
-            "walletV3": "WalletV3",
-            "highloadWalletV2": "HighloadWallet",
-            "everWallet": "EVER Wallet",
-            "walletV4R1": "WalletV4R1",
-            "walletV4R2": "WalletV4R2",
-            "walletV5R1": "WalletV5R1"
+            "everWallet": "EVER Wallet"
           },
           "defaultWalletType": {
             "type": "everWallet"
@@ -478,21 +417,8 @@
           ],
           "walletDefaultAccountNames": {
             "multisig": {
-              "safeMultisigWallet": "SafeMultisig24h",
-              "safeMultisigWallet24h": "SafeMultisig24h",
-              "setcodeMultisigWallet": "SetcodeMultisig",
-              "setcodeMultisigWallet24h": "SetcodeMultisig24h",
-              "bridgeMultisigWallet": "BridgeMultisig",
-              "surfWallet": "Surf Wallet",
-              "multisig2": "Legacy Multi-sig",
-              "multisig2_1": "Multi-sig"
-            },
-            "walletV3": "Legacy",
-            "highloadWalletV2": "HighloadWallet",
-            "everWallet": "Default",
-            "walletV4R1": "WalletV4R1",
-            "walletV4R2": "WalletV4R2",
-            "walletV5R1": "WalletV5R1"
+              "safeMultisigWallet": "SafeMultisig24h"
+            }
           },
           "defaultWalletType": {
             "type": "everWallet"

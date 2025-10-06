@@ -35,6 +35,9 @@ class PresetsConnectionService {
   Connection get defaultConnection =>
       _data?.defaultConnection ?? defaultPresetConnection;
 
+  Map<String, dynamic> get rawDefaultSettings =>
+      _data?.rawDefaultSettings ?? {};
+
   String? currentPresetId;
 
   TransportIcons getTransportIconsByNetworkGroup(NetworkGroup networkGroup) {

@@ -32,7 +32,10 @@ abstract class Connection with _$Connection {
         workchains: workchains,
       );
 
-  factory Connection.fromJson(Map<String, dynamic> json) {
+  factory Connection.fromJson({
+    required Map<String, dynamic> json,
+    required Map<String, dynamic> commonWalletDefaultAccountNames,
+  }) {
     final id = json['id'] as String;
     final networkName = json['networkName'] as String;
 
@@ -46,6 +49,7 @@ abstract class Connection with _$Connection {
           json: w,
           parentId: id,
           networkName: networkName,
+          commonWalletDefaultAccountNames: commonWalletDefaultAccountNames,
         ),
     ];
 

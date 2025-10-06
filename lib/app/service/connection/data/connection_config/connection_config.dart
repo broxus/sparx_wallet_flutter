@@ -14,6 +14,7 @@ part 'connection_config.g.dart';
 abstract class ConnectionConfig with _$ConnectionConfig {
   factory ConnectionConfig({
     required String defaultConnectionId,
+    required Map<String, dynamic> rawDefaultSettings,
     List<Connection>? connections,
     List<CustomNetworkOption>? customNetworkOptions,
   }) {
@@ -24,6 +25,7 @@ abstract class ConnectionConfig with _$ConnectionConfig {
 
     return ConnectionConfig._(
       defaultConnectionId: defaultConnection.id,
+      rawDefaultSettings: rawDefaultSettings,
       connections: connections,
       customNetworkOptions: customNetworkOptions,
       defaultConnection: defaultConnection,
@@ -41,6 +43,7 @@ abstract class ConnectionConfig with _$ConnectionConfig {
   )
   const factory ConnectionConfig._({
     required String defaultConnectionId,
+    required Map<String, dynamic> rawDefaultSettings,
     @JsonKey(includeFromJson: false, includeToJson: false)
     required Connection defaultConnection,
     List<Connection>? connections,
@@ -57,9 +60,15 @@ abstract class ConnectionConfig with _$ConnectionConfig {
 
     return ConnectionConfig(
       defaultConnectionId: json['defaultConnectionId'] as String,
+      rawDefaultSettings: castJsonMap(json['defaultSettings']),
       connections: [
         for (final connection in connections)
-          Connection.fromJson(castJsonMap(connection)),
+          Connection.fromJson(
+            json: castJsonMap(connection),
+            commonWalletDefaultAccountNames: castJsonMap(
+              castJsonMap(json['defaultSettings'])['walletAccountNames'],
+            ),
+          ),
       ],
       customNetworkOptions: [
         for (final option in customNetworkOptions)

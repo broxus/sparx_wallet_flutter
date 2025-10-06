@@ -16,6 +16,7 @@ T _$identity<T>(T value) => value;
 /// @nodoc
 mixin _$ConnectionConfig {
   String get defaultConnectionId;
+  Map<String, dynamic> get rawDefaultSettings;
   @JsonKey(includeFromJson: false, includeToJson: false)
   Connection get defaultConnection;
   List<Connection>? get connections;
@@ -41,6 +42,8 @@ mixin _$ConnectionConfig {
             other is ConnectionConfig &&
             (identical(other.defaultConnectionId, defaultConnectionId) ||
                 other.defaultConnectionId == defaultConnectionId) &&
+            const DeepCollectionEquality()
+                .equals(other.rawDefaultSettings, rawDefaultSettings) &&
             (identical(other.defaultConnection, defaultConnection) ||
                 other.defaultConnection == defaultConnection) &&
             const DeepCollectionEquality()
@@ -56,6 +59,7 @@ mixin _$ConnectionConfig {
   int get hashCode => Object.hash(
       runtimeType,
       defaultConnectionId,
+      const DeepCollectionEquality().hash(rawDefaultSettings),
       defaultConnection,
       const DeepCollectionEquality().hash(connections),
       const DeepCollectionEquality().hash(customNetworkOptions),
@@ -63,7 +67,7 @@ mixin _$ConnectionConfig {
 
   @override
   String toString() {
-    return 'ConnectionConfig(defaultConnectionId: $defaultConnectionId, defaultConnection: $defaultConnection, connections: $connections, customNetworkOptions: $customNetworkOptions, customNetworkOptionTypes: $customNetworkOptionTypes)';
+    return 'ConnectionConfig(defaultConnectionId: $defaultConnectionId, rawDefaultSettings: $rawDefaultSettings, defaultConnection: $defaultConnection, connections: $connections, customNetworkOptions: $customNetworkOptions, customNetworkOptionTypes: $customNetworkOptionTypes)';
   }
 }
 
@@ -75,6 +79,7 @@ abstract mixin class $ConnectionConfigCopyWith<$Res> {
   @useResult
   $Res call(
       {String defaultConnectionId,
+      Map<String, dynamic> rawDefaultSettings,
       @JsonKey(includeFromJson: false, includeToJson: false)
       Connection defaultConnection,
       List<Connection>? connections,
@@ -99,6 +104,7 @@ class _$ConnectionConfigCopyWithImpl<$Res>
   @override
   $Res call({
     Object? defaultConnectionId = null,
+    Object? rawDefaultSettings = null,
     Object? defaultConnection = null,
     Object? connections = freezed,
     Object? customNetworkOptions = freezed,
@@ -109,6 +115,10 @@ class _$ConnectionConfigCopyWithImpl<$Res>
           ? _self.defaultConnectionId
           : defaultConnectionId // ignore: cast_nullable_to_non_nullable
               as String,
+      rawDefaultSettings: null == rawDefaultSettings
+          ? _self.rawDefaultSettings
+          : rawDefaultSettings // ignore: cast_nullable_to_non_nullable
+              as Map<String, dynamic>,
       defaultConnection: null == defaultConnection
           ? _self.defaultConnection
           : defaultConnection // ignore: cast_nullable_to_non_nullable
@@ -145,18 +155,29 @@ class _$ConnectionConfigCopyWithImpl<$Res>
 class _ConnectionConfig implements ConnectionConfig {
   const _ConnectionConfig(
       {required this.defaultConnectionId,
+      required final Map<String, dynamic> rawDefaultSettings,
       @JsonKey(includeFromJson: false, includeToJson: false)
       required this.defaultConnection,
       final List<Connection>? connections,
       final List<CustomNetworkOption>? customNetworkOptions,
       @JsonKey(includeFromJson: false, includeToJson: false)
       final List<NetworkType>? customNetworkOptionTypes})
-      : _connections = connections,
+      : _rawDefaultSettings = rawDefaultSettings,
+        _connections = connections,
         _customNetworkOptions = customNetworkOptions,
         _customNetworkOptionTypes = customNetworkOptionTypes;
 
   @override
   final String defaultConnectionId;
+  final Map<String, dynamic> _rawDefaultSettings;
+  @override
+  Map<String, dynamic> get rawDefaultSettings {
+    if (_rawDefaultSettings is EqualUnmodifiableMapView)
+      return _rawDefaultSettings;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableMapView(_rawDefaultSettings);
+  }
+
   @override
   @JsonKey(includeFromJson: false, includeToJson: false)
   final Connection defaultConnection;
@@ -215,6 +236,8 @@ class _ConnectionConfig implements ConnectionConfig {
             other is _ConnectionConfig &&
             (identical(other.defaultConnectionId, defaultConnectionId) ||
                 other.defaultConnectionId == defaultConnectionId) &&
+            const DeepCollectionEquality()
+                .equals(other._rawDefaultSettings, _rawDefaultSettings) &&
             (identical(other.defaultConnection, defaultConnection) ||
                 other.defaultConnection == defaultConnection) &&
             const DeepCollectionEquality()
@@ -230,6 +253,7 @@ class _ConnectionConfig implements ConnectionConfig {
   int get hashCode => Object.hash(
       runtimeType,
       defaultConnectionId,
+      const DeepCollectionEquality().hash(_rawDefaultSettings),
       defaultConnection,
       const DeepCollectionEquality().hash(_connections),
       const DeepCollectionEquality().hash(_customNetworkOptions),
@@ -237,7 +261,7 @@ class _ConnectionConfig implements ConnectionConfig {
 
   @override
   String toString() {
-    return 'ConnectionConfig._(defaultConnectionId: $defaultConnectionId, defaultConnection: $defaultConnection, connections: $connections, customNetworkOptions: $customNetworkOptions, customNetworkOptionTypes: $customNetworkOptionTypes)';
+    return 'ConnectionConfig._(defaultConnectionId: $defaultConnectionId, rawDefaultSettings: $rawDefaultSettings, defaultConnection: $defaultConnection, connections: $connections, customNetworkOptions: $customNetworkOptions, customNetworkOptionTypes: $customNetworkOptionTypes)';
   }
 }
 
@@ -251,6 +275,7 @@ abstract mixin class _$ConnectionConfigCopyWith<$Res>
   @useResult
   $Res call(
       {String defaultConnectionId,
+      Map<String, dynamic> rawDefaultSettings,
       @JsonKey(includeFromJson: false, includeToJson: false)
       Connection defaultConnection,
       List<Connection>? connections,
@@ -276,6 +301,7 @@ class __$ConnectionConfigCopyWithImpl<$Res>
   @pragma('vm:prefer-inline')
   $Res call({
     Object? defaultConnectionId = null,
+    Object? rawDefaultSettings = null,
     Object? defaultConnection = null,
     Object? connections = freezed,
     Object? customNetworkOptions = freezed,
@@ -286,6 +312,10 @@ class __$ConnectionConfigCopyWithImpl<$Res>
           ? _self.defaultConnectionId
           : defaultConnectionId // ignore: cast_nullable_to_non_nullable
               as String,
+      rawDefaultSettings: null == rawDefaultSettings
+          ? _self._rawDefaultSettings
+          : rawDefaultSettings // ignore: cast_nullable_to_non_nullable
+              as Map<String, dynamic>,
       defaultConnection: null == defaultConnection
           ? _self.defaultConnection
           : defaultConnection // ignore: cast_nullable_to_non_nullable
