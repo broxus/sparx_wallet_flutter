@@ -65,19 +65,7 @@ class AppModel extends ElementaryModel with WidgetsBindingObserver {
     _crashDetectorService.startSession(setCrashDetected: true);
     _checkBiometry();
     _appLinksSubs = _appLinksService.browserLinksStream.listen(_listenAppLinks);
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      _handleInitialLinkWhenReady();
-    });
     super.init();
-  }
-
-  Future<void> _handleInitialLinkWhenReady() async {
-    // Wait for bootstrap to complete
-    await _bootstrapService.bootstrapStepStream
-        .firstWhere((step) => _bootstrapService.isConfigured);
-
-    // Now safe to handle initial link
-    await _appLinksService.handleInitialLink();
   }
 
   @override
@@ -135,6 +123,11 @@ class AppModel extends ElementaryModel with WidgetsBindingObserver {
       // Wait for bootstrap to complete before handling deeplink
       await _bootstrapService.bootstrapStepStream
           .firstWhere((step) => _bootstrapService.isConfigured);
+
+      // Wait for router to complete initial navigation
+      // This ensures RootView and bottom navigation bar are fully mounted
+      // before attempting to navigate to browser
+      await router.currentRoutesStream.first;
 
       _browserLauncher.openBrowserByUri(event.url);
     });
