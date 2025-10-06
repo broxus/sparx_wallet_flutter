@@ -81,9 +81,6 @@
           "nativeTokenTicker": {
             "name": "TON"
           },
-          "manifestOption": {
-            "type": "fromConnection"
-          },
           "nativeTokenAddress": "0:9a8da514d575d20234c3fb1395ee9138f5f1ad838abc905dc42c2389b46bd015",
           "seedPhraseWordsCount": [
             12,
@@ -167,9 +164,6 @@
           "nativeTokenTicker": {
             "name": "HMSTR"
           },
-          "manifestOption": {
-            "type": "fromConnection"
-          },
           "nativeTokenAddress": "0:39b50cd546326f132e57ce3d6c488d08cb3900dc309a53681b82216993384546",
           "seedPhraseWordsCount": [
             12,
@@ -244,9 +238,6 @@
           },
           "nativeTokenTicker": {
             "name": "HUMO"
-          },
-          "manifestOption": {
-            "type": "fromConnection"
           },
           "nativeTokenAddress": "0:ee49dd4c3a7754ace683612e5f9d06508ff13acb4055168fada912af25919271",
           "seedPhraseWordsCount": [
@@ -324,9 +315,6 @@
           },
           "nativeTokenTicker": {
             "name": "TYCHO"
-          },
-          "manifestOption": {
-            "type": "fromConnection"
           },
           "nativeTokenAddress": "0:8233ae1a3a94f77a9b12ab9b07f37923144fb78a7a8c582a5e3e2ed86cb40ced",
           "seedPhraseWordsCount": [
@@ -434,9 +422,6 @@
           "nativeTokenTicker": {
             "name": "EVER"
           },
-          "manifestOption": {
-            "type": "fromConnection"
-          },
           "nativeTokenAddress": "0:a49cd4e158a9a15555e624759e2e4e766d22600b7800d891e46f9291f044a93d",
           "seedPhraseWordsCount": [
             12,
@@ -514,9 +499,6 @@
           },
           "nativeTokenTicker": {
             "name": "VENOM"
-          },
-          "manifestOption": {
-            "type": "fromConnection"
           },
           "nativeTokenAddress": "0:77d36848bb159fa485628bc38dc37eadb74befa514395e09910f601b841f749e",
           "seedPhraseWordsCount": [

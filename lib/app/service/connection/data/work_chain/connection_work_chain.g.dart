@@ -21,8 +21,6 @@ _ConnectionWorkchain _$ConnectionWorkchainFromJson(Map<String, dynamic> json) =>
           .fromJson(json['availableWalletTypes'] as List),
       defaultWalletType: const WalletTypeConverter()
           .fromJson(json['defaultWalletType'] as Map<String, dynamic>),
-      manifestOption: TransportManifestOption.fromJson(
-          json['manifestOption'] as Map<String, dynamic>),
       nativeTokenAddress: const AddressStringConverter()
           .fromJson(json['nativeTokenAddress'] as String),
       seedPhraseWordsCount: (json['seedPhraseWordsCount'] as List<dynamic>)
@@ -41,7 +39,7 @@ _ConnectionWorkchain _$ConnectionWorkchainFromJson(Map<String, dynamic> json) =>
           json['walletDefaultAccountNames'] as Map<String, dynamic>),
       blockExplorerUrl: json['blockExplorerUrl'] as String? ?? '',
       nativeTokenTicker: json['nativeTokenTicker'] == null
-          ? const NativeTokenTicker(name: '')
+          ? const NativeTokenTicker()
           : NativeTokenTicker.fromJson(
               json['nativeTokenTicker'] as Map<String, dynamic>),
       isLocal: json['isLocal'] as bool? ?? false,
@@ -87,7 +85,6 @@ Map<String, dynamic> _$ConnectionWorkchainToJson(
           const WalletTypeListConverter().toJson(instance.availableWalletTypes),
       'defaultWalletType':
           const WalletTypeConverter().toJson(instance.defaultWalletType),
-      'manifestOption': instance.manifestOption.toJson(),
       'nativeTokenAddress':
           const AddressStringConverter().toJson(instance.nativeTokenAddress),
       'seedPhraseWordsCount': instance.seedPhraseWordsCount,

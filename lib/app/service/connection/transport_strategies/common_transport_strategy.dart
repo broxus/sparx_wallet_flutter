@@ -4,7 +4,6 @@ import 'package:app/app/service/connection/data/network_type.dart';
 import 'package:app/app/service/connection/data/nft_information/nft_information.dart';
 import 'package:app/app/service/connection/data/transaction_explorer/transaction_explorer_link_type.dart';
 import 'package:app/app/service/connection/data/transport_icons.dart';
-import 'package:app/app/service/connection/data/transport_manifest_option/transport_manifest_option.dart';
 import 'package:app/app/service/connection/data/wallet_default_account_names.dart';
 import 'package:app/app/service/connection/generic_token_subscriber.dart';
 import 'package:app/app/service/connection/group.dart';
@@ -22,7 +21,6 @@ class CommonTransportStrategy extends AppTransportStrategy {
     required this.availableWalletTypes,
     required this.walletDefaultAccountNames,
     required this.defaultWalletType,
-    required this.manifestOption,
     required this.nativeTokenAddress,
     required this.networkName,
     required this.seedPhraseWordsCount,
@@ -54,7 +52,6 @@ class CommonTransportStrategy extends AppTransportStrategy {
       availableWalletTypes: workchain.availableWalletTypes,
       walletDefaultAccountNames: workchain.walletDefaultAccountNames,
       defaultWalletType: workchain.defaultWalletType,
-      manifestOption: workchain.manifestOption,
       nativeTokenAddress: workchain.nativeTokenAddress,
       networkName: workchain.networkName,
       networkType: workchain.networkType,
@@ -90,16 +87,11 @@ class CommonTransportStrategy extends AppTransportStrategy {
   final WalletType defaultWalletType;
 
   @override
-  String get manifestUrl => switch (manifestOption) {
-        TransportManifestOptionFromConnection() =>
-          connection.defaultWorkchain.manifestUrl,
-      };
+  String get manifestUrl => connection.defaultWorkchain.manifestUrl;
 
   @override
   String get nativeTokenIcon =>
       icons?.nativeToken ?? Assets.images.nativeTokenDefault.path;
-
-  final TransportManifestOption manifestOption;
 
   @override
   final Address nativeTokenAddress;

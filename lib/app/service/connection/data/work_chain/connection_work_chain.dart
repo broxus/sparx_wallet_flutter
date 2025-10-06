@@ -5,7 +5,6 @@ import 'package:app/app/service/connection/data/network_type.dart';
 import 'package:app/app/service/connection/data/nft_information/nft_information.dart';
 import 'package:app/app/service/connection/data/transaction_explorer/transaction_explorer_link_type.dart';
 import 'package:app/app/service/connection/data/transport_icons.dart';
-import 'package:app/app/service/connection/data/transport_manifest_option/transport_manifest_option.dart';
 import 'package:app/app/service/connection/data/wallet_default_account_names.dart';
 import 'package:app/app/service/connection/data/work_chain/workchain_type.dart';
 import 'package:app/app/service/connection/generic_token_subscriber.dart';
@@ -35,7 +34,6 @@ abstract class ConnectionWorkchain with _$ConnectionWorkchain {
     required TransportIcons icons,
     @WalletTypeListConverter() required List<WalletType> availableWalletTypes,
     @WalletTypeConverter() required WalletType defaultWalletType,
-    required TransportManifestOption manifestOption,
     @AddressStringConverter() required Address nativeTokenAddress,
     required List<int> seedPhraseWordsCount,
     required int? defaultNativeCurrencyDecimal,
@@ -116,7 +114,6 @@ abstract class ConnectionWorkchain with _$ConnectionWorkchain {
         walletV5R1: 'Wallet V5R1',
       ),
       defaultWalletType: const WalletType.everWallet(),
-      manifestOption: const TransportManifestOption.fromConnection(),
       nativeTokenAddress: const Address(address: ''),
       seedPhraseWordsCount: [12, 24],
       genericTokenType: GenericTokenType.tip3,

@@ -27,7 +27,6 @@ mixin _$ConnectionWorkchain {
   List<WalletType> get availableWalletTypes;
   @WalletTypeConverter()
   WalletType get defaultWalletType;
-  TransportManifestOption get manifestOption;
   @AddressStringConverter()
   Address get nativeTokenAddress;
   List<int> get seedPhraseWordsCount;
@@ -88,8 +87,6 @@ mixin _$ConnectionWorkchain {
                 .equals(other.availableWalletTypes, availableWalletTypes) &&
             (identical(other.defaultWalletType, defaultWalletType) ||
                 other.defaultWalletType == defaultWalletType) &&
-            (identical(other.manifestOption, manifestOption) ||
-                other.manifestOption == manifestOption) &&
             (identical(other.nativeTokenAddress, nativeTokenAddress) ||
                 other.nativeTokenAddress == nativeTokenAddress) &&
             const DeepCollectionEquality()
@@ -151,7 +148,6 @@ mixin _$ConnectionWorkchain {
         icons,
         const DeepCollectionEquality().hash(availableWalletTypes),
         defaultWalletType,
-        manifestOption,
         nativeTokenAddress,
         const DeepCollectionEquality().hash(seedPhraseWordsCount),
         defaultNativeCurrencyDecimal,
@@ -180,7 +176,7 @@ mixin _$ConnectionWorkchain {
 
   @override
   String toString() {
-    return 'ConnectionWorkchain(id: $id, parentConnectionId: $parentConnectionId, networkType: $networkType, networkName: $networkName, networkGroup: $networkGroup, type: $type, endpoints: $endpoints, icons: $icons, availableWalletTypes: $availableWalletTypes, defaultWalletType: $defaultWalletType, manifestOption: $manifestOption, nativeTokenAddress: $nativeTokenAddress, seedPhraseWordsCount: $seedPhraseWordsCount, defaultNativeCurrencyDecimal: $defaultNativeCurrencyDecimal, genericTokenType: $genericTokenType, accountExplorerLinkType: $accountExplorerLinkType, transactionExplorerLinkType: $transactionExplorerLinkType, walletDefaultAccountNames: $walletDefaultAccountNames, blockExplorerUrl: $blockExplorerUrl, nativeTokenTicker: $nativeTokenTicker, isLocal: $isLocal, isPreset: $isPreset, canBeEdited: $canBeEdited, isUsedOnStart: $isUsedOnStart, manifestUrl: $manifestUrl, nativeTokenDecimals: $nativeTokenDecimals, defaultActiveAssets: $defaultActiveAssets, latencyDetectionInterval: $latencyDetectionInterval, maxLatency: $maxLatency, endpointSelectionRetryCount: $endpointSelectionRetryCount, tokenApiBaseUrl: $tokenApiBaseUrl, currencyApiBaseUrl: $currencyApiBaseUrl, pollingConfig: $pollingConfig, stakeInformation: $stakeInformation, nftInformation: $nftInformation)';
+    return 'ConnectionWorkchain(id: $id, parentConnectionId: $parentConnectionId, networkType: $networkType, networkName: $networkName, networkGroup: $networkGroup, type: $type, endpoints: $endpoints, icons: $icons, availableWalletTypes: $availableWalletTypes, defaultWalletType: $defaultWalletType, nativeTokenAddress: $nativeTokenAddress, seedPhraseWordsCount: $seedPhraseWordsCount, defaultNativeCurrencyDecimal: $defaultNativeCurrencyDecimal, genericTokenType: $genericTokenType, accountExplorerLinkType: $accountExplorerLinkType, transactionExplorerLinkType: $transactionExplorerLinkType, walletDefaultAccountNames: $walletDefaultAccountNames, blockExplorerUrl: $blockExplorerUrl, nativeTokenTicker: $nativeTokenTicker, isLocal: $isLocal, isPreset: $isPreset, canBeEdited: $canBeEdited, isUsedOnStart: $isUsedOnStart, manifestUrl: $manifestUrl, nativeTokenDecimals: $nativeTokenDecimals, defaultActiveAssets: $defaultActiveAssets, latencyDetectionInterval: $latencyDetectionInterval, maxLatency: $maxLatency, endpointSelectionRetryCount: $endpointSelectionRetryCount, tokenApiBaseUrl: $tokenApiBaseUrl, currencyApiBaseUrl: $currencyApiBaseUrl, pollingConfig: $pollingConfig, stakeInformation: $stakeInformation, nftInformation: $nftInformation)';
   }
 }
 
@@ -201,7 +197,6 @@ abstract mixin class $ConnectionWorkchainCopyWith<$Res> {
       TransportIcons icons,
       @WalletTypeListConverter() List<WalletType> availableWalletTypes,
       @WalletTypeConverter() WalletType defaultWalletType,
-      TransportManifestOption manifestOption,
       @AddressStringConverter() Address nativeTokenAddress,
       List<int> seedPhraseWordsCount,
       int? defaultNativeCurrencyDecimal,
@@ -229,7 +224,6 @@ abstract mixin class $ConnectionWorkchainCopyWith<$Res> {
 
   $TransportIconsCopyWith<$Res> get icons;
   $WalletTypeCopyWith<$Res> get defaultWalletType;
-  $TransportManifestOptionCopyWith<$Res> get manifestOption;
   $AddressCopyWith<$Res> get nativeTokenAddress;
   $WalletDefaultAccountNamesCopyWith<$Res> get walletDefaultAccountNames;
   $NativeTokenTickerCopyWith<$Res> get nativeTokenTicker;
@@ -259,7 +253,6 @@ class _$ConnectionWorkchainCopyWithImpl<$Res>
     Object? icons = null,
     Object? availableWalletTypes = null,
     Object? defaultWalletType = null,
-    Object? manifestOption = null,
     Object? nativeTokenAddress = null,
     Object? seedPhraseWordsCount = null,
     Object? defaultNativeCurrencyDecimal = freezed,
@@ -326,10 +319,6 @@ class _$ConnectionWorkchainCopyWithImpl<$Res>
           ? _self.defaultWalletType
           : defaultWalletType // ignore: cast_nullable_to_non_nullable
               as WalletType,
-      manifestOption: null == manifestOption
-          ? _self.manifestOption
-          : manifestOption // ignore: cast_nullable_to_non_nullable
-              as TransportManifestOption,
       nativeTokenAddress: null == nativeTokenAddress
           ? _self.nativeTokenAddress
           : nativeTokenAddress // ignore: cast_nullable_to_non_nullable
@@ -453,17 +442,6 @@ class _$ConnectionWorkchainCopyWithImpl<$Res>
   /// with the given fields replaced by the non-null parameter values.
   @override
   @pragma('vm:prefer-inline')
-  $TransportManifestOptionCopyWith<$Res> get manifestOption {
-    return $TransportManifestOptionCopyWith<$Res>(_self.manifestOption,
-        (value) {
-      return _then(_self.copyWith(manifestOption: value));
-    });
-  }
-
-  /// Create a copy of ConnectionWorkchain
-  /// with the given fields replaced by the non-null parameter values.
-  @override
-  @pragma('vm:prefer-inline')
   $AddressCopyWith<$Res> get nativeTokenAddress {
     return $AddressCopyWith<$Res>(_self.nativeTokenAddress, (value) {
       return _then(_self.copyWith(nativeTokenAddress: value));
@@ -521,7 +499,6 @@ class _ConnectionWorkchain implements ConnectionWorkchain {
       @WalletTypeListConverter()
       required final List<WalletType> availableWalletTypes,
       @WalletTypeConverter() required this.defaultWalletType,
-      required this.manifestOption,
       @AddressStringConverter() required this.nativeTokenAddress,
       required final List<int> seedPhraseWordsCount,
       required this.defaultNativeCurrencyDecimal,
@@ -530,7 +507,7 @@ class _ConnectionWorkchain implements ConnectionWorkchain {
       required this.transactionExplorerLinkType,
       required this.walletDefaultAccountNames,
       this.blockExplorerUrl = '',
-      this.nativeTokenTicker = const NativeTokenTicker(name: ''),
+      this.nativeTokenTicker = const NativeTokenTicker(),
       this.isLocal = false,
       this.isPreset = true,
       this.canBeEdited = false,
@@ -588,8 +565,6 @@ class _ConnectionWorkchain implements ConnectionWorkchain {
   @override
   @WalletTypeConverter()
   final WalletType defaultWalletType;
-  @override
-  final TransportManifestOption manifestOption;
   @override
   @AddressStringConverter()
   final Address nativeTokenAddress;
@@ -703,8 +678,6 @@ class _ConnectionWorkchain implements ConnectionWorkchain {
                 .equals(other._availableWalletTypes, _availableWalletTypes) &&
             (identical(other.defaultWalletType, defaultWalletType) ||
                 other.defaultWalletType == defaultWalletType) &&
-            (identical(other.manifestOption, manifestOption) ||
-                other.manifestOption == manifestOption) &&
             (identical(other.nativeTokenAddress, nativeTokenAddress) ||
                 other.nativeTokenAddress == nativeTokenAddress) &&
             const DeepCollectionEquality()
@@ -766,7 +739,6 @@ class _ConnectionWorkchain implements ConnectionWorkchain {
         icons,
         const DeepCollectionEquality().hash(_availableWalletTypes),
         defaultWalletType,
-        manifestOption,
         nativeTokenAddress,
         const DeepCollectionEquality().hash(_seedPhraseWordsCount),
         defaultNativeCurrencyDecimal,
@@ -795,7 +767,7 @@ class _ConnectionWorkchain implements ConnectionWorkchain {
 
   @override
   String toString() {
-    return 'ConnectionWorkchain(id: $id, parentConnectionId: $parentConnectionId, networkType: $networkType, networkName: $networkName, networkGroup: $networkGroup, type: $type, endpoints: $endpoints, icons: $icons, availableWalletTypes: $availableWalletTypes, defaultWalletType: $defaultWalletType, manifestOption: $manifestOption, nativeTokenAddress: $nativeTokenAddress, seedPhraseWordsCount: $seedPhraseWordsCount, defaultNativeCurrencyDecimal: $defaultNativeCurrencyDecimal, genericTokenType: $genericTokenType, accountExplorerLinkType: $accountExplorerLinkType, transactionExplorerLinkType: $transactionExplorerLinkType, walletDefaultAccountNames: $walletDefaultAccountNames, blockExplorerUrl: $blockExplorerUrl, nativeTokenTicker: $nativeTokenTicker, isLocal: $isLocal, isPreset: $isPreset, canBeEdited: $canBeEdited, isUsedOnStart: $isUsedOnStart, manifestUrl: $manifestUrl, nativeTokenDecimals: $nativeTokenDecimals, defaultActiveAssets: $defaultActiveAssets, latencyDetectionInterval: $latencyDetectionInterval, maxLatency: $maxLatency, endpointSelectionRetryCount: $endpointSelectionRetryCount, tokenApiBaseUrl: $tokenApiBaseUrl, currencyApiBaseUrl: $currencyApiBaseUrl, pollingConfig: $pollingConfig, stakeInformation: $stakeInformation, nftInformation: $nftInformation)';
+    return 'ConnectionWorkchain(id: $id, parentConnectionId: $parentConnectionId, networkType: $networkType, networkName: $networkName, networkGroup: $networkGroup, type: $type, endpoints: $endpoints, icons: $icons, availableWalletTypes: $availableWalletTypes, defaultWalletType: $defaultWalletType, nativeTokenAddress: $nativeTokenAddress, seedPhraseWordsCount: $seedPhraseWordsCount, defaultNativeCurrencyDecimal: $defaultNativeCurrencyDecimal, genericTokenType: $genericTokenType, accountExplorerLinkType: $accountExplorerLinkType, transactionExplorerLinkType: $transactionExplorerLinkType, walletDefaultAccountNames: $walletDefaultAccountNames, blockExplorerUrl: $blockExplorerUrl, nativeTokenTicker: $nativeTokenTicker, isLocal: $isLocal, isPreset: $isPreset, canBeEdited: $canBeEdited, isUsedOnStart: $isUsedOnStart, manifestUrl: $manifestUrl, nativeTokenDecimals: $nativeTokenDecimals, defaultActiveAssets: $defaultActiveAssets, latencyDetectionInterval: $latencyDetectionInterval, maxLatency: $maxLatency, endpointSelectionRetryCount: $endpointSelectionRetryCount, tokenApiBaseUrl: $tokenApiBaseUrl, currencyApiBaseUrl: $currencyApiBaseUrl, pollingConfig: $pollingConfig, stakeInformation: $stakeInformation, nftInformation: $nftInformation)';
   }
 }
 
@@ -818,7 +790,6 @@ abstract mixin class _$ConnectionWorkchainCopyWith<$Res>
       TransportIcons icons,
       @WalletTypeListConverter() List<WalletType> availableWalletTypes,
       @WalletTypeConverter() WalletType defaultWalletType,
-      TransportManifestOption manifestOption,
       @AddressStringConverter() Address nativeTokenAddress,
       List<int> seedPhraseWordsCount,
       int? defaultNativeCurrencyDecimal,
@@ -848,8 +819,6 @@ abstract mixin class _$ConnectionWorkchainCopyWith<$Res>
   $TransportIconsCopyWith<$Res> get icons;
   @override
   $WalletTypeCopyWith<$Res> get defaultWalletType;
-  @override
-  $TransportManifestOptionCopyWith<$Res> get manifestOption;
   @override
   $AddressCopyWith<$Res> get nativeTokenAddress;
   @override
@@ -883,7 +852,6 @@ class __$ConnectionWorkchainCopyWithImpl<$Res>
     Object? icons = null,
     Object? availableWalletTypes = null,
     Object? defaultWalletType = null,
-    Object? manifestOption = null,
     Object? nativeTokenAddress = null,
     Object? seedPhraseWordsCount = null,
     Object? defaultNativeCurrencyDecimal = freezed,
@@ -950,10 +918,6 @@ class __$ConnectionWorkchainCopyWithImpl<$Res>
           ? _self.defaultWalletType
           : defaultWalletType // ignore: cast_nullable_to_non_nullable
               as WalletType,
-      manifestOption: null == manifestOption
-          ? _self.manifestOption
-          : manifestOption // ignore: cast_nullable_to_non_nullable
-              as TransportManifestOption,
       nativeTokenAddress: null == nativeTokenAddress
           ? _self.nativeTokenAddress
           : nativeTokenAddress // ignore: cast_nullable_to_non_nullable
@@ -1070,17 +1034,6 @@ class __$ConnectionWorkchainCopyWithImpl<$Res>
   $WalletTypeCopyWith<$Res> get defaultWalletType {
     return $WalletTypeCopyWith<$Res>(_self.defaultWalletType, (value) {
       return _then(_self.copyWith(defaultWalletType: value));
-    });
-  }
-
-  /// Create a copy of ConnectionWorkchain
-  /// with the given fields replaced by the non-null parameter values.
-  @override
-  @pragma('vm:prefer-inline')
-  $TransportManifestOptionCopyWith<$Res> get manifestOption {
-    return $TransportManifestOptionCopyWith<$Res>(_self.manifestOption,
-        (value) {
-      return _then(_self.copyWith(manifestOption: value));
     });
   }
 
