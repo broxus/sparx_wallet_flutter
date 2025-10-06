@@ -4,7 +4,6 @@ import 'package:app/app/service/connection/data/network_type.dart';
 import 'package:app/app/service/connection/data/transaction_explorer/transaction_explorer_link_type.dart';
 import 'package:app/app/service/connection/data/transport_icons.dart';
 import 'package:app/app/service/connection/data/transport_manifest_option/transport_manifest_option.dart';
-import 'package:app/app/service/connection/data/transport_native_token_option/transport_native_token_option.dart';
 import 'package:app/app/service/connection/data/wallet_default_account_names.dart';
 import 'package:app/app/service/connection/data/work_chain/connection_work_chain.dart';
 import 'package:app/app/service/connection/data/work_chain/workchain_type.dart';
@@ -63,8 +62,6 @@ final Connection defaultPresetConnection = (() {
           walletV5R1: 'Wallet V5R1',
         ),
         defaultWalletType: const WalletType.everWallet(),
-        nativeTokenTickerOption:
-            const TransportNativeTokenTickerOption.fromConnection(),
         manifestOption: const TransportManifestOption.fromConnection(),
         nativeTokenAddress: const Address(address: ''),
         seedPhraseWordsCount: [12, 24],

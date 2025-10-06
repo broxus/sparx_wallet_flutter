@@ -21,8 +21,6 @@ _ConnectionWorkchain _$ConnectionWorkchainFromJson(Map<String, dynamic> json) =>
           .fromJson(json['availableWalletTypes'] as List),
       defaultWalletType: const WalletTypeConverter()
           .fromJson(json['defaultWalletType'] as Map<String, dynamic>),
-      nativeTokenTickerOption: TransportNativeTokenTickerOption.fromJson(
-          json['nativeTokenTickerOption'] as Map<String, dynamic>),
       manifestOption: TransportManifestOption.fromJson(
           json['manifestOption'] as Map<String, dynamic>),
       nativeTokenAddress: const AddressStringConverter()
@@ -42,7 +40,10 @@ _ConnectionWorkchain _$ConnectionWorkchainFromJson(Map<String, dynamic> json) =>
       walletDefaultAccountNames: WalletDefaultAccountNames.fromJson(
           json['walletDefaultAccountNames'] as Map<String, dynamic>),
       blockExplorerUrl: json['blockExplorerUrl'] as String? ?? '',
-      nativeTokenTicker: json['nativeTokenTicker'] as String? ?? '',
+      nativeTokenTicker: json['nativeTokenTicker'] == null
+          ? const NativeTokenTicker(name: '')
+          : NativeTokenTicker.fromJson(
+              json['nativeTokenTicker'] as Map<String, dynamic>),
       isLocal: json['isLocal'] as bool? ?? false,
       isPreset: json['isPreset'] as bool? ?? true,
       canBeEdited: json['canBeEdited'] as bool? ?? false,
@@ -86,7 +87,6 @@ Map<String, dynamic> _$ConnectionWorkchainToJson(
           const WalletTypeListConverter().toJson(instance.availableWalletTypes),
       'defaultWalletType':
           const WalletTypeConverter().toJson(instance.defaultWalletType),
-      'nativeTokenTickerOption': instance.nativeTokenTickerOption.toJson(),
       'manifestOption': instance.manifestOption.toJson(),
       'nativeTokenAddress':
           const AddressStringConverter().toJson(instance.nativeTokenAddress),
@@ -99,7 +99,7 @@ Map<String, dynamic> _$ConnectionWorkchainToJson(
           instance.transactionExplorerLinkType],
       'walletDefaultAccountNames': instance.walletDefaultAccountNames.toJson(),
       'blockExplorerUrl': instance.blockExplorerUrl,
-      'nativeTokenTicker': instance.nativeTokenTicker,
+      'nativeTokenTicker': instance.nativeTokenTicker.toJson(),
       'isLocal': instance.isLocal,
       'isPreset': instance.isPreset,
       'canBeEdited': instance.canBeEdited,

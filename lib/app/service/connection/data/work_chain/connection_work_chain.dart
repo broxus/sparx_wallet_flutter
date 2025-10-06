@@ -1,11 +1,11 @@
 import 'package:app/app/service/connection/data/account_explorer/account_explorer_link_type.dart';
 import 'package:app/app/service/connection/data/default_active_asset.dart';
+import 'package:app/app/service/connection/data/native_token_ticker/native_token_ticker.dart';
 import 'package:app/app/service/connection/data/network_type.dart';
 import 'package:app/app/service/connection/data/nft_information/nft_information.dart';
 import 'package:app/app/service/connection/data/transaction_explorer/transaction_explorer_link_type.dart';
 import 'package:app/app/service/connection/data/transport_icons.dart';
 import 'package:app/app/service/connection/data/transport_manifest_option/transport_manifest_option.dart';
-import 'package:app/app/service/connection/data/transport_native_token_option/transport_native_token_option.dart';
 import 'package:app/app/service/connection/data/wallet_default_account_names.dart';
 import 'package:app/app/service/connection/data/work_chain/workchain_type.dart';
 import 'package:app/app/service/connection/generic_token_subscriber.dart';
@@ -35,7 +35,6 @@ abstract class ConnectionWorkchain with _$ConnectionWorkchain {
     required TransportIcons icons,
     @WalletTypeListConverter() required List<WalletType> availableWalletTypes,
     @WalletTypeConverter() required WalletType defaultWalletType,
-    required TransportNativeTokenTickerOption nativeTokenTickerOption,
     required TransportManifestOption manifestOption,
     @AddressStringConverter() required Address nativeTokenAddress,
     required List<int> seedPhraseWordsCount,
@@ -45,7 +44,7 @@ abstract class ConnectionWorkchain with _$ConnectionWorkchain {
     required TransactionExplorerLinkType? transactionExplorerLinkType,
     required WalletDefaultAccountNames walletDefaultAccountNames,
     @Default('') String blockExplorerUrl,
-    @Default('') String nativeTokenTicker,
+    @Default(NativeTokenTicker()) NativeTokenTicker nativeTokenTicker,
     @Default(false) bool isLocal,
     @Default(true) bool isPreset,
     @Default(false) bool canBeEdited,
@@ -78,7 +77,7 @@ abstract class ConnectionWorkchain with _$ConnectionWorkchain {
     String? networkGroup,
     int? latencyDetectionInterval,
     int? maxLatency,
-    String nativeTokenTicker = '',
+    NativeTokenTicker nativeTokenTicker = const NativeTokenTicker(),
     int nativeTokenDecimals = 9,
   }) {
     return ConnectionWorkchain(
@@ -117,8 +116,6 @@ abstract class ConnectionWorkchain with _$ConnectionWorkchain {
         walletV5R1: 'Wallet V5R1',
       ),
       defaultWalletType: const WalletType.everWallet(),
-      nativeTokenTickerOption:
-          const TransportNativeTokenTickerOption.fromConnection(),
       manifestOption: const TransportManifestOption.fromConnection(),
       nativeTokenAddress: const Address(address: ''),
       seedPhraseWordsCount: [12, 24],

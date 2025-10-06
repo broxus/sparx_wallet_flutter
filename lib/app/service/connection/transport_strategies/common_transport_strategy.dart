@@ -5,7 +5,6 @@ import 'package:app/app/service/connection/data/nft_information/nft_information.
 import 'package:app/app/service/connection/data/transaction_explorer/transaction_explorer_link_type.dart';
 import 'package:app/app/service/connection/data/transport_icons.dart';
 import 'package:app/app/service/connection/data/transport_manifest_option/transport_manifest_option.dart';
-import 'package:app/app/service/connection/data/transport_native_token_option/transport_native_token_option.dart';
 import 'package:app/app/service/connection/data/wallet_default_account_names.dart';
 import 'package:app/app/service/connection/generic_token_subscriber.dart';
 import 'package:app/app/service/connection/group.dart';
@@ -23,7 +22,6 @@ class CommonTransportStrategy extends AppTransportStrategy {
     required this.availableWalletTypes,
     required this.walletDefaultAccountNames,
     required this.defaultWalletType,
-    required this.nativeTokenTickerOption,
     required this.manifestOption,
     required this.nativeTokenAddress,
     required this.networkName,
@@ -56,7 +54,6 @@ class CommonTransportStrategy extends AppTransportStrategy {
       availableWalletTypes: workchain.availableWalletTypes,
       walletDefaultAccountNames: workchain.walletDefaultAccountNames,
       defaultWalletType: workchain.defaultWalletType,
-      nativeTokenTickerOption: workchain.nativeTokenTickerOption,
       manifestOption: workchain.manifestOption,
       nativeTokenAddress: workchain.nativeTokenAddress,
       networkName: workchain.networkName,
@@ -102,8 +99,6 @@ class CommonTransportStrategy extends AppTransportStrategy {
   String get nativeTokenIcon =>
       icons?.nativeToken ?? Assets.images.nativeTokenDefault.path;
 
-  final TransportNativeTokenTickerOption nativeTokenTickerOption;
-
   final TransportManifestOption manifestOption;
 
   @override
@@ -148,11 +143,8 @@ class CommonTransportStrategy extends AppTransportStrategy {
   NetworkGroup get networkGroup => transport.group;
 
   @override
-  String get nativeTokenTicker => switch (nativeTokenTickerOption) {
-        TransportNativeTokenTickerOptionFromConnection() =>
-          connection.defaultWorkchain.nativeTokenTicker,
-        TransportNativeTokenTickerOptionByName(:final name) => name,
-      };
+  String get nativeTokenTicker =>
+      connection.defaultWorkchain.nativeTokenTicker.name;
 
   @override
   String accountExplorerLink(Address accountAddress) {

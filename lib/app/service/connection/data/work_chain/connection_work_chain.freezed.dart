@@ -27,7 +27,6 @@ mixin _$ConnectionWorkchain {
   List<WalletType> get availableWalletTypes;
   @WalletTypeConverter()
   WalletType get defaultWalletType;
-  TransportNativeTokenTickerOption get nativeTokenTickerOption;
   TransportManifestOption get manifestOption;
   @AddressStringConverter()
   Address get nativeTokenAddress;
@@ -38,7 +37,7 @@ mixin _$ConnectionWorkchain {
   TransactionExplorerLinkType? get transactionExplorerLinkType;
   WalletDefaultAccountNames get walletDefaultAccountNames;
   String get blockExplorerUrl;
-  String get nativeTokenTicker;
+  NativeTokenTicker get nativeTokenTicker;
   bool get isLocal;
   bool get isPreset;
   bool get canBeEdited;
@@ -89,8 +88,6 @@ mixin _$ConnectionWorkchain {
                 .equals(other.availableWalletTypes, availableWalletTypes) &&
             (identical(other.defaultWalletType, defaultWalletType) ||
                 other.defaultWalletType == defaultWalletType) &&
-            (identical(other.nativeTokenTickerOption, nativeTokenTickerOption) ||
-                other.nativeTokenTickerOption == nativeTokenTickerOption) &&
             (identical(other.manifestOption, manifestOption) ||
                 other.manifestOption == manifestOption) &&
             (identical(other.nativeTokenAddress, nativeTokenAddress) ||
@@ -130,7 +127,9 @@ mixin _$ConnectionWorkchain {
                 other.latencyDetectionInterval == latencyDetectionInterval) &&
             (identical(other.maxLatency, maxLatency) ||
                 other.maxLatency == maxLatency) &&
-            (identical(other.endpointSelectionRetryCount, endpointSelectionRetryCount) || other.endpointSelectionRetryCount == endpointSelectionRetryCount) &&
+            (identical(other.endpointSelectionRetryCount, endpointSelectionRetryCount) ||
+                other.endpointSelectionRetryCount ==
+                    endpointSelectionRetryCount) &&
             (identical(other.tokenApiBaseUrl, tokenApiBaseUrl) || other.tokenApiBaseUrl == tokenApiBaseUrl) &&
             (identical(other.currencyApiBaseUrl, currencyApiBaseUrl) || other.currencyApiBaseUrl == currencyApiBaseUrl) &&
             (identical(other.pollingConfig, pollingConfig) || other.pollingConfig == pollingConfig) &&
@@ -152,7 +151,6 @@ mixin _$ConnectionWorkchain {
         icons,
         const DeepCollectionEquality().hash(availableWalletTypes),
         defaultWalletType,
-        nativeTokenTickerOption,
         manifestOption,
         nativeTokenAddress,
         const DeepCollectionEquality().hash(seedPhraseWordsCount),
@@ -182,7 +180,7 @@ mixin _$ConnectionWorkchain {
 
   @override
   String toString() {
-    return 'ConnectionWorkchain(id: $id, parentConnectionId: $parentConnectionId, networkType: $networkType, networkName: $networkName, networkGroup: $networkGroup, type: $type, endpoints: $endpoints, icons: $icons, availableWalletTypes: $availableWalletTypes, defaultWalletType: $defaultWalletType, nativeTokenTickerOption: $nativeTokenTickerOption, manifestOption: $manifestOption, nativeTokenAddress: $nativeTokenAddress, seedPhraseWordsCount: $seedPhraseWordsCount, defaultNativeCurrencyDecimal: $defaultNativeCurrencyDecimal, genericTokenType: $genericTokenType, accountExplorerLinkType: $accountExplorerLinkType, transactionExplorerLinkType: $transactionExplorerLinkType, walletDefaultAccountNames: $walletDefaultAccountNames, blockExplorerUrl: $blockExplorerUrl, nativeTokenTicker: $nativeTokenTicker, isLocal: $isLocal, isPreset: $isPreset, canBeEdited: $canBeEdited, isUsedOnStart: $isUsedOnStart, manifestUrl: $manifestUrl, nativeTokenDecimals: $nativeTokenDecimals, defaultActiveAssets: $defaultActiveAssets, latencyDetectionInterval: $latencyDetectionInterval, maxLatency: $maxLatency, endpointSelectionRetryCount: $endpointSelectionRetryCount, tokenApiBaseUrl: $tokenApiBaseUrl, currencyApiBaseUrl: $currencyApiBaseUrl, pollingConfig: $pollingConfig, stakeInformation: $stakeInformation, nftInformation: $nftInformation)';
+    return 'ConnectionWorkchain(id: $id, parentConnectionId: $parentConnectionId, networkType: $networkType, networkName: $networkName, networkGroup: $networkGroup, type: $type, endpoints: $endpoints, icons: $icons, availableWalletTypes: $availableWalletTypes, defaultWalletType: $defaultWalletType, manifestOption: $manifestOption, nativeTokenAddress: $nativeTokenAddress, seedPhraseWordsCount: $seedPhraseWordsCount, defaultNativeCurrencyDecimal: $defaultNativeCurrencyDecimal, genericTokenType: $genericTokenType, accountExplorerLinkType: $accountExplorerLinkType, transactionExplorerLinkType: $transactionExplorerLinkType, walletDefaultAccountNames: $walletDefaultAccountNames, blockExplorerUrl: $blockExplorerUrl, nativeTokenTicker: $nativeTokenTicker, isLocal: $isLocal, isPreset: $isPreset, canBeEdited: $canBeEdited, isUsedOnStart: $isUsedOnStart, manifestUrl: $manifestUrl, nativeTokenDecimals: $nativeTokenDecimals, defaultActiveAssets: $defaultActiveAssets, latencyDetectionInterval: $latencyDetectionInterval, maxLatency: $maxLatency, endpointSelectionRetryCount: $endpointSelectionRetryCount, tokenApiBaseUrl: $tokenApiBaseUrl, currencyApiBaseUrl: $currencyApiBaseUrl, pollingConfig: $pollingConfig, stakeInformation: $stakeInformation, nftInformation: $nftInformation)';
   }
 }
 
@@ -203,7 +201,6 @@ abstract mixin class $ConnectionWorkchainCopyWith<$Res> {
       TransportIcons icons,
       @WalletTypeListConverter() List<WalletType> availableWalletTypes,
       @WalletTypeConverter() WalletType defaultWalletType,
-      TransportNativeTokenTickerOption nativeTokenTickerOption,
       TransportManifestOption manifestOption,
       @AddressStringConverter() Address nativeTokenAddress,
       List<int> seedPhraseWordsCount,
@@ -213,7 +210,7 @@ abstract mixin class $ConnectionWorkchainCopyWith<$Res> {
       TransactionExplorerLinkType? transactionExplorerLinkType,
       WalletDefaultAccountNames walletDefaultAccountNames,
       String blockExplorerUrl,
-      String nativeTokenTicker,
+      NativeTokenTicker nativeTokenTicker,
       bool isLocal,
       bool isPreset,
       bool canBeEdited,
@@ -232,10 +229,10 @@ abstract mixin class $ConnectionWorkchainCopyWith<$Res> {
 
   $TransportIconsCopyWith<$Res> get icons;
   $WalletTypeCopyWith<$Res> get defaultWalletType;
-  $TransportNativeTokenTickerOptionCopyWith<$Res> get nativeTokenTickerOption;
   $TransportManifestOptionCopyWith<$Res> get manifestOption;
   $AddressCopyWith<$Res> get nativeTokenAddress;
   $WalletDefaultAccountNamesCopyWith<$Res> get walletDefaultAccountNames;
+  $NativeTokenTickerCopyWith<$Res> get nativeTokenTicker;
   $NftInformationCopyWith<$Res>? get nftInformation;
 }
 
@@ -262,7 +259,6 @@ class _$ConnectionWorkchainCopyWithImpl<$Res>
     Object? icons = null,
     Object? availableWalletTypes = null,
     Object? defaultWalletType = null,
-    Object? nativeTokenTickerOption = null,
     Object? manifestOption = null,
     Object? nativeTokenAddress = null,
     Object? seedPhraseWordsCount = null,
@@ -330,10 +326,6 @@ class _$ConnectionWorkchainCopyWithImpl<$Res>
           ? _self.defaultWalletType
           : defaultWalletType // ignore: cast_nullable_to_non_nullable
               as WalletType,
-      nativeTokenTickerOption: null == nativeTokenTickerOption
-          ? _self.nativeTokenTickerOption
-          : nativeTokenTickerOption // ignore: cast_nullable_to_non_nullable
-              as TransportNativeTokenTickerOption,
       manifestOption: null == manifestOption
           ? _self.manifestOption
           : manifestOption // ignore: cast_nullable_to_non_nullable
@@ -373,7 +365,7 @@ class _$ConnectionWorkchainCopyWithImpl<$Res>
       nativeTokenTicker: null == nativeTokenTicker
           ? _self.nativeTokenTicker
           : nativeTokenTicker // ignore: cast_nullable_to_non_nullable
-              as String,
+              as NativeTokenTicker,
       isLocal: null == isLocal
           ? _self.isLocal
           : isLocal // ignore: cast_nullable_to_non_nullable
@@ -461,17 +453,6 @@ class _$ConnectionWorkchainCopyWithImpl<$Res>
   /// with the given fields replaced by the non-null parameter values.
   @override
   @pragma('vm:prefer-inline')
-  $TransportNativeTokenTickerOptionCopyWith<$Res> get nativeTokenTickerOption {
-    return $TransportNativeTokenTickerOptionCopyWith<$Res>(
-        _self.nativeTokenTickerOption, (value) {
-      return _then(_self.copyWith(nativeTokenTickerOption: value));
-    });
-  }
-
-  /// Create a copy of ConnectionWorkchain
-  /// with the given fields replaced by the non-null parameter values.
-  @override
-  @pragma('vm:prefer-inline')
   $TransportManifestOptionCopyWith<$Res> get manifestOption {
     return $TransportManifestOptionCopyWith<$Res>(_self.manifestOption,
         (value) {
@@ -497,6 +478,16 @@ class _$ConnectionWorkchainCopyWithImpl<$Res>
     return $WalletDefaultAccountNamesCopyWith<$Res>(
         _self.walletDefaultAccountNames, (value) {
       return _then(_self.copyWith(walletDefaultAccountNames: value));
+    });
+  }
+
+  /// Create a copy of ConnectionWorkchain
+  /// with the given fields replaced by the non-null parameter values.
+  @override
+  @pragma('vm:prefer-inline')
+  $NativeTokenTickerCopyWith<$Res> get nativeTokenTicker {
+    return $NativeTokenTickerCopyWith<$Res>(_self.nativeTokenTicker, (value) {
+      return _then(_self.copyWith(nativeTokenTicker: value));
     });
   }
 
@@ -530,7 +521,6 @@ class _ConnectionWorkchain implements ConnectionWorkchain {
       @WalletTypeListConverter()
       required final List<WalletType> availableWalletTypes,
       @WalletTypeConverter() required this.defaultWalletType,
-      required this.nativeTokenTickerOption,
       required this.manifestOption,
       @AddressStringConverter() required this.nativeTokenAddress,
       required final List<int> seedPhraseWordsCount,
@@ -540,7 +530,7 @@ class _ConnectionWorkchain implements ConnectionWorkchain {
       required this.transactionExplorerLinkType,
       required this.walletDefaultAccountNames,
       this.blockExplorerUrl = '',
-      this.nativeTokenTicker = '',
+      this.nativeTokenTicker = const NativeTokenTicker(name: ''),
       this.isLocal = false,
       this.isPreset = true,
       this.canBeEdited = false,
@@ -599,8 +589,6 @@ class _ConnectionWorkchain implements ConnectionWorkchain {
   @WalletTypeConverter()
   final WalletType defaultWalletType;
   @override
-  final TransportNativeTokenTickerOption nativeTokenTickerOption;
-  @override
   final TransportManifestOption manifestOption;
   @override
   @AddressStringConverter()
@@ -629,7 +617,7 @@ class _ConnectionWorkchain implements ConnectionWorkchain {
   final String blockExplorerUrl;
   @override
   @JsonKey()
-  final String nativeTokenTicker;
+  final NativeTokenTicker nativeTokenTicker;
   @override
   @JsonKey()
   final bool isLocal;
@@ -715,8 +703,6 @@ class _ConnectionWorkchain implements ConnectionWorkchain {
                 .equals(other._availableWalletTypes, _availableWalletTypes) &&
             (identical(other.defaultWalletType, defaultWalletType) ||
                 other.defaultWalletType == defaultWalletType) &&
-            (identical(other.nativeTokenTickerOption, nativeTokenTickerOption) ||
-                other.nativeTokenTickerOption == nativeTokenTickerOption) &&
             (identical(other.manifestOption, manifestOption) ||
                 other.manifestOption == manifestOption) &&
             (identical(other.nativeTokenAddress, nativeTokenAddress) ||
@@ -756,7 +742,9 @@ class _ConnectionWorkchain implements ConnectionWorkchain {
                 other.latencyDetectionInterval == latencyDetectionInterval) &&
             (identical(other.maxLatency, maxLatency) ||
                 other.maxLatency == maxLatency) &&
-            (identical(other.endpointSelectionRetryCount, endpointSelectionRetryCount) || other.endpointSelectionRetryCount == endpointSelectionRetryCount) &&
+            (identical(other.endpointSelectionRetryCount, endpointSelectionRetryCount) ||
+                other.endpointSelectionRetryCount ==
+                    endpointSelectionRetryCount) &&
             (identical(other.tokenApiBaseUrl, tokenApiBaseUrl) || other.tokenApiBaseUrl == tokenApiBaseUrl) &&
             (identical(other.currencyApiBaseUrl, currencyApiBaseUrl) || other.currencyApiBaseUrl == currencyApiBaseUrl) &&
             (identical(other.pollingConfig, pollingConfig) || other.pollingConfig == pollingConfig) &&
@@ -778,7 +766,6 @@ class _ConnectionWorkchain implements ConnectionWorkchain {
         icons,
         const DeepCollectionEquality().hash(_availableWalletTypes),
         defaultWalletType,
-        nativeTokenTickerOption,
         manifestOption,
         nativeTokenAddress,
         const DeepCollectionEquality().hash(_seedPhraseWordsCount),
@@ -808,7 +795,7 @@ class _ConnectionWorkchain implements ConnectionWorkchain {
 
   @override
   String toString() {
-    return 'ConnectionWorkchain(id: $id, parentConnectionId: $parentConnectionId, networkType: $networkType, networkName: $networkName, networkGroup: $networkGroup, type: $type, endpoints: $endpoints, icons: $icons, availableWalletTypes: $availableWalletTypes, defaultWalletType: $defaultWalletType, nativeTokenTickerOption: $nativeTokenTickerOption, manifestOption: $manifestOption, nativeTokenAddress: $nativeTokenAddress, seedPhraseWordsCount: $seedPhraseWordsCount, defaultNativeCurrencyDecimal: $defaultNativeCurrencyDecimal, genericTokenType: $genericTokenType, accountExplorerLinkType: $accountExplorerLinkType, transactionExplorerLinkType: $transactionExplorerLinkType, walletDefaultAccountNames: $walletDefaultAccountNames, blockExplorerUrl: $blockExplorerUrl, nativeTokenTicker: $nativeTokenTicker, isLocal: $isLocal, isPreset: $isPreset, canBeEdited: $canBeEdited, isUsedOnStart: $isUsedOnStart, manifestUrl: $manifestUrl, nativeTokenDecimals: $nativeTokenDecimals, defaultActiveAssets: $defaultActiveAssets, latencyDetectionInterval: $latencyDetectionInterval, maxLatency: $maxLatency, endpointSelectionRetryCount: $endpointSelectionRetryCount, tokenApiBaseUrl: $tokenApiBaseUrl, currencyApiBaseUrl: $currencyApiBaseUrl, pollingConfig: $pollingConfig, stakeInformation: $stakeInformation, nftInformation: $nftInformation)';
+    return 'ConnectionWorkchain(id: $id, parentConnectionId: $parentConnectionId, networkType: $networkType, networkName: $networkName, networkGroup: $networkGroup, type: $type, endpoints: $endpoints, icons: $icons, availableWalletTypes: $availableWalletTypes, defaultWalletType: $defaultWalletType, manifestOption: $manifestOption, nativeTokenAddress: $nativeTokenAddress, seedPhraseWordsCount: $seedPhraseWordsCount, defaultNativeCurrencyDecimal: $defaultNativeCurrencyDecimal, genericTokenType: $genericTokenType, accountExplorerLinkType: $accountExplorerLinkType, transactionExplorerLinkType: $transactionExplorerLinkType, walletDefaultAccountNames: $walletDefaultAccountNames, blockExplorerUrl: $blockExplorerUrl, nativeTokenTicker: $nativeTokenTicker, isLocal: $isLocal, isPreset: $isPreset, canBeEdited: $canBeEdited, isUsedOnStart: $isUsedOnStart, manifestUrl: $manifestUrl, nativeTokenDecimals: $nativeTokenDecimals, defaultActiveAssets: $defaultActiveAssets, latencyDetectionInterval: $latencyDetectionInterval, maxLatency: $maxLatency, endpointSelectionRetryCount: $endpointSelectionRetryCount, tokenApiBaseUrl: $tokenApiBaseUrl, currencyApiBaseUrl: $currencyApiBaseUrl, pollingConfig: $pollingConfig, stakeInformation: $stakeInformation, nftInformation: $nftInformation)';
   }
 }
 
@@ -831,7 +818,6 @@ abstract mixin class _$ConnectionWorkchainCopyWith<$Res>
       TransportIcons icons,
       @WalletTypeListConverter() List<WalletType> availableWalletTypes,
       @WalletTypeConverter() WalletType defaultWalletType,
-      TransportNativeTokenTickerOption nativeTokenTickerOption,
       TransportManifestOption manifestOption,
       @AddressStringConverter() Address nativeTokenAddress,
       List<int> seedPhraseWordsCount,
@@ -841,7 +827,7 @@ abstract mixin class _$ConnectionWorkchainCopyWith<$Res>
       TransactionExplorerLinkType? transactionExplorerLinkType,
       WalletDefaultAccountNames walletDefaultAccountNames,
       String blockExplorerUrl,
-      String nativeTokenTicker,
+      NativeTokenTicker nativeTokenTicker,
       bool isLocal,
       bool isPreset,
       bool canBeEdited,
@@ -863,13 +849,13 @@ abstract mixin class _$ConnectionWorkchainCopyWith<$Res>
   @override
   $WalletTypeCopyWith<$Res> get defaultWalletType;
   @override
-  $TransportNativeTokenTickerOptionCopyWith<$Res> get nativeTokenTickerOption;
-  @override
   $TransportManifestOptionCopyWith<$Res> get manifestOption;
   @override
   $AddressCopyWith<$Res> get nativeTokenAddress;
   @override
   $WalletDefaultAccountNamesCopyWith<$Res> get walletDefaultAccountNames;
+  @override
+  $NativeTokenTickerCopyWith<$Res> get nativeTokenTicker;
   @override
   $NftInformationCopyWith<$Res>? get nftInformation;
 }
@@ -897,7 +883,6 @@ class __$ConnectionWorkchainCopyWithImpl<$Res>
     Object? icons = null,
     Object? availableWalletTypes = null,
     Object? defaultWalletType = null,
-    Object? nativeTokenTickerOption = null,
     Object? manifestOption = null,
     Object? nativeTokenAddress = null,
     Object? seedPhraseWordsCount = null,
@@ -965,10 +950,6 @@ class __$ConnectionWorkchainCopyWithImpl<$Res>
           ? _self.defaultWalletType
           : defaultWalletType // ignore: cast_nullable_to_non_nullable
               as WalletType,
-      nativeTokenTickerOption: null == nativeTokenTickerOption
-          ? _self.nativeTokenTickerOption
-          : nativeTokenTickerOption // ignore: cast_nullable_to_non_nullable
-              as TransportNativeTokenTickerOption,
       manifestOption: null == manifestOption
           ? _self.manifestOption
           : manifestOption // ignore: cast_nullable_to_non_nullable
@@ -1008,7 +989,7 @@ class __$ConnectionWorkchainCopyWithImpl<$Res>
       nativeTokenTicker: null == nativeTokenTicker
           ? _self.nativeTokenTicker
           : nativeTokenTicker // ignore: cast_nullable_to_non_nullable
-              as String,
+              as NativeTokenTicker,
       isLocal: null == isLocal
           ? _self.isLocal
           : isLocal // ignore: cast_nullable_to_non_nullable
@@ -1096,17 +1077,6 @@ class __$ConnectionWorkchainCopyWithImpl<$Res>
   /// with the given fields replaced by the non-null parameter values.
   @override
   @pragma('vm:prefer-inline')
-  $TransportNativeTokenTickerOptionCopyWith<$Res> get nativeTokenTickerOption {
-    return $TransportNativeTokenTickerOptionCopyWith<$Res>(
-        _self.nativeTokenTickerOption, (value) {
-      return _then(_self.copyWith(nativeTokenTickerOption: value));
-    });
-  }
-
-  /// Create a copy of ConnectionWorkchain
-  /// with the given fields replaced by the non-null parameter values.
-  @override
-  @pragma('vm:prefer-inline')
   $TransportManifestOptionCopyWith<$Res> get manifestOption {
     return $TransportManifestOptionCopyWith<$Res>(_self.manifestOption,
         (value) {
@@ -1132,6 +1102,16 @@ class __$ConnectionWorkchainCopyWithImpl<$Res>
     return $WalletDefaultAccountNamesCopyWith<$Res>(
         _self.walletDefaultAccountNames, (value) {
       return _then(_self.copyWith(walletDefaultAccountNames: value));
+    });
+  }
+
+  /// Create a copy of ConnectionWorkchain
+  /// with the given fields replaced by the non-null parameter values.
+  @override
+  @pragma('vm:prefer-inline')
+  $NativeTokenTickerCopyWith<$Res> get nativeTokenTicker {
+    return $NativeTokenTickerCopyWith<$Res>(_self.nativeTokenTicker, (value) {
+      return _then(_self.copyWith(nativeTokenTicker: value));
     });
   }
 

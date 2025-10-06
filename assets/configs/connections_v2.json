@@ -78,8 +78,7 @@
           "defaultWalletType": {
             "type": "everWallet"
           },
-          "nativeTokenTickerOption": {
-            "type": "byName",
+          "nativeTokenTicker": {
             "name": "TON"
           },
           "manifestOption": {
@@ -165,8 +164,7 @@
           "defaultWalletType": {
             "type": "everWallet"
           },
-          "nativeTokenTickerOption": {
-            "type": "byName",
+          "nativeTokenTicker": {
             "name": "HMSTR"
           },
           "manifestOption": {
@@ -244,8 +242,7 @@
           "defaultWalletType": {
             "type": "everWallet"
           },
-          "nativeTokenTickerOption": {
-            "type": "byName",
+          "nativeTokenTicker": {
             "name": "HUMO"
           },
           "manifestOption": {
@@ -325,8 +322,7 @@
           "defaultWalletType": {
             "type": "everWallet"
           },
-          "nativeTokenTickerOption": {
-            "type": "byName",
+          "nativeTokenTicker": {
             "name": "TYCHO"
           },
           "manifestOption": {
@@ -435,8 +431,7 @@
           "defaultWalletType": {
             "type": "everWallet"
           },
-          "nativeTokenTickerOption": {
-            "type": "byName",
+          "nativeTokenTicker": {
             "name": "EVER"
           },
           "manifestOption": {
@@ -517,8 +512,7 @@
           "defaultWalletType": {
             "type": "everWallet"
           },
-          "nativeTokenTickerOption": {
-            "type": "byName",
+          "nativeTokenTicker": {
             "name": "VENOM"
           },
           "manifestOption": {

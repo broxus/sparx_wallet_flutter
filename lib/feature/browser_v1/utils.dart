@@ -1,4 +1,5 @@
 import 'package:app/app/service/connection/data/connection/connection.dart';
+import 'package:app/app/service/connection/data/native_token_ticker/native_token_ticker.dart';
 import 'package:app/app/service/connection/data/network_type.dart';
 import 'package:app/app/service/connection/data/work_chain/connection_work_chain.dart';
 import 'package:app/app/service/connection/data/work_chain/workchain_type.dart';
@@ -59,7 +60,7 @@ extension TransportExtension on TransportStrategy {
       ),
       connectionObject,
       NetworkConfig(
-        workchain.nativeTokenTicker,
+        workchain.nativeTokenTicker.name,
         workchain.nativeTokenDecimals,
         workchain.blockExplorerUrl,
         workchain.manifestUrl,
@@ -123,7 +124,7 @@ extension AddNetworkExtension on AddNetwork {
           isLocal: isLocal ?? true,
           manifestUrl: config?.tokensManifestUrl ?? '',
           defaultNativeCurrencyDecimal: 9,
-          nativeTokenTicker: config?.symbol ?? '',
+          nativeTokenTicker: NativeTokenTicker(name: config?.symbol ?? ''),
           latencyDetectionInterval: latencyDetectionInterval,
           maxLatency: maxLatency,
         ),

@@ -1,5 +1,6 @@
 import 'package:app/app/router/router.dart';
 import 'package:app/app/service/connection/data/connection/connection.dart';
+import 'package:app/app/service/connection/data/native_token_ticker/native_token_ticker.dart';
 import 'package:app/app/service/connection/data/network_type.dart';
 import 'package:app/app/service/connection/data/work_chain/connection_work_chain.dart';
 import 'package:app/core/wm/custom_wm.dart';
@@ -27,7 +28,7 @@ class EditNetworkWidgetModel extends CustomWidgetModelParametrized<
   late final isEditable = connection?.canBeEdited ?? true;
 
   late final currencySymbolController = createTextEditingController(
-    connection?.defaultWorkchain.nativeTokenTicker ?? '',
+    connection?.defaultWorkchain.nativeTokenTicker.name ?? '',
   );
 
   late final currencyDecimalsController = createTextEditingController(
@@ -248,7 +249,7 @@ class EditNetworkWidgetModel extends CustomWidgetModelParametrized<
           ],
           blockExplorerUrl: blockExplorerUrlController.text,
           manifestUrl: manifestUrlController.text,
-          nativeTokenTicker: nativeTokenTicker,
+          nativeTokenTicker: NativeTokenTicker(name: nativeTokenTicker),
           nativeTokenDecimals: nativeTokenDecimals,
           defaultNativeCurrencyDecimal: 9,
           isLocal: _isLocal,
