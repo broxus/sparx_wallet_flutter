@@ -6,7 +6,7 @@ import 'package:app/app/service/connection/data/nft_information/nft_information.
 import 'package:app/app/service/connection/data/transaction_explorer/transaction_explorer_link_type.dart';
 import 'package:app/app/service/connection/data/transport_icons.dart';
 import 'package:app/app/service/connection/data/wallet_default_account_names.dart';
-import 'package:app/app/service/connection/data/work_chain/workchain_type.dart';
+import 'package:app/app/service/connection/data/work_chain/workchain_transport_type.dart';
 import 'package:app/app/service/connection/generic_token_subscriber.dart';
 import 'package:app/app/service/connection/json_converters/address_converter.dart';
 import 'package:app/app/service/connection/json_converters/polling_config_converter.dart';
@@ -31,7 +31,7 @@ abstract class ConnectionWorkchain with _$ConnectionWorkchain {
     required NetworkType networkType,
     required String networkName,
     required String networkGroup,
-    required WorkchainType type,
+    required WorkchainTransportType transportType,
     required List<String> endpoints,
     required TransportIcons icons,
     @WalletTypeListConverter() required List<WalletType> availableWalletTypes,
@@ -84,7 +84,7 @@ abstract class ConnectionWorkchain with _$ConnectionWorkchain {
       parentConnectionId: parentConnectionId,
       networkType: networkType,
       networkName: networkName,
-      type: WorkchainType.proto,
+      transportType: WorkchainTransportType.proto,
       networkGroup: networkGroup ?? const Uuid().v4(),
       icons: TransportIcons(
         nativeToken: Assets.images.tokenDefaultIcon.path,

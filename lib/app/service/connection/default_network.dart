@@ -5,7 +5,7 @@ import 'package:app/app/service/connection/data/transaction_explorer/transaction
 import 'package:app/app/service/connection/data/transport_icons.dart';
 import 'package:app/app/service/connection/data/wallet_default_account_names.dart';
 import 'package:app/app/service/connection/data/work_chain/connection_work_chain.dart';
-import 'package:app/app/service/connection/data/work_chain/workchain_type.dart';
+import 'package:app/app/service/connection/data/work_chain/workchain_transport_type.dart';
 import 'package:app/app/service/connection/generic_token_subscriber.dart';
 import 'package:app/generated/assets.gen.dart';
 import 'package:nekoton_repository/nekoton_repository.dart';
@@ -29,7 +29,7 @@ final Connection defaultPresetConnection = (() {
         networkName: networkName,
         networkType: NetworkType.ever,
         networkGroup: 'mainnet',
-        type: WorkchainType.proto,
+        transportType: WorkchainTransportType.proto,
         manifestUrl:
             'https://raw.githubusercontent.com/broxus/ton-assets/master/manifest.json',
         icons: TransportIcons(

@@ -1,7 +1,7 @@
 import 'package:app/app/service/connection/data/connection/connection.dart';
 import 'package:app/app/service/connection/data/network_type.dart';
 import 'package:app/app/service/connection/data/nft_information/nft_information.dart';
-import 'package:app/app/service/connection/data/work_chain/workchain_type.dart';
+import 'package:app/app/service/connection/data/work_chain/workchain_transport_type.dart';
 import 'package:app/app/service/connection/group.dart';
 import 'package:app/app/service/connection/transport_strategies/app_transport_strategy.dart';
 import 'package:app/app/service/connection/transport_strategies/common_transport_strategy.dart';
@@ -68,8 +68,8 @@ class ConnectionService {
   ) {
     final workchain = connection.defaultWorkchain;
 
-    return switch (workchain.type) {
-      WorkchainType.gql => _nekotonRepository.createGqlTransport(
+    return switch (workchain.transportType) {
+      WorkchainTransportType.gql => _nekotonRepository.createGqlTransport(
           client: GqlHttpClient(_dio),
           name: workchain.networkName,
           group: workchain.networkGroup,
@@ -79,13 +79,13 @@ class ConnectionService {
           maxLatency: workchain.maxLatency,
           endpointSelectionRetryCount: workchain.endpointSelectionRetryCount,
         ),
-      WorkchainType.proto => _nekotonRepository.createProtoTransport(
+      WorkchainTransportType.proto => _nekotonRepository.createProtoTransport(
           client: ProtoHttpClient(_dio),
           name: workchain.networkName,
           group: workchain.networkGroup,
           endpoint: workchain.endpoints.first,
         ),
-      WorkchainType.jrpc => _nekotonRepository.createJrpcTransport(
+      WorkchainTransportType.jrpc => _nekotonRepository.createJrpcTransport(
           client: JrpcHttpClient(_dio),
           name: workchain.networkName,
           group: workchain.networkGroup,

@@ -20,7 +20,7 @@ mixin _$ConnectionWorkchain {
   NetworkType get networkType;
   String get networkName;
   String get networkGroup;
-  WorkchainType get type;
+  WorkchainTransportType get transportType;
   List<String> get endpoints;
   TransportIcons get icons;
   @WalletTypeListConverter()
@@ -79,7 +79,8 @@ mixin _$ConnectionWorkchain {
                 other.networkName == networkName) &&
             (identical(other.networkGroup, networkGroup) ||
                 other.networkGroup == networkGroup) &&
-            (identical(other.type, type) || other.type == type) &&
+            (identical(other.transportType, transportType) ||
+                other.transportType == transportType) &&
             const DeepCollectionEquality().equals(other.endpoints, endpoints) &&
             (identical(other.icons, icons) || other.icons == icons) &&
             const DeepCollectionEquality()
@@ -141,7 +142,7 @@ mixin _$ConnectionWorkchain {
         networkType,
         networkName,
         networkGroup,
-        type,
+        transportType,
         const DeepCollectionEquality().hash(endpoints),
         icons,
         const DeepCollectionEquality().hash(availableWalletTypes),
@@ -173,7 +174,7 @@ mixin _$ConnectionWorkchain {
 
   @override
   String toString() {
-    return 'ConnectionWorkchain(id: $id, parentConnectionId: $parentConnectionId, networkType: $networkType, networkName: $networkName, networkGroup: $networkGroup, type: $type, endpoints: $endpoints, icons: $icons, availableWalletTypes: $availableWalletTypes, defaultWalletType: $defaultWalletType, nativeTokenAddress: $nativeTokenAddress, seedPhraseWordsCount: $seedPhraseWordsCount, defaultNativeCurrencyDecimal: $defaultNativeCurrencyDecimal, genericTokenType: $genericTokenType, accountExplorerLinkType: $accountExplorerLinkType, transactionExplorerLinkType: $transactionExplorerLinkType, walletDefaultAccountNames: $walletDefaultAccountNames, blockExplorerUrl: $blockExplorerUrl, nativeTokenTicker: $nativeTokenTicker, isLocal: $isLocal, isPreset: $isPreset, canBeEdited: $canBeEdited, manifestUrl: $manifestUrl, nativeTokenDecimals: $nativeTokenDecimals, defaultActiveAssets: $defaultActiveAssets, latencyDetectionInterval: $latencyDetectionInterval, maxLatency: $maxLatency, endpointSelectionRetryCount: $endpointSelectionRetryCount, tokenApiBaseUrl: $tokenApiBaseUrl, currencyApiBaseUrl: $currencyApiBaseUrl, pollingConfig: $pollingConfig, stakeInformation: $stakeInformation, nftInformation: $nftInformation)';
+    return 'ConnectionWorkchain(id: $id, parentConnectionId: $parentConnectionId, networkType: $networkType, networkName: $networkName, networkGroup: $networkGroup, transportType: $transportType, endpoints: $endpoints, icons: $icons, availableWalletTypes: $availableWalletTypes, defaultWalletType: $defaultWalletType, nativeTokenAddress: $nativeTokenAddress, seedPhraseWordsCount: $seedPhraseWordsCount, defaultNativeCurrencyDecimal: $defaultNativeCurrencyDecimal, genericTokenType: $genericTokenType, accountExplorerLinkType: $accountExplorerLinkType, transactionExplorerLinkType: $transactionExplorerLinkType, walletDefaultAccountNames: $walletDefaultAccountNames, blockExplorerUrl: $blockExplorerUrl, nativeTokenTicker: $nativeTokenTicker, isLocal: $isLocal, isPreset: $isPreset, canBeEdited: $canBeEdited, manifestUrl: $manifestUrl, nativeTokenDecimals: $nativeTokenDecimals, defaultActiveAssets: $defaultActiveAssets, latencyDetectionInterval: $latencyDetectionInterval, maxLatency: $maxLatency, endpointSelectionRetryCount: $endpointSelectionRetryCount, tokenApiBaseUrl: $tokenApiBaseUrl, currencyApiBaseUrl: $currencyApiBaseUrl, pollingConfig: $pollingConfig, stakeInformation: $stakeInformation, nftInformation: $nftInformation)';
   }
 }
 
@@ -189,7 +190,7 @@ abstract mixin class $ConnectionWorkchainCopyWith<$Res> {
       NetworkType networkType,
       String networkName,
       String networkGroup,
-      WorkchainType type,
+      WorkchainTransportType transportType,
       List<String> endpoints,
       TransportIcons icons,
       @WalletTypeListConverter() List<WalletType> availableWalletTypes,
@@ -244,7 +245,7 @@ class _$ConnectionWorkchainCopyWithImpl<$Res>
     Object? networkType = null,
     Object? networkName = null,
     Object? networkGroup = null,
-    Object? type = null,
+    Object? transportType = null,
     Object? endpoints = null,
     Object? icons = null,
     Object? availableWalletTypes = null,
@@ -294,10 +295,10 @@ class _$ConnectionWorkchainCopyWithImpl<$Res>
           ? _self.networkGroup
           : networkGroup // ignore: cast_nullable_to_non_nullable
               as String,
-      type: null == type
-          ? _self.type
-          : type // ignore: cast_nullable_to_non_nullable
-              as WorkchainType,
+      transportType: null == transportType
+          ? _self.transportType
+          : transportType // ignore: cast_nullable_to_non_nullable
+              as WorkchainTransportType,
       endpoints: null == endpoints
           ? _self.endpoints
           : endpoints // ignore: cast_nullable_to_non_nullable
@@ -484,7 +485,7 @@ class _ConnectionWorkchain implements ConnectionWorkchain {
       required this.networkType,
       required this.networkName,
       required this.networkGroup,
-      required this.type,
+      required this.transportType,
       required final List<String> endpoints,
       required this.icons,
       @WalletTypeListConverter()
@@ -531,7 +532,7 @@ class _ConnectionWorkchain implements ConnectionWorkchain {
   @override
   final String networkGroup;
   @override
-  final WorkchainType type;
+  final WorkchainTransportType transportType;
   final List<String> _endpoints;
   @override
   List<String> get endpoints {
@@ -657,7 +658,8 @@ class _ConnectionWorkchain implements ConnectionWorkchain {
                 other.networkName == networkName) &&
             (identical(other.networkGroup, networkGroup) ||
                 other.networkGroup == networkGroup) &&
-            (identical(other.type, type) || other.type == type) &&
+            (identical(other.transportType, transportType) ||
+                other.transportType == transportType) &&
             const DeepCollectionEquality()
                 .equals(other._endpoints, _endpoints) &&
             (identical(other.icons, icons) || other.icons == icons) &&
@@ -720,7 +722,7 @@ class _ConnectionWorkchain implements ConnectionWorkchain {
         networkType,
         networkName,
         networkGroup,
-        type,
+        transportType,
         const DeepCollectionEquality().hash(_endpoints),
         icons,
         const DeepCollectionEquality().hash(_availableWalletTypes),
@@ -752,7 +754,7 @@ class _ConnectionWorkchain implements ConnectionWorkchain {
 
   @override
   String toString() {
-    return 'ConnectionWorkchain(id: $id, parentConnectionId: $parentConnectionId, networkType: $networkType, networkName: $networkName, networkGroup: $networkGroup, type: $type, endpoints: $endpoints, icons: $icons, availableWalletTypes: $availableWalletTypes, defaultWalletType: $defaultWalletType, nativeTokenAddress: $nativeTokenAddress, seedPhraseWordsCount: $seedPhraseWordsCount, defaultNativeCurrencyDecimal: $defaultNativeCurrencyDecimal, genericTokenType: $genericTokenType, accountExplorerLinkType: $accountExplorerLinkType, transactionExplorerLinkType: $transactionExplorerLinkType, walletDefaultAccountNames: $walletDefaultAccountNames, blockExplorerUrl: $blockExplorerUrl, nativeTokenTicker: $nativeTokenTicker, isLocal: $isLocal, isPreset: $isPreset, canBeEdited: $canBeEdited, manifestUrl: $manifestUrl, nativeTokenDecimals: $nativeTokenDecimals, defaultActiveAssets: $defaultActiveAssets, latencyDetectionInterval: $latencyDetectionInterval, maxLatency: $maxLatency, endpointSelectionRetryCount: $endpointSelectionRetryCount, tokenApiBaseUrl: $tokenApiBaseUrl, currencyApiBaseUrl: $currencyApiBaseUrl, pollingConfig: $pollingConfig, stakeInformation: $stakeInformation, nftInformation: $nftInformation)';
+    return 'ConnectionWorkchain(id: $id, parentConnectionId: $parentConnectionId, networkType: $networkType, networkName: $networkName, networkGroup: $networkGroup, transportType: $transportType, endpoints: $endpoints, icons: $icons, availableWalletTypes: $availableWalletTypes, defaultWalletType: $defaultWalletType, nativeTokenAddress: $nativeTokenAddress, seedPhraseWordsCount: $seedPhraseWordsCount, defaultNativeCurrencyDecimal: $defaultNativeCurrencyDecimal, genericTokenType: $genericTokenType, accountExplorerLinkType: $accountExplorerLinkType, transactionExplorerLinkType: $transactionExplorerLinkType, walletDefaultAccountNames: $walletDefaultAccountNames, blockExplorerUrl: $blockExplorerUrl, nativeTokenTicker: $nativeTokenTicker, isLocal: $isLocal, isPreset: $isPreset, canBeEdited: $canBeEdited, manifestUrl: $manifestUrl, nativeTokenDecimals: $nativeTokenDecimals, defaultActiveAssets: $defaultActiveAssets, latencyDetectionInterval: $latencyDetectionInterval, maxLatency: $maxLatency, endpointSelectionRetryCount: $endpointSelectionRetryCount, tokenApiBaseUrl: $tokenApiBaseUrl, currencyApiBaseUrl: $currencyApiBaseUrl, pollingConfig: $pollingConfig, stakeInformation: $stakeInformation, nftInformation: $nftInformation)';
   }
 }
 
@@ -770,7 +772,7 @@ abstract mixin class _$ConnectionWorkchainCopyWith<$Res>
       NetworkType networkType,
       String networkName,
       String networkGroup,
-      WorkchainType type,
+      WorkchainTransportType transportType,
       List<String> endpoints,
       TransportIcons icons,
       @WalletTypeListConverter() List<WalletType> availableWalletTypes,
@@ -831,7 +833,7 @@ class __$ConnectionWorkchainCopyWithImpl<$Res>
     Object? networkType = null,
     Object? networkName = null,
     Object? networkGroup = null,
-    Object? type = null,
+    Object? transportType = null,
     Object? endpoints = null,
     Object? icons = null,
     Object? availableWalletTypes = null,
@@ -881,10 +883,10 @@ class __$ConnectionWorkchainCopyWithImpl<$Res>
           ? _self.networkGroup
           : networkGroup // ignore: cast_nullable_to_non_nullable
               as String,
-      type: null == type
-          ? _self.type
-          : type // ignore: cast_nullable_to_non_nullable
-              as WorkchainType,
+      transportType: null == transportType
+          ? _self.transportType
+          : transportType // ignore: cast_nullable_to_non_nullable
+              as WorkchainTransportType,
       endpoints: null == endpoints
           ? _self._endpoints
           : endpoints // ignore: cast_nullable_to_non_nullable

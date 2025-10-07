@@ -2,7 +2,7 @@ import 'package:app/app/service/connection/data/connection/connection.dart';
 import 'package:app/app/service/connection/data/native_token_ticker/native_token_ticker.dart';
 import 'package:app/app/service/connection/data/network_type.dart';
 import 'package:app/app/service/connection/data/work_chain/connection_work_chain.dart';
-import 'package:app/app/service/connection/data/work_chain/workchain_type.dart';
+import 'package:app/app/service/connection/data/work_chain/workchain_transport_type.dart';
 import 'package:app/app/service/connection/transport_strategies/common_transport_strategy.dart';
 import 'package:app/utils/utils.dart';
 import 'package:nekoton_repository/nekoton_repository.dart'
@@ -28,8 +28,8 @@ extension TransportExtension on TransportStrategy {
 
     final workchain = data.defaultWorkchain;
 
-    final connectionObject = switch (workchain.type) {
-      WorkchainType.gql =>
+    final connectionObject = switch (workchain.transportType) {
+      WorkchainTransportType.gql =>
         (transport as GqlTransport).gqlConnection.settings.let(
               (settings) => GqlConnection(
                 'graphql',
@@ -41,11 +41,11 @@ extension TransportExtension on TransportStrategy {
                 ),
               ),
             ),
-      WorkchainType.proto => ProtoConnection(
+      WorkchainTransportType.proto => ProtoConnection(
           'proto',
           JrpcSocketParams(workchain.endpoints.first),
         ),
-      WorkchainType.jrpc => JrpcConnection(
+      WorkchainTransportType.jrpc => JrpcConnection(
           'jrpc',
           JrpcSocketParams(workchain.endpoints.first),
         ),

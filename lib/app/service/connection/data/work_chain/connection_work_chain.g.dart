@@ -13,7 +13,8 @@ _ConnectionWorkchain _$ConnectionWorkchainFromJson(Map<String, dynamic> json) =>
       networkType: NetworkType.fromJson(json['networkType'] as String),
       networkName: json['networkName'] as String,
       networkGroup: json['networkGroup'] as String,
-      type: $enumDecode(_$WorkchainTypeEnumMap, json['type']),
+      transportType:
+          $enumDecode(_$WorkchainTransportTypeEnumMap, json['transportType']),
       endpoints:
           (json['endpoints'] as List<dynamic>).map((e) => e as String).toList(),
       icons: TransportIcons.fromJson(json['icons'] as Map<String, dynamic>),
@@ -77,7 +78,7 @@ Map<String, dynamic> _$ConnectionWorkchainToJson(
       'networkType': instance.networkType.toJson(),
       'networkName': instance.networkName,
       'networkGroup': instance.networkGroup,
-      'type': _$WorkchainTypeEnumMap[instance.type]!,
+      'transportType': _$WorkchainTransportTypeEnumMap[instance.transportType]!,
       'endpoints': instance.endpoints,
       'icons': instance.icons.toJson(),
       'availableWalletTypes':
@@ -115,10 +116,10 @@ Map<String, dynamic> _$ConnectionWorkchainToJson(
       'nftInformation': instance.nftInformation?.toJson(),
     };
 
-const _$WorkchainTypeEnumMap = {
-  WorkchainType.proto: 'proto',
-  WorkchainType.jrpc: 'jrpc',
-  WorkchainType.gql: 'gql',
+const _$WorkchainTransportTypeEnumMap = {
+  WorkchainTransportType.proto: 'proto',
+  WorkchainTransportType.jrpc: 'jrpc',
+  WorkchainTransportType.gql: 'gql',
 };
 
 const _$GenericTokenTypeEnumMap = {
