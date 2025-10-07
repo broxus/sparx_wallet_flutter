@@ -364,7 +364,7 @@
           "defaultNativeCurrencyDecimal": 9,
           "stakeInformation": {
             "stakingAPYLink": "https://staking.everwallet.net/v1/strategies/main",
-            "stakingValutAddress": "0:675a6d63f27e3f24d41d286043a9286b2e3eb6b84fa4c3308cc2833ef6f54d68",
+            "stakingVaultAddress": "0:675a6d63f27e3f24d41d286043a9286b2e3eb6b84fa4c3308cc2833ef6f54d68",
             "stakingRootContractAddress": "0:6d42d0bc4a6568120ea88bf642edb653d727cfbd35868c47877532de128e71f2",
             "stakeDepositAttachedFee": "2000000000",
             "stakeRemovePendingWithdrawAttachedFee": "2000000000",
@@ -427,7 +427,7 @@
           "defaultNativeCurrencyDecimal": 9,
           "stakeInformation": {
             "stakingAPYLink": "https://api.venomstake.com/v1/strategies/main",
-            "stakingValutAddress": "0:9df94dffc0ca1768647f819c04b2cf00c484b3b756ba6ecde68d5fb62de1dfc7",
+            "stakingVaultAddress": "0:9df94dffc0ca1768647f819c04b2cf00c484b3b756ba6ecde68d5fb62de1dfc7",
             "stakingRootContractAddress": "0:74604c7a56419477d67329848d754d205f31870025a7135909e90e1726ad9a54",
             "stakeDepositAttachedFee": "3000000000",
             "stakeRemovePendingWithdrawAttachedFee": "2000000000",

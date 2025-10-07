@@ -27,7 +27,7 @@ class StakingInformationConverter
         address: json['stakingRootContractAddress'] as String,
       ),
       stakingValutAddress: Address(
-        address: json['stakingValutAddress'] as String,
+        address: json['stakingVaultAddress'] as String,
       ),
       stakeDepositAttachedFee: depFee,
       stakeRemovePendingWithdrawAttachedFee: remFee,
@@ -41,7 +41,7 @@ class StakingInformationConverter
     return {
       'stakingAPYLink': info.stakingAPYLink.toString(),
       'stakingRootContractAddress': info.stakingRootContractAddress.toString(),
-      'stakingValutAddress': info.stakingValutAddress.toString(),
+      'stakingVaultAddress': info.stakingValutAddress.toString(),
       'stakeDepositAttachedFee': info.stakeDepositAttachedFee.toString(),
       'stakeRemovePendingWithdrawAttachedFee':
           info.stakeRemovePendingWithdrawAttachedFee.toString(),
