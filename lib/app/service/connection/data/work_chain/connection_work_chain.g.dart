@@ -45,7 +45,6 @@ _ConnectionWorkchain _$ConnectionWorkchainFromJson(Map<String, dynamic> json) =>
       isLocal: json['isLocal'] as bool? ?? false,
       isPreset: json['isPreset'] as bool? ?? true,
       canBeEdited: json['canBeEdited'] as bool? ?? false,
-      isUsedOnStart: json['isUsedOnStart'] as bool? ?? true,
       manifestUrl: json['manifestUrl'] as String? ?? '',
       nativeTokenDecimals: (json['nativeTokenDecimals'] as num?)?.toInt() ?? 9,
       defaultActiveAssets: (json['defaultActiveAssets'] as List<dynamic>?)
@@ -100,7 +99,6 @@ Map<String, dynamic> _$ConnectionWorkchainToJson(
       'isLocal': instance.isLocal,
       'isPreset': instance.isPreset,
       'canBeEdited': instance.canBeEdited,
-      'isUsedOnStart': instance.isUsedOnStart,
       'manifestUrl': instance.manifestUrl,
       'nativeTokenDecimals': instance.nativeTokenDecimals,
       'defaultActiveAssets':

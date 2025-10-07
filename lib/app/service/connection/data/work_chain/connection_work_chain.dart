@@ -48,7 +48,6 @@ abstract class ConnectionWorkchain with _$ConnectionWorkchain {
     @Default(false) bool isLocal,
     @Default(true) bool isPreset,
     @Default(false) bool canBeEdited,
-    @Default(true) bool isUsedOnStart,
     @Default('') String manifestUrl,
     @Default(9) int nativeTokenDecimals,
     @Default([]) List<DefaultActiveAsset> defaultActiveAssets,

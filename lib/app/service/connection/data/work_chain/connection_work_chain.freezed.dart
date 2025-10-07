@@ -40,7 +40,6 @@ mixin _$ConnectionWorkchain {
   bool get isLocal;
   bool get isPreset;
   bool get canBeEdited;
-  bool get isUsedOnStart;
   String get manifestUrl;
   int get nativeTokenDecimals;
   List<DefaultActiveAsset> get defaultActiveAssets;
@@ -112,8 +111,6 @@ mixin _$ConnectionWorkchain {
                 other.isPreset == isPreset) &&
             (identical(other.canBeEdited, canBeEdited) ||
                 other.canBeEdited == canBeEdited) &&
-            (identical(other.isUsedOnStart, isUsedOnStart) ||
-                other.isUsedOnStart == isUsedOnStart) &&
             (identical(other.manifestUrl, manifestUrl) ||
                 other.manifestUrl == manifestUrl) &&
             (identical(other.nativeTokenDecimals, nativeTokenDecimals) ||
@@ -127,7 +124,8 @@ mixin _$ConnectionWorkchain {
             (identical(other.endpointSelectionRetryCount, endpointSelectionRetryCount) ||
                 other.endpointSelectionRetryCount ==
                     endpointSelectionRetryCount) &&
-            (identical(other.tokenApiBaseUrl, tokenApiBaseUrl) || other.tokenApiBaseUrl == tokenApiBaseUrl) &&
+            (identical(other.tokenApiBaseUrl, tokenApiBaseUrl) ||
+                other.tokenApiBaseUrl == tokenApiBaseUrl) &&
             (identical(other.currencyApiBaseUrl, currencyApiBaseUrl) || other.currencyApiBaseUrl == currencyApiBaseUrl) &&
             (identical(other.pollingConfig, pollingConfig) || other.pollingConfig == pollingConfig) &&
             (identical(other.stakeInformation, stakeInformation) || other.stakeInformation == stakeInformation) &&
@@ -160,7 +158,6 @@ mixin _$ConnectionWorkchain {
         isLocal,
         isPreset,
         canBeEdited,
-        isUsedOnStart,
         manifestUrl,
         nativeTokenDecimals,
         const DeepCollectionEquality().hash(defaultActiveAssets),
@@ -176,7 +173,7 @@ mixin _$ConnectionWorkchain {
 
   @override
   String toString() {
-    return 'ConnectionWorkchain(id: $id, parentConnectionId: $parentConnectionId, networkType: $networkType, networkName: $networkName, networkGroup: $networkGroup, type: $type, endpoints: $endpoints, icons: $icons, availableWalletTypes: $availableWalletTypes, defaultWalletType: $defaultWalletType, nativeTokenAddress: $nativeTokenAddress, seedPhraseWordsCount: $seedPhraseWordsCount, defaultNativeCurrencyDecimal: $defaultNativeCurrencyDecimal, genericTokenType: $genericTokenType, accountExplorerLinkType: $accountExplorerLinkType, transactionExplorerLinkType: $transactionExplorerLinkType, walletDefaultAccountNames: $walletDefaultAccountNames, blockExplorerUrl: $blockExplorerUrl, nativeTokenTicker: $nativeTokenTicker, isLocal: $isLocal, isPreset: $isPreset, canBeEdited: $canBeEdited, isUsedOnStart: $isUsedOnStart, manifestUrl: $manifestUrl, nativeTokenDecimals: $nativeTokenDecimals, defaultActiveAssets: $defaultActiveAssets, latencyDetectionInterval: $latencyDetectionInterval, maxLatency: $maxLatency, endpointSelectionRetryCount: $endpointSelectionRetryCount, tokenApiBaseUrl: $tokenApiBaseUrl, currencyApiBaseUrl: $currencyApiBaseUrl, pollingConfig: $pollingConfig, stakeInformation: $stakeInformation, nftInformation: $nftInformation)';
+    return 'ConnectionWorkchain(id: $id, parentConnectionId: $parentConnectionId, networkType: $networkType, networkName: $networkName, networkGroup: $networkGroup, type: $type, endpoints: $endpoints, icons: $icons, availableWalletTypes: $availableWalletTypes, defaultWalletType: $defaultWalletType, nativeTokenAddress: $nativeTokenAddress, seedPhraseWordsCount: $seedPhraseWordsCount, defaultNativeCurrencyDecimal: $defaultNativeCurrencyDecimal, genericTokenType: $genericTokenType, accountExplorerLinkType: $accountExplorerLinkType, transactionExplorerLinkType: $transactionExplorerLinkType, walletDefaultAccountNames: $walletDefaultAccountNames, blockExplorerUrl: $blockExplorerUrl, nativeTokenTicker: $nativeTokenTicker, isLocal: $isLocal, isPreset: $isPreset, canBeEdited: $canBeEdited, manifestUrl: $manifestUrl, nativeTokenDecimals: $nativeTokenDecimals, defaultActiveAssets: $defaultActiveAssets, latencyDetectionInterval: $latencyDetectionInterval, maxLatency: $maxLatency, endpointSelectionRetryCount: $endpointSelectionRetryCount, tokenApiBaseUrl: $tokenApiBaseUrl, currencyApiBaseUrl: $currencyApiBaseUrl, pollingConfig: $pollingConfig, stakeInformation: $stakeInformation, nftInformation: $nftInformation)';
   }
 }
 
@@ -209,7 +206,6 @@ abstract mixin class $ConnectionWorkchainCopyWith<$Res> {
       bool isLocal,
       bool isPreset,
       bool canBeEdited,
-      bool isUsedOnStart,
       String manifestUrl,
       int nativeTokenDecimals,
       List<DefaultActiveAsset> defaultActiveAssets,
@@ -265,7 +261,6 @@ class _$ConnectionWorkchainCopyWithImpl<$Res>
     Object? isLocal = null,
     Object? isPreset = null,
     Object? canBeEdited = null,
-    Object? isUsedOnStart = null,
     Object? manifestUrl = null,
     Object? nativeTokenDecimals = null,
     Object? defaultActiveAssets = null,
@@ -366,10 +361,6 @@ class _$ConnectionWorkchainCopyWithImpl<$Res>
       canBeEdited: null == canBeEdited
           ? _self.canBeEdited
           : canBeEdited // ignore: cast_nullable_to_non_nullable
-              as bool,
-      isUsedOnStart: null == isUsedOnStart
-          ? _self.isUsedOnStart
-          : isUsedOnStart // ignore: cast_nullable_to_non_nullable
               as bool,
       manifestUrl: null == manifestUrl
           ? _self.manifestUrl
@@ -511,7 +502,6 @@ class _ConnectionWorkchain implements ConnectionWorkchain {
       this.isLocal = false,
       this.isPreset = true,
       this.canBeEdited = false,
-      this.isUsedOnStart = true,
       this.manifestUrl = '',
       this.nativeTokenDecimals = 9,
       final List<DefaultActiveAsset> defaultActiveAssets = const [],
@@ -602,9 +592,6 @@ class _ConnectionWorkchain implements ConnectionWorkchain {
   @override
   @JsonKey()
   final bool canBeEdited;
-  @override
-  @JsonKey()
-  final bool isUsedOnStart;
   @override
   @JsonKey()
   final String manifestUrl;
@@ -703,8 +690,6 @@ class _ConnectionWorkchain implements ConnectionWorkchain {
                 other.isPreset == isPreset) &&
             (identical(other.canBeEdited, canBeEdited) ||
                 other.canBeEdited == canBeEdited) &&
-            (identical(other.isUsedOnStart, isUsedOnStart) ||
-                other.isUsedOnStart == isUsedOnStart) &&
             (identical(other.manifestUrl, manifestUrl) ||
                 other.manifestUrl == manifestUrl) &&
             (identical(other.nativeTokenDecimals, nativeTokenDecimals) ||
@@ -718,7 +703,8 @@ class _ConnectionWorkchain implements ConnectionWorkchain {
             (identical(other.endpointSelectionRetryCount, endpointSelectionRetryCount) ||
                 other.endpointSelectionRetryCount ==
                     endpointSelectionRetryCount) &&
-            (identical(other.tokenApiBaseUrl, tokenApiBaseUrl) || other.tokenApiBaseUrl == tokenApiBaseUrl) &&
+            (identical(other.tokenApiBaseUrl, tokenApiBaseUrl) ||
+                other.tokenApiBaseUrl == tokenApiBaseUrl) &&
             (identical(other.currencyApiBaseUrl, currencyApiBaseUrl) || other.currencyApiBaseUrl == currencyApiBaseUrl) &&
             (identical(other.pollingConfig, pollingConfig) || other.pollingConfig == pollingConfig) &&
             (identical(other.stakeInformation, stakeInformation) || other.stakeInformation == stakeInformation) &&
@@ -751,7 +737,6 @@ class _ConnectionWorkchain implements ConnectionWorkchain {
         isLocal,
         isPreset,
         canBeEdited,
-        isUsedOnStart,
         manifestUrl,
         nativeTokenDecimals,
         const DeepCollectionEquality().hash(_defaultActiveAssets),
@@ -767,7 +752,7 @@ class _ConnectionWorkchain implements ConnectionWorkchain {
 
   @override
   String toString() {
-    return 'ConnectionWorkchain(id: $id, parentConnectionId: $parentConnectionId, networkType: $networkType, networkName: $networkName, networkGroup: $networkGroup, type: $type, endpoints: $endpoints, icons: $icons, availableWalletTypes: $availableWalletTypes, defaultWalletType: $defaultWalletType, nativeTokenAddress: $nativeTokenAddress, seedPhraseWordsCount: $seedPhraseWordsCount, defaultNativeCurrencyDecimal: $defaultNativeCurrencyDecimal, genericTokenType: $genericTokenType, accountExplorerLinkType: $accountExplorerLinkType, transactionExplorerLinkType: $transactionExplorerLinkType, walletDefaultAccountNames: $walletDefaultAccountNames, blockExplorerUrl: $blockExplorerUrl, nativeTokenTicker: $nativeTokenTicker, isLocal: $isLocal, isPreset: $isPreset, canBeEdited: $canBeEdited, isUsedOnStart: $isUsedOnStart, manifestUrl: $manifestUrl, nativeTokenDecimals: $nativeTokenDecimals, defaultActiveAssets: $defaultActiveAssets, latencyDetectionInterval: $latencyDetectionInterval, maxLatency: $maxLatency, endpointSelectionRetryCount: $endpointSelectionRetryCount, tokenApiBaseUrl: $tokenApiBaseUrl, currencyApiBaseUrl: $currencyApiBaseUrl, pollingConfig: $pollingConfig, stakeInformation: $stakeInformation, nftInformation: $nftInformation)';
+    return 'ConnectionWorkchain(id: $id, parentConnectionId: $parentConnectionId, networkType: $networkType, networkName: $networkName, networkGroup: $networkGroup, type: $type, endpoints: $endpoints, icons: $icons, availableWalletTypes: $availableWalletTypes, defaultWalletType: $defaultWalletType, nativeTokenAddress: $nativeTokenAddress, seedPhraseWordsCount: $seedPhraseWordsCount, defaultNativeCurrencyDecimal: $defaultNativeCurrencyDecimal, genericTokenType: $genericTokenType, accountExplorerLinkType: $accountExplorerLinkType, transactionExplorerLinkType: $transactionExplorerLinkType, walletDefaultAccountNames: $walletDefaultAccountNames, blockExplorerUrl: $blockExplorerUrl, nativeTokenTicker: $nativeTokenTicker, isLocal: $isLocal, isPreset: $isPreset, canBeEdited: $canBeEdited, manifestUrl: $manifestUrl, nativeTokenDecimals: $nativeTokenDecimals, defaultActiveAssets: $defaultActiveAssets, latencyDetectionInterval: $latencyDetectionInterval, maxLatency: $maxLatency, endpointSelectionRetryCount: $endpointSelectionRetryCount, tokenApiBaseUrl: $tokenApiBaseUrl, currencyApiBaseUrl: $currencyApiBaseUrl, pollingConfig: $pollingConfig, stakeInformation: $stakeInformation, nftInformation: $nftInformation)';
   }
 }
 
@@ -802,7 +787,6 @@ abstract mixin class _$ConnectionWorkchainCopyWith<$Res>
       bool isLocal,
       bool isPreset,
       bool canBeEdited,
-      bool isUsedOnStart,
       String manifestUrl,
       int nativeTokenDecimals,
       List<DefaultActiveAsset> defaultActiveAssets,
@@ -864,7 +848,6 @@ class __$ConnectionWorkchainCopyWithImpl<$Res>
     Object? isLocal = null,
     Object? isPreset = null,
     Object? canBeEdited = null,
-    Object? isUsedOnStart = null,
     Object? manifestUrl = null,
     Object? nativeTokenDecimals = null,
     Object? defaultActiveAssets = null,
@@ -965,10 +948,6 @@ class __$ConnectionWorkchainCopyWithImpl<$Res>
       canBeEdited: null == canBeEdited
           ? _self.canBeEdited
           : canBeEdited // ignore: cast_nullable_to_non_nullable
-              as bool,
-      isUsedOnStart: null == isUsedOnStart
-          ? _self.isUsedOnStart
-          : isUsedOnStart // ignore: cast_nullable_to_non_nullable
               as bool,
       manifestUrl: null == manifestUrl
           ? _self.manifestUrl

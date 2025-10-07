@@ -43,7 +43,6 @@
           "networkType": "ton",
           "networkGroup": "ton",
           "type": "proto",
-          "isUsedOnStart": true,
           "endpoints": [
             "https://jrpc-ton.broxus.com"
           ],
@@ -114,7 +113,6 @@
           "networkType": "tycho",
           "networkGroup": "hmstr_mainnet",
           "type": "proto",
-          "isUsedOnStart": true,
           "endpoints": [
             "https://rpc.hamster.network"
           ],
@@ -185,7 +183,6 @@
           "networkType": "tycho",
           "networkGroup": "humo_testnet",
           "type": "proto",
-          "isUsedOnStart": true,
           "endpoints": [
             "https://rpc.humonetwork.com"
           ],
@@ -241,7 +238,6 @@
           "networkType": "tycho",
           "networkGroup": "tycho_testnet",
           "type": "proto",
-          "isUsedOnStart": true,
           "endpoints": [
             "https://rpc-testnet.tychoprotocol.com"
           ],
@@ -301,7 +297,6 @@
           "networkType": "ever",
           "networkGroup": "mainnet",
           "type": "proto",
-          "isUsedOnStart": true,
           "endpoints": [
             "https://jrpc.everwallet.net"
           ],
@@ -395,7 +390,6 @@
           "networkType": "venom",
           "networkGroup": "venom_mainnet",
           "type": "proto",
-          "isUsedOnStart": true,
           "endpoints": [
             "https://jrpc.venom.foundation"
           ],
