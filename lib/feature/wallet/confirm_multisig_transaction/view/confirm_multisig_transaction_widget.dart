@@ -33,6 +33,7 @@ class ConfirmMultisigTransactionWidget
     /// Destination where funds should be sent (this page won't displayed for
     /// incoming transaction)
     required Address destination,
+    required String? resultMessage,
 
     /// Comment of transaction
     String? comment,
@@ -46,13 +47,14 @@ class ConfirmMultisigTransactionWidget
             destination: destination,
             comment: comment,
             transactionIdHash: transactionIdHash,
+            resultMessage: resultMessage,
           ),
         );
 
   @override
   Widget build(ConfirmMultisigTransactionWidgetModel wm) {
     return StateNotifierBuilder(
-      listenableState: wm.state,
+      listenableState: wm.confirmState,
       builder: (_, state) {
         if (state == null) return const SizedBox.shrink();
 
@@ -86,10 +88,9 @@ class ConfirmMultisigTransactionWidget
               account: wm.account,
               amount: wm.amount,
               currency: wm.currency,
-              fees: wm.fees,
-              error: wm.error,
-              txErrors: wm.txErrors,
-              isLoading: wm.isLoading,
+              fees: wm.feesState,
+              txErrors: wm.txErrorsState,
+              isLoading: wm.isLoadingState,
               getLedgerAuthInput: wm.getLedgerAuthInput,
               onConfirmed: wm.onConfirmed,
             ),

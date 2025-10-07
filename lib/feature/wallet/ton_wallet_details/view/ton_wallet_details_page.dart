@@ -1,81 +1,45 @@
-import 'package:app/di/di.dart';
+import 'package:app/core/wm/custom_wm.dart';
 import 'package:app/feature/wallet/wallet.dart';
 import 'package:app/feature/wallet/widgets/account_transactions_tab/account_transactions_tab.dart';
 import 'package:app/generated/generated.dart';
+import 'package:app/utils/utils.dart';
+import 'package:elementary_helper/elementary_helper.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:nekoton_repository/nekoton_repository.dart';
+import 'package:ui_components_lib/components/common/default_sliver_app_bar.dart';
 import 'package:ui_components_lib/ui_components_lib.dart';
 import 'package:ui_components_lib/v2/ui_components_lib_v2.dart';
 
 /// Details page of the [TonWallet], that is used to look though transactions
 /// history and to send tokens.
-class TonWalletDetailsPage extends StatefulWidget {
+class TonWalletDetailsPage extends InjectedElementaryParametrizedWidget<
+    TonWalletDetailsPageWidgetModel, Address> {
   const TonWalletDetailsPage({
-    required this.address,
+    required Address address,
     super.key,
-  });
-
-  final Address address;
+  }) : super(wmFactoryParam: address);
 
   @override
-  State<TonWalletDetailsPage> createState() => _TonWalletDetailsPageState();
-}
-
-class _TonWalletDetailsPageState extends State<TonWalletDetailsPage> {
-  final controller = ScrollController();
-
-  @override
-  void dispose() {
-    controller.dispose();
-    super.dispose();
-  }
-
-  @override
-  Widget build(BuildContext context) {
+  Widget build(TonWalletDetailsPageWidgetModel wm) {
     return ColoredBox(
-      color: context.themeStyleV2.colors.background0,
-      child: BlocProvider<TonWalletDetailsCubit>(
-        create: (_) => TonWalletDetailsCubit(
-          address: widget.address,
-          nekotonRepository: inject(),
-          currencyConvertService: inject(),
-          balanceService: inject(),
-        ),
-        child: BlocBuilder<TonWalletDetailsCubit, TonWalletDetailsState>(
-          builder: (context, state) {
-            return switch (state) {
-              TonWalletDetailsStateInitial() => const SizedBox.shrink(),
-              TonWalletDetailsStateEmpty() => const SizedBox.shrink(),
-              TonWalletDetailsStateSubscribeError(
-                :final symbol,
-                :final account,
-                :final error,
-                :final isLoading,
-              ) =>
-                _Body(
-                  symbol: symbol,
-                  account: account,
-                  error: error,
-                  isLoadingError: isLoading,
-                  controller: controller,
-                ),
-              TonWalletDetailsStateData(
-                :final symbol,
-                :final account,
-                :final tokenBalance,
-                :final fiatBalance
-              ) =>
-                _Body(
-                  symbol: symbol,
-                  account: account,
-                  tokenBalance: tokenBalance,
-                  fiatBalance: fiatBalance,
-                  controller: controller,
-                ),
-            };
-          },
-        ),
+      color: wm.theme.colors.background0,
+      child: DoubleSourceBuilder(
+        firstSource: wm.accountState,
+        secondSource: wm.errorState,
+        builder: (_, account, error) {
+          if (account == null) return const SizedBox.shrink();
+
+          return _Body(
+            symbol: wm.symbol,
+            account: account,
+            tokenBalanceState: wm.tokenBalanceState,
+            fiatBalanceState: wm.fiatBalanceState,
+            error: error,
+            loadingErrorState: wm.loadingErrorState,
+            controller: wm.scrollController,
+            onRetry: wm.retry,
+          );
+        },
       ),
     );
   }
@@ -86,19 +50,21 @@ class _Body extends StatelessWidget {
     required this.account,
     required this.symbol,
     required this.controller,
-    this.tokenBalance,
-    this.fiatBalance,
+    required this.tokenBalanceState,
+    required this.fiatBalanceState,
+    required this.loadingErrorState,
     this.error,
-    this.isLoadingError = false,
+    this.onRetry,
   });
 
   final KeyAccount account;
   final String symbol;
-  final Money? tokenBalance;
-  final Money? fiatBalance;
+  final ListenableState<Money> tokenBalanceState;
+  final ListenableState<Money> fiatBalanceState;
+  final ListenableState<bool> loadingErrorState;
   final Object? error;
-  final bool isLoadingError;
   final ScrollController controller;
+  final VoidCallback? onRetry;
 
   @override
   Widget build(BuildContext context) {
@@ -108,45 +74,65 @@ class _Body extends StatelessWidget {
     return CustomScrollView(
       controller: controller,
       slivers: [
-        SliverToBoxAdapter(
-          child: Stack(
-            children: [
-              const _Background(),
-              Column(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  const DefaultAppBar(),
-                  Text(
-                    symbol,
-                    style: theme.textStyles.labelSmall.copyWith(
-                      color: theme.colors.content3,
-                    ),
+        DefaultSliverAppBar(
+          title: symbol,
+          flexibleSpace: FlexibleSpaceBar(
+            background: Stack(
+              fit: StackFit.expand,
+              children: [
+                const _Background(),
+                SafeArea(
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      const SizedBox(height: 72),
+                      Text(
+                        symbol,
+                        style: theme.textStyles.labelSmall.copyWith(
+                          color: theme.colors.content3,
+                        ),
+                      ),
+                      const SizedBox(height: DimensSizeV2.d12),
+                      StateNotifierBuilder(
+                        listenableState: tokenBalanceState,
+                        builder: (_, tokenBalance) {
+                          if (tokenBalance == null) {
+                            return const SizedBox.shrink();
+                          }
+                          return AmountWidget.fromMoney(
+                            amount: tokenBalance,
+                            includeSymbol: false,
+                            style: theme.textStyles.headingXLarge,
+                          );
+                        },
+                      ),
+                      const SizedBox(height: DimensSizeV2.d4),
+                      StateNotifierBuilder(
+                        listenableState: fiatBalanceState,
+                        builder: (_, fiatBalance) {
+                          if (fiatBalance == null) {
+                            return const SizedBox.shrink();
+                          }
+                          return AmountWidget.dollars(
+                            amount: fiatBalance,
+                            style: theme.textStyles.labelXSmall,
+                          );
+                        },
+                      ),
+                      const SizedBox(height: DimensSizeV2.d16),
+                      if (error == null)
+                        WalletAccountActions(
+                          account: account,
+                          allowStake: false,
+                          sendSpecified: true,
+                          padding: EdgeInsets.zero,
+                        ),
+                      const SizedBox(height: DimensSizeV2.d48),
+                    ],
                   ),
-                  const SizedBox(height: DimensSizeV2.d12),
-                  if (tokenBalance != null)
-                    AmountWidget.fromMoney(
-                      amount: tokenBalance!,
-                      includeSymbol: false,
-                      style: theme.textStyles.headingXLarge,
-                    ),
-                  const SizedBox(height: DimensSizeV2.d4),
-                  if (fiatBalance != null)
-                    AmountWidget.dollars(
-                      amount: fiatBalance!,
-                      style: theme.textStyles.labelXSmall,
-                    ),
-                  const SizedBox(height: DimensSizeV2.d16),
-                  if (error == null)
-                    WalletAccountActions(
-                      account: account,
-                      allowStake: false,
-                      sendSpecified: true,
-                      padding: EdgeInsets.zero,
-                    ),
-                  const SizedBox(height: DimensSizeV2.d48),
-                ],
-              ),
-            ],
+                ),
+              ],
+            ),
           ),
         ),
         DecoratedSliver(
@@ -178,16 +164,18 @@ class _Body extends StatelessWidget {
             padding: const EdgeInsets.symmetric(
               horizontal: DimensSizeV2.d16,
             ),
-            child: error != null
-                ? Center(
-                    child: WalletSubscribeErrorWidget(
-                      error: error!,
-                      isLoadingError: isLoadingError,
-                      onRetryPressed: () =>
-                          context.read<TonWalletDetailsCubit>().retry(),
-                    ),
-                  )
-                : null,
+            child: error?.let(
+              (error) => Center(
+                child: StateNotifierBuilder(
+                  listenableState: loadingErrorState,
+                  builder: (_, isLoadingError) => WalletSubscribeErrorWidget(
+                    error: error,
+                    isLoadingError: isLoadingError ?? false,
+                    onRetryPressed: onRetry,
+                  ),
+                ),
+              ),
+            ),
           ),
         ),
       ],

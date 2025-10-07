@@ -16,7 +16,6 @@ T _$identity<T>(T value) => value;
 mixin _$BrowserBookmarkItem {
   String get id;
   String get title;
-  @uriJsonConverter
   Uri get url;
   double get sortingOrder;
 
@@ -59,11 +58,7 @@ abstract mixin class $BrowserBookmarkItemCopyWith<$Res> {
           BrowserBookmarkItem value, $Res Function(BrowserBookmarkItem) _then) =
       _$BrowserBookmarkItemCopyWithImpl;
   @useResult
-  $Res call(
-      {String id,
-      String title,
-      @uriJsonConverter Uri url,
-      double sortingOrder});
+  $Res call({String id, String title, Uri url, double sortingOrder});
 }
 
 /// @nodoc
@@ -274,7 +269,7 @@ class _BrowserBookmarkItem implements BrowserBookmarkItem {
   const _BrowserBookmarkItem(
       {required this.id,
       required this.title,
-      @uriJsonConverter required this.url,
+      required this.url,
       required this.sortingOrder});
   factory _BrowserBookmarkItem.fromJson(Map<String, dynamic> json) =>
       _$BrowserBookmarkItemFromJson(json);
@@ -284,7 +279,6 @@ class _BrowserBookmarkItem implements BrowserBookmarkItem {
   @override
   final String title;
   @override
-  @uriJsonConverter
   final Uri url;
   @override
   final double sortingOrder;
@@ -335,11 +329,7 @@ abstract mixin class _$BrowserBookmarkItemCopyWith<$Res>
       __$BrowserBookmarkItemCopyWithImpl;
   @override
   @useResult
-  $Res call(
-      {String id,
-      String title,
-      @uriJsonConverter Uri url,
-      double sortingOrder});
+  $Res call({String id, String title, Uri url, double sortingOrder});
 }
 
 /// @nodoc

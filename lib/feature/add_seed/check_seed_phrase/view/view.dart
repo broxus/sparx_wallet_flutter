@@ -1,0 +1,4 @@
+export 'check_seed_phrase_page.dart';
+export 'check_seed_phrase_page_model.dart';
+export 'check_seed_phrase_page_wm.dart';
+export 'check_seed_phrase_view.dart';

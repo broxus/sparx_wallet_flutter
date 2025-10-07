@@ -27,6 +27,10 @@ import 'package:flutter/widgets.dart';
 import 'package:injectable/injectable.dart';
 import 'package:nekoton_repository/nekoton_repository.dart';
 
+const _zeroAddress = Address(
+  address: '0:0000000000000000000000000000000000000000000000000000000000000000',
+);
+
 class WalletPrepareTransferPageWmParams {
   const WalletPrepareTransferPageWmParams({
     required this.address,
@@ -56,7 +60,7 @@ class WalletPrepareTransferPageWidgetModel
     );
 
   late final commentState = createNotifier(false);
-  late final _isInitialDataLoaded = createNotifier(false);
+  late final _isInitialDataLoadedState = createNotifier(false);
 
   final formKey = GlobalKey<FormState>();
 
@@ -75,7 +79,7 @@ class WalletPrepareTransferPageWidgetModel
   );
 
   final _assets = <(Address, String), WalletPrepareTransferAsset>{};
-  late final _assetsList = createValueNotifier(_assets.values.toList());
+  late final _assetsState = createValueNotifier(_assets.values.toList());
 
   late final _sentry = SentryWorker.instance;
 
@@ -85,9 +89,11 @@ class WalletPrepareTransferPageWidgetModel
 
   PublicKey? get _selectedCustodian => _data?.selectedCustodian;
 
-  ValueListenable<List<WalletPrepareTransferAsset>> get assets => _assetsList;
+  ValueListenable<List<WalletPrepareTransferAsset>> get assetsState =>
+      _assetsState;
 
-  ListenableState<bool> get isInitialDataLoaded => _isInitialDataLoaded;
+  ListenableState<bool> get isInitialDataLoadedState =>
+      _isInitialDataLoadedState;
 
   late final ValueListenable<Address> addressState = createWmParamsNotifier(
     (it) => it.address,
@@ -138,7 +144,7 @@ class WalletPrepareTransferPageWidgetModel
       address: receiverController.text.trim(),
     );
 
-    if (!validateAddress(addr)) {
+    if (!addr.isValid) {
       model.showError(LocaleKeys.addressIsWrong.tr());
 
       return;
@@ -155,6 +161,7 @@ class WalletPrepareTransferPageWidgetModel
   Future<void> setMaxBalance() async {
     final asset = _selectedAsset;
     var available = asset?.balance;
+    Money? comission;
 
     if (asset == null || available == null) {
       return;
@@ -164,10 +171,27 @@ class WalletPrepareTransferPageWidgetModel
       // subtract approximate comission
       final gas = await model.getFeeFactor();
       final valueComission = gas == null ? 0.01 : gas / pow(2, 16) * 0.01;
-      final comission = Money.fromFixedWithCurrency(
+
+      comission = Money.fromFixedWithCurrency(
         Fixed.fromNum(valueComission),
         available.currency,
       );
+    } else {
+      final keyAccount = _data?.account;
+      final publicKey = _data?.selectedCustodian;
+      final address = Address(address: receiverController.text.trim());
+
+      comission = keyAccount != null && publicKey != null
+          ? await model.estimateGaslessCommission(
+              keyAccount: keyAccount,
+              rootTokenContract: asset.rootTokenContract,
+              publicKey: publicKey,
+              destination: address.isValid ? address : _zeroAddress,
+            )
+          : null;
+    }
+
+    if (comission != null) {
       final amountMinusComission = available - comission;
       if (amountMinusComission.amount < Fixed.zero) {
         model.showError(
@@ -195,7 +219,7 @@ class WalletPrepareTransferPageWidgetModel
       return;
     }
 
-    if (validateAddress(Address(address: text))) {
+    if (Address(address: text).isValid) {
       receiverController.text = text;
       receiverFocus.unfocus();
     } else {
@@ -246,9 +270,7 @@ class WalletPrepareTransferPageWidgetModel
       return;
     }
 
-    _updateState(
-      account: acc,
-    );
+    _updateState(account: acc);
 
     // If default contract not specified, then native is default and load
     // all existed assets
@@ -274,7 +296,7 @@ class WalletPrepareTransferPageWidgetModel
       localCustodians: localCustodians,
     );
 
-    _isInitialDataLoaded.accept(true);
+    _isInitialDataLoadedState.accept(true);
   }
 
   void _initListeners() {
@@ -495,7 +517,7 @@ class WalletPrepareTransferPageWidgetModel
         updater,
   ) {
     updater(_assets);
-    _assetsList.value = _assets.values.toList();
+    _assetsState.value = _assets.values.toList();
   }
 
   Money _zeroBalance(String symbol) {

@@ -70,7 +70,7 @@ class EnterPasswordWidget extends InjectedElementaryParametrizedWidget<
   @override
   Widget build(EnterPasswordWidgetModel wm) {
     return DoubleValueListenableBuilder(
-      firstValue: wm.state,
+      firstValue: wm.enterPasswordState,
       secondValue: wm.props,
       builder: (_, state, props) {
         if (state == null) {
@@ -183,6 +183,7 @@ class _Password extends StatelessWidget {
           hintText: LocaleKeys.password.tr(),
           textEditingController: controller,
           isAutofocus: isAutofocus && !isDisabled,
+          isEnabled: !isDisabled,
           onSubmit: isDisabled ? null : (_) => onSubmit(controller.text),
         ),
         AccentButton(

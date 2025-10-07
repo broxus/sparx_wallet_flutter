@@ -9,7 +9,6 @@ part 'token_api.g.dart';
 
 @injectable
 @RestApi()
-// ignore: one_member_abstracts
 abstract class TokenApi {
   @factoryMethod
   factory TokenApi(Dio dio, {String? baseUrl}) = _TokenApi;

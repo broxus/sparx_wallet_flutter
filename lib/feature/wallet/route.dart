@@ -1,6 +1,7 @@
 import 'package:app/app/router/compass/bottom_bar_state.dart';
 import 'package:app/app/router/compass/compass.dart';
-import 'package:app/feature/biometry/view/route.dart';
+import 'package:app/feature/add_seed/enter_seed_name/route.dart';
+import 'package:app/feature/biometry/route.dart';
 import 'package:app/feature/network/configure_networks/route.dart';
 import 'package:app/feature/wallet/confirm_multisig_transaction/route.dart';
 import 'package:app/feature/wallet/custodians_settings/route.dart';
@@ -9,10 +10,10 @@ import 'package:app/feature/wallet/staking/view/staking_page/route.dart';
 import 'package:app/feature/wallet/token_wallet_details/route.dart';
 import 'package:app/feature/wallet/ton_wallet_details/route.dart';
 import 'package:app/feature/wallet/view/wallet_page_widget.dart';
-import 'package:app/feature/wallet/wallet_deploy/route.dart';
+import 'package:app/feature/wallet/wallet_deploy/wallet_deploy_confirm/route.dart';
+import 'package:app/feature/wallet/wallet_deploy/wallet_multisig_config/route.dart';
 import 'package:app/feature/wallet/wallet_prepare_transfer/route.dart';
 import 'package:app/feature/wallet/widgets/account_asset_tab/select_new_asset/route.dart';
-import 'package:app/v1/feature/add_seed/enter_seed_name/route.dart';
 import 'package:injectable/injectable.dart';
 
 @named
@@ -31,12 +32,14 @@ class WalletRoute extends CompassRouteParameterless<WalletRouteData> {
     CompassBaseRoute walletPrepareTransferRoute,
     @Named.from(WalletPrepareSpecifiedTransferRoute)
     CompassBaseRoute walletPrepareSpecifiedTransferRoute,
-    @Named.from(WalletDeployRoute) CompassBaseRoute walletDeployRoute,
+    @Named.from(WalletMultisigConfigRoute)
+    CompassBaseRoute walletMultisigConfigRoute,
+    @Named.from(WalletDeployConfirmRoute)
+    CompassBaseRoute walletDeployConfirmRoute,
     @Named.from(ConfirmMultisigTransactionRoute)
     CompassBaseRoute confirmMultisigTransactionRoute,
     @Named.from(ConfigureNetworksRoute) CompassBaseRoute configureNetworksRoute,
     @Named.from(StakingRoute) CompassBaseRoute walletStakeRoute,
-    // ignore: deprecated_member_use_from_same_package
     @Named.from(EnterSeedNameRoute) CompassBaseRoute enterSeedNameRoute,
   ) : super(
           name: 'wallet',
@@ -53,7 +56,8 @@ class WalletRoute extends CompassRouteParameterless<WalletRouteData> {
             tokenWalletDetailsRoute,
             walletPrepareTransferRoute,
             walletPrepareSpecifiedTransferRoute,
-            walletDeployRoute,
+            walletMultisigConfigRoute,
+            walletDeployConfirmRoute,
             confirmMultisigTransactionRoute,
             configureNetworksRoute,
             walletStakeRoute,

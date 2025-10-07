@@ -110,6 +110,7 @@ class CompassRouter {
   /// Returns the stream with current active routes in the navigation stack.
   late final _currentRoutesSubject = _router.routerDelegate.asBehaviourSubject(
     () => _locationByUri(currentUri),
+    sync: true, // prevent inconsistencies in RestoreSubroutesGuard
   );
 
   Stream<Iterable<CompassBaseGoRoute>> get currentRoutesStream =>

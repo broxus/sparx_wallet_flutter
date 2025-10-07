@@ -16,7 +16,6 @@ T _$identity<T>(T value) => value;
 mixin _$UnsignedMessageWithAdditionalInfo {
   UnsignedMessage get message;
   String? get dst;
-  @amountJsonConverter
   BigInt? get amount;
 
   /// Create a copy of UnsignedMessageWithAdditionalInfo
@@ -54,10 +53,7 @@ abstract mixin class $UnsignedMessageWithAdditionalInfoCopyWith<$Res> {
           $Res Function(UnsignedMessageWithAdditionalInfo) _then) =
       _$UnsignedMessageWithAdditionalInfoCopyWithImpl;
   @useResult
-  $Res call(
-      {UnsignedMessage message,
-      String? dst,
-      @amountJsonConverter BigInt? amount});
+  $Res call({UnsignedMessage message, String? dst, BigInt? amount});
 }
 
 /// @nodoc
@@ -263,14 +259,13 @@ extension UnsignedMessageWithAdditionalInfoPatterns
 class _UnsignedMessageWithAdditionalInfo
     implements UnsignedMessageWithAdditionalInfo {
   const _UnsignedMessageWithAdditionalInfo(
-      {required this.message, this.dst, @amountJsonConverter this.amount});
+      {required this.message, this.dst, this.amount});
 
   @override
   final UnsignedMessage message;
   @override
   final String? dst;
   @override
-  @amountJsonConverter
   final BigInt? amount;
 
   /// Create a copy of UnsignedMessageWithAdditionalInfo
@@ -311,10 +306,7 @@ abstract mixin class _$UnsignedMessageWithAdditionalInfoCopyWith<$Res>
       __$UnsignedMessageWithAdditionalInfoCopyWithImpl;
   @override
   @useResult
-  $Res call(
-      {UnsignedMessage message,
-      String? dst,
-      @amountJsonConverter BigInt? amount});
+  $Res call({UnsignedMessage message, String? dst, BigInt? amount});
 }
 
 /// @nodoc

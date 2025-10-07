@@ -1575,7 +1575,7 @@ class ApprovalRequestSendMessage implements ApprovalRequest {
       {required this.origin,
       required this.sender,
       required this.recipient,
-      @amountJsonConverter required this.amount,
+      required this.amount,
       required this.bounce,
       required this.payload,
       required this.knownPayload,
@@ -1591,7 +1591,6 @@ class ApprovalRequestSendMessage implements ApprovalRequest {
   final Uri origin;
   final Address sender;
   final Address recipient;
-  @amountJsonConverter
   final BigInt amount;
   final bool bounce;
   final FunctionCall? payload;
@@ -1683,7 +1682,7 @@ abstract mixin class $ApprovalRequestSendMessageCopyWith<$Res>
       {Uri origin,
       Address sender,
       Address recipient,
-      @amountJsonConverter BigInt amount,
+      BigInt amount,
       bool bounce,
       FunctionCall? payload,
       KnownPayload? knownPayload,

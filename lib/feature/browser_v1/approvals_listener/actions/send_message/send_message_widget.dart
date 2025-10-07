@@ -57,7 +57,7 @@ class SendMessageWidget extends InjectedElementaryParametrizedWidget<
               children: [
                 if (wm.account != null)
                   StateNotifierBuilder(
-                    listenableState: wm.balance,
+                    listenableState: wm.balanceState,
                     builder: (_, balance) => AccountInfo(
                       account: wm.account!,
                       color: theme.colors.background2,
@@ -80,8 +80,8 @@ class SendMessageWidget extends InjectedElementaryParametrizedWidget<
                   },
                 ),
                 DoubleSourceBuilder(
-                  firstSource: wm.publicKey,
-                  secondSource: wm.custodians,
+                  firstSource: wm.publicKeyState,
+                  secondSource: wm.custodiansState,
                   builder: (_, publicKey, custodians) => custodians == null ||
                           custodians.length < 2
                       ? const SizedBox.shrink()
@@ -105,15 +105,11 @@ class SendMessageWidget extends InjectedElementaryParametrizedWidget<
                 const SizedBox(height: DimensSizeV2.d12),
                 MultiListenerRebuilder(
                   listenableList: [
-                    wm.data,
-                    wm.fee,
-                    wm.feeError,
+                    wm.dataState,
                     wm.recipientState,
                   ],
                   builder: (_) {
-                    final data = wm.data.value;
-                    final fee = wm.fee.value;
-                    final feeError = wm.feeError.value;
+                    final data = wm.dataState.value;
                     final recipient = wm.recipientState.value;
 
                     return data?.let(
@@ -124,8 +120,7 @@ class SendMessageWidget extends InjectedElementaryParametrizedWidget<
                             attachedAmount: data.attachedAmount,
                             rootTokenContract: data.rootTokenContract,
                             recipient: recipient,
-                            fee: fee,
-                            feeError: feeError,
+                            fee: wm.feeState,
                             numberUnconfirmedTransactions:
                                 data.numberUnconfirmedTransactions,
                           ),
@@ -164,11 +159,16 @@ class SendMessageWidget extends InjectedElementaryParametrizedWidget<
           ),
         ),
         if (wm.account != null)
-          TripleSourceBuilder(
-            firstSource: wm.feeError,
-            secondSource: wm.txErrors,
-            thirdSource: wm.isConfirmed,
-            builder: (_, feeError, txErrors, isConfirmed) {
+          MultiListenerRebuilder(
+            listenableList: [
+              wm.feeState,
+              wm.txErrorsState,
+              wm.isConfirmedState,
+            ],
+            builder: (_) {
+              final isConfirmed = wm.isConfirmedState.value;
+              final txErrors = wm.txErrorsState.value;
+              final fees = wm.feeState.value;
               final hasTxError = txErrors?.isNotEmpty ?? false;
 
               return SeparatedColumn(
@@ -182,7 +182,7 @@ class SendMessageWidget extends InjectedElementaryParametrizedWidget<
                       onConfirm: wm.onConfirmed,
                     ),
                   StateNotifierBuilder(
-                    listenableState: wm.isLoading,
+                    listenableState: wm.isLoadingState,
                     builder: (_, isLoading) => EnterPasswordWidget.auth(
                       getLedgerAuthInput: wm.getLedgerAuthInput,
                       isLoading: isLoading ?? false,
@@ -190,7 +190,7 @@ class SendMessageWidget extends InjectedElementaryParametrizedWidget<
                       title: LocaleKeys.sendWord.tr(),
                       isDisabled: wm.numberUnconfirmedTransactions == null ||
                           wm.numberUnconfirmedTransactions! >= 5 ||
-                          feeError != null ||
+                          fees.isErrorState ||
                           (hasTxError && isConfirmed != true),
                       onConfirmed: wm.onSubmit,
                     ),

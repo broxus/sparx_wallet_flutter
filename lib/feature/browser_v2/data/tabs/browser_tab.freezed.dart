@@ -18,11 +18,9 @@ mixin _$BrowserTab {
   String get id;
 
   /// Initial url of the tab.
-  @uriJsonConverter
   Uri get url;
 
   /// Initial url of the tab.
-  @uriJsonConverter
   set url(Uri value);
 
   /// The title of the tab.
@@ -59,11 +57,7 @@ abstract mixin class $BrowserTabCopyWith<$Res> {
           BrowserTab value, $Res Function(BrowserTab) _then) =
       _$BrowserTabCopyWithImpl;
   @useResult
-  $Res call(
-      {String id,
-      @uriJsonConverter Uri url,
-      String? title,
-      double sortingOrder});
+  $Res call({String id, Uri url, String? title, double sortingOrder});
 }
 
 /// @nodoc
@@ -272,7 +266,7 @@ extension BrowserTabPatterns on BrowserTab {
 class _BrowserTab extends BrowserTab {
   _BrowserTab(
       {required this.id,
-      @uriJsonConverter required this.url,
+      required this.url,
       required this.title,
       required this.sortingOrder})
       : super._();
@@ -285,7 +279,6 @@ class _BrowserTab extends BrowserTab {
 
   /// Initial url of the tab.
   @override
-  @uriJsonConverter
   Uri url;
 
   /// The title of the tab.
@@ -325,11 +318,7 @@ abstract mixin class _$BrowserTabCopyWith<$Res>
       __$BrowserTabCopyWithImpl;
   @override
   @useResult
-  $Res call(
-      {String id,
-      @uriJsonConverter Uri url,
-      String? title,
-      double sortingOrder});
+  $Res call({String id, Uri url, String? title, double sortingOrder});
 }
 
 /// @nodoc

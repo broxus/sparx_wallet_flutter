@@ -52,16 +52,16 @@ class ChangeNetworkWidgetModel extends CustomWidgetModelParametrized<
   ValueListenable<List<ConnectionData>> get connectionsState =>
       _connectionsState;
 
-  late final _loading = createValueNotifier(false);
+  late final _loadingState = createValueNotifier(false);
 
-  ValueListenable<bool> get loading => _loading;
+  ValueListenable<bool> get loadingState => _loadingState;
 
-  ValueListenable<ConnectionData> get connection => _connectionState;
+  ValueListenable<ConnectionData> get connectionState => _connectionState;
 
   ThemeStyleV2 get theme => context.themeStyleV2;
 
   Future<void> onConfirm() async {
-    _loading.value = true;
+    _loadingState.value = true;
     try {
       final strategy = await model.changeNetwork(_connectionState.value.id);
 
@@ -77,7 +77,7 @@ class ChangeNetworkWidgetModel extends CustomWidgetModelParametrized<
         model.showError(contextSafe!, e.toString());
       }
     } finally {
-      _loading.value = false;
+      _loadingState.value = false;
     }
   }
 

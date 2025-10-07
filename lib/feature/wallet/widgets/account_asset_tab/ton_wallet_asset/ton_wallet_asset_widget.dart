@@ -1,78 +1,38 @@
-import 'package:app/app/router/router.dart';
-import 'package:app/app/service/service.dart';
-import 'package:app/di/di.dart';
-import 'package:app/feature/wallet/ton_wallet_details/route.dart';
-import 'package:app/feature/wallet/widgets/account_asset_tab/ton_wallet_asset/ton_wallet_asset_cubit.dart';
+import 'package:app/core/wm/custom_wm.dart';
+import 'package:app/feature/wallet/widgets/account_asset_tab/ton_wallet_asset/ton_wallet_asset_wm.dart';
 import 'package:app/feature/wallet/widgets/account_asset_tab/ton_wallet_asset/ton_wallet_icon.dart';
 import 'package:app/feature/wallet/widgets/account_asset_tab/wallet_asset_widget.dart';
+import 'package:elementary_helper/elementary_helper.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:nekoton_repository/nekoton_repository.dart';
 
 /// Widget that stores information about native token and display its balance
-class TonWalletAssetWidget extends StatelessWidget {
+class TonWalletAssetWidget extends InjectedElementaryParametrizedWidget<
+    TonWalletAssetWidgetModel, TonWalletAsset> {
   const TonWalletAssetWidget({
-    required this.tonWallet,
+    required TonWalletAsset tonWallet,
     super.key,
-  });
-
-  final TonWalletAsset tonWallet;
+  }) : super(wmFactoryParam: tonWallet);
 
   @override
-  Widget build(BuildContext context) {
-    return BlocProvider<TonWalletAssetCubit>(
-      create: (_) => TonWalletAssetCubit(
-        tonWallet: tonWallet,
-        balanceService: inject<BalanceService>(),
-        currencyConvertService: inject<CurrencyConvertService>(),
-        nekotonRepository: inject<NekotonRepository>(),
-        balanceStorage: inject(),
-      ),
-      child: BlocBuilder<TonWalletAssetCubit, TonWalletAssetState>(
-        builder: (context, state) {
-          return switch (state) {
-            TonWalletAssetStateSubscribeError() => _asset(
-                tokenName: state.tokenName,
-                iconPath: state.iconPath,
-                error: state.error,
-                isErrorLoading: state.isLoading,
-              ),
-            TonWalletAssetStateData() => _asset(
-                tokenName: state.tokenName,
-                iconPath: state.iconPath,
-                fiatBalance: state.fiatBalance,
-                tokenBalance: state.tokenBalance,
-              ),
-          };
-        },
-      ),
-    );
-  }
+  Widget build(TonWalletAssetWidgetModel wm) {
+    return DoubleSourceBuilder(
+      firstSource: wm.tokenNameState,
+      secondSource: wm.iconPathState,
+      builder: (_, tokenName, iconPath) {
+        if (tokenName == null || iconPath == null) {
+          return const SizedBox.shrink();
+        }
 
-  Widget _asset({
-    required String tokenName,
-    required String iconPath,
-    Object? error,
-    bool isErrorLoading = false,
-    Money? fiatBalance,
-    Money? tokenBalance,
-  }) {
-    return Builder(
-      builder: (context) {
         return WalletAssetWidget(
           name: tokenName,
-          tokenBalance: tokenBalance,
-          fiatBalance: fiatBalance,
-          error: error,
-          isRetryLoading: isErrorLoading,
-          onRetryPressed: (context) =>
-              context.read<TonWalletAssetCubit>().retry(),
+          tokenBalance: wm.tokenBalanceState,
+          fiatBalance: wm.fiatBalanceState,
+          error: wm.errorState,
+          isRetryLoading: wm.isRetryLoadingState,
           icon: TonWalletIconWidget(path: iconPath),
-          onPressed: () {
-            context.compassContinue(
-              TonWalletDetailsRouteData(address: tonWallet.address),
-            );
-          },
+          onRetryPressed: wm.retry,
+          onPressed: wm.openDetails,
         );
       },
     );

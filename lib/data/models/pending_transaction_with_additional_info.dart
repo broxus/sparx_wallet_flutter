@@ -10,7 +10,7 @@ abstract class PendingTransactionWithAdditionalInfo
     implements Comparable<PendingTransactionWithAdditionalInfo> {
   const factory PendingTransactionWithAdditionalInfo({
     required PendingTransaction transaction,
-    @amountJsonConverter required BigInt? amount,
+    required BigInt? amount,
     required int createdAt,
     String? dst,
   }) = _PendingTransactionWithAdditionalInfo;

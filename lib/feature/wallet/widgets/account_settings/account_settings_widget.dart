@@ -12,19 +12,14 @@ import 'package:ui_components_lib/ui_components_lib.dart';
 import 'package:ui_components_lib/v2/ui_components_lib_v2.dart';
 
 class AccountSettingsWidget extends InjectedElementaryParametrizedWidget<
-    AccountSettingsWidgetModel, AccountSettingsWmParams> {
-  AccountSettingsWidget({
-    required KeyAccount account,
+    AccountSettingsWidgetModel, KeyAccount> {
+  const AccountSettingsWidget({
+    required this.account,
     required this.scrollController,
-    required List<PublicKey>? custodians,
     super.key,
-  }) : super(
-          wmFactoryParam: AccountSettingsWmParams(
-            account: account,
-            custodians: custodians,
-          ),
-        );
+  }) : super(wmFactoryParam: account);
 
+  final KeyAccount account;
   final ScrollController scrollController;
 
   @override
@@ -32,29 +27,16 @@ class AccountSettingsWidget extends InjectedElementaryParametrizedWidget<
     return Column(
       mainAxisSize: MainAxisSize.min,
       children: [
-        ValueListenableBuilder(
-          valueListenable: wm.accountState,
-          builder: (_, account, __) {
-            return AccountSettingsInfoCard(account: account);
-          },
-        ),
+        AccountSettingsInfoCard(account: account),
         const SizedBox(height: DimensSizeV2.d16),
-        MultiListenerRebuilder(
-          listenableList: [
-            wm.displayAccounts,
-            wm.accountState,
-            wm.custodiansState,
-          ],
-          builder: (_) {
-            final displayList = wm.displayAccounts.value;
-            final acc = wm.accountState.value;
-            final custodians = wm.custodiansState.value;
-
+        DoubleSourceBuilder(
+          firstSource: wm.displayAccountsState,
+          secondSource: wm.custodiansState,
+          builder: (_, displayList, custodians) {
             return _ButtonsCard(
-              address: acc.address.address,
+              address: account.address.address,
               custodians: custodians,
-              onCustodiansSettings: () =>
-                  wm.onCustodiansSettings(custodians ?? []),
+              onCustodiansSettings: wm.onCustodiansSettings,
               onViewInExplorer: wm.onViewInExplorer,
               onRename: wm.onRename,
               onVerify: wm.onVerify,

@@ -12,6 +12,7 @@ const _idHashQueryParam = 'idHash';
 const _destinationQueryParam = 'destination';
 const _amountQueryParam = 'amount';
 const _commentQueryParam = 'comment';
+const _resultMessageQueryParam = 'resultMessage';
 
 @named
 @Singleton(as: CompassBaseRoute)
@@ -28,6 +29,7 @@ class ConfirmMultisigTransactionRoute
             destination: data.destination,
             amount: data.amount,
             comment: data.comment,
+            resultMessage: data.resultMessage,
           ),
         );
 
@@ -54,6 +56,7 @@ class ConfirmMultisigTransactionRoute
         queryParams[_amountQueryParam]!,
       ),
       comment: queryParams[_commentQueryParam],
+      resultMessage: queryParams[_resultMessageQueryParam],
     );
   }
 }
@@ -67,6 +70,7 @@ class ConfirmMultisigTransactionRouteData implements CompassRouteDataQuery {
     required this.destination,
     this.transactionIdHash,
     this.comment,
+    this.resultMessage,
   });
 
   /// Address of wallet which will be used to confirm transaction
@@ -90,9 +94,11 @@ class ConfirmMultisigTransactionRouteData implements CompassRouteDataQuery {
   /// Comment of transaction
   final String? comment;
 
+  final String? resultMessage;
+
   @override
   Map<String, String> toQueryParams() {
-    final params = {
+    return {
       _walletAddressQueryParam: walletAddress.address,
       _localCustodiansQueryParam: jsonEncode(
         localCustodians.map((e) => e.publicKey).toList(),
@@ -100,16 +106,9 @@ class ConfirmMultisigTransactionRouteData implements CompassRouteDataQuery {
       _transactionIdQueryParam: transactionId,
       _destinationQueryParam: destination.address,
       _amountQueryParam: amount.toString(),
+      if (transactionIdHash != null) _idHashQueryParam: transactionIdHash!,
+      if (comment != null) _commentQueryParam: comment!,
+      if (resultMessage != null) _resultMessageQueryParam: resultMessage!,
     };
-
-    if (transactionIdHash != null) {
-      params[_idHashQueryParam] = transactionIdHash!;
-    }
-
-    if (comment != null) {
-      params[_commentQueryParam] = comment!;
-    }
-
-    return params;
   }
 }

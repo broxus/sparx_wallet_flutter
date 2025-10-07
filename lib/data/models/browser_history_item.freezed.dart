@@ -20,7 +20,6 @@ mixin _$BrowserHistoryItem {
   /// The id of the tab.
   String get id;
   String get title;
-  @uriJsonConverter
   Uri get url;
   DateTime get visitTime;
 
@@ -63,8 +62,7 @@ abstract mixin class $BrowserHistoryItemCopyWith<$Res> {
           BrowserHistoryItem value, $Res Function(BrowserHistoryItem) _then) =
       _$BrowserHistoryItemCopyWithImpl;
   @useResult
-  $Res call(
-      {String id, String title, @uriJsonConverter Uri url, DateTime visitTime});
+  $Res call({String id, String title, Uri url, DateTime visitTime});
 }
 
 /// @nodoc
@@ -275,7 +273,7 @@ class _BrowserHistoryItemDto extends BrowserHistoryItem {
   const _BrowserHistoryItemDto(
       {required this.id,
       required this.title,
-      @uriJsonConverter required this.url,
+      required this.url,
       required this.visitTime})
       : super._();
   factory _BrowserHistoryItemDto.fromJson(Map<String, dynamic> json) =>
@@ -287,7 +285,6 @@ class _BrowserHistoryItemDto extends BrowserHistoryItem {
   @override
   final String title;
   @override
-  @uriJsonConverter
   final Uri url;
   @override
   final DateTime visitTime;
@@ -338,8 +335,7 @@ abstract mixin class _$BrowserHistoryItemDtoCopyWith<$Res>
       __$BrowserHistoryItemDtoCopyWithImpl;
   @override
   @useResult
-  $Res call(
-      {String id, String title, @uriJsonConverter Uri url, DateTime visitTime});
+  $Res call({String id, String title, Uri url, DateTime visitTime});
 }
 
 /// @nodoc

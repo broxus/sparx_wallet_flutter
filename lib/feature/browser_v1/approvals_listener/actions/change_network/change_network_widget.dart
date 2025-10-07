@@ -48,10 +48,10 @@ class ChangeNetworkWidget extends InjectedElementaryParametrizedWidget<
                 MultiListenerRebuilder(
                   listenableList: [
                     wm.connectionsState,
-                    wm.connection,
+                    wm.connectionState,
                   ],
                   builder: (_) {
-                    final currentConnection = wm.connection.value;
+                    final currentConnection = wm.connectionState.value;
                     final connections = wm.connectionsState.value;
 
                     if (connections.length < 2) return const SizedBox.shrink();
@@ -71,7 +71,7 @@ class ChangeNetworkWidget extends InjectedElementaryParametrizedWidget<
                   },
                 ),
                 ValueListenableBuilder(
-                  valueListenable: wm.connection,
+                  valueListenable: wm.connectionState,
                   builder: (_, connection, __) => PrimaryCard(
                     color: theme.colors.background2,
                     borderRadius: BorderRadius.circular(
@@ -105,7 +105,7 @@ class ChangeNetworkWidget extends InjectedElementaryParametrizedWidget<
           ),
         ),
         ValueListenableBuilder(
-          valueListenable: wm.loading,
+          valueListenable: wm.loadingState,
           builder: (_, loading, __) => AccentButton(
             buttonShape: ButtonShape.pill,
             title: LocaleKeys.confirm.tr(),
