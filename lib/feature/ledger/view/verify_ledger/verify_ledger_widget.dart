@@ -100,7 +100,7 @@ class VerifyLedgerWidget extends ElementaryWidget<VerifyLedgerWidgetModel> {
             ),
           ),
           StateNotifierBuilder(
-            listenableState: wm.isVerifying,
+            listenableState: wm.isVerifyingState,
             builder: (_, isVerifying) {
               if (isVerifying ?? false) {
                 return _State(state: wm.interactionState);

@@ -76,7 +76,7 @@ class TabAnimatedViewWidgetModel extends CustomWidgetModelParametrized<
 
   Animation<double>? get leftPositionAnimation => _leftPositionAnimation;
 
-  Listenable get animationListenable => _animationController;
+  Listenable get animationState => _animationController;
 
   ListenableState<TabAnimationType?> get showAnimationState =>
       wmParams.value.showAnimationState;

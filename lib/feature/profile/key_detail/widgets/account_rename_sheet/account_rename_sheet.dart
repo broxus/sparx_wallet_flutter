@@ -3,11 +3,10 @@ import 'package:app/feature/profile/key_detail/widgets/account_rename_sheet/acco
 import 'package:app/generated/generated.dart';
 import 'package:app/utils/constants.dart';
 import 'package:flutter/material.dart';
+import 'package:lucide_icons_flutter/lucide_icons.dart';
 import 'package:nekoton_repository/nekoton_repository.dart' hide Message;
 import 'package:ui_components_lib/ui_components_lib.dart';
-import 'package:ui_components_lib/v2/widgets/buttons/button_shape.dart';
-import 'package:ui_components_lib/v2/widgets/buttons/primary_button.dart';
-import 'package:ui_components_lib/v2/widgets/text_fields/primary_text_field.dart';
+import 'package:ui_components_lib/v2/ui_components_lib_v2.dart';
 
 /// Helper function to show [AccountRenameSheet].
 ModalRoute<void> getRenameAccountSheet(BuildContext context, Address address) {
@@ -19,13 +18,11 @@ ModalRoute<void> getRenameAccountSheet(BuildContext context, Address address) {
 }
 
 class AccountRenameSheet extends InjectedElementaryParametrizedWidget<
-    AccountRenameSheetWidgetModel, AccountRenameSheetParams> {
-  AccountRenameSheet({
+    AccountRenameSheetWidgetModel, Address> {
+  const AccountRenameSheet({
     required Address address,
     super.key,
-  }) : super(
-          wmFactoryParam: AccountRenameSheetParams(address),
-        );
+  }) : super(wmFactoryParam: address);
 
   @override
   Widget build(AccountRenameSheetWidgetModel wm) {
@@ -34,10 +31,27 @@ class AccountRenameSheet extends InjectedElementaryParametrizedWidget<
       spacing: DimensSize.d16,
       children: [
         PrimaryTextField(
+          isAutofocus: true,
           maxLength: maxLengthForMainEntities,
           textEditingController: wm.nameController,
           hintText: LocaleKeys.nameWord.tr(),
-          onSubmit: (_) => wm.renameAccount,
+          suffixes: [
+            ValueListenableBuilder(
+              valueListenable: wm.nameController,
+              builder: (_, value, __) => value.text.isNotEmpty
+                  ? Padding(
+                      padding: const EdgeInsets.only(right: DimensSizeV2.d8),
+                      child: PrimaryButton(
+                        icon: LucideIcons.x,
+                        buttonShape: ButtonShape.square,
+                        buttonSize: ButtonSize.small,
+                        onPressed: wm.nameController.clear,
+                      ),
+                    )
+                  : const SizedBox.shrink(),
+            ),
+          ],
+          onSubmit: wm.renameAccount,
         ),
         PrimaryButton(
           buttonShape: ButtonShape.pill,

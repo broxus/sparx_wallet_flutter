@@ -32,12 +32,14 @@ class TokenWalletTransactionsWidgetModel extends CustomWidgetModelParametrized<
   static final _logger = Logger('TokenWalletTransactionsWidgetModel');
 
   // Single state notifier following the unified state pattern
-  late final _state = createNotifier<TokenWalletTransactionsState>(
+  late final _walletTransactionsState =
+      createNotifier<TokenWalletTransactionsState>(
     const TokenWalletTransactionsState.loading(),
   );
 
   // State getter
-  StateNotifier<TokenWalletTransactionsState> get state => _state;
+  StateNotifier<TokenWalletTransactionsState> get walletTransactionsState =>
+      _walletTransactionsState;
 
   Address get owner => wmParams.value.owner;
   Address get rootTokenContract => wmParams.value.rootTokenContract;
@@ -77,11 +79,11 @@ class TokenWalletTransactionsWidgetModel extends CustomWidgetModelParametrized<
   /// Called from UI when user scrolled to the end of the list.
   /// NOTE: this method may be called multiple times
   void tryPreloadTransactions() {
-    final lastPrevLt = switch (_state.value) {
+    final lastPrevLt = switch (_walletTransactionsState.value) {
       TokenWalletTransactionsStateTransactions() => _lastLt(_transactions),
       _ => null,
     };
-    final (isLoading, canLoadMore) = switch (_state.value) {
+    final (isLoading, canLoadMore) = switch (_walletTransactionsState.value) {
       TokenWalletTransactionsStateTransactions(
         :final isLoading,
         :final canLoadMore,
@@ -155,7 +157,8 @@ class TokenWalletTransactionsWidgetModel extends CustomWidgetModelParametrized<
       _cachedCurrency = currency;
       _transactionsState(fromStream: true);
     } else {
-      _state.accept(const TokenWalletTransactionsState.loading());
+      _walletTransactionsState
+          .accept(const TokenWalletTransactionsState.loading());
     }
   }
 
@@ -164,11 +167,12 @@ class TokenWalletTransactionsWidgetModel extends CustomWidgetModelParametrized<
     bool isLoading = false,
   }) {
     if (_ordinary.isEmpty) {
-      _state.accept(const TokenWalletTransactionsState.empty());
+      _walletTransactionsState
+          .accept(const TokenWalletTransactionsState.empty());
     } else {
       final transactions = _ordinary;
 
-      var canLoadMore = switch (_state.value) {
+      var canLoadMore = switch (_walletTransactionsState.value) {
         TokenWalletTransactionsStateTransactions(:final canLoadMore) =>
           canLoadMore,
         _ => true,
@@ -182,7 +186,7 @@ class TokenWalletTransactionsWidgetModel extends CustomWidgetModelParametrized<
         canLoadMore = lastLt != _lastLtWhenPreloaded;
       }
 
-      _state.accept(
+      _walletTransactionsState.accept(
         TokenWalletTransactionsState.transactions(
           transactions: transactions,
           tokenCurrency: _cachedCurrency!,
