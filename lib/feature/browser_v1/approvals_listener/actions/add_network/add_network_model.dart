@@ -27,20 +27,20 @@ class AddNetworkModel extends ElementaryModel {
   final ConnectionService _connectionService;
   final NekotonRepository _nekotonRepository;
 
-  Future<Network?> addNetwork(Connection network) async {
+  Future<Network?> addNetwork(Connection connection) async {
     Transport? transport;
 
     try {
-      _connectionsStorageService.addConnection(network);
+      _connectionsStorageService.addConnection(connection);
 
-      transport = await _connectionService.createTransportByConnection(
-        network,
+      transport = await _connectionService.createTransportByWorkchain(
+        connection.defaultWorkchain,
       );
 
       return await _connectionService
-          .createStrategyByConnection(
+          .createStrategyByWorkchain(
             transport,
-            network,
+            connection.defaultWorkchain,
           )
           .toNetwork();
     } finally {
@@ -49,7 +49,7 @@ class AddNetworkModel extends ElementaryModel {
   }
 
   Future<void> changeNetwork(String id) async {
-    _connectionsStorageService.saveCurrentConnectionId(id);
+    _connectionsStorageService.saveCurrentConnectionId(connectionId: id);
     await _nekotonRepository.currentTransportStream
         .firstWhere(
           (strategy) => strategy.connection?.id == id,

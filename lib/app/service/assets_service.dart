@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:convert';
 
 import 'package:app/app/service/connection/connection.dart';
+import 'package:app/app/service/connection/data/work_chain/connection_work_chain.dart';
 import 'package:app/app/service/service.dart';
 import 'package:app/data/models/models.dart';
 import 'package:app/http/repository/ton_repository.dart';
@@ -40,7 +41,7 @@ class AssetsService {
 
   StreamSubscription<TransportStrategy>? _currentTransportSubscription;
   StreamSubscription<KeyAccount?>? _accountsSubscription;
-  StreamSubscription<Connection>? _connectionsSubscription;
+  StreamSubscription<ConnectionWorkchain>? _connectionsSubscription;
   StreamSubscription<void>? _combineSubscription;
 
   /// Start listening for transport changes and update contracts from manifest
@@ -60,7 +61,7 @@ class AssetsService {
       // ignore: no-empty-block
     }).listen((_) {});
     _connectionsSubscription =
-        connectionsStorageService.currentConnectionStream.listen(
+        connectionsStorageService.currentWorkchainStream.listen(
       (_) => updateDefaultAssets(),
     );
 
@@ -320,8 +321,7 @@ class AssetsService {
     await Future.delayed(const Duration(seconds: 1), () async {
       final presetsDefaultAssets =
           presetsConnectionService.getDefaultActiveAsset(
-        connectionsStorageService
-            .currentConnection.defaultWorkchain.networkGroup,
+        connectionsStorageService.currentWorkchain.networkGroup,
       );
 
       if (presetsDefaultAssets.isEmpty) {

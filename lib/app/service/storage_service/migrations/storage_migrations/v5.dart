@@ -1,4 +1,4 @@
-import 'package:app/app/service/storage_service/connections_storage_service.dart';
+import 'package:app/app/service/storage_service/connections_storage/connections_storage_service.dart';
 import 'package:app/app/service/storage_service/general_storage_service.dart';
 import 'package:app/app/service/storage_service/migrations/storage_migrations/storage_migration.dart';
 

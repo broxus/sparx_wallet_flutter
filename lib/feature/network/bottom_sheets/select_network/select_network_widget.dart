@@ -39,7 +39,7 @@ class SelectNetworkWidget extends InjectedElementaryParametrizedWidget<
                 return item?.let(
                   (data) => NetworkItem(
                     data: data,
-                    trailing: data.id == currentConnectionId
+                    trailing: data.id == currentConnectionId?.$1
                         ? const Icon(
                             LucideIcons.check,
                             size: DimensSizeV2.d20,

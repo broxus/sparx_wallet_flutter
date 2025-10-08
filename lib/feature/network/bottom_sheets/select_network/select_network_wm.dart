@@ -19,7 +19,7 @@ class SelectNetworkWidgetModel extends CustomWidgetModelParametrized<
       createNotifierFromStream(model.currentConnectionId);
   late final _connectionsState = createNotifierFromStream(model.connections);
 
-  ListenableState<String> get currentConnectionIdState =>
+  ListenableState<(String, int)?> get currentConnectionIdState =>
       _currentConnectionIdState;
 
   ListenableState<List<Connection>> get connectionsState => _connectionsState;

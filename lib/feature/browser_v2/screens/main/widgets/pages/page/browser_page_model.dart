@@ -4,7 +4,7 @@ import 'package:app/app/service/approvals_service.dart';
 import 'package:app/app/service/assets_service.dart';
 import 'package:app/app/service/connection/connection_service.dart';
 import 'package:app/app/service/permissions_service.dart';
-import 'package:app/app/service/storage_service/connections_storage_service.dart';
+import 'package:app/app/service/storage_service/connections_storage/connections_storage_service.dart';
 import 'package:app/feature/browser_v2/custom_web_controller.dart';
 import 'package:app/feature/browser_v2/data/browser_basic_auth_creds.dart';
 import 'package:app/feature/browser_v2/domain/service/browser_service.dart';

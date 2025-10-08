@@ -17,8 +17,8 @@ T _$identity<T>(T value) => value;
 mixin _$Connection {
   String get id;
   String get networkName;
+  int get defaultWorkchainId;
   ConnectionWorkchain get defaultWorkchain;
-  ConnectionWorkchain get currentWorkchain;
   List<ConnectionWorkchain> get workchains;
   bool get isPreset;
   bool get canBeEdited;
@@ -32,6 +32,9 @@ mixin _$Connection {
   $ConnectionCopyWith<Connection> get copyWith =>
       _$ConnectionCopyWithImpl<Connection>(this as Connection, _$identity);
 
+  /// Serializes this Connection to a JSON map.
+  Map<String, dynamic> toJson();
+
   @override
   bool operator ==(Object other) {
     return identical(this, other) ||
@@ -40,10 +43,10 @@ mixin _$Connection {
             (identical(other.id, id) || other.id == id) &&
             (identical(other.networkName, networkName) ||
                 other.networkName == networkName) &&
+            (identical(other.defaultWorkchainId, defaultWorkchainId) ||
+                other.defaultWorkchainId == defaultWorkchainId) &&
             (identical(other.defaultWorkchain, defaultWorkchain) ||
                 other.defaultWorkchain == defaultWorkchain) &&
-            (identical(other.currentWorkchain, currentWorkchain) ||
-                other.currentWorkchain == currentWorkchain) &&
             const DeepCollectionEquality()
                 .equals(other.workchains, workchains) &&
             (identical(other.isPreset, isPreset) ||
@@ -56,13 +59,14 @@ mixin _$Connection {
                 other.sortingOrder == sortingOrder));
   }
 
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode => Object.hash(
       runtimeType,
       id,
       networkName,
+      defaultWorkchainId,
       defaultWorkchain,
-      currentWorkchain,
       const DeepCollectionEquality().hash(workchains),
       isPreset,
       canBeEdited,
@@ -71,7 +75,7 @@ mixin _$Connection {
 
   @override
   String toString() {
-    return 'Connection(id: $id, networkName: $networkName, defaultWorkchain: $defaultWorkchain, currentWorkchain: $currentWorkchain, workchains: $workchains, isPreset: $isPreset, canBeEdited: $canBeEdited, isUsedOnStart: $isUsedOnStart, sortingOrder: $sortingOrder)';
+    return 'Connection(id: $id, networkName: $networkName, defaultWorkchainId: $defaultWorkchainId, defaultWorkchain: $defaultWorkchain, workchains: $workchains, isPreset: $isPreset, canBeEdited: $canBeEdited, isUsedOnStart: $isUsedOnStart, sortingOrder: $sortingOrder)';
   }
 }
 
@@ -84,8 +88,8 @@ abstract mixin class $ConnectionCopyWith<$Res> {
   $Res call(
       {String id,
       String networkName,
+      int defaultWorkchainId,
       ConnectionWorkchain defaultWorkchain,
-      ConnectionWorkchain currentWorkchain,
       List<ConnectionWorkchain> workchains,
       bool isPreset,
       bool canBeEdited,
@@ -93,7 +97,6 @@ abstract mixin class $ConnectionCopyWith<$Res> {
       double sortingOrder});
 
   $ConnectionWorkchainCopyWith<$Res> get defaultWorkchain;
-  $ConnectionWorkchainCopyWith<$Res> get currentWorkchain;
 }
 
 /// @nodoc
@@ -110,8 +113,8 @@ class _$ConnectionCopyWithImpl<$Res> implements $ConnectionCopyWith<$Res> {
   $Res call({
     Object? id = null,
     Object? networkName = null,
+    Object? defaultWorkchainId = null,
     Object? defaultWorkchain = null,
-    Object? currentWorkchain = null,
     Object? workchains = null,
     Object? isPreset = null,
     Object? canBeEdited = null,
@@ -127,13 +130,13 @@ class _$ConnectionCopyWithImpl<$Res> implements $ConnectionCopyWith<$Res> {
           ? _self.networkName
           : networkName // ignore: cast_nullable_to_non_nullable
               as String,
+      defaultWorkchainId: null == defaultWorkchainId
+          ? _self.defaultWorkchainId
+          : defaultWorkchainId // ignore: cast_nullable_to_non_nullable
+              as int,
       defaultWorkchain: null == defaultWorkchain
           ? _self.defaultWorkchain
           : defaultWorkchain // ignore: cast_nullable_to_non_nullable
-              as ConnectionWorkchain,
-      currentWorkchain: null == currentWorkchain
-          ? _self.currentWorkchain
-          : currentWorkchain // ignore: cast_nullable_to_non_nullable
               as ConnectionWorkchain,
       workchains: null == workchains
           ? _self.workchains
@@ -167,26 +170,16 @@ class _$ConnectionCopyWithImpl<$Res> implements $ConnectionCopyWith<$Res> {
       return _then(_self.copyWith(defaultWorkchain: value));
     });
   }
-
-  /// Create a copy of Connection
-  /// with the given fields replaced by the non-null parameter values.
-  @override
-  @pragma('vm:prefer-inline')
-  $ConnectionWorkchainCopyWith<$Res> get currentWorkchain {
-    return $ConnectionWorkchainCopyWith<$Res>(_self.currentWorkchain, (value) {
-      return _then(_self.copyWith(currentWorkchain: value));
-    });
-  }
 }
 
 /// @nodoc
-
+@JsonSerializable(createFactory: false)
 class _Connection implements Connection {
   _Connection(
       {required this.id,
       required this.networkName,
+      required this.defaultWorkchainId,
       required this.defaultWorkchain,
-      required this.currentWorkchain,
       required final List<ConnectionWorkchain> workchains,
       required this.isPreset,
       required this.canBeEdited,
@@ -199,9 +192,9 @@ class _Connection implements Connection {
   @override
   final String networkName;
   @override
-  final ConnectionWorkchain defaultWorkchain;
+  final int defaultWorkchainId;
   @override
-  final ConnectionWorkchain currentWorkchain;
+  final ConnectionWorkchain defaultWorkchain;
   final List<ConnectionWorkchain> _workchains;
   @override
   List<ConnectionWorkchain> get workchains {
@@ -228,6 +221,13 @@ class _Connection implements Connection {
       __$ConnectionCopyWithImpl<_Connection>(this, _$identity);
 
   @override
+  Map<String, dynamic> toJson() {
+    return _$ConnectionToJson(
+      this,
+    );
+  }
+
+  @override
   bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
@@ -235,10 +235,10 @@ class _Connection implements Connection {
             (identical(other.id, id) || other.id == id) &&
             (identical(other.networkName, networkName) ||
                 other.networkName == networkName) &&
+            (identical(other.defaultWorkchainId, defaultWorkchainId) ||
+                other.defaultWorkchainId == defaultWorkchainId) &&
             (identical(other.defaultWorkchain, defaultWorkchain) ||
                 other.defaultWorkchain == defaultWorkchain) &&
-            (identical(other.currentWorkchain, currentWorkchain) ||
-                other.currentWorkchain == currentWorkchain) &&
             const DeepCollectionEquality()
                 .equals(other._workchains, _workchains) &&
             (identical(other.isPreset, isPreset) ||
@@ -251,13 +251,14 @@ class _Connection implements Connection {
                 other.sortingOrder == sortingOrder));
   }
 
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode => Object.hash(
       runtimeType,
       id,
       networkName,
+      defaultWorkchainId,
       defaultWorkchain,
-      currentWorkchain,
       const DeepCollectionEquality().hash(_workchains),
       isPreset,
       canBeEdited,
@@ -266,7 +267,7 @@ class _Connection implements Connection {
 
   @override
   String toString() {
-    return 'Connection(id: $id, networkName: $networkName, defaultWorkchain: $defaultWorkchain, currentWorkchain: $currentWorkchain, workchains: $workchains, isPreset: $isPreset, canBeEdited: $canBeEdited, isUsedOnStart: $isUsedOnStart, sortingOrder: $sortingOrder)';
+    return 'Connection._(id: $id, networkName: $networkName, defaultWorkchainId: $defaultWorkchainId, defaultWorkchain: $defaultWorkchain, workchains: $workchains, isPreset: $isPreset, canBeEdited: $canBeEdited, isUsedOnStart: $isUsedOnStart, sortingOrder: $sortingOrder)';
   }
 }
 
@@ -281,8 +282,8 @@ abstract mixin class _$ConnectionCopyWith<$Res>
   $Res call(
       {String id,
       String networkName,
+      int defaultWorkchainId,
       ConnectionWorkchain defaultWorkchain,
-      ConnectionWorkchain currentWorkchain,
       List<ConnectionWorkchain> workchains,
       bool isPreset,
       bool canBeEdited,
@@ -291,8 +292,6 @@ abstract mixin class _$ConnectionCopyWith<$Res>
 
   @override
   $ConnectionWorkchainCopyWith<$Res> get defaultWorkchain;
-  @override
-  $ConnectionWorkchainCopyWith<$Res> get currentWorkchain;
 }
 
 /// @nodoc
@@ -309,8 +308,8 @@ class __$ConnectionCopyWithImpl<$Res> implements _$ConnectionCopyWith<$Res> {
   $Res call({
     Object? id = null,
     Object? networkName = null,
+    Object? defaultWorkchainId = null,
     Object? defaultWorkchain = null,
-    Object? currentWorkchain = null,
     Object? workchains = null,
     Object? isPreset = null,
     Object? canBeEdited = null,
@@ -326,13 +325,13 @@ class __$ConnectionCopyWithImpl<$Res> implements _$ConnectionCopyWith<$Res> {
           ? _self.networkName
           : networkName // ignore: cast_nullable_to_non_nullable
               as String,
+      defaultWorkchainId: null == defaultWorkchainId
+          ? _self.defaultWorkchainId
+          : defaultWorkchainId // ignore: cast_nullable_to_non_nullable
+              as int,
       defaultWorkchain: null == defaultWorkchain
           ? _self.defaultWorkchain
           : defaultWorkchain // ignore: cast_nullable_to_non_nullable
-              as ConnectionWorkchain,
-      currentWorkchain: null == currentWorkchain
-          ? _self.currentWorkchain
-          : currentWorkchain // ignore: cast_nullable_to_non_nullable
               as ConnectionWorkchain,
       workchains: null == workchains
           ? _self._workchains
@@ -364,16 +363,6 @@ class __$ConnectionCopyWithImpl<$Res> implements _$ConnectionCopyWith<$Res> {
   $ConnectionWorkchainCopyWith<$Res> get defaultWorkchain {
     return $ConnectionWorkchainCopyWith<$Res>(_self.defaultWorkchain, (value) {
       return _then(_self.copyWith(defaultWorkchain: value));
-    });
-  }
-
-  /// Create a copy of Connection
-  /// with the given fields replaced by the non-null parameter values.
-  @override
-  @pragma('vm:prefer-inline')
-  $ConnectionWorkchainCopyWith<$Res> get currentWorkchain {
-    return $ConnectionWorkchainCopyWith<$Res>(_self.currentWorkchain, (value) {
-      return _then(_self.copyWith(currentWorkchain: value));
     });
   }
 }

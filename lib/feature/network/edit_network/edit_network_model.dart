@@ -38,7 +38,7 @@ class EditNetworkModel extends ElementaryModel {
       _connectionsStorageService.removeConnection(id);
 
   void saveCurrentConnectionId(String id) =>
-      _connectionsStorageService.saveCurrentConnectionId(id);
+      _connectionsStorageService.saveCurrentConnectionId(connectionId: id);
 
   Future<TonAssetsManifest> fetchManifest(String url) =>
       _assetsService.fetchManifest(

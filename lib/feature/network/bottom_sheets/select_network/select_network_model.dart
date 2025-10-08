@@ -12,13 +12,13 @@ class SelectNetworkModel extends ElementaryModel {
 
   final ConnectionsStorageService _storageService;
 
-  Stream<String> get currentConnectionId =>
+  Stream<(String, int)?> get currentConnectionId =>
       _storageService.currentConnectionIdStream;
 
   Stream<List<Connection>> get connections => _storageService.connectionsStream;
 
   void changeCurrentConnection(String id) {
     if (_storageService.currentConnectionId == id) return;
-    _storageService.saveCurrentConnectionId(id);
+    _storageService.saveCurrentConnectionId(connectionId: id);
   }
 }

@@ -1,10 +1,10 @@
 import 'package:app/app/service/connection/data/account_explorer/account_explorer_link_type.dart';
-import 'package:app/app/service/connection/data/connection/connection.dart';
 import 'package:app/app/service/connection/data/network_type.dart';
 import 'package:app/app/service/connection/data/nft_information/nft_information.dart';
 import 'package:app/app/service/connection/data/transaction_explorer/transaction_explorer_link_type.dart';
 import 'package:app/app/service/connection/data/transport_icons.dart';
 import 'package:app/app/service/connection/data/wallet_default_account_names.dart';
+import 'package:app/app/service/connection/data/work_chain/connection_work_chain.dart';
 import 'package:app/app/service/connection/generic_token_subscriber.dart';
 import 'package:app/app/service/connection/group.dart';
 import 'package:app/app/service/connection/transport_strategies/app_transport_strategy.dart';
@@ -17,7 +17,7 @@ class CommonTransportStrategy extends AppTransportStrategy {
   CommonTransportStrategy({
     required this.dio,
     required this.transport,
-    required this.connection,
+    required this.workchain,
     required this.availableWalletTypes,
     required this.walletDefaultAccountNames,
     required this.defaultWalletType,
@@ -40,14 +40,13 @@ class CommonTransportStrategy extends AppTransportStrategy {
   factory CommonTransportStrategy.fromData({
     required Dio dio,
     required Transport transport,
-    required Connection connection,
+    required ConnectionWorkchain workchain,
   }) {
-    final workchain = connection.defaultWorkchain;
 
     return CommonTransportStrategy(
       dio: dio,
       transport: transport,
-      connection: connection,
+      workchain: workchain,
       icons: workchain.icons,
       availableWalletTypes: workchain.availableWalletTypes,
       walletDefaultAccountNames: workchain.walletDefaultAccountNames,
@@ -74,7 +73,7 @@ class CommonTransportStrategy extends AppTransportStrategy {
   @override
   final Transport transport;
 
-  final Connection connection;
+  final ConnectionWorkchain workchain;
 
   final TransportIcons? icons;
 
@@ -87,7 +86,7 @@ class CommonTransportStrategy extends AppTransportStrategy {
   final WalletType defaultWalletType;
 
   @override
-  String get manifestUrl => connection.defaultWorkchain.manifestUrl;
+  String get manifestUrl => workchain.manifestUrl;
 
   @override
   String get nativeTokenIcon =>
@@ -136,21 +135,21 @@ class CommonTransportStrategy extends AppTransportStrategy {
 
   @override
   String get nativeTokenTicker =>
-      connection.defaultWorkchain.nativeTokenTicker.name;
+      workchain.nativeTokenTicker.name;
 
   @override
   String accountExplorerLink(Address accountAddress) {
-    if (connection.defaultWorkchain.blockExplorerUrl.isEmpty) {
+    if (workchain.blockExplorerUrl.isEmpty) {
       return '';
     }
 
     return switch (accountExplorerLinkType) {
       AccountExplorerLinkType.accounts =>
-        '${connection.defaultWorkchain.blockExplorerUrl}/accounts/${accountAddress.address}',
+        '${workchain.blockExplorerUrl}/accounts/${accountAddress.address}',
       AccountExplorerLinkType.accountDetails =>
-        '${connection.defaultWorkchain.blockExplorerUrl}/accounts/accountDetails?id=${accountAddress.address}',
+        '${workchain.blockExplorerUrl}/accounts/accountDetails?id=${accountAddress.address}',
       AccountExplorerLinkType.packAddress =>
-        '${connection.defaultWorkchain.blockExplorerUrl}/${packAddress(accountAddress)}',
+        '${workchain.blockExplorerUrl}/${packAddress(accountAddress)}',
     };
   }
 
@@ -173,17 +172,17 @@ class CommonTransportStrategy extends AppTransportStrategy {
 
   @override
   String transactionExplorerLink(String transactionHash) {
-    if (connection.defaultWorkchain.blockExplorerUrl.isEmpty) {
+    if (workchain.blockExplorerUrl.isEmpty) {
       return '';
     }
 
     return switch (transactionExplorerLinkType) {
       TransactionExplorerLinkType.transaction =>
-        '${connection.defaultWorkchain.blockExplorerUrl}/transaction/$transactionHash',
+        '${workchain.blockExplorerUrl}/transaction/$transactionHash',
       TransactionExplorerLinkType.transactions =>
-        '${connection.defaultWorkchain.blockExplorerUrl}/transactions/$transactionHash',
+        '${workchain.blockExplorerUrl}/transactions/$transactionHash',
       TransactionExplorerLinkType.transactionDetails =>
-        '${connection.defaultWorkchain.blockExplorerUrl}/transactions/transactionDetails?id=$transactionHash',
+        '${workchain.blockExplorerUrl}/transactions/transactionDetails?id=$transactionHash',
       _ => '',
     };
   }

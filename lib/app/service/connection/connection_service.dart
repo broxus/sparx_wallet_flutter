@@ -1,11 +1,12 @@
-import 'package:app/app/service/connection/data/connection/connection.dart';
 import 'package:app/app/service/connection/data/network_type.dart';
 import 'package:app/app/service/connection/data/nft_information/nft_information.dart';
+import 'package:app/app/service/connection/data/work_chain/connection_work_chain.dart';
 import 'package:app/app/service/connection/data/work_chain/workchain_transport_type.dart';
 import 'package:app/app/service/connection/group.dart';
 import 'package:app/app/service/connection/transport_strategies/app_transport_strategy.dart';
 import 'package:app/app/service/connection/transport_strategies/common_transport_strategy.dart';
 import 'package:app/app/service/service.dart';
+import 'package:app/app/service/storage_service/connections_storage/connections_ids_data.dart';
 import 'package:app/feature/messenger/domain/service/messenger_service.dart';
 import 'package:dio/dio.dart';
 import 'package:injectable/injectable.dart';
@@ -36,38 +37,36 @@ class ConnectionService {
 
   /// Set up selected connection.
   Future<void> setUp() async {
-    final connection = _storageService.currentConnection;
+    final workchain = _storageService.currentWorkchain;
 
-    _log.info('setUp: starting with ${connection.networkName}');
+    _log.info('setUp: starting with ${workchain.networkName}');
 
-    await _updateTransportByConnection(connection);
+    await _updateTransportByWorkchain(workchain);
 
     // skip 1 due to duplicate events
-    _storageService.currentConnectionStream.skip(1).listen((connection) async {
-      _log.info('setUp: switching to ${connection.networkName}');
+    _storageService.currentWorkchainStream.skip(1).listen((workchain) async {
+      _log.info('setUp: switching to ${workchain.networkName}');
 
-      await _updateTransportByConnection(connection);
+      await _updateTransportByWorkchain(workchain);
     });
   }
 
   /// Create TransportStrategy based on ConnectionNetwork networkGroup
-  /// of [connection] data.
-  AppTransportStrategy createStrategyByConnection(
+  /// of [workchain] data.
+  AppTransportStrategy createStrategyByWorkchain(
     Transport transport,
-    Connection connection,
+    ConnectionWorkchain workchain,
   ) {
     return CommonTransportStrategy.fromData(
       dio: _dio,
       transport: transport,
-      connection: connection,
+      workchain: workchain,
     );
   }
 
-  Future<Transport> createTransportByConnection(
-    Connection connection,
+  Future<Transport> createTransportByWorkchain(
+    ConnectionWorkchain workchain,
   ) {
-    final workchain = connection.defaultWorkchain;
-
     return switch (workchain.transportType) {
       WorkchainTransportType.gql => _nekotonRepository.createGqlTransport(
           client: GqlHttpClient(_dio),
@@ -97,19 +96,24 @@ class ConnectionService {
   /// Create nekoton's transport by connection, create transport's strategy
   /// by its type and put it in nekoton.
   // ignore: long-method
-  Future<void> _updateTransportByConnection(
-    Connection connection,
+  Future<void> _updateTransportByWorkchain(
+    ConnectionWorkchain workchain,
   ) async {
-    _log.finest('updateTransportByConnection: ${connection.networkName}');
+    _log.finest('updateTransportByConnection: ${workchain.networkName}');
     try {
-      //
-      final transport = await createTransportByConnection(connection);
-      final strategy = createStrategyByConnection(transport, connection);
+      final transport = await createTransportByWorkchain(workchain);
+      final strategy = createStrategyByWorkchain(transport, workchain);
 
       await _nekotonRepository.updateTransport(strategy);
 
       _storageService.updateConnectionsIds(
-        [(connection.id, connection.defaultWorkchainId, transport.networkId)],
+        [
+          ConnectionIdsData(
+            connectionId: workchain.parentConnectionId,
+            workchainId: workchain.id,
+            networkId: transport.networkId,
+          )
+        ],
       );
 
       _log.finest('updateTransportByConnection completed!');
@@ -117,14 +121,15 @@ class ConnectionService {
       _messengerService.showConnectionError(null);
       _log.severe('updateTransportByConnection', e, t);
 
-      final base = _storageService.baseNetwork;
+      final base = _storageService.baseConnection;
 
-      if (base != null && base.id != connection.id) {
-        _storageService.saveCurrentConnectionId(base.id);
+      if (base != null && base.id != workchain.parentConnectionId) {
+        _storageService.saveCurrentConnectionId(
+          connectionId: base.id,
+        );
         return;
       }
 
-      /// Тут. Вернуть на 1 сеть
       // allow level above to track fail
       rethrow;
     }
@@ -150,7 +155,7 @@ extension TransportTypeExtension on TransportStrategy {
 
   String get connectionId {
     if (this is CommonTransportStrategy) {
-      return (this as CommonTransportStrategy).connection.id;
+      return (this as CommonTransportStrategy).workchain.parentConnectionId;
     }
 
     return '';
