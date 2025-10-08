@@ -37,18 +37,19 @@ class ConnectionsStorageService extends AbstractStorageService {
   final _connectionsSubject = BehaviorSubject<List<Connection>>.seeded([]);
 
   /// Subject of current connection id
-  final _currentConnectionIdSubject = BehaviorSubject<String>();
+  // final _currentConnectionIdSubject = BehaviorSubject<(String, int)>();
+  final _currentConnectionSubject = BehaviorSubject<Connection>();
 
   /// Subject of conntection id to network id (global id) map
   /// This map is used to cache network id, which can only be obtained
   /// only from network
-  final _connectionsIdsSubject = BehaviorSubject<Map<String, int>>();
+  // final _connectionsIdsSubject = BehaviorSubject<Map<String, int>>();
 
   /// Stream of [Connection] items
   Stream<List<Connection>> get connectionsStream => _connectionsSubject;
 
-  /// Stream of currect connection id
-  Stream<String> get currentConnectionIdStream => _currentConnectionIdSubject;
+  // /// Stream of currect connection id
+  // Stream<Connection> get currentConnectionStream => _currentConnectionSubject;
 
   /// Get last cached [Connection] items
   List<Connection> get connections => _connectionsSubject.valueOrNull ?? [];
@@ -94,49 +95,36 @@ class ConnectionsStorageService extends AbstractStorageService {
     return first;
   }
 
-  /// Get last cached current connection id
-  String? get currentConnectionId => _currentConnectionIdSubject.valueOrNull;
+  // /// Get last cached current connection id
+  // Connection? get currentConnectionId =>
+  //     _currentConnectionIdSubject.valueOrNull;
 
   /// Get last cached conntection id to network id map
-  Map<String, int> get connectionsIds => _connectionsIdsSubject.value;
+  // Map<String, int> get connectionsIds => _connectionsIdsSubject.value;
 
   /// Stream of currect connection id
   Stream<Connection> get currentConnectionStream => Rx.combineLatest2(
         connectionsStream,
-        currentConnectionIdStream,
-        (connections, String currentNetworkId) {
-          for (final connection in connections) {
-            if (connection.id == currentConnectionId) return connection;
-          }
-
-          return _defaultConnection;
+        _currentConnectionSubject,
+        (connections, Connection? connection) {
+          return connection ?? _defaultConnection;
         },
       );
 
   // Get last cached currect connection
   Connection get currentConnection {
-    final connections = this.connections;
-    final currentConnectionId = this.currentConnectionId;
+    final currentConnection = _currentConnectionSubject.valueOrNull;
 
-    Connection? connection;
-
-    for (final c in connections) {
-      if (c.id != currentConnectionId) continue;
-      connection = c;
-      break;
-    }
-
-    if (connection == null) {
+    if (currentConnection == null) {
       _log.warning(
-        'Current connection with id $currentConnectionId '
-        'not found. '
+        'Current connection not found. '
         'Returning default connection',
       );
 
       return _defaultConnection;
     }
 
-    return connection;
+    return currentConnection;
   }
 
   Connection get _defaultConnection =>
@@ -144,9 +132,6 @@ class ConnectionsStorageService extends AbstractStorageService {
 
   List<Connection> get _connectionPresets =>
       _presetsConnectionService.connections;
-
-  String? get _defaultConnectionId =>
-      _presetsConnectionService.defaultConnectionId;
 
   /// Put [Connection] items to stream
   void _streamedConnections() => _connectionsSubject.add(
@@ -156,16 +141,21 @@ class ConnectionsStorageService extends AbstractStorageService {
       );
 
   /// Put current connection id to stream
-  void _streamedCurrentConnectionId() {
-    final id = readCurrentConnectionId();
+  void _streamedCurrentConnectionId([Connection? connection]) {
+    var targetConnection = connection;
 
-    if (id != null) {
-      _currentConnectionIdSubject.add(id);
+    if (connection == null) {
+      final id = _readCurrentConnectionId();
+      targetConnection = connections.firstWhereOrNull((c) => c.id == id);
+    }
+
+    if (targetConnection != null) {
+      _currentConnectionSubject.add(targetConnection);
     }
   }
 
-  void _streamedConnectionsIds() =>
-      _connectionsIdsSubject.add(readConnectionsIds());
+  // void _streamedConnectionsIds() =>
+  //     _connectionsIdsSubject.add(readConnectionsIds());
 
   /// Read list of [Connection] items from presets and storage
   List<Connection> readConnections() {
@@ -178,7 +168,7 @@ class ConnectionsStorageService extends AbstractStorageService {
             (entry) => Connection.fromJson(
               json: entry as Map<String, dynamic>,
               commonWalletDefaultAccountNames:
-                  _presetsConnectionService.rawDefaultSettings,
+                  _presetsConnectionService.defaultSettings?.toJson() ?? {},
             ),
           )
           .toList();
@@ -213,27 +203,18 @@ class ConnectionsStorageService extends AbstractStorageService {
   }
 
   /// Read current connection id from storage
-  String? readCurrentConnectionId() {
-    final connectionId =
-        (_storage.read<dynamic>(_currentConnectionIdKey) as String?) ??
-            _defaultConnectionId;
-
-    _log.info('Current connection connection id: $connectionId');
-
-    return connectionId;
-  }
 
   /// Read connections ids from storage
-  Map<String, int> readConnectionsIds() {
-    final encoded = _storage.read<Map<String, dynamic>>(_connectionsIdsKey);
-    var map = <String, int>{};
-
-    if (encoded != null) {
-      map = Map.castFrom(encoded);
-    }
-
-    return map;
-  }
+  // Map<String, int> readConnectionsIds() {
+  //   final encoded = _storage.read<Map<String, dynamic>>(_connectionsIdsKey);
+  //   var map = <String, int>{};
+  //
+  //   if (encoded != null) {
+  //     map = Map.castFrom(encoded);
+  //   }
+  //
+  //   return map;
+  // }
 
   /// Save list of [Connection] items to storage
   void saveConnections(List<Connection> connections) {
@@ -245,32 +226,50 @@ class ConnectionsStorageService extends AbstractStorageService {
   }
 
   /// Save current connection id to storage
-  void saveCurrentConnectionId(String connectionId) {
-    String? id = connectionId;
+  void saveCurrentConnectionId({
+    required String connectionId,
+    int? workchainId,
+  }) {
+    final connection =
+        connections.firstWhereOrNull((n) => n.id == connectionId);
 
-    if (connections.firstWhereOrNull((n) => n.id == connectionId) == null) {
+    String? savedConnectionId;
+    int? savedWorkchainId;
+
+    if (connection == null) {
       _log.warning(
         'Trying to set current connection with id '
         '$connectionId that not exists. '
         'Setting default connection as current',
       );
 
-      id = _defaultConnectionId;
+      savedConnectionId = _presetsConnectionService.defaultConnection.id;
+      savedWorkchainId =
+          _presetsConnectionService.defaultConnection.defaultWorkchainId;
+    } else {
+      savedConnectionId = connection.id;
+
+      savedWorkchainId = workchainId == null
+          ? connection.defaultWorkchainId
+          : connection.workchains
+                  .firstWhereOrNull((w) => w.id == workchainId)
+                  ?.id ??
+              connection.defaultWorkchainId;
     }
 
-    _storage.write(_currentConnectionIdKey, id);
-    _streamedCurrentConnectionId();
+    _storage.write(_currentConnectionIdKey, savedConnectionId);
+    _streamedCurrentConnectionId(connection);
   }
 
-  void updateConnectionsIds(Iterable<(String, int)> values) {
-    final map = Map<String, int>.from(connectionsIds)
-      ..addEntries(
-        values.map((value) => MapEntry(value.$1, value.$2)),
-      );
-
-    _storage.write(_connectionsIdsKey, map);
-    _streamedConnectionsIds();
-  }
+  // void updateConnectionsIds(Iterable<(String, int)> values) {
+  //   final map = Map<String, int>.from(connectionsIds)
+  //     ..addEntries(
+  //       values.map((value) => MapEntry(value.$1, value.$2)),
+  //     );
+  //
+  //   _storage.write(_connectionsIdsKey, map);
+  //   _streamedConnectionsIds();
+  // }
 
   /// Clear [Connection] list
   @override
@@ -279,7 +278,7 @@ class ConnectionsStorageService extends AbstractStorageService {
 
     _streamedConnections();
     _streamedCurrentConnectionId();
-    _streamedConnectionsIds();
+    // _streamedConnectionsIds();
   }
 
   /// Add [Connection] item
@@ -289,15 +288,16 @@ class ConnectionsStorageService extends AbstractStorageService {
 
   /// Remove [Connection] item by id
   void removeConnection(String id) {
-    if (id == currentConnectionId) {
+    if (id == currentConnection.id) {
       _log.info(
         'Trying to remove current connection. '
         'Setting default connection as current',
       );
 
-      if (_defaultConnectionId != null) {
-        saveCurrentConnectionId(_defaultConnectionId!);
-      }
+      saveCurrentConnectionId(
+        connectionId: _defaultConnection.id,
+        workchainId: _defaultConnection.defaultWorkchainId,
+      );
     }
 
     final savedConnections = connections;
@@ -356,6 +356,16 @@ class ConnectionsStorageService extends AbstractStorageService {
     await GetStorage.init(container);
     _streamedConnections();
     _streamedCurrentConnectionId();
-    _streamedConnectionsIds();
+    // _streamedConnectionsIds();
+  }
+
+  String? _readCurrentConnectionId() {
+    final connectionId =
+        (_storage.read<dynamic>(_currentConnectionIdKey) as String?) ??
+            _presetsConnectionService.defaultConnection.id;
+
+    _log.info('Current connection connection id: $connectionId');
+
+    return connectionId;
   }
 }

@@ -107,8 +107,9 @@ class ConnectionService {
       final strategy = createStrategyByConnection(transport, connection);
 
       await _nekotonRepository.updateTransport(strategy);
+
       _storageService.updateConnectionsIds(
-        [(connection.id, transport.networkId)],
+        [(connection.id, connection.defaultWorkchainId, transport.networkId)],
       );
 
       _log.finest('updateTransportByConnection completed!');

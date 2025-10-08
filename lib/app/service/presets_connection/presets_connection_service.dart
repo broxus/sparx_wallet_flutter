@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:app/app/service/connection/data/connection/connection.dart';
 import 'package:app/app/service/connection/data/connection_config/connection_config.dart';
+import 'package:app/app/service/connection/data/connection_default_settings.dart';
 import 'package:app/app/service/connection/data/default_active_asset.dart';
 import 'package:app/app/service/connection/data/network_type.dart';
 import 'package:app/app/service/connection/data/transport_icons.dart';
@@ -30,13 +31,10 @@ class PresetsConnectionService {
 
   List<Connection> get connections => _data?.connections ?? [];
 
-  String? get defaultConnectionId => _data?.defaultConnectionId;
-
   Connection get defaultConnection =>
       _data?.defaultConnection ?? defaultPresetConnection;
 
-  Map<String, dynamic> get rawDefaultSettings =>
-      _data?.rawDefaultSettings ?? {};
+  ConnectionDefaultSettings? get defaultSettings => _data?.defaultSettings;
 
   String? currentPresetId;
 

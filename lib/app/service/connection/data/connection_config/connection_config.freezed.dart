@@ -15,14 +15,11 @@ T _$identity<T>(T value) => value;
 
 /// @nodoc
 mixin _$ConnectionConfig {
-  String get defaultConnectionId;
-  Map<String, dynamic> get rawDefaultSettings;
-  @JsonKey(includeFromJson: false, includeToJson: false)
+  Connection get currentConnection;
   Connection get defaultConnection;
+  ConnectionDefaultSettings get defaultSettings;
   List<Connection>? get connections;
   List<CustomNetworkOption>? get customNetworkOptions;
-  @JsonKey(includeFromJson: false, includeToJson: false)
-  List<NetworkType>? get customNetworkOptionTypes;
 
   /// Create a copy of ConnectionConfig
   /// with the given fields replaced by the non-null parameter values.
@@ -32,42 +29,35 @@ mixin _$ConnectionConfig {
       _$ConnectionConfigCopyWithImpl<ConnectionConfig>(
           this as ConnectionConfig, _$identity);
 
-  /// Serializes this ConnectionConfig to a JSON map.
-  Map<String, dynamic> toJson();
-
   @override
   bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is ConnectionConfig &&
-            (identical(other.defaultConnectionId, defaultConnectionId) ||
-                other.defaultConnectionId == defaultConnectionId) &&
-            const DeepCollectionEquality()
-                .equals(other.rawDefaultSettings, rawDefaultSettings) &&
+            (identical(other.currentConnection, currentConnection) ||
+                other.currentConnection == currentConnection) &&
             (identical(other.defaultConnection, defaultConnection) ||
                 other.defaultConnection == defaultConnection) &&
+            (identical(other.defaultSettings, defaultSettings) ||
+                other.defaultSettings == defaultSettings) &&
             const DeepCollectionEquality()
                 .equals(other.connections, connections) &&
             const DeepCollectionEquality()
-                .equals(other.customNetworkOptions, customNetworkOptions) &&
-            const DeepCollectionEquality().equals(
-                other.customNetworkOptionTypes, customNetworkOptionTypes));
+                .equals(other.customNetworkOptions, customNetworkOptions));
   }
 
-  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode => Object.hash(
       runtimeType,
-      defaultConnectionId,
-      const DeepCollectionEquality().hash(rawDefaultSettings),
+      currentConnection,
       defaultConnection,
+      defaultSettings,
       const DeepCollectionEquality().hash(connections),
-      const DeepCollectionEquality().hash(customNetworkOptions),
-      const DeepCollectionEquality().hash(customNetworkOptionTypes));
+      const DeepCollectionEquality().hash(customNetworkOptions));
 
   @override
   String toString() {
-    return 'ConnectionConfig(defaultConnectionId: $defaultConnectionId, rawDefaultSettings: $rawDefaultSettings, defaultConnection: $defaultConnection, connections: $connections, customNetworkOptions: $customNetworkOptions, customNetworkOptionTypes: $customNetworkOptionTypes)';
+    return 'ConnectionConfig(currentConnection: $currentConnection, defaultConnection: $defaultConnection, defaultSettings: $defaultSettings, connections: $connections, customNetworkOptions: $customNetworkOptions)';
   }
 }
 
@@ -78,16 +68,15 @@ abstract mixin class $ConnectionConfigCopyWith<$Res> {
       _$ConnectionConfigCopyWithImpl;
   @useResult
   $Res call(
-      {String defaultConnectionId,
-      Map<String, dynamic> rawDefaultSettings,
-      @JsonKey(includeFromJson: false, includeToJson: false)
+      {Connection currentConnection,
       Connection defaultConnection,
+      ConnectionDefaultSettings defaultSettings,
       List<Connection>? connections,
-      List<CustomNetworkOption>? customNetworkOptions,
-      @JsonKey(includeFromJson: false, includeToJson: false)
-      List<NetworkType>? customNetworkOptionTypes});
+      List<CustomNetworkOption>? customNetworkOptions});
 
+  $ConnectionCopyWith<$Res> get currentConnection;
   $ConnectionCopyWith<$Res> get defaultConnection;
+  $ConnectionDefaultSettingsCopyWith<$Res> get defaultSettings;
 }
 
 /// @nodoc
@@ -103,26 +92,25 @@ class _$ConnectionConfigCopyWithImpl<$Res>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? defaultConnectionId = null,
-    Object? rawDefaultSettings = null,
+    Object? currentConnection = null,
     Object? defaultConnection = null,
+    Object? defaultSettings = null,
     Object? connections = freezed,
     Object? customNetworkOptions = freezed,
-    Object? customNetworkOptionTypes = freezed,
   }) {
     return _then(_self.copyWith(
-      defaultConnectionId: null == defaultConnectionId
-          ? _self.defaultConnectionId
-          : defaultConnectionId // ignore: cast_nullable_to_non_nullable
-              as String,
-      rawDefaultSettings: null == rawDefaultSettings
-          ? _self.rawDefaultSettings
-          : rawDefaultSettings // ignore: cast_nullable_to_non_nullable
-              as Map<String, dynamic>,
+      currentConnection: null == currentConnection
+          ? _self.currentConnection
+          : currentConnection // ignore: cast_nullable_to_non_nullable
+              as Connection,
       defaultConnection: null == defaultConnection
           ? _self.defaultConnection
           : defaultConnection // ignore: cast_nullable_to_non_nullable
               as Connection,
+      defaultSettings: null == defaultSettings
+          ? _self.defaultSettings
+          : defaultSettings // ignore: cast_nullable_to_non_nullable
+              as ConnectionDefaultSettings,
       connections: freezed == connections
           ? _self.connections
           : connections // ignore: cast_nullable_to_non_nullable
@@ -131,11 +119,17 @@ class _$ConnectionConfigCopyWithImpl<$Res>
           ? _self.customNetworkOptions
           : customNetworkOptions // ignore: cast_nullable_to_non_nullable
               as List<CustomNetworkOption>?,
-      customNetworkOptionTypes: freezed == customNetworkOptionTypes
-          ? _self.customNetworkOptionTypes
-          : customNetworkOptionTypes // ignore: cast_nullable_to_non_nullable
-              as List<NetworkType>?,
     ));
+  }
+
+  /// Create a copy of ConnectionConfig
+  /// with the given fields replaced by the non-null parameter values.
+  @override
+  @pragma('vm:prefer-inline')
+  $ConnectionCopyWith<$Res> get currentConnection {
+    return $ConnectionCopyWith<$Res>(_self.currentConnection, (value) {
+      return _then(_self.copyWith(currentConnection: value));
+    });
   }
 
   /// Create a copy of ConnectionConfig
@@ -147,40 +141,37 @@ class _$ConnectionConfigCopyWithImpl<$Res>
       return _then(_self.copyWith(defaultConnection: value));
     });
   }
+
+  /// Create a copy of ConnectionConfig
+  /// with the given fields replaced by the non-null parameter values.
+  @override
+  @pragma('vm:prefer-inline')
+  $ConnectionDefaultSettingsCopyWith<$Res> get defaultSettings {
+    return $ConnectionDefaultSettingsCopyWith<$Res>(_self.defaultSettings,
+        (value) {
+      return _then(_self.copyWith(defaultSettings: value));
+    });
+  }
 }
 
 /// @nodoc
 
-@JsonSerializable(explicitToJson: true, createFactory: false)
 class _ConnectionConfig implements ConnectionConfig {
-  const _ConnectionConfig(
-      {required this.defaultConnectionId,
-      required final Map<String, dynamic> rawDefaultSettings,
-      @JsonKey(includeFromJson: false, includeToJson: false)
+  _ConnectionConfig(
+      {required this.currentConnection,
       required this.defaultConnection,
+      required this.defaultSettings,
       final List<Connection>? connections,
-      final List<CustomNetworkOption>? customNetworkOptions,
-      @JsonKey(includeFromJson: false, includeToJson: false)
-      final List<NetworkType>? customNetworkOptionTypes})
-      : _rawDefaultSettings = rawDefaultSettings,
-        _connections = connections,
-        _customNetworkOptions = customNetworkOptions,
-        _customNetworkOptionTypes = customNetworkOptionTypes;
+      final List<CustomNetworkOption>? customNetworkOptions})
+      : _connections = connections,
+        _customNetworkOptions = customNetworkOptions;
 
   @override
-  final String defaultConnectionId;
-  final Map<String, dynamic> _rawDefaultSettings;
+  final Connection currentConnection;
   @override
-  Map<String, dynamic> get rawDefaultSettings {
-    if (_rawDefaultSettings is EqualUnmodifiableMapView)
-      return _rawDefaultSettings;
-    // ignore: implicit_dynamic_type
-    return EqualUnmodifiableMapView(_rawDefaultSettings);
-  }
-
-  @override
-  @JsonKey(includeFromJson: false, includeToJson: false)
   final Connection defaultConnection;
+  @override
+  final ConnectionDefaultSettings defaultSettings;
   final List<Connection>? _connections;
   @override
   List<Connection>? get connections {
@@ -202,18 +193,6 @@ class _ConnectionConfig implements ConnectionConfig {
     return EqualUnmodifiableListView(value);
   }
 
-  final List<NetworkType>? _customNetworkOptionTypes;
-  @override
-  @JsonKey(includeFromJson: false, includeToJson: false)
-  List<NetworkType>? get customNetworkOptionTypes {
-    final value = _customNetworkOptionTypes;
-    if (value == null) return null;
-    if (_customNetworkOptionTypes is EqualUnmodifiableListView)
-      return _customNetworkOptionTypes;
-    // ignore: implicit_dynamic_type
-    return EqualUnmodifiableListView(value);
-  }
-
   /// Create a copy of ConnectionConfig
   /// with the given fields replaced by the non-null parameter values.
   @override
@@ -223,45 +202,34 @@ class _ConnectionConfig implements ConnectionConfig {
       __$ConnectionConfigCopyWithImpl<_ConnectionConfig>(this, _$identity);
 
   @override
-  Map<String, dynamic> toJson() {
-    return _$ConnectionConfigToJson(
-      this,
-    );
-  }
-
-  @override
   bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _ConnectionConfig &&
-            (identical(other.defaultConnectionId, defaultConnectionId) ||
-                other.defaultConnectionId == defaultConnectionId) &&
-            const DeepCollectionEquality()
-                .equals(other._rawDefaultSettings, _rawDefaultSettings) &&
+            (identical(other.currentConnection, currentConnection) ||
+                other.currentConnection == currentConnection) &&
             (identical(other.defaultConnection, defaultConnection) ||
                 other.defaultConnection == defaultConnection) &&
+            (identical(other.defaultSettings, defaultSettings) ||
+                other.defaultSettings == defaultSettings) &&
             const DeepCollectionEquality()
                 .equals(other._connections, _connections) &&
             const DeepCollectionEquality()
-                .equals(other._customNetworkOptions, _customNetworkOptions) &&
-            const DeepCollectionEquality().equals(
-                other._customNetworkOptionTypes, _customNetworkOptionTypes));
+                .equals(other._customNetworkOptions, _customNetworkOptions));
   }
 
-  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode => Object.hash(
       runtimeType,
-      defaultConnectionId,
-      const DeepCollectionEquality().hash(_rawDefaultSettings),
+      currentConnection,
       defaultConnection,
+      defaultSettings,
       const DeepCollectionEquality().hash(_connections),
-      const DeepCollectionEquality().hash(_customNetworkOptions),
-      const DeepCollectionEquality().hash(_customNetworkOptionTypes));
+      const DeepCollectionEquality().hash(_customNetworkOptions));
 
   @override
   String toString() {
-    return 'ConnectionConfig._(defaultConnectionId: $defaultConnectionId, rawDefaultSettings: $rawDefaultSettings, defaultConnection: $defaultConnection, connections: $connections, customNetworkOptions: $customNetworkOptions, customNetworkOptionTypes: $customNetworkOptionTypes)';
+    return 'ConnectionConfig(currentConnection: $currentConnection, defaultConnection: $defaultConnection, defaultSettings: $defaultSettings, connections: $connections, customNetworkOptions: $customNetworkOptions)';
   }
 }
 
@@ -274,17 +242,18 @@ abstract mixin class _$ConnectionConfigCopyWith<$Res>
   @override
   @useResult
   $Res call(
-      {String defaultConnectionId,
-      Map<String, dynamic> rawDefaultSettings,
-      @JsonKey(includeFromJson: false, includeToJson: false)
+      {Connection currentConnection,
       Connection defaultConnection,
+      ConnectionDefaultSettings defaultSettings,
       List<Connection>? connections,
-      List<CustomNetworkOption>? customNetworkOptions,
-      @JsonKey(includeFromJson: false, includeToJson: false)
-      List<NetworkType>? customNetworkOptionTypes});
+      List<CustomNetworkOption>? customNetworkOptions});
 
   @override
+  $ConnectionCopyWith<$Res> get currentConnection;
+  @override
   $ConnectionCopyWith<$Res> get defaultConnection;
+  @override
+  $ConnectionDefaultSettingsCopyWith<$Res> get defaultSettings;
 }
 
 /// @nodoc
@@ -300,26 +269,25 @@ class __$ConnectionConfigCopyWithImpl<$Res>
   @override
   @pragma('vm:prefer-inline')
   $Res call({
-    Object? defaultConnectionId = null,
-    Object? rawDefaultSettings = null,
+    Object? currentConnection = null,
     Object? defaultConnection = null,
+    Object? defaultSettings = null,
     Object? connections = freezed,
     Object? customNetworkOptions = freezed,
-    Object? customNetworkOptionTypes = freezed,
   }) {
     return _then(_ConnectionConfig(
-      defaultConnectionId: null == defaultConnectionId
-          ? _self.defaultConnectionId
-          : defaultConnectionId // ignore: cast_nullable_to_non_nullable
-              as String,
-      rawDefaultSettings: null == rawDefaultSettings
-          ? _self._rawDefaultSettings
-          : rawDefaultSettings // ignore: cast_nullable_to_non_nullable
-              as Map<String, dynamic>,
+      currentConnection: null == currentConnection
+          ? _self.currentConnection
+          : currentConnection // ignore: cast_nullable_to_non_nullable
+              as Connection,
       defaultConnection: null == defaultConnection
           ? _self.defaultConnection
           : defaultConnection // ignore: cast_nullable_to_non_nullable
               as Connection,
+      defaultSettings: null == defaultSettings
+          ? _self.defaultSettings
+          : defaultSettings // ignore: cast_nullable_to_non_nullable
+              as ConnectionDefaultSettings,
       connections: freezed == connections
           ? _self._connections
           : connections // ignore: cast_nullable_to_non_nullable
@@ -328,11 +296,17 @@ class __$ConnectionConfigCopyWithImpl<$Res>
           ? _self._customNetworkOptions
           : customNetworkOptions // ignore: cast_nullable_to_non_nullable
               as List<CustomNetworkOption>?,
-      customNetworkOptionTypes: freezed == customNetworkOptionTypes
-          ? _self._customNetworkOptionTypes
-          : customNetworkOptionTypes // ignore: cast_nullable_to_non_nullable
-              as List<NetworkType>?,
     ));
+  }
+
+  /// Create a copy of ConnectionConfig
+  /// with the given fields replaced by the non-null parameter values.
+  @override
+  @pragma('vm:prefer-inline')
+  $ConnectionCopyWith<$Res> get currentConnection {
+    return $ConnectionCopyWith<$Res>(_self.currentConnection, (value) {
+      return _then(_self.copyWith(currentConnection: value));
+    });
   }
 
   /// Create a copy of ConnectionConfig
@@ -342,6 +316,17 @@ class __$ConnectionConfigCopyWithImpl<$Res>
   $ConnectionCopyWith<$Res> get defaultConnection {
     return $ConnectionCopyWith<$Res>(_self.defaultConnection, (value) {
       return _then(_self.copyWith(defaultConnection: value));
+    });
+  }
+
+  /// Create a copy of ConnectionConfig
+  /// with the given fields replaced by the non-null parameter values.
+  @override
+  @pragma('vm:prefer-inline')
+  $ConnectionDefaultSettingsCopyWith<$Res> get defaultSettings {
+    return $ConnectionDefaultSettingsCopyWith<$Res>(_self.defaultSettings,
+        (value) {
+      return _then(_self.copyWith(defaultSettings: value));
     });
   }
 }

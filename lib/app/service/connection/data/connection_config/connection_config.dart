@@ -1,4 +1,5 @@
 import 'package:app/app/service/connection/data/connection/connection.dart';
+import 'package:app/app/service/connection/data/connection_default_settings.dart';
 import 'package:app/app/service/connection/data/custom_network/custom_network_option.dart';
 import 'package:app/app/service/connection/data/network_type.dart';
 import 'package:app/app/service/connection/default_network.dart';
@@ -8,72 +9,79 @@ import 'package:freezed_annotation/freezed_annotation.dart';
 
 part 'connection_config.freezed.dart';
 
-part 'connection_config.g.dart';
-
-@Freezed(fromJson: false, toJson: true)
+@Freezed(fromJson: false, toJson: false)
 abstract class ConnectionConfig with _$ConnectionConfig {
   factory ConnectionConfig({
-    required String defaultConnectionId,
-    required Map<String, dynamic> rawDefaultSettings,
+    required Connection currentConnection,
+    required Connection defaultConnection,
+    required ConnectionDefaultSettings defaultSettings,
     List<Connection>? connections,
     List<CustomNetworkOption>? customNetworkOptions,
-  }) {
-    final defaultConnection = connections?.firstWhereOrNull(
+  }) = _ConnectionConfig;
+
+  factory ConnectionConfig.fromJson(Map<String, dynamic> json) {
+    final connectionsJSON = castJsonList<dynamic>(json['connections']);
+    final customNetworkOptionsJSON =
+        castJsonList<dynamic>(json['customNetworkOptions']);
+    final defaultConnectionId = json['defaultConnectionId'] as String;
+
+    final commonWalletDefaultAccountNames = castJsonMap(
+      castJsonMap(json['defaultSettings'])['walletAccountNames'],
+    );
+
+    final connections = <Connection>[];
+
+    for (final connection in connectionsJSON) {
+      connections.add(
+        Connection.fromJson(
+          json: castJsonMap(connection),
+          commonWalletDefaultAccountNames: commonWalletDefaultAccountNames,
+        ),
+      );
+    }
+
+    final defaultConnection = connections.firstWhereOrNull(
           (connection) => connection.id == defaultConnectionId,
         ) ??
         defaultPresetConnection;
 
-    return ConnectionConfig._(
-      defaultConnectionId: defaultConnection.id,
-      rawDefaultSettings: rawDefaultSettings,
-      connections: connections,
-      customNetworkOptions: customNetworkOptions,
-      defaultConnection: defaultConnection,
-      customNetworkOptionTypes: customNetworkOptions == null
-          ? [NetworkType.ever, NetworkType.tycho, NetworkType.custom]
-          : [
-              for (final option in customNetworkOptions) option.networkType,
-            ],
-    );
-  }
-
-  @JsonSerializable(
-    explicitToJson: true,
-    createFactory: false,
-  )
-  const factory ConnectionConfig._({
-    required String defaultConnectionId,
-    required Map<String, dynamic> rawDefaultSettings,
-    @JsonKey(includeFromJson: false, includeToJson: false)
-    required Connection defaultConnection,
-    List<Connection>? connections,
-    List<CustomNetworkOption>? customNetworkOptions,
-    @JsonKey(includeFromJson: false, includeToJson: false)
-    List<NetworkType>? customNetworkOptionTypes,
-  }) = _ConnectionConfig;
-
-  factory ConnectionConfig.fromJson(Map<String, dynamic> json) {
-    final connections = castJsonList<dynamic>(json['connections']);
-
-    final customNetworkOptions =
-        castJsonList<dynamic>(json['customNetworkOptions']);
-
     return ConnectionConfig(
-      defaultConnectionId: json['defaultConnectionId'] as String,
-      rawDefaultSettings: castJsonMap(json['defaultSettings']),
-      connections: [
-        for (final connection in connections)
-          Connection.fromJson(
-            json: castJsonMap(connection),
-            commonWalletDefaultAccountNames: castJsonMap(
-              castJsonMap(json['defaultSettings'])['walletAccountNames'],
-            ),
-          ),
-      ],
+      currentConnection: defaultConnection,
+      defaultConnection: defaultConnection,
+      defaultSettings: ConnectionDefaultSettings.fromJson(
+        castJsonMap(json['defaultSettings']),
+      ),
+      connections: connections,
       customNetworkOptions: [
-        for (final option in customNetworkOptions)
+        for (final option in customNetworkOptionsJSON)
           CustomNetworkOption.fromJson(castJsonMap(option)),
       ],
     );
   }
+
+  Map<String, dynamic> toJSON() {
+    return {
+      'defaultConnectionId': defaultConnection.id,
+      'customNetworkOptions': [
+        if (customNetworkOptions != null)
+          for (final option in customNetworkOptions!) option.toJson(),
+      ],
+      'defaultSettings': defaultSettings.toJson(),
+      'connections': [
+        if (connections != null)
+          for (final connection in connections!) connection.toJson(),
+      ],
+    };
+  }
+}
+
+extension ConnectionConfigExt on ConnectionConfig {
+  String get currentConnectionId => currentConnection.id;
+
+  String get defaultConnectionId => defaultConnection.id;
+
+  List<NetworkType> get customNetworkOptionTypes => [
+        if (customNetworkOptions != null)
+          for (final option in customNetworkOptions!) option.networkType,
+      ];
 }
