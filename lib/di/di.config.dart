@@ -62,6 +62,7 @@ import '../app/service/nekoton_related/nekoton_related.dart' as _i403;
 import '../app/service/network_connection/network_connection_service.dart'
     as _i33;
 import '../app/service/ntp_service.dart' as _i68;
+import '../app/service/pending_deep_link_service.dart' as _i239;
 import '../app/service/permissions_service.dart' as _i473;
 import '../app/service/presets_connection/presets_connection_service.dart'
     as _i116;
@@ -2304,25 +2305,15 @@ extension GetItInjectableX on _i174.GetIt {
           gh<_i771.NekotonRepository>(),
           gh<_i533.RootTabService>(),
         ));
+    gh.singleton<_i239.PendingDeepLinkService>(
+      () => _i239.PendingDeepLinkService(gh<_i70.BrowserLauncher>()),
+      dispose: (i) => i.dispose(),
+    );
     gh.factory<_i278.CustomBottomNavigationBarModel>(
         () => _i278.CustomBottomNavigationBarModel(
               gh<_i83.ErrorHandler>(),
               gh<_i533.RootTabService>(),
             ));
-    gh.factory<_i425.AppModel>(() => _i425.AppModel(
-          gh<_i83.ErrorHandler>(),
-          gh<_i309.CompassRouter>(),
-          gh<_i850.AppLinksService>(),
-          gh<_i830.AppLifecycleService>(),
-          gh<_i1071.LocalizationService>(),
-          gh<_i575.BiometryService>(),
-          gh<_i632.MessengerService>(),
-          gh<_i47.CrashDetectorService>(),
-          gh<_i335.LoggerConfigurator>(),
-          gh<_i70.BrowserLauncher>(),
-          gh<_i771.NekotonRepository>(),
-          gh<_i468.BootstrapService>(),
-        ));
     gh.factory<_i8.AccountSettingsModel>(() => _i8.AccountSettingsModel(
           gh<_i83.ErrorHandler>(),
           gh<_i771.NekotonRepository>(),
@@ -2388,6 +2379,21 @@ extension GetItInjectableX on _i174.GetIt {
             gh<_i938.TonWalletMultisigExpiredTransactionModel>()));
     gh.factory<_i938.WalletPageWidgetModel>(
         () => _i938.WalletPageWidgetModel(gh<_i348.WalletPageModel>()));
+    gh.factory<_i425.AppModel>(() => _i425.AppModel(
+          gh<_i83.ErrorHandler>(),
+          gh<_i309.CompassRouter>(),
+          gh<_i850.AppLinksService>(),
+          gh<_i830.AppLifecycleService>(),
+          gh<_i1071.LocalizationService>(),
+          gh<_i575.BiometryService>(),
+          gh<_i632.MessengerService>(),
+          gh<_i47.CrashDetectorService>(),
+          gh<_i335.LoggerConfigurator>(),
+          gh<_i70.BrowserLauncher>(),
+          gh<_i771.NekotonRepository>(),
+          gh<_i468.BootstrapService>(),
+          gh<_i239.PendingDeepLinkService>(),
+        ));
     gh.factory<
             _i1010
             .TonWalletMultisigOrdinaryTransactionDetailsScreenWidgetModel>(

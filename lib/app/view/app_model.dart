@@ -7,6 +7,7 @@ import 'package:app/app/service/biometry_service.dart';
 import 'package:app/app/service/bootstrap/bootstrap_service.dart';
 import 'package:app/app/service/bootstrap/configurators/logger.dart';
 import 'package:app/app/service/crash_detector/domain/service/crash_detector_service.dart';
+import 'package:app/app/service/pending_deep_link_service.dart';
 import 'package:app/app/view/app.dart';
 import 'package:app/feature/browser_v2/domain/browser_launcher.dart';
 import 'package:app/feature/localization/localization.dart';
@@ -35,6 +36,7 @@ class AppModel extends ElementaryModel with WidgetsBindingObserver {
     this._browserLauncher,
     this._nekotonRepository,
     this._bootstrapService,
+    this._pendingDeepLinkService,
   ) : super(errorHandler: errorHandler);
 
   final CompassRouter router;
@@ -48,6 +50,7 @@ class AppModel extends ElementaryModel with WidgetsBindingObserver {
   final BrowserLauncher _browserLauncher;
   final NekotonRepository _nekotonRepository;
   final BootstrapService _bootstrapService;
+  final PendingDeepLinkService _pendingDeepLinkService;
 
   BuildContext? get navContext =>
       CompassRouter.navigatorKey.currentState?.context;
@@ -65,6 +68,7 @@ class AppModel extends ElementaryModel with WidgetsBindingObserver {
     _crashDetectorService.startSession(setCrashDetected: true);
     _checkBiometry();
     _appLinksSubs = _appLinksService.browserLinksStream.listen(_listenAppLinks);
+    _pendingDeepLinkService.attachToRouter(router);
     super.init();
   }
 
@@ -129,7 +133,15 @@ class AppModel extends ElementaryModel with WidgetsBindingObserver {
       // before attempting to navigate to browser
       await router.currentRoutesStream.first;
 
-      _browserLauncher.openBrowserByUri(event.url);
+      final hasSeeds = _nekotonRepository.hasSeeds.valueOrNull ?? false;
+
+      if (hasSeeds) {
+        // User already onboarded - open browser immediately
+        _browserLauncher.openBrowserByUri(event.url);
+      } else {
+        // User not onboarded - store for later processing
+        _pendingDeepLinkService.addPendingLink(event.url);
+      }
     });
   }
 
