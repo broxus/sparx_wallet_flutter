@@ -5,6 +5,7 @@ import 'package:app/app/service/storage_service/connections_storage/connections_
 import 'package:app/feature/messenger/data/message.dart';
 import 'package:app/feature/messenger/domain/service/messenger_service.dart';
 import 'package:app/generated/generated.dart';
+import 'package:app/utils/json/json.dart';
 import 'package:app/utils/parse_utils.dart';
 import 'package:collection/collection.dart';
 import 'package:get_storage/get_storage.dart';
@@ -384,11 +385,16 @@ class ConnectionsStorageService extends AbstractStorageService {
   Map<String, ConnectionIdsData> _readConnectionsIds() {
     try {
       final encoded = _storage.read<Map<String, dynamic>>(_connectionsIdsKey);
-      var map = <String, ConnectionIdsData>{};
 
-      if (encoded != null) {
-        map = Map.castFrom(encoded);
-      }
+      final map = <String, ConnectionIdsData>{};
+
+      encoded?.forEach((connectionId, connectionDataJSON) {
+        map[connectionId] = ConnectionIdsData(
+          connectionId: connectionId,
+          workchainId: castJsonMap(connectionDataJSON)['workchainId'] as int,
+          networkId: castJsonMap(connectionDataJSON)['networkId'] as int,
+        );
+      });
 
       return map;
     } catch (_) {
