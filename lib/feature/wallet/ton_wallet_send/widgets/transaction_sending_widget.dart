@@ -57,8 +57,6 @@ class TransactionSendingWidget extends StatelessWidget {
                       style: theme.textStyles.headingLarge,
                       textAlign: TextAlign.center,
                     ),
-                    if (isDeploying)
-                      const ProgressIndicatorWidget(size: DimensSizeV2.d32),
                   ],
                 ),
               ],
