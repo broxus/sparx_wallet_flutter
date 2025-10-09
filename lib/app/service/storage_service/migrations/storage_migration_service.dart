@@ -1,12 +1,11 @@
 import 'package:app/app/service/service.dart';
-import 'package:app/app/service/storage_service/migrations/storage_migrations/v5.dart';
 import 'package:encrypted_storage/encrypted_storage.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:logging/logging.dart';
 
 final _logger = Logger('StorageMigrationService');
 
-const _version = 5;
+const _version = 6;
 const _versionKey = 'version';
 
 class StorageMigrationService {
@@ -43,7 +42,6 @@ class StorageMigrationService {
 
   Future<void> migrate() async {
     await GetStorage.init();
-
     if (!needMigration) return;
 
     final migrations = _getMigrations();
@@ -80,6 +78,9 @@ class StorageMigrationService {
         _generalStorageService,
         _connectionsStorageService,
       );
+    }
+    if (currentVersion < StorageMigrationV6.version) {
+      yield StorageMigrationV6();
     }
   }
 }
