@@ -1,5 +1,7 @@
 import 'package:app/app/service/connection/data/connection/connection.dart';
 import 'package:app/app/service/service.dart';
+import 'package:app/core/app_build_type.dart';
+import 'package:app/runner.dart';
 import 'package:elementary/elementary.dart';
 import 'package:injectable/injectable.dart';
 import 'package:nekoton_repository/nekoton_repository.dart';
@@ -33,6 +35,8 @@ class WalletAppBarModel extends ElementaryModel {
       _storageService.currentConnectionStream;
 
   TransportStrategy get transport => _nekotonRepository.currentTransport;
+
+  bool get isDevelopment => currentAppBuildType.isDevelopment;
 
   void handleUri(Uri uri) => _appLinksService.handleAppLink(uri);
 }

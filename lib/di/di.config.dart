@@ -631,6 +631,10 @@ import '../feature/wallet/widgets/wallet_app_bar/wallet_app_bar_model.dart'
     as _i622;
 import '../feature/wallet/widgets/wallet_app_bar/wallet_app_bar_wm.dart'
     as _i693;
+import '../feature/wallet/widgets/wallet_app_bar/widgets/workchain_selector/workchain_selector_model.dart'
+    as _i1042;
+import '../feature/wallet/widgets/wallet_app_bar/widgets/workchain_selector/workchain_selector_wm.dart'
+    as _i1005;
 import '../feature/wallet/widgets/wallet_backup/check_phrase/check_phrase_model.dart'
     as _i415;
 import '../feature/wallet/widgets/wallet_backup/check_phrase/check_phrase_wm.dart'
@@ -1926,6 +1930,11 @@ extension GetItInjectableX on _i174.GetIt {
           gh<_i83.ErrorHandler>(),
           gh<_i128.ConnectionsStorageService>(),
         ));
+    gh.factory<_i1042.WorkchainSelectorModel>(
+        () => _i1042.WorkchainSelectorModel(
+              gh<_i83.ErrorHandler>(),
+              gh<_i284.ConnectionsStorageService>(),
+            ));
     gh.singleton<_i82.CompassBaseRoute>(
       () => _i302.ProfileRoute(
           gh<_i82.CompassBaseRoute>(instanceName: 'ManageSeedsAccountsRoute')),
@@ -2054,6 +2063,9 @@ extension GetItInjectableX on _i174.GetIt {
               gh<_i128.BalanceService>(),
               gh<_i128.AssetsService>(),
             ));
+    gh.factory<_i1005.WorkchainSelectorWidgetModel>(() =>
+        _i1005.WorkchainSelectorWidgetModel(
+            gh<_i1042.WorkchainSelectorModel>()));
     gh.factory<_i124.ChooseNetworkScreenWidgetModel>(() =>
         _i124.ChooseNetworkScreenWidgetModel(
             gh<_i173.ChooseNetworkScreenModel>()));

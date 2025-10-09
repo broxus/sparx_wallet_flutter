@@ -1,5 +1,6 @@
 import 'package:app/core/wm/custom_wm.dart';
 import 'package:app/feature/wallet/widgets/wallet_app_bar/wallet_app_bar_wm.dart';
+import 'package:app/feature/wallet/widgets/wallet_app_bar/widgets/workchain_selector/workchain_selector.dart';
 import 'package:app/utils/utils.dart';
 import 'package:app/widgets/network_drop_item.dart';
 import 'package:app/widgets/user_avatar/user_avatar.dart';
@@ -51,16 +52,21 @@ class WalletAppBarWidget
             spacing: DimensSizeV2.d12,
             children: [
               _QrButton(onTap: wm.onScanQr),
-              StateNotifierBuilder(
-                listenableState: wm.connectionState,
-                builder: (_, connection) =>
+              Column(
+                children: [
+                  StateNotifierBuilder(
+                    listenableState: wm.connectionState,
+                    builder: (_, connection) =>
                     connection?.let(
-                      (value) => GestureDetector(
+                          (value) => GestureDetector(
                         onTap: wm.onNetwork,
                         child: NetworkDropItem(data: connection),
                       ),
                     ) ??
-                    const SizedBox.shrink(),
+                        const SizedBox.shrink(),
+                  ),
+                  if (wm.isShowWorkchainSelector) const WorkchainSelector(),
+                ],
               ),
             ],
           ),
