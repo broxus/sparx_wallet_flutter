@@ -26,9 +26,19 @@ class LoaderScreenWidget extends StatelessWidget {
             ClipRect(
               child: AspectRatio(
                 aspectRatio: 1,
-                child: RiveAnimation.asset(
-                  Assets.animations.loader,
-                  fit: BoxFit.cover,
+                child: RiveWidgetBuilder(
+                  fileLoader: FileLoader.fromAsset(
+                    Assets.animations.loader,
+                    riveFactory: Factory.rive,
+                  ),
+                  builder: (context, state) => switch (state) {
+                    RiveLoading() => const CircularProgressIndicator(),
+                    RiveFailed() => const SizedBox(),
+                    RiveLoaded() => RiveWidget(
+                      controller: state.controller,
+                      fit: Fit.cover,
+                    ),
+                  },
                 ),
               ),
             ),

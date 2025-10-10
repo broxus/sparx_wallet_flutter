@@ -45,13 +45,14 @@ class WalletAccountActionsWmParams {
 
 /// Widget model for wallet account actions, handles state management
 @injectable
-class WalletAccountActionsWidgetModel extends CustomWidgetModelParametrized<
-    WalletAccountActions,
-    WalletAccountActionsModel,
-    WalletAccountActionsWmParams> {
-  WalletAccountActionsWidgetModel(
-    super.model,
-  );
+class WalletAccountActionsWidgetModel
+    extends
+        CustomWidgetModelParametrized<
+          WalletAccountActions,
+          WalletAccountActionsModel,
+          WalletAccountActionsWmParams
+        > {
+  WalletAccountActionsWidgetModel(super.model);
 
   static final _logger = Logger('WalletAccountActionsWidgetModel');
 
@@ -70,10 +71,12 @@ class WalletAccountActionsWidgetModel extends CustomWidgetModelParametrized<
   StreamSubscription<TonWallet>? _walletSubscription;
   StreamSubscription<List<StEverWithdrawRequest>>? _withdrawsSubscription;
 
-  late final _sendSpecifiedState =
-      createWmParamsNotifier((it) => wmParams.value.sendSpecified);
-  late final _disableSensetiveActionsState =
-      createWmParamsNotifier((it) => wmParams.value.disableSensetiveActions);
+  late final _sendSpecifiedState = createWmParamsNotifier(
+    (it) => wmParams.value.sendSpecified,
+  );
+  late final _disableSensetiveActionsState = createWmParamsNotifier(
+    (it) => wmParams.value.disableSensetiveActions,
+  );
 
   ValueListenable<bool> get sendSpecifiedState => _sendSpecifiedState;
   ValueListenable<bool> get disableSensetiveActionsState =>
@@ -111,16 +114,14 @@ class WalletAccountActionsWidgetModel extends CustomWidgetModelParametrized<
     _wallet = wallet;
 
     _withdrawsSubscription?.cancel();
-    _withdrawsSubscription = Rx.combineLatest2(
-      wallet.fieldUpdatesStream,
-      model.getWithdrawRequestsStream(wmParams.value.account.address),
-      (_, withdraws) => withdraws,
-    ).listen((withdraws) {
-      _updateWalletData(
-        wallet: wallet,
-        withdraws: withdraws,
-      );
-    });
+    _withdrawsSubscription =
+        Rx.combineLatest2(
+          wallet.fieldUpdatesStream,
+          model.getWithdrawRequestsStream(wmParams.value.account.address),
+          (_, withdraws) => withdraws,
+        ).listen((withdraws) {
+          _updateWalletData(wallet: wallet, withdraws: withdraws);
+        });
   }
 
   Future<void> _updateWalletData({
@@ -146,7 +147,8 @@ class WalletAccountActionsWidgetModel extends CustomWidgetModelParametrized<
         action = WalletAccountActionBehavior.deploy;
       }
 
-      final hasStakeValue = action != WalletAccountActionBehavior.deploy &&
+      final hasStakeValue =
+          action != WalletAccountActionBehavior.deploy &&
           model.hasStake &&
           wmParams.value.allowStake;
 
@@ -155,7 +157,8 @@ class WalletAccountActionsWidgetModel extends CustomWidgetModelParametrized<
       _hasStakeActionsState.value = hasStakeValue && withdraws.isNotEmpty;
 
       _balance = contract.balance;
-      _numberUnconfirmedTransactions = (wallet.unconfirmedTransactions.length) +
+      _numberUnconfirmedTransactions =
+          (wallet.unconfirmedTransactions.length) +
           (wallet.pendingTransactions.length);
 
       if (action == WalletAccountActionBehavior.deploy) {
@@ -223,10 +226,7 @@ class WalletAccountActionsWidgetModel extends CustomWidgetModelParametrized<
   }
 
   void onInfo() {
-    showAccountSettingsModal(
-      context: context,
-      account: wmParams.value.account,
-    );
+    showAccountSettingsModal(context: context, account: wmParams.value.account);
   }
 
   void _handleSendAction() {
@@ -250,9 +250,7 @@ class WalletAccountActionsWidgetModel extends CustomWidgetModelParametrized<
       );
     } else {
       contextSafe?.compassContinue(
-        WalletPrepareTransferRouteData(
-          address: params.account.address,
-        ),
+        WalletPrepareTransferRouteData(address: params.account.address),
       );
     }
   }
@@ -294,21 +292,15 @@ class WalletAccountActionsWidgetModel extends CustomWidgetModelParametrized<
       switch (selected) {
         case SelectAddSeedType.create:
           contextSafe?.compassContinue(
-            const EnterSeedNameRouteData(
-              command: EnterSeedNameCommand.create,
-            ),
+            const EnterSeedNameRouteData(command: EnterSeedNameCommand.create),
           );
         case SelectAddSeedType.import:
           contextSafe?.compassContinue(
-            const EnterSeedNameRouteData(
-              command: EnterSeedNameCommand.import,
-            ),
+            const EnterSeedNameRouteData(command: EnterSeedNameCommand.import),
           );
         case SelectAddSeedType.ledger:
           contextSafe?.compassContinue(
-            const EnterSeedNameRouteData(
-              command: EnterSeedNameCommand.ledger,
-            ),
+            const EnterSeedNameRouteData(command: EnterSeedNameCommand.ledger),
           );
       }
     }

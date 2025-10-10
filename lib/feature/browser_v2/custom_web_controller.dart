@@ -25,9 +25,7 @@ class CustomWebViewController {
 
   void transactionsFound(TransactionsFoundEvent event) {
     _safeCall(() {
-      return _nativeController.transactionsFound(
-        event,
-      );
+      return _nativeController.transactionsFound(event);
     });
   }
 
@@ -68,18 +66,16 @@ class CustomWebViewController {
   Future<Uint8List?> takeScreenshot({
     ScreenshotConfiguration? screenshotConfiguration,
   }) {
-    return _safeCall<Uint8List?>(
-      () async {
-        try {
-          return _nativeController.takeScreenshot(
-            screenshotConfiguration: screenshotConfiguration,
-          );
-        } catch (e, s) {
-          _log.severe('InAppWebViewController nativeController', e, s);
-          return null;
-        }
-      },
-    );
+    return _safeCall<Uint8List?>(() async {
+      try {
+        return _nativeController.takeScreenshot(
+          screenshotConfiguration: screenshotConfiguration,
+        );
+      } catch (e, s) {
+        _log.severe('InAppWebViewController nativeController', e, s);
+        return null;
+      }
+    });
   }
 
   Future<bool?> canGoBack() {
@@ -106,19 +102,13 @@ class CustomWebViewController {
     return _safeCall(() => _nativeController.messageStatusUpdated(event));
   }
 
-  Future<void> initNekotonProvider({
-    required ProviderApi providerApi,
-  }) {
+  Future<void> initNekotonProvider({required ProviderApi providerApi}) {
     return _safeCall(
-      () => _nativeController.initNekotonProvider(
-        providerApi: providerApi,
-      ),
+      () => _nativeController.initNekotonProvider(providerApi: providerApi),
     );
   }
 
-  Future<void> addUserScript({
-    required UserScript userScript,
-  }) {
+  Future<void> addUserScript({required UserScript userScript}) {
     return _safeCall(
       () => _nativeController.addUserScript(userScript: userScript),
     );
@@ -143,10 +133,7 @@ class CustomWebViewController {
 
     return tryWrapper<T>(
       callback,
-      onCatch: (
-        Object e,
-        StackTrace s,
-      ) async {
+      onCatch: (Object e, StackTrace s) async {
         _log.severe('Exception:', e, s);
       },
     );

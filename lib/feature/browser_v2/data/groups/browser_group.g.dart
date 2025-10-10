@@ -11,7 +11,8 @@ _BrowserGroup _$BrowserGroupFromJson(Map<String, dynamic> json) =>
       id: json['id'] as String,
       title: json['title'] as String?,
       sortingOrder: (json['sortingOrder'] as num).toDouble(),
-      tabsIds: (json['tabsIds'] as List<dynamic>?)
+      tabsIds:
+          (json['tabsIds'] as List<dynamic>?)
               ?.map((e) => e as String)
               .toList() ??
           const <String>[],

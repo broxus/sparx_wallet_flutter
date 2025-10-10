@@ -7,12 +7,14 @@ import 'package:ui_components_lib/ui_components_lib.dart';
 import 'package:ui_components_lib/v2/widgets/widgets.dart';
 
 /// Sheet that allows user to change password of seed phrase
-class ChangeSeedPasswordSheet extends InjectedElementaryParametrizedWidget<
-    ChangeSeedPasswordWidgetModel, PublicKey> {
-  const ChangeSeedPasswordSheet({
-    required PublicKey publicKey,
-    super.key,
-  }) : super(wmFactoryParam: publicKey);
+class ChangeSeedPasswordSheet
+    extends
+        InjectedElementaryParametrizedWidget<
+          ChangeSeedPasswordWidgetModel,
+          PublicKey
+        > {
+  const ChangeSeedPasswordSheet({required PublicKey publicKey, super.key})
+    : super(wmFactoryParam: publicKey);
 
   @override
   Widget build(ChangeSeedPasswordWidgetModel wm) {

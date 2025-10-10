@@ -9,16 +9,12 @@ Future<bool?> showDeleteNetworkConfirmationSheet({
 }) {
   return showCommonBottomSheet<bool?>(
     context: context,
-    body: (_, __) => _DeleteNetworkConfirmation(
-      networkName: networkName,
-    ),
+    body: (_, __) => _DeleteNetworkConfirmation(networkName: networkName),
   );
 }
 
 class _DeleteNetworkConfirmation extends StatelessWidget {
-  const _DeleteNetworkConfirmation({
-    required this.networkName,
-  });
+  const _DeleteNetworkConfirmation({required this.networkName});
 
   final String networkName;
 
@@ -37,9 +33,7 @@ class _DeleteNetworkConfirmation extends StatelessWidget {
         ),
         const SizedBox(height: DimensSizeV2.d16),
         Text(
-          LocaleKeys.networkDeleteTitle.tr(
-            args: [networkName],
-          ),
+          LocaleKeys.networkDeleteTitle.tr(args: [networkName]),
           style: theme.textStyles.headingLarge,
           textAlign: TextAlign.center,
         ),

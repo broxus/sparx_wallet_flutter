@@ -6,9 +6,7 @@ import 'package:nekoton_repository/nekoton_repository.dart';
 
 @singleton
 class GasPriceService {
-  GasPriceService(
-    this._nekotonRepository,
-  );
+  GasPriceService(this._nekotonRepository);
 
   final NekotonRepository _nekotonRepository;
 
@@ -27,10 +25,7 @@ class GasPriceService {
           AbiParam(name: 'flag', type: 'bool'),
           AbiParam(name: 'root', type: 'cell'),
         ],
-        tokens: {
-          'flag': true,
-          'root': fields!['paramsRoot'],
-        },
+        tokens: {'flag': true, 'root': fields!['paramsRoot']},
       );
       final rawParams = unpackFromCell(
         params: const [AbiParam(name: 'params', type: 'map(uint32,cell)')],
@@ -43,17 +38,13 @@ class GasPriceService {
       final params = Map.fromEntries(entries);
       final data = unpackFromCell(
         params: (jsonDecode(_pricesParamAbi) as List<dynamic>)
-            .map(
-              (json) => AbiParam.fromJson(json as Map<String, dynamic>),
-            )
+            .map((json) => AbiParam.fromJson(json as Map<String, dynamic>))
             .toList(),
         boc: params[type.paramsKey]!,
         allowPartial: true,
       );
 
-      return GasPriceParams.fromJson(
-        data['value'] as Map<String, dynamic>,
-      );
+      return GasPriceParams.fromJson(data['value'] as Map<String, dynamic>);
     } catch (_) {
       return null;
     }
@@ -81,20 +72,18 @@ enum GasPriceType {
   workchainMessageForwardingPrices;
 
   int get paramsKey => switch (this) {
-        masterchainGasLimitsAndPrices => 20,
-        masterchainMessageForwardingPrices => 24,
-        workchainGasLimitsAndPrices => 21,
-        workchainMessageForwardingPrices => 25,
-      };
+    masterchainGasLimitsAndPrices => 20,
+    masterchainMessageForwardingPrices => 24,
+    workchainGasLimitsAndPrices => 21,
+    workchainMessageForwardingPrices => 25,
+  };
 
   BigInt get baseGasPrice => switch (this) {
-        masterchainGasLimitsAndPrices ||
-        masterchainMessageForwardingPrices =>
-          _evrscaleMasterchainGasPrice,
-        workchainGasLimitsAndPrices ||
-        workchainMessageForwardingPrices =>
-          _evrscaleWorkchainGasPrice,
-      };
+    masterchainGasLimitsAndPrices ||
+    masterchainMessageForwardingPrices => _evrscaleMasterchainGasPrice,
+    workchainGasLimitsAndPrices ||
+    workchainMessageForwardingPrices => _evrscaleWorkchainGasPrice,
+  };
 }
 
 final _evrscaleWorkchainGasPrice = BigInt.parse('65536000');

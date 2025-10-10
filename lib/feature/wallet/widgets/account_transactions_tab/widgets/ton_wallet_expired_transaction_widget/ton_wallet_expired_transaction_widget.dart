@@ -8,21 +8,23 @@ import 'package:nekoton_repository/nekoton_repository.dart';
 
 /// Widget that displays expired transaction for ton wallet
 class TonWalletExpiredTransactionWidget
-    extends InjectedElementaryParametrizedWidget<
-        TonWalletExpiredTransactionWidgetWidgetModel,
-        TonWalletExpiredTransactionParams> {
+    extends
+        InjectedElementaryParametrizedWidget<
+          TonWalletExpiredTransactionWidgetWidgetModel,
+          TonWalletExpiredTransactionParams
+        > {
   TonWalletExpiredTransactionWidget({
     required TonWalletExpiredTransaction transaction,
     required bool isFirst,
     required bool isLast,
     super.key,
   }) : super(
-          wmFactoryParam: TonWalletExpiredTransactionParams(
-            transaction: transaction,
-            isFirst: isFirst,
-            isLast: isLast,
-          ),
-        );
+         wmFactoryParam: TonWalletExpiredTransactionParams(
+           transaction: transaction,
+           isFirst: isFirst,
+           isLast: isLast,
+         ),
+       );
 
   @override
   Widget build(TonWalletExpiredTransactionWidgetWidgetModel wm) {

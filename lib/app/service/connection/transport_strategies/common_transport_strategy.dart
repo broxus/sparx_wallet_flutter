@@ -53,7 +53,7 @@ class CommonTransportStrategy extends AppTransportStrategy {
       seedPhraseWordsCount: transportData.seedPhraseWordsCount,
       defaultNativeCurrencyDecimal:
           transportData.defaultNativeCurrencyDecimal ??
-              connection.nativeTokenDecimals,
+          connection.nativeTokenDecimals,
       genericTokenType: transportData.genericTokenType,
       accountExplorerLinkType: transportData.accountExplorerLinkType,
       transactionExplorerLinkType: transportData.transactionExplorerLinkType,
@@ -85,8 +85,8 @@ class CommonTransportStrategy extends AppTransportStrategy {
 
   @override
   String get manifestUrl => switch (manifestOption) {
-        TransportManifestOptionFromConnection() => connection.manifestUrl,
-      };
+    TransportManifestOptionFromConnection() => connection.manifestUrl,
+  };
 
   @override
   String get nativeTokenIcon =>
@@ -141,10 +141,10 @@ class CommonTransportStrategy extends AppTransportStrategy {
 
   @override
   String get nativeTokenTicker => switch (nativeTokenTickerOption) {
-        TransportNativeTokenTickerOptionFromConnection() =>
-          connection.nativeTokenTicker,
-        TransportNativeTokenTickerOptionByName(:final name) => name,
-      };
+    TransportNativeTokenTickerOptionFromConnection() =>
+      connection.nativeTokenTicker,
+    TransportNativeTokenTickerOptionByName(:final name) => name,
+  };
 
   @override
   String accountExplorerLink(Address accountAddress) {
@@ -201,12 +201,11 @@ class CommonTransportStrategy extends AppTransportStrategy {
   Future<GenericTokenWallet> subscribeToken({
     required Address owner,
     required Address rootTokenContract,
-  }) =>
-      _subscriber.subscribeToken(
-        owner: owner,
-        rootTokenContract: rootTokenContract,
-        transport: transport,
-      );
+  }) => _subscriber.subscribeToken(
+    owner: owner,
+    rootTokenContract: rootTokenContract,
+    transport: transport,
+  );
 
   @override
   Future<Map<String, dynamic>?> fetchJson(String url) async {

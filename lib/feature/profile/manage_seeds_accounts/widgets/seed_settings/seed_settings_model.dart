@@ -36,13 +36,12 @@ class SeedSettingsModel extends ElementaryModel with BleAvailabilityModelMixin {
   Future<void> triggerDerivingKeys({
     required PublicKey masterKey,
     String? password,
-  }) =>
-      _ledgerService.runWithLedgerIfKeyIsLedger(
-        interactionType: LedgerInteractionType.getPublicKey,
-        publicKey: masterKey,
-        action: () => _nekotonRepository.triggerDerivingKeys(
-          masterKey: masterKey,
-          password: password,
-        ),
-      );
+  }) => _ledgerService.runWithLedgerIfKeyIsLedger(
+    interactionType: LedgerInteractionType.getPublicKey,
+    publicKey: masterKey,
+    action: () => _nekotonRepository.triggerDerivingKeys(
+      masterKey: masterKey,
+      password: password,
+    ),
+  );
 }

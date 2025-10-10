@@ -22,12 +22,12 @@ class ContainerRow extends Container {
     super.transformAlignment,
     super.clipBehavior = Clip.none,
   }) : super(
-          child: SeparatedRow(
-            spacing: spacing,
-            mainAxisSize: mainAxisSize,
-            crossAxisAlignment: crossAxisAlignment,
-            separator: separator,
-            children: children,
-          ),
-        );
+         child: SeparatedRow(
+           spacing: spacing,
+           mainAxisSize: mainAxisSize,
+           crossAxisAlignment: crossAxisAlignment,
+           separator: separator,
+           children: children,
+         ),
+       );
 }

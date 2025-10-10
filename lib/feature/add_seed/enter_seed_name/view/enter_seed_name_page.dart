@@ -30,10 +30,7 @@ enum EnterSeedNameCommand {
 /// {@endtemplate}
 class EnterSeedNamePage extends StatelessWidget {
   /// {@macro enter_seed_name_create_page}
-  const EnterSeedNamePage({
-    required this.command,
-    super.key,
-  });
+  const EnterSeedNamePage({required this.command, super.key});
 
   final EnterSeedNameCommand command;
 
@@ -49,17 +46,10 @@ class EnterSeedNamePage extends StatelessWidget {
             switch (command) {
               case EnterSeedNameCommand.import:
                 context.compassContinue(
-                  EnterSeedPhraseRouteData(
-                    isOnboarding: false,
-                    seedName: name,
-                  ),
+                  EnterSeedPhraseRouteData(isOnboarding: false, seedName: name),
                 );
               case EnterSeedNameCommand.create:
-                context.compassContinue(
-                  CreateSeedRouteData(
-                    seedName: name,
-                  ),
-                );
+                context.compassContinue(CreateSeedRouteData(seedName: name));
               case EnterSeedNameCommand.ledger:
                 final pk = await showImportLedgerSheet(
                   context: context,

@@ -9,8 +9,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_inappwebview/flutter_inappwebview.dart';
 import 'package:ui_components_lib/v2/ui_components_lib_v2.dart';
 
-class BrowserPage extends InjectedElementaryParametrizedWidget<
-    BrowserPageWidgetModel, BrowserPageWmParams> {
+class BrowserPage
+    extends
+        InjectedElementaryParametrizedWidget<
+          BrowserPageWidgetModel,
+          BrowserPageWmParams
+        > {
   BrowserPage({
     required ValueChanged<CustomWebViewController> onCreate,
     required ValueChanged<int> onWebPageScrollChanged,
@@ -20,14 +24,14 @@ class BrowserPage extends InjectedElementaryParametrizedWidget<
     required NotNullListenableState<BrowserTab> tabState,
     super.key,
   }) : super(
-          wmFactoryParam: BrowserPageWmParams(
-            tabState: tabState,
-            onCreate: onCreate,
-            onWebPageScrollChanged: onWebPageScrollChanged,
-            onDispose: onDispose,
-            onLoadingProgressChanged: onLoadingProgressChanged,
-          ),
-        );
+         wmFactoryParam: BrowserPageWmParams(
+           tabState: tabState,
+           onCreate: onCreate,
+           onWebPageScrollChanged: onWebPageScrollChanged,
+           onDispose: onDispose,
+           onLoadingProgressChanged: onLoadingProgressChanged,
+         ),
+       );
 
   final double width;
 
@@ -75,10 +79,7 @@ class BrowserPage extends InjectedElementaryParametrizedWidget<
 }
 
 class _Container extends StatelessWidget {
-  const _Container({
-    required this.width,
-    required this.child,
-  });
+  const _Container({required this.width, required this.child});
 
   final double width;
   final Widget child;

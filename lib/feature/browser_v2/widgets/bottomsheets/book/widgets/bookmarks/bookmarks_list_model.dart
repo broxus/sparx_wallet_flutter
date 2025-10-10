@@ -7,10 +7,8 @@ import 'package:injectable/injectable.dart';
 /// [ElementaryModel] for [BookmarksList]
 @injectable
 class BookmarksListModel extends ElementaryModel {
-  BookmarksListModel(
-    ErrorHandler errorHandler,
-    this._browserService,
-  ) : super(errorHandler: errorHandler);
+  BookmarksListModel(ErrorHandler errorHandler, this._browserService)
+    : super(errorHandler: errorHandler);
 
   final BrowserService _browserService;
 

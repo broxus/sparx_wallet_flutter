@@ -15,15 +15,8 @@ class RootRoute extends CompassShellRoute {
     @Named.from(ProfileRoute) CompassBaseRoute profileRoute,
     @Named.from(NftRoute) CompassBaseRoute nftRoute,
   ) : super(
-          isTopLevel: true, // Mark as top-level route
-          builder: (context, state, shell) => RootPage(
-            child: shell,
-          ),
-          compassBaseRoutes: [
-            walletRoute,
-            browserRoute,
-            profileRoute,
-            nftRoute,
-          ],
-        );
+        isTopLevel: true, // Mark as top-level route
+        builder: (context, state, shell) => RootPage(child: shell),
+        compassBaseRoutes: [walletRoute, browserRoute, profileRoute, nftRoute],
+      );
 }

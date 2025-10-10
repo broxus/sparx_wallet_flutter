@@ -7,9 +7,7 @@ import 'package:nekoton_repository/nekoton_repository.dart';
 import 'package:ui_components_lib/v2/ui_components_lib_v2.dart';
 
 const _indicator = Center(
-  child: ProgressIndicatorWidget(
-    size: DimensSizeV2.d24,
-  ),
+  child: ProgressIndicatorWidget(size: DimensSizeV2.d24),
 );
 
 class Nftist extends StatelessWidget {
@@ -79,12 +77,12 @@ class Nftist extends StatelessWidget {
   }
 
   Widget _itemBuilder(BuildContext _, NftItem item, int __) => _Item(
-        key: ValueKey(item.nft.address),
-        item: item,
-        displayMode: displayMode,
-        isPending: pending.contains(item.nft.id),
-        onTap: () => onNftPressed(item),
-      );
+    key: ValueKey(item.nft.address),
+    item: item,
+    displayMode: displayMode,
+    isPending: pending.contains(item.nft.id),
+    onTap: () => onNftPressed(item),
+  );
 }
 
 class _Item extends StatelessWidget {
@@ -119,9 +117,7 @@ class _Item extends StatelessWidget {
           PrimaryCard(
             padding: const EdgeInsets.all(DimensSizeV2.d8),
             color: theme.colors.background1,
-            borderRadius: BorderRadius.circular(
-              DimensRadiusV2.radius12,
-            ),
+            borderRadius: BorderRadius.circular(DimensRadiusV2.radius12),
             child: Column(
               mainAxisSize: MainAxisSize.min,
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -197,9 +193,7 @@ class _Item extends StatelessWidget {
           vertical: DimensSizeV2.d8,
         ),
         color: theme.colors.background1,
-        borderRadius: BorderRadius.circular(
-          DimensRadiusV2.radius12,
-        ),
+        borderRadius: BorderRadius.circular(DimensRadiusV2.radius12),
         child: Row(
           spacing: DimensSizeV2.d8,
           children: [
@@ -247,10 +241,7 @@ class _Item extends StatelessWidget {
 }
 
 class _Badge extends StatelessWidget {
-  const _Badge({
-    required this.balance,
-    required this.supply,
-  });
+  const _Badge({required this.balance, required this.supply});
 
   final BigInt balance;
   final BigInt supply;
@@ -265,9 +256,7 @@ class _Badge extends StatelessWidget {
         vertical: DimensSizeV2.d2,
       ),
       color: theme.colors.background2,
-      borderRadius: BorderRadius.circular(
-        DimensRadiusV2.radius6,
-      ),
+      borderRadius: BorderRadius.circular(DimensRadiusV2.radius6),
       child: Text(
         '$balance/$supply',
         style: theme.textStyles.labelXSmall,

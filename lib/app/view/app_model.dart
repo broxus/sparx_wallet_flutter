@@ -56,9 +56,7 @@ class AppModel extends ElementaryModel with WidgetsBindingObserver {
 
   @override
   void init() {
-    _listener = AppLifecycleListener(
-      onStateChange: _onStateChanged,
-    );
+    _listener = AppLifecycleListener(onStateChange: _onStateChanged);
     _crashDetectorService.startSession(setCrashDetected: true);
     _checkBiometry();
     _appLinksSubs = _appLinksService.browserLinksStream.listen(_listenAppLinks);

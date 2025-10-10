@@ -31,10 +31,7 @@ class BrowserServiceAuthDelegate
     URLAuthenticationChallenge challenge,
     BrowserBasicAuthCreds creds,
   ) {
-    return {
-      ..._basicAuthCreds,
-      _basicAuthCredsKey(challenge): creds,
-    };
+    return {..._basicAuthCreds, _basicAuthCredsKey(challenge): creds};
   }
 
   String _basicAuthCredsKey(URLAuthenticationChallenge challenge) =>

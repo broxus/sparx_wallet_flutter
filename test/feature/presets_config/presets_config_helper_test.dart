@@ -59,9 +59,7 @@ void main() {
     ''';
 
     final expectedHash = sha256
-        .convert(
-          utf8.encode(testUpdateRulesJson),
-        )
+        .convert(utf8.encode(testUpdateRulesJson))
         .toString();
 
     test('should return remote config when available', () async {
@@ -71,21 +69,21 @@ void main() {
       ).thenAnswer(
         (_) async => HttpResponse(
           testUpdateRulesJson,
-          Response(
-            requestOptions: RequestOptions(),
-            statusCode: 200,
-          ),
+          Response(requestOptions: RequestOptions(), statusCode: 200),
         ),
       );
 
-      when(() => mockSecureStorage.getConfigJsonHash(_config))
-          .thenAnswer((_) async => null);
+      when(
+        () => mockSecureStorage.getConfigJsonHash(_config),
+      ).thenAnswer((_) async => null);
 
-      when(() => mockSecureStorage.setConfigJsonHash(_config, any()))
-          .thenAnswer((_) async {});
+      when(
+        () => mockSecureStorage.setConfigJsonHash(_config, any()),
+      ).thenAnswer((_) async {});
 
-      when(() => mockSecureStorage.setConfigJson(_config, any()))
-          .thenAnswer((_) async {});
+      when(
+        () => mockSecureStorage.setConfigJson(_config, any()),
+      ).thenAnswer((_) async {});
 
       // Act
       final result = await reader.getConfig(_config);
@@ -99,9 +97,7 @@ void main() {
       verify(
         () => mockPresetsApi.getPresetConfig(_config.getFileName(_buildType)),
       ).called(1);
-      verify(
-        () => mockSecureStorage.getConfigJsonHash(_config),
-      ).called(1);
+      verify(() => mockSecureStorage.getConfigJsonHash(_config)).called(1);
       verify(
         () => mockSecureStorage.setConfigJsonHash(_config, expectedHash),
       ).called(1);
@@ -132,15 +128,9 @@ void main() {
       verify(
         () => mockPresetsApi.getPresetConfig(_config.getFileName(_buildType)),
       ).called(1);
-      verify(
-        () => mockSecureStorage.getConfigJson(_config),
-      ).called(1);
-      verifyNever(
-        () => mockSecureStorage.setConfigJsonHash(_config, any()),
-      );
-      verifyNever(
-        () => mockSecureStorage.setConfigJson(_config, any()),
-      );
+      verify(() => mockSecureStorage.getConfigJson(_config)).called(1);
+      verifyNever(() => mockSecureStorage.setConfigJsonHash(_config, any()));
+      verifyNever(() => mockSecureStorage.setConfigJson(_config, any()));
     });
 
     test('should return local config when remote and cache fails', () async {
@@ -149,15 +139,15 @@ void main() {
         () => mockPresetsApi.getPresetConfig(_config.getFileName(_buildType)),
       ).thenThrow(Exception('Network error'));
 
-      when(() => mockSecureStorage.getConfigJson(_config))
-          .thenAnswer((_) async => null);
-
       when(
-        () {
-          return mockResourcesService
-              .loadString('assets/configs/${_config.name}.json');
-        },
-      ).thenAnswer((_) async => testUpdateRulesJson);
+        () => mockSecureStorage.getConfigJson(_config),
+      ).thenAnswer((_) async => null);
+
+      when(() {
+        return mockResourcesService.loadString(
+          'assets/configs/${_config.name}.json',
+        );
+      }).thenAnswer((_) async => testUpdateRulesJson);
 
       // Act
       final result = await reader.getConfig(_config);
@@ -171,31 +161,29 @@ void main() {
       verify(
         () => mockPresetsApi.getPresetConfig(_config.getFileName(_buildType)),
       ).called(1);
+      verify(() => mockSecureStorage.getConfigJson(_config)).called(1);
       verify(
-        () => mockSecureStorage.getConfigJson(_config),
+        () => mockResourcesService.loadString(
+          'assets/configs/${_config.name}.json',
+        ),
       ).called(1);
-      verify(
-        () => mockResourcesService
-            .loadString('assets/configs/${_config.name}.json'),
-      ).called(1);
-      verifyNever(
-        () => mockSecureStorage.setConfigJsonHash(_config, any()),
-      );
-      verifyNever(
-        () => mockSecureStorage.setConfigJson(_config, any()),
-      );
+      verifyNever(() => mockSecureStorage.setConfigJsonHash(_config, any()));
+      verifyNever(() => mockSecureStorage.setConfigJson(_config, any()));
     });
 
     test('returns null when all sources fail', () async {
       // Arrange
-      when(() => mockPresetsApi.getPresetConfig(any()))
-          .thenThrow(Exception('Network error'));
+      when(
+        () => mockPresetsApi.getPresetConfig(any()),
+      ).thenThrow(Exception('Network error'));
 
-      when(() => mockSecureStorage.getConfigJson(_config))
-          .thenAnswer((_) async => null);
+      when(
+        () => mockSecureStorage.getConfigJson(_config),
+      ).thenAnswer((_) async => null);
 
-      when(() => mockResourcesService.loadString(any()))
-          .thenThrow(Exception('Resource not found'));
+      when(
+        () => mockResourcesService.loadString(any()),
+      ).thenThrow(Exception('Resource not found'));
 
       // Act
       final result = await reader.getConfig(_config);
@@ -203,14 +191,13 @@ void main() {
       // Assert
       expect(result, isNull);
       verify(
-        () => mockPresetsApi.getPresetConfig(
-          _config.getFileName(_buildType),
-        ),
+        () => mockPresetsApi.getPresetConfig(_config.getFileName(_buildType)),
       ).called(1);
       verify(() => mockSecureStorage.getConfigJson(_config)).called(1);
       verify(
-        () => mockResourcesService
-            .loadString('assets/configs/${_config.name}.json'),
+        () => mockResourcesService.loadString(
+          'assets/configs/${_config.name}.json',
+        ),
       ).called(1);
     });
 
@@ -221,15 +208,13 @@ void main() {
       when(() => mockPresetsApi.getPresetConfig(any())).thenAnswer(
         (_) async => HttpResponse(
           testInvalidJson,
-          Response(
-            requestOptions: RequestOptions(),
-            statusCode: 200,
-          ),
+          Response(requestOptions: RequestOptions(), statusCode: 200),
         ),
       );
 
-      when(() => mockSecureStorage.getConfigJson(_config))
-          .thenAnswer((_) async => testUpdateRulesJson);
+      when(
+        () => mockSecureStorage.getConfigJson(_config),
+      ).thenAnswer((_) async => testUpdateRulesJson);
 
       // Act
       final result = await reader.getConfig(_config);
@@ -245,19 +230,24 @@ void main() {
 
     test('handles invalid JSON from cache', () async {
       // Arrange
-      when(() => mockPresetsApi.getPresetConfig(any()))
-          .thenThrow(Exception('Network error'));
+      when(
+        () => mockPresetsApi.getPresetConfig(any()),
+      ).thenThrow(Exception('Network error'));
 
-      when(() => mockSecureStorage.getConfigJson(_config))
-          .thenAnswer((_) async => testInvalidJson);
+      when(
+        () => mockSecureStorage.getConfigJson(_config),
+      ).thenAnswer((_) async => testInvalidJson);
 
-      when(() => mockResourcesService.loadString(any()))
-          .thenAnswer((_) async => testUpdateRulesJson);
+      when(
+        () => mockResourcesService.loadString(any()),
+      ).thenAnswer((_) async => testUpdateRulesJson);
 
-      when(() => mockSecureStorage.setConfigJsonHash(_config, any()))
-          .thenAnswer((_) async {});
-      when(() => mockSecureStorage.setConfigJson(_config, any()))
-          .thenAnswer((_) async {});
+      when(
+        () => mockSecureStorage.setConfigJsonHash(_config, any()),
+      ).thenAnswer((_) async {});
+      when(
+        () => mockSecureStorage.setConfigJson(_config, any()),
+      ).thenAnswer((_) async {});
 
       // Act
       final result = await reader.getConfig(_config);
@@ -275,8 +265,9 @@ void main() {
       verify(() => mockSecureStorage.setConfigJsonHash(_config, '')).called(1);
 
       verify(
-        () => mockResourcesService
-            .loadString('assets/configs/${_config.name}.json'),
+        () => mockResourcesService.loadString(
+          'assets/configs/${_config.name}.json',
+        ),
       ).called(1);
     });
 
@@ -285,15 +276,13 @@ void main() {
       when(() => mockPresetsApi.getPresetConfig(any())).thenAnswer(
         (_) async => HttpResponse(
           '',
-          Response(
-            requestOptions: RequestOptions(),
-            statusCode: 200,
-          ),
+          Response(requestOptions: RequestOptions(), statusCode: 200),
         ),
       );
 
-      when(() => mockSecureStorage.getConfigJson(_config))
-          .thenAnswer((_) async => testUpdateRulesJson);
+      when(
+        () => mockSecureStorage.getConfigJson(_config),
+      ).thenAnswer((_) async => testUpdateRulesJson);
 
       // Act
       final result = await reader.getConfig(_config);
@@ -313,15 +302,13 @@ void main() {
       when(() => mockPresetsApi.getPresetConfig(any())).thenAnswer(
         (_) async => HttpResponse(
           '["this", "is", "an", "array"]',
-          Response(
-            requestOptions: RequestOptions(),
-            statusCode: 200,
-          ),
+          Response(requestOptions: RequestOptions(), statusCode: 200),
         ),
       );
 
-      when(() => mockSecureStorage.getConfigJson(_config))
-          .thenAnswer((_) async => testUpdateRulesJson);
+      when(
+        () => mockSecureStorage.getConfigJson(_config),
+      ).thenAnswer((_) async => testUpdateRulesJson);
 
       // Act
       final result = await reader.getConfig(_config);
@@ -343,16 +330,14 @@ void main() {
       ).thenAnswer(
         (_) async => HttpResponse(
           testUpdateRulesJson,
-          Response(
-            requestOptions: RequestOptions(),
-            statusCode: 200,
-          ),
+          Response(requestOptions: RequestOptions(), statusCode: 200),
         ),
       );
 
       // Mock that the stored hash matches the expected hash
-      when(() => mockSecureStorage.getConfigJsonHash(_config))
-          .thenAnswer((_) async => expectedHash);
+      when(
+        () => mockSecureStorage.getConfigJsonHash(_config),
+      ).thenAnswer((_) async => expectedHash);
 
       // Act
       await reader.getConfig(_config);
@@ -377,8 +362,9 @@ void main() {
 
       when(() => mockPresetsApi.getPresetConfig(any())).thenThrow(dioError);
 
-      when(() => mockSecureStorage.getConfigJson(_config))
-          .thenAnswer((_) async => testUpdateRulesJson);
+      when(
+        () => mockSecureStorage.getConfigJson(_config),
+      ).thenAnswer((_) async => testUpdateRulesJson);
 
       // Act
       final result = await reader.getConfig(_config);

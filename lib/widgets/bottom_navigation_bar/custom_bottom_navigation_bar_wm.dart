@@ -12,11 +12,13 @@ import 'package:ui_components_lib/v2/ui_components_lib_v2.dart';
 
 /// [WidgetModel] для [CustomBottomNavigationBar]
 @injectable
-class CustomBottomNavigationBarWidgetModel extends CustomWidgetModel<
-    CustomBottomNavigationBar, CustomBottomNavigationBarModel> {
-  CustomBottomNavigationBarWidgetModel(
-    super.model,
-  );
+class CustomBottomNavigationBarWidgetModel
+    extends
+        CustomWidgetModel<
+          CustomBottomNavigationBar,
+          CustomBottomNavigationBarModel
+        > {
+  CustomBottomNavigationBarWidgetModel(super.model);
 
   late final _tabState = createNotifierFromStream<RootTab>(model.rootTabStream);
   late final _visibleState = createNotifierFromStream(
@@ -32,9 +34,9 @@ class CustomBottomNavigationBarWidgetModel extends CustomWidgetModel<
   double get bottomPadding => MediaQuery.of(context).padding.bottom;
 
   ThemeData get themeData => Theme.of(context).copyWith(
-        splashColor: Colors.transparent,
-        highlightColor: Colors.transparent,
-      );
+    splashColor: Colors.transparent,
+    highlightColor: Colors.transparent,
+  );
 
   ThemeStyleV2 get _theme => context.themeStyleV2;
 

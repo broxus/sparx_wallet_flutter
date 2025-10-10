@@ -21,15 +21,14 @@ abstract interface class BrowserServicePermissions {
 @injectable
 class BrowserServicePermissionsDelegate
     implements BrowserDelegate, BrowserServicePermissions {
-  BrowserServicePermissionsDelegate(
-    this._browserPermissionsStorageService,
-  );
+  BrowserServicePermissionsDelegate(this._browserPermissionsStorageService);
 
   final BrowserPermissionsStorageService _browserPermissionsStorageService;
 
   /// Subject for permissions of browser tabs
-  final _permissionsSubject =
-      BehaviorSubject<Map<String, Permissions>>.seeded({});
+  final _permissionsSubject = BehaviorSubject<Map<String, Permissions>>.seeded(
+    {},
+  );
 
   /// Stream that allows tracking permissions changing
   @override
@@ -91,6 +90,6 @@ class BrowserServicePermissionsDelegate
   }
 
   void _fetchPermissions() => _permissionsSubject.add(
-        _browserPermissionsStorageService.getPermissions(),
-      );
+    _browserPermissionsStorageService.getPermissions(),
+  );
 }

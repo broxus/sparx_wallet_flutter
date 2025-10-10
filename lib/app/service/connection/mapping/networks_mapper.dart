@@ -3,9 +3,7 @@ import 'package:app/app/service/connection/data/network_type.dart';
 import 'package:app/utils/json/json_utils.dart';
 import 'package:app/utils/parse_utils.dart';
 
-List<ConnectionData> mapToConnectionDataList(
-  List<Map<String, dynamic>> list,
-) {
+List<ConnectionData> mapToConnectionDataList(List<Map<String, dynamic>> list) {
   final result = <ConnectionData>[];
 
   for (final network in list) {
@@ -57,11 +55,13 @@ List<ConnectionData> mapToConnectionDataList(
           canBeEdited: false,
           sortingOrder: sortingOrder,
           isUsedOnStart: isUsedOnStart,
-          latencyDetectionInterval:
-              parseToInt(network['latencyDetectionInterval']),
+          latencyDetectionInterval: parseToInt(
+            network['latencyDetectionInterval'],
+          ),
           maxLatency: parseToInt(network['maxLatency']),
-          endpointSelectionRetryCount:
-              parseToInt(network['endpointSelectionRetryCount']),
+          endpointSelectionRetryCount: parseToInt(
+            network['endpointSelectionRetryCount'],
+          ),
         );
       case 'jrpc':
         data = ConnectionData.jrpcPreset(

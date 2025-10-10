@@ -8,8 +8,13 @@ import 'package:injectable/injectable.dart';
 import 'package:nekoton_repository/nekoton_repository.dart' hide Message;
 
 @injectable
-class ChangeSeedPasswordWidgetModel extends CustomWidgetModelParametrized<
-    ChangeSeedPasswordSheet, ChangeSeedPasswordModel, PublicKey> {
+class ChangeSeedPasswordWidgetModel
+    extends
+        CustomWidgetModelParametrized<
+          ChangeSeedPasswordSheet,
+          ChangeSeedPasswordModel,
+          PublicKey
+        > {
   ChangeSeedPasswordWidgetModel(super.model);
 
   late final oldPasswordController = createTextEditingController();
@@ -39,9 +44,7 @@ class ChangeSeedPasswordWidgetModel extends CustomWidgetModelParametrized<
       );
 
       model.showMessage(
-        Message.successful(
-          message: LocaleKeys.passwordChanged.tr(),
-        ),
+        Message.successful(message: LocaleKeys.passwordChanged.tr()),
       );
 
       if (contextSafe != null) {
@@ -49,9 +52,7 @@ class ChangeSeedPasswordWidgetModel extends CustomWidgetModelParametrized<
       }
     } catch (_) {
       model.showMessage(
-        Message.error(
-          message: LocaleKeys.passwordIsWrong.tr(),
-        ),
+        Message.error(message: LocaleKeys.passwordIsWrong.tr()),
       );
     }
   }

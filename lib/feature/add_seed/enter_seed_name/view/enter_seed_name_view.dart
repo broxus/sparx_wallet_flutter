@@ -15,10 +15,7 @@ typedef EnterSeedNameCompleteCallback = FutureOr<void> Function(String? name);
 /// {@endtemplate}
 class EnterSeedNameView extends StatefulWidget {
   /// {@macro enter_seed_name_view}
-  const EnterSeedNameView({
-    required this.callback,
-    super.key,
-  });
+  const EnterSeedNameView({required this.callback, super.key});
 
   /// Callback that will be called when user entered seed phrase name.
   final EnterSeedNameCompleteCallback callback;

@@ -8,11 +8,7 @@ import 'package:ui_components_lib/ui_components_lib.dart';
 /// {@endtemplate}
 class CommonDivider extends StatelessWidget {
   /// {@macro common_divider}
-  const CommonDivider({
-    super.key,
-    this.color,
-    this.margin = EdgeInsets.zero,
-  });
+  const CommonDivider({super.key, this.color, this.margin = EdgeInsets.zero});
 
   static const size = 1.0;
 
@@ -43,9 +39,7 @@ class CommonSliverDividerHeaderDelegate extends SliverPersistentHeaderDelegate {
     double shrinkOffset,
     bool overlapsContent,
   ) {
-    return CommonDivider(
-      color: color,
-    );
+    return CommonDivider(color: color);
   }
 
   final Color? color;

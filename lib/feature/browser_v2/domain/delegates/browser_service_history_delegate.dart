@@ -54,12 +54,10 @@ class BrowserServiceHistoryDelegate
     if (url.host.isEmpty || browserHistoryItems.firstOrNull?.url == url) {
       return;
     }
-    _saveBrowserHistory(
-      [
-        BrowserHistoryItem.create(url: url),
-        ...browserHistoryItems,
-      ],
-    );
+    _saveBrowserHistory([
+      BrowserHistoryItem.create(url: url),
+      ...browserHistoryItems,
+    ]);
   }
 
   @override
@@ -76,9 +74,7 @@ class BrowserServiceHistoryDelegate
     );
   }
 
-  Future<void> clearHistory([
-    TimePeriod period = TimePeriod.allHistory,
-  ]) async {
+  Future<void> clearHistory([TimePeriod period = TimePeriod.allHistory]) async {
     if (period == TimePeriod.allHistory) {
       await _browserHistoryStorageService.clear();
       _browserHistorySubject.add([]);
@@ -103,8 +99,8 @@ class BrowserServiceHistoryDelegate
   }
 
   void _fetchHistoryFromStorage() => _browserHistorySubject.add(
-        _browserHistoryStorageService.getBrowserHistory(),
-      );
+    _browserHistoryStorageService.getBrowserHistory(),
+  );
 
   void _saveBrowserHistory(List<BrowserHistoryItem> history) {
     final sortedHistory = [...history]..take(_historyItemCountLimit);

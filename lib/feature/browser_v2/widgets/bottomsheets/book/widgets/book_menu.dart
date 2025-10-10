@@ -30,9 +30,7 @@ class BrowserBookmarksMenu extends StatelessWidget {
           listenableState: editState,
           builder: (_, EditValue? editValue) {
             return AnimatedCrossFade(
-              firstChild: _DoneButton(
-                onPressed: onPressedDone,
-              ),
+              firstChild: _DoneButton(onPressed: onPressedDone),
               secondChild: StateNotifierBuilder(
                 listenableState: activeState,
                 builder: (_, bool? isActive) {
@@ -78,18 +76,14 @@ class HistoryBookmarksMenu extends StatelessWidget {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          _ClearButton(
-            onPressed: onPressedClear,
-          ),
+          _ClearButton(onPressed: onPressedClear),
           StateNotifierBuilder(
             listenableState: editState,
             builder: (_, bool? isEdited) {
               isEdited ??= false;
 
               return AnimatedCrossFade(
-                firstChild: _DoneButton(
-                  onPressed: onPressedDone,
-                ),
+                firstChild: _DoneButton(onPressed: onPressedDone),
                 secondChild: StateNotifierBuilder(
                   listenableState: activeState,
                   builder: (_, bool? isActive) {
@@ -112,9 +106,7 @@ class HistoryBookmarksMenu extends StatelessWidget {
 }
 
 class _Container extends StatelessWidget {
-  const _Container({
-    required this.child,
-  });
+  const _Container({required this.child});
 
   final Widget child;
 
@@ -131,9 +123,7 @@ class _Container extends StatelessWidget {
         decoration: BoxDecoration(
           color: colors.background1,
           border: Border(
-            top: BorderSide(
-              color: colors.primaryA.withValues(alpha: .1),
-            ),
+            top: BorderSide(color: colors.primaryA.withValues(alpha: .1)),
           ),
         ),
         child: child,
@@ -143,9 +133,7 @@ class _Container extends StatelessWidget {
 }
 
 class _EditButton extends StatelessWidget {
-  const _EditButton({
-    this.onPressed,
-  });
+  const _EditButton({this.onPressed});
 
   final VoidCallback? onPressed;
 
@@ -163,9 +151,7 @@ class _EditButton extends StatelessWidget {
 }
 
 class _DoneButton extends StatelessWidget {
-  const _DoneButton({
-    required this.onPressed,
-  });
+  const _DoneButton({required this.onPressed});
 
   final VoidCallback onPressed;
 
@@ -183,9 +169,7 @@ class _DoneButton extends StatelessWidget {
 }
 
 class _ClearButton extends StatelessWidget {
-  const _ClearButton({
-    this.onPressed,
-  });
+  const _ClearButton({this.onPressed});
 
   final VoidCallback? onPressed;
 
@@ -223,15 +207,10 @@ class _ActionButton extends StatelessWidget {
         child: SizedBox(
           width: DimensSizeV2.d84,
           child: Padding(
-            padding: const EdgeInsets.symmetric(
-              vertical: DimensSizeV2.d14,
-            ),
+            padding: const EdgeInsets.symmetric(vertical: DimensSizeV2.d14),
             child: Align(
               alignment: Alignment.topCenter,
-              child: Text(
-                text,
-                style: textStyle,
-              ),
+              child: Text(text, style: textStyle),
             ),
           ),
         ),

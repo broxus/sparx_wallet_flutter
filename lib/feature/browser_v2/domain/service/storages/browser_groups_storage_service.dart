@@ -11,9 +11,7 @@ const _browserGroupsDomain = 'browser_groups';
 /// to interact with all browser tabs - related data.
 @singleton
 class BrowserGroupsStorageService extends AbstractStorageService {
-  BrowserGroupsStorageService(
-    @Named(container) this._groupsStorage,
-  );
+  BrowserGroupsStorageService(@Named(container) this._groupsStorage);
 
   static const container = _browserGroupsDomain;
   static const browserGroupsKey = 'browser_groups_key';
@@ -54,10 +52,7 @@ class BrowserGroupsStorageService extends AbstractStorageService {
       'isEditable': false,
     };
 
-    _groupsStorage.write(
-      browserGroupsKey,
-      [tabsGroup],
-    );
+    _groupsStorage.write(browserGroupsKey, [tabsGroup]);
 
     return [BrowserGroup.fromJson(tabsGroup)];
   }

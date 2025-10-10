@@ -21,11 +21,14 @@ class BrowserMainMenuWmParams {
 
 /// [WidgetModel] для [BrowserMainMenu]
 @injectable
-class BrowserMainMenuWidgetModel extends CustomWidgetModelParametrized<
-    BrowserMainMenu, BrowserMainMenuModel, BrowserMainMenuWmParams> {
-  BrowserMainMenuWidgetModel(
-    super.model,
-  );
+class BrowserMainMenuWidgetModel
+    extends
+        CustomWidgetModelParametrized<
+          BrowserMainMenu,
+          BrowserMainMenuModel,
+          BrowserMainMenuWmParams
+        > {
+  BrowserMainMenuWidgetModel(super.model);
 
   String get _groupId => wmParams.value.groupId;
   DoubleValueCallback<String, String> get _onPressedCreateTab =>

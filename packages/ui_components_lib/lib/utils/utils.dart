@@ -1,6 +1,5 @@
 import 'package:flutter/widgets.dart';
 import 'package:money2/money2.dart';
-import 'package:money2_fixer/money2_fixer.dart';
 
 extension StringUtils on String {
   /// For [TextOverflow.ellipsis] for better displaying with ellipsis
@@ -72,31 +71,27 @@ extension MoneyFormat on Money {
 
     if (currency.isoCode == 'USD') {
       if (d < 0.00001) {
-        return formatImproved(pattern: _moneyPattern(6));
+        return format(_moneyPattern(6));
       } else if (d < 0.0001) {
-        return formatImproved(pattern: _moneyPattern(5));
+        return format(_moneyPattern(5));
       } else if (d < 0.001) {
-        return formatImproved(pattern: _moneyPattern(4));
+        return format(_moneyPattern(4));
       } else if (d < 0.01) {
-        return formatImproved(pattern: _moneyPattern(3));
+        return format(_moneyPattern(3));
       }
 
-      return _formatThousands(
-        formatImproved(pattern: _moneyPattern(2)),
-      );
+      return _formatThousands(format(_moneyPattern(2)));
     }
 
     if (d < 0.00000001) {
-      return formatImproved(pattern: _moneyPattern(decimalDigits));
+      return format(_moneyPattern(decimalDigits));
     } else if (d < 1) {
-      return formatImproved(pattern: _moneyPattern(8));
+      return format(_moneyPattern(8));
     } else if (d < 1000) {
-      return formatImproved(pattern: _moneyPattern(4));
+      return format(_moneyPattern(4));
     }
 
-    return _formatThousands(
-      formatImproved(pattern: _moneyPattern(0)),
-    );
+    return _formatThousands(format(_moneyPattern(0)));
   }
 }
 
@@ -113,9 +108,7 @@ extension DoubleExt on double {
   }
 }
 
-const currencySymbolConfig = <String, String>{
-  'ccWTON': 'TON',
-};
+const currencySymbolConfig = <String, String>{'ccWTON': 'TON'};
 
 extension CurrencyExt on Currency {
   String get symbolFixed => currencySymbolConfig[isoCode] ?? symbol;

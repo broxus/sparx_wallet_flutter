@@ -25,9 +25,7 @@ class PrimaryBottomSheetContainer extends StatelessWidget {
       child: Column(
         children: [
           const _Label(),
-          Flexible(
-            child: child,
-          ),
+          Flexible(child: child),
         ],
       ),
     );

@@ -6,6 +6,7 @@ import 'package:flutter/foundation.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:injectable/injectable.dart';
 import 'package:logging/logging.dart';
+import 'package:money2/money2.dart';
 import 'package:nekoton_repository/nekoton_repository.dart';
 import 'package:rxdart/rxdart.dart';
 
@@ -24,10 +25,7 @@ class BalanceStorageService extends AbstractStorageService {
   static final _logger = Logger('BalanceStorageService');
   static const overallBalancesContainer = _overallBalancesDomain;
   static const balancesContainer = _balancesDomain;
-  static const containers = [
-    overallBalancesContainer,
-    balancesContainer,
-  ];
+  static const containers = [overallBalancesContainer, balancesContainer];
 
   /// Storage that is used to store data
   final GetStorage _overallBalancesStorage;
@@ -63,8 +61,7 @@ class BalanceStorageService extends AbstractStorageService {
   /// Stream that allows tracking overall balance changing
   Stream<Map<Address, Fixed>> getOverallBalancesStream(
     NetworkGroup networkGroup,
-  ) =>
-      _overallBalancesSubject.map((event) => event[networkGroup] ?? {});
+  ) => _overallBalancesSubject.map((event) => event[networkGroup] ?? {});
 
   /// Put overall balances into stream
   void _streamedOverallBalance() =>
@@ -76,12 +73,28 @@ class BalanceStorageService extends AbstractStorageService {
     final encoded = _overallBalancesStorage.getEntries();
 
     return encoded.entries
-        .map(
-          (entry) => (
-            _Key.fromString(entry.key),
-            FixedFixer.fromJsonImproved(entry.value as Map<String, dynamic>),
-          ),
-        )
+        .map((entry) {
+          try {
+            final value = entry.value;
+            final Fixed fixed;
+
+            // Handle both old money2_fixer and new money2 v6 JSON formats
+            if (value is Map<String, dynamic>) {
+              fixed = fixedFromJsonConverter.fromJson(value);
+            } else {
+              // Fallback: try parsing as string
+              fixed = Fixed.parse(value.toString());
+            }
+
+            return (_Key.fromString(entry.key), fixed);
+          } catch (e) {
+            _logger.warning(
+              'Failed to parse balance for ${entry.key}: ${entry.value}',
+            );
+            return null;
+          }
+        })
+        .whereType<(_Key, Fixed)>()
         .groupFoldBy<NetworkGroup, Map<Address, Fixed>>(
           (item) => item.$1.group,
           (prev, item) => (prev ?? {})..set(item.$1.address, item.$2),
@@ -97,7 +110,7 @@ class BalanceStorageService extends AbstractStorageService {
     try {
       _overallBalancesStorage.write(
         _Key(group: group, address: accountAddress).toString(),
-        balance.toJsonImproved(),
+        fixedFromJsonConverter.toJson(balance),
       );
       _streamedOverallBalance();
     } catch (e, t) {
@@ -108,8 +121,10 @@ class BalanceStorageService extends AbstractStorageService {
   /// Subject for token balances for accounts
   /// key - address of account, value - list of balances for tokens in scope of
   /// this account.
-  final _balancesSubject = BehaviorSubject<
-      ByNetwork<Map<Address, List<AccountBalanceModel>>>>.seeded({});
+  final _balancesSubject =
+      BehaviorSubject<
+        ByNetwork<Map<Address, List<AccountBalanceModel>>>
+      >.seeded({});
 
   /// Get cached token balances for accounts
   /// key - address of account, value - list of balances for tokens in scope of
@@ -120,8 +135,7 @@ class BalanceStorageService extends AbstractStorageService {
   /// Stream that allows tracking token balances for accounts
   Stream<Map<Address, List<AccountBalanceModel>>> getBalancesStream(
     NetworkGroup group,
-  ) =>
-      _balancesSubject.map((event) => event[group] ?? {});
+  ) => _balancesSubject.map((event) => event[group] ?? {});
 
   /// Put token balances for accounts into stream
   void _streamedBalance() => _balancesSubject.add(readBalances());
@@ -133,18 +147,35 @@ class BalanceStorageService extends AbstractStorageService {
     final encoded = _balancesStorage.getEntries();
 
     return encoded.entries
-        .map(
-          (entry) => (
-            _Key.fromString(entry.key),
-            (entry.value as List<dynamic>)
-                .map(
-                  (e) => AccountBalanceModel.fromJson(
-                    e as Map<String, dynamic>,
-                  ),
-                )
-                .toList(),
-          ),
-        )
+        .map((entry) {
+          try {
+            final balances = (entry.value as List<dynamic>)
+                .map((e) {
+                  try {
+                    return AccountBalanceModel.fromJson(
+                      e as Map<String, dynamic>,
+                    );
+                  } catch (e) {
+                    _logger.warning(
+                      'Failed to parse balance entry: $e. '
+                      'Skipping invalid entry.',
+                    );
+                    return null;
+                  }
+                })
+                .whereType<AccountBalanceModel>()
+                .toList();
+
+            return (_Key.fromString(entry.key), balances);
+          } catch (e) {
+            _logger.warning(
+              'Failed to parse balances for ${entry.key}: $e. '
+              'Skipping invalid entry.',
+            );
+            return null;
+          }
+        })
+        .whereType<(_Key, List<AccountBalanceModel>)>()
         .groupFoldBy<NetworkGroup, Map<Address, List<AccountBalanceModel>>>(
           (item) => item.$1.group,
           (prev, item) => (prev ?? {})..set(item.$1.address, item.$2),
@@ -185,10 +216,7 @@ class BalanceStorageService extends AbstractStorageService {
 
 @immutable
 class _Key {
-  const _Key({
-    required this.group,
-    required this.address,
-  });
+  const _Key({required this.group, required this.address});
 
   factory _Key.fromString(String value) {
     final parts = value.split('::');

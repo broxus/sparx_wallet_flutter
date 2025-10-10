@@ -29,10 +29,7 @@ abstract interface class BrowserTabsAndGroupsUi {
 
   void addTab();
 
-  void changeTab({
-    required String groupId,
-    required String tabId,
-  });
+  void changeTab({required String groupId, required String tabId});
 }
 
 class BrowserTabsAndGroupsUiDelegate implements BrowserTabsAndGroupsUi {
@@ -78,7 +75,7 @@ class BrowserTabsAndGroupsUiDelegate implements BrowserTabsAndGroupsUi {
 
   @override
   ListenableState<List<NotNullListenableState<BrowserTab>>?>
-      get viewTabsState => _viewTabsState;
+  get viewTabsState => _viewTabsState;
 
   @override
   ListenableState<String?> get hostState => model.activeTabUrlHostState;
@@ -105,18 +102,12 @@ class BrowserTabsAndGroupsUiDelegate implements BrowserTabsAndGroupsUi {
   }
 
   @override
-  void changeTab({
-    required String groupId,
-    required String tabId,
-  }) {
+  void changeTab({required String groupId, required String tabId}) {
     final data = renderManager.getRenderData(tabId);
 
     if (tabId == _activeTab?.id) {
       _tabAnimationTypeState.accept(
-        ShowViewAnimationType(
-          tabX: data?.xLeft,
-          tabY: data?.yTop,
-        ),
+        ShowViewAnimationType(tabX: data?.xLeft, tabY: data?.yTop),
       );
     } else {
       model
@@ -158,24 +149,12 @@ class BrowserTabsAndGroupsUiDelegate implements BrowserTabsAndGroupsUi {
     _tabAnimationTypeState.accept(null);
   }
 
-  int? getTabIndexById({
-    required String groupId,
-    required String tabId,
-  }) {
-    return model.getTabIndex(
-      groupId: groupId,
-      tabId: tabId,
-    );
+  int? getTabIndexById({required String groupId, required String tabId}) {
+    return model.getTabIndex(groupId: groupId, tabId: tabId);
   }
 
-  String? getIdByIndex({
-    required String groupId,
-    required int index,
-  }) =>
-      model.getTabIdByIndex(
-        groupId: groupId,
-        index: index,
-      );
+  String? getIdByIndex({required String groupId, required int index}) =>
+      model.getTabIdByIndex(groupId: groupId, index: index);
 
   @override
   Future<void> onCloseAllPressed() async {
@@ -204,10 +183,7 @@ class BrowserTabsAndGroupsUiDelegate implements BrowserTabsAndGroupsUi {
     final data = id == null ? null : renderManager.getRenderData(id);
 
     _tabAnimationTypeState.accept(
-      ShowViewAnimationType(
-        tabX: data?.xLeft,
-        tabY: data?.yTop,
-      ),
+      ShowViewAnimationType(tabX: data?.xLeft, tabY: data?.yTop),
     );
   }
 
@@ -216,10 +192,7 @@ class BrowserTabsAndGroupsUiDelegate implements BrowserTabsAndGroupsUi {
     final data = id == null ? null : renderManager.getRenderData(id);
 
     _tabAnimationTypeState.accept(
-      ShowTabsAnimationType(
-        tabX: data?.xLeft,
-        tabY: data?.yTop,
-      ),
+      ShowTabsAnimationType(tabX: data?.xLeft, tabY: data?.yTop),
     );
   }
 
@@ -229,9 +202,7 @@ class BrowserTabsAndGroupsUiDelegate implements BrowserTabsAndGroupsUi {
     String? originalGroupId,
   }) async {
     final groupName = await context.compassPush<String?>(
-      CreateBrowserGroupRouteData(
-        tabId: tabId,
-      ),
+      CreateBrowserGroupRouteData(tabId: tabId),
     );
 
     if (groupName == null) {
@@ -290,10 +261,7 @@ class BrowserTabsAndGroupsUiDelegate implements BrowserTabsAndGroupsUi {
       onUpdateActiveTab(false);
 
       _tabAnimationTypeState.accept(
-        ShowViewAnimationType(
-          tabX: data?.xLeft,
-          tabY: data?.yTop,
-        ),
+        ShowViewAnimationType(tabX: data?.xLeft, tabY: data?.yTop),
       );
 
       onChangeTab();

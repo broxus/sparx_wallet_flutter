@@ -13,8 +13,12 @@ import 'package:ui_components_lib/v2/ui_components_lib_v2.dart';
 ///
 /// !!! TokenWallet transactions should be displayed in a separate tab,
 /// specified for asset.
-class AccountTransactionsTab extends InjectedElementaryParametrizedWidget<
-    AccountTransactionsTabWidgetModel, AccountTransactionsTabWmParams> {
+class AccountTransactionsTab
+    extends
+        InjectedElementaryParametrizedWidget<
+          AccountTransactionsTabWidgetModel,
+          AccountTransactionsTabWmParams
+        > {
   AccountTransactionsTab({
     required this.account,
     required this.scrollController,
@@ -33,33 +37,33 @@ class AccountTransactionsTab extends InjectedElementaryParametrizedWidget<
 
         return switch (state) {
           AccountTransactionsUiLoading() => SliverToBoxAdapter(
-              child: ProgressIndicatorWidget(
-                size: DimensSizeV2.d32,
-                color: theme.colors.content0,
-              ),
+            child: ProgressIndicatorWidget(
+              size: DimensSizeV2.d32,
+              color: theme.colors.content0,
             ),
+          ),
           AccountTransactionsUiEmpty() => SliverToBoxAdapter(
-              child: Padding(
-                padding: const EdgeInsets.symmetric(vertical: DimensSizeV2.d24),
-                child: SeparatedColumn(
-                  spacing: DimensSizeV2.d12,
-                  children: [
-                    SvgPicture.asset(
-                      Assets.images.lightning.path,
-                      colorFilter: theme.colors.content3.colorFilter,
-                      width: DimensSizeV2.d56,
-                      height: DimensSizeV2.d56,
+            child: Padding(
+              padding: const EdgeInsets.symmetric(vertical: DimensSizeV2.d24),
+              child: SeparatedColumn(
+                spacing: DimensSizeV2.d12,
+                children: [
+                  SvgPicture.asset(
+                    Assets.images.lightning.path,
+                    colorFilter: theme.colors.content3.colorFilter,
+                    width: DimensSizeV2.d56,
+                    height: DimensSizeV2.d56,
+                  ),
+                  Text(
+                    LocaleKeys.emptyHistoryTitle.tr(),
+                    style: theme.textStyles.paragraphSmall.copyWith(
+                      color: theme.colors.content1,
                     ),
-                    Text(
-                      LocaleKeys.emptyHistoryTitle.tr(),
-                      style: theme.textStyles.paragraphSmall.copyWith(
-                        color: theme.colors.content1,
-                      ),
-                    ),
-                  ],
-                ),
+                  ),
+                ],
               ),
             ),
+          ),
           AccountTransactionsUiData(
             :final transactions,
             :final isLoading,
@@ -88,12 +92,7 @@ class AccountTransactionsTab extends InjectedElementaryParametrizedWidget<
                   final isLast =
                       next == null || !next.date.isSameDay(trans.date);
 
-                  return _transactionItem(
-                    trans,
-                    isFirst,
-                    isLast,
-                    price,
-                  );
+                  return _transactionItem(trans, isFirst, isLast, price);
                 },
               ),
             ),
@@ -111,21 +110,21 @@ class AccountTransactionsTab extends InjectedElementaryParametrizedWidget<
   ) {
     return switch (trans.type) {
       AccountTransactionType.ordinary => TonWalletOrdinaryTransactionWidget(
-          transaction: trans.transaction as TonWalletOrdinaryTransaction,
-          isFirst: isFirst,
-          isLast: isLast,
-          price: price,
-        ),
+        transaction: trans.transaction as TonWalletOrdinaryTransaction,
+        isFirst: isFirst,
+        isLast: isLast,
+        price: price,
+      ),
       AccountTransactionType.pending => TonWalletPendingTransactionWidget(
-          transaction: trans.transaction as TonWalletPendingTransaction,
-          isFirst: isFirst,
-          isLast: isLast,
-        ),
+        transaction: trans.transaction as TonWalletPendingTransaction,
+        isFirst: isFirst,
+        isLast: isLast,
+      ),
       AccountTransactionType.expired => TonWalletExpiredTransactionWidget(
-          transaction: trans.transaction as TonWalletExpiredTransaction,
-          isFirst: isFirst,
-          isLast: isLast,
-        ),
+        transaction: trans.transaction as TonWalletExpiredTransaction,
+        isFirst: isFirst,
+        isLast: isLast,
+      ),
       AccountTransactionType.multisigOrdinary =>
         TonWalletMultisigOrdinaryTransactionWidget(
           transaction:

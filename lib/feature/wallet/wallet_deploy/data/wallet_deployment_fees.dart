@@ -1,9 +1,6 @@
 /// Contains fee and balance information for wallet deployment
 class WalletDeploymentFees {
-  const WalletDeploymentFees({
-    required this.fee,
-    required this.balance,
-  });
+  const WalletDeploymentFees({required this.fee, required this.balance});
 
   final BigInt fee;
   final BigInt balance;

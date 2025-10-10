@@ -5,7 +5,6 @@ import 'package:injectable/injectable.dart';
 /// [ElementaryModel] for [BrowserBook]
 @injectable
 class BrowserBookModel extends ElementaryModel {
-  BrowserBookModel(
-    ErrorHandler errorHandler,
-  ) : super(errorHandler: errorHandler);
+  BrowserBookModel(ErrorHandler errorHandler)
+    : super(errorHandler: errorHandler);
 }

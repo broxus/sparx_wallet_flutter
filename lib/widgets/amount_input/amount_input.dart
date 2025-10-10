@@ -147,8 +147,9 @@ class _AmountInputState extends State<AmountInput> {
   Widget _fieldBuilder(FormFieldState<String> state) {
     final theme = state.context.themeStyleV2;
     final inputStyle = theme.textStyles.headingLarge.copyWith(
-      color:
-          state.hasError ? theme.colors.contentNegative : theme.colors.content0,
+      color: state.hasError
+          ? theme.colors.contentNegative
+          : theme.colors.content0,
     );
     final price = Fixed.parse(widget.selectedAsset?.currency?.price ?? '0');
 
@@ -172,9 +173,7 @@ class _AmountInputState extends State<AmountInput> {
               hintText: '0',
               hintStyle: inputStyle,
             ),
-            keyboardType: const TextInputType.numberWithOptions(
-              decimal: true,
-            ),
+            keyboardType: const TextInputType.numberWithOptions(decimal: true),
             inputFormatters: _formatter?.let((formatter) => [formatter]),
             fullwidth: false,
             onChanged: state.didChange,
@@ -214,7 +213,9 @@ class _AmountInputState extends State<AmountInput> {
         widget.selectedAsset!.balance.currency,
         emptyError: LocaleKeys.amountIsEmpty.tr(),
         error: LocaleKeys.amountIsWrong.tr(),
-        max: isDisableByInsufficent ? Fixed.fromNum(-1, scale: 0) : amount,
+        max: isDisableByInsufficent
+            ? Fixed.fromNum(-1, decimalDigits: 0)
+            : amount,
         maxError: LocaleKeys.insufficientFunds.tr(),
         decimalSeparators: ['.', ','],
       );

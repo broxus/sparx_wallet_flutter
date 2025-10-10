@@ -24,6 +24,5 @@ class TonWalletMultisigPendingTransactionDetailsScreenModel
   Future<TokenWalletState> getTokenWallet({
     required Address owner,
     required Address tokenRootContract,
-  }) =>
-      _nekotonRepository.getTokenWallet(owner, tokenRootContract);
+  }) => _nekotonRepository.getTokenWallet(owner, tokenRootContract);
 }

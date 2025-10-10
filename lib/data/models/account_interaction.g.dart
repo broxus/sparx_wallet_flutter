@@ -10,8 +10,10 @@ _AccountInteraction _$AccountInteractionFromJson(Map<String, dynamic> json) =>
     _AccountInteraction(
       address: Address.fromJson(json['address'] as String),
       publicKey: PublicKey.fromJson(json['publicKey'] as String),
-      contractType:
-          $enumDecode(_$WalletContractTypeEnumMap, json['contractType']),
+      contractType: $enumDecode(
+        _$WalletContractTypeEnumMap,
+        json['contractType'],
+      ),
     );
 
 Map<String, dynamic> _$AccountInteractionToJson(_AccountInteraction instance) =>

@@ -37,9 +37,7 @@ class BookmarkListItem extends StatelessWidget {
           prefix: Padding(
             padding: const EdgeInsets.only(right: DimensSizeV2.d20),
             child: _CrossAnimation(
-              first: _RemoveLabel(
-                onPressed: onPressedRemove,
-              ),
+              first: _RemoveLabel(onPressed: onPressedRemove),
               second: const SizedBox.shrink(),
               isShowFirst: editValue != EditValue.none,
             ),
@@ -94,9 +92,7 @@ class HistoryListItem extends StatelessWidget {
           prefix: Padding(
             padding: const EdgeInsets.only(right: DimensSizeV2.d20),
             child: _CrossAnimation(
-              first: _RemoveLabel(
-                onPressed: onPressedRemove,
-              ),
+              first: _RemoveLabel(onPressed: onPressedRemove),
               second: const SizedBox.shrink(),
               isShowFirst: isEdit,
             ),
@@ -210,9 +206,7 @@ class _Content extends StatelessWidget {
 }
 
 class _RemoveLabel extends StatelessWidget {
-  const _RemoveLabel({
-    required this.onPressed,
-  });
+  const _RemoveLabel({required this.onPressed});
 
   final VoidCallback onPressed;
 
@@ -262,10 +256,7 @@ class _DragLabel extends StatelessWidget {
           ),
         ),
         child: const Center(
-          child: Icon(
-            LucideIcons.equal,
-            size: DimensSizeV2.d16,
-          ),
+          child: Icon(LucideIcons.equal, size: DimensSizeV2.d16),
         ),
       ),
     );
@@ -288,8 +279,9 @@ class _CrossAnimation extends StatelessWidget {
     return AnimatedCrossFade(
       firstChild: first,
       secondChild: second,
-      crossFadeState:
-          isShowFirst ? CrossFadeState.showFirst : CrossFadeState.showSecond,
+      crossFadeState: isShowFirst
+          ? CrossFadeState.showFirst
+          : CrossFadeState.showSecond,
       duration: const Duration(milliseconds: 250),
     );
   }

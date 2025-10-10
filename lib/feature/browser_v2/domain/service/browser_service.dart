@@ -87,10 +87,7 @@ class BrowserService {
     _bookmarksDelegate.createBrowserBookmark(item.url, item.title);
   }
 
-  Future<void> permissionsChanged(
-    String tabId,
-    PermissionsChangedEvent event,
-  ) {
+  Future<void> permissionsChanged(String tabId, PermissionsChangedEvent event) {
     return _tabsDelegate.permissionsChanged(tabId, event);
   }
 

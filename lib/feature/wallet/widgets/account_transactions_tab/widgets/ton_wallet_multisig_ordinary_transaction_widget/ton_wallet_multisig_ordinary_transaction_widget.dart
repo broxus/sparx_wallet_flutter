@@ -4,12 +4,15 @@ import 'package:app/feature/wallet/widgets/account_transactions_tab/widgets/ton_
 import 'package:app/feature/wallet/widgets/account_transactions_tab/widgets/ton_wallet_transaction_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:lucide_icons_flutter/lucide_icons.dart';
+import 'package:money2/money2.dart';
 import 'package:nekoton_repository/nekoton_repository.dart';
 
 class TonWalletMultisigOrdinaryTransactionWidget
-    extends InjectedElementaryParametrizedWidget<
-        TonWalletMultisigOrdinaryTransactionWidgetWidgetModel,
-        TonWalletMultisigOrdinaryTransactionParams> {
+    extends
+        InjectedElementaryParametrizedWidget<
+          TonWalletMultisigOrdinaryTransactionWidgetWidgetModel,
+          TonWalletMultisigOrdinaryTransactionParams
+        > {
   TonWalletMultisigOrdinaryTransactionWidget({
     required TonWalletMultisigOrdinaryTransaction transaction,
     required Fixed price,
@@ -18,14 +21,14 @@ class TonWalletMultisigOrdinaryTransactionWidget
     required KeyAccount account,
     super.key,
   }) : super(
-          wmFactoryParam: TonWalletMultisigOrdinaryTransactionParams(
-            transaction: transaction,
-            price: price,
-            isFirst: isFirst,
-            isLast: isLast,
-            account: account,
-          ),
-        );
+         wmFactoryParam: TonWalletMultisigOrdinaryTransactionParams(
+           transaction: transaction,
+           price: price,
+           isFirst: isFirst,
+           isLast: isLast,
+           account: account,
+         ),
+       );
 
   @override
   Widget build(TonWalletMultisigOrdinaryTransactionWidgetWidgetModel wm) {

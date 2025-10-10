@@ -12,18 +12,22 @@ import 'package:ui_components_lib/ui_components_lib.dart';
 /// {@template create_seed_password_onboarding_page}
 /// Entry point to create seed password from onboarding.
 /// {@endtemplate}
-class CreateSeedPasswordScreen extends InjectedElementaryParametrizedWidget<
-    CreateSeedPasswordScreenWidgetModel, CreateSeedPasswordWmParams> {
+class CreateSeedPasswordScreen
+    extends
+        InjectedElementaryParametrizedWidget<
+          CreateSeedPasswordScreenWidgetModel,
+          CreateSeedPasswordWmParams
+        > {
   CreateSeedPasswordScreen({
     required SeedPhraseModel? phrase,
     required MnemonicType? mnemonicType,
     super.key,
   }) : super(
-          wmFactoryParam: CreateSeedPasswordWmParams(
-            phrase: phrase,
-            mnemonicType: mnemonicType,
-          ),
-        );
+         wmFactoryParam: CreateSeedPasswordWmParams(
+           phrase: phrase,
+           mnemonicType: mnemonicType,
+         ),
+       );
 
   @override
   Widget build(CreateSeedPasswordScreenWidgetModel wm) {

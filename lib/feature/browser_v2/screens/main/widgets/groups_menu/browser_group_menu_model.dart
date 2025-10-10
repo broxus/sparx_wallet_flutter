@@ -9,10 +9,8 @@ import 'package:injectable/injectable.dart';
 /// [ElementaryModel] for [BrowserGroupMenu]
 @injectable
 class BrowserGroupMenuModel extends ElementaryModel {
-  BrowserGroupMenuModel(
-    ErrorHandler errorHandler,
-    this._browserService,
-  ) : super(errorHandler: errorHandler);
+  BrowserGroupMenuModel(ErrorHandler errorHandler, this._browserService)
+    : super(errorHandler: errorHandler);
 
   final BrowserService _browserService;
 
@@ -32,18 +30,10 @@ class BrowserGroupMenuModel extends ElementaryModel {
   }
 
   void createBrowserGroup(String name) =>
-      _browserService.tab.createBrowserGroup(
-        name: name,
-      );
+      _browserService.tab.createBrowserGroup(name: name);
 
-  void updateGroupName({
-    required String groupId,
-    required String name,
-  }) {
-    _browserService.tab.updateGroupName(
-      groupId: groupId,
-      name: name,
-    );
+  void updateGroupName({required String groupId, required String name}) {
+    _browserService.tab.updateGroupName(groupId: groupId, name: name);
   }
 
   void removeGroup(String groupId) {
@@ -52,6 +42,5 @@ class BrowserGroupMenuModel extends ElementaryModel {
 
   NotNullListenableState<BrowserGroup>? getGroupListenableById(
     String groupId,
-  ) =>
-      _browserService.tab.getGroupListenableById(groupId);
+  ) => _browserService.tab.getGroupListenableById(groupId);
 }

@@ -11,9 +11,7 @@ import 'package:injectable/injectable.dart';
 @injectable
 class BrowserBookWidgetModel
     extends CustomWidgetModel<BrowserBook, BrowserBookModel> {
-  BrowserBookWidgetModel(
-    super.model,
-  );
+  BrowserBookWidgetModel(super.model);
 
   late final _tabBarState = createNotifier<BrowserBookTabBarValue>(
     BrowserBookTabBarValue.bookMarks,

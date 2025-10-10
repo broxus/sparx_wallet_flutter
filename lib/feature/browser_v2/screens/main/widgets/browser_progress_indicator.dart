@@ -21,10 +21,7 @@ class BrowserProgressIndicator extends StatefulWidget {
 }
 
 class _BrowserProgressIndicatorState extends State<BrowserProgressIndicator> {
-  late final _painter = CoderPainter(
-    widget.animation,
-    ColorsResV2.p75,
-  );
+  late final _painter = CoderPainter(widget.animation, ColorsResV2.p75);
 
   @override
   Widget build(BuildContext context) {
@@ -33,17 +30,12 @@ class _BrowserProgressIndicatorState extends State<BrowserProgressIndicator> {
         listenableState: widget.menuState,
         builder: (_, MenuType? type) {
           return Transform.translate(
-            offset: Offset(
-              0,
-              switch (type) {
-                MenuType.view => -BrowserPageControlPanel.minHeight,
-                MenuType.url => -HostPanel.height,
-                _ => 500,
-              },
-            ),
-            child: CustomPaint(
-              painter: _painter,
-            ),
+            offset: Offset(0, switch (type) {
+              MenuType.view => -BrowserPageControlPanel.minHeight,
+              MenuType.url => -HostPanel.height,
+              _ => 500,
+            }),
+            child: CustomPaint(painter: _painter),
           );
         },
       ),
@@ -52,10 +44,7 @@ class _BrowserProgressIndicatorState extends State<BrowserProgressIndicator> {
 }
 
 class CoderPainter extends CustomPainter {
-  CoderPainter(
-    this.animation,
-    Color _color,
-  ) : super(repaint: animation) {
+  CoderPainter(this.animation, Color _color) : super(repaint: animation) {
     _paint.color = _color;
   }
 
@@ -66,10 +55,7 @@ class CoderPainter extends CustomPainter {
   void paint(Canvas canvas, Size size) {
     canvas.drawLine(
       Offset.zero,
-      Offset(
-        animation.value == 1 ? 0 : size.width * animation.value,
-        0,
-      ),
+      Offset(animation.value == 1 ? 0 : size.width * animation.value, 0),
       _paint,
     );
   }

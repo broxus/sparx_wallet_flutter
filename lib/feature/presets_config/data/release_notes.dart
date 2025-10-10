@@ -19,17 +19,12 @@ abstract class ReleaseNotes with _$ReleaseNotes {
   factory ReleaseNotes.fromJson(Map<String, dynamic> json) {
     return ReleaseNotes(
       notes: json.map(
-        (k, e) => MapEntry(
-          k,
-          ReleaseNote.fromJson(e as Map<String, dynamic>),
-        ),
+        (k, e) => MapEntry(k, ReleaseNote.fromJson(e as Map<String, dynamic>)),
       ),
     );
   }
 
   Map<String, dynamic> toJson() {
-    return notes.map(
-      (k, e) => MapEntry(k, e.toJson()),
-    );
+    return notes.map((k, e) => MapEntry(k, e.toJson()));
   }
 }

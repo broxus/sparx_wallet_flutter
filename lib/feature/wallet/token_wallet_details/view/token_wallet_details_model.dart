@@ -3,6 +3,7 @@ import 'package:app/data/models/models.dart';
 import 'package:app/feature/wallet/token_wallet_send/token_wallet_send.dart';
 import 'package:elementary/elementary.dart';
 import 'package:injectable/injectable.dart';
+import 'package:money2/money2.dart';
 import 'package:nekoton_repository/nekoton_repository.dart' hide Message;
 
 @injectable
@@ -27,16 +28,15 @@ class TokenWalletDetailsModel extends ElementaryModel {
   KeyAccount? findAccountByAddress(Address owner) =>
       _nekotonRepository.seedList.findAccountByAddress(owner);
 
-  SeedKey findMasterKeyByAccount(KeyAccount keyAccount) =>
-      _nekotonRepository.seedList
-          .findSeedByAnyPublicKey(keyAccount.publicKey)!
-          .masterKey;
+  SeedKey findMasterKeyByAccount(KeyAccount keyAccount) => _nekotonRepository
+      .seedList
+      .findSeedByAnyPublicKey(keyAccount.publicKey)!
+      .masterKey;
 
   TokenContractAsset? maybeGetTokenContract(
     Address rootTokenContract,
     TransportStrategy transport,
-  ) =>
-      _assetsService.maybeGetTokenContract(rootTokenContract, transport);
+  ) => _assetsService.maybeGetTokenContract(rootTokenContract, transport);
 
   Stream<List<TokenWalletState>> get tokenWalletsStream =>
       _nekotonRepository.tokenWalletsStream;
@@ -44,8 +44,7 @@ class TokenWalletDetailsModel extends ElementaryModel {
   Future<void> retryTokenSubscription(
     Address owner,
     Address rootTokenContract,
-  ) =>
-      _nekotonRepository.retryTokenSubscription(owner, rootTokenContract);
+  ) => _nekotonRepository.retryTokenSubscription(owner, rootTokenContract);
 
   Future<List<PublicKey>?> getLocalCustodians(Address owner) async {
     try {
@@ -61,18 +60,16 @@ class TokenWalletDetailsModel extends ElementaryModel {
   Stream<Fixed> tokenWalletBalanceStream({
     required Address owner,
     required Address rootTokenContract,
-  }) =>
-      _balanceService.tokenWalletBalanceStream(
-        owner: owner,
-        rootTokenContract: rootTokenContract,
-      );
+  }) => _balanceService.tokenWalletBalanceStream(
+    owner: owner,
+    rootTokenContract: rootTokenContract,
+  );
 
   Future<bool> isGaslessAvailable({
     required KeyAccount keyAccount,
     required Address rootTokenContract,
-  }) =>
-      _tokenTransferDelegateProvider.isGaslessAvailable(
-        keyAccount: keyAccount,
-        rootTokenContract: rootTokenContract,
-      );
+  }) => _tokenTransferDelegateProvider.isGaslessAvailable(
+    keyAccount: keyAccount,
+    rootTokenContract: rootTokenContract,
+  );
 }

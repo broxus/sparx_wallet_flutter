@@ -9,14 +9,12 @@ import 'package:injectable/injectable.dart';
 class WalletDeployStatusRoute
     extends CompassRoute<WalletDeployStatusRouteData> {
   WalletDeployStatusRoute()
-      : super(
-          path: '/wallet-deploy-status',
-          builder: (context, data, _) {
-            return WalletDeployStatusScreen(
-              routeData: data,
-            );
-          },
-        );
+    : super(
+        path: '/wallet-deploy-status',
+        builder: (context, data, _) {
+          return WalletDeployStatusScreen(routeData: data);
+        },
+      );
 
   @override
   WalletDeployStatusRouteData fromQueryParams(Map<String, String> queryParams) {
@@ -33,7 +31,7 @@ class WalletDeployStatusRoute
       publicKey: queryParams['publicKey'] ?? '',
       deployType:
           WalletDeployType.values.byNameOrNull(queryParams['deployType']) ??
-              WalletDeployType.standard,
+          WalletDeployType.standard,
       custodians: queryParams['custodians'],
       requireConfirmations: requireConfirmations,
       hours: hours,

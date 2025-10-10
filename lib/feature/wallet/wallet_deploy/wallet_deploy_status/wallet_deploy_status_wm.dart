@@ -10,10 +10,13 @@ import 'package:logging/logging.dart';
 import 'package:nekoton_repository/nekoton_repository.dart';
 
 @injectable
-class WalletDeployStatusWidgetModel extends CustomWidgetModelParametrized<
-    WalletDeployStatusScreen,
-    WalletDeployStatusModel,
-    WalletDeployStatusRouteData> {
+class WalletDeployStatusWidgetModel
+    extends
+        CustomWidgetModelParametrized<
+          WalletDeployStatusScreen,
+          WalletDeployStatusModel,
+          WalletDeployStatusRouteData
+        > {
   WalletDeployStatusWidgetModel(super.model);
 
   final _logger = Logger('WalletDeployStatusWidgetModel');
@@ -38,11 +41,11 @@ class WalletDeployStatusWidgetModel extends CustomWidgetModelParametrized<
 
       final custodians =
           routeData.custodians != null && routeData.custodians!.isNotEmpty
-              ? routeData.custodians!
-                  .split(',')
-                  .map((e) => PublicKey(publicKey: e))
-                  .toList()
-              : null;
+          ? routeData.custodians!
+                .split(',')
+                .map((e) => PublicKey(publicKey: e))
+                .toList()
+          : null;
 
       await model.executeDeploy(
         address: Address(address: routeData.address),
@@ -71,9 +74,7 @@ class WalletDeployStatusWidgetModel extends CustomWidgetModelParametrized<
 
   void navigateToWallet() {
     model.clearDeploymentData();
-    context.compassPoint(
-      const WalletRouteData(),
-    );
+    context.compassPoint(const WalletRouteData());
   }
 
   void onRetry() {

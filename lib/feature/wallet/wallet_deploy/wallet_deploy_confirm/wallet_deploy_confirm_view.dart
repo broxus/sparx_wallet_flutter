@@ -91,12 +91,13 @@ class WalletDeployConfirmView extends StatelessWidget {
                     ),
                     iconPath: tonIconPath,
                     convertedValueWidget: AmountWidget.dollars(
-                      amount: Money.fromBigIntWithCurrency(
-                        balance ?? BigInt.zero,
-                        currency!,
-                      ).exchangeToUSD(
-                        Fixed.parse(customCurrency?.price ?? '0'),
-                      ),
+                      amount:
+                          Money.fromBigIntWithCurrency(
+                            balance ?? BigInt.zero,
+                            currency!,
+                          ).exchangeToUSD(
+                            Fixed.parse(customCurrency?.price ?? '0'),
+                          ),
                       style: theme.textStyles.labelXSmall.copyWith(
                         color: theme.colors.content3,
                       ),
@@ -116,13 +117,14 @@ class WalletDeployConfirmView extends StatelessWidget {
                     ),
                     iconPath: tonIconPath,
                     convertedValueWidget: AmountWidget.dollars(
-                      amount: Money.fromBigIntWithCurrency(
-                        fee ?? BigInt.zero,
-                        currency!,
-                      ).exchangeToUSD(
-                        Fixed.parse(customCurrency?.price ?? '0'),
-                        5,
-                      ),
+                      amount:
+                          Money.fromBigIntWithCurrency(
+                            fee ?? BigInt.zero,
+                            currency!,
+                          ).exchangeToUSD(
+                            Fixed.parse(customCurrency?.price ?? '0'),
+                            5,
+                          ),
                       style: theme.textStyles.labelXSmall.copyWith(
                         color: theme.colors.content3,
                       ),
@@ -172,14 +174,16 @@ class WalletDeployConfirmView extends StatelessWidget {
             top: DimensSize.d16,
           ),
           child: EnterPasswordWidget.auth(
-            getLedgerAuthInput:
-                ledgerAuthInput != null ? () => ledgerAuthInput! : null,
+            getLedgerAuthInput: ledgerAuthInput != null
+                ? () => ledgerAuthInput!
+                : null,
             title: LocaleKeys.deployWord.tr(),
             publicKey: publicKey,
             isLoading: isLoading,
             isDisabled: feeError != null || fee == null,
-            onConfirmed:
-                onConfirmed != null ? (auth) => onConfirmed!(auth) : (_) {},
+            onConfirmed: onConfirmed != null
+                ? (auth) => onConfirmed!(auth)
+                : (_) {},
           ),
         ),
       ],

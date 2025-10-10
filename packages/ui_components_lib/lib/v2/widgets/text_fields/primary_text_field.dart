@@ -102,11 +102,9 @@ class PrimaryTextField extends StatelessWidget {
       borderRadius: radius,
       height: height ?? sizeType.height,
       errorType: errorType,
-      contentPadding: contentPadding ??
-          const EdgeInsets.only(
-            left: DimensSize.d16,
-            right: DimensSize.d4,
-          ),
+      contentPadding:
+          contentPadding ??
+          const EdgeInsets.only(left: DimensSize.d16, right: DimensSize.d4),
       prefixIcon: labelText == null
           ? null
           : Padding(
@@ -123,7 +121,8 @@ class PrimaryTextField extends StatelessWidget {
               ),
             ),
       isAutofocus: isAutofocus,
-      textStyle: textStyle ??
+      textStyle:
+          textStyle ??
           themeStyle.textStyles.labelSmall.copyWith(
             color: themeStyle.colors.content0,
             height: 1,
@@ -132,10 +131,9 @@ class PrimaryTextField extends StatelessWidget {
         color: themeStyle.colors.contentNegative,
       ),
       errorInlineIcon: Padding(
-        padding: errorInlineIconPadding ??
-            const EdgeInsets.symmetric(
-              horizontal: DimensSize.d14,
-            ),
+        padding:
+            errorInlineIconPadding ??
+            const EdgeInsets.symmetric(horizontal: DimensSize.d14),
         child: Center(
           child: Icon(
             LucideIcons.triangleAlert,

@@ -39,15 +39,18 @@ class _RootViewState extends State<RootView> {
     super.initState();
 
     WidgetsBinding.instance.addPostFrameCallback((_) {
-      _tonConnectLinkSubs =
-          _appLinksService.tonConnecLinksData.listen(_onTonConnectAppLink);
+      _tonConnectLinkSubs = _appLinksService.tonConnecLinksData.listen(
+        _onTonConnectAppLink,
+      );
     });
 
-    _uiEventsSubscription =
-        _tonConnectService.uiEventsStream.listen(_onUiEvent);
+    _uiEventsSubscription = _tonConnectService.uiEventsStream.listen(
+      _onUiEvent,
+    );
 
-    _ledgerInteractionSubscription =
-        _ledgerService.interactionStream.listen(_onLedgerInteraction);
+    _ledgerInteractionSubscription = _ledgerService.interactionStream.listen(
+      _onLedgerInteraction,
+    );
   }
 
   @override
@@ -81,8 +84,8 @@ class _RootViewState extends State<RootView> {
   Future<void> _onUiEvent(TonConnectUiEvent event) async {
     return switch (event) {
       TonConnectUiEventError(:final message) => _messengerService.show(
-          Message.error(message: message),
-        ),
+        Message.error(message: message),
+      ),
       TonConnectUiEventConnect(
         :final request,
         :final manifest,

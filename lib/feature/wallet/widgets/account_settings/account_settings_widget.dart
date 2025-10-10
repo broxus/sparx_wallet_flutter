@@ -11,8 +11,12 @@ import 'package:nekoton_repository/nekoton_repository.dart';
 import 'package:ui_components_lib/ui_components_lib.dart';
 import 'package:ui_components_lib/v2/ui_components_lib_v2.dart';
 
-class AccountSettingsWidget extends InjectedElementaryParametrizedWidget<
-    AccountSettingsWidgetModel, KeyAccount> {
+class AccountSettingsWidget
+    extends
+        InjectedElementaryParametrizedWidget<
+          AccountSettingsWidgetModel,
+          KeyAccount
+        > {
   const AccountSettingsWidget({
     required this.account,
     required this.scrollController,
@@ -40,8 +44,9 @@ class AccountSettingsWidget extends InjectedElementaryParametrizedWidget<
               onViewInExplorer: wm.onViewInExplorer,
               onRename: wm.onRename,
               onVerify: wm.onVerify,
-              onHideAccount:
-                  (displayList?.length ?? 0) > 1 ? wm.onHideAccount : null,
+              onHideAccount: (displayList?.length ?? 0) > 1
+                  ? wm.onHideAccount
+                  : null,
             );
           },
         ),
@@ -104,9 +109,7 @@ class _ButtonsCard extends StatelessWidget {
             ),
             onTap: onVerify,
           ),
-          AccountSettingsChangeColorButton(
-            address: address,
-          ),
+          AccountSettingsChangeColorButton(address: address),
           AccountSettingsButton(
             label: LocaleKeys.seeInExplorer.tr(),
             icon: LucideIcons.globe,

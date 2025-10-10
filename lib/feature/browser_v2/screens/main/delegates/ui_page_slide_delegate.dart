@@ -31,10 +31,7 @@ class BrowserPageSlideUiDelegate implements BrowserPageSlideUi {
     urlSliderPageController.dispose();
   }
 
-  void slideToPage(
-    int page, {
-    bool isAnimated = false,
-  }) {
+  void slideToPage(int page, {bool isAnimated = false}) {
     if (!urlSliderPageController.hasClients) {
       return;
     }

@@ -10,17 +10,12 @@ Future<void> showSwitchToThisNetworkSheet({
 }) {
   return showCommonBottomSheet(
     context: context,
-    body: (_, __) => SwitchToThisNetworkSheet(
-      onSwitch: onSwitch,
-    ),
+    body: (_, __) => SwitchToThisNetworkSheet(onSwitch: onSwitch),
   );
 }
 
 class SwitchToThisNetworkSheet extends StatefulWidget {
-  const SwitchToThisNetworkSheet({
-    required this.onSwitch,
-    super.key,
-  });
+  const SwitchToThisNetworkSheet({required this.onSwitch, super.key});
 
   final VoidCallback onSwitch;
 

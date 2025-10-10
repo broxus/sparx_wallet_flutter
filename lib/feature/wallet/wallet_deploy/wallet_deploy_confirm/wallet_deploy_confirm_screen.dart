@@ -12,14 +12,16 @@ import 'package:nekoton_repository/nekoton_repository.dart';
 import 'package:ui_components_lib/components/common/common.dart';
 import 'package:ui_components_lib/v2/ui_components_lib_v2.dart';
 
-class WalletDeployConfirmScreen extends InjectedElementaryParametrizedWidget<
-    WalletDeployConfirmWidgetModel, WalletDeployConfirmRouteData> {
+class WalletDeployConfirmScreen
+    extends
+        InjectedElementaryParametrizedWidget<
+          WalletDeployConfirmWidgetModel,
+          WalletDeployConfirmRouteData
+        > {
   const WalletDeployConfirmScreen({
     required WalletDeployConfirmRouteData deploymentData,
     super.key,
-  }) : super(
-          wmFactoryParam: deploymentData,
-        );
+  }) : super(wmFactoryParam: deploymentData);
 
   @override
   Widget build(WalletDeployConfirmWidgetModel wm) {
@@ -85,8 +87,8 @@ class WalletDeployConfirmScreen extends InjectedElementaryParametrizedWidget<
                         : custodians,
                     requireConfirmations:
                         deployType == WalletDeployType.standard
-                            ? null
-                            : requireConfirmations,
+                        ? null
+                        : requireConfirmations,
                     tonIconPath: wm.tonIconPath,
                     currency: Currencies()[wm.ticker],
                     customCurrency: currency,
@@ -138,17 +140,13 @@ class _ErrorState extends StatelessWidget {
             hasSufficientBalance
                 ? LocaleKeys.errorOccurred.tr()
                 : LocaleKeys.insufficientFunds.tr(),
-            style: textStyles.headingMedium.copyWith(
-              color: colors.content0,
-            ),
+            style: textStyles.headingMedium.copyWith(color: colors.content0),
             textAlign: TextAlign.center,
           ),
           const SizedBox(height: DimensSizeV2.d8),
           Text(
             errorMessage,
-            style: textStyles.paragraphMedium.copyWith(
-              color: colors.content1,
-            ),
+            style: textStyles.paragraphMedium.copyWith(color: colors.content1),
             textAlign: TextAlign.center,
           ),
           const SizedBox(height: DimensSizeV2.d24),

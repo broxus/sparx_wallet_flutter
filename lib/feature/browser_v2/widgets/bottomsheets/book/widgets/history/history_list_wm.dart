@@ -19,9 +19,7 @@ import 'package:injectable/injectable.dart';
 @injectable
 class HistoryListWidgetModel
     extends CustomWidgetModel<HistoryList, HistoryListModel> {
-  HistoryListWidgetModel(
-    super.model,
-  );
+  HistoryListWidgetModel(super.model);
 
   late final searchController = createTextEditingController();
 
@@ -80,34 +78,32 @@ class HistoryListWidgetModel
   }
 
   void onPressedClear() {
-    Future(
-      () async {
-        final ctx = contextSafe;
+    Future(() async {
+      final ctx = contextSafe;
 
-        if (ctx == null) {
-          return;
-        }
+      if (ctx == null) {
+        return;
+      }
 
-        _close();
+      _close();
 
-        // ignore: use_build_context_synchronously
-        final result = await showClearHistoryModal(ctx);
+      // ignore: use_build_context_synchronously
+      final result = await showClearHistoryModal(ctx);
 
-        if (result == null) {
-          return;
-        }
+      if (result == null) {
+        return;
+      }
 
-        final period = result.$1;
-        final targets = result.$2;
+      final period = result.$1;
+      final targets = result.$2;
 
-        if (targets.isEmpty) {
-          return;
-        }
+      if (targets.isEmpty) {
+        return;
+      }
 
-        model.clearData(period, targets);
-        _close();
-      },
-    );
+      model.clearData(period, targets);
+      _close();
+    });
   }
 
   void onPressedRemove(String bookmarkId) {
@@ -159,8 +155,9 @@ class HistoryListWidgetModel
 
       final visitTime = item.visitTime;
       if (prevItem == null || !prevItem.visitTime.isSameDay(visitTime)) {
-        final date = _dateFormatCache[visitTime] ??=
-            DateFormat.yMMMMEEEEd(model.localeCode).format(visitTime);
+        final date = _dateFormatCache[visitTime] ??= DateFormat.yMMMMEEEEd(
+          model.localeCode,
+        ).format(visitTime);
         result.add(DateUiModel(date));
       }
 
@@ -180,8 +177,6 @@ class HistoryListWidgetModel
   }
 
   void _updateActiveMenu() {
-    _activeMenuState.accept(
-      model.isExistHistory,
-    );
+    _activeMenuState.accept(model.isExistHistory);
   }
 }

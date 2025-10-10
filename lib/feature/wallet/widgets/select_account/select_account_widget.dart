@@ -14,10 +14,7 @@ import 'package:ui_components_lib/v2/ui_components_lib_v2.dart';
 
 class SelectAccountWidget
     extends InjectedElementaryWidget<SelectAccountWidgetModel> {
-  const SelectAccountWidget({
-    required this.scrollController,
-    super.key,
-  });
+  const SelectAccountWidget({required this.scrollController, super.key});
 
   final ScrollController scrollController;
 
@@ -218,15 +215,8 @@ class _SeedItemSliverSectionState extends State<_SeedItemSliverSection>
           ),
         ),
         if (_isExpanded)
-          SliverToBoxAdapter(
-            child: _getExpandedContent(context),
-          ),
-        if (!_isExpanded)
-          const SliverToBoxAdapter(
-            child: SizedBox(
-              height: 8,
-            ),
-          ),
+          SliverToBoxAdapter(child: _getExpandedContent(context)),
+        if (!_isExpanded) const SliverToBoxAdapter(child: SizedBox(height: 8)),
       ],
     );
   }

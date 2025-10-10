@@ -14,19 +14,22 @@ import 'package:ui_components_lib/ui_components_lib.dart';
 /// Widget that allows load transaction for [TokenWallet] and map them into
 /// pretty ui.
 class TokenWalletTransactionsWidget
-    extends InjectedElementaryParametrizedWidget<
-        TokenWalletTransactionsWidgetModel, TokenWalletTransactionsParams> {
+    extends
+        InjectedElementaryParametrizedWidget<
+          TokenWalletTransactionsWidgetModel,
+          TokenWalletTransactionsParams
+        > {
   TokenWalletTransactionsWidget({
     required Address owner,
     required Address rootTokenContract,
     required this.scrollController,
     super.key,
   }) : super(
-          wmFactoryParam: TokenWalletTransactionsParams(
-            owner: owner,
-            rootTokenContract: rootTokenContract,
-          ),
-        );
+         wmFactoryParam: TokenWalletTransactionsParams(
+           owner: owner,
+           rootTokenContract: rootTokenContract,
+         ),
+       );
 
   final ScrollController scrollController;
 
@@ -38,35 +41,33 @@ class TokenWalletTransactionsWidget
         final theme = context.themeStyleV2;
         return switch (state!) {
           TokenWalletTransactionsStateEmpty() => SliverFillRemaining(
-              child: Padding(
-                padding: const EdgeInsets.symmetric(vertical: DimensSizeV2.d24),
-                child: SeparatedColumn(
-                  spacing: DimensSizeV2.d12,
-                  children: [
-                    SvgPicture.asset(
-                      Assets.images.lightning.path,
-                      colorFilter: theme.colors.content3.colorFilter,
-                      width: DimensSizeV2.d56,
-                      height: DimensSizeV2.d56,
+            child: Padding(
+              padding: const EdgeInsets.symmetric(vertical: DimensSizeV2.d24),
+              child: SeparatedColumn(
+                spacing: DimensSizeV2.d12,
+                children: [
+                  SvgPicture.asset(
+                    Assets.images.lightning.path,
+                    colorFilter: theme.colors.content3.colorFilter,
+                    width: DimensSizeV2.d56,
+                    height: DimensSizeV2.d56,
+                  ),
+                  Text(
+                    LocaleKeys.emptyHistoryTitle.tr(),
+                    style: theme.textStyles.paragraphSmall.copyWith(
+                      color: theme.colors.content1,
                     ),
-                    Text(
-                      LocaleKeys.emptyHistoryTitle.tr(),
-                      style: theme.textStyles.paragraphSmall.copyWith(
-                        color: theme.colors.content1,
-                      ),
-                    ),
-                  ],
-                ),
+                  ),
+                ],
               ),
             ),
+          ),
           TokenWalletTransactionsStateLoading() => const SliverToBoxAdapter(
-              child: Padding(
-                padding: EdgeInsets.symmetric(
-                  vertical: DimensSizeV2.d16,
-                ),
-                child: Center(child: CommonCircularProgressIndicator()),
-              ),
+            child: Padding(
+              padding: EdgeInsets.symmetric(vertical: DimensSizeV2.d16),
+              child: Center(child: CommonCircularProgressIndicator()),
             ),
+          ),
           TokenWalletTransactionsStateTransactions(
             :final transactions,
             :final tokenCurrency,
@@ -81,9 +82,7 @@ class TokenWalletTransactionsWidget
                 itemBuilder: (context, index) {
                   if (index == transactions.length) {
                     return const Padding(
-                      padding: EdgeInsets.symmetric(
-                        vertical: DimensSizeV2.d16,
-                      ),
+                      padding: EdgeInsets.symmetric(vertical: DimensSizeV2.d16),
                       child: Center(child: CommonCircularProgressIndicator()),
                     );
                   }

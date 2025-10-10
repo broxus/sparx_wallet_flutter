@@ -12,16 +12,22 @@ import 'package:flutter/material.dart';
 import 'package:injectable/injectable.dart';
 
 @injectable
-class EditNetworkWidgetModel extends CustomWidgetModelParametrized<
-    EditNetworkPageWidget, EditNetworkModel, String?> {
+class EditNetworkWidgetModel
+    extends
+        CustomWidgetModelParametrized<
+          EditNetworkPageWidget,
+          EditNetworkModel,
+          String?
+        > {
   EditNetworkWidgetModel(super.model);
 
   String? get _connectionDataId => wmParams.value;
 
   final formKey = GlobalKey<FormState>();
 
-  late final nameController =
-      createTextEditingController(connection?.name ?? '');
+  late final nameController = createTextEditingController(
+    connection?.name ?? '',
+  );
 
   late final isEditable = connection?.canBeEdited ?? true;
 
@@ -203,15 +209,16 @@ class EditNetworkWidgetModel extends CustomWidgetModelParametrized<
     }
 
     return switch (connection!) {
-      ConnectionDataGql(:final endpoints) => endpoints
-          .map((endpoint) => TextEditingController(text: endpoint))
-          .toList(),
+      ConnectionDataGql(:final endpoints) =>
+        endpoints
+            .map((endpoint) => TextEditingController(text: endpoint))
+            .toList(),
       ConnectionDataProto(:final endpoint) => [
-          TextEditingController(text: endpoint),
-        ],
+        TextEditingController(text: endpoint),
+      ],
       ConnectionDataJrpc(:final endpoint) => [
-          TextEditingController(text: endpoint),
-        ],
+        TextEditingController(text: endpoint),
+      ],
     };
   }
 
@@ -228,54 +235,51 @@ class EditNetworkWidgetModel extends CustomWidgetModelParametrized<
 
   ConnectionData? _getConnection() {
     final id = connection?.id;
-    final nativeTokenTicker = currencySymbolController.text.trim().takeIf(
-              (it) => it.isNotEmpty,
-            ) ??
+    final nativeTokenTicker =
+        currencySymbolController.text.trim().takeIf((it) => it.isNotEmpty) ??
         'EVER';
-    final nativeTokenDecimals = int.tryParse(
-          currencyDecimalsController.text.trim(),
-        ) ??
-        9;
+    final nativeTokenDecimals =
+        int.tryParse(currencyDecimalsController.text.trim()) ?? 9;
 
     final groupName = 'custom-${model.lastNetworkGroupNumber + 1}';
 
     return switch (_connectionType) {
       ConnectionType.jrpc => ConnectionData.jrpcCustom(
-          id: id,
-          name: nameController.text,
-          group: groupName,
-          networkType: selectedNetworkType,
-          endpoint: _endpointsControllers![0].text,
-          blockExplorerUrl: blockExplorerUrlController.text,
-          manifestUrl: manifestUrlController.text,
-          nativeTokenTicker: nativeTokenTicker,
-          nativeTokenDecimals: nativeTokenDecimals,
-        ),
+        id: id,
+        name: nameController.text,
+        group: groupName,
+        networkType: selectedNetworkType,
+        endpoint: _endpointsControllers![0].text,
+        blockExplorerUrl: blockExplorerUrlController.text,
+        manifestUrl: manifestUrlController.text,
+        nativeTokenTicker: nativeTokenTicker,
+        nativeTokenDecimals: nativeTokenDecimals,
+      ),
       ConnectionType.gql => ConnectionData.gqlCustom(
-          id: id,
-          name: nameController.text,
-          group: groupName,
-          networkType: selectedNetworkType,
-          endpoints: [
-            for (final controller in _endpointsControllers!) controller.text,
-          ],
-          isLocal: _isLocal,
-          blockExplorerUrl: blockExplorerUrlController.text,
-          manifestUrl: manifestUrlController.text,
-          nativeTokenTicker: nativeTokenTicker,
-          nativeTokenDecimals: nativeTokenDecimals,
-        ),
+        id: id,
+        name: nameController.text,
+        group: groupName,
+        networkType: selectedNetworkType,
+        endpoints: [
+          for (final controller in _endpointsControllers!) controller.text,
+        ],
+        isLocal: _isLocal,
+        blockExplorerUrl: blockExplorerUrlController.text,
+        manifestUrl: manifestUrlController.text,
+        nativeTokenTicker: nativeTokenTicker,
+        nativeTokenDecimals: nativeTokenDecimals,
+      ),
       ConnectionType.proto => ConnectionData.protoCustom(
-          id: id,
-          name: nameController.text,
-          group: groupName,
-          networkType: selectedNetworkType,
-          endpoint: _endpointsControllers![0].text,
-          blockExplorerUrl: blockExplorerUrlController.text,
-          manifestUrl: manifestUrlController.text,
-          nativeTokenTicker: nativeTokenTicker,
-          nativeTokenDecimals: nativeTokenDecimals,
-        ),
+        id: id,
+        name: nameController.text,
+        group: groupName,
+        networkType: selectedNetworkType,
+        endpoint: _endpointsControllers![0].text,
+        blockExplorerUrl: blockExplorerUrlController.text,
+        manifestUrl: manifestUrlController.text,
+        nativeTokenTicker: nativeTokenTicker,
+        nativeTokenDecimals: nativeTokenDecimals,
+      ),
       _ => null,
     };
   }

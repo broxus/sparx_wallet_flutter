@@ -42,11 +42,7 @@ class DefaultCurrenciesFetchStrategy implements CurrenciesFetchStrategy {
         'limit': currencyAddresses.length + 1,
         'offset': 0,
       },
-      options: Options(
-        headers: {
-          'Content-Type': 'application/json',
-        },
-      ),
+      options: Options(headers: {'Content-Type': 'application/json'}),
     );
     final data = response.data ?? {};
     final currencies = data['currencies'] as List<dynamic>;
@@ -55,14 +51,8 @@ class DefaultCurrenciesFetchStrategy implements CurrenciesFetchStrategy {
         .map(
           (element) => CustomCurrency.fromJson(
             (element as Map<String, dynamic>)
-              ..putIfAbsent(
-                'networkType',
-                () => networkType,
-              )
-              ..putIfAbsent(
-                'networkGroup',
-                () => networkGroup,
-              ),
+              ..putIfAbsent('networkType', () => networkType)
+              ..putIfAbsent('networkGroup', () => networkGroup),
           ),
         )
         .toList();
@@ -81,14 +71,8 @@ class DefaultCurrenciesFetchStrategy implements CurrenciesFetchStrategy {
 
     return CustomCurrency.fromJson(
       data
-        ..putIfAbsent(
-          'networkType',
-          () => networkType,
-        )
-        ..putIfAbsent(
-          'networkGroup',
-          () => networkGroup,
-        ),
+        ..putIfAbsent('networkType', () => networkType)
+        ..putIfAbsent('networkGroup', () => networkGroup),
     );
   }
 }

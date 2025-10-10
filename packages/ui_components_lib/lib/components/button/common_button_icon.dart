@@ -19,17 +19,16 @@ class CommonButtonIconWidget extends StatelessWidget {
     this.useDefaultColor = true,
     super.key,
   }) : assert(
-          icon != null || svg != null,
-          'IconData or Svg path must be specified',
-        );
+         icon != null || svg != null,
+         'IconData or Svg path must be specified',
+       );
 
   /// Factory that allows creating widget with [IconData]
   factory CommonButtonIconWidget.icon({
     required IconData icon,
     CommonButtonIconSize? size,
     Key? key,
-  }) =>
-      CommonButtonIconWidget(icon: icon, size: size, key: key);
+  }) => CommonButtonIconWidget(icon: icon, size: size, key: key);
 
   /// Factory that allows creating widget with svg asset
   factory CommonButtonIconWidget.svg({
@@ -37,13 +36,12 @@ class CommonButtonIconWidget extends StatelessWidget {
     CommonButtonIconSize? size,
     bool useDefaultColor = true,
     Key? key,
-  }) =>
-      CommonButtonIconWidget(
-        svg: svg,
-        size: size,
-        useDefaultColor: useDefaultColor,
-        key: key,
-      );
+  }) => CommonButtonIconWidget(
+    svg: svg,
+    size: size,
+    useDefaultColor: useDefaultColor,
+    key: key,
+  );
 
   /// Data of icon that is used in [Icon]
   final IconData? icon;

@@ -5,12 +5,15 @@ import 'package:app/feature/wallet/widgets/account_transactions_tab/widgets/ton_
 import 'package:elementary_helper/elementary_helper.dart';
 import 'package:flutter/material.dart';
 import 'package:lucide_icons_flutter/lucide_icons.dart';
+import 'package:money2/money2.dart';
 import 'package:nekoton_repository/nekoton_repository.dart';
 
 class TonWalletOrdinaryTransactionWidget
-    extends InjectedElementaryParametrizedWidget<
-        TonWalletOrdinaryTransactionWidgetWidgetModel,
-        TonWalletOrdinaryTransactionWmParams> {
+    extends
+        InjectedElementaryParametrizedWidget<
+          TonWalletOrdinaryTransactionWidgetWidgetModel,
+          TonWalletOrdinaryTransactionWmParams
+        > {
   TonWalletOrdinaryTransactionWidget({
     required TonWalletOrdinaryTransaction transaction,
     required bool isFirst,
@@ -18,13 +21,13 @@ class TonWalletOrdinaryTransactionWidget
     required Fixed price,
     super.key,
   }) : super(
-          wmFactoryParam: TonWalletOrdinaryTransactionWmParams(
-            transaction: transaction,
-            isFirst: isFirst,
-            isLast: isLast,
-            price: price,
-          ),
-        );
+         wmFactoryParam: TonWalletOrdinaryTransactionWmParams(
+           transaction: transaction,
+           isFirst: isFirst,
+           isLast: isLast,
+           price: price,
+         ),
+       );
 
   @override
   Widget build(TonWalletOrdinaryTransactionWidgetWidgetModel wm) {
@@ -48,8 +51,9 @@ class TonWalletOrdinaryTransactionWidget
         final transactionValue = wm.transactionValueState.value;
 
         return TonWalletTransactionWidget(
-          icon:
-              isIncoming ? LucideIcons.arrowDownLeft : LucideIcons.arrowUpRight,
+          icon: isIncoming
+              ? LucideIcons.arrowDownLeft
+              : LucideIcons.arrowUpRight,
           isFirst: isFirst,
           isLast: isLast,
           onPressed: wm.onPressed,

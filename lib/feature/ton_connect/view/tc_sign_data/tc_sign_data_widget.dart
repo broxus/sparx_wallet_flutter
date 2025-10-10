@@ -9,19 +9,23 @@ import 'package:elementary_helper/elementary_helper.dart';
 import 'package:flutter/material.dart';
 import 'package:ui_components_lib/ui_components_lib.dart';
 
-class TCSignDataWidget extends InjectedElementaryParametrizedWidget<
-    TCSignDataWidgetModel, TCSignDataWmParams> {
+class TCSignDataWidget
+    extends
+        InjectedElementaryParametrizedWidget<
+          TCSignDataWidgetModel,
+          TCSignDataWmParams
+        > {
   TCSignDataWidget({
     required TonAppConnection connection,
     required SignDataPayload payload,
     required this.scrollController,
     super.key,
   }) : super(
-          wmFactoryParam: TCSignDataWmParams(
-            connection: connection,
-            payload: payload,
-          ),
-        );
+         wmFactoryParam: TCSignDataWmParams(
+           connection: connection,
+           payload: payload,
+         ),
+       );
 
   final ScrollController scrollController;
 
@@ -64,10 +68,7 @@ class TCSignDataWidget extends InjectedElementaryParametrizedWidget<
           ),
         ),
         MultiListenerRebuilder(
-          listenableList: [
-            wm.accountState,
-            wm.isLoadingState,
-          ],
+          listenableList: [wm.accountState, wm.isLoadingState],
           builder: (_) {
             final account = wm.accountState.value;
             final isLoading = wm.isLoadingState.value;

@@ -5,16 +5,12 @@ import 'package:injectable/injectable.dart';
 
 @injectable
 class CheckSeedPhrasePageModel extends ElementaryModel {
-  CheckSeedPhrasePageModel(
-    ErrorHandler errorHandler,
-    this._messengerService,
-  ) : super(errorHandler: errorHandler);
+  CheckSeedPhrasePageModel(ErrorHandler errorHandler, this._messengerService)
+    : super(errorHandler: errorHandler);
 
   final MessengerService _messengerService;
 
   void showValidateError(String message) {
-    _messengerService.show(
-      Message.error(message: message),
-    );
+    _messengerService.show(Message.error(message: message));
   }
 }

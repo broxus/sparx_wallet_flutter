@@ -10,9 +10,7 @@ const _browserHistoryKey = 'browser_history_key';
 /// to interact with all browser history - related data.
 @singleton
 class BrowserHistoryStorageService extends AbstractStorageService {
-  BrowserHistoryStorageService(
-    @Named(container) this._storage,
-  );
+  BrowserHistoryStorageService(@Named(container) this._storage);
 
   static const container = _browserHistoryDomain;
 
@@ -27,18 +25,13 @@ class BrowserHistoryStorageService extends AbstractStorageService {
 
     return [
       for (final entry in list)
-        BrowserHistoryItem.fromJson(
-          entry as Map<String, dynamic>,
-        ),
+        BrowserHistoryItem.fromJson(entry as Map<String, dynamic>),
     ];
   }
 
   /// Save list of browser history items to storage
   void saveBrowserHistory(Iterable<BrowserHistoryItem> history) {
-    _storage.write(
-      _browserHistoryKey,
-      history.map((e) => e.toJson()).toList(),
-    );
+    _storage.write(_browserHistoryKey, history.map((e) => e.toJson()).toList());
   }
 
   @override

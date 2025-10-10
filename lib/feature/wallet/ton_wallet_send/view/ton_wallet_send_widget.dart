@@ -9,12 +9,14 @@ import 'package:flutter/material.dart';
 import 'package:ui_components_lib/ui_components_lib.dart';
 
 /// Page that allows send funds from TonWalelt (native token).
-class TonWalletSendWidget extends InjectedElementaryParametrizedWidget<
-    TonWalletSendWidgetModel, TonWalletSendRouteData> {
-  const TonWalletSendWidget({
-    required TonWalletSendRouteData data,
-    super.key,
-  }) : super(wmFactoryParam: data);
+class TonWalletSendWidget
+    extends
+        InjectedElementaryParametrizedWidget<
+          TonWalletSendWidgetModel,
+          TonWalletSendRouteData
+        > {
+  const TonWalletSendWidget({required TonWalletSendRouteData data, super.key})
+    : super(wmFactoryParam: data);
 
   @override
   Widget build(TonWalletSendWidgetModel wm) {
@@ -25,43 +27,43 @@ class TonWalletSendWidget extends InjectedElementaryParametrizedWidget<
 
         final appBar = switch (state) {
           TonWalletSendStateSending() => null,
-          TonWalletSendStateError() =>
-            DefaultAppBar(titleText: LocaleKeys.confirmTransaction.tr()),
+          TonWalletSendStateError() => DefaultAppBar(
+            titleText: LocaleKeys.confirmTransaction.tr(),
+          ),
           TonWalletSendStateReady() => DefaultAppBar(
-              titleText: LocaleKeys.confirmTransaction.tr(),
-            ),
+            titleText: LocaleKeys.confirmTransaction.tr(),
+          ),
         };
 
         final body = switch (state) {
-          TonWalletSendStateError(:final error) =>
-            Center(child: WalletSubscribeErrorWidget(error: error)),
+          TonWalletSendStateError(:final error) => Center(
+            child: WalletSubscribeErrorWidget(error: error),
+          ),
           TonWalletSendStateSending(:final canClose) => Padding(
-              padding: const EdgeInsets.all(DimensSizeV2.d16),
-              child: TransactionSendingWidget(
-                canClose: canClose,
-                popOnComplete: wm.popOnComplete,
-              ),
+            padding: const EdgeInsets.all(DimensSizeV2.d16),
+            child: TransactionSendingWidget(
+              canClose: canClose,
+              popOnComplete: wm.popOnComplete,
             ),
+          ),
           TonWalletSendStateReady() => Padding(
-              padding: const EdgeInsets.symmetric(
-                horizontal: DimensSizeV2.d16,
-              ),
-              child: TonWalletSendConfirmView(
-                recipient: wm.destination,
-                attachedAmount: wm.attachedAmount,
-                comment: wm.comment,
-                payload: wm.payload,
-                publicKey: wm.publicKey,
-                currency: wm.currency,
-                account: wm.account,
-                amount: wm.amount,
-                fees: wm.feesState,
-                txErrors: wm.txErrorsState,
-                isLoading: wm.isLoadingState,
-                getLedgerAuthInput: wm.getLedgerAuthInput,
-                onConfirmed: wm.onConfirmed,
-              ),
+            padding: const EdgeInsets.symmetric(horizontal: DimensSizeV2.d16),
+            child: TonWalletSendConfirmView(
+              recipient: wm.destination,
+              attachedAmount: wm.attachedAmount,
+              comment: wm.comment,
+              payload: wm.payload,
+              publicKey: wm.publicKey,
+              currency: wm.currency,
+              account: wm.account,
+              amount: wm.amount,
+              fees: wm.feesState,
+              txErrors: wm.txErrorsState,
+              isLoading: wm.isLoadingState,
+              getLedgerAuthInput: wm.getLedgerAuthInput,
+              onConfirmed: wm.onConfirmed,
             ),
+          ),
         };
 
         return Scaffold(appBar: appBar, body: body);

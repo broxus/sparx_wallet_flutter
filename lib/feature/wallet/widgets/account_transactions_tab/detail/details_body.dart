@@ -221,8 +221,6 @@ class WalletTransactionDetailsDefaultBody extends StatelessWidget {
 
   void _copy(BuildContext context, String value, String copyMessage) {
     Clipboard.setData(ClipboardData(text: value));
-    inject<MessengerService>().show(
-      Message.successful(message: copyMessage),
-    );
+    inject<MessengerService>().show(Message.successful(message: copyMessage));
   }
 }

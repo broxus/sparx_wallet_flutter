@@ -9,10 +9,7 @@ import 'package:rxdart/rxdart.dart';
 
 @singleton
 class RootTabService {
-  RootTabService(
-    this._router,
-    this._browserService,
-  );
+  RootTabService(this._router, this._browserService);
 
   final CompassRouter _router;
   final BrowserService _browserService;
@@ -20,29 +17,26 @@ class RootTabService {
   final _scrollTabToTopSubject = PublishSubject<RootTab>();
 
   Stream<RootTab> get rootTabStream => _router.currentRoutesStream.map(
-        (it) => RootTab.getByRoute(it.firstOrNull),
-      );
+    (it) => RootTab.getByRoute(it.firstOrNull),
+  );
 
   Stream<BottomBarState> get bottomBarStateStream =>
-      _router.currentRoutesStream.switchMap(
-        (it) {
-          final currentRoute = it.lastOrNull;
+      _router.currentRoutesStream.switchMap((it) {
+        final currentRoute = it.lastOrNull;
 
-          switch (currentRoute?.runtimeType) {
-            case BrowserRoute:
-              return _browserService.isContentInteractedStream.map(
-                (isContentInteracted) => isContentInteracted
-                    ? BottomBarState.collapsed
-                    : BottomBarState.expanded,
-              );
-            default:
-              final state =
-                  currentRoute?.bottomBarState ?? BottomBarState.hidden;
+        switch (currentRoute?.runtimeType) {
+          case BrowserRoute:
+            return _browserService.isContentInteractedStream.map(
+              (isContentInteracted) => isContentInteracted
+                  ? BottomBarState.collapsed
+                  : BottomBarState.expanded,
+            );
+          default:
+            final state = currentRoute?.bottomBarState ?? BottomBarState.hidden;
 
-              return Stream.value(state);
-          }
-        },
-      );
+            return Stream.value(state);
+        }
+      });
 
   Stream<RootTab> get scrollTabToTopSubject => _scrollTabToTopSubject.stream;
 

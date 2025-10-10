@@ -85,16 +85,18 @@ class CommonListTile extends StatelessWidget {
     final subtitle = subtitleText != null
         ? Text(
             subtitleText!,
-            style: subtitleTextStyle ??
+            style:
+                subtitleTextStyle ??
                 (invertTitleSubtitleStyles
                         ? theme.textStyles.labelMedium
                         : theme.textStyles.labelXSmall)
                     .copyWith(
-                  color: contentColor ??
-                      (invertTitleSubtitleStyles
-                          ? theme.colors.content0
-                          : theme.colors.content3),
-                ),
+                      color:
+                          contentColor ??
+                          (invertTitleSubtitleStyles
+                              ? theme.colors.content0
+                              : theme.colors.content3),
+                    ),
             maxLines: subtitleMaxLines,
             overflow: subtitleMaxLines == null ? null : TextOverflow.ellipsis,
             softWrap: subtitleMaxLines == null,
@@ -104,16 +106,18 @@ class CommonListTile extends StatelessWidget {
     final title = titleText != null
         ? Text(
             titleText!,
-            style: titleTextStyle ??
+            style:
+                titleTextStyle ??
                 (invertTitleSubtitleStyles
                         ? theme.textStyles.labelXSmall
                         : theme.textStyles.labelMedium)
                     .copyWith(
-                  color: contentColor ??
-                      (invertTitleSubtitleStyles
-                          ? theme.colors.content3
-                          : theme.colors.content0),
-                ),
+                      color:
+                          contentColor ??
+                          (invertTitleSubtitleStyles
+                              ? theme.colors.content3
+                              : theme.colors.content0),
+                    ),
             maxLines: subtitle == null ? null : 1,
             overflow: subtitle == null ? null : TextOverflow.ellipsis,
             softWrap: subtitle == null ? null : false,

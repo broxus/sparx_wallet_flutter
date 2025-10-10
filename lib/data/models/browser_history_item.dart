@@ -15,15 +15,12 @@ abstract class BrowserHistoryItem with _$BrowserHistoryItem {
     required DateTime visitTime,
   }) = _BrowserHistoryItemDto;
 
-  factory BrowserHistoryItem.create({
-    required Uri url,
-  }) =>
-      BrowserHistoryItem(
-        id: const Uuid().v4(),
-        title: url.host,
-        url: url,
-        visitTime: NtpTime.now(),
-      );
+  factory BrowserHistoryItem.create({required Uri url}) => BrowserHistoryItem(
+    id: const Uuid().v4(),
+    title: url.host,
+    url: url,
+    visitTime: NtpTime.now(),
+  );
 
   const BrowserHistoryItem._();
 

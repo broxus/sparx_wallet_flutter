@@ -11,9 +11,7 @@ import 'package:flutter/material.dart';
 import 'package:ui_components_lib/v2/ui_components_lib_v2.dart';
 
 class HistoryList extends InjectedElementaryWidget<HistoryListWidgetModel> {
-  const HistoryList({
-    super.key,
-  }) : super();
+  const HistoryList({super.key}) : super();
 
   @override
   Widget build(HistoryListWidgetModel wm) {
@@ -49,9 +47,9 @@ class HistoryList extends InjectedElementaryWidget<HistoryListWidgetModel> {
                 itemBuilder: (_, int index) {
                   return switch (list[index]) {
                     DateUiModel(:final dateText) => DateItem(
-                        key: ValueKey(dateText),
-                        dateText: dateText,
-                      ),
+                      key: ValueKey(dateText),
+                      dateText: dateText,
+                    ),
                     HistoryItemUiModel(
                       :final String id,
                       :final Uri uri,

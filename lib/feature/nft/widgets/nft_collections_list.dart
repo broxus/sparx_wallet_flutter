@@ -96,9 +96,7 @@ class _Item extends StatelessWidget {
       child: PrimaryCard(
         padding: const EdgeInsets.all(DimensSizeV2.d8),
         color: theme.colors.background1,
-        borderRadius: BorderRadius.circular(
-          DimensRadiusV2.radius12,
-        ),
+        borderRadius: BorderRadius.circular(DimensRadiusV2.radius12),
         child: Stack(
           children: [
             Column(
@@ -158,9 +156,7 @@ class _Item extends StatelessWidget {
           vertical: DimensSizeV2.d8,
         ),
         color: theme.colors.background1,
-        borderRadius: BorderRadius.circular(
-          DimensRadiusV2.radius12,
-        ),
+        borderRadius: BorderRadius.circular(DimensRadiusV2.radius12),
         child: Row(
           spacing: DimensSizeV2.d8,
           children: [
@@ -186,8 +182,9 @@ class _Item extends StatelessWidget {
                   ),
                   if (pendingCount > 0)
                     ClipRRect(
-                      borderRadius:
-                          BorderRadius.circular(DimensRadiusV2.radius10),
+                      borderRadius: BorderRadius.circular(
+                        DimensRadiusV2.radius10,
+                      ),
                       child: Container(
                         width: DimensSizeV2.d20,
                         height: DimensSizeV2.d20,

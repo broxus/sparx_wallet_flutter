@@ -15,27 +15,20 @@ class CreateSeedRoute extends CompassRoute<CreateSeedRouteData> {
     @Named.from(CreateSeedPasswordRoute)
     CompassBaseRoute createSeedPasswordRoute,
   ) : super(
-          path: '/create-seed',
-          isSaveLocation: true,
-          builder: (_, data, ___) => CreateSeedPage(name: data.seedName),
-          compassBaseRoutes: [
-            checkSeedPhraseRoute,
-            createSeedPasswordRoute,
-          ],
-        );
+        path: '/create-seed',
+        isSaveLocation: true,
+        builder: (_, data, ___) => CreateSeedPage(name: data.seedName),
+        compassBaseRoutes: [checkSeedPhraseRoute, createSeedPasswordRoute],
+      );
 
   @override
   CreateSeedRouteData fromQueryParams(Map<String, String> queryParams) {
-    return CreateSeedRouteData(
-      seedName: queryParams[_seedNameQueryParam],
-    );
+    return CreateSeedRouteData(seedName: queryParams[_seedNameQueryParam]);
   }
 }
 
 class CreateSeedRouteData implements CompassRouteDataQuery {
-  const CreateSeedRouteData({
-    required this.seedName,
-  });
+  const CreateSeedRouteData({required this.seedName});
 
   final String? seedName;
 
@@ -43,8 +36,6 @@ class CreateSeedRouteData implements CompassRouteDataQuery {
   Map<String, String> toQueryParams() {
     final seedName = this.seedName;
 
-    return {
-      if (seedName != null) _seedNameQueryParam: seedName,
-    };
+    return {if (seedName != null) _seedNameQueryParam: seedName};
   }
 }

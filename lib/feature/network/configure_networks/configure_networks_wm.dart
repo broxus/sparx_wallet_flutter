@@ -21,16 +21,10 @@ class ConfigureNetworksWidgetModel
   ThemeStyleV2 get theme => context.themeStyleV2;
 
   void onItemTap(ConnectionData data) {
-    context.compassContinue(
-      EditNetworkRouteData(
-        connectionDataId: data.id,
-      ),
-    );
+    context.compassContinue(EditNetworkRouteData(connectionDataId: data.id));
   }
 
   void onAddNetwork() {
-    context.compassContinue(
-      const EditNetworkRouteData(),
-    );
+    context.compassContinue(const EditNetworkRouteData());
   }
 }

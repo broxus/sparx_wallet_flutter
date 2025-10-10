@@ -11,11 +11,14 @@ import 'package:ui_components_lib/v2/text_styles_v2.dart';
 
 /// [WidgetModel] для [ChangeColorBottomSheet]
 @injectable
-class ChangeColorBottomSheetWidgetModel extends CustomWidgetModelParametrized<
-    ChangeColorBottomSheet, ChangeColorBottomSheetModel, String> {
-  ChangeColorBottomSheetWidgetModel(
-    super.model,
-  );
+class ChangeColorBottomSheetWidgetModel
+    extends
+        CustomWidgetModelParametrized<
+          ChangeColorBottomSheet,
+          ChangeColorBottomSheetModel,
+          String
+        > {
+  ChangeColorBottomSheetWidgetModel(super.model);
 
   late final _selectedColorState = StateNotifier<IdentifyIconData?>();
 

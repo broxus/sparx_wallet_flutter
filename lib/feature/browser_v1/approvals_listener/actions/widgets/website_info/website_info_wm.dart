@@ -6,25 +6,23 @@ import 'package:injectable/injectable.dart';
 import 'package:ui_components_lib/ui_components_lib.dart';
 
 class WebsiteInfoWmParams {
-  const WebsiteInfoWmParams({
-    required this.uri,
-    this.iconUrl,
-  });
+  const WebsiteInfoWmParams({required this.uri, this.iconUrl});
 
   final Uri uri;
   final Uri? iconUrl;
 }
 
 @injectable
-class WebsiteInfoWidgetModel extends CustomWidgetModelParametrized<
-    WebsiteInfoWidget, WebsiteInfoModel, WebsiteInfoWmParams> {
-  WebsiteInfoWidgetModel(
-    super.model,
-  );
+class WebsiteInfoWidgetModel
+    extends
+        CustomWidgetModelParametrized<
+          WebsiteInfoWidget,
+          WebsiteInfoModel,
+          WebsiteInfoWmParams
+        > {
+  WebsiteInfoWidgetModel(super.model);
 
-  late final _uriState = createWmParamsNotifier(
-    (it) => it.uri,
-  );
+  late final _uriState = createWmParamsNotifier((it) => it.uri);
 
   late final _faviconUrlState = createWmParamsNotifier(
     (it) => it.iconUrl?.toString(),

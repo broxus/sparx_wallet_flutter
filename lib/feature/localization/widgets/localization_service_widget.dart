@@ -13,10 +13,7 @@ import 'package:logging/logging.dart';
 /// to use any state, we just need to listen to events and respond to them
 /// immediately
 class LocalizationServiceWidget extends StatefulWidget {
-  const LocalizationServiceWidget({
-    required this.child,
-    super.key,
-  });
+  const LocalizationServiceWidget({required this.child, super.key});
 
   final Widget child;
 
@@ -34,15 +31,12 @@ class _LocalizationServiceWidgetState extends State<LocalizationServiceWidget> {
   void initState() {
     super.initState();
 
-    _refreshLocaleSubscription =
-        inject<LocalizationService>().refreshLocaleStream.listen(
-              (_) => _setLocaleByLanguageCode(),
-            );
+    _refreshLocaleSubscription = inject<LocalizationService>()
+        .refreshLocaleStream
+        .listen((_) => _setLocaleByLanguageCode());
 
-    _updateLocaleSubscription =
-        inject<LocalizationService>().updateLocaleStream.listen(
-              _updateLocaleByLanguageCode,
-            );
+    _updateLocaleSubscription = inject<LocalizationService>().updateLocaleStream
+        .listen(_updateLocaleByLanguageCode);
 
     WidgetsBinding.instance.addPostFrameCallback((_) {
       _setLocaleByLanguageCode();
@@ -56,8 +50,8 @@ class _LocalizationServiceWidgetState extends State<LocalizationServiceWidget> {
 
     inject<LocalizationService>()
         .updateCurrentLocaleByLanguageCodeFromServiceWidget(
-      SupportedLocaleCodes.byName(languageCode),
-    );
+          SupportedLocaleCodes.byName(languageCode),
+        );
   }
 
   void _updateLocaleByLanguageCode(SupportedLocaleCodes code) {

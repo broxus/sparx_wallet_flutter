@@ -1,7 +1,7 @@
 import 'package:app/data/models/models.dart';
 import 'package:app/widgets/amount_input/amount_input_asset.dart';
 import 'package:flutter/foundation.dart';
-import 'package:nekoton_repository/nekoton_repository.dart';
+import 'package:money2/money2.dart';
 
 /// Model that describes asset during PrepareTransfer step.
 @immutable
@@ -21,15 +21,14 @@ class WalletPrepareTransferAsset extends AmountInputAsset {
   WalletPrepareTransferAsset copyWith({
     Money? balance,
     CustomCurrency? currency,
-  }) =>
-      WalletPrepareTransferAsset(
-        title: title,
-        rootTokenContract: rootTokenContract,
-        balance: balance ?? this.balance,
-        isNative: isNative,
-        logoURI: logoURI,
-        version: version,
-        tokenSymbol: tokenSymbol,
-        currency: currency ?? this.currency,
-      );
+  }) => WalletPrepareTransferAsset(
+    title: title,
+    rootTokenContract: rootTokenContract,
+    balance: balance ?? this.balance,
+    isNative: isNative,
+    logoURI: logoURI,
+    version: version,
+    tokenSymbol: tokenSymbol,
+    currency: currency ?? this.currency,
+  );
 }

@@ -15,11 +15,11 @@ class IdentifyIconsService implements IIdentifyIconsService {
 
   late final _accountsColorsSubject =
       BehaviorSubject<AccountsColorsCollection>.seeded(
-    AccountsColorsCollection(
-      _secureStorageService,
-      availableColors[_initialIndex],
-    ),
-  );
+        AccountsColorsCollection(
+          _secureStorageService,
+          availableColors[_initialIndex],
+        ),
+      );
 
   @override
   Stream<AccountsColorsCollection> get accountsColorsStream =>

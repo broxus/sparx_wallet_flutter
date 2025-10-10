@@ -67,9 +67,7 @@ class BackUpBadge extends StatelessWidget {
                 alignment: Alignment.centerRight,
                 child: ClipRRect(
                   borderRadius: BorderRadius.circular(DimensRadiusV2.radius16),
-                  child: Image.asset(
-                    Assets.images.lockBackup.path,
-                  ),
+                  child: Image.asset(Assets.images.lockBackup.path),
                 ),
               ),
             ),

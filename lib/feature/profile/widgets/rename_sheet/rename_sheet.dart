@@ -32,20 +32,24 @@ ModalRoute<void> showRenameSheet(
 
 /// Sheet that allows enter new name of the seed or public key.
 /// This sheet automatically calls rename method for key/seed.
-class RenameSheet extends InjectedElementaryParametrizedWidget<
-    RenameSheetWidgetModel, RenameSheetParams> {
+class RenameSheet
+    extends
+        InjectedElementaryParametrizedWidget<
+          RenameSheetWidgetModel,
+          RenameSheetParams
+        > {
   RenameSheet({
     required PublicKey publicKey,
     required bool renameSeed,
     required bool isCustodian,
     super.key,
   }) : super(
-          wmFactoryParam: RenameSheetParams(
-            publicKey: publicKey,
-            renameSeed: renameSeed,
-            isCustodian: isCustodian,
-          ),
-        );
+         wmFactoryParam: RenameSheetParams(
+           publicKey: publicKey,
+           renameSeed: renameSeed,
+           isCustodian: isCustodian,
+         ),
+       );
 
   @override
   Widget build(RenameSheetWidgetModel wm) {

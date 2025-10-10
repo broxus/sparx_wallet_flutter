@@ -35,9 +35,7 @@ import 'package:ui_components_lib/v2/ui_components_lib_v2.dart';
 class BrowserMainScreenWidgetModel
     extends CustomWidgetModel<BrowserMainScreen, BrowserMainScreenModel>
     with TickerProviderWidgetModelMixin {
-  BrowserMainScreenWidgetModel(
-    super.model,
-  );
+  BrowserMainScreenWidgetModel(super.model);
 
   final keys = BrowserKeysUiDelegate();
 
@@ -57,8 +55,9 @@ class BrowserMainScreenWidgetModel
     },
   );
 
-  late final _progressIndicatorDelegate =
-      BrowserProgressIndicatorUiDelegate(this);
+  late final _progressIndicatorDelegate = BrowserProgressIndicatorUiDelegate(
+    this,
+  );
 
   late final _tabMenuDelegate = BrowserTabMenuUiDelegate(
     model,
@@ -179,14 +178,9 @@ class BrowserMainScreenWidgetModel
       final groupId = model.activeGroupIdState.value;
       final tabId = _tabsDelegate.activeTabId;
       if (groupId != null && tabId != null) {
-        _scrollToPage(
-          groupId: groupId,
-          tabId: tabId,
-        );
+        _scrollToPage(groupId: groupId, tabId: tabId);
       }
-      _scrollToActiveTabInList(
-        const Duration(milliseconds: 100),
-      );
+      _scrollToActiveTabInList(const Duration(milliseconds: 100));
     });
   }
 
@@ -259,14 +253,11 @@ class BrowserMainScreenWidgetModel
     model.requestUrl(tabId, text);
   }
 
-  void onTabAnimationStart() => _tabsDelegate.onTabAnimationStart(
-        _onTabAnimationComplete,
-      );
+  void onTabAnimationStart() =>
+      _tabsDelegate.onTabAnimationStart(_onTabAnimationComplete);
 
   void onTabAnimationEnd(TabAnimationType? animationType) {
-    _tabsDelegate.onTabAnimationEnd(
-      _onTabAnimationComplete,
-    );
+    _tabsDelegate.onTabAnimationEnd(_onTabAnimationComplete);
   }
 
   void onPressedDotsPressed() {
@@ -290,10 +281,7 @@ class BrowserMainScreenWidgetModel
       return;
     }
 
-    tabs.changeTab(
-      groupId: groupId,
-      tabId: tabId,
-    );
+    tabs.changeTab(groupId: groupId, tabId: tabId);
   }
 
   void onPressedCreateNewGroup() {
@@ -317,16 +305,10 @@ class BrowserMainScreenWidgetModel
     required String tabId,
     bool isAnimated = false,
   }) async {
-    final index = _tabsDelegate.getTabIndexById(
-      groupId: groupId,
-      tabId: tabId,
-    );
+    final index = _tabsDelegate.getTabIndexById(groupId: groupId, tabId: tabId);
 
     if (index != null && index > -1) {
-      _pageSlideDelegate.slideToPage(
-        index,
-        isAnimated: isAnimated,
-      );
+      _pageSlideDelegate.slideToPage(index, isAnimated: isAnimated);
 
       _pageDelegate.reset();
     }
@@ -352,11 +334,7 @@ class BrowserMainScreenWidgetModel
 
   void _onPressedCreateTab(String groupId, String tabId) {
     callWithDelay(
-      () => _scrollToPage(
-        groupId: groupId,
-        tabId: tabId,
-        isAnimated: true,
-      ),
+      () => _scrollToPage(groupId: groupId, tabId: tabId, isAnimated: true),
     );
   }
 

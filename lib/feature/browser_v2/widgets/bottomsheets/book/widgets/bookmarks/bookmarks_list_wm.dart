@@ -15,9 +15,7 @@ import 'package:injectable/injectable.dart';
 @injectable
 class BookmarksListWidgetModel
     extends CustomWidgetModel<BookmarksList, BookmarksListModel> {
-  BookmarksListWidgetModel(
-    super.model,
-  );
+  BookmarksListWidgetModel(super.model);
 
   late final searchController = createTextEditingController();
 
@@ -37,10 +35,9 @@ class BookmarksListWidgetModel
 
   bool get isShowSearch => model.browserBookmarks.length > 10;
 
-  late final theme = Theme.of(context).copyWith(
-    canvasColor: Colors.transparent,
-    shadowColor: Colors.transparent,
-  );
+  late final theme = Theme.of(
+    context,
+  ).copyWith(canvasColor: Colors.transparent, shadowColor: Colors.transparent);
 
   @override
   void initWidgetModel() {
@@ -82,10 +79,7 @@ class BookmarksListWidgetModel
   }
 
   void onReorder(int oldIndex, int newIndex) {
-    model.reorder(
-      oldIndex,
-      newIndex,
-    );
+    model.reorder(oldIndex, newIndex);
   }
 
   void _close() {
@@ -119,30 +113,22 @@ class BookmarksListWidgetModel
     final list = model.browserBookmarks;
     final searchedText = searchController.text;
 
-    _bookmarksState.accept(
-      [
-        for (final bookmark in list)
-          if (searchedText.isEmpty ||
-              bookmark.title.contains(searchedText) ||
-              bookmark.url.toString().contains(searchedText))
-            BookMarkUiModel(
-              bookmarkId: bookmark.id,
-              title: bookmark.title,
-              uri: bookmark.url,
-            ),
-      ],
-    );
+    _bookmarksState.accept([
+      for (final bookmark in list)
+        if (searchedText.isEmpty ||
+            bookmark.title.contains(searchedText) ||
+            bookmark.url.toString().contains(searchedText))
+          BookMarkUiModel(
+            bookmarkId: bookmark.id,
+            title: bookmark.title,
+            uri: bookmark.url,
+          ),
+    ]);
   }
 
   void _updateActiveMenu() {
-    _activeMenuState.accept(
-      model.isExistBookmarks,
-    );
+    _activeMenuState.accept(model.isExistBookmarks);
   }
 }
 
-enum EditValue {
-  edit,
-  searchEdit,
-  none,
-}
+enum EditValue { edit, searchEdit, none }

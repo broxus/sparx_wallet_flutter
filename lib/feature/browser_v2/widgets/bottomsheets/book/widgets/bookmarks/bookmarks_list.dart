@@ -10,9 +10,7 @@ import 'package:flutter/material.dart';
 import 'package:ui_components_lib/v2/ui_components_lib_v2.dart';
 
 class BookmarksList extends InjectedElementaryWidget<BookmarksListWidgetModel> {
-  const BookmarksList({
-    super.key,
-  });
+  const BookmarksList({super.key});
 
   @override
   Widget build(BookmarksListWidgetModel wm) {
@@ -60,9 +58,8 @@ class BookmarksList extends InjectedElementaryWidget<BookmarksListWidgetModel> {
                       subTitle: list[index].subTitle,
                       uri: list[index].uri,
                       onPressed: () => wm.onPressedItem(list[index].bookmarkId),
-                      onPressedRemove: () => wm.onPressedRemove(
-                        list[index].bookmarkId,
-                      ),
+                      onPressedRemove: () =>
+                          wm.onPressedRemove(list[index].bookmarkId),
                     );
                   },
                 );
@@ -81,9 +78,6 @@ class BookmarksList extends InjectedElementaryWidget<BookmarksListWidgetModel> {
   }
 
   Widget _proxyDecorator(Widget child, _, __) {
-    return Material(
-      color: Colors.transparent,
-      child: child,
-    );
+    return Material(color: Colors.transparent, child: child);
   }
 }

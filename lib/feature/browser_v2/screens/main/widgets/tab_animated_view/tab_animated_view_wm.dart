@@ -24,13 +24,15 @@ class TabAnimatedViewWmParams {
 
 /// [WidgetModel] для [TabAnimatedView]
 @injectable
-class TabAnimatedViewWidgetModel extends CustomWidgetModelParametrized<
-    TabAnimatedView,
-    TabAnimatedViewModel,
-    TabAnimatedViewWmParams> with SingleTickerProviderWidgetModelMixin {
-  TabAnimatedViewWidgetModel(
-    super.model,
-  );
+class TabAnimatedViewWidgetModel
+    extends
+        CustomWidgetModelParametrized<
+          TabAnimatedView,
+          TabAnimatedViewModel,
+          TabAnimatedViewWmParams
+        >
+    with SingleTickerProviderWidgetModelMixin {
+  TabAnimatedViewWidgetModel(super.model);
 
   late final widthAnimation = Tween<double>(
     begin: 168,
@@ -143,9 +145,7 @@ class TabAnimatedViewWidgetModel extends CustomWidgetModelParametrized<
   void _updateScreenshotFile() {
     final path = model.screenshotPath;
 
-    _screenshotStateState.accept(
-      path == null ? null : File(path),
-    );
+    _screenshotStateState.accept(path == null ? null : File(path));
   }
 
   void _updateAnimationPosition(double tabX, double tabY) {

@@ -8,9 +8,7 @@ import 'package:ui_components_lib/ui_components_lib.dart';
 
 class CustomBottomNavigationBar
     extends InjectedElementaryWidget<CustomBottomNavigationBarWidgetModel> {
-  const CustomBottomNavigationBar({
-    super.key,
-  });
+  const CustomBottomNavigationBar({super.key});
 
   static const height = DimensSizeV2.d48;
   static const animateDuration = Duration(milliseconds: 150);
@@ -54,8 +52,8 @@ class CustomBottomNavigationBar
                             borderRadius: switch (tab) {
                               RootTab.browser => null,
                               _ => const BorderRadius.vertical(
-                                  top: Radius.circular(DimensSizeV2.d16),
-                                ),
+                                top: Radius.circular(DimensSizeV2.d16),
+                              ),
                             },
                             border: Border(
                               top: BorderSide(

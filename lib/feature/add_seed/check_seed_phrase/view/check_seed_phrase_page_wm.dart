@@ -10,10 +10,7 @@ import 'package:injectable/injectable.dart';
 import 'package:nekoton_repository/nekoton_repository.dart';
 
 class CheckSeedPhraseWmParams {
-  const CheckSeedPhraseWmParams({
-    required this.seed,
-    this.name,
-  });
+  const CheckSeedPhraseWmParams({required this.seed, this.name});
 
   final SeedPhraseModel seed;
   final String? name;
@@ -35,17 +32,24 @@ const _defaultWordsToCheckAmount = 3;
 const _defaultCheckAnswersAmount = 9;
 
 @injectable
-class CheckSeedPhrasePageWidgetModel extends CustomWidgetModelParametrized<
-    CheckSeedPhrasePage, CheckSeedPhrasePageModel, CheckSeedPhraseWmParams> {
+class CheckSeedPhrasePageWidgetModel
+    extends
+        CustomWidgetModelParametrized<
+          CheckSeedPhrasePage,
+          CheckSeedPhrasePageModel,
+          CheckSeedPhraseWmParams
+        > {
   CheckSeedPhrasePageWidgetModel(super.model);
 
   late final screenState = createEntityNotifier<CheckSeedPhraseData>();
 
   late final _correctAnswers = _selectCorrectAnswers(wmParams.value.seed);
-  late final List<String> _availableAnswers =
-      _generateAnswerWords(_correctAnswers);
-  late final List<CheckSeedCorrectAnswer> _userAnswers =
-      _correctAnswers.map((e) => e.copyWith(word: '')).toList();
+  late final List<String> _availableAnswers = _generateAnswerWords(
+    _correctAnswers,
+  );
+  late final List<CheckSeedCorrectAnswer> _userAnswers = _correctAnswers
+      .map((e) => e.copyWith(word: ''))
+      .toList();
   int? _currentCheckIndex = 0;
 
   @override
@@ -62,8 +66,8 @@ class CheckSeedPhrasePageWidgetModel extends CustomWidgetModelParametrized<
 
   void answerQuestion(String answer) {
     if (_currentCheckIndex == null) return;
-    _userAnswers[_currentCheckIndex!] =
-        _userAnswers[_currentCheckIndex!].copyWith(word: answer);
+    _userAnswers[_currentCheckIndex!] = _userAnswers[_currentCheckIndex!]
+        .copyWith(word: answer);
     _goNextOrValidate();
   }
 
@@ -160,16 +164,11 @@ class CheckSeedPhrasePageWidgetModel extends CustomWidgetModelParametrized<
     indices.sort();
     return [
       for (final index in indices)
-        CheckSeedCorrectAnswer(
-          seed.words[index],
-          index,
-        ),
+        CheckSeedCorrectAnswer(seed.words[index], index),
     ];
   }
 
-  List<String> _generateAnswerWords(
-    List<CheckSeedCorrectAnswer> correct,
-  ) {
+  List<String> _generateAnswerWords(List<CheckSeedCorrectAnswer> correct) {
     final correctWords = correct.map((e) => e.word).toList();
     final dictionary = getHints(input: '');
     final answers = <String>[...correctWords];

@@ -16,8 +16,9 @@ class SelectSeedWidgetModel
     with BleAvailabilityWmMixin {
   SelectSeedWidgetModel(super.model);
 
-  late final _currentAccountState =
-      createNotifierFromStream(model.currentAccount);
+  late final _currentAccountState = createNotifierFromStream(
+    model.currentAccount,
+  );
   late final _listState = createNotifierFromStream(model.seedWithAccounts);
 
   ListenableState<List<Seed>> get listState => _listState;
@@ -43,9 +44,7 @@ class SelectSeedWidgetModel
 
     if (seed.masterKey.isLegacy) {
       contextSafe?.compassContinue(
-        NewAccountRouteData(
-          publicKey: seed.publicKey.publicKey,
-        ),
+        NewAccountRouteData(publicKey: seed.publicKey.publicKey),
       );
       return;
     }
@@ -55,9 +54,7 @@ class SelectSeedWidgetModel
       if (!isAvailable) return;
 
       contextSafe?.compassContinue(
-        NewAccountRouteData(
-          publicKey: seed.publicKey.publicKey,
-        ),
+        NewAccountRouteData(publicKey: seed.publicKey.publicKey),
       );
       return;
     }

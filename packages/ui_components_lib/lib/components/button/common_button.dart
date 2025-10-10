@@ -51,17 +51,16 @@ class CommonButton extends StatefulWidget {
     FocusNode? focusNode,
     bool isLoading = false,
     bool fillWidth = false,
-  }) =>
-      CommonButton(
-        text: text,
-        onPressed: onPressed,
-        onLongPress: onLongPress,
-        leading: leading,
-        trailing: trailing,
-        focusNode: focusNode,
-        isLoading: isLoading,
-        fillWidth: fillWidth,
-      );
+  }) => CommonButton(
+    text: text,
+    onPressed: onPressed,
+    onLongPress: onLongPress,
+    leading: leading,
+    trailing: trailing,
+    focusNode: focusNode,
+    isLoading: isLoading,
+    fillWidth: fillWidth,
+  );
 
   /// CommonButton with secondary style
   factory CommonButton.secondary({
@@ -73,18 +72,17 @@ class CommonButton extends StatefulWidget {
     FocusNode? focusNode,
     bool isLoading = false,
     bool fillWidth = false,
-  }) =>
-      CommonButton(
-        buttonType: EverButtonType.secondary,
-        text: text,
-        onPressed: onPressed,
-        onLongPress: onLongPress,
-        leading: leading,
-        trailing: trailing,
-        focusNode: focusNode,
-        isLoading: isLoading,
-        fillWidth: fillWidth,
-      );
+  }) => CommonButton(
+    buttonType: EverButtonType.secondary,
+    text: text,
+    onPressed: onPressed,
+    onLongPress: onLongPress,
+    leading: leading,
+    trailing: trailing,
+    focusNode: focusNode,
+    isLoading: isLoading,
+    fillWidth: fillWidth,
+  );
 
   /// CommonButton with ghost style
   factory CommonButton.ghost({
@@ -98,20 +96,19 @@ class CommonButton extends StatefulWidget {
     FocusNode? focusNode,
     bool isLoading = false,
     bool fillWidth = false,
-  }) =>
-      CommonButton(
-        buttonType: EverButtonType.ghost,
-        text: text,
-        onPressed: onPressed,
-        onLongPress: onLongPress,
-        leading: leading,
-        trailing: trailing,
-        focusNode: focusNode,
-        isLoading: isLoading,
-        fillWidth: fillWidth,
-        height: height ?? commonButtonHeight,
-        padding: padding,
-      );
+  }) => CommonButton(
+    buttonType: EverButtonType.ghost,
+    text: text,
+    onPressed: onPressed,
+    onLongPress: onLongPress,
+    leading: leading,
+    trailing: trailing,
+    focusNode: focusNode,
+    isLoading: isLoading,
+    fillWidth: fillWidth,
+    height: height ?? commonButtonHeight,
+    padding: padding,
+  );
 
   /// Type of the button that is used to identify colors
   final EverButtonType buttonType;
@@ -198,18 +195,18 @@ class _CommonButtonState extends State<CommonButton> {
     final contentColor = isDisabled
         ? (widget.contentDisabledColor ?? buttonStyle.contentDisabledColor)
         : isPressed
-            ? (widget.contentPressedColor ?? buttonStyle.contentPressedColor)
-            : (widget.contentColor ?? buttonStyle.contentColor);
+        ? (widget.contentPressedColor ?? buttonStyle.contentPressedColor)
+        : (widget.contentColor ?? buttonStyle.contentColor);
     final textStyle = widget.style ?? styles.buttonTextStyle;
     final bgColor = isDisabled
         ? (widget.backgroundDisabledColor ??
-            buttonStyle.backgroundDisabledColor)
+              buttonStyle.backgroundDisabledColor)
         : (widget.backgroundColor ?? buttonStyle.backgroundColor);
 
     final child = widget.child == null
         ? (widget.isLoading
-            ? _loadingChild(contentColor)
-            : _textChild(textStyle, contentColor))
+              ? _loadingChild(contentColor)
+              : _textChild(textStyle, contentColor))
         : widget.child!;
 
     return EverButtonStyleProvider(
@@ -247,7 +244,8 @@ class _CommonButtonState extends State<CommonButton> {
 
   Widget _loadingChild(Color contentColor) {
     return Padding(
-      padding: widget.padding ??
+      padding:
+          widget.padding ??
           const EdgeInsets.symmetric(horizontal: DimensSize.d48),
       child: SizedBox(
         width: DimensSize.d20,
@@ -272,10 +270,9 @@ class _CommonButtonState extends State<CommonButton> {
     );
 
     return Padding(
-      padding: widget.padding ??
-          const EdgeInsets.symmetric(
-            horizontal: DimensSize.d20,
-          ),
+      padding:
+          widget.padding ??
+          const EdgeInsets.symmetric(horizontal: DimensSize.d20),
       child: widget.leading == null && widget.trailing == null
           ? textWidget
           : Row(
@@ -284,17 +281,13 @@ class _CommonButtonState extends State<CommonButton> {
               children: [
                 if (widget.leading != null)
                   Padding(
-                    padding: const EdgeInsets.only(
-                      right: DimensSize.d8,
-                    ),
+                    padding: const EdgeInsets.only(right: DimensSize.d8),
                     child: widget.leading,
                   ),
                 Flexible(child: textWidget),
                 if (widget.trailing != null)
                   Padding(
-                    padding: const EdgeInsets.only(
-                      left: DimensSize.d8,
-                    ),
+                    padding: const EdgeInsets.only(left: DimensSize.d8),
                     child: widget.trailing,
                   ),
               ],

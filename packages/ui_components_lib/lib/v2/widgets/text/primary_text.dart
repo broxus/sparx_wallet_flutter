@@ -23,11 +23,11 @@ class PrimaryText extends StatelessWidget {
   }
 
   TextStyle _getTextStyle(TextStylesV2 textStyles) => switch (type) {
-        PrimaryTextType.titleLarge => textStyles.headingLarge,
-        PrimaryTextType.titleSmall => textStyles.headingXSmall,
-        PrimaryTextType.descriptionLarge => textStyles.paragraphMedium,
-        PrimaryTextType.descriptionSmall => textStyles.paragraphXSmall,
-      };
+    PrimaryTextType.titleLarge => textStyles.headingLarge,
+    PrimaryTextType.titleSmall => textStyles.headingXSmall,
+    PrimaryTextType.descriptionLarge => textStyles.paragraphMedium,
+    PrimaryTextType.descriptionSmall => textStyles.paragraphXSmall,
+  };
 }
 
 enum PrimaryTextType {

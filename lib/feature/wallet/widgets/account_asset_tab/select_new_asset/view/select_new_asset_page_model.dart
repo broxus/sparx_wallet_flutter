@@ -21,32 +21,34 @@ class SelectNewAssetPageModel extends ElementaryModel {
   final MessengerService _messengerService;
 
   Stream<KeyAccount?> accountStreamForAddress(Address address) =>
-      _nekotonRepository.seedListStream
-          .map((list) => list.findAccountByAddress(address));
+      _nekotonRepository.seedListStream.map(
+        (list) => list.findAccountByAddress(address),
+      );
 
   Stream<List<(TokenContractAsset, bool)>> availableContractsSorted(
     Address address,
   ) {
-    return _assetsService
-        .allAvailableContractsForAccount(address)
-        .map((allContracts) {
+    return _assetsService.allAvailableContractsForAccount(address).map((
+      allContracts,
+    ) {
       final manifestAssets = _assetsService.currentSystemTokenContractAssets;
       final mappedAssets = {
         for (final entry in manifestAssets.indexed) entry.$2.address: entry.$1,
       };
 
-      final items = [
-        ...allContracts.$2.map((e) => (e, true)),
-        ...allContracts.$1.map((e) => (e, false)),
-      ]..sort((a, b) {
-          final aIndex = mappedAssets[a.$1.address];
-          final bIndex = mappedAssets[b.$1.address];
+      final items =
+          [
+            ...allContracts.$2.map((e) => (e, true)),
+            ...allContracts.$1.map((e) => (e, false)),
+          ]..sort((a, b) {
+            final aIndex = mappedAssets[a.$1.address];
+            final bIndex = mappedAssets[b.$1.address];
 
-          if (aIndex == null) return 1;
-          if (bIndex == null) return -1;
+            if (aIndex == null) return 1;
+            if (bIndex == null) return -1;
 
-          return aIndex.compareTo(bIndex);
-        });
+            return aIndex.compareTo(bIndex);
+          });
 
       return items;
     });

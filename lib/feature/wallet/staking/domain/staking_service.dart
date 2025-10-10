@@ -49,9 +49,9 @@ class StakingService {
   /// To update withdraws, call [tryUpdateWithdraws].
   Stream<List<StEverWithdrawRequest>> withdrawRequestsStream(
     Address accountAddress,
-  ) =>
-      _withdrawSubject.stream
-          .map((withdraws) => withdraws[accountAddress] ?? []);
+  ) => _withdrawSubject.stream.map(
+    (withdraws) => withdraws[accountAddress] ?? [],
+  );
 
   /// This method must be called from AccountCard manually every time when
   /// [TonWallet.fieldUpdatesStream] emits new data.
@@ -92,9 +92,7 @@ class StakingService {
       accountStuffBoc: contract.boc,
       contractAbi: await _abiProvider.getVaultAbi(_networkType),
       methodId: 'encodeDepositPayload',
-      input: {
-        '_nonce': NtpTime.now().millisecondsSinceEpoch,
-      },
+      input: {'_nonce': NtpTime.now().millisecondsSinceEpoch},
       responsible: false,
     );
 
@@ -107,9 +105,7 @@ class StakingService {
     final payload = FunctionCall(
       method: 'removePendingWithdraw',
       abi: await _abiProvider.getVaultAbi(_networkType),
-      params: {
-        '_nonce': nonce,
-      },
+      params: {'_nonce': nonce},
     );
 
     return encodeInternalInput(
@@ -226,9 +222,7 @@ class StakingService {
 
   /// Get contract state for user staking, that can be used to call [runLocal]
   /// methods to get information about user staking.
-  Future<FullContractState> getUserContractState(
-    Address accountVault,
-  ) async {
+  Future<FullContractState> getUserContractState(Address accountVault) async {
     final contractState = await _nekotonRepository.currentTransport.transport
         .getFullContractState(accountVault);
     if (contractState == null) {

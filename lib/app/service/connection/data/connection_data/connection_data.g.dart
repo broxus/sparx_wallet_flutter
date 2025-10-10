@@ -11,8 +11,9 @@ ConnectionDataGql _$ConnectionDataGqlFromJson(Map<String, dynamic> json) =>
       id: json['id'] as String,
       name: json['name'] as String,
       group: json['group'] as String,
-      endpoints:
-          (json['endpoints'] as List<dynamic>).map((e) => e as String).toList(),
+      endpoints: (json['endpoints'] as List<dynamic>)
+          .map((e) => e as String)
+          .toList(),
       networkType: NetworkType.fromJson(json['networkType'] as String),
       isLocal: json['isLocal'] as bool,
       blockExplorerUrl: json['blockExplorerUrl'] as String,
@@ -23,11 +24,11 @@ ConnectionDataGql _$ConnectionDataGqlFromJson(Map<String, dynamic> json) =>
       isUsedOnStart: json['isUsedOnStart'] as bool? ?? true,
       manifestUrl: json['manifestUrl'] as String? ?? '',
       nativeTokenDecimals: (json['nativeTokenDecimals'] as num?)?.toInt() ?? 9,
-      latencyDetectionInterval:
-          (json['latencyDetectionInterval'] as num?)?.toInt(),
+      latencyDetectionInterval: (json['latencyDetectionInterval'] as num?)
+          ?.toInt(),
       maxLatency: (json['maxLatency'] as num?)?.toInt(),
-      endpointSelectionRetryCount:
-          (json['endpointSelectionRetryCount'] as num?)?.toInt(),
+      endpointSelectionRetryCount: (json['endpointSelectionRetryCount'] as num?)
+          ?.toInt(),
       $type: json['runtimeType'] as String?,
     );
 
@@ -72,23 +73,23 @@ ConnectionDataProto _$ConnectionDataProtoFromJson(Map<String, dynamic> json) =>
     );
 
 Map<String, dynamic> _$ConnectionDataProtoToJson(
-        ConnectionDataProto instance) =>
-    <String, dynamic>{
-      'id': instance.id,
-      'name': instance.name,
-      'group': instance.group,
-      'endpoint': instance.endpoint,
-      'networkType': instance.networkType.toJson(),
-      'blockExplorerUrl': instance.blockExplorerUrl,
-      'nativeTokenTicker': instance.nativeTokenTicker,
-      'isPreset': instance.isPreset,
-      'canBeEdited': instance.canBeEdited,
-      'sortingOrder': instance.sortingOrder,
-      'isUsedOnStart': instance.isUsedOnStart,
-      'manifestUrl': instance.manifestUrl,
-      'nativeTokenDecimals': instance.nativeTokenDecimals,
-      'runtimeType': instance.$type,
-    };
+  ConnectionDataProto instance,
+) => <String, dynamic>{
+  'id': instance.id,
+  'name': instance.name,
+  'group': instance.group,
+  'endpoint': instance.endpoint,
+  'networkType': instance.networkType.toJson(),
+  'blockExplorerUrl': instance.blockExplorerUrl,
+  'nativeTokenTicker': instance.nativeTokenTicker,
+  'isPreset': instance.isPreset,
+  'canBeEdited': instance.canBeEdited,
+  'sortingOrder': instance.sortingOrder,
+  'isUsedOnStart': instance.isUsedOnStart,
+  'manifestUrl': instance.manifestUrl,
+  'nativeTokenDecimals': instance.nativeTokenDecimals,
+  'runtimeType': instance.$type,
+};
 
 ConnectionDataJrpc _$ConnectionDataJrpcFromJson(Map<String, dynamic> json) =>
     ConnectionDataJrpc(

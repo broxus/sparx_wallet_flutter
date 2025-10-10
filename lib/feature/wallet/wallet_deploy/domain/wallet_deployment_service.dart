@@ -125,9 +125,7 @@ class WalletDeploymentService {
       );
 
       _messengerService.show(
-        Message.successful(
-          message: LocaleKeys.walletDeployedSuccessfully.tr(),
-        ),
+        Message.successful(message: LocaleKeys.walletDeployedSuccessfully.tr()),
       );
 
       return transaction;
@@ -136,9 +134,7 @@ class WalletDeploymentService {
     } on Exception catch (e, t) {
       if (e is AnyhowException && e.isCancelled) rethrow;
       _logger.severe('deployWallet', e, t);
-      _messengerService.show(
-        Message.error(message: e.toString()),
-      );
+      _messengerService.show(Message.error(message: e.toString()));
       rethrow;
     }
   }
@@ -270,8 +266,8 @@ class WalletDeploymentService {
       expiration: defaultSendTimeout,
       expirationTime:
           walletType == const WalletType.multisig(MultisigType.multisig2_1)
-              ? hours * 3600
-              : null,
+          ? hours * 3600
+          : null,
     );
   }
 
@@ -323,9 +319,7 @@ class WalletDeploymentService {
     if (state != BluetoothAdapterState.on &&
         state != BluetoothAdapterState.turningOn) {
       _messengerService.show(
-        Message.error(
-          message: LocaleKeys.bluetoothIsOff.tr(),
-        ),
+        Message.error(message: LocaleKeys.bluetoothIsOff.tr()),
       );
       return false;
     }

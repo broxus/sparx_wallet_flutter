@@ -36,9 +36,7 @@ class BrowserHeaderTextButton extends StatelessWidget {
             child: Center(
               child: Text(
                 text,
-                style: styles.labelSmall.copyWith(
-                  color: colors.content2,
-                ),
+                style: styles.labelSmall.copyWith(color: colors.content2),
               ),
             ),
           ),

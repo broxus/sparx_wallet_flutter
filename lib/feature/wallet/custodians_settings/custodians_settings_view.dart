@@ -9,12 +9,14 @@ import 'package:nekoton_repository/nekoton_repository.dart';
 import 'package:ui_components_lib/ui_components_lib.dart';
 import 'package:ui_components_lib/v2/ui_components_lib_v2.dart';
 
-class CustodiansSettingsView extends InjectedElementaryParametrizedWidget<
-    CustodianSettingsWidgetModel, Address> {
-  const CustodiansSettingsView({
-    required Address address,
-    super.key,
-  }) : super(wmFactoryParam: address);
+class CustodiansSettingsView
+    extends
+        InjectedElementaryParametrizedWidget<
+          CustodianSettingsWidgetModel,
+          Address
+        > {
+  const CustodiansSettingsView({required Address address, super.key})
+    : super(wmFactoryParam: address);
 
   @override
   Widget build(CustodianSettingsWidgetModel wm) {
@@ -31,9 +33,7 @@ class CustodiansSettingsView extends InjectedElementaryParametrizedWidget<
                 return const Center(
                   child: Padding(
                     padding: EdgeInsets.symmetric(vertical: DimensSizeV2.d24),
-                    child: ProgressIndicatorWidget(
-                      size: DimensSizeV2.d40,
-                    ),
+                    child: ProgressIndicatorWidget(size: DimensSizeV2.d40),
                   ),
                 );
               }
@@ -80,10 +80,7 @@ class CustodiansSettingsView extends InjectedElementaryParametrizedWidget<
 }
 
 class _CustodianItem extends StatelessWidget {
-  const _CustodianItem({
-    required this.item,
-    required this.onTap,
-  });
+  const _CustodianItem({required this.item, required this.onTap});
 
   final CustodianData item;
   final VoidCallback onTap;
@@ -117,9 +114,7 @@ class _CustodianItem extends StatelessWidget {
                 ],
               ),
             ),
-            const SizedBox(
-              width: DimensSizeV2.d12,
-            ),
+            const SizedBox(width: DimensSizeV2.d12),
             Icon(LucideIcons.pencilLine, color: theme.colors.content0),
           ],
         ),

@@ -25,9 +25,7 @@ void showBookModal(BuildContext context) {
 }
 
 class BrowserBook extends InjectedElementaryWidget<BrowserBookWidgetModel> {
-  const BrowserBook({
-    super.key,
-  });
+  const BrowserBook({super.key});
 
   static const _duration = Duration(milliseconds: 250);
 
@@ -55,8 +53,9 @@ class BrowserBook extends InjectedElementaryWidget<BrowserBookWidgetModel> {
                   return Offstage(
                     offstage: value != BrowserBookTabBarValue.bookMarks,
                     child: AnimatedOpacity(
-                      opacity:
-                          value == BrowserBookTabBarValue.bookMarks ? 1 : 0,
+                      opacity: value == BrowserBookTabBarValue.bookMarks
+                          ? 1
+                          : 0,
                       duration: _duration,
                       child: const BookmarksList(),
                     ),

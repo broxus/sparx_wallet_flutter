@@ -91,14 +91,14 @@ class ConnectionsStorageService extends AbstractStorageService {
 
   /// Stream of currect connection id
   Stream<ConnectionData> get currentConnectionStream => Rx.combineLatest2(
-        connectionsStream,
-        currentConnectionIdStream,
-        (connections, currentConnectionId) =>
-            connections.firstWhereOrNull(
-              (connection) => connection.id == currentConnectionId,
-            ) ??
-            _defaultNetwork,
-      );
+    connectionsStream,
+    currentConnectionIdStream,
+    (connections, currentConnectionId) =>
+        connections.firstWhereOrNull(
+          (connection) => connection.id == currentConnectionId,
+        ) ??
+        _defaultNetwork,
+  );
 
   // Get last cached currect connection
   ConnectionData get currentConnection {
@@ -132,10 +132,9 @@ class ConnectionsStorageService extends AbstractStorageService {
 
   /// Put [ConnectionData] items to stream
   void _streamedConnections() => _connectionsSubject.add(
-        [...readConnections()]..sort(
-            (a, b) => (a.sortingOrder - b.sortingOrder).sign.toInt(),
-          ),
-      );
+    [...readConnections()]
+      ..sort((a, b) => (a.sortingOrder - b.sortingOrder).sign.toInt()),
+  );
 
   /// Put current connection id to stream
   void _streamedCurrentConnectionId() {
@@ -182,7 +181,8 @@ class ConnectionsStorageService extends AbstractStorageService {
 
     final connectionsText = connections
         .map(
-          (connection) => 'name: ${connection.name}; '
+          (connection) =>
+              'name: ${connection.name}; '
               'networkType: ${connection.networkType}; '
               'isPreset: ${connection.isPreset}; '
               'id: ${connection.id}',
@@ -243,9 +243,7 @@ class ConnectionsStorageService extends AbstractStorageService {
   /// Save current connection id to storage
   void updateNetworksIds(Iterable<(String, int)> values) {
     final map = Map<String, int>.from(networksIds)
-      ..addEntries(
-        values.map((value) => MapEntry(value.$1, value.$2)),
-      );
+      ..addEntries(values.map((value) => MapEntry(value.$1, value.$2)));
 
     _storage.write(_networksIdsKey, map);
     _streamedNetworksIds();
@@ -297,8 +295,10 @@ class ConnectionsStorageService extends AbstractStorageService {
   void updateConnection(ConnectionData item) {
     final index = connections.indexWhere((element) => element.id == item.id);
     if (index < 0) {
-      _log.warning('Unable to update connection with id ${item.id}. '
-          'Connection not found.');
+      _log.warning(
+        'Unable to update connection with id ${item.id}. '
+        'Connection not found.',
+      );
 
       return;
     }
@@ -307,20 +307,19 @@ class ConnectionsStorageService extends AbstractStorageService {
 
     saveConnections(newConnections);
 
-    _messengerService.show(
-      Message.info(
-        message: LocaleKeys.networkSaved.tr(),
-      ),
-    );
+    _messengerService.show(Message.info(message: LocaleKeys.networkSaved.tr()));
   }
 
   /// Revert item to defaults from preset
   void revertConnection(String id) {
-    final preset =
-        _networkPresets.firstWhereOrNull((element) => element.id == id);
+    final preset = _networkPresets.firstWhereOrNull(
+      (element) => element.id == id,
+    );
     if (preset == null) {
-      _log.warning('Unable to revert connection from preset with id $id. '
-          'Connection not found');
+      _log.warning(
+        'Unable to revert connection from preset with id $id. '
+        'Connection not found',
+      );
 
       return;
     }

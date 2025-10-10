@@ -9,15 +9,14 @@ Future<Network?> showAddNetworkSheet({
   required Uri origin,
   required AddNetwork network,
   required bool switchNetwork,
-}) =>
-    showCommonBottomSheet<Network?>(
-      context: context,
-      title: LocaleKeys.addNetwork.tr(),
-      centerTitle: true,
-      body: (context, scroll) => AddNetworkWidget(
-        origin: origin,
-        network: network,
-        switchNetwork: switchNetwork,
-        scrollController: scroll,
-      ),
-    );
+}) => showCommonBottomSheet<Network?>(
+  context: context,
+  title: LocaleKeys.addNetwork.tr(),
+  centerTitle: true,
+  body: (context, scroll) => AddNetworkWidget(
+    origin: origin,
+    network: network,
+    switchNetwork: switchNetwork,
+    scrollController: scroll,
+  ),
+);

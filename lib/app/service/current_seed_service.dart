@@ -56,10 +56,7 @@ class CurrentSeedService {
     _currentSeedSubject.close();
   }
 
-  Future<void> _updateData(
-    PublicKey? currentKey,
-    SeedList list,
-  ) async {
+  Future<void> _updateData(PublicKey? currentKey, SeedList list) async {
     final seed = await _tryUpdateCurrentKey(currentKey, list);
     if (seed != null) {
       _currentSeedSubject.add(seed);

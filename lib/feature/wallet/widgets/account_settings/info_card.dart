@@ -50,10 +50,7 @@ class AccountSettingsInfoCard extends StatelessWidget {
             ),
           ),
           Flexible(
-            child: _Detail(
-              account: account,
-              isShowingKey: isShowingKey,
-            ),
+            child: _Detail(account: account, isShowingKey: isShowingKey),
           ),
         ],
       ),
@@ -62,10 +59,7 @@ class AccountSettingsInfoCard extends StatelessWidget {
 }
 
 class _Detail extends StatelessWidget {
-  const _Detail({
-    required this.account,
-    required this.isShowingKey,
-  });
+  const _Detail({required this.account, required this.isShowingKey});
 
   final KeyAccount account;
   final bool isShowingKey;
@@ -76,11 +70,7 @@ class _Detail extends StatelessWidget {
 
     return Container(
       decoration: BoxDecoration(
-        border: Border(
-          left: BorderSide(
-            color: theme.colors.borderAlpha,
-          ),
-        ),
+        border: Border(left: BorderSide(color: theme.colors.borderAlpha)),
       ),
       child: Column(
         mainAxisSize: MainAxisSize.min,
@@ -124,14 +114,10 @@ class _Detail extends StatelessWidget {
     required String value,
     required String label,
   }) {
-    Clipboard.setData(
-      ClipboardData(text: value),
-    );
+    Clipboard.setData(ClipboardData(text: value));
     inject<MessengerService>().show(
       Message.successful(
-        message: LocaleKeys.valueCopiedExclamation.tr(
-          args: [label],
-        ),
+        message: LocaleKeys.valueCopiedExclamation.tr(args: [label]),
       ),
     );
   }

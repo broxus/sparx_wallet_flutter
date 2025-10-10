@@ -20,11 +20,8 @@ Map<String, dynamic> _$GaslessConfigDtoToJson(GaslessConfigDto instance) =>
       'gas_jettons': instance.gasJettons.map((e) => e.toJson()).toList(),
     };
 
-GasJettonDto _$GasJettonDtoFromJson(Map<String, dynamic> json) => GasJettonDto(
-      masterId: Address.fromJson(json['master_id'] as String),
-    );
+GasJettonDto _$GasJettonDtoFromJson(Map<String, dynamic> json) =>
+    GasJettonDto(masterId: Address.fromJson(json['master_id'] as String));
 
 Map<String, dynamic> _$GasJettonDtoToJson(GasJettonDto instance) =>
-    <String, dynamic>{
-      'master_id': instance.masterId.toJson(),
-    };
+    <String, dynamic>{'master_id': instance.masterId.toJson()};

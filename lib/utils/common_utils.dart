@@ -10,8 +10,8 @@ import 'package:elementary_helper/elementary_helper.dart';
 import 'package:flutter/foundation.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:json_annotation/json_annotation.dart';
-import 'package:money2_fixer/money2_fixer.dart';
-import 'package:nekoton_repository/nekoton_repository.dart' hide MoneyFixer;
+import 'package:money2/money2.dart';
+import 'package:nekoton_repository/nekoton_repository.dart';
 import 'package:rxdart/rxdart.dart';
 
 extension DateX on DateTime {
@@ -43,19 +43,58 @@ class _MoneyFromStringJsonConverter
 
   @override
   Money fromJson(Map<String, dynamic> json) {
-    final currency = json['currency'] as Map<String, dynamic>;
-    // fix old json format: 'code' -> 'isoCode', 'scale' -> 'decimalDigits'
-    currency
-      ..putIfAbsent('isoCode', () => currency['code'] ?? currency['symbol'])
-      ..putIfAbsent('decimalDigits', () => currency['scale'] ?? 0)
-      ..remove('code')
-      ..remove('scale');
-    return MoneyFixer.fromJsonImproved(json);
+    // Check if this is old money2_fixer format
+    // (has 'amount' and 'currency' keys)
+    if (json.containsKey('amount') && json.containsKey('currency')) {
+      // Old money2_fixer format:
+      // { "amount": { "minorUnits": "...", "scale": 2 },
+      // "currency": { "isoCode": "USD", ... } }
+      final amount = json['amount'] as Map<String, dynamic>;
+      final currency = json['currency'] as Map<String, dynamic>;
+      // fix old json format: 'code' -> 'isoCode', 'scale' -> 'decimalDigits'
+      currency
+        ..putIfAbsent('isoCode', () => currency['code'] ?? currency['symbol'])
+        ..putIfAbsent('decimalDigits', () => currency['scale'] ?? 0)
+        ..remove('code')
+        ..remove('scale');
+
+      return Money.fromBigInt(
+        BigInt.parse(amount['minorUnits'] as String),
+        isoCode: currency['isoCode'] as String,
+        decimalDigits: (amount['scale'] ?? currency['decimalDigits']) as int?,
+      );
+    }
+
+    // New money2 v6 format:
+    // { "minorUnits": "...", "decimals": 2, "isoCode": "USD" }
+    return Money.fromJson(json);
   }
 
   @override
-  Map<String, dynamic> toJson(Money object) =>
-      MoneyFixer(object).toJsonImproved();
+  Map<String, dynamic> toJson(Money object) => object.toJson();
+}
+
+const fixedFromJsonConverter = _FixedFromJsonConverter();
+
+class _FixedFromJsonConverter
+    extends JsonConverter<Fixed, Map<String, dynamic>> {
+  const _FixedFromJsonConverter();
+
+  @override
+  Fixed fromJson(Map<String, dynamic> json) {
+    // Handle both old money2_fixer and new money2 v6 JSON formats
+    // Old format: {"minorUnits": "...", "scale": 2}
+    // New format: {"minorUnits": "...", "decimalDigits": 2}
+    final minorUnits = BigInt.parse(json['minorUnits'] as String);
+    final decimalDigits = (json['decimalDigits'] ?? json['scale']) as int;
+    return Fixed.fromBigInt(minorUnits, decimalDigits: decimalDigits);
+  }
+
+  @override
+  Map<String, dynamic> toJson(Fixed object) => {
+    'minorUnits': object.minorUnits.toString(),
+    'decimalDigits': object.decimalDigits,
+  };
 }
 
 class NtpTime {
@@ -132,10 +171,8 @@ extension MoneyExt on Money {
 extension GetStorageExt on GetStorage {
   Iterable<String> getStringKeys() => getKeys();
 
-  Map<String, dynamic> getEntries() => Map.fromIterables(
-        getStringKeys(),
-        getValues<Iterable<dynamic>>(),
-      );
+  Map<String, dynamic> getEntries() =>
+      Map.fromIterables(getStringKeys(), getValues<Iterable<dynamic>>());
 }
 
 extension FutureExt<T> on Future<T> {
@@ -316,9 +353,8 @@ String getNetworkGroupByNetworkType(dynamic networkType) {
 }
 
 extension MnemonicTypeJson on MnemonicType {
-  Map<String, dynamic> toJson() => const MnemonicTypeJsonConverter().toJson(
-        this,
-      );
+  Map<String, dynamic> toJson() =>
+      const MnemonicTypeJsonConverter().toJson(this);
 }
 
 Future<void> callWithDelay(

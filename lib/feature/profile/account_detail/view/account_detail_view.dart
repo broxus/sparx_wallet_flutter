@@ -120,9 +120,7 @@ class AccountDetailView extends StatelessWidget {
   }
 
   void _copyAddress(BuildContext context) {
-    Clipboard.setData(
-      ClipboardData(text: account.address.address),
-    );
+    Clipboard.setData(ClipboardData(text: account.address.address));
     inject<MessengerService>().show(
       Message.successful(
         message: LocaleKeys.valueCopiedExclamation.tr(

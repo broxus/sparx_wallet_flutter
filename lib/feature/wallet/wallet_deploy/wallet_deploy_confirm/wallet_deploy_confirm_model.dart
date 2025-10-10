@@ -36,10 +36,7 @@ class WalletDeployConfirmModel extends ElementaryModel {
 
     final balance = await _walletDeploymentService.getWalletBalance(address);
 
-    return WalletDeploymentFees(
-      fee: fee,
-      balance: balance,
-    );
+    return WalletDeploymentFees(fee: fee, balance: balance);
   }
 
   Future<CustomCurrency?> getOrFetchNativeCurrency() {

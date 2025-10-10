@@ -26,9 +26,7 @@ final getIt = GetIt.instance;
     ExternalModule(EncryptedStoragePackageModule),
     ExternalModule(NekotonRepositoryPackageModule),
   ],
-  ignoreUnregisteredTypes: [
-    GetStorage,
-  ],
+  ignoreUnregisteredTypes: [GetStorage],
 )
 Future<void> configureDi() async {
   getIt.enableRegisteringMultipleInstancesOfOneType();

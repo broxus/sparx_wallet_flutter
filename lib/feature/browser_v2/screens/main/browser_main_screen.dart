@@ -14,9 +14,7 @@ import 'package:flutter/material.dart';
 
 class BrowserMainScreen
     extends InjectedElementaryWidget<BrowserMainScreenWidgetModel> {
-  const BrowserMainScreen({
-    super.key,
-  });
+  const BrowserMainScreen({super.key});
 
   @override
   Widget build(BrowserMainScreenWidgetModel wm) {
@@ -138,13 +136,8 @@ class BrowserMainScreen
 }
 
 class _ItemPosition extends Positioned {
-  const _ItemPosition({
-    required super.child,
-  }) : super(
-          bottom: 0,
-          left: 0,
-          right: 0,
-        );
+  const _ItemPosition({required super.child})
+    : super(bottom: 0, left: 0, right: 0);
 }
 
 class _MenuAnimation extends StatelessWidget {
@@ -167,20 +160,14 @@ class _MenuAnimation extends StatelessWidget {
     return RepaintBoundary(
       child: SlideTransition(
         position: offsetAnimation,
-        child: FadeTransition(
-          opacity: opacityAnimation,
-          child: child,
-        ),
+        child: FadeTransition(opacity: opacityAnimation, child: child),
       ),
     );
   }
 }
 
 class _PastGoView extends StatelessWidget {
-  const _PastGoView({
-    required this.showState,
-    required this.onPressed,
-  });
+  const _PastGoView({required this.showState, required this.onPressed});
 
   final ListenableState<bool> showState;
   final VoidCallback onPressed;
@@ -198,11 +185,7 @@ class _PastGoView extends StatelessWidget {
             child: AnimatedOpacity(
               opacity: isShow ? 1 : 0,
               duration: const Duration(milliseconds: 250),
-              child: Center(
-                child: PastGoButton(
-                  onPressed: onPressed,
-                ),
-              ),
+              child: Center(child: PastGoButton(onPressed: onPressed)),
             ),
           );
         },
