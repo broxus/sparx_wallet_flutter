@@ -438,6 +438,52 @@
           "genericTokenType": "tip3",
           "accountExplorerLinkType": "accounts",
           "transactionExplorerLinkType": "transactions"
+        },
+        {
+          "id": 1,
+          "networkType": "tycho",
+          "networkGroup": "venom_mainnet_new",
+          "transportType": "proto",
+          "endpoints": [
+            "http://127.0.0.1:8001"
+          ],
+          "blockExplorerUrl": "",
+          "manifestUrl": "",
+          "icons": {
+            "nativeToken": "",
+            "network": "",
+            "vector": ""
+          },
+          "availableWalletTypes": [
+            {
+              "type": "everWallet"
+            },
+            {
+              "type": "multisig",
+              "value": "multisig2_1"
+            }
+          ],
+          "walletDefaultAccountNames": {
+            "multisig": {
+              "safeMultisigWallet": "SafeMultisig24h"
+            }
+          },
+          "defaultWalletType": {
+            "type": "everWallet"
+          },
+          "nativeTokenTicker": {
+            "name": "newVENOM"
+          },
+          "nativeTokenAddress": "1:77d36848bb159fa485628bc38dc37eadb74befa514395e09910f601b841f749e",
+          "seedPhraseWordsCount": [
+            12
+          ],
+          "defaultNativeCurrencyDecimal": 9,
+          "tokenApiBaseUrl": "",
+          "currencyApiBaseUrl": "",
+          "genericTokenType": "tip3",
+          "accountExplorerLinkType": "accounts",
+          "transactionExplorerLinkType": "transactions"
         }
       ],
       "sortingOrder": 6
