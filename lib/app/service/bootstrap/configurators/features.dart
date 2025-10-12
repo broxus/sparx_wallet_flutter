@@ -21,6 +21,7 @@ class FeatureServicesConfigurator {
     this._tonConnectHttpBridge,
     this._tokenRepository,
     this._nftService,
+    this._gaslessRepository,
   );
 
   final UpdateService _updateService;
@@ -34,6 +35,7 @@ class FeatureServicesConfigurator {
   final TonConnectHttpBridge _tonConnectHttpBridge;
   final TokenRepository _tokenRepository;
   final NftService _nftService;
+  final GaslessRepository _gaslessRepository;
 
   final _log = Logger('bootstrap');
 
@@ -88,5 +90,8 @@ class FeatureServicesConfigurator {
 
     _nftService.init();
     _log.finest('NftService initialized');
+
+    _gaslessRepository.init();
+    _log.finest('GaslessRepository initialized');
   }
 }

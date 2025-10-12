@@ -50,7 +50,7 @@ class RootTabService {
     final currentTab = RootTab.getByRoute(_router.currentRoutes.firstOrNull);
     final isTabUpdated = currentTab != tab;
 
-    if (isTabUpdated) {
+    if (!isTabUpdated) {
       _scrollTabToTopSubject.add(tab);
     }
 

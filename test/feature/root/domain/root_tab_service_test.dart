@@ -365,11 +365,9 @@ void main() {
         when(() => mockRouter.currentRoutes).thenReturn([walletRoute]);
 
         var tabEmitted = false;
-        RootTab? emittedTab;
 
         final subscription = rootTabService.scrollTabToTopSubject.listen((tab) {
           tabEmitted = true;
-          emittedTab = tab;
         });
 
         // Act
@@ -381,8 +379,7 @@ void main() {
 
         // Assert
         expect(result, isTrue);
-        expect(tabEmitted, isTrue);
-        expect(emittedTab, equals(RootTab.browser));
+        expect(tabEmitted, isFalse);
 
         await subscription.cancel();
       });
@@ -408,7 +405,7 @@ void main() {
 
         // Assert
         expect(result, isFalse);
-        expect(tabEmitted, isFalse);
+        expect(tabEmitted, isTrue);
 
         await subscription.cancel();
       });
@@ -418,11 +415,9 @@ void main() {
         when(() => mockRouter.currentRoutes).thenReturn(<CompassBaseGoRoute>[]);
 
         var tabEmitted = false;
-        RootTab? emittedTab;
 
         final subscription = rootTabService.scrollTabToTopSubject.listen((tab) {
           tabEmitted = true;
-          emittedTab = tab;
         });
 
         // Act
@@ -434,8 +429,7 @@ void main() {
 
         // Assert
         expect(result, isTrue);
-        expect(tabEmitted, isTrue);
-        expect(emittedTab, equals(RootTab.browser));
+        expect(tabEmitted, isFalse);
 
         await subscription.cancel();
       });
@@ -446,11 +440,9 @@ void main() {
         when(() => mockRouter.currentRoutes).thenReturn([unknownRoute]);
 
         var tabEmitted = false;
-        RootTab? emittedTab;
 
         final subscription = rootTabService.scrollTabToTopSubject.listen((tab) {
           tabEmitted = true;
-          emittedTab = tab;
         });
 
         // Act
@@ -462,44 +454,7 @@ void main() {
 
         // Assert
         expect(result, isTrue);
-        expect(tabEmitted, isTrue);
-        expect(emittedTab, equals(RootTab.profile));
-
-        await subscription.cancel();
-      });
-
-      test('should work correctly with multiple consecutive calls', () async {
-        // Arrange
-        final walletRoute = MockWalletRoute();
-        when(() => mockRouter.currentRoutes).thenReturn([walletRoute]);
-
-        final emittedTabs = <RootTab>[];
-
-        final subscription =
-            rootTabService.scrollTabToTopSubject.listen(emittedTabs.add);
-
-        // Act
-        final result1 =
-            rootTabService.tryToChangeTabAndCheckDiff(RootTab.browser);
-        final result2 =
-            rootTabService.tryToChangeTabAndCheckDiff(RootTab.browser);
-        final result3 =
-            rootTabService.tryToChangeTabAndCheckDiff(RootTab.profile);
-
-        // Wait a brief moment for all streams to emit
-        await Future<void>.delayed(const Duration(milliseconds: 10));
-
-        // Assert
-        expect(result1, isTrue); // wallet -> browser (different)
-        expect(
-          result2,
-          isTrue,
-        ); // wallet -> browser (still different, method doesn't track state)
-        expect(result3, isTrue); // wallet -> profile (different)
-        expect(
-          emittedTabs,
-          equals([RootTab.browser, RootTab.browser, RootTab.profile]),
-        );
+        expect(tabEmitted, isFalse);
 
         await subscription.cancel();
       });

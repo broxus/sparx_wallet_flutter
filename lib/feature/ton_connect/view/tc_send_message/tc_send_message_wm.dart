@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:app/app/service/service.dart';
 import 'package:app/core/wm/custom_wm.dart';
+import 'package:app/data/models/models.dart';
 import 'package:app/feature/ledger/ledger.dart';
 import 'package:app/feature/messenger/data/message.dart';
 import 'package:app/feature/ton_connect/ton_connect.dart';
@@ -52,10 +53,9 @@ class TCSendMessageWidgetModel extends CustomWidgetModelParametrized<
   );
 
   late final _dataState = createNotifier<List<TransferData>>();
-  late final _feeState = createNotifier<BigInt>();
-  late final _feeErrorState = createNotifier<String>();
+  late final _feeState = createEntityNotifier<Fee>()..loading();
   late final _txErrorsState = createNotifier<List<TxTreeSimulationErrorItem>>();
-  late final _publicKeyState = createValueNotifier<PublicKey?>(null);
+  late final _selectedPublicKeyState = createValueNotifier<PublicKey?>(null);
   late final _custodiansState = createNotifier<List<PublicKey>>();
   late final _balanceState = createNotifierFromStream(
     wmParams.switchMap(
@@ -70,14 +70,13 @@ class TCSendMessageWidgetModel extends CustomWidgetModelParametrized<
 
   ListenableState<List<TransferData>> get dataState => _dataState;
 
-  ListenableState<BigInt> get feeState => _feeState;
-
-  ListenableState<String> get feeErrorState => _feeErrorState;
+  EntityValueListenable<Fee> get feeState => _feeState;
 
   ListenableState<List<TxTreeSimulationErrorItem>> get txErrorsState =>
       _txErrorsState;
 
-  ValueListenable<PublicKey?> get selectedPublicKey => _publicKeyState;
+  ValueListenable<PublicKey?> get selectedPublicKeyState =>
+      _selectedPublicKeyState;
 
   ListenableState<List<PublicKey>> get custodiansState => _custodiansState;
 
@@ -114,7 +113,7 @@ class TCSendMessageWidgetModel extends CustomWidgetModelParametrized<
 
   // ignore: use_setters_to_change_properties
   void onChangedCustodian(PublicKey custodian) {
-    _publicKeyState.value = custodian;
+    _selectedPublicKeyState.value = custodian;
   }
 
   Future<void> onSubmit(SignInputAuth signInputAuth) async {
@@ -163,7 +162,7 @@ class TCSendMessageWidgetModel extends CustomWidgetModelParametrized<
 
   Future<SignInputAuthLedger> getLedgerAuthInput() {
     final data = _dataState.value;
-    final custodian = _publicKeyState.value;
+    final custodian = _selectedPublicKeyState.value;
     if (data == null || data.isEmpty) {
       throw StateError('Invalid transfer data');
     }
@@ -268,11 +267,14 @@ class TCSendMessageWidgetModel extends CustomWidgetModelParametrized<
       if (data != null) {
         final balance =
             balanceState.value ?? await model.getBalanceStream(sender).first;
-        final fee = feeState.value ?? BigInt.zero;
+        final fee = feeState.value.data?.minorUnits ?? BigInt.zero;
         final amount = totalAmount.amount.minorUnits;
 
         if (balance.amount.minorUnits < (fee + amount)) {
-          _feeErrorState.accept(LocaleKeys.insufficientFunds.tr());
+          _feeState.error(
+            UiException(LocaleKeys.insufficientFunds.tr()),
+            _feeState.value.data,
+          );
         }
       }
     } finally {
@@ -287,9 +289,16 @@ class TCSendMessageWidgetModel extends CustomWidgetModelParametrized<
         message: message,
       );
 
-      _feeState.accept(fee);
+      _feeState.content(
+        Fee.native(
+          Money.fromBigIntWithCurrency(fee, nativeCurrency),
+        ),
+      );
     } catch (e) {
-      _feeErrorState.accept(e.toString());
+      _feeState.error(
+        UiException(e.toString()),
+        _feeState.value.data,
+      );
     }
   }
 

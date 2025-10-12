@@ -19,8 +19,8 @@ class KeyDetailPage extends InjectedElementaryParametrizedWidget<
   @override
   Widget build(KeyDetailPageWidgetModel wm) {
     return DoubleSourceBuilder(
-      firstSource: wm.data,
-      secondSource: wm.accountsTab,
+      firstSource: wm.dataState,
+      secondSource: wm.accountsTabState,
       builder: (_, data, tab) {
         final hasData = data != null && tab != null;
 

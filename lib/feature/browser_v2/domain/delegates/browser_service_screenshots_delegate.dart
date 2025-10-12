@@ -22,14 +22,8 @@ class BrowserServiceScreenshotsDelegate
 
   static const _screenshotPrefix = 'screenshot-';
 
-  /// Subject of browser tabs
-  final _screenshotsState = StateNotifier<ImageCache>(initValue: ImageCache());
-
-  ListenableState<ImageCache?> get screenshotsState => _screenshotsState;
-
-  ImageCache get _screenshotsCache => _screenshotsState.value ?? ImageCache();
-
   final GeneralStorageService _generalStorageService;
+  final _screenshotsCache = ImageCache();
 
   late final String? _defaultImagePath =
       _appDocsDir == null ? null : '$_appDocsDir/browser_default_tab_image.png';
@@ -50,12 +44,15 @@ class BrowserServiceScreenshotsDelegate
     }
   }();
 
+  ListenableState<Map<String, String>> get screenshotsState =>
+      _screenshotsCache;
+
   void init(List<BrowserTab> tabs) {
     _fetchScreenshots(tabs);
   }
 
   void dispose() {
-    _screenshotsState.dispose();
+    _screenshotsCache.dispose();
   }
 
   Future<void> createScreenshot({
@@ -87,16 +84,11 @@ class BrowserServiceScreenshotsDelegate
         return;
       }
 
-      _screenshotsState.accept(
-        _screenshotsCache.copy()
-          ..add(
-            tabId,
-            imagePath,
-          ),
-      );
-
+      // write file before accepting new state to ensure consistency
       final file = File(imagePath);
       await file.writeAsBytes(image);
+
+      _screenshotsCache.add(tabId, imagePath);
     } catch (_) {}
   }
 
@@ -108,7 +100,7 @@ class BrowserServiceScreenshotsDelegate
       await File(_defaultImagePath!).delete();
     } catch (_) {}
 
-    _screenshotsState.accept(ImageCache());
+    _screenshotsCache.clear();
   }
 
   Future<void> removeScreenshot(String id) async {
@@ -120,9 +112,7 @@ class BrowserServiceScreenshotsDelegate
       await Directory(dir).delete(recursive: true);
     } catch (_) {}
 
-    _screenshotsState.accept(
-      _screenshotsCache.copy()..remove(id),
-    );
+    _screenshotsCache.remove(id);
   }
 
   String? getScreenShotById(String id) => _screenshotsCache.get(id);
@@ -158,7 +148,8 @@ class BrowserServiceScreenshotsDelegate
         result[tab.id] = imagePath;
       } catch (_) {}
     }
-    _screenshotsState.accept(result);
+
+    _screenshotsCache.addAll(result);
   }
 
   String? _getImagePath(

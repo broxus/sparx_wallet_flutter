@@ -3,7 +3,6 @@ import 'dart:async';
 import 'package:app/app/router/router.dart';
 import 'package:app/core/wm/custom_wm.dart';
 import 'package:app/data/models/models.dart';
-import 'package:app/feature/wallet/token_wallet_send/route.dart';
 import 'package:app/feature/wallet/wallet.dart';
 import 'package:app/generated/generated.dart';
 import 'package:app/utils/utils.dart';
@@ -25,8 +24,6 @@ class StakingPageWidgetModel extends CustomWidgetModelParametrized<
   StakingPageWidgetModel(
     super.model,
   );
-
-  Address get accountAddress => wmParams.value;
 
   late final inputController = createTextEditingController();
 
@@ -53,6 +50,10 @@ class StakingPageWidgetModel extends CustomWidgetModelParametrized<
       (_) => _validate(),
     ),
   );
+
+  TonWallet? _wallet;
+
+  Address get accountAddress => wmParams.value;
 
   ValueListenable<bool> get isLoadingState => _isLoadingState;
 
@@ -175,6 +176,8 @@ class StakingPageWidgetModel extends CustomWidgetModelParametrized<
         _infoState.error();
         return;
       }
+
+      _wallet = ever.wallet;
 
       final (
         tokenCurrency,
@@ -363,6 +366,8 @@ class StakingPageWidgetModel extends CustomWidgetModelParametrized<
       model.computeFees(),
     );
 
+    final isMultisig = (_wallet?.custodians?.length ?? 0) > 1;
+
     contextSafe?.compassContinue(
       TonWalletSendRouteData(
         address: accountAddress,
@@ -372,9 +377,11 @@ class StakingPageWidgetModel extends CustomWidgetModelParametrized<
         amount: amount,
         attachedAmount: fees.depositAttachedFee,
         popOnComplete: false,
-        resultMessage: LocaleKeys.stEverAppearInMinutes.tr(
-          args: [tokenCurrency?.symbol ?? ''],
-        ),
+        resultMessage: !isMultisig
+            ? LocaleKeys.stEverAppearInMinutes.tr(
+                args: [tokenCurrency?.symbol ?? ''],
+              )
+            : null,
       ),
     );
   }

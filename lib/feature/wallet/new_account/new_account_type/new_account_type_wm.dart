@@ -47,7 +47,7 @@ class NewAccountTypeWidgetModel extends CustomWidgetModelParametrized<
     (item) => !_standardTypes.contains(item),
   );
 
-  late final _isLoadingState = createNotifier(false);
+  late final _loadingState = createNotifier(false);
   late final _selectedState = createNotifier(defaultType);
   late final _showDeprecatedState = createNotifier(false);
 
@@ -63,7 +63,7 @@ class NewAccountTypeWidgetModel extends CustomWidgetModelParametrized<
           if (defaultMultisigType != null) defaultMultisigType!,
         };
 
-  ListenableState<bool> get loadingState => _isLoadingState;
+  ListenableState<bool> get loadingState => _loadingState;
 
   ListenableState<WalletType> get selectedState => _selectedState;
 
@@ -108,7 +108,7 @@ class NewAccountTypeWidgetModel extends CustomWidgetModelParametrized<
     if (key == null) return;
 
     try {
-      _isLoadingState.accept(true);
+      _loadingState.accept(true);
 
       if (key.isLedger) {
         final isAvailable = await checkBluetoothAvailability();
@@ -134,7 +134,7 @@ class NewAccountTypeWidgetModel extends CustomWidgetModelParametrized<
     } on Exception catch (e) {
       model.showMessage(Message.error(message: e.toString()));
     } finally {
-      _isLoadingState.accept(false);
+      _loadingState.accept(false);
     }
   }
 }

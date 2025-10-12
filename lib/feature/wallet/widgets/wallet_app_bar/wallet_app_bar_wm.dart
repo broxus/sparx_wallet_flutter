@@ -43,7 +43,6 @@ class WalletAppBarWidgetModel
     showAccountSettingsModal(
       context: context,
       account: currentAccountState.value!,
-      custodians: walletState.value?.wallet?.custodians,
     );
   }
 

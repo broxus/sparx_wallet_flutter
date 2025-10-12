@@ -1,18 +1,20 @@
 import 'package:app/core/wm/custom_wm.dart';
 import 'package:app/feature/wallet/custodians_settings/custodian_data.dart';
-import 'package:app/feature/wallet/custodians_settings/custodians_settings_view_model.dart';
+import 'package:app/feature/wallet/custodians_settings/custodians_settings_wm.dart';
 import 'package:app/generated/generated.dart';
 import 'package:elementary_helper/elementary_helper.dart';
 import 'package:flutter/material.dart';
 import 'package:lucide_icons_flutter/lucide_icons.dart';
+import 'package:nekoton_repository/nekoton_repository.dart';
 import 'package:ui_components_lib/ui_components_lib.dart';
+import 'package:ui_components_lib/v2/ui_components_lib_v2.dart';
 
 class CustodiansSettingsView extends InjectedElementaryParametrizedWidget<
-    CustodianSettingsWidgetModel, List<String>> {
+    CustodianSettingsWidgetModel, Address> {
   const CustodiansSettingsView({
-    required List<String> custodians,
+    required Address address,
     super.key,
-  }) : super(wmFactoryParam: custodians);
+  }) : super(wmFactoryParam: address);
 
   @override
   Widget build(CustodianSettingsWidgetModel wm) {
@@ -21,9 +23,31 @@ class CustodiansSettingsView extends InjectedElementaryParametrizedWidget<
     return SingleChildScrollView(
       child: Column(
         children: [
-          Text(
-            LocaleKeys.custodiansSettingsLabel.tr(),
-            style: theme.textStyles.paragraphMedium,
+          DoubleSourceBuilder(
+            firstSource: wm.custodiansState,
+            secondSource: wm.requiredState,
+            builder: (_, custodians, requiredConfirmations) {
+              if (custodians == null || requiredConfirmations == null) {
+                return const Center(
+                  child: Padding(
+                    padding: EdgeInsets.symmetric(vertical: DimensSizeV2.d24),
+                    child: ProgressIndicatorWidget(
+                      size: DimensSizeV2.d40,
+                    ),
+                  ),
+                );
+              }
+
+              return Text(
+                LocaleKeys.custodiansSettingsLabel.tr(
+                  args: [
+                    requiredConfirmations.toString(),
+                    custodians.length.toString(),
+                  ],
+                ),
+                style: theme.textStyles.paragraphMedium,
+              );
+            },
           ),
           const SizedBox(height: DimensSizeV2.d24),
           StateNotifierBuilder<List<CustodianData>>(

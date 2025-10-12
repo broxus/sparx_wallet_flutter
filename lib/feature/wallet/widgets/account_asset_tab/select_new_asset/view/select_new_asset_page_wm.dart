@@ -17,15 +17,16 @@ class SelectNewAssetPageWidgetModel extends CustomWidgetModelParametrized<
 
   late final focus = createFocusNode();
 
-  late final _tab = createNotifier(SelectNewAssetTabs.select);
-  late final _isLoading = createNotifier(false);
-  late final _showButton = createNotifier(false);
-  late final _contracts = createNotifier(<(TokenContractAsset, bool)>[]);
+  late final _tabState = createNotifier(SelectNewAssetTabs.select);
+  late final _isLoadingState = createNotifier(false);
+  late final _showButtonState = createNotifier(false);
+  late final _contractsState = createNotifier(<(TokenContractAsset, bool)>[]);
 
-  StateNotifier<SelectNewAssetTabs> get tab => _tab;
-  StateNotifier<bool> get isLoading => _isLoading;
-  StateNotifier<bool> get showButton => _showButton;
-  StateNotifier<List<(TokenContractAsset, bool)>> get contracts => _contracts;
+  StateNotifier<SelectNewAssetTabs> get tabState => _tabState;
+  StateNotifier<bool> get isLoadingState => _isLoadingState;
+  StateNotifier<bool> get showButtonState => _showButtonState;
+  StateNotifier<List<(TokenContractAsset, bool)>> get contractsState =>
+      _contractsState;
 
   // Internal state
   StreamSubscription<KeyAccount?>? _accountSub;
@@ -62,7 +63,7 @@ class SelectNewAssetPageWidgetModel extends CustomWidgetModelParametrized<
     super.dispose();
   }
 
-  void changeTab(SelectNewAssetTabs tab) => _tab.accept(tab);
+  void changeTab(SelectNewAssetTabs tab) => _tabState.accept(tab);
 
   Future<void> enableAsset(Address address) async {
     if (_originalEnabled(address)) {
@@ -92,14 +93,14 @@ class SelectNewAssetPageWidgetModel extends CustomWidgetModelParametrized<
     if (isValid && isToken != null) {
       final account = _cachedAccount;
       await account?.addTokenWallet(repackAddress(address));
-      _tab.accept(SelectNewAssetTabs.select);
+      _tabState.accept(SelectNewAssetTabs.select);
     } else {
       model.showInvalidRootTokenContractError();
     }
   }
 
   Future<void> saveChanges() async {
-    _isLoading.accept(true);
+    _isLoadingState.accept(true);
     final account = _cachedAccount;
 
     if (_contractsToEnable.isNotEmpty) {
@@ -109,7 +110,7 @@ class SelectNewAssetPageWidgetModel extends CustomWidgetModelParametrized<
       await account?.removeTokenWallets(_contractsToDisable);
     }
 
-    _isLoading.accept(false);
+    _isLoadingState.accept(false);
     contextSafe?.compassBack();
   }
 
@@ -119,10 +120,10 @@ class SelectNewAssetPageWidgetModel extends CustomWidgetModelParametrized<
 
   // Helpers
   void _updateState() {
-    _contracts.accept(
+    _contractsState.accept(
       _originalContracts.map((e) => (e.$1, _contractState(e))).toList(),
     );
-    _showButton.accept(
+    _showButtonState.accept(
       _contractsToEnable.isNotEmpty || _contractsToDisable.isNotEmpty,
     );
   }

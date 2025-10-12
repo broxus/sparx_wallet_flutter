@@ -39,8 +39,8 @@ class DefaultCurrenciesFetchStrategy implements CurrenciesFetchStrategy {
     final response = await _dio.post<Map<String, dynamic>>(
       apiBaseUrl,
       data: {
-        'currencyAddresses': currencyAddresses,
-        'limit': currencyAddresses.length,
+        'currencyAddresses': [...currencyAddresses, nativeTokenAddress],
+        'limit': currencyAddresses.length + 1,
         'offset': 0,
       },
       options: Options(

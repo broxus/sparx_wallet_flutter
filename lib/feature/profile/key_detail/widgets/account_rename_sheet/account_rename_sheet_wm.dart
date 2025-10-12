@@ -9,26 +9,22 @@ import 'package:nekoton_repository/nekoton_repository.dart';
 /// [WidgetModel] for [AccountRenameSheet]
 @injectable
 class AccountRenameSheetWidgetModel extends CustomWidgetModelParametrized<
-    AccountRenameSheet, AccountRenameSheetModel, AccountRenameSheetParams> {
+    AccountRenameSheet, AccountRenameSheetModel, Address> {
   AccountRenameSheetWidgetModel(
     super.model,
   );
 
-  late final nameController = createTextEditingController();
+  late final nameController = createTextEditingController(
+    model.getAccountName(wmParams.value),
+  );
 
-  void renameAccount() {
+  void renameAccount([String? _]) {
     final name = nameController.text.trim();
 
     if (name.isEmpty) {
       return;
     }
-    model.rename(wmParams.value.address, name);
+    model.rename(wmParams.value, name);
     Navigator.of(context).pop();
   }
-}
-
-class AccountRenameSheetParams {
-  AccountRenameSheetParams(this.address);
-
-  final Address address;
 }

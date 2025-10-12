@@ -33,6 +33,7 @@ class ConfirmMultisigTransactionWidget
     /// Destination where funds should be sent (this page won't displayed for
     /// incoming transaction)
     required Address destination,
+    required String? resultMessage,
 
     /// Comment of transaction
     String? comment,
@@ -46,6 +47,7 @@ class ConfirmMultisigTransactionWidget
             destination: destination,
             comment: comment,
             transactionIdHash: transactionIdHash,
+            resultMessage: resultMessage,
           ),
         );
 
@@ -87,7 +89,6 @@ class ConfirmMultisigTransactionWidget
               amount: wm.amount,
               currency: wm.currency,
               fees: wm.feesState,
-              error: wm.errorState,
               txErrors: wm.txErrorsState,
               isLoading: wm.isLoadingState,
               getLedgerAuthInput: wm.getLedgerAuthInput,

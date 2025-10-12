@@ -31,10 +31,11 @@ class AccountAssetsTabWidgetModel extends CustomWidgetModelParametrized<
     model.contractsForAccount(address),
   );
   late final _numberNewTokensState = createNotifierFromStream(
-    wmParams
-        .map((params) => params.isShowingNewTokens)
-        .distinct()
-        .switchMap(_searchTokenWallets),
+    Rx.combineLatest2(
+      model.transportStrategy,
+      wmParams.map((params) => params.isShowingNewTokens).distinct(),
+      (_, isShowingNewTokens) => isShowingNewTokens,
+    ).switchMap(_searchTokenWallets),
   );
 
   ListenableState<List<TokenContractAsset>> get assetsState => _assetsState;

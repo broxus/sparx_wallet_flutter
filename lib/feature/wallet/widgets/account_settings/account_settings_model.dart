@@ -30,6 +30,12 @@ class AccountSettingsModel extends ElementaryModel {
         (list) => list?.displayAccounts ?? [],
       );
 
+  Stream<List<PublicKey>?> getCustodians(Address address) {
+    return _nekotonRepository.walletsMapStream.map(
+      (wallets) => wallets[address]?.wallet?.custodians,
+    );
+  }
+
   String getAccountExplorerLink(Address address) =>
       _nekotonRepository.currentTransport.accountExplorerLink(address);
 
