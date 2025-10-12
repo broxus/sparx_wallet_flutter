@@ -1,7 +1,7 @@
 import 'dart:async';
 import 'dart:convert';
 
-import 'package:app/app/service/service.dart';
+import 'package:app/app/service/connection/connection.dart';
 import 'package:app/data/models/fee.dart';
 import 'package:app/feature/wallet/token_wallet_send/token_wallet_send.dart';
 import 'package:app/http/repository/gasless_repository.dart';

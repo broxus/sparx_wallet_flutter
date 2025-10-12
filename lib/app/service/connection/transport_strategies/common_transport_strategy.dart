@@ -67,7 +67,6 @@ class CommonTransportStrategy extends AppTransportStrategy {
       currencyApiBaseUrl: workchain.currencyApiBaseUrl,
       nftInformation: workchain.nftInformation,
       pollingConfig: workchain.pollingConfig ?? PollingConfig.defaultConfig,
-      pollingConfig: transportData.pollingConfig ?? PollingConfig.defaultConfig,
     );
   }
 

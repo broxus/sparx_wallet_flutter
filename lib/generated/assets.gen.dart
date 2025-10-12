@@ -81,9 +81,8 @@ class $AssetsConfigsGen {
 
   /// List of all assets
   List<String> get values => [
-        connectionsV2,
         antiPhishing,
-        connections,
+        connectionsV2,
         releaseNotes,
         updateRules,
       ];

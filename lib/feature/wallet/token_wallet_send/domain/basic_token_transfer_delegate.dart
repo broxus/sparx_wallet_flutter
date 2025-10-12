@@ -1,6 +1,6 @@
 import 'dart:async';
 
-import 'package:app/app/service/service.dart';
+import 'package:app/app/service/connection/connection.dart';
 import 'package:app/data/models/models.dart';
 import 'package:app/feature/wallet/token_wallet_send/token_wallet_send.dart';
 import 'package:app/utils/utils.dart';

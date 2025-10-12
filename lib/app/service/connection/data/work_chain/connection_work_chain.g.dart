@@ -60,6 +60,7 @@ _ConnectionWorkchain _$ConnectionWorkchainFromJson(Map<String, dynamic> json) =>
           (json['endpointSelectionRetryCount'] as num?)?.toInt(),
       tokenApiBaseUrl: json['tokenApiBaseUrl'] as String?,
       currencyApiBaseUrl: json['currencyApiBaseUrl'] as String?,
+      gaslessApiBaseUrl: json['gaslessApiBaseUrl'] as String?,
       pollingConfig: const PollingConfigSecondsConverter()
           .fromJson(json['pollingConfig'] as Map<String, dynamic>?),
       stakeInformation: const StakingInformationConverter()
@@ -109,6 +110,7 @@ Map<String, dynamic> _$ConnectionWorkchainToJson(
       'endpointSelectionRetryCount': instance.endpointSelectionRetryCount,
       'tokenApiBaseUrl': instance.tokenApiBaseUrl,
       'currencyApiBaseUrl': instance.currencyApiBaseUrl,
+      'gaslessApiBaseUrl': instance.gaslessApiBaseUrl,
       'pollingConfig':
           const PollingConfigSecondsConverter().toJson(instance.pollingConfig),
       'stakeInformation':

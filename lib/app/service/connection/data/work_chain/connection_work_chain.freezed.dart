@@ -48,6 +48,7 @@ mixin _$ConnectionWorkchain {
   int? get endpointSelectionRetryCount;
   String? get tokenApiBaseUrl;
   String? get currencyApiBaseUrl;
+  String? get gaslessApiBaseUrl;
   @PollingConfigSecondsConverter()
   PollingConfig? get pollingConfig;
   @StakingInformationConverter()
@@ -128,6 +129,7 @@ mixin _$ConnectionWorkchain {
             (identical(other.tokenApiBaseUrl, tokenApiBaseUrl) ||
                 other.tokenApiBaseUrl == tokenApiBaseUrl) &&
             (identical(other.currencyApiBaseUrl, currencyApiBaseUrl) || other.currencyApiBaseUrl == currencyApiBaseUrl) &&
+            (identical(other.gaslessApiBaseUrl, gaslessApiBaseUrl) || other.gaslessApiBaseUrl == gaslessApiBaseUrl) &&
             (identical(other.pollingConfig, pollingConfig) || other.pollingConfig == pollingConfig) &&
             (identical(other.stakeInformation, stakeInformation) || other.stakeInformation == stakeInformation) &&
             (identical(other.nftInformation, nftInformation) || other.nftInformation == nftInformation));
@@ -167,6 +169,7 @@ mixin _$ConnectionWorkchain {
         endpointSelectionRetryCount,
         tokenApiBaseUrl,
         currencyApiBaseUrl,
+        gaslessApiBaseUrl,
         pollingConfig,
         stakeInformation,
         nftInformation
@@ -174,7 +177,7 @@ mixin _$ConnectionWorkchain {
 
   @override
   String toString() {
-    return 'ConnectionWorkchain(id: $id, parentConnectionId: $parentConnectionId, networkType: $networkType, networkName: $networkName, networkGroup: $networkGroup, transportType: $transportType, endpoints: $endpoints, icons: $icons, availableWalletTypes: $availableWalletTypes, defaultWalletType: $defaultWalletType, nativeTokenAddress: $nativeTokenAddress, seedPhraseWordsCount: $seedPhraseWordsCount, defaultNativeCurrencyDecimal: $defaultNativeCurrencyDecimal, genericTokenType: $genericTokenType, accountExplorerLinkType: $accountExplorerLinkType, transactionExplorerLinkType: $transactionExplorerLinkType, walletDefaultAccountNames: $walletDefaultAccountNames, blockExplorerUrl: $blockExplorerUrl, nativeTokenTicker: $nativeTokenTicker, isLocal: $isLocal, isPreset: $isPreset, canBeEdited: $canBeEdited, manifestUrl: $manifestUrl, nativeTokenDecimals: $nativeTokenDecimals, defaultActiveAssets: $defaultActiveAssets, latencyDetectionInterval: $latencyDetectionInterval, maxLatency: $maxLatency, endpointSelectionRetryCount: $endpointSelectionRetryCount, tokenApiBaseUrl: $tokenApiBaseUrl, currencyApiBaseUrl: $currencyApiBaseUrl, pollingConfig: $pollingConfig, stakeInformation: $stakeInformation, nftInformation: $nftInformation)';
+    return 'ConnectionWorkchain(id: $id, parentConnectionId: $parentConnectionId, networkType: $networkType, networkName: $networkName, networkGroup: $networkGroup, transportType: $transportType, endpoints: $endpoints, icons: $icons, availableWalletTypes: $availableWalletTypes, defaultWalletType: $defaultWalletType, nativeTokenAddress: $nativeTokenAddress, seedPhraseWordsCount: $seedPhraseWordsCount, defaultNativeCurrencyDecimal: $defaultNativeCurrencyDecimal, genericTokenType: $genericTokenType, accountExplorerLinkType: $accountExplorerLinkType, transactionExplorerLinkType: $transactionExplorerLinkType, walletDefaultAccountNames: $walletDefaultAccountNames, blockExplorerUrl: $blockExplorerUrl, nativeTokenTicker: $nativeTokenTicker, isLocal: $isLocal, isPreset: $isPreset, canBeEdited: $canBeEdited, manifestUrl: $manifestUrl, nativeTokenDecimals: $nativeTokenDecimals, defaultActiveAssets: $defaultActiveAssets, latencyDetectionInterval: $latencyDetectionInterval, maxLatency: $maxLatency, endpointSelectionRetryCount: $endpointSelectionRetryCount, tokenApiBaseUrl: $tokenApiBaseUrl, currencyApiBaseUrl: $currencyApiBaseUrl, gaslessApiBaseUrl: $gaslessApiBaseUrl, pollingConfig: $pollingConfig, stakeInformation: $stakeInformation, nftInformation: $nftInformation)';
   }
 }
 
@@ -215,6 +218,7 @@ abstract mixin class $ConnectionWorkchainCopyWith<$Res> {
       int? endpointSelectionRetryCount,
       String? tokenApiBaseUrl,
       String? currencyApiBaseUrl,
+      String? gaslessApiBaseUrl,
       @PollingConfigSecondsConverter() PollingConfig? pollingConfig,
       @StakingInformationConverter() StakingInformation? stakeInformation,
       NftInformation? nftInformation});
@@ -270,6 +274,7 @@ class _$ConnectionWorkchainCopyWithImpl<$Res>
     Object? endpointSelectionRetryCount = freezed,
     Object? tokenApiBaseUrl = freezed,
     Object? currencyApiBaseUrl = freezed,
+    Object? gaslessApiBaseUrl = freezed,
     Object? pollingConfig = freezed,
     Object? stakeInformation = freezed,
     Object? nftInformation = freezed,
@@ -395,6 +400,10 @@ class _$ConnectionWorkchainCopyWithImpl<$Res>
           ? _self.currencyApiBaseUrl
           : currencyApiBaseUrl // ignore: cast_nullable_to_non_nullable
               as String?,
+      gaslessApiBaseUrl: freezed == gaslessApiBaseUrl
+          ? _self.gaslessApiBaseUrl
+          : gaslessApiBaseUrl // ignore: cast_nullable_to_non_nullable
+              as String?,
       pollingConfig: freezed == pollingConfig
           ? _self.pollingConfig
           : pollingConfig // ignore: cast_nullable_to_non_nullable
@@ -511,6 +520,7 @@ class _ConnectionWorkchain implements ConnectionWorkchain {
       this.endpointSelectionRetryCount,
       this.tokenApiBaseUrl,
       this.currencyApiBaseUrl,
+      this.gaslessApiBaseUrl,
       @PollingConfigSecondsConverter() this.pollingConfig,
       @StakingInformationConverter() this.stakeInformation,
       this.nftInformation})
@@ -620,6 +630,8 @@ class _ConnectionWorkchain implements ConnectionWorkchain {
   @override
   final String? currencyApiBaseUrl;
   @override
+  final String? gaslessApiBaseUrl;
+  @override
   @PollingConfigSecondsConverter()
   final PollingConfig? pollingConfig;
   @override
@@ -708,6 +720,7 @@ class _ConnectionWorkchain implements ConnectionWorkchain {
             (identical(other.tokenApiBaseUrl, tokenApiBaseUrl) ||
                 other.tokenApiBaseUrl == tokenApiBaseUrl) &&
             (identical(other.currencyApiBaseUrl, currencyApiBaseUrl) || other.currencyApiBaseUrl == currencyApiBaseUrl) &&
+            (identical(other.gaslessApiBaseUrl, gaslessApiBaseUrl) || other.gaslessApiBaseUrl == gaslessApiBaseUrl) &&
             (identical(other.pollingConfig, pollingConfig) || other.pollingConfig == pollingConfig) &&
             (identical(other.stakeInformation, stakeInformation) || other.stakeInformation == stakeInformation) &&
             (identical(other.nftInformation, nftInformation) || other.nftInformation == nftInformation));
@@ -747,6 +760,7 @@ class _ConnectionWorkchain implements ConnectionWorkchain {
         endpointSelectionRetryCount,
         tokenApiBaseUrl,
         currencyApiBaseUrl,
+        gaslessApiBaseUrl,
         pollingConfig,
         stakeInformation,
         nftInformation
@@ -754,7 +768,7 @@ class _ConnectionWorkchain implements ConnectionWorkchain {
 
   @override
   String toString() {
-    return 'ConnectionWorkchain(id: $id, parentConnectionId: $parentConnectionId, networkType: $networkType, networkName: $networkName, networkGroup: $networkGroup, transportType: $transportType, endpoints: $endpoints, icons: $icons, availableWalletTypes: $availableWalletTypes, defaultWalletType: $defaultWalletType, nativeTokenAddress: $nativeTokenAddress, seedPhraseWordsCount: $seedPhraseWordsCount, defaultNativeCurrencyDecimal: $defaultNativeCurrencyDecimal, genericTokenType: $genericTokenType, accountExplorerLinkType: $accountExplorerLinkType, transactionExplorerLinkType: $transactionExplorerLinkType, walletDefaultAccountNames: $walletDefaultAccountNames, blockExplorerUrl: $blockExplorerUrl, nativeTokenTicker: $nativeTokenTicker, isLocal: $isLocal, isPreset: $isPreset, canBeEdited: $canBeEdited, manifestUrl: $manifestUrl, nativeTokenDecimals: $nativeTokenDecimals, defaultActiveAssets: $defaultActiveAssets, latencyDetectionInterval: $latencyDetectionInterval, maxLatency: $maxLatency, endpointSelectionRetryCount: $endpointSelectionRetryCount, tokenApiBaseUrl: $tokenApiBaseUrl, currencyApiBaseUrl: $currencyApiBaseUrl, pollingConfig: $pollingConfig, stakeInformation: $stakeInformation, nftInformation: $nftInformation)';
+    return 'ConnectionWorkchain(id: $id, parentConnectionId: $parentConnectionId, networkType: $networkType, networkName: $networkName, networkGroup: $networkGroup, transportType: $transportType, endpoints: $endpoints, icons: $icons, availableWalletTypes: $availableWalletTypes, defaultWalletType: $defaultWalletType, nativeTokenAddress: $nativeTokenAddress, seedPhraseWordsCount: $seedPhraseWordsCount, defaultNativeCurrencyDecimal: $defaultNativeCurrencyDecimal, genericTokenType: $genericTokenType, accountExplorerLinkType: $accountExplorerLinkType, transactionExplorerLinkType: $transactionExplorerLinkType, walletDefaultAccountNames: $walletDefaultAccountNames, blockExplorerUrl: $blockExplorerUrl, nativeTokenTicker: $nativeTokenTicker, isLocal: $isLocal, isPreset: $isPreset, canBeEdited: $canBeEdited, manifestUrl: $manifestUrl, nativeTokenDecimals: $nativeTokenDecimals, defaultActiveAssets: $defaultActiveAssets, latencyDetectionInterval: $latencyDetectionInterval, maxLatency: $maxLatency, endpointSelectionRetryCount: $endpointSelectionRetryCount, tokenApiBaseUrl: $tokenApiBaseUrl, currencyApiBaseUrl: $currencyApiBaseUrl, gaslessApiBaseUrl: $gaslessApiBaseUrl, pollingConfig: $pollingConfig, stakeInformation: $stakeInformation, nftInformation: $nftInformation)';
   }
 }
 
@@ -797,6 +811,7 @@ abstract mixin class _$ConnectionWorkchainCopyWith<$Res>
       int? endpointSelectionRetryCount,
       String? tokenApiBaseUrl,
       String? currencyApiBaseUrl,
+      String? gaslessApiBaseUrl,
       @PollingConfigSecondsConverter() PollingConfig? pollingConfig,
       @StakingInformationConverter() StakingInformation? stakeInformation,
       NftInformation? nftInformation});
@@ -858,6 +873,7 @@ class __$ConnectionWorkchainCopyWithImpl<$Res>
     Object? endpointSelectionRetryCount = freezed,
     Object? tokenApiBaseUrl = freezed,
     Object? currencyApiBaseUrl = freezed,
+    Object? gaslessApiBaseUrl = freezed,
     Object? pollingConfig = freezed,
     Object? stakeInformation = freezed,
     Object? nftInformation = freezed,
@@ -982,6 +998,10 @@ class __$ConnectionWorkchainCopyWithImpl<$Res>
       currencyApiBaseUrl: freezed == currencyApiBaseUrl
           ? _self.currencyApiBaseUrl
           : currencyApiBaseUrl // ignore: cast_nullable_to_non_nullable
+              as String?,
+      gaslessApiBaseUrl: freezed == gaslessApiBaseUrl
+          ? _self.gaslessApiBaseUrl
+          : gaslessApiBaseUrl // ignore: cast_nullable_to_non_nullable
               as String?,
       pollingConfig: freezed == pollingConfig
           ? _self.pollingConfig
