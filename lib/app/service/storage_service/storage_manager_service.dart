@@ -2,7 +2,6 @@ import 'package:app/app/service/service.dart';
 import 'package:app/feature/browser_v2/domain/service/storages/browser_bookmarks_storage_service.dart';
 import 'package:app/feature/browser_v2/domain/service/storages/browser_favicon_url_storage_service.dart';
 import 'package:app/feature/browser_v2/domain/service/storages/browser_groups_storage_service.dart';
-import 'package:app/feature/browser_v2/domain/service/storages/browser_history_storage_service.dart';
 import 'package:app/feature/browser_v2/domain/service/storages/browser_permissions_storage_service.dart';
 import 'package:app/feature/browser_v2/domain/service/storages/browser_tabs_storage_service.dart';
 import 'package:app/feature/ledger/ledger.dart';
@@ -18,7 +17,6 @@ class StorageManagerService {
     GeneralStorageService general,
     BrowserGroupsStorageService browserGroups,
     BrowserTabsStorageService browserTabs,
-    BrowserHistoryStorageService browserHistory,
     BrowserBookmarksStorageService browserBookmarks,
     BrowserPermissionsStorageService browserPermissions,
     BrowserFaviconURLStorageService browserFaviconURLs,
@@ -38,7 +36,6 @@ class StorageManagerService {
           general,
           browserGroups,
           browserTabs,
-          browserHistory,
           browserBookmarks,
           browserPermissions,
           browserFaviconURLs,

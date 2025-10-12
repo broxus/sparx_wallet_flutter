@@ -1,6 +1,6 @@
 import 'package:app/feature/browser_v2/data/history_type.dart';
-import 'package:app/feature/browser_v2/widgets/bottomsheets/book/widgets/history/ui_models/type_history_ui.dart';
-import 'package:app/feature/browser_v2/widgets/bottomsheets/book/widgets/history/widgets/type_history_item.dart';
+import 'package:app/feature/browser_v2/widgets/bottomsheets/book/ui_models/type_history_ui.dart';
+import 'package:app/feature/browser_v2/widgets/bottomsheets/book/widgets/type_history_item.dart';
 import 'package:app/generated/generated.dart';
 import 'package:flutter/material.dart';
 import 'package:ui_components_lib/ui_components_lib.dart';

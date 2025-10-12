@@ -7,7 +7,6 @@ import 'package:app/app/service/storage_service/general_storage_service.dart';
 import 'package:app/app/service/storage_service/migrations/storage_migrations/storage_migration.dart';
 import 'package:app/feature/browser_v2/domain/service/storages/browser_bookmarks_storage_service.dart';
 import 'package:app/feature/browser_v2/domain/service/storages/browser_favicon_url_storage_service.dart';
-import 'package:app/feature/browser_v2/domain/service/storages/browser_history_storage_service.dart';
 import 'package:app/feature/browser_v2/domain/service/storages/browser_permissions_storage_service.dart';
 import 'package:app/feature/browser_v2/domain/service/storages/browser_tabs_storage_service.dart';
 import 'package:encrypted_storage/encrypted_storage.dart';
@@ -32,7 +31,6 @@ class StorageMigrationV1 implements StorageMigration {
         ConnectionsStorageService.container,
         BrowserBookmarksStorageService.container,
         BrowserFaviconURLStorageService.container,
-        BrowserHistoryStorageService.container,
         BrowserPermissionsStorageService.container,
         BrowserTabsStorageService.container,
       ];

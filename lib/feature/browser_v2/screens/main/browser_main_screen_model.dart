@@ -12,8 +12,6 @@ import 'package:elementary_helper/elementary_helper.dart';
 import 'package:flutter/services.dart';
 import 'package:injectable/injectable.dart';
 
-const _searchEngineUri = 'https://duckduckgo.com/?q=';
-
 /// [ElementaryModel] for [BrowserMainScreen]
 @injectable
 class BrowserMainScreenModel extends ElementaryModel {
@@ -32,8 +30,8 @@ class BrowserMainScreenModel extends ElementaryModel {
   NotNullListenableState<List<String>> get allTabsIdsState =>
       _browserService.tab.allTabsIdsState;
 
-  ListenableState<String?> get activeTabUrlHostState =>
-      _browserService.tab.activeTabUrlHostState;
+  ListenableState<Uri?> get activeTabUriState =>
+      _browserService.tab.activeTabUriState;
 
   String? get activeTabId => activeTabIdState.value;
 
@@ -81,11 +79,20 @@ class BrowserMainScreenModel extends ElementaryModel {
 
     final isUrl = UrlValidator.checkString(text);
 
+    final url =
+        isUrl ? Uri.parse(text) : Uri.parse('${BrowserService.searchUrl}$text');
+
+    if (isUrl) {
+      final isPhishing = _browserService.antiPhishing.checkIsPhishingUri(url);
+
+      if (isPhishing) {
+        _browserService.loadPhishingGuard(tabId, url);
+        return;
+      }
+    }
+
     unawaited(
-      _browserService.tab.requestUrl(
-        tabId,
-        isUrl ? Uri.parse(text) : Uri.parse('$_searchEngineUri$text'),
-      ),
+      _browserService.tab.requestUrl(tabId, url),
     );
   }
 
