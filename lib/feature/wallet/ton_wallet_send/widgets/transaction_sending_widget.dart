@@ -46,15 +46,14 @@ class TransactionSendingWidget extends StatelessWidget {
                             : Assets.animations.rocket,
                         riveFactory: Factory.rive,
                       ),
-                      builder:
-                          (context, state) => switch (state) {
-                            RiveLoading() => const CircularProgressIndicator(),
-                            RiveFailed() => const SizedBox(),
-                            RiveLoaded() => RiveWidget(
-                              controller: state.controller,
-                              fit: Fit.cover,
-                            ),
-                          },
+                      builder: (context, state) => switch (state) {
+                        RiveLoading() => const CircularProgressIndicator(),
+                        RiveFailed() => const SizedBox(),
+                        RiveLoaded() => RiveWidget(
+                          controller: state.controller,
+                          fit: Fit.cover,
+                        ),
+                      },
                     ),
                   ),
                 ),

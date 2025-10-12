@@ -1,10 +1,10 @@
-name: example
+name: ui_components_storybook
 description: Story book of ui components
 version: 1.0.0+1
 publish_to: none
 
 environment:
-  sdk: '>=3.5.0 <4.0.0'
+  sdk: '>=3.9.0 <4.0.0'
 
 dependencies:
   flutter:
