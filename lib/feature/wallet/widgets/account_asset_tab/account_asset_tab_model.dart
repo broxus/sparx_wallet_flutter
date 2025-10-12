@@ -12,10 +12,15 @@ class AccountAssetsTabModel extends ElementaryModel {
     ErrorHandler errorHandler,
     this._assetsService,
     this._tokenWalletsService,
+    this._nekotonRepository,
   ) : super(errorHandler: errorHandler);
 
   final AssetsService _assetsService;
   final TokenWalletsService _tokenWalletsService;
+  final NekotonRepository _nekotonRepository;
+
+  Stream<TransportStrategy> get transportStrategy =>
+      _nekotonRepository.currentTransportStream;
 
   /// Stream of token contract assets added to the account
   Stream<List<TokenContractAsset>> contractsForAccount(Address address) =>

@@ -1,12 +1,13 @@
 import 'dart:io';
 
 import 'package:app/core/wm/custom_wm.dart';
+import 'package:app/feature/browser_v2/screens/main/widgets/control_panels/page_control_panel.dart';
 import 'package:app/feature/browser_v2/screens/main/widgets/tab_animated_view/tab_animated_view.dart';
 import 'package:app/feature/browser_v2/screens/main/widgets/tab_animated_view/tab_animated_view_model.dart';
 import 'package:app/feature/browser_v2/screens/main/widgets/tab_animated_view/tab_animation_type.dart';
 import 'package:elementary/elementary.dart';
 import 'package:elementary_helper/elementary_helper.dart';
-import 'package:flutter/widgets.dart';
+import 'package:flutter/material.dart';
 import 'package:injectable/injectable.dart';
 import 'package:ui_components_lib/ui_components_lib.dart';
 
@@ -39,7 +40,8 @@ class TabAnimatedViewWidgetModel extends CustomWidgetModelParametrized<
 
   late final heightAnimation = Tween<double>(
     begin: 200,
-    end: _screenSize.height,
+    end:
+        _screenSize.height - BrowserPageControlPanel.minHeight - kToolbarHeight,
   ).animate(_animationController);
 
   late final borderRadiusAnimation = Tween<double>(
@@ -53,7 +55,7 @@ class TabAnimatedViewWidgetModel extends CustomWidgetModelParametrized<
   ).animate(_animationController);
 
   final _positionXTween = Tween<double>(begin: 0, end: 0);
-  final _positionYTween = Tween<double>(begin: 0, end: 0);
+  final _positionYTween = Tween<double>(begin: 0, end: kToolbarHeight / 2);
 
   Animation<double>? _topPositionAnimation;
 
@@ -76,7 +78,7 @@ class TabAnimatedViewWidgetModel extends CustomWidgetModelParametrized<
 
   Animation<double>? get leftPositionAnimation => _leftPositionAnimation;
 
-  Listenable get animationListenable => _animationController;
+  Listenable get animationState => _animationController;
 
   ListenableState<TabAnimationType?> get showAnimationState =>
       wmParams.value.showAnimationState;

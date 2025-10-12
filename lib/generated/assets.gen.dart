@@ -51,6 +51,9 @@ class $AssetsAbiGen {
 class $AssetsAnimationsGen {
   const $AssetsAnimationsGen();
 
+  /// File path: assets/animations/deploy.riv
+  String get deploy => 'assets/animations/deploy.riv';
+
   /// File path: assets/animations/loader.riv
   String get loader => 'assets/animations/loader.riv';
 
@@ -58,11 +61,14 @@ class $AssetsAnimationsGen {
   String get rocket => 'assets/animations/rocket.riv';
 
   /// List of all assets
-  List<String> get values => [loader, rocket];
+  List<String> get values => [deploy, loader, rocket];
 }
 
 class $AssetsConfigsGen {
   const $AssetsConfigsGen();
+
+  /// File path: assets/configs/anti_phishing.json
+  String get antiPhishing => 'assets/configs/anti_phishing.json';
 
   /// File path: assets/configs/connections_v2.json
   String get connectionsV2 => 'assets/configs/connections_v2.json';
@@ -74,7 +80,22 @@ class $AssetsConfigsGen {
   String get updateRules => 'assets/configs/update_rules.json';
 
   /// List of all assets
-  List<String> get values => [connectionsV2, releaseNotes, updateRules];
+  List<String> get values => [
+        antiPhishing,
+        connectionsV2,
+        releaseNotes,
+        updateRules,
+      ];
+}
+
+class $AssetsHtmlGen {
+  const $AssetsHtmlGen();
+
+  /// File path: assets/html/anti_phishing.html
+  String get antiPhishing => 'assets/html/anti_phishing.html';
+
+  /// List of all assets
+  List<String> get values => [antiPhishing];
 }
 
 class $AssetsImagesGen {
@@ -930,6 +951,7 @@ class Assets {
   static const $AssetsAbiGen abi = $AssetsAbiGen();
   static const $AssetsAnimationsGen animations = $AssetsAnimationsGen();
   static const $AssetsConfigsGen configs = $AssetsConfigsGen();
+  static const $AssetsHtmlGen html = $AssetsHtmlGen();
   static const $AssetsImagesGen images = $AssetsImagesGen();
   static const $AssetsSplashGen splash = $AssetsSplashGen();
   static const $AssetsTranslationsGen translations = $AssetsTranslationsGen();

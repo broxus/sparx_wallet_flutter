@@ -34,6 +34,7 @@ class CommonTransportStrategy extends AppTransportStrategy {
     this.stakeInformation,
     this.tokenApiBaseUrl,
     this.currencyApiBaseUrl,
+    this.gaslessApiBaseUrl,
     this.nftInformation,
   });
 
@@ -125,6 +126,8 @@ class CommonTransportStrategy extends AppTransportStrategy {
 
   @override
   String? currencyApiBaseUrl;
+
+  String? gaslessApiBaseUrl;
 
   late final _subscriber = switch (genericTokenType) {
     GenericTokenType.tip3 => Tip3TokenWalletSubscriber(inject()),

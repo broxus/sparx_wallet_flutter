@@ -214,6 +214,7 @@ abstract class LocaleKeys {
   static const browserCloseAll = 'browserCloseAll';
   static const browserCloseAllTabsDescription =
       'browserCloseAllTabsDescription';
+  static const browserPermissionsHeader = 'browserPermissionsHeader';
   static const done = 'done';
   static const browserSearchURL = 'browserSearchURL';
   static const browserSearchURLCancel = 'browserSearchURLCancel';
@@ -385,11 +386,22 @@ abstract class LocaleKeys {
   static const transactionSentSuccessfully = 'transactionSentSuccessfully';
   static const attachedAmount = 'attachedAmount';
   static const selectWalletType = 'selectWalletType';
+  static const selectWalletTypeDescription = 'selectWalletTypeDescription';
   static const standardWallet = 'standardWallet';
+  static const standardWalletDescription = 'standardWalletDescription';
   static const multisigWallet = 'multisigWallet';
-  static const evaluationConfirmation = 'evaluationConfirmation';
+  static const multisigWalletDescription = 'multisigWalletDescription';
+  static const multisigConfiguration = 'multisigConfiguration';
+  static const confirmDeployment = 'confirmDeployment';
   static const outOfNumber = 'outOfNumber';
   static const custodiansWord = 'custodiansWord';
+  static const custodians = 'custodians';
+  static const custodiansDescription = 'custodiansDescription';
+  static const addCustodian = 'addCustodian';
+  static const requiredConfirmations = 'requiredConfirmations';
+  static const requiredConfirmationsDescription =
+      'requiredConfirmationsDescription';
+  static const hoursWord = 'hoursWord';
   static const publicKeyOfCustodianNumber = 'publicKeyOfCustodianNumber';
   static const custodianRenamed = 'custodianRenamed';
   static const addOneMorePublicKey = 'addOneMorePublicKey';
@@ -504,6 +516,8 @@ abstract class LocaleKeys {
   static const initializationFailedDescription =
       'initializationFailedDescription';
   static const tryAgain = 'tryAgain';
+  static const errorOccurred = 'errorOccurred';
+  static const closeWord = 'closeWord';
   static const connectingNetworkFailed = 'connectingNetworkFailed';
   static const creatingSubscriptionFailed = 'creatingSubscriptionFailed';
   static const suchTokenCannotBeSubscribed = 'suchTokenCannotBeSubscribed';
@@ -793,4 +807,6 @@ abstract class LocaleKeys {
   static const emptyConnectedDapps = 'emptyConnectedDapps';
   static const disconnect = 'disconnect';
   static const tokenListValidationError = 'tokenListValidationError';
+  static const failedToPrepareTransaction = 'failedToPrepareTransaction';
+  static const failedToSendTransaction = 'failedToSendTransaction';
 }

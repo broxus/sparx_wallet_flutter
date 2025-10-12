@@ -27,10 +27,11 @@ class AccountTransactionsTabWidgetModel extends CustomWidgetModelParametrized<
 
   final _logger = Logger('AccountTransactionsTabWM');
 
-  late final _state =
+  late final _transactionsState =
       createNotifier(const AccountTransactionsUiState.loading());
 
-  StateNotifier<AccountTransactionsUiState> get state => _state;
+  StateNotifier<AccountTransactionsUiState> get transactionsState =>
+      _transactionsState;
 
   // Internal
   CustomCurrency? _nativeCurrency;
@@ -93,7 +94,7 @@ class AccountTransactionsTabWidgetModel extends CustomWidgetModelParametrized<
   }
 
   void tryPreloadTransactions() {
-    final current = _state.value;
+    final current = _transactionsState.value;
     final lastPrevLt = _lastLt(_transactions);
     final isLoading = switch (current) {
       AccountTransactionsUiData(:final isLoading) => isLoading,
@@ -209,13 +210,13 @@ class AccountTransactionsTabWidgetModel extends CustomWidgetModelParametrized<
         _pendingLoaded &&
         _expiredLoaded &&
         _ordinaryLoaded) {
-      _transactionsState(fromStream: true);
+      _updateTransactionsState(fromStream: true);
     } else {
       _emitLoading();
     }
   }
 
-  void _transactionsState({
+  void _updateTransactionsState({
     bool fromStream = false,
     bool isLoading = false,
   }) {
@@ -225,7 +226,7 @@ class AccountTransactionsTabWidgetModel extends CustomWidgetModelParametrized<
         _expired.isEmpty &&
         _pending.isEmpty &&
         _ordinary.isEmpty) {
-      _state.accept(const AccountTransactionsUiState.empty());
+      _transactionsState.accept(const AccountTransactionsUiState.empty());
       return;
     }
 
@@ -280,7 +281,7 @@ class AccountTransactionsTabWidgetModel extends CustomWidgetModelParametrized<
       ),
     ]..sort((a, b) => b.compareTo(a));
 
-    var canLoadMore = switch (_state.value) {
+    var canLoadMore = switch (_transactionsState.value) {
       AccountTransactionsUiData(:final canLoadMore) => canLoadMore,
       _ => true,
     };
@@ -290,7 +291,7 @@ class AccountTransactionsTabWidgetModel extends CustomWidgetModelParametrized<
       canLoadMore = lastLt != _lastLtWhenPreloaded;
     }
 
-    _state.accept(
+    _transactionsState.accept(
       AccountTransactionsUiState.data(
         transactions: transactions,
         isLoading: isLoading,
@@ -313,7 +314,7 @@ class AccountTransactionsTabWidgetModel extends CustomWidgetModelParametrized<
     if (_isPreloading) return;
     _isPreloading = true;
 
-    _transactionsState(isLoading: true);
+    _updateTransactionsState(isLoading: true);
     _lastLtWhenPreloaded = lastPrevLt;
 
     try {
@@ -325,7 +326,7 @@ class AccountTransactionsTabWidgetModel extends CustomWidgetModelParametrized<
       _logger.severe('_preloadTransactions', e, t);
     } finally {
       _isPreloading = false;
-      _transactionsState();
+      _updateTransactionsState();
     }
   }
 
@@ -337,6 +338,6 @@ class AccountTransactionsTabWidgetModel extends CustomWidgetModelParametrized<
   }
 
   void _emitLoading() {
-    _state.accept(const AccountTransactionsUiState.loading());
+    _transactionsState.accept(const AccountTransactionsUiState.loading());
   }
 }

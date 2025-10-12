@@ -15,12 +15,14 @@ class TransactionSendingWidget extends StatelessWidget {
     required this.popOnComplete,
     this.routeData = const WalletRouteData(),
     this.isDeploying = false,
+    this.onClose,
     super.key,
   });
 
   final bool canClose;
   final bool isDeploying;
   final bool popOnComplete;
+  final VoidCallback? onClose;
   final CompassRouteData routeData;
 
   @override
@@ -34,18 +36,17 @@ class TransactionSendingWidget extends StatelessWidget {
             child: Column(
               mainAxisSize: MainAxisSize.min,
               children: [
-                if (isDeploying)
-                  Assets.images.deploymentProgress.image()
-                else
-                  ClipRect(
-                    child: AspectRatio(
-                      aspectRatio: 1,
-                      child: RiveAnimation.asset(
-                        Assets.animations.rocket,
-                        fit: BoxFit.cover,
-                      ),
+                ClipRect(
+                  child: AspectRatio(
+                    aspectRatio: 1,
+                    child: RiveAnimation.asset(
+                      isDeploying
+                          ? Assets.animations.deploy
+                          : Assets.animations.rocket,
+                      fit: BoxFit.cover,
                     ),
                   ),
+                ),
                 Column(
                   spacing: DimensSizeV2.d32,
                   children: [
@@ -56,8 +57,6 @@ class TransactionSendingWidget extends StatelessWidget {
                       style: theme.textStyles.headingLarge,
                       textAlign: TextAlign.center,
                     ),
-                    if (isDeploying)
-                      const ProgressIndicatorWidget(size: DimensSizeV2.d32),
                   ],
                 ),
               ],
@@ -74,6 +73,7 @@ class TransactionSendingWidget extends StatelessWidget {
               buttonShape: ButtonShape.pill,
               title: LocaleKeys.okayWord.tr(),
               onPressed: () {
+                onClose?.call();
                 if (popOnComplete) {
                   context.compassBack(true);
                 } else {

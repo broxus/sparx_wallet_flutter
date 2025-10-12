@@ -1,4 +1,5 @@
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/widgets.dart';
 
 abstract interface class BrowserPageSlideUi {
   ScrollController get viewTabScrollController;
@@ -36,6 +37,9 @@ class BrowserPageSlideUiDelegate implements BrowserPageSlideUi {
     bool isAnimated = false,
   }) {
     if (!urlSliderPageController.hasClients) {
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        slideToPage(page, isAnimated: isAnimated);
+      });
       return;
     }
 
@@ -60,6 +64,11 @@ class BrowserPageSlideUiDelegate implements BrowserPageSlideUi {
   }
 
   void _handleUrlPanelScroll() {
+    if (!urlSliderPageController.hasClients ||
+        !viewTabScrollController.hasClients) {
+      return;
+    }
+
     final urlOffset = urlSliderPageController.offset;
     final urlMax = urlSliderPageController.position.maxScrollExtent;
     final viewMax = viewTabScrollController.position.maxScrollExtent;

@@ -56,6 +56,7 @@ abstract class ConnectionWorkchain with _$ConnectionWorkchain {
     int? endpointSelectionRetryCount,
     String? tokenApiBaseUrl,
     String? currencyApiBaseUrl,
+    String? gaslessApiBaseUrl,
     @PollingConfigSecondsConverter() PollingConfig? pollingConfig,
     @StakingInformationConverter() StakingInformation? stakeInformation,
     NftInformation? nftInformation,

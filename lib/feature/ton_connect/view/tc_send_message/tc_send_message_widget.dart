@@ -1,4 +1,5 @@
 import 'package:app/core/wm/custom_wm.dart';
+import 'package:app/data/models/models.dart';
 import 'package:app/feature/browser_v1/approvals_listener/actions/widgets/website_info/website_info_widget.dart';
 import 'package:app/feature/profile/profile.dart';
 import 'package:app/feature/ton_connect/ton_connect.dart';
@@ -78,13 +79,13 @@ class TCSendMessageWidget extends InjectedElementaryParametrizedWidget<
                 MultiListenerRebuilder(
                   listenableList: [
                     wm.accountState,
-                    wm.selectedPublicKey,
+                    wm.selectedPublicKeyState,
                     wm.custodiansState,
                   ],
                   builder: (_) {
                     final account = wm.accountState.value;
                     final selectedPublicKey =
-                        wm.selectedPublicKey.value ?? account?.publicKey;
+                        wm.selectedPublicKeyState.value ?? account?.publicKey;
                     final custodians = wm.custodiansState.value;
 
                     if (custodians == null || custodians.length < 2) {
@@ -109,11 +110,9 @@ class TCSendMessageWidget extends InjectedElementaryParametrizedWidget<
                   },
                 ),
                 const SizedBox(height: DimensSizeV2.d12),
-                TripleSourceBuilder(
-                  firstSource: wm.dataState,
-                  secondSource: wm.feeState,
-                  thirdSource: wm.feeErrorState,
-                  builder: (_, data, fee, feeError) {
+                StateNotifierBuilder(
+                  listenableState: wm.dataState,
+                  builder: (_, data) {
                     if (data == null) return const SizedBox.shrink();
 
                     final single = data.singleOrNull;
@@ -123,8 +122,7 @@ class TCSendMessageWidget extends InjectedElementaryParametrizedWidget<
                         color: theme.colors.background2,
                         amount: single.amount,
                         recipient: single.recipient,
-                        fee: fee,
-                        feeError: feeError,
+                        fee: wm.feeState,
                         numberUnconfirmedTransactions:
                             wm.numberUnconfirmedTransactions,
                         attachedAmount: single.attachedAmount,
@@ -136,8 +134,7 @@ class TCSendMessageWidget extends InjectedElementaryParametrizedWidget<
                     return _MultitransferInfo(
                       data: data,
                       totalAmount: wm.totalAmount,
-                      fee: fee,
-                      feeError: feeError,
+                      fee: wm.feeState,
                       numberUnconfirmedTransactions:
                           wm.numberUnconfirmedTransactions,
                     );
@@ -200,14 +197,12 @@ class _MultitransferInfo extends StatelessWidget {
     required this.data,
     required this.totalAmount,
     required this.fee,
-    required this.feeError,
     required this.numberUnconfirmedTransactions,
   });
 
   final List<TransferData> data;
   final Money totalAmount;
-  final BigInt? fee;
-  final String? feeError;
+  final EntityValueListenable<Fee>? fee;
   final int? numberUnconfirmedTransactions;
 
   @override
@@ -220,7 +215,6 @@ class _MultitransferInfo extends StatelessWidget {
           color: context.themeStyleV2.colors.background2,
           amount: totalAmount,
           fee: fee,
-          feeError: feeError,
           numberUnconfirmedTransactions: numberUnconfirmedTransactions,
         ),
         for (final item in data)
@@ -232,7 +226,6 @@ class _MultitransferInfo extends StatelessWidget {
             attachedAmount: item.attachedAmount,
             rootTokenContract: item.rootTokenContract,
             payload: item.message.payload,
-            hasFee: false,
           ),
       ],
     );

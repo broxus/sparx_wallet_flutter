@@ -16,7 +16,6 @@ T _$identity<T>(T value) => value;
 /// @nodoc
 mixin _$PendingTransactionWithAdditionalInfo {
   PendingTransaction get transaction;
-  @amountJsonConverter
   BigInt? get amount;
   int get createdAt;
   String? get dst;
@@ -67,7 +66,7 @@ abstract mixin class $PendingTransactionWithAdditionalInfoCopyWith<$Res> {
   @useResult
   $Res call(
       {PendingTransaction transaction,
-      @amountJsonConverter BigInt? amount,
+      BigInt? amount,
       int createdAt,
       String? dst});
 
@@ -129,7 +128,7 @@ class _PendingTransactionWithAdditionalInfo
     extends PendingTransactionWithAdditionalInfo {
   const _PendingTransactionWithAdditionalInfo(
       {required this.transaction,
-      @amountJsonConverter required this.amount,
+      required this.amount,
       required this.createdAt,
       this.dst})
       : super._();
@@ -140,7 +139,6 @@ class _PendingTransactionWithAdditionalInfo
   @override
   final PendingTransaction transaction;
   @override
-  @amountJsonConverter
   final BigInt? amount;
   @override
   final int createdAt;
@@ -199,7 +197,7 @@ abstract mixin class _$PendingTransactionWithAdditionalInfoCopyWith<$Res>
   @useResult
   $Res call(
       {PendingTransaction transaction,
-      @amountJsonConverter BigInt? amount,
+      BigInt? amount,
       int createdAt,
       String? dst});
 

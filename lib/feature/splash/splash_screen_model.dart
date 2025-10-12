@@ -27,7 +27,7 @@ class SplashScreenModel extends ElementaryModel {
 
   Future<bool> configure() async {
     final isInitSuccess = await _bootstrapService.init(currentAppBuildType);
-    _browserService.init();
+    await _browserService.init();
 
     return isInitSuccess;
   }

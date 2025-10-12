@@ -1,7 +1,7 @@
 ---
 name: app
 description: SparX Wallet Flutter app
-version: 1.15.2
+version: 1.16.0
 publish_to: none
 
 environment:
@@ -25,6 +25,7 @@ dependencies:
   cupertino_http: 2.2.0
   device_info_plus: 11.5.0
   dio: 5.8.0+1
+  drift: 2.25.0
   easy_localization: 3.0.7+1
   easy_logger: 0.0.2
   elementary: 3.2.0
@@ -64,11 +65,12 @@ dependencies:
   money2_fixer: 3.0.0
   mutex: ^3.1.0
   native_dio_adapter: 1.4.0
-  nekoton_repository: 1.5.0
+  nekoton_repository: 1.6.0
   nekoton_webview: 0.1.11
   ntp: 2.0.0
   open_settings_plus: 0.4.0
   package_info_plus: 8.3.0
+  path: 1.9.1
   path_provider: 2.1.5
   permission_handler: 12.0.0+1
   pinenacl: 0.6.0
@@ -85,6 +87,8 @@ dependencies:
   sentry_flutter: 8.14.2
   share_plus: 11.0.0
   shared_preferences: 2.5.3
+  sqlite3: 2.9.0
+  sqlite3_flutter_libs: ^0.5.0
   string_extensions: 0.7.3
   the_logger: 0.0.18
   ui_components_lib:
@@ -102,8 +106,8 @@ dev_dependencies:
       url: https://github.com/broxus/flutter_templates.git
       ref: main
   build_runner: 2.4.15
-  # TODO: Enable when dependency conflict with reflectable (used in bridge) is resolved
-  # custom_lint: ^0.6.0
+  custom_lint: ^0.8.0
+  drift_dev: 2.25.2
   flutter_gen_runner: 5.10.0
   flutter_native_splash: 2.4.6
   flutter_test:
@@ -119,9 +123,8 @@ dev_dependencies:
   mocktail: 1.0.4
   retrofit_generator: 9.2.0
   test: 1.25.15
-  # TODO: Enable when dependency conflict with reflectable (used in bridge) is resolved  
-  # wm_state_properties_lint:
-  #   path: packages/wm_state_properties_lint
+  wm_state_properties_lint:
+    path: packages/wm_state_properties_lint
 
 flutter_gen:
   output: lib/generated/
@@ -151,3 +154,4 @@ flutter:
     - assets/images/nft_placeholder/
     - assets/splash/
     - assets/animations/
+    - assets/html/
