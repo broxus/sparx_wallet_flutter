@@ -14,7 +14,7 @@ import 'package:uuid/uuid.dart';
 final Connection defaultPresetConnection = (() {
   final connectionId = const Uuid().v4();
   const networkName = 'Everscale';
-  final defaultWorkchainId = 0;
+  const defaultWorkchainId = 0;
 
   return Connection(
     id: connectionId,

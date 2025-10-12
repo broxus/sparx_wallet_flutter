@@ -5,6 +5,7 @@ export 'approvals_service.dart';
 export 'assets_service.dart';
 export 'balance_service.dart';
 export 'biometry_service.dart';
+export 'connection/connection.dart';
 export 'currencies/currencies.dart';
 export 'currency_convert_service.dart';
 export 'current_accounts_service.dart';

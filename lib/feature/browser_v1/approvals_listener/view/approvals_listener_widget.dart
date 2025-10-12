@@ -1,6 +1,5 @@
 import 'dart:async';
 
-import 'package:app/app/service/connection/data/connection/connection.dart';
 import 'package:app/app/service/service.dart';
 import 'package:app/data/models/models.dart';
 import 'package:app/di/di.dart';

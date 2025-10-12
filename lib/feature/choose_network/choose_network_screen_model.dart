@@ -1,6 +1,5 @@
 // ignore_for_file: use_build_context_synchronously
 
-import 'package:app/app/service/connection/connection.dart';
 import 'package:app/app/service/service.dart';
 import 'package:app/feature/choose_network/choose_network_screen.dart';
 import 'package:app/feature/choose_network/choose_network_screen_const.dart';

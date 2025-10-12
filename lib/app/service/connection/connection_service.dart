@@ -1,10 +1,5 @@
-import 'package:app/app/service/connection/data/network_type.dart';
-import 'package:app/app/service/connection/data/nft_information/nft_information.dart';
 import 'package:app/app/service/connection/data/work_chain/connection_work_chain.dart';
 import 'package:app/app/service/connection/data/work_chain/workchain_transport_type.dart';
-import 'package:app/app/service/connection/group.dart';
-import 'package:app/app/service/connection/transport_strategies/app_transport_strategy.dart';
-import 'package:app/app/service/connection/transport_strategies/common_transport_strategy.dart';
 import 'package:app/app/service/service.dart';
 import 'package:app/app/service/storage_service/connections_storage/connections_ids_data.dart';
 import 'package:app/feature/messenger/domain/service/messenger_service.dart';
@@ -112,7 +107,7 @@ class ConnectionService {
             connectionId: workchain.parentConnectionId,
             workchainId: workchain.id,
             networkId: transport.networkId,
-          )
+          ),
         ],
       );
 

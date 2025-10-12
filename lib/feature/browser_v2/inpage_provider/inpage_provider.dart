@@ -1,6 +1,5 @@
 import 'dart:async';
 
-import 'package:app/app/service/connection/connection_service.dart' as s;
 import 'package:app/app/service/connection/data/connection/connection.dart';
 import 'package:app/app/service/service.dart' as s;
 import 'package:app/app/service/storage_service/connections_storage/connections_ids_data.dart';

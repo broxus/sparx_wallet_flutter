@@ -1,4 +1,3 @@
-import 'package:app/app/service/connection/data/connection/connection.dart';
 import 'package:app/app/service/service.dart';
 import 'package:app/core/app_build_type.dart';
 import 'package:app/runner.dart';

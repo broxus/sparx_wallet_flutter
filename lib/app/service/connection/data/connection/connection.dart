@@ -23,7 +23,7 @@ abstract class Connection with _$Connection {
         networkName: networkName,
         defaultWorkchainId: defaultWorkchainId,
         defaultWorkchain: workchains.firstWhere(
-              (w) => w.id == defaultWorkchainId,
+          (w) => w.id == defaultWorkchainId,
         ),
         sortingOrder: sortingOrder,
         isPreset: isPreset,

@@ -57,12 +57,12 @@ class WalletAppBarWidget
                   StateNotifierBuilder(
                     listenableState: wm.connectionState,
                     builder: (_, connection) =>
-                    connection?.let(
+                        connection?.let(
                           (value) => GestureDetector(
-                        onTap: wm.onNetwork,
-                        child: NetworkDropItem(data: connection),
-                      ),
-                    ) ??
+                            onTap: wm.onNetwork,
+                            child: NetworkDropItem(data: connection),
+                          ),
+                        ) ??
                         const SizedBox.shrink(),
                   ),
                   if (wm.isShowWorkchainSelector) const WorkchainSelector(),

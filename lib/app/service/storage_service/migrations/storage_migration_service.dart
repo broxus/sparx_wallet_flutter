@@ -1,7 +1,5 @@
 import 'package:app/app/service/database/database_service.dart';
 import 'package:app/app/service/service.dart';
-import 'package:app/app/service/storage_service/migrations/storage_migrations/v5.dart';
-import 'package:app/app/service/storage_service/migrations/storage_migrations/v6.dart';
 import 'package:encrypted_storage/encrypted_storage.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:logging/logging.dart';

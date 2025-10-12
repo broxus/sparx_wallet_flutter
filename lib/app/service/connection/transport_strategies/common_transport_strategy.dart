@@ -43,7 +43,6 @@ class CommonTransportStrategy extends AppTransportStrategy {
     required Transport transport,
     required ConnectionWorkchain workchain,
   }) {
-
     return CommonTransportStrategy(
       dio: dio,
       transport: transport,
@@ -137,8 +136,7 @@ class CommonTransportStrategy extends AppTransportStrategy {
   NetworkGroup get networkGroup => transport.group;
 
   @override
-  String get nativeTokenTicker =>
-      workchain.nativeTokenTicker.name;
+  String get nativeTokenTicker => workchain.nativeTokenTicker.name;
 
   @override
   String accountExplorerLink(Address accountAddress) {
