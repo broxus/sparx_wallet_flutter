@@ -230,8 +230,6 @@ import '../feature/browser_v2/widgets/bottomsheets/book/browser_book_model.dart'
     as _i250;
 import '../feature/browser_v2/widgets/bottomsheets/book/browser_book_wm.dart'
     as _i913;
-import '../feature/browser_v2/widgets/bottomsheets/book/widgets/bookmarks/bookmarks_list_wm.dart'
-    as _i951;
 import '../feature/browser_v2/widgets/bottomsheets/browser_main_menu/browser_main_menu_model.dart'
     as _i966;
 import '../feature/browser_v2/widgets/bottomsheets/browser_main_menu/browser_main_menu_wm.dart'
@@ -762,8 +760,6 @@ extension GetItInjectableX on _i174.GetIt {
       () => _i33.NftSendRoute(),
       instanceName: 'NftSendRoute',
     );
-    gh.factory<_i951.BookmarksListWidgetModel>(
-        () => _i951.BookmarksListWidgetModel(gh<InvalidType>()));
     gh.singleton<_i82.CompassBaseRoute>(
       () => _i653.WalletDeployStatusRoute(),
       instanceName: 'WalletDeployStatusRoute',
