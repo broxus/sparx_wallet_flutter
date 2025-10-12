@@ -11,8 +11,8 @@ class DateItem extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.only(
         bottom: DimensSizeV2.d12,
-        left: DimensSize.d16,
-        right: DimensSize.d16,
+        left: DimensSize.d24,
+        right: DimensSize.d24,
       ),
       child: Text(
         dateText,

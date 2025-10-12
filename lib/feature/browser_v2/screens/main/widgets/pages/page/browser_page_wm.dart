@@ -8,6 +8,7 @@ import 'package:app/feature/browser_v2/data/browser_basic_auth_creds.dart';
 import 'package:app/feature/browser_v2/data/tabs/browser_tab.dart';
 import 'package:app/feature/browser_v2/screens/main/widgets/pages/page/browser_page.dart';
 import 'package:app/feature/browser_v2/screens/main/widgets/pages/page/browser_page_model.dart';
+import 'package:app/feature/browser_v2/widgets/bottomsheets/permissions_bottom_sheet.dart';
 import 'package:elementary/elementary.dart';
 import 'package:elementary_helper/elementary_helper.dart';
 import 'package:flutter/foundation.dart';
@@ -128,10 +129,12 @@ class BrowserPageWidgetModel
     await model.initEvents(tabId: _tabId, controller: customController);
 
     if (_url.toString().isNotEmpty) {
-      await customController.loadUrl(
-        urlRequest: URLRequest(url: WebUri.uri(_url)),
-      );
+      unawaited(model.initUri(_tabId, _url));
     }
+    controller.addJavaScriptHandler(
+      handlerName: 'phishClick',
+      callback: (args) => model.addUrlToWhiteList(args.first as String),
+    );
   }
 
   // Start loading page
@@ -251,6 +254,13 @@ class BrowserPageWidgetModel
       return NavigationActionPolicy.ALLOW;
     }
 
+    final isGuardPhishing = model.checkIsPhishingUri(url);
+
+    if (isGuardPhishing) {
+      unawaited(model.loadPhishingGuard(_tabId, url));
+      return NavigationActionPolicy.CANCEL;
+    }
+
     final scheme = navigationAction.request.url?.scheme;
 
     if (!_allowSchemes.contains(scheme) || _checkIsCustomAppLink(url)) {
@@ -262,6 +272,52 @@ class BrowserPageWidgetModel
     }
 
     return NavigationActionPolicy.ALLOW;
+  }
+
+  Future<PermissionResponse?> onPermissionRequest(
+    InAppWebViewController controller,
+    PermissionRequest permissionRequest,
+  ) async {
+    try {
+      final url = await controller.getUrl();
+
+      if (url == null) {
+        return null;
+      }
+
+      if (await model.checkPermission(url.host, permissionRequest.resources)) {
+        await model.requestCameraPermissionIfNeed(permissionRequest.resources);
+        return PermissionResponse(
+          action: PermissionResponseAction.GRANT,
+          resources: permissionRequest.resources,
+        );
+      }
+
+      if (contextSafe == null) {
+        return null;
+      }
+
+      final isGrant = await showPermissionsSheet(
+        context: contextSafe!,
+        host: url.host,
+        permissions: permissionRequest.resources.map(
+          (r) => r.toValue().toLowerCase(),
+        ),
+      );
+
+      if (isGrant ?? false) {
+        await model.saveHostPermissions(url.host, permissionRequest.resources);
+        await model.requestCameraPermissionIfNeed(permissionRequest.resources);
+        return PermissionResponse(
+          action: PermissionResponseAction.GRANT,
+          resources: permissionRequest.resources,
+        );
+      }
+    } catch (_) {
+      return null;
+    }
+
+    return null;
   }
 
   Future<void> _onRefresh() async {

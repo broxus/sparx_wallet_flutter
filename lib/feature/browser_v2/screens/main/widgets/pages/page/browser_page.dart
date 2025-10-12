@@ -61,6 +61,7 @@ class BrowserPage
                 onTitleChanged: wm.onWebPageTitleChanged,
                 onReceivedHttpAuthRequest: wm.onWebPageReceivedHttpAuthRequest,
                 shouldOverrideUrlLoading: wm.onWebPageShouldOverrideUrlLoading,
+                onPermissionRequest: wm.onPermissionRequest,
               );
             },
           ),

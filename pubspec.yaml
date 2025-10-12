@@ -30,6 +30,7 @@ dependencies:
   device_info_plus: ^12.1.0
   dio: ^5.9.0
   easy_localization: ^3.0.8
+  drift: 2.28.2
   easy_logger: 0.0.2
   elementary: ^3.2.1
   elementary_helper: ^1.0.3
@@ -72,6 +73,7 @@ dependencies:
   ntp: 2.0.0
   open_settings_plus: 0.4.0
   package_info_plus: ^9.0.0
+  path: 1.9.1
   path_provider: 2.1.5
   permission_handler: ^12.0.1
   pinenacl: 0.6.0
@@ -88,6 +90,8 @@ dependencies:
   sentry_flutter: ^9.6.0
   share_plus: ^12.0.0
   shared_preferences: 2.5.3
+  sqlite3: 2.9.0
+  sqlite3_flutter_libs: ^0.5.0
   string_extensions: ^0.7.4
   the_logger: 0.0.18
   ui_components_lib:
@@ -107,6 +111,7 @@ dev_dependencies:
       ref: main
   build_runner: ^2.7.1
   custom_lint: ^0.8.0
+  drift_dev: 2.28.2
   flutter_gen_runner: ^5.11.0
   flutter_native_splash: 2.4.6
   flutter_test:
@@ -152,6 +157,7 @@ flutter:
     - assets/images/nft_placeholder/
     - assets/splash/
     - assets/animations/
+    - assets/html/
 
 melos:
   useRootAsPackage: true
@@ -172,12 +178,14 @@ melos:
 
     codegen:build_runner:
       description: Generate code for root package using build_runner
-      run: find . -type f -name "*.gen.dart" -delete && dart run build_runner build --delete-conflicting-outputs
+      run: find . -type f -name "*.gen.dart" -delete && dart run build_runner build
+        --delete-conflicting-outputs
       failFast: true
 
     codegen:locale:
       description: Generate localizations code for root package
-      run: dart run easy_localization:generate --source-dir assets/translations -f keys --output-file locale_keys.g.dart && dart format lib/generated/*.dart
+      run: dart run easy_localization:generate --source-dir assets/translations -f
+        keys --output-file locale_keys.g.dart && dart format lib/generated/*.dart
       failFast: true
 
     analyze:

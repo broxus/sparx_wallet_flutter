@@ -15,7 +15,7 @@ import 'package:flutter/material.dart';
 abstract interface class BrowserTabsAndGroupsUi {
   ListenableState<List<NotNullListenableState<BrowserTab>>?> get viewTabsState;
 
-  ListenableState<String?> get hostState;
+  ListenableState<Uri?> get activeTabUriState;
 
   ListenableState<String?> get selectedGroupIdState;
 
@@ -39,7 +39,6 @@ class BrowserTabsAndGroupsUiDelegate implements BrowserTabsAndGroupsUi {
     required this.renderManager,
     required this.onEmptyTabs,
     required this.onUpdateActiveTab,
-    required this.onChangeTab,
     required this.checkIsVisiblePages,
   }) {
     _init();
@@ -50,7 +49,6 @@ class BrowserTabsAndGroupsUiDelegate implements BrowserTabsAndGroupsUi {
   final BrowserRenderManager renderManager;
   final VoidCallback onEmptyTabs;
   final ValueChanged<bool> onUpdateActiveTab;
-  final VoidCallback onChangeTab;
   final bool Function() checkIsVisiblePages;
 
   final _tabAnimationTypeState = StateNotifier<TabAnimationType?>();
@@ -78,7 +76,7 @@ class BrowserTabsAndGroupsUiDelegate implements BrowserTabsAndGroupsUi {
   get viewTabsState => _viewTabsState;
 
   @override
-  ListenableState<String?> get hostState => model.activeTabUrlHostState;
+  ListenableState<Uri?> get activeTabUriState => model.activeTabUriState;
 
   @override
   ListenableState<TabAnimationType?> get tabAnimationTypeState =>
@@ -114,7 +112,6 @@ class BrowserTabsAndGroupsUiDelegate implements BrowserTabsAndGroupsUi {
         ..setActiveGroup(groupId)
         ..setActiveTab(tabId);
     }
-    onChangeTab();
   }
 
   @override
@@ -128,22 +125,22 @@ class BrowserTabsAndGroupsUiDelegate implements BrowserTabsAndGroupsUi {
     _selectedGroupIdState.accept(groupId);
   }
 
-  void onTabAnimationStart(ValueChanged<bool> onComplete) {
+  void onTabAnimationStart({VoidCallback? onCompleteShowTabs}) {
     if (_tabAnimationTypeState.value == null) {
       return;
     }
     if (_tabAnimationTypeState.value is ShowTabsAnimationType) {
-      onComplete(false);
+      onCompleteShowTabs?.call();
     }
   }
 
-  void onTabAnimationEnd(ValueChanged<bool> onComplete) {
+  void onTabAnimationEnd({VoidCallback? onCompleteShowView}) {
     if (_tabAnimationTypeState.value == null) {
       return;
     }
 
     if (_tabAnimationTypeState.value is ShowViewAnimationType) {
-      onComplete(true);
+      onCompleteShowView?.call();
     }
 
     _tabAnimationTypeState.accept(null);
@@ -249,7 +246,9 @@ class BrowserTabsAndGroupsUiDelegate implements BrowserTabsAndGroupsUi {
       if (_tabsPrevCount != null &&
           _tabsCount != null &&
           _tabsPrevCount! < _tabsCount!) {
-        onUpdateActiveTab(true);
+        WidgetsBinding.instance.addPostFrameCallback((_) {
+          onUpdateActiveTab(true);
+        });
       }
     } else if (activeGroupId != null && activeTabId != null) {
       _selectedGroupIdState.accept(activeGroupId);
@@ -258,13 +257,13 @@ class BrowserTabsAndGroupsUiDelegate implements BrowserTabsAndGroupsUi {
 
       final data = renderManager.getRenderData(activeTabId);
 
-      onUpdateActiveTab(false);
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        onUpdateActiveTab(false);
+      });
 
       _tabAnimationTypeState.accept(
         ShowViewAnimationType(tabX: data?.xLeft, tabY: data?.yTop),
       );
-
-      onChangeTab();
     }
 
     if (_tabsCount != null &&

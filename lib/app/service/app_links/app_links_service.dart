@@ -33,6 +33,18 @@ class AppLinksService {
     _linkSubscription?.cancel();
   }
 
+  /// Handle the initial link when app is launched from cold state
+  Future<void> handleInitialLink() async {
+    try {
+      final uri = await _appLinks.getInitialLink();
+      if (uri != null) {
+        handleAppLink(uri);
+      }
+    } catch (_) {
+      // Ignore errors getting initial link
+    }
+  }
+
   void handleAppLink(Uri uri) {
     final queryParameters = uri.queryParameters;
     final link = queryParameters[_linkKey];

@@ -37,7 +37,13 @@ class SeedSettingsWidgetModel
   void onRename() {
     Navigator.of(context)
       ..pop()
-      ..push(showRenameSheet(context, publicKeyState.value, renameSeed: true));
+      ..push(
+        showRenameSheet(
+          context: context,
+          publicKey: publicKeyState.value,
+          isSeed: true,
+        ),
+      );
   }
 
   void onExport() {

@@ -16,11 +16,10 @@ The project follows Clean Architecture with 5 layers:
 
 ### Architecture Patterns
 
-- **New Code**: MUST use Elementary MVVM pattern
-- **Legacy Code**: May use BLoC pattern - don't refactor unless necessary
+- **All Code**: MUST use Elementary MVVM pattern
 - **Navigation**: MUST use Compass (type-safe navigation) - NEVER raw GoRouter
 
-## Elementary MVVM Pattern (Required for New Code)
+## Elementary MVVM Pattern
 
 ### File Structure
 

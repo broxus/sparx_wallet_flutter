@@ -1,5 +1,7 @@
+import 'dart:async';
 import 'dart:typed_data';
 
+import 'package:app/app/service/app_permissions_service.dart';
 import 'package:app/app/service/approvals_service.dart';
 import 'package:app/app/service/assets_service.dart';
 import 'package:app/app/service/connection/connection_service.dart';
@@ -35,6 +37,7 @@ class BrowserPageModel extends ElementaryModel {
     this._connectionService,
     this._tonConnectJsBridge,
     this._ledgerService,
+    this._appPermissionsService,
   ) : super(errorHandler: errorHandler);
 
   final BrowserService _browserService;
@@ -47,6 +50,7 @@ class BrowserPageModel extends ElementaryModel {
   final ConnectionService _connectionService;
   final TonConnectJsBridge _tonConnectJsBridge;
   final LedgerService _ledgerService;
+  final AppPermissionsService _appPermissionsService;
 
   InpageProvider? _inpageProvider;
 
@@ -137,5 +141,55 @@ class BrowserPageModel extends ElementaryModel {
 
   bool checkIsActiveTab(String id) {
     return _activeTabId == null || id == _activeTabId;
+  }
+
+  Future<void> initUri(String tabId, Uri uri) async {
+    final isPhishing = checkIsPhishingUri(uri);
+
+    if (isPhishing) {
+      unawaited(loadPhishingGuard(tabId, uri));
+      return;
+    }
+
+    return _browserService.tab.requestUrlActiveTab(
+      uri.host == '' && uri.path == 'blank' ? WebUri('') : WebUri.uri(uri),
+    );
+  }
+
+  bool checkIsPhishingUri(Uri uri) =>
+      _browserService.antiPhishing.checkIsPhishingUri(uri);
+
+  Future<void> loadPhishingGuard(String tabId, Uri uri) {
+    return _browserService.loadPhishingGuard(tabId, uri);
+  }
+
+  void addUrlToWhiteList(String path) {
+    _browserService.antiPhishing.addToWhiteList(path);
+    Future.delayed(const Duration(milliseconds: 100), () {
+      _browserService.tab.requestUrlActiveTab(Uri.parse(path));
+    });
+  }
+
+  Future<bool> checkPermission(
+    String host,
+    List<PermissionResourceType> resources,
+  ) => _browserService.perm.checkHostPermissions(host, [
+    for (final resource in resources) resource.toValue(),
+  ]);
+
+  Future<void> saveHostPermissions(
+    String host,
+    List<PermissionResourceType> resources,
+  ) => _browserService.perm.saveHostPermissions(host, [
+    for (final resource in resources) resource.toValue(),
+  ]);
+
+  Future<void> requestCameraPermissionIfNeed(
+    List<PermissionResourceType> resources,
+  ) async {
+    if (resources.contains(PermissionResourceType.CAMERA) ||
+        resources.contains(PermissionResourceType.CAMERA_AND_MICROPHONE)) {
+      await _appPermissionsService.requestCamera();
+    }
   }
 }

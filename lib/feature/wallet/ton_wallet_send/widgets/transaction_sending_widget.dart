@@ -36,28 +36,28 @@ class TransactionSendingWidget extends StatelessWidget {
             child: Column(
               mainAxisSize: MainAxisSize.min,
               children: [
-                if (isDeploying)
-                  Assets.images.deploymentProgress.image()
-                else
-                  ClipRect(
-                    child: AspectRatio(
-                      aspectRatio: 1,
-                      child: RiveWidgetBuilder(
-                        fileLoader: FileLoader.fromAsset(
-                          Assets.animations.rocket,
-                          riveFactory: Factory.rive,
-                        ),
-                        builder: (context, state) => switch (state) {
-                          RiveLoading() => const CircularProgressIndicator(),
-                          RiveFailed() => const SizedBox(),
-                          RiveLoaded() => RiveWidget(
-                            controller: state.controller,
-                            fit: Fit.cover,
-                          ),
-                        },
+                ClipRect(
+                  child: AspectRatio(
+                    aspectRatio: 1,
+                    child: RiveWidgetBuilder(
+                      fileLoader: FileLoader.fromAsset(
+                        isDeploying
+                            ? Assets.animations.deploy
+                            : Assets.animations.rocket,
+                        riveFactory: Factory.rive,
                       ),
+                      builder:
+                          (context, state) => switch (state) {
+                            RiveLoading() => const CircularProgressIndicator(),
+                            RiveFailed() => const SizedBox(),
+                            RiveLoaded() => RiveWidget(
+                              controller: state.controller,
+                              fit: Fit.cover,
+                            ),
+                          },
                     ),
                   ),
+                ),
                 Column(
                   spacing: DimensSizeV2.d32,
                   children: [
@@ -68,8 +68,6 @@ class TransactionSendingWidget extends StatelessWidget {
                       style: theme.textStyles.headingLarge,
                       textAlign: TextAlign.center,
                     ),
-                    if (isDeploying)
-                      const ProgressIndicatorWidget(size: DimensSizeV2.d32),
                   ],
                 ),
               ],

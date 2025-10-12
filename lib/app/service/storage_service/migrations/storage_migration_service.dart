@@ -1,12 +1,14 @@
+import 'package:app/app/service/database/database_service.dart';
 import 'package:app/app/service/service.dart';
 import 'package:app/app/service/storage_service/migrations/storage_migrations/v5.dart';
+import 'package:app/app/service/storage_service/migrations/storage_migrations/v6.dart';
 import 'package:encrypted_storage/encrypted_storage.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:logging/logging.dart';
 
 final _logger = Logger('StorageMigrationService');
 
-const _version = 5;
+const _version = 6;
 const _versionKey = 'version';
 
 class StorageMigrationService {
@@ -15,6 +17,7 @@ class StorageMigrationService {
     this._presetsConnectionService,
     this._generalStorageService,
     this._connectionsStorageService,
+    this._databaseService,
   ) : _storage = GetStorage();
 
   static Future<void> applyMigrations(
@@ -22,11 +25,13 @@ class StorageMigrationService {
     PresetsConnectionService presetsConnectionService,
     GeneralStorageService generalStorageService,
     ConnectionsStorageService connectionsStorageService,
+    DatabaseService databaseService,
   ) async => StorageMigrationService(
     encryptedStorage,
     presetsConnectionService,
     generalStorageService,
     connectionsStorageService,
+    databaseService,
   ).migrate();
 
   final GetStorage _storage;
@@ -35,6 +40,7 @@ class StorageMigrationService {
   final PresetsConnectionService _presetsConnectionService;
   final GeneralStorageService _generalStorageService;
   final ConnectionsStorageService _connectionsStorageService;
+  final DatabaseService _databaseService;
 
   int get currentVersion => _storage.read<int>(_versionKey) ?? 0;
 
@@ -77,6 +83,9 @@ class StorageMigrationService {
         _generalStorageService,
         _connectionsStorageService,
       );
+    }
+    if (currentVersion < StorageMigrationV6.version) {
+      yield StorageMigrationV6(_databaseService);
     }
   }
 }

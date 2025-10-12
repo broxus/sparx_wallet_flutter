@@ -4,8 +4,10 @@ import 'package:app/app/router/router.dart';
 import 'package:app/app/service/app_lifecycle_service.dart';
 import 'package:app/app/service/app_links/app_links.dart';
 import 'package:app/app/service/biometry_service.dart';
+import 'package:app/app/service/bootstrap/bootstrap_service.dart';
 import 'package:app/app/service/bootstrap/configurators/logger.dart';
 import 'package:app/app/service/crash_detector/domain/service/crash_detector_service.dart';
+import 'package:app/app/service/pending_deep_link_service.dart';
 import 'package:app/app/view/app.dart';
 import 'package:app/feature/browser_v2/domain/browser_launcher.dart';
 import 'package:app/feature/localization/localization.dart';
@@ -33,6 +35,8 @@ class AppModel extends ElementaryModel with WidgetsBindingObserver {
     this._loggerConfigurator,
     this._browserLauncher,
     this._nekotonRepository,
+    this._bootstrapService,
+    this._pendingDeepLinkService,
   ) : super(errorHandler: errorHandler);
 
   final CompassRouter router;
@@ -45,6 +49,8 @@ class AppModel extends ElementaryModel with WidgetsBindingObserver {
   final LoggerConfigurator _loggerConfigurator;
   final BrowserLauncher _browserLauncher;
   final NekotonRepository _nekotonRepository;
+  final BootstrapService _bootstrapService;
+  final PendingDeepLinkService _pendingDeepLinkService;
 
   BuildContext? get navContext =>
       CompassRouter.navigatorKey.currentState?.context;
@@ -60,6 +66,7 @@ class AppModel extends ElementaryModel with WidgetsBindingObserver {
     _crashDetectorService.startSession(setCrashDetected: true);
     _checkBiometry();
     _appLinksSubs = _appLinksService.browserLinksStream.listen(_listenAppLinks);
+    _pendingDeepLinkService.attachToRouter(router);
     super.init();
   }
 
@@ -114,8 +121,26 @@ class AppModel extends ElementaryModel with WidgetsBindingObserver {
   }
 
   void _listenAppLinks(BrowserAppLinksData event) {
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      _browserLauncher.openBrowserByUri(event.url);
+    WidgetsBinding.instance.addPostFrameCallback((_) async {
+      // Wait for bootstrap to complete before handling deeplink
+      await _bootstrapService.bootstrapStepStream.firstWhere(
+        (step) => _bootstrapService.isConfigured,
+      );
+
+      // Wait for router to complete initial navigation
+      // This ensures RootView and bottom navigation bar are fully mounted
+      // before attempting to navigate to browser
+      await router.currentRoutesStream.first;
+
+      final hasSeeds = _nekotonRepository.hasSeeds.valueOrNull ?? false;
+
+      if (hasSeeds) {
+        // User already onboarded - open browser immediately
+        _browserLauncher.openBrowserByUri(event.url);
+      } else {
+        // User not onboarded - store for later processing
+        _pendingDeepLinkService.addPendingLink(event.url);
+      }
     });
   }
 

@@ -1,4 +1,3 @@
-import 'package:app/feature/browser_v2/widgets/bottomsheets/book/widgets/bookmarks/bookmarks_list_wm.dart';
 import 'package:app/feature/browser_v2/widgets/favicon_view/favicon_view.dart';
 import 'package:elementary_helper/elementary_helper.dart';
 import 'package:flutter/material.dart';
@@ -21,7 +20,7 @@ class BookmarkListItem extends StatelessWidget {
   final String? title;
   final String? subTitle;
   final Uri? uri;
-  final ListenableState<EditValue> editState;
+  final ListenableState<bool> editState;
   final VoidCallback onPressed;
   final VoidCallback onPressedRemove;
 
@@ -29,31 +28,33 @@ class BookmarkListItem extends StatelessWidget {
   Widget build(BuildContext context) {
     return StateNotifierBuilder(
       listenableState: editState,
-      builder: (_, EditValue? editValue) {
+      builder: (_, bool? editValue) {
+        editValue ??= false;
+
         return _Content(
           title: title,
           subTitle: subTitle,
           uri: uri,
           prefix: Padding(
-            padding: const EdgeInsets.only(right: DimensSizeV2.d20),
+            padding: const EdgeInsets.only(right: DimensSizeV2.d16),
             child: _CrossAnimation(
               first: _RemoveLabel(onPressed: onPressedRemove),
               second: const SizedBox.shrink(),
-              isShowFirst: editValue != EditValue.none,
+              isShowFirst: editValue,
             ),
           ),
           suffix: Padding(
-            padding: const EdgeInsets.only(left: DimensSizeV2.d20),
+            padding: const EdgeInsets.only(left: DimensSizeV2.d16),
             child: _CrossAnimation(
               first: ReorderableDragStartListener(
                 index: index,
                 child: const _DragLabel(),
               ),
               second: const SizedBox.shrink(),
-              isShowFirst: editValue == EditValue.edit,
+              isShowFirst: editValue,
             ),
           ),
-          onPressed: editValue == EditValue.none ? onPressed : null,
+          onPressed: !editValue ? onPressed : null,
         );
       },
     );
@@ -90,13 +91,14 @@ class HistoryListItem extends StatelessWidget {
           subTitle: subTitle,
           uri: uri,
           prefix: Padding(
-            padding: const EdgeInsets.only(right: DimensSizeV2.d20),
+            padding: const EdgeInsets.only(right: DimensSizeV2.d16),
             child: _CrossAnimation(
               first: _RemoveLabel(onPressed: onPressedRemove),
               second: const SizedBox.shrink(),
               isShowFirst: isEdit,
             ),
           ),
+          suffix: const SizedBox(width: DimensSizeV2.d16),
           onPressed: isEdit ? null : onPressed,
         );
       },
@@ -131,7 +133,11 @@ class _Content extends StatelessWidget {
       behavior: HitTestBehavior.opaque,
       onTap: onPressed,
       child: Padding(
-        padding: const EdgeInsets.only(bottom: DimensSizeV2.d8),
+        padding: const EdgeInsets.only(
+          left: DimensSizeV2.d24,
+          right: DimensSizeV2.d24,
+          bottom: DimensSizeV2.d8,
+        ),
         child: SizedBox(
           width: double.infinity,
           height: DimensSizeV2.d58,
@@ -144,16 +150,19 @@ class _Content extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 if (prefix != null) prefix!,
-                Expanded(
+                Flexible(
                   child: Row(
                     mainAxisSize: MainAxisSize.min,
                     children: [
                       Padding(
                         padding: const EdgeInsets.only(right: DimensSizeV2.d8),
-                        child: FaviconView(
-                          uri: uri,
-                          height: DimensSize.d32,
-                          width: DimensSize.d32,
+                        child: ClipRRect(
+                          borderRadius: BorderRadius.circular(DimensSize.d32),
+                          child: FaviconView(
+                            uri: uri,
+                            height: DimensSize.d32,
+                            width: DimensSize.d32,
+                          ),
                         ),
                       ),
                       Expanded(

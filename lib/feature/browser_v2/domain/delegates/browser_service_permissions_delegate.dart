@@ -1,3 +1,4 @@
+import 'package:app/app/service/database/database_service.dart';
 import 'package:app/data/models/permissions.dart';
 import 'package:app/feature/browser_v2/domain/delegates/browser_base_delegate.dart';
 import 'package:app/feature/browser_v2/domain/service/storages/browser_permissions_storage_service.dart';
@@ -16,14 +17,22 @@ abstract interface class BrowserServicePermissions {
   void deletePermissionsForOrigin(String origin);
 
   void deletePermissionsForAccount(Address address);
+
+  Future<bool> checkHostPermissions(String host, List<String> permissions);
+
+  Future<void> saveHostPermissions(String host, List<String> permissions);
 }
 
 @injectable
 class BrowserServicePermissionsDelegate
     implements BrowserDelegate, BrowserServicePermissions {
-  BrowserServicePermissionsDelegate(this._browserPermissionsStorageService);
+  BrowserServicePermissionsDelegate(
+    this._browserPermissionsStorageService,
+    this._databaseService,
+  );
 
   final BrowserPermissionsStorageService _browserPermissionsStorageService;
+  final DatabaseService _databaseService;
 
   /// Subject for permissions of browser tabs
   final _permissionsSubject = BehaviorSubject<Map<String, Permissions>>.seeded(
@@ -83,10 +92,19 @@ class BrowserServicePermissionsDelegate
     _fetchPermissions();
   }
 
+  @override
+  Future<bool> checkHostPermissions(String host, List<String> permissions) =>
+      _databaseService.permissions.checkPermissions(host, permissions);
+
+  @override
+  Future<void> saveHostPermissions(String host, List<String> permissions) =>
+      _databaseService.permissions.savePermissions(host, permissions);
+
   /// Clear information about permissions
   Future<void> clearPermissions() async {
     await _browserPermissionsStorageService.clearPermissions();
     _permissionsSubject.add({});
+    await _databaseService.permissions.clearAllPermissions();
   }
 
   void _fetchPermissions() => _permissionsSubject.add(

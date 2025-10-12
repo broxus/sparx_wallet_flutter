@@ -1,15 +1,17 @@
+import 'package:app/app/service/database/database_service.dart';
 import 'package:app/data/models/browser_history_item.dart';
 import 'package:app/feature/browser_v2/data/history_type.dart';
 import 'package:app/feature/browser_v2/domain/delegates/browser_base_delegate.dart';
-import 'package:app/feature/browser_v2/domain/service/storages/browser_history_storage_service.dart';
-import 'package:app/feature/browser_v2/widgets/bottomsheets/book/widgets/history/ui_models/time_period_ui.dart';
 import 'package:injectable/injectable.dart';
-import 'package:rxdart/rxdart.dart';
 
 abstract interface class BrowserServiceHistory {
-  Stream<List<BrowserHistoryItem>> get browserHistoryStream;
+  Stream<List<BrowserHistoryItem>> watchHistory([String? searchText]);
 
-  List<BrowserHistoryItem> get browserHistoryItems;
+  Stream<int> watchHistoryCount();
+
+  Future<BrowserHistoryItem?> getHistoryItemById(String id);
+
+  Future<List<BrowserHistoryItem>> getItems([String? searchText]);
 
   void createHistoryItem(Uri url);
 
@@ -21,91 +23,66 @@ abstract interface class BrowserServiceHistory {
 @injectable
 class BrowserServiceHistoryDelegate
     implements BrowserDelegate, BrowserServiceHistory {
-  BrowserServiceHistoryDelegate(this._browserHistoryStorageService);
+  BrowserServiceHistoryDelegate(this._databaseService);
 
-  /// Limit of browser history items
-  static const _historyItemCountLimit = 100;
-
-  final BrowserHistoryStorageService _browserHistoryStorageService;
-
-  /// Subject of browser history items
-  final _browserHistorySubject = BehaviorSubject<List<BrowserHistoryItem>>();
-
-  /// Stream of browser history items
-  @override
-  Stream<List<BrowserHistoryItem>> get browserHistoryStream =>
-      _browserHistorySubject;
+  late final DatabaseService _databaseService;
 
   /// Get last cached browser history items
   @override
-  List<BrowserHistoryItem> get browserHistoryItems =>
-      _browserHistorySubject.valueOrNull ?? [];
+  Stream<List<BrowserHistoryItem>> watchHistory([String? searchText]) =>
+      _databaseService.history.watchHistory(searchText);
 
-  void init() {
-    _fetchHistoryFromStorage();
-  }
+  /// Get last cached browser history items
+  @override
+  Stream<int> watchHistoryCount() =>
+      _databaseService.history.watchHistoryCount();
+
+  @override
+  Future<BrowserHistoryItem?> getHistoryItemById(String id) =>
+      _databaseService.history.getHistoryItemById(id);
+
+  @override
+  Future<List<BrowserHistoryItem>> getItems([String? searchText]) =>
+      _databaseService.history.getItems(searchText);
 
   Future<void> clear() {
     return clearHistory();
   }
 
   @override
-  void createHistoryItem(Uri url) {
-    if (url.host.isEmpty || browserHistoryItems.firstOrNull?.url == url) {
-      return;
-    }
-    _saveBrowserHistory([
+  Future<void> createHistoryItem(Uri url) {
+    return _databaseService.history.saveHistoryItem(
       BrowserHistoryItem.create(url: url),
-      ...browserHistoryItems,
-    ]);
-  }
-
-  @override
-  void removeHistoryItem(String id) {
-    _saveBrowserHistory(
-      [...browserHistoryItems]..removeWhere((item) => item.id == id),
     );
   }
 
   @override
-  void removeHistoryItemByUri(Uri uri) {
-    _saveBrowserHistory(
-      [...browserHistoryItems]..removeWhere((item) => item.url == uri),
-    );
+  Future<void> removeHistoryItem(String id) {
+    return _databaseService.history.deleteHistoryItem(id);
+  }
+
+  @override
+  Future<void> removeHistoryItemByUri(Uri uri) {
+    return _databaseService.history.deleteHistoryItemByUri(uri);
   }
 
   Future<void> clearHistory([TimePeriod period = TimePeriod.allHistory]) async {
     if (period == TimePeriod.allHistory) {
-      await _browserHistoryStorageService.clear();
-      _browserHistorySubject.add([]);
+      await _databaseService.history.clearHistory();
       return;
     }
+    final higher = DateTime.now();
+    final lower = switch (period) {
+      TimePeriod.lastHour => higher.subtract(const Duration(hours: 1)),
+      TimePeriod.today => DateTime(higher.year, higher.month, higher.day),
+      TimePeriod.todayYesterday => DateTime(
+        higher.year,
+        higher.month,
+        higher.day - 1,
+      ),
+      TimePeriod.allHistory => DateTime.fromMillisecondsSinceEpoch(0),
+    };
 
-    final items = [...browserHistoryItems];
-
-    final result = <BrowserHistoryItem>[];
-
-    final date = period.date;
-
-    for (final item in items) {
-      if (item.visitTime.isAfter(date)) {
-        continue;
-      }
-
-      result.add(item);
-    }
-
-    _saveBrowserHistory(result);
-  }
-
-  void _fetchHistoryFromStorage() => _browserHistorySubject.add(
-    _browserHistoryStorageService.getBrowserHistory(),
-  );
-
-  void _saveBrowserHistory(List<BrowserHistoryItem> history) {
-    final sortedHistory = [...history]..take(_historyItemCountLimit);
-    _browserHistoryStorageService.saveBrowserHistory(sortedHistory);
-
-    _browserHistorySubject.add(sortedHistory);
+    return _databaseService.history.clearHistoryByDates(lower, higher);
   }
 }

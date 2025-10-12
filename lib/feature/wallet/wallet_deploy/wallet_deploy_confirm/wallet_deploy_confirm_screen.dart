@@ -66,6 +66,7 @@ class WalletDeployConfirmScreen
                   wm.requireConfirmationsState,
                   wm.custodiansState,
                   wm.publicKeyState,
+                  wm.isLoadingState,
                 ],
                 builder: (_) {
                   final account = wm.accountState.value;
@@ -77,6 +78,7 @@ class WalletDeployConfirmScreen
                       wm.requireConfirmationsState.value;
                   final custodians = wm.custodiansState.value;
                   final publicKey = wm.publicKeyState.value;
+                  final isLoading = wm.isLoadingState.value;
 
                   return WalletDeployConfirmView(
                     publicKey: publicKey,
@@ -93,7 +95,8 @@ class WalletDeployConfirmScreen
                     currency: Currencies()[wm.ticker],
                     customCurrency: currency,
                     account: account,
-                    ledgerAuthInput: wm.ledgerAuthInput,
+                    isLoading: isLoading,
+                    getLedgerAuthInput: wm.getLedgerAuthInput,
                     onConfirmed: wm.onConfirmDeploy,
                   );
                 },

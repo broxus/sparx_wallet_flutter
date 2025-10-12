@@ -1,43 +1,35 @@
-import 'package:app/feature/wallet/wallet_deploy/data/wallet_deploy_type.dart';
+import 'package:app/feature/messenger/messenger.dart';
 import 'package:app/feature/wallet/wallet_deploy/domain/wallet_deployment_service.dart';
 import 'package:elementary/elementary.dart';
 import 'package:injectable/injectable.dart';
-import 'package:nekoton_repository/nekoton_repository.dart';
+import 'package:nekoton_repository/nekoton_repository.dart' hide Message;
 
 @injectable
 class WalletDeployStatusModel extends ElementaryModel {
   WalletDeployStatusModel(
     ErrorHandler errorHandler,
     this._walletDeploymentService,
+    this._messengerService,
   ) : super(errorHandler: errorHandler);
 
   final WalletDeploymentService _walletDeploymentService;
+  final MessengerService _messengerService;
+
+  @override
+  void dispose() {
+    _walletDeploymentService.clearStoredMessage();
+    super.dispose();
+  }
 
   Future<Transaction> executeDeploy({
+    required String messageHash,
     required Address address,
-    required PublicKey publicKey,
-    required WalletDeployType deployType,
-    List<PublicKey>? custodians,
-    int? requireConfirmations,
-    int? hours,
-  }) {
-    final signInputAuth = _walletDeploymentService.consumeTemporaryAuth();
-    if (signInputAuth == null) {
-      throw Exception('SignInputAuth not available or expired');
-    }
+    required BigInt amount,
+  }) => _walletDeploymentService.deploy(
+    messageHash: messageHash,
+    address: address,
+    amount: amount,
+  );
 
-    return _walletDeploymentService.deployWallet(
-      address: address,
-      publicKey: publicKey,
-      deployType: deployType,
-      signInputAuth: signInputAuth,
-      custodians: custodians,
-      requireConfirmations: requireConfirmations,
-      hours: hours,
-    );
-  }
-
-  void clearDeploymentData() {
-    _walletDeploymentService.clearDeploymentData();
-  }
+  void showMessage(Message message) => _messengerService.show(message);
 }

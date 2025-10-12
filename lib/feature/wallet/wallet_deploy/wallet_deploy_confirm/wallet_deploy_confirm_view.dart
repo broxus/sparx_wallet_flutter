@@ -16,6 +16,7 @@ import 'package:ui_components_lib/v2/ui_components_lib_v2.dart';
 class WalletDeployConfirmView extends StatelessWidget {
   const WalletDeployConfirmView({
     required this.publicKey,
+    required this.onConfirmed,
     this.balance,
     this.fee,
     this.feeError,
@@ -25,9 +26,8 @@ class WalletDeployConfirmView extends StatelessWidget {
     this.currency,
     this.customCurrency,
     this.account,
-    this.ledgerAuthInput,
-    this.transaction,
-    this.onConfirmed,
+    this.isLoading,
+    this.getLedgerAuthInput,
     super.key,
   });
 
@@ -41,13 +41,12 @@ class WalletDeployConfirmView extends StatelessWidget {
   final Currency? currency;
   final CustomCurrency? customCurrency;
   final KeyAccount? account;
-  final SignInputAuthLedger? ledgerAuthInput;
-  final Transaction? transaction;
-  final ValueChanged<SignInputAuth>? onConfirmed;
+  final bool? isLoading;
+  final GetLedgerAuthInput? getLedgerAuthInput;
+  final void Function(SignInputAuth) onConfirmed;
 
   @override
   Widget build(BuildContext context) {
-    final isLoading = fee == null && feeError == null;
     final theme = context.themeStyleV2;
 
     return SeparatedColumn(
@@ -174,16 +173,12 @@ class WalletDeployConfirmView extends StatelessWidget {
             top: DimensSize.d16,
           ),
           child: EnterPasswordWidget.auth(
-            getLedgerAuthInput: ledgerAuthInput != null
-                ? () => ledgerAuthInput!
-                : null,
+            getLedgerAuthInput: getLedgerAuthInput,
             title: LocaleKeys.deployWord.tr(),
             publicKey: publicKey,
-            isLoading: isLoading,
+            isLoading: isLoading ?? false,
             isDisabled: feeError != null || fee == null,
-            onConfirmed: onConfirmed != null
-                ? (auth) => onConfirmed!(auth)
-                : (_) {},
+            onConfirmed: onConfirmed,
           ),
         ),
       ],
