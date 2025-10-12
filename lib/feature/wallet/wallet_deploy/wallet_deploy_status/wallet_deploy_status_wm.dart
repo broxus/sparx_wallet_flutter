@@ -1,13 +1,13 @@
 import 'package:app/app/router/router.dart';
 import 'package:app/core/wm/custom_wm.dart';
+import 'package:app/feature/messenger/messenger.dart';
 import 'package:app/feature/wallet/route.dart';
 import 'package:app/feature/wallet/wallet_deploy/wallet_deploy_status/route.dart';
 import 'package:app/feature/wallet/wallet_deploy/wallet_deploy_status/wallet_deploy_status_model.dart';
 import 'package:app/feature/wallet/wallet_deploy/wallet_deploy_status/wallet_deploy_status_screen.dart';
-import 'package:flutter/foundation.dart';
+import 'package:app/generated/generated.dart';
 import 'package:injectable/injectable.dart';
 import 'package:logging/logging.dart';
-import 'package:nekoton_repository/nekoton_repository.dart';
 
 @injectable
 class WalletDeployStatusWidgetModel extends CustomWidgetModelParametrized<
@@ -18,10 +18,6 @@ class WalletDeployStatusWidgetModel extends CustomWidgetModelParametrized<
 
   final _logger = Logger('WalletDeployStatusWidgetModel');
 
-  late final ValueNotifier<bool> _isDeployingState = createValueNotifier(false);
-  late final ValueNotifier<bool> _canCloseState = createValueNotifier(false);
-  ValueListenable<bool> get canCloseState => _canCloseState;
-
   @override
   void initWidgetModel() {
     super.initWidgetModel();
@@ -30,57 +26,28 @@ class WalletDeployStatusWidgetModel extends CustomWidgetModelParametrized<
 
   Future<void> _initializeAndDeploy() async {
     try {
-      _isDeployingState.value = true;
-      _canCloseState.value = false;
-
       final routeData = wmParams.value;
-      final deployType = routeData.deployType;
-
-      final custodians =
-          routeData.custodians != null && routeData.custodians!.isNotEmpty
-              ? routeData.custodians!
-                  .split(',')
-                  .map((e) => PublicKey(publicKey: e))
-                  .toList()
-              : null;
+      final minDelay = Future<void>.delayed(const Duration(seconds: 2));
 
       await model.executeDeploy(
-        address: Address(address: routeData.address),
-        publicKey: PublicKey(publicKey: routeData.publicKey),
-        deployType: deployType,
-        custodians: custodians,
-        requireConfirmations: routeData.requireConfirmations,
-        hours: routeData.hours,
+        messageHash: routeData.messageHash,
+        address: routeData.address,
+        amount: routeData.amount,
       );
 
-      _canCloseState.value = true;
-      _isDeployingState.value = false;
+      model.showMessage(
+        Message.successful(
+          message: LocaleKeys.walletDeployedSuccessfully.tr(),
+        ),
+      );
 
-      await Future<void>.delayed(const Duration(seconds: 2));
+      await minDelay;
       navigateToWallet();
     } catch (e, s) {
-      _isDeployingState.value = false;
-      _canCloseState.value = true;
       _logger.severe('Error during deployment', e, s);
+      model.showMessage(Message.error(message: e.toString()));
     }
   }
 
-  Future<void> startDeployment() async {
-    await _initializeAndDeploy();
-  }
-
-  void navigateToWallet() {
-    model.clearDeploymentData();
-    context.compassPoint(
-      const WalletRouteData(),
-    );
-  }
-
-  void onRetry() {
-    startDeployment();
-  }
-
-  void onClose() {
-    model.clearDeploymentData();
-  }
+  void navigateToWallet() => contextSafe?.compassPoint(const WalletRouteData());
 }
