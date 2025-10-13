@@ -1,3 +1,4 @@
+import 'package:app/app/service/connection/data/connection/connection.dart';
 import 'package:app/app/service/connection/data/work_chain/connection_work_chain.dart';
 import 'package:app/core/wm/custom_wm.dart';
 import 'package:app/feature/wallet/widgets/wallet_app_bar/widgets/workchain_selector/workchain_selector_wm.dart';
@@ -14,13 +15,17 @@ class WorkchainSelector
 
   @override
   Widget build(WorkchainSelectorWidgetModel wm) {
-    return StateNotifierBuilder<ConnectionWorkchain?>(
-      listenableState: wm.currentWorkchainState,
+    return DoubleSourceBuilder<Connection?, ConnectionWorkchain?>(
+      firstSource: wm.currentConnectionState,
+      secondSource: wm.currentWorkchainState,
       builder: (
         _,
+        Connection? currentConnection,
         ConnectionWorkchain? currentWorkchain,
       ) {
-        if (currentWorkchain == null) {
+        if (currentWorkchain == null ||
+            currentConnection == null ||
+            currentConnection.workchains.length <= 1) {
           return const SizedBox.shrink();
         }
 
