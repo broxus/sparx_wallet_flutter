@@ -91,12 +91,7 @@ class WalletDeployConfirmWidgetModel extends CustomWidgetModelParametrized<
       _isLoadingState.value = true;
       _errorMessageState.value = null;
 
-      final currency = await model.getOrFetchNativeCurrency().then(
-        (currency) {
-          if (currency == null) throw Exception('Failed to load currency');
-          return currency;
-        },
-      );
+      final currency = await model.getOrFetchNativeCurrency();
 
       _currencyState.accept(currency);
 
