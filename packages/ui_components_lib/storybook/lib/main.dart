@@ -1,5 +1,6 @@
-import 'package:ui_components_storybook/widgets/story.dart';
 import 'package:flutter/material.dart';
+
+import 'package:ui_components_storybook/widgets/story.dart';
 
 void main() {
   runApp(

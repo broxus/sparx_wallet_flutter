@@ -70,10 +70,10 @@ packages:
     dependency: transitive
     description:
       name: decimal
-      sha256: "4140a688f9e443e2f4de3a1162387bf25e1ac6d51e24c9da263f245210f41440"
+      sha256: fc706a5618b81e5b367b01dd62621def37abc096f2b46a9bd9068b64c1fa36d0
       url: "https://pub.dev"
     source: hosted
-    version: "3.0.2"
+    version: "3.2.4"
   device_frame:
     dependency: transitive
     description:
@@ -86,18 +86,18 @@ packages:
     dependency: transitive
     description:
       name: fake_async
-      sha256: "6a95e56b2449df2273fd8c45a662d6947ce1ebb7aafe80e550a3f68297f3cacc"
+      sha256: "5368f224a74523e8d2e7399ea1638b37aecfca824a3cc4dfdf77bf1fa905ac44"
       url: "https://pub.dev"
     source: hosted
-    version: "1.3.2"
+    version: "1.3.3"
   fixed:
     dependency: transitive
     description:
       name: fixed
-      sha256: "81ee71312bb799d5de00906ce5df234cf863fca296674ec4952c9ca7842119d1"
+      sha256: da3733efb93270eb003e69c5177c8454b12620c023ba2c4599ff2140f3af5221
       url: "https://pub.dev"
     source: hosted
-    version: "5.3.3"
+    version: "6.1.0"
   flutter:
     dependency: "direct main"
     description: flutter
@@ -107,10 +107,10 @@ packages:
     dependency: transitive
     description:
       name: flutter_form_builder
-      sha256: "375da52998c72f80dec9187bd93afa7ab202b89d5d066699368ff96d39fd4876"
+      sha256: ec74389c4af2361a5e9fe9a36fcfe722698be3f681d713cb3ebe099ae15ed863
       url: "https://pub.dev"
     source: hosted
-    version: "9.7.0"
+    version: "10.2.0"
   flutter_keyboard_visibility:
     dependency: transitive
     description:
@@ -234,10 +234,10 @@ packages:
     dependency: transitive
     description:
       name: intl
-      sha256: d6f56758b7d3014a48af9701c085700aac781a92a87a62b1333b46d8879661cf
+      sha256: "3df61194eb431efc39c4ceba583b95633a403f46c9fd341e550ce0bfa50e9aa5"
       url: "https://pub.dev"
     source: hosted
-    version: "0.19.0"
+    version: "0.20.2"
   json_annotation:
     dependency: transitive
     description:
@@ -250,34 +250,34 @@ packages:
     dependency: transitive
     description:
       name: leak_tracker
-      sha256: c35baad643ba394b40aac41080300150a4f08fd0fd6a10378f8f7c6bc161acec
+      sha256: "33e2e26bdd85a0112ec15400c8cbffea70d0f9c3407491f672a2fad47915e2de"
       url: "https://pub.dev"
     source: hosted
-    version: "10.0.8"
+    version: "11.0.2"
   leak_tracker_flutter_testing:
     dependency: transitive
     description:
       name: leak_tracker_flutter_testing
-      sha256: f8b613e7e6a13ec79cfdc0e97638fddb3ab848452eff057653abd3edba760573
+      sha256: "1dbc140bb5a23c75ea9c4811222756104fbcd1a27173f0c34ca01e16bea473c1"
       url: "https://pub.dev"
     source: hosted
-    version: "3.0.9"
+    version: "3.0.10"
   leak_tracker_testing:
     dependency: transitive
     description:
       name: leak_tracker_testing
-      sha256: "6ba465d5d76e67ddf503e1161d1f4a6bc42306f9d66ca1e8f079a47290fb06d3"
+      sha256: "8d5a2d49f4a66b49744b23b018848400d23e54caf9463f4eb20df3eb8acb2eb1"
       url: "https://pub.dev"
     source: hosted
-    version: "3.0.1"
+    version: "3.0.2"
   lucide_icons_flutter:
     dependency: "direct main"
     description:
       name: lucide_icons_flutter
-      sha256: c085ac28e2fe6f0a2a3a78bae2ac6c7c7b1186a09961b9c5f5c32a54f1cdb420
+      sha256: "9847474128d2c419beb3621cc564c7daf80382db76ba2716f47f24b0b068700b"
       url: "https://pub.dev"
     source: hosted
-    version: "2.0.5"
+    version: "3.1.4"
   matcher:
     dependency: transitive
     description:
@@ -314,18 +314,10 @@ packages:
     dependency: transitive
     description:
       name: money2
-      sha256: "992f864f0cfb9261b800acd5d029047809c1b9936235c59c44cd782c3c634a69"
+      sha256: "8992486ed715acecbf8af0a1f523a7df225d5a5f6e88ac28c2a3ee22ec779dde"
       url: "https://pub.dev"
     source: hosted
-    version: "5.4.6"
-  money2_fixer:
-    dependency: transitive
-    description:
-      name: money2_fixer
-      sha256: "307984c9a057858230f04f5740e006d42bf122f5b4b32c524998eb88e9b04f6c"
-      url: "https://pub.dev"
-    source: hosted
-    version: "3.0.0"
+    version: "6.0.5"
   nested:
     dependency: transitive
     description:
@@ -487,10 +479,10 @@ packages:
     dependency: transitive
     description:
       name: test_api
-      sha256: fb31f383e2ee25fbbfe06b40fe21e1e458d14080e3c67e7ba0acfde4df4e0bbd
+      sha256: "522f00f556e73044315fa4585ec3270f1808a4b186c936e612cab0b565ff1e00"
       url: "https://pub.dev"
     source: hosted
-    version: "0.7.4"
+    version: "0.7.6"
   typed_data:
     dependency: transitive
     description:
@@ -534,10 +526,10 @@ packages:
     dependency: transitive
     description:
       name: vector_math
-      sha256: "80b3257d1492ce4d091729e3a67a60407d227c27241d6927be0130c98e741803"
+      sha256: d530bd74fea330e6e364cda7a85019c434070188383e1cd8d9777ee586914c5b
       url: "https://pub.dev"
     source: hosted
-    version: "2.1.4"
+    version: "2.2.0"
   very_good_analysis:
     dependency: transitive
     description:
@@ -571,5 +563,5 @@ packages:
     source: hosted
     version: "6.5.0"
 sdks:
-  dart: ">=3.7.0-0 <4.0.0"
-  flutter: ">=3.27.0"
+  dart: ">=3.9.0 <4.0.0"
+  flutter: ">=3.35.0"
