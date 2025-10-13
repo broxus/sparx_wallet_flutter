@@ -446,11 +446,12 @@ packages:
   storybook_flutter:
     dependency: "direct main"
     description:
-      name: storybook_flutter
-      sha256: f49a8b09da5fcb6a7bdf89b4e9cc9943b1416993052c457c5cecccffe462ccb7
-      url: "https://pub.dev"
-    source: hosted
-    version: "0.11.2+1"
+      path: "packages/storybook_flutter"
+      ref: master
+      resolved-ref: a5aba0a4312d439dece92261773727eb22e476bc
+      url: "https://github.com/ookami-kb/storybook_flutter.git"
+    source: git
+    version: "0.14.1"
   stream_channel:
     dependency: transitive
     description:

@@ -30,20 +30,17 @@ class RenameSheetWidgetModel
 
     final params = wmParams.value;
 
-    model.rename(
-      publicKey: params.publicKey,
-      isSeed: params.isSeed,
-      name: name,
-    );
-    model.showMessage(
-      Message.successful(
-        message: params.isSeed
-            ? LocaleKeys.valueRenamed.tr(args: [LocaleKeys.seedPhrase.tr()])
-            : params.isCustodian
-            ? LocaleKeys.custodianRenamed.tr()
-            : LocaleKeys.valueRenamed.tr(args: [LocaleKeys.keyWord.tr()]),
-      ),
-    );
+    model
+      ..rename(publicKey: params.publicKey, isSeed: params.isSeed, name: name)
+      ..showMessage(
+        Message.successful(
+          message: params.isSeed
+              ? LocaleKeys.valueRenamed.tr(args: [LocaleKeys.seedPhrase.tr()])
+              : params.isCustodian
+              ? LocaleKeys.custodianRenamed.tr()
+              : LocaleKeys.valueRenamed.tr(args: [LocaleKeys.keyWord.tr()]),
+        ),
+      );
 
     Navigator.of(context).pop();
   }
