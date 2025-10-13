@@ -530,6 +530,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "3.2.4"
+  device_frame:
+    dependency: transitive
+    description:
+      name: device_frame
+      sha256: "7b2ebb2a09d6cc0f086b51bd1412d7be83e0170056a7290349169be41164c86a"
+      url: "https://pub.dev"
+    source: hosted
+    version: "1.4.0"
   device_info_plus:
     dependency: "direct main"
     description:
@@ -1637,6 +1645,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "0.1.12"
+  nested:
+    dependency: transitive
+    description:
+      name: nested
+      sha256: "03bac4c528c64c95c722ec99280375a6f2fc708eec17c7b3f07253b626cd2a20"
+      url: "https://pub.dev"
+    source: hosted
+    version: "1.0.0"
   nm:
     dependency: transitive
     description:
@@ -1854,7 +1870,7 @@ packages:
     source: hosted
     version: "2.1.8"
   pointer_interceptor:
-    dependency: transitive
+    dependency: "direct overridden"
     description:
       name: pointer_interceptor
       sha256: "57210410680379aea8b1b7ed6ae0c3ad349bfd56fe845b8ea934a53344b9d523"
@@ -1941,6 +1957,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "4.2.0"
+  provider:
+    dependency: transitive
+    description:
+      name: provider
+      sha256: "4e82183fa20e5ca25703ead7e05de9e4cceed1fbd1eadc1ac3cb6f565a09f272"
+      url: "https://pub.dev"
+    source: hosted
+    version: "6.1.5+1"
   pub_semver:
     dependency: transitive
     description:
@@ -2307,6 +2331,15 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.12.1"
+  storybook_flutter:
+    dependency: transitive
+    description:
+      path: "packages/storybook_flutter"
+      ref: master
+      resolved-ref: a5aba0a4312d439dece92261773727eb22e476bc
+      url: "https://github.com/ookami-kb/storybook_flutter.git"
+    source: git
+    version: "0.14.1"
   stream_channel:
     dependency: transitive
     description:

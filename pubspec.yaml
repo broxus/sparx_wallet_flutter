@@ -10,6 +10,7 @@ environment:
 
 workspace:
   - packages/ui_components_lib
+  - packages/storybook
   - packages/wm_state_properties_lint
 
 dependencies:
@@ -29,8 +30,8 @@ dependencies:
   cupertino_http: ^2.3.0
   device_info_plus: ^12.1.0
   dio: ^5.9.0
-  easy_localization: ^3.0.8
   drift: 2.28.2
+  easy_localization: ^3.0.8
   easy_logger: 0.0.2
   elementary: ^3.2.1
   elementary_helper: ^1.0.3
