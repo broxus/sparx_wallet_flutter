@@ -159,8 +159,9 @@ class _InputsStoryState extends State<InputsStory> {
                   return SelectionStatusInput(
                     status: value,
                     title: 'SelectionStatus',
-                    onPressed: () => statusValue.value = SelectionStatus.values[
-                        (value.index + 1) % SelectionStatus.values.length],
+                    onPressed: () => statusValue.value =
+                        SelectionStatus.values[(value.index + 1) %
+                            SelectionStatus.values.length],
                   );
                 },
               ),

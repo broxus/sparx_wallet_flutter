@@ -25,7 +25,8 @@ class ToastsV2 extends StatelessWidget {
             const SizedBox(height: DimensSize.d8),
             const Toast(
               icon: LucideIcons.check,
-              description: 'Its a very long test just for test flexibility '
+              description:
+                  'Its a very long test just for test flexibility '
                   'our description. If itll be look ok.',
               type: ToastType.error,
               heading: 'Heading',
@@ -33,7 +34,8 @@ class ToastsV2 extends StatelessWidget {
             const SizedBox(height: DimensSize.d8),
             const Toast(
               icon: LucideIcons.check,
-              description: 'The sun dipped below the horizon, casting a golden '
+              description:
+                  'The sun dipped below the horizon, casting a golden '
                   'glow over the tranquil sea. Birds chirped softly as the '
                   'first stars began to twinkle in the evening sky.',
               type: ToastType.warning,
@@ -41,7 +43,8 @@ class ToastsV2 extends StatelessWidget {
             const SizedBox(height: DimensSize.d8),
             const Toast(
               icon: LucideIcons.check,
-              description: 'The sun dipped below the horizon, casting a golden '
+              description:
+                  'The sun dipped below the horizon, casting a golden '
                   'glow over the tranquil sea. Birds chirped softly as the '
                   'first stars began to twinkle in the evening sky.',
               type: ToastType.success,
@@ -50,7 +53,8 @@ class ToastsV2 extends StatelessWidget {
             const SizedBox(height: DimensSize.d8),
             Toast(
               icon: LucideIcons.check,
-              description: 'The sun dipped below the horizon, casting a golden '
+              description:
+                  'The sun dipped below the horizon, casting a golden '
                   'glow over the tranquil sea. Birds chirped softly as the '
                   'first stars began to twinkle in the evening sky.',
               type: ToastType.success,
@@ -73,7 +77,8 @@ class ToastsV2 extends StatelessWidget {
             const SizedBox(height: DimensSize.d8),
             Toast(
               icon: LucideIcons.check,
-              description: 'The sun dipped below the horizon, casting a golden '
+              description:
+                  'The sun dipped below the horizon, casting a golden '
                   'glow over the tranquil sea. Birds chirped softly as the '
                   'first stars began to twinkle in the evening sky.',
               type: ToastType.error,
