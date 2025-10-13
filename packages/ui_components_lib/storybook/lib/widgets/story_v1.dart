@@ -1,4 +1,4 @@
-import 'package:example/stories/stories.dart';
+import 'package:ui_components_storybook/stories/stories.dart';
 import 'package:flutter/material.dart';
 import 'package:storybook_flutter/storybook_flutter.dart';
 import 'package:ui_components_lib/predefined_theme.dart';

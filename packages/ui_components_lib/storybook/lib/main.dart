@@ -1,4 +1,4 @@
-import 'package:example/widgets/story.dart';
+import 'package:ui_components_storybook/widgets/story.dart';
 import 'package:flutter/material.dart';
 
 void main() {
