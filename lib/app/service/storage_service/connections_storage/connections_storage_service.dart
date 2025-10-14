@@ -135,6 +135,16 @@ class ConnectionsStorageService extends AbstractStorageService {
         },
       );
 
+  Connection? get currentConnection {
+    final id = currentConnectionId;
+
+    if (id == null) {
+      return null;
+    }
+
+    return connections.firstWhereOrNull((c) => c.id == id);
+  }
+
   ConnectionWorkchain get currentWorkchain {
     final ids = _currentConnectionIdSubject.valueOrNull;
 

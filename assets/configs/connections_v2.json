@@ -445,7 +445,7 @@
           "networkGroup": "venom_mainnet_new",
           "transportType": "proto",
           "endpoints": [
-            "http://127.0.0.1:8001"
+            "https://tycho-test-sparx-node.broxus.com/"
           ],
           "blockExplorerUrl": "",
           "manifestUrl": "",
