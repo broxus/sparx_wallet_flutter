@@ -1,8 +1,8 @@
 import 'package:app/app/router/router.dart';
 import 'package:app/core/wm/custom_wm.dart';
 import 'package:app/data/models/custom_currency.dart';
+import 'package:app/feature/ledger/ledger.dart';
 import 'package:app/feature/wallet/wallet_deploy/data/wallet_deploy_type.dart';
-import 'package:app/feature/wallet/wallet_deploy/data/wallet_deployment_fees.dart';
 import 'package:app/feature/wallet/wallet_deploy/wallet_deploy_confirm/route.dart';
 import 'package:app/feature/wallet/wallet_deploy/wallet_deploy_confirm/wallet_deploy_confirm_model.dart';
 import 'package:app/feature/wallet/wallet_deploy/wallet_deploy_confirm/wallet_deploy_confirm_screen.dart';
@@ -19,7 +19,7 @@ import 'package:ui_components_lib/v2/ui_components_lib_v2.dart';
 class WalletDeployConfirmWidgetModel extends CustomWidgetModelParametrized<
     WalletDeployConfirmScreen,
     WalletDeployConfirmModel,
-    WalletDeployConfirmRouteData> {
+    WalletDeployConfirmRouteData> with BleAvailabilityWmMixin {
   WalletDeployConfirmWidgetModel(super.model);
 
   final _logger = Logger('WalletDeployConfirmWidgetModel');
@@ -42,7 +42,7 @@ class WalletDeployConfirmWidgetModel extends CustomWidgetModelParametrized<
   ValueNotifier<String?> get errorMessageState => _errorMessageState;
 
   late final ValueNotifier<bool> _hasSufficientBalanceState =
-      createValueNotifier(true);
+      createValueNotifier(false);
   ValueNotifier<bool> get hasSufficientBalanceState =>
       _hasSufficientBalanceState;
 
@@ -53,8 +53,7 @@ class WalletDeployConfirmWidgetModel extends CustomWidgetModelParametrized<
   late final StateNotifier<TonWallet> _walletState = createNotifier();
   StateNotifier<TonWallet> get walletState => _walletState;
 
-  // Store fees temporarily for UI state management
-  WalletDeploymentFees? _deploymentFees;
+  UnsignedMessage? _unsignedMessage;
 
   ColorsPaletteV2 get colors => _theme.colors;
   TextStylesV2 get textStyles => _theme.textStyles;
@@ -74,6 +73,7 @@ class WalletDeployConfirmWidgetModel extends CustomWidgetModelParametrized<
   int? get _hours => wmParams.value.hours;
 
   String get ticker => model.currentTransport.nativeTokenTicker;
+  int get decimal => model.currentTransport.defaultNativeCurrencyDecimal;
   String? get tonIconPath => model.currentTransport.nativeTokenIcon;
 
   @override
@@ -96,15 +96,90 @@ class WalletDeployConfirmWidgetModel extends CustomWidgetModelParametrized<
       _currencyState.accept(currency);
 
       // Load wallet info
-      final wallet = await model.getWallet(_address);
-      _walletState.accept(wallet.wallet);
+      final walletState = await model.getWallet(_address);
+      final wallet = walletState.wallet;
+      if (wallet == null) {
+        throw Exception(
+          walletState.error?.toString() ?? 'Wallet subscription error',
+        );
+      }
+
+      _walletState.accept(wallet);
 
       // Load account info
       final account = model.getAccountByAddress(_address);
       _accountState.accept(account);
 
-      // Load fees and balance
-      await _loadFees();
+      final unsignedMessage = await model.createUnsignedMessage(
+        deployType: deployTypeState.value,
+        address: _address,
+        custodians: custodiansState.value,
+        reqConfirms: requireConfirmationsState.value,
+        walletType: wallet.walletType,
+        hours: _hours,
+      );
+      final fees = await model.estimateFees(
+        address: _address,
+        message: unsignedMessage,
+      );
+
+      _unsignedMessage = unsignedMessage;
+      _feeState.accept(fees);
+      _balanceState.accept(wallet.contractState.balance);
+
+      _hasSufficientBalanceState.value = wallet.contractState.balance >= fees;
+
+      // Check if balance is sufficient
+      if (!_hasSufficientBalanceState.value) {
+        _errorMessageState.value = LocaleKeys.deployWalletModalSubtitle.tr(
+          args: [(fees / BigInt.from(10).pow(decimal)).toString(), ticker],
+        );
+      }
+    } catch (e, s) {
+      _errorMessageState.value = e.toString();
+      _logger.severe('_loadInitialData', e, s);
+    } finally {
+      _isLoadingState.value = false;
+    }
+  }
+
+  bool get _canConfirmDeploy {
+    return !_isLoadingState.value &&
+        _unsignedMessage != null &&
+        _feeState.value != null &&
+        _balanceState.value != null &&
+        _hasSufficientBalanceState.value &&
+        _errorMessageState.value == null;
+  }
+
+  Future<void> onConfirmDeploy(SignInputAuth signInputAuth) async {
+    if (!_canConfirmDeploy) return;
+
+    if (signInputAuth.isLedger) {
+      final isAvailable = await checkBluetoothAvailability();
+      if (!isAvailable) return;
+    }
+
+    try {
+      _isLoadingState.value = true;
+
+      await _unsignedMessage?.refreshTimeout();
+
+      final message = await model.signMessage(
+        publicKey: publicKeyState.value,
+        unsigned: _unsignedMessage!,
+        signInputAuth: signInputAuth,
+      );
+
+      model.storeSignedMessage(message);
+
+      contextSafe?.compassContinue(
+        WalletDeployStatusRouteData(
+          messageHash: message.hash,
+          address: _address,
+          amount: _feeState.value!,
+        ),
+      );
     } catch (e) {
       _errorMessageState.value = e.toString();
     } finally {
@@ -112,75 +187,17 @@ class WalletDeployConfirmWidgetModel extends CustomWidgetModelParametrized<
     }
   }
 
-  Future<void> _loadFees() async {
-    try {
-      final fees = await model.loadFees(
-        address: _address,
-        deployType: deployTypeState.value,
-        custodians: custodiansState.value,
-        requireConfirmations: requireConfirmationsState.value,
-        hours: _hours,
-      );
-
-      _deploymentFees = fees;
-
-      _feeState.accept(fees.fee);
-      _balanceState.accept(fees.balance);
-
-      _hasSufficientBalanceState.value = fees.hasSufficientBalance;
-
-      // Check if balance is sufficient
-      if (!fees.hasSufficientBalance) {
-        _errorMessageState.value = LocaleKeys.deployWalletModalSubtitle.tr(
-          args: [(fees.fee / BigInt.from(1000000000)).toString(), ticker],
-        );
-      }
-    } on Exception catch (e, s) {
-      _errorMessageState.value = e.toString();
-      _logger.severe('Failed to load fees', e, s);
-    }
-  }
-
-  bool get _canConfirmDeploy {
-    return !_isLoadingState.value &&
-        _feeState.value != null &&
-        _balanceState.value != null &&
-        (_deploymentFees?.hasSufficientBalance ?? false) &&
-        _errorMessageState.value == null;
-  }
-
-  Future<void> onConfirmDeploy(SignInputAuth signInputAuth) async {
-    if (!_canConfirmDeploy) return;
-
-    try {
-      // Temporarily store the signInputAuth (auto-expires for security)
-      model.storeTemporaryAuth(signInputAuth);
-
-      // Navigate to status screen with deployment data
-      context.compassContinue(
-        WalletDeployStatusRouteData(
-          address: _address.address,
-          publicKey: publicKeyState.value.publicKey,
-          deployType: deployTypeState.value,
-          custodians: custodiansState.value?.map((e) => e.publicKey).join(','),
-          requireConfirmations: requireConfirmationsState.value,
-          hours: _hours,
-        ),
-      );
-    } catch (e) {
-      _errorMessageState.value = e.toString();
-    }
-  }
-
   Future<void> onRetry() async {
     await _loadInitialData();
   }
 
-  BigInt get availableBalanceAfterDeploy =>
-      _deploymentFees?.availableBalanceAfterDeploy ?? BigInt.zero;
-
-  SignInputAuthLedger? get ledgerAuthInput {
+  SignInputAuthLedger getLedgerAuthInput() {
     final wallet = _walletState.value;
-    return wallet != null ? model.getLedgerAuthInput(wallet) : null;
+
+    if (wallet == null) {
+      throw StateError('Wallet is not initialized');
+    }
+
+    return model.getLedgerAuthInput(wallet);
   }
 }

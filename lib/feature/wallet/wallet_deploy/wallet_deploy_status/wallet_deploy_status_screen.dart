@@ -16,17 +16,14 @@ class WalletDeployStatusScreen extends InjectedElementaryParametrizedWidget<
   Widget build(WalletDeployStatusWidgetModel wm) {
     return PopCapture(
       onPop: wm.navigateToWallet,
-      child: Scaffold(
-        body: ValueListenableBuilder<bool>(
-          valueListenable: wm.canCloseState,
-          builder: (context, canClose, _) {
-            return TransactionSendingWidget(
-              canClose: canClose,
-              popOnComplete: false,
-              isDeploying: true,
-              onClose: wm.onClose,
-            );
-          },
+      child: const Scaffold(
+        body: Padding(
+          padding: EdgeInsets.all(DimensSizeV2.d16),
+          child: TransactionSendingWidget(
+            canClose: true,
+            popOnComplete: false,
+            isDeploying: true,
+          ),
         ),
       ),
     );
