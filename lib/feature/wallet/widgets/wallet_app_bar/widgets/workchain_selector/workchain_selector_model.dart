@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:app/app/service/connection/data/connection/connection.dart';
 import 'package:app/app/service/connection/data/work_chain/connection_work_chain.dart';
 import 'package:app/app/service/storage_service/connections_storage/connections_storage_service.dart';
@@ -21,12 +23,15 @@ class WorkchainSelectorModel extends ElementaryModel {
   Stream<ConnectionWorkchain?> get currentWorkchainStream =>
       _storageService.currentWorkchainStream;
 
-  void saveCurrentConnectionId({
+  Future<void> saveCurrentConnectionId({
     required String connectionId,
     required int workchainId,
-  }) =>
-      _storageService.saveCurrentConnectionId(
-        connectionId: connectionId,
-        workchainId: workchainId,
-      );
+  }) async {
+    await _storageService.fetchAccountsForWorkchain(workchainId);
+
+    _storageService.saveCurrentConnectionId(
+      connectionId: connectionId,
+      workchainId: workchainId,
+    );
+  }
 }

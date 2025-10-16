@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:app/app/service/connection/data/work_chain/connection_work_chain.dart';
 import 'package:app/app/service/service.dart';
 import 'package:app/app/service/storage_service/connections_storage/connections_ids_data.dart';
@@ -10,6 +12,7 @@ import 'package:collection/collection.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:injectable/injectable.dart';
 import 'package:logging/logging.dart';
+import 'package:nekoton_repository/nekoton_repository.dart' hide Message;
 import 'package:rxdart/rxdart.dart';
 
 const _connectionsDomain = 'connections';
@@ -25,6 +28,7 @@ class ConnectionsStorageService extends AbstractStorageService {
     @Named(container) this._storage,
     this._presetsConnectionService,
     this._messengerService,
+    this._nekotonRepository,
   );
 
   final _log = Logger('ConnectionsStorageService');
@@ -34,6 +38,7 @@ class ConnectionsStorageService extends AbstractStorageService {
   final GetStorage _storage;
   final PresetsConnectionService _presetsConnectionService;
   final MessengerService _messengerService;
+  final NekotonRepository _nekotonRepository;
 
   /// Subject of [Connection] items
   final _connectionsSubject = BehaviorSubject<List<Connection>>.seeded([]);
@@ -59,6 +64,8 @@ class ConnectionsStorageService extends AbstractStorageService {
 
   String? get currentConnectionId =>
       _currentConnectionIdSubject.valueOrNull?.$1;
+
+  int? get currentWorkchainId => _currentConnectionIdSubject.valueOrNull?.$2;
 
   int get lastNetworkGroupNumber {
     var number = 10000;
@@ -175,12 +182,13 @@ class ConnectionsStorageService extends AbstractStorageService {
   List<Connection> get _connectionPresets =>
       _presetsConnectionService.connections;
 
-  /// Put [Connection] items to stream
-  void _streamedConnections() => _connectionsSubject.add(
-        [...readConnections()]..sort(
-            (a, b) => (a.sortingOrder - b.sortingOrder).sign.toInt(),
-          ),
-      );
+  bool checkIsCurrentWorkchain(int workchainId) =>
+      workchainId == _currentConnectionIdSubject.valueOrNull?.$2;
+
+  bool checkIsCurrentWorkchainIfExist(int workchainId) {
+    return _currentConnectionIdSubject.valueOrNull?.$2 == null ||
+        checkIsCurrentWorkchain(workchainId);
+  }
 
   /// Read list of [Connection] items from presets and storage
   List<Connection> readConnections() {
@@ -369,6 +377,39 @@ class ConnectionsStorageService extends AbstractStorageService {
     _currentConnectionIdSubject.add(_readCurrentConnectionId());
     _connectionsIdsSubject.add(_readConnectionsIds());
   }
+
+  Future<void> fetchAccountsForWorkchain(int workchainId) async {
+    final publicKeys =
+        _nekotonRepository.keyStore.keys.map((e) => e.publicKey).toList();
+
+    await _nekotonRepository.triggerAddingAccounts(
+      publicKeys,
+      workchainId: workchainId,
+    );
+
+    final hasAny = _nekotonRepository.accountsStorage.accounts
+        .any((a) => a.address.workchain == workchainId);
+
+    if (hasAny) return;
+
+    for (final key in publicKeys) {
+      try {
+        await _nekotonRepository.addDefaultAccount(
+          key,
+          workchainId: workchainId,
+        );
+      } catch (e, s) {
+        _log.severe('fetchAccountsForWorkchain', e, s);
+      }
+    }
+  }
+
+  /// Put [Connection] items to stream
+  void _streamedConnections() => _connectionsSubject.add(
+        [...readConnections()]..sort(
+            (a, b) => (a.sortingOrder - b.sortingOrder).sign.toInt(),
+          ),
+      );
 
   /// Read current connection id from storage
   (String, int)? _readCurrentConnectionId() {

@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:app/app/service/connection/connection.dart';
 import 'package:app/app/service/connection/data/work_chain/connection_work_chain.dart';
 import 'package:app/core/wm/custom_wm.dart';
@@ -46,9 +48,11 @@ class WorkchainSelectorWidgetModel
       return;
     }
 
-    model.saveCurrentConnectionId(
-      connectionId: currentConnectionId,
-      workchainId: id,
+    unawaited(
+      model.saveCurrentConnectionId(
+        connectionId: currentConnectionId,
+        workchainId: id,
+      ),
     );
   }
 }

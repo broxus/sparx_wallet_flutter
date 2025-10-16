@@ -1634,7 +1634,7 @@ packages:
     description:
       path: "."
       ref: addSeed_set_accountId
-      resolved-ref: "86b8f7bad98807bee6c474259d21fe7a712a3da2"
+      resolved-ref: "06b8f8f181fef09f835d8c01a4472cc711f12e23"
       url: "https://github.com/broxus/nekoton_repository.git"
     source: git
     version: "1.7.0"
