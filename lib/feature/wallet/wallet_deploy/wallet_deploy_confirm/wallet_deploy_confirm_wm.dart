@@ -133,12 +133,12 @@ class WalletDeployConfirmWidgetModel
       _feeState.accept(fees);
       _balanceState.accept(wallet.contractState.balance);
 
-      _hasSufficientBalanceState.value = wallet.contractState.balance > fees;
+      _hasSufficientBalanceState.value = wallet.contractState.balance >= fees;
 
       // Check if balance is sufficient
       if (!_hasSufficientBalanceState.value) {
         _errorMessageState.value = LocaleKeys.deployWalletModalSubtitle.tr(
-          args: [(fees / BigInt.from(10 * decimal)).toString(), ticker],
+          args: [(fees / BigInt.from(10).pow(decimal)).toString(), ticker],
         );
       }
     } catch (e, s) {
