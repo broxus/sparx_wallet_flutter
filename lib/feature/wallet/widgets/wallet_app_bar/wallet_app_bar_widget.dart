@@ -57,7 +57,7 @@ class WalletAppBarWidget
                     connection?.let(
                       (value) => GestureDetector(
                         onTap: wm.onNetwork,
-                        child: NetworkDropItem(data: value),
+                        child: NetworkDropItem(data: connection),
                       ),
                     ) ??
                     const SizedBox.shrink(),

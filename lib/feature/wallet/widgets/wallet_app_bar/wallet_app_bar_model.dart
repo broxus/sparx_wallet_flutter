@@ -1,3 +1,4 @@
+import 'package:app/app/service/connection/data/connection/connection.dart';
 import 'package:app/app/service/service.dart';
 import 'package:elementary/elementary.dart';
 import 'package:injectable/injectable.dart';
@@ -28,7 +29,7 @@ class WalletAppBarModel extends ElementaryModel {
         (wallets, account) => wallets[account.address],
       );
 
-  Stream<ConnectionData?> get connectionStream =>
+  Stream<Connection?> get connectionStream =>
       _storageService.currentConnectionStream;
 
   TransportStrategy get transport => _nekotonRepository.currentTransport;

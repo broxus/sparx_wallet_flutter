@@ -1,5 +1,5 @@
 import 'package:app/app/router/router.dart';
-import 'package:app/app/service/connection/data/connection_data/connection_data.dart';
+import 'package:app/app/service/connection/data/connection/connection.dart';
 import 'package:app/core/wm/custom_wm.dart';
 import 'package:app/feature/network/bottom_sheets/select_network/select_network_model.dart';
 import 'package:app/feature/network/bottom_sheets/select_network/select_network_widget.dart';
@@ -22,8 +22,7 @@ class SelectNetworkWidgetModel extends CustomWidgetModelParametrized<
   ListenableState<String> get currentConnectionIdState =>
       _currentConnectionIdState;
 
-  ListenableState<List<ConnectionData>> get connectionsState =>
-      _connectionsState;
+  ListenableState<List<Connection>> get connectionsState => _connectionsState;
 
   bool get _needPopAfterAction => wmParams.value;
 
@@ -34,8 +33,8 @@ class SelectNetworkWidgetModel extends CustomWidgetModelParametrized<
     );
   }
 
-  void onItemTap(ConnectionData data) {
+  void onItemTap(Connection connection) {
     if (_needPopAfterAction) Navigator.of(context).pop();
-    model.changeCurrentConnection(data.id);
+    model.changeCurrentConnection(connection.id);
   }
 }

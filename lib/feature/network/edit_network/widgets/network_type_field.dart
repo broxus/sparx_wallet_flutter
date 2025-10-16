@@ -1,4 +1,4 @@
-import 'package:app/app/service/service.dart';
+import 'package:app/app/service/connection/data/network_type.dart';
 import 'package:app/feature/network/edit_network/widgets/network_form_field.dart';
 import 'package:app/generated/generated.dart';
 import 'package:elementary_helper/elementary_helper.dart';

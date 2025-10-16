@@ -1,5 +1,6 @@
 // ignore_for_file: use_build_context_synchronously
 
+import 'package:app/app/service/connection/connection.dart';
 import 'package:app/app/service/service.dart';
 import 'package:app/feature/choose_network/choose_network_screen.dart';
 import 'package:app/feature/choose_network/choose_network_screen_const.dart';
@@ -61,7 +62,7 @@ class ChooseNetworkScreenModel extends ElementaryModel with ConnectionMixin {
 
       networks = networks.where(
         (conntection) {
-          final name = conntection.name.toLowerCase();
+          final name = conntection.networkName.toLowerCase();
 
           return name.contains(caseSensetiveQuery);
         },
@@ -73,11 +74,11 @@ class ChooseNetworkScreenModel extends ElementaryModel with ConnectionMixin {
         ChooseNetworkItemData(
           id: connection.id,
           icon: _presetsConnectionService
-              .getTransportIconsByNetwork(
-                connection.group,
+              .getTransportIconsByNetworkGroup(
+                connection.defaultWorkchain.networkGroup,
               )
               .network,
-          title: connection.name,
+          title: connection.networkName,
         ),
     ];
   }
@@ -86,9 +87,9 @@ class ChooseNetworkScreenModel extends ElementaryModel with ConnectionMixin {
     return _startNetworks().length > showSearchNetworksThreshold;
   }
 
-  List<ConnectionData> _startNetworks() {
-    return _presetsConnectionService.networks
-        .where((network) => network.isUsedOnStart)
+  List<Connection> _startNetworks() {
+    return _presetsConnectionService.connections
+        .where((connection) => connection.isUsedOnStart)
         .toList();
   }
 }

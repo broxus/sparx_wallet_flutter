@@ -1,4 +1,4 @@
-import 'package:app/app/service/service.dart';
+import 'package:app/app/service/connection/data/network_type.dart';
 import 'package:app/data/models/models.dart';
 import 'package:app/feature/constants.dart';
 import 'package:app/generated/generated.dart';

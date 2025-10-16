@@ -1,8 +1,13 @@
 import 'dart:async';
 
-import 'package:app/app/service/service.dart';
+import 'package:app/app/service/connection/data/connection/connection.dart';
+import 'package:app/app/service/connection/data/connection_config/connection_config.dart';
+import 'package:app/app/service/connection/data/default_active_asset.dart';
+import 'package:app/app/service/connection/data/network_type.dart';
+import 'package:app/app/service/connection/data/transport_icons.dart';
+import 'package:app/app/service/connection/default_network.dart';
+import 'package:app/app/service/connection/group.dart';
 import 'package:app/feature/presets_config/presets_config.dart';
-import 'package:app/utils/utils.dart';
 import 'package:injectable/injectable.dart';
 import 'package:rxdart/rxdart.dart';
 
@@ -14,39 +19,52 @@ class PresetsConnectionService {
 
   final PresetsConfigReader _presetsConfigReader;
 
-  final _presetsConnectionsSubj = BehaviorSubject<ConnectionNetwork?>();
+  final _presetsConnectionsSubj = BehaviorSubject<ConnectionConfig?>();
 
-  ConnectionNetwork? get _connectionNetwork => _presetsConnectionsSubj.value;
+  ConnectionConfig? get _connectionConnection => _presetsConnectionsSubj.value;
 
   List<NetworkType>? get customNetworkOptions =>
-      _connectionNetwork?.customNetworkOptionTypes;
+      _connectionConnection?.customNetworkOptionTypes;
 
-  ConnectionNetwork? get _data => _presetsConnectionsSubj.valueOrNull;
+  ConnectionConfig? get _data => _presetsConnectionsSubj.valueOrNull;
 
-  List<ConnectionData> get networks => _data?.networks ?? [];
-
-  Map<NetworkGroup, ConnectionTransportData> get transports =>
-      _data?.transports ?? {};
+  List<Connection> get connections => _data?.connections ?? [];
 
   String? get defaultConnectionId => _data?.defaultConnectionId;
 
-  ConnectionData get defaultNetwork =>
-      _data?.defaultNetwork ?? defaultPresetNetwork;
+  Connection get defaultConnection =>
+      _data?.defaultConnection ?? defaultPresetConnection;
+
+  Map<String, dynamic> get rawDefaultSettings =>
+      _data?.rawDefaultSettings ?? {};
 
   String? currentPresetId;
 
-  TransportIcons getTransportIconsByNetwork(NetworkGroup networkGroup) {
-    return transports[networkGroup]?.icons ?? TransportIcons();
+  TransportIcons getTransportIconsByNetworkGroup(NetworkGroup networkGroup) {
+    for (final connection in connections) {
+      for (final workchain in connection.workchains) {
+        if (workchain.networkGroup == networkGroup) {
+          return workchain.icons;
+        }
+      }
+    }
+    return TransportIcons();
   }
 
-  List<DefaultActiveAsset> getDefaultActiveAsset(NetworkGroup group) {
-    return transports[group]?.defaultActiveAssets ?? [];
+  List<DefaultActiveAsset> getDefaultActiveAsset(NetworkGroup networkGroup) {
+    for (final connection in connections) {
+      for (final workchain in connection.workchains) {
+        if (workchain.networkGroup == networkGroup) {
+          return workchain.defaultActiveAssets;
+        }
+      }
+    }
+    return [];
   }
 
   Future<void> fetchConnectionsList() async {
     _presetsConnectionsSubj.add(
-      (await _presetsConfigReader.getConfig(PresetConfigType.connections))
-          ?.let(mapToConnectionNetworkFromJson),
+      await _presetsConfigReader.getConfig(PresetConfigType.connections),
     );
   }
 }
