@@ -1,5 +1,3 @@
-import 'dart:math' as math;
-
 import 'package:app/app/router/compass/bottom_bar_state.dart';
 import 'package:app/app/router/router.dart';
 import 'package:app/core/wm/custom_wm.dart';
@@ -34,7 +32,6 @@ class CustomBottomNavigationBarWidgetModel
   ColorsPaletteV2 get colors => _theme.colors;
 
   double get bottomPadding {
-    final mediaQuery = MediaQuery.of(context);
     return MediaQuery.viewPaddingOf(context).bottom;
   }
 
