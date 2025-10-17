@@ -11,13 +11,14 @@ import 'package:injectable/injectable.dart';
 
 /// [WidgetModel] для [BrowserTabsListItem]
 @injectable
-class BrowserTabsListItemWidgetModel extends CustomWidgetModelParametrized<
-    BrowserTabsListItem,
-    BrowserTabsListItemModel,
-    NotNullListenableState<BrowserTab>> {
-  BrowserTabsListItemWidgetModel(
-    super.model,
-  );
+class BrowserTabsListItemWidgetModel
+    extends
+        CustomWidgetModelParametrized<
+          BrowserTabsListItem,
+          BrowserTabsListItemModel,
+          NotNullListenableState<BrowserTab>
+        > {
+  BrowserTabsListItemWidgetModel(super.model);
 
   String? _lastFilePath;
 
@@ -46,9 +47,7 @@ class BrowserTabsListItemWidgetModel extends CustomWidgetModelParametrized<
   }
 
   void _handleActiveTab() {
-    _activeState.accept(
-      tabNotifier.value.id == model.activeTabIdState.value,
-    );
+    _activeState.accept(tabNotifier.value.id == model.activeTabIdState.value);
   }
 
   void _handleScreenShots() {

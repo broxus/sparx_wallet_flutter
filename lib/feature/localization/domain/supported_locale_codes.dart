@@ -11,9 +11,9 @@ enum SupportedLocaleCodes {
   final String localizedString;
 
   String get iconPath => switch (this) {
-        SupportedLocaleCodes.en => Assets.images.langIcons.english.path,
-        SupportedLocaleCodes.ko => Assets.images.langIcons.korean.path,
-      };
+    SupportedLocaleCodes.en => Assets.images.langIcons.english.path,
+    SupportedLocaleCodes.ko => Assets.images.langIcons.korean.path,
+  };
 
   Locale get locale => Locale(name);
 
@@ -29,8 +29,6 @@ enum SupportedLocaleCodes {
 const fallbackLocaleCode = SupportedLocaleCodes.en;
 
 final supportedLocales = SupportedLocaleCodes.values
-    .map(
-      (locale) => locale.locale,
-    )
+    .map((locale) => locale.locale)
     .toList();
 final fallbackLocale = Locale(fallbackLocaleCode.name);

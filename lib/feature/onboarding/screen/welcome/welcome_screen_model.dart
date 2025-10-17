@@ -6,10 +6,8 @@ import 'package:injectable/injectable.dart';
 /// [ElementaryModel] for [WelcomeScreen]
 @injectable
 class WelcomeScreenModel extends ElementaryModel {
-  WelcomeScreenModel(
-    ErrorHandler errorHandler,
-    this._storageService,
-  ) : super(errorHandler: errorHandler);
+  WelcomeScreenModel(ErrorHandler errorHandler, this._storageService)
+    : super(errorHandler: errorHandler);
 
   final AppStorageService _storageService;
 

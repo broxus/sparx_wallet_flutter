@@ -22,17 +22,15 @@ class TonWalletOrdinaryTransactionDetailsWmParams {
 /// [WidgetModel] для [TonWalletOrdinaryTransactionDetails]
 @injectable
 class TonWalletOrdinaryTransactionDetailsWidgetModel
-    extends CustomWidgetModelParametrized<
-        TonWalletOrdinaryTransactionDetails,
-        TonWalletOrdinaryTransactionDetailsModel,
-        TonWalletOrdinaryTransactionDetailsWmParams> {
-  TonWalletOrdinaryTransactionDetailsWidgetModel(
-    super.model,
-  );
+    extends
+        CustomWidgetModelParametrized<
+          TonWalletOrdinaryTransactionDetails,
+          TonWalletOrdinaryTransactionDetailsModel,
+          TonWalletOrdinaryTransactionDetailsWmParams
+        > {
+  TonWalletOrdinaryTransactionDetailsWidgetModel(super.model);
 
-  late final priceState = createWmParamsNotifier<Fixed>(
-    (it) => it.price,
-  );
+  late final priceState = createWmParamsNotifier<Fixed>((it) => it.price);
 
   late final dateState = createWmParamsNotifier<DateTime>(
     (it) => it.transaction.date,

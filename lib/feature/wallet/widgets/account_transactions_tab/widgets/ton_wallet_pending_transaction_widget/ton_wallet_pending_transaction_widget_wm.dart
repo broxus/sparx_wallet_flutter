@@ -3,18 +3,19 @@ import 'package:app/feature/wallet/widgets/account_transactions_tab/widgets/ton_
 import 'package:app/feature/wallet/widgets/account_transactions_tab/widgets/ton_wallet_pending_transaction_widget/ton_wallet_pending_transaction_widget_model.dart';
 import 'package:elementary/elementary.dart';
 import 'package:injectable/injectable.dart';
+import 'package:money2/money2.dart';
 import 'package:nekoton_repository/nekoton_repository.dart';
 
 /// [WidgetModel] for [TonWalletPendingTransactionWidget]
 @injectable
 class TonWalletPendingTransactionWidgetWidgetModel
-    extends CustomWidgetModelParametrized<
-        TonWalletPendingTransactionWidget,
-        TonWalletPendingTransactionWidgetModel,
-        TonWalletPendingTransactionParams> {
-  TonWalletPendingTransactionWidgetWidgetModel(
-    super.model,
-  );
+    extends
+        CustomWidgetModelParametrized<
+          TonWalletPendingTransactionWidget,
+          TonWalletPendingTransactionWidgetModel,
+          TonWalletPendingTransactionParams
+        > {
+  TonWalletPendingTransactionWidgetWidgetModel(super.model);
 
   late final ticker = model.ticker;
 

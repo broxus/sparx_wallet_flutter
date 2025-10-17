@@ -79,9 +79,7 @@ class _TonWalletIconWidgetState extends State<TonWalletIconWidget> {
 }
 
 class _Placeholder extends StatelessWidget {
-  const _Placeholder({
-    required this.size,
-  });
+  const _Placeholder({required this.size});
 
   final double size;
 

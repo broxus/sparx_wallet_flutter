@@ -3,5 +3,5 @@ enum ToastType {
   normal,
   error,
   warning,
-  success
+  success,
 }

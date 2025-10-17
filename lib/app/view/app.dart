@@ -10,9 +10,7 @@ import 'package:in_app_notification/in_app_notification.dart';
 import 'package:ui_components_lib/v2/ui_components_lib_v2.dart';
 
 class App extends InjectedElementaryWidget<AppWidgetModel> {
-  const App({
-    super.key,
-  });
+  const App({super.key});
 
   @override
   Widget build(AppWidgetModel wm) {
@@ -34,10 +32,7 @@ class App extends InjectedElementaryWidget<AppWidgetModel> {
 }
 
 class _AppContent extends StatelessWidget {
-  const _AppContent({
-    required this.router,
-    required this.checkCrashDetected,
-  });
+  const _AppContent({required this.router, required this.checkCrashDetected});
 
   final CompassRouter router;
   final Future<bool> Function() checkCrashDetected;
@@ -54,17 +49,13 @@ class _AppContent extends StatelessWidget {
       theme: getPredefinedLightTheme(),
       darkTheme: getPredefinedDarkTheme(),
       builder: (context, child) => MediaQuery(
-        data: MediaQuery.of(context).copyWith(
-          textScaler: TextScaler.noScaling,
-        ),
+        data: MediaQuery.of(context).copyWith(textScaler: TextScaler.noScaling),
         child: CompassRouterProvider(
           router: router,
           child: InAppNotification(
             child: CrashDetectorWidget(
               checkCrashDetected: checkCrashDetected,
-              child: LocalizationServiceWidget(
-                child: child ?? Container(),
-              ),
+              child: LocalizationServiceWidget(child: child ?? Container()),
             ),
           ),
         ),

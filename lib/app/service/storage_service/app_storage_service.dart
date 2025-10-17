@@ -8,9 +8,7 @@ import 'package:rxdart/rxdart.dart';
 
 @lazySingleton
 class AppStorageService extends AbstractStorageService {
-  AppStorageService(
-    @Named(container) this._storage,
-  );
+  AppStorageService(@Named(container) this._storage);
 
   static const String container = 'app_storage_service';
 
@@ -38,13 +36,11 @@ class AppStorageService extends AbstractStorageService {
 
     subject
       ..onListen = () {
-        cancel = _storage.listen(
-          () {
-            if (_storage.changes.containsKey(key.value)) {
-              subject.add(_storage.changes[key.value] as T?);
-            }
-          },
-        );
+        cancel = _storage.listen(() {
+          if (_storage.changes.containsKey(key.value)) {
+            subject.add(_storage.changes[key.value] as T?);
+          }
+        });
       }
       ..onCancel = () {
         cancel?.call();

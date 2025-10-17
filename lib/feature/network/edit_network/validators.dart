@@ -10,18 +10,14 @@ class Validators {
     maxLength: _maxNetworkNameLength,
     emptyError: LocaleKeys.textFieldShouldNotBeEmpty.tr(),
     maxLengthError: LocaleKeys.textFieldTooLong.tr(
-      args: [
-        _maxNetworkNameLength.toString(),
-      ],
+      args: [_maxNetworkNameLength.toString()],
     ),
   );
 
   late final currencySymbolValidator = CommonTextValidator(
     maxLength: _maxCurrencySymbolLength,
     maxLengthError: LocaleKeys.textFieldTooLong.tr(
-      args: [
-        _maxCurrencySymbolLength.toString(),
-      ],
+      args: [_maxCurrencySymbolLength.toString()],
     ),
   );
 

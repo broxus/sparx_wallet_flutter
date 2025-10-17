@@ -21,10 +21,7 @@ class MenuAnimation extends StatelessWidget {
     return RepaintBoundary(
       child: SlideTransition(
         position: offsetAnimation,
-        child: FadeTransition(
-          opacity: opacityAnimation,
-          child: child,
-        ),
+        child: FadeTransition(opacity: opacityAnimation, child: child),
       ),
     );
   }

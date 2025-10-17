@@ -6,26 +6,27 @@ import 'package:elementary_helper/elementary_helper.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:injectable/injectable.dart';
+import 'package:money2/money2.dart';
 import 'package:nekoton_repository/nekoton_repository.dart';
 
 enum TonConnectStep { account, confirm }
 
 class TCConnectWmParams {
-  const TCConnectWmParams({
-    required this.request,
-    required this.manifest,
-  });
+  const TCConnectWmParams({required this.request, required this.manifest});
 
   final ConnectRequest request;
   final DappManifest manifest;
 }
 
 @injectable
-class TCConnectWidgetModel extends CustomWidgetModelParametrized<
-    TCConnectWidget, TCConnectModel, TCConnectWmParams> {
-  TCConnectWidgetModel(
-    super.model,
-  );
+class TCConnectWidgetModel
+    extends
+        CustomWidgetModelParametrized<
+          TCConnectWidget,
+          TCConnectModel,
+          TCConnectWmParams
+        > {
+  TCConnectWidgetModel(super.model);
 
   late final searchController = createTextEditingController();
   late final _stepState = createValueNotifier(TonConnectStep.account);

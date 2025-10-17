@@ -5,7 +5,4 @@ enum NftDisplayMode {
   static NftDisplayMode? byName(String name) => _byNameMap[name];
 }
 
-const _byNameMap = {
-  'grid': NftDisplayMode.grid,
-  'list': NftDisplayMode.list,
-};
+const _byNameMap = {'grid': NftDisplayMode.grid, 'list': NftDisplayMode.list};

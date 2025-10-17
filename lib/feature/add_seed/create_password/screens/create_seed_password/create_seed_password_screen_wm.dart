@@ -26,13 +26,14 @@ class CreateSeedPasswordWmParams {
 
 /// [WidgetModel] для [CreateSeedPasswordScreen]
 @injectable
-class CreateSeedPasswordScreenWidgetModel extends CustomWidgetModelParametrized<
-    CreateSeedPasswordScreen,
-    CreateSeedPasswordScreenModel,
-    CreateSeedPasswordWmParams> {
-  CreateSeedPasswordScreenWidgetModel(
-    super.model,
-  );
+class CreateSeedPasswordScreenWidgetModel
+    extends
+        CustomWidgetModelParametrized<
+          CreateSeedPasswordScreen,
+          CreateSeedPasswordScreenModel,
+          CreateSeedPasswordWmParams
+        > {
+  CreateSeedPasswordScreenWidgetModel(super.model);
 
   late final passwordController = createTextEditingController();
   late final confirmController = createTextEditingController();
@@ -43,8 +44,9 @@ class CreateSeedPasswordScreenWidgetModel extends CustomWidgetModelParametrized<
   final formKey = GlobalKey<FormState>();
 
   late final _loadState = createNotifier<bool>();
-  late final _passwordStatusState =
-      createNotifier<PasswordStatus>(PasswordStatus.initial);
+  late final _passwordStatusState = createNotifier<PasswordStatus>(
+    PasswordStatus.initial,
+  );
 
   ThemeStyleV2 get themeStyle => context.themeStyleV2;
 

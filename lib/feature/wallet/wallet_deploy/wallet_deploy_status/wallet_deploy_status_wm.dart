@@ -10,10 +10,13 @@ import 'package:injectable/injectable.dart';
 import 'package:logging/logging.dart';
 
 @injectable
-class WalletDeployStatusWidgetModel extends CustomWidgetModelParametrized<
-    WalletDeployStatusScreen,
-    WalletDeployStatusModel,
-    WalletDeployStatusRouteData> {
+class WalletDeployStatusWidgetModel
+    extends
+        CustomWidgetModelParametrized<
+          WalletDeployStatusScreen,
+          WalletDeployStatusModel,
+          WalletDeployStatusRouteData
+        > {
   WalletDeployStatusWidgetModel(super.model);
 
   final _logger = Logger('WalletDeployStatusWidgetModel');
@@ -36,9 +39,7 @@ class WalletDeployStatusWidgetModel extends CustomWidgetModelParametrized<
       );
 
       model.showMessage(
-        Message.successful(
-          message: LocaleKeys.walletDeployedSuccessfully.tr(),
-        ),
+        Message.successful(message: LocaleKeys.walletDeployedSuccessfully.tr()),
       );
 
       await minDelay;

@@ -6,10 +6,8 @@ import 'package:injectable/injectable.dart';
 /// [ElementaryModel] for [TabAnimatedView]
 @injectable
 class TabAnimatedViewModel extends ElementaryModel {
-  TabAnimatedViewModel(
-    ErrorHandler errorHandler,
-    this._browserService,
-  ) : super(errorHandler: errorHandler);
+  TabAnimatedViewModel(ErrorHandler errorHandler, this._browserService)
+    : super(errorHandler: errorHandler);
 
   final BrowserService _browserService;
 

@@ -19,18 +19,16 @@ class WalletMultisigConfigRoute
     @Named.from(WalletDeployConfirmRoute)
     CompassBaseRoute walletDeployConfirmRoute,
   ) : super(
-          path: '/wallet-deploy-multisig-config',
-          builder: (context, data, _) => WalletMultisigConfigScreen(
-            address: data.address,
-            publicKey: data.publicKey,
-            initialCustodians: data.custodians,
-            initialRequireConfirmations: data.requireConfirmations,
-            initialHours: data.hours,
-          ),
-          compassBaseRoutes: [
-            walletDeployConfirmRoute,
-          ],
-        );
+        path: '/wallet-deploy-multisig-config',
+        builder: (context, data, _) => WalletMultisigConfigScreen(
+          address: data.address,
+          publicKey: data.publicKey,
+          initialCustodians: data.custodians,
+          initialRequireConfirmations: data.requireConfirmations,
+          initialHours: data.hours,
+        ),
+        compassBaseRoutes: [walletDeployConfirmRoute],
+      );
 
   @override
   WalletMultisigConfigRouteData fromQueryParams(

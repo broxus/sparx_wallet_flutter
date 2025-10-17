@@ -39,12 +39,10 @@ class NtpService {
     appLifecycleService.appLifecycleStateStream
         .where((state) => state == AppLifecycleState.resumed)
         .delay(_resumedDelay)
-        .listen(
-      (event) {
-        _log.info('App resumed, updating offset...');
-        update();
-      },
-    );
+        .listen((event) {
+          _log.info('App resumed, updating offset...');
+          update();
+        });
   }
 
   @disposeMethod
@@ -83,15 +81,12 @@ class NtpService {
   void _scheduleNextUpdate() {
     _updateTimer?.cancel();
 
-    _updateTimer = Timer(
-      _updatePeriod,
-      () async {
-        if (_periodicUpdatesEnabled) {
-          await update();
-          _scheduleNextUpdate();
-        }
-      },
-    );
+    _updateTimer = Timer(_updatePeriod, () async {
+      if (_periodicUpdatesEnabled) {
+        await update();
+        _scheduleNextUpdate();
+      }
+    });
   }
 
   /// Updates offset from the NTP server

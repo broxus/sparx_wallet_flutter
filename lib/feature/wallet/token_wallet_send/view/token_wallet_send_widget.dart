@@ -10,8 +10,12 @@ import 'package:ui_components_lib/ui_components_lib.dart';
 /// destination address.
 /// For correct work subscription for TokenWallet and TonWallet with
 /// the specified owner address must be created.
-class TokenWalletSendWidget extends InjectedElementaryParametrizedWidget<
-    TokenWalletSendWidgetModel, TokenWalletSendWmParams> {
+class TokenWalletSendWidget
+    extends
+        InjectedElementaryParametrizedWidget<
+          TokenWalletSendWidgetModel,
+          TokenWalletSendWmParams
+        > {
   TokenWalletSendWidget({
     required Address owner,
     required Address rootTokenContract,
@@ -24,18 +28,18 @@ class TokenWalletSendWidget extends InjectedElementaryParametrizedWidget<
     required bool? notifyReceiver,
     super.key,
   }) : super(
-          wmFactoryParam: TokenWalletSendWmParams(
-            owner: owner,
-            rootTokenContract: rootTokenContract,
-            publicKey: publicKey,
-            destination: destination,
-            amount: amount,
-            attachedAmount: attachedAmount,
-            comment: comment,
-            resultMessage: resultMessage,
-            notifyReceiver: notifyReceiver,
-          ),
-        );
+         wmFactoryParam: TokenWalletSendWmParams(
+           owner: owner,
+           rootTokenContract: rootTokenContract,
+           publicKey: publicKey,
+           destination: destination,
+           amount: amount,
+           attachedAmount: attachedAmount,
+           comment: comment,
+           resultMessage: resultMessage,
+           notifyReceiver: notifyReceiver,
+         ),
+       );
 
   @override
   Widget build(TokenWalletSendWidgetModel wm) {
@@ -46,43 +50,43 @@ class TokenWalletSendWidget extends InjectedElementaryParametrizedWidget<
 
         final appBar = switch (state) {
           TokenWalletSendStateSending() => null,
-          TokenWalletSendStateError() =>
-            DefaultAppBar(titleText: LocaleKeys.confirmTransaction.tr()),
+          TokenWalletSendStateError() => DefaultAppBar(
+            titleText: LocaleKeys.confirmTransaction.tr(),
+          ),
           TokenWalletSendStateReady() => DefaultAppBar(
-              titleText: LocaleKeys.confirmTransaction.tr(),
-            ),
+            titleText: LocaleKeys.confirmTransaction.tr(),
+          ),
         };
 
         final body = switch (state) {
-          TokenWalletSendStateError(:final error) =>
-            Center(child: WalletSubscribeErrorWidget(error: error)),
+          TokenWalletSendStateError(:final error) => Center(
+            child: WalletSubscribeErrorWidget(error: error),
+          ),
           TokenWalletSendStateSending(:final canClose) => Padding(
-              padding: const EdgeInsets.all(DimensSizeV2.d16),
-              child: TransactionSendingWidget(
-                canClose: canClose,
-                popOnComplete: false,
-              ),
+            padding: const EdgeInsets.all(DimensSizeV2.d16),
+            child: TransactionSendingWidget(
+              canClose: canClose,
+              popOnComplete: false,
             ),
+          ),
           TokenWalletSendStateReady() => Padding(
-              padding: const EdgeInsets.symmetric(
-                horizontal: DimensSizeV2.d16,
-              ),
-              child: TokenWalletSendConfirmView(
-                recipient: wm.destination,
-                rootTokenContract: wm.rootTokenContract,
-                comment: wm.comment,
-                publicKey: wm.publicKey,
-                attachedAmount: wm.attachedAmountState,
-                currency: wm.currency,
-                account: wm.account,
-                amount: wm.amountState,
-                fees: wm.feesState,
-                txErrors: wm.txErrorsState,
-                isLoading: wm.isLoadingState,
-                getLedgerAuthInput: wm.getLedgerAuthInput,
-                onConfirmed: wm.onConfirmed,
-              ),
+            padding: const EdgeInsets.symmetric(horizontal: DimensSizeV2.d16),
+            child: TokenWalletSendConfirmView(
+              recipient: wm.destination,
+              rootTokenContract: wm.rootTokenContract,
+              comment: wm.comment,
+              publicKey: wm.publicKey,
+              attachedAmount: wm.attachedAmountState,
+              currency: wm.currency,
+              account: wm.account,
+              amount: wm.amountState,
+              fees: wm.feesState,
+              txErrors: wm.txErrorsState,
+              isLoading: wm.isLoadingState,
+              getLedgerAuthInput: wm.getLedgerAuthInput,
+              onConfirmed: wm.onConfirmed,
             ),
+          ),
         };
 
         return Scaffold(appBar: appBar, body: body);

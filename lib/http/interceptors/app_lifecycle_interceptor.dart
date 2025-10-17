@@ -7,21 +7,19 @@ import 'package:injectable/injectable.dart';
 
 @singleton
 class AppLifecycleInterceptor extends Interceptor {
-  AppLifecycleInterceptor(
-    this._appLifecycleService,
-  ) {
-    _appLifecycleSubscription =
-        _appLifecycleService.appLifecycleStateStream.listen((state) {
-      switch (state) {
-        case AppLifecycleState.inactive:
-        case AppLifecycleState.hidden:
-        case AppLifecycleState.paused:
-        case AppLifecycleState.detached:
-          _handleAppBackground();
-        case AppLifecycleState.resumed:
-          _handleAppForeground();
-      }
-    });
+  AppLifecycleInterceptor(this._appLifecycleService) {
+    _appLifecycleSubscription = _appLifecycleService.appLifecycleStateStream
+        .listen((state) {
+          switch (state) {
+            case AppLifecycleState.inactive:
+            case AppLifecycleState.hidden:
+            case AppLifecycleState.paused:
+            case AppLifecycleState.detached:
+              _handleAppBackground();
+            case AppLifecycleState.resumed:
+              _handleAppForeground();
+          }
+        });
   }
 
   final AppLifecycleService _appLifecycleService;

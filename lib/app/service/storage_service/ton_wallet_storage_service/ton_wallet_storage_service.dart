@@ -11,62 +11,70 @@ class TonWalletStorageService extends TonWalletTransactionsStorage
     implements AbstractStorageService {
   /// Transactions for TonWallet, where key - wallet information, value - list
   /// of all completed.
-  final _transactionsSubject = BehaviorSubject<
-      Map<TonWalletStorageInfo,
-          List<TransactionWithData<TransactionAdditionalInfo?>>>>.seeded({});
+  final _transactionsSubject =
+      BehaviorSubject<
+        Map<
+          TonWalletStorageInfo,
+          List<TransactionWithData<TransactionAdditionalInfo?>>
+        >
+      >.seeded({});
 
   /// Get stream of transactions for TonWallet specified by address and network
   Stream<List<TransactionWithData<TransactionAdditionalInfo?>>?>
-      transactionsStream({
+  transactionsStream({
     required int networkId,
     required String group,
     required Address address,
-  }) =>
-          _transactionsSubject.map(
-            (event) => event[TonWalletStorageInfo(
-              networkId: networkId,
-              group: group,
-              address: address,
-            )],
-          );
+  }) => _transactionsSubject.map(
+    (event) =>
+        event[TonWalletStorageInfo(
+          networkId: networkId,
+          group: group,
+          address: address,
+        )],
+  );
 
   /// Transactions for TonWallet, where key - wallet information, value - list
   /// of pended transactions.
-  final _pendingTransactionsSubject = BehaviorSubject<
-      Map<TonWalletStorageInfo, List<PendingTransactionWithData>>>.seeded({});
+  final _pendingTransactionsSubject =
+      BehaviorSubject<
+        Map<TonWalletStorageInfo, List<PendingTransactionWithData>>
+      >.seeded({});
 
   /// Get stream of transactions for TonWallet specified by address and network
   Stream<List<PendingTransactionWithData>?> pendingTransactionsStream({
     required int networkId,
     required String group,
     required Address address,
-  }) =>
-      _pendingTransactionsSubject.map(
-        (event) => event[TonWalletStorageInfo(
+  }) => _pendingTransactionsSubject.map(
+    (event) =>
+        event[TonWalletStorageInfo(
           networkId: networkId,
           group: group,
           address: address,
         )],
-      );
+  );
 
   /// Transactions for TonWallet, where key - wallet information, value - list
   /// of expired transactions.
-  final _expiredTransactionsSubject = BehaviorSubject<
-      Map<TonWalletStorageInfo, List<PendingTransactionWithData>>>.seeded({});
+  final _expiredTransactionsSubject =
+      BehaviorSubject<
+        Map<TonWalletStorageInfo, List<PendingTransactionWithData>>
+      >.seeded({});
 
   /// Get stream of transactions for TonWallet specified by address and network
   Stream<List<PendingTransactionWithData>?> expiredTransactionsStream({
     required int networkId,
     required String group,
     required Address address,
-  }) =>
-      _expiredTransactionsSubject.map(
-        (event) => event[TonWalletStorageInfo(
+  }) => _expiredTransactionsSubject.map(
+    (event) =>
+        event[TonWalletStorageInfo(
           networkId: networkId,
           group: group,
           address: address,
         )],
-      );
+  );
 
   /// Right now this method is not needed, it will be used later
   @override
@@ -160,8 +168,9 @@ class TonWalletStorageService extends TonWalletTransactionsStorage
     );
     final values = _pendingTransactionsSubject.value;
     final existed = values[info];
-    final index =
-        existed?.indexWhere((t) => t.transaction.messageHash == messageHash);
+    final index = existed?.indexWhere(
+      (t) => t.transaction.messageHash == messageHash,
+    );
     if (index != null && index != -1 && existed != null) {
       final removed = existed.removeAt(index);
 

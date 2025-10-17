@@ -11,8 +11,12 @@ import 'package:nekoton_repository/nekoton_repository.dart';
 import 'package:ui_components_lib/ui_components_lib.dart';
 import 'package:ui_components_lib/v2/ui_components_lib_v2.dart';
 
-class AddTip3TokenWidget extends InjectedElementaryParametrizedWidget<
-    AddTip3TokenWidgetModel, AddTip3TokenWmParams> {
+class AddTip3TokenWidget
+    extends
+        InjectedElementaryParametrizedWidget<
+          AddTip3TokenWidgetModel,
+          AddTip3TokenWmParams
+        > {
   AddTip3TokenWidget({
     required Uri origin,
     required Address account,
@@ -20,12 +24,12 @@ class AddTip3TokenWidget extends InjectedElementaryParametrizedWidget<
     required this.scrollController,
     super.key,
   }) : super(
-          wmFactoryParam: AddTip3TokenWmParams(
-            origin: origin,
-            account: account,
-            details: details,
-          ),
-        );
+         wmFactoryParam: AddTip3TokenWmParams(
+           origin: origin,
+           account: account,
+           details: details,
+         ),
+       );
 
   final ScrollController scrollController;
 
@@ -176,7 +180,8 @@ class AddTip3TokenWidget extends InjectedElementaryParametrizedWidget<
                                 final balance = wm.balanceState.value;
 
                                 return AmountWidget.fromMoney(
-                                  amount: balance ??
+                                  amount:
+                                      balance ??
                                       Money.fromIntWithCurrency(
                                         0,
                                         Currency.create(details.symbol, 0),
@@ -222,41 +227,36 @@ class AddTip3TokenWidget extends InjectedElementaryParametrizedWidget<
 }
 
 class _InfoRow extends StatelessWidget {
-  const _InfoRow({
-    required this.children,
-    this.hint,
-  });
+  const _InfoRow({required this.children, this.hint});
 
   final List<Widget> children;
   final Widget? hint;
 
   @override
   Widget build(BuildContext context) => ConstrainedBox(
-        constraints: const BoxConstraints(minHeight: DimensSize.d40),
-        child: hint == null
-            ? SeparatedRow(
+    constraints: const BoxConstraints(minHeight: DimensSize.d40),
+    child: hint == null
+        ? SeparatedRow(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: children,
+          )
+        : SeparatedColumn(
+            spacing: DimensSizeV2.d12,
+            children: [
+              SeparatedRow(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: children,
-              )
-            : SeparatedColumn(
-                spacing: DimensSizeV2.d12,
-                children: [
-                  SeparatedRow(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: children,
-                  ),
-                  hint!,
-                ],
               ),
-      );
+              hint!,
+            ],
+          ),
+  );
 }
 
 class _StatusIcon extends StatelessWidget {
-  const _StatusIcon({
-    required this.status,
-  });
+  const _StatusIcon({required this.status});
 
   final TokenStatus? status;
 
@@ -266,29 +266,27 @@ class _StatusIcon extends StatelessWidget {
 
     return switch (status) {
       TokenStatus.trusted => Icon(
-          LucideIcons.shieldCheck,
-          size: DimensSize.d20,
-          color: colors.contentPositive,
-        ),
+        LucideIcons.shieldCheck,
+        size: DimensSize.d20,
+        color: colors.contentPositive,
+      ),
       TokenStatus.untrasted || TokenStatus.suggestion => Icon(
-          LucideIcons.shieldOff,
-          size: DimensSize.d20,
-          color: colors.contentWarning,
-        ),
+        LucideIcons.shieldOff,
+        size: DimensSize.d20,
+        color: colors.contentWarning,
+      ),
       TokenStatus.explicit || TokenStatus.sameSymbol => Icon(
-          LucideIcons.shieldAlert,
-          size: DimensSize.d20,
-          color: colors.contentNegative,
-        ),
+        LucideIcons.shieldAlert,
+        size: DimensSize.d20,
+        color: colors.contentNegative,
+      ),
       null => const SizedBox.shrink(),
     };
   }
 }
 
 class _StatusText extends StatelessWidget {
-  const _StatusText({
-    required this.status,
-  });
+  const _StatusText({required this.status});
 
   final TokenStatus? status;
 
@@ -298,49 +296,49 @@ class _StatusText extends StatelessWidget {
 
     return switch (status) {
       TokenStatus.untrasted => PrimaryCard(
-          padding: const EdgeInsets.all(DimensSizeV2.d16),
-          borderRadius: BorderRadius.circular(DimensRadiusV2.radius12),
-          color: theme.colors.backgroundWarning,
-          child: Text(
-            LocaleKeys.untrastedTokenWarning.tr(),
-            style: theme.textStyles.labelSmall.copyWith(
-              color: theme.colors.contentWarning,
-            ),
+        padding: const EdgeInsets.all(DimensSizeV2.d16),
+        borderRadius: BorderRadius.circular(DimensRadiusV2.radius12),
+        color: theme.colors.backgroundWarning,
+        child: Text(
+          LocaleKeys.untrastedTokenWarning.tr(),
+          style: theme.textStyles.labelSmall.copyWith(
+            color: theme.colors.contentWarning,
           ),
         ),
+      ),
       TokenStatus.suggestion => PrimaryCard(
-          padding: const EdgeInsets.all(DimensSizeV2.d16),
-          borderRadius: BorderRadius.circular(DimensRadiusV2.radius12),
-          color: theme.colors.backgroundWarning,
-          child: Text(
-            LocaleKeys.phishingSuggestionWarning.tr(),
-            style: theme.textStyles.labelSmall.copyWith(
-              color: theme.colors.contentWarning,
-            ),
+        padding: const EdgeInsets.all(DimensSizeV2.d16),
+        borderRadius: BorderRadius.circular(DimensRadiusV2.radius12),
+        color: theme.colors.backgroundWarning,
+        child: Text(
+          LocaleKeys.phishingSuggestionWarning.tr(),
+          style: theme.textStyles.labelSmall.copyWith(
+            color: theme.colors.contentWarning,
           ),
         ),
+      ),
       TokenStatus.explicit => PrimaryCard(
-          padding: const EdgeInsets.all(DimensSizeV2.d16),
-          borderRadius: BorderRadius.circular(DimensRadiusV2.radius12),
-          color: theme.colors.backgroundNegative,
-          child: Text(
-            LocaleKeys.phishingExplicitWarning.tr(),
-            style: theme.textStyles.labelSmall.copyWith(
-              color: theme.colors.contentNegative,
-            ),
+        padding: const EdgeInsets.all(DimensSizeV2.d16),
+        borderRadius: BorderRadius.circular(DimensRadiusV2.radius12),
+        color: theme.colors.backgroundNegative,
+        child: Text(
+          LocaleKeys.phishingExplicitWarning.tr(),
+          style: theme.textStyles.labelSmall.copyWith(
+            color: theme.colors.contentNegative,
           ),
         ),
+      ),
       TokenStatus.sameSymbol => PrimaryCard(
-          padding: const EdgeInsets.all(DimensSizeV2.d16),
-          borderRadius: BorderRadius.circular(DimensRadiusV2.radius12),
-          color: theme.colors.backgroundNegative,
-          child: Text(
-            LocaleKeys.phishingSameSymbolWarning.tr(),
-            style: theme.textStyles.labelSmall.copyWith(
-              color: theme.colors.contentNegative,
-            ),
+        padding: const EdgeInsets.all(DimensSizeV2.d16),
+        borderRadius: BorderRadius.circular(DimensRadiusV2.radius12),
+        color: theme.colors.backgroundNegative,
+        child: Text(
+          LocaleKeys.phishingSameSymbolWarning.tr(),
+          style: theme.textStyles.labelSmall.copyWith(
+            color: theme.colors.contentNegative,
           ),
         ),
+      ),
       TokenStatus.trusted || null => const SizedBox.shrink(),
     };
   }

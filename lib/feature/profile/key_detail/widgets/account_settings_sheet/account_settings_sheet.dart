@@ -32,8 +32,12 @@ Future<void> showAccountSettingsSheet({
 }
 
 /// Sheet that displays settings of account
-class AccountSettingsSheet extends InjectedElementaryParametrizedWidget<
-    AccountSettingsSheetWidgetModel, AccountSettingsSheetParams> {
+class AccountSettingsSheet
+    extends
+        InjectedElementaryParametrizedWidget<
+          AccountSettingsSheetWidgetModel,
+          AccountSettingsSheetParams
+        > {
   AccountSettingsSheet({
     /// Address of account to show settings for.
     required Address address,
@@ -49,14 +53,14 @@ class AccountSettingsSheet extends InjectedElementaryParametrizedWidget<
     required BrowserLauncher browserLauncher,
     super.key,
   }) : super(
-          wmFactoryParam: AccountSettingsSheetParams(
-            address: address,
-            showHiding: showHiding,
-            seeInExplorer: seeInExplorer,
-            showCopyAddress: showCopyAddress,
-            browserLauncher: browserLauncher,
-          ),
-        );
+         wmFactoryParam: AccountSettingsSheetParams(
+           address: address,
+           showHiding: showHiding,
+           seeInExplorer: seeInExplorer,
+           showCopyAddress: showCopyAddress,
+           browserLauncher: browserLauncher,
+         ),
+       );
 
   @override
   Widget build(AccountSettingsSheetWidgetModel wm) {

@@ -23,8 +23,13 @@ class AccountAssetsTabParams {
 }
 
 @injectable
-class AccountAssetsTabWidgetModel extends CustomWidgetModelParametrized<
-    AccountAssetsTab, AccountAssetsTabModel, AccountAssetsTabParams> {
+class AccountAssetsTabWidgetModel
+    extends
+        CustomWidgetModelParametrized<
+          AccountAssetsTab,
+          AccountAssetsTabModel,
+          AccountAssetsTabParams
+        > {
   AccountAssetsTabWidgetModel(super.model);
 
   late final _assetsState = createNotifierFromStream(

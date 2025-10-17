@@ -84,11 +84,7 @@ class _TokenWalletSendConfirmViewState
           ),
         ),
         MultiListenerRebuilder(
-          listenableList: [
-            widget.isLoading,
-            widget.txErrors,
-            widget.fees,
-          ],
+          listenableList: [widget.isLoading, widget.txErrors, widget.fees],
           builder: (_) {
             final isLoading = widget.isLoading.value;
             final txErrors = widget.txErrors.value;
@@ -102,16 +98,15 @@ class _TokenWalletSendConfirmViewState
                     txErrors: txErrors,
                     symbol: widget.currency.symbol,
                     isConfirmed: isConfirmed,
-                    onConfirm: (value) => setState(
-                      () => isConfirmed = value,
-                    ),
+                    onConfirm: (value) => setState(() => isConfirmed = value),
                   ),
                 EnterPasswordWidget.auth(
                   getLedgerAuthInput: widget.getLedgerAuthInput,
                   publicKey: widget.publicKey,
                   title: LocaleKeys.confirm.tr(),
                   isLoading: isLoading ?? false,
-                  isDisabled: fees.isErrorState ||
+                  isDisabled:
+                      fees.isErrorState ||
                       ((txErrors?.isNotEmpty ?? false) && !isConfirmed),
                   onConfirmed: widget.onConfirmed,
                 ),

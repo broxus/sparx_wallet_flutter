@@ -2,18 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:ui_components_lib/ui_components_lib.dart';
 
 /// Builder of tab bar item
-typedef CommonTabBarTitleBuilder<T> = String Function(
-  BuildContext context,
-  T value,
-);
+typedef CommonTabBarTitleBuilder<T> =
+    String Function(BuildContext context, T value);
 
 /// Builder of trailing widget of tab, returned widget is optional but may be
 /// used to add some information about tab.
 /// To get content color, you may use [EverButtonStyleProvider]
-typedef CommonTabBarTrailingBuilder<T> = Widget? Function(
-  BuildContext context,
-  T value,
-);
+typedef CommonTabBarTrailingBuilder<T> =
+    Widget? Function(BuildContext context, T value);
 
 /// {@template common_tab_bar}
 /// Default tab bar that displays section selection.
@@ -107,11 +103,13 @@ class _Item<T> extends StatelessWidget {
       text: builder(context, value),
       height: DimensSize.d48,
       squircleRadius: DimensRadius.xMedium,
-      backgroundColor:
-          isSelected ? colors.backgroundPrimary : colors.backgroundSecondary,
+      backgroundColor: isSelected
+          ? colors.backgroundPrimary
+          : colors.backgroundSecondary,
       contentColor: isSelected ? colors.textContrast : colors.textSecondary,
-      contentPressedColor:
-          isSelected ? colors.textSecondary : colors.textPrimary,
+      contentPressedColor: isSelected
+          ? colors.textSecondary
+          : colors.textPrimary,
       trailing: trailing,
     );
   }

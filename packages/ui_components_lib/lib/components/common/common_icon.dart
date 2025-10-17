@@ -23,9 +23,9 @@ class CommonIconWidget extends StatelessWidget {
     this.color,
     this.avoidContentColor = false,
   }) : assert(
-          (icon != null || svg != null) && !(icon != null && svg != null),
-          'IconData or Svg path must be specified, but not together',
-        );
+         (icon != null || svg != null) && !(icon != null && svg != null),
+         'IconData or Svg path must be specified, but not together',
+       );
 
   /// Factory that allows creating widget with [IconData]
   factory CommonIconWidget.icon({
@@ -36,16 +36,15 @@ class CommonIconWidget extends StatelessWidget {
     double? height,
     bool avoidContentColor = false,
     Key? key,
-  }) =>
-      CommonIconWidget(
-        icon: icon,
-        size: size,
-        width: width,
-        height: height,
-        key: key,
-        color: color,
-        avoidContentColor: avoidContentColor,
-      );
+  }) => CommonIconWidget(
+    icon: icon,
+    size: size,
+    width: width,
+    height: height,
+    key: key,
+    color: color,
+    avoidContentColor: avoidContentColor,
+  );
 
   /// Factory that allows creating widget with svg asset
   factory CommonIconWidget.svg({
@@ -56,16 +55,15 @@ class CommonIconWidget extends StatelessWidget {
     double? height,
     bool avoidContentColor = false,
     Key? key,
-  }) =>
-      CommonIconWidget(
-        svg: svg,
-        size: size,
-        width: width,
-        height: height,
-        key: key,
-        color: color,
-        avoidContentColor: avoidContentColor,
-      );
+  }) => CommonIconWidget(
+    svg: svg,
+    size: size,
+    width: width,
+    height: height,
+    key: key,
+    color: color,
+    avoidContentColor: avoidContentColor,
+  );
 
   /// Data of icon that is used in [Icon]
   final IconData? icon;
@@ -95,11 +93,7 @@ class CommonIconWidget extends StatelessWidget {
     final color = this.color ?? (avoidContentColor ? null : contentColor);
 
     if (icon != null) {
-      return Icon(
-        icon,
-        color: color,
-        size: size ?? defaultCommonIconSize,
-      );
+      return Icon(icon, color: color, size: size ?? defaultCommonIconSize);
     }
 
     if (svg != null) {

@@ -93,16 +93,13 @@ class BrowserPageModel extends ElementaryModel {
     _inpageProvider = inpageProvider;
     inpageProvider.controller = controller;
 
-    await controller.initNekotonProvider(
-      providerApi: inpageProvider,
-    );
+    await controller.initNekotonProvider(providerApi: inpageProvider);
     await _tonConnectJsBridge.initJsBridge(controller);
   }
 
   BrowserBasicAuthCreds? getBasicAuthCreds(
     URLAuthenticationChallenge challenge,
-  ) =>
-      _browserService.auth.getBasicAuthCreds(challenge);
+  ) => _browserService.auth.getBasicAuthCreds(challenge);
 
   void updateAuthCreds(
     URLAuthenticationChallenge challenge,
@@ -111,10 +108,7 @@ class BrowserPageModel extends ElementaryModel {
     _browserService.auth.setBasicAuthCreds(challenge, credits);
   }
 
-  void updateUrl({
-    required Uri? uri,
-    required String tabId,
-  }) {
+  void updateUrl({required Uri? uri, required String tabId}) {
     if (uri == null) {
       return;
     }
@@ -123,10 +117,7 @@ class BrowserPageModel extends ElementaryModel {
     _browserService.tab.updateCachedUrl(tabId, uri);
   }
 
-  void updateTitle({
-    required String title,
-    required String tabId,
-  }) {
+  void updateTitle({required String title, required String tabId}) {
     _browserService.tab.updateTabTitle(tabId, title);
   }
 
@@ -182,18 +173,16 @@ class BrowserPageModel extends ElementaryModel {
   Future<bool> checkPermission(
     String host,
     List<PermissionResourceType> resources,
-  ) =>
-      _browserService.perm.checkHostPermissions(host, [
-        for (final resource in resources) resource.toValue(),
-      ]);
+  ) => _browserService.perm.checkHostPermissions(host, [
+    for (final resource in resources) resource.toValue(),
+  ]);
 
   Future<void> saveHostPermissions(
     String host,
     List<PermissionResourceType> resources,
-  ) =>
-      _browserService.perm.saveHostPermissions(host, [
-        for (final resource in resources) resource.toValue(),
-      ]);
+  ) => _browserService.perm.saveHostPermissions(host, [
+    for (final resource in resources) resource.toValue(),
+  ]);
 
   Future<void> requestCameraPermissionIfNeed(
     List<PermissionResourceType> resources,

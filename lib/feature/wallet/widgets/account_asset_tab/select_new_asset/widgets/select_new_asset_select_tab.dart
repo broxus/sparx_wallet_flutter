@@ -50,8 +50,9 @@ class _SelectNewAssetSelectTabState extends State<SelectNewAssetSelectTab> {
     return ValueListenableBuilder<TextEditingValue>(
       valueListenable: searchController,
       builder: (context, value, _) {
-        final found =
-            assetsWidgets.where((e) => _assetSearchValidation(e.asset));
+        final found = assetsWidgets.where(
+          (e) => _assetSearchValidation(e.asset),
+        );
 
         return SingleChildScrollView(
           child: SeparatedColumn(
@@ -63,19 +64,12 @@ class _SelectNewAssetSelectTabState extends State<SelectNewAssetSelectTab> {
                 suffixes: [
                   if (value.text.isEmpty)
                     const Padding(
-                      padding: EdgeInsets.only(
-                        right: DimensSizeV2.d20,
-                      ),
-                      child: Icon(
-                        LucideIcons.search,
-                        size: DimensSizeV2.d16,
-                      ),
+                      padding: EdgeInsets.only(right: DimensSizeV2.d20),
+                      child: Icon(LucideIcons.search, size: DimensSizeV2.d16),
                     ),
                   if (value.text.isNotEmpty)
                     Padding(
-                      padding: const EdgeInsets.only(
-                        right: DimensSizeV2.d8,
-                      ),
+                      padding: const EdgeInsets.only(right: DimensSizeV2.d8),
                       child: FloatButton(
                         buttonShape: ButtonShape.square,
                         buttonSize: ButtonSize.small,

@@ -8,9 +8,8 @@ part 'ton_connect_ui_event.freezed.dart';
 
 @freezed
 sealed class TonConnectUiEvent with _$TonConnectUiEvent {
-  factory TonConnectUiEvent.error({
-    required String message,
-  }) = TonConnectUiEventError;
+  factory TonConnectUiEvent.error({required String message}) =
+      TonConnectUiEventError;
 
   factory TonConnectUiEvent.connect({
     required ConnectRequest request,

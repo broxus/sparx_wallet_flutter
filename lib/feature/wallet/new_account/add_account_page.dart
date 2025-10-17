@@ -8,18 +8,14 @@ import 'package:ui_components_lib/ui_components_lib.dart';
 import 'package:ui_components_lib/v2/widgets/cards/primary_card.dart';
 
 class AddAccountPage extends InjectedElementaryWidget<AddAccountWidgetModel> {
-  const AddAccountPage({
-    super.key,
-  });
+  const AddAccountPage({super.key});
 
   @override
   Widget build(AddAccountWidgetModel wm) {
     final theme = wm.theme;
 
     return Scaffold(
-      appBar: DefaultAppBar(
-        titleText: LocaleKeys.newAccount.tr(),
-      ),
+      appBar: DefaultAppBar(titleText: LocaleKeys.newAccount.tr()),
       body: Padding(
         padding: const EdgeInsets.symmetric(horizontal: DimensSize.d16),
         child: DoubleSourceBuilder(

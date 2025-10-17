@@ -36,9 +36,7 @@ class ChooseNetworkItem extends StatelessWidget {
                     padding: const EdgeInsets.only(right: DimensSizeV2.d12),
                     child: _Icon(data.icon),
                   ),
-                  Flexible(
-                    child: _Name(data.title),
-                  ),
+                  Flexible(child: _Name(data.title)),
                 ],
               ),
             ),
@@ -76,9 +74,7 @@ class _Icon extends StatelessWidget {
     return DecoratedBox(
       decoration: BoxDecoration(
         color: context.themeStyleV2.colors.background2,
-        borderRadius: BorderRadius.circular(
-          DimensRadiusV2.radius32,
-        ),
+        borderRadius: BorderRadius.circular(DimensRadiusV2.radius32),
       ),
       child: NetworkVectorIcon(icon),
     );

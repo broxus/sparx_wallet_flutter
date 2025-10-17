@@ -56,11 +56,9 @@ class _BrowserSearchBarInputState extends State<BrowserSearchBarInput> {
     super.initState();
     _focusNode.addListener(_handleFocusChange);
 
-    _textEditingController.addListener(
-      () {
-        widget.onChanged?.call(_textEditingController.text);
-      },
-    );
+    _textEditingController.addListener(() {
+      widget.onChanged?.call(_textEditingController.text);
+    });
   }
 
   @override
@@ -198,9 +196,7 @@ class _BrowserSearchBarInputState extends State<BrowserSearchBarInput> {
       return _getIcon(
         widget.searchSvg,
         Icons.search,
-        const EdgeInsets.only(
-          left: DimensSizeV2.d12,
-        ),
+        const EdgeInsets.only(left: DimensSizeV2.d12),
       );
     }
 
@@ -208,10 +204,7 @@ class _BrowserSearchBarInputState extends State<BrowserSearchBarInput> {
       return _getIcon(
         widget.secureSvg,
         Icons.lock,
-        const EdgeInsets.only(
-          left: DimensSizeV2.d12,
-          right: DimensSizeV2.d7,
-        ),
+        const EdgeInsets.only(left: DimensSizeV2.d12, right: DimensSizeV2.d7),
       );
     }
 
@@ -220,11 +213,7 @@ class _BrowserSearchBarInputState extends State<BrowserSearchBarInput> {
 
   // TODO(Odrin): we should add all the icons in the ui kit library
   // and get rid of this method
-  Widget? _getIcon(
-    String? svg,
-    IconData iconData,
-    EdgeInsets padding,
-  ) {
+  Widget? _getIcon(String? svg, IconData iconData, EdgeInsets padding) {
     final colors = context.themeStyleV2.colors;
     return Padding(
       padding: padding,
@@ -246,9 +235,7 @@ class _BrowserSearchBarInputState extends State<BrowserSearchBarInput> {
 }
 
 class _Container extends StatelessWidget {
-  const _Container({
-    required this.child,
-  });
+  const _Container({required this.child});
 
   final Widget child;
 
@@ -277,10 +264,7 @@ class _Container extends StatelessWidget {
 }
 
 class _ShareButton extends StatelessWidget {
-  const _ShareButton({
-    this.svgUri,
-    this.onPressed,
-  });
+  const _ShareButton({this.svgUri, this.onPressed});
 
   final String? svgUri;
   final VoidCallback? onPressed;

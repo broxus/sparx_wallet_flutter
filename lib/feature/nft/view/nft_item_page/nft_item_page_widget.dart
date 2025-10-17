@@ -9,18 +9,22 @@ import 'package:nekoton_repository/nekoton_repository.dart';
 import 'package:ui_components_lib/ui_components_lib.dart';
 import 'package:ui_components_lib/v2/ui_components_lib_v2.dart';
 
-class NftItemPageWidget extends InjectedElementaryParametrizedWidget<
-    NftItemPageWidgetModel, NftItemWmParams> {
+class NftItemPageWidget
+    extends
+        InjectedElementaryParametrizedWidget<
+          NftItemPageWidgetModel,
+          NftItemWmParams
+        > {
   NftItemPageWidget({
     required Address address,
     required Address collection,
     super.key,
   }) : super(
-          wmFactoryParam: NftItemWmParams(
-            address: address,
-            collection: collection,
-          ),
-        );
+         wmFactoryParam: NftItemWmParams(
+           address: address,
+           collection: collection,
+         ),
+       );
 
   @override
   Widget build(NftItemPageWidgetModel wm) {
@@ -130,8 +134,9 @@ class NftItemPageWidget extends InjectedElementaryParametrizedWidget<
                         return AccentButton(
                           buttonShape: ButtonShape.pill,
                           title: LocaleKeys.transfer.tr(),
-                          onPressed:
-                              item.nft.canTransfer ? wm.onTransferNft : null,
+                          onPressed: item.nft.canTransfer
+                              ? wm.onTransferNft
+                              : null,
                         );
                       },
                     ),
@@ -165,10 +170,7 @@ class NftItemPageWidget extends InjectedElementaryParametrizedWidget<
 }
 
 class _Info extends StatelessWidget {
-  const _Info({
-    required this.item,
-    required this.onViewInExplorer,
-  });
+  const _Info({required this.item, required this.onViewInExplorer});
 
   final NftItem item;
   final ValueChanged<Address> onViewInExplorer;

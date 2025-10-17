@@ -9,10 +9,8 @@ import 'package:injectable/injectable.dart';
 /// [ElementaryModel] for [TabListHeader]
 @injectable
 class TabListHeaderModel extends ElementaryModel {
-  TabListHeaderModel(
-    ErrorHandler errorHandler,
-    this._browserService,
-  ) : super(errorHandler: errorHandler);
+  TabListHeaderModel(ErrorHandler errorHandler, this._browserService)
+    : super(errorHandler: errorHandler);
 
   final BrowserService _browserService;
 

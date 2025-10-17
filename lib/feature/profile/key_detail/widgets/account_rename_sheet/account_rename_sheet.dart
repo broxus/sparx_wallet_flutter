@@ -17,12 +17,14 @@ ModalRoute<void> getRenameAccountSheet(BuildContext context, Address address) {
   );
 }
 
-class AccountRenameSheet extends InjectedElementaryParametrizedWidget<
-    AccountRenameSheetWidgetModel, Address> {
-  const AccountRenameSheet({
-    required Address address,
-    super.key,
-  }) : super(wmFactoryParam: address);
+class AccountRenameSheet
+    extends
+        InjectedElementaryParametrizedWidget<
+          AccountRenameSheetWidgetModel,
+          Address
+        > {
+  const AccountRenameSheet({required Address address, super.key})
+    : super(wmFactoryParam: address);
 
   @override
   Widget build(AccountRenameSheetWidgetModel wm) {

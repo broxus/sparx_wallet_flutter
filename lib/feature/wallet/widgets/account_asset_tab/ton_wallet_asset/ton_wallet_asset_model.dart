@@ -2,6 +2,7 @@ import 'package:app/app/service/service.dart';
 import 'package:app/data/models/models.dart';
 import 'package:elementary/elementary.dart';
 import 'package:injectable/injectable.dart';
+import 'package:money2/money2.dart';
 import 'package:nekoton_repository/nekoton_repository.dart';
 
 @injectable
@@ -32,8 +33,7 @@ class TonWalletAssetModel extends ElementaryModel {
 
   Map<Address, List<AccountBalanceModel>> getBalances(
     NetworkGroup networkGroup,
-  ) =>
-      _balanceStorage.getBalances(networkGroup);
+  ) => _balanceStorage.getBalances(networkGroup);
 
   void setBalances({
     required NetworkGroup networkGroup,

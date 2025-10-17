@@ -14,8 +14,12 @@ import 'package:ui_components_lib/v2/ui_components_lib_v2.dart';
 /// Widget that allows choose account that should be used for browser tab with
 /// specified origin URL.
 /// This widget firstly asks to choose account and then confirms permissions.
-class RequestPermissionsWidget extends InjectedElementaryParametrizedWidget<
-    RequestPermissionsWidgetModel, RequestPermissionsWmParams> {
+class RequestPermissionsWidget
+    extends
+        InjectedElementaryParametrizedWidget<
+          RequestPermissionsWidgetModel,
+          RequestPermissionsWmParams
+        > {
   RequestPermissionsWidget({
     required Uri origin,
     required List<Permission> permissions,
@@ -23,25 +27,29 @@ class RequestPermissionsWidget extends InjectedElementaryParametrizedWidget<
     required Address? previousSelectedAccount,
     super.key,
   }) : super(
-          wmFactoryParam: RequestPermissionsWmParams(
-            origin: origin,
-            permissions: permissions,
-            previousSelectedAccount: previousSelectedAccount,
-          ),
-        );
+         wmFactoryParam: RequestPermissionsWmParams(
+           origin: origin,
+           permissions: permissions,
+           previousSelectedAccount: previousSelectedAccount,
+         ),
+       );
 
   final ScrollController scrollController;
 
   @override
   Widget build(RequestPermissionsWidgetModel wm) => ValueListenableBuilder(
-        valueListenable: wm.stepState,
-        builder: (context, value, child) => switch (value) {
-          RequestPermissionsStep.account =>
-            _SelectAccountWidget(wm, scrollController),
-          RequestPermissionsStep.confirm =>
-            _ConfirmPermissionsWidget(wm, scrollController),
-        },
-      );
+    valueListenable: wm.stepState,
+    builder: (context, value, child) => switch (value) {
+      RequestPermissionsStep.account => _SelectAccountWidget(
+        wm,
+        scrollController,
+      ),
+      RequestPermissionsStep.confirm => _ConfirmPermissionsWidget(
+        wm,
+        scrollController,
+      ),
+    },
+  );
 }
 
 class _SelectAccountWidget extends StatelessWidget {
@@ -64,9 +72,7 @@ class _SelectAccountWidget extends StatelessWidget {
               ValueListenableBuilder(
                 valueListenable: wm.originState,
                 builder: (_, uri, __) {
-                  return WebsiteInfoWidget(
-                    uri: uri,
-                  );
+                  return WebsiteInfoWidget(uri: uri);
                 },
               ),
               PrimaryTextField(
@@ -109,9 +115,8 @@ class _SelectAccountWidget extends StatelessWidget {
                                   onTap: () => wm.onSelectedChanged(account),
                                 );
                         },
-                        separatorBuilder: (_, __) => CommonDivider(
-                          color: theme.colors.border0,
-                        ),
+                        separatorBuilder: (_, __) =>
+                            CommonDivider(color: theme.colors.border0),
                       );
                     },
                   ),
@@ -172,16 +177,11 @@ class _ConfirmPermissionsWidget extends StatelessWidget {
             child: SeparatedColumn(
               spacing: DimensSizeV2.d12,
               children: [
-                AccountInfo(
-                  account: account,
-                  color: theme.colors.background2,
-                ),
+                AccountInfo(account: account, color: theme.colors.background2),
                 ValueListenableBuilder(
                   valueListenable: wm.originState,
                   builder: (_, uri, __) {
-                    return WebsiteInfoWidget(
-                      uri: uri,
-                    );
+                    return WebsiteInfoWidget(uri: uri);
                   },
                 ),
                 PrimaryCard(

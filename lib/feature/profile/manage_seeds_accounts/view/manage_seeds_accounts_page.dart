@@ -32,9 +32,7 @@ class ManageSeedsAccountsPage
           spacing: DimensSizeV2.d16,
           children: [
             Padding(
-              padding: const EdgeInsets.symmetric(
-                horizontal: DimensSizeV2.d40,
-              ),
+              padding: const EdgeInsets.symmetric(horizontal: DimensSizeV2.d40),
               child: Text(
                 LocaleKeys.manageSeedsAndAccounts.tr(),
                 style: theme.textStyles.headingLarge,
@@ -53,8 +51,9 @@ class ManageSeedsAccountsPage
                       color: theme.colors.background1,
                       margin: EdgeInsets.zero,
                       separator: const Padding(
-                        padding:
-                            EdgeInsets.symmetric(vertical: DimensSizeV2.d4),
+                        padding: EdgeInsets.symmetric(
+                          vertical: DimensSizeV2.d4,
+                        ),
                         child: CommonDivider(),
                       ),
                       titleText: LocaleKeys.seedPhrases.tr(),
@@ -86,11 +85,7 @@ class ManageSeedsAccountsPage
 }
 
 class _SeedTitle extends StatelessWidget {
-  const _SeedTitle({
-    required this.seed,
-    required this.isActive,
-    super.key,
-  });
+  const _SeedTitle({required this.seed, required this.isActive, super.key});
 
   final Seed seed;
   final bool isActive;
@@ -105,9 +100,7 @@ class _SeedTitle extends StatelessWidget {
           padding: EdgeInsets.zero,
           onPressed: () {
             context.compassContinue(
-              SeedDetailRouteData(
-                publicKey: seed.publicKey,
-              ),
+              SeedDetailRouteData(publicKey: seed.publicKey),
             );
           },
           leading: CommonBackgroundedIconWidget.svg(

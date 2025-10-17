@@ -9,9 +9,8 @@ sealed class ConfirmMultisigTransactionState
   const factory ConfirmMultisigTransactionState.prepare() =
       ConfirmMultisigTransactionStatePrepare;
 
-  const factory ConfirmMultisigTransactionState.error({
-    required Object error,
-  }) = ConfirmMultisigTransactionStateError;
+  const factory ConfirmMultisigTransactionState.error({required Object error}) =
+      ConfirmMultisigTransactionStateError;
 
   const factory ConfirmMultisigTransactionState.ready({
     required PublicKey custodian,

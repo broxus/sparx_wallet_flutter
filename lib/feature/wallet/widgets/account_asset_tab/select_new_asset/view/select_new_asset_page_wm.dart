@@ -11,8 +11,13 @@ import 'package:injectable/injectable.dart';
 import 'package:nekoton_repository/nekoton_repository.dart';
 
 @injectable
-class SelectNewAssetPageWidgetModel extends CustomWidgetModelParametrized<
-    SelectNewAssetPage, SelectNewAssetPageModel, Address> {
+class SelectNewAssetPageWidgetModel
+    extends
+        CustomWidgetModelParametrized<
+          SelectNewAssetPage,
+          SelectNewAssetPageModel,
+          Address
+        > {
   SelectNewAssetPageWidgetModel(super.model);
 
   late final focus = createFocusNode();
@@ -42,15 +47,17 @@ class SelectNewAssetPageWidgetModel extends CustomWidgetModelParametrized<
     super.initWidgetModel();
 
     // Account stream
-    _accountSub =
-        model.accountStreamForAddress(wmParams.value).listen((KeyAccount? acc) {
+    _accountSub = model.accountStreamForAddress(wmParams.value).listen((
+      KeyAccount? acc,
+    ) {
       _cachedAccount = acc;
       _updateState();
     });
 
     // Contracts stream
-    _contractsSub =
-        model.availableContractsSorted(wmParams.value).listen((list) {
+    _contractsSub = model.availableContractsSorted(wmParams.value).listen((
+      list,
+    ) {
       _originalContracts = list;
       _updateState();
     });
@@ -132,10 +139,11 @@ class SelectNewAssetPageWidgetModel extends CustomWidgetModelParametrized<
       _originalContracts.firstWhereOrNull((c) => c.$1.address == address)?.$2 ??
       false;
 
-  bool _originalDisabled(Address address) => !(_originalContracts
-          .firstWhereOrNull((c) => c.$1.address == address)
-          ?.$2 ??
-      true);
+  bool _originalDisabled(Address address) =>
+      !(_originalContracts
+              .firstWhereOrNull((c) => c.$1.address == address)
+              ?.$2 ??
+          true);
 
   bool _contractState((TokenContractAsset, bool) pair) {
     if (pair.$2 && _contractsToDisable.contains(pair.$1.address)) return false;

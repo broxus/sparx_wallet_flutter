@@ -9,10 +9,7 @@ import 'package:ui_components_lib/ui_components_lib.dart';
 /// password before deriving keys.
 ///
 /// **Hint:** do not call for Ledger.
-void showDeriveKeysSheetPassword(
-  BuildContext context,
-  PublicKey publicKey,
-) {
+void showDeriveKeysSheetPassword(BuildContext context, PublicKey publicKey) {
   showCommonBottomSheet<void>(
     context: context,
     title: LocaleKeys.enterPasswordTo.tr(
@@ -25,10 +22,7 @@ void showDeriveKeysSheetPassword(
 
 /// This is a widget that displays password field to derive keys
 class DeriveKeysEnterPasswordSheet extends StatelessWidget {
-  const DeriveKeysEnterPasswordSheet({
-    required this.publicKey,
-    super.key,
-  });
+  const DeriveKeysEnterPasswordSheet({required this.publicKey, super.key});
 
   final PublicKey publicKey;
 

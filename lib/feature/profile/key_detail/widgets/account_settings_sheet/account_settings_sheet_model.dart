@@ -24,9 +24,7 @@ class AccountSettingsSheetModel extends ElementaryModel {
       _nekotonRepository.seedList.findAccountByAddress(address);
 
   void copyAddress(Address address) {
-    Clipboard.setData(
-      ClipboardData(text: address.address),
-    );
+    Clipboard.setData(ClipboardData(text: address.address));
     _messengerService.show(
       Message.successful(
         message: LocaleKeys.valueCopiedExclamation.tr(

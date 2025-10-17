@@ -19,10 +19,10 @@ const _resultMessageQueryParam = 'resultMessage';
 @Singleton(as: CompassBaseRoute)
 class TonWalletSendRoute extends CompassRoute<TonWalletSendRouteData> {
   TonWalletSendRoute()
-      : super(
-          path: '/ton-send',
-          builder: (context, data, _) => TonWalletSendWidget(data: data),
-        );
+    : super(
+        path: '/ton-send',
+        builder: (context, data, _) => TonWalletSendWidget(data: data),
+      );
 
   @override
   TonWalletSendRouteData fromQueryParams(Map<String, String> queryParams) {
@@ -66,7 +66,7 @@ class TonWalletSendRouteData implements CompassRouteDataQuery {
   final Address destination;
 
   /// Amount of tokens that should be sent, to convert Fixed to BigInt, use
-  /// [Fixed.minorUnits].
+  /// Fixed.minorUnits.
   final BigInt amount;
 
   /// If true - after transaction send screen will be popped with true-result

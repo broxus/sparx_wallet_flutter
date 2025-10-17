@@ -7,9 +7,7 @@ import 'package:ui_components_lib/v2/ui_components_lib_v2.dart';
 
 class ConnectionFailScreen
     extends InjectedElementaryWidget<ConnectionFailWidgetModel> {
-  const ConnectionFailScreen({
-    super.key,
-  });
+  const ConnectionFailScreen({super.key});
 
   @override
   Widget build(ConnectionFailWidgetModel wm) {

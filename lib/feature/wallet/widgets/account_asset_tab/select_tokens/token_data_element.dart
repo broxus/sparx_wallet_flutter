@@ -1,5 +1,5 @@
 import 'package:app/data/models/models.dart';
-import 'package:nekoton_repository/nekoton_repository.dart';
+import 'package:money2/money2.dart';
 
 class TokenDataElement {
   TokenDataElement({

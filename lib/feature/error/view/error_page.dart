@@ -5,10 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:ui_components_lib/ui_components_lib.dart';
 
 class ErrorPage extends StatefulWidget {
-  const ErrorPage({
-    required this.isOnboarding,
-    super.key,
-  });
+  const ErrorPage({required this.isOnboarding, super.key});
 
   final bool isOnboarding;
 
@@ -22,13 +19,9 @@ class _ErrorPageState extends State<ErrorPage> {
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((_) {
       if (widget.isOnboarding) {
-        context.compassPointNamed(
-          const OnBoardingRouteData(),
-        );
+        context.compassPointNamed(const OnBoardingRouteData());
       } else {
-        context.compassPointNamed(
-          const WalletRouteData(),
-        );
+        context.compassPointNamed(const WalletRouteData());
       }
     });
   }
@@ -36,9 +29,7 @@ class _ErrorPageState extends State<ErrorPage> {
   @override
   Widget build(BuildContext context) {
     return DecoratedBox(
-      decoration: BoxDecoration(
-        color: context.themeStyleV2.colors.background0,
-      ),
+      decoration: BoxDecoration(color: context.themeStyleV2.colors.background0),
     );
   }
 }

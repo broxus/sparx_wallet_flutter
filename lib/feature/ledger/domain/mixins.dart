@@ -13,9 +13,9 @@ class BleAvailabilityModelDelegate {
     required LedgerService ledgerService,
     required MessengerService messengerService,
     required AppPermissionsService permissionsService,
-  })  : _ledgerService = ledgerService,
-        _messengerService = messengerService,
-        _permissionsService = permissionsService;
+  }) : _ledgerService = ledgerService,
+       _messengerService = messengerService,
+       _permissionsService = permissionsService;
 
   final LedgerService _ledgerService;
   final MessengerService _messengerService;
@@ -43,8 +43,11 @@ mixin BleAvailabilityModelMixin on ElementaryModel {
   void showMessage(Message message) => delegate.showMessage(message);
 }
 
-mixin BleAvailabilityWmMixin<W extends ElementaryWidget,
-    M extends BleAvailabilityModelMixin> on WidgetModel<W, M> {
+mixin BleAvailabilityWmMixin<
+  W extends ElementaryWidget,
+  M extends BleAvailabilityModelMixin
+>
+    on WidgetModel<W, M> {
   Future<bool> checkBluetoothAvailability() async {
     final hasPermissions = await checkBluetoothPermissions();
     if (!hasPermissions) return false;
@@ -88,11 +91,7 @@ mixin BleAvailabilityWmMixin<W extends ElementaryWidget,
     );
     if (state != BluetoothAdapterState.on &&
         state != BluetoothAdapterState.turningOn) {
-      model.showMessage(
-        Message.error(
-          message: LocaleKeys.bluetoothIsOff.tr(),
-        ),
-      );
+      model.showMessage(Message.error(message: LocaleKeys.bluetoothIsOff.tr()));
       return false;
     }
 

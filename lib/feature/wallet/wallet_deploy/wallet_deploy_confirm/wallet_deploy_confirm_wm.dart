@@ -16,10 +16,14 @@ import 'package:nekoton_repository/nekoton_repository.dart';
 import 'package:ui_components_lib/v2/ui_components_lib_v2.dart';
 
 @injectable
-class WalletDeployConfirmWidgetModel extends CustomWidgetModelParametrized<
-    WalletDeployConfirmScreen,
-    WalletDeployConfirmModel,
-    WalletDeployConfirmRouteData> with BleAvailabilityWmMixin {
+class WalletDeployConfirmWidgetModel
+    extends
+        CustomWidgetModelParametrized<
+          WalletDeployConfirmScreen,
+          WalletDeployConfirmModel,
+          WalletDeployConfirmRouteData
+        >
+    with BleAvailabilityWmMixin {
   WalletDeployConfirmWidgetModel(super.model);
 
   final _logger = Logger('WalletDeployConfirmWidgetModel');
@@ -37,8 +41,9 @@ class WalletDeployConfirmWidgetModel extends CustomWidgetModelParametrized<
   late final ValueNotifier<bool> _isLoadingState = createValueNotifier(true);
   ValueListenable<bool> get isLoadingState => _isLoadingState;
 
-  late final ValueNotifier<String?> _errorMessageState =
-      createValueNotifier(null);
+  late final ValueNotifier<String?> _errorMessageState = createValueNotifier(
+    null,
+  );
   ValueNotifier<String?> get errorMessageState => _errorMessageState;
 
   late final ValueNotifier<bool> _hasSufficientBalanceState =
@@ -65,8 +70,9 @@ class WalletDeployConfirmWidgetModel extends CustomWidgetModelParametrized<
       createWmParamsNotifier((params) => params.custodians);
   late final ValueListenable<int?> requireConfirmationsState =
       createWmParamsNotifier((params) => params.requireConfirmations);
-  late final ValueListenable<PublicKey> publicKeyState =
-      createWmParamsNotifier((params) => params.publicKey);
+  late final ValueListenable<PublicKey> publicKeyState = createWmParamsNotifier(
+    (params) => params.publicKey,
+  );
 
   Address get _address => wmParams.value.address;
   Address get address => _address;

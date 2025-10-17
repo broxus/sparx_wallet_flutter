@@ -10,12 +10,17 @@ import 'package:nekoton_repository/nekoton_repository.dart';
 import 'package:ui_components_lib/ui_components_lib.dart';
 
 @injectable
-class ManageSeedsAccountsPageWidgetModel extends CustomWidgetModel<
-    ManageSeedsAccountsPage, ManageSeedsAccountsPageModel> {
+class ManageSeedsAccountsPageWidgetModel
+    extends
+        CustomWidgetModel<
+          ManageSeedsAccountsPage,
+          ManageSeedsAccountsPageModel
+        > {
   ManageSeedsAccountsPageWidgetModel(super.model);
 
-  late final _currentSeedState =
-      createNotifierFromStream(model.currentSeedStream);
+  late final _currentSeedState = createNotifierFromStream(
+    model.currentSeedStream,
+  );
   late final _seedsState = createNotifierFromStream(model.seedsStream);
 
   ListenableState<Seed?> get currentSeedState => _currentSeedState;

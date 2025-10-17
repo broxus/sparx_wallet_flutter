@@ -9,9 +9,7 @@ import 'package:injectable/injectable.dart';
 /// [WidgetModel] для [Toolbar]
 @injectable
 class ToolbarWidgetModel extends CustomWidgetModel<Toolbar, ToolbarModel> {
-  ToolbarWidgetModel(
-    super.model,
-  );
+  ToolbarWidgetModel(super.model);
 
   late final _backState = createNotifier(true);
   late final _forwardState = createNotifier(true);

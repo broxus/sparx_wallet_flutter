@@ -27,7 +27,8 @@ class CustodiansSettingsModel extends ElementaryModel {
       wallet.custodians
           ?.map(
             (key) => CustodianData(
-              name: _storageService.getValue<String>(
+              name:
+                  _storageService.getValue<String>(
                     StorageKey.nameCustodian(key.toString()),
                   ) ??
                   key.toEllipseString(),
@@ -39,16 +40,11 @@ class CustodiansSettingsModel extends ElementaryModel {
 
   void showSuccessfulMessage() {
     _messengerService.show(
-      Message.successful(
-        message: LocaleKeys.custodianRenamed.tr(),
-      ),
+      Message.successful(message: LocaleKeys.custodianRenamed.tr()),
     );
   }
 
   Future<void> rename(PublicKey key, String newName) async {
-    _storageService.addValue(
-      StorageKey.nameCustodian(key.publicKey),
-      newName,
-    );
+    _storageService.addValue(StorageKey.nameCustodian(key.publicKey), newName);
   }
 }

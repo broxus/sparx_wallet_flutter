@@ -22,11 +22,14 @@ class ManualBackUpWmParams {
 }
 
 @injectable
-class ManualBackUpWidgetModel extends CustomWidgetModelParametrized<
-    ContentManualBackup, ManualBackUpModel, ManualBackUpWmParams> {
-  ManualBackUpWidgetModel(
-    super.model,
-  );
+class ManualBackUpWidgetModel
+    extends
+        CustomWidgetModelParametrized<
+          ContentManualBackup,
+          ManualBackUpModel,
+          ManualBackUpWmParams
+        > {
+  ManualBackUpWidgetModel(super.model);
 
   ThemeStyleV2 get themeStyle => context.themeStyleV2;
 
@@ -37,9 +40,7 @@ class ManualBackUpWidgetModel extends CustomWidgetModelParametrized<
       createWmParamsNotifier<List<String>>((it) => it.words);
 
   Future<void> copySeed() async {
-    await Clipboard.setData(
-      ClipboardData(text: wordsState.value.join(' ')),
-    );
+    await Clipboard.setData(ClipboardData(text: wordsState.value.join(' ')));
     model.showMessageAboutCopy();
   }
 

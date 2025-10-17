@@ -25,8 +25,9 @@ class BootstrapFailedRerunView
               children: [
                 Text(
                   LocaleKeys.initializationFailedDescription.tr(),
-                  style:
-                      StyleRes.addRegular.copyWith(color: colors.textPrimary),
+                  style: StyleRes.addRegular.copyWith(
+                    color: colors.textPrimary,
+                  ),
                   textAlign: TextAlign.center,
                 ),
                 Column(

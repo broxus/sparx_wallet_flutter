@@ -16,10 +16,8 @@ ModalRoute<void> exportSeedSavePhraseRoute(
   return commonBottomSheetRoute(
     titleTextStyle: titleTextStyle,
     title: LocaleKeys.saveSeedPhrase.tr(),
-    body: (_, controller) => ExportSeedSavePhrase(
-      phrase: phrase,
-      controller: controller,
-    ),
+    body: (_, controller) =>
+        ExportSeedSavePhrase(phrase: phrase, controller: controller),
   );
 }
 
@@ -70,9 +68,7 @@ class ExportSeedSavePhrase extends StatelessWidget {
           title: LocaleKeys.copyWords.tr(),
           onPressed: () {
             inject<MessengerService>().show(
-              Message.successful(
-                message: LocaleKeys.copiedExclamation.tr(),
-              ),
+              Message.successful(message: LocaleKeys.copiedExclamation.tr()),
             );
             Clipboard.setData(ClipboardData(text: phrase.join(' ')));
           },
@@ -100,9 +96,7 @@ class ExportSeedSavePhrase extends StatelessWidget {
             mainAxisSize: MainAxisSize.min,
             children: phrase
                 .getRange(lengthHalf, phrase.length)
-                .mapIndexed(
-                  (i, word) => _textPair(word, i + lengthHalf + 1),
-                )
+                .mapIndexed((i, word) => _textPair(word, i + lengthHalf + 1))
                 .toList(),
           ),
         ),

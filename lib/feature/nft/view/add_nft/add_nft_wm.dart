@@ -13,8 +13,9 @@ import 'package:ui_components_lib/ui_components_lib.dart';
 class AddNftWidgetModel extends CustomWidgetModel<AddNftWidget, AddNftModel> {
   AddNftWidgetModel(super.model);
 
-  late final _currentAccountState =
-      createNotifierFromStream(model.currentAccount);
+  late final _currentAccountState = createNotifierFromStream(
+    model.currentAccount,
+  );
   late final _loadingState = createNotifier(false);
   late final _errorState = createNotifier<String>();
 

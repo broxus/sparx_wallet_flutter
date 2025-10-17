@@ -14,17 +14,16 @@ import 'package:flutter_blue_plus/flutter_blue_plus.dart';
 
 ImportLedgerWidgetModel defaultImportLedgerWidgetModelFactory(
   BuildContext context,
-) =>
-    ImportLedgerWidgetModel(
-      ImportLedgerModel(
-        createPrimaryErrorHandler(context),
-        inject(),
-        inject(),
-        inject(),
-        inject(),
-        inject(),
-      ),
-    );
+) => ImportLedgerWidgetModel(
+  ImportLedgerModel(
+    createPrimaryErrorHandler(context),
+    inject(),
+    inject(),
+    inject(),
+    inject(),
+    inject(),
+  ),
+);
 
 class ImportLedgerWidgetModel
     extends CustomWidgetModel<ImportLedgerWidget, ImportLedgerModel>
@@ -134,8 +133,9 @@ class ImportLedgerWidgetModel
 
     await checkBluetoothAdapter();
 
-    _adapterStateSubscription =
-        model.adapterState.distinct().listen((state) async {
+    _adapterStateSubscription = model.adapterState.distinct().listen((
+      state,
+    ) async {
       if (state == BluetoothAdapterState.on) {
         await model.startScan();
       } else if (state == BluetoothAdapterState.off) {

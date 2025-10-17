@@ -39,7 +39,9 @@ class NftCollectionPageModel extends ElementaryModel {
       currentAccountStream.mapNotNull((e) => e?.address).first;
 
   Stream<NftTransferEvent> getNftTransferEventStream(Address collection) =>
-      currentAccountStream.mapNotNull((e) => e?.address).switchMap(
+      currentAccountStream
+          .mapNotNull((e) => e?.address)
+          .switchMap(
             (owner) => _nftService.getNftTransferEventStream(
               owner: owner,
               collection: collection,
@@ -52,21 +54,17 @@ class NftCollectionPageModel extends ElementaryModel {
   Future<NftList> getNtfList({
     required Address collection,
     String? continuation,
-  }) async =>
-      _nekotonRepository.getNtfList(
-        owner: await _owner,
-        collection: collection,
-        limit: _limit,
-        continuation: continuation,
-      );
+  }) async => _nekotonRepository.getNtfList(
+    owner: await _owner,
+    collection: collection,
+    limit: _limit,
+    continuation: continuation,
+  );
 
   void setDisplayMode(NftDisplayMode mode) => _nftService.setDisplayMode(mode);
 
   Future<void> hideCollection(Address collection) async {
-    _nftService.hideCollection(
-      account: await _owner,
-      collection: collection,
-    );
+    _nftService.hideCollection(account: await _owner, collection: collection);
 
     _messengerService.show(
       Message.successful(message: LocaleKeys.nftCollectionHidden.tr()),

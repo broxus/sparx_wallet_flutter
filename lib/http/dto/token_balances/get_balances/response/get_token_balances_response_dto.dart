@@ -5,9 +5,7 @@ part 'get_token_balances_response_dto.g.dart';
 
 @JsonSerializable()
 class GetTokenBalancesResponseDto {
-  const GetTokenBalancesResponseDto({
-    required this.balances,
-  });
+  const GetTokenBalancesResponseDto({required this.balances});
 
   factory GetTokenBalancesResponseDto.fromJson(Map<String, dynamic> json) =>
       _$GetTokenBalancesResponseDtoFromJson(json);

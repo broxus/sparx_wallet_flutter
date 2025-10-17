@@ -4,9 +4,7 @@ import 'package:logging/logging.dart';
 
 @injectable
 class NtpConfigurator {
-  NtpConfigurator(
-    this._ntpService,
-  );
+  NtpConfigurator(this._ntpService);
 
   final NtpService _ntpService;
 

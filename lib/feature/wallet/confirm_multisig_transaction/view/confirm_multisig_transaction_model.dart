@@ -2,6 +2,7 @@ import 'package:app/feature/ledger/ledger.dart';
 import 'package:app/utils/utils.dart';
 import 'package:elementary/elementary.dart';
 import 'package:injectable/injectable.dart';
+import 'package:money2/money2.dart';
 import 'package:nekoton_repository/nekoton_repository.dart' hide Message;
 import 'package:rxdart/rxdart.dart';
 
@@ -30,40 +31,34 @@ class ConfirmMultisigTransactionModel extends ElementaryModel
   SeedKey? getSeedKey(PublicKey publicKey) =>
       _nekotonRepository.seedList.findSeedKey(publicKey);
 
-  Future<TonWalletState> getWalletState(Address address) =>
-      _nekotonRepository.walletsMapStream
-          .mapNotNull((wallets) => wallets[address])
-          .first;
+  Future<TonWalletState> getWalletState(Address address) => _nekotonRepository
+      .walletsMapStream
+      .mapNotNull((wallets) => wallets[address])
+      .first;
 
   Future<BigInt> estimateFees({
     required Address address,
     required UnsignedMessage message,
-  }) =>
-      _nekotonRepository.estimateFees(
-        address: address,
-        message: message,
-      );
+  }) => _nekotonRepository.estimateFees(address: address, message: message);
 
   Future<List<TxTreeSimulationErrorItem>> simulateTransactionTree({
     required Address address,
     required UnsignedMessage message,
-  }) =>
-      _nekotonRepository.simulateTransactionTree(
-        address: address,
-        message: message,
-      );
+  }) => _nekotonRepository.simulateTransactionTree(
+    address: address,
+    message: message,
+  );
 
   Future<UnsignedMessage> prepareConfirmTransaction({
     required Address address,
     required PublicKey publicKey,
     required String transactionId,
-  }) =>
-      _nekotonRepository.prepareConfirmTransaction(
-        address: address,
-        publicKey: publicKey,
-        transactionId: transactionId,
-        expiration: defaultSendTimeout,
-      );
+  }) => _nekotonRepository.prepareConfirmTransaction(
+    address: address,
+    publicKey: publicKey,
+    transactionId: transactionId,
+    expiration: defaultSendTimeout,
+  );
 
   Future<Future<Transaction>> sendMessage({
     required Address address,

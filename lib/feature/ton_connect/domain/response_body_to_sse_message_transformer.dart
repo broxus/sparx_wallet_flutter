@@ -5,8 +5,8 @@ import 'package:app/feature/ton_connect/ton_connect.dart';
 
 StreamTransformer<Uint8List, List<int>> _unit8Transformer =
     StreamTransformer.fromHandlers(
-  handleData: (data, sink) => sink.add(List<int>.from(data)),
-);
+      handleData: (data, sink) => sink.add(List<int>.from(data)),
+    );
 
 class ResponseBodyToSseMessageTransformer
     implements StreamTransformer<Uint8List, SseMessage> {
@@ -60,8 +60,9 @@ class _MessageListener {
       // event is done
       // strip ending newline from data
       if (_currentEvent.data != null) {
-        final match =
-            _removeEndingNewlineRegex.firstMatch(_currentEvent.data!)!;
+        final match = _removeEndingNewlineRegex.firstMatch(
+          _currentEvent.data!,
+        )!;
         _currentEvent.data = match.group(1);
       }
 

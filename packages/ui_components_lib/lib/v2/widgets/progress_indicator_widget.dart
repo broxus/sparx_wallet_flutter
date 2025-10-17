@@ -3,11 +3,7 @@ import 'package:ui_components_lib/ui_components_lib.dart';
 import 'package:ui_components_lib/v2/ui_components_lib_v2.dart';
 
 class ProgressIndicatorWidget extends StatelessWidget {
-  const ProgressIndicatorWidget({
-    required this.size,
-    this.color,
-    super.key,
-  });
+  const ProgressIndicatorWidget({required this.size, this.color, super.key});
 
   final double size;
   final Color? color;

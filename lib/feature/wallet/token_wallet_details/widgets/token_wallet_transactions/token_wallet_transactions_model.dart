@@ -30,8 +30,11 @@ class TokenWalletTransactionsModel extends ElementaryModel {
     Address owner,
     Address rootTokenContract,
   ) {
-    return Rx.combineLatest2<TokenWalletState?, TransportStrategy,
-        (TokenWalletState?, TransportStrategy)>(
+    return Rx.combineLatest2<
+      TokenWalletState?,
+      TransportStrategy,
+      (TokenWalletState?, TransportStrategy)
+    >(
       _nekotonRepository.tokenWalletsStream.map(
         (wallets) => wallets.firstWhereOrNull(
           (w) => w.owner == owner && w.rootTokenContract == rootTokenContract,
@@ -43,7 +46,7 @@ class TokenWalletTransactionsModel extends ElementaryModel {
   }
 
   Stream<List<TransactionWithData<TokenWalletTransaction?>>>
-      getTransactionsStream(
+  getTransactionsStream(
     Transport transport,
     Address owner,
     Address rootTokenContract,

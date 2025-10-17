@@ -14,9 +14,7 @@ import 'package:ui_components_lib/v2/text_styles_v2.dart';
 @injectable
 class NoInternetScreenWidgetModel
     extends CustomWidgetModel<NoInternetScreen, NoInternetScreenModel> {
-  NoInternetScreenWidgetModel(
-    super.model,
-  );
+  NoInternetScreenWidgetModel(super.model);
 
   ThemeStyleV2 get _theme => context.themeStyleV2;
 

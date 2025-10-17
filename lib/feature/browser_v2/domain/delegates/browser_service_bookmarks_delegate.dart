@@ -14,10 +14,7 @@ abstract interface class BrowserServiceBookmarks {
 
   List<BrowserBookmarkItem> get browserBookmarks;
 
-  void removeBrowserBookmarkItem(
-    String id, {
-    bool needUndo = true,
-  });
+  void removeBrowserBookmarkItem(String id, {bool needUndo = true});
 
   void reorder(int oldIndex, int newIndex);
 
@@ -53,9 +50,8 @@ class BrowserServiceBookmarksDelegate
 
   // TODO(knightsforce): check need it?
   List<BrowserBookmarkItem> get sortedBookmarks {
-    return [...browserBookmarks]..sort(
-        (a, b) => (b.sortingOrder - a.sortingOrder).sign.toInt(),
-      );
+    return [...browserBookmarks]
+      ..sort((a, b) => (b.sortingOrder - a.sortingOrder).sign.toInt());
   }
 
   void init() {
@@ -75,10 +71,7 @@ class BrowserServiceBookmarksDelegate
 
   void createBrowserBookmark(Uri uri, String? title) {
     setBrowserBookmarkItem(
-      BrowserBookmarkItem.create(
-        url: uri,
-        title: title ?? '',
-      ),
+      BrowserBookmarkItem.create(url: uri, title: title ?? ''),
     );
   }
 
@@ -138,10 +131,7 @@ class BrowserServiceBookmarksDelegate
   }
 
   @override
-  void removeBrowserBookmarkItem(
-    String id, {
-    bool needUndo = true,
-  }) {
+  void removeBrowserBookmarkItem(String id, {bool needUndo = true}) {
     final index = browserBookmarks.indexWhere((item) => item.id == id);
 
     if (index == -1) {
@@ -172,13 +162,12 @@ class BrowserServiceBookmarksDelegate
   }
 
   /// Clear browser bookmarks
-  Future<void> clearBookmarks({
-    bool needUndo = true,
-  }) async {
+  Future<void> clearBookmarks({bool needUndo = true}) async {
     await _bookmarksStorageService.clear();
 
-    final savedBrowserBookmarks =
-        needUndo ? [...browserBookmarks] : <BrowserBookmarkItem>[];
+    final savedBrowserBookmarks = needUndo
+        ? [...browserBookmarks]
+        : <BrowserBookmarkItem>[];
 
     _browserBookmarksSubject.add([]);
 
@@ -215,8 +204,10 @@ class BrowserServiceBookmarksDelegate
   }
 
   void _fetchBookmarksFromStorage() {
-    final result =
-        _bookmarksStorageService.getBrowserBookmarks().toSet().toList();
+    final result = _bookmarksStorageService
+        .getBrowserBookmarks()
+        .toSet()
+        .toList();
 
     _browserBookmarksSubject.add(result);
   }

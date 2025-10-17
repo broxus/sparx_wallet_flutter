@@ -10,11 +10,14 @@ import 'package:ui_components_lib/ui_components_lib.dart';
 
 /// [WidgetModel] for [DeleteSeedSheet]
 @injectable
-class DeleteSeedSheetWidgetModel extends CustomWidgetModelParametrized<
-    DeleteSeedSheet, DeleteSeedSheetModel, DeleteSeedSheetParams> {
-  DeleteSeedSheetWidgetModel(
-    super.model,
-  );
+class DeleteSeedSheetWidgetModel
+    extends
+        CustomWidgetModelParametrized<
+          DeleteSeedSheet,
+          DeleteSeedSheetModel,
+          DeleteSeedSheetParams
+        > {
+  DeleteSeedSheetWidgetModel(super.model);
 
   ColorsPaletteV2 get colors => context.themeStyleV2.colors;
 

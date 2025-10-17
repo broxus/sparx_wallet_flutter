@@ -20,15 +20,15 @@ class ClipboardPasteButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => PasteButton(
-        padding: padding,
-        buttonSize: buttonSize,
-        value: value,
-        onClear: onClear,
-        onPaste: () async {
-          final text = await getClipBoardText();
-          if (text != null) {
-            onPaste(text);
-          }
-        },
-      );
+    padding: padding,
+    buttonSize: buttonSize,
+    value: value,
+    onClear: onClear,
+    onPaste: () async {
+      final text = await getClipBoardText();
+      if (text != null) {
+        onPaste(text);
+      }
+    },
+  );
 }

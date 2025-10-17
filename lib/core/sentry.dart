@@ -55,32 +55,27 @@ class SentryWorker {
       return;
     }
 
-    return SentryFlutter.init(
-      (options) {
-        options
-          ..dsn = dsnDefineEnv
-          ..tracesSampleRate = 1
-          ..ignoreErrors = [
-            'AnyhowException(Account not exists)',
-            'AnyhowException(Network error)',
-          ]
-          ..beforeSend = (event, hint) {
-            final error = event.throwable.toString();
-            if (error == 'AnyhowException(Account not exists)' ||
-                error == 'AnyhowException(Network error)') {
-              return null; // Ignore these errors
-            }
+    return SentryFlutter.init((options) {
+      options
+        ..dsn = dsnDefineEnv
+        ..tracesSampleRate = 1
+        ..ignoreErrors = [
+          'AnyhowException(Account not exists)',
+          'AnyhowException(Network error)',
+        ]
+        ..beforeSend = (event, hint) {
+          final error = event.throwable.toString();
+          if (error == 'AnyhowException(Account not exists)' ||
+              error == 'AnyhowException(Network error)') {
+            return null; // Ignore these errors
+          }
 
-            return event;
-          };
-      },
-    );
+          return event;
+        };
+    });
   }
 
-  void captureException(
-    dynamic exception, {
-    dynamic stackTrace,
-  }) {
+  void captureException(dynamic exception, {dynamic stackTrace}) {
     if (!_isUseSentry) {
       return;
     }
@@ -91,28 +86,30 @@ class SentryWorker {
     if (_nekotonRepository == null || _generalStorageService == null) return;
 
     Rx.combineLatest3(
-      _nekotonRepository!.currentTransportStream,
-      _nekotonRepository!.accountsStorage.accountsStream,
-      _generalStorageService!.currentAddressStream,
-      (transport, accounts, address) => (transport, accounts, address),
-    ).map((event) {
-      final (transport, accounts, address) = event;
-      final account = accounts.firstWhereOrNull((it) => it.address == address);
-      return (transport, account);
-    }).listen((event) {
-      final (transport, account) = event;
-      Sentry.configureScope((scope) {
-        scope
-          ..setUser(
-            account?.let(
-              (it) => SentryUser(
-                id: it.address.toString(),
-                data: it.toJson(),
-              ),
-            ),
-          )
-          ..setContexts('network', transport.networkName);
-      });
-    });
+          _nekotonRepository!.currentTransportStream,
+          _nekotonRepository!.accountsStorage.accountsStream,
+          _generalStorageService!.currentAddressStream,
+          (transport, accounts, address) => (transport, accounts, address),
+        )
+        .map((event) {
+          final (transport, accounts, address) = event;
+          final account = accounts.firstWhereOrNull(
+            (it) => it.address == address,
+          );
+          return (transport, account);
+        })
+        .listen((event) {
+          final (transport, account) = event;
+          Sentry.configureScope((scope) {
+            scope
+              ..setUser(
+                account?.let(
+                  (it) =>
+                      SentryUser(id: it.address.toString(), data: it.toJson()),
+                ),
+              )
+              ..setContexts('network', transport.networkName);
+          });
+        });
   }
 }

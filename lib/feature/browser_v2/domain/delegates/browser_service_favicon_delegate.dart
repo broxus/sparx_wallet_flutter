@@ -16,9 +16,7 @@ abstract interface class BrowserServiceFavicon {
 @injectable
 class BrowserServiceFaviconDelegate
     implements BrowserDelegate, BrowserServiceFavicon {
-  BrowserServiceFaviconDelegate(
-    this._browserFaviconURLStorageService,
-  );
+  BrowserServiceFaviconDelegate(this._browserFaviconURLStorageService);
 
   final BrowserFaviconURLStorageService _browserFaviconURLStorageService;
 
@@ -35,8 +33,10 @@ class BrowserServiceFaviconDelegate
     var iconUrl = await _browserFaviconURLStorageService.getFaviconURL(url);
 
     if (iconUrl == null) {
-      final loadedUrl =
-          (await FaviconFinder.getBest(url, suffixes: _suffixes))?.url;
+      final loadedUrl = (await FaviconFinder.getBest(
+        url,
+        suffixes: _suffixes,
+      ))?.url;
 
       if (loadedUrl != null) {
         unawaited(

@@ -12,13 +12,7 @@ import 'package:sqlite3/common.dart';
 
 part 'main_database.g.dart';
 
-@DriftDatabase(
-  tables: [
-    MigrationTable,
-    BrowserHistoryTable,
-    PermissionsTable,
-  ],
-)
+@DriftDatabase(tables: [MigrationTable, BrowserHistoryTable, PermissionsTable])
 class MainDatabase extends _$MainDatabase {
   MainDatabase() : super(_openConnection());
 
@@ -27,21 +21,21 @@ class MainDatabase extends _$MainDatabase {
 
   @override
   MigrationStrategy get migration => MigrationStrategy(
-        onCreate: (m) async {
-          await m.createAll();
+    onCreate: (m) async {
+      await m.createAll();
 
-          await customStatement(
-            'CREATE INDEX idx_history_visit_time '
-            'ON browser_history_table(visit_time DESC)',
-          );
-          await customStatement(
-            'CREATE INDEX idx_history_title ON browser_history_table(title)',
-          );
-          await customStatement(
-            'CREATE INDEX idx_history_url ON browser_history_table(url)',
-          );
-        },
+      await customStatement(
+        'CREATE INDEX idx_history_visit_time '
+        'ON browser_history_table(visit_time DESC)',
       );
+      await customStatement(
+        'CREATE INDEX idx_history_title ON browser_history_table(title)',
+      );
+      await customStatement(
+        'CREATE INDEX idx_history_url ON browser_history_table(url)',
+      );
+    },
+  );
 
   static LazyDatabase _openConnection() {
     return LazyDatabase(() async {

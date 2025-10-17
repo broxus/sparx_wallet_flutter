@@ -24,10 +24,9 @@ class NftPageModel extends ElementaryModel {
   Stream<TransportStrategy> get currentTransportStream =>
       _nekotonRepository.currentTransportStream;
 
-  Stream<String?> get marketplaceUrlStream =>
-      _nekotonRepository.currentTransportStream.map(
-        (transport) => transport.nftInformation?.marketplaceUrl,
-      );
+  Stream<String?> get marketplaceUrlStream => _nekotonRepository
+      .currentTransportStream
+      .map((transport) => transport.nftInformation?.marketplaceUrl);
 
   Stream<NftDisplayMode?> get displayModeStream =>
       _nftService.displayModeStream;
@@ -36,8 +35,8 @@ class NftPageModel extends ElementaryModel {
       currentAccountStream.mapNotNull((e) => e?.address);
 
   Stream<NftTransferEvent> getNftTransferEventStream() => _owner.switchMap(
-        (owner) => _nftService.getNftTransferEventStream(owner: owner),
-      );
+    (owner) => _nftService.getNftTransferEventStream(owner: owner),
+  );
 
   Stream<List<PendingNft>> getPendingNftStream() =>
       _owner.switchMap(_nftService.getAccountPendingNftsStream);
@@ -50,12 +49,6 @@ class NftPageModel extends ElementaryModel {
   Future<void> scanNftCollections(Address owner) =>
       _nftService.scanNftCollections(owner);
 
-  void addCollection({
-    required Address account,
-    required Address collection,
-  }) =>
-      _nftService.addCollection(
-        account: account,
-        collection: collection,
-      );
+  void addCollection({required Address account, required Address collection}) =>
+      _nftService.addCollection(account: account, collection: collection);
 }

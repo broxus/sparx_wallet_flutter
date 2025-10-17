@@ -11,8 +11,13 @@ import 'package:injectable/injectable.dart';
 import 'package:nekoton_repository/nekoton_repository.dart';
 
 @injectable
-class CreateSeedWidgetModel extends CustomWidgetModelParametrized<
-    CreateSeedPage, CreateSeedModel, String?> {
+class CreateSeedWidgetModel
+    extends
+        CustomWidgetModelParametrized<
+          CreateSeedPage,
+          CreateSeedModel,
+          String?
+        > {
   CreateSeedWidgetModel(super.model);
 
   late final _seedState = createNotifier<SeedPhraseModel?>();
@@ -40,10 +45,7 @@ class CreateSeedWidgetModel extends CustomWidgetModelParametrized<
 
   void onCheck(SeedPhraseModel seed) {
     context.compassContinue(
-      CheckSeedPhraseRouteData(
-        seedPhrase: seed.phrase,
-        name: wmParams.value,
-      ),
+      CheckSeedPhraseRouteData(seedPhrase: seed.phrase, name: wmParams.value),
     );
   }
 

@@ -64,11 +64,7 @@ class AppLinksService {
     }
 
     try {
-      _linksSubj.add(
-        BrowserAppLinksData(
-          Uri.parse(link),
-        ),
-      );
+      _linksSubj.add(BrowserAppLinksData(Uri.parse(link)));
     } catch (_) {}
   }
 

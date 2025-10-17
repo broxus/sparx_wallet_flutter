@@ -6,9 +6,7 @@ import 'package:flutter/material.dart';
 
 class ProfilePageWidget
     extends InjectedElementaryWidget<ProfilePageWidgetModel> {
-  const ProfilePageWidget({
-    super.key,
-  });
+  const ProfilePageWidget({super.key});
 
   @override
   Widget build(ProfilePageWidgetModel wm) {

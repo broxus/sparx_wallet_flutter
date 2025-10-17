@@ -45,8 +45,4 @@ class UrlActionSheet extends StatelessWidget {
   }
 }
 
-enum BrowserUrlActionValue {
-  copyUrl,
-  addBookmark,
-  clearFromHistory,
-}
+enum BrowserUrlActionValue { copyUrl, addBookmark, clearFromHistory }

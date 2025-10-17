@@ -51,11 +51,7 @@ sealed class TonAppConnection with _$TonAppConnection {
   int get hashCode {
     if (this is TonAppConnectionInjected) {
       final self = this as TonAppConnectionInjected;
-      return Object.hash(
-        runtimeType,
-        self.origin,
-        self.walletAddress,
-      );
+      return Object.hash(runtimeType, self.origin, self.walletAddress);
     } else if (this is TonAppConnectionRemote) {
       final self = this as TonAppConnectionRemote;
       return Object.hash(

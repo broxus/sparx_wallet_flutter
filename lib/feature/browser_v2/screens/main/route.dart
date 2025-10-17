@@ -11,15 +11,13 @@ class BrowserRoute extends CompassRouteParameterless<BrowserRouteData> {
     @Named.from(CreateBrowserGroupRoute)
     CompassBaseRoute createBrowserGroupRoute,
   ) : super(
-          name: 'browser',
-          path: '/browser',
-          isSaveLocation: true,
-          bottomBarState: BottomBarState.expanded,
-          builder: (context, _, __) => const BrowserMainScreen(),
-          compassBaseRoutes: [
-            createBrowserGroupRoute,
-          ],
-        );
+        name: 'browser',
+        path: '/browser',
+        isSaveLocation: true,
+        bottomBarState: BottomBarState.expanded,
+        builder: (context, _, __) => const BrowserMainScreen(),
+        compassBaseRoutes: [createBrowserGroupRoute],
+      );
 
   @override
   BrowserRouteData createData() {

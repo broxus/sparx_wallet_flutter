@@ -14,17 +14,15 @@ class ChooseNetworkRoute extends CompassRoute<ChooseNetworkRouteData> {
     CompassBaseRoute createSeedOnboardingPasswordRoute,
     @Named.from(AddExistingWalletRoute) CompassBaseRoute addExistingWalletRoute,
   ) : super(
-          path: '/choose-network',
-          builder: (context, data, _) {
-            return ChooseNetworkScreen(
-              nextStep: data.nextStep,
-            );
-          },
-          compassBaseRoutes: [
-            createSeedOnboardingPasswordRoute,
-            addExistingWalletRoute,
-          ],
-        );
+        path: '/choose-network',
+        builder: (context, data, _) {
+          return ChooseNetworkScreen(nextStep: data.nextStep);
+        },
+        compassBaseRoutes: [
+          createSeedOnboardingPasswordRoute,
+          addExistingWalletRoute,
+        ],
+      );
 
   @override
   ChooseNetworkRouteData fromQueryParams(Map<String, String> queryParams) {
@@ -37,22 +35,15 @@ class ChooseNetworkRoute extends CompassRoute<ChooseNetworkRouteData> {
 }
 
 /// Enum representing possible next steps after choosing a network
-enum ChooseNetworkNextStep {
-  createSeedPassword,
-  addExistingWallet;
-}
+enum ChooseNetworkNextStep { createSeedPassword, addExistingWallet }
 
 class ChooseNetworkRouteData implements CompassRouteDataQuery {
-  const ChooseNetworkRouteData({
-    required this.nextStep,
-  });
+  const ChooseNetworkRouteData({required this.nextStep});
 
   final ChooseNetworkNextStep nextStep;
 
   @override
   Map<String, String> toQueryParams() {
-    return {
-      _nextStepQueryParam: nextStep.name,
-    };
+    return {_nextStepQueryParam: nextStep.name};
   }
 }

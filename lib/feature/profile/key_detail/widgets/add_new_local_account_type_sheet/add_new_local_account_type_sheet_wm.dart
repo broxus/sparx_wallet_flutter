@@ -21,8 +21,12 @@ class AddNewLocalAccountTypeSheetParams {
 
 @injectable
 class AddNewLocalAccountTypeSheetWidgetModel
-    extends CustomWidgetModelParametrized<AddNewLocalAccountTypeSheet,
-        AddNewLocalAccountTypeSheetModel, AddNewLocalAccountTypeSheetParams> {
+    extends
+        CustomWidgetModelParametrized<
+          AddNewLocalAccountTypeSheet,
+          AddNewLocalAccountTypeSheetModel,
+          AddNewLocalAccountTypeSheetParams
+        > {
   AddNewLocalAccountTypeSheetWidgetModel(super.model);
 
   late final _currentSelectedState = createNotifier<WalletType>();

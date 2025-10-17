@@ -23,10 +23,7 @@ class AccountRenameSheetModel extends ElementaryModel {
     return account?.name ?? '';
   }
 
-  void rename(
-    Address address,
-    String name,
-  ) {
+  void rename(Address address, String name) {
     final account = _nekotonRepository.seedList.findAccountByAddress(address);
     account?.rename(name);
     _messengerService.show(

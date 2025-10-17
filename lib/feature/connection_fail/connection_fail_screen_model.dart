@@ -23,9 +23,7 @@ class ConnectionFailModel extends ElementaryModel {
       await bootstrapService.rerunFailedSteps();
     } catch (e) {
       messengerService.show(
-        Message.error(
-          message: LocaleKeys.initializationRerunFailed.tr(),
-        ),
+        Message.error(message: LocaleKeys.initializationRerunFailed.tr()),
       );
     }
   }

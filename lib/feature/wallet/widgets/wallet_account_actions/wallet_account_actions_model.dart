@@ -31,15 +31,13 @@ class WalletAccountActionsModel extends ElementaryModel {
   Address get nativeTokenAddress =>
       _nekotonRepository.currentTransport.nativeTokenAddress;
 
-  Stream<TonWallet> getWalletStateStream(Address address) =>
-      _nekotonRepository.walletsMapStream.mapNotNull(
-        (wallets) => wallets[address]?.wallet,
-      );
+  Stream<TonWallet> getWalletStateStream(Address address) => _nekotonRepository
+      .walletsMapStream
+      .mapNotNull((wallets) => wallets[address]?.wallet);
 
   Stream<List<StEverWithdrawRequest>> getWithdrawRequestsStream(
     Address address,
-  ) =>
-      _stakingService.withdrawRequestsStream(address);
+  ) => _stakingService.withdrawRequestsStream(address);
 
   Future<List<PublicKey>?> getLocalCustodians(Address address) async {
     try {
@@ -55,11 +53,10 @@ class WalletAccountActionsModel extends ElementaryModel {
   Future<BigInt> estimateDeploymentFees({
     required Address address,
     required UnsignedMessage message,
-  }) =>
-      _nekotonRepository.estimateDeploymentFees(
-        address: address,
-        message: message,
-      );
+  }) => _nekotonRepository.estimateDeploymentFees(
+    address: address,
+    message: message,
+  );
 
   void showMessage(Message message) => _messengerService.show(message);
 }

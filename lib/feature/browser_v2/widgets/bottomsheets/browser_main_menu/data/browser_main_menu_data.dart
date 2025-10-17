@@ -3,21 +3,11 @@ import 'package:flutter/widgets.dart';
 import 'package:lucide_icons_flutter/lucide_icons.dart';
 
 enum BrowserMainMenuData {
-  clearHistory(
-    LucideIcons.trash2,
-  ),
-  newTab(
-    LucideIcons.squarePlus,
-  ),
-  reload(
-    LucideIcons.refreshCw,
-  ),
-  translatePage(
-    LucideIcons.sparkles,
-  ),
-  addBookmark(
-    LucideIcons.bookmarkPlus,
-  );
+  clearHistory(LucideIcons.trash2),
+  newTab(LucideIcons.squarePlus),
+  reload(LucideIcons.refreshCw),
+  translatePage(LucideIcons.sparkles),
+  addBookmark(LucideIcons.bookmarkPlus);
 
   const BrowserMainMenuData(this.icon);
 

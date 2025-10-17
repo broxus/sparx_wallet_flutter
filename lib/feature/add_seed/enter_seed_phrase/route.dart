@@ -17,17 +17,17 @@ class EnterSeedPhraseRoute extends CompassRoute<EnterSeedPhraseRouteData> {
     @Named.from(CreateSeedOnboardingPasswordRoute)
     CompassBaseRoute createSeedOnboardingPasswordRoute,
   ) : super(
-          path: '/enter-seed-phrase',
-          isSaveLocation: true,
-          builder: (context, data, __) => EnterSeedPhraseWidget(
-            seedName: data.seedName,
-            isOnboarding: data.isOnboarding,
-          ),
-          compassBaseRoutes: [
-            createSeedPasswordRoute,
-            createSeedOnboardingPasswordRoute,
-          ],
-        );
+        path: '/enter-seed-phrase',
+        isSaveLocation: true,
+        builder: (context, data, __) => EnterSeedPhraseWidget(
+          seedName: data.seedName,
+          isOnboarding: data.isOnboarding,
+        ),
+        compassBaseRoutes: [
+          createSeedPasswordRoute,
+          createSeedOnboardingPasswordRoute,
+        ],
+      );
 
   @override
   EnterSeedPhraseRouteData fromQueryParams(Map<String, String> queryParams) {

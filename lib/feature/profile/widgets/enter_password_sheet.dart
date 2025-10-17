@@ -15,23 +15,19 @@ Future<String?> showEnterPasswordSheet({
     context: context,
     title: LocaleKeys.enterYourPassword.tr(),
     centerTitle: true,
-    body: (_, __) => _EnterPassword(
-      publicKey: publicKey,
-    ),
+    body: (_, __) => _EnterPassword(publicKey: publicKey),
   );
 }
 
 class _EnterPassword extends StatelessWidget {
-  const _EnterPassword({
-    required this.publicKey,
-  });
+  const _EnterPassword({required this.publicKey});
 
   final PublicKey publicKey;
 
   @override
   Widget build(BuildContext context) => EnterPasswordWidget(
-        publicKey: publicKey,
-        title: LocaleKeys.confirm.tr(),
-        onPasswordEntered: (password) => Navigator.of(context).pop(password),
-      );
+    publicKey: publicKey,
+    title: LocaleKeys.confirm.tr(),
+    onPasswordEntered: (password) => Navigator.of(context).pop(password),
+  );
 }

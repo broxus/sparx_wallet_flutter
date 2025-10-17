@@ -76,9 +76,7 @@ class TonWalletMultisigExpiredTransactionDetailsPage extends StatelessWidget {
             ),
             const SizedBox(height: DimensSizeV2.d32),
             Padding(
-              padding: const EdgeInsets.symmetric(
-                horizontal: DimensSizeV2.d16,
-              ),
+              padding: const EdgeInsets.symmetric(horizontal: DimensSizeV2.d16),
               child: PrimaryButton(
                 title: LocaleKeys.seeInExplorer.tr(),
                 icon: LucideIcons.globe,

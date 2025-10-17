@@ -10,23 +10,25 @@ ConnectEventSuccess _$ConnectEventSuccessFromJson(Map<String, dynamic> json) =>
     ConnectEventSuccess(
       id: json['id'] as String,
       payload: ConnectEventSuccessPayload.fromJson(
-          json['payload'] as Map<String, dynamic>),
+        json['payload'] as Map<String, dynamic>,
+      ),
       $type: json['event'] as String?,
     );
 
 Map<String, dynamic> _$ConnectEventSuccessToJson(
-        ConnectEventSuccess instance) =>
-    <String, dynamic>{
-      'id': instance.id,
-      'payload': instance.payload.toJson(),
-      'event': instance.$type,
-    };
+  ConnectEventSuccess instance,
+) => <String, dynamic>{
+  'id': instance.id,
+  'payload': instance.payload.toJson(),
+  'event': instance.$type,
+};
 
 ConnectEventError _$ConnectEventErrorFromJson(Map<String, dynamic> json) =>
     ConnectEventError(
       id: json['id'] as String,
-      payload:
-          TonConnectError.fromJson(json['payload'] as Map<String, dynamic>),
+      payload: TonConnectError.fromJson(
+        json['payload'] as Map<String, dynamic>,
+      ),
       $type: json['event'] as String?,
     );
 

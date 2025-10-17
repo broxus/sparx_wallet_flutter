@@ -88,16 +88,15 @@ class _NftSendConfirmState extends State<NftSendConfirm> {
                     txErrors: txErrors,
                     symbol: widget.currency.symbol,
                     isConfirmed: isConfirmed,
-                    onConfirm: (value) => setState(
-                      () => isConfirmed = value,
-                    ),
+                    onConfirm: (value) => setState(() => isConfirmed = value),
                   ),
                 EnterPasswordWidget.auth(
                   getLedgerAuthInput: widget.getLedgerAuthInput,
                   publicKey: widget.publicKey,
                   title: LocaleKeys.confirm.tr(),
                   isLoading: isLoading ?? false,
-                  isDisabled: error != null ||
+                  isDisabled:
+                      error != null ||
                       ((txErrors?.isNotEmpty ?? false) && !isConfirmed),
                   onConfirmed: widget.onConfirmed,
                 ),

@@ -27,20 +27,24 @@ Future<void> showCheckPhraseDialog(
   );
 }
 
-class ContentCheckPhrase extends InjectedElementaryParametrizedWidget<
-    CheckPhraseWidgetModel, CheckPhraseWmParams> {
+class ContentCheckPhrase
+    extends
+        InjectedElementaryParametrizedWidget<
+          CheckPhraseWidgetModel,
+          CheckPhraseWmParams
+        > {
   ContentCheckPhrase({
     required List<String> words,
     required String address,
     required ValueChanged<bool> finishedBackupCallback,
     super.key,
   }) : super(
-          wmFactoryParam: CheckPhraseWmParams(
-            words: words,
-            address: address,
-            finishedBackupCallback: finishedBackupCallback,
-          ),
-        );
+         wmFactoryParam: CheckPhraseWmParams(
+           words: words,
+           address: address,
+           finishedBackupCallback: finishedBackupCallback,
+         ),
+       );
 
   @override
   Widget build(CheckPhraseWidgetModel wm) {

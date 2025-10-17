@@ -32,9 +32,7 @@ class CheckSeedAnswersWidget extends StatelessWidget {
     return SeparatedRow(
       children: [
         for (int i = 0; i < userAnswers.length; i++)
-          Expanded(
-            child: _answerBuilder(i, userAnswers[i]),
-          ),
+          Expanded(child: _answerBuilder(i, userAnswers[i])),
       ],
     );
   }
@@ -53,8 +51,8 @@ class CheckSeedAnswersWidget extends StatelessWidget {
           status: (isCurrent && !isSelected)
               ? SelectionStatus.focus
               : isSelected
-                  ? SelectionStatus.completed
-                  : SelectionStatus.unfocus,
+              ? SelectionStatus.completed
+              : SelectionStatus.unfocus,
         );
       },
     );

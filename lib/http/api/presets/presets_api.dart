@@ -15,7 +15,5 @@ abstract class PresetsApi {
   factory PresetsApi(Dio dio) = _PresetsApi;
 
   @GET('/{fileName}')
-  Future<HttpResponse<String>> getPresetConfig(
-    @Path() String fileName,
-  );
+  Future<HttpResponse<String>> getPresetConfig(@Path() String fileName);
 }

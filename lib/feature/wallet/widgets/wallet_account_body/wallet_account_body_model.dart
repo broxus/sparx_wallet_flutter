@@ -57,10 +57,7 @@ class WalletAccountBodyModel extends ElementaryModel {
     );
   }
 
-  void hideBackupNotification(
-    KeyAccount account, {
-    required bool isCompleted,
-  }) {
+  void hideBackupNotification(KeyAccount account, {required bool isCompleted}) {
     final masterPublicKey = getMasterPublicKey(account);
 
     return _storageService.addValue(

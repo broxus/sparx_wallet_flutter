@@ -47,28 +47,28 @@ class _EncryptData extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => SeparatedColumn(
-        spacing: DimensSizeV2.d12,
-        children: [
-          Expanded(
-            child: SingleChildScrollView(
-              controller: scrollController,
-              child: SeparatedColumn(
-                spacing: DimensSizeV2.d12,
-                crossAxisAlignment: CrossAxisAlignment.stretch,
-                children: [
-                  AccountInfoWidget(account: account),
-                  WebsiteInfoWidget(uri: origin),
-                  DataCard(data: data),
-                ],
-              ),
-            ),
+    spacing: DimensSizeV2.d12,
+    children: [
+      Expanded(
+        child: SingleChildScrollView(
+          controller: scrollController,
+          child: SeparatedColumn(
+            spacing: DimensSizeV2.d12,
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: [
+              AccountInfoWidget(account: account),
+              WebsiteInfoWidget(uri: origin),
+              DataCard(data: data),
+            ],
           ),
-          // TODO(komarov): encrypt/decrypt is not supported by Ledger
-          EnterPasswordWidget.auth(
-            publicKey: publicKey,
-            title: LocaleKeys.encrypt.tr(),
-            onConfirmed: (auth) => Navigator.of(context).pop(auth),
-          ),
-        ],
-      );
+        ),
+      ),
+      // TODO(komarov): encrypt/decrypt is not supported by Ledger
+      EnterPasswordWidget.auth(
+        publicKey: publicKey,
+        title: LocaleKeys.encrypt.tr(),
+        onConfirmed: (auth) => Navigator.of(context).pop(auth),
+      ),
+    ],
+  );
 }

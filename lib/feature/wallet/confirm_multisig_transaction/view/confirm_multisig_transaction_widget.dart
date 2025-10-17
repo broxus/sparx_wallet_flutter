@@ -13,9 +13,11 @@ import 'package:ui_components_lib/ui_components_lib.dart';
 /// Page that allows confirm multisig transaction for [TonWallet].
 /// This pages displays only for outgoing transaction.
 class ConfirmMultisigTransactionWidget
-    extends InjectedElementaryParametrizedWidget<
-        ConfirmMultisigTransactionWidgetModel,
-        ConfirmMultisigTransactionWmParams> {
+    extends
+        InjectedElementaryParametrizedWidget<
+          ConfirmMultisigTransactionWidgetModel,
+          ConfirmMultisigTransactionWmParams
+        > {
   ConfirmMultisigTransactionWidget({
     /// Address of wallet which will be used to confirm transaction
     required Address walletAddress,
@@ -39,17 +41,17 @@ class ConfirmMultisigTransactionWidget
     String? comment,
     super.key,
   }) : super(
-          wmFactoryParam: ConfirmMultisigTransactionWmParams(
-            walletAddress: walletAddress,
-            localCustodians: localCustodians,
-            transactionId: transactionId,
-            amount: amount,
-            destination: destination,
-            comment: comment,
-            transactionIdHash: transactionIdHash,
-            resultMessage: resultMessage,
-          ),
-        );
+         wmFactoryParam: ConfirmMultisigTransactionWmParams(
+           walletAddress: walletAddress,
+           localCustodians: localCustodians,
+           transactionId: transactionId,
+           amount: amount,
+           destination: destination,
+           comment: comment,
+           transactionIdHash: transactionIdHash,
+           resultMessage: resultMessage,
+         ),
+       );
 
   @override
   Widget build(ConfirmMultisigTransactionWidgetModel wm) {
@@ -70,15 +72,16 @@ class ConfirmMultisigTransactionWidget
               custodianNames: wm.custodianNames,
               onCustodianSelected: wm.onCustodianSelected,
             ),
-          ConfirmMultisigTransactionStateError(:final error) =>
-            Center(child: WalletSubscribeErrorWidget(error: error)),
+          ConfirmMultisigTransactionStateError(:final error) => Center(
+            child: WalletSubscribeErrorWidget(error: error),
+          ),
           ConfirmMultisigTransactionStateSending(:final canClose) => Padding(
-              padding: const EdgeInsets.all(DimensSize.d16),
-              child: TransactionSendingWidget(
-                canClose: canClose,
-                popOnComplete: false,
-              ),
+            padding: const EdgeInsets.all(DimensSize.d16),
+            child: TransactionSendingWidget(
+              canClose: canClose,
+              popOnComplete: false,
             ),
+          ),
           ConfirmMultisigTransactionStateReady(:final custodian) =>
             TonWalletConfirmTransactionConfirmView(
               transactionIdHash: wm.transactionIdHash,

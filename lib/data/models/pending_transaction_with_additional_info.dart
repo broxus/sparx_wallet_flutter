@@ -17,8 +17,7 @@ abstract class PendingTransactionWithAdditionalInfo
 
   factory PendingTransactionWithAdditionalInfo.fromJson(
     Map<String, dynamic> json,
-  ) =>
-      _$PendingTransactionWithAdditionalInfoFromJson(json);
+  ) => _$PendingTransactionWithAdditionalInfoFromJson(json);
 
   const PendingTransactionWithAdditionalInfo._();
 

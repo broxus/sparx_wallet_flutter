@@ -50,7 +50,8 @@ class ConnectionService {
     Transport transport,
     ConnectionData connection,
   ) {
-    final data = _presetsConnectionService.transports[connection.group] ??
+    final data =
+        _presetsConnectionService.transports[connection.group] ??
         ConnectionTransportData.custom(
           networkType: connection.networkType,
           networkName: connection.name,
@@ -67,15 +68,15 @@ class ConnectionService {
   Future<Transport> createTransportByConnection(ConnectionData connection) =>
       switch (connection) {
         final ConnectionDataGql data => _nekotonRepository.createGqlTransport(
-            client: GqlHttpClient(_dio),
-            name: data.name,
-            group: data.group,
-            endpoints: data.endpoints,
-            local: data.isLocal,
-            latencyDetectionInterval: data.latencyDetectionInterval,
-            maxLatency: data.maxLatency,
-            endpointSelectionRetryCount: data.endpointSelectionRetryCount,
-          ),
+          client: GqlHttpClient(_dio),
+          name: data.name,
+          group: data.group,
+          endpoints: data.endpoints,
+          local: data.isLocal,
+          latencyDetectionInterval: data.latencyDetectionInterval,
+          maxLatency: data.maxLatency,
+          endpointSelectionRetryCount: data.endpointSelectionRetryCount,
+        ),
         ConnectionDataProto(:final name, :final group, :final endpoint) =>
           _nekotonRepository.createProtoTransport(
             client: ProtoHttpClient(_dio),
@@ -102,9 +103,7 @@ class ConnectionService {
       final strategy = createStrategyByConnection(transport, connection);
 
       await _nekotonRepository.updateTransport(strategy);
-      _storageService.updateNetworksIds(
-        [(connection.id, transport.networkId)],
-      );
+      _storageService.updateNetworksIds([(connection.id, transport.networkId)]);
 
       _log.finest('updateTransportByConnection completed!');
     } catch (e, t) {

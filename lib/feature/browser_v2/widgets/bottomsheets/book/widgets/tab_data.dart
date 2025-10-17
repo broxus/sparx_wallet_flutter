@@ -13,7 +13,7 @@ enum BrowserBookTabBarValue {
 
 extension BrowserBookTabBarValueExtension on BrowserBookTabBarValue {
   String get title => switch (this) {
-        BrowserBookTabBarValue.bookMarks => LocaleKeys.browserBookmarks.tr(),
-        BrowserBookTabBarValue.history => LocaleKeys.browserHistory.tr(),
-      };
+    BrowserBookTabBarValue.bookMarks => LocaleKeys.browserBookmarks.tr(),
+    BrowserBookTabBarValue.history => LocaleKeys.browserHistory.tr(),
+  };
 }

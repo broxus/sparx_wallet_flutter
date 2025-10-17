@@ -126,10 +126,7 @@ class NftTransferInfoWidget
             secondSource: wm.nativeUSDPriceState,
             builder: (_, fees, nativeUSDPrice) {
               final amount = fees?.let(
-                (fees) => Money.fromBigIntWithCurrency(
-                  fees,
-                  wm.nativeCurrency,
-                ),
+                (fees) => Money.fromBigIntWithCurrency(fees, wm.nativeCurrency),
               );
 
               final child = SeparatedColumn(
@@ -137,7 +134,8 @@ class NftTransferInfoWidget
                 children: [
                   WalletTransactionDetailsItem(
                     title: LocaleKeys.networkFee.tr(),
-                    valueWidget: amount?.let(
+                    valueWidget:
+                        amount?.let(
                           (amount) => AmountWidget.fromMoney(
                             amount: amount,
                             sign: '~ ',
@@ -148,13 +146,13 @@ class NftTransferInfoWidget
                     iconPath: wm.nativeTokenIcon,
                     convertedValueWidget:
                         nativeUSDPrice != null && amount != null
-                            ? AmountWidget.dollars(
-                                amount: amount.exchangeToUSD(nativeUSDPrice, 5),
-                                style: theme.textStyles.labelXSmall.copyWith(
-                                  color: theme.colors.content3,
-                                ),
-                              )
-                            : null,
+                        ? AmountWidget.dollars(
+                            amount: amount.exchangeToUSD(nativeUSDPrice, 5),
+                            style: theme.textStyles.labelXSmall.copyWith(
+                              color: theme.colors.content3,
+                            ),
+                          )
+                        : null,
                   ),
                   StateNotifierBuilder(
                     listenableState: feeError,
@@ -187,14 +185,8 @@ class NftTransferInfoWidget
               spacing: DimensSizeV2.d2,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text(
-                  LocaleKeys.recipientWord.tr(),
-                  style: labelSmallContent3,
-                ),
-                Text(
-                  recipient.address,
-                  style: theme.textStyles.labelSmall,
-                ),
+                Text(LocaleKeys.recipientWord.tr(), style: labelSmallContent3),
+                Text(recipient.address, style: theme.textStyles.labelSmall),
               ],
             ),
           ),
@@ -260,10 +252,7 @@ class _InfoRow extends StatelessWidget {
 }
 
 class _Item extends StatelessWidget {
-  const _Item({
-    required this.item,
-    required this.collection,
-  });
+  const _Item({required this.item, required this.collection});
 
   final NftItem item;
   final NftCollection collection;

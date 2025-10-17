@@ -4,11 +4,7 @@ import 'package:lucide_icons_flutter/lucide_icons.dart';
 import 'package:ui_components_lib/ui_components_lib.dart';
 
 class HistoryTip extends StatelessWidget {
-  const HistoryTip({
-    required this.title,
-    required this.onPressed,
-    super.key,
-  });
+  const HistoryTip({required this.title, required this.onPressed, super.key});
 
   final String title;
   final VoidCallback onPressed;
@@ -21,10 +17,7 @@ class HistoryTip extends StatelessWidget {
       backgroundColor: theme.colors.background2,
       borderRadius: BorderRadius.circular(DimensSizeV2.d12),
       onPressed: onPressed,
-      icon: const Icon(
-        LucideIcons.history,
-        size: DimensSizeV2.d20,
-      ),
+      icon: const Icon(LucideIcons.history, size: DimensSizeV2.d20),
       description: Text(
         title,
         style: theme.textStyles.paragraphXMedium,
@@ -103,9 +96,7 @@ class _Body extends StatelessWidget {
     return GestureDetector(
       onTap: onPressed,
       child: Padding(
-        padding: const EdgeInsets.only(
-          top: DimensSizeV2.d8,
-        ),
+        padding: const EdgeInsets.only(top: DimensSizeV2.d8),
         child: DecoratedBox(
           decoration: BoxDecoration(
             color: backgroundColor,
@@ -130,10 +121,7 @@ class _Body extends StatelessWidget {
                     ],
                   ),
                 ),
-                const Icon(
-                  LucideIcons.chevronRight,
-                  size: DimensSizeV2.d20,
-                ),
+                const Icon(LucideIcons.chevronRight, size: DimensSizeV2.d20),
               ],
             ),
           ),

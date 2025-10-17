@@ -157,20 +157,11 @@ void main() {
           ),
         );
 
-        expect(
-          () => reader.sw,
-          throwsA(isA<StateError>()),
-        );
+        expect(() => reader.sw, throwsA(isA<StateError>()));
 
-        expect(
-          () => reader.data,
-          throwsA(isA<StateError>()),
-        );
+        expect(() => reader.data, throwsA(isA<StateError>()));
 
-        expect(
-          () => reader.dataWithOffset,
-          throwsA(isA<StateError>()),
-        );
+        expect(() => reader.dataWithOffset, throwsA(isA<StateError>()));
       });
     });
 

@@ -15,7 +15,5 @@ abstract class TonApi {
   factory TonApi(Dio dio) = _TonApi;
 
   @GET('/token/{address}')
-  Future<TonTokenInfoDto> getTokenInfo(
-    @Path('address') String address,
-  );
+  Future<TonTokenInfoDto> getTokenInfo(@Path('address') String address);
 }

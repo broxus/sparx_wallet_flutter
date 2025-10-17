@@ -63,15 +63,8 @@ class PrimaryShapedContainerItem extends StatelessWidget {
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            Text(
-              title,
-              style: context.themeStyleV2.textStyles.labelMedium,
-            ),
-            Icon(
-              icon,
-              color: iconColor,
-              size: DimensSizeV2.d16,
-            ),
+            Text(title, style: context.themeStyleV2.textStyles.labelMedium),
+            Icon(icon, color: iconColor, size: DimensSizeV2.d16),
           ],
         ),
       ),

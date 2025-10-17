@@ -7,9 +7,7 @@ import 'package:ui_components_lib/v2/ui_components_lib_v2.dart';
 
 class NoInternetScreen
     extends InjectedElementaryWidget<NoInternetScreenWidgetModel> {
-  const NoInternetScreen({
-    super.key,
-  });
+  const NoInternetScreen({super.key});
 
   @override
   Widget build(NoInternetScreenWidgetModel wm) {

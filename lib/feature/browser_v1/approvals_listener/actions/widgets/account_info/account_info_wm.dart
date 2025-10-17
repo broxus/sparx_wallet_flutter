@@ -8,11 +8,14 @@ import 'package:nekoton_repository/nekoton_repository.dart';
 import 'package:ui_components_lib/v2/ui_components_lib_v2.dart';
 
 @injectable
-class AccountInfoWidgetModel extends CustomWidgetModelParametrized<
-    AccountInfoWidget, AccountInfoModel, Address> {
-  AccountInfoWidgetModel(
-    super.model,
-  );
+class AccountInfoWidgetModel
+    extends
+        CustomWidgetModelParametrized<
+          AccountInfoWidget,
+          AccountInfoModel,
+          Address
+        > {
+  AccountInfoWidgetModel(super.model);
 
   late final ValueListenable<KeyAccount?> accountAddressState =
       createWmParamsNotifier((address) => model.getAccount(address));

@@ -44,13 +44,13 @@ abstract class BaseButton extends StatelessWidget {
           ButtonSize.large => const EdgeInsets.all(DimensSizeV2.d18),
           ButtonSize.medium => const EdgeInsets.all(DimensSizeV2.d16),
           ButtonSize.small => const EdgeInsets.symmetric(
-              horizontal: DimensSizeV2.d24,
-              vertical: DimensSizeV2.d8,
-            ),
+            horizontal: DimensSizeV2.d24,
+            vertical: DimensSizeV2.d8,
+          ),
           ButtonSize.mini => const EdgeInsets.symmetric(
-              horizontal: DimensSizeV2.d12,
-              vertical: DimensSizeV2.d6,
-            ),
+            horizontal: DimensSizeV2.d12,
+            vertical: DimensSizeV2.d6,
+          ),
         };
   }
 
@@ -130,20 +130,23 @@ abstract class BaseButton extends StatelessWidget {
                     )
                   : Row(
                       mainAxisAlignment: mainAxisAlignment,
-                      mainAxisSize:
-                          isFullWidth ? MainAxisSize.max : MainAxisSize.min,
+                      mainAxisSize: isFullWidth
+                          ? MainAxisSize.max
+                          : MainAxisSize.min,
                       children: [
                         if (icon != null)
                           Padding(
-                            padding:
-                                const EdgeInsets.only(right: DimensSizeV2.d8),
+                            padding: const EdgeInsets.only(
+                              right: DimensSizeV2.d8,
+                            ),
                             child: Icon(icon, size: _iconSize),
                           ),
                         child,
                         if (postfixIcon != null)
                           Padding(
-                            padding:
-                                const EdgeInsets.only(left: DimensSizeV2.d8),
+                            padding: const EdgeInsets.only(
+                              left: DimensSizeV2.d8,
+                            ),
                             child: Icon(postfixIcon, size: _iconSize),
                           ),
                       ],
@@ -186,12 +189,8 @@ abstract class BaseButton extends StatelessWidget {
       shape: MaterialStateProperty.resolveWith<RoundedRectangleBorder>(
         // TODO(MolochkoAndrew): update
         //ignore: deprecated_member_use
-        (Set<MaterialState> states) => _getBorder(
-          states,
-          style,
-          buttonShape,
-          buttonSize,
-        ),
+        (Set<MaterialState> states) =>
+            _getBorder(states, style, buttonShape, buttonSize),
       ),
       // TODO(MolochkoAndrew): update
       //ignore: deprecated_member_use
@@ -205,20 +204,14 @@ abstract class BaseButton extends StatelessWidget {
       overlayColor: MaterialStateProperty.resolveWith<Color>(
         // TODO(MolochkoAndrew): update
         //ignore: deprecated_member_use
-        (Set<MaterialState> states) => _getColorOverlay(
-          states,
-          style,
-        ),
+        (Set<MaterialState> states) => _getColorOverlay(states, style),
       ),
       // TODO(MolochkoAndrew): update
       //ignore: deprecated_member_use
       foregroundColor: MaterialStateProperty.resolveWith<Color?>(
         // TODO(MolochkoAndrew): update
         //ignore: deprecated_member_use
-        (Set<MaterialState> states) => _getColorForeground(
-          states,
-          style,
-        ),
+        (Set<MaterialState> states) => _getColorForeground(states, style),
       ),
       // TODO(MolochkoAndrew): update
       //ignore: deprecated_member_use
@@ -248,16 +241,16 @@ abstract class BaseButton extends StatelessWidget {
     // TODO(MolochkoAndrew): update
     //ignore: deprecated_member_use
     if (states.contains(MaterialState.pressed)) {
-      return _getTextStyleBySize(styles).copyWith(
-        color: color?.withAlpha(OpacV2.opac80.toByteInt()),
-      );
+      return _getTextStyleBySize(
+        styles,
+      ).copyWith(color: color?.withAlpha(OpacV2.opac80.toByteInt()));
     }
     // TODO(MolochkoAndrew): update
     //ignore: deprecated_member_use
     if (states.contains(MaterialState.disabled)) {
-      return _getTextStyleBySize(styles).copyWith(
-        color: color?.withAlpha(OpacV2.opac50.toByteInt()),
-      );
+      return _getTextStyleBySize(
+        styles,
+      ).copyWith(color: color?.withAlpha(OpacV2.opac50.toByteInt()));
     }
     return _getTextStyleBySize(styles);
   }

@@ -12,13 +12,15 @@ import 'package:nekoton_repository/nekoton_repository.dart';
 import 'package:ui_components_lib/ui_components_lib.dart';
 
 @injectable
-class SeedDetailPageWidgetModel extends CustomWidgetModelParametrized<
-    SeedDetailPageWidget,
-    SeedDetailPageModel,
-    PublicKey> with BleAvailabilityWmMixin {
-  SeedDetailPageWidgetModel(
-    super.model,
-  );
+class SeedDetailPageWidgetModel
+    extends
+        CustomWidgetModelParametrized<
+          SeedDetailPageWidget,
+          SeedDetailPageModel,
+          PublicKey
+        >
+    with BleAvailabilityWmMixin {
+  SeedDetailPageWidgetModel(super.model);
 
   late final _currentKeyNotifier = createNotifierFromStream(model.currentKey);
   late final _currentSeedNotifier = createNotifierFromStream(model.currentSeed);
@@ -51,9 +53,10 @@ class SeedDetailPageWidgetModel extends CustomWidgetModelParametrized<
       if (!isAvailable) return;
 
       contextSafe?.let((context) {
-        Navigator.of(context, rootNavigator: true).push(
-          deriveKeysSheet(context, wmParams.value),
-        );
+        Navigator.of(
+          context,
+          rootNavigator: true,
+        ).push(deriveKeysSheet(context, wmParams.value));
       });
     } else {
       showDeriveKeysSheetPassword(context, wmParams.value);

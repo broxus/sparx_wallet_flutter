@@ -15,8 +15,9 @@ class UpdateVersionWidgetModel
     extends CustomWidgetModel<UpdateVersionScreen, UpdateVersionModel> {
   UpdateVersionWidgetModel(super.model);
 
-  late final _updateRequestsState =
-      createNotifierFromStream(model.updateRequests.whereNotNull());
+  late final _updateRequestsState = createNotifierFromStream(
+    model.updateRequests.whereNotNull(),
+  );
 
   ListenableState<UpdateRequest?> get updateRequestsState =>
       _updateRequestsState;

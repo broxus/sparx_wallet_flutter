@@ -10,9 +10,7 @@ import 'package:app/utils/json/json_utils.dart';
 ConnectionNetwork mapToConnectionNetworkFromJson(ConnectionNetworkDto json) {
   return ConnectionNetwork(
     defaultConnectionId: json.defaultConnectionId,
-    customNetworkOptions: mapToCustomNetworkOptions(
-      json.customNetworkOtions,
-    ),
+    customNetworkOptions: mapToCustomNetworkOptions(json.customNetworkOtions),
     networks: mapToConnectionDataList(
       castJsonList<Map<String, dynamic>>(json.networks),
     ),

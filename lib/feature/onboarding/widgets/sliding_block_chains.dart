@@ -76,9 +76,9 @@ class _SlidingBlockChainsState extends State<SlidingBlockChains> {
   }
 
   void _initTimer() => timer = Timer.periodic(
-        const Duration(milliseconds: _scrollPeriod),
-        (timer) => _scrollLists(),
-      );
+    const Duration(milliseconds: _scrollPeriod),
+    (timer) => _scrollLists(),
+  );
 
   void _stopTimer() {
     timer?.cancel();
@@ -103,12 +103,15 @@ class _SlidingBlockChainsState extends State<SlidingBlockChains> {
           constraints: const BoxConstraints(maxHeight: DimensSize.d200),
           child: LayoutBuilder(
             builder: (context, constraints) {
-              final lineCount =
-                  constraints.maxHeight < _twoLinesMinHeight ? 2 : 3;
-              _paddingBetweenRows =
-                  lineCount == 3 ? _tripleRowsPadding : _doubleRowsPadding;
+              final lineCount = constraints.maxHeight < _twoLinesMinHeight
+                  ? 2
+                  : 3;
+              _paddingBetweenRows = lineCount == 3
+                  ? _tripleRowsPadding
+                  : _doubleRowsPadding;
 
-              final partSize = (constraints.maxHeight -
+              final partSize =
+                  (constraints.maxHeight -
                       _paddingBetweenRows * (lineCount - 1)) /
                   lineCount;
               if (controllers.isEmpty) {
@@ -123,7 +126,8 @@ class _SlidingBlockChainsState extends State<SlidingBlockChains> {
                     if (index.isEven) return ScrollController();
 
                     return ScrollController(
-                      initialScrollOffset: partSize / _rowItemsOffset +
+                      initialScrollOffset:
+                          partSize / _rowItemsOffset +
                           _paddingBetweenRows / _rowItemsOffset,
                     );
                   }),

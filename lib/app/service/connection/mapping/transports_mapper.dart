@@ -36,9 +36,7 @@ Map<NetworkGroup, ConnectionTransportData>? mapToTransports(
       defaultActiveAssets: _mapToDefaultActiveAssets(
         transport['defaultActiveAssets'],
       ),
-      icons: _mapToTransportIcons(
-        castJsonMap(transport['icons']),
-      ),
+      icons: _mapToTransportIcons(castJsonMap(transport['icons'])),
       availableWalletTypes: _mapToAvailableWalletTypes(
         castJsonList<Map<String, dynamic>>(transport['availableWalletTypes']),
       ),
@@ -60,14 +58,13 @@ Map<NetworkGroup, ConnectionTransportData>? mapToTransports(
       seedPhraseWordsCount: _mapToSeedPhraseWordsCount(
         castTo<List<dynamic>>(transport['seedPhraseWordsCount']),
       ),
-      defaultNativeCurrencyDecimal:
-          parseToInt(transport['defaultNativeCurrencyDecimal']),
+      defaultNativeCurrencyDecimal: parseToInt(
+        transport['defaultNativeCurrencyDecimal'],
+      ),
       genericTokenType: genericTokenType,
       accountExplorerLinkType: accountExplorerLinkType,
-      transactionExplorerLinkType:
-          TransactionExplorerLinkType.values.byNameOrNull(
-        castToString(transport['transactionExplorerLinkType']),
-      ),
+      transactionExplorerLinkType: TransactionExplorerLinkType.values
+          .byNameOrNull(castToString(transport['transactionExplorerLinkType'])),
       stakeInformation: _mapToStakingInformation(
         castJsonMap(transport['stakeInformation']),
       ),
@@ -114,9 +111,7 @@ WalletType? _mapToWalletType(Map<String, dynamic> data) {
     switch (data['type'] as String) {
       case 'multisig':
         return WalletType.multisig(
-          MultisigType.values.byName(
-            data['value'] as String,
-          ),
+          MultisigType.values.byName(data['value'] as String),
         );
       case 'walletV3':
         return const WalletType.walletV3();
@@ -154,9 +149,7 @@ TransportNativeTokenTickerOption _mapToNativeTokenTickerOption(
   throw Exception('Unknown TransportNativeTokenTickerOption');
 }
 
-TransportManifestOption _mapToManifestOption(
-  Map<String, dynamic> data,
-) {
+TransportManifestOption _mapToManifestOption(Map<String, dynamic> data) {
   switch (data['type']) {
     case 'fromConnection':
       return const TransportManifestOption.fromConnection();
@@ -279,11 +272,7 @@ List<DefaultActiveAsset> _mapToDefaultActiveAssets(dynamic json) {
         continue;
       }
 
-      result.add(
-        DefaultActiveAsset(
-          address: address,
-        ),
-      );
+      result.add(DefaultActiveAsset(address: address));
     }
 
     return result;
@@ -300,11 +289,14 @@ PollingConfig? _mapToPollingConfig(Map<String, dynamic>? json) {
   final intensive = parseToInt(json['intensivePollingInterval']);
 
   return PollingConfig(
-    tonWalletRefreshInterval: ton?.let((it) => Duration(seconds: it)) ??
+    tonWalletRefreshInterval:
+        ton?.let((it) => Duration(seconds: it)) ??
         PollingConfig.defaultConfig.tonWalletRefreshInterval,
-    tokenWalletRefreshInterval: token?.let((it) => Duration(seconds: it)) ??
+    tokenWalletRefreshInterval:
+        token?.let((it) => Duration(seconds: it)) ??
         PollingConfig.defaultConfig.tokenWalletRefreshInterval,
-    intensivePollingInterval: intensive?.let((it) => Duration(seconds: it)) ??
+    intensivePollingInterval:
+        intensive?.let((it) => Duration(seconds: it)) ??
         PollingConfig.defaultConfig.intensivePollingInterval,
   );
 }

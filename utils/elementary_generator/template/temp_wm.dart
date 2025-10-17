@@ -6,7 +6,5 @@ import 'temp_model.dart';
 /// [WidgetModel] for [$Temp$]
 @injectable
 class $Temp$WidgetModel extends CustomWidgetModel<$Temp$, $Temp$Model> {
-  $Temp$WidgetModel(
-    super.model,
-  );
+  $Temp$WidgetModel(super.model);
 }

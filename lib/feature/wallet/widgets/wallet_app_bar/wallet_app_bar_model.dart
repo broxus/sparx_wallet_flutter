@@ -23,10 +23,10 @@ class WalletAppBarModel extends ElementaryModel {
       _currentAccountsService.currentActiveAccountStream.whereNotNull();
 
   Stream<TonWalletState?> get walletState => CombineLatestStream.combine2(
-        _nekotonRepository.walletsMapStream,
-        currentAccount,
-        (wallets, account) => wallets[account.address],
-      );
+    _nekotonRepository.walletsMapStream,
+    currentAccount,
+    (wallets, account) => wallets[account.address],
+  );
 
   Stream<ConnectionData?> get connectionStream =>
       _storageService.currentConnectionStream;

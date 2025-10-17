@@ -4,11 +4,17 @@ import 'package:app/feature/profile/key_detail/widgets/delete_account_sheet/dele
 import 'package:elementary_helper/elementary_helper.dart';
 import 'package:flutter/widgets.dart';
 import 'package:injectable/injectable.dart';
+import 'package:money2/money2.dart';
 import 'package:nekoton_repository/nekoton_repository.dart';
 
 @injectable
-class DeleteAccountSheetWidgetModel extends CustomWidgetModelParametrized<
-    DeleteAccountSheet, DeleteAccountSheetModel, KeyAccount> {
+class DeleteAccountSheetWidgetModel
+    extends
+        CustomWidgetModelParametrized<
+          DeleteAccountSheet,
+          DeleteAccountSheetModel,
+          KeyAccount
+        > {
   DeleteAccountSheetWidgetModel(super.model);
 
   late final _balanceState = createNotifierFromStream(

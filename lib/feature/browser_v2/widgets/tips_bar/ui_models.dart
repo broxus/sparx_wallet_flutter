@@ -1,18 +1,12 @@
 sealed class TipUiModel {
-  TipUiModel({
-    required this.id,
-    required this.title,
-  });
+  TipUiModel({required this.id, required this.title});
 
   final String id;
   final String title;
 }
 
 class HistoryTipUiModel extends TipUiModel {
-  HistoryTipUiModel({
-    required super.id,
-    required super.title,
-  });
+  HistoryTipUiModel({required super.id, required super.title});
 }
 
 class BookmarkTipUiModel extends TipUiModel {

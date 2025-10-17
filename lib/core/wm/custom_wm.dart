@@ -27,10 +27,9 @@ import 'package:rxdart/rxdart.dart';
 /// }
 /// ```
 class CustomWidgetModel<W extends ElementaryWidget, M extends ElementaryModel>
-    extends WidgetModel<W, M> with NotifierSubscriptionsMixin, ContextWmMixin {
-  CustomWidgetModel(
-    super.model,
-  );
+    extends WidgetModel<W, M>
+    with NotifierSubscriptionsMixin, ContextWmMixin {
+  CustomWidgetModel(super.model);
 }
 
 /// Base widget class for non-parametrized Elementary widgets
@@ -58,13 +57,8 @@ class CustomWidgetModel<W extends ElementaryWidget, M extends ElementaryModel>
 ///
 abstract class InjectedElementaryWidget<WM extends WidgetModel>
     extends ElementaryWidget<WM> {
-  const InjectedElementaryWidget({
-    Key? key,
-    this.instanceName,
-  }) : super(
-          _getItFactory,
-          key: key,
-        );
+  const InjectedElementaryWidget({Key? key, this.instanceName})
+    : super(_getItFactory, key: key);
 
   final String? instanceName;
   Type get wmType => WM;
@@ -112,9 +106,11 @@ abstract class InjectedElementaryWidget<WM extends WidgetModel>
 /// ```
 ///
 abstract class InjectedElementaryParametrizedWidget<
-    // ignore: strict_raw_type
-    WM extends WidgetModel,
-    Param> extends InjectedElementaryWidget<WM> {
+  // ignore: strict_raw_type
+  WM extends WidgetModel,
+  Param
+>
+    extends InjectedElementaryWidget<WM> {
   const InjectedElementaryParametrizedWidget({
     // ignore: deprecated_consistency
     required this.wmFactoryParam,
@@ -122,9 +118,7 @@ abstract class InjectedElementaryParametrizedWidget<
     super.instanceName,
   });
 
-  @Deprecated(
-    'Should be used only in WM',
-  )
+  @Deprecated('Should be used only in WM')
   final Param wmFactoryParam;
 }
 
@@ -166,12 +160,12 @@ abstract class InjectedElementaryParametrizedWidget<
 /// ```
 ///
 class CustomWidgetModelParametrized<
-    W extends InjectedElementaryParametrizedWidget<WidgetModel, Param>,
-    M extends ElementaryModel,
-    Param> extends CustomWidgetModel<W, M> {
-  CustomWidgetModelParametrized(
-    super.model,
-  );
+  W extends InjectedElementaryParametrizedWidget<WidgetModel, Param>,
+  M extends ElementaryModel,
+  Param
+>
+    extends CustomWidgetModel<W, M> {
+  CustomWidgetModelParametrized(super.model);
 
   @protected
   final BehaviorSubject<Param> wmParams = BehaviorSubject();
@@ -213,16 +207,15 @@ class CustomWidgetModelParametrized<
 
 final _factroryLogger = Logger('InjectedElementaryWidget');
 
-WM _getItFactory<WM extends WidgetModel>(
-  BuildContext context,
-) {
+WM _getItFactory<WM extends WidgetModel>(BuildContext context) {
   final injectedElementaryWidget = context.widget as InjectedElementaryWidget;
 
   try {
     return getIt.get(
-      instanceName: injectedElementaryWidget.instanceName,
-      type: injectedElementaryWidget.wmType,
-    ) as WM;
+          instanceName: injectedElementaryWidget.instanceName,
+          type: injectedElementaryWidget.wmType,
+        )
+        as WM;
   } catch (e, s) {
     _factroryLogger.severe(
       'Failed to create WM for type ${injectedElementaryWidget.wmType}, '

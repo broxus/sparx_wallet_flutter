@@ -5,8 +5,9 @@ import 'package:elementary_helper/elementary_helper.dart';
 import 'package:injectable/injectable.dart';
 
 @injectable
-class BootstrapFailedRerunWidgetModel extends CustomWidgetModel<
-    BootstrapFailedRerunView, BootstrapFailedRerunModel> {
+class BootstrapFailedRerunWidgetModel
+    extends
+        CustomWidgetModel<BootstrapFailedRerunView, BootstrapFailedRerunModel> {
   BootstrapFailedRerunWidgetModel(super.model);
 
   late final _loadingState = createNotifier(false);

@@ -20,4 +20,4 @@ rm -f secrets/sentry-dsn.txt
 # Remove changelog
 rm -rf fastlane/changelog.txt
 rm -rf android/fastlane/metadata/android/
-rm -rf packages/ui_components_lib/example/assets/git_log.txt
+rm -rf packages/ui_components_lib/storybook/assets/git_log.txt

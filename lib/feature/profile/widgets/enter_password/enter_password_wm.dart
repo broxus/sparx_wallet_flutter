@@ -35,12 +35,18 @@ class EnterPasswordWmParams {
 }
 
 @injectable
-class EnterPasswordWidgetModel extends CustomWidgetModelParametrized<
-    EnterPasswordWidget, EnterPasswordModel, EnterPasswordWmParams> {
+class EnterPasswordWidgetModel
+    extends
+        CustomWidgetModelParametrized<
+          EnterPasswordWidget,
+          EnterPasswordModel,
+          EnterPasswordWmParams
+        > {
   EnterPasswordWidgetModel(super.model);
 
-  late final _enterPasswordState =
-      createValueNotifier<EnterPasswordState?>(null);
+  late final _enterPasswordState = createValueNotifier<EnterPasswordState?>(
+    null,
+  );
 
   late final passwordController = createTextEditingController();
   late final props = createWmParamsNotifier(
@@ -99,8 +105,10 @@ class EnterPasswordWidgetModel extends CustomWidgetModelParametrized<
       return;
     }
 
-    final correct =
-        await model.checkKeyPassword(publicKey: publicKey, password: password);
+    final correct = await model.checkKeyPassword(
+      publicKey: publicKey,
+      password: password,
+    );
 
     if (!correct) {
       _showWrongPassword();

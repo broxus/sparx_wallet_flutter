@@ -26,14 +26,14 @@ class CurrencyTextInputValidator {
     this.max,
     this.maxError,
     this.decimalSeparators,
-  })  : assert(
-          min != null && minError != null || min == null && minError == null,
-          'minError must be provided when min is provided',
-        ),
-        assert(
-          max != null && maxError != null || max == null && maxError == null,
-          'maxError must be provided when max is provided',
-        ) {
+  }) : assert(
+         min != null && minError != null || min == null && minError == null,
+         'minError must be provided when min is provided',
+       ),
+       assert(
+         max != null && maxError != null || max == null && maxError == null,
+         'maxError must be provided when max is provided',
+       ) {
     _scale = currency.decimalDigits;
 
     _fullRegExp = CurrencyTextInputFormatter.createRegExp(
@@ -116,7 +116,7 @@ class CurrencyTextInputValidator {
 
     final amount = Fixed.parse(
       value.trim().replaceAll(',', '.'),
-      scale: _scale,
+      decimalDigits: _scale,
     );
 
     if (min != null && amount < min!) {
@@ -147,7 +147,7 @@ class CurrencyTextInputValidator {
 /// [maxError] is the error message to be used when the input is greater than
 /// [max].
 (CurrencyTextInputFormatter, CurrencyTextInputValidator)
-    createCurrencyTextInputFormatterValidator(
+createCurrencyTextInputFormatterValidator(
   Currency currency, {
   required String error,
   bool allowNegative = false,
@@ -173,8 +173,5 @@ class CurrencyTextInputValidator {
   );
   final formatter = CurrencyTextInputFormatter.fromValidator(validator);
 
-  return (
-    formatter,
-    validator,
-  );
+  return (formatter, validator);
 }

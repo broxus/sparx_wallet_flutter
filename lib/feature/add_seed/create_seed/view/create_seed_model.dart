@@ -6,9 +6,8 @@ import 'package:nekoton_repository/nekoton_repository.dart';
 
 @injectable
 class CreateSeedModel extends ElementaryModel {
-  CreateSeedModel(
-    ErrorHandler errorHandler,
-  ) : super(errorHandler: errorHandler);
+  CreateSeedModel(ErrorHandler errorHandler)
+    : super(errorHandler: errorHandler);
 
   /// Generate a new seed phrase model
   SeedPhraseModel createSeed() {

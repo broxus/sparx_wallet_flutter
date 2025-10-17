@@ -50,10 +50,7 @@ class ShapedContainer extends StatelessWidget {
           color: color ?? context.themeStyle.colors.backgroundSecondary,
           shape: SquircleShapeBorder(cornerRadius: squircleRadius),
           // padding here, because ContainerColumn changes alignment in bad way
-          child: Padding(
-            padding: padding,
-            child: child,
-          ),
+          child: Padding(padding: padding, child: child),
         ),
       ),
     );

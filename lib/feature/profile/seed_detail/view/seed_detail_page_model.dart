@@ -30,8 +30,7 @@ class SeedDetailPageModel extends ElementaryModel
   Stream<Set<String>> get findingExistingWallets =>
       _nekotonRepository.findingExistingWalletsStream;
 
-  Stream<Seed?> getSeedStream(PublicKey publicKey) =>
-      _nekotonRepository.seedListStream.map(
-        (seedList) => seedList.findSeed(publicKey),
-      );
+  Stream<Seed?> getSeedStream(PublicKey publicKey) => _nekotonRepository
+      .seedListStream
+      .map((seedList) => seedList.findSeed(publicKey));
 }

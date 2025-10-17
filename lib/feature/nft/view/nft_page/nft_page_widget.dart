@@ -7,9 +7,7 @@ import 'package:flutter/material.dart';
 import 'package:ui_components_lib/v2/ui_components_lib_v2.dart';
 
 class NftPageWidget extends InjectedElementaryWidget<NftPageWidgetModel> {
-  const NftPageWidget({
-    super.key,
-  });
+  const NftPageWidget({super.key});
 
   @override
   Widget build(NftPageWidgetModel wm) {
@@ -25,9 +23,7 @@ class NftPageWidget extends InjectedElementaryWidget<NftPageWidgetModel> {
                 if (isLoading ?? false) {
                   return const Expanded(
                     child: Center(
-                      child: ProgressIndicatorWidget(
-                        size: DimensSizeV2.d32,
-                      ),
+                      child: ProgressIndicatorWidget(size: DimensSizeV2.d32),
                     ),
                   );
                 }

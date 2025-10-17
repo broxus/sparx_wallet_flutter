@@ -241,19 +241,21 @@ void main() {
         expect(regex.hasMatch(''), isTrue);
       });
 
-      test('should create correct regex for currency without decimal places',
-          () {
-        final noCurrencyFormat = Currency.create('JPY', 0);
-        final regex = CurrencyTextInputFormatter.createRegExp(
-          currency: noCurrencyFormat,
-          allowNegative: false,
-          includeTicker: false,
-        );
+      test(
+        'should create correct regex for currency without decimal places',
+        () {
+          final noCurrencyFormat = Currency.create('JPY', 0);
+          final regex = CurrencyTextInputFormatter.createRegExp(
+            currency: noCurrencyFormat,
+            allowNegative: false,
+            includeTicker: false,
+          );
 
-        expect(regex.hasMatch('123'), isTrue);
-        expect(regex.hasMatch('123.45'), isFalse); // no decimals allowed
-        expect(regex.hasMatch(''), isTrue);
-      });
+          expect(regex.hasMatch('123'), isTrue);
+          expect(regex.hasMatch('123.45'), isFalse); // no decimals allowed
+          expect(regex.hasMatch(''), isTrue);
+        },
+      );
     });
   });
 }

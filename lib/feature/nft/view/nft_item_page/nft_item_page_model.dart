@@ -21,10 +21,9 @@ class NftItemPageModel extends ElementaryModel {
   final NekotonRepository _nekotonRepository;
   final BrowserLauncher _browserLauncher;
 
-  Stream<String?> get marketplaceUrlStream =>
-      _nekotonRepository.currentTransportStream.map(
-        (transport) => transport.nftInformation?.marketplaceUrl,
-      );
+  Stream<String?> get marketplaceUrlStream => _nekotonRepository
+      .currentTransportStream
+      .map((transport) => transport.nftInformation?.marketplaceUrl);
 
   Stream<KeyAccount?> get currentAccount =>
       _currentAccountsService.currentActiveAccountStream;
@@ -35,10 +34,8 @@ class NftItemPageModel extends ElementaryModel {
   Future<NftCollection?> getCollection(Address address) =>
       _nftService.getCollection(address);
 
-  Future<NftItem?> getNftItem(Address address) async => _nftService.getNftItem(
-        address: address,
-        owner: await _owner,
-      );
+  Future<NftItem?> getNftItem(Address address) async =>
+      _nftService.getNftItem(address: address, owner: await _owner);
 
   void openExplorerLinkByBrowser(Address address) {
     _browserLauncher.openBrowserByString(

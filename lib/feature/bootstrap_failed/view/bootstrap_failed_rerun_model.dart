@@ -21,9 +21,7 @@ class BootstrapFailedRerunModel extends ElementaryModel {
       await _bootstrapService.rerunFailedSteps();
     } catch (e) {
       _messengerService.show(
-        Message.error(
-          message: LocaleKeys.initializationRerunFailed.tr(),
-        ),
+        Message.error(message: LocaleKeys.initializationRerunFailed.tr()),
       );
     }
   }

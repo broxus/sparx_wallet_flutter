@@ -8,12 +8,14 @@ import 'package:nekoton_repository/nekoton_repository.dart';
 import 'package:ui_components_lib/v2/ui_components_lib_v2.dart';
 
 /// Body of wallet, that displays information about account
-class WalletAccountBodyWidget extends InjectedElementaryParametrizedWidget<
-    WalletAccountBodyWidgetModel, KeyAccount> {
-  const WalletAccountBodyWidget({
-    required KeyAccount account,
-    super.key,
-  }) : super(wmFactoryParam: account);
+class WalletAccountBodyWidget
+    extends
+        InjectedElementaryParametrizedWidget<
+          WalletAccountBodyWidgetModel,
+          KeyAccount
+        > {
+  const WalletAccountBodyWidget({required KeyAccount account, super.key})
+    : super(wmFactoryParam: account);
 
   @override
   Widget build(WalletAccountBodyWidgetModel wm) {
@@ -35,10 +37,7 @@ class WalletAccountBodyWidget extends InjectedElementaryParametrizedWidget<
             ),
           ),
           MultiListenerRebuilder(
-            listenableList: [
-              wm.notificationsState,
-              wm.currentAccountState,
-            ],
+            listenableList: [wm.notificationsState, wm.currentAccountState],
             builder: (_) {
               final currentAccount = wm.currentAccountState.value;
               final notifications = wm.notificationsState.value ?? [];
@@ -100,10 +99,8 @@ class _Carousel extends StatelessWidget {
   final KeyAccount account;
   final ValueChanged<bool> onFinishedBackup;
   final VoidCallback onSwitchAccount;
-  final void Function(
-    int index,
-    CarouselPageChangedReason reason,
-  ) onPageChanged;
+  final void Function(int index, CarouselPageChangedReason reason)
+  onPageChanged;
 
   @override
   Widget build(BuildContext context) {
@@ -118,18 +115,16 @@ class _Carousel extends StatelessWidget {
       itemBuilder: (_, i, __) {
         final child = switch (items[i]) {
           NotificationType.backup => BackUpBadge(
-              currentAccount: account,
-              finishedBackupCallback: onFinishedBackup,
-            ),
+            currentAccount: account,
+            finishedBackupCallback: onFinishedBackup,
+          ),
           NotificationType.unsupportedWalletType => UnsupportedWalletTypeAlert(
-              onSwitchAccount: onSwitchAccount,
-            ),
+            onSwitchAccount: onSwitchAccount,
+          ),
         };
 
         return Padding(
-          padding: const EdgeInsets.symmetric(
-            horizontal: DimensSizeV2.d16,
-          ),
+          padding: const EdgeInsets.symmetric(horizontal: DimensSizeV2.d16),
           child: child,
         );
       },
@@ -157,22 +152,20 @@ class _CarouselIndicator extends StatelessWidget {
         child: Row(
           mainAxisAlignment: MainAxisAlignment.center,
           spacing: DimensSizeV2.d8,
-          children: List.generate(
-            itemCount,
-            (index) {
-              final isActive = index == currentPage;
-              final size = isActive ? DimensSizeV2.d8 : DimensSizeV2.d6;
-              final color =
-                  isActive ? theme.colors.content0 : theme.colors.background3;
+          children: List.generate(itemCount, (index) {
+            final isActive = index == currentPage;
+            final size = isActive ? DimensSizeV2.d8 : DimensSizeV2.d6;
+            final color = isActive
+                ? theme.colors.content0
+                : theme.colors.background3;
 
-              return AnimatedContainer(
-                duration: const Duration(milliseconds: 100),
-                width: size,
-                height: size,
-                decoration: BoxDecoration(shape: BoxShape.circle, color: color),
-              );
-            },
-          ),
+            return AnimatedContainer(
+              duration: const Duration(milliseconds: 100),
+              width: size,
+              height: size,
+              decoration: BoxDecoration(shape: BoxShape.circle, color: color),
+            );
+          }),
         ),
       ),
     );

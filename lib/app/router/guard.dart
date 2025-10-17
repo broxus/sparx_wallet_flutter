@@ -38,9 +38,7 @@ class LoggingGuard extends CompassGuard {
     return null;
   }
 
-  void _logRoute(
-    Iterable<CompassBaseGoRoute> routes,
-  ) {
+  void _logRoute(Iterable<CompassBaseGoRoute> routes) {
     final routesTypes = routes.map((it) => it.runtimeType).toList();
     final currentUri = _router?.currentUri.toString() ?? '';
 

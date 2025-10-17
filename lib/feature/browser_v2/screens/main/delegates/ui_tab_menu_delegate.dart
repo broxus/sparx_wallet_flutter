@@ -11,9 +11,7 @@ import 'package:flutter/cupertino.dart';
 
 // ignore: one_member_abstracts
 abstract interface class BrowserTabMenuUi {
-  Future<void> showTabMenu(
-    BrowserTab tab,
-  );
+  Future<void> showTabMenu(BrowserTab tab);
 }
 
 class BrowserTabMenuUiDelegate implements BrowserTabMenuUi {
@@ -29,30 +27,22 @@ class BrowserTabMenuUiDelegate implements BrowserTabMenuUi {
   final BrowserRenderManager renderManager;
   final ValueChanged<String> createGroup;
 
-  final _duration = CustomBottomNavigationBar.animateDuration +
+  final _duration =
+      CustomBottomNavigationBar.animateDuration +
       const Duration(milliseconds: 50);
 
   @override
-  Future<void> showTabMenu(
-    BrowserTab tab,
-  ) async {
-    final result = await Future.delayed(
-      _duration,
-      () {
-        final data = renderManager.getRenderData(tab.id);
-        if (data != null && context.mounted) {
-          return showBrowserTabMenu(context, data);
-        }
-      },
-    );
+  Future<void> showTabMenu(BrowserTab tab) async {
+    final result = await Future.delayed(_duration, () {
+      final data = renderManager.getRenderData(tab.id);
+      if (data != null && context.mounted) {
+        return showBrowserTabMenu(context, data);
+      }
+    });
 
     switch (result) {
       case BrowserTabMenuItemData.copyLink:
-        unawaited(
-          setClipBoardData(
-            tab.url.toString(),
-          ),
-        );
+        unawaited(setClipBoardData(tab.url.toString()));
       case BrowserTabMenuItemData.pinTab:
       // TODO(knightforce): handle
       case BrowserTabMenuItemData.bookmark:

@@ -4,10 +4,8 @@ import 'package:nekoton_repository/nekoton_repository.dart';
 
 @injectable
 class WalletMultisigConfigModel extends ElementaryModel {
-  WalletMultisigConfigModel(
-    this._nekotonRepository,
-    ErrorHandler errorHandler,
-  ) : super(errorHandler: errorHandler);
+  WalletMultisigConfigModel(this._nekotonRepository, ErrorHandler errorHandler)
+    : super(errorHandler: errorHandler);
 
   final NekotonRepository _nekotonRepository;
 

@@ -10,35 +10,28 @@ const _addressQueryParam = 'address';
 @Singleton(as: CompassBaseRoute)
 class SelectNewAssetRoute extends CompassRoute<SelectNewAssetRouteData> {
   SelectNewAssetRoute()
-      : super(
-          path: '/select-new-asset',
-          builder: (context, data, _) => SelectNewAssetPage(
-            address: data.address,
-          ),
-        );
+    : super(
+        path: '/select-new-asset',
+        builder: (context, data, _) =>
+            SelectNewAssetPage(address: data.address),
+      );
 
   @override
   SelectNewAssetRouteData fromQueryParams(Map<String, String> queryParams) {
     return SelectNewAssetRouteData(
-      address: Address(
-        address: queryParams[_addressQueryParam]!,
-      ),
+      address: Address(address: queryParams[_addressQueryParam]!),
     );
   }
 }
 
 class SelectNewAssetRouteData implements CompassRouteDataQuery {
-  const SelectNewAssetRouteData({
-    required this.address,
-  });
+  const SelectNewAssetRouteData({required this.address});
 
   /// Address of the account to select assets for
   final Address address;
 
   @override
   Map<String, String> toQueryParams() {
-    return {
-      _addressQueryParam: address.address,
-    };
+    return {_addressQueryParam: address.address};
   }
 }

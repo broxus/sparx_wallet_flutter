@@ -21,7 +21,5 @@ abstract class GaslessApi {
   );
 
   @POST('/send')
-  Future<GaslessSendResponseDto> send(
-    @Body() GaslessSendRequestDto body,
-  );
+  Future<GaslessSendResponseDto> send(@Body() GaslessSendRequestDto body);
 }

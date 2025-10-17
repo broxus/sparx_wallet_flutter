@@ -12,22 +12,21 @@ import 'package:nekoton_repository/nekoton_repository.dart';
 import 'package:ui_components_lib/v2/ui_components_lib_v2.dart';
 
 @injectable
-class WalletMultisigConfigWidgetModel extends CustomWidgetModelParametrized<
-    WalletMultisigConfigScreen,
-    WalletMultisigConfigModel,
-    WalletMultisigConfigWmParams> {
+class WalletMultisigConfigWidgetModel
+    extends
+        CustomWidgetModelParametrized<
+          WalletMultisigConfigScreen,
+          WalletMultisigConfigModel,
+          WalletMultisigConfigWmParams
+        > {
   WalletMultisigConfigWidgetModel(super.model);
 
   late final ValueNotifier<List<PublicKey>> _custodiansState =
-      createValueNotifier(
-    wmParams.value.initialCustodians ?? [],
-  );
+      createValueNotifier(wmParams.value.initialCustodians ?? []);
   ValueListenable<List<PublicKey>> get custodiansState => _custodiansState;
 
   late final ValueNotifier<int> _requireConfirmationsState =
-      createValueNotifier(
-    _calculateInitialRequireConfirmations(),
-  );
+      createValueNotifier(_calculateInitialRequireConfirmations());
   ValueListenable<int> get requireConfirmationsState =>
       _requireConfirmationsState;
 
@@ -39,8 +38,9 @@ class WalletMultisigConfigWidgetModel extends CustomWidgetModelParametrized<
   late final ValueNotifier<bool> _isValidState = createValueNotifier(false);
   ValueListenable<bool> get isValidState => _isValidState;
 
-  late final ValueNotifier<String?> _errorMessageState =
-      createValueNotifier(null);
+  late final ValueNotifier<String?> _errorMessageState = createValueNotifier(
+    null,
+  );
   ValueListenable<String?> get errorMessageState => _errorMessageState;
 
   ColorsPaletteV2 get colors => _theme.colors;
@@ -65,7 +65,8 @@ class WalletMultisigConfigWidgetModel extends CustomWidgetModelParametrized<
   }
 
   int _calculateInitialRequireConfirmations() {
-    final initial = wmParams.value.initialRequireConfirmations ??
+    final initial =
+        wmParams.value.initialRequireConfirmations ??
         defaultRequireConfirmations;
     final custodiansCount = wmParams.value.initialCustodians?.length ?? 3;
 

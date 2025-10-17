@@ -24,9 +24,7 @@ class BrowserModalItem extends StatelessWidget {
         titleText,
         style: theme.textStyles.labelMedium.copyWith(color: contentColor),
       ),
-      padding: const EdgeInsets.symmetric(
-        horizontal: DimensSizeV2.d24,
-      ),
+      padding: const EdgeInsets.symmetric(horizontal: DimensSizeV2.d24),
       onPressed: onPressed,
       backgroundColor: theme.colors.background2,
       trailing: trailing,

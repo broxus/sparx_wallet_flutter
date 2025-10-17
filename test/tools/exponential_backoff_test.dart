@@ -73,40 +73,34 @@ void main() {
       expect(result, equals('success after retries'));
     });
 
-    test(
-      'respects shouldRetry predicate',
-      () async {
-        final backoff = ExponentialBackoff(
-          initialDuration: const Duration(milliseconds: 10),
-          multiplier: 2,
-          maxAttempts: 3,
-        );
+    test('respects shouldRetry predicate', () async {
+      final backoff = ExponentialBackoff(
+        initialDuration: const Duration(milliseconds: 10),
+        multiplier: 2,
+        maxAttempts: 3,
+      );
 
-        // We'll create two different exception types
-        final retriableException = TimeoutException('Timeout');
-        final nonRetriableException = ArgumentError('Invalid argument');
+      // We'll create two different exception types
+      final retriableException = TimeoutException('Timeout');
+      final nonRetriableException = ArgumentError('Invalid argument');
 
-        var attempts = 0;
+      var attempts = 0;
 
-        // This should succeed because the first exception is retriable
-        await expectLater(
-          backoff.run(
-            () {
-              attempts++;
-              if (attempts == 1) {
-                throw retriableException;
-              } else if (attempts == 2) {
-                // This won't be retried and will be rethrown
-                throw nonRetriableException;
-              }
-              return 'success';
-            },
-            shouldRetry: (e, _) => e is TimeoutException,
-          ),
-          throwsA(isA<ArgumentError>()),
-        );
-      },
-    );
+      // This should succeed because the first exception is retriable
+      await expectLater(
+        backoff.run(() {
+          attempts++;
+          if (attempts == 1) {
+            throw retriableException;
+          } else if (attempts == 2) {
+            // This won't be retried and will be rethrown
+            throw nonRetriableException;
+          }
+          return 'success';
+        }, shouldRetry: (e, _) => e is TimeoutException),
+        throwsA(isA<ArgumentError>()),
+      );
+    });
 
     test('throws the last exception after max attempts', () async {
       final backoff = ExponentialBackoff(
@@ -179,10 +173,7 @@ void main() {
       );
       expect(backoff.multiplier, equals(2.0));
       expect(backoff.maxAttempts, equals(5));
-      expect(
-        backoff.maxDelay,
-        equals(const Duration(seconds: 30)),
-      );
+      expect(backoff.maxDelay, equals(const Duration(seconds: 30)));
       expect(backoff.jitter, equals(0.2));
     });
 

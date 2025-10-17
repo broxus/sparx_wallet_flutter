@@ -91,9 +91,7 @@ class CreateSeedView extends StatelessWidget {
 }
 
 class _WordsField extends StatelessWidget {
-  const _WordsField({
-    required this.seed,
-  });
+  const _WordsField({required this.seed});
 
   final SeedPhraseModel seed;
 
@@ -108,11 +106,8 @@ class _WordsField extends StatelessWidget {
             children: seed.words
                 .getRange(0, lengthHalf)
                 .mapIndexed(
-                  (i, word) => _TextPair(
-                    key: ValueKey(i),
-                    word: word,
-                    index: i + 1,
-                  ),
+                  (i, word) =>
+                      _TextPair(key: ValueKey(i), word: word, index: i + 1),
                 )
                 .toList(),
           ),
@@ -137,11 +132,7 @@ class _WordsField extends StatelessWidget {
 }
 
 class _TextPair extends StatelessWidget {
-  const _TextPair({
-    required this.word,
-    required this.index,
-    super.key,
-  });
+  const _TextPair({required this.word, required this.index, super.key});
 
   static final _format = NumberFormat('0');
 
@@ -163,10 +154,7 @@ class _TextPair extends StatelessWidget {
 }
 
 class _CopyButton extends StatelessWidget {
-  const _CopyButton({
-    required this.copied,
-    required this.onCopy,
-  });
+  const _CopyButton({required this.copied, required this.onCopy});
 
   final bool copied;
   final VoidCallback onCopy;

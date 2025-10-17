@@ -25,42 +25,35 @@ class TonWalletDetailsRoute extends CompassRoute<TonWalletDetailsRouteData> {
     @Named.from(ConfirmMultisigTransactionRoute)
     CompassBaseRoute confirmMultisigTransactionRoute,
   ) : super(
-          path: '/ton-details',
-          builder: (context, data, _) => TonWalletDetailsPage(
-            address: data.address,
-          ),
-          bottomBarState: BottomBarState.hidden,
-          compassBaseRoutes: [
-            walletMultisigConfigRoute,
-            walletDeployConfirmRoute,
-            walletPrepareTransferRoute,
-            walletPrepareSpecifiedTransferRoute,
-            confirmMultisigTransactionRoute,
-          ],
-        );
+        path: '/ton-details',
+        builder: (context, data, _) =>
+            TonWalletDetailsPage(address: data.address),
+        bottomBarState: BottomBarState.hidden,
+        compassBaseRoutes: [
+          walletMultisigConfigRoute,
+          walletDeployConfirmRoute,
+          walletPrepareTransferRoute,
+          walletPrepareSpecifiedTransferRoute,
+          confirmMultisigTransactionRoute,
+        ],
+      );
 
   @override
   TonWalletDetailsRouteData fromQueryParams(Map<String, String> queryParams) {
     return TonWalletDetailsRouteData(
-      address: Address(
-        address: queryParams[_addressQueryParam]!,
-      ),
+      address: Address(address: queryParams[_addressQueryParam]!),
     );
   }
 }
 
 class TonWalletDetailsRouteData implements CompassRouteDataQuery {
-  const TonWalletDetailsRouteData({
-    required this.address,
-  });
+  const TonWalletDetailsRouteData({required this.address});
 
   /// Address of TON wallet to display
   final Address address;
 
   @override
   Map<String, String> toQueryParams() {
-    return {
-      _addressQueryParam: address.address,
-    };
+    return {_addressQueryParam: address.address};
   }
 }

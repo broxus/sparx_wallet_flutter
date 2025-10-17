@@ -225,12 +225,7 @@ void main() {
         final bytes = writer.toBytes();
 
         // Assert
-        expect(
-          bytes.length,
-          equals(
-            11,
-          ),
-        ); // Header (4) + len1 (1) + data1 (2) +
+        expect(bytes.length, equals(11)); // Header (4) + len1 (1) + data1 (2) +
         // len2 (1) + data2 (3)
 
         // First data block
@@ -260,12 +255,7 @@ void main() {
         final bytes = writer.toBytes();
 
         // Assert
-        expect(
-          bytes.length,
-          equals(
-            10,
-          ),
-        ); // Header (4) + len1 (1) + data1 (2) +
+        expect(bytes.length, equals(10)); // Header (4) + len1 (1) + data1 (2) +
         // len2 (1) + data2 (2)
 
         // ByteData block
@@ -309,11 +299,12 @@ void main() {
         final writer = APDUWriter(ins: ApduIns.getConf);
 
         // Act: Use inherited methods
-        final bytes = (writer
-              ..writeUint8(0x12)
-              ..writeUint16(0x3456)
-              ..writeUint32(0x789ABCDE))
-            .toBytes();
+        final bytes =
+            (writer
+                  ..writeUint8(0x12)
+                  ..writeUint16(0x3456)
+                  ..writeUint32(0x789ABCDE))
+                .toBytes();
 
         // Assert
         expect(
@@ -334,11 +325,12 @@ void main() {
         final writer = APDUWriter(ins: ApduIns.sign);
 
         // Act
-        final bytes = (writer
-              ..writeUint8(0xFF)
-              ..writeData(Uint8List.fromList([0x01, 0x02]))
-              ..writeUint16(0x0304))
-            .toBytes();
+        final bytes =
+            (writer
+                  ..writeUint8(0xFF)
+                  ..writeData(Uint8List.fromList([0x01, 0x02]))
+                  ..writeUint16(0x0304))
+                .toBytes();
 
         // Assert
         expect(
@@ -371,9 +363,7 @@ void main() {
         // Assert: LC should wrap around (implementation dependent)
         expect(
           bytes.length,
-          equals(
-            306,
-          ),
+          equals(306),
         ); // Header (4) + len1 (1) + data1 (200) +
         // len2 (1) + data2 (100)
         // LC behavior with overflow is implementation-specific

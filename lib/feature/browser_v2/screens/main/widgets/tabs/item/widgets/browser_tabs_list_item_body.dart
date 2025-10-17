@@ -57,10 +57,7 @@ class BrowserTabsListItemBody extends StatelessWidget {
                   },
                 ),
               ),
-              _Header(
-                tabNotifier: tabNotifier,
-                onPressedClose: onClosePressed,
-              ),
+              _Header(tabNotifier: tabNotifier, onPressedClose: onClosePressed),
             ],
           ),
         ),
@@ -70,10 +67,7 @@ class BrowserTabsListItemBody extends StatelessWidget {
 }
 
 class _Header extends StatelessWidget {
-  const _Header({
-    required this.tabNotifier,
-    this.onPressedClose,
-  });
+  const _Header({required this.tabNotifier, this.onPressedClose});
 
   final NotNullListenableState<BrowserTab> tabNotifier;
   final VoidCallback? onPressedClose;
@@ -86,9 +80,7 @@ class _Header extends StatelessWidget {
     return SizedBox(
       height: DimensSizeV2.d36,
       child: DecoratedBox(
-        decoration: BoxDecoration(
-          color: colors.background2,
-        ),
+        decoration: BoxDecoration(color: colors.background2),
         child: Row(
           children: [
             Expanded(
@@ -148,11 +140,7 @@ class _ErrorContent extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const SizedBox.expand(
-      child: ColoredBox(
-        color: Colors.white,
-      ),
-    );
+    return const SizedBox.expand(child: ColoredBox(color: Colors.white));
   }
 }
 
@@ -170,11 +158,7 @@ class _ReactiveShapeWidget extends SingleChildRenderObjectWidget {
 
   @override
   RenderObject createRenderObject(BuildContext context) {
-    return _ReactiveShapeRenderBox(
-      activeState,
-      activeColor,
-      inactiveColor,
-    );
+    return _ReactiveShapeRenderBox(activeState, activeColor, inactiveColor);
   }
 
   @override
@@ -226,15 +210,12 @@ class _ReactiveShapeRenderBox extends RenderProxyBox {
     final rRect = RRect.fromRectAndRadius(offset & size, _radius);
 
     if (child != null) {
-      context.pushClipRRect(
-        needsCompositing,
-        offset,
-        rect,
-        rRect,
-        (innerContext, innerOffset) {
-          child!.paint(innerContext, innerOffset);
-        },
-      );
+      context.pushClipRRect(needsCompositing, offset, rect, rRect, (
+        innerContext,
+        innerOffset,
+      ) {
+        child!.paint(innerContext, innerOffset);
+      });
     }
 
     final borderPaint = Paint()

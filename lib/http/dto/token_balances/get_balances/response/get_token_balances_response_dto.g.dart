@@ -7,15 +7,15 @@ part of 'get_token_balances_response_dto.dart';
 // **************************************************************************
 
 GetTokenBalancesResponseDto _$GetTokenBalancesResponseDtoFromJson(
-        Map<String, dynamic> json) =>
-    GetTokenBalancesResponseDto(
-      balances: (json['balances'] as List<dynamic>)
-          .map((e) => TokenBalanceDto.fromJson(e as Map<String, dynamic>))
-          .toList(),
-    );
+  Map<String, dynamic> json,
+) => GetTokenBalancesResponseDto(
+  balances: (json['balances'] as List<dynamic>)
+      .map((e) => TokenBalanceDto.fromJson(e as Map<String, dynamic>))
+      .toList(),
+);
 
 Map<String, dynamic> _$GetTokenBalancesResponseDtoToJson(
-        GetTokenBalancesResponseDto instance) =>
-    <String, dynamic>{
-      'balances': instance.balances.map((e) => e.toJson()).toList(),
-    };
+  GetTokenBalancesResponseDto instance,
+) => <String, dynamic>{
+  'balances': instance.balances.map((e) => e.toJson()).toList(),
+};

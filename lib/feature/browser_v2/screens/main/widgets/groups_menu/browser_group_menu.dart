@@ -9,9 +9,7 @@ import 'package:lucide_icons_flutter/lucide_icons.dart';
 import 'package:ui_components_lib/ui_components_lib.dart';
 import 'package:ui_components_lib/v2/ui_components_lib_v2.dart';
 
-Future<void> showBrowserTabMenu(
-  BuildContext context,
-) {
+Future<void> showBrowserTabMenu(BuildContext context) {
   return showModalBottomSheet(
     context: context,
     barrierColor: Colors.black.withAlpha(204),
@@ -24,9 +22,7 @@ Future<void> showBrowserTabMenu(
 
 class BrowserGroupMenu
     extends InjectedElementaryWidget<BrowserGroupMenuWidgetModel> {
-  const BrowserGroupMenu({
-    super.key,
-  });
+  const BrowserGroupMenu({super.key});
 
   @override
   Widget build(BrowserGroupMenuWidgetModel wm) {
@@ -51,9 +47,7 @@ class BrowserGroupMenu
               onPressedRemoveGroup: wm.onPressedRemoveGroup,
             ),
             const SizedBox(height: DimensSizeV2.d16),
-            _NewGroupButton(
-              onPressed: wm.onPressedNewGroup,
-            ),
+            _NewGroupButton(onPressed: wm.onPressedNewGroup),
           ],
         ),
       ),
@@ -62,10 +56,7 @@ class BrowserGroupMenu
 }
 
 class _Header extends StatelessWidget {
-  const _Header({
-    required this.onPressedEdit,
-    required this.onPressedDone,
-  });
+  const _Header({required this.onPressedEdit, required this.onPressedDone});
 
   final VoidCallback onPressedEdit;
   final VoidCallback onPressedDone;
@@ -150,9 +141,7 @@ class _GroupsList extends StatelessWidget {
 }
 
 class _NewGroupButton extends StatelessWidget {
-  const _NewGroupButton({
-    required this.onPressed,
-  });
+  const _NewGroupButton({required this.onPressed});
 
   final VoidCallback onPressed;
 

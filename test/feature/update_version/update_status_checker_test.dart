@@ -35,20 +35,14 @@ void main() {
       },
     );
 
-    test(
-      'should return warning status when current version <= warning version'
-      ' but > blocking version',
-      () {
-        // Act
-        final result = updateStatusChecker.checkUpdateStatus(
-          '1.2.0',
-          testRules,
-        );
+    test('should return warning status when current version <= warning version'
+        ' but > blocking version', () {
+      // Act
+      final result = updateStatusChecker.checkUpdateStatus('1.2.0', testRules);
 
-        // Assert
-        expect(result, equals(UpdateStatus.warning));
-      },
-    );
+      // Assert
+      expect(result, equals(UpdateStatus.warning));
+    });
 
     test(
       'should return none status when current version > warning version',

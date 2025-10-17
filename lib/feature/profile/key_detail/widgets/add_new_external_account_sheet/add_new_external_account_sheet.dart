@@ -11,28 +11,29 @@ import 'package:ui_components_lib/v2/ui_components_lib_v2.dart';
 Future<void> showAddNewExternalAccountSheet({
   required BuildContext context,
   required PublicKey publicKey,
-}) =>
-    showCommonBottomSheet(
-      context: context,
-      titleTextStyle: context.themeStyleV2.textStyles.headingLarge,
-      title: LocaleKeys.addExistingAccount.tr(),
-      subtitle: LocaleKeys.addExistingAccountDescription.tr(),
-      body: (_, scrollController) => AddNewExternalAccountSheet(
-        publicKey: publicKey,
-        controller: scrollController,
-      ),
-    );
+}) => showCommonBottomSheet(
+  context: context,
+  titleTextStyle: context.themeStyleV2.textStyles.headingLarge,
+  title: LocaleKeys.addExistingAccount.tr(),
+  subtitle: LocaleKeys.addExistingAccountDescription.tr(),
+  body: (_, scrollController) => AddNewExternalAccountSheet(
+    publicKey: publicKey,
+    controller: scrollController,
+  ),
+);
 
 /// Sheet that allows to add new external account.
-class AddNewExternalAccountSheet extends InjectedElementaryParametrizedWidget<
-    AddNewExternalAccountSheetWidgetModel, PublicKey> {
+class AddNewExternalAccountSheet
+    extends
+        InjectedElementaryParametrizedWidget<
+          AddNewExternalAccountSheetWidgetModel,
+          PublicKey
+        > {
   const AddNewExternalAccountSheet({
     required PublicKey publicKey,
     required this.controller,
     super.key,
-  }) : super(
-          wmFactoryParam: publicKey,
-        );
+  }) : super(wmFactoryParam: publicKey);
 
   final ScrollController controller;
 

@@ -15,10 +15,8 @@ import 'package:injectable/injectable.dart';
 /// [ElementaryModel] for [BrowserMainScreen]
 @injectable
 class BrowserMainScreenModel extends ElementaryModel {
-  BrowserMainScreenModel(
-    ErrorHandler errorHandler,
-    this._browserService,
-  ) : super(errorHandler: errorHandler);
+  BrowserMainScreenModel(ErrorHandler errorHandler, this._browserService)
+    : super(errorHandler: errorHandler);
   final BrowserService _browserService;
 
   ListenableState<String?> get activeGroupIdState =>
@@ -50,14 +48,8 @@ class BrowserMainScreenModel extends ElementaryModel {
     return _browserService.tab.getTabById(tabId);
   }
 
-  int? getTabIndex({
-    required String groupId,
-    required String tabId,
-  }) {
-    return _browserService.tab.getTabIndex(
-      groupId: groupId,
-      tabId: tabId,
-    );
+  int? getTabIndex({required String groupId, required String tabId}) {
+    return _browserService.tab.getTabIndex(groupId: groupId, tabId: tabId);
   }
 
   void clearTabs(String groupId) => _browserService.tab.clearTabs(groupId);
@@ -79,8 +71,9 @@ class BrowserMainScreenModel extends ElementaryModel {
 
     final isUrl = UrlValidator.checkString(text);
 
-    final url =
-        isUrl ? Uri.parse(text) : Uri.parse('${BrowserService.searchUrl}$text');
+    final url = isUrl
+        ? Uri.parse(text)
+        : Uri.parse('${BrowserService.searchUrl}$text');
 
     if (isUrl) {
       final isPhishing = _browserService.antiPhishing.checkIsPhishingUri(url);
@@ -91,9 +84,7 @@ class BrowserMainScreenModel extends ElementaryModel {
       }
     }
 
-    unawaited(
-      _browserService.tab.requestUrl(tabId, url),
-    );
+    unawaited(_browserService.tab.requestUrl(tabId, url));
   }
 
   void setController(String tabId, CustomWebViewController controller) {
@@ -117,11 +108,7 @@ class BrowserMainScreenModel extends ElementaryModel {
       return;
     }
 
-    Clipboard.setData(
-      ClipboardData(
-        text: url.toString(),
-      ),
-    );
+    Clipboard.setData(ClipboardData(text: url.toString()));
   }
 
   void addUrlToBookmark(String tabId) {
@@ -142,26 +129,19 @@ class BrowserMainScreenModel extends ElementaryModel {
     String? name,
     String? originalGroupId,
     String? tabId,
-  }) =>
-      _browserService.tab.createBrowserGroup(
-        name: name,
-        isSwitchToCreatedGroup: tabId == null,
-        originalGroupId: originalGroupId,
-        initTabId: tabId,
-      );
+  }) => _browserService.tab.createBrowserGroup(
+    name: name,
+    isSwitchToCreatedGroup: tabId == null,
+    originalGroupId: originalGroupId,
+    initTabId: tabId,
+  );
 
   List<NotNullListenableState<BrowserTab>> getGroupTabs(String groupId) {
     return _browserService.tab.getGroupTabsListenable(groupId);
   }
 
-  String? getTabIdByIndex({
-    required String groupId,
-    required int index,
-  }) {
-    return _browserService.tab.getTabIdByIndex(
-      groupId: groupId,
-      index: index,
-    );
+  String? getTabIdByIndex({required String groupId, required int index}) {
+    return _browserService.tab.getTabIdByIndex(groupId: groupId, index: index);
   }
 
   void updateInteractedState({required bool isInteracted}) {

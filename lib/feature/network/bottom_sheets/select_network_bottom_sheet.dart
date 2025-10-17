@@ -4,9 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:ui_components_lib/ui_components_lib.dart';
 
 /// Helper function to show [SelectNetworkWidget].
-Future<void> showSelectNetworkSheet({
-  required BuildContext context,
-}) {
+Future<void> showSelectNetworkSheet({required BuildContext context}) {
   return showCommonBottomSheet(
     context: context,
     title: LocaleKeys.selectNetwork.tr(),

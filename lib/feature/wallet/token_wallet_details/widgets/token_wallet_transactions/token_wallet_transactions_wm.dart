@@ -9,6 +9,7 @@ import 'package:collection/collection.dart';
 import 'package:elementary_helper/elementary_helper.dart';
 import 'package:injectable/injectable.dart';
 import 'package:logging/logging.dart';
+import 'package:money2/money2.dart';
 import 'package:nekoton_repository/nekoton_repository.dart';
 import 'package:rxdart/rxdart.dart';
 
@@ -23,10 +24,13 @@ class TokenWalletTransactionsParams {
 }
 
 @injectable
-class TokenWalletTransactionsWidgetModel extends CustomWidgetModelParametrized<
-    TokenWalletTransactionsWidget,
-    TokenWalletTransactionsModel,
-    TokenWalletTransactionsParams> {
+class TokenWalletTransactionsWidgetModel
+    extends
+        CustomWidgetModelParametrized<
+          TokenWalletTransactionsWidget,
+          TokenWalletTransactionsModel,
+          TokenWalletTransactionsParams
+        > {
   TokenWalletTransactionsWidgetModel(super.model);
 
   static final _logger = Logger('TokenWalletTransactionsWidgetModel');
@@ -34,8 +38,8 @@ class TokenWalletTransactionsWidgetModel extends CustomWidgetModelParametrized<
   // Single state notifier following the unified state pattern
   late final _walletTransactionsState =
       createNotifier<TokenWalletTransactionsState>(
-    const TokenWalletTransactionsState.loading(),
-  );
+        const TokenWalletTransactionsState.loading(),
+      );
 
   // State getter
   StateNotifier<TokenWalletTransactionsState> get walletTransactionsState =>
@@ -100,27 +104,29 @@ class TokenWalletTransactionsWidgetModel extends CustomWidgetModelParametrized<
   }
 
   Future<void> _init() async {
-    _tokenCustomCurrency =
-        await model.fetchTokenCustomCurrency(rootTokenContract);
+    _tokenCustomCurrency = await model.fetchTokenCustomCurrency(
+      rootTokenContract,
+    );
   }
 
   void _initWalletSubscription() {
-    _walletSubscription =
-        model.getWalletStream(owner, rootTokenContract).listen((value) async {
-      final wallet = value.$1?.wallet;
-      final transport = value.$2.transport;
+    _walletSubscription = model
+        .getWalletStream(owner, rootTokenContract)
+        .listen((value) async {
+          final wallet = value.$1?.wallet;
+          final transport = value.$2.transport;
 
-      if (wallet == null) {
-        _closeSubs();
-        return;
-      }
+          if (wallet == null) {
+            _closeSubs();
+            return;
+          }
 
-      if (!wallet.isTransactionsPreloaded) {
-        await wallet.preloadTransactions();
-      }
+          if (!wallet.isTransactionsPreloaded) {
+            await wallet.preloadTransactions();
+          }
 
-      _createSubs(wallet, transport);
-    });
+          _createSubs(wallet, transport);
+        });
   }
 
   void _closeSubs() {
@@ -130,26 +136,27 @@ class TokenWalletTransactionsWidgetModel extends CustomWidgetModelParametrized<
   void _createSubs(GenericTokenWallet wallet, Transport transport) {
     _closeSubs();
 
-    _ordinaryTransactionsSub = Rx.combineLatest2<
-        void,
-        List<TransactionWithData<TokenWalletTransaction?>>,
-        List<TransactionWithData<TokenWalletTransaction?>>>(
-      wallet.fieldUpdatesStream,
-      model.getTransactionsStream(transport, owner, rootTokenContract),
-      (_, b) => b,
-    ).listen(
-      (transactions) {
-        _transactions = transactions;
-        _ordinary = model.mapOrdinaryTokenTransactions(
-          rootTokenContract: rootTokenContract,
-          transactions: transactions,
-        );
+    _ordinaryTransactionsSub =
+        Rx.combineLatest2<
+              void,
+              List<TransactionWithData<TokenWalletTransaction?>>,
+              List<TransactionWithData<TokenWalletTransaction?>>
+            >(
+              wallet.fieldUpdatesStream,
+              model.getTransactionsStream(transport, owner, rootTokenContract),
+              (_, b) => b,
+            )
+            .listen((transactions) {
+              _transactions = transactions;
+              _ordinary = model.mapOrdinaryTokenTransactions(
+                rootTokenContract: rootTokenContract,
+                transactions: transactions,
+              );
 
-        _ordinaryLoaded = true;
+              _ordinaryLoaded = true;
 
-        _checkState(wallet.moneyBalance.currency);
-      },
-    );
+              _checkState(wallet.moneyBalance.currency);
+            });
   }
 
   void _checkState(Currency currency) {
@@ -157,18 +164,17 @@ class TokenWalletTransactionsWidgetModel extends CustomWidgetModelParametrized<
       _cachedCurrency = currency;
       _transactionsState(fromStream: true);
     } else {
-      _walletTransactionsState
-          .accept(const TokenWalletTransactionsState.loading());
+      _walletTransactionsState.accept(
+        const TokenWalletTransactionsState.loading(),
+      );
     }
   }
 
-  void _transactionsState({
-    bool fromStream = false,
-    bool isLoading = false,
-  }) {
+  void _transactionsState({bool fromStream = false, bool isLoading = false}) {
     if (_ordinary.isEmpty) {
-      _walletTransactionsState
-          .accept(const TokenWalletTransactionsState.empty());
+      _walletTransactionsState.accept(
+        const TokenWalletTransactionsState.empty(),
+      );
     } else {
       final transactions = _ordinary;
 
@@ -201,12 +207,11 @@ class TokenWalletTransactionsWidgetModel extends CustomWidgetModelParametrized<
   /// Get last available prevTransactionLt
   String? _lastLt(
     List<TransactionWithData<TokenWalletTransaction?>> transactions,
-  ) =>
-      transactions
-          .lastWhereOrNull((t) => t.transaction.prevTransactionId != null)
-          ?.transaction
-          .prevTransactionId
-          ?.lt;
+  ) => transactions
+      .lastWhereOrNull((t) => t.transaction.prevTransactionId != null)
+      ?.transaction
+      .prevTransactionId
+      ?.lt;
 
   Future<void> _preloadTransactions(String lastPrevLt) async {
     if (_isPreloading) return;

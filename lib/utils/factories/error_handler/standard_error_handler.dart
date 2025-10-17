@@ -6,9 +6,7 @@ import 'package:ui_components_lib/ui_components_lib.dart';
 
 @Injectable(as: ErrorHandler)
 class PrimaryErrorHandler extends DefaultDebugErrorHandler {
-  PrimaryErrorHandler(
-    this._messengerService,
-  );
+  PrimaryErrorHandler(this._messengerService);
 
   final MessengerService _messengerService;
 
@@ -23,10 +21,7 @@ class PrimaryErrorHandler extends DefaultDebugErrorHandler {
     Duration debounceTime = defaultInfoMessageDebounceDuration,
   }) {
     _messengerService.show(
-      Message.error(
-        message: message,
-        debounceTime: debounceTime,
-      ),
+      Message.error(message: message, debounceTime: debounceTime),
     );
   }
 }

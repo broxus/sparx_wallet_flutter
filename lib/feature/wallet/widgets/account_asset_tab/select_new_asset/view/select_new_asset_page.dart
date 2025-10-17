@@ -11,21 +11,21 @@ import 'package:ui_components_lib/v2/ui_components_lib_v2.dart';
 /// Entry point to screen where user can add new asset(contract) to account with
 /// [Address].
 /// User can add existed asset or custom.
-class SelectNewAssetPage extends InjectedElementaryParametrizedWidget<
-    SelectNewAssetPageWidgetModel, Address> {
-  const SelectNewAssetPage({
-    required Address address,
-    super.key,
-  }) : super(wmFactoryParam: address);
+class SelectNewAssetPage
+    extends
+        InjectedElementaryParametrizedWidget<
+          SelectNewAssetPageWidgetModel,
+          Address
+        > {
+  const SelectNewAssetPage({required Address address, super.key})
+    : super(wmFactoryParam: address);
 
   @override
   Widget build(SelectNewAssetPageWidgetModel wm) {
     return GestureDetector(
       onTap: wm.onTap,
       child: Scaffold(
-        appBar: DefaultAppBar(
-          titleText: LocaleKeys.selectNewAssets.tr(),
-        ),
+        appBar: DefaultAppBar(titleText: LocaleKeys.selectNewAssets.tr()),
         body: DoubleSourceBuilder(
           firstSource: wm.contractsState,
           secondSource: wm.tabState,
@@ -71,19 +71,19 @@ class SelectNewAssetPage extends InjectedElementaryParametrizedWidget<
                   Expanded(
                     child: switch (tab) {
                       SelectNewAssetTabs.custom => SelectNewAssetCustomEnter(
-                          focus: wm.focus,
-                          contracts: list.where((c) => c.$1.isCustom).toList(),
-                          onAddCustom: wm.addCustom,
-                          onInvalidPaste: wm.onInvalidPaste,
-                          onEnableAsset: wm.enableAsset,
-                          onDisableAsset: wm.disableAsset,
-                        ),
+                        focus: wm.focus,
+                        contracts: list.where((c) => c.$1.isCustom).toList(),
+                        onAddCustom: wm.addCustom,
+                        onInvalidPaste: wm.onInvalidPaste,
+                        onEnableAsset: wm.enableAsset,
+                        onDisableAsset: wm.disableAsset,
+                      ),
                       _ => SelectNewAssetSelectTab(
-                          focus: wm.focus,
-                          contracts: list,
-                          onEnableAsset: wm.enableAsset,
-                          onDisableAsset: wm.disableAsset,
-                        ),
+                        focus: wm.focus,
+                        contracts: list,
+                        onEnableAsset: wm.enableAsset,
+                        onDisableAsset: wm.disableAsset,
+                      ),
                     },
                   ),
                   StateNotifierBuilder(

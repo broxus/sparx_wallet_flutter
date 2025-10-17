@@ -10,19 +10,23 @@ import 'package:nekoton_repository/nekoton_repository.dart';
 import 'package:ui_components_lib/ui_components_lib.dart';
 import 'package:ui_components_lib/v2/ui_components_lib_v2.dart';
 
-class TCConnectWidget extends InjectedElementaryParametrizedWidget<
-    TCConnectWidgetModel, TCConnectWmParams> {
+class TCConnectWidget
+    extends
+        InjectedElementaryParametrizedWidget<
+          TCConnectWidgetModel,
+          TCConnectWmParams
+        > {
   TCConnectWidget({
     required ConnectRequest request,
     required DappManifest manifest,
     required this.scrollController,
     super.key,
   }) : super(
-          wmFactoryParam: TCConnectWmParams(
-            request: request,
-            manifest: manifest,
-          ),
-        );
+         wmFactoryParam: TCConnectWmParams(
+           request: request,
+           manifest: manifest,
+         ),
+       );
 
   final ScrollController scrollController;
 
@@ -31,14 +35,11 @@ class TCConnectWidget extends InjectedElementaryParametrizedWidget<
     return ValueListenableBuilder(
       valueListenable: wm.stepState,
       builder: (context, value, child) => switch (value) {
-        TonConnectStep.account => _SelectAccountWidget(
-            wm,
-            scrollController,
-          ),
+        TonConnectStep.account => _SelectAccountWidget(wm, scrollController),
         TonConnectStep.confirm => _ConfirmPermissionsWidget(
-            wm,
-            scrollController,
-          ),
+          wm,
+          scrollController,
+        ),
       },
     );
   }
@@ -105,9 +106,8 @@ class _SelectAccountWidget extends StatelessWidget {
                                   onTap: () => wm.onSelectedChanged(account),
                                 );
                         },
-                        separatorBuilder: (_, __) => CommonDivider(
-                          color: theme.colors.border0,
-                        ),
+                        separatorBuilder: (_, __) =>
+                            CommonDivider(color: theme.colors.border0),
                       );
                     },
                   ),
@@ -168,10 +168,7 @@ class _ConfirmPermissionsWidget extends StatelessWidget {
             child: SeparatedColumn(
               spacing: DimensSizeV2.d12,
               children: [
-                AccountInfo(
-                  account: account,
-                  color: theme.colors.background2,
-                ),
+                AccountInfo(account: account, color: theme.colors.background2),
                 WebsiteInfoWidget(
                   uri: Uri.parse(wm.manifest.url),
                   iconUrl: Uri.tryParse(wm.manifest.iconUrl),

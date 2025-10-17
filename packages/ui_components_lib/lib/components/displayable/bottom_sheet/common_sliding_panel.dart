@@ -11,10 +11,8 @@ const defaultMaxHeight = 500.0;
 const defaultMaxHeightSizePercent = 0.7;
 
 /// Builder for panel item that allows use [ScrollController].
-typedef CommonSlidingPanelBuilder = Widget Function(
-  BuildContext context,
-  ScrollController controller,
-);
+typedef CommonSlidingPanelBuilder =
+    Widget Function(BuildContext context, ScrollController controller);
 
 /// This is a wrapper widget above [SlidingUpPanel] with default behavior.
 class CommonSlidingPanel extends StatefulWidget {
@@ -105,10 +103,14 @@ class _CommonSlidingPanelState extends State<CommonSlidingPanel> {
         return SlidingUpPanel(
           controller: widget.panelController,
           scrollController: controller,
-          minHeight:
-              math.max(height * widget.minHeightSizePercent, widget.minHeight),
-          maxHeight:
-              math.max(height * widget.maxHeightSizePercent, widget.maxHeight),
+          minHeight: math.max(
+            height * widget.minHeightSizePercent,
+            widget.minHeight,
+          ),
+          maxHeight: math.max(
+            height * widget.maxHeightSizePercent,
+            widget.maxHeight,
+          ),
           borderRadius: const BorderRadius.vertical(
             top: Radius.circular(DimensRadius.large),
           ),

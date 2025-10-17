@@ -7,6 +7,7 @@ import 'package:app/http/http.dart';
 import 'package:collection/collection.dart';
 import 'package:injectable/injectable.dart';
 import 'package:logging/logging.dart';
+import 'package:money2/money2.dart';
 import 'package:nekoton_repository/nekoton_repository.dart';
 import 'package:rxdart/rxdart.dart';
 import 'package:string_extensions/string_extensions.dart';
@@ -38,10 +39,8 @@ class TokenWalletsService {
   bool get canSearch =>
       nekotonRepository.currentTransport.manifestUrl.isNotBlank;
 
-  Stream<bool> get canSearchStream =>
-      nekotonRepository.currentTransportStream.map(
-        (transport) => transport.manifestUrl.isNotBlank,
-      );
+  Stream<bool> get canSearchStream => nekotonRepository.currentTransportStream
+      .map((transport) => transport.manifestUrl.isNotBlank);
 
   Future<void> init() async {
     final abis = await Future.wait([
@@ -53,9 +52,7 @@ class TokenWalletsService {
   }
 
   /// Search for non-empty token wallets for account address
-  Stream<SearchStreamValue> searchTokenWalletsForAddress(
-    Address address,
-  ) {
+  Stream<SearchStreamValue> searchTokenWalletsForAddress(Address address) {
     if (!canSearch) return const Stream.empty();
 
     final subject = ReplaySubject<SearchStreamValue>();
@@ -68,8 +65,9 @@ class TokenWalletsService {
     required Subject<SearchStreamValue> subject,
   }) async {
     try {
-      final contracts =
-          await assetsService.allAvailableContractsForAccount(address).first;
+      final contracts = await assetsService
+          .allAvailableContractsForAccount(address)
+          .first;
 
       final success = await _searchWithAPI(
         address: address,
@@ -79,11 +77,7 @@ class TokenWalletsService {
 
       if (!success) {
         if (nekotonRepository.currentTransport.networkName == 'TON') {
-          await _searchWithService(
-            contracts.$1,
-            address,
-            subject,
-          );
+          await _searchWithService(contracts.$1, address, subject);
         } else {
           await _searchWithBlockchain(
             address: address,
@@ -206,17 +200,14 @@ class TokenWalletsService {
   }
 
   Future<void> unsubscribeToken(Address address, Address rootTokenContract) =>
-      nekotonRepository.unsubscribeToken(
-        rootTokenContract,
-        address,
-      );
+      nekotonRepository.unsubscribeToken(rootTokenContract, address);
 
   Currency _getCurrency(TokenContractAsset contract) => Currency.create(
-        contract.symbol,
-        contract.decimals,
-        symbol: contract.symbol,
-        pattern: contract.decimals > 0 ? '0.${'#' * contract.decimals}' : '0',
-      );
+    contract.symbol,
+    contract.decimals,
+    symbol: contract.symbol,
+    pattern: contract.decimals > 0 ? '0.${'#' * contract.decimals}' : '0',
+  );
 
   Future<String?> _getWalletOf({
     required Address address,
@@ -238,9 +229,7 @@ class TokenWalletsService {
     return walletOf.output?['value0'].toString();
   }
 
-  Future<String?> _getBalance({
-    required Address address,
-  }) async {
+  Future<String?> _getBalance({required Address address}) async {
     final state = await nekotonRepository.currentTransport.transport
         .getFullContractState(address);
 

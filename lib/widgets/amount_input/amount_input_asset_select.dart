@@ -67,54 +67,53 @@ class AmountInputAssetSelect extends StatelessWidget {
     AmountInputAsset asset, {
     bool isSelected = false,
     VoidCallback? onPressed,
-  }) =>
-      Builder(
-        builder: (context) {
-          final theme = context.themeStyleV2;
+  }) => Builder(
+    builder: (context) {
+      final theme = context.themeStyleV2;
 
-          return GestureDetector(
-            onTap: onPressed,
-            behavior: HitTestBehavior.translucent,
-            child: Padding(
-              padding: const EdgeInsets.symmetric(vertical: DimensSizeV2.d8),
-              child: SeparatedRow(
-                children: [
-                  TokenWalletIconWidget(
-                    address: asset.rootTokenContract,
-                    logoURI: asset.logoURI,
-                    // tip3 for native
-                    version: asset.version ?? TokenWalletVersion.tip3,
-                  ),
-                  Expanded(
-                    child: SeparatedColumn(
-                      spacing: DimensSizeV2.d4,
-                      mainAxisSize: MainAxisSize.min,
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        AmountWidget.fromMoney(
-                          amount: asset.balance,
-                          style: theme.textStyles.labelSmall,
-                        ),
-                        Text(
-                          asset.title,
-                          style: theme.textStyles.labelXSmall.copyWith(
-                            color: theme.colors.content3,
-                          ),
-                          overflow: TextOverflow.ellipsis,
-                          softWrap: false,
-                          maxLines: 1,
-                        ),
-                      ],
-                    ),
-                  ),
-                  if (isSelected)
-                    const Icon(LucideIcons.check, size: DimensSizeV2.d20),
-                ],
+      return GestureDetector(
+        onTap: onPressed,
+        behavior: HitTestBehavior.translucent,
+        child: Padding(
+          padding: const EdgeInsets.symmetric(vertical: DimensSizeV2.d8),
+          child: SeparatedRow(
+            children: [
+              TokenWalletIconWidget(
+                address: asset.rootTokenContract,
+                logoURI: asset.logoURI,
+                // tip3 for native
+                version: asset.version ?? TokenWalletVersion.tip3,
               ),
-            ),
-          );
-        },
+              Expanded(
+                child: SeparatedColumn(
+                  spacing: DimensSizeV2.d4,
+                  mainAxisSize: MainAxisSize.min,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    AmountWidget.fromMoney(
+                      amount: asset.balance,
+                      style: theme.textStyles.labelSmall,
+                    ),
+                    Text(
+                      asset.title,
+                      style: theme.textStyles.labelXSmall.copyWith(
+                        color: theme.colors.content3,
+                      ),
+                      overflow: TextOverflow.ellipsis,
+                      softWrap: false,
+                      maxLines: 1,
+                    ),
+                  ],
+                ),
+              ),
+              if (isSelected)
+                const Icon(LucideIcons.check, size: DimensSizeV2.d20),
+            ],
+          ),
+        ),
       );
+    },
+  );
 
   void _openSelectSheet(BuildContext context) {
     showCommonBottomSheet<void>(

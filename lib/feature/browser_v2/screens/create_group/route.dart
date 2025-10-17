@@ -10,36 +10,27 @@ const _tabIdQueryParam = 'tabId';
 class CreateBrowserGroupRoute
     extends CompassRoute<CreateBrowserGroupRouteData> {
   CreateBrowserGroupRoute()
-      : super(
-          name: 'createBrowserGroup',
-          path: '/createBrowserGroup',
-          bottomBarState: BottomBarState.hidden,
-          builder: (context, data, __) => CreateBrowserGroupScreen(
-            tabId: data.tabId,
-          ),
-        );
+    : super(
+        name: 'createBrowserGroup',
+        path: '/createBrowserGroup',
+        bottomBarState: BottomBarState.hidden,
+        builder: (context, data, __) =>
+            CreateBrowserGroupScreen(tabId: data.tabId),
+      );
 
   @override
-  CreateBrowserGroupRouteData fromQueryParams(
-    Map<String, String> queryParams,
-  ) {
-    return CreateBrowserGroupRouteData(
-      tabId: queryParams[_tabIdQueryParam],
-    );
+  CreateBrowserGroupRouteData fromQueryParams(Map<String, String> queryParams) {
+    return CreateBrowserGroupRouteData(tabId: queryParams[_tabIdQueryParam]);
   }
 }
 
 class CreateBrowserGroupRouteData implements CompassRouteDataQuery {
-  const CreateBrowserGroupRouteData({
-    this.tabId,
-  });
+  const CreateBrowserGroupRouteData({this.tabId});
 
   final String? tabId;
 
   @override
   Map<String, String> toQueryParams() {
-    return {
-      _tabIdQueryParam: tabId ?? '',
-    };
+    return {_tabIdQueryParam: tabId ?? ''};
   }
 }

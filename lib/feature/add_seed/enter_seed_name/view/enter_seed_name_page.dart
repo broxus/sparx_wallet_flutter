@@ -30,10 +30,7 @@ enum EnterSeedNameCommand {
 /// {@endtemplate}
 class EnterSeedNamePage extends StatefulWidget {
   /// {@macro enter_seed_name_create_page}
-  const EnterSeedNamePage({
-    required this.command,
-    super.key,
-  });
+  const EnterSeedNamePage({required this.command, super.key});
 
   final EnterSeedNameCommand command;
 
@@ -51,10 +48,7 @@ class _EnterSeedNamePageState extends State<EnterSeedNamePage> {
       child: Scaffold(
         resizeToAvoidBottomInset: true,
         appBar: const DefaultAppBar(),
-        body: EnterSeedNameView(
-          isLoading: isLoading,
-          callback: _callback,
-        ),
+        body: EnterSeedNameView(isLoading: isLoading, callback: _callback),
       ),
     );
   }
@@ -63,17 +57,10 @@ class _EnterSeedNamePageState extends State<EnterSeedNamePage> {
     switch (widget.command) {
       case EnterSeedNameCommand.import:
         context.compassContinue(
-          EnterSeedPhraseRouteData(
-            isOnboarding: false,
-            seedName: name,
-          ),
+          EnterSeedPhraseRouteData(isOnboarding: false, seedName: name),
         );
       case EnterSeedNameCommand.create:
-        context.compassContinue(
-          CreateSeedRouteData(
-            seedName: name,
-          ),
-        );
+        context.compassContinue(CreateSeedRouteData(seedName: name));
       case EnterSeedNameCommand.ledger:
         _handleLedger(name);
     }
@@ -85,10 +72,7 @@ class _EnterSeedNamePageState extends State<EnterSeedNamePage> {
     });
 
     try {
-      final pk = await showImportLedgerSheet(
-        context: context,
-        name: name,
-      );
+      final pk = await showImportLedgerSheet(context: context, name: name);
 
       if (pk == null || !context.mounted) return;
 

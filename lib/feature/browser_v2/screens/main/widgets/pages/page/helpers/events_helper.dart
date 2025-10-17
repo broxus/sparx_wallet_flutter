@@ -8,10 +8,7 @@ import 'package:nekoton_webview/nekoton_webview.dart' as nwv;
 import 'package:ui_components_lib/ui_components_lib.dart';
 
 class EventsHelper {
-  EventsHelper(
-    this._nekotonRepository,
-    this._permissionsService,
-  );
+  EventsHelper(this._nekotonRepository, this._permissionsService);
 
   final NekotonRepository _nekotonRepository;
   final PermissionsService _permissionsService;
@@ -25,7 +22,9 @@ class EventsHelper {
     required CustomWebViewController controller,
   }) {
     _subs.addAll([
-      _nekotonRepository.tabTransactionsStream(tabId).listen(
+      _nekotonRepository
+          .tabTransactionsStream(tabId)
+          .listen(
             (event) => controller.transactionsFound(
               nwv.TransactionsFoundEvent(
                 event.address.address,
@@ -36,7 +35,9 @@ class EventsHelper {
               ),
             ),
           ),
-      _nekotonRepository.tabStateChangesStream(tabId).listen(
+      _nekotonRepository
+          .tabStateChangesStream(tabId)
+          .listen(
             (state) => controller.contractStateChanged(
               nwv.ContractStateChangedEvent(
                 state.address.address,
@@ -55,25 +56,23 @@ class EventsHelper {
       _nekotonRepository.hasSeeds.listen((hasSeeds) {
         if (!hasSeeds) controller.loggedOut();
       }),
-      _permissionsService.permissionsStream.listen(
-        (permissions) async {
-          try {
-            final url = await controller.getUrl();
-            final currentPermissions = url == null
-                ? null
-                : permissions[Uri.parse(url.universalOrigin)];
-            await controller.permissionsChanged(
-              nwv.PermissionsChangedEvent(
-                nwv.PermissionsPartial.fromJson(
-                  currentPermissions?.toJson() ?? {},
-                ),
+      _permissionsService.permissionsStream.listen((permissions) async {
+        try {
+          final url = await controller.getUrl();
+          final currentPermissions = url == null
+              ? null
+              : permissions[Uri.parse(url.universalOrigin)];
+          await controller.permissionsChanged(
+            nwv.PermissionsChangedEvent(
+              nwv.PermissionsPartial.fromJson(
+                currentPermissions?.toJson() ?? {},
               ),
-            );
-          } catch (e, s) {
-            _log.severe('ERROR', e, s);
-          }
-        },
-      ),
+            ),
+          );
+        } catch (e, s) {
+          _log.severe('ERROR', e, s);
+        }
+      }),
     ]);
   }
 

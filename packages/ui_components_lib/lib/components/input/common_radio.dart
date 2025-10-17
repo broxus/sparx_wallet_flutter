@@ -134,8 +134,8 @@ class CommonRadio<T> extends StatelessWidget {
             color: hasError
                 ? colors.alert
                 : enabled
-                    ? colors.strokePrimary
-                    : colors.strokeSecondary,
+                ? colors.strokePrimary
+                : colors.strokeSecondary,
           ),
         ),
       ),
@@ -150,9 +150,7 @@ class CommonRadio<T> extends StatelessWidget {
         child: Material(
           color: enabled ? colors.textPrimary : colors.textSecondary,
           shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(
-              DimensRadius.xSmall,
-            ),
+            borderRadius: BorderRadius.circular(DimensRadius.xSmall),
           ),
         ),
       ),

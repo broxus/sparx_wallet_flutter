@@ -8,8 +8,13 @@ import 'package:flutter/material.dart';
 import 'package:injectable/injectable.dart';
 
 @injectable
-class ContactSupportWidgetModel extends CustomWidgetModelParametrized<
-    ContactSupportSheet, ContactSupportModel, ContactSupportMode> {
+class ContactSupportWidgetModel
+    extends
+        CustomWidgetModelParametrized<
+          ContactSupportSheet,
+          ContactSupportModel,
+          ContactSupportMode
+        > {
   ContactSupportWidgetModel(super.model);
 
   late final _busyState = createNotifier(false);

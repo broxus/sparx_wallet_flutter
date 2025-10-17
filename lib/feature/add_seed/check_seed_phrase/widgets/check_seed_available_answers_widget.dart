@@ -54,9 +54,7 @@ class CheckSeedAvailableAnswersWidget extends StatelessWidget {
   }
 
   Widget _answersRow(List<String> answers) {
-    return SeparatedRow(
-      children: answers.map(_answerBuilder).toList(),
-    );
+    return SeparatedRow(children: answers.map(_answerBuilder).toList());
   }
 
   Widget _answerBuilder(String answer) {

@@ -35,11 +35,7 @@ class TokenWalletIconWidget extends StatelessWidget {
                   ),
           ),
           if (version == TokenWalletVersion.oldTip3v4)
-            const Positioned(
-              right: 0,
-              bottom: 0,
-              child: TokenAssetOldLabel(),
-            ),
+            const Positioned(right: 0, bottom: 0, child: TokenAssetOldLabel()),
         ],
       ),
     );
@@ -61,9 +57,7 @@ class TokenAssetOldLabel extends StatelessWidget {
       padding: const EdgeInsets.all(DimensSize.d4),
       child: Text(
         LocaleKeys.oldWord.tr(),
-        style: StyleRes.addRegular.copyWith(
-          color: colors.textPrimary,
-        ),
+        style: StyleRes.addRegular.copyWith(color: colors.textPrimary),
       ),
     );
   }

@@ -1,5 +1,6 @@
 import 'package:app/data/models/custom_currency.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
+import 'package:money2/money2.dart';
 import 'package:nekoton_repository/nekoton_repository.dart';
 
 part 'token_wallet_transactions_state.freezed.dart';

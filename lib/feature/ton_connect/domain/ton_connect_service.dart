@@ -32,17 +32,13 @@ class TonConnectService {
 
   Stream<TonConnectUiEvent> get uiEventsStream => _uiEvents.stream;
 
-  Future<ConnectResult> connect({
-    required ConnectRequest request,
-  }) async {
+  Future<ConnectResult> connect({required ConnectRequest request}) async {
     // TonConnect is only available for TON network
     final transport = _nekotonRepository.currentTransport;
     if (!transport.networkType.isTon) {
       _uiEvents.add(
         TonConnectUiEvent.error(
-          message: LocaleKeys.invalidNetworkError.tr(
-            args: ['TON'],
-          ),
+          message: LocaleKeys.invalidNetworkError.tr(args: ['TON']),
         ),
       );
       return ConnectResult.error(
@@ -56,9 +52,7 @@ class TonConnectService {
     final manifest = await _getManifest(request.manifestUrl);
     if (manifest == null) {
       _uiEvents.add(
-        TonConnectUiEvent.error(
-          message: LocaleKeys.dappManifestError.tr(),
-        ),
+        TonConnectUiEvent.error(message: LocaleKeys.dappManifestError.tr()),
       );
       return ConnectResult.error(
         error: TonConnectError(
@@ -94,9 +88,7 @@ class TonConnectService {
     );
   }
 
-  void disconnect({
-    required TonAppConnection connection,
-  }) =>
+  void disconnect({required TonAppConnection connection}) =>
       _storageService.removeConnection(connection);
 
   void disconnectAllInBrowser() {
@@ -126,9 +118,7 @@ class TonConnectService {
     if (!transport.networkType.isTon || payload.network?.toInt() != networkId) {
       _uiEvents.add(
         TonConnectUiEvent.error(
-          message: LocaleKeys.invalidNetworkError.tr(
-            args: ['TON'],
-          ),
+          message: LocaleKeys.invalidNetworkError.tr(args: ['TON']),
         ),
       );
 
@@ -166,9 +156,7 @@ class TonConnectService {
     final now = NtpTime.now().millisecondsSinceEpoch ~/ 1000;
     if (payload.validUntil != null && payload.validUntil! < now) {
       _uiEvents.add(
-        TonConnectUiEvent.error(
-          message: LocaleKeys.operationTimeout.tr(),
-        ),
+        TonConnectUiEvent.error(message: LocaleKeys.operationTimeout.tr()),
       );
 
       return SendTransactionResponse.error(
@@ -201,10 +189,7 @@ class TonConnectService {
       );
     }
 
-    return SendTransactionResponse.success(
-      id: requestId,
-      result: message.boc,
-    );
+    return SendTransactionResponse.success(id: requestId, result: message.boc);
   }
 
   Future<SignDataResponse> signData({
@@ -216,9 +201,7 @@ class TonConnectService {
     if (!transport.networkType.isTon) {
       _uiEvents.add(
         TonConnectUiEvent.error(
-          message: LocaleKeys.invalidNetworkError.tr(
-            args: ['TON'],
-          ),
+          message: LocaleKeys.invalidNetworkError.tr(args: ['TON']),
         ),
       );
 
@@ -255,9 +238,7 @@ class TonConnectService {
 
     if (payload.publicKey != null && wallet.publicKey != payload.publicKey) {
       _uiEvents.add(
-        TonConnectUiEvent.error(
-          message: LocaleKeys.invalidPublicKeyError.tr(),
-        ),
+        TonConnectUiEvent.error(message: LocaleKeys.invalidPublicKeyError.tr()),
       );
 
       return SignDataResponse.error(
@@ -290,22 +271,19 @@ class TonConnectService {
       );
     }
 
-    return SignDataResponse.success(
-      id: requestId,
-      result: result,
-    );
+    return SignDataResponse.success(id: requestId, result: result);
   }
 
   Future<DeviceInfo> getDeviceInfo() async => DeviceInfo(
-        platform: Platform.operatingSystem,
-        appName: 'sparx',
-        appVersion: await _appVersionService.appVersion(),
-        maxProtocolVersion: 2,
-        features: const [
-          Feature.sendTransaction(maxMessages: 4),
-          Feature.signData(),
-        ],
-      );
+    platform: Platform.operatingSystem,
+    appName: 'sparx',
+    appVersion: await _appVersionService.appVersion(),
+    maxProtocolVersion: 2,
+    features: const [
+      Feature.sendTransaction(maxMessages: 4),
+      Feature.signData(),
+    ],
+  );
 
   Future<DappManifest?> _getManifest(String manifestUrl) async {
     try {

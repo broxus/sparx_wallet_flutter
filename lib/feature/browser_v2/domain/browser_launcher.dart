@@ -6,10 +6,7 @@ import 'package:injectable/injectable.dart';
 
 @injectable
 class BrowserLauncher {
-  BrowserLauncher(
-    this._compassRouter,
-    this._browserService,
-  );
+  BrowserLauncher(this._compassRouter, this._browserService);
 
   final CompassRouter _compassRouter;
   final BrowserService _browserService;

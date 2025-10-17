@@ -24,9 +24,9 @@ class CurrencyRefresher implements RefreshingInterface {
 
   @override
   Future<void> refresh() => currenciesService._currencyChangedListener(
-        currentAccountsService.currentAccounts?.displayAccounts,
-        nekotonRepository.currentTransport,
-      );
+    currentAccountsService.currentAccounts?.displayAccounts,
+    nekotonRepository.currentTransport,
+  );
 
   @override
   String get refreshDescription => 'CurrencyRefresher';
@@ -101,11 +101,7 @@ class CurrenciesService {
     _poller?.stop();
 
     _poller = RefreshPollingQueue(
-      refresher: CurrencyRefresher(
-        this,
-        nekotonRepository,
-        currentAccounts,
-      ),
+      refresher: CurrencyRefresher(this, nekotonRepository, currentAccounts),
       refreshInterval: currencyRefreshInterval,
       stopPollingIfError: false,
     )..start(refreshImmediately: refreshImmediately);
@@ -148,22 +144,23 @@ class CurrenciesService {
   /// this currency to storage and return.
   Future<CustomCurrency?> fetchCurrencyForNativeToken(
     TransportStrategy transport,
-  ) =>
-      fetchCurrencyForContract(transport, transport.nativeTokenAddress);
+  ) => fetchCurrencyForContract(transport, transport.nativeTokenAddress);
 
   Future<CustomCurrency?> getOrFetchCurrency(
     TransportStrategy transport,
     Address rootTokenContract,
   ) async =>
-      currencies(transport.transport.group)
-          .firstWhereOrNull((e) => e.address == rootTokenContract) ??
+      currencies(
+        transport.transport.group,
+      ).firstWhereOrNull((e) => e.address == rootTokenContract) ??
       await fetchCurrencyForContract(transport, rootTokenContract);
 
   Future<CustomCurrency?> getOrFetchNativeCurrency(
     TransportStrategy transport,
   ) async =>
-      currencies(transport.transport.group)
-          .firstWhereOrNull((e) => e.address == transport.nativeTokenAddress) ??
+      currencies(
+        transport.transport.group,
+      ).firstWhereOrNull((e) => e.address == transport.nativeTokenAddress) ??
       await fetchCurrencyForNativeToken(transport);
 
   /// Update all currencies for [assets] and its token contracts in scope of

@@ -116,10 +116,7 @@ void main() {
         // This will likely cause an error due to the bug
 
         // Act & Assert
-        expect(
-          () => packer.pack(payload, mtu),
-          throwsA(isA<RangeError>()),
-        );
+        expect(() => packer.pack(payload, mtu), throwsA(isA<RangeError>()));
       });
 
       test('handles minimum viable MTU', () {
@@ -192,8 +189,9 @@ void main() {
       test('handles maximum payload size', () {
         // Arrange: Large payload to test 16-bit length encoding
         const payloadSize = 1000; // Reasonable size for testing
-        final payload =
-            Uint8List.fromList(List.generate(payloadSize, (i) => i % 256));
+        final payload = Uint8List.fromList(
+          List.generate(payloadSize, (i) => i % 256),
+        );
         const mtu = 100;
 
         // Act
@@ -224,8 +222,9 @@ void main() {
         // Arrange: Payload that exactly fits available space in first packet
         const mtu = 20;
         const availableSpace = 12; // Based on actual behavior: mtu(20) - 8 = 12
-        final payload =
-            Uint8List.fromList(List.generate(availableSpace, (i) => i));
+        final payload = Uint8List.fromList(
+          List.generate(availableSpace, (i) => i),
+        );
 
         // Act
         final packets = packer.pack(payload, mtu);
@@ -239,8 +238,9 @@ void main() {
         // Arrange: Payload that barely needs a second packet
         const mtu = 20;
         const availableSpace = 12; // First packet capacity
-        final payload =
-            Uint8List.fromList(List.generate(availableSpace + 1, (i) => i));
+        final payload = Uint8List.fromList(
+          List.generate(availableSpace + 1, (i) => i),
+        );
 
         // Act
         final packets = packer.pack(payload, mtu);

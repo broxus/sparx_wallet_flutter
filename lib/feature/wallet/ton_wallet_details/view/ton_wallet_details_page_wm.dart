@@ -5,12 +5,18 @@ import 'package:app/feature/wallet/ton_wallet_details/view/ton_wallet_details_pa
 import 'package:app/feature/wallet/ton_wallet_details/view/ton_wallet_details_page_model.dart';
 import 'package:elementary_helper/elementary_helper.dart';
 import 'package:injectable/injectable.dart';
+import 'package:money2/money2.dart';
 import 'package:nekoton_repository/nekoton_repository.dart';
 import 'package:ui_components_lib/v2/ui_components_lib_v2.dart';
 
 @injectable
-class TonWalletDetailsPageWidgetModel extends CustomWidgetModelParametrized<
-    TonWalletDetailsPage, TonWalletDetailsPageModel, Address> {
+class TonWalletDetailsPageWidgetModel
+    extends
+        CustomWidgetModelParametrized<
+          TonWalletDetailsPage,
+          TonWalletDetailsPageModel,
+          Address
+        > {
   TonWalletDetailsPageWidgetModel(super.model);
 
   late final scrollController = createScrollController();
@@ -45,10 +51,7 @@ class TonWalletDetailsPageWidgetModel extends CustomWidgetModelParametrized<
     _accountState.accept(acc);
     _fiatBalanceState.accept(model.convertCurrency(Fixed.zero));
     _tokenBalanceState.accept(
-      Money.fromBigIntWithCurrency(
-        BigInt.zero,
-        Currencies()[symbol]!,
-      ),
+      Money.fromBigIntWithCurrency(BigInt.zero, Currencies()[symbol]!),
     );
 
     _walletsSubscription = model.walletsMapStream.listen((wallets) {
@@ -71,10 +74,11 @@ class TonWalletDetailsPageWidgetModel extends CustomWidgetModelParametrized<
             );
           });
 
-          _balanceSubscription =
-              model.getTonWalletBalanceStream(address).listen((balance) {
-            _fiatBalanceState.accept(model.convertCurrency(balance));
-          });
+          _balanceSubscription = model
+              .getTonWalletBalanceStream(address)
+              .listen((balance) {
+                _fiatBalanceState.accept(model.convertCurrency(balance));
+              });
         }
       }
     });

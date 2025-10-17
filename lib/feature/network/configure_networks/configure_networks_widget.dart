@@ -10,9 +10,7 @@ import 'package:ui_components_lib/v2/ui_components_lib_v2.dart';
 
 class ConfigureNetworksWidget
     extends InjectedElementaryWidget<ConfigureNetworksWidgetModel> {
-  const ConfigureNetworksWidget({
-    super.key,
-  });
+  const ConfigureNetworksWidget({super.key});
 
   @override
   Widget build(ConfigureNetworksWidgetModel wm) {

@@ -19,10 +19,9 @@ class TCManageDappsModel extends ElementaryModel {
   final TonConnectStorageService _tonConnectStorageService;
   final TonConnectHttpBridge _tonConnectHttpBridge;
 
-  Stream<List<TonAppConnection>> get connections =>
-      _tonConnectStorageService.connectionsStream.map(
-        (connections) => connections.sortedBy((e) => e.manifest.name),
-      );
+  Stream<List<TonAppConnection>> get connections => _tonConnectStorageService
+      .connectionsStream
+      .map((connections) => connections.sortedBy((e) => e.manifest.name));
 
   void disconnect(TonAppConnection connection) {
     if (connection is TonAppConnectionRemote) {

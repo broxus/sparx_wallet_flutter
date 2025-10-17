@@ -21,13 +21,14 @@ class AddAccountConfirmWmParams {
 }
 
 @injectable
-class AddAccountConfirmWidgetModel extends CustomWidgetModelParametrized<
-    AddAccountConfirmWidget,
-    AddAccountConfirmModel,
-    AddAccountConfirmWmParams> {
-  AddAccountConfirmWidgetModel(
-    super.model,
-  );
+class AddAccountConfirmWidgetModel
+    extends
+        CustomWidgetModelParametrized<
+          AddAccountConfirmWidget,
+          AddAccountConfirmModel,
+          AddAccountConfirmWmParams
+        > {
+  AddAccountConfirmWidgetModel(super.model);
 
   late final controller = createTextEditingController();
 
@@ -61,8 +62,9 @@ class AddAccountConfirmWidgetModel extends CustomWidgetModelParametrized<
   }
 
   Future<void> _getAvailableBiometry() async {
-    final available =
-        await model.getAvailableBiometry(wmParams.value.publicKey);
+    final available = await model.getAvailableBiometry(
+      wmParams.value.publicKey,
+    );
     _availableBiometryState.accept(available);
   }
 
@@ -75,9 +77,7 @@ class AddAccountConfirmWidgetModel extends CustomWidgetModelParametrized<
     if (!isCorrect) {
       model.showWrongPassword();
     } else if (contextSafe != null) {
-      Navigator.of(contextSafe!).pop(
-        (wmParams.value.publicKey, password),
-      );
+      Navigator.of(contextSafe!).pop((wmParams.value.publicKey, password));
     }
   }
 }

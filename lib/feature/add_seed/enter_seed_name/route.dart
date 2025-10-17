@@ -14,16 +14,11 @@ class EnterSeedNameRoute extends CompassRoute<EnterSeedNameRouteData> {
     @Named.from(CreateSeedRoute) CompassBaseRoute createSeedRoute,
     @Named.from(EnterSeedPhraseRoute) CompassBaseRoute enterSeedPhraseRoute,
   ) : super(
-          path: '/enter-seed-name',
-          isSaveLocation: true,
-          builder: (_, data, __) => EnterSeedNamePage(
-            command: data.command,
-          ),
-          compassBaseRoutes: [
-            createSeedRoute,
-            enterSeedPhraseRoute,
-          ],
-        );
+        path: '/enter-seed-name',
+        isSaveLocation: true,
+        builder: (_, data, __) => EnterSeedNamePage(command: data.command),
+        compassBaseRoutes: [createSeedRoute, enterSeedPhraseRoute],
+      );
 
   @override
   EnterSeedNameRouteData fromQueryParams(Map<String, String> queryParams) {
@@ -36,16 +31,12 @@ class EnterSeedNameRoute extends CompassRoute<EnterSeedNameRouteData> {
 }
 
 class EnterSeedNameRouteData implements CompassRouteDataQuery {
-  const EnterSeedNameRouteData({
-    required this.command,
-  });
+  const EnterSeedNameRouteData({required this.command});
 
   final EnterSeedNameCommand command;
 
   @override
   Map<String, String> toQueryParams() {
-    return {
-      _commandQueryParam: command.name,
-    };
+    return {_commandQueryParam: command.name};
   }
 }

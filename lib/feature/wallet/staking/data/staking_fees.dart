@@ -6,10 +6,10 @@ class StakingFees {
   });
 
   factory StakingFees.empty() => StakingFees(
-        depositAttachedFee: BigInt.zero,
-        removePendingWithdrawAttachedFee: BigInt.zero,
-        withdrawAttachedFee: BigInt.zero,
-      );
+    depositAttachedFee: BigInt.zero,
+    removePendingWithdrawAttachedFee: BigInt.zero,
+    withdrawAttachedFee: BigInt.zero,
+  );
 
   /// Attached fee to call stake method
   final BigInt depositAttachedFee;

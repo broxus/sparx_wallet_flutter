@@ -59,12 +59,9 @@ class EverButtonStyleProvider extends InheritedWidget {
 
   /// Get information about button style from context
   static EverButtonStyleProvider of(BuildContext context) {
-    final result =
-        context.dependOnInheritedWidgetOfExactType<EverButtonStyleProvider>();
-    assert(
-      result != null,
-      'No EverButtonStyleProvider found in context',
-    );
+    final result = context
+        .dependOnInheritedWidgetOfExactType<EverButtonStyleProvider>();
+    assert(result != null, 'No EverButtonStyleProvider found in context');
 
     return result!;
   }

@@ -14,18 +14,22 @@ import 'package:ui_components_lib/v2/ui_components_lib_v2.dart';
 
 /// Details page of the [TokenWallet], that is used to look though transactions
 /// history and to send/receive tokens.
-class TokenWalletDetailsPage extends InjectedElementaryParametrizedWidget<
-    TokenWalletDetailsWidgetModel, TokenWalletDetailsWmParams> {
+class TokenWalletDetailsPage
+    extends
+        InjectedElementaryParametrizedWidget<
+          TokenWalletDetailsWidgetModel,
+          TokenWalletDetailsWmParams
+        > {
   TokenWalletDetailsPage({
     required Address owner,
     required Address rootTokenContract,
     super.key,
   }) : super(
-          wmFactoryParam: TokenWalletDetailsWmParams(
-            owner: owner,
-            rootTokenContract: rootTokenContract,
-          ),
-        );
+         wmFactoryParam: TokenWalletDetailsWmParams(
+           owner: owner,
+           rootTokenContract: rootTokenContract,
+         ),
+       );
 
   @override
   Widget build(TokenWalletDetailsWidgetModel wm) {
@@ -222,9 +226,7 @@ class _Body extends StatelessWidget {
             secondSource: isLoadingError,
             builder: (_, error, isLoadingError) => Container(
               color: theme.colors.background0,
-              padding: const EdgeInsets.symmetric(
-                horizontal: DimensSizeV2.d16,
-              ),
+              padding: const EdgeInsets.symmetric(horizontal: DimensSizeV2.d16),
               child: error?.let(
                 (error) => Center(
                   child: WalletSubscribeErrorWidget(
@@ -247,14 +249,14 @@ class _Background extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => Positioned.fill(
-        child: SafeArea(
-          child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: DimensSizeV2.d28),
-            child: Image.asset(
-              Assets.images.walletBg.walletBg.path,
-              fit: BoxFit.cover,
-            ),
-          ),
+    child: SafeArea(
+      child: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: DimensSizeV2.d28),
+        child: Image.asset(
+          Assets.images.walletBg.walletBg.path,
+          fit: BoxFit.cover,
         ),
-      );
+      ),
+    ),
+  );
 }

@@ -16,10 +16,8 @@ import 'package:logging/logging.dart';
 import 'package:nekoton_repository/nekoton_repository.dart';
 import 'package:ui_components_lib/ui_components_lib.dart';
 
-typedef SuggestionSelectedCallback = void Function(
-  String suggestion,
-  int index,
-);
+typedef SuggestionSelectedCallback =
+    void Function(String suggestion, int index);
 
 class EnterSeedWmParams {
   EnterSeedWmParams({required this.isOnboarding, required this.seedName});
@@ -30,11 +28,14 @@ class EnterSeedWmParams {
 
 /// [WidgetModel] для [EnterSeedPhraseWidget]
 @injectable
-class EnterSeedPhraseWidgetModel extends CustomWidgetModelParametrized<
-    EnterSeedPhraseWidget, EnterSeedPhraseModel, EnterSeedWmParams> {
-  EnterSeedPhraseWidgetModel(
-    super.model,
-  );
+class EnterSeedPhraseWidgetModel
+    extends
+        CustomWidgetModelParametrized<
+          EnterSeedPhraseWidget,
+          EnterSeedPhraseModel,
+          EnterSeedWmParams
+        > {
+  EnterSeedPhraseWidgetModel(super.model);
 
   static final _log = Logger('EnterSeedPhraseWidgetModel');
 
@@ -64,16 +65,14 @@ class EnterSeedPhraseWidgetModel extends CustomWidgetModelParametrized<
   );
 
   late final _displayPasteButtonState = createNotifier<bool>(true);
-  late final _tabState = createNotifier<EnterSeedPhraseTabData>(
-    () {
-      final currentValue = model.seedPhraseWordsCount.first;
+  late final _tabState = createNotifier<EnterSeedPhraseTabData>(() {
+    final currentValue = model.seedPhraseWordsCount.first;
 
-      return EnterSeedPhraseTabData(
-        currentValue: currentValue,
-        inputs: _inputDataList.take(currentValue).toList(),
-      );
-    }(),
-  );
+    return EnterSeedPhraseTabData(
+      currentValue: currentValue,
+      inputs: _inputDataList.take(currentValue).toList(),
+    );
+  }());
   late final _seedPhraseFormatState = createNotifier(
     networkType.isTon || networkGroup == 'hmstr_mainnet'
         ? SeedPhraseFormat.ton
@@ -107,9 +106,9 @@ class EnterSeedPhraseWidgetModel extends CustomWidgetModelParametrized<
       _tabState.value?.currentValue ?? model.seedPhraseWordsCount.first;
 
   MnemonicType get _mnemonicType => getMnemonicType(
-        format: _seedPhraseFormatState.value,
-        wordsCount: _currentValue,
-      );
+    format: _seedPhraseFormatState.value,
+    wordsCount: _currentValue,
+  );
 
   @override
   void dispose() {
@@ -168,10 +167,7 @@ class EnterSeedPhraseWidgetModel extends CustomWidgetModelParametrized<
 
         final phrase = _getPhrase();
 
-        deriveFromPhrase(
-          phrase: phrase,
-          mnemonicType: _mnemonicType,
-        );
+        deriveFromPhrase(phrase: phrase, mnemonicType: _mnemonicType);
         _next(phrase);
       } on AnyhowException catch (e, s) {
         _log.severe('confirmAction AnyhowException', e, s);
@@ -200,10 +196,7 @@ class EnterSeedPhraseWidgetModel extends CustomWidgetModelParametrized<
   }
 
   /// [index] start with 0
-  void onSuggestionSelected(
-    String suggestion,
-    int index,
-  ) {
+  void onSuggestionSelected(String suggestion, int index) {
     _inputDataList[index].controller
       ..text = suggestion
       ..selection = TextSelection.fromPosition(
@@ -384,9 +377,7 @@ class EnterSeedPhraseWidgetModel extends CustomWidgetModelParametrized<
       inputs = _inputDataList.take(_currentValue).toList();
     }
 
-    _tabState.accept(
-      data.copyWith(inputs: inputs),
-    );
+    _tabState.accept(data.copyWith(inputs: inputs));
   }
 
   void _clearAllInputs() {
@@ -417,10 +408,7 @@ class EnterSeedPhraseWidgetModel extends CustomWidgetModelParametrized<
     final phrase = _getPhrase();
 
     try {
-      deriveFromPhrase(
-        phrase: phrase,
-        mnemonicType: _mnemonicType,
-      );
+      deriveFromPhrase(phrase: phrase, mnemonicType: _mnemonicType);
     } catch (_) {
       try {
         deriveFromPhrase(

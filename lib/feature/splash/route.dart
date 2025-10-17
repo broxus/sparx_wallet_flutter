@@ -7,13 +7,13 @@ import 'package:injectable/injectable.dart';
 class SplashScreenRoute
     extends CompassRouteParameterless<SplashScreenRouteData> {
   SplashScreenRoute()
-      : super(
-          name: 'splash',
-          path: '/splash',
-          isInitial: true, // Mark as initial route
-          isTopLevel: true, // Mark as top-level route
-          builder: (context, _, __) => const SplashScreen(),
-        );
+    : super(
+        name: 'splash',
+        path: '/splash',
+        isInitial: true, // Mark as initial route
+        isTopLevel: true, // Mark as top-level route
+        builder: (context, _, __) => const SplashScreen(),
+      );
 
   @override
   SplashScreenRouteData createData() {

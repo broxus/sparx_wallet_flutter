@@ -4,14 +4,11 @@ import 'package:app/generated/generated.dart';
 import 'package:flutter/material.dart';
 import 'package:ui_components_lib/ui_components_lib.dart';
 
-class EditNetworkPageWidget extends InjectedElementaryParametrizedWidget<
-    EditNetworkWidgetModel, String?> {
-  const EditNetworkPageWidget({
-    String? connectionDataId,
-    super.key,
-  }) : super(
-          wmFactoryParam: connectionDataId,
-        );
+class EditNetworkPageWidget
+    extends
+        InjectedElementaryParametrizedWidget<EditNetworkWidgetModel, String?> {
+  const EditNetworkPageWidget({String? connectionDataId, super.key})
+    : super(wmFactoryParam: connectionDataId);
 
   @override
   Widget build(EditNetworkWidgetModel wm) {

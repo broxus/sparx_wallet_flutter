@@ -17,9 +17,6 @@ Future<void> showDeployMinEverModal({
       args: [(minAmount / BigInt.from(1000000000)).toString(), symbol],
     ),
     assetsPath: Assets.images.icExplamationMark.path,
-    content: AccountSettingsInfoCard(
-      account: account,
-      isShowingKey: false,
-    ),
+    content: AccountSettingsInfoCard(account: account, isShowingKey: false),
   );
 }

@@ -27,21 +27,19 @@ class TonWalletMultisigPendingTransactionDetailsWmParams {
 /// [WidgetModel] для [TonWalletMultisigPendingTransactionDetailsScreen]
 @injectable
 class TonWalletMultisigPendingTransactionDetailsScreenWidgetModel
-    extends CustomWidgetModelParametrized<
-        TonWalletMultisigPendingTransactionDetailsScreen,
-        TonWalletMultisigPendingTransactionDetailsScreenModel,
-        TonWalletMultisigPendingTransactionDetailsWmParams> {
-  TonWalletMultisigPendingTransactionDetailsScreenWidgetModel(
-    super.model,
-  );
+    extends
+        CustomWidgetModelParametrized<
+          TonWalletMultisigPendingTransactionDetailsScreen,
+          TonWalletMultisigPendingTransactionDetailsScreenModel,
+          TonWalletMultisigPendingTransactionDetailsWmParams
+        > {
+  TonWalletMultisigPendingTransactionDetailsScreenWidgetModel(super.model);
 
   late final accountState = createWmParamsNotifier<KeyAccount>(
     (it) => it.account,
   );
 
-  late final priceState = createWmParamsNotifier<Fixed>(
-    (it) => it.price,
-  );
+  late final priceState = createWmParamsNotifier<Fixed>((it) => it.price);
 
   late final safeHexStringState = createWmParamsNotifier<String?>(
     (it) => int.tryParse(it.transaction.transactionId)?.toRadixString(16),
@@ -164,8 +162,6 @@ class TonWalletMultisigPendingTransactionDetailsScreenWidgetModel
 
     if (wallet == null) return null;
 
-    return LocaleKeys.stEverAppearInMinutes.tr(
-      args: [wallet.currency.symbol],
-    );
+    return LocaleKeys.stEverAppearInMinutes.tr(args: [wallet.currency.symbol]);
   }
 }

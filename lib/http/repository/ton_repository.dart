@@ -5,14 +5,10 @@ import 'package:nekoton_repository/nekoton_repository.dart';
 
 @singleton
 class TonRepository {
-  TonRepository(
-    this._api,
-  );
+  TonRepository(this._api);
 
   final TonApi _api;
 
-  Future<TonTokenInfoDto> getTokenInfo({
-    required Address address,
-  }) =>
+  Future<TonTokenInfoDto> getTokenInfo({required Address address}) =>
       _api.getTokenInfo(address.address);
 }

@@ -28,10 +28,9 @@ class WalletPageModel extends ElementaryModel {
   Stream<TransportStrategy> get transportStrategy =>
       _nekotonRepository.currentTransportStream;
 
-  Stream<RootTab> get shouldScrollTopStream =>
-      _rootTabRepository.scrollTabToTopSubject.where(
-        (tab) => tab == RootTab.wallet,
-      );
+  Stream<RootTab> get shouldScrollTopStream => _rootTabRepository
+      .scrollTabToTopSubject
+      .where((tab) => tab == RootTab.wallet);
 
   @override
   void init() {
@@ -77,8 +76,8 @@ class WalletPageModel extends ElementaryModel {
     );
   }
 
-  Stream<TonWalletState?> getWalletStream(Address address) =>
-      _nekotonRepository.walletsMapStream
-          .map((wallets) => wallets[address])
-          .distinct();
+  Stream<TonWalletState?> getWalletStream(Address address) => _nekotonRepository
+      .walletsMapStream
+      .map((wallets) => wallets[address])
+      .distinct();
 }

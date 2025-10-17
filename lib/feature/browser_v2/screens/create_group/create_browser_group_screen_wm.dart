@@ -17,11 +17,14 @@ import 'package:ui_components_lib/v2/theme_style_v2.dart';
 
 /// [WidgetModel] для [CreateBrowserGroupScreen]
 @injectable
-class CreateBrowserGroupScreenWidgetModel extends CustomWidgetModelParametrized<
-    CreateBrowserGroupScreen, CreateBrowserGroupScreenModel, String?> {
-  CreateBrowserGroupScreenWidgetModel(
-    super.model,
-  );
+class CreateBrowserGroupScreenWidgetModel
+    extends
+        CustomWidgetModelParametrized<
+          CreateBrowserGroupScreen,
+          CreateBrowserGroupScreenModel,
+          String?
+        > {
+  CreateBrowserGroupScreenWidgetModel(super.model);
 
   late final screenHeight = MediaQuery.of(context).size.height;
 
@@ -35,8 +38,8 @@ class CreateBrowserGroupScreenWidgetModel extends CustomWidgetModelParametrized<
 
   ThemeStyleV2 get _themeStyleV2 => context.themeStyleV2;
 
-  late final NotNullListenableState<BrowserTab>? tabNotifier =
-      wmParams.value?.let(model.getTabById);
+  late final NotNullListenableState<BrowserTab>? tabNotifier = wmParams.value
+      ?.let(model.getTabById);
 
   ListenableState<File?> get screenShotState => _screenShotState;
 

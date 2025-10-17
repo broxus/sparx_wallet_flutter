@@ -13,9 +13,7 @@ import 'package:ui_components_lib/v2/ui_components_lib_v2.dart';
 /// Screen for displaying update version notification
 class UpdateVersionScreen
     extends InjectedElementaryWidget<UpdateVersionWidgetModel> {
-  const UpdateVersionScreen({
-    super.key,
-  });
+  const UpdateVersionScreen({super.key});
 
   @override
   Widget build(UpdateVersionWidgetModel wm) {
@@ -34,9 +32,7 @@ class UpdateVersionScreen
             body: Stack(
               fit: StackFit.expand,
               children: [
-                const SizedBox.expand(
-                  child: _BlurredBackground(),
-                ),
+                const SizedBox.expand(child: _BlurredBackground()),
                 Align(
                   alignment: Alignment.bottomCenter,
                   child: Stack(
@@ -163,13 +159,11 @@ class _BlurredBackground extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BackdropFilter(
-      filter: ImageFilter.blur(
-        sigmaX: 7,
-        sigmaY: 7,
-      ),
+      filter: ImageFilter.blur(sigmaX: 7, sigmaY: 7),
       child: Container(
-        color: context.themeStyleV2.colors.backgroundOverlay
-            .withValues(alpha: 0.6),
+        color: context.themeStyleV2.colors.backgroundOverlay.withValues(
+          alpha: 0.6,
+        ),
       ),
     );
   }

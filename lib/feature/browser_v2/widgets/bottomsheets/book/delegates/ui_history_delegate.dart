@@ -11,9 +11,7 @@ import 'package:elementary_helper/elementary_helper.dart';
 import 'package:flutter/cupertino.dart';
 
 class UiHistoryDelegate {
-  UiHistoryDelegate(
-    this._model,
-  );
+  UiHistoryDelegate(this._model);
 
   final BrowserBookModel _model;
 
@@ -120,8 +118,9 @@ class UiHistoryDelegate {
 
       final visitTime = item.visitTime;
       if (prevItem == null || !prevItem.visitTime.isSameDay(visitTime)) {
-        final date = _dateFormatCache[visitTime] ??=
-            DateFormat.yMMMMEEEEd(_model.localeCode).format(visitTime);
+        final date = _dateFormatCache[visitTime] ??= DateFormat.yMMMMEEEEd(
+          _model.localeCode,
+        ).format(visitTime);
         result.add(DateUiModel(date));
       }
 
@@ -152,7 +151,8 @@ class UiHistoryDelegate {
   void _search() {
     _historySubs?.cancel();
 
-    _historySubs =
-        _model.watchHistory(searchController.text).listen(_handleHistory);
+    _historySubs = _model
+        .watchHistory(searchController.text)
+        .listen(_handleHistory);
   }
 }

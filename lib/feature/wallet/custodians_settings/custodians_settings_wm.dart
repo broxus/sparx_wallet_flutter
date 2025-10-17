@@ -9,11 +9,14 @@ import 'package:nekoton_repository/nekoton_repository.dart';
 import 'package:ui_components_lib/v2/ui_components_lib_v2.dart';
 
 @injectable
-class CustodianSettingsWidgetModel extends CustomWidgetModelParametrized<
-    CustodiansSettingsView, CustodiansSettingsModel, Address> {
-  CustodianSettingsWidgetModel(
-    super.model,
-  );
+class CustodianSettingsWidgetModel
+    extends
+        CustomWidgetModelParametrized<
+          CustodiansSettingsView,
+          CustodiansSettingsModel,
+          Address
+        > {
+  CustodianSettingsWidgetModel(super.model);
 
   late final _custodiansState = createNotifier<List<CustodianData>>();
   late final _requiredState = createNotifier<int>();

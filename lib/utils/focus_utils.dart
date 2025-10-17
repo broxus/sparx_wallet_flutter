@@ -2,10 +2,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
 import 'package:logging/logging.dart';
 
-void requestFocus(
-  BuildContext context,
-  FocusNode node,
-) {
+void requestFocus(BuildContext context, FocusNode node) {
   FocusScope.of(context).requestFocus(node);
   SystemChannels.textInput.invokeMethod('TextInput.show');
 }
@@ -26,10 +23,7 @@ void resetFocus([BuildContext? context]) {
     final focusScope = FocusScope.of(context);
 
     if (focusScope.focusedChild == null) {
-      requestFocus(
-        context,
-        FocusNode(),
-      );
+      requestFocus(context, FocusNode());
     } else {
       focusScope.focusedChild?.unfocus();
     }

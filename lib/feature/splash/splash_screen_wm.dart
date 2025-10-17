@@ -17,9 +17,7 @@ import 'package:logging/logging.dart';
 @injectable
 class SplashScreenWidgetModel
     extends CustomWidgetModel<SplashScreen, SplashScreenModel> {
-  SplashScreenWidgetModel(
-    super.model,
-  );
+  SplashScreenWidgetModel(super.model);
   final _logger = Logger('SplashScreenWidgetModel');
 
   late final isIos = Platform.isIOS;

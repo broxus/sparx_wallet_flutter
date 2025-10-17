@@ -11,8 +11,12 @@ import 'package:nekoton_repository/nekoton_repository.dart';
 import 'package:ui_components_lib/ui_components_lib.dart';
 import 'package:ui_components_lib/v2/widgets/widgets.dart';
 
-class CancelUnstakingPageWidget extends InjectedElementaryParametrizedWidget<
-    CancelUnstakingPageWidgetModel, CancelUnstakingPageWmParams> {
+class CancelUnstakingPageWidget
+    extends
+        InjectedElementaryParametrizedWidget<
+          CancelUnstakingPageWidgetModel,
+          CancelUnstakingPageWmParams
+        > {
   CancelUnstakingPageWidget({
     required StEverWithdrawRequest request,
     required PublicKey accountKey,
@@ -24,17 +28,17 @@ class CancelUnstakingPageWidget extends InjectedElementaryParametrizedWidget<
     required Fixed? everPrice,
     super.key,
   }) : super(
-          wmFactoryParam: CancelUnstakingPageWmParams(
-            request: request,
-            accountKey: accountKey,
-            exchangeRate: exchangeRate,
-            withdrawHours: withdrawHours,
-            stakeCurrency: stakeCurrency,
-            attachedFee: attachedFee,
-            tokenPrice: tokenPrice,
-            everPrice: everPrice,
-          ),
-        );
+         wmFactoryParam: CancelUnstakingPageWmParams(
+           request: request,
+           accountKey: accountKey,
+           exchangeRate: exchangeRate,
+           withdrawHours: withdrawHours,
+           stakeCurrency: stakeCurrency,
+           attachedFee: attachedFee,
+           tokenPrice: tokenPrice,
+           everPrice: everPrice,
+         ),
+       );
 
   @override
   Widget build(CancelUnstakingPageWidgetModel wm) {
@@ -49,9 +53,7 @@ class CancelUnstakingPageWidget extends InjectedElementaryParametrizedWidget<
     );
 
     return Scaffold(
-      appBar: DefaultAppBar(
-        titleText: LocaleKeys.transactionInformation.tr(),
-      ),
+      appBar: DefaultAppBar(titleText: LocaleKeys.transactionInformation.tr()),
       body: Stack(
         children: [
           Positioned.fill(
@@ -94,12 +96,14 @@ class CancelUnstakingPageWidget extends InjectedElementaryParametrizedWidget<
                           amount: tokenValue,
                           includeSymbol: false,
                         ),
-                        iconPath: asset?.logoURI ??
+                        iconPath:
+                            asset?.logoURI ??
                             Assets.images.tokenDefaultIcon.path,
                         convertedValueWidget: wm.tokenPrice != null
                             ? AmountWidget.dollars(
-                                amount:
-                                    tokenValue.exchangeToUSD(wm.tokenPrice!),
+                                amount: tokenValue.exchangeToUSD(
+                                  wm.tokenPrice!,
+                                ),
                                 style: theme.textStyles.labelXSmall.copyWith(
                                   color: theme.colors.content3,
                                 ),
@@ -155,9 +159,7 @@ class CancelUnstakingPageWidget extends InjectedElementaryParametrizedWidget<
 }
 
 class _StatusDateRow extends StatelessWidget {
-  const _StatusDateRow({
-    required this.request,
-  });
+  const _StatusDateRow({required this.request});
 
   final StEverWithdrawRequest request;
 

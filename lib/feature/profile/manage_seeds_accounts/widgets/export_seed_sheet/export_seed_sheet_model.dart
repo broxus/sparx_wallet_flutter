@@ -4,10 +4,8 @@ import 'package:nekoton_repository/nekoton_repository.dart';
 
 @injectable
 class ExportSeedSheetModel extends ElementaryModel {
-  ExportSeedSheetModel(
-    ErrorHandler errorHandler,
-    this._nekotonRepository,
-  ) : super(errorHandler: errorHandler);
+  ExportSeedSheetModel(ErrorHandler errorHandler, this._nekotonRepository)
+    : super(errorHandler: errorHandler);
 
   final NekotonRepository _nekotonRepository;
 

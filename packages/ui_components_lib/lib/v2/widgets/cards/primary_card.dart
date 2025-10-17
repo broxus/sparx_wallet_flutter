@@ -34,10 +34,7 @@ class PrimaryCard extends StatelessWidget {
           color: color ?? theme.colors.background1,
           borderRadius: borderRadius,
         ),
-        child: Padding(
-          padding: padding,
-          child: child,
-        ),
+        child: Padding(padding: padding, child: child),
       ),
     );
   }

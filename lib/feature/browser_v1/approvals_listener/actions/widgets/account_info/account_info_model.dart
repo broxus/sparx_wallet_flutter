@@ -4,10 +4,8 @@ import 'package:nekoton_repository/nekoton_repository.dart';
 
 @injectable
 class AccountInfoModel extends ElementaryModel {
-  AccountInfoModel(
-    ErrorHandler errorHandler,
-    this._nekotonRepository,
-  ) : super(errorHandler: errorHandler);
+  AccountInfoModel(ErrorHandler errorHandler, this._nekotonRepository)
+    : super(errorHandler: errorHandler);
 
   final NekotonRepository _nekotonRepository;
 

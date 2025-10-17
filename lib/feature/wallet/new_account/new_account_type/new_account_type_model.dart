@@ -91,10 +91,7 @@ class NewAccountTypeModel extends ElementaryModel
               limit: 100,
               offset: 0,
             )
-          : const GetPublicKeysParams.ledger(
-              limit: 100,
-              offset: 0,
-            ),
+          : const GetPublicKeysParams.ledger(limit: 100, offset: 0),
     );
 
     PublicKey? derivedKey;

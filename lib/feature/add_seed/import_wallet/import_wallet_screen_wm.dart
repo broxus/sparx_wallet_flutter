@@ -51,9 +51,9 @@ class ImportWalletScreenWidgetModel
       screenState.value.data?.selectedValue ?? model.allowedValues.first;
 
   MnemonicType get _mnemonicType => getMnemonicType(
-        format: _seedPhraseFormatState.value,
-        wordsCount: _currentValue,
-      );
+    format: _seedPhraseFormatState.value,
+    wordsCount: _currentValue,
+  );
 
   Future<void> onPressedImport() async {
     if (!await model.checkConnection(context)) {
@@ -69,10 +69,7 @@ class ImportWalletScreenWidgetModel
       if (seed != null && seed.isNotEmpty) {
         final phrase = seed.phrase;
 
-        deriveFromPhrase(
-          phrase: phrase,
-          mnemonicType: _mnemonicType,
-        );
+        deriveFromPhrase(phrase: phrase, mnemonicType: _mnemonicType);
 
         if (!context.mounted) return;
 
@@ -147,10 +144,7 @@ class ImportWalletScreenWidgetModel
 
   void onPressedManual() {
     context.compassContinue(
-      const EnterSeedPhraseRouteData(
-        isOnboarding: true,
-        seedName: null,
-      ),
+      const EnterSeedPhraseRouteData(isOnboarding: true, seedName: null),
     );
   }
 
@@ -160,10 +154,7 @@ class ImportWalletScreenWidgetModel
   void _init() {
     final allowedValues = model.allowedValues;
     if (model.allowedValues.isNotEmpty) {
-      _updateState(
-        allowedValues: allowedValues,
-        selectedValue: _currentValue,
-      );
+      _updateState(allowedValues: allowedValues, selectedValue: _currentValue);
     }
   }
 
@@ -200,10 +191,7 @@ class ImportWalletScreenWidgetModel
     }
 
     try {
-      deriveFromPhrase(
-        phrase: seed.phrase,
-        mnemonicType: _mnemonicType,
-      );
+      deriveFromPhrase(phrase: seed.phrase, mnemonicType: _mnemonicType);
     } catch (_) {
       try {
         deriveFromPhrase(

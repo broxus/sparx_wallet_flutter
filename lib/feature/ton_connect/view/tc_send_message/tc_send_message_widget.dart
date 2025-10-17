@@ -13,19 +13,23 @@ import 'package:nekoton_repository/nekoton_repository.dart';
 import 'package:ui_components_lib/ui_components_lib.dart';
 import 'package:ui_components_lib/v2/ui_components_lib_v2.dart';
 
-class TCSendMessageWidget extends InjectedElementaryParametrizedWidget<
-    TCSendMessageWidgetModel, TCSendMessageWmParams> {
+class TCSendMessageWidget
+    extends
+        InjectedElementaryParametrizedWidget<
+          TCSendMessageWidgetModel,
+          TCSendMessageWmParams
+        > {
   TCSendMessageWidget({
     required TonAppConnection connection,
     required TransactionPayload payload,
     required this.scrollController,
     super.key,
   }) : super(
-          wmFactoryParam: TCSendMessageWmParams(
-            connection: connection,
-            payload: payload,
-          ),
-        );
+         wmFactoryParam: TCSendMessageWmParams(
+           connection: connection,
+           payload: payload,
+         ),
+       );
 
   final ScrollController scrollController;
 
@@ -44,10 +48,7 @@ class TCSendMessageWidget extends InjectedElementaryParametrizedWidget<
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
                 MultiListenerRebuilder(
-                  listenableList: [
-                    wm.accountState,
-                    wm.balanceState,
-                  ],
+                  listenableList: [wm.accountState, wm.balanceState],
                   builder: (_) {
                     final account = wm.accountState.value;
                     final balance = wm.balanceState.value;
@@ -178,7 +179,8 @@ class TCSendMessageWidget extends InjectedElementaryParametrizedWidget<
                   isLoading: isLoading ?? false,
                   publicKey: account.publicKey,
                   title: LocaleKeys.sendWord.tr(),
-                  isDisabled: numberUnconfirmedTransactions == null ||
+                  isDisabled:
+                      numberUnconfirmedTransactions == null ||
                       numberUnconfirmedTransactions >= 5 ||
                       (hasTxError && isConfirmed != true),
                   onConfirmed: wm.onSubmit,

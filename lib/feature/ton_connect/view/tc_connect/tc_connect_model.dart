@@ -8,6 +8,7 @@ import 'package:convert/convert.dart';
 import 'package:crypto/crypto.dart';
 import 'package:elementary/elementary.dart';
 import 'package:injectable/injectable.dart';
+import 'package:money2/money2.dart';
 import 'package:nekoton_repository/nekoton_repository.dart';
 
 @injectable
@@ -28,9 +29,7 @@ class TCConnectModel extends ElementaryModel {
 
   List<KeyAccount> get accounts => _nekotonRepository.seedList.seeds
       .expand(
-        (seed) => seed.allKeys.expand(
-          (key) => key.accountList.allAccounts,
-        ),
+        (seed) => seed.allKeys.expand((key) => key.accountList.allAccounts),
       )
       .where((account) => !account.isHidden)
       .toList();
@@ -64,19 +63,19 @@ class TCConnectModel extends ElementaryModel {
     for (final item in request.items) {
       final replyItem = switch (item) {
         TonAddressItem() => ConnectItemReply.tonAddress(
-            network: isTestnet ? TonNetwork.testnet : TonNetwork.mainnet,
-            address: account.address,
-            publicKey: account.publicKey,
-            walletStateInit: await wallet?.makeStateInit() ?? '',
-          ),
+          network: isTestnet ? TonNetwork.testnet : TonNetwork.mainnet,
+          address: account.address,
+          publicKey: account.publicKey,
+          walletStateInit: await wallet?.makeStateInit() ?? '',
+        ),
         TonProofItem(:final payload) => ConnectItemReply.tonProofSuccess(
-            proof: await _createProof(
-              signInputAuth: signInputAuth,
-              payload: payload,
-              account: account,
-              manifest: manifest,
-            ),
+          proof: await _createProof(
+            signInputAuth: signInputAuth,
+            payload: payload,
+            account: account,
+            manifest: manifest,
           ),
+        ),
       };
 
       replyItems.add(replyItem);
@@ -97,11 +96,7 @@ class TCConnectModel extends ElementaryModel {
     final domain = Uri.parse(manifest.url).host;
     final domainBytes = utf8.encode(domain);
     final domainLength = ByteData(4)
-      ..setInt32(
-        0,
-        domainBytes.length,
-        Endian.little,
-      );
+      ..setInt32(0, domainBytes.length, Endian.little);
 
     final addressParts = account.address.toRaw().split(':');
     final workchain = int.parse(addressParts[0]);
@@ -151,8 +146,6 @@ class TCConnectModel extends ElementaryModel {
   Future<SignInputAuthLedger> getLedgerAuthInput(KeyAccount account) async {
     final wallet = await _getWallet(account);
 
-    return SignInputAuthLedger(
-      wallet: wallet!.walletType,
-    );
+    return SignInputAuthLedger(wallet: wallet!.walletType);
   }
 }

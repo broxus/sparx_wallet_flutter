@@ -12,18 +12,22 @@ import 'package:ui_components_lib/v2/ui_components_lib_v2.dart';
 
 const _walletV5R1 = WalletType.walletV5R1();
 
-class NewAccountTypeWidget extends InjectedElementaryParametrizedWidget<
-    NewAccountTypeWidgetModel, NewAccountTypeWmParams> {
+class NewAccountTypeWidget
+    extends
+        InjectedElementaryParametrizedWidget<
+          NewAccountTypeWidgetModel,
+          NewAccountTypeWmParams
+        > {
   NewAccountTypeWidget({
     required PublicKey publicKey,
     required String? password,
     super.key,
   }) : super(
-          wmFactoryParam: NewAccountTypeWmParams(
-            publicKey: publicKey,
-            password: password,
-          ),
-        );
+         wmFactoryParam: NewAccountTypeWmParams(
+           publicKey: publicKey,
+           password: password,
+         ),
+       );
 
   @override
   Widget build(NewAccountTypeWidgetModel wm) {
@@ -49,8 +53,9 @@ class NewAccountTypeWidget extends InjectedElementaryParametrizedWidget<
                   builder: (_, selected) => PrimaryCard(
                     padding: EdgeInsets.zero,
                     color: theme.colors.background1,
-                    borderRadius:
-                        BorderRadius.circular(DimensRadiusV2.radius12),
+                    borderRadius: BorderRadius.circular(
+                      DimensRadiusV2.radius12,
+                    ),
                     child: SeparatedColumn(
                       mainAxisSize: MainAxisSize.min,
                       separator: const CommonDivider(),
@@ -73,8 +78,9 @@ class NewAccountTypeWidget extends InjectedElementaryParametrizedWidget<
                         if (wm.defaultMultisigType != null)
                           _WalletType(
                             name: LocaleKeys.multisignatureWord.tr(),
-                            description:
-                                _getDescription(wm.defaultMultisigType!),
+                            description: _getDescription(
+                              wm.defaultMultisigType!,
+                            ),
                             checked: wm.defaultMultisigType == selected,
                             disabled: disabledTypes.contains(
                               wm.defaultMultisigType,
@@ -142,8 +148,9 @@ class NewAccountTypeWidget extends InjectedElementaryParametrizedWidget<
                           return PrimaryCard(
                             padding: EdgeInsets.zero,
                             color: theme.colors.background1,
-                            borderRadius:
-                                BorderRadius.circular(DimensRadiusV2.radius12),
+                            borderRadius: BorderRadius.circular(
+                              DimensRadiusV2.radius12,
+                            ),
                             child: SeparatedColumn(
                               mainAxisSize: MainAxisSize.min,
                               separator: const CommonDivider(),
@@ -168,10 +175,7 @@ class NewAccountTypeWidget extends InjectedElementaryParametrizedWidget<
           ),
         ),
         MultiListenerRebuilder(
-          listenableList: [
-            wm.loadingState,
-            wm.selectedState,
-          ],
+          listenableList: [wm.loadingState, wm.selectedState],
           builder: (_) {
             final isLoading = wm.loadingState.value;
             final selected = wm.selectedState.value;
@@ -195,34 +199,31 @@ class NewAccountTypeWidget extends InjectedElementaryParametrizedWidget<
   }
 
   String _getDescription(WalletType walletType) => switch (walletType) {
-        WalletTypeMultisig(:final data) => switch (data) {
-            MultisigType.safeMultisigWallet =>
-              LocaleKeys.walletDescriptionSafeMultisigWallet.tr(),
-            MultisigType.safeMultisigWallet24h =>
-              LocaleKeys.walletDescriptionSafeMultisigWallet24h.tr(),
-            MultisigType.setcodeMultisigWallet =>
-              LocaleKeys.walletDescriptionSetcodeMultisigWallet.tr(),
-            MultisigType.setcodeMultisigWallet24h =>
-              LocaleKeys.walletDescriptionSetcodeMultisigWallet24h.tr(),
-            MultisigType.bridgeMultisigWallet =>
-              LocaleKeys.walletDescriptionBridgeMultisigWallet.tr(),
-            MultisigType.surfWallet =>
-              LocaleKeys.walletDescriptionSurfWallet.tr(),
-            MultisigType.multisig2 =>
-              LocaleKeys.walletDescriptionMultisig2.tr(),
-            MultisigType.multisig2_1 =>
-              LocaleKeys.walletDescriptionMultisig2_1.tr(),
-          },
-        WalletTypeEverWallet() => LocaleKeys.walletDescriptionEverWallet.tr(),
-        WalletTypeWalletV3() => LocaleKeys.walletDescriptionWalletV3.tr(),
-        WalletTypeHighloadWalletV2() =>
-          LocaleKeys.walletDescriptionHighloadWalletV2.tr(),
-        WalletTypeWalletV3R1() => LocaleKeys.walletDescriptionWalletV3R1.tr(),
-        WalletTypeWalletV3R2() => LocaleKeys.walletDescriptionWalletV3R2.tr(),
-        WalletTypeWalletV4R1() => LocaleKeys.walletDescriptionWalletV4R1.tr(),
-        WalletTypeWalletV4R2() => LocaleKeys.walletDescriptionWalletV4R2.tr(),
-        WalletTypeWalletV5R1() => LocaleKeys.walletDescriptionWalletV5R1.tr(),
-      };
+    WalletTypeMultisig(:final data) => switch (data) {
+      MultisigType.safeMultisigWallet =>
+        LocaleKeys.walletDescriptionSafeMultisigWallet.tr(),
+      MultisigType.safeMultisigWallet24h =>
+        LocaleKeys.walletDescriptionSafeMultisigWallet24h.tr(),
+      MultisigType.setcodeMultisigWallet =>
+        LocaleKeys.walletDescriptionSetcodeMultisigWallet.tr(),
+      MultisigType.setcodeMultisigWallet24h =>
+        LocaleKeys.walletDescriptionSetcodeMultisigWallet24h.tr(),
+      MultisigType.bridgeMultisigWallet =>
+        LocaleKeys.walletDescriptionBridgeMultisigWallet.tr(),
+      MultisigType.surfWallet => LocaleKeys.walletDescriptionSurfWallet.tr(),
+      MultisigType.multisig2 => LocaleKeys.walletDescriptionMultisig2.tr(),
+      MultisigType.multisig2_1 => LocaleKeys.walletDescriptionMultisig2_1.tr(),
+    },
+    WalletTypeEverWallet() => LocaleKeys.walletDescriptionEverWallet.tr(),
+    WalletTypeWalletV3() => LocaleKeys.walletDescriptionWalletV3.tr(),
+    WalletTypeHighloadWalletV2() =>
+      LocaleKeys.walletDescriptionHighloadWalletV2.tr(),
+    WalletTypeWalletV3R1() => LocaleKeys.walletDescriptionWalletV3R1.tr(),
+    WalletTypeWalletV3R2() => LocaleKeys.walletDescriptionWalletV3R2.tr(),
+    WalletTypeWalletV4R1() => LocaleKeys.walletDescriptionWalletV4R1.tr(),
+    WalletTypeWalletV4R2() => LocaleKeys.walletDescriptionWalletV4R2.tr(),
+    WalletTypeWalletV5R1() => LocaleKeys.walletDescriptionWalletV5R1.tr(),
+  };
 }
 
 class _WalletType extends StatelessWidget {

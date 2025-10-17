@@ -15,15 +15,13 @@ class CheckSeedPhraseRoute extends CompassRoute<CheckSeedPhraseRouteData> {
     @Named.from(CreateSeedPasswordRoute)
     CompassBaseRoute createSeedPasswordProfileRoute,
   ) : super(
-          path: '/check-seed',
-          builder: (context, data, _) => CheckSeedPhrasePage(
-            seed: SeedPhraseModel(data.seedPhrase),
-            name: data.name,
-          ),
-          compassBaseRoutes: [
-            createSeedPasswordProfileRoute,
-          ],
-        );
+        path: '/check-seed',
+        builder: (context, data, _) => CheckSeedPhrasePage(
+          seed: SeedPhraseModel(data.seedPhrase),
+          name: data.name,
+        ),
+        compassBaseRoutes: [createSeedPasswordProfileRoute],
+      );
 
   @override
   CheckSeedPhraseRouteData fromQueryParams(Map<String, String> queryParams) {

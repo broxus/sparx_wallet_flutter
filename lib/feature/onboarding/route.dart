@@ -11,16 +11,16 @@ class OnBoardingRoute extends CompassRouteParameterless<OnBoardingRouteData> {
   OnBoardingRoute(
     @Named.from(ChooseNetworkRoute) CompassBaseRoute chooseNetworkRoute,
   ) : super(
-          name: 'onboarding',
-          path: '/onboarding',
-          pageBuilder: (context, _, state) => onboardingTransitionPageBuilder(
-            context,
-            state,
-            const WelcomeScreen(),
-          ),
-          isTopLevel: true,
-          compassBaseRoutes: [chooseNetworkRoute],
-        );
+        name: 'onboarding',
+        path: '/onboarding',
+        pageBuilder: (context, _, state) => onboardingTransitionPageBuilder(
+          context,
+          state,
+          const WelcomeScreen(),
+        ),
+        isTopLevel: true,
+        compassBaseRoutes: [chooseNetworkRoute],
+      );
 
   @override
   OnBoardingRouteData createData() {
@@ -41,23 +41,22 @@ CustomTransitionPage<void> onboardingTransitionPageBuilder(
     key: state.pageKey,
     name: state.name,
     child: child,
-    transitionsBuilder: (
-      BuildContext context,
-      Animation<double> animation,
-      Animation<double> secondaryAnimation,
-      Widget child,
-    ) {
-      return SlideTransition(
-        position: animation.drive(
-          Tween<Offset>(
-            begin: const Offset(-1, 0),
-            end: Offset.zero,
-          ).chain(
-            CurveTween(curve: Curves.easeInOut),
-          ),
-        ),
-        child: child,
-      );
-    },
+    transitionsBuilder:
+        (
+          BuildContext context,
+          Animation<double> animation,
+          Animation<double> secondaryAnimation,
+          Widget child,
+        ) {
+          return SlideTransition(
+            position: animation.drive(
+              Tween<Offset>(
+                begin: const Offset(-1, 0),
+                end: Offset.zero,
+              ).chain(CurveTween(curve: Curves.easeInOut)),
+            ),
+            child: child,
+          );
+        },
   );
 }

@@ -40,9 +40,7 @@ Future<AuthClient> obtainAuthenticatedClient(Map<String, dynamic> json) async {
 Future<int> getBuild(AuthClient client, {int retryCount = 3}) async {
   final getResponse = await client.get(
     Uri.parse(_buildUrl),
-    headers: {
-      'X-Firebase-ETag': 'true',
-    },
+    headers: {'X-Firebase-ETag': 'true'},
   );
 
   if (getResponse.statusCode != 200) {
@@ -57,9 +55,7 @@ Future<int> getBuild(AuthClient client, {int retryCount = 3}) async {
   final putResponse = await client.put(
     Uri.parse(_buildUrl),
     body: '$newVersion',
-    headers: {
-      'if-match': etag,
-    },
+    headers: {'if-match': etag},
   );
 
   if (putResponse.statusCode == 412) {

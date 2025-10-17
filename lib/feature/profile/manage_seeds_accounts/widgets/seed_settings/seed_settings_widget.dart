@@ -6,12 +6,12 @@ import 'package:lucide_icons_flutter/lucide_icons.dart';
 import 'package:nekoton_repository/nekoton_repository.dart' show PublicKey;
 import 'package:ui_components_lib/ui_components_lib.dart';
 
-class SeedSettingsWidget extends InjectedElementaryParametrizedWidget<
-    SeedSettingsWidgetModel, PublicKey> with WidgetsBindingObserver {
-  const SeedSettingsWidget({
-    required PublicKey publicKey,
-    super.key,
-  }) : super(wmFactoryParam: publicKey);
+class SeedSettingsWidget
+    extends
+        InjectedElementaryParametrizedWidget<SeedSettingsWidgetModel, PublicKey>
+    with WidgetsBindingObserver {
+  const SeedSettingsWidget({required PublicKey publicKey, super.key})
+    : super(wmFactoryParam: publicKey);
 
   @override
   Widget build(SeedSettingsWidgetModel wm) {

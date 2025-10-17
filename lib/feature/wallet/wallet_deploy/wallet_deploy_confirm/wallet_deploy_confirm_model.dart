@@ -52,11 +52,10 @@ class WalletDeployConfirmModel extends ElementaryModel
   Future<BigInt> estimateFees({
     required Address address,
     required UnsignedMessage message,
-  }) =>
-      _nekotonRepository.estimateDeploymentFees(
-        address: address,
-        message: message,
-      );
+  }) => _nekotonRepository.estimateDeploymentFees(
+    address: address,
+    message: message,
+  );
 
   SignInputAuthLedger getLedgerAuthInput(TonWallet wallet) {
     final transport = _nekotonRepository.currentTransport;
@@ -82,8 +81,10 @@ class WalletDeployConfirmModel extends ElementaryModel
     int? hours,
   }) async {
     return switch (deployType) {
-      WalletDeployType.standard =>
-        _nekotonRepository.prepareDeploy(address, defaultSendTimeout),
+      WalletDeployType.standard => _nekotonRepository.prepareDeploy(
+        address,
+        defaultSendTimeout,
+      ),
       WalletDeployType.multisig
           when custodians != null && reqConfirms != null && hours != null =>
         _nekotonRepository.prepareDeployWithMultipleOwners(
@@ -93,12 +94,12 @@ class WalletDeployConfirmModel extends ElementaryModel
           expiration: defaultSendTimeout,
           expirationTime:
               walletType == const WalletType.multisig(MultisigType.multisig2_1)
-                  ? hours * 3600
-                  : null,
+              ? hours * 3600
+              : null,
         ),
       _ => throw Exception(
-          'Multisig configuration required for multisig deployment',
-        ),
+        'Multisig configuration required for multisig deployment',
+      ),
     };
   }
 

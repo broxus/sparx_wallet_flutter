@@ -32,7 +32,8 @@ class WalletTransactionDetailsBodyWithExplorerButton extends StatelessWidget {
           child: SingleChildScrollView(
             child: Padding(
               padding: EdgeInsets.only(
-                bottom: DimensSize.d16 +
+                bottom:
+                    DimensSize.d16 +
                     commonButtonHeight +
                     DimensSize.d8 +
                     (action == null ? 0 : commonButtonHeight + DimensSize.d8),

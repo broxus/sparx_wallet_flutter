@@ -26,14 +26,13 @@ class StorageMigrationService {
     GeneralStorageService generalStorageService,
     ConnectionsStorageService connectionsStorageService,
     DatabaseService databaseService,
-  ) async =>
-      StorageMigrationService(
-        encryptedStorage,
-        presetsConnectionService,
-        generalStorageService,
-        connectionsStorageService,
-        databaseService,
-      ).migrate();
+  ) async => StorageMigrationService(
+    encryptedStorage,
+    presetsConnectionService,
+    generalStorageService,
+    connectionsStorageService,
+    databaseService,
+  ).migrate();
 
   final GetStorage _storage;
   final EncryptedStorage _encryptedStorage;
@@ -77,9 +76,7 @@ class StorageMigrationService {
       yield StorageMigrationV3();
     }
     if (currentVersion < StorageMigrationV4.version) {
-      yield StorageMigrationV4(
-        _presetsConnectionService,
-      );
+      yield StorageMigrationV4(_presetsConnectionService);
     }
     if (currentVersion < StorageMigrationV5.version) {
       yield StorageMigrationV5(
@@ -88,9 +85,7 @@ class StorageMigrationService {
       );
     }
     if (currentVersion < StorageMigrationV6.version) {
-      yield StorageMigrationV6(
-        _databaseService,
-      );
+      yield StorageMigrationV6(_databaseService);
     }
   }
 }

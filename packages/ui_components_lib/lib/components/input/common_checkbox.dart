@@ -85,10 +85,7 @@ class _CommonCheckboxInputState extends State<CommonCheckboxInput> {
 /// {@endtemplate}
 class CommonCheckbox extends StatelessWidget {
   /// {@macro common_checkbox}
-  const CommonCheckbox({
-    required this.checked,
-    super.key,
-  });
+  const CommonCheckbox({required this.checked, super.key});
 
   /// Current state of checkbox
   final bool checked;
@@ -108,9 +105,7 @@ class CommonCheckbox extends StatelessWidget {
                 border: Border.all(
                   color: context.themeStyleV2.colors.borderAlpha,
                 ),
-                borderRadius: BorderRadius.circular(
-                  DimensRadiusV2.radius6,
-                ),
+                borderRadius: BorderRadius.circular(DimensRadiusV2.radius6),
               ),
             ),
           );

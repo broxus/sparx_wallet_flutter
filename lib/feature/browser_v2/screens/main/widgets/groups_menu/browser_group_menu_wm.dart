@@ -16,9 +16,7 @@ typedef GroupData = NotNullListenableState<BrowserGroup>;
 @injectable
 class BrowserGroupMenuWidgetModel
     extends CustomWidgetModel<BrowserGroupMenu, BrowserGroupMenuModel> {
-  BrowserGroupMenuWidgetModel(
-    super.model,
-  );
+  BrowserGroupMenuWidgetModel(super.model);
 
   late final _groupsState = createNotifier<List<GroupData>>();
   late final _editGroupsState = createNotNullNotifier<bool>(false);
@@ -87,10 +85,7 @@ class BrowserGroupMenuWidgetModel
       return;
     }
 
-    model.updateGroupName(
-      groupId: groupId,
-      name: newName,
-    );
+    model.updateGroupName(groupId: groupId, name: newName);
   }
 
   void onPressedRemoveGroup(String groupId) {
@@ -100,14 +95,14 @@ class BrowserGroupMenuWidgetModel
   Future<void> onPressedNewGroup() async {
     // TODO(knightforce): Temp. Compass is expected to be implemented
 
-    final groupName =
-        await Navigator.of(context, rootNavigator: true).push<String>(
-      MaterialPageRoute(
-        builder: (_) {
-          return const CreateBrowserGroupScreen();
-        },
-      ),
-    );
+    final groupName = await Navigator.of(context, rootNavigator: true)
+        .push<String>(
+          MaterialPageRoute(
+            builder: (_) {
+              return const CreateBrowserGroupScreen();
+            },
+          ),
+        );
 
     if (groupName == null) {
       return;

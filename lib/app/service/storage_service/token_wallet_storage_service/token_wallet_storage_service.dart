@@ -11,26 +11,30 @@ class TokenWalletStorageService extends TokenWalletTransactionsStorage
     implements AbstractStorageService {
   /// Transactions for TonWallet, where key - wallet information, value - list
   /// of all completed.
-  final _transactionsSubject = BehaviorSubject<
-      Map<TokenWalletStorageInfo,
-          List<TransactionWithData<TokenWalletTransaction?>>>>.seeded({});
+  final _transactionsSubject =
+      BehaviorSubject<
+        Map<
+          TokenWalletStorageInfo,
+          List<TransactionWithData<TokenWalletTransaction?>>
+        >
+      >.seeded({});
 
   /// Get stream of transactions for TonWallet specified by address and network
   Stream<List<TransactionWithData<TokenWalletTransaction?>>?>
-      transactionsStream({
+  transactionsStream({
     required int networkId,
     required String group,
     required Address owner,
     required Address rootTokenContract,
-  }) =>
-          _transactionsSubject.map(
-            (event) => event[TokenWalletStorageInfo(
-              networkId: networkId,
-              group: group,
-              owner: owner,
-              rootTokenContract: rootTokenContract,
-            )],
-          );
+  }) => _transactionsSubject.map(
+    (event) =>
+        event[TokenWalletStorageInfo(
+          networkId: networkId,
+          group: group,
+          owner: owner,
+          rootTokenContract: rootTokenContract,
+        )],
+  );
 
   @override
   Future<void> clear() async {

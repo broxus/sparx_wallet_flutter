@@ -25,13 +25,13 @@ class TokenWalletOrdinaryTransactionDetailsScreenWmParams {
 /// [WidgetModel] для [TokenWalletOrdinaryTransactionDetailsScreen]
 @injectable
 class TokenWalletOrdinaryTransactionDetailsScreenWidgetModel
-    extends CustomWidgetModelParametrized<
-        TokenWalletOrdinaryTransactionDetailsScreen,
-        TokenWalletOrdinaryTransactionDetailsScreenModel,
-        TokenWalletOrdinaryTransactionDetailsScreenWmParams> {
-  TokenWalletOrdinaryTransactionDetailsScreenWidgetModel(
-    super.model,
-  );
+    extends
+        CustomWidgetModelParametrized<
+          TokenWalletOrdinaryTransactionDetailsScreen,
+          TokenWalletOrdinaryTransactionDetailsScreenModel,
+          TokenWalletOrdinaryTransactionDetailsScreenWmParams
+        > {
+  TokenWalletOrdinaryTransactionDetailsScreenWidgetModel(super.model);
 
   TokenWalletOrdinaryTransaction get transaction => wmParams.value.transaction;
 
@@ -57,9 +57,8 @@ class TokenWalletOrdinaryTransactionDetailsScreenWidgetModel
 
   String? get logoURI => _asset?.logoURI;
 
-  TokenContractAsset? get _asset => model.getMaybeGetTokenContract(
-        wmParams.value.rootTokenContract,
-      );
+  TokenContractAsset? get _asset =>
+      model.getMaybeGetTokenContract(wmParams.value.rootTokenContract);
 
   void onPressedDetails() {
     Navigator.of(context).pop();

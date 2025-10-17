@@ -96,10 +96,7 @@ class BrowserService {
     _bookmarksDelegate.createBrowserBookmark(item.url, item.title);
   }
 
-  Future<void> permissionsChanged(
-    String tabId,
-    PermissionsChangedEvent event,
-  ) {
+  Future<void> permissionsChanged(String tabId, PermissionsChangedEvent event) {
     return _tabsDelegate.permissionsChanged(tabId, event);
   }
 
@@ -123,10 +120,7 @@ class BrowserService {
   Future<void> loadPhishingGuard(String tabId, Uri uri) async {
     final html = await _antiPhishingDelegate.getPhishingGuardHtml(uri);
 
-    return _tabsDelegate.loadData(
-      tabId,
-      html,
-    );
+    return _tabsDelegate.loadData(tabId, html);
   }
 
   Future<bool> _clearCookie() async {

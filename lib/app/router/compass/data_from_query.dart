@@ -63,8 +63,8 @@ mixin CompassRouteDataQueryMixin<T extends CompassRouteDataQuery>
     return Uri(
       path: path,
       queryParameters: data.toQueryParams().map(
-            (k, v) => MapEntry('$_prefix$k', v),
-          ),
+        (k, v) => MapEntry('$_prefix$k', v),
+      ),
     );
   }
 }

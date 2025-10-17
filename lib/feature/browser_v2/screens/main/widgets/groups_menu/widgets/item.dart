@@ -65,10 +65,7 @@ class BrowserGroupMenuItem extends StatelessWidget {
                             color: colors.primaryA,
                             onPressed: onPressedEdit,
                           ),
-                          Container(
-                            width: .5,
-                            color: colors.content3,
-                          ),
+                          Container(width: .5, color: colors.content3),
                           _MenuButton(
                             icon: LucideIcons.trash2,
                             color: ColorsResV2.e50,
@@ -127,11 +124,7 @@ class _Content extends StatelessWidget {
                   DoubleSourceBuilder<BrowserGroup?, String?>(
                     firstSource: listenable,
                     secondSource: activeGroupIdState,
-                    builder: (
-                      _,
-                      BrowserGroup? group,
-                      String? activeGroupId,
-                    ) {
+                    builder: (_, BrowserGroup? group, String? activeGroupId) {
                       return Text(
                         group?.title ?? '',
                         style: styles.labelSmall.copyWith(
@@ -172,31 +165,24 @@ class _Content extends StatelessWidget {
             firstSource: listenable,
             secondSource: editGroupsState,
             thirdSource: activeGroupIdState,
-            builder: (
-              _,
-              BrowserGroup? group,
-              bool? isEdit,
-              String? activeGroupId,
-            ) {
-              isEdit ??= false;
+            builder:
+                (_, BrowserGroup? group, bool? isEdit, String? activeGroupId) {
+                  isEdit ??= false;
 
-              if ((group?.isEditable ?? false) && isEdit) {
-                return _Menu(
-                  onPressedEdit: onPressedEdit,
-                  onPressedRemove: onPressedRemove,
-                );
-              } else if (activeGroupId == listenable.value.id) {
-                return const Padding(
-                  padding: EdgeInsets.only(right: DimensSizeV2.d16),
-                  child: Icon(
-                    LucideIcons.check,
-                    size: DimensSizeV2.d16,
-                  ),
-                );
-              }
+                  if ((group?.isEditable ?? false) && isEdit) {
+                    return _Menu(
+                      onPressedEdit: onPressedEdit,
+                      onPressedRemove: onPressedRemove,
+                    );
+                  } else if (activeGroupId == listenable.value.id) {
+                    return const Padding(
+                      padding: EdgeInsets.only(right: DimensSizeV2.d16),
+                      child: Icon(LucideIcons.check, size: DimensSizeV2.d16),
+                    );
+                  }
 
-              return const SizedBox.shrink();
-            },
+                  return const SizedBox.shrink();
+                },
           ),
         ],
       ),
@@ -205,10 +191,7 @@ class _Content extends StatelessWidget {
 }
 
 class _Menu extends StatelessWidget {
-  const _Menu({
-    required this.onPressedEdit,
-    required this.onPressedRemove,
-  });
+  const _Menu({required this.onPressedEdit, required this.onPressedRemove});
 
   final VoidCallback onPressedEdit;
   final VoidCallback onPressedRemove;
@@ -258,11 +241,7 @@ class _MenuButton extends StatelessWidget {
           decoration: BoxDecoration(
             color: context.themeStyleV2.colors.background2,
           ),
-          child: Icon(
-            icon,
-            color: color,
-            size: DimensSizeV2.d16,
-          ),
+          child: Icon(icon, color: color, size: DimensSizeV2.d16),
         ),
       ),
     );

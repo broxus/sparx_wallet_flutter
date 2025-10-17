@@ -4,6 +4,7 @@ import 'package:app/feature/wallet/staking/staking.dart';
 import 'package:collection/collection.dart';
 import 'package:elementary/elementary.dart';
 import 'package:injectable/injectable.dart';
+import 'package:money2/money2.dart';
 import 'package:nekoton_repository/nekoton_repository.dart' hide Message;
 
 @injectable
@@ -46,17 +47,11 @@ class StakingPageModel extends ElementaryModel {
   Future<TonWalletState> getWallet(Address address) =>
       _nekotonRepository.getWallet(address);
 
-  Future<TokenWalletState> getTokenWallet(Address owner) =>
-      _nekotonRepository.getTokenWallet(
-        owner,
-        staking.stakingRootContractAddress,
-      );
+  Future<TokenWalletState> getTokenWallet(Address owner) => _nekotonRepository
+      .getTokenWallet(owner, staking.stakingRootContractAddress);
 
-  Future<CustomCurrency?> getTokenCurrency() =>
-      _currenciesService.getOrFetchCurrency(
-        transport,
-        staking.stakingRootContractAddress,
-      );
+  Future<CustomCurrency?> getTokenCurrency() => _currenciesService
+      .getOrFetchCurrency(transport, staking.stakingRootContractAddress);
 
   Future<CustomCurrency?> getEverCurrency() =>
       _currenciesService.getOrFetchNativeCurrency(transport);
@@ -67,11 +62,8 @@ class StakingPageModel extends ElementaryModel {
   Future<StEverDetails> getStEverDetails() =>
       _stakingService.getStEverDetails();
 
-  Future<TokenContractAsset?> getTokenContractAsset() =>
-      _assetsService.getTokenContractAsset(
-        staking.stakingRootContractAddress,
-        transport,
-      );
+  Future<TokenContractAsset?> getTokenContractAsset() => _assetsService
+      .getTokenContractAsset(staking.stakingRootContractAddress, transport);
 
   Future<BigInt> getDepositTokenAmount(BigInt value) =>
       _stakingService.getDepositStEverAmount(value);

@@ -1,9 +1,5 @@
 class TransportIcons {
-  TransportIcons({
-    this.nativeToken,
-    this.network,
-    this.vector,
-  });
+  TransportIcons({this.nativeToken, this.network, this.vector});
 
   final String? nativeToken;
   final String? network;

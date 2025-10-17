@@ -13,9 +13,7 @@ import 'package:ui_components_lib/v2/widgets/adaptive_footer_single_child_scroll
 
 /// Onboarding welcome screen
 class WelcomeScreen extends InjectedElementaryWidget<WelcomeScreenWidgetModel> {
-  const WelcomeScreen({
-    super.key,
-  });
+  const WelcomeScreen({super.key});
 
   @override
   Widget build(WelcomeScreenWidgetModel wm) {
@@ -47,8 +45,9 @@ class WelcomeScreen extends InjectedElementaryWidget<WelcomeScreenWidgetModel> {
                 Center(
                   child: Text(
                     LocaleKeys.welcomeSubtitle.tr(),
-                    style: themeStyle.textStyles.paragraphMedium
-                        .copyWith(color: themeStyle.colors.content0),
+                    style: themeStyle.textStyles.paragraphMedium.copyWith(
+                      color: themeStyle.colors.content0,
+                    ),
                     textAlign: TextAlign.center,
                   ),
                 ),
@@ -71,13 +70,15 @@ class WelcomeScreen extends InjectedElementaryWidget<WelcomeScreenWidgetModel> {
                       children: [
                         TextSpan(
                           text: LocaleKeys.welcomeYouAccept.tr(),
-                          style: themeStyle.textStyles.paragraphXSmall
-                              .copyWith(color: themeStyle.colors.content3),
+                          style: themeStyle.textStyles.paragraphXSmall.copyWith(
+                            color: themeStyle.colors.content3,
+                          ),
                         ),
                         TextSpan(
                           text: LocaleKeys.welcomeLicenceAgreement.tr(),
-                          style: themeStyle.textStyles.paragraphXSmall
-                              .copyWith(color: themeStyle.colors.content0),
+                          style: themeStyle.textStyles.paragraphXSmall.copyWith(
+                            color: themeStyle.colors.content0,
+                          ),
                           recognizer: TapGestureRecognizer()
                             ..onTap = wm.onLinkTap,
                         ),

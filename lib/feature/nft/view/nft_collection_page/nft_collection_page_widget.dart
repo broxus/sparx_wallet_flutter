@@ -8,12 +8,14 @@ import 'package:nekoton_repository/nekoton_repository.dart' show Address;
 import 'package:ui_components_lib/ui_components_lib.dart';
 import 'package:ui_components_lib/v2/ui_components_lib_v2.dart';
 
-class NftCollectionPageWidget extends InjectedElementaryParametrizedWidget<
-    NftCollectionPageWidgetModel, Address> {
-  const NftCollectionPageWidget({
-    required Address collection,
-    super.key,
-  }) : super(wmFactoryParam: collection);
+class NftCollectionPageWidget
+    extends
+        InjectedElementaryParametrizedWidget<
+          NftCollectionPageWidgetModel,
+          Address
+        > {
+  const NftCollectionPageWidget({required Address collection, super.key})
+    : super(wmFactoryParam: collection);
 
   @override
   Widget build(NftCollectionPageWidgetModel wm) {

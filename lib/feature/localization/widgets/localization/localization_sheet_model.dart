@@ -4,10 +4,8 @@ import 'package:injectable/injectable.dart';
 
 @injectable
 class LocalizationSheetModel extends ElementaryModel {
-  LocalizationSheetModel(
-    ErrorHandler errorHandler,
-    this._localizationService,
-  ) : super(errorHandler: errorHandler);
+  LocalizationSheetModel(ErrorHandler errorHandler, this._localizationService)
+    : super(errorHandler: errorHandler);
 
   final LocalizationService _localizationService;
 

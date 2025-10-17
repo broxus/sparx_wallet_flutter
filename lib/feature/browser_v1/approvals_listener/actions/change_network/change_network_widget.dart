@@ -8,8 +8,12 @@ import 'package:flutter/material.dart';
 import 'package:ui_components_lib/ui_components_lib.dart';
 import 'package:ui_components_lib/v2/ui_components_lib_v2.dart';
 
-class ChangeNetworkWidget extends InjectedElementaryParametrizedWidget<
-    ChangeNetworkWidgetModel, ChangeNetworkWmParams> {
+class ChangeNetworkWidget
+    extends
+        InjectedElementaryParametrizedWidget<
+          ChangeNetworkWidgetModel,
+          ChangeNetworkWmParams
+        > {
   ChangeNetworkWidget({
     required Uri origin,
     required int networkId,
@@ -17,12 +21,12 @@ class ChangeNetworkWidget extends InjectedElementaryParametrizedWidget<
     required this.scrollController,
     super.key,
   }) : super(
-          wmFactoryParam: ChangeNetworkWmParams(
-            origin: origin,
-            networkId: networkId,
-            connections: connections,
-          ),
-        );
+         wmFactoryParam: ChangeNetworkWmParams(
+           origin: origin,
+           networkId: networkId,
+           connections: connections,
+         ),
+       );
 
   final ScrollController scrollController;
 
@@ -46,10 +50,7 @@ class ChangeNetworkWidget extends InjectedElementaryParametrizedWidget<
                   },
                 ),
                 MultiListenerRebuilder(
-                  listenableList: [
-                    wm.connectionsState,
-                    wm.connectionState,
-                  ],
+                  listenableList: [wm.connectionsState, wm.connectionState],
                   builder: (_) {
                     final currentConnection = wm.connectionState.value;
                     final connections = wm.connectionsState.value;
@@ -119,10 +120,7 @@ class ChangeNetworkWidget extends InjectedElementaryParametrizedWidget<
 }
 
 class _Param extends StatelessWidget {
-  const _Param({
-    required this.label,
-    required this.value,
-  });
+  const _Param({required this.label, required this.value});
 
   final String label;
   final String value;

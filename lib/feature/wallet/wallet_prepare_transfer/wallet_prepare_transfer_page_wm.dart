@@ -25,6 +25,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
 import 'package:injectable/injectable.dart';
+import 'package:money2/money2.dart';
 import 'package:nekoton_repository/nekoton_repository.dart';
 
 const _zeroAddress = Address(
@@ -48,24 +49,25 @@ class WalletPrepareTransferPageWmParams {
 /// [WidgetModel] для [WalletPrepareTransferPage]
 @injectable
 class WalletPrepareTransferPageWidgetModel
-    extends CustomWidgetModelParametrized<WalletPrepareTransferPage,
-        WalletPrepareTransferPageModel, WalletPrepareTransferPageWmParams> {
-  WalletPrepareTransferPageWidgetModel(
-    super.model,
-  );
+    extends
+        CustomWidgetModelParametrized<
+          WalletPrepareTransferPage,
+          WalletPrepareTransferPageModel,
+          WalletPrepareTransferPageWmParams
+        > {
+  WalletPrepareTransferPageWidgetModel(super.model);
 
   late final screenState = createEntityNotifier<WalletPrepareTransferData?>()
-    ..loading(
-      WalletPrepareTransferData(),
-    );
+    ..loading(WalletPrepareTransferData());
 
   late final commentState = createNotifier(false);
   late final _isInitialDataLoadedState = createNotifier(false);
 
   final formKey = GlobalKey<FormState>();
 
-  late final receiverController =
-      createTextEditingController(wmParams.value.destination?.address);
+  late final receiverController = createTextEditingController(
+    wmParams.value.destination?.address,
+  );
   late final receiverFocus = createFocusNode();
 
   late final amountController = createTextEditingController();
@@ -140,9 +142,7 @@ class WalletPrepareTransferPageWidgetModel
       return;
     }
 
-    final addr = Address(
-      address: receiverController.text.trim(),
-    );
+    final addr = Address(address: receiverController.text.trim());
 
     if (!addr.isValid) {
       model.showError(LocaleKeys.addressIsWrong.tr());
@@ -152,7 +152,7 @@ class WalletPrepareTransferPageWidgetModel
 
     final amnt = Fixed.parse(
       amountController.text.trim().replaceAll(',', '.'),
-      scale: _selectedAsset?.balance.decimalDigits,
+      decimalDigits: _selectedAsset?.balance.decimalDigits,
     );
 
     _goNext(addr, amnt);
@@ -196,10 +196,7 @@ class WalletPrepareTransferPageWidgetModel
       if (amountMinusComission.amount < Fixed.zero) {
         model.showError(
           LocaleKeys.sendingNotEnoughBalanceToSend.tr(
-            args: [
-              comission.formatImproved(),
-              comission.currency.isoCode,
-            ],
+            args: [comission.toString(), comission.currency.isoCode],
           ),
         );
         return;
@@ -208,7 +205,7 @@ class WalletPrepareTransferPageWidgetModel
       }
     }
 
-    amountController.text = available.formatImproved();
+    amountController.text = available.toString();
   }
 
   void onPressedReceiverClear() => receiverController.clear();
@@ -287,8 +284,9 @@ class WalletPrepareTransferPageWidgetModel
       unawaited(_findSpecifiedContract(root));
     }
 
-    final localCustodians =
-        await model.getLocalCustodiansAsync(addressState.value);
+    final localCustodians = await model.getLocalCustodiansAsync(
+      addressState.value,
+    );
 
     _updateState(
       account: acc,
@@ -324,9 +322,7 @@ class WalletPrepareTransferPageWidgetModel
 
     if (publicKey == null) {
       _sentry.captureException(
-        StateError(
-          "Failed navigate to wallet send, publicKey doesn't exists",
-        ),
+        StateError("Failed navigate to wallet send, publicKey doesn't exists"),
       );
       return;
     }
@@ -359,19 +355,15 @@ class WalletPrepareTransferPageWidgetModel
   }
 
   Future<void> _updateAsset(WalletPrepareTransferAsset asset) async {
-    final currency = asset.currency ??
-        await model.getCurrencyForContract(
-          asset.rootTokenContract,
-        );
+    final currency =
+        asset.currency ??
+        await model.getCurrencyForContract(asset.rootTokenContract);
 
     final balance =
         await model.getBalance(asset: asset, address: addressState.value) ??
-            _zeroBalance(asset.tokenSymbol);
+        _zeroBalance(asset.tokenSymbol);
 
-    final updatedAsset = asset.copyWith(
-      currency: currency,
-      balance: balance,
-    );
+    final updatedAsset = asset.copyWith(currency: currency, balance: balance);
 
     _updateAssets((assets) => assets[updatedAsset.key] = updatedAsset);
 
@@ -464,10 +456,7 @@ class WalletPrepareTransferPageWidgetModel
       final balance = value.balance;
 
       updated = _assets[(root, symbol)]?.copyWith(
-        balance: Money.fromBigIntWithCurrency(
-          balance,
-          Currencies()[symbol]!,
-        ),
+        balance: Money.fromBigIntWithCurrency(balance, Currencies()[symbol]!),
       );
     } else if (value is WalletPrepareTokenBalanceData) {
       root = value.root;
@@ -514,7 +503,7 @@ class WalletPrepareTransferPageWidgetModel
 
   void _updateAssets(
     void Function(Map<(Address, String), WalletPrepareTransferAsset> aseets)
-        updater,
+    updater,
   ) {
     updater(_assets);
     _assetsState.value = _assets.values.toList();
@@ -524,12 +513,7 @@ class WalletPrepareTransferPageWidgetModel
     return Money.fromBigIntWithCurrency(
       BigInt.zero,
       Currencies()[symbol] ??
-          Currency.create(
-            symbol,
-            0,
-            symbol: symbol,
-            pattern: moneyPattern(0),
-          ),
+          Currency.create(symbol, 0, symbol: symbol, pattern: moneyPattern(0)),
     );
   }
 }

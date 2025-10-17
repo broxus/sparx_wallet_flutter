@@ -31,7 +31,8 @@ class WalletPrepareTransferView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final isCustodianSelectionVisible = localCustodians != null &&
+    final isCustodianSelectionVisible =
+        localCustodians != null &&
         localCustodians!.isNotEmpty &&
         (localCustodians!.length > 1 ||
             localCustodians!.first != account?.publicKey);
@@ -112,64 +113,60 @@ class WalletPrepareTransferView extends StatelessWidget {
   }
 
   Widget _buildCommentWidget() => StateNotifierBuilder(
-        listenableState: _wm.commentState,
-        builder: (context, value) => value ?? false
-            ? SeparatedColumn(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  PrimaryTextField(
-                    hintText: LocaleKeys.commentWord.tr(),
-                    textEditingController: _wm.commentController,
-                    focusNode: _wm.commentFocus,
-                    onSubmit: (_) => _wm.onPressedNext(),
-                    suffixes: [
-                      ValueListenableBuilder(
-                        valueListenable: _wm.commentController,
-                        builder: (_, value, __) {
-                          if (value.text.isEmpty) {
-                            return const SizedBox.shrink();
-                          }
+    listenableState: _wm.commentState,
+    builder: (context, value) => value ?? false
+        ? SeparatedColumn(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              PrimaryTextField(
+                hintText: LocaleKeys.commentWord.tr(),
+                textEditingController: _wm.commentController,
+                focusNode: _wm.commentFocus,
+                onSubmit: (_) => _wm.onPressedNext(),
+                suffixes: [
+                  ValueListenableBuilder(
+                    valueListenable: _wm.commentController,
+                    builder: (_, value, __) {
+                      if (value.text.isEmpty) {
+                        return const SizedBox.shrink();
+                      }
 
-                          return Padding(
-                            padding:
-                                const EdgeInsets.only(right: DimensSize.d8),
-                            child: FloatButton(
-                              buttonShape: ButtonShape.square,
-                              buttonSize: ButtonSize.small,
-                              icon: LucideIcons.x,
-                              onPressed: _wm.onPressedCleanComment,
-                            ),
-                          );
-                        },
-                      ),
-                    ],
-                  ),
-                  Text(
-                    LocaleKeys.addCommentHint.tr(),
-                    style: context.themeStyleV2.textStyles.labelXSmall.copyWith(
-                      color: context.themeStyleV2.colors.content3,
-                    ),
+                      return Padding(
+                        padding: const EdgeInsets.only(right: DimensSize.d8),
+                        child: FloatButton(
+                          buttonShape: ButtonShape.square,
+                          buttonSize: ButtonSize.small,
+                          icon: LucideIcons.x,
+                          onPressed: _wm.onPressedCleanComment,
+                        ),
+                      );
+                    },
                   ),
                 ],
-              )
-            : GhostButton(
-                buttonShape: ButtonShape.rectangle,
-                buttonSize: ButtonSize.medium,
-                title: LocaleKeys.addComment.tr(),
-                icon: LucideIcons.plus,
-                onPressed: () {
-                  _wm.commentState.accept(true);
-                  _wm.commentFocus.requestFocus();
-                },
               ),
-      );
+              Text(
+                LocaleKeys.addCommentHint.tr(),
+                style: context.themeStyleV2.textStyles.labelXSmall.copyWith(
+                  color: context.themeStyleV2.colors.content3,
+                ),
+              ),
+            ],
+          )
+        : GhostButton(
+            buttonShape: ButtonShape.rectangle,
+            buttonSize: ButtonSize.medium,
+            title: LocaleKeys.addComment.tr(),
+            icon: LucideIcons.plus,
+            onPressed: () {
+              _wm.commentState.accept(true);
+              _wm.commentFocus.requestFocus();
+            },
+          ),
+  );
 }
 
 class _ScanQRButton extends StatelessWidget {
-  const _ScanQRButton({
-    required this.receiver,
-    required this.onPressed,
-  });
+  const _ScanQRButton({required this.receiver, required this.onPressed});
 
   final ValueNotifier<TextEditingValue> receiver;
   final VoidCallback onPressed;

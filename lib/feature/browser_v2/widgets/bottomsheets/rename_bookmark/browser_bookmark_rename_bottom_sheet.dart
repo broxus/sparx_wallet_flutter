@@ -21,15 +21,16 @@ ModalRoute<void> showBrowserBookmarkRenameSheet({
       left: DimensSizeV2.d16,
       right: DimensSizeV2.d16,
     ),
-    body: (_, __) => BrowserBookmarkRenameBottomSheet(
-      item: item,
-    ),
+    body: (_, __) => BrowserBookmarkRenameBottomSheet(item: item),
   );
 }
 
 class BrowserBookmarkRenameBottomSheet
-    extends InjectedElementaryParametrizedWidget<
-        BrowserBookmarkRenameBottomSheetWidgetModel, BrowserBookmarkItem> {
+    extends
+        InjectedElementaryParametrizedWidget<
+          BrowserBookmarkRenameBottomSheetWidgetModel,
+          BrowserBookmarkItem
+        > {
   const BrowserBookmarkRenameBottomSheet({
     required BrowserBookmarkItem item,
     super.key,

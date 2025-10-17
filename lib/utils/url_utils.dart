@@ -23,19 +23,9 @@ abstract class UrlValidator {
   }
 }
 
-Uri? parseUriOrNull([
-  String? uri,
-  int start = 0,
-  int? end,
-]) {
+Uri? parseUriOrNull([String? uri, int start = 0, int? end]) {
   try {
-    return uri == null
-        ? null
-        : Uri.parse(
-            uri,
-            start,
-            end,
-          );
+    return uri == null ? null : Uri.parse(uri, start, end);
   } catch (e, s) {
     debugPrint(e.toString());
     debugPrintStack(stackTrace: s);

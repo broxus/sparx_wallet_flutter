@@ -41,10 +41,7 @@ class _SecureTextFieldState extends State<SecureTextField> {
       keyboardType: TextInputType.visiblePassword,
       hintText: widget.hintText,
       suffixes: [
-        _IconEyeWidget(
-          onPressed: _onPressedIcon,
-          isTurnedOn: !_isObscure,
-        ),
+        _IconEyeWidget(onPressed: _onPressedIcon, isTurnedOn: !_isObscure),
       ],
       isObscureText: _isObscure,
       textEditingController: widget.textEditingController,
@@ -65,10 +62,7 @@ class _SecureTextFieldState extends State<SecureTextField> {
 }
 
 class _IconEyeWidget extends StatelessWidget {
-  const _IconEyeWidget({
-    required this.onPressed,
-    required this.isTurnedOn,
-  });
+  const _IconEyeWidget({required this.onPressed, required this.isTurnedOn});
 
   final VoidCallback onPressed;
   final bool isTurnedOn;

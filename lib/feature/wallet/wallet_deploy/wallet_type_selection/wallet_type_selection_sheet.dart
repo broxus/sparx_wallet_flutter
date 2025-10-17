@@ -18,10 +18,8 @@ Future<void> showWalletTypeSelectionSheet({
     title: LocaleKeys.selectWalletType.tr(),
     titleTextStyle: context.themeStyleV2.textStyles.headingLarge,
     centerTitle: true,
-    body: (context, __) => WalletTypeSelectionSheet(
-      address: address,
-      publicKey: publicKey,
-    ),
+    body: (context, __) =>
+        WalletTypeSelectionSheet(address: address, publicKey: publicKey),
   );
 }
 

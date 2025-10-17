@@ -7,21 +7,23 @@ import 'package:lucide_icons_flutter/lucide_icons.dart';
 import 'package:nekoton_repository/nekoton_repository.dart';
 
 class TonWalletPendingTransactionWidget
-    extends InjectedElementaryParametrizedWidget<
-        TonWalletPendingTransactionWidgetWidgetModel,
-        TonWalletPendingTransactionParams> {
+    extends
+        InjectedElementaryParametrizedWidget<
+          TonWalletPendingTransactionWidgetWidgetModel,
+          TonWalletPendingTransactionParams
+        > {
   TonWalletPendingTransactionWidget({
     required TonWalletPendingTransaction transaction,
     required bool isFirst,
     required bool isLast,
     super.key,
   }) : super(
-          wmFactoryParam: TonWalletPendingTransactionParams(
-            transaction: transaction,
-            isFirst: isFirst,
-            isLast: isLast,
-          ),
-        );
+         wmFactoryParam: TonWalletPendingTransactionParams(
+           transaction: transaction,
+           isFirst: isFirst,
+           isLast: isLast,
+         ),
+       );
 
   @override
   Widget build(TonWalletPendingTransactionWidgetWidgetModel wm) {

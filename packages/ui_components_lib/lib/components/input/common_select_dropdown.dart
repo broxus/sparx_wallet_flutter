@@ -96,8 +96,9 @@ class CommonSelectDropdown<T> extends StatelessWidget {
                 buttonShape: ButtonShape.square,
                 icon: LucideIcons.chevronRight,
                 buttonSize: ButtonSize.small,
-                onPressed:
-                    values.length == 1 ? null : () => _openSelectSheet(context),
+                onPressed: values.length == 1
+                    ? null
+                    : () => _openSelectSheet(context),
               ),
             ],
           ),
@@ -109,12 +110,7 @@ class CommonSelectDropdown<T> extends StatelessWidget {
   String get text {
     return currentValue == null
         ? ''
-        : values
-                .firstWhereOrNull(
-                  (e) => e.value == currentValue,
-                )
-                ?.title ??
-            '';
+        : values.firstWhereOrNull((e) => e.value == currentValue)?.title ?? '';
   }
 
   void _openSelectSheet(BuildContext context) {
@@ -158,10 +154,7 @@ class CommonSelectDropdown<T> extends StatelessWidget {
                           ),
                         ),
                         if (currentValue == e.value)
-                          const Icon(
-                            LucideIcons.check,
-                            size: DimensSizeV2.d20,
-                          ),
+                          const Icon(LucideIcons.check, size: DimensSizeV2.d20),
                         const SizedBox(width: DimensSize.d24),
                       ],
                     ),

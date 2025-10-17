@@ -3,10 +3,8 @@ import 'package:elementary/elementary.dart';
 
 class AddExistingWalletModel extends ElementaryModel
     with BleAvailabilityModelMixin {
-  AddExistingWalletModel(
-    ErrorHandler errorHandler,
-    this._delegate,
-  ) : super(errorHandler: errorHandler);
+  AddExistingWalletModel(ErrorHandler errorHandler, this._delegate)
+    : super(errorHandler: errorHandler);
 
   final BleAvailabilityModelDelegate _delegate;
 

@@ -7,10 +7,8 @@ import 'package:injectable/injectable.dart';
 /// [ElementaryModel] for [BrowserTabsListItem]
 @injectable
 class BrowserTabsListItemModel extends ElementaryModel {
-  BrowserTabsListItemModel(
-    ErrorHandler errorHandler,
-    this._browserService,
-  ) : super(errorHandler: errorHandler);
+  BrowserTabsListItemModel(ErrorHandler errorHandler, this._browserService)
+    : super(errorHandler: errorHandler);
 
   final BrowserService _browserService;
 

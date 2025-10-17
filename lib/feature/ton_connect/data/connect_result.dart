@@ -12,7 +12,6 @@ sealed class ConnectResult with _$ConnectResult {
     required DappManifest manifest,
   }) = ConnectResultSuccess;
 
-  factory ConnectResult.error({
-    required TonConnectError error,
-  }) = ConnectResultError;
+  factory ConnectResult.error({required TonConnectError error}) =
+      ConnectResultError;
 }

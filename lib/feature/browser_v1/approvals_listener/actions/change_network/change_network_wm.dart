@@ -23,23 +23,20 @@ class ChangeNetworkWmParams {
 }
 
 @injectable
-class ChangeNetworkWidgetModel extends CustomWidgetModelParametrized<
-    ChangeNetworkWidget, ChangeNetworkModel, ChangeNetworkWmParams> {
-  ChangeNetworkWidgetModel(
-    super.model,
-  );
+class ChangeNetworkWidgetModel
+    extends
+        CustomWidgetModelParametrized<
+          ChangeNetworkWidget,
+          ChangeNetworkModel,
+          ChangeNetworkWmParams
+        > {
+  ChangeNetworkWidgetModel(super.model);
 
-  late final _originState = createWmParamsNotifier(
-    (it) => it.origin,
-  );
+  late final _originState = createWmParamsNotifier((it) => it.origin);
 
-  late final _networkIdState = createWmParamsNotifier(
-    (it) => it.networkId,
-  );
+  late final _networkIdState = createWmParamsNotifier((it) => it.networkId);
 
-  late final _connectionsState = createWmParamsNotifier(
-    (it) => it.connections,
-  );
+  late final _connectionsState = createWmParamsNotifier((it) => it.connections);
 
   late final _connectionState = createWmParamsNotifier(
     (it) => it.connections.first,

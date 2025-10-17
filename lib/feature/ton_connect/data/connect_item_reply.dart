@@ -16,9 +16,8 @@ sealed class ConnectItemReply with _$ConnectItemReply {
   }) = TonAddressItemReply;
 
   @FreezedUnionValue('ton_proof')
-  const factory ConnectItemReply.tonProofSuccess({
-    required TonProof proof,
-  }) = TonProofItemReplySuccess;
+  const factory ConnectItemReply.tonProofSuccess({required TonProof proof}) =
+      TonProofItemReplySuccess;
 
   factory ConnectItemReply.fromJson(Map<String, dynamic> json) =>
       _$ConnectItemReplyFromJson(json);

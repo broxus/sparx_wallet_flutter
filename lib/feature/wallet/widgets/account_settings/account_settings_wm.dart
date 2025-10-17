@@ -11,11 +11,14 @@ import 'package:injectable/injectable.dart';
 import 'package:nekoton_repository/nekoton_repository.dart';
 
 @injectable
-class AccountSettingsWidgetModel extends CustomWidgetModelParametrized<
-    AccountSettingsWidget, AccountSettingsModel, KeyAccount> {
-  AccountSettingsWidgetModel(
-    super.model,
-  );
+class AccountSettingsWidgetModel
+    extends
+        CustomWidgetModelParametrized<
+          AccountSettingsWidget,
+          AccountSettingsModel,
+          KeyAccount
+        > {
+  AccountSettingsWidgetModel(super.model);
 
   late final _displayAccountsState = createNotifierFromStream(
     model.displayAccounts,
@@ -41,9 +44,7 @@ class AccountSettingsWidgetModel extends CustomWidgetModelParametrized<
 
   void onViewInExplorer() {
     Navigator.of(context).pop();
-    model.openBrowserUrl(
-      model.getAccountExplorerLink(account.address),
-    );
+    model.openBrowserUrl(model.getAccountExplorerLink(account.address));
   }
 
   void onRename() {

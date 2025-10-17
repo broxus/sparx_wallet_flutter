@@ -30,24 +30,21 @@ class ManageSeedsAccountsPageModel extends ElementaryModel {
     super.init();
 
     // Mirror previous Cubit's side-effect when seed list changes
-    _seedListSub = _nekotonRepository.seedListStream.skip(1).listen(
-      (seeds) {
-        final list = List<Seed>.from(seeds.seeds)
-          ..sort((a, b) => a.addedAt.compareTo(b.addedAt));
-        if (list.isNotEmpty && list.first.addedAt != 0) {
-          final seed = list.last;
-          final key = StorageKey.showingManualBackupBadge(
-            seed.masterKey.publicKey.publicKey,
-          );
-          final isShowBackup = _storageService.getValue<bool>(key);
+    _seedListSub = _nekotonRepository.seedListStream.skip(1).listen((seeds) {
+      final list = List<Seed>.from(seeds.seeds)
+        ..sort((a, b) => a.addedAt.compareTo(b.addedAt));
+      if (list.isNotEmpty && list.first.addedAt != 0) {
+        final seed = list.last;
+        final key = StorageKey.showingManualBackupBadge(
+          seed.masterKey.publicKey.publicKey,
+        );
+        final isShowBackup = _storageService.getValue<bool>(key);
 
-          if (isShowBackup == null) {
-            _storageService.addValue(key, seed.addType == SeedAddType.create);
-          }
+        if (isShowBackup == null) {
+          _storageService.addValue(key, seed.addType == SeedAddType.create);
         }
-      },
-      onError: (Object e, StackTrace s) => handleError(e, stackTrace: s),
-    );
+      }
+    }, onError: (Object e, StackTrace s) => handleError(e, stackTrace: s));
   }
 
   @override

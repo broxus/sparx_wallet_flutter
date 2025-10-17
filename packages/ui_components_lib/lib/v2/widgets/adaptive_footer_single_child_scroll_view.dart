@@ -21,14 +21,14 @@ class AdaptiveFooterSingleChildScrollView extends StatefulWidget {
 }
 
 class _AdaptiveFooterSingleChildScrollViewState
-    extends State<AdaptiveFooterSingleChildScrollView> with StateMixin {
+    extends State<AdaptiveFooterSingleChildScrollView>
+    with StateMixin {
   double? _width;
 
   double? _height;
 
-  BoxConstraints get _constraints => BoxConstraints(
-        maxHeight: _height ?? double.maxFinite,
-      );
+  BoxConstraints get _constraints =>
+      BoxConstraints(maxHeight: _height ?? double.maxFinite);
 
   @override
   Widget build(BuildContext context) {
@@ -47,15 +47,10 @@ class _AdaptiveFooterSingleChildScrollViewState
               children: [
                 LayoutId(
                   id: _Ids.body,
-                  child: SingleChildScrollView(
-                    child: widget.child,
-                  ),
+                  child: SingleChildScrollView(child: widget.child),
                 ),
                 if (widget.footer != null)
-                  LayoutId(
-                    id: _Ids.footer,
-                    child: widget.footer!,
-                  ),
+                  LayoutId(id: _Ids.footer, child: widget.footer!),
               ],
             ),
           ),
@@ -93,17 +88,9 @@ class StickyHeaderFooterScrollViewDelegate extends MultiChildLayoutDelegate {
     late Size leadingSize;
 
     if (hasChild(_Ids.body)) {
-      leadingSize = layoutChild(
-        _Ids.body,
-        BoxConstraints(
-          maxWidth: width,
-        ),
-      );
+      leadingSize = layoutChild(_Ids.body, BoxConstraints(maxWidth: width));
 
-      positionChild(
-        _Ids.body,
-        Offset.zero,
-      );
+      positionChild(_Ids.body, Offset.zero);
     } else {
       leadingSize = Size.zero;
     }
@@ -111,26 +98,18 @@ class StickyHeaderFooterScrollViewDelegate extends MultiChildLayoutDelegate {
     if (hasChild(_Ids.footer)) {
       final footerSize = layoutChild(
         _Ids.footer,
-        BoxConstraints(
-          maxWidth: width,
-        ),
+        BoxConstraints(maxWidth: width),
       );
       final remainingHeight = height - leadingSize.height - footerSize.height;
 
       var newHeight = 0.0;
 
       if (remainingHeight > 0) {
-        positionChild(
-          _Ids.footer,
-          Offset(0, height - footerSize.height),
-        );
+        positionChild(_Ids.footer, Offset(0, height - footerSize.height));
 
         newHeight = height;
       } else {
-        positionChild(
-          _Ids.footer,
-          Offset(0, leadingSize.height),
-        );
+        positionChild(_Ids.footer, Offset(0, leadingSize.height));
         newHeight = leadingSize.height + footerSize.height;
       }
 

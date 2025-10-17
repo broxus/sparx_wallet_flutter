@@ -24,9 +24,7 @@ Future<void> showBrowserClearBookmarksSheet({
       left: DimensSizeV2.d16,
       right: DimensSizeV2.d16,
     ),
-    subtitleMargin: const EdgeInsets.only(
-      bottom: DimensSizeV2.d16,
-    ),
+    subtitleMargin: const EdgeInsets.only(bottom: DimensSizeV2.d16),
     centerSubtitle: true,
     body: (BuildContext context, __) => PrimaryButton(
       buttonShape: ButtonShape.pill,

@@ -23,14 +23,14 @@ class CreateSeedOnboardingPasswordRoute
   CreateSeedOnboardingPasswordRoute(
     @Named.from(EnableBiometryRoute) CompassBaseRoute enableBiometryRoute,
   ) : super(
-          path: '/create-seed-onboarding-password',
-          isSaveLocation: true,
-          builder: (context, data, _) => CreateSeedPasswordScreen(
-            phrase: SeedPhraseModel(data.seedPhrase),
-            mnemonicType: data.mnemonicType,
-          ),
-          compassBaseRoutes: [enableBiometryRoute],
-        );
+        path: '/create-seed-onboarding-password',
+        isSaveLocation: true,
+        builder: (context, data, _) => CreateSeedPasswordScreen(
+          phrase: SeedPhraseModel(data.seedPhrase),
+          mnemonicType: data.mnemonicType,
+        ),
+        compassBaseRoutes: [enableBiometryRoute],
+      );
 
   @override
   CreateSeedOnboardingPasswordRouteData fromQueryParams(
@@ -77,17 +77,17 @@ class CreateSeedOnboardingPasswordRouteData implements CompassRouteDataQuery {
 class CreateSeedPasswordRoute
     extends CompassRoute<CreateSeedPasswordRouteData> {
   CreateSeedPasswordRoute()
-      : super(
-          path: '/create-seed-password',
-          isSaveLocation: true,
-          builder: (context, data, _) => CreateSeedPasswordProfilePage(
-            seedPhrase: SeedPhraseModel(data.seedPhrase),
-            name: data.name,
-            type: data.type,
-            mnemonicType: data.mnemonicType,
-            isChecked: data.isChecked,
-          ),
-        );
+    : super(
+        path: '/create-seed-password',
+        isSaveLocation: true,
+        builder: (context, data, _) => CreateSeedPasswordProfilePage(
+          seedPhrase: SeedPhraseModel(data.seedPhrase),
+          name: data.name,
+          type: data.type,
+          mnemonicType: data.mnemonicType,
+          isChecked: data.isChecked,
+        ),
+      );
 
   @override
   CreateSeedPasswordRouteData fromQueryParams(Map<String, String> queryParams) {

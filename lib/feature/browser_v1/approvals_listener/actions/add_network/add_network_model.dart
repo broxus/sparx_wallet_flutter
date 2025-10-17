@@ -46,15 +46,11 @@ class AddNetworkModel extends ElementaryModel {
   Future<void> changeNetwork(String id) async {
     _connectionsStorageService.saveCurrentConnectionId(id);
     await _nekotonRepository.currentTransportStream
-        .firstWhere(
-          (strategy) => strategy.connection?.id == id,
-        )
+        .firstWhere((strategy) => strategy.connection?.id == id)
         .timeout(_timeLimit);
   }
 
   void showError(BuildContext context, String message) {
-    _messengerService.show(
-      Message.error(message: message),
-    );
+    _messengerService.show(Message.error(message: message));
   }
 }

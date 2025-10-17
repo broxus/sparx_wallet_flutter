@@ -5,6 +5,7 @@ import 'package:app/feature/wallet/widgets/account_transactions_tab/widgets/ton_
 import 'package:elementary/elementary.dart';
 import 'package:flutter/material.dart';
 import 'package:injectable/injectable.dart';
+import 'package:money2/money2.dart';
 import 'package:nekoton_repository/nekoton_repository.dart';
 
 class TonWalletOrdinaryTransactionWmParams {
@@ -24,13 +25,13 @@ class TonWalletOrdinaryTransactionWmParams {
 /// [WidgetModel] для [TonWalletOrdinaryTransactionWidget]
 @injectable
 class TonWalletOrdinaryTransactionWidgetWidgetModel
-    extends CustomWidgetModelParametrized<
-        TonWalletOrdinaryTransactionWidget,
-        TonWalletOrdinaryTransactionWidgetModel,
-        TonWalletOrdinaryTransactionWmParams> {
-  TonWalletOrdinaryTransactionWidgetWidgetModel(
-    super.model,
-  );
+    extends
+        CustomWidgetModelParametrized<
+          TonWalletOrdinaryTransactionWidget,
+          TonWalletOrdinaryTransactionWidgetModel,
+          TonWalletOrdinaryTransactionWmParams
+        > {
+  TonWalletOrdinaryTransactionWidgetWidgetModel(super.model);
 
   late final isIncomingState = createWmParamsNotifier<bool>(
     (it) => !it.transaction.isOutgoing,
@@ -54,12 +55,8 @@ class TonWalletOrdinaryTransactionWidgetWidgetModel
     (it) => it.transaction.date,
   );
 
-  late final isFirstState = createWmParamsNotifier<bool>(
-    (it) => it.isFirst,
-  );
-  late final isLastState = createWmParamsNotifier<bool>(
-    (it) => it.isLast,
-  );
+  late final isFirstState = createWmParamsNotifier<bool>((it) => it.isFirst);
+  late final isLastState = createWmParamsNotifier<bool>((it) => it.isLast);
 
   void onPressed() {
     final params = wmParams.value;

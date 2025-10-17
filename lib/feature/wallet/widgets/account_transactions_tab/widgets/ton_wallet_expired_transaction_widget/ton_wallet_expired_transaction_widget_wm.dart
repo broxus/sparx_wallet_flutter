@@ -8,13 +8,13 @@ import 'package:nekoton_repository/nekoton_repository.dart';
 /// [WidgetModel] for [TonWalletExpiredTransactionWidget]
 @injectable
 class TonWalletExpiredTransactionWidgetWidgetModel
-    extends CustomWidgetModelParametrized<
-        TonWalletExpiredTransactionWidget,
-        TonWalletExpiredTransactionWidgetModel,
-        TonWalletExpiredTransactionParams> {
-  TonWalletExpiredTransactionWidgetWidgetModel(
-    super.model,
-  );
+    extends
+        CustomWidgetModelParametrized<
+          TonWalletExpiredTransactionWidget,
+          TonWalletExpiredTransactionWidgetModel,
+          TonWalletExpiredTransactionParams
+        > {
+  TonWalletExpiredTransactionWidgetWidgetModel(super.model);
 
   late final transactionValue = model.getTransactionValue(transaction.amount);
 

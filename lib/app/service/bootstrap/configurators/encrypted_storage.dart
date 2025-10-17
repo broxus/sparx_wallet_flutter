@@ -4,9 +4,7 @@ import 'package:logging/logging.dart';
 
 @injectable
 class EncryptedStorageConfigurator {
-  EncryptedStorageConfigurator(
-    this._encryptedStorage,
-  );
+  EncryptedStorageConfigurator(this._encryptedStorage);
 
   final EncryptedStorage _encryptedStorage;
   final _log = Logger('bootstrap');

@@ -17,24 +17,24 @@ enum RootTab {
   const RootTab();
 
   IconData get icon => switch (this) {
-        RootTab.wallet => LucideIcons.wallet,
-        RootTab.browser => LucideIcons.compass,
-        RootTab.profile => LucideIcons.circleUser,
-        RootTab.nft => LucideIcons.image,
-      };
+    RootTab.wallet => LucideIcons.wallet,
+    RootTab.browser => LucideIcons.compass,
+    RootTab.profile => LucideIcons.circleUser,
+    RootTab.nft => LucideIcons.image,
+  };
 
   String get title => switch (this) {
-        RootTab.wallet => LocaleKeys.walletWord.tr(),
-        RootTab.browser => LocaleKeys.browserWord.tr(),
-        RootTab.profile => LocaleKeys.profileWord.tr(),
-        RootTab.nft => LocaleKeys.nftWord.tr(),
-      };
+    RootTab.wallet => LocaleKeys.walletWord.tr(),
+    RootTab.browser => LocaleKeys.browserWord.tr(),
+    RootTab.profile => LocaleKeys.profileWord.tr(),
+    RootTab.nft => LocaleKeys.nftWord.tr(),
+  };
 
   BottomNavigationBarItem item() => BottomNavigationBarItem(
-        icon: Icon(icon, size: DimensSizeV2.d24),
-        label: title,
-        tooltip: title,
-      );
+    icon: Icon(icon, size: DimensSizeV2.d24),
+    label: title,
+    tooltip: title,
+  );
 
   CompassRouteData routeData() {
     return switch (this) {

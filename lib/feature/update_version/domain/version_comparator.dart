@@ -38,8 +38,9 @@ class VersionComparator {
   /// - Versions with build numbers (1.2.3+45)
   /// - Versions with pre-release identifiers (1.2.3-beta.1)
   List<int> _parseVersion(String version) {
-    final withoutBuild =
-        version.contains('+') ? version.split('+').first : version;
+    final withoutBuild = version.contains('+')
+        ? version.split('+').first
+        : version;
 
     final withoutPreRelease = withoutBuild.contains('-')
         ? withoutBuild.split('-').first

@@ -9,14 +9,9 @@ import 'package:app/utils/utils.dart';
 import 'package:flutter/material.dart';
 import 'package:nekoton_repository/nekoton_repository.dart' hide Message;
 
-SignDataWidgetModel defaultSignDataWidgetModelFactory(
-  BuildContext context,
-) =>
+SignDataWidgetModel defaultSignDataWidgetModelFactory(BuildContext context) =>
     SignDataWidgetModel(
-      SignDataModel(
-        createPrimaryErrorHandler(context),
-        inject(),
-      ),
+      SignDataModel(createPrimaryErrorHandler(context), inject()),
     );
 
 class SignDataWidgetModel

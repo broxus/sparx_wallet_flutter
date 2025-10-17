@@ -10,21 +10,24 @@ import 'package:app/feature/wallet/widgets/account_asset_tab/token_wallet_asset/
 import 'package:collection/collection.dart';
 import 'package:elementary_helper/elementary_helper.dart';
 import 'package:injectable/injectable.dart';
+import 'package:money2/money2.dart';
 import 'package:nekoton_repository/nekoton_repository.dart';
 
 class TokenWalletAssetParams {
-  const TokenWalletAssetParams({
-    required this.asset,
-    required this.owner,
-  });
+  const TokenWalletAssetParams({required this.asset, required this.owner});
 
   final TokenContractAsset asset;
   final Address owner;
 }
 
 @injectable
-class TokenWalletAssetWidgetModel extends CustomWidgetModelParametrized<
-    TokenWalletAssetWidget, TokenWalletAssetModel, TokenWalletAssetParams> {
+class TokenWalletAssetWidgetModel
+    extends
+        CustomWidgetModelParametrized<
+          TokenWalletAssetWidget,
+          TokenWalletAssetModel,
+          TokenWalletAssetParams
+        > {
   TokenWalletAssetWidgetModel(super.model);
 
   // Outputs
@@ -55,44 +58,42 @@ class TokenWalletAssetWidgetModel extends CustomWidgetModelParametrized<
   void initWidgetModel() {
     super.initWidgetModel();
 
-    _walletsSubscription = model.tokenWalletsStream.listen(
-      (wallets) {
-        final walletState = wallets.firstWhereOrNull(
-          (w) => w.owner == owner && w.rootTokenContract == asset.address,
-        );
+    _walletsSubscription = model.tokenWalletsStream.listen((wallets) {
+      final walletState = wallets.firstWhereOrNull(
+        (w) => w.owner == owner && w.rootTokenContract == asset.address,
+      );
 
-        final oldWallet = _wallet?.wallet;
-        final wallet = walletState?.wallet;
-        if (wallet != null &&
-            (oldWallet == null ||
-                wallet != oldWallet ||
-                oldWallet.transport.connectionParamsHash !=
-                    wallet.transport.connectionParamsHash)) {
-          _wallet = walletState;
-          _closeSubs();
+      final oldWallet = _wallet?.wallet;
+      final wallet = walletState?.wallet;
+      if (wallet != null &&
+          (oldWallet == null ||
+              wallet != oldWallet ||
+              oldWallet.transport.connectionParamsHash !=
+                  wallet.transport.connectionParamsHash)) {
+        _wallet = walletState;
+        _closeSubs();
 
-          _thisWalletSubscription = wallet.fieldUpdatesStream.listen((_) {
-            _tokenBalanceState.accept(wallet.moneyBalance);
+        _thisWalletSubscription = wallet.fieldUpdatesStream.listen((_) {
+          _tokenBalanceState.accept(wallet.moneyBalance);
 
-            _tryUpdateBalances();
-          });
-          _balanceSubscription = model
-              .tokenWalletFiatStream(
-            owner: owner,
-            rootTokenContract: asset.address,
-          )
-              .listen((balance) {
-            _fiatBalanceState.accept(model.convert(balance));
+          _tryUpdateBalances();
+        });
+        _balanceSubscription = model
+            .tokenWalletFiatStream(
+              owner: owner,
+              rootTokenContract: asset.address,
+            )
+            .listen((balance) {
+              _fiatBalanceState.accept(model.convert(balance));
 
-            _tryUpdateBalances();
-          });
-          _errorState.accept(null);
-        } else if ((walletState?.hasError ?? false) == true) {
-          _errorState.accept(walletState!.error);
-          _isRetryLoadingState.accept(false);
-        }
-      },
-    );
+              _tryUpdateBalances();
+            });
+        _errorState.accept(null);
+      } else if ((walletState?.hasError ?? false) == true) {
+        _errorState.accept(walletState!.error);
+        _isRetryLoadingState.accept(false);
+      }
+    });
 
     final balances = model.readCached(
       group: _networkGroup,

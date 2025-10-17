@@ -8,9 +8,7 @@ import 'package:ui_components_lib/components/common/common.dart';
 import 'package:ui_components_lib/v2/ui_components_lib_v2.dart';
 
 class SelectSeedWidget extends InjectedElementaryWidget<SelectSeedWidgetModel> {
-  const SelectSeedWidget({
-    super.key,
-  });
+  const SelectSeedWidget({super.key});
 
   @override
   Widget build(SelectSeedWidgetModel wm) {
@@ -24,9 +22,8 @@ class SelectSeedWidget extends InjectedElementaryWidget<SelectSeedWidgetModel> {
             children: [
               Flexible(
                 child: ListView.separated(
-                  separatorBuilder: (_, __) => CommonDivider(
-                    color: theme.colors.border0,
-                  ),
+                  separatorBuilder: (_, __) =>
+                      CommonDivider(color: theme.colors.border0),
                   itemCount: list!.length,
                   itemBuilder: (context, index) {
                     final seed = list[index];

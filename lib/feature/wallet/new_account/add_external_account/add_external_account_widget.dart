@@ -13,9 +13,7 @@ class AddExternalAccountWidget
   @override
   Widget build(AddExternalAccountWidgetModel wm) {
     return Scaffold(
-      appBar: DefaultAppBar(
-        titleText: LocaleKeys.addExternalAccount.tr(),
-      ),
+      appBar: DefaultAppBar(titleText: LocaleKeys.addExternalAccount.tr()),
       body: Padding(
         padding: const EdgeInsets.all(DimensSizeV2.d16),
         child: Column(

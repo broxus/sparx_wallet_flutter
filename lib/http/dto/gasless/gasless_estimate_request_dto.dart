@@ -23,9 +23,7 @@ class GaslessEstimateRequestDto {
 
 @JsonSerializable()
 class MessageDto {
-  const MessageDto({
-    required this.boc,
-  });
+  const MessageDto({required this.boc});
 
   factory MessageDto.fromJson(Map<String, dynamic> json) =>
       _$MessageDtoFromJson(json);

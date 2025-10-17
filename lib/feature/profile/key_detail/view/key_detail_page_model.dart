@@ -4,14 +4,12 @@ import 'package:nekoton_repository/nekoton_repository.dart';
 
 @injectable
 class KeyDetailPageModel extends ElementaryModel {
-  KeyDetailPageModel(
-    ErrorHandler errorHandler,
-    this._nekotonRepository,
-  ) : super(errorHandler: errorHandler);
+  KeyDetailPageModel(ErrorHandler errorHandler, this._nekotonRepository)
+    : super(errorHandler: errorHandler);
 
   final NekotonRepository _nekotonRepository;
 
-  Stream<Seed?> seedStreamForKey(PublicKey publicKey) =>
-      _nekotonRepository.seedListStream
-          .map((list) => list.findSeedByAnyPublicKey(publicKey));
+  Stream<Seed?> seedStreamForKey(PublicKey publicKey) => _nekotonRepository
+      .seedListStream
+      .map((list) => list.findSeedByAnyPublicKey(publicKey));
 }

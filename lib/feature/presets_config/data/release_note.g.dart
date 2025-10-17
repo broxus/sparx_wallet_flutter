@@ -7,12 +7,9 @@ part of 'release_note.dart';
 // **************************************************************************
 
 _ReleaseNote _$ReleaseNoteFromJson(Map<String, dynamic> json) => _ReleaseNote(
-      available: json['available'] as bool,
-      info: json['info'] as String,
-    );
+  available: json['available'] as bool,
+  info: json['info'] as String,
+);
 
 Map<String, dynamic> _$ReleaseNoteToJson(_ReleaseNote instance) =>
-    <String, dynamic>{
-      'available': instance.available,
-      'info': instance.info,
-    };
+    <String, dynamic>{'available': instance.available, 'info': instance.info};

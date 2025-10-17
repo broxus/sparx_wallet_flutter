@@ -13,21 +13,21 @@ import 'package:nekoton_repository/nekoton_repository.dart'
 import 'package:nekoton_repository/nekoton_repository.dart' show KeyAccount;
 
 class TCSignDataWmParams {
-  TCSignDataWmParams({
-    required this.connection,
-    required this.payload,
-  });
+  TCSignDataWmParams({required this.connection, required this.payload});
 
   final TonAppConnection connection;
   final SignDataPayload payload;
 }
 
 @injectable
-class TCSignDataWidgetModel extends CustomWidgetModelParametrized<
-    TCSignDataWidget, TCSignDataModel, TCSignDataWmParams> {
-  TCSignDataWidgetModel(
-    super.model,
-  );
+class TCSignDataWidgetModel
+    extends
+        CustomWidgetModelParametrized<
+          TCSignDataWidget,
+          TCSignDataModel,
+          TCSignDataWmParams
+        > {
+  TCSignDataWidgetModel(super.model);
 
   late final _connectionState = createWmParamsNotifier((it) => it.connection);
   late final _payloadState = createWmParamsNotifier((it) => it.payload);
@@ -62,11 +62,7 @@ class TCSignDataWidgetModel extends CustomWidgetModelParametrized<
       }
     } catch (e) {
       contextSafe?.let(
-        (context) => model.showMessage(
-          Message.error(
-            message: e.toString(),
-          ),
-        ),
+        (context) => model.showMessage(Message.error(message: e.toString())),
       );
     } finally {
       _isLoadingState.accept(false);
@@ -77,8 +73,6 @@ class TCSignDataWidgetModel extends CustomWidgetModelParametrized<
     final account = accountState.value;
     if (account == null) throw StateError('Account is not initialized');
 
-    return SignInputAuthLedger(
-      wallet: account.account.tonWallet.contract,
-    );
+    return SignInputAuthLedger(wallet: account.account.tonWallet.contract);
   }
 }

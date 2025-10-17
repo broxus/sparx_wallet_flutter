@@ -19,8 +19,8 @@ class AddNewLocalAccountTypeSheetModel extends ElementaryModel {
       _nekotonRepository.seedList.findSeedKey(publicKey);
 
   List<WalletType> get availableWalletTypes => List<WalletType>.from(
-        _nekotonRepository.currentTransport.availableWalletTypes,
-      );
+    _nekotonRepository.currentTransport.availableWalletTypes,
+  );
 
   WalletType get defaultWalletType =>
       _nekotonRepository.currentTransport.defaultWalletType;
@@ -33,12 +33,11 @@ class AddNewLocalAccountTypeSheetModel extends ElementaryModel {
     required WalletType walletType,
     required int workchain,
     String? name,
-  }) =>
-      key.accountList.addAccount(
-        walletType: walletType,
-        workchain: workchain,
-        name: name,
-      );
+  }) => key.accountList.addAccount(
+    walletType: walletType,
+    workchain: workchain,
+    name: name,
+  );
 
   void showMessage(Message message) => _messengerService.show(message);
 

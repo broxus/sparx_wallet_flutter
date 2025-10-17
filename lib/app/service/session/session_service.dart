@@ -40,37 +40,22 @@ class SessionService {
       onCatch: _captureException,
     );
 
-    await tryWrapper(
-      _storageManagerService.clear,
-      onCatch: _captureException,
-    );
+    await tryWrapper(_storageManagerService.clear, onCatch: _captureException);
 
     await tryWrapper(
       _nekotonRepository.keyStore.reloadKeystore,
       onCatch: _captureException,
     );
 
-    await tryWrapper(
-      _identifyIconsService.clear,
-      onCatch: _captureException,
-    );
+    await tryWrapper(_identifyIconsService.clear, onCatch: _captureException);
 
-    await tryWrapper(
-      _secureStorageService.clear,
-      onCatch: _captureException,
-    );
+    await tryWrapper(_secureStorageService.clear, onCatch: _captureException);
 
-    await tryWrapper(
-      _browserService.clear,
-      onCatch: _captureException,
-    );
+    await tryWrapper(_browserService.clear, onCatch: _captureException);
   }
 
   Future<void> _captureException(Object e, StackTrace s) async {
     _log.severe('SessionService captureException', e, s);
-    _sentry.captureException(
-      e,
-      stackTrace: s,
-    );
+    _sentry.captureException(e, stackTrace: s);
   }
 }

@@ -11,8 +11,12 @@ import 'package:flutter/material.dart';
 import 'package:render_metrics/render_metrics.dart';
 import 'package:ui_components_lib/ui_components_lib.dart';
 
-class BrowserTabsList extends InjectedElementaryParametrizedWidget<
-    BrowserTabsListWidgetModel, ListenableState<String?>> {
+class BrowserTabsList
+    extends
+        InjectedElementaryParametrizedWidget<
+          BrowserTabsListWidgetModel,
+          ListenableState<String?>
+        > {
   const BrowserTabsList({
     required ListenableState<String?> selectedGroupIdState,
     required this.onPressedTab,
@@ -22,9 +26,7 @@ class BrowserTabsList extends InjectedElementaryParametrizedWidget<
     required this.onPressedCreateNewGroup,
     required this.tabListScrollController,
     super.key,
-  }) : super(
-          wmFactoryParam: selectedGroupIdState,
-        );
+  }) : super(wmFactoryParam: selectedGroupIdState);
 
   final ScrollController tabListScrollController;
   final ValueChanged<String> onPressedGroup;
@@ -56,38 +58,41 @@ class BrowserTabsList extends InjectedElementaryParametrizedWidget<
         Expanded(
           child:
               StateNotifierBuilder<List<NotNullListenableState<BrowserTab>>?>(
-            listenableState: wm.selectedTabsState,
-            builder: (
-              _,
-              List<NotNullListenableState<BrowserTab>>? tabsNotifiers,
-            ) {
-              if (tabsNotifiers == null) {
-                return const SizedBox.shrink();
-              } else if (tabsNotifiers.isEmpty) {
-                return const _Empty();
-              }
+                listenableState: wm.selectedTabsState,
+                builder:
+                    (
+                      _,
+                      List<NotNullListenableState<BrowserTab>>? tabsNotifiers,
+                    ) {
+                      if (tabsNotifiers == null) {
+                        return const SizedBox.shrink();
+                      } else if (tabsNotifiers.isEmpty) {
+                        return const _Empty();
+                      }
 
-              return GridView.count(
-                controller: tabListScrollController,
-                padding: padding,
-                crossAxisCount: 2,
-                crossAxisSpacing: DimensSizeV2.d8,
-                mainAxisSpacing: DimensSizeV2.d8,
-                childAspectRatio: _cardAspectRatio,
-                children: [
-                  for (final notifiers in tabsNotifiers)
-                    BrowserTabsListItem(
-                      key: ValueKey(notifiers.value.id),
-                      renderManager: renderManager,
-                      tabNotifier: notifiers,
-                      onPressedTabMenu: () => onPressedTabMenu(notifiers.value),
-                      onPressed: () => onPressedTab(notifiers.value.id),
-                      onClosePressed: () => wm.onCloseTab(notifiers.value.id),
-                    ),
-                ],
-              );
-            },
-          ),
+                      return GridView.count(
+                        controller: tabListScrollController,
+                        padding: padding,
+                        crossAxisCount: 2,
+                        crossAxisSpacing: DimensSizeV2.d8,
+                        mainAxisSpacing: DimensSizeV2.d8,
+                        childAspectRatio: _cardAspectRatio,
+                        children: [
+                          for (final notifiers in tabsNotifiers)
+                            BrowserTabsListItem(
+                              key: ValueKey(notifiers.value.id),
+                              renderManager: renderManager,
+                              tabNotifier: notifiers,
+                              onPressedTabMenu: () =>
+                                  onPressedTabMenu(notifiers.value),
+                              onPressed: () => onPressedTab(notifiers.value.id),
+                              onClosePressed: () =>
+                                  wm.onCloseTab(notifiers.value.id),
+                            ),
+                        ],
+                      );
+                    },
+              ),
         ),
       ],
     );

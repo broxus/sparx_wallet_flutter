@@ -8,9 +8,9 @@ import 'package:nekoton_webview/nekoton_webview.dart';
 
 extension TransportExtension on TransportStrategy {
   ConnectionData? get connection => switch (this) {
-        CommonTransportStrategy(:final connection) => connection,
-        _ => null,
-      };
+    CommonTransportStrategy(:final connection) => connection,
+    _ => null,
+  };
 
   Future<Network> toNetwork() async {
     final data = connection;
@@ -25,33 +25,29 @@ extension TransportExtension on TransportStrategy {
     final connectionObject = switch (data) {
       ConnectionDataGql(:final endpoints, :final isLocal) =>
         (transport as GqlTransport).gqlConnection.settings.let(
-              (settings) => GqlConnection(
-                'graphql',
-                GqlSocketParams(
-                  endpoints,
-                  settings.latencyDetectionInterval,
-                  settings.maxLatency,
-                  isLocal,
-                ),
-              ),
+          (settings) => GqlConnection(
+            'graphql',
+            GqlSocketParams(
+              endpoints,
+              settings.latencyDetectionInterval,
+              settings.maxLatency,
+              isLocal,
             ),
+          ),
+        ),
       ConnectionDataProto(:final endpoint) => ProtoConnection(
-          'proto',
-          JrpcSocketParams(endpoint),
-        ),
+        'proto',
+        JrpcSocketParams(endpoint),
+      ),
       ConnectionDataJrpc(:final endpoint) => JrpcConnection(
-          'jrpc',
-          JrpcSocketParams(endpoint),
-        ),
+        'jrpc',
+        JrpcSocketParams(endpoint),
+      ),
     };
 
     return Network(
       data.name,
-      NetworkDescription(
-        config.globalId,
-        '0x$capabilities',
-        signatureId,
-      ),
+      NetworkDescription(config.globalId, '0x$capabilities', signatureId),
       connectionObject,
       NetworkConfig(
         data.nativeTokenTicker,

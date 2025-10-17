@@ -5,18 +5,22 @@ import 'package:flutter/material.dart';
 import 'package:nekoton_repository/nekoton_repository.dart';
 import 'package:ui_components_lib/v2/ui_components_lib_v2.dart';
 
-class AddAccountResultWidget extends InjectedElementaryParametrizedWidget<
-    AddAccountResultWidgetModel, AddAccountResultWmParams> {
+class AddAccountResultWidget
+    extends
+        InjectedElementaryParametrizedWidget<
+          AddAccountResultWidgetModel,
+          AddAccountResultWmParams
+        > {
   AddAccountResultWidget({
     required Address address,
     required bool isExternal,
     super.key,
   }) : super(
-          wmFactoryParam: AddAccountResultWmParams(
-            address: address,
-            isExternal: isExternal,
-          ),
-        );
+         wmFactoryParam: AddAccountResultWmParams(
+           address: address,
+           isExternal: isExternal,
+         ),
+       );
 
   @override
   Widget build(AddAccountResultWidgetModel wm) {

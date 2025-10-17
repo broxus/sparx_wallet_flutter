@@ -37,9 +37,7 @@ class TypeComponent extends StatelessWidget {
           padding: const EdgeInsets.symmetric(horizontal: DimensSizeV2.d16),
           child: SeparatedRow(
             children: [
-              Expanded(
-                child: Text(title, style: theme.textStyles.labelSmall),
-              ),
+              Expanded(child: Text(title, style: theme.textStyles.labelSmall)),
               if (currentConnectionType == type)
                 const Icon(LucideIcons.check, size: DimensSizeV2.d20),
             ],

@@ -50,11 +50,7 @@ class Toast extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               if (icon != null)
-                Icon(
-                  icon,
-                  size: DimensSize.d20,
-                  color: toastStyle.iconColor,
-                ),
+                Icon(icon, size: DimensSize.d20, color: toastStyle.iconColor),
               const SizedBox(width: DimensSize.d8),
               Expanded(
                 child: Column(
@@ -63,14 +59,16 @@ class Toast extends StatelessWidget {
                     if (heading != null)
                       Text(
                         heading!,
-                        style: themeStyle.textStyles.headingXSmall
-                            .copyWith(height: 1.5),
+                        style: themeStyle.textStyles.headingXSmall.copyWith(
+                          height: 1.5,
+                        ),
                       ),
                     if (description != null)
                       Text(
                         description!,
-                        style: themeStyle.textStyles.paragraphSmall
-                            .copyWith(color: themeStyle.colors.content0),
+                        style: themeStyle.textStyles.paragraphSmall.copyWith(
+                          color: themeStyle.colors.content0,
+                        ),
                       ),
                   ],
                 ),
@@ -90,10 +88,7 @@ class Toast extends StatelessWidget {
               padding: const EdgeInsets.only(top: DimensSizeV2.d16),
               child: Row(
                 children: [
-                  for (final action in actions!)
-                    Expanded(
-                      child: action,
-                    ),
+                  for (final action in actions!) Expanded(child: action),
                 ],
               ),
             ),

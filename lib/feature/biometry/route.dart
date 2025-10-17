@@ -7,10 +7,10 @@ import 'package:injectable/injectable.dart';
 class EnableBiometryRoute
     extends CompassRouteParameterless<EnableBiometryRouteData> {
   EnableBiometryRoute()
-      : super(
-          path: '/enable-biometry',
-          builder: (context, _, __) => const BiometryScreen(),
-        );
+    : super(
+        path: '/enable-biometry',
+        builder: (context, _, __) => const BiometryScreen(),
+      );
 
   @override
   EnableBiometryRouteData createData() {

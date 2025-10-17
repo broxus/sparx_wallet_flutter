@@ -9,9 +9,7 @@ import 'package:injectable/injectable.dart';
 @injectable
 class FaviconViewWidgetModel
     extends CustomWidgetModelParametrized<FaviconView, FaviconViewModel, Uri?> {
-  FaviconViewWidgetModel(
-    super.model,
-  );
+  FaviconViewWidgetModel(super.model);
 
   late final _faviconUrlState = createEntityNotifier<String?>()..loading();
 

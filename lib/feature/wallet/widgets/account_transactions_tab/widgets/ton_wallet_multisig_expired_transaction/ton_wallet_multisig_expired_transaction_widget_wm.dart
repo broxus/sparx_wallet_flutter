@@ -30,24 +30,20 @@ class TonWalletMultisigExpiredTransactionWmParams {
 /// [WidgetModel] для [TonWalletMultisigExpiredTransactionWidget]
 @injectable
 class TonWalletMultisigExpiredTransactionWidgetModel
-    extends CustomWidgetModelParametrized<
-        TonWalletMultisigExpiredTransactionWidget,
-        TonWalletMultisigExpiredTransactionModel,
-        TonWalletMultisigExpiredTransactionWmParams> {
-  TonWalletMultisigExpiredTransactionWidgetModel(
-    super.model,
-  );
+    extends
+        CustomWidgetModelParametrized<
+          TonWalletMultisigExpiredTransactionWidget,
+          TonWalletMultisigExpiredTransactionModel,
+          TonWalletMultisigExpiredTransactionWmParams
+        > {
+  TonWalletMultisigExpiredTransactionWidgetModel(super.model);
 
   late final transactionState =
       createWmParamsNotifier<TonWalletMultisigExpiredTransaction>(
-    (it) => it.transaction,
-  );
-  late final isFirstState = createWmParamsNotifier<bool>(
-    (it) => it.isFirst,
-  );
-  late final isLastState = createWmParamsNotifier<bool>(
-    (it) => it.isLast,
-  );
+        (it) => it.transaction,
+      );
+  late final isFirstState = createWmParamsNotifier<bool>((it) => it.isFirst);
+  late final isLastState = createWmParamsNotifier<bool>((it) => it.isLast);
 
   late final transactionTimeFormatter = DateFormat(
     'HH:mm',

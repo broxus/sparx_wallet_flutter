@@ -6,10 +6,8 @@ import 'package:nekoton_repository/nekoton_repository.dart';
 /// [ElementaryModel] for [DeleteSeedSheet]
 @injectable
 class DeleteSeedSheetModel extends ElementaryModel {
-  DeleteSeedSheetModel(
-    ErrorHandler errorHandler,
-    this._nekotonRepository,
-  ) : super(errorHandler: errorHandler);
+  DeleteSeedSheetModel(ErrorHandler errorHandler, this._nekotonRepository)
+    : super(errorHandler: errorHandler);
 
   final NekotonRepository _nekotonRepository;
 

@@ -30,10 +30,7 @@ class NotNullNotifier<T> extends ChangeNotifier
     listener.call();
   }
 
-  void accept(
-    T newValue, {
-    bool isUnique = true,
-  }) {
+  void accept(T newValue, {bool isUnique = true}) {
     if (_disposed || isUnique && _value == newValue) return;
 
     _value = newValue;

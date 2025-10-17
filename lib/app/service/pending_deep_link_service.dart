@@ -11,9 +11,7 @@ import 'package:logging/logging.dart';
 /// and automatically processes them when WalletRoute becomes active.
 @singleton
 class PendingDeepLinkService {
-  PendingDeepLinkService(
-    this._browserLauncher,
-  );
+  PendingDeepLinkService(this._browserLauncher);
 
   final BrowserLauncher _browserLauncher;
   final _log = Logger('PendingDeepLinkService');

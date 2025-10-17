@@ -39,10 +39,7 @@ Future<BrowserTabMenuItemData?> showBrowserTabMenu(
 }
 
 class BrowserTabMenu extends StatefulWidget {
-  const BrowserTabMenu._(
-    this._data, {
-    required this.onItemPressed,
-  });
+  const BrowserTabMenu._(this._data, {required this.onItemPressed});
 
   final RenderData _data;
   final ValueChanged<BrowserTabMenuItemData> onItemPressed;
@@ -73,7 +70,8 @@ class _BrowserTabMenuState extends State<BrowserTabMenu> {
   late final _screenSize = MediaQuery.of(context).size;
 
   late final _xMax = _screenSize.width;
-  late final _yMax = _screenSize.height -
+  late final _yMax =
+      _screenSize.height -
       Toolbar.height -
       CustomBottomNavigationBar.height -
       _margin;
@@ -110,9 +108,7 @@ class _BrowserTabMenuState extends State<BrowserTabMenu> {
               child: DecoratedBox(
                 decoration: BoxDecoration(
                   color: theme.colors.background2,
-                  borderRadius: BorderRadius.circular(
-                    DimensRadiusV2.radius16,
-                  ),
+                  borderRadius: BorderRadius.circular(DimensRadiusV2.radius16),
                 ),
                 child: Column(
                   mainAxisSize: MainAxisSize.min,
@@ -145,21 +141,11 @@ class _HolePainter extends CustomPainter {
   @override
   void paint(Canvas canvas, Size size) {
     final path = Path()
-      ..addRect(
-        Rect.fromLTWH(0, 0, size.width, size.height),
-      )
-      ..addRRect(
-        RRect.fromRectAndRadius(
-          holeRect,
-          const Radius.circular(16),
-        ),
-      )
+      ..addRect(Rect.fromLTWH(0, 0, size.width, size.height))
+      ..addRRect(RRect.fromRectAndRadius(holeRect, const Radius.circular(16)))
       ..fillType = PathFillType.evenOdd;
 
-    canvas.drawPath(
-      path,
-      Paint()..color = ColorsResV2.backgroundOverlay,
-    );
+    canvas.drawPath(path, Paint()..color = ColorsResV2.backgroundOverlay);
   }
 
   @override
@@ -201,16 +187,15 @@ class _Item extends StatelessWidget {
                 : null,
           ),
           child: Padding(
-            padding: const EdgeInsets.symmetric(
-              horizontal: DimensSizeV2.d16,
-            ),
+            padding: const EdgeInsets.symmetric(horizontal: DimensSizeV2.d16),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Text(
                   title,
-                  style: theme.textStyles.labelMedium
-                      .copyWith(color: theme.colors.content2),
+                  style: theme.textStyles.labelMedium.copyWith(
+                    color: theme.colors.content2,
+                  ),
                 ),
                 Icon(
                   icon,

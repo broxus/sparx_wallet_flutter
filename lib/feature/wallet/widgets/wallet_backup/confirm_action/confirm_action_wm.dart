@@ -23,11 +23,14 @@ class ConfirmActionWmParams {
 }
 
 @injectable
-class ConfirmActionWidgetModel extends CustomWidgetModelParametrized<
-    ContentConfirmAction, ConfirmActionModel, ConfirmActionWmParams> {
-  ConfirmActionWidgetModel(
-    super.model,
-  );
+class ConfirmActionWidgetModel
+    extends
+        CustomWidgetModelParametrized<
+          ContentConfirmAction,
+          ConfirmActionModel,
+          ConfirmActionWmParams
+        > {
+  ConfirmActionWidgetModel(super.model);
 
   ThemeStyleV2 get themeStyle => context.themeStyleV2;
 
@@ -98,8 +101,9 @@ class ConfirmActionWidgetModel extends CustomWidgetModelParametrized<
           params.finishedBackupCallback,
         );
       } catch (_) {
-        screenState
-            .content(ConfirmActionData(error: LocaleKeys.passwordIsWrong.tr()));
+        screenState.content(
+          ConfirmActionData(error: LocaleKeys.passwordIsWrong.tr()),
+        );
       }
     } else {
       model.showValidateError(LocaleKeys.seedIsMissing.tr());

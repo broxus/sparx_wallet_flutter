@@ -12,10 +12,8 @@ import 'package:logging/logging.dart';
 @named
 @Singleton(as: CompassGuard)
 class RestoreSubroutesGuard extends CompassGuard {
-  RestoreSubroutesGuard(
-    this._navigationService,
-    this._bootstrapService,
-  ) : super(priority: priorityMedium);
+  RestoreSubroutesGuard(this._navigationService, this._bootstrapService)
+    : super(priority: priorityMedium);
 
   final NavigationService _navigationService;
   final BootstrapService _bootstrapService;
@@ -77,9 +75,7 @@ class RestoreSubroutesGuard extends CompassGuard {
     return null;
   }
 
-  void _updateLocation(
-    Iterable<CompassBaseGoRoute> currentRoutes,
-  ) {
+  void _updateLocation(Iterable<CompassBaseGoRoute> currentRoutes) {
     if (currentRoutes.isEmpty) return;
 
     final location = _router?.currentUri.toString();

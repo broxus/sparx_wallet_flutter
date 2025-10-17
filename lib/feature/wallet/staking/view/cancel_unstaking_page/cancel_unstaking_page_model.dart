@@ -3,6 +3,7 @@ import 'package:app/data/models/models.dart';
 import 'package:app/feature/wallet/staking/staking.dart';
 import 'package:elementary/elementary.dart';
 import 'package:injectable/injectable.dart';
+import 'package:money2/money2.dart';
 import 'package:nekoton_repository/nekoton_repository.dart';
 
 @injectable
@@ -29,11 +30,8 @@ class CancelUnstakingPageModel extends ElementaryModel {
     return transport.stakeInformation!;
   }
 
-  Future<TokenContractAsset?> getTokenContractAsset() =>
-      _assetsService.getTokenContractAsset(
-        staking.stakingRootContractAddress,
-        transport,
-      );
+  Future<TokenContractAsset?> getTokenContractAsset() => _assetsService
+      .getTokenContractAsset(staking.stakingRootContractAddress, transport);
 
   Future<String> getPayload(String nonce) =>
       _stakingService.removeWithdrawPayload(nonce);

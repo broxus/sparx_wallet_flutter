@@ -4,10 +4,7 @@ import 'package:ui_components_lib/v2/ui_components_lib_v2.dart';
 class CustomOverlay {
   static OverlayEntry? _overlayEntry;
 
-  static void showOverlay(
-    BuildContext context,
-    List<GlobalKey> keys,
-  ) {
+  static void showOverlay(BuildContext context, List<GlobalKey> keys) {
     if (_overlayEntry != null) return;
 
     final positions = <Offset>[];
@@ -57,15 +54,7 @@ class HoleClipper extends CustomClipper<Path> {
 
   @override
   Path getClip(Size size) {
-    final path = Path()
-      ..addRect(
-        Rect.fromLTWH(
-          0,
-          0,
-          size.width,
-          size.height,
-        ),
-      );
+    final path = Path()..addRect(Rect.fromLTWH(0, 0, size.width, size.height));
 
     for (var i = 0; i < positions.length; i++) {
       path.addRect(

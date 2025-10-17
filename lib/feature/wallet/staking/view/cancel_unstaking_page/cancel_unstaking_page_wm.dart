@@ -35,13 +35,14 @@ class CancelUnstakingPageWmParams {
 }
 
 @injectable
-class CancelUnstakingPageWidgetModel extends CustomWidgetModelParametrized<
-    CancelUnstakingPageWidget,
-    CancelUnstakingPageModel,
-    CancelUnstakingPageWmParams> {
-  CancelUnstakingPageWidgetModel(
-    super.model,
-  );
+class CancelUnstakingPageWidgetModel
+    extends
+        CustomWidgetModelParametrized<
+          CancelUnstakingPageWidget,
+          CancelUnstakingPageModel,
+          CancelUnstakingPageWmParams
+        > {
+  CancelUnstakingPageWidgetModel(super.model);
 
   late final _assetState = createNotifier<TokenContractAsset>();
 
@@ -69,9 +70,7 @@ class CancelUnstakingPageWidgetModel extends CustomWidgetModelParametrized<
   }
 
   Future<void> _init() async {
-    _assetState.accept(
-      await model.getTokenContractAsset(),
-    );
+    _assetState.accept(await model.getTokenContractAsset());
   }
 
   Future<void> tryCancelUnstaking() async {
@@ -104,9 +103,7 @@ class CancelUnstakingPageWidgetModel extends CustomWidgetModelParametrized<
 
     if (result ?? false) {
       model.acceptCancelledWithdraw(wmParams.value.request);
-      contextSafe?.compassPointNamed(
-        const WalletRouteData(),
-      );
+      contextSafe?.compassPointNamed(const WalletRouteData());
     }
   }
 }

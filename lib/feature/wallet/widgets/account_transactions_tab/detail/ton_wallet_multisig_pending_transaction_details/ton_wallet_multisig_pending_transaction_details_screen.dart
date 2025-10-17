@@ -8,6 +8,7 @@ import 'package:app/generated/generated.dart';
 import 'package:elementary_helper/elementary_helper.dart';
 import 'package:flutter/material.dart';
 import 'package:lucide_icons_flutter/lucide_icons.dart';
+import 'package:money2/money2.dart';
 import 'package:nekoton_repository/nekoton_repository.dart';
 import 'package:ui_components_lib/components/common/container/separated_column.dart';
 import 'package:ui_components_lib/components/common/default_app_bar.dart';
@@ -17,21 +18,23 @@ import 'package:ui_components_lib/v2/widgets/buttons/accent_button.dart';
 import 'package:ui_components_lib/v2/widgets/buttons/button_shape.dart';
 
 class TonWalletMultisigPendingTransactionDetailsScreen
-    extends InjectedElementaryParametrizedWidget<
-        TonWalletMultisigPendingTransactionDetailsScreenWidgetModel,
-        TonWalletMultisigPendingTransactionDetailsWmParams> {
+    extends
+        InjectedElementaryParametrizedWidget<
+          TonWalletMultisigPendingTransactionDetailsScreenWidgetModel,
+          TonWalletMultisigPendingTransactionDetailsWmParams
+        > {
   TonWalletMultisigPendingTransactionDetailsScreen({
     required TonWalletMultisigPendingTransaction transaction,
     required Fixed price,
     required KeyAccount account,
     super.key,
   }) : super(
-          wmFactoryParam: TonWalletMultisigPendingTransactionDetailsWmParams(
-            transaction: transaction,
-            price: price,
-            account: account,
-          ),
-        );
+         wmFactoryParam: TonWalletMultisigPendingTransactionDetailsWmParams(
+           transaction: transaction,
+           price: price,
+           account: account,
+         ),
+       );
 
   @override
   Widget build(TonWalletMultisigPendingTransactionDetailsScreenWidgetModel wm) {

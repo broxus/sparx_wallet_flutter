@@ -4,6 +4,7 @@ import 'package:app/feature/wallet/widgets/account_transactions_tab/detail/ton_w
 import 'package:elementary/elementary.dart';
 import 'package:flutter/widgets.dart';
 import 'package:injectable/injectable.dart';
+import 'package:money2/money2.dart';
 import 'package:nekoton_repository/nekoton_repository.dart';
 import 'package:ui_components_lib/v2/colors_v2.dart';
 import 'package:ui_components_lib/v2/text_styles_v2.dart';
@@ -24,21 +25,19 @@ class TonWalletMultisigOrdinaryTransactionDetailsWmParams {
 /// [WidgetModel] для [TonWalletMultisigOrdinaryTransactionDetailsScreen]
 @injectable
 class TonWalletMultisigOrdinaryTransactionDetailsScreenWidgetModel
-    extends CustomWidgetModelParametrized<
-        TonWalletMultisigOrdinaryTransactionDetailsScreen,
-        TonWalletMultisigOrdinaryTransactionDetailsScreenModel,
-        TonWalletMultisigOrdinaryTransactionDetailsWmParams> {
-  TonWalletMultisigOrdinaryTransactionDetailsScreenWidgetModel(
-    super.model,
-  );
+    extends
+        CustomWidgetModelParametrized<
+          TonWalletMultisigOrdinaryTransactionDetailsScreen,
+          TonWalletMultisigOrdinaryTransactionDetailsScreenModel,
+          TonWalletMultisigOrdinaryTransactionDetailsWmParams
+        > {
+  TonWalletMultisigOrdinaryTransactionDetailsScreenWidgetModel(super.model);
 
   late final accountState = createWmParamsNotifier<KeyAccount>(
     (it) => it.account,
   );
 
-  late final priceState = createWmParamsNotifier<Fixed>(
-    (it) => it.price,
-  );
+  late final priceState = createWmParamsNotifier<Fixed>((it) => it.price);
 
   late final dateState = createWmParamsNotifier<DateTime>(
     (it) => it.transaction.date,

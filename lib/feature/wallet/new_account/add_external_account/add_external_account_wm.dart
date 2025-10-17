@@ -11,8 +11,9 @@ import 'package:nekoton_repository/nekoton_repository.dart' show Address;
 import 'package:ui_components_lib/ui_components_lib.dart';
 
 @injectable
-class AddExternalAccountWidgetModel extends CustomWidgetModel<
-    AddExternalAccountWidget, AddExternalAccountModel> {
+class AddExternalAccountWidgetModel
+    extends
+        CustomWidgetModel<AddExternalAccountWidget, AddExternalAccountModel> {
   AddExternalAccountWidgetModel(super.model);
 
   late final nameController = createTextEditingController();
@@ -33,9 +34,7 @@ class AddExternalAccountWidgetModel extends CustomWidgetModel<
       addressController.text = text;
       focusNode.unfocus();
     } else {
-      model.showMessage(
-        Message.error(message: LocaleKeys.addressIsWrong.tr()),
-      );
+      model.showMessage(Message.error(message: LocaleKeys.addressIsWrong.tr()));
     }
   }
 

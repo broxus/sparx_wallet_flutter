@@ -9,11 +9,14 @@ import 'package:injectable/injectable.dart';
 
 /// [WidgetModel] для [BrowserTabsList]
 @injectable
-class BrowserTabsListWidgetModel extends CustomWidgetModelParametrized<
-    BrowserTabsList, BrowserTabsListModel, ListenableState<String?>> {
-  BrowserTabsListWidgetModel(
-    super.model,
-  );
+class BrowserTabsListWidgetModel
+    extends
+        CustomWidgetModelParametrized<
+          BrowserTabsList,
+          BrowserTabsListModel,
+          ListenableState<String?>
+        > {
+  BrowserTabsListWidgetModel(super.model);
 
   ListenableState<String?> get selectedGroupIdState => wmParams.value;
 
@@ -21,7 +24,7 @@ class BrowserTabsListWidgetModel extends CustomWidgetModelParametrized<
       createNotifier<List<NotNullListenableState<BrowserTab>>?>();
 
   ListenableState<List<NotNullListenableState<BrowserTab>>?>
-      get selectedTabsState => _selectedTabsState;
+  get selectedTabsState => _selectedTabsState;
 
   @override
   void initWidgetModel() {
@@ -43,10 +46,7 @@ class BrowserTabsListWidgetModel extends CustomWidgetModelParametrized<
       return;
     }
 
-    model.removeBrowserTab(
-      groupId: id,
-      tabId: tabId,
-    );
+    model.removeBrowserTab(groupId: id, tabId: tabId);
   }
 
   void _handleSelectedGroup() {

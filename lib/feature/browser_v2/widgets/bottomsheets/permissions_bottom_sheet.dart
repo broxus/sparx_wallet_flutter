@@ -21,10 +21,7 @@ Future<bool?> showPermissionsSheet({
           textAlign: TextAlign.center,
           text: TextSpan(
             children: [
-              TextSpan(
-                text: '$host ',
-                style: theme.textStyles.headingLarge,
-              ),
+              TextSpan(text: '$host ', style: theme.textStyles.headingLarge),
               TextSpan(
                 text: LocaleKeys.browserPermissionsHeader.tr(
                   args: [permissions.join(', ')],

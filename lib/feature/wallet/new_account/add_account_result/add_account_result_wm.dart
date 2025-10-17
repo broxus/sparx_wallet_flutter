@@ -16,11 +16,14 @@ class AddAccountResultWmParams {
 }
 
 @injectable
-class AddAccountResultWidgetModel extends CustomWidgetModelParametrized<
-    AddAccountResultWidget, AddAccountResultModel, AddAccountResultWmParams> {
-  AddAccountResultWidgetModel(
-    super.model,
-  );
+class AddAccountResultWidgetModel
+    extends
+        CustomWidgetModelParametrized<
+          AddAccountResultWidget,
+          AddAccountResultModel,
+          AddAccountResultWmParams
+        > {
+  AddAccountResultWidgetModel(super.model);
 
   ThemeStyleV2 get theme => context.themeStyleV2;
 
@@ -30,18 +33,14 @@ class AddAccountResultWidgetModel extends CustomWidgetModelParametrized<
     // ignore: use_build_context_synchronously
     Navigator.of(context).pop();
     if (wmParams.value.isExternal) {
-      contextSafe?.compassPointNamed(
-        const WalletRouteData(),
-      );
+      contextSafe?.compassPointNamed(const WalletRouteData());
     }
   }
 
   void onContinue() {
     Navigator.of(context).pop();
     if (wmParams.value.isExternal) {
-      contextSafe?.compassPointNamed(
-        const WalletRouteData(),
-      );
+      contextSafe?.compassPointNamed(const WalletRouteData());
     }
   }
 }

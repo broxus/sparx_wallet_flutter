@@ -66,10 +66,7 @@ class _ExpandableTextState extends State<ExpandableText> {
                 onTap: () => setState(() => _expanded = true),
                 child: Padding(
                   padding: const EdgeInsets.only(top: DimensSizeV2.d8),
-                  child: Text(
-                    widget.expandText,
-                    style: widget.expandTextStyle,
-                  ),
+                  child: Text(widget.expandText, style: widget.expandTextStyle),
                 ),
               ),
           ],

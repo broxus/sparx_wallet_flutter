@@ -5,10 +5,8 @@ import 'package:nekoton_repository/nekoton_repository.dart' hide Message;
 
 @injectable
 class SwitchToSeedModel extends ElementaryModel {
-  SwitchToSeedModel(
-    ErrorHandler errorHandler,
-    this._currentKeyService,
-  ) : super(errorHandler: errorHandler);
+  SwitchToSeedModel(ErrorHandler errorHandler, this._currentKeyService)
+    : super(errorHandler: errorHandler);
 
   final CurrentKeyService _currentKeyService;
 

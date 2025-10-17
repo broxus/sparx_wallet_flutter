@@ -21,10 +21,12 @@ class ProfilePageWidgetModel
   ProfilePageWidgetModel(super.model);
 
   late final _seedState = createNotifierFromStream(model.currentSeedStream);
-  late final _isBiometryAvailableState =
-      createNotifierFromStream(model.biometryAvailabilityStream);
-  late final _isBiometryEnabledState =
-      createNotifierFromStream(model.biometryEnabledStream);
+  late final _isBiometryAvailableState = createNotifierFromStream(
+    model.biometryAvailabilityStream,
+  );
+  late final _isBiometryEnabledState = createNotifierFromStream(
+    model.biometryEnabledStream,
+  );
   late final _appVersionState = createNotifier('');
 
   ListenableState<bool> get isBiometryAvailableState =>
@@ -63,12 +65,10 @@ class ProfilePageWidgetModel
     final currentSeed = _seedState.value;
     if (currentSeed == null) return;
 
-    Navigator.of(context, rootNavigator: true).push(
-      exportSeedSheetRoute(
-        context,
-        currentSeed.publicKey,
-      ),
-    );
+    Navigator.of(
+      context,
+      rootNavigator: true,
+    ).push(exportSeedSheetRoute(context, currentSeed.publicKey));
   }
 
   void onContactSupport() {

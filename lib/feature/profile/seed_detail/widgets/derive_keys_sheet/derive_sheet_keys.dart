@@ -28,23 +28,28 @@ ModalRoute<void> deriveKeysSheet(
 }
 
 const _itemHeight = DimensSizeV2.d56;
-const _containerHeight = _itemHeight * derivedKeysPerPage +
+const _containerHeight =
+    _itemHeight * derivedKeysPerPage +
     (DimensSizeV2.d4 * 2 + CommonDivider.size) * (derivedKeysPerPage - 1);
 
 /// Widget that shows keys that could be derived from publicKey of seed.
-class DeriveKeysSheet extends InjectedElementaryParametrizedWidget<
-    DeriveKeysSheetWidgetModel, DeriveKeysSheetParams> {
+class DeriveKeysSheet
+    extends
+        InjectedElementaryParametrizedWidget<
+          DeriveKeysSheetWidgetModel,
+          DeriveKeysSheetParams
+        > {
   DeriveKeysSheet({
     required this.controller,
     required this.masterKey,
     this.password,
     super.key,
   }) : super(
-          wmFactoryParam: DeriveKeysSheetParams(
-            publicKey: masterKey,
-            password: password,
-          ),
-        );
+         wmFactoryParam: DeriveKeysSheetParams(
+           publicKey: masterKey,
+           password: password,
+         ),
+       );
 
   final ScrollController controller;
   final PublicKey masterKey;
@@ -82,8 +87,9 @@ class DeriveKeysSheet extends InjectedElementaryParametrizedWidget<
                       : SeparatedColumn(
                           mainAxisSize: MainAxisSize.min,
                           separator: const Padding(
-                            padding:
-                                EdgeInsets.symmetric(vertical: DimensSizeV2.d4),
+                            padding: EdgeInsets.symmetric(
+                              vertical: DimensSizeV2.d4,
+                            ),
                             child: CommonDivider(),
                           ),
                           children: [
@@ -92,8 +98,9 @@ class DeriveKeysSheet extends InjectedElementaryParametrizedWidget<
                                 masterKey: masterKey,
                                 derivedKey: k,
                                 name: s.keyNames[k.publicKey],
-                                isSelected:
-                                    s.selectedKeys.contains(k.publicKey),
+                                isSelected: s.selectedKeys.contains(
+                                  k.publicKey,
+                                ),
                                 onChecked: wm.checkKey,
                                 onUnchecked: wm.uncheckKey,
                               ),
@@ -118,9 +125,7 @@ class DeriveKeysSheet extends InjectedElementaryParametrizedWidget<
               ],
             ),
             Padding(
-              padding: const EdgeInsets.symmetric(
-                horizontal: DimensSizeV2.d16,
-              ),
+              padding: const EdgeInsets.symmetric(horizontal: DimensSizeV2.d16),
               child: PrimaryButton(
                 isLoading: s.isLoading,
                 title: LocaleKeys.selectWord.tr(),
@@ -194,7 +199,8 @@ class _Pages extends StatelessWidget {
                 // Compensate right padding if window is close
                 // to right side.
                 // Left side will be compensated by window size.
-                final compensateRightToLeft = availableRightWindowIndex -
+                final compensateRightToLeft =
+                    availableRightWindowIndex -
                     currentPageIndex -
                     possibleRightPadding;
 
@@ -276,8 +282,8 @@ class _Item extends StatelessWidget {
         color: disabled
             ? colors.textSecondary
             : isSelected
-                ? colors.textPrimary
-                : colors.strokePrimary,
+            ? colors.textPrimary
+            : colors.strokePrimary,
       ),
       onPressed: disabled
           ? null

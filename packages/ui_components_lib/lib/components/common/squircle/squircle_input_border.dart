@@ -3,10 +3,8 @@ import 'package:ui_components_lib/components/common/common.dart';
 
 /// Squircle shape border for inputs
 class SquircleInputBorder extends InputBorder {
-  SquircleInputBorder({
-    required double squircleRadius,
-    super.borderSide,
-  }) : shape = SquircleShapeBorder(cornerRadius: squircleRadius);
+  SquircleInputBorder({required double squircleRadius, super.borderSide})
+    : shape = SquircleShapeBorder(cornerRadius: squircleRadius);
 
   final SquircleShapeBorder shape;
 
@@ -33,9 +31,9 @@ class SquircleInputBorder extends InputBorder {
 
   @override
   SquircleInputBorder copyWith({BorderSide? borderSide}) => SquircleInputBorder(
-        borderSide: borderSide ?? this.borderSide,
-        squircleRadius: shape.cornerRadius,
-      );
+    borderSide: borderSide ?? this.borderSide,
+    squircleRadius: shape.cornerRadius,
+  );
 
   @override
   EdgeInsetsGeometry get dimensions {
@@ -47,7 +45,7 @@ class SquircleInputBorder extends InputBorder {
 
   @override
   SquircleInputBorder scale(double t) => SquircleInputBorder(
-        borderSide: borderSide.scale(t),
-        squircleRadius: shape.cornerRadius * t,
-      );
+    borderSide: borderSide.scale(t),
+    squircleRadius: shape.cornerRadius * t,
+  );
 }

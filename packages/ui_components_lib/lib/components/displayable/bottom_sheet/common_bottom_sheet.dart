@@ -4,10 +4,8 @@ import 'package:ui_components_lib/ui_components_lib.dart';
 
 /// Builder for body parameter of [showCommonBottomSheet].
 /// This allows get [ScrollController] of modal sheet and use it in scroll box.
-typedef CommonSheetBodyBuilder = Widget Function(
-  BuildContext context,
-  ScrollController scrollController,
-);
+typedef CommonSheetBodyBuilder =
+    Widget Function(BuildContext context, ScrollController scrollController);
 
 /// Display default bottom sheet from [context].
 ///
@@ -46,14 +44,10 @@ Future<T?> showCommonBottomSheet<T>({
     context: context,
     isDismissible: dismissible,
     useRootNavigator: useRootNavigator,
-    barrierColor: barrierColor ??
-        Colors.black.withAlpha(
-          Opac.large.toByteInt(),
-        ),
-    containerWidget: (context, animation, child) => _ContainerWidget(
-      animated: wrapIntoAnimatedSize,
-      child: child,
-    ),
+    barrierColor:
+        barrierColor ?? Colors.black.withAlpha(Opac.large.toByteInt()),
+    containerWidget: (context, animation, child) =>
+        _ContainerWidget(animated: wrapIntoAnimatedSize, child: child),
     builder: (_) => CommonBottomSheetWidget(
       useAppBackgroundColor: useAppBackgroundColor,
       openFullScreen: openFullScreen,
@@ -123,10 +117,8 @@ ModalSheetRoute<T> commonBottomSheetRoute<T>({
     expanded: expand,
     isDismissible: dismissible,
     modalBarrierColor: barrierColor,
-    containerBuilder: (context, animation, child) => _ContainerWidget(
-      animated: wrapIntoAnimatedSize,
-      child: child,
-    ),
+    containerBuilder: (context, animation, child) =>
+        _ContainerWidget(animated: wrapIntoAnimatedSize, child: child),
   );
 }
 
@@ -187,10 +179,7 @@ class CommonBottomSheetWidget extends StatelessWidget {
         Flexible(
           child: Padding(
             padding: padding,
-            child: body(
-              context,
-              ModalScrollController.of(context)!,
-            ),
+            child: body(context, ModalScrollController.of(context)!),
           ),
         ),
       ],
@@ -232,10 +221,7 @@ class CommonBottomSheetWidget extends StatelessWidget {
 }
 
 class _ContainerWidget extends StatefulWidget {
-  const _ContainerWidget({
-    required this.child,
-    this.animated = true,
-  });
+  const _ContainerWidget({required this.child, this.animated = true});
 
   final Widget child;
   final bool animated;
@@ -310,11 +296,13 @@ class _Header extends StatelessWidget {
       children: [
         if (title != null)
           Container(
-            margin: titleMargin ??
+            margin:
+                titleMargin ??
                 EdgeInsets.only(
                   top: _top,
-                  bottom:
-                      subtitle != null ? DimensSizeV2.d12 : DimensSizeV2.d24,
+                  bottom: subtitle != null
+                      ? DimensSizeV2.d12
+                      : DimensSizeV2.d24,
                   left: DimensSizeV2.d16,
                   right: DimensSizeV2.d16,
                 ),
@@ -327,19 +315,22 @@ class _Header extends StatelessWidget {
           ),
         if (subtitle != null)
           Container(
-            margin: subtitleMargin ??
+            margin:
+                subtitleMargin ??
                 EdgeInsets.only(
                   top: title == null ? _top : 0,
                   bottom: DimensSizeV2.d24,
                   left: DimensSizeV2.d16,
                   right: DimensSizeV2.d16,
                 ),
-            alignment:
-                isCenterSubTitle ? Alignment.center : Alignment.centerLeft,
+            alignment: isCenterSubTitle
+                ? Alignment.center
+                : Alignment.centerLeft,
             child: Text(
               subtitle!,
               textAlign: isCenterSubTitle ? TextAlign.center : TextAlign.left,
-              style: subtitleStyle ??
+              style:
+                  subtitleStyle ??
                   textStyles.paragraphMedium.copyWith(
                     color: theme.colors.content1,
                   ),

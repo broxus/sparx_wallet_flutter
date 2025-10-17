@@ -13,6 +13,7 @@ import 'package:elementary_helper/elementary_helper.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:injectable/injectable.dart';
+import 'package:money2/money2.dart';
 import 'package:nekoton_repository/nekoton_repository.dart' hide Message;
 import 'package:ui_components_lib/v2/ui_components_lib_v2.dart';
 
@@ -55,27 +56,23 @@ class TransferData {
 }
 
 @injectable
-class SendMessageWidgetModel extends CustomWidgetModelParametrized<
-    SendMessageWidget,
-    SendMessageModel,
-    SendMessageWmParams> with BleAvailabilityWmMixin {
-  SendMessageWidgetModel(
-    super.model,
-  );
+class SendMessageWidgetModel
+    extends
+        CustomWidgetModelParametrized<
+          SendMessageWidget,
+          SendMessageModel,
+          SendMessageWmParams
+        >
+    with BleAvailabilityWmMixin {
+  SendMessageWidgetModel(super.model);
 
   late final account = model.getAccount(wmParams.value.sender);
 
-  late final _originState = createWmParamsNotifier(
-    (it) => it.origin,
-  );
+  late final _originState = createWmParamsNotifier((it) => it.origin);
 
-  late final _recipientState = createWmParamsNotifier(
-    (it) => it.recipient,
-  );
+  late final _recipientState = createWmParamsNotifier((it) => it.recipient);
 
-  late final _payloadState = createWmParamsNotifier(
-    (it) => it.payload,
-  );
+  late final _payloadState = createWmParamsNotifier((it) => it.payload);
 
   ValueListenable<Uri> get originState => _originState;
   ValueListenable<Address> get recipientState => _recipientState;
@@ -182,10 +179,7 @@ class SendMessageWidgetModel extends CustomWidgetModelParametrized<
       await _getTokenTransferData(tokens);
     }
 
-    await Future.wait([
-      _getCustodians(),
-      _prepareTransfer(),
-    ]);
+    await Future.wait([_getCustodians(), _prepareTransfer()]);
   }
 
   Future<void> _getTokenTransferData(BigInt tokens) async {
@@ -194,7 +188,7 @@ class SendMessageWidgetModel extends CustomWidgetModelParametrized<
     final walletTonState = await model.getTonWalletState(wmParams.value.sender);
     numberUnconfirmedTransactions =
         (walletTonState.wallet?.unconfirmedTransactions.length ?? 0) +
-            (walletTonState.wallet?.pendingTransactions.length ?? 0);
+        (walletTonState.wallet?.pendingTransactions.length ?? 0);
 
     final currency = Currency.create(
       details.symbol,
@@ -217,8 +211,9 @@ class SendMessageWidgetModel extends CustomWidgetModelParametrized<
   }
 
   Future<void> _getCustodians() async {
-    final custodians =
-        await model.getLocalCustodiansAsync(wmParams.value.sender);
+    final custodians = await model.getLocalCustodiansAsync(
+      wmParams.value.sender,
+    );
     _custodiansState.accept(custodians);
   }
 
@@ -241,7 +236,8 @@ class SendMessageWidgetModel extends CustomWidgetModelParametrized<
 
       final data = _dataState.value;
       if (data != null) {
-        final balance = _balanceState.value ??
+        final balance =
+            _balanceState.value ??
             await model.getBalanceStream(wmParams.value.sender).first;
         final fee = _feeState.value.data?.minorUnits ?? BigInt.zero;
         final amount = data.attachedAmount ?? data.amount.amount.minorUnits;
@@ -254,9 +250,7 @@ class SendMessageWidgetModel extends CustomWidgetModelParametrized<
         }
       }
     } catch (e) {
-      model.showMessage(
-        Message.error(message: e.toString()),
-      );
+      model.showMessage(Message.error(message: e.toString()));
     } finally {
       message?.dispose();
       _isLoadingState.accept(false);
@@ -271,15 +265,10 @@ class SendMessageWidgetModel extends CustomWidgetModelParametrized<
       );
 
       _feeState.content(
-        Fee.native(
-          Money.fromBigIntWithCurrency(fee, nativeCurrency!),
-        ),
+        Fee.native(Money.fromBigIntWithCurrency(fee, nativeCurrency!)),
       );
     } catch (e) {
-      _feeState.error(
-        UiException(e.toString()),
-        _feeState.value.data,
-      );
+      _feeState.error(UiException(e.toString()), _feeState.value.data);
     }
   }
 
@@ -294,9 +283,7 @@ class SendMessageWidgetModel extends CustomWidgetModelParametrized<
 
       _txErrorsState.accept(errors);
     } catch (e) {
-      model.showMessage(
-        Message.error(message: e.toString()),
-      );
+      model.showMessage(Message.error(message: e.toString()));
     }
   }
 
@@ -304,7 +291,7 @@ class SendMessageWidgetModel extends CustomWidgetModelParametrized<
     final walletTonState = await model.getTonWalletState(wmParams.value.sender);
     numberUnconfirmedTransactions =
         (walletTonState.wallet?.unconfirmedTransactions.length ?? 0) +
-            (walletTonState.wallet?.pendingTransactions.length ?? 0);
+        (walletTonState.wallet?.pendingTransactions.length ?? 0);
     if (tokens == null && nativeCurrency != null) {
       _dataState.accept(
         TransferData(

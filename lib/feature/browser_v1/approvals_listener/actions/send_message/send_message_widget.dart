@@ -12,8 +12,12 @@ import 'package:nekoton_repository/nekoton_repository.dart';
 import 'package:ui_components_lib/ui_components_lib.dart';
 import 'package:ui_components_lib/v2/ui_components_lib_v2.dart';
 
-class SendMessageWidget extends InjectedElementaryParametrizedWidget<
-    SendMessageWidgetModel, SendMessageWmParams> {
+class SendMessageWidget
+    extends
+        InjectedElementaryParametrizedWidget<
+          SendMessageWidgetModel,
+          SendMessageWmParams
+        > {
   SendMessageWidget({
     required Uri origin,
     required Address sender,
@@ -27,18 +31,18 @@ class SendMessageWidget extends InjectedElementaryParametrizedWidget<
     List<IgnoreTransactionTreeSimulationError>? ignoredActionPhaseCodes,
     super.key,
   }) : super(
-          wmFactoryParam: SendMessageWmParams(
-            origin: origin,
-            sender: sender,
-            recipient: recipient,
-            amount: amount,
-            bounce: bounce,
-            payload: payload,
-            knownPayload: knownPayload,
-            ignoredComputePhaseCodes: ignoredComputePhaseCodes,
-            ignoredActionPhaseCodes: ignoredActionPhaseCodes,
-          ),
-        );
+         wmFactoryParam: SendMessageWmParams(
+           origin: origin,
+           sender: sender,
+           recipient: recipient,
+           amount: amount,
+           bounce: bounce,
+           payload: payload,
+           knownPayload: knownPayload,
+           ignoredComputePhaseCodes: ignoredComputePhaseCodes,
+           ignoredActionPhaseCodes: ignoredActionPhaseCodes,
+         ),
+       );
 
   final ScrollController scrollController;
 
@@ -82,8 +86,8 @@ class SendMessageWidget extends InjectedElementaryParametrizedWidget<
                 DoubleSourceBuilder(
                   firstSource: wm.publicKeyState,
                   secondSource: wm.custodiansState,
-                  builder: (_, publicKey, custodians) => custodians == null ||
-                          custodians.length < 2
+                  builder: (_, publicKey, custodians) =>
+                      custodians == null || custodians.length < 2
                       ? const SizedBox.shrink()
                       : Padding(
                           padding: const EdgeInsets.only(top: DimensSizeV2.d12),
@@ -104,10 +108,7 @@ class SendMessageWidget extends InjectedElementaryParametrizedWidget<
                 ),
                 const SizedBox(height: DimensSizeV2.d12),
                 MultiListenerRebuilder(
-                  listenableList: [
-                    wm.dataState,
-                    wm.recipientState,
-                  ],
+                  listenableList: [wm.dataState, wm.recipientState],
                   builder: (_) {
                     final data = wm.dataState.value;
                     final recipient = wm.recipientState.value;
@@ -188,7 +189,8 @@ class SendMessageWidget extends InjectedElementaryParametrizedWidget<
                       isLoading: isLoading ?? false,
                       publicKey: wm.account!.publicKey,
                       title: LocaleKeys.sendWord.tr(),
-                      isDisabled: wm.numberUnconfirmedTransactions == null ||
+                      isDisabled:
+                          wm.numberUnconfirmedTransactions == null ||
                           wm.numberUnconfirmedTransactions! >= 5 ||
                           fees.isErrorState ||
                           (hasTxError && isConfirmed != true),

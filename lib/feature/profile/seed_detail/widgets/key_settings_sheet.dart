@@ -20,10 +20,7 @@ void showKeySettingsSheet({
     context: context,
     titleTextStyle: context.themeStyleV2.textStyles.headingLarge,
     title: LocaleKeys.settingsOfKey.tr(),
-    body: (_, __) => KeySettingsSheet(
-      publicKey: publicKey,
-      isMaster: isMaster,
-    ),
+    body: (_, __) => KeySettingsSheet(publicKey: publicKey, isMaster: isMaster),
   );
 }
 

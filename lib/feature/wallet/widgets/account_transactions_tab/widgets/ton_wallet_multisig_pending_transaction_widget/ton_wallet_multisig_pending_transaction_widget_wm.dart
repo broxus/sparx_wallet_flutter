@@ -12,16 +12,18 @@ import 'package:ui_components_lib/ui_components_lib.dart';
 /// [WidgetModel] for [TonWalletMultisigPendingTransactionWidget]
 @injectable
 class TonWalletMultisigPendingTransactionWidgetWidgetModel
-    extends CustomWidgetModelParametrized<
-        TonWalletMultisigPendingTransactionWidget,
-        TonWalletMultisigPendingTransactionWidgetModel,
-        TonWalletMultisigPendingTransactionParams> {
-  TonWalletMultisigPendingTransactionWidgetWidgetModel(
-    super.model,
-  );
+    extends
+        CustomWidgetModelParametrized<
+          TonWalletMultisigPendingTransactionWidget,
+          TonWalletMultisigPendingTransactionWidgetModel,
+          TonWalletMultisigPendingTransactionParams
+        > {
+  TonWalletMultisigPendingTransactionWidgetWidgetModel(super.model);
 
-  late final expireAtFormat =
-      DateFormat('HH:mm:ss', context.locale.languageCode);
+  late final expireAtFormat = DateFormat(
+    'HH:mm:ss',
+    context.locale.languageCode,
+  );
 
   ThemeStyleV2 get theme => context.themeStyleV2;
 

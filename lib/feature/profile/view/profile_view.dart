@@ -51,9 +51,7 @@ class ProfileView extends StatelessWidget {
           children: [
             SizedBox(height: MediaQuery.paddingOf(context).top),
             Padding(
-              padding: const EdgeInsets.symmetric(
-                vertical: DimensSizeV2.d24,
-              ),
+              padding: const EdgeInsets.symmetric(vertical: DimensSizeV2.d24),
               child: Text(
                 LocaleKeys.settings.tr(),
                 style: theme.textStyles.headingMedium,
@@ -120,7 +118,7 @@ class ProfileView extends StatelessWidget {
                   children: [
                     _Item(
                       title: LocaleKeys.faq.tr(),
-                      icon: LucideIcons.messageCircleQuestion,
+                      icon: LucideIcons.messageCircleQuestionMark,
                       onPressed: onFAQ,
                     ),
                     _Item(
@@ -199,20 +197,16 @@ class _Item extends StatelessWidget {
         iconColor: theme.colors.content0,
         backgroundColor: theme.colors.backgroundAlpha,
       ),
-      trailing: trailing ??
-          const Icon(
-            LucideIcons.chevronRight,
-            size: DimensSizeV2.d20,
-          ),
+      trailing:
+          trailing ??
+          const Icon(LucideIcons.chevronRight, size: DimensSizeV2.d20),
       onPressed: onPressed,
     );
   }
 }
 
 class _Container extends StatelessWidget {
-  const _Container({
-    required this.children,
-  });
+  const _Container({required this.children});
 
   final List<Widget> children;
 
@@ -223,9 +217,7 @@ class _Container extends StatelessWidget {
     return ShapedContainerColumn(
       color: theme.colors.background1,
       separator: const CommonDivider(
-        margin: EdgeInsets.symmetric(
-          vertical: DimensSizeV2.d16,
-        ),
+        margin: EdgeInsets.symmetric(vertical: DimensSizeV2.d16),
       ),
       padding: const EdgeInsets.all(DimensSizeV2.d16),
       margin: EdgeInsets.zero,

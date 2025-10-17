@@ -27,15 +27,12 @@ abstract class BrowserTab with _$BrowserTab implements BrowserEntity {
     required double sortingOrder,
   }) = _BrowserTab;
 
-  factory BrowserTab.create({
-    required Uri url,
-  }) =>
-      BrowserTab(
-        id: const Uuid().v4(),
-        url: url,
-        title: null,
-        sortingOrder: NtpTime.now().millisecondsSinceEpoch.toDouble(),
-      );
+  factory BrowserTab.create({required Uri url}) => BrowserTab(
+    id: const Uuid().v4(),
+    url: url,
+    title: null,
+    sortingOrder: NtpTime.now().millisecondsSinceEpoch.toDouble(),
+  );
 
   BrowserTab._();
 

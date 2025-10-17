@@ -41,9 +41,7 @@ class StorageMigrationV5 implements StorageMigration {
       final groupName = '${connection.group}-${lastNetworkGroupNumber++}';
 
       _connectionsStorageService.updateConnection(
-        connection.copyWith(
-          group: groupName,
-        ),
+        connection.copyWith(group: groupName),
       );
 
       await _generalStorageService.writeRawCustomAssets(

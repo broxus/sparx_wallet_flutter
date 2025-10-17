@@ -9,11 +9,8 @@ import 'package:go_router/go_router.dart';
 /// [context] The build context
 /// [data] The route data of type T
 /// [state] The current GoRouter state
-typedef CompassPageBuilder<T extends CompassRouteData> = Page<dynamic> Function(
-  BuildContext context,
-  T data,
-  GoRouterState state,
-);
+typedef CompassPageBuilder<T extends CompassRouteData> =
+    Page<dynamic> Function(BuildContext context, T data, GoRouterState state);
 
 /// Function signature for widget builders in Compass routes.
 ///
@@ -23,11 +20,8 @@ typedef CompassPageBuilder<T extends CompassRouteData> = Page<dynamic> Function(
 /// [context] The build context
 /// [data] The route data of type T
 /// [state] The current GoRouter state
-typedef CompassWidgetBuilder<T extends CompassRouteData> = Widget Function(
-  BuildContext context,
-  T data,
-  GoRouterState state,
-);
+typedef CompassWidgetBuilder<T extends CompassRouteData> =
+    Widget Function(BuildContext context, T data, GoRouterState state);
 
 /// Marker interface for all route data classes.
 ///
@@ -40,9 +34,7 @@ interface class CompassRouteData {}
 /// This is the foundation of the Compass navigation system, defining
 /// the basic contract that all route types must follow.
 abstract class CompassBaseRoute {
-  CompassBaseRoute({
-    this.isTopLevel = false,
-  });
+  CompassBaseRoute({this.isTopLevel = false});
 
   /// Get route for this navigator.
   ///

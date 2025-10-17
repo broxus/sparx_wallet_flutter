@@ -3,7 +3,7 @@ set -e
 set -o pipefail
 
 # Setup
-BUILD_DIR=packages/ui_components_lib/example
+BUILD_DIR=packages/ui_components_lib/storybook
 cd $BUILD_DIR
 
 mkdir -p assets

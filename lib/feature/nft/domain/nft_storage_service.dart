@@ -18,10 +18,7 @@ class NftStorageService extends AbstractStorageService {
 
   static const String metadataContainer = 'nft_storage_service_metadata';
   static const String generalContainer = 'nft_storage_service_general';
-  static const containers = [
-    metadataContainer,
-    generalContainer,
-  ];
+  static const containers = [metadataContainer, generalContainer];
 
   final GetStorage _metadataStorage;
   final GetStorage _generalStorage;
@@ -62,11 +59,7 @@ class NftStorageService extends AbstractStorageService {
         (entry) => MapEntry(
           Address(address: entry.key),
           (entry.value as List<dynamic>)
-              .map(
-                (e) => CollectionMeta.fromJson(
-                  e as Map<String, dynamic>,
-                ),
-              )
+              .map((e) => CollectionMeta.fromJson(e as Map<String, dynamic>))
               .toList(),
         ),
       ),
@@ -237,10 +230,7 @@ class NftStorageService extends AbstractStorageService {
 }
 
 class _LatestLtKey {
-  _LatestLtKey({
-    required this.address,
-    required this.networkGroup,
-  });
+  _LatestLtKey({required this.address, required this.networkGroup});
 
   final Address address;
   final NetworkGroup networkGroup;

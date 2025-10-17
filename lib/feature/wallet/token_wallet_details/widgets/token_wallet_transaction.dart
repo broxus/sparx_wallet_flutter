@@ -101,10 +101,7 @@ class _Date extends StatelessWidget {
 }
 
 class _Body extends StatelessWidget {
-  const _Body({
-    required this.transaction,
-    required this.transactionValue,
-  });
+  const _Body({required this.transaction, required this.transactionValue});
 
   final TokenWalletOrdinaryTransaction transaction;
   final Money transactionValue;

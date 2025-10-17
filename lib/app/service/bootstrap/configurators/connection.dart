@@ -6,10 +6,7 @@ import 'package:nekoton_repository/nekoton_repository.dart';
 
 @injectable
 class ConnectionConfigurator {
-  ConnectionConfigurator(
-    this._connectionService,
-    this._nekotonRepository,
-  );
+  ConnectionConfigurator(this._connectionService, this._nekotonRepository);
 
   final ConnectionService _connectionService;
   final NekotonRepository _nekotonRepository;

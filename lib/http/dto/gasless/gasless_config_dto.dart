@@ -21,9 +21,7 @@ class GaslessConfigDto {
 
 @JsonSerializable(fieldRename: FieldRename.snake)
 class GasJettonDto {
-  const GasJettonDto({
-    required this.masterId,
-  });
+  const GasJettonDto({required this.masterId});
 
   factory GasJettonDto.fromJson(Map<String, dynamic> json) =>
       _$GasJettonDtoFromJson(json);

@@ -21,11 +21,7 @@ class PasswordInfoSection extends StatelessWidget {
       children: [
         Row(
           children: [
-            if (icon != null)
-              SvgPicture.asset(
-                icon,
-                width: DimensSizeV2.d16,
-              ),
+            if (icon != null) SvgPicture.asset(icon, width: DimensSizeV2.d16),
             const SizedBox(width: DimensSizeV2.d6),
             if (title != null)
               Text(
@@ -39,10 +35,7 @@ class PasswordInfoSection extends StatelessWidget {
           ],
         ),
         const SizedBox(height: DimensSizeV2.d8),
-        Text(
-          status.subtitle,
-          style: themeStyle.textStyles.paragraphXSmall,
-        ),
+        Text(status.subtitle, style: themeStyle.textStyles.paragraphXSmall),
       ],
     );
   }

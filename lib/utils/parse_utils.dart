@@ -28,12 +28,7 @@ int? parseToInt(dynamic input) {
 
 BigInt? parseBigIntOrNull(String? source, {int? radix}) {
   try {
-    return source == null
-        ? null
-        : BigInt.parse(
-            source,
-            radix: radix,
-          );
+    return source == null ? null : BigInt.parse(source, radix: radix);
   } catch (e, s) {
     debugPrint(e.toString());
     debugPrintStack(stackTrace: s);

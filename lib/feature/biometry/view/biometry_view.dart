@@ -49,8 +49,9 @@ class BiometryView extends StatelessWidget {
                     isFace
                         ? LocaleKeys.faceIdContent.tr()
                         : LocaleKeys.touchIdContent.tr(),
-                    style: theme.textStyles.paragraphMedium
-                        .copyWith(color: theme.colors.content1),
+                    style: theme.textStyles.paragraphMedium.copyWith(
+                      color: theme.colors.content1,
+                    ),
                     textAlign: TextAlign.center,
                   ),
                 ),

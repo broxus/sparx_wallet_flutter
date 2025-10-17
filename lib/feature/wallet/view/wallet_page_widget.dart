@@ -5,9 +5,7 @@ import 'package:elementary_helper/elementary_helper.dart';
 import 'package:flutter/material.dart';
 
 class WalletPageWidget extends InjectedElementaryWidget<WalletPageWidgetModel> {
-  const WalletPageWidget({
-    super.key,
-  });
+  const WalletPageWidget({super.key});
 
   @override
   Widget build(WalletPageWidgetModel wm) {

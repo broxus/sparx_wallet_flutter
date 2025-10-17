@@ -27,14 +27,13 @@ class CommonBackgroundedIconWidget extends StatelessWidget {
     Color? iconColor,
     bool useDefaultColor = true,
     Key? key,
-  }) =>
-      CommonBackgroundedIconWidget(
-        icon: icon,
-        key: key,
-        backgroundColor: backgroundColor,
-        iconColor: iconColor,
-        useDefaultColor: useDefaultColor,
-      );
+  }) => CommonBackgroundedIconWidget(
+    icon: icon,
+    key: key,
+    backgroundColor: backgroundColor,
+    iconColor: iconColor,
+    useDefaultColor: useDefaultColor,
+  );
 
   /// Factory that allows creating widget with svg asset
   factory CommonBackgroundedIconWidget.svg({
@@ -43,14 +42,13 @@ class CommonBackgroundedIconWidget extends StatelessWidget {
     Color? iconColor,
     bool useDefaultColor = true,
     Key? key,
-  }) =>
-      CommonBackgroundedIconWidget(
-        svg: svg,
-        key: key,
-        backgroundColor: backgroundColor,
-        iconColor: iconColor,
-        useDefaultColor: useDefaultColor,
-      );
+  }) => CommonBackgroundedIconWidget(
+    svg: svg,
+    key: key,
+    backgroundColor: backgroundColor,
+    iconColor: iconColor,
+    useDefaultColor: useDefaultColor,
+  );
 
   /// Data of icon that is used in [Icon]
   final IconData? icon;

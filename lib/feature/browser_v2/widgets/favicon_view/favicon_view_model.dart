@@ -6,10 +6,8 @@ import 'package:injectable/injectable.dart';
 /// [ElementaryModel] for [FaviconView]
 @injectable
 class FaviconViewModel extends ElementaryModel {
-  FaviconViewModel(
-    ErrorHandler errorHandler,
-    this._browserService,
-  ) : super(errorHandler: errorHandler);
+  FaviconViewModel(ErrorHandler errorHandler, this._browserService)
+    : super(errorHandler: errorHandler);
 
   final BrowserService _browserService;
 

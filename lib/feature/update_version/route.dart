@@ -8,18 +8,18 @@ import 'package:injectable/injectable.dart';
 class UpdateVersionRoute
     extends CompassRouteParameterless<UpdateVersionRouteData> {
   UpdateVersionRoute()
-      : super(
-          name: 'update-version',
-          path: '/update-version',
-          isTopLevel: true,
-          pageBuilder: (context, _, state) => CustomTransitionPage<void>(
-            key: state.pageKey,
-            fullscreenDialog: true,
-            opaque: false,
-            transitionsBuilder: (_, __, ___, child) => child,
-            child: const UpdateVersionScreen(),
-          ),
-        );
+    : super(
+        name: 'update-version',
+        path: '/update-version',
+        isTopLevel: true,
+        pageBuilder: (context, _, state) => CustomTransitionPage<void>(
+          key: state.pageKey,
+          fullscreenDialog: true,
+          opaque: false,
+          transitionsBuilder: (_, __, ___, child) => child,
+          child: const UpdateVersionScreen(),
+        ),
+      );
 
   @override
   UpdateVersionRouteData createData() {

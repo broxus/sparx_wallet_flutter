@@ -15,9 +15,7 @@ Future<String?> showRenameCustodianModal(BuildContext context) {
 }
 
 class AccountRenameSheet extends StatefulWidget {
-  const AccountRenameSheet({
-    super.key,
-  });
+  const AccountRenameSheet({super.key});
 
   @override
   State<AccountRenameSheet> createState() => _AccountRenameSheetState();

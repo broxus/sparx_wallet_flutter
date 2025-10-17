@@ -13,9 +13,7 @@ sealed class GenericTokenSubscriber {
 }
 
 class Tip3TokenWalletSubscriber extends GenericTokenSubscriber {
-  Tip3TokenWalletSubscriber(
-    this._assetsService,
-  );
+  Tip3TokenWalletSubscriber(this._assetsService);
 
   final AssetsService _assetsService;
 
@@ -24,13 +22,12 @@ class Tip3TokenWalletSubscriber extends GenericTokenSubscriber {
     required Address owner,
     required Address rootTokenContract,
     required Transport transport,
-  }) =>
-      Tip3TokenWallet.subscribe(
-        transport: transport,
-        owner: owner,
-        rootTokenContract: rootTokenContract,
-        symbol: _getSymbol(rootTokenContract),
-      );
+  }) => Tip3TokenWallet.subscribe(
+    transport: transport,
+    owner: owner,
+    rootTokenContract: rootTokenContract,
+    symbol: _getSymbol(rootTokenContract),
+  );
 
   Symbol? _getSymbol(Address rootTokenContract) {
     final asset = _assetsService.currentSystemTokenContractAssets
@@ -48,9 +45,7 @@ class Tip3TokenWalletSubscriber extends GenericTokenSubscriber {
 }
 
 class JettonTokenWalletSubscriber extends GenericTokenSubscriber {
-  JettonTokenWalletSubscriber(
-    this._tonRepository,
-  );
+  JettonTokenWalletSubscriber(this._tonRepository);
 
   final TonRepository _tonRepository;
   final Map<Address, Symbol> _symbolCache = {};
@@ -60,13 +55,12 @@ class JettonTokenWalletSubscriber extends GenericTokenSubscriber {
     required Address owner,
     required Address rootTokenContract,
     required Transport transport,
-  }) async =>
-      JettonTokenWallet.subscribe(
-        transport: transport,
-        owner: owner,
-        rootTokenContract: rootTokenContract,
-        symbol: await _getSymbol(rootTokenContract),
-      );
+  }) async => JettonTokenWallet.subscribe(
+    transport: transport,
+    owner: owner,
+    rootTokenContract: rootTokenContract,
+    symbol: await _getSymbol(rootTokenContract),
+  );
 
   Future<Symbol> _getSymbol(Address rootTokenContract) async {
     var symbol = _symbolCache[rootTokenContract];
@@ -89,7 +83,4 @@ class JettonTokenWalletSubscriber extends GenericTokenSubscriber {
   }
 }
 
-enum GenericTokenType {
-  tip3,
-  jetton,
-}
+enum GenericTokenType { tip3, jetton }

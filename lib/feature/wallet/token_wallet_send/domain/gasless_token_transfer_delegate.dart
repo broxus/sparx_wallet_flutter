@@ -8,6 +8,7 @@ import 'package:app/http/repository/gasless_repository.dart';
 import 'package:app/utils/utils.dart';
 import 'package:convert/convert.dart';
 import 'package:injectable/injectable.dart';
+import 'package:money2/money2.dart';
 import 'package:nekoton_repository/nekoton_repository.dart';
 
 @injectable
@@ -128,8 +129,9 @@ final class GaslessTokenTransferDelegate extends TokenTransferDelegate {
     String? stateInit;
 
     if (walletState.wallet != null) {
-      final contractState =
-          await _transport.transport.getContractState(transfer.owner);
+      final contractState = await _transport.transport.getContractState(
+        transfer.owner,
+      );
       final seqno = await walletState.wallet!.getWalletV5R1Seqno(
         contractState: contractState,
         publicKey: transfer.publicKey,
@@ -150,9 +152,10 @@ final class GaslessTokenTransferDelegate extends TokenTransferDelegate {
     final completer = Completer<void>();
 
     unawaited(
-      _send(transfer: transfer, message: message)
-          .then(completer.complete)
-          .catchError(completer.completeError),
+      _send(
+        transfer: transfer,
+        message: message,
+      ).then(completer.complete).catchError(completer.completeError),
     );
 
     return TokenTransactionCompleter(completer);

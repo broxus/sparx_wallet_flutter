@@ -6,10 +6,7 @@ import 'package:ui_components_lib/ui_components_lib.dart';
 import 'package:ui_components_lib/v2/ui_components_lib_v2.dart';
 
 class NftItemImageView extends StatefulWidget {
-  const NftItemImageView(
-    this.imageUrl, {
-    super.key,
-  });
+  const NftItemImageView(this.imageUrl, {super.key});
 
   static const String tag = 'nft_image';
 
@@ -34,9 +31,7 @@ class _NftItemImageViewState extends State<NftItemImageView> {
   @override
   void dispose() {
     super.dispose();
-    SystemChrome.setPreferredOrientations([
-      DeviceOrientation.portraitUp,
-    ]);
+    SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
   }
 
   @override
@@ -61,10 +56,7 @@ class _NftItemImageViewState extends State<NftItemImageView> {
           padding: const EdgeInsets.all(DimensSizeV2.d16),
           child: Hero(
             tag: NftItemImageView.tag,
-            child: NftImage(
-              imageUrl: widget.imageUrl,
-              fit: BoxFit.contain,
-            ),
+            child: NftImage(imageUrl: widget.imageUrl, fit: BoxFit.contain),
           ),
         ),
       ),

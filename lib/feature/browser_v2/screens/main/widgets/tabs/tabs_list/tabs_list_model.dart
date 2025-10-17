@@ -8,10 +8,8 @@ import 'package:injectable/injectable.dart';
 /// [ElementaryModel] for [BrowserTabsList]
 @injectable
 class BrowserTabsListModel extends ElementaryModel {
-  BrowserTabsListModel(
-    ErrorHandler errorHandler,
-    this._browserService,
-  ) : super(errorHandler: errorHandler);
+  BrowserTabsListModel(ErrorHandler errorHandler, this._browserService)
+    : super(errorHandler: errorHandler);
 
   final BrowserService _browserService;
 
@@ -26,13 +24,7 @@ class BrowserTabsListModel extends ElementaryModel {
     return _browserService.tab.getTabIds(groupId);
   }
 
-  void removeBrowserTab({
-    required String groupId,
-    required String tabId,
-  }) {
-    _browserService.tab.removeBrowserTab(
-      groupId: groupId,
-      tabId: tabId,
-    );
+  void removeBrowserTab({required String groupId, required String tabId}) {
+    _browserService.tab.removeBrowserTab(groupId: groupId, tabId: tabId);
   }
 }

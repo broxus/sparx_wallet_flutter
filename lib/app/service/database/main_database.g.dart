@@ -12,13 +12,21 @@ class $MigrationTableTable extends MigrationTable
   static const VerificationMeta _keyMeta = const VerificationMeta('key');
   @override
   late final GeneratedColumn<String> key = GeneratedColumn<String>(
-      'key', aliasedName, false,
-      type: DriftSqlType.string, requiredDuringInsert: true);
+    'key',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+  );
   static const VerificationMeta _valueMeta = const VerificationMeta('value');
   @override
   late final GeneratedColumn<String> value = GeneratedColumn<String>(
-      'value', aliasedName, false,
-      type: DriftSqlType.string, requiredDuringInsert: true);
+    'value',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+  );
   @override
   List<GeneratedColumn> get $columns => [key, value];
   @override
@@ -27,19 +35,25 @@ class $MigrationTableTable extends MigrationTable
   String get actualTableName => $name;
   static const String $name = 'migration_table';
   @override
-  VerificationContext validateIntegrity(Insertable<MigrationTableData> instance,
-      {bool isInserting = false}) {
+  VerificationContext validateIntegrity(
+    Insertable<MigrationTableData> instance, {
+    bool isInserting = false,
+  }) {
     final context = VerificationContext();
     final data = instance.toColumns(true);
     if (data.containsKey('key')) {
       context.handle(
-          _keyMeta, key.isAcceptableOrUnknown(data['key']!, _keyMeta));
+        _keyMeta,
+        key.isAcceptableOrUnknown(data['key']!, _keyMeta),
+      );
     } else if (isInserting) {
       context.missing(_keyMeta);
     }
     if (data.containsKey('value')) {
       context.handle(
-          _valueMeta, value.isAcceptableOrUnknown(data['value']!, _valueMeta));
+        _valueMeta,
+        value.isAcceptableOrUnknown(data['value']!, _valueMeta),
+      );
     } else if (isInserting) {
       context.missing(_valueMeta);
     }
@@ -52,10 +66,14 @@ class $MigrationTableTable extends MigrationTable
   MigrationTableData map(Map<String, dynamic> data, {String? tablePrefix}) {
     final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : '';
     return MigrationTableData(
-      key: attachedDatabase.typeMapping
-          .read(DriftSqlType.string, data['${effectivePrefix}key'])!,
-      value: attachedDatabase.typeMapping
-          .read(DriftSqlType.string, data['${effectivePrefix}value'])!,
+      key: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}key'],
+      )!,
+      value: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}value'],
+      )!,
     );
   }
 
@@ -79,14 +97,13 @@ class MigrationTableData extends DataClass
   }
 
   MigrationTableCompanion toCompanion(bool nullToAbsent) {
-    return MigrationTableCompanion(
-      key: Value(key),
-      value: Value(value),
-    );
+    return MigrationTableCompanion(key: Value(key), value: Value(value));
   }
 
-  factory MigrationTableData.fromJson(Map<String, dynamic> json,
-      {ValueSerializer? serializer}) {
+  factory MigrationTableData.fromJson(
+    Map<String, dynamic> json, {
+    ValueSerializer? serializer,
+  }) {
     serializer ??= driftRuntimeOptions.defaultSerializer;
     return MigrationTableData(
       key: serializer.fromJson<String>(json['key']),
@@ -103,10 +120,7 @@ class MigrationTableData extends DataClass
   }
 
   MigrationTableData copyWith({String? key, String? value}) =>
-      MigrationTableData(
-        key: key ?? this.key,
-        value: value ?? this.value,
-      );
+      MigrationTableData(key: key ?? this.key, value: value ?? this.value);
   MigrationTableData copyWithCompanion(MigrationTableCompanion data) {
     return MigrationTableData(
       key: data.key.present ? data.key.value : this.key,
@@ -146,8 +160,8 @@ class MigrationTableCompanion extends UpdateCompanion<MigrationTableData> {
     required String key,
     required String value,
     this.rowid = const Value.absent(),
-  })  : key = Value(key),
-        value = Value(value);
+  }) : key = Value(key),
+       value = Value(value);
   static Insertable<MigrationTableData> custom({
     Expression<String>? key,
     Expression<String>? value,
@@ -160,8 +174,11 @@ class MigrationTableCompanion extends UpdateCompanion<MigrationTableData> {
     });
   }
 
-  MigrationTableCompanion copyWith(
-      {Value<String>? key, Value<String>? value, Value<int>? rowid}) {
+  MigrationTableCompanion copyWith({
+    Value<String>? key,
+    Value<String>? value,
+    Value<int>? rowid,
+  }) {
     return MigrationTableCompanion(
       key: key ?? this.key,
       value: value ?? this.value,
@@ -204,25 +221,41 @@ class $BrowserHistoryTableTable extends BrowserHistoryTable
   static const VerificationMeta _idMeta = const VerificationMeta('id');
   @override
   late final GeneratedColumn<String> id = GeneratedColumn<String>(
-      'id', aliasedName, false,
-      type: DriftSqlType.string, requiredDuringInsert: true);
+    'id',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+  );
   static const VerificationMeta _titleMeta = const VerificationMeta('title');
   @override
   late final GeneratedColumn<String> title = GeneratedColumn<String>(
-      'title', aliasedName, false,
-      type: DriftSqlType.string, requiredDuringInsert: true);
-  static const VerificationMeta _urlMeta = const VerificationMeta('url');
+    'title',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+  );
   @override
   late final GeneratedColumnWithTypeConverter<Uri, String> url =
-      GeneratedColumn<String>('url', aliasedName, false,
-              type: DriftSqlType.string, requiredDuringInsert: true)
-          .withConverter<Uri>($BrowserHistoryTableTable.$converterurl);
-  static const VerificationMeta _visitTimeMeta =
-      const VerificationMeta('visitTime');
+      GeneratedColumn<String>(
+        'url',
+        aliasedName,
+        false,
+        type: DriftSqlType.string,
+        requiredDuringInsert: true,
+      ).withConverter<Uri>($BrowserHistoryTableTable.$converterurl);
+  static const VerificationMeta _visitTimeMeta = const VerificationMeta(
+    'visitTime',
+  );
   @override
   late final GeneratedColumn<DateTime> visitTime = GeneratedColumn<DateTime>(
-      'visit_time', aliasedName, false,
-      type: DriftSqlType.dateTime, requiredDuringInsert: true);
+    'visit_time',
+    aliasedName,
+    false,
+    type: DriftSqlType.dateTime,
+    requiredDuringInsert: true,
+  );
   @override
   List<GeneratedColumn> get $columns => [id, title, url, visitTime];
   @override
@@ -232,8 +265,9 @@ class $BrowserHistoryTableTable extends BrowserHistoryTable
   static const String $name = 'browser_history_table';
   @override
   VerificationContext validateIntegrity(
-      Insertable<BrowserHistoryTableData> instance,
-      {bool isInserting = false}) {
+    Insertable<BrowserHistoryTableData> instance, {
+    bool isInserting = false,
+  }) {
     final context = VerificationContext();
     final data = instance.toColumns(true);
     if (data.containsKey('id')) {
@@ -243,14 +277,17 @@ class $BrowserHistoryTableTable extends BrowserHistoryTable
     }
     if (data.containsKey('title')) {
       context.handle(
-          _titleMeta, title.isAcceptableOrUnknown(data['title']!, _titleMeta));
+        _titleMeta,
+        title.isAcceptableOrUnknown(data['title']!, _titleMeta),
+      );
     } else if (isInserting) {
       context.missing(_titleMeta);
     }
-    context.handle(_urlMeta, const VerificationResult.success());
     if (data.containsKey('visit_time')) {
-      context.handle(_visitTimeMeta,
-          visitTime.isAcceptableOrUnknown(data['visit_time']!, _visitTimeMeta));
+      context.handle(
+        _visitTimeMeta,
+        visitTime.isAcceptableOrUnknown(data['visit_time']!, _visitTimeMeta),
+      );
     } else if (isInserting) {
       context.missing(_visitTimeMeta);
     }
@@ -260,19 +297,30 @@ class $BrowserHistoryTableTable extends BrowserHistoryTable
   @override
   Set<GeneratedColumn> get $primaryKey => {id};
   @override
-  BrowserHistoryTableData map(Map<String, dynamic> data,
-      {String? tablePrefix}) {
+  BrowserHistoryTableData map(
+    Map<String, dynamic> data, {
+    String? tablePrefix,
+  }) {
     final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : '';
     return BrowserHistoryTableData(
-      id: attachedDatabase.typeMapping
-          .read(DriftSqlType.string, data['${effectivePrefix}id'])!,
-      title: attachedDatabase.typeMapping
-          .read(DriftSqlType.string, data['${effectivePrefix}title'])!,
-      url: $BrowserHistoryTableTable.$converterurl.fromSql(attachedDatabase
-          .typeMapping
-          .read(DriftSqlType.string, data['${effectivePrefix}url'])!),
-      visitTime: attachedDatabase.typeMapping
-          .read(DriftSqlType.dateTime, data['${effectivePrefix}visit_time'])!,
+      id: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}id'],
+      )!,
+      title: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}title'],
+      )!,
+      url: $BrowserHistoryTableTable.$converterurl.fromSql(
+        attachedDatabase.typeMapping.read(
+          DriftSqlType.string,
+          data['${effectivePrefix}url'],
+        )!,
+      ),
+      visitTime: attachedDatabase.typeMapping.read(
+        DriftSqlType.dateTime,
+        data['${effectivePrefix}visit_time'],
+      )!,
     );
   }
 
@@ -290,19 +338,21 @@ class BrowserHistoryTableData extends DataClass
   final String title;
   final Uri url;
   final DateTime visitTime;
-  const BrowserHistoryTableData(
-      {required this.id,
-      required this.title,
-      required this.url,
-      required this.visitTime});
+  const BrowserHistoryTableData({
+    required this.id,
+    required this.title,
+    required this.url,
+    required this.visitTime,
+  });
   @override
   Map<String, Expression> toColumns(bool nullToAbsent) {
     final map = <String, Expression>{};
     map['id'] = Variable<String>(id);
     map['title'] = Variable<String>(title);
     {
-      map['url'] =
-          Variable<String>($BrowserHistoryTableTable.$converterurl.toSql(url));
+      map['url'] = Variable<String>(
+        $BrowserHistoryTableTable.$converterurl.toSql(url),
+      );
     }
     map['visit_time'] = Variable<DateTime>(visitTime);
     return map;
@@ -317,8 +367,10 @@ class BrowserHistoryTableData extends DataClass
     );
   }
 
-  factory BrowserHistoryTableData.fromJson(Map<String, dynamic> json,
-      {ValueSerializer? serializer}) {
+  factory BrowserHistoryTableData.fromJson(
+    Map<String, dynamic> json, {
+    ValueSerializer? serializer,
+  }) {
     serializer ??= driftRuntimeOptions.defaultSerializer;
     return BrowserHistoryTableData(
       id: serializer.fromJson<String>(json['id']),
@@ -338,14 +390,17 @@ class BrowserHistoryTableData extends DataClass
     };
   }
 
-  BrowserHistoryTableData copyWith(
-          {String? id, String? title, Uri? url, DateTime? visitTime}) =>
-      BrowserHistoryTableData(
-        id: id ?? this.id,
-        title: title ?? this.title,
-        url: url ?? this.url,
-        visitTime: visitTime ?? this.visitTime,
-      );
+  BrowserHistoryTableData copyWith({
+    String? id,
+    String? title,
+    Uri? url,
+    DateTime? visitTime,
+  }) => BrowserHistoryTableData(
+    id: id ?? this.id,
+    title: title ?? this.title,
+    url: url ?? this.url,
+    visitTime: visitTime ?? this.visitTime,
+  );
   BrowserHistoryTableData copyWithCompanion(BrowserHistoryTableCompanion data) {
     return BrowserHistoryTableData(
       id: data.id.present ? data.id.value : this.id,
@@ -398,10 +453,10 @@ class BrowserHistoryTableCompanion
     required Uri url,
     required DateTime visitTime,
     this.rowid = const Value.absent(),
-  })  : id = Value(id),
-        title = Value(title),
-        url = Value(url),
-        visitTime = Value(visitTime);
+  }) : id = Value(id),
+       title = Value(title),
+       url = Value(url),
+       visitTime = Value(visitTime);
   static Insertable<BrowserHistoryTableData> custom({
     Expression<String>? id,
     Expression<String>? title,
@@ -418,12 +473,13 @@ class BrowserHistoryTableCompanion
     });
   }
 
-  BrowserHistoryTableCompanion copyWith(
-      {Value<String>? id,
-      Value<String>? title,
-      Value<Uri>? url,
-      Value<DateTime>? visitTime,
-      Value<int>? rowid}) {
+  BrowserHistoryTableCompanion copyWith({
+    Value<String>? id,
+    Value<String>? title,
+    Value<Uri>? url,
+    Value<DateTime>? visitTime,
+    Value<int>? rowid,
+  }) {
     return BrowserHistoryTableCompanion(
       id: id ?? this.id,
       title: title ?? this.title,
@@ -444,7 +500,8 @@ class BrowserHistoryTableCompanion
     }
     if (url.present) {
       map['url'] = Variable<String>(
-          $BrowserHistoryTableTable.$converterurl.toSql(url.value));
+        $BrowserHistoryTableTable.$converterurl.toSql(url.value),
+      );
     }
     if (visitTime.present) {
       map['visit_time'] = Variable<DateTime>(visitTime.value);
@@ -477,22 +534,35 @@ class $PermissionsTableTable extends PermissionsTable
   static const VerificationMeta _hostMeta = const VerificationMeta('host');
   @override
   late final GeneratedColumn<String> host = GeneratedColumn<String>(
-      'host', aliasedName, false,
-      type: DriftSqlType.string, requiredDuringInsert: true);
-  static const VerificationMeta _permissionMeta =
-      const VerificationMeta('permission');
+    'host',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _permissionMeta = const VerificationMeta(
+    'permission',
+  );
   @override
   late final GeneratedColumn<String> permission = GeneratedColumn<String>(
-      'permission', aliasedName, false,
-      type: DriftSqlType.string, requiredDuringInsert: true);
-  static const VerificationMeta _createdAtMeta =
-      const VerificationMeta('createdAt');
+    'permission',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _createdAtMeta = const VerificationMeta(
+    'createdAt',
+  );
   @override
   late final GeneratedColumn<DateTime> createdAt = GeneratedColumn<DateTime>(
-      'created_at', aliasedName, false,
-      type: DriftSqlType.dateTime,
-      requiredDuringInsert: false,
-      defaultValue: currentDateAndTime);
+    'created_at',
+    aliasedName,
+    false,
+    type: DriftSqlType.dateTime,
+    requiredDuringInsert: false,
+    defaultValue: currentDateAndTime,
+  );
   @override
   List<GeneratedColumn> get $columns => [host, permission, createdAt];
   @override
@@ -502,27 +572,32 @@ class $PermissionsTableTable extends PermissionsTable
   static const String $name = 'permissions_table';
   @override
   VerificationContext validateIntegrity(
-      Insertable<PermissionsTableData> instance,
-      {bool isInserting = false}) {
+    Insertable<PermissionsTableData> instance, {
+    bool isInserting = false,
+  }) {
     final context = VerificationContext();
     final data = instance.toColumns(true);
     if (data.containsKey('host')) {
       context.handle(
-          _hostMeta, host.isAcceptableOrUnknown(data['host']!, _hostMeta));
+        _hostMeta,
+        host.isAcceptableOrUnknown(data['host']!, _hostMeta),
+      );
     } else if (isInserting) {
       context.missing(_hostMeta);
     }
     if (data.containsKey('permission')) {
       context.handle(
-          _permissionMeta,
-          permission.isAcceptableOrUnknown(
-              data['permission']!, _permissionMeta));
+        _permissionMeta,
+        permission.isAcceptableOrUnknown(data['permission']!, _permissionMeta),
+      );
     } else if (isInserting) {
       context.missing(_permissionMeta);
     }
     if (data.containsKey('created_at')) {
-      context.handle(_createdAtMeta,
-          createdAt.isAcceptableOrUnknown(data['created_at']!, _createdAtMeta));
+      context.handle(
+        _createdAtMeta,
+        createdAt.isAcceptableOrUnknown(data['created_at']!, _createdAtMeta),
+      );
     }
     return context;
   }
@@ -533,12 +608,18 @@ class $PermissionsTableTable extends PermissionsTable
   PermissionsTableData map(Map<String, dynamic> data, {String? tablePrefix}) {
     final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : '';
     return PermissionsTableData(
-      host: attachedDatabase.typeMapping
-          .read(DriftSqlType.string, data['${effectivePrefix}host'])!,
-      permission: attachedDatabase.typeMapping
-          .read(DriftSqlType.string, data['${effectivePrefix}permission'])!,
-      createdAt: attachedDatabase.typeMapping
-          .read(DriftSqlType.dateTime, data['${effectivePrefix}created_at'])!,
+      host: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}host'],
+      )!,
+      permission: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}permission'],
+      )!,
+      createdAt: attachedDatabase.typeMapping.read(
+        DriftSqlType.dateTime,
+        data['${effectivePrefix}created_at'],
+      )!,
     );
   }
 
@@ -553,8 +634,11 @@ class PermissionsTableData extends DataClass
   final String host;
   final String permission;
   final DateTime createdAt;
-  const PermissionsTableData(
-      {required this.host, required this.permission, required this.createdAt});
+  const PermissionsTableData({
+    required this.host,
+    required this.permission,
+    required this.createdAt,
+  });
   @override
   Map<String, Expression> toColumns(bool nullToAbsent) {
     final map = <String, Expression>{};
@@ -572,8 +656,10 @@ class PermissionsTableData extends DataClass
     );
   }
 
-  factory PermissionsTableData.fromJson(Map<String, dynamic> json,
-      {ValueSerializer? serializer}) {
+  factory PermissionsTableData.fromJson(
+    Map<String, dynamic> json, {
+    ValueSerializer? serializer,
+  }) {
     serializer ??= driftRuntimeOptions.defaultSerializer;
     return PermissionsTableData(
       host: serializer.fromJson<String>(json['host']),
@@ -591,18 +677,21 @@ class PermissionsTableData extends DataClass
     };
   }
 
-  PermissionsTableData copyWith(
-          {String? host, String? permission, DateTime? createdAt}) =>
-      PermissionsTableData(
-        host: host ?? this.host,
-        permission: permission ?? this.permission,
-        createdAt: createdAt ?? this.createdAt,
-      );
+  PermissionsTableData copyWith({
+    String? host,
+    String? permission,
+    DateTime? createdAt,
+  }) => PermissionsTableData(
+    host: host ?? this.host,
+    permission: permission ?? this.permission,
+    createdAt: createdAt ?? this.createdAt,
+  );
   PermissionsTableData copyWithCompanion(PermissionsTableCompanion data) {
     return PermissionsTableData(
       host: data.host.present ? data.host.value : this.host,
-      permission:
-          data.permission.present ? data.permission.value : this.permission,
+      permission: data.permission.present
+          ? data.permission.value
+          : this.permission,
       createdAt: data.createdAt.present ? data.createdAt.value : this.createdAt,
     );
   }
@@ -644,8 +733,8 @@ class PermissionsTableCompanion extends UpdateCompanion<PermissionsTableData> {
     required String permission,
     this.createdAt = const Value.absent(),
     this.rowid = const Value.absent(),
-  })  : host = Value(host),
-        permission = Value(permission);
+  }) : host = Value(host),
+       permission = Value(permission);
   static Insertable<PermissionsTableData> custom({
     Expression<String>? host,
     Expression<String>? permission,
@@ -660,11 +749,12 @@ class PermissionsTableCompanion extends UpdateCompanion<PermissionsTableData> {
     });
   }
 
-  PermissionsTableCompanion copyWith(
-      {Value<String>? host,
-      Value<String>? permission,
-      Value<DateTime>? createdAt,
-      Value<int>? rowid}) {
+  PermissionsTableCompanion copyWith({
+    Value<String>? host,
+    Value<String>? permission,
+    Value<DateTime>? createdAt,
+    Value<int>? rowid,
+  }) {
     return PermissionsTableCompanion(
       host: host ?? this.host,
       permission: permission ?? this.permission,
@@ -709,28 +799,32 @@ abstract class _$MainDatabase extends GeneratedDatabase {
   late final $MigrationTableTable migrationTable = $MigrationTableTable(this);
   late final $BrowserHistoryTableTable browserHistoryTable =
       $BrowserHistoryTableTable(this);
-  late final $PermissionsTableTable permissionsTable =
-      $PermissionsTableTable(this);
+  late final $PermissionsTableTable permissionsTable = $PermissionsTableTable(
+    this,
+  );
   @override
   Iterable<TableInfo<Table, Object?>> get allTables =>
       allSchemaEntities.whereType<TableInfo<Table, Object?>>();
   @override
-  List<DatabaseSchemaEntity> get allSchemaEntities =>
-      [migrationTable, browserHistoryTable, permissionsTable];
+  List<DatabaseSchemaEntity> get allSchemaEntities => [
+    migrationTable,
+    browserHistoryTable,
+    permissionsTable,
+  ];
 }
 
-typedef $$MigrationTableTableCreateCompanionBuilder = MigrationTableCompanion
-    Function({
-  required String key,
-  required String value,
-  Value<int> rowid,
-});
-typedef $$MigrationTableTableUpdateCompanionBuilder = MigrationTableCompanion
-    Function({
-  Value<String> key,
-  Value<String> value,
-  Value<int> rowid,
-});
+typedef $$MigrationTableTableCreateCompanionBuilder =
+    MigrationTableCompanion Function({
+      required String key,
+      required String value,
+      Value<int> rowid,
+    });
+typedef $$MigrationTableTableUpdateCompanionBuilder =
+    MigrationTableCompanion Function({
+      Value<String> key,
+      Value<String> value,
+      Value<int> rowid,
+    });
 
 class $$MigrationTableTableFilterComposer
     extends Composer<_$MainDatabase, $MigrationTableTable> {
@@ -742,10 +836,14 @@ class $$MigrationTableTableFilterComposer
     super.$removeJoinBuilderFromRootComposer,
   });
   ColumnFilters<String> get key => $composableBuilder(
-      column: $table.key, builder: (column) => ColumnFilters(column));
+    column: $table.key,
+    builder: (column) => ColumnFilters(column),
+  );
 
   ColumnFilters<String> get value => $composableBuilder(
-      column: $table.value, builder: (column) => ColumnFilters(column));
+    column: $table.value,
+    builder: (column) => ColumnFilters(column),
+  );
 }
 
 class $$MigrationTableTableOrderingComposer
@@ -758,10 +856,14 @@ class $$MigrationTableTableOrderingComposer
     super.$removeJoinBuilderFromRootComposer,
   });
   ColumnOrderings<String> get key => $composableBuilder(
-      column: $table.key, builder: (column) => ColumnOrderings(column));
+    column: $table.key,
+    builder: (column) => ColumnOrderings(column),
+  );
 
   ColumnOrderings<String> get value => $composableBuilder(
-      column: $table.value, builder: (column) => ColumnOrderings(column));
+    column: $table.value,
+    builder: (column) => ColumnOrderings(column),
+  );
 }
 
 class $$MigrationTableTableAnnotationComposer
@@ -780,24 +882,33 @@ class $$MigrationTableTableAnnotationComposer
       $composableBuilder(column: $table.value, builder: (column) => column);
 }
 
-class $$MigrationTableTableTableManager extends RootTableManager<
-    _$MainDatabase,
-    $MigrationTableTable,
-    MigrationTableData,
-    $$MigrationTableTableFilterComposer,
-    $$MigrationTableTableOrderingComposer,
-    $$MigrationTableTableAnnotationComposer,
-    $$MigrationTableTableCreateCompanionBuilder,
-    $$MigrationTableTableUpdateCompanionBuilder,
-    (
-      MigrationTableData,
-      BaseReferences<_$MainDatabase, $MigrationTableTable, MigrationTableData>
-    ),
-    MigrationTableData,
-    PrefetchHooks Function()> {
+class $$MigrationTableTableTableManager
+    extends
+        RootTableManager<
+          _$MainDatabase,
+          $MigrationTableTable,
+          MigrationTableData,
+          $$MigrationTableTableFilterComposer,
+          $$MigrationTableTableOrderingComposer,
+          $$MigrationTableTableAnnotationComposer,
+          $$MigrationTableTableCreateCompanionBuilder,
+          $$MigrationTableTableUpdateCompanionBuilder,
+          (
+            MigrationTableData,
+            BaseReferences<
+              _$MainDatabase,
+              $MigrationTableTable,
+              MigrationTableData
+            >,
+          ),
+          MigrationTableData,
+          PrefetchHooks Function()
+        > {
   $$MigrationTableTableTableManager(
-      _$MainDatabase db, $MigrationTableTable table)
-      : super(TableManagerState(
+    _$MainDatabase db,
+    $MigrationTableTable table,
+  ) : super(
+        TableManagerState(
           db: db,
           table: table,
           createFilteringComposer: () =>
@@ -806,64 +917,68 @@ class $$MigrationTableTableTableManager extends RootTableManager<
               $$MigrationTableTableOrderingComposer($db: db, $table: table),
           createComputedFieldComposer: () =>
               $$MigrationTableTableAnnotationComposer($db: db, $table: table),
-          updateCompanionCallback: ({
-            Value<String> key = const Value.absent(),
-            Value<String> value = const Value.absent(),
-            Value<int> rowid = const Value.absent(),
-          }) =>
-              MigrationTableCompanion(
-            key: key,
-            value: value,
-            rowid: rowid,
-          ),
-          createCompanionCallback: ({
-            required String key,
-            required String value,
-            Value<int> rowid = const Value.absent(),
-          }) =>
-              MigrationTableCompanion.insert(
-            key: key,
-            value: value,
-            rowid: rowid,
-          ),
+          updateCompanionCallback:
+              ({
+                Value<String> key = const Value.absent(),
+                Value<String> value = const Value.absent(),
+                Value<int> rowid = const Value.absent(),
+              }) =>
+                  MigrationTableCompanion(key: key, value: value, rowid: rowid),
+          createCompanionCallback:
+              ({
+                required String key,
+                required String value,
+                Value<int> rowid = const Value.absent(),
+              }) => MigrationTableCompanion.insert(
+                key: key,
+                value: value,
+                rowid: rowid,
+              ),
           withReferenceMapper: (p0) => p0
               .map((e) => (e.readTable(table), BaseReferences(db, table, e)))
               .toList(),
           prefetchHooksCallback: null,
-        ));
+        ),
+      );
 }
 
-typedef $$MigrationTableTableProcessedTableManager = ProcessedTableManager<
-    _$MainDatabase,
-    $MigrationTableTable,
-    MigrationTableData,
-    $$MigrationTableTableFilterComposer,
-    $$MigrationTableTableOrderingComposer,
-    $$MigrationTableTableAnnotationComposer,
-    $$MigrationTableTableCreateCompanionBuilder,
-    $$MigrationTableTableUpdateCompanionBuilder,
-    (
+typedef $$MigrationTableTableProcessedTableManager =
+    ProcessedTableManager<
+      _$MainDatabase,
+      $MigrationTableTable,
       MigrationTableData,
-      BaseReferences<_$MainDatabase, $MigrationTableTable, MigrationTableData>
-    ),
-    MigrationTableData,
-    PrefetchHooks Function()>;
-typedef $$BrowserHistoryTableTableCreateCompanionBuilder
-    = BrowserHistoryTableCompanion Function({
-  required String id,
-  required String title,
-  required Uri url,
-  required DateTime visitTime,
-  Value<int> rowid,
-});
-typedef $$BrowserHistoryTableTableUpdateCompanionBuilder
-    = BrowserHistoryTableCompanion Function({
-  Value<String> id,
-  Value<String> title,
-  Value<Uri> url,
-  Value<DateTime> visitTime,
-  Value<int> rowid,
-});
+      $$MigrationTableTableFilterComposer,
+      $$MigrationTableTableOrderingComposer,
+      $$MigrationTableTableAnnotationComposer,
+      $$MigrationTableTableCreateCompanionBuilder,
+      $$MigrationTableTableUpdateCompanionBuilder,
+      (
+        MigrationTableData,
+        BaseReferences<
+          _$MainDatabase,
+          $MigrationTableTable,
+          MigrationTableData
+        >,
+      ),
+      MigrationTableData,
+      PrefetchHooks Function()
+    >;
+typedef $$BrowserHistoryTableTableCreateCompanionBuilder =
+    BrowserHistoryTableCompanion Function({
+      required String id,
+      required String title,
+      required Uri url,
+      required DateTime visitTime,
+      Value<int> rowid,
+    });
+typedef $$BrowserHistoryTableTableUpdateCompanionBuilder =
+    BrowserHistoryTableCompanion Function({
+      Value<String> id,
+      Value<String> title,
+      Value<Uri> url,
+      Value<DateTime> visitTime,
+      Value<int> rowid,
+    });
 
 class $$BrowserHistoryTableTableFilterComposer
     extends Composer<_$MainDatabase, $BrowserHistoryTableTable> {
@@ -875,18 +990,25 @@ class $$BrowserHistoryTableTableFilterComposer
     super.$removeJoinBuilderFromRootComposer,
   });
   ColumnFilters<String> get id => $composableBuilder(
-      column: $table.id, builder: (column) => ColumnFilters(column));
+    column: $table.id,
+    builder: (column) => ColumnFilters(column),
+  );
 
   ColumnFilters<String> get title => $composableBuilder(
-      column: $table.title, builder: (column) => ColumnFilters(column));
+    column: $table.title,
+    builder: (column) => ColumnFilters(column),
+  );
 
   ColumnWithTypeConverterFilters<Uri, Uri, String> get url =>
       $composableBuilder(
-          column: $table.url,
-          builder: (column) => ColumnWithTypeConverterFilters(column));
+        column: $table.url,
+        builder: (column) => ColumnWithTypeConverterFilters(column),
+      );
 
   ColumnFilters<DateTime> get visitTime => $composableBuilder(
-      column: $table.visitTime, builder: (column) => ColumnFilters(column));
+    column: $table.visitTime,
+    builder: (column) => ColumnFilters(column),
+  );
 }
 
 class $$BrowserHistoryTableTableOrderingComposer
@@ -899,16 +1021,24 @@ class $$BrowserHistoryTableTableOrderingComposer
     super.$removeJoinBuilderFromRootComposer,
   });
   ColumnOrderings<String> get id => $composableBuilder(
-      column: $table.id, builder: (column) => ColumnOrderings(column));
+    column: $table.id,
+    builder: (column) => ColumnOrderings(column),
+  );
 
   ColumnOrderings<String> get title => $composableBuilder(
-      column: $table.title, builder: (column) => ColumnOrderings(column));
+    column: $table.title,
+    builder: (column) => ColumnOrderings(column),
+  );
 
   ColumnOrderings<String> get url => $composableBuilder(
-      column: $table.url, builder: (column) => ColumnOrderings(column));
+    column: $table.url,
+    builder: (column) => ColumnOrderings(column),
+  );
 
   ColumnOrderings<DateTime> get visitTime => $composableBuilder(
-      column: $table.visitTime, builder: (column) => ColumnOrderings(column));
+    column: $table.visitTime,
+    builder: (column) => ColumnOrderings(column),
+  );
 }
 
 class $$BrowserHistoryTableTableAnnotationComposer
@@ -933,100 +1063,118 @@ class $$BrowserHistoryTableTableAnnotationComposer
       $composableBuilder(column: $table.visitTime, builder: (column) => column);
 }
 
-class $$BrowserHistoryTableTableTableManager extends RootTableManager<
-    _$MainDatabase,
-    $BrowserHistoryTableTable,
-    BrowserHistoryTableData,
-    $$BrowserHistoryTableTableFilterComposer,
-    $$BrowserHistoryTableTableOrderingComposer,
-    $$BrowserHistoryTableTableAnnotationComposer,
-    $$BrowserHistoryTableTableCreateCompanionBuilder,
-    $$BrowserHistoryTableTableUpdateCompanionBuilder,
-    (
-      BrowserHistoryTableData,
-      BaseReferences<_$MainDatabase, $BrowserHistoryTableTable,
-          BrowserHistoryTableData>
-    ),
-    BrowserHistoryTableData,
-    PrefetchHooks Function()> {
+class $$BrowserHistoryTableTableTableManager
+    extends
+        RootTableManager<
+          _$MainDatabase,
+          $BrowserHistoryTableTable,
+          BrowserHistoryTableData,
+          $$BrowserHistoryTableTableFilterComposer,
+          $$BrowserHistoryTableTableOrderingComposer,
+          $$BrowserHistoryTableTableAnnotationComposer,
+          $$BrowserHistoryTableTableCreateCompanionBuilder,
+          $$BrowserHistoryTableTableUpdateCompanionBuilder,
+          (
+            BrowserHistoryTableData,
+            BaseReferences<
+              _$MainDatabase,
+              $BrowserHistoryTableTable,
+              BrowserHistoryTableData
+            >,
+          ),
+          BrowserHistoryTableData,
+          PrefetchHooks Function()
+        > {
   $$BrowserHistoryTableTableTableManager(
-      _$MainDatabase db, $BrowserHistoryTableTable table)
-      : super(TableManagerState(
+    _$MainDatabase db,
+    $BrowserHistoryTableTable table,
+  ) : super(
+        TableManagerState(
           db: db,
           table: table,
           createFilteringComposer: () =>
               $$BrowserHistoryTableTableFilterComposer($db: db, $table: table),
           createOrderingComposer: () =>
               $$BrowserHistoryTableTableOrderingComposer(
-                  $db: db, $table: table),
+                $db: db,
+                $table: table,
+              ),
           createComputedFieldComposer: () =>
               $$BrowserHistoryTableTableAnnotationComposer(
-                  $db: db, $table: table),
-          updateCompanionCallback: ({
-            Value<String> id = const Value.absent(),
-            Value<String> title = const Value.absent(),
-            Value<Uri> url = const Value.absent(),
-            Value<DateTime> visitTime = const Value.absent(),
-            Value<int> rowid = const Value.absent(),
-          }) =>
-              BrowserHistoryTableCompanion(
-            id: id,
-            title: title,
-            url: url,
-            visitTime: visitTime,
-            rowid: rowid,
-          ),
-          createCompanionCallback: ({
-            required String id,
-            required String title,
-            required Uri url,
-            required DateTime visitTime,
-            Value<int> rowid = const Value.absent(),
-          }) =>
-              BrowserHistoryTableCompanion.insert(
-            id: id,
-            title: title,
-            url: url,
-            visitTime: visitTime,
-            rowid: rowid,
-          ),
+                $db: db,
+                $table: table,
+              ),
+          updateCompanionCallback:
+              ({
+                Value<String> id = const Value.absent(),
+                Value<String> title = const Value.absent(),
+                Value<Uri> url = const Value.absent(),
+                Value<DateTime> visitTime = const Value.absent(),
+                Value<int> rowid = const Value.absent(),
+              }) => BrowserHistoryTableCompanion(
+                id: id,
+                title: title,
+                url: url,
+                visitTime: visitTime,
+                rowid: rowid,
+              ),
+          createCompanionCallback:
+              ({
+                required String id,
+                required String title,
+                required Uri url,
+                required DateTime visitTime,
+                Value<int> rowid = const Value.absent(),
+              }) => BrowserHistoryTableCompanion.insert(
+                id: id,
+                title: title,
+                url: url,
+                visitTime: visitTime,
+                rowid: rowid,
+              ),
           withReferenceMapper: (p0) => p0
               .map((e) => (e.readTable(table), BaseReferences(db, table, e)))
               .toList(),
           prefetchHooksCallback: null,
-        ));
+        ),
+      );
 }
 
-typedef $$BrowserHistoryTableTableProcessedTableManager = ProcessedTableManager<
-    _$MainDatabase,
-    $BrowserHistoryTableTable,
-    BrowserHistoryTableData,
-    $$BrowserHistoryTableTableFilterComposer,
-    $$BrowserHistoryTableTableOrderingComposer,
-    $$BrowserHistoryTableTableAnnotationComposer,
-    $$BrowserHistoryTableTableCreateCompanionBuilder,
-    $$BrowserHistoryTableTableUpdateCompanionBuilder,
-    (
+typedef $$BrowserHistoryTableTableProcessedTableManager =
+    ProcessedTableManager<
+      _$MainDatabase,
+      $BrowserHistoryTableTable,
       BrowserHistoryTableData,
-      BaseReferences<_$MainDatabase, $BrowserHistoryTableTable,
-          BrowserHistoryTableData>
-    ),
-    BrowserHistoryTableData,
-    PrefetchHooks Function()>;
-typedef $$PermissionsTableTableCreateCompanionBuilder
-    = PermissionsTableCompanion Function({
-  required String host,
-  required String permission,
-  Value<DateTime> createdAt,
-  Value<int> rowid,
-});
-typedef $$PermissionsTableTableUpdateCompanionBuilder
-    = PermissionsTableCompanion Function({
-  Value<String> host,
-  Value<String> permission,
-  Value<DateTime> createdAt,
-  Value<int> rowid,
-});
+      $$BrowserHistoryTableTableFilterComposer,
+      $$BrowserHistoryTableTableOrderingComposer,
+      $$BrowserHistoryTableTableAnnotationComposer,
+      $$BrowserHistoryTableTableCreateCompanionBuilder,
+      $$BrowserHistoryTableTableUpdateCompanionBuilder,
+      (
+        BrowserHistoryTableData,
+        BaseReferences<
+          _$MainDatabase,
+          $BrowserHistoryTableTable,
+          BrowserHistoryTableData
+        >,
+      ),
+      BrowserHistoryTableData,
+      PrefetchHooks Function()
+    >;
+typedef $$PermissionsTableTableCreateCompanionBuilder =
+    PermissionsTableCompanion Function({
+      required String host,
+      required String permission,
+      Value<DateTime> createdAt,
+      Value<int> rowid,
+    });
+typedef $$PermissionsTableTableUpdateCompanionBuilder =
+    PermissionsTableCompanion Function({
+      Value<String> host,
+      Value<String> permission,
+      Value<DateTime> createdAt,
+      Value<int> rowid,
+    });
 
 class $$PermissionsTableTableFilterComposer
     extends Composer<_$MainDatabase, $PermissionsTableTable> {
@@ -1038,13 +1186,19 @@ class $$PermissionsTableTableFilterComposer
     super.$removeJoinBuilderFromRootComposer,
   });
   ColumnFilters<String> get host => $composableBuilder(
-      column: $table.host, builder: (column) => ColumnFilters(column));
+    column: $table.host,
+    builder: (column) => ColumnFilters(column),
+  );
 
   ColumnFilters<String> get permission => $composableBuilder(
-      column: $table.permission, builder: (column) => ColumnFilters(column));
+    column: $table.permission,
+    builder: (column) => ColumnFilters(column),
+  );
 
   ColumnFilters<DateTime> get createdAt => $composableBuilder(
-      column: $table.createdAt, builder: (column) => ColumnFilters(column));
+    column: $table.createdAt,
+    builder: (column) => ColumnFilters(column),
+  );
 }
 
 class $$PermissionsTableTableOrderingComposer
@@ -1057,13 +1211,19 @@ class $$PermissionsTableTableOrderingComposer
     super.$removeJoinBuilderFromRootComposer,
   });
   ColumnOrderings<String> get host => $composableBuilder(
-      column: $table.host, builder: (column) => ColumnOrderings(column));
+    column: $table.host,
+    builder: (column) => ColumnOrderings(column),
+  );
 
   ColumnOrderings<String> get permission => $composableBuilder(
-      column: $table.permission, builder: (column) => ColumnOrderings(column));
+    column: $table.permission,
+    builder: (column) => ColumnOrderings(column),
+  );
 
   ColumnOrderings<DateTime> get createdAt => $composableBuilder(
-      column: $table.createdAt, builder: (column) => ColumnOrderings(column));
+    column: $table.createdAt,
+    builder: (column) => ColumnOrderings(column),
+  );
 }
 
 class $$PermissionsTableTableAnnotationComposer
@@ -1079,31 +1239,41 @@ class $$PermissionsTableTableAnnotationComposer
       $composableBuilder(column: $table.host, builder: (column) => column);
 
   GeneratedColumn<String> get permission => $composableBuilder(
-      column: $table.permission, builder: (column) => column);
+    column: $table.permission,
+    builder: (column) => column,
+  );
 
   GeneratedColumn<DateTime> get createdAt =>
       $composableBuilder(column: $table.createdAt, builder: (column) => column);
 }
 
-class $$PermissionsTableTableTableManager extends RootTableManager<
-    _$MainDatabase,
-    $PermissionsTableTable,
-    PermissionsTableData,
-    $$PermissionsTableTableFilterComposer,
-    $$PermissionsTableTableOrderingComposer,
-    $$PermissionsTableTableAnnotationComposer,
-    $$PermissionsTableTableCreateCompanionBuilder,
-    $$PermissionsTableTableUpdateCompanionBuilder,
-    (
-      PermissionsTableData,
-      BaseReferences<_$MainDatabase, $PermissionsTableTable,
-          PermissionsTableData>
-    ),
-    PermissionsTableData,
-    PrefetchHooks Function()> {
+class $$PermissionsTableTableTableManager
+    extends
+        RootTableManager<
+          _$MainDatabase,
+          $PermissionsTableTable,
+          PermissionsTableData,
+          $$PermissionsTableTableFilterComposer,
+          $$PermissionsTableTableOrderingComposer,
+          $$PermissionsTableTableAnnotationComposer,
+          $$PermissionsTableTableCreateCompanionBuilder,
+          $$PermissionsTableTableUpdateCompanionBuilder,
+          (
+            PermissionsTableData,
+            BaseReferences<
+              _$MainDatabase,
+              $PermissionsTableTable,
+              PermissionsTableData
+            >,
+          ),
+          PermissionsTableData,
+          PrefetchHooks Function()
+        > {
   $$PermissionsTableTableTableManager(
-      _$MainDatabase db, $PermissionsTableTable table)
-      : super(TableManagerState(
+    _$MainDatabase db,
+    $PermissionsTableTable table,
+  ) : super(
+        TableManagerState(
           db: db,
           table: table,
           createFilteringComposer: () =>
@@ -1112,53 +1282,59 @@ class $$PermissionsTableTableTableManager extends RootTableManager<
               $$PermissionsTableTableOrderingComposer($db: db, $table: table),
           createComputedFieldComposer: () =>
               $$PermissionsTableTableAnnotationComposer($db: db, $table: table),
-          updateCompanionCallback: ({
-            Value<String> host = const Value.absent(),
-            Value<String> permission = const Value.absent(),
-            Value<DateTime> createdAt = const Value.absent(),
-            Value<int> rowid = const Value.absent(),
-          }) =>
-              PermissionsTableCompanion(
-            host: host,
-            permission: permission,
-            createdAt: createdAt,
-            rowid: rowid,
-          ),
-          createCompanionCallback: ({
-            required String host,
-            required String permission,
-            Value<DateTime> createdAt = const Value.absent(),
-            Value<int> rowid = const Value.absent(),
-          }) =>
-              PermissionsTableCompanion.insert(
-            host: host,
-            permission: permission,
-            createdAt: createdAt,
-            rowid: rowid,
-          ),
+          updateCompanionCallback:
+              ({
+                Value<String> host = const Value.absent(),
+                Value<String> permission = const Value.absent(),
+                Value<DateTime> createdAt = const Value.absent(),
+                Value<int> rowid = const Value.absent(),
+              }) => PermissionsTableCompanion(
+                host: host,
+                permission: permission,
+                createdAt: createdAt,
+                rowid: rowid,
+              ),
+          createCompanionCallback:
+              ({
+                required String host,
+                required String permission,
+                Value<DateTime> createdAt = const Value.absent(),
+                Value<int> rowid = const Value.absent(),
+              }) => PermissionsTableCompanion.insert(
+                host: host,
+                permission: permission,
+                createdAt: createdAt,
+                rowid: rowid,
+              ),
           withReferenceMapper: (p0) => p0
               .map((e) => (e.readTable(table), BaseReferences(db, table, e)))
               .toList(),
           prefetchHooksCallback: null,
-        ));
+        ),
+      );
 }
 
-typedef $$PermissionsTableTableProcessedTableManager = ProcessedTableManager<
-    _$MainDatabase,
-    $PermissionsTableTable,
-    PermissionsTableData,
-    $$PermissionsTableTableFilterComposer,
-    $$PermissionsTableTableOrderingComposer,
-    $$PermissionsTableTableAnnotationComposer,
-    $$PermissionsTableTableCreateCompanionBuilder,
-    $$PermissionsTableTableUpdateCompanionBuilder,
-    (
+typedef $$PermissionsTableTableProcessedTableManager =
+    ProcessedTableManager<
+      _$MainDatabase,
+      $PermissionsTableTable,
       PermissionsTableData,
-      BaseReferences<_$MainDatabase, $PermissionsTableTable,
-          PermissionsTableData>
-    ),
-    PermissionsTableData,
-    PrefetchHooks Function()>;
+      $$PermissionsTableTableFilterComposer,
+      $$PermissionsTableTableOrderingComposer,
+      $$PermissionsTableTableAnnotationComposer,
+      $$PermissionsTableTableCreateCompanionBuilder,
+      $$PermissionsTableTableUpdateCompanionBuilder,
+      (
+        PermissionsTableData,
+        BaseReferences<
+          _$MainDatabase,
+          $PermissionsTableTable,
+          PermissionsTableData
+        >,
+      ),
+      PermissionsTableData,
+      PrefetchHooks Function()
+    >;
 
 class $MainDatabaseManager {
   final _$MainDatabase _db;

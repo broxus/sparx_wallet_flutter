@@ -24,10 +24,7 @@ VoidCallback showLoaderScreen(
   navigator
       .push<void>(
         MaterialPageRoute(
-          builder: (_) => LoaderScreenWidget(
-            title: title,
-            canClose: canClose,
-          ),
+          builder: (_) => LoaderScreenWidget(title: title, canClose: canClose),
         ),
       )
       .then((_) => isClosed = true);

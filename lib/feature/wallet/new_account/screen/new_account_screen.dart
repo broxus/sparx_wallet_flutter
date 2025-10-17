@@ -6,25 +6,24 @@ import 'package:flutter/material.dart';
 import 'package:nekoton_repository/nekoton_repository.dart';
 import 'package:ui_components_lib/ui_components_lib.dart';
 
-class NewAccountScreen extends InjectedElementaryParametrizedWidget<
-    NewAccountScreenWidgetModel, NewAccountScreenWmParams> {
-  NewAccountScreen({
-    String? publicKey,
-    String? password,
-    super.key,
-  }) : super(
-          wmFactoryParam: NewAccountScreenWmParams(
-            publicKey: publicKey,
-            password: password,
-          ),
-        );
+class NewAccountScreen
+    extends
+        InjectedElementaryParametrizedWidget<
+          NewAccountScreenWidgetModel,
+          NewAccountScreenWmParams
+        > {
+  NewAccountScreen({String? publicKey, String? password, super.key})
+    : super(
+        wmFactoryParam: NewAccountScreenWmParams(
+          publicKey: publicKey,
+          password: password,
+        ),
+      );
 
   @override
   Widget build(NewAccountScreenWidgetModel wm) {
     return Scaffold(
-      appBar: DefaultAppBar(
-        titleText: LocaleKeys.newAccount.tr(),
-      ),
+      appBar: DefaultAppBar(titleText: LocaleKeys.newAccount.tr()),
       body: wm.isError
           ? const SizedBox.shrink()
           : Padding(

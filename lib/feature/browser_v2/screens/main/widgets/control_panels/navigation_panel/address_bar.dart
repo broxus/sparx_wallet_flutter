@@ -78,9 +78,7 @@ class _BrowserAddressBarState extends State<BrowserAddressBar> {
         width: widget.width,
         height: DimensSizeV2.d40,
         child: Padding(
-          padding: const EdgeInsets.symmetric(
-            horizontal: DimensSizeV2.d4,
-          ),
+          padding: const EdgeInsets.symmetric(horizontal: DimensSizeV2.d4),
           child: DecoratedBox(
             decoration: BoxDecoration(
               color: context.themeStyleV2.colors.backgroundInput,
@@ -148,10 +146,7 @@ class _BrowserAddressBarState extends State<BrowserAddressBar> {
 
   void _onEditingComplete() {
     resetFocus(context);
-    widget.onEditingComplete(
-      _tab.id,
-      _controller.text,
-    );
+    widget.onEditingComplete(_tab.id, _controller.text);
   }
 
   void _onPressedTip() {
@@ -207,10 +202,7 @@ class _BrowserAddressBarState extends State<BrowserAddressBar> {
 }
 
 class _Button extends StatelessWidget {
-  const _Button({
-    required this.onPressed,
-    required this.icon,
-  });
+  const _Button({required this.onPressed, required this.icon});
 
   final VoidCallback onPressed;
   final IconData icon;
@@ -223,14 +215,8 @@ class _Button extends StatelessWidget {
       behavior: HitTestBehavior.opaque,
       onTap: onPressed,
       child: Padding(
-        padding: const EdgeInsets.symmetric(
-          horizontal: DimensSizeV2.d12,
-        ),
-        child: Icon(
-          icon,
-          color: colors.content3,
-          size: DimensSizeV2.d16,
-        ),
+        padding: const EdgeInsets.symmetric(horizontal: DimensSizeV2.d12),
+        child: Icon(icon, color: colors.content3, size: DimensSizeV2.d16),
       ),
     );
   }
@@ -338,10 +324,7 @@ class _UrlText extends StatelessWidget {
               return const SizedBox.shrink();
             }
 
-            return _Button(
-              onPressed: onPressedMenu,
-              icon: LucideIcons.menu,
-            );
+            return _Button(onPressed: onPressedMenu, icon: LucideIcons.menu);
           },
         ),
         Expanded(
@@ -366,7 +349,10 @@ class _UrlText extends StatelessWidget {
                               width: DimensSizeV2.d16,
                               height: DimensSizeV2.d16,
                               colorFilter: context
-                                  .themeStyleV2.colors.content3.colorFilter,
+                                  .themeStyleV2
+                                  .colors
+                                  .content3
+                                  .colorFilter,
                             );
                     },
                   ),

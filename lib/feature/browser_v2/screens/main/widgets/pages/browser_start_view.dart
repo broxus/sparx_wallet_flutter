@@ -28,9 +28,7 @@ class BrowserStartView extends StatelessWidget {
                 mainAxisSize: MainAxisSize.min,
                 children: [
                   Padding(
-                    padding: const EdgeInsets.only(
-                      bottom: DimensSizeV2.d8,
-                    ),
+                    padding: const EdgeInsets.only(bottom: DimensSizeV2.d8),
                     child: Text(
                       LocaleKeys.browserStartTitle.tr(),
                       textAlign: TextAlign.center,
@@ -38,9 +36,7 @@ class BrowserStartView extends StatelessWidget {
                     ),
                   ),
                   Padding(
-                    padding: const EdgeInsets.only(
-                      bottom: DimensSizeV2.d24,
-                    ),
+                    padding: const EdgeInsets.only(bottom: DimensSizeV2.d24),
                     child: Text(
                       LocaleKeys.browserStartDescription.tr(),
                       textAlign: TextAlign.center,
@@ -49,10 +45,7 @@ class BrowserStartView extends StatelessWidget {
                       ),
                     ),
                   ),
-                  const Icon(
-                    LucideIcons.arrowDown,
-                    size: DimensSizeV2.d40,
-                  ),
+                  const Icon(LucideIcons.arrowDown, size: DimensSizeV2.d40),
                 ],
               ),
             ),

@@ -10,12 +10,14 @@ import 'package:ui_components_lib/ui_components_lib.dart';
 import 'package:ui_components_lib/v2/ui_components_lib_v2.dart';
 
 /// Card widget that displays information about account.
-class AccountCard extends InjectedElementaryParametrizedWidget<
-    AccountCardWidgetModel, KeyAccount> {
-  const AccountCard({
-    required KeyAccount account,
-    super.key,
-  }) : super(wmFactoryParam: account);
+class AccountCard
+    extends
+        InjectedElementaryParametrizedWidget<
+          AccountCardWidgetModel,
+          KeyAccount
+        > {
+  const AccountCard({required KeyAccount account, super.key})
+    : super(wmFactoryParam: account);
 
   @override
   Widget build(AccountCardWidgetModel wm) {

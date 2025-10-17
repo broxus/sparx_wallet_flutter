@@ -25,10 +25,9 @@ class AccountSettingsModel extends ElementaryModel {
   final CurrentAccountsService _currentAccountsService;
   final BrowserLauncher _browserLauncher;
 
-  Stream<List<KeyAccount>> get displayAccounts =>
-      _currentAccountsService.currentAccountsStream.map(
-        (list) => list?.displayAccounts ?? [],
-      );
+  Stream<List<KeyAccount>> get displayAccounts => _currentAccountsService
+      .currentAccountsStream
+      .map((list) => list?.displayAccounts ?? []);
 
   Stream<List<PublicKey>?> getCustodians(Address address) {
     return _nekotonRepository.walletsMapStream.map(
@@ -40,9 +39,7 @@ class AccountSettingsModel extends ElementaryModel {
       _nekotonRepository.currentTransport.accountExplorerLink(address);
 
   void copyAddress(BuildContext context, Address address) {
-    Clipboard.setData(
-      ClipboardData(text: address.address),
-    );
+    Clipboard.setData(ClipboardData(text: address.address));
 
     _messengerService.show(
       Message.successful(

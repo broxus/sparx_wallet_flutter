@@ -7,7 +7,7 @@ import 'package:app/data/models/token_contract/token_contract_asset.dart';
 import 'package:app/utils/utils.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:injectable/injectable.dart';
-import 'package:nekoton_repository/nekoton_repository.dart' hide Currency;
+import 'package:nekoton_repository/nekoton_repository.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:rxdart/rxdart.dart';
 
@@ -127,16 +127,13 @@ class GeneralStorageService extends AbstractStorageService {
 
   /// Add custom token contract asset to list of tokens with same type.
   /// Ignores asset with duplicate address.
-  void addCustomTokenContractAsset(
-    TokenContractAsset tokenContractAsset,
-  ) {
+  void addCustomTokenContractAsset(TokenContractAsset tokenContractAsset) {
     final assets = readCustomTokenContractAssets(
       tokenContractAsset.networkGroup,
     );
-    final newAssets = assets
-        .where((e) => e.address != tokenContractAsset.address)
-        .toList()
-      ..add(tokenContractAsset);
+    final newAssets =
+        assets.where((e) => e.address != tokenContractAsset.address).toList()
+          ..add(tokenContractAsset);
     _customContractAssetsStorage.write(
       tokenContractAsset.networkGroup,
       newAssets.map((e) => e.toJson()).toList(),
@@ -207,8 +204,7 @@ class GeneralStorageService extends AbstractStorageService {
   /// Stream of custom token contract assets by specified network type
   Stream<List<TokenContractAsset>> customTokenContractAssetsStream(
     NetworkGroup group,
-  ) =>
-      _customTokenContractAssetsSubject.map((event) => event[group] ?? []);
+  ) => _customTokenContractAssetsSubject.map((event) => event[group] ?? []);
 
   /// Delete all custom token contract assets with same type.
   void deleteCustomTokens(NetworkGroup group) {
@@ -265,23 +261,19 @@ class GeneralStorageService extends AbstractStorageService {
   }
 
   /// Read from storage list of custom assets by network type
-  List<TokenContractAsset> readCustomTokenContractAssets(
-    NetworkGroup group,
-  ) {
+  List<TokenContractAsset> readCustomTokenContractAssets(NetworkGroup group) {
     final assets = _customContractAssetsStorage.read<List<dynamic>>(group);
     if (assets == null) {
       return [];
     }
-    return assets.map(
-      (json) {
-        json = json as Map<String, dynamic>;
-        if (json['isCustom'] == null) {
-          json['isCustom'] = true;
-        }
+    return assets.map((json) {
+      json = json as Map<String, dynamic>;
+      if (json['isCustom'] == null) {
+        json['isCustom'] = true;
+      }
 
-        return TokenContractAsset.fromJson(json);
-      },
-    ).toList();
+      return TokenContractAsset.fromJson(json);
+    }).toList();
   }
 
   List<dynamic> readRawCustomAssets(NetworkGroup group) {
@@ -304,20 +296,14 @@ class GeneralStorageService extends AbstractStorageService {
     NetworkGroup group,
     List<dynamic> customAssets,
   ) {
-    return _customContractAssetsStorage.write(
-      group,
-      customAssets,
-    );
+    return _customContractAssetsStorage.write(group, customAssets);
   }
 
   Future<void> writeRawSystemAssets(
     NetworkGroup group,
     List<dynamic> systemAssets,
   ) {
-    return _systemContractAssetsStorage.write(
-      group,
-      systemAssets,
-    );
+    return _systemContractAssetsStorage.write(group, systemAssets);
   }
 
   /// Get if biometry is enabled in app
@@ -343,30 +329,24 @@ class GeneralStorageService extends AbstractStorageService {
   }
 
   /// Get list of system assets by network type
-  List<TokenContractAsset> readSystemTokenContractAssets(
-    NetworkGroup group,
-  ) {
+  List<TokenContractAsset> readSystemTokenContractAssets(NetworkGroup group) {
     final assets = _systemContractAssetsStorage.read<List<dynamic>>(group);
     if (assets == null) {
       return [];
     }
 
-    return assets.map(
-      (json) {
-        json = json as Map<String, dynamic>;
-        if (json['isCustom'] == null) {
-          json['isCustom'] = false;
-        }
+    return assets.map((json) {
+      json = json as Map<String, dynamic>;
+      if (json['isCustom'] == null) {
+        json['isCustom'] = false;
+      }
 
-        return TokenContractAsset.fromJson(json);
-      },
-    ).toList();
+      return TokenContractAsset.fromJson(json);
+    }).toList();
   }
 
   /// Remove custom token contract asset from list of tokens with same type.
-  void removeCustomTokenContractAsset(
-    TokenContractAsset asset,
-  ) {
+  void removeCustomTokenContractAsset(TokenContractAsset asset) {
     final assets = readCustomTokenContractAssets(asset.networkGroup);
     final newAssets = assets.where((a) => a.address != asset.address).toList();
     _customContractAssetsStorage.write(
@@ -387,10 +367,7 @@ class GeneralStorageService extends AbstractStorageService {
     final newList = list.where((e) => !keys.contains(e.address)).toList()
       ..addAll(currencies);
 
-    _currenciesStorage.write(
-      group,
-      newList.map((e) => e.toJson()).toList(),
-    );
+    _currenciesStorage.write(group, newList.map((e) => e.toJson()).toList());
     _streamedCurrencies();
   }
 
@@ -402,10 +379,7 @@ class GeneralStorageService extends AbstractStorageService {
     final newList = list.where((e) => e.address != currency.address).toList()
       ..add(currency);
 
-    _currenciesStorage.write(
-      group,
-      newList.map((e) => e.toJson()).toList(),
-    );
+    _currenciesStorage.write(group, newList.map((e) => e.toJson()).toList());
     _streamedCurrencies();
   }
 
@@ -432,8 +406,7 @@ class GeneralStorageService extends AbstractStorageService {
   /// Stream of system token contract assets by specified network type
   Stream<List<TokenContractAsset>> systemTokenContractAssetsStream(
     NetworkGroup group,
-  ) =>
-      _systemTokenContractAssetsSubject.map((event) => event[group] ?? []);
+  ) => _systemTokenContractAssetsSubject.map((event) => event[group] ?? []);
 
   /// Update seeds that were used by user.
   /// There must be only master keys, if key is sub, then put its master.
@@ -468,10 +441,7 @@ class GeneralStorageService extends AbstractStorageService {
       final list = assetsMap[networkGroup]?.map((e) => e.toJson()).toList();
 
       if (list != null) {
-        await _systemContractAssetsStorage.write(
-          networkGroup,
-          list,
-        );
+        await _systemContractAssetsStorage.write(networkGroup, list);
       }
     }
 
@@ -531,9 +501,8 @@ class GeneralStorageService extends AbstractStorageService {
   void _streamedCurrentKey() => _currentKeySubject.add(readCurrentKey());
 
   /// Put current active account address to stream
-  void _streamedCurrentAddress() => _currentAddressSubject.add(
-        readCurrentAddress(),
-      );
+  void _streamedCurrentAddress() =>
+      _currentAddressSubject.add(readCurrentAddress());
 
   /// Put custom token contract assets to stream
   void _streamedCustomContractAssets() {
@@ -541,16 +510,14 @@ class GeneralStorageService extends AbstractStorageService {
     final decoded = encoded.map(
       (key, value) => MapEntry(
         key,
-        (value as List<dynamic>).map(
-          (json) {
-            json = json as Map<String, dynamic>;
-            if (json['isCustom'] == null) {
-              json['isCustom'] = true;
-            }
+        (value as List<dynamic>).map((json) {
+          json = json as Map<String, dynamic>;
+          if (json['isCustom'] == null) {
+            json['isCustom'] = true;
+          }
 
-            return TokenContractAsset.fromJson(json);
-          },
-        ).toList(),
+          return TokenContractAsset.fromJson(json);
+        }).toList(),
       ),
     );
     _customTokenContractAssetsSubject.add(decoded);
@@ -566,16 +533,14 @@ class GeneralStorageService extends AbstractStorageService {
     final decoded = encoded.map(
       (key, value) => MapEntry(
         key,
-        (value as List<dynamic>).map(
-          (json) {
-            json = json as Map<String, dynamic>;
-            if (json['isCustom'] == null) {
-              json['isCustom'] = false;
-            }
+        (value as List<dynamic>).map((json) {
+          json = json as Map<String, dynamic>;
+          if (json['isCustom'] == null) {
+            json['isCustom'] = false;
+          }
 
-            return TokenContractAsset.fromJson(json);
-          },
-        ).toList(),
+          return TokenContractAsset.fromJson(json);
+        }).toList(),
       ),
     );
     _systemTokenContractAssetsSubject.add(decoded);

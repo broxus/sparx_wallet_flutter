@@ -9,12 +9,18 @@ import 'package:app/feature/wallet/widgets/account_asset_tab/ton_wallet_asset/to
 import 'package:app/feature/wallet/widgets/account_asset_tab/ton_wallet_asset/ton_wallet_asset_widget.dart';
 import 'package:elementary_helper/elementary_helper.dart';
 import 'package:injectable/injectable.dart';
+import 'package:money2/money2.dart';
 import 'package:nekoton_repository/nekoton_repository.dart';
 import 'package:rxdart/rxdart.dart';
 
 @injectable
-class TonWalletAssetWidgetModel extends CustomWidgetModelParametrized<
-    TonWalletAssetWidget, TonWalletAssetModel, TonWalletAsset> {
+class TonWalletAssetWidgetModel
+    extends
+        CustomWidgetModelParametrized<
+          TonWalletAssetWidget,
+          TonWalletAssetModel,
+          TonWalletAsset
+        > {
   TonWalletAssetWidgetModel(super.model);
 
   // Outputs
@@ -25,8 +31,9 @@ class TonWalletAssetWidgetModel extends CustomWidgetModelParametrized<
   late final _tokenNameState = createNotifier(
     model.currentTransport.nativeTokenTicker,
   );
-  late final _iconPathState =
-      createNotifier(model.currentTransport.nativeTokenIcon);
+  late final _iconPathState = createNotifier(
+    model.currentTransport.nativeTokenIcon,
+  );
 
   // Internal
   StreamSubscription<dynamic>? _walletsSubscription;
@@ -50,61 +57,60 @@ class TonWalletAssetWidgetModel extends CustomWidgetModelParametrized<
   void initWidgetModel() {
     super.initWidgetModel();
 
-    _walletsSubscription = model.currentTransportStream.switchMap((transport) {
-      // Update token meta when transport changes
-      _tokenNameState.accept(transport.nativeTokenTicker);
-      _iconPathState.accept(transport.nativeTokenIcon);
+    _walletsSubscription = model.currentTransportStream
+        .switchMap((transport) {
+          // Update token meta when transport changes
+          _tokenNameState.accept(transport.nativeTokenTicker);
+          _iconPathState.accept(transport.nativeTokenIcon);
 
-      _closeSubs();
+          _closeSubs();
 
-      final balances = model
-          .getBalances(_networkGroup)[wmParams.value.address]
-          ?.tokenBalance(_nativeTokenContract, isNative: true);
+          final balances = model
+              .getBalances(_networkGroup)[wmParams.value.address]
+              ?.tokenBalance(_nativeTokenContract, isNative: true);
 
-      _fiatBalanceState.accept(balances?.fiatBalance);
-      _tokenBalanceState.accept(balances?.tokenBalance);
+          _fiatBalanceState.accept(balances?.fiatBalance);
+          _tokenBalanceState.accept(balances?.tokenBalance);
 
-      return model.walletsMapStream;
-    }).listen((Map<Address, TonWalletState> wallets) {
-      final walletState = wallets[wmParams.value.address];
+          return model.walletsMapStream;
+        })
+        .listen((Map<Address, TonWalletState> wallets) {
+          final walletState = wallets[wmParams.value.address];
 
-      final oldWallet = _wallet?.wallet;
-      final wallet = walletState?.wallet;
-      if (wallet != null &&
-          (oldWallet == null ||
-              wallet != oldWallet ||
-              oldWallet.transport.connectionParamsHash !=
-                  wallet.transport.connectionParamsHash)) {
-        _wallet = walletState;
-        _closeSubs();
+          final oldWallet = _wallet?.wallet;
+          final wallet = walletState?.wallet;
+          if (wallet != null &&
+              (oldWallet == null ||
+                  wallet != oldWallet ||
+                  oldWallet.transport.connectionParamsHash !=
+                      wallet.transport.connectionParamsHash)) {
+            _wallet = walletState;
+            _closeSubs();
 
-        _thisWalletSubscription = wallet.fieldUpdatesStream.listen(
-          (_) {
-            _tokenBalanceState.accept(
-              Money.fromBigIntWithCurrency(
-                wallet.contractState.balance,
-                Currencies()[model.currentTransport.nativeTokenTicker]!,
-              ),
-            );
+            _thisWalletSubscription = wallet.fieldUpdatesStream.listen((_) {
+              _tokenBalanceState.accept(
+                Money.fromBigIntWithCurrency(
+                  wallet.contractState.balance,
+                  Currencies()[model.currentTransport.nativeTokenTicker]!,
+                ),
+              );
 
-            _tryUpdateBalances();
-          },
-        );
-        _balanceSubscription =
-            model.getTonWalletBalanceStream(wmParams.value.address).listen(
-          (balance) {
-            _fiatBalanceState.accept(model.convert(balance));
+              _tryUpdateBalances();
+            });
+            _balanceSubscription = model
+                .getTonWalletBalanceStream(wmParams.value.address)
+                .listen((balance) {
+                  _fiatBalanceState.accept(model.convert(balance));
 
-            _tryUpdateBalances();
-          },
-        );
-        _errorState.accept(null);
-      } else if ((walletState?.hasError ?? false) == true) {
-        final ws = walletState!;
-        _errorState.accept(ws.error);
-        _isRetryLoadingState.accept(false);
-      }
-    });
+                  _tryUpdateBalances();
+                });
+            _errorState.accept(null);
+          } else if ((walletState?.hasError ?? false) == true) {
+            final ws = walletState!;
+            _errorState.accept(ws.error);
+            _isRetryLoadingState.accept(false);
+          }
+        });
   }
 
   @override

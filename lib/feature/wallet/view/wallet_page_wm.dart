@@ -17,10 +17,12 @@ class WalletPageWidgetModel
 
   late final scrollController = createScrollController();
 
-  late final _currentAccountState =
-      createNotifierFromStream(model.currentAccount);
-  late final _transportStrategyState =
-      createNotifierFromStream(model.transportStrategy);
+  late final _currentAccountState = createNotifierFromStream(
+    model.currentAccount,
+  );
+  late final _transportStrategyState = createNotifierFromStream(
+    model.transportStrategy,
+  );
   late final _isShowingNewTokensState = createNotifier<bool>();
   late final _hasUnconfirmedTransactionsState = createNotifier<bool>();
 
@@ -45,17 +47,16 @@ class WalletPageWidgetModel
   @override
   void initWidgetModel() {
     super.initWidgetModel();
-    _pressWalletSubscribtion = model.shouldScrollTopStream.listen(
-      (_) {
-        scrollController.animateTo(
-          0,
-          duration: const Duration(milliseconds: 250),
-          curve: Curves.linear,
-        );
-      },
+    _pressWalletSubscribtion = model.shouldScrollTopStream.listen((_) {
+      scrollController.animateTo(
+        0,
+        duration: const Duration(milliseconds: 250),
+        curve: Curves.linear,
+      );
+    });
+    _currentAccountSubscribtion = model.currentAccount.whereNotNull().listen(
+      _onAccountChanged,
     );
-    _currentAccountSubscribtion =
-        model.currentAccount.whereNotNull().listen(_onAccountChanged);
   }
 
   @override
@@ -104,8 +105,9 @@ class WalletPageWidgetModel
     await _walletSubscribtion?.cancel();
     await _changeTransactions?.cancel();
 
-    _walletSubscribtion =
-        model.getWalletStream(account.address).listen((walletState) async {
+    _walletSubscribtion = model.getWalletStream(account.address).listen((
+      walletState,
+    ) async {
       final wallet = walletState?.wallet;
 
       if (wallet != null) {
@@ -122,8 +124,6 @@ class WalletPageWidgetModel
   void _checkUnconfirmedTransactions(TonWallet? wallet) {
     final unconfirmedTransactionsCount =
         wallet?.unconfirmedTransactions.length ?? 0;
-    _hasUnconfirmedTransactionsState.accept(
-      unconfirmedTransactionsCount > 0,
-    );
+    _hasUnconfirmedTransactionsState.accept(unconfirmedTransactionsCount > 0);
   }
 }

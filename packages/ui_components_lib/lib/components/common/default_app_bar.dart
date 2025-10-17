@@ -154,11 +154,10 @@ class DefaultAppBar extends StatelessWidget implements PreferredSizeWidget {
     final isShowLeadingClose =
         _showLeadingClose && defaultCanPopAction(context);
 
-    final leading = this.leading ??
+    final leading =
+        this.leading ??
         (isShowLeadingClose
-            ? AppBarBackButton(
-                onPressed: () => _onPressedBack(context),
-              )
+            ? AppBarBackButton(onPressed: () => _onPressedBack(context))
             : null);
 
     return PopCapture(
@@ -177,10 +176,7 @@ class DefaultAppBar extends StatelessWidget implements PreferredSizeWidget {
           leadingWidth: isShowLeadingClose ? DimensSizeV2.d48 : leadingWidth,
           leading: leading == null
               ? null
-              : Align(
-                  alignment: Alignment.centerLeft,
-                  child: leading,
-                ),
+              : Align(alignment: Alignment.centerLeft, child: leading),
           actions: _hasAnyActions ? _actionsWidget(context) : null,
           title: title,
           systemOverlayStyle: systemOverlayStyle,
@@ -216,10 +212,7 @@ class DefaultAppBar extends StatelessWidget implements PreferredSizeWidget {
   Widget? buildTitle(ThemeStyleV2 theme) {
     Widget? subtitleTop;
     if (subtitleTopText != null) {
-      subtitleTop = Text(
-        subtitleTopText!,
-        style: theme.textStyles.labelSmall,
-      );
+      subtitleTop = Text(subtitleTopText!, style: theme.textStyles.labelSmall);
     } else if (subtitleTopWidget != null) {
       subtitleTop = subtitleTopWidget;
     }
@@ -236,10 +229,7 @@ class DefaultAppBar extends StatelessWidget implements PreferredSizeWidget {
 
     Widget? title;
     if (titleText != null) {
-      title = Text(
-        titleText!,
-        style: theme.textStyles.headingMedium,
-      );
+      title = Text(titleText!, style: theme.textStyles.headingMedium);
     } else if (titleWidget != null) {
       title = titleWidget;
     }
@@ -248,8 +238,9 @@ class DefaultAppBar extends StatelessWidget implements PreferredSizeWidget {
     if (title != null || subtitleTop != null || subtitleBottom != null) {
       anyTitle = Column(
         mainAxisSize: MainAxisSize.min,
-        crossAxisAlignment:
-            centerTitle ? CrossAxisAlignment.center : CrossAxisAlignment.start,
+        crossAxisAlignment: centerTitle
+            ? CrossAxisAlignment.center
+            : CrossAxisAlignment.start,
         children: [
           if (subtitleTop != null) subtitleTop,
           if (subtitleTop != null && title != null) const SizedBox(height: 3),

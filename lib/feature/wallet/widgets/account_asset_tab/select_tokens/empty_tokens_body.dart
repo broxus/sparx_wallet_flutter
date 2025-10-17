@@ -12,10 +12,7 @@ class EmptyTokensWidget extends StatelessWidget {
       mainAxisSize: MainAxisSize.min,
       children: [
         const SizedBox(height: DimensSizeV2.d20),
-        SvgPicture.asset(
-          Assets.images.searchX.path,
-          width: DimensSizeV2.d56,
-        ),
+        SvgPicture.asset(Assets.images.searchX.path, width: DimensSizeV2.d56),
         const SizedBox(height: DimensSizeV2.d12),
         Padding(
           padding: const EdgeInsets.symmetric(horizontal: DimensSizeV2.d16),

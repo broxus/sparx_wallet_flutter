@@ -9,12 +9,11 @@ import 'package:ui_components_lib/ui_components_lib.dart';
 import 'package:ui_components_lib/v2/widgets/widgets.dart';
 
 /// Page that allows user to stake his native token.
-class StakingPageWidget extends InjectedElementaryParametrizedWidget<
-    StakingPageWidgetModel, Address> {
-  const StakingPageWidget({
-    required Address accountAddress,
-    super.key,
-  }) : super(wmFactoryParam: accountAddress);
+class StakingPageWidget
+    extends
+        InjectedElementaryParametrizedWidget<StakingPageWidgetModel, Address> {
+  const StakingPageWidget({required Address accountAddress, super.key})
+    : super(wmFactoryParam: accountAddress);
 
   @override
   Widget build(StakingPageWidgetModel wm) {
@@ -48,9 +47,7 @@ class StakingPageWidget extends InjectedElementaryParametrizedWidget<
 }
 
 class _StakingViewWidget extends StatelessWidget {
-  const _StakingViewWidget({
-    required this.wm,
-  });
+  const _StakingViewWidget({required this.wm});
 
   final StakingPageWidgetModel wm;
 
@@ -145,9 +142,7 @@ class _StakingViewWidget extends StatelessWidget {
 }
 
 class _ButtonWidget extends StatelessWidget {
-  const _ButtonWidget({
-    required this.wm,
-  });
+  const _ButtonWidget({required this.wm});
 
   final StakingPageWidgetModel wm;
 
@@ -199,9 +194,7 @@ class _InnerButtonWidget extends StatelessWidget {
       children: [
         if (validation?.message != null)
           Padding(
-            padding: const EdgeInsets.only(
-              bottom: DimensSizeV2.d8,
-            ),
+            padding: const EdgeInsets.only(bottom: DimensSizeV2.d8),
             child: PrimaryCard(
               padding: const EdgeInsets.all(DimensSizeV2.d16),
               borderRadius: BorderRadius.circular(DimensRadiusV2.radius16),

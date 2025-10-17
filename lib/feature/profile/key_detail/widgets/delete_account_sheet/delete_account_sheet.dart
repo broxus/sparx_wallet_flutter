@@ -13,9 +13,9 @@ ModalRoute<void> deleteAccountSheetRoute(
   BuildContext context,
   KeyAccount account,
 ) {
-  final name = inject<NekotonRepository>()
-      .currentTransport
-      .defaultAccountName(account.account.tonWallet.contract);
+  final name = inject<NekotonRepository>().currentTransport.defaultAccountName(
+    account.account.tonWallet.contract,
+  );
 
   return commonBottomSheetRoute<void>(
     titleTextStyle: context.themeStyleV2.textStyles.headingLarge,
@@ -26,12 +26,14 @@ ModalRoute<void> deleteAccountSheetRoute(
 }
 
 /// Widget that allows to delete account.
-class DeleteAccountSheet extends InjectedElementaryParametrizedWidget<
-    DeleteAccountSheetWidgetModel, KeyAccount> {
-  const DeleteAccountSheet({
-    required KeyAccount account,
-    super.key,
-  }) : super(wmFactoryParam: account);
+class DeleteAccountSheet
+    extends
+        InjectedElementaryParametrizedWidget<
+          DeleteAccountSheetWidgetModel,
+          KeyAccount
+        > {
+  const DeleteAccountSheet({required KeyAccount account, super.key})
+    : super(wmFactoryParam: account);
 
   @override
   Widget build(DeleteAccountSheetWidgetModel wm) {

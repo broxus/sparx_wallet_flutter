@@ -8,14 +8,13 @@ import 'package:flutter/material.dart';
 import 'package:ui_components_lib/v2/dimens_v2.dart';
 
 class AccountSettingsChangeColorButton
-    extends InjectedElementaryParametrizedWidget<
-        AccountSettingsChangeColorButtonWidgetModel, String> {
-  const AccountSettingsChangeColorButton({
-    required String address,
-    super.key,
-  }) : super(
-          wmFactoryParam: address,
-        );
+    extends
+        InjectedElementaryParametrizedWidget<
+          AccountSettingsChangeColorButtonWidgetModel,
+          String
+        > {
+  const AccountSettingsChangeColorButton({required String address, super.key})
+    : super(wmFactoryParam: address);
 
   @override
   Widget build(AccountSettingsChangeColorButtonWidgetModel wm) {

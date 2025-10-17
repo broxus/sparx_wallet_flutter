@@ -14,10 +14,8 @@ ModalRoute<void> deleteKeySheetRoute(
     title: LocaleKeys.deleteKey.tr(),
     subtitle: LocaleKeys.deleteKeyDescription.tr(),
     titleTextStyle: context.themeStyleV2.textStyles.headingLarge,
-    body: (_, __) => DeleteKeySheet(
-      inject<NekotonRepository>(),
-      publicKey: publicKey,
-    ),
+    body: (_, __) =>
+        DeleteKeySheet(inject<NekotonRepository>(), publicKey: publicKey),
   );
 }
 
@@ -47,23 +45,20 @@ class DeleteKeySheet extends StatelessWidget {
                 color: colors.background2,
                 mainAxisSize: MainAxisSize.min,
                 children: [
-                  _sectionItem(
-                    LocaleKeys.publicKey.tr(),
-                    [
-                      CommonListTile(
-                        leading: CommonBackgroundedIconWidget.svg(
-                          svg: Assets.images.key.path,
-                          backgroundColor: colors.backgroundAlpha,
-                        ),
-                        titleText: key.name,
-                        subtitleText: LocaleKeys.accountsWithData.plural(
-                          key.accountList.allAccounts.length,
-                          args: ['${key.accountList.allAccounts.length}'],
-                        ),
-                        padding: EdgeInsets.zero,
+                  _sectionItem(LocaleKeys.publicKey.tr(), [
+                    CommonListTile(
+                      leading: CommonBackgroundedIconWidget.svg(
+                        svg: Assets.images.key.path,
+                        backgroundColor: colors.backgroundAlpha,
                       ),
-                    ],
-                  ),
+                      titleText: key.name,
+                      subtitleText: LocaleKeys.accountsWithData.plural(
+                        key.accountList.allAccounts.length,
+                        args: ['${key.accountList.allAccounts.length}'],
+                      ),
+                      padding: EdgeInsets.zero,
+                    ),
+                  ]),
                   if (key.accountList.allAccounts.isNotEmpty)
                     const CommonDivider(),
                   if (key.accountList.allAccounts.isNotEmpty)
@@ -113,10 +108,7 @@ class DeleteKeySheet extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           spacing: DimensSize.d12,
           children: [
-            Text(
-              title,
-              style: context.themeStyleV2.textStyles.headingLarge,
-            ),
+            Text(title, style: context.themeStyleV2.textStyles.headingLarge),
             ...keys,
           ],
         );

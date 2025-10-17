@@ -26,9 +26,7 @@ class AccountSettingsButton extends StatelessWidget {
       onTap: onTap,
       child: Container(
         height: DimensSizeV2.d56,
-        padding: const EdgeInsets.symmetric(
-          horizontal: DimensSizeV2.d24,
-        ),
+        padding: const EdgeInsets.symmetric(horizontal: DimensSizeV2.d24),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [

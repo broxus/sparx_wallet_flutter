@@ -20,14 +20,14 @@ ModalRoute<void> deleteSeedSheetRoute(
 }
 
 /// Widget that allows to delete seed.
-class DeleteSeedSheet extends InjectedElementaryParametrizedWidget<
-    DeleteSeedSheetWidgetModel, DeleteSeedSheetParams> {
-  DeleteSeedSheet({
-    required PublicKey publicKey,
-    super.key,
-  }) : super(
-          wmFactoryParam: DeleteSeedSheetParams(publicKey),
-        );
+class DeleteSeedSheet
+    extends
+        InjectedElementaryParametrizedWidget<
+          DeleteSeedSheetWidgetModel,
+          DeleteSeedSheetParams
+        > {
+  DeleteSeedSheet({required PublicKey publicKey, super.key})
+    : super(wmFactoryParam: DeleteSeedSheetParams(publicKey));
 
   @override
   Widget build(DeleteSeedSheetWidgetModel wm) {
@@ -42,19 +42,16 @@ class DeleteSeedSheet extends InjectedElementaryParametrizedWidget<
                 spacing: DimensSize.d16,
                 mainAxisSize: MainAxisSize.min,
                 children: [
-                  _sectionItem(
-                    LocaleKeys.seedPhrase.tr(),
-                    [
-                      CommonListTile(
-                        leading: CommonBackgroundedIconWidget.svg(
-                          svg: Assets.images.sparxLogoSmall.path,
-                        ),
-                        titleText: wm.seed!.name,
-                        subtitleText: wm.subtitleText,
-                        padding: EdgeInsets.zero,
+                  _sectionItem(LocaleKeys.seedPhrase.tr(), [
+                    CommonListTile(
+                      leading: CommonBackgroundedIconWidget.svg(
+                        svg: Assets.images.sparxLogoSmall.path,
                       ),
-                    ],
-                  ),
+                      titleText: wm.seed!.name,
+                      subtitleText: wm.subtitleText,
+                      padding: EdgeInsets.zero,
+                    ),
+                  ]),
                   _sectionItem(
                     LocaleKeys.keysWord.tr(),
                     [wm.seed!.masterKey, ...wm.seed!.subKeys]

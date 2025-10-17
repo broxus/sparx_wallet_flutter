@@ -32,7 +32,8 @@ class PressInkWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final presState = pressStateColor ??
+    final presState =
+        pressStateColor ??
         context.themeStyle.colors.backgroundPrimary.withAlpha(0.8.toByteInt());
 
     assert(debugCheckHasMaterial(context), 'No Material above PressInkWidget');

@@ -7,18 +7,19 @@ import 'package:elementary_helper/elementary_helper.dart';
 import 'package:flutter/material.dart';
 import 'package:ui_components_lib/ui_components_lib.dart';
 
-class TipsBar extends InjectedElementaryParametrizedWidget<TipsBarWidgetModel,
-    TipBarParam> {
+class TipsBar
+    extends
+        InjectedElementaryParametrizedWidget<TipsBarWidgetModel, TipBarParam> {
   TipsBar({
     required NotNullListenableState<String> textNotifier,
     required VoidCallback onPressedItem,
     super.key,
   }) : super(
-          wmFactoryParam: TipBarParam(
-            textNotifier: textNotifier,
-            onPressedItem: onPressedItem,
-          ),
-        );
+         wmFactoryParam: TipBarParam(
+           textNotifier: textNotifier,
+           onPressedItem: onPressedItem,
+         ),
+       );
 
   @override
   Widget build(TipsBarWidgetModel wm) {
@@ -39,20 +40,12 @@ class TipsBar extends InjectedElementaryParametrizedWidget<TipsBarWidgetModel,
           itemCount: uiModels.length,
           itemBuilder: (_, int index) {
             return switch (uiModels[index]) {
-              HistoryTipUiModel(
-                :final id,
-                :final title,
-              ) =>
-                HistoryTip(
-                  key: ValueKey(id),
-                  title: title,
-                  onPressed: () => wm.onPressedItem(id),
-                ),
-              BookmarkTipUiModel(
-                :final id,
-                :final title,
-                :final uri,
-              ) =>
+              HistoryTipUiModel(:final id, :final title) => HistoryTip(
+                key: ValueKey(id),
+                title: title,
+                onPressed: () => wm.onPressedItem(id),
+              ),
+              BookmarkTipUiModel(:final id, :final title, :final uri) =>
                 BookmarkTip(
                   key: ValueKey(id),
                   title: title,

@@ -18,9 +18,7 @@ class BrowserOverlayUiDelegate {
       ..add(_createEntry(menuListBuilder))
       ..add(_createEntry(menuPageBuilder))
       ..add(_createEntry(menuHostBuilder))
-      ..add(
-        OverlayEntry(builder: tabAnimatedViewBuilder),
-      )
+      ..add(OverlayEntry(builder: tabAnimatedViewBuilder))
       ..add(
         _createEntry(
           pastGoBuilder,
@@ -40,10 +38,7 @@ class BrowserOverlayUiDelegate {
     _entries.clear();
   }
 
-  OverlayEntry _createEntry(
-    WidgetBuilder builder, {
-    double bottom = 0,
-  }) {
+  OverlayEntry _createEntry(WidgetBuilder builder, {double bottom = 0}) {
     return OverlayEntry(
       builder: (BuildContext context) {
         return Positioned(

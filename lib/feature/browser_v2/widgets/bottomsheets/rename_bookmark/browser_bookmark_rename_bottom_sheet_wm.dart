@@ -10,11 +10,13 @@ import 'package:injectable/injectable.dart';
 /// [WidgetModel] для [BrowserBookmarkRenameBottomSheet]
 @injectable
 class BrowserBookmarkRenameBottomSheetWidgetModel
-    extends CustomWidgetModelParametrized<BrowserBookmarkRenameBottomSheet,
-        BrowserBookmarkRenameBottomSheetModel, BrowserBookmarkItem> {
-  BrowserBookmarkRenameBottomSheetWidgetModel(
-    super.model,
-  );
+    extends
+        CustomWidgetModelParametrized<
+          BrowserBookmarkRenameBottomSheet,
+          BrowserBookmarkRenameBottomSheetModel,
+          BrowserBookmarkItem
+        > {
+  BrowserBookmarkRenameBottomSheetWidgetModel(super.model);
 
   late final nameController = createTextEditingController(wmParams.value.title);
   late final _isCanEditedState = createNotifier<bool>(false);

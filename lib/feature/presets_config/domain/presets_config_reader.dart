@@ -121,17 +121,17 @@ class PresetsConfigReader {
 
     final exception = switch (source) {
       _ConfigSource.remote => FetchPresetsConfigException(
-          errorMessage,
-          configType.name,
-        ),
+        errorMessage,
+        configType.name,
+      ),
       _ConfigSource.cache => CachePresetsConfigException(
-          errorMessage,
-          configType.name,
-        ),
+        errorMessage,
+        configType.name,
+      ),
       _ConfigSource.local => LocalPresetsConfigException(
-          errorMessage,
-          configType.name,
-        ),
+        errorMessage,
+        configType.name,
+      ),
     };
     return exception;
   }
@@ -180,9 +180,7 @@ class PresetsConfigReader {
     }
   }
 
-  Future<void> _cleanUpCache<T>(
-    PresetConfigType<T> configType,
-  ) async {
+  Future<void> _cleanUpCache<T>(PresetConfigType<T> configType) async {
     try {
       await _secureStorage.setConfigJson(configType, '');
       await _secureStorage.setConfigJsonHash(configType, '');

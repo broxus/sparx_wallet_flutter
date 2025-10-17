@@ -43,11 +43,7 @@ class ChooseNetworkScreenModel extends ElementaryModel with ConnectionMixin {
         (e) => e.connectionId == id,
       );
     } catch (e) {
-      messengerService.show(
-        Message.error(
-          message: e.toString(),
-        ),
-      );
+      messengerService.show(Message.error(message: e.toString()));
       return false;
     }
 
@@ -59,13 +55,11 @@ class ChooseNetworkScreenModel extends ElementaryModel with ConnectionMixin {
     if (query != null) {
       final caseSensetiveQuery = query.toLowerCase();
 
-      networks = networks.where(
-        (conntection) {
-          final name = conntection.name.toLowerCase();
+      networks = networks.where((conntection) {
+        final name = conntection.name.toLowerCase();
 
-          return name.contains(caseSensetiveQuery);
-        },
-      ).toList();
+        return name.contains(caseSensetiveQuery);
+      }).toList();
     }
 
     return [
@@ -73,9 +67,7 @@ class ChooseNetworkScreenModel extends ElementaryModel with ConnectionMixin {
         ChooseNetworkItemData(
           id: connection.id,
           icon: _presetsConnectionService
-              .getTransportIconsByNetwork(
-                connection.group,
-              )
+              .getTransportIconsByNetwork(connection.group)
               .network,
           title: connection.name,
         ),

@@ -35,8 +35,9 @@ class BrowserServicePermissionsDelegate
   final DatabaseService _databaseService;
 
   /// Subject for permissions of browser tabs
-  final _permissionsSubject =
-      BehaviorSubject<Map<String, Permissions>>.seeded({});
+  final _permissionsSubject = BehaviorSubject<Map<String, Permissions>>.seeded(
+    {},
+  );
 
   /// Stream that allows tracking permissions changing
   @override
@@ -93,10 +94,7 @@ class BrowserServicePermissionsDelegate
 
   @override
   Future<bool> checkHostPermissions(String host, List<String> permissions) =>
-      _databaseService.permissions.checkPermissions(
-        host,
-        permissions,
-      );
+      _databaseService.permissions.checkPermissions(host, permissions);
 
   @override
   Future<void> saveHostPermissions(String host, List<String> permissions) =>
@@ -110,6 +108,6 @@ class BrowserServicePermissionsDelegate
   }
 
   void _fetchPermissions() => _permissionsSubject.add(
-        _browserPermissionsStorageService.getPermissions(),
-      );
+    _browserPermissionsStorageService.getPermissions(),
+  );
 }

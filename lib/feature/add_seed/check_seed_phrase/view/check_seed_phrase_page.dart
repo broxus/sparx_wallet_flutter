@@ -9,19 +9,17 @@ import 'package:ui_components_lib/ui_components_lib.dart';
 /// {@template check_seed_phrase_page}
 /// Entry point to check if user wrote down seed phrase correctly.
 /// {@endtemplate}
-class CheckSeedPhrasePage extends InjectedElementaryParametrizedWidget<
-    CheckSeedPhrasePageWidgetModel, CheckSeedPhraseWmParams> {
+class CheckSeedPhrasePage
+    extends
+        InjectedElementaryParametrizedWidget<
+          CheckSeedPhrasePageWidgetModel,
+          CheckSeedPhraseWmParams
+        > {
   /// {@macro check_seed_phrase_page}
-  CheckSeedPhrasePage({
-    required SeedPhraseModel seed,
-    String? name,
-    super.key,
-  }) : super(
-          wmFactoryParam: CheckSeedPhraseWmParams(
-            seed: seed,
-            name: name,
-          ),
-        );
+  CheckSeedPhrasePage({required SeedPhraseModel seed, String? name, super.key})
+    : super(
+        wmFactoryParam: CheckSeedPhraseWmParams(seed: seed, name: name),
+      );
 
   @override
   Widget build(CheckSeedPhrasePageWidgetModel wm) {

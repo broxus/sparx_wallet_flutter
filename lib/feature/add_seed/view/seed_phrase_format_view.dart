@@ -31,9 +31,7 @@ class SeedPhraseFormatView extends StatelessWidget {
     }
 
     return Padding(
-      padding: const EdgeInsets.only(
-        bottom: DimensSizeV2.d16,
-      ),
+      padding: const EdgeInsets.only(bottom: DimensSizeV2.d16),
       child: Container(
         padding: const EdgeInsets.all(DimensSizeV2.d16),
         decoration: BoxDecoration(
@@ -79,15 +77,15 @@ class SeedPhraseFormatView extends StatelessWidget {
   String _getRadioLabel(SeedPhraseFormat format) {
     return switch (format) {
       SeedPhraseFormat.standard => switch (wordsCount) {
-          actualSeedPhraseLength => LocaleKeys.seedPhrase12FormatStandart.tr(),
-          legacySeedPhraseLength => LocaleKeys.seedPhrase24FormatStandart.tr(),
-          _ => '',
-        },
+        actualSeedPhraseLength => LocaleKeys.seedPhrase12FormatStandart.tr(),
+        legacySeedPhraseLength => LocaleKeys.seedPhrase24FormatStandart.tr(),
+        _ => '',
+      },
       SeedPhraseFormat.ton => switch (wordsCount) {
-          actualSeedPhraseLength => LocaleKeys.seedPhrase12FormatTON.tr(),
-          legacySeedPhraseLength => LocaleKeys.seedPhrase24FormatTON.tr(),
-          _ => '',
-        },
+        actualSeedPhraseLength => LocaleKeys.seedPhrase12FormatTON.tr(),
+        legacySeedPhraseLength => LocaleKeys.seedPhrase24FormatTON.tr(),
+        _ => '',
+      },
     };
   }
 

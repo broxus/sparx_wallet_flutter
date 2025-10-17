@@ -24,10 +24,7 @@ import 'package:ui_components_lib/ui_components_lib.dart';
 /// {@endtemplate}
 class ThemeStyle extends ThemeExtension<ThemeStyle> {
   /// {@macro theme_style}
-  ThemeStyle({
-    required this.colors,
-    required this.styles,
-  });
+  ThemeStyle({required this.colors, required this.styles});
 
   /// The palette of colors in the project.
   final ColorsPalette colors;
@@ -44,8 +41,7 @@ class ThemeStyle extends ThemeExtension<ThemeStyle> {
   ThemeExtension<ThemeStyle> lerp(
     ThemeExtension<ThemeStyle>? other,
     double t,
-  ) =>
-      this;
+  ) => this;
 }
 
 /// Getting theme style from context

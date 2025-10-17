@@ -44,29 +44,30 @@ class AssetsService {
 
   /// Start listening for transport changes and update contracts from manifest
   void init() {
-    _currentTransportSubscription =
-        nekotonRepository.currentTransportStream.listen(_updateSystemContracts);
+    _currentTransportSubscription = nekotonRepository.currentTransportStream
+        .listen(_updateSystemContracts);
 
-    _combineSubscription =
-        nekotonRepository.currentTransportStream.switchMap((transport) {
-      return Rx.combineLatest2<List<TokenContractAsset>,
-          List<TokenContractAsset>, void>(
-        storage.systemTokenContractAssetsStream(transport.transport.group),
-        storage.customTokenContractAssetsStream(transport.transport.group),
-        _contractsUpdateListener,
-      );
-      // listen needs to enable stream api
-      // ignore: no-empty-block
-    }).listen((_) {});
-    _connectionsSubscription =
-        connectionsStorageService.currentConnectionIdStream.listen(
-      (_) => updateDefaultAssets(),
-    );
+    _combineSubscription = nekotonRepository.currentTransportStream
+        .switchMap((transport) {
+          return Rx.combineLatest2<
+            List<TokenContractAsset>,
+            List<TokenContractAsset>,
+            void
+          >(
+            storage.systemTokenContractAssetsStream(transport.transport.group),
+            storage.customTokenContractAssetsStream(transport.transport.group),
+            _contractsUpdateListener,
+          );
+          // listen needs to enable stream api
+          // ignore: no-empty-block
+        })
+        .listen((_) {});
+    _connectionsSubscription = connectionsStorageService
+        .currentConnectionIdStream
+        .listen((_) => updateDefaultAssets());
 
-    _accountsSubscription =
-        currentAccountsService.currentActiveAccountStream.listen(
-      (_) => updateDefaultAssets(),
-    );
+    _accountsSubscription = currentAccountsService.currentActiveAccountStream
+        .listen((_) => updateDefaultAssets());
   }
 
   @disposeMethod
@@ -83,23 +84,21 @@ class AssetsService {
   /// [_contractsUpdateListener] and [_updateSystemContracts] or by calling
   /// [contractsForAccount] where new contract will be detected.
   Stream<List<TokenContractAsset>> get contractsStream =>
-      nekotonRepository.currentTransportStream.switchMap(
-        (transport) {
-          return Rx.combineLatest2<List<TokenContractAsset>,
-              List<TokenContractAsset>, List<TokenContractAsset>>(
-            storage.customTokenContractAssetsStream(transport.transport.group),
-            storage.systemTokenContractAssetsStream(transport.transport.group),
-            (a, b) => <TokenContractAsset>{
-              ...a,
-              ...b,
-            }.map((e) {
-              final symbol = currencySymbolConfig[e.symbol];
-              if (symbol == null) return e;
-              return e.copyWith(symbol: symbol);
-            }).toList(),
-          );
-        },
-      );
+      nekotonRepository.currentTransportStream.switchMap((transport) {
+        return Rx.combineLatest2<
+          List<TokenContractAsset>,
+          List<TokenContractAsset>,
+          List<TokenContractAsset>
+        >(
+          storage.customTokenContractAssetsStream(transport.transport.group),
+          storage.systemTokenContractAssetsStream(transport.transport.group),
+          (a, b) => <TokenContractAsset>{...a, ...b}.map((e) {
+            final symbol = currencySymbolConfig[e.symbol];
+            if (symbol == null) return e;
+            return e.copyWith(symbol: symbol);
+          }).toList(),
+        );
+      });
 
   /// Returns stream of contracts, that could be created for account with
   /// [address].
@@ -108,12 +107,17 @@ class AssetsService {
   Stream<List<TokenContractAsset>> contractsToCreateForAccount(
     Address address,
   ) {
-    return Rx.combineLatest3<List<TokenContractAsset>, TransportStrategy,
-        KeyAccount?, List<TokenContractAsset>>(
+    return Rx.combineLatest3<
+      List<TokenContractAsset>,
+      TransportStrategy,
+      KeyAccount?,
+      List<TokenContractAsset>
+    >(
       contractsStream,
       nekotonRepository.currentTransportStream,
-      nekotonRepository.seedListStream
-          .map((list) => list.findAccountByAddress(address)),
+      nekotonRepository.seedListStream.map(
+        (list) => list.findAccountByAddress(address),
+      ),
       (contracts, transport, account) {
         final wallets =
             account?.additionalAssets[transport.transport.group]?.tokenWallets;
@@ -137,38 +141,44 @@ class AssetsService {
   /// This is a combination of streams [contractsForAccount] and
   /// [contractsToCreateForAccount].
   Stream<(List<TokenContractAsset>, List<TokenContractAsset>)>
-      allAvailableContractsForAccount(Address address) {
+  allAvailableContractsForAccount(Address address) {
     return Rx.combineLatest3<
-        List<TokenContractAsset>,
-        TransportStrategy,
-        KeyAccount?,
-        (TransportStrategy, KeyAccount?, List<TokenContractAsset>)>(
-      contractsStream,
-      nekotonRepository.currentTransportStream,
-      nekotonRepository.seedListStream
-          .map((list) => list.findAccountByAddress(address)),
-      (contracts, transport, account) => (transport, account, contracts),
-    ).asyncExpand<(List<TokenContractAsset>, List<TokenContractAsset>)>(
-      (value) {
-        final transport = value.$1;
-        final account = value.$2;
-        final contracts = value.$3;
+          List<TokenContractAsset>,
+          TransportStrategy,
+          KeyAccount?,
+          (TransportStrategy, KeyAccount?, List<TokenContractAsset>)
+        >(
+          contractsStream,
+          nekotonRepository.currentTransportStream,
+          nekotonRepository.seedListStream.map(
+            (list) => list.findAccountByAddress(address),
+          ),
+          (contracts, transport, account) => (transport, account, contracts),
+        )
+        .asyncExpand<(List<TokenContractAsset>, List<TokenContractAsset>)>((
+          value,
+        ) {
+          final transport = value.$1;
+          final account = value.$2;
+          final contracts = value.$3;
 
-        final wallets =
-            account?.additionalAssets[transport.transport.group]?.tokenWallets;
-        if (wallets == null) return Stream.value((contracts, []));
+          final wallets = account
+              ?.additionalAssets[transport.transport.group]
+              ?.tokenWallets;
+          if (wallets == null) return Stream.value((contracts, []));
 
-        final notCreated = contracts
-            .where(
-              (contract) =>
-                  // take only contracts that is not created for account
-                  wallets.none((w) => w.rootTokenContract == contract.address),
-            )
-            .toList();
+          final notCreated = contracts
+              .where(
+                (contract) =>
+                    // take only contracts that is not created for account
+                    wallets.none(
+                      (w) => w.rootTokenContract == contract.address,
+                    ),
+              )
+              .toList();
 
-        return Stream.fromFuture(
-          Future.value(
-            () async {
+          return Stream.fromFuture(
+            Future.value(() async {
               return (
                 notCreated,
                 (await Future.wait(
@@ -176,15 +186,11 @@ class AssetsService {
                     (e) =>
                         getTokenContractAsset(e.rootTokenContract, transport),
                   ),
-                ))
-                    .nonNulls
-                    .toList(),
+                )).nonNulls.toList(),
               );
-            }(),
-          ),
-        );
-      },
-    );
+            }()),
+          );
+        });
   }
 
   /// Get list of contracts, added to account with [address].
@@ -221,7 +227,8 @@ class AssetsService {
     Address rootTokenContract,
     TransportStrategy transport,
   ) async {
-    var asset = storage
+    var asset =
+        storage
             .getCustomTokenContractAssets(transport.transport.group)
             .firstWhereOrNull((c) => c.address == rootTokenContract) ??
         storage
@@ -317,10 +324,10 @@ class AssetsService {
 
   Future<void> updateDefaultAssets() async {
     await Future.delayed(const Duration(seconds: 1), () async {
-      final presetsDefaultAssets =
-          presetsConnectionService.getDefaultActiveAsset(
-        connectionsStorageService.currentConnection.group,
-      );
+      final presetsDefaultAssets = presetsConnectionService
+          .getDefaultActiveAsset(
+            connectionsStorageService.currentConnection.group,
+          );
 
       if (presetsDefaultAssets.isEmpty) {
         return;
@@ -341,8 +348,9 @@ class AssetsService {
         return;
       }
 
-      final cachedDefaultAssets =
-          getDefaultActiveAssets(accountAddress.address);
+      final cachedDefaultAssets = getDefaultActiveAssets(
+        accountAddress.address,
+      );
 
       final result = <Address>[];
       final skipped = <String>[];
@@ -359,12 +367,7 @@ class AssetsService {
         await cachedAccount.addTokenWallets(result);
       }
       if (skipped.isNotEmpty) {
-        unawaited(
-          updateDefaultActiveAssets(
-            accountAddress.address,
-            skipped,
-          ),
-        );
+        unawaited(updateDefaultActiveAssets(accountAddress.address, skipped));
       }
     });
   }
@@ -384,8 +387,9 @@ class AssetsService {
         in (data['tokens'] as List<dynamic>).cast<Map<String, dynamic>>()) {
       token['networkType'] = networkType;
       token['networkGroup'] = networkGroup;
-      token['version'] =
-          intToWalletContractConvert(token['version'] as int).toString();
+      token['version'] = intToWalletContractConvert(
+        token['version'] as int,
+      ).toString();
       token['isCustom'] = false;
     }
 
@@ -431,15 +435,17 @@ class AssetsService {
     List<TokenContractAsset> systemAssets,
     List<TokenContractAsset> customAssets,
   ) {
-    final duplicatedAssets = customAssets
-        .where((e) => systemAssets.any((el) => e.address == el.address));
+    final duplicatedAssets = customAssets.where(
+      (e) => systemAssets.any((el) => e.address == el.address),
+    );
 
     for (final asset in duplicatedAssets) {
       storage.removeCustomTokenContractAsset(asset);
     }
 
-    final oldAssets =
-        customAssets.where((e) => e.version == TokenWalletVersion.oldTip3v4);
+    final oldAssets = customAssets.where(
+      (e) => e.version == TokenWalletVersion.oldTip3v4,
+    );
 
     for (final asset in oldAssets) {
       storage.removeCustomTokenContractAsset(asset);

@@ -36,8 +36,9 @@ class NftService {
   void init() {
     _accountSubscription = _currentAccountsService.currentActiveAccountStream
         .listen(_handleAccount);
-    _nftTransferSubscription =
-        _nekotonRepository.nftTransferEventStream.listen(_handleTransferEvent);
+    _nftTransferSubscription = _nekotonRepository.nftTransferEventStream.listen(
+      _handleTransferEvent,
+    );
   }
 
   void dispose() {
@@ -145,10 +146,13 @@ class NftService {
     final networkGroup = _nekotonRepository.currentTransport.networkGroup;
     final defaultCollections =
         _nekotonRepository.currentTransport.nftInformation?.defaultCollections;
-    final meta = (_nftStorageService.readMetadata()[owner] ?? [])
-        .where((e) => e.networkGroup == networkGroup);
-    final hidden =
-        meta.where((e) => !e.isVisible).map((e) => e.collection).toSet();
+    final meta = (_nftStorageService.readMetadata()[owner] ?? []).where(
+      (e) => e.networkGroup == networkGroup,
+    );
+    final hidden = meta
+        .where((e) => !e.isVisible)
+        .map((e) => e.collection)
+        .toSet();
     final pending = _nftStorageService.pendingNft
         .where((e) => e.networkGroup == networkGroup && e.owner == owner)
         .map((e) => e.collection)
@@ -183,10 +187,7 @@ class NftService {
     );
   }
 
-  void addCollection({
-    required Address account,
-    required Address collection,
-  }) {
+  void addCollection({required Address account, required Address collection}) {
     _nftStorageService.addMetadata(
       account: account,
       collectionMeta: CollectionMeta(
@@ -196,10 +197,7 @@ class NftService {
     );
   }
 
-  void hideCollection({
-    required Address account,
-    required Address collection,
-  }) {
+  void hideCollection({required Address account, required Address collection}) {
     _nftStorageService.addMetadata(
       account: account,
       collectionMeta: CollectionMeta(

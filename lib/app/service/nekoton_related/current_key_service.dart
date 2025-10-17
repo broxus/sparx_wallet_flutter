@@ -6,10 +6,7 @@ import 'package:nekoton_repository/nekoton_repository.dart';
 /// This service is initialized after [_storageService] is initialized.
 @singleton
 class CurrentKeyService {
-  CurrentKeyService(
-    this._storageService,
-    this._nekotonRepository,
-  );
+  CurrentKeyService(this._storageService, this._nekotonRepository);
 
   final GeneralStorageService _storageService;
   final NekotonRepository _nekotonRepository;
@@ -29,8 +26,10 @@ class CurrentKeyService {
 
   /// Change current selected key and update [lastViewedSeeds].
   void changeCurrentKey(PublicKey publicKey) {
-    final masterKey =
-        _nekotonRepository.seedList.findSeedKey(publicKey)?.key.masterKey;
+    final masterKey = _nekotonRepository.seedList
+        .findSeedKey(publicKey)
+        ?.key
+        .masterKey;
     final lastViewed = List<PublicKey>.from(lastViewedSeeds);
     if (masterKey != null) {
       lastViewed.insert(0, masterKey);
@@ -38,8 +37,6 @@ class CurrentKeyService {
 
     _storageService
       ..setCurrentKey(publicKey)
-      ..updateLastViewedSeeds(
-        lastViewed.take(maxLastSelectedSeeds).toList(),
-      );
+      ..updateLastViewedSeeds(lastViewed.take(maxLastSelectedSeeds).toList());
   }
 }

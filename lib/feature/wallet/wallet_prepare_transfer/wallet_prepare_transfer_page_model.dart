@@ -13,11 +13,11 @@ import 'package:collection/collection.dart';
 import 'package:elementary/elementary.dart';
 import 'package:injectable/injectable.dart';
 import 'package:logging/logging.dart';
+import 'package:money2/money2.dart';
 import 'package:nekoton_repository/nekoton_repository.dart' hide Message;
 
-typedef TokenContractsUpdateCallback = void Function(
-  List<TokenContractAsset> contracts,
-);
+typedef TokenContractsUpdateCallback =
+    void Function(List<TokenContractAsset> contracts);
 
 /// [ElementaryModel] for [WalletPrepareTransferPage]
 @injectable
@@ -105,9 +105,7 @@ class WalletPrepareTransferPageModel extends ElementaryModel {
   }
 
   void showError(String text) {
-    _messengerService.show(
-      Message.error(message: text),
-    );
+    _messengerService.show(Message.error(message: text));
   }
 
   void startListeningBalance({
@@ -130,8 +128,9 @@ class WalletPrepareTransferPageModel extends ElementaryModel {
     required Address address,
     required TokenContractsUpdateCallback onUpdate,
   }) {
-    _contractSubscription =
-        _assetsService.contractsForAccount(address).listen((contracts) {
+    _contractSubscription = _assetsService.contractsForAccount(address).listen((
+      contracts,
+    ) {
       onUpdate(contracts);
 
       _contractSubscription?.cancel();
@@ -212,43 +211,41 @@ class WalletPrepareTransferPageModel extends ElementaryModel {
     required Address address,
   }) {
     final root = contract.rootTokenContract;
-    _walletsSubscription = _walletsStream.listen(
-      (wallets) {
-        final walletState = wallets[address];
+    _walletsSubscription = _walletsStream.listen((wallets) {
+      final walletState = wallets[address];
 
-        if (walletState == null) {
-          return;
+      if (walletState == null) {
+        return;
+      }
+
+      if (walletState.hasError) {
+        final error = walletState.error;
+        if (error is Exception) {
+          _balanceDataSc.add(WalletPrepareErrorBalanceData(error));
         }
 
-        if (walletState.hasError) {
-          final error = walletState.error;
-          if (error is Exception) {
-            _balanceDataSc.add(WalletPrepareErrorBalanceData(error));
-          }
+        return;
+      }
 
-          return;
-        }
+      final wallet = walletState.wallet;
 
-        final wallet = walletState.wallet;
+      if (wallet == null) {
+        return;
+      }
 
-        if (wallet == null) {
-          return;
-        }
+      _walletsSubscription?.cancel();
+      final symbol = currentTransport.nativeTokenTicker;
 
-        _walletsSubscription?.cancel();
-        final symbol = currentTransport.nativeTokenTicker;
-
-        _currentWalletSubscription = wallet.fieldUpdatesStream.listen((_) {
-          _balanceDataSc.add(
-            WalletPrepareNativeBalanceData(
-              root: root,
-              symbol: symbol,
-              balance: wallet.contractState.balance,
-            ),
-          );
-        });
-      },
-    );
+      _currentWalletSubscription = wallet.fieldUpdatesStream.listen((_) {
+        _balanceDataSc.add(
+          WalletPrepareNativeBalanceData(
+            root: root,
+            symbol: symbol,
+            balance: wallet.contractState.balance,
+          ),
+        );
+      });
+    });
   }
 
   /// Subscription for token wallet to find balance

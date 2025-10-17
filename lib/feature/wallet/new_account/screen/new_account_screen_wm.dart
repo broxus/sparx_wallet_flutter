@@ -14,11 +14,14 @@ class NewAccountScreenWmParams {
 
 /// [WidgetModel] для [NewAccountScreen]
 @injectable
-class NewAccountScreenWidgetModel extends CustomWidgetModelParametrized<
-    NewAccountScreen, NewAccountScreenModel, NewAccountScreenWmParams> {
-  NewAccountScreenWidgetModel(
-    super.model,
-  );
+class NewAccountScreenWidgetModel
+    extends
+        CustomWidgetModelParametrized<
+          NewAccountScreen,
+          NewAccountScreenModel,
+          NewAccountScreenWmParams
+        > {
+  NewAccountScreenWidgetModel(super.model);
 
   bool get isError => wmParams.value.publicKey == null;
 

@@ -62,8 +62,9 @@ class EmptyNftList extends StatelessWidget {
                     buttonShape: ButtonShape.pill,
                     onPressed: () {
                       // TODO(knightforce): refactor
-                      inject<BrowserLauncher>()
-                          .openBrowserByString(marketplaceUrl!);
+                      inject<BrowserLauncher>().openBrowserByString(
+                        marketplaceUrl!,
+                      );
                     },
                     title: LocaleKeys.visitMarketplace.tr(),
                   ),

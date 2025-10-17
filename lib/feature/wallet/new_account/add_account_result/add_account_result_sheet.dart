@@ -10,9 +10,7 @@ Future<void> showNewAccountResultSheet({
 }) {
   return showCommonBottomSheet(
     context: context,
-    body: (_, scrollController) => AddAccountResultWidget(
-      address: address,
-      isExternal: isExternal,
-    ),
+    body: (_, scrollController) =>
+        AddAccountResultWidget(address: address, isExternal: isExternal),
   );
 }

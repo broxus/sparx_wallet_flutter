@@ -163,8 +163,7 @@ class _Body extends StatelessWidget {
       TonWalletTransactionStatus.waitingConfirmation =>
         theme.colors.contentWarning,
       TonWalletTransactionStatus.expired ||
-      TonWalletTransactionStatus.pending =>
-        theme.colors.content3,
+      TonWalletTransactionStatus.pending => theme.colors.content3,
       _ => isIncoming ? theme.colors.contentPositive : theme.colors.content0,
     };
 
@@ -203,10 +202,12 @@ class _Body extends StatelessWidget {
                         const SizedBox(height: DimensSizeV2.d4),
                         Text(
                           isIncoming
-                              ? LocaleKeys.fromWord
-                                  .tr(args: [address.toEllipseString()])
-                              : LocaleKeys.toWord
-                                  .tr(args: [address.toEllipseString()]),
+                              ? LocaleKeys.fromWord.tr(
+                                  args: [address.toEllipseString()],
+                                )
+                              : LocaleKeys.toWord.tr(
+                                  args: [address.toEllipseString()],
+                                ),
                           style: theme.textStyles.labelXSmall.copyWith(
                             color: theme.colors.content3,
                           ),
@@ -227,8 +228,9 @@ class _Body extends StatelessWidget {
                       status == TonWalletTransactionStatus.unstakingInProgress)
                     Text(
                       status.title,
-                      style: theme.textStyles.labelXSmall
-                          .copyWith(color: theme.colors.content3),
+                      style: theme.textStyles.labelXSmall.copyWith(
+                        color: theme.colors.content3,
+                      ),
                     )
                   else
                     Text('', style: theme.textStyles.labelXSmall),

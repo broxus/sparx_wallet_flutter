@@ -5,9 +5,7 @@ import 'package:local_auth/local_auth.dart';
 
 @injectable
 class BiometryScreenModel extends ElementaryModel {
-  BiometryScreenModel(
-    this._biometryService,
-  );
+  BiometryScreenModel(this._biometryService);
 
   final BiometryService _biometryService;
 
@@ -16,9 +14,6 @@ class BiometryScreenModel extends ElementaryModel {
     return types.contains(BiometricType.face);
   }
 
-  Future<void> enableBiometry(String localizedReason) =>
-      _biometryService.setStatus(
-        localizedReason: localizedReason,
-        isEnabled: true,
-      );
+  Future<void> enableBiometry(String localizedReason) => _biometryService
+      .setStatus(localizedReason: localizedReason, isEnabled: true);
 }

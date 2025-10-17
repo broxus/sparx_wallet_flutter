@@ -3,10 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:ui_components_lib/ui_components_lib.dart';
 
 class PastGoButton extends StatelessWidget {
-  const PastGoButton({
-    required this.onPressed,
-    super.key,
-  });
+  const PastGoButton({required this.onPressed, super.key});
 
   final VoidCallback onPressed;
 

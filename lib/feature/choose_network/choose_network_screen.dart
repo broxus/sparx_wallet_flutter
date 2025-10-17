@@ -15,8 +15,12 @@ import 'package:ui_components_lib/v2/ui_components_lib_v2.dart';
 
 const chooseNetworkScreenNextStepQuery = 'chooseNetworkNextStep';
 
-class ChooseNetworkScreen extends InjectedElementaryParametrizedWidget<
-    ChooseNetworkScreenWidgetModel, ChooseNetworkNextStep> {
+class ChooseNetworkScreen
+    extends
+        InjectedElementaryParametrizedWidget<
+          ChooseNetworkScreenWidgetModel,
+          ChooseNetworkNextStep
+        > {
   const ChooseNetworkScreen({
     required ChooseNetworkNextStep nextStep,
     super.key,
@@ -38,7 +42,8 @@ class ChooseNetworkScreen extends InjectedElementaryParametrizedWidget<
         radius: const Radius.circular(DimensSizeV2.d3),
         // Emulate scrollbar over networks list
         padding: EdgeInsets.only(
-          top: expandedHeight +
+          top:
+              expandedHeight +
               SearchBarHeaderDelegate.headerHeight +
               DimensSizeV2.d16,
           right: DimensSizeV2.d4,
@@ -85,17 +90,13 @@ class _SearchBar extends StatelessWidget {
       builder: (context, showSearchBar) {
         if (!(showSearchBar ?? false)) {
           return const SliverToBoxAdapter(
-            child: SizedBox(
-              height: DimensSizeV2.d8,
-            ),
+            child: SizedBox(height: DimensSizeV2.d8),
           );
         }
 
         return SliverPersistentHeader(
           pinned: true,
-          delegate: SearchBarHeaderDelegate(
-            controller: searchController,
-          ),
+          delegate: SearchBarHeaderDelegate(controller: searchController),
         );
       },
     );
@@ -131,9 +132,7 @@ class _AppBar extends StatelessWidget {
           bottom: DimensSize.d12,
           left: DimensSize.d16,
         ),
-        child: AppBarBackButton(
-          onPressed: onBackPressed,
-        ),
+        child: AppBarBackButton(onPressed: onBackPressed),
       ),
       centerTitle: true,
       title: StateNotifierBuilder<bool>(
@@ -151,9 +150,7 @@ class _AppBar extends StatelessWidget {
         },
       ),
       expandedHeight: expandedHeight,
-      flexibleSpace: const FlexibleSpaceBar(
-        background: _ExpandedTitle(),
-      ),
+      flexibleSpace: const FlexibleSpaceBar(background: _ExpandedTitle()),
     );
   }
 }
@@ -181,9 +178,7 @@ class _ExpandedTitle extends StatelessWidget {
                 type: PrimaryTextType.titleLarge,
               ),
               SizedBox(height: DimensAdaptiveSize.d8.hp),
-              PrimaryText(
-                LocaleKeys.selectNetworkNewWalletDescription.tr(),
-              ),
+              PrimaryText(LocaleKeys.selectNetworkNewWalletDescription.tr()),
             ],
           ),
         ),
@@ -216,11 +211,7 @@ class _NetworksListContent extends StatelessWidget {
         }
 
         if (items.isEmpty) {
-          return const SliverToBoxAdapter(
-            child: Center(
-              child: NothingFound(),
-            ),
-          );
+          return const SliverToBoxAdapter(child: Center(child: NothingFound()));
         }
 
         return SliverList.separated(

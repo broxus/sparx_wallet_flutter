@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:money2_fixer/money2_fixer.dart';
 import 'package:ui_components_lib/ui_components_lib.dart';
 
 export 'package:money2/money2.dart';
@@ -43,20 +42,26 @@ class MoneyWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     final colors = context.themeStyle.colors;
     final moneyStyle = switch (style) {
-      MoneyWidgetStyle.big =>
-        StyleRes.balance.copyWith(color: colors.textPrimary),
-      MoneyWidgetStyle.primary =>
-        StyleRes.button.copyWith(color: colors.textPrimary),
-      MoneyWidgetStyle.secondary =>
-        StyleRes.addRegular.copyWith(color: colors.textSecondary),
+      MoneyWidgetStyle.big => StyleRes.balance.copyWith(
+        color: colors.textPrimary,
+      ),
+      MoneyWidgetStyle.primary => StyleRes.button.copyWith(
+        color: colors.textPrimary,
+      ),
+      MoneyWidgetStyle.secondary => StyleRes.addRegular.copyWith(
+        color: colors.textSecondary,
+      ),
     };
     final symbolStyle = switch (style) {
-      MoneyWidgetStyle.big =>
-        StyleRes.secondaryBold.copyWith(color: colors.textPrimary),
-      MoneyWidgetStyle.primary =>
-        StyleRes.button.copyWith(color: colors.textPrimary),
-      MoneyWidgetStyle.secondary =>
-        StyleRes.addRegular.copyWith(color: colors.textSecondary),
+      MoneyWidgetStyle.big => StyleRes.secondaryBold.copyWith(
+        color: colors.textPrimary,
+      ),
+      MoneyWidgetStyle.primary => StyleRes.button.copyWith(
+        color: colors.textPrimary,
+      ),
+      MoneyWidgetStyle.secondary => StyleRes.addRegular.copyWith(
+        color: colors.textSecondary,
+      ),
     };
 
     final signStr = sign == null || sign == 0 ? '' : (sign! > 0 ? '+' : '-');
@@ -66,7 +71,7 @@ class MoneyWidget extends StatelessWidget {
       children: [
         Flexible(
           child: Text(
-            '${signValue ?? ''}$signStr${money.formatImproved()}',
+            '${signValue ?? ''}$signStr$money',
             style: moneyStyle,
             softWrap: false,
             overflow: TextOverflow.ellipsis,
@@ -75,10 +80,7 @@ class MoneyWidget extends StatelessWidget {
         if (showSymbol)
           Padding(
             padding: const EdgeInsets.only(left: DimensStroke.medium),
-            child: Text(
-              money.currency.symbolFixed,
-              style: symbolStyle,
-            ),
+            child: Text(money.currency.symbolFixed, style: symbolStyle),
           ),
       ],
     );

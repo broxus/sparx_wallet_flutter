@@ -8,10 +8,8 @@ import 'package:injectable/injectable.dart';
 /// [ElementaryModel] for [TipsBar]
 @injectable
 class TipsBarModel extends ElementaryModel {
-  TipsBarModel(
-    ErrorHandler errorHandler,
-    this._browserService,
-  ) : super(errorHandler: errorHandler);
+  TipsBarModel(ErrorHandler errorHandler, this._browserService)
+    : super(errorHandler: errorHandler);
 
   final BrowserService _browserService;
 

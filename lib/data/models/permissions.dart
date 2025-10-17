@@ -19,13 +19,13 @@ abstract class Permissions with _$Permissions {
       _$PermissionsFromJson(json);
 
   PermissionsPartial toPartial() => PermissionsPartial(
-        basic,
-        accountInteraction?.let(
-          (accountInteraction) => PermissionsAccountInteraction(
-            accountInteraction.address.address,
-            accountInteraction.publicKey.publicKey,
-            accountInteraction.contractType.jsonName,
-          ),
-        ),
-      );
+    basic,
+    accountInteraction?.let(
+      (accountInteraction) => PermissionsAccountInteraction(
+        accountInteraction.address.address,
+        accountInteraction.publicKey.publicKey,
+        accountInteraction.contractType.jsonName,
+      ),
+    ),
+  );
 }

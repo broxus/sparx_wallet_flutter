@@ -9,16 +9,11 @@ import 'package:elementary_helper/elementary_helper.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:injectable/injectable.dart';
+import 'package:money2/money2.dart';
 import 'package:nekoton_repository/nekoton_repository.dart';
 import 'package:ui_components_lib/v2/ui_components_lib_v2.dart';
 
-enum TokenStatus {
-  trusted,
-  untrasted,
-  explicit,
-  sameSymbol,
-  suggestion,
-}
+enum TokenStatus { trusted, untrasted, explicit, sameSymbol, suggestion }
 
 class AddTip3TokenWmParams {
   const AddTip3TokenWmParams({
@@ -33,23 +28,20 @@ class AddTip3TokenWmParams {
 }
 
 @injectable
-class AddTip3TokenWidgetModel extends CustomWidgetModelParametrized<
-    AddTip3TokenWidget, AddTip3TokenModel, AddTip3TokenWmParams> {
-  AddTip3TokenWidgetModel(
-    super.model,
-  );
+class AddTip3TokenWidgetModel
+    extends
+        CustomWidgetModelParametrized<
+          AddTip3TokenWidget,
+          AddTip3TokenModel,
+          AddTip3TokenWmParams
+        > {
+  AddTip3TokenWidgetModel(super.model);
 
-  late final _originState = createWmParamsNotifier(
-    (it) => it.origin,
-  );
+  late final _originState = createWmParamsNotifier((it) => it.origin);
 
-  late final _accountState = createWmParamsNotifier(
-    (it) => it.account,
-  );
+  late final _accountState = createWmParamsNotifier((it) => it.account);
 
-  late final _detailsState = createWmParamsNotifier(
-    (it) => it.details,
-  );
+  late final _detailsState = createWmParamsNotifier((it) => it.details);
 
   ValueListenable<Address> get accountState => _accountState;
 

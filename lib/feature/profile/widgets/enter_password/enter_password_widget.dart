@@ -22,8 +22,12 @@ typedef GetLedgerAuthInput = FutureOr<SignInputAuthLedger> Function();
 ///
 /// !!! This widget must be an entry point for entering any password, because
 /// this widget contains internal logic for checking biometry.
-class EnterPasswordWidget extends InjectedElementaryParametrizedWidget<
-    EnterPasswordWidgetModel, EnterPasswordWmParams> {
+class EnterPasswordWidget
+    extends
+        InjectedElementaryParametrizedWidget<
+          EnterPasswordWidgetModel,
+          EnterPasswordWmParams
+        > {
   EnterPasswordWidget({
     required PublicKey publicKey,
     required ValueChanged<String> onPasswordEntered,
@@ -33,17 +37,17 @@ class EnterPasswordWidget extends InjectedElementaryParametrizedWidget<
     bool isAutofocus = true,
     super.key,
   }) : super(
-          wmFactoryParam: EnterPasswordWmParams(
-            publicKey: publicKey,
-            title: title,
-            isLoading: isLoading,
-            isDisabled: isDisabled,
-            isAutofocus: isAutofocus,
-            getLedgerAuthInput: null,
-            onConfirmed: null,
-            onPasswordEntered: onPasswordEntered,
-          ),
-        );
+         wmFactoryParam: EnterPasswordWmParams(
+           publicKey: publicKey,
+           title: title,
+           isLoading: isLoading,
+           isDisabled: isDisabled,
+           isAutofocus: isAutofocus,
+           getLedgerAuthInput: null,
+           onConfirmed: null,
+           onPasswordEntered: onPasswordEntered,
+         ),
+       );
 
   EnterPasswordWidget.auth({
     required PublicKey publicKey,
@@ -55,17 +59,17 @@ class EnterPasswordWidget extends InjectedElementaryParametrizedWidget<
     bool isAutofocus = true,
     super.key,
   }) : super(
-          wmFactoryParam: EnterPasswordWmParams(
-            publicKey: publicKey,
-            title: title,
-            isLoading: isLoading,
-            isDisabled: isDisabled,
-            isAutofocus: isAutofocus,
-            getLedgerAuthInput: getLedgerAuthInput,
-            onConfirmed: onConfirmed,
-            onPasswordEntered: null,
-          ),
-        );
+         wmFactoryParam: EnterPasswordWmParams(
+           publicKey: publicKey,
+           title: title,
+           isLoading: isLoading,
+           isDisabled: isDisabled,
+           isAutofocus: isAutofocus,
+           getLedgerAuthInput: getLedgerAuthInput,
+           onConfirmed: onConfirmed,
+           onPasswordEntered: null,
+         ),
+       );
 
   @override
   Widget build(EnterPasswordWidgetModel wm) {
@@ -79,26 +83,26 @@ class EnterPasswordWidget extends InjectedElementaryParametrizedWidget<
 
         return switch (state) {
           EnterPasswordStateBiometry(:final isFace) => _Biometry(
-              title: props.title,
-              isDisabled: props.isDisabled,
-              isLoading: props.isLoading,
-              isFace: isFace,
-              onSubmit: wm.onBiometry,
-            ),
+            title: props.title,
+            isDisabled: props.isDisabled,
+            isLoading: props.isLoading,
+            isFace: isFace,
+            onSubmit: wm.onBiometry,
+          ),
           EnterPasswordStatePassword() => _Password(
-              title: props.title,
-              isDisabled: props.isDisabled,
-              isAutofocus: props.isAutofocus,
-              isLoading: props.isLoading,
-              controller: wm.passwordController,
-              onSubmit: wm.onPassword,
-            ),
+            title: props.title,
+            isDisabled: props.isDisabled,
+            isAutofocus: props.isAutofocus,
+            isLoading: props.isLoading,
+            controller: wm.passwordController,
+            onSubmit: wm.onPassword,
+          ),
           EnterPasswordStateLedger() => _Ledger(
-              title: props.title,
-              isDisabled: props.isDisabled,
-              isLoading: props.isLoading,
-              onSubmit: wm.onLedger,
-            ),
+            title: props.title,
+            isDisabled: props.isDisabled,
+            isLoading: props.isLoading,
+            onSubmit: wm.onLedger,
+          ),
         };
       },
     );

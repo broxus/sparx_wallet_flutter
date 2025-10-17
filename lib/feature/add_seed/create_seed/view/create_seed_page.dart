@@ -9,13 +9,11 @@ import 'package:ui_components_lib/ui_components_lib.dart';
 /// {@template create_seed_page}
 /// Starting page for seed creation.
 /// {@endtemplate}
-class CreateSeedPage extends InjectedElementaryParametrizedWidget<
-    CreateSeedWidgetModel, String?> {
+class CreateSeedPage
+    extends
+        InjectedElementaryParametrizedWidget<CreateSeedWidgetModel, String?> {
   /// {@macro create_seed_page}
-  const CreateSeedPage({
-    super.key,
-    String? name,
-  }) : super(wmFactoryParam: name);
+  const CreateSeedPage({super.key, String? name}) : super(wmFactoryParam: name);
 
   @override
   Widget build(CreateSeedWidgetModel wm) {

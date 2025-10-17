@@ -22,14 +22,11 @@ class LedgerAppInterface {
   LedgerAppInterface({
     required this.device,
     required DeviceModelId deviceModelId,
-  })  : assert(
-          device.isConnected,
-          'Ledger device is not connected',
-        ),
-        assert(
-          device.servicesList.isNotEmpty,
-          'BluetoothDevice.discoverServices() has not been called',
-        ) {
+  }) : assert(device.isConnected, 'Ledger device is not connected'),
+       assert(
+         device.servicesList.isNotEmpty,
+         'BluetoothDevice.discoverServices() has not been called',
+       ) {
     deviceModel = ledgerDevices.firstWhere((d) => d.id == deviceModelId);
     _transport = BleTransport(device: device, deviceModel: deviceModel);
   }
@@ -43,12 +40,12 @@ class LedgerAppInterface {
   late final BleTransport _transport;
 
   Future<void> dispose() => _mutex.protect(() async {
-        await _transport.dispose();
+    await _transport.dispose();
 
-        if (device.isConnected) {
-          await device.disconnect();
-        }
-      });
+    if (device.isConnected) {
+      await device.disconnect();
+    }
+  });
 
   CancelableOperation<bool> waitForApp() {
     final completer = CancelableCompleter<bool>();
@@ -91,9 +88,7 @@ class LedgerAppInterface {
       final tag = reader.readUint8();
 
       if (tag != 0x01) {
-        throw LedgerException(
-          'Unexpected tag in app response: $tag',
-        );
+        throw LedgerException('Unexpected tag in app response: $tag');
       }
 
       final length = reader.readUint8();
@@ -193,10 +188,11 @@ class LedgerAppInterface {
     await _mutex.acquire();
 
     try {
-      final data = (ByteDataWriter()
-            ..writeUint32(accountId)
-            ..write(message))
-          .toBytes();
+      final data =
+          (ByteDataWriter()
+                ..writeUint32(accountId)
+                ..write(message))
+              .toBytes();
       final writer = APDUWriter(ins: ApduIns.sign, p1: 0x01)..writeData(data);
 
       final response = await _transport.exchange(writer.toBytes());
@@ -362,9 +358,7 @@ class LedgerAppInterface {
     final chunks = <Uint8List>[];
 
     for (var i = 0; i < data.length; i += _maxChunkSize) {
-      chunks.add(
-        data.sublist(i, min(data.length, i + _maxChunkSize)),
-      );
+      chunks.add(data.sublist(i, min(data.length, i + _maxChunkSize)));
     }
 
     return chunks;
