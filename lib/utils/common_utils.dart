@@ -1,5 +1,6 @@
 // ignore_for_file: cascade_invocations
 
+import 'dart:async';
 import 'dart:io';
 
 import 'package:app/app/service/service.dart';
@@ -306,7 +307,7 @@ extension ChangeNotifierStreamExt on ChangeNotifier {
     bool sync = false,
   }) {
     final subject = BehaviorSubject<T>.seeded(value(), sync: sync);
-    void listener() => subject.add(value());
+    void listener() => scheduleMicrotask(() => subject.add(value()));
 
     subject.onListen = () => addListener(listener);
     subject.onCancel = () => removeListener(listener);

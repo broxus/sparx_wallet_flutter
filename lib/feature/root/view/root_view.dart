@@ -64,10 +64,7 @@ class _RootViewState extends State<RootView> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      // We disable this isets, because this is a root Scaffold and we have
-      // Scaffold -> Scaffold -> Content on a pages below, so if screen need
-      // this insets, it can use
-      resizeToAvoidBottomInset: false,
+      resizeToAvoidBottomInset: true,
       body: widget.child,
       bottomNavigationBar: const CustomBottomNavigationBar(),
     );
