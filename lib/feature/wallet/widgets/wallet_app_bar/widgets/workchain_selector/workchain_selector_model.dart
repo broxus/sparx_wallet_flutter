@@ -26,10 +26,8 @@ class WorkchainSelectorModel extends ElementaryModel {
   Future<void> saveCurrentConnectionId({
     required String connectionId,
     required int workchainId,
-  }) async {
-    await _storageService.fetchAccountsForWorkchain(workchainId);
-
-    _storageService.saveCurrentConnectionId(
+  }) {
+    return _storageService.saveCurrentConnectionId(
       connectionId: connectionId,
       workchainId: workchainId,
     );

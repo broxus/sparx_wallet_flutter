@@ -245,10 +245,10 @@ class ConnectionsStorageService extends AbstractStorageService {
   }
 
   /// Save current connection id to storage
-  void saveCurrentConnectionId({
+  Future<void> saveCurrentConnectionId({
     required String connectionId,
     int? workchainId,
-  }) {
+  }) async {
     final connection =
         connections.firstWhereOrNull((n) => n.id == connectionId);
 
@@ -276,7 +276,8 @@ class ConnectionsStorageService extends AbstractStorageService {
               connection.defaultWorkchainId;
     }
 
-    _storage.write(_currentConnectionIdKey, savedConnectionId);
+    unawaited(_storage.write(_currentConnectionIdKey, savedConnectionId));
+    await _fetchAccountsForWorkchain(savedWorkchainId);
     _currentConnectionIdSubject.add((savedConnectionId, savedWorkchainId));
   }
 
@@ -378,7 +379,14 @@ class ConnectionsStorageService extends AbstractStorageService {
     _connectionsIdsSubject.add(_readConnectionsIds());
   }
 
-  Future<void> fetchAccountsForWorkchain(int workchainId) async {
+  Future<void> fetchAccountsForCurrentWorkchain() async {
+    if (currentWorkchainId == null) {
+      return;
+    }
+    return _fetchAccountsForWorkchain(currentWorkchainId!);
+  }
+
+  Future<void> _fetchAccountsForWorkchain(int workchainId) async {
     final publicKeys =
         _nekotonRepository.keyStore.keys.map((e) => e.publicKey).toList();
 

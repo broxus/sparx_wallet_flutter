@@ -77,6 +77,8 @@ class CurrentAccountsService {
 
   Future<void> init() async {
     // skip 1 to avoid duplicate calls
+
+    await _connectionsStorageService.fetchAccountsForCurrentWorkchain();
     _nekotonRepository.seedListStream.skip(1).listen(
           (list) => _updateAccountsList(list, _currentKeyService.currentKey),
         );
