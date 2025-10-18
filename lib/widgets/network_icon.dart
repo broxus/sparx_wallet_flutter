@@ -26,7 +26,9 @@ class _NetworkIconState extends State<NetworkIcon> {
   String get _group => widget.group;
 
   String? get _path {
-    return _presetsConnectionService.getTransportIconsByNetwork(_group).network;
+    return _presetsConnectionService
+        .getTransportIconsByNetworkGroup(_group)
+        .network;
   }
 
   @override

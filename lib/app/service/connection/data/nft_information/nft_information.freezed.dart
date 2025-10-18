@@ -16,6 +16,7 @@ T _$identity<T>(T value) => value;
 /// @nodoc
 mixin _$NftInformation {
   String? get marketplaceUrl;
+  @AddressListConverter()
   List<Address>? get defaultCollections;
 
   /// Create a copy of NftInformation
@@ -57,7 +58,9 @@ abstract mixin class $NftInformationCopyWith<$Res> {
           NftInformation value, $Res Function(NftInformation) _then) =
       _$NftInformationCopyWithImpl;
   @useResult
-  $Res call({String? marketplaceUrl, List<Address>? defaultCollections});
+  $Res call(
+      {String? marketplaceUrl,
+      @AddressListConverter() List<Address>? defaultCollections});
 }
 
 /// @nodoc
@@ -93,7 +96,8 @@ class _$NftInformationCopyWithImpl<$Res>
 @JsonSerializable()
 class _NftInformation implements NftInformation {
   const _NftInformation(
-      {this.marketplaceUrl, final List<Address>? defaultCollections})
+      {this.marketplaceUrl,
+      @AddressListConverter() final List<Address>? defaultCollections})
       : _defaultCollections = defaultCollections;
   factory _NftInformation.fromJson(Map<String, dynamic> json) =>
       _$NftInformationFromJson(json);
@@ -102,6 +106,7 @@ class _NftInformation implements NftInformation {
   final String? marketplaceUrl;
   final List<Address>? _defaultCollections;
   @override
+  @AddressListConverter()
   List<Address>? get defaultCollections {
     final value = _defaultCollections;
     if (value == null) return null;
@@ -156,7 +161,9 @@ abstract mixin class _$NftInformationCopyWith<$Res>
       __$NftInformationCopyWithImpl;
   @override
   @useResult
-  $Res call({String? marketplaceUrl, List<Address>? defaultCollections});
+  $Res call(
+      {String? marketplaceUrl,
+      @AddressListConverter() List<Address>? defaultCollections});
 }
 
 /// @nodoc

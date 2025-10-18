@@ -17,7 +17,8 @@ class EditNetworkPageWidget extends InjectedElementaryParametrizedWidget<
   Widget build(EditNetworkWidgetModel wm) {
     return Scaffold(
       appBar: DefaultAppBar(
-        titleText: wm.connection?.name ?? LocaleKeys.addCustomNetwork.tr(),
+        titleText:
+            wm.connection?.networkName ?? LocaleKeys.addCustomNetwork.tr(),
       ),
       body: Stack(
         alignment: AlignmentDirectional.bottomCenter,

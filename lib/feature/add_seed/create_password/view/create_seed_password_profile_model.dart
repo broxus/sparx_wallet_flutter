@@ -21,6 +21,7 @@ class CreateSeedPasswordProfileModel extends ElementaryModel
     ErrorHandler errorHandler,
     this.networkConnectionService,
     this.messengerService,
+    this._connectionsStorageService,
     this._nekotonRepository,
     this._biometryService,
     this._storage,
@@ -32,6 +33,7 @@ class CreateSeedPasswordProfileModel extends ElementaryModel
   @override
   final MessengerService messengerService;
 
+  final ConnectionsStorageService _connectionsStorageService;
   final NekotonRepository _nekotonRepository;
   final BiometryService _biometryService;
   final AppStorageService _storage;
@@ -60,10 +62,14 @@ class CreateSeedPasswordProfileModel extends ElementaryModel
         );
       }
 
+      final workchainId =
+          _connectionsStorageService.currentConnection?.defaultWorkchainId ?? 0;
+
       try {
         publicKey = await _nekotonRepository.addSeed(
           phrase: seedPhrase.words,
           password: password,
+          workchainId: workchainId,
           name: name,
           addType: type,
           mnemonicType: mnemonicType,

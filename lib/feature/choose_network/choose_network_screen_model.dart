@@ -38,7 +38,7 @@ class ChooseNetworkScreenModel extends ElementaryModel with ConnectionMixin {
 
   Future<bool> selectType(String id) async {
     try {
-      _connectionsStorageService.saveCurrentConnectionId(id);
+      _connectionsStorageService.saveCurrentConnectionId(connectionId: id);
       await _nekotonRepository.currentTransportStream.firstWhere(
         (e) => e.connectionId == id,
       );
@@ -61,7 +61,7 @@ class ChooseNetworkScreenModel extends ElementaryModel with ConnectionMixin {
 
       networks = networks.where(
         (conntection) {
-          final name = conntection.name.toLowerCase();
+          final name = conntection.networkName.toLowerCase();
 
           return name.contains(caseSensetiveQuery);
         },
@@ -73,11 +73,11 @@ class ChooseNetworkScreenModel extends ElementaryModel with ConnectionMixin {
         ChooseNetworkItemData(
           id: connection.id,
           icon: _presetsConnectionService
-              .getTransportIconsByNetwork(
-                connection.group,
+              .getTransportIconsByNetworkGroup(
+                connection.defaultWorkchain.networkGroup,
               )
               .network,
-          title: connection.name,
+          title: connection.networkName,
         ),
     ];
   }
@@ -86,9 +86,9 @@ class ChooseNetworkScreenModel extends ElementaryModel with ConnectionMixin {
     return _startNetworks().length > showSearchNetworksThreshold;
   }
 
-  List<ConnectionData> _startNetworks() {
-    return _presetsConnectionService.networks
-        .where((network) => network.isUsedOnStart)
+  List<Connection> _startNetworks() {
+    return _presetsConnectionService.connections
+        .where((connection) => connection.isUsedOnStart)
         .toList();
   }
 }

@@ -4,6 +4,7 @@ import 'package:app/feature/wallet/widgets/select_account/select_account_data.da
 import 'package:elementary/elementary.dart';
 import 'package:injectable/injectable.dart';
 import 'package:nekoton_repository/nekoton_repository.dart';
+import 'package:rxdart/rxdart.dart';
 
 @injectable
 class SelectAccountModel extends ElementaryModel {
@@ -12,40 +13,45 @@ class SelectAccountModel extends ElementaryModel {
     this._nekotonRepository,
     this._currentKeyService,
     this._currentAccountsService,
+    this._connectionStorageService,
     this._balanceStorageService,
   ) : super(errorHandler: errorHandler);
 
   final NekotonRepository _nekotonRepository;
   final CurrentKeyService _currentKeyService;
   final CurrentAccountsService _currentAccountsService;
+  final ConnectionsStorageService _connectionStorageService;
   final BalanceStorageService _balanceStorageService;
 
-  Stream<List<SelectAccountData>> get seedWithAccounts =>
-      _nekotonRepository.seedListStream.map(
-        (seedList) {
-          final seeds = seedList.seeds
-            ..sort((a, b) => a.name.compareTo(b.name));
+  Stream<List<SelectAccountData>> get seedWithAccounts => Rx.combineLatest2(
+          _connectionStorageService.currentConnectionIdStream,
+          _nekotonRepository.seedListStream, (_, SeedList seedList) {
+        final seeds = seedList.seeds..sort((a, b) => a.name.compareTo(b.name));
 
-          return seeds.map((seed) {
-            final privateKeys = seed.allKeys.map((key) {
-              final accounts = key.accountList.allAccounts
-                  .where((account) => !account.isHidden)
-                  .toList();
-              return SeedWithInfo(
-                keyName: key.name,
-                key: key.publicKey.toEllipseString(),
-                accounts: accounts,
-              );
-            }).toList();
-
-            return SelectAccountData(
-              name: seed.name,
-              privateKeys: privateKeys,
-              isLedger: seed.masterKey.isLedger,
+        return seeds.map((seed) {
+          final privateKeys = seed.allKeys.map((key) {
+            final accounts = key.accountList.allAccounts
+                .where(
+                  (account) =>
+                      !account.isHidden &&
+                      _connectionStorageService
+                          .checkIsCurrentWorkchainIfExist(account.workchain),
+                )
+                .toList();
+            return SeedWithInfo(
+              keyName: key.name,
+              key: key.publicKey.toEllipseString(),
+              accounts: accounts,
             );
           }).toList();
-        },
-      );
+
+          return SelectAccountData(
+            name: seed.name,
+            privateKeys: privateKeys,
+            isLedger: seed.masterKey.isLedger,
+          );
+        }).toList();
+      });
 
   Stream<KeyAccount?> get currentAccount =>
       _currentAccountsService.currentActiveAccountStream;

@@ -1,11 +1,17 @@
-class TransportIcons {
-  TransportIcons({
-    this.nativeToken,
-    this.network,
-    this.vector,
-  });
+import 'package:freezed_annotation/freezed_annotation.dart';
 
-  final String? nativeToken;
-  final String? network;
-  final String? vector;
+part 'transport_icons.freezed.dart';
+
+part 'transport_icons.g.dart';
+
+@freezed
+abstract class TransportIcons with _$TransportIcons {
+  factory TransportIcons({
+    String? nativeToken,
+    String? network,
+    String? vector,
+  }) = _TransportIcons;
+
+  factory TransportIcons.fromJson(Map<String, dynamic> json) =>
+      _$TransportIconsFromJson(json);
 }
