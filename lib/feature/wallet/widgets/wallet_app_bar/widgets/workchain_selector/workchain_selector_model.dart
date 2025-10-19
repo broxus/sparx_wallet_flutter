@@ -3,7 +3,9 @@ import 'dart:async';
 import 'package:app/app/service/connection/data/connection/connection.dart';
 import 'package:app/app/service/connection/data/work_chain/connection_work_chain.dart';
 import 'package:app/app/service/storage_service/connections_storage/connections_storage_service.dart';
+import 'package:app/core/app_build_type.dart';
 import 'package:app/feature/wallet/widgets/wallet_app_bar/widgets/workchain_selector/workchain_selector.dart';
+import 'package:app/runner.dart';
 import 'package:elementary/elementary.dart';
 import 'package:injectable/injectable.dart';
 
@@ -22,6 +24,8 @@ class WorkchainSelectorModel extends ElementaryModel {
 
   Stream<ConnectionWorkchain?> get currentWorkchainStream =>
       _storageService.currentWorkchainStream;
+
+  bool get isDevelopment => currentAppBuildType.isDevelopment;
 
   Future<void> saveCurrentConnectionId({
     required String connectionId,

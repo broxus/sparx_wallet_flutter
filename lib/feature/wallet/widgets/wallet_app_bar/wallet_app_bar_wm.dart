@@ -23,8 +23,6 @@ class WalletAppBarWidgetModel
   late final _connectionState =
       createNotifierFromStream(model.connectionStream);
 
-  bool get isShowWorkchainSelector => model.isDevelopment;
-
   ListenableState<KeyAccount?> get currentAccountState => _currentAccountState;
 
   ListenableState<TonWalletState?> get walletState => _walletState;

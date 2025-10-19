@@ -23,25 +23,33 @@ class WorkchainSelector
         Connection? currentConnection,
         ConnectionWorkchain? currentWorkchain,
       ) {
-        if (currentWorkchain == null ||
+        if (!wm.isShowWorkchainSelector ||
+            currentWorkchain == null ||
             currentConnection == null ||
             currentConnection.workchains.length <= 1) {
           return const SizedBox.shrink();
         }
 
-        return GestureDetector(
-          behavior: HitTestBehavior.opaque,
-          onTap: wm.onPressed,
-          child: Padding(
-            padding: const EdgeInsets.symmetric(vertical: DimensSizeV2.d8),
-            child: Row(
-              children: [
-                Text('W: ${currentWorkchain.id}'),
-                const Icon(
-                  LucideIcons.chevronDown,
-                  size: DimensSizeV2.d20,
-                ),
-              ],
+        return Align(
+          alignment: Alignment.centerRight,
+          child: GestureDetector(
+            behavior: HitTestBehavior.opaque,
+            onTap: wm.onPressed,
+            child: Padding(
+              padding: const EdgeInsets.symmetric(
+                vertical: DimensSizeV2.d8,
+                horizontal: DimensSizeV2.d22
+              ),
+              child: Row(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Text('W: ${currentWorkchain.id}'),
+                  const Icon(
+                    LucideIcons.chevronDown,
+                    size: DimensSizeV2.d20,
+                  ),
+                ],
+              ),
             ),
           ),
         );

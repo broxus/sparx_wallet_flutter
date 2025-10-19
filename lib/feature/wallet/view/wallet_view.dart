@@ -1,4 +1,5 @@
 import 'package:app/feature/wallet/wallet.dart';
+import 'package:app/feature/wallet/widgets/wallet_app_bar/widgets/workchain_selector/workchain_selector.dart';
 import 'package:app/generated/assets.gen.dart';
 import 'package:flutter/material.dart';
 import 'package:nekoton_repository/nekoton_repository.dart';
@@ -36,6 +37,9 @@ class WalletView extends StatelessWidget {
             slivers: [
               const SliverToBoxAdapter(
                 child: WalletAppBarWidget(),
+              ),
+              const SliverToBoxAdapter(
+                child: WorkchainSelector(),
               ),
               WalletAccountBodyWidget(
                 key: ValueKey(currentAccount),

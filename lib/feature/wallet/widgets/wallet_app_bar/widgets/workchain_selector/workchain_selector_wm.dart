@@ -31,6 +31,8 @@ class WorkchainSelectorWidgetModel
   ListenableState<ConnectionWorkchain?> get currentWorkchainState =>
       _currentWorkchainState;
 
+  bool get isShowWorkchainSelector => model.isDevelopment;
+
   Future<void> onPressed() async {
     final id = await showDialog<int?>(
       context: context,

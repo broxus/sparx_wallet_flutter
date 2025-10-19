@@ -1,6 +1,5 @@
 import 'package:app/core/wm/custom_wm.dart';
 import 'package:app/feature/wallet/widgets/wallet_app_bar/wallet_app_bar_wm.dart';
-import 'package:app/feature/wallet/widgets/wallet_app_bar/widgets/workchain_selector/workchain_selector.dart';
 import 'package:app/utils/utils.dart';
 import 'package:app/widgets/network_drop_item.dart';
 import 'package:app/widgets/user_avatar/user_avatar.dart';
@@ -65,7 +64,6 @@ class WalletAppBarWidget
                         ) ??
                         const SizedBox.shrink(),
                   ),
-                  if (wm.isShowWorkchainSelector) const WorkchainSelector(),
                 ],
               ),
             ],
