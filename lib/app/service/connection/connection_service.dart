@@ -119,7 +119,7 @@ class ConnectionService {
       final base = _storageService.baseConnection;
 
       if (base != null && base.id != workchain.parentConnectionId) {
-        _storageService.saveCurrentConnectionId(
+        await _storageService.saveCurrentConnectionId(
           connectionId: base.id,
         );
         return;

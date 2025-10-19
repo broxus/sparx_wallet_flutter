@@ -38,7 +38,7 @@ class WorkchainSelector
             child: Padding(
               padding: const EdgeInsets.symmetric(
                 vertical: DimensSizeV2.d8,
-                horizontal: DimensSizeV2.d22
+                horizontal: DimensSizeV2.d22,
               ),
               child: Row(
                 mainAxisSize: MainAxisSize.min,

@@ -2112,15 +2112,6 @@ extension GetItInjectableX on _i174.GetIt {
               gh<_i128.CurrenciesService>(),
               gh<_i128.TokenWalletStorageService>(),
             ));
-    gh.factory<_i149.WalletPrepareTransferPageModel>(
-        () => _i149.WalletPrepareTransferPageModel(
-              gh<_i83.ErrorHandler>(),
-              gh<_i128.AssetsService>(),
-              gh<_i771.NekotonRepository>(),
-              gh<_i632.MessengerService>(),
-              gh<_i128.CurrenciesService>(),
-              gh<_i201.TokenTransferDelegateProvider>(),
-            ));
     gh.factory<_i668.AddTip3TokenWidgetModel>(
         () => _i668.AddTip3TokenWidgetModel(gh<_i588.AddTip3TokenModel>()));
     gh.factory<_i1024.SelectNewAssetPageModel>(
@@ -2167,6 +2158,16 @@ extension GetItInjectableX on _i174.GetIt {
     gh.factory<_i516.CancelUnstakingPageWidgetModel>(() =>
         _i516.CancelUnstakingPageWidgetModel(
             gh<_i0.CancelUnstakingPageModel>()));
+    gh.factory<_i149.WalletPrepareTransferPageModel>(
+        () => _i149.WalletPrepareTransferPageModel(
+              gh<_i83.ErrorHandler>(),
+              gh<_i128.AssetsService>(),
+              gh<_i771.NekotonRepository>(),
+              gh<_i632.MessengerService>(),
+              gh<_i128.CurrenciesService>(),
+              gh<_i201.TokenTransferDelegateProvider>(),
+              gh<_i128.ConnectionsStorageService>(),
+            ));
     gh.factory<_i57.AddAccountResultWidgetModel>(() =>
         _i57.AddAccountResultWidgetModel(gh<_i459.AddAccountResultModel>()));
     gh.factory<_i1038.NftPrepareTransferModel>(

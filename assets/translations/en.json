@@ -624,6 +624,7 @@
   "accountAddedSheetSwitch": "Switch to this account",
   "accountAddedSheetContinue": "Continue without switching",
   "invalidReceiverAddress": "Invalid receiver address",
+  "invalidWorkchainAddressFrom0To1": "Sending from workchain 0 to 1 is prohibited",
   "deleteBookmarksQuestion": "Are you sure you want\nto delete all bookmarks?",
   "deleteBookmarksDescription": "All bookmarks will be permanently deleted",
   "save": "Save",
