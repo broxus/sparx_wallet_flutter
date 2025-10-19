@@ -133,6 +133,7 @@ abstract class LocaleKeys {
   static const networkWord = 'networkWord';
   static const networksWord = 'networksWord';
   static const selectNetwork = 'selectNetwork';
+  static const selectWorkchain = 'selectWorkchain';
   static const configureNetworks = 'configureNetworks';
   static const addCustomNetwork = 'addCustomNetwork';
   static const networkType = 'networkType';

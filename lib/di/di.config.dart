@@ -270,6 +270,10 @@ import '../feature/network/bottom_sheets/select_network/select_network_model.dar
     as _i703;
 import '../feature/network/bottom_sheets/select_network/select_network_wm.dart'
     as _i175;
+import '../feature/network/bottom_sheets/select_workchain/select_workchain_model.dart'
+    as _i1011;
+import '../feature/network/bottom_sheets/select_workchain/select_workchain_wm.dart'
+    as _i295;
 import '../feature/network/configure_networks/configure_networks_model.dart'
     as _i385;
 import '../feature/network/configure_networks/configure_networks_wm.dart'
@@ -1880,6 +1884,10 @@ extension GetItInjectableX on _i174.GetIt {
               gh<_i83.ErrorHandler>(),
               gh<_i284.ConnectionsStorageService>(),
             ));
+    gh.factory<_i1011.SelectWorkchainModel>(() => _i1011.SelectWorkchainModel(
+          gh<_i83.ErrorHandler>(),
+          gh<_i128.ConnectionsStorageService>(),
+        ));
     gh.singleton<_i82.CompassBaseRoute>(
       () => _i302.ProfileRoute(
           gh<_i82.CompassBaseRoute>(instanceName: 'ManageSeedsAccountsRoute')),
@@ -1907,6 +1915,8 @@ extension GetItInjectableX on _i174.GetIt {
           gh<_i1015.NftStorageService>(),
           gh<_i865.LedgerStorageService>(),
         ));
+    gh.factory<_i295.SelectWorkchainWidgetModel>(() =>
+        _i295.SelectWorkchainWidgetModel(gh<_i1011.SelectWorkchainModel>()));
     gh.factory<_i561.AddNetworkModel>(() => _i561.AddNetworkModel(
           gh<_i83.ErrorHandler>(),
           gh<_i632.MessengerService>(),

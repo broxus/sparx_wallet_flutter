@@ -19,21 +19,11 @@ class WorkchainSelectorModel extends ElementaryModel {
 
   final ConnectionsStorageService _storageService;
 
+  bool get isDevelopment => currentAppBuildType.isDevelopment;
+
   Stream<Connection?> get currentConnectionStream =>
       _storageService.currentConnectionStream;
 
   Stream<ConnectionWorkchain?> get currentWorkchainStream =>
       _storageService.currentWorkchainStream;
-
-  bool get isDevelopment => currentAppBuildType.isDevelopment;
-
-  Future<void> saveCurrentConnectionId({
-    required String connectionId,
-    required int workchainId,
-  }) {
-    return _storageService.saveCurrentConnectionId(
-      connectionId: connectionId,
-      workchainId: workchainId,
-    );
-  }
 }

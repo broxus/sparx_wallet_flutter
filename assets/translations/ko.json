@@ -139,6 +139,7 @@
   "networkWord": "Network",
   "networksWord": "Networks",
   "selectNetwork": "Select network",
+  "selectWorkchain": "Select workchain",
   "configureNetworks": "Configure networks",
   "addCustomNetwork": "Add custom network",
   "networkType": "Type",
