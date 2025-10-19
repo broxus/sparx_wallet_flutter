@@ -39,9 +39,6 @@ class WalletPrepareTransferPageModel extends ElementaryModel {
   final TokenTransferDelegateProvider _tokenTransferDelegateProvider;
   final ConnectionsStorageService _connectionsStorageService;
 
-  late final _currentWorkchainId =
-      _connectionsStorageService.currentWorkchainId;
-
   final _balanceDataSc = StreamController<WalletPrepareBalanceData>();
 
   /// Subscription for list of wallets (Ton/Token)
@@ -212,7 +209,7 @@ class WalletPrepareTransferPageModel extends ElementaryModel {
   }
 
   bool checkIsValidWorkchain(String address) {
-    return !(_currentWorkchainId == 0 && address.startsWith('1'));
+    return _connectionsStorageService.checkIsFrom0To1Workchain(address);
   }
 
   /// Subscription for native token to find balance

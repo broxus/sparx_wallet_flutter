@@ -1412,18 +1412,6 @@ extension GetItInjectableX on _i174.GetIt {
             gh<_i335.WalletMultisigConfigModel>()));
     gh.singleton<_i328.LedgerBleScanner>(
         () => _i328.LedgerBleScanner(gh<_i865.LedgerService>()));
-    gh.factory<_i201.SendMessageModel>(() => _i201.SendMessageModel(
-          gh<_i83.ErrorHandler>(),
-          gh<_i771.NekotonRepository>(),
-          gh<_i865.LedgerService>(),
-          gh<_i865.BleAvailabilityModelDelegate>(),
-        ));
-    gh.factory<_i946.TonWalletSendModel>(() => _i946.TonWalletSendModel(
-          gh<_i83.ErrorHandler>(),
-          gh<_i771.NekotonRepository>(),
-          gh<_i865.LedgerService>(),
-          gh<_i865.BleAvailabilityModelDelegate>(),
-        ));
     gh.factory<_i594.ConfirmMultisigTransactionModel>(
         () => _i594.ConfirmMultisigTransactionModel(
               gh<_i83.ErrorHandler>(),
@@ -1577,8 +1565,6 @@ extension GetItInjectableX on _i174.GetIt {
     gh.factory<_i667.ManageSeedsAccountsPageWidgetModel>(() =>
         _i667.ManageSeedsAccountsPageWidgetModel(
             gh<_i321.ManageSeedsAccountsPageModel>()));
-    gh.factory<_i136.SendMessageWidgetModel>(
-        () => _i136.SendMessageWidgetModel(gh<_i201.SendMessageModel>()));
     gh.factory<_i269.TonConnectJsBridge>(() => _i269.TonConnectJsBridge(
           gh<_i625.TonConnectService>(),
           gh<_i128.TonConnectStorageService>(),
@@ -1623,8 +1609,6 @@ extension GetItInjectableX on _i174.GetIt {
       () => _i169.UpdateVersionGuard(gh<_i484.UpdateService>()),
       instanceName: 'UpdateVersionGuard',
     );
-    gh.factory<_i252.TonWalletSendWidgetModel>(
-        () => _i252.TonWalletSendWidgetModel(gh<_i946.TonWalletSendModel>()));
     gh.singleton<_i473.PermissionsService>(() => _i473.PermissionsService(
           gh<_i470.BrowserService>(),
           gh<_i771.NekotonRepository>(),
@@ -1767,13 +1751,6 @@ extension GetItInjectableX on _i174.GetIt {
     gh.factory<_i518.BrowserTabsListItemWidgetModel>(() =>
         _i518.BrowserTabsListItemWidgetModel(
             gh<_i413.BrowserTabsListItemModel>()));
-    gh.factory<_i523.TokenWalletSendModel>(() => _i523.TokenWalletSendModel(
-          gh<_i83.ErrorHandler>(),
-          gh<_i771.NekotonRepository>(),
-          gh<_i865.LedgerService>(),
-          gh<_i865.BleAvailabilityModelDelegate>(),
-          gh<_i0.TokenTransferDelegateProvider>(),
-        ));
     gh.factory<_i877.CreateBrowserGroupScreenWidgetModel>(() =>
         _i877.CreateBrowserGroupScreenWidgetModel(
             gh<_i907.CreateBrowserGroupScreenModel>()));
@@ -1819,6 +1796,20 @@ extension GetItInjectableX on _i174.GetIt {
       ),
       instanceName: 'WalletRoute',
     );
+    gh.factory<_i201.SendMessageModel>(() => _i201.SendMessageModel(
+          gh<_i83.ErrorHandler>(),
+          gh<_i771.NekotonRepository>(),
+          gh<_i865.LedgerService>(),
+          gh<_i865.BleAvailabilityModelDelegate>(),
+          gh<_i284.ConnectionsStorageService>(),
+        ));
+    gh.factory<_i946.TonWalletSendModel>(() => _i946.TonWalletSendModel(
+          gh<_i83.ErrorHandler>(),
+          gh<_i771.NekotonRepository>(),
+          gh<_i865.LedgerService>(),
+          gh<_i865.BleAvailabilityModelDelegate>(),
+          gh<_i284.ConnectionsStorageService>(),
+        ));
     gh.factory<_i173.ChooseNetworkScreenModel>(
         () => _i173.ChooseNetworkScreenModel(
               gh<_i83.ErrorHandler>(),
@@ -1828,6 +1819,14 @@ extension GetItInjectableX on _i174.GetIt {
               gh<_i128.ConnectionsStorageService>(),
               gh<_i771.NekotonRepository>(),
             ));
+    gh.factory<_i523.TokenWalletSendModel>(() => _i523.TokenWalletSendModel(
+          gh<_i83.ErrorHandler>(),
+          gh<_i771.NekotonRepository>(),
+          gh<_i865.LedgerService>(),
+          gh<_i865.BleAvailabilityModelDelegate>(),
+          gh<_i0.TokenTransferDelegateProvider>(),
+          gh<_i284.ConnectionsStorageService>(),
+        ));
     gh.factory<_i81.CreateSeedPasswordProfileModel>(
         () => _i81.CreateSeedPasswordProfileModel(
               gh<_i83.ErrorHandler>(),
@@ -1948,6 +1947,8 @@ extension GetItInjectableX on _i174.GetIt {
         () => _i175.SelectNetworkWidgetModel(gh<_i703.SelectNetworkModel>()));
     gh.factory<_i317.AddNetworkWidgetModel>(
         () => _i317.AddNetworkWidgetModel(gh<_i4.AddNetworkModel>()));
+    gh.factory<_i136.SendMessageWidgetModel>(
+        () => _i136.SendMessageWidgetModel(gh<_i201.SendMessageModel>()));
     gh.singleton<_i1052.CurrenciesService>(() => _i1052.CurrenciesService(
           dio: gh<_i361.Dio>(),
           nekotonRepository: gh<_i771.NekotonRepository>(),
@@ -2010,6 +2011,8 @@ extension GetItInjectableX on _i174.GetIt {
     gh.factory<_i1015.RequestPermissionsWidgetModel>(() =>
         _i1015.RequestPermissionsWidgetModel(
             gh<_i4.RequestPermissionsModel>()));
+    gh.factory<_i252.TonWalletSendWidgetModel>(
+        () => _i252.TonWalletSendWidgetModel(gh<_i946.TonWalletSendModel>()));
     gh.factory<_i88.TCConnectModel>(() => _i88.TCConnectModel(
           gh<_i83.ErrorHandler>(),
           gh<_i771.NekotonRepository>(),

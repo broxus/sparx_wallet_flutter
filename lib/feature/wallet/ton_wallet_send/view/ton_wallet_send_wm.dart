@@ -132,6 +132,14 @@ class TonWalletSendWidgetModel extends CustomWidgetModelParametrized<
   Future<void> _init() async {
     UnsignedMessage? unsignedMessage;
     try {
+      if (!model.checkIsValidWorkchain(wmParams.value.destination.address)) {
+        _feesState.error(
+          UiException(LocaleKeys.invalidWorkchainAddressFrom0To1.tr()),
+          _feesState.value.data,
+        );
+        return;
+      }
+
       _isLoadingState.accept(true);
 
       final data = wmParams.value;

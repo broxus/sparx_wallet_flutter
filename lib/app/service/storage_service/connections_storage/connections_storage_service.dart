@@ -379,6 +379,10 @@ class ConnectionsStorageService extends AbstractStorageService {
     _connectionsIdsSubject.add(_readConnectionsIds());
   }
 
+  bool checkIsFrom0To1Workchain(String address) {
+    return !(currentWorkchainId == 0 && address.startsWith('1'));
+  }
+
   Future<void> fetchAccountsForCurrentWorkchain() async {
     if (currentWorkchainId == null) {
       return;
