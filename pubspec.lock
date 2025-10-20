@@ -574,18 +574,18 @@ packages:
     dependency: "direct main"
     description:
       name: drift
-      sha256: "540cf382a3bfa99b76e51514db5b0ebcd81ce3679b7c1c9cb9478ff3735e47a1"
+      sha256: "83290a32ae006a7535c5ecf300722cb77177250d9df4ee2becc5fa8a36095114"
       url: "https://pub.dev"
     source: hosted
-    version: "2.28.2"
+    version: "2.29.0"
   drift_dev:
     dependency: "direct dev"
     description:
       name: drift_dev
-      sha256: d6646ee608b9f359b023ac329321bc9c63b098217291de079b8b2334a48abf39
+      sha256: "6019f827544e77524ffd5134ae0cb75dfd92ef5ef3e269872af92840c929cd43"
       url: "https://pub.dev"
     source: hosted
-    version: "2.28.2"
+    version: "2.29.0"
   easy_localization:
     dependency: "direct main"
     description:
@@ -792,10 +792,10 @@ packages:
     dependency: "direct main"
     description:
       name: flutter_email_sender
-      sha256: d39eb5e91358fc19ec4050da69accec21f9d5b2b6bcf188aa246327b6ca2352c
+      sha256: d81dc29c4ec5895fa84dc057b1c3a6c0c4a69aaa21b0196f0d8b286b7ac8e9e7
       url: "https://pub.dev"
     source: hosted
-    version: "7.0.0"
+    version: "8.0.0"
   flutter_form_builder:
     dependency: transitive
     description:
@@ -949,10 +949,10 @@ packages:
     dependency: "direct dev"
     description:
       name: flutter_native_splash
-      sha256: "8321a6d11a8d13977fa780c89de8d257cce3d841eecfb7a4cadffcc4f12d82dc"
+      sha256: "4fb9f4113350d3a80841ce05ebf1976a36de622af7d19aca0ca9a9911c7ff002"
       url: "https://pub.dev"
     source: hosted
-    version: "2.4.6"
+    version: "2.4.7"
   flutter_nekoton_bridge:
     dependency: transitive
     description:
@@ -1473,26 +1473,26 @@ packages:
     dependency: "direct main"
     description:
       name: local_auth
-      sha256: "434d854cf478f17f12ab29a76a02b3067f86a63a6d6c4eb8fbfdcfe4879c1b7b"
+      sha256: a4f1bf57f0236a4aeb5e8f0ec180e197f4b112a3456baa6c1e73b546630b0422
       url: "https://pub.dev"
     source: hosted
-    version: "2.3.0"
+    version: "3.0.0"
   local_auth_android:
     dependency: transitive
     description:
       name: local_auth_android
-      sha256: a0bdfcc0607050a26ef5b31d6b4b254581c3d3ce3c1816ab4d4f4a9173e84467
+      sha256: d836715ed95b16b2de3a8c47a88ba5e607976bb1e27c9446d193152ea1429fae
       url: "https://pub.dev"
     source: hosted
-    version: "1.0.56"
+    version: "2.0.0"
   local_auth_darwin:
     dependency: transitive
     description:
       name: local_auth_darwin
-      sha256: "699873970067a40ef2f2c09b4c72eb1cfef64224ef041b3df9fdc5c4c1f91f49"
+      sha256: "15d9db4ad4d58a11d7269e55d46ff8d49ed5e856226c8a5a91280f0d7c37b3a6"
       url: "https://pub.dev"
     source: hosted
-    version: "1.6.1"
+    version: "2.0.0"
   local_auth_platform_interface:
     dependency: transitive
     description:
@@ -1505,10 +1505,10 @@ packages:
     dependency: transitive
     description:
       name: local_auth_windows
-      sha256: bc4e66a29b0fdf751aafbec923b5bed7ad6ed3614875d8151afe2578520b2ab5
+      sha256: d95535a73eddf57ce5930d5e78a0fa4f294c31981fdeeee83325b797302be454
       url: "https://pub.dev"
     source: hosted
-    version: "1.0.11"
+    version: "2.0.0"
   logging:
     dependency: "direct main"
     description:
@@ -1569,10 +1569,10 @@ packages:
     dependency: "direct main"
     description:
       name: mobile_scanner
-      sha256: "54005bdea7052d792d35b4fef0f84ec5ddc3a844b250ecd48dc192fb9b4ebc95"
+      sha256: "5e7e09d904dc01de071b79b3f3789b302b0ed3c9c963109cd3f83ad90de62ecf"
       url: "https://pub.dev"
     source: hosted
-    version: "7.0.1"
+    version: "7.1.2"
   mocktail:
     dependency: "direct dev"
     description:
@@ -2303,10 +2303,10 @@ packages:
     dependency: "direct main"
     description:
       name: sqlite3
-      sha256: f393d92c71bdcc118d6203d07c991b9be0f84b1a6f89dd4f7eed348131329924
+      sha256: f18fd9a72d7a1ad2920db61368f2a69368f1cc9b56b8233e9d83b47b0a8435aa
       url: "https://pub.dev"
     source: hosted
-    version: "2.9.0"
+    version: "2.9.3"
   sqlite3_flutter_libs:
     dependency: "direct main"
     description:
@@ -2319,10 +2319,10 @@ packages:
     dependency: transitive
     description:
       name: sqlparser
-      sha256: "57090342af1ce32bb499aa641f4ecdd2d6231b9403cea537ac059e803cc20d67"
+      sha256: "54eea43e36dd3769274c3108625f9ea1a382f8d2ac8b16f3e4589d9bd9b0e16c"
       url: "https://pub.dev"
     source: hosted
-    version: "0.41.2"
+    version: "0.42.0"
   stack_trace:
     dependency: transitive
     description:
