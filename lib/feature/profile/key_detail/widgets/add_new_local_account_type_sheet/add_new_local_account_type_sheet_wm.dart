@@ -83,7 +83,7 @@ class AddNewLocalAccountTypeSheetWidgetModel
       final address = await model.addAccount(
         key: keyCreateFor!,
         walletType: selected,
-        workchain: defaultWorkchainId,
+        workchain: 0,
         name: newName.isEmpty ? null : newName,
       );
 

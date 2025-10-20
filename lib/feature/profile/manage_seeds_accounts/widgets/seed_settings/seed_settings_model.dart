@@ -30,8 +30,8 @@ class SeedSettingsModel extends ElementaryModel with BleAvailabilityModelMixin {
   SeedKey? getMasterKey(PublicKey publicKey) =>
       _nekotonRepository.seedList.findSeedByAnyPublicKey(publicKey)?.masterKey;
 
-  Future<void> triggerAddingAccounts(PublicKey publicKey) =>
-      _nekotonRepository.triggerAddingAccounts([publicKey]);
+  Future<void> triggerAddingAccounts(PublicKey publicKey) => _nekotonRepository
+      .triggerAddingAccounts(publicKeys: [publicKey], workchainId: 0);
 
   Future<void> triggerDerivingKeys({
     required PublicKey masterKey,
@@ -42,6 +42,7 @@ class SeedSettingsModel extends ElementaryModel with BleAvailabilityModelMixin {
     action: () => _nekotonRepository.triggerDerivingKeys(
       masterKey: masterKey,
       password: password,
+      workchainId: 0,
     ),
   );
 }

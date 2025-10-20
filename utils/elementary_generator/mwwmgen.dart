@@ -55,9 +55,8 @@ void _generate() async {
 
   await _createDirIfNotExist(dirPath);
 
-  var templatesList = await templateDir
-      .listSync(recursive: true, followLinks: false)
-      .toList();
+  var templatesList =
+      await templateDir.listSync(recursive: true, followLinks: false).toList();
 
   var templatesDirs = templatesList.where((FileSystemEntity entity) {
     var isDir = FileSystemEntity.isDirectorySync(entity.path);

@@ -69,7 +69,7 @@ dependencies:
   money2: ^6.0.0
   mutex: ^3.1.0
   native_dio_adapter: ^1.5.0
-  nekoton_repository: ^2.0.0-dev.2
+  nekoton_repository: ^2.0.1
   nekoton_webview: ^0.1.12
   ntp: 2.0.0
   open_settings_plus: 0.4.0
@@ -86,7 +86,7 @@ dependencies:
       url: https://github.com/knightsforce/flutter-render-metrics
       ref: optional-render-manager
   retrofit: ^4.6.0
-  rive: ^0.14.0-dev.9
+  rive: ^0.14.0-dev.11
   rxdart: 0.28.0
   sentry_flutter: ^9.6.0
   share_plus: ^12.0.0

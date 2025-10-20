@@ -430,10 +430,10 @@ packages:
     dependency: transitive
     description:
       name: cronet_http
-      sha256: "1b99ad5ae81aa9d2f12900e5f17d3681f3828629bb7f7fe7ad88076a34209840"
+      sha256: "07bfb4c6158aef72f8004631826abaeecdeaa2b6042f5f8916b8db20e1d01b4a"
       url: "https://pub.dev"
     source: hosted
-    version: "1.5.0"
+    version: "1.6.0"
   cross_file:
     dependency: transitive
     description:
@@ -542,10 +542,10 @@ packages:
     dependency: "direct main"
     description:
       name: device_info_plus
-      sha256: "49413c8ca514dea7633e8def233b25efdf83ec8522955cc2c0e3ad802927e7c6"
+      sha256: dd0e8e02186b2196c7848c9d394a5fd6e5b57a43a546082c5820b1ec72317e33
       url: "https://pub.dev"
     source: hosted
-    version: "12.1.0"
+    version: "12.2.0"
   device_info_plus_platform_interface:
     dependency: transitive
     description:
@@ -686,10 +686,10 @@ packages:
     dependency: transitive
     description:
       name: file_selector_macos
-      sha256: "19124ff4a3d8864fdc62072b6a2ef6c222d55a3404fe14893a3c02744907b60c"
+      sha256: "88707a3bec4b988aaed3b4df5d7441ee4e987f20b286cddca5d6a8270cab23f2"
       url: "https://pub.dev"
     source: hosted
-    version: "0.9.4+4"
+    version: "0.9.4+5"
   file_selector_platform_interface:
     dependency: transitive
     description:
@@ -710,10 +710,10 @@ packages:
     dependency: transitive
     description:
       name: fixed
-      sha256: da3733efb93270eb003e69c5177c8454b12620c023ba2c4599ff2140f3af5221
+      sha256: "233bf345eefebd10ef382054060de4d60eab452455391b03ba8e2ff3fe45777f"
       url: "https://pub.dev"
     source: hosted
-    version: "6.1.0"
+    version: "6.1.1"
   fixnum:
     dependency: transitive
     description:
@@ -957,10 +957,10 @@ packages:
     dependency: transitive
     description:
       name: flutter_nekoton_bridge
-      sha256: "6a62eb194f2e6910be93c8b3982abadddc9a59bce90aea7350c76b9ade723a17"
+      sha256: "2bc7bb85cf7fc13ed6c02b74e8c12a62cd1f4de2750dcb7ef9d249890b8a5830"
       url: "https://pub.dev"
     source: hosted
-    version: "4.0.0-dev.2"
+    version: "4.0.0"
   flutter_plugin_android_lifecycle:
     dependency: "direct overridden"
     description:
@@ -1148,10 +1148,10 @@ packages:
     dependency: "direct main"
     description:
       name: go_router
-      sha256: c752e2d08d088bf83742cb05bf83003f3e9d276ff1519b5c92f9d5e60e5ddd23
+      sha256: e1d7ffb0db475e6e845eb58b44768f50b830e23960e3df6908924acd8f7f70ea
       url: "https://pub.dev"
     source: hosted
-    version: "16.2.4"
+    version: "16.2.5"
   google_identity_services_web:
     dependency: transitive
     description:
@@ -1268,10 +1268,10 @@ packages:
     dependency: "direct main"
     description:
       name: image_picker_android
-      sha256: dd7a61daaa5896cc34b7bc95f66c60225ae6bee0d167dde0e21a9d9016cac0dc
+      sha256: "58a85e6f09fe9c4484d53d18a0bd6271b72c53fce1d05e6f745ae36d8c18efca"
       url: "https://pub.dev"
     source: hosted
-    version: "0.8.13+4"
+    version: "0.8.13+5"
   image_picker_for_web:
     dependency: transitive
     description:
@@ -1284,10 +1284,10 @@ packages:
     dependency: transitive
     description:
       name: image_picker_ios
-      sha256: eb06fe30bab4c4497bad449b66448f50edcc695f1c59408e78aa3a8059eb8f0e
+      sha256: e675c22790bcc24e9abd455deead2b7a88de4b79f7327a281812f14de1a56f58
       url: "https://pub.dev"
     source: hosted
-    version: "0.8.13"
+    version: "0.8.13+1"
   image_picker_linux:
     dependency: transitive
     description:
@@ -1300,10 +1300,10 @@ packages:
     dependency: transitive
     description:
       name: image_picker_macos
-      sha256: d58cd9d67793d52beefd6585b12050af0a7663c0c2a6ece0fb110a35d6955e04
+      sha256: "86f0f15a309de7e1a552c12df9ce5b59fe927e71385329355aec4776c6a8ec91"
       url: "https://pub.dev"
     source: hosted
-    version: "0.2.2"
+    version: "0.2.2+1"
   image_picker_platform_interface:
     dependency: "direct main"
     description:
@@ -1481,10 +1481,10 @@ packages:
     dependency: transitive
     description:
       name: local_auth_android
-      sha256: b2446c74fab1db37f828d4c54adaa3f003df80a29f5cbd710bbb8883d302e991
+      sha256: a0bdfcc0607050a26ef5b31d6b4b254581c3d3ce3c1816ab4d4f4a9173e84467
       url: "https://pub.dev"
     source: hosted
-    version: "1.0.55"
+    version: "1.0.56"
   local_auth_darwin:
     dependency: transitive
     description:
@@ -1521,10 +1521,10 @@ packages:
     dependency: "direct main"
     description:
       name: lucide_icons_flutter
-      sha256: "4cd040e7886620094a02567194074c6a9ba65c6c460352c8679822cb0806254d"
+      sha256: "9847474128d2c419beb3621cc564c7daf80382db76ba2716f47f24b0b068700b"
       url: "https://pub.dev"
     source: hosted
-    version: "3.1.2"
+    version: "3.1.4"
   matcher:
     dependency: transitive
     description:
@@ -1545,10 +1545,10 @@ packages:
     dependency: "direct dev"
     description:
       name: melos
-      sha256: "7edaa77edb2017dd0c05b5e1baa501965903c5d6f314dfc096df36ada5275199"
+      sha256: "485fcfd86916cff975d3309b96efccc43e2581150f6498ea957b4b8889f51939"
       url: "https://pub.dev"
     source: hosted
-    version: "7.1.1"
+    version: "7.2.0"
   meta:
     dependency: transitive
     description:
@@ -1625,18 +1625,18 @@ packages:
     dependency: transitive
     description:
       name: nekoton_bridge
-      sha256: b62f54008e3684c2e7782ac2f7f412a9f07ce439d59e56df32436ee450a2cee6
+      sha256: "04406d2000cd3a0b017a795c71cc043399afd7313bc772714005b0c2416f2086"
       url: "https://pub.dev"
     source: hosted
-    version: "4.0.0-dev.2"
+    version: "4.0.0"
   nekoton_repository:
     dependency: "direct main"
     description:
       name: nekoton_repository
-      sha256: c222a1ac6f5f805fcfb3c5ba0aba1a00de20f36d0c97955f5c747fa8c45b36d3
+      sha256: f7146a2e29feef044dc129aa901e2448dee866623e45127328693f9ca07563d2
       url: "https://pub.dev"
     source: hosted
-    version: "2.0.0-dev.2"
+    version: "2.0.1"
   nekoton_webview:
     dependency: "direct main"
     description:
@@ -1753,18 +1753,18 @@ packages:
     dependency: transitive
     description:
       name: path_provider_android
-      sha256: "3b4c1fc3aa55ddc9cd4aa6759984330d5c8e66aa7702a6223c61540dc6380c37"
+      sha256: e122c5ea805bb6773bb12ce667611265980940145be920cd09a4b0ec0285cb16
       url: "https://pub.dev"
     source: hosted
-    version: "2.2.19"
+    version: "2.2.20"
   path_provider_foundation:
     dependency: transitive
     description:
       name: path_provider_foundation
-      sha256: "16eef174aacb07e09c351502740fa6254c165757638eba1e9116b0a781201bbd"
+      sha256: efaec349ddfc181528345c56f8eda9d6cccd71c177511b132c6a0ddaefaa2738
       url: "https://pub.dev"
     source: hosted
-    version: "2.4.2"
+    version: "2.4.3"
   path_provider_linux:
     dependency: transitive
     description:
@@ -1881,10 +1881,10 @@ packages:
     dependency: transitive
     description:
       name: pointer_interceptor_ios
-      sha256: a6906772b3205b42c44614fcea28f818b1e5fdad73a4ca742a7bd49818d9c917
+      sha256: "03c5fa5896080963ab4917eeffda8d28c90f22863a496fb5ba13bc10943e40e4"
       url: "https://pub.dev"
     source: hosted
-    version: "0.10.1"
+    version: "0.10.1+1"
   pointer_interceptor_platform_interface:
     dependency: transitive
     description:
@@ -2050,18 +2050,18 @@ packages:
     dependency: "direct main"
     description:
       name: rive
-      sha256: a666ada4969c850485fd8021d4d7b0a3c022cad23d152f78a28efff57574606d
+      sha256: "7fb6efeae1e105d7231cf8fd6ad99ec33369c0c8285d19a299af43acf34065b8"
       url: "https://pub.dev"
     source: hosted
-    version: "0.14.0-dev.9"
+    version: "0.14.0-dev.11"
   rive_native:
     dependency: transitive
     description:
       name: rive_native
-      sha256: "2bffc86dafe4bfdef2c4f864ce0bfce6f7e55938425779a90c2f8d538740d567"
+      sha256: "9458cbc8e31184b05b1b091030a7ad50c46c8473da54f7e8f197298166c5397e"
       url: "https://pub.dev"
     source: hosted
-    version: "0.0.12"
+    version: "0.0.14"
   rxdart:
     dependency: "direct main"
     description:
@@ -2090,10 +2090,10 @@ packages:
     dependency: "direct main"
     description:
       name: share_plus
-      sha256: "3424e9d5c22fd7f7590254ba09465febd6f8827c8b19a44350de4ac31d92d3a6"
+      sha256: "14c8860d4de93d3a7e53af51bff479598c4e999605290756bbbe45cf65b37840"
       url: "https://pub.dev"
     source: hosted
-    version: "12.0.0"
+    version: "12.0.1"
   share_plus_platform_interface:
     dependency: transitive
     description:
@@ -2122,10 +2122,10 @@ packages:
     dependency: transitive
     description:
       name: shared_preferences_foundation
-      sha256: "6a52cfcdaeac77cad8c97b539ff688ccfc458c007b4db12be584fbe5c0e49e03"
+      sha256: "1c33a907142607c40a7542768ec9badfd16293bac51da3a4482623d15845f88b"
       url: "https://pub.dev"
     source: hosted
-    version: "2.5.4"
+    version: "2.5.5"
   shared_preferences_linux:
     dependency: transitive
     description:
@@ -2311,10 +2311,10 @@ packages:
     dependency: "direct main"
     description:
       name: sqlite3_flutter_libs
-      sha256: "2b03273e71867a8a4d030861fc21706200debe5c5858a4b9e58f4a1c129586a4"
+      sha256: "69c80d812ef2500202ebd22002cbfc1b6565e9ff56b2f971e757fac5d42294df"
       url: "https://pub.dev"
     source: hosted
-    version: "0.5.39"
+    version: "0.5.40"
   sqlparser:
     dependency: transitive
     description:
@@ -2480,10 +2480,10 @@ packages:
     dependency: transitive
     description:
       name: url_launcher_ios
-      sha256: d80b3f567a617cb923546034cc94bfe44eb15f989fe670b37f26abdb9d939cb7
+      sha256: "6b63f1441e4f653ae799166a72b50b1767321ecc263a57aadf825a7a2a5477d9"
       url: "https://pub.dev"
     source: hosted
-    version: "6.3.4"
+    version: "6.3.5"
   url_launcher_linux:
     dependency: transitive
     description:
@@ -2496,10 +2496,10 @@ packages:
     dependency: transitive
     description:
       name: url_launcher_macos
-      sha256: c043a77d6600ac9c38300567f33ef12b0ef4f4783a2c1f00231d2b1941fea13f
+      sha256: "8262208506252a3ed4ff5c0dc1e973d2c0e0ef337d0a074d35634da5d44397c9"
       url: "https://pub.dev"
     source: hosted
-    version: "3.2.3"
+    version: "3.2.4"
   url_launcher_platform_interface:
     dependency: transitive
     description:

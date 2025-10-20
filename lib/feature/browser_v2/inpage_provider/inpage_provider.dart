@@ -688,7 +688,7 @@ class InpageProvider extends ProviderApi {
     final (address, state, hash) = await nr.getExpectedAddress(
       tvc: input.tvc,
       contractAbi: input.abi,
-      workchainId: input.workchain?.toInt() ?? nr.defaultWorkchainId,
+      workchainId: input.workchain?.toInt() ?? 0,
       publicKey: input.publicKey == null
           ? null
           : nr.PublicKey(publicKey: input.publicKey!),
