@@ -91,12 +91,7 @@ class WalletDeployConfirmWidgetModel extends CustomWidgetModelParametrized<
       _isLoadingState.value = true;
       _errorMessageState.value = null;
 
-      final currency = await model.getOrFetchNativeCurrency().then(
-        (currency) {
-          if (currency == null) throw Exception('Failed to load currency');
-          return currency;
-        },
-      );
+      final currency = await model.getOrFetchNativeCurrency();
 
       _currencyState.accept(currency);
 
@@ -132,12 +127,12 @@ class WalletDeployConfirmWidgetModel extends CustomWidgetModelParametrized<
       _feeState.accept(fees);
       _balanceState.accept(wallet.contractState.balance);
 
-      _hasSufficientBalanceState.value = wallet.contractState.balance > fees;
+      _hasSufficientBalanceState.value = wallet.contractState.balance >= fees;
 
       // Check if balance is sufficient
       if (!_hasSufficientBalanceState.value) {
         _errorMessageState.value = LocaleKeys.deployWalletModalSubtitle.tr(
-          args: [(fees / BigInt.from(10 * decimal)).toString(), ticker],
+          args: [(fees / BigInt.from(10).pow(decimal)).toString(), ticker],
         );
       }
     } catch (e, s) {
