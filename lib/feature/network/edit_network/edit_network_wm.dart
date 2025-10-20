@@ -257,8 +257,6 @@ class EditNetworkWidgetModel extends CustomWidgetModelParametrized<
       ],
       isPreset: false,
       canBeEdited: true,
-      isUsedOnStart: false,
-      sortingOrder: NtpTime.now().millisecondsSinceEpoch.toDouble(),
     );
   }
 

@@ -11,6 +11,8 @@ Map<String, dynamic> _$ConnectionConfigToJson(_ConnectionConfig instance) =>
       'defaultConnectionId': instance.defaultConnectionId,
       'defaultSettings': instance.defaultSettings.toJson(),
       'connections': instance.connections.map((e) => e.toJson()).toList(),
+      'startConnections':
+          instance.startConnections.map((e) => e.toJson()).toList(),
       'customNetworkOptions':
           instance.customNetworkOptions.map((e) => e.toJson()).toList(),
     };

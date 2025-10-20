@@ -111,7 +111,6 @@ extension AddNetworkExtension on AddNetwork {
       id: connectionId,
       networkName: name,
       defaultWorkchainId: 0,
-      isUsedOnStart: false,
       workchains: [
         ConnectionWorkchain.custom(
           id: 0,
@@ -131,7 +130,6 @@ extension AddNetworkExtension on AddNetwork {
       ],
       isPreset: false,
       canBeEdited: true,
-      sortingOrder: 1,
     );
   }
 }

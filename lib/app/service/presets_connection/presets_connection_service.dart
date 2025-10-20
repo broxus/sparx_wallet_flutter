@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:app/app/service/connection/data/connection/connection.dart';
 import 'package:app/app/service/connection/data/connection_config/connection_config.dart';
+import 'package:app/app/service/connection/data/connection_config/start_connection.dart';
 import 'package:app/app/service/connection/data/connection_default_settings.dart';
 import 'package:app/app/service/connection/data/default_active_asset.dart';
 import 'package:app/app/service/connection/data/network_type.dart';
@@ -28,6 +29,9 @@ class PresetsConnectionService {
       _connectionConnection?.customNetworkOptionTypes;
 
   ConnectionConfig? get _data => _presetsConnectionsSubj.valueOrNull;
+
+  List<StartConnectionData> get startConnections =>
+      _data?.startConnections ?? [];
 
   List<Connection> get connections => _data?.connections ?? [];
 

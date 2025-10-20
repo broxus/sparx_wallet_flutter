@@ -1,4 +1,5 @@
 import 'package:app/app/service/connection/data/connection/connection.dart';
+import 'package:app/app/service/connection/data/connection_config/start_connection.dart';
 import 'package:app/app/service/connection/data/connection_default_settings.dart';
 import 'package:app/app/service/connection/data/custom_network/custom_network_option.dart';
 import 'package:app/app/service/connection/data/network_type.dart';
@@ -17,6 +18,7 @@ abstract class ConnectionConfig with _$ConnectionConfig {
     required String defaultConnectionId,
     required ConnectionDefaultSettings defaultSettings,
     required List<Connection> connections,
+    required List<StartConnectionData> startConnections,
     required List<CustomNetworkOption> customNetworkOptions,
   }) {
     final defaultConnection = connections.firstWhereOrNull(
@@ -28,6 +30,7 @@ abstract class ConnectionConfig with _$ConnectionConfig {
       defaultConnection: defaultConnection,
       defaultConnectionId: defaultConnection.id,
       connections: connections,
+      startConnections: startConnections,
       customNetworkOptions: customNetworkOptions,
       customNetworkOptionTypes: customNetworkOptions.isEmpty
           ? [NetworkType.ever, NetworkType.tycho, NetworkType.custom]
@@ -48,6 +51,7 @@ abstract class ConnectionConfig with _$ConnectionConfig {
     required Connection defaultConnection,
     required ConnectionDefaultSettings defaultSettings,
     required List<Connection> connections,
+    required List<StartConnectionData> startConnections,
     required List<CustomNetworkOption> customNetworkOptions,
     @JsonKey(includeFromJson: false, includeToJson: false)
     required List<NetworkType>? customNetworkOptionTypes,
@@ -55,6 +59,9 @@ abstract class ConnectionConfig with _$ConnectionConfig {
 
   factory ConnectionConfig.fromJson(Map<String, dynamic> json) {
     final connections = castJsonList<dynamic>(json['connections']);
+
+    final startConnections =
+        castJsonList<Map<String, dynamic>>(json['startConnections']);
 
     final customNetworkOptions =
         castJsonList<dynamic>(json['customNetworkOptions']);
@@ -72,6 +79,9 @@ abstract class ConnectionConfig with _$ConnectionConfig {
               castJsonMap(json['defaultSettings'])['walletAccountNames'],
             ),
           ),
+      ],
+      startConnections: [
+        for (final c in startConnections) StartConnectionData.fromJson(c),
       ],
       customNetworkOptions: [
         for (final option in customNetworkOptions)

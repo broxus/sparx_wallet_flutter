@@ -418,9 +418,7 @@ class ConnectionsStorageService extends AbstractStorageService {
 
   /// Put [Connection] items to stream
   void _streamedConnections() => _connectionsSubject.add(
-        [...readConnections()]..sort(
-            (a, b) => (a.sortingOrder - b.sortingOrder).sign.toInt(),
-          ),
+        [...readConnections()],
       );
 
   /// Read current connection id from storage

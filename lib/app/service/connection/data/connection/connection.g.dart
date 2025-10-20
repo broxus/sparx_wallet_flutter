@@ -15,6 +15,4 @@ Map<String, dynamic> _$ConnectionToJson(_Connection instance) =>
       'workchains': instance.workchains.map((e) => e.toJson()).toList(),
       'isPreset': instance.isPreset,
       'canBeEdited': instance.canBeEdited,
-      'isUsedOnStart': instance.isUsedOnStart,
-      'sortingOrder': instance.sortingOrder,
     };

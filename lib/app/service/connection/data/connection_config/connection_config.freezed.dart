@@ -20,6 +20,7 @@ mixin _$ConnectionConfig {
   Connection get defaultConnection;
   ConnectionDefaultSettings get defaultSettings;
   List<Connection> get connections;
+  List<StartConnectionData> get startConnections;
   List<CustomNetworkOption> get customNetworkOptions;
   @JsonKey(includeFromJson: false, includeToJson: false)
   List<NetworkType>? get customNetworkOptionTypes;
@@ -49,6 +50,8 @@ mixin _$ConnectionConfig {
             const DeepCollectionEquality()
                 .equals(other.connections, connections) &&
             const DeepCollectionEquality()
+                .equals(other.startConnections, startConnections) &&
+            const DeepCollectionEquality()
                 .equals(other.customNetworkOptions, customNetworkOptions) &&
             const DeepCollectionEquality().equals(
                 other.customNetworkOptionTypes, customNetworkOptionTypes));
@@ -62,12 +65,13 @@ mixin _$ConnectionConfig {
       defaultConnection,
       defaultSettings,
       const DeepCollectionEquality().hash(connections),
+      const DeepCollectionEquality().hash(startConnections),
       const DeepCollectionEquality().hash(customNetworkOptions),
       const DeepCollectionEquality().hash(customNetworkOptionTypes));
 
   @override
   String toString() {
-    return 'ConnectionConfig(defaultConnectionId: $defaultConnectionId, defaultConnection: $defaultConnection, defaultSettings: $defaultSettings, connections: $connections, customNetworkOptions: $customNetworkOptions, customNetworkOptionTypes: $customNetworkOptionTypes)';
+    return 'ConnectionConfig(defaultConnectionId: $defaultConnectionId, defaultConnection: $defaultConnection, defaultSettings: $defaultSettings, connections: $connections, startConnections: $startConnections, customNetworkOptions: $customNetworkOptions, customNetworkOptionTypes: $customNetworkOptionTypes)';
   }
 }
 
@@ -83,6 +87,7 @@ abstract mixin class $ConnectionConfigCopyWith<$Res> {
       Connection defaultConnection,
       ConnectionDefaultSettings defaultSettings,
       List<Connection> connections,
+      List<StartConnectionData> startConnections,
       List<CustomNetworkOption> customNetworkOptions,
       @JsonKey(includeFromJson: false, includeToJson: false)
       List<NetworkType>? customNetworkOptionTypes});
@@ -108,6 +113,7 @@ class _$ConnectionConfigCopyWithImpl<$Res>
     Object? defaultConnection = null,
     Object? defaultSettings = null,
     Object? connections = null,
+    Object? startConnections = null,
     Object? customNetworkOptions = null,
     Object? customNetworkOptionTypes = freezed,
   }) {
@@ -128,6 +134,10 @@ class _$ConnectionConfigCopyWithImpl<$Res>
           ? _self.connections
           : connections // ignore: cast_nullable_to_non_nullable
               as List<Connection>,
+      startConnections: null == startConnections
+          ? _self.startConnections
+          : startConnections // ignore: cast_nullable_to_non_nullable
+              as List<StartConnectionData>,
       customNetworkOptions: null == customNetworkOptions
           ? _self.customNetworkOptions
           : customNetworkOptions // ignore: cast_nullable_to_non_nullable
@@ -171,10 +181,12 @@ class _ConnectionConfig implements ConnectionConfig {
       required this.defaultConnection,
       required this.defaultSettings,
       required final List<Connection> connections,
+      required final List<StartConnectionData> startConnections,
       required final List<CustomNetworkOption> customNetworkOptions,
       @JsonKey(includeFromJson: false, includeToJson: false)
       required final List<NetworkType>? customNetworkOptionTypes})
       : _connections = connections,
+        _startConnections = startConnections,
         _customNetworkOptions = customNetworkOptions,
         _customNetworkOptionTypes = customNetworkOptionTypes;
 
@@ -191,6 +203,15 @@ class _ConnectionConfig implements ConnectionConfig {
     if (_connections is EqualUnmodifiableListView) return _connections;
     // ignore: implicit_dynamic_type
     return EqualUnmodifiableListView(_connections);
+  }
+
+  final List<StartConnectionData> _startConnections;
+  @override
+  List<StartConnectionData> get startConnections {
+    if (_startConnections is EqualUnmodifiableListView)
+      return _startConnections;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(_startConnections);
   }
 
   final List<CustomNetworkOption> _customNetworkOptions;
@@ -243,6 +264,8 @@ class _ConnectionConfig implements ConnectionConfig {
             const DeepCollectionEquality()
                 .equals(other._connections, _connections) &&
             const DeepCollectionEquality()
+                .equals(other._startConnections, _startConnections) &&
+            const DeepCollectionEquality()
                 .equals(other._customNetworkOptions, _customNetworkOptions) &&
             const DeepCollectionEquality().equals(
                 other._customNetworkOptionTypes, _customNetworkOptionTypes));
@@ -256,12 +279,13 @@ class _ConnectionConfig implements ConnectionConfig {
       defaultConnection,
       defaultSettings,
       const DeepCollectionEquality().hash(_connections),
+      const DeepCollectionEquality().hash(_startConnections),
       const DeepCollectionEquality().hash(_customNetworkOptions),
       const DeepCollectionEquality().hash(_customNetworkOptionTypes));
 
   @override
   String toString() {
-    return 'ConnectionConfig._(defaultConnectionId: $defaultConnectionId, defaultConnection: $defaultConnection, defaultSettings: $defaultSettings, connections: $connections, customNetworkOptions: $customNetworkOptions, customNetworkOptionTypes: $customNetworkOptionTypes)';
+    return 'ConnectionConfig._(defaultConnectionId: $defaultConnectionId, defaultConnection: $defaultConnection, defaultSettings: $defaultSettings, connections: $connections, startConnections: $startConnections, customNetworkOptions: $customNetworkOptions, customNetworkOptionTypes: $customNetworkOptionTypes)';
   }
 }
 
@@ -279,6 +303,7 @@ abstract mixin class _$ConnectionConfigCopyWith<$Res>
       Connection defaultConnection,
       ConnectionDefaultSettings defaultSettings,
       List<Connection> connections,
+      List<StartConnectionData> startConnections,
       List<CustomNetworkOption> customNetworkOptions,
       @JsonKey(includeFromJson: false, includeToJson: false)
       List<NetworkType>? customNetworkOptionTypes});
@@ -306,6 +331,7 @@ class __$ConnectionConfigCopyWithImpl<$Res>
     Object? defaultConnection = null,
     Object? defaultSettings = null,
     Object? connections = null,
+    Object? startConnections = null,
     Object? customNetworkOptions = null,
     Object? customNetworkOptionTypes = freezed,
   }) {
@@ -326,6 +352,10 @@ class __$ConnectionConfigCopyWithImpl<$Res>
           ? _self._connections
           : connections // ignore: cast_nullable_to_non_nullable
               as List<Connection>,
+      startConnections: null == startConnections
+          ? _self._startConnections
+          : startConnections // ignore: cast_nullable_to_non_nullable
+              as List<StartConnectionData>,
       customNetworkOptions: null == customNetworkOptions
           ? _self._customNetworkOptions
           : customNetworkOptions // ignore: cast_nullable_to_non_nullable

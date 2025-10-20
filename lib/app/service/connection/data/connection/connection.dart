@@ -15,8 +15,6 @@ abstract class Connection with _$Connection {
     required List<ConnectionWorkchain> workchains,
     required bool isPreset,
     required bool canBeEdited,
-    required bool isUsedOnStart,
-    required double sortingOrder,
   }) =>
       Connection._(
         id: id,
@@ -25,10 +23,8 @@ abstract class Connection with _$Connection {
         defaultWorkchain: workchains.firstWhere(
           (w) => w.id == defaultWorkchainId,
         ),
-        sortingOrder: sortingOrder,
         isPreset: isPreset,
         canBeEdited: canBeEdited,
-        isUsedOnStart: isUsedOnStart,
         workchains: workchains,
       );
 
@@ -59,10 +55,8 @@ abstract class Connection with _$Connection {
       id: id,
       networkName: networkName,
       defaultWorkchainId: defaultWorkchainId,
-      sortingOrder: (json['sortingOrder'] as num).toDouble(),
       isPreset: (json['isPreset']) as bool? ?? true,
       canBeEdited: (json['canBeEdited']) as bool? ?? false,
-      isUsedOnStart: (json['isUsedOnStart']) as bool? ?? true,
       workchains: workchains,
     );
   }
@@ -75,7 +69,5 @@ abstract class Connection with _$Connection {
     required List<ConnectionWorkchain> workchains,
     required bool isPreset,
     required bool canBeEdited,
-    required bool isUsedOnStart,
-    required double sortingOrder,
   }) = _Connection;
 }

@@ -31,6 +31,26 @@
       "walletV5R1": "WalletV5R1"
     }
   },
+  "startConnections": [
+    {
+      "connectionId": "preset_ton_mainnet_proto"
+    },
+    {
+      "connectionId": "preset_hmstr_mainnet_proto"
+    },
+    {
+      "connectionId": "preset_humo_testnet_proto"
+    },
+    {
+      "connectionId": "preset_tycho_testnet_proto"
+    },
+    {
+      "connectionId": "preset_ever_mainnet_proto"
+    },
+    {
+      "connectionId": "preset_venom_mainnet_proto"
+    }
+  ],
   "connections": [
     {
       "id": "preset_ton_mainnet_proto",
@@ -99,8 +119,7 @@
           "accountExplorerLinkType": "packAddress",
           "transactionExplorerLinkType": "transaction"
         }
-      ],
-      "sortingOrder": 1
+      ]
     },
     {
       "id": "preset_hmstr_mainnet_proto",
@@ -169,8 +188,7 @@
             "intensivePollingInterval": 2
           }
         }
-      ],
-      "sortingOrder": 2
+      ]
     },
     {
       "id": "preset_humo_testnet_proto",
@@ -224,8 +242,7 @@
             "intensivePollingInterval": 2
           }
         }
-      ],
-      "sortingOrder": 3
+      ]
     },
     {
       "id": "preset_tycho_testnet_proto",
@@ -283,8 +300,7 @@
             "intensivePollingInterval": 2
           }
         }
-      ],
-      "sortingOrder": 4
+      ]
     },
     {
       "id": "preset_ever_mainnet_proto",
@@ -376,8 +392,7 @@
           "accountExplorerLinkType": "accounts",
           "transactionExplorerLinkType": "transactions"
         }
-      ],
-      "sortingOrder": 5
+      ]
     },
     {
       "id": "preset_venom_mainnet_proto",
@@ -485,8 +500,7 @@
           "accountExplorerLinkType": "accounts",
           "transactionExplorerLinkType": "transactions"
         }
-      ],
-      "sortingOrder": 6
+      ]
     }
   ]
 }

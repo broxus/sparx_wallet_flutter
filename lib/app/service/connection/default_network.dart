@@ -22,7 +22,6 @@ final Connection defaultPresetConnection = (() {
     defaultWorkchainId: defaultWorkchainId,
     isPreset: true,
     canBeEdited: false,
-    isUsedOnStart: true,
     workchains: [
       ConnectionWorkchain(
         id: defaultWorkchainId,
@@ -75,6 +74,5 @@ final Connection defaultPresetConnection = (() {
         defaultNativeCurrencyDecimal: 9,
       ),
     ],
-    sortingOrder: 1,
   );
 })();

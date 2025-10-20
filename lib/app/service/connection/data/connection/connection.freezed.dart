@@ -22,8 +22,6 @@ mixin _$Connection {
   List<ConnectionWorkchain> get workchains;
   bool get isPreset;
   bool get canBeEdited;
-  bool get isUsedOnStart;
-  double get sortingOrder;
 
   /// Create a copy of Connection
   /// with the given fields replaced by the non-null parameter values.
@@ -52,11 +50,7 @@ mixin _$Connection {
             (identical(other.isPreset, isPreset) ||
                 other.isPreset == isPreset) &&
             (identical(other.canBeEdited, canBeEdited) ||
-                other.canBeEdited == canBeEdited) &&
-            (identical(other.isUsedOnStart, isUsedOnStart) ||
-                other.isUsedOnStart == isUsedOnStart) &&
-            (identical(other.sortingOrder, sortingOrder) ||
-                other.sortingOrder == sortingOrder));
+                other.canBeEdited == canBeEdited));
   }
 
   @JsonKey(includeFromJson: false, includeToJson: false)
@@ -69,13 +63,11 @@ mixin _$Connection {
       defaultWorkchain,
       const DeepCollectionEquality().hash(workchains),
       isPreset,
-      canBeEdited,
-      isUsedOnStart,
-      sortingOrder);
+      canBeEdited);
 
   @override
   String toString() {
-    return 'Connection(id: $id, networkName: $networkName, defaultWorkchainId: $defaultWorkchainId, defaultWorkchain: $defaultWorkchain, workchains: $workchains, isPreset: $isPreset, canBeEdited: $canBeEdited, isUsedOnStart: $isUsedOnStart, sortingOrder: $sortingOrder)';
+    return 'Connection(id: $id, networkName: $networkName, defaultWorkchainId: $defaultWorkchainId, defaultWorkchain: $defaultWorkchain, workchains: $workchains, isPreset: $isPreset, canBeEdited: $canBeEdited)';
   }
 }
 
@@ -92,9 +84,7 @@ abstract mixin class $ConnectionCopyWith<$Res> {
       ConnectionWorkchain defaultWorkchain,
       List<ConnectionWorkchain> workchains,
       bool isPreset,
-      bool canBeEdited,
-      bool isUsedOnStart,
-      double sortingOrder});
+      bool canBeEdited});
 
   $ConnectionWorkchainCopyWith<$Res> get defaultWorkchain;
 }
@@ -118,8 +108,6 @@ class _$ConnectionCopyWithImpl<$Res> implements $ConnectionCopyWith<$Res> {
     Object? workchains = null,
     Object? isPreset = null,
     Object? canBeEdited = null,
-    Object? isUsedOnStart = null,
-    Object? sortingOrder = null,
   }) {
     return _then(_self.copyWith(
       id: null == id
@@ -150,14 +138,6 @@ class _$ConnectionCopyWithImpl<$Res> implements $ConnectionCopyWith<$Res> {
           ? _self.canBeEdited
           : canBeEdited // ignore: cast_nullable_to_non_nullable
               as bool,
-      isUsedOnStart: null == isUsedOnStart
-          ? _self.isUsedOnStart
-          : isUsedOnStart // ignore: cast_nullable_to_non_nullable
-              as bool,
-      sortingOrder: null == sortingOrder
-          ? _self.sortingOrder
-          : sortingOrder // ignore: cast_nullable_to_non_nullable
-              as double,
     ));
   }
 
@@ -182,9 +162,7 @@ class _Connection implements Connection {
       required this.defaultWorkchain,
       required final List<ConnectionWorkchain> workchains,
       required this.isPreset,
-      required this.canBeEdited,
-      required this.isUsedOnStart,
-      required this.sortingOrder})
+      required this.canBeEdited})
       : _workchains = workchains;
 
   @override
@@ -207,10 +185,6 @@ class _Connection implements Connection {
   final bool isPreset;
   @override
   final bool canBeEdited;
-  @override
-  final bool isUsedOnStart;
-  @override
-  final double sortingOrder;
 
   /// Create a copy of Connection
   /// with the given fields replaced by the non-null parameter values.
@@ -244,11 +218,7 @@ class _Connection implements Connection {
             (identical(other.isPreset, isPreset) ||
                 other.isPreset == isPreset) &&
             (identical(other.canBeEdited, canBeEdited) ||
-                other.canBeEdited == canBeEdited) &&
-            (identical(other.isUsedOnStart, isUsedOnStart) ||
-                other.isUsedOnStart == isUsedOnStart) &&
-            (identical(other.sortingOrder, sortingOrder) ||
-                other.sortingOrder == sortingOrder));
+                other.canBeEdited == canBeEdited));
   }
 
   @JsonKey(includeFromJson: false, includeToJson: false)
@@ -261,13 +231,11 @@ class _Connection implements Connection {
       defaultWorkchain,
       const DeepCollectionEquality().hash(_workchains),
       isPreset,
-      canBeEdited,
-      isUsedOnStart,
-      sortingOrder);
+      canBeEdited);
 
   @override
   String toString() {
-    return 'Connection._(id: $id, networkName: $networkName, defaultWorkchainId: $defaultWorkchainId, defaultWorkchain: $defaultWorkchain, workchains: $workchains, isPreset: $isPreset, canBeEdited: $canBeEdited, isUsedOnStart: $isUsedOnStart, sortingOrder: $sortingOrder)';
+    return 'Connection._(id: $id, networkName: $networkName, defaultWorkchainId: $defaultWorkchainId, defaultWorkchain: $defaultWorkchain, workchains: $workchains, isPreset: $isPreset, canBeEdited: $canBeEdited)';
   }
 }
 
@@ -286,9 +254,7 @@ abstract mixin class _$ConnectionCopyWith<$Res>
       ConnectionWorkchain defaultWorkchain,
       List<ConnectionWorkchain> workchains,
       bool isPreset,
-      bool canBeEdited,
-      bool isUsedOnStart,
-      double sortingOrder});
+      bool canBeEdited});
 
   @override
   $ConnectionWorkchainCopyWith<$Res> get defaultWorkchain;
@@ -313,8 +279,6 @@ class __$ConnectionCopyWithImpl<$Res> implements _$ConnectionCopyWith<$Res> {
     Object? workchains = null,
     Object? isPreset = null,
     Object? canBeEdited = null,
-    Object? isUsedOnStart = null,
-    Object? sortingOrder = null,
   }) {
     return _then(_Connection(
       id: null == id
@@ -345,14 +309,6 @@ class __$ConnectionCopyWithImpl<$Res> implements _$ConnectionCopyWith<$Res> {
           ? _self.canBeEdited
           : canBeEdited // ignore: cast_nullable_to_non_nullable
               as bool,
-      isUsedOnStart: null == isUsedOnStart
-          ? _self.isUsedOnStart
-          : isUsedOnStart // ignore: cast_nullable_to_non_nullable
-              as bool,
-      sortingOrder: null == sortingOrder
-          ? _self.sortingOrder
-          : sortingOrder // ignore: cast_nullable_to_non_nullable
-              as double,
     ));
   }
 

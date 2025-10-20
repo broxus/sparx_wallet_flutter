@@ -36,6 +36,11 @@ class ChooseNetworkScreenModel extends ElementaryModel with ConnectionMixin {
   final ConnectionsStorageService _connectionsStorageService;
   final NekotonRepository _nekotonRepository;
 
+  late final Set<String> _startConnectionsIds = _presetsConnectionService
+      .startConnections
+      .map((data) => data.connectionId)
+      .toSet();
+
   Future<bool> selectType(String id) async {
     try {
       await _connectionsStorageService.saveCurrentConnectionId(
@@ -89,8 +94,18 @@ class ChooseNetworkScreenModel extends ElementaryModel with ConnectionMixin {
   }
 
   List<Connection> _startNetworks() {
-    return _presetsConnectionService.connections
-        .where((connection) => connection.isUsedOnStart)
-        .toList();
+    final connectionsMap = {
+      for (final el in _presetsConnectionService.connections) el.id: el,
+    };
+
+    final result = <Connection>[];
+
+    for (final startId in _startConnectionsIds) {
+      final connection = connectionsMap[startId];
+      if (connection == null) continue;
+      result.add(connection);
+    }
+
+    return result;
   }
 }
