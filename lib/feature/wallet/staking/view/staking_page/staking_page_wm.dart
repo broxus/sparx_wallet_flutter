@@ -150,7 +150,7 @@ class StakingPageWidgetModel
       max = max - _comission;
     }
 
-    inputController.text = max.positiveOrZero().toString();
+    inputController.text = max.positiveOrZero().formatImproved();
   }
 
   void onSubmit() {
@@ -340,7 +340,7 @@ class StakingPageWidgetModel
         nativeBalance.amount < _comission.amount) {
       return ValidationState.invalid(
         LocaleKeys.stakingNotEnoughBalanceToUnstake.tr(
-          args: [_comission.toString(), _comission.currency.isoCode],
+          args: [_comission.formatImproved(), _comission.currency.isoCode],
         ),
       );
     }

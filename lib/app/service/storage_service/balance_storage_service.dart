@@ -75,18 +75,10 @@ class BalanceStorageService extends AbstractStorageService {
     return encoded.entries
         .map((entry) {
           try {
-            final value = entry.value;
-            final Fixed fixed;
-
-            // Handle both old money2_fixer and new money2 v6 JSON formats
-            if (value is Map<String, dynamic>) {
-              fixed = fixedFromJsonConverter.fromJson(value);
-            } else {
-              // Fallback: try parsing as string
-              fixed = Fixed.parse(value.toString());
-            }
-
-            return (_Key.fromString(entry.key), fixed);
+            return (
+              _Key.fromString(entry.key),
+              FixedFixer.fromJsonImproved(entry.value as Map<String, dynamic>),
+            );
           } catch (e) {
             _logger.warning(
               'Failed to parse balance for ${entry.key}: ${entry.value}',
@@ -94,7 +86,7 @@ class BalanceStorageService extends AbstractStorageService {
             return null;
           }
         })
-        .whereType<(_Key, Fixed)>()
+        .nonNulls
         .groupFoldBy<NetworkGroup, Map<Address, Fixed>>(
           (item) => item.$1.group,
           (prev, item) => (prev ?? {})..set(item.$1.address, item.$2),
@@ -110,7 +102,7 @@ class BalanceStorageService extends AbstractStorageService {
     try {
       _overallBalancesStorage.write(
         _Key(group: group, address: accountAddress).toString(),
-        fixedFromJsonConverter.toJson(balance),
+        balance.toJsonImproved(),
       );
       _streamedOverallBalance();
     } catch (e, t) {
@@ -163,7 +155,7 @@ class BalanceStorageService extends AbstractStorageService {
                     return null;
                   }
                 })
-                .whereType<AccountBalanceModel>()
+                .nonNulls
                 .toList();
 
             return (_Key.fromString(entry.key), balances);
@@ -175,7 +167,7 @@ class BalanceStorageService extends AbstractStorageService {
             return null;
           }
         })
-        .whereType<(_Key, List<AccountBalanceModel>)>()
+        .nonNulls
         .groupFoldBy<NetworkGroup, Map<Address, List<AccountBalanceModel>>>(
           (item) => item.$1.group,
           (prev, item) => (prev ?? {})..set(item.$1.address, item.$2),

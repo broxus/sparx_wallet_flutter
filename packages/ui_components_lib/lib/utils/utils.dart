@@ -71,27 +71,58 @@ extension MoneyFormat on Money {
 
     if (currency.isoCode == 'USD') {
       if (d < 0.00001) {
-        return format(_moneyPattern(6));
+        return formatImproved(pattern: _moneyPattern(6));
       } else if (d < 0.0001) {
-        return format(_moneyPattern(5));
+        return formatImproved(pattern: _moneyPattern(5));
       } else if (d < 0.001) {
-        return format(_moneyPattern(4));
+        return formatImproved(pattern: _moneyPattern(4));
       } else if (d < 0.01) {
-        return format(_moneyPattern(3));
+        return formatImproved(pattern: _moneyPattern(3));
       }
 
-      return _formatThousands(format(_moneyPattern(2)));
+      return _formatThousands(formatImproved(pattern: _moneyPattern(2)));
     }
 
     if (d < 0.00000001) {
-      return format(_moneyPattern(decimalDigits));
+      return formatImproved(pattern: _moneyPattern(decimalDigits));
     } else if (d < 1) {
-      return format(_moneyPattern(8));
+      return formatImproved(pattern: _moneyPattern(8));
     } else if (d < 1000) {
-      return format(_moneyPattern(4));
+      return formatImproved(pattern: _moneyPattern(4));
     }
 
-    return _formatThousands(format(_moneyPattern(0)));
+    return _formatThousands(formatImproved(pattern: _moneyPattern(0)));
+  }
+
+  /// Formats a [Money] value into a String according to the
+  /// passed [pattern].
+  ///
+  /// If [invertSeparator] is true then the role of the '.' and ',' are
+  /// rroflsed. By default the '.' is used as the decimal separator
+  /// whilst the ',' is used as the grouping separator.
+  ///
+  /// S outputs the currencies symbol e.g. $.
+  /// 0 A single digit
+  /// # A single digit, omitted if the value is zero (works only for integer
+  /// part and as last fractional symbol as flag for trimming zeros)
+  /// . or , Decimal separator dependant on [invertSeparator]
+  /// - Minus sign
+  /// , or . Grouping separator dependant on [invertSeparator]
+  /// space Space character.
+  String formatImproved({String? pattern, bool invertSeparator = false}) {
+    final p = pattern ?? currency.pattern;
+    final decimalSeparator = invertSeparator ? ',' : '.';
+    return p
+        .replaceAllMapped(RegExp(r'([0#.\-,]+)'), (m) {
+          final result = amount.format(m[0]!, invertSeparator: invertSeparator);
+          final trimZerosRight = RegExp(r'#$').hasMatch(m[0]!);
+          return trimZerosRight
+              ? result
+                    .replaceFirst(RegExp(r'0*$'), '')
+                    .replaceFirst(RegExp('\\$decimalSeparator\$'), '')
+              : result;
+        })
+        .replaceAllMapped(RegExp('S'), (m) => currency.symbol);
   }
 }
 

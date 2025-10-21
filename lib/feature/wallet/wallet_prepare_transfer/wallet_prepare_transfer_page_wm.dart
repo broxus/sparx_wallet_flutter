@@ -25,8 +25,8 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
 import 'package:injectable/injectable.dart';
-import 'package:money2/money2.dart';
 import 'package:nekoton_repository/nekoton_repository.dart';
+import 'package:ui_components_lib/ui_components_lib.dart';
 
 const _zeroAddress = Address(
   address: '0:0000000000000000000000000000000000000000000000000000000000000000',
@@ -196,7 +196,7 @@ class WalletPrepareTransferPageWidgetModel
       if (amountMinusComission.amount < Fixed.zero) {
         model.showError(
           LocaleKeys.sendingNotEnoughBalanceToSend.tr(
-            args: [comission.toString(), comission.currency.isoCode],
+            args: [comission.formatImproved(), comission.currency.isoCode],
           ),
         );
         return;
@@ -205,7 +205,7 @@ class WalletPrepareTransferPageWidgetModel
       }
     }
 
-    amountController.text = available.toString();
+    amountController.text = available.formatImproved();
   }
 
   void onPressedReceiverClear() => receiverController.clear();

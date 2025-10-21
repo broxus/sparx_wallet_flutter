@@ -71,7 +71,7 @@ class MoneyWidget extends StatelessWidget {
       children: [
         Flexible(
           child: Text(
-            '${signValue ?? ''}$signStr$money',
+            '${signValue ?? ''}$signStr${money.formatImproved()}',
             style: moneyStyle,
             softWrap: false,
             overflow: TextOverflow.ellipsis,

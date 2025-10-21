@@ -44,58 +44,20 @@ class _MoneyFromStringJsonConverter
 
   @override
   Money fromJson(Map<String, dynamic> json) {
-    // Check if this is old money2_fixer format
-    // (has 'amount' and 'currency' keys)
-    if (json.containsKey('amount') && json.containsKey('currency')) {
-      // Old money2_fixer format:
-      // { "amount": { "minorUnits": "...", "scale": 2 },
-      // "currency": { "isoCode": "USD", ... } }
-      final amount = json['amount'] as Map<String, dynamic>;
-      final currency = json['currency'] as Map<String, dynamic>;
-      // fix old json format: 'code' -> 'isoCode', 'scale' -> 'decimalDigits'
-      currency
-        ..putIfAbsent('isoCode', () => currency['code'] ?? currency['symbol'])
-        ..putIfAbsent('decimalDigits', () => currency['scale'] ?? 0)
-        ..remove('code')
-        ..remove('scale');
+    final currency = json['currency'] as Map<String, dynamic>;
 
-      return Money.fromBigInt(
-        BigInt.parse(amount['minorUnits'] as String),
-        isoCode: currency['isoCode'] as String,
-        decimalDigits: (amount['scale'] ?? currency['decimalDigits']) as int?,
-      );
-    }
+    currency
+      ..putIfAbsent('isoCode', () => currency['code'] ?? currency['symbol'])
+      ..putIfAbsent('decimalDigits', () => currency['scale'] ?? 0)
+      ..remove('code')
+      ..remove('scale');
 
-    // New money2 v6 format:
-    // { "minorUnits": "...", "decimals": 2, "isoCode": "USD" }
-    return Money.fromJson(json);
+    return MoneyFixer.fromJsonImproved(json);
   }
 
   @override
-  Map<String, dynamic> toJson(Money object) => object.toJson();
-}
-
-const fixedFromJsonConverter = _FixedFromJsonConverter();
-
-class _FixedFromJsonConverter
-    extends JsonConverter<Fixed, Map<String, dynamic>> {
-  const _FixedFromJsonConverter();
-
-  @override
-  Fixed fromJson(Map<String, dynamic> json) {
-    // Handle both old money2_fixer and new money2 v6 JSON formats
-    // Old format: {"minorUnits": "...", "scale": 2}
-    // New format: {"minorUnits": "...", "decimalDigits": 2}
-    final minorUnits = BigInt.parse(json['minorUnits'] as String);
-    final decimalDigits = (json['decimalDigits'] ?? json['scale']) as int;
-    return Fixed.fromBigInt(minorUnits, decimalDigits: decimalDigits);
-  }
-
-  @override
-  Map<String, dynamic> toJson(Fixed object) => {
-    'minorUnits': object.minorUnits.toString(),
-    'decimalDigits': object.decimalDigits,
-  };
+  Map<String, dynamic> toJson(Money object) =>
+      MoneyFixer(object).toJsonImproved();
 }
 
 class NtpTime {
@@ -142,7 +104,7 @@ extension FunctionalExt<T> on T {
   T? takeIf(bool Function(T value) condition) => condition(this) ? this : null;
 }
 
-extension MoneyExt on Money {
+extension MoneyFixer on Money {
   Money exchangeToUSD(Fixed price, [int toDecimalDigits = 7]) {
     if (price == Fixed.zero || amount == Fixed.zero) {
       return Money.fromBigInt(BigInt.zero, isoCode: 'USD');
@@ -166,6 +128,71 @@ extension MoneyExt on Money {
   Money positiveOrZero() {
     if (isPositive) return this;
     return copyWith(amount: Fixed.zero);
+  }
+
+  /// Serializes a [Money] value into a Map&lt;String, dynamic&gt;.
+  Map<String, dynamic> toJsonImproved() {
+    return {
+      'amount': amount.toJsonImproved(),
+      'currency': currency.toJsonImproved(),
+    };
+  }
+
+  /// Deserializes a [Money] value from a Map&lt;String, dynamic&gt;.
+  static Money fromJsonImproved(Map<String, dynamic> json) {
+    return Money.fromFixedWithCurrency(
+      FixedFixer.fromJsonImproved(json['amount'] as Map<String, dynamic>),
+      CurrencyFixer.fromJsonImproved(json['currency'] as Map<String, dynamic>),
+    );
+  }
+}
+
+/// Extension on [Currency] to add improved serialization and formatting methods
+extension CurrencyFixer on Currency {
+  /// Serializes a [Currency] value into a Map&lt;String, dynamic&gt;.
+  Map<String, dynamic> toJsonImproved() {
+    return {
+      'isoCode': isoCode,
+      'decimalDigits': decimalDigits,
+      'symbol': symbol,
+      'pattern': pattern,
+      'groupSeparator': groupSeparator,
+      'decimalSeparator': decimalSeparator,
+      'country': country,
+      'unit': unit,
+      'name': name,
+    };
+  }
+
+  /// Deserializes a [Currency] value from a Map&lt;String, dynamic&gt;.
+  static Currency fromJsonImproved(Map<String, dynamic> json) {
+    return Currency.create(
+      json['isoCode'] as String,
+      json['decimalDigits'] as int,
+      symbol: (json['symbol'] ?? r'$') as String,
+      pattern: (json['pattern'] ?? Currency.defaultPattern) as String,
+      groupSeparator: (json['groupSeparator'] ?? ',') as String,
+      decimalSeparator: (json['decimalSeparator'] ?? '.') as String,
+      country: (json['country'] ?? '') as String,
+      unit: (json['unit'] ?? '') as String,
+      name: (json['name'] ?? '') as String,
+    );
+  }
+}
+
+/// Extension on [Fixed] to add improved serialization and formatting methods.
+extension FixedFixer on Fixed {
+  /// Serializes a [Fixed] value into a Map&lt;String, dynamic&gt;.
+  Map<String, dynamic> toJsonImproved() {
+    return {'minorUnits': minorUnits.toString(), 'scale': decimalDigits};
+  }
+
+  /// Deserializes a [Fixed] value from a Map&lt;String, dynamic&gt;.
+  static Fixed fromJsonImproved(Map<String, dynamic> json) {
+    return Fixed.fromBigInt(
+      BigInt.parse(json['minorUnits'] as String),
+      decimalDigits: (json['scale'] ?? 2) as int,
+    );
   }
 }
 

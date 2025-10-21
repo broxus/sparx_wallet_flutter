@@ -23,7 +23,9 @@ class AmountWidget extends StatelessWidget {
     bool useDefaultFormat = true,
     bool includeSymbol = true,
     super.key,
-  }) : amount = useDefaultFormat ? amount.defaultFormat() : amount.toString(),
+  }) : amount = useDefaultFormat
+           ? amount.defaultFormat()
+           : amount.formatImproved(),
        symbol = includeSymbol ? amount.currency.symbolFixed : null;
 
   AmountWidget.dollars({
