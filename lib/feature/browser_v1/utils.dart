@@ -12,9 +12,9 @@ import 'package:uuid/uuid.dart';
 
 extension TransportExtension on TransportStrategy {
   Connection? get connection => switch (this) {
-        CommonTransportStrategy(:final connection) => connection,
-        _ => null,
-      };
+    CommonTransportStrategy(:final connection) => connection,
+    _ => null,
+  };
 
   Future<Network> toNetwork() async {
     final data = connection;
@@ -31,33 +31,29 @@ extension TransportExtension on TransportStrategy {
     final connectionObject = switch (workchain.transportType) {
       WorkchainTransportType.gql =>
         (transport as GqlTransport).gqlConnection.settings.let(
-              (settings) => GqlConnection(
-                'graphql',
-                GqlSocketParams(
-                  workchain.endpoints,
-                  settings.latencyDetectionInterval,
-                  settings.maxLatency,
-                  workchain.isLocal,
-                ),
-              ),
+          (settings) => GqlConnection(
+            'graphql',
+            GqlSocketParams(
+              workchain.endpoints,
+              settings.latencyDetectionInterval,
+              settings.maxLatency,
+              workchain.isLocal,
             ),
+          ),
+        ),
       WorkchainTransportType.proto => ProtoConnection(
-          'proto',
-          JrpcSocketParams(workchain.endpoints.first),
-        ),
+        'proto',
+        JrpcSocketParams(workchain.endpoints.first),
+      ),
       WorkchainTransportType.jrpc => JrpcConnection(
-          'jrpc',
-          JrpcSocketParams(workchain.endpoints.first),
-        ),
+        'jrpc',
+        JrpcSocketParams(workchain.endpoints.first),
+      ),
     };
 
     return Network(
       data.networkName,
-      NetworkDescription(
-        config.globalId,
-        '0x$capabilities',
-        signatureId
-      ),
+      NetworkDescription(config.globalId, '0x$capabilities', signatureId),
       connectionObject,
       NetworkConfig(
         workchain.nativeTokenTicker.name,

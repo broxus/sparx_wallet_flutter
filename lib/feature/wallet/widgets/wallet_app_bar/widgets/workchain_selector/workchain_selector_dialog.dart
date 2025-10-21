@@ -24,26 +24,27 @@ class WorkchainSelectorDialog extends StatelessWidget {
         child: DoubleSourceBuilder<Connection?, ConnectionWorkchain?>(
           firstSource: currentConnectionListanable,
           secondSource: currentWorkchainListanable,
-          builder: (
-            _,
-            Connection? currentConnection,
-            ConnectionWorkchain? currentWorkchain,
-          ) {
-            if (currentConnection == null) {
-              return const SizedBox.shrink();
-            }
+          builder:
+              (
+                _,
+                Connection? currentConnection,
+                ConnectionWorkchain? currentWorkchain,
+              ) {
+                if (currentConnection == null) {
+                  return const SizedBox.shrink();
+                }
 
-            return ListBody(
-              children: <Widget>[
-                for (final workchain in currentConnection.workchains)
-                  ListTile(
-                    title: Text('${workchain.id}'),
-                    selected: workchain.id == currentWorkchain?.id,
-                    onTap: () => Navigator.of(context).pop(workchain.id),
-                  ),
-              ],
-            );
-          },
+                return ListBody(
+                  children: <Widget>[
+                    for (final workchain in currentConnection.workchains)
+                      ListTile(
+                        title: Text('${workchain.id}'),
+                        selected: workchain.id == currentWorkchain?.id,
+                        onTap: () => Navigator.of(context).pop(workchain.id),
+                      ),
+                  ],
+                );
+              },
         ),
       ),
     );

@@ -1,32 +1,44 @@
 import 'package:app/app/service/connection/data/work_chain/connection_work_chain.dart';
 import 'package:app/utils/json/json.dart';
-import 'package:freezed_annotation/freezed_annotation.dart';
-
-part 'connection.freezed.dart';
+import 'package:json_annotation/json_annotation.dart';
 
 part 'connection.g.dart';
 
-@Freezed(fromJson: false, toJson: true)
-abstract class Connection with _$Connection {
-  factory Connection({
+@JsonSerializable(
+  createToJson: true,
+  createFactory: false,
+  explicitToJson: true,
+)
+class Connection {
+  Connection({
     required String id,
     required String networkName,
     required int defaultWorkchainId,
     required List<ConnectionWorkchain> workchains,
     required bool isPreset,
     required bool canBeEdited,
-  }) =>
-      Connection._(
-        id: id,
-        networkName: networkName,
-        defaultWorkchainId: defaultWorkchainId,
-        defaultWorkchain: workchains.firstWhere(
-          (w) => w.id == defaultWorkchainId,
-        ),
-        isPreset: isPreset,
-        canBeEdited: canBeEdited,
-        workchains: workchains,
-      );
+  }) : this._(
+         id: id,
+         networkName: networkName,
+         defaultWorkchainId: defaultWorkchainId,
+         defaultWorkchain: workchains.firstWhere(
+           (w) => w.id == defaultWorkchainId,
+         ),
+         workchains: workchains,
+         isPreset: isPreset,
+         canBeEdited: canBeEdited,
+       );
+
+  Connection._({
+    required this.id,
+    required this.networkName,
+    required this.defaultWorkchainId,
+    @JsonKey(includeFromJson: false, includeToJson: false)
+    required this.defaultWorkchain,
+    required this.workchains,
+    required this.isPreset,
+    required this.canBeEdited,
+  });
 
   factory Connection.fromJson({
     required Map<String, dynamic> json,
@@ -61,13 +73,31 @@ abstract class Connection with _$Connection {
     );
   }
 
-  factory Connection._({
-    required String id,
-    required String networkName,
-    required int defaultWorkchainId,
-    required ConnectionWorkchain defaultWorkchain,
-    required List<ConnectionWorkchain> workchains,
-    required bool isPreset,
-    required bool canBeEdited,
-  }) = _Connection;
+  final String id;
+  final String networkName;
+  final int defaultWorkchainId;
+
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  final ConnectionWorkchain defaultWorkchain;
+  final List<ConnectionWorkchain> workchains;
+  final bool isPreset;
+  final bool canBeEdited;
+
+  Map<String, dynamic> toJson() => _$ConnectionToJson(this);
+
+  Connection copyWith({
+    String? id,
+    String? networkName,
+    int? defaultWorkchainId,
+    List<ConnectionWorkchain>? workchains,
+    bool? isPreset,
+    bool? canBeEdited,
+  }) => Connection(
+    id: id ?? this.id,
+    networkName: networkName ?? this.networkName,
+    defaultWorkchainId: defaultWorkchainId ?? this.defaultWorkchainId,
+    workchains: workchains ?? this.workchains,
+    isPreset: isPreset ?? this.isPreset,
+    canBeEdited: canBeEdited ?? this.canBeEdited,
+  );
 }

@@ -73,7 +73,6 @@ class CreateSeedPasswordProfileModel extends ElementaryModel
           name: name,
           addType: type,
           mnemonicType: mnemonicType,
-          workchainId: 0,
         );
 
         if (type == SeedAddType.create && isChecked) {

@@ -25,34 +25,37 @@ class SelectAccountModel extends ElementaryModel {
   final BalanceStorageService _balanceStorageService;
 
   Stream<List<SelectAccountData>> get seedWithAccounts => Rx.combineLatest2(
-          _connectionStorageService.currentConnectionIdStream,
-          _nekotonRepository.seedListStream, (_, SeedList seedList) {
-        final seeds = seedList.seeds..sort((a, b) => a.name.compareTo(b.name));
+    _connectionStorageService.currentConnectionIdStream,
+    _nekotonRepository.seedListStream,
+    (_, SeedList seedList) {
+      final seeds = seedList.seeds..sort((a, b) => a.name.compareTo(b.name));
 
-        return seeds.map((seed) {
-          final privateKeys = seed.allKeys.map((key) {
-            final accounts = key.accountList.allAccounts
-                .where(
-                  (account) =>
-                      !account.isHidden &&
-                      _connectionStorageService
-                          .checkIsCurrentWorkchainIfExist(account.workchain),
-                )
-                .toList();
-            return SeedWithInfo(
-              keyName: key.name,
-              key: key.publicKey.toEllipseString(),
-              accounts: accounts,
-            );
-          }).toList();
-
-          return SelectAccountData(
-            name: seed.name,
-            privateKeys: privateKeys,
-            isLedger: seed.masterKey.isLedger,
+      return seeds.map((seed) {
+        final privateKeys = seed.allKeys.map((key) {
+          final accounts = key.accountList.allAccounts
+              .where(
+                (account) =>
+                    !account.isHidden &&
+                    _connectionStorageService.checkIsCurrentWorkchainIfExist(
+                      account.workchain,
+                    ),
+              )
+              .toList();
+          return SeedWithInfo(
+            keyName: key.name,
+            key: key.publicKey.toEllipseString(),
+            accounts: accounts,
           );
         }).toList();
-      });
+
+        return SelectAccountData(
+          name: seed.name,
+          privateKeys: privateKeys,
+          isLedger: seed.masterKey.isLedger,
+        );
+      }).toList();
+    },
+  );
 
   Stream<KeyAccount?> get currentAccount =>
       _currentAccountsService.currentActiveAccountStream;

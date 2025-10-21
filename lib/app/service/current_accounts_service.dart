@@ -56,8 +56,9 @@ class CurrentAccountsService {
           return accounts?.allAccounts.firstWhereOrNull(
             (account) =>
                 account.address == address &&
-                _connectionsStorageService
-                    .checkIsCurrentWorkchainIfExist(account.workchain),
+                _connectionsStorageService.checkIsCurrentWorkchainIfExist(
+                  account.workchain,
+                ),
           );
         },
       );
@@ -79,7 +80,9 @@ class CurrentAccountsService {
     // skip 1 to avoid duplicate calls
 
     await _connectionsStorageService.fetchAccountsForCurrentWorkchain();
-    _nekotonRepository.seedListStream.skip(1).listen(
+    _nekotonRepository.seedListStream
+        .skip(1)
+        .listen(
           (list) => _updateAccountsList(list, _currentKeyService.currentKey),
         );
     _currentKeyService.currentKeyStream
@@ -170,24 +173,29 @@ class CurrentAccountsService {
 
     final address = currentActiveAccountAddress;
 
-    final keyChanged = address == null ||
+    final keyChanged =
+        address == null ||
         list.allAccounts.every(
           (account) =>
               account.address != address ||
-              !_connectionsStorageService
-                  .checkIsCurrentWorkchain(account.workchain),
+              !_connectionsStorageService.checkIsCurrentWorkchain(
+                account.workchain,
+              ),
         );
 
     // key changed
     // for init method this will be called anyway.
     if (keyChanged) {
-      final account = list.displayAccounts.firstWhereOrNull(
-            (account) => _connectionsStorageService
-                .checkIsCurrentWorkchain(account.workchain),
+      final account =
+          list.displayAccounts.firstWhereOrNull(
+            (account) => _connectionsStorageService.checkIsCurrentWorkchain(
+              account.workchain,
+            ),
           ) ??
           list.allAccounts.firstWhereOrNull(
-            (account) => _connectionsStorageService
-                .checkIsCurrentWorkchain(account.workchain),
+            (account) => _connectionsStorageService.checkIsCurrentWorkchain(
+              account.workchain,
+            ),
           );
 
       if (account != null) {

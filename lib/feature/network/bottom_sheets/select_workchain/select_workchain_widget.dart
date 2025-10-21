@@ -29,10 +29,7 @@ class SelectWorkchainWidget
                   (workchain) => NetworkItem.formWorkchain(
                     data: workchain,
                     trailing: workchain.id == currentWorkchain?.id
-                        ? const Icon(
-                            LucideIcons.check,
-                            size: DimensSizeV2.d20,
-                          )
+                        ? const Icon(LucideIcons.check, size: DimensSizeV2.d20)
                         : null,
                     onTap: () => wm.onItemTap(workchain),
                   ),

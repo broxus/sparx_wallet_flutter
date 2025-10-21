@@ -27,8 +27,9 @@ class EditNetworkWidgetModel
 
   final formKey = GlobalKey<FormState>();
 
-  late final nameController =
-      createTextEditingController(connection?.networkName ?? '');
+  late final nameController = createTextEditingController(
+    connection?.networkName ?? '',
+  );
 
   late final isEditable = connection?.canBeEdited ?? true;
 

@@ -7,9 +7,8 @@ part 'custom_network_option.g.dart';
 
 @freezed
 abstract class CustomNetworkOption with _$CustomNetworkOption {
-  factory CustomNetworkOption({
-    required NetworkType networkType,
-  }) = _CustomNetworkOption;
+  factory CustomNetworkOption({required NetworkType networkType}) =
+      _CustomNetworkOption;
 
   factory CustomNetworkOption.fromJson(Map<String, dynamic> json) =>
       _$CustomNetworkOptionFromJson(json);

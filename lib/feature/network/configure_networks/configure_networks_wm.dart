@@ -21,9 +21,7 @@ class ConfigureNetworksWidgetModel
 
   void onItemTap(Connection connection) {
     context.compassContinue(
-      EditNetworkRouteData(
-        connectionDataId: connection.id
-      )
+      EditNetworkRouteData(connectionDataId: connection.id),
     );
   }
 

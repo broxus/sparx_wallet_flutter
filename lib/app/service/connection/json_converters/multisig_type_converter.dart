@@ -41,8 +41,6 @@ class MultisigTypeConverter
 
   @override
   Map<String, dynamic> toJson(Map<MultisigType, String> object) {
-    return {
-      for (final e in object.entries) e.key.name: e.value,
-    };
+    return {for (final e in object.entries) e.key.name: e.value};
   }
 }

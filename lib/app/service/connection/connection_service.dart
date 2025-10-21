@@ -59,32 +59,30 @@ class ConnectionService {
     );
   }
 
-  Future<Transport> createTransportByWorkchain(
-    ConnectionWorkchain workchain,
-  ) {
+  Future<Transport> createTransportByWorkchain(ConnectionWorkchain workchain) {
     return switch (workchain.transportType) {
       WorkchainTransportType.gql => _nekotonRepository.createGqlTransport(
-          client: GqlHttpClient(_dio),
-          name: workchain.networkName,
-          group: workchain.networkGroup,
-          endpoints: workchain.endpoints,
-          local: workchain.isLocal,
-          latencyDetectionInterval: workchain.latencyDetectionInterval,
-          maxLatency: workchain.maxLatency,
-          endpointSelectionRetryCount: workchain.endpointSelectionRetryCount,
-        ),
+        client: GqlHttpClient(_dio),
+        name: workchain.networkName,
+        group: workchain.networkGroup,
+        endpoints: workchain.endpoints,
+        local: workchain.isLocal,
+        latencyDetectionInterval: workchain.latencyDetectionInterval,
+        maxLatency: workchain.maxLatency,
+        endpointSelectionRetryCount: workchain.endpointSelectionRetryCount,
+      ),
       WorkchainTransportType.proto => _nekotonRepository.createProtoTransport(
-          client: ProtoHttpClient(_dio),
-          name: workchain.networkName,
-          group: workchain.networkGroup,
-          endpoint: workchain.endpoints.first,
-        ),
+        client: ProtoHttpClient(_dio),
+        name: workchain.networkName,
+        group: workchain.networkGroup,
+        endpoint: workchain.endpoints.first,
+      ),
       WorkchainTransportType.jrpc => _nekotonRepository.createJrpcTransport(
-          client: JrpcHttpClient(_dio),
-          name: workchain.networkName,
-          group: workchain.networkGroup,
-          endpoint: workchain.endpoints.first,
-        ),
+        client: JrpcHttpClient(_dio),
+        name: workchain.networkName,
+        group: workchain.networkGroup,
+        endpoint: workchain.endpoints.first,
+      ),
     };
   }
 
@@ -101,15 +99,13 @@ class ConnectionService {
 
       await _nekotonRepository.updateTransport(strategy);
 
-      _storageService.updateConnectionsIds(
-        [
-          ConnectionIdsData(
-            connectionId: workchain.parentConnectionId,
-            workchainId: workchain.id,
-            networkId: transport.networkId,
-          ),
-        ],
-      );
+      _storageService.updateConnectionsIds([
+        ConnectionIdsData(
+          connectionId: workchain.parentConnectionId,
+          workchainId: workchain.id,
+          networkId: transport.networkId,
+        ),
+      ]);
 
       _log.finest('updateTransportByConnection completed!');
     } catch (e, t) {
@@ -119,9 +115,7 @@ class ConnectionService {
       final base = _storageService.baseConnection;
 
       if (base != null && base.id != workchain.parentConnectionId) {
-        await _storageService.saveCurrentConnectionId(
-          connectionId: base.id,
-        );
+        await _storageService.saveCurrentConnectionId(connectionId: base.id);
         return;
       }
 

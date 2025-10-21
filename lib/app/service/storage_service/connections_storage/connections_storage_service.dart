@@ -118,29 +118,29 @@ class ConnectionsStorageService extends AbstractStorageService {
 
   /// Stream of currect connection id
   Stream<Connection> get currentConnectionStream => Rx.combineLatest2(
-        connectionsStream,
-        _currentConnectionIdSubject,
-        (connections, (String, int)? ids) {
-          for (final connection in connections) {
-            if (connection.id == ids?.$1) return connection;
-          }
-          return _defaultConnection;
-        },
-      );
+    connectionsStream,
+    _currentConnectionIdSubject,
+    (connections, (String, int)? ids) {
+      for (final connection in connections) {
+        if (connection.id == ids?.$1) return connection;
+      }
+      return _defaultConnection;
+    },
+  );
 
   Stream<ConnectionWorkchain> get currentWorkchainStream => Rx.combineLatest2(
-        connectionsStream,
-        _currentConnectionIdSubject,
-        (connections, (String, int)? ids) {
-          for (final connection in connections) {
-            if (connection.id != ids?.$1) continue;
-            for (final workchain in connection.workchains) {
-              if (workchain.id == ids?.$2) return workchain;
-            }
-          }
-          return _defaultConnection.defaultWorkchain;
-        },
-      );
+    connectionsStream,
+    _currentConnectionIdSubject,
+    (connections, (String, int)? ids) {
+      for (final connection in connections) {
+        if (connection.id != ids?.$1) continue;
+        for (final workchain in connection.workchains) {
+          if (workchain.id == ids?.$2) return workchain;
+        }
+      }
+      return _defaultConnection.defaultWorkchain;
+    },
+  );
 
   Connection? get currentConnection {
     final id = currentConnectionId;
@@ -159,8 +159,9 @@ class ConnectionsStorageService extends AbstractStorageService {
         ? null
         : connections.firstWhereOrNull((c) => c.id == ids.$1);
 
-    final workchain =
-        connection?.workchains.firstWhereOrNull((w) => w.id == ids?.$2);
+    final workchain = connection?.workchains.firstWhereOrNull(
+      (w) => w.id == ids?.$2,
+    );
 
     if (connection == null || workchain == null) {
       _log.warning(
@@ -225,7 +226,8 @@ class ConnectionsStorageService extends AbstractStorageService {
 
     final connectionsText = connections
         .map(
-          (connection) => 'name: ${connection.networkName}; '
+          (connection) =>
+              'name: ${connection.networkName}; '
               'isPreset: ${connection.isPreset}; '
               'id: ${connection.id}',
         )
@@ -249,8 +251,9 @@ class ConnectionsStorageService extends AbstractStorageService {
     required String connectionId,
     int? workchainId,
   }) async {
-    final connection =
-        connections.firstWhereOrNull((n) => n.id == connectionId);
+    final connection = connections.firstWhereOrNull(
+      (n) => n.id == connectionId,
+    );
 
     String? savedConnectionId;
     int? savedWorkchainId;
@@ -271,9 +274,9 @@ class ConnectionsStorageService extends AbstractStorageService {
       savedWorkchainId = workchainId == null
           ? connection.defaultWorkchainId
           : connection.workchains
-                  .firstWhereOrNull((w) => w.id == workchainId)
-                  ?.id ??
-              connection.defaultWorkchainId;
+                    .firstWhereOrNull((w) => w.id == workchainId)
+                    ?.id ??
+                connection.defaultWorkchainId;
     }
 
     unawaited(_storage.write(_currentConnectionIdKey, savedConnectionId));
@@ -283,9 +286,7 @@ class ConnectionsStorageService extends AbstractStorageService {
 
   void updateConnectionsIds(Iterable<ConnectionIdsData> values) {
     final map = Map<String, ConnectionIdsData>.from(connectionsIds)
-      ..addEntries(
-        values.map((value) => MapEntry(value.fullId, value)),
-      );
+      ..addEntries(values.map((value) => MapEntry(value.fullId, value)));
 
     _storage.write(_connectionsIdsKey, map);
     _connectionsIdsSubject.add(map);
@@ -321,9 +322,7 @@ class ConnectionsStorageService extends AbstractStorageService {
     }
 
     final savedConnections = connections;
-    final items = [...savedConnections]..removeWhere(
-        (item) => item.id == id,
-      );
+    final items = [...savedConnections]..removeWhere((item) => item.id == id);
 
     saveConnections(items);
 
@@ -340,8 +339,10 @@ class ConnectionsStorageService extends AbstractStorageService {
   void updateConnection(Connection item) {
     final index = connections.indexWhere((element) => element.id == item.id);
     if (index < 0) {
-      _log.warning('Unable to update connection with id ${item.id}. '
-          'Connection not found.');
+      _log.warning(
+        'Unable to update connection with id ${item.id}. '
+        'Connection not found.',
+      );
 
       return;
     }
@@ -350,20 +351,19 @@ class ConnectionsStorageService extends AbstractStorageService {
 
     saveConnections(newConnections);
 
-    _messengerService.show(
-      Message.info(
-        message: LocaleKeys.networkSaved.tr(),
-      ),
-    );
+    _messengerService.show(Message.info(message: LocaleKeys.networkSaved.tr()));
   }
 
   /// Revert item to defaults from preset
   void revertConnection(String id) {
-    final preset =
-        _connectionPresets.firstWhereOrNull((element) => element.id == id);
+    final preset = _connectionPresets.firstWhereOrNull(
+      (element) => element.id == id,
+    );
     if (preset == null) {
-      _log.warning('Unable to revert connection from preset with id $id. '
-          'Connection not found');
+      _log.warning(
+        'Unable to revert connection from preset with id $id. '
+        'Connection not found',
+      );
 
       return;
     }
@@ -391,23 +391,25 @@ class ConnectionsStorageService extends AbstractStorageService {
   }
 
   Future<void> _fetchAccountsForWorkchain(int workchainId) async {
-    final publicKeys =
-        _nekotonRepository.keyStore.keys.map((e) => e.publicKey).toList();
+    final publicKeys = _nekotonRepository.keyStore.keys
+        .map((e) => e.publicKey)
+        .toList();
 
     await _nekotonRepository.triggerAddingAccounts(
-      publicKeys,
+      publicKeys: publicKeys,
       workchainId: workchainId,
     );
 
-    final hasAny = _nekotonRepository.accountsStorage.accounts
-        .any((a) => a.address.workchain == workchainId);
+    final hasAny = _nekotonRepository.accountsStorage.accounts.any(
+      (a) => a.address.workchain == workchainId,
+    );
 
     if (hasAny) return;
 
     for (final key in publicKeys) {
       try {
         await _nekotonRepository.addDefaultAccount(
-          key,
+          publicKey: key,
           workchainId: workchainId,
         );
       } catch (e, s) {
@@ -417,22 +419,22 @@ class ConnectionsStorageService extends AbstractStorageService {
   }
 
   /// Put [Connection] items to stream
-  void _streamedConnections() => _connectionsSubject.add(
-        [...readConnections()],
-      );
+  void _streamedConnections() =>
+      _connectionsSubject.add([...readConnections()]);
 
   /// Read current connection id from storage
   (String, int)? _readCurrentConnectionId() {
     final connectionId =
         _storage.read<dynamic>(_currentConnectionIdKey) as String?;
 
-    final connection =
-        connections.firstWhereOrNull((c) => c.id == connectionId);
+    final connection = connections.firstWhereOrNull(
+      (c) => c.id == connectionId,
+    );
 
     if (connection == null) {
       return (
         _presetsConnectionService.defaultConnection.id,
-        _presetsConnectionService.defaultConnection.defaultWorkchainId
+        _presetsConnectionService.defaultConnection.defaultWorkchainId,
       );
     }
 

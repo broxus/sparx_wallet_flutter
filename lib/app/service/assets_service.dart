@@ -48,21 +48,23 @@ class AssetsService {
     _currentTransportSubscription = nekotonRepository.currentTransportStream
         .listen(_updateSystemContracts);
 
-    _combineSubscription =
-        nekotonRepository.currentTransportStream.switchMap((transport) {
-      return Rx.combineLatest2<List<TokenContractAsset>,
-          List<TokenContractAsset>, void>(
-        storage.systemTokenContractAssetsStream(transport.transport.group),
-        storage.customTokenContractAssetsStream(transport.transport.group),
-        _contractsUpdateListener,
-      );
-      // listen needs to enable stream api
-      // ignore: no-empty-block
-    }).listen((_) {});
-    _connectionsSubscription =
-        connectionsStorageService.currentWorkchainStream.listen(
-      (_) => updateDefaultAssets(),
-    );
+    _combineSubscription = nekotonRepository.currentTransportStream
+        .switchMap((transport) {
+          return Rx.combineLatest2<
+            List<TokenContractAsset>,
+            List<TokenContractAsset>,
+            void
+          >(
+            storage.systemTokenContractAssetsStream(transport.transport.group),
+            storage.customTokenContractAssetsStream(transport.transport.group),
+            _contractsUpdateListener,
+          );
+          // listen needs to enable stream api
+          // ignore: no-empty-block
+        })
+        .listen((_) {});
+    _connectionsSubscription = connectionsStorageService.currentWorkchainStream
+        .listen((_) => updateDefaultAssets());
 
     _accountsSubscription = currentAccountsService.currentActiveAccountStream
         .listen((_) => updateDefaultAssets());
@@ -322,10 +324,10 @@ class AssetsService {
 
   Future<void> updateDefaultAssets() async {
     await Future.delayed(const Duration(seconds: 1), () async {
-      final presetsDefaultAssets =
-          presetsConnectionService.getDefaultActiveAsset(
-        connectionsStorageService.currentWorkchain.networkGroup,
-      );
+      final presetsDefaultAssets = presetsConnectionService
+          .getDefaultActiveAsset(
+            connectionsStorageService.currentWorkchain.networkGroup,
+          );
 
       if (presetsDefaultAssets.isEmpty) {
         return;

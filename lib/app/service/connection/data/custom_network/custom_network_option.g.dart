@@ -12,7 +12,5 @@ _CustomNetworkOption _$CustomNetworkOptionFromJson(Map<String, dynamic> json) =>
     );
 
 Map<String, dynamic> _$CustomNetworkOptionToJson(
-        _CustomNetworkOption instance) =>
-    <String, dynamic>{
-      'networkType': instance.networkType.toJson(),
-    };
+  _CustomNetworkOption instance,
+) => <String, dynamic>{'networkType': instance.networkType.toJson()};

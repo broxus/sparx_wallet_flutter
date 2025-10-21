@@ -39,10 +39,7 @@ class SelectNetworkWidget
                   (data) => NetworkItem.formConnection(
                     data: data,
                     trailing: data.id == currentConnectionId?.$1
-                        ? const Icon(
-                            LucideIcons.check,
-                            size: DimensSizeV2.d20
-                          )
+                        ? const Icon(LucideIcons.check, size: DimensSizeV2.d20)
                         : null,
                     onTap: () => wm.onItemTap(data),
                   ),

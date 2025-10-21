@@ -12,15 +12,15 @@ import 'package:injectable/injectable.dart';
 @injectable
 class WorkchainSelectorWidgetModel
     extends CustomWidgetModel<WorkchainSelector, WorkchainSelectorModel> {
-  WorkchainSelectorWidgetModel(
-    super.model,
+  WorkchainSelectorWidgetModel(super.model);
+
+  late final _currentConnectionState = createNotifierFromStream(
+    model.currentConnectionStream,
   );
 
-  late final _currentConnectionState =
-      createNotifierFromStream(model.currentConnectionStream);
-
-  late final _currentWorkchainState =
-      createNotifierFromStream(model.currentWorkchainStream);
+  late final _currentWorkchainState = createNotifierFromStream(
+    model.currentWorkchainStream,
+  );
 
   ListenableState<Connection?> get currentConnectionState =>
       _currentConnectionState;

@@ -38,16 +38,15 @@ class StorageMigrationV5 implements StorageMigration {
         continue;
       }
 
-      final groupName = '${connection.defaultWorkchain.networkGroup}'
+      final groupName =
+          '${connection.defaultWorkchain.networkGroup}'
           '-'
           '${lastNetworkGroupNumber++}';
 
       _connectionsStorageService.updateConnection(
         connection.copyWith(
           workchains: [
-            connection.defaultWorkchain.copyWith(
-              networkGroup: groupName
-            ),
+            connection.defaultWorkchain.copyWith(networkGroup: groupName),
           ],
         ),
       );

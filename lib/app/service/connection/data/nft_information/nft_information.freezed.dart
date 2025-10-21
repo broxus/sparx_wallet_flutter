@@ -15,7 +15,7 @@ T _$identity<T>(T value) => value;
 /// @nodoc
 mixin _$NftInformation {
 
- String? get marketplaceUrl; List<Address>? get defaultCollections;
+ String? get marketplaceUrl;@AddressListConverter() List<Address>? get defaultCollections;
 /// Create a copy of NftInformation
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -48,7 +48,7 @@ abstract mixin class $NftInformationCopyWith<$Res>  {
   factory $NftInformationCopyWith(NftInformation value, $Res Function(NftInformation) _then) = _$NftInformationCopyWithImpl;
 @useResult
 $Res call({
- String? marketplaceUrl, List<Address>? defaultCollections
+ String? marketplaceUrl,@AddressListConverter() List<Address>? defaultCollections
 });
 
 
@@ -154,7 +154,7 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( String? marketplaceUrl,  List<Address>? defaultCollections)?  $default,{required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( String? marketplaceUrl, @AddressListConverter()  List<Address>? defaultCollections)?  $default,{required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _NftInformation() when $default != null:
 return $default(_that.marketplaceUrl,_that.defaultCollections);case _:
@@ -175,7 +175,7 @@ return $default(_that.marketplaceUrl,_that.defaultCollections);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( String? marketplaceUrl,  List<Address>? defaultCollections)  $default,) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( String? marketplaceUrl, @AddressListConverter()  List<Address>? defaultCollections)  $default,) {final _that = this;
 switch (_that) {
 case _NftInformation():
 return $default(_that.marketplaceUrl,_that.defaultCollections);case _:
@@ -195,7 +195,7 @@ return $default(_that.marketplaceUrl,_that.defaultCollections);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( String? marketplaceUrl,  List<Address>? defaultCollections)?  $default,) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( String? marketplaceUrl, @AddressListConverter()  List<Address>? defaultCollections)?  $default,) {final _that = this;
 switch (_that) {
 case _NftInformation() when $default != null:
 return $default(_that.marketplaceUrl,_that.defaultCollections);case _:
@@ -210,12 +210,12 @@ return $default(_that.marketplaceUrl,_that.defaultCollections);case _:
 @JsonSerializable()
 
 class _NftInformation implements NftInformation {
-  const _NftInformation({this.marketplaceUrl, final  List<Address>? defaultCollections}): _defaultCollections = defaultCollections;
+  const _NftInformation({this.marketplaceUrl, @AddressListConverter() final  List<Address>? defaultCollections}): _defaultCollections = defaultCollections;
   factory _NftInformation.fromJson(Map<String, dynamic> json) => _$NftInformationFromJson(json);
 
 @override final  String? marketplaceUrl;
  final  List<Address>? _defaultCollections;
-@override List<Address>? get defaultCollections {
+@override@AddressListConverter() List<Address>? get defaultCollections {
   final value = _defaultCollections;
   if (value == null) return null;
   if (_defaultCollections is EqualUnmodifiableListView) return _defaultCollections;
@@ -257,7 +257,7 @@ abstract mixin class _$NftInformationCopyWith<$Res> implements $NftInformationCo
   factory _$NftInformationCopyWith(_NftInformation value, $Res Function(_NftInformation) _then) = __$NftInformationCopyWithImpl;
 @override @useResult
 $Res call({
- String? marketplaceUrl, List<Address>? defaultCollections
+ String? marketplaceUrl,@AddressListConverter() List<Address>? defaultCollections
 });
 
 

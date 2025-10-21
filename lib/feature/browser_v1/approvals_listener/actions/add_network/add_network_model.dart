@@ -36,10 +36,7 @@ class AddNetworkModel extends ElementaryModel {
       );
 
       return await _connectionService
-          .createStrategyByWorkchain(
-            transport,
-            connection.defaultWorkchain,
-          )
+          .createStrategyByWorkchain(transport, connection.defaultWorkchain)
           .toNetwork();
     } finally {
       await transport?.dispose();

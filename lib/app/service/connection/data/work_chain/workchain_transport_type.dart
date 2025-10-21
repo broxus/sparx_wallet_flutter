@@ -1,5 +1,1 @@
-enum WorkchainTransportType {
-  proto,
-  jrpc,
-  gql,
-}
+enum WorkchainTransportType { proto, jrpc, gql }

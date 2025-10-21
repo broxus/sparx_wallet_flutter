@@ -62,9 +62,8 @@ class ChooseNetworkScreenModel extends ElementaryModel with ConnectionMixin {
     if (query != null) {
       final caseSensetiveQuery = query.toLowerCase();
 
-      networks = networks.where(
-        (conntection) {
-          final name = conntection.networkName.toLowerCase();
+      networks = networks.where((conntection) {
+        final name = conntection.networkName.toLowerCase();
 
         return name.contains(caseSensetiveQuery);
       }).toList();

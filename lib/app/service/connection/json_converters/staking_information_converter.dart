@@ -13,8 +13,9 @@ class StakingInformationConverter
     final uri = Uri.tryParse(json['stakingAPYLink'] as String);
 
     final depFee = parseBigIntOrNull(json['stakeDepositAttachedFee']);
-    final remFee =
-        parseBigIntOrNull(json['stakeRemovePendingWithdrawAttachedFee']);
+    final remFee = parseBigIntOrNull(
+      json['stakeRemovePendingWithdrawAttachedFee'],
+    );
     final wdFee = parseBigIntOrNull(json['stakeWithdrawAttachedFee']);
 
     if (uri == null || depFee == null || remFee == null || wdFee == null) {
@@ -43,8 +44,9 @@ class StakingInformationConverter
       'stakingRootContractAddress': info.stakingRootContractAddress.toString(),
       'stakingVaultAddress': info.stakingValutAddress.toString(),
       'stakeDepositAttachedFee': info.stakeDepositAttachedFee.toString(),
-      'stakeRemovePendingWithdrawAttachedFee':
-          info.stakeRemovePendingWithdrawAttachedFee.toString(),
+      'stakeRemovePendingWithdrawAttachedFee': info
+          .stakeRemovePendingWithdrawAttachedFee
+          .toString(),
       'stakeWithdrawAttachedFee': info.stakeWithdrawAttachedFee.toString(),
     };
   }

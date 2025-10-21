@@ -1632,10 +1632,11 @@ packages:
   nekoton_repository:
     dependency: "direct main"
     description:
-      name: nekoton_repository
-      sha256: f7146a2e29feef044dc129aa901e2448dee866623e45127328693f9ca07563d2
-      url: "https://pub.dev"
-    source: hosted
+      path: "."
+      ref: addSeed_set_accountId
+      resolved-ref: "15fc836e0a2aa4c02a67a25069c924c0ee861dc2"
+      url: "https://github.com/broxus/nekoton_repository.git"
+    source: git
     version: "2.0.1"
   nekoton_webview:
     dependency: "direct main"

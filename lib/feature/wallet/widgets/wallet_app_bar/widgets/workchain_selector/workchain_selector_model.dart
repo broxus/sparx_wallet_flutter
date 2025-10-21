@@ -12,10 +12,8 @@ import 'package:injectable/injectable.dart';
 /// [ElementaryModel] for [WorkchainSelector]
 @injectable
 class WorkchainSelectorModel extends ElementaryModel {
-  WorkchainSelectorModel(
-    ErrorHandler errorHandler,
-    this._storageService,
-  ) : super(errorHandler: errorHandler);
+  WorkchainSelectorModel(ErrorHandler errorHandler, this._storageService)
+    : super(errorHandler: errorHandler);
 
   final ConnectionsStorageService _storageService;
 

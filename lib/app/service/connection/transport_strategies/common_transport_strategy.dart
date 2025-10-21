@@ -55,7 +55,8 @@ class CommonTransportStrategy extends AppTransportStrategy {
       networkName: workchain.networkName,
       networkType: workchain.networkType,
       seedPhraseWordsCount: workchain.seedPhraseWordsCount,
-      defaultNativeCurrencyDecimal: workchain.defaultNativeCurrencyDecimal ??
+      defaultNativeCurrencyDecimal:
+          workchain.defaultNativeCurrencyDecimal ??
           workchain.nativeTokenDecimals,
       genericTokenType: workchain.genericTokenType,
       accountExplorerLinkType: workchain.accountExplorerLinkType,

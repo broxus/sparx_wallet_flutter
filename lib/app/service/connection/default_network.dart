@@ -66,9 +66,7 @@ final Connection defaultPresetConnection = (() {
         genericTokenType: GenericTokenType.tip3,
         accountExplorerLinkType: AccountExplorerLinkType.accounts,
         transactionExplorerLinkType: TransactionExplorerLinkType.transactions,
-        endpoints: [
-          'https://jrpc.everwallet.net',
-        ],
+        endpoints: ['https://jrpc.everwallet.net'],
         blockExplorerUrl: 'https://everscan.io',
         isLocal: true,
         defaultNativeCurrencyDecimal: 9,
