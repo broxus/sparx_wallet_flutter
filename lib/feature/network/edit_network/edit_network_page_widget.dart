@@ -19,11 +19,11 @@ class EditNetworkPageWidget
       body: Stack(
         alignment: AlignmentDirectional.bottomCenter,
         children: [
-          CustomScrollView(
-            slivers: [
-              Form(
-                key: wm.formKey,
-                child: SliverToBoxAdapter(
+          Form(
+            key: wm.formKey,
+            child: CustomScrollView(
+              slivers: [
+                SliverToBoxAdapter(
                   child: Padding(
                     padding: const EdgeInsets.all(DimensSizeV2.d16),
                     child: SeparatedColumn(
@@ -86,12 +86,12 @@ class EditNetworkPageWidget
                     ),
                   ),
                 ),
-              ),
-              BottomSpacer(
-                deleteEnabled: wm.isDeleteEnabled,
-                saveEnabled: wm.isSaveEnabled,
-              ),
-            ],
+                BottomSpacer(
+                  deleteEnabled: wm.isDeleteEnabled,
+                  saveEnabled: wm.isSaveEnabled,
+                ),
+              ],
+            ),
           ),
           NetworkButtons(
             saveEnabled: wm.isSaveEnabled,
