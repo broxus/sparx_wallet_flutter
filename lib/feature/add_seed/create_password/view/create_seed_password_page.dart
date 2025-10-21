@@ -10,9 +10,11 @@ import 'package:ui_components_lib/ui_components_lib.dart';
 
 /// Entry point to create/import seed password from profile (Elementary implementation).
 class CreateSeedPasswordProfilePage
-    extends InjectedElementaryParametrizedWidget<
-        CreateSeedPasswordProfileWidgetModel,
-        CreateSeedPasswordProfileWmParams> {
+    extends
+        InjectedElementaryParametrizedWidget<
+          CreateSeedPasswordProfileWidgetModel,
+          CreateSeedPasswordProfileWmParams
+        > {
   CreateSeedPasswordProfilePage({
     required SeedPhraseModel seedPhrase,
     required String? name,
@@ -21,14 +23,14 @@ class CreateSeedPasswordProfilePage
     required bool isChecked,
     super.key,
   }) : super(
-          wmFactoryParam: CreateSeedPasswordProfileWmParams(
-            seedPhrase: seedPhrase,
-            name: name,
-            type: type,
-            mnemonicType: mnemonicType,
-            isChecked: isChecked,
-          ),
-        );
+         wmFactoryParam: CreateSeedPasswordProfileWmParams(
+           seedPhrase: seedPhrase,
+           name: name,
+           type: type,
+           mnemonicType: mnemonicType,
+           isChecked: isChecked,
+         ),
+       );
 
   @override
   Widget build(CreateSeedPasswordProfileWidgetModel wm) {

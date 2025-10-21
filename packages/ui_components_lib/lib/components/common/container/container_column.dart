@@ -22,12 +22,12 @@ class ContainerColumn extends Container {
     super.transformAlignment,
     super.clipBehavior = Clip.none,
   }) : super(
-          child: SeparatedColumn(
-            spacing: spacing,
-            mainAxisSize: mainAxisSize,
-            crossAxisAlignment: crossAxisAlignment,
-            separator: separator,
-            children: children,
-          ),
-        );
+         child: SeparatedColumn(
+           spacing: spacing,
+           mainAxisSize: mainAxisSize,
+           crossAxisAlignment: crossAxisAlignment,
+           separator: separator,
+           children: children,
+         ),
+       );
 }

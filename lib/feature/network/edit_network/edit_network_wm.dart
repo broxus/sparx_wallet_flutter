@@ -14,8 +14,13 @@ import 'package:flutter/material.dart';
 import 'package:injectable/injectable.dart';
 
 @injectable
-class EditNetworkWidgetModel extends CustomWidgetModelParametrized<
-    EditNetworkPageWidget, EditNetworkModel, String?> {
+class EditNetworkWidgetModel
+    extends
+        CustomWidgetModelParametrized<
+          EditNetworkPageWidget,
+          EditNetworkModel,
+          String?
+        > {
   EditNetworkWidgetModel(super.model);
 
   String? get _connectionDataId => wmParams.value;
@@ -215,14 +220,11 @@ class EditNetworkWidgetModel extends CustomWidgetModelParametrized<
 
   Connection? _getConnection() {
     final id = connection?.id;
-    final nativeTokenTicker = currencySymbolController.text.trim().takeIf(
-              (it) => it.isNotEmpty,
-            ) ??
+    final nativeTokenTicker =
+        currencySymbolController.text.trim().takeIf((it) => it.isNotEmpty) ??
         'EVER';
-    final nativeTokenDecimals = int.tryParse(
-          currencyDecimalsController.text.trim(),
-        ) ??
-        9;
+    final nativeTokenDecimals =
+        int.tryParse(currencyDecimalsController.text.trim()) ?? 9;
 
     final groupName = 'custom-${model.lastNetworkGroupNumber + 1}';
 

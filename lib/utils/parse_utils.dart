@@ -32,7 +32,7 @@ BigInt? parseBigIntOrNull(dynamic source, {int? radix}) {
     if (source is BigInt) return source;
     if (source is int) return BigInt.from(source);
     if (source is num) return BigInt.from(source.toInt());
-    if (source is String) return BigInt.tryParse(source);
+    if (source is String) return BigInt.tryParse(source, radix: radix);
     return null;
   } catch (e, s) {
     debugPrint(e.toString());

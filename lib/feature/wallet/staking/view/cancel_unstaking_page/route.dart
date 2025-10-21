@@ -6,6 +6,7 @@ import 'package:app/feature/wallet/staking/view/cancel_unstaking_page/cancel_uns
 import 'package:app/feature/wallet/ton_wallet_send/route.dart';
 import 'package:app/utils/common_utils.dart';
 import 'package:injectable/injectable.dart';
+import 'package:money2/money2.dart';
 import 'package:nekoton_repository/nekoton_repository.dart';
 
 /// Constants for query parameter names
@@ -24,47 +25,36 @@ class CancelUnstakingRoute extends CompassRoute<CancelUnstakingRouteData> {
   CancelUnstakingRoute(
     @Named.from(TonWalletSendRoute) CompassBaseRoute tonWalletSendRoute,
   ) : super(
-          path: '/cancel-unstaking',
-          builder: (context, data, _) => CancelUnstakingPageWidget(
-            request: data.request,
-            accountKey: data.accountKey,
-            attachedFee: data.attachedFee,
-            exchangeRate: data.exchangeRate,
-            stakeCurrency: data.stakeCurrency,
-            withdrawHours: data.withdrawHours,
-            tokenPrice: data.tokenPrice,
-            everPrice: data.everPrice,
-          ),
-          compassBaseRoutes: [tonWalletSendRoute],
-        );
+        path: '/cancel-unstaking',
+        builder: (context, data, _) => CancelUnstakingPageWidget(
+          request: data.request,
+          accountKey: data.accountKey,
+          attachedFee: data.attachedFee,
+          exchangeRate: data.exchangeRate,
+          stakeCurrency: data.stakeCurrency,
+          withdrawHours: data.withdrawHours,
+          tokenPrice: data.tokenPrice,
+          everPrice: data.everPrice,
+        ),
+        compassBaseRoutes: [tonWalletSendRoute],
+      );
 
   @override
-  CancelUnstakingRouteData fromQueryParams(
-    Map<String, String> queryParams,
-  ) {
-    final requestJson = jsonDecode(
-      queryParams[_requestQueryParam]!,
-    ) as Map<String, dynamic>;
+  CancelUnstakingRouteData fromQueryParams(Map<String, String> queryParams) {
+    final requestJson =
+        jsonDecode(queryParams[_requestQueryParam]!) as Map<String, dynamic>;
 
     final tokenPriceStr = queryParams[_tokenPriceQueryParam];
     final everPriceStr = queryParams[_everPriceQueryParam];
 
     return CancelUnstakingRouteData(
       request: StEverWithdrawRequest.fromJson(requestJson),
-      accountKey: PublicKey(
-        publicKey: queryParams[_publicKeyQueryParam]!,
-      ),
-      attachedFee: BigInt.parse(
-        queryParams[_attachedFeeQueryParam]!,
-      ),
-      exchangeRate: double.parse(
-        queryParams[_exchangeRateQueryParam]!,
-      ),
+      accountKey: PublicKey(publicKey: queryParams[_publicKeyQueryParam]!),
+      attachedFee: BigInt.parse(queryParams[_attachedFeeQueryParam]!),
+      exchangeRate: double.parse(queryParams[_exchangeRateQueryParam]!),
       stakeCurrency:
           Currencies()[queryParams[_stakingCurrencyCodeQueryParam]!]!,
-      withdrawHours: int.parse(
-        queryParams[_withdrawHorsQueryParam]!,
-      ),
+      withdrawHours: int.parse(queryParams[_withdrawHorsQueryParam]!),
       tokenPrice: tokenPriceStr?.let(Fixed.tryParse),
       everPrice: everPriceStr?.let(Fixed.tryParse),
     );

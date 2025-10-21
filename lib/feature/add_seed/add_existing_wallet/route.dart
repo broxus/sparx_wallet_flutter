@@ -10,11 +10,11 @@ class AddExistingWalletRoute
   AddExistingWalletRoute(
     @Named.from(ImportWalletRoute) CompassBaseRoute importWalletRoute,
   ) : super(
-          path: '/add-existing-wallet',
-          isSaveLocation: true,
-          builder: (context, _, __) => const AddExistingWalletPage(),
-          compassBaseRoutes: [importWalletRoute],
-        );
+        path: '/add-existing-wallet',
+        isSaveLocation: true,
+        builder: (context, _, __) => const AddExistingWalletPage(),
+        compassBaseRoutes: [importWalletRoute],
+      );
 
   @override
   AddExistingWalletRouteData createData() {

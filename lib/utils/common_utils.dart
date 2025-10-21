@@ -1,5 +1,6 @@
 // ignore_for_file: cascade_invocations
 
+import 'dart:async';
 import 'dart:io';
 
 import 'package:app/app/service/service.dart';
@@ -10,8 +11,8 @@ import 'package:elementary_helper/elementary_helper.dart';
 import 'package:flutter/foundation.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:json_annotation/json_annotation.dart';
-import 'package:money2_fixer/money2_fixer.dart';
-import 'package:nekoton_repository/nekoton_repository.dart' hide MoneyFixer;
+import 'package:money2/money2.dart';
+import 'package:nekoton_repository/nekoton_repository.dart';
 import 'package:rxdart/rxdart.dart';
 
 extension DateX on DateTime {
@@ -44,12 +45,13 @@ class _MoneyFromStringJsonConverter
   @override
   Money fromJson(Map<String, dynamic> json) {
     final currency = json['currency'] as Map<String, dynamic>;
-    // fix old json format: 'code' -> 'isoCode', 'scale' -> 'decimalDigits'
+
     currency
       ..putIfAbsent('isoCode', () => currency['code'] ?? currency['symbol'])
       ..putIfAbsent('decimalDigits', () => currency['scale'] ?? 0)
       ..remove('code')
       ..remove('scale');
+
     return MoneyFixer.fromJsonImproved(json);
   }
 
@@ -102,7 +104,7 @@ extension FunctionalExt<T> on T {
   T? takeIf(bool Function(T value) condition) => condition(this) ? this : null;
 }
 
-extension MoneyExt on Money {
+extension MoneyFixer on Money {
   Money exchangeToUSD(Fixed price, [int toDecimalDigits = 7]) {
     if (price == Fixed.zero || amount == Fixed.zero) {
       return Money.fromBigInt(BigInt.zero, isoCode: 'USD');
@@ -127,15 +129,78 @@ extension MoneyExt on Money {
     if (isPositive) return this;
     return copyWith(amount: Fixed.zero);
   }
+
+  /// Serializes a [Money] value into a Map&lt;String, dynamic&gt;.
+  Map<String, dynamic> toJsonImproved() {
+    return {
+      'amount': amount.toJsonImproved(),
+      'currency': currency.toJsonImproved(),
+    };
+  }
+
+  /// Deserializes a [Money] value from a Map&lt;String, dynamic&gt;.
+  static Money fromJsonImproved(Map<String, dynamic> json) {
+    return Money.fromFixedWithCurrency(
+      FixedFixer.fromJsonImproved(json['amount'] as Map<String, dynamic>),
+      CurrencyFixer.fromJsonImproved(json['currency'] as Map<String, dynamic>),
+    );
+  }
+}
+
+/// Extension on [Currency] to add improved serialization and formatting methods
+extension CurrencyFixer on Currency {
+  /// Serializes a [Currency] value into a Map&lt;String, dynamic&gt;.
+  Map<String, dynamic> toJsonImproved() {
+    return {
+      'isoCode': isoCode,
+      'decimalDigits': decimalDigits,
+      'symbol': symbol,
+      'pattern': pattern,
+      'groupSeparator': groupSeparator,
+      'decimalSeparator': decimalSeparator,
+      'country': country,
+      'unit': unit,
+      'name': name,
+    };
+  }
+
+  /// Deserializes a [Currency] value from a Map&lt;String, dynamic&gt;.
+  static Currency fromJsonImproved(Map<String, dynamic> json) {
+    return Currency.create(
+      json['isoCode'] as String,
+      json['decimalDigits'] as int,
+      symbol: (json['symbol'] ?? r'$') as String,
+      pattern: (json['pattern'] ?? Currency.defaultPattern) as String,
+      groupSeparator: (json['groupSeparator'] ?? ',') as String,
+      decimalSeparator: (json['decimalSeparator'] ?? '.') as String,
+      country: (json['country'] ?? '') as String,
+      unit: (json['unit'] ?? '') as String,
+      name: (json['name'] ?? '') as String,
+    );
+  }
+}
+
+/// Extension on [Fixed] to add improved serialization and formatting methods.
+extension FixedFixer on Fixed {
+  /// Serializes a [Fixed] value into a Map&lt;String, dynamic&gt;.
+  Map<String, dynamic> toJsonImproved() {
+    return {'minorUnits': minorUnits.toString(), 'scale': decimalDigits};
+  }
+
+  /// Deserializes a [Fixed] value from a Map&lt;String, dynamic&gt;.
+  static Fixed fromJsonImproved(Map<String, dynamic> json) {
+    return Fixed.fromBigInt(
+      BigInt.parse(json['minorUnits'] as String),
+      decimalDigits: (json['scale'] ?? 2) as int,
+    );
+  }
 }
 
 extension GetStorageExt on GetStorage {
   Iterable<String> getStringKeys() => getKeys();
 
-  Map<String, dynamic> getEntries() => Map.fromIterables(
-        getStringKeys(),
-        getValues<Iterable<dynamic>>(),
-      );
+  Map<String, dynamic> getEntries() =>
+      Map.fromIterables(getStringKeys(), getValues<Iterable<dynamic>>());
 }
 
 extension FutureExt<T> on Future<T> {
@@ -269,7 +334,7 @@ extension ChangeNotifierStreamExt on ChangeNotifier {
     bool sync = false,
   }) {
     final subject = BehaviorSubject<T>.seeded(value(), sync: sync);
-    void listener() => subject.add(value());
+    void listener() => scheduleMicrotask(() => subject.add(value()));
 
     subject.onListen = () => addListener(listener);
     subject.onCancel = () => removeListener(listener);
@@ -316,9 +381,8 @@ String getNetworkGroupByNetworkType(dynamic networkType) {
 }
 
 extension MnemonicTypeJson on MnemonicType {
-  Map<String, dynamic> toJson() => const MnemonicTypeJsonConverter().toJson(
-        this,
-      );
+  Map<String, dynamic> toJson() =>
+      const MnemonicTypeJsonConverter().toJson(this);
 }
 
 Future<void> callWithDelay(

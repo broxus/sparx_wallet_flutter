@@ -1,3 +1,4 @@
+import 'package:money2/money2.dart';
 import 'package:nekoton_repository/nekoton_repository.dart';
 
 sealed class WalletPrepareBalanceData {}

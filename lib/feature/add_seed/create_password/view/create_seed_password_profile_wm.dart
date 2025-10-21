@@ -32,8 +32,12 @@ class CreateSeedPasswordProfileWmParams {
 
 @injectable
 class CreateSeedPasswordProfileWidgetModel
-    extends CustomWidgetModelParametrized<CreateSeedPasswordProfilePage,
-        CreateSeedPasswordProfileModel, CreateSeedPasswordProfileWmParams> {
+    extends
+        CustomWidgetModelParametrized<
+          CreateSeedPasswordProfilePage,
+          CreateSeedPasswordProfileModel,
+          CreateSeedPasswordProfileWmParams
+        > {
   CreateSeedPasswordProfileWidgetModel(super.model);
 
   late final passwordController = createTextEditingController();
@@ -80,9 +84,7 @@ class CreateSeedPasswordProfileWidgetModel
     try {
       contextSafe
         ?..compassPointNamed(const ProfileRouteData())
-        ..compassPointNamed(
-          routeData ?? const ManageSeedsAccountsRouteData(),
-        );
+        ..compassPointNamed(routeData ?? const ManageSeedsAccountsRouteData());
       // contextSafe?.compassPointNamed(
       //   routeData ?? const ManageSeedsAccountsRouteData(),
       // );

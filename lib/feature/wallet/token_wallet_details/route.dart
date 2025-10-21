@@ -16,21 +16,19 @@ class TokenWalletDetailsRoute
     @Named.from(WalletPrepareSpecifiedTransferRoute)
     CompassBaseRoute walletPrepareTransferRoute,
   ) : super(
-          path: '/token-details',
-          bottomBarState: BottomBarState.hidden,
-          builder: (context, data, _) => TokenWalletDetailsPage(
-            owner: data.owner,
-            rootTokenContract: data.rootTokenContract,
-          ),
-          compassBaseRoutes: [walletPrepareTransferRoute],
-        );
+        path: '/token-details',
+        bottomBarState: BottomBarState.hidden,
+        builder: (context, data, _) => TokenWalletDetailsPage(
+          owner: data.owner,
+          rootTokenContract: data.rootTokenContract,
+        ),
+        compassBaseRoutes: [walletPrepareTransferRoute],
+      );
 
   @override
   TokenWalletDetailsRouteData fromQueryParams(Map<String, String> queryParams) {
     return TokenWalletDetailsRouteData(
-      owner: Address(
-        address: queryParams[_ownerAddressQueryParam]!,
-      ),
+      owner: Address(address: queryParams[_ownerAddressQueryParam]!),
       rootTokenContract: Address(
         address: queryParams[_contractAddressQueryParam]!,
       ),

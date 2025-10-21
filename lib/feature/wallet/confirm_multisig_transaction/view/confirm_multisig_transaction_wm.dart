@@ -12,6 +12,7 @@ import 'package:app/utils/utils.dart';
 import 'package:elementary_helper/elementary_helper.dart';
 import 'package:injectable/injectable.dart';
 import 'package:logging/logging.dart';
+import 'package:money2/money2.dart';
 import 'package:nekoton_repository/nekoton_repository.dart' hide Message;
 
 class ConfirmMultisigTransactionWmParams {
@@ -38,13 +39,14 @@ class ConfirmMultisigTransactionWmParams {
 
 @injectable
 class ConfirmMultisigTransactionWidgetModel
-    extends CustomWidgetModelParametrized<
-        ConfirmMultisigTransactionWidget,
-        ConfirmMultisigTransactionModel,
-        ConfirmMultisigTransactionWmParams> with BleAvailabilityWmMixin {
-  ConfirmMultisigTransactionWidgetModel(
-    super.model,
-  );
+    extends
+        CustomWidgetModelParametrized<
+          ConfirmMultisigTransactionWidget,
+          ConfirmMultisigTransactionModel,
+          ConfirmMultisigTransactionWmParams
+        >
+    with BleAvailabilityWmMixin {
+  ConfirmMultisigTransactionWidgetModel(super.model);
 
   static final _logger = Logger('ConfirmMultisigTransactionWidgetModel');
 
@@ -55,8 +57,9 @@ class ConfirmMultisigTransactionWidgetModel
 
   late final KeyAccount? account = model.getAccount(_walletAddress);
   late final Map<PublicKey, String?> custodianNames = Map.fromEntries(
-    wmParams.value.localCustodians
-        .map((c) => MapEntry(c, model.getSeedKey(c)?.name)),
+    wmParams.value.localCustodians.map(
+      (c) => MapEntry(c, model.getSeedKey(c)?.name),
+    ),
   );
   late final Money amount = Money.fromBigIntWithCurrency(
     wmParams.value.amount,
@@ -92,9 +95,7 @@ class ConfirmMultisigTransactionWidgetModel
     if (wmParams.value.localCustodians.length == 1) {
       onCustodianSelected(wmParams.value.localCustodians.first);
     } else {
-      _confirmState.accept(
-        const ConfirmMultisigTransactionState.prepare(),
-      );
+      _confirmState.accept(const ConfirmMultisigTransactionState.prepare());
     }
   }
 
@@ -103,10 +104,7 @@ class ConfirmMultisigTransactionWidgetModel
       throw StateError('Wallet is not initialized');
     }
 
-    return model.getLedgerAuthInput(
-      wallet: _wallet!,
-      currency: currency,
-    );
+    return model.getLedgerAuthInput(wallet: _wallet!, currency: currency);
   }
 
   Future<void> onCustodianSelected(PublicKey custodian) async {
@@ -134,10 +132,7 @@ class ConfirmMultisigTransactionWidgetModel
       );
 
       final (fees, txErrors) = await FutureExt.wait2(
-        model.estimateFees(
-          address: _walletAddress,
-          message: unsignedMessage,
-        ),
+        model.estimateFees(address: _walletAddress, message: unsignedMessage),
         model.simulateTransactionTree(
           address: _walletAddress,
           message: unsignedMessage,
@@ -145,9 +140,7 @@ class ConfirmMultisigTransactionWidgetModel
       );
 
       _feesState.content(
-        Fee.native(
-          Money.fromBigIntWithCurrency(fees, currency),
-        ),
+        Fee.native(Money.fromBigIntWithCurrency(fees, currency)),
       );
       _txErrorsState.accept(txErrors);
       _wallet = walletState.wallet;
@@ -164,10 +157,7 @@ class ConfirmMultisigTransactionWidgetModel
       }
     } on Exception catch (e, t) {
       _logger.severe('onCustodianSelected', e, t);
-      _feesState.error(
-        UiException(e.toString()),
-        _feesState.value.data,
-      );
+      _feesState.error(UiException(e.toString()), _feesState.value.data);
     } finally {
       unsignedMessage?.dispose();
       _isLoadingState.accept(false);
@@ -186,7 +176,8 @@ class ConfirmMultisigTransactionWidgetModel
         if (!isAvailable) return;
       }
 
-      final resultMessage = wmParams.value.resultMessage ??
+      final resultMessage =
+          wmParams.value.resultMessage ??
           LocaleKeys.transactionSentSuccessfully.tr();
 
       unsignedMessage = await model.prepareConfirmTransaction(
@@ -212,9 +203,7 @@ class ConfirmMultisigTransactionWidgetModel
 
       model.showMessage(Message.successful(message: resultMessage));
 
-      contextSafe?.compassPointNamed(
-        const WalletRouteData(),
-      );
+      contextSafe?.compassPointNamed(const WalletRouteData());
     } on OperationCanceledException catch (_) {
     } on Exception catch (e, t) {
       if (e is AnyhowException && e.isCancelled) return;

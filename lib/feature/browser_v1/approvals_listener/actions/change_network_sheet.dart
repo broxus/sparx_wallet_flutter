@@ -10,15 +10,14 @@ Future<TransportStrategy?> showChangeNetworkSheet({
   required Uri origin,
   required int networkId,
   required List<Connection> connections,
-}) =>
-    showCommonBottomSheet<TransportStrategy?>(
-      context: context,
-      title: LocaleKeys.changeNetwork.tr(),
-      centerTitle: true,
-      body: (context, scroll) => ChangeNetworkWidget(
-        origin: origin,
-        networkId: networkId,
-        connections: connections,
-        scrollController: scroll,
-      ),
-    );
+}) => showCommonBottomSheet<TransportStrategy?>(
+  context: context,
+  title: LocaleKeys.changeNetwork.tr(),
+  centerTitle: true,
+  body: (context, scroll) => ChangeNetworkWidget(
+    origin: origin,
+    networkId: networkId,
+    connections: connections,
+    scrollController: scroll,
+  ),
+);

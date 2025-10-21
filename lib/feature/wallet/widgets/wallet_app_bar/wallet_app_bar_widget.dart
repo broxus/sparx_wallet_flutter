@@ -12,9 +12,7 @@ import 'package:ui_components_lib/ui_components_lib.dart';
 class WalletAppBarWidget
     extends InjectedElementaryWidget<WalletAppBarWidgetModel>
     implements PreferredSizeWidget {
-  const WalletAppBarWidget({
-    super.key,
-  });
+  const WalletAppBarWidget({super.key});
 
   @override
   Size get preferredSize => const Size.fromHeight(DimensSizeV2.d68);
@@ -75,9 +73,7 @@ class WalletAppBarWidget
 }
 
 class _QrButton extends StatelessWidget {
-  const _QrButton({
-    required this.onTap,
-  });
+  const _QrButton({required this.onTap});
 
   final VoidCallback onTap;
 
@@ -93,10 +89,7 @@ class _QrButton extends StatelessWidget {
           color: theme.colors.backgroundAlpha,
           borderRadius: BorderRadius.circular(DimensRadiusV2.theBiggest),
         ),
-        child: const Icon(
-          LucideIcons.scan,
-          size: DimensSizeV2.d20,
-        ),
+        child: const Icon(LucideIcons.scan, size: DimensSizeV2.d20),
       ),
     );
   }
@@ -126,9 +119,7 @@ class _AccountInfo extends StatelessWidget {
       onTap: onTap,
       child: SeparatedRow(
         children: [
-          UserAvatar(
-            address: account.address.address,
-          ),
+          UserAvatar(address: account.address.address),
           Flexible(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,

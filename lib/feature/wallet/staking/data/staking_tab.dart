@@ -1,5 +1,1 @@
-enum StakingTab {
-  stake,
-  unstake,
-  inProgress,
-}
+enum StakingTab { stake, unstake, inProgress }

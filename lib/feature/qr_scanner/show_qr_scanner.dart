@@ -11,7 +11,6 @@ import 'package:flutter/material.dart';
 Future<QrScanResult?> showQrScanner(
   BuildContext context, {
   List<QrScanType> types = QrScanType.values,
-}) =>
-    Navigator.of(context, rootNavigator: true).push<QrScanResult>(
-      MaterialPageRoute(builder: (_) => QrScannerWidget(types: types)),
-    );
+}) => Navigator.of(context, rootNavigator: true).push<QrScanResult>(
+  MaterialPageRoute(builder: (_) => QrScannerWidget(types: types)),
+);

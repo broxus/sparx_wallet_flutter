@@ -19,14 +19,18 @@ ThemeData getPredefinedLightTheme() {
     backgroundInput: ColorsResV2.n95,
     backgroundAccent: ColorsResV2.p60,
     backgroundAlpha: ColorsResV2.n100.withAlpha(OpacV2.opac10.toByteInt()),
-    backgroundNegativeAlpha:
-        ColorsResV2.e30.withAlpha(OpacV2.opac50.toByteInt()),
-    backgroundWarningAlpha:
-        ColorsResV2.w40.withAlpha(OpacV2.opac50.toByteInt()),
-    backgroundPositiveAlpha:
-        ColorsResV2.s25.withAlpha(OpacV2.opac50.toByteInt()),
-    backgroundButtonAlpha:
-        ColorsResV2.n100.withAlpha(OpacV2.opac16.toByteInt()),
+    backgroundNegativeAlpha: ColorsResV2.e30.withAlpha(
+      OpacV2.opac50.toByteInt(),
+    ),
+    backgroundWarningAlpha: ColorsResV2.w40.withAlpha(
+      OpacV2.opac50.toByteInt(),
+    ),
+    backgroundPositiveAlpha: ColorsResV2.s25.withAlpha(
+      OpacV2.opac50.toByteInt(),
+    ),
+    backgroundButtonAlpha: ColorsResV2.n100.withAlpha(
+      OpacV2.opac16.toByteInt(),
+    ),
     content0: ColorsResV2.n100,
     content1: ColorsResV2.n70,
     content2: ColorsResV2.n65,
@@ -98,14 +102,18 @@ ThemeData getPredefinedDarkTheme() {
     backgroundInput: ColorsResV2.n95,
     backgroundAccent: ColorsResV2.p60,
     backgroundAlpha: ColorsResV2.n100.withAlpha(OpacV2.opac10.toByteInt()),
-    backgroundNegativeAlpha:
-        ColorsResV2.e30.withAlpha(OpacV2.opac50.toByteInt()),
-    backgroundWarningAlpha:
-        ColorsResV2.w40.withAlpha(OpacV2.opac50.toByteInt()),
-    backgroundPositiveAlpha:
-        ColorsResV2.s25.withAlpha(OpacV2.opac50.toByteInt()),
-    backgroundButtonAlpha:
-        ColorsResV2.n100.withAlpha(OpacV2.opac16.toByteInt()),
+    backgroundNegativeAlpha: ColorsResV2.e30.withAlpha(
+      OpacV2.opac50.toByteInt(),
+    ),
+    backgroundWarningAlpha: ColorsResV2.w40.withAlpha(
+      OpacV2.opac50.toByteInt(),
+    ),
+    backgroundPositiveAlpha: ColorsResV2.s25.withAlpha(
+      OpacV2.opac50.toByteInt(),
+    ),
+    backgroundButtonAlpha: ColorsResV2.n100.withAlpha(
+      OpacV2.opac16.toByteInt(),
+    ),
     content0: ColorsResV2.n100,
     content1: ColorsResV2.n70,
     content2: ColorsResV2.n65,
@@ -176,14 +184,18 @@ ThemeStyleV2 getDefaultTheme() {
     backgroundInput: ColorsResV2.n95,
     backgroundAccent: ColorsResV2.p60,
     backgroundAlpha: ColorsResV2.n100.withAlpha(OpacV2.opac10.toByteInt()),
-    backgroundNegativeAlpha:
-        ColorsResV2.e30.withAlpha(OpacV2.opac50.toByteInt()),
-    backgroundWarningAlpha:
-        ColorsResV2.w40.withAlpha(OpacV2.opac50.toByteInt()),
-    backgroundPositiveAlpha:
-        ColorsResV2.s25.withAlpha(OpacV2.opac50.toByteInt()),
-    backgroundButtonAlpha:
-        ColorsResV2.n100.withAlpha(OpacV2.opac16.toByteInt()),
+    backgroundNegativeAlpha: ColorsResV2.e30.withAlpha(
+      OpacV2.opac50.toByteInt(),
+    ),
+    backgroundWarningAlpha: ColorsResV2.w40.withAlpha(
+      OpacV2.opac50.toByteInt(),
+    ),
+    backgroundPositiveAlpha: ColorsResV2.s25.withAlpha(
+      OpacV2.opac50.toByteInt(),
+    ),
+    backgroundButtonAlpha: ColorsResV2.n100.withAlpha(
+      OpacV2.opac16.toByteInt(),
+    ),
     content0: ColorsResV2.n100,
     content1: ColorsResV2.n70,
     content2: ColorsResV2.n65,

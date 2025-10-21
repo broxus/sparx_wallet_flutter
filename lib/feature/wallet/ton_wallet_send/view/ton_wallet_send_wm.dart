@@ -13,16 +13,19 @@ import 'package:app/utils/utils.dart';
 import 'package:elementary_helper/elementary_helper.dart';
 import 'package:injectable/injectable.dart';
 import 'package:logging/logging.dart';
+import 'package:money2/money2.dart';
 import 'package:nekoton_repository/nekoton_repository.dart' hide Message;
 
 @injectable
-class TonWalletSendWidgetModel extends CustomWidgetModelParametrized<
-    TonWalletSendWidget,
-    TonWalletSendModel,
-    TonWalletSendRouteData> with BleAvailabilityWmMixin {
-  TonWalletSendWidgetModel(
-    super.model,
-  );
+class TonWalletSendWidgetModel
+    extends
+        CustomWidgetModelParametrized<
+          TonWalletSendWidget,
+          TonWalletSendModel,
+          TonWalletSendRouteData
+        >
+    with BleAvailabilityWmMixin {
+  TonWalletSendWidgetModel(super.model);
 
   static final _logger = Logger('TonWalletSendWidgetModel');
 
@@ -32,8 +35,10 @@ class TonWalletSendWidgetModel extends CustomWidgetModelParametrized<
   late final _sendState = createNotifier(const TonWalletSendState.ready());
 
   late final KeyAccount? account = model.getAccount(wmParams.value.address);
-  late final Money amount =
-      Money.fromBigIntWithCurrency(wmParams.value.amount, currency);
+  late final Money amount = Money.fromBigIntWithCurrency(
+    wmParams.value.amount,
+    currency,
+  );
 
   Currency get currency => model.currency;
 
@@ -65,9 +70,9 @@ class TonWalletSendWidgetModel extends CustomWidgetModelParametrized<
   }
 
   Future<SignInputAuthLedger> getLedgerAuthInput() => model.getLedgerAuthInput(
-        address: wmParams.value.address,
-        custodian: wmParams.value.publicKey,
-      );
+    address: wmParams.value.address,
+    custodian: wmParams.value.publicKey,
+  );
 
   Future<void> onConfirmed(SignInputAuth signInputAuth) async {
     UnsignedMessage? unsignedMessage;
@@ -161,10 +166,7 @@ class TonWalletSendWidgetModel extends CustomWidgetModelParametrized<
       );
 
       final (fees, txErrors) = await FutureExt.wait2(
-        model.estimateFees(
-          address: data.address,
-          message: unsignedMessage,
-        ),
+        model.estimateFees(address: data.address, message: unsignedMessage),
         model.simulateTransactionTree(
           address: data.address,
           message: unsignedMessage,
@@ -172,9 +174,7 @@ class TonWalletSendWidgetModel extends CustomWidgetModelParametrized<
       );
 
       _feesState.content(
-        Fee.native(
-          Money.fromBigIntWithCurrency(fees, currency),
-        ),
+        Fee.native(Money.fromBigIntWithCurrency(fees, currency)),
       );
       _txErrorsState.accept(txErrors);
 
@@ -196,10 +196,7 @@ class TonWalletSendWidgetModel extends CustomWidgetModelParametrized<
       );
     } on Exception catch (e, s) {
       _logger.severe('Failed to prepare transaction', e, s);
-      _feesState.error(
-        UiException(e.toString()),
-        _feesState.value.data,
-      );
+      _feesState.error(UiException(e.toString()), _feesState.value.data);
     } finally {
       unsignedMessage?.dispose();
       _isLoadingState.accept(false);

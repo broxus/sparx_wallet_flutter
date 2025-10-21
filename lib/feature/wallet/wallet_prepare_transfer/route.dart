@@ -20,26 +20,21 @@ class WalletPrepareTransferRoute
     @Named.from(TonWalletSendRoute) CompassBaseRoute tonWalletSendRoute,
     @Named.from(TokenWalletSendRoute) CompassBaseRoute tokenWalletSendRoute,
   ) : super(
-          path: '/wallet-prepare-transfer',
-          builder: (context, data, _) {
-            return WalletPrepareTransferPage(
-              address: data.address,
-              destination: data.destination,
-            );
-          },
-          compassBaseRoutes: [
-            tonWalletSendRoute,
-            tokenWalletSendRoute,
-          ],
-        );
+        path: '/wallet-prepare-transfer',
+        builder: (context, data, _) {
+          return WalletPrepareTransferPage(
+            address: data.address,
+            destination: data.destination,
+          );
+        },
+        compassBaseRoutes: [tonWalletSendRoute, tokenWalletSendRoute],
+      );
 
   @override
   WalletPrepareTransferRouteData fromQueryParams(
     Map<String, String> queryParams,
   ) {
-    final address = Address(
-      address: queryParams[_addressQueryParam]!,
-    );
+    final address = Address(address: queryParams[_addressQueryParam]!);
 
     final destination = queryParams[_destinationQueryParam]?.let(
       (address) => Address(address: address),
@@ -83,27 +78,22 @@ class WalletPrepareSpecifiedTransferRoute
     @Named.from(TonWalletSendRoute) CompassBaseRoute tonWalletSendRoute,
     @Named.from(TokenWalletSendRoute) CompassBaseRoute tokenWalletSendRoute,
   ) : super(
-          path: '/wallet-prepare-specified-transfer',
-          builder: (context, data, _) {
-            return WalletPrepareTransferPage(
-              address: data.address,
-              rootTokenContract: data.rootTokenContract,
-              tokenSymbol: data.tokenSymbol,
-            );
-          },
-          compassBaseRoutes: [
-            tonWalletSendRoute,
-            tokenWalletSendRoute,
-          ],
-        );
+        path: '/wallet-prepare-specified-transfer',
+        builder: (context, data, _) {
+          return WalletPrepareTransferPage(
+            address: data.address,
+            rootTokenContract: data.rootTokenContract,
+            tokenSymbol: data.tokenSymbol,
+          );
+        },
+        compassBaseRoutes: [tonWalletSendRoute, tokenWalletSendRoute],
+      );
 
   @override
   WalletPrepareSpecifiedTransferRouteData fromQueryParams(
     Map<String, String> queryParams,
   ) {
-    final address = Address(
-      address: queryParams[_addressQueryParam]!,
-    );
+    final address = Address(address: queryParams[_addressQueryParam]!);
 
     final rootTokenContract = Address(
       address: queryParams[_rootTokenAddressQueryParam]!,

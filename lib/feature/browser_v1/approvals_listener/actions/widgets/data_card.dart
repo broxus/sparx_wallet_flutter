@@ -5,10 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:ui_components_lib/v2/ui_components_lib_v2.dart';
 
 class DataCard extends StatefulWidget {
-  const DataCard({
-    required this.data,
-    super.key,
-  });
+  const DataCard({required this.data, super.key});
 
   /// base64 encoded data
   final String data;
@@ -81,13 +78,14 @@ class _DataCardState extends State<DataCard> {
   }
 
   String _getDecodedData() => switch (_displayType) {
-        _DisplayType.base64 => widget.data,
-        _DisplayType.utf8 => utf8.decode(base64.decode(widget.data)),
-        _DisplayType.hex => base64
-            .decode(widget.data)
-            .map((e) => e.toRadixString(16).padLeft(2, '0'))
-            .join(),
-      };
+    _DisplayType.base64 => widget.data,
+    _DisplayType.utf8 => utf8.decode(base64.decode(widget.data)),
+    _DisplayType.hex =>
+      base64
+          .decode(widget.data)
+          .map((e) => e.toRadixString(16).padLeft(2, '0'))
+          .join(),
+  };
 }
 
 enum _DisplayType { base64, hex, utf8 }

@@ -10,8 +10,8 @@ class QaModel extends ElementaryModel {
   QaModel({
     required EncryptedStorage storage,
     required MessengerService messengerService,
-  })  : _storage = storage,
-        _messengerService = messengerService;
+  }) : _storage = storage,
+       _messengerService = messengerService;
 
   static const String _keyKey = 'cipher_storage_key';
   static const String _ivKey = 'cipher_storage_iv';
@@ -40,9 +40,7 @@ class QaModel extends ElementaryModel {
   }
 
   void showSuccessMessage(String message) {
-    _messengerService.show(
-      Message.successful(message: message),
-    );
+    _messengerService.show(Message.successful(message: message));
   }
 
   Future<String?> readIv() => _fss.read(key: _ivKey);

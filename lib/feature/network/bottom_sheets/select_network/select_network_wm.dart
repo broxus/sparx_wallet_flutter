@@ -9,14 +9,18 @@ import 'package:flutter/material.dart';
 import 'package:injectable/injectable.dart';
 
 @injectable
-class SelectNetworkWidgetModel extends CustomWidgetModelParametrized<
-    SelectNetworkWidget, SelectNetworkModel, bool> {
-  SelectNetworkWidgetModel(
-    super.model,
-  );
+class SelectNetworkWidgetModel
+    extends
+        CustomWidgetModelParametrized<
+          SelectNetworkWidget,
+          SelectNetworkModel,
+          bool
+        > {
+  SelectNetworkWidgetModel(super.model);
 
-  late final _currentConnectionIdState =
-      createNotifierFromStream(model.currentConnectionId);
+  late final _currentConnectionIdState = createNotifierFromStream(
+    model.currentConnectionId,
+  );
   late final _connectionsState = createNotifierFromStream(model.connections);
 
   ListenableState<(String, int)?> get currentConnectionIdState =>
@@ -28,9 +32,7 @@ class SelectNetworkWidgetModel extends CustomWidgetModelParametrized<
 
   void onConfigure() {
     if (_needPopAfterAction) Navigator.of(context).pop();
-    context.compassContinue(
-      const ConfigureNetworksRouteData(),
-    );
+    context.compassContinue(const ConfigureNetworksRouteData());
   }
 
   void onItemTap(Connection connection) {

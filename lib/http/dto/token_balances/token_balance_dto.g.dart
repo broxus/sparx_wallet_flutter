@@ -11,8 +11,9 @@ TokenBalanceDto _$TokenBalanceDtoFromJson(Map<String, dynamic> json) =>
       amount: json['amount'] as String,
       ownerAddress: Address.fromJson(json['ownerAddress'] as String),
       rootAddress: Address.fromJson(json['rootAddress'] as String),
-      tokenWalletAddress:
-          Address.fromJson(json['tokenWalletAddress'] as String),
+      tokenWalletAddress: Address.fromJson(
+        json['tokenWalletAddress'] as String,
+      ),
       token: json['token'] as String,
     );
 

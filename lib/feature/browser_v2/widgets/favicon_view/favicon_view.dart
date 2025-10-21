@@ -8,14 +8,8 @@ import 'package:ui_components_lib/ui_components_lib.dart';
 
 class FaviconView
     extends InjectedElementaryParametrizedWidget<FaviconViewWidgetModel, Uri?> {
-  const FaviconView({
-    Uri? uri,
-    this.height,
-    this.width,
-    super.key,
-  }) : super(
-          wmFactoryParam: uri,
-        );
+  const FaviconView({Uri? uri, this.height, this.width, super.key})
+    : super(wmFactoryParam: uri);
 
   final double? height;
   final double? width;
@@ -48,8 +42,6 @@ class _Stub extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return CommonIconWidget.svg(
-      svg: Assets.images.web.path,
-    );
+    return CommonIconWidget.svg(svg: Assets.images.web.path);
   }
 }

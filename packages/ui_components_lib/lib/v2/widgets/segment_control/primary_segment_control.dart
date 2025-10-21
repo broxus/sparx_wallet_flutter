@@ -17,9 +17,9 @@ class PrimarySegmentControl<T> extends StatelessWidget {
     this.customIconColor,
     super.key,
   }) : assert(
-          title == null || titleSpan == null,
-          'title and titleSpan cant be provided simultaneously',
-        );
+         title == null || titleSpan == null,
+         'title and titleSpan cant be provided simultaneously',
+       );
 
   final SegmentControlSize size;
   final SegmentControlState state;
@@ -138,11 +138,7 @@ class PrimarySegmentControl<T> extends StatelessWidget {
   SegmentControlStyle _getSegmentStyle(ThemeStyleV2 theme) {
     switch (state) {
       case SegmentControlState.normal:
-        return SegmentControlStyle.normal(
-          theme.colors,
-          theme.textStyles,
-          size,
-        );
+        return SegmentControlStyle.normal(theme.colors, theme.textStyles, size);
       case SegmentControlState.selected:
         return SegmentControlStyle.selected(
           theme.colors,

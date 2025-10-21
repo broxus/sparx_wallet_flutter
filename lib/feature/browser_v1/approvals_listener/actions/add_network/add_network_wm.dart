@@ -22,24 +22,23 @@ class AddNetworkWmParams {
 }
 
 @injectable
-class AddNetworkWidgetModel extends CustomWidgetModelParametrized<
-    AddNetworkWidget, AddNetworkModel, AddNetworkWmParams> {
-  AddNetworkWidgetModel(
-    super.model,
-  );
+class AddNetworkWidgetModel
+    extends
+        CustomWidgetModelParametrized<
+          AddNetworkWidget,
+          AddNetworkModel,
+          AddNetworkWmParams
+        > {
+  AddNetworkWidgetModel(super.model);
 
   late final _loadingState = createValueNotifier(false);
   late final _switchNetworkState = createWmParamsNotifier(
     (it) => it.switchNetwork,
   );
 
-  late final _originState = createWmParamsNotifier(
-    (it) => it.origin,
-  );
+  late final _originState = createWmParamsNotifier((it) => it.origin);
 
-  late final _networkState = createWmParamsNotifier(
-    (it) => it.network,
-  );
+  late final _networkState = createWmParamsNotifier((it) => it.network);
 
   ValueListenable<Uri> get originState => _originState;
 

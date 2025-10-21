@@ -12,10 +12,8 @@ class NetworkItem extends StatelessWidget {
     this.trailing,
     this.onTap,
     super.key,
-  }) : padding = padding ??
-            const EdgeInsets.symmetric(
-              vertical: DimensSizeV2.d12,
-            );
+  }) : padding =
+           padding ?? const EdgeInsets.symmetric(vertical: DimensSizeV2.d12);
 
   NetworkItem.formConnection({
     required Connection data,
@@ -24,13 +22,13 @@ class NetworkItem extends StatelessWidget {
     VoidCallback? onTap,
     Key? key,
   }) : this(
-          networkGroup: data.defaultWorkchain.networkGroup,
-          title: data.networkName,
-          padding: padding,
-          trailing: trailing,
-          onTap: onTap,
-          key: key,
-        );
+         networkGroup: data.defaultWorkchain.networkGroup,
+         title: data.networkName,
+         padding: padding,
+         trailing: trailing,
+         onTap: onTap,
+         key: key,
+       );
 
   NetworkItem.formWorkchain({
     required ConnectionWorkchain data,
@@ -39,13 +37,13 @@ class NetworkItem extends StatelessWidget {
     VoidCallback? onTap,
     Key? key,
   }) : this(
-          networkGroup: data.networkGroup,
-          title: '${data.networkName} id: ${data.id}',
-          padding: padding,
-          trailing: trailing,
-          onTap: onTap,
-          key: key,
-        );
+         networkGroup: data.networkGroup,
+         title: '${data.networkName} id: ${data.id}',
+         padding: padding,
+         trailing: trailing,
+         onTap: onTap,
+         key: key,
+       );
 
   final String networkGroup;
   final String title;

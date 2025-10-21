@@ -63,6 +63,7 @@ class CommonTransportStrategy extends AppTransportStrategy {
       stakeInformation: workchain.stakeInformation,
       tokenApiBaseUrl: workchain.tokenApiBaseUrl,
       currencyApiBaseUrl: workchain.currencyApiBaseUrl,
+      gaslessApiBaseUrl: workchain.gaslessApiBaseUrl,
       nftInformation: workchain.nftInformation,
       pollingConfig: workchain.pollingConfig ?? PollingConfig.defaultConfig,
     );
@@ -192,12 +193,11 @@ class CommonTransportStrategy extends AppTransportStrategy {
   Future<GenericTokenWallet> subscribeToken({
     required Address owner,
     required Address rootTokenContract,
-  }) =>
-      _subscriber.subscribeToken(
-        owner: owner,
-        rootTokenContract: rootTokenContract,
-        transport: transport,
-      );
+  }) => _subscriber.subscribeToken(
+    owner: owner,
+    rootTokenContract: rootTokenContract,
+    transport: transport,
+  );
 
   @override
   Future<Map<String, dynamic>?> fetchJson(String url) async {

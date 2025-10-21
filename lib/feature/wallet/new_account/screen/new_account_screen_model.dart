@@ -7,10 +7,8 @@ import 'package:injectable/injectable.dart';
 /// [ElementaryModel] for [NewAccountScreen]
 @injectable
 class NewAccountScreenModel extends ElementaryModel {
-  NewAccountScreenModel(
-    ErrorHandler errorHandler,
-    this._messageService,
-  ) : super(errorHandler: errorHandler);
+  NewAccountScreenModel(ErrorHandler errorHandler, this._messageService)
+    : super(errorHandler: errorHandler);
 
   final MessengerService _messageService;
 

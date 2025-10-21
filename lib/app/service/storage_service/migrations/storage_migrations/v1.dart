@@ -14,11 +14,10 @@ import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:get_storage/get_storage.dart';
 
 class StorageMigrationV1 implements StorageMigration {
-  StorageMigrationV1({
-    required this.encryptedStorage,
-  }) : fss = const FlutterSecureStorage(
-          aOptions: AndroidOptions(encryptedSharedPreferences: true),
-        );
+  StorageMigrationV1({required this.encryptedStorage})
+    : fss = const FlutterSecureStorage(
+        aOptions: AndroidOptions(encryptedSharedPreferences: true),
+      );
 
   static const int version = 1;
 
@@ -26,14 +25,14 @@ class StorageMigrationV1 implements StorageMigration {
   final EncryptedStorage encryptedStorage;
 
   List<String> get _domains => [
-        ...GeneralStorageService.containers,
-        ...BalanceStorageService.containers,
-        ConnectionsStorageService.container,
-        BrowserBookmarksStorageService.container,
-        BrowserFaviconURLStorageService.container,
-        BrowserPermissionsStorageService.container,
-        BrowserTabsStorageService.container,
-      ];
+    ...GeneralStorageService.containers,
+    ...BalanceStorageService.containers,
+    ConnectionsStorageService.container,
+    BrowserBookmarksStorageService.container,
+    BrowserFaviconURLStorageService.container,
+    BrowserPermissionsStorageService.container,
+    BrowserTabsStorageService.container,
+  ];
 
   @override
   Future<void> apply() async {

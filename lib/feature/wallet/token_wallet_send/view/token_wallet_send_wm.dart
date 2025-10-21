@@ -11,6 +11,7 @@ import 'package:app/utils/utils.dart';
 import 'package:elementary_helper/elementary_helper.dart';
 import 'package:injectable/injectable.dart';
 import 'package:logging/logging.dart';
+import 'package:money2/money2.dart';
 import 'package:nekoton_repository/nekoton_repository.dart' hide Message;
 
 class TokenWalletSendWmParams {
@@ -38,15 +39,19 @@ class TokenWalletSendWmParams {
 }
 
 @injectable
-class TokenWalletSendWidgetModel extends CustomWidgetModelParametrized<
-    InjectedElementaryParametrizedWidget<TokenWalletSendWidgetModel,
-        TokenWalletSendWmParams>,
-    TokenWalletSendModel,
-    TokenWalletSendWmParams> with BleAvailabilityWmMixin {
+class TokenWalletSendWidgetModel
+    extends
+        CustomWidgetModelParametrized<
+          InjectedElementaryParametrizedWidget<
+            TokenWalletSendWidgetModel,
+            TokenWalletSendWmParams
+          >,
+          TokenWalletSendModel,
+          TokenWalletSendWmParams
+        >
+    with BleAvailabilityWmMixin {
   // extends CustomWidgetModel<ElementaryWidget, TokenWalletSendModel> {
-  TokenWalletSendWidgetModel(
-    super.model,
-  );
+  TokenWalletSendWidgetModel(super.model);
 
   static final _logger = Logger('TokenWalletSendWidgetModel');
 
@@ -54,8 +59,9 @@ class TokenWalletSendWidgetModel extends CustomWidgetModelParametrized<
   late final _feesState = createEntityNotifier<Fee>()..loading();
   late final _txErrorsState = createNotifier<List<TxTreeSimulationErrorItem>>();
   late final _sendState = createNotifier(const TokenWalletSendState.ready());
-  late final _attachedAmountState =
-      createNotifier(wmParams.value.attachedAmount ?? BigInt.zero);
+  late final _attachedAmountState = createNotifier(
+    wmParams.value.attachedAmount ?? BigInt.zero,
+  );
   late final _amountState = createNotifier<Money>();
 
   late final KeyAccount? account = model.getAccount(wmParams.value.owner);
@@ -118,7 +124,8 @@ class TokenWalletSendWidgetModel extends CustomWidgetModelParametrized<
         if (!isAvailable) return;
       }
 
-      final resultMessage = wmParams.value.resultMessage ??
+      final resultMessage =
+          wmParams.value.resultMessage ??
           LocaleKeys.transactionSentSuccessfully.tr();
 
       final transactionCompleter = await model.sendMessage(
@@ -133,9 +140,7 @@ class TokenWalletSendWidgetModel extends CustomWidgetModelParametrized<
 
       model.showMessage(Message.successful(message: resultMessage));
 
-      contextSafe?.compassPointNamed(
-        const WalletRouteData(),
-      );
+      contextSafe?.compassPointNamed(const WalletRouteData());
     } on OperationCanceledException catch (_) {
       // TODO(Levitsky): Now exception is muted, but in future
       // _nekotonRepository could be improved, to graceful
@@ -183,8 +188,9 @@ class TokenWalletSendWidgetModel extends CustomWidgetModelParametrized<
         return;
       }
       if (walletState.hasError) {
-        _sendState
-            .accept(TokenWalletSendState.error(error: walletState.error!));
+        _sendState.accept(
+          TokenWalletSendState.error(error: walletState.error!),
+        );
         return;
       }
 
@@ -248,10 +254,7 @@ class TokenWalletSendWidgetModel extends CustomWidgetModelParametrized<
     }
   }
 
-  bool _canSend({
-    required PreparedTokenTransfer transfer,
-    required Fee fee,
-  }) {
+  bool _canSend({required PreparedTokenTransfer transfer, required Fee fee}) {
     if (_wallet == null || _tokenWallet == null) return false;
 
     return switch (transfer) {

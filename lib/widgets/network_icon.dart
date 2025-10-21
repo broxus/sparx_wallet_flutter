@@ -7,11 +7,7 @@ import 'package:flutter/material.dart';
 import 'package:ui_components_lib/v2/ui_components_lib_v2.dart';
 
 class NetworkIcon extends StatefulWidget {
-  const NetworkIcon({
-    required this.group,
-    this.itemSize,
-    super.key,
-  });
+  const NetworkIcon({required this.group, this.itemSize, super.key});
 
   final NetworkGroup group;
   final double? itemSize;
@@ -33,23 +29,23 @@ class _NetworkIconState extends State<NetworkIcon> {
 
   @override
   Widget build(BuildContext context) => ClipOval(
-        child: _path == null
-            ? Assets.images.networkDefault.svg(
-                width: widget.itemSize ?? DimensSizeV2.d40,
-                height: widget.itemSize ?? DimensSizeV2.d40,
-              )
-            : CachedSvg(
-                _path!,
-                width: widget.itemSize ?? DimensSizeV2.d40,
-                height: widget.itemSize ?? DimensSizeV2.d40,
-                errorWidget: Container(
-                  decoration: const BoxDecoration(
-                    shape: BoxShape.circle,
-                    color: ColorsResV2.electricIndigo,
-                  ),
-                  width: widget.itemSize ?? DimensSizeV2.d40,
-                  height: widget.itemSize ?? DimensSizeV2.d40,
-                ),
+    child: _path == null
+        ? Assets.images.networkDefault.svg(
+            width: widget.itemSize ?? DimensSizeV2.d40,
+            height: widget.itemSize ?? DimensSizeV2.d40,
+          )
+        : CachedSvg(
+            _path!,
+            width: widget.itemSize ?? DimensSizeV2.d40,
+            height: widget.itemSize ?? DimensSizeV2.d40,
+            errorWidget: Container(
+              decoration: const BoxDecoration(
+                shape: BoxShape.circle,
+                color: ColorsResV2.electricIndigo,
               ),
-      );
+              width: widget.itemSize ?? DimensSizeV2.d40,
+              height: widget.itemSize ?? DimensSizeV2.d40,
+            ),
+          ),
+  );
 }

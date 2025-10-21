@@ -13,8 +13,12 @@ import 'package:nekoton_repository/nekoton_repository.dart';
 import 'package:ui_components_lib/ui_components_lib.dart';
 import 'package:ui_components_lib/v2/ui_components_lib_v2.dart';
 
-class AccountAssetsTab extends InjectedElementaryParametrizedWidget<
-    AccountAssetsTabWidgetModel, AccountAssetsTabParams> {
+class AccountAssetsTab
+    extends
+        InjectedElementaryParametrizedWidget<
+          AccountAssetsTabWidgetModel,
+          AccountAssetsTabParams
+        > {
   AccountAssetsTab({
     required this.confirmImportCallback,
     required KeyAccount account,
@@ -22,12 +26,12 @@ class AccountAssetsTab extends InjectedElementaryParametrizedWidget<
     required String manifestUrl,
     super.key,
   }) : super(
-          wmFactoryParam: AccountAssetsTabParams(
-            account: account,
-            isShowingNewTokens: isShowingNewTokens,
-            manifestUrl: manifestUrl,
-          ),
-        );
+         wmFactoryParam: AccountAssetsTabParams(
+           account: account,
+           isShowingNewTokens: isShowingNewTokens,
+           manifestUrl: manifestUrl,
+         ),
+       );
 
   final VoidCallback confirmImportCallback;
 
@@ -142,10 +146,12 @@ class _FooterAssetsWidget extends StatelessWidget {
                 style: theme.textStyles.paragraphSmall,
                 children: [
                   TextSpan(
-                    text: LocaleKeys.newTokensLabel
-                        .tr(args: ['$numberNewTokens']),
-                    style: theme.textStyles.paragraphSmall
-                        .copyWith(color: theme.colors.content0),
+                    text: LocaleKeys.newTokensLabel.tr(
+                      args: ['$numberNewTokens'],
+                    ),
+                    style: theme.textStyles.paragraphSmall.copyWith(
+                      color: theme.colors.content0,
+                    ),
                     recognizer: TapGestureRecognizer()
                       ..onTap = () {
                         showSelectTokesModal(
@@ -155,12 +161,8 @@ class _FooterAssetsWidget extends StatelessWidget {
                         );
                       },
                   ),
-                  TextSpan(
-                    text: ' ${LocaleKeys.foundInThisAccountLabel.tr()}',
-                  ),
-                  const TextSpan(
-                    text: '\n',
-                  ),
+                  TextSpan(text: ' ${LocaleKeys.foundInThisAccountLabel.tr()}'),
+                  const TextSpan(text: '\n'),
                 ],
               ),
             ),
@@ -175,11 +177,7 @@ class _FooterAssetsWidget extends StatelessWidget {
           children: [
             GestureDetector(
               onTap: () {
-                showSelectTokesModal(
-                  context,
-                  address,
-                  confirmImportCallback,
-                );
+                showSelectTokesModal(context, address, confirmImportCallback);
               },
               child: Text(
                 LocaleKeys.refreshToFind.tr(),

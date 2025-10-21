@@ -5,17 +5,13 @@ import 'package:flutter/material.dart';
 import 'package:ui_components_lib/v2/colors_v2.dart';
 
 class SplashScreen extends InjectedElementaryWidget<SplashScreenWidgetModel> {
-  const SplashScreen({
-    super.key,
-  });
+  const SplashScreen({super.key});
 
   @override
   Widget build(SplashScreenWidgetModel wm) {
     return DecoratedBox(
       decoration: const BoxDecoration(color: ColorsResV2.n10),
-      child: Center(
-        child: wm.isIos ? const _IosLogo() : const _AndroidLogo(),
-      ),
+      child: Center(child: wm.isIos ? const _IosLogo() : const _AndroidLogo()),
     );
   }
 }
@@ -25,10 +21,7 @@ class _AndroidLogo extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Assets.splash.icSplashLogo.image(
-      width: 240,
-      height: 240,
-    );
+    return Assets.splash.icSplashLogo.image(width: 240, height: 240);
   }
 }
 
@@ -37,9 +30,6 @@ class _IosLogo extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Assets.splash.icSplashBanner.image(
-      width: 247,
-      height: 72,
-    );
+    return Assets.splash.icSplashBanner.image(width: 247, height: 72);
   }
 }

@@ -5,9 +5,7 @@ import 'package:injectable/injectable.dart';
 
 @lazySingleton
 class UpdateVersionStorageService extends AbstractStorageService {
-  UpdateVersionStorageService(
-    @Named(container) this._storage,
-  );
+  UpdateVersionStorageService(@Named(container) this._storage);
 
   static const String container = 'update_version_storage_service';
   static const String _warningLastTimeKey = 'warningLastTime';

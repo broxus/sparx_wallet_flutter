@@ -7,10 +7,8 @@ import 'package:injectable/injectable.dart';
 /// [ElementaryModel] for [BrowserMainMenu]
 @injectable
 class BrowserMainMenuModel extends ElementaryModel {
-  BrowserMainMenuModel(
-    ErrorHandler errorHandler,
-    this._browserService,
-  ) : super(errorHandler: errorHandler);
+  BrowserMainMenuModel(ErrorHandler errorHandler, this._browserService)
+    : super(errorHandler: errorHandler);
 
   final BrowserService _browserService;
 

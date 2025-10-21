@@ -16,9 +16,7 @@ import 'package:injectable/injectable.dart';
 @injectable
 class TipsBarWidgetModel
     extends CustomWidgetModelParametrized<TipsBar, TipsBarModel, TipBarParam> {
-  TipsBarWidgetModel(
-    super.model,
-  );
+  TipsBarWidgetModel(super.model);
 
   NotNullListenableState<String> get _textNotifier =>
       wmParams.value.textNotifier;
@@ -76,23 +74,21 @@ class TipsBarWidgetModel
           continue;
         }
 
-        await Future(
-          () {
-            if (bookmark.url.toString().toLowerCase().contains(lowText) ||
-                bookmark.title.toLowerCase().contains(lowText)) {
-              _searchResult[bookmark.id] = bookmark;
-              _urlsResult.add(bookmark.url.host);
+        await Future(() {
+          if (bookmark.url.toString().toLowerCase().contains(lowText) ||
+              bookmark.title.toLowerCase().contains(lowText)) {
+            _searchResult[bookmark.id] = bookmark;
+            _urlsResult.add(bookmark.url.host);
 
-              uiModels.add(
-                BookmarkTipUiModel(
-                  id: bookmark.id,
-                  title: bookmark.title,
-                  uri: bookmark.url,
-                ),
-              );
-            }
-          },
-        );
+            uiModels.add(
+              BookmarkTipUiModel(
+                id: bookmark.id,
+                title: bookmark.title,
+                uri: bookmark.url,
+              ),
+            );
+          }
+        });
       }
 
       final items = await model.getHistoryItems();
@@ -103,21 +99,16 @@ class TipsBarWidgetModel
           continue;
         }
 
-        await Future(
-          () {
-            if (history.url.host.toLowerCase().contains(lowText) ||
-                history.title.toLowerCase().contains(lowText)) {
-              _searchResult[history.id] = history;
-              _urlsResult.add(history.url.host);
-              uiModels.add(
-                HistoryTipUiModel(
-                  id: history.id,
-                  title: history.title,
-                ),
-              );
-            }
-          },
-        );
+        await Future(() {
+          if (history.url.host.toLowerCase().contains(lowText) ||
+              history.title.toLowerCase().contains(lowText)) {
+            _searchResult[history.id] = history;
+            _urlsResult.add(history.url.host);
+            uiModels.add(
+              HistoryTipUiModel(id: history.id, title: history.title),
+            );
+          }
+        });
       }
 
       _uiModelsState.accept(uiModels.toList());
@@ -138,10 +129,7 @@ class TipsBarWidgetModel
 }
 
 class TipBarParam {
-  TipBarParam({
-    required this.textNotifier,
-    required this.onPressedItem,
-  });
+  TipBarParam({required this.textNotifier, required this.onPressedItem});
 
   final NotNullListenableState<String> textNotifier;
   final VoidCallback onPressedItem;

@@ -111,14 +111,13 @@ class InpageProvider extends ProviderApi {
   @override
   Future<AddAssetOutput> addAsset(AddAssetInput input) async {
     final accountAddress = nr.Address(address: input.account);
-    _checkAccountInteractionPermission(
-      account: accountAddress,
-    );
+    _checkAccountInteractionPermission(account: accountAddress);
 
     final type = assetTypeMap[input.type];
     final contract = input.params?.rootContract;
-    final account =
-        nekotonRepository.seedList.findAccountByAddress(accountAddress);
+    final account = nekotonRepository.seedList.findAccountByAddress(
+      accountAddress,
+    );
     if (contract == null) {
       throw Exception(LocaleKeys.invalidRootTokenContract.tr());
     }
@@ -138,8 +137,8 @@ class InpageProvider extends ProviderApi {
         );
         final transport = nekotonRepository.currentTransport;
 
-        final hasTokenWallet = account
-                .additionalAssets[transport.transport.group]?.tokenWallets
+        final hasTokenWallet =
+            account.additionalAssets[transport.transport.group]?.tokenWallets
                 .any((e) => e.rootTokenContract == rootTokenContract) ??
             false;
 
@@ -356,8 +355,9 @@ class InpageProvider extends ProviderApi {
       publicKey: publicKey,
       data: input.data,
     );
-    final algorithm = nr.EncryptionAlgorithm.values
-        .firstWhereOrNull((alg) => alg.toString() == input.algorithm);
+    final algorithm = nr.EncryptionAlgorithm.values.firstWhereOrNull(
+      (alg) => alg.toString() == input.algorithm,
+    );
 
     if (algorithm == null) {
       throw s.ApprovalsHandleException(LocaleKeys.unsupportedAlgorithm.tr());
@@ -396,8 +396,9 @@ class InpageProvider extends ProviderApi {
     if (amount == null) {
       throw s.ApprovalsHandleException(LocaleKeys.amountIsWrong.tr());
     }
-    final repackedRecipient =
-        nr.repackAddress(nr.Address(address: input.recipient));
+    final repackedRecipient = nr.repackAddress(
+      nr.Address(address: input.recipient),
+    );
 
     String? body;
 
@@ -463,8 +464,7 @@ class InpageProvider extends ProviderApi {
           stateInit: input.stateInit,
           body: payload as String?,
           timeout: defaultSendTimeoutDuration,
-        ))
-            .boc;
+        )).boc;
       } else if (header['withoutSignature'] == true) {
         final call = FunctionCall.fromJson(payload as Map<String, dynamic>);
         message = (await nr.createExternalMessageWithoutSignature(
@@ -473,11 +473,11 @@ class InpageProvider extends ProviderApi {
           method: call.method,
           input: call.params,
           timeout: defaultSendTimeoutDuration,
-        ))
-            .boc;
+        )).boc;
       } else {
-        final publicKey =
-            nr.PublicKey(publicKey: header['publicKey']! as String);
+        final publicKey = nr.PublicKey(
+          publicKey: header['publicKey']! as String,
+        );
         final call = FunctionCall.fromJson(payload as Map<String, dynamic>);
         final accountInteraction = _checkAccountInteractionPermission(
           publicKey: publicKey,
@@ -524,8 +524,9 @@ class InpageProvider extends ProviderApi {
               },
             );
 
-            final signedMessage =
-                await unsignedMessage.sign(signature: signature);
+            final signedMessage = await unsignedMessage.sign(
+              signature: signature,
+            );
             message = signedMessage.boc;
           }
         } finally {
@@ -540,16 +541,14 @@ class InpageProvider extends ProviderApi {
       final body = input.payload == null
           ? null
           : input.payload is String
-              ? input.payload! as String
-              : await (FunctionCall call) async {
-                  await nr.encodeInternalInput(
-                    contractAbi: call.abi,
-                    method: call.method,
-                    input: call.params,
-                  );
-                }(
-                  FunctionCall.fromJson(input.payload! as Map<String, dynamic>),
-                );
+          ? input.payload! as String
+          : await (FunctionCall call) async {
+              await nr.encodeInternalInput(
+                contractAbi: call.abi,
+                method: call.method,
+                input: call.params,
+              );
+            }(FunctionCall.fromJson(input.payload! as Map<String, dynamic>));
       message = await nr.encodeInternalMessage(
         src: sender,
         dst: repackedAddress,
@@ -590,8 +589,7 @@ class InpageProvider extends ProviderApi {
       output = (await nr.decodeTransaction(
         transaction: transaction,
         contractAbi: call.abi,
-      ))
-          ?.output;
+      ))?.output;
     }
 
     return ExecuteLocalOutput(
@@ -636,10 +634,10 @@ class InpageProvider extends ProviderApi {
     _checkBasicPermission();
     final accountsList = await nekotonRepository.currentTransport.transport
         .getAccountsByCodeHash(
-      codeHash: input.codeHash,
-      limit: input.limit?.toInt() ?? 50,
-      continuation: input.continuation,
-    );
+          codeHash: input.codeHash,
+          limit: input.limit?.toInt() ?? 50,
+          continuation: input.continuation,
+        );
 
     return GetAccountsByCodeHashOutput(
       accountsList.accounts,
@@ -668,14 +666,14 @@ class InpageProvider extends ProviderApi {
     GetContractFieldsInput input,
   ) async {
     _checkBasicPermission();
-    final (output, state) =
-        await nekotonRepository.currentTransport.transport.getContractFields(
-      address: nr.Address(address: input.address),
-      contractAbi: input.abi,
-      cachedState: input.cachedState == null
-          ? null
-          : nr.FullContractState.fromJson(input.cachedState!.toJson()),
-    );
+    final (output, state) = await nekotonRepository.currentTransport.transport
+        .getContractFields(
+          address: nr.Address(address: input.address),
+          contractAbi: input.abi,
+          cachedState: input.cachedState == null
+              ? null
+              : nr.FullContractState.fromJson(input.cachedState!.toJson()),
+        );
 
     return GetContractFieldsOutput(
       output,
@@ -691,18 +689,14 @@ class InpageProvider extends ProviderApi {
     final (address, state, hash) = await nr.getExpectedAddress(
       tvc: input.tvc,
       contractAbi: input.abi,
-      workchainId: input.workchain?.toInt() ?? nr.defaultWorkchainId,
+      workchainId: input.workchain?.toInt() ?? 0,
       publicKey: input.publicKey == null
           ? null
           : nr.PublicKey(publicKey: input.publicKey!),
       initData: input.initParams,
     );
 
-    return GetExpectedAddressOutput(
-      address.address,
-      state,
-      hash,
-    );
+    return GetExpectedAddressOutput(address.address, state, hash);
   }
 
   @override
@@ -764,12 +758,12 @@ class InpageProvider extends ProviderApi {
     GetTransactionsInput input,
   ) async {
     _checkBasicPermission();
-    final transactions =
-        await nekotonRepository.currentTransport.transport.getTransactions(
-      address: nr.Address(address: input.address),
-      count: input.limit?.toInt() ?? 50,
-      fromLt: input.continuation?.lt,
-    );
+    final transactions = await nekotonRepository.currentTransport.transport
+        .getTransactions(
+          address: nr.Address(address: input.address),
+          count: input.limit?.toInt() ?? 50,
+          fromLt: input.continuation?.lt,
+        );
 
     return GetTransactionsOutput(
       transactions.transactions
@@ -796,8 +790,9 @@ class InpageProvider extends ProviderApi {
   Future<PackIntoCellOutput> packIntoCell(PackIntoCellInput input) async {
     _checkBasicPermission();
     final (boc, hash) = nr.packIntoCell(
-      params:
-          input.structure.map((e) => nr.AbiParam.fromJson(e.toJson())).toList(),
+      params: input.structure
+          .map((e) => nr.AbiParam.fromJson(e.toJson()))
+          .toList(),
       tokens: input.data,
       abiVersion: input.abiVersion,
     );
@@ -809,8 +804,9 @@ class InpageProvider extends ProviderApi {
   Future<PermissionsPartial> requestPermissions(
     RequestPermissionsInput input,
   ) async {
-    final requiredPermissions =
-        input.permissions.map((e) => Permission.values.byName(e)).toList();
+    final requiredPermissions = input.permissions
+        .map((e) => Permission.values.byName(e))
+        .toList();
     final existingPermissions = permissionsService.getPermissions(origin);
 
     Permissions permissions;
@@ -851,13 +847,13 @@ class InpageProvider extends ProviderApi {
     final cachedState = input.cachedState == null
         ? null
         : nr.FullContractState.fromJson(input.cachedState!.toJson());
-    final contractState = cachedState ??
-        await nekotonRepository.currentTransport.transport
-            .getFullContractState(address);
+    final contractState =
+        cachedState ??
+        await nekotonRepository.currentTransport.transport.getFullContractState(
+          address,
+        );
     if (contractState == null) {
-      throw Exception(
-        LocaleKeys.accountNotFound.tr(args: [address.address]),
-      );
+      throw Exception(LocaleKeys.accountNotFound.tr(args: [address.address]));
     }
 
     if (!contractState.isDeployed || contractState.lastTransactionId == null) {
@@ -889,15 +885,17 @@ class InpageProvider extends ProviderApi {
       publicKey: publicKey,
     );
 
-    final repackedRecipient =
-        nr.repackAddress(nr.Address(address: input.recipient));
+    final repackedRecipient = nr.repackAddress(
+      nr.Address(address: input.recipient),
+    );
 
     var subscribedNew = false;
     nr.UnsignedMessage? unsignedMessage;
 
     try {
-      if (nekotonRepository.allContracts
-              .firstWhereOrNull((c) => c.address == recipient) ==
+      if (nekotonRepository.allContracts.firstWhereOrNull(
+            (c) => c.address == recipient,
+          ) ==
           null) {
         await nekotonRepository.subscribeContract(
           address: recipient,
@@ -999,15 +997,17 @@ class InpageProvider extends ProviderApi {
       publicKey: publicKey,
     );
 
-    final repackedRecipient =
-        nr.repackAddress(nr.Address(address: input.recipient));
+    final repackedRecipient = nr.repackAddress(
+      nr.Address(address: input.recipient),
+    );
 
     var subscribedNew = false;
     nr.UnsignedMessage? unsignedMessage;
 
     try {
-      if (nekotonRepository.allContracts
-              .firstWhereOrNull((c) => c.address == recipient) ==
+      if (nekotonRepository.allContracts.firstWhereOrNull(
+            (c) => c.address == recipient,
+          ) ==
           null) {
         await nekotonRepository.subscribeContract(
           address: recipient,
@@ -1066,29 +1066,30 @@ class InpageProvider extends ProviderApi {
         nekotonRepository
             .waitContractSending(pending: transaction, address: recipient)
             .then((trans) {
-          controller?.messageStatusUpdated(
-            MessageStatusUpdatedEvent(
-              recipient.address,
-              signedMessage.hash,
-              Transaction.fromJson(trans.toJson()),
-            ),
-          );
-          if (subscribedNew) {
-            nekotonRepository.unsubscribeContract(
-              tabId: tabId,
-              origin: origin!,
-              address: recipient,
-            );
-          }
-        }).catchError((Object? e, StackTrace? t) async {
-          _logger.severe(
-            'sendExternalMessageDelayed, waiting transaction',
-            e,
-            t,
-          );
+              controller?.messageStatusUpdated(
+                MessageStatusUpdatedEvent(
+                  recipient.address,
+                  signedMessage.hash,
+                  Transaction.fromJson(trans.toJson()),
+                ),
+              );
+              if (subscribedNew) {
+                nekotonRepository.unsubscribeContract(
+                  tabId: tabId,
+                  origin: origin!,
+                  address: recipient,
+                );
+              }
+            })
+            .catchError((Object? e, StackTrace? t) async {
+              _logger.severe(
+                'sendExternalMessageDelayed, waiting transaction',
+                e,
+                t,
+              );
 
-          return null;
-        }),
+              return null;
+            }),
       );
 
       return SendExternalMessageDelayedOutput(
@@ -1123,8 +1124,9 @@ class InpageProvider extends ProviderApi {
     if (amount == null) {
       throw s.ApprovalsHandleException(LocaleKeys.amountIsWrong.tr());
     }
-    final repackedRecipient =
-        nr.repackAddress(nr.Address(address: input.recipient));
+    final repackedRecipient = nr.repackAddress(
+      nr.Address(address: input.recipient),
+    );
 
     String? body;
     nr.KnownPayload? knownPayload;
@@ -1214,9 +1216,7 @@ class InpageProvider extends ProviderApi {
         ),
       );
 
-      return SendMessageOutput(
-        Transaction.fromJson(transaction.toJson()),
-      );
+      return SendMessageOutput(Transaction.fromJson(transaction.toJson()));
     } finally {
       unsignedMessage?.dispose();
 
@@ -1237,8 +1237,9 @@ class InpageProvider extends ProviderApi {
     if (amount == null) {
       throw s.ApprovalsHandleException(LocaleKeys.amountIsWrong.tr());
     }
-    final repackedRecipient =
-        nr.repackAddress(nr.Address(address: input.recipient));
+    final repackedRecipient = nr.repackAddress(
+      nr.Address(address: input.recipient),
+    );
 
     String? body;
     nr.KnownPayload? knownPayload;
@@ -1322,21 +1323,22 @@ class InpageProvider extends ProviderApi {
         nekotonRepository
             .waitSending(pending: transaction, address: sender)
             .then((trans) async {
-          await controller?.messageStatusUpdated(
-            MessageStatusUpdatedEvent(
-              sender.address,
-              signedMessage.hash,
-              Transaction.fromJson(trans.toJson()),
-            ),
-          );
-          if (subscribedNew) {
-            await nekotonRepository.unsubscribe(sender);
-          }
-        }).catchError((Object? e, StackTrace? t) async {
-          _logger.severe('sendMessageDelayed, waiting transaction', e, t);
+              await controller?.messageStatusUpdated(
+                MessageStatusUpdatedEvent(
+                  sender.address,
+                  signedMessage.hash,
+                  Transaction.fromJson(trans.toJson()),
+                ),
+              );
+              if (subscribedNew) {
+                await nekotonRepository.unsubscribe(sender);
+              }
+            })
+            .catchError((Object? e, StackTrace? t) async {
+              _logger.severe('sendMessageDelayed, waiting transaction', e, t);
 
-          return null;
-        }),
+              return null;
+            }),
       );
 
       return SendMessageDelayedOutput(
@@ -1368,14 +1370,16 @@ class InpageProvider extends ProviderApi {
 
     _checkBasicPermission();
 
-    final repackedRecipient =
-        nr.repackAddress(nr.Address(address: input.recipient));
+    final repackedRecipient = nr.repackAddress(
+      nr.Address(address: input.recipient),
+    );
 
     var subscribedNew = false;
 
     try {
-      if (nekotonRepository.allContracts
-              .firstWhereOrNull((c) => c.address == recipient) ==
+      if (nekotonRepository.allContracts.firstWhereOrNull(
+            (c) => c.address == recipient,
+          ) ==
           null) {
         await nekotonRepository.subscribeContract(
           address: recipient,
@@ -1386,8 +1390,9 @@ class InpageProvider extends ProviderApi {
         subscribedNew = true;
       }
 
-      final payload =
-          FunctionCall.fromJson(input.payload! as Map<String, dynamic>);
+      final payload = FunctionCall.fromJson(
+        input.payload! as Map<String, dynamic>,
+      );
       final signedMessage = await nr.createExternalMessageWithoutSignature(
         dst: repackedRecipient,
         contractAbi: payload.abi,
@@ -1451,8 +1456,9 @@ class InpageProvider extends ProviderApi {
       publicKey: publicKey,
     );
 
-    final account = nekotonRepository.seedList
-        .findAccountByAddress(accountInteraction.address)!;
+    final account = nekotonRepository.seedList.findAccountByAddress(
+      accountInteraction.address,
+    )!;
     final signInputAuth = await approvalsService.signData(
       origin: origin!,
       account: accountInteraction.address,
@@ -1492,8 +1498,9 @@ class InpageProvider extends ProviderApi {
       publicKey: publicKey,
     );
 
-    final account = nekotonRepository.seedList
-        .findAccountByAddress(accountInteraction.address)!;
+    final account = nekotonRepository.seedList.findAccountByAddress(
+      accountInteraction.address,
+    )!;
     final signInputAuth = await approvalsService.signData(
       origin: origin!,
       account: accountInteraction.address,
@@ -1565,8 +1572,9 @@ class InpageProvider extends ProviderApi {
   Future<UnpackFromCellOutput> unpackFromCell(UnpackFromCellInput input) async {
     _checkBasicPermission();
     final data = nr.unpackFromCell(
-      params:
-          input.structure.map((e) => nr.AbiParam.fromJson(e.toJson())).toList(),
+      params: input.structure
+          .map((e) => nr.AbiParam.fromJson(e.toJson()))
+          .toList(),
       boc: input.boc,
       allowPartial: input.allowPartial,
       abiVersion: input.abiVersion,
@@ -1662,7 +1670,8 @@ class InpageProvider extends ProviderApi {
     final info = await nr.computeStorageFee(
       config: config.config,
       account: input.state.boc,
-      utime: input.timestamp?.toInt() ??
+      utime:
+          input.timestamp?.toInt() ??
           NtpTime.now().millisecondsSinceEpoch ~/ 1000,
       isMasterchain: input.masterchain,
     );
@@ -1742,14 +1751,14 @@ class InpageProvider extends ProviderApi {
     final cachedState = input.cachedState == null
         ? null
         : nr.FullContractState.fromJson(input.cachedState!.toJson());
-    final contractState = cachedState ??
-        await nekotonRepository.currentTransport.transport
-            .getFullContractState(address);
+    final contractState =
+        cachedState ??
+        await nekotonRepository.currentTransport.transport.getFullContractState(
+          address,
+        );
 
     if (contractState == null) {
-      throw Exception(
-        LocaleKeys.accountNotFound.tr(args: [address.address]),
-      );
+      throw Exception(LocaleKeys.accountNotFound.tr(args: [address.address]));
     }
 
     if (!contractState.isDeployed || contractState.lastTransactionId == null) {
@@ -1803,8 +1812,10 @@ class InpageProvider extends ProviderApi {
           list.add(connection);
         }
       } catch (e) {
-        _logger.severe('Error getting network id for connection: '
-            '${connection.networkName} (${connection.id})');
+        _logger.severe(
+          'Error getting network id for connection: '
+          '${connection.networkName} (${connection.id})',
+        );
       } finally {
         await transport?.dispose();
       }
@@ -1821,10 +1832,10 @@ class InpageProvider extends ProviderApi {
     final signatureId = withSignatureId == true
         ? await nekotonRepository.currentTransport.transport.getSignatureId()
         : withSignatureId == false
-            ? null
-            : withSignatureId != null && withSignatureId is num
-                ? withSignatureId.toInt()
-                : null;
+        ? null
+        : withSignatureId != null && withSignatureId is num
+        ? withSignatureId.toInt()
+        : null;
     return signatureId;
   }
 
@@ -1865,12 +1876,9 @@ class InpageProvider extends ProviderApi {
 }
 
 nr.IgnoreTransactionTreeSimulationError
-    _mapIgnoreTransactionTreeSimulationError(
+_mapIgnoreTransactionTreeSimulationError(
   IgnoreTransactionTreeSimulationError error,
-) =>
-        nr.IgnoreTransactionTreeSimulationError(
-          code: error.code.toInt(),
-          address: error.address?.let(
-            (address) => nr.Address(address: address),
-          ),
-        );
+) => nr.IgnoreTransactionTreeSimulationError(
+  code: error.code.toInt(),
+  address: error.address?.let((address) => nr.Address(address: address)),
+);

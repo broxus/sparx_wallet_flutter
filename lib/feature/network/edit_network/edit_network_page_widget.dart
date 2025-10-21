@@ -4,14 +4,11 @@ import 'package:app/generated/generated.dart';
 import 'package:flutter/material.dart';
 import 'package:ui_components_lib/ui_components_lib.dart';
 
-class EditNetworkPageWidget extends InjectedElementaryParametrizedWidget<
-    EditNetworkWidgetModel, String?> {
-  const EditNetworkPageWidget({
-    String? connectionDataId,
-    super.key,
-  }) : super(
-          wmFactoryParam: connectionDataId,
-        );
+class EditNetworkPageWidget
+    extends
+        InjectedElementaryParametrizedWidget<EditNetworkWidgetModel, String?> {
+  const EditNetworkPageWidget({String? connectionDataId, super.key})
+    : super(wmFactoryParam: connectionDataId);
 
   @override
   Widget build(EditNetworkWidgetModel wm) {
@@ -23,11 +20,11 @@ class EditNetworkPageWidget extends InjectedElementaryParametrizedWidget<
       body: Stack(
         alignment: AlignmentDirectional.bottomCenter,
         children: [
-          CustomScrollView(
-            slivers: [
-              Form(
-                key: wm.formKey,
-                child: SliverToBoxAdapter(
+          Form(
+            key: wm.formKey,
+            child: CustomScrollView(
+              slivers: [
+                SliverToBoxAdapter(
                   child: Padding(
                     padding: const EdgeInsets.all(DimensSizeV2.d16),
                     child: SeparatedColumn(
@@ -90,12 +87,12 @@ class EditNetworkPageWidget extends InjectedElementaryParametrizedWidget<
                     ),
                   ),
                 ),
-              ),
-              BottomSpacer(
-                deleteEnabled: wm.isDeleteEnabled,
-                saveEnabled: wm.isSaveEnabled,
-              ),
-            ],
+                BottomSpacer(
+                  deleteEnabled: wm.isDeleteEnabled,
+                  saveEnabled: wm.isSaveEnabled,
+                ),
+              ],
+            ),
           ),
           NetworkButtons(
             saveEnabled: wm.isSaveEnabled,

@@ -12,32 +12,32 @@ enum TonWalletTransactionStatus {
   unstakingInProgress; // custom status for unstaking request
 
   PrimaryChip get chipByStatus => switch (this) {
-        TonWalletTransactionStatus.completed => PrimaryChip(
-            text: LocaleKeys.transactionCompleted.tr(),
-            iconData: LucideIcons.circleCheck,
-            type: ChipsType.success,
-          ),
-        TonWalletTransactionStatus.pending => PrimaryChip(
-            text: LocaleKeys.inProgress.tr(),
-            iconData: LucideIcons.loader,
-            type: ChipsType.normal,
-          ),
-        TonWalletTransactionStatus.waitingConfirmation => PrimaryChip(
-            text: LocaleKeys.transactionStatusWaitingConfirmation.tr(),
-            iconData: LucideIcons.usersRound,
-            type: ChipsType.warning,
-          ),
-        TonWalletTransactionStatus.expired => PrimaryChip(
-            text: LocaleKeys.transactionExpired.tr(),
-            iconData: LucideIcons.flame,
-            type: ChipsType.error,
-          ),
-        TonWalletTransactionStatus.unstakingInProgress => PrimaryChip(
-            text: LocaleKeys.inProgress.tr(),
-            iconData: LucideIcons.loader,
-            type: ChipsType.normal,
-          ),
-      };
+    TonWalletTransactionStatus.completed => PrimaryChip(
+      text: LocaleKeys.transactionCompleted.tr(),
+      iconData: LucideIcons.circleCheck,
+      type: ChipsType.success,
+    ),
+    TonWalletTransactionStatus.pending => PrimaryChip(
+      text: LocaleKeys.inProgress.tr(),
+      iconData: LucideIcons.loader,
+      type: ChipsType.normal,
+    ),
+    TonWalletTransactionStatus.waitingConfirmation => PrimaryChip(
+      text: LocaleKeys.transactionStatusWaitingConfirmation.tr(),
+      iconData: LucideIcons.usersRound,
+      type: ChipsType.warning,
+    ),
+    TonWalletTransactionStatus.expired => PrimaryChip(
+      text: LocaleKeys.transactionExpired.tr(),
+      iconData: LucideIcons.flame,
+      type: ChipsType.error,
+    ),
+    TonWalletTransactionStatus.unstakingInProgress => PrimaryChip(
+      text: LocaleKeys.inProgress.tr(),
+      iconData: LucideIcons.loader,
+      type: ChipsType.normal,
+    ),
+  };
 
   String get title {
     return switch (this) {
@@ -53,10 +53,10 @@ enum TonWalletTransactionStatus {
   }
 
   ChipsType get chipType => switch (this) {
-        TonWalletTransactionStatus.completed => ChipsType.success,
-        TonWalletTransactionStatus.pending => ChipsType.normal,
-        TonWalletTransactionStatus.waitingConfirmation => ChipsType.warning,
-        TonWalletTransactionStatus.expired => ChipsType.error,
-        TonWalletTransactionStatus.unstakingInProgress => ChipsType.normal,
-      };
+    TonWalletTransactionStatus.completed => ChipsType.success,
+    TonWalletTransactionStatus.pending => ChipsType.normal,
+    TonWalletTransactionStatus.waitingConfirmation => ChipsType.warning,
+    TonWalletTransactionStatus.expired => ChipsType.error,
+    TonWalletTransactionStatus.unstakingInProgress => ChipsType.normal,
+  };
 }

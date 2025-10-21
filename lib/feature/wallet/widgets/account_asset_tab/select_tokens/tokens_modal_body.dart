@@ -51,10 +51,8 @@ class TokensModalBody extends StatelessWidget {
           spacing: DimensSizeV2.d12,
           children: assets
               .map(
-                (value) => _TokenItem(
-                  tokenDataElement: value,
-                  onChecked: onChecked,
-                ),
+                (value) =>
+                    _TokenItem(tokenDataElement: value, onChecked: onChecked),
               )
               .toList(),
         ),
@@ -70,10 +68,7 @@ class TokensModalBody extends StatelessWidget {
 }
 
 class _TokenItem extends StatelessWidget {
-  const _TokenItem({
-    required this.tokenDataElement,
-    required this.onChecked,
-  });
+  const _TokenItem({required this.tokenDataElement, required this.onChecked});
 
   final TokenDataElement tokenDataElement;
   final Function(TokenDataElement) onChecked;

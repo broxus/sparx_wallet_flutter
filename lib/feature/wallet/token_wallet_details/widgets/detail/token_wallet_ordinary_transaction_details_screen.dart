@@ -9,9 +9,11 @@ import 'package:nekoton_repository/nekoton_repository.dart';
 import 'package:ui_components_lib/ui_components_lib.dart';
 
 class TokenWalletOrdinaryTransactionDetailsScreen
-    extends InjectedElementaryParametrizedWidget<
-        TokenWalletOrdinaryTransactionDetailsScreenWidgetModel,
-        TokenWalletOrdinaryTransactionDetailsScreenWmParams> {
+    extends
+        InjectedElementaryParametrizedWidget<
+          TokenWalletOrdinaryTransactionDetailsScreenWidgetModel,
+          TokenWalletOrdinaryTransactionDetailsScreenWmParams
+        > {
   TokenWalletOrdinaryTransactionDetailsScreen({
     required TokenWalletOrdinaryTransaction transaction,
     required Currency tokenCurrency,
@@ -19,13 +21,13 @@ class TokenWalletOrdinaryTransactionDetailsScreen
     required Address rootTokenContract,
     super.key,
   }) : super(
-          wmFactoryParam: TokenWalletOrdinaryTransactionDetailsScreenWmParams(
-            transaction: transaction,
-            tokenCurrency: tokenCurrency,
-            price: price,
-            rootTokenContract: rootTokenContract,
-          ),
-        );
+         wmFactoryParam: TokenWalletOrdinaryTransactionDetailsScreenWmParams(
+           transaction: transaction,
+           tokenCurrency: tokenCurrency,
+           price: price,
+           rootTokenContract: rootTokenContract,
+         ),
+       );
 
   @override
   Widget build(TokenWalletOrdinaryTransactionDetailsScreenWidgetModel wm) {

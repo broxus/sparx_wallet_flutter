@@ -4,10 +4,8 @@ import 'package:injectable/injectable.dart';
 
 @injectable
 class SelectNetworkModel extends ElementaryModel {
-  SelectNetworkModel(
-    ErrorHandler errorHandler,
-    this._storageService,
-  ) : super(errorHandler: errorHandler);
+  SelectNetworkModel(ErrorHandler errorHandler, this._storageService)
+    : super(errorHandler: errorHandler);
 
   final ConnectionsStorageService _storageService;
 

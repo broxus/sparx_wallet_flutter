@@ -45,8 +45,9 @@ class BootstrapService {
 
   final _log = Logger('bootstrap');
 
-  final _bootstrapStepSubject =
-      BehaviorSubject<BootstrapSteps>.seeded(BootstrapSteps.empty);
+  final _bootstrapStepSubject = BehaviorSubject<BootstrapSteps>.seeded(
+    BootstrapSteps.empty,
+  );
 
   Stream<BootstrapSteps> get bootstrapStepStream => _bootstrapStepSubject;
 

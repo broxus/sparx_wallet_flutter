@@ -36,10 +36,10 @@ class WalletView extends StatelessWidget {
             controller: scrollController,
             slivers: [
               const SliverToBoxAdapter(
-                child: WalletAppBarWidget(),
+                child: WalletAppBarWidget()
               ),
               const SliverToBoxAdapter(
-                child: WorkchainSelector(),
+                child: WorkchainSelector()
               ),
               WalletAccountBodyWidget(
                 key: ValueKey(currentAccount),

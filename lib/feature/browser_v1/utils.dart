@@ -56,7 +56,7 @@ extension TransportExtension on TransportStrategy {
       NetworkDescription(
         config.globalId,
         '0x$capabilities',
-        signatureId,
+        signatureId
       ),
       connectionObject,
       NetworkConfig(

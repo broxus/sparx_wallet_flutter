@@ -22,11 +22,12 @@ class NftPageWidgetModel
   );
   late final _pendingState = createNotifierFromStream(
     model.getPendingNftStream().map(
-          (pending) => pending.groupListsBy((e) => e.collection),
-        ),
+      (pending) => pending.groupListsBy((e) => e.collection),
+    ),
   );
-  late final _displayModeState =
-      createNotifierFromStream(model.displayModeStream);
+  late final _displayModeState = createNotifierFromStream(
+    model.displayModeStream,
+  );
   late final _marketplaceUrlState = createNotifierFromStream(
     model.marketplaceUrlStream,
   );
@@ -52,18 +53,20 @@ class NftPageWidgetModel
   void initWidgetModel() {
     super.initWidgetModel();
 
-    _subscription = Rx.combineLatest2(
-      model.currentTransportStream.map((e) => e.networkGroup).distinct(),
-      model.currentAccountStream.mapNotNull((e) => e?.address).distinct(),
-      (_, owner) => owner,
-    ).listen(
-      (owner) => model.scanNftCollections(owner).then(
-            (_) => _loadingState.accept(false),
-          ),
-    );
+    _subscription =
+        Rx.combineLatest2(
+          model.currentTransportStream.map((e) => e.networkGroup).distinct(),
+          model.currentAccountStream.mapNotNull((e) => e?.address).distinct(),
+          (_, owner) => owner,
+        ).listen(
+          (owner) => model
+              .scanNftCollections(owner)
+              .then((_) => _loadingState.accept(false)),
+        );
 
-    _transferEventSubscription =
-        model.getNftTransferEventStream().listen((_) => _reload());
+    _transferEventSubscription = model.getNftTransferEventStream().listen(
+      (_) => _reload(),
+    );
   }
 
   @override
@@ -92,9 +95,7 @@ class NftPageWidgetModel
 
   void onNftCollectionPressed(NftCollection collection) {
     context.compassContinue(
-      NftCollectionRouteData(
-        collection: collection.address,
-      ),
+      NftCollectionRouteData(collection: collection.address),
     );
   }
 

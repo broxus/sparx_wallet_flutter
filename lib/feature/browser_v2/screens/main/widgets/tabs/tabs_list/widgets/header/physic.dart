@@ -3,10 +3,7 @@ import 'dart:math';
 import 'package:flutter/widgets.dart';
 
 class CenterSnapScrollPhysics extends ClampingScrollPhysics {
-  const CenterSnapScrollPhysics({
-    required this.itemWidth,
-    super.parent,
-  });
+  const CenterSnapScrollPhysics({required this.itemWidth, super.parent});
 
   final double itemWidth;
 
@@ -38,13 +35,7 @@ class CenterSnapScrollPhysics extends ClampingScrollPhysics {
       return null;
     }
 
-    return ScrollSpringSimulation(
-      _spring,
-      current,
-      target,
-      0,
-      tolerance: tol,
-    );
+    return ScrollSpringSimulation(_spring, current, target, 0, tolerance: tol);
   }
 
   double _getCurrentPage(ScrollMetrics position) {
@@ -57,10 +48,7 @@ class CenterSnapScrollPhysics extends ClampingScrollPhysics {
     final targetPage = currentPage.roundToDouble();
     final offset = (position.viewportDimension - itemWidth) / 2;
     final pixels = targetPage * itemWidth - offset;
-    return max(
-      position.minScrollExtent,
-      min(position.maxScrollExtent, pixels),
-    );
+    return max(position.minScrollExtent, min(position.maxScrollExtent, pixels));
   }
 
   @override

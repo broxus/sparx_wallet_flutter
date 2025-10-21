@@ -10,16 +10,20 @@ import 'package:nekoton_repository/nekoton_repository.dart';
 import 'package:ui_components_lib/ui_components_lib.dart';
 
 @injectable
-class NftCollectionPageWidgetModel extends CustomWidgetModelParametrized<
-    NftCollectionPageWidget, NftCollectionPageModel, Address> {
-  NftCollectionPageWidgetModel(
-    super.model,
-  );
+class NftCollectionPageWidgetModel
+    extends
+        CustomWidgetModelParametrized<
+          NftCollectionPageWidget,
+          NftCollectionPageModel,
+          Address
+        > {
+  NftCollectionPageWidgetModel(super.model);
 
   Address get _collection => wmParams.value;
 
-  late final _displayModeState =
-      createNotifierFromStream(model.displayModeStream);
+  late final _displayModeState = createNotifierFromStream(
+    model.displayModeStream,
+  );
   late final _collectionState = createNotifier<NftCollection>();
 
   late final PagingController<String, NftItem> controller = PagingController(
@@ -57,10 +61,10 @@ class NftCollectionPageWidgetModel extends CustomWidgetModelParametrized<
   void setDisplayMode(NftDisplayMode mode) => model.setDisplayMode(mode);
 
   void onSettings() => showNftCollectionSettionsSheet(
-        context: context,
-        onViewInExplorer: _onViewInExplorer,
-        onHideCollection: _onHideCollection,
-      );
+    context: context,
+    onViewInExplorer: _onViewInExplorer,
+    onHideCollection: _onHideCollection,
+  );
 
   void onNftPressed(NftItem item) {
     context.compassContinue(

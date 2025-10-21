@@ -38,5 +38,5 @@ class DeriveKeysSheetModel extends ElementaryModel {
       _nekotonRepository.removeKeys(keys);
 
   Future<void> deriveKeys(Iterable<DeriveKeysParams> params) =>
-      _nekotonRepository.deriveKeys(params: params);
+      _nekotonRepository.deriveKeys(params: params, workchainId: 0);
 }

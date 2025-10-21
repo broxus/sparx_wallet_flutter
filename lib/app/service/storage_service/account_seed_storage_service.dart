@@ -9,10 +9,9 @@ import 'package:nekoton_repository/nekoton_repository.dart';
 @singleton
 class NekotonStorageService extends NekotonStorageRepository
     implements AbstractStorageService {
-  NekotonStorageService({
-    required EncryptedStorage storage,
-  })  : _storage = storage,
-        super(storage);
+  NekotonStorageService({required EncryptedStorage storage})
+    : _storage = storage,
+      super(storage);
 
   final EncryptedStorage _storage;
 
@@ -53,10 +52,7 @@ class NekotonStorageService extends NekotonStorageRepository
   }
 
   @override
-  Future<void> setStorageData({
-    required String key,
-    required String value,
-  }) {
+  Future<void> setStorageData({required String key, required String value}) {
     try {
       return super.setStorageData(key: key, value: value);
     } catch (e, s) {

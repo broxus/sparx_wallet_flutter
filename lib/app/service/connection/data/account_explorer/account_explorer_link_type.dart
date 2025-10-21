@@ -1,5 +1,1 @@
-enum AccountExplorerLinkType {
-  accounts,
-  accountDetails,
-  packAddress,
-}
+enum AccountExplorerLinkType { accounts, accountDetails, packAddress }

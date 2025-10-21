@@ -13,16 +13,13 @@ class ManageSeedsAccountsRoute
     @Named.from(SeedDetailRoute) CompassBaseRoute seedDetailRoute,
     @Named.from(EnterSeedNameRoute) CompassBaseRoute enterSeedNameRoute,
   ) : super(
-          name: 'manage-seeds-accounts',
-          path: '/manage-seeds-accounts',
-          isSaveLocation: true,
-          bottomBarState: BottomBarState.expanded,
-          builder: (context, _, __) => const ManageSeedsAccountsPage(),
-          compassBaseRoutes: [
-            seedDetailRoute,
-            enterSeedNameRoute,
-          ],
-        );
+        name: 'manage-seeds-accounts',
+        path: '/manage-seeds-accounts',
+        isSaveLocation: true,
+        bottomBarState: BottomBarState.expanded,
+        builder: (context, _, __) => const ManageSeedsAccountsPage(),
+        compassBaseRoutes: [seedDetailRoute, enterSeedNameRoute],
+      );
 
   @override
   ManageSeedsAccountsRouteData createData() {

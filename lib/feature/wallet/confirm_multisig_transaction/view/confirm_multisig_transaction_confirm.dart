@@ -65,11 +65,7 @@ class _TonWalletConfirmTransactionConfirmViewState
               bottom: DimensSize.d16,
             ),
             child: MultiListenerRebuilder(
-              listenableList: [
-                widget.isLoading,
-                widget.txErrors,
-                widget.fees,
-              ],
+              listenableList: [widget.isLoading, widget.txErrors, widget.fees],
               builder: (_) {
                 final isLoading = widget.isLoading.value;
                 final txErrors = widget.txErrors.value;
@@ -83,16 +79,16 @@ class _TonWalletConfirmTransactionConfirmViewState
                         txErrors: txErrors,
                         symbol: widget.currency.symbol,
                         isConfirmed: isConfirmed,
-                        onConfirm: (value) => setState(
-                          () => isConfirmed = value,
-                        ),
+                        onConfirm: (value) =>
+                            setState(() => isConfirmed = value),
                       ),
                     EnterPasswordWidget.auth(
                       getLedgerAuthInput: widget.getLedgerAuthInput,
                       publicKey: widget.publicKey,
                       title: LocaleKeys.confirm.tr(),
                       isLoading: isLoading ?? false,
-                      isDisabled: fees.isErrorState ||
+                      isDisabled:
+                          fees.isErrorState ||
                           ((txErrors?.isNotEmpty ?? false) && !isConfirmed),
                       onConfirmed: widget.onConfirmed,
                     ),
@@ -104,9 +100,7 @@ class _TonWalletConfirmTransactionConfirmViewState
         ],
       ),
       child: Padding(
-        padding: const EdgeInsets.only(
-          top: DimensSizeV2.d12,
-        ),
+        padding: const EdgeInsets.only(top: DimensSizeV2.d12),
         child: Column(
           mainAxisSize: MainAxisSize.min,
           crossAxisAlignment: CrossAxisAlignment.start,

@@ -20,8 +20,12 @@ const publicKeyLength = 64;
 /// Minimum quantity of custodians for [WalletDeployType.multisig]
 const minConfirmationsCount = 2;
 
-class WalletMultisigConfigScreen extends InjectedElementaryParametrizedWidget<
-    WalletMultisigConfigWidgetModel, WalletMultisigConfigWmParams> {
+class WalletMultisigConfigScreen
+    extends
+        InjectedElementaryParametrizedWidget<
+          WalletMultisigConfigWidgetModel,
+          WalletMultisigConfigWmParams
+        > {
   WalletMultisigConfigScreen({
     required Address address,
     required PublicKey publicKey,
@@ -30,14 +34,14 @@ class WalletMultisigConfigScreen extends InjectedElementaryParametrizedWidget<
     int? initialHours,
     super.key,
   }) : super(
-          wmFactoryParam: WalletMultisigConfigWmParams(
-            address: address,
-            publicKey: publicKey,
-            initialCustodians: initialCustodians,
-            initialRequireConfirmations: initialRequireConfirmations,
-            initialHours: initialHours,
-          ),
-        );
+         wmFactoryParam: WalletMultisigConfigWmParams(
+           address: address,
+           publicKey: publicKey,
+           initialCustodians: initialCustodians,
+           initialRequireConfirmations: initialRequireConfirmations,
+           initialHours: initialHours,
+         ),
+       );
 
   @override
   Widget build(WalletMultisigConfigWidgetModel wm) {
@@ -83,7 +87,8 @@ class _WalletMultisigConfigBody extends StatefulWidget {
     List<PublicKey> custodians,
     int requireConfirmations,
     int hours,
-  ) onNext;
+  )
+  onNext;
 
   @override
   State<_WalletMultisigConfigBody> createState() =>
@@ -108,8 +113,9 @@ class _WalletMultisigConfigBodyState extends State<_WalletMultisigConfigBody> {
   late TextEditingController requireConfirmationController =
       TextEditingController(text: widget.requireConfirmations.toString());
 
-  late TextEditingController waitingTimeController =
-      TextEditingController(text: widget.hours.toString());
+  late TextEditingController waitingTimeController = TextEditingController(
+    text: widget.hours.toString(),
+  );
 
   /// If true, then some of custodian focuses has focus
   final focusNotifier = ValueNotifier<bool>(false);
@@ -216,9 +222,7 @@ class _WalletMultisigConfigBodyState extends State<_WalletMultisigConfigBody> {
                     ),
                     if (widget.isWaitingTimeSelectionEnabled)
                       Padding(
-                        padding: const EdgeInsets.only(
-                          top: DimensSizeV2.d8,
-                        ),
+                        padding: const EdgeInsets.only(top: DimensSizeV2.d8),
                         child: Column(
                           mainAxisSize: MainAxisSize.min,
                           crossAxisAlignment: CrossAxisAlignment.start,
@@ -324,8 +328,9 @@ class _WalletMultisigConfigBodyState extends State<_WalletMultisigConfigBody> {
         child: Text(
           '${hours}h',
           style: theme.textStyles.labelSmall.copyWith(
-            color:
-                isSelected ? theme.colors.background0 : theme.colors.content1,
+            color: isSelected
+                ? theme.colors.background0
+                : theme.colors.content1,
           ),
         ),
       ),
@@ -343,8 +348,9 @@ class _WalletMultisigConfigBodyState extends State<_WalletMultisigConfigBody> {
               key: ValueKey(controller.hashCode),
               textEditingController: controller,
               focusNode: custodianFocuses[index],
-              hintText: LocaleKeys.publicKeyOfCustodianNumber
-                  .tr(args: [(index + 1).toString()]),
+              hintText: LocaleKeys.publicKeyOfCustodianNumber.tr(
+                args: [(index + 1).toString()],
+              ),
               textInputAction: index == custodianControllers.length - 1
                   ? TextInputAction.done
                   : TextInputAction.next,
@@ -429,8 +435,9 @@ class _WalletMultisigConfigBodyState extends State<_WalletMultisigConfigBody> {
     }
 
     if (value.length != publicKeyLength) {
-      return LocaleKeys.invalidLengthMustBe
-          .tr(args: [publicKeyLength.toString()]);
+      return LocaleKeys.invalidLengthMustBe.tr(
+        args: [publicKeyLength.toString()],
+      );
     }
 
     return null;

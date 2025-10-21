@@ -73,6 +73,7 @@ class CreateSeedPasswordProfileModel extends ElementaryModel
           name: name,
           addType: type,
           mnemonicType: mnemonicType,
+          workchainId: 0,
         );
 
         if (type == SeedAddType.create && isChecked) {
@@ -102,9 +103,7 @@ class CreateSeedPasswordProfileModel extends ElementaryModel
       return publicKey;
     } catch (e, s) {
       Logger('CreateSeedPasswordProfileModel').severe(e, s);
-      messengerService.show(
-        Message.error(message: e.toString()),
-      );
+      messengerService.show(Message.error(message: e.toString()));
       return null;
     }
   }

@@ -71,14 +71,8 @@ class ColorsRes {
 
   static const transparent = Color(0x00000000);
 
-  static const gradientLight = <Color>[
-    Color(0x00F7F7F7),
-    Color(0xFFF7F7F7),
-  ];
-  static const gradientDark = <Color>[
-    Color(0x00222222),
-    Color(0xFF222222),
-  ];
+  static const gradientLight = <Color>[Color(0x00F7F7F7), Color(0xFFF7F7F7)];
+  static const gradientDark = <Color>[Color(0x00222222), Color(0xFF222222)];
 
   static const black = Color(0xFF222222);
   static const black343333 = Color(0xFF343333);

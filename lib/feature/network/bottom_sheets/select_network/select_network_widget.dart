@@ -8,15 +8,14 @@ import 'package:lucide_icons_flutter/lucide_icons.dart';
 import 'package:ui_components_lib/ui_components_lib.dart';
 import 'package:ui_components_lib/v2/ui_components_lib_v2.dart';
 
-class SelectNetworkWidget extends InjectedElementaryParametrizedWidget<
-    SelectNetworkWidgetModel, bool> {
+class SelectNetworkWidget
+    extends
+        InjectedElementaryParametrizedWidget<SelectNetworkWidgetModel, bool> {
   const SelectNetworkWidget({
     bool needPopAfterAction = true,
     this.scrollController,
     super.key,
-  }) : super(
-          wmFactoryParam: needPopAfterAction,
-        );
+  }) : super(wmFactoryParam: needPopAfterAction);
 
   final ScrollController? scrollController;
 
@@ -42,7 +41,7 @@ class SelectNetworkWidget extends InjectedElementaryParametrizedWidget<
                     trailing: data.id == currentConnectionId?.$1
                         ? const Icon(
                             LucideIcons.check,
-                            size: DimensSizeV2.d20,
+                            size: DimensSizeV2.d20
                           )
                         : null,
                     onTap: () => wm.onItemTap(data),

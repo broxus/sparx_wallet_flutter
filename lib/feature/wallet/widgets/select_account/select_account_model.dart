@@ -3,6 +3,7 @@ import 'package:app/data/models/models.dart';
 import 'package:app/feature/wallet/widgets/select_account/select_account_data.dart';
 import 'package:elementary/elementary.dart';
 import 'package:injectable/injectable.dart';
+import 'package:money2/money2.dart';
 import 'package:nekoton_repository/nekoton_repository.dart';
 import 'package:rxdart/rxdart.dart';
 

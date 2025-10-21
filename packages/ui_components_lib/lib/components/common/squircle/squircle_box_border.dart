@@ -43,9 +43,9 @@ class SquircleBoxBorder extends BoxBorder {
 
   @override
   SquircleInputBorder scale(double t) => SquircleInputBorder(
-        borderSide: borderSide.scale(t),
-        squircleRadius: shape.cornerRadius * t,
-      );
+    borderSide: borderSide.scale(t),
+    squircleRadius: shape.cornerRadius * t,
+  );
 
   @override
   BorderSide get top => borderSide;

@@ -47,10 +47,7 @@ class NetworkTypeField extends StatelessWidget {
                         ),
                       ),
                       const SizedBox(width: DimensSize.d8),
-                      Text(
-                        type.name,
-                        style: theme.textStyles.labelSmall,
-                      ),
+                      Text(type.name, style: theme.textStyles.labelSmall),
                     ],
                   ),
                 ),

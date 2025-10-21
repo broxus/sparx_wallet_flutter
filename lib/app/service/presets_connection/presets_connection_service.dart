@@ -15,9 +15,7 @@ import 'package:rxdart/rxdart.dart';
 
 @singleton
 class PresetsConnectionService {
-  PresetsConnectionService(
-    this._presetsConfigReader,
-  );
+  PresetsConnectionService(this._presetsConfigReader);
 
   final PresetsConfigReader _presetsConfigReader;
 

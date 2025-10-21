@@ -4,9 +4,7 @@ import 'package:logging/logging.dart';
 
 @injectable
 class BiometryConfigurator {
-  BiometryConfigurator(
-    this._biometryService,
-  );
+  BiometryConfigurator(this._biometryService);
 
   final BiometryService _biometryService;
   final _log = Logger('bootstrap');

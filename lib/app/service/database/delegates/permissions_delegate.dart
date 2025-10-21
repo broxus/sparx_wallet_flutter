@@ -10,31 +10,26 @@ class PermissionsDelegate {
   late final _log = Logger('Database PermissionsDelegate');
 
   Future<void> savePermissions(String host, List<String> permissions) async {
-    final set =
-        permissions.map(_normalizePerm).where((p) => p.isNotEmpty).toSet();
+    final set = permissions
+        .map(_normalizePerm)
+        .where((p) => p.isNotEmpty)
+        .toSet();
     if (set.isEmpty) return;
 
     final rows = set
-        .map(
-          (p) => PermissionsTableCompanion.insert(
-            host: host,
-            permission: p,
-          ),
-        )
+        .map((p) => PermissionsTableCompanion.insert(host: host, permission: p))
         .toList();
 
     await _db.batch((b) {
-      b.insertAll(
-        _db.permissionsTable,
-        rows,
-        mode: InsertMode.insertOrIgnore,
-      );
+      b.insertAll(_db.permissionsTable, rows, mode: InsertMode.insertOrIgnore);
     });
   }
 
   Future<bool> checkPermissions(String host, List<String> permissions) async {
-    final set =
-        permissions.map(_normalizePerm).where((p) => p.isNotEmpty).toSet();
+    final set = permissions
+        .map(_normalizePerm)
+        .where((p) => p.isNotEmpty)
+        .toSet();
 
     if (set.isEmpty) return true;
 
@@ -42,10 +37,11 @@ class PermissionsDelegate {
     final count = t.permission.count();
 
     try {
-      final row = await (_db.selectOnly(t)
-            ..addColumns([count])
-            ..where(t.host.equals(host) & t.permission.isIn(set.toList())))
-          .getSingleOrNull();
+      final row =
+          await (_db.selectOnly(t)
+                ..addColumns([count])
+                ..where(t.host.equals(host) & t.permission.isIn(set.toList())))
+              .getSingleOrNull();
 
       return (row?.read(count) ?? 0) == set.length;
     } catch (e, s) {

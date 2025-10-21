@@ -4,6 +4,7 @@ import 'package:app/feature/ledger/ledger.dart';
 import 'package:app/feature/wallet/wallet.dart';
 import 'package:elementary/elementary.dart';
 import 'package:injectable/injectable.dart';
+import 'package:money2/money2.dart';
 import 'package:nekoton_repository/nekoton_repository.dart' hide Message;
 import 'package:rxdart/rxdart.dart';
 
@@ -55,20 +56,21 @@ class TokenWalletSendModel extends ElementaryModel
   KeyAccount? getAccount(Address address) =>
       _nekotonRepository.seedList.findAccountByAddress(address);
 
-  Future<TonWalletState> getWalletState(Address address) =>
-      _nekotonRepository.walletsMapStream
-          .mapNotNull((wallets) => wallets[address])
-          .first;
+  Future<TonWalletState> getWalletState(Address address) => _nekotonRepository
+      .walletsMapStream
+      .mapNotNull((wallets) => wallets[address])
+      .first;
 
   Future<TokenWalletState> getTokenWalletState({
     required Address owner,
     required Address rootTokenContract,
-  }) =>
-      _nekotonRepository.tokenWalletsStream.expand((e) => e).firstWhere(
-            (wallet) =>
-                wallet.owner == owner &&
-                wallet.rootTokenContract == rootTokenContract,
-          );
+  }) => _nekotonRepository.tokenWalletsStream
+      .expand((e) => e)
+      .firstWhere(
+        (wallet) =>
+            wallet.owner == owner &&
+            wallet.rootTokenContract == rootTokenContract,
+      );
 
   Future<PreparedTokenTransfer> prepareTransfer({
     required Address owner,

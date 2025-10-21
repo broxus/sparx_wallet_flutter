@@ -11,8 +11,12 @@ import 'package:ui_components_lib/v2/ui_components_lib_v2.dart';
 
 const _encoder = JsonEncoder.withIndent('  ');
 
-class AddNetworkWidget extends InjectedElementaryParametrizedWidget<
-    AddNetworkWidgetModel, AddNetworkWmParams> {
+class AddNetworkWidget
+    extends
+        InjectedElementaryParametrizedWidget<
+          AddNetworkWidgetModel,
+          AddNetworkWmParams
+        > {
   AddNetworkWidget({
     required Uri origin,
     required AddNetwork network,
@@ -20,12 +24,12 @@ class AddNetworkWidget extends InjectedElementaryParametrizedWidget<
     required this.scrollController,
     super.key,
   }) : super(
-          wmFactoryParam: AddNetworkWmParams(
-            origin: origin,
-            network: network,
-            switchNetwork: switchNetwork,
-          ),
-        );
+         wmFactoryParam: AddNetworkWmParams(
+           origin: origin,
+           network: network,
+           switchNetwork: switchNetwork,
+         ),
+       );
 
   final ScrollController scrollController;
 
@@ -50,9 +54,7 @@ class AddNetworkWidget extends InjectedElementaryParametrizedWidget<
                 ),
                 PrimaryCard(
                   color: theme.colors.background2,
-                  borderRadius: BorderRadius.circular(
-                    DimensRadiusV2.radius12,
-                  ),
+                  borderRadius: BorderRadius.circular(DimensRadiusV2.radius12),
                   padding: const EdgeInsets.symmetric(
                     vertical: DimensSizeV2.d24,
                     horizontal: DimensSizeV2.d16,

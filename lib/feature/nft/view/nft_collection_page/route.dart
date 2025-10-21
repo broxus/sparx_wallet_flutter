@@ -8,17 +8,13 @@ const String _collectionAddressQueryParam = 'collectionAddress';
 @named
 @Singleton(as: CompassBaseRoute)
 class NftCollectionRoute extends CompassRoute<NftCollectionRouteData> {
-  NftCollectionRoute(
-    @Named.from(NftItemRoute) CompassBaseRoute nftItemRoute,
-  ) : super(
-          path: '/nft-collection',
-          builder: (_, data, __) => NftCollectionPageWidget(
-            collection: data.collection,
-          ),
-          compassBaseRoutes: [
-            nftItemRoute,
-          ],
-        );
+  NftCollectionRoute(@Named.from(NftItemRoute) CompassBaseRoute nftItemRoute)
+    : super(
+        path: '/nft-collection',
+        builder: (_, data, __) =>
+            NftCollectionPageWidget(collection: data.collection),
+        compassBaseRoutes: [nftItemRoute],
+      );
 
   @override
   NftCollectionRouteData fromQueryParams(Map<String, String> queryParams) {
@@ -29,14 +25,12 @@ class NftCollectionRoute extends CompassRoute<NftCollectionRouteData> {
 }
 
 class NftCollectionRouteData implements CompassRouteDataQuery {
-  const NftCollectionRouteData({
-    required this.collection,
-  });
+  const NftCollectionRouteData({required this.collection});
 
   final Address collection;
 
   @override
   Map<String, String> toQueryParams() => {
-        _collectionAddressQueryParam: collection.toRaw(),
-      };
+    _collectionAddressQueryParam: collection.toRaw(),
+  };
 }

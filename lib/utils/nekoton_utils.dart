@@ -24,11 +24,11 @@ extension NekotonRepositoryUtils on NekotonRepository {
   /// await nekoton.seedScanCompleter(publicKey);
   /// ```
   Future<void> seedScanCompleter(PublicKey masterKey) => Future.wait([
-        findingDerivedKeysStream.firstWhere(
-          (keys) => !keys.contains(masterKey.toString()),
-        ),
-        findingExistingWalletsStream.firstWhere(
-          (keys) => !keys.contains(masterKey.toString()),
-        ),
-      ]);
+    findingDerivedKeysStream.firstWhere(
+      (keys) => !keys.contains(masterKey.toString()),
+    ),
+    findingExistingWalletsStream.firstWhere(
+      (keys) => !keys.contains(masterKey.toString()),
+    ),
+  ]);
 }

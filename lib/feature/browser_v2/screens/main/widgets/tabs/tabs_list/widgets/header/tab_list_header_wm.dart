@@ -11,11 +11,14 @@ import 'package:injectable/injectable.dart';
 
 ////// [WidgetModel] для [TabListHeader]
 @injectable
-class TabListHeaderWidgetModel extends CustomWidgetModelParametrized<
-    TabListHeader, TabListHeaderModel, ListenableState<String?>> {
-  TabListHeaderWidgetModel(
-    super.model,
-  );
+class TabListHeaderWidgetModel
+    extends
+        CustomWidgetModelParametrized<
+          TabListHeader,
+          TabListHeaderModel,
+          ListenableState<String?>
+        > {
+  TabListHeaderWidgetModel(super.model);
 
   ListenableState<String?> get selectedGroupIdState => wmParams.value;
 
@@ -65,9 +68,7 @@ class TabListHeaderWidgetModel extends CustomWidgetModelParametrized<
       if (listenable == null) {
         continue;
       }
-      result.add(
-        TabListHeaderGroupUiModel(listenable),
-      );
+      result.add(TabListHeaderGroupUiModel(listenable));
     }
 
     _uiState.accept(result..add(_newGroupUiModel));

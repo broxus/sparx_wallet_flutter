@@ -19,20 +19,20 @@ const _notifyReceiverQueryParam = 'sendNotifyReceiver';
 @Singleton(as: CompassBaseRoute)
 class TokenWalletSendRoute extends CompassRoute<TokenWalletSendRouteData> {
   TokenWalletSendRoute()
-      : super(
-          path: '/token-send',
-          builder: (context, data, _) => TokenWalletSendWidget(
-            owner: data.owner,
-            rootTokenContract: data.rootTokenContract,
-            publicKey: data.publicKey,
-            destination: data.destination,
-            amount: data.amount,
-            attachedAmount: data.attachedAmount,
-            comment: data.comment,
-            resultMessage: data.resultMessage,
-            notifyReceiver: data.notifyReceiver,
-          ),
-        );
+    : super(
+        path: '/token-send',
+        builder: (context, data, _) => TokenWalletSendWidget(
+          owner: data.owner,
+          rootTokenContract: data.rootTokenContract,
+          publicKey: data.publicKey,
+          destination: data.destination,
+          amount: data.amount,
+          attachedAmount: data.attachedAmount,
+          comment: data.comment,
+          resultMessage: data.resultMessage,
+          notifyReceiver: data.notifyReceiver,
+        ),
+      );
 
   @override
   TokenWalletSendRouteData fromQueryParams(Map<String, String> queryParams) {
@@ -40,21 +40,11 @@ class TokenWalletSendRoute extends CompassRoute<TokenWalletSendRouteData> {
     final notifyReceiverStr = queryParams[_notifyReceiverQueryParam];
 
     return TokenWalletSendRouteData(
-      owner: Address(
-        address: queryParams[_ownerQueryParam]!,
-      ),
-      rootTokenContract: Address(
-        address: queryParams[_contractQueryParam]!,
-      ),
-      publicKey: PublicKey(
-        publicKey: queryParams[_publicKeyQueryParam]!,
-      ),
-      destination: Address(
-        address: queryParams[_destinationQueryParam]!,
-      ),
-      amount: BigInt.parse(
-        queryParams[_amountQueryParam]!,
-      ),
+      owner: Address(address: queryParams[_ownerQueryParam]!),
+      rootTokenContract: Address(address: queryParams[_contractQueryParam]!),
+      publicKey: PublicKey(publicKey: queryParams[_publicKeyQueryParam]!),
+      destination: Address(address: queryParams[_destinationQueryParam]!),
+      amount: BigInt.parse(queryParams[_amountQueryParam]!),
       attachedAmount: attachedAmountStr?.let(BigInt.tryParse),
       comment: queryParams[_commentQueryParam],
       resultMessage: queryParams[_resultMessageQueryParam],

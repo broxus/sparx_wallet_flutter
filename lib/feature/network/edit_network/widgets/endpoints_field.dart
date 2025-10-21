@@ -34,61 +34,62 @@ class EndpointsField extends StatelessWidget {
     return DoubleSourceBuilder(
       firstSource: endpointsControllersState,
       secondSource: connectionTypeState,
-      builder: (
-        _,
-        List<TextEditingController>? controllers,
-        ConnectionType? connectionType,
-      ) {
-        if (controllers == null || connectionType == null) {
-          return const SizedBox.shrink();
-        }
+      builder:
+          (
+            _,
+            List<TextEditingController>? controllers,
+            ConnectionType? connectionType,
+          ) {
+            if (controllers == null || connectionType == null) {
+              return const SizedBox.shrink();
+            }
 
-        return NetworkFormField(
-          label: LocaleKeys.networkEndpoint.plural(controllers.length),
-          trailing: isEditable && connectionType.enableMultipleEndpoints
-              ? GhostButton(
-                  buttonShape: ButtonShape.square,
-                  buttonSize: ButtonSize.small,
-                  icon: LucideIcons.plus,
-                  onPressed: onAdd,
-                )
-              : null,
-          child: SeparatedColumn(
-            children: [
-              ...controllers.mapIndexed(
-                (index, controller) => EndpointItem(
-                  key: ObjectKey(controller),
-                  isEditable: isEditable,
-                  index: index,
-                  controller: controller,
-                  validator: validator,
-                  onRemove: () => onRemove(index),
-                ),
+            return NetworkFormField(
+              label: LocaleKeys.networkEndpoint.plural(controllers.length),
+              trailing: isEditable && connectionType.enableMultipleEndpoints
+                  ? GhostButton(
+                      buttonShape: ButtonShape.square,
+                      buttonSize: ButtonSize.small,
+                      icon: LucideIcons.plus,
+                      onPressed: onAdd,
+                    )
+                  : null,
+              child: SeparatedColumn(
+                children: [
+                  ...controllers.mapIndexed(
+                    (index, controller) => EndpointItem(
+                      key: ObjectKey(controller),
+                      isEditable: isEditable,
+                      index: index,
+                      controller: controller,
+                      validator: validator,
+                      onRemove: () => onRemove(index),
+                    ),
+                  ),
+                  if (connectionType.enableLocal)
+                    Row(
+                      children: [
+                        Expanded(
+                          child: Text(
+                            LocaleKeys.networkEndpointLocal.tr(),
+                            style: StyleRes.secondaryBold,
+                          ),
+                        ),
+                        StateNotifierBuilder<bool>(
+                          listenableState: isLocalState,
+                          builder: (_, bool? isEnabled) {
+                            return Switch(
+                              value: isEnabled ?? false,
+                              onChanged: onLocalChanged,
+                            );
+                          },
+                        ),
+                      ],
+                    ),
+                ],
               ),
-              if (connectionType.enableLocal)
-                Row(
-                  children: [
-                    Expanded(
-                      child: Text(
-                        LocaleKeys.networkEndpointLocal.tr(),
-                        style: StyleRes.secondaryBold,
-                      ),
-                    ),
-                    StateNotifierBuilder<bool>(
-                      listenableState: isLocalState,
-                      builder: (_, bool? isEnabled) {
-                        return Switch(
-                          value: isEnabled ?? false,
-                          onChanged: onLocalChanged,
-                        );
-                      },
-                    ),
-                  ],
-                ),
-            ],
-          ),
-        );
-      },
+            );
+          },
     );
   }
 }

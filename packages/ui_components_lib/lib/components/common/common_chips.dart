@@ -9,18 +9,18 @@ enum CommonChipsType {
   secondary;
 
   Color contentColor(ColorsPalette colors) => switch (this) {
-        CommonChipsType.success => colors.apply,
-        CommonChipsType.warning => colors.labelOrange,
-        CommonChipsType.note => colors.labelYellow,
-        CommonChipsType.secondary => colors.textSecondary,
-      };
+    CommonChipsType.success => colors.apply,
+    CommonChipsType.warning => colors.labelOrange,
+    CommonChipsType.note => colors.labelYellow,
+    CommonChipsType.secondary => colors.textSecondary,
+  };
 
   Color backgroundColor(ColorsPalette colors) => switch (this) {
-        CommonChipsType.success => colors.lightGreen,
-        CommonChipsType.warning => colors.lightRed,
-        CommonChipsType.note => colors.lightOrange,
-        CommonChipsType.secondary => colors.appBackground,
-      };
+    CommonChipsType.success => colors.lightGreen,
+    CommonChipsType.warning => colors.lightRed,
+    CommonChipsType.note => colors.lightOrange,
+    CommonChipsType.secondary => colors.appBackground,
+  };
 }
 
 /// Widget that displays small piece of information in a beautiful container

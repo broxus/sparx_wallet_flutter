@@ -22,14 +22,12 @@ class ConfigureNetworksWidgetModel
   void onItemTap(Connection connection) {
     context.compassContinue(
       EditNetworkRouteData(
-        connectionDataId: connection.id,
-      ),
+        connectionDataId: connection.id
+      )
     );
   }
 
   void onAddNetwork() {
-    context.compassContinue(
-      const EditNetworkRouteData(),
-    );
+    context.compassContinue(const EditNetworkRouteData());
   }
 }

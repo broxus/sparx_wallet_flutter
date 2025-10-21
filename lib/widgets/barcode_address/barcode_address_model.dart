@@ -10,10 +10,8 @@ import 'package:nekoton_repository/nekoton_repository.dart' hide Message;
 /// [ElementaryModel] for [BarcodeAddress]
 @injectable
 class BarcodeAddressModel extends ElementaryModel {
-  BarcodeAddressModel(
-    ErrorHandler errorHandler,
-    this._messengerService,
-  ) : super(errorHandler: errorHandler);
+  BarcodeAddressModel(ErrorHandler errorHandler, this._messengerService)
+    : super(errorHandler: errorHandler);
 
   final MessengerService _messengerService;
 

@@ -10,9 +10,7 @@ const _browserTabsActiveTabIdKey = 'browser_tabs_active_tab_id_key';
 /// to interact with all browser tabs - related data.
 @singleton
 class BrowserTabsStorageService extends AbstractStorageService {
-  BrowserTabsStorageService(
-    @Named(container) this._storage,
-  );
+  BrowserTabsStorageService(@Named(container) this._storage);
 
   static const container = _browserTabsDomain;
   static const browserTabsKey = 'browser_tabs_key';
@@ -42,10 +40,7 @@ class BrowserTabsStorageService extends AbstractStorageService {
 
   /// Save list of browser tabs to storage
   void saveBrowserTabs(List<BrowserTab> tabs) {
-    _storage.write(
-      browserTabsKey,
-      tabs.map((e) => e.toJson()).toList(),
-    );
+    _storage.write(browserTabsKey, tabs.map((e) => e.toJson()).toList());
   }
 
   @override

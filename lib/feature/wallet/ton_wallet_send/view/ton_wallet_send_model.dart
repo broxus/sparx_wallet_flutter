@@ -4,6 +4,7 @@ import 'package:app/feature/ledger/ledger.dart';
 import 'package:app/utils/utils.dart';
 import 'package:elementary/elementary.dart';
 import 'package:injectable/injectable.dart';
+import 'package:money2/money2.dart';
 import 'package:nekoton_repository/nekoton_repository.dart' hide Message;
 import 'package:rxdart/rxdart.dart';
 
@@ -43,10 +44,10 @@ class TonWalletSendModel extends ElementaryModel
   KeyAccount? getAccount(Address address) =>
       _nekotonRepository.seedList.findAccountByAddress(address);
 
-  Future<TonWalletState> getWalletState(Address address) =>
-      _nekotonRepository.walletsMapStream
-          .mapNotNull((wallets) => wallets[address])
-          .first;
+  Future<TonWalletState> getWalletState(Address address) => _nekotonRepository
+      .walletsMapStream
+      .mapNotNull((wallets) => wallets[address])
+      .first;
 
   Future<UnsignedMessage> prepareTransfer({
     required Address address,
@@ -55,39 +56,34 @@ class TonWalletSendModel extends ElementaryModel
     required BigInt amount,
     String? comment,
     String? payload,
-  }) =>
-      _nekotonRepository.prepareTransfer(
-        address: address,
-        publicKey: publicKey,
-        expiration: defaultSendTimeout,
-        params: [
-          TonWalletTransferParams(
-            destination: repackAddress(destination),
-            amount: amount,
-            body: payload ??
-                comment?.let((it) => encodeComment(it, plain: transport.isTon)),
-            bounce: defaultMessageBounce,
-          ),
-        ],
-      );
+  }) => _nekotonRepository.prepareTransfer(
+    address: address,
+    publicKey: publicKey,
+    expiration: defaultSendTimeout,
+    params: [
+      TonWalletTransferParams(
+        destination: repackAddress(destination),
+        amount: amount,
+        body:
+            payload ??
+            comment?.let((it) => encodeComment(it, plain: transport.isTon)),
+        bounce: defaultMessageBounce,
+      ),
+    ],
+  );
 
   Future<BigInt> estimateFees({
     required Address address,
     required UnsignedMessage message,
-  }) =>
-      _nekotonRepository.estimateFees(
-        address: address,
-        message: message,
-      );
+  }) => _nekotonRepository.estimateFees(address: address, message: message);
 
   Future<List<TxTreeSimulationErrorItem>> simulateTransactionTree({
     required Address address,
     required UnsignedMessage message,
-  }) =>
-      _nekotonRepository.simulateTransactionTree(
-        address: address,
-        message: message,
-      );
+  }) => _nekotonRepository.simulateTransactionTree(
+    address: address,
+    message: message,
+  );
 
   Future<Future<Transaction>> sendMessage({
     required Address address,

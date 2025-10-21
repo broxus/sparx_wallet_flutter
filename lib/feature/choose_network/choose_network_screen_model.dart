@@ -50,11 +50,7 @@ class ChooseNetworkScreenModel extends ElementaryModel with ConnectionMixin {
         (e) => e.connectionId == id,
       );
     } catch (e) {
-      messengerService.show(
-        Message.error(
-          message: e.toString(),
-        ),
-      );
+      messengerService.show(Message.error(message: e.toString()));
       return false;
     }
 
@@ -70,9 +66,8 @@ class ChooseNetworkScreenModel extends ElementaryModel with ConnectionMixin {
         (conntection) {
           final name = conntection.networkName.toLowerCase();
 
-          return name.contains(caseSensetiveQuery);
-        },
-      ).toList();
+        return name.contains(caseSensetiveQuery);
+      }).toList();
     }
 
     return [

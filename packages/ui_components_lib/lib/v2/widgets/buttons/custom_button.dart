@@ -30,11 +30,11 @@ class CustomButton extends BaseButton {
 
   @override
   AppButtonStyle getStyle(ThemeStyleV2 theme) => AppButtonStyle.custom(
-        theme.colors,
-        theme.textStyles,
-        backgroundColor: backgroundColor,
-        iconColor: iconColor,
-        borderColor: borderColor,
-        textStyle: textStyle,
-      );
+    theme.colors,
+    theme.textStyles,
+    backgroundColor: backgroundColor,
+    iconColor: iconColor,
+    borderColor: borderColor,
+    textStyle: textStyle,
+  );
 }

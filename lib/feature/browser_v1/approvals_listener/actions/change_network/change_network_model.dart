@@ -25,15 +25,11 @@ class ChangeNetworkModel extends ElementaryModel {
   Future<TransportStrategy> changeConnection(String id) async {
     await _connectionsStorageService.saveCurrentConnectionId(connectionId: id);
     return _nekotonRepository.currentTransportStream
-        .firstWhere(
-          (strategy) => strategy.connection?.id == id,
-        )
+        .firstWhere((strategy) => strategy.connection?.id == id)
         .timeout(_timeLimit);
   }
 
   void showError(BuildContext context, String message) {
-    _messengerService.show(
-      Message.error(message: message),
-    );
+    _messengerService.show(Message.error(message: message));
   }
 }

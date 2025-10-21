@@ -5,14 +5,8 @@ import 'package:app/feature/messenger/domain/service/messenger_service.dart';
 import 'package:test/test.dart';
 
 void main() {
-  final message0 = Message(
-    message: 'message0',
-    type: MessageType.info,
-  );
-  final message1 = Message(
-    message: 'message1',
-    type: MessageType.info,
-  );
+  final message0 = Message(message: 'message0', type: MessageType.info);
+  final message1 = Message(message: 'message1', type: MessageType.info);
 
   Future<void> delay() => Future.delayed(const Duration(milliseconds: 10));
 
@@ -80,8 +74,7 @@ void main() {
       expect(messengerService.takeMessage(), isNull);
     });
 
-    test(
-        'queue contains [message0, message0] '
+    test('queue contains [message0, message0] '
         'when two identical messages are added', () {
       messengerService
         ..show(message0)
@@ -91,8 +84,7 @@ void main() {
       expect(messengerService.takeMessage(), isNull);
     });
 
-    test(
-        'queue contains [message0, message1] '
+    test('queue contains [message0, message1] '
         'when message0 then message1 are added', () {
       messengerService
         ..show(message0)
@@ -102,8 +94,7 @@ void main() {
       expect(messengerService.takeMessage(), isNull);
     });
 
-    test(
-        'queue contains [message0, message1, message0] '
+    test('queue contains [message0, message1, message0] '
         'when message0, message1, then message0 are added', () {
       messengerService
         ..show(message0)
@@ -115,8 +106,7 @@ void main() {
       expect(messengerService.takeMessage(), isNull);
     });
 
-    test(
-        'queue contains [message0, message0, message1] '
+    test('queue contains [message0, message0, message1] '
         'when message0, message0, then message1 are added', () {
       messengerService
         ..show(message0)

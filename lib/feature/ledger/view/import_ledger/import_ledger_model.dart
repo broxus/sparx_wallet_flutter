@@ -53,6 +53,7 @@ class ImportLedgerModel extends ElementaryModel with BleAvailabilityModelMixin {
     final masterKey = await _nekotonRepository.addLedgerKey(
       accountId: 0,
       name: name,
+      workchainId: 0,
     );
 
     await _ledgerService.connect(

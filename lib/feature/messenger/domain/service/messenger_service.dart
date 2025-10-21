@@ -29,19 +29,11 @@ class MessengerService {
   }
 
   void showError(BuildContext context, String message) {
-    return show(
-      Message.error(
-        message: message,
-      ),
-    );
+    return show(Message.error(message: message));
   }
 
   void showConnectionError(BuildContext? context) {
-    show(
-      Message.error(
-        message: LocaleKeys.connectingNetworkFailed.tr(),
-      ),
-    );
+    show(Message.error(message: LocaleKeys.connectingNetworkFailed.tr()));
   }
 
   Message? takeMessage() {

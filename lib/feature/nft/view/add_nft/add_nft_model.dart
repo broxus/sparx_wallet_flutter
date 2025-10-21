@@ -23,9 +23,7 @@ class AddNftModel extends ElementaryModel {
       _currentAccountService.currentActiveAccountStream;
 
   void showError(String message) {
-    _messengerService.show(
-      Message.error(message: message),
-    );
+    _messengerService.show(Message.error(message: message));
   }
 
   Future<NftCollection?> tryGetNftCollection(Address address) async =>

@@ -10,8 +10,12 @@ import 'package:render_metrics/render_metrics.dart';
 import 'package:ui_components_lib/ui_components_lib.dart';
 
 @injectable
-class BrowserTabsListItem extends InjectedElementaryParametrizedWidget<
-    BrowserTabsListItemWidgetModel, NotNullListenableState<BrowserTab>> {
+class BrowserTabsListItem
+    extends
+        InjectedElementaryParametrizedWidget<
+          BrowserTabsListItemWidgetModel,
+          NotNullListenableState<BrowserTab>
+        > {
   const BrowserTabsListItem({
     required NotNullListenableState<BrowserTab> tabNotifier,
     required this.renderManager,
@@ -19,9 +23,7 @@ class BrowserTabsListItem extends InjectedElementaryParametrizedWidget<
     this.onPressed,
     this.onClosePressed,
     super.key,
-  }) : super(
-          wmFactoryParam: tabNotifier,
-        );
+  }) : super(wmFactoryParam: tabNotifier);
 
   final RenderManager<String> renderManager;
   final VoidCallback onPressedTabMenu;
@@ -47,9 +49,7 @@ class BrowserTabsListItem extends InjectedElementaryParametrizedWidget<
             Positioned(
               bottom: 0,
               right: 0,
-              child: _Menu(
-                onPressed: onPressedTabMenu,
-              ),
+              child: _Menu(onPressed: onPressedTabMenu),
             ),
           ],
         ),
@@ -59,9 +59,7 @@ class BrowserTabsListItem extends InjectedElementaryParametrizedWidget<
 }
 
 class _Menu extends StatelessWidget {
-  const _Menu({
-    required this.onPressed,
-  });
+  const _Menu({required this.onPressed});
 
   final VoidCallback onPressed;
 
@@ -82,10 +80,7 @@ class _Menu extends StatelessWidget {
           child: Padding(
             padding: const EdgeInsets.all(DimensSizeV2.d4),
             child: Center(
-              child: Icon(
-                LucideIcons.ellipsis,
-                color: colors.primaryA,
-              ),
+              child: Icon(LucideIcons.ellipsis, color: colors.primaryA),
             ),
           ),
         ),

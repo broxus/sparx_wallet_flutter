@@ -46,7 +46,7 @@ class StorageMigrationV5 implements StorageMigration {
         connection.copyWith(
           workchains: [
             connection.defaultWorkchain.copyWith(
-              networkGroup: groupName,
+              networkGroup: groupName
             ),
           ],
         ),

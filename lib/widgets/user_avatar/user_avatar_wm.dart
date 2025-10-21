@@ -12,11 +12,10 @@ import 'package:jdenticon_dart/jdenticon_dart.dart';
 
 /// [WidgetModel] для [UserAvatar]
 @injectable
-class UserAvatarWidgetModel extends CustomWidgetModelParametrized<UserAvatar,
-    UserAvatarModel, String?> {
-  UserAvatarWidgetModel(
-    super.model,
-  );
+class UserAvatarWidgetModel
+    extends
+        CustomWidgetModelParametrized<UserAvatar, UserAvatarModel, String?> {
+  UserAvatarWidgetModel(super.model);
 
   late final _avatarState = createNotifierFromStream(
     model
@@ -60,18 +59,11 @@ class UserAvatarWidgetModel extends CustomWidgetModelParametrized<UserAvatar,
 }
 
 class AvatarData {
-  AvatarData({
-    required this.type,
-    required this.path,
-    this.color,
-  });
+  AvatarData({required this.type, required this.path, this.color});
 
   final AvatarType type;
   final String path;
   final Color? color;
 }
 
-enum AvatarType {
-  asset,
-  raw,
-}
+enum AvatarType { asset, raw }

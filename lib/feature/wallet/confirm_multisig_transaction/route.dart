@@ -19,42 +19,35 @@ const _resultMessageQueryParam = 'resultMessage';
 class ConfirmMultisigTransactionRoute
     extends CompassRoute<ConfirmMultisigTransactionRouteData> {
   ConfirmMultisigTransactionRoute()
-      : super(
-          path: '/confirm-multisig-transaction',
-          builder: (context, data, _) => ConfirmMultisigTransactionWidget(
-            walletAddress: data.walletAddress,
-            localCustodians: data.localCustodians,
-            transactionId: data.transactionId,
-            transactionIdHash: data.transactionIdHash,
-            destination: data.destination,
-            amount: data.amount,
-            comment: data.comment,
-            resultMessage: data.resultMessage,
-          ),
-        );
+    : super(
+        path: '/confirm-multisig-transaction',
+        builder: (context, data, _) => ConfirmMultisigTransactionWidget(
+          walletAddress: data.walletAddress,
+          localCustodians: data.localCustodians,
+          transactionId: data.transactionId,
+          transactionIdHash: data.transactionIdHash,
+          destination: data.destination,
+          amount: data.amount,
+          comment: data.comment,
+          resultMessage: data.resultMessage,
+        ),
+      );
 
   @override
   ConfirmMultisigTransactionRouteData fromQueryParams(
     Map<String, String> queryParams,
   ) {
-    final decoded = (jsonDecode(
-      queryParams[_localCustodiansQueryParam]!,
-    ) as List<dynamic>)
-        .cast<String>();
+    final decoded =
+        (jsonDecode(queryParams[_localCustodiansQueryParam]!) as List<dynamic>)
+            .cast<String>();
 
     return ConfirmMultisigTransactionRouteData(
-      walletAddress: Address(
-        address: queryParams[_walletAddressQueryParam]!,
-      ),
+      walletAddress: Address(address: queryParams[_walletAddressQueryParam]!),
       localCustodians: decoded.map((e) => PublicKey(publicKey: e)).toList(),
       transactionId: queryParams[_transactionIdQueryParam]!,
       transactionIdHash: queryParams[_idHashQueryParam],
-      destination: Address(
-        address: queryParams[_destinationQueryParam]!,
-      ),
-      amount: BigInt.parse(
-        queryParams[_amountQueryParam]!,
-      ),
+      destination: Address(address: queryParams[_destinationQueryParam]!),
+      amount: BigInt.parse(queryParams[_amountQueryParam]!),
       comment: queryParams[_commentQueryParam],
       resultMessage: queryParams[_resultMessageQueryParam],
     );

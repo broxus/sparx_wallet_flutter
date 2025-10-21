@@ -7,10 +7,7 @@ import 'package:the_logger/the_logger.dart';
 
 @injectable
 class LoggerConfigurator {
-  LoggerConfigurator(
-    this._appVersionService,
-    this._nekotonRepository,
-  );
+  LoggerConfigurator(this._appVersionService, this._nekotonRepository);
 
   static const _devLogsRetainSessionCount = 100;
   static const _prodLogsRetainSessionCount = 50;
@@ -18,9 +15,7 @@ class LoggerConfigurator {
   final AppVersionService _appVersionService;
   final NekotonRepository _nekotonRepository;
 
-  Future<void> configure(
-    AppBuildType appBuildType,
-  ) async {
+  Future<void> configure(AppBuildType appBuildType) async {
     var retainStrategy = {Level.ALL: 100};
 
     /// This enables direct mobile logger (adb logcat / oslog)

@@ -3,10 +3,7 @@ import 'package:ui_components_lib/v2/ui_components_lib_v2.dart';
 
 class ThemeStyleV2 extends ThemeExtension<ThemeStyleV2> {
   /// {@macro theme_style}
-  ThemeStyleV2({
-    required this.colors,
-    required this.textStyles,
-  });
+  ThemeStyleV2({required this.colors, required this.textStyles});
 
   /// The palette of colors in the project.
   final ColorsPaletteV2 colors;
@@ -21,8 +18,7 @@ class ThemeStyleV2 extends ThemeExtension<ThemeStyleV2> {
   ThemeExtension<ThemeStyleV2> lerp(
     ThemeExtension<ThemeStyleV2>? other,
     double t,
-  ) =>
-      this;
+  ) => this;
 }
 
 /// Getting theme style from context

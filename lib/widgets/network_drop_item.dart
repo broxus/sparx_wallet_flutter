@@ -31,10 +31,7 @@ class NetworkDropItem extends StatelessWidget {
             itemSize: DimensSizeV2.d28,
           ),
           const SizedBox(width: DimensSizeV2.d4),
-          const Icon(
-            LucideIcons.chevronDown,
-            size: DimensSizeV2.d20,
-          ),
+          const Icon(LucideIcons.chevronDown, size: DimensSizeV2.d20),
         ],
       ),
     );
