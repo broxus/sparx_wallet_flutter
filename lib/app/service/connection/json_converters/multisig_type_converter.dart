@@ -1,3 +1,4 @@
+import 'package:app/extensions/enum_extension.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:logging/logging.dart';
 import 'package:nekoton_repository/nekoton_repository.dart';
@@ -29,7 +30,7 @@ class MultisigTypeConverter
         if (val is! String) continue;
 
         try {
-          result[MultisigType.values.byName(entry.key)] = val;
+          result[MultisigType.values.byNameNormalize(entry.key)] = val;
         } catch (e, s) {
           _log.severe('fromJson error', e, s);
           continue;

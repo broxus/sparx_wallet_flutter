@@ -1,3 +1,4 @@
+import 'package:app/extensions/enum_extension.dart';
 import 'package:json_annotation/json_annotation.dart';
 import 'package:nekoton_repository/nekoton_repository.dart';
 
@@ -8,9 +9,8 @@ class WalletTypeConverter
   @override
   WalletType fromJson(Map<String, dynamic> json) {
     if (json['type'] == 'multisig') {
-      return WalletType.multisig(
-        MultisigType.values.byName(json['value'] as String),
-      );
+      final value = (json['value'] ?? json['data']) as String;
+      return WalletType.multisig(MultisigType.values.byNameNormalize(value));
     }
     return WalletType.fromJson(json);
   }
