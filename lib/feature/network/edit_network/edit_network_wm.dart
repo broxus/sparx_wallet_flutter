@@ -12,6 +12,7 @@ import 'package:collection/collection.dart';
 import 'package:elementary_helper/elementary_helper.dart';
 import 'package:flutter/material.dart';
 import 'package:injectable/injectable.dart';
+import 'package:uuid/uuid.dart';
 
 @injectable
 class EditNetworkWidgetModel
@@ -220,7 +221,7 @@ class EditNetworkWidgetModel
   }
 
   Connection? _getConnection() {
-    final id = connection?.id;
+    final id = connection?.id ?? const Uuid().v4();
     final nativeTokenTicker =
         currencySymbolController.text.trim().takeIf((it) => it.isNotEmpty) ??
         'EVER';
@@ -228,10 +229,6 @@ class EditNetworkWidgetModel
         int.tryParse(currencyDecimalsController.text.trim()) ?? 9;
 
     final groupName = 'custom-${model.lastNetworkGroupNumber + 1}';
-
-    if (id == null) {
-      return null;
-    }
 
     final networkName = nameController.text;
 
