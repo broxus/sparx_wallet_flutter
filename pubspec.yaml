@@ -69,7 +69,7 @@ dependencies:
   money2: ^6.0.0
   mutex: ^3.1.0
   native_dio_adapter: ^1.5.0
-  nekoton_repository: ^2.0.1
+  nekoton_repository: 2.0.3-dev.0
   nekoton_webview: ^0.1.12
   ntp: 2.0.0
   open_settings_plus: 0.4.0

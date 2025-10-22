@@ -27,7 +27,7 @@ class CheckSeedPhraseRoute extends CompassRoute<CheckSeedPhraseRouteData> {
   CheckSeedPhraseRouteData fromQueryParams(Map<String, String> queryParams) {
     return CheckSeedPhraseRouteData(
       seedPhrase: queryParams[_seedPhraseQueryParam]!,
-      name: queryParams[name],
+      name: queryParams[_seedNameQueryParam],
     );
   }
 }
