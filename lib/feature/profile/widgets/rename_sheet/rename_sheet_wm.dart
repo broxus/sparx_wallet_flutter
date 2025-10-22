@@ -8,8 +8,13 @@ import 'package:injectable/injectable.dart';
 import 'package:nekoton_repository/nekoton_repository.dart' hide Message;
 
 @injectable
-class RenameSheetWidgetModel extends CustomWidgetModelParametrized<RenameSheet,
-    RenameSheetModel, RenameSheetParams> {
+class RenameSheetWidgetModel
+    extends
+        CustomWidgetModelParametrized<
+          RenameSheet,
+          RenameSheetModel,
+          RenameSheetParams
+        > {
   RenameSheetWidgetModel(super.model);
 
   late final nameController = createTextEditingController(
@@ -25,24 +30,17 @@ class RenameSheetWidgetModel extends CustomWidgetModelParametrized<RenameSheet,
 
     final params = wmParams.value;
 
-    model.rename(
-      publicKey: params.publicKey,
-      isSeed: params.isSeed,
-      name: name,
-    );
-    model.showMessage(
-      Message.successful(
-        message: params.isSeed
-            ? LocaleKeys.valueRenamed.tr(
-                args: [LocaleKeys.seedPhrase.tr()],
-              )
-            : params.isCustodian
-                ? LocaleKeys.custodianRenamed.tr()
-                : LocaleKeys.valueRenamed.tr(
-                    args: [LocaleKeys.keyWord.tr()],
-                  ),
-      ),
-    );
+    model
+      ..rename(publicKey: params.publicKey, isSeed: params.isSeed, name: name)
+      ..showMessage(
+        Message.successful(
+          message: params.isSeed
+              ? LocaleKeys.valueRenamed.tr(args: [LocaleKeys.seedPhrase.tr()])
+              : params.isCustodian
+              ? LocaleKeys.custodianRenamed.tr()
+              : LocaleKeys.valueRenamed.tr(args: [LocaleKeys.keyWord.tr()]),
+        ),
+      );
 
     Navigator.of(context).pop();
   }

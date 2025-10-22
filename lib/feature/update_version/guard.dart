@@ -15,9 +15,7 @@ import 'package:rxdart/rxdart.dart';
 @named
 @Singleton(as: CompassGuard)
 class UpdateVersionGuard extends CompassGuard {
-  UpdateVersionGuard(
-    this._updateService,
-  ) : super(priority: priorityLow);
+  UpdateVersionGuard(this._updateService) : super(priority: priorityLow);
 
   final UpdateService _updateService;
   final _log = Logger('UpdateVersionGuard');
@@ -25,28 +23,25 @@ class UpdateVersionGuard extends CompassGuard {
   @override
   void attachToRouter(CompassRouter router) {
     unawaited(
-      Future(
-        () async {
-          final request =
-              await _updateService.updateRequests.whereNotNull().first;
+      Future(() async {
+        final request = await _updateService.updateRequests
+            .whereNotNull()
+            .first;
 
-          await router.currentRoutesStream
-              .where((it) => it.lastOrNull is WalletRoute)
-              .first;
+        await router.currentRoutesStream
+            .where((it) => it.lastOrNull is WalletRoute)
+            .first;
 
-          _log.info('Open update version screen $request');
+        _log.info('Open update version screen $request');
 
-          await router.compassPush(
-            const UpdateVersionRouteData(),
-            isContinue: false,
-          );
-        },
-      ).catchError(
-        (Object e, StackTrace s) {
-          _log.severe('Error during update', e, s);
-          SentryWorker.instance.captureException(e, stackTrace: s);
-        },
-      ),
+        await router.compassPush(
+          const UpdateVersionRouteData(),
+          isContinue: false,
+        );
+      }).catchError((Object e, StackTrace s) {
+        _log.severe('Error during update', e, s);
+        SentryWorker.instance.captureException(e, stackTrace: s);
+      }),
     );
   }
 

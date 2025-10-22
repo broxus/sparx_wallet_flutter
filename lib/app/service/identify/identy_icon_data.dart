@@ -83,20 +83,14 @@ class Lightness {
 }
 
 class LightnessGrayscale {
-  const LightnessGrayscale({
-    required this.min,
-    required this.max,
-  });
+  const LightnessGrayscale({required this.min, required this.max});
 
   final double min;
   final double max;
 }
 
 class Saturation {
-  const Saturation({
-    required this.color,
-    required this.grayscale,
-  });
+  const Saturation({required this.color, required this.grayscale});
 
   final double color;
   final double grayscale;
@@ -105,10 +99,7 @@ class Saturation {
 const _defaultLightness = Lightness(
   colorMin: .17,
   colorMax: .17,
-  grayscale: LightnessGrayscale(
-    min: .18,
-    max: .18,
-  ),
+  grayscale: LightnessGrayscale(min: .18, max: .18),
 );
 
 const _defaultSaturation = Saturation(color: .99, grayscale: 1);

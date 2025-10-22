@@ -13,19 +13,14 @@ Future<bool> showVerifyCancelUnstakingSheet({
     context: context,
     title: LocaleKeys.cancelUnstakingCheckTitle.tr(),
     centerTitle: true,
-    body: (_, __) => VerifyCancelUnstakingSheet(
-      stakeCurrency: stakeCurrency,
-    ),
+    body: (_, __) => VerifyCancelUnstakingSheet(stakeCurrency: stakeCurrency),
   );
 
   return res ?? false;
 }
 
 class VerifyCancelUnstakingSheet extends StatelessWidget {
-  const VerifyCancelUnstakingSheet({
-    required this.stakeCurrency,
-    super.key,
-  });
+  const VerifyCancelUnstakingSheet({required this.stakeCurrency, super.key});
 
   final Currency stakeCurrency;
 

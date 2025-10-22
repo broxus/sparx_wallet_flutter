@@ -37,9 +37,7 @@ class AccountInfo extends StatelessWidget {
         vertical: DimensSizeV2.d12,
       ),
       children: [
-        UserAvatar(
-          address: account.address.address,
-        ),
+        UserAvatar(address: account.address.address),
         Flexible(
           child: SeparatedColumn(
             spacing: DimensSizeV2.d4,

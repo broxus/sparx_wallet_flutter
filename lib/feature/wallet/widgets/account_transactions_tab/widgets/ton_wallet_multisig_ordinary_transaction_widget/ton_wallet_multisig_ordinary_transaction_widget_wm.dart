@@ -5,18 +5,19 @@ import 'package:app/feature/wallet/widgets/account_transactions_tab/widgets/ton_
 import 'package:elementary/elementary.dart';
 import 'package:flutter/material.dart';
 import 'package:injectable/injectable.dart';
+import 'package:money2/money2.dart';
 import 'package:nekoton_repository/nekoton_repository.dart';
 
 /// [WidgetModel] for [TonWalletMultisigOrdinaryTransactionWidget]
 @injectable
 class TonWalletMultisigOrdinaryTransactionWidgetWidgetModel
-    extends CustomWidgetModelParametrized<
-        TonWalletMultisigOrdinaryTransactionWidget,
-        TonWalletMultisigOrdinaryTransactionWidgetModel,
-        TonWalletMultisigOrdinaryTransactionParams> {
-  TonWalletMultisigOrdinaryTransactionWidgetWidgetModel(
-    super.model,
-  );
+    extends
+        CustomWidgetModelParametrized<
+          TonWalletMultisigOrdinaryTransactionWidget,
+          TonWalletMultisigOrdinaryTransactionWidgetModel,
+          TonWalletMultisigOrdinaryTransactionParams
+        > {
+  TonWalletMultisigOrdinaryTransactionWidgetWidgetModel(super.model);
 
   TonWalletMultisigOrdinaryTransaction get transaction =>
       wmParams.value.transaction;
@@ -30,14 +31,14 @@ class TonWalletMultisigOrdinaryTransactionWidgetWidgetModel
   Money get transactionValue => model.getTransactionValue(transaction.value);
 
   void onPressed() => Navigator.of(context, rootNavigator: true).push(
-        MaterialPageRoute<void>(
-          builder: (_) => TonWalletMultisigOrdinaryTransactionDetailsScreen(
-            transaction: transaction,
-            price: wmParams.value.price,
-            account: wmParams.value.account,
-          ),
-        ),
-      );
+    MaterialPageRoute<void>(
+      builder: (_) => TonWalletMultisigOrdinaryTransactionDetailsScreen(
+        transaction: transaction,
+        price: wmParams.value.price,
+        account: wmParams.value.account,
+      ),
+    ),
+  );
 }
 
 class TonWalletMultisigOrdinaryTransactionParams {

@@ -11,28 +11,30 @@ import 'package:nekoton_repository/nekoton_repository.dart';
 import 'package:ui_components_lib/ui_components_lib.dart';
 
 class NftItemWmParams {
-  NftItemWmParams({
-    required this.address,
-    required this.collection,
-  });
+  NftItemWmParams({required this.address, required this.collection});
 
   final Address address;
   final Address collection;
 }
 
 @injectable
-class NftItemPageWidgetModel extends CustomWidgetModelParametrized<
-    NftItemPageWidget, NftItemPageModel, NftItemWmParams> {
-  NftItemPageWidgetModel(
-    super.model,
-  );
+class NftItemPageWidgetModel
+    extends
+        CustomWidgetModelParametrized<
+          NftItemPageWidget,
+          NftItemPageModel,
+          NftItemWmParams
+        > {
+  NftItemPageWidgetModel(super.model);
 
   late final _itemState = createNotifier<NftItem>();
   late final _collectionState = createNotifier<NftCollection>();
-  late final _currentAccountState =
-      createNotifierFromStream(model.currentAccount);
-  late final _marketplaceUrlState =
-      createNotifierFromStream(model.marketplaceUrlStream);
+  late final _currentAccountState = createNotifierFromStream(
+    model.currentAccount,
+  );
+  late final _marketplaceUrlState = createNotifierFromStream(
+    model.marketplaceUrlStream,
+  );
 
   ListenableState<NftItem> get itemState => _itemState;
 
@@ -100,17 +102,15 @@ class NftItemPageWidgetModel extends CustomWidgetModelParametrized<
     final marketplaceUrl = _marketplaceUrlState.value;
     if (item == null || marketplaceUrl == null) return;
 
-    model.openBrowserUrl(
-      '$marketplaceUrl/nft/${item.nft.address}',
-    );
+    model.openBrowserUrl('$marketplaceUrl/nft/${item.nft.address}');
   }
 
   void openImageView() => Navigator.push(
-        context,
-        MaterialPageRoute<void>(
-          builder: (_) => NftItemImageView(itemState.value!.nft.imageUrl),
-        ),
-      );
+    context,
+    MaterialPageRoute<void>(
+      builder: (_) => NftItemImageView(itemState.value!.nft.imageUrl),
+    ),
+  );
 
   Future<void> _init() async {
     final (item, collection) = await FutureExt.wait2(

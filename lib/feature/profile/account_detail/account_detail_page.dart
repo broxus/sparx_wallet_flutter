@@ -8,12 +8,14 @@ import 'package:ui_components_lib/ui_components_lib.dart';
 import 'package:ui_components_lib/v2/ui_components_lib_v2.dart';
 
 /// Entry point for screen with information about account
-class AccountDetailPage extends InjectedElementaryParametrizedWidget<
-    AccountDetailWidgetModel, Address> {
-  const AccountDetailPage({
-    required Address address,
-    super.key,
-  }) : super(wmFactoryParam: address);
+class AccountDetailPage
+    extends
+        InjectedElementaryParametrizedWidget<
+          AccountDetailWidgetModel,
+          Address
+        > {
+  const AccountDetailPage({required Address address, super.key})
+    : super(wmFactoryParam: address);
 
   @override
   Widget build(AccountDetailWidgetModel wm) {
@@ -29,11 +31,7 @@ class AccountDetailPage extends InjectedElementaryParametrizedWidget<
         ],
       ),
       body: MultiListenerRebuilder(
-        listenableList: [
-          wm.accountState,
-          wm.balanceState,
-          wm.custodiansState,
-        ],
+        listenableList: [wm.accountState, wm.balanceState, wm.custodiansState],
         builder: (_) {
           final account = wm.accountState.value;
           final balance = wm.balanceState.value;

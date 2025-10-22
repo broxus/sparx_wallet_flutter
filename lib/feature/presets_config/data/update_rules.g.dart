@@ -7,11 +7,11 @@ part of 'update_rules.dart';
 // **************************************************************************
 
 _UpdateRules _$UpdateRulesFromJson(Map<String, dynamic> json) => _UpdateRules(
-      blockingVersion: json['blockingVersion'] as String,
-      warningVersion: json['warningVersion'] as String,
-      warningShowTimes: (json['warningShowTimes'] as num).toInt(),
-      warningShowDelayS: (json['warningShowDelayS'] as num).toInt(),
-    );
+  blockingVersion: json['blockingVersion'] as String,
+  warningVersion: json['warningVersion'] as String,
+  warningShowTimes: (json['warningShowTimes'] as num).toInt(),
+  warningShowDelayS: (json['warningShowDelayS'] as num).toInt(),
+);
 
 Map<String, dynamic> _$UpdateRulesToJson(_UpdateRules instance) =>
     <String, dynamic>{

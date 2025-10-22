@@ -12,6 +12,7 @@ import 'package:elementary_helper/elementary_helper.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:injectable/injectable.dart';
+import 'package:money2/money2.dart';
 import 'package:nekoton_repository/nekoton_repository.dart' hide Message;
 import 'package:rxdart/rxdart.dart';
 import 'package:ui_components_lib/v2/ui_components_lib_v2.dart';
@@ -40,13 +41,15 @@ class TCSendMessageWmParams {
 }
 
 @injectable
-class TCSendMessageWidgetModel extends CustomWidgetModelParametrized<
-    TCSendMessageWidget,
-    TCSendMessageModel,
-    TCSendMessageWmParams> with BleAvailabilityWmMixin {
-  TCSendMessageWidgetModel(
-    super.model,
-  );
+class TCSendMessageWidgetModel
+    extends
+        CustomWidgetModelParametrized<
+          TCSendMessageWidget,
+          TCSendMessageModel,
+          TCSendMessageWmParams
+        >
+    with BleAvailabilityWmMixin {
+  TCSendMessageWidgetModel(super.model);
 
   late final ValueListenable<KeyAccount?> accountState = createWmParamsNotifier(
     (it) => model.getAccount(it.connection.walletAddress),
@@ -96,12 +99,12 @@ class TCSendMessageWidgetModel extends CustomWidgetModelParametrized<
   Address get sender => wmParams.value.connection.walletAddress;
 
   Money get totalAmount => Money.fromBigIntWithCurrency(
-        (dataState.value ?? []).fold(
-          BigInt.zero,
-          (prev, e) => prev + (e.attachedAmount ?? e.amount.amount.minorUnits),
-        ),
-        nativeCurrency,
-      );
+    (dataState.value ?? []).fold(
+      BigInt.zero,
+      (prev, e) => prev + (e.attachedAmount ?? e.amount.amount.minorUnits),
+    ),
+    nativeCurrency,
+  );
 
   @override
   void initWidgetModel() {
@@ -146,11 +149,7 @@ class TCSendMessageWidgetModel extends CustomWidgetModelParametrized<
       }
     } catch (e) {
       contextSafe?.let(
-        (context) => model.showMessage(
-          Message.error(
-            message: e.toString(),
-          ),
-        ),
+        (context) => model.showMessage(Message.error(message: e.toString())),
       );
     } finally {
       _isLoadingState.accept(false);
@@ -188,10 +187,7 @@ class TCSendMessageWidgetModel extends CustomWidgetModelParametrized<
       );
       _dataState.accept(data);
 
-      await Future.wait([
-        _getCustodians(),
-        _prepareTransfer(),
-      ]);
+      await Future.wait([_getCustodians(), _prepareTransfer()]);
     } finally {
       _isLoadingState.accept(false);
     }
@@ -220,9 +216,7 @@ class TCSendMessageWidgetModel extends CustomWidgetModelParametrized<
 
     // Jetton transfer
     final (rootTokenContract, _) = await model.getJettonRootDetails(
-      message.address.copyWith(
-        address: message.address.toRaw(),
-      ),
+      message.address.copyWith(address: message.address.toRaw()),
     );
     final symbol = await model.getSymbol(rootTokenContract);
 
@@ -284,21 +278,13 @@ class TCSendMessageWidgetModel extends CustomWidgetModelParametrized<
 
   Future<void> _estimateFees(UnsignedMessage message) async {
     try {
-      final fee = await model.estimateFees(
-        address: sender,
-        message: message,
-      );
+      final fee = await model.estimateFees(address: sender, message: message);
 
       _feeState.content(
-        Fee.native(
-          Money.fromBigIntWithCurrency(fee, nativeCurrency),
-        ),
+        Fee.native(Money.fromBigIntWithCurrency(fee, nativeCurrency)),
       );
     } catch (e) {
-      _feeState.error(
-        UiException(e.toString()),
-        _feeState.value.data,
-      );
+      _feeState.error(UiException(e.toString()), _feeState.value.data);
     }
   }
 
@@ -312,11 +298,7 @@ class TCSendMessageWidgetModel extends CustomWidgetModelParametrized<
       _txErrorsState.accept(errors);
     } catch (e) {
       contextSafe?.let(
-        (context) => model.showMessage(
-          Message.error(
-            message: e.toString(),
-          ),
-        ),
+        (context) => model.showMessage(Message.error(message: e.toString())),
       );
     }
   }
@@ -325,6 +307,6 @@ class TCSendMessageWidgetModel extends CustomWidgetModelParametrized<
     final walletTonState = await model.getTonWalletState(sender);
     numberUnconfirmedTransactions =
         (walletTonState.wallet?.unconfirmedTransactions.length ?? 0) +
-            (walletTonState.wallet?.pendingTransactions.length ?? 0);
+        (walletTonState.wallet?.pendingTransactions.length ?? 0);
   }
 }

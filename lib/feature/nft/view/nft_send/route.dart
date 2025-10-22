@@ -15,10 +15,10 @@ const _amountQueryParam = 'amount';
 @Singleton(as: CompassBaseRoute)
 class NftSendRoute extends CompassRoute<NftSendRouteData> {
   NftSendRoute()
-      : super(
-          path: '/nft-send',
-          builder: (context, data, _) => NftSendWidget(data: data),
-        );
+    : super(
+        path: '/nft-send',
+        builder: (context, data, _) => NftSendWidget(data: data),
+      );
 
   @override
   NftSendRouteData fromQueryParams(Map<String, String> queryParams) {

@@ -6,18 +6,22 @@ import 'package:flutter/material.dart';
 import 'package:ui_components_lib/ui_components_lib.dart';
 import 'package:ui_components_lib/v2/widgets/widgets.dart';
 
-class EnterSeedPhraseWidget extends InjectedElementaryParametrizedWidget<
-    EnterSeedPhraseWidgetModel, EnterSeedWmParams> {
+class EnterSeedPhraseWidget
+    extends
+        InjectedElementaryParametrizedWidget<
+          EnterSeedPhraseWidgetModel,
+          EnterSeedWmParams
+        > {
   EnterSeedPhraseWidget({
     required bool isOnboarding,
     String? seedName,
     super.key,
   }) : super(
-          wmFactoryParam: EnterSeedWmParams(
-            isOnboarding: isOnboarding,
-            seedName: seedName,
-          ),
-        );
+         wmFactoryParam: EnterSeedWmParams(
+           isOnboarding: isOnboarding,
+           seedName: seedName,
+         ),
+       );
 
   @override
   Widget build(EnterSeedPhraseWidgetModel wm) {
@@ -52,9 +56,7 @@ class EnterSeedPhraseWidget extends InjectedElementaryParametrizedWidget<
                     left: DimensSizeV2.d16,
                     right: DimensSizeV2.d16,
                   ),
-                  child: PrimaryText(
-                    LocaleKeys.pasteSeedIntoFirstBox.tr(),
-                  ),
+                  child: PrimaryText(LocaleKeys.pasteSeedIntoFirstBox.tr()),
                 ),
                 if (wm.isExistBottomPadding)
                   Divider(
@@ -96,12 +98,12 @@ class EnterSeedPhraseWidget extends InjectedElementaryParametrizedWidget<
                   secondSource: wm.seedPhraseFormatState,
                   builder: (_, tabData, seedPhraseFormat) =>
                       SeedPhraseFormatView(
-                    networkGroup: wm.networkGroup,
-                    networkType: wm.networkType,
-                    wordsCount: tabData?.currentValue,
-                    value: seedPhraseFormat,
-                    onChanged: wm.onSeedPhraseFormatChanged,
-                  ),
+                        networkGroup: wm.networkGroup,
+                        networkType: wm.networkType,
+                        wordsCount: tabData?.currentValue,
+                        value: seedPhraseFormat,
+                        onChanged: wm.onSeedPhraseFormatChanged,
+                      ),
                 ),
                 AccentButton(
                   buttonShape: ButtonShape.pill,

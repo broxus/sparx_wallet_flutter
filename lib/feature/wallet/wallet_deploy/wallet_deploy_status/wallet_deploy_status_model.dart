@@ -25,12 +25,11 @@ class WalletDeployStatusModel extends ElementaryModel {
     required String messageHash,
     required Address address,
     required BigInt amount,
-  }) =>
-      _walletDeploymentService.deploy(
-        messageHash: messageHash,
-        address: address,
-        amount: amount,
-      );
+  }) => _walletDeploymentService.deploy(
+    messageHash: messageHash,
+    address: address,
+    amount: amount,
+  );
 
   void showMessage(Message message) => _messengerService.show(message);
 }

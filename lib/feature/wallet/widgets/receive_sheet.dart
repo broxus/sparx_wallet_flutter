@@ -8,10 +8,7 @@ import 'package:ui_components_lib/ui_components_lib.dart';
 import 'package:ui_components_lib/v2/ui_components_lib_v2.dart';
 
 /// Helper function to show [ReceiveFundsSheet].
-void showReceiveFundsSheet(
-  BuildContext context,
-  Address address,
-) {
+void showReceiveFundsSheet(BuildContext context, Address address) {
   showCommonBottomSheet<void>(
     context: context,
     title: LocaleKeys.addressToReceiveFunds.tr(),
@@ -24,10 +21,7 @@ void showReceiveFundsSheet(
 /// For TonWallet address must be [TonWallet.address], for TokenWallet
 /// [TokenWallet.tokenAddress].
 class ReceiveFundsSheet extends StatelessWidget {
-  const ReceiveFundsSheet({
-    required this.address,
-    super.key,
-  });
+  const ReceiveFundsSheet({required this.address, super.key});
 
   final Address address;
 
@@ -36,17 +30,14 @@ class ReceiveFundsSheet extends StatelessWidget {
     return Column(
       mainAxisSize: MainAxisSize.min,
       children: [
-        BarcodeAddress(
-          address: address,
-        ),
+        BarcodeAddress(address: address),
         const SizedBox(height: DimensSizeV2.d16),
         PrimaryButton(
           buttonShape: ButtonShape.pill,
           icon: LucideIcons.share2,
           title: LocaleKeys.shareWord.tr(),
-          onPressed: () => SharePlus.instance.share(
-            ShareParams(text: address.address),
-          ),
+          onPressed: () =>
+              SharePlus.instance.share(ShareParams(text: address.address)),
         ),
       ],
     );

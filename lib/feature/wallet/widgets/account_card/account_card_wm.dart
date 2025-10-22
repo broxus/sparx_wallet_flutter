@@ -9,6 +9,7 @@ import 'package:elementary_helper/elementary_helper.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';
 import 'package:injectable/injectable.dart';
+import 'package:money2/money2.dart';
 import 'package:nekoton_repository/nekoton_repository.dart' hide Message;
 import 'package:rxdart/rxdart.dart';
 
@@ -16,11 +17,14 @@ const _withdrawUpdateDebounce = Duration(seconds: 3);
 const _balanceThrottleTime = Duration(seconds: 1);
 
 @injectable
-class AccountCardWidgetModel extends CustomWidgetModelParametrized<AccountCard,
-    AccountCardModel, KeyAccount> {
-  AccountCardWidgetModel(
-    super.model,
-  );
+class AccountCardWidgetModel
+    extends
+        CustomWidgetModelParametrized<
+          AccountCard,
+          AccountCardModel,
+          KeyAccount
+        > {
+  AccountCardWidgetModel(super.model);
 
   late final _errorState = createValueNotifier<Object?>(null);
   late final _isLoadingState = createValueNotifier<bool>(false);

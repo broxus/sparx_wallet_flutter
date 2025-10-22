@@ -7,28 +7,31 @@ import 'package:collection/collection.dart';
 import 'package:elementary_helper/elementary_helper.dart';
 import 'package:injectable/injectable.dart';
 import 'package:logging/logging.dart';
+import 'package:money2/money2.dart';
 import 'package:nekoton_repository/nekoton_repository.dart';
 import 'package:rxdart/rxdart.dart';
 
 class AccountTransactionsTabWmParams {
-  AccountTransactionsTabWmParams({
-    required this.account,
-  });
+  AccountTransactionsTabWmParams({required this.account});
 
   final KeyAccount account;
 }
 
 @injectable
-class AccountTransactionsTabWidgetModel extends CustomWidgetModelParametrized<
-    AccountTransactionsTab,
-    AccountTransactionsTabModel,
-    AccountTransactionsTabWmParams> {
+class AccountTransactionsTabWidgetModel
+    extends
+        CustomWidgetModelParametrized<
+          AccountTransactionsTab,
+          AccountTransactionsTabModel,
+          AccountTransactionsTabWmParams
+        > {
   AccountTransactionsTabWidgetModel(super.model);
 
   final _logger = Logger('AccountTransactionsTabWM');
 
-  late final _transactionsState =
-      createNotifier(const AccountTransactionsUiState.loading());
+  late final _transactionsState = createNotifier(
+    const AccountTransactionsUiState.loading(),
+  );
 
   StateNotifier<AccountTransactionsUiState> get transactionsState =>
       _transactionsState;
@@ -65,23 +68,30 @@ class AccountTransactionsTabWidgetModel extends CustomWidgetModelParametrized<
   void initWidgetModel() {
     super.initWidgetModel();
 
-    _walletSubscription = Rx.combineLatest2<TonWalletState?, TransportStrategy,
-        (TonWalletState?, TransportStrategy)>(
-      model.walletsMapStream.map((wallets) => wallets[_account.address]),
-      model.currentTransportStream,
-      (a, b) => (a, b),
-    ).listen((value) {
-      final wallet = value.$1?.wallet;
-      final transport = value.$2.transport;
+    _walletSubscription =
+        Rx.combineLatest2<
+              TonWalletState?,
+              TransportStrategy,
+              (TonWalletState?, TransportStrategy)
+            >(
+              model.walletsMapStream.map(
+                (wallets) => wallets[_account.address],
+              ),
+              model.currentTransportStream,
+              (a, b) => (a, b),
+            )
+            .listen((value) {
+              final wallet = value.$1?.wallet;
+              final transport = value.$2.transport;
 
-      if (wallet == null) {
-        _closeSubs();
-        _emitLoading();
-        return;
-      }
+              if (wallet == null) {
+                _closeSubs();
+                _emitLoading();
+                return;
+              }
 
-      _createSubs(wallet, transport);
-    });
+              _createSubs(wallet, transport);
+            });
 
     _initNativeCurrency();
   }
@@ -117,92 +127,95 @@ class AccountTransactionsTabWidgetModel extends CustomWidgetModelParametrized<
   void _createSubs(TonWallet wallet, Transport transport) {
     _closeSubs();
 
-    _multisigTransactionsSub = Rx.combineLatest2<
-        void,
-        List<TransactionWithData<TransactionAdditionalInfo?>>?,
-        List<TransactionWithData<TransactionAdditionalInfo?>>>(
-      wallet.fieldUpdatesStream,
-      model.transactionsStream(
-        networkId: transport.networkId,
-        group: transport.group,
-        address: wallet.address,
-      ),
-      (_, b) => b ?? [],
-    ).listen((transactions) async {
-      final multisigTransactions = wallet.unconfirmedTransactions;
-      _transactions = transactions;
+    _multisigTransactionsSub =
+        Rx.combineLatest2<
+              void,
+              List<TransactionWithData<TransactionAdditionalInfo?>>?,
+              List<TransactionWithData<TransactionAdditionalInfo?>>
+            >(
+              wallet.fieldUpdatesStream,
+              model.transactionsStream(
+                networkId: transport.networkId,
+                group: transport.group,
+                address: wallet.address,
+              ),
+              (_, b) => b ?? [],
+            )
+            .listen((transactions) async {
+              final multisigTransactions = wallet.unconfirmedTransactions;
+              _transactions = transactions;
 
-      try {
-        _multisigExpired = await model.mapMultisigExpiredTransactions(
-          walletAddress: wallet.address,
-          transactions: transactions,
-          multisigPendingTransactions: multisigTransactions,
-        );
-      } catch (_) {}
-      try {
-        _multisigOrdinary = await model.mapMultisigOrdinaryTransactions(
-          walletAddress: wallet.address,
-          transactions: transactions,
-          multisigPendingTransactions: multisigTransactions,
-        );
-      } catch (_) {}
+              try {
+                _multisigExpired = await model.mapMultisigExpiredTransactions(
+                  walletAddress: wallet.address,
+                  transactions: transactions,
+                  multisigPendingTransactions: multisigTransactions,
+                );
+              } catch (_) {}
+              try {
+                _multisigOrdinary = await model.mapMultisigOrdinaryTransactions(
+                  walletAddress: wallet.address,
+                  transactions: transactions,
+                  multisigPendingTransactions: multisigTransactions,
+                );
+              } catch (_) {}
 
-      try {
-        _multisigPending = await model.mapMultisigPendingTransactions(
-          walletAddress: wallet.address,
-          transactions: transactions,
-          multisigPendingTransactions: multisigTransactions,
-        );
-      } catch (_) {}
+              try {
+                _multisigPending = await model.mapMultisigPendingTransactions(
+                  walletAddress: wallet.address,
+                  transactions: transactions,
+                  multisigPendingTransactions: multisigTransactions,
+                );
+              } catch (_) {}
 
-      _multisigLoaded = true;
-      _checkState();
-    });
+              _multisigLoaded = true;
+              _checkState();
+            });
 
     _pendingTransactionsSub = model
         .pendingTransactionsRawStream(
-      networkId: transport.networkId,
-      group: transport.group,
-      address: wallet.address,
-    )
+          networkId: transport.networkId,
+          group: transport.group,
+          address: wallet.address,
+        )
         .listen((pending) {
-      _pending = model.mapPendingTransactions(
-        walletAddress: wallet.address,
-        pendingTransactions: pending ?? [],
-      );
-      _pendingLoaded = true;
-      _checkState();
-    });
+          _pending = model.mapPendingTransactions(
+            walletAddress: wallet.address,
+            pendingTransactions: pending ?? [],
+          );
+          _pendingLoaded = true;
+          _checkState();
+        });
 
     _expiredTransactionsSub = model
         .expiredTransactionsRawStream(
-      networkId: transport.networkId,
-      group: transport.group,
-      address: wallet.address,
-    )
+          networkId: transport.networkId,
+          group: transport.group,
+          address: wallet.address,
+        )
         .listen((expired) {
-      _expired = model.mapExpiredTransactions(
-        walletAddress: wallet.address,
-        expiredTransactions: expired ?? [],
-      );
-      _expiredLoaded = true;
-      _checkState();
-    });
+          _expired = model.mapExpiredTransactions(
+            walletAddress: wallet.address,
+            expiredTransactions: expired ?? [],
+          );
+          _expiredLoaded = true;
+          _checkState();
+        });
 
     _ordinaryTransactionsSub = model
         .transactionsStream(
-      networkId: transport.networkId,
-      group: transport.group,
-      address: wallet.address,
-    )
+          networkId: transport.networkId,
+          group: transport.group,
+          address: wallet.address,
+        )
         .listen((ordinary) {
-      _ordinary = model.mapOrdinaryTransactions(
-        walletAddress: wallet.address,
-        transactions: ordinary ?? [],
-      );
-      _ordinaryLoaded = true;
-      _checkState();
-    });
+          _ordinary = model.mapOrdinaryTransactions(
+            walletAddress: wallet.address,
+            transactions: ordinary ?? [],
+          );
+          _ordinaryLoaded = true;
+          _checkState();
+        });
   }
 
   void _checkState() {
@@ -303,12 +316,11 @@ class AccountTransactionsTabWidgetModel extends CustomWidgetModelParametrized<
 
   String? _lastLt(
     List<TransactionWithData<TransactionAdditionalInfo?>> transactions,
-  ) =>
-      transactions
-          .lastWhereOrNull((t) => t.transaction.prevTransactionId != null)
-          ?.transaction
-          .prevTransactionId
-          ?.lt;
+  ) => transactions
+      .lastWhereOrNull((t) => t.transaction.prevTransactionId != null)
+      ?.transaction
+      .prevTransactionId
+      ?.lt;
 
   Future<void> _preloadTransactions(String lastPrevLt) async {
     if (_isPreloading) return;

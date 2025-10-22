@@ -5,10 +5,7 @@ import 'package:ui_components_lib/v2/widgets/buttons/button_size.dart';
 import 'package:ui_components_lib/v2/widgets/buttons/float_button.dart';
 
 class AppBarBackButton extends StatelessWidget {
-  const AppBarBackButton({
-    required this.onPressed,
-    super.key,
-  });
+  const AppBarBackButton({required this.onPressed, super.key});
 
   final VoidCallback onPressed;
 

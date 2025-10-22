@@ -8,9 +8,7 @@ import 'package:elementary_helper/elementary_helper.dart';
 import 'package:flutter/cupertino.dart';
 
 class UiBookmarksDelegate {
-  UiBookmarksDelegate(
-    this._model,
-  );
+  UiBookmarksDelegate(this._model);
 
   final BrowserBookModel _model;
 
@@ -78,10 +76,7 @@ class UiBookmarksDelegate {
   }
 
   void onReorder(int oldIndex, int newIndex) {
-    _model.reorderBookmark(
-      oldIndex,
-      newIndex,
-    );
+    _model.reorderBookmark(oldIndex, newIndex);
   }
 
   void _handleBookmarks() {
@@ -95,18 +90,16 @@ class UiBookmarksDelegate {
 
     final list = _model.browserBookmarks;
     final searchedText = searchController.value.text;
-    _bookmarksState.accept(
-      [
-        for (final bookmark in list)
-          if (searchedText.isEmpty ||
-              bookmark.title.contains(searchedText) ||
-              bookmark.url.toString().contains(searchedText))
-            BookMarkUiModel(
-              bookmarkId: bookmark.id,
-              title: bookmark.title,
-              uri: bookmark.url,
-            ),
-      ],
-    );
+    _bookmarksState.accept([
+      for (final bookmark in list)
+        if (searchedText.isEmpty ||
+            bookmark.title.contains(searchedText) ||
+            bookmark.url.toString().contains(searchedText))
+          BookMarkUiModel(
+            bookmarkId: bookmark.id,
+            title: bookmark.title,
+            uri: bookmark.url,
+          ),
+    ]);
   }
 }

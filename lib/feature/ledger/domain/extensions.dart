@@ -31,7 +31,7 @@ extension BluetoothDeviceX on BluetoothDevice {
         );
       }
 
-      await connect(timeout: timeout);
+      await connect(license: License.free, timeout: timeout);
       await discoverServices();
     } catch (e) {
       _logger.severe('Failed to connect to Ledger device', e);

@@ -55,8 +55,9 @@ void _generate() async {
 
   await _createDirIfNotExist(dirPath);
 
-  var templatesList =
-      await templateDir.listSync(recursive: true, followLinks: false).toList();
+  var templatesList = await templateDir
+      .listSync(recursive: true, followLinks: false)
+      .toList();
 
   var templatesDirs = templatesList.where((FileSystemEntity entity) {
     var isDir = FileSystemEntity.isDirectorySync(entity.path);
@@ -86,8 +87,12 @@ Future _copyStructure(Iterable<FileSystemEntity> list, String target) async {
   ;
 }
 
-Future _copyFiles(Iterable<FileSystemEntity> list, String target,
-    List<File> newFiles, Map<String, String> renamed) async {
+Future _copyFiles(
+  Iterable<FileSystemEntity> list,
+  String target,
+  List<File> newFiles,
+  Map<String, String> renamed,
+) async {
   for (var fileEntity in list) {
     var relative = _getRelativePath(fileEntity.path, templatePath);
     var file = File(fileEntity.path);

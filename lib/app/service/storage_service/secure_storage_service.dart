@@ -25,21 +25,14 @@ class SecureStorageService extends AbstractStorageService {
   Future<void> init() => Future.value();
 
   /// Get password of public key if it was cached with biometry
-  Future<String?> getKeyPassword(PublicKey publicKey) => _storage.get(
-        publicKey.publicKey,
-        domain: _passwordsKey,
-      );
+  Future<String?> getKeyPassword(PublicKey publicKey) =>
+      _storage.get(publicKey.publicKey, domain: _passwordsKey);
 
   /// Set password of public key to cache it with biometry
   Future<void> setKeyPassword({
     required PublicKey publicKey,
     required String password,
-  }) =>
-      _storage.set(
-        publicKey.publicKey,
-        password,
-        domain: _passwordsKey,
-      );
+  }) => _storage.set(publicKey.publicKey, password, domain: _passwordsKey);
 
   /// Remove password of public key from cache
   Future<void> removeKeyPassword(PublicKey publicKey) =>
@@ -49,39 +42,24 @@ class SecureStorageService extends AbstractStorageService {
   Future<void> clearKeyPasswords() => _storage.clearDomain(_passwordsKey);
 
   Future<String?> getConnectionJson() {
-    return _storage.get(
-      _connectionJsonKey,
-      domain: _connectionJsonDomain,
-    );
+    return _storage.get(_connectionJsonKey, domain: _connectionJsonDomain);
   }
 
-  Future<void> setConnectionJson(String json) => _storage.set(
-        _connectionJsonKey,
-        json,
-        domain: _connectionJsonDomain,
-      );
+  Future<void> setConnectionJson(String json) =>
+      _storage.set(_connectionJsonKey, json, domain: _connectionJsonDomain);
 
   Future<String?> getConnectionJsonHash() {
-    return _storage.get(
-      _connectionJsonHashKey,
-      domain: _connectionJsonDomain,
-    );
+    return _storage.get(_connectionJsonHashKey, domain: _connectionJsonDomain);
   }
 
-  Future<void> setConnectionJsonHash(String hash) => _storage.set(
-        _connectionJsonHashKey,
-        hash,
-        domain: _connectionJsonDomain,
-      );
+  Future<void> setConnectionJsonHash(String hash) =>
+      _storage.set(_connectionJsonHashKey, hash, domain: _connectionJsonDomain);
 
   /// Generic methods for working with different config types
 
   /// Get config JSON string for the specified config type
   Future<String?> getConfigJson(PresetConfigType<dynamic> configType) {
-    return _storage.get(
-      configType.storageKey,
-      domain: configType.name,
-    );
+    return _storage.get(configType.storageKey, domain: configType.name);
   }
 
   /// Set config JSON string for the specified config type
@@ -89,11 +67,7 @@ class SecureStorageService extends AbstractStorageService {
     PresetConfigType<dynamic> configType,
     String data,
   ) {
-    return _storage.set(
-      configType.storageKey,
-      data,
-      domain: configType.name,
-    );
+    return _storage.set(configType.storageKey, data, domain: configType.name);
   }
 
   /// Get config JSON hash for the specified config type
@@ -117,9 +91,7 @@ class SecureStorageService extends AbstractStorageService {
   }
 
   @override
-  Future<void> clear({
-    bool isSaveConnectionJson = true,
-  }) async {
+  Future<void> clear({bool isSaveConnectionJson = true}) async {
     String? hash;
     String? json;
 

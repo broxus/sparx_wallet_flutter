@@ -29,8 +29,7 @@ class NftPrepareTransferModel extends ElementaryModel {
   Future<NftItem?> getNftItem({
     required Address address,
     required Address owner,
-  }) =>
-      _nftService.getNftItem(address: address, owner: owner);
+  }) => _nftService.getNftItem(address: address, owner: owner);
 
   Future<List<PublicKey>?> getLocalCustodiansAsync(Address address) async {
     try {
@@ -51,8 +50,6 @@ class NftPrepareTransferModel extends ElementaryModel {
   }
 
   void showError(String text) {
-    _messengerService.show(
-      Message.error(message: text),
-    );
+    _messengerService.show(Message.error(message: text));
   }
 }

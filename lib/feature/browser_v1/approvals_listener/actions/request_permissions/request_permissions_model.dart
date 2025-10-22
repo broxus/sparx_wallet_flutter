@@ -2,6 +2,7 @@ import 'package:app/app/service/service.dart';
 import 'package:app/data/models/models.dart';
 import 'package:elementary/elementary.dart';
 import 'package:injectable/injectable.dart';
+import 'package:money2/money2.dart';
 import 'package:nekoton_repository/nekoton_repository.dart';
 
 @injectable
@@ -24,9 +25,7 @@ class RequestPermissionsModel extends ElementaryModel {
 
   List<KeyAccount> get accounts => _nekotonRepository.seedList.seeds
       .expand(
-        (seed) => seed.allKeys.expand(
-          (key) => key.accountList.allAccounts,
-        ),
+        (seed) => seed.allKeys.expand((key) => key.accountList.allAccounts),
       )
       .where((account) => !account.isHidden)
       .toList();
@@ -37,7 +36,8 @@ class RequestPermissionsModel extends ElementaryModel {
       _permissionsService.setPermissions(url: origin, permissions: permissions);
 
   Future<Money?> getBalance(KeyAccount account) async {
-    final wallet = _nekotonRepository.walletsMap[account.address]?.wallet ??
+    final wallet =
+        _nekotonRepository.walletsMap[account.address]?.wallet ??
         await _getWallet(account);
 
     return Money.fromBigIntWithCurrency(

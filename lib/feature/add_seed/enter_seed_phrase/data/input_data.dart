@@ -9,11 +9,11 @@ class EnterSeedPhraseInputData {
   }) : _isError = isError ?? false;
 
   EnterSeedPhraseInputData.init(int index)
-      : this(
-          index: index,
-          controller: TextEditingController(),
-          focusNode: FocusNode(),
-        );
+    : this(
+        index: index,
+        controller: TextEditingController(),
+        focusNode: FocusNode(),
+      );
 
   final int index;
   final TextEditingController controller;

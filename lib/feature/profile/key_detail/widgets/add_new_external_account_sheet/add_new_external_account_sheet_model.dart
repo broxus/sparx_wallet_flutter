@@ -19,12 +19,11 @@ class AddNewExternalAccountSheetModel extends ElementaryModel {
     required Address address,
     required PublicKey publicKey,
     String? name,
-  }) =>
-      _nekotonRepository.addExternalAccount(
-        address: address,
-        publicKey: publicKey,
-        name: name,
-      );
+  }) => _nekotonRepository.addExternalAccount(
+    address: address,
+    publicKey: publicKey,
+    name: name,
+  );
 
   void showMessage(Message message) => _messengerService.show(message);
 }

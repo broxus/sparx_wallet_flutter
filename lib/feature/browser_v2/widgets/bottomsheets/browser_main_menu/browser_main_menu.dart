@@ -22,18 +22,22 @@ Future<void> showBrowserMainMenu(
   );
 }
 
-class BrowserMainMenu extends InjectedElementaryParametrizedWidget<
-    BrowserMainMenuWidgetModel, BrowserMainMenuWmParams> {
+class BrowserMainMenu
+    extends
+        InjectedElementaryParametrizedWidget<
+          BrowserMainMenuWidgetModel,
+          BrowserMainMenuWmParams
+        > {
   BrowserMainMenu({
     required String groupId,
     required DoubleValueCallback<String, String> onPressedCreateTab,
     super.key,
   }) : super(
-          wmFactoryParam: BrowserMainMenuWmParams(
-            groupId: groupId,
-            onPressedCreateTab: onPressedCreateTab,
-          ),
-        );
+         wmFactoryParam: BrowserMainMenuWmParams(
+           groupId: groupId,
+           onPressedCreateTab: onPressedCreateTab,
+         ),
+       );
 
   @override
   Widget build(BrowserMainMenuWidgetModel wm) {
@@ -43,23 +47,14 @@ class BrowserMainMenu extends InjectedElementaryParametrizedWidget<
       children: [
         PrimaryShapedContainerColumn(
           children: [
-            _Item(
-              BrowserMainMenuData.newTab,
-              onPressed: wm.onPressedItem,
-            ),
-            _Item(
-              BrowserMainMenuData.reload,
-              onPressed: wm.onPressedItem,
-            ),
+            _Item(BrowserMainMenuData.newTab, onPressed: wm.onPressedItem),
+            _Item(BrowserMainMenuData.reload, onPressed: wm.onPressedItem),
             // TODO(knightforce): not ready
             // _Item(
             //   BrowserMainMenuData.translatePage,
             //   onPressed: wm.onPressedItem,
             // ),
-            _Item(
-              BrowserMainMenuData.addBookmark,
-              onPressed: wm.onPressedItem,
-            ),
+            _Item(BrowserMainMenuData.addBookmark, onPressed: wm.onPressedItem),
           ],
         ),
         const SizedBox(height: DimensSizeV2.d16),
@@ -77,10 +72,7 @@ class BrowserMainMenu extends InjectedElementaryParametrizedWidget<
 }
 
 class _Item extends StatelessWidget {
-  const _Item(
-    this.data, {
-    required this.onPressed,
-  });
+  const _Item(this.data, {required this.onPressed});
 
   final BrowserMainMenuData data;
   final ValueChanged<BrowserMainMenuData> onPressed;
@@ -92,7 +84,7 @@ class _Item extends StatelessWidget {
       icon: data.icon,
       iconColor: switch (data) {
         BrowserMainMenuData.clearHistory => ColorsResV2.vibrantRaspberry,
-        _ => null
+        _ => null,
       },
       onPressed: () => onPressed(data),
     );

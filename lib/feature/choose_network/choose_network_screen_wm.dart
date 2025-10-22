@@ -18,11 +18,14 @@ import 'package:ui_components_lib/v2/ui_components_lib_v2.dart';
 
 /// [WidgetModel] для [ChooseNetworkScreen]
 @injectable
-class ChooseNetworkScreenWidgetModel extends CustomWidgetModelParametrized<
-    ChooseNetworkScreen, ChooseNetworkScreenModel, ChooseNetworkNextStep> {
-  ChooseNetworkScreenWidgetModel(
-    super.model,
-  );
+class ChooseNetworkScreenWidgetModel
+    extends
+        CustomWidgetModelParametrized<
+          ChooseNetworkScreen,
+          ChooseNetworkScreenModel,
+          ChooseNetworkNextStep
+        > {
+  ChooseNetworkScreenWidgetModel(super.model);
 
   late final _loadingItemIdState = createNotifier<String?>();
 
@@ -36,8 +39,9 @@ class ChooseNetworkScreenWidgetModel extends CustomWidgetModelParametrized<
 
   late final _showSearchBarState = createNotifier<bool>(false);
 
-  late final _connectionsState =
-      createNotifier<List<ChooseNetworkItemData>>([]);
+  late final _connectionsState = createNotifier<List<ChooseNetworkItemData>>(
+    [],
+  );
 
   StateNotifier<bool> get showAppBarTitleState => _showAppBarTitleState;
 
@@ -87,9 +91,7 @@ class ChooseNetworkScreenWidgetModel extends CustomWidgetModelParametrized<
             const CreateSeedOnboardingPasswordRouteData(),
           );
         case ChooseNetworkNextStep.addExistingWallet:
-          context.compassContinue(
-            const AddExistingWalletRouteData(),
-          );
+          context.compassContinue(const AddExistingWalletRouteData());
       }
     } finally {
       _loadingItemIdState.accept(null);

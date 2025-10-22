@@ -8,10 +8,8 @@ import 'package:injectable/injectable.dart';
 /// [ElementaryModel] for [Toolbar]
 @injectable
 class ToolbarModel extends ElementaryModel {
-  ToolbarModel(
-    ErrorHandler errorHandler,
-    this._browserService,
-  ) : super(errorHandler: errorHandler);
+  ToolbarModel(ErrorHandler errorHandler, this._browserService)
+    : super(errorHandler: errorHandler);
 
   final BrowserService _browserService;
 

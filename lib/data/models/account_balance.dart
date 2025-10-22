@@ -1,6 +1,7 @@
 import 'package:app/utils/utils.dart';
 import 'package:collection/collection.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
+import 'package:money2/money2.dart';
 import 'package:nekoton_repository/nekoton_repository.dart';
 
 part 'account_balance.freezed.dart';
@@ -26,9 +27,7 @@ extension AccountBalancesExt on List<AccountBalanceModel> {
   AccountBalanceModel? tokenBalance(
     Address rootTokenContract, {
     bool isNative = false,
-  }) =>
-      firstWhereOrNull(
-        (b) =>
-            b.rootTokenContract == rootTokenContract && b.isNative == isNative,
-      );
+  }) => firstWhereOrNull(
+    (b) => b.rootTokenContract == rootTokenContract && b.isNative == isNative,
+  );
 }

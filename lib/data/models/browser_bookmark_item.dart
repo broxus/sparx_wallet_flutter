@@ -24,11 +24,10 @@ abstract class BrowserBookmarkItem
   factory BrowserBookmarkItem.create({
     required String title,
     required Uri url,
-  }) =>
-      BrowserBookmarkItem(
-        id: const Uuid().v4(),
-        title: title,
-        url: url,
-        sortingOrder: NtpTime.now().millisecondsSinceEpoch.toDouble(),
-      );
+  }) => BrowserBookmarkItem(
+    id: const Uuid().v4(),
+    title: title,
+    url: url,
+    sortingOrder: NtpTime.now().millisecondsSinceEpoch.toDouble(),
+  );
 }

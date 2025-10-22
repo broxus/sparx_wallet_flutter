@@ -112,8 +112,9 @@ class ShapedContainerColumn extends StatelessWidget {
                         Flexible(
                           child: Text(
                             subtitleText!,
-                            style: theme.textStyles.labelXSmall
-                                .copyWith(color: theme.colors.content3),
+                            style: theme.textStyles.labelXSmall.copyWith(
+                              color: theme.colors.content3,
+                            ),
                             textAlign: TextAlign.right,
                           ),
                         ),

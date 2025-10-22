@@ -6,9 +6,7 @@ import 'package:ui_components_lib/ui_components_lib.dart';
 class NetworkItem extends StatelessWidget {
   const NetworkItem({
     required this.data,
-    this.padding = const EdgeInsets.symmetric(
-      vertical: DimensSizeV2.d12,
-    ),
+    this.padding = const EdgeInsets.symmetric(vertical: DimensSizeV2.d12),
     this.trailing,
     this.onTap,
     super.key,

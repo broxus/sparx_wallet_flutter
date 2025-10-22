@@ -10,13 +10,13 @@ const _passwordQueryParam = 'password';
 @Singleton(as: CompassBaseRoute)
 class NewAccountRoute extends CompassRoute<NewAccountRouteData> {
   NewAccountRoute()
-      : super(
-          path: '/wallet-new-account',
-          builder: (context, data, _) => NewAccountScreen(
-            publicKey: data.publicKey,
-            password: data.password,
-          ),
-        );
+    : super(
+        path: '/wallet-new-account',
+        builder: (context, data, _) => NewAccountScreen(
+          publicKey: data.publicKey,
+          password: data.password,
+        ),
+      );
 
   @override
   NewAccountRouteData fromQueryParams(Map<String, String> queryParams) {
@@ -28,19 +28,14 @@ class NewAccountRoute extends CompassRoute<NewAccountRouteData> {
 }
 
 class NewAccountRouteData implements CompassRouteDataQuery {
-  const NewAccountRouteData({
-    required this.publicKey,
-    this.password,
-  });
+  const NewAccountRouteData({required this.publicKey, this.password});
 
   final String publicKey;
   final String? password;
 
   @override
   Map<String, String> toQueryParams() {
-    final result = <String, String>{
-      _publicKeyQueryParam: publicKey,
-    };
+    final result = <String, String>{_publicKeyQueryParam: publicKey};
 
     if (password != null) {
       result[_passwordQueryParam] = password!;

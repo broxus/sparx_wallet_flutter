@@ -69,24 +69,24 @@ class CurrentAccountsService {
 
   Future<void> init() async {
     // skip 1 to avoid duplicate calls
-    _nekotonRepository.seedListStream.skip(1).listen(
+    _nekotonRepository.seedListStream
+        .skip(1)
+        .listen(
           (list) => _updateAccountsList(list, _currentKeyService.currentKey),
         );
-    _currentKeyService.currentKeyStream.skip(1).listen(
-          (key) => _updateAccountsList(_nekotonRepository.seedList, key),
-        );
+    _currentKeyService.currentKeyStream
+        .skip(1)
+        .listen((key) => _updateAccountsList(_nekotonRepository.seedList, key));
 
     currentActiveAccountStream
         .distinct((prev, next) => prev == null && next == null)
-        .listen(
-      (account) async {
-        if (account != null) {
-          await _updateSubscriptions(account);
-        }
+        .listen((account) async {
+          if (account != null) {
+            await _updateSubscriptions(account);
+          }
 
-        _tryStartPolling(account);
-      },
-    );
+          _tryStartPolling(account);
+        });
 
     _initCurrentAccount();
 
@@ -162,10 +162,9 @@ class CurrentAccountsService {
     }
 
     final address = currentActiveAccountAddress;
-    final keyChanged = address == null ||
-        list.allAccounts.every(
-          (account) => account.address != address,
-        );
+    final keyChanged =
+        address == null ||
+        list.allAccounts.every((account) => account.address != address);
 
     // key changed
     // for init method this will be called anyway.
@@ -179,10 +178,7 @@ class CurrentAccountsService {
     }
   }
 
-  void _updateAccountsList(
-    SeedList list,
-    PublicKey? currentKey,
-  ) {
+  void _updateAccountsList(SeedList list, PublicKey? currentKey) {
     if (currentKey == null) {
       _currentAccountsSubject.add(null);
       return;
@@ -209,9 +205,9 @@ class CurrentAccountsService {
       await _nekotonRepository.updateSubscriptions([]);
       await _nekotonRepository.updateTokenSubscriptions([]);
     } else {
-      await _nekotonRepository.updateSubscriptions(
-        [(account.account.tonWallet, account.isExternal)],
-      );
+      await _nekotonRepository.updateSubscriptions([
+        (account.account.tonWallet, account.isExternal),
+      ]);
       await _nekotonRepository.updateTokenSubscriptions([account.account]);
     }
   }

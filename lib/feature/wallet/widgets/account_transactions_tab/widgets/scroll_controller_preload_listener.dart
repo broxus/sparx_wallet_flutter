@@ -42,7 +42,8 @@ class _ScrollControllerPreloadListenerState
   void _scrollListener() {
     if (!mounted) return;
 
-    final isDown = widget.scrollController.position.userScrollDirection ==
+    final isDown =
+        widget.scrollController.position.userScrollDirection ==
         ScrollDirection.reverse;
     final pixels = widget.scrollController.position.pixels;
     final maxScrollExtent = widget.scrollController.position.maxScrollExtent;

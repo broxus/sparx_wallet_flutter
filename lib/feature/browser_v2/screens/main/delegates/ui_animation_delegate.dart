@@ -29,31 +29,37 @@ class BrowserAnimationUiDelegate implements BrowserAnimationUi {
   BrowserAnimationUiDelegate(this._vsync);
 
   @override
-  late final listMenuOffsetAnimation =
-      _offsetTween.animate(_listMenuController);
+  late final listMenuOffsetAnimation = _offsetTween.animate(
+    _listMenuController,
+  );
 
   @override
-  late final viewMenuOffsetAnimation =
-      _offsetTween.animate(_viewMenuController);
+  late final viewMenuOffsetAnimation = _offsetTween.animate(
+    _viewMenuController,
+  );
 
   @override
   late final urlMenuOffsetAnimation = _offsetTween.animate(_urlMenuController);
 
   @override
-  late final listMenuOpacityAnimation =
-      _opacityTween.animate(_listMenuController);
+  late final listMenuOpacityAnimation = _opacityTween.animate(
+    _listMenuController,
+  );
 
   @override
-  late final viewMenuOpacityAnimation =
-      _opacityTween.animate(_viewMenuController);
+  late final viewMenuOpacityAnimation = _opacityTween.animate(
+    _viewMenuController,
+  );
 
   @override
-  late final urlMenuOpacityAnimation =
-      _opacityTween.animate(_urlMenuController);
+  late final urlMenuOpacityAnimation = _opacityTween.animate(
+    _urlMenuController,
+  );
 
   @override
-  late final paddingPageAnimation =
-      _paddingPageTween.animate(_paddingPageController);
+  late final paddingPageAnimation = _paddingPageTween.animate(
+    _paddingPageController,
+  );
 
   final TickerProvider _vsync;
 
@@ -64,10 +70,7 @@ class BrowserAnimationUiDelegate implements BrowserAnimationUi {
     end: const Offset(0, BrowserPageControlPanel.minHeight),
   );
 
-  late final _opacityTween = Tween<double>(
-    begin: 1,
-    end: 0,
-  );
+  late final _opacityTween = Tween<double>(begin: 1, end: 0);
 
   late final _paddingPageTween = Tween<double>(
     begin: BrowserPageControlPanel.minHeight,
@@ -107,10 +110,7 @@ class BrowserAnimationUiDelegate implements BrowserAnimationUi {
     _paddingPageController.dispose();
   }
 
-  void handleMenuType(
-    MenuType? type, {
-    Duration? duration,
-  }) {
+  void handleMenuType(MenuType? type, {Duration? duration}) {
     switch (type) {
       case MenuType.list:
         _listMenuController.animateTo(0, duration: duration);

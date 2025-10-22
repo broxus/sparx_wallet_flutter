@@ -4,6 +4,7 @@ import 'package:app/feature/messenger/domain/service/messenger_service.dart';
 import 'package:app/feature/wallet/staking/staking.dart';
 import 'package:elementary/elementary.dart';
 import 'package:injectable/injectable.dart';
+import 'package:money2/money2.dart';
 import 'package:nekoton_repository/nekoton_repository.dart' hide Message;
 import 'package:rxdart/rxdart.dart';
 
@@ -27,28 +28,27 @@ class AccountCardModel extends ElementaryModel {
   final StakingService _stakingService;
 
   Stream<Money> getBalanceStream(Address address) {
-    return _nekotonRepository.currentTransportStream.switchMap(
-      (transport) {
-        return _balanceService.accountOverallBalance(address).distinct().map(
-          (fiatBalance) {
-            if (fiatBalance != null) {
-              _balanceStorage.setOverallBalance(
-                group: transport.transport.group,
-                accountAddress: address,
-                balance: fiatBalance,
-              );
-            }
+    return _nekotonRepository.currentTransportStream.switchMap((transport) {
+      return _balanceService.accountOverallBalance(address).distinct().map((
+        fiatBalance,
+      ) {
+        if (fiatBalance != null) {
+          _balanceStorage.setOverallBalance(
+            group: transport.transport.group,
+            accountAddress: address,
+            balance: fiatBalance,
+          );
+        }
 
-            fiatBalance ??= _balanceStorage.getOverallBalance(
-                  transport.transport.group,
-                )[address] ??
-                Fixed.zero;
+        fiatBalance ??=
+            _balanceStorage.getOverallBalance(
+              transport.transport.group,
+            )[address] ??
+            Fixed.zero;
 
-            return _currencyConvertService.convert(fiatBalance);
-          },
-        );
-      },
-    );
+        return _currencyConvertService.convert(fiatBalance);
+      });
+    });
   }
 
   Stream<TonWalletState?> getWalletStateStream(Address address) =>

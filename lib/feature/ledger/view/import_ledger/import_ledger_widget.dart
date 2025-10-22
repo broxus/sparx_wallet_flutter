@@ -92,7 +92,8 @@ class _BleList extends StatelessWidget {
               );
             }
 
-            final items = scanResult?.map((item) {
+            final items =
+                scanResult?.map((item) {
                   final name = item.advertisementData.advName;
                   final model = item.getLedgerDeviceModel();
 
@@ -134,9 +135,7 @@ class _BleList extends StatelessWidget {
                 ...items,
                 if (items.isEmpty)
                   const Center(
-                    child: ProgressIndicatorWidget(
-                      size: DimensSizeV2.d40,
-                    ),
+                    child: ProgressIndicatorWidget(size: DimensSizeV2.d40),
                   ),
               ],
             );

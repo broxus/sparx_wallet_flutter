@@ -10,10 +10,7 @@ import 'package:ui_components_lib/ui_components_lib.dart';
 /// If [step] was solved and the next step failed, then other page should be
 /// displayed.
 class BootstrapFailedPage extends StatelessWidget {
-  const BootstrapFailedPage({
-    required this.step,
-    super.key,
-  });
+  const BootstrapFailedPage({required this.step, super.key});
 
   /// Step that was handling when process failed
   final BootstrapSteps step;
@@ -24,8 +21,7 @@ class BootstrapFailedPage extends StatelessWidget {
       appBar: const DefaultAppBar(),
       body: switch (step) {
         BootstrapSteps.remoteNetworks ||
-        BootstrapSteps.connection =>
-          const ConnectionFailScreen(),
+        BootstrapSteps.connection => const ConnectionFailScreen(),
 
         // should not be there
         _ => const BootstrapFailedRerunView(),

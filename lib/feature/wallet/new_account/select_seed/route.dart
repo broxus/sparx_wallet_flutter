@@ -6,15 +6,12 @@ import 'package:injectable/injectable.dart';
 @named
 @Singleton(as: CompassBaseRoute)
 class SelectSeedRoute extends CompassRouteParameterless<SelectSeedRouteData> {
-  SelectSeedRoute(
-    @Named.from(NewAccountRoute) CompassBaseRoute newAccountRoute,
-  ) : super(
-          path: '/wallet-select-seed',
-          builder: (context, _, __) => const SelectSeedPage(),
-          compassBaseRoutes: [
-            newAccountRoute,
-          ],
-        );
+  SelectSeedRoute(@Named.from(NewAccountRoute) CompassBaseRoute newAccountRoute)
+    : super(
+        path: '/wallet-select-seed',
+        builder: (context, _, __) => const SelectSeedPage(),
+        compassBaseRoutes: [newAccountRoute],
+      );
 
   @override
   SelectSeedRouteData createData() {

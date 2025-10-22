@@ -69,7 +69,8 @@ class StEverHowItWorksSheet extends StatelessWidget {
                   ),
                   _step(
                     icon: TonWalletIconWidget(
-                      path: info.tokenContractAsset?.logoURI ??
+                      path:
+                          info.tokenContractAsset?.logoURI ??
                           Assets.images.tokenDefaultIcon.path,
                     ),
                     title: LocaleKeys.receiveSteverTitle.tr(
@@ -128,15 +129,9 @@ class StEverHowItWorksSheet extends StatelessWidget {
                   mainAxisSize: MainAxisSize.min,
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text(
-                      title,
-                      style: theme.textStyles.headingSmall,
-                    ),
+                    Text(title, style: theme.textStyles.headingSmall),
                     const SizedBox(height: 4),
-                    Text(
-                      subtitle,
-                      style: theme.textStyles.paragraphSmall,
-                    ),
+                    Text(subtitle, style: theme.textStyles.paragraphSmall),
                   ],
                 ),
               ),

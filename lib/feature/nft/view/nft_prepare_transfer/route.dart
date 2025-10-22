@@ -17,17 +17,15 @@ class NftPrepareTransferRoute
   NftPrepareTransferRoute(
     @Named.from(NftSendRoute) CompassBaseRoute nftSendRoute,
   ) : super(
-          path: '/nft-prepare-transfer',
-          builder: (_, data, __) {
-            return NftPrepareTransfer(routeData: data);
-          },
-          compassBaseRoutes: [nftSendRoute],
-        );
+        path: '/nft-prepare-transfer',
+        builder: (_, data, __) {
+          return NftPrepareTransfer(routeData: data);
+        },
+        compassBaseRoutes: [nftSendRoute],
+      );
 
   @override
-  NftPrepareTransferRouteData fromQueryParams(
-    Map<String, String> queryParams,
-  ) {
+  NftPrepareTransferRouteData fromQueryParams(Map<String, String> queryParams) {
     return NftPrepareTransferRouteData(
       owner: Address(address: queryParams[_ownerAddressQueryParam]!),
       address: Address(address: queryParams[_nftAddressQueryParam]!),

@@ -149,8 +149,7 @@ class _LedgerInteractionSheetState extends State<_LedgerInteractionSheet> {
               title: LocaleKeys.cancelWord.tr(),
               isLoading: switch (state) {
                 LedgerInteractionState.connecting ||
-                LedgerInteractionState.initializing =>
-                  false,
+                LedgerInteractionState.initializing => false,
                 _ => true,
               },
               onPressed: () => Navigator.of(context).pop(),

@@ -23,11 +23,16 @@ class TokenWalletDetailsWmParams {
 }
 
 @injectable
-class TokenWalletDetailsWidgetModel extends CustomWidgetModelParametrized<
-    InjectedElementaryParametrizedWidget<TokenWalletDetailsWidgetModel,
-        TokenWalletDetailsWmParams>,
-    TokenWalletDetailsModel,
-    TokenWalletDetailsWmParams> {
+class TokenWalletDetailsWidgetModel
+    extends
+        CustomWidgetModelParametrized<
+          InjectedElementaryParametrizedWidget<
+            TokenWalletDetailsWidgetModel,
+            TokenWalletDetailsWmParams
+          >,
+          TokenWalletDetailsModel,
+          TokenWalletDetailsWmParams
+        > {
   TokenWalletDetailsWidgetModel(super.model);
 
   late final ScrollController scrollController = createScrollController();
@@ -138,12 +143,12 @@ class TokenWalletDetailsWidgetModel extends CustomWidgetModelParametrized<
 
       _balanceSubscription = model
           .tokenWalletBalanceStream(
-        owner: owner,
-        rootTokenContract: rootTokenContract,
-      )
+            owner: owner,
+            rootTokenContract: rootTokenContract,
+          )
           .listen((balance) {
-        _fiatBalanceState.accept(model.convertFiat(balance));
-      });
+            _fiatBalanceState.accept(model.convertFiat(balance));
+          });
 
       _checkIfCanSend();
     });

@@ -25,19 +25,23 @@ ModalRoute<void> showAddNewLocalAccountTypeSheet({
 }
 
 /// Sheet to select type of local account, that user can select for creation.
-class AddNewLocalAccountTypeSheet extends InjectedElementaryParametrizedWidget<
-    AddNewLocalAccountTypeSheetWidgetModel, AddNewLocalAccountTypeSheetParams> {
+class AddNewLocalAccountTypeSheet
+    extends
+        InjectedElementaryParametrizedWidget<
+          AddNewLocalAccountTypeSheetWidgetModel,
+          AddNewLocalAccountTypeSheetParams
+        > {
   AddNewLocalAccountTypeSheet({
     required this.controller,
     required PublicKey publicKey,
     required String name,
     super.key,
   }) : super(
-          wmFactoryParam: AddNewLocalAccountTypeSheetParams(
-            publicKey: publicKey,
-            name: name,
-          ),
-        );
+         wmFactoryParam: AddNewLocalAccountTypeSheetParams(
+           publicKey: publicKey,
+           name: name,
+         ),
+       );
 
   final ScrollController controller;
 
@@ -65,8 +69,9 @@ class AddNewLocalAccountTypeSheet extends InjectedElementaryParametrizedWidget<
                     _Item(
                       key: ValueKey(defaultWalletType),
                       type: defaultWalletType,
-                      defaultAccountName:
-                          wm.defaultAccountName(defaultWalletType),
+                      defaultAccountName: wm.defaultAccountName(
+                        defaultWalletType,
+                      ),
                       isSelected: currentSelected == defaultWalletType,
                       isCreated: createdWalletTypes.contains(defaultWalletType),
                       isDefault: true,

@@ -25,20 +25,24 @@ Future<void> showManualBackupDialog(
   );
 }
 
-class ContentManualBackup extends InjectedElementaryParametrizedWidget<
-    ManualBackUpWidgetModel, ManualBackUpWmParams> {
+class ContentManualBackup
+    extends
+        InjectedElementaryParametrizedWidget<
+          ManualBackUpWidgetModel,
+          ManualBackUpWmParams
+        > {
   ContentManualBackup({
     required List<String> words,
     required String address,
     required ValueChanged<bool> finishedBackupCallback,
     super.key,
   }) : super(
-          wmFactoryParam: ManualBackUpWmParams(
-            words: words,
-            address: address,
-            finishedBackupCallback: finishedBackupCallback,
-          ),
-        );
+         wmFactoryParam: ManualBackUpWmParams(
+           words: words,
+           address: address,
+           finishedBackupCallback: finishedBackupCallback,
+         ),
+       );
 
   @override
   Widget build(ManualBackUpWidgetModel wm) {
@@ -48,9 +52,7 @@ class ContentManualBackup extends InjectedElementaryParametrizedWidget<
         Container(
           decoration: BoxDecoration(
             color: theme.colors.background2,
-            borderRadius: BorderRadius.circular(
-              DimensRadiusV2.radius16,
-            ),
+            borderRadius: BorderRadius.circular(DimensRadiusV2.radius16),
           ),
           padding: const EdgeInsets.all(DimensSizeV2.d32),
           child: ValueListenableBuilder(
@@ -78,9 +80,7 @@ class ContentManualBackup extends InjectedElementaryParametrizedWidget<
               buttonShape: ButtonShape.pill,
               title: LocaleKeys.checkPhrasesLabel.tr(),
               icon: LucideIcons.textCursorInput,
-              onPressed: () => wm.clickCheckPhrase(
-                context,
-              ),
+              onPressed: () => wm.clickCheckPhrase(context),
             );
           },
         ),
@@ -121,11 +121,7 @@ class _ListWords extends StatelessWidget {
                   padding: index != lengthHalf - 1
                       ? const EdgeInsets.only(bottom: DimensSizeV2.d12)
                       : EdgeInsets.zero,
-                  child: _Word(
-                    theme: theme,
-                    word: words[index],
-                    index: index,
-                  ),
+                  child: _Word(theme: theme, word: words[index], index: index),
                 ),
             ],
           ),
@@ -138,11 +134,7 @@ class _ListWords extends StatelessWidget {
                   padding: index != words.length - 1
                       ? const EdgeInsets.only(bottom: DimensSizeV2.d12)
                       : EdgeInsets.zero,
-                  child: _Word(
-                    theme: theme,
-                    word: words[index],
-                    index: index,
-                  ),
+                  child: _Word(theme: theme, word: words[index], index: index),
                 ),
             ],
           ),
@@ -153,11 +145,7 @@ class _ListWords extends StatelessWidget {
 }
 
 class _Word extends StatelessWidget {
-  const _Word({
-    required this.theme,
-    required this.word,
-    required this.index,
-  });
+  const _Word({required this.theme, required this.word, required this.index});
 
   final ThemeStyleV2 theme;
   final String word;
@@ -169,8 +157,9 @@ class _Word extends StatelessWidget {
       children: [
         Text(
           '${index + 1}',
-          style: theme.textStyles.labelSmall
-              .copyWith(color: theme.colors.content3),
+          style: theme.textStyles.labelSmall.copyWith(
+            color: theme.colors.content3,
+          ),
         ),
         const SizedBox(width: DimensSizeV2.d8),
         Text(

@@ -3,11 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:ui_components_lib/v2/ui_components_lib_v2.dart';
 
 class HostPanel extends StatelessWidget {
-  const HostPanel(
-    this.uriState, {
-    required this.onPressed,
-    super.key,
-  });
+  const HostPanel(this.uriState, {required this.onPressed, super.key});
 
   static const height = DimensSizeV2.d62;
 
@@ -24,9 +20,7 @@ class HostPanel extends StatelessWidget {
         behavior: HitTestBehavior.opaque,
         onTap: onPressed,
         child: DecoratedBox(
-          decoration: BoxDecoration(
-            color: theme.colors.background1,
-          ),
+          decoration: BoxDecoration(color: theme.colors.background1),
           child: Align(
             alignment: Alignment.topCenter,
             child: Padding(

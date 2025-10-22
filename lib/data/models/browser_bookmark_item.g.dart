@@ -15,10 +15,10 @@ _BrowserBookmarkItem _$BrowserBookmarkItemFromJson(Map<String, dynamic> json) =>
     );
 
 Map<String, dynamic> _$BrowserBookmarkItemToJson(
-        _BrowserBookmarkItem instance) =>
-    <String, dynamic>{
-      'id': instance.id,
-      'title': instance.title,
-      'url': instance.url.toString(),
-      'sortingOrder': instance.sortingOrder,
-    };
+  _BrowserBookmarkItem instance,
+) => <String, dynamic>{
+  'id': instance.id,
+  'title': instance.title,
+  'url': instance.url.toString(),
+  'sortingOrder': instance.sortingOrder,
+};

@@ -13,11 +13,14 @@ import 'package:ui_components_lib/v2/ui_components_lib_v2.dart';
 
 //logic in this class was moved from check_seed_phrase_cubit.dart
 @injectable
-class SelectTokenWidgetModel extends CustomWidgetModelParametrized<
-    SelectTokenWidget, SelectTokenModel, Address> {
-  SelectTokenWidgetModel(
-    super.model,
-  );
+class SelectTokenWidgetModel
+    extends
+        CustomWidgetModelParametrized<
+          SelectTokenWidget,
+          SelectTokenModel,
+          Address
+        > {
+  SelectTokenWidgetModel(super.model);
 
   late final _tokenContractState = createNotifier<List<TokenDataElement>>([]);
   late final _loadingState = createNotifier(true);
@@ -35,22 +38,24 @@ class SelectTokenWidgetModel extends CustomWidgetModelParametrized<
   @override
   void initWidgetModel() {
     super.initWidgetModel();
-    model.getAssets(wmParams.value).listen(
-      (value) {
-        final data = [
-          ...?_tokenContractState.value,
-          for (final item in value)
-            TokenDataElement(
-              asset: item.$1,
-              isSelected: false,
-              value: item.$2,
-            ),
-        ];
-        _tokenContractState.accept(data);
-      },
-      onDone: () => _loadingState.accept(false),
-      onError: (_) => _loadingState.accept(false),
-    );
+    model
+        .getAssets(wmParams.value)
+        .listen(
+          (value) {
+            final data = [
+              ...?_tokenContractState.value,
+              for (final item in value)
+                TokenDataElement(
+                  asset: item.$1,
+                  isSelected: false,
+                  value: item.$2,
+                ),
+            ];
+            _tokenContractState.accept(data);
+          },
+          onDone: () => _loadingState.accept(false),
+          onError: (_) => _loadingState.accept(false),
+        );
   }
 
   void checkTokenSelection(TokenDataElement token) {

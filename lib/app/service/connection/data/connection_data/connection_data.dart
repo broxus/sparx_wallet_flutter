@@ -43,26 +43,25 @@ sealed class ConnectionData with _$ConnectionData {
     int? latencyDetectionInterval,
     int? maxLatency,
     int? endpointSelectionRetryCount,
-  }) =>
-      ConnectionData.gql(
-        id: id ?? const Uuid().v4(),
-        name: name,
-        group: group,
-        endpoints: endpoints,
-        networkType: networkType,
-        isLocal: isLocal,
-        blockExplorerUrl: blockExplorerUrl,
-        manifestUrl: manifestUrl ?? '',
-        nativeTokenTicker: nativeTokenTicker,
-        isPreset: false,
-        canBeEdited: true,
-        sortingOrder: NtpTime.now().millisecondsSinceEpoch.toDouble(),
-        latencyDetectionInterval: latencyDetectionInterval,
-        maxLatency: maxLatency,
-        endpointSelectionRetryCount: endpointSelectionRetryCount,
-        isUsedOnStart: isUsedOnStart,
-        nativeTokenDecimals: nativeTokenDecimals,
-      );
+  }) => ConnectionData.gql(
+    id: id ?? const Uuid().v4(),
+    name: name,
+    group: group,
+    endpoints: endpoints,
+    networkType: networkType,
+    isLocal: isLocal,
+    blockExplorerUrl: blockExplorerUrl,
+    manifestUrl: manifestUrl ?? '',
+    nativeTokenTicker: nativeTokenTicker,
+    isPreset: false,
+    canBeEdited: true,
+    sortingOrder: NtpTime.now().millisecondsSinceEpoch.toDouble(),
+    latencyDetectionInterval: latencyDetectionInterval,
+    maxLatency: maxLatency,
+    endpointSelectionRetryCount: endpointSelectionRetryCount,
+    isUsedOnStart: isUsedOnStart,
+    nativeTokenDecimals: nativeTokenDecimals,
+  );
 
   factory ConnectionData.gqlPreset({
     required String id,
@@ -79,26 +78,25 @@ sealed class ConnectionData with _$ConnectionData {
     int? latencyDetectionInterval,
     int? maxLatency,
     int? endpointSelectionRetryCount,
-  }) =>
-      ConnectionData.gql(
-        id: id,
-        name: name,
-        group: group,
-        endpoints: endpoints,
-        networkType: networkType,
-        isLocal: false,
-        blockExplorerUrl: blockExplorerUrl,
-        manifestUrl: manifestUrl ?? '',
-        nativeTokenTicker: '',
-        isPreset: true,
-        canBeEdited: canBeEdited,
-        sortingOrder: sortingOrder,
-        latencyDetectionInterval: latencyDetectionInterval,
-        maxLatency: maxLatency,
-        endpointSelectionRetryCount: endpointSelectionRetryCount,
-        isUsedOnStart: isUsedOnStart,
-        nativeTokenDecimals: nativeTokenDecimals,
-      );
+  }) => ConnectionData.gql(
+    id: id,
+    name: name,
+    group: group,
+    endpoints: endpoints,
+    networkType: networkType,
+    isLocal: false,
+    blockExplorerUrl: blockExplorerUrl,
+    manifestUrl: manifestUrl ?? '',
+    nativeTokenTicker: '',
+    isPreset: true,
+    canBeEdited: canBeEdited,
+    sortingOrder: sortingOrder,
+    latencyDetectionInterval: latencyDetectionInterval,
+    maxLatency: maxLatency,
+    endpointSelectionRetryCount: endpointSelectionRetryCount,
+    isUsedOnStart: isUsedOnStart,
+    nativeTokenDecimals: nativeTokenDecimals,
+  );
 
   factory ConnectionData.gqlTemporary({
     required List<String> endpoints,
@@ -109,25 +107,24 @@ sealed class ConnectionData with _$ConnectionData {
     int? latencyDetectionInterval,
     int? maxLatency,
     int? endpointSelectionRetryCount,
-  }) =>
-      ConnectionData.gql(
-        id: const Uuid().v4(),
-        name: const Uuid().v4(),
-        group: const Uuid().v4(),
-        endpoints: endpoints,
-        networkType: networkType,
-        isLocal: isLocal,
-        blockExplorerUrl: '',
-        nativeTokenTicker: '',
-        isPreset: false,
-        canBeEdited: true,
-        sortingOrder: NtpTime.now().millisecondsSinceEpoch.toDouble(),
-        latencyDetectionInterval: latencyDetectionInterval,
-        maxLatency: maxLatency,
-        endpointSelectionRetryCount: endpointSelectionRetryCount,
-        isUsedOnStart: isUsedOnStart,
-        nativeTokenDecimals: nativeTokenDecimals,
-      );
+  }) => ConnectionData.gql(
+    id: const Uuid().v4(),
+    name: const Uuid().v4(),
+    group: const Uuid().v4(),
+    endpoints: endpoints,
+    networkType: networkType,
+    isLocal: isLocal,
+    blockExplorerUrl: '',
+    nativeTokenTicker: '',
+    isPreset: false,
+    canBeEdited: true,
+    sortingOrder: NtpTime.now().millisecondsSinceEpoch.toDouble(),
+    latencyDetectionInterval: latencyDetectionInterval,
+    maxLatency: maxLatency,
+    endpointSelectionRetryCount: endpointSelectionRetryCount,
+    isUsedOnStart: isUsedOnStart,
+    nativeTokenDecimals: nativeTokenDecimals,
+  );
 
   const factory ConnectionData.proto({
     required String id,
@@ -156,22 +153,21 @@ sealed class ConnectionData with _$ConnectionData {
     int nativeTokenDecimals = 9,
     String? manifestUrl,
     String? id,
-  }) =>
-      ConnectionData.proto(
-        id: id ?? const Uuid().v4(),
-        name: name,
-        group: group,
-        endpoint: endpoint,
-        networkType: networkType,
-        blockExplorerUrl: blockExplorerUrl,
-        manifestUrl: manifestUrl ?? '',
-        nativeTokenTicker: nativeTokenTicker,
-        isPreset: false,
-        canBeEdited: true,
-        sortingOrder: NtpTime.now().millisecondsSinceEpoch.toDouble(),
-        isUsedOnStart: isUsedOnStart,
-        nativeTokenDecimals: nativeTokenDecimals,
-      );
+  }) => ConnectionData.proto(
+    id: id ?? const Uuid().v4(),
+    name: name,
+    group: group,
+    endpoint: endpoint,
+    networkType: networkType,
+    blockExplorerUrl: blockExplorerUrl,
+    manifestUrl: manifestUrl ?? '',
+    nativeTokenTicker: nativeTokenTicker,
+    isPreset: false,
+    canBeEdited: true,
+    sortingOrder: NtpTime.now().millisecondsSinceEpoch.toDouble(),
+    isUsedOnStart: isUsedOnStart,
+    nativeTokenDecimals: nativeTokenDecimals,
+  );
 
   factory ConnectionData.protoPreset({
     required String id,
@@ -185,43 +181,41 @@ sealed class ConnectionData with _$ConnectionData {
     bool isUsedOnStart = true,
     int nativeTokenDecimals = 9,
     String? manifestUrl,
-  }) =>
-      ConnectionData.proto(
-        id: id,
-        name: name,
-        group: group,
-        endpoint: endpoint,
-        networkType: networkType,
-        blockExplorerUrl: blockExplorerUrl,
-        manifestUrl: manifestUrl ?? '',
-        nativeTokenTicker: '',
-        isPreset: true,
-        canBeEdited: canBeEdited,
-        sortingOrder: sortingOrder,
-        isUsedOnStart: isUsedOnStart,
-        nativeTokenDecimals: nativeTokenDecimals,
-      );
+  }) => ConnectionData.proto(
+    id: id,
+    name: name,
+    group: group,
+    endpoint: endpoint,
+    networkType: networkType,
+    blockExplorerUrl: blockExplorerUrl,
+    manifestUrl: manifestUrl ?? '',
+    nativeTokenTicker: '',
+    isPreset: true,
+    canBeEdited: canBeEdited,
+    sortingOrder: sortingOrder,
+    isUsedOnStart: isUsedOnStart,
+    nativeTokenDecimals: nativeTokenDecimals,
+  );
 
   factory ConnectionData.protoTemporary({
     required String endpoint,
     required NetworkType networkType,
     bool isUsedOnStart = false,
     int nativeTokenDecimals = 9,
-  }) =>
-      ConnectionData.proto(
-        id: const Uuid().v4(),
-        name: const Uuid().v4(),
-        group: const Uuid().v4(),
-        endpoint: endpoint,
-        networkType: networkType,
-        blockExplorerUrl: '',
-        nativeTokenTicker: '',
-        isPreset: false,
-        canBeEdited: true,
-        sortingOrder: NtpTime.now().millisecondsSinceEpoch.toDouble(),
-        isUsedOnStart: isUsedOnStart,
-        nativeTokenDecimals: nativeTokenDecimals,
-      );
+  }) => ConnectionData.proto(
+    id: const Uuid().v4(),
+    name: const Uuid().v4(),
+    group: const Uuid().v4(),
+    endpoint: endpoint,
+    networkType: networkType,
+    blockExplorerUrl: '',
+    nativeTokenTicker: '',
+    isPreset: false,
+    canBeEdited: true,
+    sortingOrder: NtpTime.now().millisecondsSinceEpoch.toDouble(),
+    isUsedOnStart: isUsedOnStart,
+    nativeTokenDecimals: nativeTokenDecimals,
+  );
 
   const factory ConnectionData.jrpc({
     required String id,
@@ -250,22 +244,21 @@ sealed class ConnectionData with _$ConnectionData {
     int nativeTokenDecimals = 9,
     String? manifestUrl,
     String? id,
-  }) =>
-      ConnectionData.jrpc(
-        id: id ?? const Uuid().v4(),
-        name: name,
-        group: group,
-        endpoint: endpoint,
-        networkType: networkType,
-        blockExplorerUrl: blockExplorerUrl,
-        manifestUrl: manifestUrl ?? '',
-        nativeTokenTicker: nativeTokenTicker,
-        isPreset: false,
-        canBeEdited: true,
-        sortingOrder: NtpTime.now().millisecondsSinceEpoch.toDouble(),
-        isUsedOnStart: isUsedOnStart,
-        nativeTokenDecimals: nativeTokenDecimals,
-      );
+  }) => ConnectionData.jrpc(
+    id: id ?? const Uuid().v4(),
+    name: name,
+    group: group,
+    endpoint: endpoint,
+    networkType: networkType,
+    blockExplorerUrl: blockExplorerUrl,
+    manifestUrl: manifestUrl ?? '',
+    nativeTokenTicker: nativeTokenTicker,
+    isPreset: false,
+    canBeEdited: true,
+    sortingOrder: NtpTime.now().millisecondsSinceEpoch.toDouble(),
+    isUsedOnStart: isUsedOnStart,
+    nativeTokenDecimals: nativeTokenDecimals,
+  );
 
   factory ConnectionData.jrpcPreset({
     required String id,
@@ -279,43 +272,41 @@ sealed class ConnectionData with _$ConnectionData {
     bool isUsedOnStart = true,
     int nativeTokenDecimals = 9,
     String? manifestUrl,
-  }) =>
-      ConnectionData.jrpc(
-        id: id,
-        name: name,
-        group: group,
-        endpoint: endpoint,
-        networkType: networkType,
-        blockExplorerUrl: blockExplorerUrl,
-        manifestUrl: manifestUrl ?? '',
-        nativeTokenTicker: '',
-        isPreset: true,
-        canBeEdited: canBeEdited,
-        sortingOrder: sortingOrder,
-        isUsedOnStart: isUsedOnStart,
-        nativeTokenDecimals: nativeTokenDecimals,
-      );
+  }) => ConnectionData.jrpc(
+    id: id,
+    name: name,
+    group: group,
+    endpoint: endpoint,
+    networkType: networkType,
+    blockExplorerUrl: blockExplorerUrl,
+    manifestUrl: manifestUrl ?? '',
+    nativeTokenTicker: '',
+    isPreset: true,
+    canBeEdited: canBeEdited,
+    sortingOrder: sortingOrder,
+    isUsedOnStart: isUsedOnStart,
+    nativeTokenDecimals: nativeTokenDecimals,
+  );
 
   factory ConnectionData.jrpcTemporary({
     required String endpoint,
     required NetworkType networkType,
     bool isUsedOnStart = false,
     int nativeTokenDecimals = 9,
-  }) =>
-      ConnectionData.proto(
-        id: const Uuid().v4(),
-        name: const Uuid().v4(),
-        group: const Uuid().v4(),
-        endpoint: endpoint,
-        networkType: networkType,
-        blockExplorerUrl: '',
-        nativeTokenTicker: '',
-        isPreset: false,
-        canBeEdited: true,
-        sortingOrder: NtpTime.now().millisecondsSinceEpoch.toDouble(),
-        isUsedOnStart: isUsedOnStart,
-        nativeTokenDecimals: nativeTokenDecimals,
-      );
+  }) => ConnectionData.proto(
+    id: const Uuid().v4(),
+    name: const Uuid().v4(),
+    group: const Uuid().v4(),
+    endpoint: endpoint,
+    networkType: networkType,
+    blockExplorerUrl: '',
+    nativeTokenTicker: '',
+    isPreset: false,
+    canBeEdited: true,
+    sortingOrder: NtpTime.now().millisecondsSinceEpoch.toDouble(),
+    isUsedOnStart: isUsedOnStart,
+    nativeTokenDecimals: nativeTokenDecimals,
+  );
 
   factory ConnectionData.fromJson(Map<String, dynamic> json) =>
       _$ConnectionDataFromJson(json);

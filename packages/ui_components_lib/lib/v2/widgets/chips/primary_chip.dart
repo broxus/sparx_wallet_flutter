@@ -38,10 +38,7 @@ class PrimaryChip extends StatelessWidget {
           Text(
             text,
             style: theme.textStyles.labelXSmall.copyWith(
-              color: _getColorContent(
-                theme,
-                type,
-              ),
+              color: _getColorContent(theme, type),
             ),
           ),
         ],

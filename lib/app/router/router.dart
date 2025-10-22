@@ -33,9 +33,7 @@ import 'package:sentry_flutter/sentry_flutter.dart';
 /// - Navigation is predictable and maintainable
 @singleton
 class CompassRouter {
-  CompassRouter(
-    this._bootstrapService,
-  );
+  CompassRouter(this._bootstrapService);
 
   final BootstrapService _bootstrapService;
 
@@ -54,8 +52,8 @@ class CompassRouter {
   ///
   /// Guards can intercept navigation requests and redirect as needed.
   late final _guards = GetIt.I.getAll<CompassGuard>().toList().sortedBy<num>(
-        (it) => -it.priority,
-      );
+    (it) => -it.priority,
+  );
 
   late final _routs = GetIt.I.getAll<CompassBaseRoute>();
 
@@ -63,29 +61,22 @@ class CompassRouter {
   ///
   /// Only includes GoRoutes, not ShellRoutes.
   late final _routsByType = Map.fromEntries(
-    _routs.map(
-      (it) {
-        if (it is! CompassBaseGoRoute) return null;
+    _routs.map((it) {
+      if (it is! CompassBaseGoRoute) return null;
 
-        return MapEntry(it.routeDataType, it);
-      },
-    ).nonNulls,
+      return MapEntry(it.routeDataType, it);
+    }).nonNulls,
   );
 
   /// Map of path strings to their corresponding route definitions.
   ///
   /// Only includes GoRoutes, not ShellRoutes.
   late final _routsByPaths = Map.fromEntries(
-    _routs.map(
-      (it) {
-        if (it is! CompassBaseGoRoute) return null;
+    _routs.map((it) {
+      if (it is! CompassBaseGoRoute) return null;
 
-        return MapEntry(
-          it.pathWithoutLeadingSlash,
-          it,
-        );
-      },
-    ).nonNulls,
+      return MapEntry(it.pathWithoutLeadingSlash, it);
+    }).nonNulls,
   );
 
   /// The main GoRouter instance for the application.
@@ -321,9 +312,7 @@ class CompassRouter {
   void _validateRoutesDataIntersection() {
     if (kDebugMode) {
       final compassGoRoutes = _routsByPaths.entries
-          .map(
-            (entry) => entry.value,
-          )
+          .map((entry) => entry.value)
           .toList();
 
       for (final route1 in compassGoRoutes) {
@@ -348,9 +337,7 @@ class CompassRouter {
     return _routsByType[data.runtimeType];
   }
 
-  Uri? _routeDataToLocation(
-    CompassRouteData data,
-  ) {
+  Uri? _routeDataToLocation(CompassRouteData data) {
     if (data is UnsafeRedirectCompassRouteData) {
       return Uri.tryParse(data.route);
     } else {
@@ -359,9 +346,7 @@ class CompassRouter {
     }
   }
 
-  String? _routeDataToContinuedLocation(
-    CompassRouteData data,
-  ) {
+  String? _routeDataToContinuedLocation(CompassRouteData data) {
     final newLocation = _routeDataToLocation(data);
     if (newLocation == null) {
       return null;
@@ -397,8 +382,8 @@ class CompassRouterProvider extends InheritedWidget {
   final CompassRouter router;
 
   static CompassRouter of(BuildContext context) {
-    final provider =
-        context.dependOnInheritedWidgetOfExactType<CompassRouterProvider>();
+    final provider = context
+        .dependOnInheritedWidgetOfExactType<CompassRouterProvider>();
     assert(provider != null, 'No CompassRouterProvider found in context');
     return provider!.router;
   }
@@ -460,10 +445,7 @@ extension CompassNavigationContextExtension on BuildContext {
   /// Returns a Future that completes when the pushed route is popped.
   ///
   /// See [CompassRouter.compassPush] for more details.
-  Future<R?> compassPush<R>(
-    CompassRouteData data, {
-    bool isContinue = true,
-  }) {
+  Future<R?> compassPush<R>(CompassRouteData data, {bool isContinue = true}) {
     return _compassRouter().compassPush(data, isContinue: isContinue);
   }
 

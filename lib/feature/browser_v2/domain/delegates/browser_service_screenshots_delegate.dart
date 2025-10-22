@@ -16,17 +16,16 @@ abstract interface class BrowserServiceScreenshots {}
 @injectable
 class BrowserServiceScreenshotsDelegate
     implements BrowserDelegate, BrowserServiceScreenshots {
-  BrowserServiceScreenshotsDelegate(
-    this._generalStorageService,
-  );
+  BrowserServiceScreenshotsDelegate(this._generalStorageService);
 
   static const _screenshotPrefix = 'screenshot-';
 
   final GeneralStorageService _generalStorageService;
   final _screenshotsCache = ImageCache();
 
-  late final String? _defaultImagePath =
-      _appDocsDir == null ? null : '$_appDocsDir/browser_default_tab_image.png';
+  late final String? _defaultImagePath = _appDocsDir == null
+      ? null
+      : '$_appDocsDir/browser_default_tab_image.png';
 
   late final _appDocsDir = _generalStorageService.applicationDocumentsDirectory;
 
@@ -152,9 +151,7 @@ class BrowserServiceScreenshotsDelegate
     _screenshotsCache.addAll(result);
   }
 
-  String? _getImagePath(
-    String tabId,
-  ) {
+  String? _getImagePath(String tabId) {
     final path = _getTabDirectoryPath(tabId);
     return path == null ? null : '$path/$_screenshotPrefix${const Uuid().v4()}';
   }

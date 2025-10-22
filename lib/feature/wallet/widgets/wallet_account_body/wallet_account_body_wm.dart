@@ -7,20 +7,21 @@ import 'package:injectable/injectable.dart';
 import 'package:nekoton_repository/nekoton_repository.dart';
 import 'package:rxdart/rxdart.dart';
 
-enum NotificationType {
-  backup,
-  unsupportedWalletType,
-}
+enum NotificationType { backup, unsupportedWalletType }
 
 @injectable
-class WalletAccountBodyWidgetModel extends CustomWidgetModelParametrized<
-    WalletAccountBodyWidget, WalletAccountBodyModel, KeyAccount> {
-  WalletAccountBodyWidgetModel(
-    super.model,
-  );
+class WalletAccountBodyWidgetModel
+    extends
+        CustomWidgetModelParametrized<
+          WalletAccountBodyWidget,
+          WalletAccountBodyModel,
+          KeyAccount
+        > {
+  WalletAccountBodyWidgetModel(super.model);
 
-  late final _notificationsState =
-      createNotifierFromStream(_notificationsStream);
+  late final _notificationsState = createNotifierFromStream(
+    _notificationsStream,
+  );
 
   late final _carouselPageState = createValueNotifier(0);
 
@@ -38,18 +39,15 @@ class WalletAccountBodyWidgetModel extends CustomWidgetModelParametrized<
       model.getShowingManualBackupBadgeStream(wmParams.value),
       (bool isUnsupportedWalletType, bool isShowingBackup) =>
           <NotificationType>[
-        if (isUnsupportedWalletType) NotificationType.unsupportedWalletType,
-        if (isShowingBackup) NotificationType.backup,
-      ],
+            if (isUnsupportedWalletType) NotificationType.unsupportedWalletType,
+            if (isShowingBackup) NotificationType.backup,
+          ],
     );
   }
 
   // ignore: avoid_positional_boolean_parameters
   void onFinishedBackup(bool isCompleted) {
-    model.hideBackupNotification(
-      wmParams.value,
-      isCompleted: isCompleted,
-    );
+    model.hideBackupNotification(wmParams.value, isCompleted: isCompleted);
   }
 
   void onSwitchAccount() => showSelectAccountSheet(context);

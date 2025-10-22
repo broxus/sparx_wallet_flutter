@@ -9,6 +9,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 - **Bootstrap packages**: `melos bs`
 - **Build for flavors**: `flutter run --flavor <development|staging|production> --target lib/main_<environment>.dart`
 - **Generate code**: `melos run codegen` (runs build_runner and locale generation)
+- **Setup rive_native for iOS**: `dart run rive_native:setup --platform ios` (required after dependency updates)
 - **Format check**: `melos run check-format`
 - **Lint**: `melos run analyze`
 - **Pre-commit check**: `melos run check-all` (format, analyze, test, integration test)

@@ -55,9 +55,7 @@ class _SelectNewAssetCustomEnterState extends State<SelectNewAssetCustomEnter> {
                   hintText: LocaleKeys.rootTokenContract.tr(),
                   textEditingController: addressController,
                   onSubmit: _onSubmit,
-                  inputFormatters: [
-                    InputFormatters.noSpacesFormatter,
-                  ],
+                  inputFormatters: [InputFormatters.noSpacesFormatter],
                   suffixes: [
                     ClipboardPasteButton(
                       value: addressController,

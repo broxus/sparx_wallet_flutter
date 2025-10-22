@@ -24,10 +24,7 @@ class JrpcHttpClient extends BaseHttpClient
     final response = await dio.post<String>(
       endpoint,
       data: data,
-      options: Options(
-        headers: headers,
-        responseType: ResponseType.plain,
-      ),
+      options: Options(headers: headers, responseType: ResponseType.plain),
     );
 
     return response.data ?? '';
@@ -47,10 +44,7 @@ class ProtoHttpClient extends BaseHttpClient
     final response = await dio.post<List<int>>(
       endpoint,
       data: dataBytes,
-      options: Options(
-        headers: headers,
-        responseType: ResponseType.bytes,
-      ),
+      options: Options(headers: headers, responseType: ResponseType.bytes),
     );
 
     return Uint8List.fromList(response.data ?? []);
@@ -64,9 +58,7 @@ class GqlHttpClient extends BaseHttpClient implements GqlConnectionHttpClient {
   Future<String> get(String endpoint) async {
     final response = await dio.get<String>(
       endpoint,
-      options: Options(
-        responseType: ResponseType.plain,
-      ),
+      options: Options(responseType: ResponseType.plain),
     );
     return response.data ?? '';
   }

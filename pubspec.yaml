@@ -5,11 +5,16 @@ version: 1.18.0
 publish_to: none
 
 environment:
-  sdk: '>=3.5.0 <4.0.0'
-  flutter: '>=3.29.2'
+  sdk: '>=3.9.0 <4.0.0'
+  flutter: '>=3.35.5'
+
+workspace:
+  - packages/ui_components_lib
+  - packages/storybook
+  - packages/wm_state_properties_lint
 
 dependencies:
-  app_links: 6.4.0
+  app_links: ^6.4.1
   async: ^2.12.0
   auto_size_text: 3.0.0
   auto_size_text_field: 2.2.4
@@ -17,62 +22,61 @@ dependencies:
   buffer: ^1.2.3
   cached_network_image: 3.4.1
   cached_network_svg_image: 1.2.0
-  carousel_slider: 5.0.0
+  carousel_slider: ^5.1.1
   clock: 1.1.2
   collection: 1.19.1
   convert: 3.1.2
   crypto: 3.0.6
-  cupertino_http: 2.2.0
-  device_info_plus: 11.5.0
-  dio: 5.8.0+1
-  drift: 2.25.0
-  easy_localization: 3.0.7+1
+  cupertino_http: ^2.3.0
+  device_info_plus: ^12.1.0
+  dio: ^5.9.0
+  drift: ^2.29.0
+  easy_localization: ^3.0.8
   easy_logger: 0.0.2
-  elementary: 3.2.0
-  elementary_helper: 1.0.2
+  elementary: ^3.2.1
+  elementary_helper: ^1.0.3
   encrypted_storage: 0.1.3
   equatable: 2.0.7
   favicon: 1.1.2
   flutter:
     sdk: flutter
-  flutter_blue_plus: 1.35.5
-  flutter_email_sender: 7.0.0
+  flutter_blue_plus: ^2.0.0
+  flutter_email_sender: ^8.0.0
   flutter_inappwebview: 6.1.5
   flutter_screenutil: 5.9.3
   flutter_secure_storage: 9.2.4
-  flutter_slidable: 4.0.0
-  flutter_svg: 2.2.0
-  freezed_annotation: 3.0.0
-  get_it: 8.0.3
+  flutter_slidable: ^4.0.1
+  flutter_svg: ^2.2.1
+  freezed_annotation: ^3.1.0
+  get_it: ^8.2.0
   get_storage: 2.1.1
-  go_router: 15.1.3
+  go_router: ^16.2.0
   hex: 0.2.0
-  image_picker: 1.1.2
-  image_picker_android: 0.8.12+23
-  image_picker_platform_interface: 2.10.1
+  image_picker: ^1.2.0
+  image_picker_android: ^0.8.13+4
+  image_picker_platform_interface: ^2.11.0
   in_app_notification: 1.1.2
-  in_app_update: 4.2.3
-  infinite_scroll_pagination: 5.0.0
-  injectable: 2.5.0
-  internet_connection_checker_plus: 2.7.2
+  in_app_update: ^4.2.5
+  infinite_scroll_pagination: ^5.1.0
+  injectable: ^2.5.1
+  internet_connection_checker_plus: ^2.9.0
   jdenticon_dart: 2.0.0
   json_annotation: 4.9.0
-  local_auth: 2.3.0
+  local_auth: ^3.0.0
   logging: 1.3.0
-  lucide_icons_flutter: 2.0.6
+  lucide_icons_flutter: ^3.1.2
   mobile_scanner: 7.0.1
-  money2: 5.4.6
-  money2_fixer: 3.0.0
+  money2: ^6.0.0
   mutex: ^3.1.0
-  native_dio_adapter: 1.4.0
-  nekoton_repository: 1.6.0
-  nekoton_webview: 0.1.11
+  native_dio_adapter: ^1.5.0
+  nekoton_repository: ^2.0.1
+  nekoton_webview: ^0.1.12
   ntp: 2.0.0
   open_settings_plus: 0.4.0
-  package_info_plus: 8.3.0
+  package_info_plus: ^9.0.0
   path: 1.9.1
   path_provider: 2.1.5
-  permission_handler: 12.0.0+1
+  permission_handler: ^12.0.1
   pinenacl: 0.6.0
   pretty_dio_logger: 1.4.0
   render_metrics:
@@ -81,48 +85,48 @@ dependencies:
     git:
       url: https://github.com/knightsforce/flutter-render-metrics
       ref: optional-render-manager
-  retrofit: 4.4.2
-  rive: 0.13.20
+  retrofit: ^4.6.0
+  rive: ^0.14.0-dev.11
   rxdart: 0.28.0
-  sentry_flutter: 8.14.2
-  share_plus: 11.0.0
+  sentry_flutter: ^9.6.0
+  share_plus: ^12.0.0
   shared_preferences: 2.5.3
-  sqlite3: 2.9.0
+  sqlite3: ^2.9.3
   sqlite3_flutter_libs: ^0.5.0
-  string_extensions: 0.7.3
+  string_extensions: ^0.7.4
   the_logger: 0.0.18
   ui_components_lib:
     path: packages/ui_components_lib
-  url_launcher: 6.3.1
+  url_launcher: ^6.3.2
   uuid: 4.5.1
   visibility_detector: 0.4.0+2
 
 dependency_overrides:
   flutter_plugin_android_lifecycle: 2.0.24
+  money2: 6.0.5
 
 dev_dependencies:
   broxus_flutter_analysis:
     git:
       url: https://github.com/broxus/flutter_templates.git
       ref: main
-  build_runner: 2.4.15
+  build_runner: ^2.7.1
   custom_lint: ^0.8.0
-  drift_dev: 2.25.2
-  flutter_gen_runner: 5.10.0
-  flutter_native_splash: 2.4.6
+  drift_dev: ^2.29.0
+  flutter_gen_runner: ^5.11.0
+  flutter_native_splash: ^2.4.7
   flutter_test:
     sdk: flutter
-  freezed: 3.0.6
+  freezed: ^3.2.3
   googleapis_auth: 2.0.0
-  injectable_generator: 2.7.0
+  injectable_generator: ^2.8.1
   integration_test:
     sdk: flutter
-  intl: 0.19.0
-  json_serializable: 6.9.5
-  melos: 6.3.2
+  json_serializable: ^6.11.1
+  melos: ^7.0.0
   mocktail: 1.0.4
-  retrofit_generator: 9.2.0
-  test: 1.25.15
+  retrofit_generator: ^10.0.0
+  test: ^1.26.0
   wm_state_properties_lint:
     path: packages/wm_state_properties_lint
 
@@ -155,3 +159,160 @@ flutter:
     - assets/splash/
     - assets/animations/
     - assets/html/
+
+melos:
+  useRootAsPackage: true
+  scripts:
+    decrypt-secrets:
+      description: Decrypt secrets
+      run: bash scripts/decrypt-secrets.sh
+
+    build_and_test:
+      description: GA main script
+      run: bash scripts/build_and_test.sh
+
+    codegen:
+      description: Generate code for all packages
+      run: melos run codegen:build_runner --no-select && melos run codegen:locale
+        --no-select
+      failFast: true
+
+    codegen:build_runner:
+      description: Generate code for root package using build_runner
+      run: find . -type f -name "*.gen.dart" -delete && dart run build_runner build
+        --delete-conflicting-outputs
+      failFast: true
+
+    codegen:locale:
+      description: Generate localizations code for root package
+      run: dart run easy_localization:generate --source-dir assets/translations -f
+        keys --output-file locale_keys.g.dart && dart format lib/generated/*.dart
+      failFast: true
+
+    analyze:
+      description: Analyze all packages
+      run: melos run analyze_subpackages --no-select
+      failFast: true
+
+    analyze_subpackages:
+      description: Analyze a specific package in this project.
+      exec: flutter analyze . && (grep -q "custom_lint:" pubspec.yaml && dart run
+        custom_lint || true)
+      failFast: true
+
+    check-format:
+      description: Check the format of a specific package in this project.
+      exec: dart format --set-exit-if-changed .
+      failFast: true
+
+    test:
+      description: Run all Dart & Flutter tests in this project.
+      run: melos run test:dart --no-select && melos run test:flutter --no-select
+
+    test:dart:
+      description: Run Dart tests for a specific package in this project.
+      exec: dart test test
+      concurrency: 1
+      failFast: true
+      packageFilters:
+        flutter: false
+        dirExists: test
+
+    test:flutter:
+      description: Run Flutter tests for a specific package in this project.
+      exec: flutter test test
+      concurrency: 1
+      failFast: true
+      packageFilters:
+        flutter: true
+        dirExists: test
+
+    test:integration:
+      description: Run Flutter teintegration teststs for a specific package in this
+        project.
+      exec: flutter test --flavor production integration_test
+      concurrency: 1
+      failFast: true
+      packageFilters:
+        flutter: true
+        dirExists: integration_test
+
+    check-all:
+      description: Prepare to commit by checking all things
+      run: melos check-format && melos analyze && melos test && melos test:integration
+      failFast: true
+
+    build:storybook:
+      description: Build the storybook
+      run: bash scripts/build-storybook.sh
+
+    build:ios_match_assure:
+      description: Making sure the iOS certificates and profiles are installed
+      run: bash scripts/ios-match-assure.sh
+
+    build:ios_match_new_devices:
+      description: Registering new devices already added through devportal
+      run: bash scripts/ios-match-new-devices.sh
+
+    build_android_store:
+      description: Build android store
+      run: |
+        bash scripts/build.sh \
+        --deploy-target android_store \
+        --build-number auto \
+        --upload false
+
+    deploy_fad_ios:
+      description: Deploy iOS app to fad
+      run: |
+        bash scripts/build.sh \
+        --deploy-target ios_fad \
+        --build-number auto \
+        --upload true
+
+    deploy_fad_android:
+      description: Deploy Android app to fad
+      run: |
+        bash scripts/build.sh \
+        --deploy-target android_fad \
+        --build-number auto \
+        --upload true
+
+    deploy_fad:
+      description: Deploy app to fad
+      run: |
+        BUILD_NUMBER=$(bash scripts/get-build-number.sh)
+
+        bash scripts/build.sh \
+        --deploy-target ios_fad \
+        --build-number $BUILD_NUMBER \
+        --upload true
+
+        bash scripts/build.sh \
+        --deploy-target android_fad \
+        --build-number $BUILD_NUMBER \
+        --upload true
+
+    deploy_store:
+      description: Deploy app to store
+      run: |
+        BUILD_NUMBER=$(bash scripts/get-build-number.sh)
+
+        bash scripts/build.sh \
+        --deploy-target ios_store \
+        --build-number $BUILD_NUMBER \
+        --upload true
+
+        bash scripts/build.sh \
+        --deploy-target android_store \
+        --build-number $BUILD_NUMBER \
+        --upload true
+
+    fetch:connections_config:
+      description: Fetch connections config
+      run: bash scripts/fetch-connections-config.sh
+
+  command:
+    clean:
+      hooks:
+        post: bash scripts/clean.sh

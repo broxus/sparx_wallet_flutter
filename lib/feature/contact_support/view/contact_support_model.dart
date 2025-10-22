@@ -14,10 +14,8 @@ import 'package:the_logger/the_logger.dart';
 
 @injectable
 class ContactSupportModel extends ElementaryModel {
-  ContactSupportModel(
-    ErrorHandler errorHandler,
-    this._messengerService,
-  ) : super(errorHandler: errorHandler);
+  ContactSupportModel(ErrorHandler errorHandler, this._messengerService)
+    : super(errorHandler: errorHandler);
 
   static final _logger = Logger('ContactSupportModel');
 
@@ -32,9 +30,7 @@ class ContactSupportModel extends ElementaryModel {
     } catch (e, s) {
       _logger.severe(e, null, s);
       _messengerService.show(
-        Message.error(
-          message: LocaleKeys.contactSupportCantCreateFile.tr(),
-        ),
+        Message.error(message: LocaleKeys.contactSupportCantCreateFile.tr()),
       );
       return;
     }
@@ -54,8 +50,10 @@ class ContactSupportModel extends ElementaryModel {
   }
 
   Future<String> _contactSupportCreateLogfile() async {
-    final now =
-        NtpTime.now().toLocal().toString().replaceAll(RegExp(r'\s'), '_');
+    final now = NtpTime.now().toLocal().toString().replaceAll(
+      RegExp(r'\s'),
+      '_',
+    );
 
     return TheLogger.i().writeAllLogsToJson('sparx_logs_$now.json');
   }
@@ -95,11 +93,7 @@ class ContactSupportModel extends ElementaryModel {
     await FlutterEmailSender.send(email);
   }
 
-  Future<void> _contactSupportShareFile(
-    String logFilePath,
-  ) async {
-    await SharePlus.instance.share(
-      ShareParams(files: [XFile(logFilePath)]),
-    );
+  Future<void> _contactSupportShareFile(String logFilePath) async {
+    await SharePlus.instance.share(ShareParams(files: [XFile(logFilePath)]));
   }
 }

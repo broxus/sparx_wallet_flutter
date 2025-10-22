@@ -3,6 +3,7 @@ import 'package:app/feature/nft/nft.dart';
 import 'package:app/utils/utils.dart';
 import 'package:elementary/elementary.dart';
 import 'package:injectable/injectable.dart';
+import 'package:money2/money2.dart';
 import 'package:nekoton_repository/nekoton_repository.dart' hide Message;
 import 'package:rxdart/rxdart.dart';
 
@@ -31,10 +32,10 @@ class NftSendModel extends ElementaryModel with BleAvailabilityModelMixin {
   KeyAccount? getAccount(Address address) =>
       _nekotonRepository.seedList.findAccountByAddress(address);
 
-  Future<TonWalletState> getWalletState(Address address) =>
-      _nekotonRepository.walletsMapStream
-          .mapNotNull((wallets) => wallets[address])
-          .first;
+  Future<TonWalletState> getWalletState(Address address) => _nekotonRepository
+      .walletsMapStream
+      .mapNotNull((wallets) => wallets[address])
+      .first;
 
   Future<UnsignedMessage> prepareMessage({
     required Address address,
@@ -42,32 +43,30 @@ class NftSendModel extends ElementaryModel with BleAvailabilityModelMixin {
     required Address destination,
     required BigInt amount,
     String? payload,
-  }) =>
-      _nekotonRepository.prepareTransfer(
-        address: address,
-        publicKey: publicKey,
-        expiration: defaultSendTimeout,
-        params: [
-          TonWalletTransferParams(
-            destination: repackAddress(destination),
-            amount: amount,
-            body: payload,
-            bounce: defaultMessageBounce,
-          ),
-        ],
-      );
+  }) => _nekotonRepository.prepareTransfer(
+    address: address,
+    publicKey: publicKey,
+    expiration: defaultSendTimeout,
+    params: [
+      TonWalletTransferParams(
+        destination: repackAddress(destination),
+        amount: amount,
+        body: payload,
+        bounce: defaultMessageBounce,
+      ),
+    ],
+  );
 
   Future<InternalMessage> prepareNftTransfer({
     required Address address,
     required Address owner,
     required Address recipient,
-  }) =>
-      _nekotonRepository.prepareNftTransfer(
-        address: repackAddress(address),
-        owner: repackAddress(owner),
-        recipient: repackAddress(recipient),
-        sendGasTo: repackAddress(owner),
-      );
+  }) => _nekotonRepository.prepareNftTransfer(
+    address: repackAddress(address),
+    owner: repackAddress(owner),
+    recipient: repackAddress(recipient),
+    sendGasTo: repackAddress(owner),
+  );
 
   Future<InternalMessage> prepareNftTokenTransfer({
     required String id,
@@ -75,33 +74,27 @@ class NftSendModel extends ElementaryModel with BleAvailabilityModelMixin {
     required Address collection,
     required Address owner,
     required Address recipient,
-  }) =>
-      _nekotonRepository.prepareNftTokenTransfer(
-        id: id,
-        count: count,
-        collection: repackAddress(collection),
-        owner: repackAddress(owner),
-        recipient: repackAddress(recipient),
-        remainingGasTo: repackAddress(owner),
-      );
+  }) => _nekotonRepository.prepareNftTokenTransfer(
+    id: id,
+    count: count,
+    collection: repackAddress(collection),
+    owner: repackAddress(owner),
+    recipient: repackAddress(recipient),
+    remainingGasTo: repackAddress(owner),
+  );
 
   Future<BigInt> estimateFees({
     required Address address,
     required UnsignedMessage message,
-  }) =>
-      _nekotonRepository.estimateFees(
-        address: address,
-        message: message,
-      );
+  }) => _nekotonRepository.estimateFees(address: address, message: message);
 
   Future<List<TxTreeSimulationErrorItem>> simulateTransactionTree({
     required Address address,
     required UnsignedMessage message,
-  }) =>
-      _nekotonRepository.simulateTransactionTree(
-        address: address,
-        message: message,
-      );
+  }) => _nekotonRepository.simulateTransactionTree(
+    address: address,
+    message: message,
+  );
 
   Future<Future<Transaction>> sendMessage({
     required Address address,
@@ -142,8 +135,7 @@ class NftSendModel extends ElementaryModel with BleAvailabilityModelMixin {
   Future<NftItem?> getNftItem({
     required Address address,
     required Address owner,
-  }) =>
-      _nftService.getNftItem(address: address, owner: owner);
+  }) => _nftService.getNftItem(address: address, owner: owner);
 
   Future<SignInputAuthLedger> getLedgerAuthInput({
     required Address address,

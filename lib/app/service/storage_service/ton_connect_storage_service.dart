@@ -11,9 +11,7 @@ const _connectionsKey = 'connections';
 
 @singleton
 class TonConnectStorageService extends AbstractStorageService {
-  TonConnectStorageService(
-    @Named(container) this._storage,
-  );
+  TonConnectStorageService(@Named(container) this._storage);
 
   static const String container = 'ton_connect_storage_service';
 
@@ -41,15 +39,14 @@ class TonConnectStorageService extends AbstractStorageService {
 
   String? readLastEventId() => _storage.read(_lastEventIdKey);
 
-  void saveLastEventId(String lastEventId) => _storage.write(
-        _lastEventIdKey,
-        lastEventId,
-      );
+  void saveLastEventId(String lastEventId) =>
+      _storage.write(_lastEventIdKey, lastEventId);
 
   List<TonAppConnection> readConnections() {
     try {
       final json = _storage.read<List<dynamic>>(_connectionsKey);
-      final connections = json
+      final connections =
+          json
               ?.map((e) => TonAppConnection.fromJson(e as Map<String, dynamic>))
               .toList() ??
           [];
@@ -74,8 +71,9 @@ class TonConnectStorageService extends AbstractStorageService {
   }
 
   void removeConnection(TonAppConnection connection) {
-    final connections =
-        readConnections().where((e) => e != connection).toList();
+    final connections = readConnections()
+        .where((e) => e != connection)
+        .toList();
 
     _connectionsSubject.add(connections);
     _storage.write(

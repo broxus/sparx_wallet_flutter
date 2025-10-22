@@ -4,10 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:ui_components_lib/v2/ui_components_lib_v2.dart';
 
 class NetworkVectorIcon extends StatelessWidget {
-  const NetworkVectorIcon(
-    this.url, {
-    super.key,
-  });
+  const NetworkVectorIcon(this.url, {super.key});
 
   final String? url;
 
@@ -18,10 +15,6 @@ class NetworkVectorIcon extends StatelessWidget {
             width: DimensSizeV2.d40,
             height: DimensSizeV2.d40,
           )
-        : CachedSvg(
-            url!,
-            width: DimensSizeV2.d40,
-            height: DimensSizeV2.d40,
-          );
+        : CachedSvg(url!, width: DimensSizeV2.d40, height: DimensSizeV2.d40);
   }
 }

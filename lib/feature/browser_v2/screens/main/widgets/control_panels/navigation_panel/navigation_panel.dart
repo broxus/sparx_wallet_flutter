@@ -49,8 +49,10 @@ class _BrowserTabViewMenuUrlPanelState extends State<BrowserNavigationPanel>
     duration: _duration,
   );
 
-  late final _offsetAnimation =
-      Tween<double>(begin: -10, end: 10).animate(_animationLeftController);
+  late final _offsetAnimation = Tween<double>(
+    begin: -10,
+    end: 10,
+  ).animate(_animationLeftController);
 
   @override
   void initState() {
@@ -85,10 +87,7 @@ class _BrowserTabViewMenuUrlPanelState extends State<BrowserNavigationPanel>
             // onPointerCancel: _onPointerCancel,
             child: AnimatedBuilder(
               animation: _offsetAnimation,
-              builder: (
-                _,
-                Widget? child,
-              ) {
+              builder: (_, Widget? child) {
                 return Transform.translate(
                   offset: Offset(_offsetAnimation.value, 0),
                   child: child,
@@ -142,8 +141,10 @@ class _BrowserTabViewMenuUrlPanelState extends State<BrowserNavigationPanel>
     final delta = (page - _currentPage).abs();
 
     if (delta > 9) {
-      final targetPage =
-          page.round().clamp(0, (widget.tabsState.value?.length ?? 1) - 1);
+      final targetPage = page.round().clamp(
+        0,
+        (widget.tabsState.value?.length ?? 1) - 1,
+      );
 
       _pageViewController.animateToPage(
         targetPage,

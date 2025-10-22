@@ -8,9 +8,7 @@ import 'package:rxdart/rxdart.dart';
 
 @singleton
 class PresetsConnectionService {
-  PresetsConnectionService(
-    this._presetsConfigReader,
-  );
+  PresetsConnectionService(this._presetsConfigReader);
 
   final PresetsConfigReader _presetsConfigReader;
 
@@ -45,8 +43,9 @@ class PresetsConnectionService {
 
   Future<void> fetchConnectionsList() async {
     _presetsConnectionsSubj.add(
-      (await _presetsConfigReader.getConfig(PresetConfigType.connections))
-          ?.let(mapToConnectionNetworkFromJson),
+      (await _presetsConfigReader.getConfig(
+        PresetConfigType.connections,
+      ))?.let(mapToConnectionNetworkFromJson),
     );
   }
 }

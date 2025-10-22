@@ -22,16 +22,16 @@ class ExponentialBackoff {
     this.maxDelay,
     this.jitter = 0.0,
     Random? random,
-  })  : assert(
-          multiplier >= 1.0,
-          'Multiplier must be greater than or equal to 1.0',
-        ),
-        assert(maxAttempts > 0, 'Max attempts must be greater than 0'),
-        assert(
-          jitter >= 0.0 && jitter <= 1.0,
-          'Jitter must be between 0.0 and 1.0',
-        ),
-        _random = random ?? (jitter > 0 ? Random() : null);
+  }) : assert(
+         multiplier >= 1.0,
+         'Multiplier must be greater than or equal to 1.0',
+       ),
+       assert(maxAttempts > 0, 'Max attempts must be greater than 0'),
+       assert(
+         jitter >= 0.0 && jitter <= 1.0,
+         'Jitter must be between 0.0 and 1.0',
+       ),
+       _random = random ?? (jitter > 0 ? Random() : null);
 
   final Duration initialDuration;
   final double multiplier;
@@ -68,7 +68,7 @@ class ExponentialBackoff {
   Future<T> run<T>(
     FutureOr<T> Function() action, {
     void Function(Object exception, StackTrace stackTrace, int attempt)?
-        onException,
+    onException,
     bool Function(Object exception, StackTrace stackTrace)? shouldRetry,
   }) async {
     var delay = initialDuration;

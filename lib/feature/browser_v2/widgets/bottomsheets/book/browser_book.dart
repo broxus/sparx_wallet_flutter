@@ -33,17 +33,13 @@ void showBookModal(BuildContext context) {
 }
 
 class BrowserBook extends InjectedElementaryWidget<BrowserBookWidgetModel> {
-  const BrowserBook({
-    super.key,
-  });
+  const BrowserBook({super.key});
 
   @override
   Widget build(BrowserBookWidgetModel wm) {
     return Stack(
       children: [
-        GestureDetector(
-          onTap: wm.onBackgroundPressed,
-        ),
+        GestureDetector(onTap: wm.onBackgroundPressed),
         DraggableScrollableSheet(
           minChildSize: .3,
           maxChildSize: .8,
@@ -63,17 +59,16 @@ class BrowserBook extends InjectedElementaryWidget<BrowserBookWidgetModel> {
                     builder: (_, BrowserBookTabBarValue? value) {
                       return switch (value) {
                         BrowserBookTabBarValue.bookMarks => BookSearch(
-                            searchVisibleState:
-                                wm.bookmarksDelegate.searchVisibleState,
-                            searchController:
-                                wm.bookmarksDelegate.searchController,
-                          ),
+                          searchVisibleState:
+                              wm.bookmarksDelegate.searchVisibleState,
+                          searchController:
+                              wm.bookmarksDelegate.searchController,
+                        ),
                         BrowserBookTabBarValue.history => BookSearch(
-                            searchVisibleState:
-                                wm.historyDelegate.searchVisibleState,
-                            searchController:
-                                wm.historyDelegate.searchController,
-                          ),
+                          searchVisibleState:
+                              wm.historyDelegate.searchVisibleState,
+                          searchController: wm.historyDelegate.searchController,
+                        ),
                         _ => const SizedBox.shrink(),
                       };
                     },
@@ -113,62 +108,56 @@ class BrowserBook extends InjectedElementaryWidget<BrowserBookWidgetModel> {
 
                               return switch (item) {
                                 BookMarkUiModel() => BookmarkListItem(
-                                    key: ValueKey(item.bookmarkId),
-                                    index: index,
-                                    editState: wm.bookmarksDelegate.editState,
-                                    title: item.title,
-                                    subTitle: item.subTitle,
-                                    uri: item.uri,
-                                    onPressed: () => wm.onPressedItem(item),
-                                    onPressedRemove: () =>
-                                        wm.bookmarksDelegate.onPressedRemove(
-                                      item.bookmarkId,
-                                    ),
-                                  ),
+                                  key: ValueKey(item.bookmarkId),
+                                  index: index,
+                                  editState: wm.bookmarksDelegate.editState,
+                                  title: item.title,
+                                  subTitle: item.subTitle,
+                                  uri: item.uri,
+                                  onPressed: () => wm.onPressedItem(item),
+                                  onPressedRemove: () => wm.bookmarksDelegate
+                                      .onPressedRemove(item.bookmarkId),
+                                ),
                                 _ => const SizedBox.shrink(),
                               };
                             },
                           ),
                         BrowserBookTabBarValue.history => SliverList.builder(
-                            itemCount: list.length,
-                            itemBuilder: (_, int index) {
-                              final item = list[index];
+                          itemCount: list.length,
+                          itemBuilder: (_, int index) {
+                            final item = list[index];
 
-                              return switch (item) {
-                                DateUiModel(:final dateText) => DateItem(
-                                    key: ValueKey(dateText),
-                                    dateText: dateText,
-                                  ),
-                                HistoryItemUiModel(
-                                  :final String id,
-                                  :final Uri uri,
-                                  :final String title,
-                                  :final String subTitle,
-                                ) =>
-                                  HistoryListItem(
-                                    key: ValueKey(id),
-                                    editState: wm.historyDelegate.editState,
-                                    uri: uri,
-                                    title: title,
-                                    subTitle: subTitle,
-                                    onPressed: () => wm.onPressedItem(item),
-                                    onPressedRemove: () =>
-                                        wm.historyDelegate.onPressedRemove(id),
-                                  ),
-                                _ => const SizedBox.shrink(),
-                              };
-                            },
-                          ),
-                        _ => const SliverToBoxAdapter(
-                            child: SizedBox.shrink(),
-                          ),
+                            return switch (item) {
+                              DateUiModel(:final dateText) => DateItem(
+                                key: ValueKey(dateText),
+                                dateText: dateText,
+                              ),
+                              HistoryItemUiModel(
+                                :final String id,
+                                :final Uri uri,
+                                :final String title,
+                                :final String subTitle,
+                              ) =>
+                                HistoryListItem(
+                                  key: ValueKey(id),
+                                  editState: wm.historyDelegate.editState,
+                                  uri: uri,
+                                  title: title,
+                                  subTitle: subTitle,
+                                  onPressed: () => wm.onPressedItem(item),
+                                  onPressedRemove: () =>
+                                      wm.historyDelegate.onPressedRemove(id),
+                                ),
+                              _ => const SizedBox.shrink(),
+                            };
+                          },
+                        ),
+                        _ => const SliverToBoxAdapter(child: SizedBox.shrink()),
                       };
                     },
                   ),
                   const SliverToBoxAdapter(
-                    child: SizedBox(
-                      height: BrowserBookmarksMenu.height + 8,
-                    ),
+                    child: SizedBox(height: BrowserBookmarksMenu.height + 8),
                   ),
                 ],
               ),
@@ -184,19 +173,19 @@ class BrowserBook extends InjectedElementaryWidget<BrowserBookWidgetModel> {
             builder: (_, BrowserBookTabBarValue? value) {
               return switch (value) {
                 BrowserBookTabBarValue.bookMarks => BrowserBookmarksMenu(
-                    editState: wm.bookmarksDelegate.editState,
-                    activeState: wm.bookmarksDelegate.activeMenuState,
-                    onPressedEdit: wm.bookmarksDelegate.onPressedEdit,
-                    onPressedDone: wm.bookmarksDelegate.onPressedDone,
-                  ),
+                  editState: wm.bookmarksDelegate.editState,
+                  activeState: wm.bookmarksDelegate.activeMenuState,
+                  onPressedEdit: wm.bookmarksDelegate.onPressedEdit,
+                  onPressedDone: wm.bookmarksDelegate.onPressedDone,
+                ),
                 BrowserBookTabBarValue.history => HistoryBookmarksMenu(
-                    editState: wm.historyDelegate.editState,
-                    activeEditState: wm.historyDelegate.activeEditState,
-                    activeClearState: wm.historyDelegate.activeClearState,
-                    onPressedEdit: wm.historyDelegate.onPressedEdit,
-                    onPressedDone: wm.historyDelegate.onPressedDone,
-                    onPressedClear: wm.onPressedClear,
-                  ),
+                  editState: wm.historyDelegate.editState,
+                  activeEditState: wm.historyDelegate.activeEditState,
+                  activeClearState: wm.historyDelegate.activeClearState,
+                  onPressedEdit: wm.historyDelegate.onPressedEdit,
+                  onPressedDone: wm.historyDelegate.onPressedDone,
+                  onPressedClear: wm.onPressedClear,
+                ),
                 _ => const SizedBox.shrink(),
               };
             },
@@ -207,9 +196,6 @@ class BrowserBook extends InjectedElementaryWidget<BrowserBookWidgetModel> {
   }
 
   Widget _proxyDecorator(Widget child, _, __) {
-    return Material(
-      color: Colors.transparent,
-      child: child,
-    );
+    return Material(color: Colors.transparent, child: child);
   }
 }

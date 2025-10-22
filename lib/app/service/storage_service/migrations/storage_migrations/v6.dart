@@ -4,9 +4,7 @@ import 'package:app/data/models/browser_history_item.dart';
 import 'package:get_storage/get_storage.dart';
 
 class StorageMigrationV6 implements StorageMigration {
-  StorageMigrationV6(
-    this._databaseService,
-  );
+  StorageMigrationV6(this._databaseService);
 
   static const int version = 6;
 
@@ -28,19 +26,13 @@ class StorageMigrationV6 implements StorageMigration {
     await GetStorage.init('browser_history');
     final storage = GetStorage('browser_history');
 
-    final list = storage.read<List<dynamic>>(
-      'browser_history_key',
-    );
+    final list = storage.read<List<dynamic>>('browser_history_key');
 
     if (list != null) {
-      await _databaseService.history.saveHistoryItemsList(
-        [
-          for (final entry in list)
-            BrowserHistoryItem.fromJson(
-              entry as Map<String, dynamic>,
-            ),
-        ],
-      );
+      await _databaseService.history.saveHistoryItemsList([
+        for (final entry in list)
+          BrowserHistoryItem.fromJson(entry as Map<String, dynamic>),
+      ]);
     }
     await _databaseService.migration.acceptHistoryMigration();
     await storage.erase();

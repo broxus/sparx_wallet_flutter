@@ -13,7 +13,8 @@ export 'route.dart';
 ///
 /// Use this for routes that require data to be passed via query parameters.
 abstract class CompassRoute<T extends CompassRouteDataQuery>
-    extends CompassBaseGoRoute<T> with CompassRouteDataQueryMixin<T> {
+    extends CompassBaseGoRoute<T>
+    with CompassRouteDataQueryMixin<T> {
   CompassRoute({
     required super.path,
     super.name,
@@ -27,9 +28,7 @@ abstract class CompassRoute<T extends CompassRouteDataQuery>
     super.isSaveSubroutes,
     super.redirect,
     super.parentNavigatorKey,
-  }) : super(
-          routes: compassBaseRoutes.map((it) => it.route).toList(),
-        );
+  }) : super(routes: compassBaseRoutes.map((it) => it.route).toList());
 
   /// Child routes that will be nested under this route.
   ///
@@ -43,7 +42,8 @@ abstract class CompassRoute<T extends CompassRouteDataQuery>
 /// [EmptyRouteDataMixin] to handle parameterless navigation.
 /// Use this for routes that don't require any data to be passed.
 abstract class CompassRouteParameterless<T extends CompassRouteData>
-    extends CompassBaseGoRoute<T> with EmptyRouteDataMixin<T> {
+    extends CompassBaseGoRoute<T>
+    with EmptyRouteDataMixin<T> {
   CompassRouteParameterless({
     required super.path,
     super.name,
@@ -57,9 +57,7 @@ abstract class CompassRouteParameterless<T extends CompassRouteData>
     super.isSaveSubroutes,
     super.redirect,
     super.parentNavigatorKey,
-  }) : super(
-          routes: compassBaseRoutes.map((it) => it.route).toList(),
-        );
+  }) : super(routes: compassBaseRoutes.map((it) => it.route).toList());
 
   /// Child routes that will be nested under this route.
   ///
@@ -83,14 +81,10 @@ abstract class CompassShellRoute extends CompassBaseStatefulShellRoute {
     super.key,
     super.isTopLevel,
   }) : super(
-          branches: compassBaseRoutes
-              .map(
-                (it) => StatefulShellBranch(
-                  routes: [it.route],
-                ),
-              )
-              .toList(),
-        );
+         branches: compassBaseRoutes
+             .map((it) => StatefulShellBranch(routes: [it.route]))
+             .toList(),
+       );
 
   /// Branch routes that will be part of this shell.
   ///

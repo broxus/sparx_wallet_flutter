@@ -7,11 +7,17 @@ import 'package:app/feature/profile/account_detail/account_detail_page.dart';
 import 'package:app/feature/profile/key_detail/widgets/account_settings_sheet/account_settings_sheet.dart';
 import 'package:elementary_helper/elementary_helper.dart';
 import 'package:injectable/injectable.dart';
+import 'package:money2/money2.dart';
 import 'package:nekoton_repository/nekoton_repository.dart';
 
 @injectable
-class AccountDetailWidgetModel extends CustomWidgetModelParametrized<
-    AccountDetailPage, AccountDetailModel, Address> {
+class AccountDetailWidgetModel
+    extends
+        CustomWidgetModelParametrized<
+          AccountDetailPage,
+          AccountDetailModel,
+          Address
+        > {
   AccountDetailWidgetModel(super.model);
 
   late StreamSubscription<SeedList> _seedListSubscription;
@@ -149,10 +155,7 @@ class AccountDetailWidgetModel extends CustomWidgetModelParametrized<
 
     // for cases, when screen was closed before sub completed
     if (!isMounted) {
-      await model.unsubscribeToken(
-        token.owner,
-        token.rootTokenContract,
-      );
+      await model.unsubscribeToken(token.owner, token.rootTokenContract);
     } else {
       _tokenWallets.add(token);
     }
@@ -164,10 +167,7 @@ class AccountDetailWidgetModel extends CustomWidgetModelParametrized<
       _tonWallet = null;
       await model.unsubscribe(address);
       _tokenWallets.removeWhere((token) {
-        model.unsubscribeToken(
-          token.owner,
-          token.rootTokenContract,
-        );
+        model.unsubscribeToken(token.owner, token.rootTokenContract);
 
         return true;
       });

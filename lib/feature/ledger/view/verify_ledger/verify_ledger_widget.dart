@@ -21,10 +21,8 @@ ModalRoute<void> showVerifyLedgerSheet(KeyAccount account) {
     ),
     centerTitle: true,
     centerSubtitle: true,
-    body: (_, controller) => VerifyLedgerWidget(
-      account: account,
-      controller: controller,
-    ),
+    body: (_, controller) =>
+        VerifyLedgerWidget(account: account, controller: controller),
   );
 }
 
@@ -85,10 +83,7 @@ class VerifyLedgerWidget extends ElementaryWidget<VerifyLedgerWidgetModel> {
                   ),
                 ),
                 const SizedBox(height: DimensSizeV2.d4),
-                Text(
-                  address,
-                  style: theme.textStyles.labelXSmall,
-                ),
+                Text(address, style: theme.textStyles.labelXSmall),
                 const SizedBox(height: DimensSizeV2.d20),
                 PrimaryButton(
                   buttonShape: ButtonShape.pill,
@@ -120,9 +115,7 @@ class VerifyLedgerWidget extends ElementaryWidget<VerifyLedgerWidgetModel> {
 }
 
 class _State extends StatelessWidget {
-  const _State({
-    required this.state,
-  });
+  const _State({required this.state});
 
   final ListenableState<LedgerInteractionState> state;
 
@@ -158,52 +151,52 @@ class _State extends StatelessWidget {
                 children: [
                   switch (state) {
                     LedgerInteractionState.done => Icon(
-                        LucideIcons.circleCheck,
-                        color: theme.colors.contentPositive,
-                        size: DimensSizeV2.d16,
-                      ),
+                      LucideIcons.circleCheck,
+                      color: theme.colors.contentPositive,
+                      size: DimensSizeV2.d16,
+                    ),
                     LedgerInteractionState.cancelled => Icon(
-                        LucideIcons.circleX,
-                        color: theme.colors.contentNegative,
-                        size: DimensSizeV2.d16,
-                      ),
+                      LucideIcons.circleX,
+                      color: theme.colors.contentNegative,
+                      size: DimensSizeV2.d16,
+                    ),
                     _ => ProgressIndicatorWidget(
-                        size: DimensSizeV2.d16,
-                        color: theme.colors.content4,
-                      ),
+                      size: DimensSizeV2.d16,
+                      color: theme.colors.content4,
+                    ),
                   },
                   const SizedBox(width: DimensSizeV2.d6),
                   switch (state) {
                     LedgerInteractionState.connecting => Text(
-                        LocaleKeys.ledgerStepConnectTitle.tr(),
-                        style: theme.textStyles.labelXSmall.copyWith(
-                          color: theme.colors.content4,
-                        ),
+                      LocaleKeys.ledgerStepConnectTitle.tr(),
+                      style: theme.textStyles.labelXSmall.copyWith(
+                        color: theme.colors.content4,
                       ),
+                    ),
                     LedgerInteractionState.initializing => Text(
-                        LocaleKeys.ledgerStepAppTitle.tr(),
-                        style: theme.textStyles.labelXSmall.copyWith(
-                          color: theme.colors.content4,
-                        ),
+                      LocaleKeys.ledgerStepAppTitle.tr(),
+                      style: theme.textStyles.labelXSmall.copyWith(
+                        color: theme.colors.content4,
                       ),
+                    ),
                     LedgerInteractionState.confirming => Text(
-                        LocaleKeys.ledgerVerifyWaiting.tr(),
-                        style: theme.textStyles.labelXSmall.copyWith(
-                          color: theme.colors.content4,
-                        ),
+                      LocaleKeys.ledgerVerifyWaiting.tr(),
+                      style: theme.textStyles.labelXSmall.copyWith(
+                        color: theme.colors.content4,
                       ),
+                    ),
                     LedgerInteractionState.done => Text(
-                        LocaleKeys.ledgerVerifyConfirmed.tr(),
-                        style: theme.textStyles.labelXSmall.copyWith(
-                          color: theme.colors.contentPositive,
-                        ),
+                      LocaleKeys.ledgerVerifyConfirmed.tr(),
+                      style: theme.textStyles.labelXSmall.copyWith(
+                        color: theme.colors.contentPositive,
                       ),
+                    ),
                     LedgerInteractionState.cancelled => Text(
-                        LocaleKeys.ledgerVerifyCancelled.tr(),
-                        style: theme.textStyles.labelXSmall.copyWith(
-                          color: theme.colors.contentNegative,
-                        ),
+                      LocaleKeys.ledgerVerifyCancelled.tr(),
+                      style: theme.textStyles.labelXSmall.copyWith(
+                        color: theme.colors.contentNegative,
                       ),
+                    ),
                   },
                 ],
               ),

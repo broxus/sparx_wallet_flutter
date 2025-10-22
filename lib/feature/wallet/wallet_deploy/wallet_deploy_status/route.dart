@@ -8,14 +8,12 @@ import 'package:nekoton_repository/nekoton_repository.dart';
 class WalletDeployStatusRoute
     extends CompassRoute<WalletDeployStatusRouteData> {
   WalletDeployStatusRoute()
-      : super(
-          path: '/wallet-deploy-status',
-          builder: (context, data, _) {
-            return WalletDeployStatusScreen(
-              routeData: data,
-            );
-          },
-        );
+    : super(
+        path: '/wallet-deploy-status',
+        builder: (context, data, _) {
+          return WalletDeployStatusScreen(routeData: data);
+        },
+      );
 
   @override
   WalletDeployStatusRouteData fromQueryParams(Map<String, String> queryParams) {

@@ -56,9 +56,7 @@ class MessageViewer {
       InAppNotification.show(
         child: ToastMessage.fromMessage(
           message,
-          padding: const EdgeInsets.symmetric(
-            horizontal: DimensSizeV2.d16,
-          ),
+          padding: const EdgeInsets.symmetric(horizontal: DimensSizeV2.d16),
           onPressedAction: () {
             message.onAction?.call();
             _dismiss();

@@ -8,20 +8,24 @@ import 'package:elementary_helper/elementary_helper.dart';
 import 'package:flutter/material.dart';
 import 'package:ui_components_lib/v2/ui_components_lib_v2.dart';
 
-class TabAnimatedView extends InjectedElementaryParametrizedWidget<
-    TabAnimatedViewWidgetModel, TabAnimatedViewWmParams> {
+class TabAnimatedView
+    extends
+        InjectedElementaryParametrizedWidget<
+          TabAnimatedViewWidgetModel,
+          TabAnimatedViewWmParams
+        > {
   TabAnimatedView({
     required ListenableState<TabAnimationType?> showAnimationState,
     required VoidCallback onAnimationStart,
     required ValueChanged<TabAnimationType?> onAnimationEnd,
     super.key,
   }) : super(
-          wmFactoryParam: TabAnimatedViewWmParams(
-            showAnimationState: showAnimationState,
-            onAnimationStart: onAnimationStart,
-            onAnimationEnd: onAnimationEnd,
-          ),
-        );
+         wmFactoryParam: TabAnimatedViewWmParams(
+           showAnimationState: showAnimationState,
+           onAnimationStart: onAnimationStart,
+           onAnimationEnd: onAnimationEnd,
+         ),
+       );
 
   @override
   Widget build(TabAnimatedViewWidgetModel wm) {
@@ -60,10 +64,7 @@ class TabAnimatedView extends InjectedElementaryParametrizedWidget<
                     ),
                     child: file == null
                         ? const _StartPageAnimationView()
-                        : Image.file(
-                            file,
-                            fit: BoxFit.fill,
-                          ),
+                        : Image.file(file, fit: BoxFit.fill),
                   );
                 },
               ),

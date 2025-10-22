@@ -10,9 +10,7 @@ const _browserFaviconURLDomain = 'browser_favicon_urls';
 
 @singleton
 class BrowserFaviconURLStorageService extends AbstractStorageService {
-  BrowserFaviconURLStorageService(
-    @Named(container) this._storage,
-  );
+  BrowserFaviconURLStorageService(@Named(container) this._storage);
 
   static final _log = Logger('BrowserFaviconURLStorageService');
 

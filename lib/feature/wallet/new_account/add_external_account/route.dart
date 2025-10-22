@@ -7,10 +7,10 @@ import 'package:injectable/injectable.dart';
 class NewExternalAccountRoute
     extends CompassRouteParameterless<NewExternalAccountRouteData> {
   NewExternalAccountRoute()
-      : super(
-          path: '/wallet-new-external-account',
-          builder: (context, _, __) => const AddExternalAccountWidget(),
-        );
+    : super(
+        path: '/wallet-new-external-account',
+        builder: (context, _, __) => const AddExternalAccountWidget(),
+      );
 
   @override
   NewExternalAccountRouteData createData() {

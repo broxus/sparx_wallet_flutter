@@ -1,10 +1,7 @@
 import 'package:app/app/service/service.dart';
 
 class AccountsColorsCollection {
-  AccountsColorsCollection(
-    this._secureStorageService,
-    this._initialData,
-  );
+  AccountsColorsCollection(this._secureStorageService, this._initialData);
 
   final _map = <String, IdentifyIconData>{};
 
@@ -15,9 +12,7 @@ class AccountsColorsCollection {
   Future<void> clear() async {
     _map
       ..forEach((key, value) {
-        _secureStorageService.delete(
-          StorageKey.accountColor(key),
-        );
+        _secureStorageService.delete(StorageKey.accountColor(key));
       })
       ..clear();
   }
@@ -35,7 +30,8 @@ class AccountsColorsCollection {
 
   Future<IdentifyIconData> getData(String key) async {
     try {
-      return _map[key] ??= IdentifyIconData.byNameOrNull(
+      return _map[key] ??=
+          IdentifyIconData.byNameOrNull(
             _secureStorageService.getValue<String>(
               StorageKey.accountColor(key),
             ),

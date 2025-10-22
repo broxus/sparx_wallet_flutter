@@ -2,11 +2,7 @@ import 'package:flutter/widgets.dart';
 import 'package:lucide_icons_flutter/lucide_icons.dart';
 import 'package:ui_components_lib/ui_components_lib.dart';
 
-enum LedgerInteractionStepState {
-  initial,
-  loading,
-  success,
-}
+enum LedgerInteractionStepState { initial, loading, success }
 
 class LedgerInteractionStep {
   const LedgerInteractionStep({
@@ -19,10 +15,7 @@ class LedgerInteractionStep {
 }
 
 class LedgerStatusContainer extends StatelessWidget {
-  const LedgerStatusContainer({
-    required this.steps,
-    super.key,
-  });
+  const LedgerStatusContainer({required this.steps, super.key});
 
   final Iterable<LedgerInteractionStep> steps;
 

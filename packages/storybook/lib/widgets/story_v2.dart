@@ -1,0 +1,45 @@
+import 'package:flutter/material.dart';
+
+import 'package:storybook_flutter/storybook_flutter.dart';
+import 'package:ui_components_lib/v2/predefined_theme_v2.dart';
+
+import 'package:ui_components_storybook/stories/v2/buttons.dart';
+import 'package:ui_components_storybook/stories/v2/chips.dart';
+import 'package:ui_components_storybook/stories/v2/segment_contols.dart';
+import 'package:ui_components_storybook/stories/v2/text_fields.dart';
+import 'package:ui_components_storybook/stories/v2/texts.dart';
+import 'package:ui_components_storybook/stories/v2/toasts.dart';
+
+class StoryV2 extends StatelessWidget {
+  const StoryV2({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Theme(
+      data: getPredefinedDarkTheme(),
+      child: Storybook(
+        initialStory: 'Widgets',
+        wrapperBuilder: (_, Widget? child) {
+          return Material(type: MaterialType.transparency, child: child);
+        },
+        stories: [
+          Story(
+            name: 'Widgets/TextFields',
+            builder: (_) => const TextFieldsStoryV2(),
+          ),
+          Story(name: 'Widgets/Texts', builder: (_) => const TextsStoryV2()),
+          Story(
+            name: 'Widgets/Buttons',
+            builder: (_) => const ButtonsStoryV2(),
+          ),
+          Story(
+            name: 'Widgets/Segment-Controls',
+            builder: (_) => const SegmentControlsV2(),
+          ),
+          Story(name: 'Widgets/Toasts', builder: (_) => const ToastsV2()),
+          Story(name: 'Widgets/Chips', builder: (_) => const ChipsV2()),
+        ],
+      ),
+    );
+  }
+}

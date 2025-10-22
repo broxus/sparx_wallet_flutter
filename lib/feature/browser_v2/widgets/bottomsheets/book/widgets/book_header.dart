@@ -45,9 +45,7 @@ class BookHeader extends StatelessWidget {
 }
 
 class _HeaderDelegate extends SliverPersistentHeaderDelegate {
-  _HeaderDelegate({
-    required this.child,
-  });
+  _HeaderDelegate({required this.child});
 
   @override
   final double minExtent = 88;
@@ -61,10 +59,7 @@ class _HeaderDelegate extends SliverPersistentHeaderDelegate {
     double shrinkOffset,
     bool overlapsContent,
   ) {
-    return SizedBox(
-      height: maxExtent,
-      child: child,
-    );
+    return SizedBox(height: maxExtent, child: child);
   }
 
   @override

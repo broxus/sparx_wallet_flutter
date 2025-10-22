@@ -56,9 +56,7 @@ class TonConnectHttpBridge {
     _sseSubscription = null;
   }
 
-  Future<void> connect({
-    required ConnectQuery query,
-  }) async {
+  Future<void> connect({required ConnectQuery query}) async {
     final sessionCrypto = SessionCrypto();
     final request = ConnectRequest.fromJson(
       jsonDecode(Uri.decodeComponent(query.r)) as Map<String, dynamic>,
@@ -105,9 +103,7 @@ class TonConnectHttpBridge {
     await openSseConnection(); // reconnect to http bridge
   }
 
-  Future<void> disconnect({
-    required TonAppConnectionRemote connection,
-  }) async {
+  Future<void> disconnect({required TonAppConnectionRemote connection}) async {
     _tonConnectService.disconnect(connection: connection);
 
     await _send(
@@ -157,13 +153,13 @@ class TonConnectHttpBridge {
       await switch (rpcRequest) {
         DisconnectRpcRequest() => disconnect(connection: connection),
         final SendTransactionRpcRequest request => _sendTransaction(
-            request: request,
-            connection: connection,
-          ),
+          request: request,
+          connection: connection,
+        ),
         final SignDataRpcRequest request => _signData(
-            request: request,
-            connection: connection,
-          ),
+          request: request,
+          connection: connection,
+        ),
       };
     } catch (e, s) {
       _logger.severe('Handle message failed', e, s);
@@ -244,8 +240,9 @@ class TonConnectHttpBridge {
         return;
       }
 
-      final connections =
-          _storageService.readConnections().whereType<TonAppConnectionRemote>();
+      final connections = _storageService
+          .readConnections()
+          .whereType<TonAppConnectionRemote>();
 
       if (connections.isEmpty) return;
 
@@ -295,20 +292,23 @@ class TonConnectHttpBridge {
 
     _logger.finest('Retrying to open SSE connection');
 
-    _backoff.run(() async {
-      _logger.finest('Reconnect attempt');
-      if (SchedulerBinding.instance.lifecycleState !=
-          AppLifecycleState.resumed) {
-        return;
-      }
+    _backoff
+        .run(() async {
+          _logger.finest('Reconnect attempt');
+          if (SchedulerBinding.instance.lifecycleState !=
+              AppLifecycleState.resumed) {
+            return;
+          }
 
-      await _openSseConnection();
-      _logger.finest('Reconnect attempt success');
-    }).catchError((Object e, StackTrace s) {
-      _logger.severe('Failed to reconnect to http bridge', e, s);
-    }).whenComplete(() {
-      isRetrying = false;
-    });
+          await _openSseConnection();
+          _logger.finest('Reconnect attempt success');
+        })
+        .catchError((Object e, StackTrace s) {
+          _logger.severe('Failed to reconnect to http bridge', e, s);
+        })
+        .whenComplete(() {
+          isRetrying = false;
+        });
   }
 
   void _onStateChange(AppLifecycleState state) {

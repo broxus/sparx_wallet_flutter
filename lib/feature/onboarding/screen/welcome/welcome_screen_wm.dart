@@ -13,9 +13,7 @@ import 'package:url_launcher/url_launcher_string.dart';
 @injectable
 class WelcomeScreenWidgetModel
     extends CustomWidgetModel<WelcomeScreen, WelcomeScreenModel> {
-  WelcomeScreenWidgetModel(
-    super.model,
-  );
+  WelcomeScreenWidgetModel(super.model);
 
   final _decentralizationPolicyLink = 'https://l1.broxus.com/sparx/terms/';
 
@@ -42,7 +40,7 @@ class WelcomeScreenWidgetModel
   void onLinkTap() => launchUrlString(_decentralizationPolicyLink);
 
   void onClickSupport() => showContactSupportSheet(
-        context: context,
-        mode: ContactSupportMode.initiatedByUser,
-      );
+    context: context,
+    mode: ContactSupportMode.initiatedByUser,
+  );
 }

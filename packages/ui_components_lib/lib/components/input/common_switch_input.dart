@@ -63,8 +63,8 @@ class _CommonSwitchInputState extends State<CommonSwitchInput> {
         backgroundColor: state.hasError
             ? colors.contentNegative
             : widget.value
-                ? colors.backgroundAlpha
-                : colors.backgroundAlpha,
+            ? colors.backgroundAlpha
+            : colors.backgroundAlpha,
         thumbColor: widget.thumbColor ?? colors.content0,
         thumbSize: DimensSize.d20,
         thumbChild: widget.thumbChild,
@@ -137,10 +137,7 @@ class CommonSwitcher extends StatelessWidget {
         child: Container(
           width: thumbSize,
           height: thumbSize,
-          decoration: BoxDecoration(
-            color: thumbColor,
-            shape: BoxShape.circle,
-          ),
+          decoration: BoxDecoration(color: thumbColor, shape: BoxShape.circle),
           child: FittedBox(
             child: Padding(
               padding: const EdgeInsets.all(DimensStroke.medium),

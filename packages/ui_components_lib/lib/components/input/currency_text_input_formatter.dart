@@ -57,11 +57,14 @@ class CurrencyTextInputFormatter extends TextInputFormatter {
 
     final minusSignExp = allowNegative ? '(?<minus>-?)' : '(?<minus>)';
     const integerExp = '(?<integer>[0-9]*)';
-    final separatorExp =
-        '(?<separator>$decimalSeparator)'.replaceAll('.', r'\.');
+    final separatorExp = '(?<separator>$decimalSeparator)'.replaceAll(
+      '.',
+      r'\.',
+    );
     final decimalExp = '(?<decimal>[0-9]{0,$scale})';
-    final tickerExp =
-        includeTicker ? '(?<ticker>($tickerString)?)' : '(?<ticker>)';
+    final tickerExp = includeTicker
+        ? '(?<ticker>($tickerString)?)'
+        : '(?<ticker>)';
 
     return RegExp(
       '^$minusSignExp($integerExp($separatorExp$decimalExp)?)?$tickerExp\$',
@@ -96,16 +99,18 @@ class CurrencyTextInputFormatter extends TextInputFormatter {
     final separator = match.namedGroup('separator') ?? '';
     final decimal = match.namedGroup('decimal') ?? '';
 
-    final formattedInteger =
-        integer.isNotEmpty ? BigInt.parse(integer).toString() : '';
+    final formattedInteger = integer.isNotEmpty
+        ? BigInt.parse(integer).toString()
+        : '';
 
     if (formattedInteger != integer) {
       return oldValue;
     }
 
     final newText = '$minus$integer$separator$decimal';
-    final newTextWithTicker =
-        newText.isNotEmpty ? '$newText$_tickerString' : '';
+    final newTextWithTicker = newText.isNotEmpty
+        ? '$newText$_tickerString'
+        : '';
 
     // Adjust cursor position if we prepended zero
     var newSelection = newValue.selection;
