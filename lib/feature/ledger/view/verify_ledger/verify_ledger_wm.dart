@@ -14,15 +14,14 @@ import 'package:ui_components_lib/ui_components_lib.dart';
 
 VerifyLedgerWidgetModel defaultVerifyLedgerWidgetModelFactory(
   BuildContext context,
-) =>
-    VerifyLedgerWidgetModel(
-      VerifyLedgerModel(
-        createPrimaryErrorHandler(context),
-        inject(),
-        inject(),
-        inject(),
-      ),
-    );
+) => VerifyLedgerWidgetModel(
+  VerifyLedgerModel(
+    createPrimaryErrorHandler(context),
+    inject(),
+    inject(),
+    inject(),
+  ),
+);
 
 class VerifyLedgerWidgetModel
     extends CustomWidgetModel<VerifyLedgerWidget, VerifyLedgerModel>
@@ -42,9 +41,7 @@ class VerifyLedgerWidgetModel
   ThemeStyleV2 get theme => context.themeStyleV2;
 
   void onCopy() {
-    Clipboard.setData(
-      ClipboardData(text: widget.account.address.address),
-    );
+    Clipboard.setData(ClipboardData(text: widget.account.address.address));
     model.showMessage(
       Message.successful(
         message: LocaleKeys.valueCopiedExclamation.tr(

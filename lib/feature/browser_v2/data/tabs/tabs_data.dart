@@ -78,6 +78,6 @@ class _ImmutableStateNotifier<T> extends SafeStateNotifier<T> {
   @override
   @protected
   void accept(T? newValue) => throw UnsupportedError(
-        'This StateNotifier is immutable and cannot accept new values.',
-      );
+    'This StateNotifier is immutable and cannot accept new values.',
+  );
 }

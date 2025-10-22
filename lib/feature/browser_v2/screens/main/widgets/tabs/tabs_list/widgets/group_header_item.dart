@@ -45,9 +45,7 @@ class BrowserGroupHeaderItem extends StatelessWidget {
                     overflow: TextOverflow.ellipsis,
                     style: group?.id == selectedId
                         ? styles.labelMedium
-                        : styles.labelSmall.copyWith(
-                            color: colors.content2,
-                          ),
+                        : styles.labelSmall.copyWith(color: colors.content2),
                   );
                 },
               ),

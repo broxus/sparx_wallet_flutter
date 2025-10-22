@@ -15,10 +15,7 @@ class RenameSheetModel extends ElementaryModel {
   final NekotonRepository _nekotonRepository;
   final MessengerService _messengerService;
 
-  String getName({
-    required PublicKey publicKey,
-    required bool isSeed,
-  }) {
+  String getName({required PublicKey publicKey, required bool isSeed}) {
     if (isSeed) {
       final seed = _nekotonRepository.seedList.findSeed(publicKey);
       return seed?.name ?? '';

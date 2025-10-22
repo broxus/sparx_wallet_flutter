@@ -2,8 +2,12 @@ import 'package:elementary/elementary.dart';
 import 'package:elementary_helper/elementary_helper.dart';
 import 'package:flutter/foundation.dart';
 
-mixin LoadScreenDataMixin<W extends ElementaryWidget, M extends ElementaryModel,
-    T> on WidgetModel<W, M> {
+mixin LoadScreenDataMixin<
+  W extends ElementaryWidget,
+  M extends ElementaryModel,
+  T
+>
+    on WidgetModel<W, M> {
   EntityStateNotifier<T> get screenState;
 
   @protected

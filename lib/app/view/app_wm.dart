@@ -10,9 +10,7 @@ import 'package:injectable/injectable.dart';
 /// [WidgetModel] для [App]
 @injectable
 class AppWidgetModel extends CustomWidgetModel<App, AppModel> {
-  AppWidgetModel(
-    super.model,
-  );
+  AppWidgetModel(super.model);
 
   late final _messageViewer = MessageViewer(
     messagesExistStream: model.messagesExistStream,

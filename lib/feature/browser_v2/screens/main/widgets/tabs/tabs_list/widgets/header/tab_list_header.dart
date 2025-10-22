@@ -8,16 +8,18 @@ import 'package:elementary_helper/elementary_helper.dart';
 import 'package:flutter/material.dart';
 import 'package:ui_components_lib/v2/dimens_v2.dart';
 
-class TabListHeader extends InjectedElementaryParametrizedWidget<
-    TabListHeaderWidgetModel, ListenableState<String?>> {
+class TabListHeader
+    extends
+        InjectedElementaryParametrizedWidget<
+          TabListHeaderWidgetModel,
+          ListenableState<String?>
+        > {
   const TabListHeader({
     required ListenableState<String?> selectedGroupIdState,
     required this.onPressedGroup,
     required this.onPressedCreateNewGroup,
     super.key,
-  }) : super(
-          wmFactoryParam: selectedGroupIdState,
-        );
+  }) : super(wmFactoryParam: selectedGroupIdState);
 
   final ValueChanged<String> onPressedGroup;
   final VoidCallback onPressedCreateNewGroup;
@@ -46,16 +48,13 @@ class TabListHeader extends InjectedElementaryParametrizedWidget<
                 itemBuilder: (_, int index) {
                   return switch (uiModels[index]) {
                     TabListHeaderBookmarksUiModel() => BrowserHeaderTextButton(
-                        key: ObjectKey(uiModels[index]),
-                        width: itemWidth,
-                        onPressed: wm.onPressedBookmarks,
-                        text: LocaleKeys.browserBookmarks.tr(),
-                        alignment: Alignment.centerLeft,
-                      ),
-                    TabListHeaderGroupUiModel(
-                      :final id,
-                      :final listenable,
-                    ) =>
+                      key: ObjectKey(uiModels[index]),
+                      width: itemWidth,
+                      onPressed: wm.onPressedBookmarks,
+                      text: LocaleKeys.browserBookmarks.tr(),
+                      alignment: Alignment.centerLeft,
+                    ),
+                    TabListHeaderGroupUiModel(:final id, :final listenable) =>
                       BrowserGroupHeaderItem(
                         key: ValueKey(id),
                         width: itemWidth,
@@ -64,12 +63,12 @@ class TabListHeader extends InjectedElementaryParametrizedWidget<
                         onPressed: () => onPressedGroup(id),
                       ),
                     TabListHeaderNewGroupUiModel() => BrowserHeaderTextButton(
-                        key: ObjectKey(uiModels[index]),
-                        width: itemWidth,
-                        onPressed: onPressedCreateNewGroup,
-                        text: LocaleKeys.newGroup.tr(),
-                        alignment: Alignment.centerRight,
-                      ),
+                      key: ObjectKey(uiModels[index]),
+                      width: itemWidth,
+                      onPressed: onPressedCreateNewGroup,
+                      text: LocaleKeys.newGroup.tr(),
+                      alignment: Alignment.centerRight,
+                    ),
                   };
                 },
               );

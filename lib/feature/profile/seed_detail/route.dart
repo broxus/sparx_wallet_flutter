@@ -11,40 +11,32 @@ const _publicKeyQueryParam = 'publicKey';
 @named
 @Singleton(as: CompassBaseRoute)
 class SeedDetailRoute extends CompassRoute<SeedDetailRouteData> {
-  SeedDetailRoute(
-    @Named.from(KeyDetailRoute) CompassBaseRoute keyDetailRoute,
-  ) : super(
-          path: '/seed-detail',
-          isSaveLocation: true,
-          bottomBarState: BottomBarState.expanded,
-          builder: (context, data, _) => SeedDetailPageWidget(
-            publicKey: data.publicKey,
-          ),
-          compassBaseRoutes: [keyDetailRoute],
-        );
+  SeedDetailRoute(@Named.from(KeyDetailRoute) CompassBaseRoute keyDetailRoute)
+    : super(
+        path: '/seed-detail',
+        isSaveLocation: true,
+        bottomBarState: BottomBarState.expanded,
+        builder: (context, data, _) =>
+            SeedDetailPageWidget(publicKey: data.publicKey),
+        compassBaseRoutes: [keyDetailRoute],
+      );
 
   @override
   SeedDetailRouteData fromQueryParams(Map<String, String> queryParams) {
     return SeedDetailRouteData(
-      publicKey: PublicKey(
-        publicKey: queryParams[_publicKeyQueryParam]!,
-      ),
+      publicKey: PublicKey(publicKey: queryParams[_publicKeyQueryParam]!),
     );
   }
 }
 
 class SeedDetailRouteData implements CompassRouteDataQuery {
-  const SeedDetailRouteData({
-    required this.publicKey,
-  });
+  const SeedDetailRouteData({required this.publicKey});
 
   /// PublicKey of seed
   final PublicKey publicKey;
 
   @override
   Map<String, String> toQueryParams() {
-    return {
-      _publicKeyQueryParam: publicKey.publicKey,
-    };
+    return {_publicKeyQueryParam: publicKey.publicKey};
   }
 }

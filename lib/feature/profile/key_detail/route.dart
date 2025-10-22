@@ -14,37 +14,29 @@ class KeyDetailRoute extends CompassRoute<KeyDetailRouteData> {
   KeyDetailRoute(
     @Named.from(AccountDetailRoute) CompassBaseRoute accountDetailRoute,
   ) : super(
-          path: '/key-detail',
-          isSaveLocation: true,
-          bottomBarState: BottomBarState.expanded,
-          builder: (context, data, _) => KeyDetailPage(
-            publicKey: data.publicKey,
-          ),
-          compassBaseRoutes: [accountDetailRoute],
-        );
+        path: '/key-detail',
+        isSaveLocation: true,
+        bottomBarState: BottomBarState.expanded,
+        builder: (context, data, _) => KeyDetailPage(publicKey: data.publicKey),
+        compassBaseRoutes: [accountDetailRoute],
+      );
 
   @override
   KeyDetailRouteData fromQueryParams(Map<String, String> queryParams) {
     return KeyDetailRouteData(
-      publicKey: PublicKey(
-        publicKey: queryParams[_publicKeyQueryParam]!,
-      ),
+      publicKey: PublicKey(publicKey: queryParams[_publicKeyQueryParam]!),
     );
   }
 }
 
 class KeyDetailRouteData implements CompassRouteDataQuery {
-  const KeyDetailRouteData({
-    required this.publicKey,
-  });
+  const KeyDetailRouteData({required this.publicKey});
 
   /// PublicKey of key
   final PublicKey publicKey;
 
   @override
   Map<String, String> toQueryParams() {
-    return {
-      _publicKeyQueryParam: publicKey.publicKey,
-    };
+    return {_publicKeyQueryParam: publicKey.publicKey};
   }
 }

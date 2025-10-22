@@ -20,10 +20,10 @@ class TonWalletTransactionDetailsItem extends StatelessWidget {
     this.copyMessage,
     this.copyValue,
   }) : assert(
-          content == null && contentChild != null ||
-              content != null && contentChild == null,
-          'Content or contentChild must not be null',
-        );
+         content == null && contentChild != null ||
+             content != null && contentChild == null,
+         'Content or contentChild must not be null',
+       );
 
   /// Title for item
   final String title;
@@ -99,9 +99,7 @@ class TonWalletTransactionDetailsItem extends StatelessWidget {
 
   void _copy(BuildContext context, String value, String copyMessage) {
     Clipboard.setData(ClipboardData(text: value));
-    inject<MessengerService>().show(
-      Message.successful(message: copyMessage),
-    );
+    inject<MessengerService>().show(Message.successful(message: copyMessage));
   }
 }
 
@@ -147,8 +145,9 @@ class WalletTransactionDetailsItem extends StatelessWidget {
               children: [
                 Text(
                   title,
-                  style: theme.textStyles.labelSmall
-                      .copyWith(color: theme.colors.content3),
+                  style: theme.textStyles.labelSmall.copyWith(
+                    color: theme.colors.content3,
+                  ),
                 ),
                 const SizedBox(height: DimensSizeV2.d2),
                 if (subtitle != null)
@@ -188,8 +187,9 @@ class WalletTransactionDetailsItem extends StatelessWidget {
                     children: [
                       if (walletAsset != null)
                         Padding(
-                          padding:
-                              const EdgeInsets.only(right: DimensSizeV2.d8),
+                          padding: const EdgeInsets.only(
+                            right: DimensSizeV2.d8,
+                          ),
                           child: TokenWalletIconWidget(
                             size: DimensSizeV2.d20,
                             address: walletAsset!.rootTokenContract,
@@ -200,8 +200,9 @@ class WalletTransactionDetailsItem extends StatelessWidget {
                         ),
                       if (iconPath != null)
                         Padding(
-                          padding:
-                              const EdgeInsets.only(right: DimensSizeV2.d8),
+                          padding: const EdgeInsets.only(
+                            right: DimensSizeV2.d8,
+                          ),
                           child: TonWalletIconWidget(
                             path: iconPath!,
                             size: DimensSizeV2.d20,

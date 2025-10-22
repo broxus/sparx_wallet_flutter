@@ -25,11 +25,7 @@ class PastGoView extends StatelessWidget {
             child: AnimatedOpacity(
               opacity: isShow ? 1 : 0,
               duration: const Duration(milliseconds: 250),
-              child: Center(
-                child: PastGoButton(
-                  onPressed: onPressed,
-                ),
-              ),
+              child: Center(child: PastGoButton(onPressed: onPressed)),
             ),
           );
         },

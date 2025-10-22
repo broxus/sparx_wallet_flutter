@@ -23,9 +23,7 @@ abstract interface class BrowserServiceHistory {
 @injectable
 class BrowserServiceHistoryDelegate
     implements BrowserDelegate, BrowserServiceHistory {
-  BrowserServiceHistoryDelegate(
-    this._databaseService,
-  );
+  BrowserServiceHistoryDelegate(this._databaseService);
 
   late final DatabaseService _databaseService;
 
@@ -68,9 +66,7 @@ class BrowserServiceHistoryDelegate
     return _databaseService.history.deleteHistoryItemByUri(uri);
   }
 
-  Future<void> clearHistory([
-    TimePeriod period = TimePeriod.allHistory,
-  ]) async {
+  Future<void> clearHistory([TimePeriod period = TimePeriod.allHistory]) async {
     if (period == TimePeriod.allHistory) {
       await _databaseService.history.clearHistory();
       return;
@@ -80,10 +76,10 @@ class BrowserServiceHistoryDelegate
       TimePeriod.lastHour => higher.subtract(const Duration(hours: 1)),
       TimePeriod.today => DateTime(higher.year, higher.month, higher.day),
       TimePeriod.todayYesterday => DateTime(
-          higher.year,
-          higher.month,
-          higher.day - 1,
-        ),
+        higher.year,
+        higher.month,
+        higher.day - 1,
+      ),
       TimePeriod.allHistory => DateTime.fromMillisecondsSinceEpoch(0),
     };
 

@@ -45,12 +45,14 @@ class _SelectionStatusInputState extends State<SelectionStatusInput> {
             : theme.colors.content3.withAlpha(OpacV2.opac50.toByteInt());
       case SelectionStatus.focus:
         borderColor = theme.colors.borderFocus;
-        contentColor =
-            isPressed ? theme.colors.content3 : theme.colors.content3;
+        contentColor = isPressed
+            ? theme.colors.content3
+            : theme.colors.content3;
       case SelectionStatus.completed:
         backgroundColor = theme.colors.backgroundAccent;
-        contentColor =
-            isPressed ? theme.colors.content0 : theme.colors.content0;
+        contentColor = isPressed
+            ? theme.colors.content0
+            : theme.colors.content0;
     }
 
     return EverButtonStyleProvider(
@@ -81,8 +83,9 @@ class _SelectionStatusInputState extends State<SelectionStatusInput> {
                   builder: (_, color) {
                     return Text(
                       widget.title,
-                      style: theme.textStyles.labelSmall
-                          .copyWith(color: contentColor),
+                      style: theme.textStyles.labelSmall.copyWith(
+                        color: contentColor,
+                      ),
                     );
                   },
                 ),

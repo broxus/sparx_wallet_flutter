@@ -24,9 +24,9 @@ class CommonIconButton extends StatefulWidget {
     this.backgroundColor,
     this.isLoading = false,
   }) : assert(
-          icon != null || svg != null,
-          'IconData or Svg path must be specified',
-        );
+         icon != null || svg != null,
+         'IconData or Svg path must be specified',
+       );
 
   /// Factory that allows create button with svg asset
   factory CommonIconButton.svg({
@@ -42,21 +42,20 @@ class CommonIconButton extends StatefulWidget {
     EdgeInsets? padding,
     Color? color,
     bool? isLoading,
-  }) =>
-      CommonIconButton(
-        buttonType: buttonType,
-        onPressed: onPressed,
-        onLongPress: onLongPress,
-        focusNode: focusNode,
-        key: key,
-        svg: svg,
-        size: size,
-        width: width,
-        height: height,
-        padding: padding,
-        color: color,
-        isLoading: isLoading ?? false,
-      );
+  }) => CommonIconButton(
+    buttonType: buttonType,
+    onPressed: onPressed,
+    onLongPress: onLongPress,
+    focusNode: focusNode,
+    key: key,
+    svg: svg,
+    size: size,
+    width: width,
+    height: height,
+    padding: padding,
+    color: color,
+    isLoading: isLoading ?? false,
+  );
 
   /// Factory that allows create button with [IconData]
   factory CommonIconButton.icon({
@@ -72,21 +71,20 @@ class CommonIconButton extends StatefulWidget {
     EdgeInsets? padding,
     Color? color,
     bool? isLoading,
-  }) =>
-      CommonIconButton(
-        buttonType: buttonType,
-        onPressed: onPressed,
-        onLongPress: onLongPress,
-        focusNode: focusNode,
-        key: key,
-        icon: icon,
-        size: size,
-        width: width,
-        height: height,
-        padding: padding,
-        color: color,
-        isLoading: isLoading ?? false,
-      );
+  }) => CommonIconButton(
+    buttonType: buttonType,
+    onPressed: onPressed,
+    onLongPress: onLongPress,
+    focusNode: focusNode,
+    key: key,
+    icon: icon,
+    size: size,
+    width: width,
+    height: height,
+    padding: padding,
+    color: color,
+    isLoading: isLoading ?? false,
+  );
 
   /// Style that will be used to get colors
   final EverButtonType buttonType;
@@ -148,16 +146,18 @@ class _CommonIconButtonState extends State<CommonIconButton> {
     final styles = context.themeStyle.styles;
     final buttonStyle = styles.buttonsStyle[widget.buttonType]!;
     final isDisabled = widget.onPressed == null && widget.onLongPress == null;
-    final backgroundColor = widget.backgroundColor ??
+    final backgroundColor =
+        widget.backgroundColor ??
         (isDisabled
             ? buttonStyle.backgroundDisabledColor
             : buttonStyle.backgroundColor);
-    final contentColor = widget.color ??
+    final contentColor =
+        widget.color ??
         (isDisabled
             ? buttonStyle.contentDisabledColor
             : isPressed
-                ? buttonStyle.contentPressedColor
-                : buttonStyle.contentColor);
+            ? buttonStyle.contentPressedColor
+            : buttonStyle.contentColor);
 
     return EverButtonStyleProvider(
       contentColor: contentColor,

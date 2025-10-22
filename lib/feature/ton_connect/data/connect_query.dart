@@ -16,8 +16,6 @@ abstract class ConnectQuery with _$ConnectQuery {
       _$ConnectQueryFromJson(json);
 
   factory ConnectQuery.fromQuery(String query) => ConnectQuery.fromJson(
-        Map<String, dynamic>.from(
-          Uri.splitQueryString(query),
-        ),
-      );
+    Map<String, dynamic>.from(Uri.splitQueryString(query)),
+  );
 }

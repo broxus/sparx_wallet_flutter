@@ -10,17 +10,14 @@ class NftRoute extends CompassRouteParameterless<NftRouteData> {
     @Named.from(AddNftRoute) CompassBaseRoute addNftRoute,
     @Named.from(NftCollectionRoute) CompassBaseRoute nftCollectionRoute,
   ) : super(
-          name: 'nft',
-          path: '/nft',
-          isSaveLocation: true,
-          isSaveSubroutes: true,
-          bottomBarState: BottomBarState.expanded,
-          builder: (context, _, __) => const NftPageWidget(),
-          compassBaseRoutes: [
-            addNftRoute,
-            nftCollectionRoute,
-          ],
-        );
+        name: 'nft',
+        path: '/nft',
+        isSaveLocation: true,
+        isSaveSubroutes: true,
+        bottomBarState: BottomBarState.expanded,
+        builder: (context, _, __) => const NftPageWidget(),
+        compassBaseRoutes: [addNftRoute, nftCollectionRoute],
+      );
 
   @override
   NftRouteData createData() {
@@ -36,11 +33,11 @@ class NftRouteData implements CompassRouteData {
 @Singleton(as: CompassBaseRoute)
 class AddNftRoute extends CompassRouteParameterless<AddNftRouteRouteData> {
   AddNftRoute()
-      : super(
-          path: '/add-nft',
-          bottomBarState: BottomBarState.hidden,
-          builder: (context, _, __) => const AddNftWidget(),
-        );
+    : super(
+        path: '/add-nft',
+        bottomBarState: BottomBarState.hidden,
+        builder: (context, _, __) => const AddNftWidget(),
+      );
 
   @override
   AddNftRouteRouteData createData() {

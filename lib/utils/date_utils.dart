@@ -21,12 +21,7 @@ class DateTimeUtils {
     final formattedTime = getDateFormat('HH:mm', locale).format(dateTime);
 
     return LocaleKeys.expirationTimeDetails.tr(
-      args: [
-        hours,
-        minutes,
-        formattedDate,
-        formattedTime,
-      ],
+      args: [hours, minutes, formattedDate, formattedTime],
     );
   }
 

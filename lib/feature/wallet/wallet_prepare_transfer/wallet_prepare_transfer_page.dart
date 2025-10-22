@@ -10,8 +10,12 @@ import 'package:flutter/material.dart';
 import 'package:nekoton_repository/nekoton_repository.dart' hide Message;
 import 'package:ui_components_lib/ui_components_lib.dart';
 
-class WalletPrepareTransferPage extends InjectedElementaryParametrizedWidget<
-    WalletPrepareTransferPageWidgetModel, WalletPrepareTransferPageWmParams> {
+class WalletPrepareTransferPage
+    extends
+        InjectedElementaryParametrizedWidget<
+          WalletPrepareTransferPageWidgetModel,
+          WalletPrepareTransferPageWmParams
+        > {
   WalletPrepareTransferPage({
     required Address address,
     Address? destination,
@@ -19,13 +23,13 @@ class WalletPrepareTransferPage extends InjectedElementaryParametrizedWidget<
     String? tokenSymbol,
     super.key,
   }) : super(
-          wmFactoryParam: WalletPrepareTransferPageWmParams(
-            address: address,
-            destination: destination,
-            rootTokenContract: rootTokenContract,
-            tokenSymbol: tokenSymbol,
-          ),
-        );
+         wmFactoryParam: WalletPrepareTransferPageWmParams(
+           address: address,
+           destination: destination,
+           rootTokenContract: rootTokenContract,
+           tokenSymbol: tokenSymbol,
+         ),
+       );
 
   @override
   Widget build(WalletPrepareTransferPageWidgetModel wm) {
@@ -33,18 +37,14 @@ class WalletPrepareTransferPage extends InjectedElementaryParametrizedWidget<
       listenableEntityState: wm.screenState,
       loadingBuilder: (_, __) => const _DefaultBody(),
       errorBuilder: (_, Exception? error, __) {
-        return Center(
-          child: WalletSubscribeErrorWidget(error: error ?? ''),
-        );
+        return Center(child: WalletSubscribeErrorWidget(error: error ?? ''));
       },
       builder: (_, data) {
         if (data == null || data.isEmpty) {
           return ValueListenableBuilder(
             valueListenable: wm.addressState,
             builder: (_, addressState, __) {
-              return _DefaultBody(
-                child: _EmptyText(address: addressState),
-              );
+              return _DefaultBody(child: _EmptyText(address: addressState));
             },
           );
         }
@@ -62,18 +62,13 @@ class WalletPrepareTransferPage extends InjectedElementaryParametrizedWidget<
 }
 
 class _DefaultBody extends StatelessWidget {
-  const _DefaultBody({
-    this.child,
-  });
+  const _DefaultBody({this.child});
 
   final Widget? child;
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: const DefaultAppBar(),
-      body: child,
-    );
+    return Scaffold(appBar: const DefaultAppBar(), body: child);
   }
 }
 
@@ -97,13 +92,9 @@ class _DataBody extends StatelessWidget {
     return GestureDetector(
       onTap: () => FocusScope.of(context).unfocus(),
       child: Scaffold(
-        appBar: DefaultAppBar(
-          titleText: LocaleKeys.sendYourFunds.tr(),
-        ),
+        appBar: DefaultAppBar(titleText: LocaleKeys.sendYourFunds.tr()),
         body: Padding(
-          padding: const EdgeInsets.symmetric(
-            horizontal: DimensSizeV2.d16,
-          ),
+          padding: const EdgeInsets.symmetric(horizontal: DimensSizeV2.d16),
           child: WalletPrepareTransferView(
             _wm,
             account: account,
@@ -118,9 +109,7 @@ class _DataBody extends StatelessWidget {
 }
 
 class _EmptyText extends StatelessWidget {
-  const _EmptyText({
-    required this.address,
-  });
+  const _EmptyText({required this.address});
 
   final Address address;
 

@@ -7,9 +7,7 @@ import 'package:flutter/material.dart';
 
 class BrowserMainScreen
     extends InjectedElementaryWidget<BrowserMainScreenWidgetModel> {
-  const BrowserMainScreen({
-    super.key,
-  });
+  const BrowserMainScreen({super.key});
 
   @override
   Widget build(BrowserMainScreenWidgetModel wm) {

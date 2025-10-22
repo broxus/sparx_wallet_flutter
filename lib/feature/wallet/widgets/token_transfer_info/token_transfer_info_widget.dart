@@ -10,8 +10,12 @@ import 'package:nekoton_repository/nekoton_repository.dart';
 import 'package:ui_components_lib/ui_components_lib.dart';
 import 'package:ui_components_lib/v2/ui_components_lib_v2.dart';
 
-class TokenTransferInfoWidget extends InjectedElementaryParametrizedWidget<
-    TokenTransferInfoWidgetModel, TokenTransferInfoWmParams> {
+class TokenTransferInfoWidget
+    extends
+        InjectedElementaryParametrizedWidget<
+          TokenTransferInfoWidgetModel,
+          TokenTransferInfoWmParams
+        > {
   TokenTransferInfoWidget({
     Money? amount,
     Address? recipient,
@@ -26,18 +30,18 @@ class TokenTransferInfoWidget extends InjectedElementaryParametrizedWidget<
     this.margin = EdgeInsets.zero,
     super.key,
   }) : super(
-          wmFactoryParam: TokenTransferInfoWmParams(
-            recipient: recipient,
-            amount: amount,
-            attachedAmount: attachedAmount,
-            rootTokenContract: rootTokenContract,
-            transactionIdHash: transactionIdHash,
-            comment: comment,
-            payload: payload,
-            fee: fee,
-            numberUnconfirmedTransactions: numberUnconfirmedTransactions,
-          ),
-        );
+         wmFactoryParam: TokenTransferInfoWmParams(
+           recipient: recipient,
+           amount: amount,
+           attachedAmount: attachedAmount,
+           rootTokenContract: rootTokenContract,
+           transactionIdHash: transactionIdHash,
+           comment: comment,
+           payload: payload,
+           fee: fee,
+           numberUnconfirmedTransactions: numberUnconfirmedTransactions,
+         ),
+       );
 
   final EdgeInsets margin;
   final Color? color;
@@ -86,7 +90,8 @@ class TokenTransferInfoWidget extends InjectedElementaryParametrizedWidget<
 
               if (amount == null) return const SizedBox.shrink();
 
-              final icon = asset?.let(
+              final icon =
+                  asset?.let(
                     (asset) => TokenWalletIconWidget(
                       address: asset.address,
                       logoURI: asset.logoURI,
@@ -127,10 +132,7 @@ class TokenTransferInfoWidget extends InjectedElementaryParametrizedWidget<
             },
           ),
           MultiListenerRebuilder(
-            listenableList: [
-              wm.attachedAmountState,
-              wm.nativeUSDPriceState,
-            ],
+            listenableList: [wm.attachedAmountState, wm.nativeUSDPriceState],
             builder: (_) {
               final attachedAmount = wm.attachedAmountState.value;
               final price = wm.nativeUSDPriceState.value;
@@ -230,10 +232,7 @@ class TokenTransferInfoWidget extends InjectedElementaryParametrizedWidget<
                       LocaleKeys.recipientWord.tr(),
                       style: labelSmallContent3,
                     ),
-                    Text(
-                      recipient.address,
-                      style: theme.textStyles.labelSmall,
-                    ),
+                    Text(recipient.address, style: theme.textStyles.labelSmall),
                   ],
                 ),
               );
@@ -254,10 +253,7 @@ class TokenTransferInfoWidget extends InjectedElementaryParametrizedWidget<
                       LocaleKeys.transactionId.tr(),
                       style: labelSmallContent3,
                     ),
-                    Text(
-                      transactionIdHash,
-                      style: theme.textStyles.labelSmall,
-                    ),
+                    Text(transactionIdHash, style: theme.textStyles.labelSmall),
                   ],
                 ),
               );
@@ -280,10 +276,7 @@ class TokenTransferInfoWidget extends InjectedElementaryParametrizedWidget<
                       LocaleKeys.commentWord.tr(),
                       style: labelSmallContent3,
                     ),
-                    Text(
-                      comment,
-                      style: theme.textStyles.labelSmall,
-                    ),
+                    Text(comment, style: theme.textStyles.labelSmall),
                   ],
                 ),
               );
@@ -306,10 +299,7 @@ class TokenTransferInfoWidget extends InjectedElementaryParametrizedWidget<
                       LocaleKeys.payloadWord.tr(),
                       style: labelSmallContent3,
                     ),
-                    Text(
-                      payload,
-                      style: theme.textStyles.labelSmall,
-                    ),
+                    Text(payload, style: theme.textStyles.labelSmall),
                   ],
                 ),
               );
@@ -385,62 +375,63 @@ class _FeeItem extends StatelessWidget {
 
     final priceWidget = switch (fee.data) {
       FeeNative(:final amount) || FeeToken(:final amount) => usdPrice?.let(
-          (price) => AmountWidget.dollars(
-            amount: amount.exchangeToUSD(price, 5),
-            style: theme.textStyles.labelXSmall.copyWith(
-              color: theme.colors.content3,
-            ),
+        (price) => AmountWidget.dollars(
+          amount: amount.exchangeToUSD(price, 5),
+          style: theme.textStyles.labelXSmall.copyWith(
+            color: theme.colors.content3,
           ),
         ),
+      ),
       _ => null,
     };
 
     return switch (fee.data) {
       FeeNative(:final amount) => _InfoRow(
-          label: LocaleKeys.networkFee.tr(),
-          child: Column(
-            spacing: DimensSize.d4,
-            crossAxisAlignment: CrossAxisAlignment.end,
-            children: [
-              AmountWidget.fromMoney(
-                amount: amount,
-                icon: TonWalletIconWidget(
-                  path: nativeTokenIcon,
-                  size: DimensSizeV2.d20,
-                ),
-                sign: '~ ',
-                includeSymbol: false,
+        label: LocaleKeys.networkFee.tr(),
+        child: Column(
+          spacing: DimensSize.d4,
+          crossAxisAlignment: CrossAxisAlignment.end,
+          children: [
+            AmountWidget.fromMoney(
+              amount: amount,
+              icon: TonWalletIconWidget(
+                path: nativeTokenIcon,
+                size: DimensSizeV2.d20,
               ),
-              if (priceWidget != null) priceWidget,
-            ],
-          ),
+              sign: '~ ',
+              includeSymbol: false,
+            ),
+            if (priceWidget != null) priceWidget,
+          ],
         ),
+      ),
       FeeToken(:final amount) => _InfoRow(
-          label: LocaleKeys.networkFee.tr(),
-          child: Column(
-            spacing: DimensSize.d4,
-            crossAxisAlignment: CrossAxisAlignment.end,
-            children: [
-              AmountWidget.fromMoney(
-                amount: amount,
-                includeSymbol: false,
-                icon: asset?.let(
-                      (asset) => TokenWalletIconWidget(
-                        address: asset.address,
-                        logoURI: asset.logoURI,
-                        version: asset.version,
-                        size: DimensSizeV2.d20,
-                      ),
-                    ) ??
-                    TonWalletIconWidget(
-                      path: Assets.images.tokenDefaultIcon.path,
+        label: LocaleKeys.networkFee.tr(),
+        child: Column(
+          spacing: DimensSize.d4,
+          crossAxisAlignment: CrossAxisAlignment.end,
+          children: [
+            AmountWidget.fromMoney(
+              amount: amount,
+              includeSymbol: false,
+              icon:
+                  asset?.let(
+                    (asset) => TokenWalletIconWidget(
+                      address: asset.address,
+                      logoURI: asset.logoURI,
+                      version: asset.version,
                       size: DimensSizeV2.d20,
                     ),
-              ),
-              if (priceWidget != null) priceWidget,
-            ],
-          ),
+                  ) ??
+                  TonWalletIconWidget(
+                    path: Assets.images.tokenDefaultIcon.path,
+                    size: DimensSizeV2.d20,
+                  ),
+            ),
+            if (priceWidget != null) priceWidget,
+          ],
         ),
+      ),
       _ => const SizedBox.shrink(),
     };
   }

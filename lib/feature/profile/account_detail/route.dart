@@ -11,37 +11,29 @@ const _addressQueryParam = 'address';
 @Singleton(as: CompassBaseRoute)
 class AccountDetailRoute extends CompassRoute<AccountDetailRouteData> {
   AccountDetailRoute()
-      : super(
-          path: '/account-detail',
-          isSaveLocation: true,
-          bottomBarState: BottomBarState.expanded,
-          builder: (context, data, _) => AccountDetailPage(
-            address: data.address,
-          ),
-        );
+    : super(
+        path: '/account-detail',
+        isSaveLocation: true,
+        bottomBarState: BottomBarState.expanded,
+        builder: (context, data, _) => AccountDetailPage(address: data.address),
+      );
 
   @override
   AccountDetailRouteData fromQueryParams(Map<String, String> queryParams) {
     return AccountDetailRouteData(
-      address: Address(
-        address: queryParams[_addressQueryParam]!,
-      ),
+      address: Address(address: queryParams[_addressQueryParam]!),
     );
   }
 }
 
 class AccountDetailRouteData implements CompassRouteDataQuery {
-  const AccountDetailRouteData({
-    required this.address,
-  });
+  const AccountDetailRouteData({required this.address});
 
   /// Address of account
   final Address address;
 
   @override
   Map<String, String> toQueryParams() {
-    return {
-      _addressQueryParam: address.address,
-    };
+    return {_addressQueryParam: address.address};
   }
 }

@@ -4,9 +4,7 @@ import 'package:injectable/injectable.dart';
 
 @injectable
 class StoreUrlGenerator {
-  StoreUrlGenerator(
-    this._appVersionService,
-  );
+  StoreUrlGenerator(this._appVersionService);
 
   final AppVersionService _appVersionService;
 

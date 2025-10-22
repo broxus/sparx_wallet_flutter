@@ -17,9 +17,7 @@ class PrimaryBottomSheetContainer extends StatelessWidget {
       child: Column(
         children: [
           const PrimaryBottomSheetLabel(),
-          Flexible(
-            child: child,
-          ),
+          Flexible(child: child),
         ],
       ),
     );
@@ -53,9 +51,7 @@ class PrimaryBottomSheetContainerBox extends StatelessWidget {
 }
 
 class PrimaryBottomSheetLabel extends StatelessWidget {
-  const PrimaryBottomSheetLabel({
-    super.key,
-  });
+  const PrimaryBottomSheetLabel({super.key});
 
   @override
   Widget build(BuildContext context) {

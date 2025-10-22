@@ -11,10 +11,8 @@ const suggestionDividerSize = DimensStroke.small;
 
 typedef SuggestionsCallback<T> = FutureOr<List<T>?> Function(String search);
 
-typedef SuggestionsItemBuilder<T> = Widget Function(
-  BuildContext context,
-  T value,
-);
+typedef SuggestionsItemBuilder<T> =
+    Widget Function(BuildContext context, T value);
 
 /// {@template common_input}
 /// Defaut input field that could be used in application.
@@ -301,15 +299,17 @@ class _CommonInputState extends State<CommonInput> {
                 if (widget.titleText != null)
                   TextSpan(
                     text: widget.titleText,
-                    style: StyleRes.secondaryBold
-                        .copyWith(color: colors.textPrimary),
+                    style: StyleRes.secondaryBold.copyWith(
+                      color: colors.textPrimary,
+                    ),
                   ),
                 if (widget.subtitleText != null) ...[
                   const WidgetSpan(child: SizedBox(width: DimensSize.d4)),
                   TextSpan(
                     text: widget.subtitleText,
-                    style: StyleRes.addRegular
-                        .copyWith(color: colors.textSecondary),
+                    style: StyleRes.addRegular.copyWith(
+                      color: colors.textSecondary,
+                    ),
                   ),
                 ],
               ],
@@ -333,12 +333,12 @@ class _CommonInputState extends State<CommonInput> {
 
   @override
   Widget build(BuildContext context) => FormField<String>(
-        validator: widget.validator,
-        autovalidateMode: widget.validateMode,
-        initialValue: _controller.text,
-        enabled: widget.enabled,
-        builder: _onBuild,
-      );
+    validator: widget.validator,
+    autovalidateMode: widget.validateMode,
+    initialValue: _controller.text,
+    enabled: widget.enabled,
+    builder: _onBuild,
+  );
 
   Widget _buildSuffixIcon(ColorsPalette colors) {
     if (widget.suffixIcon != null) return widget.suffixIcon!;
@@ -361,10 +361,7 @@ class _CommonInputState extends State<CommonInput> {
       );
     }
 
-    return BoxConstraints(
-      minHeight: widget.height,
-      minWidth: DimensSize.d8,
-    );
+    return BoxConstraints(minHeight: widget.height, minWidth: DimensSize.d8);
   }
 
   BoxConstraints _prefixIconConstraints() {
@@ -379,10 +376,7 @@ class _CommonInputState extends State<CommonInput> {
       );
     }
 
-    return BoxConstraints(
-      minHeight: widget.height,
-      minWidth: DimensSize.d8,
-    );
+    return BoxConstraints(minHeight: widget.height, minWidth: DimensSize.d8);
   }
 
   Widget _buildClearIcon(ColorsPalette colors) {
@@ -431,7 +425,8 @@ class _CommonInputState extends State<CommonInput> {
           errorText: hasError ? '' : null,
           errorStyle: const TextStyle(fontSize: 0, height: 0),
           hintText: widget.hintText,
-          hintStyle: widget.hintStyle ??
+          hintStyle:
+              widget.hintStyle ??
               StyleRes.primaryRegular.copyWith(color: colors.textSecondary),
           contentPadding: EdgeInsets.zero,
           suffixIcon: _buildSuffixIcon(colors),
@@ -459,15 +454,11 @@ class _CommonInputState extends State<CommonInput> {
           ),
           errorBorder: SquircleInputBorder(
             squircleRadius: widget.radius,
-            borderSide: BorderSide(
-              color: widget.errorColor ?? colors.alert,
-            ),
+            borderSide: BorderSide(color: widget.errorColor ?? colors.alert),
           ),
           focusedErrorBorder: SquircleInputBorder(
             squircleRadius: widget.radius,
-            borderSide: BorderSide(
-              color: widget.errorColor ?? colors.alert,
-            ),
+            borderSide: BorderSide(color: widget.errorColor ?? colors.alert),
           ),
         ),
         enabled: widget.enabled,
@@ -484,10 +475,7 @@ class _CommonInputState extends State<CommonInput> {
     final onSuggestionSelected = widget.onSuggestionSelected;
 
     if (onSuggestionSelected == null) {
-      assert(
-        false,
-        'onSuggestionSelected must be set to use TypeAheadField',
-      );
+      assert(false, 'onSuggestionSelected must be set to use TypeAheadField');
 
       return const SizedBox();
     } else {
@@ -509,16 +497,19 @@ class _CommonInputState extends State<CommonInput> {
                 : colors.strokeSecondary,
             thickness: suggestionDividerSize,
           ),
-          itemBuilder: widget.itemBuilder ??
+          itemBuilder:
+              widget.itemBuilder ??
               (context, item) =>
                   _defaultSuggestionItemBuilder(context, item, colors),
           decorationBuilder: (context, child) => ScrollConfiguration(
-            behavior:
-                ScrollConfiguration.of(context).copyWith(scrollbars: false),
+            behavior: ScrollConfiguration.of(
+              context,
+            ).copyWith(scrollbars: false),
             child: ConstrainedBox(
               constraints: BoxConstraints(
-                maxWidth:
-                    widget.v2Style != null ? double.infinity : DimensSize.d168,
+                maxWidth: widget.v2Style != null
+                    ? double.infinity
+                    : DimensSize.d168,
               ),
               child: Material(
                 type: MaterialType.card,
@@ -534,7 +525,8 @@ class _CommonInputState extends State<CommonInput> {
             ),
           ),
           builder: (context, controller, focusNode) => TextField(
-            style: widget.textStyle ??
+            style:
+                widget.textStyle ??
                 StyleRes.primaryRegular.copyWith(color: colors.textPrimary),
             controller: controller,
             focusNode: focusNode,
@@ -551,16 +543,14 @@ class _CommonInputState extends State<CommonInput> {
               errorText: hasError ? '' : null,
               errorStyle: const TextStyle(fontSize: 0, height: 0),
               hintText: widget.hintText,
-              hintStyle: widget.hintStyle ??
+              hintStyle:
+                  widget.hintStyle ??
                   StyleRes.primaryRegular.copyWith(color: colors.textSecondary),
               contentPadding: EdgeInsets.zero,
               suffixIcon: _buildSuffixIcon(colors),
               suffixIconConstraints: _suffixIconConstraints(),
               prefixIconConstraints: widget.prefixIcon == null
-                  ? const BoxConstraints(
-                      maxHeight: 0,
-                      maxWidth: DimensSize.d16,
-                    )
+                  ? const BoxConstraints(maxHeight: 0, maxWidth: DimensSize.d16)
                   : const BoxConstraints(
                       minHeight: commonInputHeight,
                       minWidth: DimensSize.d40,

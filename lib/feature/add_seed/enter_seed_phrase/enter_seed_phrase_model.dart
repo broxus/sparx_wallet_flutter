@@ -33,9 +33,7 @@ class EnterSeedPhraseModel extends ElementaryModel with ConnectionMixin {
       _nekotonRepository.currentTransport.seedPhraseWordsCount;
 
   nt.GeneratedKeyG getKey(nt.MnemonicType mnemonicType) {
-    return nt.generateKey(
-      accountType: mnemonicType,
-    );
+    return nt.generateKey(accountType: mnemonicType);
   }
 
   List<String> getHints(String text) => nt.getHints(input: text);

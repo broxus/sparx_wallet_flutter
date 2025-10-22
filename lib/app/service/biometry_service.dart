@@ -196,7 +196,7 @@ class BiometryService {
     try {
       return await _localAuth.authenticate(
         localizedReason: localizedReason,
-        options: const AuthenticationOptions(biometricOnly: true),
+        biometricOnly: true,
       );
     } catch (_) {
       _availabilitySubject.add(await _isAvailable);

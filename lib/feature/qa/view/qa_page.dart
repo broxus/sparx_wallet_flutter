@@ -6,9 +6,7 @@ import 'package:ui_components_lib/ui_components_lib.dart';
 import 'package:ui_components_lib/v2/widgets/buttons/accent_button.dart';
 import 'package:ui_components_lib/v2/widgets/buttons/button_shape.dart';
 
-Future<void> showQaSheet({
-  required BuildContext context,
-}) {
+Future<void> showQaSheet({required BuildContext context}) {
   return showCommonBottomSheet(
     context: context,
     body: (_, __) => const QaSheet(),
@@ -16,10 +14,7 @@ Future<void> showQaSheet({
 }
 
 class _InfoRow extends StatelessWidget {
-  const _InfoRow({
-    required this.subtitle,
-    required this.value,
-  });
+  const _InfoRow({required this.subtitle, required this.value});
 
   final String subtitle;
   final String value;
@@ -39,20 +34,14 @@ class _InfoRow extends StatelessWidget {
           ),
         ),
         const SizedBox(height: DimensSizeV2.d4),
-        Text(
-          value,
-          style: theme.textStyles.labelMedium,
-          maxLines: 1,
-        ),
+        Text(value, style: theme.textStyles.labelMedium, maxLines: 1),
       ],
     );
   }
 }
 
 class QaSheet extends InjectedElementaryWidget<QaWidgetModel> {
-  const QaSheet({
-    super.key,
-  });
+  const QaSheet({super.key});
 
   @override
   Widget build(QaWidgetModel wm) {
@@ -76,19 +65,13 @@ class QaSheet extends InjectedElementaryWidget<QaWidgetModel> {
             StateNotifierBuilder<String>(
               listenableState: wm.keyState,
               builder: (context, keyValue) {
-                return _InfoRow(
-                  subtitle: 'Key',
-                  value: keyValue ?? 'Not set',
-                );
+                return _InfoRow(subtitle: 'Key', value: keyValue ?? 'Not set');
               },
             ),
             StateNotifierBuilder<String>(
               listenableState: wm.ivState,
               builder: (context, ivValue) {
-                return _InfoRow(
-                  subtitle: 'IV',
-                  value: ivValue ?? 'Not set',
-                );
+                return _InfoRow(subtitle: 'IV', value: ivValue ?? 'Not set');
               },
             ),
             const SizedBox(height: DimensSizeV2.d8),

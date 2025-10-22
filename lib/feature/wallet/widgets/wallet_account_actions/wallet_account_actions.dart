@@ -12,8 +12,12 @@ import 'package:ui_components_lib/ui_components_lib.dart';
 
 /// Row with actions for current account.
 /// If account is null, then no actions available.
-class WalletAccountActions extends InjectedElementaryParametrizedWidget<
-    WalletAccountActionsWidgetModel, WalletAccountActionsWmParams> {
+class WalletAccountActions
+    extends
+        InjectedElementaryParametrizedWidget<
+          WalletAccountActionsWidgetModel,
+          WalletAccountActionsWmParams
+        > {
   WalletAccountActions({
     required KeyAccount account,
     bool allowStake = true,
@@ -22,13 +26,13 @@ class WalletAccountActions extends InjectedElementaryParametrizedWidget<
     this.padding = const EdgeInsets.symmetric(vertical: DimensSizeV2.d32),
     super.key,
   }) : super(
-          wmFactoryParam: WalletAccountActionsWmParams(
-            account: account,
-            allowStake: allowStake,
-            sendSpecified: sendSpecified,
-            disableSensetiveActions: disableSensetiveActions,
-          ),
-        );
+         wmFactoryParam: WalletAccountActionsWmParams(
+           account: account,
+           allowStake: allowStake,
+           sendSpecified: sendSpecified,
+           disableSensetiveActions: disableSensetiveActions,
+         ),
+       );
 
   final EdgeInsetsGeometry padding;
 
@@ -100,14 +104,14 @@ class _ActionList extends StatelessWidget {
   final VoidCallback onStakePressed;
 
   IconData get _actionIcon => switch (action) {
-        WalletAccountActionBehavior.deploy => LucideIcons.settings,
-        _ => LucideIcons.arrowUp,
-      };
+    WalletAccountActionBehavior.deploy => LucideIcons.settings,
+    _ => LucideIcons.arrowUp,
+  };
 
   String get _actionTitle => switch (action) {
-        WalletAccountActionBehavior.deploy => LocaleKeys.deployWord.tr(),
-        _ => LocaleKeys.sendWord.tr(),
-      };
+    WalletAccountActionBehavior.deploy => LocaleKeys.deployWord.tr(),
+    _ => LocaleKeys.sendWord.tr(),
+  };
 
   @override
   Widget build(BuildContext context) {

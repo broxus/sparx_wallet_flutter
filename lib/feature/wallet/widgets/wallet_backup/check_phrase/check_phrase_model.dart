@@ -30,12 +30,10 @@ class CheckPhraseModel extends ElementaryModel {
     );
   }
 
-  void setShowingBackUpFlag(
-    String address, {
-    required bool isSkipped,
-  }) {
-    final account = nekotonRepository.accountsStorage.accounts
-        .firstWhereOrNull((item) => item.address.address == address);
+  void setShowingBackUpFlag(String address, {required bool isSkipped}) {
+    final account = nekotonRepository.accountsStorage.accounts.firstWhereOrNull(
+      (item) => item.address.address == address,
+    );
     final masterPublicKey = account?.let(
       (account) => nekotonRepository.seedList
           .findSeedByAnyPublicKey(account.publicKey)

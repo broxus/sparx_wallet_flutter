@@ -10,8 +10,7 @@ Future<KeyAccount?> showSelectAccountSheet(BuildContext context) {
     title: LocaleKeys.myAccounts.tr(),
     centerTitle: true,
     expand: true,
-    body: (_, scrollController) => SelectAccountWidget(
-      scrollController: scrollController,
-    ),
+    body: (_, scrollController) =>
+        SelectAccountWidget(scrollController: scrollController),
   );
 }

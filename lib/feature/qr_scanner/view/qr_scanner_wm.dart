@@ -12,11 +12,14 @@ import 'package:mobile_scanner/mobile_scanner.dart';
 import 'package:ui_components_lib/ui_components_lib.dart';
 
 @injectable
-class QrScannerWidgetModel extends CustomWidgetModelParametrized<
-    QrScannerWidget, QrScannerModel, List<QrScanType>> {
-  QrScannerWidgetModel(
-    super.model,
-  );
+class QrScannerWidgetModel
+    extends
+        CustomWidgetModelParametrized<
+          QrScannerWidget,
+          QrScannerModel,
+          List<QrScanType>
+        > {
+  QrScannerWidgetModel(super.model);
 
   final MobileScannerController controller = MobileScannerController(
     autoStart: false,
@@ -29,20 +32,23 @@ class QrScannerWidgetModel extends CustomWidgetModelParametrized<
   ThemeStyleV2 get theme => context.themeStyleV2;
 
   Rect get scanWindow => MediaQuery.sizeOf(context).let(
-        (size) => Rect.fromCenter(
-          center: size.center(const Offset(0, -DimensSizeV2.d64)),
-          width: (size.width * 0.65).roundToDouble(),
-          height: (size.width * 0.65).roundToDouble(),
-        ),
-      );
+    (size) => Rect.fromCenter(
+      center: size.center(const Offset(0, -DimensSizeV2.d64)),
+      width: (size.width * 0.65).roundToDouble(),
+      height: (size.width * 0.65).roundToDouble(),
+    ),
+  );
 
   @override
   void initWidgetModel() {
     super.initWidgetModel();
-    _appStateSubscription =
-        model.appLifecycleStateStream.listen(_onAppLifecycleState);
-    _barcodeSubscription =
-        controller.barcodes.listen(_onBarcode, onError: _onError);
+    _appStateSubscription = model.appLifecycleStateStream.listen(
+      _onAppLifecycleState,
+    );
+    _barcodeSubscription = controller.barcodes.listen(
+      _onBarcode,
+      onError: _onError,
+    );
     controller.start();
   }
 
@@ -81,9 +87,7 @@ class QrScannerWidgetModel extends CustomWidgetModelParametrized<
         _onBarcode(value);
       } else {
         model.showMessage(
-          Message.error(
-            message: LocaleKeys.qrScannerError.tr(),
-          ),
+          Message.error(message: LocaleKeys.qrScannerError.tr()),
         );
       }
     }
@@ -120,9 +124,7 @@ class QrScannerWidgetModel extends CustomWidgetModelParametrized<
   void _onError(Object error) {
     if (error is MobileScannerBarcodeException) {
       model.showMessage(
-        Message.error(
-          message: error.message ?? error.toString(),
-        ),
+        Message.error(message: error.message ?? error.toString()),
       );
 
       return;
@@ -134,8 +136,10 @@ class QrScannerWidgetModel extends CustomWidgetModelParametrized<
 
     switch (state) {
       case AppLifecycleState.resumed:
-        _barcodeSubscription =
-            controller.barcodes.listen(_onBarcode, onError: _onError);
+        _barcodeSubscription = controller.barcodes.listen(
+          _onBarcode,
+          onError: _onError,
+        );
         controller.start();
 
       case AppLifecycleState.inactive:

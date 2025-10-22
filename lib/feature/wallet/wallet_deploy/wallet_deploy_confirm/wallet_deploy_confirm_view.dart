@@ -90,12 +90,13 @@ class WalletDeployConfirmView extends StatelessWidget {
                     ),
                     iconPath: tonIconPath,
                     convertedValueWidget: AmountWidget.dollars(
-                      amount: Money.fromBigIntWithCurrency(
-                        balance ?? BigInt.zero,
-                        currency!,
-                      ).exchangeToUSD(
-                        Fixed.parse(customCurrency?.price ?? '0'),
-                      ),
+                      amount:
+                          Money.fromBigIntWithCurrency(
+                            balance ?? BigInt.zero,
+                            currency!,
+                          ).exchangeToUSD(
+                            Fixed.parse(customCurrency?.price ?? '0'),
+                          ),
                       style: theme.textStyles.labelXSmall.copyWith(
                         color: theme.colors.content3,
                       ),
@@ -115,13 +116,14 @@ class WalletDeployConfirmView extends StatelessWidget {
                     ),
                     iconPath: tonIconPath,
                     convertedValueWidget: AmountWidget.dollars(
-                      amount: Money.fromBigIntWithCurrency(
-                        fee ?? BigInt.zero,
-                        currency!,
-                      ).exchangeToUSD(
-                        Fixed.parse(customCurrency?.price ?? '0'),
-                        5,
-                      ),
+                      amount:
+                          Money.fromBigIntWithCurrency(
+                            fee ?? BigInt.zero,
+                            currency!,
+                          ).exchangeToUSD(
+                            Fixed.parse(customCurrency?.price ?? '0'),
+                            5,
+                          ),
                       style: theme.textStyles.labelXSmall.copyWith(
                         color: theme.colors.content3,
                       ),

@@ -10,10 +10,8 @@ import 'package:injectable/injectable.dart';
 /// [ElementaryModel] for [UserAvatar]
 @injectable
 class UserAvatarModel extends ElementaryModel {
-  UserAvatarModel(
-    ErrorHandler errorHandler,
-    this._identifyIconsService,
-  ) : super(errorHandler: errorHandler);
+  UserAvatarModel(ErrorHandler errorHandler, this._identifyIconsService)
+    : super(errorHandler: errorHandler);
 
   final IIdentifyIconsService _identifyIconsService;
 

@@ -10,9 +10,7 @@ import 'package:ui_components_lib/ui_components_lib.dart';
 import 'package:ui_components_lib/v2/ui_components_lib_v2.dart';
 
 class AddAccountView extends InjectedElementaryWidget<AddAccountWidgetModel> {
-  const AddAccountView({
-    super.key,
-  });
+  const AddAccountView({super.key});
 
   @override
   Widget build(AddAccountWidgetModel wm) {
@@ -60,9 +58,7 @@ class AddAccountView extends InjectedElementaryWidget<AddAccountWidgetModel> {
               ),
               GestureDetector(
                 onTap: () {
-                  context.compassContinue(
-                    const NewExternalAccountRouteData(),
-                  );
+                  context.compassContinue(const NewExternalAccountRouteData());
                 },
                 child: SizedBox(
                   height: DimensSizeV2.d64,
@@ -73,10 +69,7 @@ class AddAccountView extends InjectedElementaryWidget<AddAccountWidgetModel> {
                     child: SeparatedRow(
                       spacing: DimensSizeV2.d12,
                       children: [
-                        const Icon(
-                          LucideIcons.import,
-                          size: DimensSizeV2.d20,
-                        ),
+                        const Icon(LucideIcons.import, size: DimensSizeV2.d20),
                         Expanded(
                           child: Text(
                             LocaleKeys.addExternalAccount.tr(),

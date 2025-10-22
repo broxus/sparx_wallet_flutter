@@ -104,7 +104,8 @@ class LedgerService {
       final connected = _storageService.connected[masterKey];
       if (connected == null) return null;
 
-      final device = FlutterBluePlus.connectedDevices.firstWhereOrNull(
+      final device =
+          FlutterBluePlus.connectedDevices.firstWhereOrNull(
             (d) => d.remoteId.str == connected.remoteId,
           ) ??
           BluetoothDevice.fromId(connected.remoteId);
@@ -128,9 +129,7 @@ class LedgerService {
     final wallet = params.wallet;
     final workchain = wallet.address.workchain;
     if (workchain != 0) {
-      context = context.copyWith(
-        workchainId: workchain,
-      );
+      context = context.copyWith(workchainId: workchain);
     }
 
     final requiresAddressForSignature = switch (params.wallet.walletType) {
@@ -144,16 +143,12 @@ class LedgerService {
 
     if (requiresAddressForSignature) {
       if (params is PrepareSignatureContextConfirm) {
-        context = context.copyWith(
-          address: wallet.address.hash,
-        );
+        context = context.copyWith(address: wallet.address.hash);
       } else if (params is PrepareSignatureContextTransfer) {
         final multicustodian = (wallet.custodians?.length ?? 0) > 1;
         if (wallet.address.isZeroState ||
             (multicustodian && wallet.publicKey != params.custodian)) {
-          context = context.copyWith(
-            address: wallet.address.hash,
-          );
+          context = context.copyWith(address: wallet.address.hash);
         }
       }
     }
@@ -202,9 +197,7 @@ class LedgerService {
       );
       _interactionSubject.add(interaction);
 
-      await initLedgerConnection(
-        await interaction.prepare(),
-      );
+      await initLedgerConnection(await interaction.prepare());
     }
 
     try {

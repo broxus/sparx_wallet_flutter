@@ -44,9 +44,7 @@ class BrowserBottomBarPrimary extends StatelessWidget {
       child: SizedBox(
         height: height,
         child: Padding(
-          padding: const EdgeInsets.symmetric(
-            horizontal: DimensSize.d24,
-          ),
+          padding: const EdgeInsets.symmetric(horizontal: DimensSize.d24),
           child: Row(
             children: [
               Expanded(

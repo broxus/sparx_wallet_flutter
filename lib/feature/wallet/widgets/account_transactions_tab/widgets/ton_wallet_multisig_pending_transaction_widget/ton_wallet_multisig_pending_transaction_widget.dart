@@ -5,13 +5,16 @@ import 'package:app/feature/wallet/widgets/account_transactions_tab/widgets/ton_
 import 'package:app/generated/generated.dart';
 import 'package:flutter/material.dart';
 import 'package:lucide_icons_flutter/lucide_icons.dart';
+import 'package:money2/money2.dart';
 import 'package:nekoton_repository/nekoton_repository.dart';
 import 'package:ui_components_lib/v2/dimens_v2.dart';
 
 class TonWalletMultisigPendingTransactionWidget
-    extends InjectedElementaryParametrizedWidget<
-        TonWalletMultisigPendingTransactionWidgetWidgetModel,
-        TonWalletMultisigPendingTransactionParams> {
+    extends
+        InjectedElementaryParametrizedWidget<
+          TonWalletMultisigPendingTransactionWidgetWidgetModel,
+          TonWalletMultisigPendingTransactionParams
+        > {
   TonWalletMultisigPendingTransactionWidget({
     required TonWalletMultisigPendingTransaction transaction,
     required bool isFirst,
@@ -20,14 +23,14 @@ class TonWalletMultisigPendingTransactionWidget
     required KeyAccount account,
     super.key,
   }) : super(
-          wmFactoryParam: TonWalletMultisigPendingTransactionParams(
-            transaction: transaction,
-            isFirst: isFirst,
-            isLast: isLast,
-            price: price,
-            account: account,
-          ),
-        );
+         wmFactoryParam: TonWalletMultisigPendingTransactionParams(
+           transaction: transaction,
+           isFirst: isFirst,
+           isLast: isLast,
+           price: price,
+           account: account,
+         ),
+       );
 
   @override
   Widget build(TonWalletMultisigPendingTransactionWidgetWidgetModel wm) {
@@ -54,15 +57,17 @@ class TonWalletMultisigPendingTransactionWidget
                   wm.transaction.signsRequired.toString(),
                 ],
               ),
-              style: wm.theme.textStyles.labelXSmall
-                  .copyWith(color: wm.theme.colors.warning),
+              style: wm.theme.textStyles.labelXSmall.copyWith(
+                color: wm.theme.colors.warning,
+              ),
             ),
             Text(
               LocaleKeys.expiresInCustodians.tr(
                 args: [wm.expireAtFormat.format(wm.transaction.expireAt)],
               ),
-              style: wm.theme.textStyles.labelXSmall
-                  .copyWith(color: wm.theme.colors.content3),
+              style: wm.theme.textStyles.labelXSmall.copyWith(
+                color: wm.theme.colors.content3,
+              ),
             ),
           ],
         ),

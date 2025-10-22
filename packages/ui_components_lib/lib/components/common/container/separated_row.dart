@@ -15,12 +15,9 @@ class SeparatedRow extends Row with SeparatedMixin {
     super.verticalDirection,
     super.textBaseline,
   }) : super(
-          spacing: separator != null ? 0 : (spacing ?? DimensSizeV2.d8),
-          children: separator != null
-              ? SeparatedMixin.buildChildren(
-                  separator,
-                  children,
-                )
-              : children,
-        );
+         spacing: separator != null ? 0 : (spacing ?? DimensSizeV2.d8),
+         children: separator != null
+             ? SeparatedMixin.buildChildren(separator, children)
+             : children,
+       );
 }

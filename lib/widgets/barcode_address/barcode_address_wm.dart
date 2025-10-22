@@ -9,11 +9,14 @@ import 'package:ui_components_lib/v2/text_styles_v2.dart';
 
 /// [WidgetModel] for [BarcodeAddress]
 @injectable
-class BarcodeAddressWidgetModel extends CustomWidgetModelParametrized<
-    BarcodeAddress, BarcodeAddressModel, BarcodeAddressWmParams> {
-  BarcodeAddressWidgetModel(
-    super.model,
-  );
+class BarcodeAddressWidgetModel
+    extends
+        CustomWidgetModelParametrized<
+          BarcodeAddress,
+          BarcodeAddressModel,
+          BarcodeAddressWmParams
+        > {
+  BarcodeAddressWidgetModel(super.model);
 
   String get address => wmParams.value.address.address;
 

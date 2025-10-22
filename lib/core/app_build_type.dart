@@ -1,5 +1,1 @@
-enum AppBuildType {
-  development,
-  staging,
-  production,
-}
+enum AppBuildType { development, staging, production }

@@ -15,8 +15,10 @@ _TokenContractAsset _$TokenContractAssetFromJson(Map<String, dynamic> json) =>
       networkType: NetworkType.fromJson(json['networkType'] as String),
       networkGroup: json['networkGroup'] as String,
       isCustom: json['isCustom'] as bool,
-      version:
-          $enumDecodeNullable(_$TokenWalletVersionEnumMap, json['version']),
+      version: $enumDecodeNullable(
+        _$TokenWalletVersionEnumMap,
+        json['version'],
+      ),
       chainId: (json['chainId'] as num?)?.toInt(),
       logoURI: json['logoURI'] as String?,
     );

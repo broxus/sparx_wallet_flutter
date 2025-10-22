@@ -9,14 +9,19 @@ import 'package:app/utils/utils.dart';
 import 'package:elementary_helper/elementary_helper.dart';
 import 'package:injectable/injectable.dart';
 import 'package:logging/logging.dart';
+import 'package:money2/money2.dart';
 import 'package:nekoton_repository/nekoton_repository.dart' hide Message;
 
 @injectable
-class NftSendWidgetModel extends CustomWidgetModelParametrized<NftSendWidget,
-    NftSendModel, NftSendRouteData> with BleAvailabilityWmMixin {
-  NftSendWidgetModel(
-    super.model,
-  );
+class NftSendWidgetModel
+    extends
+        CustomWidgetModelParametrized<
+          NftSendWidget,
+          NftSendModel,
+          NftSendRouteData
+        >
+    with BleAvailabilityWmMixin {
+  NftSendWidgetModel(super.model);
 
   static final _logger = Logger('NftSendWidgetModel');
 
@@ -162,10 +167,7 @@ class NftSendWidgetModel extends CustomWidgetModelParametrized<NftSendWidget,
       );
 
       final (fees, txErrors) = await FutureExt.wait2(
-        model.estimateFees(
-          address: account.address,
-          message: unsignedMessage,
-        ),
+        model.estimateFees(address: account.address, message: unsignedMessage),
         model.simulateTransactionTree(
           address: account.address,
           message: unsignedMessage,

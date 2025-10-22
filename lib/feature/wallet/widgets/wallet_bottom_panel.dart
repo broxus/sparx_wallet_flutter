@@ -91,15 +91,15 @@ class _WalletBottomPanelState extends State<WalletBottomPanel> {
                 ),
                 switch (value) {
                   WalletBottomPanelTab.asset => AccountAssetsTab(
-                      account: widget.currentAccount,
-                      isShowingNewTokens: widget.isShowingNewTokens,
-                      confirmImportCallback: widget.confirmImportCallback,
-                      manifestUrl: widget.manifestUrl,
-                    ),
+                    account: widget.currentAccount,
+                    isShowingNewTokens: widget.isShowingNewTokens,
+                    confirmImportCallback: widget.confirmImportCallback,
+                    manifestUrl: widget.manifestUrl,
+                  ),
                   WalletBottomPanelTab.transactions => AccountTransactionsTab(
-                      account: widget.currentAccount,
-                      scrollController: widget.scrollController,
-                    ),
+                    account: widget.currentAccount,
+                    scrollController: widget.scrollController,
+                  ),
                 },
               ],
             );

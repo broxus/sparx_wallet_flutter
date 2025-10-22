@@ -9,14 +9,14 @@ import 'package:lucide_icons_flutter/lucide_icons.dart';
 import 'package:ui_components_lib/components/button/app_bar_back_button.dart';
 import 'package:ui_components_lib/ui_components_lib.dart';
 
-class CreateBrowserGroupScreen extends InjectedElementaryParametrizedWidget<
-    CreateBrowserGroupScreenWidgetModel, String?> {
-  const CreateBrowserGroupScreen({
-    String? tabId,
-    super.key,
-  }) : super(
-          wmFactoryParam: tabId,
-        );
+class CreateBrowserGroupScreen
+    extends
+        InjectedElementaryParametrizedWidget<
+          CreateBrowserGroupScreenWidgetModel,
+          String?
+        > {
+  const CreateBrowserGroupScreen({String? tabId, super.key})
+    : super(wmFactoryParam: tabId);
 
   @override
   Widget build(CreateBrowserGroupScreenWidgetModel wm) {
@@ -54,9 +54,7 @@ class CreateBrowserGroupScreen extends InjectedElementaryParametrizedWidget<
                               ),
                             ),
                           ),
-                          const SizedBox(
-                            width: DimensSizeV2.d48,
-                          ),
+                          const SizedBox(width: DimensSizeV2.d48),
                         ],
                       ),
                     ),
@@ -88,9 +86,7 @@ class CreateBrowserGroupScreen extends InjectedElementaryParametrizedWidget<
                       return isShowError
                           ? _Error(
                               LocaleKeys.maxCharactersAllowed.tr(
-                                args: [
-                                  wm.maxLength.toString(),
-                                ],
+                                args: [wm.maxLength.toString()],
                               ),
                             )
                           : const SizedBox.shrink();
@@ -107,9 +103,7 @@ class CreateBrowserGroupScreen extends InjectedElementaryParametrizedWidget<
 }
 
 class _Error extends StatelessWidget {
-  const _Error(
-    this.errorText,
-  );
+  const _Error(this.errorText);
 
   final String errorText;
 

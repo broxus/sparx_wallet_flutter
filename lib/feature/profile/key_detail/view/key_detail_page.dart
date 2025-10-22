@@ -9,12 +9,14 @@ import 'package:ui_components_lib/ui_components_lib.dart';
 import 'package:ui_components_lib/v2/ui_components_lib_v2.dart';
 
 /// Entry point for screen with information about key
-class KeyDetailPage extends InjectedElementaryParametrizedWidget<
-    KeyDetailPageWidgetModel, PublicKey> {
-  const KeyDetailPage({
-    required PublicKey publicKey,
-    super.key,
-  }) : super(wmFactoryParam: publicKey);
+class KeyDetailPage
+    extends
+        InjectedElementaryParametrizedWidget<
+          KeyDetailPageWidgetModel,
+          PublicKey
+        > {
+  const KeyDetailPage({required PublicKey publicKey, super.key})
+    : super(wmFactoryParam: publicKey);
 
   @override
   Widget build(KeyDetailPageWidgetModel wm) {

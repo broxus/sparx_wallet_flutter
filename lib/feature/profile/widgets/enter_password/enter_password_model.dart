@@ -27,9 +27,7 @@ class EnterPasswordModel extends ElementaryModel {
       _nekotonRepository.seedList.findAccountByAddress(address);
 
   void showError(String message) {
-    _messengerService.show(
-      Message.error(message: message),
-    );
+    _messengerService.show(Message.error(message: message));
   }
 
   Future<bool> hasKeyPassword(PublicKey publicKey) =>
@@ -44,12 +42,11 @@ class EnterPasswordModel extends ElementaryModel {
   Future<bool> checkKeyPassword({
     required PublicKey publicKey,
     required String password,
-  }) async =>
-      _nekotonRepository.seedList.checkKeyPassword(
-        publicKey: publicKey,
-        password: password,
-        signatureId: await transport.transport.getSignatureId(),
-      );
+  }) async => _nekotonRepository.seedList.checkKeyPassword(
+    publicKey: publicKey,
+    password: password,
+    signatureId: await transport.transport.getSignatureId(),
+  );
 
   /// Returns true if face biometry is available, else fingerprint.
   Future<bool> isFaceBiometry() async {
@@ -60,11 +57,10 @@ class EnterPasswordModel extends ElementaryModel {
   Future<String> getKeyPassword({
     required PublicKey publicKey,
     required String localizedReason,
-  }) =>
-      _biometryService.getKeyPassword(
-        publicKey: publicKey,
-        localizedReason: localizedReason,
-      );
+  }) => _biometryService.getKeyPassword(
+    publicKey: publicKey,
+    localizedReason: localizedReason,
+  );
 
   Seed? findSeedByAnyPublicKey(PublicKey publicKey) =>
       _nekotonRepository.seedList.findSeedByAnyPublicKey(publicKey);

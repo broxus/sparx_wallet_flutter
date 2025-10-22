@@ -35,12 +35,14 @@ Future<void> showContactSupportSheet({
   );
 }
 
-class ContactSupportSheet extends InjectedElementaryParametrizedWidget<
-    ContactSupportWidgetModel, ContactSupportMode> {
-  const ContactSupportSheet({
-    required ContactSupportMode mode,
-    super.key,
-  }) : super(wmFactoryParam: mode);
+class ContactSupportSheet
+    extends
+        InjectedElementaryParametrizedWidget<
+          ContactSupportWidgetModel,
+          ContactSupportMode
+        > {
+  const ContactSupportSheet({required ContactSupportMode mode, super.key})
+    : super(wmFactoryParam: mode);
 
   @override
   Widget build(ContactSupportWidgetModel wm) {

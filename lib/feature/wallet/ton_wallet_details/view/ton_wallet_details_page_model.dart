@@ -2,6 +2,7 @@ import 'package:app/app/service/balance_service.dart';
 import 'package:app/app/service/currency_convert_service.dart';
 import 'package:elementary/elementary.dart';
 import 'package:injectable/injectable.dart';
+import 'package:money2/money2.dart';
 import 'package:nekoton_repository/nekoton_repository.dart';
 
 @injectable

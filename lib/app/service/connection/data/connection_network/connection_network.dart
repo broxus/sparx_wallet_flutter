@@ -7,13 +7,12 @@ class ConnectionNetwork {
     List<ConnectionData>? networks,
     Map<NetworkGroup, ConnectionTransportData>? transports,
     this.customNetworkOptions,
-  })  : networks = networks ?? [],
-        transports = transports ?? {},
-        defaultNetwork = networks?.firstWhereOrNull(
-              (n) => n.id == defaultConnectionId,
-            ) ??
-            networks?.firstOrNull ??
-            defaultPresetNetwork;
+  }) : networks = networks ?? [],
+       transports = transports ?? {},
+       defaultNetwork =
+           networks?.firstWhereOrNull((n) => n.id == defaultConnectionId) ??
+           networks?.firstOrNull ??
+           defaultPresetNetwork;
 
   final List<ConnectionData> networks;
   final Map<NetworkGroup, ConnectionTransportData> transports;
@@ -25,8 +24,6 @@ class ConnectionNetwork {
 
   late final List<NetworkType>? customNetworkOptionTypes =
       customNetworkOptions == null
-          ? [NetworkType.ever, NetworkType.tycho, NetworkType.custom]
-          : [
-              for (final option in customNetworkOptions!) option.networkType,
-            ];
+      ? [NetworkType.ever, NetworkType.tycho, NetworkType.custom]
+      : [for (final option in customNetworkOptions!) option.networkType];
 }

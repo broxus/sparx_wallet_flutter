@@ -22,8 +22,10 @@ class BrowserAntiPhishingDelegate
     implements BrowserDelegate, BrowserAntiPhishing {
   BrowserAntiPhishingDelegate(this._resourcesService);
 
-  static final _schemeRegExp =
-      RegExp(r'^(?:[a-z][a-z0-9+\-.]*://)', caseSensitive: false);
+  static final _schemeRegExp = RegExp(
+    r'^(?:[a-z][a-z0-9+\-.]*://)',
+    caseSensitive: false,
+  );
 
   static final _schemeDomainExp = RegExp(r'^www\d*\.', caseSensitive: false);
 
@@ -70,13 +72,11 @@ class BrowserAntiPhishingDelegate
 
   @override
   Future<String> getPhishingGuardHtml(Uri uri) async {
-    final html = _htmlCache ??=
-        await rootBundle.loadString('assets/html/anti_phishing.html');
-
-    return html.replaceFirst(
-      '{PHISHING_ORIGINAL_SITE}',
-      uri.toString(),
+    final html = _htmlCache ??= await rootBundle.loadString(
+      'assets/html/anti_phishing.html',
     );
+
+    return html.replaceFirst('{PHISHING_ORIGINAL_SITE}', uri.toString());
   }
 
   @override
@@ -95,9 +95,7 @@ class BrowserAntiPhishingDelegate
       );
 
       final map = await compute<String, Map<String, dynamic>>(_parse, json);
-      _blackList.addAll(
-        castJsonList<String>(map['blacklist']),
-      );
+      _blackList.addAll(castJsonList<String>(map['blacklist']));
     } catch (e, s) {
       _log.severe('Load blacklist JSON error', e, s);
     }

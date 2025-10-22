@@ -90,6 +90,6 @@ class _ExpandableCardState extends State<ExpandableCard> {
   }
 
   void onToggle() => setState(() {
-        expanded = !expanded;
-      });
+    expanded = !expanded;
+  });
 }

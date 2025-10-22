@@ -1,0 +1,36 @@
+---
+name: ui_components_storybook
+description: Story book of ui components
+version: 1.0.0+1
+publish_to: none
+resolution: workspace
+
+environment:
+  sdk: '>=3.9.0 <4.0.0'
+
+dependencies:
+  flutter:
+    sdk: flutter
+  lucide_icons_flutter: ^3.1.2
+  storybook_flutter:
+    git:
+      url: https://github.com/ookami-kb/storybook_flutter.git
+      ref: master
+      path: packages/storybook_flutter
+  ui_components_lib: any
+
+dev_dependencies:
+  broxus_flutter_analysis:
+    git:
+      url: https://github.com/broxus/flutter_templates.git
+      ref: main
+  flutter_test:
+    sdk: flutter
+
+dependency_overrides:
+  pointer_interceptor: ^0.10.0
+
+flutter:
+  uses-material-design: true
+  generate: true
+  assets: [assets/]

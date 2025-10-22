@@ -29,8 +29,9 @@ class AddAccountConfirmModel extends ElementaryModel {
     if (seed == null) return [];
 
     final isBiometryEnabled = _biometryService.isEnabled;
-    final hasKeyPassword =
-        await _biometryService.hasKeyPassword(seed.publicKey);
+    final hasKeyPassword = await _biometryService.hasKeyPassword(
+      seed.publicKey,
+    );
 
     if (isBiometryEnabled && hasKeyPassword) {
       return _biometryService.getAvailableBiometry();
@@ -66,8 +67,8 @@ class AddAccountConfirmModel extends ElementaryModel {
     final correct = await list.checkKeyPassword(
       publicKey: publicKey,
       password: password,
-      signatureId:
-          await _nekotonRepository.currentTransport.transport.getSignatureId(),
+      signatureId: await _nekotonRepository.currentTransport.transport
+          .getSignatureId(),
     );
 
     if (_biometryService.isEnabled && correct) {

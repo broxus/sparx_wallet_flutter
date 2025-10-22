@@ -3,9 +3,7 @@ import 'package:nekoton_repository/nekoton_repository.dart' hide Message;
 
 @singleton
 class WalletDeploymentService {
-  WalletDeploymentService(
-    this._nekotonRepository,
-  );
+  WalletDeploymentService(this._nekotonRepository);
 
   final NekotonRepository _nekotonRepository;
 

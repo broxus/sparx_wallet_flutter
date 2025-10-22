@@ -78,13 +78,11 @@ class _Space extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final bottom = MediaQuery.of(context).viewInsets.bottom -
+    final bottom =
+        MediaQuery.of(context).viewInsets.bottom -
         _menuHeight -
         (Platform.isIOS ? DimensSizeV2.d32 : 0);
 
-    return SizedBox(
-      width: double.infinity,
-      height: bottom > 0 ? bottom : 0,
-    );
+    return SizedBox(width: double.infinity, height: bottom > 0 ? bottom : 0);
   }
 }

@@ -22,21 +22,19 @@ class WalletDeployConfirmRoute
     @Named.from(WalletDeployStatusRoute)
     CompassBaseRoute walletDeployStatusRoute,
   ) : super(
-          path: '/wallet-deploy-confirm',
-          builder: (context, data, _) => WalletDeployConfirmScreen(
-            deploymentData: data,
-          ),
-          compassBaseRoutes: [
-            walletDeployStatusRoute,
-          ],
-        );
+        path: '/wallet-deploy-confirm',
+        builder: (context, data, _) =>
+            WalletDeployConfirmScreen(deploymentData: data),
+        compassBaseRoutes: [walletDeployStatusRoute],
+      );
 
   @override
   WalletDeployConfirmRouteData fromQueryParams(
     Map<String, String> queryParams,
   ) {
     final deployTypeStr = queryParams[_deployTypeQueryParam];
-    final deployType = WalletDeployType.values.byNameOrNull(deployTypeStr) ??
+    final deployType =
+        WalletDeployType.values.byNameOrNull(deployTypeStr) ??
         WalletDeployType.standard;
 
     final custodiansStr = queryParams[_custodiansQueryParam];

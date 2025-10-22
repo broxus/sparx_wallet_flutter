@@ -12,10 +12,8 @@ import 'package:ui_components_lib/v2/ui_components_lib_v2.dart';
 
 class TCManageDappsWidget
     extends InjectedElementaryWidget<TCManageDappsWidgetModel> {
-  const TCManageDappsWidget({
-    required this.scrollController,
-    super.key,
-  }) : super();
+  const TCManageDappsWidget({required this.scrollController, super.key})
+    : super();
 
   final ScrollController scrollController;
 
@@ -137,9 +135,8 @@ class _Item extends StatelessWidget {
             width: DimensSizeV2.d32,
             imageUrl: connection.manifest.iconUrl,
             placeholder: (_, __) => const CommonCircularProgressIndicator(),
-            errorWidget: (_, __, ___) => CommonIconWidget.svg(
-              svg: Assets.images.web.path,
-            ),
+            errorWidget: (_, __, ___) =>
+                CommonIconWidget.svg(svg: Assets.images.web.path),
           ),
         ),
         Expanded(

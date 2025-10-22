@@ -8,19 +8,19 @@ import 'package:app/feature/wallet/widgets/select_account/select_account_widget.
 import 'package:elementary_helper/elementary_helper.dart';
 import 'package:flutter/material.dart';
 import 'package:injectable/injectable.dart';
+import 'package:money2/money2.dart';
 import 'package:nekoton_repository/nekoton_repository.dart';
 
 @injectable
 class SelectAccountWidgetModel
     extends CustomWidgetModel<SelectAccountWidget, SelectAccountModel> {
-  SelectAccountWidgetModel(
-    super.model,
-  );
+  SelectAccountWidgetModel(super.model);
 
   late final searchController = createTextEditingController();
   late final _accountsState = createNotifierFromStream(model.seedWithAccounts);
-  late final _currentAccountState =
-      createNotifierFromStream(model.currentAccount);
+  late final _currentAccountState = createNotifierFromStream(
+    model.currentAccount,
+  );
   late final _listState = createNotifier(_accountsState.value);
   final _balances = <Address, ListenableState<Money?>>{};
 
@@ -45,14 +45,10 @@ class SelectAccountWidgetModel
             ?.map((selectAccountData) {
               final filteredPrivateKeys = selectAccountData.privateKeys
                   .map((keyInfo) {
-                    final filteredAccounts = keyInfo.accounts.where(
-                      (account) {
-                        return account.name.toLowerCase().contains(value) ||
-                            account.address.address
-                                .toLowerCase()
-                                .contains(value);
-                      },
-                    ).toList();
+                    final filteredAccounts = keyInfo.accounts.where((account) {
+                      return account.name.toLowerCase().contains(value) ||
+                          account.address.address.toLowerCase().contains(value);
+                    }).toList();
 
                     return SeedWithInfo(
                       keyName: keyInfo.keyName,

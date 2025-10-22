@@ -14,9 +14,7 @@ class _ConfigureNetworksPageState extends State<ConfigureNetworksPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: DefaultAppBar(
-        titleText: LocaleKeys.networksWord.tr(),
-      ),
+      appBar: DefaultAppBar(titleText: LocaleKeys.networksWord.tr()),
       body: const Padding(
         padding: EdgeInsets.all(DimensSizeV2.d16),
         child: ConfigureNetworksWidget(),

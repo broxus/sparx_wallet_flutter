@@ -219,9 +219,9 @@ class BrowserApprovalsService {
     required FunctionCall? payload,
     required KnownPayload? knownPayload,
     required List<IgnoreTransactionTreeSimulationError>?
-        ignoredComputePhaseCodes,
+    ignoredComputePhaseCodes,
     required List<IgnoreTransactionTreeSimulationError>?
-        ignoredActionPhaseCodes,
+    ignoredActionPhaseCodes,
   }) async {
     final completer = Completer<(PublicKey, SignInputAuth)>();
 

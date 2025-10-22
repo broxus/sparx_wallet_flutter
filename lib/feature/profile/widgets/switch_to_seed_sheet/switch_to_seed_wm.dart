@@ -10,11 +10,14 @@ import 'package:nekoton_repository/nekoton_repository.dart';
 import 'package:ui_components_lib/v2/ui_components_lib_v2.dart';
 
 @injectable
-class SwitchToSeedWidgetModel extends CustomWidgetModelParametrized<
-    SwitchToSeedWidget, SwitchToSeedModel, PublicKey> {
-  SwitchToSeedWidgetModel(
-    super.model,
-  );
+class SwitchToSeedWidgetModel
+    extends
+        CustomWidgetModelParametrized<
+          SwitchToSeedWidget,
+          SwitchToSeedModel,
+          PublicKey
+        > {
+  SwitchToSeedWidgetModel(super.model);
 
   ThemeStyleV2 get theme => context.themeStyleV2;
 

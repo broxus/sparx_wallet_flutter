@@ -22,8 +22,9 @@ class ManualBackUpModel extends ElementaryModel {
   final AppStorageService storage;
 
   void setShowingBackUpFlag(String address) {
-    final account = nekotonRepository.accountsStorage.accounts
-        .firstWhereOrNull((item) => item.address.address == address);
+    final account = nekotonRepository.accountsStorage.accounts.firstWhereOrNull(
+      (item) => item.address.address == address,
+    );
     final masterPublicKey = account?.let(
       (account) => nekotonRepository.seedList
           .findSeedByAnyPublicKey(account.publicKey)
@@ -40,9 +41,7 @@ class ManualBackUpModel extends ElementaryModel {
 
   void showMessageAboutCopy() {
     messengerService.show(
-      Message.successful(
-        message: LocaleKeys.copiedExclamation.tr(),
-      ),
+      Message.successful(message: LocaleKeys.copiedExclamation.tr()),
     );
   }
 }

@@ -5,8 +5,12 @@ import 'package:app/feature/wallet/wallet_deploy/wallet_deploy_status/wallet_dep
 import 'package:flutter/material.dart';
 import 'package:ui_components_lib/ui_components_lib.dart';
 
-class WalletDeployStatusScreen extends InjectedElementaryParametrizedWidget<
-    WalletDeployStatusWidgetModel, WalletDeployStatusRouteData> {
+class WalletDeployStatusScreen
+    extends
+        InjectedElementaryParametrizedWidget<
+          WalletDeployStatusWidgetModel,
+          WalletDeployStatusRouteData
+        > {
   const WalletDeployStatusScreen({
     required WalletDeployStatusRouteData routeData,
     super.key,

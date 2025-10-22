@@ -29,7 +29,7 @@ jobs:
 
   version_bump:
     needs: [read_flutter_version]
-    uses: broxus/flutter_templates/.github/workflows/version.yaml@v3
+    uses: broxus/flutter_templates/.github/workflows/version.yaml@v4
     with:
       version_parameters: ${{ inputs.version_parameters }}
       user_name: 'nesquikm'

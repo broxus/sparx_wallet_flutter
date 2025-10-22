@@ -8,18 +8,19 @@ import 'package:nekoton_repository/nekoton_repository.dart';
 
 /// Widget that stores information about additional token and display its
 /// balances.
-class TokenWalletAssetWidget extends InjectedElementaryParametrizedWidget<
-    TokenWalletAssetWidgetModel, TokenWalletAssetParams> {
+class TokenWalletAssetWidget
+    extends
+        InjectedElementaryParametrizedWidget<
+          TokenWalletAssetWidgetModel,
+          TokenWalletAssetParams
+        > {
   TokenWalletAssetWidget({
     required TokenContractAsset asset,
     required Address owner,
     super.key,
   }) : super(
-          wmFactoryParam: TokenWalletAssetParams(
-            asset: asset,
-            owner: owner,
-          ),
-        );
+         wmFactoryParam: TokenWalletAssetParams(asset: asset, owner: owner),
+       );
 
   @override
   Widget build(TokenWalletAssetWidgetModel wm) {

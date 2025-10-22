@@ -39,11 +39,21 @@ class TransactionSendingWidget extends StatelessWidget {
                 ClipRect(
                   child: AspectRatio(
                     aspectRatio: 1,
-                    child: RiveAnimation.asset(
-                      isDeploying
-                          ? Assets.animations.deploy
-                          : Assets.animations.rocket,
-                      fit: BoxFit.cover,
+                    child: RiveWidgetBuilder(
+                      fileLoader: FileLoader.fromAsset(
+                        isDeploying
+                            ? Assets.animations.deploy
+                            : Assets.animations.rocket,
+                        riveFactory: Factory.rive,
+                      ),
+                      builder: (context, state) => switch (state) {
+                        RiveLoading() => const CircularProgressIndicator(),
+                        RiveFailed() => const SizedBox(),
+                        RiveLoaded() => RiveWidget(
+                          controller: state.controller,
+                          fit: Fit.cover,
+                        ),
+                      },
                     ),
                   ),
                 ),

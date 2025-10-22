@@ -13,11 +13,13 @@ import 'package:nekoton_repository/nekoton_repository.dart'
 
 @injectable
 class AddNewExternalAccountSheetWidgetModel
-    extends CustomWidgetModelParametrized<AddNewExternalAccountSheet,
-        AddNewExternalAccountSheetModel, PublicKey> {
-  AddNewExternalAccountSheetWidgetModel(
-    super.model,
-  );
+    extends
+        CustomWidgetModelParametrized<
+          AddNewExternalAccountSheet,
+          AddNewExternalAccountSheetModel,
+          PublicKey
+        > {
+  AddNewExternalAccountSheetWidgetModel(super.model);
 
   late final nameController = createTextEditingController();
   late final addressController = createTextEditingController();
@@ -35,9 +37,7 @@ class AddNewExternalAccountSheetWidgetModel
       addressController.text = text;
       focusNode.unfocus();
     } else {
-      model.showMessage(
-        Message.error(message: LocaleKeys.addressIsWrong.tr()),
-      );
+      model.showMessage(Message.error(message: LocaleKeys.addressIsWrong.tr()));
     }
   }
 

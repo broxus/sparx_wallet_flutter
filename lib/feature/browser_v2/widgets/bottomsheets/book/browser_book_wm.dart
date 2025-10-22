@@ -15,17 +15,14 @@ import 'package:ui_components_lib/ui_components_lib.dart';
 @injectable
 class BrowserBookWidgetModel
     extends CustomWidgetModel<BrowserBook, BrowserBookModel> {
-  BrowserBookWidgetModel(
-    super.model,
-  );
+  BrowserBookWidgetModel(super.model);
 
   late final bookmarksDelegate = UiBookmarksDelegate(model);
   late final historyDelegate = UiHistoryDelegate(model);
 
-  late final theme = Theme.of(context).copyWith(
-    canvasColor: Colors.transparent,
-    shadowColor: Colors.transparent,
-  );
+  late final theme = Theme.of(
+    context,
+  ).copyWith(canvasColor: Colors.transparent, shadowColor: Colors.transparent);
 
   late final _tabBarState = createNotifier<BrowserBookTabBarValue>(
     BrowserBookTabBarValue.bookMarks,
@@ -64,14 +61,12 @@ class BrowserBookWidgetModel
   void onPressedTab(BrowserBookTabBarValue value) {
     _tabBarState.accept(value);
 
-    _itemsState.accept(
-      switch (_tabBarState.value) {
-        BrowserBookTabBarValue.bookMarks =>
-          bookmarksDelegate.bookmarksState.value,
-        BrowserBookTabBarValue.history => historyDelegate.historyState.value,
-        _ => null,
-      },
-    );
+    _itemsState.accept(switch (_tabBarState.value) {
+      BrowserBookTabBarValue.bookMarks =>
+        bookmarksDelegate.bookmarksState.value,
+      BrowserBookTabBarValue.history => historyDelegate.historyState.value,
+      _ => null,
+    });
   }
 
   void _handleBookmarks() {

@@ -11,9 +11,9 @@ class LocalizationSheetWidgetModel
 
   late final ValueNotifier<SupportedLocaleCodes> currentLocale =
       createValueNotifierFromStream<SupportedLocaleCodes>(
-    model.localeCode,
-    model.localeCodeStream,
-  );
+        model.localeCode,
+        model.localeCodeStream,
+      );
 
   void onPressedLocale(SupportedLocaleCodes code) {
     model.setLocaleCode(code);

@@ -12,10 +12,8 @@ import 'package:nekoton_repository/nekoton_repository.dart';
 @named
 @Singleton(as: CompassGuard)
 class OnboardingGuard extends CompassGuard {
-  OnboardingGuard(
-    this._bootstrapService,
-    this._nekotonRepository,
-  ) : super(priority: priorityHigh);
+  OnboardingGuard(this._bootstrapService, this._nekotonRepository)
+    : super(priority: priorityHigh);
 
   final BootstrapService _bootstrapService;
   final NekotonRepository _nekotonRepository;

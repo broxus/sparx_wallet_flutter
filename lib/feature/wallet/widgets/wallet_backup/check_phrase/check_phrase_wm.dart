@@ -27,11 +27,14 @@ const defaultCheckAnswersAmount = 9;
 
 //logic in this class was moved from check_seed_phrase_cubit.dart
 @injectable
-class CheckPhraseWidgetModel extends CustomWidgetModelParametrized<
-    ContentCheckPhrase, CheckPhraseModel, CheckPhraseWmParams> {
-  CheckPhraseWidgetModel(
-    super.model,
-  );
+class CheckPhraseWidgetModel
+    extends
+        CustomWidgetModelParametrized<
+          ContentCheckPhrase,
+          CheckPhraseModel,
+          CheckPhraseWmParams
+        > {
+  CheckPhraseWidgetModel(super.model);
 
   ThemeStyleV2 get themeStyle => context.themeStyleV2;
 
@@ -60,8 +63,8 @@ class CheckPhraseWidgetModel extends CustomWidgetModelParametrized<
 
   void answerQuestion(String answer) {
     if (userAnswers != null) {
-      userAnswers![currentCheckIndex] =
-          userAnswers![currentCheckIndex].copyWith(word: answer);
+      userAnswers![currentCheckIndex] = userAnswers![currentCheckIndex]
+          .copyWith(word: answer);
       _checkNewAnswer();
     }
   }
@@ -162,9 +165,7 @@ class CheckPhraseWidgetModel extends CustomWidgetModelParametrized<
     return null;
   }
 
-  List<CheckSeedCorrectAnswer> _selectCorrectAnswers(
-    List<String> phrase,
-  ) {
+  List<CheckSeedCorrectAnswer> _selectCorrectAnswers(List<String> phrase) {
     final rng = Random();
     final indices = <int>[];
     while (indices.length < defaultWordsToCheckAmount) {
@@ -178,9 +179,7 @@ class CheckPhraseWidgetModel extends CustomWidgetModelParametrized<
     ];
   }
 
-  List<String> _generateAnswerWords(
-    List<CheckSeedCorrectAnswer> correct,
-  ) {
+  List<String> _generateAnswerWords(List<CheckSeedCorrectAnswer> correct) {
     final correctWords = correct.map((e) => e.word).toList();
     final dictionary = getHints(input: '');
     final answers = <String>[...correctWords];

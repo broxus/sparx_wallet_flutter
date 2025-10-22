@@ -5,44 +5,36 @@ import 'package:ui_components_lib/ui_components_lib.dart';
 import 'package:ui_components_lib/v2/ui_components_lib_v2.dart';
 
 class FunctionCallBody extends StatelessWidget {
-  const FunctionCallBody({
-    required this.payload,
-    this.contract,
-    super.key,
-  });
+  const FunctionCallBody({required this.payload, this.contract, super.key});
 
   final FunctionCall payload;
   final Address? contract;
 
   @override
   Widget build(BuildContext context) => SeparatedColumn(
-        crossAxisAlignment: CrossAxisAlignment.stretch,
-        children: [
-          if (contract != null)
-            _Param(
-              label: LocaleKeys.contract.tr().toLowerCase(),
-              value: contract!.address,
-            ),
-          _Param(
-            label: LocaleKeys.methodWord.tr().toLowerCase(),
-            value: payload.method,
-          ),
-          for (final param in payload.params.entries)
-            _Param(
-              key: ValueKey(param.key),
-              label: param.key,
-              value: param.value.toString(),
-            ),
-        ],
-      );
+    crossAxisAlignment: CrossAxisAlignment.stretch,
+    children: [
+      if (contract != null)
+        _Param(
+          label: LocaleKeys.contract.tr().toLowerCase(),
+          value: contract!.address,
+        ),
+      _Param(
+        label: LocaleKeys.methodWord.tr().toLowerCase(),
+        value: payload.method,
+      ),
+      for (final param in payload.params.entries)
+        _Param(
+          key: ValueKey(param.key),
+          label: param.key,
+          value: param.value.toString(),
+        ),
+    ],
+  );
 }
 
 class _Param extends StatelessWidget {
-  const _Param({
-    required this.label,
-    required this.value,
-    super.key,
-  });
+  const _Param({required this.label, required this.value, super.key});
 
   final String label;
   final String value;

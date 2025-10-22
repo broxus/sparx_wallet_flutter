@@ -6,6 +6,7 @@ import 'package:app/utils/utils.dart';
 import 'package:elementary_helper/elementary_helper.dart';
 import 'package:flutter/foundation.dart';
 import 'package:injectable/injectable.dart';
+import 'package:money2/money2.dart';
 import 'package:nekoton_repository/nekoton_repository.dart';
 import 'package:rxdart/rxdart.dart';
 import 'package:ui_components_lib/v2/ui_components_lib_v2.dart';
@@ -35,26 +36,29 @@ class TokenTransferInfoWmParams {
 }
 
 @injectable
-class TokenTransferInfoWidgetModel extends CustomWidgetModelParametrized<
-    TokenTransferInfoWidget,
-    TokenTransferInfoModel,
-    TokenTransferInfoWmParams> {
-  TokenTransferInfoWidgetModel(
-    super.model,
-  );
+class TokenTransferInfoWidgetModel
+    extends
+        CustomWidgetModelParametrized<
+          TokenTransferInfoWidget,
+          TokenTransferInfoModel,
+          TokenTransferInfoWmParams
+        > {
+  TokenTransferInfoWidgetModel(super.model);
 
   late final feeState = createWmParamsNotifier((it) => it.fee);
   late final recipientState = createWmParamsNotifier((it) => it.recipient);
 
-  late final transactionIdHashState =
-      createWmParamsNotifier((it) => it.transactionIdHash);
+  late final transactionIdHashState = createWmParamsNotifier(
+    (it) => it.transactionIdHash,
+  );
 
   late final commentState = createWmParamsNotifier((it) => it.comment);
 
   late final payloadState = createWmParamsNotifier((it) => it.payload);
 
-  late final numberUnconfirmedTransactionsState =
-      createWmParamsNotifier((it) => it.numberUnconfirmedTransactions);
+  late final numberUnconfirmedTransactionsState = createWmParamsNotifier(
+    (it) => it.numberUnconfirmedTransactions,
+  );
 
   late final attachedAmountState = createWmParamsNotifier(
     (it) => it.attachedAmount?.let(
@@ -72,9 +76,9 @@ class TokenTransferInfoWidgetModel extends CustomWidgetModelParametrized<
     (it) => it.rootTokenContract == null
         ? model.getCurrencyForNativeToken()?.price.let(Fixed.tryParse)
         : model
-            .getCurrencyForContract(it.rootTokenContract!)
-            ?.price
-            .let(Fixed.tryParse),
+              .getCurrencyForContract(it.rootTokenContract!)
+              ?.price
+              .let(Fixed.tryParse),
   );
   late final _nativeUSDPriceState = createNotifier(
     model.getCurrencyForNativeToken()?.price.let(Fixed.tryParse),

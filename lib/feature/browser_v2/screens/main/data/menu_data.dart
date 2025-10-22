@@ -1,5 +1,1 @@
-enum MenuType {
-  list,
-  view,
-  url,
-}
+enum MenuType { list, view, url }

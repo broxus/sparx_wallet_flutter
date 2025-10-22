@@ -21,10 +21,7 @@ class BrowserMenuBackgroundBlur extends StatelessWidget {
             filter: ImageFilter.blur(sigmaX: 10, sigmaY: 10),
             child: ColoredBox(
               color: const Color.fromRGBO(30, 32, 58, 0.9),
-              child: SizedBox(
-                width: double.infinity,
-                height: blurHeight,
-              ),
+              child: SizedBox(width: double.infinity, height: blurHeight),
             ),
           ),
           child,

@@ -21,8 +21,12 @@ class AddNewLocalAccountTypeSheetParams {
 
 @injectable
 class AddNewLocalAccountTypeSheetWidgetModel
-    extends CustomWidgetModelParametrized<AddNewLocalAccountTypeSheet,
-        AddNewLocalAccountTypeSheetModel, AddNewLocalAccountTypeSheetParams> {
+    extends
+        CustomWidgetModelParametrized<
+          AddNewLocalAccountTypeSheet,
+          AddNewLocalAccountTypeSheetModel,
+          AddNewLocalAccountTypeSheetParams
+        > {
   AddNewLocalAccountTypeSheetWidgetModel(super.model);
 
   late final _currentSelectedState = createNotifier<WalletType>();
@@ -79,7 +83,7 @@ class AddNewLocalAccountTypeSheetWidgetModel
       final address = await model.addAccount(
         key: keyCreateFor!,
         walletType: selected,
-        workchain: defaultWorkchainId,
+        workchain: 0,
         name: newName.isEmpty ? null : newName,
       );
 
