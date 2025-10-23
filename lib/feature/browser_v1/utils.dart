@@ -1,13 +1,17 @@
-import 'package:app/app/service/connection/data/connection_data/connection_data.dart';
+import 'package:app/app/service/connection/data/connection/connection.dart';
+import 'package:app/app/service/connection/data/native_token_ticker/native_token_ticker.dart';
 import 'package:app/app/service/connection/data/network_type.dart';
+import 'package:app/app/service/connection/data/work_chain/connection_work_chain.dart';
+import 'package:app/app/service/connection/data/work_chain/workchain_transport_type.dart';
 import 'package:app/app/service/connection/transport_strategies/common_transport_strategy.dart';
 import 'package:app/utils/utils.dart';
 import 'package:nekoton_repository/nekoton_repository.dart'
     show GqlTransport, TransportStrategy;
 import 'package:nekoton_webview/nekoton_webview.dart';
+import 'package:uuid/uuid.dart';
 
 extension TransportExtension on TransportStrategy {
-  ConnectionData? get connection => switch (this) {
+  Connection? get connection => switch (this) {
     CommonTransportStrategy(:final connection) => connection,
     _ => null,
   };
@@ -22,95 +26,106 @@ extension TransportExtension on TransportStrategy {
       throw UnsupportedError('Unsupported type: $runtimeType');
     }
 
-    final connectionObject = switch (data) {
-      ConnectionDataGql(:final endpoints, :final isLocal) =>
+    final workchain = data.defaultWorkchain;
+
+    final connectionObject = switch (workchain.transportType) {
+      WorkchainTransportType.gql =>
         (transport as GqlTransport).gqlConnection.settings.let(
           (settings) => GqlConnection(
             'graphql',
             GqlSocketParams(
-              endpoints,
+              workchain.endpoints,
               settings.latencyDetectionInterval,
               settings.maxLatency,
-              isLocal,
+              workchain.isLocal,
             ),
           ),
         ),
-      ConnectionDataProto(:final endpoint) => ProtoConnection(
+      WorkchainTransportType.proto => ProtoConnection(
         'proto',
-        JrpcSocketParams(endpoint),
+        JrpcSocketParams(workchain.endpoints.first),
       ),
-      ConnectionDataJrpc(:final endpoint) => JrpcConnection(
+      WorkchainTransportType.jrpc => JrpcConnection(
         'jrpc',
-        JrpcSocketParams(endpoint),
+        JrpcSocketParams(workchain.endpoints.first),
       ),
     };
 
     return Network(
-      data.name,
+      data.networkName,
       NetworkDescription(config.globalId, '0x$capabilities', signatureId),
       connectionObject,
       NetworkConfig(
-        data.nativeTokenTicker,
-        data.nativeTokenDecimals,
-        data.blockExplorerUrl,
-        data.manifestUrl,
+        workchain.nativeTokenTicker.name,
+        workchain.nativeTokenDecimals,
+        workchain.blockExplorerUrl,
+        workchain.manifestUrl,
       ),
     );
   }
 }
 
 extension AddNetworkExtension on AddNetwork {
-  ConnectionData getConnection() {
+  Connection getConnection() {
+    final connectionId = const Uuid().v4();
+
     final connection = this.connection as Map<String, dynamic>;
+
+    late List<String> endpoints;
+    bool? isLocal;
+    int? latencyDetectionInterval;
+    int? maxLatency;
 
     switch (connection['type']) {
       case 'graphql':
         final params = GqlSocketParams.fromJson(
           connection['data'] as Map<String, dynamic>,
         );
-        return ConnectionData.gqlCustom(
-          name: name,
-          group: 'custom-$name',
-          networkType: NetworkType.custom,
-          manifestUrl: config?.tokensManifestUrl ?? '',
-          blockExplorerUrl: config?.explorerBaseUrl ?? '',
-          nativeTokenTicker: config?.symbol ?? '',
-          endpoints: params.endpoints,
-          isLocal: params.local,
-          latencyDetectionInterval: params.latencyDetectionInterval.toInt(),
-          maxLatency: params.maxLatency.toInt(),
-        );
+
+        endpoints = params.endpoints;
+        isLocal = params.local;
+        latencyDetectionInterval = params.latencyDetectionInterval.toInt();
+        maxLatency = params.maxLatency.toInt();
 
       case 'proto':
         final params = JrpcSocketParams.fromJson(
           connection['data'] as Map<String, dynamic>,
         );
-        return ConnectionData.protoCustom(
-          name: name,
-          group: 'custom-$name',
-          networkType: NetworkType.custom,
-          manifestUrl: config?.tokensManifestUrl ?? '',
-          blockExplorerUrl: config?.explorerBaseUrl ?? '',
-          nativeTokenTicker: config?.symbol ?? '',
-          endpoint: params.endpoint,
-        );
+        endpoints = [params.endpoint];
 
       case 'jrpc':
         final params = JrpcSocketParams.fromJson(
           connection['data'] as Map<String, dynamic>,
         );
-        return ConnectionData.jrpcCustom(
-          name: name,
-          group: 'custom-$name',
-          networkType: NetworkType.custom,
-          manifestUrl: config?.tokensManifestUrl ?? '',
-          blockExplorerUrl: config?.explorerBaseUrl ?? '',
-          nativeTokenTicker: config?.symbol ?? '',
-          endpoint: params.endpoint,
-        );
 
+        endpoints = [params.endpoint];
       default:
         throw Exception('Invalid connection type: ${connection['type']}');
     }
+
+    return Connection(
+      id: connectionId,
+      networkName: name,
+      defaultWorkchainId: 0,
+      workchains: [
+        ConnectionWorkchain.custom(
+          id: 0,
+          parentConnectionId: connectionId,
+          networkType: NetworkType.custom,
+          networkGroup: 'custom-$name',
+          networkName: name,
+          endpoints: endpoints,
+          blockExplorerUrl: config?.explorerBaseUrl ?? '',
+          isLocal: isLocal ?? true,
+          manifestUrl: config?.tokensManifestUrl ?? '',
+          defaultNativeCurrencyDecimal: 9,
+          nativeTokenTicker: NativeTokenTicker(name: config?.symbol ?? ''),
+          latencyDetectionInterval: latencyDetectionInterval,
+          maxLatency: maxLatency,
+        ),
+      ],
+      isPreset: false,
+      canBeEdited: true,
+    );
   }
 }

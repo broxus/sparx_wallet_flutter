@@ -1,18 +1,52 @@
-import 'package:app/app/service/connection/data/connection_data/connection_data.dart';
+import 'package:app/app/service/connection/data/connection/connection.dart';
+import 'package:app/app/service/connection/data/work_chain/connection_work_chain.dart';
 import 'package:app/widgets/network_icon.dart';
 import 'package:flutter/material.dart';
 import 'package:ui_components_lib/ui_components_lib.dart';
 
 class NetworkItem extends StatelessWidget {
   const NetworkItem({
-    required this.data,
-    this.padding = const EdgeInsets.symmetric(vertical: DimensSizeV2.d12),
+    required this.networkGroup,
+    required this.title,
+    EdgeInsets? padding,
     this.trailing,
     this.onTap,
     super.key,
-  });
+  }) : padding =
+           padding ?? const EdgeInsets.symmetric(vertical: DimensSizeV2.d12);
 
-  final ConnectionData data;
+  NetworkItem.formConnection({
+    required Connection data,
+    EdgeInsets? padding,
+    Widget? trailing,
+    VoidCallback? onTap,
+    Key? key,
+  }) : this(
+         networkGroup: data.defaultWorkchain.networkGroup,
+         title: data.networkName,
+         padding: padding,
+         trailing: trailing,
+         onTap: onTap,
+         key: key,
+       );
+
+  NetworkItem.formWorkchain({
+    required ConnectionWorkchain data,
+    EdgeInsets? padding,
+    Widget? trailing,
+    VoidCallback? onTap,
+    Key? key,
+  }) : this(
+         networkGroup: data.networkGroup,
+         title: '${data.networkName} id: ${data.id}',
+         padding: padding,
+         trailing: trailing,
+         onTap: onTap,
+         key: key,
+       );
+
+  final String networkGroup;
+  final String title;
   final Widget? trailing;
   final EdgeInsetsGeometry padding;
   final VoidCallback? onTap;
@@ -28,10 +62,10 @@ class NetworkItem extends StatelessWidget {
         padding: padding,
         child: SeparatedRow(
           children: [
-            NetworkIcon(group: data.group),
+            NetworkIcon(group: networkGroup),
             Expanded(
               child: Text(
-                data.name,
+                title,
                 style: theme.textStyles.labelMedium.copyWith(
                   color: theme.colors.content0,
                 ),
