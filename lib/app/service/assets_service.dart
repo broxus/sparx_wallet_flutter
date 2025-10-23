@@ -63,7 +63,8 @@ class AssetsService {
           // ignore: no-empty-block
         })
         .listen((_) {});
-    _connectionsSubscription = connectionsStorageService.currentWorkchainStream
+    _connectionsSubscription = connectionsStorageService
+        .currentWorkchainStream
         .listen((_) => updateDefaultAssets());
 
     _accountsSubscription = currentAccountsService.currentActiveAccountStream
