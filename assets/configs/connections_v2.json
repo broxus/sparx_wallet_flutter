@@ -56,7 +56,6 @@
       "id": "preset_ton_mainnet_proto",
       "networkName": "TON",
       "defaultWorkchainId": 0,
-      "isUsedOnStart": true,
       "workchains": [
         {
           "id": 0,
@@ -125,7 +124,6 @@
       "id": "preset_hmstr_mainnet_proto",
       "networkName": "Hamster Network",
       "defaultWorkchainId": 0,
-      "isUsedOnStart": true,
       "workchains": [
         {
           "id": 0,
@@ -194,7 +192,6 @@
       "id": "preset_humo_testnet_proto",
       "networkName": "Humo",
       "defaultWorkchainId": 0,
-      "isUsedOnStart": true,
       "workchains": [
         {
           "id": 0,
@@ -248,7 +245,6 @@
       "id": "preset_tycho_testnet_proto",
       "networkName": "Tycho Testnet",
       "defaultWorkchainId": 0,
-      "isUsedOnStart": true,
       "workchains": [
         {
           "id": 0,
@@ -306,7 +302,6 @@
       "id": "preset_ever_mainnet_proto",
       "networkName": "Everscale",
       "defaultWorkchainId": 0,
-      "isUsedOnStart": true,
       "workchains": [
         {
           "id": 0,
@@ -398,7 +393,6 @@
       "id": "preset_venom_mainnet_proto",
       "networkName": "Venom",
       "defaultWorkchainId": 0,
-      "isUsedOnStart": true,
       "workchains": [
         {
           "id": 0,
