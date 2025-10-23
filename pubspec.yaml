@@ -123,7 +123,7 @@ dev_dependencies:
   integration_test:
     sdk: flutter
   json_serializable: ^6.11.1
-  melos: ^7.0.0
+  melos: ^7.3.0
   mocktail: 1.0.4
   retrofit_generator: ^10.0.0
   test: ^1.26.0
