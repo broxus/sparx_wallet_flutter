@@ -60,7 +60,6 @@ class CreateSeedPasswordScreenModel extends ElementaryModel {
         workchainId: workchainId,
         mnemonicType: mnemonicType,
         addType: addType,
-        workchainId: 0,
       );
 
       _currentKeyService.changeCurrentKey(publicKey);

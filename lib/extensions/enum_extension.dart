@@ -16,6 +16,6 @@ extension EnumExtension<T extends Enum> on Iterable<T> {
       if (value.name == modifiedName) return value;
     }
 
-    throw ArgumentError.value(name, "name", "No enum value with that name");
+    throw ArgumentError.value(name, 'name', 'No enum value with that name');
   }
 }

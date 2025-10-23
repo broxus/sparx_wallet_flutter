@@ -28,7 +28,7 @@ class StorageMigrationV7 implements StorageMigration {
 
     final storage = GetStorage(ConnectionsStorageService.container);
 
-    final storageData = storage.read('connections');
+    final storageData = storage.read<dynamic>('connections');
 
     if (storageData != null) {
       final connectionsJsonList = castJsonList<Map<String, dynamic>>(
@@ -122,7 +122,7 @@ class StorageMigrationV7 implements StorageMigration {
       }
       await storage.remove('connections');
 
-      storage.write('connections', result);
+      await storage.write('connections', result);
     }
 
     await storage.remove('networks_ids');
