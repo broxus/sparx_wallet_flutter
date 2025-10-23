@@ -6,6 +6,7 @@ import 'package:app/feature/add_seed/create_password/screens/create_seed_passwor
 import 'package:app/feature/add_seed/create_password/view/create_seed_password_page.dart';
 import 'package:app/feature/biometry/route.dart';
 import 'package:app/utils/utils.dart';
+import 'package:app/widgets/widgets.dart';
 import 'package:injectable/injectable.dart';
 import 'package:nekoton_repository/nekoton_repository.dart';
 
@@ -25,11 +26,13 @@ class CreateSeedOnboardingPasswordRoute
   ) : super(
         path: '/create-seed-onboarding-password',
         isSaveLocation: true,
-        builder: (context, data, _) => CreateSeedPasswordScreen(
-          phrase: SeedPhraseModel(data.seedPhrase),
-          mnemonicType: data.mnemonicType,
-        ),
         compassBaseRoutes: [enableBiometryRoute],
+        builder: (context, data, _) => ProtectedContent(
+          child: CreateSeedPasswordScreen(
+            phrase: SeedPhraseModel(data.seedPhrase),
+            mnemonicType: data.mnemonicType,
+          ),
+        ),
       );
 
   @override
@@ -80,12 +83,14 @@ class CreateSeedPasswordRoute
     : super(
         path: '/create-seed-password',
         isSaveLocation: true,
-        builder: (context, data, _) => CreateSeedPasswordProfilePage(
-          seedPhrase: SeedPhraseModel(data.seedPhrase),
-          name: data.name,
-          type: data.type,
-          mnemonicType: data.mnemonicType,
-          isChecked: data.isChecked,
+        builder: (context, data, _) => ProtectedContent(
+          child: CreateSeedPasswordProfilePage(
+            seedPhrase: SeedPhraseModel(data.seedPhrase),
+            name: data.name,
+            type: data.type,
+            mnemonicType: data.mnemonicType,
+            isChecked: data.isChecked,
+          ),
         ),
       );
 

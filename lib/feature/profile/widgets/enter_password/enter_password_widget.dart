@@ -4,6 +4,7 @@ import 'package:app/core/wm/custom_wm.dart';
 import 'package:app/feature/profile/widgets/enter_password/data/data.dart';
 import 'package:app/feature/profile/widgets/enter_password/enter_password_wm.dart';
 import 'package:app/generated/generated.dart';
+import 'package:app/widgets/protected_content.dart';
 import 'package:elementary_helper/elementary_helper.dart';
 import 'package:flutter/material.dart';
 import 'package:lucide_icons_flutter/lucide_icons.dart';
@@ -89,13 +90,15 @@ class EnterPasswordWidget
             isFace: isFace,
             onSubmit: wm.onBiometry,
           ),
-          EnterPasswordStatePassword() => _Password(
-            title: props.title,
-            isDisabled: props.isDisabled,
-            isAutofocus: props.isAutofocus,
-            isLoading: props.isLoading,
-            controller: wm.passwordController,
-            onSubmit: wm.onPassword,
+          EnterPasswordStatePassword() => ProtectedContent(
+            child: _Password(
+              title: props.title,
+              isDisabled: props.isDisabled,
+              isAutofocus: props.isAutofocus,
+              isLoading: props.isLoading,
+              controller: wm.passwordController,
+              onSubmit: wm.onPassword,
+            ),
           ),
           EnterPasswordStateLedger() => _Ledger(
             title: props.title,

@@ -2,6 +2,7 @@ import 'package:app/core/wm/custom_wm.dart';
 import 'package:app/feature/wallet/widgets/account_info.dart';
 import 'package:app/feature/wallet/widgets/wallet_backup/wallet_backup.dart';
 import 'package:app/generated/generated.dart';
+import 'package:app/widgets/widgets.dart';
 import 'package:elementary_helper/elementary_helper.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:local_auth/local_auth.dart';
@@ -17,9 +18,11 @@ Future<void> showConfirmActionDialog(
 ) {
   return showPrimaryBottomSheet(
     context: context,
-    content: ContentConfirmAction(
-      finishedBackupCallback: finishedBackupCallback,
-      account: currentAccount,
+    content: ProtectedContent(
+      child: ContentConfirmAction(
+        finishedBackupCallback: finishedBackupCallback,
+        account: currentAccount,
+      ),
     ),
   );
 }

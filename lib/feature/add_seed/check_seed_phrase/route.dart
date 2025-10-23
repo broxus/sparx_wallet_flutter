@@ -2,6 +2,7 @@ import 'package:app/app/router/compass/compass.dart';
 import 'package:app/data/models/models.dart';
 import 'package:app/feature/add_seed/check_seed_phrase/view/view.dart';
 import 'package:app/feature/add_seed/create_password/route.dart';
+import 'package:app/widgets/widgets.dart';
 import 'package:injectable/injectable.dart';
 
 const _seedPhraseQueryParam = 'seed';
@@ -16,11 +17,13 @@ class CheckSeedPhraseRoute extends CompassRoute<CheckSeedPhraseRouteData> {
     CompassBaseRoute createSeedPasswordProfileRoute,
   ) : super(
         path: '/check-seed',
-        builder: (context, data, _) => CheckSeedPhrasePage(
-          seed: SeedPhraseModel(data.seedPhrase),
-          name: data.name,
-        ),
         compassBaseRoutes: [createSeedPasswordProfileRoute],
+        builder: (context, data, _) => ProtectedContent(
+          child: CheckSeedPhrasePage(
+            seed: SeedPhraseModel(data.seedPhrase),
+            name: data.name,
+          ),
+        ),
       );
 
   @override
