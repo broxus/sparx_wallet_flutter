@@ -46,6 +46,7 @@ class StorageMigrationService {
 
   Future<void> migrate() async {
     await GetStorage.init();
+
     if (!needMigration) return;
 
     final migrations = _getMigrations();

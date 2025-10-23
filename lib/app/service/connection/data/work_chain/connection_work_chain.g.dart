@@ -34,8 +34,6 @@ _ConnectionWorkchain _$ConnectionWorkchainFromJson(
   seedPhraseWordsCount: (json['seedPhraseWordsCount'] as List<dynamic>)
       .map((e) => (e as num).toInt())
       .toList(),
-  defaultNativeCurrencyDecimal: (json['defaultNativeCurrencyDecimal'] as num?)
-      ?.toInt(),
   genericTokenType: $enumDecode(
     _$GenericTokenTypeEnumMap,
     json['genericTokenType'],
@@ -67,6 +65,8 @@ _ConnectionWorkchain _$ConnectionWorkchainFromJson(
           ?.map((e) => DefaultActiveAsset.fromJson(e as Map<String, dynamic>))
           .toList() ??
       const [],
+  defaultNativeCurrencyDecimal: (json['defaultNativeCurrencyDecimal'] as num?)
+      ?.toInt(),
   latencyDetectionInterval: (json['latencyDetectionInterval'] as num?)?.toInt(),
   maxLatency: (json['maxLatency'] as num?)?.toInt(),
   endpointSelectionRetryCount: (json['endpointSelectionRetryCount'] as num?)
@@ -106,7 +106,6 @@ Map<String, dynamic> _$ConnectionWorkchainToJson(
     instance.nativeTokenAddress,
   ),
   'seedPhraseWordsCount': instance.seedPhraseWordsCount,
-  'defaultNativeCurrencyDecimal': instance.defaultNativeCurrencyDecimal,
   'genericTokenType': _$GenericTokenTypeEnumMap[instance.genericTokenType]!,
   'accountExplorerLinkType':
       _$AccountExplorerLinkTypeEnumMap[instance.accountExplorerLinkType]!,
@@ -124,6 +123,7 @@ Map<String, dynamic> _$ConnectionWorkchainToJson(
   'defaultActiveAssets': instance.defaultActiveAssets
       .map((e) => e.toJson())
       .toList(),
+  'defaultNativeCurrencyDecimal': instance.defaultNativeCurrencyDecimal,
   'latencyDetectionInterval': instance.latencyDetectionInterval,
   'maxLatency': instance.maxLatency,
   'endpointSelectionRetryCount': instance.endpointSelectionRetryCount,

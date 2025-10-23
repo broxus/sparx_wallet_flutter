@@ -14,6 +14,9 @@ List<T> castJsonList<T>(dynamic json) {
 }
 
 Map<String, dynamic> castJsonMap(dynamic json) {
+  if (json == null) {
+    return {};
+  }
   return castTo<Map<String, dynamic>>(json) ?? {};
 }
 
