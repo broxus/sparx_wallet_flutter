@@ -72,6 +72,8 @@ class CreateSeedPasswordScreenWidgetModel
       mnemonicType: wmParams.value.mnemonicType,
     );
 
+    _loadState.accept(false);
+
     if (model.isNeedBiometry) {
       contextSafe?.compassContinue(const EnableBiometryRouteData());
     } else {
