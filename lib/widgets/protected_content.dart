@@ -1,4 +1,5 @@
 import 'package:flag_secure/flag_secure.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
 import 'package:logging/logging.dart';
@@ -34,12 +35,16 @@ class _ProtectedContentState extends State<ProtectedContent> {
   }
 
   @override
-  Widget build(BuildContext context) => SensitiveContent(
-    sensitivity: ContentSensitivity.sensitive,
-    child: widget.child,
-  );
+  Widget build(BuildContext context) => kDebugMode
+      ? widget.child
+      : SensitiveContent(
+          sensitivity: ContentSensitivity.sensitive,
+          child: widget.child,
+        );
 
   Future<bool> _checkFlagSecure() async {
+    if (kDebugMode) return false;
+
     try {
       final isSet = await FlagSecure.isSet;
       return isSet ?? false;
@@ -50,6 +55,7 @@ class _ProtectedContentState extends State<ProtectedContent> {
   }
 
   Future<void> _enableFlagSecure() async {
+    if (kDebugMode) return;
     if (await _isFlagSecureSet) return;
 
     try {
@@ -60,6 +66,7 @@ class _ProtectedContentState extends State<ProtectedContent> {
   }
 
   Future<void> _disableFlagSecure() async {
+    if (kDebugMode) return;
     if (await _isFlagSecureSet) return;
 
     try {
