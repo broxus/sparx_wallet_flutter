@@ -1,5 +1,5 @@
 import 'package:app/app/router/router.dart';
-import 'package:app/app/service/connection/data/connection_data/connection_data.dart';
+import 'package:app/app/service/connection/data/connection/connection.dart';
 import 'package:app/core/wm/custom_wm.dart';
 import 'package:app/feature/network/configure_networks/configure_networks_model.dart';
 import 'package:app/feature/network/configure_networks/configure_networks_widget.dart';
@@ -15,13 +15,14 @@ class ConfigureNetworksWidgetModel
 
   late final _connectionsState = createNotifierFromStream(model.connections);
 
-  ListenableState<List<ConnectionData>> get connectionsState =>
-      _connectionsState;
+  ListenableState<List<Connection>> get connectionsState => _connectionsState;
 
   ThemeStyleV2 get theme => context.themeStyleV2;
 
-  void onItemTap(ConnectionData data) {
-    context.compassContinue(EditNetworkRouteData(connectionDataId: data.id));
+  void onItemTap(Connection connection) {
+    context.compassContinue(
+      EditNetworkRouteData(connectionDataId: connection.id),
+    );
   }
 
   void onAddNetwork() {
