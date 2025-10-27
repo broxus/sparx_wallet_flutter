@@ -5,9 +5,9 @@ import 'package:app/feature/messenger/domain/service/messenger_service.dart';
 import 'package:app/feature/profile/account_detail/route.dart';
 import 'package:app/feature/profile/profile.dart';
 import 'package:app/generated/generated.dart';
+import 'package:app/utils/utils.dart';
 import 'package:app/widgets/user_avatar/user_avatar.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:lucide_icons_flutter/lucide_icons.dart';
 import 'package:nekoton_repository/nekoton_repository.dart' hide Message;
 import 'package:ui_components_lib/ui_components_lib.dart';
@@ -97,9 +97,7 @@ class KeyDetailView extends StatelessWidget {
                           size: CommonIconButtonSize.xsmall,
                           color: theme.colors.content3,
                           onPressed: () {
-                            Clipboard.setData(
-                              ClipboardData(text: seedKey.publicKey.publicKey),
-                            );
+                            setClipBoardData(seedKey.publicKey.publicKey);
                             inject<MessengerService>().show(
                               Message.successful(
                                 message: LocaleKeys.valueCopiedExclamation.tr(

@@ -2070,6 +2070,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "0.28.0"
+  sensitive_clipboard:
+    dependency: "direct main"
+    description:
+      name: sensitive_clipboard
+      sha256: "3bb2e5e3efdd01a574d139586bae906fe494fa10de75f2d47228bd6a96a1bff8"
+      url: "https://pub.dev"
+    source: hosted
+    version: "1.1.0"
   sentry:
     dependency: transitive
     description:
