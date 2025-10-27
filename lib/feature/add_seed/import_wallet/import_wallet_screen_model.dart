@@ -14,6 +14,7 @@ class ImportWalletScreenModel extends ElementaryModel with ConnectionMixin {
     this.messengerService,
     this.nekotonRepository,
     this.networkConnectionService,
+    this._secureStringService,
   );
 
   @override
@@ -25,6 +26,7 @@ class ImportWalletScreenModel extends ElementaryModel with ConnectionMixin {
   final NetworkConnectionService networkConnectionService;
 
   final NekotonRepository nekotonRepository;
+  final SecureStringService _secureStringService;
 
   String get networkGroup => nekotonRepository.currentTransport.networkGroup;
 
@@ -46,4 +48,7 @@ class ImportWalletScreenModel extends ElementaryModel with ConnectionMixin {
       return [];
     }
   }
+
+  Future<SecureString> encryptSeed(String phrase) =>
+      _secureStringService.encrypt(phrase);
 }

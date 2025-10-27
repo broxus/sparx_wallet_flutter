@@ -1,5 +1,5 @@
+import 'package:app/app/service/service.dart';
 import 'package:app/core/wm/custom_wm.dart';
-import 'package:app/data/models/seed/seed_phrase_model.dart';
 import 'package:app/feature/add_seed/check_seed_phrase/check_seed_phrase.dart';
 import 'package:app/generated/generated.dart';
 import 'package:elementary_helper/elementary_helper.dart';
@@ -16,7 +16,7 @@ class CheckSeedPhrasePage
           CheckSeedPhraseWmParams
         > {
   /// {@macro check_seed_phrase_page}
-  CheckSeedPhrasePage({required SeedPhraseModel seed, String? name, super.key})
+  CheckSeedPhrasePage({required SecureString seed, String? name, super.key})
     : super(
         wmFactoryParam: CheckSeedPhraseWmParams(seed: seed, name: name),
       );

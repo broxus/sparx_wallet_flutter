@@ -3,7 +3,7 @@
 import 'dart:async';
 
 import 'package:app/app/router/router.dart';
-import 'package:app/app/service/connection/connection_service.dart';
+import 'package:app/app/service/service.dart';
 import 'package:app/core/wm/custom_wm.dart';
 import 'package:app/feature/ledger/ledger.dart';
 import 'package:app/feature/messenger/messenger.dart';
@@ -20,7 +20,7 @@ class NewAccountTypeWmParams {
   NewAccountTypeWmParams({required this.publicKey, required this.password});
 
   final PublicKey publicKey;
-  final String? password;
+  final SecureString? password;
 }
 
 @injectable

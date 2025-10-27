@@ -12,12 +12,14 @@ class SelectSeedModel extends ElementaryModel with BleAvailabilityModelMixin {
     this._currentKeyService,
     this._currentSeedService,
     this._delegate,
+    this._secureStringService,
   ) : super(errorHandler: errorHandler);
 
   final NekotonRepository _nekotonRepository;
   final CurrentKeyService _currentKeyService;
   final CurrentSeedService _currentSeedService;
   final BleAvailabilityModelDelegate _delegate;
+  final SecureStringService _secureStringService;
 
   @override
   BleAvailabilityModelDelegate get delegate => _delegate;
@@ -30,4 +32,7 @@ class SelectSeedModel extends ElementaryModel with BleAvailabilityModelMixin {
   PublicKey? getCurrentKey() {
     return _currentKeyService.currentKey;
   }
+
+  Future<SecureString> encryptSeed(String phrase) =>
+      _secureStringService.encrypt(phrase);
 }

@@ -1,8 +1,8 @@
 import 'dart:math';
 
 import 'package:app/app/router/router.dart';
+import 'package:app/app/service/service.dart';
 import 'package:app/core/wm/custom_wm.dart';
-import 'package:app/data/models/seed/seed_phrase_model.dart';
 import 'package:app/feature/add_seed/check_seed_phrase/check_seed_phrase.dart';
 import 'package:app/feature/add_seed/create_password/route.dart';
 import 'package:app/generated/generated.dart';
@@ -12,7 +12,7 @@ import 'package:nekoton_repository/nekoton_repository.dart';
 class CheckSeedPhraseWmParams {
   const CheckSeedPhraseWmParams({required this.seed, this.name});
 
-  final SeedPhraseModel seed;
+  final SecureString seed;
   final String? name;
 }
 
@@ -28,7 +28,6 @@ class CheckSeedPhraseData {
   final int? currentCheckIndex;
 }
 
-const _defaultWordsToCheckAmount = 3;
 const _defaultCheckAnswersAmount = 9;
 
 @injectable
@@ -43,25 +42,15 @@ class CheckSeedPhrasePageWidgetModel
 
   late final screenState = createEntityNotifier<CheckSeedPhraseData>();
 
-  late final _correctAnswers = _selectCorrectAnswers(wmParams.value.seed);
-  late final List<String> _availableAnswers = _generateAnswerWords(
-    _correctAnswers,
-  );
-  late final List<CheckSeedCorrectAnswer> _userAnswers = _correctAnswers
-      .map((e) => e.copyWith(word: ''))
-      .toList();
+  late final List<CheckSeedCorrectAnswer> _correctAnswers;
+  late final List<String> _availableAnswers;
+  late final List<CheckSeedCorrectAnswer> _userAnswers;
   int? _currentCheckIndex = 0;
 
   @override
   void initWidgetModel() {
     super.initWidgetModel();
-    screenState.content(
-      CheckSeedPhraseData(
-        availableAnswers: _availableAnswers,
-        userAnswers: List.of(_userAnswers),
-        currentCheckIndex: _currentCheckIndex,
-      ),
-    );
+    _init();
   }
 
   void answerQuestion(String answer) {
@@ -82,9 +71,23 @@ class CheckSeedPhrasePageWidgetModel
     final params = wmParams.value;
     context.compassContinue(
       CreateSeedPasswordRouteData(
-        seedPhrase: params.seed.phrase,
+        seedPhrase: params.seed,
         name: params.name,
         type: SeedAddType.create,
+      ),
+    );
+  }
+
+  Future<void> _init() async {
+    _correctAnswers = await model.selectCorrectAnswers(wmParams.value.seed);
+    _availableAnswers = _generateAnswerWords(_correctAnswers);
+    _userAnswers = _correctAnswers.map((e) => e.copyWith(word: '')).toList();
+
+    screenState.content(
+      CheckSeedPhraseData(
+        availableAnswers: _availableAnswers,
+        userAnswers: List.of(_userAnswers),
+        currentCheckIndex: _currentCheckIndex,
       ),
     );
   }
@@ -123,7 +126,7 @@ class CheckSeedPhrasePageWidgetModel
       final params = wmParams.value;
       context.compassContinue(
         CreateSeedPasswordRouteData(
-          seedPhrase: params.seed.phrase,
+          seedPhrase: params.seed,
           name: params.name,
           type: SeedAddType.create,
           isChecked: true,
@@ -148,24 +151,6 @@ class CheckSeedPhrasePageWidgetModel
       if (_userAnswers[i].word.isEmpty) return i;
     }
     return null;
-  }
-
-  static List<CheckSeedCorrectAnswer> _selectCorrectAnswers(
-    SeedPhraseModel seed,
-  ) {
-    if (seed.isEmpty) return [];
-    final rng = Random();
-    final indices = <int>[];
-    while (indices.length < _defaultWordsToCheckAmount) {
-      final number = rng.nextInt(seed.wordsCount);
-      if (indices.contains(number)) continue;
-      indices.add(number);
-    }
-    indices.sort();
-    return [
-      for (final index in indices)
-        CheckSeedCorrectAnswer(seed.words[index], index),
-    ];
   }
 
   List<String> _generateAnswerWords(List<CheckSeedCorrectAnswer> correct) {

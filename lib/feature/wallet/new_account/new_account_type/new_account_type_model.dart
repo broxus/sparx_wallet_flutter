@@ -1,3 +1,4 @@
+import 'package:app/app/service/service.dart';
 import 'package:app/feature/ledger/ledger.dart';
 import 'package:app/generated/generated.dart';
 import 'package:elementary/elementary.dart';
@@ -13,11 +14,13 @@ class NewAccountTypeModel extends ElementaryModel
     this._nekotonRepository,
     this._ledgerService,
     this._delegate,
+    this._secureStringService,
   ) : super(errorHandler: errorHandler);
 
   final NekotonRepository _nekotonRepository;
   final LedgerService _ledgerService;
   final BleAvailabilityModelDelegate _delegate;
+  final SecureStringService _secureStringService;
 
   @override
   BleAvailabilityModelDelegate get delegate => _delegate;
@@ -27,7 +30,7 @@ class NewAccountTypeModel extends ElementaryModel
   Future<Address> createAccount({
     required WalletType walletType,
     required PublicKey publicKey,
-    required String? password,
+    required SecureString? password,
     required String? name,
   }) async {
     final seedKey = await _ledgerService.runWithLedgerIfKeyIsLedger(
@@ -36,7 +39,7 @@ class NewAccountTypeModel extends ElementaryModel
       action: () => _getSeedKey(
         publicKey: publicKey,
         walletType: walletType,
-        password: password,
+        encryptedPassword: password,
       ),
     );
 
@@ -62,7 +65,7 @@ class NewAccountTypeModel extends ElementaryModel
   Future<SeedKey?> _getSeedKey({
     required WalletType walletType,
     required PublicKey publicKey,
-    required String? password,
+    required SecureString? encryptedPassword,
   }) async {
     final seed = _nekotonRepository.seedList.findSeedByAnyPublicKey(publicKey)!;
 
@@ -81,6 +84,9 @@ class NewAccountTypeModel extends ElementaryModel
       }
     }
 
+    final password = encryptedPassword != null
+        ? await _secureStringService.decrypt(encryptedPassword)
+        : null;
     final addedKeys = seed.subKeys.map((item) => item.publicKey).toSet()
       ..add(seed.publicKey);
     final stream = _nekotonRepository.getKeysToDeriveStream(

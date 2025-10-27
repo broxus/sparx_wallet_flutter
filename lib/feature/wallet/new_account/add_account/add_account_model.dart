@@ -11,11 +11,13 @@ class AddAccountModel extends ElementaryModel with BleAvailabilityModelMixin {
     this._nekotonRepository,
     this._currentSeedService,
     this._delegate,
+    this._secureStringService,
   ) : super(errorHandler: errorHandler);
 
   final NekotonRepository _nekotonRepository;
   final CurrentSeedService _currentSeedService;
   final BleAvailabilityModelDelegate _delegate;
+  final SecureStringService _secureStringService;
 
   @override
   BleAvailabilityModelDelegate get delegate => _delegate;
@@ -24,4 +26,7 @@ class AddAccountModel extends ElementaryModel with BleAvailabilityModelMixin {
       _nekotonRepository.seedListStream.map((seedList) => seedList.seeds);
 
   Stream<Seed?> get currentAccount => _currentSeedService.currentSeedStream;
+
+  Future<SecureString> encryptSeed(String phrase) =>
+      _secureStringService.encrypt(phrase);
 }

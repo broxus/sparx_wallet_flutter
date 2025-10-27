@@ -1,5 +1,7 @@
+import 'dart:convert';
+
 import 'package:app/app/router/compass/compass.dart';
-import 'package:app/data/models/models.dart';
+import 'package:app/app/service/service.dart';
 import 'package:app/feature/add_seed/check_seed_phrase/view/view.dart';
 import 'package:app/feature/add_seed/create_password/route.dart';
 import 'package:app/widgets/widgets.dart';
@@ -19,18 +21,17 @@ class CheckSeedPhraseRoute extends CompassRoute<CheckSeedPhraseRouteData> {
         path: '/check-seed',
         compassBaseRoutes: [createSeedPasswordProfileRoute],
         builder: (context, data, _) => ProtectedContent(
-          child: CheckSeedPhrasePage(
-            seed: SeedPhraseModel(data.seedPhrase),
-            name: data.name,
-          ),
+          child: CheckSeedPhrasePage(seed: data.seedPhrase, name: data.name),
         ),
       );
 
   @override
   CheckSeedPhraseRouteData fromQueryParams(Map<String, String> queryParams) {
     return CheckSeedPhraseRouteData(
-      seedPhrase: queryParams[_seedPhraseQueryParam]!,
-      name: queryParams[name],
+      seedPhrase: SecureString.fromJson(
+        jsonDecode(queryParams[_seedPhraseQueryParam]!) as Map<String, dynamic>,
+      ),
+      name: queryParams[_seedNameQueryParam],
     );
   }
 }
@@ -41,7 +42,7 @@ class CheckSeedPhraseRouteData implements CompassRouteDataQuery {
     required this.name,
   });
 
-  final String seedPhrase;
+  final SecureString seedPhrase;
   final String? name;
 
   @override
@@ -49,7 +50,7 @@ class CheckSeedPhraseRouteData implements CompassRouteDataQuery {
     final name = this.name;
 
     return {
-      _seedPhraseQueryParam: seedPhrase,
+      _seedPhraseQueryParam: jsonEncode(seedPhrase.toJson()),
       if (name != null) _seedNameQueryParam: name,
     };
   }
