@@ -6,9 +6,9 @@ import 'package:app/di/di.dart';
 import 'package:app/feature/ledger/ledger.dart';
 import 'package:app/feature/messenger/messenger.dart';
 import 'package:app/generated/generated.dart';
+import 'package:app/utils/utils.dart';
 import 'package:elementary_helper/elementary_helper.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:rxdart/rxdart.dart';
 import 'package:ui_components_lib/ui_components_lib.dart';
 
@@ -41,7 +41,7 @@ class VerifyLedgerWidgetModel
   ThemeStyleV2 get theme => context.themeStyleV2;
 
   void onCopy() {
-    Clipboard.setData(ClipboardData(text: widget.account.address.address));
+    setClipBoardData(widget.account.address.address);
     model.showMessage(
       Message.successful(
         message: LocaleKeys.valueCopiedExclamation.tr(

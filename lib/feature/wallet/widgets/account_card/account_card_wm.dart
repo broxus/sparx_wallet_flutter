@@ -5,9 +5,9 @@ import 'package:app/feature/messenger/data/message.dart';
 import 'package:app/feature/wallet/wallet.dart';
 import 'package:app/feature/wallet/widgets/account_card/account_card_model.dart';
 import 'package:app/generated/generated.dart';
+import 'package:app/utils/utils.dart';
 import 'package:elementary_helper/elementary_helper.dart';
 import 'package:flutter/foundation.dart';
-import 'package:flutter/services.dart';
 import 'package:injectable/injectable.dart';
 import 'package:money2/money2.dart';
 import 'package:nekoton_repository/nekoton_repository.dart' hide Message;
@@ -68,9 +68,7 @@ class AccountCardWidgetModel
   }
 
   void onCopy() {
-    Clipboard.setData(
-      ClipboardData(text: currentAccountState.value.address.address),
-    );
+    setClipBoardData(currentAccountState.value.address.address);
     model.showMessage(
       Message.successful(
         message: LocaleKeys.valueCopiedExclamation.tr(
