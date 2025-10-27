@@ -14,6 +14,7 @@ class EnterSeedPhraseModel extends ElementaryModel with ConnectionMixin {
     this.networkConnectionService,
     this.messengerService,
     this._nekotonRepository,
+    this._secureStringService,
   ) : super(errorHandler: errorHandler);
 
   @override
@@ -21,6 +22,7 @@ class EnterSeedPhraseModel extends ElementaryModel with ConnectionMixin {
   @override
   final MessengerService messengerService;
   final nt.NekotonRepository _nekotonRepository;
+  final SecureStringService _secureStringService;
 
   Set<String>? _hints;
 
@@ -45,4 +47,7 @@ class EnterSeedPhraseModel extends ElementaryModel with ConnectionMixin {
   }
 
   void showError(String text) => handleError(text);
+
+  Future<SecureString> encryptSeed(String phrase) =>
+      _secureStringService.encrypt(phrase);
 }

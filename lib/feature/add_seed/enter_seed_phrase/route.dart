@@ -1,6 +1,7 @@
 import 'package:app/app/router/compass/compass.dart';
 import 'package:app/feature/add_seed/create_password/route.dart';
 import 'package:app/feature/add_seed/enter_seed_phrase/enter_seed_phrase_widget.dart';
+import 'package:app/widgets/widgets.dart';
 import 'package:injectable/injectable.dart';
 import 'package:string_extensions/string_extensions.dart';
 
@@ -19,14 +20,16 @@ class EnterSeedPhraseRoute extends CompassRoute<EnterSeedPhraseRouteData> {
   ) : super(
         path: '/enter-seed-phrase',
         isSaveLocation: true,
-        builder: (context, data, __) => EnterSeedPhraseWidget(
-          seedName: data.seedName,
-          isOnboarding: data.isOnboarding,
-        ),
         compassBaseRoutes: [
           createSeedPasswordRoute,
           createSeedOnboardingPasswordRoute,
         ],
+        builder: (context, data, __) => ProtectedContent(
+          child: EnterSeedPhraseWidget(
+            seedName: data.seedName,
+            isOnboarding: data.isOnboarding,
+          ),
+        ),
       );
 
   @override

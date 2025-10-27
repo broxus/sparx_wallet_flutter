@@ -43,16 +43,19 @@ class CreateSeedWidgetModel
     });
   }
 
-  void onCheck(SeedPhraseModel seed) {
+  Future<void> onCheck(SeedPhraseModel seed) async {
     context.compassContinue(
-      CheckSeedPhraseRouteData(seedPhrase: seed.phrase, name: wmParams.value),
+      CheckSeedPhraseRouteData(
+        seedPhrase: await model.encryptSeed(seed.phrase),
+        name: wmParams.value,
+      ),
     );
   }
 
-  void onSkip(SeedPhraseModel seed) {
+  Future<void> onSkip(SeedPhraseModel seed) async {
     context.compassContinue(
       CreateSeedPasswordRouteData(
-        seedPhrase: seed.phrase,
+        seedPhrase: await model.encryptSeed(seed.phrase),
         name: wmParams.value,
         type: SeedAddType.create,
       ),

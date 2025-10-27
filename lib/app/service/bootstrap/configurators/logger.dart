@@ -16,29 +16,24 @@ class LoggerConfigurator {
   final NekotonRepository _nekotonRepository;
 
   Future<void> configure(AppBuildType appBuildType) async {
-    var retainStrategy = {Level.ALL: 100};
-
     /// This enables direct mobile logger (adb logcat / oslog)
     const mobileLogger = false;
 
     // /// Log levels depending on build type
-    switch (appBuildType) {
-      case AppBuildType.development:
-        retainStrategy = {
-          Level.ALL: _devLogsRetainSessionCount,
-          Level.SEVERE: _devLogsRetainSessionCount,
-        };
-      case AppBuildType.staging:
-        retainStrategy = {
-          Level.ALL: _devLogsRetainSessionCount,
-          Level.SEVERE: _devLogsRetainSessionCount,
-        };
-      case AppBuildType.production:
-        retainStrategy = {
-          Level.ALL: _prodLogsRetainSessionCount,
-          Level.SEVERE: _prodLogsRetainSessionCount,
-        };
-    }
+    final retainStrategy = switch (appBuildType) {
+      AppBuildType.development => {
+        Level.ALL: _devLogsRetainSessionCount,
+        Level.SEVERE: _devLogsRetainSessionCount,
+      },
+      AppBuildType.staging => {
+        Level.ALL: _devLogsRetainSessionCount,
+        Level.SEVERE: _devLogsRetainSessionCount,
+      },
+      AppBuildType.production => {
+        Level.ALL: _prodLogsRetainSessionCount,
+        Level.SEVERE: _prodLogsRetainSessionCount,
+      },
+    };
 
     final appVersion = await _appVersionService.appVersion();
     final buildNumber = await _appVersionService.buildNumber();

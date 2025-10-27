@@ -1,3 +1,4 @@
+import 'package:app/app/service/service.dart';
 import 'package:app/core/wm/custom_wm.dart';
 import 'package:app/feature/wallet/new_account/new_account_type/new_account_type_widget.dart';
 import 'package:app/feature/wallet/new_account/screen/new_account_screen_wm.dart';
@@ -12,7 +13,7 @@ class NewAccountScreen
           NewAccountScreenWidgetModel,
           NewAccountScreenWmParams
         > {
-  NewAccountScreen({String? publicKey, String? password, super.key})
+  NewAccountScreen({String? publicKey, SecureString? password, super.key})
     : super(
         wmFactoryParam: NewAccountScreenWmParams(
           publicKey: publicKey,

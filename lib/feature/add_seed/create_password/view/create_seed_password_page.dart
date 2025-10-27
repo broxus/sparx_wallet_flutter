@@ -1,5 +1,5 @@
+import 'package:app/app/service/service.dart';
 import 'package:app/core/wm/custom_wm.dart';
-import 'package:app/data/models/seed/seed_phrase_model.dart';
 import 'package:app/feature/add_seed/create_password/view/create_seed_password_profile_wm.dart';
 import 'package:app/feature/add_seed/create_password/view/create_seed_password_view.dart';
 import 'package:app/utils/focus_utils.dart';
@@ -16,7 +16,7 @@ class CreateSeedPasswordProfilePage
           CreateSeedPasswordProfileWmParams
         > {
   CreateSeedPasswordProfilePage({
-    required SeedPhraseModel seedPhrase,
+    required SecureString? seedPhrase,
     required String? name,
     required SeedAddType type,
     required MnemonicType? mnemonicType,

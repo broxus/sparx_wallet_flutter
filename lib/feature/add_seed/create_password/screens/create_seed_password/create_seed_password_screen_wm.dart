@@ -1,6 +1,6 @@
 import 'package:app/app/router/router.dart';
+import 'package:app/app/service/service.dart';
 import 'package:app/core/wm/custom_wm.dart';
-import 'package:app/data/models/models.dart';
 import 'package:app/feature/add_seed/create_password/model/password_status.dart';
 import 'package:app/feature/add_seed/create_password/screens/create_seed_password/create_seed_password_screen.dart';
 import 'package:app/feature/add_seed/create_password/screens/create_seed_password/create_seed_password_screen_model.dart';
@@ -20,7 +20,7 @@ class CreateSeedPasswordWmParams {
     required this.mnemonicType,
   });
 
-  final SeedPhraseModel? phrase;
+  final SecureString? phrase;
   final MnemonicType? mnemonicType;
 }
 
