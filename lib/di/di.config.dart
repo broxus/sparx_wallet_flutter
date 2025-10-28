@@ -25,6 +25,12 @@ import '../app/router/router.dart' as _i309;
 import '../app/service/app_lifecycle_service.dart' as _i830;
 import '../app/service/app_links/app_links.dart' as _i850;
 import '../app/service/app_links/app_links_service.dart' as _i746;
+import '../app/service/app_notifications/domain/service/app_notifications_service.dart'
+    as _i821;
+import '../app/service/app_notifications/widget/app_notifications_widget_model.dart'
+    as _i406;
+import '../app/service/app_notifications/widget/app_notifications_widget_wm.dart'
+    as _i900;
 import '../app/service/app_permissions_service.dart' as _i1070;
 import '../app/service/app_version_service.dart' as _i143;
 import '../app/service/approvals_service.dart' as _i654;
@@ -746,6 +752,10 @@ extension GetItInjectableX on _i174.GetIt {
       () => _i191.LedgerConnectionHandlerImpl(),
     );
     gh.singleton<_i221.LocalizationService>(() => _i221.LocalizationService());
+    gh.singleton<_i821.AppNotificationService>(
+      () => _i821.AppNotificationService(),
+      dispose: (i) => i.dispose(),
+    );
     gh.lazySingleton<_i438.SentryWorker>(() => sentryModule.getSentryWorker());
     gh.lazySingleton<_i632.MessengerService>(
       () => _i632.MessengerService(),
@@ -982,10 +992,21 @@ extension GetItInjectableX on _i174.GetIt {
         gh<_i792.GetStorage>(instanceName: 'browser_tabs'),
       ),
     );
+    gh.factory<_i406.AppNotificationsWidgetModel>(
+      () => _i406.AppNotificationsWidgetModel(
+        gh<_i83.ErrorHandler>(),
+        gh<_i821.AppNotificationService>(),
+      ),
+    );
     gh.factory<_i475.BrowserServicePermissionsDelegate>(
       () => _i475.BrowserServicePermissionsDelegate(
         gh<_i229.BrowserPermissionsStorageService>(),
         gh<_i940.DatabaseService>(),
+      ),
+    );
+    gh.factory<_i900.AppNotificationsWidgetWidgetModel>(
+      () => _i900.AppNotificationsWidgetWidgetModel(
+        gh<_i406.AppNotificationsWidgetModel>(),
       ),
     );
     gh.factory<_i313.RenameSheetWidgetModel>(
@@ -1576,14 +1597,6 @@ extension GetItInjectableX on _i174.GetIt {
     gh.factory<_i830.ManualBackUpWidgetModel>(
       () => _i830.ManualBackUpWidgetModel(gh<_i217.ManualBackUpModel>()),
     );
-    gh.factory<_i77.BrowserServiceTabsDelegate>(
-      () => _i77.BrowserServiceTabsDelegate(
-        gh<_i634.BrowserTabsStorageService>(),
-        gh<_i988.BrowserGroupsStorageService>(),
-        gh<_i318.BrowserServicePagesControllersDelegate>(),
-        gh<_i169.BrowserServiceScreenshotsDelegate>(),
-      ),
-    );
     gh.singleton<_i213.BleAvailabilityModelDelegate>(
       () => _i213.BleAvailabilityModelDelegate(
         ledgerService: gh<_i865.LedgerService>(),
@@ -1817,6 +1830,15 @@ extension GetItInjectableX on _i174.GetIt {
       () => _i487.GaslessRepository(
         gh<_i771.NekotonRepository>(),
         gh<_i361.Dio>(),
+      ),
+    );
+    gh.factory<_i77.BrowserServiceTabsDelegate>(
+      () => _i77.BrowserServiceTabsDelegate(
+        gh<_i634.BrowserTabsStorageService>(),
+        gh<_i988.BrowserGroupsStorageService>(),
+        gh<_i318.BrowserServicePagesControllersDelegate>(),
+        gh<_i169.BrowserServiceScreenshotsDelegate>(),
+        gh<_i821.AppNotificationService>(),
       ),
     );
     gh.lazySingleton<_i33.TonConnectService>(

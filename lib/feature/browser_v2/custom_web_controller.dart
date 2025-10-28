@@ -1,5 +1,6 @@
 import 'dart:typed_data';
 
+import 'package:app/feature/browser_v2/data/browser_uri.dart';
 import 'package:app/utils/common_utils.dart';
 import 'package:flutter_inappwebview/flutter_inappwebview.dart';
 import 'package:logging/logging.dart';
@@ -41,7 +42,7 @@ class CustomWebViewController {
 
   Future<void> loadUrl({
     required URLRequest urlRequest,
-    WebUri? allowingReadAccessTo,
+    BrowserUri? allowingReadAccessTo,
   }) async {
     return _safeCall(
       () => _nativeController.loadUrl(

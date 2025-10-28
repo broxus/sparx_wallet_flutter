@@ -1,9 +1,11 @@
 import 'dart:async';
 import 'dart:math';
 
+import 'package:app/app/service/app_notifications/domain/service/app_notifications_service.dart';
 import 'package:app/core/wm/not_null_listenable_state.dart';
 import 'package:app/feature/browser_v2/browser_collection.dart';
 import 'package:app/feature/browser_v2/custom_web_controller.dart';
+import 'package:app/feature/browser_v2/data/browser_uri.dart';
 import 'package:app/feature/browser_v2/data/groups/browser_group.dart';
 import 'package:app/feature/browser_v2/data/tabs/browser_tab.dart';
 import 'package:app/feature/browser_v2/domain/delegates/browser_base_delegate.dart';
@@ -41,7 +43,7 @@ abstract interface class BrowserServiceTabs {
 
   NotNullListenableState<BrowserGroup>? getGroupListenableById(String id);
 
-  void openUrl(Uri url);
+  Future<void> openUrl(BrowserUri uri);
 
   void setActiveGroup(String groupId);
 
@@ -117,6 +119,7 @@ class BrowserServiceTabsDelegate
     this._browserGroupsStorageService,
     this._controllersDelegate,
     this._screenShooter,
+    this._appNotificationService,
   );
 
   static final _emptyUri = Uri.parse('');
@@ -126,6 +129,7 @@ class BrowserServiceTabsDelegate
 
   final BrowserServicePagesControllersDelegate _controllersDelegate;
   final BrowserServiceScreenshotsDelegate _screenShooter;
+  final AppNotificationService _appNotificationService;
 
   late final _controlPanelState = StateNotifier<ToolbarData>(
     initValue: const ToolbarData(),
@@ -389,7 +393,16 @@ class BrowserServiceTabsDelegate
   }
 
   @override
-  void openUrl(Uri url) {
+  Future<void> openUrl(BrowserUri uri) async {
+    if (!uri.isInternalAppUri) {
+      final isSuccess = await _appNotificationService.showBrowserUrlAlert(
+        uri.url,
+      );
+      if (!isSuccess) {
+        return;
+      }
+    }
+
     final lastTabId = _groupsReactiveStore.getTabIds(tabsGroupId)?.lastOrNull;
 
     if (lastTabId != null) {
@@ -398,7 +411,7 @@ class BrowserServiceTabsDelegate
           .toString()
           .isNotEmpty;
       if (!isExistUrl) {
-        requestUrl(lastTabId, url);
+        unawaited(requestUrl(lastTabId, uri));
 
         _groupsReactiveStore.setActiveById(tabsGroupId);
         _tabsReactiveStore.setActiveById(lastTabId);
@@ -408,7 +421,7 @@ class BrowserServiceTabsDelegate
       }
     }
 
-    createBrowserTab(url: url, groupId: tabsGroupId);
+    createBrowserTab(url: uri, groupId: tabsGroupId);
   }
 
   @override
