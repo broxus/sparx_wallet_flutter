@@ -210,7 +210,7 @@ class CompassRouter {
   /// current route, then pops the navigation stack if possible.
   ///
   /// [result] Optional value to return to the previous screen.
-  void compassBack<T extends Object?>([T? result]) {
+  Future<void> compassBack<T extends Object?>([T? result]) async {
     try {
       final route = currentRoutes.lastOrNull;
 
@@ -219,7 +219,7 @@ class CompassRouter {
       }
 
       if (route is CompassRouteDataQueryMixin) {
-        Future(() {
+        return Future(() {
           final routesAfterPop = currentRoutes.toList();
 
           final isRouteRemoved = routesAfterPop.none(
@@ -467,7 +467,7 @@ extension CompassNavigationContextExtension on BuildContext {
   /// [result] Optional value to return to the previous screen.
   ///
   /// See [CompassRouter.compassBack] for more details.
-  void compassBack<T extends Object?>([T? result]) {
+  Future<void> compassBack<T extends Object?>([T? result]) {
     return _compassRouter().compassBack(result);
   }
 }
