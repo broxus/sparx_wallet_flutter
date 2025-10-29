@@ -4,6 +4,7 @@ import 'package:app/app/service/service.dart';
 import 'package:app/feature/ton_connect/ton_connect.dart';
 import 'package:app_links/app_links.dart';
 import 'package:injectable/injectable.dart';
+import 'package:logging/logging.dart';
 import 'package:rxdart/rxdart.dart';
 
 @singleton
@@ -13,6 +14,8 @@ class AppLinksService {
   }
 
   static const _linkKey = 'link';
+
+  final _log = Logger('AppLinksService');
 
   final _appLinks = AppLinks();
 
@@ -63,6 +66,11 @@ class AppLinksService {
       return;
     }
 
+    if (!_checkIsAllowedScheme(link)) {
+      _log.severe('Unresolved link $link');
+      return;
+    }
+
     try {
       _linksSubj.add(BrowserAppLinksData(Uri.parse(link)));
     } catch (_) {}
@@ -73,5 +81,9 @@ class AppLinksService {
       final query = ConnectQuery.fromQuery(uri.query);
       _linksSubj.add(TonConnectAppLinksData(query));
     } catch (_) {}
+  }
+
+  bool _checkIsAllowedScheme(String link) {
+    return link.startsWith('http');
   }
 }

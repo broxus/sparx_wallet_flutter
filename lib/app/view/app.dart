@@ -1,4 +1,5 @@
 import 'package:app/app/router/router.dart';
+import 'package:app/app/service/app_notifications/widget/app_notifications_widget.dart';
 import 'package:app/app/service/crash_detector/widget/crash_detector_widget.dart';
 import 'package:app/app/view/app_wm.dart';
 import 'package:app/core/wm/custom_wm.dart';
@@ -55,7 +56,9 @@ class _AppContent extends StatelessWidget {
           child: InAppNotification(
             child: CrashDetectorWidget(
               checkCrashDetected: checkCrashDetected,
-              child: LocalizationServiceWidget(child: child ?? Container()),
+              child: LocalizationServiceWidget(
+                child: AppNotificationsWidget(child: child ?? Container()),
+              ),
             ),
           ),
         ),

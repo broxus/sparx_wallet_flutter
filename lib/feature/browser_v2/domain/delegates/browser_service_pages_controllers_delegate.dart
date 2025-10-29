@@ -1,6 +1,7 @@
 import 'dart:collection';
 
 import 'package:app/feature/browser_v2/custom_web_controller.dart';
+import 'package:app/feature/browser_v2/data/browser_uri.dart';
 import 'package:app/feature/browser_v2/domain/delegates/browser_base_delegate.dart';
 import 'package:flutter_inappwebview/flutter_inappwebview.dart';
 import 'package:injectable/injectable.dart';
@@ -34,7 +35,7 @@ class BrowserServicePagesControllersDelegate implements BrowserDelegate {
   Future<void> loadUrl(String tabId, Uri uri) {
     return Future(() {
       _controllers[tabId]?.loadUrl(
-        urlRequest: URLRequest(url: WebUri.uri(uri)),
+        urlRequest: URLRequest(url: BrowserUri.uri(uri)),
       );
     });
   }
