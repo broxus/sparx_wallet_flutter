@@ -89,13 +89,17 @@ class EnterPasswordWidget
             isFace: isFace,
             onSubmit: wm.onBiometry,
           ),
-          EnterPasswordStatePassword() => _Password(
-            title: props.title,
-            isDisabled: props.isDisabled,
-            isAutofocus: props.isAutofocus,
-            isLoading: props.isLoading,
-            controller: wm.passwordController,
-            onSubmit: wm.onPassword,
+          EnterPasswordStatePassword() => StateNotifierBuilder(
+            listenableState: wm.isPasswordLockedState,
+            builder: (_, isLocked) => _Password(
+              title: props.title,
+              isDisabled: props.isDisabled,
+              isLocked: isLocked ?? false,
+              isAutofocus: props.isAutofocus,
+              isLoading: props.isLoading,
+              controller: wm.passwordController,
+              onSubmit: wm.onPassword,
+            ),
           ),
           EnterPasswordStateLedger() => _Ledger(
             title: props.title,
@@ -165,6 +169,7 @@ class _Password extends StatelessWidget {
   const _Password({
     required this.title,
     required this.isDisabled,
+    required this.isLocked,
     required this.isAutofocus,
     required this.isLoading,
     required this.controller,
@@ -173,10 +178,13 @@ class _Password extends StatelessWidget {
 
   final String? title;
   final bool isDisabled;
+  final bool isLocked;
   final bool isAutofocus;
   final bool isLoading;
   final TextEditingController controller;
   final ValueChanged<String> onSubmit;
+
+  bool get _isDisabled => isDisabled || isLocked;
 
   @override
   Widget build(BuildContext context) {
@@ -186,15 +194,16 @@ class _Password extends StatelessWidget {
         SecureTextField(
           hintText: LocaleKeys.password.tr(),
           textEditingController: controller,
-          isAutofocus: isAutofocus && !isDisabled,
-          isEnabled: !isDisabled,
-          onSubmit: isDisabled ? null : (_) => onSubmit(controller.text),
+          isAutofocus: isAutofocus && !_isDisabled,
+          isEnabled: !_isDisabled,
+          onSubmit: _isDisabled ? null : (_) => onSubmit(controller.text),
         ),
         AccentButton(
           buttonShape: ButtonShape.pill,
           title: title ?? LocaleKeys.submitWord.tr(),
           isLoading: isLoading,
-          onPressed: isDisabled ? null : () => onSubmit(controller.text),
+          icon: isLocked ? LucideIcons.lock : null,
+          onPressed: _isDisabled ? null : () => onSubmit(controller.text),
         ),
       ],
     );

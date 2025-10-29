@@ -15,6 +15,7 @@ export 'identify/identify.dart';
 export 'nekoton_related/nekoton_related.dart';
 export 'network_connection/network_connection.dart';
 export 'ntp_service.dart';
+export 'password_service.dart';
 export 'permissions_service.dart';
 export 'presets_connection/presets_connection.dart';
 export 'remote/remote.dart';

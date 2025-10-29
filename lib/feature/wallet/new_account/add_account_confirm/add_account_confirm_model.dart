@@ -15,14 +15,22 @@ class AddAccountConfirmModel extends ElementaryModel {
     this._messengerService,
     this._nekotonRepository,
     this._currentAccountsService,
+    this._passwordService,
   ) : super(errorHandler: errorHandler);
 
   final BiometryService _biometryService;
   final MessengerService _messengerService;
   final NekotonRepository _nekotonRepository;
   final CurrentAccountsService _currentAccountsService;
+  final PasswordService _passwordService;
 
   KeyAccount? get account => _currentAccountsService.currentActiveAccount;
+
+  Stream<bool> get isPasswordLockedStream => _passwordService.isLockedStream;
+
+  bool get isPasswordLocked => _passwordService.isLocked;
+
+  DateTime? get lockUntil => _passwordService.lockUntil;
 
   Future<List<BiometricType>> getAvailableBiometry(PublicKey publicKey) async {
     final seed = _nekotonRepository.seedList.findSeedByAnyPublicKey(publicKey);
@@ -62,9 +70,7 @@ class AddAccountConfirmModel extends ElementaryModel {
   }) async {
     if (password.isEmpty) return false;
 
-    final list = _nekotonRepository.seedList;
-
-    final correct = await list.checkKeyPassword(
+    final correct = await _passwordService.checkKeyPassword(
       publicKey: publicKey,
       password: password,
       signatureId: await _nekotonRepository.currentTransport.transport
@@ -85,5 +91,9 @@ class AddAccountConfirmModel extends ElementaryModel {
     _messengerService.show(
       Message.error(message: LocaleKeys.passwordIsWrong.tr()),
     );
+  }
+
+  void showError(String message) {
+    _messengerService.show(Message.error(message: message));
   }
 }

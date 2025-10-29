@@ -22,6 +22,7 @@ class FeatureServicesConfigurator {
     this._tokenRepository,
     this._nftService,
     this._gaslessRepository,
+    this._passwordService,
   );
 
   final UpdateService _updateService;
@@ -36,11 +37,17 @@ class FeatureServicesConfigurator {
   final TokenRepository _tokenRepository;
   final NftService _nftService;
   final GaslessRepository _gaslessRepository;
+  final PasswordService _passwordService;
 
   final _log = Logger('bootstrap');
 
   Future<void> configure() async {
-    _log.finest('UpdateService initializing...');
+    _log.finest('PasswordService initializing...');
+
+    await _passwordService.init();
+    _log
+      ..finest('PasswordService initialized')
+      ..finest('UpdateService initializating...');
 
     _updateService.init();
     _log

@@ -71,11 +71,15 @@ class ContentConfirmAction
               hintText: LocaleKeys.enterYourPassword.tr(),
             ),
             const SizedBox(height: DimensSizeV2.d28),
-            AccentButton(
-              buttonShape: ButtonShape.pill,
-              title: LocaleKeys.confirm.tr(),
-              isLoading: data?.isLoading ?? false,
-              onPressed: wm.onClickConfirm,
+            StateNotifierBuilder(
+              listenableState: wm.isPasswordLockedState,
+              builder: (_, isLocked) => AccentButton(
+                buttonShape: ButtonShape.pill,
+                title: LocaleKeys.confirm.tr(),
+                isLoading: data?.isLoading ?? false,
+                icon: (isLocked ?? false) ? LucideIcons.lock : null,
+                onPressed: (isLocked ?? false) ? null : wm.onClickConfirm,
+              ),
             ),
             StateNotifierBuilder(
               listenableState: wm.availableBiometryState,

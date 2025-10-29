@@ -10,6 +10,7 @@ const _passwordsKey = 'passwords_key';
 const _connectionJsonDomain = 'connection_json_domain';
 const _connectionJsonKey = 'connection_json_key';
 const _connectionJsonHashKey = 'connection_json_hash_key';
+const _passwordServiceStateKey = 'password_service_state_key';
 
 /// This is a wrapper-class above [EncryptedStorage] that provides methods
 /// to interact with general information that is not related to some specified
@@ -23,6 +24,27 @@ class SecureStorageService extends AbstractStorageService {
 
   @override
   Future<void> init() => Future.value();
+
+  @override
+  Future<void> clear({bool isSaveConnectionJson = true}) async {
+    String? hash;
+    String? json;
+
+    if (isSaveConnectionJson) {
+      hash = await getConnectionJsonHash();
+      json = await getConnectionJson();
+    }
+
+    await _storage.clearAll();
+
+    if (hash != null) {
+      await setConnectionJsonHash(hash);
+    }
+
+    if (json != null) {
+      await setConnectionJson(json);
+    }
+  }
 
   /// Get password of public key if it was cached with biometry
   Future<String?> getKeyPassword(PublicKey publicKey) =>
@@ -90,24 +112,11 @@ class SecureStorageService extends AbstractStorageService {
     );
   }
 
-  @override
-  Future<void> clear({bool isSaveConnectionJson = true}) async {
-    String? hash;
-    String? json;
+  Future<void> setPasswordServiceStateJson(String json) {
+    return _storage.set(_passwordServiceStateKey, json);
+  }
 
-    if (isSaveConnectionJson) {
-      hash = await getConnectionJsonHash();
-      json = await getConnectionJson();
-    }
-
-    await _storage.clearAll();
-
-    if (hash != null) {
-      await setConnectionJsonHash(hash);
-    }
-
-    if (json != null) {
-      await setConnectionJson(json);
-    }
+  Future<String?> getPasswordServiceStateJson() {
+    return _storage.get(_passwordServiceStateKey);
   }
 }
