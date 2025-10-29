@@ -219,21 +219,24 @@ class CompassRouter {
       }
 
       if (route is CompassRouteDataQueryMixin) {
-        final routesAfterPop = currentRoutes.toList();
-        final isRouteRemoved = routesAfterPop.none(
-          (it) => it.path == route.path,
-        );
+        Future(() {
+          final routesAfterPop = currentRoutes.toList();
 
-        if (isRouteRemoved) {
-          final currentUri = this.currentUri;
-          final clearedQueries = route.clearScreenQueries(
-            currentUri.queryParameters,
+          final isRouteRemoved = routesAfterPop.none(
+            (it) => it.path == route.path,
           );
 
-          _router.go(
-            currentUri.replace(queryParameters: clearedQueries).toString(),
-          );
-        }
+          if (isRouteRemoved) {
+            final currentUri = this.currentUri;
+            final clearedQueries = route.clearScreenQueries(
+              currentUri.queryParameters,
+            );
+
+            _router.go(
+              currentUri.replace(queryParameters: clearedQueries).toString(),
+            );
+          }
+        });
       }
     } catch (e, s) {
       _log.warning('Failed to pop', e, s);
