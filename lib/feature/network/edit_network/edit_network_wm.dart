@@ -202,6 +202,10 @@ class EditNetworkWidgetModel
     contextSafe?.compassBack();
   }
 
+  void onBack(BuildContext context) {
+    context.compassBack();
+  }
+
   // ignore: long-method
   List<TextEditingController> _getEndpointsControllers() {
     if (connection == null) {
