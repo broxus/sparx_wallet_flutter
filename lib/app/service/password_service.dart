@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:convert';
 
 import 'package:app/app/service/service.dart';
@@ -9,22 +10,28 @@ import 'package:rxdart/rxdart.dart';
 
 @singleton
 final class PasswordService {
-  PasswordService(this._storageService, this._nekotonRepository);
+  PasswordService(
+    this._storageService,
+    this._nekotonRepository,
+    this._ntpService,
+  );
 
   static final _logger = Logger('PasswordService');
 
   final NekotonRepository _nekotonRepository;
   final SecureStorageService _storageService;
+  final NtpService _ntpService;
 
-  _State _state = const _State();
+  final _updater = StreamController<void>.broadcast();
+  _State _state = const _State.initial();
+  Timer? _unlockTimer;
 
   bool get isLocked => _state.isLocked;
 
   DateTime? get lockUntil => _state.lockUntil;
 
-  Stream<bool> get isLockedStream => Stream<dynamic>.periodic(
-    const Duration(seconds: 1),
-  ).map((_) => isLocked).startWith(isLocked).distinct();
+  Stream<bool> get isLockedStream =>
+      _updater.stream.map((_) => isLocked).startWith(isLocked).distinct();
 
   Future<void> init() async {
     try {
@@ -37,7 +44,13 @@ final class PasswordService {
     }
   }
 
-  Future<void> reset() => _updateState();
+  @disposeMethod
+  void dispose() {
+    _unlockTimer?.cancel();
+    _updater.close();
+  }
+
+  Future<void> reset() => _setState(const _State.initial());
 
   /// Check if the password is correct for the given public key
   Future<bool> checkKeyPassword({
@@ -54,35 +67,52 @@ final class PasswordService {
     );
 
     if (correct) {
-      await _updateState();
+      await _setState(const _State.initial());
     } else {
-      await _updateState(_state);
+      await _setState(_State.from(_state));
     }
 
     return correct;
   }
 
-  Future<void> _updateState([_State? newState]) async {
-    _state = _State.from(newState);
+  Future<void> _setState(_State newState) async {
+    _state = newState;
+
+    _updater.add(null);
+
+    _unlockTimer?.cancel();
+    _unlockTimer = null;
+
+    final lockUntil = newState.lockUntil;
+    if (newState.isLocked && lockUntil != null) {
+      final timeToWait =
+          lockUntil.difference(_ntpService.now()) + const Duration(seconds: 1);
+
+      if (!timeToWait.isNegative) {
+        // Schedule unlock notification
+        _unlockTimer = Timer(timeToWait, () {
+          _updater.add(null);
+          _unlockTimer = null;
+        });
+      }
+    }
+
     await _storageService.setPasswordServiceStateJson(
-      jsonEncode(_state.toJson()),
+      jsonEncode(newState.toJson()),
     );
   }
 }
 
 final class _State {
-  const _State({this.lastAttempt, this.attempts = 0});
+  const _State._({this.lastAttempt, this.attempts = 0});
 
-  factory _State.from([_State? previous]) {
-    if (previous == null) {
-      return const _State();
-    }
+  const factory _State.initial() = _State._;
 
-    return _State(lastAttempt: NtpTime.now(), attempts: previous.attempts + 1);
-  }
+  factory _State.from(_State previous) =>
+      _State._(lastAttempt: NtpTime.now(), attempts: previous.attempts + 1);
 
   factory _State.fromJson(Map<String, dynamic> json) {
-    return _State(
+    return _State._(
       attempts: json['attempts'] as int,
       lastAttempt: json['lastAttempt'] != null
           ? DateTime.tryParse(json['lastAttempt'] as String)
