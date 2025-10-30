@@ -50,6 +50,7 @@ class CreateSeedPasswordProfileWidgetModel
   late final _passwordStatusState = createNotifier(PasswordStatus.initial);
 
   ListenableState<bool> get loadingState => _loadingState;
+
   ListenableState<PasswordStatus> get passwordStatusState =>
       _passwordStatusState;
 
@@ -88,12 +89,14 @@ class CreateSeedPasswordProfileWidgetModel
     _loadingState.accept(false);
 
     try {
-      contextSafe?.compassPoint(const ProfileRouteData());
+      final router = CompassRouterProvider.of(context)
+        ..compassPoint(const ProfileRouteData());
+
       await Future.delayed(const Duration(milliseconds: 50), () {
         if (routeData != null) {
-          contextSafe?.compassPoint(routeData);
+          router.compassPoint(routeData);
         } else {
-          contextSafe?.compassContinue(const ManageSeedsAccountsRouteData());
+          router.compassContinue(const ManageSeedsAccountsRouteData());
         }
       });
     } catch (e, s) {
