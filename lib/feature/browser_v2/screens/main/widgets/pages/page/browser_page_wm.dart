@@ -329,17 +329,25 @@ class BrowserPageWidgetModel
 
     switch (msg.messageLevel) {
       case ConsoleMessageLevel.ERROR:
-        _log.severe('$_webLogTitle ${msg.message}');
+        _log.severe(_createLogMessage(msg: msg));
       case ConsoleMessageLevel.WARNING:
-        _log.warning('$_webLogTitle ${msg.message}');
+        _log.warning(_createLogMessage(msg: msg));
       case ConsoleMessageLevel.DEBUG:
-        _log.fine('$_webLogTitle ${msg.message}');
+        _log.fine(_createLogMessage(msg: msg));
       case ConsoleMessageLevel.TIP:
-        _log.info('$_webLogTitle ${msg.message}');
+        _log.info(_createLogMessage(msg: msg));
       case ConsoleMessageLevel.LOG:
       default:
-        _log.finer('$_webLogTitle ${msg.message}');
+        _log.finer(_createLogMessage(msg: msg));
     }
+  }
+
+  String _createLogMessage({required ConsoleMessage msg}) {
+    return '\n===== start log =====\n'
+        '$_webLogTitle\n'
+        '$_url\n'
+        '${msg.message}\n'
+        '===== end log =====\n';
   }
 
   Future<void> _onRefresh() async {
