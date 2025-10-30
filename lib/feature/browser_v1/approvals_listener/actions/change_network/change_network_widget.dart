@@ -87,7 +87,7 @@ class ChangeNetworkWidget
                       children: [
                         _Param(
                           label: LocaleKeys.networkId.tr(),
-                          value: wm.networkIdState.toString(),
+                          value: wm.networkIdState.value.toString(),
                         ),
                         _Param(
                           label: LocaleKeys.networkName.tr(),
