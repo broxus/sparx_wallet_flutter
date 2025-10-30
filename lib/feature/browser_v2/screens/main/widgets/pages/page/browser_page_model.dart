@@ -7,6 +7,7 @@ import 'package:app/app/service/assets_service.dart';
 import 'package:app/app/service/connection/connection_service.dart';
 import 'package:app/app/service/permissions_service.dart';
 import 'package:app/app/service/storage_service/connections_storage_service.dart';
+import 'package:app/core/app_build_type.dart';
 import 'package:app/feature/browser_v2/custom_web_controller.dart';
 import 'package:app/feature/browser_v2/data/browser_basic_auth_creds.dart';
 import 'package:app/feature/browser_v2/domain/service/browser_service.dart';
@@ -16,6 +17,7 @@ import 'package:app/feature/browser_v2/screens/main/widgets/pages/page/helpers/e
 import 'package:app/feature/ledger/ledger.dart';
 import 'package:app/feature/messenger/domain/service/messenger_service.dart';
 import 'package:app/feature/ton_connect/ton_connect.dart';
+import 'package:app/runner.dart';
 import 'package:elementary/elementary.dart';
 import 'package:elementary_helper/elementary_helper.dart';
 import 'package:flutter_inappwebview/flutter_inappwebview.dart';
@@ -39,6 +41,8 @@ class BrowserPageModel extends ElementaryModel {
     this._ledgerService,
     this._appPermissionsService,
   ) : super(errorHandler: errorHandler);
+
+  final isShowBrowserLog = currentAppBuildType == AppBuildType.development;
 
   final BrowserService _browserService;
   final BrowserApprovalsService _approvalsService;
