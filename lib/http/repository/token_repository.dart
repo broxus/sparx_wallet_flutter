@@ -1,6 +1,5 @@
 import 'package:app/app/service/connection/connection.dart';
 import 'package:app/data/models/models.dart';
-import 'package:app/http/dto/token_balances/search_balances/request/search_token_balances_request_dto.dart';
 import 'package:app/http/http.dart';
 import 'package:dio/dio.dart';
 import 'package:injectable/injectable.dart';

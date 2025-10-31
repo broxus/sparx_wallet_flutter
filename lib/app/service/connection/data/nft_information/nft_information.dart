@@ -8,6 +8,7 @@ part 'nft_information.g.dart';
 abstract class NftInformation with _$NftInformation {
   const factory NftInformation({
     String? marketplaceUrl,
+    String? apiBaseUrl,
     List<Address>? defaultCollections,
   }) = _NftInformation;
 
