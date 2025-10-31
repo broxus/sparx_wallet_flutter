@@ -279,6 +279,7 @@ import '../feature/network/edit_network/edit_network_model.dart' as _i328;
 import '../feature/network/edit_network/edit_network_wm.dart' as _i942;
 import '../feature/network/edit_network/route.dart' as _i217;
 import '../feature/network/network.dart' as _i393;
+import '../feature/nft/domain/nft_api_data_provider.dart' as _i775;
 import '../feature/nft/domain/nft_service.dart' as _i263;
 import '../feature/nft/domain/nft_storage_service.dart' as _i336;
 import '../feature/nft/nft.dart' as _i1015;
@@ -669,6 +670,7 @@ import '../feature/wallet/widgets/wallet_backup/manual_backup/manual_back_up_wm.
     as _i830;
 import '../feature/wallet/widgets/wallet_backup/wallet_backup.dart' as _i217;
 import '../http/api/gasless/gasless_api.dart' as _i528;
+import '../http/api/nft/nft_api.dart' as _i442;
 import '../http/api/presets/presets_api.dart' as _i249;
 import '../http/api/token/token_api.dart' as _i639;
 import '../http/api/ton/ton_api.dart' as _i162;
@@ -1508,16 +1510,6 @@ extension GetItInjectableX on _i174.GetIt {
     gh.factory<_i134.EnterSeedPhraseWidgetModel>(
       () => _i134.EnterSeedPhraseWidgetModel(gh<_i1056.EnterSeedPhraseModel>()),
     );
-    gh.factory<_i388.NekotonConfigurator>(
-      () => _i388.NekotonConfigurator(
-        gh<_i771.NekotonRepository>(),
-        gh<_i128.NekotonStorageService>(),
-        gh<_i128.TonWalletStorageService>(),
-        gh<_i128.TokenWalletStorageService>(),
-        gh<_i128.NtpService>(),
-        gh<_i865.LedgerConnectionHandlerImpl>(),
-      ),
-    );
     gh.factory<_i634.WelcomeScreenWidgetModel>(
       () => _i634.WelcomeScreenWidgetModel(gh<_i437.WelcomeScreenModel>()),
     );
@@ -1614,6 +1606,9 @@ extension GetItInjectableX on _i174.GetIt {
     );
     gh.factory<_i639.TokenApi>(
       () => _i639.TokenApi.new(gh<_i361.Dio>(), baseUrl: gh<String>()),
+    );
+    gh.factory<_i442.NftApi>(
+      () => _i442.NftApi.new(gh<_i361.Dio>(), baseUrl: gh<String>()),
     );
     gh.factory<_i528.GaslessApi>(
       () => _i528.GaslessApi.new(gh<_i361.Dio>(), baseUrl: gh<String>()),
@@ -1868,6 +1863,9 @@ extension GetItInjectableX on _i174.GetIt {
     gh.singleton<_i586.TonCurrenciesFetchStrategy>(
       () => _i586.TonCurrenciesFetchStrategy(gh<_i361.Dio>()),
     );
+    gh.singleton<_i775.NftApiDataProvider>(
+      () => _i775.NftApiDataProvider(gh<_i361.Dio>()),
+    );
     gh.singleton<_i470.BrowserService>(
       () => _i470.BrowserService(
         gh<_i625.TonConnectService>(),
@@ -1909,6 +1907,17 @@ extension GetItInjectableX on _i174.GetIt {
     );
     gh.factory<_i801.BiometryScreenWidgetModel>(
       () => _i801.BiometryScreenWidgetModel(gh<_i700.BiometryScreenModel>()),
+    );
+    gh.factory<_i388.NekotonConfigurator>(
+      () => _i388.NekotonConfigurator(
+        gh<_i771.NekotonRepository>(),
+        gh<_i128.NekotonStorageService>(),
+        gh<_i128.TonWalletStorageService>(),
+        gh<_i128.TokenWalletStorageService>(),
+        gh<_i128.NtpService>(),
+        gh<_i865.LedgerConnectionHandlerImpl>(),
+        gh<_i1015.NftApiDataProvider>(),
+      ),
     );
     gh.factory<_i338.SelectSeedWidgetModel>(
       () => _i338.SelectSeedWidgetModel(gh<_i479.SelectSeedModel>()),
