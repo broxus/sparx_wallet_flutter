@@ -297,27 +297,29 @@ class BrowserPageWidgetModel
         return null;
       }
 
-      final isGrant = await showPermissionsSheet(
+      final grantedPermissions = await showPermissionsSheet(
         context: contextSafe!,
         host: url.host,
-        permissions: permissionRequest.resources.map(
-          (r) => r.toValue().toLowerCase(),
-        ),
+        permissions: permissionRequest.resources,
       );
 
-      if (isGrant ?? false) {
-        await model.saveHostPermissions(url.host, permissionRequest.resources);
-        await model.requestCameraPermissionIfNeed(permissionRequest.resources);
-        return PermissionResponse(
-          action: PermissionResponseAction.GRANT,
-          resources: permissionRequest.resources,
-        );
+      if (grantedPermissions == null || grantedPermissions.isEmpty) {
+        return null;
       }
+
+      await model.saveHostPermissions(url.host, permissionRequest.resources);
+
+      if (grantedPermissions.contains(PermissionResourceType.CAMERA)) {
+        await model.requestCameraPermissionIfNeed(permissionRequest.resources);
+      }
+
+      return PermissionResponse(
+        action: PermissionResponseAction.GRANT,
+        resources: grantedPermissions,
+      );
     } catch (_) {
       return null;
     }
-
-    return null;
   }
 
   Future<void> _onRefresh() async {
