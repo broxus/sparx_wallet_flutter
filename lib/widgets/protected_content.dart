@@ -1,8 +1,8 @@
-import 'package:flag_secure/flag_secure.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
 import 'package:logging/logging.dart';
+import 'package:no_screenshot/no_screenshot.dart';
 
 class ProtectedContent extends StatefulWidget {
   const ProtectedContent({required this.child, super.key});
@@ -14,13 +14,11 @@ class ProtectedContent extends StatefulWidget {
 }
 
 class _ProtectedContentState extends State<ProtectedContent> {
-  _ProtectedContentState() {
-    _isFlagSecureSet = _checkFlagSecure();
-  }
-
   static final _logger = Logger('ProtectedContent');
 
-  late Future<bool> _isFlagSecureSet;
+  static var _isNoScreenshotEnabled = false;
+
+  late var _shouldDisableOnDispose = false;
 
   @override
   void initState() {
@@ -42,37 +40,39 @@ class _ProtectedContentState extends State<ProtectedContent> {
           child: widget.child,
         );
 
-  Future<bool> _checkFlagSecure() async {
-    if (kDebugMode) return false;
-
-    try {
-      final isSet = await FlagSecure.isSet;
-      return isSet ?? false;
-    } catch (e, st) {
-      _logger.warning('Failed to check secure flag', e, st);
-      return false;
-    }
-  }
-
   Future<void> _enableFlagSecure() async {
     if (kDebugMode) return;
-    if (await _isFlagSecureSet) return;
+    if (_isNoScreenshotEnabled) return;
+
+    _isNoScreenshotEnabled = true;
+    _shouldDisableOnDispose = true;
 
     try {
-      await FlagSecure.set();
+      final result = await NoScreenshot.instance.screenshotOff();
+
+      if (!result) {
+        _isNoScreenshotEnabled = false;
+        _shouldDisableOnDispose = false;
+        _logger.warning('Failed to disable screenshot');
+      }
     } catch (e, st) {
-      _logger.warning('Failed to enable secure flag', e, st);
+      _logger.warning('Failed to disable screenshot', e, st);
+      _isNoScreenshotEnabled = false;
+      _shouldDisableOnDispose = false;
     }
   }
 
   Future<void> _disableFlagSecure() async {
     if (kDebugMode) return;
-    if (await _isFlagSecureSet) return;
+    if (!_shouldDisableOnDispose) return;
+
+    _isNoScreenshotEnabled = false;
+    _shouldDisableOnDispose = false;
 
     try {
-      await FlagSecure.unset();
+      await NoScreenshot.instance.screenshotOn();
     } catch (e, st) {
-      _logger.warning('Failed to disable secure flag', e, st);
+      _logger.warning('Failed to enable screenshot', e, st);
     }
   }
 }
