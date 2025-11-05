@@ -75,7 +75,9 @@ class SendMessageWidgetModel
   late final _payloadState = createWmParamsNotifier((it) => it.payload);
 
   ValueListenable<Uri> get originState => _originState;
+
   ValueListenable<Address> get recipientState => _recipientState;
+
   ValueListenable<FunctionCall?> get payloadState => _payloadState;
 
   late final _dataState = createNotifier<TransferData>();
@@ -155,6 +157,14 @@ class SendMessageWidgetModel
   }
 
   Future<void> _init() async {
+    if (model.checkIsValidWorkchain(wmParams.value.recipient.address)) {
+      _feeState.error(
+        UiException(LocaleKeys.invalidWorkchainAddressFrom0To1.tr()),
+        _feeState.value.data,
+      );
+      return;
+    }
+
     final tokens = switch (wmParams.value.knownPayload) {
       KnownPayloadTokenOutgoingTransfer(:final data) => data.tokens,
       KnownPayloadTokenSwapBack(:final data) => data.tokens,
