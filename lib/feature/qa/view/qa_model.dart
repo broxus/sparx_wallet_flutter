@@ -19,9 +19,7 @@ class QaModel extends ElementaryModel {
   final EncryptedStorage _storage;
   final MessengerService _messengerService;
 
-  final _fss = const FlutterSecureStorage(
-    aOptions: AndroidOptions(encryptedSharedPreferences: true),
-  );
+  final _fss = const FlutterSecureStorage();
 
   Future<void> clearEncryptedDb() async {
     await _storage.clearAll();

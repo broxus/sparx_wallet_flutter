@@ -16,6 +16,7 @@ import 'package:image_picker_platform_interface/image_picker_platform_interface.
 import 'package:logging/logging.dart';
 import 'package:nekoton_repository/nekoton_repository.dart';
 import 'package:rive/rive.dart';
+import 'package:sentry_flutter/sentry_flutter.dart';
 import 'package:ui_components_lib/ui_components_lib.dart';
 
 late AppBuildType currentAppBuildType;
@@ -25,9 +26,17 @@ Future<void> run(AppBuildType appBuildType) async {
 
   Logger? log;
 
+  void severe(String? msg, Object? e, StackTrace? s) {
+    log?.severe(msg, e, s);
+    if (log == null) {
+      debugPrint('bootstrap error: $e');
+      debugPrintStack(stackTrace: s, label: 'bootstrap stackTrace:');
+    }
+  }
+
   await runZonedGuarded(
     () async {
-      WidgetsFlutterBinding.ensureInitialized();
+      SentryWidgetsFlutterBinding.ensureInitialized();
 
       await NekotonBridge.init();
       await RiveNative.init();
@@ -38,54 +47,54 @@ Future<void> run(AppBuildType appBuildType) async {
 
       log = Logger('bootstrap');
 
-      await inject<LocalizationConfigurator>().configure();
-
       await SentryWorker.instance.init(
         appBuildType: appBuildType,
         nekotonRepository: inject(),
         generalStorageService: inject(),
+        runApp: () async {
+          final originalFlutterOnError = FlutterError.onError;
+          final originalDefaultOnError = PlatformDispatcher.instance.onError;
+
+          FlutterError.onError = (details) {
+            severe(
+              details.exceptionAsString(),
+              details,
+              details.stack ?? StackTrace.current,
+            );
+            originalFlutterOnError?.call(details);
+          };
+
+          PlatformDispatcher.instance.onError = (error, stack) {
+            severe(null, error, stack);
+            return originalDefaultOnError?.call(error, stack) ?? false;
+          };
+
+          await inject<LocalizationConfigurator>().configure();
+
+          DefaultAppBar.defaultPopAction = (context) => context.compassBack();
+          DefaultAppBar.defaultCanPopAction = (context) => context.canPop();
+
+          await SystemChrome.setPreferredOrientations([
+            DeviceOrientation.portraitUp,
+          ]);
+          await SystemChrome.setEnabledSystemUIMode(SystemUiMode.edgeToEdge);
+          SystemChrome.setSystemUIOverlayStyle(
+            const SystemUiOverlayStyle(
+              systemNavigationBarColor: Colors.transparent,
+            ),
+          );
+
+          final imagePickerImplementation = ImagePickerPlatform.instance;
+          if (imagePickerImplementation is ImagePickerAndroid) {
+            imagePickerImplementation.useAndroidPhotoPicker = true;
+          }
+
+          runApp(const App());
+        },
       );
-
-      FlutterError.onError = (details) {
-        log?.severe(details.exceptionAsString(), details, details.stack);
-        SentryWorker.instance.captureException(
-          details.exception,
-          stackTrace: details.stack,
-        );
-      };
-
-      PlatformDispatcher.instance.onError = (error, stack) {
-        log?.severe(null, error, stack);
-        SentryWorker.instance.captureException(error, stackTrace: stack);
-        return true;
-      };
-
-      DefaultAppBar.defaultPopAction = (context) => context.compassBack();
-      DefaultAppBar.defaultCanPopAction = (context) => context.canPop();
-
-      await SystemChrome.setPreferredOrientations([
-        DeviceOrientation.portraitUp,
-      ]);
-      await SystemChrome.setEnabledSystemUIMode(SystemUiMode.edgeToEdge);
-      SystemChrome.setSystemUIOverlayStyle(
-        const SystemUiOverlayStyle(
-          systemNavigationBarColor: Colors.transparent,
-        ),
-      );
-
-      final imagePickerImplementation = ImagePickerPlatform.instance;
-      if (imagePickerImplementation is ImagePickerAndroid) {
-        imagePickerImplementation.useAndroidPhotoPicker = true;
-      }
-
-      runApp(const App());
     },
     (error, stackTrace) async {
-      log?.severe(error.toString(), error, stackTrace);
-      if (log == null) {
-        debugPrint('bootstrap error: $error');
-        debugPrintStack(stackTrace: stackTrace, label: 'bootstrap stackTrace:');
-      }
+      severe(error.toString(), error, stackTrace);
       SentryWorker.instance.captureException(error, stackTrace: stackTrace);
     },
   );

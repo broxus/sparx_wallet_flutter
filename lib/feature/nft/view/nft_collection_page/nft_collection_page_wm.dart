@@ -80,7 +80,7 @@ class NftCollectionPageWidgetModel
     final pendingList = await model.removePendingNft(_collection);
 
     if (collection == null) {
-      contextSafe?.compassBack();
+      await contextSafe?.compassBack();
       return;
     }
 
@@ -102,7 +102,7 @@ class NftCollectionPageWidgetModel
 
   Future<void> _onHideCollection() async {
     await model.hideCollection(_collection);
-    contextSafe?.compassBack();
+    await contextSafe?.compassBack();
   }
 
   Future<List<NftItem>> _fetchPage(String continuation) async {

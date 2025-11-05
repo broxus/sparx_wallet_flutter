@@ -1,5 +1,3 @@
-import 'package:app/http/dto/token_balances/search_balances/request/search_token_balances_request_dto.dart';
-import 'package:app/http/dto/token_balances/search_balances/response/search_token_balances_response_dto.dart';
 import 'package:app/http/http.dart';
 import 'package:dio/dio.dart';
 import 'package:injectable/injectable.dart';

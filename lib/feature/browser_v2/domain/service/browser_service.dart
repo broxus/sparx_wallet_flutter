@@ -1,6 +1,5 @@
 import 'dart:async';
 
-import 'package:app/app/service/app_links/app_links.dart';
 import 'package:app/feature/browser_v2/data/history_type.dart';
 import 'package:app/feature/browser_v2/domain/delegates/browser_anti_phishing_delegate.dart';
 import 'package:app/feature/browser_v2/domain/delegates/browser_service_auth_delegate.dart';
@@ -47,8 +46,6 @@ class BrowserService {
 
   final _isContentInteractedStream = BehaviorSubject.seeded(false);
 
-  StreamSubscription<BrowserAppLinksData>? _appLinksNavSubs;
-
   BrowserServiceAuth get auth => _authDelegate;
 
   BrowserServiceBookmarks get book => _bookmarksDelegate;
@@ -82,7 +79,6 @@ class BrowserService {
   @disposeMethod
   void dispose() {
     _tabsDelegate.dispose();
-    _appLinksNavSubs?.cancel();
     _antiPhishingDelegate.dispose();
   }
 

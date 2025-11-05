@@ -1,5 +1,6 @@
 import 'package:app/app/service/service.dart';
 import 'package:app/feature/ledger/ledger.dart';
+import 'package:app/feature/nft/nft.dart';
 import 'package:injectable/injectable.dart';
 import 'package:logging/logging.dart';
 import 'package:nekoton_repository/nekoton_repository.dart';
@@ -13,6 +14,7 @@ class NekotonConfigurator {
     this._tokenWalletStorageService,
     this._ntpService,
     this._ledgerConnectionHandler,
+    this._nftApiDataProvider,
   );
 
   static const _minSubscriptionsAtTime = 15;
@@ -23,6 +25,7 @@ class NekotonConfigurator {
   final TokenWalletStorageService _tokenWalletStorageService;
   final NtpService _ntpService;
   final LedgerConnectionHandlerImpl _ledgerConnectionHandler;
+  final NftApiDataProvider _nftApiDataProvider;
 
   final _log = Logger('bootstrap');
 
@@ -38,6 +41,7 @@ class NekotonConfigurator {
       tonWalletStorage: _tonWalletStorageService,
       tokenWalletStorage: _tokenWalletStorageService,
       ledgerConnectionHandler: _ledgerConnectionHandler,
+      nftDataProvider: _nftApiDataProvider,
     );
 
     _ntpService.offsetStream.listen(_nekotonRepository.updateClockOffset);

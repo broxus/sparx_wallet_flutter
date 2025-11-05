@@ -42,4 +42,16 @@ class DateTimeUtils {
 
     return formatter.format(dateTime);
   }
+
+  static String formatLockUntil(DateTime dateTime, [String? locale]) {
+    final now = NtpTime.now();
+
+    // Check if transaction date is today
+    if (dateTime.isSameDay(now)) {
+      return getDateFormat('HH:mm:ss', locale).format(dateTime);
+    }
+
+    final formatter = getDateFormat('HH:mm:ss MMMM dd', locale);
+    return formatter.format(dateTime);
+  }
 }

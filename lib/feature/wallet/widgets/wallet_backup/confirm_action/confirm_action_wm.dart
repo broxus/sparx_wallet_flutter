@@ -5,6 +5,7 @@ import 'package:app/app/router/router.dart';
 import 'package:app/core/wm/custom_wm.dart';
 import 'package:app/feature/wallet/widgets/wallet_backup/wallet_backup.dart';
 import 'package:app/generated/generated.dart';
+import 'package:app/utils/utils.dart';
 import 'package:elementary_helper/elementary_helper.dart';
 import 'package:flutter/foundation.dart';
 import 'package:injectable/injectable.dart';
@@ -32,21 +33,27 @@ class ConfirmActionWidgetModel
         > {
   ConfirmActionWidgetModel(super.model);
 
-  ThemeStyleV2 get themeStyle => context.themeStyleV2;
+  late final _isPasswordLockedState = createNotifierFromStream(
+    model.isPasswordLockedStream,
+  );
 
-  ListenableState<List<BiometricType>> get availableBiometryState =>
-      _availableBiometryState;
+  late final _availableBiometryState = createNotifier<List<BiometricType>>();
 
   late final ValueListenable<KeyAccount?> accountState = createWmParamsNotifier(
     (it) => it.account,
   );
 
-  late final _availableBiometryState = createNotifier<List<BiometricType>>();
-
   late final screenState = createEntityNotifier<ConfirmActionData>()
     ..loading(ConfirmActionData());
 
   late final passwordController = createTextEditingController();
+
+  ThemeStyleV2 get themeStyle => context.themeStyleV2;
+
+  ListenableState<List<BiometricType>> get availableBiometryState =>
+      _availableBiometryState;
+
+  ListenableState<bool> get isPasswordLockedState => _isPasswordLockedState;
 
   @override
   void initWidgetModel() {
@@ -55,11 +62,29 @@ class ConfirmActionWidgetModel
     _getAvailableBiometry();
   }
 
-  void onClickConfirm() {
+  Future<void> onClickConfirm() async {
     screenState.content(ConfirmActionData(isLoading: true));
+
     final publicKey = model.currentSeed?.publicKey;
+    final password = passwordController.text;
+    final languageCode = context.locale.languageCode;
+
     if (publicKey != null) {
-      _export(publicKey, passwordController.text);
+      final correct = await model.checkKeyPassword(
+        publicKey: publicKey,
+        password: password,
+      );
+
+      if (!correct) {
+        final lockUntil = model.lockUntil;
+        if (model.isPasswordLocked && lockUntil != null) {
+          final flu = DateTimeUtils.formatLockUntil(lockUntil, languageCode);
+          model.showError(LocaleKeys.passwordLockedUntil.tr(args: [flu]));
+          return;
+        }
+      }
+
+      await _export(publicKey, password);
     }
   }
 
@@ -92,7 +117,7 @@ class ConfirmActionWidgetModel
       try {
         final phrase = await seed.export(password);
 
-        context.compassBack();
+        await context.compassBack();
         final params = wmParams.value;
         await showManualBackupDialog(
           context,

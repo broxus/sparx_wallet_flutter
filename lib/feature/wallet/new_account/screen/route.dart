@@ -1,5 +1,9 @@
+import 'dart:convert';
+
 import 'package:app/app/router/compass/compass.dart';
+import 'package:app/app/service/service.dart';
 import 'package:app/feature/wallet/new_account/screen/new_account_screen.dart';
+import 'package:app/utils/utils.dart';
 import 'package:injectable/injectable.dart';
 
 // Constants moved from wallet.dart
@@ -22,7 +26,9 @@ class NewAccountRoute extends CompassRoute<NewAccountRouteData> {
   NewAccountRouteData fromQueryParams(Map<String, String> queryParams) {
     return NewAccountRouteData(
       publicKey: queryParams[_publicKeyQueryParam]!,
-      password: queryParams[_passwordQueryParam],
+      password: queryParams[_passwordQueryParam]?.let(
+        (it) => SecureString.fromJson(jsonDecode(it) as Map<String, dynamic>),
+      ),
     );
   }
 }
@@ -31,14 +37,14 @@ class NewAccountRouteData implements CompassRouteDataQuery {
   const NewAccountRouteData({required this.publicKey, this.password});
 
   final String publicKey;
-  final String? password;
+  final SecureString? password;
 
   @override
   Map<String, String> toQueryParams() {
     final result = <String, String>{_publicKeyQueryParam: publicKey};
 
     if (password != null) {
-      result[_passwordQueryParam] = password!;
+      result[_passwordQueryParam] = jsonEncode(password!.toJson());
     }
 
     return result;

@@ -53,7 +53,7 @@ class TokenWalletsService {
 
   /// Search for non-empty token wallets for account address
   Stream<SearchStreamValue> searchTokenWalletsForAddress(Address address) {
-    if (!canSearch) return const Stream.empty();
+    if (!canSearch) return Stream.value([]);
 
     final subject = ReplaySubject<SearchStreamValue>();
     _searchTokenWalletsForAddress(address: address, subject: subject);

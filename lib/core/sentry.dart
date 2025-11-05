@@ -35,6 +35,7 @@ class SentryWorker {
   AppBuildType? _appBuildType;
   NekotonRepository? _nekotonRepository;
   GeneralStorageService? _generalStorageService;
+  StreamSubscription<(TransportStrategy, AssetsList?)>? _scopeSub;
 
   /// If dev build type - don't use sentry
   bool get _isUseSentry => _appBuildType != AppBuildType.development;
@@ -43,6 +44,7 @@ class SentryWorker {
     required AppBuildType appBuildType,
     required NekotonRepository nekotonRepository,
     required GeneralStorageService generalStorageService,
+    required AppRunner runApp,
   }) async {
     _appBuildType = appBuildType;
     _nekotonRepository = nekotonRepository;
@@ -52,7 +54,7 @@ class SentryWorker {
       _logger.info(
         'Sentry is not used in the ${_appBuildType?.name} build type',
       );
-      return;
+      return runApp();
     }
 
     return SentryFlutter.init((options) {
@@ -72,10 +74,10 @@ class SentryWorker {
 
           return event;
         };
-    });
+    }, appRunner: runApp);
   }
 
-  void captureException(dynamic exception, {dynamic stackTrace}) {
+  void captureException(Object? exception, {StackTrace? stackTrace}) {
     if (!_isUseSentry) {
       return;
     }
@@ -85,31 +87,36 @@ class SentryWorker {
   void configureScope() {
     if (_nekotonRepository == null || _generalStorageService == null) return;
 
-    Rx.combineLatest3(
-          _nekotonRepository!.currentTransportStream,
-          _nekotonRepository!.accountsStorage.accountsStream,
-          _generalStorageService!.currentAddressStream,
-          (transport, accounts, address) => (transport, accounts, address),
-        )
-        .map((event) {
-          final (transport, accounts, address) = event;
-          final account = accounts.firstWhereOrNull(
-            (it) => it.address == address,
-          );
-          return (transport, account);
-        })
-        .listen((event) {
-          final (transport, account) = event;
-          Sentry.configureScope((scope) {
-            scope
-              ..setUser(
-                account?.let(
-                  (it) =>
-                      SentryUser(id: it.address.toString(), data: it.toJson()),
-                ),
-              )
-              ..setContexts('network', transport.networkName);
-          });
-        });
+    _scopeSub?.cancel();
+
+    _scopeSub =
+        Rx.combineLatest3(
+              _nekotonRepository!.currentTransportStream,
+              _nekotonRepository!.accountsStorage.accountsStream,
+              _generalStorageService!.currentAddressStream,
+              (transport, accounts, address) => (transport, accounts, address),
+            )
+            .map((event) {
+              final (transport, accounts, address) = event;
+              final account = accounts.firstWhereOrNull(
+                (it) => it.address == address,
+              );
+              return (transport, account);
+            })
+            .listen((event) {
+              final (transport, account) = event;
+              Sentry.configureScope((scope) {
+                scope
+                  ..setUser(
+                    account?.let(
+                      (it) => SentryUser(
+                        id: it.address.toString(),
+                        data: it.toJson(),
+                      ),
+                    ),
+                  )
+                  ..setContexts('network', transport.networkName);
+              });
+            });
   }
 }
