@@ -27,10 +27,8 @@ Future<T?> showPrimaryBottomSheet<T>({
     context: context,
     isDismissible: dismissible,
     useRootNavigator: useRootNavigator,
-    containerWidget: (context, animation, child) => _ContainerWidget(
-      animated: wrapIntoAnimatedSize,
-      child: child,
-    ),
+    containerWidget: (context, animation, child) =>
+        _ContainerWidget(animated: wrapIntoAnimatedSize, child: child),
     builder: (_) => _ContentBottomSheet(
       padding: padding,
       subtitle: subtitle,
@@ -104,8 +102,9 @@ class _ContentBottomSheet extends StatelessWidget {
                         ),
                       if (assetsPath != null)
                         Padding(
-                          padding:
-                              const EdgeInsets.only(bottom: DimensSizeV2.d16),
+                          padding: const EdgeInsets.only(
+                            bottom: DimensSizeV2.d16,
+                          ),
                           child: Image.asset(
                             assetsPath!,
                             width: DimensSizeV2.d56,
@@ -114,8 +113,9 @@ class _ContentBottomSheet extends StatelessWidget {
                         ),
                       if (title != null)
                         Padding(
-                          padding:
-                              const EdgeInsets.only(bottom: DimensSizeV2.d8),
+                          padding: const EdgeInsets.only(
+                            bottom: DimensSizeV2.d8,
+                          ),
                           child: Text(
                             title!,
                             style: theme.textStyles.headingLarge,
@@ -124,8 +124,9 @@ class _ContentBottomSheet extends StatelessWidget {
                         ),
                       if (subtitle != null)
                         Padding(
-                          padding:
-                              const EdgeInsets.only(bottom: DimensSizeV2.d24),
+                          padding: const EdgeInsets.only(
+                            bottom: DimensSizeV2.d24,
+                          ),
                           child: Text(
                             subtitle!,
                             style: theme.textStyles.paragraphMedium,
@@ -135,14 +136,16 @@ class _ContentBottomSheet extends StatelessWidget {
                       if (content != null) content!,
                       if (firstButton != null)
                         Padding(
-                          padding:
-                              const EdgeInsets.only(bottom: DimensSize.d12),
+                          padding: const EdgeInsets.only(
+                            bottom: DimensSize.d12,
+                          ),
                           child: firstButton,
                         ),
                       if (secondButton != null)
                         Padding(
-                          padding:
-                              const EdgeInsets.only(bottom: DimensSize.d12),
+                          padding: const EdgeInsets.only(
+                            bottom: DimensSize.d12,
+                          ),
                           child: secondButton,
                         ),
                       SizedBox(height: bottomSpaceSize),
@@ -173,10 +176,7 @@ class _ContentBottomSheet extends StatelessWidget {
 }
 
 class _ContainerWidget extends StatefulWidget {
-  const _ContainerWidget({
-    required this.child,
-    this.animated = true,
-  });
+  const _ContainerWidget({required this.child, this.animated = true});
 
   final Widget child;
   final bool animated;

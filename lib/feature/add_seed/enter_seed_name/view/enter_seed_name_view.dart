@@ -17,11 +17,13 @@ class EnterSeedNameView extends StatefulWidget {
   /// {@macro enter_seed_name_view}
   const EnterSeedNameView({
     required this.callback,
+    required this.isLoading,
     super.key,
   });
 
   /// Callback that will be called when user entered seed phrase name.
   final EnterSeedNameCompleteCallback callback;
+  final bool isLoading;
 
   @override
   State<EnterSeedNameView> createState() => _EnterSeedNameViewState();
@@ -29,10 +31,12 @@ class EnterSeedNameView extends StatefulWidget {
 
 class _EnterSeedNameViewState extends State<EnterSeedNameView> {
   final nameController = TextEditingController();
+  final nameFocusNode = FocusNode();
 
   @override
   void dispose() {
     nameController.dispose();
+    nameFocusNode.dispose();
     super.dispose();
   }
 
@@ -61,6 +65,9 @@ class _EnterSeedNameViewState extends State<EnterSeedNameView> {
                     ),
                     const SizedBox(height: DimensSizeV2.d24),
                     PrimaryTextField(
+                      isAutofocus: true,
+                      isEnabled: !widget.isLoading,
+                      focusNode: nameFocusNode,
                       maxLength: maxLengthForMainEntities,
                       textEditingController: nameController,
                       hintText: LocaleKeys.seedName.tr(),
@@ -71,6 +78,7 @@ class _EnterSeedNameViewState extends State<EnterSeedNameView> {
               ),
             ),
             AccentButton(
+              isLoading: widget.isLoading,
               buttonShape: ButtonShape.pill,
               title: LocaleKeys.continueWord.tr(),
               onPressed: _nextAction,
@@ -84,6 +92,7 @@ class _EnterSeedNameViewState extends State<EnterSeedNameView> {
 
   void _nextAction() {
     final name = nameController.text.trim();
+    nameFocusNode.unfocus();
     widget.callback(name.isEmpty ? null : name);
   }
 }

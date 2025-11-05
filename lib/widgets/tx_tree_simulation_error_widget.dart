@@ -72,10 +72,8 @@ class TxTreeSimulationErrorWidget extends StatelessWidget {
                         children: [
                           if (canFixTxError)
                             TextSpan(
-                              text:
-                                  LocaleKeys.txTreeSimulationErrorHintCanFix.tr(
-                                args: [symbol ?? ''],
-                              ),
+                              text: LocaleKeys.txTreeSimulationErrorHintCanFix
+                                  .tr(args: [symbol ?? '']),
                             )
                           else
                             TextSpan(
@@ -125,9 +123,7 @@ class TxTreeSimulationErrorWidget extends StatelessWidget {
 }
 
 class _ErrorMessage extends StatefulWidget {
-  const _ErrorMessage({
-    required this.item,
-  });
+  const _ErrorMessage({required this.item});
 
   final TxTreeSimulationErrorItem item;
 
@@ -166,49 +162,41 @@ class _ErrorMessageState extends State<_ErrorMessage> {
         ),
         children: switch (widget.item.error.type) {
           TxTreeSimulationErrorType.computePhase => [
-              TextSpan(
-                text: LocaleKeys.txTreeSimulationErrorComputePhase_0.tr(),
+            TextSpan(text: LocaleKeys.txTreeSimulationErrorComputePhase_0.tr()),
+            address,
+            TextSpan(
+              text: LocaleKeys.txTreeSimulationErrorComputePhase_1.tr(
+                args: [widget.item.error.code?.toString() ?? ''],
               ),
-              address,
-              TextSpan(
-                text: LocaleKeys.txTreeSimulationErrorComputePhase_1.tr(
-                  args: [widget.item.error.code?.toString() ?? ''],
-                ),
-              ),
-            ],
+            ),
+          ],
           TxTreeSimulationErrorType.actionPhase => [
-              TextSpan(
-                text: LocaleKeys.txTreeSimulationErrorActionPhase_0.tr(),
+            TextSpan(text: LocaleKeys.txTreeSimulationErrorActionPhase_0.tr()),
+            address,
+            TextSpan(
+              text: LocaleKeys.txTreeSimulationErrorActionPhase_1.tr(
+                args: [widget.item.error.code?.toString() ?? ''],
               ),
-              address,
-              TextSpan(
-                text: LocaleKeys.txTreeSimulationErrorActionPhase_1.tr(
-                  args: [widget.item.error.code?.toString() ?? ''],
-                ),
-              ),
-            ],
+            ),
+          ],
           TxTreeSimulationErrorType.frozen => [
-              TextSpan(
-                text: LocaleKeys.txTreeSimulationErrorFrozen_0.tr(),
+            TextSpan(text: LocaleKeys.txTreeSimulationErrorFrozen_0.tr()),
+            address,
+            TextSpan(
+              text: LocaleKeys.txTreeSimulationErrorFrozen_1.tr(
+                args: [widget.item.error.code?.toString() ?? ''],
               ),
-              address,
-              TextSpan(
-                text: LocaleKeys.txTreeSimulationErrorFrozen_1.tr(
-                  args: [widget.item.error.code?.toString() ?? ''],
-                ),
-              ),
-            ],
+            ),
+          ],
           TxTreeSimulationErrorType.deleted => [
-              TextSpan(
-                text: LocaleKeys.txTreeSimulationErrorDeleted_0.tr(),
+            TextSpan(text: LocaleKeys.txTreeSimulationErrorDeleted_0.tr()),
+            address,
+            TextSpan(
+              text: LocaleKeys.txTreeSimulationErrorDeleted_1.tr(
+                args: [widget.item.error.code?.toString() ?? ''],
               ),
-              address,
-              TextSpan(
-                text: LocaleKeys.txTreeSimulationErrorDeleted_1.tr(
-                  args: [widget.item.error.code?.toString() ?? ''],
-                ),
-              ),
-            ],
+            ),
+          ],
         },
       ),
     );

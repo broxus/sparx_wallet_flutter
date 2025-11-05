@@ -11,13 +11,15 @@ import 'package:nekoton_repository/nekoton_repository.dart' hide Message;
 import 'package:ui_components_lib/ui_components_lib.dart';
 
 @injectable
-class SeedSettingsWidgetModel extends CustomWidgetModelParametrized<
-    SeedSettingsWidget,
-    SeedSettingsModel,
-    PublicKey> with BleAvailabilityWmMixin {
-  SeedSettingsWidgetModel(
-    super.model,
-  );
+class SeedSettingsWidgetModel
+    extends
+        CustomWidgetModelParametrized<
+          SeedSettingsWidget,
+          SeedSettingsModel,
+          PublicKey
+        >
+    with BleAvailabilityWmMixin {
+  SeedSettingsWidgetModel(super.model);
 
   late final publicKeyState = createWmParamsNotifier((it) => it);
 
@@ -35,7 +37,13 @@ class SeedSettingsWidgetModel extends CustomWidgetModelParametrized<
   void onRename() {
     Navigator.of(context)
       ..pop()
-      ..push(showRenameSheet(context, publicKeyState.value, renameSeed: true));
+      ..push(
+        showRenameSheet(
+          context: context,
+          publicKey: publicKeyState.value,
+          isSeed: true,
+        ),
+      );
   }
 
   void onExport() {
@@ -126,10 +134,7 @@ class SeedSettingsWidgetModel extends CustomWidgetModelParametrized<
     );
 
     try {
-      await model.triggerDerivingKeys(
-        masterKey: publicKey,
-        password: password,
-      );
+      await model.triggerDerivingKeys(masterKey: publicKey, password: password);
     } finally {
       hideLoader();
     }

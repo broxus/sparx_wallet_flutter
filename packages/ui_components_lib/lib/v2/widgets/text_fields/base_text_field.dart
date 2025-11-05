@@ -290,9 +290,7 @@ class _BaseTextFieldState extends State<BaseTextField> with StateMixin {
                       mainAxisAlignment: MainAxisAlignment.end,
                       children: [
                         if (widget.suffixIcon != null)
-                          Flexible(
-                            child: widget.suffixIcon!,
-                          ),
+                          Flexible(child: widget.suffixIcon!),
                         if (_isShowedError &&
                             widget.errorType == TextFieldErrorType.inline &&
                             widget.errorInlineIcon != null)
@@ -392,10 +390,7 @@ class _Container extends StatelessWidget {
             border: border,
             color: color,
           ),
-          child: ClipRRect(
-            borderRadius: borderRadius,
-            child: child,
-          ),
+          child: ClipRRect(borderRadius: borderRadius, child: child),
         ),
       ),
     );
@@ -403,10 +398,7 @@ class _Container extends StatelessWidget {
 }
 
 class _ErrorText extends StatelessWidget {
-  const _ErrorText({
-    this.text,
-    this.style,
-  });
+  const _ErrorText({this.text, this.style});
 
   final String? text;
   final TextStyle? style;
@@ -419,15 +411,9 @@ class _ErrorText extends StatelessWidget {
 
     return Padding(
       padding: const EdgeInsets.only(top: DimensSize.d8),
-      child: Text(
-        text!,
-        style: style,
-      ),
+      child: Text(text!, style: style),
     );
   }
 }
 
-enum TextFieldErrorType {
-  inline,
-  outline,
-}
+enum TextFieldErrorType { inline, outline }

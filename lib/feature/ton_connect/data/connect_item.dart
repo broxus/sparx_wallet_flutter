@@ -9,9 +9,7 @@ sealed class ConnectItem with _$ConnectItem {
   const factory ConnectItem.tonAddress() = TonAddressItem;
 
   @FreezedUnionValue('ton_proof')
-  const factory ConnectItem.tonProof({
-    required String payload,
-  }) = TonProofItem;
+  const factory ConnectItem.tonProof({required String payload}) = TonProofItem;
 
   factory ConnectItem.fromJson(Map<String, dynamic> json) =>
       _$ConnectItemFromJson(json);

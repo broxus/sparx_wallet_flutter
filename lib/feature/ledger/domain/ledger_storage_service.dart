@@ -10,9 +10,7 @@ const _connectedLedgersKey = 'connected_ledgers';
 
 @singleton
 class LedgerStorageService extends AbstractStorageService {
-  LedgerStorageService(
-    @Named(container) this._storage,
-  );
+  LedgerStorageService(@Named(container) this._storage);
 
   static const String container = 'ledger_storage_service';
 
@@ -48,10 +46,7 @@ class LedgerStorageService extends AbstractStorageService {
 
   void addConnectedLedger(ConnectedLedger connected) {
     final current = _connectedSubject.valueOrNull ?? {};
-    final updated = {
-      ...current,
-      connected.masterKey: connected,
-    };
+    final updated = {...current, connected.masterKey: connected};
 
     _storage.write(
       _connectedLedgersKey,
@@ -72,7 +67,6 @@ class LedgerStorageService extends AbstractStorageService {
     _connectedSubject.add(updated);
   }
 
-  void _streamedConnectedLedgers() => _connectedSubject.add(
-        readConnectedLedgers().toMap((e) => e.masterKey),
-      );
+  void _streamedConnectedLedgers() =>
+      _connectedSubject.add(readConnectedLedgers().toMap((e) => e.masterKey));
 }

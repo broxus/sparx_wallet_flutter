@@ -53,9 +53,7 @@ class LedgerBleScanner {
 
     _scanResult.add([]);
 
-    return FlutterBluePlus.startScan(
-      withServices: _withServices,
-    );
+    return FlutterBluePlus.startScan(withServices: _withServices);
   }
 
   Future<void> stopScan() => FlutterBluePlus.stopScan();

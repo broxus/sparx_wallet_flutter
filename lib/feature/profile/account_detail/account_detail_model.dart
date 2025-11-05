@@ -4,6 +4,7 @@ import 'package:app/app/service/service.dart';
 import 'package:elementary/elementary.dart';
 import 'package:injectable/injectable.dart';
 import 'package:logging/logging.dart';
+import 'package:money2/money2.dart';
 import 'package:nekoton_repository/nekoton_repository.dart';
 
 @injectable
@@ -28,10 +29,9 @@ class AccountDetailModel extends ElementaryModel {
   Transport get currentTransport =>
       nekotonRepository.currentTransport.transport;
 
-  Stream<Money?> accountOverallBalance(Address address) =>
-      balanceService.accountOverallBalance(address).map(
-            (fixed) => fixed != null ? convertBalance(fixed) : null,
-          );
+  Stream<Money?> accountOverallBalance(Address address) => balanceService
+      .accountOverallBalance(address)
+      .map((fixed) => fixed != null ? convertBalance(fixed) : null);
 
   Money convertBalance(Fixed amount) {
     return convertService.convert(amount);

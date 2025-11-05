@@ -1,4 +1,3 @@
-import 'package:app/feature/browser_v2/widgets/bottomsheets/book/widgets/bookmarks/bookmarks_list_wm.dart';
 import 'package:app/generated/generated.dart';
 import 'package:elementary_helper/elementary_helper.dart';
 import 'package:flutter/material.dart';
@@ -13,7 +12,7 @@ class BrowserBookmarksMenu extends StatelessWidget {
     super.key,
   });
 
-  final ListenableState<EditValue> editState;
+  final ListenableState<bool> editState;
   final ListenableState<bool> activeState;
 
   final VoidCallback onPressedEdit;
@@ -28,11 +27,10 @@ class BrowserBookmarksMenu extends StatelessWidget {
         alignment: Alignment.topRight,
         child: StateNotifierBuilder(
           listenableState: editState,
-          builder: (_, EditValue? editValue) {
+          builder: (_, bool? editValue) {
+            editValue ??= false;
             return AnimatedCrossFade(
-              firstChild: _DoneButton(
-                onPressed: onPressedDone,
-              ),
+              firstChild: _DoneButton(onPressed: onPressedDone),
               secondChild: StateNotifierBuilder(
                 listenableState: activeState,
                 builder: (_, bool? isActive) {
@@ -41,7 +39,7 @@ class BrowserBookmarksMenu extends StatelessWidget {
                   );
                 },
               ),
-              crossFadeState: editValue != EditValue.none
+              crossFadeState: editValue
                   ? CrossFadeState.showFirst
                   : CrossFadeState.showSecond,
               duration: const Duration(milliseconds: 250),
@@ -56,7 +54,8 @@ class BrowserBookmarksMenu extends StatelessWidget {
 class HistoryBookmarksMenu extends StatelessWidget {
   const HistoryBookmarksMenu({
     required this.editState,
-    required this.activeState,
+    required this.activeEditState,
+    required this.activeClearState,
     required this.onPressedEdit,
     required this.onPressedDone,
     required this.onPressedClear,
@@ -64,7 +63,8 @@ class HistoryBookmarksMenu extends StatelessWidget {
   });
 
   final ListenableState<bool> editState;
-  final ListenableState<bool> activeState;
+  final ListenableState<bool> activeEditState;
+  final ListenableState<bool> activeClearState;
 
   final VoidCallback onPressedEdit;
   final VoidCallback onPressedDone;
@@ -79,6 +79,7 @@ class HistoryBookmarksMenu extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           _ClearButton(
+            activeState: activeClearState,
             onPressed: onPressedClear,
           ),
           StateNotifierBuilder(
@@ -87,11 +88,9 @@ class HistoryBookmarksMenu extends StatelessWidget {
               isEdited ??= false;
 
               return AnimatedCrossFade(
-                firstChild: _DoneButton(
-                  onPressed: onPressedDone,
-                ),
+                firstChild: _DoneButton(onPressed: onPressedDone),
                 secondChild: StateNotifierBuilder(
-                  listenableState: activeState,
+                  listenableState: activeEditState,
                   builder: (_, bool? isActive) {
                     return _EditButton(
                       onPressed: isActive ?? false ? onPressedEdit : null,
@@ -112,9 +111,7 @@ class HistoryBookmarksMenu extends StatelessWidget {
 }
 
 class _Container extends StatelessWidget {
-  const _Container({
-    required this.child,
-  });
+  const _Container({required this.child});
 
   final Widget child;
 
@@ -131,9 +128,7 @@ class _Container extends StatelessWidget {
         decoration: BoxDecoration(
           color: colors.background1,
           border: Border(
-            top: BorderSide(
-              color: colors.primaryA.withValues(alpha: .1),
-            ),
+            top: BorderSide(color: colors.primaryA.withValues(alpha: .1)),
           ),
         ),
         child: child,
@@ -143,9 +138,7 @@ class _Container extends StatelessWidget {
 }
 
 class _EditButton extends StatelessWidget {
-  const _EditButton({
-    this.onPressed,
-  });
+  const _EditButton({this.onPressed});
 
   final VoidCallback? onPressed;
 
@@ -163,9 +156,7 @@ class _EditButton extends StatelessWidget {
 }
 
 class _DoneButton extends StatelessWidget {
-  const _DoneButton({
-    required this.onPressed,
-  });
+  const _DoneButton({required this.onPressed});
 
   final VoidCallback onPressed;
 
@@ -183,21 +174,28 @@ class _DoneButton extends StatelessWidget {
 }
 
 class _ClearButton extends StatelessWidget {
-  const _ClearButton({
-    this.onPressed,
-  });
+  const _ClearButton({required this.activeState, this.onPressed});
 
+  final ListenableState<bool> activeState;
   final VoidCallback? onPressed;
 
   @override
   Widget build(BuildContext context) {
     final theme = context.themeStyleV2;
-    return _ActionButton(
-      text: LocaleKeys.clearWord.tr(),
-      textStyle: theme.textStyles.labelSmall.copyWith(
-        color: ColorsResV2.vibrantStrawberry,
-      ),
-      onPressed: onPressed,
+
+    return StateNotifierBuilder(
+      listenableState: activeState,
+      builder: (_, bool? isActive) {
+        isActive ??= false;
+
+        return _ActionButton(
+          text: LocaleKeys.clearWord.tr(),
+          textStyle: theme.textStyles.labelSmall.copyWith(
+            color: ColorsResV2.vibrantStrawberry,
+          ),
+          onPressed: isActive ? onPressed : null,
+        );
+      },
     );
   }
 }
@@ -223,15 +221,10 @@ class _ActionButton extends StatelessWidget {
         child: SizedBox(
           width: DimensSizeV2.d84,
           child: Padding(
-            padding: const EdgeInsets.symmetric(
-              vertical: DimensSizeV2.d14,
-            ),
+            padding: const EdgeInsets.symmetric(vertical: DimensSizeV2.d14),
             child: Align(
               alignment: Alignment.topCenter,
-              child: Text(
-                text,
-                style: textStyle,
-              ),
+              child: Text(text, style: textStyle),
             ),
           ),
         ),

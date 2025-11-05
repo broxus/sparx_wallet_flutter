@@ -24,18 +24,22 @@ Future<void> showConfirmActionDialog(
   );
 }
 
-class ContentConfirmAction extends InjectedElementaryParametrizedWidget<
-    ConfirmActionWidgetModel, ConfirmActionWmParams> {
+class ContentConfirmAction
+    extends
+        InjectedElementaryParametrizedWidget<
+          ConfirmActionWidgetModel,
+          ConfirmActionWmParams
+        > {
   ContentConfirmAction({
     required ValueChanged<bool> finishedBackupCallback,
     KeyAccount? account,
     super.key,
   }) : super(
-          wmFactoryParam: ConfirmActionWmParams(
-            finishedBackupCallback: finishedBackupCallback,
-            account: account,
-          ),
-        );
+         wmFactoryParam: ConfirmActionWmParams(
+           finishedBackupCallback: finishedBackupCallback,
+           account: account,
+         ),
+       );
 
   @override
   Widget build(ConfirmActionWidgetModel wm) {

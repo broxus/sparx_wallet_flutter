@@ -120,9 +120,7 @@ class AccountDetailView extends StatelessWidget {
   }
 
   void _copyAddress(BuildContext context) {
-    Clipboard.setData(
-      ClipboardData(text: account.address.address),
-    );
+    Clipboard.setData(ClipboardData(text: account.address.address));
     inject<MessengerService>().show(
       Message.successful(
         message: LocaleKeys.valueCopiedExclamation.tr(
@@ -153,7 +151,11 @@ class AccountDetailView extends StatelessWidget {
             buttonType: EverButtonType.ghost,
             color: colors.textSecondary,
             onPressed: () => Navigator.of(context).push(
-              showRenameSheet(context, custodian.publicKey, isCustodian: true),
+              showRenameSheet(
+                context: context,
+                publicKey: custodian.publicKey,
+                isCustodian: true,
+              ),
             ),
           ),
         );

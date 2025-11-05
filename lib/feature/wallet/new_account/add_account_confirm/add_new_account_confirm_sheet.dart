@@ -14,9 +14,7 @@ Future<(PublicKey, String)?> showAddAccountConfirmSheet({
     context: context,
     title: LocaleKeys.confirmAction.tr(),
     centerTitle: true,
-    body: (_, scrollController) => AddAccountConfirmWidget(
-      publicKey: publicKey,
-      seedName: seedName,
-    ),
+    body: (_, scrollController) =>
+        AddAccountConfirmWidget(publicKey: publicKey, seedName: seedName),
   );
 }

@@ -8,10 +8,7 @@ import 'package:nekoton_repository/nekoton_repository.dart';
 
 @singleton
 class TokenRepository {
-  TokenRepository(
-    this.nekotonRepository,
-    this.dio,
-  );
+  TokenRepository(this.nekotonRepository, this.dio);
 
   final NekotonRepository nekotonRepository;
   final Dio dio;

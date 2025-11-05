@@ -12,9 +12,7 @@ import 'package:ui_components_lib/v2/ui_components_lib_v2.dart';
 
 class ImportWalletScreen
     extends InjectedElementaryWidget<ImportWalletScreenWidgetModel> {
-  const ImportWalletScreen({
-    super.key,
-  });
+  const ImportWalletScreen({super.key});
 
   @override
   Widget build(ImportWalletScreenWidgetModel wm) {
@@ -35,8 +33,9 @@ class ImportWalletScreen
               children: [
                 Expanded(
                   child: SingleChildScrollView(
-                    padding:
-                        const EdgeInsets.symmetric(horizontal: DimensSize.d16),
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: DimensSize.d16,
+                    ),
                     child: Column(
                       children: [
                         Image.asset(
@@ -54,8 +53,9 @@ class ImportWalletScreen
                         const SizedBox(height: DimensSizeV2.d24),
                         if ((data?.allowedData?.length ?? 0) > 1)
                           Padding(
-                            padding:
-                                const EdgeInsets.only(bottom: DimensSizeV2.d12),
+                            padding: const EdgeInsets.only(
+                              bottom: DimensSizeV2.d12,
+                            ),
                             child: SwitcherSegmentControls<int>(
                               currentValue: data?.selectedValue ?? 0,
                               values: [
@@ -183,16 +183,12 @@ class _ListWords extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final halfLength = (wordsCount / 2).floor();
-    final firstColumnWords = this.firstColumnWords ??
-        List.generate(
-          halfLength,
-          (index) => r'^*#!#$^*',
-        );
-    final secondColumnWords = this.secondColumnWords ??
-        List.generate(
-          halfLength,
-          (index) => r'^*#!#$^*',
-        );
+    final firstColumnWords =
+        this.firstColumnWords ??
+        List.generate(halfLength, (index) => r'^*#!#$^*');
+    final secondColumnWords =
+        this.secondColumnWords ??
+        List.generate(halfLength, (index) => r'^*#!#$^*');
 
     return Row(
       mainAxisAlignment: MainAxisAlignment.center,
@@ -260,8 +256,9 @@ class _WordWithIndex extends StatelessWidget {
       children: [
         Text(
           '${index + 1}',
-          style: theme.textStyles.labelSmall
-              .copyWith(color: theme.colors.content3),
+          style: theme.textStyles.labelSmall.copyWith(
+            color: theme.colors.content3,
+          ),
         ),
         const SizedBox(width: DimensSizeV2.d8),
         Text(

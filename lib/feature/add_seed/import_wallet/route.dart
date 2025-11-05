@@ -13,14 +13,11 @@ class ImportWalletRoute
     @Named.from(CreateSeedOnboardingPasswordRoute)
     CompassBaseRoute createSeedPasswordRoute,
   ) : super(
-          path: '/import-wallet',
-          isSaveLocation: true,
-          builder: (context, _, __) => const ImportWalletScreen(),
-          compassBaseRoutes: [
-            enterSeedPhraseRoute,
-            createSeedPasswordRoute,
-          ],
-        );
+        path: '/import-wallet',
+        isSaveLocation: true,
+        builder: (context, _, __) => const ImportWalletScreen(),
+        compassBaseRoutes: [enterSeedPhraseRoute, createSeedPasswordRoute],
+      );
 
   @override
   ImportWalletRouteData createData() {

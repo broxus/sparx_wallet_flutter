@@ -92,10 +92,7 @@ class CommonCard extends StatelessWidget {
         mainAxisSize: MainAxisSize.min,
         crossAxisAlignment: CrossAxisAlignment.start,
         spacing: DimensSize.d4,
-        children: [
-          topSubtitle,
-          title,
-        ],
+        children: [topSubtitle, title],
       );
     }
 

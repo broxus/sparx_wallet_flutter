@@ -5,8 +5,12 @@ import 'package:app/feature/wallet/wallet_deploy/wallet_deploy_status/wallet_dep
 import 'package:flutter/material.dart';
 import 'package:ui_components_lib/ui_components_lib.dart';
 
-class WalletDeployStatusScreen extends InjectedElementaryParametrizedWidget<
-    WalletDeployStatusWidgetModel, WalletDeployStatusRouteData> {
+class WalletDeployStatusScreen
+    extends
+        InjectedElementaryParametrizedWidget<
+          WalletDeployStatusWidgetModel,
+          WalletDeployStatusRouteData
+        > {
   const WalletDeployStatusScreen({
     required WalletDeployStatusRouteData routeData,
     super.key,
@@ -16,17 +20,14 @@ class WalletDeployStatusScreen extends InjectedElementaryParametrizedWidget<
   Widget build(WalletDeployStatusWidgetModel wm) {
     return PopCapture(
       onPop: wm.navigateToWallet,
-      child: Scaffold(
-        body: ValueListenableBuilder<bool>(
-          valueListenable: wm.canCloseState,
-          builder: (context, canClose, _) {
-            return TransactionSendingWidget(
-              canClose: canClose,
-              popOnComplete: false,
-              isDeploying: true,
-              onClose: wm.onClose,
-            );
-          },
+      child: const Scaffold(
+        body: Padding(
+          padding: EdgeInsets.all(DimensSizeV2.d16),
+          child: TransactionSendingWidget(
+            canClose: true,
+            popOnComplete: false,
+            isDeploying: true,
+          ),
         ),
       ),
     );

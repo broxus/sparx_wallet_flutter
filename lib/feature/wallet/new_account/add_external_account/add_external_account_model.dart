@@ -15,14 +15,8 @@ class AddExternalAccountModel extends ElementaryModel {
   final NekotonRepository _nekotonRepository;
   final MessengerService _messengerService;
 
-  Future<void> addExternalAccount({
-    required Address address,
-    String? name,
-  }) =>
-      _nekotonRepository.addExternalAccount(
-        address: address,
-        name: name,
-      );
+  Future<void> addExternalAccount({required Address address, String? name}) =>
+      _nekotonRepository.addExternalAccount(address: address, name: name);
 
   void showMessage(Message message) => _messengerService.show(message);
 }

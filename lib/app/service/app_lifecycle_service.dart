@@ -8,8 +8,9 @@ import 'package:rxdart/rxdart.dart';
 class AppLifecycleService {
   static final _logger = Logger('AppLifecycleService');
 
-  final _appLifecycleStateSubject =
-      BehaviorSubject<AppLifecycleState>(sync: true);
+  final _appLifecycleStateSubject = BehaviorSubject<AppLifecycleState>(
+    sync: true,
+  );
 
   /// Stream of app lifecycle state
   Stream<AppLifecycleState> get appLifecycleStateStream =>

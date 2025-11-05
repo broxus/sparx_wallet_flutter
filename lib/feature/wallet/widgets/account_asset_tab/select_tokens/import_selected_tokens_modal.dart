@@ -12,9 +12,8 @@ Future<void> showImportSelectedTokensModal(
     title: LocaleKeys.importSelectedTokensLabel.tr(),
     centerTitle: true,
     titleTextStyle: context.themeStyleV2.textStyles.headingLarge,
-    body: (_, scrollController) => _ImportSelectedTokensWidget(
-      onClickConfirm: onClickConfirm,
-    ),
+    body: (_, scrollController) =>
+        _ImportSelectedTokensWidget(onClickConfirm: onClickConfirm),
   );
 }
 

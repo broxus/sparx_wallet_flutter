@@ -7,12 +7,14 @@ import 'package:flutter/material.dart';
 import 'package:nekoton_repository/nekoton_repository.dart';
 
 /// Widget that stores information about native token and display its balance
-class TonWalletAssetWidget extends InjectedElementaryParametrizedWidget<
-    TonWalletAssetWidgetModel, TonWalletAsset> {
-  const TonWalletAssetWidget({
-    required TonWalletAsset tonWallet,
-    super.key,
-  }) : super(wmFactoryParam: tonWallet);
+class TonWalletAssetWidget
+    extends
+        InjectedElementaryParametrizedWidget<
+          TonWalletAssetWidgetModel,
+          TonWalletAsset
+        > {
+  const TonWalletAssetWidget({required TonWalletAsset tonWallet, super.key})
+    : super(wmFactoryParam: tonWallet);
 
   @override
   Widget build(TonWalletAssetWidgetModel wm) {

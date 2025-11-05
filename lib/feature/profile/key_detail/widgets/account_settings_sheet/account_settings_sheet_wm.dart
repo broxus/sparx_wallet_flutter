@@ -12,13 +12,14 @@ import 'package:ui_components_lib/ui_components_lib.dart';
 
 /// [WidgetModel] for [AccountSettingsSheet]
 @injectable
-class AccountSettingsSheetWidgetModel extends CustomWidgetModelParametrized<
-    AccountSettingsSheet,
-    AccountSettingsSheetModel,
-    AccountSettingsSheetParams> {
-  AccountSettingsSheetWidgetModel(
-    super.model,
-  );
+class AccountSettingsSheetWidgetModel
+    extends
+        CustomWidgetModelParametrized<
+          AccountSettingsSheet,
+          AccountSettingsSheetModel,
+          AccountSettingsSheetParams
+        > {
+  AccountSettingsSheetWidgetModel(super.model);
 
   bool get isShowHiding => wmParams.value.showHiding;
 
@@ -46,12 +47,7 @@ class AccountSettingsSheetWidgetModel extends CustomWidgetModelParametrized<
   void onPressedRename() {
     Navigator.of(context)
       ..pop()
-      ..push(
-        getRenameAccountSheet(
-          context,
-          wmParams.value.address,
-        ),
-      );
+      ..push(getRenameAccountSheet(context, wmParams.value.address));
   }
 
   void onPressedCopyAddress() {
@@ -75,9 +71,7 @@ class AccountSettingsSheetWidgetModel extends CustomWidgetModelParametrized<
     }
     Navigator.of(context)
       ..pop()
-      ..push(
-        deleteAccountSheetRoute(context, account!),
-      );
+      ..push(deleteAccountSheetRoute(context, account!));
   }
 }
 

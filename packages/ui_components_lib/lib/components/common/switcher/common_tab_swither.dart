@@ -63,9 +63,7 @@ class CommonTabSwitcher<T> extends StatelessWidget {
       children: [
         for (final value in values)
           fillWidth
-              ? Expanded(
-                  child: _switcherItem(value, colors, style),
-                )
+              ? Expanded(child: _switcherItem(value, colors, style))
               : _switcherItem(value, colors, style),
       ],
     );

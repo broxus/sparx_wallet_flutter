@@ -31,8 +31,8 @@ class Message {
     this.onAction,
     this.topMargin,
     String? id,
-  })  : hashString = '${type.name}_${sha256.convert(utf8.encode('message'))}',
-        id = id ?? const Uuid().v4();
+  }) : hashString = '${type.name}_${sha256.convert(utf8.encode('message'))}',
+       id = id ?? const Uuid().v4();
 
   factory Message.error({
     required String message,
@@ -40,15 +40,14 @@ class Message {
     Duration debounceTime = defaultErrorMessageDebounceDuration,
     String? actionText,
     VoidCallback? onAction,
-  }) =>
-      Message(
-        type: MessageType.error,
-        message: message,
-        duration: duration,
-        debounceTime: debounceTime,
-        actionText: actionText,
-        onAction: onAction,
-      );
+  }) => Message(
+    type: MessageType.error,
+    message: message,
+    duration: duration,
+    debounceTime: debounceTime,
+    actionText: actionText,
+    onAction: onAction,
+  );
 
   factory Message.info({
     required String message,
@@ -57,16 +56,15 @@ class Message {
     String? actionText,
     VoidCallback? onAction,
     double? topMargin,
-  }) =>
-      Message(
-        type: MessageType.info,
-        message: message,
-        duration: duration,
-        debounceTime: debounceTime,
-        actionText: actionText,
-        onAction: onAction,
-        topMargin: topMargin,
-      );
+  }) => Message(
+    type: MessageType.info,
+    message: message,
+    duration: duration,
+    debounceTime: debounceTime,
+    actionText: actionText,
+    onAction: onAction,
+    topMargin: topMargin,
+  );
 
   factory Message.successful({
     required String message,
@@ -74,15 +72,14 @@ class Message {
     Duration debounceTime = defaultInfoMessageDebounceDuration,
     String? actionText,
     VoidCallback? onAction,
-  }) =>
-      Message(
-        type: MessageType.successful,
-        message: message,
-        duration: duration,
-        debounceTime: debounceTime,
-        actionText: actionText,
-        onAction: onAction,
-      );
+  }) => Message(
+    type: MessageType.successful,
+    message: message,
+    duration: duration,
+    debounceTime: debounceTime,
+    actionText: actionText,
+    onAction: onAction,
+  );
 
   final MessageType type;
   final String message;

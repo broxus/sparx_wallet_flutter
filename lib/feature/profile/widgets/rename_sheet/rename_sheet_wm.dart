@@ -8,12 +8,21 @@ import 'package:injectable/injectable.dart';
 import 'package:nekoton_repository/nekoton_repository.dart' hide Message;
 
 @injectable
-class RenameSheetWidgetModel extends CustomWidgetModelParametrized<RenameSheet,
-    RenameSheetModel, RenameSheetParams> {
+class RenameSheetWidgetModel
+    extends
+        CustomWidgetModelParametrized<
+          RenameSheet,
+          RenameSheetModel,
+          RenameSheetParams
+        > {
   RenameSheetWidgetModel(super.model);
 
-  late final TextEditingController nameController =
-      createTextEditingController();
+  late final nameController = createTextEditingController(
+    model.getName(
+      publicKey: wmParams.value.publicKey,
+      isSeed: wmParams.value.isSeed,
+    ),
+  );
 
   void rename([String? _]) {
     final name = nameController.text.trim();
@@ -21,25 +30,17 @@ class RenameSheetWidgetModel extends CustomWidgetModelParametrized<RenameSheet,
 
     final params = wmParams.value;
 
-    model.rename(
-      publicKey: params.publicKey,
-      renameSeed: params.renameSeed,
-      name: name,
-      isCustodian: params.isCustodian,
-    );
-    model.showMessage(
-      Message.successful(
-        message: params.renameSeed
-            ? LocaleKeys.valueRenamed.tr(
-                args: [LocaleKeys.seedPhrase.tr()],
-              )
-            : params.isCustodian
-                ? LocaleKeys.custodianRenamed.tr()
-                : LocaleKeys.valueRenamed.tr(
-                    args: [LocaleKeys.keyWord.tr()],
-                  ),
-      ),
-    );
+    model
+      ..rename(publicKey: params.publicKey, isSeed: params.isSeed, name: name)
+      ..showMessage(
+        Message.successful(
+          message: params.isSeed
+              ? LocaleKeys.valueRenamed.tr(args: [LocaleKeys.seedPhrase.tr()])
+              : params.isCustodian
+              ? LocaleKeys.custodianRenamed.tr()
+              : LocaleKeys.valueRenamed.tr(args: [LocaleKeys.keyWord.tr()]),
+        ),
+      );
 
     Navigator.of(context).pop();
   }
@@ -48,11 +49,11 @@ class RenameSheetWidgetModel extends CustomWidgetModelParametrized<RenameSheet,
 class RenameSheetParams {
   const RenameSheetParams({
     required this.publicKey,
-    required this.renameSeed,
+    required this.isSeed,
     required this.isCustodian,
   });
 
   final PublicKey publicKey;
-  final bool renameSeed;
+  final bool isSeed;
   final bool isCustodian;
 }

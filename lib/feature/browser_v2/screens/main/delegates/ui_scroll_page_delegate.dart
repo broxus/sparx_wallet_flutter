@@ -15,9 +15,7 @@ abstract interface class BrowserPageScrollUi {
 }
 
 class BrowserPageScrollUiDelegate implements BrowserPageScrollUi {
-  BrowserPageScrollUiDelegate({
-    required this.onPageScrollChange,
-  });
+  BrowserPageScrollUiDelegate({required this.onPageScrollChange});
 
   final ValueChanged<bool> onPageScrollChange;
 

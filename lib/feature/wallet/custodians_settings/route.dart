@@ -11,12 +11,11 @@ const _addressQueryParam = 'custodiansSettingsAddress';
 class CustodiansSettingsRoute
     extends CompassRoute<CustodiansSettingsRouteData> {
   CustodiansSettingsRoute()
-      : super(
-          path: '/custodians-settings',
-          builder: (context, data, _) => CustodiansSettingsPage(
-            address: data.address,
-          ),
-        );
+    : super(
+        path: '/custodians-settings',
+        builder: (context, data, _) =>
+            CustodiansSettingsPage(address: data.address),
+      );
 
   @override
   CustodiansSettingsRouteData fromQueryParams(Map<String, String> queryParams) {
@@ -27,14 +26,12 @@ class CustodiansSettingsRoute
 }
 
 class CustodiansSettingsRouteData implements CompassRouteDataQuery {
-  const CustodiansSettingsRouteData({
-    required this.address,
-  });
+  const CustodiansSettingsRouteData({required this.address});
 
   final Address address;
 
   @override
   Map<String, String> toQueryParams() => {
-        _addressQueryParam: address.toString(),
-      };
+    _addressQueryParam: address.toString(),
+  };
 }

@@ -4,10 +4,8 @@ import 'package:injectable/injectable.dart';
 
 @injectable
 class WebsiteInfoModel extends ElementaryModel {
-  WebsiteInfoModel(
-    ErrorHandler errorHandler,
-    this._browserService,
-  ) : super(errorHandler: errorHandler);
+  WebsiteInfoModel(ErrorHandler errorHandler, this._browserService)
+    : super(errorHandler: errorHandler);
 
   final BrowserService _browserService;
 

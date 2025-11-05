@@ -10,9 +10,7 @@ const _browserPermissionsDomain = 'browser_permissions';
 /// to interact with all browser permissions - related data.
 @singleton
 class BrowserPermissionsStorageService extends AbstractStorageService {
-  BrowserPermissionsStorageService(
-    @Named(container) this._storage,
-  );
+  BrowserPermissionsStorageService(@Named(container) this._storage);
 
   static const container = _browserPermissionsDomain;
 
@@ -24,10 +22,8 @@ class BrowserPermissionsStorageService extends AbstractStorageService {
     final encoded = _storage.getEntries();
 
     return encoded.map(
-      (key, value) => MapEntry(
-        key,
-        Permissions.fromJson(value as Map<String, dynamic>),
-      ),
+      (key, value) =>
+          MapEntry(key, Permissions.fromJson(value as Map<String, dynamic>)),
     );
   }
 

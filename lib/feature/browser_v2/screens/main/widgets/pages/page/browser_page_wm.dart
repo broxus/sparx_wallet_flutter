@@ -8,6 +8,7 @@ import 'package:app/feature/browser_v2/data/browser_basic_auth_creds.dart';
 import 'package:app/feature/browser_v2/data/tabs/browser_tab.dart';
 import 'package:app/feature/browser_v2/screens/main/widgets/pages/page/browser_page.dart';
 import 'package:app/feature/browser_v2/screens/main/widgets/pages/page/browser_page_model.dart';
+import 'package:app/feature/browser_v2/widgets/bottomsheets/permissions_bottom_sheet.dart';
 import 'package:elementary/elementary.dart';
 import 'package:elementary_helper/elementary_helper.dart';
 import 'package:flutter/foundation.dart';
@@ -36,10 +37,14 @@ class BrowserPageWmParams {
 
 /// [WidgetModel] для [BrowserPage]
 @injectable
-class BrowserPageWidgetModel extends CustomWidgetModelParametrized<
-    BrowserPage,
-    BrowserPageModel,
-    BrowserPageWmParams> with AutomaticKeepAliveWidgetModelMixin {
+class BrowserPageWidgetModel
+    extends
+        CustomWidgetModelParametrized<
+          BrowserPage,
+          BrowserPageModel,
+          BrowserPageWmParams
+        >
+    with AutomaticKeepAliveWidgetModelMixin {
   BrowserPageWidgetModel(super.model);
 
   static const _allowSchemes = [
@@ -52,10 +57,7 @@ class BrowserPageWidgetModel extends CustomWidgetModelParametrized<
     'about',
   ];
 
-  static const _customAppLinks = [
-    'metamask.app.link',
-    'app.tonkeeper.com',
-  ];
+  static const _customAppLinks = ['metamask.app.link', 'app.tonkeeper.com'];
 
   static final _log = Logger('BrowserTabView');
 
@@ -66,9 +68,7 @@ class BrowserPageWidgetModel extends CustomWidgetModelParametrized<
   );
 
   late final pullToRefreshController = PullToRefreshController(
-    settings: PullToRefreshSettings(
-      color: colors.textSecondary,
-    ),
+    settings: PullToRefreshSettings(color: colors.textSecondary),
     onRefresh: _onRefresh,
   );
 
@@ -79,8 +79,9 @@ class BrowserPageWidgetModel extends CustomWidgetModelParametrized<
   );
 
   late final _isNeedCreateWebViewState = createNotifier<bool>(false);
-  late final _isShowStartViewState =
-      createNotifier<bool>(_url.toString().isEmpty);
+  late final _isShowStartViewState = createNotifier<bool>(
+    _url.toString().isEmpty,
+  );
 
   CustomWebViewController? _webViewController;
 
@@ -120,52 +121,35 @@ class BrowserPageWidgetModel extends CustomWidgetModelParametrized<
   }
 
   // Callback that is called when the WebView and its controller are created
-  Future<void> onWebViewCreated(
-    InAppWebViewController controller,
-  ) async {
+  Future<void> onWebViewCreated(InAppWebViewController controller) async {
     final customController = CustomWebViewController(controller);
 
     wmParams.value.onCreate(customController);
     _webViewController = customController;
-    await model.initEvents(
-      tabId: _tabId,
-      controller: customController,
-    );
+    await model.initEvents(tabId: _tabId, controller: customController);
 
     if (_url.toString().isNotEmpty) {
-      await customController.loadUrl(
-        urlRequest: URLRequest(
-          url: WebUri.uri(_url),
-        ),
-      );
+      unawaited(model.initUri(_tabId, _url));
     }
+    controller.addJavaScriptHandler(
+      handlerName: 'phishClick',
+      callback: (args) => model.addUrlToWhiteList(args.first as String),
+    );
   }
 
   // Start loading page
-  void onWebPageLoadStart(
-    _,
-    Uri? uri,
-  ) {
+  void onWebPageLoadStart(_, Uri? uri) {
     _createScreenshot();
     model
-      ..updateUrl(
-        tabId: _tabId,
-        uri: uri,
-      )
+      ..updateUrl(tabId: _tabId, uri: uri)
       ..addHistory(uri);
   }
 
   // Stop loading page
-  void onWebPageLoadStop(
-    _,
-    Uri? uri,
-  ) {
+  void onWebPageLoadStop(_, Uri? uri) {
     pullToRefreshController.endRefreshing();
     _createScreenshot();
-    model.updateUrl(
-      tabId: _tabId,
-      uri: uri,
-    );
+    model.updateUrl(tabId: _tabId, uri: uri);
   }
 
   // Load any resource on the page. JS, CSS, images, etc.
@@ -215,10 +199,7 @@ class BrowserPageWidgetModel extends CustomWidgetModelParametrized<
     if (title?.trim().isEmpty ?? true) {
       return;
     }
-    model.updateTitle(
-      tabId: _tabId,
-      title: title!,
-    );
+    model.updateTitle(tabId: _tabId, title: title!);
   }
 
   void onWebPageScrollChanged(_, __, int y) {
@@ -242,10 +223,10 @@ class BrowserPageWidgetModel extends CustomWidgetModelParametrized<
 
     final entered = await Navigator.of(context, rootNavigator: true)
         .push<BrowserBasicAuthCreds>(
-      showBrowserEnterBasicAuthCredsSheet(
-        host: challenge.protectionSpace.host,
-      ),
-    );
+          showBrowserEnterBasicAuthCredsSheet(
+            host: challenge.protectionSpace.host,
+          ),
+        );
 
     if (entered == null) {
       // this thing returns HttpAuthResponseAction.CANCEL
@@ -273,6 +254,13 @@ class BrowserPageWidgetModel extends CustomWidgetModelParametrized<
       return NavigationActionPolicy.ALLOW;
     }
 
+    final isGuardPhishing = model.checkIsPhishingUri(url);
+
+    if (isGuardPhishing) {
+      unawaited(model.loadPhishingGuard(_tabId, url));
+      return NavigationActionPolicy.CANCEL;
+    }
+
     final scheme = navigationAction.request.url?.scheme;
 
     if (!_allowSchemes.contains(scheme) || _checkIsCustomAppLink(url)) {
@@ -284,6 +272,52 @@ class BrowserPageWidgetModel extends CustomWidgetModelParametrized<
     }
 
     return NavigationActionPolicy.ALLOW;
+  }
+
+  Future<PermissionResponse?> onPermissionRequest(
+    InAppWebViewController controller,
+    PermissionRequest permissionRequest,
+  ) async {
+    try {
+      final url = await controller.getUrl();
+
+      if (url == null) {
+        return null;
+      }
+
+      if (await model.checkPermission(url.host, permissionRequest.resources)) {
+        await model.requestCameraPermissionIfNeed(permissionRequest.resources);
+        return PermissionResponse(
+          action: PermissionResponseAction.GRANT,
+          resources: permissionRequest.resources,
+        );
+      }
+
+      if (contextSafe == null) {
+        return null;
+      }
+
+      final isGrant = await showPermissionsSheet(
+        context: contextSafe!,
+        host: url.host,
+        permissions: permissionRequest.resources.map(
+          (r) => r.toValue().toLowerCase(),
+        ),
+      );
+
+      if (isGrant ?? false) {
+        await model.saveHostPermissions(url.host, permissionRequest.resources);
+        await model.requestCameraPermissionIfNeed(permissionRequest.resources);
+        return PermissionResponse(
+          action: PermissionResponseAction.GRANT,
+          resources: permissionRequest.resources,
+        );
+      }
+    } catch (_) {
+      return null;
+    }
+
+    return null;
   }
 
   Future<void> _onRefresh() async {

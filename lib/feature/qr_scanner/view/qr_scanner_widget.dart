@@ -9,14 +9,15 @@ import 'package:mobile_scanner/mobile_scanner.dart';
 import 'package:ui_components_lib/ui_components_lib.dart';
 import 'package:ui_components_lib/v2/ui_components_lib_v2.dart';
 
-class QrScannerWidget extends InjectedElementaryParametrizedWidget<
-    QrScannerWidgetModel, List<QrScanType>> with WidgetsBindingObserver {
-  const QrScannerWidget({
-    required List<QrScanType> types,
-    super.key,
-  }) : super(
-          wmFactoryParam: types,
-        );
+class QrScannerWidget
+    extends
+        InjectedElementaryParametrizedWidget<
+          QrScannerWidgetModel,
+          List<QrScanType>
+        >
+    with WidgetsBindingObserver {
+  const QrScannerWidget({required List<QrScanType> types, super.key})
+    : super(wmFactoryParam: types);
 
   @override
   Widget build(QrScannerWidgetModel wm) {
@@ -24,9 +25,7 @@ class QrScannerWidget extends InjectedElementaryParametrizedWidget<
 
     return Scaffold(
       backgroundColor: wm.theme.colors.background0,
-      appBar: DefaultAppBar(
-        titleText: LocaleKeys.scanQrCode.tr(),
-      ),
+      appBar: DefaultAppBar(titleText: LocaleKeys.scanQrCode.tr()),
       extendBodyBehindAppBar: true,
       body: MobileScanner(
         controller: wm.controller,
@@ -125,7 +124,6 @@ class _FramePainter extends CustomPainter {
       )
       ..drawLine(const Offset(radius, 0), const Offset(cornerLength, 0), paint)
       ..drawLine(const Offset(0, radius), const Offset(0, cornerLength), paint)
-
       // Top-right corner
       ..drawArc(
         Rect.fromCircle(
@@ -147,7 +145,6 @@ class _FramePainter extends CustomPainter {
         Offset(size.width, cornerLength),
         paint,
       )
-
       // Bottom-left corner
       ..drawArc(
         Rect.fromCircle(
@@ -169,7 +166,6 @@ class _FramePainter extends CustomPainter {
         Offset(cornerLength, size.height),
         paint,
       )
-
       // Bottom-right corner
       ..drawArc(
         Rect.fromCircle(

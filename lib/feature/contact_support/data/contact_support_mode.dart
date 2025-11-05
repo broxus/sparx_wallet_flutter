@@ -1,4 +1,1 @@
-enum ContactSupportMode {
-  initiatedByUser,
-  initiatedByCrash,
-}
+enum ContactSupportMode { initiatedByUser, initiatedByCrash }

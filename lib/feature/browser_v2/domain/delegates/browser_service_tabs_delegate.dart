@@ -35,7 +35,7 @@ abstract interface class BrowserServiceTabs {
 
   NotNullListenableState<List<String>> get allTabsIdsState;
 
-  ListenableState<String?> get activeTabUrlHostState;
+  ListenableState<Uri?> get activeTabUriState;
 
   NotNullListenableState<BrowserTab>? getTabListenableById(String id);
 
@@ -52,10 +52,7 @@ abstract interface class BrowserServiceTabs {
     bool isSwitchToCreatedGroup = false,
   });
 
-  void updateGroupName({
-    required String groupId,
-    required String name,
-  });
+  void updateGroupName({required String groupId, required String name});
 
   void removeBrowserGroup(String groupId);
 
@@ -103,15 +100,9 @@ abstract interface class BrowserServiceTabs {
 
   Uri? getTabUriId(String id);
 
-  String? getTabIdByIndex({
-    required String groupId,
-    required int index,
-  });
+  String? getTabIdByIndex({required String groupId, required int index});
 
-  int? getTabIndex({
-    required String groupId,
-    required String tabId,
-  });
+  int? getTabIndex({required String groupId, required String tabId});
 
   Future<void> requestUrlActiveTab(Uri uri);
 
@@ -140,7 +131,7 @@ class BrowserServiceTabsDelegate
     initValue: const ToolbarData(),
   );
 
-  late final _activeTabUrlHostState = StateNotifier<String?>();
+  late final _activeTabUriState = StateNotifier<Uri?>();
 
   final _groupsReactiveStore = GroupsReactiveStore();
   final _tabsReactiveStore = TabsReactiveStore();
@@ -162,7 +153,7 @@ class BrowserServiceTabsDelegate
       _tabsReactiveStore.entitiesIdsListState;
 
   @override
-  ListenableState<String?> get activeTabUrlHostState => _activeTabUrlHostState;
+  ListenableState<Uri?> get activeTabUriState => _activeTabUriState;
 
   @override
   ListenableState<Map<String, String>> get screenshotsState =>
@@ -221,25 +212,23 @@ class BrowserServiceTabsDelegate
     await clearTabs();
 
     unawaited(
-      Future(
-        () {
-          final newTab = BrowserTab.create(url: _emptyUri);
-          final tabs = [newTab];
-          final groups = _browserGroupsStorageService.initGroups([newTab.id]);
+      Future(() {
+        final newTab = BrowserTab.create(url: _emptyUri);
+        final tabs = [newTab];
+        final groups = _browserGroupsStorageService.initGroups([newTab.id]);
 
-          _tabsReactiveStore
-            ..addList(tabs)
-            ..setActiveById(newTab.id);
-          _browserTabsStorageService.saveBrowserTabs(tabs);
+        _tabsReactiveStore
+          ..addList(tabs)
+          ..setActiveById(newTab.id);
+        _browserTabsStorageService.saveBrowserTabs(tabs);
 
-          Future(() {
-            _groupsReactiveStore
-              ..addList(groups)
-              ..setActiveById(groups.first.id);
-            _browserTabsStorageService.saveBrowserActiveTabId(newTab.id);
-          });
-        },
-      ),
+        Future(() {
+          _groupsReactiveStore
+            ..addList(groups)
+            ..setActiveById(groups.first.id);
+          _browserTabsStorageService.saveBrowserActiveTabId(newTab.id);
+        });
+      }),
     );
   }
 
@@ -277,12 +266,25 @@ class BrowserServiceTabsDelegate
 
   @override
   void updateCachedUrl(String tabId, Uri uri) {
-    if (tabId == activeTabId) {
-      _activeTabUrlHostState.accept(uri.host);
-    }
+    _updateUriState(tabId, uri);
     _tabsReactiveStore.updateUrl(tabId: tabId, uri: uri);
     _browserTabsStorageService.saveBrowserTabs(_tabsReactiveStore.entities);
     _updateControlPanel();
+  }
+
+  void loadData(
+    String tabId,
+    String html, {
+    WebUri? baseUrl,
+    WebUri? historyUrl,
+  }) {
+    _updateUriState(tabId, null);
+    _controllersDelegate.loadData(
+      tabId,
+      html,
+      baseUrl: baseUrl,
+      historyUrl: historyUrl,
+    );
   }
 
   @override
@@ -356,25 +358,21 @@ class BrowserServiceTabsDelegate
   }
 
   @override
-  (String, String) createEmptyTab(String groupId) => createBrowserTab(
-        url: _emptyUri,
-        groupId: groupId,
-      );
+  (String, String) createEmptyTab(String groupId) =>
+      createBrowserTab(url: _emptyUri, groupId: groupId);
 
   (String, String) createBrowserTab({
     required String groupId,
     required Uri url,
     bool isSetActive = true,
   }) {
-    final targetGroupId =
-        _groupsReactiveStore.checkExistEntity(groupId) ? groupId : tabsGroupId;
+    final targetGroupId = _groupsReactiveStore.checkExistEntity(groupId)
+        ? groupId
+        : tabsGroupId;
 
     final tab = BrowserTab.create(url: url);
 
-    _groupsReactiveStore.addTabId(
-      groupId: targetGroupId,
-      tabId: tab.id,
-    );
+    _groupsReactiveStore.addTabId(groupId: targetGroupId, tabId: tab.id);
     _tabsReactiveStore.add(tab);
 
     _browserGroupsStorageService.saveGroups(_groupsReactiveStore.entities);
@@ -395,8 +393,10 @@ class BrowserServiceTabsDelegate
     final lastTabId = _groupsReactiveStore.getTabIds(tabsGroupId)?.lastOrNull;
 
     if (lastTabId != null) {
-      final isExistUrl =
-          _tabsReactiveStore.getCachedUrl(lastTabId).toString().isNotEmpty;
+      final isExistUrl = _tabsReactiveStore
+          .getCachedUrl(lastTabId)
+          .toString()
+          .isNotEmpty;
       if (!isExistUrl) {
         requestUrl(lastTabId, url);
 
@@ -408,21 +408,17 @@ class BrowserServiceTabsDelegate
       }
     }
 
-    createBrowserTab(
-      url: url,
-      groupId: tabsGroupId,
-    );
+    createBrowserTab(url: url, groupId: tabsGroupId);
   }
 
   @override
   Future<void> createScreenshot({
     required String tabId,
     required Future<Uint8List?> Function() takePictureCallback,
-  }) =>
-      _screenShooter.createScreenshot(
-        tabId: tabId,
-        takePictureCallback: takePictureCallback,
-      );
+  }) => _screenShooter.createScreenshot(
+    tabId: tabId,
+    takePictureCallback: takePictureCallback,
+  );
 
   @override
   Future<void> backWeb() async {
@@ -450,25 +446,13 @@ class BrowserServiceTabsDelegate
   }
 
   @override
-  int? getTabIndex({
-    required String groupId,
-    required String tabId,
-  }) {
-    return _groupsReactiveStore.getTabIndex(
-      groupId: groupId,
-      tabId: tabId,
-    );
+  int? getTabIndex({required String groupId, required String tabId}) {
+    return _groupsReactiveStore.getTabIndex(groupId: groupId, tabId: tabId);
   }
 
   @override
-  String? getTabIdByIndex({
-    required String groupId,
-    required int index,
-  }) {
-    return _groupsReactiveStore.getTabIdByIndex(
-      groupId: groupId,
-      index: index,
-    );
+  String? getTabIdByIndex({required String groupId, required int index}) {
+    return _groupsReactiveStore.getTabIdByIndex(groupId: groupId, index: index);
   }
 
   @override
@@ -515,11 +499,7 @@ class BrowserServiceTabsDelegate
   Future<void> permissionsChanged(
     String tabId,
     PermissionsChangedEvent event,
-  ) =>
-      _controllersDelegate.permissionsChanged(
-        tabId,
-        event,
-      );
+  ) => _controllersDelegate.permissionsChanged(tabId, event);
 
   @override
   BrowserGroup createBrowserGroup({
@@ -536,13 +516,10 @@ class BrowserServiceTabsDelegate
     }
 
     final group = BrowserGroup.create(
-      name: name ??
-          LocaleKeys.groupWithCount.tr(
-            args: ['${_groupsReactiveStore.count}'],
-          ),
-      tabsIds: [
-        if (initTabId != null) initTabId,
-      ],
+      name:
+          name ??
+          LocaleKeys.groupWithCount.tr(args: ['${_groupsReactiveStore.count}']),
+      tabsIds: [if (initTabId != null) initTabId],
     );
 
     _groupsReactiveStore.add(group);
@@ -560,10 +537,7 @@ class BrowserServiceTabsDelegate
   }
 
   @override
-  void updateGroupName({
-    required String groupId,
-    required String name,
-  }) {
+  void updateGroupName({required String groupId, required String name}) {
     _groupsReactiveStore.updateTitle(id: groupId, title: name);
     _browserGroupsStorageService.saveGroups(_groupsReactiveStore.entities);
   }
@@ -592,14 +566,15 @@ class BrowserServiceTabsDelegate
   /// Put browser tabs to stream
   void _fetchDataFromCache() {
     final tabs = _browserTabsStorageService.getTabs()
-      ..sort(
-        (a, b) => a.sortingOrder.compareTo(b.sortingOrder),
-      );
+      ..forEach((tab) {
+        if (tab.url.hasEmptyPath || tab.url.path == 'blank') {
+          tab.url = Uri.parse('');
+        }
+      })
+      ..sort((a, b) => a.sortingOrder.compareTo(b.sortingOrder));
 
     final groups = _browserGroupsStorageService.getGroups()
-      ..sort(
-        (a, b) => a.sortingOrder.compareTo(b.sortingOrder),
-      );
+      ..sort((a, b) => a.sortingOrder.compareTo(b.sortingOrder));
 
     String? activeTabId;
 
@@ -622,12 +597,8 @@ class BrowserServiceTabsDelegate
 
     final activeGroupId = activeTabId == null
         ? tabsGroupId
-        : groups
-                .firstWhereOrNull(
-                  (g) => g.tabsIds.contains(activeTabId),
-                )
-                ?.id ??
-            tabsGroupId;
+        : groups.firstWhereOrNull((g) => g.tabsIds.contains(activeTabId))?.id ??
+              tabsGroupId;
 
     _screenShooter.init(tabs);
 
@@ -641,9 +612,7 @@ class BrowserServiceTabsDelegate
     _updateControlPanel();
 
     if (activeTabId != null) {
-      _activeTabUrlHostState.accept(
-        _tabsReactiveStore.getCachedUrl(activeTabId!)?.host,
-      );
+      _activeTabUriState.accept(_tabsReactiveStore.getCachedUrl(activeTabId!));
     }
   }
 
@@ -658,5 +627,11 @@ class BrowserServiceTabsDelegate
               isCanGoForward: await _controllersDelegate.checkCanGoForward(id),
             ),
     );
+  }
+
+  void _updateUriState(String tabId, Uri? uri) {
+    if (tabId == activeTabId && uri != _activeTabUriState.value) {
+      _activeTabUriState.accept(uri);
+    }
   }
 }

@@ -27,16 +27,15 @@ class SmallButton extends StatelessWidget {
     Widget? trailing,
     FocusNode? focusNode,
     bool? isLoading,
-  }) =>
-      SmallButton(
-        text: text,
-        isLoading: isLoading ?? false,
-        onPressed: onPressed,
-        onLongPress: onLongPress,
-        leading: leading,
-        trailing: trailing,
-        focusNode: focusNode,
-      );
+  }) => SmallButton(
+    text: text,
+    isLoading: isLoading ?? false,
+    onPressed: onPressed,
+    onLongPress: onLongPress,
+    leading: leading,
+    trailing: trailing,
+    focusNode: focusNode,
+  );
 
   /// SmallButton with secondary style
   factory SmallButton.secondary({
@@ -47,17 +46,16 @@ class SmallButton extends StatelessWidget {
     Widget? trailing,
     FocusNode? focusNode,
     bool? isLoading,
-  }) =>
-      SmallButton(
-        buttonType: EverButtonType.secondary,
-        isLoading: isLoading ?? false,
-        text: text,
-        onPressed: onPressed,
-        onLongPress: onLongPress,
-        leading: leading,
-        trailing: trailing,
-        focusNode: focusNode,
-      );
+  }) => SmallButton(
+    buttonType: EverButtonType.secondary,
+    isLoading: isLoading ?? false,
+    text: text,
+    onPressed: onPressed,
+    onLongPress: onLongPress,
+    leading: leading,
+    trailing: trailing,
+    focusNode: focusNode,
+  );
 
   /// SmallButton with ghost style
   factory SmallButton.ghost({
@@ -68,17 +66,16 @@ class SmallButton extends StatelessWidget {
     Widget? trailing,
     FocusNode? focusNode,
     bool? isLoading,
-  }) =>
-      SmallButton(
-        buttonType: EverButtonType.ghost,
-        isLoading: isLoading ?? false,
-        text: text,
-        onPressed: onPressed,
-        onLongPress: onLongPress,
-        leading: leading,
-        trailing: trailing,
-        focusNode: focusNode,
-      );
+  }) => SmallButton(
+    buttonType: EverButtonType.ghost,
+    isLoading: isLoading ?? false,
+    text: text,
+    onPressed: onPressed,
+    onLongPress: onLongPress,
+    leading: leading,
+    trailing: trailing,
+    focusNode: focusNode,
+  );
 
   /// See [CommonButton.buttonType]
   final EverButtonType buttonType;

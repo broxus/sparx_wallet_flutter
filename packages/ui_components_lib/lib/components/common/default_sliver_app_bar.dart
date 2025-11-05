@@ -35,8 +35,9 @@ class DefaultSliverAppBar extends StatelessWidget {
           pinned: true,
           elevation: 0,
           scrolledUnderElevation: 0,
-          backgroundColor:
-              isCollapsed ? theme.colors.background0 : Colors.transparent,
+          backgroundColor: isCollapsed
+              ? theme.colors.background0
+              : Colors.transparent,
           surfaceTintColor: Colors.transparent,
           leading: Container(
             margin: const EdgeInsets.only(
@@ -52,10 +53,7 @@ class DefaultSliverAppBar extends StatelessWidget {
           title: AnimatedOpacity(
             opacity: isCollapsed ? 1.0 : 0.0,
             duration: const Duration(milliseconds: 200),
-            child: Text(
-              title,
-              style: theme.textStyles.headingMedium,
-            ),
+            child: Text(title, style: theme.textStyles.headingMedium),
           ),
           centerTitle: true,
           flexibleSpace: flexibleSpace,

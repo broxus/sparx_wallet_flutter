@@ -36,6 +36,6 @@ class AddTip3TokenModel extends ElementaryModel {
   }
 
   Stream<(List<TokenContractAsset>, List<TokenContractAsset>)>
-      allAvailableContractsForAccount(Address address) =>
-          _assetsService.allAvailableContractsForAccount(address);
+  allAvailableContractsForAccount(Address address) =>
+      _assetsService.allAvailableContractsForAccount(address);
 }

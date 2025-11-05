@@ -91,10 +91,7 @@ class BrowserEntityReactiveStore<T extends BrowserEntity> {
   NotNullListenableState<T>? getListenable(String entityId) =>
       getNotifier(entityId);
 
-  void updateTitle({
-    required String id,
-    required String title,
-  }) {
+  void updateTitle({required String id, required String title}) {
     _notifiersMap[id]
       ?..value.title = title
       ..update();
@@ -103,11 +100,11 @@ class BrowserEntityReactiveStore<T extends BrowserEntity> {
   void setActiveById(String? id) => _activeEntityIdState.accept(id);
 
   void setActiveByIndex(int index) => _activeEntityIdState.accept(
-        _entitiesIdsListState.value[min(
-          index,
-          _entitiesIdsListState.value.length - 1,
-        )],
-      );
+    _entitiesIdsListState.value[min(
+      index,
+      _entitiesIdsListState.value.length - 1,
+    )],
+  );
 
   bool checkExistEntity(String id) => _notifiersMap[id] != null;
 
@@ -116,10 +113,7 @@ class BrowserEntityReactiveStore<T extends BrowserEntity> {
 }
 
 class GroupsReactiveStore extends BrowserEntityReactiveStore<BrowserGroup> {
-  void addTabId({
-    required String groupId,
-    required String tabId,
-  }) {
+  void addTabId({required String groupId, required String tabId}) {
     getNotifier(groupId)
       ?..value.tabsIds.add(tabId)
       ..update();
@@ -127,15 +121,13 @@ class GroupsReactiveStore extends BrowserEntityReactiveStore<BrowserGroup> {
 
   void clearTabs([String? groupId]) {
     if (groupId == null) {
-      _notifiersMap.forEach(
-        (_, notifier) {
-          if (notifier.value.tabsIds.isNotEmpty) {
-            notifier
-              ..value.tabsIds.clear()
-              ..update();
-          }
-        },
-      );
+      _notifiersMap.forEach((_, notifier) {
+        if (notifier.value.tabsIds.isNotEmpty) {
+          notifier
+            ..value.tabsIds.clear()
+            ..update();
+        }
+      });
       return;
     }
 
@@ -144,10 +136,7 @@ class GroupsReactiveStore extends BrowserEntityReactiveStore<BrowserGroup> {
       ..update();
   }
 
-  int? removeTabId({
-    required String tabId,
-    String? groupId,
-  }) {
+  int? removeTabId({required String tabId, String? groupId}) {
     var groupNotifier = groupId == null ? null : getNotifier(groupId);
 
     if (groupNotifier == null) {
@@ -182,19 +171,13 @@ class GroupsReactiveStore extends BrowserEntityReactiveStore<BrowserGroup> {
   List<String>? getTabIds(String groupId) =>
       getNotifier(groupId)?.value.tabsIds;
 
-  int? getTabIndex({
-    required String groupId,
-    required String tabId,
-  }) {
+  int? getTabIndex({required String groupId, required String tabId}) {
     final index = getTabIds(groupId)?.indexWhere((id) => id == tabId);
 
     return index == -1 ? null : index;
   }
 
-  String? getTabIdByIndex({
-    required String groupId,
-    required int index,
-  }) {
+  String? getTabIdByIndex({required String groupId, required int index}) {
     final tabIds = getTabIds(groupId);
 
     return (tabIds == null || index >= tabIds.length) ? null : tabIds[index];
@@ -202,10 +185,7 @@ class GroupsReactiveStore extends BrowserEntityReactiveStore<BrowserGroup> {
 }
 
 class TabsReactiveStore extends BrowserEntityReactiveStore<BrowserTab> {
-  void updateUrl({
-    required String tabId,
-    required Uri uri,
-  }) {
+  void updateUrl({required String tabId, required Uri uri}) {
     getNotifier(tabId)
       ?..value.url = uri
       ..update();

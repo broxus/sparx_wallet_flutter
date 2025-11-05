@@ -17,6 +17,7 @@ _NftInformation _$NftInformationFromJson(Map<String, dynamic> json) =>
 Map<String, dynamic> _$NftInformationToJson(_NftInformation instance) =>
     <String, dynamic>{
       'marketplaceUrl': instance.marketplaceUrl,
-      'defaultCollections':
-          instance.defaultCollections?.map((e) => e.toJson()).toList(),
+      'defaultCollections': instance.defaultCollections
+          ?.map((e) => e.toJson())
+          .toList(),
     };

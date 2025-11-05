@@ -12,14 +12,14 @@ import 'package:nekoton_repository/nekoton_repository.dart';
 import 'package:ui_components_lib/ui_components_lib.dart';
 import 'package:ui_components_lib/v2/ui_components_lib_v2.dart';
 
-class SeedDetailPageWidget extends InjectedElementaryParametrizedWidget<
-    SeedDetailPageWidgetModel, PublicKey> {
-  const SeedDetailPageWidget({
-    required PublicKey publicKey,
-    super.key,
-  }) : super(
-          wmFactoryParam: publicKey,
-        );
+class SeedDetailPageWidget
+    extends
+        InjectedElementaryParametrizedWidget<
+          SeedDetailPageWidgetModel,
+          PublicKey
+        > {
+  const SeedDetailPageWidget({required PublicKey publicKey, super.key})
+    : super(wmFactoryParam: publicKey);
 
   @override
   Widget build(SeedDetailPageWidgetModel wm) {
@@ -50,13 +50,11 @@ class SeedDetailPageWidget extends InjectedElementaryParametrizedWidget<
                 if (seed != null && seed == currentSeed)
                   Text(
                     LocaleKeys.currentSeed.tr(),
-                    style: theme.textStyles.labelXSmall
-                        .copyWith(color: theme.colors.content3),
+                    style: theme.textStyles.labelXSmall.copyWith(
+                      color: theme.colors.content3,
+                    ),
                   ),
-                Text(
-                  seed?.name ?? '',
-                  style: theme.textStyles.headingLarge,
-                ),
+                Text(seed?.name ?? '', style: theme.textStyles.headingLarge),
               ],
             ),
             Expanded(
@@ -70,7 +68,8 @@ class SeedDetailPageWidget extends InjectedElementaryParametrizedWidget<
                         seedKey: seedKey,
                         isActive: seedKey.publicKey == currentKey,
                         isShowingDivider: i != seed.allKeys.length - 1,
-                        isLoading: findingExistingWallets?.contains(
+                        isLoading:
+                            findingExistingWallets?.contains(
                               seedKey.publicKey.toString(),
                             ) ??
                             false,

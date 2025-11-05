@@ -10,9 +10,11 @@ import 'package:nekoton_repository/nekoton_repository.dart';
 import 'package:ui_components_lib/ui_components_lib.dart';
 
 class TonWalletMultisigExpiredTransactionWidget
-    extends InjectedElementaryParametrizedWidget<
-        TonWalletMultisigExpiredTransactionWidgetModel,
-        TonWalletMultisigExpiredTransactionWmParams> {
+    extends
+        InjectedElementaryParametrizedWidget<
+          TonWalletMultisigExpiredTransactionWidgetModel,
+          TonWalletMultisigExpiredTransactionWmParams
+        > {
   TonWalletMultisigExpiredTransactionWidget({
     required TonWalletMultisigExpiredTransaction transaction,
     required Fixed price,
@@ -21,14 +23,14 @@ class TonWalletMultisigExpiredTransactionWidget
     required KeyAccount account,
     super.key,
   }) : super(
-          wmFactoryParam: TonWalletMultisigExpiredTransactionWmParams(
-            transaction: transaction,
-            price: price,
-            isFirst: isFirst,
-            isLast: isLast,
-            account: account,
-          ),
-        );
+         wmFactoryParam: TonWalletMultisigExpiredTransactionWmParams(
+           transaction: transaction,
+           price: price,
+           isFirst: isFirst,
+           isLast: isLast,
+           account: account,
+         ),
+       );
 
   @override
   Widget build(TonWalletMultisigExpiredTransactionWidgetModel wm) {

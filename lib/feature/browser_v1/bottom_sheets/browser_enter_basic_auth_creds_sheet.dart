@@ -11,10 +11,8 @@ ModalRoute<BrowserBasicAuthCreds> showBrowserEnterBasicAuthCredsSheet({
   return commonBottomSheetRoute(
     title: LocaleKeys.browserEnterBasicAuthTitle.tr(),
     centerTitle: true,
-    body: (_, controller) => BrowserEnterBasicAuthCredsSheet(
-      host: host,
-      controller: controller,
-    ),
+    body: (_, controller) =>
+        BrowserEnterBasicAuthCredsSheet(host: host, controller: controller),
   );
 }
 
@@ -61,9 +59,7 @@ class _BrowserEnterBasicAuthCredsSheetState
         spacing: DimensSizeV2.d24,
         children: [
           Text(
-            LocaleKeys.browserEnterBasicAuthDescription.tr(
-              args: [widget.host],
-            ),
+            LocaleKeys.browserEnterBasicAuthDescription.tr(args: [widget.host]),
             style: theme.textStyles.paragraphMedium.copyWith(
               color: theme.colors.content1,
             ),

@@ -44,7 +44,7 @@ class NewAccountTypeModel extends ElementaryModel
 
     return seedKey.accountList.addAccount(
       walletType: walletType,
-      workchain: defaultWorkchainId,
+      workchain: 0,
       name: name,
     );
   }
@@ -91,10 +91,7 @@ class NewAccountTypeModel extends ElementaryModel
               limit: 100,
               offset: 0,
             )
-          : const GetPublicKeysParams.ledger(
-              limit: 100,
-              offset: 0,
-            ),
+          : const GetPublicKeysParams.ledger(limit: 100, offset: 0),
     );
 
     PublicKey? derivedKey;
@@ -107,7 +104,7 @@ class NewAccountTypeModel extends ElementaryModel
 
       final found = await TonWallet.findExistingWallets(
         transport: transport.transport,
-        workchainId: defaultWorkchainId,
+        workchainId: 0,
         publicKey: key,
         walletTypes: [walletType],
       );
@@ -124,6 +121,7 @@ class NewAccountTypeModel extends ElementaryModel
       derivedKey = await _nekotonRepository.deriveKey(
         params: params,
         addActiveAccounts: false,
+        workchainId: 0,
       );
       break;
     }

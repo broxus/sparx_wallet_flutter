@@ -13,15 +13,13 @@ class NftItemRoute extends CompassRoute<NftItemRouteData> {
     @Named.from(NftPrepareTransferRoute)
     CompassBaseRoute nftPrepareTransferRoute,
   ) : super(
-          path: '/nft-item',
-          builder: (_, data, __) => NftItemPageWidget(
-            address: data.address,
-            collection: data.collection,
-          ),
-          compassBaseRoutes: [
-            nftPrepareTransferRoute,
-          ],
-        );
+        path: '/nft-item',
+        builder: (_, data, __) => NftItemPageWidget(
+          address: data.address,
+          collection: data.collection,
+        ),
+        compassBaseRoutes: [nftPrepareTransferRoute],
+      );
 
   @override
   NftItemRouteData fromQueryParams(Map<String, String> queryParams) {
@@ -33,17 +31,14 @@ class NftItemRoute extends CompassRoute<NftItemRouteData> {
 }
 
 class NftItemRouteData implements CompassRouteDataQuery {
-  const NftItemRouteData({
-    required this.address,
-    required this.collection,
-  });
+  const NftItemRouteData({required this.address, required this.collection});
 
   final Address address;
   final Address collection;
 
   @override
   Map<String, String> toQueryParams() => {
-        _nftAddressQueryParam: address.toRaw(),
-        _collectionAddressQueryParam: collection.toRaw(),
-      };
+    _nftAddressQueryParam: address.toRaw(),
+    _collectionAddressQueryParam: collection.toRaw(),
+  };
 }

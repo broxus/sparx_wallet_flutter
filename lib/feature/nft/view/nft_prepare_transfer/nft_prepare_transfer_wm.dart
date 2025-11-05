@@ -18,8 +18,13 @@ import 'package:ui_components_lib/ui_components_lib.dart';
 
 /// [WidgetModel] для [NftPrepareTransfer]
 @injectable
-class NftPrepareTransferWidgetModel extends CustomWidgetModelParametrized<
-    NftPrepareTransfer, NftPrepareTransferModel, NftPrepareTransferRouteData> {
+class NftPrepareTransferWidgetModel
+    extends
+        CustomWidgetModelParametrized<
+          NftPrepareTransfer,
+          NftPrepareTransferModel,
+          NftPrepareTransferRouteData
+        > {
   NftPrepareTransferWidgetModel(super.model);
 
   late final _dataState = createEntityNotifier<NftPrepareTransferData>()
@@ -33,8 +38,9 @@ class NftPrepareTransferWidgetModel extends CustomWidgetModelParametrized<
     RegExp(r'\d'),
   );
 
-  late final receiverController =
-      createTextEditingController(wmParams.value.destination?.address);
+  late final receiverController = createTextEditingController(
+    wmParams.value.destination?.address,
+  );
   late final receiverFocus = createFocusNode();
 
   late final amountController = createTextEditingController();
@@ -112,9 +118,8 @@ class NftPrepareTransferWidgetModel extends CustomWidgetModelParametrized<
     );
   }
 
-  void onChangedCustodian(PublicKey custodian) => _dataState.content(
-        _dataState.value.data!.copyWith(custodian: custodian),
-      );
+  void onChangedCustodian(PublicKey custodian) =>
+      _dataState.content(_dataState.value.data!.copyWith(custodian: custodian));
 
   void onPressedReceiverClear() => receiverController.clear();
 

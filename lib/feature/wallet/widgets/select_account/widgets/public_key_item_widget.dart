@@ -68,7 +68,8 @@ class _PublicKeyItemWidgetState extends State<PublicKeyItemWidget> {
                 top: (i != 0 || widget.accounts[i] == widget.currentAccount)
                     ? DimensSizeV2.d12
                     : 0,
-                bottom: (i < widget.accounts.length - 1 ||
+                bottom:
+                    (i < widget.accounts.length - 1 ||
                         widget.accounts[i] == widget.currentAccount)
                     ? DimensSizeV2.d12
                     : 0,
@@ -99,24 +100,25 @@ class _PublicKeyItemWidgetState extends State<PublicKeyItemWidget> {
                             ),
                           ),
                           StateNotifierBuilder(
-                            listenableState:
-                                widget.getBalanceEntity(widget.accounts[i]),
-                            builder: (_, balance) =>
-                                widget.getBalanceEntity(widget.accounts[i]).let(
-                                      (value) => value.value != null
-                                          ? AmountWidget.fromMoney(
-                                              amount: value.value!,
-                                              style: theme
-                                                  .textStyles.labelXSmall
-                                                  .copyWith(
+                            listenableState: widget.getBalanceEntity(
+                              widget.accounts[i],
+                            ),
+                            builder: (_, balance) => widget
+                                .getBalanceEntity(widget.accounts[i])
+                                .let(
+                                  (value) => value.value != null
+                                      ? AmountWidget.fromMoney(
+                                          amount: value.value!,
+                                          style: theme.textStyles.labelXSmall
+                                              .copyWith(
                                                 color: theme.colors.content3,
                                               ),
-                                            )
-                                          : ProgressIndicatorWidget(
-                                              size: DimensSizeV2.d16,
-                                              color: theme.colors.content3,
-                                            ),
-                                    ),
+                                        )
+                                      : ProgressIndicatorWidget(
+                                          size: DimensSizeV2.d16,
+                                          color: theme.colors.content3,
+                                        ),
+                                ),
                           ),
                         ],
                       ),
@@ -155,7 +157,10 @@ class _PublicKeyItemWidgetState extends State<PublicKeyItemWidget> {
     if (renderBox is RenderBox && renderBox.attached) {
       try {
         final ancestorRenderObject = widget
-            .scrollController.position.context.storageContext
+            .scrollController
+            .position
+            .context
+            .storageContext
             .findRenderObject();
         if (ancestorRenderObject == null) return;
 
@@ -164,8 +169,10 @@ class _PublicKeyItemWidgetState extends State<PublicKeyItemWidget> {
             .dy;
 
         widget.scrollController.animateTo(
-          (widget.scrollController.offset + offset - DimensSizeV2.d16)
-              .clamp(0.0, widget.scrollController.position.maxScrollExtent),
+          (widget.scrollController.offset + offset - DimensSizeV2.d16).clamp(
+            0.0,
+            widget.scrollController.position.maxScrollExtent,
+          ),
           duration: const Duration(milliseconds: 200),
           curve: Curves.easeInOut,
         );

@@ -3,10 +3,7 @@ import 'package:app/generated/generated.dart';
 import 'package:flutter/material.dart';
 import 'package:ui_components_lib/v2/ui_components_lib_v2.dart';
 
-Future<String?> showBrowserEditNameMenu(
-  BuildContext context,
-  String name,
-) {
+Future<String?> showBrowserEditNameMenu(BuildContext context, String name) {
   return showModalBottomSheet(
     context: context,
     barrierColor: Colors.transparent,
@@ -19,10 +16,7 @@ Future<String?> showBrowserEditNameMenu(
 }
 
 class EditGroupNameBottomSheet extends StatefulWidget {
-  const EditGroupNameBottomSheet(
-    this.name, {
-    super.key,
-  });
+  const EditGroupNameBottomSheet(this.name, {super.key});
 
   final String name;
 
@@ -115,8 +109,6 @@ class _EditGroupNameBottomSheetState extends State<EditGroupNameBottomSheet>
       return;
     }
 
-    Navigator.of(ctx).pop(
-      _controller.text.isEmpty ? null : _controller.text,
-    );
+    Navigator.of(ctx).pop(_controller.text.isEmpty ? null : _controller.text);
   }
 }

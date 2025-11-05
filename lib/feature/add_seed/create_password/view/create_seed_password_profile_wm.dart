@@ -12,6 +12,7 @@ import 'package:app/feature/profile/widgets/switch_to_seed_sheet/switch_to_seed_
 import 'package:app/utils/utils.dart';
 import 'package:elementary_helper/elementary_helper.dart';
 import 'package:injectable/injectable.dart';
+import 'package:logging/logging.dart';
 import 'package:nekoton_repository/nekoton_repository.dart';
 
 class CreateSeedPasswordProfileWmParams {
@@ -32,9 +33,15 @@ class CreateSeedPasswordProfileWmParams {
 
 @injectable
 class CreateSeedPasswordProfileWidgetModel
-    extends CustomWidgetModelParametrized<CreateSeedPasswordProfilePage,
-        CreateSeedPasswordProfileModel, CreateSeedPasswordProfileWmParams> {
+    extends
+        CustomWidgetModelParametrized<
+          CreateSeedPasswordProfilePage,
+          CreateSeedPasswordProfileModel,
+          CreateSeedPasswordProfileWmParams
+        > {
   CreateSeedPasswordProfileWidgetModel(super.model);
+
+  static final _logger = Logger('CreateSeedPasswordProfileWidgetModel');
 
   late final passwordController = createTextEditingController();
   late final confirmController = createTextEditingController();
@@ -77,16 +84,21 @@ class CreateSeedPasswordProfileWidgetModel
       context: context,
       publicKey: publicKey,
     );
+
+    _loadingState.accept(false);
+
     try {
-      contextSafe
-        ?..compassPointNamed(const ProfileRouteData())
-        ..compassPointNamed(
-          routeData ?? const ManageSeedsAccountsRouteData(),
-        );
-      // contextSafe?.compassPointNamed(
-      //   routeData ?? const ManageSeedsAccountsRouteData(),
-      // );
-    } catch (_) {}
+      contextSafe?.compassPoint(const ProfileRouteData());
+      await Future.delayed(const Duration(milliseconds: 50), () {
+        if (routeData != null) {
+          contextSafe?.compassPoint(routeData);
+        } else {
+          contextSafe?.compassContinue(const ManageSeedsAccountsRouteData());
+        }
+      });
+    } catch (e, s) {
+      _logger.severe('Error during navigation after adding seed', e, s);
+    }
   }
 
   void _validate() {

@@ -13,8 +13,6 @@ Future<CompassRouteData?> showSwitchToSeedSheet({
 }) {
   return showCommonBottomSheet(
     context: context,
-    body: (_, scrollController) => SwitchToSeedWidget(
-      publicKey: publicKey,
-    ),
+    body: (_, scrollController) => SwitchToSeedWidget(publicKey: publicKey),
   );
 }

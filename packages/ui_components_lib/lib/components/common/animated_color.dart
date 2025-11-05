@@ -30,11 +30,13 @@ class _AnimatedColorState extends AnimatedWidgetBaseState<AnimatedColor> {
 
   @override
   void forEachTween(TweenVisitor<dynamic> visitor) {
-    _color = visitor(
-      _color,
-      widget.color,
-      (dynamic value) => ColorTween(begin: value as Color),
-    ) as ColorTween?;
+    _color =
+        visitor(
+              _color,
+              widget.color,
+              (dynamic value) => ColorTween(begin: value as Color),
+            )
+            as ColorTween?;
   }
 
   @override

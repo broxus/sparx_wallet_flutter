@@ -9,10 +9,8 @@ import 'package:injectable/injectable.dart';
 /// [ElementaryModel] for [CreateBrowserGroupScreen]
 @injectable
 class CreateBrowserGroupScreenModel extends ElementaryModel {
-  CreateBrowserGroupScreenModel(
-    ErrorHandler errorHandler,
-    this._browserService,
-  ) : super(errorHandler: errorHandler);
+  CreateBrowserGroupScreenModel(ErrorHandler errorHandler, this._browserService)
+    : super(errorHandler: errorHandler);
 
   final BrowserService _browserService;
 

@@ -66,10 +66,7 @@ class KeyDetailView extends StatelessWidget {
                         color: theme.colors.content3,
                       ),
                     ),
-                    Text(
-                      seedKey.name,
-                      style: theme.textStyles.headingLarge,
-                    ),
+                    Text(seedKey.name, style: theme.textStyles.headingLarge),
                   ],
                 ),
                 ShapedContainerColumn(
@@ -130,8 +127,9 @@ class KeyDetailView extends StatelessWidget {
                     if (currentAccounts.isEmpty)
                       Text(
                         LocaleKeys.noAccountsYet.tr(),
-                        style: theme.textStyles.labelXSmall
-                            .copyWith(color: theme.colors.content3),
+                        style: theme.textStyles.labelXSmall.copyWith(
+                          color: theme.colors.content3,
+                        ),
                       )
                     else
                       SeparatedColumn(
@@ -195,8 +193,9 @@ class KeyDetailView extends StatelessWidget {
               height: null,
               titleChild: Text(
                 title,
-                style: theme.textStyles.labelXSmall
-                    .copyWith(color: theme.colors.content3),
+                style: theme.textStyles.labelXSmall.copyWith(
+                  color: theme.colors.content3,
+                ),
               ),
               subtitleChild: Text(
                 subtitle,

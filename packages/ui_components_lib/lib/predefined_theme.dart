@@ -92,8 +92,9 @@ Map<EverButtonType, EverButtonStyle> _mapButtonStyle(ColorsPalette colors) {
     ),
     EverButtonType.secondary: EverButtonStyle(
       backgroundColor: colors.backgroundSecondary,
-      backgroundDisabledColor:
-          colors.backgroundSecondary.withAlpha(Opac.medium.toByteInt()),
+      backgroundDisabledColor: colors.backgroundSecondary.withAlpha(
+        Opac.medium.toByteInt(),
+      ),
       contentColor: colors.textPrimary,
       contentDisabledColor: colors.textPrimary.withAlpha(
         Opac.medium.toByteInt(),

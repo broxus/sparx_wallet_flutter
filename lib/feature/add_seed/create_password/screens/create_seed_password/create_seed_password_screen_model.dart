@@ -53,6 +53,7 @@ class CreateSeedPasswordScreenModel extends ElementaryModel {
         password: password,
         mnemonicType: mnemonicType,
         addType: addType,
+        workchainId: 0,
       );
 
       _currentKeyService.changeCurrentKey(publicKey);
@@ -67,9 +68,7 @@ class CreateSeedPasswordScreenModel extends ElementaryModel {
       );
     } catch (e) {
       Logger('CreateSeedPasswordScreenModel').severe(e);
-      _messengerService.show(
-        Message.error(message: e.toString()),
-      );
+      _messengerService.show(Message.error(message: e.toString()));
     }
   }
 

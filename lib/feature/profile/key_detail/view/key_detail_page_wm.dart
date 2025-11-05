@@ -9,8 +9,13 @@ import 'package:injectable/injectable.dart';
 import 'package:nekoton_repository/nekoton_repository.dart';
 
 @injectable
-class KeyDetailPageWidgetModel extends CustomWidgetModelParametrized<
-    KeyDetailPage, KeyDetailPageModel, PublicKey> {
+class KeyDetailPageWidgetModel
+    extends
+        CustomWidgetModelParametrized<
+          KeyDetailPage,
+          KeyDetailPageModel,
+          PublicKey
+        > {
   KeyDetailPageWidgetModel(super.model);
 
   late final _accountsTabState = createNotifier(KeyDetailAccountsTab.local);
@@ -25,13 +30,15 @@ class KeyDetailPageWidgetModel extends CustomWidgetModelParametrized<
   @override
   void initWidgetModel() {
     super.initWidgetModel();
-    _seedSub = model.seedStreamForKey(wmParams.value).listen(
-      _onSeedChanged,
-      onError: (Object e, StackTrace s) {
-        // Elementary's ErrorHandler is already wired in the model; here we
-        // just ignore and rely on UI to stay stable.
-      },
-    );
+    _seedSub = model
+        .seedStreamForKey(wmParams.value)
+        .listen(
+          _onSeedChanged,
+          onError: (Object e, StackTrace s) {
+            // Elementary's ErrorHandler is already wired in the model; here we
+            // just ignore and rely on UI to stay stable.
+          },
+        );
   }
 
   @override
@@ -66,10 +73,7 @@ class KeyDetailPageWidgetModel extends CustomWidgetModelParametrized<
 }
 
 class KeyDetailData {
-  KeyDetailData({
-    required this.key,
-    required this.ownerSeedName,
-  });
+  KeyDetailData({required this.key, required this.ownerSeedName});
 
   final SeedKey key;
   final String ownerSeedName;

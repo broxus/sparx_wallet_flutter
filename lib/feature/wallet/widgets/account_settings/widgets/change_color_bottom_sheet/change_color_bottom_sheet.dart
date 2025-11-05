@@ -16,20 +16,18 @@ Future<void> showChangeColorBottomSheet({
   return showCommonBottomSheet(
     titleMargin: EdgeInsets.zero,
     context: context,
-    body: (_, __) => ChangeColorBottomSheet(
-      address: address,
-    ),
+    body: (_, __) => ChangeColorBottomSheet(address: address),
   );
 }
 
-class ChangeColorBottomSheet extends InjectedElementaryParametrizedWidget<
-    ChangeColorBottomSheetWidgetModel, String> {
-  const ChangeColorBottomSheet({
-    required String address,
-    super.key,
-  }) : super(
-          wmFactoryParam: address,
-        );
+class ChangeColorBottomSheet
+    extends
+        InjectedElementaryParametrizedWidget<
+          ChangeColorBottomSheetWidgetModel,
+          String
+        > {
+  const ChangeColorBottomSheet({required String address, super.key})
+    : super(wmFactoryParam: address);
 
   @override
   Widget build(ChangeColorBottomSheetWidgetModel wm) {
@@ -39,9 +37,7 @@ class ChangeColorBottomSheet extends InjectedElementaryParametrizedWidget<
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            AppBarBackButton(
-              onPressed: wm.onPressedBack,
-            ),
+            AppBarBackButton(onPressed: wm.onPressedBack),
             Text(
               LocaleKeys.changeAvatarColor.tr(),
               style: wm.textStyle.headingMedium,
@@ -105,10 +101,7 @@ class _ItemColor extends StatelessWidget {
         isVisible: isSelected,
         child: SizedBox.expand(
           child: DecoratedBox(
-            decoration: BoxDecoration(
-              color: color,
-              shape: BoxShape.circle,
-            ),
+            decoration: BoxDecoration(color: color, shape: BoxShape.circle),
           ),
         ),
       ),
@@ -117,10 +110,7 @@ class _ItemColor extends StatelessWidget {
 }
 
 class _Wrapper extends StatelessWidget {
-  const _Wrapper({
-    required this.isVisible,
-    required this.child,
-  });
+  const _Wrapper({required this.isVisible, required this.child});
 
   final bool isVisible;
   final Widget child;

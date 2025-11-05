@@ -9,13 +9,12 @@ const _dataIdQueryParam = 'connectionDataId';
 @Singleton(as: CompassBaseRoute)
 class EditNetworkRoute extends CompassRoute<EditNetworkRouteData> {
   EditNetworkRoute()
-      : super(
-          path: '/edit-network',
-          isSaveLocation: true,
-          builder: (context, data, _) => EditNetworkPageWidget(
-            connectionDataId: data.connectionDataId,
-          ),
-        );
+    : super(
+        path: '/edit-network',
+        isSaveLocation: true,
+        builder: (context, data, _) =>
+            EditNetworkPageWidget(connectionDataId: data.connectionDataId),
+      );
 
   @override
   EditNetworkRouteData fromQueryParams(Map<String, String> queryParams) {
@@ -35,8 +34,6 @@ class EditNetworkRouteData implements CompassRouteDataQuery {
 
   @override
   Map<String, String> toQueryParams() {
-    return {
-      if (connectionDataId != null) _dataIdQueryParam: connectionDataId!,
-    };
+    return {if (connectionDataId != null) _dataIdQueryParam: connectionDataId!};
   }
 }

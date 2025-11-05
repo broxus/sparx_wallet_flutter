@@ -4,8 +4,9 @@ import 'package:elementary_helper/elementary_helper.dart';
 import 'package:flutter/material.dart';
 import 'package:ui_components_lib/ui_components_lib.dart';
 
-class UserAvatar extends InjectedElementaryParametrizedWidget<
-    UserAvatarWidgetModel, String?> {
+class UserAvatar
+    extends
+        InjectedElementaryParametrizedWidget<UserAvatarWidgetModel, String?> {
   const UserAvatar({
     required String? address,
     this.size,
@@ -30,22 +31,22 @@ class UserAvatar extends InjectedElementaryParametrizedWidget<
 
           return switch (data.type) {
             AvatarType.asset => Image.asset(
+              data.path,
+              width: double.infinity,
+              height: double.infinity,
+              color: data.color,
+              colorBlendMode: BlendMode.modulate,
+            ),
+            AvatarType.raw => ClipRRect(
+              borderRadius: BorderRadius.circular(
+                borderRadius ?? DimensRadiusV2.radius12,
+              ),
+              child: SvgPicture.string(
                 data.path,
                 width: double.infinity,
                 height: double.infinity,
-                color: data.color,
-                colorBlendMode: BlendMode.modulate,
               ),
-            AvatarType.raw => ClipRRect(
-                borderRadius: BorderRadius.circular(
-                  borderRadius ?? DimensRadiusV2.radius12,
-                ),
-                child: SvgPicture.string(
-                  data.path,
-                  width: double.infinity,
-                  height: double.infinity,
-                ),
-              ),
+            ),
           };
         },
       ),

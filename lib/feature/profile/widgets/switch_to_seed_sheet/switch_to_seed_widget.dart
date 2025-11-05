@@ -5,12 +5,14 @@ import 'package:flutter/material.dart';
 import 'package:nekoton_repository/nekoton_repository.dart';
 import 'package:ui_components_lib/v2/ui_components_lib_v2.dart';
 
-class SwitchToSeedWidget extends InjectedElementaryParametrizedWidget<
-    SwitchToSeedWidgetModel, PublicKey> {
-  const SwitchToSeedWidget({
-    required PublicKey publicKey,
-    super.key,
-  }) : super(wmFactoryParam: publicKey);
+class SwitchToSeedWidget
+    extends
+        InjectedElementaryParametrizedWidget<
+          SwitchToSeedWidgetModel,
+          PublicKey
+        > {
+  const SwitchToSeedWidget({required PublicKey publicKey, super.key})
+    : super(wmFactoryParam: publicKey);
 
   @override
   Widget build(SwitchToSeedWidgetModel wm) {

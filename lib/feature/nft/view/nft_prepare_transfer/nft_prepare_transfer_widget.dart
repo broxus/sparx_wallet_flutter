@@ -10,8 +10,12 @@ import 'package:nekoton_repository/nekoton_repository.dart' hide Message;
 import 'package:ui_components_lib/ui_components_lib.dart';
 import 'package:ui_components_lib/v2/ui_components_lib_v2.dart';
 
-class NftPrepareTransfer extends InjectedElementaryParametrizedWidget<
-    NftPrepareTransferWidgetModel, NftPrepareTransferRouteData> {
+class NftPrepareTransfer
+    extends
+        InjectedElementaryParametrizedWidget<
+          NftPrepareTransferWidgetModel,
+          NftPrepareTransferRouteData
+        > {
   const NftPrepareTransfer({
     required NftPrepareTransferRouteData routeData,
     super.key,
@@ -20,9 +24,7 @@ class NftPrepareTransfer extends InjectedElementaryParametrizedWidget<
   @override
   Widget build(NftPrepareTransferWidgetModel wm) {
     return Scaffold(
-      appBar: DefaultAppBar(
-        titleText: LocaleKeys.nftTransferTitle.tr(),
-      ),
+      appBar: DefaultAppBar(titleText: LocaleKeys.nftTransferTitle.tr()),
       body: EntityStateNotifierBuilder(
         listenableEntityState: wm.dataState,
         loadingBuilder: (_, __) => const Center(
@@ -34,9 +36,7 @@ class NftPrepareTransfer extends InjectedElementaryParametrizedWidget<
           ),
         ),
         errorBuilder: (_, Exception? error, __) {
-          return Center(
-            child: WalletSubscribeErrorWidget(error: error ?? ''),
-          );
+          return Center(child: WalletSubscribeErrorWidget(error: error ?? ''));
         },
         builder: (_, data) {
           if (data == null) return const SizedBox.shrink();
@@ -44,9 +44,7 @@ class NftPrepareTransfer extends InjectedElementaryParametrizedWidget<
           final theme = wm.theme;
 
           return Padding(
-            padding: const EdgeInsets.symmetric(
-              horizontal: DimensSizeV2.d16,
-            ),
+            padding: const EdgeInsets.symmetric(horizontal: DimensSizeV2.d16),
             child: Form(
               key: wm.formKey,
               child: Column(
@@ -64,17 +62,12 @@ class NftPrepareTransfer extends InjectedElementaryParametrizedWidget<
                               ),
                               child: Text(
                                 LocaleKeys.nftTransferDescription.tr(),
-                                style:
-                                    theme.textStyles.paragraphMedium.copyWith(
-                                  color: theme.colors.content1,
-                                ),
+                                style: theme.textStyles.paragraphMedium
+                                    .copyWith(color: theme.colors.content1),
                               ),
                             ),
                           AccountInfo(account: data.account),
-                          _Item(
-                            item: data.item,
-                            collection: data.collection,
-                          ),
+                          _Item(item: data.item, collection: data.collection),
                           if (data.localCustodians != null &&
                               data.localCustodians!.length > 1)
                             CommonSelectDropdown<PublicKey>(
@@ -82,7 +75,8 @@ class NftPrepareTransfer extends InjectedElementaryParametrizedWidget<
                                 for (final c in data.localCustodians!)
                                   CommonSheetDropdownItem<PublicKey>(
                                     value: c,
-                                    title: wm.getSeedName(c) ??
+                                    title:
+                                        wm.getSeedName(c) ??
                                         c.toEllipseString(),
                                   ),
                               ],
@@ -165,10 +159,7 @@ class NftPrepareTransfer extends InjectedElementaryParametrizedWidget<
 }
 
 class _ScanQRButton extends StatelessWidget {
-  const _ScanQRButton({
-    required this.receiver,
-    required this.onPressed,
-  });
+  const _ScanQRButton({required this.receiver, required this.onPressed});
 
   final ValueNotifier<TextEditingValue> receiver;
   final VoidCallback onPressed;
@@ -193,9 +184,7 @@ class _ScanQRButton extends StatelessWidget {
 }
 
 class _MaxButton extends StatelessWidget {
-  const _MaxButton({
-    required this.onPressed,
-  });
+  const _MaxButton({required this.onPressed});
 
   final VoidCallback onPressed;
 
@@ -214,10 +203,7 @@ class _MaxButton extends StatelessWidget {
 }
 
 class _Item extends StatelessWidget {
-  const _Item({
-    required this.item,
-    required this.collection,
-  });
+  const _Item({required this.item, required this.collection});
 
   final NftItem item;
   final NftCollection collection;
@@ -273,9 +259,7 @@ class _Item extends StatelessWidget {
               vertical: DimensSizeV2.d2,
             ),
             color: theme.colors.background2,
-            borderRadius: BorderRadius.circular(
-              DimensRadiusV2.radius6,
-            ),
+            borderRadius: BorderRadius.circular(DimensRadiusV2.radius6),
             child: Text(
               '$balance/$supply',
               style: theme.textStyles.labelXSmall,

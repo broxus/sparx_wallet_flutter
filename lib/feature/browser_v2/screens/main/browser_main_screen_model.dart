@@ -12,15 +12,11 @@ import 'package:elementary_helper/elementary_helper.dart';
 import 'package:flutter/services.dart';
 import 'package:injectable/injectable.dart';
 
-const _searchEngineUri = 'https://duckduckgo.com/?q=';
-
 /// [ElementaryModel] for [BrowserMainScreen]
 @injectable
 class BrowserMainScreenModel extends ElementaryModel {
-  BrowserMainScreenModel(
-    ErrorHandler errorHandler,
-    this._browserService,
-  ) : super(errorHandler: errorHandler);
+  BrowserMainScreenModel(ErrorHandler errorHandler, this._browserService)
+    : super(errorHandler: errorHandler);
   final BrowserService _browserService;
 
   ListenableState<String?> get activeGroupIdState =>
@@ -32,8 +28,8 @@ class BrowserMainScreenModel extends ElementaryModel {
   NotNullListenableState<List<String>> get allTabsIdsState =>
       _browserService.tab.allTabsIdsState;
 
-  ListenableState<String?> get activeTabUrlHostState =>
-      _browserService.tab.activeTabUrlHostState;
+  ListenableState<Uri?> get activeTabUriState =>
+      _browserService.tab.activeTabUriState;
 
   String? get activeTabId => activeTabIdState.value;
 
@@ -52,14 +48,8 @@ class BrowserMainScreenModel extends ElementaryModel {
     return _browserService.tab.getTabById(tabId);
   }
 
-  int? getTabIndex({
-    required String groupId,
-    required String tabId,
-  }) {
-    return _browserService.tab.getTabIndex(
-      groupId: groupId,
-      tabId: tabId,
-    );
+  int? getTabIndex({required String groupId, required String tabId}) {
+    return _browserService.tab.getTabIndex(groupId: groupId, tabId: tabId);
   }
 
   void clearTabs(String groupId) => _browserService.tab.clearTabs(groupId);
@@ -81,12 +71,20 @@ class BrowserMainScreenModel extends ElementaryModel {
 
     final isUrl = UrlValidator.checkString(text);
 
-    unawaited(
-      _browserService.tab.requestUrl(
-        tabId,
-        isUrl ? Uri.parse(text) : Uri.parse('$_searchEngineUri$text'),
-      ),
-    );
+    final url = isUrl
+        ? Uri.parse(text)
+        : Uri.parse('${BrowserService.searchUrl}$text');
+
+    if (isUrl) {
+      final isPhishing = _browserService.antiPhishing.checkIsPhishingUri(url);
+
+      if (isPhishing) {
+        _browserService.loadPhishingGuard(tabId, url);
+        return;
+      }
+    }
+
+    unawaited(_browserService.tab.requestUrl(tabId, url));
   }
 
   void setController(String tabId, CustomWebViewController controller) {
@@ -110,11 +108,7 @@ class BrowserMainScreenModel extends ElementaryModel {
       return;
     }
 
-    Clipboard.setData(
-      ClipboardData(
-        text: url.toString(),
-      ),
-    );
+    Clipboard.setData(ClipboardData(text: url.toString()));
   }
 
   void addUrlToBookmark(String tabId) {
@@ -135,26 +129,19 @@ class BrowserMainScreenModel extends ElementaryModel {
     String? name,
     String? originalGroupId,
     String? tabId,
-  }) =>
-      _browserService.tab.createBrowserGroup(
-        name: name,
-        isSwitchToCreatedGroup: tabId == null,
-        originalGroupId: originalGroupId,
-        initTabId: tabId,
-      );
+  }) => _browserService.tab.createBrowserGroup(
+    name: name,
+    isSwitchToCreatedGroup: tabId == null,
+    originalGroupId: originalGroupId,
+    initTabId: tabId,
+  );
 
   List<NotNullListenableState<BrowserTab>> getGroupTabs(String groupId) {
     return _browserService.tab.getGroupTabsListenable(groupId);
   }
 
-  String? getTabIdByIndex({
-    required String groupId,
-    required int index,
-  }) {
-    return _browserService.tab.getTabIdByIndex(
-      groupId: groupId,
-      index: index,
-    );
+  String? getTabIdByIndex({required String groupId, required int index}) {
+    return _browserService.tab.getTabIdByIndex(groupId: groupId, index: index);
   }
 
   void updateInteractedState({required bool isInteracted}) {

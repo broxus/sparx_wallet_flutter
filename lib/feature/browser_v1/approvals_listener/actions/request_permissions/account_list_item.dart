@@ -38,9 +38,7 @@ class AccountListItem extends StatelessWidget {
           padding: const EdgeInsets.all(DimensSizeV2.d16),
           child: SeparatedRow(
             children: [
-              UserAvatar(
-                address: account.address.address,
-              ),
+              UserAvatar(address: account.address.address),
               Expanded(
                 child: SeparatedColumn(
                   spacing: DimensSizeV2.d2,

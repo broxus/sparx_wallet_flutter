@@ -6,15 +6,19 @@ import 'package:app/feature/wallet/staking/widgets/staking_in_progress/staking_i
 import 'package:app/feature/wallet/staking/widgets/staking_in_progress/staking_in_progress_model.dart';
 import 'package:elementary/elementary.dart';
 import 'package:injectable/injectable.dart';
+import 'package:money2/money2.dart';
 import 'package:nekoton_repository/nekoton_repository.dart';
 
 /// [WidgetModel] for [StakingInProgress]
 @injectable
-class StakingInProgressWidgetModel extends CustomWidgetModelParametrized<
-    StakingInProgress, StakingInProgressModel, StakingInProgressParams> {
-  StakingInProgressWidgetModel(
-    super.model,
-  );
+class StakingInProgressWidgetModel
+    extends
+        CustomWidgetModelParametrized<
+          StakingInProgress,
+          StakingInProgressModel,
+          StakingInProgressParams
+        > {
+  StakingInProgressWidgetModel(super.model);
 
   List<StEverWithdrawRequest> get requests => wmParams.value.requests;
 

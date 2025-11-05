@@ -11,10 +11,7 @@ import 'package:logging/logging.dart';
 
 @injectable
 class TonConnectJsBridge {
-  TonConnectJsBridge(
-    this._tonConnectService,
-    this._storageService,
-  );
+  TonConnectJsBridge(this._tonConnectService, this._storageService);
 
   static final _logger = Logger('TonConnectJsBridge');
 
@@ -123,13 +120,13 @@ class TonConnectJsBridge {
       return await switch (rpcRequest) {
         DisconnectRpcRequest() => _disconnect(connection: connection),
         final SendTransactionRpcRequest request => _sendTransaction(
-            request: request,
-            connection: connection,
-          ),
+          request: request,
+          connection: connection,
+        ),
         final SignDataRpcRequest request => _signData(
-            request: request,
-            connection: connection,
-          ),
+          request: request,
+          connection: connection,
+        ),
       };
     } catch (e, s) {
       _logger.severe('Handle message failed', e, s);
@@ -184,14 +181,16 @@ class TonConnectJsBridge {
 
   Future<void> _triggerEvent(WalletEvent event) async {
     await _controller?.evaluateJavascript(
-      source: '''
+      source:
+          '''
         window.$tonConnectJsBridgeKey._listeners.forEach((listener) => listener(${jsonEncode(event.toJson())}));
       ''',
     );
   }
 
   /// https://github.com/ton-blockchain/ton-connect/blob/main/bridge.md#js-bridge
-  String _getJsSource(DeviceInfo deviceInfo) => '''
+  String _getJsSource(DeviceInfo deviceInfo) =>
+      '''
     window.$tonConnectJsBridgeKey = window.$tonConnectJsBridgeKey || {};
     window.$tonConnectJsBridgeKey._listeners = new Set();
     window.$tonConnectJsBridgeKey.tonconnect = {
@@ -212,9 +211,9 @@ class TonConnectJsBridge {
     ''';
 
   TonAppConnectionInjected? _getConnection() => url?.let(
-        (url) => _storageService
-            .readConnections()
-            .whereType<TonAppConnectionInjected>()
-            .firstWhereOrNull((e) => e.origin == url.origin),
-      );
+    (url) => _storageService
+        .readConnections()
+        .whereType<TonAppConnectionInjected>()
+        .firstWhereOrNull((e) => e.origin == url.origin),
+  );
 }

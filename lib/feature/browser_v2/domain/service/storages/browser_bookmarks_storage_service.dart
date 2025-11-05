@@ -13,9 +13,7 @@ const _browserBookmarksKey = 'browser_bookmarks_key';
 /// to interact with all browser bookmark - related data.
 @singleton
 class BrowserBookmarksStorageService extends AbstractStorageService {
-  BrowserBookmarksStorageService(
-    @Named(container) this._storage,
-  );
+  BrowserBookmarksStorageService(@Named(container) this._storage);
 
   static const container = _browserBookmarksDomain;
 
@@ -34,9 +32,7 @@ class BrowserBookmarksStorageService extends AbstractStorageService {
 
     return [
       for (final entry in list)
-        BrowserBookmarkItem.fromJson(
-          entry as Map<String, dynamic>,
-        ),
+        BrowserBookmarkItem.fromJson(entry as Map<String, dynamic>),
     ];
   }
 
@@ -55,17 +51,11 @@ class BrowserBookmarksStorageService extends AbstractStorageService {
 
   @override
   Future<void> clear() async {
-    await tryWrapper(
-      _storage.erase,
-      onCatch: _captureException,
-    );
+    await tryWrapper(_storage.erase, onCatch: _captureException);
   }
 
   Future<void> _captureException(Object e, StackTrace s) async {
     _log.severe('BrowserBookmarksStorageService captureException', e, s);
-    _sentry.captureException(
-      e,
-      stackTrace: s,
-    );
+    _sentry.captureException(e, stackTrace: s);
   }
 }

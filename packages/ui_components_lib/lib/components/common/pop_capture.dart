@@ -7,12 +7,12 @@ class PopCapture extends PopScope {
     super.canPop,
     super.key,
   }) : super(
-          onPopInvokedWithResult: (didPop, result) {
-            if (didPop || onPop == null) {
-              return;
-            }
+         onPopInvokedWithResult: (didPop, result) {
+           if (didPop || onPop == null) {
+             return;
+           }
 
-            WidgetsBinding.instance.addPostFrameCallback((_) => onPop());
-          },
-        );
+           WidgetsBinding.instance.addPostFrameCallback((_) => onPop());
+         },
+       );
 }

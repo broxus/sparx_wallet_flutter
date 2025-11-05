@@ -10,10 +10,7 @@ import 'package:rxdart/rxdart.dart';
 
 @singleton
 class GaslessRepository {
-  GaslessRepository(
-    this._nekotonRepository,
-    this._dio,
-  );
+  GaslessRepository(this._nekotonRepository, this._dio);
 
   final _log = Logger('GaslessRepository');
   final NekotonRepository _nekotonRepository;
@@ -26,14 +23,10 @@ class GaslessRepository {
         .whereType<CommonTransportStrategy>()
         .map((transport) => transport.gaslessApiBaseUrl)
         .distinct()
-        .listen(
-      (baseUrl) {
-        _config = null;
-        _api = baseUrl?.let(
-          (baseUrl) => GaslessApi(_dio, baseUrl: baseUrl),
-        );
-      },
-    );
+        .listen((baseUrl) {
+          _config = null;
+          _api = baseUrl?.let((baseUrl) => GaslessApi(_dio, baseUrl: baseUrl));
+        });
   }
 
   Future<GaslessConfig?> getConfig() async {
@@ -86,10 +79,7 @@ class GaslessRepository {
 
     try {
       return await _api!.send(
-        GaslessSendRequestDto(
-          walletPublicKey: walletPublicKey,
-          boc: boc,
-        ),
+        GaslessSendRequestDto(walletPublicKey: walletPublicKey, boc: boc),
       );
     } catch (e, st) {
       _log.severe('Failed to send gasless request', e, st);

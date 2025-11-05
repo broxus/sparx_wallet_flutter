@@ -13,9 +13,7 @@ import 'package:ui_components_lib/v2/text_styles_v2.dart';
 @injectable
 class ConnectionFailWidgetModel
     extends CustomWidgetModel<ConnectionFailScreen, ConnectionFailModel> {
-  ConnectionFailWidgetModel(
-    super.model,
-  );
+  ConnectionFailWidgetModel(super.model);
 
   ThemeStyleV2 get _theme => context.themeStyleV2;
 

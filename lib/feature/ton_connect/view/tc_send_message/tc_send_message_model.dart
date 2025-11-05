@@ -6,6 +6,7 @@ import 'package:app/http/repository/repository.dart';
 import 'package:app/utils/utils.dart';
 import 'package:elementary/elementary.dart';
 import 'package:injectable/injectable.dart';
+import 'package:money2/money2.dart';
 import 'package:nekoton_repository/nekoton_repository.dart' hide Message;
 import 'package:rxdart/rxdart.dart';
 
@@ -30,16 +31,16 @@ class TCSendMessageModel extends ElementaryModel
 
   TransportStrategy get transport => _nekotonRepository.currentTransport;
 
-  Stream<Money> getBalanceStream(Address address) =>
-      _nekotonRepository.walletsMapStream
-          .map((wallets) => wallets[address])
-          .mapNotNull((wallet) => wallet?.wallet?.contractState.balance)
-          .map(
-            (value) => Money.fromBigIntWithCurrency(
-              value,
-              Currencies()[transport.nativeTokenTicker]!,
-            ),
-          );
+  Stream<Money> getBalanceStream(Address address) => _nekotonRepository
+      .walletsMapStream
+      .map((wallets) => wallets[address])
+      .mapNotNull((wallet) => wallet?.wallet?.contractState.balance)
+      .map(
+        (value) => Money.fromBigIntWithCurrency(
+          value,
+          Currencies()[transport.nativeTokenTicker]!,
+        ),
+      );
 
   Future<TonWalletState> getTonWalletState(Address address) async {
     final wallet = await _nekotonRepository.walletsMapStream
@@ -58,41 +59,35 @@ class TCSendMessageModel extends ElementaryModel
     required List<TransactionPayloadMessage> messages,
     required Address address,
     PublicKey? publicKey,
-  }) =>
-      _nekotonRepository.prepareTransfer(
-        address: address,
-        publicKey: publicKey,
-        expiration: defaultSendTimeout,
-        params: messages
-            .map(
-              (e) => TonWalletTransferParams(
-                amount: BigInt.parse(e.amount),
-                destination: e.address,
-                body: e.payload,
-                stateInit: e.stateInit,
-                bounce: defaultMessageBounce,
-              ),
-            )
-            .toList(),
-      );
+  }) => _nekotonRepository.prepareTransfer(
+    address: address,
+    publicKey: publicKey,
+    expiration: defaultSendTimeout,
+    params: messages
+        .map(
+          (e) => TonWalletTransferParams(
+            amount: BigInt.parse(e.amount),
+            destination: e.address,
+            body: e.payload,
+            stateInit: e.stateInit,
+            bounce: defaultMessageBounce,
+          ),
+        )
+        .toList(),
+  );
 
   Future<BigInt> estimateFees({
     required Address address,
     required UnsignedMessage message,
-  }) =>
-      _nekotonRepository.estimateFees(
-        address: address,
-        message: message,
-      );
+  }) => _nekotonRepository.estimateFees(address: address, message: message);
 
   Future<List<TxTreeSimulationErrorItem>> simulateTransactionTree({
     required Address address,
     required UnsignedMessage message,
-  }) =>
-      _nekotonRepository.simulateTransactionTree(
-        address: address,
-        message: message,
-      );
+  }) => _nekotonRepository.simulateTransactionTree(
+    address: address,
+    message: message,
+  );
 
   String? getSeedName(PublicKey custodian) =>
       _nekotonRepository.seedList.findSeedKey(custodian)?.name;
@@ -148,18 +143,14 @@ class TCSendMessageModel extends ElementaryModel
     }
   }
 
-  Future<(Address, JettonRootData)> getJettonRootDetails(
-    Address address,
-  ) =>
+  Future<(Address, JettonRootData)> getJettonRootDetails(Address address) =>
       JettonWallet.getJettonRootDetailsFromJettonWallet(
         address: address,
         transport: transport.transport,
       );
 
   Future<Symbol> getSymbol(Address rootTokenContract) async {
-    final info = await _tonRepository.getTokenInfo(
-      address: rootTokenContract,
-    );
+    final info = await _tonRepository.getTokenInfo(address: rootTokenContract);
 
     final symbol = Symbol(
       name: info.symbol ?? 'UNKNOWN',

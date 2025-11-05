@@ -12,13 +12,9 @@ import 'package:ui_components_lib/ui_components_lib.dart';
 
 AddExistingWalletWidgetModel defaultAddExistingWalletWidgetModelFactory(
   BuildContext context,
-) =>
-    AddExistingWalletWidgetModel(
-      AddExistingWalletModel(
-        createPrimaryErrorHandler(context),
-        inject(),
-      ),
-    );
+) => AddExistingWalletWidgetModel(
+  AddExistingWalletModel(createPrimaryErrorHandler(context), inject()),
+);
 
 class AddExistingWalletWidgetModel
     extends CustomWidgetModel<AddExistingWalletWidget, AddExistingWalletModel>

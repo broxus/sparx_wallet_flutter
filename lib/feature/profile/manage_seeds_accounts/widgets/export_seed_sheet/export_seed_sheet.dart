@@ -21,12 +21,14 @@ ModalRoute<void> exportSeedSheetRoute(
 }
 
 /// Sheet that allows user to enter password and export seed phrase.
-class ExportSeedSheet extends InjectedElementaryParametrizedWidget<
-    ExportSeedSheetWidgetModel, PublicKey> {
-  const ExportSeedSheet({
-    required PublicKey publicKey,
-    super.key,
-  }) : super(wmFactoryParam: publicKey);
+class ExportSeedSheet
+    extends
+        InjectedElementaryParametrizedWidget<
+          ExportSeedSheetWidgetModel,
+          PublicKey
+        > {
+  const ExportSeedSheet({required PublicKey publicKey, super.key})
+    : super(wmFactoryParam: publicKey);
 
   @override
   Widget build(ExportSeedSheetWidgetModel wm) {

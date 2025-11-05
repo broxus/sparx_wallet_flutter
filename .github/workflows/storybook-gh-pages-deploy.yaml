@@ -58,7 +58,7 @@ jobs:
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
-          path: "packages/ui_components_lib/example/build/web"
+          path: "packages/ui_components_lib/storybook/build/web"
 
   # Deployment job
   deploy:

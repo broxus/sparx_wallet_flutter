@@ -7,6 +7,7 @@ import 'package:elementary_helper/elementary_helper.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:injectable/injectable.dart';
+import 'package:money2/money2.dart';
 import 'package:nekoton_repository/nekoton_repository.dart';
 
 enum RequestPermissionsStep { account, confirm }
@@ -24,23 +25,26 @@ class RequestPermissionsWmParams {
 }
 
 @injectable
-class RequestPermissionsWidgetModel extends CustomWidgetModelParametrized<
-    RequestPermissionsWidget,
-    RequestPermissionsModel,
-    RequestPermissionsWmParams> {
-  RequestPermissionsWidgetModel(
-    super.model,
-  );
+class RequestPermissionsWidgetModel
+    extends
+        CustomWidgetModelParametrized<
+          RequestPermissionsWidget,
+          RequestPermissionsModel,
+          RequestPermissionsWmParams
+        > {
+  RequestPermissionsWidgetModel(super.model);
 
-  late final ValueListenable<Uri> originState =
-      createWmParamsNotifier((it) => it.origin);
+  late final ValueListenable<Uri> originState = createWmParamsNotifier(
+    (it) => it.origin,
+  );
 
   late final searchController = createTextEditingController();
   late final _stepState = createValueNotifier(RequestPermissionsStep.account);
   late final _selectedState = createNotifier(_initialSelectedAccount);
   late final _accountsState = createNotifier(model.accounts);
-  late final _permissionsState =
-      createWmParamsNotifier((it) => it.permissions.toSet());
+  late final _permissionsState = createWmParamsNotifier(
+    (it) => it.permissions.toSet(),
+  );
   late final _zeroBalance = Money.fromBigIntWithCurrency(
     BigInt.zero,
     Currencies()[model.symbol] ??

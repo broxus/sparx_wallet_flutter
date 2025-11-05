@@ -90,18 +90,18 @@ class StakingView extends StatelessWidget {
         switch (data.tab) {
           StakingTab.stake || StakingTab.unstake => _stakeUnstakeBody(context),
           StakingTab.inProgress => StateNotifierBuilder(
-              listenableState: requests,
-              builder: (_, requests) => StakingInProgress(
-                requests: requests ?? [],
-                accountKey: info.wallet.publicKey,
-                exchangeRate: data.exchangeRate,
-                stakeCurrency: data.receiveCurrency,
-                attachedFee: data.attachedAmount.minorUnits,
-                withdrawHours: info.withdrawHours,
-                everPrice: info.currency.price,
-                tokenPrice: info.tokenCurrency.price,
-              ),
+            listenableState: requests,
+            builder: (_, requests) => StakingInProgress(
+              requests: requests ?? [],
+              accountKey: info.wallet.publicKey,
+              exchangeRate: data.exchangeRate,
+              stakeCurrency: data.receiveCurrency,
+              attachedFee: data.attachedAmount.minorUnits,
+              withdrawHours: info.withdrawHours,
+              everPrice: info.currency.price,
+              tokenPrice: info.tokenCurrency.price,
             ),
+          ),
         },
       ],
     );
@@ -193,9 +193,7 @@ class _InfoField extends StatelessWidget {
           ),
           _InfoRow(
             label: LocaleKeys.attachedAmount.tr(),
-            child: AmountWidget.fromMoney(
-              amount: attachedAmount,
-            ),
+            child: AmountWidget.fromMoney(amount: attachedAmount),
           ),
           if (receiveBalance != null)
             StateNotifierBuilder(
@@ -230,10 +228,7 @@ class _InfoField extends StatelessWidget {
 }
 
 class _InfoRow extends StatelessWidget {
-  const _InfoRow({
-    required this.label,
-    required this.child,
-  });
+  const _InfoRow({required this.label, required this.child});
 
   final String label;
   final Widget child;

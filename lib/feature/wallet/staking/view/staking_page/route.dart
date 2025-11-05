@@ -17,39 +17,32 @@ class StakingRoute extends CompassRoute<StakingRouteData> {
     @Named.from(TokenWalletSendRoute) CompassBaseRoute tokenWalletSendRoute,
     @Named.from(CancelUnstakingRoute) CompassBaseRoute cancelUnstakingRoute,
   ) : super(
-          path: '/wallet-stake',
-          builder: (context, data, _) => StakingPageWidget(
-            accountAddress: data.accountAddress,
-          ),
-          compassBaseRoutes: [
-            tonWalletSendRoute,
-            tokenWalletSendRoute,
-            cancelUnstakingRoute,
-          ],
-        );
+        path: '/wallet-stake',
+        builder: (context, data, _) =>
+            StakingPageWidget(accountAddress: data.accountAddress),
+        compassBaseRoutes: [
+          tonWalletSendRoute,
+          tokenWalletSendRoute,
+          cancelUnstakingRoute,
+        ],
+      );
 
   @override
   StakingRouteData fromQueryParams(Map<String, String> queryParams) {
     return StakingRouteData(
-      accountAddress: Address(
-        address: queryParams[_addressQueryParam]!,
-      ),
+      accountAddress: Address(address: queryParams[_addressQueryParam]!),
     );
   }
 }
 
 class StakingRouteData implements CompassRouteDataQuery {
-  const StakingRouteData({
-    required this.accountAddress,
-  });
+  const StakingRouteData({required this.accountAddress});
 
   /// Address of the account to stake
   final Address accountAddress;
 
   @override
   Map<String, String> toQueryParams() {
-    return {
-      _addressQueryParam: accountAddress.address,
-    };
+    return {_addressQueryParam: accountAddress.address};
   }
 }

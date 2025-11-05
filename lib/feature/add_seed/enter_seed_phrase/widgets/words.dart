@@ -71,9 +71,8 @@ class EnterSeedPhraseWords extends StatelessWidget {
                   ),
                   child: ListView.separated(
                     itemCount: data.inputs.length,
-                    separatorBuilder: (_, __) => const SizedBox(
-                      height: DimensSizeV2.d8,
-                    ),
+                    separatorBuilder: (_, __) =>
+                        const SizedBox(height: DimensSizeV2.d8),
                     itemBuilder: (_, index) => _Input(
                       key: ValueKey(index),
                       theme: themeStyleV2,
@@ -142,9 +141,7 @@ class _Input extends StatelessWidget {
         child: Center(
           child: Text(
             indexText,
-            style: StyleRes.addRegular.copyWith(
-              color: colors.textSecondary,
-            ),
+            style: StyleRes.addRegular.copyWith(color: colors.textSecondary),
           ),
         ),
       ),
@@ -159,10 +156,7 @@ class _Input extends StatelessWidget {
   Widget _itemBuilder(BuildContext context, String suggestion) {
     return ListTile(
       tileColor: Colors.transparent,
-      title: Text(
-        suggestion,
-        style: theme.textStyles.labelSmall,
-      ),
+      title: Text(suggestion, style: theme.textStyles.labelSmall),
     );
   }
 }

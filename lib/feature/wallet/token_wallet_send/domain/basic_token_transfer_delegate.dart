@@ -5,13 +5,12 @@ import 'package:app/data/models/models.dart';
 import 'package:app/feature/wallet/token_wallet_send/token_wallet_send.dart';
 import 'package:app/utils/utils.dart';
 import 'package:injectable/injectable.dart';
+import 'package:money2/money2.dart';
 import 'package:nekoton_repository/nekoton_repository.dart';
 
 @injectable
 final class BasicTokenTransferDelegate extends TokenTransferDelegate {
-  BasicTokenTransferDelegate(
-    this._nekotonRepository,
-  );
+  BasicTokenTransferDelegate(this._nekotonRepository);
 
   final NekotonRepository _nekotonRepository;
 
@@ -105,9 +104,7 @@ final class BasicTokenTransferDelegate extends TokenTransferDelegate {
       message: transfer.unsignedMessage,
     );
 
-    return Fee.native(
-      Money.fromBigIntWithCurrency(value, _currency),
-    );
+    return Fee.native(Money.fromBigIntWithCurrency(value, _currency));
   }
 
   @override

@@ -17,23 +17,22 @@ import 'package:nekoton_repository/nekoton_repository.dart' hide Message;
 import 'package:ui_components_lib/v2/ui_components_lib_v2.dart';
 
 class NewAccountTypeWmParams {
-  NewAccountTypeWmParams({
-    required this.publicKey,
-    required this.password,
-  });
+  NewAccountTypeWmParams({required this.publicKey, required this.password});
 
   final PublicKey publicKey;
   final String? password;
 }
 
 @injectable
-class NewAccountTypeWidgetModel extends CustomWidgetModelParametrized<
-    NewAccountTypeWidget,
-    NewAccountTypeModel,
-    NewAccountTypeWmParams> with BleAvailabilityWmMixin {
-  NewAccountTypeWidgetModel(
-    super.model,
-  );
+class NewAccountTypeWidgetModel
+    extends
+        CustomWidgetModelParametrized<
+          NewAccountTypeWidget,
+          NewAccountTypeModel,
+          NewAccountTypeWmParams
+        >
+    with BleAvailabilityWmMixin {
+  NewAccountTypeWidgetModel(super.model);
 
   late final controller = createTextEditingController();
   late final availableTypes = List<WalletType>.from(
@@ -58,10 +57,7 @@ class NewAccountTypeWidgetModel extends CustomWidgetModelParametrized<
           defaultType,
           if (defaultMultisigType != null) defaultMultisigType!,
         }
-      : {
-          defaultType,
-          if (defaultMultisigType != null) defaultMultisigType!,
-        };
+      : {defaultType, if (defaultMultisigType != null) defaultMultisigType!};
 
   ListenableState<bool> get loadingState => _loadingState;
 
@@ -127,9 +123,7 @@ class NewAccountTypeWidgetModel extends CustomWidgetModelParametrized<
           context: contextSafe!,
           address: accountAddress,
         );
-        context.compassPointNamed(
-          const WalletRouteData(),
-        );
+        context.compassPointNamed(const WalletRouteData());
       }
     } on Exception catch (e) {
       model.showMessage(Message.error(message: e.toString()));

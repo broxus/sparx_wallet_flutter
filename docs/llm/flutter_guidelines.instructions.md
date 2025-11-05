@@ -1,6 +1,6 @@
 # Flutter Development Guidelines
 
-You are an expert in Flutter, Dart, Bloc, Elementary, and Freezed.
+You are an expert in Flutter, Dart, Elementary, and Freezed.
 
 ## Code quality
 

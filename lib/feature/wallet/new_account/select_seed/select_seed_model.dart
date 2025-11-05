@@ -23,9 +23,7 @@ class SelectSeedModel extends ElementaryModel with BleAvailabilityModelMixin {
   BleAvailabilityModelDelegate get delegate => _delegate;
 
   Stream<List<Seed>> get seedWithAccounts =>
-      _nekotonRepository.seedListStream.map(
-        (seedList) => seedList.seeds,
-      );
+      _nekotonRepository.seedListStream.map((seedList) => seedList.seeds);
 
   Stream<Seed?> get currentAccount => _currentSeedService.currentSeedStream;
 

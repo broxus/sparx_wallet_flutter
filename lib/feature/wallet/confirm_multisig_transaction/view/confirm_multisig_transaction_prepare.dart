@@ -25,8 +25,9 @@ class TonWalletConfirmTransactionPrepare extends StatefulWidget {
 
 class _TonWalletConfirmTransactionPrepareState
     extends State<TonWalletConfirmTransactionPrepare> {
-  late final custodianNotifier =
-      ValueNotifier<PublicKey>(widget.localCustodians.first);
+  late final custodianNotifier = ValueNotifier<PublicKey>(
+    widget.localCustodians.first,
+  );
 
   @override
   void dispose() {

@@ -44,8 +44,11 @@ class _StreamSubscriptionsCollection {
   }
 }
 
-mixin NotifierSubscriptionsMixin<W extends ElementaryWidget,
-    M extends ElementaryModel> on WidgetModel<W, M> {
+mixin NotifierSubscriptionsMixin<
+  W extends ElementaryWidget,
+  M extends ElementaryModel
+>
+    on WidgetModel<W, M> {
   late final _subscriptionsCollection = _NotifierSubscriptionsCollection();
   late final _streamSubscriptionsCollection = _StreamSubscriptionsCollection();
 
@@ -66,9 +69,7 @@ mixin NotifierSubscriptionsMixin<W extends ElementaryWidget,
   /// Create [NotNullNotifier] and add to the notifier collection
   @protected
   NotNullNotifier<T> createNotNullNotifier<T>(T initValue) {
-    return _subscriptionsCollection.add(
-      NotNullNotifier<T>(initValue),
-    );
+    return _subscriptionsCollection.add(NotNullNotifier<T>(initValue));
   }
 
   /// Create [StateNotifier] and add to the notifier collection
@@ -82,9 +83,7 @@ mixin NotifierSubscriptionsMixin<W extends ElementaryWidget,
   /// Create [ValueNotifier] and add to the notifier collection
   @protected
   ValueNotifier<T> createValueNotifier<T>(T initValue) {
-    return _subscriptionsCollection.add(
-      ValueNotifier<T>(initValue),
-    );
+    return _subscriptionsCollection.add(ValueNotifier<T>(initValue));
   }
 
   /// Create [Entity StateNotifier] and add to the notifier collection
@@ -92,16 +91,12 @@ mixin NotifierSubscriptionsMixin<W extends ElementaryWidget,
   EntityStateNotifier<T> createEntityNotifier<T>([
     EntityState<T>? initialData,
   ]) {
-    return _subscriptionsCollection.add(
-      EntityStateNotifier<T>(initialData),
-    );
+    return _subscriptionsCollection.add(EntityStateNotifier<T>(initialData));
   }
 
   /// Create [TextEditingController] and add to the informant collection
   @protected
-  TextEditingController createTextEditingController([
-    String? initialText,
-  ]) {
+  TextEditingController createTextEditingController([String? initialText]) {
     return _subscriptionsCollection.add(
       TextEditingController(text: initialText),
     );
@@ -124,9 +119,7 @@ mixin NotifierSubscriptionsMixin<W extends ElementaryWidget,
   StateNotifier<T> createNotifierFromStream<T>(Stream<T> stream) {
     final notifier = SafeStateNotifier<T>();
 
-    _streamSubscriptionsCollection.add(
-      stream.listen(notifier.accept),
-    );
+    _streamSubscriptionsCollection.add(stream.listen(notifier.accept));
 
     return _subscriptionsCollection.add(notifier);
   }

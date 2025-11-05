@@ -15,7 +15,7 @@ import 'package:flutter/material.dart';
 abstract interface class BrowserTabsAndGroupsUi {
   ListenableState<List<NotNullListenableState<BrowserTab>>?> get viewTabsState;
 
-  ListenableState<String?> get hostState;
+  ListenableState<Uri?> get activeTabUriState;
 
   ListenableState<String?> get selectedGroupIdState;
 
@@ -29,10 +29,7 @@ abstract interface class BrowserTabsAndGroupsUi {
 
   void addTab();
 
-  void changeTab({
-    required String groupId,
-    required String tabId,
-  });
+  void changeTab({required String groupId, required String tabId});
 }
 
 class BrowserTabsAndGroupsUiDelegate implements BrowserTabsAndGroupsUi {
@@ -42,7 +39,6 @@ class BrowserTabsAndGroupsUiDelegate implements BrowserTabsAndGroupsUi {
     required this.renderManager,
     required this.onEmptyTabs,
     required this.onUpdateActiveTab,
-    required this.onChangeTab,
     required this.checkIsVisiblePages,
   }) {
     _init();
@@ -53,7 +49,6 @@ class BrowserTabsAndGroupsUiDelegate implements BrowserTabsAndGroupsUi {
   final BrowserRenderManager renderManager;
   final VoidCallback onEmptyTabs;
   final ValueChanged<bool> onUpdateActiveTab;
-  final VoidCallback onChangeTab;
   final bool Function() checkIsVisiblePages;
 
   final _tabAnimationTypeState = StateNotifier<TabAnimationType?>();
@@ -78,10 +73,10 @@ class BrowserTabsAndGroupsUiDelegate implements BrowserTabsAndGroupsUi {
 
   @override
   ListenableState<List<NotNullListenableState<BrowserTab>>?>
-      get viewTabsState => _viewTabsState;
+  get viewTabsState => _viewTabsState;
 
   @override
-  ListenableState<String?> get hostState => model.activeTabUrlHostState;
+  ListenableState<Uri?> get activeTabUriState => model.activeTabUriState;
 
   @override
   ListenableState<TabAnimationType?> get tabAnimationTypeState =>
@@ -105,25 +100,18 @@ class BrowserTabsAndGroupsUiDelegate implements BrowserTabsAndGroupsUi {
   }
 
   @override
-  void changeTab({
-    required String groupId,
-    required String tabId,
-  }) {
+  void changeTab({required String groupId, required String tabId}) {
     final data = renderManager.getRenderData(tabId);
 
     if (tabId == _activeTab?.id) {
       _tabAnimationTypeState.accept(
-        ShowViewAnimationType(
-          tabX: data?.xLeft,
-          tabY: data?.yTop,
-        ),
+        ShowViewAnimationType(tabX: data?.xLeft, tabY: data?.yTop),
       );
     } else {
       model
         ..setActiveGroup(groupId)
         ..setActiveTab(tabId);
     }
-    onChangeTab();
   }
 
   @override
@@ -137,45 +125,33 @@ class BrowserTabsAndGroupsUiDelegate implements BrowserTabsAndGroupsUi {
     _selectedGroupIdState.accept(groupId);
   }
 
-  void onTabAnimationStart(ValueChanged<bool> onComplete) {
+  void onTabAnimationStart({VoidCallback? onCompleteShowTabs}) {
     if (_tabAnimationTypeState.value == null) {
       return;
     }
     if (_tabAnimationTypeState.value is ShowTabsAnimationType) {
-      onComplete(false);
+      onCompleteShowTabs?.call();
     }
   }
 
-  void onTabAnimationEnd(ValueChanged<bool> onComplete) {
+  void onTabAnimationEnd({VoidCallback? onCompleteShowView}) {
     if (_tabAnimationTypeState.value == null) {
       return;
     }
 
     if (_tabAnimationTypeState.value is ShowViewAnimationType) {
-      onComplete(true);
+      onCompleteShowView?.call();
     }
 
     _tabAnimationTypeState.accept(null);
   }
 
-  int? getTabIndexById({
-    required String groupId,
-    required String tabId,
-  }) {
-    return model.getTabIndex(
-      groupId: groupId,
-      tabId: tabId,
-    );
+  int? getTabIndexById({required String groupId, required String tabId}) {
+    return model.getTabIndex(groupId: groupId, tabId: tabId);
   }
 
-  String? getIdByIndex({
-    required String groupId,
-    required int index,
-  }) =>
-      model.getTabIdByIndex(
-        groupId: groupId,
-        index: index,
-      );
+  String? getIdByIndex({required String groupId, required int index}) =>
+      model.getTabIdByIndex(groupId: groupId, index: index);
 
   @override
   Future<void> onCloseAllPressed() async {
@@ -204,10 +180,7 @@ class BrowserTabsAndGroupsUiDelegate implements BrowserTabsAndGroupsUi {
     final data = id == null ? null : renderManager.getRenderData(id);
 
     _tabAnimationTypeState.accept(
-      ShowViewAnimationType(
-        tabX: data?.xLeft,
-        tabY: data?.yTop,
-      ),
+      ShowViewAnimationType(tabX: data?.xLeft, tabY: data?.yTop),
     );
   }
 
@@ -216,10 +189,7 @@ class BrowserTabsAndGroupsUiDelegate implements BrowserTabsAndGroupsUi {
     final data = id == null ? null : renderManager.getRenderData(id);
 
     _tabAnimationTypeState.accept(
-      ShowTabsAnimationType(
-        tabX: data?.xLeft,
-        tabY: data?.yTop,
-      ),
+      ShowTabsAnimationType(tabX: data?.xLeft, tabY: data?.yTop),
     );
   }
 
@@ -229,9 +199,7 @@ class BrowserTabsAndGroupsUiDelegate implements BrowserTabsAndGroupsUi {
     String? originalGroupId,
   }) async {
     final groupName = await context.compassPush<String?>(
-      CreateBrowserGroupRouteData(
-        tabId: tabId,
-      ),
+      CreateBrowserGroupRouteData(tabId: tabId),
     );
 
     if (groupName == null) {
@@ -278,7 +246,9 @@ class BrowserTabsAndGroupsUiDelegate implements BrowserTabsAndGroupsUi {
       if (_tabsPrevCount != null &&
           _tabsCount != null &&
           _tabsPrevCount! < _tabsCount!) {
-        onUpdateActiveTab(true);
+        WidgetsBinding.instance.addPostFrameCallback((_) {
+          onUpdateActiveTab(true);
+        });
       }
     } else if (activeGroupId != null && activeTabId != null) {
       _selectedGroupIdState.accept(activeGroupId);
@@ -287,16 +257,13 @@ class BrowserTabsAndGroupsUiDelegate implements BrowserTabsAndGroupsUi {
 
       final data = renderManager.getRenderData(activeTabId);
 
-      onUpdateActiveTab(false);
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        onUpdateActiveTab(false);
+      });
 
       _tabAnimationTypeState.accept(
-        ShowViewAnimationType(
-          tabX: data?.xLeft,
-          tabY: data?.yTop,
-        ),
+        ShowViewAnimationType(tabX: data?.xLeft, tabY: data?.yTop),
       );
-
-      onChangeTab();
     }
 
     if (_tabsCount != null &&

@@ -1,6 +1,5 @@
 import 'package:flutter/widgets.dart';
 import 'package:money2/money2.dart';
-import 'package:money2_fixer/money2_fixer.dart';
 
 extension StringUtils on String {
   /// For [TextOverflow.ellipsis] for better displaying with ellipsis
@@ -81,9 +80,7 @@ extension MoneyFormat on Money {
         return formatImproved(pattern: _moneyPattern(3));
       }
 
-      return _formatThousands(
-        formatImproved(pattern: _moneyPattern(2)),
-      );
+      return _formatThousands(formatImproved(pattern: _moneyPattern(2)));
     }
 
     if (d < 0.00000001) {
@@ -94,9 +91,38 @@ extension MoneyFormat on Money {
       return formatImproved(pattern: _moneyPattern(4));
     }
 
-    return _formatThousands(
-      formatImproved(pattern: _moneyPattern(0)),
-    );
+    return _formatThousands(formatImproved(pattern: _moneyPattern(0)));
+  }
+
+  /// Formats a [Money] value into a String according to the
+  /// passed [pattern].
+  ///
+  /// If [invertSeparator] is true then the role of the '.' and ',' are
+  /// rroflsed. By default the '.' is used as the decimal separator
+  /// whilst the ',' is used as the grouping separator.
+  ///
+  /// S outputs the currencies symbol e.g. $.
+  /// 0 A single digit
+  /// # A single digit, omitted if the value is zero (works only for integer
+  /// part and as last fractional symbol as flag for trimming zeros)
+  /// . or , Decimal separator dependant on [invertSeparator]
+  /// - Minus sign
+  /// , or . Grouping separator dependant on [invertSeparator]
+  /// space Space character.
+  String formatImproved({String? pattern, bool invertSeparator = false}) {
+    final p = pattern ?? currency.pattern;
+    final decimalSeparator = invertSeparator ? ',' : '.';
+    return p
+        .replaceAllMapped(RegExp(r'([0#.\-,]+)'), (m) {
+          final result = amount.format(m[0]!, invertSeparator: invertSeparator);
+          final trimZerosRight = RegExp(r'#$').hasMatch(m[0]!);
+          return trimZerosRight
+              ? result
+                    .replaceFirst(RegExp(r'0*$'), '')
+                    .replaceFirst(RegExp('\\$decimalSeparator\$'), '')
+              : result;
+        })
+        .replaceAllMapped(RegExp('S'), (m) => currency.symbol);
   }
 }
 
@@ -113,9 +139,7 @@ extension DoubleExt on double {
   }
 }
 
-const currencySymbolConfig = <String, String>{
-  'ccWTON': 'TON',
-};
+const currencySymbolConfig = <String, String>{'ccWTON': 'TON'};
 
 extension CurrencyExt on Currency {
   String get symbolFixed => currencySymbolConfig[isoCode] ?? symbol;

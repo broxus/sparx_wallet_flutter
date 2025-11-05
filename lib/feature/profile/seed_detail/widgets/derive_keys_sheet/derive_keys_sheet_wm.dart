@@ -35,14 +35,21 @@ class DeriveKeysSheetParams {
 }
 
 @injectable
-class DeriveKeysSheetWidgetModel extends CustomWidgetModelParametrized<
-    InjectedElementaryParametrizedWidget<WidgetModel, DeriveKeysSheetParams>,
-    DeriveKeysSheetModel,
-    DeriveKeysSheetParams> {
+class DeriveKeysSheetWidgetModel
+    extends
+        CustomWidgetModelParametrized<
+          InjectedElementaryParametrizedWidget<
+            WidgetModel,
+            DeriveKeysSheetParams
+          >,
+          DeriveKeysSheetModel,
+          DeriveKeysSheetParams
+        > {
   DeriveKeysSheetWidgetModel(super.model);
 
-  final ValueNotifier<DeriveKeysState> state =
-      ValueNotifier<DeriveKeysState>(_initialDeriveKeysState);
+  final ValueNotifier<DeriveKeysState> state = ValueNotifier<DeriveKeysState>(
+    _initialDeriveKeysState,
+  );
 
   final List<PublicKey> _addedKeys = [];
   final Map<PublicKey, String> _addedKeysNames = {};
@@ -65,10 +72,7 @@ class DeriveKeysSheetWidgetModel extends CustomWidgetModelParametrized<
   Future<void> _init() async {
     final seed = model.findSeed(masterKey);
     if (seed == null) {
-      state.value = state.value.copyWith(
-        isLoading: false,
-        isCompleted: true,
-      );
+      state.value = state.value.copyWith(isLoading: false, isCompleted: true);
       return;
     }
 
@@ -146,10 +150,7 @@ class DeriveKeysSheetWidgetModel extends CustomWidgetModelParametrized<
         );
         await model.deriveKeys(params);
       }
-      state.value = state.value.copyWith(
-        isLoading: false,
-        isCompleted: true,
-      );
+      state.value = state.value.copyWith(isLoading: false, isCompleted: true);
     } catch (e) {
       state.value = state.value.copyWith(isLoading: false);
     }
@@ -179,10 +180,7 @@ class DeriveKeysSheetWidgetModel extends CustomWidgetModelParametrized<
             limit: derivedKeysPerPage,
             offset: offset,
           )
-        : GetPublicKeysParams.ledger(
-            limit: derivedKeysPerPage,
-            offset: offset,
-          );
+        : GetPublicKeysParams.ledger(limit: derivedKeysPerPage, offset: offset);
     try {
       final keys = await model.getKeysToDerive(
         params: params,

@@ -28,14 +28,18 @@ enum EnterSeedNameCommand {
 /// Page that allows user to enter seed name, used only in profile section as
 /// a STARTING screen in seed CREATING or IMPORTING flows.
 /// {@endtemplate}
-class EnterSeedNamePage extends StatelessWidget {
+class EnterSeedNamePage extends StatefulWidget {
   /// {@macro enter_seed_name_create_page}
-  const EnterSeedNamePage({
-    required this.command,
-    super.key,
-  });
+  const EnterSeedNamePage({required this.command, super.key});
 
   final EnterSeedNameCommand command;
+
+  @override
+  State<EnterSeedNamePage> createState() => _EnterSeedNamePageState();
+}
+
+class _EnterSeedNamePageState extends State<EnterSeedNamePage> {
+  bool isLoading = false;
 
   @override
   Widget build(BuildContext context) {
@@ -44,45 +48,54 @@ class EnterSeedNamePage extends StatelessWidget {
       child: Scaffold(
         resizeToAvoidBottomInset: true,
         appBar: const DefaultAppBar(),
-        body: EnterSeedNameView(
-          callback: (name) async {
-            switch (command) {
-              case EnterSeedNameCommand.import:
-                context.compassContinue(
-                  EnterSeedPhraseRouteData(
-                    isOnboarding: false,
-                    seedName: name,
-                  ),
-                );
-              case EnterSeedNameCommand.create:
-                context.compassContinue(
-                  CreateSeedRouteData(
-                    seedName: name,
-                  ),
-                );
-              case EnterSeedNameCommand.ledger:
-                final pk = await showImportLedgerSheet(
-                  context: context,
-                  name: name,
-                );
-                if (pk != null && context.mounted) {
-                  final routeData = await showSwitchToSeedSheet(
-                    context: context,
-                    publicKey: pk,
-                  );
-                  try {
-                    if (!context.mounted) return;
-                    context
-                      ..compassPointNamed(const ProfileRouteData())
-                      ..compassPointNamed(
-                        routeData ?? const ManageSeedsAccountsRouteData(),
-                      );
-                  } catch (_) {}
-                }
-            }
-          },
-        ),
+        body: EnterSeedNameView(isLoading: isLoading, callback: _callback),
       ),
     );
+  }
+
+  void _callback(String? name) {
+    switch (widget.command) {
+      case EnterSeedNameCommand.import:
+        context.compassContinue(
+          EnterSeedPhraseRouteData(isOnboarding: false, seedName: name),
+        );
+      case EnterSeedNameCommand.create:
+        context.compassContinue(CreateSeedRouteData(seedName: name));
+      case EnterSeedNameCommand.ledger:
+        _handleLedger(name);
+    }
+  }
+
+  Future<void> _handleLedger(String? name) async {
+    setState(() {
+      isLoading = true;
+    });
+
+    try {
+      final pk = await showImportLedgerSheet(context: context, name: name);
+
+      if (pk == null || !context.mounted) return;
+
+      final ctx = context;
+      final routeData = await showSwitchToSeedSheet(
+        context: ctx,
+        publicKey: pk,
+      );
+
+      try {
+        if (!context.mounted) return;
+        context
+          ..compassPointNamed(const ProfileRouteData())
+          ..compassPointNamed(
+            routeData ?? const ManageSeedsAccountsRouteData(),
+          );
+      } catch (_) {}
+    } finally {
+      if (mounted) {
+        setState(() {
+          isLoading = false;
+        });
+      }
+    }
   }
 }
