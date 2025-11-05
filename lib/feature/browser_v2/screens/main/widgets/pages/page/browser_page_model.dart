@@ -10,6 +10,7 @@ import 'package:app/app/service/storage_service/connections_storage_service.dart
 import 'package:app/core/app_build_type.dart';
 import 'package:app/feature/browser_v2/custom_web_controller.dart';
 import 'package:app/feature/browser_v2/data/browser_basic_auth_creds.dart';
+import 'package:app/feature/browser_v2/data/browser_uri.dart';
 import 'package:app/feature/browser_v2/domain/service/browser_service.dart';
 import 'package:app/feature/browser_v2/inpage_provider/inpage_provider.dart';
 import 'package:app/feature/browser_v2/screens/main/widgets/pages/page/browser_page.dart';
@@ -156,7 +157,9 @@ class BrowserPageModel extends ElementaryModel {
     }
 
     return _browserService.tab.requestUrlActiveTab(
-      uri.host == '' && uri.path == 'blank' ? WebUri('') : WebUri.uri(uri),
+      uri.host == '' && uri.path == 'blank'
+          ? BrowserUri('')
+          : BrowserUri.uri(uri),
     );
   }
 
