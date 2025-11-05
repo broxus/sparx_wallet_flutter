@@ -118,7 +118,7 @@ class SelectNewAssetPageWidgetModel
     }
 
     _isLoadingState.accept(false);
-    contextSafe?.compassBack();
+    await contextSafe?.compassBack();
   }
 
   void onInvalidPaste() => model.showInvalidRootTokenContractError();

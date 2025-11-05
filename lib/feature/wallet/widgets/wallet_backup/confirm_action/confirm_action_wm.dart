@@ -92,7 +92,7 @@ class ConfirmActionWidgetModel
       try {
         final phrase = await seed.export(password);
 
-        context.compassBack();
+        await context.compassBack();
         final params = wmParams.value;
         await showManualBackupDialog(
           context,

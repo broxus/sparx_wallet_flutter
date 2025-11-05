@@ -116,7 +116,7 @@ class TonWalletSendWidgetModel
       if (!isMounted) return;
 
       if (data.popOnComplete) {
-        contextSafe?.compassBack(true);
+        await contextSafe?.compassBack(true);
       } else {
         contextSafe?.compassPointNamed(const WalletRouteData());
       }

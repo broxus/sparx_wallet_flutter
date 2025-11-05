@@ -23,7 +23,7 @@ class SwitchToSeedWidgetModel
 
   Future<void> onSwitch() async {
     await model.changeCurrentAccount(wmParams.value);
-    contextSafe?.compassBack(const WalletRouteData());
+    await contextSafe?.compassBack(const WalletRouteData());
   }
 
   void onContinue() => contextSafe?.compassBack();
