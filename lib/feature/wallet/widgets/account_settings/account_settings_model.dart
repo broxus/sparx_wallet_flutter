@@ -35,6 +35,9 @@ class AccountSettingsModel extends ElementaryModel {
     );
   }
 
+  SeedKey? findSeedKey(PublicKey publicKey) =>
+      _nekotonRepository.seedList.findSeedKey(publicKey);
+
   String getAccountExplorerLink(Address address) =>
       _nekotonRepository.currentTransport.accountExplorerLink(address);
 
