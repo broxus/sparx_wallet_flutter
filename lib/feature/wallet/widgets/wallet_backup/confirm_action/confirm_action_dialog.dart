@@ -2,6 +2,7 @@ import 'package:app/core/wm/custom_wm.dart';
 import 'package:app/feature/wallet/widgets/account_info.dart';
 import 'package:app/feature/wallet/widgets/wallet_backup/wallet_backup.dart';
 import 'package:app/generated/generated.dart';
+import 'package:app/widgets/widgets.dart';
 import 'package:elementary_helper/elementary_helper.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:local_auth/local_auth.dart';
@@ -17,9 +18,11 @@ Future<void> showConfirmActionDialog(
 ) {
   return showPrimaryBottomSheet(
     context: context,
-    content: ContentConfirmAction(
-      finishedBackupCallback: finishedBackupCallback,
-      account: currentAccount,
+    content: ProtectedContent(
+      child: ContentConfirmAction(
+        finishedBackupCallback: finishedBackupCallback,
+        account: currentAccount,
+      ),
     ),
   );
 }
@@ -71,11 +74,15 @@ class ContentConfirmAction
               hintText: LocaleKeys.enterYourPassword.tr(),
             ),
             const SizedBox(height: DimensSizeV2.d28),
-            AccentButton(
-              buttonShape: ButtonShape.pill,
-              title: LocaleKeys.confirm.tr(),
-              isLoading: data?.isLoading ?? false,
-              onPressed: wm.onClickConfirm,
+            StateNotifierBuilder(
+              listenableState: wm.isPasswordLockedState,
+              builder: (_, isLocked) => AccentButton(
+                buttonShape: ButtonShape.pill,
+                title: LocaleKeys.confirm.tr(),
+                isLoading: data?.isLoading ?? false,
+                icon: (isLocked ?? false) ? LucideIcons.lock : null,
+                onPressed: (isLocked ?? false) ? null : wm.onClickConfirm,
+              ),
             ),
             StateNotifierBuilder(
               listenableState: wm.availableBiometryState,

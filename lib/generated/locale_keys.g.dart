@@ -811,4 +811,5 @@ abstract class LocaleKeys {
   static const tokenListValidationError = 'tokenListValidationError';
   static const failedToPrepareTransaction = 'failedToPrepareTransaction';
   static const failedToSendTransaction = 'failedToSendTransaction';
+  static const passwordLockedUntil = 'passwordLockedUntil';
 }

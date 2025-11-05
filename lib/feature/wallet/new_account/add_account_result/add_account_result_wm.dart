@@ -9,10 +9,9 @@ import 'package:nekoton_repository/nekoton_repository.dart';
 import 'package:ui_components_lib/v2/ui_components_lib_v2.dart';
 
 class AddAccountResultWmParams {
-  AddAccountResultWmParams({required this.address, required this.isExternal});
+  AddAccountResultWmParams({required this.address});
 
   final Address address;
-  final bool isExternal;
 }
 
 @injectable
@@ -30,17 +29,22 @@ class AddAccountResultWidgetModel
   Future<void> onSwitch() async {
     final address = repackAddress(wmParams.value.address);
     model.changeCurrentAccount(address);
-    // ignore: use_build_context_synchronously
+    final router = CompassRouterProvider.of(context);
+
     Navigator.of(context).pop();
-    if (wmParams.value.isExternal) {
-      contextSafe?.compassPointNamed(const WalletRouteData());
-    }
+
+    Future.delayed(const Duration(milliseconds: 100), () {
+      router.compassPointNamed(const WalletRouteData());
+    });
   }
 
   void onContinue() {
+    final router = CompassRouterProvider.of(context);
+
     Navigator.of(context).pop();
-    if (wmParams.value.isExternal) {
-      contextSafe?.compassPointNamed(const WalletRouteData());
-    }
+
+    Future.delayed(const Duration(milliseconds: 100), () {
+      router.compassPointNamed(const WalletRouteData());
+    });
   }
 }

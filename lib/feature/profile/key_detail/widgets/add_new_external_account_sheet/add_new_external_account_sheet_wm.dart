@@ -65,11 +65,7 @@ class AddNewExternalAccountSheetWidgetModel
 
       contextSafe?.let((context) {
         Navigator.of(context).pop();
-        showNewAccountResultSheet(
-          context: context,
-          address: address,
-          isExternal: true,
-        );
+        showNewAccountResultSheet(context: context, address: address);
       });
     } catch (e) {
       model.showMessage(

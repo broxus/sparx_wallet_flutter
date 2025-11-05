@@ -3,6 +3,8 @@
 import 'package:app/core/wm/custom_wm.dart';
 import 'package:app/feature/wallet/new_account/add_account_confirm/add_account_confirm_model.dart';
 import 'package:app/feature/wallet/new_account/add_account_confirm/add_account_confirm_widget.dart';
+import 'package:app/generated/generated.dart';
+import 'package:app/utils/utils.dart';
 import 'package:elementary_helper/elementary_helper.dart';
 import 'package:flutter/material.dart';
 import 'package:injectable/injectable.dart';
@@ -34,8 +36,14 @@ class AddAccountConfirmWidgetModel
 
   late final _availableBiometryState = createNotifier<List<BiometricType>>();
 
+  late final _isPasswordLockedState = createNotifierFromStream(
+    model.isPasswordLockedStream,
+  );
+
   ListenableState<List<BiometricType>> get availableBiometryState =>
       _availableBiometryState;
+
+  ListenableState<bool> get isPasswordLockedState => _isPasswordLockedState;
 
   KeyAccount? get account => model.account;
 
@@ -69,15 +77,25 @@ class AddAccountConfirmWidgetModel
   }
 
   Future<void> _processPassword(String password) async {
+    final languageCode = context.locale.languageCode;
+
     final isCorrect = await model.checkPassword(
       password: password,
       publicKey: wmParams.value.publicKey,
     );
 
     if (!isCorrect) {
+      final lockUntil = model.lockUntil;
+      if (model.isPasswordLocked && lockUntil != null) {
+        final flu = DateTimeUtils.formatLockUntil(lockUntil, languageCode);
+        model.showError(LocaleKeys.passwordLockedUntil.tr(args: [flu]));
+        return;
+      }
+
       model.showWrongPassword();
-    } else if (contextSafe != null) {
-      Navigator.of(contextSafe!).pop((wmParams.value.publicKey, password));
+      return;
     }
+
+    Navigator.of(contextSafe!).pop((wmParams.value.publicKey, password));
   }
 }

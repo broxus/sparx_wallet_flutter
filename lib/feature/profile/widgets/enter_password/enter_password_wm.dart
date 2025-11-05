@@ -3,6 +3,8 @@ import 'package:app/feature/profile/widgets/enter_password/data/data.dart';
 import 'package:app/feature/profile/widgets/enter_password/enter_password.dart';
 import 'package:app/feature/profile/widgets/enter_password/enter_password_model.dart';
 import 'package:app/generated/generated.dart';
+import 'package:app/utils/utils.dart';
+import 'package:elementary_helper/elementary_helper.dart';
 import 'package:flutter/foundation.dart';
 import 'package:injectable/injectable.dart';
 import 'package:nekoton_repository/nekoton_repository.dart';
@@ -47,6 +49,9 @@ class EnterPasswordWidgetModel
   late final _enterPasswordState = createValueNotifier<EnterPasswordState?>(
     null,
   );
+  late final _isPasswordLockedState = createNotifierFromStream(
+    model.isPasswordLockedStream,
+  );
 
   late final passwordController = createTextEditingController();
   late final props = createWmParamsNotifier(
@@ -57,6 +62,8 @@ class EnterPasswordWidgetModel
       isAutofocus: w.isAutofocus,
     ),
   );
+
+  ListenableState<bool> get isPasswordLockedState => _isPasswordLockedState;
 
   ValueListenable<EnterPasswordState?> get enterPasswordState =>
       _enterPasswordState;
@@ -99,6 +106,7 @@ class EnterPasswordWidgetModel
     final publicKey = wmParams.value.publicKey;
     final onConfirmed = wmParams.value.onConfirmed;
     final onPasswordEntered = wmParams.value.onPasswordEntered;
+    final languageCode = context.locale.languageCode;
 
     if (password.isEmpty) {
       _showWrongPassword();
@@ -111,6 +119,13 @@ class EnterPasswordWidgetModel
     );
 
     if (!correct) {
+      final lockUntil = model.lockUntil;
+      if (model.isPasswordLocked && lockUntil != null) {
+        final flu = DateTimeUtils.formatLockUntil(lockUntil, languageCode);
+        model.showError(LocaleKeys.passwordLockedUntil.tr(args: [flu]));
+        return;
+      }
+
       _showWrongPassword();
       return;
     }
