@@ -59,6 +59,8 @@ class BrowserPageWidgetModel
 
   static const _customAppLinks = ['metamask.app.link', 'app.tonkeeper.com'];
 
+  static const _webLogTitle = '[BROWSER WEB]';
+
   static final _log = Logger('BrowserTabView');
 
   final initialSettings = InAppWebViewSettings(
@@ -321,6 +323,34 @@ class BrowserPageWidgetModel
     }
 
     return null;
+  }
+
+  void onConsoleMessage(InAppWebViewController controller, ConsoleMessage msg) {
+    if (!model.isShowBrowserLog) {
+      return;
+    }
+
+    switch (msg.messageLevel) {
+      case ConsoleMessageLevel.ERROR:
+        _log.severe(_createLogMessage(msg: msg));
+      case ConsoleMessageLevel.WARNING:
+        _log.warning(_createLogMessage(msg: msg));
+      case ConsoleMessageLevel.DEBUG:
+        _log.fine(_createLogMessage(msg: msg));
+      case ConsoleMessageLevel.TIP:
+        _log.info(_createLogMessage(msg: msg));
+      case ConsoleMessageLevel.LOG:
+      default:
+        _log.finer(_createLogMessage(msg: msg));
+    }
+  }
+
+  String _createLogMessage({required ConsoleMessage msg}) {
+    return '\n===== start log =====\n'
+        '$_webLogTitle\n'
+        '$_url\n'
+        '${msg.message}\n'
+        '===== end log =====\n';
   }
 
   Future<void> _onRefresh() async {
