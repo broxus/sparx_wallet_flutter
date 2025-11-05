@@ -27,6 +27,8 @@ class AccountSettingsWidgetModel
     model.getCustodians(account.address),
   );
 
+  late final seedKey = model.findSeedKey(account.publicKey);
+
   ListenableState<List<PublicKey>?> get custodiansState => _custodiansState;
 
   ListenableState<List<KeyAccount>> get displayAccountsState =>
