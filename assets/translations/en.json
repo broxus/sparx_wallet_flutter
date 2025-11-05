@@ -776,5 +776,6 @@
   "disconnect": "Disconnect",
   "tokenListValidationError": "Invalid token list format",
   "failedToPrepareTransaction": "Failed to prepare transaction",
-  "failedToSendTransaction": "Failed to send transaction"
+  "failedToSendTransaction": "Failed to send transaction",
+  "passwordLockedUntil": "Password locked until {}"
 }
