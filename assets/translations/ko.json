@@ -378,6 +378,7 @@
   "transactionSentSuccessfully": "Transaction sent",
   "attachedAmount": "Attached amount",
   "selectWalletType": "Select wallet type",
+  "selectWalletTypeDescription": "Choose the type of wallet you want to deploy",
   "standardWallet": "Standard wallet",
   "standardWalletDescription": "A personal wallet for everyday use. Suitable for managing your funds independently.",
   "multisigWallet": "Multisignature",
@@ -386,6 +387,12 @@
   "confirmDeployment": "Confirm Deployment",
   "outOfNumber": "out of {} custodians (max: 32)",
   "custodiansWord": "Custodians",
+  "custodians": "Custodians",
+  "custodiansDescription": "Add public keys of users who will manage this wallet",
+  "addCustodian": "Add Custodian",
+  "requiredConfirmations": "Required Confirmations",
+  "requiredConfirmationsDescription": "Number of signatures needed to approve transactions",
+  "hoursWord": "hours",
   "publicKeyOfCustodianNumber": "Public key of Custodian {}",
   "custodianRenamed": "Custodian renamed successfully",
   "addOneMorePublicKey": "Add one more Custodian",
@@ -495,6 +502,8 @@
   "initializationRerunFailed": "Initialization rerun failed",
   "initializationFailedDescription": "App initialization failed, please, try again later",
   "tryAgain": "Try again",
+  "errorOccurred": "An error occurred",
+  "closeWord": "Close",
   "connectingNetworkFailed": "Connecting network failed, please, try another network.",
   "creatingSubscriptionFailed": "Creating subscription failed",
   "suchTokenCannotBeSubscribed": "Such token cannot be subscribed now",
@@ -767,5 +776,6 @@
   "disconnect": "Disconnect",
   "tokenListValidationError": "Invalid token list format",
   "failedToPrepareTransaction": "Failed to prepare transaction",
-  "failedToSendTransaction": "Failed to send transaction"
+  "failedToSendTransaction": "Failed to send transaction",
+  "passwordLockedUntil": "Password locked until {}"
 }
