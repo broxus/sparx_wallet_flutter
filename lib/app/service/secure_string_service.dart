@@ -17,9 +17,7 @@ class SecureStringService {
   static final _logger = Logger('SecureStringService');
 
   final _mutex = Mutex();
-  final _fss = const FlutterSecureStorage(
-    aOptions: AndroidOptions(encryptedSharedPreferences: true),
-  );
+  final _fss = const FlutterSecureStorage();
 
   Future<SecureString> encrypt(String plaintext) async {
     final key = await _getOrCreateKey();
