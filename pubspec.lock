@@ -619,7 +619,7 @@ packages:
     source: hosted
     version: "1.0.3"
   encrypt:
-    dependency: transitive
+    dependency: "direct main"
     description:
       name: encrypt
       sha256: "62d9aa4670cc2a8798bab89b39fc71b6dfbacf615de6cf5001fb39f7e4a996a2"
@@ -1661,6 +1661,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "0.5.0"
+  no_screenshot:
+    dependency: "direct main"
+    description:
+      name: no_screenshot
+      sha256: ec3d86d7ee89a09c3a3939c1003012536ba4b3fcb4f8cbd23d87ada595c99258
+      url: "https://pub.dev"
+    source: hosted
+    version: "0.3.1"
   node_preamble:
     dependency: transitive
     description:

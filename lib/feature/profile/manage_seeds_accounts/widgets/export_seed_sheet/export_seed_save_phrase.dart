@@ -3,6 +3,7 @@ import 'package:app/feature/messenger/data/message.dart';
 import 'package:app/feature/messenger/domain/service/messenger_service.dart';
 import 'package:app/generated/generated.dart';
 import 'package:app/utils/utils.dart';
+import 'package:app/widgets/widgets.dart';
 import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
 import 'package:ui_components_lib/ui_components_lib.dart';
@@ -16,8 +17,9 @@ ModalRoute<void> exportSeedSavePhraseRoute(
   return commonBottomSheetRoute(
     titleTextStyle: titleTextStyle,
     title: LocaleKeys.saveSeedPhrase.tr(),
-    body: (_, controller) =>
-        ExportSeedSavePhrase(phrase: phrase, controller: controller),
+    body: (_, controller) => ProtectedContent(
+      child: ExportSeedSavePhrase(phrase: phrase, controller: controller),
+    ),
   );
 }
 

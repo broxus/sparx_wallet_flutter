@@ -1,8 +1,8 @@
 // ignore_for_file: use_build_context_synchronously
 
 import 'package:app/app/router/router.dart';
+import 'package:app/app/service/service.dart';
 import 'package:app/core/wm/custom_wm.dart';
-import 'package:app/data/models/seed/seed_phrase_model.dart';
 import 'package:app/feature/add_seed/create_password/model/password_status.dart';
 import 'package:app/feature/add_seed/create_password/view/create_seed_password_page.dart';
 import 'package:app/feature/add_seed/create_password/view/create_seed_password_profile_model.dart';
@@ -24,7 +24,7 @@ class CreateSeedPasswordProfileWmParams {
     required this.isChecked,
   });
 
-  final SeedPhraseModel seedPhrase;
+  final SecureString? seedPhrase;
   final bool isChecked;
   final String? name;
   final SeedAddType type;

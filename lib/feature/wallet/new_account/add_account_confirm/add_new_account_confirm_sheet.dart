@@ -1,5 +1,6 @@
 import 'package:app/feature/wallet/new_account/add_account_confirm/add_account_confirm_widget.dart';
 import 'package:app/generated/generated.dart';
+import 'package:app/widgets/widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:nekoton_repository/nekoton_repository.dart';
 import 'package:ui_components_lib/ui_components_lib.dart';
@@ -14,7 +15,8 @@ Future<(PublicKey, String)?> showAddAccountConfirmSheet({
     context: context,
     title: LocaleKeys.confirmAction.tr(),
     centerTitle: true,
-    body: (_, scrollController) =>
-        AddAccountConfirmWidget(publicKey: publicKey, seedName: seedName),
+    body: (_, scrollController) => ProtectedContent(
+      child: AddAccountConfirmWidget(publicKey: publicKey, seedName: seedName),
+    ),
   );
 }

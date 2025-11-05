@@ -19,6 +19,7 @@ export 'password_service.dart';
 export 'permissions_service.dart';
 export 'presets_connection/presets_connection.dart';
 export 'remote/remote.dart';
+export 'secure_string_service.dart';
 export 'session/session.dart';
 export 'storage_service/storage_service.dart';
 export 'token_wallets_service.dart';
