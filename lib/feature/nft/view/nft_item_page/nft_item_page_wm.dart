@@ -119,7 +119,7 @@ class NftItemPageWidgetModel
     );
 
     if (item == null || collection == null) {
-      contextSafe?.compassBack();
+      await contextSafe?.compassBack();
       return;
     }
 
