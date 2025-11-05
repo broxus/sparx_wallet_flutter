@@ -88,6 +88,7 @@ dependencies:
   retrofit: ^4.6.0
   rive: ^0.14.0-dev.13
   rxdart: 0.28.0
+  sensitive_clipboard: ^1.1.0
   sentry_flutter: ^9.6.0
   share_plus: ^12.0.0
   shared_preferences: 2.5.3

@@ -2,9 +2,9 @@ import 'package:app/di/di.dart';
 import 'package:app/feature/messenger/data/message.dart';
 import 'package:app/feature/messenger/domain/service/messenger_service.dart';
 import 'package:app/generated/generated.dart';
+import 'package:app/utils/utils.dart';
 import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:ui_components_lib/ui_components_lib.dart';
 import 'package:ui_components_lib/v2/widgets/widgets.dart';
 
@@ -70,7 +70,7 @@ class ExportSeedSavePhrase extends StatelessWidget {
             inject<MessengerService>().show(
               Message.successful(message: LocaleKeys.copiedExclamation.tr()),
             );
-            Clipboard.setData(ClipboardData(text: phrase.join(' ')));
+            setClipBoardData(phrase.join(' '), isSensitive: true);
           },
         );
       },
