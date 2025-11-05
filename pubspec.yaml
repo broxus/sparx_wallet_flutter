@@ -98,7 +98,7 @@ dependencies:
   ui_components_lib:
     path: packages/ui_components_lib
   url_launcher: ^6.3.2
-  uuid: 4.5.1
+  uuid: 4.5.2
   visibility_detector: 0.4.0+2
 
 dependency_overrides:
