@@ -139,6 +139,9 @@ class BrowserPageWidgetModel
 
   // Start loading page
   void onWebPageLoadStart(_, Uri? uri) {
+    if (!_checkIsValidScheme(uri)) {
+      return;
+    }
     _createScreenshot();
     model
       ..updateUrl(tabId: _tabId, uri: uri)
@@ -366,6 +369,10 @@ class BrowserPageWidgetModel
         }
       },
     );
+  }
+
+  bool _checkIsValidScheme(Uri? uri) {
+    return uri != null && !uri.isScheme('about');
   }
 
   void _handleTabState() {
