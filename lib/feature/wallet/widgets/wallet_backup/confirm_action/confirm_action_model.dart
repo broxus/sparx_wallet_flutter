@@ -1,5 +1,4 @@
-import 'package:app/app/service/biometry_service.dart';
-import 'package:app/app/service/current_seed_service.dart';
+import 'package:app/app/service/service.dart';
 import 'package:app/feature/messenger/data/message.dart';
 import 'package:app/feature/messenger/domain/service/messenger_service.dart';
 import 'package:app/generated/generated.dart';
@@ -13,28 +12,36 @@ import 'package:ui_components_lib/ui_components_lib.dart';
 class ConfirmActionModel extends ElementaryModel {
   ConfirmActionModel(
     ErrorHandler errorHandler,
-    this.biometryService,
-    this.nekotonRepository,
-    this.currentSeedService,
-    this.messengerService,
+    this._biometryService,
+    this._nekotonRepository,
+    this._currentSeedService,
+    this._messengerService,
+    this._passwordService,
   ) : super(errorHandler: errorHandler);
 
-  final NekotonRepository nekotonRepository;
-  final BiometryService biometryService;
-  final CurrentSeedService currentSeedService;
-  final MessengerService messengerService;
+  final NekotonRepository _nekotonRepository;
+  final BiometryService _biometryService;
+  final CurrentSeedService _currentSeedService;
+  final MessengerService _messengerService;
+  final PasswordService _passwordService;
 
-  Seed? get currentSeed => currentSeedService.currentSeed;
+  Seed? get currentSeed => _currentSeedService.currentSeed;
+
+  Stream<bool> get isPasswordLockedStream => _passwordService.isLockedStream;
+
+  bool get isPasswordLocked => _passwordService.isLocked;
+
+  DateTime? get lockUntil => _passwordService.lockUntil;
 
   Seed? findSeed(PublicKey publicKey) =>
-      nekotonRepository.seedList.findSeed(publicKey);
+      _nekotonRepository.seedList.findSeed(publicKey);
 
   Future<List<BiometricType>> getAvailableBiometry(PublicKey publicKey) async {
-    final isBiometryEnabled = biometryService.isEnabled;
-    final hasKeyPassword = await biometryService.hasKeyPassword(publicKey);
+    final isBiometryEnabled = _biometryService.isEnabled;
+    final hasKeyPassword = await _biometryService.hasKeyPassword(publicKey);
 
     if (isBiometryEnabled && hasKeyPassword) {
-      return biometryService.getAvailableBiometry();
+      return _biometryService.getAvailableBiometry();
     }
 
     return [];
@@ -42,7 +49,7 @@ class ConfirmActionModel extends ElementaryModel {
 
   Future<String?> requestBiometry(PublicKey publicKey) async {
     try {
-      final password = await biometryService.getKeyPassword(
+      final password = await _biometryService.getKeyPassword(
         publicKey: publicKey,
         localizedReason: LocaleKeys.biometryAuthReason.tr(),
       );
@@ -54,11 +61,25 @@ class ConfirmActionModel extends ElementaryModel {
   }
 
   void showValidateError(String message) {
-    messengerService.show(
+    _messengerService.show(
       Message.error(
         message: message,
         debounceTime: defaultInfoMessageDebounceDuration,
       ),
     );
+  }
+
+  Future<bool> checkKeyPassword({
+    required PublicKey publicKey,
+    required String password,
+  }) async => _passwordService.checkKeyPassword(
+    publicKey: publicKey,
+    password: password,
+    signatureId: await _nekotonRepository.currentTransport.transport
+        .getSignatureId(),
+  );
+
+  void showError(String message) {
+    _messengerService.show(Message.error(message: message));
   }
 }

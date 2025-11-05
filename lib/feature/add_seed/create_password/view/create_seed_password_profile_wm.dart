@@ -1,8 +1,8 @@
 // ignore_for_file: use_build_context_synchronously
 
 import 'package:app/app/router/router.dart';
+import 'package:app/app/service/service.dart';
 import 'package:app/core/wm/custom_wm.dart';
-import 'package:app/data/models/seed/seed_phrase_model.dart';
 import 'package:app/feature/add_seed/create_password/model/password_status.dart';
 import 'package:app/feature/add_seed/create_password/view/create_seed_password_page.dart';
 import 'package:app/feature/add_seed/create_password/view/create_seed_password_profile_model.dart';
@@ -12,6 +12,7 @@ import 'package:app/feature/profile/widgets/switch_to_seed_sheet/switch_to_seed_
 import 'package:app/utils/utils.dart';
 import 'package:elementary_helper/elementary_helper.dart';
 import 'package:injectable/injectable.dart';
+import 'package:logging/logging.dart';
 import 'package:nekoton_repository/nekoton_repository.dart';
 
 class CreateSeedPasswordProfileWmParams {
@@ -23,7 +24,7 @@ class CreateSeedPasswordProfileWmParams {
     required this.isChecked,
   });
 
-  final SeedPhraseModel seedPhrase;
+  final SecureString? seedPhrase;
   final bool isChecked;
   final String? name;
   final SeedAddType type;
@@ -39,6 +40,8 @@ class CreateSeedPasswordProfileWidgetModel
           CreateSeedPasswordProfileWmParams
         > {
   CreateSeedPasswordProfileWidgetModel(super.model);
+
+  static final _logger = Logger('CreateSeedPasswordProfileWidgetModel');
 
   late final passwordController = createTextEditingController();
   late final confirmController = createTextEditingController();
@@ -81,14 +84,21 @@ class CreateSeedPasswordProfileWidgetModel
       context: context,
       publicKey: publicKey,
     );
+
+    _loadingState.accept(false);
+
     try {
-      contextSafe
-        ?..compassPointNamed(const ProfileRouteData())
-        ..compassPointNamed(routeData ?? const ManageSeedsAccountsRouteData());
-      // contextSafe?.compassPointNamed(
-      //   routeData ?? const ManageSeedsAccountsRouteData(),
-      // );
-    } catch (_) {}
+      contextSafe?.compassPoint(const ProfileRouteData());
+      await Future.delayed(const Duration(milliseconds: 50), () {
+        if (routeData != null) {
+          contextSafe?.compassPoint(routeData);
+        } else {
+          contextSafe?.compassContinue(const ManageSeedsAccountsRouteData());
+        }
+      });
+    } catch (e, s) {
+      _logger.severe('Error during navigation after adding seed', e, s);
+    }
   }
 
   void _validate() {

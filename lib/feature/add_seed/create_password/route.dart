@@ -1,11 +1,12 @@
 import 'dart:convert';
 
 import 'package:app/app/router/compass/compass.dart';
-import 'package:app/data/models/seed/seed_phrase_model.dart';
+import 'package:app/app/service/service.dart';
 import 'package:app/feature/add_seed/create_password/screens/create_seed_password/create_seed_password_screen.dart';
 import 'package:app/feature/add_seed/create_password/view/create_seed_password_page.dart';
 import 'package:app/feature/biometry/route.dart';
 import 'package:app/utils/utils.dart';
+import 'package:app/widgets/widgets.dart';
 import 'package:injectable/injectable.dart';
 import 'package:nekoton_repository/nekoton_repository.dart';
 
@@ -25,11 +26,13 @@ class CreateSeedOnboardingPasswordRoute
   ) : super(
         path: '/create-seed-onboarding-password',
         isSaveLocation: true,
-        builder: (context, data, _) => CreateSeedPasswordScreen(
-          phrase: SeedPhraseModel(data.seedPhrase),
-          mnemonicType: data.mnemonicType,
-        ),
         compassBaseRoutes: [enableBiometryRoute],
+        builder: (context, data, _) => ProtectedContent(
+          child: CreateSeedPasswordScreen(
+            phrase: data.seedPhrase,
+            mnemonicType: data.mnemonicType,
+          ),
+        ),
       );
 
   @override
@@ -44,7 +47,9 @@ class CreateSeedOnboardingPasswordRoute
         : null;
 
     return CreateSeedOnboardingPasswordRouteData(
-      seedPhrase: queryParams[_seedQueryParam],
+      seedPhrase: queryParams[_seedQueryParam]?.let(
+        (it) => SecureString.fromJson(jsonDecode(it) as Map<String, dynamic>),
+      ),
       mnemonicType: mnemonicType,
     );
   }
@@ -56,7 +61,7 @@ class CreateSeedOnboardingPasswordRouteData implements CompassRouteDataQuery {
     this.mnemonicType,
   });
 
-  final String? seedPhrase;
+  final SecureString? seedPhrase;
   final MnemonicType? mnemonicType;
 
   @override
@@ -65,7 +70,7 @@ class CreateSeedOnboardingPasswordRouteData implements CompassRouteDataQuery {
     final mnemonicType = this.mnemonicType;
 
     return {
-      if (seedPhrase != null) _seedQueryParam: seedPhrase,
+      if (seedPhrase != null) _seedQueryParam: jsonEncode(seedPhrase.toJson()),
       if (mnemonicType != null)
         _mnemonicTypeQueryParam: jsonEncode(mnemonicType.toJson()),
     };
@@ -80,12 +85,14 @@ class CreateSeedPasswordRoute
     : super(
         path: '/create-seed-password',
         isSaveLocation: true,
-        builder: (context, data, _) => CreateSeedPasswordProfilePage(
-          seedPhrase: SeedPhraseModel(data.seedPhrase),
-          name: data.name,
-          type: data.type,
-          mnemonicType: data.mnemonicType,
-          isChecked: data.isChecked,
+        builder: (context, data, _) => ProtectedContent(
+          child: CreateSeedPasswordProfilePage(
+            seedPhrase: data.seedPhrase,
+            name: data.name,
+            type: data.type,
+            mnemonicType: data.mnemonicType,
+            isChecked: data.isChecked,
+          ),
         ),
       );
 
@@ -101,7 +108,9 @@ class CreateSeedPasswordRoute
 
     return CreateSeedPasswordRouteData(
       type: SeedAddType.values.byName(queryParams[_typeQueryParam]!),
-      seedPhrase: queryParams[_seedQueryParam],
+      seedPhrase: queryParams[_seedQueryParam]?.let(
+        (it) => SecureString.fromJson(jsonDecode(it) as Map<String, dynamic>),
+      ),
       mnemonicType: mnemonicType,
       name: queryParams[_namePathParam],
       isChecked: isChecked ?? false,
@@ -119,7 +128,7 @@ class CreateSeedPasswordRouteData implements CompassRouteDataQuery {
   });
 
   final SeedAddType type;
-  final String? seedPhrase;
+  final SecureString? seedPhrase;
   final MnemonicType? mnemonicType;
   final String? name;
 
@@ -137,7 +146,7 @@ class CreateSeedPasswordRouteData implements CompassRouteDataQuery {
     return {
       _typeQueryParam: type.name,
       _isCheckedQueryParam: isChecked.toString(),
-      if (seedPhrase != null) _seedQueryParam: seedPhrase,
+      if (seedPhrase != null) _seedQueryParam: jsonEncode(seedPhrase.toJson()),
       if (name != null) _namePathParam: name,
       if (mnemonicType != null)
         _mnemonicTypeQueryParam: jsonEncode(mnemonicType.toJson()),

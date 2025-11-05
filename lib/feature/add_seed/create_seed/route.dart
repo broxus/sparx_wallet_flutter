@@ -2,6 +2,7 @@ import 'package:app/app/router/compass/compass.dart';
 import 'package:app/feature/add_seed/check_seed_phrase/route.dart';
 import 'package:app/feature/add_seed/create_password/route.dart';
 import 'package:app/feature/add_seed/create_seed/view/create_seed_page.dart';
+import 'package:app/widgets/widgets.dart';
 import 'package:injectable/injectable.dart';
 
 const _seedNameQueryParam = 'seedName';
@@ -17,8 +18,9 @@ class CreateSeedRoute extends CompassRoute<CreateSeedRouteData> {
   ) : super(
         path: '/create-seed',
         isSaveLocation: true,
-        builder: (_, data, ___) => CreateSeedPage(name: data.seedName),
         compassBaseRoutes: [checkSeedPhraseRoute, createSeedPasswordRoute],
+        builder: (_, data, ___) =>
+            ProtectedContent(child: CreateSeedPage(name: data.seedName)),
       );
 
   @override
