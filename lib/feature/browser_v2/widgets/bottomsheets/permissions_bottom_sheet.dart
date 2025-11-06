@@ -98,6 +98,7 @@ class _BodyState extends State<_Body> {
             Navigator.of(context).pop();
           },
         ),
+        const SizedBox(height: DimensSizeV2.d12),
       ],
     );
   }
