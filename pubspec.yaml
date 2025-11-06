@@ -41,13 +41,13 @@ dependencies:
   favicon: 1.1.2
   flutter:
     sdk: flutter
-  flutter_blue_plus: ^2.0.0
+  flutter_blue_plus: ^2.0.1
   flutter_email_sender: ^8.0.0
   flutter_inappwebview: 6.1.5
   flutter_screenutil: 5.9.3
   flutter_secure_storage: ^10.0.0-beta.4
   flutter_slidable: ^4.0.1
-  flutter_svg: ^2.2.1
+  flutter_svg: ^2.2.2
   freezed_annotation: ^3.1.0
   get_it: ^8.2.0
   get_storage: 2.1.1
@@ -60,7 +60,7 @@ dependencies:
   in_app_update: ^4.2.5
   infinite_scroll_pagination: ^5.1.0
   injectable: ^2.5.1
-  internet_connection_checker_plus: ^2.9.0
+  internet_connection_checker_plus: ^2.9.1
   jdenticon_dart: 2.0.0
   json_annotation: 4.9.0
   local_auth: ^3.0.0
@@ -87,7 +87,7 @@ dependencies:
     git:
       url: https://github.com/knightsforce/flutter-render-metrics
       ref: optional-render-manager
-  retrofit: ^4.6.0
+  retrofit: ^4.9.0
   rive: ^0.14.0-dev.13
   rxdart: 0.28.0
   sensitive_clipboard: ^1.1.0
@@ -101,7 +101,7 @@ dependencies:
   ui_components_lib:
     path: packages/ui_components_lib
   url_launcher: ^6.3.2
-  uuid: 4.5.1
+  uuid: 4.5.2
   visibility_detector: 0.4.0+2
 
 dependency_overrides:
