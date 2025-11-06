@@ -57,7 +57,7 @@ class TokenWalletsService {
 
     final subject = ReplaySubject<SearchStreamValue>();
     _searchTokenWalletsForAddress(address: address, subject: subject);
-    return subject.stream;
+    return subject.stream.defaultIfEmpty([]);
   }
 
   Future<void> _searchTokenWalletsForAddress({
