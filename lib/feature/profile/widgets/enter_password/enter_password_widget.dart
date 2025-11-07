@@ -187,8 +187,6 @@ class _Password extends StatelessWidget {
   final TextEditingController controller;
   final ValueChanged<String> onSubmit;
 
-  bool get _isDisabled => isDisabled || isLocked;
-
   @override
   Widget build(BuildContext context) {
     return SeparatedColumn(
@@ -197,16 +195,16 @@ class _Password extends StatelessWidget {
         SecureTextField(
           hintText: LocaleKeys.password.tr(),
           textEditingController: controller,
-          isAutofocus: isAutofocus && !_isDisabled,
-          isEnabled: !_isDisabled,
-          onSubmit: _isDisabled ? null : (_) => onSubmit(controller.text),
+          isAutofocus: isAutofocus && !isDisabled,
+          isEnabled: !isDisabled,
+          onSubmit: isDisabled ? null : (_) => onSubmit(controller.text),
         ),
         AccentButton(
           buttonShape: ButtonShape.pill,
           title: title ?? LocaleKeys.submitWord.tr(),
           isLoading: isLoading,
           icon: isLocked ? LucideIcons.lock : null,
-          onPressed: _isDisabled ? null : () => onSubmit(controller.text),
+          onPressed: isDisabled ? null : () => onSubmit(controller.text),
         ),
       ],
     );

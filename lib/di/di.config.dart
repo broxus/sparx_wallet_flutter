@@ -1157,6 +1157,13 @@ extension GetItInjectableX on _i174.GetIt {
         gh<_i222.TonWalletMultisigPendingTransactionWidgetModel>(),
       ),
     );
+    gh.singleton<_i995.PasswordService>(
+      () => _i995.PasswordService(
+        gh<_i128.SecureStorageService>(),
+        gh<_i771.NekotonRepository>(),
+      ),
+      dispose: (i) => i.dispose(),
+    );
     gh.singleton<_i820.LedgerStorageService>(
       () => _i820.LedgerStorageService(
         gh<_i792.GetStorage>(instanceName: 'ledger_storage_service'),
@@ -1440,14 +1447,6 @@ extension GetItInjectableX on _i174.GetIt {
         gh<_i771.NekotonRepository>(),
         gh<_i865.LedgerService>(),
       ),
-    );
-    gh.singleton<_i995.PasswordService>(
-      () => _i995.PasswordService(
-        gh<_i128.SecureStorageService>(),
-        gh<_i771.NekotonRepository>(),
-        gh<_i128.NtpService>(),
-      ),
-      dispose: (i) => i.dispose(),
     );
     gh.factory<_i37.KeyDetailPageWidgetModel>(
       () => _i37.KeyDetailPageWidgetModel(gh<_i974.KeyDetailPageModel>()),

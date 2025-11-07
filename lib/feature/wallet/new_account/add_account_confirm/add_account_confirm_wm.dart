@@ -32,12 +32,14 @@ class AddAccountConfirmWidgetModel
         > {
   AddAccountConfirmWidgetModel(super.model);
 
+  late final _lockState = model.getLockState(wmParams.value.publicKey);
+
   late final controller = createTextEditingController();
 
   late final _availableBiometryState = createNotifier<List<BiometricType>>();
 
   late final _isPasswordLockedState = createNotifierFromStream(
-    model.isPasswordLockedStream,
+    _lockState.isLockedStream,
   );
 
   ListenableState<List<BiometricType>> get availableBiometryState =>
@@ -79,16 +81,20 @@ class AddAccountConfirmWidgetModel
   Future<void> _processPassword(String password) async {
     final languageCode = context.locale.languageCode;
 
+    if (_lockState.isLocked) {
+      _lockState.getErrorMessage(languageCode)?.let(model.showError);
+      return;
+    }
+
     final isCorrect = await model.checkPassword(
       password: password,
       publicKey: wmParams.value.publicKey,
     );
 
     if (!isCorrect) {
-      final lockUntil = model.lockUntil;
-      if (model.isPasswordLocked && lockUntil != null) {
-        final flu = DateTimeUtils.formatLockUntil(lockUntil, languageCode);
-        model.showError(LocaleKeys.passwordLockedUntil.tr(args: [flu]));
+      final errorMessage = _lockState.getErrorMessage(languageCode);
+      if (errorMessage != null) {
+        model.showError(errorMessage);
         return;
       }
 

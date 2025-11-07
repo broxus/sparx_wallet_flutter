@@ -26,11 +26,8 @@ class AddAccountConfirmModel extends ElementaryModel {
 
   KeyAccount? get account => _currentAccountsService.currentActiveAccount;
 
-  Stream<bool> get isPasswordLockedStream => _passwordService.isLockedStream;
-
-  bool get isPasswordLocked => _passwordService.isLocked;
-
-  DateTime? get lockUntil => _passwordService.lockUntil;
+  PasswordLockState getLockState(PublicKey publicKey) =>
+      _passwordService.getLockState(publicKey);
 
   Future<List<BiometricType>> getAvailableBiometry(PublicKey publicKey) async {
     final seed = _nekotonRepository.seedList.findSeedByAnyPublicKey(publicKey);

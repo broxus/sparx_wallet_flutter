@@ -69,7 +69,7 @@ class AddAccountConfirmWidget
             buttonShape: ButtonShape.pill,
             title: LocaleKeys.confirm.tr(),
             icon: (isLocked ?? false) ? LucideIcons.lock : null,
-            onPressed: (isLocked ?? false) ? null : wm.onPasswordSubmit,
+            onPressed: wm.onPasswordSubmit,
           ),
         ),
         StateNotifierBuilder(

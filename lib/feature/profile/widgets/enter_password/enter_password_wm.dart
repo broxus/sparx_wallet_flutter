@@ -46,11 +46,12 @@ class EnterPasswordWidgetModel
         > {
   EnterPasswordWidgetModel(super.model);
 
+  late final _lockState = model.getLockState(wmParams.value.publicKey);
   late final _enterPasswordState = createValueNotifier<EnterPasswordState?>(
     null,
   );
   late final _isPasswordLockedState = createNotifierFromStream(
-    model.isPasswordLockedStream,
+    _lockState.isLockedStream,
   );
 
   late final passwordController = createTextEditingController();
@@ -113,16 +114,20 @@ class EnterPasswordWidgetModel
       return;
     }
 
+    if (_lockState.isLocked) {
+      _lockState.getErrorMessage(languageCode)?.let(model.showError);
+      return;
+    }
+
     final correct = await model.checkKeyPassword(
       publicKey: publicKey,
       password: password,
     );
 
     if (!correct) {
-      final lockUntil = model.lockUntil;
-      if (model.isPasswordLocked && lockUntil != null) {
-        final flu = DateTimeUtils.formatLockUntil(lockUntil, languageCode);
-        model.showError(LocaleKeys.passwordLockedUntil.tr(args: [flu]));
+      final errorMessage = _lockState.getErrorMessage(languageCode);
+      if (errorMessage != null) {
+        model.showError(errorMessage);
         return;
       }
 

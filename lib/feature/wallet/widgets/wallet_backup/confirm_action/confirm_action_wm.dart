@@ -16,11 +16,11 @@ import 'package:ui_components_lib/v2/ui_components_lib_v2.dart';
 class ConfirmActionWmParams {
   const ConfirmActionWmParams({
     required this.finishedBackupCallback,
-    this.account,
+    required this.account,
   });
 
   final ValueChanged<bool> finishedBackupCallback;
-  final KeyAccount? account;
+  final KeyAccount account;
 }
 
 @injectable
@@ -33,8 +33,9 @@ class ConfirmActionWidgetModel
         > {
   ConfirmActionWidgetModel(super.model);
 
+  late final _lockState = model.getLockState(wmParams.value.account.publicKey);
   late final _isPasswordLockedState = createNotifierFromStream(
-    model.isPasswordLockedStream,
+    _lockState.isLockedStream,
   );
 
   late final _availableBiometryState = createNotifier<List<BiometricType>>();
@@ -63,29 +64,32 @@ class ConfirmActionWidgetModel
   }
 
   Future<void> onClickConfirm() async {
-    screenState.content(ConfirmActionData(isLoading: true));
-
     final publicKey = model.currentSeed?.publicKey;
     final password = passwordController.text;
     final languageCode = context.locale.languageCode;
 
-    if (publicKey != null) {
-      final correct = await model.checkKeyPassword(
-        publicKey: publicKey,
-        password: password,
-      );
-
-      if (!correct) {
-        final lockUntil = model.lockUntil;
-        if (model.isPasswordLocked && lockUntil != null) {
-          final flu = DateTimeUtils.formatLockUntil(lockUntil, languageCode);
-          model.showError(LocaleKeys.passwordLockedUntil.tr(args: [flu]));
-          return;
-        }
-      }
-
-      await _export(publicKey, password);
+    if (publicKey == null) return;
+    if (_lockState.isLocked) {
+      _lockState.getErrorMessage(languageCode)?.let(model.showError);
+      return;
     }
+
+    screenState.content(ConfirmActionData(isLoading: true));
+
+    final correct = await model.checkKeyPassword(
+      publicKey: publicKey,
+      password: password,
+    );
+
+    if (!correct) {
+      final errorMessage = _lockState.getErrorMessage(languageCode);
+      if (errorMessage != null) {
+        model.showError(errorMessage);
+        return;
+      }
+    }
+
+    await _export(publicKey, password);
   }
 
   Future<void> onUseBiometry() async {
@@ -122,7 +126,7 @@ class ConfirmActionWidgetModel
         await showManualBackupDialog(
           context,
           phrase,
-          params.account?.address.address ?? '',
+          params.account.address.address,
           params.finishedBackupCallback,
         );
       } catch (_) {

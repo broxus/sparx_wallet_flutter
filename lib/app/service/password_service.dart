@@ -10,47 +10,87 @@ import 'package:rxdart/rxdart.dart';
 
 @singleton
 final class PasswordService {
-  PasswordService(
-    this._storageService,
-    this._nekotonRepository,
-    this._ntpService,
-  );
+  PasswordService(this._storageService, this._nekotonRepository);
 
   static final _logger = Logger('PasswordService');
 
   final NekotonRepository _nekotonRepository;
   final SecureStorageService _storageService;
-  final NtpService _ntpService;
 
-  final _updater = StreamController<void>.broadcast();
-  _State _state = const _State.initial();
-  Timer? _unlockTimer;
+  /// Master key to state map
+  final _state = <PublicKey, _State>{};
 
-  bool get isLocked => _state.isLocked;
-
-  DateTime? get lockUntil => _state.lockUntil;
-
-  Stream<bool> get isLockedStream =>
-      _updater.stream.map((_) => isLocked).startWith(isLocked).distinct();
+  StreamSubscription<SeedListDiffChange>? _subscription;
 
   Future<void> init() async {
     try {
       final json = await _storageService.getPasswordServiceStateJson();
       if (json != null) {
-        _state = _State.fromJson(jsonDecode(json) as Map<String, dynamic>);
+        final map = jsonDecode(json) as Map<String, dynamic>;
+
+        for (final entry in map.entries) {
+          try {
+            final masterKey = PublicKey(publicKey: entry.key);
+            final state = _State.fromJson(entry.value as Map<String, dynamic>);
+
+            _state[masterKey] = state;
+          } catch (e, s) {
+            _logger.warning('Failed to parse state for key ${entry.key}', e, s);
+          }
+        }
       }
     } catch (e, s) {
       _logger.warning('Failed to parse state', e, s);
     }
+
+    _subscription = _nekotonRepository.seedChangesStream.listen((event) async {
+      final removedKeys = event.deletedSeeds.map(
+        (seed) => seed.masterPublicKey,
+      );
+
+      var changed = false;
+      for (final key in removedKeys) {
+        final removed = _state.remove(key);
+        if (removed != null) {
+          changed = true;
+          removed.dispose();
+        }
+      }
+
+      if (changed) {
+        await _saveState();
+      }
+    });
   }
 
   @disposeMethod
   void dispose() {
-    _unlockTimer?.cancel();
-    _updater.close();
+    _subscription?.cancel();
+    _subscription = null;
+
+    for (final state in _state.values) {
+      state.dispose();
+    }
   }
 
-  Future<void> reset() => _setState(const _State.initial());
+  PasswordLockState getLockState(PublicKey publicKey) {
+    final masterKey = _getMasterKey(publicKey);
+
+    // invalid state, should not happen
+    if (masterKey == null) return _State.unlocked();
+
+    return _getLockState(masterKey);
+  }
+
+  Future<void> reset(PublicKey publicKey) async {
+    final masterKey = _getMasterKey(publicKey);
+
+    if (masterKey != null) {
+      _getLockState(masterKey).reset();
+    }
+
+    await _saveState();
+  }
 
   /// Check if the password is correct for the given public key
   Future<bool> checkKeyPassword({
@@ -58,58 +98,64 @@ final class PasswordService {
     required String password,
     required int? signatureId,
   }) async {
-    if (isLocked) return false;
+    final masterKey = _getMasterKey(publicKey);
 
-    final correct = await _nekotonRepository.seedList.checkKeyPassword(
-      publicKey: publicKey,
-      password: password,
-      signatureId: signatureId,
-    );
+    if (masterKey == null) return false;
 
-    if (correct) {
-      await _setState(const _State.initial());
-    } else {
-      await _setState(_State.from(_state));
+    try {
+      final state = _getLockState(masterKey);
+      final correct = await _nekotonRepository.seedList.checkKeyPassword(
+        publicKey: publicKey,
+        password: password,
+        signatureId: signatureId,
+      );
+
+      if (correct) {
+        state.reset();
+      } else {
+        state.attempt();
+      }
+
+      return correct;
+    } finally {
+      await _saveState();
     }
-
-    return correct;
   }
 
-  Future<void> _setState(_State newState) async {
-    _state = newState;
+  _State _getLockState(PublicKey masterKey) {
+    return _state[masterKey] ??= _State.unlocked();
+  }
 
-    _updater.add(null);
+  PublicKey? _getMasterKey(PublicKey publicKey) => _nekotonRepository.seedList
+      .findSeedByAnyPublicKey(publicKey)
+      ?.masterKey
+      .publicKey;
 
-    _unlockTimer?.cancel();
-    _unlockTimer = null;
-
-    final lockUntil = newState.lockUntil;
-    if (newState.isLocked && lockUntil != null) {
-      final timeToWait =
-          lockUntil.difference(_ntpService.now()) + const Duration(seconds: 1);
-
-      if (!timeToWait.isNegative) {
-        // Schedule unlock notification
-        _unlockTimer = Timer(timeToWait, () {
-          _updater.add(null);
-          _unlockTimer = null;
-        });
-      }
-    }
-
-    await _storageService.setPasswordServiceStateJson(
-      jsonEncode(newState.toJson()),
+  Future<void> _saveState() async {
+    final state = Map<PublicKey, _State>.of(_state)
+      ..removeWhere((_, value) => value.attempts == 0);
+    final json = jsonEncode(
+      state.map((key, value) => MapEntry(key.publicKey, value.toJson())),
     );
+
+    await _storageService.setPasswordServiceStateJson(json);
   }
 }
 
-final class _State {
-  const _State._({this.lastAttempt, this.attempts = 0});
+abstract class PasswordLockState {
+  int get attempts;
+  bool get isLocked;
+  Stream<bool> get isLockedStream;
+  DateTime? get lastAttempt;
+  DateTime? get lockUntil;
+}
 
-  const factory _State.initial() = _State._;
+final class _State implements PasswordLockState {
+  _State._({this.lastAttempt, this.attempts = 0}) {
+    _update();
+  }
 
-  factory _State.from(_State previous) =>
-      _State._(lastAttempt: NtpTime.now(), attempts: previous.attempts + 1);
+  factory _State.unlocked() = _State._;
 
   factory _State.fromJson(Map<String, dynamic> json) {
     return _State._(
@@ -120,8 +166,14 @@ final class _State {
     );
   }
 
-  final int attempts;
-  final DateTime? lastAttempt;
+  @override
+  int attempts;
+
+  @override
+  DateTime? lastAttempt;
+
+  final _subject = BehaviorSubject<bool>();
+  Timer? _unlockTimer;
 
   /// Returns the time until which password entry remains locked after
   /// consecutive failed attempts, or null if no lock is currently in effect.
@@ -132,31 +184,77 @@ final class _State {
   /// - Otherwise, returns `lastAttempt + lockDuration`.
   ///
   /// Lockout policy (critical security feature):
-  /// - 3 failed attempts → 30 seconds lock
-  /// - 4 failed attempts → 5 minutes lock
-  /// - 5 failed attempts → 30 minutes lock
-  /// - 6+ failed attempts → 1 hour lock
+  /// - 7-9 failed attempts → 1 minute lock
+  /// - 10+ failed attempts → 5 minutes lock
+  @override
   DateTime? get lockUntil {
-    if (attempts < 3) return null;
+    if (attempts < 7) return null;
     final lockDuration = switch (attempts) {
-      3 => const Duration(seconds: 30),
-      4 => const Duration(minutes: 5),
-      5 => const Duration(minutes: 30),
-      _ => const Duration(hours: 1),
+      7 => const Duration(minutes: 1),
+      8 => const Duration(minutes: 1),
+      9 => const Duration(minutes: 1),
+      _ => const Duration(minutes: 5),
     };
     return lastAttempt?.add(lockDuration);
   }
 
+  @override
   bool get isLocked {
     final lockUntil = this.lockUntil;
     if (lockUntil == null) return false;
     return NtpTime.now().isBefore(lockUntil);
   }
 
+  @override
+  Stream<bool> get isLockedStream => _subject.stream.distinct();
+
   Map<String, dynamic> toJson() {
     return {
       'attempts': attempts,
       'lastAttempt': lastAttempt?.toIso8601String(),
     };
+  }
+
+  void attempt() {
+    lastAttempt = NtpTime.now();
+    attempts += 1;
+
+    _update();
+  }
+
+  void reset() {
+    lastAttempt = null;
+    attempts = 0;
+
+    _update();
+  }
+
+  void dispose() {
+    _unlockTimer?.cancel();
+    _unlockTimer = null;
+    _subject.close();
+  }
+
+  void _update() {
+    final lockUntil = this.lockUntil;
+    final isLocked = this.isLocked;
+
+    _unlockTimer?.cancel();
+    _unlockTimer = null;
+
+    if (isLocked && lockUntil != null) {
+      final now = NtpTime.now();
+      final timeToWait = lockUntil.difference(now) + const Duration(seconds: 1);
+
+      if (!timeToWait.isNegative) {
+        // Schedule unlock notification
+        _unlockTimer = Timer(timeToWait, () {
+          _subject.add(false);
+          _unlockTimer = null;
+        });
+      }
+    }
+
+    _subject.add(isLocked);
   }
 }

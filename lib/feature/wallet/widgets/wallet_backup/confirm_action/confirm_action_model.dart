@@ -27,11 +27,8 @@ class ConfirmActionModel extends ElementaryModel {
 
   Seed? get currentSeed => _currentSeedService.currentSeed;
 
-  Stream<bool> get isPasswordLockedStream => _passwordService.isLockedStream;
-
-  bool get isPasswordLocked => _passwordService.isLocked;
-
-  DateTime? get lockUntil => _passwordService.lockUntil;
+  PasswordLockState getLockState(PublicKey publicKey) =>
+      _passwordService.getLockState(publicKey);
 
   Seed? findSeed(PublicKey publicKey) =>
       _nekotonRepository.seedList.findSeed(publicKey);

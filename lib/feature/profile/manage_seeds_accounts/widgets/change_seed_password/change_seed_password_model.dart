@@ -20,11 +20,8 @@ class ChangeSeedPasswordModel extends ElementaryModel {
   final MessengerService _messengerService;
   final PasswordService _passwordService;
 
-  Stream<bool> get isPasswordLockedStream => _passwordService.isLockedStream;
-
-  bool get isPasswordLocked => _passwordService.isLocked;
-
-  DateTime? get lockUntil => _passwordService.lockUntil;
+  PasswordLockState getLockState(PublicKey publicKey) =>
+      _passwordService.getLockState(publicKey);
 
   Future<void> changePassword({
     required PublicKey publicKey,

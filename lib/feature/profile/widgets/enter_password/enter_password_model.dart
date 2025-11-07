@@ -25,11 +25,8 @@ class EnterPasswordModel extends ElementaryModel {
 
   bool get isBiometryEnabled => _biometryService.isEnabled;
 
-  Stream<bool> get isPasswordLockedStream => _passwordService.isLockedStream;
-
-  bool get isPasswordLocked => _passwordService.isLocked;
-
-  DateTime? get lockUntil => _passwordService.lockUntil;
+  PasswordLockState getLockState(PublicKey publicKey) =>
+      _passwordService.getLockState(publicKey);
 
   KeyAccount? getAccount(Address address) =>
       _nekotonRepository.seedList.findAccountByAddress(address);

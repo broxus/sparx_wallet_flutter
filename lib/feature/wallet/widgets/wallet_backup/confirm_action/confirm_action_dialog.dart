@@ -13,7 +13,7 @@ import 'package:ui_components_lib/v2/widgets/modals/primary_bottom_sheet.dart';
 
 Future<void> showConfirmActionDialog(
   BuildContext context,
-  KeyAccount? currentAccount,
+  KeyAccount currentAccount,
   ValueChanged<bool> finishedBackupCallback,
 ) {
   return showPrimaryBottomSheet(
@@ -35,7 +35,7 @@ class ContentConfirmAction
         > {
   ContentConfirmAction({
     required ValueChanged<bool> finishedBackupCallback,
-    KeyAccount? account,
+    required KeyAccount account,
     super.key,
   }) : super(
          wmFactoryParam: ConfirmActionWmParams(
@@ -81,7 +81,7 @@ class ContentConfirmAction
                 title: LocaleKeys.confirm.tr(),
                 isLoading: data?.isLoading ?? false,
                 icon: (isLocked ?? false) ? LucideIcons.lock : null,
-                onPressed: (isLocked ?? false) ? null : wm.onClickConfirm,
+                onPressed: wm.onClickConfirm,
               ),
             ),
             StateNotifierBuilder(

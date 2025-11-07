@@ -18,8 +18,9 @@ class ChangeSeedPasswordWidgetModel
         > {
   ChangeSeedPasswordWidgetModel(super.model);
 
+  late final _lockState = model.getLockState(wmParams.value);
   late final _isPasswordLockedState = createNotifierFromStream(
-    model.isPasswordLockedStream,
+    _lockState.isLockedStream,
   );
 
   late final oldPasswordController = createTextEditingController();
@@ -44,6 +45,13 @@ class ChangeSeedPasswordWidgetModel
     final publicKey = wmParams.value;
     final languageCode = context.locale.languageCode;
 
+    if (_lockState.isLocked) {
+      _lockState.getErrorMessage(languageCode)?.let((message) {
+        model.showMessage(Message.error(message: message));
+      });
+      return;
+    }
+
     try {
       final correct = await model.checkKeyPassword(
         publicKey: publicKey,
@@ -51,14 +59,9 @@ class ChangeSeedPasswordWidgetModel
       );
 
       if (!correct) {
-        final lockUntil = model.lockUntil;
-        if (model.isPasswordLocked && lockUntil != null) {
-          final flu = DateTimeUtils.formatLockUntil(lockUntil, languageCode);
-          model.showMessage(
-            Message.error(
-              message: LocaleKeys.passwordLockedUntil.tr(args: [flu]),
-            ),
-          );
+        final errorMessage = _lockState.getErrorMessage(languageCode);
+        if (errorMessage != null) {
+          model.showMessage(Message.error(message: errorMessage));
           return;
         }
 

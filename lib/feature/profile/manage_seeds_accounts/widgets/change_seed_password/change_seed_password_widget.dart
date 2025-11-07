@@ -46,7 +46,7 @@ class ChangeSeedPasswordSheet
                 buttonShape: ButtonShape.pill,
                 title: LocaleKeys.changeWord.tr(),
                 icon: (isLocked ?? false) ? LucideIcons.lock : null,
-                onPressed: (isLocked ?? false) ? null : wm.onSubmitChange,
+                onPressed: wm.onSubmitChange,
               ),
             ),
           ],

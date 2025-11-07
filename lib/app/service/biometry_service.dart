@@ -160,6 +160,7 @@ class BiometryService {
 
     if (password != null) {
       if (await _authenticate(localizedReason)) {
+        await _passwordService.reset(publicKey);
         return password;
       } else {
         throw BiometryNotAuthException();
@@ -201,10 +202,6 @@ class BiometryService {
         localizedReason: localizedReason,
         biometricOnly: true,
       );
-
-      if (result) {
-        await _passwordService.reset();
-      }
 
       return result;
     } catch (_) {
