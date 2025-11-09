@@ -1,5 +1,5 @@
 import 'package:app/core/wm/custom_wm.dart';
-import 'package:app/feature/browser_v1/approvals_listener/view/approvals_listener_widget.dart';
+import 'package:app/feature/browser_v2/approvals_listener/view/approvals_listener_widget.dart';
 import 'package:app/feature/browser_v2/screens/main/browser_main_screen_wm.dart';
 import 'package:app/feature/browser_v2/screens/main/widgets/pages/pages_list.dart';
 import 'package:app/feature/browser_v2/screens/main/widgets/tabs/tabs_list/tabs_list.dart';
