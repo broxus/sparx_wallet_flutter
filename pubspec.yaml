@@ -35,7 +35,8 @@ dependencies:
   easy_logger: 0.0.2
   elementary: ^3.2.1
   elementary_helper: ^1.0.3
-  encrypted_storage: 0.1.3
+  encrypt: ^5.0.3
+  encrypted_storage:  0.1.4-dev.1
   equatable: 2.0.7
   favicon: 1.1.2
   flutter:
@@ -44,7 +45,7 @@ dependencies:
   flutter_email_sender: ^8.0.0
   flutter_inappwebview: 6.1.5
   flutter_screenutil: 5.9.3
-  flutter_secure_storage: 9.2.4
+  flutter_secure_storage: ^10.0.0-beta.4
   flutter_slidable: ^4.0.1
   flutter_svg: ^2.2.2
   freezed_annotation: ^3.1.0
@@ -69,13 +70,14 @@ dependencies:
   money2: ^6.0.0
   mutex: ^3.1.0
   native_dio_adapter: ^1.5.0
-  nekoton_repository: ^2.0.1
+  nekoton_repository: 2.1.0
   nekoton_webview: ^0.1.12
+  no_screenshot: ^0.3.1
   ntp: 2.0.0
   open_settings_plus: 0.4.0
   package_info_plus: ^9.0.0
   path: 1.9.1
-  path_provider: 2.1.5
+  path_provider: ^2.1.5
   permission_handler: ^12.0.1
   pinenacl: 0.6.0
   pretty_dio_logger: 1.4.0
@@ -88,6 +90,7 @@ dependencies:
   retrofit: ^4.9.0
   rive: ^0.14.0-dev.13
   rxdart: 0.28.0
+  sensitive_clipboard: ^1.1.0
   sentry_flutter: ^9.6.0
   share_plus: ^12.0.0
   shared_preferences: 2.5.3

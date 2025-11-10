@@ -83,12 +83,18 @@ class _EnterSeedNamePageState extends State<EnterSeedNamePage> {
       );
 
       try {
-        if (!context.mounted) return;
-        context
-          ..compassPointNamed(const ProfileRouteData())
-          ..compassPointNamed(
-            routeData ?? const ManageSeedsAccountsRouteData(),
-          );
+        if (!ctx.mounted) return;
+
+        final router = CompassRouterProvider.of(ctx)
+          ..compassPoint(const ProfileRouteData());
+
+        await Future.delayed(const Duration(milliseconds: 50), () {
+          if (routeData != null) {
+            router.compassPoint(routeData);
+          } else {
+            router.compassContinue(const ManageSeedsAccountsRouteData());
+          }
+        });
       } catch (_) {}
     } finally {
       if (mounted) {

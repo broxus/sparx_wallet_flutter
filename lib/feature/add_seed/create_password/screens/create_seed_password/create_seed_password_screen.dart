@@ -1,5 +1,5 @@
+import 'package:app/app/service/service.dart';
 import 'package:app/core/wm/custom_wm.dart';
-import 'package:app/data/models/seed/seed_phrase_model.dart';
 import 'package:app/feature/add_seed/create_password/model/password_status.dart';
 import 'package:app/feature/add_seed/create_password/screens/create_seed_password/create_seed_password_screen_wm.dart';
 import 'package:app/feature/add_seed/create_password/view/create_seed_password_view.dart';
@@ -19,7 +19,7 @@ class CreateSeedPasswordScreen
           CreateSeedPasswordWmParams
         > {
   CreateSeedPasswordScreen({
-    required SeedPhraseModel? phrase,
+    required SecureString? phrase,
     required MnemonicType? mnemonicType,
     super.key,
   }) : super(

@@ -68,7 +68,7 @@ class AddAccountWidgetModel
       contextSafe?.compassContinue(
         NewAccountRouteData(
           publicKey: result.$1.publicKey,
-          password: result.$2,
+          password: await model.encryptSeed(result.$2),
         ),
       );
     }

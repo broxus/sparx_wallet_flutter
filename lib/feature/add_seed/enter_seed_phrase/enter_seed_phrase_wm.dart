@@ -168,7 +168,8 @@ class EnterSeedPhraseWidgetModel
         final phrase = _getPhrase();
 
         deriveFromPhrase(phrase: phrase, mnemonicType: _mnemonicType);
-        _next(phrase);
+
+        await _next(phrase);
       } on AnyhowException catch (e, s) {
         _log.severe('confirmAction AnyhowException', e, s);
         model.showError(LocaleKeys.wrongSeed.tr());
@@ -293,18 +294,18 @@ class EnterSeedPhraseWidgetModel
     }
   }
 
-  void _next(String phrase) {
+  Future<void> _next(String phrase) async {
     if (wmParams.value.isOnboarding) {
       context.compassContinue(
         CreateSeedOnboardingPasswordRouteData(
-          seedPhrase: phrase,
+          seedPhrase: await model.encryptSeed(phrase),
           mnemonicType: _mnemonicType,
         ),
       );
     } else {
       context.compassContinue(
         CreateSeedPasswordRouteData(
-          seedPhrase: phrase,
+          seedPhrase: await model.encryptSeed(phrase),
           mnemonicType: _mnemonicType,
           type: SeedAddType.import,
           name: wmParams.value.seedName,

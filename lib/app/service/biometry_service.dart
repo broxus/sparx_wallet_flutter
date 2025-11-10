@@ -19,16 +19,18 @@ class BiometryPasswordNotStoredException implements Exception {}
 @singleton
 class BiometryService {
   BiometryService(
-    this.storage,
-    this.secureStorage,
-    this.appLifecycleService,
-    this.nekotonRepository,
+    this._storage,
+    this._secureStorage,
+    this._appLifecycleService,
+    this._nekotonRepository,
+    this._passwordService,
   );
 
-  final GeneralStorageService storage;
-  final SecureStorageService secureStorage;
-  final AppLifecycleService appLifecycleService;
-  final NekotonRepository nekotonRepository;
+  final GeneralStorageService _storage;
+  final SecureStorageService _secureStorage;
+  final AppLifecycleService _appLifecycleService;
+  final NekotonRepository _nekotonRepository;
+  final PasswordService _passwordService;
 
   final _localAuth = LocalAuthentication();
   final _availabilitySubject = BehaviorSubject<bool>.seeded(false);
@@ -40,10 +42,10 @@ class BiometryService {
   bool get isAvailable => _availabilitySubject.value;
 
   /// Stream of biometry enabled status
-  Stream<bool> get enabledStream => storage.isBiometryEnabledStream;
+  Stream<bool> get enabledStream => _storage.isBiometryEnabledStream;
 
   /// If biometry enabled and available (if not available, then not enabled)
-  bool get isEnabled => storage.isBiometryEnabled;
+  bool get isEnabled => _storage.isBiometryEnabled;
 
   /// Check if biometry available on device
   Future<bool> get _isAvailable async {
@@ -63,19 +65,19 @@ class BiometryService {
     _availabilitySubject.add(await _isAvailable);
 
     /// Update availability status on app state change
-    appLifecycleService.appLifecycleStateStream
+    _appLifecycleService.appLifecycleStateStream
         .asyncMap((_) => _isAvailable)
         .listen(_availabilitySubject.add);
 
     // disable biometry if it is not available
     availabilityStream
         .where((e) => !e)
-        .listen((e) => storage.setIsBiometryEnabled(isEnabled: e));
+        .listen((e) => _storage.setIsBiometryEnabled(isEnabled: e));
 
     // clear all passwords if biometry was disabled
     enabledStream
         .where((e) => !e)
-        .listen((e) => secureStorage.clearKeyPasswords());
+        .listen((e) => _secureStorage.clearKeyPasswords());
   }
 
   /// On iOS checks face id permission and opens system setting if permission
@@ -125,7 +127,7 @@ class BiometryService {
     // if user want enable biometry - ask auth.
     try {
       if (!isEnabled || isEnabled && await _authenticate(localizedReason)) {
-        storage.setIsBiometryEnabled(isEnabled: isEnabled);
+        _storage.setIsBiometryEnabled(isEnabled: isEnabled);
       }
     } catch (_) {}
   }
@@ -139,7 +141,7 @@ class BiometryService {
     required String password,
   }) async {
     if (isAvailable) {
-      return secureStorage.setKeyPassword(
+      return _secureStorage.setKeyPassword(
         publicKey: _getMasterKey(publicKey),
         password: password,
       );
@@ -154,10 +156,11 @@ class BiometryService {
     required PublicKey publicKey,
   }) async {
     final masterKey = _getMasterKey(publicKey);
-    final password = await secureStorage.getKeyPassword(masterKey);
+    final password = await _secureStorage.getKeyPassword(masterKey);
 
     if (password != null) {
       if (await _authenticate(localizedReason)) {
+        await _passwordService.reset(publicKey);
         return password;
       } else {
         throw BiometryNotAuthException();
@@ -171,7 +174,7 @@ class BiometryService {
   Future<bool> hasKeyPassword(PublicKey publicKey) async {
     try {
       final masterKey = _getMasterKey(publicKey);
-      final password = await secureStorage.getKeyPassword(masterKey);
+      final password = await _secureStorage.getKeyPassword(masterKey);
       return password != null;
     } catch (_) {
       return false;
@@ -192,12 +195,15 @@ class BiometryService {
   }
 
   /// Try to authenticate user with biometry or throw exception.
+  /// Attempts count are managed by system.
   Future<bool> _authenticate(String localizedReason) async {
     try {
-      return await _localAuth.authenticate(
+      final result = await _localAuth.authenticate(
         localizedReason: localizedReason,
         biometricOnly: true,
       );
+
+      return result;
     } catch (_) {
       _availabilitySubject.add(await _isAvailable);
       rethrow;
@@ -215,7 +221,7 @@ class BiometryService {
   }
 
   PublicKey _getMasterKey(PublicKey publicKey) =>
-      nekotonRepository.seedList
+      _nekotonRepository.seedList
           .findSeedByAnyPublicKey(publicKey)
           ?.masterKey
           .publicKey ??

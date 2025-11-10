@@ -108,6 +108,8 @@
   "addKey": "Add key",
   "myAccounts": "My accounts",
   "externalAccounts": "External accounts",
+  "externalLink": "External link",
+  "openExternalLink": "Open external link {}",
   "publicKey": "Public key",
   "selectWord": "Select",
   "selectKeysYouNeed": "Select keys you need",
@@ -776,5 +778,6 @@
   "disconnect": "Disconnect",
   "tokenListValidationError": "Invalid token list format",
   "failedToPrepareTransaction": "Failed to prepare transaction",
-  "failedToSendTransaction": "Failed to send transaction"
+  "failedToSendTransaction": "Failed to send transaction",
+  "passwordLockedUntil": "Password locked until {}"
 }
