@@ -1,6 +1,5 @@
 import 'dart:async';
 
-import 'package:app/app/service/app_links/app_links.dart';
 import 'package:app/feature/browser/data/history_type.dart';
 import 'package:app/feature/browser/domain/delegates/browser_anti_phishing_delegate.dart';
 import 'package:app/feature/browser/domain/delegates/browser_service_auth_delegate.dart';

@@ -1,6 +1,7 @@
 import 'dart:collection';
 
 import 'package:app/feature/browser/custom_web_controller.dart';
+import 'package:app/feature/browser/data/browser_uri.dart';
 import 'package:app/feature/browser/domain/delegates/browser_base_delegate.dart';
 import 'package:flutter_inappwebview/flutter_inappwebview.dart';
 import 'package:injectable/injectable.dart';

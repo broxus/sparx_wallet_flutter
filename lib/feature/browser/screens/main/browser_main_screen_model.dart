@@ -6,6 +6,7 @@ import 'package:app/feature/browser/data/groups/browser_group.dart';
 import 'package:app/feature/browser/data/tabs/browser_tab.dart';
 import 'package:app/feature/browser/domain/service/browser_service.dart';
 import 'package:app/feature/browser/screens/main/browser_main_screen.dart';
+import 'package:app/utils/clipboard_utils.dart';
 import 'package:app/utils/url_utils.dart';
 import 'package:elementary/elementary.dart';
 import 'package:elementary_helper/elementary_helper.dart';

@@ -1,7 +1,7 @@
 import 'package:app/app/router/router.dart';
+import 'package:app/feature/browser/data/browser_uri.dart';
 import 'package:app/feature/browser/domain/service/browser_service.dart';
 import 'package:app/feature/browser/screens/main/route.dart';
-import 'package:flutter_inappwebview/flutter_inappwebview.dart';
 import 'package:injectable/injectable.dart';
 
 @injectable

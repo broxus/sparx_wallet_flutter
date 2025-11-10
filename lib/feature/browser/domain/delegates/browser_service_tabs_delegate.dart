@@ -5,6 +5,7 @@ import 'package:app/app/service/app_notifications/domain/service/app_notificatio
 import 'package:app/core/wm/not_null_listenable_state.dart';
 import 'package:app/feature/browser/browser_collection.dart';
 import 'package:app/feature/browser/custom_web_controller.dart';
+import 'package:app/feature/browser/data/browser_uri.dart';
 import 'package:app/feature/browser/data/groups/browser_group.dart';
 import 'package:app/feature/browser/data/tabs/browser_tab.dart';
 import 'package:app/feature/browser/domain/delegates/browser_base_delegate.dart';
