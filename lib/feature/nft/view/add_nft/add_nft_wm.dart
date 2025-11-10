@@ -80,7 +80,7 @@ class AddNftWidgetModel extends CustomWidgetModel<AddNftWidget, AddNftModel> {
         return;
       }
 
-      contextSafe?.compassBack(collection);
+      await contextSafe?.compassBack(collection);
     } finally {
       _loadingState.accept(false);
     }

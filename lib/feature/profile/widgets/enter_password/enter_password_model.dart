@@ -13,15 +13,20 @@ class EnterPasswordModel extends ElementaryModel {
     this._nekotonRepository,
     this._messengerService,
     this._biometryService,
+    this._passwordService,
   ) : super(errorHandler: errorHandler);
 
   final NekotonRepository _nekotonRepository;
   final MessengerService _messengerService;
   final BiometryService _biometryService;
+  final PasswordService _passwordService;
 
   TransportStrategy get transport => _nekotonRepository.currentTransport;
 
   bool get isBiometryEnabled => _biometryService.isEnabled;
+
+  PasswordLockState getLockState(PublicKey publicKey) =>
+      _passwordService.getLockState(publicKey);
 
   KeyAccount? getAccount(Address address) =>
       _nekotonRepository.seedList.findAccountByAddress(address);
@@ -42,7 +47,7 @@ class EnterPasswordModel extends ElementaryModel {
   Future<bool> checkKeyPassword({
     required PublicKey publicKey,
     required String password,
-  }) async => _nekotonRepository.seedList.checkKeyPassword(
+  }) async => _passwordService.checkKeyPassword(
     publicKey: publicKey,
     password: password,
     signatureId: await transport.transport.getSignatureId(),

@@ -210,7 +210,7 @@ class CompassRouter {
   /// current route, then pops the navigation stack if possible.
   ///
   /// [result] Optional value to return to the previous screen.
-  void compassBack<T extends Object?>([T? result]) {
+  Future<void> compassBack<T extends Object?>([T? result]) async {
     try {
       final route = currentRoutes.lastOrNull;
 
@@ -219,21 +219,24 @@ class CompassRouter {
       }
 
       if (route is CompassRouteDataQueryMixin) {
-        final routesAfterPop = currentRoutes.toList();
-        final isRouteRemoved = routesAfterPop.none(
-          (it) => it.path == route.path,
-        );
+        return Future(() {
+          final routesAfterPop = currentRoutes.toList();
 
-        if (isRouteRemoved) {
-          final currentUri = this.currentUri;
-          final clearedQueries = route.clearScreenQueries(
-            currentUri.queryParameters,
+          final isRouteRemoved = routesAfterPop.none(
+            (it) => it.path == route.path,
           );
 
-          _router.go(
-            currentUri.replace(queryParameters: clearedQueries).toString(),
-          );
-        }
+          if (isRouteRemoved) {
+            final currentUri = this.currentUri;
+            final clearedQueries = route.clearScreenQueries(
+              currentUri.queryParameters,
+            );
+
+            _router.go(
+              currentUri.replace(queryParameters: clearedQueries).toString(),
+            );
+          }
+        });
       }
     } catch (e, s) {
       _log.warning('Failed to pop', e, s);
@@ -464,7 +467,7 @@ extension CompassNavigationContextExtension on BuildContext {
   /// [result] Optional value to return to the previous screen.
   ///
   /// See [CompassRouter.compassBack] for more details.
-  void compassBack<T extends Object?>([T? result]) {
+  Future<void> compassBack<T extends Object?>([T? result]) {
     return _compassRouter().compassBack(result);
   }
 }

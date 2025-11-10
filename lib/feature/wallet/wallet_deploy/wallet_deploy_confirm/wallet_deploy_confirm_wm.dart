@@ -89,7 +89,7 @@ class WalletDeployConfirmWidgetModel
   }
 
   Future<void> onBack() async {
-    contextSafe?.compassBack();
+    await contextSafe?.compassBack();
   }
 
   Future<void> _loadInitialData() async {

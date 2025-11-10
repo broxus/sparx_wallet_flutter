@@ -4,6 +4,7 @@ import 'package:app/core/wm/custom_wm.dart';
 import 'package:app/feature/profile/widgets/enter_password/data/data.dart';
 import 'package:app/feature/profile/widgets/enter_password/enter_password_wm.dart';
 import 'package:app/generated/generated.dart';
+import 'package:app/widgets/protected_content.dart';
 import 'package:elementary_helper/elementary_helper.dart';
 import 'package:flutter/material.dart';
 import 'package:lucide_icons_flutter/lucide_icons.dart';
@@ -89,13 +90,19 @@ class EnterPasswordWidget
             isFace: isFace,
             onSubmit: wm.onBiometry,
           ),
-          EnterPasswordStatePassword() => _Password(
-            title: props.title,
-            isDisabled: props.isDisabled,
-            isAutofocus: props.isAutofocus,
-            isLoading: props.isLoading,
-            controller: wm.passwordController,
-            onSubmit: wm.onPassword,
+          EnterPasswordStatePassword() => StateNotifierBuilder(
+            listenableState: wm.isPasswordLockedState,
+            builder: (_, isLocked) => ProtectedContent(
+              child: _Password(
+                title: props.title,
+                isDisabled: props.isDisabled,
+                isLocked: isLocked ?? false,
+                isAutofocus: props.isAutofocus,
+                isLoading: props.isLoading,
+                controller: wm.passwordController,
+                onSubmit: wm.onPassword,
+              ),
+            ),
           ),
           EnterPasswordStateLedger() => _Ledger(
             title: props.title,
@@ -165,6 +172,7 @@ class _Password extends StatelessWidget {
   const _Password({
     required this.title,
     required this.isDisabled,
+    required this.isLocked,
     required this.isAutofocus,
     required this.isLoading,
     required this.controller,
@@ -173,6 +181,7 @@ class _Password extends StatelessWidget {
 
   final String? title;
   final bool isDisabled;
+  final bool isLocked;
   final bool isAutofocus;
   final bool isLoading;
   final TextEditingController controller;
@@ -194,6 +203,7 @@ class _Password extends StatelessWidget {
           buttonShape: ButtonShape.pill,
           title: title ?? LocaleKeys.submitWord.tr(),
           isLoading: isLoading,
+          icon: isLocked ? LucideIcons.lock : null,
           onPressed: isDisabled ? null : () => onSubmit(controller.text),
         ),
       ],

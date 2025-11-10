@@ -15,7 +15,7 @@ T _$identity<T>(T value) => value;
 /// @nodoc
 mixin _$NftInformation {
 
- String? get marketplaceUrl; List<Address>? get defaultCollections;
+ String? get marketplaceUrl; String? get apiBaseUrl; List<Address>? get defaultCollections;
 /// Create a copy of NftInformation
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -28,16 +28,16 @@ $NftInformationCopyWith<NftInformation> get copyWith => _$NftInformationCopyWith
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is NftInformation&&(identical(other.marketplaceUrl, marketplaceUrl) || other.marketplaceUrl == marketplaceUrl)&&const DeepCollectionEquality().equals(other.defaultCollections, defaultCollections));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is NftInformation&&(identical(other.marketplaceUrl, marketplaceUrl) || other.marketplaceUrl == marketplaceUrl)&&(identical(other.apiBaseUrl, apiBaseUrl) || other.apiBaseUrl == apiBaseUrl)&&const DeepCollectionEquality().equals(other.defaultCollections, defaultCollections));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,marketplaceUrl,const DeepCollectionEquality().hash(defaultCollections));
+int get hashCode => Object.hash(runtimeType,marketplaceUrl,apiBaseUrl,const DeepCollectionEquality().hash(defaultCollections));
 
 @override
 String toString() {
-  return 'NftInformation(marketplaceUrl: $marketplaceUrl, defaultCollections: $defaultCollections)';
+  return 'NftInformation(marketplaceUrl: $marketplaceUrl, apiBaseUrl: $apiBaseUrl, defaultCollections: $defaultCollections)';
 }
 
 
@@ -48,7 +48,7 @@ abstract mixin class $NftInformationCopyWith<$Res>  {
   factory $NftInformationCopyWith(NftInformation value, $Res Function(NftInformation) _then) = _$NftInformationCopyWithImpl;
 @useResult
 $Res call({
- String? marketplaceUrl, List<Address>? defaultCollections
+ String? marketplaceUrl, String? apiBaseUrl, List<Address>? defaultCollections
 });
 
 
@@ -65,9 +65,10 @@ class _$NftInformationCopyWithImpl<$Res>
 
 /// Create a copy of NftInformation
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? marketplaceUrl = freezed,Object? defaultCollections = freezed,}) {
+@pragma('vm:prefer-inline') @override $Res call({Object? marketplaceUrl = freezed,Object? apiBaseUrl = freezed,Object? defaultCollections = freezed,}) {
   return _then(_self.copyWith(
 marketplaceUrl: freezed == marketplaceUrl ? _self.marketplaceUrl : marketplaceUrl // ignore: cast_nullable_to_non_nullable
+as String?,apiBaseUrl: freezed == apiBaseUrl ? _self.apiBaseUrl : apiBaseUrl // ignore: cast_nullable_to_non_nullable
 as String?,defaultCollections: freezed == defaultCollections ? _self.defaultCollections : defaultCollections // ignore: cast_nullable_to_non_nullable
 as List<Address>?,
   ));
@@ -154,10 +155,10 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( String? marketplaceUrl,  List<Address>? defaultCollections)?  $default,{required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( String? marketplaceUrl,  String? apiBaseUrl,  List<Address>? defaultCollections)?  $default,{required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _NftInformation() when $default != null:
-return $default(_that.marketplaceUrl,_that.defaultCollections);case _:
+return $default(_that.marketplaceUrl,_that.apiBaseUrl,_that.defaultCollections);case _:
   return orElse();
 
 }
@@ -175,10 +176,10 @@ return $default(_that.marketplaceUrl,_that.defaultCollections);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( String? marketplaceUrl,  List<Address>? defaultCollections)  $default,) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( String? marketplaceUrl,  String? apiBaseUrl,  List<Address>? defaultCollections)  $default,) {final _that = this;
 switch (_that) {
 case _NftInformation():
-return $default(_that.marketplaceUrl,_that.defaultCollections);case _:
+return $default(_that.marketplaceUrl,_that.apiBaseUrl,_that.defaultCollections);case _:
   throw StateError('Unexpected subclass');
 
 }
@@ -195,10 +196,10 @@ return $default(_that.marketplaceUrl,_that.defaultCollections);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( String? marketplaceUrl,  List<Address>? defaultCollections)?  $default,) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( String? marketplaceUrl,  String? apiBaseUrl,  List<Address>? defaultCollections)?  $default,) {final _that = this;
 switch (_that) {
 case _NftInformation() when $default != null:
-return $default(_that.marketplaceUrl,_that.defaultCollections);case _:
+return $default(_that.marketplaceUrl,_that.apiBaseUrl,_that.defaultCollections);case _:
   return null;
 
 }
@@ -210,10 +211,11 @@ return $default(_that.marketplaceUrl,_that.defaultCollections);case _:
 @JsonSerializable()
 
 class _NftInformation implements NftInformation {
-  const _NftInformation({this.marketplaceUrl, final  List<Address>? defaultCollections}): _defaultCollections = defaultCollections;
+  const _NftInformation({this.marketplaceUrl, this.apiBaseUrl, final  List<Address>? defaultCollections}): _defaultCollections = defaultCollections;
   factory _NftInformation.fromJson(Map<String, dynamic> json) => _$NftInformationFromJson(json);
 
 @override final  String? marketplaceUrl;
+@override final  String? apiBaseUrl;
  final  List<Address>? _defaultCollections;
 @override List<Address>? get defaultCollections {
   final value = _defaultCollections;
@@ -237,16 +239,16 @@ Map<String, dynamic> toJson() {
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _NftInformation&&(identical(other.marketplaceUrl, marketplaceUrl) || other.marketplaceUrl == marketplaceUrl)&&const DeepCollectionEquality().equals(other._defaultCollections, _defaultCollections));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _NftInformation&&(identical(other.marketplaceUrl, marketplaceUrl) || other.marketplaceUrl == marketplaceUrl)&&(identical(other.apiBaseUrl, apiBaseUrl) || other.apiBaseUrl == apiBaseUrl)&&const DeepCollectionEquality().equals(other._defaultCollections, _defaultCollections));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,marketplaceUrl,const DeepCollectionEquality().hash(_defaultCollections));
+int get hashCode => Object.hash(runtimeType,marketplaceUrl,apiBaseUrl,const DeepCollectionEquality().hash(_defaultCollections));
 
 @override
 String toString() {
-  return 'NftInformation(marketplaceUrl: $marketplaceUrl, defaultCollections: $defaultCollections)';
+  return 'NftInformation(marketplaceUrl: $marketplaceUrl, apiBaseUrl: $apiBaseUrl, defaultCollections: $defaultCollections)';
 }
 
 
@@ -257,7 +259,7 @@ abstract mixin class _$NftInformationCopyWith<$Res> implements $NftInformationCo
   factory _$NftInformationCopyWith(_NftInformation value, $Res Function(_NftInformation) _then) = __$NftInformationCopyWithImpl;
 @override @useResult
 $Res call({
- String? marketplaceUrl, List<Address>? defaultCollections
+ String? marketplaceUrl, String? apiBaseUrl, List<Address>? defaultCollections
 });
 
 
@@ -274,9 +276,10 @@ class __$NftInformationCopyWithImpl<$Res>
 
 /// Create a copy of NftInformation
 /// with the given fields replaced by the non-null parameter values.
-@override @pragma('vm:prefer-inline') $Res call({Object? marketplaceUrl = freezed,Object? defaultCollections = freezed,}) {
+@override @pragma('vm:prefer-inline') $Res call({Object? marketplaceUrl = freezed,Object? apiBaseUrl = freezed,Object? defaultCollections = freezed,}) {
   return _then(_NftInformation(
 marketplaceUrl: freezed == marketplaceUrl ? _self.marketplaceUrl : marketplaceUrl // ignore: cast_nullable_to_non_nullable
+as String?,apiBaseUrl: freezed == apiBaseUrl ? _self.apiBaseUrl : apiBaseUrl // ignore: cast_nullable_to_non_nullable
 as String?,defaultCollections: freezed == defaultCollections ? _self._defaultCollections : defaultCollections // ignore: cast_nullable_to_non_nullable
 as List<Address>?,
   ));

@@ -43,7 +43,7 @@ class AccountSettingsWidget
               onCustodiansSettings: wm.onCustodiansSettings,
               onViewInExplorer: wm.onViewInExplorer,
               onRename: wm.onRename,
-              onVerify: wm.onVerify,
+              onVerify: (wm.seedKey?.isLedger ?? false) ? wm.onVerify : null,
               onHideAccount: (displayList?.length ?? 0) > 1
                   ? wm.onHideAccount
                   : null,
@@ -71,7 +71,7 @@ class _ButtonsCard extends StatelessWidget {
   final VoidCallback onCustodiansSettings;
   final VoidCallback onViewInExplorer;
   final VoidCallback onRename;
-  final VoidCallback onVerify;
+  final VoidCallback? onVerify;
   final VoidCallback? onHideAccount;
 
   @override
@@ -101,14 +101,15 @@ class _ButtonsCard extends StatelessWidget {
             icon: LucideIcons.pencilLine,
             onTap: onRename,
           ),
-          AccountSettingsButton(
-            label: LocaleKeys.verifyOnLedger.tr(),
-            iconWidget: Assets.images.ledger.svg(
-              width: DimensSizeV2.d20,
-              height: DimensSizeV2.d20,
+          if (onVerify != null)
+            AccountSettingsButton(
+              label: LocaleKeys.verifyOnLedger.tr(),
+              iconWidget: Assets.images.ledger.svg(
+                width: DimensSizeV2.d20,
+                height: DimensSizeV2.d20,
+              ),
+              onTap: onVerify!,
             ),
-            onTap: onVerify,
-          ),
           AccountSettingsChangeColorButton(address: address),
           AccountSettingsButton(
             label: LocaleKeys.seeInExplorer.tr(),

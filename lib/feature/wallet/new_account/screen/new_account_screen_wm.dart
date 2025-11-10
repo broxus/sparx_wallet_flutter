@@ -1,3 +1,4 @@
+import 'package:app/app/service/service.dart';
 import 'package:app/core/wm/custom_wm.dart';
 import 'package:app/feature/wallet/new_account/screen/new_account_screen.dart';
 import 'package:app/feature/wallet/new_account/screen/new_account_screen_model.dart';
@@ -9,7 +10,7 @@ class NewAccountScreenWmParams {
   NewAccountScreenWmParams({required this.publicKey, required this.password});
 
   final String? publicKey;
-  final String? password;
+  final SecureString? password;
 }
 
 /// [WidgetModel] для [NewAccountScreen]
@@ -26,7 +27,7 @@ class NewAccountScreenWidgetModel
   bool get isError => wmParams.value.publicKey == null;
 
   String? get publicKey => wmParams.value.publicKey;
-  String? get password => wmParams.value.password;
+  SecureString? get password => wmParams.value.password;
 
   @override
   void initWidgetModel() {
