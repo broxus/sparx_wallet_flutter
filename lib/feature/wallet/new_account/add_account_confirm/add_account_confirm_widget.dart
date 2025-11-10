@@ -63,10 +63,14 @@ class AddAccountConfirmWidget
           onSubmit: (_) => wm.onPasswordSubmit(),
         ),
         const SizedBox(height: DimensSizeV2.d28),
-        AccentButton(
-          buttonShape: ButtonShape.pill,
-          title: LocaleKeys.confirm.tr(),
-          onPressed: wm.onPasswordSubmit,
+        StateNotifierBuilder(
+          listenableState: wm.isPasswordLockedState,
+          builder: (_, isLocked) => AccentButton(
+            buttonShape: ButtonShape.pill,
+            title: LocaleKeys.confirm.tr(),
+            icon: (isLocked ?? false) ? LucideIcons.lock : null,
+            onPressed: wm.onPasswordSubmit,
+          ),
         ),
         StateNotifierBuilder(
           listenableState: wm.availableBiometryState,

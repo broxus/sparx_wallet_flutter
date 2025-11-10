@@ -12,11 +12,16 @@ class ChangeSeedPasswordModel extends ElementaryModel {
     this._nekotonRepository,
     this._biometryService,
     this._messengerService,
+    this._passwordService,
   ) : super(errorHandler: errorHandler);
 
   final NekotonRepository _nekotonRepository;
   final BiometryService _biometryService;
   final MessengerService _messengerService;
+  final PasswordService _passwordService;
+
+  PasswordLockState getLockState(PublicKey publicKey) =>
+      _passwordService.getLockState(publicKey);
 
   Future<void> changePassword({
     required PublicKey publicKey,
@@ -38,6 +43,16 @@ class ChangeSeedPasswordModel extends ElementaryModel {
       newPassword: newPassword,
     );
   }
+
+  Future<bool> checkKeyPassword({
+    required PublicKey publicKey,
+    required String password,
+  }) async => _passwordService.checkKeyPassword(
+    publicKey: publicKey,
+    password: password,
+    signatureId: await _nekotonRepository.currentTransport.transport
+        .getSignatureId(),
+  );
 
   void showMessage(Message message) => _messengerService.show(message);
 }

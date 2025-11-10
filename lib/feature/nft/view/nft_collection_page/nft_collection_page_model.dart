@@ -54,7 +54,7 @@ class NftCollectionPageModel extends ElementaryModel {
   Future<NftList> getNtfList({
     required Address collection,
     String? continuation,
-  }) async => _nekotonRepository.getNtfList(
+  }) async => _nekotonRepository.getNftList(
     owner: await _owner,
     collection: collection,
     limit: _limit,

@@ -15,6 +15,7 @@ class EditNetworkPageWidget
     return Scaffold(
       appBar: DefaultAppBar(
         titleText: wm.connection?.name ?? LocaleKeys.addCustomNetwork.tr(),
+        onClosePressed: wm.onBack,
       ),
       body: Stack(
         alignment: AlignmentDirectional.bottomCenter,

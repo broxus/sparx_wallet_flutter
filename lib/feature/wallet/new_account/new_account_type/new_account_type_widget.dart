@@ -1,6 +1,6 @@
+import 'package:app/app/service/service.dart';
 import 'package:app/core/wm/custom_wm.dart';
-import 'package:app/feature/wallet/new_account/new_account_type'
-    '/new_account_type_wm.dart';
+import 'package:app/feature/wallet/new_account/new_account_type/new_account_type_wm.dart';
 import 'package:app/generated/generated.dart';
 import 'package:app/utils/constants.dart';
 import 'package:elementary_helper/elementary_helper.dart';
@@ -20,7 +20,7 @@ class NewAccountTypeWidget
         > {
   NewAccountTypeWidget({
     required PublicKey publicKey,
-    required String? password,
+    required SecureString? password,
     super.key,
   }) : super(
          wmFactoryParam: NewAccountTypeWmParams(

@@ -34,7 +34,7 @@ class BrowserServicePagesControllersDelegate implements BrowserDelegate {
   Future<void> loadUrl(String tabId, Uri uri) {
     return Future(() {
       _controllers[tabId]?.loadUrl(
-        urlRequest: URLRequest(url: WebUri.uri(uri)),
+        urlRequest: URLRequest(url: BrowserUri.uri(uri)),
       );
     });
   }

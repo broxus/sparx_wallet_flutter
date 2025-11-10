@@ -3,6 +3,8 @@
 import 'package:app/core/wm/custom_wm.dart';
 import 'package:app/feature/wallet/new_account/add_account_confirm/add_account_confirm_model.dart';
 import 'package:app/feature/wallet/new_account/add_account_confirm/add_account_confirm_widget.dart';
+import 'package:app/generated/generated.dart';
+import 'package:app/utils/utils.dart';
 import 'package:elementary_helper/elementary_helper.dart';
 import 'package:flutter/material.dart';
 import 'package:injectable/injectable.dart';
@@ -30,12 +32,20 @@ class AddAccountConfirmWidgetModel
         > {
   AddAccountConfirmWidgetModel(super.model);
 
+  late final _lockState = model.getLockState(wmParams.value.publicKey);
+
   late final controller = createTextEditingController();
 
   late final _availableBiometryState = createNotifier<List<BiometricType>>();
 
+  late final _isPasswordLockedState = createNotifierFromStream(
+    _lockState.isLockedStream,
+  );
+
   ListenableState<List<BiometricType>> get availableBiometryState =>
       _availableBiometryState;
+
+  ListenableState<bool> get isPasswordLockedState => _isPasswordLockedState;
 
   KeyAccount? get account => model.account;
 
@@ -69,15 +79,29 @@ class AddAccountConfirmWidgetModel
   }
 
   Future<void> _processPassword(String password) async {
+    final languageCode = context.locale.languageCode;
+
+    if (_lockState.isLocked) {
+      _lockState.getErrorMessage(languageCode)?.let(model.showError);
+      return;
+    }
+
     final isCorrect = await model.checkPassword(
       password: password,
       publicKey: wmParams.value.publicKey,
     );
 
     if (!isCorrect) {
+      final errorMessage = _lockState.getErrorMessage(languageCode);
+      if (errorMessage != null) {
+        model.showError(errorMessage);
+        return;
+      }
+
       model.showWrongPassword();
-    } else if (contextSafe != null) {
-      Navigator.of(contextSafe!).pop((wmParams.value.publicKey, password));
+      return;
     }
+
+    Navigator.of(contextSafe!).pop((wmParams.value.publicKey, password));
   }
 }

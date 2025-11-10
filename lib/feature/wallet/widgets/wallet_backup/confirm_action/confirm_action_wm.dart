@@ -5,6 +5,7 @@ import 'package:app/app/router/router.dart';
 import 'package:app/core/wm/custom_wm.dart';
 import 'package:app/feature/wallet/widgets/wallet_backup/wallet_backup.dart';
 import 'package:app/generated/generated.dart';
+import 'package:app/utils/utils.dart';
 import 'package:elementary_helper/elementary_helper.dart';
 import 'package:flutter/foundation.dart';
 import 'package:injectable/injectable.dart';
@@ -15,11 +16,11 @@ import 'package:ui_components_lib/v2/ui_components_lib_v2.dart';
 class ConfirmActionWmParams {
   const ConfirmActionWmParams({
     required this.finishedBackupCallback,
-    this.account,
+    required this.account,
   });
 
   final ValueChanged<bool> finishedBackupCallback;
-  final KeyAccount? account;
+  final KeyAccount account;
 }
 
 @injectable
@@ -32,21 +33,28 @@ class ConfirmActionWidgetModel
         > {
   ConfirmActionWidgetModel(super.model);
 
-  ThemeStyleV2 get themeStyle => context.themeStyleV2;
+  late final _lockState = model.getLockState(wmParams.value.account.publicKey);
+  late final _isPasswordLockedState = createNotifierFromStream(
+    _lockState.isLockedStream,
+  );
 
-  ListenableState<List<BiometricType>> get availableBiometryState =>
-      _availableBiometryState;
+  late final _availableBiometryState = createNotifier<List<BiometricType>>();
 
   late final ValueListenable<KeyAccount?> accountState = createWmParamsNotifier(
     (it) => it.account,
   );
 
-  late final _availableBiometryState = createNotifier<List<BiometricType>>();
-
   late final screenState = createEntityNotifier<ConfirmActionData>()
     ..loading(ConfirmActionData());
 
   late final passwordController = createTextEditingController();
+
+  ThemeStyleV2 get themeStyle => context.themeStyleV2;
+
+  ListenableState<List<BiometricType>> get availableBiometryState =>
+      _availableBiometryState;
+
+  ListenableState<bool> get isPasswordLockedState => _isPasswordLockedState;
 
   @override
   void initWidgetModel() {
@@ -55,12 +63,33 @@ class ConfirmActionWidgetModel
     _getAvailableBiometry();
   }
 
-  void onClickConfirm() {
-    screenState.content(ConfirmActionData(isLoading: true));
+  Future<void> onClickConfirm() async {
     final publicKey = model.currentSeed?.publicKey;
-    if (publicKey != null) {
-      _export(publicKey, passwordController.text);
+    final password = passwordController.text;
+    final languageCode = context.locale.languageCode;
+
+    if (publicKey == null) return;
+    if (_lockState.isLocked) {
+      _lockState.getErrorMessage(languageCode)?.let(model.showError);
+      return;
     }
+
+    screenState.content(ConfirmActionData(isLoading: true));
+
+    final correct = await model.checkKeyPassword(
+      publicKey: publicKey,
+      password: password,
+    );
+
+    if (!correct) {
+      final errorMessage = _lockState.getErrorMessage(languageCode);
+      if (errorMessage != null) {
+        model.showError(errorMessage);
+        return;
+      }
+    }
+
+    await _export(publicKey, password);
   }
 
   Future<void> onUseBiometry() async {
@@ -92,12 +121,12 @@ class ConfirmActionWidgetModel
       try {
         final phrase = await seed.export(password);
 
-        context.compassBack();
+        await context.compassBack();
         final params = wmParams.value;
         await showManualBackupDialog(
           context,
           phrase,
-          params.account?.address.address ?? '',
+          params.account.address.address,
           params.finishedBackupCallback,
         );
       } catch (_) {

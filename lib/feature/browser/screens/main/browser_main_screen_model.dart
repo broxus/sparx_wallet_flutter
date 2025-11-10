@@ -9,7 +9,6 @@ import 'package:app/feature/browser/screens/main/browser_main_screen.dart';
 import 'package:app/utils/url_utils.dart';
 import 'package:elementary/elementary.dart';
 import 'package:elementary_helper/elementary_helper.dart';
-import 'package:flutter/services.dart';
 import 'package:injectable/injectable.dart';
 
 /// [ElementaryModel] for [BrowserMainScreen]
@@ -108,7 +107,7 @@ class BrowserMainScreenModel extends ElementaryModel {
       return;
     }
 
-    Clipboard.setData(ClipboardData(text: url.toString()));
+    setClipBoardData(url.toString());
   }
 
   void addUrlToBookmark(String tabId) {

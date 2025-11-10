@@ -6,6 +6,7 @@ import 'dart:io';
 import 'package:app/app/service/service.dart';
 import 'package:app/di/di.dart';
 import 'package:app/generated/generated.dart';
+import 'package:app/utils/date_utils.dart';
 import 'package:clock/clock.dart';
 import 'package:elementary_helper/elementary_helper.dart';
 import 'package:flutter/foundation.dart';
@@ -400,6 +401,20 @@ extension EnumByNameOrNull<T extends Enum> on Iterable<T> {
     for (final value in this) {
       if (value.name == name) return value;
     }
+    return null;
+  }
+}
+
+extension PasswordLockStateExt on PasswordLockState {
+  String? getErrorMessage(String languageCode) {
+    final lockUntil = this.lockUntil;
+    final isLocked = this.isLocked;
+
+    if (isLocked && lockUntil != null) {
+      final flu = DateTimeUtils.formatLockUntil(lockUntil, languageCode);
+      return LocaleKeys.passwordLockedUntil.tr(args: [flu]);
+    }
+
     return null;
   }
 }

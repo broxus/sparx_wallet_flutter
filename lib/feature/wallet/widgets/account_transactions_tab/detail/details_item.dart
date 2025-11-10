@@ -2,8 +2,8 @@ import 'package:app/di/di.dart';
 import 'package:app/feature/messenger/data/message.dart';
 import 'package:app/feature/messenger/domain/service/messenger_service.dart';
 import 'package:app/feature/wallet/wallet.dart';
+import 'package:app/utils/utils.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:lucide_icons_flutter/lucide_icons.dart';
 import 'package:nekoton_repository/nekoton_repository.dart' hide Message;
 import 'package:ui_components_lib/ui_components_lib.dart';
@@ -98,7 +98,7 @@ class TonWalletTransactionDetailsItem extends StatelessWidget {
   }
 
   void _copy(BuildContext context, String value, String copyMessage) {
-    Clipboard.setData(ClipboardData(text: value));
+    setClipBoardData(value);
     inject<MessengerService>().show(Message.successful(message: copyMessage));
   }
 }

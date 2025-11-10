@@ -47,8 +47,6 @@ class BrowserService {
 
   final _isContentInteractedStream = BehaviorSubject.seeded(false);
 
-  StreamSubscription<BrowserAppLinksData>? _appLinksNavSubs;
-
   BrowserServiceAuth get auth => _authDelegate;
 
   BrowserServiceBookmarks get book => _bookmarksDelegate;
@@ -82,7 +80,6 @@ class BrowserService {
   @disposeMethod
   void dispose() {
     _tabsDelegate.dispose();
-    _appLinksNavSubs?.cancel();
     _antiPhishingDelegate.dispose();
   }
 

@@ -12,17 +12,19 @@ class BrowserLauncher {
   final BrowserService _browserService;
 
   void openBrowserByUri(Uri uri) {
-    return _openBrowserByWebUri(WebUri.uri(uri));
+    return _openBrowserByWebUri(BrowserUri.uri(uri));
   }
 
-  void openBrowserByString(String url) {
-    return _openBrowserByWebUri(WebUri(url));
+  void openBrowserByString(String url, {bool isInternalAppUri = true}) {
+    return _openBrowserByWebUri(
+      BrowserUri(url, isInternalAppUri: isInternalAppUri),
+    );
   }
 
-  void _openBrowserByWebUri(WebUri webUri) {
+  void _openBrowserByWebUri(BrowserUri browserUri) {
     _showBrowserIfNeed();
 
-    _browserService.tab.openUrl(webUri);
+    _browserService.tab.openUrl(browserUri);
   }
 
   void _showBrowserIfNeed() {
