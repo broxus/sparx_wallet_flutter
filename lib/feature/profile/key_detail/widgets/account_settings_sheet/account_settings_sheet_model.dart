@@ -1,4 +1,4 @@
-import 'package:app/feature/browser_v2/domain/browser_launcher.dart';
+import 'package:app/feature/browser/domain/browser_launcher.dart';
 import 'package:app/feature/messenger/data/message.dart';
 import 'package:app/feature/messenger/domain/service/messenger_service.dart';
 import 'package:app/generated/generated.dart';

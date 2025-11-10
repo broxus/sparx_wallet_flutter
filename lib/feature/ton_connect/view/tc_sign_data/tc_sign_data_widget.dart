@@ -1,7 +1,7 @@
 import 'package:app/core/wm/custom_wm.dart';
-import 'package:app/feature/browser_v2/approvals_listener/actions/widgets/account_info/account_info_widget.dart';
-import 'package:app/feature/browser_v2/approvals_listener/actions/widgets/data_card.dart';
-import 'package:app/feature/browser_v2/approvals_listener/actions/widgets/website_info/website_info_widget.dart';
+import 'package:app/feature/browser/approvals_listener/actions/widgets/account_info/account_info_widget.dart';
+import 'package:app/feature/browser/approvals_listener/actions/widgets/data_card.dart';
+import 'package:app/feature/browser/approvals_listener/actions/widgets/website_info/website_info_widget.dart';
 import 'package:app/feature/profile/profile.dart';
 import 'package:app/feature/ton_connect/ton_connect.dart';
 import 'package:app/generated/generated.dart';
