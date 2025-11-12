@@ -28,24 +28,28 @@ class NftItemPageWidget
 
   @override
   Widget build(NftItemPageWidgetModel wm) {
-    return DoubleSourceBuilder(
-      firstSource: wm.itemState,
-      secondSource: wm.collectionState,
-      builder: (_, item, collection) {
-        if (item == null) return const SizedBox.shrink();
+    return Scaffold(
+      extendBodyBehindAppBar: true,
+      appBar: DefaultAppBar(
+        backgroundColor: Colors.transparent,
+        leading: PrimaryButton(
+          buttonShape: ButtonShape.circle,
+          icon: LucideIcons.arrowLeft,
+          buttonSize: ButtonSize.medium,
+          onPressed: wm.onBackPressed,
+        ),
+      ),
+      body: DoubleSourceBuilder(
+        firstSource: wm.itemState,
+        secondSource: wm.collectionState,
+        builder: (_, item, collection) {
+          if (item == null) {
+            return const Center(
+              child: ProgressIndicatorWidget(size: DimensSizeV2.d24),
+            );
+          }
 
-        return Scaffold(
-          extendBodyBehindAppBar: true,
-          appBar: DefaultAppBar(
-            backgroundColor: Colors.transparent,
-            leading: PrimaryButton(
-              buttonShape: ButtonShape.circle,
-              icon: LucideIcons.arrowLeft,
-              buttonSize: ButtonSize.medium,
-              onPressed: wm.onBackPressed,
-            ),
-          ),
-          body: Column(
+          return Column(
             children: [
               SizedBox(height: wm.topOffset),
               ClipRRect(
@@ -162,9 +166,9 @@ class NftItemPageWidget
                 ),
               ),
             ],
-          ),
-        );
-      },
+          );
+        },
+      ),
     );
   }
 }
