@@ -149,7 +149,7 @@ class NftItemPageWidget
 
                         return Padding(
                           padding: const EdgeInsets.only(top: DimensSizeV2.d8),
-                          child: AccentButton(
+                          child: PrimaryButton(
                             buttonShape: ButtonShape.pill,
                             title: LocaleKeys.openInMarketplace.tr(),
                             onPressed: wm.onOpenInMarketplace,
