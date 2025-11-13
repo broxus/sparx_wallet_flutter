@@ -113,7 +113,7 @@ class NftSendWidgetModel
 
       if (!isMounted) return;
 
-      contextSafe?.compassPointNamed(const WalletRouteData());
+      _close();
     } on OperationCanceledException catch (_) {
     } on Exception catch (e, s) {
       if (e is AnyhowException && e.isCancelled) return;
@@ -123,6 +123,15 @@ class NftSendWidgetModel
       unsignedMessage?.dispose();
       _loadingState.accept(false);
     }
+  }
+
+  void _close() {
+    final router = CompassRouterProvider.of(context)
+      ..compassPoint(const NftRouteData());
+
+    Future.delayed(const Duration(milliseconds: 50), () {
+      router.compassPointNamed(const WalletRouteData());
+    });
   }
 
   Future<void> _init() async {
