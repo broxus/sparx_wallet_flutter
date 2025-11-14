@@ -15,7 +15,7 @@ T _$identity<T>(T value) => value;
 /// @nodoc
 mixin _$DeviceInfo {
 
- String get platform; String get appName; String get appVersion; int get maxProtocolVersion; List<Feature> get features;
+ String get platform; String get appName; String get appVersion; int get maxProtocolVersion; List<dynamic> get features;
 /// Create a copy of DeviceInfo
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -48,7 +48,7 @@ abstract mixin class $DeviceInfoCopyWith<$Res>  {
   factory $DeviceInfoCopyWith(DeviceInfo value, $Res Function(DeviceInfo) _then) = _$DeviceInfoCopyWithImpl;
 @useResult
 $Res call({
- String platform, String appName, String appVersion, int maxProtocolVersion, List<Feature> features
+ String platform, String appName, String appVersion, int maxProtocolVersion, List<dynamic> features
 });
 
 
@@ -72,7 +72,7 @@ as String,appName: null == appName ? _self.appName : appName // ignore: cast_nul
 as String,appVersion: null == appVersion ? _self.appVersion : appVersion // ignore: cast_nullable_to_non_nullable
 as String,maxProtocolVersion: null == maxProtocolVersion ? _self.maxProtocolVersion : maxProtocolVersion // ignore: cast_nullable_to_non_nullable
 as int,features: null == features ? _self.features : features // ignore: cast_nullable_to_non_nullable
-as List<Feature>,
+as List<dynamic>,
   ));
 }
 
@@ -157,7 +157,7 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( String platform,  String appName,  String appVersion,  int maxProtocolVersion,  List<Feature> features)?  $default,{required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( String platform,  String appName,  String appVersion,  int maxProtocolVersion,  List<dynamic> features)?  $default,{required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _DeviceInfo() when $default != null:
 return $default(_that.platform,_that.appName,_that.appVersion,_that.maxProtocolVersion,_that.features);case _:
@@ -178,7 +178,7 @@ return $default(_that.platform,_that.appName,_that.appVersion,_that.maxProtocolV
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( String platform,  String appName,  String appVersion,  int maxProtocolVersion,  List<Feature> features)  $default,) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( String platform,  String appName,  String appVersion,  int maxProtocolVersion,  List<dynamic> features)  $default,) {final _that = this;
 switch (_that) {
 case _DeviceInfo():
 return $default(_that.platform,_that.appName,_that.appVersion,_that.maxProtocolVersion,_that.features);case _:
@@ -198,7 +198,7 @@ return $default(_that.platform,_that.appName,_that.appVersion,_that.maxProtocolV
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( String platform,  String appName,  String appVersion,  int maxProtocolVersion,  List<Feature> features)?  $default,) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( String platform,  String appName,  String appVersion,  int maxProtocolVersion,  List<dynamic> features)?  $default,) {final _that = this;
 switch (_that) {
 case _DeviceInfo() when $default != null:
 return $default(_that.platform,_that.appName,_that.appVersion,_that.maxProtocolVersion,_that.features);case _:
@@ -213,15 +213,15 @@ return $default(_that.platform,_that.appName,_that.appVersion,_that.maxProtocolV
 @JsonSerializable()
 
 class _DeviceInfo implements DeviceInfo {
-  const _DeviceInfo({required this.platform, required this.appName, required this.appVersion, required this.maxProtocolVersion, required final  List<Feature> features}): _features = features;
+  const _DeviceInfo({required this.platform, required this.appName, required this.appVersion, required this.maxProtocolVersion, required final  List<dynamic> features}): _features = features;
   factory _DeviceInfo.fromJson(Map<String, dynamic> json) => _$DeviceInfoFromJson(json);
 
 @override final  String platform;
 @override final  String appName;
 @override final  String appVersion;
 @override final  int maxProtocolVersion;
- final  List<Feature> _features;
-@override List<Feature> get features {
+ final  List<dynamic> _features;
+@override List<dynamic> get features {
   if (_features is EqualUnmodifiableListView) return _features;
   // ignore: implicit_dynamic_type
   return EqualUnmodifiableListView(_features);
@@ -261,7 +261,7 @@ abstract mixin class _$DeviceInfoCopyWith<$Res> implements $DeviceInfoCopyWith<$
   factory _$DeviceInfoCopyWith(_DeviceInfo value, $Res Function(_DeviceInfo) _then) = __$DeviceInfoCopyWithImpl;
 @override @useResult
 $Res call({
- String platform, String appName, String appVersion, int maxProtocolVersion, List<Feature> features
+ String platform, String appName, String appVersion, int maxProtocolVersion, List<dynamic> features
 });
 
 
@@ -285,7 +285,7 @@ as String,appName: null == appName ? _self.appName : appName // ignore: cast_nul
 as String,appVersion: null == appVersion ? _self.appVersion : appVersion // ignore: cast_nullable_to_non_nullable
 as String,maxProtocolVersion: null == maxProtocolVersion ? _self.maxProtocolVersion : maxProtocolVersion // ignore: cast_nullable_to_non_nullable
 as int,features: null == features ? _self._features : features // ignore: cast_nullable_to_non_nullable
-as List<Feature>,
+as List<dynamic>,
   ));
 }
 

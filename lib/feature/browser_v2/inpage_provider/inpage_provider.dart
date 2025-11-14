@@ -1350,7 +1350,7 @@ class InpageProvider extends ProviderApi {
           signedMessage.hash,
           sender.address,
           // ignore: no-magic-number
-          transaction.expireAt.millisecondsSinceEpoch ~/ 1000,
+          transaction.expireAt.secondsSinceEpoch,
         ),
       );
     } catch (_) {
@@ -1674,9 +1674,7 @@ class InpageProvider extends ProviderApi {
     final info = await nr.computeStorageFee(
       config: config.config,
       account: input.state.boc,
-      utime:
-          input.timestamp?.toInt() ??
-          NtpTime.now().millisecondsSinceEpoch ~/ 1000,
+      utime: input.timestamp?.toInt() ?? NtpTime.now().secondsSinceEpoch,
       isMasterchain: input.masterchain,
     );
 

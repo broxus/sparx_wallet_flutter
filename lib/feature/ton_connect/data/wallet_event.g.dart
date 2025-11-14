@@ -8,7 +8,7 @@ part of 'wallet_event.dart';
 
 ConnectEventSuccess _$ConnectEventSuccessFromJson(Map<String, dynamic> json) =>
     ConnectEventSuccess(
-      id: json['id'] as String,
+      id: (json['id'] as num).toInt(),
       payload: ConnectEventSuccessPayload.fromJson(
         json['payload'] as Map<String, dynamic>,
       ),
@@ -25,7 +25,7 @@ Map<String, dynamic> _$ConnectEventSuccessToJson(
 
 ConnectEventError _$ConnectEventErrorFromJson(Map<String, dynamic> json) =>
     ConnectEventError(
-      id: json['id'] as String,
+      id: (json['id'] as num).toInt(),
       payload: TonConnectError.fromJson(
         json['payload'] as Map<String, dynamic>,
       ),
@@ -41,7 +41,7 @@ Map<String, dynamic> _$ConnectEventErrorToJson(ConnectEventError instance) =>
 
 DisconnectEvent _$DisconnectEventFromJson(Map<String, dynamic> json) =>
     DisconnectEvent(
-      id: json['id'] as String,
+      id: (json['id'] as num).toInt(),
       payload: json['payload'] as Map<String, dynamic>? ?? const {},
       $type: json['event'] as String?,
     );

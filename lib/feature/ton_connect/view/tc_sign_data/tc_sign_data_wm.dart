@@ -13,10 +13,15 @@ import 'package:nekoton_repository/nekoton_repository.dart'
 import 'package:nekoton_repository/nekoton_repository.dart' show KeyAccount;
 
 class TCSignDataWmParams {
-  TCSignDataWmParams({required this.connection, required this.payload});
+  TCSignDataWmParams({
+    required this.connection,
+    required this.payload,
+    required this.manifest,
+  });
 
   final TonAppConnection connection;
   final SignDataPayload payload;
+  final DappManifest manifest;
 }
 
 @injectable
@@ -39,7 +44,7 @@ class TCSignDataWidgetModel
     (it) => model.getAccount(it.connection.walletAddress),
   );
 
-  late final _isLoadingState = createNotifier(true);
+  late final _isLoadingState = createNotifier(false);
 
   ListenableState<bool> get isLoadingState => _isLoadingState;
 
@@ -50,14 +55,15 @@ class TCSignDataWidgetModel
     try {
       _isLoadingState.accept(true);
 
-      final result = await model.signData(
-        schema: wmParams.value.payload.schema,
-        cell: wmParams.value.payload.cell,
-        publicKey: account.publicKey,
+      final signDataResult = await model.signData(
+        account: account,
+        payload: wmParams.value.payload,
+        manifest: wmParams.value.manifest,
         signInputAuth: signInputAuth,
       );
 
       if (contextSafe != null) {
+        final result = TonConnectUiEventResult.data(data: signDataResult);
         Navigator.of(contextSafe!).pop(result);
       }
     } catch (e) {

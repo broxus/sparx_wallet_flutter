@@ -17,6 +17,7 @@ export 'ton_app_connection.dart';
 export 'ton_connect_error.dart';
 export 'ton_connect_error_code.dart';
 export 'ton_connect_ui_event.dart';
+export 'ton_connect_ui_event_result.dart';
 export 'ton_network.dart';
 export 'ton_proof.dart';
 export 'ton_proof_domain.dart';

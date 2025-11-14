@@ -3,19 +3,23 @@ import 'package:app/generated/generated.dart';
 import 'package:flutter/material.dart';
 import 'package:ui_components_lib/ui_components_lib.dart';
 
-Future<SignDataResult?> showTCSignDataSheet({
+Future<TonConnectUiEventResult<SignDataResult>> showTCSignDataSheet({
   required BuildContext context,
   required TonAppConnection connection,
   required SignDataPayload payload,
-}) {
-  return showCommonBottomSheet(
-    context: context,
-    title: LocaleKeys.signData.tr(),
-    centerTitle: true,
-    body: (_, scrollController) => TCSignDataWidget(
-      connection: connection,
-      payload: payload,
-      scrollController: scrollController,
-    ),
-  );
+  required DappManifest manifest,
+}) async {
+  final result =
+      await showCommonBottomSheet<TonConnectUiEventResult<SignDataResult>>(
+        context: context,
+        title: LocaleKeys.signData.tr(),
+        centerTitle: true,
+        body: (_, scrollController) => TCSignDataWidget(
+          connection: connection,
+          payload: payload,
+          manifest: manifest,
+          scrollController: scrollController,
+        ),
+      );
+  return result ?? const TonConnectUiEventResult.canceled();
 }
