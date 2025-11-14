@@ -147,7 +147,7 @@ class NftItemPageWidget
                     StateNotifierBuilder(
                       listenableState: wm.marketplaceUrlState,
                       builder: (_, marketplaceUrl) {
-                        if (marketplaceUrl == null) {
+                        if (marketplaceUrl == null || marketplaceUrl.isEmpty) {
                           return const SizedBox.shrink();
                         }
 
