@@ -100,7 +100,9 @@ class NftItemPageWidgetModel
   void onOpenInMarketplace() {
     final item = _itemState.value;
     final marketplaceUrl = _marketplaceUrlState.value;
-    if (item == null || marketplaceUrl == null) return;
+    if (item == null || marketplaceUrl == null || marketplaceUrl.isEmpty) {
+      return;
+    }
 
     model.openBrowserUrl('$marketplaceUrl/nft/${item.nft.address}');
   }

@@ -28,24 +28,28 @@ class NftItemPageWidget
 
   @override
   Widget build(NftItemPageWidgetModel wm) {
-    return DoubleSourceBuilder(
-      firstSource: wm.itemState,
-      secondSource: wm.collectionState,
-      builder: (_, item, collection) {
-        if (item == null) return const SizedBox.shrink();
+    return Scaffold(
+      extendBodyBehindAppBar: true,
+      appBar: DefaultAppBar(
+        backgroundColor: Colors.transparent,
+        leading: PrimaryButton(
+          buttonShape: ButtonShape.circle,
+          icon: LucideIcons.arrowLeft,
+          buttonSize: ButtonSize.medium,
+          onPressed: wm.onBackPressed,
+        ),
+      ),
+      body: DoubleSourceBuilder(
+        firstSource: wm.itemState,
+        secondSource: wm.collectionState,
+        builder: (_, item, collection) {
+          if (item == null) {
+            return const Center(
+              child: ProgressIndicatorWidget(size: DimensSizeV2.d24),
+            );
+          }
 
-        return Scaffold(
-          extendBodyBehindAppBar: true,
-          appBar: DefaultAppBar(
-            backgroundColor: Colors.transparent,
-            leading: PrimaryButton(
-              buttonShape: ButtonShape.circle,
-              icon: LucideIcons.arrowLeft,
-              buttonSize: ButtonSize.medium,
-              onPressed: wm.onBackPressed,
-            ),
-          ),
-          body: Column(
+          return Column(
             children: [
               SizedBox(height: wm.topOffset),
               ClipRRect(
@@ -143,13 +147,13 @@ class NftItemPageWidget
                     StateNotifierBuilder(
                       listenableState: wm.marketplaceUrlState,
                       builder: (_, marketplaceUrl) {
-                        if (marketplaceUrl == null) {
+                        if (marketplaceUrl == null || marketplaceUrl.isEmpty) {
                           return const SizedBox.shrink();
                         }
 
                         return Padding(
                           padding: const EdgeInsets.only(top: DimensSizeV2.d8),
-                          child: AccentButton(
+                          child: PrimaryButton(
                             buttonShape: ButtonShape.pill,
                             title: LocaleKeys.openInMarketplace.tr(),
                             onPressed: wm.onOpenInMarketplace,
@@ -162,9 +166,9 @@ class NftItemPageWidget
                 ),
               ),
             ],
-          ),
-        );
-      },
+          );
+        },
+      ),
     );
   }
 }

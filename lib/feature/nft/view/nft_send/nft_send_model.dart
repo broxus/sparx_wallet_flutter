@@ -155,4 +155,9 @@ class NftSendModel extends ElementaryModel with BleAvailabilityModelMixin {
       ),
     );
   }
+
+  // TODO(knightforce): temp fix for update
+  void update(Address owner) => Future.delayed(const Duration(seconds: 5), () {
+    _nftService.scanNftCollections(owner);
+  });
 }
