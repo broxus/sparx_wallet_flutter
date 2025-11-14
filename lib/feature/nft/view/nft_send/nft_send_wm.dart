@@ -3,7 +3,6 @@ import 'package:app/core/wm/custom_wm.dart';
 import 'package:app/feature/ledger/ledger.dart';
 import 'package:app/feature/messenger/data/message.dart';
 import 'package:app/feature/nft/nft.dart';
-import 'package:app/feature/wallet/route.dart';
 import 'package:app/generated/generated.dart';
 import 'package:app/utils/utils.dart';
 import 'package:elementary_helper/elementary_helper.dart';
