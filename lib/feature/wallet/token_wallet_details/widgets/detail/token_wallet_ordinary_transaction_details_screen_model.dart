@@ -1,6 +1,6 @@
 import 'package:app/app/service/service.dart';
 import 'package:app/data/models/models.dart';
-import 'package:app/feature/browser_v2/domain/browser_launcher.dart';
+import 'package:app/feature/browser/domain/browser_launcher.dart';
 import 'package:app/feature/wallet/token_wallet_details/widgets/detail/token_wallet_ordinary_transaction_details_screen.dart';
 import 'package:elementary/elementary.dart';
 import 'package:injectable/injectable.dart';

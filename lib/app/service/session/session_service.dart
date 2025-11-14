@@ -2,7 +2,7 @@ import 'package:app/app/service/identify/i_identify_icons_service.dart';
 import 'package:app/app/service/storage_service/secure_storage_service.dart';
 import 'package:app/app/service/storage_service/storage_manager_service.dart';
 import 'package:app/core/sentry.dart';
-import 'package:app/feature/browser_v2/domain/service/browser_service.dart';
+import 'package:app/feature/browser/domain/service/browser_service.dart';
 import 'package:app/utils/utils.dart';
 import 'package:injectable/injectable.dart';
 import 'package:logging/logging.dart';
