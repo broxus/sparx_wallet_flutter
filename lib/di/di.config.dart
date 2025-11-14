@@ -412,6 +412,8 @@ import '../feature/splash/splash_screen_model.dart' as _i582;
 import '../feature/splash/splash_screen_wm.dart' as _i659;
 import '../feature/ton_connect/domain/ton_connect_http_bridge.dart' as _i1071;
 import '../feature/ton_connect/domain/ton_connect_js_bridge.dart' as _i269;
+import '../feature/ton_connect/domain/ton_connect_request_validator.dart'
+    as _i508;
 import '../feature/ton_connect/domain/ton_connect_service.dart' as _i33;
 import '../feature/ton_connect/ton_connect.dart' as _i625;
 import '../feature/ton_connect/view/tc_connect/tc_connect_model.dart' as _i88;
@@ -1237,13 +1239,6 @@ extension GetItInjectableX on _i174.GetIt {
         gh<_i632.MessengerService>(),
       ),
     );
-    gh.factory<_i845.TCSignDataModel>(
-      () => _i845.TCSignDataModel(
-        gh<_i83.ErrorHandler>(),
-        gh<_i771.NekotonRepository>(),
-        gh<_i632.MessengerService>(),
-      ),
-    );
     gh.singleton<_i402.CurrentAccountsService>(
       () => _i402.CurrentAccountsService(
         gh<_i771.NekotonRepository>(),
@@ -1258,13 +1253,6 @@ extension GetItInjectableX on _i174.GetIt {
       () => _i335.WalletMultisigConfigModel(
         gh<_i771.NekotonRepository>(),
         gh<_i83.ErrorHandler>(),
-      ),
-    );
-    gh.factory<_i88.TCConnectModel>(
-      () => _i88.TCConnectModel(
-        gh<_i83.ErrorHandler>(),
-        gh<_i771.NekotonRepository>(),
-        gh<_i128.CurrentAccountsService>(),
       ),
     );
     gh.factory<_i783.TonWalletExpiredTransactionWidgetWidgetModel>(
@@ -1317,6 +1305,14 @@ extension GetItInjectableX on _i174.GetIt {
       () => _i437.WelcomeScreenModel(
         gh<_i83.ErrorHandler>(),
         gh<_i128.AppStorageService>(),
+      ),
+    );
+    gh.factory<_i845.TCSignDataModel>(
+      () => _i845.TCSignDataModel(
+        gh<_i83.ErrorHandler>(),
+        gh<_i771.NekotonRepository>(),
+        gh<_i632.MessengerService>(),
+        gh<_i68.NtpService>(),
       ),
     );
     gh.singleton<_i82.CompassBaseRoute>(
@@ -1515,6 +1511,14 @@ extension GetItInjectableX on _i174.GetIt {
     gh.factory<_i634.WelcomeScreenWidgetModel>(
       () => _i634.WelcomeScreenWidgetModel(gh<_i437.WelcomeScreenModel>()),
     );
+    gh.factory<_i88.TCConnectModel>(
+      () => _i88.TCConnectModel(
+        gh<_i83.ErrorHandler>(),
+        gh<_i771.NekotonRepository>(),
+        gh<_i128.CurrentAccountsService>(),
+        gh<_i128.NtpService>(),
+      ),
+    );
     gh.factory<_i371.SelectAccountWidgetModel>(
       () => _i371.SelectAccountWidgetModel(gh<_i1035.SelectAccountModel>()),
     );
@@ -1673,6 +1677,12 @@ extension GetItInjectableX on _i174.GetIt {
         gh<_i128.CurrentSeedService>(),
         gh<_i865.BleAvailabilityModelDelegate>(),
         gh<_i128.SecureStringService>(),
+      ),
+    );
+    gh.lazySingleton<_i508.TonConnectRequestValidator>(
+      () => _i508.TonConnectRequestValidator(
+        gh<_i771.NekotonRepository>(),
+        gh<_i68.NtpService>(),
       ),
     );
     gh.factory<_i479.SelectSeedModel>(
@@ -1880,14 +1890,6 @@ extension GetItInjectableX on _i174.GetIt {
         gh<_i821.AppNotificationService>(),
       ),
     );
-    gh.lazySingleton<_i33.TonConnectService>(
-      () => _i33.TonConnectService(
-        gh<_i128.TonConnectStorageService>(),
-        gh<_i771.NekotonRepository>(),
-        gh<_i143.AppVersionService>(),
-        gh<_i361.Dio>(),
-      ),
-    );
     gh.singleton<_i811.StakingService>(
       () => _i811.StakingService(
         gh<_i771.NekotonRepository>(),
@@ -1898,14 +1900,6 @@ extension GetItInjectableX on _i174.GetIt {
     );
     gh.factory<_i162.TonApi>(() => _i162.TonApi.new(gh<_i361.Dio>()));
     gh.factory<_i249.PresetsApi>(() => _i249.PresetsApi.new(gh<_i361.Dio>()));
-    gh.lazySingleton<_i1071.TonConnectHttpBridge>(
-      () => _i1071.TonConnectHttpBridge(
-        gh<_i625.TonConnectService>(),
-        gh<_i128.AppLifecycleService>(),
-        gh<_i128.TonConnectStorageService>(),
-        gh<_i361.Dio>(),
-      ),
-    );
     gh.factory<_i801.WalletAccountActionsModel>(
       () => _i801.WalletAccountActionsModel(
         gh<_i83.ErrorHandler>(),
@@ -1923,6 +1917,15 @@ extension GetItInjectableX on _i174.GetIt {
     gh.singleton<_i775.NftApiDataProvider>(
       () => _i775.NftApiDataProvider(gh<_i361.Dio>()),
     );
+    gh.lazySingleton<_i33.TonConnectService>(
+      () => _i33.TonConnectService(
+        gh<_i128.TonConnectStorageService>(),
+        gh<_i771.NekotonRepository>(),
+        gh<_i143.AppVersionService>(),
+        gh<_i625.TonConnectRequestValidator>(),
+        gh<_i361.Dio>(),
+      ),
+    );
     gh.singleton<_i470.BrowserService>(
       () => _i470.BrowserService(
         gh<_i625.TonConnectService>(),
@@ -1936,14 +1939,6 @@ extension GetItInjectableX on _i174.GetIt {
         gh<_i106.BrowserAntiPhishingDelegate>(),
       ),
       dispose: (i) => i.dispose(),
-    );
-    gh.factory<_i956.TCManageDappsModel>(
-      () => _i956.TCManageDappsModel(
-        gh<_i83.ErrorHandler>(),
-        gh<_i625.TonConnectService>(),
-        gh<_i128.TonConnectStorageService>(),
-        gh<_i625.TonConnectHttpBridge>(),
-      ),
     );
     gh.factory<_i955.SeedSettingsModel>(
       () => _i955.SeedSettingsModel(
@@ -2113,15 +2108,6 @@ extension GetItInjectableX on _i174.GetIt {
         gh<_i771.NekotonRepository>(),
       ),
     );
-    gh.factory<_i446.TCSendMessageModel>(
-      () => _i446.TCSendMessageModel(
-        gh<_i83.ErrorHandler>(),
-        gh<_i771.NekotonRepository>(),
-        gh<_i593.TonRepository>(),
-        gh<_i865.LedgerService>(),
-        gh<_i865.BleAvailabilityModelDelegate>(),
-      ),
-    );
     gh.factory<_i591.GaslessTokenTransferDelegate>(
       () => _i591.GaslessTokenTransferDelegate(
         gh<_i771.NekotonRepository>(),
@@ -2239,6 +2225,16 @@ extension GetItInjectableX on _i174.GetIt {
     gh.factory<_i972.NftPageWidgetModel>(
       () => _i972.NftPageWidgetModel(gh<_i1015.NftPageModel>()),
     );
+    gh.factory<_i446.TCSendMessageModel>(
+      () => _i446.TCSendMessageModel(
+        gh<_i83.ErrorHandler>(),
+        gh<_i771.NekotonRepository>(),
+        gh<_i593.TonRepository>(),
+        gh<_i865.LedgerService>(),
+        gh<_i128.NtpService>(),
+        gh<_i865.BleAvailabilityModelDelegate>(),
+      ),
+    );
     gh.factory<_i73.TCSendMessageWidgetModel>(
       () => _i73.TCSendMessageWidgetModel(gh<_i625.TCSendMessageModel>()),
     );
@@ -2293,11 +2289,24 @@ extension GetItInjectableX on _i174.GetIt {
     gh.factory<_i425.NftSendWidgetModel>(
       () => _i425.NftSendWidgetModel(gh<_i1015.NftSendModel>()),
     );
+    gh.lazySingleton<_i1071.TonConnectHttpBridge>(
+      () => _i1071.TonConnectHttpBridge(
+        gh<_i625.TonConnectService>(),
+        gh<_i128.AppLifecycleService>(),
+        gh<_i128.TonConnectStorageService>(),
+        gh<_i361.Dio>(),
+      ),
+    );
     gh.factory<_i970.BrowserMainMenuWidgetModel>(
       () => _i970.BrowserMainMenuWidgetModel(gh<_i966.BrowserMainMenuModel>()),
     );
-    gh.factory<_i935.TCManageDappsWidgetModel>(
-      () => _i935.TCManageDappsWidgetModel(gh<_i625.TCManageDappsModel>()),
+    gh.factory<_i956.TCManageDappsModel>(
+      () => _i956.TCManageDappsModel(
+        gh<_i83.ErrorHandler>(),
+        gh<_i625.TonConnectService>(),
+        gh<_i128.TonConnectStorageService>(),
+        gh<_i625.TonConnectHttpBridge>(),
+      ),
     );
     gh.factory<_i399.TabAnimatedViewWidgetModel>(
       () => _i399.TabAnimatedViewWidgetModel(gh<_i865.TabAnimatedViewModel>()),
@@ -2541,6 +2550,9 @@ extension GetItInjectableX on _i174.GetIt {
         gh<_i632.MessengerService>(),
         gh<_i948.StakingService>(),
       ),
+    );
+    gh.factory<_i935.TCManageDappsWidgetModel>(
+      () => _i935.TCManageDappsWidgetModel(gh<_i625.TCManageDappsModel>()),
     );
     gh.factory<_i127.TokenWalletTransactionsWidgetModel>(
       () => _i127.TokenWalletTransactionsWidgetModel(

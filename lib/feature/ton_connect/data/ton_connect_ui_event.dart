@@ -14,18 +14,22 @@ sealed class TonConnectUiEvent with _$TonConnectUiEvent {
   factory TonConnectUiEvent.connect({
     required ConnectRequest request,
     required DappManifest manifest,
-    required Completer<(KeyAccount, List<ConnectItemReply>)?> completer,
+    required Completer<
+      TonConnectUiEventResult<(KeyAccount, List<ConnectItemReply>)>
+    >
+    completer,
   }) = TonConnectUiEventConnect;
 
   factory TonConnectUiEvent.sendTransaction({
     required TonAppConnection connection,
     required TransactionPayload payload,
-    required Completer<SignedMessage?> completer,
+    required Completer<TonConnectUiEventResult<SignedMessage>> completer,
   }) = TonConnectUiEventSendTransaction;
 
   factory TonConnectUiEvent.signData({
     required TonAppConnection connection,
     required SignDataPayload payload,
-    required Completer<SignDataResult?> completer,
+    required DappManifest manifest,
+    required Completer<TonConnectUiEventResult<SignDataResult>> completer,
   }) = TonConnectUiEventSignData;
 }

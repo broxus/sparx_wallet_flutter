@@ -5,7 +5,6 @@ import 'package:app/app/service/app_version_service.dart';
 import 'package:app/app/service/service.dart';
 import 'package:app/feature/ton_connect/ton_connect.dart';
 import 'package:app/generated/generated.dart';
-import 'package:app/utils/utils.dart';
 import 'package:dio/dio.dart';
 import 'package:injectable/injectable.dart';
 import 'package:logging/logging.dart';
@@ -18,6 +17,7 @@ class TonConnectService {
     this._storageService,
     this._nekotonRepository,
     this._appVersionService,
+    this._validator,
     this._dio,
   );
 
@@ -26,6 +26,7 @@ class TonConnectService {
   final TonConnectStorageService _storageService;
   final NekotonRepository _nekotonRepository;
   final AppVersionService _appVersionService;
+  final TonConnectRequestValidator _validator;
   final Dio _dio;
 
   final _uiEvents = BehaviorSubject<TonConnectUiEvent>();
@@ -49,8 +50,8 @@ class TonConnectService {
       );
     }
 
-    final manifest = await _getManifest(request.manifestUrl);
-    if (manifest == null) {
+    final manifestJson = await _getManifestJson(request.manifestUrl);
+    if (manifestJson == null) {
       _uiEvents.add(
         TonConnectUiEvent.error(message: LocaleKeys.dappManifestError.tr()),
       );
@@ -62,7 +63,23 @@ class TonConnectService {
       );
     }
 
-    final completer = Completer<(KeyAccount, List<ConnectItemReply>)?>();
+    final manifest = await _parseManifestJson(manifestJson);
+    if (manifest == null) {
+      _uiEvents.add(
+        TonConnectUiEvent.error(message: LocaleKeys.dappManifestError.tr()),
+      );
+      return ConnectResult.error(
+        error: TonConnectError(
+          code: TonConnectErrorCode.appManifestContentError,
+          message: 'App manifest content error',
+        ),
+      );
+    }
+
+    final completer =
+        Completer<
+          TonConnectUiEventResult<(KeyAccount, List<ConnectItemReply>)>
+        >();
     _uiEvents.add(
       TonConnectUiEvent.connect(
         request: request,
@@ -72,20 +89,26 @@ class TonConnectService {
     );
 
     final result = await completer.future;
-    if (result == null) {
-      return ConnectResult.error(
+
+    return switch (result) {
+      TonConnectUiEventResultData<(KeyAccount, List<ConnectItemReply>)>(
+        :final data,
+      ) =>
+        ConnectResult.success(
+          account: data.$1,
+          replyItems: data.$2,
+          manifest: manifest,
+        ),
+      TonConnectUiEventResultError(:final error) => ConnectResult.error(
+        error: TonConnectError(code: error.code, message: error.message),
+      ),
+      TonConnectUiEventResultCanceled() => ConnectResult.error(
         error: TonConnectError(
           code: TonConnectErrorCode.userDeclined,
           message: 'User declined the connection',
         ),
-      );
-    }
-
-    return ConnectResult.success(
-      account: result.$1,
-      replyItems: result.$2,
-      manifest: manifest,
-    );
+      ),
+    };
   }
 
   void disconnect({required TonAppConnection connection}) =>
@@ -100,75 +123,34 @@ class TonConnectService {
 
   Future<SendTransactionResponse> sendTransaction({
     required TonAppConnection connection,
-    required TransactionPayload payload,
+    required Map<String, dynamic> payloadJson,
     required String requestId,
   }) async {
-    if (payload.from != null && payload.from != connection.walletAddress) {
+    final networkError = _validateNetwork();
+    if (networkError != null) {
+      return SendTransactionResponse.error(id: requestId, error: networkError);
+    }
+
+    final payload = _tryParseTransactionPayload(payloadJson);
+    if (payload == null) {
       return SendTransactionResponse.error(
         id: requestId,
         error: TonConnectError(
           code: TonConnectErrorCode.badRequest,
-          message: 'Wrong "from" parameter',
+          message: 'Invalid payload format',
         ),
       );
     }
 
-    final transport = _nekotonRepository.currentTransport;
-    final networkId = transport.transport.networkId;
-    if (!transport.networkType.isTon || payload.network?.toInt() != networkId) {
-      _uiEvents.add(
-        TonConnectUiEvent.error(
-          message: LocaleKeys.invalidNetworkError.tr(args: ['TON']),
-        ),
-      );
-
-      return SendTransactionResponse.error(
-        id: requestId,
-        error: TonConnectError(
-          code: TonConnectErrorCode.badRequest,
-          message: 'Wrong network',
-        ),
-      );
-    }
-
-    final walletState = await _nekotonRepository.getWallet(
-      connection.walletAddress,
+    final error = await _validator.validateSendTransactionRequest(
+      connection: connection,
+      payload: payload,
     );
-    final wallet = walletState.wallet;
-    if (wallet == null) {
-      _uiEvents.add(
-        TonConnectUiEvent.error(
-          message: LocaleKeys.accountNotFound.tr(
-            args: [connection.walletAddress.address],
-          ),
-        ),
-      );
-
-      return SendTransactionResponse.error(
-        id: requestId,
-        error: TonConnectError(
-          code: TonConnectErrorCode.badRequest,
-          message: 'Wallet not found',
-        ),
-      );
+    if (error != null) {
+      return SendTransactionResponse.error(id: requestId, error: error);
     }
 
-    final now = NtpTime.now().millisecondsSinceEpoch ~/ 1000;
-    if (payload.validUntil != null && payload.validUntil! < now) {
-      _uiEvents.add(
-        TonConnectUiEvent.error(message: LocaleKeys.operationTimeout.tr()),
-      );
-
-      return SendTransactionResponse.error(
-        id: requestId,
-        error: TonConnectError(
-          code: TonConnectErrorCode.badRequest,
-          message: 'Request timed out',
-        ),
-      );
-    }
-
-    final completer = Completer<SignedMessage?>();
+    final completer = Completer<TonConnectUiEventResult<SignedMessage>>();
     _uiEvents.add(
       TonConnectUiEvent.sendTransaction(
         connection: connection,
@@ -179,99 +161,80 @@ class TonConnectService {
 
     final message = await completer.future;
 
-    if (message == null) {
-      return SendTransactionResponse.error(
+    return switch (message) {
+      TonConnectUiEventResultData<SignedMessage>(:final data) =>
+        SendTransactionResponse.success(id: requestId, result: data.boc),
+      TonConnectUiEventResultError(:final error) =>
+        SendTransactionResponse.error(
+          id: requestId,
+          error: TonConnectError(code: error.code, message: error.message),
+        ),
+      TonConnectUiEventResultCanceled() => SendTransactionResponse.error(
         id: requestId,
         error: TonConnectError(
           code: TonConnectErrorCode.userDeclined,
           message: 'User declined the transaction',
         ),
-      );
-    }
-
-    return SendTransactionResponse.success(id: requestId, result: message.boc);
+      ),
+    };
   }
 
   Future<SignDataResponse> signData({
     required TonAppConnection connection,
-    required SignDataPayload payload,
+    required Map<String, dynamic> payloadJson,
     required String requestId,
   }) async {
-    final transport = _nekotonRepository.currentTransport;
-    if (!transport.networkType.isTon) {
-      _uiEvents.add(
-        TonConnectUiEvent.error(
-          message: LocaleKeys.invalidNetworkError.tr(args: ['TON']),
-        ),
-      );
+    final networkError = _validateNetwork();
+    if (networkError != null) {
+      return SignDataResponse.error(id: requestId, error: networkError);
+    }
 
+    final payload = _tryParseSignDataPayload(payloadJson);
+    if (payload == null) {
       return SignDataResponse.error(
         id: requestId,
         error: TonConnectError(
           code: TonConnectErrorCode.badRequest,
-          message: 'Wrong network',
+          message: 'Invalid payload format',
         ),
       );
     }
 
-    final walletState = await _nekotonRepository.getWallet(
-      connection.walletAddress,
+    final error = await _validator.validateSignDataRequest(
+      connection: connection,
+      payload: payload,
     );
-    final wallet = walletState.wallet;
-    if (wallet == null) {
-      _uiEvents.add(
-        TonConnectUiEvent.error(
-          message: LocaleKeys.accountNotFound.tr(
-            args: [connection.walletAddress.address],
-          ),
-        ),
-      );
-
-      return SignDataResponse.error(
-        id: requestId,
-        error: TonConnectError(
-          code: TonConnectErrorCode.badRequest,
-          message: 'Wallet not found',
-        ),
-      );
+    if (error != null) {
+      return SignDataResponse.error(id: requestId, error: error);
     }
 
-    if (payload.publicKey != null && wallet.publicKey != payload.publicKey) {
-      _uiEvents.add(
-        TonConnectUiEvent.error(message: LocaleKeys.invalidPublicKeyError.tr()),
-      );
-
-      return SignDataResponse.error(
-        id: requestId,
-        error: TonConnectError(
-          code: TonConnectErrorCode.badRequest,
-          message: 'Invalid public key',
-        ),
-      );
-    }
-
-    final completer = Completer<SignDataResult?>();
+    final completer = Completer<TonConnectUiEventResult<SignDataResult>>();
     _uiEvents.add(
       TonConnectUiEvent.signData(
         connection: connection,
         payload: payload,
+        manifest: connection.manifest,
         completer: completer,
       ),
     );
 
     final result = await completer.future;
 
-    if (result == null) {
-      return SignDataResponse.error(
+    return switch (result) {
+      TonConnectUiEventResultData<SignDataResult>(:final data) =>
+        SignDataResponse.success(id: requestId, result: data),
+      TonConnectUiEventResultError(:final error) => SignDataResponse.error(
+        id: requestId,
+        error: TonConnectError(code: error.code, message: error.message),
+      ),
+      TonConnectUiEventResultCanceled() => SignDataResponse.error(
         id: requestId,
         error: TonConnectError(
           code: TonConnectErrorCode.userDeclined,
-          message: 'User declined the transaction',
+          message: 'User declined the signing',
         ),
-      );
-    }
-
-    return SignDataResponse.success(id: requestId, result: result);
+      ),
+    };
   }
 
   Future<DeviceInfo> getDeviceInfo() async => DeviceInfo(
@@ -280,24 +243,72 @@ class TonConnectService {
     appVersion: await _appVersionService.appVersion(),
     maxProtocolVersion: 2,
     features: const [
+      'SendTransaction',
       Feature.sendTransaction(maxMessages: 4),
-      Feature.signData(),
+      Feature.signData(types: ['text', 'binary']), // 'text' | 'binary' | 'cell'
     ],
   );
 
-  Future<DappManifest?> _getManifest(String manifestUrl) async {
+  Future<Map<String, dynamic>?> _getManifestJson(String manifestUrl) async {
     try {
       final uri = Uri.parse(manifestUrl);
       final response = await _dio.getUri<Map<String, dynamic>>(uri);
       final data = response.data;
 
-      if (response.statusCode == 200 && data != null) {
-        return DappManifest.fromJson(data);
+      if (response.statusCode == 200) {
+        return data;
       }
     } catch (e, s) {
       _logger.warning('Failed to get manifest', e, s);
     }
 
     return null;
+  }
+
+  Future<DappManifest?> _parseManifestJson(Map<String, dynamic> json) async {
+    try {
+      return DappManifest.fromJson(json);
+    } catch (e, s) {
+      _logger.warning('Failed to parse manifest', e, s);
+    }
+
+    return null;
+  }
+
+  TonConnectError? _validateNetwork() {
+    final transport = _nekotonRepository.currentTransport;
+
+    if (!transport.networkType.isTon) {
+      _uiEvents.add(
+        TonConnectUiEvent.error(
+          message: LocaleKeys.invalidNetworkError.tr(args: ['TON']),
+        ),
+      );
+
+      return TonConnectError(
+        code: TonConnectErrorCode.badRequest,
+        message: 'Wrong network',
+      );
+    }
+
+    return null;
+  }
+
+  SignDataPayload? _tryParseSignDataPayload(Map<String, dynamic> json) {
+    try {
+      return SignDataPayload.fromJson(json);
+    } catch (e, s) {
+      _logger.warning('Failed to parse sign data payload', e, s);
+      return null;
+    }
+  }
+
+  TransactionPayload? _tryParseTransactionPayload(Map<String, dynamic> json) {
+    try {
+      return TransactionPayload.fromJson(json);
+    } catch (e, s) {
+      _logger.warning('Failed to parse transaction payload', e, s);
+      return null;
+    }
   }
 }

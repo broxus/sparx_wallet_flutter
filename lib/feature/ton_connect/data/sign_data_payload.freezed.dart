@@ -11,11 +11,38 @@ part of 'sign_data_payload.dart';
 
 // dart format off
 T _$identity<T>(T value) => value;
+SignDataPayload _$SignDataPayloadFromJson(
+  Map<String, dynamic> json
+) {
+        switch (json['type']) {
+                  case 'cell':
+          return SignDataPayloadCell.fromJson(
+            json
+          );
+                case 'text':
+          return SignDataPayloadText.fromJson(
+            json
+          );
+                case 'binary':
+          return SignDataPayloadBinary.fromJson(
+            json
+          );
+        
+          default:
+            throw CheckedFromJsonException(
+  json,
+  'type',
+  'SignDataPayload',
+  'Invalid union type "${json['type']}"!'
+);
+        }
+      
+}
 
 /// @nodoc
 mixin _$SignDataPayload {
 
-@JsonKey(name: 'schema_crc') int get schema; String get cell; PublicKey? get publicKey;
+ TonNetwork? get network; String? get from;
 /// Create a copy of SignDataPayload
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -28,16 +55,16 @@ $SignDataPayloadCopyWith<SignDataPayload> get copyWith => _$SignDataPayloadCopyW
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is SignDataPayload&&(identical(other.schema, schema) || other.schema == schema)&&(identical(other.cell, cell) || other.cell == cell)&&(identical(other.publicKey, publicKey) || other.publicKey == publicKey));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is SignDataPayload&&(identical(other.network, network) || other.network == network)&&(identical(other.from, from) || other.from == from));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,schema,cell,publicKey);
+int get hashCode => Object.hash(runtimeType,network,from);
 
 @override
 String toString() {
-  return 'SignDataPayload(schema: $schema, cell: $cell, publicKey: $publicKey)';
+  return 'SignDataPayload(network: $network, from: $from)';
 }
 
 
@@ -48,11 +75,11 @@ abstract mixin class $SignDataPayloadCopyWith<$Res>  {
   factory $SignDataPayloadCopyWith(SignDataPayload value, $Res Function(SignDataPayload) _then) = _$SignDataPayloadCopyWithImpl;
 @useResult
 $Res call({
-@JsonKey(name: 'schema_crc') int schema, String cell, PublicKey? publicKey
+ TonNetwork? network, String? from
 });
 
 
-$PublicKeyCopyWith<$Res>? get publicKey;
+
 
 }
 /// @nodoc
@@ -65,27 +92,14 @@ class _$SignDataPayloadCopyWithImpl<$Res>
 
 /// Create a copy of SignDataPayload
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? schema = null,Object? cell = null,Object? publicKey = freezed,}) {
+@pragma('vm:prefer-inline') @override $Res call({Object? network = freezed,Object? from = freezed,}) {
   return _then(_self.copyWith(
-schema: null == schema ? _self.schema : schema // ignore: cast_nullable_to_non_nullable
-as int,cell: null == cell ? _self.cell : cell // ignore: cast_nullable_to_non_nullable
-as String,publicKey: freezed == publicKey ? _self.publicKey : publicKey // ignore: cast_nullable_to_non_nullable
-as PublicKey?,
+network: freezed == network ? _self.network : network // ignore: cast_nullable_to_non_nullable
+as TonNetwork?,from: freezed == from ? _self.from : from // ignore: cast_nullable_to_non_nullable
+as String?,
   ));
 }
-/// Create a copy of SignDataPayload
-/// with the given fields replaced by the non-null parameter values.
-@override
-@pragma('vm:prefer-inline')
-$PublicKeyCopyWith<$Res>? get publicKey {
-    if (_self.publicKey == null) {
-    return null;
-  }
 
-  return $PublicKeyCopyWith<$Res>(_self.publicKey!, (value) {
-    return _then(_self.copyWith(publicKey: value));
-  });
-}
 }
 
 
@@ -103,11 +117,13 @@ extension SignDataPayloadPatterns on SignDataPayload {
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeMap<TResult extends Object?>(TResult Function( _SignDataPayload value)?  $default,{required TResult orElse(),}){
+@optionalTypeArgs TResult maybeMap<TResult extends Object?>({TResult Function( SignDataPayloadCell value)?  cell,TResult Function( SignDataPayloadText value)?  text,TResult Function( SignDataPayloadBinary value)?  binary,required TResult orElse(),}){
 final _that = this;
 switch (_that) {
-case _SignDataPayload() when $default != null:
-return $default(_that);case _:
+case SignDataPayloadCell() when cell != null:
+return cell(_that);case SignDataPayloadText() when text != null:
+return text(_that);case SignDataPayloadBinary() when binary != null:
+return binary(_that);case _:
   return orElse();
 
 }
@@ -125,14 +141,13 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult map<TResult extends Object?>(TResult Function( _SignDataPayload value)  $default,){
+@optionalTypeArgs TResult map<TResult extends Object?>({required TResult Function( SignDataPayloadCell value)  cell,required TResult Function( SignDataPayloadText value)  text,required TResult Function( SignDataPayloadBinary value)  binary,}){
 final _that = this;
 switch (_that) {
-case _SignDataPayload():
-return $default(_that);case _:
-  throw StateError('Unexpected subclass');
-
-}
+case SignDataPayloadCell():
+return cell(_that);case SignDataPayloadText():
+return text(_that);case SignDataPayloadBinary():
+return binary(_that);}
 }
 /// A variant of `map` that fallback to returning `null`.
 ///
@@ -146,11 +161,13 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult? mapOrNull<TResult extends Object?>(TResult? Function( _SignDataPayload value)?  $default,){
+@optionalTypeArgs TResult? mapOrNull<TResult extends Object?>({TResult? Function( SignDataPayloadCell value)?  cell,TResult? Function( SignDataPayloadText value)?  text,TResult? Function( SignDataPayloadBinary value)?  binary,}){
 final _that = this;
 switch (_that) {
-case _SignDataPayload() when $default != null:
-return $default(_that);case _:
+case SignDataPayloadCell() when cell != null:
+return cell(_that);case SignDataPayloadText() when text != null:
+return text(_that);case SignDataPayloadBinary() when binary != null:
+return binary(_that);case _:
   return null;
 
 }
@@ -167,10 +184,12 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function(@JsonKey(name: 'schema_crc')  int schema,  String cell,  PublicKey? publicKey)?  $default,{required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>({TResult Function( String schema,  String cell,  TonNetwork? network,  String? from)?  cell,TResult Function( String text,  TonNetwork? network,  String? from)?  text,TResult Function( String bytes,  TonNetwork? network,  String? from)?  binary,required TResult orElse(),}) {final _that = this;
 switch (_that) {
-case _SignDataPayload() when $default != null:
-return $default(_that.schema,_that.cell,_that.publicKey);case _:
+case SignDataPayloadCell() when cell != null:
+return cell(_that.schema,_that.cell,_that.network,_that.from);case SignDataPayloadText() when text != null:
+return text(_that.text,_that.network,_that.from);case SignDataPayloadBinary() when binary != null:
+return binary(_that.bytes,_that.network,_that.from);case _:
   return orElse();
 
 }
@@ -188,13 +207,12 @@ return $default(_that.schema,_that.cell,_that.publicKey);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function(@JsonKey(name: 'schema_crc')  int schema,  String cell,  PublicKey? publicKey)  $default,) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>({required TResult Function( String schema,  String cell,  TonNetwork? network,  String? from)  cell,required TResult Function( String text,  TonNetwork? network,  String? from)  text,required TResult Function( String bytes,  TonNetwork? network,  String? from)  binary,}) {final _that = this;
 switch (_that) {
-case _SignDataPayload():
-return $default(_that.schema,_that.cell,_that.publicKey);case _:
-  throw StateError('Unexpected subclass');
-
-}
+case SignDataPayloadCell():
+return cell(_that.schema,_that.cell,_that.network,_that.from);case SignDataPayloadText():
+return text(_that.text,_that.network,_that.from);case SignDataPayloadBinary():
+return binary(_that.bytes,_that.network,_that.from);}
 }
 /// A variant of `when` that fallback to returning `null`
 ///
@@ -208,10 +226,12 @@ return $default(_that.schema,_that.cell,_that.publicKey);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function(@JsonKey(name: 'schema_crc')  int schema,  String cell,  PublicKey? publicKey)?  $default,) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>({TResult? Function( String schema,  String cell,  TonNetwork? network,  String? from)?  cell,TResult? Function( String text,  TonNetwork? network,  String? from)?  text,TResult? Function( String bytes,  TonNetwork? network,  String? from)?  binary,}) {final _that = this;
 switch (_that) {
-case _SignDataPayload() when $default != null:
-return $default(_that.schema,_that.cell,_that.publicKey);case _:
+case SignDataPayloadCell() when cell != null:
+return cell(_that.schema,_that.cell,_that.network,_that.from);case SignDataPayloadText() when text != null:
+return text(_that.text,_that.network,_that.from);case SignDataPayloadBinary() when binary != null:
+return binary(_that.bytes,_that.network,_that.from);case _:
   return null;
 
 }
@@ -222,86 +242,234 @@ return $default(_that.schema,_that.cell,_that.publicKey);case _:
 /// @nodoc
 @JsonSerializable()
 
-class _SignDataPayload implements SignDataPayload {
-   _SignDataPayload({@JsonKey(name: 'schema_crc') required this.schema, required this.cell, this.publicKey});
-  factory _SignDataPayload.fromJson(Map<String, dynamic> json) => _$SignDataPayloadFromJson(json);
+class SignDataPayloadCell implements SignDataPayload {
+  const SignDataPayloadCell({required this.schema, required this.cell, this.network, this.from, final  String? $type}): $type = $type ?? 'cell';
+  factory SignDataPayloadCell.fromJson(Map<String, dynamic> json) => _$SignDataPayloadCellFromJson(json);
 
-@override@JsonKey(name: 'schema_crc') final  int schema;
-@override final  String cell;
-@override final  PublicKey? publicKey;
+ final  String schema;
+ final  String cell;
+@override final  TonNetwork? network;
+@override final  String? from;
+
+@JsonKey(name: 'type')
+final String $type;
+
 
 /// Create a copy of SignDataPayload
 /// with the given fields replaced by the non-null parameter values.
 @override @JsonKey(includeFromJson: false, includeToJson: false)
 @pragma('vm:prefer-inline')
-_$SignDataPayloadCopyWith<_SignDataPayload> get copyWith => __$SignDataPayloadCopyWithImpl<_SignDataPayload>(this, _$identity);
+$SignDataPayloadCellCopyWith<SignDataPayloadCell> get copyWith => _$SignDataPayloadCellCopyWithImpl<SignDataPayloadCell>(this, _$identity);
 
 @override
 Map<String, dynamic> toJson() {
-  return _$SignDataPayloadToJson(this, );
+  return _$SignDataPayloadCellToJson(this, );
 }
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _SignDataPayload&&(identical(other.schema, schema) || other.schema == schema)&&(identical(other.cell, cell) || other.cell == cell)&&(identical(other.publicKey, publicKey) || other.publicKey == publicKey));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is SignDataPayloadCell&&(identical(other.schema, schema) || other.schema == schema)&&(identical(other.cell, cell) || other.cell == cell)&&(identical(other.network, network) || other.network == network)&&(identical(other.from, from) || other.from == from));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,schema,cell,publicKey);
+int get hashCode => Object.hash(runtimeType,schema,cell,network,from);
 
 @override
 String toString() {
-  return 'SignDataPayload(schema: $schema, cell: $cell, publicKey: $publicKey)';
+  return 'SignDataPayload.cell(schema: $schema, cell: $cell, network: $network, from: $from)';
 }
 
 
 }
 
 /// @nodoc
-abstract mixin class _$SignDataPayloadCopyWith<$Res> implements $SignDataPayloadCopyWith<$Res> {
-  factory _$SignDataPayloadCopyWith(_SignDataPayload value, $Res Function(_SignDataPayload) _then) = __$SignDataPayloadCopyWithImpl;
+abstract mixin class $SignDataPayloadCellCopyWith<$Res> implements $SignDataPayloadCopyWith<$Res> {
+  factory $SignDataPayloadCellCopyWith(SignDataPayloadCell value, $Res Function(SignDataPayloadCell) _then) = _$SignDataPayloadCellCopyWithImpl;
 @override @useResult
 $Res call({
-@JsonKey(name: 'schema_crc') int schema, String cell, PublicKey? publicKey
+ String schema, String cell, TonNetwork? network, String? from
 });
 
 
-@override $PublicKeyCopyWith<$Res>? get publicKey;
+
 
 }
 /// @nodoc
-class __$SignDataPayloadCopyWithImpl<$Res>
-    implements _$SignDataPayloadCopyWith<$Res> {
-  __$SignDataPayloadCopyWithImpl(this._self, this._then);
+class _$SignDataPayloadCellCopyWithImpl<$Res>
+    implements $SignDataPayloadCellCopyWith<$Res> {
+  _$SignDataPayloadCellCopyWithImpl(this._self, this._then);
 
-  final _SignDataPayload _self;
-  final $Res Function(_SignDataPayload) _then;
+  final SignDataPayloadCell _self;
+  final $Res Function(SignDataPayloadCell) _then;
 
 /// Create a copy of SignDataPayload
 /// with the given fields replaced by the non-null parameter values.
-@override @pragma('vm:prefer-inline') $Res call({Object? schema = null,Object? cell = null,Object? publicKey = freezed,}) {
-  return _then(_SignDataPayload(
+@override @pragma('vm:prefer-inline') $Res call({Object? schema = null,Object? cell = null,Object? network = freezed,Object? from = freezed,}) {
+  return _then(SignDataPayloadCell(
 schema: null == schema ? _self.schema : schema // ignore: cast_nullable_to_non_nullable
-as int,cell: null == cell ? _self.cell : cell // ignore: cast_nullable_to_non_nullable
-as String,publicKey: freezed == publicKey ? _self.publicKey : publicKey // ignore: cast_nullable_to_non_nullable
-as PublicKey?,
+as String,cell: null == cell ? _self.cell : cell // ignore: cast_nullable_to_non_nullable
+as String,network: freezed == network ? _self.network : network // ignore: cast_nullable_to_non_nullable
+as TonNetwork?,from: freezed == from ? _self.from : from // ignore: cast_nullable_to_non_nullable
+as String?,
   ));
 }
 
+
+}
+
+/// @nodoc
+@JsonSerializable()
+
+class SignDataPayloadText implements SignDataPayload {
+  const SignDataPayloadText({required this.text, this.network, this.from, final  String? $type}): $type = $type ?? 'text';
+  factory SignDataPayloadText.fromJson(Map<String, dynamic> json) => _$SignDataPayloadTextFromJson(json);
+
+ final  String text;
+@override final  TonNetwork? network;
+@override final  String? from;
+
+@JsonKey(name: 'type')
+final String $type;
+
+
 /// Create a copy of SignDataPayload
 /// with the given fields replaced by the non-null parameter values.
-@override
+@override @JsonKey(includeFromJson: false, includeToJson: false)
 @pragma('vm:prefer-inline')
-$PublicKeyCopyWith<$Res>? get publicKey {
-    if (_self.publicKey == null) {
-    return null;
-  }
+$SignDataPayloadTextCopyWith<SignDataPayloadText> get copyWith => _$SignDataPayloadTextCopyWithImpl<SignDataPayloadText>(this, _$identity);
 
-  return $PublicKeyCopyWith<$Res>(_self.publicKey!, (value) {
-    return _then(_self.copyWith(publicKey: value));
-  });
+@override
+Map<String, dynamic> toJson() {
+  return _$SignDataPayloadTextToJson(this, );
 }
+
+@override
+bool operator ==(Object other) {
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is SignDataPayloadText&&(identical(other.text, text) || other.text == text)&&(identical(other.network, network) || other.network == network)&&(identical(other.from, from) || other.from == from));
+}
+
+@JsonKey(includeFromJson: false, includeToJson: false)
+@override
+int get hashCode => Object.hash(runtimeType,text,network,from);
+
+@override
+String toString() {
+  return 'SignDataPayload.text(text: $text, network: $network, from: $from)';
+}
+
+
+}
+
+/// @nodoc
+abstract mixin class $SignDataPayloadTextCopyWith<$Res> implements $SignDataPayloadCopyWith<$Res> {
+  factory $SignDataPayloadTextCopyWith(SignDataPayloadText value, $Res Function(SignDataPayloadText) _then) = _$SignDataPayloadTextCopyWithImpl;
+@override @useResult
+$Res call({
+ String text, TonNetwork? network, String? from
+});
+
+
+
+
+}
+/// @nodoc
+class _$SignDataPayloadTextCopyWithImpl<$Res>
+    implements $SignDataPayloadTextCopyWith<$Res> {
+  _$SignDataPayloadTextCopyWithImpl(this._self, this._then);
+
+  final SignDataPayloadText _self;
+  final $Res Function(SignDataPayloadText) _then;
+
+/// Create a copy of SignDataPayload
+/// with the given fields replaced by the non-null parameter values.
+@override @pragma('vm:prefer-inline') $Res call({Object? text = null,Object? network = freezed,Object? from = freezed,}) {
+  return _then(SignDataPayloadText(
+text: null == text ? _self.text : text // ignore: cast_nullable_to_non_nullable
+as String,network: freezed == network ? _self.network : network // ignore: cast_nullable_to_non_nullable
+as TonNetwork?,from: freezed == from ? _self.from : from // ignore: cast_nullable_to_non_nullable
+as String?,
+  ));
+}
+
+
+}
+
+/// @nodoc
+@JsonSerializable()
+
+class SignDataPayloadBinary implements SignDataPayload {
+  const SignDataPayloadBinary({required this.bytes, this.network, this.from, final  String? $type}): $type = $type ?? 'binary';
+  factory SignDataPayloadBinary.fromJson(Map<String, dynamic> json) => _$SignDataPayloadBinaryFromJson(json);
+
+ final  String bytes;
+@override final  TonNetwork? network;
+@override final  String? from;
+
+@JsonKey(name: 'type')
+final String $type;
+
+
+/// Create a copy of SignDataPayload
+/// with the given fields replaced by the non-null parameter values.
+@override @JsonKey(includeFromJson: false, includeToJson: false)
+@pragma('vm:prefer-inline')
+$SignDataPayloadBinaryCopyWith<SignDataPayloadBinary> get copyWith => _$SignDataPayloadBinaryCopyWithImpl<SignDataPayloadBinary>(this, _$identity);
+
+@override
+Map<String, dynamic> toJson() {
+  return _$SignDataPayloadBinaryToJson(this, );
+}
+
+@override
+bool operator ==(Object other) {
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is SignDataPayloadBinary&&(identical(other.bytes, bytes) || other.bytes == bytes)&&(identical(other.network, network) || other.network == network)&&(identical(other.from, from) || other.from == from));
+}
+
+@JsonKey(includeFromJson: false, includeToJson: false)
+@override
+int get hashCode => Object.hash(runtimeType,bytes,network,from);
+
+@override
+String toString() {
+  return 'SignDataPayload.binary(bytes: $bytes, network: $network, from: $from)';
+}
+
+
+}
+
+/// @nodoc
+abstract mixin class $SignDataPayloadBinaryCopyWith<$Res> implements $SignDataPayloadCopyWith<$Res> {
+  factory $SignDataPayloadBinaryCopyWith(SignDataPayloadBinary value, $Res Function(SignDataPayloadBinary) _then) = _$SignDataPayloadBinaryCopyWithImpl;
+@override @useResult
+$Res call({
+ String bytes, TonNetwork? network, String? from
+});
+
+
+
+
+}
+/// @nodoc
+class _$SignDataPayloadBinaryCopyWithImpl<$Res>
+    implements $SignDataPayloadBinaryCopyWith<$Res> {
+  _$SignDataPayloadBinaryCopyWithImpl(this._self, this._then);
+
+  final SignDataPayloadBinary _self;
+  final $Res Function(SignDataPayloadBinary) _then;
+
+/// Create a copy of SignDataPayload
+/// with the given fields replaced by the non-null parameter values.
+@override @pragma('vm:prefer-inline') $Res call({Object? bytes = null,Object? network = freezed,Object? from = freezed,}) {
+  return _then(SignDataPayloadBinary(
+bytes: null == bytes ? _self.bytes : bytes // ignore: cast_nullable_to_non_nullable
+as String,network: freezed == network ? _self.network : network // ignore: cast_nullable_to_non_nullable
+as TonNetwork?,from: freezed == from ? _self.from : from // ignore: cast_nullable_to_non_nullable
+as String?,
+  ));
+}
+
+
 }
 
 // dart format on

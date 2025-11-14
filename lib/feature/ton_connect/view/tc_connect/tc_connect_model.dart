@@ -17,10 +17,12 @@ class TCConnectModel extends ElementaryModel {
     ErrorHandler errorHandler,
     this._nekotonRepository,
     this._currentAccountsService,
+    this._ntpService,
   ) : super(errorHandler: errorHandler);
 
   final NekotonRepository _nekotonRepository;
   final CurrentAccountsService _currentAccountsService;
+  final NtpService _ntpService;
 
   String get symbol => currentTransport.nativeTokenTicker;
 
@@ -90,7 +92,7 @@ class TCConnectModel extends ElementaryModel {
     required KeyAccount account,
     required DappManifest manifest,
   }) async {
-    final timestamp = NtpTime.now().millisecondsSinceEpoch ~/ 1000;
+    final timestamp = _ntpService.now().secondsSinceEpoch;
     final timestampBytes = ByteData(8)..setInt64(0, timestamp, Endian.little);
 
     final domain = Uri.parse(manifest.url).host;
@@ -125,7 +127,7 @@ class TCConnectModel extends ElementaryModel {
       ...messageHash,
     ];
 
-    final signedData = await _nekotonRepository.seedList.signDataRaw(
+    final signedData = await _nekotonRepository.seedList.signData(
       data: base64Encode(bufferToSign),
       publicKey: account.publicKey,
       signInputAuth: signInputAuth,
@@ -134,7 +136,7 @@ class TCConnectModel extends ElementaryModel {
 
     return TonProof(
       payload: payload,
-      timestamp: timestamp.toString(),
+      timestamp: timestamp,
       signature: signedData.signature,
       domain: TonProofDomain(
         lengthBytes: domainBytes.lengthInBytes,

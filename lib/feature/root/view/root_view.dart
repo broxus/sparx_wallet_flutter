@@ -111,6 +111,7 @@ class _RootViewState extends State<RootView> {
       TonConnectUiEventSignData(
         :final connection,
         :final payload,
+        :final manifest,
         :final completer,
       ) =>
         completer.completeSafe(
@@ -119,6 +120,7 @@ class _RootViewState extends State<RootView> {
             context: context,
             connection: connection,
             payload: payload,
+            manifest: manifest,
           ),
         ),
     };

@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:app/core/wm/custom_wm.dart';
 import 'package:app/feature/browser_v1/approvals_listener/actions/widgets/account_info/account_info_widget.dart';
 import 'package:app/feature/browser_v1/approvals_listener/actions/widgets/data_card.dart';
@@ -18,12 +20,14 @@ class TCSignDataWidget
   TCSignDataWidget({
     required TonAppConnection connection,
     required SignDataPayload payload,
+    required DappManifest manifest,
     required this.scrollController,
     super.key,
   }) : super(
          wmFactoryParam: TCSignDataWmParams(
            connection: connection,
            payload: payload,
+           manifest: manifest,
          ),
        );
 
@@ -60,7 +64,14 @@ class TCSignDataWidget
                 ValueListenableBuilder(
                   valueListenable: wm.payloadState,
                   builder: (_, payload, __) {
-                    return DataCard(data: payload.cell);
+                    final data = switch (payload) {
+                      SignDataPayloadCell(:final cell) => cell,
+                      SignDataPayloadText(:final text) => base64Encode(
+                        utf8.encode(text),
+                      ),
+                      SignDataPayloadBinary(:final bytes) => bytes,
+                    };
+                    return DataCard(data: data);
                   },
                 ),
               ],
