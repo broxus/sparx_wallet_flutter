@@ -75,6 +75,8 @@ class NftSendWidgetModel
 
     UnsignedMessage? unsignedMessage;
     try {
+      final owner = wmParams.value.owner;
+
       _loadingState.accept(true);
 
       if (signInputAuth.isLedger) {
@@ -97,7 +99,7 @@ class NftSendWidgetModel
       );
 
       final transactionCompleter = await model.sendMessage(
-        address: wmParams.value.owner,
+        address: owner,
         publicKey: wmParams.value.publicKey,
         message: unsignedMessage,
         signInputAuth: signInputAuth,
@@ -109,10 +111,11 @@ class NftSendWidgetModel
 
       await transactionCompleter;
 
-      model.showMessage(Message.successful(message: resultMessage));
+      model
+        ..update(owner)
+        ..showMessage(Message.successful(message: resultMessage));
 
       if (!isMounted) return;
-
       _close();
     } on OperationCanceledException catch (_) {
     } on Exception catch (e, s) {
@@ -126,12 +129,7 @@ class NftSendWidgetModel
   }
 
   void _close() {
-    final router = CompassRouterProvider.of(context)
-      ..compassPoint(const NftRouteData());
-
-    Future.delayed(const Duration(milliseconds: 50), () {
-      router.compassPointNamed(const WalletRouteData());
-    });
+    context.compassPoint(const NftRouteData());
   }
 
   Future<void> _init() async {
