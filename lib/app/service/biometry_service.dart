@@ -181,19 +181,6 @@ class BiometryService {
     }
   }
 
-  /// This method typically called after password of seed was changed.
-  /// If biometry enabled - update password of [publicKey] in storage
-  /// even if there was no password before, because if biometry enabled, we must
-  /// store all passwords.
-  Future<void> updatePasswordIfPossible({
-    required PublicKey publicKey,
-    required String newPassword,
-  }) async {
-    if (isEnabled) {
-      return setKeyPassword(publicKey: publicKey, password: newPassword);
-    }
-  }
-
   /// Try to authenticate user with biometry or throw exception.
   /// Attempts count are managed by system.
   Future<bool> _authenticate(String localizedReason) async {
