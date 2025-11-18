@@ -40,6 +40,8 @@ class BrowserTabsAndGroupsUiDelegate implements BrowserTabsAndGroupsUi {
     required this.onEmptyTabs,
     required this.onUpdateActiveTab,
     required this.checkIsVisiblePages,
+    required this.hideMenu,
+    required this.showMenu,
   }) {
     _init();
   }
@@ -50,6 +52,8 @@ class BrowserTabsAndGroupsUiDelegate implements BrowserTabsAndGroupsUi {
   final VoidCallback onEmptyTabs;
   final ValueChanged<bool> onUpdateActiveTab;
   final bool Function() checkIsVisiblePages;
+  final VoidCallback hideMenu;
+  final VoidCallback showMenu;
 
   final _tabAnimationTypeState = StateNotifier<TabAnimationType?>();
 
@@ -198,9 +202,14 @@ class BrowserTabsAndGroupsUiDelegate implements BrowserTabsAndGroupsUi {
     String? tabId,
     String? originalGroupId,
   }) async {
+
+    hideMenu();
+
     final groupName = await context.compassPush<String?>(
       CreateBrowserGroupRouteData(tabId: tabId),
     );
+
+    showMenu();
 
     if (groupName == null) {
       return;

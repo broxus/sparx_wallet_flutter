@@ -135,6 +135,12 @@ class BrowserMainScreenWidgetModel
       _updatePastGo();
     },
     checkIsVisiblePages: () => _viewVisibleState.value,
+    hideMenu: () {
+      _animationDelegate.handleMenuType(null);
+    },
+    showMenu: () {
+      _animationDelegate.handleMenuType(MenuType.list, duration: Duration.zero);
+    },
   );
 
   final _overlayDelegate = BrowserOverlayUiDelegate();
