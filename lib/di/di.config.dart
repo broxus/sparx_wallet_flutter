@@ -1052,12 +1052,6 @@ extension GetItInjectableX on _i174.GetIt {
       () =>
           _i423.NewAccountScreenWidgetModel(gh<_i175.NewAccountScreenModel>()),
     );
-    gh.factory<_i662.AccountInfoModel>(
-      () => _i662.AccountInfoModel(
-        gh<_i83.ErrorHandler>(),
-        gh<_i771.NekotonRepository>(),
-      ),
-    );
     gh.factory<_i974.KeyDetailPageModel>(
       () => _i974.KeyDetailPageModel(
         gh<_i83.ErrorHandler>(),
@@ -1114,6 +1108,12 @@ extension GetItInjectableX on _i174.GetIt {
     );
     gh.factory<_i680.TonWalletOrdinaryTransactionWidgetModel>(
       () => _i680.TonWalletOrdinaryTransactionWidgetModel(
+        gh<_i83.ErrorHandler>(),
+        gh<_i771.NekotonRepository>(),
+      ),
+    );
+    gh.factory<_i662.AccountInfoModel>(
+      () => _i662.AccountInfoModel(
         gh<_i83.ErrorHandler>(),
         gh<_i771.NekotonRepository>(),
       ),
@@ -1753,14 +1753,6 @@ extension GetItInjectableX on _i174.GetIt {
     gh.singleton<_i328.LedgerBleScanner>(
       () => _i328.LedgerBleScanner(gh<_i865.LedgerService>()),
     );
-    gh.factory<_i201.SendMessageModel>(
-      () => _i201.SendMessageModel(
-        gh<_i83.ErrorHandler>(),
-        gh<_i771.NekotonRepository>(),
-        gh<_i865.LedgerService>(),
-        gh<_i865.BleAvailabilityModelDelegate>(),
-      ),
-    );
     gh.factory<_i946.TonWalletSendModel>(
       () => _i946.TonWalletSendModel(
         gh<_i83.ErrorHandler>(),
@@ -1771,6 +1763,14 @@ extension GetItInjectableX on _i174.GetIt {
     );
     gh.factory<_i594.ConfirmMultisigTransactionModel>(
       () => _i594.ConfirmMultisigTransactionModel(
+        gh<_i83.ErrorHandler>(),
+        gh<_i771.NekotonRepository>(),
+        gh<_i865.LedgerService>(),
+        gh<_i865.BleAvailabilityModelDelegate>(),
+      ),
+    );
+    gh.factory<_i201.SendMessageModel>(
+      () => _i201.SendMessageModel(
         gh<_i83.ErrorHandler>(),
         gh<_i771.NekotonRepository>(),
         gh<_i865.LedgerService>(),

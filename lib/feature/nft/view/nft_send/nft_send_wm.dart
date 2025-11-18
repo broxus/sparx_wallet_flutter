@@ -3,7 +3,6 @@ import 'package:app/core/wm/custom_wm.dart';
 import 'package:app/feature/ledger/ledger.dart';
 import 'package:app/feature/messenger/data/message.dart';
 import 'package:app/feature/nft/nft.dart';
-import 'package:app/feature/wallet/route.dart';
 import 'package:app/generated/generated.dart';
 import 'package:app/utils/utils.dart';
 import 'package:elementary_helper/elementary_helper.dart';
@@ -75,6 +74,8 @@ class NftSendWidgetModel
 
     UnsignedMessage? unsignedMessage;
     try {
+      final owner = wmParams.value.owner;
+
       _loadingState.accept(true);
 
       if (signInputAuth.isLedger) {
@@ -97,7 +98,7 @@ class NftSendWidgetModel
       );
 
       final transactionCompleter = await model.sendMessage(
-        address: wmParams.value.owner,
+        address: owner,
         publicKey: wmParams.value.publicKey,
         message: unsignedMessage,
         signInputAuth: signInputAuth,
@@ -109,11 +110,12 @@ class NftSendWidgetModel
 
       await transactionCompleter;
 
-      model.showMessage(Message.successful(message: resultMessage));
+      model
+        ..update(owner)
+        ..showMessage(Message.successful(message: resultMessage));
 
       if (!isMounted) return;
-
-      contextSafe?.compassPointNamed(const WalletRouteData());
+      _close();
     } on OperationCanceledException catch (_) {
     } on Exception catch (e, s) {
       if (e is AnyhowException && e.isCancelled) return;
@@ -123,6 +125,10 @@ class NftSendWidgetModel
       unsignedMessage?.dispose();
       _loadingState.accept(false);
     }
+  }
+
+  void _close() {
+    context.compassPoint(const NftRouteData());
   }
 
   Future<void> _init() async {
