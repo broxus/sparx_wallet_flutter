@@ -46,7 +46,7 @@ class EmptyNftList extends StatelessWidget {
                   horizontal: DimensSizeV2.d16,
                 ),
                 child: Text(
-                  marketplaceUrl != null
+                  (marketplaceUrl?.isNotEmpty ?? false)
                       ? LocaleKeys.nftEmptyListSubtitle.tr()
                       : LocaleKeys.nftEmptyListSubtitleNoMarket.tr(),
                   style: theme.textStyles.paragraphSmall.copyWith(
@@ -55,7 +55,7 @@ class EmptyNftList extends StatelessWidget {
                   textAlign: TextAlign.center,
                 ),
               ),
-              if (marketplaceUrl != null)
+              if (marketplaceUrl?.isNotEmpty ?? false)
                 Padding(
                   padding: const EdgeInsets.only(top: DimensSizeV2.d16),
                   child: AccentButton(
