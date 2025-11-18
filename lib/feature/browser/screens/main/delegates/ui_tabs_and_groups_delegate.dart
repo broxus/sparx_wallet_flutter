@@ -202,7 +202,6 @@ class BrowserTabsAndGroupsUiDelegate implements BrowserTabsAndGroupsUi {
     String? tabId,
     String? originalGroupId,
   }) async {
-
     hideMenu();
 
     final groupName = await context.compassPush<String?>(
