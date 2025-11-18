@@ -4,6 +4,7 @@ import 'package:app/app/service/app_links/app_links_data.dart';
 import 'package:app/app/service/app_links/app_links_service.dart';
 import 'package:app/di/di.dart';
 import 'package:app/extensions/completer_extension.dart';
+import 'package:app/feature/browser_v1/browser.dart';
 import 'package:app/feature/ledger/ledger.dart';
 import 'package:app/feature/messenger/data/message.dart';
 import 'package:app/feature/messenger/domain/service/messenger_service.dart';
@@ -111,7 +112,6 @@ class _RootViewState extends State<RootView> {
       TonConnectUiEventSignData(
         :final connection,
         :final payload,
-        :final manifest,
         :final completer,
       ) =>
         completer.completeSafe(
@@ -120,7 +120,21 @@ class _RootViewState extends State<RootView> {
             context: context,
             connection: connection,
             payload: payload,
-            manifest: manifest,
+          ),
+        ),
+      TonConnectUiEventChangeNetwork(
+        :final origin,
+        :final networkId,
+        :final connections,
+        :final completer,
+      ) =>
+        completer.completeSafe(
+          await showChangeNetworkSheet(
+            // ignore: use_build_context_synchronously
+            context: context,
+            origin: origin,
+            networkId: networkId,
+            connections: connections,
           ),
         ),
     };

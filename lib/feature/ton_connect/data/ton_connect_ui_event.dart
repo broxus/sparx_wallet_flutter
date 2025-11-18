@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:app/app/service/service.dart';
 import 'package:app/feature/ton_connect/ton_connect.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:nekoton_repository/nekoton_repository.dart';
@@ -29,7 +30,13 @@ sealed class TonConnectUiEvent with _$TonConnectUiEvent {
   factory TonConnectUiEvent.signData({
     required TonAppConnection connection,
     required SignDataPayload payload,
-    required DappManifest manifest,
     required Completer<TonConnectUiEventResult<SignDataResult>> completer,
   }) = TonConnectUiEventSignData;
+
+  factory TonConnectUiEvent.changeNetwork({
+    required Uri origin,
+    required int networkId,
+    required List<ConnectionData> connections,
+    required Completer<TransportStrategy?> completer,
+  }) = TonConnectUiEventChangeNetwork;
 }

@@ -17,6 +17,7 @@ class TonConnectService {
     this._storageService,
     this._nekotonRepository,
     this._appVersionService,
+    this._connectionsStorageService,
     this._validator,
     this._dio,
   );
@@ -26,6 +27,7 @@ class TonConnectService {
   final TonConnectStorageService _storageService;
   final NekotonRepository _nekotonRepository;
   final AppVersionService _appVersionService;
+  final ConnectionsStorageService _connectionsStorageService;
   final TonConnectRequestValidator _validator;
   final Dio _dio;
 
@@ -33,23 +35,13 @@ class TonConnectService {
 
   Stream<TonConnectUiEvent> get uiEventsStream => _uiEvents.stream;
 
-  Future<ConnectResult> connect({required ConnectRequest request}) async {
-    // TonConnect is only available for TON network
-    final transport = _nekotonRepository.currentTransport;
-    if (!transport.networkType.isTon) {
-      _uiEvents.add(
-        TonConnectUiEvent.error(
-          message: LocaleKeys.invalidNetworkError.tr(args: ['TON']),
-        ),
-      );
-      return ConnectResult.error(
-        error: TonConnectError(
-          code: TonConnectErrorCode.userDeclined,
-          message: 'User declined the connection',
-        ),
-      );
-    }
+  String get _platform => switch (Platform.operatingSystem) {
+    'ios' => 'iphone',
+    'android' => 'android',
+    _ => Platform.operatingSystem,
+  };
 
+  Future<ConnectResult> connect({required ConnectRequest request}) async {
     final manifestJson = await _getManifestJson(request.manifestUrl);
     if (manifestJson == null) {
       _uiEvents.add(
@@ -74,6 +66,11 @@ class TonConnectService {
           message: 'App manifest content error',
         ),
       );
+    }
+
+    final networkError = await _validateNetwork(manifest: manifest);
+    if (networkError != null) {
+      return ConnectResult.error(error: networkError);
     }
 
     final completer =
@@ -126,11 +123,6 @@ class TonConnectService {
     required Map<String, dynamic> payloadJson,
     required String requestId,
   }) async {
-    final networkError = _validateNetwork();
-    if (networkError != null) {
-      return SendTransactionResponse.error(id: requestId, error: networkError);
-    }
-
     final payload = _tryParseTransactionPayload(payloadJson);
     if (payload == null) {
       return SendTransactionResponse.error(
@@ -140,6 +132,14 @@ class TonConnectService {
           message: 'Invalid payload format',
         ),
       );
+    }
+
+    final networkError = await _validateNetwork(
+      manifest: connection.manifest,
+      network: payload.network,
+    );
+    if (networkError != null) {
+      return SendTransactionResponse.error(id: requestId, error: networkError);
     }
 
     final error = await _validator.validateSendTransactionRequest(
@@ -184,7 +184,7 @@ class TonConnectService {
     required Map<String, dynamic> payloadJson,
     required String requestId,
   }) async {
-    final networkError = _validateNetwork();
+    final networkError = await _validateNetwork(manifest: connection.manifest);
     if (networkError != null) {
       return SignDataResponse.error(id: requestId, error: networkError);
     }
@@ -213,7 +213,6 @@ class TonConnectService {
       TonConnectUiEvent.signData(
         connection: connection,
         payload: payload,
-        manifest: connection.manifest,
         completer: completer,
       ),
     );
@@ -238,7 +237,7 @@ class TonConnectService {
   }
 
   Future<DeviceInfo> getDeviceInfo() async => DeviceInfo(
-    platform: Platform.operatingSystem,
+    platform: _platform,
     appName: 'sparx',
     appVersion: await _appVersionService.appVersion(),
     maxProtocolVersion: 2,
@@ -275,16 +274,46 @@ class TonConnectService {
     return null;
   }
 
-  TonConnectError? _validateNetwork() {
-    final transport = _nekotonRepository.currentTransport;
+  Future<TonConnectError?> _validateNetwork({
+    required DappManifest manifest,
+    TonNetwork? network,
+  }) async {
+    var transport = _nekotonRepository.currentTransport;
 
-    if (!transport.networkType.isTon) {
+    if (!transport.networkType.isTon ||
+        (network != null && network.toInt() != transport.transport.networkId)) {
+      final completer = Completer<TransportStrategy?>();
+      final connections = _connectionsStorageService.connections
+          .where(
+            (connection) =>
+                connection.networkType.isTon &&
+                (network == null ||
+                    network.toInt() == transport.transport.networkId),
+          )
+          .toList();
+
       _uiEvents.add(
-        TonConnectUiEvent.error(
-          message: LocaleKeys.invalidNetworkError.tr(args: ['TON']),
+        TonConnectUiEvent.changeNetwork(
+          origin: Uri.parse(manifest.url),
+          networkId: network?.toInt() ?? TonNetwork.mainnet.toInt(),
+          connections: connections,
+          completer: completer,
         ),
       );
 
+      final result = await completer.future;
+      if (result == null) {
+        return TonConnectError(
+          code: TonConnectErrorCode.userDeclined,
+          message: 'User declined the connection',
+        );
+      }
+
+      transport = result;
+    }
+
+    if (!transport.networkType.isTon ||
+        (network != null && network.toInt() != transport.transport.networkId)) {
       return TonConnectError(
         code: TonConnectErrorCode.badRequest,
         message: 'Wrong network',

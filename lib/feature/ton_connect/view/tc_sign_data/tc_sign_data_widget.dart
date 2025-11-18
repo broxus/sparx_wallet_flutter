@@ -20,14 +20,12 @@ class TCSignDataWidget
   TCSignDataWidget({
     required TonAppConnection connection,
     required SignDataPayload payload,
-    required DappManifest manifest,
     required this.scrollController,
     super.key,
   }) : super(
          wmFactoryParam: TCSignDataWmParams(
            connection: connection,
            payload: payload,
-           manifest: manifest,
          ),
        );
 

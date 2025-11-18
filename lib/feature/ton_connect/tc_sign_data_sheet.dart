@@ -7,7 +7,6 @@ Future<TonConnectUiEventResult<SignDataResult>> showTCSignDataSheet({
   required BuildContext context,
   required TonAppConnection connection,
   required SignDataPayload payload,
-  required DappManifest manifest,
 }) async {
   final result =
       await showCommonBottomSheet<TonConnectUiEventResult<SignDataResult>>(
@@ -17,7 +16,6 @@ Future<TonConnectUiEventResult<SignDataResult>> showTCSignDataSheet({
         body: (_, scrollController) => TCSignDataWidget(
           connection: connection,
           payload: payload,
-          manifest: manifest,
           scrollController: scrollController,
         ),
       );

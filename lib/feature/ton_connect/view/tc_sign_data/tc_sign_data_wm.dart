@@ -13,15 +13,10 @@ import 'package:nekoton_repository/nekoton_repository.dart'
 import 'package:nekoton_repository/nekoton_repository.dart' show KeyAccount;
 
 class TCSignDataWmParams {
-  TCSignDataWmParams({
-    required this.connection,
-    required this.payload,
-    required this.manifest,
-  });
+  TCSignDataWmParams({required this.connection, required this.payload});
 
   final TonAppConnection connection;
   final SignDataPayload payload;
-  final DappManifest manifest;
 }
 
 @injectable
@@ -58,7 +53,7 @@ class TCSignDataWidgetModel
       final signDataResult = await model.signData(
         account: account,
         payload: wmParams.value.payload,
-        manifest: wmParams.value.manifest,
+        manifest: wmParams.value.connection.manifest,
         signInputAuth: signInputAuth,
       );
 

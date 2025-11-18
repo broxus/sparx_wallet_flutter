@@ -78,15 +78,6 @@ class TonConnectRequestValidator {
       }
     }
 
-    final transport = _nekotonRepository.currentTransport;
-    final networkId = transport.transport.networkId;
-    if (payload.network != null && payload.network?.toInt() != networkId) {
-      return TonConnectError(
-        code: TonConnectErrorCode.badRequest,
-        message: 'Wrong network',
-      );
-    }
-
     final walletState = await _nekotonRepository.getWallet(
       connection.walletAddress,
     );
