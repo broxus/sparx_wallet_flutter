@@ -8,7 +8,7 @@ part 'collection_meta.g.dart';
 @freezed
 abstract class CollectionMeta with _$CollectionMeta {
   const factory CollectionMeta({
-    required Address collection,
+    required Address address,
     required NetworkGroup networkGroup,
     @Default(true) bool isVisible,
   }) = _CollectionMeta;

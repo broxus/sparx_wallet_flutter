@@ -64,7 +64,10 @@ class NftCollectionPageModel extends ElementaryModel {
   void setDisplayMode(NftDisplayMode mode) => _nftService.setDisplayMode(mode);
 
   Future<void> hideCollection(Address collection) async {
-    _nftService.hideCollection(account: await _owner, collection: collection);
+    _nftService.hideCollection(
+      accountAddress: await _owner,
+      collectionAddress: collection,
+    );
 
     _messengerService.show(
       Message.successful(message: LocaleKeys.nftCollectionHidden.tr()),

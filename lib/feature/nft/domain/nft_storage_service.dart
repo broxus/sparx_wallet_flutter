@@ -67,11 +67,11 @@ class NftStorageService extends AbstractStorageService {
   }
 
   void setMetadata({
-    required Address account,
+    required Address accountAddress,
     required List<CollectionMeta> metadata,
   }) {
     _metadataStorage.write(
-      account.address,
+      accountAddress.address,
       metadata.map((e) => e.toJson()).toList(),
     );
 
@@ -79,21 +79,21 @@ class NftStorageService extends AbstractStorageService {
   }
 
   void addMetadata({
-    required Address account,
+    required Address accountAddress,
     required CollectionMeta collectionMeta,
   }) {
-    final currentList = _metadataSubject.value[account] ?? [];
+    final currentList = _metadataSubject.value[accountAddress] ?? [];
     final updatedList = [
       ...currentList.whereNot(
         (e) =>
-            e.collection == collectionMeta.collection &&
+            e.address == collectionMeta.address &&
             e.networkGroup == collectionMeta.networkGroup,
       ),
       collectionMeta,
     ];
 
     _metadataStorage.write(
-      account.address,
+      accountAddress.address,
       updatedList.map((e) => e.toJson()).toList(),
     );
 
@@ -101,17 +101,17 @@ class NftStorageService extends AbstractStorageService {
   }
 
   void removeMetadata({
-    required Address account,
-    required Address collection,
+    required Address accountAddress,
+    required Address collectionAddress,
     required NetworkGroup networkGroup,
   }) {
-    final currentList = _metadataSubject.value[account] ?? [];
+    final currentList = _metadataSubject.value[accountAddress] ?? [];
     final updatedList = currentList.whereNot(
-      (e) => e.collection == collection && e.networkGroup == networkGroup,
+      (e) => e.address == collectionAddress && e.networkGroup == networkGroup,
     );
 
     _metadataStorage.write(
-      account.address,
+      accountAddress.address,
       updatedList.map((e) => e.toJson()).toList(),
     );
 
@@ -119,10 +119,10 @@ class NftStorageService extends AbstractStorageService {
   }
 
   BigInt? readLatestLt({
-    required Address address,
+    required Address addressAddress,
     required NetworkGroup networkGroup,
   }) {
-    final key = _LatestLtKey(address: address, networkGroup: networkGroup);
+    final key = _LatestLtKey(address: addressAddress, networkGroup: networkGroup);
     final value = _generalStorage.read<String>(key.toString());
 
     return value != null ? BigInt.tryParse(value) : null;

@@ -8,14 +8,14 @@ part of 'collection_meta.dart';
 
 _CollectionMeta _$CollectionMetaFromJson(Map<String, dynamic> json) =>
     _CollectionMeta(
-      collection: Address.fromJson(json['collection'] as String),
+      address: Address.fromJson(json['address'] as String),
       networkGroup: json['networkGroup'] as String,
       isVisible: json['isVisible'] as bool? ?? true,
     );
 
 Map<String, dynamic> _$CollectionMetaToJson(_CollectionMeta instance) =>
     <String, dynamic>{
-      'collection': instance.collection.toJson(),
+      'address': instance.address.toJson(),
       'networkGroup': instance.networkGroup,
       'isVisible': instance.isVisible,
     };

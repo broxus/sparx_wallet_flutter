@@ -50,5 +50,8 @@ class NftPageModel extends ElementaryModel {
       _nftService.scanNftCollections(owner);
 
   void addCollection({required Address account, required Address collection}) =>
-      _nftService.addCollection(account: account, collection: collection);
+      _nftService.addCollection(
+        accountAddress: account,
+        collectionAddress: collection,
+      );
 }

@@ -77,7 +77,7 @@ class NftService {
   Stream<List<NftCollection>> getAccountCollectionsStream(Address owner) {
     return getAccountCollectionsMetaStream(owner).map(
       (e) => e
-          .map((meta) => _collections[meta.collection])
+          .map((meta) => _collections[meta.address])
           .nonNulls
           .sortedBy((c) => c.name ?? '')
           .toList(),
@@ -151,7 +151,7 @@ class NftService {
     );
     final hidden = meta
         .where((e) => !e.isVisible)
-        .map((e) => e.collection)
+        .map((e) => e.address)
         .toSet();
     final pending = _nftStorageService.pendingNft
         .where((e) => e.networkGroup == networkGroup && e.owner == owner)
@@ -160,7 +160,7 @@ class NftService {
 
     final collections = [
       if (defaultCollections != null) ...defaultCollections,
-      ...meta.map((e) => e.collection),
+      ...meta.map((e) => e.address),
       ...pending,
     ];
 
@@ -174,11 +174,11 @@ class NftService {
     }
 
     _nftStorageService.setMetadata(
-      account: owner,
+      accountAddress: owner,
       metadata: scanned
           .map(
             (e) => CollectionMeta(
-              collection: e.address,
+              address: e.address,
               networkGroup: networkGroup,
               isVisible: !hidden.contains(e.address),
             ),
@@ -187,21 +187,27 @@ class NftService {
     );
   }
 
-  void addCollection({required Address account, required Address collection}) {
+  void addCollection({
+    required Address accountAddress,
+    required Address collectionAddress,
+  }) {
     _nftStorageService.addMetadata(
-      account: account,
+      accountAddress: accountAddress,
       collectionMeta: CollectionMeta(
-        collection: collection,
+        address: collectionAddress,
         networkGroup: _nekotonRepository.currentTransport.networkGroup,
       ),
     );
   }
 
-  void hideCollection({required Address account, required Address collection}) {
+  void hideCollection({
+    required Address accountAddress,
+    required Address collectionAddress,
+  }) {
     _nftStorageService.addMetadata(
-      account: account,
+      accountAddress: accountAddress,
       collectionMeta: CollectionMeta(
-        collection: collection,
+        address: collectionAddress,
         networkGroup: _nekotonRepository.currentTransport.networkGroup,
         isVisible: false,
       ),
