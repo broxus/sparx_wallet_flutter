@@ -18,6 +18,7 @@ class TonConnectService {
     this._nekotonRepository,
     this._appVersionService,
     this._connectionsStorageService,
+    this._connectionService,
     this._validator,
     this._dio,
   );
@@ -28,6 +29,7 @@ class TonConnectService {
   final NekotonRepository _nekotonRepository;
   final AppVersionService _appVersionService;
   final ConnectionsStorageService _connectionsStorageService;
+  final ConnectionService _connectionService;
   final TonConnectRequestValidator _validator;
   final Dio _dio;
 
@@ -283,33 +285,28 @@ class TonConnectService {
     if (!transport.networkType.isTon ||
         (network != null && network.toInt() != transport.transport.networkId)) {
       final completer = Completer<TransportStrategy?>();
-      final connections = _connectionsStorageService.connections
-          .where(
-            (connection) =>
-                connection.networkType.isTon &&
-                (network == null ||
-                    network.toInt() == transport.transport.networkId),
-          )
-          .toList();
 
-      _uiEvents.add(
-        TonConnectUiEvent.changeNetwork(
-          origin: Uri.parse(manifest.url),
-          networkId: network?.toInt() ?? TonNetwork.mainnet.toInt(),
-          connections: connections,
-          completer: completer,
-        ),
-      );
+      final connections = network == null
+          ? _connectionsStorageService.connections.where(
+              (connection) => connection.networkType.isTon,
+            )
+          : await _connectionsStorageService.getConnectionsByNetworkId(
+              networkId: network.toInt(),
+              getNetworkId: _connectionService.getNetworkId,
+            );
 
-      final result = await completer.future;
-      if (result == null) {
-        return TonConnectError(
-          code: TonConnectErrorCode.userDeclined,
-          message: 'User declined the connection',
+      if (connections.isNotEmpty) {
+        _uiEvents.add(
+          TonConnectUiEvent.changeNetwork(
+            origin: Uri.parse(manifest.url),
+            networkId: network?.toInt() ?? TonNetwork.mainnet.toInt(),
+            connections: connections.toList(),
+            completer: completer,
+          ),
         );
-      }
 
-      transport = result;
+        transport = await completer.future ?? transport;
+      }
     }
 
     if (!transport.networkType.isTon ||

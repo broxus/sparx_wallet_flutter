@@ -2407,6 +2407,17 @@ extension GetItInjectableX on _i174.GetIt {
     gh.factory<_i639.ChangeNetworkWidgetModel>(
       () => _i639.ChangeNetworkWidgetModel(gh<_i710.ChangeNetworkModel>()),
     );
+    gh.lazySingleton<_i33.TonConnectService>(
+      () => _i33.TonConnectService(
+        gh<_i128.TonConnectStorageService>(),
+        gh<_i771.NekotonRepository>(),
+        gh<_i143.AppVersionService>(),
+        gh<_i128.ConnectionsStorageService>(),
+        gh<_i128.ConnectionService>(),
+        gh<_i625.TonConnectRequestValidator>(),
+        gh<_i361.Dio>(),
+      ),
+    );
     gh.factory<_i963.AccountDetailWidgetModel>(
       () => _i963.AccountDetailWidgetModel(gh<_i78.AccountDetailModel>()),
     );
@@ -2430,6 +2441,12 @@ extension GetItInjectableX on _i174.GetIt {
     gh.factory<_i317.AddNetworkWidgetModel>(
       () => _i317.AddNetworkWidgetModel(gh<_i561.AddNetworkModel>()),
     );
+    gh.factory<_i269.TonConnectJsBridge>(
+      () => _i269.TonConnectJsBridge(
+        gh<_i625.TonConnectService>(),
+        gh<_i128.TonConnectStorageService>(),
+      ),
+    );
     gh.factory<_i385.ConfigureNetworksModel>(
       () => _i385.ConfigureNetworksModel(
         gh<_i83.ErrorHandler>(),
@@ -2440,16 +2457,6 @@ extension GetItInjectableX on _i174.GetIt {
       () => _i703.SelectNetworkModel(
         gh<_i83.ErrorHandler>(),
         gh<_i128.ConnectionsStorageService>(),
-      ),
-    );
-    gh.lazySingleton<_i33.TonConnectService>(
-      () => _i33.TonConnectService(
-        gh<_i128.TonConnectStorageService>(),
-        gh<_i771.NekotonRepository>(),
-        gh<_i143.AppVersionService>(),
-        gh<_i128.ConnectionsStorageService>(),
-        gh<_i625.TonConnectRequestValidator>(),
-        gh<_i361.Dio>(),
       ),
     );
     gh.factory<_i693.WalletAppBarWidgetModel>(
@@ -2615,12 +2622,6 @@ extension GetItInjectableX on _i174.GetIt {
     gh.factory<_i516.CancelUnstakingPageWidgetModel>(
       () => _i516.CancelUnstakingPageWidgetModel(
         gh<_i0.CancelUnstakingPageModel>(),
-      ),
-    );
-    gh.factory<_i269.TonConnectJsBridge>(
-      () => _i269.TonConnectJsBridge(
-        gh<_i625.TonConnectService>(),
-        gh<_i128.TonConnectStorageService>(),
       ),
     );
     gh.factory<_i250.BrowserBookModel>(
