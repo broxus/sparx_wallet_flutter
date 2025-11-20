@@ -11,7 +11,7 @@ abstract class NftInformation with _$NftInformation {
   const factory NftInformation({
     String? marketplaceUrl,
     String? apiBaseUrl,
-    @AddressListConverter()  List<Address>? defaultCollections,
+    @AddressListConverter() List<Address>? defaultCollections,
   }) = _NftInformation;
 
   factory NftInformation.fromJson(Map<String, dynamic> json) =>
