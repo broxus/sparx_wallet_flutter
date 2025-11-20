@@ -1,7 +1,8 @@
 import 'dart:async';
 
-import 'package:app/app/service/connection/data/connection_data/connection_data.dart';
+import 'package:app/app/service/connection/data/connection/connection.dart';
 import 'package:app/app/service/service.dart' as s;
+import 'package:app/app/service/storage_service/connections_storage/connections_ids_data.dart';
 import 'package:app/data/models/models.dart';
 import 'package:app/feature/browser_v1/utils.dart';
 import 'package:app/feature/browser_v2/custom_web_controller.dart';
@@ -1702,8 +1703,8 @@ class InpageProvider extends ProviderApi {
 
     nr.Transport? transport;
     try {
-      transport = await connectionService.createTransportByConnection(
-        input.network.getConnection(),
+      transport = await connectionService.createTransportByWorkchain(
+        input.network.getConnection().defaultWorkchain,
       );
 
       if (transport.networkId != input.network.networkId) {
@@ -1782,35 +1783,43 @@ class InpageProvider extends ProviderApi {
     return RunGetterOutput(executionOutput.output, executionOutput.code);
   }
 
-  Future<List<ConnectionData>> _getConnections(int networkId) async {
+  Future<List<Connection>> _getConnections(int networkId) async {
     final connections = connectionsStorageService.connections;
-    final networksIds = connectionsStorageService.networksIds;
-    final list = <ConnectionData>[];
-    final update = <(String, int)>[];
+    final networksIds = connectionsStorageService.connectionsIds;
+    final list = <Connection>[];
+    final update = <ConnectionIdsData>[];
 
     for (final connection in connections) {
       nr.Transport? transport;
 
       try {
-        var id = networksIds[connection.id];
+        var cachedNetworkId =
+            networksIds['${connection.id}${connection.defaultWorkchain.id}']
+                ?.networkId;
 
         // connect to get network id
-        if (id == null) {
-          transport = await connectionService.createTransportByConnection(
-            connection,
+        if (cachedNetworkId == null) {
+          transport = await connectionService.createTransportByWorkchain(
+            connection.defaultWorkchain,
           );
 
-          id = transport.networkId;
-          update.add((connection.id, transport.networkId));
+          cachedNetworkId = transport.networkId;
+          update.add(
+            ConnectionIdsData(
+              connectionId: connection.id,
+              workchainId: connection.defaultWorkchainId,
+              networkId: transport.networkId,
+            ),
+          );
         }
 
-        if (id == networkId) {
+        if (cachedNetworkId == networkId) {
           list.add(connection);
         }
       } catch (e) {
         _logger.severe(
           'Error getting network id for connection: '
-          '${connection.name} (${connection.id})',
+          '${connection.networkName} (${connection.id})',
         );
       } finally {
         await transport?.dispose();
@@ -1818,7 +1827,7 @@ class InpageProvider extends ProviderApi {
     }
 
     if (update.isNotEmpty) {
-      connectionsStorageService.updateNetworksIds(update);
+      connectionsStorageService.updateConnectionsIds(update);
     }
 
     return list;

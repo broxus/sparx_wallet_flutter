@@ -1,4 +1,13 @@
-import 'package:app/app/service/connection/connection.dart';
+import 'package:app/app/service/connection/data/account_explorer/account_explorer_link_type.dart';
+import 'package:app/app/service/connection/data/network_type.dart';
+import 'package:app/app/service/connection/data/nft_information/nft_information.dart';
+import 'package:app/app/service/connection/data/transaction_explorer/transaction_explorer_link_type.dart';
+import 'package:app/app/service/connection/data/transport_icons.dart';
+import 'package:app/app/service/connection/data/wallet_default_account_names.dart';
+import 'package:app/app/service/connection/data/work_chain/connection_work_chain.dart';
+import 'package:app/app/service/connection/generic_token_subscriber.dart';
+import 'package:app/app/service/connection/group.dart';
+import 'package:app/app/service/connection/transport_strategies/app_transport_strategy.dart';
 import 'package:app/di/di.dart';
 import 'package:app/generated/generated.dart';
 import 'package:dio/dio.dart';
@@ -8,12 +17,10 @@ class CommonTransportStrategy extends AppTransportStrategy {
   CommonTransportStrategy({
     required this.dio,
     required this.transport,
-    required this.connection,
+    required this.workchain,
     required this.availableWalletTypes,
     required this.walletDefaultAccountNames,
     required this.defaultWalletType,
-    required this.nativeTokenTickerOption,
-    required this.manifestOption,
     required this.nativeTokenAddress,
     required this.networkName,
     required this.seedPhraseWordsCount,
@@ -34,35 +41,32 @@ class CommonTransportStrategy extends AppTransportStrategy {
   factory CommonTransportStrategy.fromData({
     required Dio dio,
     required Transport transport,
-    required ConnectionData connection,
-    required ConnectionTransportData transportData,
+    required ConnectionWorkchain workchain,
   }) {
     return CommonTransportStrategy(
       dio: dio,
       transport: transport,
-      connection: connection,
-      icons: transportData.icons,
-      availableWalletTypes: transportData.availableWalletTypes,
-      walletDefaultAccountNames: transportData.walletDefaultAccountNames,
-      defaultWalletType: transportData.defaultWalletType,
-      nativeTokenTickerOption: transportData.nativeTokenTickerOption,
-      manifestOption: transportData.manifestOption,
-      nativeTokenAddress: transportData.nativeTokenAddress,
-      networkName: transportData.networkName,
-      networkType: transportData.networkType,
-      seedPhraseWordsCount: transportData.seedPhraseWordsCount,
+      workchain: workchain,
+      icons: workchain.icons,
+      availableWalletTypes: workchain.availableWalletTypes,
+      walletDefaultAccountNames: workchain.walletDefaultAccountNames,
+      defaultWalletType: workchain.defaultWalletType,
+      nativeTokenAddress: workchain.nativeTokenAddress,
+      networkName: workchain.networkName,
+      networkType: workchain.networkType,
+      seedPhraseWordsCount: workchain.seedPhraseWordsCount,
       defaultNativeCurrencyDecimal:
-          transportData.defaultNativeCurrencyDecimal ??
-          connection.nativeTokenDecimals,
-      genericTokenType: transportData.genericTokenType,
-      accountExplorerLinkType: transportData.accountExplorerLinkType,
-      transactionExplorerLinkType: transportData.transactionExplorerLinkType,
-      stakeInformation: transportData.stakeInformation,
-      tokenApiBaseUrl: transportData.tokenApiBaseUrl,
-      currencyApiBaseUrl: transportData.currencyApiBaseUrl,
-      gaslessApiBaseUrl: transportData.gaslessApiBaseUrl,
-      nftInformation: transportData.nftInformation,
-      pollingConfig: transportData.pollingConfig ?? PollingConfig.defaultConfig,
+          workchain.defaultNativeCurrencyDecimal ??
+          workchain.nativeTokenDecimals,
+      genericTokenType: workchain.genericTokenType,
+      accountExplorerLinkType: workchain.accountExplorerLinkType,
+      transactionExplorerLinkType: workchain.transactionExplorerLinkType,
+      stakeInformation: workchain.stakeInformation,
+      tokenApiBaseUrl: workchain.tokenApiBaseUrl,
+      currencyApiBaseUrl: workchain.currencyApiBaseUrl,
+      gaslessApiBaseUrl: workchain.gaslessApiBaseUrl,
+      nftInformation: workchain.nftInformation,
+      pollingConfig: workchain.pollingConfig ?? PollingConfig.defaultConfig,
     );
   }
 
@@ -71,7 +75,7 @@ class CommonTransportStrategy extends AppTransportStrategy {
   @override
   final Transport transport;
 
-  final ConnectionData connection;
+  final ConnectionWorkchain workchain;
 
   final TransportIcons? icons;
 
@@ -84,17 +88,11 @@ class CommonTransportStrategy extends AppTransportStrategy {
   final WalletType defaultWalletType;
 
   @override
-  String get manifestUrl => switch (manifestOption) {
-    TransportManifestOptionFromConnection() => connection.manifestUrl,
-  };
+  String get manifestUrl => workchain.manifestUrl;
 
   @override
   String get nativeTokenIcon =>
       icons?.nativeToken ?? Assets.images.nativeTokenDefault.path;
-
-  final TransportNativeTokenTickerOption nativeTokenTickerOption;
-
-  final TransportManifestOption manifestOption;
 
   @override
   final Address nativeTokenAddress;
@@ -143,59 +141,54 @@ class CommonTransportStrategy extends AppTransportStrategy {
   NetworkGroup get networkGroup => transport.group;
 
   @override
-  String get nativeTokenTicker => switch (nativeTokenTickerOption) {
-    TransportNativeTokenTickerOptionFromConnection() =>
-      connection.nativeTokenTicker,
-    TransportNativeTokenTickerOptionByName(:final name) => name,
-  };
+  String get nativeTokenTicker => workchain.nativeTokenTicker.name;
 
   @override
   String accountExplorerLink(Address accountAddress) {
-    if (connection.blockExplorerUrl.isEmpty) {
+    if (workchain.blockExplorerUrl.isEmpty) {
       return '';
     }
 
     return switch (accountExplorerLinkType) {
       AccountExplorerLinkType.accounts =>
-        '${connection.blockExplorerUrl}/accounts/${accountAddress.address}',
+        '${workchain.blockExplorerUrl}/accounts/${accountAddress.address}',
       AccountExplorerLinkType.accountDetails =>
-        '${connection.blockExplorerUrl}/accounts/accountDetails?id=${accountAddress.address}',
+        '${workchain.blockExplorerUrl}/accounts/accountDetails?id=${accountAddress.address}',
       AccountExplorerLinkType.packAddress =>
-        '${connection.blockExplorerUrl}/${packAddress(accountAddress)}',
+        '${workchain.blockExplorerUrl}/${packAddress(accountAddress)}',
     };
   }
 
   @override
   String defaultAccountName(WalletType walletType) {
     return switch (walletType) {
-          WalletTypeMultisig(:final data) =>
-            walletDefaultAccountNames.multisig?[data] ?? '',
-          WalletTypeWalletV3() => walletDefaultAccountNames.walletV3,
-          WalletTypeHighloadWalletV2() =>
-            walletDefaultAccountNames.highloadWalletV2,
-          WalletTypeEverWallet() => walletDefaultAccountNames.everWallet,
-          WalletTypeWalletV3R1() => walletDefaultAccountNames.walletV3R1,
-          WalletTypeWalletV3R2() => walletDefaultAccountNames.walletV3R2,
-          WalletTypeWalletV4R1() => walletDefaultAccountNames.walletV4R1,
-          WalletTypeWalletV4R2() => walletDefaultAccountNames.walletV4R2,
-          WalletTypeWalletV5R1() => walletDefaultAccountNames.walletV5R1,
-        } ??
-        '';
+      WalletTypeMultisig(:final data) =>
+        walletDefaultAccountNames.multisig[data] ?? '',
+      WalletTypeWalletV3() => walletDefaultAccountNames.walletV3,
+      WalletTypeHighloadWalletV2() =>
+        walletDefaultAccountNames.highloadWalletV2,
+      WalletTypeEverWallet() => walletDefaultAccountNames.everWallet,
+      WalletTypeWalletV3R1() => walletDefaultAccountNames.walletV3R1,
+      WalletTypeWalletV3R2() => walletDefaultAccountNames.walletV3R2,
+      WalletTypeWalletV4R1() => walletDefaultAccountNames.walletV4R1,
+      WalletTypeWalletV4R2() => walletDefaultAccountNames.walletV4R2,
+      WalletTypeWalletV5R1() => walletDefaultAccountNames.walletV5R1,
+    };
   }
 
   @override
   String transactionExplorerLink(String transactionHash) {
-    if (connection.blockExplorerUrl.isEmpty) {
+    if (workchain.blockExplorerUrl.isEmpty) {
       return '';
     }
 
     return switch (transactionExplorerLinkType) {
       TransactionExplorerLinkType.transaction =>
-        '${connection.blockExplorerUrl}/transaction/$transactionHash',
+        '${workchain.blockExplorerUrl}/transaction/$transactionHash',
       TransactionExplorerLinkType.transactions =>
-        '${connection.blockExplorerUrl}/transactions/$transactionHash',
+        '${workchain.blockExplorerUrl}/transactions/$transactionHash',
       TransactionExplorerLinkType.transactionDetails =>
-        '${connection.blockExplorerUrl}/transactions/transactionDetails?id=$transactionHash',
+        '${workchain.blockExplorerUrl}/transactions/transactionDetails?id=$transactionHash',
       _ => '',
     };
   }

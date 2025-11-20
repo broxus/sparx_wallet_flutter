@@ -1,6 +1,8 @@
 import 'package:app/app/router/router.dart';
-import 'package:app/app/service/connection/data/connection_data/connection_data.dart';
+import 'package:app/app/service/connection/data/connection/connection.dart';
+import 'package:app/app/service/connection/data/native_token_ticker/native_token_ticker.dart';
 import 'package:app/app/service/connection/data/network_type.dart';
+import 'package:app/app/service/connection/data/work_chain/connection_work_chain.dart';
 import 'package:app/core/wm/custom_wm.dart';
 import 'package:app/feature/network/edit_network/validators.dart';
 import 'package:app/feature/network/network.dart';
@@ -10,6 +12,7 @@ import 'package:collection/collection.dart';
 import 'package:elementary_helper/elementary_helper.dart';
 import 'package:flutter/material.dart';
 import 'package:injectable/injectable.dart';
+import 'package:uuid/uuid.dart';
 
 @injectable
 class EditNetworkWidgetModel
@@ -26,25 +29,25 @@ class EditNetworkWidgetModel
   final formKey = GlobalKey<FormState>();
 
   late final nameController = createTextEditingController(
-    connection?.name ?? '',
+    connection?.networkName ?? '',
   );
 
   late final isEditable = connection?.canBeEdited ?? true;
 
   late final currencySymbolController = createTextEditingController(
-    connection?.nativeTokenTicker ?? '',
+    connection?.defaultWorkchain.nativeTokenTicker.name ?? '',
   );
 
   late final currencyDecimalsController = createTextEditingController(
-    connection?.nativeTokenDecimals.toString() ?? '',
+    connection?.defaultWorkchain.nativeTokenDecimals.toString() ?? '',
   );
 
   late final blockExplorerUrlController = createTextEditingController(
-    connection?.blockExplorerUrl ?? '',
+    connection?.defaultWorkchain.blockExplorerUrl ?? '',
   );
 
   late final manifestUrlController = createTextEditingController(
-    connection?.manifestUrl ?? '',
+    connection?.defaultWorkchain.manifestUrl ?? '',
   );
 
   late final _isManifestLoadingState = createNotifier(false);
@@ -56,7 +59,8 @@ class EditNetworkWidgetModel
   late final validators = Validators();
 
   late final _selectedNetworkTypeState = createNotifier(
-    connection?.networkType ?? model.networkTypesOptions?.firstOrNull,
+    connection?.defaultWorkchain.networkType ??
+        model.networkTypesOptions?.firstOrNull,
   );
 
   late final _isLocalState = createNotifier(_getIsLocal());
@@ -87,7 +91,7 @@ class EditNetworkWidgetModel
       _connectionTypeState;
 
   List<NetworkType>? get networkTypesOptions {
-    final networkType = connection?.networkType;
+    final networkType = connection?.defaultWorkchain.networkType;
     final networkTypesOptions = model.networkTypesOptions;
 
     if (networkType != null &&
@@ -108,8 +112,6 @@ class EditNetworkWidgetModel
 
   List<TextEditingController>? get _endpointsControllers =>
       _endpointsControllersState.value;
-
-  ConnectionType? get _connectionType => _connectionTypeState.value;
 
   bool get _isLocal => _isLocalState.value ?? connection != null;
 
@@ -161,7 +163,7 @@ class EditNetworkWidgetModel
   Future<void> onDelete() async {
     final result = await showDeleteNetworkConfirmationSheet(
       context: context,
-      networkName: connection?.name ?? '',
+      networkName: connection?.networkName ?? '',
     );
 
     if ((result ?? false) && connection != null) {
@@ -212,33 +214,18 @@ class EditNetworkWidgetModel
       return [TextEditingController()];
     }
 
-    return switch (connection!) {
-      ConnectionDataGql(:final endpoints) =>
-        endpoints
-            .map((endpoint) => TextEditingController(text: endpoint))
-            .toList(),
-      ConnectionDataProto(:final endpoint) => [
+    return [
+      for (final endpoint in connection!.defaultWorkchain.endpoints)
         TextEditingController(text: endpoint),
-      ],
-      ConnectionDataJrpc(:final endpoint) => [
-        TextEditingController(text: endpoint),
-      ],
-    };
+    ];
   }
 
   bool _getIsLocal() {
-    if (connection == null) {
-      return false;
-    }
-
-    return switch (connection!) {
-      ConnectionDataGql(:final isLocal) => isLocal,
-      _ => false,
-    };
+    return connection?.defaultWorkchain.isLocal ?? false;
   }
 
-  ConnectionData? _getConnection() {
-    final id = connection?.id;
+  Connection? _getConnection() {
+    final id = connection?.id ?? const Uuid().v4();
     final nativeTokenTicker =
         currencySymbolController.text.trim().takeIf((it) => it.isNotEmpty) ??
         'EVER';
@@ -247,45 +234,34 @@ class EditNetworkWidgetModel
 
     final groupName = 'custom-${model.lastNetworkGroupNumber + 1}';
 
-    return switch (_connectionType) {
-      ConnectionType.jrpc => ConnectionData.jrpcCustom(
-        id: id,
-        name: nameController.text,
-        group: groupName,
-        networkType: selectedNetworkType,
-        endpoint: _endpointsControllers![0].text,
-        blockExplorerUrl: blockExplorerUrlController.text,
-        manifestUrl: manifestUrlController.text,
-        nativeTokenTicker: nativeTokenTicker,
-        nativeTokenDecimals: nativeTokenDecimals,
-      ),
-      ConnectionType.gql => ConnectionData.gqlCustom(
-        id: id,
-        name: nameController.text,
-        group: groupName,
-        networkType: selectedNetworkType,
-        endpoints: [
-          for (final controller in _endpointsControllers!) controller.text,
-        ],
-        isLocal: _isLocal,
-        blockExplorerUrl: blockExplorerUrlController.text,
-        manifestUrl: manifestUrlController.text,
-        nativeTokenTicker: nativeTokenTicker,
-        nativeTokenDecimals: nativeTokenDecimals,
-      ),
-      ConnectionType.proto => ConnectionData.protoCustom(
-        id: id,
-        name: nameController.text,
-        group: groupName,
-        networkType: selectedNetworkType,
-        endpoint: _endpointsControllers![0].text,
-        blockExplorerUrl: blockExplorerUrlController.text,
-        manifestUrl: manifestUrlController.text,
-        nativeTokenTicker: nativeTokenTicker,
-        nativeTokenDecimals: nativeTokenDecimals,
-      ),
-      _ => null,
-    };
+    final networkName = nameController.text;
+
+    return Connection(
+      id: id,
+      networkName: networkName,
+      defaultWorkchainId: 0,
+      workchains: [
+        ConnectionWorkchain.custom(
+          id: 0,
+          parentConnectionId: id,
+          networkName: networkName,
+          networkGroup: groupName,
+          networkType: selectedNetworkType,
+          endpoints: [
+            if (_endpointsControllers != null)
+              for (final controller in _endpointsControllers!) controller.text,
+          ],
+          blockExplorerUrl: blockExplorerUrlController.text,
+          manifestUrl: manifestUrlController.text,
+          nativeTokenTicker: NativeTokenTicker(name: nativeTokenTicker),
+          nativeTokenDecimals: nativeTokenDecimals,
+          defaultNativeCurrencyDecimal: 9,
+          isLocal: _isLocal,
+        ),
+      ],
+      isPreset: false,
+      canBeEdited: true,
+    );
   }
 
   Future<void> _validateManifestUrl() async {
