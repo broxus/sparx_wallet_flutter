@@ -22,7 +22,7 @@ class BrowserMainScreen
                   key: wm.keys.tabListKey,
                   selectedGroupIdState: wm.tabs.selectedGroupIdState,
                   tabListScrollController: wm.tabs.tabListScrollController,
-                  renderManager: wm.renderManager,
+                  tabsRenderManager: wm.tabsRenderManager,
                   onPressedTabMenu: wm.tabMenu.showTabMenu,
                   onPressedGroup: wm.tabs.onPressedGroup,
                   onPressedTab: wm.onPressedTab,

@@ -18,14 +18,14 @@ class BrowserTabsListItem
         > {
   const BrowserTabsListItem({
     required NotNullListenableState<BrowserTab> tabNotifier,
-    required this.renderManager,
+    required this.tabsRenderManager,
     required this.onPressedTabMenu,
     this.onPressed,
     this.onClosePressed,
     super.key,
   }) : super(wmFactoryParam: tabNotifier);
 
-  final RenderManager<String> renderManager;
+  final RenderManager<String> tabsRenderManager;
   final VoidCallback onPressedTabMenu;
   final VoidCallback? onPressed;
   final VoidCallback? onClosePressed;
@@ -36,7 +36,7 @@ class BrowserTabsListItem
       height: DimensSizeV2.d200,
       child: RenderMetricsObject(
         id: wm.tabNotifier.value.id,
-        manager: renderManager,
+        manager: tabsRenderManager,
         child: Stack(
           children: [
             BrowserTabsListItemBody(

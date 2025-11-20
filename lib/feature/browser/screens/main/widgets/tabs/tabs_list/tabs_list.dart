@@ -22,7 +22,7 @@ class BrowserTabsList
     required this.onPressedTab,
     required this.onPressedTabMenu,
     required this.onPressedGroup,
-    required this.renderManager,
+    required this.tabsRenderManager,
     required this.onPressedCreateNewGroup,
     required this.tabListScrollController,
     super.key,
@@ -32,7 +32,7 @@ class BrowserTabsList
   final ValueChanged<String> onPressedGroup;
   final VoidCallback onPressedCreateNewGroup;
   final ValueChanged<BrowserTab> onPressedTabMenu;
-  final RenderManager<String> renderManager;
+  final RenderManager<String> tabsRenderManager;
   final ValueChanged<String> onPressedTab;
 
   // TODO(nesquikm): We should calculate this value based on the screen size
@@ -81,7 +81,7 @@ class BrowserTabsList
                           for (final notifiers in tabsNotifiers)
                             BrowserTabsListItem(
                               key: ValueKey(notifiers.value.id),
-                              renderManager: renderManager,
+                              tabsRenderManager: tabsRenderManager,
                               tabNotifier: notifiers,
                               onPressedTabMenu: () =>
                                   onPressedTabMenu(notifiers.value),

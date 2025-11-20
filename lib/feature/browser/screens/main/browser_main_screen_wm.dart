@@ -49,7 +49,7 @@ class BrowserMainScreenWidgetModel
 
   late final sizes = BrowserSizesUiDelegate(context);
 
-  final _renderManager = BrowserRenderManager();
+  final _tabsRenderManager = BrowserTabsRenderManager();
 
   late final _animationDelegate = BrowserAnimationUiDelegate(this);
 
@@ -70,7 +70,7 @@ class BrowserMainScreenWidgetModel
   late final _tabMenuDelegate = BrowserTabMenuUiDelegate(
     model,
     context,
-    renderManager: _renderManager,
+    tabsRenderManager: _tabsRenderManager,
     createGroup: (String tabId) => _tabsDelegate.createGroup(
       context,
       tabId: tabId,
@@ -117,7 +117,7 @@ class BrowserMainScreenWidgetModel
   late final _tabsDelegate = BrowserTabsAndGroupsUiDelegate(
     context,
     model,
-    renderManager: _renderManager,
+    tabsRenderManager: _tabsRenderManager,
     onEmptyTabs: _onEmptyTabs,
     onUpdateActiveTab: ([bool isAnimated = false]) {
       final activeGroupId = model.activeGroupIdState.value;
@@ -166,7 +166,7 @@ class BrowserMainScreenWidgetModel
 
   BrowserPageScrollUi get page => _pageDelegate;
 
-  RenderParametersManager<String> get renderManager => _renderManager;
+  RenderParametersManager<String> get tabsRenderManager => _tabsRenderManager;
 
   ListenableState<bool> get viewVisibleState => _viewVisibleState;
 
@@ -204,7 +204,7 @@ class BrowserMainScreenWidgetModel
     _menuState.removeListener(_handleMenuState);
     _progressIndicatorDelegate.dispose();
     _animationDelegate.dispose();
-    _renderManager.dispose();
+    _tabsRenderManager.dispose();
     _pastGoDelegate.dispose();
     _pageSlideDelegate.dispose();
     _overlayDelegate.dispose();

@@ -36,7 +36,7 @@ class BrowserTabsAndGroupsUiDelegate implements BrowserTabsAndGroupsUi {
   BrowserTabsAndGroupsUiDelegate(
     this.context,
     this.model, {
-    required this.renderManager,
+    required this.tabsRenderManager,
     required this.onEmptyTabs,
     required this.onUpdateActiveTab,
     required this.checkIsVisiblePages,
@@ -48,7 +48,7 @@ class BrowserTabsAndGroupsUiDelegate implements BrowserTabsAndGroupsUi {
 
   final BuildContext context;
   final BrowserMainScreenModel model;
-  final BrowserRenderManager renderManager;
+  final BrowserTabsRenderManager tabsRenderManager;
   final VoidCallback onEmptyTabs;
   final ValueChanged<bool> onUpdateActiveTab;
   final bool Function() checkIsVisiblePages;
@@ -105,7 +105,7 @@ class BrowserTabsAndGroupsUiDelegate implements BrowserTabsAndGroupsUi {
 
   @override
   void changeTab({required String groupId, required String tabId}) {
-    final data = renderManager.getRenderData(tabId);
+    final data = tabsRenderManager.getRenderData(tabId);
 
     if (tabId == _activeTab?.id) {
       _tabAnimationTypeState.accept(
@@ -181,7 +181,7 @@ class BrowserTabsAndGroupsUiDelegate implements BrowserTabsAndGroupsUi {
 
   void animateShowView() {
     final id = activeTabId;
-    final data = id == null ? null : renderManager.getRenderData(id);
+    final data = id == null ? null : tabsRenderManager.getRenderData(id);
 
     _tabAnimationTypeState.accept(
       ShowViewAnimationType(tabX: data?.xLeft, tabY: data?.yTop),
@@ -190,7 +190,7 @@ class BrowserTabsAndGroupsUiDelegate implements BrowserTabsAndGroupsUi {
 
   void animateShowTabs() {
     final id = activeTabId;
-    final data = id == null ? null : renderManager.getRenderData(id);
+    final data = id == null ? null : tabsRenderManager.getRenderData(id);
 
     _tabAnimationTypeState.accept(
       ShowTabsAnimationType(tabX: data?.xLeft, tabY: data?.yTop),
@@ -263,14 +263,23 @@ class BrowserTabsAndGroupsUiDelegate implements BrowserTabsAndGroupsUi {
 
       _viewTabsState.accept(model.getGroupTabs(activeGroupId));
 
-      final data = renderManager.getRenderData(activeTabId);
+      final data = tabsRenderManager.getRenderData(activeTabId);
 
       WidgetsBinding.instance.addPostFrameCallback((_) {
         onUpdateActiveTab(false);
       });
 
+      var xLeft = data?.xLeft;
+      var yTop = data?.yTop;
+
+      if (data == null && (_tabsCount ?? 0) > (_tabsPrevCount ?? 0)) {
+        final position = _calculatePosition();
+        xLeft = position.$1;
+        yTop = position.$2;
+      }
+
       _tabAnimationTypeState.accept(
-        ShowViewAnimationType(tabX: data?.xLeft, tabY: data?.yTop),
+        ShowViewAnimationType(tabX: xLeft, tabY: yTop),
       );
     }
 
@@ -307,5 +316,21 @@ class BrowserTabsAndGroupsUiDelegate implements BrowserTabsAndGroupsUi {
     if (offset != null) {
       tabListScrollController.jumpTo(offset);
     }
+  }
+
+  (double, double) _calculatePosition() {
+    final count = _tabsCount;
+
+    if (count == null || count == 0) {
+      return (0.0, 0.0);
+    }
+
+    final itemWidth = tabsRenderManager.itemWidth;
+    final itemHeight = tabsRenderManager.itemHeight;
+
+    var xLeft = count.isEven ? itemWidth * (count - 1) : 0.0;
+    final yTop = itemHeight * (count - 1);
+
+    return (xLeft, yTop);
   }
 }

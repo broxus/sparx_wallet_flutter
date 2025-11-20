@@ -18,13 +18,13 @@ class BrowserTabMenuUiDelegate implements BrowserTabMenuUi {
   BrowserTabMenuUiDelegate(
     this.model,
     this.context, {
-    required this.renderManager,
+    required this.tabsRenderManager,
     required this.createGroup,
   });
 
   final BrowserMainScreenModel model;
   final BuildContext context;
-  final BrowserRenderManager renderManager;
+  final BrowserTabsRenderManager tabsRenderManager;
   final ValueChanged<String> createGroup;
 
   final _duration =
@@ -34,7 +34,7 @@ class BrowserTabMenuUiDelegate implements BrowserTabMenuUi {
   @override
   Future<void> showTabMenu(BrowserTab tab) async {
     final result = await Future.delayed(_duration, () {
-      final data = renderManager.getRenderData(tab.id);
+      final data = tabsRenderManager.getRenderData(tab.id);
       if (data != null && context.mounted) {
         return showBrowserTabMenu(context, data);
       }
