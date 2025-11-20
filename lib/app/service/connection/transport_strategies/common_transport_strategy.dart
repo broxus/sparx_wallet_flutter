@@ -130,6 +130,9 @@ class CommonTransportStrategy extends AppTransportStrategy {
 
   String? gaslessApiBaseUrl;
 
+  @override
+  String? get nftApiBaseUrl => nftInformation?.apiBaseUrl;
+
   late final _subscriber = switch (genericTokenType) {
     GenericTokenType.tip3 => Tip3TokenWalletSubscriber(inject()),
     GenericTokenType.jetton => JettonTokenWalletSubscriber(inject()),

@@ -75,7 +75,7 @@ class ImportWalletScreenWidgetModel
 
         context.compassContinue(
           CreateSeedOnboardingPasswordRouteData(
-            seedPhrase: phrase,
+            seedPhrase: await model.encryptSeed(phrase),
             mnemonicType: _mnemonicType,
           ),
         );

@@ -4,8 +4,8 @@ import 'package:app/feature/messenger/data/message.dart';
 import 'package:app/feature/messenger/domain/service/messenger_service.dart';
 import 'package:app/feature/profile/profile.dart';
 import 'package:app/generated/generated.dart';
+import 'package:app/utils/utils.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:nekoton_repository/nekoton_repository.dart' hide Message;
 import 'package:ui_components_lib/ui_components_lib.dart';
 
@@ -79,7 +79,7 @@ class KeySettingsSheet extends StatelessWidget {
                 ),
               ),
             );
-            Clipboard.setData(ClipboardData(text: publicKey.publicKey));
+            setClipBoardData(publicKey.publicKey);
             Navigator.of(context).pop();
           },
           titleText: LocaleKeys.copyKey.tr(),

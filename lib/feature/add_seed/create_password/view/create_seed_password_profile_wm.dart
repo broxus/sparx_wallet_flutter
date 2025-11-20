@@ -1,8 +1,8 @@
 // ignore_for_file: use_build_context_synchronously
 
 import 'package:app/app/router/router.dart';
+import 'package:app/app/service/service.dart';
 import 'package:app/core/wm/custom_wm.dart';
-import 'package:app/data/models/seed/seed_phrase_model.dart';
 import 'package:app/feature/add_seed/create_password/model/password_status.dart';
 import 'package:app/feature/add_seed/create_password/view/create_seed_password_page.dart';
 import 'package:app/feature/add_seed/create_password/view/create_seed_password_profile_model.dart';
@@ -24,7 +24,7 @@ class CreateSeedPasswordProfileWmParams {
     required this.isChecked,
   });
 
-  final SeedPhraseModel seedPhrase;
+  final SecureString? seedPhrase;
   final bool isChecked;
   final String? name;
   final SeedAddType type;
@@ -50,6 +50,7 @@ class CreateSeedPasswordProfileWidgetModel
   late final _passwordStatusState = createNotifier(PasswordStatus.initial);
 
   ListenableState<bool> get loadingState => _loadingState;
+
   ListenableState<PasswordStatus> get passwordStatusState =>
       _passwordStatusState;
 
@@ -88,12 +89,14 @@ class CreateSeedPasswordProfileWidgetModel
     _loadingState.accept(false);
 
     try {
-      contextSafe?.compassPoint(const ProfileRouteData());
+      final router = CompassRouterProvider.of(context)
+        ..compassPoint(const ProfileRouteData());
+
       await Future.delayed(const Duration(milliseconds: 50), () {
         if (routeData != null) {
-          contextSafe?.compassPoint(routeData);
+          router.compassPoint(routeData);
         } else {
-          contextSafe?.compassContinue(const ManageSeedsAccountsRouteData());
+          router.compassContinue(const ManageSeedsAccountsRouteData());
         }
       });
     } catch (e, s) {

@@ -23,6 +23,7 @@ class CreateSeedPasswordScreenModel extends ElementaryModel {
     this._connectionsStorageService,
     this._messengerService,
     this._nekotonRepository,
+    this._secureStringService,
   ) : super(errorHandler: errorHandler);
 
   final BiometryService _biometryService;
@@ -31,6 +32,7 @@ class CreateSeedPasswordScreenModel extends ElementaryModel {
   final ConnectionsStorageService _connectionsStorageService;
   final MessengerService _messengerService;
   final NekotonRepository _nekotonRepository;
+  final SecureStringService _secureStringService;
 
   bool get isNeedBiometry =>
       _biometryService.isAvailable && !_biometryService.isEnabled;
@@ -38,11 +40,14 @@ class CreateSeedPasswordScreenModel extends ElementaryModel {
   Future<void> next({
     required BuildContext context,
     required String password,
-    required SeedPhraseModel? phrase,
+    required SecureString? phrase,
     required MnemonicType? mnemonicType,
   }) async {
     try {
-      final addType = phrase != null && phrase.isNotEmpty
+      final seedPhrase = SeedPhraseModel(
+        phrase != null ? await _secureStringService.decrypt(phrase) : null,
+      );
+      final addType = seedPhrase.isNotEmpty
           ? SeedAddType.import
           : SeedAddType.create;
 
@@ -51,7 +56,7 @@ class CreateSeedPasswordScreenModel extends ElementaryModel {
 
       final seed = switch (addType) {
         SeedAddType.create => _createSeed(),
-        SeedAddType.import => phrase!,
+        SeedAddType.import => seedPhrase,
       };
 
       final publicKey = await _nekotonRepository.addSeed(

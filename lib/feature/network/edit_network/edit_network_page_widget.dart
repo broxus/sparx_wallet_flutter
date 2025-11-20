@@ -16,6 +16,7 @@ class EditNetworkPageWidget
       appBar: DefaultAppBar(
         titleText:
             wm.connection?.networkName ?? LocaleKeys.addCustomNetwork.tr(),
+        onClosePressed: wm.onBack,
       ),
       body: Stack(
         alignment: AlignmentDirectional.bottomCenter,

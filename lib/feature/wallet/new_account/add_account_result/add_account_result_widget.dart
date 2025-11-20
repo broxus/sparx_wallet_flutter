@@ -11,16 +11,8 @@ class AddAccountResultWidget
           AddAccountResultWidgetModel,
           AddAccountResultWmParams
         > {
-  AddAccountResultWidget({
-    required Address address,
-    required bool isExternal,
-    super.key,
-  }) : super(
-         wmFactoryParam: AddAccountResultWmParams(
-           address: address,
-           isExternal: isExternal,
-         ),
-       );
+  AddAccountResultWidget({required Address address, super.key})
+    : super(wmFactoryParam: AddAccountResultWmParams(address: address));
 
   @override
   Widget build(AddAccountResultWidgetModel wm) {

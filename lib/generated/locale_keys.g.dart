@@ -102,6 +102,8 @@ abstract class LocaleKeys {
   static const addKey = 'addKey';
   static const myAccounts = 'myAccounts';
   static const externalAccounts = 'externalAccounts';
+  static const externalLink = 'externalLink';
+  static const openExternalLink = 'openExternalLink';
   static const publicKey = 'publicKey';
   static const selectWord = 'selectWord';
   static const selectKeysYouNeed = 'selectKeysYouNeed';
@@ -812,4 +814,5 @@ abstract class LocaleKeys {
   static const tokenListValidationError = 'tokenListValidationError';
   static const failedToPrepareTransaction = 'failedToPrepareTransaction';
   static const failedToSendTransaction = 'failedToSendTransaction';
+  static const passwordLockedUntil = 'passwordLockedUntil';
 }

@@ -15,9 +15,7 @@ import 'package:get_storage/get_storage.dart';
 
 class StorageMigrationV1 implements StorageMigration {
   StorageMigrationV1({required this.encryptedStorage})
-    : fss = const FlutterSecureStorage(
-        aOptions: AndroidOptions(encryptedSharedPreferences: true),
-      );
+    : fss = const FlutterSecureStorage();
 
   static const int version = 1;
 

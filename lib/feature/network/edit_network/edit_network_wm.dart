@@ -168,7 +168,7 @@ class EditNetworkWidgetModel
 
     if ((result ?? false) && connection != null) {
       model.removeConnection(connection!.id);
-      contextSafe?.compassBack();
+      await contextSafe?.compassBack();
     }
   }
 
@@ -201,7 +201,11 @@ class EditNetworkWidgetModel
       );
     }
 
-    contextSafe?.compassBack();
+    await contextSafe?.compassBack();
+  }
+
+  void onBack(BuildContext context) {
+    context.compassBack();
   }
 
   // ignore: long-method

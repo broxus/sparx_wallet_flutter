@@ -6,11 +6,9 @@ import 'package:ui_components_lib/ui_components_lib.dart';
 Future<void> showNewAccountResultSheet({
   required BuildContext context,
   required Address address,
-  bool isExternal = false,
 }) {
   return showCommonBottomSheet(
     context: context,
-    body: (_, scrollController) =>
-        AddAccountResultWidget(address: address, isExternal: isExternal),
+    body: (_, scrollController) => AddAccountResultWidget(address: address),
   );
 }

@@ -862,13 +862,18 @@ class InpageProvider extends ProviderApi {
 
     final signatureId = await _computeSignatureId(input.withSignatureId);
 
-    final executionOutput = await nr.runLocal(
-      accountStuffBoc: contractState.boc,
-      contractAbi: input.functionCall.abi,
-      methodId: input.functionCall.method,
-      input: input.functionCall.params,
-      responsible: input.responsible ?? false,
-      signatureId: signatureId,
+    final transport = nekotonRepository.currentTransport.transport;
+    final executionOutput = await transport.use(
+      () => nr.runLocalWithLibs(
+        transport: transport,
+        accountStuffBoc: contractState.boc,
+        contractAbi: input.functionCall.abi,
+        methodId: input.functionCall.method,
+        input: input.functionCall.params,
+        responsible: input.responsible ?? false,
+        signatureId: signatureId,
+        libraries: input.libraries,
+      ),
     );
 
     return RunLocalOutput(executionOutput.output, executionOutput.code);

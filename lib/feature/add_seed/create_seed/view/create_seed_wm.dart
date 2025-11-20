@@ -5,8 +5,8 @@ import 'package:app/feature/add_seed/check_seed_phrase/route.dart';
 import 'package:app/feature/add_seed/create_password/route.dart';
 import 'package:app/feature/add_seed/create_seed/view/create_seed_model.dart';
 import 'package:app/feature/add_seed/create_seed/view/create_seed_page.dart';
+import 'package:app/utils/utils.dart';
 import 'package:elementary_helper/elementary_helper.dart';
-import 'package:flutter/services.dart';
 import 'package:injectable/injectable.dart';
 import 'package:nekoton_repository/nekoton_repository.dart';
 
@@ -37,22 +37,25 @@ class CreateSeedWidgetModel
     final seed = _seedState.value;
     if (seed == null || seed.isEmpty) return;
     _copiedState.accept(true);
-    await Clipboard.setData(ClipboardData(text: seed.phrase));
+    await setClipBoardData(seed.phrase, isSensitive: true);
     Future.delayed(const Duration(seconds: 2), () {
       _copiedState.accept(false);
     });
   }
 
-  void onCheck(SeedPhraseModel seed) {
+  Future<void> onCheck(SeedPhraseModel seed) async {
     context.compassContinue(
-      CheckSeedPhraseRouteData(seedPhrase: seed.phrase, name: wmParams.value),
+      CheckSeedPhraseRouteData(
+        seedPhrase: await model.encryptSeed(seed.phrase),
+        name: wmParams.value,
+      ),
     );
   }
 
-  void onSkip(SeedPhraseModel seed) {
+  Future<void> onSkip(SeedPhraseModel seed) async {
     context.compassContinue(
       CreateSeedPasswordRouteData(
-        seedPhrase: seed.phrase,
+        seedPhrase: await model.encryptSeed(seed.phrase),
         name: wmParams.value,
         type: SeedAddType.create,
       ),
