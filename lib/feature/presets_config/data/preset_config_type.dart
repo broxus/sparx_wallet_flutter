@@ -46,7 +46,8 @@ enum PresetConfigType<T> {
       AppBuildType.production => 'prod',
       _ => 'dev',
     };
-    return '${name}_$suffix.json';
+    // TODO(knightforce): remove _v2
+    return '${name}_${suffix}_v2.json';
   }
 
   /// The key used for loading the configuration from local assets.
