@@ -18,10 +18,10 @@ class NftPageWidgetModel
 
   late final _loadingState = createNotifier(true);
   late final _collectionsState = createNotifierFromStream(
-    model.getCollectionsStream(),
+    model.collectionsStream,
   );
   late final _pendingState = createNotifierFromStream(
-    model.getPendingNftStream().map(
+    model.pendingNftStream.map(
       (pending) => pending.groupListsBy((e) => e.collection),
     ),
   );
@@ -64,7 +64,7 @@ class NftPageWidgetModel
               .then((_) => _loadingState.accept(false)),
         );
 
-    _transferEventSubscription = model.getNftTransferEventStream().listen(
+    _transferEventSubscription = model.nftTransferEventStream.listen(
       (_) => _reload(),
     );
   }

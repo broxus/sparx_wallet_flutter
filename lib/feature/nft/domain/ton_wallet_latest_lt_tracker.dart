@@ -15,7 +15,7 @@ class TonWalletLatestLtTracker implements LatestLtTracker {
 
   @override
   BigInt? get latestLt => nftStorageService.readLatestLt(
-    addressAddress: address,
+    address: address,
     networkGroup: networkGroup,
   );
 

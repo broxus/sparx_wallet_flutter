@@ -2,6 +2,7 @@ import 'package:app/app/service/service.dart';
 import 'package:app/feature/browser_v2/domain/browser_launcher.dart';
 import 'package:app/feature/messenger/messenger.dart';
 import 'package:app/feature/nft/nft.dart';
+import 'package:app/feature/nft/view/nft_view_configurator.dart';
 import 'package:app/generated/generated.dart';
 import 'package:elementary/elementary.dart';
 import 'package:injectable/injectable.dart';
@@ -20,6 +21,7 @@ class NftCollectionPageModel extends ElementaryModel {
     this._nekotonRepository,
     this._messengerService,
     this._browserLauncher,
+    this._nftViewConfigurator,
   ) : super(errorHandler: errorHandler);
 
   final NftService _nftService;
@@ -28,12 +30,13 @@ class NftCollectionPageModel extends ElementaryModel {
   final NekotonRepository _nekotonRepository;
   final MessengerService _messengerService;
   final BrowserLauncher _browserLauncher;
+  final NftViewConfigurator _nftViewConfigurator;
 
   Stream<KeyAccount?> get currentAccountStream =>
       _currentAccountsService.currentActiveAccountStream;
 
   Stream<NftDisplayMode?> get displayModeStream =>
-      _nftService.displayModeStream;
+      _nftViewConfigurator.displayModeStream;
 
   Future<Address> get _owner =>
       currentAccountStream.mapNotNull((e) => e?.address).first;
@@ -61,7 +64,8 @@ class NftCollectionPageModel extends ElementaryModel {
     continuation: continuation,
   );
 
-  void setDisplayMode(NftDisplayMode mode) => _nftService.setDisplayMode(mode);
+  void setDisplayMode(NftDisplayMode mode) =>
+      _nftViewConfigurator.setDisplayMode(mode);
 
   Future<void> hideCollection(Address collection) async {
     _nftService.hideCollection(
