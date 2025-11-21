@@ -141,9 +141,9 @@ class TonWalletMultisigPendingTransactionDetailsScreen
                       ),
                       child: AccentButton(
                         buttonShape: ButtonShape.pill,
-                        onPressed: wm.onPressedConfirm,
                         title: LocaleKeys.confirmTransaction.tr(),
                         icon: LucideIcons.check,
+                        onPressed: wm.onPressedConfirm,
                       ),
                     )
                   : const SizedBox.shrink(),

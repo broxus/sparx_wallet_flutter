@@ -181,6 +181,21 @@ class CompassRouter {
     return _router.push(location);
   }
 
+  Future<T?> pushReplacement<T extends Object?>(
+    CompassRouteData data, {
+    bool isContinue = true,
+  }) {
+    final location = isContinue
+        ? _routeDataToContinuedLocation(data)
+        : _routeDataToLocation(data)?.toString();
+
+    if (location == null) {
+      throw StateError('No route for data by type ${data.runtimeType}');
+    }
+
+    return _router.pushReplacement<T>(location);
+  }
+
   /// Navigates to a route while preserving the current location's path
   /// and query parameters.
   ///
@@ -450,6 +465,24 @@ extension CompassNavigationContextExtension on BuildContext {
   /// See [CompassRouter.compassPush] for more details.
   Future<R?> compassPush<R>(CompassRouteData data, {bool isContinue = true}) {
     return _compassRouter().compassPush(data, isContinue: isContinue);
+  }
+
+  /// Navigates to a route specified by route data by replacing the top-most
+  /// page of the page stack.
+  ///
+  /// [data] The route data containing information needed for navigation.
+  /// [isContinue] When true (default), preserves current location's path
+  /// and query parameters using continued location strategy. When false,
+  /// uses standard location without preserving current state.
+  ///
+  /// Returns a Future that completes when the pushed route is popped.
+  ///
+  /// See [CompassRouter.compassPush] for more details.
+  Future<T?> compassPushReplacement<T extends Object?>(
+    CompassRouteData data, {
+    bool isContinue = true,
+  }) {
+    return _compassRouter().pushReplacement(data, isContinue: isContinue);
   }
 
   /// Navigates to a route while preserving the current location's path
