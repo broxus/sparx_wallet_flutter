@@ -56,7 +56,7 @@ class TonConnectRequestValidator {
     }
 
     for (final message in payload.messages) {
-      if (!message.address.isValid) {
+      if (!message.address.isValid || message.address.isRaw) {
         return TonConnectError(
           code: TonConnectErrorCode.badRequest,
           message: 'Invalid address format',
