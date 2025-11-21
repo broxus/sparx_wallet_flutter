@@ -58,7 +58,7 @@ class TonConnectService {
     }
 
     final manifest = await _parseManifestJson(manifestJson);
-    if (manifest == null) {
+    if (manifest == null || !_isValidAppUrl(manifest.url)) {
       _uiEvents.add(
         TonConnectUiEvent.error(message: LocaleKeys.dappManifestError.tr()),
       );
@@ -298,7 +298,7 @@ class TonConnectService {
       if (connections.isNotEmpty) {
         _uiEvents.add(
           TonConnectUiEvent.changeNetwork(
-            origin: Uri.parse(manifest.url),
+            origin: manifest.url,
             networkId: network?.toInt() ?? TonNetwork.mainnet.toInt(),
             connections: connections.toList(),
             completer: completer,
@@ -335,6 +335,24 @@ class TonConnectService {
     } catch (e, s) {
       _logger.warning('Failed to parse transaction payload', e, s);
       return null;
+    }
+  }
+
+  bool _isValidAppUrl(Uri uri) {
+    try {
+      // Must have http/https scheme
+      if (uri.scheme != 'http' && uri.scheme != 'https') return false;
+
+      // Must have proper host with domain
+      if (uri.host.isEmpty || !uri.host.contains('.')) return false;
+
+      // Verify host is not just a TLD
+      final segments = uri.host.split('.');
+      if (segments.length < 2 || segments.any((s) => s.isEmpty)) return false;
+
+      return true;
+    } catch (e) {
+      return false;
     }
   }
 }

@@ -95,7 +95,7 @@ class TCConnectModel extends ElementaryModel {
     final timestamp = _ntpService.now().secondsSinceEpoch;
     final timestampBytes = ByteData(8)..setInt64(0, timestamp, Endian.little);
 
-    final domain = Uri.parse(manifest.url).host;
+    final domain = manifest.url.host;
     final domainBytes = utf8.encode(domain);
     final domainLength = ByteData(4)
       ..setInt32(0, domainBytes.length, Endian.little);

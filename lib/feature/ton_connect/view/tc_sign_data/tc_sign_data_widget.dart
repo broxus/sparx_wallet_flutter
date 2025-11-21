@@ -53,7 +53,7 @@ class TCSignDataWidget
                   valueListenable: wm.connectionState,
                   builder: (_, connection, __) {
                     return WebsiteInfoWidget(
-                      uri: Uri.parse(connection.manifest.url),
+                      uri: connection.manifest.url,
                       iconUrl: Uri.tryParse(connection.manifest.iconUrl),
                     );
                   },
