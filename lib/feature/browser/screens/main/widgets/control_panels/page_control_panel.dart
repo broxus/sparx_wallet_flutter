@@ -20,6 +20,7 @@ class BrowserPageControlPanel extends StatelessWidget {
     required this.onPressedRefresh,
     required this.onEditingCompleteUrl,
     required this.urlSliderPageController,
+    required this.viewVisibleState,
     required this.tabsState,
     required this.onPageChanged,
     super.key,
@@ -33,6 +34,7 @@ class BrowserPageControlPanel extends StatelessWidget {
   final ValueChanged<String> onPressedRefresh;
   final DoubleValueCallback<String, String> onEditingCompleteUrl;
   final PageController urlSliderPageController;
+  final ListenableState<bool> viewVisibleState;
   final ListenableState<List<NotNullListenableState<BrowserTab>>?> tabsState;
   final ValueChanged<int> onPageChanged;
 
@@ -52,6 +54,7 @@ class BrowserPageControlPanel extends StatelessWidget {
               panelWidth: menuUrlPanelWidth,
               urlWidth: urlWidth,
               urlSliderController: urlSliderPageController,
+              viewVisibleState: viewVisibleState,
               tabsState: tabsState,
               onPressedCurrentUrlMenu: onPressedCurrentUrlMenu,
               onPressedRefresh: onPressedRefresh,

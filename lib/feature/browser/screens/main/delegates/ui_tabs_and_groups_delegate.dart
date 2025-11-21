@@ -328,7 +328,7 @@ class BrowserTabsAndGroupsUiDelegate implements BrowserTabsAndGroupsUi {
     final itemWidth = tabsRenderManager.itemWidth;
     final itemHeight = tabsRenderManager.itemHeight;
 
-    var xLeft = count.isEven ? itemWidth * (count - 1) : 0.0;
+    final xLeft = count.isEven ? itemWidth * (count - 1) : 0.0;
     final yTop = itemHeight * (count - 1);
 
     return (xLeft, yTop);

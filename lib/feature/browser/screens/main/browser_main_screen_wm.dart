@@ -11,7 +11,6 @@ import 'package:app/feature/browser/screens/main/delegates/ui_browser_keys_deleg
 import 'package:app/feature/browser/screens/main/delegates/ui_group_menu_delegate.dart';
 import 'package:app/feature/browser/screens/main/delegates/ui_overlay_delegate.dart';
 import 'package:app/feature/browser/screens/main/delegates/ui_page_slide_delegate.dart';
-import 'package:app/feature/browser/screens/main/delegates/ui_past_go_delegate.dart';
 import 'package:app/feature/browser/screens/main/delegates/ui_progress_indicator_delegate.dart';
 import 'package:app/feature/browser/screens/main/delegates/ui_scroll_page_delegate.dart';
 import 'package:app/feature/browser/screens/main/delegates/ui_size_delegate.dart';
@@ -23,11 +22,9 @@ import 'package:app/feature/browser/screens/main/widgets/control_panels/navigati
 import 'package:app/feature/browser/screens/main/widgets/control_panels/page_control_panel.dart';
 import 'package:app/feature/browser/screens/main/widgets/control_panels/tabs_list_action_bar.dart';
 import 'package:app/feature/browser/screens/main/widgets/menu_animation.dart';
-import 'package:app/feature/browser/screens/main/widgets/past_go.dart';
 import 'package:app/feature/browser/screens/main/widgets/tab_animated_view/tab_animated_view.dart';
 import 'package:app/feature/browser/screens/main/widgets/tab_animated_view/tab_animation_type.dart';
 import 'package:app/feature/browser/widgets/bottomsheets/browser_main_menu/browser_main_menu.dart';
-import 'package:app/utils/clipboard_utils.dart';
 import 'package:app/utils/common_utils.dart';
 import 'package:app/utils/focus_utils.dart';
 import 'package:elementary/elementary.dart';
@@ -80,8 +77,6 @@ class BrowserMainScreenWidgetModel
 
   final _groupMenuDelegate = BrowserGroupMenuUiDelegate();
 
-  late final _pastGoDelegate = BrowserPastGoUiDelegate(model);
-
   late final _pageSlideDelegate = BrowserPageSlideUiDelegate(
     screenWidth: sizes.screenWidth,
     urlWidth: sizes.urlWidth,
@@ -109,7 +104,6 @@ class BrowserMainScreenWidgetModel
         model.setActiveTab(tabId);
 
         _progressIndicatorDelegate.reset();
-        _updatePastGo();
       });
     },
   );
@@ -132,7 +126,6 @@ class BrowserMainScreenWidgetModel
       }
 
       _progressIndicatorDelegate.reset();
-      _updatePastGo();
     },
     checkIsVisiblePages: () => _viewVisibleState.value,
     hideMenu: () {
@@ -182,8 +175,6 @@ class BrowserMainScreenWidgetModel
   void initWidgetModel() {
     super.initWidgetModel();
     _menuState.addListener(_handleMenuState);
-    _viewVisibleState.addListener(_updatePastGo);
-    model.activeTabUriState.addListener(_updatePastGo);
 
     WidgetsBinding.instance.addPostFrameCallback((_) {
       _initOverlay();
@@ -205,10 +196,8 @@ class BrowserMainScreenWidgetModel
     _progressIndicatorDelegate.dispose();
     _animationDelegate.dispose();
     _tabsRenderManager.dispose();
-    _pastGoDelegate.dispose();
     _pageSlideDelegate.dispose();
     _overlayDelegate.dispose();
-    model.activeTabUriState.removeListener(_updatePastGo);
     super.dispose();
   }
 
@@ -345,6 +334,7 @@ class BrowserMainScreenWidgetModel
           onPressedRefresh: onPressedRefresh,
           onEditingCompleteUrl: onEditingCompleteUrl,
           urlSliderPageController: pageSlider.urlSliderPageController,
+          viewVisibleState: _viewVisibleState,
           tabsState: tabs.viewTabsState,
           onPageChanged: pageSlider.onPageChanged,
         ),
@@ -358,10 +348,6 @@ class BrowserMainScreenWidgetModel
           key: keys.urlKey,
           onPressed: onPressedViewUrlPanel,
         ),
-      ),
-      pastGoBuilder: (_) => PastGoView(
-        showState: _pastGoDelegate.showPastGoState,
-        onPressed: _pastGoDelegate.onPastGoPressed,
       ),
       tabAnimatedViewBuilder: (_) => TabAnimatedView(
         onAnimationStart: onTabAnimationStart,
@@ -398,14 +384,6 @@ class BrowserMainScreenWidgetModel
       duration: Duration.zero,
     );
     resetFocus(contextSafe);
-  }
-
-  Future<void> _updatePastGo() async {
-    _pastGoDelegate.updateVisible(
-      (_viewVisibleState.value) &&
-          (model.activeTabUriState.value?.path.isEmpty ?? false) &&
-          await checkExistClipBoardData(),
-    );
   }
 
   void _onPressedCreateTab(String groupId, String tabId) {

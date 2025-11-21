@@ -10,6 +10,7 @@ import 'package:app/feature/browser/domain/delegates/browser_service_permissions
 import 'package:app/feature/browser/domain/delegates/browser_service_tabs_delegate.dart';
 import 'package:app/feature/ton_connect/ton_connect.dart';
 import 'package:app/utils/common_utils.dart';
+import 'package:app/utils/url_utils.dart';
 import 'package:flutter_inappwebview/flutter_inappwebview.dart';
 import 'package:injectable/injectable.dart';
 import 'package:nekoton_repository/nekoton_repository.dart';
@@ -117,6 +118,45 @@ class BrowserService {
     final html = await _antiPhishingDelegate.getPhishingGuardHtml(uri);
 
     return _tabsDelegate.loadData(tabId, html);
+  }
+
+  Future<void> requestUrlSafe(String? tabId, String enteredText) async {
+    if (tabId == null) {
+      return;
+    }
+
+    final text = enteredText.trim();
+
+    if (text.isEmpty) {
+      return;
+    }
+
+    final isUrl = UrlValidator.checkString(text);
+
+    final url = isUrl
+        ? Uri.parse(text)
+        : Uri.parse('${BrowserService.searchUrl}$text');
+
+    if (isUrl) {
+      final isPhishing = antiPhishing.checkIsPhishingUri(url);
+
+      if (isPhishing) {
+        await loadPhishingGuard(tabId, url);
+        return;
+      }
+    }
+
+    return tab.requestUrl(tabId, url);
+  }
+
+  Future<void> requestUrlActiveTabSafe(String enteredText) async {
+    final id = _tabsDelegate.activeTabId;
+
+    if (id == null) {
+      return;
+    }
+
+    return requestUrlSafe(id, enteredText);
   }
 
   Future<bool> _clearCookie() async {

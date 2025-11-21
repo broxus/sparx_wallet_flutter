@@ -1,18 +1,21 @@
+import 'package:app/core/wm/custom_wm.dart';
 import 'package:app/core/wm/not_null_listenable_state.dart';
-import 'package:app/core/wm/not_null_safe_notifier.dart';
 import 'package:app/feature/browser/data/tabs/browser_tab.dart';
+import 'package:app/feature/browser/screens/main/widgets/control_panels/navigation_panel/address_bar/address_bar_wm.dart';
+import 'package:app/feature/browser/screens/main/widgets/past_go.dart';
 import 'package:app/feature/browser/widgets/tips_bar/tips_bar.dart';
 import 'package:app/generated/generated.dart';
-import 'package:app/utils/focus_utils.dart';
 import 'package:app/utils/types/fuction_types.dart';
 import 'package:elementary_helper/elementary_helper.dart';
 import 'package:flutter/material.dart';
 import 'package:lucide_icons_flutter/lucide_icons.dart';
 import 'package:ui_components_lib/ui_components_lib.dart';
 
-class BrowserAddressBar extends StatefulWidget {
+class BrowserAddressBar
+    extends InjectedElementaryWidget<BrowserAddressBarWidgetModel> {
   const BrowserAddressBar({
     required this.listenable,
+    required this.viewVisibleState,
     required this.width,
     required this.onPressedCurrentUrlMenu,
     required this.onPressedRefresh,
@@ -21,109 +24,78 @@ class BrowserAddressBar extends StatefulWidget {
   });
 
   final NotNullListenableState<BrowserTab> listenable;
+  final ListenableState<bool> viewVisibleState;
   final double width;
   final ValueChanged<String> onPressedCurrentUrlMenu;
   final ValueChanged<String> onPressedRefresh;
   final DoubleValueCallback<String, String> onEditingComplete;
 
   @override
-  State<BrowserAddressBar> createState() => _BrowserAddressBarState();
-}
-
-class _BrowserAddressBarState extends State<BrowserAddressBar> {
-  late final _controller = TextEditingController(text: _url.toString());
-  late final _textNotifier = NotNullNotifier<String>(_controller.text);
-  final _focusNode = FocusNode();
-  final _link = LayerLink();
-
-  late final _urlVisibleTextState = StateNotifier<bool>(initValue: true);
-  late final _closeVisibleState = StateNotifier<bool>(
-    initValue: _controller.text.isNotEmpty,
-  );
-
-  late final _listenable = widget.listenable;
-  final _tipsOverlayController = OverlayPortalController();
-
-  BrowserTab get _tab => _listenable.value;
-
-  Uri get _url => _tab.url;
-
-  bool get _isVisibleAddress => !(_urlVisibleTextState.value ?? false);
-
-  @override
-  void initState() {
-    _focusNode.addListener(_onFocusChange);
-    _controller.addListener(_onChangeText);
-    _listenable.addListener(_handleTab);
-    _urlVisibleTextState.addListener(_handleVisibleText);
-    super.initState();
-  }
-
-  @override
-  void dispose() {
-    _controller.dispose();
-    _focusNode.dispose();
-    _textNotifier.dispose();
-    _urlVisibleTextState.dispose();
-    _closeVisibleState.dispose();
-    _listenable.removeListener(_handleTab);
-    super.dispose();
-  }
-
-  @override
-  Widget build(BuildContext context) {
+  Widget build(BrowserAddressBarWidgetModel wm) {
     return GestureDetector(
-      onTap: _onPressedBackground,
+      onTap: wm.onPressedBackground,
       child: SizedBox(
-        width: widget.width,
+        width: width,
         height: DimensSizeV2.d40,
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: DimensSizeV2.d4),
           child: DecoratedBox(
             decoration: BoxDecoration(
-              color: context.themeStyleV2.colors.backgroundInput,
+              color: wm.theme.colors.backgroundInput,
               borderRadius: BorderRadius.circular(DimensRadiusV2.radius12),
             ),
             child: CompositedTransformTarget(
-              link: _link,
+              link: wm.link,
               child: OverlayPortal(
-                controller: _tipsOverlayController,
+                controller: wm.tipsOverlayController,
                 overlayChildBuilder: (_) => CompositedTransformFollower(
                   targetAnchor: Alignment.topCenter,
                   followerAnchor: Alignment.bottomCenter,
-                  link: _link,
-                  child: TipsBar(
-                    textNotifier: _textNotifier,
-                    onPressedItem: _onPressedTip,
+                  link: wm.link,
+                  child: StateNotifierBuilder(
+                    listenableState: wm.tipsState,
+                    builder: (_, TipType? type) {
+                      return switch (type) {
+                        TipType.pastGo => PastGoView(
+                          onPressed: wm.onPastGoPressed,
+                        ),
+                        TipType.pages => TipsBar(
+                          textNotifier: wm.textNotifier,
+                          onPressedItem: wm.onPressedTip,
+                        ),
+                        _ => const SizedBox.shrink(),
+                      };
+                    },
                   ),
                 ),
+
                 child: Stack(
                   children: [
                     StateNotifierBuilder<bool>(
-                      listenableState: _urlVisibleTextState,
+                      listenableState: wm.urlVisibleTextState,
                       builder: (_, bool? isVisibleText) {
                         return Visibility(
                           visible: isVisibleText ?? false,
                           child: _UrlText(
-                            listenable: _listenable,
-                            onPressedMenu: _onPressedMenu,
-                            onPressedText: _onPressedText,
-                            onPressedRefresh: _onPressedRefresh,
+                            listenable: listenable,
+                            onPressedMenu: wm.onPressedMenu,
+                            onPressedText: wm.onPressedText,
+                            onPressedRefresh: wm.onPressedRefresh,
                           ),
                         );
                       },
                     ),
                     StateNotifierBuilder<bool>(
-                      listenableState: _urlVisibleTextState,
+                      listenableState: wm.urlVisibleTextState,
                       builder: (_, bool? isVisibleText) {
                         return Visibility(
                           visible: !(isVisibleText ?? false),
                           child: _UrlTextField(
-                            controller: _controller,
-                            focusNode: _focusNode,
-                            closeVisibleState: _closeVisibleState,
-                            onPressedClear: _onPressedClear,
-                            onEditingComplete: _onEditingComplete,
+                            controller: wm.controller,
+                            focusNode: wm.focusNode,
+                            closeVisibleState: wm.closeVisibleState,
+                            onPressedClear: wm.onPressedClear,
+                            onEditingComplete: wm.onEditingComplete,
                           ),
                         );
                       },
@@ -136,68 +108,6 @@ class _BrowserAddressBarState extends State<BrowserAddressBar> {
         ),
       ),
     );
-  }
-
-  void _onPressedBackground() => _textNotifier.accept('');
-
-  void _onPressedMenu() => widget.onPressedCurrentUrlMenu(_tab.id);
-
-  void _onPressedRefresh() => widget.onPressedRefresh(_tab.id);
-
-  void _onEditingComplete() {
-    resetFocus(context);
-    widget.onEditingComplete(_tab.id, _controller.text);
-  }
-
-  void _onPressedTip() {
-    _urlVisibleTextState.accept(true);
-    resetFocus();
-  }
-
-  void _onPressedClear() {
-    _controller.clear();
-  }
-
-  void _onPressedText() {
-    _urlVisibleTextState.accept(false);
-    Future(_focusNode.requestFocus);
-  }
-
-  void _onFocusChange() {
-    if (_focusNode.hasFocus) {
-      return;
-    }
-    _urlVisibleTextState.accept(true);
-  }
-
-  void _onChangeText() {
-    _textNotifier.accept(_controller.text);
-    _closeVisibleState.accept(_controller.text.isNotEmpty);
-  }
-
-  void _handleVisibleText() {
-    _toggleTips(_isVisibleAddress);
-  }
-
-  void _toggleTips(bool isShow) {
-    Future(() {
-      if (isShow && !_tipsOverlayController.isShowing) {
-        _tipsOverlayController.show();
-      } else if (!isShow && _tipsOverlayController.isShowing) {
-        _tipsOverlayController.hide();
-      }
-    });
-  }
-
-  void _handleTab() {
-    final urlText = _url.toString();
-    if (_controller.text == urlText) {
-      return;
-    } else if (urlText == 'about:blank') {
-      _controller.text = '';
-      return;
-    }
-    _controller.text = urlText;
   }
 }
 

@@ -204,6 +204,10 @@ import '../feature/browser/screens/main/browser_main_screen_model.dart'
     as _i1030;
 import '../feature/browser/screens/main/browser_main_screen_wm.dart' as _i635;
 import '../feature/browser/screens/main/route.dart' as _i163;
+import '../feature/browser/screens/main/widgets/control_panels/navigation_panel/address_bar/address_bar_model.dart'
+    as _i704;
+import '../feature/browser/screens/main/widgets/control_panels/navigation_panel/address_bar/address_bar_wm.dart'
+    as _i418;
 import '../feature/browser/screens/main/widgets/control_panels/toolbar/toolbar_model.dart'
     as _i731;
 import '../feature/browser/screens/main/widgets/control_panels/toolbar/toolbar_wm.dart'
@@ -1049,12 +1053,6 @@ extension GetItInjectableX on _i174.GetIt {
       () =>
           _i423.NewAccountScreenWidgetModel(gh<_i175.NewAccountScreenModel>()),
     );
-    gh.factory<_i647.AccountInfoModel>(
-      () => _i647.AccountInfoModel(
-        gh<_i83.ErrorHandler>(),
-        gh<_i771.NekotonRepository>(),
-      ),
-    );
     gh.factory<_i974.KeyDetailPageModel>(
       () => _i974.KeyDetailPageModel(
         gh<_i83.ErrorHandler>(),
@@ -1111,6 +1109,12 @@ extension GetItInjectableX on _i174.GetIt {
     );
     gh.factory<_i680.TonWalletOrdinaryTransactionWidgetModel>(
       () => _i680.TonWalletOrdinaryTransactionWidgetModel(
+        gh<_i83.ErrorHandler>(),
+        gh<_i771.NekotonRepository>(),
+      ),
+    );
+    gh.factory<_i647.AccountInfoModel>(
+      () => _i647.AccountInfoModel(
         gh<_i83.ErrorHandler>(),
         gh<_i771.NekotonRepository>(),
       ),
@@ -1759,14 +1763,6 @@ extension GetItInjectableX on _i174.GetIt {
     gh.singleton<_i328.LedgerBleScanner>(
       () => _i328.LedgerBleScanner(gh<_i865.LedgerService>()),
     );
-    gh.factory<_i1050.SendMessageModel>(
-      () => _i1050.SendMessageModel(
-        gh<_i83.ErrorHandler>(),
-        gh<_i771.NekotonRepository>(),
-        gh<_i865.LedgerService>(),
-        gh<_i865.BleAvailabilityModelDelegate>(),
-      ),
-    );
     gh.factory<_i946.TonWalletSendModel>(
       () => _i946.TonWalletSendModel(
         gh<_i83.ErrorHandler>(),
@@ -1777,6 +1773,14 @@ extension GetItInjectableX on _i174.GetIt {
     );
     gh.factory<_i594.ConfirmMultisigTransactionModel>(
       () => _i594.ConfirmMultisigTransactionModel(
+        gh<_i83.ErrorHandler>(),
+        gh<_i771.NekotonRepository>(),
+        gh<_i865.LedgerService>(),
+        gh<_i865.BleAvailabilityModelDelegate>(),
+      ),
+    );
+    gh.factory<_i1050.SendMessageModel>(
+      () => _i1050.SendMessageModel(
         gh<_i83.ErrorHandler>(),
         gh<_i771.NekotonRepository>(),
         gh<_i865.LedgerService>(),
@@ -2185,6 +2189,12 @@ extension GetItInjectableX on _i174.GetIt {
         gh<_i544.BrowserService>(),
       ),
     );
+    gh.factory<_i704.BrowserAddressBarModel>(
+      () => _i704.BrowserAddressBarModel(
+        gh<_i83.ErrorHandler>(),
+        gh<_i544.BrowserService>(),
+      ),
+    );
     gh.factory<_i731.ToolbarModel>(
       () => _i731.ToolbarModel(
         gh<_i83.ErrorHandler>(),
@@ -2241,6 +2251,11 @@ extension GetItInjectableX on _i174.GetIt {
         gh<_i82.CompassBaseRoute>(instanceName: 'ImportWalletRoute'),
       ),
       instanceName: 'AddExistingWalletRoute',
+    );
+    gh.factory<_i418.BrowserAddressBarWidgetModel>(
+      () => _i418.BrowserAddressBarWidgetModel(
+        gh<_i704.BrowserAddressBarModel>(),
+      ),
     );
     gh.factory<_i418.BrowserBookModel>(
       () => _i418.BrowserBookModel(

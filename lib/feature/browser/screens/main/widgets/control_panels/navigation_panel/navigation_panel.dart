@@ -1,6 +1,6 @@
 import 'package:app/core/wm/not_null_listenable_state.dart';
 import 'package:app/feature/browser/data/tabs/browser_tab.dart';
-import 'package:app/feature/browser/screens/main/widgets/control_panels/navigation_panel/address_bar.dart';
+import 'package:app/feature/browser/screens/main/widgets/control_panels/navigation_panel/address_bar/address_bar.dart';
 import 'package:app/utils/types/fuction_types.dart';
 import 'package:elementary_helper/elementary_helper.dart';
 import 'package:flutter/material.dart';
@@ -11,6 +11,7 @@ class BrowserNavigationPanel extends StatefulWidget {
     required this.panelWidth,
     required this.urlWidth,
     required this.urlSliderController,
+    required this.viewVisibleState,
     required this.tabsState,
     required this.onPressedCurrentUrlMenu,
     required this.onPressedRefresh,
@@ -24,6 +25,7 @@ class BrowserNavigationPanel extends StatefulWidget {
   final double panelWidth;
   final double urlWidth;
   final PageController urlSliderController;
+  final ListenableState<bool> viewVisibleState;
   final ListenableState<List<NotNullListenableState<BrowserTab>>?> tabsState;
   final ValueChanged<String> onPressedCurrentUrlMenu;
   final ValueChanged<String> onPressedRefresh;
@@ -81,10 +83,7 @@ class _BrowserTabViewMenuUrlPanelState extends State<BrowserNavigationPanel>
           }
 
           return Listener(
-            // onPointerDown: _onPointerDown,
-            // onPointerUp: _onPointerUp,
             onPointerMove: _onPointerMove,
-            // onPointerCancel: _onPointerCancel,
             child: AnimatedBuilder(
               animation: _offsetAnimation,
               builder: (_, Widget? child) {
@@ -105,6 +104,7 @@ class _BrowserTabViewMenuUrlPanelState extends State<BrowserNavigationPanel>
                       key: ValueKey(list[index].value.id),
                       width: widget.urlWidth,
                       listenable: list[index],
+                      viewVisibleState: widget.viewVisibleState,
                       onPressedCurrentUrlMenu: widget.onPressedCurrentUrlMenu,
                       onPressedRefresh: widget.onPressedRefresh,
                       onEditingComplete: widget.onEditingCompleteUrl,

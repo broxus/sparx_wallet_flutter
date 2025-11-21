@@ -1,4 +1,3 @@
-import 'package:app/feature/browser/screens/main/widgets/control_panels/tabs_list_action_bar.dart';
 import 'package:flutter/cupertino.dart';
 
 class BrowserOverlayUiDelegate {
@@ -10,7 +9,6 @@ class BrowserOverlayUiDelegate {
     required WidgetBuilder menuListBuilder,
     required WidgetBuilder menuPageBuilder,
     required WidgetBuilder menuHostBuilder,
-    required WidgetBuilder pastGoBuilder,
     required WidgetBuilder tabAnimatedViewBuilder,
   }) {
     _entries
@@ -18,13 +16,7 @@ class BrowserOverlayUiDelegate {
       ..add(_createEntry(menuListBuilder))
       ..add(_createEntry(menuPageBuilder))
       ..add(_createEntry(menuHostBuilder))
-      ..add(OverlayEntry(builder: tabAnimatedViewBuilder))
-      ..add(
-        _createEntry(
-          pastGoBuilder,
-          bottom: BrowserTabsListActionBar.height + 44,
-        ),
-      );
+      ..add(OverlayEntry(builder: tabAnimatedViewBuilder));
     for (final entry in _entries) {
       Overlay.of(context).insert(entry);
     }
