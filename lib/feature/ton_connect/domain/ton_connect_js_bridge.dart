@@ -142,7 +142,7 @@ class TonConnectJsBridge {
 
     await _triggerEvent(WalletEvent.disconnect(id: eventId));
 
-    return WalletResponse.success(id: eventId, result: '');
+    return WalletResponse.success(id: eventId.toString(), result: '');
   }
 
   Future<SendTransactionResponse?> _sendTransaction({
@@ -155,9 +155,7 @@ class TonConnectJsBridge {
     return _tonConnectService.sendTransaction(
       requestId: request.id,
       connection: connection,
-      payload: TransactionPayload.fromJson(
-        jsonDecode(payload) as Map<String, dynamic>,
-      ),
+      payloadJson: jsonDecode(payload) as Map<String, dynamic>,
     );
   }
 
@@ -173,9 +171,7 @@ class TonConnectJsBridge {
     return _tonConnectService.signData(
       requestId: request.id,
       connection: connection,
-      payload: SignDataPayload.fromJson(
-        jsonDecode(payload) as Map<String, dynamic>,
-      ),
+      payloadJson: jsonDecode(payload) as Map<String, dynamic>,
     );
   }
 

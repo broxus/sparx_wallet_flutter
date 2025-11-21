@@ -8,19 +8,19 @@ part 'wallet_event.g.dart';
 sealed class WalletEvent with _$WalletEvent {
   @FreezedUnionValue('connect')
   const factory WalletEvent.connectSuccess({
-    required String id,
+    required int id,
     required ConnectEventSuccessPayload payload,
   }) = ConnectEventSuccess;
 
   @FreezedUnionValue('connect_error')
   const factory WalletEvent.connectError({
-    required String id,
+    required int id,
     required TonConnectError payload,
   }) = ConnectEventError;
 
   @FreezedUnionValue('disconnect')
   const factory WalletEvent.disconnect({
-    required String id,
+    required int id,
     @Default({}) Map<String, dynamic> payload,
   }) = DisconnectEvent;
 

@@ -17,6 +17,8 @@ import 'package:nekoton_repository/nekoton_repository.dart';
 import 'package:rxdart/rxdart.dart';
 
 extension DateX on DateTime {
+  int get secondsSinceEpoch => millisecondsSinceEpoch ~/ 1000;
+
   bool isSameDay(DateTime other) {
     return day == other.day && month == other.month && year == other.year;
   }

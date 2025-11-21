@@ -6,7 +6,7 @@ part 'dapp_manifest.g.dart';
 @freezed
 abstract class DappManifest with _$DappManifest {
   const factory DappManifest({
-    required String url,
+    required Uri url,
     required String name,
     required String iconUrl,
     String? termsOfUseUrl,

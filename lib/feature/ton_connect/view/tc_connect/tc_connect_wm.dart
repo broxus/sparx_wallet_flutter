@@ -89,7 +89,8 @@ class TCConnectWidgetModel
     );
 
     if (contextSafe != null) {
-      Navigator.of(contextSafe!).pop((account, replyItems));
+      final result = TonConnectUiEventResult.data(data: (account, replyItems));
+      Navigator.of(contextSafe!).pop(result);
     }
   }
 

@@ -32,9 +32,9 @@ class TonConnectStorageService extends AbstractStorageService {
   @override
   Future<void> clear() => _storage.erase();
 
-  String getEventId() {
+  int getEventId() {
     _saveEventId(++_eventId);
-    return _eventId.toString();
+    return _eventId;
   }
 
   String? readLastEventId() => _storage.read(_lastEventIdKey);
@@ -84,7 +84,7 @@ class TonConnectStorageService extends AbstractStorageService {
 
   void clearConnections() => _storage.remove(_connectionsKey);
 
-  num _readEventId() => _storage.read(_eventIdKey) ?? 1;
+  int _readEventId() => _storage.read<int>(_eventIdKey) ?? 1;
 
-  void _saveEventId(num eventId) => _storage.write(_eventIdKey, eventId);
+  void _saveEventId(int eventId) => _storage.write(_eventIdKey, eventId);
 }

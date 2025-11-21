@@ -136,6 +136,7 @@ class TCSendMessageWidgetModel
         publicKey: account.publicKey,
         messages: wmParams.value.payload.messages,
         signInputAuth: signInputAuth,
+        validUntil: wmParams.value.payload.validUntil,
       );
 
       if (contextSafe != null) {
@@ -145,7 +146,22 @@ class TCSendMessageWidgetModel
           ),
         );
 
-        Navigator.of(contextSafe!).pop(message);
+        final result = TonConnectUiEventResult.data(data: message);
+        Navigator.of(contextSafe!).pop(result);
+      }
+    } on TimeoutException catch (_) {
+      if (contextSafe != null) {
+        model.showMessage(
+          Message.error(message: LocaleKeys.transactionStatusExpired.tr()),
+        );
+
+        final result = TonConnectUiEventResult<SignedMessage>.error(
+          error: TonConnectException(
+            code: TonConnectErrorCode.badRequest,
+            message: 'Transaction has expired',
+          ),
+        );
+        Navigator.of(contextSafe!).pop(result);
       }
     } catch (e) {
       contextSafe?.let(
@@ -252,6 +268,7 @@ class TCSendMessageWidgetModel
         address: sender,
         publicKey: accountState.value!.publicKey,
         messages: wmParams.value.payload.messages,
+        validUntil: wmParams.value.payload.validUntil,
       );
 
       await _estimateFees(message);

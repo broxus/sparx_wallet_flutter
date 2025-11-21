@@ -9,7 +9,7 @@ part 'transaction_payload.g.dart';
 abstract class TransactionPayload with _$TransactionPayload {
   factory TransactionPayload({
     required List<TransactionPayloadMessage> messages,
-    @JsonKey(name: 'valid_until') int? validUntil,
+    @JsonKey(name: 'valid_until', disallowNullValue: true) int? validUntil,
     TonNetwork? network,
     Address? from,
   }) = _TransactionPayload;
