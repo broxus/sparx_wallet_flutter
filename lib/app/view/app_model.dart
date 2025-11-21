@@ -9,7 +9,7 @@ import 'package:app/app/service/bootstrap/configurators/logger.dart';
 import 'package:app/app/service/crash_detector/domain/service/crash_detector_service.dart';
 import 'package:app/app/service/pending_deep_link_service.dart';
 import 'package:app/app/view/app.dart';
-import 'package:app/feature/browser_v2/domain/browser_launcher.dart';
+import 'package:app/feature/browser/domain/browser_launcher.dart';
 import 'package:app/feature/localization/localization.dart';
 import 'package:app/feature/messenger/data/message.dart';
 import 'package:app/feature/messenger/domain/service/messenger_service.dart';

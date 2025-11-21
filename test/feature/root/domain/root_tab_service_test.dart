@@ -1,8 +1,8 @@
 import 'package:app/app/router/compass/bottom_bar_state.dart';
 import 'package:app/app/router/compass/compass.dart';
 import 'package:app/app/router/router.dart';
-import 'package:app/feature/browser_v2/domain/service/browser_service.dart';
-import 'package:app/feature/browser_v2/screens/main/route.dart';
+import 'package:app/feature/browser/domain/service/browser_service.dart';
+import 'package:app/feature/browser/screens/main/route.dart';
 import 'package:app/feature/profile/route.dart';
 import 'package:app/feature/root/domain/root_tab_service.dart';
 import 'package:app/feature/root/view/root_tab.dart';
