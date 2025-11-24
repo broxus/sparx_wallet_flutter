@@ -1,6 +1,5 @@
 import 'dart:async';
 
-import 'package:app/app/service/connection/data/connection_data/connection_data.dart';
 import 'package:app/app/service/service.dart' as s;
 import 'package:app/data/models/models.dart';
 import 'package:app/feature/browser_v1/utils.dart';
@@ -1350,7 +1349,7 @@ class InpageProvider extends ProviderApi {
           signedMessage.hash,
           sender.address,
           // ignore: no-magic-number
-          transaction.expireAt.millisecondsSinceEpoch ~/ 1000,
+          transaction.expireAt.secondsSinceEpoch,
         ),
       );
     } catch (_) {
@@ -1674,9 +1673,7 @@ class InpageProvider extends ProviderApi {
     final info = await nr.computeStorageFee(
       config: config.config,
       account: input.state.boc,
-      utime:
-          input.timestamp?.toInt() ??
-          NtpTime.now().millisecondsSinceEpoch ~/ 1000,
+      utime: input.timestamp?.toInt() ?? NtpTime.now().secondsSinceEpoch,
       isMasterchain: input.masterchain,
     );
 
@@ -1694,7 +1691,11 @@ class InpageProvider extends ProviderApi {
     _checkBasicPermission();
 
     final networkId = input.network.networkId.toInt();
-    final connections = await _getConnections(networkId);
+    final connections = await connectionsStorageService
+        .getConnectionsByNetworkId(
+          networkId: networkId,
+          getNetworkId: connectionService.getNetworkId,
+        );
 
     if (connections.isNotEmpty) {
       throw s.ApprovalsHandleException(LocaleKeys.networkAlreadyExists.tr());
@@ -1728,7 +1729,11 @@ class InpageProvider extends ProviderApi {
 
     final networkId = input.networkId.toInt();
     final currentTransport = nekotonRepository.currentTransport;
-    final connections = await _getConnections(networkId);
+    final connections = await connectionsStorageService
+        .getConnectionsByNetworkId(
+          networkId: networkId,
+          getNetworkId: connectionService.getNetworkId,
+        );
 
     if (connections.isEmpty) {
       return const ChangeNetworkOutput(null);
@@ -1780,48 +1785,6 @@ class InpageProvider extends ProviderApi {
     );
 
     return RunGetterOutput(executionOutput.output, executionOutput.code);
-  }
-
-  Future<List<ConnectionData>> _getConnections(int networkId) async {
-    final connections = connectionsStorageService.connections;
-    final networksIds = connectionsStorageService.networksIds;
-    final list = <ConnectionData>[];
-    final update = <(String, int)>[];
-
-    for (final connection in connections) {
-      nr.Transport? transport;
-
-      try {
-        var id = networksIds[connection.id];
-
-        // connect to get network id
-        if (id == null) {
-          transport = await connectionService.createTransportByConnection(
-            connection,
-          );
-
-          id = transport.networkId;
-          update.add((connection.id, transport.networkId));
-        }
-
-        if (id == networkId) {
-          list.add(connection);
-        }
-      } catch (e) {
-        _logger.severe(
-          'Error getting network id for connection: '
-          '${connection.name} (${connection.id})',
-        );
-      } finally {
-        await transport?.dispose();
-      }
-    }
-
-    if (update.isNotEmpty) {
-      connectionsStorageService.updateNetworksIds(update);
-    }
-
-    return list;
   }
 
   Future<int?> _computeSignatureId(Object? withSignatureId) async {

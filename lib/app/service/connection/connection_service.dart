@@ -93,6 +93,24 @@ class ConnectionService {
           ),
       };
 
+  Future<int?> getNetworkId(ConnectionData connection) async {
+    Transport? transport;
+
+    try {
+      transport = await createTransportByConnection(connection);
+      return transport.networkId;
+    } catch (e) {
+      _log.severe(
+        'Error getting network id for connection: '
+        '${connection.name} (${connection.id})',
+      );
+    } finally {
+      await transport?.dispose();
+    }
+
+    return null;
+  }
+
   /// Create nekoton's transport by connection, create transport's strategy
   /// by its type and put it in nekoton.
   // ignore: long-method

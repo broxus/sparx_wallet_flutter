@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:app/app/service/service.dart';
 import 'package:app/feature/messenger/data/message.dart';
 import 'package:app/feature/messenger/domain/service/messenger_service.dart';
@@ -325,6 +327,38 @@ class ConnectionsStorageService extends AbstractStorageService {
     }
 
     return updateConnection(preset);
+  }
+
+  Future<List<ConnectionData>> getConnectionsByNetworkId({
+    required int networkId,
+    required FutureOr<int?> Function(ConnectionData) getNetworkId,
+  }) async {
+    final connections = this.connections;
+    final networksIds = this.networksIds;
+    final list = <ConnectionData>[];
+    final update = <(String, int)>[];
+
+    for (final connection in connections) {
+      var id = networksIds[connection.id];
+
+      if (id == null) {
+        id = await getNetworkId(connection);
+
+        if (id != null) {
+          update.add((connection.id, id));
+        }
+      }
+
+      if (id == networkId) {
+        list.add(connection);
+      }
+    }
+
+    if (update.isNotEmpty) {
+      updateNetworksIds(update);
+    }
+
+    return list;
   }
 
   @override
