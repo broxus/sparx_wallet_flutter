@@ -74,7 +74,7 @@ class TCSendMessageWidget
                 ),
                 const SizedBox(height: DimensSizeV2.d12),
                 WebsiteInfoWidget(
-                  uri: Uri.parse(wm.connection.manifest.url),
+                  uri: wm.connection.manifest.url,
                   iconUrl: Uri.tryParse(wm.connection.manifest.iconUrl),
                 ),
                 MultiListenerRebuilder(

@@ -63,7 +63,7 @@ class _SelectAccountWidget extends StatelessWidget {
             spacing: DimensSizeV2.d12,
             children: [
               WebsiteInfoWidget(
-                uri: Uri.parse(wm.manifest.url),
+                uri: wm.manifest.url,
                 iconUrl: Uri.tryParse(wm.manifest.iconUrl),
               ),
               PrimaryTextField(
@@ -170,7 +170,7 @@ class _ConfirmPermissionsWidget extends StatelessWidget {
               children: [
                 AccountInfo(account: account, color: theme.colors.background2),
                 WebsiteInfoWidget(
-                  uri: Uri.parse(wm.manifest.url),
+                  uri: wm.manifest.url,
                   iconUrl: Uri.tryParse(wm.manifest.iconUrl),
                 ),
               ],

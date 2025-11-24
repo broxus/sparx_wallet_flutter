@@ -10,7 +10,7 @@ sealed class Feature with _$Feature {
       _SendTransaction;
 
   @FreezedUnionValue('SignData')
-  const factory Feature.signData() = _SignData;
+  const factory Feature.signData({required List<String> types}) = _SignData;
 
   factory Feature.fromJson(Map<String, dynamic> json) =>
       _$FeatureFromJson(json);

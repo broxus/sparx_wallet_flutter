@@ -8,7 +8,7 @@ import 'package:lucide_icons_flutter/lucide_icons.dart';
 import 'package:ui_components_lib/ui_components_lib.dart';
 import 'package:ui_components_lib/v2/ui_components_lib_v2.dart';
 
-// LocaleKeys.connectedDappsSheetTitle.tr()
+final _regexp = RegExp('https?://');
 
 class TCManageDappsWidget
     extends InjectedElementaryWidget<TCManageDappsWidgetModel> {
@@ -153,7 +153,7 @@ class _Item extends StatelessWidget {
                 overflow: TextOverflow.ellipsis,
               ),
               Text(
-                connection.manifest.url.replaceAll(RegExp('https?://'), ''),
+                connection.manifest.url.toString().replaceAll(_regexp, ''),
                 style: context.themeStyleV2.textStyles.labelXSmall.copyWith(
                   color: ColorsRes.grey898989,
                 ),

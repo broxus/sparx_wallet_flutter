@@ -16,7 +16,7 @@ T _$identity<T>(T value) => value;
 mixin _$TonProof {
 
 /// 64-bit unix epoch time of the signing operation (seconds)
- String get timestamp; String get signature; String get payload; TonProofDomain get domain;
+ int get timestamp; String get signature; String get payload; TonProofDomain get domain;
 /// Create a copy of TonProof
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -49,7 +49,7 @@ abstract mixin class $TonProofCopyWith<$Res>  {
   factory $TonProofCopyWith(TonProof value, $Res Function(TonProof) _then) = _$TonProofCopyWithImpl;
 @useResult
 $Res call({
- String timestamp, String signature, String payload, TonProofDomain domain
+ int timestamp, String signature, String payload, TonProofDomain domain
 });
 
 
@@ -69,7 +69,7 @@ class _$TonProofCopyWithImpl<$Res>
 @pragma('vm:prefer-inline') @override $Res call({Object? timestamp = null,Object? signature = null,Object? payload = null,Object? domain = null,}) {
   return _then(_self.copyWith(
 timestamp: null == timestamp ? _self.timestamp : timestamp // ignore: cast_nullable_to_non_nullable
-as String,signature: null == signature ? _self.signature : signature // ignore: cast_nullable_to_non_nullable
+as int,signature: null == signature ? _self.signature : signature // ignore: cast_nullable_to_non_nullable
 as String,payload: null == payload ? _self.payload : payload // ignore: cast_nullable_to_non_nullable
 as String,domain: null == domain ? _self.domain : domain // ignore: cast_nullable_to_non_nullable
 as TonProofDomain,
@@ -166,7 +166,7 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( String timestamp,  String signature,  String payload,  TonProofDomain domain)?  $default,{required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( int timestamp,  String signature,  String payload,  TonProofDomain domain)?  $default,{required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _TonProof() when $default != null:
 return $default(_that.timestamp,_that.signature,_that.payload,_that.domain);case _:
@@ -187,7 +187,7 @@ return $default(_that.timestamp,_that.signature,_that.payload,_that.domain);case
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( String timestamp,  String signature,  String payload,  TonProofDomain domain)  $default,) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( int timestamp,  String signature,  String payload,  TonProofDomain domain)  $default,) {final _that = this;
 switch (_that) {
 case _TonProof():
 return $default(_that.timestamp,_that.signature,_that.payload,_that.domain);case _:
@@ -207,7 +207,7 @@ return $default(_that.timestamp,_that.signature,_that.payload,_that.domain);case
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( String timestamp,  String signature,  String payload,  TonProofDomain domain)?  $default,) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( int timestamp,  String signature,  String payload,  TonProofDomain domain)?  $default,) {final _that = this;
 switch (_that) {
 case _TonProof() when $default != null:
 return $default(_that.timestamp,_that.signature,_that.payload,_that.domain);case _:
@@ -226,7 +226,7 @@ class _TonProof implements TonProof {
   factory _TonProof.fromJson(Map<String, dynamic> json) => _$TonProofFromJson(json);
 
 /// 64-bit unix epoch time of the signing operation (seconds)
-@override final  String timestamp;
+@override final  int timestamp;
 @override final  String signature;
 @override final  String payload;
 @override final  TonProofDomain domain;
@@ -264,7 +264,7 @@ abstract mixin class _$TonProofCopyWith<$Res> implements $TonProofCopyWith<$Res>
   factory _$TonProofCopyWith(_TonProof value, $Res Function(_TonProof) _then) = __$TonProofCopyWithImpl;
 @override @useResult
 $Res call({
- String timestamp, String signature, String payload, TonProofDomain domain
+ int timestamp, String signature, String payload, TonProofDomain domain
 });
 
 
@@ -284,7 +284,7 @@ class __$TonProofCopyWithImpl<$Res>
 @override @pragma('vm:prefer-inline') $Res call({Object? timestamp = null,Object? signature = null,Object? payload = null,Object? domain = null,}) {
   return _then(_TonProof(
 timestamp: null == timestamp ? _self.timestamp : timestamp // ignore: cast_nullable_to_non_nullable
-as String,signature: null == signature ? _self.signature : signature // ignore: cast_nullable_to_non_nullable
+as int,signature: null == signature ? _self.signature : signature // ignore: cast_nullable_to_non_nullable
 as String,payload: null == payload ? _self.payload : payload // ignore: cast_nullable_to_non_nullable
 as String,domain: null == domain ? _self.domain : domain // ignore: cast_nullable_to_non_nullable
 as TonProofDomain,
