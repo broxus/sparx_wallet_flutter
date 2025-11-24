@@ -1,3 +1,4 @@
+import 'package:app/app/service/service.dart';
 import 'package:app/di/di.dart';
 import 'package:app/feature/messenger/data/message.dart';
 import 'package:app/feature/messenger/domain/service/messenger_service.dart';
@@ -13,7 +14,7 @@ import 'package:ui_components_lib/v2/widgets/widgets.dart';
 
 /// Body of transaction for Ton/Token Wallets that contains main information
 /// about transaction (date, hash, value, fee, sender/recipient).
-class WalletTransactionDetailsDefaultBody extends StatelessWidget {
+class WalletTransactionDetailsDefaultBody extends StatefulWidget {
   const WalletTransactionDetailsDefaultBody({
     required this.date,
     required this.recipientOrSender,
@@ -68,6 +69,16 @@ class WalletTransactionDetailsDefaultBody extends StatelessWidget {
   final String? transactionId;
 
   @override
+  State<WalletTransactionDetailsDefaultBody> createState() =>
+      _WalletTransactionDetailsDefaultBodyState();
+}
+
+class _WalletTransactionDetailsDefaultBodyState
+    extends State<WalletTransactionDetailsDefaultBody> {
+  late final _messengerService = inject<MessengerService>();
+  late final _ntpService = inject<NtpService>();
+
+  @override
   Widget build(BuildContext context) {
     final theme = context.themeStyleV2;
     return ShapedContainerColumn(
@@ -80,26 +91,26 @@ class WalletTransactionDetailsDefaultBody extends StatelessWidget {
         const CommonDivider(),
         WalletTransactionDetailsItem(
           title: LocaleKeys.typeWord.tr(),
-          value: type,
+          value: widget.type,
         ),
         WalletTransactionDetailsItem(
           title: LocaleKeys.token.tr(),
-          value: value.currency.symbolFixed,
+          value: widget.value.currency.symbolFixed,
         ),
         WalletTransactionDetailsItem(
           title: LocaleKeys.amountWord.tr(),
           valueWidget: AmountWidget.fromMoney(
-            amount: value,
+            amount: widget.value,
             includeSymbol: false,
             useDefaultFormat: false,
-            sign: isIncoming
+            sign: widget.isIncoming
                 ? LocaleKeys.plusSign.tr()
                 : LocaleKeys.minusSign.tr(),
           ),
-          iconPath: tokenIconPath,
-          convertedValueWidget: price != null
+          iconPath: widget.tokenIconPath,
+          convertedValueWidget: widget.price != null
               ? AmountWidget.dollars(
-                  amount: value.exchangeToUSD(price!),
+                  amount: widget.value.exchangeToUSD(widget.price!),
                   style: theme.textStyles.labelXSmall.copyWith(
                     color: theme.colors.content3,
                   ),
@@ -109,61 +120,63 @@ class WalletTransactionDetailsDefaultBody extends StatelessWidget {
         WalletTransactionDetailsItem(
           title: LocaleKeys.networkFee.tr(),
           valueWidget: AmountWidget.fromMoney(
-            amount: fee,
+            amount: widget.fee,
             includeSymbol: false,
           ),
-          iconPath: tonIconPath,
+          iconPath: widget.tonIconPath,
           convertedValueWidget: AmountWidget.dollars(
-            amount: fee.exchangeToUSD(price!, 5),
+            amount: widget.fee.exchangeToUSD(widget.price!, 5),
             style: theme.textStyles.labelXSmall.copyWith(
               color: theme.colors.content3,
             ),
           ),
         ),
-        if (info != null)
+        if (widget.info != null)
           WalletTransactionDetailsItem(
             title: LocaleKeys.info.tr(),
-            value: info,
+            value: widget.info,
           ),
         WalletTransactionDetailsItem(
-          title: isIncoming
+          title: widget.isIncoming
               ? LocaleKeys.senderWord.tr()
               : LocaleKeys.recipientWord.tr(),
-          subtitle: recipientOrSender.toEllipseString(),
+          subtitle: widget.recipientOrSender.toEllipseString(),
           icon: LucideIcons.copy,
           onPressed: () {
             _copy(
               context,
-              recipientOrSender.address,
+              widget.recipientOrSender.address,
               LocaleKeys.valueCopiedExclamation.tr(
-                args: [recipientOrSender.toEllipseString()],
+                args: [widget.recipientOrSender.toEllipseString()],
               ),
             );
           },
         ),
-        if (transactionId == null)
+        if (widget.transactionId == null)
           WalletTransactionDetailsItem(
             title: LocaleKeys.hashId.tr(),
-            subtitle: toEllipseString(hash),
+            subtitle: toEllipseString(widget.hash),
             icon: LucideIcons.copy,
             onPressed: () {
               _copy(
                 context,
-                hash,
-                LocaleKeys.valueCopiedExclamation.tr(args: [hash]),
+                widget.hash,
+                LocaleKeys.valueCopiedExclamation.tr(args: [widget.hash]),
               );
             },
           )
         else
           WalletTransactionDetailsItem(
             title: LocaleKeys.transactionId.tr(),
-            subtitle: transactionId,
+            subtitle: widget.transactionId,
             icon: LucideIcons.copy,
             onPressed: () {
               _copy(
                 context,
-                transactionId!,
-                LocaleKeys.valueCopiedExclamation.tr(args: [transactionId!]),
+                widget.transactionId!,
+                LocaleKeys.valueCopiedExclamation.tr(
+                  args: [widget.transactionId!],
+                ),
               );
             },
           ),
@@ -172,7 +185,7 @@ class WalletTransactionDetailsDefaultBody extends StatelessWidget {
   }
 
   Widget _statusDateRow(BuildContext context, ThemeStyleV2 theme) {
-    final formatter = date.year == NtpTime.now().year
+    final formatter = widget.date.year == _ntpService.now().year
         ? DateFormat('MM.dd, HH:mm:ss', context.locale.languageCode)
         : DateFormat('MM.dd.y, HH:mm:ss', context.locale.languageCode);
 
@@ -186,27 +199,28 @@ class WalletTransactionDetailsDefaultBody extends StatelessWidget {
               Row(
                 children: [
                   Text(
-                    isIncoming
+                    widget.isIncoming
                         ? LocaleKeys.received.tr()
                         : LocaleKeys.sent.tr(),
                     style: theme.textStyles.headingMedium,
                   ),
                   const Spacer(),
-                  status.chipByStatus,
+                  widget.status.chipByStatus,
                 ],
               ),
               const SizedBox(height: DimensSizeV2.d4),
               Text(
-                formatter.format(date),
+                formatter.format(widget.date),
                 style: theme.textStyles.labelXSmall.copyWith(
                   color: theme.colors.content3,
                 ),
                 textAlign: TextAlign.right,
               ),
-              if (expiresAt != null) const SizedBox(height: DimensSizeV2.d4),
-              if (expiresAt != null)
+              if (widget.expiresAt != null)
+                const SizedBox(height: DimensSizeV2.d4),
+              if (widget.expiresAt != null)
                 Text(
-                  DateTimeUtils.formatExpirationDate(expiresAt!),
+                  DateTimeUtils.formatExpirationDate(widget.expiresAt!),
                   style: theme.textStyles.labelXSmall.copyWith(
                     color: theme.colors.content1,
                   ),
@@ -220,6 +234,6 @@ class WalletTransactionDetailsDefaultBody extends StatelessWidget {
 
   void _copy(BuildContext context, String value, String copyMessage) {
     setClipBoardData(value);
-    inject<MessengerService>().show(Message.successful(message: copyMessage));
+    _messengerService.show(Message.successful(message: copyMessage));
   }
 }

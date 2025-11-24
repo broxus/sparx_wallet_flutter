@@ -1,5 +1,4 @@
 import 'package:app/feature/browser/data/history_type.dart';
-import 'package:app/utils/common_utils.dart';
 
 extension TimePeriodExtension on TimePeriod {
   String get displayName {
@@ -16,7 +15,7 @@ extension TimePeriodExtension on TimePeriod {
   }
 
   DateTime get date {
-    final now = NtpTime.now();
+    final now = DateTime.now();
     switch (this) {
       case TimePeriod.lastHour:
         return now.subtract(const Duration(hours: 1));
