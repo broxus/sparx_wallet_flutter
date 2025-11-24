@@ -771,6 +771,7 @@ abstract class LocaleKeys {
   static const nftTransferTitle = 'nftTransferTitle';
   static const nftTransferDescription = 'nftTransferDescription';
   static const nftTransferSuccessMessage = 'nftTransferSuccessMessage';
+  static const nftTransferFailedMessage = 'nftTransferFailedMessage';
   static const nftAttachedAmountNotification = 'nftAttachedAmountNotification';
   static const unknown = 'unknown';
   static const submitOnLedger = 'submitOnLedger';

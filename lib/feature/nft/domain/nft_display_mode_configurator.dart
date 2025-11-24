@@ -3,8 +3,8 @@ import 'package:app/feature/nft/data/nft_display_mode.dart';
 import 'package:injectable/injectable.dart';
 
 @lazySingleton
-class NftViewConfigurator {
-  NftViewConfigurator(this._appStorageService);
+class NftDisplayModeConfigurator {
+  NftDisplayModeConfigurator(this._appStorageService);
 
   final AppStorageService _appStorageService;
 

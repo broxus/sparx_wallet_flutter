@@ -1,18 +1,19 @@
-import 'package:app/di/di.dart';
-import 'package:app/feature/browser_v2/domain/browser_launcher.dart';
 import 'package:app/generated/generated.dart';
+import 'package:elementary_helper/elementary_helper.dart';
 import 'package:flutter/material.dart';
 import 'package:ui_components_lib/v2/ui_components_lib_v2.dart';
 
 class EmptyNftList extends StatelessWidget {
   const EmptyNftList({
-    required this.marketplaceUrl,
+    required this.marketplaceUrlState,
     required this.onAddNftPressed,
+    required this.onMarketplaceUrlPressed,
     super.key,
   });
 
-  final String? marketplaceUrl;
+  final ListenableState<String?> marketplaceUrlState;
   final VoidCallback onAddNftPressed;
+  final ValueChanged<String> onMarketplaceUrlPressed;
 
   @override
   Widget build(BuildContext context) {
@@ -45,30 +46,41 @@ class EmptyNftList extends StatelessWidget {
                 padding: const EdgeInsets.symmetric(
                   horizontal: DimensSizeV2.d16,
                 ),
-                child: Text(
-                  (marketplaceUrl?.isNotEmpty ?? false)
-                      ? LocaleKeys.nftEmptyListSubtitle.tr()
-                      : LocaleKeys.nftEmptyListSubtitleNoMarket.tr(),
-                  style: theme.textStyles.paragraphSmall.copyWith(
-                    color: theme.colors.content1,
-                  ),
-                  textAlign: TextAlign.center,
+                child: StateNotifierBuilder(
+                  listenableState: marketplaceUrlState,
+                  builder: (_, marketplaceUrl) {
+                    return Text(
+                      (marketplaceUrl?.isNotEmpty ?? false)
+                          ? LocaleKeys.nftEmptyListSubtitle.tr()
+                          : LocaleKeys.nftEmptyListSubtitleNoMarket.tr(),
+                      style: theme.textStyles.paragraphSmall.copyWith(
+                        color: theme.colors.content1,
+                      ),
+                      textAlign: TextAlign.center,
+                    );
+                  },
                 ),
               ),
-              if (marketplaceUrl?.isNotEmpty ?? false)
-                Padding(
-                  padding: const EdgeInsets.only(top: DimensSizeV2.d16),
-                  child: AccentButton(
-                    buttonShape: ButtonShape.pill,
-                    onPressed: () {
-                      // TODO(knightforce): refactor
-                      inject<BrowserLauncher>().openBrowserByString(
-                        marketplaceUrl!,
-                      );
-                    },
-                    title: LocaleKeys.visitMarketplace.tr(),
-                  ),
-                ),
+              StateNotifierBuilder(
+                listenableState: marketplaceUrlState,
+                builder: (_, marketplaceUrl) {
+                  if (marketplaceUrl != null && marketplaceUrl.isNotEmpty) {
+                    return Padding(
+                      padding: const EdgeInsets.only(top: DimensSizeV2.d16),
+                      child: AccentButton(
+                        buttonShape: ButtonShape.pill,
+                        onPressed: () {
+                          onMarketplaceUrlPressed(marketplaceUrl);
+                        },
+                        title: LocaleKeys.visitMarketplace.tr(),
+                      ),
+                    );
+                  } else {
+                    return const SizedBox.shrink();
+                  }
+                },
+              ),
+
               PrimaryButton(
                 buttonShape: ButtonShape.pill,
                 title: LocaleKeys.addNFT.tr(),

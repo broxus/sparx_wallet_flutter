@@ -739,6 +739,7 @@
   "nftTransferTitle": "Transfer your NFTs",
   "nftTransferDescription": "Transferring the NFT also transfers ownership",
   "nftTransferSuccessMessage": "NFTs transferred successfully",
+  "nftTransferFailedMessage": "Nft transfer prepare initialization failed",
   "nftAttachedAmountNotification": "Most of the attached amount will be returned to your address. The exact commission amount depends on the smart contract.",
   "unknown": "Unknown",
   "submitOnLedger": "Submit on Ledger",

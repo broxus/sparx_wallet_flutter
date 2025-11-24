@@ -9,7 +9,7 @@ part of 'nft_collection_settings.dart';
 _NftCollectionSettings _$NftCollectionSettingsFromJson(
   Map<String, dynamic> json,
 ) => _NftCollectionSettings(
-  address: Address.fromJson(json['address'] as String),
+  collection: Address.fromJson(json['collection'] as String),
   networkGroup: json['networkGroup'] as String,
   isVisible: json['isVisible'] as bool? ?? true,
 );
@@ -17,7 +17,7 @@ _NftCollectionSettings _$NftCollectionSettingsFromJson(
 Map<String, dynamic> _$NftCollectionSettingsToJson(
   _NftCollectionSettings instance,
 ) => <String, dynamic>{
-  'address': instance.address.toJson(),
+  'collection': instance.collection.toJson(),
   'networkGroup': instance.networkGroup,
   'isVisible': instance.isVisible,
 };

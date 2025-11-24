@@ -69,7 +69,7 @@ class NftService {
   Stream<List<NftCollection>> getAccountCollectionsStream(Address owner) {
     return getAccountCollectionsMetaStream(owner).map(
       (e) => e
-          .map((meta) => _collections[meta.address])
+          .map((meta) => _collections[meta.collection])
           .nonNulls
           .sortedBy((c) => c.name ?? '')
           .toList(),
@@ -149,9 +149,9 @@ class NftService {
 
     for (final c in cachedCollections) {
       if (!c.isVisible) {
-        hiddenAddresses.add(c.address);
+        hiddenAddresses.add(c.collection);
       }
-      cachedCollectionsAddresses.add(c.address);
+      cachedCollectionsAddresses.add(c.collection);
     }
 
     final pending = _nftStorageService.getPendingNftAddresses(
@@ -177,7 +177,7 @@ class NftService {
       collections: scannedCollections
           .map(
             (e) => NftCollectionSettings(
-              address: e.address,
+              collection: e.address,
               networkGroup: networkGroup,
               isVisible: !hiddenAddresses.contains(e.address),
             ),
@@ -193,7 +193,7 @@ class NftService {
     _nftStorageService.addCollection(
       accountAddress: accountAddress,
       collection: NftCollectionSettings(
-        address: collectionAddress,
+        collection: collectionAddress,
         networkGroup: _nekotonRepository.currentTransport.networkGroup,
       ),
     );
@@ -206,7 +206,7 @@ class NftService {
     _nftStorageService.addCollection(
       accountAddress: accountAddress,
       collection: NftCollectionSettings(
-        address: collectionAddress,
+        collection: collectionAddress,
         networkGroup: _nekotonRepository.currentTransport.networkGroup,
         isVisible: false,
       ),

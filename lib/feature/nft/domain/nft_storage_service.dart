@@ -74,7 +74,7 @@ class NftStorageService extends AbstractStorageService {
     final updatedList = [
       ...currentList.whereNot(
         (e) =>
-            e.address == collection.address &&
+            e.collection == collection.collection &&
             e.networkGroup == collection.networkGroup,
       ),
       collection,
@@ -90,7 +90,8 @@ class NftStorageService extends AbstractStorageService {
   }) {
     final currentList = _collectionsData[accountAddress] ?? [];
     final updatedList = currentList.whereNot(
-      (e) => e.address == collectionAddress && e.networkGroup == networkGroup,
+      (e) =>
+          e.collection == collectionAddress && e.networkGroup == networkGroup,
     );
 
     setCollections(

@@ -15,7 +15,7 @@ T _$identity<T>(T value) => value;
 /// @nodoc
 mixin _$NftCollectionSettings {
 
- Address get address; NetworkGroup get networkGroup; bool get isVisible;
+ Address get collection; NetworkGroup get networkGroup; bool get isVisible;
 /// Create a copy of NftCollectionSettings
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -28,16 +28,16 @@ $NftCollectionSettingsCopyWith<NftCollectionSettings> get copyWith => _$NftColle
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is NftCollectionSettings&&(identical(other.address, address) || other.address == address)&&(identical(other.networkGroup, networkGroup) || other.networkGroup == networkGroup)&&(identical(other.isVisible, isVisible) || other.isVisible == isVisible));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is NftCollectionSettings&&(identical(other.collection, collection) || other.collection == collection)&&(identical(other.networkGroup, networkGroup) || other.networkGroup == networkGroup)&&(identical(other.isVisible, isVisible) || other.isVisible == isVisible));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,address,networkGroup,isVisible);
+int get hashCode => Object.hash(runtimeType,collection,networkGroup,isVisible);
 
 @override
 String toString() {
-  return 'NftCollectionSettings(address: $address, networkGroup: $networkGroup, isVisible: $isVisible)';
+  return 'NftCollectionSettings(collection: $collection, networkGroup: $networkGroup, isVisible: $isVisible)';
 }
 
 
@@ -48,11 +48,11 @@ abstract mixin class $NftCollectionSettingsCopyWith<$Res>  {
   factory $NftCollectionSettingsCopyWith(NftCollectionSettings value, $Res Function(NftCollectionSettings) _then) = _$NftCollectionSettingsCopyWithImpl;
 @useResult
 $Res call({
- Address address, NetworkGroup networkGroup, bool isVisible
+ Address collection, NetworkGroup networkGroup, bool isVisible
 });
 
 
-$AddressCopyWith<$Res> get address;
+$AddressCopyWith<$Res> get collection;
 
 }
 /// @nodoc
@@ -65,9 +65,9 @@ class _$NftCollectionSettingsCopyWithImpl<$Res>
 
 /// Create a copy of NftCollectionSettings
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? address = null,Object? networkGroup = null,Object? isVisible = null,}) {
+@pragma('vm:prefer-inline') @override $Res call({Object? collection = null,Object? networkGroup = null,Object? isVisible = null,}) {
   return _then(_self.copyWith(
-address: null == address ? _self.address : address // ignore: cast_nullable_to_non_nullable
+collection: null == collection ? _self.collection : collection // ignore: cast_nullable_to_non_nullable
 as Address,networkGroup: null == networkGroup ? _self.networkGroup : networkGroup // ignore: cast_nullable_to_non_nullable
 as NetworkGroup,isVisible: null == isVisible ? _self.isVisible : isVisible // ignore: cast_nullable_to_non_nullable
 as bool,
@@ -77,10 +77,10 @@ as bool,
 /// with the given fields replaced by the non-null parameter values.
 @override
 @pragma('vm:prefer-inline')
-$AddressCopyWith<$Res> get address {
+$AddressCopyWith<$Res> get collection {
   
-  return $AddressCopyWith<$Res>(_self.address, (value) {
-    return _then(_self.copyWith(address: value));
+  return $AddressCopyWith<$Res>(_self.collection, (value) {
+    return _then(_self.copyWith(collection: value));
   });
 }
 }
@@ -164,10 +164,10 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( Address address,  NetworkGroup networkGroup,  bool isVisible)?  $default,{required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( Address collection,  NetworkGroup networkGroup,  bool isVisible)?  $default,{required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _NftCollectionSettings() when $default != null:
-return $default(_that.address,_that.networkGroup,_that.isVisible);case _:
+return $default(_that.collection,_that.networkGroup,_that.isVisible);case _:
   return orElse();
 
 }
@@ -185,10 +185,10 @@ return $default(_that.address,_that.networkGroup,_that.isVisible);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( Address address,  NetworkGroup networkGroup,  bool isVisible)  $default,) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( Address collection,  NetworkGroup networkGroup,  bool isVisible)  $default,) {final _that = this;
 switch (_that) {
 case _NftCollectionSettings():
-return $default(_that.address,_that.networkGroup,_that.isVisible);case _:
+return $default(_that.collection,_that.networkGroup,_that.isVisible);case _:
   throw StateError('Unexpected subclass');
 
 }
@@ -205,10 +205,10 @@ return $default(_that.address,_that.networkGroup,_that.isVisible);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( Address address,  NetworkGroup networkGroup,  bool isVisible)?  $default,) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( Address collection,  NetworkGroup networkGroup,  bool isVisible)?  $default,) {final _that = this;
 switch (_that) {
 case _NftCollectionSettings() when $default != null:
-return $default(_that.address,_that.networkGroup,_that.isVisible);case _:
+return $default(_that.collection,_that.networkGroup,_that.isVisible);case _:
   return null;
 
 }
@@ -220,10 +220,10 @@ return $default(_that.address,_that.networkGroup,_that.isVisible);case _:
 @JsonSerializable()
 
 class _NftCollectionSettings implements NftCollectionSettings {
-  const _NftCollectionSettings({required this.address, required this.networkGroup, this.isVisible = true});
+  const _NftCollectionSettings({required this.collection, required this.networkGroup, this.isVisible = true});
   factory _NftCollectionSettings.fromJson(Map<String, dynamic> json) => _$NftCollectionSettingsFromJson(json);
 
-@override final  Address address;
+@override final  Address collection;
 @override final  NetworkGroup networkGroup;
 @override@JsonKey() final  bool isVisible;
 
@@ -240,16 +240,16 @@ Map<String, dynamic> toJson() {
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _NftCollectionSettings&&(identical(other.address, address) || other.address == address)&&(identical(other.networkGroup, networkGroup) || other.networkGroup == networkGroup)&&(identical(other.isVisible, isVisible) || other.isVisible == isVisible));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _NftCollectionSettings&&(identical(other.collection, collection) || other.collection == collection)&&(identical(other.networkGroup, networkGroup) || other.networkGroup == networkGroup)&&(identical(other.isVisible, isVisible) || other.isVisible == isVisible));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,address,networkGroup,isVisible);
+int get hashCode => Object.hash(runtimeType,collection,networkGroup,isVisible);
 
 @override
 String toString() {
-  return 'NftCollectionSettings(address: $address, networkGroup: $networkGroup, isVisible: $isVisible)';
+  return 'NftCollectionSettings(collection: $collection, networkGroup: $networkGroup, isVisible: $isVisible)';
 }
 
 
@@ -260,11 +260,11 @@ abstract mixin class _$NftCollectionSettingsCopyWith<$Res> implements $NftCollec
   factory _$NftCollectionSettingsCopyWith(_NftCollectionSettings value, $Res Function(_NftCollectionSettings) _then) = __$NftCollectionSettingsCopyWithImpl;
 @override @useResult
 $Res call({
- Address address, NetworkGroup networkGroup, bool isVisible
+ Address collection, NetworkGroup networkGroup, bool isVisible
 });
 
 
-@override $AddressCopyWith<$Res> get address;
+@override $AddressCopyWith<$Res> get collection;
 
 }
 /// @nodoc
@@ -277,9 +277,9 @@ class __$NftCollectionSettingsCopyWithImpl<$Res>
 
 /// Create a copy of NftCollectionSettings
 /// with the given fields replaced by the non-null parameter values.
-@override @pragma('vm:prefer-inline') $Res call({Object? address = null,Object? networkGroup = null,Object? isVisible = null,}) {
+@override @pragma('vm:prefer-inline') $Res call({Object? collection = null,Object? networkGroup = null,Object? isVisible = null,}) {
   return _then(_NftCollectionSettings(
-address: null == address ? _self.address : address // ignore: cast_nullable_to_non_nullable
+collection: null == collection ? _self.collection : collection // ignore: cast_nullable_to_non_nullable
 as Address,networkGroup: null == networkGroup ? _self.networkGroup : networkGroup // ignore: cast_nullable_to_non_nullable
 as NetworkGroup,isVisible: null == isVisible ? _self.isVisible : isVisible // ignore: cast_nullable_to_non_nullable
 as bool,
@@ -290,10 +290,10 @@ as bool,
 /// with the given fields replaced by the non-null parameter values.
 @override
 @pragma('vm:prefer-inline')
-$AddressCopyWith<$Res> get address {
+$AddressCopyWith<$Res> get collection {
   
-  return $AddressCopyWith<$Res>(_self.address, (value) {
-    return _then(_self.copyWith(address: value));
+  return $AddressCopyWith<$Res>(_self.collection, (value) {
+    return _then(_self.copyWith(collection: value));
   });
 }
 }

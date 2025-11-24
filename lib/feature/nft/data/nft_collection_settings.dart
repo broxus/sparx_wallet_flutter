@@ -9,7 +9,7 @@ part 'nft_collection_settings.g.dart';
 @freezed
 abstract class NftCollectionSettings with _$NftCollectionSettings {
   const factory NftCollectionSettings({
-    required Address address,
+    required Address collection,
     required NetworkGroup networkGroup,
     @Default(true) bool isVisible,
   }) = _NftCollectionSettings;

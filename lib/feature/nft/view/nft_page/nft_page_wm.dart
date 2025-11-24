@@ -63,10 +63,6 @@ class NftPageWidgetModel
               .scanNftCollections(owner)
               .then((_) => _loadingState.accept(false)),
         );
-
-    _transferEventSubscription = model.nftTransferEventStream.listen(
-      (_) => _reload(),
-    );
   }
 
   @override
@@ -91,6 +87,10 @@ class NftPageWidgetModel
       );
       await _reload(owner);
     }
+  }
+
+  void onMarketplaceUrlPressed(String marketplaceUrl) {
+    model.openBrowserByString(marketplaceUrl);
   }
 
   void onNftCollectionPressed(NftCollection collection) {

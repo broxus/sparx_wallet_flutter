@@ -1,8 +1,9 @@
 import 'dart:async';
 
 import 'package:app/app/service/service.dart';
+import 'package:app/feature/browser_v2/domain/browser_launcher.dart';
+import 'package:app/feature/nft/domain/nft_display_mode_configurator.dart';
 import 'package:app/feature/nft/nft.dart';
-import 'package:app/feature/nft/view/nft_view_configurator.dart';
 import 'package:elementary/elementary.dart';
 import 'package:injectable/injectable.dart';
 import 'package:nekoton_repository/nekoton_repository.dart';
@@ -15,13 +16,15 @@ class NftPageModel extends ElementaryModel {
     this._nftService,
     this._currentAccountsService,
     this._nekotonRepository,
-    this._nftViewConfigurator,
+    this._nftDisplayModeConfigurator,
+    this._browserLauncher,
   ) : super(errorHandler: errorHandler);
 
   final NftService _nftService;
   final CurrentAccountsService _currentAccountsService;
   final NekotonRepository _nekotonRepository;
-  final NftViewConfigurator _nftViewConfigurator;
+  final NftDisplayModeConfigurator _nftDisplayModeConfigurator;
+  final BrowserLauncher _browserLauncher;
 
   late final Stream<Address> _ownerStream = _currentAccountsService
       .currentActiveAccountStream
@@ -40,7 +43,7 @@ class NftPageModel extends ElementaryModel {
       .map((transport) => transport.nftInformation?.marketplaceUrl);
 
   Stream<NftDisplayMode?> get displayModeStream =>
-      _nftViewConfigurator.displayModeStream;
+      _nftDisplayModeConfigurator.displayModeStream;
 
   Stream<List<NftCollection>> get collectionsStream =>
       _ownerStream.switchMap(_nftService.getAccountCollectionsStream);
@@ -59,7 +62,7 @@ class NftPageModel extends ElementaryModel {
   }
 
   void setDisplayMode(NftDisplayMode mode) =>
-      _nftViewConfigurator.setDisplayMode(mode);
+      _nftDisplayModeConfigurator.setDisplayMode(mode);
 
   Future<void> scanNftCollections(Address owner) =>
       _nftService.scanNftCollections(owner);
@@ -69,4 +72,8 @@ class NftPageModel extends ElementaryModel {
         accountAddress: account,
         collectionAddress: collection,
       );
+
+  void openBrowserByString(String marketplaceUrl) {
+    _browserLauncher.openBrowserByString(marketplaceUrl);
+  }
 }

@@ -18,21 +18,21 @@ class NftTransferInfoWidget
   const NftTransferInfoWidget({
     required this.amount,
     required this.recipient,
-    required this.item,
-    required this.collection,
-    required this.attachedAmount,
-    required this.fees,
-    required this.feeError,
+    required this.itemState,
+    required this.collectionState,
+    required this.attachedAmountState,
+    required this.feesState,
+    required this.feeErrorState,
     super.key,
   });
 
   final BigInt? amount;
   final Address recipient;
-  final ListenableState<NftItem> item;
-  final ListenableState<NftCollection> collection;
-  final ListenableState<BigInt> fees;
-  final ListenableState<String> feeError;
-  final ListenableState<BigInt> attachedAmount;
+  final ListenableState<NftItem> itemState;
+  final ListenableState<NftCollection> collectionState;
+  final ListenableState<BigInt> feesState;
+  final ListenableState<String> feeErrorState;
+  final ListenableState<BigInt> attachedAmountState;
 
   @override
   Widget build(NftTransferInfoWidgetModel wm) {
@@ -49,8 +49,8 @@ class NftTransferInfoWidget
         mainAxisSize: MainAxisSize.min,
         children: [
           DoubleSourceBuilder(
-            firstSource: item,
-            secondSource: collection,
+            firstSource: itemState,
+            secondSource: collectionState,
             builder: (_, item, collection) {
               if (item == null || collection == null) {
                 return const ProgressIndicatorWidget(size: DimensSizeV2.d44);
@@ -72,7 +72,7 @@ class NftTransferInfoWidget
               ),
             ),
           StateNotifierBuilder(
-            listenableState: attachedAmount,
+            listenableState: attachedAmountState,
             builder: (_, attachedAmount) {
               final amount = attachedAmount?.let(
                 (attachedAmount) => Money.fromBigIntWithCurrency(
@@ -121,63 +121,62 @@ class NftTransferInfoWidget
               );
             },
           ),
-          DoubleSourceBuilder(
-            firstSource: fees,
-            secondSource: wm.nativeUSDPriceState,
-            builder: (_, fees, nativeUSDPrice) {
-              final amount = fees?.let(
-                (fees) => Money.fromBigIntWithCurrency(fees, wm.nativeCurrency),
-              );
+          Padding(
+            padding: const EdgeInsets.only(top: DimensSizeV2.d16),
+            child: SeparatedColumn(
+              crossAxisAlignment: CrossAxisAlignment.end,
+              children: [
+                DoubleSourceBuilder(
+                  firstSource: feesState,
+                  secondSource: wm.nativeUSDPriceState,
+                  builder: (_, fees, nativeUSDPrice) {
+                    final amount = fees?.let(
+                      (fees) =>
+                          Money.fromBigIntWithCurrency(fees, wm.nativeCurrency),
+                    );
 
-              final child = SeparatedColumn(
-                crossAxisAlignment: CrossAxisAlignment.end,
-                children: [
-                  WalletTransactionDetailsItem(
-                    title: LocaleKeys.networkFee.tr(),
-                    valueWidget:
-                        amount?.let(
-                          (amount) => AmountWidget.fromMoney(
-                            amount: amount,
-                            sign: '~ ',
-                            includeSymbol: false,
-                          ),
-                        ) ??
-                        _indicator,
-                    iconPath: wm.nativeTokenIcon,
-                    convertedValueWidget:
-                        nativeUSDPrice != null && amount != null
-                        ? AmountWidget.dollars(
-                            amount: amount.exchangeToUSD(nativeUSDPrice, 5),
-                            style: theme.textStyles.labelXSmall.copyWith(
-                              color: theme.colors.content3,
+                    return WalletTransactionDetailsItem(
+                      title: LocaleKeys.networkFee.tr(),
+                      valueWidget:
+                          amount?.let(
+                            (amount) => AmountWidget.fromMoney(
+                              amount: amount,
+                              sign: '~ ',
+                              includeSymbol: false,
                             ),
-                          )
-                        : null,
-                  ),
-                  StateNotifierBuilder(
-                    listenableState: feeError,
-                    builder: (_, feeError) {
-                      if (feeError == null) return const SizedBox.shrink();
+                          ) ??
+                          _indicator,
+                      iconPath: wm.nativeTokenIcon,
+                      convertedValueWidget:
+                          nativeUSDPrice != null && amount != null
+                          ? AmountWidget.dollars(
+                              amount: amount.exchangeToUSD(nativeUSDPrice, 5),
+                              style: theme.textStyles.labelXSmall.copyWith(
+                                color: theme.colors.content3,
+                              ),
+                            )
+                          : null,
+                    );
+                  },
+                ),
+                StateNotifierBuilder(
+                  listenableState: feeErrorState,
+                  builder: (_, feeError) {
+                    if (feeError == null) return const SizedBox.shrink();
 
-                      return Padding(
-                        padding: const EdgeInsets.only(top: DimensSizeV2.d4),
-                        child: Text(
-                          feeError,
-                          style: theme.textStyles.labelSmall.copyWith(
-                            color: theme.colors.negative,
-                          ),
+                    return Padding(
+                      padding: const EdgeInsets.only(top: DimensSizeV2.d4),
+                      child: Text(
+                        feeError,
+                        style: theme.textStyles.labelSmall.copyWith(
+                          color: theme.colors.negative,
                         ),
-                      );
-                    },
-                  ),
-                ],
-              );
-
-              return Padding(
-                padding: const EdgeInsets.only(top: DimensSizeV2.d16),
-                child: child,
-              );
-            },
+                      ),
+                    );
+                  },
+                ),
+              ],
+            ),
           ),
           Padding(
             padding: const EdgeInsets.only(top: DimensSizeV2.d16),
