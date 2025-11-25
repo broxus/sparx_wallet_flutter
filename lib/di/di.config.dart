@@ -2480,15 +2480,6 @@ extension GetItInjectableX on _i174.GetIt {
         gh<_i549.DeleteAccountSheetModel>(),
       ),
     );
-    gh.factory<_i622.WalletAppBarModel>(
-      () => _i622.WalletAppBarModel(
-        gh<_i83.ErrorHandler>(),
-        gh<_i771.NekotonRepository>(),
-        gh<_i128.CurrentAccountsService>(),
-        gh<_i128.ConnectionsStorageService>(),
-        gh<_i128.AppLinksService>(),
-      ),
-    );
     gh.singleton<_i725.StorageManagerService>(
       () => _i725.StorageManagerService(
         gh<_i128.SecureStorageService>(),
@@ -2616,6 +2607,16 @@ extension GetItInjectableX on _i174.GetIt {
         gh<_i128.AssetsService>(),
         gh<_i188.TokenRepository>(),
         gh<_i104.ResourcesService>(),
+      ),
+    );
+    gh.factory<_i622.WalletAppBarModel>(
+      () => _i622.WalletAppBarModel(
+        gh<_i83.ErrorHandler>(),
+        gh<_i771.NekotonRepository>(),
+        gh<_i128.CurrentAccountsService>(),
+        gh<_i128.ConnectionsStorageService>(),
+        gh<_i128.AppLinksService>(),
+        gh<_i553.MessengerService>(),
       ),
     );
     gh.factory<_i561.AddNetworkModel>(

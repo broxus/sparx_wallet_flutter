@@ -113,7 +113,7 @@ class QrScannerWidgetModel
       if (rawValue == null) return;
 
       result = model.tryGetResult(value: rawValue, types: wmParams.value);
-      if (result != null) break;
+      if (result is! QrScanResultInvalid) break;
     }
 
     if (result != null) {
