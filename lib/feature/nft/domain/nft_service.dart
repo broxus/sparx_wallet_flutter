@@ -49,30 +49,28 @@ class NftService {
     _currentSubscribedAccount = null;
   }
 
-  Stream<List<NftCollectionSettings>> getAccountCollectionsMetaStream(
-    Address owner,
-  ) {
+  Stream<List<NftCollection>> getAccountCollectionsStream(Address owner) {
     return Rx.combineLatest2(
       _nekotonRepository.currentTransportStream
           .map((e) => e.networkGroup)
           .distinct(),
       _nftStorageService.collectionsStream,
       (group, metadata) {
-        final collections = metadata[owner] ?? [];
-        return collections
-            .where((meta) => meta.networkGroup == group && meta.isVisible)
-            .toList();
-      },
-    );
-  }
+        final collectionsSettings = metadata[owner] ?? [];
 
-  Stream<List<NftCollection>> getAccountCollectionsStream(Address owner) {
-    return getAccountCollectionsMetaStream(owner).map(
-      (e) => e
-          .map((meta) => _collections[meta.collection])
-          .nonNulls
-          .sortedBy((c) => c.name ?? '')
-          .toList(),
+        final result = <NftCollection>[];
+
+        for (final s in collectionsSettings) {
+          if (s.networkGroup == group && s.isVisible) {
+            final collection = _collections[s.collection];
+            if (collection == null) continue;
+
+            result.add(collection);
+          }
+        }
+
+        return result.sortedBy((c) => c.name ?? '');
+      },
     );
   }
 
@@ -83,9 +81,10 @@ class NftService {
           .distinct(),
       _nftStorageService.pendingNftStream,
       (group, pendingNft) {
-        return pendingNft
-            .where((e) => e.networkGroup == group && e.owner == owner)
-            .toList();
+        return [
+          for (final p in pendingNft)
+            if (p.networkGroup == group && p.owner == owner) p,
+        ];
       },
     );
   }
@@ -240,7 +239,7 @@ class NftService {
     }
   }
 
-  void _handleTransferEvent(NftTransferEvent event) {
+  Future<void> _handleTransferEvent(NftTransferEvent event) async {
     if (event.direction == TransferDirection.incoming) {
       _nftStorageService.addPendingNft(
         PendingNft(
