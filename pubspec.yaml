@@ -27,7 +27,7 @@ dependencies:
   collection: 1.19.1
   convert: 3.1.2
   crypto: 3.0.7
-  cupertino_http: ^2.3.0
+  cupertino_http: ^2.4.0
   device_info_plus: ^12.1.0
   dio: ^5.9.0
   drift: ^2.29.0
