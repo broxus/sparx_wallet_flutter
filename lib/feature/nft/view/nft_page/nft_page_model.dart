@@ -26,7 +26,7 @@ class NftPageModel extends ElementaryModel {
   final NftDisplayModeConfigurator _nftDisplayModeConfigurator;
   final BrowserLauncher _browserLauncher;
 
-  late final Stream<Address> _ownerStream = _currentAccountsService
+  Stream<Address> get _ownerStream => _currentAccountsService
       .currentActiveAccountStream
       .mapNotNull((e) => e?.address);
 
