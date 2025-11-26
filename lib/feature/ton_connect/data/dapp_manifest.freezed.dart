@@ -15,7 +15,7 @@ T _$identity<T>(T value) => value;
 /// @nodoc
 mixin _$DappManifest {
 
- String get url; String get name; String get iconUrl; String? get termsOfUseUrl; String? get privacyPolicyUrl;
+ Uri get url; String get name; String get iconUrl; String? get termsOfUseUrl; String? get privacyPolicyUrl;
 /// Create a copy of DappManifest
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -48,7 +48,7 @@ abstract mixin class $DappManifestCopyWith<$Res>  {
   factory $DappManifestCopyWith(DappManifest value, $Res Function(DappManifest) _then) = _$DappManifestCopyWithImpl;
 @useResult
 $Res call({
- String url, String name, String iconUrl, String? termsOfUseUrl, String? privacyPolicyUrl
+ Uri url, String name, String iconUrl, String? termsOfUseUrl, String? privacyPolicyUrl
 });
 
 
@@ -68,7 +68,7 @@ class _$DappManifestCopyWithImpl<$Res>
 @pragma('vm:prefer-inline') @override $Res call({Object? url = null,Object? name = null,Object? iconUrl = null,Object? termsOfUseUrl = freezed,Object? privacyPolicyUrl = freezed,}) {
   return _then(_self.copyWith(
 url: null == url ? _self.url : url // ignore: cast_nullable_to_non_nullable
-as String,name: null == name ? _self.name : name // ignore: cast_nullable_to_non_nullable
+as Uri,name: null == name ? _self.name : name // ignore: cast_nullable_to_non_nullable
 as String,iconUrl: null == iconUrl ? _self.iconUrl : iconUrl // ignore: cast_nullable_to_non_nullable
 as String,termsOfUseUrl: freezed == termsOfUseUrl ? _self.termsOfUseUrl : termsOfUseUrl // ignore: cast_nullable_to_non_nullable
 as String?,privacyPolicyUrl: freezed == privacyPolicyUrl ? _self.privacyPolicyUrl : privacyPolicyUrl // ignore: cast_nullable_to_non_nullable
@@ -157,7 +157,7 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( String url,  String name,  String iconUrl,  String? termsOfUseUrl,  String? privacyPolicyUrl)?  $default,{required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( Uri url,  String name,  String iconUrl,  String? termsOfUseUrl,  String? privacyPolicyUrl)?  $default,{required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _DappManifest() when $default != null:
 return $default(_that.url,_that.name,_that.iconUrl,_that.termsOfUseUrl,_that.privacyPolicyUrl);case _:
@@ -178,7 +178,7 @@ return $default(_that.url,_that.name,_that.iconUrl,_that.termsOfUseUrl,_that.pri
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( String url,  String name,  String iconUrl,  String? termsOfUseUrl,  String? privacyPolicyUrl)  $default,) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( Uri url,  String name,  String iconUrl,  String? termsOfUseUrl,  String? privacyPolicyUrl)  $default,) {final _that = this;
 switch (_that) {
 case _DappManifest():
 return $default(_that.url,_that.name,_that.iconUrl,_that.termsOfUseUrl,_that.privacyPolicyUrl);case _:
@@ -198,7 +198,7 @@ return $default(_that.url,_that.name,_that.iconUrl,_that.termsOfUseUrl,_that.pri
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( String url,  String name,  String iconUrl,  String? termsOfUseUrl,  String? privacyPolicyUrl)?  $default,) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( Uri url,  String name,  String iconUrl,  String? termsOfUseUrl,  String? privacyPolicyUrl)?  $default,) {final _that = this;
 switch (_that) {
 case _DappManifest() when $default != null:
 return $default(_that.url,_that.name,_that.iconUrl,_that.termsOfUseUrl,_that.privacyPolicyUrl);case _:
@@ -216,7 +216,7 @@ class _DappManifest implements DappManifest {
   const _DappManifest({required this.url, required this.name, required this.iconUrl, this.termsOfUseUrl, this.privacyPolicyUrl});
   factory _DappManifest.fromJson(Map<String, dynamic> json) => _$DappManifestFromJson(json);
 
-@override final  String url;
+@override final  Uri url;
 @override final  String name;
 @override final  String iconUrl;
 @override final  String? termsOfUseUrl;
@@ -255,7 +255,7 @@ abstract mixin class _$DappManifestCopyWith<$Res> implements $DappManifestCopyWi
   factory _$DappManifestCopyWith(_DappManifest value, $Res Function(_DappManifest) _then) = __$DappManifestCopyWithImpl;
 @override @useResult
 $Res call({
- String url, String name, String iconUrl, String? termsOfUseUrl, String? privacyPolicyUrl
+ Uri url, String name, String iconUrl, String? termsOfUseUrl, String? privacyPolicyUrl
 });
 
 
@@ -275,7 +275,7 @@ class __$DappManifestCopyWithImpl<$Res>
 @override @pragma('vm:prefer-inline') $Res call({Object? url = null,Object? name = null,Object? iconUrl = null,Object? termsOfUseUrl = freezed,Object? privacyPolicyUrl = freezed,}) {
   return _then(_DappManifest(
 url: null == url ? _self.url : url // ignore: cast_nullable_to_non_nullable
-as String,name: null == name ? _self.name : name // ignore: cast_nullable_to_non_nullable
+as Uri,name: null == name ? _self.name : name // ignore: cast_nullable_to_non_nullable
 as String,iconUrl: null == iconUrl ? _self.iconUrl : iconUrl // ignore: cast_nullable_to_non_nullable
 as String,termsOfUseUrl: freezed == termsOfUseUrl ? _self.termsOfUseUrl : termsOfUseUrl // ignore: cast_nullable_to_non_nullable
 as String?,privacyPolicyUrl: freezed == privacyPolicyUrl ? _self.privacyPolicyUrl : privacyPolicyUrl // ignore: cast_nullable_to_non_nullable
