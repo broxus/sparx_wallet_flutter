@@ -71,6 +71,7 @@ import '../app/service/pending_deep_link_service.dart' as _i239;
 import '../app/service/permissions_service.dart' as _i473;
 import '../app/service/presets_connection/presets_connection_service.dart'
     as _i116;
+import '../app/service/protected_content_service.dart' as _i689;
 import '../app/service/remote/dns_resolve_service.dart' as _i391;
 import '../app/service/resources_service.dart' as _i104;
 import '../app/service/secure_string_service.dart' as _i74;
@@ -743,6 +744,9 @@ extension GetItInjectableX on _i174.GetIt {
       dispose: (i) => i.dispose(),
     );
     gh.singleton<_i47.CrashDetectorService>(() => _i47.CrashDetectorService());
+    gh.singleton<_i689.ProtectedContentService>(
+      () => _i689.ProtectedContentService(),
+    );
     gh.singleton<_i74.SecureStringService>(() => _i74.SecureStringService());
     gh.singleton<_i104.ResourcesService>(() => _i104.ResourcesService());
     gh.singleton<_i830.AppLifecycleService>(() => _i830.AppLifecycleService());
