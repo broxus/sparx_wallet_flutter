@@ -5,8 +5,10 @@ import 'package:app/app/service/app_lifecycle_service.dart';
 import 'package:app/app/service/app_links/app_links.dart';
 import 'package:app/app/service/biometry_service.dart';
 import 'package:app/app/service/bootstrap/bootstrap_service.dart';
+import 'package:app/app/service/bootstrap/bootstrap_steps.dart';
 import 'package:app/app/service/bootstrap/configurators/logger.dart';
 import 'package:app/app/service/crash_detector/domain/service/crash_detector_service.dart';
+import 'package:app/app/service/navigation_service.dart';
 import 'package:app/app/service/pending_deep_link_service.dart';
 import 'package:app/app/view/app.dart';
 import 'package:app/feature/browser/domain/browser_launcher.dart';
@@ -37,6 +39,7 @@ class AppModel extends ElementaryModel with WidgetsBindingObserver {
     this._nekotonRepository,
     this._bootstrapService,
     this._pendingDeepLinkService,
+    this._navigationService,
   ) : super(errorHandler: errorHandler);
 
   final CompassRouter router;
@@ -51,14 +54,18 @@ class AppModel extends ElementaryModel with WidgetsBindingObserver {
   final NekotonRepository _nekotonRepository;
   final BootstrapService _bootstrapService;
   final PendingDeepLinkService _pendingDeepLinkService;
+  final NavigationService _navigationService;
+
+  AppLifecycleListener? _listener;
+  StreamSubscription<BrowserAppLinksData>? _appLinksSubs;
 
   BuildContext? get navContext =>
       CompassRouter.navigatorKey.currentState?.context;
 
   Stream<bool> get messagesExistStream => _messengerService.messagesExistStream;
 
-  AppLifecycleListener? _listener;
-  StreamSubscription<BrowserAppLinksData>? _appLinksSubs;
+  Stream<BootstrapSteps> get bootstrapStepStream =>
+      _bootstrapService.bootstrapStepStream;
 
   @override
   void init() {
@@ -89,6 +96,10 @@ class AppModel extends ElementaryModel with WidgetsBindingObserver {
 
   Future<bool> checkCrashDetected() =>
       _crashDetectorService.checkCrashDetected();
+
+  Future<String?> getSavedNavigation() {
+    return _navigationService.getSavedState();
+  }
 
   void _onStateChanged(AppLifecycleState state) {
     switch (state) {

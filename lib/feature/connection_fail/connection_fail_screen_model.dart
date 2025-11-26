@@ -11,18 +11,18 @@ import 'package:injectable/injectable.dart';
 class ConnectionFailModel extends ElementaryModel {
   ConnectionFailModel(
     ErrorHandler errorHandler,
-    this.bootstrapService,
-    this.messengerService,
+    this._bootstrapService,
+    this._messengerService,
   ) : super(errorHandler: errorHandler);
 
-  final BootstrapService bootstrapService;
-  final MessengerService messengerService;
+  final BootstrapService _bootstrapService;
+  final MessengerService _messengerService;
 
   Future<void> tryAgain() async {
     try {
-      await bootstrapService.rerunFailedSteps();
+      await _bootstrapService.rerunFailedSteps();
     } catch (e) {
-      messengerService.show(
+      _messengerService.show(
         Message.error(message: LocaleKeys.initializationRerunFailed.tr()),
       );
     }
