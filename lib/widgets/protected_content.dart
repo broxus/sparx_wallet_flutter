@@ -1,5 +1,4 @@
 import 'package:flutter/foundation.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
 import 'package:logging/logging.dart';
 import 'package:no_screenshot/no_screenshot.dart';
@@ -33,12 +32,7 @@ class _ProtectedContentState extends State<ProtectedContent> {
   }
 
   @override
-  Widget build(BuildContext context) => kDebugMode
-      ? widget.child
-      : SensitiveContent(
-          sensitivity: ContentSensitivity.sensitive,
-          child: widget.child,
-        );
+  Widget build(BuildContext context) => widget.child;
 
   Future<void> _enableFlagSecure() async {
     if (kDebugMode) return;

@@ -1,4 +1,3 @@
-import 'package:app/feature/ton_connect/ton_connect.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
 part 'device_info.freezed.dart';
@@ -11,7 +10,7 @@ abstract class DeviceInfo with _$DeviceInfo {
     required String appName,
     required String appVersion,
     required int maxProtocolVersion,
-    required List<Feature> features,
+    required List<dynamic> features,
   }) = _DeviceInfo;
 
   factory DeviceInfo.fromJson(Map<String, dynamic> json) =>

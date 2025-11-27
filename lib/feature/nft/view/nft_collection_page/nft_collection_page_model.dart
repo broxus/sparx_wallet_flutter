@@ -1,5 +1,5 @@
 import 'package:app/app/service/service.dart';
-import 'package:app/feature/browser_v2/domain/browser_launcher.dart';
+import 'package:app/feature/browser/domain/browser_launcher.dart';
 import 'package:app/feature/messenger/messenger.dart';
 import 'package:app/feature/nft/nft.dart';
 import 'package:app/generated/generated.dart';
