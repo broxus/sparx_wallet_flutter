@@ -8,7 +8,7 @@ part 'ton_proof.g.dart';
 abstract class TonProof with _$TonProof {
   const factory TonProof({
     /// 64-bit unix epoch time of the signing operation (seconds)
-    required String timestamp,
+    required int timestamp,
     required String signature,
     required String payload,
     required TonProofDomain domain,

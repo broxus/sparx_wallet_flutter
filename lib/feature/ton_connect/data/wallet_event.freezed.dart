@@ -42,7 +42,7 @@ WalletEvent _$WalletEventFromJson(
 /// @nodoc
 mixin _$WalletEvent {
 
- String get id; Object get payload;
+ int get id; Object get payload;
 /// Create a copy of WalletEvent
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -75,7 +75,7 @@ abstract mixin class $WalletEventCopyWith<$Res>  {
   factory $WalletEventCopyWith(WalletEvent value, $Res Function(WalletEvent) _then) = _$WalletEventCopyWithImpl;
 @useResult
 $Res call({
- String id
+ int id
 });
 
 
@@ -95,7 +95,7 @@ class _$WalletEventCopyWithImpl<$Res>
 @pragma('vm:prefer-inline') @override $Res call({Object? id = null,}) {
   return _then(_self.copyWith(
 id: null == id ? _self.id : id // ignore: cast_nullable_to_non_nullable
-as String,
+as int,
   ));
 }
 
@@ -183,7 +183,7 @@ return disconnect(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>({TResult Function( String id,  ConnectEventSuccessPayload payload)?  connectSuccess,TResult Function( String id,  TonConnectError payload)?  connectError,TResult Function( String id,  Map<String, dynamic> payload)?  disconnect,required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>({TResult Function( int id,  ConnectEventSuccessPayload payload)?  connectSuccess,TResult Function( int id,  TonConnectError payload)?  connectError,TResult Function( int id,  Map<String, dynamic> payload)?  disconnect,required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case ConnectEventSuccess() when connectSuccess != null:
 return connectSuccess(_that.id,_that.payload);case ConnectEventError() when connectError != null:
@@ -206,7 +206,7 @@ return disconnect(_that.id,_that.payload);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>({required TResult Function( String id,  ConnectEventSuccessPayload payload)  connectSuccess,required TResult Function( String id,  TonConnectError payload)  connectError,required TResult Function( String id,  Map<String, dynamic> payload)  disconnect,}) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>({required TResult Function( int id,  ConnectEventSuccessPayload payload)  connectSuccess,required TResult Function( int id,  TonConnectError payload)  connectError,required TResult Function( int id,  Map<String, dynamic> payload)  disconnect,}) {final _that = this;
 switch (_that) {
 case ConnectEventSuccess():
 return connectSuccess(_that.id,_that.payload);case ConnectEventError():
@@ -225,7 +225,7 @@ return disconnect(_that.id,_that.payload);}
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>({TResult? Function( String id,  ConnectEventSuccessPayload payload)?  connectSuccess,TResult? Function( String id,  TonConnectError payload)?  connectError,TResult? Function( String id,  Map<String, dynamic> payload)?  disconnect,}) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>({TResult? Function( int id,  ConnectEventSuccessPayload payload)?  connectSuccess,TResult? Function( int id,  TonConnectError payload)?  connectError,TResult? Function( int id,  Map<String, dynamic> payload)?  disconnect,}) {final _that = this;
 switch (_that) {
 case ConnectEventSuccess() when connectSuccess != null:
 return connectSuccess(_that.id,_that.payload);case ConnectEventError() when connectError != null:
@@ -245,7 +245,7 @@ class ConnectEventSuccess implements WalletEvent {
   const ConnectEventSuccess({required this.id, required this.payload, final  String? $type}): $type = $type ?? 'connect';
   factory ConnectEventSuccess.fromJson(Map<String, dynamic> json) => _$ConnectEventSuccessFromJson(json);
 
-@override final  String id;
+@override final  int id;
 @override final  ConnectEventSuccessPayload payload;
 
 @JsonKey(name: 'event')
@@ -285,7 +285,7 @@ abstract mixin class $ConnectEventSuccessCopyWith<$Res> implements $WalletEventC
   factory $ConnectEventSuccessCopyWith(ConnectEventSuccess value, $Res Function(ConnectEventSuccess) _then) = _$ConnectEventSuccessCopyWithImpl;
 @override @useResult
 $Res call({
- String id, ConnectEventSuccessPayload payload
+ int id, ConnectEventSuccessPayload payload
 });
 
 
@@ -305,7 +305,7 @@ class _$ConnectEventSuccessCopyWithImpl<$Res>
 @override @pragma('vm:prefer-inline') $Res call({Object? id = null,Object? payload = null,}) {
   return _then(ConnectEventSuccess(
 id: null == id ? _self.id : id // ignore: cast_nullable_to_non_nullable
-as String,payload: null == payload ? _self.payload : payload // ignore: cast_nullable_to_non_nullable
+as int,payload: null == payload ? _self.payload : payload // ignore: cast_nullable_to_non_nullable
 as ConnectEventSuccessPayload,
   ));
 }
@@ -329,7 +329,7 @@ class ConnectEventError implements WalletEvent {
   const ConnectEventError({required this.id, required this.payload, final  String? $type}): $type = $type ?? 'connect_error';
   factory ConnectEventError.fromJson(Map<String, dynamic> json) => _$ConnectEventErrorFromJson(json);
 
-@override final  String id;
+@override final  int id;
 @override final  TonConnectError payload;
 
 @JsonKey(name: 'event')
@@ -369,7 +369,7 @@ abstract mixin class $ConnectEventErrorCopyWith<$Res> implements $WalletEventCop
   factory $ConnectEventErrorCopyWith(ConnectEventError value, $Res Function(ConnectEventError) _then) = _$ConnectEventErrorCopyWithImpl;
 @override @useResult
 $Res call({
- String id, TonConnectError payload
+ int id, TonConnectError payload
 });
 
 
@@ -389,7 +389,7 @@ class _$ConnectEventErrorCopyWithImpl<$Res>
 @override @pragma('vm:prefer-inline') $Res call({Object? id = null,Object? payload = null,}) {
   return _then(ConnectEventError(
 id: null == id ? _self.id : id // ignore: cast_nullable_to_non_nullable
-as String,payload: null == payload ? _self.payload : payload // ignore: cast_nullable_to_non_nullable
+as int,payload: null == payload ? _self.payload : payload // ignore: cast_nullable_to_non_nullable
 as TonConnectError,
   ));
 }
@@ -413,7 +413,7 @@ class DisconnectEvent implements WalletEvent {
   const DisconnectEvent({required this.id, final  Map<String, dynamic> payload = const {}, final  String? $type}): _payload = payload,$type = $type ?? 'disconnect';
   factory DisconnectEvent.fromJson(Map<String, dynamic> json) => _$DisconnectEventFromJson(json);
 
-@override final  String id;
+@override final  int id;
  final  Map<String, dynamic> _payload;
 @override@JsonKey() Map<String, dynamic> get payload {
   if (_payload is EqualUnmodifiableMapView) return _payload;
@@ -459,7 +459,7 @@ abstract mixin class $DisconnectEventCopyWith<$Res> implements $WalletEventCopyW
   factory $DisconnectEventCopyWith(DisconnectEvent value, $Res Function(DisconnectEvent) _then) = _$DisconnectEventCopyWithImpl;
 @override @useResult
 $Res call({
- String id, Map<String, dynamic> payload
+ int id, Map<String, dynamic> payload
 });
 
 
@@ -479,7 +479,7 @@ class _$DisconnectEventCopyWithImpl<$Res>
 @override @pragma('vm:prefer-inline') $Res call({Object? id = null,Object? payload = null,}) {
   return _then(DisconnectEvent(
 id: null == id ? _self.id : id // ignore: cast_nullable_to_non_nullable
-as String,payload: null == payload ? _self._payload : payload // ignore: cast_nullable_to_non_nullable
+as int,payload: null == payload ? _self._payload : payload // ignore: cast_nullable_to_non_nullable
 as Map<String, dynamic>,
   ));
 }

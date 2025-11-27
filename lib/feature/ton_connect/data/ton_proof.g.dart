@@ -7,7 +7,7 @@ part of 'ton_proof.dart';
 // **************************************************************************
 
 _TonProof _$TonProofFromJson(Map<String, dynamic> json) => _TonProof(
-  timestamp: json['timestamp'] as String,
+  timestamp: (json['timestamp'] as num).toInt(),
   signature: json['signature'] as String,
   payload: json['payload'] as String,
   domain: TonProofDomain.fromJson(json['domain'] as Map<String, dynamic>),
