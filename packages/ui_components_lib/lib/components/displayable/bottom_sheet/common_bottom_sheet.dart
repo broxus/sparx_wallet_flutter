@@ -23,7 +23,11 @@ Future<T?> showCommonBottomSheet<T>({
   required CommonSheetBodyBuilder body,
   String? title,
   String? subtitle,
-  EdgeInsets padding = const EdgeInsets.symmetric(horizontal: DimensSizeV2.d16),
+  EdgeInsets padding = const EdgeInsets.only(
+    bottom: DimensSizeV2.d24,
+    left: DimensSizeV2.d16,
+    right: DimensSizeV2.d16,
+  ),
   EdgeInsets? titleMargin,
   EdgeInsets? subtitleMargin,
   bool expand = false,
