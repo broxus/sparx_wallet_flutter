@@ -67,6 +67,8 @@ class AppModel extends ElementaryModel with WidgetsBindingObserver {
   Stream<BootstrapSteps> get bootstrapStepStream =>
       _bootstrapService.bootstrapStepStream;
 
+  bool? get hasSeeds => _nekotonRepository.hasSeeds.valueOrNull;
+
   @override
   void init() {
     _listener = AppLifecycleListener(onStateChange: _onStateChanged);
