@@ -1,5 +1,5 @@
 import 'package:app/di/di.dart';
-import 'package:app/feature/browser_v2/domain/browser_launcher.dart';
+import 'package:app/feature/browser/domain/browser_launcher.dart';
 import 'package:app/generated/generated.dart';
 import 'package:flutter/material.dart';
 import 'package:ui_components_lib/v2/ui_components_lib_v2.dart';
@@ -46,7 +46,7 @@ class EmptyNftList extends StatelessWidget {
                   horizontal: DimensSizeV2.d16,
                 ),
                 child: Text(
-                  marketplaceUrl != null
+                  (marketplaceUrl?.isNotEmpty ?? false)
                       ? LocaleKeys.nftEmptyListSubtitle.tr()
                       : LocaleKeys.nftEmptyListSubtitleNoMarket.tr(),
                   style: theme.textStyles.paragraphSmall.copyWith(
@@ -55,7 +55,7 @@ class EmptyNftList extends StatelessWidget {
                   textAlign: TextAlign.center,
                 ),
               ),
-              if (marketplaceUrl != null)
+              if (marketplaceUrl?.isNotEmpty ?? false)
                 Padding(
                   padding: const EdgeInsets.only(top: DimensSizeV2.d16),
                   child: AccentButton(

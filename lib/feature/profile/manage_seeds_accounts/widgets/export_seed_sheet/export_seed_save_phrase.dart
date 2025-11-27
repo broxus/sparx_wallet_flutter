@@ -18,7 +18,9 @@ ModalRoute<void> exportSeedSavePhraseRoute(
     titleTextStyle: titleTextStyle,
     title: LocaleKeys.saveSeedPhrase.tr(),
     body: (_, controller) => ProtectedContent(
-      child: ExportSeedSavePhrase(phrase: phrase, controller: controller),
+      child: ProtectedContent(
+        child: ExportSeedSavePhrase(phrase: phrase, controller: controller),
+      ),
     ),
   );
 }

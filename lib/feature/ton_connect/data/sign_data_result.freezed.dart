@@ -15,9 +15,7 @@ T _$identity<T>(T value) => value;
 /// @nodoc
 mixin _$SignDataResult {
 
-/// base64 encoded signature
- String get signature;/// UNIX timestamp in seconds (UTC) at the moment on creating the signature
- String get timestamp;
+ String get signature; Address get address; int get timestamp; String get domain; SignDataPayload get payload;
 /// Create a copy of SignDataResult
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -30,16 +28,16 @@ $SignDataResultCopyWith<SignDataResult> get copyWith => _$SignDataResultCopyWith
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is SignDataResult&&(identical(other.signature, signature) || other.signature == signature)&&(identical(other.timestamp, timestamp) || other.timestamp == timestamp));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is SignDataResult&&(identical(other.signature, signature) || other.signature == signature)&&(identical(other.address, address) || other.address == address)&&(identical(other.timestamp, timestamp) || other.timestamp == timestamp)&&(identical(other.domain, domain) || other.domain == domain)&&(identical(other.payload, payload) || other.payload == payload));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,signature,timestamp);
+int get hashCode => Object.hash(runtimeType,signature,address,timestamp,domain,payload);
 
 @override
 String toString() {
-  return 'SignDataResult(signature: $signature, timestamp: $timestamp)';
+  return 'SignDataResult(signature: $signature, address: $address, timestamp: $timestamp, domain: $domain, payload: $payload)';
 }
 
 
@@ -50,11 +48,11 @@ abstract mixin class $SignDataResultCopyWith<$Res>  {
   factory $SignDataResultCopyWith(SignDataResult value, $Res Function(SignDataResult) _then) = _$SignDataResultCopyWithImpl;
 @useResult
 $Res call({
- String signature, String timestamp
+ String signature, Address address, int timestamp, String domain, SignDataPayload payload
 });
 
 
-
+$AddressCopyWith<$Res> get address;$SignDataPayloadCopyWith<$Res> get payload;
 
 }
 /// @nodoc
@@ -67,14 +65,35 @@ class _$SignDataResultCopyWithImpl<$Res>
 
 /// Create a copy of SignDataResult
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? signature = null,Object? timestamp = null,}) {
+@pragma('vm:prefer-inline') @override $Res call({Object? signature = null,Object? address = null,Object? timestamp = null,Object? domain = null,Object? payload = null,}) {
   return _then(_self.copyWith(
 signature: null == signature ? _self.signature : signature // ignore: cast_nullable_to_non_nullable
-as String,timestamp: null == timestamp ? _self.timestamp : timestamp // ignore: cast_nullable_to_non_nullable
-as String,
+as String,address: null == address ? _self.address : address // ignore: cast_nullable_to_non_nullable
+as Address,timestamp: null == timestamp ? _self.timestamp : timestamp // ignore: cast_nullable_to_non_nullable
+as int,domain: null == domain ? _self.domain : domain // ignore: cast_nullable_to_non_nullable
+as String,payload: null == payload ? _self.payload : payload // ignore: cast_nullable_to_non_nullable
+as SignDataPayload,
   ));
 }
-
+/// Create a copy of SignDataResult
+/// with the given fields replaced by the non-null parameter values.
+@override
+@pragma('vm:prefer-inline')
+$AddressCopyWith<$Res> get address {
+  
+  return $AddressCopyWith<$Res>(_self.address, (value) {
+    return _then(_self.copyWith(address: value));
+  });
+}/// Create a copy of SignDataResult
+/// with the given fields replaced by the non-null parameter values.
+@override
+@pragma('vm:prefer-inline')
+$SignDataPayloadCopyWith<$Res> get payload {
+  
+  return $SignDataPayloadCopyWith<$Res>(_self.payload, (value) {
+    return _then(_self.copyWith(payload: value));
+  });
+}
 }
 
 
@@ -156,10 +175,10 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( String signature,  String timestamp)?  $default,{required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( String signature,  Address address,  int timestamp,  String domain,  SignDataPayload payload)?  $default,{required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _SignDataResult() when $default != null:
-return $default(_that.signature,_that.timestamp);case _:
+return $default(_that.signature,_that.address,_that.timestamp,_that.domain,_that.payload);case _:
   return orElse();
 
 }
@@ -177,10 +196,10 @@ return $default(_that.signature,_that.timestamp);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( String signature,  String timestamp)  $default,) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( String signature,  Address address,  int timestamp,  String domain,  SignDataPayload payload)  $default,) {final _that = this;
 switch (_that) {
 case _SignDataResult():
-return $default(_that.signature,_that.timestamp);case _:
+return $default(_that.signature,_that.address,_that.timestamp,_that.domain,_that.payload);case _:
   throw StateError('Unexpected subclass');
 
 }
@@ -197,10 +216,10 @@ return $default(_that.signature,_that.timestamp);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( String signature,  String timestamp)?  $default,) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( String signature,  Address address,  int timestamp,  String domain,  SignDataPayload payload)?  $default,) {final _that = this;
 switch (_that) {
 case _SignDataResult() when $default != null:
-return $default(_that.signature,_that.timestamp);case _:
+return $default(_that.signature,_that.address,_that.timestamp,_that.domain,_that.payload);case _:
   return null;
 
 }
@@ -212,13 +231,14 @@ return $default(_that.signature,_that.timestamp);case _:
 @JsonSerializable()
 
 class _SignDataResult implements SignDataResult {
-   _SignDataResult({required this.signature, required this.timestamp});
+   _SignDataResult({required this.signature, required this.address, required this.timestamp, required this.domain, required this.payload});
   factory _SignDataResult.fromJson(Map<String, dynamic> json) => _$SignDataResultFromJson(json);
 
-/// base64 encoded signature
 @override final  String signature;
-/// UNIX timestamp in seconds (UTC) at the moment on creating the signature
-@override final  String timestamp;
+@override final  Address address;
+@override final  int timestamp;
+@override final  String domain;
+@override final  SignDataPayload payload;
 
 /// Create a copy of SignDataResult
 /// with the given fields replaced by the non-null parameter values.
@@ -233,16 +253,16 @@ Map<String, dynamic> toJson() {
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _SignDataResult&&(identical(other.signature, signature) || other.signature == signature)&&(identical(other.timestamp, timestamp) || other.timestamp == timestamp));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _SignDataResult&&(identical(other.signature, signature) || other.signature == signature)&&(identical(other.address, address) || other.address == address)&&(identical(other.timestamp, timestamp) || other.timestamp == timestamp)&&(identical(other.domain, domain) || other.domain == domain)&&(identical(other.payload, payload) || other.payload == payload));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,signature,timestamp);
+int get hashCode => Object.hash(runtimeType,signature,address,timestamp,domain,payload);
 
 @override
 String toString() {
-  return 'SignDataResult(signature: $signature, timestamp: $timestamp)';
+  return 'SignDataResult(signature: $signature, address: $address, timestamp: $timestamp, domain: $domain, payload: $payload)';
 }
 
 
@@ -253,11 +273,11 @@ abstract mixin class _$SignDataResultCopyWith<$Res> implements $SignDataResultCo
   factory _$SignDataResultCopyWith(_SignDataResult value, $Res Function(_SignDataResult) _then) = __$SignDataResultCopyWithImpl;
 @override @useResult
 $Res call({
- String signature, String timestamp
+ String signature, Address address, int timestamp, String domain, SignDataPayload payload
 });
 
 
-
+@override $AddressCopyWith<$Res> get address;@override $SignDataPayloadCopyWith<$Res> get payload;
 
 }
 /// @nodoc
@@ -270,15 +290,36 @@ class __$SignDataResultCopyWithImpl<$Res>
 
 /// Create a copy of SignDataResult
 /// with the given fields replaced by the non-null parameter values.
-@override @pragma('vm:prefer-inline') $Res call({Object? signature = null,Object? timestamp = null,}) {
+@override @pragma('vm:prefer-inline') $Res call({Object? signature = null,Object? address = null,Object? timestamp = null,Object? domain = null,Object? payload = null,}) {
   return _then(_SignDataResult(
 signature: null == signature ? _self.signature : signature // ignore: cast_nullable_to_non_nullable
-as String,timestamp: null == timestamp ? _self.timestamp : timestamp // ignore: cast_nullable_to_non_nullable
-as String,
+as String,address: null == address ? _self.address : address // ignore: cast_nullable_to_non_nullable
+as Address,timestamp: null == timestamp ? _self.timestamp : timestamp // ignore: cast_nullable_to_non_nullable
+as int,domain: null == domain ? _self.domain : domain // ignore: cast_nullable_to_non_nullable
+as String,payload: null == payload ? _self.payload : payload // ignore: cast_nullable_to_non_nullable
+as SignDataPayload,
   ));
 }
 
-
+/// Create a copy of SignDataResult
+/// with the given fields replaced by the non-null parameter values.
+@override
+@pragma('vm:prefer-inline')
+$AddressCopyWith<$Res> get address {
+  
+  return $AddressCopyWith<$Res>(_self.address, (value) {
+    return _then(_self.copyWith(address: value));
+  });
+}/// Create a copy of SignDataResult
+/// with the given fields replaced by the non-null parameter values.
+@override
+@pragma('vm:prefer-inline')
+$SignDataPayloadCopyWith<$Res> get payload {
+  
+  return $SignDataPayloadCopyWith<$Res>(_self.payload, (value) {
+    return _then(_self.copyWith(payload: value));
+  });
+}
 }
 
 // dart format on
