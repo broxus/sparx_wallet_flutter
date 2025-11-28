@@ -3,7 +3,6 @@ import 'dart:collection';
 
 import 'package:app/feature/messenger/data/message.dart';
 import 'package:app/generated/generated.dart';
-import 'package:flutter/material.dart';
 import 'package:injectable/injectable.dart';
 import 'package:rxdart/subjects.dart';
 
@@ -28,11 +27,11 @@ class MessengerService {
     _messagesExistSubject.add(true);
   }
 
-  void showError(BuildContext context, String message) {
+  void showError(String message) {
     return show(Message.error(message: message));
   }
 
-  void showConnectionError(BuildContext? context) {
+  void showConnectionError() {
     show(Message.error(message: LocaleKeys.connectingNetworkFailed.tr()));
   }
 
