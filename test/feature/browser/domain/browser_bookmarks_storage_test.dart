@@ -1,4 +1,4 @@
-import 'package:app/feature/browser_v2/domain/service/storages/browser_bookmarks_storage_service.dart';
+import 'package:app/feature/browser/domain/service/storages/browser_bookmarks_storage_service.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:mocktail/mocktail.dart';

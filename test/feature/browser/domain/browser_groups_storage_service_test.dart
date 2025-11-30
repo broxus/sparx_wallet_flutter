@@ -1,6 +1,6 @@
 import 'package:app/app/service/ntp_service.dart';
-import 'package:app/feature/browser_v2/data/groups/browser_group.dart';
-import 'package:app/feature/browser_v2/domain/service/storages/browser_groups_storage_service.dart';
+import 'package:app/feature/browser/data/groups/browser_group.dart';
+import 'package:app/feature/browser/domain/service/storages/browser_groups_storage_service.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:get_it/get_it.dart';
 import 'package:get_storage/get_storage.dart';
