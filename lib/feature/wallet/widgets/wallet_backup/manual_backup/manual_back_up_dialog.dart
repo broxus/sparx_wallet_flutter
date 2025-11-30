@@ -1,6 +1,7 @@
 import 'package:app/core/wm/custom_wm.dart';
 import 'package:app/feature/wallet/widgets/wallet_backup/wallet_backup.dart';
 import 'package:app/generated/generated.dart';
+import 'package:app/widgets/widgets.dart';
 import 'package:elementary_helper/elementary_helper.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:lucide_icons_flutter/lucide_icons.dart';
@@ -17,10 +18,12 @@ Future<void> showManualBackupDialog(
     context: context,
     title: LocaleKeys.manualBackupTitleDialog.tr(),
     subtitle: LocaleKeys.manualBackupSubtitleDialog.tr(),
-    content: ContentManualBackup(
-      words: words,
-      address: address,
-      finishedBackupCallback: finishedBackupCallback,
+    content: ProtectedContent(
+      child: ContentManualBackup(
+        words: words,
+        address: address,
+        finishedBackupCallback: finishedBackupCallback,
+      ),
     ),
   );
 }

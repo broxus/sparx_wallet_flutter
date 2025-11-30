@@ -1,5 +1,5 @@
 import 'package:app/core/wm/custom_wm.dart';
-import 'package:app/feature/browser_v2/domain/browser_launcher.dart';
+import 'package:app/feature/browser/domain/browser_launcher.dart';
 import 'package:app/feature/profile/key_detail/widgets/account_rename_sheet/account_rename_sheet.dart';
 import 'package:app/feature/profile/key_detail/widgets/account_settings_sheet/account_settings_sheet.dart';
 import 'package:app/feature/profile/key_detail/widgets/account_settings_sheet/account_settings_sheet_model.dart';

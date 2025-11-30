@@ -176,9 +176,7 @@ class TonConnectHttpBridge {
     final response = await _tonConnectService.sendTransaction(
       requestId: request.id,
       connection: connection,
-      payload: TransactionPayload.fromJson(
-        jsonDecode(payload) as Map<String, dynamic>,
-      ),
+      payloadJson: jsonDecode(payload) as Map<String, dynamic>,
     );
 
     await _send(
@@ -200,9 +198,7 @@ class TonConnectHttpBridge {
     final response = await _tonConnectService.signData(
       requestId: request.id,
       connection: connection,
-      payload: SignDataPayload.fromJson(
-        jsonDecode(payload) as Map<String, dynamic>,
-      ),
+      payloadJson: jsonDecode(payload) as Map<String, dynamic>,
     );
 
     await _send(
