@@ -87,7 +87,7 @@ dependencies:
     git:
       url: https://github.com/knightsforce/flutter-render-metrics
       ref: optional-render-manager
-  retrofit: ^4.9.0
+  retrofit: 4.7.3
   rive: ^0.14.0-dev.13
   rxdart: 0.28.0
   sensitive_clipboard: ^1.1.0
