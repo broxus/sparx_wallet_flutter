@@ -142,9 +142,11 @@ class NftPrepareTransferWidgetModel
 
     if (!context.mounted) return;
 
-    if (result is QrScanResultAddress) {
-      receiverController.text = result.value.address;
+    if (result case QrScanResultAddress(:final value)) {
+      receiverController.text = value.address;
       receiverFocus.unfocus();
+    } else if (result is QrScanResultInvalid) {
+      model.showError(LocaleKeys.qrScannerError.tr());
     }
   }
 

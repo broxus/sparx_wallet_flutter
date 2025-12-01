@@ -48,6 +48,17 @@ class AppLinksService {
     }
   }
 
+  bool isValidAppLink(Uri uri) {
+    final queryParameters = uri.queryParameters;
+    final link = queryParameters[_linkKey];
+
+    if (link != null) {
+      return _checkIsAllowedScheme(link);
+    }
+
+    return uri.isScheme('tc') || uri.host == 'l.sparxwallet.com';
+  }
+
   void handleAppLink(Uri uri) {
     final queryParameters = uri.queryParameters;
     final link = queryParameters[_linkKey];
