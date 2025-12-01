@@ -153,6 +153,7 @@ class ImportWalletScreen
                         onPressed: isPasted ? wm.onPressedImport : null,
                         icon: LucideIcons.textCursorInput,
                       ),
+                      const SizedBox(height: DimensSize.d24),
                     ],
                   ),
                 ),

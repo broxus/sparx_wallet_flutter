@@ -8,6 +8,7 @@ import 'package:elementary_helper/elementary_helper.dart';
 import 'package:flutter/material.dart';
 import 'package:nekoton_repository/nekoton_repository.dart';
 import 'package:ui_components_lib/ui_components_lib.dart';
+import 'package:ui_components_lib/v2/widgets/custom_media_query.dart';
 
 /// {@template create_seed_password_onboarding_page}
 /// Entry point to create seed password from onboarding.
@@ -33,23 +34,26 @@ class CreateSeedPasswordScreen
   Widget build(CreateSeedPasswordScreenWidgetModel wm) {
     return GestureDetector(
       onTap: resetFocus,
-      child: Scaffold(
-        resizeToAvoidBottomInset: true,
-        backgroundColor: wm.themeStyle.colors.background0,
-        appBar: const DefaultAppBar(),
-        body: DoubleSourceBuilder<bool, PasswordStatus>(
-          firstSource: wm.loadState,
-          secondSource: wm.passwordStatusState,
-          builder: (_, isLoading, passwordStatus) {
-            return CreateSeedPasswordView(
-              needBiometryIfPossible: true,
-              passwordController: wm.passwordController,
-              confirmController: wm.confirmController,
-              onPressedNext: wm.onPressedNext,
-              isLoading: isLoading ?? false,
-              passwordStatus: passwordStatus,
-            );
-          },
+      child: CustomMediaQuery(
+        viewInsetsBottomAddon: -DimensSize.d16,
+        child: Scaffold(
+          resizeToAvoidBottomInset: true,
+          backgroundColor: wm.themeStyle.colors.background0,
+          appBar: const DefaultAppBar(),
+          body: DoubleSourceBuilder<bool, PasswordStatus>(
+            firstSource: wm.loadState,
+            secondSource: wm.passwordStatusState,
+            builder: (_, isLoading, passwordStatus) {
+              return CreateSeedPasswordView(
+                needBiometryIfPossible: true,
+                passwordController: wm.passwordController,
+                confirmController: wm.confirmController,
+                onPressedNext: wm.onPressedNext,
+                isLoading: isLoading ?? false,
+                passwordStatus: passwordStatus,
+              );
+            },
+          ),
         ),
       ),
     );

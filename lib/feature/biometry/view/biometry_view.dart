@@ -73,6 +73,7 @@ class BiometryView extends StatelessWidget {
             buttonShape: ButtonShape.pill,
             onPressed: onSkip,
           ),
+          const SizedBox(height: DimensSize.d24),
         ],
       ),
     );
