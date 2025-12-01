@@ -42,6 +42,7 @@ class AddExistingWalletWidget
               subtitle: LocaleKeys.pairLedgerButtonSubtitle.tr(),
               onPressed: wm.onLedger,
             ),
+            const SizedBox(height: DimensSizeV2.d24),
           ],
         ),
       ),
