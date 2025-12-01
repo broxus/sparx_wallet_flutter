@@ -114,7 +114,7 @@ class UpdateService {
     final warningLastTimeSecs =
         (_updateVersionStorageService.warningLastTime() ?? 0) ~/ 1000;
 
-    final nowSecs = NtpTime.now().millisecondsSinceEpoch ~/ 1000;
+    final nowSecs = NtpTime.now().secondsSinceEpoch;
     final elapsedSecs = nowSecs - warningLastTimeSecs;
 
     if (elapsedSecs < rules.warningShowDelayS) {

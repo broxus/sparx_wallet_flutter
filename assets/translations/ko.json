@@ -213,7 +213,8 @@
   "contactSupportOpenQa": "Open QA",
   "browserCloseAll": "Close All",
   "browserCloseAllTabsDescription": "Are you sure you want\nto clear all tabs?",
-  "browserPermissionsHeader": "requests permissions: {}",
+  "browserPermissionsHeader": "Permissions request",
+  "browserPermissionsBody": "{} needs access to:",
   "done": "Done",
   "browserSearchURL": "Search or enter URL",
   "browserSearchURLCancel": "Cancel",
@@ -702,6 +703,7 @@
   "seedPhrase24FormatTON": "TON BIP39",
   "invalidNetworkError": "Invalid network. Change current network to {}",
   "invalidPublicKeyError": "Invalid public key",
+  "invalidWalletAddressError": "Invalid wallet address",
   "dappManifestError": "dApp manifest error",
   "appNewVersionTitle": "SparX new version",
   "importantUpdateReleaseNote": "Important update with performance improvements, security features and enhanced stability",
@@ -781,5 +783,7 @@
   "tokenListValidationError": "Invalid token list format",
   "failedToPrepareTransaction": "Failed to prepare transaction",
   "failedToSendTransaction": "Failed to send transaction",
-  "passwordLockedUntil": "Password locked until {}"
+  "passwordLockedUntil": "Password locked until {}",
+  "invalidPayloadError": "Payload is invalid",
+  "invalidStateInitError": "StateInit is invalid"
 }

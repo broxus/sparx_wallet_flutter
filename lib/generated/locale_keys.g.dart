@@ -218,6 +218,7 @@ abstract class LocaleKeys {
   static const browserCloseAllTabsDescription =
       'browserCloseAllTabsDescription';
   static const browserPermissionsHeader = 'browserPermissionsHeader';
+  static const browserPermissionsBody = 'browserPermissionsBody';
   static const done = 'done';
   static const browserSearchURL = 'browserSearchURL';
   static const browserSearchURLCancel = 'browserSearchURLCancel';
@@ -732,6 +733,7 @@ abstract class LocaleKeys {
   static const seedPhrase24FormatTON = 'seedPhrase24FormatTON';
   static const invalidNetworkError = 'invalidNetworkError';
   static const invalidPublicKeyError = 'invalidPublicKeyError';
+  static const invalidWalletAddressError = 'invalidWalletAddressError';
   static const dappManifestError = 'dappManifestError';
   static const appNewVersionTitle = 'appNewVersionTitle';
   static const importantUpdateReleaseNote = 'importantUpdateReleaseNote';
@@ -815,4 +817,6 @@ abstract class LocaleKeys {
   static const failedToPrepareTransaction = 'failedToPrepareTransaction';
   static const failedToSendTransaction = 'failedToSendTransaction';
   static const passwordLockedUntil = 'passwordLockedUntil';
+  static const invalidPayloadError = 'invalidPayloadError';
+  static const invalidStateInitError = 'invalidStateInitError';
 }

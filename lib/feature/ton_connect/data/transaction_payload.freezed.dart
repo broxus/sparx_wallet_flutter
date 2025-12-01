@@ -15,7 +15,7 @@ T _$identity<T>(T value) => value;
 /// @nodoc
 mixin _$TransactionPayload {
 
- List<TransactionPayloadMessage> get messages;@JsonKey(name: 'valid_until') int? get validUntil; TonNetwork? get network; Address? get from;
+ List<TransactionPayloadMessage> get messages;@JsonKey(name: 'valid_until', disallowNullValue: true) int? get validUntil; TonNetwork? get network; Address? get from;
 /// Create a copy of TransactionPayload
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -48,7 +48,7 @@ abstract mixin class $TransactionPayloadCopyWith<$Res>  {
   factory $TransactionPayloadCopyWith(TransactionPayload value, $Res Function(TransactionPayload) _then) = _$TransactionPayloadCopyWithImpl;
 @useResult
 $Res call({
- List<TransactionPayloadMessage> messages,@JsonKey(name: 'valid_until') int? validUntil, TonNetwork? network, Address? from
+ List<TransactionPayloadMessage> messages,@JsonKey(name: 'valid_until', disallowNullValue: true) int? validUntil, TonNetwork? network, Address? from
 });
 
 
@@ -168,7 +168,7 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( List<TransactionPayloadMessage> messages, @JsonKey(name: 'valid_until')  int? validUntil,  TonNetwork? network,  Address? from)?  $default,{required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( List<TransactionPayloadMessage> messages, @JsonKey(name: 'valid_until', disallowNullValue: true)  int? validUntil,  TonNetwork? network,  Address? from)?  $default,{required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _TransactionPayload() when $default != null:
 return $default(_that.messages,_that.validUntil,_that.network,_that.from);case _:
@@ -189,7 +189,7 @@ return $default(_that.messages,_that.validUntil,_that.network,_that.from);case _
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( List<TransactionPayloadMessage> messages, @JsonKey(name: 'valid_until')  int? validUntil,  TonNetwork? network,  Address? from)  $default,) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( List<TransactionPayloadMessage> messages, @JsonKey(name: 'valid_until', disallowNullValue: true)  int? validUntil,  TonNetwork? network,  Address? from)  $default,) {final _that = this;
 switch (_that) {
 case _TransactionPayload():
 return $default(_that.messages,_that.validUntil,_that.network,_that.from);case _:
@@ -209,7 +209,7 @@ return $default(_that.messages,_that.validUntil,_that.network,_that.from);case _
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( List<TransactionPayloadMessage> messages, @JsonKey(name: 'valid_until')  int? validUntil,  TonNetwork? network,  Address? from)?  $default,) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( List<TransactionPayloadMessage> messages, @JsonKey(name: 'valid_until', disallowNullValue: true)  int? validUntil,  TonNetwork? network,  Address? from)?  $default,) {final _that = this;
 switch (_that) {
 case _TransactionPayload() when $default != null:
 return $default(_that.messages,_that.validUntil,_that.network,_that.from);case _:
@@ -224,7 +224,7 @@ return $default(_that.messages,_that.validUntil,_that.network,_that.from);case _
 @JsonSerializable()
 
 class _TransactionPayload implements TransactionPayload {
-   _TransactionPayload({required final  List<TransactionPayloadMessage> messages, @JsonKey(name: 'valid_until') this.validUntil, this.network, this.from}): _messages = messages;
+   _TransactionPayload({required final  List<TransactionPayloadMessage> messages, @JsonKey(name: 'valid_until', disallowNullValue: true) this.validUntil, this.network, this.from}): _messages = messages;
   factory _TransactionPayload.fromJson(Map<String, dynamic> json) => _$TransactionPayloadFromJson(json);
 
  final  List<TransactionPayloadMessage> _messages;
@@ -234,7 +234,7 @@ class _TransactionPayload implements TransactionPayload {
   return EqualUnmodifiableListView(_messages);
 }
 
-@override@JsonKey(name: 'valid_until') final  int? validUntil;
+@override@JsonKey(name: 'valid_until', disallowNullValue: true) final  int? validUntil;
 @override final  TonNetwork? network;
 @override final  Address? from;
 
@@ -271,7 +271,7 @@ abstract mixin class _$TransactionPayloadCopyWith<$Res> implements $TransactionP
   factory _$TransactionPayloadCopyWith(_TransactionPayload value, $Res Function(_TransactionPayload) _then) = __$TransactionPayloadCopyWithImpl;
 @override @useResult
 $Res call({
- List<TransactionPayloadMessage> messages,@JsonKey(name: 'valid_until') int? validUntil, TonNetwork? network, Address? from
+ List<TransactionPayloadMessage> messages,@JsonKey(name: 'valid_until', disallowNullValue: true) int? validUntil, TonNetwork? network, Address? from
 });
 
 

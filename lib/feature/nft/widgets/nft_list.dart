@@ -99,6 +99,9 @@ class _Item extends StatelessWidget {
   final bool isPending;
   final VoidCallback onTap;
 
+  String? get _previewUrl =>
+      item.nft.previewUrl ?? item.nft.json.preview?.source;
+
   @override
   Widget build(BuildContext context) {
     return switch (displayMode) {
@@ -127,7 +130,7 @@ class _Item extends StatelessWidget {
                   borderRadius: BorderRadius.circular(DimensRadiusV2.radius8),
                   child: AspectRatio(
                     aspectRatio: 1,
-                    child: NftImage(imageUrl: item.nft.previewUrl),
+                    child: NftImage(imageUrl: _previewUrl),
                   ),
                 ),
                 Text(
