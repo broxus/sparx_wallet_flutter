@@ -1,5 +1,8 @@
+import 'dart:async';
 import 'dart:math';
+import 'dart:ui';
 
+import 'package:app/app/service/app_lifecycle_service.dart';
 import 'package:injectable/injectable.dart';
 import 'package:logging/logging.dart';
 import 'package:mutex/mutex.dart';
@@ -7,9 +10,22 @@ import 'package:no_screenshot/no_screenshot.dart';
 
 @singleton
 class ProtectedContentService {
+  ProtectedContentService(this._appLifecycleService) {
+    _lifecycleSubscription = _appLifecycleService.appLifecycleStateStream
+        .listen(_handleAppLifecycle);
+  }
+
+  final AppLifecycleService _appLifecycleService;
+
   final _logger = Logger('ProtectedContentService');
   final _mutex = Mutex();
   int _counter = 0;
+  StreamSubscription<AppLifecycleState>? _lifecycleSubscription;
+
+  @disposeMethod
+  void dispose() {
+    _lifecycleSubscription?.cancel();
+  }
 
   Future<void> enableProtectedContent() async {
     await _mutex.acquire();
@@ -50,6 +66,20 @@ class ProtectedContentService {
       await NoScreenshot.instance.screenshotOn();
     } catch (e, st) {
       _logger.warning('Failed to enable screenshot', e, st);
+    }
+  }
+
+  Future<void> _handleAppLifecycle(AppLifecycleState state) async {
+    if (state != AppLifecycleState.resumed) return;
+    if (_counter == 0) return;
+
+    await _mutex.acquire();
+    try {
+      if (_counter > 0) {
+        await _disableScreenshot();
+      }
+    } finally {
+      _mutex.release();
     }
   }
 }

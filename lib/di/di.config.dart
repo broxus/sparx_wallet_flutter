@@ -744,9 +744,6 @@ extension GetItInjectableX on _i174.GetIt {
       dispose: (i) => i.dispose(),
     );
     gh.singleton<_i47.CrashDetectorService>(() => _i47.CrashDetectorService());
-    gh.singleton<_i689.ProtectedContentService>(
-      () => _i689.ProtectedContentService(),
-    );
     gh.singleton<_i74.SecureStringService>(() => _i74.SecureStringService());
     gh.singleton<_i104.ResourcesService>(() => _i104.ResourcesService());
     gh.singleton<_i830.AppLifecycleService>(() => _i830.AppLifecycleService());
@@ -923,6 +920,9 @@ extension GetItInjectableX on _i174.GetIt {
     gh.singleton<_i82.CompassBaseRoute>(
       () => _i4.AddNftRoute(),
       instanceName: 'AddNftRoute',
+    );
+    gh.singleton<_i689.ProtectedContentService>(
+      () => _i689.ProtectedContentService(gh<_i830.AppLifecycleService>()),
     );
     gh.factory<_i1030.CheckSeedPhrasePageModel>(
       () => _i1030.CheckSeedPhrasePageModel(
