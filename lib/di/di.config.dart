@@ -289,6 +289,7 @@ import '../feature/network/edit_network/edit_network_wm.dart' as _i942;
 import '../feature/network/edit_network/route.dart' as _i217;
 import '../feature/network/network.dart' as _i393;
 import '../feature/nft/domain/nft_api_data_provider.dart' as _i775;
+import '../feature/nft/domain/nft_display_mode_configurator.dart' as _i393;
 import '../feature/nft/domain/nft_service.dart' as _i263;
 import '../feature/nft/domain/nft_storage_service.dart' as _i336;
 import '../feature/nft/nft.dart' as _i1015;
@@ -1006,6 +1007,12 @@ extension GetItInjectableX on _i174.GetIt {
         gh<_i964.AddNewExternalAccountSheetModel>(),
       ),
     );
+    gh.singleton<_i336.NftStorageService>(
+      () => _i336.NftStorageService(
+        gh<_i792.GetStorage>(instanceName: 'nft_storage_service_metadata'),
+        gh<_i792.GetStorage>(instanceName: 'nft_storage_service_general'),
+      ),
+    );
     gh.singleton<_i187.BrowserTabsStorageService>(
       () => _i187.BrowserTabsStorageService(
         gh<_i792.GetStorage>(instanceName: 'browser_tabs'),
@@ -1036,12 +1043,6 @@ extension GetItInjectableX on _i174.GetIt {
         gh<_i82.CompassBaseRoute>(instanceName: 'EditNetworkRoute'),
       ),
       instanceName: 'ConfigureNetworksRoute',
-    );
-    gh.singleton<_i336.NftStorageService>(
-      () => _i336.NftStorageService(
-        gh<_i792.GetStorage>(instanceName: 'nft_storage_service_metadata'),
-        gh<_i792.GetStorage>(instanceName: 'nft_storage_service_general'),
-      ),
     );
     gh.factory<_i423.NewAccountScreenWidgetModel>(
       () =>
@@ -1317,6 +1318,9 @@ extension GetItInjectableX on _i174.GetIt {
       ),
       instanceName: 'SelectSeedRoute',
     );
+    gh.lazySingleton<_i393.NftDisplayModeConfigurator>(
+      () => _i393.NftDisplayModeConfigurator(gh<_i184.AppStorageService>()),
+    );
     gh.singleton<_i82.CompassBaseRoute>(
       () => _i32.NftItemRoute(
         gh<_i82.CompassBaseRoute>(instanceName: 'NftPrepareTransferRoute'),
@@ -1341,6 +1345,13 @@ extension GetItInjectableX on _i174.GetIt {
     );
     gh.factory<_i1016.CreateSeedWidgetModel>(
       () => _i1016.CreateSeedWidgetModel(gh<_i484.CreateSeedModel>()),
+    );
+    gh.singleton<_i263.NftService>(
+      () => _i263.NftService(
+        gh<_i771.NekotonRepository>(),
+        gh<_i1015.NftStorageService>(),
+        gh<_i128.CurrentAccountsService>(),
+      ),
     );
     gh.singleton<_i82.CompassBaseRoute>(
       () => _i420.CancelUnstakingRoute(
@@ -1675,6 +1686,14 @@ extension GetItInjectableX on _i174.GetIt {
         gh<_i821.AppNotificationService>(),
       ),
     );
+    gh.factory<_i1038.NftPrepareTransferModel>(
+      () => _i1038.NftPrepareTransferModel(
+        gh<_i83.ErrorHandler>(),
+        gh<_i771.NekotonRepository>(),
+        gh<_i632.MessengerService>(),
+        gh<_i1015.NftService>(),
+      ),
+    );
     gh.singleton<_i82.CompassBaseRoute>(
       () => _i512.TonWalletDetailsRoute(
         gh<_i82.CompassBaseRoute>(instanceName: 'WalletMultisigConfigRoute'),
@@ -1772,14 +1791,6 @@ extension GetItInjectableX on _i174.GetIt {
         gh<_i83.ErrorHandler>(),
         gh<_i771.NekotonRepository>(),
         gh<_i128.CurrentKeyService>(),
-        gh<_i128.CurrentAccountsService>(),
-      ),
-    );
-    gh.singleton<_i263.NftService>(
-      () => _i263.NftService(
-        gh<_i771.NekotonRepository>(),
-        gh<_i1015.NftStorageService>(),
-        gh<_i128.AppStorageService>(),
         gh<_i128.CurrentAccountsService>(),
       ),
     );
@@ -1963,6 +1974,11 @@ extension GetItInjectableX on _i174.GetIt {
         gh<_i865.BleAvailabilityModelDelegate>(),
       ),
     );
+    gh.factory<_i143.NftPrepareTransferWidgetModel>(
+      () => _i143.NftPrepareTransferWidgetModel(
+        gh<_i1015.NftPrepareTransferModel>(),
+      ),
+    );
     gh.factory<_i1068.SeedSettingsWidgetModel>(
       () => _i1068.SeedSettingsWidgetModel(gh<_i767.SeedSettingsModel>()),
     );
@@ -1981,22 +1997,6 @@ extension GetItInjectableX on _i174.GetIt {
     );
     gh.factory<_i57.AddAccountResultWidgetModel>(
       () => _i57.AddAccountResultWidgetModel(gh<_i459.AddAccountResultModel>()),
-    );
-    gh.factory<_i1038.NftPrepareTransferModel>(
-      () => _i1038.NftPrepareTransferModel(
-        gh<_i83.ErrorHandler>(),
-        gh<_i771.NekotonRepository>(),
-        gh<_i632.MessengerService>(),
-        gh<_i1015.NftService>(),
-      ),
-    );
-    gh.factory<_i680.NftPageModel>(
-      () => _i680.NftPageModel(
-        gh<_i83.ErrorHandler>(),
-        gh<_i1015.NftService>(),
-        gh<_i128.CurrentAccountsService>(),
-        gh<_i771.NekotonRepository>(),
-      ),
     );
     gh.singleton<_i130.PresetsConfigReader>(
       () => _i130.PresetsConfigReader(
@@ -2123,9 +2123,6 @@ extension GetItInjectableX on _i174.GetIt {
     gh.factory<_i833.NftTransferInfoWidgetModel>(
       () => _i833.NftTransferInfoWidgetModel(gh<_i1015.NftTransferInfoModel>()),
     );
-    gh.factory<_i972.NftPageWidgetModel>(
-      () => _i972.NftPageWidgetModel(gh<_i1015.NftPageModel>()),
-    );
     gh.factory<_i446.TCSendMessageModel>(
       () => _i446.TCSendMessageModel(
         gh<_i83.ErrorHandler>(),
@@ -2172,11 +2169,6 @@ extension GetItInjectableX on _i174.GetIt {
         gh<_i82.CompassBaseRoute>(instanceName: 'EnterSeedNameRoute'),
       ),
       instanceName: 'ManageSeedsAccountsRoute',
-    );
-    gh.factory<_i143.NftPrepareTransferWidgetModel>(
-      () => _i143.NftPrepareTransferWidgetModel(
-        gh<_i1015.NftPrepareTransferModel>(),
-      ),
     );
     gh.singleton<_i720.UpdateService>(
       () => _i720.UpdateService(
@@ -2937,17 +2929,6 @@ extension GetItInjectableX on _i174.GetIt {
         gh<_i544.BrowserService>(),
       ),
     );
-    gh.factory<_i857.NftCollectionPageModel>(
-      () => _i857.NftCollectionPageModel(
-        gh<_i83.ErrorHandler>(),
-        gh<_i1015.NftService>(),
-        gh<_i1015.NftStorageService>(),
-        gh<_i128.CurrentAccountsService>(),
-        gh<_i771.NekotonRepository>(),
-        gh<_i553.MessengerService>(),
-        gh<_i202.BrowserLauncher>(),
-      ),
-    );
     gh.singleton<_i239.PendingDeepLinkService>(
       () => _i239.PendingDeepLinkService(gh<_i202.BrowserLauncher>()),
       dispose: (i) => i.dispose(),
@@ -2977,6 +2958,16 @@ extension GetItInjectableX on _i174.GetIt {
         gh<_i239.PendingDeepLinkService>(),
       ),
     );
+    gh.factory<_i680.NftPageModel>(
+      () => _i680.NftPageModel(
+        gh<_i83.ErrorHandler>(),
+        gh<_i1015.NftService>(),
+        gh<_i128.CurrentAccountsService>(),
+        gh<_i771.NekotonRepository>(),
+        gh<_i393.NftDisplayModeConfigurator>(),
+        gh<_i202.BrowserLauncher>(),
+      ),
+    );
     gh.factory<_i8.AccountSettingsModel>(
       () => _i8.AccountSettingsModel(
         gh<_i83.ErrorHandler>(),
@@ -2984,6 +2975,18 @@ extension GetItInjectableX on _i174.GetIt {
         gh<_i632.MessengerService>(),
         gh<_i128.CurrentAccountsService>(),
         gh<_i202.BrowserLauncher>(),
+      ),
+    );
+    gh.factory<_i857.NftCollectionPageModel>(
+      () => _i857.NftCollectionPageModel(
+        gh<_i83.ErrorHandler>(),
+        gh<_i1015.NftService>(),
+        gh<_i1015.NftStorageService>(),
+        gh<_i128.CurrentAccountsService>(),
+        gh<_i771.NekotonRepository>(),
+        gh<_i553.MessengerService>(),
+        gh<_i202.BrowserLauncher>(),
+        gh<_i393.NftDisplayModeConfigurator>(),
       ),
     );
     gh.factory<_i348.WalletPageModel>(
@@ -3097,6 +3100,9 @@ extension GetItInjectableX on _i174.GetIt {
       () => _i249.CustomBottomNavigationBarWidgetModel(
         gh<_i278.CustomBottomNavigationBarModel>(),
       ),
+    );
+    gh.factory<_i972.NftPageWidgetModel>(
+      () => _i972.NftPageWidgetModel(gh<_i1015.NftPageModel>()),
     );
     gh.factory<_i765.TonWalletMultisigExpiredTransactionWidgetModel>(
       () => _i765.TonWalletMultisigExpiredTransactionWidgetModel(

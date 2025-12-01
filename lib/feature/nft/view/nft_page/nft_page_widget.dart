@@ -16,34 +16,28 @@ class NftPageWidget extends InjectedElementaryWidget<NftPageWidgetModel> {
         child: Column(
           children: [
             const WalletAppBarWidget(),
-            DoubleSourceBuilder(
-              firstSource: wm.loadingState,
-              secondSource: wm.collectionsState,
-              builder: (_, isLoading, collections) {
-                if (isLoading ?? false) {
-                  return const Expanded(
-                    child: Center(
+            Expanded(
+              child: DoubleSourceBuilder(
+                firstSource: wm.loadingState,
+                secondSource: wm.collectionsState,
+                builder: (_, isLoading, collections) {
+                  if (isLoading ?? false) {
+                    return const Center(
                       child: ProgressIndicatorWidget(size: DimensSizeV2.d32),
-                    ),
-                  );
-                }
+                    );
+                  }
 
-                if (collections == null || collections.isEmpty) {
-                  return Expanded(
-                    child: Center(
-                      child: StateNotifierBuilder(
-                        listenableState: wm.marketplaceUrlState,
-                        builder: (_, marketplaceUrl) => EmptyNftList(
-                          marketplaceUrl: marketplaceUrl,
-                          onAddNftPressed: wm.onAddNftPressed,
-                        ),
+                  if (collections == null || collections.isEmpty) {
+                    return Center(
+                      child: EmptyNftList(
+                        marketplaceUrlState: wm.marketplaceUrlState,
+                        onAddNftPressed: wm.onAddNftPressed,
+                        onMarketplaceUrlPressed: wm.onMarketplaceUrlPressed,
                       ),
-                    ),
-                  );
-                }
+                    );
+                  }
 
-                return Expanded(
-                  child: Padding(
+                  return Padding(
                     padding: const EdgeInsets.symmetric(
                       horizontal: DimensSizeV2.d16,
                     ),
@@ -62,31 +56,19 @@ class NftPageWidget extends InjectedElementaryWidget<NftPageWidgetModel> {
                                 LocaleKeys.nftMyCollections.tr(),
                                 style: wm.theme.textStyles.headingMedium,
                               ),
-                              StateNotifierBuilder(
-                                listenableState: wm.displayModeState,
-                                builder: (_, displayMode) {
-                                  return DisplayModeSwitch(
-                                    mode: displayMode ?? NftDisplayMode.grid,
-                                    onModeChanged: wm.setDisplayMode,
-                                  );
-                                },
+                              DisplayModeSwitch(
+                                displayModeState: wm.displayModeState,
+                                onModeChanged: wm.setDisplayMode,
                               ),
                             ],
                           ),
                         ),
                         Expanded(
-                          child: DoubleSourceBuilder(
-                            firstSource: wm.displayModeState,
-                            secondSource: wm.pendingState,
-                            builder: (_, displayMode, pending) {
-                              return NftCollectionsList(
-                                displayMode: displayMode ?? NftDisplayMode.grid,
-                                collections: collections,
-                                pending: pending ?? const {},
-                                onNftCollectionPressed:
-                                    wm.onNftCollectionPressed,
-                              );
-                            },
+                          child: NftCollectionsList(
+                            displayModeState: wm.displayModeState,
+                            pendingState: wm.pendingState,
+                            collections: collections,
+                            onNftCollectionPressed: wm.onNftCollectionPressed,
                           ),
                         ),
                         Padding(
@@ -101,9 +83,9 @@ class NftPageWidget extends InjectedElementaryWidget<NftPageWidgetModel> {
                         ),
                       ],
                     ),
-                  ),
-                );
-              },
+                  );
+                },
+              ),
             ),
           ],
         ),

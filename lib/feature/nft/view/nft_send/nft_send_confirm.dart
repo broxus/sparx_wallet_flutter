@@ -1,3 +1,4 @@
+import 'package:app/core/wm/not_null_safe_notifier.dart';
 import 'package:app/feature/nft/nft.dart';
 import 'package:app/feature/profile/profile.dart';
 import 'package:app/feature/wallet/wallet.dart';
@@ -10,16 +11,16 @@ import 'package:ui_components_lib/ui_components_lib.dart';
 
 class NftSendConfirm extends StatefulWidget {
   const NftSendConfirm({
-    required this.item,
-    required this.collection,
+    required this.itemState,
+    required this.collectionState,
     required this.recipient,
     required this.amount,
     required this.publicKey,
     required this.currency,
-    required this.fees,
-    required this.error,
-    required this.txErrors,
-    required this.isLoading,
+    required this.feesState,
+    required this.errorState,
+    required this.txErrorsState,
+    required this.loadingState,
     required this.onConfirmed,
     required this.attachedAmount,
     required this.account,
@@ -32,22 +33,28 @@ class NftSendConfirm extends StatefulWidget {
   final Currency currency;
   final PublicKey publicKey;
   final KeyAccount? account;
-  final ListenableState<NftItem> item;
-  final ListenableState<NftCollection> collection;
+  final ListenableState<NftItem> itemState;
+  final ListenableState<NftCollection> collectionState;
   final ListenableState<BigInt> attachedAmount;
-  final ListenableState<bool> isLoading;
-  final ListenableState<String> error;
-  final ListenableState<BigInt> fees;
-  final ListenableState<List<TxTreeSimulationErrorItem>> txErrors;
+  final ListenableState<bool> loadingState;
+  final ListenableState<String> errorState;
+  final ListenableState<BigInt> feesState;
+  final ListenableState<List<TxTreeSimulationErrorItem>> txErrorsState;
   final GetLedgerAuthInput getLedgerAuthInput;
-  final void Function(SignInputAuth) onConfirmed;
+  final ValueChanged<SignInputAuth> onConfirmed;
 
   @override
   State<NftSendConfirm> createState() => _NftSendConfirmState();
 }
 
 class _NftSendConfirmState extends State<NftSendConfirm> {
-  bool isConfirmed = false;
+  final _confirmedState = NotNullNotifier<bool>(false);
+
+  @override
+  void dispose() {
+    _confirmedState.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -63,23 +70,24 @@ class _NftSendConfirmState extends State<NftSendConfirm> {
                 if (widget.account != null)
                   AccountInfo(account: widget.account!),
                 NftTransferInfoWidget(
-                  item: widget.item,
-                  collection: widget.collection,
+                  itemState: widget.itemState,
+                  collectionState: widget.collectionState,
                   recipient: widget.recipient,
                   amount: widget.amount,
-                  attachedAmount: widget.attachedAmount,
-                  fees: widget.fees,
-                  feeError: widget.error,
+                  attachedAmountState: widget.attachedAmount,
+                  feesState: widget.feesState,
+                  feeErrorState: widget.errorState,
                 ),
               ],
             ),
           ),
         ),
         TripleSourceBuilder(
-          firstSource: widget.isLoading,
-          secondSource: widget.txErrors,
-          thirdSource: widget.error,
-          builder: (_, isLoading, txErrors, error) {
+          firstSource: widget.txErrorsState,
+          secondSource: widget.errorState,
+          thirdSource: _confirmedState,
+          builder: (_, txErrors, error, isConfirmed) {
+            isConfirmed ??= false;
             return Column(
               spacing: DimensSizeV2.d8,
               children: [
@@ -90,15 +98,20 @@ class _NftSendConfirmState extends State<NftSendConfirm> {
                     isConfirmed: isConfirmed,
                     onConfirm: (value) => setState(() => isConfirmed = value),
                   ),
-                EnterPasswordWidget.auth(
-                  getLedgerAuthInput: widget.getLedgerAuthInput,
-                  publicKey: widget.publicKey,
-                  title: LocaleKeys.confirm.tr(),
-                  isLoading: isLoading ?? false,
-                  isDisabled:
-                      error != null ||
-                      ((txErrors?.isNotEmpty ?? false) && !isConfirmed),
-                  onConfirmed: widget.onConfirmed,
+                StateNotifierBuilder(
+                  listenableState: widget.loadingState,
+                  builder: (_, isLoading) {
+                    return EnterPasswordWidget.auth(
+                      getLedgerAuthInput: widget.getLedgerAuthInput,
+                      publicKey: widget.publicKey,
+                      title: LocaleKeys.confirm.tr(),
+                      isLoading: isLoading ?? false,
+                      isDisabled:
+                          error != null ||
+                          ((txErrors?.isNotEmpty ?? false) && !isConfirmed!),
+                      onConfirmed: widget.onConfirmed,
+                    );
+                  },
                 ),
               ],
             );

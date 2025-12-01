@@ -171,7 +171,7 @@ class NftPrepareTransferWidgetModel
     );
 
     if (account == null || nftItem == null || nftCollection == null) {
-      _dataState.error(Exception('Nft transfer prepare initialization failed'));
+      _dataState.error(Exception(LocaleKeys.nftTransferFailedMessage.tr()));
       return;
     }
 
