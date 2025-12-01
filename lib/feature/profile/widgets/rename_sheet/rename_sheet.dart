@@ -23,6 +23,7 @@ ModalRoute<void> showRenameSheet({
   return commonBottomSheetRoute(
     titleTextStyle: context.themeStyleV2.textStyles.headingLarge,
     title: LocaleKeys.enterNewName.tr(),
+    viewInsetsBottomAddon: -DimensSize.d24,
     body: (_, __) => RenameSheet(
       publicKey: publicKey,
       isSeed: isSeed,
@@ -54,42 +55,39 @@ class RenameSheet
 
   @override
   Widget build(RenameSheetWidgetModel wm) {
-    return KeyboardPadding(
-      bottom: DimensSizeV2.d24,
-      child: SeparatedColumn(
-        mainAxisSize: MainAxisSize.min,
-        spacing: DimensSize.d24,
-        children: [
-          PrimaryTextField(
-            isAutofocus: true,
-            maxLength: maxLengthForMainEntities,
-            textEditingController: wm.nameController,
-            hintText: LocaleKeys.nameWord.tr(),
-            suffixes: [
-              ValueListenableBuilder(
-                valueListenable: wm.nameController,
-                builder: (_, value, __) => value.text.isNotEmpty
-                    ? Padding(
-                        padding: const EdgeInsets.only(right: DimensSizeV2.d8),
-                        child: PrimaryButton(
-                          icon: LucideIcons.x,
-                          buttonShape: ButtonShape.square,
-                          buttonSize: ButtonSize.small,
-                          onPressed: wm.nameController.clear,
-                        ),
-                      )
-                    : const SizedBox.shrink(),
-              ),
-            ],
-            onSubmit: wm.rename,
-          ),
-          PrimaryButton(
-            buttonShape: ButtonShape.pill,
-            onPressed: wm.rename,
-            title: LocaleKeys.renameWord.tr(),
-          ),
-        ],
-      ),
+    return Column(
+      mainAxisSize: MainAxisSize.min,
+      spacing: DimensSize.d24,
+      children: [
+        PrimaryTextField(
+          isAutofocus: true,
+          maxLength: maxLengthForMainEntities,
+          textEditingController: wm.nameController,
+          hintText: LocaleKeys.nameWord.tr(),
+          suffixes: [
+            ValueListenableBuilder(
+              valueListenable: wm.nameController,
+              builder: (_, value, __) => value.text.isNotEmpty
+                  ? Padding(
+                      padding: const EdgeInsets.only(right: DimensSizeV2.d8),
+                      child: PrimaryButton(
+                        icon: LucideIcons.x,
+                        buttonShape: ButtonShape.square,
+                        buttonSize: ButtonSize.small,
+                        onPressed: wm.nameController.clear,
+                      ),
+                    )
+                  : const SizedBox.shrink(),
+            ),
+          ],
+          onSubmit: wm.rename,
+        ),
+        PrimaryButton(
+          buttonShape: ButtonShape.pill,
+          onPressed: wm.rename,
+          title: LocaleKeys.renameWord.tr(),
+        ),
+      ],
     );
   }
 }

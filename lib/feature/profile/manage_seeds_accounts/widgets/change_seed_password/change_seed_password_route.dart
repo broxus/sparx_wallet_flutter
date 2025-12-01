@@ -12,6 +12,7 @@ ModalRoute<void> changeSeedPasswordSheetRoute(
   return commonBottomSheetRoute<void>(
     titleTextStyle: context.themeStyleV2.textStyles.headingLarge,
     title: LocaleKeys.changeSeedPassword.tr(),
+    viewInsetsBottomAddon: -DimensSize.d24,
     body: (_, __) =>
         ProtectedContent(child: ChangeSeedPasswordSheet(publicKey: publicKey)),
   );
