@@ -102,7 +102,7 @@ class ProfileView extends StatelessWidget {
                               listenableState: isBiometryEnabled,
                               builder: (_, enabled) => _Item(
                                 title: LocaleKeys.biometryWord.tr(),
-                                icon: LucideIcons.fingerprint,
+                                icon: LucideIcons.fingerprintPattern,
                                 trailing: Switch(
                                   value: enabled ?? false,
                                   onChanged: onBiomentryChanged,
