@@ -18,9 +18,12 @@ Map<String, dynamic> _$SendTransactionToJson(_SendTransaction instance) =>
       'name': instance.$type,
     };
 
-_SignData _$SignDataFromJson(Map<String, dynamic> json) =>
-    _SignData($type: json['name'] as String?);
+_SignData _$SignDataFromJson(Map<String, dynamic> json) => _SignData(
+  types: (json['types'] as List<dynamic>).map((e) => e as String).toList(),
+  $type: json['name'] as String?,
+);
 
 Map<String, dynamic> _$SignDataToJson(_SignData instance) => <String, dynamic>{
+  'types': instance.types,
   'name': instance.$type,
 };

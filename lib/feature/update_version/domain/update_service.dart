@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:app/app/service/app_version_service.dart';
+import 'package:app/app/service/service.dart';
 import 'package:app/feature/presets_config/data/preset_config_type.dart';
 import 'package:app/feature/presets_config/data/update_rules.dart';
 import 'package:app/feature/presets_config/domain/presets_config_reader.dart';
@@ -9,7 +10,7 @@ import 'package:app/feature/update_version/data/update_status.dart';
 import 'package:app/feature/update_version/domain/latest_version_finder.dart';
 import 'package:app/feature/update_version/domain/storage/update_version_storage_service.dart';
 import 'package:app/feature/update_version/domain/update_status_checker.dart';
-import 'package:app/utils/common_utils.dart';
+import 'package:app/utils/utils.dart';
 import 'package:flutter/foundation.dart';
 import 'package:injectable/injectable.dart';
 import 'package:logging/logging.dart';
@@ -25,6 +26,7 @@ class UpdateService {
     this._latestVersionFinder,
     this._updateVersionStorageService,
     this._appVersionService,
+    this._ntpService,
   );
 
   final PresetsConfigReader _presetsConfigReader;
@@ -32,6 +34,7 @@ class UpdateService {
   final LatestVersionFinder _latestVersionFinder;
   final UpdateVersionStorageService _updateVersionStorageService;
   final AppVersionService _appVersionService;
+  final NtpService _ntpService;
 
   @visibleForTesting
   Future<void>? initCall;
@@ -114,7 +117,7 @@ class UpdateService {
     final warningLastTimeSecs =
         (_updateVersionStorageService.warningLastTime() ?? 0) ~/ 1000;
 
-    final nowSecs = NtpTime.now().millisecondsSinceEpoch ~/ 1000;
+    final nowSecs = _ntpService.now().secondsSinceEpoch;
     final elapsedSecs = nowSecs - warningLastTimeSecs;
 
     if (elapsedSecs < rules.warningShowDelayS) {

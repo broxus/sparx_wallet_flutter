@@ -39,7 +39,7 @@ class TCSignDataWidgetModel
     (it) => model.getAccount(it.connection.walletAddress),
   );
 
-  late final _isLoadingState = createNotifier(true);
+  late final _isLoadingState = createNotifier(false);
 
   ListenableState<bool> get isLoadingState => _isLoadingState;
 
@@ -50,14 +50,15 @@ class TCSignDataWidgetModel
     try {
       _isLoadingState.accept(true);
 
-      final result = await model.signData(
-        schema: wmParams.value.payload.schema,
-        cell: wmParams.value.payload.cell,
-        publicKey: account.publicKey,
+      final signDataResult = await model.signData(
+        account: account,
+        payload: wmParams.value.payload,
+        manifest: wmParams.value.connection.manifest,
         signInputAuth: signInputAuth,
       );
 
       if (contextSafe != null) {
+        final result = TonConnectUiEventResult.data(data: signDataResult);
         Navigator.of(contextSafe!).pop(result);
       }
     } catch (e) {

@@ -55,14 +55,15 @@ extension TonConnectUiEventPatterns on TonConnectUiEvent {
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeMap<TResult extends Object?>({TResult Function( TonConnectUiEventError value)?  error,TResult Function( TonConnectUiEventConnect value)?  connect,TResult Function( TonConnectUiEventSendTransaction value)?  sendTransaction,TResult Function( TonConnectUiEventSignData value)?  signData,required TResult orElse(),}){
+@optionalTypeArgs TResult maybeMap<TResult extends Object?>({TResult Function( TonConnectUiEventError value)?  error,TResult Function( TonConnectUiEventConnect value)?  connect,TResult Function( TonConnectUiEventSendTransaction value)?  sendTransaction,TResult Function( TonConnectUiEventSignData value)?  signData,TResult Function( TonConnectUiEventChangeNetwork value)?  changeNetwork,required TResult orElse(),}){
 final _that = this;
 switch (_that) {
 case TonConnectUiEventError() when error != null:
 return error(_that);case TonConnectUiEventConnect() when connect != null:
 return connect(_that);case TonConnectUiEventSendTransaction() when sendTransaction != null:
 return sendTransaction(_that);case TonConnectUiEventSignData() when signData != null:
-return signData(_that);case _:
+return signData(_that);case TonConnectUiEventChangeNetwork() when changeNetwork != null:
+return changeNetwork(_that);case _:
   return orElse();
 
 }
@@ -80,14 +81,15 @@ return signData(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult map<TResult extends Object?>({required TResult Function( TonConnectUiEventError value)  error,required TResult Function( TonConnectUiEventConnect value)  connect,required TResult Function( TonConnectUiEventSendTransaction value)  sendTransaction,required TResult Function( TonConnectUiEventSignData value)  signData,}){
+@optionalTypeArgs TResult map<TResult extends Object?>({required TResult Function( TonConnectUiEventError value)  error,required TResult Function( TonConnectUiEventConnect value)  connect,required TResult Function( TonConnectUiEventSendTransaction value)  sendTransaction,required TResult Function( TonConnectUiEventSignData value)  signData,required TResult Function( TonConnectUiEventChangeNetwork value)  changeNetwork,}){
 final _that = this;
 switch (_that) {
 case TonConnectUiEventError():
 return error(_that);case TonConnectUiEventConnect():
 return connect(_that);case TonConnectUiEventSendTransaction():
 return sendTransaction(_that);case TonConnectUiEventSignData():
-return signData(_that);}
+return signData(_that);case TonConnectUiEventChangeNetwork():
+return changeNetwork(_that);}
 }
 /// A variant of `map` that fallback to returning `null`.
 ///
@@ -101,14 +103,15 @@ return signData(_that);}
 /// }
 /// ```
 
-@optionalTypeArgs TResult? mapOrNull<TResult extends Object?>({TResult? Function( TonConnectUiEventError value)?  error,TResult? Function( TonConnectUiEventConnect value)?  connect,TResult? Function( TonConnectUiEventSendTransaction value)?  sendTransaction,TResult? Function( TonConnectUiEventSignData value)?  signData,}){
+@optionalTypeArgs TResult? mapOrNull<TResult extends Object?>({TResult? Function( TonConnectUiEventError value)?  error,TResult? Function( TonConnectUiEventConnect value)?  connect,TResult? Function( TonConnectUiEventSendTransaction value)?  sendTransaction,TResult? Function( TonConnectUiEventSignData value)?  signData,TResult? Function( TonConnectUiEventChangeNetwork value)?  changeNetwork,}){
 final _that = this;
 switch (_that) {
 case TonConnectUiEventError() when error != null:
 return error(_that);case TonConnectUiEventConnect() when connect != null:
 return connect(_that);case TonConnectUiEventSendTransaction() when sendTransaction != null:
 return sendTransaction(_that);case TonConnectUiEventSignData() when signData != null:
-return signData(_that);case _:
+return signData(_that);case TonConnectUiEventChangeNetwork() when changeNetwork != null:
+return changeNetwork(_that);case _:
   return null;
 
 }
@@ -125,13 +128,14 @@ return signData(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>({TResult Function( String message)?  error,TResult Function( ConnectRequest request,  DappManifest manifest,  Completer<(KeyAccount, List<ConnectItemReply>)?> completer)?  connect,TResult Function( TonAppConnection connection,  TransactionPayload payload,  Completer<SignedMessage?> completer)?  sendTransaction,TResult Function( TonAppConnection connection,  SignDataPayload payload,  Completer<SignDataResult?> completer)?  signData,required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>({TResult Function( String message)?  error,TResult Function( ConnectRequest request,  DappManifest manifest,  Completer<TonConnectUiEventResult<(KeyAccount, List<ConnectItemReply>)>> completer)?  connect,TResult Function( TonAppConnection connection,  TransactionPayload payload,  Completer<TonConnectUiEventResult<SignedMessage>> completer)?  sendTransaction,TResult Function( TonAppConnection connection,  SignDataPayload payload,  Completer<TonConnectUiEventResult<SignDataResult>> completer)?  signData,TResult Function( Uri origin,  int networkId,  List<ConnectionData> connections,  Completer<TransportStrategy?> completer)?  changeNetwork,required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case TonConnectUiEventError() when error != null:
 return error(_that.message);case TonConnectUiEventConnect() when connect != null:
 return connect(_that.request,_that.manifest,_that.completer);case TonConnectUiEventSendTransaction() when sendTransaction != null:
 return sendTransaction(_that.connection,_that.payload,_that.completer);case TonConnectUiEventSignData() when signData != null:
-return signData(_that.connection,_that.payload,_that.completer);case _:
+return signData(_that.connection,_that.payload,_that.completer);case TonConnectUiEventChangeNetwork() when changeNetwork != null:
+return changeNetwork(_that.origin,_that.networkId,_that.connections,_that.completer);case _:
   return orElse();
 
 }
@@ -149,13 +153,14 @@ return signData(_that.connection,_that.payload,_that.completer);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>({required TResult Function( String message)  error,required TResult Function( ConnectRequest request,  DappManifest manifest,  Completer<(KeyAccount, List<ConnectItemReply>)?> completer)  connect,required TResult Function( TonAppConnection connection,  TransactionPayload payload,  Completer<SignedMessage?> completer)  sendTransaction,required TResult Function( TonAppConnection connection,  SignDataPayload payload,  Completer<SignDataResult?> completer)  signData,}) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>({required TResult Function( String message)  error,required TResult Function( ConnectRequest request,  DappManifest manifest,  Completer<TonConnectUiEventResult<(KeyAccount, List<ConnectItemReply>)>> completer)  connect,required TResult Function( TonAppConnection connection,  TransactionPayload payload,  Completer<TonConnectUiEventResult<SignedMessage>> completer)  sendTransaction,required TResult Function( TonAppConnection connection,  SignDataPayload payload,  Completer<TonConnectUiEventResult<SignDataResult>> completer)  signData,required TResult Function( Uri origin,  int networkId,  List<ConnectionData> connections,  Completer<TransportStrategy?> completer)  changeNetwork,}) {final _that = this;
 switch (_that) {
 case TonConnectUiEventError():
 return error(_that.message);case TonConnectUiEventConnect():
 return connect(_that.request,_that.manifest,_that.completer);case TonConnectUiEventSendTransaction():
 return sendTransaction(_that.connection,_that.payload,_that.completer);case TonConnectUiEventSignData():
-return signData(_that.connection,_that.payload,_that.completer);}
+return signData(_that.connection,_that.payload,_that.completer);case TonConnectUiEventChangeNetwork():
+return changeNetwork(_that.origin,_that.networkId,_that.connections,_that.completer);}
 }
 /// A variant of `when` that fallback to returning `null`
 ///
@@ -169,13 +174,14 @@ return signData(_that.connection,_that.payload,_that.completer);}
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>({TResult? Function( String message)?  error,TResult? Function( ConnectRequest request,  DappManifest manifest,  Completer<(KeyAccount, List<ConnectItemReply>)?> completer)?  connect,TResult? Function( TonAppConnection connection,  TransactionPayload payload,  Completer<SignedMessage?> completer)?  sendTransaction,TResult? Function( TonAppConnection connection,  SignDataPayload payload,  Completer<SignDataResult?> completer)?  signData,}) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>({TResult? Function( String message)?  error,TResult? Function( ConnectRequest request,  DappManifest manifest,  Completer<TonConnectUiEventResult<(KeyAccount, List<ConnectItemReply>)>> completer)?  connect,TResult? Function( TonAppConnection connection,  TransactionPayload payload,  Completer<TonConnectUiEventResult<SignedMessage>> completer)?  sendTransaction,TResult? Function( TonAppConnection connection,  SignDataPayload payload,  Completer<TonConnectUiEventResult<SignDataResult>> completer)?  signData,TResult? Function( Uri origin,  int networkId,  List<ConnectionData> connections,  Completer<TransportStrategy?> completer)?  changeNetwork,}) {final _that = this;
 switch (_that) {
 case TonConnectUiEventError() when error != null:
 return error(_that.message);case TonConnectUiEventConnect() when connect != null:
 return connect(_that.request,_that.manifest,_that.completer);case TonConnectUiEventSendTransaction() when sendTransaction != null:
 return sendTransaction(_that.connection,_that.payload,_that.completer);case TonConnectUiEventSignData() when signData != null:
-return signData(_that.connection,_that.payload,_that.completer);case _:
+return signData(_that.connection,_that.payload,_that.completer);case TonConnectUiEventChangeNetwork() when changeNetwork != null:
+return changeNetwork(_that.origin,_that.networkId,_that.connections,_that.completer);case _:
   return null;
 
 }
@@ -258,7 +264,7 @@ class TonConnectUiEventConnect implements TonConnectUiEvent {
 
  final  ConnectRequest request;
  final  DappManifest manifest;
- final  Completer<(KeyAccount, List<ConnectItemReply>)?> completer;
+ final  Completer<TonConnectUiEventResult<(KeyAccount, List<ConnectItemReply>)>> completer;
 
 /// Create a copy of TonConnectUiEvent
 /// with the given fields replaced by the non-null parameter values.
@@ -290,7 +296,7 @@ abstract mixin class $TonConnectUiEventConnectCopyWith<$Res> implements $TonConn
   factory $TonConnectUiEventConnectCopyWith(TonConnectUiEventConnect value, $Res Function(TonConnectUiEventConnect) _then) = _$TonConnectUiEventConnectCopyWithImpl;
 @useResult
 $Res call({
- ConnectRequest request, DappManifest manifest, Completer<(KeyAccount, List<ConnectItemReply>)?> completer
+ ConnectRequest request, DappManifest manifest, Completer<TonConnectUiEventResult<(KeyAccount, List<ConnectItemReply>)>> completer
 });
 
 
@@ -312,7 +318,7 @@ class _$TonConnectUiEventConnectCopyWithImpl<$Res>
 request: null == request ? _self.request : request // ignore: cast_nullable_to_non_nullable
 as ConnectRequest,manifest: null == manifest ? _self.manifest : manifest // ignore: cast_nullable_to_non_nullable
 as DappManifest,completer: null == completer ? _self.completer : completer // ignore: cast_nullable_to_non_nullable
-as Completer<(KeyAccount, List<ConnectItemReply>)?>,
+as Completer<TonConnectUiEventResult<(KeyAccount, List<ConnectItemReply>)>>,
   ));
 }
 
@@ -346,7 +352,7 @@ class TonConnectUiEventSendTransaction implements TonConnectUiEvent {
 
  final  TonAppConnection connection;
  final  TransactionPayload payload;
- final  Completer<SignedMessage?> completer;
+ final  Completer<TonConnectUiEventResult<SignedMessage>> completer;
 
 /// Create a copy of TonConnectUiEvent
 /// with the given fields replaced by the non-null parameter values.
@@ -378,7 +384,7 @@ abstract mixin class $TonConnectUiEventSendTransactionCopyWith<$Res> implements 
   factory $TonConnectUiEventSendTransactionCopyWith(TonConnectUiEventSendTransaction value, $Res Function(TonConnectUiEventSendTransaction) _then) = _$TonConnectUiEventSendTransactionCopyWithImpl;
 @useResult
 $Res call({
- TonAppConnection connection, TransactionPayload payload, Completer<SignedMessage?> completer
+ TonAppConnection connection, TransactionPayload payload, Completer<TonConnectUiEventResult<SignedMessage>> completer
 });
 
 
@@ -400,7 +406,7 @@ class _$TonConnectUiEventSendTransactionCopyWithImpl<$Res>
 connection: null == connection ? _self.connection : connection // ignore: cast_nullable_to_non_nullable
 as TonAppConnection,payload: null == payload ? _self.payload : payload // ignore: cast_nullable_to_non_nullable
 as TransactionPayload,completer: null == completer ? _self.completer : completer // ignore: cast_nullable_to_non_nullable
-as Completer<SignedMessage?>,
+as Completer<TonConnectUiEventResult<SignedMessage>>,
   ));
 }
 
@@ -434,7 +440,7 @@ class TonConnectUiEventSignData implements TonConnectUiEvent {
 
  final  TonAppConnection connection;
  final  SignDataPayload payload;
- final  Completer<SignDataResult?> completer;
+ final  Completer<TonConnectUiEventResult<SignDataResult>> completer;
 
 /// Create a copy of TonConnectUiEvent
 /// with the given fields replaced by the non-null parameter values.
@@ -466,7 +472,7 @@ abstract mixin class $TonConnectUiEventSignDataCopyWith<$Res> implements $TonCon
   factory $TonConnectUiEventSignDataCopyWith(TonConnectUiEventSignData value, $Res Function(TonConnectUiEventSignData) _then) = _$TonConnectUiEventSignDataCopyWithImpl;
 @useResult
 $Res call({
- TonAppConnection connection, SignDataPayload payload, Completer<SignDataResult?> completer
+ TonAppConnection connection, SignDataPayload payload, Completer<TonConnectUiEventResult<SignDataResult>> completer
 });
 
 
@@ -488,7 +494,7 @@ class _$TonConnectUiEventSignDataCopyWithImpl<$Res>
 connection: null == connection ? _self.connection : connection // ignore: cast_nullable_to_non_nullable
 as TonAppConnection,payload: null == payload ? _self.payload : payload // ignore: cast_nullable_to_non_nullable
 as SignDataPayload,completer: null == completer ? _self.completer : completer // ignore: cast_nullable_to_non_nullable
-as Completer<SignDataResult?>,
+as Completer<TonConnectUiEventResult<SignDataResult>>,
   ));
 }
 
@@ -511,6 +517,84 @@ $SignDataPayloadCopyWith<$Res> get payload {
     return _then(_self.copyWith(payload: value));
   });
 }
+}
+
+/// @nodoc
+
+
+class TonConnectUiEventChangeNetwork implements TonConnectUiEvent {
+   TonConnectUiEventChangeNetwork({required this.origin, required this.networkId, required final  List<ConnectionData> connections, required this.completer}): _connections = connections;
+  
+
+ final  Uri origin;
+ final  int networkId;
+ final  List<ConnectionData> _connections;
+ List<ConnectionData> get connections {
+  if (_connections is EqualUnmodifiableListView) return _connections;
+  // ignore: implicit_dynamic_type
+  return EqualUnmodifiableListView(_connections);
+}
+
+ final  Completer<TransportStrategy?> completer;
+
+/// Create a copy of TonConnectUiEvent
+/// with the given fields replaced by the non-null parameter values.
+@JsonKey(includeFromJson: false, includeToJson: false)
+@pragma('vm:prefer-inline')
+$TonConnectUiEventChangeNetworkCopyWith<TonConnectUiEventChangeNetwork> get copyWith => _$TonConnectUiEventChangeNetworkCopyWithImpl<TonConnectUiEventChangeNetwork>(this, _$identity);
+
+
+
+@override
+bool operator ==(Object other) {
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is TonConnectUiEventChangeNetwork&&(identical(other.origin, origin) || other.origin == origin)&&(identical(other.networkId, networkId) || other.networkId == networkId)&&const DeepCollectionEquality().equals(other._connections, _connections)&&(identical(other.completer, completer) || other.completer == completer));
+}
+
+
+@override
+int get hashCode => Object.hash(runtimeType,origin,networkId,const DeepCollectionEquality().hash(_connections),completer);
+
+@override
+String toString() {
+  return 'TonConnectUiEvent.changeNetwork(origin: $origin, networkId: $networkId, connections: $connections, completer: $completer)';
+}
+
+
+}
+
+/// @nodoc
+abstract mixin class $TonConnectUiEventChangeNetworkCopyWith<$Res> implements $TonConnectUiEventCopyWith<$Res> {
+  factory $TonConnectUiEventChangeNetworkCopyWith(TonConnectUiEventChangeNetwork value, $Res Function(TonConnectUiEventChangeNetwork) _then) = _$TonConnectUiEventChangeNetworkCopyWithImpl;
+@useResult
+$Res call({
+ Uri origin, int networkId, List<ConnectionData> connections, Completer<TransportStrategy?> completer
+});
+
+
+
+
+}
+/// @nodoc
+class _$TonConnectUiEventChangeNetworkCopyWithImpl<$Res>
+    implements $TonConnectUiEventChangeNetworkCopyWith<$Res> {
+  _$TonConnectUiEventChangeNetworkCopyWithImpl(this._self, this._then);
+
+  final TonConnectUiEventChangeNetwork _self;
+  final $Res Function(TonConnectUiEventChangeNetwork) _then;
+
+/// Create a copy of TonConnectUiEvent
+/// with the given fields replaced by the non-null parameter values.
+@pragma('vm:prefer-inline') $Res call({Object? origin = null,Object? networkId = null,Object? connections = null,Object? completer = null,}) {
+  return _then(TonConnectUiEventChangeNetwork(
+origin: null == origin ? _self.origin : origin // ignore: cast_nullable_to_non_nullable
+as Uri,networkId: null == networkId ? _self.networkId : networkId // ignore: cast_nullable_to_non_nullable
+as int,connections: null == connections ? _self._connections : connections // ignore: cast_nullable_to_non_nullable
+as List<ConnectionData>,completer: null == completer ? _self.completer : completer // ignore: cast_nullable_to_non_nullable
+as Completer<TransportStrategy?>,
+  ));
+}
+
+
 }
 
 // dart format on
