@@ -1,6 +1,6 @@
 import 'package:app/core/wm/custom_wm.dart';
 import 'package:app/data/models/models.dart';
-import 'package:app/feature/browser_v1/approvals_listener/actions/widgets/website_info/website_info_widget.dart';
+import 'package:app/feature/browser/approvals_listener/actions/widgets/website_info/website_info_widget.dart';
 import 'package:app/feature/profile/profile.dart';
 import 'package:app/feature/ton_connect/ton_connect.dart';
 import 'package:app/feature/wallet/wallet.dart';
@@ -74,7 +74,7 @@ class TCSendMessageWidget
                 ),
                 const SizedBox(height: DimensSizeV2.d12),
                 WebsiteInfoWidget(
-                  uri: Uri.parse(wm.connection.manifest.url),
+                  uri: wm.connection.manifest.url,
                   iconUrl: Uri.tryParse(wm.connection.manifest.iconUrl),
                 ),
                 MultiListenerRebuilder(

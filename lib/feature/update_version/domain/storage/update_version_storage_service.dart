@@ -1,11 +1,13 @@
-import 'package:app/app/service/storage_service/abstract_storage_service.dart';
-import 'package:app/utils/common_utils.dart';
+import 'package:app/app/service/service.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:injectable/injectable.dart';
 
 @lazySingleton
 class UpdateVersionStorageService extends AbstractStorageService {
-  UpdateVersionStorageService(@Named(container) this._storage);
+  UpdateVersionStorageService(
+    @Named(container) this._storage,
+    this._ntpService,
+  );
 
   static const String container = 'update_version_storage_service';
   static const String _warningLastTimeKey = 'warningLastTime';
@@ -13,6 +15,7 @@ class UpdateVersionStorageService extends AbstractStorageService {
   static const String _versionForUpdateKey = 'versionForUpdate';
 
   final GetStorage _storage;
+  final NtpService _ntpService;
 
   @override
   Future<void> init() => GetStorage.init(container);
@@ -45,7 +48,10 @@ class UpdateVersionStorageService extends AbstractStorageService {
   }
 
   void updateWarningLastTime() {
-    _storage.write(_warningLastTimeKey, NtpTime.now().millisecondsSinceEpoch);
+    _storage.write(
+      _warningLastTimeKey,
+      _ntpService.now().millisecondsSinceEpoch,
+    );
   }
 
   void updateVersionForUpdate(String? versionForUpdate) {

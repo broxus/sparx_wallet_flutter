@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:app/app/service/service.dart';
 import 'package:app/feature/ledger/ledger.dart';
 import 'package:app/feature/ton_connect/ton_connect.dart';
 import 'package:app/http/repository/repository.dart';
@@ -18,12 +19,14 @@ class TCSendMessageModel extends ElementaryModel
     this._nekotonRepository,
     this._tonRepository,
     this._ledgerService,
+    this._ntpService,
     this._delegate,
   ) : super(errorHandler: errorHandler);
 
   final NekotonRepository _nekotonRepository;
   final TonRepository _tonRepository;
   final LedgerService _ledgerService;
+  final NtpService _ntpService;
   final BleAvailabilityModelDelegate _delegate;
 
   @override
@@ -58,11 +61,12 @@ class TCSendMessageModel extends ElementaryModel
   Future<UnsignedMessage> prepareTransfer({
     required List<TransactionPayloadMessage> messages,
     required Address address,
+    required int? validUntil,
     PublicKey? publicKey,
   }) => _nekotonRepository.prepareTransfer(
     address: address,
     publicKey: publicKey,
-    expiration: defaultSendTimeout,
+    expiration: validUntil?.let(Expiration.timestamp) ?? defaultSendTimeout,
     params: messages
         .map(
           (e) => TonWalletTransferParams(
@@ -70,7 +74,9 @@ class TCSendMessageModel extends ElementaryModel
             destination: e.address,
             body: e.payload,
             stateInit: e.stateInit,
-            bounce: defaultMessageBounce,
+            bounce: e.address.isRaw
+                ? defaultMessageBounce
+                : e.address.isBounceable,
           ),
         )
         .toList(),
@@ -97,6 +103,7 @@ class TCSendMessageModel extends ElementaryModel
     required Address address,
     required PublicKey publicKey,
     required SignInputAuth signInputAuth,
+    required int? validUntil,
   }) async {
     UnsignedMessage? message;
     try {
@@ -104,6 +111,7 @@ class TCSendMessageModel extends ElementaryModel
         address: address,
         publicKey: publicKey,
         messages: messages,
+        validUntil: validUntil,
       );
 
       final transport = _nekotonRepository.currentTransport.transport;
@@ -118,9 +126,8 @@ class TCSendMessageModel extends ElementaryModel
         interactionType: LedgerInteractionType.signTransaction,
         publicKey: publicKey,
         action: () async {
-          await message!.refreshTimeout();
           return _nekotonRepository.seedList.sign(
-            message: message.message,
+            message: message!.message,
             publicKey: publicKey,
             signInputAuth: signInputAuth,
             signatureId: signatureId,
@@ -129,6 +136,11 @@ class TCSendMessageModel extends ElementaryModel
       );
 
       final signedMessage = await message.sign(signature: signature);
+
+      final now = _ntpService.now().secondsSinceEpoch;
+      if (signedMessage.expireAt.secondsSinceEpoch <= now) {
+        throw TimeoutException('Message has expired');
+      }
 
       await _nekotonRepository.sendUnawaited(
         address: address,

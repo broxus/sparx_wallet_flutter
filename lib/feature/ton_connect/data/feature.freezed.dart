@@ -145,11 +145,11 @@ return signData(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>({TResult Function( int maxMessages)?  sendTransaction,TResult Function()?  signData,required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>({TResult Function( int maxMessages)?  sendTransaction,TResult Function( List<String> types)?  signData,required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _SendTransaction() when sendTransaction != null:
 return sendTransaction(_that.maxMessages);case _SignData() when signData != null:
-return signData();case _:
+return signData(_that.types);case _:
   return orElse();
 
 }
@@ -167,11 +167,11 @@ return signData();case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>({required TResult Function( int maxMessages)  sendTransaction,required TResult Function()  signData,}) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>({required TResult Function( int maxMessages)  sendTransaction,required TResult Function( List<String> types)  signData,}) {final _that = this;
 switch (_that) {
 case _SendTransaction():
 return sendTransaction(_that.maxMessages);case _SignData():
-return signData();}
+return signData(_that.types);}
 }
 /// A variant of `when` that fallback to returning `null`
 ///
@@ -185,11 +185,11 @@ return signData();}
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>({TResult? Function( int maxMessages)?  sendTransaction,TResult? Function()?  signData,}) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>({TResult? Function( int maxMessages)?  sendTransaction,TResult? Function( List<String> types)?  signData,}) {final _that = this;
 switch (_that) {
 case _SendTransaction() when sendTransaction != null:
 return sendTransaction(_that.maxMessages);case _SignData() when signData != null:
-return signData();case _:
+return signData(_that.types);case _:
   return null;
 
 }
@@ -274,15 +274,26 @@ as int,
 @JsonSerializable()
 
 class _SignData implements Feature {
-  const _SignData({final  String? $type}): $type = $type ?? 'SignData';
+  const _SignData({required final  List<String> types, final  String? $type}): _types = types,$type = $type ?? 'SignData';
   factory _SignData.fromJson(Map<String, dynamic> json) => _$SignDataFromJson(json);
 
+ final  List<String> _types;
+ List<String> get types {
+  if (_types is EqualUnmodifiableListView) return _types;
+  // ignore: implicit_dynamic_type
+  return EqualUnmodifiableListView(_types);
+}
 
 
 @JsonKey(name: 'name')
 final String $type;
 
 
+/// Create a copy of Feature
+/// with the given fields replaced by the non-null parameter values.
+@JsonKey(includeFromJson: false, includeToJson: false)
+@pragma('vm:prefer-inline')
+_$SignDataCopyWith<_SignData> get copyWith => __$SignDataCopyWithImpl<_SignData>(this, _$identity);
 
 @override
 Map<String, dynamic> toJson() {
@@ -291,22 +302,51 @@ Map<String, dynamic> toJson() {
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _SignData);
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _SignData&&const DeepCollectionEquality().equals(other._types, _types));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => runtimeType.hashCode;
+int get hashCode => Object.hash(runtimeType,const DeepCollectionEquality().hash(_types));
 
 @override
 String toString() {
-  return 'Feature.signData()';
+  return 'Feature.signData(types: $types)';
 }
 
 
 }
 
+/// @nodoc
+abstract mixin class _$SignDataCopyWith<$Res> implements $FeatureCopyWith<$Res> {
+  factory _$SignDataCopyWith(_SignData value, $Res Function(_SignData) _then) = __$SignDataCopyWithImpl;
+@useResult
+$Res call({
+ List<String> types
+});
 
 
+
+
+}
+/// @nodoc
+class __$SignDataCopyWithImpl<$Res>
+    implements _$SignDataCopyWith<$Res> {
+  __$SignDataCopyWithImpl(this._self, this._then);
+
+  final _SignData _self;
+  final $Res Function(_SignData) _then;
+
+/// Create a copy of Feature
+/// with the given fields replaced by the non-null parameter values.
+@pragma('vm:prefer-inline') $Res call({Object? types = null,}) {
+  return _then(_SignData(
+types: null == types ? _self._types : types // ignore: cast_nullable_to_non_nullable
+as List<String>,
+  ));
+}
+
+
+}
 
 // dart format on
