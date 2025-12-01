@@ -2,7 +2,7 @@ import 'dart:async';
 
 import 'package:app/app/router/compass/compass.dart';
 import 'package:app/app/router/router.dart';
-import 'package:app/feature/browser_v2/domain/browser_launcher.dart';
+import 'package:app/feature/browser/domain/browser_launcher.dart';
 import 'package:app/feature/wallet/route.dart';
 import 'package:injectable/injectable.dart';
 import 'package:logging/logging.dart';
