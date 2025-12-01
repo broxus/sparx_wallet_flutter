@@ -5,6 +5,7 @@ part 'qr_scan_result.freezed.dart';
 
 @freezed
 sealed class QrScanResult with _$QrScanResult {
+  const factory QrScanResult.invalid() = QrScanResultInvalid;
   const factory QrScanResult.address(Address value) = QrScanResultAddress;
   const factory QrScanResult.uri(Uri value) = QrScanResultUri;
 }

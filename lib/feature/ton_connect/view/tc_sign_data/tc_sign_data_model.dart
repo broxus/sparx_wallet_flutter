@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'dart:typed_data';
 
 import 'package:app/app/service/ntp_service.dart';
+import 'package:app/app/service/service.dart';
 import 'package:app/feature/messenger/data/message.dart';
 import 'package:app/feature/messenger/domain/service/messenger_service.dart';
 import 'package:app/feature/ton_connect/ton_connect.dart';
