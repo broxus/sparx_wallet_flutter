@@ -38,13 +38,18 @@ class ConnectionFailScreen
           left: DimensSizeV2.d16,
           right: DimensSizeV2.d16,
           child: Column(
+            spacing: DimensSize.d12,
             children: [
               PrimaryButton(
                 buttonShape: ButtonShape.pill,
                 title: LocaleKeys.tryAgain.tr(),
                 onPressed: wm.onPressedTryAgain,
               ),
-              const SizedBox(height: DimensSize.d12),
+              PrimaryButton(
+                buttonShape: ButtonShape.pill,
+                title: LocaleKeys.changeNetwork.tr(),
+                onPressed: wm.onPressedChangeNetwork,
+              ),
               PrimaryButton(
                 buttonShape: ButtonShape.pill,
                 title: LocaleKeys.contactUs.tr(),

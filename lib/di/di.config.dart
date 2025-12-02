@@ -2864,15 +2864,6 @@ extension GetItInjectableX on _i174.GetIt {
         gh<_i9.BootstrapFailedRerunModel>(),
       ),
     );
-    gh.factory<_i582.SplashScreenModel>(
-      () => _i582.SplashScreenModel(
-        gh<_i83.ErrorHandler>(),
-        gh<_i468.BootstrapService>(),
-        gh<_i275.NavigationService>(),
-        gh<_i33.NetworkConnectionService>(),
-        gh<_i544.BrowserService>(),
-      ),
-    );
     gh.factory<_i451.BrowserPageModel>(
       () => _i451.BrowserPageModel(
         gh<_i83.ErrorHandler>(),
@@ -2906,15 +2897,20 @@ extension GetItInjectableX on _i174.GetIt {
     gh.singleton<_i309.CompassRouter>(
       () => _i309.CompassRouter(gh<_i468.BootstrapService>()),
     );
-    gh.factory<_i659.SplashScreenWidgetModel>(
-      () => _i659.SplashScreenWidgetModel(gh<_i582.SplashScreenModel>()),
-    );
     gh.singleton<_i82.CompassGuard>(
       () => _i13.OnboardingGuard(
         gh<_i468.BootstrapService>(),
         gh<_i771.NekotonRepository>(),
       ),
       instanceName: 'OnboardingGuard',
+    );
+    gh.factory<_i582.SplashScreenModel>(
+      () => _i582.SplashScreenModel(
+        gh<_i83.ErrorHandler>(),
+        gh<_i468.BootstrapService>(),
+        gh<_i33.NetworkConnectionService>(),
+        gh<_i544.BrowserService>(),
+      ),
     );
     gh.factory<_i183.RequestPermissionsWidgetModel>(
       () => _i183.RequestPermissionsWidgetModel(
@@ -2937,29 +2933,15 @@ extension GetItInjectableX on _i174.GetIt {
       () => _i239.PendingDeepLinkService(gh<_i202.BrowserLauncher>()),
       dispose: (i) => i.dispose(),
     );
+    gh.factory<_i659.SplashScreenWidgetModel>(
+      () => _i659.SplashScreenWidgetModel(gh<_i582.SplashScreenModel>()),
+    );
     gh.factory<_i1031.AccountSettingsSheetModel>(
       () => _i1031.AccountSettingsSheetModel(
         gh<_i83.ErrorHandler>(),
         gh<_i771.NekotonRepository>(),
         gh<_i632.MessengerService>(),
         gh<_i202.BrowserLauncher>(),
-      ),
-    );
-    gh.factory<_i425.AppModel>(
-      () => _i425.AppModel(
-        gh<_i83.ErrorHandler>(),
-        gh<_i309.CompassRouter>(),
-        gh<_i850.AppLinksService>(),
-        gh<_i830.AppLifecycleService>(),
-        gh<_i1071.LocalizationService>(),
-        gh<_i575.BiometryService>(),
-        gh<_i632.MessengerService>(),
-        gh<_i47.CrashDetectorService>(),
-        gh<_i335.LoggerConfigurator>(),
-        gh<_i202.BrowserLauncher>(),
-        gh<_i771.NekotonRepository>(),
-        gh<_i468.BootstrapService>(),
-        gh<_i239.PendingDeepLinkService>(),
       ),
     );
     gh.factory<_i680.NftPageModel>(
@@ -3022,9 +3004,6 @@ extension GetItInjectableX on _i174.GetIt {
         gh<_i202.BrowserLauncher>(),
       ),
     );
-    gh.factory<_i1017.AppWidgetModel>(
-      () => _i1017.AppWidgetModel(gh<_i425.AppModel>()),
-    );
     gh.factory<_i962.AccountSettingsWidgetModel>(
       () => _i962.AccountSettingsWidgetModel(gh<_i8.AccountSettingsModel>()),
     );
@@ -3071,6 +3050,24 @@ extension GetItInjectableX on _i174.GetIt {
         gh<_i83.ErrorHandler>(),
         gh<_i771.NekotonRepository>(),
         gh<_i202.BrowserLauncher>(),
+      ),
+    );
+    gh.factory<_i425.AppModel>(
+      () => _i425.AppModel(
+        gh<_i83.ErrorHandler>(),
+        gh<_i309.CompassRouter>(),
+        gh<_i850.AppLinksService>(),
+        gh<_i830.AppLifecycleService>(),
+        gh<_i1071.LocalizationService>(),
+        gh<_i575.BiometryService>(),
+        gh<_i632.MessengerService>(),
+        gh<_i47.CrashDetectorService>(),
+        gh<_i335.LoggerConfigurator>(),
+        gh<_i202.BrowserLauncher>(),
+        gh<_i771.NekotonRepository>(),
+        gh<_i468.BootstrapService>(),
+        gh<_i239.PendingDeepLinkService>(),
+        gh<_i275.NavigationService>(),
       ),
     );
     gh.factory<_i278.CustomBottomNavigationBarModel>(
@@ -3122,6 +3119,9 @@ extension GetItInjectableX on _i174.GetIt {
       () => _i1010.TonWalletMultisigOrdinaryTransactionDetailsScreenWidgetModel(
         gh<_i161.TonWalletMultisigOrdinaryTransactionDetailsScreenModel>(),
       ),
+    );
+    gh.factory<_i1017.AppWidgetModel>(
+      () => _i1017.AppWidgetModel(gh<_i425.AppModel>()),
     );
     return this;
   }

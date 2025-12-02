@@ -12,12 +12,12 @@ class SelectNetworkWidget
     extends
         InjectedElementaryParametrizedWidget<SelectNetworkWidgetModel, bool> {
   const SelectNetworkWidget({
+    required this.showConfigureButton,
     bool needPopAfterAction = true,
-    this.scrollController,
     super.key,
   }) : super(wmFactoryParam: needPopAfterAction);
 
-  final ScrollController? scrollController;
+  final bool showConfigureButton;
 
   @override
   Widget build(SelectNetworkWidgetModel wm) {
@@ -31,7 +31,6 @@ class SelectNetworkWidget
           builder: (_, currentConnectionId, connections) => Flexible(
             child: ListView.builder(
               shrinkWrap: true,
-              controller: scrollController,
               itemCount: connections?.length ?? 0,
               itemBuilder: (_, index) {
                 final item = connections?[index];
@@ -48,14 +47,15 @@ class SelectNetworkWidget
             ),
           ),
         ),
-        Padding(
-          padding: const EdgeInsets.only(top: DimensSizeV2.d12),
-          child: PrimaryButton(
-            buttonShape: ButtonShape.pill,
-            title: LocaleKeys.configureNetworks.tr(),
-            onPressed: wm.onConfigure,
+        if (showConfigureButton)
+          Padding(
+            padding: const EdgeInsets.only(top: DimensSizeV2.d12),
+            child: PrimaryButton(
+              buttonShape: ButtonShape.pill,
+              title: LocaleKeys.configureNetworks.tr(),
+              onPressed: wm.onConfigure,
+            ),
           ),
-        ),
       ],
     );
   }
