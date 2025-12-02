@@ -105,7 +105,7 @@ class ContentConfirmAction
                     child: PrimaryButton(
                       buttonShape: ButtonShape.pill,
                       title: LocaleKeys.useFingerprint.tr(),
-                      icon: LucideIcons.fingerprint,
+                      icon: LucideIcons.fingerprintPattern,
                       onPressed: wm.onUseBiometry,
                     ),
                   );

@@ -62,14 +62,9 @@ class NftCollectionPageWidget
                         LocaleKeys.nftMyNfts.tr(),
                         style: wm.theme.textStyles.headingMedium,
                       ),
-                      StateNotifierBuilder(
-                        listenableState: wm.displayModeState,
-                        builder: (_, displayMode) {
-                          return DisplayModeSwitch(
-                            mode: displayMode ?? NftDisplayMode.grid,
-                            onModeChanged: wm.setDisplayMode,
-                          );
-                        },
+                      DisplayModeSwitch(
+                        displayModeState: wm.displayModeState,
+                        onModeChanged: wm.setDisplayMode,
                       ),
                     ],
                   ),

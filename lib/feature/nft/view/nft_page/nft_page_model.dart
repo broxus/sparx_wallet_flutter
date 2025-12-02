@@ -1,4 +1,8 @@
+import 'dart:async';
+
 import 'package:app/app/service/service.dart';
+import 'package:app/feature/browser/domain/browser_launcher.dart';
+import 'package:app/feature/nft/domain/nft_display_mode_configurator.dart';
 import 'package:app/feature/nft/nft.dart';
 import 'package:elementary/elementary.dart';
 import 'package:injectable/injectable.dart';
@@ -12,11 +16,21 @@ class NftPageModel extends ElementaryModel {
     this._nftService,
     this._currentAccountsService,
     this._nekotonRepository,
+    this._nftDisplayModeConfigurator,
+    this._browserLauncher,
   ) : super(errorHandler: errorHandler);
 
   final NftService _nftService;
   final CurrentAccountsService _currentAccountsService;
   final NekotonRepository _nekotonRepository;
+  final NftDisplayModeConfigurator _nftDisplayModeConfigurator;
+  final BrowserLauncher _browserLauncher;
+
+  Stream<Address> get _ownerStream => _currentAccountsService
+      .currentActiveAccountStream
+      .mapNotNull((e) => e?.address);
+
+  StreamSubscription<Address>? _ownerStreamSub;
 
   Stream<KeyAccount?> get currentAccountStream =>
       _currentAccountsService.currentActiveAccountStream;
@@ -29,26 +43,37 @@ class NftPageModel extends ElementaryModel {
       .map((transport) => transport.nftInformation?.marketplaceUrl);
 
   Stream<NftDisplayMode?> get displayModeStream =>
-      _nftService.displayModeStream;
+      _nftDisplayModeConfigurator.displayModeStream;
 
-  Stream<Address> get _owner =>
-      currentAccountStream.mapNotNull((e) => e?.address);
+  Stream<List<NftCollection>> get collectionsStream =>
+      _ownerStream.switchMap(_nftService.getAccountCollectionsStream);
 
-  Stream<NftTransferEvent> getNftTransferEventStream() => _owner.switchMap(
+  Stream<List<PendingNft>> get pendingNftStream =>
+      _ownerStream.switchMap(_nftService.getAccountPendingNftsStream);
+
+  Stream<NftTransferEvent> get nftTransferEventStream => _ownerStream.switchMap(
     (owner) => _nftService.getNftTransferEventStream(owner: owner),
   );
 
-  Stream<List<PendingNft>> getPendingNftStream() =>
-      _owner.switchMap(_nftService.getAccountPendingNftsStream);
+  @override
+  void dispose() {
+    _ownerStreamSub?.cancel();
+    super.dispose();
+  }
 
-  void setDisplayMode(NftDisplayMode mode) => _nftService.setDisplayMode(mode);
-
-  Stream<List<NftCollection>> getCollectionsStream() =>
-      _owner.switchMap(_nftService.getAccountCollectionsStream);
+  void setDisplayMode(NftDisplayMode mode) =>
+      _nftDisplayModeConfigurator.setDisplayMode(mode);
 
   Future<void> scanNftCollections(Address owner) =>
       _nftService.scanNftCollections(owner);
 
   void addCollection({required Address account, required Address collection}) =>
-      _nftService.addCollection(account: account, collection: collection);
+      _nftService.addCollection(
+        accountAddress: account,
+        collectionAddress: collection,
+      );
+
+  void openBrowserByString(String marketplaceUrl) {
+    _browserLauncher.openBrowserByString(marketplaceUrl);
+  }
 }
