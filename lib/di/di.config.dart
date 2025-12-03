@@ -915,6 +915,7 @@ extension GetItInjectableX on _i174.GetIt {
     );
     gh.singleton<_i689.ProtectedContentService>(
       () => _i689.ProtectedContentService(gh<_i830.AppLifecycleService>()),
+      dispose: (i) => i.dispose(),
     );
     gh.factory<_i1030.CheckSeedPhrasePageModel>(
       () => _i1030.CheckSeedPhrasePageModel(
@@ -1698,20 +1699,6 @@ extension GetItInjectableX on _i174.GetIt {
         gh<_i1015.NftService>(),
       ),
     );
-    gh.singleton<_i82.CompassBaseRoute>(
-      () => _i512.TonWalletDetailsRoute(
-        gh<_i82.CompassBaseRoute>(instanceName: 'WalletMultisigConfigRoute'),
-        gh<_i82.CompassBaseRoute>(instanceName: 'WalletDeployConfirmRoute'),
-        gh<_i82.CompassBaseRoute>(instanceName: 'WalletPrepareTransferRoute'),
-        gh<_i82.CompassBaseRoute>(
-          instanceName: 'WalletPrepareSpecifiedTransferRoute',
-        ),
-        gh<_i82.CompassBaseRoute>(
-          instanceName: 'ConfirmMultisigTransactionRoute',
-        ),
-      ),
-      instanceName: 'TonWalletDetailsRoute',
-    );
     gh.factory<_i715.AddAccountModel>(
       () => _i715.AddAccountModel(
         gh<_i83.ErrorHandler>(),
@@ -1888,6 +1875,23 @@ extension GetItInjectableX on _i174.GetIt {
         gh<_i771.NekotonRepository>(),
         gh<_i865.BleAvailabilityModelDelegate>(),
       ),
+    );
+    gh.singleton<_i82.CompassBaseRoute>(
+      () => _i512.TonWalletDetailsRoute(
+        gh<_i82.CompassBaseRoute>(instanceName: 'WalletMultisigConfigRoute'),
+        gh<_i82.CompassBaseRoute>(instanceName: 'WalletDeployConfirmRoute'),
+        gh<_i82.CompassBaseRoute>(instanceName: 'WalletPrepareTransferRoute'),
+        gh<_i82.CompassBaseRoute>(
+          instanceName: 'WalletPrepareSpecifiedTransferRoute',
+        ),
+        gh<_i82.CompassBaseRoute>(
+          instanceName: 'ConfirmMultisigTransactionRoute',
+        ),
+        gh<_i82.CompassBaseRoute>(
+          instanceName: 'PendingTransactionDetailsRoute',
+        ),
+      ),
+      instanceName: 'TonWalletDetailsRoute',
     );
     gh.factory<_i677.AddAccountWidgetModel>(
       () => _i677.AddAccountWidgetModel(gh<_i715.AddAccountModel>()),
