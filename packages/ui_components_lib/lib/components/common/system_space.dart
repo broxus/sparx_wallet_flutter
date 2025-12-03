@@ -8,10 +8,10 @@ class SystemSpace extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SizedBox(
-      height:
-          MediaQuery.of(context).systemGestureInsets.bottom + additionalPadding,
-    );
+    final height =
+        MediaQuery.of(context).systemGestureInsets.bottom + additionalPadding;
+
+    return SizedBox(height: height < 0 ? 0 : height);
   }
 }
 
@@ -46,6 +46,28 @@ class KeyboardPadding extends StatelessWidget {
           child: child,
         );
       },
+    );
+  }
+}
+
+class ViewInsetsPadding extends StatelessWidget {
+  const ViewInsetsPadding({this.additionalPadding = 0, super.key});
+
+  final double additionalPadding;
+
+  @override
+  Widget build(BuildContext context) {
+    final viewInsets = MediaQuery.of(context).viewInsets;
+    final bottom = viewInsets.bottom + additionalPadding;
+
+    return AnimatedPadding(
+      padding: EdgeInsets.only(
+        top: viewInsets.top,
+        bottom: bottom < 0 ? 0 : bottom,
+        left: viewInsets.left,
+        right: viewInsets.right,
+      ),
+      duration: Duration.zero,
     );
   }
 }

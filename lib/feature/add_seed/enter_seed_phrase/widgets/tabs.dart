@@ -26,25 +26,25 @@ class EnterSeedPhraseTabs extends StatelessWidget {
   Widget build(BuildContext context) {
     return Row(
       children: [
-        Expanded(
-          child: SingleChildScrollView(
-            scrollDirection: Axis.horizontal,
-            child: Row(
-              children: [
-                for (final value in allowedValues)
-                  GestureDetector(
-                    onTap: () => changeTab(value),
-                    child: PrimarySegmentControl(
-                      size: SegmentControlSize.small,
-                      state: value == currentValue
-                          ? SegmentControlState.selected
-                          : SegmentControlState.normal,
-                      title: LocaleKeys.wordsCount.plural(value),
-                      value: value,
-                    ),
-                  ),
-              ],
-            ),
+        Flexible(
+          child: Row(
+            children: [
+              Flexible(
+                child: SwitcherSegmentControls<int>(
+                  currentValue: currentValue,
+                  values: [
+                    for (final value in allowedValues)
+                      PrimarySegmentControl(
+                        state: SegmentControlState.normal,
+                        title: LocaleKeys.wordsCount.plural(value),
+                        value: value,
+                        size: SegmentControlSize.medium,
+                      ),
+                  ],
+                  onTabChanged: changeTab,
+                ),
+              ),
+            ],
           ),
         ),
         StateNotifierBuilder(

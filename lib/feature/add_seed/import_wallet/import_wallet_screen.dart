@@ -38,12 +38,6 @@ class ImportWalletScreen
                     ),
                     child: Column(
                       children: [
-                        Image.asset(
-                          Assets.images.seedPhraseIcon.path,
-                          width: DimensSizeV2.d56,
-                          height: DimensSizeV2.d56,
-                        ),
-                        const SizedBox(height: DimensSizeV2.d16),
                         Text(
                           LocaleKeys.importWalletScreenTitle.tr(),
                           style: theme.textStyles.headingLarge,
@@ -119,7 +113,6 @@ class ImportWalletScreen
                               ),
                           ],
                         ),
-                        const SizedBox(height: DimensSizeV2.d24),
                         GhostButton(
                           buttonShape: ButtonShape.pill,
                           title: LocaleKeys.importWalletManuallyButtonText.tr(),

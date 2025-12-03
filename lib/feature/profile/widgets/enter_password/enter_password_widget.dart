@@ -189,27 +189,24 @@ class _Password extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return KeyboardPadding(
-      bottom: DimensSizeV2.d24,
-      child: SeparatedColumn(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          SecureTextField(
-            hintText: LocaleKeys.password.tr(),
-            textEditingController: controller,
-            isAutofocus: isAutofocus && !isDisabled,
-            isEnabled: !isDisabled,
-            onSubmit: isDisabled ? null : (_) => onSubmit(controller.text),
-          ),
-          AccentButton(
-            buttonShape: ButtonShape.pill,
-            title: title ?? LocaleKeys.submitWord.tr(),
-            isLoading: isLoading,
-            icon: isLocked ? LucideIcons.lock : null,
-            onPressed: isDisabled ? null : () => onSubmit(controller.text),
-          ),
-        ],
-      ),
+    return SeparatedColumn(
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        SecureTextField(
+          hintText: LocaleKeys.password.tr(),
+          textEditingController: controller,
+          isAutofocus: isAutofocus && !isDisabled,
+          isEnabled: !isDisabled,
+          onSubmit: isDisabled ? null : (_) => onSubmit(controller.text),
+        ),
+        AccentButton(
+          buttonShape: ButtonShape.pill,
+          title: title ?? LocaleKeys.submitWord.tr(),
+          isLoading: isLoading,
+          icon: isLocked ? LucideIcons.lock : null,
+          onPressed: isDisabled ? null : () => onSubmit(controller.text),
+        ),
+      ],
     );
   }
 }
