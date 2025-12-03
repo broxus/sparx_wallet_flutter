@@ -36,9 +36,16 @@ class ChooseNetworkScreenModel extends ElementaryModel with ConnectionMixin {
   final ConnectionsStorageService _connectionsStorageService;
   final NekotonRepository _nekotonRepository;
 
+  late final Set<String> _startConnectionsIds = _presetsConnectionService
+      .startConnections
+      .map((data) => data.connectionId)
+      .toSet();
+
   Future<bool> selectType(String id) async {
     try {
-      _connectionsStorageService.saveCurrentConnectionId(id);
+      await _connectionsStorageService.saveCurrentConnectionId(
+        connectionId: id,
+      );
       await _nekotonRepository.currentTransportStream.firstWhere(
         (e) => e.connectionId == id,
       );
@@ -56,7 +63,7 @@ class ChooseNetworkScreenModel extends ElementaryModel with ConnectionMixin {
       final caseSensetiveQuery = query.toLowerCase();
 
       networks = networks.where((conntection) {
-        final name = conntection.name.toLowerCase();
+        final name = conntection.networkName.toLowerCase();
 
         return name.contains(caseSensetiveQuery);
       }).toList();
@@ -67,9 +74,11 @@ class ChooseNetworkScreenModel extends ElementaryModel with ConnectionMixin {
         ChooseNetworkItemData(
           id: connection.id,
           icon: _presetsConnectionService
-              .getTransportIconsByNetwork(connection.group)
+              .getTransportIconsByNetworkGroup(
+                connection.defaultWorkchain.networkGroup,
+              )
               .network,
-          title: connection.name,
+          title: connection.networkName,
         ),
     ];
   }
@@ -78,9 +87,19 @@ class ChooseNetworkScreenModel extends ElementaryModel with ConnectionMixin {
     return _startNetworks().length > showSearchNetworksThreshold;
   }
 
-  List<ConnectionData> _startNetworks() {
-    return _presetsConnectionService.networks
-        .where((network) => network.isUsedOnStart)
-        .toList();
+  List<Connection> _startNetworks() {
+    final connectionsMap = {
+      for (final el in _presetsConnectionService.connections) el.id: el,
+    };
+
+    final result = <Connection>[];
+
+    for (final startId in _startConnectionsIds) {
+      final connection = connectionsMap[startId];
+      if (connection == null) continue;
+      result.add(connection);
+    }
+
+    return result;
   }
 }

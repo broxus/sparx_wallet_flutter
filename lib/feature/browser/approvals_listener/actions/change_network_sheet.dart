@@ -1,5 +1,5 @@
-import 'package:app/app/service/connection/data/connection_data/connection_data.dart';
-import 'package:app/feature/browser/approvals_listener/actions/change_network/change_network.dart';
+import 'package:app/app/service/connection/data/connection/connection.dart';
+import 'package:app/feature/browser_v1/approvals_listener/actions/change_network/change_network.dart';
 import 'package:app/generated/generated.dart';
 import 'package:flutter/material.dart';
 import 'package:nekoton_repository/nekoton_repository.dart';
@@ -9,7 +9,7 @@ Future<TransportStrategy?> showChangeNetworkSheet({
   required BuildContext context,
   required Uri origin,
   required int networkId,
-  required List<ConnectionData> connections,
+  required List<Connection> connections,
 }) => showCommonBottomSheet<TransportStrategy?>(
   context: context,
   title: LocaleKeys.changeNetwork.tr(),

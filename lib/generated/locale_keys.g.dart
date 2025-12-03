@@ -135,6 +135,7 @@ abstract class LocaleKeys {
   static const networkWord = 'networkWord';
   static const networksWord = 'networksWord';
   static const selectNetwork = 'selectNetwork';
+  static const selectWorkchain = 'selectWorkchain';
   static const configureNetworks = 'configureNetworks';
   static const addCustomNetwork = 'addCustomNetwork';
   static const networkType = 'networkType';
@@ -647,6 +648,8 @@ abstract class LocaleKeys {
   static const accountAddedSheetSwitch = 'accountAddedSheetSwitch';
   static const accountAddedSheetContinue = 'accountAddedSheetContinue';
   static const invalidReceiverAddress = 'invalidReceiverAddress';
+  static const invalidWorkchainAddressFrom0To1 =
+      'invalidWorkchainAddressFrom0To1';
   static const deleteBookmarksQuestion = 'deleteBookmarksQuestion';
   static const deleteBookmarksDescription = 'deleteBookmarksDescription';
   static const save = 'save';

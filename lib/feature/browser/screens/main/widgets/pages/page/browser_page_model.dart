@@ -6,7 +6,7 @@ import 'package:app/app/service/approvals_service.dart';
 import 'package:app/app/service/assets_service.dart';
 import 'package:app/app/service/connection/connection_service.dart';
 import 'package:app/app/service/permissions_service.dart';
-import 'package:app/app/service/storage_service/connections_storage_service.dart';
+import 'package:app/app/service/storage_service/connections_storage/connections_storage_service.dart';
 import 'package:app/core/app_build_type.dart';
 import 'package:app/feature/browser/custom_web_controller.dart';
 import 'package:app/feature/browser/data/browser_basic_auth_creds.dart';

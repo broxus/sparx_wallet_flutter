@@ -1,5 +1,5 @@
+import 'package:app/app/service/connection/data/connection_config/connection_config.dart';
 import 'package:app/core/app_build_type.dart';
-import 'package:app/feature/presets_config/data/connection_network_dto.dart';
 import 'package:app/feature/presets_config/data/release_notes.dart';
 import 'package:app/feature/presets_config/data/update_rules.dart';
 import 'package:app/generated/generated.dart';
@@ -9,10 +9,10 @@ import 'package:app/generated/generated.dart';
 /// This enum represents the different configuration types that can be loaded
 /// from remote sources, cached storage, or bundled assets.
 enum PresetConfigType<T> {
-  connections<ConnectionNetworkDto>(
+  connections<ConnectionConfig>(
     name: 'connections',
     storageKey: 'connections_config',
-    mapper: ConnectionNetworkDto.fromJson,
+    mapper: ConnectionConfig.fromJson,
   ),
   updateRules<UpdateRules>(
     name: 'update_rules',
@@ -46,12 +46,13 @@ enum PresetConfigType<T> {
       AppBuildType.production => 'prod',
       _ => 'dev',
     };
-    return '${name}_$suffix.json';
+    // TODO(knightforce): remove _v2
+    return '${name}_${suffix}_v2.json';
   }
 
   /// The key used for loading the configuration from local assets.
   String getLocalFileName() => switch (this) {
-    PresetConfigType.connections => Assets.configs.connections,
+    PresetConfigType.connections => Assets.configs.connectionsV2,
     PresetConfigType.updateRules => Assets.configs.updateRules,
     PresetConfigType.releaseNotes => Assets.configs.releaseNotes,
   };

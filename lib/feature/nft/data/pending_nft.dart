@@ -1,8 +1,9 @@
-import 'package:app/app/service/service.dart';
+import 'package:app/app/service/connection/group.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:nekoton_repository/nekoton_repository.dart';
 
 part 'pending_nft.freezed.dart';
+
 part 'pending_nft.g.dart';
 
 @freezed

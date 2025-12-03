@@ -80,8 +80,8 @@ import '../app/service/storage_service/account_seed_storage_service.dart'
     as _i747;
 import '../app/service/storage_service/app_storage_service.dart' as _i184;
 import '../app/service/storage_service/balance_storage_service.dart' as _i1020;
-import '../app/service/storage_service/connections_storage_service.dart'
-    as _i65;
+import '../app/service/storage_service/connections_storage/connections_storage_service.dart'
+    as _i284;
 import '../app/service/storage_service/general_storage_service.dart' as _i747;
 import '../app/service/storage_service/nekoton_repository_service.dart'
     as _i386;
@@ -137,122 +137,121 @@ import '../feature/bootstrap_failed/view/bootstrap_failed_rerun_model.dart'
     as _i884;
 import '../feature/bootstrap_failed/view/bootstrap_failed_rerun_wm.dart'
     as _i926;
-import '../feature/browser/approvals_listener/actions/add_network/add_network_model.dart'
-    as _i350;
-import '../feature/browser/approvals_listener/actions/add_network/add_network_wm.dart'
-    as _i564;
-import '../feature/browser/approvals_listener/actions/add_tip3_token/add_tip3_token_model.dart'
-    as _i168;
-import '../feature/browser/approvals_listener/actions/add_tip3_token/add_tip3_token_wm.dart'
-    as _i876;
-import '../feature/browser/approvals_listener/actions/change_network/change_network_model.dart'
-    as _i575;
-import '../feature/browser/approvals_listener/actions/change_network/change_network_wm.dart'
-    as _i267;
-import '../feature/browser/approvals_listener/actions/request_permissions/request_permissions_model.dart'
-    as _i997;
-import '../feature/browser/approvals_listener/actions/request_permissions/request_permissions_wm.dart'
-    as _i183;
-import '../feature/browser/approvals_listener/actions/send_message/send_message_model.dart'
-    as _i1050;
-import '../feature/browser/approvals_listener/actions/send_message/send_message_wm.dart'
-    as _i769;
-import '../feature/browser/approvals_listener/actions/widgets/account_info/account_info_model.dart'
-    as _i647;
-import '../feature/browser/approvals_listener/actions/widgets/account_info/account_info_wm.dart'
-    as _i880;
-import '../feature/browser/approvals_listener/actions/widgets/website_info/website_info_model.dart'
-    as _i980;
-import '../feature/browser/approvals_listener/actions/widgets/website_info/website_info_wm.dart'
-    as _i684;
-import '../feature/browser/domain/browser_launcher.dart' as _i202;
-import '../feature/browser/domain/delegates/browser_anti_phishing_delegate.dart'
-    as _i482;
-import '../feature/browser/domain/delegates/browser_service_auth_delegate.dart'
-    as _i603;
-import '../feature/browser/domain/delegates/browser_service_bookmarks_delegate.dart'
-    as _i951;
-import '../feature/browser/domain/delegates/browser_service_favicon_delegate.dart'
-    as _i484;
-import '../feature/browser/domain/delegates/browser_service_history_delegate.dart'
-    as _i429;
-import '../feature/browser/domain/delegates/browser_service_pages_controllers_delegate.dart'
+import '../feature/browser_v1/approvals_listener/actions/add_network/add_network_model.dart'
+    as _i561;
+import '../feature/browser_v1/approvals_listener/actions/add_network/add_network_wm.dart'
+    as _i317;
+import '../feature/browser_v1/approvals_listener/actions/add_tip3_token/add_tip3_token_model.dart'
+    as _i588;
+import '../feature/browser_v1/approvals_listener/actions/add_tip3_token/add_tip3_token_wm.dart'
+    as _i668;
+import '../feature/browser_v1/approvals_listener/actions/change_network/change_network_model.dart'
+    as _i710;
+import '../feature/browser_v1/approvals_listener/actions/change_network/change_network_wm.dart'
+    as _i639;
+import '../feature/browser_v1/approvals_listener/actions/request_permissions/request_permissions_model.dart'
+    as _i57;
+import '../feature/browser_v1/approvals_listener/actions/request_permissions/request_permissions_wm.dart'
+    as _i1015;
+import '../feature/browser_v1/approvals_listener/actions/send_message/send_message_model.dart'
+    as _i201;
+import '../feature/browser_v1/approvals_listener/actions/send_message/send_message_wm.dart'
+    as _i136;
+import '../feature/browser_v1/approvals_listener/actions/widgets/account_info/account_info_model.dart'
+    as _i662;
+import '../feature/browser_v1/approvals_listener/actions/widgets/account_info/account_info_wm.dart'
+    as _i446;
+import '../feature/browser_v1/approvals_listener/actions/widgets/website_info/website_info_model.dart'
+    as _i378;
+import '../feature/browser_v1/approvals_listener/actions/widgets/website_info/website_info_wm.dart'
+    as _i968;
+import '../feature/browser_v1/browser.dart' as _i4;
+import '../feature/browser_v2/domain/browser_launcher.dart' as _i70;
+import '../feature/browser_v2/domain/delegates/browser_anti_phishing_delegate.dart'
+    as _i106;
+import '../feature/browser_v2/domain/delegates/browser_service_auth_delegate.dart'
+    as _i931;
+import '../feature/browser_v2/domain/delegates/browser_service_bookmarks_delegate.dart'
+    as _i773;
+import '../feature/browser_v2/domain/delegates/browser_service_favicon_delegate.dart'
+    as _i181;
+import '../feature/browser_v2/domain/delegates/browser_service_history_delegate.dart'
+    as _i617;
+import '../feature/browser_v2/domain/delegates/browser_service_pages_controllers_delegate.dart'
+    as _i318;
+import '../feature/browser_v2/domain/delegates/browser_service_permissions_delegate.dart'
+    as _i475;
+import '../feature/browser_v2/domain/delegates/browser_service_screenshots_delegate.dart'
+    as _i169;
+import '../feature/browser_v2/domain/delegates/browser_service_tabs_delegate.dart'
+    as _i77;
+import '../feature/browser_v2/domain/service/browser_service.dart' as _i470;
+import '../feature/browser_v2/domain/service/storages/browser_bookmarks_storage_service.dart'
+    as _i213;
+import '../feature/browser_v2/domain/service/storages/browser_favicon_url_storage_service.dart'
+    as _i234;
+import '../feature/browser_v2/domain/service/storages/browser_groups_storage_service.dart'
+    as _i988;
+import '../feature/browser_v2/domain/service/storages/browser_permissions_storage_service.dart'
+    as _i229;
+import '../feature/browser_v2/domain/service/storages/browser_tabs_storage_service.dart'
+    as _i634;
+import '../feature/browser_v2/screens/create_group/create_browser_group_screen_model.dart'
+    as _i907;
+import '../feature/browser_v2/screens/create_group/create_browser_group_screen_wm.dart'
     as _i877;
-import '../feature/browser/domain/delegates/browser_service_permissions_delegate.dart'
-    as _i1000;
-import '../feature/browser/domain/delegates/browser_service_screenshots_delegate.dart'
-    as _i40;
-import '../feature/browser/domain/delegates/browser_service_tabs_delegate.dart'
-    as _i974;
-import '../feature/browser/domain/service/browser_service.dart' as _i544;
-import '../feature/browser/domain/service/storages/browser_bookmarks_storage_service.dart'
-    as _i563;
-import '../feature/browser/domain/service/storages/browser_favicon_url_storage_service.dart'
+import '../feature/browser_v2/screens/create_group/route.dart' as _i345;
+import '../feature/browser_v2/screens/main/browser_main_screen_model.dart'
+    as _i933;
+import '../feature/browser_v2/screens/main/browser_main_screen_wm.dart'
+    as _i792;
+import '../feature/browser_v2/screens/main/route.dart' as _i1040;
+import '../feature/browser_v2/screens/main/widgets/control_panels/toolbar/toolbar_model.dart'
+    as _i659;
+import '../feature/browser_v2/screens/main/widgets/control_panels/toolbar/toolbar_wm.dart'
+    as _i1045;
+import '../feature/browser_v2/screens/main/widgets/groups_menu/browser_group_menu_model.dart'
+    as _i942;
+import '../feature/browser_v2/screens/main/widgets/groups_menu/browser_group_menu_wm.dart'
+    as _i627;
+import '../feature/browser_v2/screens/main/widgets/pages/page/browser_page_model.dart'
+    as _i154;
+import '../feature/browser_v2/screens/main/widgets/pages/page/browser_page_wm.dart'
+    as _i307;
+import '../feature/browser_v2/screens/main/widgets/tab_animated_view/tab_animated_view_model.dart'
+    as _i865;
+import '../feature/browser_v2/screens/main/widgets/tab_animated_view/tab_animated_view_wm.dart'
+    as _i399;
+import '../feature/browser_v2/screens/main/widgets/tabs/item/browser_tabs_list_item_model.dart'
+    as _i413;
+import '../feature/browser_v2/screens/main/widgets/tabs/item/browser_tabs_list_item_wm.dart'
+    as _i518;
+import '../feature/browser_v2/screens/main/widgets/tabs/tabs_list/tabs_list_model.dart'
+    as _i747;
+import '../feature/browser_v2/screens/main/widgets/tabs/tabs_list/tabs_list_wm.dart'
+    as _i976;
+import '../feature/browser_v2/screens/main/widgets/tabs/tabs_list/widgets/header/tab_list_header_model.dart'
+    as _i762;
+import '../feature/browser_v2/screens/main/widgets/tabs/tabs_list/widgets/header/tab_list_header_wm.dart'
+    as _i1045;
+import '../feature/browser_v2/widgets/bottomsheets/book/browser_book_model.dart'
     as _i250;
-import '../feature/browser/domain/service/storages/browser_groups_storage_service.dart'
-    as _i752;
-import '../feature/browser/domain/service/storages/browser_permissions_storage_service.dart'
-    as _i614;
-import '../feature/browser/domain/service/storages/browser_tabs_storage_service.dart'
-    as _i187;
-import '../feature/browser/screens/create_group/create_browser_group_screen_model.dart'
-    as _i447;
-import '../feature/browser/screens/create_group/create_browser_group_screen_wm.dart'
-    as _i769;
-import '../feature/browser/screens/create_group/route.dart' as _i847;
-import '../feature/browser/screens/main/browser_main_screen_model.dart'
-    as _i1030;
-import '../feature/browser/screens/main/browser_main_screen_wm.dart' as _i635;
-import '../feature/browser/screens/main/route.dart' as _i163;
-import '../feature/browser/screens/main/widgets/control_panels/navigation_panel/address_bar/address_bar_model.dart'
-    as _i704;
-import '../feature/browser/screens/main/widgets/control_panels/navigation_panel/address_bar/address_bar_wm.dart'
-    as _i418;
-import '../feature/browser/screens/main/widgets/control_panels/toolbar/toolbar_model.dart'
-    as _i731;
-import '../feature/browser/screens/main/widgets/control_panels/toolbar/toolbar_wm.dart'
-    as _i368;
-import '../feature/browser/screens/main/widgets/groups_menu/browser_group_menu_model.dart'
-    as _i770;
-import '../feature/browser/screens/main/widgets/groups_menu/browser_group_menu_wm.dart'
-    as _i1056;
-import '../feature/browser/screens/main/widgets/pages/page/browser_page_model.dart'
-    as _i451;
-import '../feature/browser/screens/main/widgets/pages/page/browser_page_wm.dart'
-    as _i404;
-import '../feature/browser/screens/main/widgets/tab_animated_view/tab_animated_view_model.dart'
-    as _i1055;
-import '../feature/browser/screens/main/widgets/tab_animated_view/tab_animated_view_wm.dart'
-    as _i247;
-import '../feature/browser/screens/main/widgets/tabs/item/browser_tabs_list_item_model.dart'
-    as _i510;
-import '../feature/browser/screens/main/widgets/tabs/item/browser_tabs_list_item_wm.dart'
-    as _i1026;
-import '../feature/browser/screens/main/widgets/tabs/tabs_list/tabs_list_model.dart'
-    as _i131;
-import '../feature/browser/screens/main/widgets/tabs/tabs_list/tabs_list_wm.dart'
-    as _i656;
-import '../feature/browser/screens/main/widgets/tabs/tabs_list/widgets/header/tab_list_header_model.dart'
-    as _i854;
-import '../feature/browser/screens/main/widgets/tabs/tabs_list/widgets/header/tab_list_header_wm.dart'
-    as _i845;
-import '../feature/browser/widgets/bottomsheets/book/browser_book_model.dart'
-    as _i418;
-import '../feature/browser/widgets/bottomsheets/book/browser_book_wm.dart'
-    as _i101;
-import '../feature/browser/widgets/bottomsheets/browser_main_menu/browser_main_menu_model.dart'
-    as _i469;
-import '../feature/browser/widgets/bottomsheets/browser_main_menu/browser_main_menu_wm.dart'
-    as _i355;
-import '../feature/browser/widgets/bottomsheets/rename_bookmark/browser_bookmark_rename_bottom_sheet_model.dart'
-    as _i1025;
-import '../feature/browser/widgets/bottomsheets/rename_bookmark/browser_bookmark_rename_bottom_sheet_wm.dart'
-    as _i449;
-import '../feature/browser/widgets/favicon_view/favicon_view_model.dart'
-    as _i757;
-import '../feature/browser/widgets/favicon_view/favicon_view_wm.dart' as _i573;
-import '../feature/browser/widgets/tips_bar/tips_bar_model.dart' as _i53;
-import '../feature/browser/widgets/tips_bar/tips_bar_wm.dart' as _i359;
+import '../feature/browser_v2/widgets/bottomsheets/book/browser_book_wm.dart'
+    as _i913;
+import '../feature/browser_v2/widgets/bottomsheets/browser_main_menu/browser_main_menu_model.dart'
+    as _i966;
+import '../feature/browser_v2/widgets/bottomsheets/browser_main_menu/browser_main_menu_wm.dart'
+    as _i970;
+import '../feature/browser_v2/widgets/bottomsheets/rename_bookmark/browser_bookmark_rename_bottom_sheet_model.dart'
+    as _i706;
+import '../feature/browser_v2/widgets/bottomsheets/rename_bookmark/browser_bookmark_rename_bottom_sheet_wm.dart'
+    as _i848;
+import '../feature/browser_v2/widgets/favicon_view/favicon_view_model.dart'
+    as _i306;
+import '../feature/browser_v2/widgets/favicon_view/favicon_view_wm.dart'
+    as _i312;
+import '../feature/browser_v2/widgets/tips_bar/tips_bar_model.dart' as _i476;
+import '../feature/browser_v2/widgets/tips_bar/tips_bar_wm.dart' as _i704;
 import '../feature/choose_network/choose_network_screen_model.dart' as _i173;
 import '../feature/choose_network/choose_network_screen_wm.dart' as _i124;
 import '../feature/choose_network/route.dart' as _i805;
@@ -279,6 +278,10 @@ import '../feature/network/bottom_sheets/select_network/select_network_model.dar
     as _i703;
 import '../feature/network/bottom_sheets/select_network/select_network_wm.dart'
     as _i175;
+import '../feature/network/bottom_sheets/select_workchain/select_workchain_model.dart'
+    as _i1011;
+import '../feature/network/bottom_sheets/select_workchain/select_workchain_wm.dart'
+    as _i295;
 import '../feature/network/configure_networks/configure_networks_model.dart'
     as _i385;
 import '../feature/network/configure_networks/configure_networks_wm.dart'
@@ -413,8 +416,6 @@ import '../feature/splash/splash_screen_model.dart' as _i582;
 import '../feature/splash/splash_screen_wm.dart' as _i659;
 import '../feature/ton_connect/domain/ton_connect_http_bridge.dart' as _i1071;
 import '../feature/ton_connect/domain/ton_connect_js_bridge.dart' as _i269;
-import '../feature/ton_connect/domain/ton_connect_request_validator.dart'
-    as _i508;
 import '../feature/ton_connect/domain/ton_connect_service.dart' as _i33;
 import '../feature/ton_connect/ton_connect.dart' as _i625;
 import '../feature/ton_connect/view/tc_connect/tc_connect_model.dart' as _i88;
@@ -667,6 +668,10 @@ import '../feature/wallet/widgets/wallet_app_bar/wallet_app_bar_model.dart'
     as _i622;
 import '../feature/wallet/widgets/wallet_app_bar/wallet_app_bar_wm.dart'
     as _i693;
+import '../feature/wallet/widgets/wallet_app_bar/widgets/workchain_selector/workchain_selector_model.dart'
+    as _i1042;
+import '../feature/wallet/widgets/wallet_app_bar/widgets/workchain_selector/workchain_selector_wm.dart'
+    as _i1005;
 import '../feature/wallet/widgets/wallet_backup/check_phrase/check_phrase_model.dart'
     as _i415;
 import '../feature/wallet/widgets/wallet_backup/check_phrase/check_phrase_wm.dart'
@@ -717,11 +722,11 @@ extension GetItInjectableX on _i174.GetIt {
       () => _i440.LocalizationConfigurator(),
     );
     gh.factory<_i728.VersionComparator>(() => _i728.VersionComparator());
-    gh.factory<_i877.BrowserServicePagesControllersDelegate>(
-      () => _i877.BrowserServicePagesControllersDelegate(),
+    gh.factory<_i318.BrowserServicePagesControllersDelegate>(
+      () => _i318.BrowserServicePagesControllersDelegate(),
     );
-    gh.factory<_i603.BrowserServiceAuthDelegate>(
-      () => _i603.BrowserServiceAuthDelegate(),
+    gh.factory<_i931.BrowserServiceAuthDelegate>(
+      () => _i931.BrowserServiceAuthDelegate(),
     );
     gh.singleton<_i738.TokenWalletStorageService>(
       () => _i738.TokenWalletStorageService(),
@@ -775,8 +780,8 @@ extension GetItInjectableX on _i174.GetIt {
     gh.singleton<_i747.NekotonStorageService>(
       () => _i747.NekotonStorageService(storage: gh<_i426.EncryptedStorage>()),
     );
-    gh.singleton<_i614.BrowserPermissionsStorageService>(
-      () => _i614.BrowserPermissionsStorageService(
+    gh.singleton<_i229.BrowserPermissionsStorageService>(
+      () => _i229.BrowserPermissionsStorageService(
         gh<_i792.GetStorage>(instanceName: 'browser_permissions'),
       ),
     );
@@ -859,10 +864,6 @@ extension GetItInjectableX on _i174.GetIt {
       instanceName: 'CustodiansSettingsRoute',
     );
     gh.singleton<_i82.CompassBaseRoute>(
-      () => _i847.CreateBrowserGroupRoute(),
-      instanceName: 'CreateBrowserGroupRoute',
-    );
-    gh.singleton<_i82.CompassBaseRoute>(
       () => _i693.ConfirmMultisigTransactionRoute(),
       instanceName: 'ConfirmMultisigTransactionRoute',
     );
@@ -882,6 +883,10 @@ extension GetItInjectableX on _i174.GetIt {
     gh.singleton<_i82.CompassBaseRoute>(
       () => _i303.AccountDetailRoute(),
       instanceName: 'AccountDetailRoute',
+    );
+    gh.singleton<_i82.CompassBaseRoute>(
+      () => _i345.CreateBrowserGroupRoute(),
+      instanceName: 'CreateBrowserGroupRoute',
     );
     gh.factory<_i893.LocalizationSheetModel>(
       () => _i893.LocalizationSheetModel(
@@ -991,8 +996,8 @@ extension GetItInjectableX on _i174.GetIt {
     gh.singleton<_i1016.StakingAbiProvider>(
       () => _i1016.StakingAbiProvider(gh<_i104.ResourcesService>()),
     );
-    gh.factory<_i482.BrowserAntiPhishingDelegate>(
-      () => _i482.BrowserAntiPhishingDelegate(gh<_i104.ResourcesService>()),
+    gh.factory<_i106.BrowserAntiPhishingDelegate>(
+      () => _i106.BrowserAntiPhishingDelegate(gh<_i104.ResourcesService>()),
     );
     gh.singleton<_i164.AppLifecycleInterceptor>(
       () => _i164.AppLifecycleInterceptor(gh<_i128.AppLifecycleService>()),
@@ -1014,8 +1019,8 @@ extension GetItInjectableX on _i174.GetIt {
         gh<_i964.AddNewExternalAccountSheetModel>(),
       ),
     );
-    gh.singleton<_i187.BrowserTabsStorageService>(
-      () => _i187.BrowserTabsStorageService(
+    gh.singleton<_i634.BrowserTabsStorageService>(
+      () => _i634.BrowserTabsStorageService(
         gh<_i792.GetStorage>(instanceName: 'browser_tabs'),
       ),
     );
@@ -1025,16 +1030,16 @@ extension GetItInjectableX on _i174.GetIt {
         gh<_i821.AppNotificationService>(),
       ),
     );
+    gh.factory<_i475.BrowserServicePermissionsDelegate>(
+      () => _i475.BrowserServicePermissionsDelegate(
+        gh<_i229.BrowserPermissionsStorageService>(),
+        gh<_i940.DatabaseService>(),
+      ),
+    );
     gh.factory<_i900.AppNotificationsWidgetWidgetModel>(
       () => _i900.AppNotificationsWidgetWidgetModel(
         gh<_i406.AppNotificationsWidgetModel>(),
       ),
-    );
-    gh.singleton<_i82.CompassBaseRoute>(
-      () => _i163.BrowserRoute(
-        gh<_i82.CompassBaseRoute>(instanceName: 'CreateBrowserGroupRoute'),
-      ),
-      instanceName: 'BrowserRoute',
     );
     gh.factory<_i313.RenameSheetWidgetModel>(
       () => _i313.RenameSheetWidgetModel(gh<_i815.RenameSheetModel>()),
@@ -1054,12 +1059,6 @@ extension GetItInjectableX on _i174.GetIt {
     gh.factory<_i423.NewAccountScreenWidgetModel>(
       () =>
           _i423.NewAccountScreenWidgetModel(gh<_i175.NewAccountScreenModel>()),
-    );
-    gh.factory<_i647.AccountInfoModel>(
-      () => _i647.AccountInfoModel(
-        gh<_i83.ErrorHandler>(),
-        gh<_i771.NekotonRepository>(),
-      ),
     );
     gh.factory<_i974.KeyDetailPageModel>(
       () => _i974.KeyDetailPageModel(
@@ -1121,22 +1120,22 @@ extension GetItInjectableX on _i174.GetIt {
         gh<_i771.NekotonRepository>(),
       ),
     );
+    gh.factory<_i662.AccountInfoModel>(
+      () => _i662.AccountInfoModel(
+        gh<_i83.ErrorHandler>(),
+        gh<_i771.NekotonRepository>(),
+      ),
+    );
     gh.factory<_i708.CheckSeedPhrasePageWidgetModel>(
       () => _i708.CheckSeedPhrasePageWidgetModel(
         gh<_i199.CheckSeedPhrasePageModel>(),
       ),
     );
-    gh.factory<_i429.BrowserServiceHistoryDelegate>(
-      () => _i429.BrowserServiceHistoryDelegate(gh<_i940.DatabaseService>()),
+    gh.factory<_i617.BrowserServiceHistoryDelegate>(
+      () => _i617.BrowserServiceHistoryDelegate(gh<_i940.DatabaseService>()),
     );
-    gh.factory<_i1000.BrowserServicePermissionsDelegate>(
-      () => _i1000.BrowserServicePermissionsDelegate(
-        gh<_i614.BrowserPermissionsStorageService>(),
-        gh<_i940.DatabaseService>(),
-      ),
-    );
-    gh.singleton<_i563.BrowserBookmarksStorageService>(
-      () => _i563.BrowserBookmarksStorageService(
+    gh.singleton<_i213.BrowserBookmarksStorageService>(
+      () => _i213.BrowserBookmarksStorageService(
         gh<_i792.GetStorage>(instanceName: 'browser_bookmarks'),
       ),
     );
@@ -1195,8 +1194,11 @@ extension GetItInjectableX on _i174.GetIt {
     gh.factory<_i241.DeleteSeedSheetWidgetModel>(
       () => _i241.DeleteSeedSheetWidgetModel(gh<_i976.DeleteSeedSheetModel>()),
     );
-    gh.factory<_i880.AccountInfoWidgetModel>(
-      () => _i880.AccountInfoWidgetModel(gh<_i647.AccountInfoModel>()),
+    gh.singleton<_i82.CompassBaseRoute>(
+      () => _i1040.BrowserRoute(
+        gh<_i82.CompassBaseRoute>(instanceName: 'CreateBrowserGroupRoute'),
+      ),
+      instanceName: 'BrowserRoute',
     );
     gh.singleton<_i747.GeneralStorageService>(
       () => _i747.GeneralStorageService(
@@ -1243,12 +1245,15 @@ extension GetItInjectableX on _i174.GetIt {
         gh<_i632.MessengerService>(),
       ),
     );
-    gh.singleton<_i402.CurrentAccountsService>(
-      () => _i402.CurrentAccountsService(
+    gh.factory<_i845.TCSignDataModel>(
+      () => _i845.TCSignDataModel(
+        gh<_i83.ErrorHandler>(),
         gh<_i771.NekotonRepository>(),
-        gh<_i128.CurrentKeyService>(),
-        gh<_i128.GeneralStorageService>(),
+        gh<_i632.MessengerService>(),
       ),
+    );
+    gh.factory<_i446.AccountInfoWidgetModel>(
+      () => _i446.AccountInfoWidgetModel(gh<_i662.AccountInfoModel>()),
     );
     gh.factory<_i335.WalletMultisigConfigModel>(
       () => _i335.WalletMultisigConfigModel(
@@ -1267,6 +1272,12 @@ extension GetItInjectableX on _i174.GetIt {
     gh.factory<_i1008.UpdateStatusChecker>(
       () => _i1008.UpdateStatusChecker(gh<_i728.VersionComparator>()),
     );
+    gh.factory<_i773.BrowserServiceBookmarksDelegate>(
+      () => _i773.BrowserServiceBookmarksDelegate(
+        gh<_i213.BrowserBookmarksStorageService>(),
+        gh<_i632.MessengerService>(),
+      ),
+    );
     gh.factory<_i1053.WalletDeployStatusModel>(
       () => _i1053.WalletDeployStatusModel(
         gh<_i83.ErrorHandler>(),
@@ -1274,8 +1285,8 @@ extension GetItInjectableX on _i174.GetIt {
         gh<_i553.MessengerService>(),
       ),
     );
-    gh.singleton<_i250.BrowserFaviconURLStorageService>(
-      () => _i250.BrowserFaviconURLStorageService(
+    gh.singleton<_i234.BrowserFaviconURLStorageService>(
+      () => _i234.BrowserFaviconURLStorageService(
         gh<_i792.GetStorage>(instanceName: 'browser_favicon_urls'),
       ),
     );
@@ -1285,8 +1296,8 @@ extension GetItInjectableX on _i174.GetIt {
       ),
       instanceName: 'BootstrapFailedRoute',
     );
-    gh.singleton<_i752.BrowserGroupsStorageService>(
-      () => _i752.BrowserGroupsStorageService(
+    gh.singleton<_i988.BrowserGroupsStorageService>(
+      () => _i988.BrowserGroupsStorageService(
         gh<_i792.GetStorage>(instanceName: 'browser_groups'),
       ),
     );
@@ -1300,14 +1311,6 @@ extension GetItInjectableX on _i174.GetIt {
       () => _i437.WelcomeScreenModel(
         gh<_i83.ErrorHandler>(),
         gh<_i128.AppStorageService>(),
-      ),
-    );
-    gh.factory<_i845.TCSignDataModel>(
-      () => _i845.TCSignDataModel(
-        gh<_i83.ErrorHandler>(),
-        gh<_i771.NekotonRepository>(),
-        gh<_i632.MessengerService>(),
-        gh<_i68.NtpService>(),
       ),
     );
     gh.singleton<_i82.CompassBaseRoute>(
@@ -1363,12 +1366,6 @@ extension GetItInjectableX on _i174.GetIt {
       ),
       instanceName: 'CancelUnstakingRoute',
     );
-    gh.factory<_i951.BrowserServiceBookmarksDelegate>(
-      () => _i951.BrowserServiceBookmarksDelegate(
-        gh<_i563.BrowserBookmarksStorageService>(),
-        gh<_i632.MessengerService>(),
-      ),
-    );
     gh.factory<_i806.ChangeColorBottomSheetModel>(
       () => _i806.ChangeColorBottomSheetModel(
         gh<_i83.ErrorHandler>(),
@@ -1399,9 +1396,9 @@ extension GetItInjectableX on _i174.GetIt {
         gh<_i771.NekotonRepository>(),
       ),
     );
-    gh.factory<_i484.BrowserServiceFaviconDelegate>(
-      () => _i484.BrowserServiceFaviconDelegate(
-        gh<_i250.BrowserFaviconURLStorageService>(),
+    gh.factory<_i181.BrowserServiceFaviconDelegate>(
+      () => _i181.BrowserServiceFaviconDelegate(
+        gh<_i234.BrowserFaviconURLStorageService>(),
       ),
     );
     gh.factory<_i910.LocalizationSheetWidgetModel>(
@@ -1430,14 +1427,6 @@ extension GetItInjectableX on _i174.GetIt {
         gh<_i128.CurrentKeyService>(),
       ),
     );
-    gh.factory<_i321.AddNftModel>(
-      () => _i321.AddNftModel(
-        gh<_i83.ErrorHandler>(),
-        gh<_i402.CurrentAccountsService>(),
-        gh<_i632.MessengerService>(),
-        gh<_i771.NekotonRepository>(),
-      ),
-    );
     gh.factory<_i616.DeriveKeysSheetModel>(
       () => _i616.DeriveKeysSheetModel(
         gh<_i83.ErrorHandler>(),
@@ -1447,15 +1436,6 @@ extension GetItInjectableX on _i174.GetIt {
     );
     gh.factory<_i37.KeyDetailPageWidgetModel>(
       () => _i37.KeyDetailPageWidgetModel(gh<_i974.KeyDetailPageModel>()),
-    );
-    gh.factory<_i1035.SelectAccountModel>(
-      () => _i1035.SelectAccountModel(
-        gh<_i83.ErrorHandler>(),
-        gh<_i771.NekotonRepository>(),
-        gh<_i128.CurrentKeyService>(),
-        gh<_i128.CurrentAccountsService>(),
-        gh<_i128.BalanceStorageService>(),
-      ),
     );
     gh.factory<_i309.WalletDeployStatusWidgetModel>(
       () => _i309.WalletDeployStatusWidgetModel(
@@ -1495,9 +1475,6 @@ extension GetItInjectableX on _i174.GetIt {
     gh.factory<_i231.NtpConfigurator>(
       () => _i231.NtpConfigurator(gh<_i128.NtpService>()),
     );
-    gh.factory<_i374.AddNftWidgetModel>(
-      () => _i374.AddNftWidgetModel(gh<_i321.AddNftModel>()),
-    );
     gh.factory<_i240.DeriveKeysSheetWidgetModel>(
       () => _i240.DeriveKeysSheetWidgetModel(gh<_i450.DeriveKeysSheetModel>()),
     );
@@ -1511,17 +1488,6 @@ extension GetItInjectableX on _i174.GetIt {
     );
     gh.factory<_i634.WelcomeScreenWidgetModel>(
       () => _i634.WelcomeScreenWidgetModel(gh<_i437.WelcomeScreenModel>()),
-    );
-    gh.factory<_i88.TCConnectModel>(
-      () => _i88.TCConnectModel(
-        gh<_i83.ErrorHandler>(),
-        gh<_i771.NekotonRepository>(),
-        gh<_i128.CurrentAccountsService>(),
-        gh<_i128.NtpService>(),
-      ),
-    );
-    gh.factory<_i371.SelectAccountWidgetModel>(
-      () => _i371.SelectAccountWidgetModel(gh<_i1035.SelectAccountModel>()),
     );
     gh.factory<_i772.TonWalletMultisigOrdinaryTransactionWidgetWidgetModel>(
       () => _i772.TonWalletMultisigOrdinaryTransactionWidgetWidgetModel(
@@ -1541,8 +1507,8 @@ extension GetItInjectableX on _i174.GetIt {
         gh<_i205.TonWalletPendingTransactionWidgetModel>(),
       ),
     );
-    gh.factory<_i40.BrowserServiceScreenshotsDelegate>(
-      () => _i40.BrowserServiceScreenshotsDelegate(
+    gh.factory<_i169.BrowserServiceScreenshotsDelegate>(
+      () => _i169.BrowserServiceScreenshotsDelegate(
         gh<_i747.GeneralStorageService>(),
       ),
     );
@@ -1591,23 +1557,9 @@ extension GetItInjectableX on _i174.GetIt {
         permissionsService: gh<_i128.AppPermissionsService>(),
       ),
     );
-    gh.factory<_i522.TCConnectWidgetModel>(
-      () => _i522.TCConnectWidgetModel(gh<_i625.TCConnectModel>()),
-    );
     gh.factory<_i180.StakingInProgressWidgetModel>(
       () => _i180.StakingInProgressWidgetModel(
         gh<_i402.StakingInProgressModel>(),
-      ),
-    );
-    gh.factory<_i905.CreateSeedPasswordScreenModel>(
-      () => _i905.CreateSeedPasswordScreenModel(
-        gh<_i83.ErrorHandler>(),
-        gh<_i128.BiometryService>(),
-        gh<_i128.CurrentKeyService>(),
-        gh<_i128.CurrentAccountsService>(),
-        gh<_i632.MessengerService>(),
-        gh<_i771.NekotonRepository>(),
-        gh<_i128.SecureStringService>(),
       ),
     );
     gh.factory<_i268.AccountSettingsChangeColorButtonWidgetModel>(
@@ -1618,16 +1570,6 @@ extension GetItInjectableX on _i174.GetIt {
     gh.factory<_i775.NoInternetScreenWidgetModel>(
       () =>
           _i775.NoInternetScreenWidgetModel(gh<_i243.NoInternetScreenModel>()),
-    );
-    gh.factory<_i513.AddAccountConfirmModel>(
-      () => _i513.AddAccountConfirmModel(
-        gh<_i83.ErrorHandler>(),
-        gh<_i128.BiometryService>(),
-        gh<_i632.MessengerService>(),
-        gh<_i771.NekotonRepository>(),
-        gh<_i128.CurrentAccountsService>(),
-        gh<_i128.PasswordService>(),
-      ),
     );
     gh.singleton<_i700.TokenRepository>(
       () =>
@@ -1657,15 +1599,6 @@ extension GetItInjectableX on _i174.GetIt {
       ),
       instanceName: 'CreateSeedRoute',
     );
-    gh.factory<_i974.BrowserServiceTabsDelegate>(
-      () => _i974.BrowserServiceTabsDelegate(
-        gh<_i187.BrowserTabsStorageService>(),
-        gh<_i752.BrowserGroupsStorageService>(),
-        gh<_i877.BrowserServicePagesControllersDelegate>(),
-        gh<_i40.BrowserServiceScreenshotsDelegate>(),
-        gh<_i821.AppNotificationService>(),
-      ),
-    );
     gh.singleton<_i82.CompassBaseRoute>(
       () => _i512.TonWalletDetailsRoute(
         gh<_i82.CompassBaseRoute>(instanceName: 'WalletMultisigConfigRoute'),
@@ -1687,12 +1620,6 @@ extension GetItInjectableX on _i174.GetIt {
         gh<_i128.CurrentSeedService>(),
         gh<_i865.BleAvailabilityModelDelegate>(),
         gh<_i128.SecureStringService>(),
-      ),
-    );
-    gh.lazySingleton<_i508.TonConnectRequestValidator>(
-      () => _i508.TonConnectRequestValidator(
-        gh<_i771.NekotonRepository>(),
-        gh<_i68.NtpService>(),
       ),
     );
     gh.factory<_i479.SelectSeedModel>(
@@ -1749,22 +1676,6 @@ extension GetItInjectableX on _i174.GetIt {
         gh<_i128.PasswordService>(),
       ),
     );
-    gh.factory<_i459.AddAccountResultModel>(
-      () => _i459.AddAccountResultModel(
-        gh<_i83.ErrorHandler>(),
-        gh<_i771.NekotonRepository>(),
-        gh<_i128.CurrentKeyService>(),
-        gh<_i128.CurrentAccountsService>(),
-      ),
-    );
-    gh.singleton<_i263.NftService>(
-      () => _i263.NftService(
-        gh<_i771.NekotonRepository>(),
-        gh<_i1015.NftStorageService>(),
-        gh<_i128.AppStorageService>(),
-        gh<_i128.CurrentAccountsService>(),
-      ),
-    );
     gh.factory<_i826.WalletMultisigConfigWidgetModel>(
       () => _i826.WalletMultisigConfigWidgetModel(
         gh<_i335.WalletMultisigConfigModel>(),
@@ -1772,22 +1683,6 @@ extension GetItInjectableX on _i174.GetIt {
     );
     gh.singleton<_i328.LedgerBleScanner>(
       () => _i328.LedgerBleScanner(gh<_i865.LedgerService>()),
-    );
-    gh.factory<_i1050.SendMessageModel>(
-      () => _i1050.SendMessageModel(
-        gh<_i83.ErrorHandler>(),
-        gh<_i771.NekotonRepository>(),
-        gh<_i865.LedgerService>(),
-        gh<_i865.BleAvailabilityModelDelegate>(),
-      ),
-    );
-    gh.factory<_i946.TonWalletSendModel>(
-      () => _i946.TonWalletSendModel(
-        gh<_i83.ErrorHandler>(),
-        gh<_i771.NekotonRepository>(),
-        gh<_i865.LedgerService>(),
-        gh<_i865.BleAvailabilityModelDelegate>(),
-      ),
     );
     gh.factory<_i594.ConfirmMultisigTransactionModel>(
       () => _i594.ConfirmMultisigTransactionModel(
@@ -1859,35 +1754,31 @@ extension GetItInjectableX on _i174.GetIt {
     gh.factory<_i677.AddAccountWidgetModel>(
       () => _i677.AddAccountWidgetModel(gh<_i715.AddAccountModel>()),
     );
-    gh.factory<_i762.CreateSeedPasswordScreenWidgetModel>(
-      () => _i762.CreateSeedPasswordScreenWidgetModel(
-        gh<_i905.CreateSeedPasswordScreenModel>(),
-      ),
-    );
     gh.factory<_i94.CustodianSettingsWidgetModel>(
       () => _i94.CustodianSettingsWidgetModel(
         gh<_i313.CustodiansSettingsModel>(),
       ),
     );
-    gh.factory<_i920.AddAccountConfirmWidgetModel>(
-      () => _i920.AddAccountConfirmWidgetModel(
-        gh<_i513.AddAccountConfirmModel>(),
-      ),
-    );
-    gh.factory<_i81.CreateSeedPasswordProfileModel>(
-      () => _i81.CreateSeedPasswordProfileModel(
-        gh<_i83.ErrorHandler>(),
-        gh<_i128.NetworkConnectionService>(),
-        gh<_i632.MessengerService>(),
-        gh<_i771.NekotonRepository>(),
-        gh<_i128.BiometryService>(),
-        gh<_i128.AppStorageService>(),
-        gh<_i128.SecureStringService>(),
-      ),
-    );
     gh.singleton<_i487.GaslessRepository>(
       () => _i487.GaslessRepository(
         gh<_i771.NekotonRepository>(),
+        gh<_i361.Dio>(),
+      ),
+    );
+    gh.factory<_i77.BrowserServiceTabsDelegate>(
+      () => _i77.BrowserServiceTabsDelegate(
+        gh<_i634.BrowserTabsStorageService>(),
+        gh<_i988.BrowserGroupsStorageService>(),
+        gh<_i318.BrowserServicePagesControllersDelegate>(),
+        gh<_i169.BrowserServiceScreenshotsDelegate>(),
+        gh<_i821.AppNotificationService>(),
+      ),
+    );
+    gh.lazySingleton<_i33.TonConnectService>(
+      () => _i33.TonConnectService(
+        gh<_i128.TonConnectStorageService>(),
+        gh<_i771.NekotonRepository>(),
+        gh<_i143.AppVersionService>(),
         gh<_i361.Dio>(),
       ),
     );
@@ -1901,6 +1792,14 @@ extension GetItInjectableX on _i174.GetIt {
     );
     gh.factory<_i162.TonApi>(() => _i162.TonApi.new(gh<_i361.Dio>()));
     gh.factory<_i249.PresetsApi>(() => _i249.PresetsApi.new(gh<_i361.Dio>()));
+    gh.lazySingleton<_i1071.TonConnectHttpBridge>(
+      () => _i1071.TonConnectHttpBridge(
+        gh<_i625.TonConnectService>(),
+        gh<_i128.AppLifecycleService>(),
+        gh<_i128.TonConnectStorageService>(),
+        gh<_i361.Dio>(),
+      ),
+    );
     gh.factory<_i801.WalletAccountActionsModel>(
       () => _i801.WalletAccountActionsModel(
         gh<_i83.ErrorHandler>(),
@@ -1917,6 +1816,28 @@ extension GetItInjectableX on _i174.GetIt {
     );
     gh.singleton<_i775.NftApiDataProvider>(
       () => _i775.NftApiDataProvider(gh<_i361.Dio>()),
+    );
+    gh.singleton<_i470.BrowserService>(
+      () => _i470.BrowserService(
+        gh<_i625.TonConnectService>(),
+        gh<_i771.NekotonRepository>(),
+        gh<_i931.BrowserServiceAuthDelegate>(),
+        gh<_i773.BrowserServiceBookmarksDelegate>(),
+        gh<_i181.BrowserServiceFaviconDelegate>(),
+        gh<_i617.BrowserServiceHistoryDelegate>(),
+        gh<_i475.BrowserServicePermissionsDelegate>(),
+        gh<_i77.BrowserServiceTabsDelegate>(),
+        gh<_i106.BrowserAntiPhishingDelegate>(),
+      ),
+      dispose: (i) => i.dispose(),
+    );
+    gh.factory<_i956.TCManageDappsModel>(
+      () => _i956.TCManageDappsModel(
+        gh<_i83.ErrorHandler>(),
+        gh<_i625.TonConnectService>(),
+        gh<_i128.TonConnectStorageService>(),
+        gh<_i625.TonConnectHttpBridge>(),
+      ),
     );
     gh.factory<_i955.SeedSettingsModel>(
       () => _i955.SeedSettingsModel(
@@ -1944,15 +1865,6 @@ extension GetItInjectableX on _i174.GetIt {
     gh.factory<_i338.SelectSeedWidgetModel>(
       () => _i338.SelectSeedWidgetModel(gh<_i479.SelectSeedModel>()),
     );
-    gh.factory<_i362.NftSendModel>(
-      () => _i362.NftSendModel(
-        gh<_i83.ErrorHandler>(),
-        gh<_i771.NekotonRepository>(),
-        gh<_i1015.NftService>(),
-        gh<_i865.LedgerService>(),
-        gh<_i865.BleAvailabilityModelDelegate>(),
-      ),
-    );
     gh.factory<_i1068.SeedSettingsWidgetModel>(
       () => _i1068.SeedSettingsWidgetModel(gh<_i767.SeedSettingsModel>()),
     );
@@ -1969,23 +1881,10 @@ extension GetItInjectableX on _i174.GetIt {
         gh<_i321.ManageSeedsAccountsPageModel>(),
       ),
     );
-    gh.factory<_i57.AddAccountResultWidgetModel>(
-      () => _i57.AddAccountResultWidgetModel(gh<_i459.AddAccountResultModel>()),
-    );
-    gh.factory<_i1038.NftPrepareTransferModel>(
-      () => _i1038.NftPrepareTransferModel(
-        gh<_i83.ErrorHandler>(),
-        gh<_i771.NekotonRepository>(),
-        gh<_i632.MessengerService>(),
-        gh<_i1015.NftService>(),
-      ),
-    );
-    gh.factory<_i680.NftPageModel>(
-      () => _i680.NftPageModel(
-        gh<_i83.ErrorHandler>(),
-        gh<_i1015.NftService>(),
-        gh<_i128.CurrentAccountsService>(),
-        gh<_i771.NekotonRepository>(),
+    gh.factory<_i269.TonConnectJsBridge>(
+      () => _i269.TonConnectJsBridge(
+        gh<_i625.TonConnectService>(),
+        gh<_i128.TonConnectStorageService>(),
       ),
     );
     gh.singleton<_i130.PresetsConfigReader>(
@@ -1993,17 +1892,6 @@ extension GetItInjectableX on _i174.GetIt {
         gh<_i249.PresetsApi>(),
         gh<_i679.SecureStorageService>(),
         gh<_i104.ResourcesService>(),
-      ),
-    );
-    gh.singleton<_i1052.CurrenciesService>(
-      () => _i1052.CurrenciesService(
-        dio: gh<_i361.Dio>(),
-        nekotonRepository: gh<_i771.NekotonRepository>(),
-        currentAccounts: gh<_i128.CurrentAccountsService>(),
-        storageService: gh<_i128.GeneralStorageService>(),
-        appLifecycle: gh<_i128.AppLifecycleService>(),
-        defaultFetchStrategy: gh<_i128.DefaultCurrenciesFetchStrategy>(),
-        tonFetchStrategy: gh<_i128.TonCurrenciesFetchStrategy>(),
       ),
     );
     gh.singleton<_i720.UpdateService>(
@@ -2030,19 +1918,11 @@ extension GetItInjectableX on _i174.GetIt {
       ),
       instanceName: 'ImportWalletRoute',
     );
-    gh.factory<_i769.SendMessageWidgetModel>(
-      () => _i769.SendMessageWidgetModel(gh<_i1050.SendMessageModel>()),
-    );
-    gh.factory<_i445.CreateSeedPasswordProfileWidgetModel>(
-      () => _i445.CreateSeedPasswordProfileWidgetModel(
-        gh<_i81.CreateSeedPasswordProfileModel>(),
-      ),
-    );
-    gh.factory<_i125.NftTransferInfoModel>(
-      () => _i125.NftTransferInfoModel(
+    gh.factory<_i250.BrowserBookModel>(
+      () => _i250.BrowserBookModel(
         gh<_i83.ErrorHandler>(),
-        gh<_i771.NekotonRepository>(),
-        gh<_i128.CurrenciesService>(),
+        gh<_i470.BrowserService>(),
+        gh<_i221.LocalizationService>(),
       ),
     );
     gh.singleton<_i82.CompassBaseRoute>(
@@ -2056,16 +1936,20 @@ extension GetItInjectableX on _i174.GetIt {
       () => _i169.UpdateVersionGuard(gh<_i484.UpdateService>()),
       instanceName: 'UpdateVersionGuard',
     );
-    gh.factory<_i330.AccountTransactionsTabModel>(
-      () => _i330.AccountTransactionsTabModel(
-        gh<_i83.ErrorHandler>(),
-        gh<_i128.TonWalletStorageService>(),
+    gh.singleton<_i473.PermissionsService>(
+      () => _i473.PermissionsService(
+        gh<_i470.BrowserService>(),
         gh<_i771.NekotonRepository>(),
-        gh<_i128.CurrenciesService>(),
       ),
     );
-    gh.factory<_i252.TonWalletSendWidgetModel>(
-      () => _i252.TonWalletSendWidgetModel(gh<_i946.TonWalletSendModel>()),
+    gh.factory<_i446.TCSendMessageModel>(
+      () => _i446.TCSendMessageModel(
+        gh<_i83.ErrorHandler>(),
+        gh<_i771.NekotonRepository>(),
+        gh<_i593.TonRepository>(),
+        gh<_i865.LedgerService>(),
+        gh<_i865.BleAvailabilityModelDelegate>(),
+      ),
     );
     gh.factory<_i591.GaslessTokenTransferDelegate>(
       () => _i591.GaslessTokenTransferDelegate(
@@ -2076,6 +1960,84 @@ extension GetItInjectableX on _i174.GetIt {
     gh.singleton<_i116.PresetsConnectionService>(
       () => _i116.PresetsConnectionService(gh<_i418.PresetsConfigReader>()),
     );
+    gh.factory<_i378.WebsiteInfoModel>(
+      () => _i378.WebsiteInfoModel(
+        gh<_i83.ErrorHandler>(),
+        gh<_i470.BrowserService>(),
+      ),
+    );
+    gh.factory<_i907.CreateBrowserGroupScreenModel>(
+      () => _i907.CreateBrowserGroupScreenModel(
+        gh<_i83.ErrorHandler>(),
+        gh<_i470.BrowserService>(),
+      ),
+    );
+    gh.factory<_i933.BrowserMainScreenModel>(
+      () => _i933.BrowserMainScreenModel(
+        gh<_i83.ErrorHandler>(),
+        gh<_i470.BrowserService>(),
+      ),
+    );
+    gh.factory<_i413.BrowserTabsListItemModel>(
+      () => _i413.BrowserTabsListItemModel(
+        gh<_i83.ErrorHandler>(),
+        gh<_i470.BrowserService>(),
+      ),
+    );
+    gh.factory<_i747.BrowserTabsListModel>(
+      () => _i747.BrowserTabsListModel(
+        gh<_i83.ErrorHandler>(),
+        gh<_i470.BrowserService>(),
+      ),
+    );
+    gh.factory<_i762.TabListHeaderModel>(
+      () => _i762.TabListHeaderModel(
+        gh<_i83.ErrorHandler>(),
+        gh<_i470.BrowserService>(),
+      ),
+    );
+    gh.factory<_i659.ToolbarModel>(
+      () => _i659.ToolbarModel(
+        gh<_i83.ErrorHandler>(),
+        gh<_i470.BrowserService>(),
+      ),
+    );
+    gh.factory<_i865.TabAnimatedViewModel>(
+      () => _i865.TabAnimatedViewModel(
+        gh<_i83.ErrorHandler>(),
+        gh<_i470.BrowserService>(),
+      ),
+    );
+    gh.factory<_i942.BrowserGroupMenuModel>(
+      () => _i942.BrowserGroupMenuModel(
+        gh<_i83.ErrorHandler>(),
+        gh<_i470.BrowserService>(),
+      ),
+    );
+    gh.factory<_i306.FaviconViewModel>(
+      () => _i306.FaviconViewModel(
+        gh<_i83.ErrorHandler>(),
+        gh<_i470.BrowserService>(),
+      ),
+    );
+    gh.factory<_i706.BrowserBookmarkRenameBottomSheetModel>(
+      () => _i706.BrowserBookmarkRenameBottomSheetModel(
+        gh<_i83.ErrorHandler>(),
+        gh<_i470.BrowserService>(),
+      ),
+    );
+    gh.factory<_i966.BrowserMainMenuModel>(
+      () => _i966.BrowserMainMenuModel(
+        gh<_i83.ErrorHandler>(),
+        gh<_i470.BrowserService>(),
+      ),
+    );
+    gh.factory<_i476.TipsBarModel>(
+      () => _i476.TipsBarModel(
+        gh<_i83.ErrorHandler>(),
+        gh<_i470.BrowserService>(),
+      ),
+    );
     gh.singleton<_i132.TokenTransferDelegateProvider>(
       () => _i132.TokenTransferDelegateProvider(
         gh<_i771.NekotonRepository>(),
@@ -2084,8 +2046,452 @@ extension GetItInjectableX on _i174.GetIt {
         gh<_i0.BasicTokenTransferDelegate>(),
       ),
     );
+    gh.factory<_i1045.TabListHeaderWidgetModel>(
+      () => _i1045.TabListHeaderWidgetModel(gh<_i762.TabListHeaderModel>()),
+    );
     gh.factory<_i420.SeedDetailPageWidgetModel>(
       () => _i420.SeedDetailPageWidgetModel(gh<_i708.SeedDetailPageModel>()),
+    );
+    gh.factory<_i73.TCSendMessageWidgetModel>(
+      () => _i73.TCSendMessageWidgetModel(gh<_i625.TCSendMessageModel>()),
+    );
+    gh.factory<_i704.TipsBarWidgetModel>(
+      () => _i704.TipsBarWidgetModel(gh<_i476.TipsBarModel>()),
+    );
+    gh.factory<_i848.BrowserBookmarkRenameBottomSheetWidgetModel>(
+      () => _i848.BrowserBookmarkRenameBottomSheetWidgetModel(
+        gh<_i706.BrowserBookmarkRenameBottomSheetModel>(),
+      ),
+    );
+    gh.factory<_i532.WalletAccountActionsWidgetModel>(
+      () => _i532.WalletAccountActionsWidgetModel(
+        gh<_i801.WalletAccountActionsModel>(),
+      ),
+    );
+    gh.factory<_i792.BrowserMainScreenWidgetModel>(
+      () => _i792.BrowserMainScreenWidgetModel(
+        gh<_i933.BrowserMainScreenModel>(),
+      ),
+    );
+    gh.singleton<_i82.CompassBaseRoute>(
+      () => _i852.AddExistingWalletRoute(
+        gh<_i82.CompassBaseRoute>(instanceName: 'ImportWalletRoute'),
+      ),
+      instanceName: 'AddExistingWalletRoute',
+    );
+    gh.factory<_i312.FaviconViewWidgetModel>(
+      () => _i312.FaviconViewWidgetModel(gh<_i306.FaviconViewModel>()),
+    );
+    gh.factory<_i482.UpdateVersionModel>(
+      () => _i482.UpdateVersionModel(
+        gh<_i83.ErrorHandler>(),
+        gh<_i720.UpdateService>(),
+        gh<_i934.StoreUrlGenerator>(),
+        gh<_i438.SentryWorker>(),
+      ),
+    );
+    gh.factory<_i970.BrowserMainMenuWidgetModel>(
+      () => _i970.BrowserMainMenuWidgetModel(gh<_i966.BrowserMainMenuModel>()),
+    );
+    gh.factory<_i935.TCManageDappsWidgetModel>(
+      () => _i935.TCManageDappsWidgetModel(gh<_i625.TCManageDappsModel>()),
+    );
+    gh.factory<_i399.TabAnimatedViewWidgetModel>(
+      () => _i399.TabAnimatedViewWidgetModel(gh<_i865.TabAnimatedViewModel>()),
+    );
+    gh.factory<_i627.BrowserGroupMenuWidgetModel>(
+      () =>
+          _i627.BrowserGroupMenuWidgetModel(gh<_i942.BrowserGroupMenuModel>()),
+    );
+    gh.factory<_i968.WebsiteInfoWidgetModel>(
+      () => _i968.WebsiteInfoWidgetModel(gh<_i378.WebsiteInfoModel>()),
+    );
+    gh.factory<_i1045.ToolbarWidgetModel>(
+      () => _i1045.ToolbarWidgetModel(gh<_i659.ToolbarModel>()),
+    );
+    gh.singleton<_i82.CompassBaseRoute>(
+      () => _i45.ManageSeedsAccountsRoute(
+        gh<_i82.CompassBaseRoute>(instanceName: 'SeedDetailRoute'),
+        gh<_i82.CompassBaseRoute>(instanceName: 'EnterSeedNameRoute'),
+      ),
+      instanceName: 'ManageSeedsAccountsRoute',
+    );
+    gh.singleton<_i284.ConnectionsStorageService>(
+      () => _i284.ConnectionsStorageService(
+        gh<_i792.GetStorage>(instanceName: 'connections'),
+        gh<_i128.PresetsConnectionService>(),
+        gh<_i632.MessengerService>(),
+        gh<_i771.NekotonRepository>(),
+      ),
+    );
+    gh.factory<_i518.BrowserTabsListItemWidgetModel>(
+      () => _i518.BrowserTabsListItemWidgetModel(
+        gh<_i413.BrowserTabsListItemModel>(),
+      ),
+    );
+    gh.factory<_i81.CreateSeedPasswordProfileModel>(
+      () => _i81.CreateSeedPasswordProfileModel(
+        gh<_i83.ErrorHandler>(),
+        gh<_i128.NetworkConnectionService>(),
+        gh<_i632.MessengerService>(),
+        gh<_i128.ConnectionsStorageService>(),
+        gh<_i771.NekotonRepository>(),
+        gh<_i128.BiometryService>(),
+        gh<_i128.AppStorageService>(),
+        gh<_i128.SecureStringService>(),
+      ),
+    );
+    gh.factory<_i877.CreateBrowserGroupScreenWidgetModel>(
+      () => _i877.CreateBrowserGroupScreenWidgetModel(
+        gh<_i907.CreateBrowserGroupScreenModel>(),
+      ),
+    );
+    gh.factory<_i913.BrowserBookWidgetModel>(
+      () => _i913.BrowserBookWidgetModel(gh<_i250.BrowserBookModel>()),
+    );
+    gh.factory<_i596.UpdateVersionWidgetModel>(
+      () => _i596.UpdateVersionWidgetModel(gh<_i482.UpdateVersionModel>()),
+    );
+    gh.singleton<_i82.CompassBaseRoute>(
+      () => _i805.ChooseNetworkRoute(
+        gh<_i82.CompassBaseRoute>(
+          instanceName: 'CreateSeedOnboardingPasswordRoute',
+        ),
+        gh<_i82.CompassBaseRoute>(instanceName: 'AddExistingWalletRoute'),
+      ),
+      instanceName: 'ChooseNetworkRoute',
+    );
+    gh.factory<_i976.BrowserTabsListWidgetModel>(
+      () => _i976.BrowserTabsListWidgetModel(gh<_i747.BrowserTabsListModel>()),
+    );
+    gh.factory<_i962.MigrateConfigurator>(
+      () => _i962.MigrateConfigurator(
+        gh<_i426.EncryptedStorage>(),
+        gh<_i128.PresetsConnectionService>(),
+        gh<_i128.GeneralStorageService>(),
+        gh<_i128.ConnectionsStorageService>(),
+        gh<_i940.DatabaseService>(),
+      ),
+    );
+    gh.singleton<_i82.CompassBaseRoute>(
+      () => _i113.WalletRoute(
+        gh<_i82.CompassBaseRoute>(instanceName: 'EnableBiometryRoute'),
+        gh<_i82.CompassBaseRoute>(instanceName: 'SelectNewAssetRoute'),
+        gh<_i82.CompassBaseRoute>(instanceName: 'CustodiansSettingsRoute'),
+        gh<_i82.CompassBaseRoute>(instanceName: 'AddAccountRoute'),
+        gh<_i82.CompassBaseRoute>(instanceName: 'TonWalletDetailsRoute'),
+        gh<_i82.CompassBaseRoute>(instanceName: 'TokenWalletDetailsRoute'),
+        gh<_i82.CompassBaseRoute>(instanceName: 'WalletPrepareTransferRoute'),
+        gh<_i82.CompassBaseRoute>(
+          instanceName: 'WalletPrepareSpecifiedTransferRoute',
+        ),
+        gh<_i82.CompassBaseRoute>(instanceName: 'WalletMultisigConfigRoute'),
+        gh<_i82.CompassBaseRoute>(instanceName: 'WalletDeployConfirmRoute'),
+        gh<_i82.CompassBaseRoute>(
+          instanceName: 'ConfirmMultisigTransactionRoute',
+        ),
+        gh<_i82.CompassBaseRoute>(instanceName: 'ConfigureNetworksRoute'),
+        gh<_i82.CompassBaseRoute>(instanceName: 'StakingRoute'),
+        gh<_i82.CompassBaseRoute>(instanceName: 'EnterSeedNameRoute'),
+      ),
+      instanceName: 'WalletRoute',
+    );
+    gh.factory<_i445.CreateSeedPasswordProfileWidgetModel>(
+      () => _i445.CreateSeedPasswordProfileWidgetModel(
+        gh<_i81.CreateSeedPasswordProfileModel>(),
+      ),
+    );
+    gh.factory<_i946.TonWalletSendModel>(
+      () => _i946.TonWalletSendModel(
+        gh<_i83.ErrorHandler>(),
+        gh<_i771.NekotonRepository>(),
+        gh<_i865.LedgerService>(),
+        gh<_i865.BleAvailabilityModelDelegate>(),
+        gh<_i284.ConnectionsStorageService>(),
+      ),
+    );
+    gh.factory<_i201.SendMessageModel>(
+      () => _i201.SendMessageModel(
+        gh<_i83.ErrorHandler>(),
+        gh<_i771.NekotonRepository>(),
+        gh<_i865.LedgerService>(),
+        gh<_i865.BleAvailabilityModelDelegate>(),
+        gh<_i284.ConnectionsStorageService>(),
+      ),
+    );
+    gh.factory<_i173.ChooseNetworkScreenModel>(
+      () => _i173.ChooseNetworkScreenModel(
+        gh<_i83.ErrorHandler>(),
+        gh<_i632.MessengerService>(),
+        gh<_i128.NetworkConnectionService>(),
+        gh<_i128.PresetsConnectionService>(),
+        gh<_i128.ConnectionsStorageService>(),
+        gh<_i771.NekotonRepository>(),
+      ),
+    );
+    gh.factory<_i523.TokenWalletSendModel>(
+      () => _i523.TokenWalletSendModel(
+        gh<_i83.ErrorHandler>(),
+        gh<_i771.NekotonRepository>(),
+        gh<_i865.LedgerService>(),
+        gh<_i865.BleAvailabilityModelDelegate>(),
+        gh<_i0.TokenTransferDelegateProvider>(),
+        gh<_i284.ConnectionsStorageService>(),
+      ),
+    );
+    gh.singleton<_i754.ConnectionService>(
+      () => _i754.ConnectionService(
+        gh<_i128.ConnectionsStorageService>(),
+        gh<_i771.NekotonRepository>(),
+        gh<_i632.MessengerService>(),
+        gh<_i361.Dio>(),
+      ),
+    );
+    gh.singleton<_i402.CurrentAccountsService>(
+      () => _i402.CurrentAccountsService(
+        gh<_i771.NekotonRepository>(),
+        gh<_i128.CurrentKeyService>(),
+        gh<_i128.GeneralStorageService>(),
+        gh<_i128.ConnectionsStorageService>(),
+      ),
+    );
+    gh.singleton<_i82.CompassBaseRoute>(
+      () => _i1010.OnBoardingRoute(
+        gh<_i82.CompassBaseRoute>(instanceName: 'ChooseNetworkRoute'),
+      ),
+      instanceName: 'OnBoardingRoute',
+    );
+    gh.factory<_i57.RequestPermissionsModel>(
+      () => _i57.RequestPermissionsModel(
+        gh<_i83.ErrorHandler>(),
+        gh<_i771.NekotonRepository>(),
+        gh<_i128.PermissionsService>(),
+        gh<_i128.CurrentAccountsService>(),
+      ),
+    );
+    gh.factory<_i385.ConfigureNetworksModel>(
+      () => _i385.ConfigureNetworksModel(
+        gh<_i83.ErrorHandler>(),
+        gh<_i128.ConnectionsStorageService>(),
+      ),
+    );
+    gh.factory<_i703.SelectNetworkModel>(
+      () => _i703.SelectNetworkModel(
+        gh<_i83.ErrorHandler>(),
+        gh<_i128.ConnectionsStorageService>(),
+      ),
+    );
+    gh.factory<_i1011.SelectWorkchainModel>(
+      () => _i1011.SelectWorkchainModel(
+        gh<_i83.ErrorHandler>(),
+        gh<_i128.ConnectionsStorageService>(),
+      ),
+    );
+    gh.factory<_i1042.WorkchainSelectorModel>(
+      () => _i1042.WorkchainSelectorModel(
+        gh<_i83.ErrorHandler>(),
+        gh<_i284.ConnectionsStorageService>(),
+      ),
+    );
+    gh.singleton<_i82.CompassBaseRoute>(
+      () => _i302.ProfileRoute(
+        gh<_i82.CompassBaseRoute>(instanceName: 'ManageSeedsAccountsRoute'),
+      ),
+      instanceName: 'ProfileRoute',
+    );
+    gh.factory<_i312.TokenWalletSendWidgetModel>(
+      () => _i312.TokenWalletSendWidgetModel(gh<_i523.TokenWalletSendModel>()),
+    );
+    gh.singleton<_i725.StorageManagerService>(
+      () => _i725.StorageManagerService(
+        gh<_i128.SecureStorageService>(),
+        gh<_i128.GeneralStorageService>(),
+        gh<_i988.BrowserGroupsStorageService>(),
+        gh<_i634.BrowserTabsStorageService>(),
+        gh<_i213.BrowserBookmarksStorageService>(),
+        gh<_i229.BrowserPermissionsStorageService>(),
+        gh<_i234.BrowserFaviconURLStorageService>(),
+        gh<_i128.NekotonStorageService>(),
+        gh<_i128.NekotonRepositoryStorageService>(),
+        gh<_i128.TonWalletStorageService>(),
+        gh<_i128.TokenWalletStorageService>(),
+        gh<_i128.ConnectionsStorageService>(),
+        gh<_i128.BalanceStorageService>(),
+        gh<_i128.AppStorageService>(),
+        gh<_i128.TonConnectStorageService>(),
+        gh<_i1030.UpdateVersionStorageService>(),
+        gh<_i1015.NftStorageService>(),
+        gh<_i865.LedgerStorageService>(),
+      ),
+    );
+    gh.factory<_i295.SelectWorkchainWidgetModel>(
+      () => _i295.SelectWorkchainWidgetModel(gh<_i1011.SelectWorkchainModel>()),
+    );
+    gh.factory<_i561.AddNetworkModel>(
+      () => _i561.AddNetworkModel(
+        gh<_i83.ErrorHandler>(),
+        gh<_i632.MessengerService>(),
+        gh<_i128.ConnectionsStorageService>(),
+        gh<_i128.ConnectionService>(),
+        gh<_i771.NekotonRepository>(),
+      ),
+    );
+    gh.factory<_i710.ChangeNetworkModel>(
+      () => _i710.ChangeNetworkModel(
+        gh<_i83.ErrorHandler>(),
+        gh<_i632.MessengerService>(),
+        gh<_i128.ConnectionsStorageService>(),
+        gh<_i771.NekotonRepository>(),
+      ),
+    );
+    gh.factory<_i622.WalletAppBarModel>(
+      () => _i622.WalletAppBarModel(
+        gh<_i83.ErrorHandler>(),
+        gh<_i771.NekotonRepository>(),
+        gh<_i128.CurrentAccountsService>(),
+        gh<_i128.ConnectionsStorageService>(),
+        gh<_i128.AppLinksService>(),
+      ),
+    );
+    gh.factory<_i634.StorageConfigurator>(
+      () => _i634.StorageConfigurator(gh<_i128.StorageManagerService>()),
+    );
+    gh.factory<_i639.ChangeNetworkWidgetModel>(
+      () => _i639.ChangeNetworkWidgetModel(gh<_i710.ChangeNetworkModel>()),
+    );
+    gh.factory<_i1055.ConfigureNetworksWidgetModel>(
+      () => _i1055.ConfigureNetworksWidgetModel(
+        gh<_i385.ConfigureNetworksModel>(),
+      ),
+    );
+    gh.factory<_i905.CreateSeedPasswordScreenModel>(
+      () => _i905.CreateSeedPasswordScreenModel(
+        gh<_i83.ErrorHandler>(),
+        gh<_i128.BiometryService>(),
+        gh<_i128.CurrentKeyService>(),
+        gh<_i128.CurrentAccountsService>(),
+        gh<_i128.ConnectionsStorageService>(),
+        gh<_i632.MessengerService>(),
+        gh<_i771.NekotonRepository>(),
+        gh<_i128.SecureStringService>(),
+      ),
+    );
+    gh.factory<_i513.AddAccountConfirmModel>(
+      () => _i513.AddAccountConfirmModel(
+        gh<_i83.ErrorHandler>(),
+        gh<_i128.BiometryService>(),
+        gh<_i632.MessengerService>(),
+        gh<_i771.NekotonRepository>(),
+        gh<_i128.CurrentAccountsService>(),
+        gh<_i128.PasswordService>(),
+      ),
+    );
+    gh.factory<_i175.SelectNetworkWidgetModel>(
+      () => _i175.SelectNetworkWidgetModel(gh<_i703.SelectNetworkModel>()),
+    );
+    gh.factory<_i317.AddNetworkWidgetModel>(
+      () => _i317.AddNetworkWidgetModel(gh<_i4.AddNetworkModel>()),
+    );
+    gh.factory<_i136.SendMessageWidgetModel>(
+      () => _i136.SendMessageWidgetModel(gh<_i201.SendMessageModel>()),
+    );
+    gh.singleton<_i1052.CurrenciesService>(
+      () => _i1052.CurrenciesService(
+        dio: gh<_i361.Dio>(),
+        nekotonRepository: gh<_i771.NekotonRepository>(),
+        currentAccounts: gh<_i128.CurrentAccountsService>(),
+        storageService: gh<_i128.GeneralStorageService>(),
+        appLifecycle: gh<_i128.AppLifecycleService>(),
+        defaultFetchStrategy: gh<_i128.DefaultCurrenciesFetchStrategy>(),
+        tonFetchStrategy: gh<_i128.TonCurrenciesFetchStrategy>(),
+      ),
+    );
+    gh.singleton<_i964.AssetsService>(
+      () => _i964.AssetsService(
+        gh<_i771.NekotonRepository>(),
+        gh<_i128.ConnectionsStorageService>(),
+        gh<_i128.CurrentAccountsService>(),
+        gh<_i128.PresetsConnectionService>(),
+        gh<_i361.Dio>(),
+        gh<_i128.GeneralStorageService>(),
+        gh<_i495.TonRepository>(),
+      ),
+      dispose: (i) => i.dispose(),
+    );
+    gh.factory<_i693.WalletAppBarWidgetModel>(
+      () => _i693.WalletAppBarWidgetModel(gh<_i622.WalletAppBarModel>()),
+    );
+    gh.factory<_i125.NftTransferInfoModel>(
+      () => _i125.NftTransferInfoModel(
+        gh<_i83.ErrorHandler>(),
+        gh<_i771.NekotonRepository>(),
+        gh<_i128.CurrenciesService>(),
+      ),
+    );
+    gh.factory<_i330.AccountTransactionsTabModel>(
+      () => _i330.AccountTransactionsTabModel(
+        gh<_i83.ErrorHandler>(),
+        gh<_i128.TonWalletStorageService>(),
+        gh<_i771.NekotonRepository>(),
+        gh<_i128.CurrenciesService>(),
+      ),
+    );
+    gh.factory<_i459.AddAccountResultModel>(
+      () => _i459.AddAccountResultModel(
+        gh<_i83.ErrorHandler>(),
+        gh<_i771.NekotonRepository>(),
+        gh<_i128.CurrentKeyService>(),
+        gh<_i128.CurrentAccountsService>(),
+      ),
+    );
+    gh.singleton<_i263.NftService>(
+      () => _i263.NftService(
+        gh<_i771.NekotonRepository>(),
+        gh<_i1015.NftStorageService>(),
+        gh<_i128.AppStorageService>(),
+        gh<_i128.CurrentAccountsService>(),
+      ),
+    );
+    gh.singleton<_i82.CompassBaseRoute>(
+      () => _i786.RootRoute(
+        gh<_i82.CompassBaseRoute>(instanceName: 'WalletRoute'),
+        gh<_i82.CompassBaseRoute>(instanceName: 'BrowserRoute'),
+        gh<_i82.CompassBaseRoute>(instanceName: 'ProfileRoute'),
+        gh<_i82.CompassBaseRoute>(instanceName: 'NftRoute'),
+      ),
+      instanceName: 'RootRoute',
+    );
+    gh.factory<_i1015.RequestPermissionsWidgetModel>(
+      () => _i1015.RequestPermissionsWidgetModel(
+        gh<_i4.RequestPermissionsModel>(),
+      ),
+    );
+    gh.factory<_i252.TonWalletSendWidgetModel>(
+      () => _i252.TonWalletSendWidgetModel(gh<_i946.TonWalletSendModel>()),
+    );
+    gh.factory<_i88.TCConnectModel>(
+      () => _i88.TCConnectModel(
+        gh<_i83.ErrorHandler>(),
+        gh<_i771.NekotonRepository>(),
+        gh<_i128.CurrentAccountsService>(),
+      ),
+    );
+    gh.factory<_i588.AddTip3TokenModel>(
+      () => _i588.AddTip3TokenModel(
+        gh<_i83.ErrorHandler>(),
+        gh<_i771.NekotonRepository>(),
+        gh<_i128.AssetsService>(),
+      ),
+    );
+    gh.factory<_i1005.WorkchainSelectorWidgetModel>(
+      () => _i1005.WorkchainSelectorWidgetModel(
+        gh<_i1042.WorkchainSelectorModel>(),
+      ),
+    );
+    gh.factory<_i124.ChooseNetworkScreenWidgetModel>(
+      () => _i124.ChooseNetworkScreenWidgetModel(
+        gh<_i173.ChooseNetworkScreenModel>(),
+      ),
     );
     gh.factory<_i791.WalletDeployConfirmModel>(
       () => _i791.WalletDeployConfirmModel(
@@ -2097,51 +2503,91 @@ extension GetItInjectableX on _i174.GetIt {
         gh<_i865.BleAvailabilityModelDelegate>(),
       ),
     );
+    gh.factory<_i251.StakingPageModel>(
+      () => _i251.StakingPageModel(
+        gh<_i83.ErrorHandler>(),
+        gh<_i771.NekotonRepository>(),
+        gh<_i128.CurrenciesService>(),
+        gh<_i948.StakingService>(),
+        gh<_i128.AssetsService>(),
+        gh<_i128.GeneralStorageService>(),
+      ),
+    );
+    gh.factory<_i1035.SelectAccountModel>(
+      () => _i1035.SelectAccountModel(
+        gh<_i83.ErrorHandler>(),
+        gh<_i771.NekotonRepository>(),
+        gh<_i128.CurrentKeyService>(),
+        gh<_i128.CurrentAccountsService>(),
+        gh<_i128.ConnectionsStorageService>(),
+        gh<_i128.BalanceStorageService>(),
+      ),
+    );
     gh.factory<_i833.NftTransferInfoWidgetModel>(
       () => _i833.NftTransferInfoWidgetModel(gh<_i1015.NftTransferInfoModel>()),
     );
-    gh.factory<_i972.NftPageWidgetModel>(
-      () => _i972.NftPageWidgetModel(gh<_i1015.NftPageModel>()),
-    );
-    gh.factory<_i446.TCSendMessageModel>(
-      () => _i446.TCSendMessageModel(
+    gh.factory<_i321.AddNftModel>(
+      () => _i321.AddNftModel(
         gh<_i83.ErrorHandler>(),
+        gh<_i402.CurrentAccountsService>(),
+        gh<_i632.MessengerService>(),
         gh<_i771.NekotonRepository>(),
-        gh<_i593.TonRepository>(),
-        gh<_i865.LedgerService>(),
-        gh<_i128.NtpService>(),
-        gh<_i865.BleAvailabilityModelDelegate>(),
       ),
     );
-    gh.factory<_i73.TCSendMessageWidgetModel>(
-      () => _i73.TCSendMessageWidgetModel(gh<_i625.TCSendMessageModel>()),
+    gh.factory<_i762.CreateSeedPasswordScreenWidgetModel>(
+      () => _i762.CreateSeedPasswordScreenWidgetModel(
+        gh<_i905.CreateSeedPasswordScreenModel>(),
+      ),
+    );
+    gh.factory<_i159.ConnectionConfigurator>(
+      () => _i159.ConnectionConfigurator(
+        gh<_i754.ConnectionService>(),
+        gh<_i771.NekotonRepository>(),
+      ),
     );
     gh.factory<_i313.WalletDeployConfirmWidgetModel>(
       () => _i313.WalletDeployConfirmWidgetModel(
         gh<_i791.WalletDeployConfirmModel>(),
       ),
     );
-    gh.factory<_i532.WalletAccountActionsWidgetModel>(
-      () => _i532.WalletAccountActionsWidgetModel(
-        gh<_i801.WalletAccountActionsModel>(),
+    gh.factory<_i920.AddAccountConfirmWidgetModel>(
+      () => _i920.AddAccountConfirmWidgetModel(
+        gh<_i513.AddAccountConfirmModel>(),
       ),
     );
-    gh.singleton<_i82.CompassBaseRoute>(
-      () => _i852.AddExistingWalletRoute(
-        gh<_i82.CompassBaseRoute>(instanceName: 'ImportWalletRoute'),
-      ),
-      instanceName: 'AddExistingWalletRoute',
+    gh.factory<_i374.AddNftWidgetModel>(
+      () => _i374.AddNftWidgetModel(gh<_i321.AddNftModel>()),
     );
-    gh.factory<_i482.UpdateVersionModel>(
-      () => _i482.UpdateVersionModel(
+    gh.factory<_i450.CancelUnstakingPageModel>(
+      () => _i450.CancelUnstakingPageModel(
         gh<_i83.ErrorHandler>(),
-        gh<_i720.UpdateService>(),
-        gh<_i934.StoreUrlGenerator>(),
-        gh<_i438.SentryWorker>(),
+        gh<_i771.NekotonRepository>(),
+        gh<_i948.StakingService>(),
+        gh<_i128.AssetsService>(),
       ),
     );
-    gh.factory<_i425.NftSendWidgetModel>(
-      () => _i425.NftSendWidgetModel(gh<_i1015.NftSendModel>()),
+    gh.factory<_i207.TokenTransferInfoModel>(
+      () => _i207.TokenTransferInfoModel(
+        gh<_i83.ErrorHandler>(),
+        gh<_i771.NekotonRepository>(),
+        gh<_i128.CurrenciesService>(),
+        gh<_i128.AssetsService>(),
+      ),
+    );
+    gh.factory<_i371.SelectAccountWidgetModel>(
+      () => _i371.SelectAccountWidgetModel(gh<_i1035.SelectAccountModel>()),
+    );
+    gh.factory<_i904.StakingPageWidgetModel>(
+      () => _i904.StakingPageWidgetModel(gh<_i0.StakingPageModel>()),
+    );
+    gh.singleton<_i299.SessionService>(
+      () => _i299.SessionService(
+        gh<_i771.NekotonRepository>(),
+        gh<_i725.StorageManagerService>(),
+        gh<_i679.SecureStorageService>(),
+        gh<_i958.IIdentifyIconsService>(),
+        gh<_i470.BrowserService>(),
+      ),
     );
     gh.factory<_i178.TokenWalletTransactionsModel>(
       () => _i178.TokenWalletTransactionsModel(
@@ -2151,17 +2597,28 @@ extension GetItInjectableX on _i174.GetIt {
         gh<_i128.TokenWalletStorageService>(),
       ),
     );
-    gh.singleton<_i82.CompassBaseRoute>(
-      () => _i45.ManageSeedsAccountsRoute(
-        gh<_i82.CompassBaseRoute>(instanceName: 'SeedDetailRoute'),
-        gh<_i82.CompassBaseRoute>(instanceName: 'EnterSeedNameRoute'),
-      ),
-      instanceName: 'ManageSeedsAccountsRoute',
+    gh.factory<_i668.AddTip3TokenWidgetModel>(
+      () => _i668.AddTip3TokenWidgetModel(gh<_i588.AddTip3TokenModel>()),
     );
-    gh.factory<_i143.NftPrepareTransferWidgetModel>(
-      () => _i143.NftPrepareTransferWidgetModel(
-        gh<_i1015.NftPrepareTransferModel>(),
+    gh.factory<_i1024.SelectNewAssetPageModel>(
+      () => _i1024.SelectNewAssetPageModel(
+        gh<_i83.ErrorHandler>(),
+        gh<_i128.AssetsService>(),
+        gh<_i771.NekotonRepository>(),
+        gh<_i632.MessengerService>(),
       ),
+    );
+    gh.factory<_i362.NftSendModel>(
+      () => _i362.NftSendModel(
+        gh<_i83.ErrorHandler>(),
+        gh<_i771.NekotonRepository>(),
+        gh<_i1015.NftService>(),
+        gh<_i865.LedgerService>(),
+        gh<_i865.BleAvailabilityModelDelegate>(),
+      ),
+    );
+    gh.factory<_i522.TCConnectWidgetModel>(
+      () => _i522.TCConnectWidgetModel(gh<_i625.TCConnectModel>()),
     );
     gh.singleton<_i637.BalanceService>(
       () => _i637.BalanceService(
@@ -2170,13 +2627,63 @@ extension GetItInjectableX on _i174.GetIt {
         gh<_i128.BalanceStorageService>(),
       ),
     );
-    gh.factory<_i523.TokenWalletSendModel>(
-      () => _i523.TokenWalletSendModel(
+    gh.singleton<_i877.TokenWalletsService>(
+      () => _i877.TokenWalletsService(
+        gh<_i771.NekotonRepository>(),
+        gh<_i128.AssetsService>(),
+        gh<_i188.TokenRepository>(),
+        gh<_i104.ResourcesService>(),
+      ),
+    );
+    gh.factory<_i154.BrowserPageModel>(
+      () => _i154.BrowserPageModel(
+        gh<_i83.ErrorHandler>(),
+        gh<_i470.BrowserService>(),
+        gh<_i654.BrowserApprovalsService>(),
+        gh<_i473.PermissionsService>(),
+        gh<_i771.NekotonRepository>(),
+        gh<_i632.MessengerService>(),
+        gh<_i964.AssetsService>(),
+        gh<_i284.ConnectionsStorageService>(),
+        gh<_i754.ConnectionService>(),
+        gh<_i625.TonConnectJsBridge>(),
+        gh<_i865.LedgerService>(),
+        gh<_i1070.AppPermissionsService>(),
+      ),
+    );
+    gh.factory<_i516.CancelUnstakingPageWidgetModel>(
+      () => _i516.CancelUnstakingPageWidgetModel(
+        gh<_i0.CancelUnstakingPageModel>(),
+      ),
+    );
+    gh.factory<_i149.WalletPrepareTransferPageModel>(
+      () => _i149.WalletPrepareTransferPageModel(
+        gh<_i83.ErrorHandler>(),
+        gh<_i128.AssetsService>(),
+        gh<_i771.NekotonRepository>(),
+        gh<_i632.MessengerService>(),
+        gh<_i128.CurrenciesService>(),
+        gh<_i201.TokenTransferDelegateProvider>(),
+        gh<_i128.ConnectionsStorageService>(),
+      ),
+    );
+    gh.factory<_i57.AddAccountResultWidgetModel>(
+      () => _i57.AddAccountResultWidgetModel(gh<_i459.AddAccountResultModel>()),
+    );
+    gh.factory<_i1038.NftPrepareTransferModel>(
+      () => _i1038.NftPrepareTransferModel(
         gh<_i83.ErrorHandler>(),
         gh<_i771.NekotonRepository>(),
-        gh<_i865.LedgerService>(),
-        gh<_i865.BleAvailabilityModelDelegate>(),
-        gh<_i0.TokenTransferDelegateProvider>(),
+        gh<_i632.MessengerService>(),
+        gh<_i1015.NftService>(),
+      ),
+    );
+    gh.factory<_i680.NftPageModel>(
+      () => _i680.NftPageModel(
+        gh<_i83.ErrorHandler>(),
+        gh<_i1015.NftService>(),
+        gh<_i128.CurrentAccountsService>(),
+        gh<_i771.NekotonRepository>(),
       ),
     );
     gh.factory<_i869.TokenWalletAssetModel>(
@@ -2205,78 +2712,17 @@ extension GetItInjectableX on _i174.GetIt {
         gh<_i637.BalanceService>(),
       ),
     );
-    gh.factory<_i596.UpdateVersionWidgetModel>(
-      () => _i596.UpdateVersionWidgetModel(gh<_i482.UpdateVersionModel>()),
-    );
-    gh.singleton<_i82.CompassBaseRoute>(
-      () => _i805.ChooseNetworkRoute(
-        gh<_i82.CompassBaseRoute>(
-          instanceName: 'CreateSeedOnboardingPasswordRoute',
-        ),
-        gh<_i82.CompassBaseRoute>(instanceName: 'AddExistingWalletRoute'),
-      ),
-      instanceName: 'ChooseNetworkRoute',
-    );
-    gh.singleton<_i65.ConnectionsStorageService>(
-      () => _i65.ConnectionsStorageService(
-        gh<_i792.GetStorage>(instanceName: 'connections'),
-        gh<_i128.PresetsConnectionService>(),
-        gh<_i632.MessengerService>(),
-      ),
-    );
     gh.factory<_i793.AccountTransactionsTabWidgetModel>(
       () => _i793.AccountTransactionsTabWidgetModel(
         gh<_i1034.AccountTransactionsTabModel>(),
       ),
     );
+    gh.factory<_i307.BrowserPageWidgetModel>(
+      () => _i307.BrowserPageWidgetModel(gh<_i154.BrowserPageModel>()),
+    );
     gh.factory<_i771.TokenWalletAssetWidgetModel>(
       () =>
           _i771.TokenWalletAssetWidgetModel(gh<_i869.TokenWalletAssetModel>()),
-    );
-    gh.singleton<_i725.StorageManagerService>(
-      () => _i725.StorageManagerService(
-        gh<_i128.SecureStorageService>(),
-        gh<_i128.GeneralStorageService>(),
-        gh<_i752.BrowserGroupsStorageService>(),
-        gh<_i187.BrowserTabsStorageService>(),
-        gh<_i563.BrowserBookmarksStorageService>(),
-        gh<_i614.BrowserPermissionsStorageService>(),
-        gh<_i250.BrowserFaviconURLStorageService>(),
-        gh<_i128.NekotonStorageService>(),
-        gh<_i128.NekotonRepositoryStorageService>(),
-        gh<_i128.TonWalletStorageService>(),
-        gh<_i128.TokenWalletStorageService>(),
-        gh<_i128.ConnectionsStorageService>(),
-        gh<_i128.BalanceStorageService>(),
-        gh<_i128.AppStorageService>(),
-        gh<_i128.TonConnectStorageService>(),
-        gh<_i1030.UpdateVersionStorageService>(),
-        gh<_i1015.NftStorageService>(),
-        gh<_i865.LedgerStorageService>(),
-      ),
-    );
-    gh.singleton<_i82.CompassBaseRoute>(
-      () => _i113.WalletRoute(
-        gh<_i82.CompassBaseRoute>(instanceName: 'EnableBiometryRoute'),
-        gh<_i82.CompassBaseRoute>(instanceName: 'SelectNewAssetRoute'),
-        gh<_i82.CompassBaseRoute>(instanceName: 'CustodiansSettingsRoute'),
-        gh<_i82.CompassBaseRoute>(instanceName: 'AddAccountRoute'),
-        gh<_i82.CompassBaseRoute>(instanceName: 'TonWalletDetailsRoute'),
-        gh<_i82.CompassBaseRoute>(instanceName: 'TokenWalletDetailsRoute'),
-        gh<_i82.CompassBaseRoute>(instanceName: 'WalletPrepareTransferRoute'),
-        gh<_i82.CompassBaseRoute>(
-          instanceName: 'WalletPrepareSpecifiedTransferRoute',
-        ),
-        gh<_i82.CompassBaseRoute>(instanceName: 'WalletMultisigConfigRoute'),
-        gh<_i82.CompassBaseRoute>(instanceName: 'WalletDeployConfirmRoute'),
-        gh<_i82.CompassBaseRoute>(
-          instanceName: 'ConfirmMultisigTransactionRoute',
-        ),
-        gh<_i82.CompassBaseRoute>(instanceName: 'ConfigureNetworksRoute'),
-        gh<_i82.CompassBaseRoute>(instanceName: 'StakingRoute'),
-        gh<_i82.CompassBaseRoute>(instanceName: 'EnterSeedNameRoute'),
-      ),
-      instanceName: 'WalletRoute',
     );
     gh.factory<_i526.TonWalletAssetWidgetModel>(
       () => _i526.TonWalletAssetWidgetModel(gh<_i719.TonWalletAssetModel>()),
@@ -2286,211 +2732,6 @@ extension GetItInjectableX on _i174.GetIt {
         errorHandler: gh<_i83.ErrorHandler>(),
         balanceService: gh<_i128.BalanceService>(),
         convertService: gh<_i128.CurrencyConvertService>(),
-      ),
-    );
-    gh.factory<_i962.MigrateConfigurator>(
-      () => _i962.MigrateConfigurator(
-        gh<_i426.EncryptedStorage>(),
-        gh<_i128.PresetsConnectionService>(),
-        gh<_i128.GeneralStorageService>(),
-        gh<_i128.ConnectionsStorageService>(),
-        gh<_i940.DatabaseService>(),
-      ),
-    );
-    gh.factory<_i173.ChooseNetworkScreenModel>(
-      () => _i173.ChooseNetworkScreenModel(
-        gh<_i83.ErrorHandler>(),
-        gh<_i632.MessengerService>(),
-        gh<_i128.NetworkConnectionService>(),
-        gh<_i128.PresetsConnectionService>(),
-        gh<_i128.ConnectionsStorageService>(),
-        gh<_i771.NekotonRepository>(),
-      ),
-    );
-    gh.factory<_i11.DeleteAccountSheetWidgetModel>(
-      () => _i11.DeleteAccountSheetWidgetModel(
-        gh<_i549.DeleteAccountSheetModel>(),
-      ),
-    );
-    gh.factory<_i622.WalletAppBarModel>(
-      () => _i622.WalletAppBarModel(
-        gh<_i83.ErrorHandler>(),
-        gh<_i771.NekotonRepository>(),
-        gh<_i128.CurrentAccountsService>(),
-        gh<_i128.ConnectionsStorageService>(),
-        gh<_i128.AppLinksService>(),
-      ),
-    );
-    gh.factory<_i78.AccountDetailModel>(
-      () => _i78.AccountDetailModel(
-        errorHandler: gh<_i83.ErrorHandler>(),
-        nekotonRepository: gh<_i771.NekotonRepository>(),
-        balanceService: gh<_i128.BalanceService>(),
-        convertService: gh<_i128.CurrencyConvertService>(),
-      ),
-    );
-    gh.singleton<_i82.CompassBaseRoute>(
-      () => _i1010.OnBoardingRoute(
-        gh<_i82.CompassBaseRoute>(instanceName: 'ChooseNetworkRoute'),
-      ),
-      instanceName: 'OnBoardingRoute',
-    );
-    gh.singleton<_i82.CompassBaseRoute>(
-      () => _i302.ProfileRoute(
-        gh<_i82.CompassBaseRoute>(instanceName: 'ManageSeedsAccountsRoute'),
-      ),
-      instanceName: 'ProfileRoute',
-    );
-    gh.factory<_i615.AccountCardModel>(
-      () => _i615.AccountCardModel(
-        gh<_i83.ErrorHandler>(),
-        gh<_i771.NekotonRepository>(),
-        gh<_i128.BalanceService>(),
-        gh<_i128.CurrencyConvertService>(),
-        gh<_i128.BalanceStorageService>(),
-        gh<_i632.MessengerService>(),
-        gh<_i948.StakingService>(),
-      ),
-    );
-    gh.factory<_i127.TokenWalletTransactionsWidgetModel>(
-      () => _i127.TokenWalletTransactionsWidgetModel(
-        gh<_i178.TokenWalletTransactionsModel>(),
-      ),
-    );
-    gh.factory<_i312.TokenWalletSendWidgetModel>(
-      () => _i312.TokenWalletSendWidgetModel(gh<_i523.TokenWalletSendModel>()),
-    );
-    gh.factory<_i397.TonWalletDetailsPageWidgetModel>(
-      () => _i397.TonWalletDetailsPageWidgetModel(
-        gh<_i71.TonWalletDetailsPageModel>(),
-      ),
-    );
-    gh.factory<_i575.ChangeNetworkModel>(
-      () => _i575.ChangeNetworkModel(
-        gh<_i83.ErrorHandler>(),
-        gh<_i632.MessengerService>(),
-        gh<_i128.ConnectionsStorageService>(),
-        gh<_i771.NekotonRepository>(),
-      ),
-    );
-    gh.singleton<_i964.AssetsService>(
-      () => _i964.AssetsService(
-        gh<_i771.NekotonRepository>(),
-        gh<_i128.ConnectionsStorageService>(),
-        gh<_i128.CurrentAccountsService>(),
-        gh<_i128.PresetsConnectionService>(),
-        gh<_i361.Dio>(),
-        gh<_i128.GeneralStorageService>(),
-        gh<_i495.TonRepository>(),
-      ),
-      dispose: (i) => i.dispose(),
-    );
-    gh.factory<_i1024.SelectNewAssetPageModel>(
-      () => _i1024.SelectNewAssetPageModel(
-        gh<_i83.ErrorHandler>(),
-        gh<_i128.AssetsService>(),
-        gh<_i771.NekotonRepository>(),
-        gh<_i632.MessengerService>(),
-      ),
-    );
-    gh.singleton<_i754.ConnectionService>(
-      () => _i754.ConnectionService(
-        gh<_i128.ConnectionsStorageService>(),
-        gh<_i771.NekotonRepository>(),
-        gh<_i128.PresetsConnectionService>(),
-        gh<_i632.MessengerService>(),
-        gh<_i361.Dio>(),
-      ),
-    );
-    gh.factory<_i634.StorageConfigurator>(
-      () => _i634.StorageConfigurator(gh<_i128.StorageManagerService>()),
-    );
-    gh.lazySingleton<_i33.TonConnectService>(
-      () => _i33.TonConnectService(
-        gh<_i128.TonConnectStorageService>(),
-        gh<_i771.NekotonRepository>(),
-        gh<_i143.AppVersionService>(),
-        gh<_i128.ConnectionsStorageService>(),
-        gh<_i128.ConnectionService>(),
-        gh<_i625.TonConnectRequestValidator>(),
-        gh<_i361.Dio>(),
-      ),
-    );
-    gh.factory<_i963.AccountDetailWidgetModel>(
-      () => _i963.AccountDetailWidgetModel(gh<_i78.AccountDetailModel>()),
-    );
-    gh.singleton<_i877.TokenWalletsService>(
-      () => _i877.TokenWalletsService(
-        gh<_i771.NekotonRepository>(),
-        gh<_i128.AssetsService>(),
-        gh<_i188.TokenRepository>(),
-        gh<_i104.ResourcesService>(),
-      ),
-    );
-    gh.factory<_i350.AddNetworkModel>(
-      () => _i350.AddNetworkModel(
-        gh<_i83.ErrorHandler>(),
-        gh<_i632.MessengerService>(),
-        gh<_i128.ConnectionsStorageService>(),
-        gh<_i128.ConnectionService>(),
-        gh<_i771.NekotonRepository>(),
-      ),
-    );
-    gh.factory<_i269.TonConnectJsBridge>(
-      () => _i269.TonConnectJsBridge(
-        gh<_i625.TonConnectService>(),
-        gh<_i128.TonConnectStorageService>(),
-      ),
-    );
-    gh.factory<_i385.ConfigureNetworksModel>(
-      () => _i385.ConfigureNetworksModel(
-        gh<_i83.ErrorHandler>(),
-        gh<_i128.ConnectionsStorageService>(),
-      ),
-    );
-    gh.factory<_i703.SelectNetworkModel>(
-      () => _i703.SelectNetworkModel(
-        gh<_i83.ErrorHandler>(),
-        gh<_i128.ConnectionsStorageService>(),
-      ),
-    );
-    gh.singleton<_i544.BrowserService>(
-      () => _i544.BrowserService(
-        gh<_i625.TonConnectService>(),
-        gh<_i771.NekotonRepository>(),
-        gh<_i603.BrowserServiceAuthDelegate>(),
-        gh<_i951.BrowserServiceBookmarksDelegate>(),
-        gh<_i484.BrowserServiceFaviconDelegate>(),
-        gh<_i429.BrowserServiceHistoryDelegate>(),
-        gh<_i1000.BrowserServicePermissionsDelegate>(),
-        gh<_i974.BrowserServiceTabsDelegate>(),
-        gh<_i482.BrowserAntiPhishingDelegate>(),
-      ),
-      dispose: (i) => i.dispose(),
-    );
-    gh.factory<_i693.WalletAppBarWidgetModel>(
-      () => _i693.WalletAppBarWidgetModel(gh<_i622.WalletAppBarModel>()),
-    );
-    gh.factory<_i564.AddNetworkWidgetModel>(
-      () => _i564.AddNetworkWidgetModel(gh<_i350.AddNetworkModel>()),
-    );
-    gh.singleton<_i82.CompassBaseRoute>(
-      () => _i786.RootRoute(
-        gh<_i82.CompassBaseRoute>(instanceName: 'WalletRoute'),
-        gh<_i82.CompassBaseRoute>(instanceName: 'BrowserRoute'),
-        gh<_i82.CompassBaseRoute>(instanceName: 'ProfileRoute'),
-        gh<_i82.CompassBaseRoute>(instanceName: 'NftRoute'),
-      ),
-      instanceName: 'RootRoute',
-    );
-    gh.factory<_i267.ChangeNetworkWidgetModel>(
-      () => _i267.ChangeNetworkWidgetModel(gh<_i575.ChangeNetworkModel>()),
-    );
-    gh.factory<_i168.AddTip3TokenModel>(
-      () => _i168.AddTip3TokenModel(
-        gh<_i83.ErrorHandler>(),
-        gh<_i771.NekotonRepository>(),
-        gh<_i128.AssetsService>(),
       ),
     );
     gh.factory<_i941.TokenWalletDetailsModel>(
@@ -2503,29 +2744,18 @@ extension GetItInjectableX on _i174.GetIt {
         gh<_i201.TokenTransferDelegateProvider>(),
       ),
     );
-    gh.singleton<_i299.SessionService>(
-      () => _i299.SessionService(
-        gh<_i771.NekotonRepository>(),
-        gh<_i725.StorageManagerService>(),
-        gh<_i679.SecureStorageService>(),
-        gh<_i958.IIdentifyIconsService>(),
-        gh<_i544.BrowserService>(),
+    gh.factory<_i236.WalletPrepareTransferPageWidgetModel>(
+      () => _i236.WalletPrepareTransferPageWidgetModel(
+        gh<_i149.WalletPrepareTransferPageModel>(),
       ),
     );
-    gh.factory<_i124.ChooseNetworkScreenWidgetModel>(
-      () => _i124.ChooseNetworkScreenWidgetModel(
-        gh<_i173.ChooseNetworkScreenModel>(),
+    gh.factory<_i11.DeleteAccountSheetWidgetModel>(
+      () => _i11.DeleteAccountSheetWidgetModel(
+        gh<_i549.DeleteAccountSheetModel>(),
       ),
     );
-    gh.factory<_i251.StakingPageModel>(
-      () => _i251.StakingPageModel(
-        gh<_i83.ErrorHandler>(),
-        gh<_i771.NekotonRepository>(),
-        gh<_i128.CurrenciesService>(),
-        gh<_i948.StakingService>(),
-        gh<_i128.AssetsService>(),
-        gh<_i128.GeneralStorageService>(),
-      ),
+    gh.factory<_i972.NftPageWidgetModel>(
+      () => _i972.NftPageWidgetModel(gh<_i1015.NftPageModel>()),
     );
     gh.factory<_i289.SelectTokenModel>(
       () => _i289.SelectTokenModel(
@@ -2533,246 +2763,6 @@ extension GetItInjectableX on _i174.GetIt {
         gh<_i771.NekotonRepository>(),
         gh<_i128.TokenWalletsService>(),
       ),
-    );
-    gh.factory<_i159.ConnectionConfigurator>(
-      () => _i159.ConnectionConfigurator(
-        gh<_i754.ConnectionService>(),
-        gh<_i771.NekotonRepository>(),
-      ),
-    );
-    gh.factory<_i343.AccountAssetsTabModel>(
-      () => _i343.AccountAssetsTabModel(
-        gh<_i83.ErrorHandler>(),
-        gh<_i128.AssetsService>(),
-        gh<_i128.TokenWalletsService>(),
-        gh<_i771.NekotonRepository>(),
-      ),
-    );
-    gh.factory<_i447.CreateBrowserGroupScreenModel>(
-      () => _i447.CreateBrowserGroupScreenModel(
-        gh<_i83.ErrorHandler>(),
-        gh<_i544.BrowserService>(),
-      ),
-    );
-    gh.factory<_i1030.BrowserMainScreenModel>(
-      () => _i1030.BrowserMainScreenModel(
-        gh<_i83.ErrorHandler>(),
-        gh<_i544.BrowserService>(),
-      ),
-    );
-    gh.factory<_i510.BrowserTabsListItemModel>(
-      () => _i510.BrowserTabsListItemModel(
-        gh<_i83.ErrorHandler>(),
-        gh<_i544.BrowserService>(),
-      ),
-    );
-    gh.factory<_i131.BrowserTabsListModel>(
-      () => _i131.BrowserTabsListModel(
-        gh<_i83.ErrorHandler>(),
-        gh<_i544.BrowserService>(),
-      ),
-    );
-    gh.factory<_i854.TabListHeaderModel>(
-      () => _i854.TabListHeaderModel(
-        gh<_i83.ErrorHandler>(),
-        gh<_i544.BrowserService>(),
-      ),
-    );
-    gh.factory<_i704.BrowserAddressBarModel>(
-      () => _i704.BrowserAddressBarModel(
-        gh<_i83.ErrorHandler>(),
-        gh<_i544.BrowserService>(),
-      ),
-    );
-    gh.factory<_i731.ToolbarModel>(
-      () => _i731.ToolbarModel(
-        gh<_i83.ErrorHandler>(),
-        gh<_i544.BrowserService>(),
-      ),
-    );
-    gh.factory<_i1055.TabAnimatedViewModel>(
-      () => _i1055.TabAnimatedViewModel(
-        gh<_i83.ErrorHandler>(),
-        gh<_i544.BrowserService>(),
-      ),
-    );
-    gh.factory<_i770.BrowserGroupMenuModel>(
-      () => _i770.BrowserGroupMenuModel(
-        gh<_i83.ErrorHandler>(),
-        gh<_i544.BrowserService>(),
-      ),
-    );
-    gh.factory<_i980.WebsiteInfoModel>(
-      () => _i980.WebsiteInfoModel(
-        gh<_i83.ErrorHandler>(),
-        gh<_i544.BrowserService>(),
-      ),
-    );
-    gh.factory<_i757.FaviconViewModel>(
-      () => _i757.FaviconViewModel(
-        gh<_i83.ErrorHandler>(),
-        gh<_i544.BrowserService>(),
-      ),
-    );
-    gh.factory<_i1025.BrowserBookmarkRenameBottomSheetModel>(
-      () => _i1025.BrowserBookmarkRenameBottomSheetModel(
-        gh<_i83.ErrorHandler>(),
-        gh<_i544.BrowserService>(),
-      ),
-    );
-    gh.factory<_i469.BrowserMainMenuModel>(
-      () => _i469.BrowserMainMenuModel(
-        gh<_i83.ErrorHandler>(),
-        gh<_i544.BrowserService>(),
-      ),
-    );
-    gh.factory<_i53.TipsBarModel>(
-      () => _i53.TipsBarModel(
-        gh<_i83.ErrorHandler>(),
-        gh<_i544.BrowserService>(),
-      ),
-    );
-    gh.factory<_i845.TabListHeaderWidgetModel>(
-      () => _i845.TabListHeaderWidgetModel(gh<_i854.TabListHeaderModel>()),
-    );
-    gh.factory<_i645.AccountCardWidgetModel>(
-      () => _i645.AccountCardWidgetModel(gh<_i615.AccountCardModel>()),
-    );
-    gh.factory<_i418.BrowserAddressBarWidgetModel>(
-      () => _i418.BrowserAddressBarWidgetModel(
-        gh<_i704.BrowserAddressBarModel>(),
-      ),
-    );
-    gh.factory<_i450.CancelUnstakingPageModel>(
-      () => _i450.CancelUnstakingPageModel(
-        gh<_i83.ErrorHandler>(),
-        gh<_i771.NekotonRepository>(),
-        gh<_i948.StakingService>(),
-        gh<_i128.AssetsService>(),
-      ),
-    );
-    gh.factory<_i418.BrowserBookModel>(
-      () => _i418.BrowserBookModel(
-        gh<_i83.ErrorHandler>(),
-        gh<_i544.BrowserService>(),
-        gh<_i221.LocalizationService>(),
-      ),
-    );
-    gh.factory<_i207.TokenTransferInfoModel>(
-      () => _i207.TokenTransferInfoModel(
-        gh<_i83.ErrorHandler>(),
-        gh<_i771.NekotonRepository>(),
-        gh<_i128.CurrenciesService>(),
-        gh<_i128.AssetsService>(),
-      ),
-    );
-    gh.lazySingleton<_i1071.TonConnectHttpBridge>(
-      () => _i1071.TonConnectHttpBridge(
-        gh<_i625.TonConnectService>(),
-        gh<_i128.AppLifecycleService>(),
-        gh<_i128.TonConnectStorageService>(),
-        gh<_i361.Dio>(),
-      ),
-    );
-    gh.factory<_i904.StakingPageWidgetModel>(
-      () => _i904.StakingPageWidgetModel(gh<_i0.StakingPageModel>()),
-    );
-    gh.factory<_i483.SelectNewAssetPageWidgetModel>(
-      () => _i483.SelectNewAssetPageWidgetModel(
-        gh<_i158.SelectNewAssetPageModel>(),
-      ),
-    );
-    gh.factory<_i956.TCManageDappsModel>(
-      () => _i956.TCManageDappsModel(
-        gh<_i83.ErrorHandler>(),
-        gh<_i625.TonConnectService>(),
-        gh<_i128.TonConnectStorageService>(),
-        gh<_i625.TonConnectHttpBridge>(),
-      ),
-    );
-    gh.factory<_i247.TabAnimatedViewWidgetModel>(
-      () => _i247.TabAnimatedViewWidgetModel(gh<_i1055.TabAnimatedViewModel>()),
-    );
-    gh.factory<_i149.WalletPrepareTransferPageModel>(
-      () => _i149.WalletPrepareTransferPageModel(
-        gh<_i83.ErrorHandler>(),
-        gh<_i128.AssetsService>(),
-        gh<_i771.NekotonRepository>(),
-        gh<_i632.MessengerService>(),
-        gh<_i128.CurrenciesService>(),
-        gh<_i201.TokenTransferDelegateProvider>(),
-      ),
-    );
-    gh.factory<_i209.TokenWalletDetailsWidgetModel>(
-      () => _i209.TokenWalletDetailsWidgetModel(
-        gh<_i941.TokenWalletDetailsModel>(),
-      ),
-    );
-    gh.factory<_i718.SelectTokenWidgetModel>(
-      () => _i718.SelectTokenWidgetModel(gh<_i289.SelectTokenModel>()),
-    );
-    gh.factory<_i656.BrowserTabsListWidgetModel>(
-      () => _i656.BrowserTabsListWidgetModel(gh<_i131.BrowserTabsListModel>()),
-    );
-    gh.factory<_i1055.ConfigureNetworksWidgetModel>(
-      () => _i1055.ConfigureNetworksWidgetModel(
-        gh<_i385.ConfigureNetworksModel>(),
-      ),
-    );
-    gh.factory<_i573.FaviconViewWidgetModel>(
-      () => _i573.FaviconViewWidgetModel(gh<_i757.FaviconViewModel>()),
-    );
-    gh.factory<_i175.SelectNetworkWidgetModel>(
-      () => _i175.SelectNetworkWidgetModel(gh<_i703.SelectNetworkModel>()),
-    );
-    gh.factory<_i516.CancelUnstakingPageWidgetModel>(
-      () => _i516.CancelUnstakingPageWidgetModel(
-        gh<_i0.CancelUnstakingPageModel>(),
-      ),
-    );
-    gh.singleton<_i473.PermissionsService>(
-      () => _i473.PermissionsService(
-        gh<_i544.BrowserService>(),
-        gh<_i771.NekotonRepository>(),
-      ),
-    );
-    gh.factory<_i876.AddTip3TokenWidgetModel>(
-      () => _i876.AddTip3TokenWidgetModel(gh<_i168.AddTip3TokenModel>()),
-    );
-    gh.factory<_i368.ToolbarWidgetModel>(
-      () => _i368.ToolbarWidgetModel(gh<_i731.ToolbarModel>()),
-    );
-    gh.factory<_i684.WebsiteInfoWidgetModel>(
-      () => _i684.WebsiteInfoWidgetModel(gh<_i980.WebsiteInfoModel>()),
-    );
-    gh.factory<_i695.AccountAssetsTabWidgetModel>(
-      () =>
-          _i695.AccountAssetsTabWidgetModel(gh<_i343.AccountAssetsTabModel>()),
-    );
-    gh.factory<_i769.CreateBrowserGroupScreenWidgetModel>(
-      () => _i769.CreateBrowserGroupScreenWidgetModel(
-        gh<_i447.CreateBrowserGroupScreenModel>(),
-      ),
-    );
-    gh.factory<_i236.WalletPrepareTransferPageWidgetModel>(
-      () => _i236.WalletPrepareTransferPageWidgetModel(
-        gh<_i149.WalletPrepareTransferPageModel>(),
-      ),
-    );
-    gh.factory<_i1056.BrowserGroupMenuWidgetModel>(
-      () =>
-          _i1056.BrowserGroupMenuWidgetModel(gh<_i770.BrowserGroupMenuModel>()),
-    );
-    gh.factory<_i635.BrowserMainScreenWidgetModel>(
-      () => _i635.BrowserMainScreenWidgetModel(
-        gh<_i1030.BrowserMainScreenModel>(),
-      ),
-    );
-    gh.factory<_i101.BrowserBookWidgetModel>(
-      () => _i101.BrowserBookWidgetModel(gh<_i418.BrowserBookModel>()),
-    );
-    gh.factory<_i355.BrowserMainMenuWidgetModel>(
-      () => _i355.BrowserMainMenuWidgetModel(gh<_i469.BrowserMainMenuModel>()),
     );
     gh.factory<_i111.TokenTransferInfoWidgetModel>(
       () => _i111.TokenTransferInfoWidgetModel(
@@ -2796,42 +2786,35 @@ extension GetItInjectableX on _i174.GetIt {
         gh<_i128.PasswordService>(),
       ),
     );
-    gh.factory<_i359.TipsBarWidgetModel>(
-      () => _i359.TipsBarWidgetModel(gh<_i53.TipsBarModel>()),
-    );
-    gh.factory<_i1026.BrowserTabsListItemWidgetModel>(
-      () => _i1026.BrowserTabsListItemWidgetModel(
-        gh<_i510.BrowserTabsListItemModel>(),
+    gh.factory<_i78.AccountDetailModel>(
+      () => _i78.AccountDetailModel(
+        errorHandler: gh<_i83.ErrorHandler>(),
+        nekotonRepository: gh<_i771.NekotonRepository>(),
+        balanceService: gh<_i128.BalanceService>(),
+        convertService: gh<_i128.CurrencyConvertService>(),
       ),
     );
-    gh.factory<_i449.BrowserBookmarkRenameBottomSheetWidgetModel>(
-      () => _i449.BrowserBookmarkRenameBottomSheetWidgetModel(
-        gh<_i1025.BrowserBookmarkRenameBottomSheetModel>(),
+    gh.factory<_i343.AccountAssetsTabModel>(
+      () => _i343.AccountAssetsTabModel(
+        gh<_i83.ErrorHandler>(),
+        gh<_i128.AssetsService>(),
+        gh<_i128.TokenWalletsService>(),
+        gh<_i771.NekotonRepository>(),
       ),
     );
-    gh.factory<_i997.RequestPermissionsModel>(
-      () => _i997.RequestPermissionsModel(
+    gh.factory<_i615.AccountCardModel>(
+      () => _i615.AccountCardModel(
         gh<_i83.ErrorHandler>(),
         gh<_i771.NekotonRepository>(),
-        gh<_i128.PermissionsService>(),
-        gh<_i128.CurrentAccountsService>(),
-      ),
-    );
-    gh.factory<_i451.BrowserPageModel>(
-      () => _i451.BrowserPageModel(
-        gh<_i83.ErrorHandler>(),
-        gh<_i544.BrowserService>(),
-        gh<_i654.BrowserApprovalsService>(),
-        gh<_i473.PermissionsService>(),
-        gh<_i771.NekotonRepository>(),
+        gh<_i128.BalanceService>(),
+        gh<_i128.CurrencyConvertService>(),
+        gh<_i128.BalanceStorageService>(),
         gh<_i632.MessengerService>(),
-        gh<_i964.AssetsService>(),
-        gh<_i65.ConnectionsStorageService>(),
-        gh<_i754.ConnectionService>(),
-        gh<_i625.TonConnectJsBridge>(),
-        gh<_i865.LedgerService>(),
-        gh<_i1070.AppPermissionsService>(),
+        gh<_i948.StakingService>(),
       ),
+    );
+    gh.factory<_i425.NftSendWidgetModel>(
+      () => _i425.NftSendWidgetModel(gh<_i1015.NftSendModel>()),
     );
     gh.singleton<_i468.BootstrapService>(
       () => _i468.BootstrapService(
@@ -2846,14 +2829,26 @@ extension GetItInjectableX on _i174.GetIt {
         gh<_i231.NtpConfigurator>(),
       ),
     );
-    gh.factory<_i935.TCManageDappsWidgetModel>(
-      () => _i935.TCManageDappsWidgetModel(gh<_i625.TCManageDappsModel>()),
+    gh.factory<_i127.TokenWalletTransactionsWidgetModel>(
+      () => _i127.TokenWalletTransactionsWidgetModel(
+        gh<_i178.TokenWalletTransactionsModel>(),
+      ),
     );
     gh.factory<_i884.BootstrapFailedRerunModel>(
       () => _i884.BootstrapFailedRerunModel(
         gh<_i83.ErrorHandler>(),
         gh<_i468.BootstrapService>(),
         gh<_i632.MessengerService>(),
+      ),
+    );
+    gh.factory<_i483.SelectNewAssetPageWidgetModel>(
+      () => _i483.SelectNewAssetPageWidgetModel(
+        gh<_i158.SelectNewAssetPageModel>(),
+      ),
+    );
+    gh.factory<_i397.TonWalletDetailsPageWidgetModel>(
+      () => _i397.TonWalletDetailsPageWidgetModel(
+        gh<_i71.TonWalletDetailsPageModel>(),
       ),
     );
     gh.factory<_i1007.ConnectionFailModel>(
@@ -2868,17 +2863,21 @@ extension GetItInjectableX on _i174.GetIt {
         gh<_i9.BootstrapFailedRerunModel>(),
       ),
     );
-    gh.factory<_i582.SplashScreenModel>(
-      () => _i582.SplashScreenModel(
-        gh<_i83.ErrorHandler>(),
-        gh<_i468.BootstrapService>(),
-        gh<_i275.NavigationService>(),
-        gh<_i33.NetworkConnectionService>(),
-        gh<_i544.BrowserService>(),
+    gh.factory<_i209.TokenWalletDetailsWidgetModel>(
+      () => _i209.TokenWalletDetailsWidgetModel(
+        gh<_i941.TokenWalletDetailsModel>(),
       ),
     );
-    gh.factory<_i404.BrowserPageWidgetModel>(
-      () => _i404.BrowserPageWidgetModel(gh<_i451.BrowserPageModel>()),
+    gh.factory<_i718.SelectTokenWidgetModel>(
+      () => _i718.SelectTokenWidgetModel(gh<_i289.SelectTokenModel>()),
+    );
+    gh.factory<_i143.NftPrepareTransferWidgetModel>(
+      () => _i143.NftPrepareTransferWidgetModel(
+        gh<_i1015.NftPrepareTransferModel>(),
+      ),
+    );
+    gh.factory<_i963.AccountDetailWidgetModel>(
+      () => _i963.AccountDetailWidgetModel(gh<_i78.AccountDetailModel>()),
     );
     gh.singleton<_i82.CompassGuard>(
       () => _i331.RestoreSubroutesGuard(
@@ -2890,11 +2889,18 @@ extension GetItInjectableX on _i174.GetIt {
     gh.factory<_i459.ConnectionFailWidgetModel>(
       () => _i459.ConnectionFailWidgetModel(gh<_i1007.ConnectionFailModel>()),
     );
+    gh.factory<_i695.AccountAssetsTabWidgetModel>(
+      () =>
+          _i695.AccountAssetsTabWidgetModel(gh<_i343.AccountAssetsTabModel>()),
+    );
     gh.singleton<_i309.CompassRouter>(
       () => _i309.CompassRouter(gh<_i468.BootstrapService>()),
     );
-    gh.factory<_i659.SplashScreenWidgetModel>(
-      () => _i659.SplashScreenWidgetModel(gh<_i582.SplashScreenModel>()),
+    gh.singleton<_i533.RootTabService>(
+      () => _i533.RootTabService(
+        gh<_i309.CompassRouter>(),
+        gh<_i470.BrowserService>(),
+      ),
     );
     gh.singleton<_i82.CompassGuard>(
       () => _i13.OnboardingGuard(
@@ -2903,21 +2909,20 @@ extension GetItInjectableX on _i174.GetIt {
       ),
       instanceName: 'OnboardingGuard',
     );
-    gh.factory<_i183.RequestPermissionsWidgetModel>(
-      () => _i183.RequestPermissionsWidgetModel(
-        gh<_i997.RequestPermissionsModel>(),
+    gh.factory<_i70.BrowserLauncher>(
+      () => _i70.BrowserLauncher(
+        gh<_i309.CompassRouter>(),
+        gh<_i470.BrowserService>(),
       ),
     );
-    gh.singleton<_i533.RootTabService>(
-      () => _i533.RootTabService(
-        gh<_i309.CompassRouter>(),
-        gh<_i544.BrowserService>(),
-      ),
-    );
-    gh.factory<_i202.BrowserLauncher>(
-      () => _i202.BrowserLauncher(
-        gh<_i309.CompassRouter>(),
-        gh<_i544.BrowserService>(),
+    gh.factory<_i342.ProfilePageModel>(
+      () => _i342.ProfilePageModel(
+        gh<_i83.ErrorHandler>(),
+        gh<_i128.CurrentSeedService>(),
+        gh<_i128.BiometryService>(),
+        gh<_i128.SessionService>(),
+        gh<_i143.AppVersionService>(),
+        gh<_i70.BrowserLauncher>(),
       ),
     );
     gh.factory<_i857.NftCollectionPageModel>(
@@ -2928,45 +2933,35 @@ extension GetItInjectableX on _i174.GetIt {
         gh<_i128.CurrentAccountsService>(),
         gh<_i771.NekotonRepository>(),
         gh<_i553.MessengerService>(),
-        gh<_i202.BrowserLauncher>(),
+        gh<_i70.BrowserLauncher>(),
       ),
     );
-    gh.singleton<_i239.PendingDeepLinkService>(
-      () => _i239.PendingDeepLinkService(gh<_i202.BrowserLauncher>()),
-      dispose: (i) => i.dispose(),
+    gh.factory<_i645.AccountCardWidgetModel>(
+      () => _i645.AccountCardWidgetModel(gh<_i615.AccountCardModel>()),
     );
-    gh.factory<_i1031.AccountSettingsSheetModel>(
-      () => _i1031.AccountSettingsSheetModel(
-        gh<_i83.ErrorHandler>(),
-        gh<_i771.NekotonRepository>(),
-        gh<_i632.MessengerService>(),
-        gh<_i202.BrowserLauncher>(),
+    gh.factory<_i328.EditNetworkModel>(
+      () => _i328.EditNetworkModel(
+        gh<_i128.ConnectionsStorageService>(),
+        gh<_i128.PresetsConnectionService>(),
+        gh<_i128.AssetsService>(),
+        gh<_i70.BrowserLauncher>(),
       ),
     );
-    gh.factory<_i425.AppModel>(
-      () => _i425.AppModel(
+    gh.factory<_i582.SplashScreenModel>(
+      () => _i582.SplashScreenModel(
         gh<_i83.ErrorHandler>(),
-        gh<_i309.CompassRouter>(),
-        gh<_i850.AppLinksService>(),
-        gh<_i830.AppLifecycleService>(),
-        gh<_i1071.LocalizationService>(),
-        gh<_i575.BiometryService>(),
-        gh<_i632.MessengerService>(),
-        gh<_i47.CrashDetectorService>(),
-        gh<_i335.LoggerConfigurator>(),
-        gh<_i202.BrowserLauncher>(),
-        gh<_i771.NekotonRepository>(),
         gh<_i468.BootstrapService>(),
-        gh<_i239.PendingDeepLinkService>(),
+        gh<_i275.NavigationService>(),
+        gh<_i33.NetworkConnectionService>(),
+        gh<_i470.BrowserService>(),
       ),
     );
-    gh.factory<_i8.AccountSettingsModel>(
-      () => _i8.AccountSettingsModel(
+    gh.factory<_i311.TokenWalletOrdinaryTransactionDetailsScreenModel>(
+      () => _i311.TokenWalletOrdinaryTransactionDetailsScreenModel(
         gh<_i83.ErrorHandler>(),
+        gh<_i128.AssetsService>(),
         gh<_i771.NekotonRepository>(),
-        gh<_i632.MessengerService>(),
-        gh<_i128.CurrentAccountsService>(),
-        gh<_i202.BrowserLauncher>(),
+        gh<_i70.BrowserLauncher>(),
       ),
     );
     gh.factory<_i348.WalletPageModel>(
@@ -2979,75 +2974,12 @@ extension GetItInjectableX on _i174.GetIt {
         gh<_i533.RootTabService>(),
       ),
     );
-    gh.factory<_i641.NftItemPageModel>(
-      () => _i641.NftItemPageModel(
-        gh<_i83.ErrorHandler>(),
-        gh<_i1015.NftService>(),
-        gh<_i128.CurrentAccountsService>(),
-        gh<_i771.NekotonRepository>(),
-        gh<_i202.BrowserLauncher>(),
-      ),
-    );
-    gh.factory<_i342.ProfilePageModel>(
-      () => _i342.ProfilePageModel(
-        gh<_i83.ErrorHandler>(),
-        gh<_i128.CurrentSeedService>(),
-        gh<_i128.BiometryService>(),
-        gh<_i128.SessionService>(),
-        gh<_i143.AppVersionService>(),
-        gh<_i202.BrowserLauncher>(),
-      ),
-    );
-    gh.factory<_i1017.AppWidgetModel>(
-      () => _i1017.AppWidgetModel(gh<_i425.AppModel>()),
-    );
-    gh.factory<_i962.AccountSettingsWidgetModel>(
-      () => _i962.AccountSettingsWidgetModel(gh<_i8.AccountSettingsModel>()),
-    );
-    gh.factory<_i328.EditNetworkModel>(
-      () => _i328.EditNetworkModel(
-        gh<_i128.ConnectionsStorageService>(),
-        gh<_i128.PresetsConnectionService>(),
-        gh<_i128.AssetsService>(),
-        gh<_i202.BrowserLauncher>(),
-      ),
+    gh.singleton<_i239.PendingDeepLinkService>(
+      () => _i239.PendingDeepLinkService(gh<_i70.BrowserLauncher>()),
+      dispose: (i) => i.dispose(),
     );
     gh.factory<_i942.EditNetworkWidgetModel>(
       () => _i942.EditNetworkWidgetModel(gh<_i393.EditNetworkModel>()),
-    );
-    gh.factory<_i541.AccountSettingsSheetWidgetModel>(
-      () => _i541.AccountSettingsSheetWidgetModel(
-        gh<_i1031.AccountSettingsSheetModel>(),
-      ),
-    );
-    gh.factory<_i311.TokenWalletOrdinaryTransactionDetailsScreenModel>(
-      () => _i311.TokenWalletOrdinaryTransactionDetailsScreenModel(
-        gh<_i83.ErrorHandler>(),
-        gh<_i128.AssetsService>(),
-        gh<_i771.NekotonRepository>(),
-        gh<_i202.BrowserLauncher>(),
-      ),
-    );
-    gh.factory<_i161.TonWalletMultisigOrdinaryTransactionDetailsScreenModel>(
-      () => _i161.TonWalletMultisigOrdinaryTransactionDetailsScreenModel(
-        gh<_i83.ErrorHandler>(),
-        gh<_i771.NekotonRepository>(),
-        gh<_i202.BrowserLauncher>(),
-      ),
-    );
-    gh.factory<_i562.TonWalletOrdinaryTransactionDetailsModel>(
-      () => _i562.TonWalletOrdinaryTransactionDetailsModel(
-        gh<_i83.ErrorHandler>(),
-        gh<_i771.NekotonRepository>(),
-        gh<_i202.BrowserLauncher>(),
-      ),
-    );
-    gh.factory<_i938.TonWalletMultisigExpiredTransactionModel>(
-      () => _i938.TonWalletMultisigExpiredTransactionModel(
-        gh<_i83.ErrorHandler>(),
-        gh<_i771.NekotonRepository>(),
-        gh<_i202.BrowserLauncher>(),
-      ),
     );
     gh.factory<_i278.CustomBottomNavigationBarModel>(
       () => _i278.CustomBottomNavigationBarModel(
@@ -3055,9 +2987,35 @@ extension GetItInjectableX on _i174.GetIt {
         gh<_i533.RootTabService>(),
       ),
     );
+    gh.factory<_i8.AccountSettingsModel>(
+      () => _i8.AccountSettingsModel(
+        gh<_i83.ErrorHandler>(),
+        gh<_i771.NekotonRepository>(),
+        gh<_i632.MessengerService>(),
+        gh<_i128.CurrentAccountsService>(),
+        gh<_i70.BrowserLauncher>(),
+      ),
+    );
+    gh.factory<_i641.NftItemPageModel>(
+      () => _i641.NftItemPageModel(
+        gh<_i83.ErrorHandler>(),
+        gh<_i1015.NftService>(),
+        gh<_i128.CurrentAccountsService>(),
+        gh<_i771.NekotonRepository>(),
+        gh<_i70.BrowserLauncher>(),
+      ),
+    );
     gh.factory<_i212.NftCollectionPageWidgetModel>(
       () => _i212.NftCollectionPageWidgetModel(
         gh<_i1015.NftCollectionPageModel>(),
+      ),
+    );
+    gh.factory<_i1031.AccountSettingsSheetModel>(
+      () => _i1031.AccountSettingsSheetModel(
+        gh<_i83.ErrorHandler>(),
+        gh<_i771.NekotonRepository>(),
+        gh<_i632.MessengerService>(),
+        gh<_i70.BrowserLauncher>(),
       ),
     );
     gh.factory<_i996.TokenWalletOrdinaryTransactionDetailsScreenWidgetModel>(
@@ -3068,17 +3026,36 @@ extension GetItInjectableX on _i174.GetIt {
     gh.factory<_i348.NftItemPageWidgetModel>(
       () => _i348.NftItemPageWidgetModel(gh<_i1015.NftItemPageModel>()),
     );
+    gh.factory<_i659.SplashScreenWidgetModel>(
+      () => _i659.SplashScreenWidgetModel(gh<_i582.SplashScreenModel>()),
+    );
     gh.factory<_i700.ProfilePageWidgetModel>(
       () => _i700.ProfilePageWidgetModel(gh<_i342.ProfilePageModel>()),
-    );
-    gh.factory<_i408.TonWalletOrdinaryTransactionDetailsWidgetModel>(
-      () => _i408.TonWalletOrdinaryTransactionDetailsWidgetModel(
-        gh<_i562.TonWalletOrdinaryTransactionDetailsModel>(),
-      ),
     );
     gh.factory<_i249.CustomBottomNavigationBarWidgetModel>(
       () => _i249.CustomBottomNavigationBarWidgetModel(
         gh<_i278.CustomBottomNavigationBarModel>(),
+      ),
+    );
+    gh.factory<_i161.TonWalletMultisigOrdinaryTransactionDetailsScreenModel>(
+      () => _i161.TonWalletMultisigOrdinaryTransactionDetailsScreenModel(
+        gh<_i83.ErrorHandler>(),
+        gh<_i771.NekotonRepository>(),
+        gh<_i70.BrowserLauncher>(),
+      ),
+    );
+    gh.factory<_i562.TonWalletOrdinaryTransactionDetailsModel>(
+      () => _i562.TonWalletOrdinaryTransactionDetailsModel(
+        gh<_i83.ErrorHandler>(),
+        gh<_i771.NekotonRepository>(),
+        gh<_i70.BrowserLauncher>(),
+      ),
+    );
+    gh.factory<_i938.TonWalletMultisigExpiredTransactionModel>(
+      () => _i938.TonWalletMultisigExpiredTransactionModel(
+        gh<_i83.ErrorHandler>(),
+        gh<_i771.NekotonRepository>(),
+        gh<_i70.BrowserLauncher>(),
       ),
     );
     gh.factory<_i765.TonWalletMultisigExpiredTransactionWidgetModel>(
@@ -3089,11 +3066,44 @@ extension GetItInjectableX on _i174.GetIt {
     gh.factory<_i938.WalletPageWidgetModel>(
       () => _i938.WalletPageWidgetModel(gh<_i348.WalletPageModel>()),
     );
+    gh.factory<_i425.AppModel>(
+      () => _i425.AppModel(
+        gh<_i83.ErrorHandler>(),
+        gh<_i309.CompassRouter>(),
+        gh<_i850.AppLinksService>(),
+        gh<_i830.AppLifecycleService>(),
+        gh<_i1071.LocalizationService>(),
+        gh<_i575.BiometryService>(),
+        gh<_i632.MessengerService>(),
+        gh<_i47.CrashDetectorService>(),
+        gh<_i335.LoggerConfigurator>(),
+        gh<_i70.BrowserLauncher>(),
+        gh<_i771.NekotonRepository>(),
+        gh<_i468.BootstrapService>(),
+        gh<_i239.PendingDeepLinkService>(),
+      ),
+    );
     gh.factory<
       _i1010.TonWalletMultisigOrdinaryTransactionDetailsScreenWidgetModel
     >(
       () => _i1010.TonWalletMultisigOrdinaryTransactionDetailsScreenWidgetModel(
         gh<_i161.TonWalletMultisigOrdinaryTransactionDetailsScreenModel>(),
+      ),
+    );
+    gh.factory<_i1017.AppWidgetModel>(
+      () => _i1017.AppWidgetModel(gh<_i425.AppModel>()),
+    );
+    gh.factory<_i962.AccountSettingsWidgetModel>(
+      () => _i962.AccountSettingsWidgetModel(gh<_i8.AccountSettingsModel>()),
+    );
+    gh.factory<_i541.AccountSettingsSheetWidgetModel>(
+      () => _i541.AccountSettingsSheetWidgetModel(
+        gh<_i1031.AccountSettingsSheetModel>(),
+      ),
+    );
+    gh.factory<_i408.TonWalletOrdinaryTransactionDetailsWidgetModel>(
+      () => _i408.TonWalletOrdinaryTransactionDetailsWidgetModel(
+        gh<_i562.TonWalletOrdinaryTransactionDetailsModel>(),
       ),
     );
     return this;

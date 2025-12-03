@@ -1,6 +1,6 @@
 import 'dart:async';
 
-import 'package:app/app/service/connection/data/connection_data/connection_data.dart';
+import 'package:app/app/service/connection/data/connection/connection.dart';
 import 'package:app/data/models/models.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:nekoton_repository/nekoton_repository.dart';
@@ -83,7 +83,7 @@ sealed class ApprovalRequest with _$ApprovalRequest {
   const factory ApprovalRequest.changeNetwork({
     required Uri origin,
     required int networkId,
-    required List<ConnectionData> connections,
+    required List<Connection> connections,
     required Completer<TransportStrategy?> completer,
   }) = ApprovalRequestChangeNetwork;
 

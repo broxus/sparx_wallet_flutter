@@ -49,16 +49,20 @@ class WalletAppBarWidget
             spacing: DimensSizeV2.d12,
             children: [
               _QrButton(onTap: wm.onScanQr),
-              StateNotifierBuilder(
-                listenableState: wm.connectionState,
-                builder: (_, connection) =>
-                    connection?.let(
-                      (value) => GestureDetector(
-                        onTap: wm.onNetwork,
-                        child: NetworkDropItem(data: value),
-                      ),
-                    ) ??
-                    const SizedBox.shrink(),
+              Column(
+                children: [
+                  StateNotifierBuilder(
+                    listenableState: wm.connectionState,
+                    builder: (_, connection) =>
+                        connection?.let(
+                          (value) => GestureDetector(
+                            onTap: wm.onNetwork,
+                            child: NetworkDropItem(data: connection),
+                          ),
+                        ) ??
+                        const SizedBox.shrink(),
+                  ),
+                ],
               ),
             ],
           ),

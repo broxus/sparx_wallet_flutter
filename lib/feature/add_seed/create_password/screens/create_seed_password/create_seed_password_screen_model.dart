@@ -20,6 +20,7 @@ class CreateSeedPasswordScreenModel extends ElementaryModel {
     this._biometryService,
     this._currentKeyService,
     this._currentAccountService,
+    this._connectionsStorageService,
     this._messengerService,
     this._nekotonRepository,
     this._secureStringService,
@@ -28,6 +29,7 @@ class CreateSeedPasswordScreenModel extends ElementaryModel {
   final BiometryService _biometryService;
   final CurrentKeyService _currentKeyService;
   final CurrentAccountsService _currentAccountService;
+  final ConnectionsStorageService _connectionsStorageService;
   final MessengerService _messengerService;
   final NekotonRepository _nekotonRepository;
   final SecureStringService _secureStringService;
@@ -48,6 +50,10 @@ class CreateSeedPasswordScreenModel extends ElementaryModel {
       final addType = seedPhrase.isNotEmpty
           ? SeedAddType.import
           : SeedAddType.create;
+
+      final workchainId =
+          _connectionsStorageService.currentConnection?.defaultWorkchainId ?? 0;
+
       final seed = switch (addType) {
         SeedAddType.create => _createSeed(),
         SeedAddType.import => seedPhrase,
@@ -56,9 +62,9 @@ class CreateSeedPasswordScreenModel extends ElementaryModel {
       final publicKey = await _nekotonRepository.addSeed(
         phrase: seed.words,
         password: password,
+        workchainId: workchainId,
         mnemonicType: mnemonicType,
         addType: addType,
-        workchainId: 0,
       );
 
       _currentKeyService.changeCurrentKey(publicKey);

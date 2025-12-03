@@ -144,6 +144,10 @@ class WalletPrepareTransferPageWidgetModel
 
     final addr = Address(address: receiverController.text.trim());
 
+    if (!model.checkIsValidWorkchain(addr.address)) {
+      return;
+    }
+
     if (!addr.isValid) {
       model.showError(LocaleKeys.addressIsWrong.tr());
 
@@ -240,8 +244,12 @@ class WalletPrepareTransferPageWidgetModel
   void onSubmittedAmountWord(_) => commentFocus.requestFocus();
 
   String? validateAddressField(String? value) {
-    if (value?.isEmpty ?? true) {
+    if (value == null || value.isEmpty) {
       return LocaleKeys.addressIsEmpty.tr();
+    }
+
+    if (!model.checkIsValidWorkchain(value)) {
+      return LocaleKeys.invalidWorkchainAddressFrom0To1.tr();
     }
 
     if (_selectedAsset?.isNative != true &&

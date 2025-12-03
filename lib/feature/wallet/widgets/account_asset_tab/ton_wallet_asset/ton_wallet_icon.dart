@@ -43,10 +43,12 @@ class _TonWalletIconWidgetState extends State<TonWalletIconWidget> {
 
   @override
   Widget build(BuildContext context) {
-    final uri = Uri.parse(_path);
-    if (!_isRender) {
+    if (!_isRender || _path.isEmpty) {
       return _Placeholder(size: _size);
     }
+
+    final uri = Uri.parse(_path);
+
     if (uri.hasScheme) {
       if (uri.path.endsWith('.svg')) {
         return SvgPicture.network(

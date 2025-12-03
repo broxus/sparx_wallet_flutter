@@ -1,3 +1,4 @@
+import 'package:app/app/service/storage_service/connections_storage/connections_storage_service.dart';
 import 'package:app/data/models/models.dart';
 import 'package:app/feature/ledger/ledger.dart';
 import 'package:app/feature/wallet/wallet.dart';
@@ -16,12 +17,15 @@ class TokenWalletSendModel extends ElementaryModel
     this._ledgerService,
     this._bleDelegate,
     this._tokenTransferDelegateProvider,
+    this._connectionsStorageService,
   ) : super(errorHandler: errorHandler);
 
   final NekotonRepository _nekotonRepository;
   final LedgerService _ledgerService;
   final BleAvailabilityModelDelegate _bleDelegate;
   final TokenTransferDelegateProvider _tokenTransferDelegateProvider;
+
+  final ConnectionsStorageService _connectionsStorageService;
 
   TokenTransferDelegate? _tokenTransferDelegate;
 
@@ -43,6 +47,10 @@ class TokenWalletSendModel extends ElementaryModel
       keyAccount: keyAccount,
       rootTokenContract: rootTokenContract,
     );
+  }
+
+  bool checkIsValidWorkchain(String address) {
+    return _connectionsStorageService.checkIsFrom0To1Workchain(address);
   }
 
   KeyAccount? getAccount(Address address) =>

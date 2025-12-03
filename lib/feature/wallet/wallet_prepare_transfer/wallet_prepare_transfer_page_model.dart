@@ -29,6 +29,7 @@ class WalletPrepareTransferPageModel extends ElementaryModel {
     this._messengerService,
     this._currenciesService,
     this._tokenTransferDelegateProvider,
+    this._connectionsStorageService,
   ) : super(errorHandler: errorHandler);
 
   final AssetsService _assetsService;
@@ -36,6 +37,7 @@ class WalletPrepareTransferPageModel extends ElementaryModel {
   final MessengerService _messengerService;
   final CurrenciesService _currenciesService;
   final TokenTransferDelegateProvider _tokenTransferDelegateProvider;
+  final ConnectionsStorageService _connectionsStorageService;
 
   final _balanceDataSc = StreamController<WalletPrepareBalanceData>();
 
@@ -203,6 +205,10 @@ class WalletPrepareTransferPageModel extends ElementaryModel {
 
     // Fee is garanteed to be FeeToken here
     return fee.amount * 1.2;
+  }
+
+  bool checkIsValidWorkchain(String address) {
+    return _connectionsStorageService.checkIsFrom0To1Workchain(address);
   }
 
   /// Subscription for native token to find balance

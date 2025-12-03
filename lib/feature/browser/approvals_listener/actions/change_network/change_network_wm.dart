@@ -1,6 +1,6 @@
 import 'dart:async';
 
-import 'package:app/app/service/connection/data/connection_data/connection_data.dart';
+import 'package:app/app/service/connection/data/connection/connection.dart';
 import 'package:app/core/wm/custom_wm.dart';
 import 'package:app/feature/browser/approvals_listener/actions/change_network/change_network_model.dart';
 import 'package:app/feature/browser/approvals_listener/actions/change_network/change_network_widget.dart';
@@ -19,7 +19,7 @@ class ChangeNetworkWmParams {
 
   final Uri origin;
   final int networkId;
-  final List<ConnectionData> connections;
+  final List<Connection> connections;
 }
 
 @injectable
@@ -46,21 +46,20 @@ class ChangeNetworkWidgetModel
 
   ValueListenable<int> get networkIdState => _networkIdState;
 
-  ValueListenable<List<ConnectionData>> get connectionsState =>
-      _connectionsState;
+  ValueListenable<List<Connection>> get connectionsState => _connectionsState;
 
   late final _loadingState = createValueNotifier(false);
 
   ValueListenable<bool> get loadingState => _loadingState;
 
-  ValueListenable<ConnectionData> get connectionState => _connectionState;
+  ValueListenable<Connection> get connectionState => _connectionState;
 
   ThemeStyleV2 get theme => context.themeStyleV2;
 
   Future<void> onConfirm() async {
     _loadingState.value = true;
     try {
-      final strategy = await model.changeNetwork(_connectionState.value.id);
+      final strategy = await model.changeConnection(_connectionState.value.id);
 
       if (contextSafe != null) {
         Navigator.of(contextSafe!).pop(strategy);
@@ -79,6 +78,5 @@ class ChangeNetworkWidgetModel
   }
 
   // ignore: use_setters_to_change_properties
-  void onConnectionChanged(ConnectionData value) =>
-      _connectionState.value = value;
+  void onConnectionChanged(Connection value) => _connectionState.value = value;
 }

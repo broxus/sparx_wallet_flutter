@@ -1,9 +1,7 @@
 import 'dart:async';
 
 import 'package:app/core/wm/custom_wm.dart';
-import 'package:app/feature/browser/approvals_listener/actions/add_network/add_network_model.dart';
-import 'package:app/feature/browser/approvals_listener/actions/add_network/add_network_widget.dart';
-import 'package:app/feature/browser/utils.dart';
+import 'package:app/feature/browser_v1/browser.dart';
 import 'package:app/generated/generated.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -55,11 +53,11 @@ class AddNetworkWidgetModel
   Future<void> onConfirm() async {
     _loadingState.value = true;
     try {
-      final connection = _networkState.value.getConnection();
-      final network = await model.addConnection(connection);
+      final n = _networkState.value.getConnection();
+      final network = await model.addNetwork(n);
 
       if (_switchNetworkState.value) {
-        await model.changeNetwork(connection.id);
+        await model.changeNetwork(n.id);
       }
 
       if (contextSafe != null) {
