@@ -1,10 +1,8 @@
 import 'package:app/feature/browser/data/broser_entity.dart';
-import 'package:app/utils/common_utils.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:uuid/uuid.dart';
 
 part 'browser_group.freezed.dart';
-
 part 'browser_group.g.dart';
 
 const tabsGroupId = 'mainTabsGroup';
@@ -31,7 +29,7 @@ abstract class BrowserGroup with _$BrowserGroup implements BrowserEntity {
       id: const Uuid().v4(),
       title: name,
       tabsIds: tabsIds ?? <String>[],
-      sortingOrder: NtpTime.now().millisecondsSinceEpoch.toDouble(),
+      sortingOrder: DateTime.now().millisecondsSinceEpoch.toDouble(),
       isEditable: isEditable,
     );
   }

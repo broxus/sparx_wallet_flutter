@@ -23,7 +23,7 @@ class QrScannerModel extends ElementaryModel {
   Stream<AppLifecycleState> get appLifecycleStateStream =>
       _lifecycleService.appLifecycleStateStream;
 
-  QrScanResult? tryGetResult({
+  QrScanResult tryGetResult({
     required String value,
     required List<QrScanType> types,
   }) {
@@ -37,13 +37,13 @@ class QrScannerModel extends ElementaryModel {
 
         case QrScanType.uri:
           final uri = Uri.tryParse(value);
-          if (uri != null) {
+          if (uri != null && uri.hasScheme) {
             return QrScanResult.uri(uri);
           }
       }
     }
 
-    return null;
+    return const QrScanResult.invalid();
   }
 
   Future<bool> requestPhotos() => _permissionsService.requestPhotos();

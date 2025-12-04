@@ -18,6 +18,7 @@ export 'ntp_service.dart';
 export 'password_service.dart';
 export 'permissions_service.dart';
 export 'presets_connection/presets_connection.dart';
+export 'protected_content_service.dart';
 export 'remote/remote.dart';
 export 'secure_string_service.dart';
 export 'session/session.dart';

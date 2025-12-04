@@ -48,16 +48,27 @@ class AppLinksService {
     }
   }
 
+  bool isValidAppLink(Uri uri) {
+    final queryParameters = uri.queryParameters;
+    final link = queryParameters[_linkKey];
+
+    if (link != null) {
+      return _checkIsAllowedScheme(link);
+    }
+
+    return uri.isScheme('tc') || uri.host == 'l.sparxwallet.com';
+  }
+
   void handleAppLink(Uri uri) {
     final queryParameters = uri.queryParameters;
     final link = queryParameters[_linkKey];
 
     if (link != null) {
-      _handleQueryLink(link);
+      return _handleQueryLink(link);
     }
 
     if (uri.isScheme('tc') || uri.host == 'l.sparxwallet.com') {
-      _handleTonConnectLink(uri);
+      return _handleTonConnectLink(uri);
     }
   }
 
@@ -73,14 +84,18 @@ class AppLinksService {
 
     try {
       _linksSubj.add(BrowserAppLinksData(Uri.parse(link)));
-    } catch (_) {}
+    } catch (e, st) {
+      _log.severe('Error handling query link $link', e, st);
+    }
   }
 
   void _handleTonConnectLink(Uri uri) {
     try {
       final query = ConnectQuery.fromQuery(uri.query);
       _linksSubj.add(TonConnectAppLinksData(query));
-    } catch (_) {}
+    } catch (e, st) {
+      _log.severe('Error handling ton connect link $uri', e, st);
+    }
   }
 
   bool _checkIsAllowedScheme(String link) {

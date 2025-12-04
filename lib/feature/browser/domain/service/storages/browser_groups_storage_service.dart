@@ -1,7 +1,6 @@
 import 'package:app/app/service/service.dart';
 import 'package:app/feature/browser/data/groups/browser_group.dart';
 import 'package:app/generated/generated.dart';
-import 'package:app/utils/common_utils.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:injectable/injectable.dart';
 
@@ -48,7 +47,7 @@ class BrowserGroupsStorageService extends AbstractStorageService {
       'id': tabsGroupId,
       'title': LocaleKeys.tabs.tr(),
       'tabsIds': tabIds ?? [],
-      'sortingOrder': NtpTime.now().millisecondsSinceEpoch.toDouble(),
+      'sortingOrder': DateTime.now().millisecondsSinceEpoch.toDouble(),
       'isEditable': false,
     };
 

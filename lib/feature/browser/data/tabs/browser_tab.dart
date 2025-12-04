@@ -1,5 +1,4 @@
 import 'package:app/feature/browser/data/broser_entity.dart';
-import 'package:app/utils/utils.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:uuid/uuid.dart';
 
@@ -31,7 +30,7 @@ abstract class BrowserTab with _$BrowserTab implements BrowserEntity {
     id: const Uuid().v4(),
     url: url,
     title: null,
-    sortingOrder: NtpTime.now().millisecondsSinceEpoch.toDouble(),
+    sortingOrder: DateTime.now().millisecondsSinceEpoch.toDouble(),
   );
 
   BrowserTab._();

@@ -124,10 +124,7 @@ class TonWalletMultisigPendingTransactionDetailsScreenWidgetModel
     final hexString = safeHexStringState.value;
     final resultMessage = await _getResultMessage();
 
-    if (contextSafe == null) return;
-
-    Navigator.of(contextSafe!).pop();
-    contextSafe?.compassContinue(
+    await contextSafe?.compassPushReplacement(
       ConfirmMultisigTransactionRouteData(
         walletAddress: transaction.walletAddress,
         localCustodians: transaction.nonConfirmedLocalCustodians,

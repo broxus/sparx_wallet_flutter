@@ -5,6 +5,7 @@ import 'package:app/feature/wallet/ton_wallet_details/view/ton_wallet_details_pa
 import 'package:app/feature/wallet/wallet_deploy/wallet_deploy_confirm/route.dart';
 import 'package:app/feature/wallet/wallet_deploy/wallet_multisig_config/route.dart';
 import 'package:app/feature/wallet/wallet_prepare_transfer/route.dart';
+import 'package:app/feature/wallet/widgets/account_transactions_tab/detail/ton_wallet_multisig_pending_transaction_details/route.dart';
 import 'package:injectable/injectable.dart';
 import 'package:nekoton_repository/nekoton_repository.dart';
 
@@ -24,6 +25,8 @@ class TonWalletDetailsRoute extends CompassRoute<TonWalletDetailsRouteData> {
     CompassBaseRoute walletPrepareSpecifiedTransferRoute,
     @Named.from(ConfirmMultisigTransactionRoute)
     CompassBaseRoute confirmMultisigTransactionRoute,
+    @Named.from(PendingTransactionDetailsRoute)
+    CompassBaseRoute pendingTransactionDetailsRoute,
   ) : super(
         path: '/ton-details',
         builder: (context, data, _) =>
@@ -35,6 +38,7 @@ class TonWalletDetailsRoute extends CompassRoute<TonWalletDetailsRouteData> {
           walletPrepareTransferRoute,
           walletPrepareSpecifiedTransferRoute,
           confirmMultisigTransactionRoute,
+          pendingTransactionDetailsRoute,
         ],
       );
 

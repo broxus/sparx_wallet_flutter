@@ -19,66 +19,68 @@ class AddNftWidget extends InjectedElementaryWidget<AddNftWidgetModel> {
     return Scaffold(
       backgroundColor: theme.colors.background0,
       appBar: DefaultAppBar(titleText: LocaleKeys.addNFT.tr()),
-      body: StateNotifierBuilder(
-        listenableState: wm.currentAccountState,
-        builder: (_, account) {
-          return Padding(
-            padding: const EdgeInsets.symmetric(horizontal: DimensSizeV2.d16),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                if (account != null) AccountInfo(account: account),
-                const SizedBox(height: DimensSizeV2.d12),
-                PrimaryTextField(
-                  sizeType: PrimaryTextFieldSizeType.medium,
-                  hintText: LocaleKeys.nftPasteHint.tr(),
-                  textEditingController: wm.addressController,
-                  inputFormatters: wm.addressFilterFormatter,
-                  validator: wm.validateAddressField,
-                  suffixes: [
-                    ClipboardPasteButton(
-                      value: wm.addressController,
-                      onClear: wm.onPressedClear,
-                      onPaste: wm.onPressedPaste,
-                    ),
-                  ],
-                ),
-                const SizedBox(height: DimensSizeV2.d6),
-                StateNotifierBuilder(
-                  listenableState: wm.errorState,
-                  builder: (_, error) {
-                    if (error == null || error.isEmpty) {
-                      return Text(
-                        LocaleKeys.nftImportHint.tr(),
-                        style: theme.textStyles.labelXSmall.copyWith(
-                          color: theme.colors.content1,
-                        ),
-                      );
-                    }
+      body: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: DimensSizeV2.d16),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            StateNotifierBuilder(
+              listenableState: wm.currentAccountState,
+              builder: (_, account) {
+                if (account == null) return const SizedBox.shrink();
+                return AccountInfo(account: account);
+              },
+            ),
 
-                    return Text(
-                      error,
-                      style: theme.textStyles.labelXSmall.copyWith(
-                        color: theme.colors.negative,
-                      ),
-                    );
-                  },
+            const SizedBox(height: DimensSizeV2.d12),
+            PrimaryTextField(
+              sizeType: PrimaryTextFieldSizeType.medium,
+              hintText: LocaleKeys.nftPasteHint.tr(),
+              textEditingController: wm.addressController,
+              inputFormatters: wm.addressFilterFormatter,
+              validator: wm.validateAddressField,
+              suffixes: [
+                ClipboardPasteButton(
+                  value: wm.addressController,
+                  onClear: wm.onPressedClear,
+                  onPaste: wm.onPressedPaste,
                 ),
-                const Spacer(),
-                StateNotifierBuilder(
-                  listenableState: wm.loadingState,
-                  builder: (_, isLoading) => AccentButton(
-                    buttonShape: ButtonShape.pill,
-                    title: LocaleKeys.importWalletButtonText.tr(),
-                    isLoading: isLoading ?? false,
-                    onPressed: wm.onPressedImport,
-                  ),
-                ),
-                const SizedBox(height: DimensSizeV2.d28),
               ],
             ),
-          );
-        },
+            const SizedBox(height: DimensSizeV2.d6),
+            StateNotifierBuilder(
+              listenableState: wm.errorState,
+              builder: (_, error) {
+                if (error == null || error.isEmpty) {
+                  return Text(
+                    LocaleKeys.nftImportHint.tr(),
+                    style: theme.textStyles.labelXSmall.copyWith(
+                      color: theme.colors.content1,
+                    ),
+                  );
+                }
+
+                return Text(
+                  error,
+                  style: theme.textStyles.labelXSmall.copyWith(
+                    color: theme.colors.negative,
+                  ),
+                );
+              },
+            ),
+            const Spacer(),
+            StateNotifierBuilder(
+              listenableState: wm.loadingState,
+              builder: (_, isLoading) => AccentButton(
+                buttonShape: ButtonShape.pill,
+                title: LocaleKeys.importWalletButtonText.tr(),
+                isLoading: isLoading ?? false,
+                onPressed: wm.onPressedImport,
+              ),
+            ),
+            const SizedBox(height: DimensSizeV2.d28),
+          ],
+        ),
       ),
     );
   }

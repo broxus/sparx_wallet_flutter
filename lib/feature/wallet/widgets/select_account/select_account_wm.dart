@@ -43,8 +43,14 @@ class SelectAccountWidgetModel
       _listState.accept(
         _accountsState.value
             ?.map((selectAccountData) {
+              final matchSeedName = selectAccountData.name
+                  .toLowerCase()
+                  .contains(value);
               final filteredPrivateKeys = selectAccountData.privateKeys
                   .map((keyInfo) {
+                    final matchKeyName = keyInfo.keyName.toLowerCase().contains(
+                      value,
+                    );
                     final filteredAccounts = keyInfo.accounts.where((account) {
                       return account.name.toLowerCase().contains(value) ||
                           account.address.address.toLowerCase().contains(value);
@@ -53,7 +59,11 @@ class SelectAccountWidgetModel
                     return SeedWithInfo(
                       keyName: keyInfo.keyName,
                       key: keyInfo.key,
-                      accounts: filteredAccounts,
+                      accounts:
+                          (filteredAccounts.isEmpty &&
+                              (matchKeyName || matchSeedName))
+                          ? keyInfo.accounts
+                          : filteredAccounts,
                     );
                   })
                   .where((keyInfo) => keyInfo.accounts.isNotEmpty)
