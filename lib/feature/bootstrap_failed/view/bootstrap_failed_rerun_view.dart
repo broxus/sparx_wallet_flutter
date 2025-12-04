@@ -14,9 +14,9 @@ class BootstrapFailedRerunView
   @override
   Widget build(BootstrapFailedRerunWidgetModel wm) {
     return Scaffold(
-      appBar: DefaultAppBar(backgroundColor: wm.theme.colors.background0),
+      appBar: DefaultAppBar(backgroundColor: wm.theme.colors.background1),
       body: Container(
-        color: wm.theme.colors.background0,
+        color: wm.theme.colors.background1,
         padding: const EdgeInsets.all(DimensSize.d16),
         child: Center(
           child: Column(
