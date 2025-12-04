@@ -3,6 +3,7 @@ import 'package:app/feature/bootstrap_failed/bootstrap_failed.dart';
 import 'package:app/feature/contact_support/contact_support.dart';
 import 'package:elementary_helper/elementary_helper.dart';
 import 'package:injectable/injectable.dart';
+import 'package:ui_components_lib/ui_components_lib.dart';
 
 @injectable
 class BootstrapFailedRerunWidgetModel
@@ -13,6 +14,8 @@ class BootstrapFailedRerunWidgetModel
   late final _loadingState = createNotifier(false);
 
   ListenableState<bool> get loadingState => _loadingState;
+
+  late final theme = context.themeStyleV2;
 
   Future<void> onPressedTryAgain() async {
     _loadingState.accept(true);

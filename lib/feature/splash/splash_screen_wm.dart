@@ -30,7 +30,8 @@ class SplashScreenWidgetModel
 
   Future<void> _init() async {
     final isExistInternet = await model.isExistInternet;
-
+    contextSafe?.compassPoint(BootstrapFailedRouteData(step: BootstrapSteps.storage));
+    return;
     if (!isExistInternet) {
       contextSafe?.compassPoint(const NoInternetRouteData());
       return;

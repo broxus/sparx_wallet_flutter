@@ -163,23 +163,26 @@ class DefaultAppBar extends StatelessWidget implements PreferredSizeWidget {
     return PopCapture(
       canPop: onClosePressed == null,
       onPop: () => _onPressedBack(context),
-      child: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: DimensSizeV2.d16),
-        child: AppBar(
-          backgroundColor: backgroundColor ?? Colors.transparent,
-          surfaceTintColor: Colors.transparent,
-          toolbarHeight: preferredSize.height,
-          elevation: 0,
-          scrolledUnderElevation: 0,
-          titleSpacing: DimensSize.d8,
-          centerTitle: centerTitle,
-          leadingWidth: isShowLeadingClose ? DimensSizeV2.d48 : leadingWidth,
-          leading: leading == null
-              ? null
-              : Align(alignment: Alignment.centerLeft, child: leading),
-          actions: _hasAnyActions ? _actionsWidget(context) : null,
-          title: title,
-          systemOverlayStyle: systemOverlayStyle,
+      child: DecoratedBox(
+        decoration: BoxDecoration(color: backgroundColor ?? Colors.transparent),
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: DimensSizeV2.d16),
+          child: AppBar(
+            backgroundColor: backgroundColor ?? Colors.transparent,
+            surfaceTintColor: Colors.transparent,
+            toolbarHeight: preferredSize.height,
+            elevation: 0,
+            scrolledUnderElevation: 0,
+            titleSpacing: DimensSize.d8,
+            centerTitle: centerTitle,
+            leadingWidth: isShowLeadingClose ? DimensSizeV2.d48 : leadingWidth,
+            leading: leading == null
+                ? null
+                : Align(alignment: Alignment.centerLeft, child: leading),
+            actions: _hasAnyActions ? _actionsWidget(context) : null,
+            title: title,
+            systemOverlayStyle: systemOverlayStyle,
+          ),
         ),
       ),
     );

@@ -17,15 +17,11 @@ class BootstrapFailedPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: const DefaultAppBar(),
-      body: switch (step) {
-        BootstrapSteps.remoteNetworks ||
-        BootstrapSteps.connection => const ConnectionFailScreen(),
+    return switch (step) {
+      BootstrapSteps.remoteNetworks ||
+      BootstrapSteps.connection => const ConnectionFailScreen(),
 
-        // should not be there
-        _ => const BootstrapFailedRerunView(),
-      },
-    );
+      _ => const BootstrapFailedRerunView(),
+    };
   }
 }
