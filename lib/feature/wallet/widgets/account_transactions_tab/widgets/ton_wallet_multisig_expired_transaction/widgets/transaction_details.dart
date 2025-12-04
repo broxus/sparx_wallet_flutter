@@ -2,6 +2,7 @@ import 'package:app/feature/wallet/wallet.dart';
 import 'package:app/feature/wallet/widgets/account_transactions_tab/detail/details.dart';
 import 'package:app/feature/wallet/widgets/account_transactions_tab/widgets/ton_wallet_transaction_status_body.dart';
 import 'package:app/generated/generated.dart';
+import 'package:app/widgets/bottom_space.dart';
 import 'package:flutter/material.dart';
 import 'package:lucide_icons_flutter/lucide_icons.dart';
 import 'package:nekoton_repository/nekoton_repository.dart';
@@ -87,7 +88,7 @@ class TonWalletMultisigExpiredTransactionDetailsPage extends StatelessWidget {
                 buttonShape: ButtonShape.pill,
               ),
             ),
-            const SizedBox(height: DimensSizeV2.d24),
+            const BottomSpace(),
             SizedBox(height: bottomPadding),
           ],
         ),

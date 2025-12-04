@@ -1,5 +1,6 @@
 import 'package:app/data/models/seed/seed_phrase_model.dart';
 import 'package:app/generated/generated.dart';
+import 'package:app/widgets/bottom_space.dart';
 import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
 import 'package:lucide_icons_flutter/lucide_icons.dart';
@@ -34,7 +35,6 @@ class CreateSeedView extends StatelessWidget {
     final theme = context.themeStyleV2;
 
     return SafeArea(
-      minimum: const EdgeInsets.only(bottom: DimensSize.d16),
       child: Padding(
         padding: const EdgeInsets.symmetric(horizontal: DimensSize.d16),
         child: Column(
@@ -80,7 +80,7 @@ class CreateSeedView extends StatelessWidget {
                   title: LocaleKeys.skipTakeRisk.tr(),
                   onPressed: () => onSkip(seed),
                 ),
-                const SizedBox(height: DimensSizeV2.d12),
+                const BottomSpace(),
               ],
             ),
           ],

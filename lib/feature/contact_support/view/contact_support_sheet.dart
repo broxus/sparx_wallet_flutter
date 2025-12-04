@@ -1,6 +1,7 @@
 import 'package:app/core/wm/custom_wm.dart';
 import 'package:app/feature/contact_support/contact_support.dart';
 import 'package:app/generated/generated.dart';
+import 'package:app/widgets/bottom_space.dart';
 import 'package:elementary_helper/elementary_helper.dart';
 import 'package:flutter/material.dart';
 import 'package:ui_components_lib/ui_components_lib.dart';
@@ -55,26 +56,24 @@ class ContactSupportSheet
 
     return StateNotifierBuilder(
       listenableState: wm.busyState,
-      builder: (_, isBusy) => Padding(
-        padding: const EdgeInsets.only(bottom: DimensSizeV2.d24),
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
+      builder: (_, isBusy) => Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          AccentButton(
+            buttonShape: ButtonShape.pill,
+            title: buttonText,
+            isLoading: isBusy ?? false,
+            onPressed: wm.onSendEmail,
+          ),
+          if (wm.isQaEnabled) const SizedBox(height: DimensSizeV2.d16),
+          if (wm.isQaEnabled)
             AccentButton(
               buttonShape: ButtonShape.pill,
-              title: buttonText,
-              isLoading: isBusy ?? false,
-              onPressed: wm.onSendEmail,
+              title: LocaleKeys.contactSupportOpenQa.tr(),
+              onPressed: wm.onOpenQa,
             ),
-            if (wm.isQaEnabled) const SizedBox(height: DimensSizeV2.d16),
-            if (wm.isQaEnabled)
-              AccentButton(
-                buttonShape: ButtonShape.pill,
-                title: LocaleKeys.contactSupportOpenQa.tr(),
-                onPressed: wm.onOpenQa,
-              ),
-          ],
-        ),
+          const BottomSpace(),
+        ],
       ),
     );
   }

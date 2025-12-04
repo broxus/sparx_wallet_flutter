@@ -13,6 +13,7 @@ ModalRoute<void> getRenameAccountSheet(BuildContext context, Address address) {
   return commonBottomSheetRoute(
     titleTextStyle: context.themeStyleV2.textStyles.headingLarge,
     title: LocaleKeys.enterNewName.tr(),
+    viewInsetsBottomAddon: -DimensSize.d20,
     body: (_, __) => AccountRenameSheet(address: address),
   );
 }
@@ -28,7 +29,7 @@ class AccountRenameSheet
 
   @override
   Widget build(AccountRenameSheetWidgetModel wm) {
-    return SeparatedColumn(
+    return Column(
       mainAxisSize: MainAxisSize.min,
       spacing: DimensSize.d16,
       children: [

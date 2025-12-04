@@ -50,7 +50,6 @@ class LogOutConfirmSheet extends StatelessWidget {
           title: LocaleKeys.cancelWord.tr(),
           onPressed: () => Navigator.of(context).pop(false),
         ),
-        const SizedBox(height: DimensSizeV2.d24),
       ],
     );
   }

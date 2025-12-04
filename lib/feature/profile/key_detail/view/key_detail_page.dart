@@ -42,7 +42,7 @@ class KeyDetailPage
           body: !hasData
               ? const SizedBox.shrink()
               : SafeArea(
-                  minimum: const EdgeInsets.only(bottom: DimensSize.d16),
+                  minimum: const EdgeInsets.only(bottom: DimensSize.d20),
                   child: KeyDetailView(
                     seedKey: data.key,
                     seedName: data.ownerSeedName,

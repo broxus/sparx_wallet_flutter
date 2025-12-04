@@ -1,5 +1,6 @@
 import 'package:app/feature/add_seed/add_seed.dart';
 import 'package:app/generated/generated.dart';
+import 'package:app/widgets/bottom_space.dart';
 import 'package:elementary/elementary.dart';
 import 'package:flutter/material.dart';
 import 'package:lucide_icons_flutter/lucide_icons.dart';
@@ -42,6 +43,7 @@ class AddExistingWalletWidget
               subtitle: LocaleKeys.pairLedgerButtonSubtitle.tr(),
               onPressed: wm.onLedger,
             ),
+            const BottomSpace(),
           ],
         ),
       ),

@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:app/app/router/router.dart';
 import 'package:app/app/service/service.dart';
 import 'package:app/core/wm/custom_wm.dart';
@@ -11,9 +13,11 @@ import 'package:collection/collection.dart';
 import 'package:elementary/elementary.dart';
 import 'package:elementary_helper/elementary_helper.dart';
 import 'package:flutter/widgets.dart';
+import 'package:flutter_keyboard_visibility/flutter_keyboard_visibility.dart';
 import 'package:injectable/injectable.dart';
 import 'package:logging/logging.dart';
 import 'package:nekoton_repository/nekoton_repository.dart';
+import 'package:render_metrics/render_metrics.dart';
 import 'package:ui_components_lib/ui_components_lib.dart';
 
 typedef SuggestionSelectedCallback =
@@ -40,6 +44,12 @@ class EnterSeedPhraseWidgetModel
   static final _log = Logger('EnterSeedPhraseWidgetModel');
 
   final formKey = GlobalKey<FormState>();
+
+  final renderManager = RenderParametersManager<Object>();
+
+  late final screenScrollController = createScrollController();
+
+  final actionBarId = 'actionBar';
 
   late final List<EnterSeedPhraseInputData> _inputDataList = List.unmodifiable(
     Iterable.generate(
@@ -79,6 +89,12 @@ class EnterSeedPhraseWidgetModel
         : SeedPhraseFormat.standard,
   );
 
+  final _keyboardVisibilityController = KeyboardVisibilityController();
+
+  bool _isVisibleKeyboard = false;
+
+  StreamSubscription<bool>? _keyboardSubscription;
+
   ColorsPalette get colors => context.themeStyle.colors;
 
   ThemeStyleV2 get themeStyleV2 => context.themeStyleV2;
@@ -111,11 +127,19 @@ class EnterSeedPhraseWidgetModel
   );
 
   @override
+  void initWidgetModel() {
+    super.initWidgetModel();
+    _keyboardSubscription = _keyboardVisibilityController.onChange.listen(
+      (bool visible) => _isVisibleKeyboard = visible,
+    );
+  }
+
+  @override
   void dispose() {
     for (final c in _inputDataList) {
       c.dispose();
     }
-
+    _keyboardSubscription?.cancel();
     super.dispose();
   }
 
@@ -285,6 +309,7 @@ class EnterSeedPhraseWidgetModel
 
   /// If input with [index] has any text and it's not in focus
   void _checkInputCompletion(int index) {
+    _calculateOffset();
     final data = _inputDataList[index];
 
     if (data.text.isNotEmpty && !data.isFocused) {
@@ -292,6 +317,28 @@ class EnterSeedPhraseWidgetModel
 
       _updateTab();
     }
+  }
+
+  void _calculateOffset([FocusNode? focusNode]) {
+    Future.delayed(Duration(milliseconds: _isVisibleKeyboard ? 0 : 500), () {
+      final node =
+          focusNode ??
+          _inputDataList.firstWhereOrNull((data) => data.isFocused)?.focusNode;
+
+      if (node == null) return;
+
+      final diff = renderManager.getDiffById(node, actionBarId);
+
+      if (diff == null || diff.yTop < -50) {
+        return;
+      }
+
+      screenScrollController.position.animateTo(
+        screenScrollController.offset + diff.diffBottomToTop,
+        duration: const Duration(milliseconds: 150),
+        curve: Curves.linear,
+      );
+    });
   }
 
   Future<void> _next(String phrase) async {

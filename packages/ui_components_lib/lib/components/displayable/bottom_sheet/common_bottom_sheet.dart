@@ -23,7 +23,11 @@ Future<T?> showCommonBottomSheet<T>({
   required CommonSheetBodyBuilder body,
   String? title,
   String? subtitle,
-  EdgeInsets padding = const EdgeInsets.symmetric(horizontal: DimensSizeV2.d16),
+  EdgeInsets padding = const EdgeInsets.only(
+    bottom: DimensSizeV2.d20,
+    left: DimensSizeV2.d16,
+    right: DimensSizeV2.d16,
+  ),
   EdgeInsets? titleMargin,
   EdgeInsets? subtitleMargin,
   bool expand = false,
@@ -83,7 +87,11 @@ ModalSheetRoute<T> commonBottomSheetRoute<T>({
   required CommonSheetBodyBuilder body,
   String? title,
   String? subtitle,
-  EdgeInsets padding = const EdgeInsets.symmetric(horizontal: DimensSizeV2.d16),
+  EdgeInsets padding = const EdgeInsets.only(
+    bottom: DimensSizeV2.d20,
+    left: DimensSizeV2.d16,
+    right: DimensSizeV2.d16,
+  ),
   bool expand = false,
   bool dismissible = true,
   bool wrapIntoAnimatedSize = true,
@@ -97,6 +105,7 @@ ModalSheetRoute<T> commonBottomSheetRoute<T>({
   EdgeInsetsGeometry? titleMargin,
   EdgeInsetsGeometry? subtitleMargin,
   bool centerSubtitle = false,
+  double viewInsetsBottomAddon = 0,
 }) {
   return ModalSheetRoute<T>(
     builder: (_) => CommonBottomSheetWidget(
@@ -117,8 +126,17 @@ ModalSheetRoute<T> commonBottomSheetRoute<T>({
     expanded: expand,
     isDismissible: dismissible,
     modalBarrierColor: barrierColor,
-    containerBuilder: (context, animation, child) =>
-        _ContainerWidget(animated: wrapIntoAnimatedSize, child: child),
+    containerBuilder: (context, animation, child) {
+      final mq = MediaQuery.of(context);
+      final bottom = mq.viewInsets.bottom + viewInsetsBottomAddon;
+
+      return MediaQuery(
+        data: mq.copyWith(
+          viewInsets: mq.viewInsets.copyWith(bottom: bottom > 0 ? bottom : 0),
+        ),
+        child: _ContainerWidget(animated: wrapIntoAnimatedSize, child: child),
+      );
+    },
   );
 }
 
@@ -191,7 +209,7 @@ class CommonBottomSheetWidget extends StatelessWidget {
           : theme.colors.background1,
       child: SafeArea(
         minimum: avoidBottomInsets
-            ? const EdgeInsets.only(bottom: DimensSizeV2.d24)
+            ? const EdgeInsets.only(bottom: DimensSizeV2.d20)
             : EdgeInsets.zero,
         child: Padding(
           padding: avoidBottomInsets
