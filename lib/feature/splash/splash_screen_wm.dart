@@ -18,6 +18,7 @@ import 'package:logging/logging.dart';
 class SplashScreenWidgetModel
     extends CustomWidgetModel<SplashScreen, SplashScreenModel> {
   SplashScreenWidgetModel(super.model);
+
   final _logger = Logger('SplashScreenWidgetModel');
 
   late final isIos = Platform.isIOS;
@@ -30,8 +31,7 @@ class SplashScreenWidgetModel
 
   Future<void> _init() async {
     final isExistInternet = await model.isExistInternet;
-    contextSafe?.compassPoint(BootstrapFailedRouteData(step: BootstrapSteps.storage));
-    return;
+
     if (!isExistInternet) {
       contextSafe?.compassPoint(const NoInternetRouteData());
       return;
