@@ -13,7 +13,7 @@ ModalRoute<void> getRenameAccountSheet(BuildContext context, Address address) {
   return commonBottomSheetRoute(
     titleTextStyle: context.themeStyleV2.textStyles.headingLarge,
     title: LocaleKeys.enterNewName.tr(),
-    viewInsetsBottomAddon: -DimensSize.d24,
+    viewInsetsBottomAddon: -DimensSize.d20,
     body: (_, __) => AccountRenameSheet(address: address),
   );
 }

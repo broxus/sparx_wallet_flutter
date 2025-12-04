@@ -4,6 +4,7 @@
 import 'package:app/core/wm/custom_wm.dart';
 import 'package:app/feature/add_seed/add_seed.dart';
 import 'package:app/generated/generated.dart';
+import 'package:app/widgets/bottom_space.dart';
 import 'package:elementary_helper/elementary_helper.dart';
 import 'package:flutter/material.dart';
 import 'package:lucide_icons_flutter/lucide_icons.dart';
@@ -146,7 +147,7 @@ class ImportWalletScreen
                         onPressed: isPasted ? wm.onPressedImport : null,
                         icon: LucideIcons.textCursorInput,
                       ),
-                      const SizedBox(height: DimensSize.d24),
+                      const BottomSpace(),
                     ],
                   ),
                 ),
