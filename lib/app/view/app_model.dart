@@ -12,10 +12,13 @@ import 'package:app/app/service/navigation_service.dart';
 import 'package:app/app/service/pending_deep_link_service.dart';
 import 'package:app/app/view/app.dart';
 import 'package:app/feature/browser/domain/browser_launcher.dart';
+import 'package:app/feature/browser/screens/main/route.dart';
 import 'package:app/feature/localization/localization.dart';
 import 'package:app/feature/messenger/data/message.dart';
 import 'package:app/feature/messenger/domain/service/messenger_service.dart';
+import 'package:app/feature/nft/route.dart';
 import 'package:app/feature/profile/route.dart';
+import 'package:app/feature/wallet/route.dart';
 import 'package:app/generated/generated.dart';
 import 'package:elementary/elementary.dart';
 import 'package:flutter/widgets.dart';
@@ -140,14 +143,21 @@ class AppModel extends ElementaryModel with WidgetsBindingObserver {
         (step) => _bootstrapService.isConfigured,
       );
 
-      // Wait for router to complete initial navigation
-      // This ensures RootView and bottom navigation bar are fully mounted
-      // before attempting to navigate to browser
-      await router.currentRoutesStream.first;
-
       final hasSeeds = _nekotonRepository.hasSeeds.valueOrNull ?? false;
 
       if (hasSeeds) {
+        // Wait for router to complete initial navigation
+        // This ensures RootView and bottom navigation bar are fully mounted
+        // before attempting to navigate to browser
+        await router.currentRoutesStream.firstWhere((routes) {
+          final route = routes.firstOrNull;
+          return route != null &&
+              (route is WalletRoute ||
+                  route is ProfileRoute ||
+                  route is BrowserRoute ||
+                  route is NftRoute);
+        });
+
         // User already onboarded - open browser immediately
         _browserLauncher.openBrowserByUri(event.url);
       } else {
