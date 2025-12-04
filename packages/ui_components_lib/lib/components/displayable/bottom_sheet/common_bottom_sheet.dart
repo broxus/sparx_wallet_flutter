@@ -24,7 +24,7 @@ Future<T?> showCommonBottomSheet<T>({
   String? title,
   String? subtitle,
   EdgeInsets padding = const EdgeInsets.only(
-    bottom: DimensSizeV2.d24,
+    bottom: DimensSizeV2.d20,
     left: DimensSizeV2.d16,
     right: DimensSizeV2.d16,
   ),
@@ -88,7 +88,7 @@ ModalSheetRoute<T> commonBottomSheetRoute<T>({
   String? title,
   String? subtitle,
   EdgeInsets padding = const EdgeInsets.only(
-    bottom: DimensSizeV2.d24,
+    bottom: DimensSizeV2.d20,
     left: DimensSizeV2.d16,
     right: DimensSizeV2.d16,
   ),
@@ -209,7 +209,7 @@ class CommonBottomSheetWidget extends StatelessWidget {
           : theme.colors.background1,
       child: SafeArea(
         minimum: avoidBottomInsets
-            ? const EdgeInsets.only(bottom: DimensSizeV2.d24)
+            ? const EdgeInsets.only(bottom: DimensSizeV2.d20)
             : EdgeInsets.zero,
         child: Padding(
           padding: avoidBottomInsets

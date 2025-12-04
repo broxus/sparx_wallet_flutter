@@ -1,6 +1,7 @@
 import 'package:app/core/wm/custom_wm.dart';
 import 'package:app/feature/wallet/new_account/select_seed/select_seed_wm.dart';
 import 'package:app/generated/generated.dart';
+import 'package:app/widgets/bottom_space.dart';
 import 'package:elementary_helper/elementary_helper.dart';
 import 'package:flutter/material.dart';
 import 'package:lucide_icons_flutter/lucide_icons.dart';
@@ -46,7 +47,7 @@ class SelectSeedWidget extends InjectedElementaryWidget<SelectSeedWidgetModel> {
                 title: LocaleKeys.selectWord.tr(),
                 onPressed: wm.onSelect,
               ),
-              const SizedBox(height: DimensSizeV2.d24),
+              const BottomSpace(),
             ],
           );
         } else {

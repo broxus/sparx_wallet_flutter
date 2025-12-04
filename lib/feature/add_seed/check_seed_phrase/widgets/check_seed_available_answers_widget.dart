@@ -33,21 +33,17 @@ class CheckSeedAvailableAnswersWidget extends StatelessWidget {
       opacity: isEnabledWidget ? OpacV2.opac100 : OpacV2.opac50,
       child: IgnorePointer(
         ignoring: !isEnabledWidget,
-        child: SafeArea(
-          minimum: const EdgeInsets.only(bottom: DimensSize.d12),
-          child: SeparatedColumn(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              for (var index = 0; index < defaultWordsToCheckAmount; index++)
-                _answersRow(
-                  availableAnswers.sublist(
-                    index * defaultWordsToCheckAmount,
-                    index * defaultWordsToCheckAmount +
-                        defaultWordsToCheckAmount,
-                  ),
+        child: SeparatedColumn(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            for (var index = 0; index < defaultWordsToCheckAmount; index++)
+              _answersRow(
+                availableAnswers.sublist(
+                  index * defaultWordsToCheckAmount,
+                  index * defaultWordsToCheckAmount + defaultWordsToCheckAmount,
                 ),
-            ],
-          ),
+              ),
+          ],
         ),
       ),
     );

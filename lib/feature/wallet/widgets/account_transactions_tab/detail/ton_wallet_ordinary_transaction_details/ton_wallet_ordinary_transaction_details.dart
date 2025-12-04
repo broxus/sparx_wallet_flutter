@@ -3,6 +3,7 @@ import 'package:app/feature/wallet/widgets/account_transactions_tab/detail/detai
 import 'package:app/feature/wallet/widgets/account_transactions_tab/detail/ton_wallet_ordinary_transaction_details/ton_wallet_ordinary_transaction_details_wm.dart';
 import 'package:app/feature/wallet/widgets/account_transactions_tab/widgets/ton_wallet_transaction_status_body.dart';
 import 'package:app/generated/generated.dart';
+import 'package:app/widgets/bottom_space.dart';
 import 'package:elementary_helper/elementary_helper.dart';
 import 'package:flutter/material.dart';
 import 'package:lucide_icons_flutter/lucide_icons.dart';
@@ -105,7 +106,7 @@ class TonWalletOrdinaryTransactionDetails
                 buttonShape: ButtonShape.pill,
               ),
             ),
-            const SizedBox(height: DimensSizeV2.d24),
+            const BottomSpace(),
             SizedBox(height: wm.bottomPadding),
           ],
         ),

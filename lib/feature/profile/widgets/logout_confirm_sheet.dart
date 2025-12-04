@@ -1,4 +1,5 @@
 import 'package:app/generated/locale_keys.g.dart';
+import 'package:app/widgets/bottom_space.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:ui_components_lib/ui_components_lib.dart';
@@ -50,7 +51,7 @@ class LogOutConfirmSheet extends StatelessWidget {
           title: LocaleKeys.cancelWord.tr(),
           onPressed: () => Navigator.of(context).pop(false),
         ),
-        const SizedBox(height: DimensSizeV2.d24),
+        const BottomSpace(),
       ],
     );
   }

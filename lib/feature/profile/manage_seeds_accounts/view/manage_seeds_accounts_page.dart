@@ -26,7 +26,7 @@ class ManageSeedsAccountsPage
       body: Padding(
         padding: const EdgeInsets.only(
           top: DimensSizeV2.d12,
-          bottom: DimensSizeV2.d24,
+          bottom: DimensSizeV2.d20,
           left: DimensSizeV2.d16,
           right: DimensSizeV2.d16,
         ),
