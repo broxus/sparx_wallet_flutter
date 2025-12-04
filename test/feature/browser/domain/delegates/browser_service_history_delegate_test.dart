@@ -33,7 +33,7 @@ void main() {
 
   group('watchHistory', () {
     test('Watch history without searchText', () {
-      final stream = Stream<List<BrowserHistoryItem>>.empty();
+      const stream = Stream<List<BrowserHistoryItem>>.empty();
 
       when(() => historyDelegate.watchHistory()).thenAnswer((_) => stream);
 
@@ -44,7 +44,7 @@ void main() {
     });
 
     test('Watch history with searchText', () {
-      final stream = Stream<List<BrowserHistoryItem>>.empty();
+      const stream = Stream<List<BrowserHistoryItem>>.empty();
 
       when(
         () => historyDelegate.watchHistory('test'),
@@ -57,7 +57,7 @@ void main() {
     });
 
     test('watchHistoryCount', () {
-      final stream = Stream<int>.empty();
+      const stream = Stream<int>.empty();
 
       when(() => historyDelegate.watchHistoryCount()).thenAnswer((_) => stream);
 
@@ -75,7 +75,7 @@ void main() {
         id: id,
         title: 'Title',
         url: Uri.parse('https://example.com'),
-        visitTime: DateTime(2024, 1, 1),
+        visitTime: DateTime(2024),
       );
 
       when(
@@ -94,16 +94,16 @@ void main() {
           id: '1',
           title: 'One',
           url: Uri.parse('https://one.com'),
-          visitTime: DateTime(2024, 1, 1),
+          visitTime: DateTime(2024),
         ),
       ];
 
-      when(() => historyDelegate.getItems(null)).thenAnswer((_) async => items);
+      when(() => historyDelegate.getItems()).thenAnswer((_) async => items);
 
       final result = await service.getItems();
 
       expect(result, same(items));
-      verify(() => historyDelegate.getItems(null)).called(1);
+      verify(() => historyDelegate.getItems()).called(1);
     });
 
     test('Get items with searchText', () async {

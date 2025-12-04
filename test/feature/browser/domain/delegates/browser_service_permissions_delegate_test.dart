@@ -121,10 +121,9 @@ void main() {
       when(() => storage.clearPermissions()).thenAnswer((_) async {});
       when(() => dbPerms.clearAllPermissions()).thenAnswer((_) async => 1);
 
-      // предварительно положим что-то в стрим
       when(
         () => storage.getPermissions(),
-      ).thenReturn({'https://example.com': Permissions()});
+      ).thenReturn({'https://example.com': const Permissions()});
       delegate.init();
       expect(delegate.permissionsStream.value, isNotEmpty);
 

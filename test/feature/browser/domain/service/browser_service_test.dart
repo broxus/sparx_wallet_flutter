@@ -207,7 +207,7 @@ void main() {
     test('requestUrlSafe', () async {
       when(() => tabsDelegate.activeTabId).thenReturn('tab-1');
 
-      final urlString = 'https://example.com';
+      const urlString = 'https://example.com';
       final uri = Uri.parse(urlString);
 
       when(

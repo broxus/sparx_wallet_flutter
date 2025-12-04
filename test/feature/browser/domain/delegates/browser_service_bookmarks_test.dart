@@ -35,7 +35,7 @@ void main() {
 
   setUpAll(() {
     registerFallbackValue(<BrowserBookmarkItem>[]);
-    registerFallbackValue(Message.info(message: 'fallback', actionText: null));
+    registerFallbackValue(Message.info(message: 'fallback'));
     EasyLocalization.logger.enableBuildModes = [];
     EasyLocalization.logger.enableLevels = [];
   });

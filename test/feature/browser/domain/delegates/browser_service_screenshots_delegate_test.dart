@@ -23,6 +23,7 @@ void main() {
   });
 
   tearDown(() async {
+    // ignore: avoid_slow_async_io
     if (await tempDir.exists()) {
       await tempDir.delete(recursive: true);
     }
