@@ -63,6 +63,8 @@ class CancelUnstakingPageWidgetModel
 
   String get nativeTokenIcon => model.transport.nativeTokenIcon;
 
+  DateTime get now => model.now;
+
   @override
   void initWidgetModel() {
     super.initWidgetModel();

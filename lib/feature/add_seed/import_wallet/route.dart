@@ -2,6 +2,7 @@ import 'package:app/app/router/compass/compass.dart';
 import 'package:app/feature/add_seed/create_password/route.dart';
 import 'package:app/feature/add_seed/enter_seed_phrase/route.dart';
 import 'package:app/feature/add_seed/import_wallet/import_wallet_screen.dart';
+import 'package:app/widgets/widgets.dart';
 import 'package:injectable/injectable.dart';
 
 @named
@@ -15,8 +16,9 @@ class ImportWalletRoute
   ) : super(
         path: '/import-wallet',
         isSaveLocation: true,
-        builder: (context, _, __) => const ImportWalletScreen(),
         compassBaseRoutes: [enterSeedPhraseRoute, createSeedPasswordRoute],
+        builder: (context, _, __) =>
+            const ProtectedContent(child: ImportWalletScreen()),
       );
 
   @override

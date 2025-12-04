@@ -1,12 +1,7 @@
 import 'dart:async';
 import 'dart:typed_data';
 
-import 'package:app/app/service/app_permissions_service.dart';
-import 'package:app/app/service/approvals_service.dart';
-import 'package:app/app/service/assets_service.dart';
-import 'package:app/app/service/connection/connection_service.dart';
-import 'package:app/app/service/permissions_service.dart';
-import 'package:app/app/service/storage_service/connections_storage_service.dart';
+import 'package:app/app/service/service.dart';
 import 'package:app/core/app_build_type.dart';
 import 'package:app/feature/browser/custom_web_controller.dart';
 import 'package:app/feature/browser/data/browser_basic_auth_creds.dart';
@@ -41,6 +36,7 @@ class BrowserPageModel extends ElementaryModel {
     this._tonConnectJsBridge,
     this._ledgerService,
     this._appPermissionsService,
+    this._ntpService,
   ) : super(errorHandler: errorHandler);
 
   final isShowBrowserLog = currentAppBuildType == AppBuildType.development;
@@ -56,6 +52,7 @@ class BrowserPageModel extends ElementaryModel {
   final TonConnectJsBridge _tonConnectJsBridge;
   final LedgerService _ledgerService;
   final AppPermissionsService _appPermissionsService;
+  final NtpService _ntpService;
 
   InpageProvider? _inpageProvider;
 
@@ -94,6 +91,7 @@ class BrowserPageModel extends ElementaryModel {
       connectionsStorageService: _connectionsStorageService,
       connectionService: _connectionService,
       ledgerService: _ledgerService,
+      ntpService: _ntpService,
     );
     _inpageProvider = inpageProvider;
     inpageProvider.controller = controller;
