@@ -1,7 +1,6 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:ui_components_lib/ui_components_lib.dart';
-import 'package:ui_components_lib/v2/ui_components_lib_v2.dart';
 
 const suggestionsList = ['aaaa', 'bbbb', 'cccc', 'dddd', 'eeee', 'ffff'];
 
@@ -168,56 +167,7 @@ class _InputsStoryState extends State<InputsStory> {
 
               /// Switchers
               const SizedBox(height: DimensSize.d20),
-              ValueListenableBuilder<bool>(
-                valueListenable: switcher1Notifier,
-                builder: (_, value, __) {
-                  return CommonSwitchInput(
-                    value: value,
-                    onChanged: (v) => switcher1Notifier.value = v,
-                  );
-                },
-              ),
-              const SizedBox(height: DimensSize.d20),
 
-              ValueListenableBuilder<bool>(
-                valueListenable: switcher2Notifier,
-                builder: (context, value, __) {
-                  final textColor = context.themeStyle.colors.textPrimary;
-
-                  return Form(
-                    key: validationFormKey4,
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          'Switcher with validation',
-                          style: TextStyle(color: textColor),
-                        ),
-                        const SizedBox(height: 5),
-                        CommonSwitchInput(
-                          value: value,
-                          validateMode: AutovalidateMode.onUserInteraction,
-                          validator: (v) => v ?? false ? null : '',
-                          onChanged: (v) => switcher2Notifier.value = v,
-                        ),
-                      ],
-                    ),
-                  );
-                },
-              ),
-              const SizedBox(height: DimensSize.d20),
-
-              ValueListenableBuilder<bool>(
-                valueListenable: switcher3Notifier,
-                builder: (_, value, __) {
-                  return CommonSwitchInput(
-                    value: value,
-                    thumbChild: const Icon(Icons.check, color: Colors.grey),
-                    onChanged: (v) => switcher3Notifier.value = v,
-                  );
-                },
-              ),
-              const SizedBox(height: DimensSize.d20),
               SeparatedRow(
                 children: [
                   ValueListenableBuilder<bool>(
@@ -280,32 +230,6 @@ class _InputsStoryState extends State<InputsStory> {
                     );
                   },
                 ),
-              ),
-
-              const BrowserSearchBarInput(
-                hintText: 'Search or enter URL',
-                cancelText: 'Cancel',
-              ),
-              BrowserSearchBarInput(
-                uri: Uri.parse('http://insecure.net/some/path'),
-                hintText: 'Search or enter URL',
-                cancelText: 'Cancel',
-              ),
-
-              BrowserSearchBarInput(
-                uri: Uri.parse('https://pub.dev/packages/money2_improver'),
-                hintText: 'Search or enter URL',
-                cancelText: 'Cancel',
-                onShared: (value) => {
-                  showSnackbar(
-                    context: context,
-                    toast: Toast(
-                      type: ToastType.normal,
-                      description: 'Share $value',
-                    ),
-                    duration: const Duration(seconds: 3),
-                  ),
-                },
               ),
               const SizedBox(height: DimensSize.d24),
               ValueListenableBuilder<String>(

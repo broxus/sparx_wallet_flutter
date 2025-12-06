@@ -12,18 +12,6 @@ class CommonStory extends StatefulWidget {
 }
 
 class _CommonStoryState extends State<CommonStory> {
-  late final tabSwitcherNotifier1 = ValueNotifier<int>(
-    tabSwitcherValues.first.value,
-  );
-  late final tabSwitcherNotifier2 = ValueNotifier<int>(
-    tabSwitcherValues.first.value,
-  );
-  final tabSwitcherValues = [
-    CommonTabSwitcherItem(title: 'One', value: 1),
-    CommonTabSwitcherItem(title: 'Two', value: 2),
-    CommonTabSwitcherItem(title: 'Three', value: 3),
-  ];
-
   final currencyDecimal = 2;
   late final money = Money.fromBigIntWithCurrency(
     BigInt.parse('4004299'),
@@ -217,42 +205,7 @@ class _CommonStoryState extends State<CommonStory> {
               ),
             ),
             const SizedBox(height: DimensSize.d20),
-            Container(
-              color: colors.backgroundPrimary,
-              height: DimensSize.d64,
-              alignment: Alignment.center,
-              child: ValueListenableBuilder<int>(
-                valueListenable: tabSwitcherNotifier1,
-                builder: (_, value, __) {
-                  return IntrinsicHeight(
-                    child: CommonTabSwitcher(
-                      onTabChanged: (v) => tabSwitcherNotifier1.value = v,
-                      values: tabSwitcherValues,
-                      currentValue: value,
-                    ),
-                  );
-                },
-              ),
-            ),
-            Container(
-              color: colors.backgroundPrimary,
-              height: DimensSize.d64,
-              alignment: Alignment.center,
-              child: ValueListenableBuilder<int>(
-                valueListenable: tabSwitcherNotifier2,
-                builder: (_, value, __) {
-                  return IntrinsicHeight(
-                    child: CommonTabSwitcher(
-                      fillWidth: false,
-                      onTabChanged: (v) => tabSwitcherNotifier2.value = v,
-                      values: tabSwitcherValues,
-                      currentValue: value,
-                    ),
-                  );
-                },
-              ),
-            ),
-            const SizedBox(height: DimensSize.d16),
+
             MoneyWidget(money: money, style: MoneyWidgetStyle.big),
             const SizedBox(height: DimensSize.d8),
             MoneyWidget(money: money, style: MoneyWidgetStyle.primary),
