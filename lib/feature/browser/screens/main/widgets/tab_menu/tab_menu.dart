@@ -5,7 +5,7 @@ import 'package:app/feature/browser/screens/main/widgets/tab_menu/data.dart';
 import 'package:app/widgets/bottom_navigation_bar/custom_bottom_navigation_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:render_metrics/render_metrics.dart';
-import 'package:ui_components_lib/v2/ui_components_lib_v2.dart';
+import 'package:ui_components_lib/ui_components_lib.dart';
 
 Future<BrowserTabMenuItemData?> showBrowserTabMenu(
   BuildContext context,
@@ -61,8 +61,8 @@ class _BrowserTabMenuState extends State<BrowserTabMenu> {
 
   late final _lastIndex = _items.last.index;
 
-  final _width = DimensSizeV2.d207;
-  final _itemHeight = DimensSizeV2.d44;
+  final _width = DimensSize.d207;
+  final _itemHeight = DimensSize.d44;
 
   late final _menuHeight = _items.length * _itemHeight;
   final _margin = 8;
@@ -108,7 +108,7 @@ class _BrowserTabMenuState extends State<BrowserTabMenu> {
               child: DecoratedBox(
                 decoration: BoxDecoration(
                   color: theme.colors.background2,
-                  borderRadius: BorderRadius.circular(DimensRadiusV2.radius16),
+                  borderRadius: BorderRadius.circular(DimensRadius.radius16),
                 ),
                 child: Column(
                   mainAxisSize: MainAxisSize.min,
@@ -175,7 +175,7 @@ class _Item extends StatelessWidget {
       behavior: HitTestBehavior.opaque,
       onTap: onTap,
       child: SizedBox(
-        height: DimensSizeV2.d44,
+        height: DimensSize.d44,
         child: DecoratedBox(
           decoration: BoxDecoration(
             border: isShowBorder
@@ -187,7 +187,7 @@ class _Item extends StatelessWidget {
                 : null,
           ),
           child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: DimensSizeV2.d16),
+            padding: const EdgeInsets.symmetric(horizontal: DimensSize.d16),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
@@ -199,7 +199,7 @@ class _Item extends StatelessWidget {
                 ),
                 Icon(
                   icon,
-                  size: DimensSizeV2.d16,
+                  size: DimensSize.d16,
                   color: theme.colors.content2,
                 ),
               ],

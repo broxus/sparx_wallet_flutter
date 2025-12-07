@@ -10,7 +10,7 @@ import 'package:elementary_helper/elementary_helper.dart';
 import 'package:flutter/material.dart';
 import 'package:nekoton_repository/nekoton_repository.dart';
 import 'package:ui_components_lib/components/common/common.dart';
-import 'package:ui_components_lib/v2/ui_components_lib_v2.dart';
+import 'package:ui_components_lib/ui_components_lib.dart';
 
 class WalletDeployConfirmScreen
     extends
@@ -37,7 +37,7 @@ class WalletDeployConfirmScreen
         builder: (context, isLoading, _) {
           if (isLoading) {
             return const Center(
-              child: ProgressIndicatorWidget(size: DimensSizeV2.d16),
+              child: ProgressIndicatorWidget(size: DimensSize.d16),
             );
           }
 
@@ -129,16 +129,16 @@ class _ErrorState extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.all(DimensSizeV2.d24),
+      padding: const EdgeInsets.all(DimensSize.d24),
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           Icon(
             Icons.error_outline,
-            size: DimensSizeV2.d64,
+            size: DimensSize.d64,
             color: colors.warning,
           ),
-          const SizedBox(height: DimensSizeV2.d16),
+          const SizedBox(height: DimensSize.d16),
           Text(
             hasSufficientBalance
                 ? LocaleKeys.errorOccurred.tr()
@@ -146,13 +146,13 @@ class _ErrorState extends StatelessWidget {
             style: textStyles.headingMedium.copyWith(color: colors.content0),
             textAlign: TextAlign.center,
           ),
-          const SizedBox(height: DimensSizeV2.d8),
+          const SizedBox(height: DimensSize.d8),
           Text(
             errorMessage,
             style: textStyles.paragraphMedium.copyWith(color: colors.content1),
             textAlign: TextAlign.center,
           ),
-          const SizedBox(height: DimensSizeV2.d24),
+          const SizedBox(height: DimensSize.d24),
           if (!hasSufficientBalance)
             BarcodeAddress(address: address)
           else

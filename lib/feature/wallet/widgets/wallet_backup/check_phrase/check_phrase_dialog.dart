@@ -5,7 +5,7 @@ import 'package:app/feature/wallet/widgets/wallet_backup/wallet_backup.dart';
 import 'package:app/generated/generated.dart';
 import 'package:elementary_helper/elementary_helper.dart';
 import 'package:flutter/cupertino.dart';
-import 'package:ui_components_lib/v2/ui_components_lib_v2.dart';
+import 'package:ui_components_lib/ui_components_lib.dart';
 import 'package:ui_components_lib/v2/widgets/modals/primary_bottom_sheet.dart';
 
 Future<void> showCheckPhraseDialog(
@@ -59,7 +59,7 @@ class ContentCheckPhrase
                 currentIndex: data?.currentCheckIndex ?? 0,
                 clearAnswer: wm.clearAnswer,
               ),
-              const SizedBox(height: DimensSizeV2.d48),
+              const SizedBox(height: DimensSize.d48),
               CheckSeedAvailableAnswersWidget(
                 isEnabledWidget: !(data?.isAllChosen ?? true),
                 availableAnswers: data?.availableAnswers ?? [],
@@ -67,13 +67,13 @@ class ContentCheckPhrase
                     data?.userAnswers?.map((e) => e.word).toList() ?? [],
                 selectAnswer: wm.answerQuestion,
               ),
-              const SizedBox(height: DimensSizeV2.d24),
+              const SizedBox(height: DimensSize.d24),
               AccentButton(
                 buttonShape: ButtonShape.pill,
                 title: LocaleKeys.check.tr(),
                 onPressed: data?.isAllChosen ?? false ? wm.checkPhrase : null,
               ),
-              const SizedBox(height: DimensSizeV2.d8),
+              const SizedBox(height: DimensSize.d8),
               LayoutBuilder(
                 builder: (context, _) {
                   return PrimaryButton(

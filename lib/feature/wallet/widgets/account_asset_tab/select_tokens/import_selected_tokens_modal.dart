@@ -1,7 +1,6 @@
 import 'package:app/generated/generated.dart';
 import 'package:flutter/material.dart';
 import 'package:ui_components_lib/ui_components_lib.dart';
-import 'package:ui_components_lib/v2/widgets/widgets.dart';
 
 Future<void> showImportSelectedTokensModal(
   BuildContext context,
@@ -33,7 +32,7 @@ class _ImportSelectedTokensWidget extends StatelessWidget {
           style: theme.textStyles.paragraphSmall,
           textAlign: TextAlign.center,
         ),
-        const SizedBox(height: DimensSizeV2.d24),
+        const SizedBox(height: DimensSize.d24),
         AccentButton(
           buttonShape: ButtonShape.pill,
           title: LocaleKeys.confirm.tr(),
@@ -42,13 +41,13 @@ class _ImportSelectedTokensWidget extends StatelessWidget {
             Navigator.of(context).pop();
           },
         ),
-        const SizedBox(height: DimensSizeV2.d8),
+        const SizedBox(height: DimensSize.d8),
         PrimaryButton(
           buttonShape: ButtonShape.pill,
           title: LocaleKeys.cancelWord.tr(),
           onPressed: () => Navigator.of(context).pop(),
         ),
-        const SizedBox(height: DimensSizeV2.d12),
+        const SizedBox(height: DimensSize.d12),
       ],
     );
   }

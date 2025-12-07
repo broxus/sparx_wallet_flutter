@@ -24,8 +24,8 @@ class BookHeader extends StatelessWidget {
           decoration: BoxDecoration(
             color: context.themeStyleV2.colors.background1,
             borderRadius: const BorderRadius.only(
-              topLeft: Radius.circular(DimensRadiusV2.radius16),
-              topRight: Radius.circular(DimensRadiusV2.radius16),
+              topLeft: Radius.circular(DimensRadius.radius16),
+              topRight: Radius.circular(DimensRadius.radius16),
             ),
           ),
           child: Column(

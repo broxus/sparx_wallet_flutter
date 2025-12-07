@@ -6,8 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:lucide_icons_flutter/lucide_icons.dart';
 import 'package:nekoton_repository/nekoton_repository.dart' hide Message;
 import 'package:ui_components_lib/components/common/container/shaped_container_column.dart';
-import 'package:ui_components_lib/dimens.dart';
-import 'package:ui_components_lib/v2/ui_components_lib_v2.dart';
+import 'package:ui_components_lib/ui_components_lib.dart';
 
 class BarcodeAddress
     extends
@@ -25,11 +24,11 @@ class BarcodeAddress
       crossAxisAlignment: CrossAxisAlignment.center,
       spacing: 0,
       margin: EdgeInsets.zero,
-      padding: const EdgeInsets.symmetric(horizontal: DimensSizeV2.d32),
+      padding: const EdgeInsets.symmetric(horizontal: DimensSize.d32),
       color: wm.colors.background2,
       children: [
         BarcodeWidget(
-          margin: const EdgeInsets.symmetric(vertical: DimensSizeV2.d32),
+          margin: const EdgeInsets.symmetric(vertical: DimensSize.d32),
           width: DimensSize.d148,
           height: DimensSize.d148,
           data: wm.address,
@@ -40,7 +39,7 @@ class BarcodeAddress
           LocaleKeys.addressWord.tr(),
           style: wm.textStyles.labelXSmall.copyWith(color: wm.colors.content3),
         ),
-        const SizedBox(height: DimensSizeV2.d4),
+        const SizedBox(height: DimensSize.d4),
         Text(
           wm.address,
           style: wm.textStyles.labelXSmall.copyWith(color: wm.colors.content0),
@@ -54,11 +53,11 @@ class BarcodeAddress
           postfixIcon: LucideIcons.copy,
           isFullWidth: false,
           padding: const EdgeInsets.symmetric(
-            vertical: DimensSizeV2.d12,
-            horizontal: DimensSizeV2.d24,
+            vertical: DimensSize.d12,
+            horizontal: DimensSize.d24,
           ),
         ),
-        const SizedBox(height: DimensSizeV2.d32),
+        const SizedBox(height: DimensSize.d32),
       ],
     );
   }

@@ -9,7 +9,6 @@ import 'package:elementary_helper/elementary_helper.dart';
 import 'package:flutter/material.dart';
 import 'package:nekoton_repository/nekoton_repository.dart';
 import 'package:ui_components_lib/ui_components_lib.dart';
-import 'package:ui_components_lib/v2/ui_components_lib_v2.dart';
 
 /// Widget that allows choose account that should be used for browser tab with
 /// specified origin URL.
@@ -63,11 +62,11 @@ class _SelectAccountWidget extends StatelessWidget {
     final theme = context.themeStyleV2;
 
     return SeparatedColumn(
-      spacing: DimensSizeV2.d12,
+      spacing: DimensSize.d12,
       children: [
         Expanded(
           child: SeparatedColumn(
-            spacing: DimensSizeV2.d12,
+            spacing: DimensSize.d12,
             children: [
               ValueListenableBuilder(
                 valueListenable: wm.originState,
@@ -88,7 +87,7 @@ class _SelectAccountWidget extends StatelessWidget {
                   decoration: BoxDecoration(
                     border: Border.all(color: theme.colors.border1),
                     borderRadius: BorderRadius.circular(
-                      DimensRadiusV2.radius12,
+                      DimensRadius.radius12,
                     ),
                     color: theme.colors.background1,
                   ),
@@ -148,7 +147,7 @@ class _SelectAccountWidget extends StatelessWidget {
 
       if (index != -1) {
         scrollController.animateTo(
-          index * DimensSizeV2.d72,
+          index * DimensSize.d72,
           duration: const Duration(milliseconds: 300),
           curve: Curves.easeInOut,
         );
@@ -169,13 +168,13 @@ class _ConfirmPermissionsWidget extends StatelessWidget {
     final account = wm.selectedState.value!;
 
     return SeparatedColumn(
-      spacing: DimensSizeV2.d12,
+      spacing: DimensSize.d12,
       children: [
         Expanded(
           child: SingleChildScrollView(
             controller: scrollController,
             child: SeparatedColumn(
-              spacing: DimensSizeV2.d12,
+              spacing: DimensSize.d12,
               children: [
                 AccountInfo(account: account, color: theme.colors.background2),
                 ValueListenableBuilder(
@@ -186,8 +185,8 @@ class _ConfirmPermissionsWidget extends StatelessWidget {
                 ),
                 PrimaryCard(
                   color: theme.colors.background2,
-                  borderRadius: BorderRadius.circular(DimensRadiusV2.radius12),
-                  padding: const EdgeInsets.all(DimensSizeV2.d16),
+                  borderRadius: BorderRadius.circular(DimensRadius.radius12),
+                  padding: const EdgeInsets.all(DimensSize.d16),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
@@ -197,7 +196,7 @@ class _ConfirmPermissionsWidget extends StatelessWidget {
                           color: theme.colors.content3,
                         ),
                       ),
-                      const SizedBox(height: DimensSizeV2.d16),
+                      const SizedBox(height: DimensSize.d16),
                       ValueListenableBuilder(
                         valueListenable: wm.permissionsState,
                         builder: (_, value, __) {
@@ -207,7 +206,7 @@ class _ConfirmPermissionsWidget extends StatelessWidget {
                           );
 
                           return SeparatedColumn(
-                            spacing: DimensSizeV2.d12,
+                            spacing: DimensSize.d12,
                             children: [
                               Row(
                                 children: [

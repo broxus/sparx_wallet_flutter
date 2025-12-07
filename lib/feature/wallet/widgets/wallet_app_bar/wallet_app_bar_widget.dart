@@ -15,14 +15,14 @@ class WalletAppBarWidget
   const WalletAppBarWidget({super.key});
 
   @override
-  Size get preferredSize => const Size.fromHeight(DimensSizeV2.d68);
+  Size get preferredSize => const Size.fromHeight(DimensSize.d68);
 
   @override
   Widget build(WalletAppBarWidgetModel wm) {
     return Padding(
       padding: const EdgeInsets.symmetric(
-        vertical: DimensSizeV2.d12,
-        horizontal: DimensSizeV2.d16,
+        vertical: DimensSize.d12,
+        horizontal: DimensSize.d16,
       ),
       child: SeparatedRow(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -46,7 +46,7 @@ class WalletAppBarWidget
             ),
           ),
           Row(
-            spacing: DimensSizeV2.d12,
+            spacing: DimensSize.d12,
             children: [
               _QrButton(onTap: wm.onScanQr),
               StateNotifierBuilder(
@@ -80,12 +80,12 @@ class _QrButton extends StatelessWidget {
     return GestureDetector(
       onTap: onTap,
       child: Container(
-        padding: const EdgeInsets.all(DimensSizeV2.d8),
+        padding: const EdgeInsets.all(DimensSize.d8),
         decoration: BoxDecoration(
           color: theme.colors.backgroundAlpha,
-          borderRadius: BorderRadius.circular(DimensRadiusV2.theBiggest),
+          borderRadius: BorderRadius.circular(DimensRadius.theBiggest),
         ),
-        child: const Icon(LucideIcons.scan, size: DimensSizeV2.d20),
+        child: const Icon(LucideIcons.scan, size: DimensSize.d20),
       ),
     );
   }
@@ -121,7 +121,7 @@ class _AccountInfo extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 SeparatedRow(
-                  spacing: DimensSizeV2.d2,
+                  spacing: DimensSize.d2,
                   children: [
                     Text(
                       account.name,
@@ -139,10 +139,10 @@ class _AccountInfo extends StatelessWidget {
                       custodians > 1
                           ? LucideIcons.usersRound
                           : LucideIcons.userRound,
-                      size: DimensSizeV2.d16,
+                      size: DimensSize.d16,
                       color: theme.colors.content3,
                     ),
-                    const SizedBox(width: DimensSizeV2.d4),
+                    const SizedBox(width: DimensSize.d4),
                     Flexible(
                       child: Text(
                         walletTypeName,
@@ -154,14 +154,14 @@ class _AccountInfo extends StatelessWidget {
                         maxLines: 1,
                       ),
                     ),
-                    const SizedBox(width: DimensSizeV2.d8),
+                    const SizedBox(width: DimensSize.d8),
                     if (requiredConfirmations != null && custodians > 1)
                       SeparatedRow(
-                        spacing: DimensSizeV2.d4,
+                        spacing: DimensSize.d4,
                         children: [
                           Icon(
                             LucideIcons.usersRound,
-                            size: DimensSizeV2.d16,
+                            size: DimensSize.d16,
                             color: theme.colors.content3,
                           ),
                           Text(

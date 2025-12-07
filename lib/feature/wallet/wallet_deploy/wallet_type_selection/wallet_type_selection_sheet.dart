@@ -57,7 +57,7 @@ class WalletTypeSelectionSheet extends StatelessWidget {
           },
           theme: theme,
         ),
-        const SizedBox(height: DimensSizeV2.d12),
+        const SizedBox(height: DimensSize.d12),
         _WalletTypeOption(
           title: LocaleKeys.multisigWallet.tr(),
           description: LocaleKeys.multisigWalletDescription.tr(),
@@ -98,32 +98,32 @@ class _WalletTypeOption extends StatelessWidget {
   Widget build(BuildContext context) {
     return Material(
       color: theme.colors.background2,
-      borderRadius: BorderRadius.circular(DimensRadiusV2.radius16),
+      borderRadius: BorderRadius.circular(DimensRadius.radius16),
       child: InkWell(
         onTap: onTap,
-        borderRadius: BorderRadius.circular(DimensRadiusV2.radius16),
+        borderRadius: BorderRadius.circular(DimensRadius.radius16),
         child: Container(
-          padding: const EdgeInsets.all(DimensSizeV2.d20),
+          padding: const EdgeInsets.all(DimensSize.d20),
           decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(DimensRadiusV2.radius16),
+            borderRadius: BorderRadius.circular(DimensRadius.radius16),
           ),
           child: Row(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Container(
-                width: DimensSizeV2.d40,
-                height: DimensSizeV2.d40,
+                width: DimensSize.d40,
+                height: DimensSize.d40,
                 decoration: BoxDecoration(
                   color: theme.colors.background1,
-                  borderRadius: BorderRadius.circular(DimensRadiusV2.radius12),
+                  borderRadius: BorderRadius.circular(DimensRadius.radius12),
                 ),
                 child: Icon(
                   icon,
                   color: theme.colors.content0,
-                  size: DimensSizeV2.d20,
+                  size: DimensSize.d20,
                 ),
               ),
-              const SizedBox(width: DimensSizeV2.d16),
+              const SizedBox(width: DimensSize.d16),
               Expanded(
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -134,7 +134,7 @@ class _WalletTypeOption extends StatelessWidget {
                         color: theme.colors.content0,
                       ),
                     ),
-                    const SizedBox(height: DimensSizeV2.d8),
+                    const SizedBox(height: DimensSize.d8),
                     Text(
                       description,
                       style: theme.textStyles.paragraphSmall.copyWith(

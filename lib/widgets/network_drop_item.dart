@@ -15,20 +15,20 @@ class NetworkDropItem extends StatelessWidget {
 
     return Container(
       padding: const EdgeInsets.only(
-        left: DimensSizeV2.d4,
-        top: DimensSizeV2.d4,
-        bottom: DimensSizeV2.d4,
-        right: DimensSizeV2.d8,
+        left: DimensSize.d4,
+        top: DimensSize.d4,
+        bottom: DimensSize.d4,
+        right: DimensSize.d8,
       ),
       decoration: BoxDecoration(
         color: theme.colors.backgroundAlpha,
-        borderRadius: BorderRadius.circular(DimensRadiusV2.theBiggest),
+        borderRadius: BorderRadius.circular(DimensRadius.theBiggest),
       ),
       child: Row(
         children: [
-          NetworkIcon(group: data.group, itemSize: DimensSizeV2.d28),
-          const SizedBox(width: DimensSizeV2.d4),
-          const Icon(LucideIcons.chevronDown, size: DimensSizeV2.d20),
+          NetworkIcon(group: data.group, itemSize: DimensSize.d28),
+          const SizedBox(width: DimensSize.d4),
+          const Icon(LucideIcons.chevronDown, size: DimensSize.d20),
         ],
       ),
     );

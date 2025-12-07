@@ -8,7 +8,6 @@ import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:lucide_icons_flutter/lucide_icons.dart';
 import 'package:ui_components_lib/ui_components_lib.dart';
-import 'package:ui_components_lib/v2/ui_components_lib_v2.dart';
 import 'package:ui_components_lib/v2/widgets/adaptive_footer_single_child_scroll_view.dart';
 
 /// Onboarding welcome screen
@@ -97,9 +96,9 @@ class WelcomeScreen extends InjectedElementaryWidget<WelcomeScreenWidgetModel> {
                 alignment: Alignment.centerRight,
                 child: Padding(
                   padding: const EdgeInsets.only(
-                    top: DimensSizeV2.d12,
-                    bottom: DimensSizeV2.d50,
-                    right: DimensSizeV2.d16,
+                    top: DimensSize.d12,
+                    bottom: DimensSize.d50,
+                    right: DimensSize.d16,
                   ),
                   child: FloatButton(
                     buttonShape: ButtonShape.circle,
@@ -110,7 +109,7 @@ class WelcomeScreen extends InjectedElementaryWidget<WelcomeScreenWidgetModel> {
                 ),
               ),
               const SlidingBlockChains(),
-              const SizedBox(height: DimensSizeV2.d38),
+              const SizedBox(height: DimensSize.d38),
             ],
           ),
         ),

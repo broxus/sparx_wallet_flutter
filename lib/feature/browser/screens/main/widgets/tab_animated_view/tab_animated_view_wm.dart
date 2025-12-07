@@ -48,7 +48,7 @@ class TabAnimatedViewWidgetModel
 
   late final borderRadiusAnimation = Tween<double>(
     begin: 0,
-    end: DimensRadiusV2.radius16,
+    end: DimensRadius.radius16,
   ).animate(_animationController);
 
   late final opacityAnimation = Tween<double>(

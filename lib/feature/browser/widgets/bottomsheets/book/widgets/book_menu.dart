@@ -1,7 +1,7 @@
 import 'package:app/generated/generated.dart';
 import 'package:elementary_helper/elementary_helper.dart';
 import 'package:flutter/material.dart';
-import 'package:ui_components_lib/v2/ui_components_lib_v2.dart';
+import 'package:ui_components_lib/ui_components_lib.dart';
 
 class BrowserBookmarksMenu extends StatelessWidget {
   const BrowserBookmarksMenu({
@@ -115,7 +115,7 @@ class _Container extends StatelessWidget {
 
   final Widget child;
 
-  static const _height = DimensSizeV2.d70;
+  static const _height = DimensSize.d70;
 
   @override
   Widget build(BuildContext context) {
@@ -219,9 +219,9 @@ class _ActionButton extends StatelessWidget {
       child: Opacity(
         opacity: onPressed == null ? .4 : 1,
         child: SizedBox(
-          width: DimensSizeV2.d84,
+          width: DimensSize.d84,
           child: Padding(
-            padding: const EdgeInsets.symmetric(vertical: DimensSizeV2.d14),
+            padding: const EdgeInsets.symmetric(vertical: DimensSize.d14),
             child: Align(
               alignment: Alignment.topCenter,
               child: Text(text, style: textStyle),

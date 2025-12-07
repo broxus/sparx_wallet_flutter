@@ -7,7 +7,6 @@ import 'package:flutter/material.dart';
 import 'package:lucide_icons_flutter/lucide_icons.dart';
 import 'package:nekoton_repository/nekoton_repository.dart';
 import 'package:ui_components_lib/ui_components_lib.dart';
-import 'package:ui_components_lib/v2/ui_components_lib_v2.dart';
 
 class PublicKeyItemWidget extends StatefulWidget {
   const PublicKeyItemWidget({
@@ -66,23 +65,23 @@ class _PublicKeyItemWidgetState extends State<PublicKeyItemWidget> {
               ),
               padding: EdgeInsets.only(
                 top: (i != 0 || widget.accounts[i] == widget.currentAccount)
-                    ? DimensSizeV2.d12
+                    ? DimensSize.d12
                     : 0,
                 bottom:
                     (i < widget.accounts.length - 1 ||
                         widget.accounts[i] == widget.currentAccount)
-                    ? DimensSizeV2.d12
+                    ? DimensSize.d12
                     : 0,
               ),
               child: Row(
                 children: [
-                  const SizedBox(width: DimensSizeV2.d24),
+                  const SizedBox(width: DimensSize.d24),
                   UserAvatar(
                     address: widget.accounts[i].address.address,
-                    size: DimensSizeV2.d28,
-                    borderRadius: DimensRadiusV2.radius6,
+                    size: DimensSize.d28,
+                    borderRadius: DimensRadius.radius6,
                   ),
-                  const SizedBox(width: DimensSizeV2.d12),
+                  const SizedBox(width: DimensSize.d12),
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
@@ -90,7 +89,7 @@ class _PublicKeyItemWidgetState extends State<PublicKeyItemWidget> {
                         widget.accounts[i].name,
                         style: theme.textStyles.labelMedium,
                       ),
-                      const SizedBox(height: DimensSizeV2.d4),
+                      const SizedBox(height: DimensSize.d4),
                       Row(
                         children: [
                           Text(
@@ -115,7 +114,7 @@ class _PublicKeyItemWidgetState extends State<PublicKeyItemWidget> {
                                               ),
                                         )
                                       : ProgressIndicatorWidget(
-                                          size: DimensSizeV2.d16,
+                                          size: DimensSize.d16,
                                           color: theme.colors.content3,
                                         ),
                                 ),
@@ -127,10 +126,10 @@ class _PublicKeyItemWidgetState extends State<PublicKeyItemWidget> {
                   const Spacer(),
                   if (widget.accounts[i] == widget.currentAccount)
                     Padding(
-                      padding: const EdgeInsets.only(right: DimensSizeV2.d16),
+                      padding: const EdgeInsets.only(right: DimensSize.d16),
                       child: Icon(
                         LucideIcons.check,
-                        size: DimensSizeV2.d20,
+                        size: DimensSize.d20,
                         color: theme.colors.content0,
                       ),
                     ),
@@ -169,7 +168,7 @@ class _PublicKeyItemWidgetState extends State<PublicKeyItemWidget> {
             .dy;
 
         widget.scrollController.animateTo(
-          (widget.scrollController.offset + offset - DimensSizeV2.d16).clamp(
+          (widget.scrollController.offset + offset - DimensSize.d16).clamp(
             0.0,
             widget.scrollController.position.maxScrollExtent,
           ),

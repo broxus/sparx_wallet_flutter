@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:ui_components_lib/components/common/container/shaped_container_column.dart';
-import 'package:ui_components_lib/v2/ui_components_lib_v2.dart';
+import 'package:ui_components_lib/ui_components_lib.dart';
 
 class PrimaryShapedContainerColumn extends StatelessWidget {
   const PrimaryShapedContainerColumn({
@@ -57,14 +57,14 @@ class PrimaryShapedContainerItem extends StatelessWidget {
       onTap: onPressed,
       child: Padding(
         padding: const EdgeInsets.symmetric(
-          vertical: DimensSizeV2.d12,
-          horizontal: DimensSizeV2.d16,
+          vertical: DimensSize.d12,
+          horizontal: DimensSize.d16,
         ),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             Text(title, style: context.themeStyleV2.textStyles.labelMedium),
-            Icon(icon, color: iconColor, size: DimensSizeV2.d16),
+            Icon(icon, color: iconColor, size: DimensSize.d16),
           ],
         ),
       ),

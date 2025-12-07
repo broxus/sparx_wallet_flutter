@@ -3,13 +3,13 @@ import 'package:flutter/material.dart';
 import 'package:lucide_icons_flutter/lucide_icons.dart';
 import 'package:ui_components_lib/components/common/container/primary_shaped_container_column.dart';
 import 'package:ui_components_lib/v2/colors_v2.dart';
-import 'package:ui_components_lib/v2/dimens_v2.dart';
+import 'package:ui_components_lib/dimens.dart';
 import 'package:ui_components_lib/v2/widgets/modals/primary_bottom_sheet.dart';
 
 Future<BrowserUrlActionValue?> showUrlActionSheet(BuildContext context) {
   return showPrimaryBottomSheet(
     context: context,
-    padding: const EdgeInsets.symmetric(horizontal: DimensSizeV2.d24),
+    padding: const EdgeInsets.symmetric(horizontal: DimensSize.d24),
     content: const UrlActionSheet(),
   );
 }

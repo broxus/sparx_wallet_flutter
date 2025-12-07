@@ -6,7 +6,7 @@ import 'package:app/feature/network/configure_networks/configure_networks_widget
 import 'package:app/feature/network/edit_network/route.dart';
 import 'package:elementary_helper/elementary_helper.dart';
 import 'package:injectable/injectable.dart';
-import 'package:ui_components_lib/v2/ui_components_lib_v2.dart';
+import 'package:ui_components_lib/ui_components_lib.dart';
 
 @injectable
 class ConfigureNetworksWidgetModel

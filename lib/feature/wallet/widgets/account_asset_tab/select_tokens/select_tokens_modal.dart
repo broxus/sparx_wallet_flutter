@@ -10,7 +10,6 @@ import 'package:elementary_helper/elementary_helper.dart';
 import 'package:flutter/material.dart';
 import 'package:nekoton_repository/nekoton_repository.dart';
 import 'package:ui_components_lib/ui_components_lib.dart';
-import 'package:ui_components_lib/v2/widgets/widgets.dart';
 
 Future<void> showSelectTokesModal(
   BuildContext context,
@@ -74,7 +73,7 @@ class SelectTokenWidget
                 ),
               ),
             ),
-            const SizedBox(height: DimensSizeV2.d12),
+            const SizedBox(height: DimensSize.d12),
             if (value != null)
               AccentButton(
                 buttonShape: ButtonShape.pill,
@@ -86,13 +85,13 @@ class SelectTokenWidget
                       }
                     : null,
               ),
-            const SizedBox(height: DimensSizeV2.d8),
+            const SizedBox(height: DimensSize.d8),
             PrimaryButton(
               buttonShape: ButtonShape.pill,
               title: LocaleKeys.backWord.tr(),
               onPressed: () => Navigator.of(wm.context).pop(),
             ),
-            const SizedBox(height: DimensSizeV2.d12),
+            const SizedBox(height: DimensSize.d12),
           ],
         );
       },

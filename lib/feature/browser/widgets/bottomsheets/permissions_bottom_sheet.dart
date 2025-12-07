@@ -2,7 +2,6 @@ import 'package:app/generated/generated.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_inappwebview/flutter_inappwebview.dart';
 import 'package:ui_components_lib/ui_components_lib.dart';
-import 'package:ui_components_lib/v2/ui_components_lib_v2.dart';
 
 Future<List<PermissionResourceType>?> showPermissionsSheet({
   required BuildContext context,
@@ -45,21 +44,21 @@ class _BodyState extends State<_Body> {
       mainAxisSize: MainAxisSize.min,
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
-        const SizedBox(height: DimensSizeV2.d24),
+        const SizedBox(height: DimensSize.d24),
         Text(
           LocaleKeys.browserPermissionsHeader.tr(),
           style: theme.textStyles.headingLarge,
           textAlign: TextAlign.center,
         ),
-        const SizedBox(height: DimensSizeV2.d8),
+        const SizedBox(height: DimensSize.d8),
         Text(
           LocaleKeys.browserPermissionsBody.tr(args: [widget.host]),
           style: theme.textStyles.paragraphSmall,
           textAlign: TextAlign.center,
         ),
-        const SizedBox(height: DimensSizeV2.d24),
+        const SizedBox(height: DimensSize.d24),
         Padding(
-          padding: const EdgeInsets.symmetric(horizontal: DimensSizeV2.d12),
+          padding: const EdgeInsets.symmetric(horizontal: DimensSize.d12),
           child: Column(
             mainAxisSize: MainAxisSize.min,
             crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -82,7 +81,7 @@ class _BodyState extends State<_Body> {
             ],
           ),
         ),
-        const SizedBox(height: DimensSizeV2.d24),
+        const SizedBox(height: DimensSize.d24),
         PrimaryButton(
           buttonShape: ButtonShape.pill,
           title: LocaleKeys.acceptWord.tr(),
@@ -90,7 +89,7 @@ class _BodyState extends State<_Body> {
             Navigator.of(context).pop(_acceptPermissions);
           },
         ),
-        const SizedBox(height: DimensSizeV2.d8),
+        const SizedBox(height: DimensSize.d8),
         DestructiveButton(
           buttonShape: ButtonShape.pill,
           title: LocaleKeys.cancelWord.tr(),
@@ -98,7 +97,7 @@ class _BodyState extends State<_Body> {
             Navigator.of(context).pop();
           },
         ),
-        const SizedBox(height: DimensSizeV2.d12),
+        const SizedBox(height: DimensSize.d12),
       ],
     );
   }

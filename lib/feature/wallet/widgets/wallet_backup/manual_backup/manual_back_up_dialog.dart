@@ -5,7 +5,7 @@ import 'package:app/widgets/widgets.dart';
 import 'package:elementary_helper/elementary_helper.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:lucide_icons_flutter/lucide_icons.dart';
-import 'package:ui_components_lib/v2/ui_components_lib_v2.dart';
+import 'package:ui_components_lib/ui_components_lib.dart';
 import 'package:ui_components_lib/v2/widgets/modals/primary_bottom_sheet.dart';
 
 Future<void> showManualBackupDialog(
@@ -55,15 +55,15 @@ class ContentManualBackup
         Container(
           decoration: BoxDecoration(
             color: theme.colors.background2,
-            borderRadius: BorderRadius.circular(DimensRadiusV2.radius16),
+            borderRadius: BorderRadius.circular(DimensRadius.radius16),
           ),
-          padding: const EdgeInsets.all(DimensSizeV2.d32),
+          padding: const EdgeInsets.all(DimensSize.d32),
           child: ValueListenableBuilder(
             valueListenable: wm.wordsState,
             builder: (_, words, __) => _ListWords(words),
           ),
         ),
-        const SizedBox(height: DimensSizeV2.d8),
+        const SizedBox(height: DimensSize.d8),
         EntityStateNotifierBuilder<ManualBackUpData?>(
           listenableEntityState: wm.screenState,
           builder: (context, data) {
@@ -76,7 +76,7 @@ class ContentManualBackup
             );
           },
         ),
-        const SizedBox(height: DimensSizeV2.d24),
+        const SizedBox(height: DimensSize.d24),
         LayoutBuilder(
           builder: (context, constraints) {
             return AccentButton(
@@ -87,7 +87,7 @@ class ContentManualBackup
             );
           },
         ),
-        const SizedBox(height: DimensSizeV2.d8),
+        const SizedBox(height: DimensSize.d8),
         LayoutBuilder(
           builder: (context, _) {
             return PrimaryButton(
@@ -122,7 +122,7 @@ class _ListWords extends StatelessWidget {
                 Padding(
                   //add padding between rows
                   padding: index != lengthHalf - 1
-                      ? const EdgeInsets.only(bottom: DimensSizeV2.d12)
+                      ? const EdgeInsets.only(bottom: DimensSize.d12)
                       : EdgeInsets.zero,
                   child: _Word(theme: theme, word: words[index], index: index),
                 ),
@@ -135,7 +135,7 @@ class _ListWords extends StatelessWidget {
               for (int index = lengthHalf; index < words.length; index++)
                 Padding(
                   padding: index != words.length - 1
-                      ? const EdgeInsets.only(bottom: DimensSizeV2.d12)
+                      ? const EdgeInsets.only(bottom: DimensSize.d12)
                       : EdgeInsets.zero,
                   child: _Word(theme: theme, word: words[index], index: index),
                 ),
@@ -164,7 +164,7 @@ class _Word extends StatelessWidget {
             color: theme.colors.content3,
           ),
         ),
-        const SizedBox(width: DimensSizeV2.d8),
+        const SizedBox(width: DimensSize.d8),
         Text(
           word,
           style: theme.textStyles.labelSmall.copyWith(

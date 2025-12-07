@@ -7,7 +7,6 @@ import 'package:elementary_helper/elementary_helper.dart';
 import 'package:flutter/material.dart';
 import 'package:lucide_icons_flutter/lucide_icons.dart';
 import 'package:ui_components_lib/ui_components_lib.dart';
-import 'package:ui_components_lib/v2/ui_components_lib_v2.dart';
 
 Future<void> showBrowserTabMenu(BuildContext context) {
   return showModalBottomSheet(
@@ -28,7 +27,7 @@ class BrowserGroupMenu
   Widget build(BrowserGroupMenuWidgetModel wm) {
     return SizedBox(
       width: double.infinity,
-      height: DimensSizeV2.d348,
+      height: DimensSize.d348,
       child: PrimaryBottomSheetContainer(
         backgroundColor: ColorsResV2.n15,
         child: Column(
@@ -37,7 +36,7 @@ class BrowserGroupMenu
               onPressedEdit: wm.onPressedEditAll,
               onPressedDone: wm.onPressedDone,
             ),
-            const SizedBox(height: DimensSizeV2.d22),
+            const SizedBox(height: DimensSize.d22),
             _GroupsList(
               groupsState: wm.groupsState,
               activeGroupIdState: wm.activeGroupIdState,
@@ -46,7 +45,7 @@ class BrowserGroupMenu
               onPressedEditGroup: wm.onPressedEditGroup,
               onPressedRemoveGroup: wm.onPressedRemoveGroup,
             ),
-            const SizedBox(height: DimensSizeV2.d16),
+            const SizedBox(height: DimensSize.d16),
             _NewGroupButton(onPressed: wm.onPressedNewGroup),
           ],
         ),
@@ -112,12 +111,12 @@ class _GroupsList extends StatelessWidget {
         }
 
         return SizedBox(
-          height: DimensSizeV2.d176,
+          height: DimensSize.d176,
           child: SingleChildScrollView(
             physics: const ClampingScrollPhysics(),
             child: PrimaryShapedContainerColumn(
               backgroundColor: context.themeStyleV2.colors.background2,
-              margin: const EdgeInsets.symmetric(horizontal: DimensSizeV2.d24),
+              margin: const EdgeInsets.symmetric(horizontal: DimensSize.d24),
               children: [
                 for (final listenable in list)
                   BrowserGroupMenuItem(
@@ -151,7 +150,7 @@ class _NewGroupButton extends StatelessWidget {
     final style = theme.textStyles;
 
     return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: DimensSizeV2.d24),
+      padding: const EdgeInsets.symmetric(horizontal: DimensSize.d24),
       child: CustomButton(
         buttonShape: ButtonShape.rectangle,
         onPressed: onPressed,

@@ -3,8 +3,9 @@ import 'package:app/feature/browser/screens/main/widgets/control_panels/toolbar/
 import 'package:app/generated/generated.dart';
 import 'package:elementary_helper/elementary_helper.dart';
 import 'package:flutter/material.dart';
+import 'package:ui_components_lib/dimens.dart';
 import 'package:ui_components_lib/v2/extensions/extensions.dart';
-import 'package:ui_components_lib/v2/ui_components_lib_v2.dart';
+import 'package:ui_components_lib/ui_components_lib.dart';
 
 class Toolbar extends InjectedElementaryWidget<ToolbarWidgetModel> {
   const Toolbar({
@@ -13,7 +14,7 @@ class Toolbar extends InjectedElementaryWidget<ToolbarWidgetModel> {
     super.key,
   });
 
-  static const height = DimensSizeV2.d48;
+  static const height = DimensSize.d48;
 
   final VoidCallback onPressedTabs;
   final VoidCallback onPressedDotsPressed;

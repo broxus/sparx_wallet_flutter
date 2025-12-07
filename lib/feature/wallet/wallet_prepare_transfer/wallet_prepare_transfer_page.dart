@@ -94,7 +94,7 @@ class _DataBody extends StatelessWidget {
       child: Scaffold(
         appBar: DefaultAppBar(titleText: LocaleKeys.sendYourFunds.tr()),
         body: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: DimensSizeV2.d16),
+          padding: const EdgeInsets.symmetric(horizontal: DimensSize.d16),
           child: WalletPrepareTransferView(
             _wm,
             account: account,

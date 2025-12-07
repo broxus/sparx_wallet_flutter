@@ -13,7 +13,7 @@ import 'package:nekoton_repository/nekoton_repository.dart';
 import 'package:ui_components_lib/components/common/container/separated_column.dart';
 import 'package:ui_components_lib/components/common/default_app_bar.dart';
 import 'package:ui_components_lib/dimens.dart';
-import 'package:ui_components_lib/v2/dimens_v2.dart';
+import 'package:ui_components_lib/dimens.dart';
 import 'package:ui_components_lib/v2/widgets/buttons/button_shape.dart';
 import 'package:ui_components_lib/v2/widgets/buttons/primary_button.dart';
 
@@ -57,7 +57,7 @@ class TonWalletMultisigOrdinaryTransactionDetailsScreen
               builder: (_, account, __) {
                 return Padding(
                   padding: const EdgeInsets.symmetric(
-                    horizontal: DimensSizeV2.d16,
+                    horizontal: DimensSize.d16,
                   ),
                   child: AccountInfo(account: account),
                 );
@@ -124,7 +124,7 @@ class TonWalletMultisigOrdinaryTransactionDetailsScreen
               },
             ),
             Padding(
-              padding: const EdgeInsets.symmetric(horizontal: DimensSizeV2.d16),
+              padding: const EdgeInsets.symmetric(horizontal: DimensSize.d16),
               child: PrimaryButton(
                 title: LocaleKeys.seeInExplorer.tr(),
                 icon: LucideIcons.globe,

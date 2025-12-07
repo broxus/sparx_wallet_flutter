@@ -185,7 +185,7 @@ Widget build(BuildContext context) {
 
   return Container(
     color: colors.background2,
-    padding: EdgeInsets.all(DimensSizeV2.d16),
+    padding: EdgeInsets.all(DimensSize.d16),
     child: Text(
       'Hello World',
       style: textStyles.headingMedium.copyWith(

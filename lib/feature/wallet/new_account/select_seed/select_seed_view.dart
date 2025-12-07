@@ -5,7 +5,7 @@ import 'package:elementary_helper/elementary_helper.dart';
 import 'package:flutter/material.dart';
 import 'package:lucide_icons_flutter/lucide_icons.dart';
 import 'package:ui_components_lib/components/common/common.dart';
-import 'package:ui_components_lib/v2/ui_components_lib_v2.dart';
+import 'package:ui_components_lib/ui_components_lib.dart';
 
 class SelectSeedWidget extends InjectedElementaryWidget<SelectSeedWidgetModel> {
   const SelectSeedWidget({super.key});
@@ -46,7 +46,7 @@ class SelectSeedWidget extends InjectedElementaryWidget<SelectSeedWidgetModel> {
                 title: LocaleKeys.selectWord.tr(),
                 onPressed: wm.onSelect,
               ),
-              const SizedBox(height: DimensSizeV2.d24),
+              const SizedBox(height: DimensSize.d24),
             ],
           );
         } else {
@@ -74,7 +74,7 @@ class _SeedItem extends StatelessWidget {
   Widget build(BuildContext context) {
     final theme = context.themeStyleV2;
     return Container(
-      padding: const EdgeInsets.symmetric(vertical: DimensSizeV2.d24),
+      padding: const EdgeInsets.symmetric(vertical: DimensSize.d24),
       decoration: BoxDecoration(
         color: isSelected ? theme.colors.background3 : theme.colors.background2,
         borderRadius: BorderRadius.vertical(
@@ -84,13 +84,13 @@ class _SeedItem extends StatelessWidget {
       ),
       child: Row(
         children: [
-          const SizedBox(width: DimensSizeV2.d16),
+          const SizedBox(width: DimensSize.d16),
           Icon(
             LucideIcons.lockKeyhole,
             color: theme.colors.content0,
-            size: DimensSizeV2.d20,
+            size: DimensSize.d20,
           ),
-          const SizedBox(width: DimensSizeV2.d12),
+          const SizedBox(width: DimensSize.d12),
           Expanded(
             child: Text(
               name,
@@ -102,9 +102,9 @@ class _SeedItem extends StatelessWidget {
             Icon(
               LucideIcons.check,
               color: theme.colors.content0,
-              size: DimensSizeV2.d20,
+              size: DimensSize.d20,
             ),
-          const SizedBox(width: DimensSizeV2.d16),
+          const SizedBox(width: DimensSize.d16),
         ],
       ),
     );

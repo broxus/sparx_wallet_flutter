@@ -13,7 +13,7 @@ import 'package:nekoton_repository/nekoton_repository.dart';
 import 'package:ui_components_lib/components/common/container/separated_column.dart';
 import 'package:ui_components_lib/components/common/default_app_bar.dart';
 import 'package:ui_components_lib/dimens.dart';
-import 'package:ui_components_lib/v2/dimens_v2.dart';
+import 'package:ui_components_lib/dimens.dart';
 import 'package:ui_components_lib/v2/widgets/buttons/accent_button.dart';
 import 'package:ui_components_lib/v2/widgets/buttons/button_shape.dart';
 
@@ -55,7 +55,7 @@ class TonWalletMultisigPendingTransactionDetailsScreen
               builder: (_, account, __) {
                 return Padding(
                   padding: const EdgeInsets.symmetric(
-                    horizontal: DimensSizeV2.d16,
+                    horizontal: DimensSize.d16,
                   ),
                   child: AccountInfo(account: account),
                 );
@@ -137,7 +137,7 @@ class TonWalletMultisigPendingTransactionDetailsScreen
               builder: (_, isCanConfirm, __) => isCanConfirm == true
                   ? Padding(
                       padding: const EdgeInsets.symmetric(
-                        horizontal: DimensSizeV2.d16,
+                        horizontal: DimensSize.d16,
                       ),
                       child: AccentButton(
                         buttonShape: ButtonShape.pill,

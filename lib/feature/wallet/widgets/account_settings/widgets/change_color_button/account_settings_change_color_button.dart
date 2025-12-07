@@ -5,7 +5,7 @@ import 'package:app/feature/wallet/widgets/account_settings/widgets/change_color
 import 'package:app/generated/generated.dart';
 import 'package:elementary_helper/elementary_helper.dart';
 import 'package:flutter/material.dart';
-import 'package:ui_components_lib/v2/dimens_v2.dart';
+import 'package:ui_components_lib/dimens.dart';
 
 class AccountSettingsChangeColorButton
     extends
@@ -24,12 +24,12 @@ class AccountSettingsChangeColorButton
         return AccountSettingsButton(
           label: LocaleKeys.changeAvatarColor.tr(),
           iconWidget: SizedBox(
-            width: DimensSizeV2.d18,
-            height: DimensSizeV2.d18,
+            width: DimensSize.d18,
+            height: DimensSize.d18,
             child: DecoratedBox(
               decoration: BoxDecoration(
                 color: ic?.color,
-                borderRadius: BorderRadius.circular(DimensSizeV2.d18),
+                borderRadius: BorderRadius.circular(DimensSize.d18),
               ),
             ),
           ),

@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:lucide_icons_flutter/lucide_icons.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 import 'package:ui_components_lib/ui_components_lib.dart';
-import 'package:ui_components_lib/v2/ui_components_lib_v2.dart';
 
 Future<T?> showPrimaryBottomSheet<T>({
   required BuildContext context,
@@ -13,13 +12,13 @@ Future<T?> showPrimaryBottomSheet<T>({
   Widget? content,
   Widget? firstButton,
   Widget? secondButton,
-  EdgeInsets padding = const EdgeInsets.symmetric(horizontal: DimensSizeV2.d16),
+  EdgeInsets padding = const EdgeInsets.symmetric(horizontal: DimensSize.d16),
   bool expand = false,
   bool dismissible = true,
   bool wrapIntoAnimatedSize = true,
   bool useRootNavigator = true,
   bool showBackButton = false,
-  double bottomSpaceSize = DimensSizeV2.d32,
+  double bottomSpaceSize = DimensSize.d32,
 }) {
   return showCustomModalBottomSheet<T>(
     barrierColor: barrierColor,
@@ -53,7 +52,7 @@ class _ContentBottomSheet extends StatelessWidget {
     this.content,
     this.firstButton,
     this.secondButton,
-    this.bottomSpaceSize = DimensSizeV2.d32,
+    this.bottomSpaceSize = DimensSize.d32,
   });
 
   final String? assetsPath;
@@ -72,7 +71,7 @@ class _ContentBottomSheet extends StatelessWidget {
     return Material(
       color: theme.colors.background1,
       child: SafeArea(
-        minimum: const EdgeInsets.only(bottom: DimensSizeV2.d4),
+        minimum: const EdgeInsets.only(bottom: DimensSize.d4),
         child: Padding(
           padding: MediaQuery.of(context).viewInsets,
           child: Stack(
@@ -84,14 +83,14 @@ class _ContentBottomSheet extends StatelessWidget {
                   child: Column(
                     mainAxisSize: MainAxisSize.min,
                     children: [
-                      const SizedBox(height: DimensSizeV2.d32),
+                      const SizedBox(height: DimensSize.d32),
                       if (showBackButton)
                         Align(
                           alignment: Alignment.centerLeft,
                           child: Padding(
                             padding: const EdgeInsets.only(
-                              top: DimensSizeV2.d12,
-                              bottom: DimensSizeV2.d40,
+                              top: DimensSize.d12,
+                              bottom: DimensSize.d40,
                             ),
                             child: FloatButton(
                               buttonShape: ButtonShape.circle,
@@ -103,18 +102,18 @@ class _ContentBottomSheet extends StatelessWidget {
                       if (assetsPath != null)
                         Padding(
                           padding: const EdgeInsets.only(
-                            bottom: DimensSizeV2.d16,
+                            bottom: DimensSize.d16,
                           ),
                           child: Image.asset(
                             assetsPath!,
-                            width: DimensSizeV2.d56,
-                            height: DimensSizeV2.d56,
+                            width: DimensSize.d56,
+                            height: DimensSize.d56,
                           ),
                         ),
                       if (title != null)
                         Padding(
                           padding: const EdgeInsets.only(
-                            bottom: DimensSizeV2.d8,
+                            bottom: DimensSize.d8,
                           ),
                           child: Text(
                             title!,
@@ -125,7 +124,7 @@ class _ContentBottomSheet extends StatelessWidget {
                       if (subtitle != null)
                         Padding(
                           padding: const EdgeInsets.only(
-                            bottom: DimensSizeV2.d24,
+                            bottom: DimensSize.d24,
                           ),
                           child: Text(
                             subtitle!,
@@ -157,11 +156,11 @@ class _ContentBottomSheet extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Container(
-                    margin: const EdgeInsets.only(top: DimensSizeV2.d6),
-                    width: DimensSizeV2.d36,
-                    height: DimensSizeV2.d5,
+                    margin: const EdgeInsets.only(top: DimensSize.d6),
+                    width: DimensSize.d36,
+                    height: DimensSize.d5,
                     decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(DimensSizeV2.d2),
+                      borderRadius: BorderRadius.circular(DimensSize.d2),
                       color: theme.colors.primaryA.withValues(alpha: .7),
                     ),
                   ),
@@ -190,7 +189,7 @@ class __ContainerWidgetState extends State<_ContainerWidget> {
   Widget build(BuildContext context) {
     return Container(
       margin: EdgeInsets.only(
-        top: MediaQuery.of(context).padding.top + DimensSizeV2.d24,
+        top: MediaQuery.of(context).padding.top + DimensSize.d24,
       ),
       clipBehavior: Clip.antiAlias,
       decoration: const BoxDecoration(

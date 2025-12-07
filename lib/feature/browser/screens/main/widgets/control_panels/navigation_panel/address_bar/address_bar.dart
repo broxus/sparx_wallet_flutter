@@ -36,13 +36,13 @@ class BrowserAddressBar
       onTap: wm.onPressedBackground,
       child: SizedBox(
         width: width,
-        height: DimensSizeV2.d40,
+        height: DimensSize.d40,
         child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: DimensSizeV2.d4),
+          padding: const EdgeInsets.symmetric(horizontal: DimensSize.d4),
           child: DecoratedBox(
             decoration: BoxDecoration(
               color: wm.theme.colors.backgroundInput,
-              borderRadius: BorderRadius.circular(DimensRadiusV2.radius12),
+              borderRadius: BorderRadius.circular(DimensRadius.radius12),
             ),
             child: CompositedTransformTarget(
               link: wm.link,
@@ -125,8 +125,8 @@ class _Button extends StatelessWidget {
       behavior: HitTestBehavior.opaque,
       onTap: onPressed,
       child: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: DimensSizeV2.d12),
-        child: Icon(icon, color: colors.content3, size: DimensSizeV2.d16),
+        padding: const EdgeInsets.symmetric(horizontal: DimensSize.d12),
+        child: Icon(icon, color: colors.content3, size: DimensSize.d16),
       ),
     );
   }
@@ -170,7 +170,7 @@ class _UrlTextField extends StatelessWidget {
               errorBorder: InputBorder.none,
               disabledBorder: InputBorder.none,
               contentPadding: EdgeInsets.symmetric(
-                horizontal: DimensSizeV2.d14,
+                horizontal: DimensSize.d14,
               ),
             ),
             onEditingComplete: onEditingComplete,
@@ -189,10 +189,10 @@ class _UrlTextField extends StatelessWidget {
                   behavior: HitTestBehavior.opaque,
                   onTap: onPressedClear,
                   child: Padding(
-                    padding: const EdgeInsets.only(right: DimensSizeV2.d12),
+                    padding: const EdgeInsets.only(right: DimensSize.d12),
                     child: Assets.images.clear.svg(
-                      width: DimensSizeV2.d20,
-                      height: DimensSizeV2.d20,
+                      width: DimensSize.d20,
+                      height: DimensSize.d20,
                       colorFilter:
                           context.themeStyleV2.colors.content3.colorFilter,
                     ),
@@ -245,19 +245,19 @@ class _UrlText extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 Padding(
-                  padding: const EdgeInsets.only(right: DimensSizeV2.d4),
+                  padding: const EdgeInsets.only(right: DimensSize.d4),
                   child: StateNotifierBuilder(
                     listenableState: listenable,
                     builder: (_, BrowserTab? tab) {
                       return tab?.url.host.isEmpty ?? true
                           ? Icon(
                               LucideIcons.search,
-                              size: DimensSizeV2.d16,
+                              size: DimensSize.d16,
                               color: theme.colors.content3,
                             )
                           : Assets.images.lockFill.svg(
-                              width: DimensSizeV2.d16,
-                              height: DimensSizeV2.d16,
+                              width: DimensSize.d16,
+                              height: DimensSize.d16,
                               colorFilter: context
                                   .themeStyleV2
                                   .colors

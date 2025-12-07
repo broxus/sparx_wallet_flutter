@@ -1,7 +1,7 @@
 import 'package:app/generated/generated.dart';
 import 'package:elementary_helper/elementary_helper.dart';
 import 'package:flutter/material.dart';
-import 'package:ui_components_lib/v2/ui_components_lib_v2.dart';
+import 'package:ui_components_lib/ui_components_lib.dart';
 
 class EmptyNftList extends StatelessWidget {
   const EmptyNftList({
@@ -22,19 +22,19 @@ class EmptyNftList extends StatelessWidget {
       mainAxisSize: MainAxisSize.min,
       children: [
         Padding(
-          padding: const EdgeInsets.symmetric(horizontal: DimensSizeV2.d48),
+          padding: const EdgeInsets.symmetric(horizontal: DimensSize.d48),
           child: Assets.images.nftEmptyList.image(),
         ),
-        const SizedBox(height: DimensSizeV2.d8),
+        const SizedBox(height: DimensSize.d8),
         Padding(
-          padding: const EdgeInsets.symmetric(horizontal: DimensSizeV2.d16),
+          padding: const EdgeInsets.symmetric(horizontal: DimensSize.d16),
           child: Column(
             mainAxisSize: MainAxisSize.min,
-            spacing: DimensSizeV2.d8,
+            spacing: DimensSize.d8,
             children: [
               Padding(
                 padding: const EdgeInsets.symmetric(
-                  horizontal: DimensSizeV2.d16,
+                  horizontal: DimensSize.d16,
                 ),
                 child: Text(
                   LocaleKeys.nftEmptyListTitle.tr(),
@@ -44,7 +44,7 @@ class EmptyNftList extends StatelessWidget {
               ),
               Padding(
                 padding: const EdgeInsets.symmetric(
-                  horizontal: DimensSizeV2.d16,
+                  horizontal: DimensSize.d16,
                 ),
                 child: StateNotifierBuilder(
                   listenableState: marketplaceUrlState,
@@ -66,7 +66,7 @@ class EmptyNftList extends StatelessWidget {
                 builder: (_, marketplaceUrl) {
                   if (marketplaceUrl != null && marketplaceUrl.isNotEmpty) {
                     return Padding(
-                      padding: const EdgeInsets.only(top: DimensSizeV2.d16),
+                      padding: const EdgeInsets.only(top: DimensSize.d16),
                       child: AccentButton(
                         buttonShape: ButtonShape.pill,
                         onPressed: () {

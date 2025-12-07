@@ -67,12 +67,12 @@ class EnterSeedPhraseWords extends StatelessWidget {
               return Expanded(
                 child: Padding(
                   padding: const EdgeInsets.symmetric(
-                    vertical: DimensSizeV2.d16,
+                    vertical: DimensSize.d16,
                   ),
                   child: ListView.separated(
                     itemCount: data.inputs.length,
                     separatorBuilder: (_, __) =>
-                        const SizedBox(height: DimensSizeV2.d8),
+                        const SizedBox(height: DimensSize.d8),
                     itemBuilder: (_, index) => _Input(
                       key: ValueKey(index),
                       theme: themeStyleV2,

@@ -73,7 +73,7 @@ class _CommonRadioInputState<T> extends State<CommonRadioInput<T>> {
                   enabled: widget.onChanged != null,
                   hasError: state.hasError,
                 ),
-                const SizedBox(width: DimensSizeV2.d8),
+                const SizedBox(width: DimensSize.d8),
                 widget.child!,
               ],
             ),

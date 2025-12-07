@@ -7,7 +7,6 @@ import 'package:flutter/material.dart';
 import 'package:lucide_icons_flutter/lucide_icons.dart';
 import 'package:nekoton_repository/nekoton_repository.dart';
 import 'package:ui_components_lib/ui_components_lib.dart';
-import 'package:ui_components_lib/v2/ui_components_lib_v2.dart';
 
 class NftItemPageWidget
     extends
@@ -45,7 +44,7 @@ class NftItemPageWidget
         builder: (_, item, collection) {
           if (item == null) {
             return const Center(
-              child: ProgressIndicatorWidget(size: DimensSizeV2.d24),
+              child: ProgressIndicatorWidget(size: DimensSize.d24),
             );
           }
 
@@ -53,7 +52,7 @@ class NftItemPageWidget
             children: [
               SizedBox(height: wm.topOffset),
               ClipRRect(
-                borderRadius: BorderRadius.circular(DimensRadiusV2.radius20),
+                borderRadius: BorderRadius.circular(DimensRadius.radius20),
                 child: AspectRatio(
                   aspectRatio: 1,
                   child: GestureDetector(
@@ -65,12 +64,12 @@ class NftItemPageWidget
                   ),
                 ),
               ),
-              const SizedBox(height: DimensSizeV2.d16),
+              const SizedBox(height: DimensSize.d16),
               Expanded(
                 child: SingleChildScrollView(
                   child: Padding(
                     padding: const EdgeInsets.symmetric(
-                      horizontal: DimensSizeV2.d16,
+                      horizontal: DimensSize.d16,
                     ),
                     child: Column(
                       mainAxisSize: MainAxisSize.min,
@@ -80,7 +79,7 @@ class NftItemPageWidget
                           style: wm.theme.textStyles.headingLarge,
                           textAlign: TextAlign.center,
                         ),
-                        const SizedBox(height: DimensSizeV2.d4),
+                        const SizedBox(height: DimensSize.d4),
                         Text(
                           collection?.name ?? '',
                           style: wm.theme.textStyles.labelSmall.copyWith(
@@ -91,7 +90,7 @@ class NftItemPageWidget
                         if (item.nft.description != null)
                           Padding(
                             padding: const EdgeInsets.only(
-                              top: DimensSizeV2.d8,
+                              top: DimensSize.d8,
                             ),
                             child: Text(
                               item.nft.description!,
@@ -99,7 +98,7 @@ class NftItemPageWidget
                               textAlign: TextAlign.center,
                             ),
                           ),
-                        const SizedBox(height: DimensSizeV2.d16),
+                        const SizedBox(height: DimensSize.d16),
                         _Info(
                           item: item,
                           onViewInExplorer: wm.onViewInExplorer,
@@ -111,15 +110,15 @@ class NftItemPageWidget
               ),
               Container(
                 padding: const EdgeInsets.symmetric(
-                  horizontal: DimensSizeV2.d16,
-                  vertical: DimensSizeV2.d12,
+                  horizontal: DimensSize.d16,
+                  vertical: DimensSize.d12,
                 ),
                 child: Column(
                   mainAxisSize: MainAxisSize.min,
                   children: [
                     if (item.wallet != null)
                       Padding(
-                        padding: const EdgeInsets.only(bottom: DimensSizeV2.d8),
+                        padding: const EdgeInsets.only(bottom: DimensSize.d8),
                         child: AccentButton(
                           buttonShape: ButtonShape.pill,
                           title: LocaleKeys.transferTokens.tr(),
@@ -152,7 +151,7 @@ class NftItemPageWidget
                         }
 
                         return Padding(
-                          padding: const EdgeInsets.only(top: DimensSizeV2.d8),
+                          padding: const EdgeInsets.only(top: DimensSize.d8),
                           child: PrimaryButton(
                             buttonShape: ButtonShape.pill,
                             title: LocaleKeys.openInMarketplace.tr(),
@@ -187,13 +186,13 @@ class _Info extends StatelessWidget {
     );
     final textStyle = theme.textStyles.labelMedium;
     const padding = EdgeInsets.symmetric(
-      vertical: DimensSizeV2.d12,
-      horizontal: DimensSizeV2.d16,
+      vertical: DimensSize.d12,
+      horizontal: DimensSize.d16,
     );
 
     return ShapedContainerColumn(
       color: theme.colors.background1,
-      spacing: DimensSizeV2.d0,
+      spacing: DimensSize.d0,
       padding: EdgeInsets.zero,
       margin: EdgeInsets.zero,
       children: [
@@ -204,7 +203,7 @@ class _Info extends StatelessWidget {
               Padding(
                 padding: padding,
                 child: Row(
-                  spacing: DimensSizeV2.d8,
+                  spacing: DimensSize.d8,
                   children: [
                     Text(LocaleKeys.balanceWord.tr(), style: labelStyle),
                     Expanded(
@@ -225,7 +224,7 @@ class _Info extends StatelessWidget {
         Padding(
           padding: padding,
           child: Row(
-            spacing: DimensSizeV2.d4,
+            spacing: DimensSize.d4,
             children: [
               Text(LocaleKeys.contract.tr(), style: labelStyle),
               const Spacer(),
@@ -233,12 +232,12 @@ class _Info extends StatelessWidget {
                 onTap: () => onViewInExplorer(item.nft.address),
                 child: Row(
                   mainAxisSize: MainAxisSize.min,
-                  spacing: DimensSizeV2.d8,
+                  spacing: DimensSize.d8,
                   children: [
                     Text(item.nft.address.toEllipseString(), style: textStyle),
                     Icon(
                       LucideIcons.arrowUpRight,
-                      size: DimensSizeV2.d20,
+                      size: DimensSize.d20,
                       color: theme.colors.content0,
                     ),
                   ],
@@ -258,12 +257,12 @@ class _Info extends StatelessWidget {
                 onTap: () => onViewInExplorer(item.nft.owner),
                 child: Row(
                   mainAxisSize: MainAxisSize.min,
-                  spacing: DimensSizeV2.d8,
+                  spacing: DimensSize.d8,
                   children: [
                     Text(item.nft.owner.toEllipseString(), style: textStyle),
                     Icon(
                       LucideIcons.arrowUpRight,
-                      size: DimensSizeV2.d20,
+                      size: DimensSize.d20,
                       color: theme.colors.content0,
                     ),
                   ],
@@ -283,12 +282,12 @@ class _Info extends StatelessWidget {
                 onTap: () => onViewInExplorer(item.nft.manager),
                 child: Row(
                   mainAxisSize: MainAxisSize.min,
-                  spacing: DimensSizeV2.d8,
+                  spacing: DimensSize.d8,
                   children: [
                     Text(item.nft.manager.toEllipseString(), style: textStyle),
                     Icon(
                       LucideIcons.arrowUpRight,
-                      size: DimensSizeV2.d20,
+                      size: DimensSize.d20,
                       color: theme.colors.content0,
                     ),
                   ],

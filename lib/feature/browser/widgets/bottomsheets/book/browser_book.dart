@@ -13,7 +13,7 @@ import 'package:app/feature/browser/widgets/bottomsheets/book/widgets/history_em
 import 'package:app/feature/browser/widgets/bottomsheets/book/widgets/tab_data.dart';
 import 'package:elementary_helper/elementary_helper.dart';
 import 'package:flutter/material.dart';
-import 'package:ui_components_lib/v2/ui_components_lib_v2.dart';
+import 'package:ui_components_lib/ui_components_lib.dart';
 
 void showBookModal(BuildContext context) {
   unawaited(
@@ -84,7 +84,7 @@ class BrowserBook extends InjectedElementaryWidget<BrowserBookWidgetModel> {
                         return SliverToBoxAdapter(
                           child: Padding(
                             padding: const EdgeInsets.only(
-                              top: DimensSizeV2.d40,
+                              top: DimensSize.d40,
                             ),
                             child: switch (wm.tabBarState.value) {
                               BrowserBookTabBarValue.bookMarks =>

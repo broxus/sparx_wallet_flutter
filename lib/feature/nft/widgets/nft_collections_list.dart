@@ -4,7 +4,7 @@ import 'package:elementary_helper/elementary_helper.dart';
 import 'package:flutter/material.dart';
 import 'package:lucide_icons_flutter/lucide_icons.dart';
 import 'package:nekoton_repository/nekoton_repository.dart';
-import 'package:ui_components_lib/v2/ui_components_lib_v2.dart';
+import 'package:ui_components_lib/ui_components_lib.dart';
 
 const _aspectRatio = 168 / 196;
 
@@ -29,8 +29,8 @@ class NftCollectionsList extends StatelessWidget {
       builder: (_, displayMode) => switch (displayMode) {
         NftDisplayMode.grid || null => GridView.count(
           crossAxisCount: 2,
-          mainAxisSpacing: DimensSizeV2.d8,
-          crossAxisSpacing: DimensSizeV2.d8,
+          mainAxisSpacing: DimensSize.d8,
+          crossAxisSpacing: DimensSize.d8,
           childAspectRatio: _aspectRatio,
           children: [
             for (final collection in collections)
@@ -45,7 +45,7 @@ class NftCollectionsList extends StatelessWidget {
         NftDisplayMode.list => ListView.separated(
           itemCount: collections.length,
           separatorBuilder: (_, index) =>
-              const SizedBox(height: DimensSizeV2.d8),
+              const SizedBox(height: DimensSize.d8),
           itemBuilder: (_, index) {
             final collection = collections[index];
             return _ListItem(
@@ -83,18 +83,18 @@ class _GridItem extends StatelessWidget {
     return GestureDetector(
       onTap: onTap,
       child: PrimaryCard(
-        padding: const EdgeInsets.all(DimensSizeV2.d8),
+        padding: const EdgeInsets.all(DimensSize.d8),
         color: theme.colors.background1,
-        borderRadius: BorderRadius.circular(DimensRadiusV2.radius12),
+        borderRadius: BorderRadius.circular(DimensRadius.radius12),
         child: Stack(
           children: [
             Column(
               mainAxisSize: MainAxisSize.min,
               crossAxisAlignment: CrossAxisAlignment.start,
-              spacing: DimensSizeV2.d8,
+              spacing: DimensSize.d8,
               children: [
                 ClipRRect(
-                  borderRadius: BorderRadius.circular(DimensRadiusV2.radius8),
+                  borderRadius: BorderRadius.circular(DimensRadius.radius8),
                   child: AspectRatio(
                     aspectRatio: 1,
                     child: NftImage(imageUrl: collection.imageUrl),
@@ -119,15 +119,15 @@ class _GridItem extends StatelessWidget {
                 }
 
                 return Positioned(
-                  top: DimensSizeV2.d6,
-                  right: DimensSizeV2.d6,
+                  top: DimensSize.d6,
+                  right: DimensSize.d6,
                   child: ClipRRect(
                     borderRadius: BorderRadius.circular(
-                      DimensRadiusV2.radius10,
+                      DimensRadius.radius10,
                     ),
                     child: Container(
-                      width: DimensSizeV2.d20,
-                      height: DimensSizeV2.d20,
+                      width: DimensSize.d20,
+                      height: DimensSize.d20,
                       color: theme.colors.backgroundAccent,
                       child: Center(
                         child: Text(
@@ -169,26 +169,26 @@ class _ListItem extends StatelessWidget {
       onTap: onTap,
       child: PrimaryCard(
         padding: const EdgeInsets.symmetric(
-          horizontal: DimensSizeV2.d16,
-          vertical: DimensSizeV2.d8,
+          horizontal: DimensSize.d16,
+          vertical: DimensSize.d8,
         ),
         color: theme.colors.background1,
-        borderRadius: BorderRadius.circular(DimensRadiusV2.radius12),
+        borderRadius: BorderRadius.circular(DimensRadius.radius12),
         child: Row(
-          spacing: DimensSizeV2.d8,
+          spacing: DimensSize.d8,
           children: [
             SizedBox(
-              width: DimensSizeV2.d40,
-              height: DimensSizeV2.d40,
+              width: DimensSize.d40,
+              height: DimensSize.d40,
               child: ClipRRect(
-                borderRadius: BorderRadius.circular(DimensRadiusV2.radius20),
+                borderRadius: BorderRadius.circular(DimensRadius.radius20),
                 child: NftImage(imageUrl: collection.imageUrl),
               ),
             ),
             Expanded(
               child: Row(
                 mainAxisSize: MainAxisSize.min,
-                spacing: DimensSizeV2.d4,
+                spacing: DimensSize.d4,
                 children: [
                   Text(
                     collection.name ?? LocaleKeys.unknown.tr(),
@@ -208,11 +208,11 @@ class _ListItem extends StatelessWidget {
 
                       return ClipRRect(
                         borderRadius: BorderRadius.circular(
-                          DimensRadiusV2.radius10,
+                          DimensRadius.radius10,
                         ),
                         child: Container(
-                          width: DimensSizeV2.d20,
-                          height: DimensSizeV2.d20,
+                          width: DimensSize.d20,
+                          height: DimensSize.d20,
                           color: theme.colors.backgroundAccent,
                           child: Center(
                             child: Text(
@@ -229,7 +229,7 @@ class _ListItem extends StatelessWidget {
             ),
             Icon(
               LucideIcons.chevronRight,
-              size: DimensSizeV2.d20,
+              size: DimensSize.d20,
               color: theme.colors.primaryA,
             ),
           ],

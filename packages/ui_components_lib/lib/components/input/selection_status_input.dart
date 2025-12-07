@@ -63,7 +63,7 @@ class _SelectionStatusInputState extends State<SelectionStatusInput> {
         child: Container(
           decoration: BoxDecoration(
             color: backgroundColor ?? Colors.transparent,
-            borderRadius: BorderRadius.circular(DimensRadiusV2.theBiggest),
+            borderRadius: BorderRadius.circular(DimensRadius.theBiggest),
             border: Border.fromBorderSide(
               BorderSide(color: borderColor ?? Colors.transparent),
             ),

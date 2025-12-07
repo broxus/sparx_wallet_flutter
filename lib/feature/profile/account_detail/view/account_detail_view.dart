@@ -8,7 +8,6 @@ import 'package:barcode_widget/barcode_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:nekoton_repository/nekoton_repository.dart' hide Message;
 import 'package:ui_components_lib/ui_components_lib.dart';
-import 'package:ui_components_lib/v2/widgets/widgets.dart';
 
 class AccountDetailView extends StatelessWidget {
   const AccountDetailView({
@@ -28,14 +27,14 @@ class AccountDetailView extends StatelessWidget {
     final theme = context.themeStyleV2;
 
     return SingleChildScrollView(
-      padding: const EdgeInsets.symmetric(horizontal: DimensSizeV2.d16),
+      padding: const EdgeInsets.symmetric(horizontal: DimensSize.d16),
       child: SeparatedColumn(
         mainAxisSize: MainAxisSize.min,
-        spacing: DimensSizeV2.d16,
+        spacing: DimensSize.d16,
         children: [
           SeparatedColumn(
             mainAxisSize: MainAxisSize.min,
-            spacing: DimensSizeV2.d4,
+            spacing: DimensSize.d4,
             children: [
               Text(
                 LocaleKeys.accountWord.tr(),
@@ -57,7 +56,7 @@ class AccountDetailView extends StatelessWidget {
               amount: balance,
               style: theme.textStyles.labelMedium,
             ),
-            height: DimensSizeV2.d76,
+            height: DimensSize.d76,
             width: double.infinity,
           ),
           ShapedContainerColumn(
@@ -69,9 +68,9 @@ class AccountDetailView extends StatelessWidget {
             separator: const CommonDivider(),
             children: [
               BarcodeWidget(
-                margin: const EdgeInsets.all(DimensSizeV2.d32),
-                width: DimensSizeV2.d148,
-                height: DimensSizeV2.d148,
+                margin: const EdgeInsets.all(DimensSize.d32),
+                width: DimensSize.d148,
+                height: DimensSize.d148,
                 data: account.address.address,
                 barcode: Barcode.qrCode(),
                 color: colors.textPrimary,
@@ -79,7 +78,7 @@ class AccountDetailView extends StatelessWidget {
               CommonListTile(
                 onPressed: () => _copyAddress(context),
                 height: null,
-                padding: const EdgeInsets.all(DimensSizeV2.d16),
+                padding: const EdgeInsets.all(DimensSize.d16),
                 titleChild: Text(
                   LocaleKeys.addressWord.tr(),
                   style: theme.textStyles.labelXSmall,
@@ -96,7 +95,7 @@ class AccountDetailView extends StatelessWidget {
           ),
           CommonListTile(
             titleText: LocaleKeys.displayOnMainScreen.tr(),
-            padding: const EdgeInsets.all(DimensSizeV2.d16),
+            padding: const EdgeInsets.all(DimensSize.d16),
             height: null,
             backgroundColor: theme.colors.background2,
             trailing: Switch(

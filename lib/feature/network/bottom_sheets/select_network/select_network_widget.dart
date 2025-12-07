@@ -6,7 +6,6 @@ import 'package:elementary_helper/elementary_helper.dart';
 import 'package:flutter/material.dart';
 import 'package:lucide_icons_flutter/lucide_icons.dart';
 import 'package:ui_components_lib/ui_components_lib.dart';
-import 'package:ui_components_lib/v2/ui_components_lib_v2.dart';
 
 class SelectNetworkWidget
     extends
@@ -22,7 +21,7 @@ class SelectNetworkWidget
   @override
   Widget build(SelectNetworkWidgetModel wm) {
     return SeparatedColumn(
-      spacing: DimensSizeV2.d16,
+      spacing: DimensSize.d16,
       mainAxisSize: MainAxisSize.min,
       children: [
         DoubleSourceBuilder(
@@ -38,7 +37,7 @@ class SelectNetworkWidget
                   (data) => NetworkItem(
                     data: data,
                     trailing: data.id == currentConnectionId
-                        ? const Icon(LucideIcons.check, size: DimensSizeV2.d20)
+                        ? const Icon(LucideIcons.check, size: DimensSize.d20)
                         : null,
                     onTap: () => wm.onItemTap(data),
                   ),
@@ -49,7 +48,7 @@ class SelectNetworkWidget
         ),
         if (showConfigureButton)
           Padding(
-            padding: const EdgeInsets.only(top: DimensSizeV2.d12),
+            padding: const EdgeInsets.only(top: DimensSize.d12),
             child: PrimaryButton(
               buttonShape: ButtonShape.pill,
               title: LocaleKeys.configureNetworks.tr(),
