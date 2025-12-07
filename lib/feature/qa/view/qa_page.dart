@@ -3,8 +3,6 @@ import 'package:app/feature/qa/view/qa_wm.dart';
 import 'package:elementary_helper/elementary_helper.dart';
 import 'package:flutter/material.dart';
 import 'package:ui_components_lib/ui_components_lib.dart';
-import 'package:ui_components_lib/v2/widgets/buttons/accent_button.dart';
-import 'package:ui_components_lib/v2/widgets/buttons/button_shape.dart';
 
 Future<void> showQaSheet({required BuildContext context}) {
   return showCommonBottomSheet(

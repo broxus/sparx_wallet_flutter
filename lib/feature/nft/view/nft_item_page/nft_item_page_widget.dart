@@ -89,9 +89,7 @@ class NftItemPageWidget
                         ),
                         if (item.nft.description != null)
                           Padding(
-                            padding: const EdgeInsets.only(
-                              top: DimensSize.d8,
-                            ),
+                            padding: const EdgeInsets.only(top: DimensSize.d8),
                             child: Text(
                               item.nft.description!,
                               style: wm.theme.textStyles.paragraphMedium,

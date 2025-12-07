@@ -169,9 +169,7 @@ class _UrlTextField extends StatelessWidget {
               enabledBorder: InputBorder.none,
               errorBorder: InputBorder.none,
               disabledBorder: InputBorder.none,
-              contentPadding: EdgeInsets.symmetric(
-                horizontal: DimensSize.d14,
-              ),
+              contentPadding: EdgeInsets.symmetric(horizontal: DimensSize.d14),
             ),
             onEditingComplete: onEditingComplete,
           ),

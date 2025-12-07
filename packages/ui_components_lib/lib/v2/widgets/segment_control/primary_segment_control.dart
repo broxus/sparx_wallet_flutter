@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:ui_components_lib/ui_components_lib.dart';
-import 'package:ui_components_lib/v2/widgets/segment_control/segment_control.dart';
 
 //if you need to select segment, pass SegmentControlState.selected
 //example state : user.id == client.id ? SegmentControlState.selected :

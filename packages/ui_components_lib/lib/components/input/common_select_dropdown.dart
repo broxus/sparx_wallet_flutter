@@ -3,8 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:lucide_icons_flutter/lucide_icons.dart';
 import 'package:ui_components_lib/ui_components_lib.dart';
 
-import 'package:ui_components_lib/ui_components_lib.dart';
-
 /// Item of dropdown that allows displaying elements in UI.
 class CommonSheetDropdownItem<T> {
   CommonSheetDropdownItem({

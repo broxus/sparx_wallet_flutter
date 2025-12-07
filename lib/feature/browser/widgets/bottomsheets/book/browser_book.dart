@@ -83,9 +83,7 @@ class BrowserBook extends InjectedElementaryWidget<BrowserBookWidgetModel> {
                       } else if (list.isEmpty) {
                         return SliverToBoxAdapter(
                           child: Padding(
-                            padding: const EdgeInsets.only(
-                              top: DimensSize.d40,
-                            ),
+                            padding: const EdgeInsets.only(top: DimensSize.d40),
                             child: switch (wm.tabBarState.value) {
                               BrowserBookTabBarValue.bookMarks =>
                                 const BookmarksEmptyContent(),

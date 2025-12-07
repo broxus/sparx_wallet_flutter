@@ -44,8 +44,7 @@ class NftCollectionsList extends StatelessWidget {
         ),
         NftDisplayMode.list => ListView.separated(
           itemCount: collections.length,
-          separatorBuilder: (_, index) =>
-              const SizedBox(height: DimensSize.d8),
+          separatorBuilder: (_, index) => const SizedBox(height: DimensSize.d8),
           itemBuilder: (_, index) {
             final collection = collections[index];
             return _ListItem(
@@ -122,9 +121,7 @@ class _GridItem extends StatelessWidget {
                   top: DimensSize.d6,
                   right: DimensSize.d6,
                   child: ClipRRect(
-                    borderRadius: BorderRadius.circular(
-                      DimensRadius.radius10,
-                    ),
+                    borderRadius: BorderRadius.circular(DimensRadius.radius10),
                     child: Container(
                       width: DimensSize.d20,
                       height: DimensSize.d20,

@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:money2/money2.dart';
-import 'package:ui_components_lib/utils/utils.dart';
 import 'package:ui_components_lib/ui_components_lib.dart';
 
 class AmountWidget extends StatelessWidget {

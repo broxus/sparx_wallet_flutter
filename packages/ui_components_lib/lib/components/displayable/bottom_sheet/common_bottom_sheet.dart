@@ -300,9 +300,7 @@ class _Header extends StatelessWidget {
                 titleMargin ??
                 EdgeInsets.only(
                   top: _top,
-                  bottom: subtitle != null
-                      ? DimensSize.d12
-                      : DimensSize.d24,
+                  bottom: subtitle != null ? DimensSize.d12 : DimensSize.d24,
                   left: DimensSize.d16,
                   right: DimensSize.d16,
                 ),

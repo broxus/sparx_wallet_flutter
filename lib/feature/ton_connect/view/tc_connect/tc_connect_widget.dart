@@ -77,9 +77,7 @@ class _SelectAccountWidget extends StatelessWidget {
                   clipBehavior: Clip.antiAlias,
                   decoration: BoxDecoration(
                     border: Border.all(color: theme.colors.border1),
-                    borderRadius: BorderRadius.circular(
-                      DimensRadius.radius12,
-                    ),
+                    borderRadius: BorderRadius.circular(DimensRadius.radius12),
                     color: theme.colors.background1,
                   ),
                   child: DoubleSourceBuilder(

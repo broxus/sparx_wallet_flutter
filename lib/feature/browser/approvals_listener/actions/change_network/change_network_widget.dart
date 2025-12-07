@@ -74,9 +74,7 @@ class ChangeNetworkWidget
                   valueListenable: wm.connectionState,
                   builder: (_, connection, __) => PrimaryCard(
                     color: theme.colors.background2,
-                    borderRadius: BorderRadius.circular(
-                      DimensRadius.radius12,
-                    ),
+                    borderRadius: BorderRadius.circular(DimensRadius.radius12),
                     padding: const EdgeInsets.symmetric(
                       vertical: DimensSize.d24,
                       horizontal: DimensSize.d16,

@@ -143,9 +143,7 @@ abstract class BaseButton extends StatelessWidget {
                         child,
                         if (postfixIcon != null)
                           Padding(
-                            padding: const EdgeInsets.only(
-                              left: DimensSize.d8,
-                            ),
+                            padding: const EdgeInsets.only(left: DimensSize.d8),
                             child: Icon(postfixIcon, size: _iconSize),
                           ),
                       ],

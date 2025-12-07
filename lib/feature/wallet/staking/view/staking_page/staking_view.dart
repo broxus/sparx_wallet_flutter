@@ -61,9 +61,7 @@ class StakingView extends StatelessWidget {
                     titleSpan: TextSpan(
                       children: [
                         TextSpan(text: StakingTab.inProgress.title),
-                        const WidgetSpan(
-                          child: SizedBox(width: DimensSize.d8),
-                        ),
+                        const WidgetSpan(child: SizedBox(width: DimensSize.d8)),
                         TextSpan(
                           text: requests.length.toString(),
                           style: TextStyle(

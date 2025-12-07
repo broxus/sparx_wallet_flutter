@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:ui_components_lib/components/common/container/shaped_container_column.dart';
 import 'package:ui_components_lib/ui_components_lib.dart';
 
 class PrimaryShapedContainerColumn extends StatelessWidget {

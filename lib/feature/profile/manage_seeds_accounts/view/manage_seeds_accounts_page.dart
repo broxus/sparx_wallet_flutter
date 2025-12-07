@@ -50,9 +50,7 @@ class ManageSeedsAccountsPage
                       color: theme.colors.background1,
                       margin: EdgeInsets.zero,
                       separator: const Padding(
-                        padding: EdgeInsets.symmetric(
-                          vertical: DimensSize.d4,
-                        ),
+                        padding: EdgeInsets.symmetric(vertical: DimensSize.d4),
                         child: CommonDivider(),
                       ),
                       titleText: LocaleKeys.seedPhrases.tr(),

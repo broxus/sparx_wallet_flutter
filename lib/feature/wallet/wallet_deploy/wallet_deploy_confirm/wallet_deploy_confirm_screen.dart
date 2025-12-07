@@ -9,7 +9,6 @@ import 'package:app/widgets/barcode_address/barcode_address.dart';
 import 'package:elementary_helper/elementary_helper.dart';
 import 'package:flutter/material.dart';
 import 'package:nekoton_repository/nekoton_repository.dart';
-import 'package:ui_components_lib/components/common/common.dart';
 import 'package:ui_components_lib/ui_components_lib.dart';
 
 class WalletDeployConfirmScreen

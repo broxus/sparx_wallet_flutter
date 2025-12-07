@@ -5,7 +5,6 @@ import 'package:barcode_widget/barcode_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:lucide_icons_flutter/lucide_icons.dart';
 import 'package:nekoton_repository/nekoton_repository.dart' hide Message;
-import 'package:ui_components_lib/components/common/container/shaped_container_column.dart';
 import 'package:ui_components_lib/ui_components_lib.dart';
 
 class BarcodeAddress

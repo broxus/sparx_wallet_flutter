@@ -112,9 +112,7 @@ class _ContentBottomSheet extends StatelessWidget {
                         ),
                       if (title != null)
                         Padding(
-                          padding: const EdgeInsets.only(
-                            bottom: DimensSize.d8,
-                          ),
+                          padding: const EdgeInsets.only(bottom: DimensSize.d8),
                           child: Text(
                             title!,
                             style: theme.textStyles.headingLarge,

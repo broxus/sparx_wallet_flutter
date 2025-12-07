@@ -3,7 +3,6 @@ import 'package:app/feature/browser/widgets/bottomsheets/book/widgets/tab_data.d
 import 'package:elementary_helper/elementary_helper.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:ui_components_lib/ui_components_lib.dart';
-import 'package:ui_components_lib/v2/widgets/modals/primary_bottom_sheet_container.dart';
 
 class BookHeader extends StatelessWidget {
   const BookHeader({

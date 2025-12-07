@@ -72,16 +72,12 @@ class DeriveKeysSheet
             Flexible(
               child: SingleChildScrollView(
                 controller: controller,
-                padding: const EdgeInsets.symmetric(
-                  horizontal: DimensSize.d16,
-                ),
+                padding: const EdgeInsets.symmetric(horizontal: DimensSize.d16),
                 child: SizedBox(
                   height: _containerHeight,
                   child: s.displayDerivedKeys.isEmpty && s.isLoading
                       ? const Center(
-                          child: ProgressIndicatorWidget(
-                            size: DimensSize.d40,
-                          ),
+                          child: ProgressIndicatorWidget(size: DimensSize.d40),
                         )
                       : SeparatedColumn(
                           mainAxisSize: MainAxisSize.min,

@@ -5,7 +5,6 @@ import 'package:elementary_helper/elementary_helper.dart';
 import 'package:flutter/material.dart';
 import 'package:lucide_icons_flutter/lucide_icons.dart';
 import 'package:ui_components_lib/ui_components_lib.dart';
-import 'package:ui_components_lib/v2/widgets/cards/primary_card.dart';
 
 class AddAccountPage extends InjectedElementaryWidget<AddAccountWidgetModel> {
   const AddAccountPage({super.key});
@@ -43,10 +42,7 @@ class AddAccountPage extends InjectedElementaryWidget<AddAccountWidgetModel> {
                         child: SeparatedRow(
                           spacing: DimensSize.d12,
                           children: [
-                            const Icon(
-                              LucideIcons.plus,
-                              size: DimensSize.d20,
-                            ),
+                            const Icon(LucideIcons.plus, size: DimensSize.d20),
                             Expanded(
                               child: Text(
                                 LocaleKeys.createNewAccount.tr(),

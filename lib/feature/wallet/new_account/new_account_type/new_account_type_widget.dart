@@ -52,9 +52,7 @@ class NewAccountTypeWidget
                   builder: (_, selected) => PrimaryCard(
                     padding: EdgeInsets.zero,
                     color: theme.colors.background1,
-                    borderRadius: BorderRadius.circular(
-                      DimensRadius.radius12,
-                    ),
+                    borderRadius: BorderRadius.circular(DimensRadius.radius12),
                     child: SeparatedColumn(
                       mainAxisSize: MainAxisSize.min,
                       separator: const CommonDivider(),

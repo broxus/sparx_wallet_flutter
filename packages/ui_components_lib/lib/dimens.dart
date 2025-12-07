@@ -2,7 +2,6 @@
 // If you need add custom size or radius, that is not fit guideline,
 // add it in the page you wanna use it.
 
-
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:ui_components_lib/utils/platform_utils.dart';
 
@@ -138,7 +137,6 @@ class DimensAdaptiveSize {
   static final d200 = DimensAdaptiveSize._(200);
   static final d220 = DimensAdaptiveSize._(220);
 }
-
 
 // ignore_for_file: unused_element
 extension ScreenutilExtention on num {

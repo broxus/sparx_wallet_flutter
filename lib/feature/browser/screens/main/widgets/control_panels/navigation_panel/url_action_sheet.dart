@@ -1,9 +1,7 @@
 import 'package:app/generated/generated.dart';
 import 'package:flutter/material.dart';
 import 'package:lucide_icons_flutter/lucide_icons.dart';
-import 'package:ui_components_lib/components/common/container/primary_shaped_container_column.dart';
-import 'package:ui_components_lib/v2/colors_v2.dart';
-import 'package:ui_components_lib/dimens.dart';
+import 'package:ui_components_lib/ui_components_lib.dart';
 import 'package:ui_components_lib/v2/widgets/modals/primary_bottom_sheet.dart';
 
 Future<BrowserUrlActionValue?> showUrlActionSheet(BuildContext context) {

@@ -186,9 +186,7 @@ class WalletTransactionDetailsItem extends StatelessWidget {
                     children: [
                       if (walletAsset != null)
                         Padding(
-                          padding: const EdgeInsets.only(
-                            right: DimensSize.d8,
-                          ),
+                          padding: const EdgeInsets.only(right: DimensSize.d8),
                           child: TokenWalletIconWidget(
                             size: DimensSize.d20,
                             address: walletAsset!.rootTokenContract,
@@ -199,9 +197,7 @@ class WalletTransactionDetailsItem extends StatelessWidget {
                         ),
                       if (iconPath != null)
                         Padding(
-                          padding: const EdgeInsets.only(
-                            right: DimensSize.d8,
-                          ),
+                          padding: const EdgeInsets.only(right: DimensSize.d8),
                           child: TonWalletIconWidget(
                             path: iconPath!,
                             size: DimensSize.d20,

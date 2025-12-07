@@ -79,9 +79,7 @@ class _BleList extends StatelessWidget {
             if (isBluetoothEnabled == false) {
               return Center(
                 child: Padding(
-                  padding: const EdgeInsets.symmetric(
-                    vertical: DimensSize.d16,
-                  ),
+                  padding: const EdgeInsets.symmetric(vertical: DimensSize.d16),
                   child: Icon(
                     LucideIcons.bluetoothOff,
                     size: DimensSize.d40,

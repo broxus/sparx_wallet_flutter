@@ -33,9 +33,7 @@ class EmptyNftList extends StatelessWidget {
             spacing: DimensSize.d8,
             children: [
               Padding(
-                padding: const EdgeInsets.symmetric(
-                  horizontal: DimensSize.d16,
-                ),
+                padding: const EdgeInsets.symmetric(horizontal: DimensSize.d16),
                 child: Text(
                   LocaleKeys.nftEmptyListTitle.tr(),
                   style: theme.textStyles.headingXLarge,
@@ -43,9 +41,7 @@ class EmptyNftList extends StatelessWidget {
                 ),
               ),
               Padding(
-                padding: const EdgeInsets.symmetric(
-                  horizontal: DimensSize.d16,
-                ),
+                padding: const EdgeInsets.symmetric(horizontal: DimensSize.d16),
                 child: StateNotifierBuilder(
                   listenableState: marketplaceUrlState,
                   builder: (_, marketplaceUrl) {

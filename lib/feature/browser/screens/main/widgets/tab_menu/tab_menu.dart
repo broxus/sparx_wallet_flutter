@@ -197,11 +197,7 @@ class _Item extends StatelessWidget {
                     color: theme.colors.content2,
                   ),
                 ),
-                Icon(
-                  icon,
-                  size: DimensSize.d16,
-                  color: theme.colors.content2,
-                ),
+                Icon(icon, size: DimensSize.d16, color: theme.colors.content2),
               ],
             ),
           ),
