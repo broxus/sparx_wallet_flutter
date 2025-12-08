@@ -12,12 +12,10 @@ class BrowserTabsRenderManager extends RenderParametersManager<String> {
     super.addRenderObject(id, renderObject);
     _idCache.add(id);
     if (renderObject is RenderMetricsBox) {
-      Future.delayed(const Duration(milliseconds: 50), () {
-        try {
-          itemWidth = renderObject.data.width;
-          itemHeight = renderObject.data.height;
-        } catch (_) {}
-      });
+      try {
+        itemWidth = renderObject.data.width;
+        itemHeight = renderObject.data.height;
+      } catch (_) {}
     }
   }
 
